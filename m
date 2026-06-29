@@ -1,114 +1,143 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379A7426D29;
-	Mon, 29 Jun 2026 15:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA0343C05E;
+	Mon, 29 Jun 2026 15:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747536; cv=none; b=cddK3EtUtOFyEG1TgVpnWvXDWxQ7lNPyGZOUqVk2+EzaZfMUXxmVvh06QQy/7F3+JuLDFBaNg0kJYPyhS4QoCW7jRBQL0z1fpVbmMZ9PcBf1V5lvDj/HD/7glp9JaugjyZGfpwfHlR9ybrZd39aZU/GquEojJKvxvlEGs/pDB8c=
+	t=1782748599; cv=none; b=pYgS5gO5GpYstVXcpwNyhiMPRQ0NGquqxdg1aMiueHtxMIFvFRx+/WAq2S0hfBQOXzF+dpPgvQJ4fZS8neFTdGikYOp62SOgQ01vxUwSVzKmC514AF7QXtna/z/a/Ow6jJuTY7PWbyBusWM08WbtbRe12M/XwukrrrwTpU14dV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747536; c=relaxed/simple;
-	bh=qpX5nwhjfk5PB89WPFs3TuXgsuvEAqgf7A1hpYodI5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bwg1zjY5pJspBMpYeKF3XEjAxpYYFrmfZyAy6lRa+1fIPnWXSe+hYzPZbfW+9B4IJhDRgT9b3LORikMelbJSPtZdVlmXfc21XKKBzwc+cgW9WiuJKW7LsQ75pY+53HCEmxv8GWNOQx6z2gi/Cyr3U6Vf/7J/uXY62wfgTFDo97s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=L8ncqY3/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MPOZ9702; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1782748599; c=relaxed/simple;
+	bh=2BWmNo513r5Erz6S/WvDW9FX8RUzpP0oQ28AW2iJmbc=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=b5VKSxPvmyyVdpxVUlLL6BMlH1aDhrdgFbngpcI/kOULP+iXmR+XQKkWiIgDqERYp4tS7CGf7r5y8urlH2r3GONIPvqBwXnaXX7Id/ktWPoi81OtMDszvtfNuYpjHbH+Wg5Vyv3Ok4q3JI2UEeCLKaNS68TPPWruo3v0MMtifE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9MlnRSL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="L8ncqY3/";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MPOZ9702"
-Date: Mon, 29 Jun 2026 17:38:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1782747532;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xvQuqGNPmPlyRSdWWioxiU7bI3gu/asgds/B4e0XcJA=;
-	b=L8ncqY3/xXetNeK5HUHfSaGB/74NxHvifmP8+JpEl86VTCaaBHcXL2x6SwuhfBex3A4JZI
-	QBCZkSgB2Ux9OInklcPm+lv2HcREm6QQ1EIIKruWIH7rFJmHDMDskJfPIZ/1tFeeAEkaju
-	ICKuVN7nTcnHqRfTJsa5eGwTUowk8kpFKVqbeAMKZK579KD+Qi46/9Md0sLO09AXF/UC6w
-	zr9krFFYIz6RcWKdNdgJVhx1K+7bTt/W7OJ7hR/2gbO23QRi2+Qda2XWD33yB2ePpXTS9F
-	U0leicin5WJpxDI/2QUzWOvxtMuiKyvyv69yOD9Eg27XJGyeHFWDSApe2bqg4g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1782747532;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xvQuqGNPmPlyRSdWWioxiU7bI3gu/asgds/B4e0XcJA=;
-	b=MPOZ9702oQzlDnpr63hoWoRECO5O28yQ6xGWMBRI91d4iZWTkvcaqRmDol2TkRl6YUiB+L
-	3gJt5G4VdghH7pCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: RE: [PATCH v3 01/10] mailbox: imx: Forward the timeout/ error in
- imx_mu_generic_tx()
-Message-ID: <20260629153851.C5PbMlm7@linutronix.de>
-References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
- <20260617-imx_mbox_rproc-v3-1-77948112defc@linutronix.de>
- <ajkbUNkn6MSw8txc@shlinux89>
- <20260624074409.5jwpWs61@linutronix.de>
- <aj43FQ7f6juXQ/tP@shlinux89>
- <20260626083416.xbVlbOQJ@linutronix.de>
- <MRWPR04MB12330C5851B5421F8EE723F1A88EB2@MRWPR04MB12330.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9MlnRSL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A59241F000E9;
+	Mon, 29 Jun 2026 15:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782748598;
+	bh=+RA//nF8BS9Zmzf6a7KqQvL13jY9h722KbK+O9qZC0Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=i9MlnRSL3j8Oqx1wWcJ13CznUaQS+0drQY6bEUdXgBeDtK3sBYZj44eO6nQLKa04B
+	 O185wJWBSrun3h4qb7qOc/3LOcGQg4Ga1F/xyAoW1q0nC3YwmdmIpi5GxHgKBw8dAS
+	 j015jVMX9sCDffuwW6ZWi9yEWHs4gI4lLL8sH2rNOfmK8qDYG5ebrZWp8dDk+jZ1wk
+	 47veZ1eZc7E1qcClbN22BVMzWGjQa1Ebxfu/kjaJXNk6KXCKr/E3hj8gBwukKgJ+nR
+	 3+GgoI0aw2sV1ayDYcf5aSIQzRUlfqQexas8M9xr5QiY0yJQOCpfEWVH4Te7FcMFLD
+	 tPqW0HEbzC54g==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 15/16] mm: replace __GFP_NO_CODETAG with
+ ALLOC_NO_CODETAG
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Brendan Jackman" <jackmanb@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2026 15:56:36 +0000
+Message-Id: <20260629155637.A59241F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <MRWPR04MB12330C5851B5421F8EE723F1A88EB2@MRWPR04MB12330.eurprd04.prod.outlook.com>
 
-On 2026-06-26 09:00:04 [+0000], Peng Fan (OSS) wrote:
-> > > If you would like to address the AI reported issue further, you may
-> > > update readl_poll_timeout to readl_poll_timeout_atomic.
-> > 
-> > What about the timeout value? Keep it as-is or reduce to?
-> 
-> Let's keep it as-is.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-The call is
-	readl_poll_timeout(, , , delay_us = 0, timeout_us = 10000);
+New issues:
+- [Low] The fallback `#else` definition of `pgalloc_tag_add` was not update=
+d to accept `unsigned int alloc_flags`.
 
-so it will _not_ trigger the might_sleep() splat and will compare the
-timeout value against ktime_get() so it will loop worst case for 10ms.
+Pre-existing issues:
+- [Critical] TOCTOU race in `__alloc_tag_add_early_pfn` leading to an out-o=
+f-bounds array write.
+--
 
-If I change it as-is to
-	readl_poll_timeout_atomic(, , , delay_us = 0, timeout_us = 10000);
+commit ccee7f6d4bcf9d00da38c878e97dd852c5e649b3
+Author: Brendan Jackman <jackmanb@google.com>
 
-then the result is slightly different: The clocksource is not used
-(because it also works in suspend path where it is gone) and so the
-timeout_us value is decremented based on the delay_us. If it is 0 then
-it only subtracts 1ns per iteration. So the worst case delay becomes now
-10.000.000 iterations.
-I don't think this is an improvement: In the worst case the delay is
-much longer and if there is a watch in that period, it will fire. So it
-does not accomplish anything.
+mm: replace __GFP_NO_CODETAG with ALLOC_NO_CODETAG
 
-Having something like
-	readl_poll_timeout_atomic(, , , delay_us = 2, timeout_us = 100);
+This commit replaces the mm-internal __GFP_NO_CODETAG flag with a
+new alloc_flags bit, ALLOC_NO_CODETAG. It plumbs alloc_flags through
+several allocator functions to allow passing this flag directly to the
+alloc_tag code.
 
-would lower the delay to 100us max (which is below the 1000HZ tick) and
-would spin for 2us between register pools. But I have no idea what is
-the expected delay and if it depends on the remote side.
+> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
+> index d9be1cf5187d9..a32a94e759b94 100644
+> --- a/mm/alloc_tag.c
+> +++ b/mm/alloc_tag.c
+[ ... ]
+> @@ -806,7 +795,8 @@ static void __init __alloc_tag_add_early_pfn(unsigned=
+ long pfn)
+>  	do {
+>  		pool =3D READ_ONCE(current_pfn_pool);
+>  		if (!pool || atomic_read(&pool->count) >=3D PFN_POOL_SIZE) {
+> -			struct page *new_page =3D alloc_page(__GFP_HIGH | __GFP_NO_CODETAG);
+> +			struct page *new_page =3D __alloc_pages(__GFP_HIGH, 0, numa_mem_id(),
+> +							      NULL, ALLOC_NO_CODETAG);
+>  			struct pfn_pool *new;
 
-Please be aware that this series except for the remoteproc/ imx_rproc)
-has been merged as of v7.2-rc1. I can still send an update to the poll
-in imx_mu_generic_tx() but I would prefer an improvement ;)
+[Severity: Critical]
+This is a pre-existing issue, but is there a time-of-check to time-of-use
+race condition here?
 
-> Thanks,
-> Peng.
+If multiple CPUs are active during the deferred init window, could they
+concurrently observe the same remaining capacity?
 
-Sebastian
+CPU1:
+    if (!pool || atomic_read(&pool->count) >=3D PFN_POOL_SIZE)
+
+CPU2:
+    if (!pool || atomic_read(&pool->count) >=3D PFN_POOL_SIZE)
+
+If both see 1 remaining slot, won't they both proceed to call
+atomic_fetch_add() on the pool counter further down in this function?
+This could cause an out-of-bounds array write at pool->pfns[PFN_POOL_SIZE].
+
+[ ... ]
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 026f33f217036..803b32e5a5e47 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+[ ... ]
+> @@ -1263,17 +1263,17 @@ void __pgalloc_tag_add(struct page *page, struct =
+task_struct *task,
+>  		alloc_tag_add_early_pfn(page_to_pfn(page), alloc_flags);
+>  		if (task->alloc_tag)
+>  			alloc_tag_set_inaccurate(task->alloc_tag);
+>  	}
+>  }
+> =20
+>  static inline void pgalloc_tag_add(struct page *page, struct task_struct=
+ *task,
+> -				   unsigned int nr, gfp_t gfp_flags)
+> +				   unsigned int nr, unsigned int alloc_flags)
+>  {
+>  	if (mem_alloc_profiling_enabled())
+> -		__pgalloc_tag_add(page, task, nr, gfp_flags);
+> +		__pgalloc_tag_add(page, task, nr, alloc_flags);
+>  }
+
+[Severity: Low]
+Does this change miss updating the fallback definition of pgalloc_tag_add()
+when memory allocation profiling is disabled?
+
+If the kernel is compiled without mem-alloc profiling, the dummy function
+signature appears to still use the old type:
+
+static inline void pgalloc_tag_add(struct page *page, struct task_struct *t=
+ask,
+                   unsigned int nr, gfp_t gfp_flags) {}
+
+Since callers like post_alloc_hook() are now passing an unsigned int
+for alloc_flags, won't this cause a Sparse type mismatch warning because
+gfp_t is a restricted bitwise type?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260629-alloc-tryl=
+ock-v3-0-57bef0eadbc2@google.com?part=3D15
