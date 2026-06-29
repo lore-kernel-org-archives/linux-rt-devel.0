@@ -1,272 +1,132 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56303D3CF4
-	for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 10:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F113FC5C3
+	for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 12:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782728539; cv=none; b=sUgs8N0YOo1eSHxYNrbrG0vk4nCIo/5XPxRizGx8BIMo78w1MkCe8KshYqlD2lLpO+HKDnRedDlm82LD/jM7roqeoFh1Du8JYQXHK76uS8fHi/OzOyImKPCTmS/krDhOa9YFwyR44namDg6xH4yf0/b7+27P4CAwGLdL4o+WCZQ=
+	t=1782734784; cv=none; b=ClLLiFTdPATlaDNHFr4jFES4XYHAQO6vMukbXOicJYeHq8I7qDrtDbHs+iCiXxEZWqRVSGSva5Is7L1Z6f3V0/Txzb6dZ/IYVW35WRN97Tj8gWUC6t/7fcDDa52gOl23FcUfxWV/pki0UL38UlROQF177W2F4LoZqsjY+5wxHiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782728539; c=relaxed/simple;
-	bh=ASAsNjpJiL0iDVuRoTSS0v6raFdvNBmTaG2/7A8pzxA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W1rvasoCww1X3A6tQf01gG386yOHqE1RtXVlOSDmKPBaMkrdaNIBbMwzDxvC/0XvwKLd+JZRGFDyo42gix4uFcVSgx8ddeBfTe88EEz5VaAaMst5+JixAAsVXLexrLyKAY6TfCZQGv2AaNpoP1D3aHZ75b4R6rrqHsNV88fP8gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com; spf=none smtp.mailfrom=mojatatu.com; dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.b=hrknpVht; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	s=arc-20240116; t=1782734784; c=relaxed/simple;
+	bh=s1Zt1nkU6AtVgXZaEG/G39e4v4/ThPUcVNXHxkYXdbI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ha6VqdA8JgOY0mkd5H+7JXsZI6A+gdb8XunX9uB6FTCssUBeRPX7pTdGQy+h/9Qu3Hve6ijROw9CdOSsNdpQDuYrqcMiD2MopaCuVM/7M0ktga3XAhiNQERTDrnhlGTnuEL1Mv48ShShG0Tisk2YvVgXr5W2hZPStld7121WAmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EAcfhP4W; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.b="hrknpVht"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8efb708b1a0so12516016d6.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 03:22:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EAcfhP4W"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so12090465e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 05:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu.com; s=google; t=1782728537; x=1783333337; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q6bI9WxCTH9AmhFxJspc0SFcU/tfRkGjHjpW70ODuqE=;
-        b=hrknpVhthu6t/ZlcK5QGn7z7k8KgN6Db4m7Kg4hTyc3W80OP0kLS5EeqVt/eXGGsji
-         dU6jV7C8+5ezI4Zpg0eW17ceJrCDurOEbW3LkkjRHVZ0aY2CHmxx7WCK+HjS8NGbb4A4
-         rrl3CopVZUUMU48NSpLHEz4jkodNLND6OTjFA=
+        d=suse.com; s=google; t=1782734781; x=1783339581; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hpoE++Dc53tmLwgNaoaxx1b8EdGUPsK36vhuvC33KIA=;
+        b=EAcfhP4Wqq1hFYncFGVFWSxlVsAVBkqmQF4BEJZb3UXLdqrcJuIhHP8hMya+bZsyZ2
+         MJg0kdk5Z2bh9yMyOItxy4WisCWTllgsbC6nzP+9f17avg4upGuMXHTUbOXUqfMk4z7b
+         EG+/7gk1ae83yoaHK3pN3uMAks1HggOjU9N/R/nPStiRaBRQObYaMkJeHvrbSuDcWzup
+         3gftg86KvfnYO1QkwysAuivAhSMmHPgsezyIMHJ4qV59zvAXczrS6GYC0HJRSG/UX+eC
+         kL5nbY/iWezmVoETZr4tVlI42utlZ2s/KThyc6NXnkiEyXKKXDNdU4Wku7QbL2pO7WU6
+         JCeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782728537; x=1783333337;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=q6bI9WxCTH9AmhFxJspc0SFcU/tfRkGjHjpW70ODuqE=;
-        b=ou6OiARf/hYioejvjKYY4HIN15nmUfPr9sR7gTEBsTlogjFKdovgPVhDMVYOAlVLZ4
-         WpC/7CtKMusmiQ2PhSjcUVlAA+510Iz6zTTAP3r3+OKBQUuw7PGu7XPbjhmHOyOfUpvD
-         Mjl+e/1uF+GrzilGaIwTGNemQvy3LanwGyHCQ9NAu7Js3Xc461RRrB7k8OilhoVh9yW1
-         KcnCPbI1AEdgc6r17DX1diRnLIhQt2ppvAdIq/na2370A2jdHBneQkfixTC9C+0bZ/To
-         Zfo5TLFUK+SHp2UMjla69+/76QsJFrh6s3hYJsrdBwwZxr9cr74la0AUzHB4o4oQvA18
-         P4vQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0l5WtAhvNj7oX1XzEG8CjgHTMeraXe9jsiP7pc9/awFjhHD7W5L00US7pe0Ij6lT4Cd0yXaaooPLWjFzY4A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJbFY898umRIu7sNbunPGcU4ZEXH1IqzDs4fyoFQB1Gstesysb
-	pGiIC5HzFbBYbPEeD5pC8jZlUq1VBaMSi2jrDTavbhyrb9JhL6kK4ZTQEbiZpO2v3A==
-X-Gm-Gg: AfdE7cl3NSJdr7sI5Q/Hz6KCnlswy9eg8hxkSWQEUWkSA6UwlweWeW71VBW4PFhVMM7
-	qCSLDljXuXF8LADZMwqyCpCFwg2b0J+buYK/AiN9k+QDHJvB5QjAYCLYkiz4gHwMekA2dCB8JAJ
-	xFBKvHZC2PJJJrqJk3FE56QQ/s67cz9iQ+pfBzU1jiIus7xSjbaY35DCRHPFcrTbVOz5N03qkTz
-	ZQ6dKMRWt/jiuM8KV6Aqj80BhkIxx7maQrUDGHaaTTSPFBpOKPH+5Z9c7j+wjPo/Zz2oqUpn0eO
-	o16RGmPAXMkYR+5qF63HAf68/qKzTAgKSw90FEi6WrRiumGs0IOYmWGOsihJmxZE2iaebfDPc7n
-	jkEDkEQsvt/sqNG3vbPPzkBzng329vNoDrTZV4TuBJCfUkDy0OsWvR0So3taX75aVm8hkLiilvQ
-	9EiTVGDg==
-X-Received: by 2002:a05:6214:5292:b0:8ba:3fc9:88ca with SMTP id 6a1803df08f44-8f159d1344fmr1534206d6.39.1782728536829;
-        Mon, 29 Jun 2026 03:22:16 -0700 (PDT)
-Received: from majuu.waya ([184.144.29.222])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ef0f2b9df0sm53589236d6.13.2026.06.29.03.22.15
+        d=1e100.net; s=20251104; t=1782734781; x=1783339581;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hpoE++Dc53tmLwgNaoaxx1b8EdGUPsK36vhuvC33KIA=;
+        b=E8fMpVYCELpZKuAGfJpy/LoPpwNrm5ncHySHHulBz6OtPKgOGZlKibMFCNgh0WxRLD
+         x4tiQalHHNWZErGZqURvnqO1/r6lKSmuZW+nZCF1/BxZL5wOK9Lf3d5JpQS3XBMxVR/c
+         DKsjgshfBBskNCpQztxzjSxWxucn2xvUv/aj8RVy4bzH6XxHdEKErVthWaFDf/JGIw84
+         dt8XgKJ5B153SfdSWiFZQcJ6zl17cb+DM/BdgOEWSt7kQod8qfsdanbOcgQrzesrzCj0
+         UJCiq5xVgo8O/A+ttoO3mzAo5+lksVvcIwNCi/fjYgvRRlF7Vw9P3etkJliPmYsXqOYe
+         3Fkw==
+X-Forwarded-Encrypted: i=1; AFNElJ+KbxEGF4dpZlceGUvQHjOwXsBrwqnZbUZTLBOcWt9kD34GdVvxhAwqoNkggDyje0vCMuYP7Py/HzIL5hvGNA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJXnNaSfa9joyHLN3tF3lq1J1DgentN9BjFjT1ka7f8GQSp/Hu
+	5GABD3CUQ3rdB2LBOl2JCfcQZiiye/tfFEzZuGViMLmRUeyBvDRDoPfpnpBDs9OVX0M=
+X-Gm-Gg: AfdE7cnbrE5L03cgr/yYMuRuxntSpLVWOCpaVYDMJMIFuPh8/qgN7HuNNrkbyQ17bf2
+	DHtqlC3EzoTI0SJq7cQKJtFTO6nhGHKJKIzQZJ9XDptgvRG1dXXO2q1YCHEzzPPlQ39yFNTq5wf
+	fc75kchanfX7NWJSa7Uim1Dui/ozp8UawHiCelZedOSpKw86NnlZGR++cpEnfV+EhO5x7vKRgqz
+	+zt7WheAhwvCIWnvGIME5RbRcopBTEenwujTt0c5O0qaFX9VnmBY+BEIcLQVz2sNy5yvRbA3Z/y
+	KDC4/YEaJ4CzUQFJrCb2kfMrDkO+i9nOB/YTnMIzIpd8jqSyRAE1eT0YY61LPw6VLj3AcHN/Ldw
+	PHRDJ3G1qyn42RSI8ifKCMt8CXeZsLHLDtn0RUEa2t626FGfXpR+v92hHKn+Wi2LKlLJX4Yi3ws
+	fv8XLvXNdzDrPIKpo=
+X-Received: by 2002:a05:600c:c493:b0:490:e180:2e0 with SMTP id 5b1f17b1804b1-492663d6dbamr216363955e9.3.1782734780897;
+        Mon, 29 Jun 2026 05:06:20 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268ff9f40sm286395495e9.6.2026.06.29.05.06.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 03:22:16 -0700 (PDT)
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-To: netdev@vger.kernel.org
-Cc: jiri@resnulli.us,
-	davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	toke@toke.dk,
+        Mon, 29 Jun 2026 05:06:19 -0700 (PDT)
+Date: Mon, 29 Jun 2026 14:06:17 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Petr Machata <petrm@nvidia.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	security@kernel.org,
-	stable@vger.kernel.org,
-	Victor Nogueira <victor@mojatatu.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>
-Subject: [PATCH net 3/3 v2] selftests/tc-testing: Verify bpf redirect on RED block with preceding clsact (egress) classifier
-Date: Mon, 29 Jun 2026 06:21:57 -0400
-Message-Id: <20260629102157.737306-4-jhs@mojatatu.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260629102157.737306-1-jhs@mojatatu.com>
-References: <20260629102157.737306-1-jhs@mojatatu.com>
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 5/5] lib/vsprintf: Validate spinlock context during
+ restricted pointer formatting
+Message-ID: <akJfuer6-_Kd_HCY@pathway.suse.cz>
+References: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
+ <20260608-restricted-pointers-final-v4-5-9a436615799e@linutronix.de>
+ <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
+ <20260625145115.KZ9l1-lv@linutronix.de>
+ <aj6gdH2KS_XrNjIm@pathway.suse.cz>
+ <aj6jcajaZXMF_BYG@pathway.suse.cz>
+ <20260626170658.0bqzsB-1@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626170658.0bqzsB-1@linutronix.de>
 
-From: Victor Nogueira <victor@mojatatu.com>
+On Fri 2026-06-26 19:06:58, Sebastian Andrzej Siewior wrote:
+> On 2026-06-26 18:06:09 [+0200], Petr Mladek wrote:
+> > > Interesting, does the spin_lock_irqsave() even allow sleeping under RT?
+> > > 
+> > > I mean, does spin_lock_irqsave() violate the raw_spin_lock
+> > > vs. spin_lock nesting rules?
+> > 
+> > Ignore the silly question, please. Sure, even spin_lock_irqsafe()
+> > is a sleeping lock in RT.
+> > 
+> > That said, I am not sure how to effectively pretend the right
+> > context to lockdep. It looks a bit ugly to disable interrupts
+> > around all the code which is guarded only by a fake lock_map.
+> 
+> That splat is from !RT and here it wouldn't happen if interrupts were
+> disabled.
+> On RT that interrupt (softirq) would not interrupt as such. So it is not
+> possible due to how softirqs are processed.
+> 
+> My idea is to remove that thing so we don't have to annotate it.
+> The reason behind it: There is no added benefit from my point of view.
+> I can't think of reason to return real kernel pointers via proc/ sysfs
+> to the user which depend on a security policy. The %p will return a
+> value which can be compared against other values and check if it is the
+> same or not. The root user or dev can either disable this hashing
+> behaviour or use %px while debugging. I haven't figured a reason why
+> this is important.
+>
+> If you have something, I am all yours. If not, I poke networking next
+> week and try to remove this entirely.
 
-The bpf_net_context used by sch_handle_egress() is stack-allocated and torn
-down in that function. By the time tcf_qevent_handle() runs
-current->bpf_net_context is NULL.
+I am all for removing the restricted pointers stuff. IMHO, it has been
+obsoleted by the generic hashing but it has never been officially
+mentioned anywhere.
 
-When a filter attached to a qevent block (e.g. RED's early_drop or mark
-qevents, which always uses shared blocks) returns TC_ACT_REDIRECT,
-tcf_qevent_handle() calls skb_do_redirect(), which in turn calls bpf helper
-bpf_net_ctx_get_ri(). That helper unconditionally dereferences
-current->bpf_net_context resulting in a NULL pointer dereference.
+I hope that networking guys would take it.
 
-Add a test case that reproduces this scenario by attaching a filter to
-clsact (egress) and a bpf filter to a block attached to RED. Use TBF as
-red's parent, so that  a traffic burst builds backlog and RED early-drops
-triggers the block filter.
-
-Acked-by: Jamal Hadi Salim <jhs@mojatatu.com>
-Signed-off-by: Victor Nogueira <victor@mojatatu.com>
----
- .../testing/selftests/tc-testing/action-ebpf  | Bin 856 -> 9072 bytes
- tools/testing/selftests/tc-testing/action.c   |   5 +++
- .../tc-testing/tc-tests/infra/qdiscs.json     |  32 ++++++++++++++++++
- 3 files changed, 37 insertions(+)
-
-diff --git a/tools/testing/selftests/tc-testing/action-ebpf b/tools/testing/selftests/tc-testing/action-ebpf
-index 4879479b2ee5c046279be0fe8f9ca313dfb7e618..52c47e42bf0af024a073cacc823c8270f906a8df 100644
-GIT binary patch
-literal 9072
-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
-
-delta 317
-zcmez1c7tt#hG+yM0~|PjSq=;w6K#!|-2;3kf8>;vbYoy(U}5<9A1sGNNKf7<Ebhb3
-zz`!8HzycRnfU;~E7#IW@SfM<S2@oa|GYf-WNoqw2Lt=7CW`16Lc0QD)n?2b|MpptN
-zte4E7S6ot5l9<GxS6rD}l9)7kqm2C|E)G_I1_lP^$saj|Cx1|60h=E`IZ#f0vW2V#
-zqw3^BS$jso$s1+u8SN$;%84@;O!kyhXVjnkQAu3%1H=Uk%upKSbcV@=a>A_P3=9lR
-YATu>8pmH!86gW%_3=AAlaS1350I>8ljQ{`u
-
-diff --git a/tools/testing/selftests/tc-testing/action.c b/tools/testing/selftests/tc-testing/action.c
-index c32b99b80e19..350f2d36a773 100644
---- a/tools/testing/selftests/tc-testing/action.c
-+++ b/tools/testing/selftests/tc-testing/action.c
-@@ -20,4 +20,9 @@ __attribute__((section("action-ko"),used)) int action_ko(struct __sk_buff *s)
- 	return TC_ACT_OK;
- }
- 
-+__attribute__((section("action-redirect"), used)) int action_redirect(struct __sk_buff *s)
-+{
-+	return TC_ACT_REDIRECT;
-+}
-+
- char _license[] __attribute__((section("license"),used)) = "GPL";
-diff --git a/tools/testing/selftests/tc-testing/tc-tests/infra/qdiscs.json b/tools/testing/selftests/tc-testing/tc-tests/infra/qdiscs.json
-index a1f97a4b606e..762f86ceab1c 100644
---- a/tools/testing/selftests/tc-testing/tc-tests/infra/qdiscs.json
-+++ b/tools/testing/selftests/tc-testing/tc-tests/infra/qdiscs.json
-@@ -1540,5 +1540,37 @@
-             "$TC qdisc del dev $DUMMY root",
-             "$IP addr del 10.10.10.10/24 dev $DUMMY || true"
-         ]
-+    },
-+    {
-+        "id": "fb8d",
-+        "name": "Verify bpf redirect on RED block with preceding clsact (egress) classifier",
-+        "category": [
-+            "qdisc",
-+            "red",
-+            "qevent",
-+            "clsact"
-+        ],
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$IP addr add 10.10.10.1/24 dev $DUMMY",
-+            "$IP neigh add 10.10.10.2 lladdr 02:00:00:00:00:01 dev $DUMMY nud permanent",
-+            "$TC qdisc add dev $DUMMY handle 1: root tbf rate 1Mbit burst 10K limit 1M",
-+            "$TC qdisc add dev $DUMMY parent 1:1 handle 11: red limit 1M avpkt 1400 probability 1 burst 38 harddrop min 30000 max 30001 qevent early_drop block 10",
-+            "$TC qdisc add dev $DUMMY clsact",
-+            "$TC filter add dev $DUMMY egress protocol ip prio 1 matchall action gact pass",
-+            "$TC filter add block 10 protocol ip prio 1 matchall action bpf obj $EBPFDIR/action-ebpf sec action-redirect"
-+        ],
-+        "cmdUnderTest": "bash -c 'data=$(head -c 1400 /dev/zero | tr \"\\0\" \"x\"); exec 3>/dev/udp/10.10.10.2/12345; for i in $(seq 1 8000); do printf \"%s\" \"$data\" >&3; done; exit 0'",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC -s filter show block 10",
-+        "matchPattern": "Sent [1-9][0-9]* bytes [1-9][0-9]* pkt",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC qdisc del dev $DUMMY clsact",
-+            "$TC qdisc del dev $DUMMY handle 1: root",
-+            "$IP addr del 10.10.10.1/24 dev $DUMMY"
-+        ]
-     }
- ]
--- 
-2.54.0
-
+Best Regards,
+Petr
