@@ -1,143 +1,193 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3AC40D568
-	for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 02:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C88344D91;
+	Mon, 29 Jun 2026 07:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782698463; cv=none; b=rbiThrLsoR9vfxOSk7U5ji6tmDHLCc+df6wVW5r1xz0HtrnrS70xzp56vxYBaf5TVpkpqYnJhk0b71f+1KhRt2/m43b92NBIkz+uvPRH8yQHGE4Gnfpz0KU3BvlMtion2sda6JbcyFNjRbrjjiWN0NWTdJUldmiB0R6/7V1588Q=
+	t=1782718479; cv=none; b=uG9FK0V2wu34btZUvYYgS/sYnzUGq34yC7l/UMd1+gvgK+wCY9bfBVOCJVuPPcMxuU38Rrfvk2r+cOiDk7s03JrMkDGJhoSuJeQwvhyjbyy7iT0Zr5SHDyOhCvn0Jw5757jjEXJ6X1lz2n6sSNFba++5rx66/9PNNcM/7HbrgHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782698463; c=relaxed/simple;
-	bh=fwrrwpH/BaEHJXAYBdgKN08KqhTO8F9+wHs087B12qo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QOUoR72g4lBERjRhZHc5XpmMr9uyDNBpZ3QnJnITCgGPDoSEypRbexV35unJ1dfa0g3Qck7FK4MLeRKD5rQeewoC45wpjd7HfsDRlIjcvBAobuZ6qTB+Wau74HKbFyuObBv/+iQyjt0DztLZ/MSRhJWbS0oZmKer/+VoIKajkTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sXjwrJnj; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782718479; c=relaxed/simple;
+	bh=HeoF2K+Kz6f/HgMEPg1+iANT1j637vPpQHoopCUQ+q0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kwx1S+jPVwdJhfzNqHHB1LM5I92qXzCUcTVbYESllGLU+/C8j/re8wcoBA+gF8EYn6ZUFOHUns8H9MUICPh2Uk5mp8NDk8w0uLynFP89Hf8RGEgB+AgCy4rz+pl5k6a1STwN6VN0bqX/rvb1Yc281MLCfkbGR3cddiapUp+9nwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C453Z33V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXjwrJnj"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51a868b6962so35193521cf.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 28 Jun 2026 19:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782698461; x=1783303261; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wh4ZvE2Ba8epM6KIDao30fstJWHE57U07EByhetTANg=;
-        b=sXjwrJnjqcg3lF5MHIJKys8engaXH0M/hkWyDnPFHigcnH1YLP1+57Fb6vaVyqIy9r
-         SNhyb9mGVQWwTgZvOXdYYRN6p2DuP3RNg71JlR9SsYWSCi1BC+UYmJoGzhUiG9wbKUWg
-         2CJpeToLAToKsDndEro8LHnrC0Y+DRWhjEcRMkQAx2YTqGiBNyKCuHhnalLnKvS0Oi0L
-         2KCWpIeiqfxcYOoDrC0oA+h82ozCzXTeFd8+Qo+Q5ShCfOCpcG6sbuT0k/STIlfEAs5E
-         Gf0vgXbuxufsissMKFe+nVMWbCQD3/2dIFc+ISuKA8kpZBiCPd9bRmz3GyoqfuHO9Hdo
-         KctQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782698461; x=1783303261;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wh4ZvE2Ba8epM6KIDao30fstJWHE57U07EByhetTANg=;
-        b=FuiP9HPG8JK74IKf+Jy7rOOcTLbjVjNDLR6FuuMgb6xX9+QC9mpbJ2+2sFY2gVGdyw
-         dl//cZmJ7DGKjcBnYuSsSjod/IBfHKuXiVGk3ac5BSCARpcxV7B45pcnjnaIPJf5zrRh
-         pLXJDTQx+qRLEruw28dYsPsCyfMc3KTZ6I3MQvtdlCSbM/DUqija3z9urPJOpZ6syudx
-         k1mePKmZAhN/YQ8lvWyZynMIszNTE4oaSM0y7nNxfXJ0P+CYZNJtBLTgIyQD0gWk4bpe
-         HUwFFJ+ws1s9LKuspvS740GtL0J/5DmnjNczoPIGodS++Lb5OyKvF/0hZqK2U1Qr8VKB
-         TynA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DoGKf+8DkGLPpcsOSMulaO5xq/iOQnf50Kn6KoSHgJ3bHcm0xWDx/rwp0nrFTch6GKRz6DFtmW0iaSxW+1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx94/XdA9ly4LSvnNo/cLoK7r1Z1xd8zoX09GHPergKo14xXxiB
-	j5fWur2n7oebt3RaHmmzG9X2t/ICvaE05VO2PrZsu49NQLdvz8CKgFOW
-X-Gm-Gg: AfdE7cl+qISvPIhbnL79eIOzgxXsM/rC8U0Pws35hHkjV9xtCmXi1JOQdMswvZQQdGC
-	dLOnq3pNOt9S6BlpmiDBr5QsgB08GB66ZF/ZxLyfUBIez7DQ5Qc4vLHCukLsJO/Zy0jWC0VOTpB
-	Cdj3p68ZktWR8G6LxSrvmyt8OBkXUAR0CGDui7oj9KBXIcscffGhHrfcNkERLQpdfFweLIz3JPn
-	ZUAc5Ak7huwuSNOK4hxSH9Q/bgK4cBweuUXXP3zcL77OGxTnuJvP45lSN2LT9YGA/7OCgSX3dbK
-	v9xZtxH6irbnTmHTm2nMoe/95YAqKRSNxtJEtHFiElDRu1RZF150SwZnWKEN8BW+zITW3tOvzCq
-	Ze+wzPFbK2/UgFRH7E98eSn8OV25MFGplv2Ysf+uEpV7KQWKK+QyM7peDbjsyN98mZJ5EUvX64n
-	cqN7MNYki8EKPltxZ9dkz95mQdBMq6S7nrQLz4hECXNvxP/sC4Gx29Hsfj6nteke4HEo8JauGm1
-	OLp6hiNNhm6HHeXvhhVfZUHFMHogD6+
-X-Received: by 2002:a05:622a:2d3:b0:519:55c0:a1e5 with SMTP id d75a77b69052e-51a726e2a09mr192133211cf.8.1782698460639;
-        Sun, 28 Jun 2026 19:01:00 -0700 (PDT)
-Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f03e035a77sm14362436d6.8.2026.06.28.19.00.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 19:01:00 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ji'an Zhou <eilaimemedsnaimel@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH] futex/requeue: Clean up requeue state on the self-deadlock path
-Date: Sun, 28 Jun 2026 22:00:49 -0400
-Message-ID: <20260629020049.2082397-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C453Z33V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DF21F000E9;
+	Mon, 29 Jun 2026 07:34:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782718474;
+	bh=HeoF2K+Kz6f/HgMEPg1+iANT1j637vPpQHoopCUQ+q0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=C453Z33VpFiMQqfQLryj2TsR8w8h3q8S2KzljnlCANMYrPh2xa5pjxvaGXhIdGng6
+	 0qP2G7k5u+RtkdH3sN2KFAtAUiQHpFNmauUE6YythfPamyTeBMFE6xuq00Ew9z0lO2
+	 EfXHH7b/vvwHjEwb9/hW3PHgnVSIWB91TBxolyVfFha6JB8qNlmNPJyOq4tCYOJNs5
+	 Q0uo6vOb3jiqzaNiuMbVmWNeKJJgXQQsVPxDanztYI1zHuA37RpPRJNeaIbHHlfjR+
+	 NHD1EiEz/u3BtR8HraMX0Y1A74Vh26oK8ytY/WHAwwmyDKPl3VBya/CEveOYKRJAtH
+	 ZAPBHttxuZ55Q==
+Message-ID: <6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org>
+Date: Mon, 29 Jun 2026 16:34:23 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next v3 2/9] mm/slab, slub_kunit: register kprobe to
+ trigger _nolock APIs
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Suren Baghdasaryan <surenb@google.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ rcu@vger.kernel.org, bpf@vger.kernel.org
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-2-70a54f3775bb@kernel.org>
+ <ajvczSpMOGWFhe30@pedro-suse>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <ajvczSpMOGWFhe30@pedro-suse>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------LonvLfJHVvQ11VwztTHqXi0t"
 
-futex_requeue() can reach the self-deadlock check after get_pi_state()
-has taken a reference for the waiter and futex_requeue_pi_prepare() has
-set this->pi_state and moved the waiter's requeue_state to
-Q_REQUEUE_PI_IN_PROGRESS. The check returns -EDEADLK and breaks out of
-the requeue loop without undoing any of that, unlike the sibling
-rt_mutex_start_proxy_lock() failure path which clears this->pi_state,
-drops the reference with put_pi_state() and calls
-futex_requeue_pi_complete().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------LonvLfJHVvQ11VwztTHqXi0t
+Content-Type: multipart/mixed; boundary="------------Rmq7mtq09nxsELJpSUC76Exe";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Suren Baghdasaryan <surenb@google.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ rcu@vger.kernel.org, bpf@vger.kernel.org
+Message-ID: <6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org>
+Subject: Re: [PATCH for-next v3 2/9] mm/slab, slub_kunit: register kprobe to
+ trigger _nolock APIs
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-2-70a54f3775bb@kernel.org>
+ <ajvczSpMOGWFhe30@pedro-suse>
+In-Reply-To: <ajvczSpMOGWFhe30@pedro-suse>
 
-The extra pi_state reference is therefore leaked (the post-loop
-put_pi_state() only balances the initial reference taken in
-futex_proxy_trylock_atomic()), and the waiter is left in
-Q_REQUEUE_PI_IN_PROGRESS. When that waiter is next woken on the source
-futex it enters futex_requeue_pi_wakeup_sync() and waits for a requeue
-completion that never comes, since futex_requeue_pi_complete() was
-skipped; on a !PREEMPT_RT kernel this is an unkillable busy-spin that
-pins a CPU. The path is reachable by an unprivileged FUTEX_CMP_REQUEUE_PI
-that requeues a non-top waiter which already owns the target PI futex.
+--------------Rmq7mtq09nxsELJpSUC76Exe
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Make the -EDEADLK path perform the same cleanup as the
-rt_mutex_start_proxy_lock() deadlock path.
 
-Fixes: 74e144274af3 ("futex/requeue: Prevent NULL pointer dereference in remove_waiter() on self-deadlock")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
----
-Built x86_64 with W=1, no new warnings; checkpatch --strict clean.
 
-Reproduced with an unprivileged user program under QEMU/KVM: the
-triggering FUTEX_CMP_REQUEUE_PI leaves the requeued owner spinning
-permanently in futex_requeue_pi_wakeup_sync() (requeue_state stuck at
-Q_REQUEUE_PI_WAIT) and kmemleak reports the leaked futex_pi_state. With
-this patch the requeue still returns -EDEADLK, but the waiter no longer
-wedges and kmemleak is clean. The futex selftests pass and are unchanged
-from the unpatched kernel.
+On 6/24/26 10:41 PM, Pedro Falcato wrote:
+> On Mon, Jun 15, 2026 at 08:05:56PM +0900, Harry Yoo (Oracle) wrote:
+>> Since kmalloc_nolock() always fails in NMI and hardirq contexts on
+>> PREEMPT_RT, slub_kunit cannot properly test _nolock() APIs.
+>>
+>> Register a kprobe pre-handler to invoke kmalloc_nolock() and
+>> kfree_nolock() in the middle of the slab allocator. However, do not
+>> register the handler on UP kernels [1].
+>=20
+> Maybe explain in the commit message why that is?
 
- kernel/futex/requeue.c | 3 +++
- 1 file changed, 3 insertions(+)
+Because it's the case is broken on UP and we decided not bother to fix.
+Thought the cover letter in Link: would give enough context.
 
-diff --git a/kernel/futex/requeue.c b/kernel/futex/requeue.c
-index 7384672916fb6..73ca06ec32454 100644
---- a/kernel/futex/requeue.c
-+++ b/kernel/futex/requeue.c
-@@ -648,6 +648,9 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags1,
- 			/* Self-deadlock: non-top waiter already owns the PI futex. */
- 			if (rt_mutex_owner(&pi_state->pi_mutex) == this->task) {
- 				ret = -EDEADLK;
-+				this->pi_state = NULL;
-+				put_pi_state(pi_state);
-+				futex_requeue_pi_complete(this, ret);
- 				break;
- 			}
- 
+>> To attach the pre-handler while s->cpu_sheaves->lock or n->list_lock
+>> is held, add a wrapper function for lockdep_assert_held() that calls
+>> a no-op function slab_attach_kprobe_locked() on debug builds. The
+>=20
+> Why lockdep?
 
-base-commit: f24ca6729076623c9a0547ecc71e4fc1c4b65c3c
--- 
-2.53.0
+I wanted to avoid hard-coding internal slab function names
+in the test module while having a good coverage.
 
+> Wouldn't it make more sense to add these triggers after> locking these =
+locks?
+
+Good point.
+
+Perhaps it'd make more sense to let _trylock() fail occasionally,
+because that what I actually want to test.
+
+>> function is optimized away when neither CONFIG_PROVE_LOCKING nor
+>> CONFIG_DEBUG_VM is selected and register_kprobe() fails.
+>>
+>> The function calls barrier() to prevent the compiler from optimizing
+>> away its callsites. Otherwise, the compiler may consider the function
+>> does not have any side effect and remove callsites.
+>=20
+> My wider comment is the following: this looks very useful but perhaps s=
+hould
+> be lifted to Kunit itself? There's already function redirection (which =
+could
+> be used for this as well).
+
+TIL kunit function redirection, thanks :)
+
+> I don't know if that suits your purposes?
+
+Hmm, but looking at the kunit function redirection,
+apparently the function needs to have a symbol to redirect.
+
+Not sure how feasible it is to make all those lock helpers have symbols
+to use kunit function redirection.
+
+> Choosing to say "I want to hook this random function using kprobe and g=
+ive
+> it custom behavior" sounds lovely for all sorts of testing.
+
+Sounds lovely.
+
+Actually, I was thinking it would be lovely to have fault-injection-like
+feature for memcg because it's hard to trigger that in kunit...
+
+Thanks!
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------Rmq7mtq09nxsELJpSUC76Exe--
+
+--------------LonvLfJHVvQ11VwztTHqXi0t
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCakIf/wAKCRCGXBN6rc5S
+1k2zAP0WFF+pvp88rmpHr5+CTNLJsoe3HtwPQMCjNUTN1Wuj6AD/TWU08aQXbB1M
+c2AKbPtfWlxkJ3yFMUn/T9WJ1h0e9AQ=
+=M28/
+-----END PGP SIGNATURE-----
+
+--------------LonvLfJHVvQ11VwztTHqXi0t--
