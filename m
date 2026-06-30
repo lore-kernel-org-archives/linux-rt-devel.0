@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CF03D649D;
-	Tue, 30 Jun 2026 16:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78F3C1973;
+	Tue, 30 Jun 2026 16:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782837733; cv=none; b=XNxvxeiqdOq8vefO3OfwYZsd3PodIJLOrgSL006TOVba93GylJ0NaBYkWHBYgtOgfM/WG+aRQfdFSu5PDdjhNCUpcb4+LAHELWawSrWgUoe7mskIzNaGY8nYr5pbCsirFW9b+M/oGgZk2jQFwnd5963N1OAgPY4WU3m8MkrSlQE=
+	t=1782837782; cv=none; b=cSZfJ7EjiEKQUzXsOLmC3mZqnLkNp5LbAjALxbqCx/uFqskZc06vx2aA33hnuyMiicOf4ovK4zpF7fX1AysT4Oxjovc5zAw6dJ4nyV+ag7GggEFlHAyoH7B4pG0hSohrSjHKZEITAXzm26HKyy/pW9+O80oTCrhBONCatFWG3E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782837733; c=relaxed/simple;
-	bh=IYQJYJU1FvhLnMiRCIMG8wiz45ZDbxiCBIOHa3w+0Mk=;
+	s=arc-20240116; t=1782837782; c=relaxed/simple;
+	bh=mEOA/EAvFLi8N4oVyVoj4I23Wfhrg7Lhh0877/GS6lA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I0RF0dKlRRYio02vtacEy1otc+Gj7Fi4s13CzzPmGwbLhGDcy16WrjygumbRRzYvoyOlQB9nlxlliRFsNDZgEBNq+LQ4aitlu+YSspd3PVI3TnUumEAhlMt+kbjWqUiGw0DW/sE1OadRn1Ej6uPxrK7aOITf2zD41CvZy+L5c6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mpjj1UpA; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=HiWc3pMkH8yTZgOeOXfaevo50aBVO8RR5oealh7ERNXa5hd4KSmXS8s6llKvZQ47Fwd7NTmxGuHQG14QpuiCsb+L3mxWRMG8ERxJTKxAIecMqtOw6amS8FWanS6JeRQbTXW8fVAOJxZut8LVXzPXukeyxHbAGJ9u85rp0ICBy4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYu4WJqJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mpjj1UpA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90ECF1F000E9;
-	Tue, 30 Jun 2026 16:42:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYu4WJqJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354F61F000E9;
+	Tue, 30 Jun 2026 16:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782837731;
-	bh=FGaQANRuz7ppZV2PSxCdI1jyGhFNKQCFfZRkpjfHIx4=;
+	s=k20260515; t=1782837781;
+	bh=4no/T3y+pOIxv64XMBmnIaHRZyQSycdHiWcySde2mDY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Mpjj1UpA9JvWJDddJxrWhkw/KgM7NeF2WyUc6ixJCeX2ovt8ol68V2rJtBbTDtFT8
-	 Z3cPZHdMgHR6zxn+yzaF5QBu/zgeJa8rHKgCHWal563uBDK9MIrN+LfWBCR+uPMIzn
-	 TP2mR3hru6thL0WQDc7fJRQeuMyyCvOHj4WhMkdLmYrA/GIo8ktjRrxZg/PNw/51q7
-	 W1ChdE9N1cO+m+vXnjmwi6f7WU7ztLvqVWettq9woeTZNmbmwsgji+rmzjbpXB4EYS
-	 9BVHOhiuEUkBE6N41SiXWiAXR0daUye9ldy5nfBo5xfIchE/ceRZdcnk467CQ8x/iD
-	 JsDO+oNp5EdeA==
-Message-ID: <ff2afe47-0e0e-4fd1-acb3-8c715aba2f82@kernel.org>
-Date: Tue, 30 Jun 2026 18:42:04 +0200
+	b=AYu4WJqJH5ZaCUKN/g3Ikke2XoyXdOD9sdSonINoyNrGo2gm+D9cVHXR3l4tR5zML
+	 wUFSuaISxTyRYf8Q93ynJmwBtTatth8JxeMnWTZULXOj53PRIzxIHKmnNQA88dK9Fc
+	 uDDMZoKzRmBR7odAxP4lC8d3R3/mg2bQ0Qq/13oYG8UOp+BQ1Zw8cUc2df29DlaML/
+	 rAX2d1TLfeATWPf6aqYP+lc1FhgjU/mPyAHCTCekKXhfFVdjI/oynLjki5p3EjxJe2
+	 4KiFLyjUNw05o9fyt8vRviStV+Pcyths4QRtv7nCScvrzAnyBqVYkI3uNbPU73HzPA
+	 Trz1F8mciiXJQ==
+Message-ID: <c88f957a-e2a3-45f4-80ea-f48dbf6f4b7e@kernel.org>
+Date: Tue, 30 Jun 2026 18:42:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/16] mm/page_alloc: relax GFP WARN in nolock allocs
+Subject: Re: [PATCH v3 07/16] mm: move some stuff to mm/page_alloc.h
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -59,7 +59,7 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-6-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-7-57bef0eadbc2@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -100,45 +100,121 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260629-alloc-trylock-v3-6-57bef0eadbc2@google.com>
+In-Reply-To: <20260629-alloc-trylock-v3-7-57bef0eadbc2@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 6/29/26 15:11, Brendan Jackman wrote:
-> This WARN forbids setting other flags than __GFP_ACCOUNT but we
-> unconditionally set the ones in gfp_nolock so they are certainly fine
-> for the caller to set.
+> Some of this stuff in the public header is only used internally so
+> shrink the scope to avoid silently growing new users.
 > 
-> There are other GFP flags that are almost certainly fine to set here;
-> Willy noted GFP_HIGHMEM, GFP_DMA, GFP_MOVABLE and GFP_HARDWALL. But,
-> nolock allocation is rather special, so be conservative to try and
-> ensure we have a chance to think carefully before nontrivial new
-> usecases arise.
+> drain_local_pages() is still used from kernel/power/snapshot.c so that
+> needs to stay behind.
 > 
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Link: https://lore.kernel.org/linux-mm/ajS96fWbG4dzP3u3@casper.infradead.org/
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
 > ---
->  mm/page_alloc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  include/linux/gfp.h | 26 --------------------------
+>  mm/page_alloc.h     | 28 ++++++++++++++++++++++++++++
+>  mm/vmstat.c         |  1 +
+>  3 files changed, 29 insertions(+), 26 deletions(-)
 > 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 8d409d075e3e9..9cb3f1665b41b 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -5355,7 +5355,8 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
->  		return NULL;
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index cdf95a9f0b87c..01d6d2591f49e 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -17,28 +17,6 @@ struct mempolicy;
+>  #define __default_gfp(a,b,...) b
+>  #define default_gfp(...) __default_gfp(,##__VA_ARGS__,GFP_KERNEL)
 >  
->  	if (alloc_flags & ALLOC_NOLOCK) {
-> -		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
-> +		/* Certain other flags could be supported later if needed. */
-> +		VM_WARN_ON_ONCE(gfp & ~(__GFP_ACCOUNT | gfp_nolock));
->  		if (!alloc_trylock_allowed())
->  			return NULL;
->  		gfp |= gfp_nolock;
+> -/* Convert GFP flags to their corresponding migrate type */
+> -#define GFP_MOVABLE_MASK (__GFP_RECLAIMABLE|__GFP_MOVABLE)
+> -#define GFP_MOVABLE_SHIFT 3
+> -
+> -static inline int gfp_migratetype(const gfp_t gfp_flags)
+> -{
+> -	VM_WARN_ON((gfp_flags & GFP_MOVABLE_MASK) == GFP_MOVABLE_MASK);
+> -	BUILD_BUG_ON((1UL << GFP_MOVABLE_SHIFT) != ___GFP_MOVABLE);
+> -	BUILD_BUG_ON((___GFP_MOVABLE >> GFP_MOVABLE_SHIFT) != MIGRATE_MOVABLE);
+> -	BUILD_BUG_ON((___GFP_RECLAIMABLE >> GFP_MOVABLE_SHIFT) != MIGRATE_RECLAIMABLE);
+> -	BUILD_BUG_ON(((___GFP_MOVABLE | ___GFP_RECLAIMABLE) >>
+> -		      GFP_MOVABLE_SHIFT) != MIGRATE_HIGHATOMIC);
+> -
+> -	if (unlikely(page_group_by_mobility_disabled))
+> -		return MIGRATE_UNMOVABLE;
+> -
+> -	/* Group based on mobility */
+> -	return (__force unsigned long)(gfp_flags & GFP_MOVABLE_MASK) >> GFP_MOVABLE_SHIFT;
+> -}
+> -#undef GFP_MOVABLE_MASK
+> -#undef GFP_MOVABLE_SHIFT
+> -
+>  static inline bool gfpflags_allow_blocking(const gfp_t gfp_flags)
+>  {
+>  	return !!(gfp_flags & __GFP_DIRECT_RECLAIM);
+> @@ -395,10 +373,6 @@ extern void free_pages(unsigned long addr, unsigned int order);
+>  #define __free_page(page) __free_pages((page), 0)
+>  #define free_page(addr) free_pages((addr), 0)
+>  
+> -void page_alloc_init_cpuhp(void);
+> -bool decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp);
+> -void drain_zone_pages(struct zone *zone, struct per_cpu_pages *pcp);
+> -void drain_all_pages(struct zone *zone);
+>  void drain_local_pages(struct zone *zone);
+>  
+>  void page_alloc_init_late(void);
+> diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+> index e16f905f859a7..af83764788b96 100644
+> --- a/mm/page_alloc.h
+> +++ b/mm/page_alloc.h
+> @@ -266,6 +266,34 @@ static inline bool free_area_empty(struct free_area *area, int migratetype)
+>  	return list_empty(&area->free_list[migratetype]);
+>  }
+>  
+> +/* Convert GFP flags to their corresponding migrate type */
+> +#define GFP_MOVABLE_MASK (__GFP_RECLAIMABLE|__GFP_MOVABLE)
+> +#define GFP_MOVABLE_SHIFT 3
+> +
+> +static inline int gfp_migratetype(const gfp_t gfp_flags)
+> +{
+> +	VM_WARN_ON((gfp_flags & GFP_MOVABLE_MASK) == GFP_MOVABLE_MASK);
+> +	BUILD_BUG_ON((1UL << GFP_MOVABLE_SHIFT) != ___GFP_MOVABLE);
+> +	BUILD_BUG_ON((___GFP_MOVABLE >> GFP_MOVABLE_SHIFT) != MIGRATE_MOVABLE);
+> +	BUILD_BUG_ON((___GFP_RECLAIMABLE >> GFP_MOVABLE_SHIFT) != MIGRATE_RECLAIMABLE);
+> +	BUILD_BUG_ON(((___GFP_MOVABLE | ___GFP_RECLAIMABLE) >>
+> +		      GFP_MOVABLE_SHIFT) != MIGRATE_HIGHATOMIC);
+> +
+> +	if (unlikely(page_group_by_mobility_disabled))
+> +		return MIGRATE_UNMOVABLE;
+> +
+> +	/* Group based on mobility */
+> +	return (__force unsigned long)(gfp_flags & GFP_MOVABLE_MASK) >> GFP_MOVABLE_SHIFT;
+> +}
+> +#undef GFP_MOVABLE_MASK
+> +#undef GFP_MOVABLE_SHIFT
+> +
+> +bool decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp);
+> +void drain_zone_pages(struct zone *zone, struct per_cpu_pages *pcp);
+> +void drain_all_pages(struct zone *zone);
+> +void drain_local_pages(struct zone *zone);
+> +
+> +void page_alloc_init_cpuhp(void);
+>  void page_alloc_sysctl_init(void);
+>  
+>  #endif /* __MM_PAGE_ALLOC_H */
+> diff --git a/mm/vmstat.c b/mm/vmstat.c
+> index 7b93fbf9af092..3b5cb1031f720 100644
+> --- a/mm/vmstat.c
+> +++ b/mm/vmstat.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/sched/isolation.h>
+>  
+>  #include "internal.h"
+> +#include "page_alloc.h"
+>  
+>  #ifdef CONFIG_PROC_FS
+>  #ifdef CONFIG_NUMA
 > 
 
