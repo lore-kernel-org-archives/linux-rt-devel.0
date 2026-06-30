@@ -1,218 +1,172 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F200D477E24
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 16:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39D23C4B83
+	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 16:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782836535; cv=none; b=h632BLMb18nnaPZF02+9vtgjngA8sNnXzHd9gbFfV4x/zBd26f68RJZ2ajtnDdIV0VYmcJzpscpP85llonnprRQ2ToJgWvN/SDbPWwJq3fYlnhjQMpKROb8QS4WSSv5dXAsRxZpXsaA3nADlQ/ial2g1ugIN3iWopBz9InPCvyc=
+	t=1782837372; cv=none; b=G/z1MHjj7aZ6/x9dg5qkWjZje+B9fcCYNcp5sj3ERyB7EV3Gs3G23AOYm1NkaUcmBXQlnTImCTTrNbTKE5MfjP9QMjinybcofm37U0x7V5S8jl800IP1IDl9hR1lSe1+UGCGQWm0Ca8DiY+niApcNifOahz+9jno9ePikgH4pMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782836535; c=relaxed/simple;
-	bh=FKXhz8s3Vd+6bRKnI5aQiQgbkf0y8yxy+g2UiuewnfM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OD3gEJjd1Gpuz6kqOEF2H8Su/Ef1JOSXDz94WJj1OLPeJYmlyThztZMbWaPmKIPN7jC4gKBUx2YGQ2HuJ7V8SqwG5/HOsOvk/lK9SBtW6vCdQcJmfdgbksfcGN3aj9E/zPx+Y9leqaDsy/W9/1qWxOkUBup6k+JEmFeu7KhQep8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTGCVosG; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782837372; c=relaxed/simple;
+	bh=ySXKBmJ/U8bqVEuShkxwbboi3HlloriRk6YpRGniIko=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SJ/jt1yCcA4VHigHjUAuJ9k1lreZE8DBLnYapnrAQaNKhr7FyDidOTxJla9ngQNT+M+SLDuTTZ5bCNRek81cR+YfdXmoTwb48RIU3OS74TkvST4QJLk4poCzDXwY9zNAiIB2z0qHeQ1fpG7uj6d6RV5rpeStD9P4Zj13g0lS42o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=rd5ToozE; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTGCVosG"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6a168dc590cso1487855eaf.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 09:22:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="rd5ToozE"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4924593f45dso59959705e9.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 09:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782836531; x=1783441331; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=acv2p4BFA8gRpGMf2Eyfsq9WFKOfOwtHU816xigiBjE=;
-        b=HTGCVosG9oSF0wEgAY1J3YyXXXtYbM+vXztpU7O2hxBrrc3iM576tswjlVl/neAWkN
-         /rH5+SMvFz29UuUxDptcQjG88KCg1EELxJimP5+HwTDntZy3ZDhc5HdI0D2pFJxTz0yP
-         PsVVlH7SfF4rNc2Zd9XgjWIEHmPAqXq3iIPFIVxe+KyIyYpTAseymMp97kCghPvgmtSe
-         NOABgycwQyOV+Nu2Pn8GTFDqOpgLbm1YahPAS71JYTtu7BZsgBjWzbvwW87K4iMdyKHK
-         3237HsHJwrpfPK3b4m2R2tiAbC/uonwOGaxVI9PcyrU2sJuj8Pj9VTS+QT0gB/ETc+Q5
-         RkLw==
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1782837367; x=1783442167; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KlOvwkoIjqQ3dyIBe+7i8C6OqBUbb4KmOF29Y6QRtEg=;
+        b=rd5ToozE5CVG9RxoNkjbb5LuvOcILWwfCuNcGE1jtult8CxvY+gdjjPqG07x6Ukxc2
+         No6nIjFb4SZffYS6jZOYAXF2vxRmAwpbR+6aZrSAs2FYYkPtm2eNVk7A8riO3yg7RVW/
+         S2TXhSmpZBB1clTBbBipHh63slp+14j5ezaP60Yi/mPDqtDJKr4v7RIIv31Mv63vOHuA
+         1hFE76ph4vNzVWI8yq0yUaEhTi+IyYyzAcflTkdMpFYnRm3qakkao5vWWyYinP5trTHi
+         OMxqEJu5byM6OQDsAvDNMOY+dN60anl0//lB3aF+fGTxKd72M6HAMdpgSKrORlP7BK2g
+         Hiiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782836531; x=1783441331;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=acv2p4BFA8gRpGMf2Eyfsq9WFKOfOwtHU816xigiBjE=;
-        b=CQ+aLxOxNFa9Mwxm+l23k+HujPz0pl+hNWG/lFOf1DegStrGVLKHTeTGiiytX/IQlQ
-         XMJ6GlDt6etK8yHEf1KI8fdUEBYwiu/b+30Wsnx78DltBWPzYFZfLnb7LQJbagA+ZweE
-         iREaVdklUfqlII5qGH4mBD5ZW7k7GCinv+jh0+/HYDqSjwFMbxV8lO/4JSzrGSV+XeH1
-         Bq1nTYzHIYu2hoo4SBuYxF4dbJ8IT2j5FXJRcLyru47uZVe4Bz6ap2yJU82RrSoJ4Iuh
-         chyMTyiJ6RSjAkolp2edVAfI+xurt64wynpVrsXprc9ufwosTEul03x37sKMYLvw86tS
-         XYjw==
-X-Forwarded-Encrypted: i=1; AFNElJ80x5wxqGHH/ITF05VCnjMIlBEVr3vWpY7DB3VNeuZZ5cL0g9avZOBzVkgYDvK5dHDo9vfWEHC1xQEHIovk1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZ1S9rLjpPBASu0YotZEBE46NEPeuYHoGHvXRjY3+l6N1n1Ayo
-	23w8cW9dYCZ1Bk/ObNMZO7l424UWkuCl9DKUUW6LtVHRQbqBN28h3Dny
-X-Gm-Gg: AfdE7cldh0zDctYU2ixVKWJCU2PXrJbsMjPKz7GSrUy4KEz/6FaJ6pzclVjglbF3dPq
-	s2c8QlRNRb/JCQj4uFF7VThdP693rENqVB+3BYgnOs76o/HbUz9Iuml+Rld+gyGd35c/OBfLuU5
-	tB5wxSvXNyt+ch9ENm6Nk6EebwmSENkCZrTKxbPdXQB2xlGH/Gsa7/MiOlwaQ9cZiR/ANbFmhEn
-	d1V5x9D9msZscj0/x774DugWBsN6XVYnBDHE2ZBR8LFXctNNkBxB/X5Z4MA+alZuxPVPESWL9uv
-	805C0BoxfJpxXh+amczn/6warqVTOg8HHFCGJoMDOGnHPNyIrzXO141uJHPNTrTFbRAhcWcHFD1
-	bYtRxiMdJgaVsjlxGtaYoo176EHlQYZg6lUXBKSJwJxWfQos3J/prBCTyDo40/F1kTZItoPDZgt
-	XzQmPnesFuwn+aYZQDsIsL7ZPL6DOkAI3yIdJKT37WJmA=
-X-Received: by 2002:a4a:d2e1:0:b0:6a1:154c:8199 with SMTP id 006d021491bc7-6a1891d3bdemr2567738eaf.40.1782836530787;
-        Tue, 30 Jun 2026 09:22:10 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:13::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a189493f93sm2155547eaf.14.2026.06.30.09.22.10
+        d=1e100.net; s=20251104; t=1782837367; x=1783442167;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KlOvwkoIjqQ3dyIBe+7i8C6OqBUbb4KmOF29Y6QRtEg=;
+        b=LysJ8WUdtsMdc25hm6rkNk1hNL9Q5rv7APiSNXrS9dTmKdJU6Joc3Z3MEcWaZpx30H
+         3PB0BY/hf9i3H6AufHhdYy+C8faY3uPPcCYNMWLSaaukm+ECilu4reOP6r5qxNtr88xV
+         39S3b76jkAH1nKWs3AnoAmUmwVQtU2N9XRA1A2KiY63j9GHqbpjA1R4pnl9P8r3Ku+DI
+         Ec9ymvajMoaoh8N45DRXqM/mncKApixII6b7yNR9HIQTEzGQaxas5TqtnqtepffKiB9g
+         ags6zBxTVPVrNh8VNETdPPK3ePOhytxHoeNgeW4iEuAllcndNIqfe8x3iPVk0w9mM7y4
+         etXw==
+X-Forwarded-Encrypted: i=1; AFNElJ84sVmX7TxL6JQvGZE5zLYP5ETB7F9voPvNmfmW8lwg/5+ec2BQctvT7j/2NUId/wjLMiku6w4N916T51xnsQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEzCoyFazq7qEv+B8TB3jQH5IIhQc/MQ7QvfD8HJ5T2m5/7eVt
+	ioQUQFfTiWJuH97RRiLtvYP8GOxsD2DnsIN8Js4sdfoUk63kJayQryzNxDY3SzVI76I=
+X-Gm-Gg: AfdE7clQ0PCTsHrmG7wlF1GEMCrSs1Flrjs1UeJypjLHTMXuTImTcZP3yq/XMkb5SGL
+	+rHCThiCUqjEYJtnIRSLaU/if8o35M3aQQ+R/UCXRzWvnhL0yL+fFhb575bP/h8Gi++StiCYp53
+	iUuPZIj+BYTQ+vSbQtxXNENDSc9eH1xpG4DAPrgt00KCiZU2FedG8GtOA0++tQnGsKUlKXCG9Ga
+	4/9dFJXsuKCeUgetT/nZN0nr5pi3WsSjcS11YvB5b03OURUpni2C0Nu/hrw7ZbjTFkNxGpjAIZo
+	AMzQNiHcGbPOPJPwL0chs94ZZZ8XDsSuTDqTozrmHJevM09EIwdTCii8HyUND5kOQsFt4tefCWq
+	dKtvMvpNNupoptSSWYXFDQ2T1sfGp7hDM06vHyIu7+KJOI6hWUK6I8fWwurSkzWKht8/wexBTuw
+	ze0codIOK43FAkCHaelQuVplhA/Lt4ncDAmziTbk0p4zPeyKHVwVMmLuBlsMbrvtejKXtEBj6co
+	gz2pIHw+01YtO08lkK8gvlKY+RV
+X-Received: by 2002:a05:600c:c16e:b0:493:b87c:c87d with SMTP id 5b1f17b1804b1-493bda41fc3mr20284025e9.11.1782837367139;
+        Tue, 30 Jun 2026 09:36:07 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:23c5:7815:1301:f27:e3a8:2334:314d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be486f52sm8452225e9.0.2026.06.30.09.36.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 09:22:10 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Hui Zhu <hui.zhu@linux.dev>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	cgroups@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Hui Zhu <zhuhui@kylinos.cn>
-Subject: Re: [RESEND PATCH v2] mm/memcontrol: Avoid stuck FLUSHING_CACHED_CHARGE on isolated CPU
-Date: Tue, 30 Jun 2026 09:22:07 -0700
-Message-ID: <20260630162208.1159952-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260630070004.470181-1-hui.zhu@linux.dev>
-References: 
+        Tue, 30 Jun 2026 09:36:06 -0700 (PDT)
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Subject: [PATCH v2 0/4] printk: nbcon: deprecate boot_delay in favour of
+ printk_delay
+Date: Tue, 30 Jun 2026 17:35:56 +0100
+Message-Id: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGzwQ2oC/22NQQ6DIBREr2JYFwMoaLryHo0xFH71pw0YQFNjv
+ Hup3Xb5JjNvdhIhIERyLXYSYMWI3mUQl4KYSbsRKNrMRDChmOSSWpgDGJ1guHufBgsvvdFGSK6
+ srtpaapKnufLA96m99ZknjMmH7XxZ+Tf9CRXj/4Urp4yaqja8bXgttOrSBKP3dgY3LuhK48vlS
+ frjOD4CEMX/wwAAAA==
+X-Change-ID: 20260515-deprecate_boot_delay-72516da3845a
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ John Ogness <john.ogness@linutronix.de>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-rt-devel@lists.linux.dev, 
+ Andrew Murray <amurray@thegoodpenguin.co.uk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782837365; l=3474;
+ i=amurray@thegoodpenguin.co.uk; s=20250914; h=from:subject:message-id;
+ bh=ySXKBmJ/U8bqVEuShkxwbboi3HlloriRk6YpRGniIko=;
+ b=O86itWXgtpUvHd6jHgcUSDYONHr8uM4FtjVKgxr5nMaMcbfYVqTugJVOlYcUmoahEOOuQHZO+
+ MNX9KPA/fAIAGn9TedwW6ewrNcoYK9JZHvG/qKvgLYQ/JtsDREPeuXO
+X-Developer-Key: i=amurray@thegoodpenguin.co.uk; a=ed25519;
+ pk=0SU0Q8S/uEiCdbXbXS+PvJGUCaBG1nDszD+HPU3Js0Q=
 
-On Tue, 30 Jun 2026 15:00:04 +0800 Hui Zhu <hui.zhu@linux.dev> wrote:
+The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay
+sysctl are two distinct mechanisms for providing similar functionality
+which add a delay prior to each printed printk message.
 
-> From: Hui Zhu <zhuhui@kylinos.cn>
-> 
-> drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
-> schedule_drain_work() to queue per-CPU drain work.  When the target
-> CPU is isolated (cpu_is_isolated() == true), the work is silently
-> not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
-> drain_all_stock() then sees the bit and skips this stock entirely,
-> so the entry is effectively pinned until something else on that CPU
-> runs drain_local_*_stock() and clears the bit -- which on a long-
-> isolated CPU may never happen.
+boot_delay provides a kernel parameter for delaying printk output from
+kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
+configurable only via sysctl and thus is only used post boot.
 
-Hello Hui,
+However, since the introduction of nbcon and the legacy printer thread
+for PREEMPT_RT kernels, printk records are now emited to the console
+asynchronously to the caller of printk. Thus, any printk delay added by
+boot_delay/printk_delay continues to slow down the calling process but
+may not have any impact to the rate in which records are emited to the
+console, especially for slow consoles.
 
-I hope you're doing well! Thank you for the patch. I've also been
-thinking about memcg stock and specifically on how the flushing happens.
+To address these issues, let's deprecate boot_delay, extend printk_delay
+to be useable from kernel start and ensure that delays occur at the point
+where console messages are printed rather than queued.
 
-I haven't been thinking about the issue of isolated work taking a long
-time, but I have been reworking memcg stock by getting rid of it and
-pushing it down to the page_counter level [1].
+Please note that this patchset results in delays occuring after a message
+is printed rather than, as it is now, before.
 
-I think that this patch is still important because of the obj_stock
-portion, which my series doens't touch. I just wanted to bring this
-to your attention! I don't think there should be any other problems.
+Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+---
+Please see the following related work for additional context:
 
-Thank you again, have a great day!
-Joshua
+- https://lore.kernel.org/all/20260503214214.3475670-1-rdunlap@infradead.org/
+- https://lore.kernel.org/all/20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk/
+- https://lore.kernel.org/r/20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk (v1)
 
-[1] https://lore.kernel.org/all/20260623180124.868655-1-joshua.hahnjy@gmail.com/
+---
+Changes in v2:
+- Rebased onto v7.2-rc1
+- Correctly handle negative values for printk_delay_msec (patch 2)
+- Add missing newline in pr_warn (patch 2)
+- Improved patch descriptions for (patches 2 and 3)
+- Use new emitted flag in nbcon_context/nbcon_write_context in place of backlog && wctxt.len checks (patch 3)
+- Use unsigned char for unsafe_takeover field instead of bool in nbcon_write_context (patch 3)
+- Move printk_delay_msec and printk_delay from printk.h to internal.h (patch 3)
+- Revert regression added in v1 to __nbcon_atomic_flush_pending_con (patch 3)
+- Move printk_delay later in console_emit_next_record ensuring delay is always after emit (across nbcon/legacy) (patch 3)
+- Fixed typo in documentation s/boot_delay/printk_delay/g in printk_delay= section (patch 4)
+- Link to v1: https://lore.kernel.org/r/20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk
 
-> The original idea was to actually perform the drain from the calling
-> CPU on behalf of the isolated one, by adding a lock around the
-> per-CPU stock so that a remote drainer could safely touch it.  In
-> practice this turned out to be intrusive: the stock data structures
-> and their fast paths (consume_stock(), refill_stock(), the obj_stock
-> helpers) are deliberately designed around current-CPU-only access,
-> and retrofitting cross-CPU serialisation onto them adds non-trivial
-> locking and PREEMPT_RT concerns for very little gain.
-> 
-> Looking at the actual amount of charge that can accumulate in a
-> single per-CPU stock, it is bounded and small, so leaving an
-> isolated CPU's stock undrained for a while is not a real problem.
-> The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
-> prevents future drain_all_stock() callers from re-attempting once
-> the CPU is no longer isolated.
-> 
-> Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
-> could not be queued because the target CPU is isolated.  The cached
-> charge itself is left in place; it will be released the next time
-> the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
-> or if the isolated CPU itself calls drain_all_stock() -- in that
-> case cpu == curcpu causes drain_local_memcg_stock() to be invoked
-> directly), and the next drain_all_stock() call is free to retry
-> instead of skipping the stock forever.
-> 
-> Fixes: 6a792697a53a ("memcg: do not drain charge pcp caches on remote isolated cpus")
-> Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
-> ---
-> Changelog:
-> v2:
-> According to the comments of Waiman Long, updated fixes.
-> 
->  mm/memcontrol.c | 28 ++++++++++++++++++++++------
->  1 file changed, 22 insertions(+), 6 deletions(-)
-> 
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 6dc4888a90f3..2e66b4a2c25d 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -2256,7 +2256,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
->  	return flush;
->  }
->  
-> -static void schedule_drain_work(int cpu, struct work_struct *work)
-> +static void
-> +schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
->  {
->  	/*
->  	 * Protect housekeeping cpumask read and work enqueue together
-> @@ -2264,9 +2265,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
->  	 * partition update only need to wait for an RCU GP and flush the
->  	 * pending work on newly isolated CPUs.
->  	 */
-> -	guard(rcu)();
-> -	if (!cpu_is_isolated(cpu))
-> -		queue_work_on(cpu, memcg_wq, work);
-> +	scoped_guard(rcu) {
-> +		if (!cpu_is_isolated(cpu)) {
-> +			queue_work_on(cpu, memcg_wq, work);
-> +			return;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * The target CPU is isolated: the drain work was not queued.
-> +	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
-> +	 * callers can re-attempt instead of skipping this stock forever.
-> +	 * The cached charge is left in place; it will be released the
-> +	 * next time the CPU itself runs drain_local_*_stock() (e.g.
-> +	 * after leaving isolation), or by a follow-up mechanism.
-> +	 */
-> +	clear_bit(FLUSHING_CACHED_CHARGE, flags);
->  }
->  
->  /*
-> @@ -2299,7 +2313,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
->  			if (cpu == curcpu)
->  				drain_local_memcg_stock(&memcg_st->work);
->  			else
-> -				schedule_drain_work(cpu, &memcg_st->work);
-> +				schedule_drain_work(cpu, &memcg_st->work,
-> +						    &memcg_st->flags);
->  		}
->  
->  		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
-> @@ -2309,7 +2324,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
->  			if (cpu == curcpu)
->  				drain_local_obj_stock(&obj_st->work);
->  			else
-> -				schedule_drain_work(cpu, &obj_st->work);
-> +				schedule_drain_work(cpu, &obj_st->work,
-> +						    &obj_st->flags);
->  		}
->  	}
->  	migrate_enable();
-> -- 
-> 2.43.0
+---
+Andrew Murray (4):
+      printk: remove BOOT_PRINTK_DELAY config option
+      printk: deprecate boot_delay in favour of printk_delay
+      printk: nbcon: move printk_delay to console emiting code
+      Documentation/kernel-parameters: add/update printk_delay/boot_delay
+
+ Documentation/admin-guide/kernel-parameters.txt | 31 +++++++--
+ arch/arm/configs/bcm2835_defconfig              |  1 -
+ include/linux/console.h                         |  5 +-
+ include/linux/printk.h                          |  1 -
+ kernel/printk/internal.h                        |  6 ++
+ kernel/printk/nbcon.c                           | 13 ++++
+ kernel/printk/printk.c                          | 84 +++++++++++++++----------
+ lib/Kconfig.debug                               | 18 ------
+ 8 files changed, 101 insertions(+), 58 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260515-deprecate_boot_delay-72516da3845a
+
+Best regards,
+-- 
+Andrew Murray <amurray@thegoodpenguin.co.uk>
+
