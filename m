@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F366440B6F8;
-	Tue, 30 Jun 2026 12:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5232540DFDC;
+	Tue, 30 Jun 2026 12:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782823114; cv=none; b=d6+PhLkt9lVQusl1N1u/dV8fSxIigUkp0WKrLx7JoKgJNcWIcHSxFCYZDcUG8pXylHmK2joN4cCgDx1WQ7bO8F8EVcZxZV+RxPlqVCGceFE0sMkCiL4jxApmYSp2BxicXUTzHCx1iEffdlFEA1OCptr2xuG/ffkOmw19DYr95Y8=
+	t=1782823447; cv=none; b=SjwwMkyHuYBqXdERCzcV8pODot3NEw3IakENdE5sFxsF0E81ZSCwGtbpQoTJp9o6k0G88AeGbgG7Qm9ypPrNY2EmHTuHz1ACxshg/11K1n4rqjbrD+Xik+HXnZemYjla7dSCMho4t5BvuSWMxl0M4f2lUXT7dJ+CU6MjKbrBbJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782823114; c=relaxed/simple;
-	bh=v23dcXVcQUSfR/Cei5T3h23/O3BOrD03yhkqcIjRit0=;
+	s=arc-20240116; t=1782823447; c=relaxed/simple;
+	bh=B5bJt2l245p9pu2F+9Vuqr7Dkj5YbJOFqWS1w/hyTlM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nmk2Y8E3eXeCcw3Xgolf6cgIPGM6M2rWK+ExpVFSPhSqe7yZ/NspGzfVT/uP/GUhutF+1Ob3aHN8073wcs1QltPqlnCLOH+CL6QwKjcM4QzTZ+7DJe855r/1wTcNfH2+1ZZ134Fyq2qUA39ufZxGmPcd2XDnA2QlFHNxvDVDuW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYOoUh5Y; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ARIPYHzvObWGBnAfiPfCRyDof6tGzZoKD0jtejvBgvDXP7LCKRWddYgtNVj6zLLWuE1LUj2DgMehZhM5XDJSVlai5RwNHsdXph3FrsZbVx/WyeQlqTc39XYT1ikccMw20L98bADbA1FDN1wiXW+BGIDD7NroxUqKS74Wo2vxdXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lD3BZvWa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYOoUh5Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE451F000E9;
-	Tue, 30 Jun 2026 12:38:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lD3BZvWa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC101F000E9;
+	Tue, 30 Jun 2026 12:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782823113;
-	bh=U5Tibj44/m1ZvU3iIXqa2lDGGXNktBN31mDVj9AY6JE=;
+	s=k20260515; t=1782823445;
+	bh=P0adnldm8TK6ipv/lOGCfmnuD8juohd0zUTPMiBbPi8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IYOoUh5YM/N1Jjdq+kUBFaYBblu4vOkSncla9ZgJ0xlWkOpCpWqotDzT50YTdWDvt
-	 FhvGI1FOquNOllWuZ/hzw9PAj3G2yUZ8Tf+P3WNihotlGMMKKiqkIlWesKq44sonzN
-	 ceow+soxPDMXZUJNV8qBnap0fto1eoXsAhKf42CpVq16s8ovhsY6zQWyodIOkLV9yq
-	 vlCgmUNEw3tVzffijLspaWHHuOFqfLUDdBa9utjBXdD0IOQSpVeG6Hgmss0tS9P9Iu
-	 EdHICN+X2W81lUx5lrbVnUtstn/YkmML0X9zmCVsDgcTo+13vyrJW6+BB9Bxz9g4Ew
-	 zwA6NNrNhxd2Q==
-Message-ID: <5dcdd1ef-21ad-4ed0-9e8a-0e5cf96b4392@kernel.org>
-Date: Tue, 30 Jun 2026 14:38:26 +0200
+	b=lD3BZvWaX1EwmVrvf1qwnpfvnmdk6yRnka8Da93gojUcYJhWk3EmYzo2xwntJW5yJ
+	 j8PDe1WukQ8KwnyMWky4BE5yG4hIRY3m40deLp3IwW/ExkZpEgOBQekTmEtKiTNT+X
+	 50rY8xr28kw/N0jtGaG1vDSLf8NswY5kL1TX+KcnS5Ud7RXzEwn1bAsCnH6isghV5k
+	 bVNDXbEsSz0grLee/GUMQ2m8ddY+A1MXIIf1y5s5OwMkV8tHIXuGcBqzxXCY0Bx6ly
+	 XVp/qJ7kNO6ovYpSOiMabmhpMQzV3LYnEK7denzXQteOo03uq8R5relIO3OnTGM4Ti
+	 GeBiigFn5OlkA==
+Message-ID: <c8c538e2-11d2-4484-bea3-49955d1a9b10@kernel.org>
+Date: Tue, 30 Jun 2026 14:43:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/16] mm/page_alloc: some renames to clarify
- alloc_flags scopes
+Subject: Re: [PATCH v3 03/16] mm: name some args in a function declaration
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -60,7 +59,7 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-2-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-3-57bef0eadbc2@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -101,42 +100,38 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260629-alloc-trylock-v3-2-57bef0eadbc2@google.com>
+In-Reply-To: <20260629-alloc-trylock-v3-3-57bef0eadbc2@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 6/29/26 15:11, Brendan Jackman wrote:
-> It's pretty confusing that:
+> Checkpatch complains about this, a later patch will move the code, fix
+> it so that checkpatch doesn't complain about that patch. Do it in a
+> separate patch so the "move the code" patch is trivial to review using
+> Git's diff colouring.
 > 
-> - The slowpath and fastpath have a totally distinct set of alloc_flags.
-> 
-> - gfp_to_alloc_flags() sounds generic but it only influences the
->   slowpath.
-> 
-> Rename some variables to highlight which alloc_flags are
-> fastpath-specific. Rename gfp_to_alloc_flags() to highlight that it's
-> slowpath-specific.
-> 
-> gfp_to_alloc_flags_cma() and gfp_to_alloc_flags_nonblocking() currently
-> have perfectly harmless names, but to keep the naming consistent also
-> rename those to the alloc_flags_*() pattern (which already exists for
-> alloc_flags_nofragment()).
-
-How annoying that alloc_flags_nofragment() doesn't have gfp as the first
-parameter, unlike others.
-Oh well, must resist too much OCD :)
-
-Uh, more annoyingly, alloc_flags_cma() takes alloc_flags and returns
-augmented alloc flags, so there's stuff like
-
-*alloc_flags = alloc_flags_cma(gfp_mask, *alloc_flags);
-
-Since we're unifying, it could be make to work additively like others? Then:
-
-*alloc_flags |= alloc_flags_cma(gfp_mask);
-
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-Otherwise, LGTM.
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
+> ---
+>  mm/internal.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 2237eee030cba..8ce59c5664497 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -919,8 +919,8 @@ extern bool free_pages_prepare(struct page *page, unsigned int order);
+>  
+>  extern int user_min_free_kbytes;
+>  
+> -struct page *__alloc_frozen_pages_noprof(gfp_t, unsigned int order, int nid,
+> -		nodemask_t *);
+> +struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
+> +		nodemask_t *nodemask);
+>  #define __alloc_frozen_pages(...) \
+>  	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
+>  void free_frozen_pages(struct page *page, unsigned int order);
+> 
 
