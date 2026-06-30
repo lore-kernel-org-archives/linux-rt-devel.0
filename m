@@ -1,142 +1,106 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F408C3EF0D7
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 10:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0873D091A
+	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 12:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782815306; cv=none; b=kieCadbV7Bq9M4gioMlzzQVzH9v7Qhn1cHAFRg0hA4FmXTayWkwyxAf4anZK9sgmWCpvwG6oBxV6mTu0RIpQFiLeLbmcc17I8FIaszF+SBsN3a0lvQcMP2EiZ4OrExV+a/f5TsjUWNU4DpepHFbejWXSzALjRycC7r58ZLnDSJc=
+	t=1782820914; cv=none; b=TIgq/oEw4uZYshMRRhxMwDa1TR3GMEmuCNzWS/YVqksFkoup1slg1H7rDra301MUmj6BTX7YSaY4SfoHweGv1446m/O+ET6CBFyqFqn8oGMz3WYncc8DeMsn1N3dvzeE4K9urKjB6s7HLBoIddYiKy2YHmXC0jIlpunuK1yIZkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782815306; c=relaxed/simple;
-	bh=iAQY6TCrDj8LfUpuZjFjTTB1GWYcGsCqzNYYlW2+uJs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lhVjjmoLxKvPYoNT0q50jxlax9I2ppu31sM2+jMsAxyx2DXfabqXvRH4JhjLqRKp7k7WqFHhPIaopvg4t0ArAeWP4j2ugEit2ZZ3bdM1PYDY/ykBvZWJiQ/+euNdma+vT9XtjYTNWPXGcXL88YbslbSR0xQ6wRRA3HI4eKVg9m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A5lRI0nm; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782820914; c=relaxed/simple;
+	bh=rUAjUgPvFvnLSQu3UYtZbdv2V8E+HjHs5amdXDXXa6k=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=Ff20WbhP6lcn4lz6a+S1VPZ7sxYW/uCbIKT3QSbF8Bo5HN9sSDovSqirol1FWBQ1+7mscElUcoMF8SKXvMpDkr0q6BbC4+fa9YIQ35jlQ8jcEFNhAr2jBJV5D76D7JhN51dbWXB8M3zgVNC6GZV9mFG8yTOz1EopC2aQFDoiEUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d/HMIBfc; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A5lRI0nm"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0A438C5CD47
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 10:28:34 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7AC176025A;
-	Tue, 30 Jun 2026 10:28:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5D3C1106F1D96;
-	Tue, 30 Jun 2026 12:28:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782815302; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=+45Kh3Satp3HBEK6If/oF4JoJaoBdx7zAqswznQZd8E=;
-	b=A5lRI0nmyKuAE7DExkUqwE3nvY8dreV4gtcQPOB0GX52Cj+7BpicSwuwNtlHwCRNZ9KnH4
-	JV3sNbXy6IiTZXvoyl+h+64ra9dtRJps61BbP4ADeCteWmLtvWPzxdyrF9/bImWU5Qan0t
-	zsk22dgw27mXa9URexNbfMuMCBr86TlrhX26gDbVyVbfY2NOgcKbCrIE64i3an4C046AAD
-	kFvkgF4G9TKP+tJ2DUzfrG/afQCVNxVONsGPeMh5W74SOTgWMXnxN7E/J3wJwoJEL8VK4I
-	VZDN+xWCWJ3qtue/K3BoRq6c+pH+SARBEnjlbpHeChQ4oIcvovKtfkeOYxwkYQ==
-From: Gregory CLEMENT <gregory.clement@bootlin.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] scsi: ufs: core: Avoid sleeping in hard interrupt
- context when PREEMP_RT is enabled.
-In-Reply-To: <20260630102343.728131F000E9@smtp.kernel.org>
-References: <20260630-ufshcd-spinlock-sleep-fix-v1-1-339b05a1c6f4@bootlin.com>
- <20260630102343.728131F000E9@smtp.kernel.org>
-Date: Tue, 30 Jun 2026 12:28:21 +0200
-Message-ID: <878q7wb9ve.fsf@BLaptop.bootlin.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d/HMIBfc"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782820910;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5nPODt4gTf0vvhWgCFfGUzQ9veN5BNMQcI7/OEbq+Vo=;
+	b=d/HMIBfckQ/xUy/p4Ui9WnefAf9EcK14IoRJ8lJkSyf6CftDv4WIt1LK+uKzpR/oz1uBao
+	kSpCOLzYNW3L4+AwuJoC/Ekt3JmfEldNFDXWB5bsGBHsnQW3AvQmlMyPpK21b0BwlosqNM
+	IkeTyZvmHHehLNn/frvAmWaWqlZzOfM=
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 12:01:37 +0000
+Message-Id: <DJMD9HIQHO0T.JBREVOE4VDEU@linux.dev>
+To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman" <jackmanb@google.com>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
+ <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
+ Wilcox" <willy@infradead.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Johannes Weiner" <hannes@cmpxchg.org>,
+ "Zi Yan" <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "David
+ Hildenbrand" <david@kernel.org>, "Oscar Salvador" <osalvador@suse.de>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie
+ Kim" <rakie.kim@sk.com>, "Byungchul Park" <byungchul@sk.com>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Hao Li" <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David
+ Rientjes" <rientjes@google.com>, "Roman Gushchin"
+ <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
+ <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 15/16] mm: replace __GFP_NO_CODETAG with
+ ALLOC_NO_CODETAG
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+ <b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev>
+In-Reply-To: <b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-Hello,
-
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [Low] The static function `ufshcd_intr` becomes unused when `CONFIG_PRE=
-EMPT_RT` is enabled, causing a compiler warning.
-> - [Low] Typo in the newly added source code comment.
-
-Both of Sachiko's comments are valid. I am addressing these issues in
-the next version.
-
-Gregory
-
-> --
+On Tue Jun 30, 2026 at 1:55 AM UTC, Hao Ge wrote:
+>> +/*
+>> + * Skip early PFN recording for a page allocation.  Used by
+>> + * __alloc_tag_add_early_pfn() to avoid recursion when allocating pages=
+ for the
+>> + * early PFN tracking list itself.
+>> + *
+>> + * Codetags of the pages allocated with __GFP_NO_CODETAG should be
+>> + * cleared (via clear_page_tag_ref()) before freeing the pages to preve=
+nt
+>> + * alloc_tag_sub_check() from triggering a warning.
+>> + */
 >
-> commit 6afdc0b243918ce89eb55cea6349f608516d9d03
-> Author: Gregory CLEMENT <gregory.clement@bootlin.com>
 >
-> scsi: ufs: core: Avoid sleeping in hard interrupt context when PREEMP_RT =
-is enabled.
+> I originally wrote this lengthy comment because the logic lives inside=20
+> alloc_tag.c.
 >
-> This commit addresses a sleeping-in-hard-irq context bug under PREEMPT_RT=
-.=20
-> It mitigates the issue by bypassing the hard IRQ handler and directly=20
-> registering the threaded interrupt handler when PREEMPT_RT is enabled.
->
->> diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
->> index d3044a3089b53..6d82658a1a66b 100644
->> --- a/drivers/ufs/core/ufshcd.c
->> +++ b/drivers/ufs/core/ufshcd.c
->> @@ -11235,9 +11235,17 @@ int ufshcd_init(struct ufs_hba *hba, void __iom=
-em *mmio_base, unsigned int irq)
->>  	 */
->>  	ufshcd_readl(hba, REG_INTERRUPT_ENABLE);
->>=20=20
->> -	/* IRQ registration */
->> +	/* IRQ registration
->> +	 * In the case of PREMMP_RT, directly use the threaded
->
-> [Severity: Low]
-> This isn't a bug, but there is a typo in this comment ("PREMMP_RT" instead
-> of "PREEMPT_RT"). The commit subject also has a small typo ("PREEMP_RT").
->
->> +	 * interrupt to avoid using a spinlock (which could sleep)
->> +	 * in the hard IRQ handler.
->> +	 */
->> +#ifdef CONFIG_PREEMPT_RT
->> +	err =3D devm_request_irq(dev, irq, ufshcd_threaded_intr, IRQF_SHARED, =
-UFSHCD, hba);
->> +#else
->>  	err =3D devm_request_threaded_irq(dev, irq, ufshcd_intr, ufshcd_thread=
-ed_intr,
->>  					IRQF_ONESHOT | IRQF_SHARED, UFSHCD, hba);
->> +#endif
->
-> [Severity: Low]
-> Will this cause a compiler warning for an unused function when building w=
-ith
-> CONFIG_PREEMPT_RT=3Dy?=20
->
-> Because the reference to ufshcd_intr() is compiled out in the #else block=
-,=20
-> but its static definition remains unconditionally compiled earlier in the=
+> I wanted to document all the context to avoid confusion when revisiting=
 =20
-> file:
+> this code later on.
 >
-> static irqreturn_t ufshcd_intr(int irq, void *__hba)
-> {
->     ...
-> }
+> We've since replaced __GFP_NO_CODETAG with ALLOC_NO_CODETAG, a generic=20
+> alloc_flags bit defined in page_alloc.h.
 >
-> Could this break builds that have CONFIG_WERROR=3Dy enabled due to the=20
-> -Wunused-function warning?
+> The original long comment is no longer accurate:
 >
->>  	if (err) {
->>  		dev_err(hba->dev, "request irq failed\n");
->>  		goto out_disable;
+> Given that, I suggest updating it to the following:
 >
-> --=20
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260630-ufshcd-s=
-pinlock-sleep-fix-v1-1-339b05a1c6f4@bootlin.com?part=3D1
+> /*
+>
+>  =C2=A0* Avoid alloc_tag recursion for internal allocations.
+>
+>  =C2=A0* Callers must clear_page_tag_ref() before
+>  =C2=A0* freeing to avoid warnings from alloc_tag_sub_check().
+>
+>  =C2=A0*/
 
---=20
-Gr=C3=A9gory CLEMENT, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks for the context, pasting this in for v4!
