@@ -1,197 +1,488 @@
-Received: from USG02-CY1-obe.outbound.protection.office365.us (mail-cy1usg02on0043.outbound.protection.office365.us [23.103.209.43])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3C435DA40
-	for <linux-rt-devel@lists.linux.dev>; Mon, 29 Jun 2026 23:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=23.103.209.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782774464; cv=fail; b=pPLqJdRCGNWNYEkpIHbDsVuLdW8TBpMqLhwhDI+QjRH6Rq2o6e0HKn9MfMR5eUi7pLh13ijmBnG2XIakVCYuR4tCivssrdRRcjmmzXHH76LT43ISjeWNCAZS15MmAKzcqhxHma+1WTfiIKVJqjsVC3D0noza4vV3s/M73Y6x1j8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782774464; c=relaxed/simple;
-	bh=7VvvVHgqtG3iNqbuDdVPQ03mC2VEAa648CGEgqFsBbQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=u1qtYMBXOirpgRjJ0LqVtBJgt1nt9M7sTE9F2B9kfnD0wGNyAqyN9Fw9zJTq+Qb5gMIj71lVz1LB0kYUKtfVELyPWTUxWBK/xQBHTYgGWEjDdVjai7Lv9CyB+zAto6QkbR5d+YU04GoTuB1RsY++yGLkGRDKNyTVQk/1anRHk94=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ga.com; spf=pass smtp.mailfrom=ga.com; dkim=pass (2048-bit key) header.d=ga.com header.i=@ga.com header.b=K32uW/dn; arc=fail smtp.client-ip=23.103.209.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ga.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ga.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7036178F59
+	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 01:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782784592; cv=none; b=AhwA/axnYHKpJKkEo1QhIh9HuyL11ifIKq06oQFkdJjoLxBIF7h9n6Wnkfb3eXEE69AuQsKQr2l9lK9YgyAbCBiDatIyHNLIOudCmE5/mt+g9S2j5EiEcFyqBISfVlPiB0/jjWDftrCHg6H+cVorNn/6uwjif2KIH1SpCfq0UBM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782784592; c=relaxed/simple;
+	bh=TlFYU7mHpTqw5weDPyh7LCew1iCFscA2aM4uANUIJhM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mNIyu7qHjKC6zTh9yccenuJdGV4T3wokIsHp0Q0y6D+qRMuYtRbwc0J4XStQ4MYx0dMsbbYjNofv04yDWP/e925lW/5iqm59+b4sGhmFkEOiN0sKSDBa5pocm5rERtoN1zB/dXHnoloOax4TkBS4fKD1bMKbB/BswwN6p22WpfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=m2v5V2xq; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ga.com header.i=@ga.com header.b="K32uW/dn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector5401; d=microsoft.com; cv=none;
- b=TPqctZfWoXfZUYMJdqSXspazDTSzuiDiDkDlmGL/NVO5gwcrVVA0SC0qSziFpUyittugiN5mRXjrRt4W/WFOWB/QUoXulzjyB7X/AjmXhqJEk2XOSme5qzlls5flwDKZrttCC59So5Q3cn5fPbL+HfjpT75/NsBGqYNWpzsZ5O+vHf3Bv6XXxDIk6buuR2iiOf7fAgmS6AshGCZLpPSR/nH1AwcJKu4Pu/URz0AkTdR+IyLvQ7dGeCy4FpMQvBAC3I5vJ9xO0haMgGD9H/Ftcw5r1Vseqb/VHtBaN/R9gfctr3TLj/dUyraY+h72C4unPbvw8V8IL6dB3fT3abu9SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector5401;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7VvvVHgqtG3iNqbuDdVPQ03mC2VEAa648CGEgqFsBbQ=;
- b=shtlVDDpRKgzyCxT88CIvZOz5XwcZbvRvDnJGxYSTn7svz1ML1DE9mLbRvcAfupBtWi1Bhdl8G+/9G+C2HhG3fQRL2SdYXQ5Ep/Ea4YH+gH/AL4xCGN22fVb9L75TcizDSqyLumK3dQZp5ULDCZcmoeK7XwY3UT5+8ociur+DRdwg7k+lzwpYz6y5+gZXRdtPIYlDpaRuc2CY2i2GDqwK72NGcL58MkxSut4Tira5fDFj9caA8kFPR03jL7isdRFRsvTWzQyDfgVSRVLmh/ZUcWT7IEWtgb3Wt+YUydi6RqN6E73rv7puldxlLoCYkxRIoCqUhBb6CB7P6xCKo9ePQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ga.com; dmarc=pass action=none header.from=ga.com; dkim=pass
- header.d=ga.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ga.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7VvvVHgqtG3iNqbuDdVPQ03mC2VEAa648CGEgqFsBbQ=;
- b=K32uW/dnR7kPRYKvAQhbto8+2ILi9Ns7s7zp5ept42PK9vohUeWz8OIPYuCTJGRIWiXhg+EjnLnJ1eKPXfuwLuniea5t3U/+amQw6W3rdq8xpUri24YO4jOZtJsBmehNFMwfftFX8rVW9u+sw6qR6kOX6hJbzVOk0Id8GcxuuX+ip1Vm/42PFFvSj/JlGFt++PepmUdPvfosscrn8HrMAN7wloxrlhyxbpO7uxyfmbFgqm/geeL1PJqDxIAhWXWlkT0wRoRGW++gAzruoYz4bNlB0bOI2Sen49ey3lgkgw3bJsJrVpvT0IHSisRcwv++9FnsqbtZt1KsPQa/wBwKIg==
-Received: from SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:429::17)
- by BNAP110MB2029.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:1a0::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.24; Mon, 29 Jun
- 2026 15:31:03 +0000
-Received: from SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
- ([fe80::c749:21f3:32bf:8d22]) by SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
- ([fe80::c749:21f3:32bf:8d22%6]) with mapi id 15.21.0139.024; Mon, 29 Jun 2026
- 15:31:03 +0000
-From: "Soderlund, David" <David.Soderlund@ga.com>
-To: Brendan Jackman <jackmanb@google.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Muchun Song
-	<muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
- Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, Matthew Brost
-	<matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim
-	<rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, Ying Huang
-	<ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Hao Li
-	<hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes
-	<rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-CC: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
-	<gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, Alexei Starovoitov
-	<ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, Hao Ge
-	<hao.ge@linux.dev>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>, Sean
- Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
-Subject: RE: -EXT-[PATCH v3 09/16] KVM: VMX: Use higher-level allocator API
-Thread-Topic: -EXT-[PATCH v3 09/16] KVM: VMX: Use higher-level allocator API
-Thread-Index: AQHdB8wrgTVJBiFXx0yMbz5SVd1kJLZVqNDQ
-Date: Mon, 29 Jun 2026 15:31:03 +0000
-Message-ID:
- <SN5P110MB084894A01DF36A3CF4E6B35A9FE8A@SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM>
-References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-9-57bef0eadbc2@google.com>
-In-Reply-To: <20260629-alloc-trylock-v3-9-57bef0eadbc2@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ga.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN5P110MB0848:EE_|BNAP110MB2029:EE_
-x-ms-office365-filtering-correlation-id: af7998d9-0691-4f0d-ca04-08ded5f36ded
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|18002099003|22082099003|56012099006|4143699003|38070700021|921020;
-x-microsoft-antispam-message-info:
- ZZMVs3Q4vZqCg5bly6SA/C/eod/SQEyIs5XSZj+6biZ1OWp1aj3w60g1zhi4ikVRVkhvQTkoweOKTccQSkPNkddtw+NuptzxSVySgEDPySSYVUrK7d4jO4MflQDeE157tG1p82aGQS5YKyqcF3jMij4ooVsGkDK7sV/30b4FoBOW63cXuN+PQ3gxUY6t7/Tq2exDLey2D6lYXRGOYoxQXGub3x1l2djIgOYZZUSxr1aM5WoMXcU5xvihKBwz4RInuHtNmD5i4vh4XfUtRJk+aeQms7q/6dIvV3K6fTBigsfFX115V5L6bE7Y32ygZDrYN8efM0AFlzU5XYwvGg8ZGUUFpgs2OAYu3BqIarNY53nfliLTfkSj0wn9fnZGpNc2UtHWyYD6x0eWwSZTzYUyGRuJfXn7i2Bl9jpjCeCQlx2aEOAhNVKvR6NXNa9leslxz1DylZ8yvuKzxRVzoz6OSbSSMF1gKJErostviyERNPY4NOtFfIart6BAkL5+fU+/XAC96kvozoWKU3M5zZ7eXDJxtp2ZjVw8WHKYBUHVs/zlUAnDxvKAlzXrlmUJ9rTYEOkucFwBzCO81q3y65kxZYXetDkX/7dRS4/zOa+7YzqJuyvi664Q7hitwN9reeFy9kenACL1HFITiJk38+AGCpdmQMWyUuUNMcWpPLcKLWdBRBAoFG09BoY09rPl22FnghgHgV1Ed0hwLsCkFHHsh0Irasy7jb+AdS0NC/6dyLv4yGfTYHo2GsApnlOxhF05
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(18002099003)(22082099003)(56012099006)(4143699003)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WWtpbzlTRFJoTXd0MWRET0ZqQWIwY0FnMWowMTZmZzdQQ2VnWjlpVXFBYm0y?=
- =?utf-8?B?cUtIWkR4Z0ZGUGxONjB2N0NYckxaaEdvVUZkWUdvbldXajB0MjVESHlnQTIv?=
- =?utf-8?B?TnNMY0d0Uk5pTG5mclBUQkxQNGJWSThITXp1amVyM1VWT3B3ODZzcjB4Tjll?=
- =?utf-8?B?L0M3T3A0STllT3MvZ2JIeUsyOFZjS0ZIRzNRNHB0NWZkQVk4SnJwQ2Mxdi9x?=
- =?utf-8?B?L0oyRkVwL0t5dHk2OVdUbUJKNTlEdzFEOGNoYm5xYnNCQkdZbi80dWIwLzdX?=
- =?utf-8?B?WUwxSG5jcTNnaUQ2UENuaVoyMjNKYnkrRTI5bkFoUFFabkl5blRSdmFucWt6?=
- =?utf-8?B?SHd1em1nNXlTL2prUG43N3c5NjR3Z1lsNjE5ekhtUDVORVpzTkxXLzRMayt3?=
- =?utf-8?B?RWYrRHY2aGl2bkZTR2htekNGUFRleTNuaWdCakVxeEZ0Z3ZTWHRYUnhsSlBX?=
- =?utf-8?B?QjJlYmJNcElEODk5M1lDMElNUzljNTdEV0RjejVJbEpSUC9vbFNGRDhyckNF?=
- =?utf-8?B?MG5UYmdyV2FGWWtOOFJRTFAvU1ZwMXVXdm5qenNvMUN5KzBvZDBoQXovY2Vj?=
- =?utf-8?B?bnc1bjdyYWxQQXVjakVGVXorcVk3dGxkL2VhdjZaQ25Lb3hCQi9uVnYxVUF6?=
- =?utf-8?B?c0NSVzQzbWdidzk4ZVFUdDBBc1ZrWUJtMHVheVdCT0dQUHBDMWpWOFhydHJS?=
- =?utf-8?B?a0MyamEvdUFObkRtVS93NXVCSThpOXJteStmTWJ6WnNKSU41WnRKcFpGVi8x?=
- =?utf-8?B?dDlvSXRXS1pBbHJKU285QzlzMENmMlJUT0xMTjBmUWY4UEk5VDd2QytnZHdG?=
- =?utf-8?B?NndzZmwzeEJaMVNSbnR0dTAweXVQWDdCZVRTZklmdWN0R3laWnc2UCtQeVY2?=
- =?utf-8?B?UzFMWkVCblZvNnJTMVBuV09JeDRPRDlHUUIzb0pPeGxqK1RwVTdmVkxPdmRw?=
- =?utf-8?B?U3FKMGlEVU83YWdDVDlQSUE1UE1IUDVIU0ZLcEtkY1FWNVhsdExUckUxWktI?=
- =?utf-8?B?aGJLK09hOHlUWGZQTnBSNmZJQ2RjWlVKNG1KWHF1VDhXRFNDZTJNR0dwN3Ar?=
- =?utf-8?B?c3dpei8yLzZqNFZBd0NJNlp4WWJjMFdueSs0dGN4MytKMGZvSVAzSVV3NnhX?=
- =?utf-8?B?STVLalVOZmpGams4RHRZdmE3L3RpdW4xVng0ckpxaUlqaktleEJrSDBSQU9E?=
- =?utf-8?B?MUZieGRzTXdDSnhZdjM4MVdsaFZRVUhUUXJGUGNLNGNaeEUwNkgzVFEvdmdH?=
- =?utf-8?B?dHVhUEU4bm4xZjVEby90KzJ0UCtab1NrdXpqZzNWWVJEV0o5WTRBMHJ5Y2JI?=
- =?utf-8?B?ZVAxdVhWSEZSaGFXWmc3bUp4dzFkb0NPM0tRdVRKREM3Uituc015YzdjaGYr?=
- =?utf-8?B?a28zbC9UbG5TL1JOMWw0U3ZKL3J5Y2tJcjFwMWhTeDJHMjhRRi91T25CaFB2?=
- =?utf-8?B?ZSsySll4dTZZemhWOGNCRlB1VndoQ3VvSnJVTGpidGNXdHhwa0JvVHYyWmtG?=
- =?utf-8?B?NUxBUGNHZE1udnYxQUNYVUM1Tlh2ZzF0R1VIeVhvY082MjNOZzdUbXU4dHYv?=
- =?utf-8?B?bWhVbk9lMFBCL0lUMXVIUWxNZ2NEaEpxZ3J0WkpPc2xKcnFsSFlIblo3b1BV?=
- =?utf-8?B?UkpZTDVadTkxcURRTzFzbWhmYnNyb3dEcVJsVjBmNjh5MnBJWDBlampRTU1G?=
- =?utf-8?B?WW9QT0tHTnpVKy9wRHArRFBJK045eUcxMjhNeEQybWVtYlJONEx2Y1VTVUtU?=
- =?utf-8?B?WWl5bEhiUHRTL3BnVHdUQk04azdxWTdPcDFwWmJjSHZJMzF1TjFrUjV5djZZ?=
- =?utf-8?B?YUgwL2FBd2xwdEEwS3ZVVm9ncnBRbDQvTXJMNElBUEU3aXNVZUt1VWFNUVVr?=
- =?utf-8?B?dGJ1MkVudTRaTWw1YjUwUWpqOXZJOWVqait2ZFhGdEJFRzlvS3J0VjhSSjNi?=
- =?utf-8?B?cjJ3cWZTc1h1QWpEUlJGVm9FOW5nVUMxM3dKdER6L21XZTVURTlYTkluMTNJ?=
- =?utf-8?B?QWJCZWtrZGtuRVExYzNJaWNSMlp6TUJIR1lKVXR0UDdYQ0w3WVBIU0RnWTNi?=
- =?utf-8?B?QldUdjVhQ1p2VXZQaFVyTEhKSGtvQlBPaFVPRGdIbTNmNzVuRDBxbXN1bGE2?=
- =?utf-8?B?ZXVTL0dBc2REd2tuK2dzSDZDNGR5ZnpFbE1vbm8yZDJIOWIvUThhaGJHYlV1?=
- =?utf-8?Q?yeFaezZkZMgUL66C/4PS8hUwZruuGzh026KH2TbezA2j?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="m2v5V2xq"
+Message-ID: <b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782784577;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3TRuvrtSLLctFqmJrmRT58y1lma9yqJsPk1O5IlqUh0=;
+	b=m2v5V2xq/I8Z+IljbNIuC2XPHWWXD6XFtEf2jVm7NF5YjQfiQecO70y37e/qS1mWDrA9ot
+	3qbmIkqamyI9tZvNJL+0sYSOMdUcrwKI9nxZrlFN23iqT+M2htLmpelRTc1HEYVZ+QzLgT
+	GPw6g3vkRlWHycH8KKNfy9WQVp5T35c=
+Date: Tue, 30 Jun 2026 09:55:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: ga.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: af7998d9-0691-4f0d-ca04-08ded5f36ded
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2026 15:31:03.1028
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 05e53887-e4b3-4595-87f7-3ae79f0e723e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BNAP110MB2029
+Subject: Re: [PATCH v3 15/16] mm: replace __GFP_NO_CODETAG with
+ ALLOC_NO_CODETAG
+To: Brendan Jackman <jackmanb@google.com>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Oscar Salvador <osalvador@suse.de>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Q2FuIHNvbWVvbmUgcGxlYXNlIHJlbW92ZSBtZSBmcm9tIHRoaXMgbGlzdC4gIEkndmUgcmVxdWVz
-dGVkIGEgY291cGxlIG9mIHRpbWVzLg0KDQogIFRoYW5rcywNCiAgICAgRGF2aWQNCg0KLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEJyZW5kYW4gSmFja21hbiA8amFja21hbmJAZ29v
-Z2xlLmNvbT4gDQpTZW50OiBNb25kYXksIEp1bmUgMjksIDIwMjYgNzoxMiBBTQ0KVG86IEFuZHJl
-dyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+OyBWbGFzdGltaWwgQmFia2EgPHZi
-YWJrYUBrZXJuZWwub3JnPjsgU3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT47
-IE1pY2hhbCBIb2NrbyA8bWhvY2tvQHN1c2UuY29tPjsgSm9oYW5uZXMgV2VpbmVyIDxoYW5uZXNA
-Y21weGNoZy5vcmc+OyBaaSBZYW4gPHppeUBudmlkaWEuY29tPjsgTXVjaHVuIFNvbmcgPG11Y2h1
-bi5zb25nQGxpbnV4LmRldj47IE9zY2FyIFNhbHZhZG9yIDxvc2FsdmFkb3JAc3VzZS5kZT47IERh
-dmlkIEhpbGRlbmJyYW5kIDxkYXZpZEBrZXJuZWwub3JnPjsgTG9yZW56byBTdG9ha2VzIDxsanNA
-a2VybmVsLm9yZz47IExpYW0gUi4gSG93bGV0dCA8bGlhbUBpbmZyYWRlYWQub3JnPjsgTWlrZSBS
-YXBvcG9ydCA8cnBwdEBrZXJuZWwub3JnPjsgTWF0dGhldyBCcm9zdCA8bWF0dGhldy5icm9zdEBp
-bnRlbC5jb20+OyBKb3NodWEgSGFobiA8am9zaHVhLmhhaG5qeUBnbWFpbC5jb20+OyBSYWtpZSBL
-aW0gPHJha2llLmtpbUBzay5jb20+OyBCeXVuZ2NodWwgUGFyayA8Ynl1bmdjaHVsQHNrLmNvbT47
-IFlpbmcgSHVhbmcgPHlpbmcuaHVhbmdAbGludXguYWxpYmFiYS5jb20+OyBBbGlzdGFpciBQb3Bw
-bGUgPGFwb3BwbGVAbnZpZGlhLmNvbT47IEhhbyBMaSA8aGFvLmxpQGxpbnV4LmRldj47IENocmlz
-dG9waCBMYW1ldGVyIDxjbEBnZW50d28ub3JnPjsgRGF2aWQgUmllbnRqZXMgPHJpZW50amVzQGdv
-b2dsZS5jb20+OyBSb21hbiBHdXNoY2hpbiA8cm9tYW4uZ3VzaGNoaW5AbGludXguZGV2PjsgU2Vi
-YXN0aWFuIEFuZHJ6ZWogU2lld2lvciA8YmlnZWFzeUBsaW51dHJvbml4LmRlPjsgQ2xhcmsgV2ls
-bGlhbXMgPGNscmt3bGxtc0BrZXJuZWwub3JnPjsgU3RldmVuIFJvc3RlZHQgPHJvc3RlZHRAZ29v
-ZG1pcy5vcmc+DQpDYzogSGFycnkgWW9vIChPcmFjbGUpIDxoYXJyeUBrZXJuZWwub3JnPjsgR3Jl
-Z29yeSBQcmljZSA8Z291cnJ5QGdvdXJyeS5uZXQ+OyBKb2hhbm5lcyBXZWluZXIgPGhhbm5lc0Bj
-bXB4Y2hnLm9yZz47IEFsZXhlaSBTdGFyb3ZvaXRvdiA8YXN0QGtlcm5lbC5vcmc+OyBNYXR0aGV3
-IFdpbGNveCA8d2lsbHlAaW5mcmFkZWFkLm9yZz47IEhhbyBHZSA8aGFvLmdlQGxpbnV4LmRldj47
-IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgt
-cnQtZGV2ZWxAbGlzdHMubGludXguZGV2OyBCcmVuZGFuIEphY2ttYW4gPGphY2ttYW5iQGdvb2ds
-ZS5jb20+OyBTZWFuIENocmlzdG9waGVyc29uIDxzZWFuamNAZ29vZ2xlLmNvbT47IFBhb2xvIEJv
-bnppbmkgPHBib256aW5pQHJlZGhhdC5jb20+OyBrdm1Admdlci5rZXJuZWwub3JnDQpTdWJqZWN0
-OiAtRVhULVtQQVRDSCB2MyAwOS8xNl0gS1ZNOiBWTVg6IFVzZSBoaWdoZXItbGV2ZWwgYWxsb2Nh
-dG9yIEFQSQ0KDQpXQVJOSU5HOiAgVGhpcyBtZXNzYWdlIGlzIGZyb20gYW4gZXh0ZXJuYWwgc291
-cmNlLiAgRXZhbHVhdGUgdGhlIG1lc3NhZ2UgY2FyZWZ1bGx5IEJFRk9SRSBjbGlja2luZyBvbiBs
-aW5rcyBvciBvcGVuaW5nIGF0dGFjaG1lbnRzLg0KDQpUaGUgZGlmZmVyZW5jZSBiZXR3ZWVuIF9f
-YWxsb2NfcGFnZXNfbm9kZSgpIGFuZCBhbGxvY19wYWdlc19ub2RlKCkgaXMgdGhhdCB0aGUgbGF0
-dGVyIGFsbG93cyB5b3UgdG8gcGFzcyBOVU1BX05PX05PREUuDQoNClRoZSBmb3JtZXIgaXMgZ29p
-bmcgYXdheSBhbmQgdGhlIGxhdHRlciB3b3JrcyBmaW5lIGhlcmUgc28gc3dpdGNoIG92ZXIuDQoN
-Ck5vIGZ1bmN0aW9uYWwgY2hhbmdlIGludGVuZGVkLg0KDQpDYzogU2VhbiBDaHJpc3RvcGhlcnNv
-biA8c2VhbmpjQGdvb2dsZS5jb20+DQpDYzogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0
-LmNvbT4NCkNjOiBrdm1Admdlci5rZXJuZWwub3JnDQpBc3Npc3RlZC1ieTogR2VtaW5pOnVua25v
-d24tdmVyc2lvbg0KUmV2aWV3ZWQtYnk6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2ds
-ZS5jb20+DQpTaWduZWQtb2ZmLWJ5OiBCcmVuZGFuIEphY2ttYW4gPGphY2ttYW5iQGdvb2dsZS5j
-b20+DQotLS0NCiBhcmNoL3g4Ni9rdm0vdm14L3ZteC5jIHwgMiArLQ0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvYXJjaC94ODYv
-a3ZtL3ZteC92bXguYyBiL2FyY2gveDg2L2t2bS92bXgvdm14LmMgaW5kZXggMjMyNWJlNTdkM2Q3
-NS4uYWQ2YTdmYzZhNTRkYSAxMDA2NDQNCi0tLSBhL2FyY2gveDg2L2t2bS92bXgvdm14LmMNCisr
-KyBiL2FyY2gveDg2L2t2bS92bXgvdm14LmMNCkBAIC0zMDI4LDcgKzMwMjgsNyBAQCBzdHJ1Y3Qg
-dm1jcyAqYWxsb2Nfdm1jc19jcHUoYm9vbCBzaGFkb3csIGludCBjcHUsIGdmcF90IGZsYWdzKQ0K
-ICAgICAgICBzdHJ1Y3QgcGFnZSAqcGFnZXM7DQogICAgICAgIHN0cnVjdCB2bWNzICp2bWNzOw0K
-DQotICAgICAgIHBhZ2VzID0gX19hbGxvY19wYWdlc19ub2RlKG5vZGUsIGZsYWdzLCAwKTsNCisg
-ICAgICAgcGFnZXMgPSBhbGxvY19wYWdlc19ub2RlKG5vZGUsIGZsYWdzLCAwKTsNCiAgICAgICAg
-aWYgKCFwYWdlcykNCiAgICAgICAgICAgICAgICByZXR1cm4gTlVMTDsNCiAgICAgICAgdm1jcyA9
-IHBhZ2VfYWRkcmVzcyhwYWdlcyk7DQoNCi0tDQoyLjU0LjANCg0KDQo=
+Hi Brendan
+
+
+On 2026/6/29 21:12, Brendan Jackman wrote:
+> Now that alloc_pages has an entrypoint that allows passing alloc_flags,
+> we can take advantage of this to start removing GFP flags that are only
+> used for mm-internal stuff.
+>
+> This requires also plumbing the alloc_flags into some more of the
+> allocator code, in particular __alloc_pages[_noprof]() gets an
+> alloc_flags arg to go along with its callees, and we now need to pass
+> those flags deeper into the allocator so they can reach the alloc_tag
+> code.
+>
+> No functional change intended.
+>
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+>   mm/alloc_tag.c       | 22 ++++++----------------
+>   mm/compaction.c      |  4 ++--
+>   mm/internal.h        |  1 -
+>   mm/page_alloc.c      | 42 ++++++++++++++++++++++++------------------
+>   mm/page_alloc.h      | 17 +++++++++++++++--
+>   mm/page_frag_cache.c |  4 ++--
+>   6 files changed, 49 insertions(+), 41 deletions(-)
+>
+> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
+> index d9be1cf5187d9..a32a94e759b94 100644
+> --- a/mm/alloc_tag.c
+> +++ b/mm/alloc_tag.c
+> @@ -15,6 +15,8 @@
+>   #include <linux/vmalloc.h>
+>   #include <linux/kmemleak.h>
+>   
+> +#include "internal.h"
+
+
+Should we include page_alloc.h here, as we call __alloc_pages later in 
+this file?
+
+
+> +
+>   #define ALLOCINFO_FILE_NAME		"allocinfo"
+>   #define MODULE_ALLOC_TAG_VMAP_SIZE	(100000UL * sizeof(struct alloc_tag))
+>   #define SECTION_START(NAME)		(CODETAG_SECTION_START_PREFIX NAME)
+> @@ -783,19 +785,6 @@ struct pfn_pool {
+>   
+>   #define PFN_POOL_SIZE			((PAGE_SIZE - offsetof(struct pfn_pool, pfns)) / \
+>   					 sizeof(unsigned long))
+> -
+> -/*
+> - * Skip early PFN recording for a page allocation.  Reuses the
+> - * %__GFP_NO_OBJ_EXT bit.  Used by __alloc_tag_add_early_pfn() to avoid
+> - * recursion when allocating pages for the early PFN tracking list
+> - * itself.
+> - *
+> - * Codetags of the pages allocated with __GFP_NO_CODETAG should be
+> - * cleared (via clear_page_tag_ref()) before freeing the pages to prevent
+> - * alloc_tag_sub_check() from triggering a warning.
+> - */
+> -#define __GFP_NO_CODETAG		__GFP_NO_OBJ_EXT
+> -
+>   static struct pfn_pool *current_pfn_pool __initdata;
+>   
+>   static void __init __alloc_tag_add_early_pfn(unsigned long pfn)
+> @@ -806,7 +795,8 @@ static void __init __alloc_tag_add_early_pfn(unsigned long pfn)
+>   	do {
+>   		pool = READ_ONCE(current_pfn_pool);
+>   		if (!pool || atomic_read(&pool->count) >= PFN_POOL_SIZE) {
+> -			struct page *new_page = alloc_page(__GFP_HIGH | __GFP_NO_CODETAG);
+> +			struct page *new_page = __alloc_pages(__GFP_HIGH, 0, numa_mem_id(),
+> +							      NULL, ALLOC_NO_CODETAG);
+>   			struct pfn_pool *new;
+>   
+>   			if (!new_page) {
+> @@ -837,7 +827,7 @@ typedef void alloc_tag_add_func(unsigned long pfn);
+>   static alloc_tag_add_func __rcu *alloc_tag_add_early_pfn_ptr __refdata =
+>   	RCU_INITIALIZER(__alloc_tag_add_early_pfn);
+>   
+> -void alloc_tag_add_early_pfn(unsigned long pfn, gfp_t gfp_flags)
+> +void alloc_tag_add_early_pfn(unsigned long pfn, unsigned int alloc_flags)
+
+
+alloc_tag_add_early_pfn() has three occurrences across the codebase:
+
+1. Definition in mm/alloc_tag.c:830:
+
+void alloc_tag_add_early_pfn(unsigned long pfn, unsigned int alloc_flags)
+
+2. Declaration in include/linux/alloc_tag.h:166:
+
+void alloc_tag_add_early_pfn(unsigned long pfn, gfp_t gfp_flags)
+
+3. Static inline stub in include/linux/alloc_tag.h:170:
+
+static inline void alloc_tag_add_early_pfn(unsigned long pfn, gfp_t 
+gfp_flags) {}
+
+This patch updates the definition in alloc_tag.c to take unsigned int 
+alloc_flags,
+
+but the two declarations in alloc_tag.h are left with the old gfp_t 
+gfp_flags signature
+
+These should be updated to match.
+
+
+>   {
+>   	alloc_tag_add_func *alloc_tag_add;
+>   
+> @@ -845,7 +835,7 @@ void alloc_tag_add_early_pfn(unsigned long pfn, gfp_t gfp_flags)
+>   		return;
+>   
+>   	/* Skip allocations for the tracking list itself to avoid recursion. */
+> -	if (gfp_flags & __GFP_NO_CODETAG)
+> +	if (alloc_flags & ALLOC_NO_CODETAG)
+>   		return;
+>   
+>   	rcu_read_lock();
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index 7d80735502d9a..4b2318fad4eb5 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -83,7 +83,7 @@ static inline bool is_via_compact_memory(int order) { return false; }
+>   
+>   static struct page *mark_allocated_noprof(struct page *page, unsigned int order, gfp_t gfp_flags)
+>   {
+> -	post_alloc_hook(page, order, __GFP_MOVABLE);
+> +	post_alloc_hook(page, order, __GFP_MOVABLE, ALLOC_DEFAULT);
+>   	set_page_refcounted(page);
+>   	return page;
+>   }
+> @@ -1851,7 +1851,7 @@ static struct folio *compaction_alloc_noprof(struct folio *src, unsigned long da
+>   	}
+>   	dst = (struct folio *)freepage;
+>   
+> -	post_alloc_hook(&dst->page, order, __GFP_MOVABLE);
+> +	post_alloc_hook(&dst->page, order, __GFP_MOVABLE, ALLOC_DEFAULT);
+>   	set_page_refcounted(&dst->page);
+>   	if (order)
+>   		prep_compound_page(&dst->page, order);
+> diff --git a/mm/internal.h b/mm/internal.h
+> index c22284f04fc9e..369c656c63fa8 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1237,7 +1237,6 @@ unsigned int reclaim_clean_pages_from_list(struct zone *zone,
+>   enum ttu_flags;
+>   struct tlbflush_unmap_batch;
+>   
+> -
+>   /*
+>    * only for MM internal work items which do not depend on
+>    * any allocations or locks which might depend on allocations
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 026f33f217036..803b32e5a5e47 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -1249,7 +1249,7 @@ void __clear_page_tag_ref(struct page *page)
+>   /* Should be called only if mem_alloc_profiling_enabled() */
+>   static noinline
+>   void __pgalloc_tag_add(struct page *page, struct task_struct *task,
+> -		       unsigned int nr, gfp_t gfp_flags)
+> +		       unsigned int nr, unsigned int alloc_flags)
+>   {
+>   	union pgtag_ref_handle handle;
+>   	union codetag_ref ref;
+> @@ -1263,17 +1263,17 @@ void __pgalloc_tag_add(struct page *page, struct task_struct *task,
+>   		 * page_ext is not available yet, record the pfn so we can
+>   		 * clear the tag ref later when page_ext is initialized.
+>   		 */
+> -		alloc_tag_add_early_pfn(page_to_pfn(page), gfp_flags);
+> +		alloc_tag_add_early_pfn(page_to_pfn(page), alloc_flags);
+>   		if (task->alloc_tag)
+>   			alloc_tag_set_inaccurate(task->alloc_tag);
+>   	}
+>   }
+>   
+>   static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
+> -				   unsigned int nr, gfp_t gfp_flags)
+> +				   unsigned int nr, unsigned int alloc_flags)
+
+
+Same situation as alloc_tag_add_early_pfn() — the #else stub
+
+at mm/page_alloc.c:1309 still uses gfp_t gfp_flags instead of unsigned int
+
+alloc_flags.
+
+
+>   {
+>   	if (mem_alloc_profiling_enabled())
+> -		__pgalloc_tag_add(page, task, nr, gfp_flags);
+> +		__pgalloc_tag_add(page, task, nr, alloc_flags);
+>   }
+>   
+>   /* Should be called only if mem_alloc_profiling_enabled() */
+> @@ -1810,7 +1810,7 @@ static inline bool should_skip_init(gfp_t flags)
+>   }
+>   
+>   inline void post_alloc_hook(struct page *page, unsigned int order,
+> -				gfp_t gfp_flags)
+> +				gfp_t gfp_flags, unsigned int alloc_flags)
+>   {
+>   	const bool zero_tags = gfp_flags & __GFP_ZEROTAGS;
+>   	bool init = !want_init_on_free() && want_init_on_alloc(gfp_flags) &&
+> @@ -1861,13 +1861,13 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
+>   
+>   	set_page_owner(page, order, gfp_flags);
+>   	page_table_check_alloc(page, order);
+> -	pgalloc_tag_add(page, current, 1 << order, gfp_flags);
+> +	pgalloc_tag_add(page, current, 1 << order, alloc_flags);
+>   }
+>   
+>   static void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+>   							unsigned int alloc_flags)
+>   {
+> -	post_alloc_hook(page, order, gfp_flags);
+> +	post_alloc_hook(page, order, gfp_flags, alloc_flags);
+>   
+>   	if (order && (gfp_flags & __GFP_COMP))
+>   		prep_compound_page(page, order);
+> @@ -4791,8 +4791,12 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>   	 * The fast path uses conservative alloc_flags to succeed only until
+>   	 * kswapd needs to be woken up, and to avoid the cost of setting up
+>   	 * alloc_flags precisely. So we do that now.
+> +	 *
+> +	 * Can't just or alloc_flags if it contains WMARK bits, but those flags
+> +	 * shouldn't be set in ac->alloc_flags.
+>   	 */
+> -	alloc_flags = alloc_flags_slowpath(gfp_mask, order);
+> +	VM_WARN_ON(ac->alloc_flags & ALLOC_WMARK_MASK);
+> +	alloc_flags = ac->alloc_flags | alloc_flags_slowpath(gfp_mask, order);
+>   
+>   	/*
+>   	 * We need to recalculate the starting point for the zonelist iterator
+> @@ -4834,7 +4838,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>   	reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
+>   	if (reserve_flags)
+>   		alloc_flags = alloc_flags_cma(gfp_mask, reserve_flags) |
+> -					  (alloc_flags & ALLOC_KSWAPD);
+> +				ac->alloc_flags | (alloc_flags & ALLOC_KSWAPD);
+>   
+>   	/*
+>   	 * Reset the nodemask and zonelist iterators if memory policies can be
+> @@ -5236,7 +5240,7 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
+>   	return nr_populated;
+>   
+>   failed:
+> -	page = __alloc_pages_noprof(gfp, 0, preferred_nid, nodemask);
+> +	page = __alloc_pages_noprof(gfp, 0, preferred_nid, nodemask, ALLOC_DEFAULT);
+>   	if (page)
+>   		page_array[nr_populated++] = page;
+>   	goto out;
+> @@ -5344,11 +5348,13 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>   {
+>   	struct page *page;
+>   	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+> -	struct alloc_context ac = { };
+> +	struct alloc_context ac = {
+> +		.alloc_flags = alloc_flags,
+> +	};
+>   	unsigned int fastpath_alloc_flags = alloc_flags;
+>   
+>   	/* Other flags could be supported later if needed. */
+> -	if (WARN_ON(alloc_flags & ~ALLOC_NOLOCK))
+> +	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG)))
+>   		return NULL;
+>   
+>   	if (!alloc_order_allowed(gfp, order, alloc_flags))
+> @@ -5417,12 +5423,12 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>   EXPORT_SYMBOL(__alloc_frozen_pages_noprof);
+>   
+>   struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
+> -		int preferred_nid, nodemask_t *nodemask)
+> +		int preferred_nid, nodemask_t *nodemask, unsigned int alloc_flags)
+>   {
+>   	struct page *page;
+>   
+>   	page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, nodemask,
+> -					   ALLOC_DEFAULT);
+> +					   alloc_flags);
+>   	if (page)
+>   		set_page_refcounted(page);
+>   	return page;
+> @@ -5436,7 +5442,7 @@ struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order
+>   	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+>   	warn_if_node_offline(nid, gfp_mask);
+>   
+> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+> +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL, ALLOC_DEFAULT);
+>   }
+>   EXPORT_SYMBOL(alloc_pages_node_noprof);
+>   
+> @@ -5444,7 +5450,7 @@ struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_
+>   		nodemask_t *nodemask)
+>   {
+>   	struct page *page = __alloc_pages_noprof(gfp | __GFP_COMP, order,
+> -					preferred_nid, nodemask);
+> +					preferred_nid, nodemask, ALLOC_DEFAULT);
+>   	return page_rmappable_folio(page);
+>   }
+>   EXPORT_SYMBOL(__folio_alloc_noprof);
+> @@ -7126,7 +7132,7 @@ static void split_free_frozen_pages(struct list_head *list, gfp_t gfp_mask)
+>   		list_for_each_entry_safe(page, next, &list[order], lru) {
+>   			int i;
+>   
+> -			post_alloc_hook(page, order, gfp_mask);
+> +			post_alloc_hook(page, order, gfp_mask, ALLOC_DEFAULT);
+>   			if (!order)
+>   				continue;
+>   
+> @@ -7331,7 +7337,7 @@ int alloc_contig_frozen_range_noprof(unsigned long start, unsigned long end,
+>   		struct page *head = pfn_to_page(start);
+>   
+>   		check_new_pages(head, order);
+> -		prep_new_page(head, order, gfp_mask, 0);
+> +		prep_new_page(head, order, gfp_mask, ALLOC_DEFAULT);
+>   	} else {
+>   		ret = -EINVAL;
+>   		WARN(true, "PFN range: requested [%lu, %lu), allocated [%lu, %lu)\n",
+> diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+> index 2058cbdca56e7..2614bff6795b0 100644
+> --- a/mm/page_alloc.h
+> +++ b/mm/page_alloc.h
+> @@ -49,6 +49,16 @@
+>   #define ALLOC_HIGHATOMIC	0x200 /* Allows access to MIGRATE_HIGHATOMIC */
+>   #define ALLOC_NOLOCK		0x400 /* Only use spin_trylock in allocation path */
+>   #define ALLOC_KSWAPD		0x800 /* allow waking of kswapd, __GFP_KSWAPD_RECLAIM set */
+> +/*
+> + * Skip early PFN recording for a page allocation.  Used by
+> + * __alloc_tag_add_early_pfn() to avoid recursion when allocating pages for the
+> + * early PFN tracking list itself.
+> + *
+> + * Codetags of the pages allocated with __GFP_NO_CODETAG should be
+> + * cleared (via clear_page_tag_ref()) before freeing the pages to prevent
+> + * alloc_tag_sub_check() from triggering a warning.
+> + */
+
+
+I originally wrote this lengthy comment because the logic lives inside 
+alloc_tag.c.
+
+I wanted to document all the context to avoid confusion when revisiting 
+this code later on.
+
+We've since replaced __GFP_NO_CODETAG with ALLOC_NO_CODETAG, a generic 
+alloc_flags bit defined in page_alloc.h.
+
+The original long comment is no longer accurate:
+
+Given that, I suggest updating it to the following:
+
+/*
+
+  * Avoid alloc_tag recursion for internal allocations.
+
+  * Callers must clear_page_tag_ref() before
+  * freeing to avoid warnings from alloc_tag_sub_check().
+
+  */
+
+
+Thanks
+
+Best Regards
+
+Hao
+
+
+> +#define ALLOC_NO_CODETAG       0x1000
+>   
+>   /* Flags that allow allocations below the min watermark. */
+>   #define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
+> @@ -84,6 +94,8 @@ struct alloc_context {
+>   	 */
+>   	enum zone_type highest_zoneidx;
+>   	bool spread_dirty_pages;
+> +	/* Only flags that are global to the whole allocation go here. */
+> +	unsigned int alloc_flags;
+>   };
+>   
+>   /*
+> @@ -214,7 +226,8 @@ static inline struct page *pageblock_pfn_to_page(unsigned long start_pfn,
+>   extern void __free_pages_core(struct page *page, unsigned int order,
+>   		enum meminit_context context);
+>   
+> -void post_alloc_hook(struct page *page, unsigned int order, gfp_t gfp_flags);
+> +void post_alloc_hook(struct page *page, unsigned int order, gfp_t gfp_flags,
+> +		     unsigned int alloc_flags);
+>   extern bool free_pages_prepare(struct page *page, unsigned int order);
+>   
+>   extern int user_min_free_kbytes;
+> @@ -245,7 +258,7 @@ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned
+>   void free_frozen_pages_nolock(struct page *page, unsigned int order);
+>   
+>   struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+> -		nodemask_t *nodemask);
+> +		nodemask_t *nodemask, unsigned int alloc_flags);
+>   #define __alloc_pages(...)			alloc_hooks(__alloc_pages_noprof(__VA_ARGS__))
+>   
+>   extern void zone_pcp_reset(struct zone *zone);
+> diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
+> index a1077cef3a791..e63efe78b7d4b 100644
+> --- a/mm/page_frag_cache.c
+> +++ b/mm/page_frag_cache.c
+> @@ -57,10 +57,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+>   	gfp_mask = (gfp_mask & ~__GFP_DIRECT_RECLAIM) |  __GFP_COMP |
+>   		   __GFP_NOWARN | __GFP_NORETRY | __GFP_NOMEMALLOC;
+>   	page = __alloc_pages(gfp_mask, PAGE_FRAG_CACHE_MAX_ORDER,
+> -			     numa_mem_id(), NULL);
+> +			     numa_mem_id(), NULL, ALLOC_DEFAULT);
+>   #endif
+>   	if (unlikely(!page)) {
+> -		page = __alloc_pages(gfp, 0, numa_mem_id(), NULL);
+> +		page = __alloc_pages(gfp, 0, numa_mem_id(), NULL, ALLOC_DEFAULT);
+>   		order = 0;
+>   	}
+>   
+>
