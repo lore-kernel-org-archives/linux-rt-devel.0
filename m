@@ -1,147 +1,172 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEAA421880
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 14:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A332DB794
+	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 15:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782828918; cv=none; b=CD5t+S/QTemW6vRunmvOHpMXIpIZHBtLlL6WjH7ZMCmhhlq1KiDoyKHUON7tSMBO53Mteu6T8kqLKr3shIQEgZe9soVQMXA45TZa9Ua0MrkMm4lor7k4sUM/ZM1uMG1TvpZ0twILQdITYLOyMFRBg1VSe+aMZgFvHGxLWmKzyAo=
+	t=1782832096; cv=none; b=RgWbbOgUhJFVzUafmobFyuW1VxkqZwcHfeyyPmytqq+tVpHfFn9hUdvqVT/T5guFCOz0PE5mOmoxt/zeFnWeyhII6Cx6SPZne4SOuVREiiVBaBrYcOSoZRsYMN/4OSZsaOJmy0RCDs7gVT3KvLwxsEkyg+PdTOpaekKrr725EG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782828918; c=relaxed/simple;
-	bh=QnQ9mX5KCDagTYlabMbIcTFzz0A45R41axTb8VjhjIg=;
+	s=arc-20240116; t=1782832096; c=relaxed/simple;
+	bh=DTKadkgUJEsm8vau+Kht82J5nMgaemZk4nMq4zha+HE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1fIuZJ/Z3hZYWDVlLFnYLOIJSa7HuV1rqZLK+h4hl3wPChUe4V6iz5c5rvi/STpR8zDd42obS9sPjaUU0nXWmNXpz2ewOEaIx2ORBmPzgYeR9RUIinPfZ/lwKGw562hXRjNYbLunHET6EmjbUZ/VfbfMwcAdkI0/X0wTtaVhX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MVv7AWxa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dgUyY5zd; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2GMJEtvMd09D3C3aMh5rWrg+o65Ux9HoySskkeSFJ8fzSRLeppy0xZOR4ezK4e83L4QGeCj/AuAazYE+U6PrWmb2sLGoGZ2udRuaR6kBVOgROi5aEaSQpaBmjcEg/NUNqeq3D0eD7N1I+vg08qVhnnsPSk9qO3tgn1owuUQ/s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DdA85Oso; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MVv7AWxa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dgUyY5zd"
-Date: Tue, 30 Jun 2026 16:15:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1782828914;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DdA85Oso"
+Date: Tue, 30 Jun 2026 08:07:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782832082;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KwqHhCR7m88UgJlOdirD5ZTnHIhQoiKMHY4r/3MaPiA=;
-	b=MVv7AWxaIGvRygdqExq7DxFw9DqO+rTNdpYx0s32u7e/wZ2IE0f5RpwCpnTc9SrNrVt/o9
-	5KJFNL2FomIkokVY3FeW3rtPEwB7s+3VuV269tS5VZHun1ZztdvKQ0cZyAsvrSPCwh6DQI
-	8x4UStAVl86/m5KyChqaNQVZ2F3vQwneCqwE/mcmAdnV0/kxJxOxbrMjNwzPRimwngvx+K
-	285ZdiGXmBBJemM6Zm0zQpoCGYv1NW3NMGSjlZJMptXpTKfUCw2ORKIAz8qGORTzNAfaJ7
-	7fK7aLGPjwcZIVJkKMzx/z12jcN2wOXPLn4LxOYoqbLmy2nvKDANIP6nl2u60g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1782828914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KwqHhCR7m88UgJlOdirD5ZTnHIhQoiKMHY4r/3MaPiA=;
-	b=dgUyY5zdQTOm2YEgJnPDMYnhK2jlQMLss+CK1Q8gagloDGSYXndZyI//7VAm+ivxYVFtA+
-	ZFTHYkOw/FDAUKDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Gregory CLEMENT <gregory.clement@bootlin.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@sandisk.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	=?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] scsi: ufs: core: Avoid sleeping in hard interrupt
- context when PREEMP_RT is enabled.
-Message-ID: <20260630141513.ujz0Ef-O@linutronix.de>
-References: <20260630-ufshcd-spinlock-sleep-fix-v1-1-339b05a1c6f4@bootlin.com>
+	bh=gHtO69diIM0k7S0Wj5v0VMDMfaI21iwZjDPJcsxigLA=;
+	b=DdA85OsoBrLMdEteQcGdKeX0AzDe/7nYRg6vYyk+ql7QNoPRZhPyh6W4lrwEt3aIUsY85A
+	JE813+iwrtqbl676jixEw8tFQvESMIQJk7/QjLpMcGpXjiQKc/SGLfsaN5zJ4egZANbrfF
+	VdBlPwM6d0VpkL2r/zLQAQQmH4qak78=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Hui Zhu <hui.zhu@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Hui Zhu <zhuhui@kylinos.cn>
+Subject: Re: [RESEND PATCH v2] mm/memcontrol: Avoid stuck
+ FLUSHING_CACHED_CHARGE on isolated CPU
+Message-ID: <akPbL3HZrvWy8O3Q@linux.dev>
+References: <20260630070004.470181-1-hui.zhu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260630-ufshcd-spinlock-sleep-fix-v1-1-339b05a1c6f4@bootlin.com>
+In-Reply-To: <20260630070004.470181-1-hui.zhu@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-06-30 11:55:23 [+0200], Gregory CLEMENT wrote:
-> PREEMPT_RT turns spinlock in a mutex that cannot be used in interrupt
-
-it is a spinlock_t and a sleeping lock. Also hard interrupt context not
-interrupt.
-
-> context. Since commit 3c7ac40d7322 ("scsi: ufs: core: Delegate the
-> interrupt service routine to a threaded IRQ handler"), the hard
-> interrupt handler is not converted into a threaded interrupt handler
-> (due to the IRQF_ONESHOT flag). This can lead to the use of a sleeping
-> function inside the interrupt context.
->=20
-=E2=80=A6
->=20
-> This commit mitigates the issue by directly registering the thread
-> interrupt handler without involving a hard IRQ handler. This will only
-> be done when PREEMP_RT is enabled, which automatically turns all
-> interrupt handlers into threaded interrupt handlers.
-
-This sounds like threadirqs is still broken.
-
-> Fixes: 3c7ac40d7322 ("scsi: ufs: core: Delegate the interrupt service rou=
-tine to a threaded IRQ handler")
-> Signed-off-by: Gregory CLEMENT <gregory.clement@bootlin.com>
+On Tue, Jun 30, 2026 at 03:00:04PM +0800, Hui Zhu wrote:
+> From: Hui Zhu <zhuhui@kylinos.cn>
+> 
+> drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
+> schedule_drain_work() to queue per-CPU drain work.  When the target
+> CPU is isolated (cpu_is_isolated() == true), the work is silently
+> not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
+> drain_all_stock() then sees the bit and skips this stock entirely,
+> so the entry is effectively pinned until something else on that CPU
+> runs drain_local_*_stock() and clears the bit -- which on a long-
+> isolated CPU may never happen.
+> 
+> The original idea was to actually perform the drain from the calling
+> CPU on behalf of the isolated one, by adding a lock around the
+> per-CPU stock so that a remote drainer could safely touch it.  In
+> practice this turned out to be intrusive: the stock data structures
+> and their fast paths (consume_stock(), refill_stock(), the obj_stock
+> helpers) are deliberately designed around current-CPU-only access,
+> and retrofitting cross-CPU serialisation onto them adds non-trivial
+> locking and PREEMPT_RT concerns for very little gain.
+> 
+> Looking at the actual amount of charge that can accumulate in a
+> single per-CPU stock, it is bounded and small, so leaving an
+> isolated CPU's stock undrained for a while is not a real problem.
+> The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
+> prevents future drain_all_stock() callers from re-attempting once
+> the CPU is no longer isolated.
+> 
+> Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
+> could not be queued because the target CPU is isolated.  The cached
+> charge itself is left in place; it will be released the next time
+> the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
+> or if the isolated CPU itself calls drain_all_stock() -- in that
+> case cpu == curcpu causes drain_local_memcg_stock() to be invoked
+> directly), and the next drain_all_stock() call is free to retry
+> instead of skipping the stock forever.
+> 
+> Fixes: 6a792697a53a ("memcg: do not drain charge pcp caches on remote isolated cpus")
+> Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
 > ---
->  drivers/ufs/core/ufshcd.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
-> index d3044a3089b53..6d82658a1a66b 100644
-> --- a/drivers/ufs/core/ufshcd.c
-> +++ b/drivers/ufs/core/ufshcd.c
-> @@ -11235,9 +11235,17 @@ int ufshcd_init(struct ufs_hba *hba, void __iome=
-m *mmio_base, unsigned int irq)
+> Changelog:
+> v2:
+> According to the comments of Waiman Long, updated fixes.
+> 
+>  mm/memcontrol.c | 28 ++++++++++++++++++++++------
+>  1 file changed, 22 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 6dc4888a90f3..2e66b4a2c25d 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -2256,7 +2256,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
+>  	return flush;
+>  }
+>  
+> -static void schedule_drain_work(int cpu, struct work_struct *work)
+> +static void
+> +schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
+>  {
+>  	/*
+>  	 * Protect housekeeping cpumask read and work enqueue together
+> @@ -2264,9 +2265,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
+>  	 * partition update only need to wait for an RCU GP and flush the
+>  	 * pending work on newly isolated CPUs.
 >  	 */
->  	ufshcd_readl(hba, REG_INTERRUPT_ENABLE);
-> =20
-> -	/* IRQ registration */
-> +	/* IRQ registration
-> +	 * In the case of PREMMP_RT, directly use the threaded
-> +	 * interrupt to avoid using a spinlock (which could sleep)
-> +	 * in the hard IRQ handler.
+> -	guard(rcu)();
+> -	if (!cpu_is_isolated(cpu))
+> -		queue_work_on(cpu, memcg_wq, work);
+> +	scoped_guard(rcu) {
+> +		if (!cpu_is_isolated(cpu)) {
+> +			queue_work_on(cpu, memcg_wq, work);
+> +			return;
+> +		}
+> +	}
+> +
+> +	/*
+> +	 * The target CPU is isolated: the drain work was not queued.
+> +	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
+> +	 * callers can re-attempt instead of skipping this stock forever.
+> +	 * The cached charge is left in place; it will be released the
+> +	 * next time the CPU itself runs drain_local_*_stock() (e.g.
+> +	 * after leaving isolation), or by a follow-up mechanism.
 > +	 */
-> +#ifdef CONFIG_PREEMPT_RT
-> +	err =3D devm_request_irq(dev, irq, ufshcd_threaded_intr, IRQF_SHARED, U=
-FSHCD, hba);
-> +#else
->  	err =3D devm_request_threaded_irq(dev, irq, ufshcd_intr, ufshcd_threade=
-d_intr,
->  					IRQF_ONESHOT | IRQF_SHARED, UFSHCD, hba);
-> +#endif
+> +	clear_bit(FLUSHING_CACHED_CHARGE, flags);
 
-No. No ifdefery this needs to be addressed properly.
+Let's do something like the following.
 
-=46rom ufshcd_intr():
-|         intr_status =3D ufshcd_readl(hba, REG_INTERRUPT_STATUS);
-|         enabled_intr_status =3D intr_status & ufshcd_readl(hba, REG_INTER=
-RUPT_ENABLE);
-|
-|         ufshcd_writel(hba, intr_status, REG_INTERRUPT_STATUS);
+	guard(rcu)();
+	if (cpu_is_isolated(cpu)) {
+		clear_bit(FLUSHING_CACHED_CHARGE, flags);
+		return;
+	}
+	queue_work_on(cpu, memcg_wq, work);
 
-What does this do? Does it disable the IRQ source? If so then
-IRQF_ONESHOT should be removed.
-
-|         /* Directly handle interrupts since MCQ ESI handlers does the har=
-d job */
-|         return ufshcd_sl_intr(hba, enabled_intr_status);
-
-If not, why is this not part of the threaded handler?
-
->  	if (err) {
->  		dev_err(hba->dev, "request irq failed\n");
->  		goto out_disable;
->=20
-
-Sebastian
+>  }
+>  
+>  /*
+> @@ -2299,7 +2313,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+>  			if (cpu == curcpu)
+>  				drain_local_memcg_stock(&memcg_st->work);
+>  			else
+> -				schedule_drain_work(cpu, &memcg_st->work);
+> +				schedule_drain_work(cpu, &memcg_st->work,
+> +						    &memcg_st->flags);
+>  		}
+>  
+>  		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
+> @@ -2309,7 +2324,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+>  			if (cpu == curcpu)
+>  				drain_local_obj_stock(&obj_st->work);
+>  			else
+> -				schedule_drain_work(cpu, &obj_st->work);
+> +				schedule_drain_work(cpu, &obj_st->work,
+> +						    &obj_st->flags);
+>  		}
+>  	}
+>  	migrate_enable();
+> -- 
+> 2.43.0
+> 
