@@ -1,106 +1,121 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0873D091A
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 12:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B724740B389;
+	Tue, 30 Jun 2026 12:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782820914; cv=none; b=TIgq/oEw4uZYshMRRhxMwDa1TR3GMEmuCNzWS/YVqksFkoup1slg1H7rDra301MUmj6BTX7YSaY4SfoHweGv1446m/O+ET6CBFyqFqn8oGMz3WYncc8DeMsn1N3dvzeE4K9urKjB6s7HLBoIddYiKy2YHmXC0jIlpunuK1yIZkw=
+	t=1782822484; cv=none; b=ZlyX3bUx77gRizVM6vNqcdNwIw5QQCJBe4CHH0irYil/PriDMkvl+IjOmVT9C7uf7PEZeBWspnHG33ocIScJs3uwJfHgKYp74pnExRm3JOZQdtj9UyNWc4vZCRL3NuA1mqvQWhNeaJWgZThxKGwSr9/rkauoa9CR5WH9JdxOsHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782820914; c=relaxed/simple;
-	bh=rUAjUgPvFvnLSQu3UYtZbdv2V8E+HjHs5amdXDXXa6k=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=Ff20WbhP6lcn4lz6a+S1VPZ7sxYW/uCbIKT3QSbF8Bo5HN9sSDovSqirol1FWBQ1+7mscElUcoMF8SKXvMpDkr0q6BbC4+fa9YIQ35jlQ8jcEFNhAr2jBJV5D76D7JhN51dbWXB8M3zgVNC6GZV9mFG8yTOz1EopC2aQFDoiEUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d/HMIBfc; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782822484; c=relaxed/simple;
+	bh=suThUJUWNshb/ZOgukEbTb8ny41qp2fQeW16DlOHmSM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FjYdsR/U9072v9uisidhjpGdmTowiCoxi/ZsxMGs9gmITbhVpyZjW9JFTPyPyfTdmBRmDqBBQSDa3+O53ayzmhc15KL49WAa9DW25mS8pDfRnKZDbDSooOp4hF/u3eG6GNGbjphKEhwQ2iucCrVVjKONOJPiXihnQpdL+TiYI90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNwV8HFm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d/HMIBfc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNwV8HFm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8A81F000E9;
+	Tue, 30 Jun 2026 12:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782822482;
+	bh=NIGB1rJOCZO/oJ70bNZ8JWihrkKz/XdZhvsbS/SGNYk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BNwV8HFmVbRpnN67ZOGxIRi3Wk0MqvEDbhpwZzG+RqZPg1J9NWypCBYpTnx3uIkgB
+	 jdXVZSTXX6J2SX4ajP6WufCk5WOshSUjKNeVt2RJvavHy5/nRpaoRzdfPH2BtQgCsX
+	 faTrDO/fOQSpCxh/vCw6/mXoLLI24VNuMvOODskEH5acusTG/h8HkPHoueWFyIdye5
+	 4FBvu8q2wyHpbEzfKfjyE9J6T2MlJb6VoWfiTa91yEZjlbIYUiNd2tm4CU2xBZm71n
+	 vKwnieSiu+IVBTfYEd7QSJPjDkuApTTEm5IGQlEUCGeJ7QIQ2WM3LZAbQ4ek4bxT7U
+	 IYR3GetozsN7Q==
+Message-ID: <2ace7cea-ebe3-46bf-822e-ec30c15066d5@kernel.org>
+Date: Tue, 30 Jun 2026 14:27:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782820910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5nPODt4gTf0vvhWgCFfGUzQ9veN5BNMQcI7/OEbq+Vo=;
-	b=d/HMIBfckQ/xUy/p4Ui9WnefAf9EcK14IoRJ8lJkSyf6CftDv4WIt1LK+uKzpR/oz1uBao
-	kSpCOLzYNW3L4+AwuJoC/Ekt3JmfEldNFDXWB5bsGBHsnQW3AvQmlMyPpK21b0BwlosqNM
-	IkeTyZvmHHehLNn/frvAmWaWqlZzOfM=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 12:01:37 +0000
-Message-Id: <DJMD9HIQHO0T.JBREVOE4VDEU@linux.dev>
-To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman" <jackmanb@google.com>
-Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
- <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
- Wilcox" <willy@infradead.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Suren Baghdasaryan" <surenb@google.com>,
- "Michal Hocko" <mhocko@suse.com>, "Johannes Weiner" <hannes@cmpxchg.org>,
- "Zi Yan" <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "David
- Hildenbrand" <david@kernel.org>, "Oscar Salvador" <osalvador@suse.de>,
- "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Matthew Brost"
- <matthew.brost@intel.com>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie
- Kim" <rakie.kim@sk.com>, "Byungchul Park" <byungchul@sk.com>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Hao Li" <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David
- Rientjes" <rientjes@google.com>, "Roman Gushchin"
- <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
- <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>
-Subject: Re: [PATCH v3 15/16] mm: replace __GFP_NO_CODETAG with
- ALLOC_NO_CODETAG
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/16] mm/page_alloc: rename ALLOC_TRYLOCK ->
+ ALLOC_NOLOCK
+Content-Language: en-US
+To: Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
- <b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev>
-In-Reply-To: <b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+ <20260629-alloc-trylock-v3-1-57bef0eadbc2@google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260629-alloc-trylock-v3-1-57bef0eadbc2@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue Jun 30, 2026 at 1:55 AM UTC, Hao Ge wrote:
->> +/*
->> + * Skip early PFN recording for a page allocation.  Used by
->> + * __alloc_tag_add_early_pfn() to avoid recursion when allocating pages=
- for the
->> + * early PFN tracking list itself.
->> + *
->> + * Codetags of the pages allocated with __GFP_NO_CODETAG should be
->> + * cleared (via clear_page_tag_ref()) before freeing the pages to preve=
-nt
->> + * alloc_tag_sub_check() from triggering a warning.
->> + */
->
->
-> I originally wrote this lengthy comment because the logic lives inside=20
-> alloc_tag.c.
->
-> I wanted to document all the context to avoid confusion when revisiting=
-=20
-> this code later on.
->
-> We've since replaced __GFP_NO_CODETAG with ALLOC_NO_CODETAG, a generic=20
-> alloc_flags bit defined in page_alloc.h.
->
-> The original long comment is no longer accurate:
->
-> Given that, I suggest updating it to the following:
->
-> /*
->
->  =C2=A0* Avoid alloc_tag recursion for internal allocations.
->
->  =C2=A0* Callers must clear_page_tag_ref() before
->  =C2=A0* freeing to avoid warnings from alloc_tag_sub_check().
->
->  =C2=A0*/
+On 6/29/26 15:11, Brendan Jackman wrote:
+> It's confusing that the function is called "nolock" but the flag is
+> called "trylock", align them.
+> 
+> The function's terminology is more visible and has more mindshare so use that.
+> 
+> Suggested-by: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+> Link: https://lore.kernel.org/linux-mm/2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org/
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Harry Yoo (Oracle) <harry@kernel.org>
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-Thanks for the context, pasting this in for v4!
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
