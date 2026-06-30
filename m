@@ -1,68 +1,67 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3213C2BBA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 16:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F6D3C108B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 16:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782837375; cv=none; b=pGsoAQ+09g5SMAFbeqU90rQgMUruI9Sopx8IW4xtdIL69FBktCCHZOOjMBG6YzBicj9+y6T7uIoxKaAszpAf1oTDLAQb2vx4l0sQ1Y+jxXSPKXXZ8vGOFSIUC9c+sdo/WS2fWz1nbTNWHcAi9NagOjJOSaz157Qtg//Ll5jdJLQ=
+	t=1782837375; cv=none; b=gkuKoY2+9Ch5TQce+r4y3qij+HhXdztd93LGQLJSnyryooTR06FfjoG8iCXvkoNNpSgGDmqfSZQbBhdkGVP52dehS1N77ukNJPGHmecnUG9+Ve6z8u3RBAf656I8uQS9OBf6NR/7tYrdPnd9SeHdBI8iX0EkFYBRCKhg/YWmYmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782837375; c=relaxed/simple;
-	bh=djAd1fl/L9WrXyymlSdju3NF9QaDoL1LPfIaXfDPCoM=;
+	bh=yYoOA2lmEA/zlY9ztKWvlJHJjmdn+UKneaZgldiSEqY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=npjzr405PhOmmRVtakLvdH93rs0WQ6496IV+ffKGtOIxSZHTvUkeeDqRra/WZuxXqSUokw3BLdhGfOAccGvT/HzksST129t99SLyuBJZAOAujDft71n7A/jTnzTvE75j10mv4TGYa4x6IQkprNW8ASIxcMFjI2jKcIXkuDPBiss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=QH9J9En2; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:To:Cc; b=MEACICcICEsRsshTNYCyNzHzQOFirZcqrM0F1DAGzxj4qFhinLo9RRb15+rBGX1NtEAXIKZvY/nTcPqiRIlEb29p70WixnKUgHmOGLN12m9VD2jjAsMYz1LHpWXZknBTE6UMfb2oVYnHItB+0rG8y/3eVoFC87kGYcV6M6Z7s0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=gtBfr52S; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="QH9J9En2"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493a54b80a5so40020235e9.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 09:36:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="gtBfr52S"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493b27c7451so9240285e9.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 30 Jun 2026 09:36:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1782837371; x=1783442171; darn=lists.linux.dev;
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1782837368; x=1783442168; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xeeQssBNTO3J1bvVWzkGkdk1huJO9dqSXxjEfYbBfis=;
-        b=QH9J9En2wxP8HS1jIBwTfteU9QgIE4k8CzjvJedw1pR/62tR/7s68ozz8uBZozDilf
-         EvjjcUmD+mlOndkjNiOvYMPKAuyQYNsZs4XIeWbWbtzBcKFu9hUCSNBBDjYl9crDNE/p
-         /ck7jhhBxBuM2zoendFgPMzw2+0qiuazMJob6CHP2VdzZzE8OYs8jVipSr0iZL0azvak
-         Hd91PLY4T6gUnFD3xJ7kpA6d/M+8f7KZiocgGdzayO5LIqm/HRd7dAJLWqMsjvgLDC2S
-         DpDAmATn05YgQSxoO4/DNGCqcr8arrA6eGtW3ZxiYgejijYldWxLVDPvz1Rybon5NenM
-         ThMQ==
+        bh=ZXudV9Gg3kSdcIdzsisUUkPsE1uNKk24eiCajEsGRHQ=;
+        b=gtBfr52SzLg8dz0YrF/IioKGNb9syL/DcS/Kg6/FxueFRWdUjnL6skXWmbVB6MQjDY
+         UN7O3AvIXEQtY/msUS1aE7M0QMzC1vdYXjHTKekQeD+vhm2fqYTMziHbQjjcPgTREek3
+         XoYlCCfygX1tpmDP0ODfv2UIntpuhY+X2O7C9dyrxsCpdW8nWZnrdL8UOoa/Ge5ZKIfE
+         srEUgqV9uMpk9rVRy+xu4iEwgQbPrM4UWdMV4GcEcO24NkPj2dz3XF53ktJVnXQFFwdh
+         mBKAX7W/Teq7SD/wXXHv/S98dgO6qh+q2KXsGb3zPP1N/3eoeTNIe+WnEyejIJro4vYK
+         i1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782837371; x=1783442171;
+        d=1e100.net; s=20251104; t=1782837368; x=1783442168;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=xeeQssBNTO3J1bvVWzkGkdk1huJO9dqSXxjEfYbBfis=;
-        b=eyzcBSXoH2d0x2nsEUee0WAlqaqycgYR2ntBxgLLBrqUl/sjOgsKTwt0ToP+rQgmzh
-         aQJDIvD4u6Tmv46poAL5gtZC5N5qvCrIfY5Ll+6AawOTMwDB6xQyX5PF7oVW9OeVvxQg
-         q7A7CHDoL87AWSWpfcJ14FQA1SvO+iE/g1YwjpB+1ZM/BL04hMmBYUJSR5EgvVCUTvC1
-         /SFbvBojhaU2VFEphrqcegCJg5fjON4HQjmUSUthfYwwoxT05BvuV3z1naupUJ4z2BM8
-         TQeJ0vr9Enl2D169MkQlKn3bpiiPIKWc4S+vyrgXU7kTHjg7qkqr2e3sHA4FHiUAv/O2
-         BY/A==
-X-Forwarded-Encrypted: i=1; AFNElJ8cxanMF1KK+uKfVZ9XLkJm+9IRHBclSuajMRgwvCtgc6UGtriBZtwbP6c7sPHwXGdE9qo6AkzQA19KnBEXOA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBSmuuUenGzDNlqgGcgDNOOb4xdWC7TkN2rZbj2pikMRYxTgCX
-	8TbdPl9kfbg7ZBezeRWDtDc+H129Qcq1NL+kjT9ZudqoseeQ8mlkBaRZmZao8rl9/WI=
-X-Gm-Gg: AfdE7cktS8ez7qs6xXLoprjtf2N9rRsv5sOYTNowhfzxEGj8vsEZm6LROaD/nRiw5CT
-	AjOHxnK8d61H7Z7T84h/WqhJrV6uTa6WT3Z98lj8UAdvhSHrDHbAWG7kLndop+JmDWcJo++d/Gv
-	U4+X5PR6l982uAzVd2dsFbynT1tYsZ+I0VxBLVDxU7UV9KqbOYXURTEwKfCPXFfsN/+FT+hQblA
-	qGCLKfpCHoaFdw1I3u0nanYIRMWCj520YaXBLsLP3AqGOKAu55/SVGFte7iYcsAf8EQUp5+hfeB
-	uI+VUjzci9hTnPkGoP3DcExzUPVfKl6gD6UlfyigaMOJ46tLFwSIm591DmiHeDwpNgunh52mSH7
-	SoJpmIDFxLFczJE4gJe5mX/wHy8BuExMRmblYeUMd17SqUa4yEZIInTDMXGgrYd7xUJbBob0nup
-	k5h9OujpctN9DBX8ilOqSspvQlWx7LBWjMkJ3G4pPTk8Ho2YirRXf8zCZYuLocaY/QJ/6ij7bsc
-	o96zFxrnvfKBKc1NuYVzG23f/M81y0HNjgmGVg=
-X-Received: by 2002:a05:600c:a43:b0:493:b2c1:b2f9 with SMTP id 5b1f17b1804b1-493b827ed93mr68399645e9.8.1782837370761;
-        Tue, 30 Jun 2026 09:36:10 -0700 (PDT)
+        bh=ZXudV9Gg3kSdcIdzsisUUkPsE1uNKk24eiCajEsGRHQ=;
+        b=IevKR/aFd6PPw1Ue8Ovk/aFQW9OfnSofw/3/ERAjXsplosstbUVcxAyFfh8OF10Rxj
+         uIkgmuph9uLldKL3eIQYn7nB+UqISpN1gvxnSCZyzTtIClVXCmSGexIlcDq4dBOvC3Ne
+         e1UG5lf9SJna0MNqHXY5bDNYvErX48/1H7VU4XjlsPE+9IHHWphGa9/1tmL+c1eQJ5ja
+         Ki2xmQyiD3Lz5sfWL609j5H82bk/QVK9UGscWdU1OLh4mWOjdbtZlz4jgUTfcWo031Sd
+         nwm+N9DLkH8HIoBhS2Hbgiy4ojcixwFCAkIXkIBTeikIG65L1jr6mc71Jf77tf6rlu6s
+         Bs0w==
+X-Forwarded-Encrypted: i=1; AFNElJ9+Fe2OXXMjcf7kveyB4vvi/GxoLyZDphdHJwtyWuEyaFondZE6XNP3ZU5cGsJ61Q1I9WWxKKgbHwxXrhr1Kw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHd+DEIA/ON4b9LptNyAwupcKSsejG2GYRRU5gtv/HqKz7Nl+3
+	6Cnsw9rsqPda9PQSnUsWxbpynx/iO+fH/B36hygh+14B0coLM6byiiIuxhtdltmdj6I=
+X-Gm-Gg: AfdE7cm0wDjpt9Yh4GEKiPD9r/6RgMczQEm+2V2ieY6Rii8203mKlJbXzkn1pJ0ANdz
+	0fZolpzIXgxn5Y5PK8taxkw4rlqQC6tGCfikewq+AxN6r78qkd989g5Vxm/HTpDhiObuDkcKLKd
+	ImtGjqGLA41ivPsQndSQEhAVrsY9Iz2LI9aPOF/CgxTC+DbQRIIcYFrb34byGn6AkKz3d+Jt60m
+	JtnsxD5krJ07HK6HsYsyN2YdmlLEQAcPcQdNlHliKGmf2f5FXnuUQK7Em3sLuxvCZzZT8rPHqHe
+	vgNGdZBsZj63TUPIAgMvNxxLvdiyZXEh6cS3mcbxPeL4mPTd34jVnssm1lu8wRrExfZClQq+KK9
+	HGtILznP/wrfa3AbV8TM9hAXniRNEXXsXIbh7wHmptp6HEA+agghQShLcA/PI/eT8K6ZI54YKrl
+	MhT5mn6OyF2BnclzPsS+Dtl8Nrr9wBI363MlIfs4fsx1ap7qC8F0/8M/uzWv1OVAzVTaPrTzNWh
+	noqTSE8WBjeJq6E6jGyJeqksdKc
+X-Received: by 2002:a05:600c:c491:b0:493:a43d:6a2e with SMTP id 5b1f17b1804b1-493bc53486emr32913265e9.8.1782837368312;
+        Tue, 30 Jun 2026 09:36:08 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:23c5:7815:1301:f27:e3a8:2334:314d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be486f52sm8452225e9.0.2026.06.30.09.36.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be486f52sm8452225e9.0.2026.06.30.09.36.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 09:36:10 -0700 (PDT)
+        Tue, 30 Jun 2026 09:36:07 -0700 (PDT)
 From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Tue, 30 Jun 2026 17:35:59 +0100
-Subject: [PATCH v2 3/4] printk: nbcon: move printk_delay to console emiting
- code
+Date: Tue, 30 Jun 2026 17:35:57 +0100
+Subject: [PATCH v2 1/4] printk: remove BOOT_PRINTK_DELAY config option
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -71,7 +70,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+Message-Id: <20260630-deprecate_boot_delay-v2-1-f9883d36aa4b@thegoodpenguin.co.uk>
 References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
 In-Reply-To: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -93,215 +92,97 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev, 
  Andrew Murray <amurray@thegoodpenguin.co.uk>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782837365; l=6945;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782837365; l=3868;
  i=amurray@thegoodpenguin.co.uk; s=20250914; h=from:subject:message-id;
- bh=djAd1fl/L9WrXyymlSdju3NF9QaDoL1LPfIaXfDPCoM=;
- b=mbmqSLg+AQXmdJ8mhzw1IIoKcD77VwckXl6S3VA4/5SqRlokCss9F0DU9sXh9/Rl1813M7M+j
- Rj4F0n49CuSDF4T3wExjG9RRM1XGZ9K9+k1i+QAML7yhGmodQrAqvM3
+ bh=yYoOA2lmEA/zlY9ztKWvlJHJjmdn+UKneaZgldiSEqY=;
+ b=tIVy2D7qSph+SB/d2oZUbUbYo/M9aCbYpqRMKAajQJAv9Y4kMRiblxvshg3oHIsoMle9n8UXV
+ 3syb16Mbz+VC5jBPoJ59uagKLXQ8CWPlIC1wu/1BuvVQKicQDOc3t8k
 X-Developer-Key: i=amurray@thegoodpenguin.co.uk; a=ed25519;
  pk=0SU0Q8S/uEiCdbXbXS+PvJGUCaBG1nDszD+HPU3Js0Q=
 
-The printk_delay and boot_delay features are helpful for debugging
-as kernel output can be slowed down during boot allowing messages to
-be seen before scrolling off the screen, or to correlate timing between
-some physical event and console output.
+The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
+are two distinct mechanisms for providing similar functionality which add a
+delay prior to each printed printk message.
 
-However, since the introduction of nbcon and the legacy printer thread
-for PREEMPT_RT kernels, printk records are now emited to the console
-asynchronously to the caller of printk. Thus, any printk delay added by
-boot_delay/printk_delay continues to slow down the calling process but
-may not have any impact to the rate in which records are emited to the
-console.
+In preparation of combining them into a single configurable feature, let's
+first remove the kconfig option BOOT_PRINTK_DELAY.
 
-Let's address this by moving the printk delay from the calling code
-to the console emiting code instead. Whilst this ensures that delays
-are still observed (especially for slower consoles), it doesn't improve
-the use-case of using boot_delay/printk_delay to correlate timings
-between physical events and console output.
-
-Behavior change:
-
-Please note that printk delays now occur after messages are emitted
-rather than before.
-
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
 ---
- include/linux/console.h  |  5 ++++-
- include/linux/printk.h   |  1 -
- kernel/printk/internal.h |  6 ++++++
- kernel/printk/nbcon.c    | 13 +++++++++++++
- kernel/printk/printk.c   | 15 +++++++--------
- 5 files changed, 30 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/arm/configs/bcm2835_defconfig              |  1 -
+ kernel/printk/printk.c                          |  2 +-
+ lib/Kconfig.debug                               | 18 ------------------
+ 4 files changed, 2 insertions(+), 21 deletions(-)
 
-diff --git a/include/linux/console.h b/include/linux/console.h
-index d624200cfc1708bf73925892a466efe0c95c5586..3478b556c0eb9579530409dc6fbb9b5a8bff581c 100644
---- a/include/linux/console.h
-+++ b/include/linux/console.h
-@@ -290,6 +290,8 @@ struct nbcon_context {
-  * @outbuf:		Pointer to the text buffer for output
-  * @len:		Length to write
-  * @unsafe_takeover:	If a hostile takeover in an unsafe state has occurred
-+ * @emitted:		The write context attempted to emit the message. Might
-+ *			be incomplete.
-  * @cpu:		CPU on which the message was generated
-  * @pid:		PID of the task that generated the message
-  * @comm:		Name of the task that generated the message
-@@ -298,7 +300,8 @@ struct nbcon_write_context {
- 	struct nbcon_context	__private ctxt;
- 	char			*outbuf;
- 	unsigned int		len;
--	bool			unsafe_takeover;
-+	unsigned char		unsafe_takeover : 1;
-+	unsigned char		emitted		: 1;
- #ifdef CONFIG_PRINTK_EXECUTION_CTX
- 	int			cpu;
- 	pid_t			pid;
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index f594c1266bfd411f2238b45374e8a71222f0407c..8885e11367d50ea1cd7642249852d011e589adb4 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -188,7 +188,6 @@ extern int __printk_ratelimit(const char *func);
- extern bool printk_timed_ratelimit(unsigned long *caller_jiffies,
- 				   unsigned int interval_msec);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f22812833308b22f2cc35b0a42e55b2..2884103b93bca7b76cd3a93946276074cf62d0a1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -651,7 +651,7 @@ Kernel parameters
  
--extern int printk_delay_msec;
- extern int dmesg_restrict;
- 
- extern void wake_up_klogd(void);
-diff --git a/kernel/printk/internal.h b/kernel/printk/internal.h
-index 85fbf1801cbe070ad96d253bccdf775a11bf945a..c3586f8b8360208902bbbd4607413997bcbd5fb9 100644
---- a/kernel/printk/internal.h
-+++ b/kernel/printk/internal.h
-@@ -33,6 +33,8 @@ int devkmsg_sysctl_set_loglvl(const struct ctl_table *table, int write,
- # define force_legacy_kthread()	(false)
- #endif
- 
-+extern unsigned int printk_delay_msec;
-+
- #ifdef CONFIG_PRINTK
- 
- #ifdef CONFIG_PRINTK_CALLER
-@@ -131,6 +133,8 @@ static inline void nbcon_kthread_wake(struct console *con)
- 	rcuwait_wake_up(&con->rcuwait); /* LMM(nbcon_kthread_wake:A) */
- }
- 
-+void printk_delay(bool use_atomic);
-+
- #else
- 
- #define PRINTK_PREFIX_MAX	0
-@@ -162,6 +166,8 @@ static inline bool nbcon_legacy_emit_next_record(struct console *con, bool *hand
- static inline void nbcon_kthread_wake(struct console *con) { }
- static inline void nbcon_kthreads_wake(void) { }
- 
-+static inline void printk_delay(bool use_atomic) { }
-+
- #endif /* CONFIG_PRINTK */
- 
- extern bool have_boot_console;
-diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-index 4b03b019cd5ee25d68e9ace84392045e91241a7f..ae45cb0589c0effafc66f1756bdaecd1c1e53ab9 100644
---- a/kernel/printk/nbcon.c
-+++ b/kernel/printk/nbcon.c
-@@ -1069,6 +1069,8 @@ static bool nbcon_emit_next_record(struct nbcon_write_context *wctxt, bool use_a
- 	else
- 		con->write_thread(con, wctxt);
- 
-+	wctxt->emitted = 1;
-+
- 	if (!wctxt->outbuf) {
- 		/*
- 		 * Ownership was lost and reacquired by the driver. Handle it
-@@ -1267,11 +1269,16 @@ static int nbcon_kthread_func(void *__console)
- 
- 		con_flags = console_srcu_read_flags(con);
- 
-+		wctxt.emitted = 0;
-+
- 		if (console_is_usable(con, con_flags, false))
- 			backlog = nbcon_emit_one(&wctxt, false);
- 
- 		console_srcu_read_unlock(cookie);
- 
-+		if (backlog && wctxt.emitted)
-+			printk_delay(false);
-+
- 		cond_resched();
- 
- 	} while (backlog);
-@@ -1525,6 +1532,8 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
- 	}
- 
- 	progress = nbcon_emit_one(&wctxt, use_atomic);
-+	if (progress && wctxt.emitted)
-+		printk_delay(use_atomic);
- 
- 	if (use_atomic) {
- 		start_critical_timings();
-@@ -1584,6 +1593,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
- 			if (!nbcon_context_try_acquire(ctxt, false))
- 				return -EPERM;
- 
-+			wctxt.emitted = 0;
-+
- 			/*
- 			 * nbcon_emit_next_record() returns false when
- 			 * the console was handed over or taken over.
-@@ -1600,6 +1611,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
- 			if (nbcon_seq_read(con) < stop_seq)
- 				err = -ENOENT;
- 			break;
-+		} else if (wctxt.emitted > 0) {
-+			printk_delay(true);
- 		}
- 	}
- 
+ 	boot_delay=	[KNL,EARLY]
+ 			Milliseconds to delay each printk during boot.
+-			Only works if CONFIG_BOOT_PRINTK_DELAY is enabled,
++			Only works if GENERIC_CALIBRATE_DELAY is enabled,
+ 			and you may also have to specify "lpj=".  Boot_delay
+ 			values larger than 10 seconds (10000) are assumed
+ 			erroneous and ignored.
+diff --git a/arch/arm/configs/bcm2835_defconfig b/arch/arm/configs/bcm2835_defconfig
+index 4a8ac09843d73280cc42dbbf63fe3cc9f31dacd2..51a1e94d5aa6c22202778082b877a202a6b9c04d 100644
+--- a/arch/arm/configs/bcm2835_defconfig
++++ b/arch/arm/configs/bcm2835_defconfig
+@@ -174,7 +174,6 @@ CONFIG_NLS_UTF8=y
+ CONFIG_DMA_CMA=y
+ CONFIG_CMA_SIZE_MBYTES=32
+ CONFIG_PRINTK_TIME=y
+-CONFIG_BOOT_PRINTK_DELAY=y
+ CONFIG_DYNAMIC_DEBUG=y
+ CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
+ # CONFIG_ENABLE_MUST_CHECK is not set
 diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index cc203327247aa4f81f55b907c66ac88f30ce6da8..5278d9cb19e4177a00998fba5c1438251e033578 100644
+index 2fe9a963c823a41e7df10c29939a2abb55462859..77f53eaed13216c6c3946adabc0c8fdba6401d91 100644
 --- a/kernel/printk/printk.c
 +++ b/kernel/printk/printk.c
-@@ -2140,18 +2140,17 @@ static inline void late_boot_delay_msec(void)
- 	}
+@@ -1289,7 +1289,7 @@ static bool suppress_message_printing(int level)
+ 	return (level >= console_loglevel && !ignore_loglevel);
  }
  
--static inline void printk_delay(int level)
-+void printk_delay(bool use_atomic)
- {
--	bool suppress = !is_printk_force_console() &&
--			suppress_message_printing(level);
+-#ifdef CONFIG_BOOT_PRINTK_DELAY
++#ifdef CONFIG_GENERIC_CALIBRATE_DELAY
+ 
+ static int boot_delay; /* msecs delay after each printk during bootup */
+ static unsigned long long loops_per_msec;	/* based on boot_delay */
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 1244dcac2294ad99fda37fa6767c9e76f16a4d14..b552ea51cd53b79cf5d58b8c4deff409b1982862 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -99,24 +99,6 @@ config MESSAGE_LOGLEVEL_DEFAULT
+ 	  by default. To change that, use loglevel=<x> in the kernel bootargs,
+ 	  or pick a different CONSOLE_LOGLEVEL_DEFAULT configuration value.
+ 
+-config BOOT_PRINTK_DELAY
+-	bool "Delay each boot printk message by N milliseconds"
+-	depends on DEBUG_KERNEL && PRINTK && GENERIC_CALIBRATE_DELAY
+-	help
+-	  This build option allows you to read kernel boot messages
+-	  by inserting a short delay after each one.  The delay is
+-	  specified in milliseconds on the kernel command line,
+-	  using "boot_delay=N".
 -
--	if (likely(!printk_delay_msec) || suppress)
-+	if (likely(!printk_delay_msec))
- 		return;
- 
- 	if (system_state < SYSTEM_RUNNING)
- 		early_boot_delay_msec();
--	else
-+	else if (use_atomic)
- 		late_boot_delay_msec();
-+	else
-+		msleep(printk_delay_msec);
- }
- 
- #define CALLER_ID_MASK 0x80000000
-@@ -2471,8 +2470,6 @@ asmlinkage int vprintk_emit(int facility, int level,
- 		ft.legacy_direct = false;
- 	}
- 
--	printk_delay(level);
+-	  It is likely that you would also need to use "lpj=M" to preset
+-	  the "loops per jiffy" value.
+-	  See a previous boot log for the "lpj" value to use for your
+-	  system, and then set "lpj=M" before setting "boot_delay=N".
+-	  NOTE:  Using this option may adversely affect SMP systems.
+-	  I.e., processors other than the first one may not boot up.
+-	  BOOT_PRINTK_DELAY also may cause LOCKUP_DETECTOR to detect
+-	  what it believes to be lockup conditions.
 -
- 	printed_len = vprintk_store(facility, level, dev_info, fmt, args);
- 
- 	if (ft.nbcon_atomic)
-@@ -3211,6 +3208,8 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
- 		*handover = console_lock_spinning_disable_and_check(cookie);
- 		printk_safe_exit_irqrestore(flags);
- 	}
-+	printk_delay(true);
-+
- skip:
- 	return true;
- }
+ config DYNAMIC_DEBUG
+ 	bool "Enable dynamic printk() support"
+ 	default n
 
 -- 
 2.34.1
