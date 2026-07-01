@@ -1,118 +1,75 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092D037756C
-	for <linux-rt-devel@lists.linux.dev>; Wed,  1 Jul 2026 16:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D925A3815E3;
+	Wed,  1 Jul 2026 19:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924140; cv=none; b=nGt9a8VI4bJtnKgd0cFgYO1faL6cVeEOY30YWK/QP5df2kxA8PkH2mJWPsyP/cbUovsjOQf0Qe3nVfAe1vQ2bhk/8IQUJCbzxd7dAUytpWTJPpsRO/zQzx3WupVduW7WF2Bs3JJz/gfSTu7v5iPQ4BcLTD702L23LJnJrBybzfc=
+	t=1782933205; cv=none; b=VHrTv+OBdplNm3K5Q4ijd56Z7hGS0wXeBo5V/mysNTZwHJcLuUPCT1UcCOxKPjXEpb2k279hPiDjPsX3/esRqESsjpkvk+3hXuicoT0ySSn08phlXkes1BGlkHJiPaN7Rp+OIBZq6z4vbdKp3KN7JXkNJLtaOk4pn/cw4LnD62E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924140; c=relaxed/simple;
-	bh=D6Jp4rawiXmUerxKc/vs/HIx+Nz7ULvB8flOmBQMtfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GNitpr+lgcUxgr0NIONFZPNkZYrFfox7K/Ut5FN5bCYf2sxJax4Z4Sn8HTdwJzzCppIcDGh3Gpk+3hUlNpNVK3/1e+gnUtJ3cS1MU8Cj+FSWQJpd72e3G+I95gf8Q1IGyfoshI6AjkO7eQzXW7EBkvv3/Pub32tvd2/XaoEt1Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Gob2BKBl; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782933205; c=relaxed/simple;
+	bh=/rWMGVrByHE8TOt8M64j9dhfvBrJHJHQN5F5Prf7JQQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dDxZElJ/egm/Iyra/vWs9sHTkvjyPMlEb8rMAmmALEu9xZo5wLNRd7KOxlWxk94WRqoWMSFx7MsIzmIMdq/UMJL9r9sxIUekT+Z8KHqhXR0TmukX9N3F9xSZI1kR9TzyD0TcyWjSaK9MonasgTswe2kaP4dEyISKinIKeVGYSNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUGHSXR5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Gob2BKBl"
-Message-ID: <a953f120-6e81-44ce-a542-ce42c1cff747@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782924136;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x+2gpszS6w1yPKfdIUMLb1Oz1PqSPFzVoqNJzo8qoik=;
-	b=Gob2BKBl4xI1NuEjSX/JqK/ZTWRbrSC78wZVvwDeHm7rMYcEjgQX654mowJYjIDp4/2X7Y
-	fFCksd0v4vcM9WNyEkD1WOxXaV37inPDU5Spax8knAo8OFESpem8NpvkG+c05nK1fd2ES+
-	DJrmMEPCzsrhiRYGoE8G3U151/Sw1/I=
-Date: Wed, 1 Jul 2026 09:41:08 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUGHSXR5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC5A1F000E9;
+	Wed,  1 Jul 2026 19:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782933204;
+	bh=BcQkRe6SWQQ8OEXvMM6/AbmBilq7Gg1B0Taf8zuAgY4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=mUGHSXR5bZZhNY/VCh9expqvai3wh+Rw4yj+r3KMctEcWFnoKOrEtwwqbXyvx39KN
+	 hC2sbbm5lN/0ilj1cSK9hCssra9VsZH0LAvBvZWpwFPHgtH0AjnQyyFCI93rC4zIxt
+	 oeWk884xJAhoZspPvkLvZW9OoBl54EFsXvG+BU3giRWJ1f+s3FksUI6ovUf705aei7
+	 x5XlRxGDvrqTpb7WG6DPtEiSWVpits/t2ejFJmL4HflXXAI05Wj4yW07BlyHM7CHSt
+	 TFwaVE0XmHravndvtOlEDy/55uD6DJO3n1EiLKF+rgNrdVFmnihxOG15iTZFb5YqxN
+	 HcdSx0ncJz5VQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Ingo
+ Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Darren
+ Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ =?utf-8?Q?Andr=C3=A9?=
+ Almeida <andrealmeid@igalia.com>, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Ji'an Zhou
+ <eilaimemedsnaimel@gmail.com>, Michael Bommarito
+ <michael.bommarito@gmail.com>
+Subject: Re: [PATCH] futex/requeue: Revert "Prevent NULL pointer dereference
+ in remove_waiter() on self-deadlock""
+In-Reply-To: <20260701154517.0u_G4dkO@linutronix.de>
+References: <20260701131150.0Ijhq4Dw@linutronix.de> <87h5mipwa6.ffs@fw13>
+ <20260701154517.0u_G4dkO@linutronix.de>
+Date: Wed, 01 Jul 2026 21:13:21 +0200
+Message-ID: <87echmplpq.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 02/16] mm/page_alloc: some renames to clarify
- alloc_flags scopes
-To: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
- <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-2-57bef0eadbc2@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: JP Kobryn <jp.kobryn@linux.dev>
-In-Reply-To: <20260629-alloc-trylock-v3-2-57bef0eadbc2@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On 6/29/26 6:11 AM, Brendan Jackman wrote:
-> It's pretty confusing that:
-> 
-> - The slowpath and fastpath have a totally distinct set of alloc_flags.
-> 
-> - gfp_to_alloc_flags() sounds generic but it only influences the
->   slowpath.
-> 
-> Rename some variables to highlight which alloc_flags are
-> fastpath-specific. Rename gfp_to_alloc_flags() to highlight that it's
-> slowpath-specific.
-> 
-> gfp_to_alloc_flags_cma() and gfp_to_alloc_flags_nonblocking() currently
-> have perfectly harmless names, but to keep the naming consistent also
-> rename those to the alloc_flags_*() pattern (which already exists for
-> alloc_flags_nofragment()).
-> 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
->  mm/page_alloc.c | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 421271849f291..6010693861ec2 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -3774,8 +3774,8 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
->  }
->  
->  /* Must be called after current_gfp_context() which can change gfp_mask */
-> -static inline unsigned int gfp_to_alloc_flags_cma(gfp_t gfp_mask,
-> -						  unsigned int alloc_flags)
-> +static inline unsigned int alloc_flags_cma(gfp_t gfp_mask,
-> +					   unsigned int alloc_flags)
->  {
->  #ifdef CONFIG_CMA
->  	if (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
-> @@ -4474,7 +4474,7 @@ static void wake_all_kswapds(unsigned int order, gfp_t gfp_mask,
->  }
->  
->  static inline unsigned int
-> -gfp_to_alloc_flags_nonblocking(gfp_t gfp_mask, unsigned int order)
-> +alloc_flags_nonblocking(gfp_t gfp_mask, unsigned int order)
->  {
->  	unsigned int alloc_flags = 0;
-[...]
+On Wed, Jul 01 2026 at 17:45, Sebastian Andrzej Siewior wrote:
 
+> On 2026-07-01 17:25:05 [+0200], Thomas Gleixner wrote:
+>> > That has been already handled by Davidlohr in commit 40a25d59e85b3
+>> > ("locking/rtmutex: Skip remove_waiter() when waiter is not enqueued")
+>> > and requires no further acting.
+>> 
+>> No. If the self deadlock is obvious, then this should not even go into
+>> the proxy lock code. I clearly failed to notice the leak problem, but
+>> reverting it and relying on some magic down the road to handle it
+>> correctly is not really solid.
+>
+> Davidlohr fixed the issue that has been fixed again. We don't need two
+> changes for the same thing.
 
-Acked-by: JP Kobryn <jp.kobryn@linux.dev>
+He hardened the remove() function against that scenario.
+
+> We have deadlock detection down the road, why special case it here?
+
+It's not special, but there is no point to actucally call into complex
+and as demonstrated fragile code when you can avoid it upfront, no?
+
