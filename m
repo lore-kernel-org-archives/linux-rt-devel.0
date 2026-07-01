@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247313B47CB;
-	Wed,  1 Jul 2026 07:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D298536494F;
+	Wed,  1 Jul 2026 07:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782892223; cv=none; b=bt0CgpgN//7e2nsKm3z2zfEkpPzOwrUkDgZzrah8oqgqkgWXNYLX+v3r6J9CNTR/5047Y/da4EgGd/jyOuCz57j2L4tt/+yizw95A31jZ9I/zdvjua2sYh/Yu/OaVhvzNi54LKW7dgTKV9plGAn10glbTuDozvhLgNoaONXioBU=
+	t=1782892265; cv=none; b=T4OuUjJ5gspGRhl6ATCCaY0SRKC9ESQ6a4DOKx/W+nuiPTDUjYLUiuaUl1xPO1oonrqg0wDz+anacL7B+UAapAyAJ2T26x5YwkvFz6MPnasIuNmwLc1Onh704hs/JSd/wtNAcQras6dQuVwdGyLjWjrtb7mbKR/chIVM8kZ7zAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782892223; c=relaxed/simple;
-	bh=rd6GMILOpLH8BUvw3ykx8v1mCvNiq+NciIXehkXzopM=;
+	s=arc-20240116; t=1782892265; c=relaxed/simple;
+	bh=PHqc+raLfWFosWt7QgfrPUL9VafK8DetWo5t7vDpclI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gu/uir/VbHBZhkBdMonYmFiKVkbOxX0GWYGphgczHyERzhw5+01Pq81djL3teUKRJXskJoJdbRRvs6/llzI+Ho3ldgFpEvB8viSEJBzyef2OQbDiIs5tHKodtbtvYREjseHrlEk584Ro2hAh+6lJP7jXo42wiNTHjQD8P2u1NUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5XgoWqp; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=LBOr5JBZkiKAk6aq1JjgmEYg+ay5poeXde6KhNWIQwjDg3AMPSaHzXWpmaCurwJcWaSyDWNfGj36HDvySL0ENNrmzX9CC70YoWJPMtR24kxHGhAl5pq+gpbhuiJVZ6sWf1/1ygmGfK8N5U7keHX1oBlHWsuQL785I1Z30Yt4gF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihupgV1H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5XgoWqp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1423F1F000E9;
-	Wed,  1 Jul 2026 07:50:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihupgV1H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8248A1F000E9;
+	Wed,  1 Jul 2026 07:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782892221;
-	bh=ACIqJsYxWgXDc37BwygX8M8U+XIaq9Ci+P15yYStBqA=;
+	s=k20260515; t=1782892264;
+	bh=zNuPEiNyFh2OoeX/Rr7knz09YDzXqWO3J4KMINksMdo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=d5XgoWqpOyTOQVH5rwBuq0PHSIVGdmT8b+Y3yUvZV7SGqjXADrPCV4qZ+t0B3Te/G
-	 6LDS1Dk9khtR31sBe854tYWT9zhEHXJj4gYJEimA4bfCh+N43cKHhlIwlKmDmU7gho
-	 SW80Hty7/snEV0VsTQlAamA1lE725VM2s+JKnx28jM7r4k5wke56wyps3mByV47Mdi
-	 +osugshquv3hVB1ys4nVCGLrWAR1WbmQPO6gpgu4oCqIn0OHidEQY1Ljihq0e28YQj
-	 mpyiIgQcFZ+gDstNyttbpw0WBPbVQnz3uevEM1nVgY5Dm+KecgNb2I27zOM6rUQpfa
-	 IjefxTGNrirjQ==
-Message-ID: <0970fd28-3659-40b0-8276-3a1daa3fd712@kernel.org>
-Date: Wed, 1 Jul 2026 09:50:12 +0200
+	b=ihupgV1H5pLG3nAciwuNczOuw6UIPiM4A8Oe0STjMQb88pVjZEz/lrAF10Gej9sH6
+	 WJazoS0DGkQjePkUjUgGSsMe3RUdUsNYjJUecUe5xgdoZCzN8gneBdy+X3P9lc5+50
+	 oIlTT6xDfCd89y9DfdkXfvp1elcpJClwlvQid08bmlW2/ASb15dN2gKEsoCijHyHa3
+	 eerXR0+IAiCtax4zZ8YnVgpNvU6atn+D5jUpaa4heXP59ueKNs9X+hgmtcOPZk9RBZ
+	 yYxLRU34ULRoDd5EIT5KjxrWk0Cu57vHn8sPlUR5ZJh+GQAHUkSb4NXDuiAM8DE/d9
+	 cixHmTkQ+Aj3A==
+Message-ID: <f1a70a22-f66a-4793-b443-19e02452c9ee@kernel.org>
+Date: Wed, 1 Jul 2026 09:50:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/16] perf/x86/intel: Use higher-level allocator API
+Subject: Re: [PATCH v3 09/16] KVM: VMX: Use higher-level allocator API
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -57,14 +57,10 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
  Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>
+ linux-rt-devel@lists.linux.dev, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-8-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-9-57bef0eadbc2@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -105,7 +101,7 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260629-alloc-trylock-v3-8-57bef0eadbc2@google.com>
+In-Reply-To: <20260629-alloc-trylock-v3-9-57bef0eadbc2@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -117,16 +113,9 @@ On 6/29/26 15:11, Brendan Jackman wrote:
 > 
 > No functional change intended.
 > 
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
-> Cc: Namhyung Kim <namhyung@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> Cc: Jiri Olsa <jolsa@kernel.org>
-> Cc: Ian Rogers <irogers@google.com>
-> Cc: Adrian Hunter <adrian.hunter@intel.com>
-> Cc: James Clark <james.clark@linaro.org>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
 > Assisted-by: Gemini:unknown-version
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
@@ -134,33 +123,21 @@ On 6/29/26 15:11, Brendan Jackman wrote:
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
 > ---
->  arch/x86/events/intel/ds.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  arch/x86/kvm/vmx/vmx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
-> index 91a093d8cf2e7..70be80211d823 100644
-> --- a/arch/x86/events/intel/ds.c
-> +++ b/arch/x86/events/intel/ds.c
-> @@ -832,7 +832,7 @@ static void *dsalloc_pages(size_t size, gfp_t flags, int cpu)
->  	int node = cpu_to_node(cpu);
->  	struct page *page;
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index 2325be57d3d75..ad6a7fc6a54da 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -3028,7 +3028,7 @@ struct vmcs *alloc_vmcs_cpu(bool shadow, int cpu, gfp_t flags)
+>  	struct page *pages;
+>  	struct vmcs *vmcs;
 >  
-> -	page = __alloc_pages_node(node, flags | __GFP_ZERO, order);
-> +	page = alloc_pages_node(node, flags | __GFP_ZERO, order);
->  	return page ? page_address(page) : NULL;
->  }
->  
-> @@ -1088,9 +1088,9 @@ void init_arch_pebs_on_cpu(int cpu)
->  
->  	/*
->  	 * 4KB-aligned pointer of the output buffer
-> -	 * (__alloc_pages_node() return page aligned address)
-> +	 * (alloc_pages_node() returns page aligned address)
->  	 * Buffer Size = 4KB * 2^SIZE
-> -	 * contiguous physical buffer (__alloc_pages_node() with order)
-> +	 * contiguous physical buffer (alloc_pages_node() with order)
->  	 */
->  	arch_pebs_base = virt_to_phys(cpuc->pebs_vaddr) | PEBS_BUFFER_SHIFT;
->  	wrmsrq_on_cpu(cpu, MSR_IA32_PEBS_BASE, arch_pebs_base);
+> -	pages = __alloc_pages_node(node, flags, 0);
+> +	pages = alloc_pages_node(node, flags, 0);
+>  	if (!pages)
+>  		return NULL;
+>  	vmcs = page_address(pages);
 > 
 
