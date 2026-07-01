@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C86D27FB3A;
-	Wed,  1 Jul 2026 08:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489CA182D6;
+	Wed,  1 Jul 2026 08:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782894635; cv=none; b=ScEf29g1wf6xb5hpQzNV12F7AobhOYsY0CTQEgzAUbmzDymiv7nf/B2CbcIWL7hIZQQzD6QIdGHzkFtR2HuUUftRSBYqwShDvo4G3ahv9xlUeyrH77Zf9GSxzaCS8GpO/9S2+5rtA/IXV5Kd/3siHLXqzb0w0OGz8f8vh/m9KJc=
+	t=1782894771; cv=none; b=rXSX1Zr/bLRULH7z5GWKsxxPUF5z3qYsVu1khISxcTwXfvOdrBJTtmjsBGZ33ch2oyOLfvgMHwXS0b+fIzstVGPvWkclOdIRNQQIRDCbhWXDPUhH490Hv+VuOoCxgSs3RxN3gAsZmVDOLZCwZ2gVm4wQKWFHyTUDr29sCgnkTXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782894635; c=relaxed/simple;
-	bh=X1SntzRUWI1vX3QgRBImMDlistkGwdd2igOCGFNEafI=;
+	s=arc-20240116; t=1782894771; c=relaxed/simple;
+	bh=k4T0ptpwhSJri+nNHMQSHjuq6ivdec3dCrk2uEFLTf4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Evf3lj3HXhtI/PrZSYzcc6FVSTqwr0PVd43x//DcN91C28FNWgs6vjzeBS3ZR7rJKNV92uXkPi+UzL6sBurwv9MPBa5x3LKoM3TePJKkhS1upQ8d4vrqzlV4Uyc8SF1hn1NRHVk7DET9aHoD2fZnUu3ipsTX8flCKh+n9cFLd9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dorABrzt; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=YKG97HsPWR78Urkw4iZ/vdDondKgeSi8/G1dewVOUCHs4aKUcgTkc6OWa6KUB5EAC27PD7yFma6zip2AGWYmmmpLfmTRar/YxmS7fcrJgTnS4MCTnT0jqd7/msSKS96GZiQpMyD9F8ajbNE6e7S16pLmUVV2GpP3xcMB2+cCDyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=POofgpPt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dorABrzt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30651F000E9;
-	Wed,  1 Jul 2026 08:30:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="POofgpPt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9831F000E9;
+	Wed,  1 Jul 2026 08:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782894633;
-	bh=lVgvcCDMMPbid8Blsv/a2rnfaz/98kjFxJTQJx7CeGE=;
+	s=k20260515; t=1782894769;
+	bh=qnNgn00HPtxGEmPVZmC3ERUTFf2RhZT1SafyHKh1YXY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dorABrztRNSthAwQYoK/PLhlaW0BFqRCgzkL8AL86nRPys35uwyzT8qoP9uRzrtX+
-	 OLLqUjarhIV1U82lkgjA6+lZwa4hPNrRW8VvY2V/NZ9cwqCuXdRRClkng9KWSdY4XS
-	 0bMgfRxEew0j/XqATMnNh9NrTLY6VJvIVMgAVSipyxrQhnPwpslEbQ6lkdHJsIkx1f
-	 fQODn4hfUMYAJzaTcDsDQMSnt8lTiOxi2ohh8WIeOzD2NvUZAPmw2J6oYTVemex3xk
-	 87EyLMuc1gfH/h6V1Jyh/4Jq7NWsdP2RiiwVp6lPTcUM/nzZUyk/yxODBMSwbKefyd
-	 nhtsx0yNohfaw==
-Message-ID: <daaaef83-3536-4e2a-8246-d7c52807a1ae@kernel.org>
-Date: Wed, 1 Jul 2026 10:30:26 +0200
+	b=POofgpPt2nwgcX5HuD4IxNyW9cOA3TuB2pq2AICIA3gIKE/TRguRBoSlwo69Wi2VK
+	 DkFCow35wbmk1trpPJyJJ777stS8E+BCkDI089kcftpnHCtD0/SPGFj6I7+ME8JZSW
+	 A7Yd5uCa5icpRjBVOUlUBKKRu80RLgewO8fxLDtRixro6vUqkk+sySkyBnppi8e05X
+	 91e5sM8lla7yifNTAPqyi6/k+EY4jEQmsrYyYPvAYSzmpXYT2NmD9zQFnBfDXyZVC7
+	 /G78J1U9+6KkDkiV9r6F/0eN3yOOVnZY4OK20rmeZ02pS/+ZNUbGY8grzY2lFLJtaJ
+	 cFycaW0GmqZog==
+Message-ID: <e0ae6be7-4e45-4c4a-9663-a87fb260564a@kernel.org>
+Date: Wed, 1 Jul 2026 10:32:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/16] mm: replace __GFP_NO_CODETAG with
- ALLOC_NO_CODETAG
+Subject: Re: [PATCH v3 16/16] mm: remove the __GFP_NO_OBJ_EXT flag
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -60,7 +59,7 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-16-57bef0eadbc2@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -101,24 +100,65 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260629-alloc-trylock-v3-15-57bef0eadbc2@google.com>
+In-Reply-To: <20260629-alloc-trylock-v3-16-57bef0eadbc2@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 6/29/26 15:12, Brendan Jackman wrote:
-> Now that alloc_pages has an entrypoint that allows passing alloc_flags,
-> we can take advantage of this to start removing GFP flags that are only
-> used for mm-internal stuff.
+> All users of the flag are converted to SLAB_ALLOC_NO_RECURSE or
+> ALLOC_NO_CODETAG (from __GFP_NO_CODETAG which reused the NO_OBJ_EXT bit).
+> Free up the flag bit.
 > 
-> This requires also plumbing the alloc_flags into some more of the
-> allocator code, in particular __alloc_pages[_noprof]() gets an
-> alloc_flags arg to go along with its callees, and we now need to pass
-> those flags deeper into the allocator so they can reach the alloc_tag
-> code.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-broadly LGTM, will wait for the updated version due to Hao Ge's feedback.
+For a correct process, there should be also a matching From:
+
+Thanks!
+Vlastimil
+
+> [Rebased onto __GFP_NO_CODETAG removal]
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+>  tools/include/linux/gfp_types.h | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/tools/include/linux/gfp_types.h b/tools/include/linux/gfp_types.h
+> index 6c75df30a281d..a93b8bd200b76 100644
+> --- a/tools/include/linux/gfp_types.h
+> +++ b/tools/include/linux/gfp_types.h
+> @@ -55,7 +55,6 @@ enum {
+>  #ifdef CONFIG_LOCKDEP
+>  	___GFP_NOLOCKDEP_BIT,
+>  #endif
+> -	___GFP_NO_OBJ_EXT_BIT,
+>  	___GFP_LAST_BIT
+>  };
+>  
+> @@ -96,7 +95,6 @@ enum {
+>  #else
+>  #define ___GFP_NOLOCKDEP	0
+>  #endif
+> -#define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+>  
+>  /*
+>   * Physical address zone modifiers (see linux/mmzone.h - low four bits)
+> @@ -137,17 +135,12 @@ enum {
+>   * node with no fallbacks or placement policy enforcements.
+>   *
+>   * %__GFP_ACCOUNT causes the allocation to be accounted to kmemcg.
+> - *
+> - * %__GFP_NO_OBJ_EXT causes slab allocation to have no object extension.
+> - * mark_obj_codetag_empty() should be called upon freeing for objects allocated
+> - * with this flag to indicate that their NULL tags are expected and normal.
+>   */
+>  #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
+>  #define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+>  #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
+>  #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
+>  #define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
+> -#define __GFP_NO_OBJ_EXT   ((__force gfp_t)___GFP_NO_OBJ_EXT)
+>  
+>  /**
+>   * DOC: Watermark modifiers
+> 
 
