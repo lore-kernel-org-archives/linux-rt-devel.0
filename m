@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3152FD69D;
-	Wed,  1 Jul 2026 07:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2B43BFACF;
+	Wed,  1 Jul 2026 07:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782892368; cv=none; b=bj7b0+HiGpQTK+UFJI17/xG60jwVMUBKeqnzpBWulk2vH5XIhjXGLiczR3cEkjZhXPagwEYhOKY15e9n8Bcs3HQ0ONxMz5YYHwGg3t6JkO3lm6SU7vpwzXCK8O64FcpA9KkOP6cJ5RlAdvnvWxstsqWJzKb3OJzrWQVNp8Vfg4w=
+	t=1782892395; cv=none; b=HUXZcPgHLXmfXbxT4gFvoDbfciGyFIEV7BpTtZ7wRQC1vWuvbk6IHBXjLPy2O4h+NGgiHuMs2DGkqecTXomSWUtXf3oMu8ixB9A26S+XGuoJFLCLxuwgOJ425qPuouZB1Af8ZgfTtDh9QhEzDO8U1cNxWl2S2tMxnxPPY0GhNiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782892368; c=relaxed/simple;
-	bh=fsEv4LkRFFHcqXB0xArqsUvd/0i5ju4xcilzlQqqz8s=;
+	s=arc-20240116; t=1782892395; c=relaxed/simple;
+	bh=mLtHOCXIE/2hHeVXLpgrr7tJGuntm37/jx2J/J4k1FE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qaNyjtWaKX5nljTPEGeFQq7samZYD+XUCdziBu1kzWb7I7WQNm7ynOVhGEq/trtrWM0zltUGHcymILFsPFMcZE0N6UEcA1wBe1GGABoB5iZPaOpnivhWqOM/91pxScmU6XN1inOQgFjpmA1oJkFNW2zyIq5hi1aO2Omo+BNb16Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfkccUaU; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=JgfyEKR+4DbLn0uqwI5LEsytVCB2nJjPNcAiMLU44ud8b9HETWzEwNyWENZ6CeT3i5oorjCaos2dvXVLyVF/0QiZGf5Y0qt+Xo6LWjz3MtbBQYvYtz/JhgRA0d6SSnHzlAhk/pGYnUKsz1JuhGPY7c9Q0qpprxDL3WyFVPDl26U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKWT4qxI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfkccUaU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BC11F000E9;
-	Wed,  1 Jul 2026 07:52:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKWT4qxI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A041D1F000E9;
+	Wed,  1 Jul 2026 07:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782892366;
-	bh=dKbP//8QY/1Wg8mxCuHp5FUFFSyQtjbWDh9zGpFf3So=;
+	s=k20260515; t=1782892392;
+	bh=6ZqOs+Ac3N8fel244wP+HYtt2C1Z8hNbICjemOVEohw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BfkccUaUHNEF3dFaQxfhFNmbE1hneuuMzRIfimnOcg2P32HwBacsPUbASExpHlJdK
-	 Y2vhbA8503NFx5NS+gVisL60jOQEnvfnx1A1ZCgCwFAx+h08h9bsS/asVNTEp+gF9V
-	 TGqLsLO3z1DBRzKYa5VSGlvDFQFCw1Uhbury5toMFY082g6+ddPHXeG4OKCjrj0ni+
-	 n50ynsuZNmW9BZIoMt6QKVzLKSFq+2YugAGjJtKA1C1a4B6eTQnZwUNOMVQRnAhySO
-	 ydNB2WgIzAdA8AyrpNeMXgCFBgvP4H7Y/P+KURSkGz7Pfl/ZVzcyn5eeSGq8eBHu7w
-	 W4fe81xA5hxWw==
-Message-ID: <d7bee578-7f0d-48c3-9eb3-65999476b7f8@kernel.org>
-Date: Wed, 1 Jul 2026 09:52:37 +0200
+	b=ZKWT4qxIbsgyec0zKfgP/6WMd6o+EtZ0asgxpWuiN5zNmmxMmhP9yyJzwLHZNbPN7
+	 aEdftbdQMtuSsvql1aux4zSdV10z5yPewaWYqKevJd0tJCC9xKoB6HUVz+nDKHfbXo
+	 LbtwljbAzOvQaSpSMwoOlnnASzp12brTDj7/0eUeny6kNX6vmAFfvHtSKPLezCSa9s
+	 U+dPJGW5vksj1TTLQqX4j8QnrZ5YKCoVfQK9766ndg0i4hp7gARNYSFBeNgqvQqu7L
+	 8uOe/+3ypdS1y5gTQpZ7P4qM1AJSWbNXueY2cDSf3Zpm7Vt9xiAWXypsqVxS8dy6uO
+	 wnEomIB1bemrg==
+Message-ID: <9ceabeb2-fb48-4ad9-8463-6c7ba16a8644@kernel.org>
+Date: Wed, 1 Jul 2026 09:53:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/16] sgi-xp: Use higher-level allocator API
+Subject: Re: [PATCH v3 12/16] net/funeth: Switch to higher-level allocator API
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -57,11 +57,12 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
  Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Robin Holt <robinmholt@gmail.com>,
- Steve Wahl <steve.wahl@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ linux-rt-devel@lists.linux.dev, Dimitris Michailidis
+ <dmichail@fungible.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 References: <20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com>
- <20260629-alloc-trylock-v3-11-57bef0eadbc2@google.com>
+ <20260629-alloc-trylock-v3-12-57bef0eadbc2@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -102,7 +103,7 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260629-alloc-trylock-v3-11-57bef0eadbc2@google.com>
+In-Reply-To: <20260629-alloc-trylock-v3-12-57bef0eadbc2@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -114,38 +115,34 @@ On 6/29/26 15:12, Brendan Jackman wrote:
 > 
 > No functional change intended.
 > 
-> Cc: Robin Holt <robinmholt@gmail.com>
-> Cc: Steve Wahl <steve.wahl@hpe.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Assisted-by: Gemini:unknown-model
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Dimitris Michailidis <dmichail@fungible.com>
+> Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Assisted-by: Gemini:unknown-version
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Nit:
-
 > ---
->  drivers/misc/sgi-xp/xpc_uv.c | 2 +-
+>  drivers/net/ethernet/fungible/funeth/funeth_rx.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/misc/sgi-xp/xpc_uv.c b/drivers/misc/sgi-xp/xpc_uv.c
-> index 772c787268932..aacff70204241 100644
-> --- a/drivers/misc/sgi-xp/xpc_uv.c
-> +++ b/drivers/misc/sgi-xp/xpc_uv.c
-> @@ -170,7 +170,7 @@ xpc_create_gru_mq_uv(unsigned int mq_size, int cpu, char *irq_name,
->  	mq->mmr_blade = uv_cpu_to_blade_id(cpu);
+> diff --git a/drivers/net/ethernet/fungible/funeth/funeth_rx.c b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+> index 7e2584895de39..d7000017ac2bd 100644
+> --- a/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+> +++ b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+> @@ -103,7 +103,7 @@ static int funeth_alloc_page(struct funeth_rxq *q, struct funeth_rxbuf *rb,
+>  	if (cache_get(q, rb))
+>  		return 0;
 >  
->  	nid = cpu_to_node(cpu);
-> -	page = __alloc_pages_node(nid,
-> +	page = alloc_pages_node(nid,
->  				      GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
->  				      pg_order);
-
-gfp flags can now fit on the line above?
-
->  	if (page == NULL) {
+> -	p = __alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
+> +	p = alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
+>  	if (unlikely(!p))
+>  		return -ENOMEM;
+>  
 > 
 
