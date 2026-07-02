@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAD54C8FE6
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57994CA29B
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985796; cv=none; b=YITTR5gFuEfDXFrdz/ooGITJbsOJvwHLiNDhJif1SavhNBy7q/lf+quIDFZpw6OJY5zHa6bwpuV3fz5GZayZL15Lz8RQzQ6GQuJJoKTDMNzql7TQlxxMc99EBK2Y4Agx4hSijXxjtGsQVClpRsYhmYqovVnGTIi9kjBM1SBSyHk=
+	t=1782985797; cv=none; b=O0/aHmrbd5t/ZdTZa8SvfuxdPw63EzYF1zyhElUlv5Cxv3QUR1wW/sbR4+QEkZtcyZkRXkEKhrziuq1hXLv0iuUc4sOJDa6ik9v/EeVPZZpEebKvLwno9e9FwJY/3wVnBlAr+nb0tWCgdXS9F7J6se4eSslBbxDE1FI6PtJWyWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985796; c=relaxed/simple;
-	bh=aOGV9GMfr7f4NgfT5hp3ovQNdLzDNxgO/RFsUskqI70=;
+	s=arc-20240116; t=1782985797; c=relaxed/simple;
+	bh=4CcV9S+7kuMXKRbaT0l0CUyI6ruGQzJr+S2uBlbT2qE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=M2BXkZF9fM6J0RhE3U9EkCFnamoZT1khUrDXPX8/1kFz6OR8jkx2Wap5uj7NOeMzpVOcQ6t8P5Ec6gWGXt1zXwvuypOgwjiMppmk/+LVo94SUkZcsBaaX5HoJrTdVwN6iX1gUeqAcLio70rz70aQkEu+WlfroVd990o61Qb4Vbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sIbWfXw1; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=OanvYyXgsssmutZPMqEosmuc8qZegDq2VHXeF+Zf0NhaVMcqN4IPUvU9gGcVLGubj3e5+wkqXHqSlL9zAGqhYH5WUZqYZyZQ7na+7zopJ/1rIX5EjtLOO/J7wUmHy/jcLltJBp2gytGi/9OpNUcFissyBaaMtFAsKrp6cz9UEQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fs+ox6pk; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sIbWfXw1"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-493a6fe9ebdso10151985e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:49:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fs+ox6pk"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-49260d6eaadso10542655e9.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985792; x=1783590592; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782985793; x=1783590593; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EplbT2QgxhbecroqVlzAoyZ5CImVJD0X33YB9uh4o8k=;
-        b=sIbWfXw1hzhT9kHkW6zX674QQsS6icnyN6uCSlscpW3Hq3/y6jCpVdvizFO9ESYgKJ
-         +HSZOOVLFl4dnqRle5cZRtccQ4+eJEUiqpiqP6NSw4ll5i5afnvmB1oM8B+jF5qRU3wJ
-         MJpFyliwSvLwBUBuF4gvWV+8oVGwG/l8QymVY2M8osaDR6X+lUaSnGK1VSbwVDk/dAkq
-         4BtzvWYvZfB9v8P2pezefOCSP3xtdCkNvINEvvT43y2NMEF65SxBxIz6x3aimngpLRkJ
-         cdgJ89Y4vMPTZTsUkYOUFMrWG4hUK/mzgy4cLRyX1grXJKVteanlrvfsMBESNzxEswY+
-         5iDg==
+        bh=ADcewZyixWTdyfU9uLy7dyeJdD1DEL1TS6a2zMf8qKA=;
+        b=Fs+ox6pkWzlHIha7/u7Xhxrn63Jg/yG3sgI6ZTdV3He90BaseKLxsz8tHlUzHHY7qk
+         9hWwjym0yRLre8wxK/wksYGCgLFZEnxslylNn1MQ84BqqvNEpwDv+fEskr6gPT6ivHeq
+         a0fx2lnapfiica7MQLU3hkDl2sQemVhDd9uKKHHtaxoOxWXdMG8LgSF1JHyz9zLh+hmw
+         82AEfTov5agH0TNpALbh/xoVuGcFxjGQNqYXaFnhQYzJkg73JgqNMAvjdRLEoREAj1y1
+         K5y2yZdELQSH6dn9Ct55n2Eje4yGlQMH95j2dOJyBEgNJJsDeJtw5aAz4jud8iyUlvE6
+         w3fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985792; x=1783590592;
+        d=1e100.net; s=20251104; t=1782985793; x=1783590593;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EplbT2QgxhbecroqVlzAoyZ5CImVJD0X33YB9uh4o8k=;
-        b=bcH/RkpPrQMRcWafUig8nr/JLkbP1jB8Osn5mHbuh5pDqeFh3a+2K0PZDzfDyJzhOt
-         OXDnNtq6iMQrM2mm+xIX0Ob1QZO2fTtpSqBPH1Sti0U8HRTmo3DkytXXPjEcKvzgkF16
-         FZcVF3lio8E3XiQPC9ay04VBUqLISHTLo5ocqokkCu7n/6v2i8mB1Xyt6Z9Nm7ZkooSr
-         rMH48dTA2/EijDDcYvdORnrjG8r5NpbrTUz7c+WAPHfyF1iVoXVTbzXQsHG9kuQWESA7
-         SbH0GMT1txgA3pIdCXGquzYH6oxduXUodUyYuF3pzK5jXuChaMWJbVi5JVxGC1p9APvc
-         cU6g==
-X-Forwarded-Encrypted: i=1; AFNElJ/PKhN0d6zwC+vqRtNwHs1626qPdGmH4yUcs14i4I5AxdSatVZjDvxwvKt9ZSWSQF03suXavmFxKfNDoY1/5w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yztv50km8J3K9gjS5WR9JyVCf1pw62owEzAIJIWB7a4+c62ej2W
-	XSGi2qbvrlnccPC4LNADDUjWoYh6DdBGWMh5rODUs8Cfxnv0OuXBOV5yb4hmsp/Zgep4yn5JAD6
-	MYDJTW+2uBC4RBQ==
-X-Received: from wraj1.prod.google.com ([2002:a5d:4521:0:b0:461:9f1c:eb96])
+        bh=ADcewZyixWTdyfU9uLy7dyeJdD1DEL1TS6a2zMf8qKA=;
+        b=bhHxMsm2KApvHIrEuuHRdIjicyjwqPTasWPIg2IWmyaF3Y6wRUy/X3Kq1AVC9yK7P5
+         w2g9H+7QSxKWMYy0eyovFhnnKIvmemrau8kIy8JfdqQNpjVQ0lBmRMLKNWM3vqdsHPW1
+         ktPFamqVMybwWORpUGrgRJRunv043imrPtOq67ha4OuAjEiZoBnDVKIYQNGppV7ZPVt+
+         e65u+MB/ZE/KJQj1wku95TUwTidmtdwfbqhrGd97EkHj6dcQEQb3NO1z82W8nt7fPB5G
+         x0Ii9WaT9KkKwPfPSFnnk5dGmAK1r8o5574S2ldSm2oTy/2J15Uv4/134aT5GZPuJGQZ
+         ocAw==
+X-Forwarded-Encrypted: i=1; AFNElJ8WV8FwprxeFOSvkXRyvgQO9xXFZdXQugnYK+kJR8MOdDoUZPBseTNJYwHepLPo8L6VZ7n2dAubgM0EqAhMZA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+GIwUCwMvPRGyraFmZJwA/P/jsoG4AMg7g68vsAbMo8z0SQ2l
+	eUSM+kJQiSeBDtHqLn0HNDYbpskA9x+TPhPti8Trst0/R7RPoXcCSOjAC/8UV1vvXm9HJ5gziSc
+	crKp8wdDn0YKD/g==
+X-Received: from wrsi11.prod.google.com ([2002:adf:fdcb:0:b0:45e:e5ab:ec50])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:4452:20b0:493:b2e8:6378 with SMTP id 5b1f17b1804b1-493c2b38e9emr55970535e9.4.1782985791807;
- Thu, 02 Jul 2026 02:49:51 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:35 +0000
+ 2002:a05:600c:1f84:b0:492:63c3:8eeb with SMTP id 5b1f17b1804b1-493c2ba53e4mr73334915e9.35.1782985793065;
+ Thu, 02 Jul 2026 02:49:53 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:36 +0000
 In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-4-0af8ff387e80@google.com>
-Subject: [PATCH v4 04/18] mm: Split out internal page_alloc.h
+Message-ID: <20260702-alloc-trylock-v4-5-0af8ff387e80@google.com>
+Subject: [PATCH v4 05/18] mm/page_alloc: unify __alloc_frozen_pages[_nolock]_noprof()
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -81,855 +81,411 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-internal.h is a bit bloated, seems like time for a page_alloc.h.
+Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
+main entry point function is significantly different from the normal
+__alloc_frozen_pages_nolock(), this is tiring when reading the code.
 
-Where it wasn't obvious, the heuristic for deciding what goes into this
-new header was "does it support/correspond to a definition in
-mm/page_alloc.c?"
+Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
+an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
+exposed to mm/) and then turn the nolock variant into a thin wrapper
+that just sets that flag (as well as handling NUMA_NO_NODE, similar to
+how some of the wrappers in gfp.h do).
 
-Only need to include it from ~20 .c files out of ~150 so this does seem
-like a genuine reduction in scopes, which is nice. And there's no
-circular internal.h<->page_alloc.h dependency, so it seems worthwhile to
-split this up before that inevitably emerges!
+For consistency, set ALLOC_WMARK_MIN explicitly in fastpath_alloc_flags
+for the new ALLOC_NOLOCK path. This was already "done" silently in
+__alloc_frozen_pages_nolock_noprof(): ALLOC_WMARK_MIN is 0.
 
-Suggested-by: "David Hildenbrand (Arm)" <david@kernel.org>
-Link: https://lore.kernel.org/all/41e92bab-6882-401a-8de9-154adbdcfb36@kernel.org/
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Rationale that this doesn't change anything:
+
+1. Simple bits: A bunch of the nolock-specific handling is just moved to
+   the new alloc_order_allowed(), alloc_nolock_allowed() and
+   gfp_nolock.
+
+2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
+   previously in the nolock variant:
+
+   a. Application of gfp_allowed_mask; this only affects early boot,
+      only flags that affect the slowpath get changed here, and the
+      nolock allocation path isn't allowed to the GFP_BOOT_MASK flags.
+
+   b. Application of current_gfp_context() - also only affects the
+      slowpath
+
+3. The slowpath itself: this is now just explicitly skipped under
+   !ALLOC_TRYLOCK.
+
+Ulterior motive: adding an alloc_flags arg to the allocator's
+mm-internal entrypoint can later be used to do more allocation
+customisation without needing to create new GFP flags.
+
+No functional change intended.
+
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- MAINTAINERS          |   1 +
- mm/compaction.c      |   1 +
- mm/hugetlb.c         |   1 +
- mm/internal.h        | 252 -----------------------------------------------
- mm/khugepaged.c      |   1 +
- mm/kmsan/init.c      |   2 +-
- mm/memory-failure.c  |   1 +
- mm/memory_hotplug.c  |   1 +
- mm/mempolicy.c       |   1 +
- mm/migrate.c         |   1 +
- mm/mm_init.c         |   1 +
- mm/page_alloc.c      |   1 +
- mm/page_alloc.h      | 269 +++++++++++++++++++++++++++++++++++++++++++++++++++
- mm/page_frag_cache.c |   2 +-
- mm/page_isolation.c  |   1 +
- mm/page_owner.c      |   2 +-
- mm/page_reporting.c  |   1 +
- mm/show_mem.c        |   1 +
- mm/shuffle.c         |   1 +
- mm/slub.c            |   1 +
- mm/swap.c            |   1 +
- mm/vmscan.c          |   1 +
- 22 files changed, 289 insertions(+), 255 deletions(-)
+ mm/hugetlb.c    |   3 +-
+ mm/mempolicy.c  |  10 +--
+ mm/page_alloc.c | 192 +++++++++++++++++++++++++++++---------------------------
+ mm/page_alloc.h |   6 +-
+ mm/slub.c       |   6 +-
+ 5 files changed, 117 insertions(+), 100 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2acb019516eb7..4852e069f4381 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17171,6 +17171,7 @@ F:	mm/debug_page_alloc.c
- F:	mm/debug_page_ref.c
- F:	mm/fail_page_alloc.c
- F:	mm/page_alloc.c
-+F:	mm/page_alloc.h
- F:	mm/page_ext.c
- F:	mm/page_frag_cache.c
- F:	mm/page_isolation.c
-diff --git a/mm/compaction.c b/mm/compaction.c
-index f08765ade014c..7d80735502d9a 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -24,6 +24,7 @@
- #include <linux/page_owner.h>
- #include <linux/psi.h>
- #include <linux/cpuset.h>
-+#include "page_alloc.h"
- #include "internal.h"
- 
- #ifdef CONFIG_COMPACTION
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 231de5012eba8..1d6203912d896 100644
+index 1d6203912d896..076036bd3dcdb 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -47,6 +47,7 @@
- #include <linux/node.h>
- #include <linux/page_owner.h>
- #include "internal.h"
-+#include "page_alloc.h"
- #include "hugetlb_vmemmap.h"
- #include "hugetlb_cma.h"
- #include "hugetlb_internal.h"
-diff --git a/mm/internal.h b/mm/internal.h
-index 1e252678bbc91..7e3b2386e274b 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -658,165 +658,6 @@ extern int defrag_mode;
- void setup_per_zone_wmarks(void);
- void calculate_min_free_kbytes(void);
- int __meminit init_per_zone_wmark_min(void);
--void page_alloc_sysctl_init(void);
--
--/*
-- * Structure for holding the mostly immutable allocation parameters passed
-- * between functions involved in allocations, including the alloc_pages*
-- * family of functions.
-- *
-- * nodemask, migratetype and highest_zoneidx are initialized only once in
-- * __alloc_pages() and then never change.
-- *
-- * zonelist, preferred_zone and highest_zoneidx are set first in
-- * __alloc_pages() for the fast path, and might be later changed
-- * in __alloc_pages_slowpath(). All other functions pass the whole structure
-- * by a const pointer.
-- */
--struct alloc_context {
--	struct zonelist *zonelist;
--	const nodemask_t *nodemask;
--	struct zoneref *preferred_zoneref;
--	int migratetype;
--
--	/*
--	 * highest_zoneidx represents highest usable zone index of
--	 * the allocation request. Due to the nature of the zone,
--	 * memory on lower zone than the highest_zoneidx will be
--	 * protected by lowmem_reserve[highest_zoneidx].
--	 *
--	 * highest_zoneidx is also used by reclaim/compaction to limit
--	 * the target zone since higher zone than this index cannot be
--	 * usable for this allocation request.
--	 */
--	enum zone_type highest_zoneidx;
--	bool spread_dirty_pages;
--};
--
--/*
-- * This function returns the order of a free page in the buddy system. In
-- * general, page_zone(page)->lock must be held by the caller to prevent the
-- * page from being allocated in parallel and returning garbage as the order.
-- * If a caller does not hold page_zone(page)->lock, it must guarantee that the
-- * page cannot be allocated or merged in parallel. Alternatively, it must
-- * handle invalid values gracefully, and use buddy_order_unsafe() below.
-- */
--static inline unsigned int buddy_order(struct page *page)
--{
--	/* PageBuddy() must be checked by the caller */
--	return page_private(page);
--}
--
--/*
-- * Like buddy_order(), but for callers who cannot afford to hold the zone lock.
-- * PageBuddy() should be checked first by the caller to minimize race window,
-- * and invalid values must be handled gracefully.
-- *
-- * READ_ONCE is used so that if the caller assigns the result into a local
-- * variable and e.g. tests it for valid range before using, the compiler cannot
-- * decide to remove the variable and inline the page_private(page) multiple
-- * times, potentially observing different values in the tests and the actual
-- * use of the result.
-- */
--#define buddy_order_unsafe(page)	READ_ONCE(page_private(page))
--
--/*
-- * This function checks whether a page is free && is the buddy
-- * we can coalesce a page and its buddy if
-- * (a) the buddy is not in a hole (check before calling!) &&
-- * (b) the buddy is in the buddy system &&
-- * (c) a page and its buddy have the same order &&
-- * (d) a page and its buddy are in the same zone.
-- *
-- * For recording whether a page is in the buddy system, we set PageBuddy.
-- * Setting, clearing, and testing PageBuddy is serialized by zone->lock.
-- *
-- * For recording page's order, we use page_private(page).
-- */
--static inline bool page_is_buddy(struct page *page, struct page *buddy,
--				 unsigned int order)
--{
--	if (!page_is_guard(buddy) && !PageBuddy(buddy))
--		return false;
--
--	if (buddy_order(buddy) != order)
--		return false;
--
--	/*
--	 * zone check is done late to avoid uselessly calculating
--	 * zone/node ids for pages that could never merge.
--	 */
--	if (page_zone_id(page) != page_zone_id(buddy))
--		return false;
--
--	VM_BUG_ON_PAGE(page_count(buddy) != 0, buddy);
--
--	return true;
--}
--
--/*
-- * Locate the struct page for both the matching buddy in our
-- * pair (buddy1) and the combined O(n+1) page they form (page).
-- *
-- * 1) Any buddy B1 will have an order O twin B2 which satisfies
-- * the following equation:
-- *     B2 = B1 ^ (1 << O)
-- * For example, if the starting buddy (buddy2) is #8 its order
-- * 1 buddy is #10:
-- *     B2 = 8 ^ (1 << 1) = 8 ^ 2 = 10
-- *
-- * 2) Any buddy B will have an order O+1 parent P which
-- * satisfies the following equation:
-- *     P = B & ~(1 << O)
-- *
-- * Assumption: *_mem_map is contiguous at least up to MAX_PAGE_ORDER
-- */
--static inline unsigned long
--__find_buddy_pfn(unsigned long page_pfn, unsigned int order)
--{
--	return page_pfn ^ (1 << order);
--}
--
--/*
-- * Find the buddy of @page and validate it.
-- * @page: The input page
-- * @pfn: The pfn of the page, it saves a call to page_to_pfn() when the
-- *       function is used in the performance-critical __free_one_page().
-- * @order: The order of the page
-- * @buddy_pfn: The output pointer to the buddy pfn, it also saves a call to
-- *             page_to_pfn().
-- *
-- * The found buddy can be a non PageBuddy, out of @page's zone, or its order is
-- * not the same as @page. The validation is necessary before use it.
-- *
-- * Return: the found buddy page or NULL if not found.
-- */
--static inline struct page *find_buddy_page_pfn(struct page *page,
--			unsigned long pfn, unsigned int order, unsigned long *buddy_pfn)
--{
--	unsigned long __buddy_pfn = __find_buddy_pfn(pfn, order);
--	struct page *buddy;
--
--	buddy = page + (__buddy_pfn - pfn);
--	if (buddy_pfn)
--		*buddy_pfn = __buddy_pfn;
--
--	if (page_is_buddy(page, buddy, order))
--		return buddy;
--	return NULL;
--}
--
--extern struct page *__pageblock_pfn_to_page(unsigned long start_pfn,
--				unsigned long end_pfn, struct zone *zone);
--
--static inline struct page *pageblock_pfn_to_page(unsigned long start_pfn,
--				unsigned long end_pfn, struct zone *zone)
--{
--	if (zone->contiguous)
--		return pfn_to_page(start_pfn);
--
--	return __pageblock_pfn_to_page(start_pfn, end_pfn, zone);
--}
+@@ -1806,7 +1806,8 @@ static struct folio *alloc_buddy_frozen_folio(int order, gfp_t gfp_mask,
+ 	if (alloc_try_hard)
+ 		gfp_mask |= __GFP_RETRY_MAYFAIL;
  
- void set_zone_contiguous(struct zone *zone);
- bool pfn_range_intersects_zones(int nid, unsigned long start_pfn,
-@@ -831,8 +672,6 @@ extern int __isolate_free_page(struct page *page, unsigned int order);
- extern void __putback_isolated_page(struct page *page, unsigned int order,
- 				    int mt);
- extern void memblock_free_pages(unsigned long pfn, unsigned int order);
--extern void __free_pages_core(struct page *page, unsigned int order,
--		enum meminit_context context);
+-	folio = (struct folio *)__alloc_frozen_pages(gfp_mask, order, nid, nmask);
++	folio = (struct folio *)__alloc_frozen_pages(gfp_mask, order, nid, nmask,
++						     ALLOC_DEFAULT);
  
- /*
-  * This will have no effect, other than possibly generating a warning, if the
-@@ -914,40 +753,6 @@ static inline void init_compound_tail(struct page *tail,
- 	prep_compound_tail(tail, head, order);
- }
- 
--void post_alloc_hook(struct page *page, unsigned int order, gfp_t gfp_flags);
--extern bool free_pages_prepare(struct page *page, unsigned int order);
--
--extern int user_min_free_kbytes;
--
--struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
--		nodemask_t *nodemask);
--#define __alloc_frozen_pages(...) \
--	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
--void free_frozen_pages(struct page *page, unsigned int order);
--void free_unref_folios(struct folio_batch *fbatch);
--
--#ifdef CONFIG_NUMA
--struct page *alloc_frozen_pages_noprof(gfp_t, unsigned int order);
--#else
--static inline struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order)
--{
--	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL);
--}
--#endif
--
--#define alloc_frozen_pages(...) \
--	alloc_hooks(alloc_frozen_pages_noprof(__VA_ARGS__))
--
--struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned int order);
--#define alloc_frozen_pages_nolock(...) \
--	alloc_hooks(alloc_frozen_pages_nolock_noprof(__VA_ARGS__))
--void free_frozen_pages_nolock(struct page *page, unsigned int order);
--
--extern void zone_pcp_reset(struct zone *zone);
--extern void zone_pcp_disable(struct zone *zone);
--extern void zone_pcp_enable(struct zone *zone);
--extern void zone_pcp_init(struct zone *zone);
--
- extern void *memmap_alloc(phys_addr_t size, phys_addr_t align,
- 			  phys_addr_t min_addr,
- 			  int nid, bool exact_nid);
-@@ -1101,23 +906,6 @@ static inline void init_cma_pageblock(struct page *page)
- }
- #endif
- 
--enum fallback_result {
--	/* Found suitable migratetype, *mt_out is valid. */
--	FALLBACK_FOUND,
--	/* No fallback found in requested order. */
--	FALLBACK_EMPTY,
--	/* Passed @claimable, but claiming whole block is a bad idea. */
--	FALLBACK_NOCLAIM,
--};
--enum fallback_result
--find_suitable_fallback(struct free_area *area, unsigned int order,
--		       int migratetype, bool claimable, int *mt_out);
--
--static inline bool free_area_empty(struct free_area *area, int migratetype)
--{
--	return list_empty(&area->free_list[migratetype]);
--}
--
- /* mm/util.c */
- struct anon_vma *folio_anon_vma(const struct folio *folio);
- 
-@@ -1445,46 +1233,6 @@ extern unsigned long  __must_check vm_mmap_pgoff(struct file *, unsigned long,
- unsigned long reclaim_pages(struct list_head *folio_list);
- unsigned int reclaim_clean_pages_from_list(struct zone *zone,
- 					    struct list_head *folio_list);
--/* The ALLOC_WMARK bits are used as an index to zone->watermark */
--#define ALLOC_WMARK_MIN		WMARK_MIN
--#define ALLOC_WMARK_LOW		WMARK_LOW
--#define ALLOC_WMARK_HIGH	WMARK_HIGH
--#define ALLOC_NO_WATERMARKS	0x04 /* don't check watermarks at all */
--
--/* Mask to get the watermark bits */
--#define ALLOC_WMARK_MASK	(ALLOC_NO_WATERMARKS-1)
--
--/*
-- * Only MMU archs have async oom victim reclaim - aka oom_reaper so we
-- * cannot assume a reduced access to memory reserves is sufficient for
-- * !MMU
-- */
--#ifdef CONFIG_MMU
--#define ALLOC_OOM		0x08
--#else
--#define ALLOC_OOM		ALLOC_NO_WATERMARKS
--#endif
--
--#define ALLOC_NON_BLOCK		 0x10 /* Caller cannot block. Allow access
--				       * to 25% of the min watermark or
--				       * 62.5% if __GFP_HIGH is set.
--				       */
--#define ALLOC_MIN_RESERVE	 0x20 /* __GFP_HIGH set. Allow access to 50%
--				       * of the min watermark.
--				       */
--#define ALLOC_CPUSET		 0x40 /* check for correct cpuset */
--#define ALLOC_CMA		 0x80 /* allow allocations from CMA areas */
--#ifdef CONFIG_ZONE_DMA32
--#define ALLOC_NOFRAGMENT	0x100 /* avoid mixing pageblock types */
--#else
--#define ALLOC_NOFRAGMENT	  0x0
--#endif
--#define ALLOC_HIGHATOMIC	0x200 /* Allows access to MIGRATE_HIGHATOMIC */
--#define ALLOC_NOLOCK		0x400 /* Only use spin_trylock in allocation path */
--#define ALLOC_KSWAPD		0x800 /* allow waking of kswapd, __GFP_KSWAPD_RECLAIM set */
--
--/* Flags that allow allocations below the min watermark. */
--#define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
- 
- enum ttu_flags;
- struct tlbflush_unmap_batch;
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 617bca76db49b..58e14d1543ecb 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -26,6 +26,7 @@
- 
- #include <asm/tlb.h>
- #include "internal.h"
-+#include "page_alloc.h"
- #include "mm_slot.h"
- 
- enum scan_result {
-diff --git a/mm/kmsan/init.c b/mm/kmsan/init.c
-index b14ce3417e65e..4983b6e9f7c99 100644
---- a/mm/kmsan/init.c
-+++ b/mm/kmsan/init.c
-@@ -13,7 +13,7 @@
- #include <linux/mm.h>
- #include <linux/memblock.h>
- 
--#include "../internal.h"
-+#include "../page_alloc.h"
- 
- #define NUM_FUTURE_RANGES 128
- struct start_end_pair {
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 4916ab1453257..bf717ec595087 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -66,6 +66,7 @@
- #include <trace/events/memory-failure.h>
- 
- #include "swap.h"
-+#include "page_alloc.h"
- #include "internal.h"
- 
- static int sysctl_memory_failure_early_kill __read_mostly;
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 8b137328dcf01..11ab2f7bc7f3b 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -40,6 +40,7 @@
- #include <asm/tlbflush.h>
- 
- #include "internal.h"
-+#include "page_alloc.h"
- #include "shuffle.h"
- 
- enum {
+ 	/*
+ 	 * If we did not specify __GFP_RETRY_MAYFAIL, but still got a
 diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index bba65898aee17..948264407dee3 100644
+index 948264407dee3..914f81863db5a 100644
 --- a/mm/mempolicy.c
 +++ b/mm/mempolicy.c
-@@ -119,6 +119,7 @@
- #include <linux/memory.h>
+@@ -2417,9 +2417,11 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+ 	 */
+ 	preferred_gfp = gfp | __GFP_NOWARN;
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+-	page = __alloc_frozen_pages_noprof(preferred_gfp, order, nid, nodemask);
++	page = __alloc_frozen_pages_noprof(preferred_gfp, order, nid, nodemask,
++					   ALLOC_DEFAULT);
+ 	if (!page)
+-		page = __alloc_frozen_pages_noprof(gfp, order, nid, NULL);
++		page = __alloc_frozen_pages_noprof(gfp, order, nid, NULL,
++						   ALLOC_DEFAULT);
  
- #include "internal.h"
-+#include "page_alloc.h"
+ 	return page;
+ }
+@@ -2467,7 +2469,7 @@ static struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+ 			 */
+ 			page = __alloc_frozen_pages_noprof(
+ 				gfp | __GFP_THISNODE | __GFP_NORETRY, order,
+-				nid, NULL);
++				nid, NULL, ALLOC_DEFAULT);
+ 			if (page || !(gfp & __GFP_DIRECT_RECLAIM))
+ 				return page;
+ 			/*
+@@ -2479,7 +2481,7 @@ static struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+ 		}
+ 	}
  
- /* Internal flags */
- #define MPOL_MF_DISCONTIG_OK (MPOL_MF_INTERNAL << 0)	/* Skip checks for continuous vmas */
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 7301e424f8d81..b24f900b06c84 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -49,6 +49,7 @@
- #include <trace/events/migrate.h>
+-	page = __alloc_frozen_pages_noprof(gfp, order, nid, nodemask);
++	page = __alloc_frozen_pages_noprof(gfp, order, nid, nodemask, ALLOC_DEFAULT);
  
- #include "internal.h"
-+#include "page_alloc.h"
- #include "swap.h"
- 
- static const struct movable_operations *offline_movable_ops;
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index b7ff4d6f397bd..86b5243692c39 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -33,6 +33,7 @@
- #include <linux/kexec_handover.h>
- #include <linux/hugetlb.h>
- #include "internal.h"
-+#include "page_alloc.h"
- #include "slab.h"
- #include "shuffle.h"
- 
+ 	if (unlikely(pol->mode == MPOL_INTERLEAVE ||
+ 		     pol->mode == MPOL_WEIGHTED_INTERLEAVE) && page) {
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index df1345cde301f..85cee8a0031f2 100644
+index 85cee8a0031f2..f47a848555077 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -56,6 +56,7 @@
- #include <linux/pgalloc_tag.h>
- #include <asm/div64.h>
- #include "internal.h"
-+#include "page_alloc.h"
- #include "shuffle.h"
- #include "page_reporting.h"
+@@ -5222,7 +5222,7 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
+ 		}
+ 		nr_account++;
  
-diff --git a/mm/page_alloc.h b/mm/page_alloc.h
-new file mode 100644
-index 0000000000000..3250d44f96457
---- /dev/null
-+++ b/mm/page_alloc.h
-@@ -0,0 +1,269 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * mm-internal API for the page (buddy) allocator. Public API lives in
-+ * include/linux/gfp.h.
-+ */
-+#ifndef __MM_PAGE_ALLOC_H
-+#define __MM_PAGE_ALLOC_H
-+
-+#include <linux/mm.h>
-+#include <linux/mmzone.h>
-+#include <linux/nodemask.h>
-+#include <linux/types.h>
-+
-+/* The ALLOC_WMARK bits are used as an index to zone->watermark */
-+#define ALLOC_WMARK_MIN		WMARK_MIN
-+#define ALLOC_WMARK_LOW		WMARK_LOW
-+#define ALLOC_WMARK_HIGH	WMARK_HIGH
-+#define ALLOC_NO_WATERMARKS	0x04 /* don't check watermarks at all */
-+
-+/* Mask to get the watermark bits */
-+#define ALLOC_WMARK_MASK	(ALLOC_NO_WATERMARKS-1)
-+
-+/*
-+ * Only MMU archs have async oom victim reclaim - aka oom_reaper so we
-+ * cannot assume a reduced access to memory reserves is sufficient for
-+ * !MMU
-+ */
-+#ifdef CONFIG_MMU
-+#define ALLOC_OOM		0x08
-+#else
-+#define ALLOC_OOM		ALLOC_NO_WATERMARKS
-+#endif
-+
-+#define ALLOC_NON_BLOCK		 0x10 /* Caller cannot block. Allow access
-+				       * to 25% of the min watermark or
-+				       * 62.5% if __GFP_HIGH is set.
-+				       */
-+#define ALLOC_MIN_RESERVE	 0x20 /* __GFP_HIGH set. Allow access to 50%
-+				       * of the min watermark.
-+				       */
-+#define ALLOC_CPUSET		 0x40 /* check for correct cpuset */
-+#define ALLOC_CMA		 0x80 /* allow allocations from CMA areas */
-+#ifdef CONFIG_ZONE_DMA32
-+#define ALLOC_NOFRAGMENT	0x100 /* avoid mixing pageblock types */
-+#else
-+#define ALLOC_NOFRAGMENT	  0x0
-+#endif
-+#define ALLOC_HIGHATOMIC	0x200 /* Allows access to MIGRATE_HIGHATOMIC */
-+#define ALLOC_NOLOCK		0x400 /* Only use spin_trylock in allocation path */
-+#define ALLOC_KSWAPD		0x800 /* allow waking of kswapd, __GFP_KSWAPD_RECLAIM set */
-+
-+/* Flags that allow allocations below the min watermark. */
-+#define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
-+
-+/*
-+ * Structure for holding the mostly immutable allocation parameters passed
-+ * between functions involved in allocations, including the alloc_pages*
-+ * family of functions.
-+ *
-+ * nodemask, migratetype and highest_zoneidx are initialized only once in
-+ * __alloc_pages() and then never change.
-+ *
-+ * zonelist, preferred_zone and highest_zoneidx are set first in
-+ * __alloc_pages() for the fast path, and might be later changed
-+ * in __alloc_pages_slowpath(). All other functions pass the whole structure
-+ * by a const pointer.
-+ */
-+struct alloc_context {
-+	struct zonelist *zonelist;
-+	const nodemask_t *nodemask;
-+	struct zoneref *preferred_zoneref;
-+	int migratetype;
-+
-+	/*
-+	 * highest_zoneidx represents highest usable zone index of
-+	 * the allocation request. Due to the nature of the zone,
-+	 * memory on lower zone than the highest_zoneidx will be
-+	 * protected by lowmem_reserve[highest_zoneidx].
-+	 *
-+	 * highest_zoneidx is also used by reclaim/compaction to limit
-+	 * the target zone since higher zone than this index cannot be
-+	 * usable for this allocation request.
-+	 */
-+	enum zone_type highest_zoneidx;
-+	bool spread_dirty_pages;
-+};
-+
-+/*
-+ * This function returns the order of a free page in the buddy system. In
-+ * general, page_zone(page)->lock must be held by the caller to prevent the
-+ * page from being allocated in parallel and returning garbage as the order.
-+ * If a caller does not hold page_zone(page)->lock, it must guarantee that the
-+ * page cannot be allocated or merged in parallel. Alternatively, it must
-+ * handle invalid values gracefully, and use buddy_order_unsafe() below.
-+ */
-+static inline unsigned int buddy_order(struct page *page)
-+{
-+	/* PageBuddy() must be checked by the caller */
-+	return page_private(page);
+-		prep_new_page(page, 0, gfp, 0);
++		prep_new_page(page, 0, gfp, ALLOC_DEFAULT);
+ 		set_page_refcounted(page);
+ 		page_array[nr_populated++] = page;
+ 	}
+@@ -5271,24 +5271,99 @@ void free_pages_bulk(struct page **page_array, unsigned long nr_pages)
+ 	}
+ }
+ 
+-/*
+- * This is the 'heart' of the zoned buddy allocator.
+- */
+-struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+-		int preferred_nid, nodemask_t *nodemask)
++static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
++				       unsigned int alloc_flags)
+ {
+-	struct page *page;
+-	unsigned int fastpath_alloc_flags = ALLOC_WMARK_LOW;
+-	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+-	struct alloc_context ac = { };
++	if (alloc_flags & ALLOC_NOLOCK)
++		return pcp_allowed_order(order);
+ 
+ 	/*
+ 	 * There are several places where we assume that the order value is sane
+ 	 * so bail out early if the request is out of bound.
+ 	 */
+-	if (WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp))
++	return !(WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp));
 +}
 +
-+/*
-+ * Like buddy_order(), but for callers who cannot afford to hold the zone lock.
-+ * PageBuddy() should be checked first by the caller to minimize race window,
-+ * and invalid values must be handled gracefully.
-+ *
-+ * READ_ONCE is used so that if the caller assigns the result into a local
-+ * variable and e.g. tests it for valid range before using, the compiler cannot
-+ * decide to remove the variable and inline the page_private(page) multiple
-+ * times, potentially observing different values in the tests and the actual
-+ * use of the result.
-+ */
-+#define buddy_order_unsafe(page)	READ_ONCE(page_private(page))
-+
-+/*
-+ * This function checks whether a page is free && is the buddy
-+ * we can coalesce a page and its buddy if
-+ * (a) the buddy is not in a hole (check before calling!) &&
-+ * (b) the buddy is in the buddy system &&
-+ * (c) a page and its buddy have the same order &&
-+ * (d) a page and its buddy are in the same zone.
-+ *
-+ * For recording whether a page is in the buddy system, we set PageBuddy.
-+ * Setting, clearing, and testing PageBuddy is serialized by zone->lock.
-+ *
-+ * For recording page's order, we use page_private(page).
-+ */
-+static inline bool page_is_buddy(struct page *page, struct page *buddy,
-+				 unsigned int order)
++static inline bool alloc_nolock_allowed(void)
 +{
-+	if (!page_is_guard(buddy) && !PageBuddy(buddy))
-+		return false;
-+
-+	if (buddy_order(buddy) != order)
-+		return false;
-+
 +	/*
-+	 * zone check is done late to avoid uselessly calculating
-+	 * zone/node ids for pages that could never merge.
++	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
++	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
++	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
++	 * mark the task as the owner of another rt_spin_lock which will
++	 * confuse PI logic, so return immediately if called from hard IRQ or
++	 * NMI.
++	 *
++	 * Note, irqs_disabled() case is ok. This function can be called
++	 * from raw_spin_lock_irqsave region.
 +	 */
-+	if (page_zone_id(page) != page_zone_id(buddy))
++	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
 +		return false;
 +
-+	VM_BUG_ON_PAGE(page_count(buddy) != 0, buddy);
++	/* On UP, spin_trylock() always succeeds even when it is locked */
++	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
++		return false;
++
++	/* Bailout, since _deferred_grow_zone() needs to take a lock */
++	if (deferred_pages_enabled())
++		return false;
 +
 +	return true;
 +}
 +
 +/*
-+ * Locate the struct page for both the matching buddy in our
-+ * pair (buddy1) and the combined O(n+1) page they form (page).
++ * GFP flags to set for ALLOC_NOLOCK i.e. alloc_pages_nolock().
 + *
-+ * 1) Any buddy B1 will have an order O twin B2 which satisfies
-+ * the following equation:
-+ *     B2 = B1 ^ (1 << O)
-+ * For example, if the starting buddy (buddy2) is #8 its order
-+ * 1 buddy is #10:
-+ *     B2 = 8 ^ (1 << 1) = 8 ^ 2 = 10
++ * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
++ * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
++ * is not safe in arbitrary context.
 + *
-+ * 2) Any buddy B will have an order O+1 parent P which
-+ * satisfies the following equation:
-+ *     P = B & ~(1 << O)
++ * These two are the conditions for gfpflags_allow_spinning() being true.
 + *
-+ * Assumption: *_mem_map is contiguous at least up to MAX_PAGE_ORDER
++ * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
++ * to warn. Also warn would trigger printk() which is unsafe from
++ * various contexts. We cannot use printk_deferred_enter() to mitigate,
++ * since the running context is unknown.
++ *
++ * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
++ * is safe in any context. Also zeroing the page is mandatory for
++ * BPF use cases.
++ *
++ * Though __GFP_NOMEMALLOC is not checked in the code path below,
++ * specify it here to highlight that alloc_pages_nolock()
++ * doesn't want to deplete reserves.
 + */
-+static inline unsigned long
-+__find_buddy_pfn(unsigned long page_pfn, unsigned int order)
-+{
-+	return page_pfn ^ (1 << order);
-+}
++static const gfp_t gfp_nolock = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC |
++				__GFP_COMP;
 +
 +/*
-+ * Find the buddy of @page and validate it.
-+ * @page: The input page
-+ * @pfn: The pfn of the page, it saves a call to page_to_pfn() when the
-+ *       function is used in the performance-critical __free_one_page().
-+ * @order: The order of the page
-+ * @buddy_pfn: The output pointer to the buddy pfn, it also saves a call to
-+ *             page_to_pfn().
-+ *
-+ * The found buddy can be a non PageBuddy, out of @page's zone, or its order is
-+ * not the same as @page. The validation is necessary before use it.
-+ *
-+ * Return: the found buddy page or NULL if not found.
++ * This is the 'heart' of the zoned buddy allocator.
 + */
-+static inline struct page *find_buddy_page_pfn(struct page *page,
-+			unsigned long pfn, unsigned int order, unsigned long *buddy_pfn)
++struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
++		int preferred_nid, nodemask_t *nodemask, unsigned int alloc_flags)
 +{
-+	unsigned long __buddy_pfn = __find_buddy_pfn(pfn, order);
-+	struct page *buddy;
++	struct page *page;
++	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
++	struct alloc_context ac = { };
++	unsigned int fastpath_alloc_flags = alloc_flags;
 +
-+	buddy = page + (__buddy_pfn - pfn);
-+	if (buddy_pfn)
-+		*buddy_pfn = __buddy_pfn;
-+
-+	if (page_is_buddy(page, buddy, order))
-+		return buddy;
-+	return NULL;
-+}
-+
-+extern struct page *__pageblock_pfn_to_page(unsigned long start_pfn,
-+				unsigned long end_pfn, struct zone *zone);
-+
-+static inline struct page *pageblock_pfn_to_page(unsigned long start_pfn,
-+				unsigned long end_pfn, struct zone *zone)
-+{
-+	if (zone->contiguous)
-+		return pfn_to_page(start_pfn);
-+
-+	return __pageblock_pfn_to_page(start_pfn, end_pfn, zone);
-+}
-+
-+extern void __free_pages_core(struct page *page, unsigned int order,
-+		enum meminit_context context);
-+
-+void post_alloc_hook(struct page *page, unsigned int order, gfp_t gfp_flags);
-+extern bool free_pages_prepare(struct page *page, unsigned int order);
-+
-+extern int user_min_free_kbytes;
-+
-+struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
-+		nodemask_t *nodemask);
-+#define __alloc_frozen_pages(...) \
-+	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
-+void free_frozen_pages(struct page *page, unsigned int order);
-+void free_unref_folios(struct folio_batch *fbatch);
-+
-+#ifdef CONFIG_NUMA
-+struct page *alloc_frozen_pages_noprof(gfp_t, unsigned int order);
-+#else
-+static inline struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order)
-+{
-+	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL);
-+}
-+#endif
-+
-+#define alloc_frozen_pages(...) \
-+	alloc_hooks(alloc_frozen_pages_noprof(__VA_ARGS__))
-+
-+struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned int order);
-+#define alloc_frozen_pages_nolock(...) \
-+	alloc_hooks(alloc_frozen_pages_nolock_noprof(__VA_ARGS__))
-+void free_frozen_pages_nolock(struct page *page, unsigned int order);
-+
-+extern void zone_pcp_reset(struct zone *zone);
-+extern void zone_pcp_disable(struct zone *zone);
-+extern void zone_pcp_enable(struct zone *zone);
-+extern void zone_pcp_init(struct zone *zone);
-+
-+enum fallback_result {
-+	/* Found suitable migratetype, *mt_out is valid. */
-+	FALLBACK_FOUND,
-+	/* No fallback found in requested order. */
-+	FALLBACK_EMPTY,
-+	/* Passed @claimable, but claiming whole block is a bad idea. */
-+	FALLBACK_NOCLAIM,
-+};
-+enum fallback_result
-+find_suitable_fallback(struct free_area *area, unsigned int order,
-+		       int migratetype, bool claimable, int *mt_out);
-+
-+static inline bool free_area_empty(struct free_area *area, int migratetype)
-+{
-+	return list_empty(&area->free_list[migratetype]);
-+}
-+
-+void page_alloc_sysctl_init(void);
-+
-+#endif /* __MM_PAGE_ALLOC_H */
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index d2423f30577e4..a1077cef3a791 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -18,7 +18,7 @@
- #include <linux/init.h>
- #include <linux/mm.h>
- #include <linux/page_frag_cache.h>
--#include "internal.h"
-+#include "page_alloc.h"
++	/* Other flags could be supported later if needed. */
++	if (WARN_ON(alloc_flags & ~ALLOC_NOLOCK))
+ 		return NULL;
  
- static unsigned long encoded_page_create(struct page *page, unsigned int order,
- 					 bool pfmemalloc)
-diff --git a/mm/page_isolation.c b/mm/page_isolation.c
-index 32ce8a7d9df35..e5dfc7bf49446 100644
---- a/mm/page_isolation.c
-+++ b/mm/page_isolation.c
++	if (!alloc_order_allowed(gfp, order, alloc_flags))
++		return NULL;
++
++	if (alloc_flags & ALLOC_NOLOCK) {
++		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
++		if (!alloc_nolock_allowed())
++			return NULL;
++		gfp |= gfp_nolock;
++		fastpath_alloc_flags |= ALLOC_WMARK_MIN;
++	} else {
++		fastpath_alloc_flags |= ALLOC_WMARK_LOW;
++	}
++
+ 	gfp &= gfp_allowed_mask;
+ 	/*
+ 	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+@@ -5303,16 +5378,19 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+ 			&alloc_gfp, &fastpath_alloc_flags))
+ 		return NULL;
+ 
+-	/*
+-	 * Forbid the first pass from falling back to types that fragment
+-	 * memory until all local zones are considered.
+-	 */
+-	fastpath_alloc_flags |= alloc_flags_nofragment(zonelist_zone(ac.preferred_zoneref), gfp);
++	if (!(alloc_flags & ALLOC_NOLOCK)) {
++		/*
++		 * Forbid the first pass from falling back to types that
++		 * fragment memory until all local zones are considered.
++		 */
++		fastpath_alloc_flags |= alloc_flags_nofragment(
++			zonelist_zone(ac.preferred_zoneref), gfp);
++	}
+ 	fastpath_alloc_flags |= alloc_flags_nonblocking(gfp, order) & ALLOC_HIGHATOMIC;
+ 
+-	/* First allocation attempt */
++	/* First allocation attempt (or, for nolock, only attempt) */
+ 	page = get_page_from_freelist(alloc_gfp, order, fastpath_alloc_flags, &ac);
+-	if (likely(page))
++	if (likely(page) || (alloc_flags & ALLOC_NOLOCK))
+ 		goto out;
+ 
+ 	alloc_gfp = gfp;
+@@ -5329,7 +5407,8 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+ out:
+ 	if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT) && page &&
+ 	    unlikely(__memcg_kmem_charge_page(page, gfp, order) != 0)) {
+-		free_frozen_pages(page, order);
++		__free_frozen_pages(page, order,
++				    alloc_flags & ALLOC_NOLOCK ? FPI_TRYLOCK : 0);
+ 		page = NULL;
+ 	}
+ 
+@@ -5345,7 +5424,8 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
+ {
+ 	struct page *page;
+ 
+-	page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, nodemask);
++	page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, nodemask,
++					   ALLOC_DEFAULT);
+ 	if (page)
+ 		set_page_refcounted(page);
+ 	return page;
+@@ -7875,80 +7955,10 @@ static bool __free_unaccepted(struct page *page)
+ 
+ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned int order)
+ {
+-	/*
+-	 * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
+-	 * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
+-	 * is not safe in arbitrary context.
+-	 *
+-	 * These two are the conditions for gfpflags_allow_spinning() being true.
+-	 *
+-	 * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
+-	 * to warn. Also warn would trigger printk() which is unsafe from
+-	 * various contexts. We cannot use printk_deferred_enter() to mitigate,
+-	 * since the running context is unknown.
+-	 *
+-	 * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
+-	 * is safe in any context. Also zeroing the page is mandatory for
+-	 * BPF use cases.
+-	 *
+-	 * Though __GFP_NOMEMALLOC is not checked in the code path below,
+-	 * specify it here to highlight that alloc_pages_nolock()
+-	 * doesn't want to deplete reserves.
+-	 */
+-	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC | __GFP_COMP
+-			| gfp_flags;
+-	unsigned int alloc_flags = ALLOC_NOLOCK;
+-	struct alloc_context ac = { };
+-	struct page *page;
+-
+-	VM_WARN_ON_ONCE(gfp_flags & ~__GFP_ACCOUNT);
+-	/*
+-	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
+-	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
+-	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
+-	 * mark the task as the owner of another rt_spin_lock which will
+-	 * confuse PI logic, so return immediately if called from hard IRQ or
+-	 * NMI.
+-	 *
+-	 * Note, irqs_disabled() case is ok. This function can be called
+-	 * from raw_spin_lock_irqsave region.
+-	 */
+-	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+-		return NULL;
+-
+-	/* On UP, spin_trylock() always succeeds even when it is locked */
+-	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
+-		return NULL;
+-
+-	if (!pcp_allowed_order(order))
+-		return NULL;
+-
+-	/* Bailout, since _deferred_grow_zone() needs to take a lock */
+-	if (deferred_pages_enabled())
+-		return NULL;
+-
+ 	if (nid == NUMA_NO_NODE)
+ 		nid = numa_node_id();
+ 
+-	prepare_alloc_pages(alloc_gfp, order, nid, NULL, &ac,
+-			    &alloc_gfp, &alloc_flags);
+-
+-	/*
+-	 * Best effort allocation from percpu free list.
+-	 * If it's empty attempt to spin_trylock zone->lock.
+-	 */
+-	page = get_page_from_freelist(alloc_gfp, order, alloc_flags, &ac);
+-
+-	/* Unlike regular alloc_pages() there is no __alloc_pages_slowpath(). */
+-
+-	if (memcg_kmem_online() && page && (gfp_flags & __GFP_ACCOUNT) &&
+-	    unlikely(__memcg_kmem_charge_page(page, alloc_gfp, order) != 0)) {
+-		__free_frozen_pages(page, order, FPI_TRYLOCK);
+-		page = NULL;
+-	}
+-	trace_mm_page_alloc(page, order, alloc_gfp, ac.migratetype);
+-	kmsan_alloc_page(page, order, alloc_gfp);
+-	return page;
++	return __alloc_frozen_pages_noprof(gfp_flags, order, nid, NULL, ALLOC_NOLOCK);
+ }
+ /**
+  * alloc_pages_nolock - opportunistic reentrant allocation from any context
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index 3250d44f96457..a4f4b325381ad 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
 @@ -11,6 +11,7 @@
- #include <linux/page_owner.h>
- #include <linux/migrate.h>
- #include "internal.h"
-+#include "page_alloc.h"
+ #include <linux/nodemask.h>
+ #include <linux/types.h>
  
- #define CREATE_TRACE_POINTS
- #include <trace/events/page_isolation.h>
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index 26d6ab6530ce0..e399ebed27234 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -13,7 +13,7 @@
- #include <linux/memcontrol.h>
- #include <linux/sched/clock.h>
++#define ALLOC_DEFAULT		0
+ /* The ALLOC_WMARK bits are used as an index to zone->watermark */
+ #define ALLOC_WMARK_MIN		WMARK_MIN
+ #define ALLOC_WMARK_LOW		WMARK_LOW
+@@ -219,7 +220,7 @@ extern bool free_pages_prepare(struct page *page, unsigned int order);
+ extern int user_min_free_kbytes;
  
--#include "internal.h"
-+#include "page_alloc.h"
+ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
+-		nodemask_t *nodemask);
++		nodemask_t *nodemask, unsigned int alloc_flags);
+ #define __alloc_frozen_pages(...) \
+ 	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
+ void free_frozen_pages(struct page *page, unsigned int order);
+@@ -230,7 +231,8 @@ struct page *alloc_frozen_pages_noprof(gfp_t, unsigned int order);
+ #else
+ static inline struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order)
+ {
+-	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL);
++	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL,
++					   ALLOC_DEFAULT);
+ }
+ #endif
  
- /*
-  * TODO: teach PAGE_OWNER_STACK_DEPTH (__dump_page_owner and save_stack)
-diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-index 7418f2e500bb4..c7325704c3202 100644
---- a/mm/page_reporting.c
-+++ b/mm/page_reporting.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/scatterlist.h>
- 
-+#include "page_alloc.h"
- #include "page_reporting.h"
- #include "internal.h"
- 
-diff --git a/mm/show_mem.c b/mm/show_mem.c
-index 1b721a8ade67d..d1288b4c2b640 100644
---- a/mm/show_mem.c
-+++ b/mm/show_mem.c
-@@ -16,6 +16,7 @@
- #include <linux/vmstat.h>
- 
- #include "internal.h"
-+#include "page_alloc.h"
- #include "swap.h"
- 
- atomic_long_t _totalram_pages __read_mostly;
-diff --git a/mm/shuffle.c b/mm/shuffle.c
-index fb1393b8b3a9d..82a2c7725a08a 100644
---- a/mm/shuffle.c
-+++ b/mm/shuffle.c
-@@ -7,6 +7,7 @@
- #include <linux/random.h>
- #include <linux/moduleparam.h>
- #include "internal.h"
-+#include "page_alloc.h"
- #include "shuffle.h"
- 
- DEFINE_STATIC_KEY_FALSE(page_alloc_shuffle_key);
 diff --git a/mm/slub.c b/mm/slub.c
-index 9ec774dc70096..877021e69cc41 100644
+index 877021e69cc41..3989b4758ae0a 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -53,6 +53,7 @@
- #include <trace/events/kmem.h>
+@@ -3292,7 +3292,8 @@ static inline struct slab *alloc_slab_page(gfp_t flags, int node,
+ 	else if (node == NUMA_NO_NODE)
+ 		page = alloc_frozen_pages(flags, order);
+ 	else
+-		page = __alloc_frozen_pages(flags, order, node, NULL);
++		page = __alloc_frozen_pages(flags, order, node, NULL,
++					    ALLOC_DEFAULT);
  
- #include "internal.h"
-+#include "page_alloc.h"
+ 	if (!page)
+ 		return NULL;
+@@ -5302,7 +5303,8 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
+ 	if (node == NUMA_NO_NODE)
+ 		page = alloc_frozen_pages_noprof(flags, order);
+ 	else
+-		page = __alloc_frozen_pages_noprof(flags, order, node, NULL);
++		page = __alloc_frozen_pages_noprof(flags, order, node, NULL,
++						   ALLOC_DEFAULT);
  
- /*
-  * Lock order:
-diff --git a/mm/swap.c b/mm/swap.c
-index 58e4eff698cc4..d25131305c94c 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -39,6 +39,7 @@
- #include <linux/buffer_head.h>
- 
- #include "internal.h"
-+#include "page_alloc.h"
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/pagemap.h>
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index f40cfe9d703b3..2407a80918a7d 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -66,6 +66,7 @@
- #include <linux/sched/sysctl.h>
- 
- #include "internal.h"
-+#include "page_alloc.h"
- #include "swap.h"
- 
- #define CREATE_TRACE_POINTS
+ 	if (page) {
+ 		ptr = page_address(page);
 
 -- 
 2.54.0
