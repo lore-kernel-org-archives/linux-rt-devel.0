@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323524D9902
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490804DB542
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985810; cv=none; b=GQV/Z7fv5F/lM+gKuNwe38oaifvX6wH9emkXHlfZi8e7HMaZWzj9UuUTr99AkvX8Y8Zdgn+HqUxr+eiQYfHTqqZISkbhZg8f6FD+al6xhzPQLrXszudaNM60Cz8dpNnVzI/u7TTOZOj+JViyk87EHpRdFt+ljtxCsxQhe+pO1oU=
+	t=1782985811; cv=none; b=LrNGIFxpnEts2ZjTxkUAjUCL/nWXeOjkxpNNGTnWUXCsnKq/xhCz9QTsH5lQdll7YjzLuDrcIhoUGpZFoQQfxJsSsrlxkdAG3CKfgP0hWe1U0PIoQ0SSJfTwAa5tNShGvA+rthz7qEcVudW2eUPGAwIshbiqQXl91U3TTAs7gbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985810; c=relaxed/simple;
-	bh=gjlIxPgMeedEPJ9k/uIWaq0fO9Ob53kXRuNpoa9e5KE=;
+	s=arc-20240116; t=1782985811; c=relaxed/simple;
+	bh=29DjDNblqVpTGDCQuZAaQoS1GbOAOm7XzMBS6FpDHNc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=s4CCst/ASRFgXF4ukIsyhML+6EbcB4f+CWk1h9QeMVmSvVjkzyk3mf/qVCtwMQvY86wKMeaExqtVutZIGxWmuigzvHd/+s/IcUYWkF+d5TlKr5ND2kLi0jfr2ikBCxoaUjW0N/hXiT8VN4LyF6uZLEfKmn9/Tcy090ID5saSWqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ezgwanoj; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=hxItOIwXb2258xjZuTc8L6LyY7JI/2ESB8BV1kdkTiVYU/joDUwrp224XC8ExqelE7WKEytH3yOn268x6NgKRceLFAkEk/m3xaItaq8cfB15ScALURgfvos7rjTity7nLxoXqxYjl8+sCyKQdvrce8KeV7YncR7nUmrZgbgCYUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MHOp3Rf7; arc=none smtp.client-ip=209.85.221.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ezgwanoj"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4925bf70f5bso14470815e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MHOp3Rf7"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-472bdd6f529so975308f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985808; x=1783590608; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782985809; x=1783590609; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6S3JNEhTHh8S5PWRfrbe8AKMasrMsda1UyR5Zu08tMA=;
-        b=EzgwanojFcoBgAzwFQuOcjLvGvuAN0FMTj9pfq5jLtZW47kIQITjSUcixGy9Oe2CNq
-         lcnpmq0epmHMn9YQGyLQKAUcivTjrNTP/VBNNMYDO1qZlv/V7rNJ4ysXW9d/RmriSU8I
-         snWAaEm4jYpV8+caVf5GfYRHjRPTZTPgegEJW9CP7PMLCFoSsXzJKycth52AjGSuaxVO
-         eTkW5PFo5179LjdzcwNRRwY693COLg1XvdJBy+/qMUfxnh8T5C6aOGnpo9MJlJ8oYDR1
-         Jrhv8fIvKTuGQoJIMLMo7fiJbD7tWkpIL6QX1GYRJz37kvfi7/CBzeD20Y20iHiqfxDO
-         KyGQ==
+        bh=jQXytmyYmI8a16dW0v09XUUNQjHph6nhuleCzdBkd7M=;
+        b=MHOp3Rf78RLdFt0JnkyBK7j/X6fzjwOLuVsSTwudP5X5A5uXq/CkmnH5VUNUO3aHwC
+         I3yKv2RqeyWRiIODxVlH5Xa2ktmr4381QwuU32I19IjWGv0AkWdtRlBN7eBKUQmaGceG
+         2EfPjMAhqvpsasyfEMboYkL62ZRHKZEf7+jDPdyZgH7sO2zdT4be/EImCv38lnIs0HAu
+         o/WkO7zdNmN5pMhDyHbqjh0BCfDP+NnMI8K7PPnt1JXpLM9QhlnUnGUfCjMsXP+zg2Gb
+         Bd2z9awxA/JCIiut8X0aOv7IICNAbkQ/khOguJZdiGyYNCFfIN0HRo2orwjIa8ErR7gu
+         rwfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985808; x=1783590608;
+        d=1e100.net; s=20251104; t=1782985809; x=1783590609;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6S3JNEhTHh8S5PWRfrbe8AKMasrMsda1UyR5Zu08tMA=;
-        b=Z/XHM1XfLpATMyRI14hxUga7UDOOHsnscNCj6DTl/Q3qn8GFIOlr8QlGtq7l0eXoAS
-         m670+hs/DrB63zXbMG44iNUXrGk96GSgF2x5un0ko3mV+iB2dHbaE/rj7FvZFHZYSxaj
-         ad2OcZby7Q08FvV4MhYEEy69BnlpeKqqmz4Kp1hL1l43X4e/UCtI6HzDWj9se5iSsMCm
-         NRyMGqknkBvO5H0QfP0LEwBwYXJiz3Df733IM7D2pv9apao78nRmk6ArriZJ8/pXzeF6
-         0Sl96u57Md6HpTaWgw7ZIKYX51qMjrIuaqYQKAfYsGIZ8635vhlaxkI6K0py9JQuqNWW
-         dqzg==
-X-Forwarded-Encrypted: i=1; AFNElJ9A5SgtwCi02bSE0Wa5oifAmCNcHN5g/yo6bwHSbWu9TaN+TipBoi/F6DKVN+iLOfWsEG+B0KSBQqHsX9gxDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzo07aDZd1LPPb0iKaqQsaXk+Q4PAD3/PiPvuhkCdmfjzLXSHy4
-	3Pt8E+LwbRVcjgyiakDdgI7LZzSmLJftCfXARQCowiqSFIuu6S+xEelCzPkXmgEt0dgi6tDdaDb
-	/al/qXsl4BhRs1Q==
-X-Received: from wmdp9.prod.google.com ([2002:a05:600c:5c9:b0:490:60cd:352b])
+        bh=jQXytmyYmI8a16dW0v09XUUNQjHph6nhuleCzdBkd7M=;
+        b=Y342IMlDr4MV74sIsJ8y8LAeGLXCqJu03Ums4h4LWnt5Ofbghqhrn4wyFqefcTvhM8
+         uXJXkMIdJaTEDGW64jUzSQd+3eL+0rkJmp3Nqzvwn1zfUW5Guri04uNLVjNZguF7aWwp
+         1y0QlIA3NRR9nIyt34p48AotovEzJ9+vo7LJ9SbLJ+VQ042JKivus0QpxS6HKCwsVduF
+         0YFLDJYGvJyjvqRs60YRjcsD6V/C7ASDD8HebZh+BSYciMgLNadcA151D0U6imhvmE9Q
+         ywP+DQCw3L5zhnPiD03J1MKHQRNyQVabDz0b9SP9HqLQRsLYObqt7KwmUxTHELaW8T8c
+         npSw==
+X-Forwarded-Encrypted: i=1; AHgh+RofGnkWX/KqWpV5472l2FzdqoitioKjErVtJiJ3ppdzbvDdpK2z3LK0Gd5y0YTGWwOrpIgY+DjwpO4A2RE2Qw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrVKgJV3/42tEQk5xM0GVYbvHoGctNg0gMXwSeY0/jMQdbwrdq
+	B3863LWKg7inSJt/uZZ6L6FSVcimRlvAWfGczIXAI2tTUjKoh0Y7CTC+AxCrddXKj6P8TgFl1YK
+	urAR9FzORzKqqgw==
+X-Received: from wrsx9.prod.google.com ([2002:adf:ffc9:0:b0:462:fc9c:4a7a])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:6c45:b0:493:b782:10d9 with SMTP id 5b1f17b1804b1-493c3cd9b8dmr44954545e9.10.1782985807257;
- Thu, 02 Jul 2026 02:50:07 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:47 +0000
+ 2002:adf:fc08:0:b0:473:e22:e819 with SMTP id ffacd0b85a97d-4775a0fe0dcmr6360703f8f.29.1782985808510;
+ Thu, 02 Jul 2026 02:50:08 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:48 +0000
 In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-16-0af8ff387e80@google.com>
-Subject: [PATCH v4 16/18] mm: remove the __GFP_NO_OBJ_EXT flag
+Message-ID: <20260702-alloc-trylock-v4-17-0af8ff387e80@google.com>
+Subject: [PATCH v4 17/18] mm/page_alloc: drop alloc_flags arg from alloc_flags_cma()
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -81,121 +81,70 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+To align the style with other alloc_flags_*() functions, drop this
+additive argument and just have the callers do that themselves.
 
-All users of the flag are converted to SLAB_ALLOC_NO_RECURSE or
-ALLOC_NO_CODETAG (from __GFP_NO_CODETAG which reused the NO_OBJ_EXT bit).
-Free up the flag bit.
+Note you can't always freely or alloc_flags like these callers do
+(because of the WMARK bits that encode an enum) but this is fine for
+ALLOC_CMA, just like it's fine for e.g. ALLOC_NON_BLOCK returned by
+alloc_flags_nonblocking() and or'd by its caller.
 
-Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-[Rebased onto __GFP_NO_CODETAG removal]
+Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Link: https://lore.kernel.org/all/5dcdd1ef-21ad-4ed0-9e8a-0e5cf96b4392@kernel.org/
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- include/linux/gfp_types.h       |  7 -------
- include/trace/events/mmflags.h  | 10 +---------
- tools/include/linux/gfp_types.h |  7 -------
- 3 files changed, 1 insertion(+), 23 deletions(-)
+ mm/page_alloc.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-index 463b551d12d99..190191411009f 100644
---- a/include/linux/gfp_types.h
-+++ b/include/linux/gfp_types.h
-@@ -55,7 +55,6 @@ enum {
- #ifdef CONFIG_LOCKDEP
- 	___GFP_NOLOCKDEP_BIT,
- #endif
--	___GFP_NO_OBJ_EXT_BIT,
- 	___GFP_LAST_BIT
- };
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index cfaf16244f56d..c3b246e67ed14 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -3775,14 +3775,13 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
+ }
  
-@@ -96,7 +95,6 @@ enum {
- #else
- #define ___GFP_NOLOCKDEP	0
+ /* Must be called after current_gfp_context() which can change gfp_mask */
+-static inline unsigned int alloc_flags_cma(gfp_t gfp_mask,
+-					   unsigned int alloc_flags)
++static inline unsigned int alloc_flags_cma(gfp_t gfp_mask)
+ {
+ #ifdef CONFIG_CMA
+ 	if (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
+-		alloc_flags |= ALLOC_CMA;
++		return ALLOC_CMA;
  #endif
--#define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+-	return alloc_flags;
++	return ALLOC_DEFAULT;
+ }
  
  /*
-  * Physical address zone modifiers (see linux/mmzone.h - low four bits)
-@@ -138,17 +136,12 @@ enum {
-  *
-  * %__GFP_ACCOUNT causes the allocation to be accounted to the active
-  * cgroup context.
-- *
-- * %__GFP_NO_OBJ_EXT causes slab allocation to have no object extension.
-- * mark_obj_codetag_empty() should be called upon freeing for objects allocated
-- * with this flag to indicate that their NULL tags are expected and normal.
-  */
- #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
- #define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
- #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
- #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
- #define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
--#define __GFP_NO_OBJ_EXT   ((__force gfp_t)___GFP_NO_OBJ_EXT)
+@@ -4526,7 +4525,7 @@ alloc_flags_slowpath(gfp_t gfp_mask, unsigned int order)
+ 	} else if (unlikely(rt_or_dl_task(current)) && in_task())
+ 		alloc_flags |= ALLOC_MIN_RESERVE;
  
- /**
-  * DOC: Watermark modifiers
-diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-index a6e5a44c9b429..c1a05ff0feab0 100644
---- a/include/trace/events/mmflags.h
-+++ b/include/trace/events/mmflags.h
-@@ -54,18 +54,10 @@
- # define TRACE_GFP_FLAGS_LOCKDEP
- #endif
+-	alloc_flags = alloc_flags_cma(gfp_mask, alloc_flags);
++	alloc_flags |= alloc_flags_cma(gfp_mask);
  
--#ifdef CONFIG_SLAB_OBJ_EXT
--# define TRACE_GFP_FLAGS_SLAB			\
--	TRACE_GFP_EM(NO_OBJ_EXT)
--#else
--# define TRACE_GFP_FLAGS_SLAB
--#endif
--
- #define TRACE_GFP_FLAGS				\
- 	TRACE_GFP_FLAGS_GENERAL			\
- 	TRACE_GFP_FLAGS_KASAN			\
--	TRACE_GFP_FLAGS_LOCKDEP			\
--	TRACE_GFP_FLAGS_SLAB
-+	TRACE_GFP_FLAGS_LOCKDEP
+ 	if (defrag_mode)
+ 		alloc_flags |= ALLOC_NOFRAGMENT;
+@@ -4837,7 +4836,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
  
- #undef TRACE_GFP_EM
- #define TRACE_GFP_EM(a) TRACE_DEFINE_ENUM(___GFP_##a##_BIT);
-diff --git a/tools/include/linux/gfp_types.h b/tools/include/linux/gfp_types.h
-index 6c75df30a281d..a93b8bd200b76 100644
---- a/tools/include/linux/gfp_types.h
-+++ b/tools/include/linux/gfp_types.h
-@@ -55,7 +55,6 @@ enum {
- #ifdef CONFIG_LOCKDEP
- 	___GFP_NOLOCKDEP_BIT,
- #endif
--	___GFP_NO_OBJ_EXT_BIT,
- 	___GFP_LAST_BIT
- };
+ 	reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
+ 	if (reserve_flags)
+-		alloc_flags = alloc_flags_cma(gfp_mask, reserve_flags) |
++		alloc_flags = alloc_flags_cma(gfp_mask) | reserve_flags |
+ 				ac->alloc_flags | (alloc_flags & ALLOC_KSWAPD);
  
-@@ -96,7 +95,6 @@ enum {
- #else
- #define ___GFP_NOLOCKDEP	0
- #endif
--#define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+ 	/*
+@@ -5070,7 +5069,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+ 	    should_fail_alloc_page(gfp_mask, order))
+ 		return false;
  
- /*
-  * Physical address zone modifiers (see linux/mmzone.h - low four bits)
-@@ -137,17 +135,12 @@ enum {
-  * node with no fallbacks or placement policy enforcements.
-  *
-  * %__GFP_ACCOUNT causes the allocation to be accounted to kmemcg.
-- *
-- * %__GFP_NO_OBJ_EXT causes slab allocation to have no object extension.
-- * mark_obj_codetag_empty() should be called upon freeing for objects allocated
-- * with this flag to indicate that their NULL tags are expected and normal.
-  */
- #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
- #define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
- #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
- #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
- #define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
--#define __GFP_NO_OBJ_EXT   ((__force gfp_t)___GFP_NO_OBJ_EXT)
+-	*alloc_flags = alloc_flags_cma(gfp_mask, *alloc_flags);
++	*alloc_flags |= alloc_flags_cma(gfp_mask);
  
- /**
-  * DOC: Watermark modifiers
+ 	/* Dirty zone balancing only done in the fast path */
+ 	ac->spread_dirty_pages = (gfp_mask & __GFP_WRITE);
 
 -- 
 2.54.0
