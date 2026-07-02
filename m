@@ -1,54 +1,54 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-lj1-f202.google.com (mail-lj1-f202.google.com [209.85.208.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFED64D90AE
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8CA4D98E3
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985805; cv=none; b=MEJZN7cS7947raVIvdzumqNvTQBSx5sDspad/Z9YZ7fZYn+Odv/IciQnfD9pbDqTouyzp5f0eTomtP65pgmtrSCWuE+GsHBVX0zoRLGxurKDEJc2R5OjM2HdpgXiDbE63KkUVaqechSpiKw81LCTo9NJ7rBMzW6OIOpq/tL4I+Q=
+	t=1782985807; cv=none; b=Vhe1F6zB1CWgh1jf8VNYE8SphdsyCvHhST2IkdkqvygiyM0e6lFK2tdvwYdxsfxyUTzVsJm+kAo5VW/cG3At2DUYRKhJNk0vR2rUGkesImZDskTtd2qTFSG9VaXIQSe4OeSbn7nSigfS3mOjUTHiWQESFrF4L9v9UztUHNNq38E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985805; c=relaxed/simple;
-	bh=F67T0oCRBrio7FIBWLmEqRTYstsC6jLNeHD5MDQHVvg=;
+	s=arc-20240116; t=1782985807; c=relaxed/simple;
+	bh=etU0KmQ93MVQ8p8e74J7jmNSb0FdCttGT65sD7BwF2Y=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=aeq2sHzn6zilwkjHTyLfbVnJL3+J/PTzTOT7or4rQ7USpq6uQUcLlNz67ucaTpNIfTDFJy3LJgfZ++V3ASlJcnw1M/HL+td7OCJK/WDSOAfzMvH2Vwynyi8P0dP7ONqtKfvpmiofZYI5m80mSQnWuvWO75pLEy+IKoknpUw5qYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kCOaZr4V; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=Sc1rDB4B+Zh9VPR2XOYuf+Vw78fgOHJeRoalqTUgA9neMjCf1W1Q3GoQ0kzRWIuxn1NdNOnLgKdKrSeN5BMxWR1k6dooEiW+qpA/QcFTwb6DxdV2Ag/ihcT+pyzD+iDL6d28vRUWaWe0emHOmt2WR0sWHHhpGI31ug5GNrXb2fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wOPeYHcu; arc=none smtp.client-ip=209.85.208.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kCOaZr4V"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-493b786d550so16921855e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wOPeYHcu"
+Received: by mail-lj1-f202.google.com with SMTP id 38308e7fff4ca-39accc98fffso6609001fa.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985802; x=1783590602; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782985804; x=1783590604; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
-        b=kCOaZr4VLuBWYsZVOXgDIC6qHgOTBvryjjjuV7LaTHai6VVGuJpOfobbYVaK/+P0YL
-         5tL/O59kEc106/uo6A/c3OyxtF9d8x2fGo9k057cCJRlxQTfDoYqncyooUK1hXz2HFle
-         BIkrJWysOkac9p7MQiUt5Nx910k9iXSfchNhGZyeYIW5LrZvp7ojSPEkzWxMXmbIQOyf
-         VcHuAGvCxWnmDVA8M31NABVW4RXMy8FJJgg40RWoTalpxBxsyc62quhVpBoGWd9yGIex
-         JfgOwE4MvLwI2Ucjs65iOgHDRg67o2fN2EHBkgm1EnCR/1t2bEdNLL23LZC0VSl5hgrG
-         p2Jg==
+        bh=BxUSvpYnRk7TPJu9DIAcrJg+2SEdx9XX7++N/RbsLUU=;
+        b=wOPeYHcudMwC7sLnW4QVGc07xUq5DaNwptz6Se2JWNfVfX5SGRvRa9vU04cKgE8ur3
+         Xj1sgj2Zz058S4ieiO/yAbXIy8+iSE42j4ZkZkC/5p6RuxCdnmh/zJzgGmyRZ8/AiwyP
+         mqpoDy2nH5TaM9prRsZz5025ALgB5+dgFx6HhzSLN1mEZNGwRX18C7oqisPYYDw6N5yK
+         wYxuNxsNB8S3j+ukUHTKhZa+znVQoHPmnPlmCLEToiCXcf1y+buOp4D/7qhHyLWGHAqe
+         a0PZgRAcZki44SbfjIquAui7dVly1Z655NU64qWXgqToGVcv95UJLiAg+ucC6cyX/Lok
+         hqCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985802; x=1783590602;
+        d=1e100.net; s=20251104; t=1782985804; x=1783590604;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
-        b=tGraRt9vkLNj/zYB18j7vuq1NiMRhOX0mLT7/fWQY9gjBbWpQJpVv4yILXFg/zHGh1
-         pBEKKEna2kAJrSdcNa01XnhtqGAfOFUEJyF64gD8MigJFRp3c2o8dfv/J3TFnNtM7Son
-         2uEmEu4J9kBxUI8mtU3LsvQioNHaA90Z3Zagk0xPLU6TUzZ86YK1z3Oa7qjg9SsKTjhH
-         x/ykzwHnK7MPYeYK7Ow3GVXpRmyADIypq5KIa2EfB3tEw82IoEal3LoA+OgDbj2e3pOT
-         J/SlsFciSWHxoJuLq44TDGDMiOpXQ7J6l3IhMzrMFy0QHod9bFs1uQv1Y8+ruDqZuEeJ
-         8JDw==
-X-Forwarded-Encrypted: i=1; AFNElJ95LHfaNY1agqia5UNyG9UhXnuocPg9EnIaMBJpbAeVri1OgakPwPSEvOHnmwCTvf5RZymkNMR1Urd//s3kYA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqjJF5wh7b0aMil1ZJwPf1xc6R1K1kTx4AKMt8+AGWiH7//E8o
-	4CFfjPfXk85OytRJGdfhvwvS3Xa6oliZHgVnfGCHWHN1LeUAmv/7ALqHgz9WiwzsE/Hk2HB+Ygi
-	VbRZ+fLlwLKDGcQ==
-X-Received: from wmdn12.prod.google.com ([2002:a05:600c:294c:b0:493:bb4f:c4fa])
+        bh=BxUSvpYnRk7TPJu9DIAcrJg+2SEdx9XX7++N/RbsLUU=;
+        b=E1k3WnEnlX94zjpCNiUxveN+GUSu9pT/AlCNTyJK4uG1lBI9lyhFJyj5R0RnJdbVv6
+         Ga1nSldrnFTUWjjY4NDn3JTHSZyxzUJVlGZ4FiTBCXx1zjWJeWPiXiCLfgSbAcdWY+9e
+         nYrqHG/e0yRG3rFacGOTDTMCOM18MCPs4lpYUWQjcIdrCePLA7kqjm5wK4D3SDm/MIiq
+         VLxdPUcPaQ1o/tLmzCP850XrpjgsGn5wfj/3ht8AmEIGifY03Ynn6SX40kMELp9JwyT2
+         O2ClOwn1tGErZL6SMiYUFsPgJ8/WmydBOd6TtkmbHkGFCkzmvgypk4mafh+BMz3EUJZU
+         Bcjw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3ypqgVaGmgnE7MDNyJuPlUlaUHuT/PZ3ebuObhMgpYVU3Y1taUOrUimfa1/gD1lP20c0xysZOLCM67u9HUA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwS80EbD6YqYZ3YqdknzrDTXne8TJ0aeFaDNl7TnPp0Se5nvAUF
+	cjKRiEUXr+7b/MbhnuLMyiZTbuBWbd/OfO4RI7tc6HmMMy8i6rUuptsGL77dzqQbKdbAy0x1y0c
+	VJLyhCczHxsS4hw==
+X-Received: from ljic12-n2.prod.google.com ([2002:a05:651c:234c:20b0:39a:f395:e002])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c046:b0:492:4668:27b5 with SMTP id 5b1f17b1804b1-493c2b3d3ffmr52598625e9.6.1782985801648;
- Thu, 02 Jul 2026 02:50:01 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:43 +0000
+ 2002:a2e:9b12:0:b0:39a:cfe8:dcde with SMTP id 38308e7fff4ca-39b37005de1mr6442781fa.30.1782985803272;
+ Thu, 02 Jul 2026 02:50:03 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:44 +0000
 In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-12-0af8ff387e80@google.com>
-Subject: [PATCH v4 12/18] net/funeth: Switch to higher-level allocator API
+Message-ID: <20260702-alloc-trylock-v4-13-0af8ff387e80@google.com>
+Subject: [PATCH v4 13/18] mm: Remove __alloc_pages_node()
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -78,45 +78,71 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	derkling@google.com, reijiw@google.com, Brendan Jackman <jackmanb@google.com>, 
-	Yosry Ahmed <yosry@kernel.org>, Dimitris Michailidis <dmichail@fungible.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-The difference between __alloc_pages_node() and alloc_pages_node() is
-that the latter allows you to pass NUMA_NO_NODE.
+There were only a few users, which have been removed. The only advantage
+of this API over alloc_pages_node() is avoiding a single conditional
+branch. The disadvantages are:
 
-The former is going away and the latter works fine here so switch over.
+1. More API surface, more sources of confusion, more maintenance.
 
-No functional change intended.
+2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
+   were using the result of cpu_to_node(); if the CPU gets hotplugged
+   out this will return NUMA_NO_NODE. If one of these paths fails to
+   protect against a concurrent hotplug then page_alloc.c will use
+   NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
+   memory corruption or other. With alloc_pages_node(), the code might
+   just work fine.
 
-Cc: Dimitris Michailidis <dmichail@fungible.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Assisted-by: Gemini:unknown-version
+Ulterior motive: this frees up the __* variants of the allocator APIs to
+serve specifically for use as mm-internal API.
+
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- drivers/net/ethernet/fungible/funeth/funeth_rx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/gfp.h | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/net/ethernet/fungible/funeth/funeth_rx.c b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-index 7e2584895de39..d7000017ac2bd 100644
---- a/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-+++ b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-@@ -103,7 +103,7 @@ static int funeth_alloc_page(struct funeth_rxq *q, struct funeth_rxbuf *rb,
- 	if (cache_get(q, rb))
- 		return 0;
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 01d6d2591f49e..3bf55a5f9143e 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+ 	dump_stack();
+ }
  
--	p = __alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
-+	p = alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
- 	if (unlikely(!p))
- 		return -ENOMEM;
+-/*
+- * Allocate pages, preferring the node given as nid. The node must be valid and
+- * online. For more general interface, see alloc_pages_node().
+- */
+-static inline struct page *
+-__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+-{
+-	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+-	warn_if_node_offline(nid, gfp_mask);
+-
+-	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+-}
+-
+-#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(__VA_ARGS__))
+-
+ static inline
+ struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+ {
+@@ -293,7 +278,10 @@ static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
+ 	if (nid == NUMA_NO_NODE)
+ 		nid = numa_mem_id();
  
+-	return __alloc_pages_node_noprof(nid, gfp_mask, order);
++	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
++	warn_if_node_offline(nid, gfp_mask);
++
++	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+ }
+ 
+ #define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
 
 -- 
 2.54.0
