@@ -1,578 +1,192 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012031.outbound.protection.outlook.com [40.107.209.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49003BCD29
-	for <linux-rt-devel@lists.linux.dev>; Wed,  1 Jul 2026 20:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF1231326C
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 03:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782937140; cv=fail; b=WPnAEoxCtRIdcDI78+iAfnOtwc+tdJD16ut/Bdt15UNydql3ssPQ6LhBYk4HO+fSUK/rYh2obRHn8al4geX8gKbJ21SLgD4AqGIxr7Lq6aBm6Q4eG68f3WedDXaIJj7WPAUhblYMLbme8q1EelCfAPqE4+CnVUSUzQTBkrUJCXQ=
+	t=1782962890; cv=pass; b=BvHmQ6qkCRDvylP5be69g5H77IsgXYVZjOBfCRrzfbkBVCoyXeTU+hBsQirWlZILkBz6ZUnnFNu5i4qe3sg4M10cIdJprYb+CqSGNEFJItuX9m+K8lgkqLModjoOt2Z8J1JImWGsQptexc+w2z4ctVJKiA04liPt2SoxUmTfmpc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782937140; c=relaxed/simple;
-	bh=TsLTskPnAp5DsDeVDDsOrIBAR3JizEBbNe4I9YcLhtk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=leYSS73il8ca43n/NnYt5NQ3doZlzlC+HJJoStXDp9tbDPEw1i9ehTaMfaRXaM30+9b+RGIJQHGcL4gvSlRJNPPnRUOPzHLy0Hp/7EmW8eYG3GtCCXzI3KwkfvntHtGv8Vy3L3wbTjseFcVNaS0ef811UIpLE8EhQoedA7gjIcg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VFalMJCl; arc=fail smtp.client-ip=40.107.209.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1782962890; c=relaxed/simple;
+	bh=6twbAqzHSDVib4XGA6tF0E43wBC2SfvJwJvAtu/WDJU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oDxBQIz0JNIAOhnj0vyrkoXUvhrBX11yk9oWAUJsCkHxuHqaWgJDOhG7dJluaUTeoZBIw91GuyGsssCUd7Pfvud3yG6slSUbUDZ0wihO1rZRnAf3JPjNp71d+IdI7saZvasQLQbXx2odoKQX1cz8okcPP32jJyE9cLBfqwkA2rE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BSX9IXPS; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VFalMJCl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PcFmjiRfOgXvy+bLpiHq2ONIFcnExmlTd+mWjZaGlgbeRLCQtSYspgPrCv4CaqioSFZjom94w0kkp/JJtnF+uIjKDfEeob9H4C8LFUo0flnC1+nTa59NVL1THpCHLhqLeuO/wWDN9IjW73CWoJOEp057XrDkulRtGXSU25b7sFwWE175INogGntnDppW3xU1w9+kLmg69lVA4/ALc7GEdFbMiWn91tLtqHdbAiVqdPI+9u8tufmFd9Y1jrCQh8eZXCDDCgH3QE3thaMBDHx4D/pvw4cth/ACoH1HHrOyo0kEpS0B2V6Vu8c8mkV3yhhXFFEl25zM7t/233ax7ST2qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iav5KfsSoTnoiKe8D9uSv4ieJOH+QIbJ4UMhgpxhpCA=;
- b=nCfd7nTwsuyFETwJRqSQuoz2u1aoTx4ngWfGL2YXIy4rTP7bAjJvKg/Zd+2tDPyVLuMZo/nKNC3Hr1V6+UvJ30ArVzwx1V/IqJUePvEDskogyuRa5K4Dx2ZfMfifiNXS3/Bl0JkpXrX2r1x4P7jeYoxzGabLydcx54w/XyF4Yr1ezsS3lUAmHHCEmh6Kr9mXOILGZ/rKkzeM2k8KUe27bRbc0HYBPkhX71rS9l8HiLyXLQwELsQXTNCR4jeDc6ZfPbCjZF6LFLMKCGrtabxXe3KAxQviPaxui4N8DC9RPqlSTnIbWKJSeJ8WRI5IdMRcofflETT7Oiv/thTqTq9feA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iav5KfsSoTnoiKe8D9uSv4ieJOH+QIbJ4UMhgpxhpCA=;
- b=VFalMJClxww6f5mmdOYZdLA8+xa84ARn6qBeFoi3lXHRS6QyctPjlZr3yfdlIK6zsg6y/I4GFC7YLXKdzhdRnza/LEbbTYPumqUOz3yPkN45J73nqWihZTVVj4z/mub4vn1xsFEFEOACiUzfNsh8bW12V6KmUjBnnT9EKef3HsvHmRZDaqfoPNIDVyAEOeBoGop+ZUFA0W58zylDOsJuAPoPdBUN6fqvxVWafStEgMpjUqoZIMAtllUH2OXNOjInDGSI2dCEnOqoP9NjVMeGRqSmmirsyRLrm1770ygjzGnFU10T4uDhoDa3J1EvFh4y53qBT1sPsYimLHpcaFfcHg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5230.namprd12.prod.outlook.com (2603:10b6:5:399::11)
- by DM4PR12MB5843.namprd12.prod.outlook.com (2603:10b6:8:66::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
- 20:18:44 +0000
-Received: from DM4PR12MB5230.namprd12.prod.outlook.com
- ([fe80::6e87:1bde:1853:3b73]) by DM4PR12MB5230.namprd12.prod.outlook.com
- ([fe80::6e87:1bde:1853:3b73%4]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
- 20:18:44 +0000
-Message-ID: <473da771-b711-457b-b9ad-491fee111b16@nvidia.com>
-Date: Wed, 1 Jul 2026 13:18:41 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-To: Drew Fustini <fustini@kernel.org>,
- Adrien Ricciardi <aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>,
- Atish Kumar Patra <atishp@rivosinc.com>, Atish Patra
- <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>,
- Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>,
- Chen Pei <cp0613@linux.alibaba.com>,
- Conor Dooley <conor.dooley@microchip.com>, Conor Dooley
- <conor+dt@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dave Martin <Dave.Martin@arm.com>, Gong Shuai <gong.shuai@sanechips.com.cn>,
- Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
- James Morse <james.morse@arm.com>, =?UTF-8?Q?Kornel_Dul=C4=99ba?=
- <mindal@semihalf.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- liu.qingtao2@zte.com.cn, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- Peter Newman <peternewman@google.com>,
- =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>,
- Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
- yunhui cui <cuiyunhui@bytedance.com>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-doc@vger.kernel.org
-References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
- <20260628-dfustini-atl-sc-cbqri-dt-v3-5-c9c1342fe3cf@kernel.org>
-Content-Language: en-US
-From: Fenghua Yu <fenghuay@nvidia.com>
-In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-5-c9c1342fe3cf@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR05CA0045.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::20) To DM4PR12MB5230.namprd12.prod.outlook.com
- (2603:10b6:5:399::11)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BSX9IXPS"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c9b1edf2bdso11272525ad.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 01 Jul 2026 20:28:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782962887; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PkzALzPszNbnHMvL3Fqyu44LeDfQZWmbQYYZzoxvASGNdaqa2o4s/zDpgQqMLrSzzO
+         MnUcQ7JPsG+l17vumFRHAi0YqRcKUVWApsJdZr1xIGBKWk9+1Bh5rfAskF/+xH6WHgBs
+         frywjabFLeoI2ajt1m3t76EFZX+Ct16icPDCDymLJAHsxwkO5xA/Ldv5YGiYm5nQw40g
+         aSg4QgZZnvGMctvEuUgEkthh2VqAV0AdL/V2lRI2R+Bp2bDPLb4SmWSHEHyR2R5SR2tp
+         3dM7T6sSbYccCTzsMISfaE7H95CVE9u9BAyvP3fvod5GTGTagi5klb+4J/zDQLiIZdm/
+         FC0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BLmcQCP0CBFMMPDNg/zDhtk9PAcOKILSNB3reqJwEiU=;
+        fh=pBaksBteYZLAS0n2HoILCr6wYIRs1ZaaB/+4sYDRVvw=;
+        b=UmcMVJkIHWG2J4n2ik7aMoiLchpvVv2W7ubfnvfZ70HziN3avSqhsUTTxEnwtydSwi
+         OQzLNDKxwdK/oDzjIyywytpPptOM9UVOIRQ7WHc1b89gCFGD4boew1MHQejnfuqFor1f
+         aBSUhIAgcFMNha3XCkpMhrGurZlKDk1pBOHk4O7CACYV6elhELI6zEAuBfStL6sKiMbB
+         sY9m2cJBdW/QnowmnGWQaaJo76ScNEmwu5QiaNGTOWZe01xym6raI2Gb9l1sv/RwlifP
+         mY/xse2snKCAHdxFka8XCD385TYxG2fZQkd/x7x2Ko9rd4/B9Wo6ynHL+6wmqeAweg9g
+         CJVA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782962887; x=1783567687; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BLmcQCP0CBFMMPDNg/zDhtk9PAcOKILSNB3reqJwEiU=;
+        b=BSX9IXPSmY3uEZGa7dJ476Xr2hHcZHCI1y1PJopWF2vXxUHkwDoX85ms+tQT+X8p5I
+         3BzbbquD0xI9UP1rJ+b+kBW6E1tsGW8Kzs5CzK4lzo1RO95QBDr0Pm7CYZAXxJ3er7fl
+         /nyb62ttjj6ZcBEL6eB+eqOGmsVJKYaMdG2DiDnbJBr+b0kHPbOsXjqFA1Rd2GH2tNya
+         S5fcg+o3hRw9i7J6Nuos+s9d+L2AbKW7I7rMf9W5aqLco63+xBogtSmB/kxmKYv5WHJn
+         8PstgDXdnCOtsUn7YPmE5IbS3W7D1DA1ZM+GQ3wjxMRUXGJVcDyLO2wICcTWkqhG+5ij
+         nupA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782962887; x=1783567687;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BLmcQCP0CBFMMPDNg/zDhtk9PAcOKILSNB3reqJwEiU=;
+        b=C5z+hMinvFyhq1MRbSisoyTVBIVa0Nn/CL+5pgD+B6R8pZXznBBt2zIf2l3DX0Q88S
+         xfblX87UJGiEvGGUaL9mkYVfpgSYIysQGXZAANS01z/iWEUbzoB8RVNWx2rNNkcKxfqy
+         xTdzo+Sq6EMhLgWT8onBUpKxx1GVMJFhaQFHJSt/MtzmO9/MCmE6AdrObX+6NqERhhiP
+         2N/eWFSTXFhypKTmFdo4UrJXHWw7NiWOHkkxBfkJMyzXK3WKMwMjmk1za3sUEa5QR2fe
+         Rnv2p0TNVi4C+U7cNi0pZC3jpJqhMsDKqZBh4O+aJQZol3epEsRgp54vQz+rgWQO955R
+         8Zow==
+X-Forwarded-Encrypted: i=1; AHgh+RqfJWSEwV4DY+7VopHY3MXcXdspPGx2YwdDJU9KDuxj2Eh7ThiMZWx9c96fG1EVKlKINQJRSkOlfuxLhG5BhQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzByU2RIDliPFcNphl4p4UmCmLlPXWbFuEkpa/87WyeMb0TRxhe
+	9+par2mHx/tZX34jJwU5IfFvR/e0VDOroYOp4rolP4p3GHb3y14mzX3Nc9/XiU+JRkd8O0Yihr0
+	LOoJY7/duj6EYnPwWODiD/1OTF21EoiPGQZaiM4LA
+X-Gm-Gg: AfdE7clPvvy7ZLVS5VCAaujZyclXL0EoeNPw7pzfJB9P3VdfLF9JtSf0X/TC6WUpklg
+	Z0G30W/fUZFUGbkKukHLdxaUwyk5V/qzykd2TGDgPkus53BESys0KVJJH6hD9TgXhKavgSfI0LF
+	1YfuHHGc+9gXIDuzdyMzbYQjZ+eth8STpbnZdB3ONXYyHWT4LG/1mn3nLMXHIdBXwX9ygtArHcm
+	zJVvHVRG15KYNO6bzQK9c1MhiggMzJbncjf3D69C987H2mOVaYXkjvG0H44tjQTB7XCfdqiWoEy
+	+bzorNdpeH1nn22BaRc45R8O45nYiMHImKmHO4BppueMkfzI0Ftb9t8BsJ2+DYuB1O3TlMMxeOg
+	3InP9HUoltPSCPjPr7hIl0Pn9/3Xyoo5MVS95J2aeIQ==
+X-Received: by 2002:a17:903:2c0f:b0:2ca:12aa:a395 with SMTP id
+ d9443c01a7336-2ca7e6a62bamr52821975ad.17.1782962885989; Wed, 01 Jul 2026
+ 20:28:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5230:EE_|DM4PR12MB5843:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1c83a16-a775-458f-83ff-08ded7adf336
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|7416014|3023799007|6133799003|11063799006|5023799004|56012099006|4143699003|18002099003|921020|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	WJvaladdMkWROHMtbvpXxYXhW988f/RP2TE1c0ujUst/TmxEhHjBQMtZPngjx2wVJQnMqWXgHMKlWwm1np4kcmevg/QG6RuaKi4lBgf5tNan8Puy9Zkzse+nnyZPD+LqlYaLsKZ6BGqKfo9sHlRqowzn3ORjf+Q2GpXFRClo7bTPzjV4NBP4NfrbW7GIiz+htaZE+hm2iaUM9gIXe33CQ1uH8CfUJO1PLmpwzYCZBwCW1E8jdlr+pzXqMelBtJZpv0W5m8rl0nRv56/kVqVm26JdhWrMDnhRZglg3l3q54980h4fV3Z7YuNPOoRtKQ6HUNr5yi5wDJyZsVsneNzrMfR3Qh6R0skBNBC+2lUogJeL49EA8Icn/FZq1TXH3NLGB8zN6oWmYucIKSeoQeY9GEtas9Ks/+QrZ0BNCu7UHkAT12FmHwHW/5mr4Ipk/CcFy3YnoYR29p+YPxPLyWI4HJ0U8Whi0k70dZd+1XzCaVC2GtaxXWsfR6fsiZd95Z3JC7StILCjsme+qzghI2Wf+QIrTzudS2ZL8qD28Z2uFzJZM2A4sjGt4V98Db7YlKjEJ5KojUrZj5CxSyjLtONjCrE4PoRpAJhykvLq1f1qPN5WeZPued4b30x9JT9Wx8f0kUJ1JhMs5d1oGA1Rh6ZN2zxdhH6B+zN12sK27ig1Ygo+Rbq2fgCJPbxU4K+UH+jQyYgLG3fium5HOUK+40Eaqg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5230.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(7416014)(3023799007)(6133799003)(11063799006)(5023799004)(56012099006)(4143699003)(18002099003)(921020)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RGF0MGJtM0FjU0NncndDWlY0bTFzalN4M3JtQUtXbjE4YlpNRlFpUUJIK1Bl?=
- =?utf-8?B?QnhzL2xZTVR2SG9FUVdqakpzeXFRSUE2TFJyU0laMG5DYWpLbHlnMmY2VklG?=
- =?utf-8?B?SDZKekwwaUx3QmNJL0xwT2FZd3F1K1ViS3E4UEsrTzdYZTVhUG5xZjk5L0hR?=
- =?utf-8?B?YlpXTmVNZHdoS2ZpcFJvTFZUWG9ueU8wMDRvRDN1ZnBrRElRTjFhYVZ3TUVZ?=
- =?utf-8?B?VnpHSE9CQUxWa3lkYmhkSVZpVklGWWFwcjd0K1VPOXdxMTJQSndhZ2V1d2wv?=
- =?utf-8?B?M2NMV1hQT25GalZ6RWM4VHNOeTFBbXFrOGZJSFltcmJXcjBHVlV3Smp6R3Ns?=
- =?utf-8?B?SFdaZ001blN1eG9HY3VNRTRYUnpNbXZ0cW96UUN1bnZlSlhBSVN4SUo5Wm9X?=
- =?utf-8?B?NUpCMEtSbGM4THI4bGlkRDQ1RndWbXA3VmdWeTBUcVBGY2trQTFjZ1QzR3Mz?=
- =?utf-8?B?bHBENjFISWx4SGh5cWR1bUNaOExNQ0wvWVgzdTlRYWN0NmpROGJFYm9vekNo?=
- =?utf-8?B?dXhQNFpvbHo0UW9WSXNtSkFBSXpOQ2pMQjZYbnhrYkRzMDFGVFNNZ3VxVS95?=
- =?utf-8?B?WE8zNjJ2QWZPYzJCS1huWXZtSlN3am5Td3hOdGlDUUU5MHNRdHlrdXJBckx4?=
- =?utf-8?B?V3A4anl1U2ZTSENPNFNPR1NHYU01Z0xkd3ErcVpxWWFLYWFZNjlXWi80T01y?=
- =?utf-8?B?Sm53cUtUMDd6ZG1TQnI3U2Uxc1ducVlCbE9OWklDTWJPNW4vYVFEMXoxQWNU?=
- =?utf-8?B?UDhyMldtU2tzYmNGeENhZi9wUHNkdDkzeW95UjM2cFlSdG5vdWZLaFExd0ZE?=
- =?utf-8?B?TnpjbUNYN0ppV0xkeUZ6TTJBSzdRVmlJS096NmFkUWFnSjVrQ055OHkxS0wv?=
- =?utf-8?B?VEVRV0R2NjhDSFJDd1cwUEtMaElCczUvcmFCQ3E1ZU9LUlB6cEc4MVdGNWpk?=
- =?utf-8?B?b21UT3BaWDJ0dXBDZGVVS2pabUtLbDltd2RyVzFiYUhrb1lMeGY4QldIYzJN?=
- =?utf-8?B?WlhGZktuRlVtQVoveHdDWUQ3TW9HQm9KYlBwR0dFNWhOdE5QQWxmSWk3QnBY?=
- =?utf-8?B?aXlSeUh6Qmcwdm1jaC9XQWUyYmVJeU5pQ3VjQ2ljaXpMMWlNa1VYTXh6dnRw?=
- =?utf-8?B?cEtqWnRzTXZZL0hoOWpBMmpNeGhDQ0tiWTMzRjFtaWZCN3oveXNOL0Jsb3dB?=
- =?utf-8?B?L2pVeVFMNWhmcDFzZFBSeTE1eks0Q2dyNEdJVkdzUXVnZGRVVmkvYitUdlhG?=
- =?utf-8?B?R2ZtZmY2V09YK3JsOUJzL3Z5NTFxcXZoU1lwSkRlbEJSUVFFMkZIQTBIc0p1?=
- =?utf-8?B?QStYNjN2a3QvSmdJYVhWS1E5SUZGVkFYcWp2L2NKZCt5ZG42YTg5OGhiemZ3?=
- =?utf-8?B?RmlvM2N2WnZtRGxTL0g2OTRjRDQwS3NTbWlVMFpJVnJjbGk0elZHWWkrb3Fl?=
- =?utf-8?B?R0dzVzFFNmRxUERqNTVUakVUNzNmTnpTQ0NMWG5QdWg2Ym82RDRoMnlsRm1F?=
- =?utf-8?B?ZjZjRnBmNm50bVlCd3hzZXgwTTNESkR4OVpIQklkeU1ucTVBbWo5MmpLSllQ?=
- =?utf-8?B?Qm1yRE5BWUMzOEp6M0hqMTlCYzVhaGQ0SjNyWGF6OXZrZFAyNUgrWEU4THla?=
- =?utf-8?B?dGN2cW1uNi9xWnQvQmY3ZjQ5NjhodTgrZm5CZ0xVbjVJUWI3U0FoOEhCV011?=
- =?utf-8?B?N2VNVmg0UXpsNllTWHk2U1ZFNWhsUE5VQnNUb1cySW5RZnd2dDl5eVJVbm9j?=
- =?utf-8?B?dUF5cFkySFBRSVpCUS94bDN5SHBFZll5SXNaeXJSUWFPUkRIcUMwc2gramM1?=
- =?utf-8?B?dURUWmZoMi9qTWlSeUtONlA3bDdOcVdoVlQrOVVmclZjanFKMGo0bVNxTzJ1?=
- =?utf-8?B?bCt5YkIvanJEanVQNTBZMHNDWlBWT1VKb2syQjAvanplODNTcWhaOHE1V3ZZ?=
- =?utf-8?B?c1NuTnB4ZmI2V1YwZGNoekY4VVJXVEo2elZqQVNvSzdYOW53R3UzM21teTdy?=
- =?utf-8?B?UWdORXY4ZTl6QzA0aFV4aVZmZWpmSFU1YWZXUVExVU9paVFmSTZ1Z1hNUkZ4?=
- =?utf-8?B?dEYvdElsc3lWWUFULy9YN1prRUFXTnNRUGhYVEtrNkJLOHNIVVBQUWdYODJT?=
- =?utf-8?B?dndMcnBoMGVLZEVHZThqYUZBV2k2UTNrWkF1L1U4RDZsT2lOUVMyMWQ4TnFX?=
- =?utf-8?B?WUVhbGl2dFlYc05WYVBtS2h1S0F2Z2o0VUFvODQzQUtXZDQvelFVUkhIejdr?=
- =?utf-8?B?cGpjWWpvL3JGeE1xVHBGWDZYWEk0MllHb29PYi9PRHlxekk1djNnYVJ2akQy?=
- =?utf-8?B?MWYyRWYwUTlpMWQ4MFYrSWNtbU1uZEpoTjQwTGpKcTZGV016Rmxadz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1c83a16-a775-458f-83ff-08ded7adf336
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5230.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 20:18:44.4515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2u0RbY+cPLJk5TjJcfuv6QG17jTQByQc1wrSgjjWgh3x8+HY4AZ5pPHJsh6/SK/wFCO14S/R3P7+INUQsVuMbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5843
+References: <cover.1782922354.git.namcao@linutronix.de> <e663a83195f3d9f6d7ad4907c37ae3e45c151062.1782922354.git.namcao@linutronix.de>
+In-Reply-To: <e663a83195f3d9f6d7ad4907c37ae3e45c151062.1782922354.git.namcao@linutronix.de>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Wed, 1 Jul 2026 20:27:54 -0700
+X-Gm-Features: AVVi8Cc0CdVhsx__5HGrso2HoD3JAKnt5KjxP05QA2kzwt5BhmMX2QVBhxsy3SY
+Message-ID: <CAAVpQUAKESwPnzZAJSsSgR_perYn+S3PbnDAexnWdeGAeGcekw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] af_unix: Do not wait for garbage collector in sendmsg()
+To: Nam Cao <namcao@linutronix.de>
+Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Drew,
+On Wed, Jul 1, 2026 at 9:36=E2=80=AFAM Nam Cao <namcao@linutronix.de> wrote=
+:
+>
+> AF_UNIX sockets' sendmsg() schedules and blocks on the garbage collector =
+if
+> user has too many inflight unix sockets
 
-Could you please change my email address to my NVIDIA email 
-fenghuay@nvidia.com?
+AND there is a cyclic reference
 
-On 6/28/26 14:18, Drew Fustini wrote:
-> Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
-> RDT_RESOURCE_L3 schemata.
-> 
-> Mismatched CC caps at the same cache level are treated as a fatal
-> configuration error since fs/resctrl exposes a single per-rid cap
-> set. Domains are created lazily in the cpuhp online callback so
-> cpu_mask reflects only currently online CPUs.
-> 
-> Assisted-by: Claude:claude-opus-4-7
-> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Drew Fustini <fustini@kernel.org>
+>. This causes real-time issues, as
+> high priority processes who do need to send lots of unix sockets get
+> blocked by the garbage collector which runs as workqueue, causing a
+> priority inversion scenario.
+
+So the real problem is the process creating cyclic references.
+
+>
+> The reason for blocking on garbage collector goes back to 2008, when
+> it was reported that "Local/unprivileged users can cause soft lockups
+> and take out system processes by triggering the OOM killer":
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D470201
+>
+> The soft lockup was because a process can keep queueing AF_UNIX sockets t=
+o
+> another process that is exiting. Back in 2008, the garbage collector was
+> run synchronously by the exiting process, therefore keep queueing AF_UNIX
+> sockets blocks that process from exiting.
+>
+> The solution to that issue was forcing sendmsg() to wait for ongoing
+> garbage collector.
+>
+> The OOM killer issue was brought up again in 2010:
+> https://lore.kernel.org/lkml/AANLkTi=3DQ967xpX0KLMwX-=3D_4_1AKO5wjHEuJ1Tr=
+NjCj9@mail.gmail.com/
+>
+> To resolve that report, beside blocking on the garbage collector, sendmsg=
+()
+> also schedules the garbage collector if the number of inflight AF_UNIX
+> sockets in the system is too high.
+>
+> Then in 2015, once again, the OOM killer problem was brought up:
+> https://lore.kernel.org/lkml/20151228141435.GA13351@1wt.eu/
+>
+> That time, the issue was resolved by disallowing a user from having more
+> inflight AF_UNIX sockets than their RLIMIT_NOFILE. That was done by commi=
+t
+> 712f4aad406b ("unix: properly account for FDs passed over unix sockets")
+> and commit 415e3d3e90ce ("unix: correctly track in-flight fds in sending
+> process user_struct").
+>
+> Now, sendmsg() does not have to block on the garbage collector anymore,
+> because:
+>
+>   - The OOM killer issue has already been addressed by checking
+>     RLIMIT_NOFILE.
+>
+>   - The soft lockup issue is no longer relevant, because the garbage
+>     collector now runs asynchronously since commit d9f21b361333 ("af_unix=
+:
+>     Try to run GC async.")
+
+I don't think the latter is resolved.  Without blocking insane
+users, they can keep pushing sockets to the kernel work,
+which could be soft-lockup'd.
+
+
+>
+> Therefore, remove that to prevent priority inversion. Running all the
+> reproducers from the mentioned bug reports after this patch, no problem i=
+s
+> observed.
+>
+> Signed-off-by: Nam Cao <namcao@linutronix.de>
 > ---
->   MAINTAINERS                      |   2 +
->   arch/riscv/include/asm/resctrl.h | 147 ++++++++
->   drivers/resctrl/Kconfig          |   4 +
->   drivers/resctrl/Makefile         |   1 +
->   drivers/resctrl/cbqri_resctrl.c  | 787 +++++++++++++++++++++++++++++++++++++++
->   5 files changed, 941 insertions(+)
-> 
-[SNIP]
-
-> diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-> new file mode 100644
-> index 000000000000..1fb0fbe1b000
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_resctrl.c
-[SNIP]
-
-> +/*
-> + * Walk cbqri_controllers and pick one capacity controller (CC) per cache
-> + * level (L2/L3) to back the corresponding RDT_RESOURCE_L*. When more than
-> + * one CC sits at the same level (e.g. one per socket), they must agree on
-> + * rcid_count / ncblks / alloc_capable. A mismatch is fatal because resctrl
-> + * exposes a single set of caps per rid. The first matching controller wins.
-> + */
-> +static int cbqri_resctrl_pick_caches(void)
-> +{
-> +	struct cbqri_controller *ctrl;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&cbqri_controllers_lock);
-
-Is it better to change mutex_lock()/mutex_unlock() to
-  guard(mutex)(&cbqri_controllers_lock)?
-
-1. This code is simpler and can avoid potential missing unlock issue.
-2. This matches mpam code.
-
-> +
-> +	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-> +		struct cbqri_resctrl_res *cbqri_res;
-> +		int rid;
-> +
-> +		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-> +			continue;
-> +		if (!ctrl->alloc_capable)
-> +			continue;
-> +
-> +		rid = cbqri_cache_level_to_rid(ctrl->cache.cache_level);
-> +		if (rid < 0) {
-> +			pr_info("skipping controller at unsupported cache level %u\n",
-> +				ctrl->cache.cache_level);
-> +			continue;
-> +		}
-> +
-> +		cbqri_res = &cbqri_resctrl_resources[rid];
-> +		if (cbqri_res->ctrl) {
-> +			/*
-> +			 * CCs at the same cache level must agree on every cap
-> +			 * resctrl exposes globally. Reject mismatches at pick
-> +			 * time so the inconsistency is visible at boot.
-> +			 */
-> +			if (cbqri_res->ctrl->rcid_count != ctrl->rcid_count ||
-> +			    cbqri_res->ctrl->cc.ncblks != ctrl->cc.ncblks ||
-> +			    cbqri_res->ctrl->cc.supports_alloc_at_code !=
-> +				    ctrl->cc.supports_alloc_at_code ||
-> +			    cbqri_res->ctrl->alloc_capable != ctrl->alloc_capable) {
-> +				pr_err("L%d controllers have mismatched capabilities\n",
-> +				       ctrl->cache.cache_level);
-> +				ret = -EINVAL;
-> +				break;
-
-Is it possible to support cbqri on both L2 and L3 on the same machine?
-Failure on one controller will stop picking another other controller here.
-
-If both L2 and L3 can be supported on the same machine, does it make 
-sense to pr_err() (fatal for this controller) and continue to go to the 
-next controller? So failure on L2 won't impact L3?
-
-If that's the case, does it make sense not to return error for 
-pick_caches()? So pick_caches() failure is not fatal?
-
-> +			}
-> +			continue;
-> +		}
-> +
-> +		cbqri_res->ctrl = ctrl;
-> +	}
-> +
-> +	mutex_unlock(&cbqri_controllers_lock);
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Fill the rdt_resource fields for one picked rid. An rid with no picked
-> + * controller is left untouched so it stays out of resctrl_arch_get_resource().
-> + */
-> +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
-> +{
-> +	struct cbqri_controller *ctrl = cbqri_res->ctrl;
-> +	struct rdt_resource *res = &cbqri_res->resctrl_res;
-> +
-> +	if (!ctrl)
-> +		return;
-> +
-> +	switch (res->rid) {
-> +	case RDT_RESOURCE_L2:
-> +	case RDT_RESOURCE_L3:
-> +		res->name = (res->rid == RDT_RESOURCE_L2) ? "L2" : "L3";
-> +		res->schema_fmt = RESCTRL_SCHEMA_BITMAP;
-> +		res->ctrl_scope = (res->rid == RDT_RESOURCE_L2) ?
-> +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
-> +		res->cache.cbm_len = ctrl->cc.ncblks;
-> +		res->cache.shareable_bits = 0;
-> +		res->cache.min_cbm_bits = 1;
-> +		res->cache.arch_has_sparse_bitmasks = false;
-> +		res->cdp_capable = ctrl->cc.supports_alloc_at_code;
-> +		res->alloc_capable = ctrl->alloc_capable;
-> +		INIT_LIST_HEAD(&res->ctrl_domains);
-> +		INIT_LIST_HEAD(&res->mon_domains);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-> +
-> +static void cbqri_resctrl_accumulate_caps(void)
-> +{
-> +	int rid;
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
-> +		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +		if (!hw_res->ctrl)
-> +			continue;
-> +		if (hw_res->ctrl->alloc_capable)
-> +			exposed_alloc_capable = true;
-> +	}
-> +}
-> +
-> +/*
-> + * Create, list-insert, and online a fresh ctrl_domain backing ctrl on
-> + * resource res, seeded with cpu and identified by dom_id. Caller must
-> + * hold cbqri_domain_list_lock and must have already verified that no
-> + * existing ctrl_domain on res carries this id.
-> + */
-> +static struct rdt_ctrl_domain *cbqri_create_ctrl_domain(struct cbqri_controller *ctrl,
-> +							struct rdt_resource *res,
-> +							unsigned int cpu, int dom_id)
-> +{
-> +	struct rdt_ctrl_domain *domain;
-> +	struct list_head *pos = NULL;
-> +	int err;
-> +
-> +	domain = cbqri_new_domain(ctrl);
-> +	if (!domain)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
-> +	domain->hdr.id = dom_id;
-> +	domain->hdr.type = RESCTRL_CTRL_DOMAIN;
-> +
-> +	err = cbqri_init_domain_ctrlval(res, domain);
-> +	if (err) {
-> +		kfree(container_of(domain, struct cbqri_resctrl_dom,
-> +				   resctrl_ctrl_dom));
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	/* Insert sorted by id so user-visible ordering is deterministic. */
-> +	resctrl_find_domain(&res->ctrl_domains, dom_id, &pos);
-> +	list_add_tail(&domain->hdr.list, pos);
-> +
-> +	resctrl_online_ctrl_domain(res, domain);
-> +
-> +	return domain;
-> +}
-> +
-> +static int cbqri_attach_cpu_to_cap_ctrl(struct cbqri_controller *ctrl,
-> +					unsigned int cpu)
-> +{
-> +	struct cbqri_resctrl_res *hw_res;
-> +	struct rdt_ctrl_domain *domain;
-> +	struct rdt_resource *res;
-> +	int dom_id;
-> +	int rid;
-> +
-> +	rid = cbqri_cache_level_to_rid(ctrl->cache.cache_level);
-> +	if (rid < 0)
-> +		return 0;
-> +	hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +	if (!hw_res->ctrl)
-> +		return 0;
-> +
-> +	res = &hw_res->resctrl_res;
-> +	dom_id = ctrl->cache.cache_id;
-> +
-> +	domain = cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
-> +	if (domain) {
-> +		cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
-> +		return 0;
-> +	}
-> +
-> +	domain = cbqri_create_ctrl_domain(ctrl, res, cpu, dom_id);
-> +	if (IS_ERR(domain))
-> +		return PTR_ERR(domain);
-> +
-> +	return 0;
-> +}
-> +
-> +static void cbqri_detach_cpu_from_ctrl_domains(struct rdt_resource *res,
-> +					       unsigned int cpu)
-> +{
-> +	struct rdt_ctrl_domain *domain, *tmp;
-> +
-> +	list_for_each_entry_safe(domain, tmp, &res->ctrl_domains, hdr.list) {
-> +		if (!cpumask_test_cpu(cpu, &domain->hdr.cpu_mask))
-> +			continue;
-> +		cpumask_clear_cpu(cpu, &domain->hdr.cpu_mask);
-> +		if (cpumask_empty(&domain->hdr.cpu_mask)) {
-> +			resctrl_offline_ctrl_domain(res, domain);
-> +			list_del(&domain->hdr.list);
-> +			kfree(container_of(domain, struct cbqri_resctrl_dom,
-> +					   resctrl_ctrl_dom));
-> +		}
-> +	}
-> +}
-> +
-> +/*
-> + * Remove a CPU from every domain it was attached to. The per-resource
-> + * detach helpers act only when the CPU is set in a domain's mask, so this
-> + * is idempotent and undoes a partial online attach as well as a full
-> + * offline. Caller holds cbqri_domain_list_lock.
-> + */
-> +static void cbqri_detach_cpu_from_all_ctrls(unsigned int cpu)
-> +{
-> +	int rid;
-> +
-> +	lockdep_assert_held(&cbqri_domain_list_lock);
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
-> +		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +		if (!hw_res->ctrl)
-> +			continue;
-> +		cbqri_detach_cpu_from_ctrl_domains(&hw_res->resctrl_res, cpu);
-> +	}
-> +}
-> +
-> +/*
-> + * Attach a CPU to every controller that claims it. On failure, detach the
-> + * CPU from everything attached so far: the cpuhp core does not run this
-> + * state's offline teardown when its startup fails, so a partial attach
-> + * would otherwise leak into the domain cpu_masks. Caller holds
-> + * cbqri_domain_list_lock.
-> + */
-> +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
-> +{
-> +	struct cbqri_controller *ctrl;
-> +	int err = 0;
-> +
-> +	lockdep_assert_held(&cbqri_domain_list_lock);
-> +
-> +	/*
-> +	 * Hold cbqri_controllers_lock across the walk so a controller
-> +	 * registered after boot cannot corrupt it. The register path takes
-> +	 * it as a leaf and never cbqri_domain_list_lock, so this nesting
-> +	 * cannot invert.
-> +	 */
-> +	mutex_lock(&cbqri_controllers_lock);
-
-guard(mutex)(&cbqri_controllers_lock)?
-
-> +	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-> +		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-> +			continue;
-> +		if (!cpumask_test_cpu(cpu, &ctrl->cache.cpu_mask))
-> +			continue;
-> +		if (!ctrl->alloc_capable)
-> +			continue;
-> +
-> +		err = cbqri_attach_cpu_to_cap_ctrl(ctrl, cpu);
-> +		if (err) {
-> +			cbqri_detach_cpu_from_all_ctrls(cpu);
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&cbqri_controllers_lock);
-> +
-> +	return err;
-> +}
-> +
-> +static bool cbqri_resctrl_inited;
-> +
-> +static void cbqri_resctrl_teardown(void)
-> +{
-> +	int rid;
-> +
-> +	if (!cbqri_resctrl_inited)
-> +		return;
-> +
-> +	resctrl_exit();
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
-> +		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +		hw_res->ctrl = NULL;
-> +		hw_res->cdp_enabled = false;
-> +	}
-> +	exposed_alloc_capable = false;
-> +	cbqri_resctrl_inited = false;
-> +}
-> +
-> +static int cbqri_resctrl_setup(void)
-> +{
-> +	int rid;
-> +	int err;
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++)
-> +		cbqri_resctrl_resources[rid].resctrl_res.rid = rid;
-> +
-> +	err = cbqri_resctrl_pick_caches();
-> +	if (err)
-> +		return err;
-
-Failure in pick_caches() will abort any future cbqri features e.g. 
-memory bw allocation/monitoring. Is it possible to ignore the 
-pick_caches() failure and continue to setup other cbqri features? Failed 
-caches won't impact other QoS features, right?
-
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++)
-> +		cbqri_resctrl_control_init(&cbqri_resctrl_resources[rid]);
-> +
-> +	cbqri_resctrl_accumulate_caps();
-> +
-> +	if (!exposed_alloc_capable) {
-> +		pr_debug("no resctrl-capable CBQRI controllers found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	err = resctrl_init();
-> +	if (err)
-> +		return err;
-> +
-> +	cbqri_resctrl_inited = true;
-> +	return 0;
-> +}
-> +
-> +static int cbqri_resctrl_online_cpu(unsigned int cpu)
-> +{
-> +	int err;
-> +
-> +	mutex_lock(&cbqri_domain_list_lock);
-> +	err = cbqri_attach_cpu_to_all_ctrls(cpu);
-> +	mutex_unlock(&cbqri_domain_list_lock);
-> +	if (err)
-> +		return err;
-> +
-> +	/*
-> +	 * Seed the per-CPU default RCID/MCID to the reserved (0, 0) pair and
-> +	 * notify the resctrl core so it tracks this CPU in the default group.
-> +	 */
-> +	resctrl_arch_set_cpu_default_closid_rmid(cpu, 0, 0);
-> +	resctrl_online_cpu(cpu);
-> +	return 0;
-> +}
-> +
-> +static int cbqri_resctrl_offline_cpu(unsigned int cpu)
-> +{
-> +	resctrl_offline_cpu(cpu);
-> +
-> +	mutex_lock(&cbqri_domain_list_lock);
-> +	cbqri_detach_cpu_from_all_ctrls(cpu);
-> +	mutex_unlock(&cbqri_domain_list_lock);
-> +	return 0;
-> +}
-> +
-> +static int __init cbqri_arch_late_init(void)
-> +{
-> +	int err;
-> +
-> +	if (!riscv_isa_extension_available(NULL, SSQOSID))
-> +		return -ENODEV;
-> +
-> +	err = cbqri_resctrl_setup();
-> +	if (err)
-> +		return err;
-> +
-> +	err = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "cbqri:online",
-> +				cbqri_resctrl_online_cpu,
-> +				cbqri_resctrl_offline_cpu);
-> +	if (err < 0) {
-> +		cbqri_resctrl_teardown();
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +late_initcall(cbqri_arch_late_init);
-> 
-
-Thanks.
-
--Fenghua
-
+>  net/unix/garbage.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/net/unix/garbage.c b/net/unix/garbage.c
+> index 0783555e2526..f180c59b3da9 100644
+> --- a/net/unix/garbage.c
+> +++ b/net/unix/garbage.c
+> @@ -300,8 +300,6 @@ int unix_prepare_fpl(struct scm_fp_list *fpl)
+>         if (!fpl->edges)
+>                 goto err;
+>
+> -       unix_schedule_gc(fpl->user);
+> -
+>         return 0;
+>
+>  err:
+> --
+> 2.47.3
+>
