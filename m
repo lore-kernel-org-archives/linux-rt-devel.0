@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C41F357CE1;
-	Thu,  2 Jul 2026 11:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11A747DF88;
+	Thu,  2 Jul 2026 12:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990665; cv=none; b=ns5FI0wl4AAwwC0nXzsJe0X9moKMsTGm0G/V1Hvpl7IuUL46REzdPYoUDy5c8Kixkwg/pC9rQG+iL2woHjkFQWEGZVzZDXVz3eTxkTwvTzUKdkVDXqb0crPb3jtAXKHr5ZkwLYgISeBJu/DmhSQtbS9vK8xhEANdj1HcyYBkG/U=
+	t=1782995303; cv=none; b=Jl29ccKhDElX3ue/3kny0AvsfRXUwk39jD/GpYa0zzziP9Y0H8xnthE5KyLLRYDzlmamAxbyX2JrHmS1BPsjFkbm8qbrUaM7DHy0F811xYsJKhvTzn1bJGzyiUayxcnOACfKHHqhWpVBhcWWI/ZZVd8iJFAvsCz5T7cZBvSNSwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990665; c=relaxed/simple;
-	bh=9KX6d/K9WySjZ0HUxbJNcvfWHbUezYJzIZlOQex6LpQ=;
+	s=arc-20240116; t=1782995303; c=relaxed/simple;
+	bh=KCpRa4CyCN4XF10a4aBVFr6IqtEwHteXO/0kw11Kark=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ZYJGtGFL2zeqrjyau6oORiRnxYHA+XfNuig+/n9ceZbqvBg3gi7E6sEOkSZZ7rtIjFmwkjOKzXDUQ3xQbgmcmURLLzYKqVAk9SZcSvF2B8qjMJDs5XD1uuTUtAQWEI9CN0qxtRsjbqFrCeUhQ6ASJMFacUibCyQ4MSYgv5eQt7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUvcQzLe; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Jl69c7KD/47cwQfhlBpj7zRv4r0865yC/ie8NauMVZKjxSv3iy05UQ4XDB+nJDktpZmvIFNYj/g5/qLDEQBoj1ZhEyLybCK9PYQfJYoHwmp8tEsRi8qeoP0fypDaLKPzd8+L47Mve9/2WP7geLgHjtKFUwuuyyDCTszLRHM3cmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ipz0sVX7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUvcQzLe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2B41F000E9;
-	Thu,  2 Jul 2026 11:11:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ipz0sVX7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 562721F00A3A;
+	Thu,  2 Jul 2026 12:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782990664;
-	bh=Xex+nNy3u5ryRLr2RWPR4ACFzZVdPc5n0VbsFZnJa+g=;
+	s=k20260515; t=1782995302;
+	bh=KCpRa4CyCN4XF10a4aBVFr6IqtEwHteXO/0kw11Kark=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YUvcQzLeY180uCdMpiAh9e/xvpcEdR5cVbqpchn4nS018SAuwk4egyWX0vw15dFiR
-	 mSzQQmgkuUDNehxQq86kBDh5djG5DlpqWEB2mq6LdeRM4BeHDwh2cdG8VN6sFI+q3w
-	 vYLqeeOXn8R/mXDjQKEjqQowR8GmT7sd3hE9GuQ9KfDWdb65heHJ1UdAJB+XgDwW5l
-	 og9MyWDJOjwirSuXJ3ESnDpIq+IZmQqPm5HN2XLCGetonoZ8bfHwCPlsgwbksD0ZvP
-	 qM4mR/ChWU/lXDRqaO8iQmIu1y4kdc12MdVGJDuxzUoYekcTuEJf2SyfL0KwCJ6ZfV
-	 JPFSy0+IbZ0Qw==
+	b=ipz0sVX7xPIEFGse5k7UKMjxhs/rfhC6bwqHsQmYZQPBFRHstjRr+jjX/Cn6yuwpG
+	 kUb/NJIeek6LKgJ25IAFx0C8bkG+F6Lh2eFhZOc7ixARNKXeomsoX+vgfyG9fFsDb1
+	 3uy//sVtCB1dJYHSvK9JltQqd1mp9h3hmm/5QPscf0BdupxDKgvL5oyNbBq4MEVl9g
+	 kq81VZZ2Ebhb39R4DTacT32HrQKtPsg17SGE7iVUxEXtOAKD2nsip8urC6ywMPPuU3
+	 mYwpGZt6q/yFZdz4q2uCWRiBZEO/2KktzbhR1cDgIHRI2UvO6iDkdZzg82afQSt0OO
+	 pXLHI9tUBcd1w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 13/18] mm: Remove __alloc_pages_node()
+Subject: Re: [PATCH v4 18/18] mm: factor out can_spin_trylock()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Brendan Jackman" <jackmanb@google.com>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260702-alloc-trylock-v4-13-0af8ff387e80@google.com>
+In-Reply-To: <20260702-alloc-trylock-v4-18-0af8ff387e80@google.com>
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
- <20260702-alloc-trylock-v4-13-0af8ff387e80@google.com>
+ <20260702-alloc-trylock-v4-18-0af8ff387e80@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2026 11:11:03 +0000
-Message-Id: <20260702111103.DD2B41F000E9@smtp.kernel.org>
+Date: Thu, 02 Jul 2026 12:28:21 +0000
+Message-Id: <20260702122822.562721F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -48,82 +48,61 @@ Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] The patch removes `__alloc_pages_node` because it is unsafe to use=
- with `cpu_to_node()`, which can return `NUMA_NO_NODE` (-1) during CPU hotp=
-lug, but leaves the equivalent `__folio_alloc_node` untouched, which suffer=
-s from the exact same vulnerability.
+- [High] The refactoring to deduplicate spin_trylock safety checks into can=
+_spin_trylock() missed __free_frozen_pages(), leaving a pre-existing UP NMI=
+ corruption bug unpatched.
 --
 
-commit 584eaae6f16d0eb43140d0b202665ffc9212c61e
+Note: The format of this report has been altered to provide a free-form
+summary of the findings due to recitation restrictions.
+
+commit a99a7a468132ab177e1233c7e2f5644523ace0a7
 Author: Brendan Jackman <jackmanb@google.com>
+Subject: mm: factor out can_spin_trylock()
 
-mm: Remove __alloc_pages_node()
+This commit introduces can_spin_trylock() to deduplicate checks for whether=
+=20
+the current context is safe for spin_trylock(). It updates=20
+alloc_nolock_allowed() in mm/page_alloc.c and __kmalloc_nolock_noprof() in=
+=20
+mm/slub.c to use this newly factored helper.
 
-This commit removes __alloc_pages_node() since it is prone to memory
-corruption on CPU hotplug if callers pass NUMA_NO_NODE from cpu_to_node().
-Removing it leaves the __* variants strictly for internal memory management.
-
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index 01d6d2591f49e..3bf55a5f9143e 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-[ ... ]
-> @@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this_nod=
-e, gfp_t gfp_mask)
->  	dump_stack();
->  }
-> =20
-> -/*
-> - * Allocate pages, preferring the node given as nid. The node must be va=
-lid and
-> - * online. For more general interface, see alloc_pages_node().
-> - */
-> -static inline struct page *
-> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
-> -{
-> -	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
-> -	warn_if_node_offline(nid, gfp_mask);
-> -
-> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
-> -}
-> -
-> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(=
-__VA_ARGS__))
-> -
->  static inline
->  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, i=
-nt nid)
->  {
+Link: https://lore.kernel.org/all/397859cb-b127-4cc6-9c71-044afc99bf0c@kern=
+el.org/
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does __folio_alloc_node_nopr=
-of()
-suffer from the exact same vulnerability that motivated removing
-__alloc_pages_node_noprof()?
 
-If NUMA_NO_NODE (-1) is passed here, it triggers VM_BUG_ON(nid < 0) or bypa=
-sses
-it in non-debug builds, leading to out-of-bounds array accesses when evalua=
-ting
-warn_if_node_offline() and NODE_DATA(-1).
+This isn't a bug introduced by this patch, but the deduplication refactorin=
+g=20
+appears to have missed an open-coded check in __free_frozen_pages() in=20
+mm/page_alloc.c.=20
 
-Looking at net/sunrpc/svc.c, there is a path that passes the result of
-cpu_to_node() directly to __folio_alloc_node() without checking for
-NUMA_NO_NODE:
+Could this open-coded check also be updated to use the new=20
+can_spin_trylock() helper to resolve a pre-existing UP NMI safety issue?
 
-net/sunrpc/svc.c:svc_prepare_thread() {
-    ...
-    node =3D svc_pool_map_get_node(pool->sp_id);
-    rqstp->rq_scratch_folio =3D __folio_alloc_node(GFP_KERNEL, 0, node);
-    ...
-}
+When __free_frozen_pages() handles FPI_TRYLOCK, it explicitly checks for
+CONFIG_PREEMPT_RT and NMI/hardirq context. On UP systems where CONFIG_SMP=20
+is disabled, spin_trylock() and its variants are defined to unconditionally=
+=20
+succeed because there is no actual lock state tracked.
 
-During concurrent CPU hotplug, svc_pool_map_get_node() can return NUMA_NO_N=
-ODE.
-Should __folio_alloc_node() be removed or fixed in this patch as well to fu=
-lly
-eliminate this class of bug?
+If a caller invokes free_pages_nolock() from an NMI context on a UP system,=
+=20
+the current RT-specific check fails. The execution then falls back to=20
+free_one_page(), where spin_trylock_irqsave() falsely succeeds even if the=
+=20
+NMI interrupted another task that was actively modifying the free list unde=
+r=20
+the zone lock.=20
+
+This allows concurrent modification of the free list, which can lead to=20
+corruption and kernel panics.
+
+Updating the check in __free_frozen_pages() to use !can_spin_trylock()=20
+would catch the UP NMI case and safely route the allocation to the lockless=
+=20
+add_page_to_zone_llist() path instead.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260702-alloc-tryl=
-ock-v4-0-0af8ff387e80@google.com?part=3D13
+ock-v4-0-0af8ff387e80@google.com?part=3D18
