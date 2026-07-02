@@ -1,66 +1,67 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905DF48BD45
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27944C6F0E
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985789; cv=none; b=CJprcdd0H7JjpICC2sdGIvifU45K0UqamluscyIRVw+kORTRGuyq8kajFrIb0VSMSInIZLyUsxStYcvaKjr7ZWjGSmljlThF+OCsIKgeu8Qpa9QBlIQW2tJznpAlAzZdbixi9meY35JZ5rmh/+NaXTnIdN1NiQsD083C90HwQYI=
+	t=1782985790; cv=none; b=LBi4Hg1xx2o4/b6ljZKNSY2G8q6Sf+mNNvYOexJczaaRt7rjMrmqxlAFYI5+pZ8BeEnMkc6sQYsKwYTqNdFHgNMyxpogH3MQSrwqJUkLmc3hR05chd/AIFpixARPFYIHKRfD/E4DkATPNMwH98LfkmkVJJB6CTTGucTxYKGoEds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985789; c=relaxed/simple;
-	bh=6dfl0493FiKCVdfH6IISSpAPeMP8atcIuPuXeABh7So=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=WSzvBZXoAJSlOQlTFOT25AT3oU5oXzqBrdoSBgVcrbuSXLcFnzT3gLXwL48kL+NFzJ0WM2hu3XAbE/fEFr9/kqtXGYxYgvx+PjJexZ2FbtyVbstxDZaTrAYBL5GbvKj/xghwUzK3mksnyfCuZLbKJoLSDdUHFenx3ConM0DIlnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TerKU1SE; arc=none smtp.client-ip=209.85.128.73
+	s=arc-20240116; t=1782985790; c=relaxed/simple;
+	bh=XSMEx7/rnQ/A8Pwk/KpzBBynrXnVI6BQCpv6JO2sLSQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ZX9XH2HiazhMowZQEwGOd35FYopPU3at9F9vWLTWhEd73k45v0GJAJ130nYBU2k04zanjoKbQgkxrJegaJUTofcMxyYUC4HAESCoonef7EgL9apaVJvkJF4arPcwTi4PySj1dw4KFGunW/VKv4qPBHSFyOGONJEgjA2O2vzFLY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f3Q0m/C1; arc=none smtp.client-ip=209.85.218.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TerKU1SE"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4926d371224so12679655e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:49:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f3Q0m/C1"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-c07d22d503fso158525666b.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985786; x=1783590586; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=uA/CbX05otjpJrCB5vyhlF2BO1G5eOxSm1QrF783BDY=;
-        b=TerKU1SE/FZmZovrzPEsWu6ru7dmg2fevhD5jujGeQT/ddx1JI42BTE5tcyBM0R44S
-         dQxiFTw9GXNAPYQ8DqWNdCXX7yXkI8nTJi9fL5D8M3Rillf08e/b4o5wWinHfC3hEyjp
-         c2mqWzBwXec2QSzFG+4CKRHXEREcdA0IBLsJZAScf56a9G+rUyz8R+yQ8/GfWvp/TU38
-         J6WQdNkZAOs/MTtNhMRXFaPQnFGrsC0W85B1w2y9gmLs/cDwhP2Y+pw5P6O0C8FKHIft
-         nslsDn6k0GAHCc7BDSi3Ai8gf7reKuK3iqTFxF8H0IEnqEfkgTo2wJd92ilg+WeXweU6
-         7r7Q==
+        d=google.com; s=20251104; t=1782985787; x=1783590587; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QxpluEDl6Bvs+YrJCKdo0lCaCsO0ieanT5jt0bN1dTA=;
+        b=f3Q0m/C1zH573eyc+pneqc6Dwq+3Cq3M+yglRnt3gXTwOeHWVU2f1+ndDDsSd0KmY4
+         mdUYvEyM8OpuT+7Lpgv7JLMDhpZu6Oyy89sIDWo62PWc+1N5WMGP7h/ayegvxXDmxwBK
+         te2r70wXi9HK4tP5ooB7Wtxp6pQGh6rIHTpai/Ftrqq8LMN+MIJy9bMdy4YDgxlnzVCA
+         55PVas8mBKGLrPFo+0pZQC92m3y+JlPhplslxOIqywBBNN5hDU8ocSfHJ/Kpkg9N5gIk
+         1KyxDsI6h67I3KFh3oB2fFG3lWZxUCPGxWqdi99hulq519Hfd/YzP+ldyIxgWsXTENIO
+         ebTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985786; x=1783590586;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uA/CbX05otjpJrCB5vyhlF2BO1G5eOxSm1QrF783BDY=;
-        b=EDpmzR4OtdB9mz38FWEtcENEJ2f2JkzRXH0Nq+yevCZD2umTtMQLeddOD91WOytFNG
-         3nKbbu8MZ6kS91LI7k4Ldb4qQI2VehQAOww4jgkyIaDEkRcI+8NwU4VbyJy4g0PAn1o2
-         1LA0syuAJGcV634mxTOZzCdKc/2kEHxg+Rm56Ec+r2g7M7KUvHUsu76ojndv/nBUNnMN
-         Q3xTqf5TB+IuatZnwce/bYbFpkl+sTQEdMmzKaaUYy9K/mntd+ywW0dFTHo3P/SDodSC
-         apGPCZTxGqgWOGjSSpApcMdLriB3pWmfrzlgQqKeIgydncFeOdacZTFa/ldQtHmXeTk8
-         wq6w==
-X-Forwarded-Encrypted: i=1; AFNElJ8TnwuHg+54qO4JUZf9zy2pIxlXkrqTRUuao6oGFQmyuhLYR0m8nwFa2RXa/nl3UisVf4SZOuAsz2fKTOR3vg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YztbDpBd46kejucEzdwtv/0sv2BShENVOy1RLS1aGmw8rzIPI+n
-	rNWy3tztGaaxe9DrlDFpnZFNcU3vGvii5bqe2MHCsRanY+CAS2uTWFl/nBikY2ba3JXf2g5115B
-	AWuR3stGY3gdRwA==
-X-Received: from wrpl7.prod.google.com ([2002:a5d:4107:0:b0:43d:7e53:c76a])
+        d=1e100.net; s=20251104; t=1782985787; x=1783590587;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QxpluEDl6Bvs+YrJCKdo0lCaCsO0ieanT5jt0bN1dTA=;
+        b=bVXtajpmAAX0CcSQzsuPFQ0HLs408aDg2n2HzxQw196KCPQU/XuNLTDP/xXbaW/Ln/
+         DLl20o3Sb1WHjN0JA6aXOvqsXfvwN509IG/+eI8duEzbIym6/NPRN0FLB/JzM0Mt+eMg
+         /nXj+O+ek2a8NBafXbexQYn+GclYFrnVk4xmoS5NM9K3IXiB8ORk0tck9jbdYO/YJyLf
+         9Frje15ovZO4H5xmB55on/UNSUEwtz3yANgmrgGUoHP6NfdBABVoJdeYEH36nACv02on
+         2T3uyJVKFZe8XaNCsLXVqE+79s76LitO/hdgQv7yHoHmKXP6aCH43mg0d1kPh1p/qCj2
+         B5QA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7NV2TyvFEFDVHZq6YKqbsqSYtXwp70e7mTqEXR/jWo6SIwsm4v4QbSQ9NsghOigzHTBwF1cvfKzYHFS97nw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLQr6ZF6lCjP+ZM/Ug9gun6/tt8+2ed5SZr3MNX6GWtnSRDAjp
+	d66aMWmWv/Ncc/zhX14D6BCmt09HXQChR1S/hev7LPHNyCeqpJPNJT5l/YZ2yoNhu9/dAYR9GT/
+	jHXtxLJb0e+G/tQ==
+X-Received: from ejjd17.prod.google.com ([2002:a17:906:3ed1:b0:c12:6c1e:ea29])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:a4c:b0:493:c55e:9fa1 with SMTP id 5b1f17b1804b1-493c55ea121mr31277505e9.39.1782985785380;
- Thu, 02 Jul 2026 02:49:45 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:31 +0000
+ 2002:a17:906:6a01:b0:c12:b226:27 with SMTP id a640c23a62f3a-c12b2260182mr177229266b.11.1782985786777;
+ Thu, 02 Jul 2026 02:49:46 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:32 +0000
+In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIACw0RmoC/3XNTQ6CMBAF4KuYrq1pZ5CiK+9hXJR2wCpS0yKRE
- O5u0Y0/cTV5yfvejCxScBTZdjGyQL2LzrcpZMsFM0fd1sSdTZmBgFzkUnHdNN7wLgzpnLnMtEV
- ldYmoWDLXQJW7P/f2h1eOt/JEpptH5sbRxc6H4fmwl3Pv33YvueQFVlYV66JAoF3tfd3QyvgLm 8d7eOMA3xy44CgrlJgrm4H44fjON98cE1+rkipB2pYGPvg0TQ98Sd+GOwEAAA==
-X-Change-Id: 20260617-alloc-trylock-14ad37dab337
+References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
-Subject: [PATCH v4 00/18] mm: Some cleanups for page allocator APIs
+Message-ID: <20260702-alloc-trylock-v4-1-0af8ff387e80@google.com>
+Subject: [PATCH v4 01/18] mm/page_alloc: rename ALLOC_TRYLOCK -> ALLOC_NOLOCK
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -79,167 +80,88 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	derkling@google.com, reijiw@google.com, Brendan Jackman <jackmanb@google.com>, 
-	Yosry Ahmed <yosry@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dimitris Michailidis <dmichail@fungible.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-This is based on mm-new, it depends on moving alloc_tag to mm/ [0].
+It's confusing that the function is called "nolock" but the flag is
+called "trylock", align them.
 
-[0] https://lore.kernel.org/all/aj5QBtJcphPElczI@lucifer/
+The function's terminology is more visible and has more mindshare so use that.
 
-Some tweaks and cleanups for page allocator entrypoint and flags. This
-is motivated by preparation for __GFP_UNMAPPED [1] (which will probably
-become ALLOC_UNMAPPED in its next iteration), but all this is supposed
-to be an improvement to the codebase in its own right: unifying code
-paths, reducing API surface, and removing GFP flags.
-
-[1] https://lore.kernel.org/all/20260320-page_alloc-unmapped-v2-0-28bf1bd54f41@google.com/
-
-This started with unifying  __alloc_frozen_pages[_nolock]_noprof() and
-expanded from there.
-
-Unifying the nolock allocator entrypoint with the normal allocator
-entrypoint means adding an alloc_flags argument to the later (only
-exposed within mm/). This presents an opportunity to take advantage of
-that arg to remove some GFP flags, if we add that alloc_flags arg a bit
-more broadly to allocator entrypoints.
-
-To distinguish between mm-internal and "public" allocator entrypoints,
-it makes sense to use the __ prefix. There are already some public APIs
-with that prefix. For *alloc_pages*, just removing those variants seems
-like a nice cleanup anyway, so do that. For get_free_pages, the "__"
-variant is the _only_ variant and it's very widely used, so it doesn't
-seem worthwhile to modify that. Therefore, scope this "__" change
-specifically to the *alloc_pages* API, which means we leave the
-*folio_alloc* API untouched too, even though that could probably be
-cleaned up if so desired.
-
-Tested:
-
-- KVM, mm, and BPF selftests in a QEMU VM
-
-- kunit.py on x86_64
-
-- For the ALLOC_NO_CODETAG bits I just booted a VM and read
-  /proc/allocinfo. I confirmed that if I remove ALLOC_NO_CODETAG, the
-  kernel crashes in early boot, so I was at least booting code that
-  depends on this logic.
-
-I used Google's internal version of Antigravity (AI coding harness) to
-do the repetitive bits, those commits are marked with Assisted-by, the
-rest is manual.
-
+Suggested-by: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Link: https://lore.kernel.org/linux-mm/2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org/
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Reviewed-by: Harry Yoo (Oracle) <harry@kernel.org>
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
-Changes in v4:
-- Fixed some (harmless) missing applications of ac->alloc_flags (local
-  Sashiko)
-- Fixed various build issues.
-   - Note that Sashiko pointed out a KMSAN build issue [0], I have
-     fixed it but KMSAN builds are currently broken by objtool [1]. At least
-     mm/kmsan/init.c compiles.
-     [2] https://lore.kernel.org/all/20260629141642.628271F00A3D@smtp.kernel.org/
-     [3] https://lore.kernel.org/all/20260630104434.GC751831@noisy.programming.kicks-ass.net/t/#u
-- Avoided setting ALLOC_NOFRAGMENT under ALLOC_NOLOCK (Sashiko, Harry)
-- Added patch to tweak alloc_flags_cma() interface (Vlastimil)
-- More commit messages fixups (various)
-- Added patch to create can_spin_trylock() (Harry)
-- Link to v3: https://patch.msgid.link/20260629-alloc-trylock-v3-0-57bef0eadbc2@google.com
+ mm/internal.h   |  2 +-
+ mm/page_alloc.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Changes in v3:
-- Created mm/page_alloc.h
-- Fixed EXPORT_SYMBOL() issues
-- Reworded commit messages per Sashiko's pointers
-- Dropped rename of alloc_flags arg in prepare_alloc_pages() (Suren)
-- Renamed gfp_to_alloc_flags_nonblocking() too after rebasing onto:
-  https://lore.kernel.org/all/20260623004600.113347-1-jp.kobryn@linux.dev/
-- Link to v2: https://patch.msgid.link/20260622-alloc-trylock-v2-0-31f31367d420@google.com
+diff --git a/mm/internal.h b/mm/internal.h
+index fa4fb69444ecd..a2b09a13735bf 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1480,7 +1480,7 @@ unsigned int reclaim_clean_pages_from_list(struct zone *zone,
+ #define ALLOC_NOFRAGMENT	  0x0
+ #endif
+ #define ALLOC_HIGHATOMIC	0x200 /* Allows access to MIGRATE_HIGHATOMIC */
+-#define ALLOC_TRYLOCK		0x400 /* Only use spin_trylock in allocation path */
++#define ALLOC_NOLOCK		0x400 /* Only use spin_trylock in allocation path */
+ #define ALLOC_KSWAPD		0x800 /* allow waking of kswapd, __GFP_KSWAPD_RECLAIM set */
+ 
+ /* Flags that allow allocations below the min watermark. */
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 762d9b6bc792f..6004fe6583d47 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -2530,7 +2530,7 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
+ 	unsigned long flags;
+ 	int i;
+ 
+-	if (unlikely(alloc_flags & ALLOC_TRYLOCK)) {
++	if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+ 		if (!spin_trylock_irqsave(&zone->lock, flags))
+ 			return 0;
+ 	} else {
+@@ -3218,7 +3218,7 @@ struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
+ 
+ 	do {
+ 		page = NULL;
+-		if (unlikely(alloc_flags & ALLOC_TRYLOCK)) {
++		if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+ 			if (!spin_trylock_irqsave(&zone->lock, flags))
+ 				return NULL;
+ 		} else {
+@@ -5059,7 +5059,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+ 	 * Don't invoke should_fail logic, since it may call
+ 	 * get_random_u32() and printk() which need to spin_lock.
+ 	 */
+-	if (!(*alloc_flags & ALLOC_TRYLOCK) &&
++	if (!(*alloc_flags & ALLOC_NOLOCK) &&
+ 	    should_fail_alloc_page(gfp_mask, order))
+ 		return false;
+ 
+@@ -7804,7 +7804,7 @@ static bool cond_accept_memory(struct zone *zone, unsigned int order,
+ 		return false;
+ 
+ 	/* Bailout, since try_to_accept_memory_one() needs to take a lock */
+-	if (alloc_flags & ALLOC_TRYLOCK)
++	if (alloc_flags & ALLOC_NOLOCK)
+ 		return false;
+ 
+ 	wmark = promo_wmark_pages(zone);
+@@ -7896,7 +7896,7 @@ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned
+ 	 */
+ 	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC | __GFP_COMP
+ 			| gfp_flags;
+-	unsigned int alloc_flags = ALLOC_TRYLOCK;
++	unsigned int alloc_flags = ALLOC_NOLOCK;
+ 	struct alloc_context ac = { };
+ 	struct page *page;
+ 
 
-Changes in v2:
-- Fixed up whitespace in nolock unification patch
-- Introduced ALLOC_DEFAULT to replace literal 0 for alloc_flags
-- All other patches are new
-- Link to v1: https://patch.msgid.link/20260617-alloc-trylock-v1-1-83fd7858832e@google.com
-
----
-Brendan Jackman (17):
-      mm/page_alloc: rename ALLOC_TRYLOCK -> ALLOC_NOLOCK
-      mm/page_alloc: some renames to clarify alloc_flags scopes
-      mm: name some args in a function declaration
-      mm: Split out internal page_alloc.h
-      mm/page_alloc: unify __alloc_frozen_pages[_nolock]_noprof()
-      mm/page_alloc: relax GFP WARN in nolock allocs
-      mm: move some stuff to mm/page_alloc.h
-      perf/x86/intel: Use higher-level allocator API
-      KVM: VMX: Use higher-level allocator API
-      x86/virt: Use higher-level allocator API
-      sgi-xp: Use higher-level allocator API
-      net/funeth: Switch to higher-level allocator API
-      mm: Remove __alloc_pages_node()
-      mm: Move __alloc_pages() to mm/page_alloc.h
-      mm: replace __GFP_NO_CODETAG with ALLOC_NO_CODETAG
-      mm/page_alloc: drop alloc_flags arg from alloc_flags_cma()
-      mm: factor out can_spin_trylock()
-
-Vlastimil Babka (SUSE) (1):
-      mm: remove the __GFP_NO_OBJ_EXT flag
-
- Documentation/admin-guide/cgroup-v1/cpusets.rst  |   2 +-
- Documentation/admin-guide/mm/transhuge.rst       |   2 +-
- MAINTAINERS                                      |   1 +
- arch/x86/events/intel/ds.c                       |   6 +-
- arch/x86/kvm/vmx/vmx.c                           |   2 +-
- arch/x86/virt/hw.c                               |   2 +-
- drivers/misc/sgi-xp/xpc_uv.c                     |   5 +-
- drivers/net/ethernet/fungible/funeth/funeth_rx.c |   2 +-
- include/linux/alloc_tag.h                        |   4 +-
- include/linux/gfp.h                              |  54 +---
- include/linux/gfp_types.h                        |   7 -
- include/linux/skbuff.h                           |   2 +-
- include/trace/events/mmflags.h                   |  10 +-
- mm/alloc_tag.c                                   |  23 +-
- mm/compaction.c                                  |   5 +-
- mm/hugetlb.c                                     |   4 +-
- mm/internal.h                                    | 276 ++------------------
- mm/khugepaged.c                                  |   1 +
- mm/kmsan/init.c                                  |   2 +-
- mm/memory-failure.c                              |   1 +
- mm/memory_hotplug.c                              |   1 +
- mm/mempolicy.c                                   |  11 +-
- mm/migrate.c                                     |   1 +
- mm/mm_init.c                                     |   1 +
- mm/page_alloc.c                                  | 269 ++++++++++---------
- mm/page_alloc.h                                  | 313 +++++++++++++++++++++++
- mm/page_frag_cache.c                             |   6 +-
- mm/page_isolation.c                              |   1 +
- mm/page_owner.c                                  |   2 +-
- mm/page_reporting.c                              |   1 +
- mm/show_mem.c                                    |   1 +
- mm/shuffle.c                                     |   1 +
- mm/slub.c                                        |  17 +-
- mm/swap.c                                        |   1 +
- mm/vmscan.c                                      |   1 +
- mm/vmstat.c                                      |   1 +
- tools/include/linux/gfp_types.h                  |   7 -
- 37 files changed, 537 insertions(+), 509 deletions(-)
----
-base-commit: 581a9d8f214b3f9d8777e66795ca86dbd9ca44a8
-change-id: 20260617-alloc-trylock-14ad37dab337
-
-Best regards,
---  
-Brendan Jackman <jackmanb@google.com>
+-- 
+2.54.0
 
