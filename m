@@ -1,54 +1,54 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490804DB542
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BAC4DB553
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985811; cv=none; b=LrNGIFxpnEts2ZjTxkUAjUCL/nWXeOjkxpNNGTnWUXCsnKq/xhCz9QTsH5lQdll7YjzLuDrcIhoUGpZFoQQfxJsSsrlxkdAG3CKfgP0hWe1U0PIoQ0SSJfTwAa5tNShGvA+rthz7qEcVudW2eUPGAwIshbiqQXl91U3TTAs7gbU=
+	t=1782985813; cv=none; b=algbSpNgSJJaM1dRLjhWgIAGRtnUrngKyxeu0IEx5lhYoPSgpVJsI9h6m4xdPaEK9wVK7JNd06zi4wzG7ypOf8hYwQA8h60jHatVbLHIXvqs/ztTWg6cdZgWlzgxroLWhkHbkhWa0vMlryMhS4wQeGrZmYlHbT6wQRDCJQkXd7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985811; c=relaxed/simple;
-	bh=29DjDNblqVpTGDCQuZAaQoS1GbOAOm7XzMBS6FpDHNc=;
+	s=arc-20240116; t=1782985813; c=relaxed/simple;
+	bh=6lXyelhP+YzK5NOUKYSS01IIuo1QDayHo85EqH8ryQk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hxItOIwXb2258xjZuTc8L6LyY7JI/2ESB8BV1kdkTiVYU/joDUwrp224XC8ExqelE7WKEytH3yOn268x6NgKRceLFAkEk/m3xaItaq8cfB15ScALURgfvos7rjTity7nLxoXqxYjl8+sCyKQdvrce8KeV7YncR7nUmrZgbgCYUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MHOp3Rf7; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=Sr6v7PiEmbTmDE+pkXGWRxcLQa29GRRSs9TZQ8Qwu7QILBlvimY11d5+EnRPAI37RAZgwMR32WLMZ79qtXXaCbQfQupL72llwP9i41bEO1+QCXV7dJTySZUrL8TSZMiWNMtp2t3y8nJSKPRo054ndKRY+nOWzMEu9pDD3+kbQ04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TM5nk0rt; arc=none smtp.client-ip=209.85.218.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MHOp3Rf7"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-472bdd6f529so975308f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TM5nk0rt"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c1260766980so178107466b.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985809; x=1783590609; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782985810; x=1783590610; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jQXytmyYmI8a16dW0v09XUUNQjHph6nhuleCzdBkd7M=;
-        b=MHOp3Rf78RLdFt0JnkyBK7j/X6fzjwOLuVsSTwudP5X5A5uXq/CkmnH5VUNUO3aHwC
-         I3yKv2RqeyWRiIODxVlH5Xa2ktmr4381QwuU32I19IjWGv0AkWdtRlBN7eBKUQmaGceG
-         2EfPjMAhqvpsasyfEMboYkL62ZRHKZEf7+jDPdyZgH7sO2zdT4be/EImCv38lnIs0HAu
-         o/WkO7zdNmN5pMhDyHbqjh0BCfDP+NnMI8K7PPnt1JXpLM9QhlnUnGUfCjMsXP+zg2Gb
-         Bd2z9awxA/JCIiut8X0aOv7IICNAbkQ/khOguJZdiGyYNCFfIN0HRo2orwjIa8ErR7gu
-         rwfw==
+        bh=TP8w64q3enZcalDNTlZcEsZaQVlvwCzoUrHNAb6H0EQ=;
+        b=TM5nk0rt0YIEaZCtgnt3PQ3GuzYu4zjVMH3EdLTH7SseSsgLtY8clY0PTW48+9d4fh
+         nyJseKWucK0kl6hRCupAaqjV9sVU0pk9x820C1f2QbZ72MkX8IXhygzxj3327zpH46Xu
+         2j8KIhI7x+cqPRCQtVvrXa9gja89K6viKB35VMXldT2jvRIN02pYWQvIsEOIC5D4pGGk
+         QHS4Pb1OGV2YZF8VxjfE1HUco7pxHpikGwE6KMdrDJmXWwfjW6mIzuaDIbLISWFGHQjh
+         /nNknVyEW+CmRiJqi15iYIuwXAV8NPIIhhhtbRYIc3zEIHGh4Aq1tkXaoJdM7E2O7ysd
+         rk+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985809; x=1783590609;
+        d=1e100.net; s=20251104; t=1782985810; x=1783590610;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jQXytmyYmI8a16dW0v09XUUNQjHph6nhuleCzdBkd7M=;
-        b=Y342IMlDr4MV74sIsJ8y8LAeGLXCqJu03Ums4h4LWnt5Ofbghqhrn4wyFqefcTvhM8
-         uXJXkMIdJaTEDGW64jUzSQd+3eL+0rkJmp3Nqzvwn1zfUW5Guri04uNLVjNZguF7aWwp
-         1y0QlIA3NRR9nIyt34p48AotovEzJ9+vo7LJ9SbLJ+VQ042JKivus0QpxS6HKCwsVduF
-         0YFLDJYGvJyjvqRs60YRjcsD6V/C7ASDD8HebZh+BSYciMgLNadcA151D0U6imhvmE9Q
-         ywP+DQCw3L5zhnPiD03J1MKHQRNyQVabDz0b9SP9HqLQRsLYObqt7KwmUxTHELaW8T8c
-         npSw==
-X-Forwarded-Encrypted: i=1; AHgh+RofGnkWX/KqWpV5472l2FzdqoitioKjErVtJiJ3ppdzbvDdpK2z3LK0Gd5y0YTGWwOrpIgY+DjwpO4A2RE2Qw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwrVKgJV3/42tEQk5xM0GVYbvHoGctNg0gMXwSeY0/jMQdbwrdq
-	B3863LWKg7inSJt/uZZ6L6FSVcimRlvAWfGczIXAI2tTUjKoh0Y7CTC+AxCrddXKj6P8TgFl1YK
-	urAR9FzORzKqqgw==
-X-Received: from wrsx9.prod.google.com ([2002:adf:ffc9:0:b0:462:fc9c:4a7a])
+        bh=TP8w64q3enZcalDNTlZcEsZaQVlvwCzoUrHNAb6H0EQ=;
+        b=WeSnh/rSnbMrGAnI1C9HeDWsgiNIINhguXEMlLBK/B5ztIRUGOVIb9+8mO6Os04OYz
+         Z7+1dYmFHOP8woHcSSU9xJgU+Yhu6/Ggra8yi+qkQ9jFsRNHuv77oghZfgwYzgjuLhVA
+         ZXACJrjcoKmMAytUaF+Yquh6Aqlgc0BoZKWtIzkPsJwrr/3rfPvFeFVYQYsSQ5tQ5kxM
+         i70Sc8irzmJ6UA4CIG7Vdv0D4n/S4pt7+5Pte5eMXYHUyAKmhP0aS9Rgq3V11l2IE07g
+         NPRKtUxu08aL1qOc5R+BmICr0rbPWjaxnqLafte+nKPkzc98k7OrUJThPmpPTkQi/rnQ
+         wirg==
+X-Forwarded-Encrypted: i=1; AHgh+RppkB87n/eUm/ShpLfq1aFjQcqV7IwcIMGc+a7Pp7knyLKNLUMnmz20r5CyWwbZNfKk3bztq9YVuNekq+12ZA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqboNUtUDBe0zmY+w9TZKt7qo3Arc2515vX60MuICiYsL0AO01
+	CNBrap9KXvpSSTy1zY088TSJ8LygQTt2pg4eKCLX3pAmN48moyM85oEM17dDAMet3Akoq7GsWvB
+	FlDUFNxy0WLhkaQ==
+X-Received: from ejiv19.prod.google.com ([2002:a17:906:2f13:b0:c12:6b9c:5e58])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:adf:fc08:0:b0:473:e22:e819 with SMTP id ffacd0b85a97d-4775a0fe0dcmr6360703f8f.29.1782985808510;
- Thu, 02 Jul 2026 02:50:08 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:48 +0000
+ 2002:a17:907:e117:b0:bfb:1e1c:3197 with SMTP id a640c23a62f3a-c12ae7ba8e9mr187344066b.41.1782985809984;
+ Thu, 02 Jul 2026 02:50:09 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:49 +0000
 In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-17-0af8ff387e80@google.com>
-Subject: [PATCH v4 17/18] mm/page_alloc: drop alloc_flags arg from alloc_flags_cma()
+Message-ID: <20260702-alloc-trylock-v4-18-0af8ff387e80@google.com>
+Subject: [PATCH v4 18/18] mm: factor out can_spin_trylock()
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -81,70 +81,107 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-To align the style with other alloc_flags_*() functions, drop this
-additive argument and just have the callers do that themselves.
+Deduplicate checks for whether the current context is safe for
+spin_trylock().
 
-Note you can't always freely or alloc_flags like these callers do
-(because of the WMARK bits that encode an enum) but this is fine for
-ALLOC_CMA, just like it's fine for e.g. ALLOC_NON_BLOCK returned by
-alloc_flags_nonblocking() and or'd by its caller.
+Does this function really belong in mm/internal.h or is it generic? Not
+sure. If someone ends up duplicating this logic elsewhere in the kernel,
+that would be a shame. But goes in some generic header, someone treats
+it as documentation about where it's guaranteed safe to spin_trylock(),
+and then it emerges that there are other subtle preconditions that
+didn't affect the mm usecase, that would be worse. So, just be
+conservative and keep it local.
 
-Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Link: https://lore.kernel.org/all/5dcdd1ef-21ad-4ed0-9e8a-0e5cf96b4392@kernel.org/
+Suggested-by: Harry Yoo <harry@kernel.org>
+Link: https://lore.kernel.org/all/397859cb-b127-4cc6-9c71-044afc99bf0c@kernel.org/
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- mm/page_alloc.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ mm/internal.h   | 23 +++++++++++++++++++++++
+ mm/page_alloc.c | 17 +----------------
+ mm/slub.c       | 10 +---------
+ 3 files changed, 25 insertions(+), 25 deletions(-)
 
+diff --git a/mm/internal.h b/mm/internal.h
+index 3c00eaf5f45a4..e6f300693ffd7 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1715,4 +1715,27 @@ static inline void mm_prepare_for_swap_entries(struct mm_struct *mm)
+ 	}
+ }
+ 
++static inline bool can_spin_trylock(void)
++{
++	/*
++	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
++	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
++	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
++	 * mark the task as the owner of another rt_spin_lock which will
++	 * confuse PI logic, so return immediately if called from hard IRQ or
++	 * NMI.
++	 *
++	 * Note, irqs_disabled() case is ok. spin_trylock() can be called
++	 * from raw_spin_lock_irqsave region.
++	 */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
++		return false;
++
++	/* On UP, spin_trylock() always succeeds even when it is locked */
++	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
++		return false;
++
++	return true;
++}
++
+ #endif	/* __MM_INTERNAL_H */
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index cfaf16244f56d..c3b246e67ed14 100644
+index c3b246e67ed14..a63733dac659e 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -3775,14 +3775,13 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
- }
+@@ -5291,22 +5291,7 @@ static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
  
- /* Must be called after current_gfp_context() which can change gfp_mask */
--static inline unsigned int alloc_flags_cma(gfp_t gfp_mask,
--					   unsigned int alloc_flags)
-+static inline unsigned int alloc_flags_cma(gfp_t gfp_mask)
+ static inline bool alloc_nolock_allowed(void)
  {
- #ifdef CONFIG_CMA
- 	if (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
--		alloc_flags |= ALLOC_CMA;
-+		return ALLOC_CMA;
- #endif
--	return alloc_flags;
-+	return ALLOC_DEFAULT;
- }
- 
- /*
-@@ -4526,7 +4525,7 @@ alloc_flags_slowpath(gfp_t gfp_mask, unsigned int order)
- 	} else if (unlikely(rt_or_dl_task(current)) && in_task())
- 		alloc_flags |= ALLOC_MIN_RESERVE;
- 
--	alloc_flags = alloc_flags_cma(gfp_mask, alloc_flags);
-+	alloc_flags |= alloc_flags_cma(gfp_mask);
- 
- 	if (defrag_mode)
- 		alloc_flags |= ALLOC_NOFRAGMENT;
-@@ -4837,7 +4836,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 
- 	reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
- 	if (reserve_flags)
--		alloc_flags = alloc_flags_cma(gfp_mask, reserve_flags) |
-+		alloc_flags = alloc_flags_cma(gfp_mask) | reserve_flags |
- 				ac->alloc_flags | (alloc_flags & ALLOC_KSWAPD);
- 
- 	/*
-@@ -5070,7 +5069,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
- 	    should_fail_alloc_page(gfp_mask, order))
+-	/*
+-	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
+-	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
+-	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
+-	 * mark the task as the owner of another rt_spin_lock which will
+-	 * confuse PI logic, so return immediately if called from hard IRQ or
+-	 * NMI.
+-	 *
+-	 * Note, irqs_disabled() case is ok. This function can be called
+-	 * from raw_spin_lock_irqsave region.
+-	 */
+-	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+-		return false;
+-
+-	/* On UP, spin_trylock() always succeeds even when it is locked */
+-	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
++	if (!can_spin_trylock())
  		return false;
  
--	*alloc_flags = alloc_flags_cma(gfp_mask, *alloc_flags);
-+	*alloc_flags |= alloc_flags_cma(gfp_mask);
+ 	/* Bailout, since _deferred_grow_zone() needs to take a lock */
+diff --git a/mm/slub.c b/mm/slub.c
+index 3989b4758ae0a..b19dc46de73c5 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -5408,15 +5408,7 @@ static void *__kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_f
+ 	if (unlikely(!size))
+ 		return ZERO_SIZE_PTR;
  
- 	/* Dirty zone balancing only done in the fast path */
- 	ac->spread_dirty_pages = (gfp_mask & __GFP_WRITE);
+-	/*
+-	 * See the comment for the same check in
+-	 * alloc_frozen_pages_nolock_noprof()
+-	 */
+-	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+-		return NULL;
+-
+-	/* On UP, spin_trylock() always succeeds even when it is locked */
+-	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
++	if (!can_spin_trylock())
+ 		return NULL;
+ 
+ retry:
 
 -- 
 2.54.0
