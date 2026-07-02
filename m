@@ -1,54 +1,54 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4814D8D93
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397F14D8D9D
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Jul 2026 09:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985803; cv=none; b=qwfIh0hlm2Osg50JBUq77SUh760il1tFEI+j/622PZw7OrGg0VGuhWrbrNSnkiBzLGI61/lqFJ50DCxJBJGboCYtiu2df2mvhgeFF5otse9QSxqzMuEEZzkc2Sh8vPROLBMA3JedN4mfW037oNfUiAkalklYBA/HrqAJ+jm4P20=
+	t=1782985804; cv=none; b=HKPKHWcIgl8gvTixLs+AGmlykd09x4wLlbDHFIZoMlzfDcgGV9x7H5lnIcMjdNFpSb9xWWPWM7ojtcxUguHhUrSf9ZLUpV9BXglcf0IsHVU1qllemzQwf7X6u6lhKvaxWedAba9XWaX957W8f3wHq9aNXip8Fu183zQ6kr3sw6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985803; c=relaxed/simple;
-	bh=e9Aq/Lhdfl1yJqNd6CCQ/UnT9sivz66ucPj4rfg4nxs=;
+	s=arc-20240116; t=1782985804; c=relaxed/simple;
+	bh=KNqrD2+2Bt6o9OriZEPOrcJLAbYLOMYUdx5zH9TW50c=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qu4Jntf8fUhbHg/vh+sxzP+l82xcCPiM4Pp9GdMebKxVl+JfL/sgCwpRpgQlEzJOdN6ewwjSRs/+yVrPOV/tvn/fpIlNKazNKUVgD+uXmp/D2CzQQ9d1RqB4eGL2mLnHcyKxgzIMQ3Vc6nz5K5drzB1XJP0Z/BeRhzeCCQsRqsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NyWfvVBD; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=c9bMAKKDf2f6qYz3DLSmU//GXJrNNV09R5YfUnYAk9Q8b4Ulf/EzdXiLjRDwLOGiWaklqClcMQtXJDMa94JXAUDpYYRlM/hHiZTH7EMVtXp88tes89+7gifMbvJDL5CNIHhELIUJAmxVGnNI9bF3MKdHeLsjgQBAf4Zi+7UP/4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UbARwPu/; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NyWfvVBD"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-493c619bb52so3521255e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UbARwPu/"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-47248bd8bc0so1441628f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Jul 2026 02:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782985800; x=1783590600; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782985801; x=1783590601; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lC0ttmwMBcsuhLErJ+9tppRyqpd5bumu/+XIyMEHUjw=;
-        b=NyWfvVBDFds201A4YwYOKhgquk0Va1pKW6rQqyAphzYp3MXqOxjYIYrb25vhPO8bTV
-         OHxmkvXyorFmiXyvRk2cU/VGi9WUntad4l1ZG+SpAhw5AmX0+Z1OjryhMqlHDjBsI8Ug
-         L8km0CU8jqlxRqT0CzVT0oyHaaflLOphH4THOEwBL6OMVE+RwGkvwtO6aKLVcp2I6xwJ
-         dQtEyd8XByLwcxBUjs/HMNIY25yeUS2K6H2gW+FpgtPA0okh+iLI+x7a0E9skGci7Jtt
-         QCFuMhGS7f3yGHPFuc6AWBgYiHavmkTWzauh2NgtaOKOXY9Y0ljiWVgsux0PInzKUXuC
-         XxNg==
+        bh=oi2WdNtyn6OBAE6+L/wDlXe84IAgE1icOUsCwlXzl0o=;
+        b=UbARwPu/0R62CEobB3no3EYKzY3u+lBP6pM5zNEZcqwRzelVZnqh8mPuk61fHs0TcE
+         jfzOGde2l9iKomAeKWq2utapMfiV8bqwUFs0vE9PzmY+HOmrkxF7u+LAXPQOT4r50vvW
+         i4ASesdJj7ap9NMTCsD1P7ob3yDmbiMw5qLTzj9yQHUO10P5NYOa9296JuwD28hqD1Ey
+         Z7TroHgbc696KryPNB2WUVnDlIRQdm0M6EpHs/jNeh1cC/8shK6Y+VAFWKjImBppEtGo
+         s4Cr+ihUl9snotElUUMM4wESEcqGy5OWh151taJbBXj01XQ4g0s6iq/6rPos9La69n/e
+         mDMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782985800; x=1783590600;
+        d=1e100.net; s=20251104; t=1782985801; x=1783590601;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lC0ttmwMBcsuhLErJ+9tppRyqpd5bumu/+XIyMEHUjw=;
-        b=sWhemBGBka3DM721K8TnG9+IXn/sSoapk1CIMq7F3G8unDVo7psnLQMgRtETAcCnwi
-         8NnvId07TkOZIz5KozL3uqGDwl35ChwA/3YoHmA8o+49fAuMxdJrjauv/e95a5Xc3H1y
-         Bcu5PvPZ1WuRGw7gtZ/7uo/TCq7gy4DpHNh8xWuP1e5Lef7Gh09QSZVNHVgUl1UlxAdU
-         fqh+UWsQQUlC5rGaEzMrflf3MNdJobpcBYOftRyfIeULBOO6GNGTP8L6WGeuKHjKGJ9Q
-         +eDIThOh9Bo0GOygxDph+7CP+JnwvpYzsOBq94ZzepDYbrOZx6HtaQobt7xLaaw2kIDb
-         DHSg==
-X-Forwarded-Encrypted: i=1; AFNElJ9DP8Ieh1NdlMEtQ4Am1v4NmBpYy7fLZ0xQMjPS6eksa9Kq/upWZfFBpT7ysFU7CR8TfoW6tdR0ggUBE7uo1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJ60OtHukWOE5AmUNZ3G1LnrQR8l3CSgCJZDCwftF3wVgXrZOF
-	2uEKk1/hC3GGlmivKfuHckh+a5HrN8GUqtgjcO9JcUhHYWUtx6kH+rUizW+IA0QirgCxkFwk6xN
-	k2ougmWyQRmtR+g==
-X-Received: from wmga17.prod.google.com ([2002:a05:600c:2d51:b0:493:ae35:2761])
+        bh=oi2WdNtyn6OBAE6+L/wDlXe84IAgE1icOUsCwlXzl0o=;
+        b=DxFEjU5F8GISOU1ZP/VwwhqO++/kK8tHIrLpqZCN1SFIzlRF7gJ9VA7Irgvf8ibD4T
+         /Kq1367RKfpFdHJLsP/SuIFae57A0gjDa2KwbK6jLggJHc4kRZPZKdVvbHg5rhuqFYRZ
+         WNYQ0JRODLCYlSwFzECU/1LlARxR+EFcI2VR1/4kxNUUKcDjH8TG7aoEc8juLBFMQTpP
+         vNC5y5i4/dr++uiH3GF/F6VHpYwmRr0+Sd0W5enRyY55EmqvAAqAI4uvax76rl8vx+V0
+         OwbE9iwHPX9XtwBw55cAMmRvkgPuwkmfgQvyjoEKLoOaCbhFSmEKQK+hJdvAXNUWDZP+
+         KF/g==
+X-Forwarded-Encrypted: i=1; AHgh+RpfDsfjSE3Vg2RsigzEM59zPMohOFlshEaxKalns1PeXNPqXuEzm6+/6qWYac1uV2YOBF6sGxqaBJoIMC0k6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFKbJTEL6ml95c9O1EA+cP9v+rABJTFMCD5vXzMUPnoxiqOMDl
+	L3doF/tXSlrnIwgkUSE7EcOsNjHxdzSqb321w46mdtQ6rChb1ab4mJz2LwYjeS97JaeTXtZYMBh
+	ztHHGBib1NpJSPA==
+X-Received: from wrry9.prod.google.com ([2002:adf:fa49:0:b0:470:9980:87b1])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:37c3:b0:493:b771:de06 with SMTP id 5b1f17b1804b1-493c2b3cc56mr64184155e9.5.1782985799206;
- Thu, 02 Jul 2026 02:49:59 -0700 (PDT)
-Date: Thu, 02 Jul 2026 09:49:41 +0000
+ 2002:adf:fe8a:0:b0:475:f0d1:eb5e with SMTP id ffacd0b85a97d-477b206b4bcmr5224333f8f.57.1782985800390;
+ Thu, 02 Jul 2026 02:50:00 -0700 (PDT)
+Date: Thu, 02 Jul 2026 09:49:42 +0000
 In-Reply-To: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260702-alloc-trylock-v4-10-0af8ff387e80@google.com>
-Subject: [PATCH v4 10/18] x86/virt: Use higher-level allocator API
+Message-ID: <20260702-alloc-trylock-v4-11-0af8ff387e80@google.com>
+Subject: [PATCH v4 11/18] sgi-xp: Use higher-level allocator API
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -78,9 +78,8 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	derkling@google.com, reijiw@google.com, Brendan Jackman <jackmanb@google.com>, 
-	Yosry Ahmed <yosry@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>
+	Yosry Ahmed <yosry@kernel.org>, Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="utf-8"
 
 The difference between __alloc_pages_node() and alloc_pages_node() is
@@ -90,33 +89,36 @@ The former is going away and the latter works fine here so switch over.
 
 No functional change intended.
 
-Cc: Thomas Gleixner <tglx@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Assisted-by: Gemini:unknown-version
+Cc: Robin Holt <robinmholt@gmail.com>
+Cc: Steve Wahl <steve.wahl@hpe.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Assisted-by: Gemini:unknown-model
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Acked-by: Steve Wahl <steve.wahl@hpe.com>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- arch/x86/virt/hw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/misc/sgi-xp/xpc_uv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/virt/hw.c b/arch/x86/virt/hw.c
-index 7e9091c640be0..a236447ac7a26 100644
---- a/arch/x86/virt/hw.c
-+++ b/arch/x86/virt/hw.c
-@@ -196,7 +196,7 @@ static __init int __x86_vmx_init(void)
- 		struct page *page;
- 		struct vmcs *vmcs;
+diff --git a/drivers/misc/sgi-xp/xpc_uv.c b/drivers/misc/sgi-xp/xpc_uv.c
+index 772c787268932..79c2f00ed4d70 100644
+--- a/drivers/misc/sgi-xp/xpc_uv.c
++++ b/drivers/misc/sgi-xp/xpc_uv.c
+@@ -170,9 +170,8 @@ xpc_create_gru_mq_uv(unsigned int mq_size, int cpu, char *irq_name,
+ 	mq->mmr_blade = uv_cpu_to_blade_id(cpu);
  
--		page = __alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
-+		page = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
- 		if (WARN_ON_ONCE(!page)) {
- 			x86_vmx_exit();
- 			return -ENOMEM;
+ 	nid = cpu_to_node(cpu);
+-	page = __alloc_pages_node(nid,
+-				      GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
+-				      pg_order);
++	page = alloc_pages_node(nid, GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
++				pg_order);
+ 	if (page == NULL) {
+ 		dev_err(xpc_part, "xpc_create_gru_mq_uv() failed to alloc %d "
+ 			"bytes of memory on nid=%d for GRU mq\n", mq_size, nid);
 
 -- 
 2.54.0
