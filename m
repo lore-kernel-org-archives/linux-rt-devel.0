@@ -1,54 +1,56 @@
 Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D83E3D34AB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD183D47C0
 	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 12:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783081961; cv=none; b=nP5ZO/0X+akC4ILt7tl4uHIlBn6THG0mdbukWeUQsuA9c3Y68Bcoi4H8Nz81SrhXZ+hAJFI+KANF5MTL904Mu1LK1d0dx94P7lBAsdlj1BAQNZYvRGsh1ySUb4O3Z9hfKiihrXPAzH+fgOK5miWHo+/U8QDxqcopxTTLAz19v8I=
+	t=1783081961; cv=none; b=r6MtFYL8kEBBMdOXPq/VlT4po8BmxC5eLPg+i0eY1utEDM8H1m4QPS/RwkgU1MhfwBwibex8NNEDEaE38myWwFaFQGqlnuUdavxi6hdc6WGlX8a5ZIVhBz859E7bkb7f/+BjgaiuT5BFSOP4Tdmjrut5rMsa9Hv0bAzpkvH1Nco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783081961; c=relaxed/simple;
-	bh=F67T0oCRBrio7FIBWLmEqRTYstsC6jLNeHD5MDQHVvg=;
+	bh=KNqrD2+2Bt6o9OriZEPOrcJLAbYLOMYUdx5zH9TW50c=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iTggEOC/IL5c0b0eXwv2/O7KcgTj9qB8FP532cBvIILphcHPg/ZrRZGDjUc/Szw362qyvpHQ/0MC+Y0aqF8d8LAFls8AmgzvoXLQUoHBhegaCzF1q2M05FpXhQIgIdWbSgUQaWhLNTJCHT2YOeT0jIbTu43hU/3fA/SPdLnYGqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RwwAUEVn; arc=none smtp.client-ip=209.85.218.73
+	 To:Cc:Content-Type; b=Kw3iHwNFVWp/ewNH/zpLSxo2BaLVwSxxYRIfvYk/R6LitwUw45wYxYN0hD8u/T+cvio+cBCYg8aRR5+lCskKiZJzaHNxFJCUrOMvSZ+Ne+u+DQlC3iYKf6Vd2UPnznwXSaotLRbX6OsIPt6dtOzFrCA0dLKomQb8tdZFu/RxKlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cdMenWJH; arc=none smtp.client-ip=209.85.218.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RwwAUEVn"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c125bdd01cbso63261266b.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cdMenWJH"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c1271887c33so51097866b.3
         for <linux-rt-devel@lists.linux.dev>; Fri, 03 Jul 2026 05:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783081955; x=1783686755; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
-        b=RwwAUEVn0iqMesIZdrFQaRKbpzJFHoBz68iV/VNg7tIAF8kAg79dsY4vpO73OfCpLX
-         iRosXaEL72td5w3Z9SfunshFvyoK+JIMNGBOLZu+jHckze6MZclHAliDn9wTEtpkwt6A
-         1TIO8E6gFq2kqVQDK232uHejPNVgOk4ZUCalPq7ksxc/6mJsrf9isPnFomufXBPaGnYK
-         OFWoFwopImvmvAz89cqoatZZFwV1XGVzNLN8QYrHx7qX76LSW7szu4uT1Kr1F9qLORYL
-         nE5yES13esVBLseSaNyxvueETQy3dVBbGZf+nyMSnr/yOpgyOXEr5T2uAUiyS78/e8Jv
-         rX3Q==
+        d=google.com; s=20251104; t=1783081954; x=1783686754; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oi2WdNtyn6OBAE6+L/wDlXe84IAgE1icOUsCwlXzl0o=;
+        b=cdMenWJHZLCw2cq7WThVwEzzBm7Z7JCvWR0yWr+wKYLPOma4BbjZh46aY65yK0pYOv
+         QI2UjibnZL+EuYS+DfDnJLSwxz5Ozzar8XyS9lH/oaDQF96VHbxPnVB3kL+J5nTCvSt1
+         qtXMWyyv+8cszNxJHwMvj/l9Vrei2I1aIBjDotgGqDugn9KUr2GWZf4kzQJr3j1hJuue
+         FTlixt/Ncn95Ec9BbK3tUgdnVIUKMrUqEMxe9GNJ5Ic9rYjjywJm14N6GKs8K2+N0nG1
+         Os0OKOozXOd3fXJYHgGL80T2jLedxJYrOda6Mn8MdZmwZklNnGDQw9/39M+fmuOw8AEm
+         EKbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783081955; x=1783686755;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
-        b=Y3coGBbyfV1eYiZJXq5xpy7XGtMFcLnlahPk1wOKPXqg5o89wzXx5Ejl0dtBGrtTWr
-         AiPZiTXuO1rw1mMMlr8b0LDg4NLkVP2LISE7L+gxXEWddhZ8+xWJKAEIQZwqio2tQsyY
-         x+2XQ23QAhSnGWK7HfvC8qogwLU/1NktQ79KoCVDcbGNi9+2tXWFB9AfOLngLul/BDxi
-         ZG7EDxtz2QDUNx0GLHFhYgyMIOkeGYuVcGvRRgYEOmKhkpZqbx09cfdO75mLp/JWBKDb
-         cqR8SzWwkeC4wV1Qm79Qw+XNxrIHMLhjz8p8kHDJdxzi97XGV3DtiWied5K0GxKA536m
-         DdMA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/P+CpCvm7+nC8+X30PQxJK1YNVqSzCzU5F0KDw0WJ2bHfRbwxVPK04pYJCFqFAeyvqPAUj40/RDb24B3L0A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK6HogrVGlO73xCkhkF76xy5++5IfxS+cgnoD90Xi7hb04takL
-	iParaZ+klVPGlDwv7iHWihNcxRQQpGieyWS4htIRhKP7SXZMbcJ9Xo1xCOpI9TlSGknI81Spc5n
-	oHide6+QWHmOB3w==
-X-Received: from ejbc12.prod.google.com ([2002:a17:906:340c:b0:c12:dc59:3d56])
+        d=1e100.net; s=20251104; t=1783081954; x=1783686754;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oi2WdNtyn6OBAE6+L/wDlXe84IAgE1icOUsCwlXzl0o=;
+        b=iwpJRh7iT5tJMt01tcIiABxIaQfYJxCP6hUGBiPztDm5ZeEAbLWEcRW0kGpywJu3CM
+         CL9C0umLepRUmRdKJmj7szKeiDAEJrJNyis3FWi/nGhnmpnNwobQ1qujtkfaOYitJhmM
+         FR1q8feMjWjtcYHsboosM4HbXqWOhhmlRVZHb9wcfzYEeKZuTDziTJoNYtjf61dODF5B
+         YKO9xDgCeBGu21/SFwB5OgpRUpLDX+C6ewkAmfnXNUhuuv24O9Okhjg240/EAwcycSbJ
+         lv0MdsnGYRWR+ASe/edDdAu6xL7DV1u6lbbxZ/7bQ/2wOgRMYWg21IYsH+uIoBLuqHM5
+         RdqQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro4vl4TvtlhjDrFwyccV+TQ9Jz7cYuFyhqGUWIAbBHmd/fM4SDIvd5G8S4yH3zfKbnsCYhyBN1EWJ8mClkX7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTmhG/WvC7XDUAtRlCqb2sIQ6z8SADUhONRBAbEfnxsjp3B3XC
+	ZS7J8U8YApMQ0TcqERknnbMYjjQ7tRtoWD+leUA2Sq5+rc//dSSXpPUZO90k+HvS0BGhD1gSWNp
+	7/zY8Zg+D+ScOBw==
+X-Received: from ejbqk13.prod.google.com ([2002:a17:906:d9cd:b0:c12:75b1:2e99])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:c1e:b0:c12:d971:1c2d with SMTP id a640c23a62f3a-c12d97142d4mr91013266b.59.1783081954713;
- Fri, 03 Jul 2026 05:32:34 -0700 (PDT)
-Date: Fri, 03 Jul 2026 12:31:52 +0000
+ 2002:a17:906:22d6:b0:bd5:151d:2d31 with SMTP id a640c23a62f3a-c12ae45e66fmr436553266b.13.1783081953398;
+ Fri, 03 Jul 2026 05:32:33 -0700 (PDT)
+Date: Fri, 03 Jul 2026 12:31:51 +0000
 In-Reply-To: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +60,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260703-alloc-trylock-v5-12-c87b714e19d3@google.com>
-Subject: [PATCH v5 12/18] net/funeth: Switch to higher-level allocator API
+Message-ID: <20260703-alloc-trylock-v5-11-c87b714e19d3@google.com>
+Subject: [PATCH v5 11/18] sgi-xp: Use higher-level allocator API
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -78,9 +80,8 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	derkling@google.com, reijiw@google.com, Brendan Jackman <jackmanb@google.com>, 
-	Yosry Ahmed <yosry@kernel.org>, Dimitris Michailidis <dmichail@fungible.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+	Yosry Ahmed <yosry@kernel.org>, Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="utf-8"
 
 The difference between __alloc_pages_node() and alloc_pages_node() is
@@ -90,33 +91,36 @@ The former is going away and the latter works fine here so switch over.
 
 No functional change intended.
 
-Cc: Dimitris Michailidis <dmichail@fungible.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Assisted-by: Gemini:unknown-version
+Cc: Robin Holt <robinmholt@gmail.com>
+Cc: Steve Wahl <steve.wahl@hpe.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Assisted-by: Gemini:unknown-model
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Acked-by: Steve Wahl <steve.wahl@hpe.com>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- drivers/net/ethernet/fungible/funeth/funeth_rx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/misc/sgi-xp/xpc_uv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/fungible/funeth/funeth_rx.c b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-index 7e2584895de39..d7000017ac2bd 100644
---- a/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-+++ b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
-@@ -103,7 +103,7 @@ static int funeth_alloc_page(struct funeth_rxq *q, struct funeth_rxbuf *rb,
- 	if (cache_get(q, rb))
- 		return 0;
+diff --git a/drivers/misc/sgi-xp/xpc_uv.c b/drivers/misc/sgi-xp/xpc_uv.c
+index 772c787268932..79c2f00ed4d70 100644
+--- a/drivers/misc/sgi-xp/xpc_uv.c
++++ b/drivers/misc/sgi-xp/xpc_uv.c
+@@ -170,9 +170,8 @@ xpc_create_gru_mq_uv(unsigned int mq_size, int cpu, char *irq_name,
+ 	mq->mmr_blade = uv_cpu_to_blade_id(cpu);
  
--	p = __alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
-+	p = alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
- 	if (unlikely(!p))
- 		return -ENOMEM;
- 
+ 	nid = cpu_to_node(cpu);
+-	page = __alloc_pages_node(nid,
+-				      GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
+-				      pg_order);
++	page = alloc_pages_node(nid, GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
++				pg_order);
+ 	if (page == NULL) {
+ 		dev_err(xpc_part, "xpc_create_gru_mq_uv() failed to alloc %d "
+ 			"bytes of memory on nid=%d for GRU mq\n", mq_size, nid);
 
 -- 
 2.54.0
