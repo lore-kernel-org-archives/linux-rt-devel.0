@@ -1,54 +1,54 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FE63D34B3
-	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 12:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D83E3D34AB
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 12:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783081959; cv=none; b=ud+bBDCxA4vYo43C/1XmtOfe8hVaIb6fLwES5dObHwJid18rhgkFAhGFtWK38LRIJSYNEs4mZ1u2R3ItlhJuVkhIYw2gjdoNFYDPwGxZB/4NIYSPc7bP1WJj4QYq5GQa2PqDVThlCW8Oqx2gxCyXBjuGhvRpBo8hTcFx3y38njE=
+	t=1783081961; cv=none; b=nP5ZO/0X+akC4ILt7tl4uHIlBn6THG0mdbukWeUQsuA9c3Y68Bcoi4H8Nz81SrhXZ+hAJFI+KANF5MTL904Mu1LK1d0dx94P7lBAsdlj1BAQNZYvRGsh1ySUb4O3Z9hfKiihrXPAzH+fgOK5miWHo+/U8QDxqcopxTTLAz19v8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783081959; c=relaxed/simple;
-	bh=4JV/dnncChu5h8Yu3gsmWxfntPIFpYV3vfK/cEvVBdg=;
+	s=arc-20240116; t=1783081961; c=relaxed/simple;
+	bh=F67T0oCRBrio7FIBWLmEqRTYstsC6jLNeHD5MDQHVvg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VhE9tWMhd3RT0J4KYyqbdiJ6KwX5jsiP7+NyW9ne1cesYJr0I/SgX3BT3+sgj/3DZg3h5GS+KuFT2vPApS9vVA3L5GGPzsTLsAZhhc1bV6n9VnpZGARj4rC+wvKsKiuKL+MdZurJIEZFgk9I66unIFgMAl1C6TbTE7CQhQpG0bM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YDmG1fss; arc=none smtp.client-ip=209.85.221.73
+	 To:Cc:Content-Type; b=iTggEOC/IL5c0b0eXwv2/O7KcgTj9qB8FP532cBvIILphcHPg/ZrRZGDjUc/Szw362qyvpHQ/0MC+Y0aqF8d8LAFls8AmgzvoXLQUoHBhegaCzF1q2M05FpXhQIgIdWbSgUQaWhLNTJCHT2YOeT0jIbTu43hU/3fA/SPdLnYGqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RwwAUEVn; arc=none smtp.client-ip=209.85.218.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YDmG1fss"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-47499916233so95639f8f.2
-        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Jul 2026 05:32:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RwwAUEVn"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c125bdd01cbso63261266b.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Jul 2026 05:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783081947; x=1783686747; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1783081955; x=1783686755; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZSxEwrSlsWzCUsFCp9f9B1Fd4DZM61HmbiQS7KAxRp8=;
-        b=YDmG1fssxKbKDCRfmO+g2q/3HrM3fZQjscpweG6qMiFVch+KBSq8rSBAi5KZ0YfdiZ
-         ZVVAk07F1isTBUdjQovI1CvvHbJiUgr0angRonpPqV2KIcFviqz3U8/5xT2/ArqCp29O
-         PycNQb/mVRPW3NslwEIiVA/fLCBPwJGeSTl6h8DObwU7xT0DIi/8hA7by9Z6sfewClFi
-         x08AIrywm9+7jJ2WEvEKJ4ffC07xYTV1SYLAZ8DWLALMf+HKaeR3PdB/Lh3hk5tIymO8
-         sBjXsnoOcCjk7uQfSfLsL5OfzovpvEYbl6qHW4C2ReW554FhL2yfBwKcvkszq3eKM7Et
-         2Reg==
+        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
+        b=RwwAUEVn0iqMesIZdrFQaRKbpzJFHoBz68iV/VNg7tIAF8kAg79dsY4vpO73OfCpLX
+         iRosXaEL72td5w3Z9SfunshFvyoK+JIMNGBOLZu+jHckze6MZclHAliDn9wTEtpkwt6A
+         1TIO8E6gFq2kqVQDK232uHejPNVgOk4ZUCalPq7ksxc/6mJsrf9isPnFomufXBPaGnYK
+         OFWoFwopImvmvAz89cqoatZZFwV1XGVzNLN8QYrHx7qX76LSW7szu4uT1Kr1F9qLORYL
+         nE5yES13esVBLseSaNyxvueETQy3dVBbGZf+nyMSnr/yOpgyOXEr5T2uAUiyS78/e8Jv
+         rX3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783081947; x=1783686747;
+        d=1e100.net; s=20251104; t=1783081955; x=1783686755;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZSxEwrSlsWzCUsFCp9f9B1Fd4DZM61HmbiQS7KAxRp8=;
-        b=NmjXD9fFijffFkaD8+KEAKeuELTpuuf6gr81pEVYFKOBRaTi7QghGePucvKXsT9dR2
-         b7WL2NPrIGdyZTn1+Gf7GtXWgWNPc+9LmM7ZWvDdz7EyYErXHDMGilykRT4/ys81mJSf
-         J26/IPqQmhx0rfkndI2/XaqMxb4DnP3N+869auUrrymF72aZMD5Okvdw+dMt9FFhgwFp
-         lQQrJGu+X6shQQiYL+Xz66KlL8ArR8/Luwx1v/VjnR34N73N/Ng0HpT4BPXZoxIOfXAG
-         x5LOVwZh3I87ovNyWdJceL7osmDQX/e2qM8ktoqeGJjMekqJVfP62Re+O86dtRsqYt3D
-         jU3A==
-X-Forwarded-Encrypted: i=1; AHgh+RoyRBTHgZ5Yb9DKWue2KfYrSP5EvE+DygQeT1z4DaADd5IOk3n6KkwvalselviGLsq3OUAdJvFo7HKWRNjVPA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmrMz6qmNngcp1OBZyOqfktj3YCaPoGI/Ga1MWrMCAD5oU19o7
-	ME6iyW+8w7YbE2UyPV14EtYQrozsERozhRhgc8e4dzDZST3w8YSUIxMtkVuCGWlaQJoqRLHz0FD
-	gwsmUWc4pThTeqw==
-X-Received: from wrbfi5.prod.google.com ([2002:a05:6000:4405:b0:463:60a:d024])
+        bh=yrjGnXdjo/8AidhzqQZNVSKN71a7xjQgfBXFiB4gebQ=;
+        b=Y3coGBbyfV1eYiZJXq5xpy7XGtMFcLnlahPk1wOKPXqg5o89wzXx5Ejl0dtBGrtTWr
+         AiPZiTXuO1rw1mMMlr8b0LDg4NLkVP2LISE7L+gxXEWddhZ8+xWJKAEIQZwqio2tQsyY
+         x+2XQ23QAhSnGWK7HfvC8qogwLU/1NktQ79KoCVDcbGNi9+2tXWFB9AfOLngLul/BDxi
+         ZG7EDxtz2QDUNx0GLHFhYgyMIOkeGYuVcGvRRgYEOmKhkpZqbx09cfdO75mLp/JWBKDb
+         cqR8SzWwkeC4wV1Qm79Qw+XNxrIHMLhjz8p8kHDJdxzi97XGV3DtiWied5K0GxKA536m
+         DdMA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp/P+CpCvm7+nC8+X30PQxJK1YNVqSzCzU5F0KDw0WJ2bHfRbwxVPK04pYJCFqFAeyvqPAUj40/RDb24B3L0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxK6HogrVGlO73xCkhkF76xy5++5IfxS+cgnoD90Xi7hb04takL
+	iParaZ+klVPGlDwv7iHWihNcxRQQpGieyWS4htIRhKP7SXZMbcJ9Xo1xCOpI9TlSGknI81Spc5n
+	oHide6+QWHmOB3w==
+X-Received: from ejbc12.prod.google.com ([2002:a17:906:340c:b0:c12:dc59:3d56])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a5d:5d0a:0:b0:473:506a:e47c with SMTP id ffacd0b85a97d-4775a7cda27mr16629163f8f.26.1783081946118;
- Fri, 03 Jul 2026 05:32:26 -0700 (PDT)
-Date: Fri, 03 Jul 2026 12:31:46 +0000
+ 2002:a17:907:c1e:b0:c12:d971:1c2d with SMTP id a640c23a62f3a-c12d97142d4mr91013266b.59.1783081954713;
+ Fri, 03 Jul 2026 05:32:34 -0700 (PDT)
+Date: Fri, 03 Jul 2026 12:31:52 +0000
 In-Reply-To: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260703-alloc-trylock-v5-6-c87b714e19d3@google.com>
-Subject: [PATCH v5 06/18] mm/page_alloc: relax GFP WARN in nolock allocs
+Message-ID: <20260703-alloc-trylock-v5-12-c87b714e19d3@google.com>
+Subject: [PATCH v5 12/18] net/funeth: Switch to higher-level allocator API
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -78,43 +78,45 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	derkling@google.com, reijiw@google.com, Brendan Jackman <jackmanb@google.com>, 
-	Yosry Ahmed <yosry@kernel.org>
+	Yosry Ahmed <yosry@kernel.org>, Dimitris Michailidis <dmichail@fungible.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 Content-Type: text/plain; charset="utf-8"
 
-This WARN forbids setting other flags than __GFP_ACCOUNT but we
-unconditionally set the ones in gfp_nolock so they are certainly fine
-for the caller to set.
+The difference between __alloc_pages_node() and alloc_pages_node() is
+that the latter allows you to pass NUMA_NO_NODE.
 
-There are other GFP flags that are almost certainly fine to set here;
-Willy noted GFP_HIGHMEM, GFP_DMA, GFP_MOVABLE and GFP_HARDWALL. But,
-nolock allocation is rather special, so be conservative to try and
-ensure we have a chance to think carefully before nontrivial new
-usecases arise.
+The former is going away and the latter works fine here so switch over.
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Link: https://lore.kernel.org/linux-mm/ajS96fWbG4dzP3u3@casper.infradead.org/
+No functional change intended.
+
+Cc: Dimitris Michailidis <dmichail@fungible.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Assisted-by: Gemini:unknown-version
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Acked-by: Harry Yoo (Oracle) <harry@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- mm/page_alloc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/fungible/funeth/funeth_rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index f47a848555077..c2839959d7908 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5355,7 +5355,8 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
- 		return NULL;
+diff --git a/drivers/net/ethernet/fungible/funeth/funeth_rx.c b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+index 7e2584895de39..d7000017ac2bd 100644
+--- a/drivers/net/ethernet/fungible/funeth/funeth_rx.c
++++ b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+@@ -103,7 +103,7 @@ static int funeth_alloc_page(struct funeth_rxq *q, struct funeth_rxbuf *rb,
+ 	if (cache_get(q, rb))
+ 		return 0;
  
- 	if (alloc_flags & ALLOC_NOLOCK) {
--		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
-+		/* Certain other flags could be supported later if needed. */
-+		VM_WARN_ON_ONCE(gfp & ~(__GFP_ACCOUNT | gfp_nolock));
- 		if (!alloc_nolock_allowed())
- 			return NULL;
- 		gfp |= gfp_nolock;
+-	p = __alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
++	p = alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
+ 	if (unlikely(!p))
+ 		return -ENOMEM;
+ 
 
 -- 
 2.54.0
