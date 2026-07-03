@@ -1,179 +1,170 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011043.outbound.protection.outlook.com [52.101.52.43])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FF7258EF3
-	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 15:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783091533; cv=fail; b=SqJNE0cQK+L244wk4ZTbrcSk3l+EtFlZw+1t/hfoUqWITuHsLiLIZVW6S2AXQfW1Pd3PTg/ZvFYQSfbTjAXR1XiDxBH2zOVgDyBRZeL0INik5o3swT2B+U/4L3p6bg6gfgi+6xzWkfTYwobhebdQ5rdakLSHtpSJiiU3ox8m2ig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783091533; c=relaxed/simple;
-	bh=tkQs878eya/U5Z8AXDpkmoMYZ0nPR92JibkUCj+mYj8=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=RER/C5JSNqvDquZTCMqE3n/UdN7TSRGF8JtrSf0kOc1eAV5mROr92OQa7MbxPR401+yK9gwuDjtFf0Tuc2bKUO5ZkJlMT9oty9rko9U/c1v9X3AWifTym8LhbaBQziiWigcBqa9/seQpKcidc0oj8xXlJf9aJkuNNZmKr90eO7g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dXc+wKw/; arc=fail smtp.client-ip=52.101.52.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3488C30E835
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 18:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783102859; cv=none; b=Ujirp3E/uegPdLCwlyQu3lV39qJZ8cxN5AdLLL/EJfUTb8krJxhzLPoItSqGBvl36tzyx30oGlH0Iovvzah1gtud9cha5LrAaramSwMRzGfGqO+VSr7eEGLuUJYD4d0doBnSojZeOoPNNP45wEr5Ezr59x0S4nSINgUptkUc2FY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783102859; c=relaxed/simple;
+	bh=3qQ9/mjbBV0K3iPIIclALgfH80hz48pXIy2Z2lLLPvQ=;
+	h=From:Content-Type:Mime-Version:Subject:Date:References:To:
+	 In-Reply-To:Message-Id; b=SvNddepvWRocHAgfrpdHpznjP7OdHM0650hUGk6V7V9Lo2D57WEmsWz2+WIM8NjhJH9MlRVRnNxH7EA51LgSSIu7Ouj6ZWqmfkRFo3wgRmZyY090tx8mTWqf4jKL4swG5yJiIgcfyem0Zzc9VflYT3AZoNit0m1hNBH7izIbmys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=by-online.de; spf=pass smtp.mailfrom=by-online.de; dkim=pass (2048-bit key) header.d=by-online.de header.i=by@by-online.de header.b=DYcl2kcF; arc=none smtp.client-ip=212.227.17.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=by-online.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=by-online.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dXc+wKw/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jwqIo+3kgkRYFN2bYnmJo7D4ZGoK/q+9/0qEUeD1YrVYh4wyFB18/1bRWjpRxgGJzgG9ox7HCV3xTKn0m0PLN8KDBpB/ZYVo1KjZW/Iv4K7R0zPmySkzcA1s8ppen+UF4IgE1pmV+5aetX7w10uRV0OwszKZkqWd0UG6VmSlBEPBH76SVkuxNxgl6YvmFJccJRTKG66tMFRuWBD8VF4TwSdLa6oERrOwi7954RCN9mJ4577Rl0X3QcbY5vBybROPYSIKAJ3vStgmh9K1OnB7bkxj/foG1uI0b3FPtDnM9BkDpSFS3qZsZcTwQZaDbXl3e0RRoz5nsiphyAQkkPoJ3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sC7lbBP4k4Ej7jn1zArzr+0W10y2aQ4Gztu9a8RlR5E=;
- b=ZGLwlogI6Jn/uOoODKZl68Vq7R0KLIsi9RD2SiJ8JQn5oZ6SAWtBJ49DP50qmTNxeAS+wfqNioKnNumQoKFMB4CUUt6s9uyQSqPImnM3pUO6cOHzQMP1qJu7WQ3/OnqKQTUViOyt211ZjLe1/sfFQQZhcRWBTshuh3ervAyebWR/ygftg8v0YAZ4BpE2PJiBgp4GIeYERTddcLGQ+xK0UikTuj1/fZjHFpjvjEUMFicadszkmmqjPjD0IS14T2Bqz2fzB62JvyVi76O5SgSXJ6Zkhah0y9iZOE2XH/w8PZ53Q8kAuu6Bp1lNgFERvMqQuIo2Mu6clAHcV0Sy+28xGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sC7lbBP4k4Ej7jn1zArzr+0W10y2aQ4Gztu9a8RlR5E=;
- b=dXc+wKw/rhwyRyW7M/b70kO7gacKfKcnWGCSPC4oZUtDk1h0dzjkuf0tB76ex6xCErZ8qWX3yEfEOl2TXCgQ8yHtkpkUuqVn7a/Am/35htRWy2wK7wzqJAxR6w5zQw69gbc9QdptirMF7furyCPrv+et+c+Bq+dGTngRgtruZfB8r1wexHEAIV9VoJBqWK6A9eESkw3B5cxZBJGWW4FS5iVVAbqYymlMxLTBSH8v7gPCM8XXy2DSqK0BJRSiz0gz7sd4phuz+CXRe6nHtQOF6pTkO76PsK7vGWqSapgAYpLJv1ZCON72VdRhQABf31gTpkpxvjeOe+37VhYhmFbXHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SN7PR12MB7347.namprd12.prod.outlook.com (2603:10b6:806:29a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Fri, 3 Jul 2026
- 15:12:06 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
- 15:12:06 +0000
+	dkim=pass (2048-bit key) header.d=by-online.de header.i=by@by-online.de header.b="DYcl2kcF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=by-online.de;
+	s=s1-ionos; t=1783102843; x=1783707643; i=by@by-online.de;
+	bh=nhsV+0TML8YUajKnCXZrqWuKyCnJ6VhazWS9XSvqpUg=;
+	h=X-UI-Sender-Class:From:Content-Type:Content-Transfer-Encoding:
+	 Mime-Version:Subject:Date:References:To:In-Reply-To:Message-Id:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=DYcl2kcFEgepBpNXukCSx7RVRT9u5jor662Vy04ZBBNgHzrXeeM4VfVI9oG6JMnr
+	 +vp3SxNjf2sWglfilJfSaXgYFd6dBbf6c/jBFyrEpU+7RUopgi5b4s+2CAMnGbqVg
+	 wqP9vnpciHGGpKlUG1D/K+UuLe8woAOviaJezVsxLzXFvcy7W5uJmrKT876fSYqU8
+	 0MpY4Jl8T5rVzjpuqlnlpodVk4Pxk+I3hOjjD5k6ss49JZeO04VzlNDSTV27IK+Il
+	 oyhhd0PuD60RCbEjoalJM+QRCQoGMqrVDStnUZDb0vnpe8LXMjwxE56KuRxBu2JmT
+	 APNFQIBdWLJMagpj/w==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue109
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N8GIg-1xAG0B1cYa-00wKIj; Fri, 03
+ Jul 2026 20:20:43 +0200
+From: Michael Byczkowski <by@by-online.de>
+Content-Type: text/plain;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Jul 2026 11:12:02 -0400
-Message-Id: <DJP16X8Z3PHE.2YG36E6NWWDUV@nvidia.com>
-Subject: Re: [PATCH v5 18/18] mm: factor out can_spin_trylock()
-Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
- <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
- Wilcox" <willy@infradead.org>, "Hao Ge" <hao.ge@linux.dev>,
- <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>, <derkling@google.com>,
- <reijiw@google.com>, "Yosry Ahmed" <yosry@kernel.org>
-To: "Brendan Jackman" <jackmanb@google.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Muchun Song"
- <muchun.song@linux.dev>, "Oscar Salvador" <osalvador@suse.de>, "David
- Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
- R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
- <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
- <byungchul@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Hao Li" <hao.li@linux.dev>, "Christoph
- Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
- <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.21.0
-References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
- <20260703-alloc-trylock-v5-18-c87b714e19d3@google.com>
-In-Reply-To: <20260703-alloc-trylock-v5-18-c87b714e19d3@google.com>
-X-ClientProxiedBy: DS7PR03CA0035.namprd03.prod.outlook.com
- (2603:10b6:5:3b5::10) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB7347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fc5def0-8e18-44e7-731a-08ded91571d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|11063799006|4143699003|18002099003|56012099006|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	Q0V9Ruq9KXp8gOHp4wr+tFMpikFwDSjqooi/Z9b8kxUT1fN6ocjvSx/YqbdOXfCrVwlNWyFYWwInQ4QhIXUDtZ++T8VLoWO8AeCIc79StenAjQLrqYZB11AXjYMzMSI0P76SAvV60EnJiMKV0zp3rG7EH6aqQur0839M0zXlwhOnRQQ/AUQBSuEtR7cZ53MNhZSNWpgphGG7l6PNfwBU8zd2IaODUgak2njQLydmm7Al7phf/RP6E8im42ECWxb8ZPJt7/yxq/FftODEpHbICF0xELE6xDoIcb0XpDsbk9fwx/5/2oasuJEAUA2p5o48m8ukEaKU+KIhy4manPkxn1zNylqjA7j5/nJeVBicXYr+wJLeNxfosN8u74ubav0GKecP3nlvaXM1k0LLZX4ISAFrksN1HEwRfLrI3ZsoTQ4l8kaJcDbMK33UjjfAE7vFSB1Mwf8K2L0wu+Dbq0SzHu8MTsg/wpBsM6sjNynSuHMC+2JI+QWsBBChIyLi0znqQhkBNAYBxtZDWWObOqMjB9GM7tENDturS9OCXaJ1D4HP8Z8kSitYRYRYFePa+UloHIBB5ut+Y+7Lk+WqSzC5zIcCYuJfG4SxQpCMKyCZVMM6eZ7QaAUG4xp5JMFQQh+aUZC0JxsO0qGh0sOMjgOR6KmFNOOUbMzl+PSV3WtPLHbMzpz5WWuRgmMlUrNqVjBKuCAN/AIQzQ3AwYadPUMidQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(11063799006)(4143699003)(18002099003)(56012099006)(22082099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aUVEOGZYdDlramZxaUxhUlluRzQxeGkzSHBJVFZkMmU3MVpOYXBsQkl3cmRC?=
- =?utf-8?B?bEJJT3VJQjhnSlhwRXk1c080cGtLYmd6K2JVL3hjdHZJZ2liZWdpNU1zSml4?=
- =?utf-8?B?d1BHazAyT3FEdGduVGhwOHQxNDZlOW5mZTUrS3ljaWxsenNYL3M5MTFIZEc1?=
- =?utf-8?B?K2lrYWs5N3hFcDV4YlpYeWx3OFd2YlJ2Yjh4WWs5aTNBSktrbmtFT2d4M3hp?=
- =?utf-8?B?aGxUcXpIZ0ViWEtRTmRJVzQ0d3VFNU1mT2M4em1ZZlVDakl1Q1gydnRKTHBp?=
- =?utf-8?B?NjhhbmRBYW12VzljRlNSVmdaWk8ySEYyM0w1cWtKeEVMRWpUV1o0WWF2VU0r?=
- =?utf-8?B?UVczdDJiQzZSdUxBVUtGbFI1T2tvT0JUc2x3Y1B6V29hbDZ6bFVTM2FOaXRW?=
- =?utf-8?B?aFp6QnJJSGZXYTgyZERGczdob1hreTJPVjBKSHlROFNJSDRFQVlkZ1grRzFY?=
- =?utf-8?B?M3ExSHpGSTcwYnJ0R1ppdVVldzdoZjdOdDFUVm0yQnhpL2JNSzhNZ29qalkw?=
- =?utf-8?B?cmdRVXFacW1OUU9YeHE2K3FaTURQQTZRQVNjcHNyVWpMV1BXYXJ6VVgxcTYz?=
- =?utf-8?B?NW0rdmlLMTFrcHExNmV6TXg4VkM1WE84YUg5a1FWUnNMYitHdWJUa2dGVGs1?=
- =?utf-8?B?Ykl3T0M2NkV1YWNVY1BaalcyTWJ0Q1o2MHhKblZ3a3hCbkQwekl3THl6dEFa?=
- =?utf-8?B?NTFzMDZpUW9OSDRQbkRJV2cra1VCbE9GaXllbzBOTHVqSmxNRmtOL2JPOVAz?=
- =?utf-8?B?OHU2TnlYNjdEUWROSit3M0FrVldaTFRydmdpdll1UWlxVFErb3d2Z1Nid1Y0?=
- =?utf-8?B?bWh2ZVZhTjR4TEtxUmFuc3lON29VZGhNMjA5R3g0TWNNTzBnU1Zhb3N3K1ph?=
- =?utf-8?B?SkNkVHEzQmZRTTFlZklDYkZRMXJnZnA5N0xvTHArMlRiZ2pYaDQ2T01LUUx2?=
- =?utf-8?B?VGpQZE1iRnplSG8rK0lKalZZK0xWS3AwWWpqY1R3ck01ejhqVEJlb1BpU0Zj?=
- =?utf-8?B?NFZyS0dLbmY2QVJReDlSRVMrTm9IZ0EwWXphZGVvd2dSMjI1VndHdlpFQVFN?=
- =?utf-8?B?MFJWRS9xRncyNHRENEt0TmQrZXhqSldyNHgrRDY3YjJ2ZUh3cnBlcWkzYjcx?=
- =?utf-8?B?bDliZjBORXBXU2VlaEU5OEpTa3VvVXpEVzFoN3pETldvVi9scGtnVFM0WjdS?=
- =?utf-8?B?aHZtUThuczZmOXdVYytETlkzbE9VcmhYWEF5OFl1WE1qMXc2ZmI4OXZDMzdj?=
- =?utf-8?B?V0FyZDBmNHkvc0JMaW5tb2JhL0pIYnNCYzBNcU1KVmRvQmZpdE44SkRXT25J?=
- =?utf-8?B?UUU2U0RoZmd4a0JadllRZ1Y4Q1hVK1VGaEJBN2hpMTFQdXpYSmJHWjg1RkJl?=
- =?utf-8?B?OGtZNnp4UllFaDBTRlNkc1JhNHZoNGEwSzlUQ3VCNk5IZ3J5VkhBbkpubStl?=
- =?utf-8?B?QjRmbjhJSEZXWWtPOTAyK0p0bXQ0cHpwNFlwQzNyV2psNzNDSS92NjRhVFpj?=
- =?utf-8?B?UEo5dkx5ZEZwUVpENkFlaHlDeGVJWmNLblMzb1pEZ2hZcUFZSFpsMVdzZjdL?=
- =?utf-8?B?NG9IZlBvMkZjQWNvYWhhZGd3WGlHbngwaWU3SmhMS1lVYXh1RmZVNDcrWWNE?=
- =?utf-8?B?NkRBY3MycnI2NVI1VEVidklKMXZNa2VpbHk0L0hMNHZxajBQVkJSdFpHU0tU?=
- =?utf-8?B?TFVNb1RFeFpub2VLQ2pWVzB5MmowWHdSVGR5aXZZL1BsWE5MV0lmS2JsWTd4?=
- =?utf-8?B?eFhkZzl4NVNNV2txang5ckRyRkYrTS81ZCtRRzFHQjk0eTQ1OUhCVzlXK3dC?=
- =?utf-8?B?Qmpkd28wYTArY1BxcjhJVUJBMTVLUkMzeUdmVTVXRTlJMldmQUN4SU1WNGRK?=
- =?utf-8?B?Tml4TmRwK0N5UGFmUFExS1JEcktNeEpGYm1MY2Y5L1ZBV1RFNVNPekNZWnU2?=
- =?utf-8?B?R2l6Q3IxZWNwQ0NQQ0tLd0c5VXk1MVRKbjhqdUFLNHFiUkJ6b2hNRXFpRFdX?=
- =?utf-8?B?aXlkTTFvRkh3Uk9UdStFN05xL1l3M0ZuR1FybGFxaHlDMk9NdkxPUXFMdlVJ?=
- =?utf-8?B?SUkxeDVHcVQvRlhETml2SkhGdW5xZFh1R2EwV21BN2N3dUdEVzZkUjh4VE9m?=
- =?utf-8?B?RVpLYUFGcEY4dXE2ZnVWM3Q3aHkxUGdyd05XYmxxekFQZmxXT0txNkpNNy9P?=
- =?utf-8?B?eTRMSEw1VlpNaWw0cUNjdEZHNHpJRzVqNm1rcm5RSUZBalAxSWsvUkZwUVJD?=
- =?utf-8?B?OHRZZyswRVhMRXlpblo2T2wyZGRkU0NZUWYzMU5wbmphNHZoUmwxY043emc3?=
- =?utf-8?Q?4TCWYM2o7ck6zw4dRr?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fc5def0-8e18-44e7-731a-08ded91571d0
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 15:12:06.1497
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4FxSHnKFUiYf+0o+ZhKSWwW3uX3d7pNS2dNC9C0EPMoeN/HaYT21LyPl5BvI62TM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7347
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
+Subject: Re: [PATCH v7 1/1] pps: pps-gpio: split IRQ handler into hardirq
+ timestamper + threaded handler
+Date: Fri, 3 Jul 2026 20:20:31 +0200
+References: <cover.1780359378.git.calvin@wbinvd.org>
+ <2e32729029fbf6977ecf04665eb00f2efd3e2c17.1780359378.git.calvin@wbinvd.org>
+ <20260602063650.LWatIBPk@linutronix.de>
+ <79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-online.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Calvin Owens <calvin@wbinvd.org>,
+ linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev,
+ Rodolfo Giometti <giometti@enneenne.com>,
+ Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Eliav Farber <farbere@amazon.com>,
+ Ingo Molnar <mingo@kernel.org>,
+ David Laight <david.laight.linux@gmail.com>,
+ Thomas Gleixner <tglx@kernel.org>
+In-Reply-To: <79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-online.de>
+Message-Id: <F4693DE2-E36F-4157-BB7B-A98A7C1C76E3@by-online.de>
+X-Mailer: Apple Mail (2.3826.700.81.1.8)
+X-Provags-ID: V03:K1:rWivulpxvoPrlAbBdDlOiAkZIWq8h8l6Qi9W6FHC/evBe7lbush
+ 57GgQ6BCdYxgFmY0cwdu4dYILXVvExnhPYoGhsFdJtbG7WcTZ4qYGc5zC7mb+KVkNzu4vue
+ 0Z9sgcq5awWZBmAa6Kl+cuB0OyS6b5ulTm8Zit1Qbx/7xOFIzI+7wt72yoL6+d3bxkewsC8
+ cx9XPbbUbSe/Koyxy5XYA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:SW0YrZ6MyuI=;Jm4GU/unD3LADzwghj6kWIPDtBc
+ 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
+ zB3+lOPzOqx9ODCz+BAMHYHhx2Aro=
 
-On Fri Jul 3, 2026 at 8:31 AM EDT, Brendan Jackman wrote:
-> Deduplicate checks for whether the current context is safe for
-> spin_trylock().
->
-> Does this function really belong in mm/internal.h or is it generic? Not
-> sure. If someone ends up duplicating this logic elsewhere in the kernel,
-> that would be a shame. But if it goes in some generic header, someone
-> treats it as documentation about where it's guaranteed safe to
-> spin_trylock(), and then it emerges that there are other subtle
-> preconditions that didn't affect the mm usecase, that would be worse.
-> So, just be conservative and keep it local.
->
-> Suggested-by: Harry Yoo <harry@kernel.org>
-> Link: https://lore.kernel.org/all/397859cb-b127-4cc6-9c71-044afc99bf0c@ke=
-rnel.org/
-> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Reviewed-by: Harry Yoo (Oracle) <harry@kernel.org>
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
->  mm/internal.h   | 23 +++++++++++++++++++++++
->  mm/page_alloc.c | 17 +----------------
->  mm/slub.c       | 10 +---------
->  3 files changed, 25 insertions(+), 25 deletions(-)
->
+Dear All,
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+Now that 7.2-rc1 is out and this didn't make the merge window, could =
+someone please confirm which tree will carry this for 7.3?
+So far, the patch has been:
+    =E2=80=A2 Reviewed-by: Sebastian Andrzej Siewior (Jun 2)
+    =E2=80=A2 Acked-by: Rodolfo Giometti (PPS maintainer, from earlier =
+revisions)
+    =E2=80=A2 Tested-by from Calvin Owens and myself
 
---=20
-Best Regards,
-Yan, Zi
+I'm not sure whether it should go via drivers/pps (Rodolfo), the rt =
+tree, or -mm. Happy to help route it wherever makes sense.
+lore: =
+https://lore.kernel.org/lkml/79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-onlin=
+e.de/
+
+Thank you very much and best regards,
+Michael
+
+
+
+> On 3. Jun 2026, at 19:29, Michael Byczkowski <by@by-online.de> wrote:
+>=20
+> Thank you Sebastian, and thank you Calvin for relaying. I appreciate =
+the
+> thorough review that got this to the right shape.
+>=20
+> Best regards,
+> Michael
+>=20
+>=20
+>> On 2. Jun 2026, at 08:36, Sebastian Andrzej Siewior =
+<bigeasy@linutronix.de> wrote:
+>>=20
+>> On 2026-06-01 17:44:09 [-0700], Calvin Owens wrote:
+>>> From: Michael Byczkowski <by@by-online.de>
+>>>=20
+>>> Split the pps-gpio interrupt handler into a primary (hardirq) =
+handler
+>>> that captures the PPS timestamp at interrupt entry, and a threaded
+>>> handler that processes the event. This produces the same two-part
+>>> handler structure on both PREEMPT_RT and non-RT kernels.
+>>>=20
+>>> On non-RT kernels the threaded portion runs immediately after the
+>>> primary, with no behavioral change compared to the previous
+>>> single-handler implementation.
+>>>=20
+>>> On PREEMPT_RT, where interrupt handlers are force-threaded by =
+default,
+>>> the previous single-handler implementation captured the timestamp
+>>> inside the threaded portion, after IRQ-thread scheduling delay. With
+>>> the split, the timestamp is captured in true hardirq context as it =
+is
+>>> on non-RT kernels, eliminating a significant source of PPS jitter on
+>>> RT systems.
+>>>=20
+>>> Tested-by: Michael Byczkowski <by@by-online.de>
+>>> Tested-by: Calvin Owens <calvin@wbinvd.org>
+>>> Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+>>> Signed-off-by: Michael Byczkowski <by@by-online.de>
+>>> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+>>> ---
+>>=20
+>> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>>=20
+>> Sebastian
+>=20
 
