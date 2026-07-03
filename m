@@ -1,111 +1,231 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012059.outbound.protection.outlook.com [52.101.43.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E56236453
-	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 14:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783090619; cv=none; b=KPGtFN0uhTw5bbCjbtsVEMuZAcxVmq/N9f/6iQYH/XzuNPYblvnZlDrO5IJ0xk3bqnEn8nqKwvM17s/+MtOI60YOMBBtMNRXVrpu8e2OCMEde38wyGRlVoJXJ+wkPUVwetG/lCCFpNm8CVhEEzxLQOYJt4ZK8cUckvgg5H5bnGM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783090619; c=relaxed/simple;
-	bh=M1GUwna4gUioTCqZ3drFdqpZNEmjfWoGLhtUB9HEaF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M1LhMb6kc4rhlkKcHwNJtiMZTgg6sh6O6rVMilQgl2qI9CZxu0aQ3cD2cvw93U5Lf4Zqpi+oPeCz1qgMF8Kg+Ngdx0PR2e7PN7daRQERSjwJyHz+8gvJn+t1vJDruREZMw/kwq7L64aP0CGOBz5l04MRIykaGaiaXJgxgP2Bl38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=N8pSrHEf; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n1QKGeso; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE57F3CB2E0
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 14:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783090643; cv=fail; b=UM2HE5LUrxtXzGvf+FRAD05kKva6LcDjdECFkq9rs+C+fH91Sry9kVHFgKqCi7mc7Y58Cg18coZ7TI8qPBswI5p/QTi39FCLn1JflpZd4zJKVOquuoObIR9qsASKcJG8B5EU4fmS6oEUotAlhp8RhYlwQ9VvWAurqvs/bL+4/i0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783090643; c=relaxed/simple;
+	bh=+HNcA4mjIQBnDpl5bgeXTrA6tMqc2uUjnKD9Do8CJZs=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=kBxr1aLSbHVNAmmfOYLfD3Uu2Wwtdt/xya4OGSm4WRNSWcS5BlvljQ3CbdnclkX89qYHXqg8Pr7kUF6XoMTlHSgeZmrOK/VjHbVhFTZGLHdDXxq3Y4FODvWCH4t2KIGrFLFVxa7cU85DpaQcIvmq4lIbXLAaR6SgN85buqkd3hg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=inczzgyu; arc=fail smtp.client-ip=52.101.43.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N8pSrHEf";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n1QKGeso"
-Date: Fri, 3 Jul 2026 16:56:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783090616;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhzwfdKhTuMTAOcT4iD8RFsrIkmNOcMgyrA0M5/090s=;
-	b=N8pSrHEfmQ0nIHyuLnBq7B9PeE26JJ6i6JuUNkB6AErxg1ZsJZrYjXpUiRBwV6WTy/kArw
-	gLrBYbX5ujE+pMhJ+nz/vQIuptan7+PiNQr91clPODzPGyuOKXMAT4jBJmCAZTBgW6rwO0
-	WTnkL3W5JRHjS4kJxy6nSRgDh8vcgGISPieH12Rmd8dhkxiwSh2m6R0k8h3P1g6LLWMZ9q
-	qU10psMDI6xYcKMsz/PDAcWF5XlwCFt1O1jVVeWkpED0utDp/dJU6w4P90MreD/L6Ir5Cw
-	/pp4RYdshAADZuypWEakuuPcxoIxO8Ezm927mKygUFM+/DTcGDll/4WpQO+QHw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783090616;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhzwfdKhTuMTAOcT4iD8RFsrIkmNOcMgyrA0M5/090s=;
-	b=n1QKGesoiWFZPHP7w3oYq8LG0f80nKkIcc2D5Au3fKdGTMx5zz0lcAroYrnAoT2K0UOqdd
-	F2VnPZHabXxb0PAw==
-From: Benedikt Spranger <b.spranger@linutronix.de>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-Message-ID: <20260703165654.71be8707@mitra>
-In-Reply-To: <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
-	<20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
-Organization: Linutronix GmbH
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="inczzgyu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PFDbEFsczvaI34FbOMoeWisdC1qb3xP7UKner0p3QSQWX11NqakpoidUkG3/191qhWmn+4q9b6bndmkcl7cfWOKLnQC7bl03vz/SXrIVZueNxZRakkJrZxRLE1F04QRhoJSpAoIVmQ7nr2t4o3byo446CbosBtk9DaJVGNW8dAd2lyX1hIjOS2cj9Y2oXCjjID9mQJxcNUvogxRQw8wh9iyvj1GNAu1AQdVK2EB9Dq+E2ljq5e/scCGXVLfbCZbDw/ndeFGECpwkVKjAyXtvbg5t79oOwNkGC947TWqrDpgWHZF62cnsNmV9YNosxx+LfpXsPGn+QxC1z34Q1o8M+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QvxpgldXjLt5+64jZBBRjftzhiUJJ1YwlqnAgS6rEfY=;
+ b=OYL3UX/wvSn2HFGl/9hSAgXd+YvN0/Uk8R3+uH07EXunhCCPlsiUIdxaYAyn0J8AKJJCE1sWo3KEFD293MrNFVy2S00DlUHVldpivu4FAf+pHMcfAjWbEIj3ojkPU3bqIGuR/foR1pIXCfaWS7IzxAMDL9MkMzfjgIYiO9oI74QPsBaAirDxIbekt1iYOUcVTmdJMlVeN0ExtlJ7HMRaXqHiVyDhyvPwPvdtHRPHM02J3zixUuUnKnhHE2GDyjjI8uUoyq0KHwO+Dm3YU7SjURzMkt7HKzqamWrilmI6HHvsiDro/eHNgnMkdfElmjxn5jM/cN4jCqtDwZFlBYdPRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QvxpgldXjLt5+64jZBBRjftzhiUJJ1YwlqnAgS6rEfY=;
+ b=inczzgyuVNZuwLD7Cn0FZtkrCUQDYPii5ekVQ7kqjHc6OjadzEmaWH+KNL4wdT65hGcBLkqAKp89Ih6371QBE0ZOAubKWhfHta+WL9smpjDKM6DpZ0iIltAA5Z+oIuNkVcmwKlpBdAnUL4+CdCIbUf1+O4z9oTEFi0mLfrvGXpXo81EquxmF/8KpJ/qG8n+jRmXhQ29lK6Ud59ncOh5+qrNSmhAadl0gZzjRJOCWYTkSOU065Sp8bZi7NiRO+2kdLgBbHj/xeDGvFakzodGQHI1gRbI8zJvuGuDGU7JURsL74WU6eTf9XgrvnSb1VPLP2aybtJ+O6lDSvqV8xz7QpA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by CH2PR12MB9520.namprd12.prod.outlook.com (2603:10b6:610:280::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
+ 2026 14:57:14 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.009; Fri, 3 Jul 2026
+ 14:57:14 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Jul 2026 10:57:13 -0400
+Message-Id: <DJP0VKJLE8TE.6EDLC2BFI1SG@nvidia.com>
+Subject: Re: [PATCH v5 13/18] mm: Remove __alloc_pages_node()
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
+ <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
+ Wilcox" <willy@infradead.org>, "Hao Ge" <hao.ge@linux.dev>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <derkling@google.com>,
+ <reijiw@google.com>, "Yosry Ahmed" <yosry@kernel.org>
+To: "Brendan Jackman" <jackmanb@google.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Muchun Song"
+ <muchun.song@linux.dev>, "Oscar Salvador" <osalvador@suse.de>, "David
+ Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
+ R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Hao Li" <hao.li@linux.dev>, "Christoph
+ Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
+ Gushchin" <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
+ <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
+ <20260703-alloc-trylock-v5-13-c87b714e19d3@google.com>
+In-Reply-To: <20260703-alloc-trylock-v5-13-c87b714e19d3@google.com>
+X-ClientProxiedBy: BLAPR03CA0148.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::33) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CH2PR12MB9520:EE_
+X-MS-Office365-Filtering-Correlation-Id: b10b2ae2-1b6a-4daf-e1e1-08ded9135e68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|4143699003|11063799006|6133799003|56012099006|22082099003|18002099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	ycOAO7HjdWjcDDOElM5H+lyIMylGcYZRx7ZnOMjRlx0xysZn4/16m/xb6IZMqyfuyxJM+YRWGQQZCJe+JQRf4hcbcZ01y0oZcYaUsSuak11kkQWEnB7jGbs+76ttLIA5WCTAS08jnnN/K6u/zGmHYBjpfi17DHSWzoB5HALBz6cbTl9Hw37bq17XjC1YoT1dtJ/S38Hh83kQ4y4TsSBW9hkOfGMmbywdNVkBrumSFKu0RUNXw0UyYYy/QCwaNSMwnaVxaZb4ZlShOmuiGvO4rSF7OJzsUXEQU2b3ihyuJ+aZbtzHfrMAs1sK8UoNsdtNIwwDZvONRxR1WmdJf1dyJVLnVmbYdjsg8Q/nM+Bm7Ui+Vqh7n5mZTiRrrEaQw0zaQfNQm0EjFQ5VcQfZN5eNN8KvoQWl+EckIfdj5J1SwldcbxR6RIAKgo9928ApQGs8hdiWXfPjl2nritnqPeYnN6AYWpbXYAfuL9/5qHxqFpyNE6IppsBXsAxWtS5l7EUXFXGSkbDQHEZ890u9qUJsMAZlavYDpLu3qC8huSyRC/31qKgmhJkgveZo4DkFowKbJNmm/JP5LVDXmAfiL0N/gFwQBaMdf4HbjQEPdP8HJEFq+Sn6IqSunizOs6naeT5GGM9RVl/2k3Ogha7fgz09C0rivtC1qt8Jv3nueSNyTLQTrbunfmJuXCccYdh08DwQ5D5XGKZQWYFKYLNw48EWmg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(4143699003)(11063799006)(6133799003)(56012099006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE9PNmdjcng0c3ZEVmF3dDFkOXNmQitDWmNweS9wWkF0OVovSHBMK1h5ZjdR?=
+ =?utf-8?B?LzhxYUM5WEVsQU1Rd2pEY1BPTnU2U2tqbDJmSW9pR3lVZzRVRDltWkJxRjBW?=
+ =?utf-8?B?Q0hibFBncnNGVDRTeVJjS1pIeHVyV2JuejFjTmFESXowRk9URU1WSVZENnp5?=
+ =?utf-8?B?Y01MaGNNMW8xMFprbnFKa0lpeTN0c1htWkpDMVJoUTFPTE1MUlo4dWo1RHdE?=
+ =?utf-8?B?L3k5OXF5cDdhVUdEK3RYM0FSV1htUnRhKy9lck9kcmIxdDhPKzBRSDJrVlFk?=
+ =?utf-8?B?Mkw2VFErOVBOS1YvaFc5aWVCQksxZVRBaDN6NGZLL1dhODVqSk0wcnVxN3Ja?=
+ =?utf-8?B?VlZTd2JCRzZ6d2RuMktXNFFJZHFBUTVMOWtXQng3VzFTK3pOajExSUxraTF2?=
+ =?utf-8?B?ZVJTVml1NkpiNVlFRnl2UUxDcjBSSC85cVNTME9lN2kvWnlvUVFuV1Aydkpw?=
+ =?utf-8?B?YU9kSHR5Vi9wS0YvL291VmsvYllLSmR2QTNaL2RMajRabXRoZjcyNUJQeHVQ?=
+ =?utf-8?B?ZzVsUjJLSXkvTjF5VVd2TmloMFhQVVkvVm9VbFZORkJoOWs4SHJOUTROQlgx?=
+ =?utf-8?B?eC9KNXZWUXIzN21vMHdXb21xQ0ljUVlpMEJkOEdPSFZEWnZkS3k2ZXZXT2h2?=
+ =?utf-8?B?R01sWURoS1ErR3NHd3VUYXB1U1l1VWNKQVlNSHh3SEJwS2VMaytpMEUxYnJ6?=
+ =?utf-8?B?ME8vZEhwdnVadnUvckVEaVRlSTBxc2dKRVpwRUZqMjVaSERPd3Y3OXNNakFw?=
+ =?utf-8?B?OXNFV3JaaGVnSENGelhudGpaN2tMQTlwckFTUXNNbkFNMzA1ci8xTlhwWTg0?=
+ =?utf-8?B?VzVTcVpCNkFuc0oyTklaVFV0ZEJpa0tZTk1ZaTRvK1NpeTNUYmtNYStYZ1VU?=
+ =?utf-8?B?cjdyUko1Ty91MXlNYkM1bHNJRHNEdmp2MWVkRlZnZnhKRjdlSUdYSzBic3g3?=
+ =?utf-8?B?bktsRjhTVmhPUnE5NjNYdHVNNTcrcXdtdG16SEI0QU91MDhoUFluU3RCWUd2?=
+ =?utf-8?B?SXlkcFdQdUZ2NURscFJNbGIyZStOR2xYTXk4bWJXT0RQTW5kc3R3UmVsSjlU?=
+ =?utf-8?B?ZWRrNVl5RmJiQUV6TmlZSnh6aWYwdlA0cWJwRm80UkdWdG9jTXJVczM5Qnhm?=
+ =?utf-8?B?N1VGa3ZlV0xjalU3YUFWQ2lMcFBCaWZuWmw3aXZnZVdhbE16TmFBdi9CN2Nv?=
+ =?utf-8?B?MS8xdzY0YUl4dm1JN3FZd2hTTHl3aHdGUnkzWDg2SWN6T3c3NlU0cksyeXFx?=
+ =?utf-8?B?ZEI0VytpV01icC9KYnJveVdjdWR1cGZVNzA5VXVVMHFHeW1BR2FJdGJmS2Z6?=
+ =?utf-8?B?bERjMERua05peW1vYWtZb0VmS0dJaW9XZGpzdXVGbXRCbFpwZjhYaDJ5dGNB?=
+ =?utf-8?B?TjBRS0VVdVhpbkd3eEgyYUdhUDlCTlo4UDgvMG1jSTNyVkxoSCt3MWwwUUxD?=
+ =?utf-8?B?RXQzSG1WT3hMTS83elRkbk95QVBpdlBsdlZZeWU2MmpUcE0zQ0FtazdwRGF2?=
+ =?utf-8?B?eWpWaFp2d2RIY1k1VUJBWUp6bkt6NTBGSXFhSDZ6bmQvcEsvRThNOGN1K3lM?=
+ =?utf-8?B?UHJYb3VObno2eUY3QnM4TS9yaEw5UGZzbGhNeldWU2tCbzQ1SlV2c0o3bHRR?=
+ =?utf-8?B?ZkxtQUNTTDdqSVZCU2gzUlBSYi9ZNUxXSFFOSHIyQVJHZy9xNnhIREVYb0FO?=
+ =?utf-8?B?aktTb1p5RkFPcUNvOWR4ODVwbXF3ZHViYThKNERpYjc4cUl0SjdqL2FYbzdF?=
+ =?utf-8?B?bGhtYlpKSkVqMzBjd2tyWnpEeDRsNm1yL1h6MTJ2RmxXV05ROGNaV0ZVTlVz?=
+ =?utf-8?B?TDdIWjlYUVdlQTlObGVHRjBNb0c1b3NHU2ZSUGJmV0M3emtWUHY2NTl2TFQ4?=
+ =?utf-8?B?OEtqazhMMjVXU2lnV045TG5ZZUpOOFdNUVJRMlBZa1NqOHpkRGtjVXNyZlJY?=
+ =?utf-8?B?eWliTkFla3NMZVF2RVJPUFVpaEdpSlZqWSt0OEpsRjNsMzFTKzJQMHhaczRz?=
+ =?utf-8?B?S091aW85U0k1WWxHR0UxYUN6NDJENG5CTHVsRkkveDBYTjRLayswRGdzY3I1?=
+ =?utf-8?B?aFVoOWRxdUt4aXk0SUZ4Tk1yRG02ZlNKTFFZM1F3RHpOdGs3ZEJ0S3hoOFJv?=
+ =?utf-8?B?L0VWOHNSNGFLR2hxdk9NclFMZmRHOVc3VHNpZDNQSERlVzNrbVgyZXlyTHE4?=
+ =?utf-8?B?aVhBbzR5TkNlSWpTUUEySllobkx4bm5vKzd3U0psRllnb0lsREVTZHF3N3I3?=
+ =?utf-8?B?NzJwaENYNW5ZUVNYZmpWclBqSm1ITERHTlo0SS9NR2RGQll1c3JENlV0NTNo?=
+ =?utf-8?Q?i00Iu9BIOZKsAivfo8?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b10b2ae2-1b6a-4daf-e1e1-08ded9135e68
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 14:57:14.5951
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DUT+eDuZRyiPLIazIu08EN0AIBP5zkIXPh74QDUu8zEOocw0t6b7drxouanWOYhy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9520
 
-On Tue, 30 Jun 2026 17:35:59 +0100
-Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+On Fri Jul 3, 2026 at 8:31 AM EDT, Brendan Jackman wrote:
+> There were only a few users, which have been removed. The only advantage
+> of this API over alloc_pages_node() is avoiding a single conditional
+> branch. The disadvantages are:
+>
+> 1. More API surface, more sources of confusion, more maintenance.
+>
+> 2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
+>    were using the result of cpu_to_node(); if the CPU gets hotplugged
+>    out this will return NUMA_NO_NODE. If one of these paths fails to
+>    protect against a concurrent hotplug then page_alloc.c will use
+>    NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
+>    memory corruption or other. With alloc_pages_node(), the code might
+>    just work fine.
+>
+> Ulterior motive: this frees up the __* variants of the allocator APIs to
+> serve specifically for use as mm-internal API.
+>
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+>  include/linux/gfp.h | 20 ++++----------------
+>  1 file changed, 4 insertions(+), 16 deletions(-)
+>
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index 01d6d2591f49e..3bf55a5f9143e 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this_nod=
+e, gfp_t gfp_mask)
+>  	dump_stack();
+>  }
+> =20
+> -/*
+> - * Allocate pages, preferring the node given as nid. The node must be va=
+lid and
+> - * online. For more general interface, see alloc_pages_node().
+> - */
+> -static inline struct page *
+> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+> -{
+> -	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
+> -	warn_if_node_offline(nid, gfp_mask);
+> -
+> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+> -}
+> -
+> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(=
+__VA_ARGS__))
+> -
+>  static inline
+>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, i=
+nt nid)
+>  {
+> @@ -293,7 +278,10 @@ static inline struct page *alloc_pages_node_noprof(i=
+nt nid, gfp_t gfp_mask,
+>  	if (nid =3D=3D NUMA_NO_NODE)
+>  		nid =3D numa_mem_id();
+> =20
+> -	return __alloc_pages_node_noprof(nid, gfp_mask, order);
+> +	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
 
-> The printk_delay and boot_delay features are helpful for debugging
-> as kernel output can be slowed down during boot allowing messages to
-> be seen before scrolling off the screen, or to correlate timing
-> between some physical event and console output.
-By now, it slows down the boot process, which is the handy part of that
-feature.
+Could this become a VM_WARN_ON?
 
-> However, since the introduction of nbcon and the legacy printer thread
-> for PREEMPT_RT kernels, printk records are now emited to the console
-> asynchronously to the caller of printk. Thus, any printk delay added
-> by boot_delay/printk_delay continues to slow down the calling process
-> but may not have any impact to the rate in which records are emited
-> to the console.
-Using this feature to slow down the boot/suspend/resume process and
-implicit make printk() happen, is the usefull part of that feature.
-Imagine this sequence (which hit me on suspend/resume on i.MX after
-shutting down all secondary CPUs)
+Anyway,
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-  printk("A");
-  (do some stuff)
-  printk("B");
-  read from peripheral --> system got stuck here since peripheral was
-  not clocked or powered or both any more.
+> +	warn_if_node_offline(nid, gfp_mask);
+> +
+> +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+>  }
+> =20
+>  #define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__V=
+A_ARGS__))
 
-The delay (and later on a ugly patch to make printk() synchrounous)
-helped to locate where the failed access happend. JTAG did not help,
-since the CPU got stuck --> no JTAG communication to that CPU.
 
-With your purposed change you *may* see "A", but never "B".
-Quite challenging...
 
-So please leave the delay on the calling side - it is helpfull there.
 
-Regards
-    Bene Spranger
+--=20
+Best Regards,
+Yan, Zi
+
