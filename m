@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748E939DBFC;
-	Fri,  3 Jul 2026 09:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB263A0E8A;
+	Fri,  3 Jul 2026 09:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783070416; cv=none; b=d3F8xSEzXZp89ULCq9XmawCM1hfbfar7MO98RLZVL432EH5dyiRWtKpaBBtWrQTiSG5CbdxXEhSTWoPJeEuexGRhsyaVPSiWhHjCIURg9yURq1Fx02cBp7FiOszFRBfpEexhRaRaag8nUeRBUrOUy3Iny7+CCPu/VKXPGkCf5kE=
+	t=1783070710; cv=none; b=r810KfAchEx873LAWlrf/QVNSrAE52yuoiIfsDG1X5bqpGQvJtf3r9cCkiVH55ES2wy/aFw3cc9edhaTrJoPt/9WF+wc5b+lghmTRH1lw8w5bvlv/Foy6YSendimgPhM4iCtG9DEO8RvJF9LjG6xvE98+86jV9jvdaJUH1xexts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783070416; c=relaxed/simple;
-	bh=QlhvXF7BWJjDgPmHbQivTxyQTbQ7sc7M+6GUDfKpPxg=;
+	s=arc-20240116; t=1783070710; c=relaxed/simple;
+	bh=KlsB9XrPRTEjJAVjau9WB0TbtzOaEf9ZlhqMGcbt65k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OkZKPtvLKzLiXoatLEn5+PnGlvlgshJNSSrIZU2Ent9pcLUXLlWRwqxtsH1jnH6mnEnLPEiXoxKPqivObgnuTf5WdFAk6BE/gshi42Xq0ZhhBnc/LTx8bFTvxB042nX4HZHw6OuBXf2KnQwjg59o9i+DSImR08bOghYQ4DkycdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CJVkb6Pg; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=E6UdFXuTYYMk21TlT/HeWu/cVT5HfAbImHxbdACOsap3orePx+fdsJb1R9HIGLv2AihG7E/HaUafSTi7HhKP2SjddSjeFC7ALgzO/QyUThKddE7nRidjlkLQl3yM/d7WluYUQIqI59wuq9rguSC4lGygO+Goon5PMhO/qQkVltw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCH8nDd2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CJVkb6Pg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C053F1F00A3A;
-	Fri,  3 Jul 2026 09:20:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCH8nDd2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8281F000E9;
+	Fri,  3 Jul 2026 09:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783070415;
-	bh=d4E5IgOb18AM4fykE8ujTxtcflOecYT/ixKCIOO2gbE=;
+	s=k20260515; t=1783070709;
+	bh=DCuwDlwY7oRReL1bXNqw+6ZO3vg1FwmghbNEepjgOEk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CJVkb6Pg3U6/GUJKKU0R11dPgY0dDvWoxBBtNay3u9a0oFX8rJYKLmNrt4rxPsjW6
-	 xBqU0z7Ywh2AEz1hk/UnRQj6tNru1gpEM7P3yzhWoqTLMI4zSPvAAc1BlGGBo7QujE
-	 12cjYC7NRK4zx0ibVCLFh8uxuCbUcSE+byNhp2g+KcBBFgWPvHas7sWeWYKz/XFl+X
-	 JGD5Otbbz8BZZaxE2sAhOPOUWMub9PYN0IGUUttZ/bwPSXYT81FDiJgOJBIwPRotI1
-	 1PbxS7ibVKDlssFFr5TnTpp0mgVfFikhSog/CEg/XrFuphs+dWsz/srZJWB31EIJBr
-	 RX0Md9u4/CVDQ==
-Message-ID: <a740a4c1-85c6-4bb5-a0cd-3203bcccaccb@kernel.org>
-Date: Fri, 3 Jul 2026 11:20:07 +0200
+	b=OCH8nDd2tnmMmI1cH5nPnDDX14IPIpnaFdVLzFaxKToQQ6XIz+mSxC2b+WtY2DRVw
+	 KmwNWaDP/2smgDCAA8uXdyfPGhfcf1u7WC/cNw5r7Ql2gFMo7jvmFC8WO+Aejqsho5
+	 CM8QSrPfYmJ9JTpd4hmv4L/8Pm+us7fIaCBOC8gP5k6rlyih8HkK/v1syXl4dpy07f
+	 1dc1V2EPsKP9iq6b2Ma4Wq3fABGeIfnz4AX+/X0vuNg7xWtF9QJDIhyAeYmquHw8Nv
+	 0UGXWwnnD+bdgeREdZoyczkiUsFJkBp3yszLUlUcdmx6X77uKBrHALnKPvH5NwtJ/h
+	 oXKu31sZweSyA==
+Message-ID: <49667ba9-a1f7-4857-aaf1-826a737c3d2c@kernel.org>
+Date: Fri, 3 Jul 2026 11:24:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/18] mm/page_alloc: unify
- __alloc_frozen_pages[_nolock]_noprof()
+Subject: Re: [PATCH v4 15/18] mm: replace __GFP_NO_CODETAG with
+ ALLOC_NO_CODETAG
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -61,7 +61,7 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
  linux-rt-devel@lists.linux.dev, derkling@google.com, reijiw@google.com,
  Yosry Ahmed <yosry@kernel.org>
 References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
- <20260702-alloc-trylock-v4-5-0af8ff387e80@google.com>
+ <20260702-alloc-trylock-v4-15-0af8ff387e80@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -102,52 +102,28 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260702-alloc-trylock-v4-5-0af8ff387e80@google.com>
+In-Reply-To: <20260702-alloc-trylock-v4-15-0af8ff387e80@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/2/26 11:49, Brendan Jackman wrote:
-> Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
-> main entry point function is significantly different from the normal
-> __alloc_frozen_pages_nolock(), this is tiring when reading the code.
+> Now that alloc_pages has an entrypoint that allows passing alloc_flags,
+> we can take advantage of this to start removing GFP flags that are only
+> used for mm-internal stuff.
 > 
-> Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
-> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
-> exposed to mm/) and then turn the nolock variant into a thin wrapper
-> that just sets that flag (as well as handling NUMA_NO_NODE, similar to
-> how some of the wrappers in gfp.h do).
+> This requires also plumbing the alloc_flags into some more of the
+> allocator code, in particular __alloc_pages[_noprof]() gets an
+> alloc_flags arg to go along with its callees, and we now need to pass
+> those flags deeper into the allocator so they can reach the alloc_tag
+> code.
 > 
-> For consistency, set ALLOC_WMARK_MIN explicitly in fastpath_alloc_flags
-> for the new ALLOC_NOLOCK path. This was already "done" silently in
-> __alloc_frozen_pages_nolock_noprof(): ALLOC_WMARK_MIN is 0.
-> 
-> Rationale that this doesn't change anything:
-> 
-> 1. Simple bits: A bunch of the nolock-specific handling is just moved to
->    the new alloc_order_allowed(), alloc_nolock_allowed() and
->    gfp_nolock.
-> 
-> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
->    previously in the nolock variant:
-> 
->    a. Application of gfp_allowed_mask; this only affects early boot,
->       only flags that affect the slowpath get changed here, and the
->       nolock allocation path isn't allowed to the GFP_BOOT_MASK flags.
-> 
->    b. Application of current_gfp_context() - also only affects the
->       slowpath
-> 
-> 3. The slowpath itself: this is now just explicitly skipped under
->    !ALLOC_TRYLOCK.
-> 
-> Ulterior motive: adding an alloc_flags arg to the allocator's
-> mm-internal entrypoint can later be used to do more allocation
-> customisation without needing to create new GFP flags.
+> While moving the flag definition into page_alloc.h, also update the
+> comment per Hao's suggestion.
 > 
 > No functional change intended.
 > 
+> Link: https://lore.kernel.org/all/b4916118-3537-4e19-8bc8-1d103dd0d225@linux.dev/
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-LGTM
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
