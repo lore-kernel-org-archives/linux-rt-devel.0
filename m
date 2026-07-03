@@ -1,133 +1,85 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702673B6BE6;
-	Fri,  3 Jul 2026 09:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7159F37EFEF
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 11:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071886; cv=none; b=BVDZkEpc2OZ4e27/+jY/JVAXiEvAwW5C78Vh8XAPH76Pm1NrbzqKGB20/CsbD9kRs3z1e9jScFxUlZSIMf2mvIPN+Je6indiULwraImSM+HjI0svnxgcrEG0m/22xE3e/+YywypLQhJZDmqBhJLzF2kUGUy3MUO8jSTFIVLcOyk=
+	t=1783079029; cv=none; b=iH54+mksBv5kMKRy4fru2ILhSAZE0j9OdDI1eDCcJxTR4O2AcQPDsLca5BuGWdx3oO5rhhEuA7hhA+Sr+tQz7nIvA9/t4nkVFEHTvhXxPpxh4FvzDwz35MH30cUHjo7IR4FgRyVLy+eMkd2DRsZS9xmEVGDdxe1Zdfe8vO/OQNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071886; c=relaxed/simple;
-	bh=SKoUgoFIz4qrAp8YEBU0IfaLyGS67qKTcwiU5aK1wiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIk8pBieVeB5kX33jUIaGGUaacpDmot9HcpWXXf5rj8kxugfQ9+Luuy8x7LAk+MxZ44ngTG2zptbfUcLVyevEFhqtqLPIGIJa9YvrCHH0GlilatbTkpGWJslC5ToEAO5dlKw07HVSoPf7i/ajL0Jb+QuWuUKrKEqQI/1iX+7ud8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NuDaJzbq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YVjTG9Gy; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783079029; c=relaxed/simple;
+	bh=VSetS396SrH76litqhz6V0tLsyOUbEp17iVMUlqbZ0A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=EaQhCKV64JIYLSBHR75xfK78ww9IaLeqlcGq/iSs45UHKsz0gzCIG12R0/GFvETgsgoF7qyt8YwDHohlhgzAiMl0BWHqyZKx1S2zuwBXDr4U46uGQfGE7iktd8MjSCLhvQ3UpNCGQsD0+WB9WAotX/ce8Z21wAGdI1Y0l5EqWto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=axBe2JTE; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NuDaJzbq";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YVjTG9Gy"
-Date: Fri, 3 Jul 2026 11:44:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783071881;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oHmWIGshZRWERtJne3J8n7oUnVrhNYFb2oWb7Q/SF5Y=;
-	b=NuDaJzbqu2ahSstJ/ZlJfGuuaU+zi8/uNkY0fB7xLH9hsiecYI68v1hPtCPcrjrPy7N/UB
-	gMtONSIjyMvk5nTpDaQWOVcmFZgtHSUjlGoU5kBvMoPXu8u1KlbeaoVum637U2H1VRxyH5
-	8DP03KT7q7b39dTQfAFcTotpF0GUgoZNHM8HgqYDrBxLs/DlDLOachg7NSZOmndrMo+ugL
-	/xRX3kxTxSb89fNgsCMJBiuyp0+8DgDhnQYhUuyKsbL3ieAqhI5QRSVir39LthCzS5gj8m
-	DdKnJjUJbUysalzJ93APhGNoDcD20zW9ePPD+YvoHIVcrC2WfsnmEXTL3UK61g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783071881;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oHmWIGshZRWERtJne3J8n7oUnVrhNYFb2oWb7Q/SF5Y=;
-	b=YVjTG9Gy9UDkNHAGcwmoGPND2rp/Ov+fdxjRb4VHLnGlxbgRhYkFaRlEUqyAqbMSYX0e7z
-	jk3mDxYkddof2DAA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, Frank.Li@kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v4] remoteproc: imx_rproc: Invoke the callback directly
-Message-ID: <20260703094440.18xlPGEl@linutronix.de>
-References: <20260703-imx_mbox_rproc-v4-1-67b10560a861@linutronix.de>
- <20260703084521.D8F4B1F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="axBe2JTE"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260703084521.D8F4B1F000E9@smtp.kernel.org>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783079024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VSetS396SrH76litqhz6V0tLsyOUbEp17iVMUlqbZ0A=;
+	b=axBe2JTE4wy9jYDVh/aDcxlWFqplgDs/zl2EfbLtmG9mqQTYZV5rPg/mysAbrTIYroHQun
+	imD73iN1OFVJuv2JTbrfrEOVOfWxT3+/GG9kaJQRW5kMdQ8aqP0fGcDHhwBu9Ypv9V+6iW
+	7YqnlKUsRosMN4yi746SiqKn2nh99fI=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Jul 2026 11:43:39 +0000
+Message-Id: <DJOWRDASVUUV.376L8DP13F1XQ@linux.dev>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
+ <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
+ Wilcox" <willy@infradead.org>, "Hao Ge" <hao.ge@linux.dev>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <derkling@google.com>,
+ <reijiw@google.com>, "Yosry Ahmed" <yosry@kernel.org>
+Subject: Re: [PATCH v4 18/18] mm: factor out can_spin_trylock()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Brendan Jackman"
+ <jackmanb@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Muchun
+ Song" <muchun.song@linux.dev>, "Oscar Salvador" <osalvador@suse.de>, "David
+ Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
+ R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Hao Li" <hao.li@linux.dev>, "Christoph
+ Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
+ Gushchin" <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
+ <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>
+References: <20260702-alloc-trylock-v4-0-0af8ff387e80@google.com>
+ <20260702-alloc-trylock-v4-18-0af8ff387e80@google.com>
+ <1e162a97-1594-495d-b48e-7dafaa0a6d82@kernel.org>
+In-Reply-To: <1e162a97-1594-495d-b48e-7dafaa0a6d82@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-07-03 08:45:21 [+0000], sashiko-bot@kernel.org wrote:
-> > diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
-> > index 745ce52cd8226..a1f2b76ec8187 100644
-> > --- a/drivers/remoteproc/imx_rproc.c
-> > +++ b/drivers/remoteproc/imx_rproc.c
-> [ ... ]
-> >  static void imx_rproc_rx_callback(struct mbox_client *cl, void *msg)
-> >  {
-> >  	struct rproc *rproc = dev_get_drvdata(cl->dev);
-> >  
-> > -	queue_work(priv->workqueue, &priv->rproc_work);
-> > +	idr_for_each(&rproc->notifyids, imx_rproc_notified_idr_cb, rproc);
-> 
-> [Severity: High]
-> This isn't a bug introduced by this patch, but does this lockless iteration
-> over the notifyids IDR lack RCU protection?
-> 
-> Because imx_rproc_rx_callback() now runs in a preemptible context (threaded
-> IRQ handler), it iterates over the rproc->notifyids IDR using idr_for_each()
-> without the rcu_read_lock(). 
-> 
-> The IDR API requires lockless readers to hold rcu_read_lock() to prevent radix
-> tree nodes from being freed during traversal. If a concurrent modification
-> like idr_remove() occurs during teardown, the RCU grace period could expire,
-> leading to a use-after-free on the IDR internal nodes.
+On Fri Jul 3, 2026 at 9:32 AM UTC, Vlastimil Babka (SUSE) wrote:
+> On 7/2/26 11:49, Brendan Jackman wrote:
+>> Deduplicate checks for whether the current context is safe for
+>> spin_trylock().
+>>=20
+>> Does this function really belong in mm/internal.h or is it generic? Not
+>> sure. If someone ends up duplicating this logic elsewhere in the kernel,
+>> that would be a shame. But goes in some generic header, someone treats
+>> it as documentation about where it's guaranteed safe to spin_trylock(),
+>> and then it emerges that there are other subtle preconditions that
+>> didn't affect the mm usecase, that would be worse. So, just be
+>> conservative and keep it local.
+>
+> Agreed. We could even use page_alloc.h ?
 
-If I see this right there is no RCU involved. First the interrupt gets
-removed (via free_irq()) which ensures that it is no longer active and
-then the channel is removed.
-
-> >  }
-> >  
-> >  static int imx_rproc_xtr_mbox_init(struct rproc *rproc, bool tx_block)
-> [ ... ]
-> > @@ -1273,17 +1253,6 @@ static int imx_rproc_probe(struct platform_device *pdev)
-> >  		priv->ops = dcfg->ops;
-> >  
-> >  	dev_set_drvdata(dev, rproc);
-> > -	priv->workqueue = create_workqueue(dev_name(dev));
-> > -	if (!priv->workqueue) {
-> > -		dev_err(dev, "cannot create workqueue\n");
-> > -		return -ENOMEM;
-> > -	}
-> > -
-> > -	ret = devm_add_action_or_reset(dev, imx_rproc_destroy_workqueue, priv->workqueue);
-> > -	if (ret)
-> > -		return dev_err_probe(dev, ret, "Failed to add devm destroy workqueue action\n");
-> > -
-> > -	INIT_WORK(&priv->rproc_work, imx_rproc_vq_work);
-> >  
-> >  	ret = imx_rproc_xtr_mbox_init(rproc, true);
-> >  	if (ret)
-> 
-> [Severity: High]
-> This is a pre-existing issue, but could the devm cleanup order in
-> imx_rproc_probe() lead to a use-after-free during driver teardown?
-> 
-> Earlier in imx_rproc_probe(), the mailbox cleanup action imx_rproc_free_mbox
-> is registered via devm_add_action_or_reset() before devm_rproc_add() is
-> called.
-> 
-> Because devm actions execute in LIFO order, devm_rproc_remove() executes
-> first, which tears down the remote processor and frees virtio subdevices and
-> their IDR entries.
-> 
-> This leaves a dangerous race window during driver unbind where the mailbox is
-> still fully active while the core remoteproc data structures are being torn
-> down. If a mailbox interrupt fires during this window, the RX handler will
-> access the notifyids IDR and rvring structures while they are concurrently
-> being modified or freed by rproc_del().
-
-The notifyids IDR is removed by devm_rproc_free() not by
-devm_rproc_remove(). This should remove the channel which removes IRQ.
-This looks fine to me.
-
-Sebastian
+Would be nice to shrink the scope but I think it would be "wrong" for
+slub.c to get it from there. It's not to do with the page allocator.
