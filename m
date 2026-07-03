@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A833D522C
-	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 12:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606973D333D
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Jul 2026 12:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783081962; cv=none; b=qINsSWoi3Pmu6CccoCrULQQ77SQZqXHPDdJRf1OPKSgU9GjdhN+Tzb5Pt9/bjYO/jyhWx8W7OuBGNKcdtlHuEK8MmdIwo1GQpgOnM+LPuE1frtvWi5XmvqfdroflLtrKSPhk00F+3FirQ9wENOoPi5exUFxOdLe1XdhRyjADh04=
+	t=1783081963; cv=none; b=eR8fHON7Adseek1ajFU8JIocpUrSr3tIRnII9s21yahfSIkegGGB6MSMsb/7eN3Nypnf4GkGl7B2f2zfMJ77B6LB2bIRMNj06jntQ26t68diN4cWXseBHsX0UXynUZPPockcFrh5G3h49YcpqCBlAHBPhPJ4IuVFa5JhdO8pT/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783081962; c=relaxed/simple;
-	bh=etU0KmQ93MVQ8p8e74J7jmNSb0FdCttGT65sD7BwF2Y=;
+	s=arc-20240116; t=1783081963; c=relaxed/simple;
+	bh=WYRAiNqfuhhWu100CnX8SSdMrI632TiSlNqqVOt1euE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=EzeEdHlgbnTHPuxy+q3ydJovcWwVjHqFQ2ZZ3j56po2zGwUTtSlG9Pf/hP2M7LkZl6NUmJ5x5A5Efv03b1yDnGdgqceOotJftgNgFAUWvsrm/lccxH+Ga1yHW4OEqOTogTzwC54w6aJuzre+RnPW343U2KCFR9CBBtXCT3PUt4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A9bUoZfb; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=tNRraV5rk1Z3kqMrszBqmKdAlLlBlME6UlbhOtezJNr4zk3Js7nP/qJmUxdpbgRucBPnk0bBN/0uXs4poy8hCZFDn2IDL7W7jxfInxWUuPeG8PY7hsn8CRgJyQZnrYPEcSM1kDwp7RWLBLVB8dEbOJLyCrms1wsi+AFcR+qAPfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mYaalpJc; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A9bUoZfb"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-493bc2b376fso3218435e9.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Jul 2026 05:32:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mYaalpJc"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-47248bd8bc0so512173f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Jul 2026 05:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783081956; x=1783686756; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1783081957; x=1783686757; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxUSvpYnRk7TPJu9DIAcrJg+2SEdx9XX7++N/RbsLUU=;
-        b=A9bUoZfbrAbcr8bNrtVEo92tD3iaggq8X6pPni20useNaCtOxdJ0xK7rrq6xPGPZzr
-         updqUY4oK6AQgOvXsfvXfMrBVn4VfOI3q98c520Brbq0MOcTFS4wnPnxLzpr1L3qYEYh
-         Wtc7fDUuJ92KTXibsCIGqwp8af7Kl3jxMfUEAmddOZkn3tcZe4cxuPcXDerdhNXTJ8t4
-         FnUhleo13tZKkrEl+ba3LYGPQ9KdQvCGW2VQNjRldcJd5fjdKHfwI+0HWB24d4VWZ8Ge
-         JICk7icTUGf8MluJ8jwoGyWrUJghj48/MuzJgUHMCkr6EipMN+H1lvFeHqoZUoozPDC3
-         ykfg==
+        bh=1tnwOMpS/BIg5QL0SfFSSGMbCh9S3UbjX7wTwpmbKGs=;
+        b=mYaalpJc+Cq5DSn+MIqOemRbsv+bD1bsptaSZe8mBR3GEfibzH1tL9fB42FTgtXQ7V
+         R5zErrkB17yBzMRmacy/MbYkJiqo4icvd6J9m9g6eX3flh1Lmhz8YP6KB4DAznIyu+S4
+         x55e/a2rJcnSLbNPoK/11kwjl33v7aQ0gTzIZRUEKY/5fmaR5iVNsyDOUfXO/zvJJ3+d
+         qLbIFjme5oVywpXrqCUiBaAqKmvHZFugfNPdTAo8TRc0iCHODXoFqal/xcWRrP/32JEo
+         NwONfklP6YeipEMhRJYEh4xM2QI7sLAFxOEztk8GviF1aQRwaXXHKihk1FECEkaCWzh0
+         KiOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783081956; x=1783686756;
+        d=1e100.net; s=20251104; t=1783081957; x=1783686757;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxUSvpYnRk7TPJu9DIAcrJg+2SEdx9XX7++N/RbsLUU=;
-        b=HiKq221wwQagXes0YZWuoNeqqhcn6gMrc0t215VH39Gu9IxaOySJyXodBC8lxIo2dT
-         lMxTA2COztf7IzoGi2yt2cUObxKTvCUb9B4DBWl6i6LwtiergCMKaKANylE5gry3LMje
-         OGXLWUGKDAnuO7TqiVQSEPoG0gO9I0FDRATrX4ljn0W4z7Vj0BsYIeOuE3P5Q0Uw/ylR
-         7V8v9WHLlEG6X1ZwmlT13Dv7dVDXdu9QDWQCrnqKDigWkYcD4cSbPpyG6sSxBWAaGVe6
-         qe/+loATt87uyC+eM6j7QtS0cOgb+IszhXRh5SxCbWYDVCsflMHl4CDCfvYhNKZo25io
-         4yVA==
-X-Forwarded-Encrypted: i=1; AFNElJ/deXzNhj8zeZA8BevCJseERSS1Qtev8UHBW86edMLTKODKUa9TBjBYCvRgxtSpLLyRrs2q1cdGvCbtxwXRTg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMOaB40/pJZKxB+1LHHJXNzHM7jeboL/K3ZCJrY+XKhT8zQXr0
-	4pt7wBFHfDqpzomxT6HuvzJi+oytQadT15QsYLsI832fBFCYbjXxDdEf+CoYsh4qOwmRq0qCv/z
-	UUUd2LuE7asxyMQ==
-X-Received: from wmdn10.prod.google.com ([2002:a05:600c:294a:b0:493:b4c4:536f])
+        bh=1tnwOMpS/BIg5QL0SfFSSGMbCh9S3UbjX7wTwpmbKGs=;
+        b=LQ6p7387emwjAOxTsnyUF8vrWXy2oQcMrF0JlJzprINxYipLoV2Alsnh5lna2J1WH+
+         U5AYeTti4miFHom95nPD+Mt7UNpiyQodniKRnj6YVEM2QZTf/metDYIc3RZVPB7V6tZH
+         g95Vg9zZosPCynPLa9TuAFcuZGOUPEq5tsaAZ+C9gSkxT9MYhvry2wy67qS/1IOE254D
+         7zhudmqG0NTw0VZ0D6ZCTUzH12l6fZQNMH4QJFD0hJqfB9ufuoCEK5E+e3kF4cK5lgkb
+         bbkILTEZTl5JopcgScLiNsjvdgTumkgnraVQI6f7X5/V8g6psTEqY1dlOz/eJtJq43dq
+         P5ag==
+X-Forwarded-Encrypted: i=1; AFNElJ+hmHOH2aczQ+kD8d4m56ZnUcBSSvL/Nga39ZCCFuY9aSpceHV0PKTYlsV080oQN6YrqggSWgv3ySPn4VIhLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHJ1SAIeoLiKQR/mFsz83yGI0tICn3OrsLwsVDaPT0SYlCJQNg
+	+PdKtlkD/A565uC8i3A+muzgrW7lZsdAY0B8IPD5kYWl+yUFMnaLf732NSlGjClcCWUxrZONiWX
+	zIvsit2EekyjI7g==
+X-Received: from wrhm3.prod.google.com ([2002:a05:6000:1803:b0:46d:6fd3:e5e9])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5d3:b0:493:bd37:1cdf with SMTP id 5b1f17b1804b1-493c2b3d40bmr104790495e9.2.1783081955851;
- Fri, 03 Jul 2026 05:32:35 -0700 (PDT)
-Date: Fri, 03 Jul 2026 12:31:53 +0000
+ 2002:a05:600c:34c8:b0:493:c2e3:b2c1 with SMTP id 5b1f17b1804b1-493c3df75ebmr139076715e9.33.1783081957147;
+ Fri, 03 Jul 2026 05:32:37 -0700 (PDT)
+Date: Fri, 03 Jul 2026 12:31:54 +0000
 In-Reply-To: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260703-alloc-trylock-v5-13-c87b714e19d3@google.com>
-Subject: [PATCH v5 13/18] mm: Remove __alloc_pages_node()
+Message-ID: <20260703-alloc-trylock-v5-14-c87b714e19d3@google.com>
+Subject: [PATCH v5 14/18] mm: Move __alloc_pages() to mm/page_alloc.h
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -81,68 +81,125 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-There were only a few users, which have been removed. The only advantage
-of this API over alloc_pages_node() is avoiding a single conditional
-branch. The disadvantages are:
+It's no longer used outside of mm/.
 
-1. More API surface, more sources of confusion, more maintenance.
+Since this means __alloc_pages_noprof() is no longer visible from gfp.h,
+this also means moving the definition of alloc_pages_node_noprof into
+the .c file.
 
-2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
-   were using the result of cpu_to_node(); if the CPU gets hotplugged
-   out this will return NUMA_NO_NODE. If one of these paths fails to
-   protect against a concurrent hotplug then page_alloc.c will use
-   NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
-   memory corruption or other. With alloc_pages_node(), the code might
-   just work fine.
+Also remove references to this API from the documentation tree -
+referring to the specific function name was already questionable but
+now the function is not even public it definitely seems wrong.
 
-Ulterior motive: this frees up the __* variants of the allocator APIs to
-serve specifically for use as mm-internal API.
-
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- include/linux/gfp.h | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ Documentation/admin-guide/cgroup-v1/cpusets.rst |  2 +-
+ Documentation/admin-guide/mm/transhuge.rst      |  2 +-
+ include/linux/gfp.h                             | 16 +---------------
+ mm/page_alloc.c                                 | 13 ++++++++++++-
+ mm/page_alloc.h                                 |  4 ++++
+ 5 files changed, 19 insertions(+), 18 deletions(-)
 
+diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+index c7909e5ac1361..52a213aff04e5 100644
+--- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
++++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+@@ -284,7 +284,7 @@ take action.
+ ==>
+     Unless this feature is enabled by writing "1" to the special file
+     /dev/cpuset/memory_pressure_enabled, the hook in the rebalance
+-    code of __alloc_pages() for this metric reduces to simply noticing
++    code of the page allocator for this metric reduces to simply noticing
+     that the cpuset_memory_pressure_enabled flag is zero.  So only
+     systems that enable this feature will compute the metric.
+ 
+diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+index 23f8d13c2629d..16f37135ed80d 100644
+--- a/Documentation/admin-guide/mm/transhuge.rst
++++ b/Documentation/admin-guide/mm/transhuge.rst
+@@ -761,7 +761,7 @@ compact_fail
+ 	but failed.
+ 
+ It is possible to establish how long the stalls were using the function
+-tracer to record how long was spent in __alloc_pages() and
++tracer to record how long was spent in the page allocator and
+ using the mm_page_alloc tracepoint to identify which allocations were
+ for huge pages.
+ 
 diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 01d6d2591f49e..3bf55a5f9143e 100644
+index 3bf55a5f9143e..4d57e9c0bf204 100644
 --- a/include/linux/gfp.h
 +++ b/include/linux/gfp.h
-@@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
- 	dump_stack();
- }
+@@ -204,10 +204,6 @@ static inline void arch_free_page(struct page *page, int order) { }
+ static inline void arch_alloc_page(struct page *page, int order) { }
+ #endif
  
--/*
-- * Allocate pages, preferring the node given as nid. The node must be valid and
-- * online. For more general interface, see alloc_pages_node().
-- */
--static inline struct page *
--__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+-struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+-		nodemask_t *nodemask);
+-#define __alloc_pages(...)			alloc_hooks(__alloc_pages_noprof(__VA_ARGS__))
+-
+ struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+ 		nodemask_t *nodemask);
+ #define __folio_alloc(...)			alloc_hooks(__folio_alloc_noprof(__VA_ARGS__))
+@@ -272,17 +268,7 @@ struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+  * prefer the current CPU's closest node. Otherwise node must be valid and
+  * online.
+  */
+-static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
+-						   unsigned int order)
 -{
+-	if (nid == NUMA_NO_NODE)
+-		nid = numa_mem_id();
+-
 -	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
 -	warn_if_node_offline(nid, gfp_mask);
 -
 -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
 -}
--
--#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(__VA_ARGS__))
--
- static inline
- struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
- {
-@@ -293,7 +278,10 @@ static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
- 	if (nid == NUMA_NO_NODE)
- 		nid = numa_mem_id();
++struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order);
  
--	return __alloc_pages_node_noprof(nid, gfp_mask, order);
+ #define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index c2839959d7908..f68b2b138a2e8 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -5431,7 +5431,18 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
+ 		set_page_refcounted(page);
+ 	return page;
+ }
+-EXPORT_SYMBOL(__alloc_pages_noprof);
++
++struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
++{
++	if (nid == NUMA_NO_NODE)
++		nid = numa_mem_id();
++
 +	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
 +	warn_if_node_offline(nid, gfp_mask);
 +
 +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
- }
++}
++EXPORT_SYMBOL(alloc_pages_node_noprof);
  
- #define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+ struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+ 		nodemask_t *nodemask)
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index 2d60551b4453f..aa0c1481f7ca3 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
+@@ -244,6 +244,10 @@ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned
+ 	alloc_hooks(alloc_frozen_pages_nolock_noprof(__VA_ARGS__))
+ void free_frozen_pages_nolock(struct page *page, unsigned int order);
+ 
++struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
++		nodemask_t *nodemask);
++#define __alloc_pages(...)			alloc_hooks(__alloc_pages_noprof(__VA_ARGS__))
++
+ extern void zone_pcp_reset(struct zone *zone);
+ extern void zone_pcp_disable(struct zone *zone);
+ extern void zone_pcp_enable(struct zone *zone);
 
 -- 
 2.54.0
