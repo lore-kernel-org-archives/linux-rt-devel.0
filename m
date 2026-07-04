@@ -1,145 +1,155 @@
-Received: from smtpdh18-1.aruba.it (smtpdh18-1.aruba.it [62.149.155.132])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EE52309AA
-	for <linux-rt-devel@lists.linux.dev>; Sat,  4 Jul 2026 05:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7881634F492;
+	Sat,  4 Jul 2026 06:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783144437; cv=none; b=VbHJPH6aIh++XMt5c/rhOIo5JTJB+EFoUTz9K7edtBpcT/hsTXRU9Bp9YmDR/hfJviH0fly++t9SIB5eu/3LgHaVEGK6sxB7e0zOB5KgPzI8rPfUZtVKKnj+blYWUdxPgXlJQ9G8OBRkmpfhsbCd65rCJuMGl+ohhrOhP1htDw0=
+	t=1783145042; cv=none; b=XxfJp8J7/I7CZ8/pmn5lZU97IpgPkfJSoKOElvXDPSd1jL1A3G3XgYUDrIR35dLx+CZQisEzA8z4ohwPk0K6O4b+7FRUXWNrDzLZzDKR8nZU8XtQJamBzQP0WsazlsV/coslp0o2zh3PVIuyATbeVjTONsjbgqKo8UBFUi17quw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783144437; c=relaxed/simple;
-	bh=UXIKzBzKPdf21Qc9DiWOMV4tdX2oYw6WjbznwvP6WJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:References:From:Cc:To:
-	 In-Reply-To:Content-Type; b=MPqquj3nNVrWHvBQWpoUSUJwxzjqcxSbwVHjJKrqalDA1s+9od3P2pxBP5nc9b26d7KSh3AQLD+tLn/yQg8cawD1dlQq1pXEmoSVaBZ4sZuI+Rsu/pG71Pk9XU6Rq/TptlEPPT80CcdTeXLKRdm52B4nA3ghL9Zk1IzOE6wvCB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=T+ShW3qA; arc=none smtp.client-ip=62.149.155.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1783145042; c=relaxed/simple;
+	bh=jIMGvQqsIvIyUCsNTGB+vuaIlrGlYDapnlkWplv0DVg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Deba3RZrGOoaCLiaUNMZTnClHF0nstxe7+Em4vmaVtHsdc6Dw2fiJLNGUfg/njh8PNFr8f4BDZKUzpwVhvPzTTVI3ND+UXDkQTYSqYYOw1Bv1YLN1ajFiCCiySnOC7Jpn1PUEazINEQZvJaek4IQThFcN//0paMaGoKfF28PvpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=byBM+RDc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8fc0NOUQ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="T+ShW3qA"
-Received: from [192.168.0.186] ([101.57.122.26])
-	by Aruba SMTP with ESMTPSA
-	id ftGywsdGZ5SteftGywlwnZ; Sat, 04 Jul 2026 07:50:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1783144242; bh=UXIKzBzKPdf21Qc9DiWOMV4tdX2oYw6WjbznwvP6WJ4=;
-	h=Date:MIME-Version:Subject:From:To:Content-Type;
-	b=T+ShW3qAfwPmi2YP2zI4M7tUHCyrhbZUZN3hjMQ+qbWSmcUATV7vbA/x3W8hyKn6m
-	 TggXGakKnq7FoOPE8e3w3oULEmvgkjd+8uMu0FXBrx8QvuKb1TYnmZbGtNWw2ka4WD
-	 YojGocZhKvOEzlrpQIqQyL7EqlvX6iiciny/Ek7fi+RkbxHiYZS9eiqBGGvGya+H+6
-	 K4jejYQ5tLDblY7RPwXtMpFZs8L8DXa4Ohm9QhUF3CWlqwJo3NtSeeNEG1OZe0PV0K
-	 3drwAJYQf8do3RouoVP339c/yxNeH8BTC6q7ZgzEm4LG7uk9jEG9NUGwG2EPo4cmPx
-	 6yS/68ZMe6fLA==
-Message-ID: <0b4b22bb-1f17-4e13-aa17-ea13476541c9@enneenne.com>
-Date: Sat, 4 Jul 2026 07:50:38 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="byBM+RDc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8fc0NOUQ"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783145039;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SpfS25J8dv9TjWmef95+8RlZGNip6QMU6GFSfOmOoq8=;
+	b=byBM+RDcZ2xkcau9XQkczUfq3+pZGm3Pfqey7HMu/GzJ6kO5Y7BHF6M4raL9W4hBhhQ4yF
+	cSVNrMyMeFi699K62CwfoYSQ1mInkFFPBiwp01ZxUgPa99K5/jiE9Za8nAA14uaGY6sFR7
+	El7BcvJC3aXlIK0/apV5Xs6jYkkljOfHEhhWugdiRdEYvATHxHE5bkt2pPuXqhZBOLyHGH
+	xmhRoxqQRZx59cAqVSOk3ArRSawFsxk7fkSwEpdoBNzh+faf2XQ9pb3/6rVwzcS1w11lkY
+	7sO4zNLTwo9i8hTD/WYkunhW7ZDIbdJX4/GfNxfoD9jdrN9E66oL3isI1Q9U+g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783145039;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SpfS25J8dv9TjWmef95+8RlZGNip6QMU6GFSfOmOoq8=;
+	b=8fc0NOUQCgRXYPdMXlGSRmvZ/kH8U8FCpujnYHmtwirY66tx4b7MSlp+5RuTqWSL7kmmwH
+	y/d7LS6BUiDd5XCw==
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: sashiko-reviews@lists.linux.dev, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 1/2] af_unix: Do not wait for garbage collector in
+ sendmsg()
+In-Reply-To: <CAAVpQUB+LDxRrF66=NKwLAdLN8kt+Hssm_KBc2oc_q6FTJF0VA@mail.gmail.com>
+References: <cover.1782922354.git.namcao@linutronix.de>
+ <e663a83195f3d9f6d7ad4907c37ae3e45c151062.1782922354.git.namcao@linutronix.de>
+ <20260702163608.0207A1F00A3A@smtp.kernel.org> <87mrw8sjo3.fsf@yellow.woof>
+ <CAAVpQUB+LDxRrF66=NKwLAdLN8kt+Hssm_KBc2oc_q6FTJF0VA@mail.gmail.com>
+Date: Sat, 04 Jul 2026 08:03:56 +0200
+Message-ID: <87wlvbmgtv.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/1] pps: pps-gpio: split IRQ handler into hardirq
- timestamper + threaded handler
-Content-Language: en-US
-References: <cover.1780359378.git.calvin@wbinvd.org>
- <2e32729029fbf6977ecf04665eb00f2efd3e2c17.1780359378.git.calvin@wbinvd.org>
- <20260602063650.LWatIBPk@linutronix.de>
- <79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-online.de>
- <F4693DE2-E36F-4157-BB7B-A98A7C1C76E3@by-online.de>
-From: Rodolfo Giometti <giometti@enneenne.com>
-Cc: Michael Byczkowski <by@by-online.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Calvin Owens <calvin@wbinvd.org>, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Eliav Farber <farbere@amazon.com>, Ingo Molnar <mingo@kernel.org>,
- David Laight <david.laight.linux@gmail.com>,
- Thomas Gleixner <tglx@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-In-Reply-To: <F4693DE2-E36F-4157-BB7B-A98A7C1C76E3@by-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKVY4s4OIjMWCa/UOYN/Hx9wttT1NG1/rLFcpkf6a2m6OrffjnUqw6U5mPOogYxBm40Qju4IiUPtek6CxkZ1JDGbIXQ7lFqXVUstlQ0j8gj72L/ewHd8
- 6UbagXcEtN0+XPNkm32EgSwiwtyuXAcLTThSJjTwJzxKTym00uUUUgv/vJmb0awXGZ6R87v7JAl0wTR28r9AEQ8q9O1da7ptZ9cPWLS1ED5yHrCEaIfEd8hj
- 7xD33hX7CsXF4dnZpEP3ui6XdnMHMaDxbMii6kXT7pWIySEuTtXWwVoJq1DmgD4IWEOlS2vG22DviSZIDYf4orQDmZAiWkEm77YGmwDollzt3iQ2E1+I+5l9
- TKaE9Cf72EQne4kLi6m8op95+4Sk1cxze95Te8IG8b3QIdKTRzp0LkvR+P8fHFGTr1eDquIeN9zr6fAi2z58sjkk6wCbrSq97D0R3b6+LgC9xUScZJhtinck
- IJMojTiVQDgHK45pjrtOVh+2D6eawt+WwGF0MWQG0IkIgss5Z5pEbHHXUVBuG09ShU0OoOftRaRGU+NMTsRmNRMsE08L+rjVlhwnMYCTydKp7GqC1u4toKwV
- pViPbRQ4ytauU4Yl6+m6bi9I
+Content-Type: text/plain
 
-Hi Andrew,
+Kuniyuki Iwashima <kuniyu@google.com> writes:
+> your patch makes it much easier to abuse.
+> UNIX_INFLIGHT_SANE_USER is usually much smaller than
+> RLIMIT_NOFILE.
+>
+> unix_schedule_gc() in sendmsg() is to self-regulate malicious users,
+> otherwise GC relies on unrelated AF_UNIX socket's close() and could
+> be triggered too late since GC is system-wide.
 
-Could you please pick this patch up for the 7.3 merge window via the -mm tree?
+About the abuse, the scenario where inflight sockets bypass
+UNIX_INFLIGHT_SANE_USER and delay GC until an unrelated AF_UNIX socket
+closes actually exists today.
 
-Since the PPS subsystem doesn't have its own dedicated git tree, routing it 
-through -mm is the standard path. The patch already has my Acked-by, along with 
-all the necessary reviews and test tags.
+For example, the following program creates far more than
+UNIX_INFLIGHT_SANE_USER inflight sockets, which persists indefinitely
+until another unrelated AF_UNIX close().
 
-Thanks,
-Rodolfo
+#include <sys/mount.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <sys/wait.h>
 
-On 03/07/2026 20:20, Michael Byczkowski wrote:
-> Dear All,
-> 
-> Now that 7.2-rc1 is out and this didn't make the merge window, could someone please confirm which tree will carry this for 7.3?
-> So far, the patch has been:
->      • Reviewed-by: Sebastian Andrzej Siewior (Jun 2)
->      • Acked-by: Rodolfo Giometti (PPS maintainer, from earlier revisions)
->      • Tested-by from Calvin Owens and myself
-> 
-> I'm not sure whether it should go via drivers/pps (Rodolfo), the rt tree, or -mm. Happy to help route it wherever makes sense.
-> lore: https://lore.kernel.org/lkml/79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-online.de/
-> 
-> Thank you very much and best regards,
-> Michael
-> 
-> 
-> 
->> On 3. Jun 2026, at 19:29, Michael Byczkowski <by@by-online.de> wrote:
->>
->> Thank you Sebastian, and thank you Calvin for relaying. I appreciate the
->> thorough review that got this to the right shape.
->>
->> Best regards,
->> Michael
->>
->>
->>> On 2. Jun 2026, at 08:36, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
->>>
->>> On 2026-06-01 17:44:09 [-0700], Calvin Owens wrote:
->>>> From: Michael Byczkowski <by@by-online.de>
->>>>
->>>> Split the pps-gpio interrupt handler into a primary (hardirq) handler
->>>> that captures the PPS timestamp at interrupt entry, and a threaded
->>>> handler that processes the event. This produces the same two-part
->>>> handler structure on both PREEMPT_RT and non-RT kernels.
->>>>
->>>> On non-RT kernels the threaded portion runs immediately after the
->>>> primary, with no behavioral change compared to the previous
->>>> single-handler implementation.
->>>>
->>>> On PREEMPT_RT, where interrupt handlers are force-threaded by default,
->>>> the previous single-handler implementation captured the timestamp
->>>> inside the threaded portion, after IRQ-thread scheduling delay. With
->>>> the split, the timestamp is captured in true hardirq context as it is
->>>> on non-RT kernels, eliminating a significant source of PPS jitter on
->>>> RT systems.
->>>>
->>>> Tested-by: Michael Byczkowski <by@by-online.de>
->>>> Tested-by: Calvin Owens <calvin@wbinvd.org>
->>>> Acked-by: Rodolfo Giometti <giometti@enneenne.com>
->>>> Signed-off-by: Michael Byczkowski <by@by-online.de>
->>>> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
->>>> ---
->>>
->>> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->>>
->>> Sebastian
->>
-> 
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+static int send_fd(int unix_fd, int fd)
+{
+        struct msghdr msgh;
+        struct cmsghdr *cmsg;
+        char buf[CMSG_SPACE(sizeof(fd))];
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
+        memset(&msgh, 0, sizeof(msgh));
+
+        memset(buf, 0, sizeof(buf));
+        msgh.msg_control = buf;
+        msgh.msg_controllen = sizeof(buf);
+
+        cmsg = CMSG_FIRSTHDR(&msgh);
+        cmsg->cmsg_len = CMSG_LEN(sizeof(fd));
+        cmsg->cmsg_level = SOL_SOCKET;
+        cmsg->cmsg_type = SCM_RIGHTS;
+
+        msgh.msg_controllen = cmsg->cmsg_len;
+
+        memcpy(CMSG_DATA(cmsg), &fd, sizeof(fd));
+        return sendmsg(unix_fd, &msgh, 0);
+}
+
+int main(int argc, char *argv[])
+{
+	int fd[2];
+	int i;
+
+	for (int n = 0; n < 100; ++n) {
+		if (socketpair(PF_UNIX, SOCK_SEQPACKET, 0, fd) == -1)
+			goto out_error;
+
+		for (i = 0; i < 100; ++i) {
+			if (send_fd(fd[0], fd[0]) == -1)
+				goto out_error;
+
+			if (send_fd(fd[1], fd[1]) == -1)
+				goto out_error;
+		}
+	}
+
+	return 0;
+
+out_error:
+	fprintf(stderr, "error: %s\n", strerror(errno));
+}
+
+To address this properly, we can schedule the GC at task exit. I can
+include that patch in my series, if that sounds good to you.
+
+> Previously every sendmsg() had to wait for GC, and now it's only when
+> there is a circular reference AND user has too many inflight sockets.
+>
+> Please fix the root cause; the former condition on your system.
+
+Can you clarify what you mean by fixing the former condition on my
+system. Do you mean ensuring that no application creates a circular
+reference?
+
+I am afraid we cannot rely on all users and applications to behave. We
+do not want a buggy program or a malicious program to harm another
+time-critical task.
+
+Nam
