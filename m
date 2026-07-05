@@ -1,115 +1,94 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BE364AA4
-	for <linux-rt-devel@lists.linux.dev>; Sun,  5 Jul 2026 01:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66BF357A25;
+	Sun,  5 Jul 2026 07:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783215359; cv=none; b=loYc3+QGOpED4wk11wTKt9/4xnPiwfQIgA1sMhoIj8xl/JwqvwvJ/UbpDhz4cqzDc4qSwQSIvchm+unuh+1HUIPDF9vFLEt0GcnnSRy/cYltCqN9z+N0BPrvry3W95Rm2LyJNYcoprILik6L4wzXhawjVjHc9bfTp36+vciUlsM=
+	t=1783236644; cv=none; b=p6oO8GHRQzRmRaKT1kWQkRXwaPukXIbC64QVetjVHIM78mHi5FU1HJYbapHdoPd2xHb7pfnNwvqkTxoaB/ggni2nvU+cNGkJTeCBN3bVJMAZ9d9mFkcaDXhTcLR4RMxLUEZJNPbC6qng+P5dhdYkTcVNE31HcEYtjIFOHmgMX5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783215359; c=relaxed/simple;
-	bh=e0snHgkdcCYheSahAts4IyFWJ6tNe4EUZUYM+GSzidE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ulCze3bg1kLghbc4WxVlqKwZ7KiwwyuuITVhsC21f7E1OXG2x87CJSm4U/CrTj3Ltzus/317HKBs5gh1egOgENUei5KdmeTJwMFZI1FByEFBC+hWB8VCxzjd+2+fqD9WyzN128+lJx6EkpGhJhNlK6Nf5ZDlZCWlTBdOGOgYlPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=XWF1t4kd; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
+	s=arc-20240116; t=1783236644; c=relaxed/simple;
+	bh=uQm7P0YcAHvP/UTB1DrUBsqTrFmgWyaGlmGUZwnbylc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=NOryaJ8sNIky60u+8GTyyPf6mlsU7dsAbCqk6WIdg0FFY1hFibjy9HMoOVp87hbiwrsQOEBdI9UcyLzdd+LzI84BrD6DcF0u1WuwwjL79QIxbjjGpUjkNkCq2RvTx5u6H2m5oAV31P3b70o2L/VbCxjiRoatdYGVNQmqfLSYK5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Uk8MqM1T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="XWF1t4kd"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381891a9525so1503608a91.3
-        for <linux-rt-devel@lists.linux.dev>; Sat, 04 Jul 2026 18:35:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Uk8MqM1T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4E81F000E9;
+	Sun,  5 Jul 2026 07:30:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1783215357; x=1783820157; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m42f7L7RVsYe8mboRnNyax0nOV02M22o6ganNTJC8uk=;
-        b=XWF1t4kdn2eFNiLmgTUs6zEp5LRXf6VWE+ElD4bEqa6nVSy8uebPCGL7qea0eWVl7w
-         eljKTRZBm0KKjmYK08MtdASuXZmQG/Quo+hwxirqZhGc1xBjbZ5WinPiveGTb+rqTBey
-         xsFdWE5nhm70h9Rgjx0R+T5OfCqGyNJijbegfozHassDwYet0bphQ7l0KXX9IOXh1GbH
-         qhnyRHw2bXLF9FmK88H2q9JjROmsaRo2XiV63ZCFDnYcsRnPyaYdJKPbS4cVGp3qjsRk
-         bcKOBcK3Kpukml83MzfZCPgOY09+juLVVOtGWWyPniP5VqEmeCSpxdKju6ZJW8NLTniG
-         szRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783215357; x=1783820157;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m42f7L7RVsYe8mboRnNyax0nOV02M22o6ganNTJC8uk=;
-        b=NLBATnHea86TgW4VPreSNPaQP1KjyUPAd6z6qfaOIxfrRtYJvrr+794zgk1ruLNiyG
-         wE5kHnW9cnU0VQn7VU97XpzwLS5mEGrQ7gfv567gD66BjYoXH2AULL1CIatCr6abjfba
-         rw+y+l0dm6izXqo3uLO/XC4c7pl3/ZCGYG8Jn+fNbsCh+eboDLHMVNOgDJwdnQPuMgMk
-         i3mmt4fJCqCFSxbmn2U2TZAV/GQ5uYWW4mHFEL7jJla+GLgmIgsZ8H+/Nh++dbjbeM57
-         nJ0xC6YNMLPjtUa3B4SM/mUVsLEIk6jKpS+NZyPdnjakDkHMrKGzXkYwxZP3s3oahGWc
-         AzLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrV1QBgcSWqckRE+0GU1U3U8QzSFHCunGIgmaHDa1O7TLtqQZqEnq5kKGpQDJFEIjRIXxj4Iw8Szy240mzxEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YycjofQiLiPr4rahiqJlo8MmziMsiAixgqEqJJYASbxKZzEXRhy
-	yN4QOvsFeBVbL9CwMtk5ZMU1jm5ix0pKKL0IlVEmWLchjIqqhDWDAfRD6ZmR6zVGtnU=
-X-Gm-Gg: AfdE7cnMfTkPLUZqZ2azpZTSosPiogLiZSx29bEIBTNjQXlVyg5aN9USa29YWBZXWsS
-	f+cBjfhflJ07YKHRcif/KJDJVcMMf2LfIkOmqdOHOi9inqOgdUHV2Vo9niic1t/qajdmJmczNm5
-	HdPaDlGAvL67lnSarJkxl94bMjBmaOEmRg15Y15NEscO9qChgTpF5Jn8/5HTQO35sfiIDl/FX5p
-	jAFcSBnbypspVNaE019wX8tfVAmOqX4lJmiTv8KVV2Iw0ibGJic38kUR1ZIrUHU1JRZ8+I3xpA+
-	QYap9e2eSFrxWFmHNdL+obS0Y+m2bIFi9PbpDeiJvtdHQeasbHfgoIkYoRwjrvWs2vRsURfxIQw
-	r9cGR2dMVoqj4PK6zvc/IUgMUkMLuk9HiNaC1dVaOZ0/u8+H8KAB9mv1tEGBPtAYNwmcDi4TSZX
-	z5WTznSt2fcWJ8jA==
-X-Received: by 2002:a17:90b:3942:b0:380:a5a9:7586 with SMTP id 98e67ed59e1d1-382803b8d77mr5260443a91.6.1783215357131;
-        Sat, 04 Jul 2026 18:35:57 -0700 (PDT)
-Received: from mozart.vkv.me ([2001:5a8:468b:d015:41a2:54ad:6cef:aed])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f3a9341e0sm27722085eec.12.2026.07.04.18.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 18:35:56 -0700 (PDT)
-Date: Sat, 4 Jul 2026 18:35:53 -0700
-From: Calvin Owens <calvin@wbinvd.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Eliav Farber <farbere@amazon.com>,
-	Michael Byczkowski <by@by-online.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>
-Subject: Re: [PATCH v7 1/1] pps: pps-gpio: split IRQ handler into hardirq
- timestamper + threaded handler
-Message-ID: <akm0-V6VTVp7-yQi@mozart.vkv.me>
-References: <cover.1780359378.git.calvin@wbinvd.org>
- <2e32729029fbf6977ecf04665eb00f2efd3e2c17.1780359378.git.calvin@wbinvd.org>
- <20260704180611.8898a9e290016d2dda70f6ae@linux-foundation.org>
+	d=linux-foundation.org; s=korg; t=1783236642;
+	bh=mUhQ5u4srEz04rLNb28RAAN9CUToZCgnPFuwRWvIo0I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Uk8MqM1TrvQ2Akr0P3bciF40of6gy+2r77qKifDdcmk+qMvAzZvqNZNizlgWpy2sP
+	 Sh7R8LGrcBagwPZ0SXdHjCF6fAebxasfDgpUIjtzRZnBjDhp/uPV4hFnlU98MdeovZ
+	 m6FkUJiVolp9rJDCVQ5/py1KTK1KtsVixAeVfnTQ=
+Date: Sun, 5 Jul 2026 00:30:39 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Brendan Jackman <jackmanb@google.com>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Muchun Song
+ <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
+ Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
+ Popple <apopple@nvidia.com>, Hao Li <hao.li@linux.dev>, Christoph Lameter
+ <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>,
+ Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, derkling@google.com, reijiw@google.com,
+ Yosry Ahmed <yosry@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo
+ Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
+ Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, James
+ Clark <james.clark@linaro.org>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, Thomas Gleixner
+ <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Robin Holt <robinmholt@gmail.com>, Steve Wahl
+ <steve.wahl@hpe.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dimitris Michailidis <dmichail@fungible.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH v5 00/18] mm: Some cleanups for page allocator APIs
+Message-Id: <20260705003039.c9b4bd681c059f62b375051a@linux-foundation.org>
+In-Reply-To: <997c1a4d-ee99-4214-be58-7ceb3b9b9a36@kernel.org>
+References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
+	<997c1a4d-ee99-4214-be58-7ceb3b9b9a36@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260704180611.8898a9e290016d2dda70f6ae@linux-foundation.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Saturday 07/04 at 18:06 -0700, Andrew Morton wrote:
-> Thanks, I'll add this to mm.git's mm-nonmm-unstable branch.  This means
-> it will get linux-next exposure immediately.
+On Fri, 3 Jul 2026 14:47:32 +0200 "Vlastimil Babka (SUSE)" <vbabka@kernel.org> wrote:
+
+> On 7/3/26 14:31, Brendan Jackman wrote:
+> > Based on mm-new.
 > 
-> All being well, I'll later move this into the non-rebasing
-> mm-nonmm-stable branch with the intent to upstream it in the next merge
-> window.
-> 
-> Sashiko AI review might have found some issues, one of them
-> pre-existing.  Please check it out:
-> 
-> 	https://sashiko.dev/#/patchset/2e32729029fbf6977ecf04665eb00f2efd3e2c17.1780359378.git.calvin@wbinvd.org
+> Seems ready for mm-new to me. I suspect most further non-trivial page
+> allocator work will conflict, so better have it in mm to be based upon.
 
-Hi Andrew,
+OK, thanks, added.
 
-I've sent three patches which address all the sashiko issues:
+I also added some little notes to track Zi Yan's comments.
 
-    https://lore.kernel.org/lkml/c5c97c3b3c9d66010382094fd538e59a38f4aacf.1781289959.git.calvin@wbinvd.org/
-    https://lore.kernel.org/lkml/672778c177ac9b6fdcb445e35c97ac4ca7d1149f.1780506611.git.calvin@wbinvd.org/
-    https://lore.kernel.org/lkml/7a71b8e74bce9582d3286d31e6c85ac77465e421.1780108620.git.calvin@wbinvd.org/
+Sashiko had things to say, mainly pre-existing things.
 
-I can resend those as a series if it saves any time, let me know (the
-last one has a trivial conflict with the patch you just merged).
+	https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b714e19d3@google.com
 
-Thanks,
-Calvin
+the xpc_create_gru_mq_uv() issues look like facepalms.  
