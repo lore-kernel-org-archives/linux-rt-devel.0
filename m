@@ -1,17 +1,17 @@
 Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7CDD3E8346
-	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Jul 2026 06:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E4DE3ED12B
+	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Jul 2026 06:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783318943; cv=none; b=izid74Ug0imVz7/mK0P6sXCj+4dPS1td1Qh+TNiqXPrau9gy7BaluW909pBzXs+yM27t22CI8KeN0dkKtjDu/bexVCGcO50PToH2oF+/8gr2GHNea2jgtFhTVfiVnIJ0Pgz7qfIIpUrgD+kC7pCyVXrS2EoC6Vv+gQu4krqsN+8=
+	t=1783318953; cv=none; b=MzN2qkYE6SW2BbQz5gZpworf9A9AjQ6rEYpQjNCU91igtKolV/gLx7bTjiMLXdFQMPcjwkMMOwStHqyOdtRHmaWJEUO0CyQw4F0GPzX2P3EPr7WObjzAcArW0aRDXltKmO2JTe5FdIMHKNFumfP4RUQ68uddYbz/5I765UQ4aRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783318943; c=relaxed/simple;
-	bh=6m46/bR7ahZ1eyue+jCsPNm2Mx2DXPiA4927jmqmv5Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=PtDtzVyZ5b2LGGAeIxfoPiA8gYKUt/1kpIg+aK3ziEjnDndLD8ELCsR9Jym4A2AENV89mDmMVe9KXbRpLY7jgYltT7VbM6DQIoyMXAUFOvMo8ensEhjZbfmKgv5VTa77KTRDjsTz2rXy536pyWHG/rb8xfve3vOVMYn8K6afvYQ=
+	s=arc-20240116; t=1783318953; c=relaxed/simple;
+	bh=4COXvF59c/1DTqwH8B+Ve+9eXwb29DTJEmWnDMVF5Ls=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=pHiTH4Md7YpyQUX9rB6qJwkBawNAim1dI1QhKyVmKmVFUakXsxvCKzvgBWF9W4DQRrRKXpPUbgb8Uz2gmcXnO9nslYVWY9ctgSQlyekJGd5ACRmMLMxkX9eerRittF3F0Q3bwn9HEodAvTj0w9gHOTg3757Cg/hGQdvJvYBXIr4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-02-6a4b4983a234
+X-AuditID: a67dfc5b-c45ff70000001609-5e-6a4b49848897
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: max.byungchul.park@gmail.com,
@@ -178,45 +178,45 @@ Cc: max.byungchul.park@gmail.com,
 	aliceryhl@google.com,
 	tmgross@umich.edu,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v19 36/40] dept: track PG_writeback with dept
-Date: Mon,  6 Jul 2026 15:19:24 +0900
-Message-Id: <20260706061928.66713-37-byungchul@sk.com>
+Subject: [PATCH v19 39/40] rust: completion: Add __rust_helper to rust_helper_wait_for_completion()
+Date: Mon,  6 Jul 2026 15:19:27 +0900
+Message-Id: <20260706061928.66713-40-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260706061928.66713-1-byungchul@sk.com>
 References: <20260706061928.66713-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH99z7PPdeKjXXasJFluG6uC3MMVxwnixz4+Nl7oPJTKZui9Zx
-	I0XeLMpgyRSVOkSgTScQKAKKdAiV1VbGrFSRLJUOO4rd9A6BwqxluDXurToGyFqMX05+53/y
-	/306HK0KkNWcNn+/pMvX5KoZBVaE40+/Wp65OSfthIGDCv0hGAsECdw63I9hwdzLQoW9gYCv
-	uwtBIFKB4NGcmYYFk5uFRZcbQd2IiQbZd5WGv22PGaidCjJQP3MYQ2PIzEI4cJnA4vg0BZbg
-	YwqC/V8gaDnjYGDOO0xDfa0PwempcRouuicQuDqOMHDP2EODP7gcwiNNFLQecREIjboouDTp
-	ZGGszkRBwBLCUHchAcz1R6no+JWC2vOXKbjRNobB7PUT+KWjkYX5qfXg7ppmYdxQi6E7PEzA
-	M3GLQG/ZJAvWqhANFc4IBvvdaNbQPMZAn8uDwe9sYqDK1kNgwrpI4GaXD8PX0zIFQ+5BDJ7G
-	cxjueA0sDDvPE2i/PULB1KRMwOG9QWdkiY/0NVjsdHxDifqbC4xobbYice4/ExL/aT9Ki3pj
-	dG0f+p0RXQ9bsfj9GUG81DjOiq32A2L5d2EiOjpSxLa+GUq0dx5ntqTuULyVJeVqiyXda2/v
-	UmR7jx+jC2efK/ktcgyVodnEShTHCXy6MNDeg59yZLSNjTHDvyTI8iwd41X8GsFRHSKVSMHR
-	vD9ZqLJULxVW8puEr1xGEmPMrxUqw71LrOTfEFomf0BPpMlCl61/SRQXzbvnT1ExVvEbhDsP
-	ruOYVODb4oTgzJfkSSFRuNYhYyNStqJnOpFKm1+cp9Hmpqdml+ZrS1I/Kcizo+jbWT6f//Bb
-	9Jfv/QHEc0gdr4SMd3NURFNcVJo3gASOVq9Svvjy5hyVMktT+pmkK9ipO5ArFQ2gJA6rE5Sv
-	P/w0S8Xv0eyX9kpSoaR7eqW4uNVlyOLau8lnvZhJDa4bOlRFfzx35V9DdSRpy7P7CjYYPej5
-	5mtr9qzw4WVy37k36+7dbsqr+cjWkO75+aSz5YOD/n0lcvJ9/2BCSuSFHX/47xYaTp3Uy+/9
-	tCic3boxzWYqz6hJu5589f47hvJXhjLrt19ZnhhMGv3zx6bd22y74j2JPXBCjYuyNetTaF2R
-	5n/ObYLocgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0hTcRTH+/3u3b3X1eqypF0LKhZZBPaAHodeGP3RLXv9E1EEOfKS87Fs
-	K8sgcq6Z2oM52qSWZZYr1HRtpi4bmaI9V5pZZpmTlmVqlrlkU7Ot6J/D53y/53w5fxyGkFaL
-	pjNK1SFBrVIkySkxKd66Shel2xiTsPjcZxlk6U/A+06vCF5ra0nwDWWRcKm8lIIxSxUNWfYL
-	Inj0JoOEprISBJ2+LATDIxYC9M5xEsaMjTQM+d/RYNIiGHc1IjA3Gwloa7pPQGmFFsNP228K
-	eusHEZi6vBTk9WhJGLCeQXCx20JDT8MG6O+sEcF4x2cMb371IbB6f2Pw1p5CMGZOhCuFjuC6
-	+TsFI+4XBOSZmhBc7eogYLDHg6Ci8QMC180MCj4Z7hDQ4p0Mr3wDFDw2naagv/kShm82Cgoy
-	XCJoftaLIN9iRNDd7sKgu1ZOgTnfToLTc5eG5t5RDO/NRgwl9i3Qae0m4amhEAfPDU7dloEl
-	T4eD5QsG060aDH5rMR1dhPhh/TmSL3ZUYl7/coziSy+XIn4kYET8UJGO4PWGYFvfN0DwJx1H
-	+KKnfRQf8LVSvOtXAck/KeT469kBzOe6o3jnxQ56+7rd4tVxQpIyVVAvWhsrjndnZxIp/plH
-	e32ZKB35I3JQGMOxSzlf+zU6xBQ7j2tr8xMhDmdnc46z3aIcJGYItmUWd8Z6lgwZU9k13A2X
-	QRRikp3L5fRX/WUJu5y74nmO/oXO4kpstX+DwoJ62Wg+DrGUXca9G3hIGpC4AE0oRuFKVWqy
-	Qpm0bKEmMT5NpTy6cN+BZDsK/pP1+GhuNRpq2VCHWAbJJ0kgelOCVKRI1aQl1yGOIeThksj5
-	MQlSSZwi7ZigPrBXfThJ0NShGQwpl0k27RRipex+xSEhURBSBPV/FzNh09MRjrj6zL1+5Y8d
-	JdOWb7N50iar7ztaTQerH6dksrYpw7YCO7+Cylhd4ZNFBNyt0Z6Jztzsr5Vz6HqTNEp1eIq/
-	xWlfpS107Gr8tujezqrUBTWayB+bB+Uzu9Lxp/lvA7ntcXNUchkzcVJt5ANZ4g22wRUOLxKs
-	5/eUn/jYcLwyRk5q4hVLFhBqjeIPAg6jj0sDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0yTdxSH/b93Kk3eVJK9ygdc4w0QBk63k2EcMTN5HVuC2ZfFS7SBN6PI
+	xRRbZckW6EDQWVcwBUctlBBbaAtoC4oXHMOJFOU21lKwOsSuuHEThBoJGFvMvpw853fyez4d
+	BpeMkBsYec5JQZEjy5JSIkI0HV4bV7Q/JTNhdnYHuAs7CCi1/0rCQJMVga4QQcVgOQ6T9+aD
+	2zMfBVV+PQ3DgSkEJt9bDHwdJQhWKo5De72agn+0rTg4dT9TYFS3k2DQlyP4qa6Zgptjt2jQ
+	V77AQNd4G4M3JgsNj+q8BOh7h0hYfpYIXdYJGpqm+0mY9JdTcKNgjAb7yH0EtvN+HOzP3SS0
+	j8ZC6coCgq62cQyGbl2m4E/rAAHNEx4MHnZ1E+CsaiDgyvAgBoELkTBQpiHh4owfwWTAhMNI
+	5RQNftcZDBpqzAgeaDowKHlxm4K7pWMYTFQZMLi3OIWBw67DYelJGwm913to6FnqwcA6SEDr
+	/dc0FL76G0GRdxcYFhKhccWNYEa7QCYn87ZqG+KLtcGxtOii+LLeOP5m1ROaL7o7SvNGu5Iv
+	+mOa5B31MXzdnX8x3m45S/EzfX007/urEuNrC3Q4X+08wP9msNGpUQdFu9OFLLlKUHy055go
+	o8XSgE48J0+PlpWgArRInENhDMfu5Eo1k0FmVlntVYZiit3KeTxv8BBHsBs5h8ZPnkMiBmeH
+	orjzJs1qdx2bxlW7+lGICXYzV9MyR4ZYzH7C9elvkO/9UZz1aseqKCyYNy0bsBBL2F3c49kH
+	REjKsc1hnN4+Tr0vrOd+r/cQWiQ2ojUWJJHnqLJl8qyd8Rn5OfLT8Wm52XYUfDjTD8uH2tD8
+	wDediGWQNFwMyV9mSkiZKi8/uxNxDC6NEG/ZlpIpEafL8r8XFLlHFcosIa8TRTKE9APxjsCp
+	dAn7neykcFwQTgiK/68YE7ahAB3jWq7ZzO4kl+Uz7Z1Z7+fmvfv6fU+9qT0x6lhznzv84mFn
+	9H+PHz11VHfHXYqekCcZA7nDexO2GFO+8EhdBz8+9fLTSFfC0SSzSi/fVOFcPz59aaWlsLtY
+	SWqyv9Kmnp2aP/Lt0rYP1xZHJHga1aZf2hzbv1bG/jgXfblGNfcw/oKUyMuQJcbgijzZOxo5
+	Q0hsAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0xTdxTHd3730UtjzbWSeONMMDXoYoLTKOM4NwT8gzuNZv8Qk02ijd5A
+	eVTTKsqI0VKqFdBAl7bRykOURoEptp2IpJFAxAc+6OqDKIhoxRFQFKnIo2JL4j8nn3O+3/PN
+	+eNwlLKJWchptHslnVado2LltHzLOmNc0W+bslbePcKj2XQIe/oCDD42tNIYHDPTePpSA4sh
+	R5MMza6TDN56Ukhj18V6wL6gGXB8ykGhqXmGxpClQ4ZjE89kaDUAzng7AG0+C4XdXdcpbPAY
+	CH5s/MLiUPsooLU/wKJ90EDjiLMU8NSAQ4aDN1LxbV8LgzO9bwg++TQM6Ax8IRhoPQoYsmVj
+	VY07vG57z+LUvQcU2q1dgGf6eykcHXwB6Ol4Dug9X8ji67J/KfQH5uLD4AiLt60lLL71nSb4
+	rpHF6kIvg767Q4AVDgvgwFMvQePZSyzaKlw0Nr+4JkPf0DTBHpuFYL1rM/Y5B2jsLKsh4XPD
+	rssL0GE3knD5n6D1nxaCE846WVItiOOmE7RY575CRNN/IVZsqGwAcWrSAuJYrZESTWXhtn14
+	hBKL3PvF2s5hVpwMPmJF76dqWrxTI4jnjk0SsfxenNh8qlf2e/If8l92STmaPEn3Y+IOeaan
+	7gLsecUceFp+FA5DkC4GjhP4NUJhz75iiOJYfpnQ3T1BRTiaXyy4jw8wxSDnKN4fI5Q6j9MR
+	YT6/U6h89AAiTPOxQpXnAxNhBf+TcN/RNMsCHyPUN7bOBkWF5xenK0iElXy88GzkJl0G8mr4
+	rg6iNdq8XLUmJ36FPjszX6s5sGLn7lwXhN/JeXC6/CqM+VPbgOdANUeBSRuzlIw6T5+f2wYC
+	R6miFUt/2JSlVOxS5/8l6XZv1+3LkfRt8D1HqxYoNm6Vdij5DPVeKVuS9ki6byrhohYehvqC
+	DKLasP/XReN/Dh46WzRn9Lb6zSuDv+qdN5ZUzqR0HCxWOSfiStakGVlH8/qUgrypto/zRy9P
+	O6t+Ftv7l23zJLjnhtITEpNal7xcLs9f70uJeZjcuTW+Pe36Z+32tavdab3xiRb/vG0JUbX9
+	LvffZ+al39QXbEi3HzN32hWTBSpan6letZzS6dVfAdgyZ0pKAwAA
 X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -224,111 +224,27 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Makes dept able to track PG_writeback waits and events, which will be
-useful in practice.
+This is needed to inline these helpers into Rust code, which is required
+for DEPT to play with wait_for_completion().
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/mm_types.h   | 1 +
- include/linux/page-flags.h | 7 +++++++
- mm/filemap.c               | 6 +++++-
- mm/mm_init.c               | 1 +
- 4 files changed, 14 insertions(+), 1 deletion(-)
+ rust/helpers/completion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index e25d09f3dfa9..81dc9999090a 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -222,6 +222,7 @@ struct page {
- #endif
- 	struct dept_page_usage usage;
- 	struct dept_ext_wgen pg_locked_wgen;
-+	struct dept_ext_wgen pg_writeback_wgen;
- } _struct_page_alignment;
- 
- /*
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 0b0655354b08..ec736811a2c6 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -203,6 +203,7 @@ enum pageflags {
- #include <linux/dept.h>
- 
- extern struct dept_map pg_locked_map;
-+extern struct dept_map pg_writeback_map;
- 
- static inline void dept_set_page_usage(struct page *p,
- 		unsigned int new_type)
-@@ -292,6 +293,8 @@ static inline void dept_page_set_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_request_event(&pg_locked_map, &p->pg_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_request_event(&pg_writeback_map, &p->pg_writeback_wgen);
+diff --git a/rust/helpers/completion.c b/rust/helpers/completion.c
+index 5ea2eef74abc..7b55c960fe22 100644
+--- a/rust/helpers/completion.c
++++ b/rust/helpers/completion.c
+@@ -7,7 +7,7 @@ __rust_helper void rust_helper_init_completion(struct completion *x)
+ 	init_completion(x);
  }
  
- static inline void dept_page_clear_bit(struct page *p, int bit_nr)
-@@ -300,6 +303,8 @@ static inline void dept_page_clear_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_event(&pg_locked_map, evt_f, _RET_IP_, __func__, &p->pg_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_event(&pg_writeback_map, evt_f, _RET_IP_, __func__, &p->pg_writeback_wgen);
- }
- 
- static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
-@@ -311,6 +316,8 @@ static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_wait(&pg_locked_map, evt_f, _RET_IP_, __func__, 0, -1L);
-+	else if (bit_nr == PG_writeback)
-+		dept_wait(&pg_writeback_map, evt_f, _RET_IP_, __func__, 0, -1L);
- }
- 
- static inline void dept_folio_set_bit(struct folio *f, int bit_nr)
-diff --git a/mm/filemap.c b/mm/filemap.c
-index c0bff1e08a28..e3aa2754da3f 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1197,7 +1197,7 @@ static void folio_wake_bit(struct folio *folio, int bit_nr)
- 	 * dept_page_clear_bit() being called multiple times is harmless.
- 	 * The worst case is to miss some dependencies but it's okay.
- 	 */
--	if (bit_nr == PG_locked)
-+	if (bit_nr == PG_locked || bit_nr == PG_writeback)
- 		dept_page_clear_bit(&folio->page, bit_nr);
- 
- 	spin_lock_irqsave(&q->lock, flags);
-@@ -1254,6 +1254,9 @@ static inline bool folio_trylock_flag(struct folio *folio, int bit_nr,
- struct dept_map __maybe_unused pg_locked_map = DEPT_MAP_INITIALIZER(pg_locked_map, NULL);
- EXPORT_SYMBOL(pg_locked_map);
- 
-+struct dept_map __maybe_unused pg_writeback_map = DEPT_MAP_INITIALIZER(pg_writeback_map, NULL);
-+EXPORT_SYMBOL(pg_writeback_map);
-+
- static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 		int state, enum behavior behavior)
+-void rust_helper_wait_for_completion(struct completion *x)
++__rust_helper void rust_helper_wait_for_completion(struct completion *x)
  {
-@@ -1697,6 +1700,7 @@ void folio_end_writeback_no_dropbehind(struct folio *folio)
- 		folio_rotate_reclaimable(folio);
- 	}
- 
-+	dept_page_clear_bit(&folio->page, PG_writeback);
- 	if (__folio_end_writeback(folio))
- 		folio_wake_bit(folio, PG_writeback);
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 66b68c02d8d4..2695d7b3b089 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -589,6 +589,7 @@ void __meminit __init_single_page(struct page *page, unsigned long pfn,
- 	page_cpupid_reset_last(page);
- 	page_kasan_tag_reset(page);
- 	dept_ext_wgen_init(&page->pg_locked_wgen);
-+	dept_ext_wgen_init(&page->pg_writeback_wgen);
- 
- 	INIT_LIST_HEAD(&page->lru);
- #ifdef WANT_PAGE_VIRTUAL
+ 	wait_for_completion(x);
+ }
 -- 
 2.17.1
 
