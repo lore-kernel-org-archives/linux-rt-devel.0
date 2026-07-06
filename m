@@ -1,17 +1,17 @@
 Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EB6E3DEFF8
-	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Jul 2026 06:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E5A3DFC6A
+	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Jul 2026 06:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783318845; cv=none; b=qFDHG3IF+KM1sq4J8nS8vOSMsvvzQfBB8WrWT/Wr+o7fWRmKLW0ZlAEnSdzTtlQwc4ppXvvde5pftjc6PfVt1mSN0R8LuEF1XqizouJDVXGbczSbH15e8wbUXDwZvTPVQFFkMwwkwCUgZcHPpPQ95kYiEa0uGtLZ88d2sREGmdQ=
+	t=1783318845; cv=none; b=VlDT7ukXVyc3iF1yZqCe39cxOMTpAq1XQeBkHpIpV6Vi1uG0RoVpZTZEQQeevhrGZhyU03qv4yRvMhSRKxqgVtF6o33aPM/F3Tp35uORBPKTj9SLVpq+IN26YCs7fMFSOG6jIF6a5/2T2he780HRKLNHNi2lH8jN3ywHKDZU0J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783318845; c=relaxed/simple;
-	bh=Nq6eF1vNPqQexxbO5CbSo0SEOxl3ixoZ4tUAk3fFOuE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QvdQUlf/Nwpq7lUjQgN5utkG3L68Kv8ZR52aYdMcr/9bIh4ERsWNsklJsxH7IMh4IXbIOZA7+T9UaqT1AFLIL4tR46rpZpAftnbX6x08nQmj8/qX7TtyiT1Y5e5ngXKNmBZkHAJQiJ4dhdZeSrsHPNiVtPJnL/wReHCiqv+gCc8=
+	bh=9o9SI0ONdb1WbiIWXrCSb5nX53qir4UGX5Gt0IQgpYM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=TIwmeDUZZo/cdAXN1qXYDvsQliTsSOFTvdDmeD4jWgk7b9hfvdTP+04H9YRxZzscRX5zj6VwhoElaPsBpUaU2jY8fKgfhIx54nCOCO9HbHttHRmaIla0AS55UfY5pkj7NyX/s3TleeXb0NTgDf/NYODbzFWTTFiScRq8QOlz6qA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-25-6a4b48ff46da
+X-AuditID: a67dfc5b-c2dff70000001609-44-6a4b48ff61c3
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: max.byungchul.park@gmail.com,
@@ -178,45 +178,45 @@ Cc: max.byungchul.park@gmail.com,
 	aliceryhl@google.com,
 	tmgross@umich.edu,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v19 16/40] dept: apply timeout consideration to wait_for_completion()/complete()
-Date: Mon,  6 Jul 2026 15:19:04 +0900
-Message-Id: <20260706061928.66713-17-byungchul@sk.com>
+Subject: [PATCH v19 17/40] dept: apply timeout consideration to swait
+Date: Mon,  6 Jul 2026 15:19:05 +0900
+Message-Id: <20260706061928.66713-18-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260706061928.66713-1-byungchul@sk.com>
 References: <20260706061928.66713-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH99z73NvbxmY3BfUOYzBddBuZCIruJDOED/vwKC7ZYvZhOgbN
-	uJPyUkiRt6Gx1reKGAspoFRIa7DraKfYMkW0CbKlipUI1hdEKuCw4EtlMRQjgqyF+OXkd/7/
-	f87JSQ5HKx4wcZxas1vUalT5SlaGZaEl1rVoS3pu0qmGFDAc2gdDw2MMhKcMGAyuUwzceKDH
-	MBw2IHjzzkzDvMeLoL6/lgZn+34KGp7tx9AYNEsgNHyFgfnAOAW2sfcUjHUdQTBXnwfvem/T
-	0FDXh8A6GqDh9bMRBO3exwg8dj0LT41/0XA3PMlCqP80Ba/aWLDoPQz033qBoMlciyA46KHg
-	8kinBIbqaylwuL6FYVsQg894JrqehfoLy8HccICKlAkK3tpaJWDTrQZzr5+B2dFkmLcUgtcx
-	LoHAiToM50K3Geh5fJ+BS7oRCRg6wxhc/0Za6+EWDFc9PZGz56YQeDueUODvPM2CzvyGgb4u
-	HwN3HH0Yzo8PUODz3sDQ0/gHhke9JyRp2aTVfZEih+7MscTZ7ERk6uwBmvz9cpImB91l5Kzv
-	JUtmwvdY4pm2YHLzjEBajs5QpKZ3LbncGJAQi6uEHPwnxBC3PeG7dTtkm7PFfHWpqF2XmiXL
-	uTc0SBc1y8pbnh9mdGiEq0JSTuBTBG/1KPOBHfaLKMos/5kwMPCWjnIsv0pwHw9GMjKO5v3x
-	QrXtOI4aMXyW0DR0aYExv1r4z3mMirKc3yT8bpqlFofGC462roVB0oh+brZpQVfwG4VHk9fx
-	YsYhFdpPJi7yJ8I1+wA2IrkFfdSKFGpNaYFKnZ+SmFOhUZcn/lJY4EKRd7Ptnd3ZgV73be9G
-	PIeUS+SQtjVXwahKiysKupHA0cpY+ZrP03MV8mxVxW+itjBTW5IvFnejFRxWLpevny7LVvC7
-	VLvFPFEsErUfXIqTxunQN10rl/mT635uY4ri7ieF1kw3Ouw+65OvSmcqTROTedL+Thz/vCaz
-	qn3HsY/vbrWM3gpsLt9LNli/96b++OlPCemajIfbYmdiTlY2f5kWYzJWrQyuH/yz+teS1Ktx
-	XqPJOXH9izK3YufXe0zvl1bqrfIfaj3C9vNFT5P8GRdqxrP0HUpcnKNKTqC1xar/AasiBvRq
-	AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTHfZ57e3tpKLkWDNeXRG0U3wKTBPSYmaFf9Ilki/GLxqjQzBsp
-	r65VXpYYLbXaCRhobNksCKJUAxWxVZSRIi+ObToyEBGCYMHVIgNXBlRGAbuC8cvJ7/z/5/xz
-	PhyWkj0SrWCV6acEVboiVc5IaMk3X2oj/SQ+eestUzDodWeh3+kSwUtNEw3eKT0NJXetDMyb
-	H4pBb/tJBL/15NLQUVONwOnVI5ieNVOgq/fTMG9oE8PUzCsxGDUI/I42BKZOAwW9HY8psN7X
-	YJis/cjAaOsEAuOQi4HiEQ0NHks+gqtusxhGftkL750NIvAPDGPo+TCGwOL6iMHVdBHBvCkF
-	yirsgXXTOAOz7X9SUGzsQHB9aICCiZFBBPfbXiNw3M5l4G3hAwq6XCHwwuth4HdjHgPvO0sw
-	/FPLQHmuQwSdf4wiKDUbELj7HBi0N+4yYCq10VA/+LMYOkfnMPSbDBiqbV+D0+Km4VlhBQ6c
-	G5i6Fw7mYi0OlHcYjHcaMMxYqsS7KhGZ1l2mSZW9DhPd83mGWK9ZEZn1GRCZqtRSRFcYaFvH
-	PBQ5b88ilc/GGOLzdjPE8aGcJk8reHLzBx8mRe2RpP7qgHj/7sOSnceFVGWmoPriq0RJUnd/
-	H3XymiT75t8XROfQIHsJBbE8F8NX365DC8xwG/je3hlqgcO4Nby9wC26hCQsxXWt5vMtBfSC
-	Ecol8qX9DxeZ5tbz49Y8vMBSbht/68oc/hS6mq+ubVoMCgroNXOli7qMi+VfeX6lC5GkHC2p
-	QmHK9Mw0hTI1NkqdkpSTrsyO+jYjzYYC/2Q5M1f0CE117W1BHIvkwVLYtS9ZJlJkqnPSWhDP
-	UvIwacTG+GSZ9Lgi53tBlZGgOp0qqFvQSpaWh0v3HRQSZdwJxSkhRRBOCqrPLmaDVpxDGY0F
-	E9zj1lUe11/BTvcy8CXs2BSnX5s90fhf2/iWnhB/TXLQE4uhznklxB4x+bQs4/q/MW/UpDmr
-	e09W6OSPS7dubslcNpTXcLr9xVFU9mSGtQ6bsMaWe2jMEr/Wt6Qxf503rlm/I2rEWcJ/V5QQ
-	fSRc2xG/nT92YHno9ju6eomcVicpojdTKrXif+1e7ZpLAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSb0xTZxSHfd/73reXhs5r1XjFBLCG6TRjsqE5yZaFD5u5m39CYkwM+6AN
+	3IxCaV1RlC3L6EZdXYR1XVo2XKGIFFTcagvbsEOR0SxByFrQjmkJotXMYTcUWhxSWavxy8mT
+	8zvn+fTjGGWIzeA0uoOSQafWqqicyKPpLS/jd7aXbW61cmA2fQLhiQgLIWMfgdismUDixE8y
+	mIiZEcw9PsGAqWeRgM2IoLPLiGHG/YSCbTJCoeGekUB0wseCK/IEQ8JeDs0nvRSm7NMUHg//
+	zkCDLYCgZXKcgTuWbgZGIy9ANPgdBuenvSwEh6YQ2B0eAj03L8ggbLdiuGI5iZNeCvbzq2Co
+	NUzAVZMDtzoaZbAwmQeLTj2Mf2kjMHt1EsO3TWEKI2cDBNr+CGKI16+BwFd1LIxZ7iCYirsY
+	uHvtKIbTvcMUTje3I2ib/YeBz//yUbj6pw/BRfNNDG0dURY8nSEKv8buY/h6xEkhZG2mMN/u
+	R9Dtn5OBcWYCQW14Czxy32bhXCKECgrEOVM9Ec94f8SiaSRBxc6mTiSaLMlR6z0szseuUbE3
+	7iTiqWPzWOxpHJeJtRevy0Sn55BYOxBlRW/HRrH1l3tYbHkYYwuzi+RvlEhaTZVkeOXN/fLS
+	HyJGdGCGHmnwn2Jr0CD7BUrjBD5f+NsaoM95sP4BTjHl1wtjY/8xKV7BZwveurvJeznH8KNZ
+	wnFXHUkFy/m3BUe3PxlwHOFzBNt5fQoV/FbBH858pswSzrr7nmrSkuvvFxxP9Up+i3Dj399I
+	SinwzWnCwPQwfvawWrjcMUYsSOFES84gpUZXVaHWaPNzS6t1miO5xfoKD0q2zfXxwns/o4eB
+	3f2I55AqXQEF75YpWXVVZXVFPxI4RrVC8eKG7WVKRYm6+kPJoN9nOKSVKvvRGo6oVilejR8u
+	UfLvqw9K5ZJ0QDI8TzGXllGDtm3S7mgq/ibD19jGlp87OmXuu9SVNxBK9zhmXtq0w5n+YMNH
+	OcT9erat4q29hfl7fFnBtcOKzEdyz4VdXUU9OvazrrzRoDyuV3kWlwyFr6+0BfdWL7u83rq0
+	aFui2PJae8A7NzhOtPPyfne5I/PY/f25O4NX1hFt9/Ta45k3pA9UpLJUnbeRMVSq/wd0YKNR
+	aQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSWUxTYRCF/e/WS7V6U4leV0yNaNwXNOMSt0T9A7HxTWKMWvUqZbcFBIzR
+	glVUMNjYEikoIhRCq0UWFU2V1ICKGkFUQEAwqShhqUuLYbNeNL5Mzsw582UehiXld+nprDo6
+	TtBEqyIVjJSSKtenLvHhkPDl9uKZkKY/BW0dLhre66op8HrSKMix2xgYNd+TQFrZVRqeNaVQ
+	UH/biqDDm4bg17CZBH2Vj4JRQ60EPIOtEjDqEPgctQhMDQYSmusfk2Cr0BHws/Q3Az1PfiAw
+	fnIxkNWto8BtSUeQ3WWWQHfNDujreEiDr/0LAU0DvQgsrt8EuKrPIRg1RcD1/HJx3fSNgeFX
+	r0nIMtYjuPGpnYQf3Z0IKmo/InAUpzDwObOShEbXRHjrdTPw3HiRgb6GHAL6SxnIS3HQ0PCy
+	B0Gu2YCg64ODgNSbdgZMuWUUVHU+kEBDzwgBbSYDAdayndBh6aLgRWY+IZ4rpu5MBXNWKiGW
+	rwQYbz0kYNBSItlciPAv/SUKl5TfJbD+zSiDbddsCA8PGRD2FKaSWJ8ptk963SQ+U34cF77o
+	ZfCQ9x2DHQN5FK7L53HB+SECX361BFdlt0t2bdkj3XBYiFQnCJplGw9Iw+wuHYr9ySRm1RTQ
+	p1EdfQH5sTwXxNdd+k6MaYabzzc3D5Jj2p+bw5dndIkZKUtyjQF8uiWDGjMmc9v43Moa0WBZ
+	ipvHG+/EjEkZt4avaZv9DxnAW0ur/2L8xPHtkdy/eDm3mm91P6UykTQPjStB/urohCiVOnL1
+	Um1EWFK0OnHpoZioMiR+k+XkyOX7yNO4w4k4FikmyGBzcLicViVok6KciGdJhb8scEFIuFx2
+	WJWULGhi9mviIwWtE81gKcVUWfBu4YCcO6qKEyIEIVbQ/HcJ1m/6afRo7bGKAElt3/eD8ftW
+	dU5Lfh3cN+lcoqJAcehB09r7TvuW3m/7VlUb1MlH2ui8Im1R4pGWgbhbJqVu1uJ18RfnLrLO
+	DQ3ca9G6g5Qx2zfcax3va9l+IsKH+rGwst+pb1dOqlzp7d86Jehp+MmzCdbjV2Y5zlft36SU
+	zffY6FA25ZGC0oapViwkNVrVH1dU5FdJAwAA
 X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -225,43 +225,27 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to wait_for_completion()/complete().
+consideration to swait, assuming an input 'ret' in ___swait_event()
+macro is used as a timeout value.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/completion.h | 4 ++--
- kernel/sched/completion.c  | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/linux/swait.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index bd2c207481d6..3200b741de28 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -41,9 +41,9 @@ do {							\
-  */
- #define init_completion_map(x, m) init_completion(x)
- 
--static inline void complete_acquire(struct completion *x)
-+static inline void complete_acquire(struct completion *x, long timeout)
- {
--	sdt_might_sleep_start(&x->dmap);
-+	sdt_might_sleep_start_timeout(&x->dmap, timeout);
- }
- 
- static inline void complete_release(struct completion *x)
-diff --git a/kernel/sched/completion.c b/kernel/sched/completion.c
-index 19ee702273c0..5e45a60ff7b3 100644
---- a/kernel/sched/completion.c
-+++ b/kernel/sched/completion.c
-@@ -115,7 +115,7 @@ __wait_for_common(struct completion *x,
- {
- 	might_sleep();
- 
--	complete_acquire(x);
-+	complete_acquire(x, timeout);
- 
- 	raw_spin_lock_irq(&x->wait.lock);
- 	timeout = do_wait_for_common(x, action, timeout, state);
+diff --git a/include/linux/swait.h b/include/linux/swait.h
+index 277ac74f61c3..233acdf55e9b 100644
+--- a/include/linux/swait.h
++++ b/include/linux/swait.h
+@@ -162,7 +162,7 @@ extern void finish_swait(struct swait_queue_head *q, struct swait_queue *wait);
+ 	struct swait_queue __wait;					\
+ 	long __ret = ret;						\
+ 									\
+-	sdt_might_sleep_start(NULL);					\
++	sdt_might_sleep_start_timeout(NULL, __ret);			\
+ 	INIT_LIST_HEAD(&__wait.task_list);				\
+ 	for (;;) {							\
+ 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
 -- 
 2.17.1
 
