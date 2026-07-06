@@ -1,215 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AE47ECE8;
-	Mon,  6 Jul 2026 23:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670618003D;
+	Mon,  6 Jul 2026 23:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783379191; cv=none; b=iEk/nio7j/8u9rzquI1n5Mcm4VQfuYjfNcD8rTDIKrZkDst2VdwGhmRlL61+WE4ROlXwh6KlcOPUibCT+Yoc+DICVvUdf0+iTcApsqJC2IDb9PrPCgRpvLtZ1GdP8329rPZTwyjAtOQcZ9VxwqO8X33AunujWm+hadi+NHvswD4=
+	t=1783379826; cv=none; b=DvKxJKO5qYXBPc2o5x79smHg5ghWMBWZco7kLuruHnpkSaKXFK53wqY2sXjTxxlSGCw5ZMYPTiej2oCa8gz7KoM5oe/sS1gfs9Xj0UTWAQ/mS48+PxXehVWEHT09ZB4OtLdRfTTQ2nMK9lBudsB32npbBJfooMcCPxxeRmvVRsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783379191; c=relaxed/simple;
-	bh=/lHu3eVAuHsLEigeHCp+bZ6GY4SmlXtvbvnXYPzk0WA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fLrBuGnZtoYLF+ezkDYQZZP/D8S2JB+FT2ZE4QZ7hWr77QCyhhMHlTsMOWdIDFYaShfUEXDUB+y7DUe4iIkx5ivS4PsjyG6eNyXMzUnXv2I0fqub5tqU6MnY8rUHh1/9u/Wlxx7PNCMlVDUO/565gLlMvNVqqsnE0Z9cDo2DFU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgGJHgDO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783379826; c=relaxed/simple;
+	bh=qMqR27LY5oxc6Jm8FICPiakS1BIvirMariVREeNFh50=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=UZxskuAkvD2/WyC07O066RnFwq/KTR6+sP4N4PjKIsM+YPXTRaQ/k3UeA3KXr1QswtKJucbFnlNXTJydt3ItLrQyBj0zGedw4rY/Xy8dALWADJ5Tl8JCr48mPNeymbaAzcVXGxy0c+TlIdzTDwRfC//yODTJHni207tfwduDGtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XEayu7Yk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgGJHgDO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95A191F00ADB;
-	Mon,  6 Jul 2026 23:06:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XEayu7Yk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A741F000E9;
+	Mon,  6 Jul 2026 23:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783379189;
-	bh=lHAGvQs3Wz49nHzEJXNVSBn/1UzBTGfY8mMrzsLceis=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WgGJHgDOBsODtDixM5GLJe8Pz2R2rwGSr73n6lkAGGhCg0hOmDHGFupVj2Ei+DxLI
-	 j3kd56fxIQsQOI46Ys+U2UjrFbPnViBLIP9XYtuQ7KPkvJ/yt4ehYwLQCAnTLvUaxP
-	 LowaPvHrl1jeL81WMCox712hkiTRh9+pi+tuOH9Nq6Qu9FQvr6Ki/NkIkbUg5uOUsj
-	 hYIUdWVhuREgacJgPOH+666IdQoO10dfsaJu69yTID4OkQ5bIDI2odxqDFuCA15wN8
-	 Q+NvoRXDtdeO1jbzVdG0XJbyIOk9e9Ym6QXiyrOIe8HGZwQeiQqn8SA1hnnaA/hf68
-	 MlC+SuIO+RBbQ==
-From: Drew Fustini <fustini@kernel.org>
-Date: Mon, 06 Jul 2026 16:06:17 -0700
-Subject: [PATCH v4 7/8] dt-bindings: riscv: Add binding for CBQRI
- controllers
+	s=k20260515; t=1783379825;
+	bh=UhIJ3D6hEIVFpi/POFGgV4Fgls2GxwXh+sTVJH1vOyk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XEayu7Ykm8+dGUdYSiVhaQGpJNo3YuwyJ1Jy9S5yVKAYvfzEGLabIssft+2njI9UA
+	 MNWATU52GK1yxuIK0sn2lG75OVlWkRV1wr8bDHEI2adZ6FJmF2NwBraJe66lKh3lr2
+	 1IplWdaoj5Hl5RgEnNyME8J7Gutm3tHOD50xuOf8n96pRBOw0UCYhyAcN4YbympujO
+	 VmUx0SUBOGkVB379fWkP6WhMNjKhar6ZyDOTwcUY/IF8oH6Jf5UF/rJDCJsm7MUiar
+	 vTzWErIgGBwT31A/PAQKXv7qStic9AM0sexXwHqWY/f6NfWj3kKUS+1PXT68q+iOQn
+	 /1FtGWpNP4T+g==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 3/8] riscv: Add support for srmcfg CSR from Ssqosid
+ extension
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Drew Fustini" <fustini@kernel.org>
+Cc: conor+dt@kernel.org, linux-rt-devel@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-3-e75c20201d64@kernel.org>
+References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
+ <20260706-dfustini-atl-sc-cbqri-dt-v4-3-e75c20201d64@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Jul 2026 23:17:04 +0000
+Message-Id: <20260706231704.C4A741F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-dfustini-atl-sc-cbqri-dt-v4-7-e75c20201d64@kernel.org>
-References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
-In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
-To: Adrien Ricciardi <aricciardi@baylibre.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
- Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
- Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
- Chen Pei <cp0613@linux.alibaba.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
- Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
- guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
- =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
- Peter Newman <peternewman@google.com>, 
- =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
- Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
- Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
- yunhui cui <cuiyunhui@bytedance.com>, Drew Fustini <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4724; i=fustini@kernel.org;
- h=from:subject:message-id; bh=/lHu3eVAuHsLEigeHCp+bZ6GY4SmlXtvbvnXYPzk0WA=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWT5mHx4s+uizN45z16zHUzwCd+k8j72e+C7754i0+2fu
- R/XX5jyq6OUhUGMi0FWTJFl04e8C0u8Qr8umP9iG8wcViaQIQxcnAIwkXO6DP+DP+94IBJ19MD2
- QyHupz/nr6jkaJQKyxNY2ffvRIryqq9eDP/U57zcyJ43/bvgeW7frJrSp7dmevw6tI7DZnWPsho
- fzyUmAA==
-X-Developer-Key: i=fustini@kernel.org; a=openpgp;
- fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Document the device tree binding for RISC-V CBQRI capacity and bandwidth
-controllers. Each controller is named by a device-specific compatible
-followed by the generic compatible. The binding also describes the
-common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
-optional riscv,cbqri-cache phandle that links a capacity controller to
-the cache whose capacity it allocates.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] Late CPU hotplug cache invalidation allows newly onlined CPUs to e=
+xecute with implementation-defined CSR values and potentially bypass the CS=
+R update.
+- [Medium] Missing resctrl architecture callbacks and generic subsystem int=
+egration, rendering the srmcfg context-switch logic functionally dead code.
+--
 
-Assisted-by: Claude:claude-opus-4-8
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Drew Fustini <fustini@kernel.org>
----
- .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 98 insertions(+)
+--- Patch [3]: [PATCH v4 3/8] riscv: Add support for srmcfg CSR from Ssqosi=
+d extension ---
+commit 5baf8388a55d26b8cdc1b9f1025583f7b6a3e4f3
+Author: Drew Fustini <fustini@kernel.org>
 
-diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-new file mode 100644
-index 000000000000..62d547a0cb96
---- /dev/null
-+++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) controller
-+
-+description: |
-+  The RISC-V CBQRI specification defines capacity-controller and
-+  bandwidth-controller register blocks that allocate cache capacity and memory
-+  bandwidth to resource-control IDs (RCIDs) and monitor usage per
-+  monitoring-counter ID (MCID):
-+  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
-+
-+  Allocation and monitoring share one register block, and a controller may
-+  implement either or both. A driver discovers which at runtime from the
-+  capabilities register, so the compatible names only the controller type. It
-+  does not distinguish allocation-only, monitoring-only or combined
-+  controllers, and no property declares monitoring support.
-+
-+maintainers:
-+  - Drew Fustini <fustini@kernel.org>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - tenstorrent,ascalon-shared-cache-controller
-+          - const: riscv,cbqri-capacity-controller
-+      - items:
-+          - {}
-+          - const: riscv,cbqri-bandwidth-controller
-+
-+  reg:
-+    maxItems: 1
-+    description:
-+      The CBQRI controller register block.
-+
-+  riscv,cbqri-rcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of RCIDs the controller supports. RCIDs are the
-+      resource-control IDs that allocation operations target.
-+
-+  riscv,cbqri-mcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of MCIDs the controller supports. MCIDs are the
-+      monitoring-counter IDs that usage-monitoring operations target. Present
-+      on controllers that implement monitoring.
-+
-+  riscv,cbqri-cache:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the cache node whose capacity this controller allocates.
-+      Applies to capacity controllers that back a CPU cache. The cache level
-+      and the harts sharing it are taken from that node's cache topology.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: tenstorrent,ascalon-shared-cache-controller
-+    then:
-+      required:
-+        - riscv,cbqri-rcid
-+        - riscv,cbqri-cache
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    l2_cache: l2-cache {
-+        compatible = "cache";
-+        cache-level = <2>;
-+        cache-unified;
-+        cache-size = <0xc00000>;
-+        cache-sets = <512>;
-+        cache-block-size = <64>;
-+    };
-+
-+    qos-controller@a21a00c0 {
-+        compatible = "tenstorrent,ascalon-shared-cache-controller",
-+                     "riscv,cbqri-capacity-controller";
-+        reg = <0xa21a00c0 0xf40>;
-+        riscv,cbqri-rcid = <16>;
-+        riscv,cbqri-cache = <&l2_cache>;
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c11696c4be66..5898fbcf4e2f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23343,6 +23343,7 @@ M:	Drew Fustini <fustini@kernel.org>
- R:	yunhui cui <cuiyunhui@bytedance.com>
- L:	linux-riscv@lists.infradead.org
- S:	Supported
-+F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
- F:	arch/riscv/include/asm/qos.h
- F:	arch/riscv/include/asm/resctrl.h
- F:	arch/riscv/kernel/qos.c
+riscv: Add support for srmcfg CSR from Ssqosid extension
 
--- 
-2.43.0
+Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
+The CSR contains two fields: Resource Control ID (RCID) and Monitoring
+Counter ID (MCID) for tracking resource usage.
 
+Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+
+>     resctrl_arch_set_closid_rmid() updates it when a task is assigned to a
+>     resctrl control or monitoring group.
+>    =20
+>     A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU, s=
+et
+>     by resctrl_arch_set_cpu_default_closid_rmid() on CPU group assignment.
+
+[Severity: Medium]
+Are these resctrl architecture callbacks missing from this patch series?
+
+The commit message mentions resctrl_arch_set_closid_rmid() and
+resctrl_arch_set_cpu_default_closid_rmid(), but they do not appear to be
+implemented.
+
+Without these integration functions, the new srmcfg field in thread_struct
+and the cpu_srmcfg_default per-CPU variable are never updated.
+
+Does this leave the context-switch tracking as functionally dead code that
+only ever zeroes the CSR?
+
+> diff --git a/arch/riscv/kernel/qos.c b/arch/riscv/kernel/qos.c
+> new file mode 100644
+> index 0000000000000..99925c0e93dd8
+> --- /dev/null
+> +++ b/arch/riscv/kernel/qos.c
+[ ... ]
+> +static int riscv_srmcfg_reset_cache(unsigned int cpu)
+> +{
+> +	per_cpu(cpu_srmcfg, cpu) =3D U32_MAX;
+> +	return 0;
+> +}
+[ ... ]
+> +static int __init riscv_srmcfg_init(void)
+> +{
+> +	int err;
+> +
+> +	if (!riscv_has_extension_unlikely(RISCV_ISA_EXT_SSQOSID))
+> +		return 0;
+> +
+> +	/*
+> +	 * cpuhp_setup_state() invokes the startup callback locally on every
+> +	 * already-online CPU, so no separate seed loop is needed here.
+> +	 */
+> +	err =3D cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "riscv/srmcfg:online",
+> +				riscv_srmcfg_reset_cache, riscv_srmcfg_reset_cache);
+
+[Severity: High]
+Does this late CPU hotplug cache invalidation allow newly onlined CPUs to
+execute with implementation-defined CSR values?
+
+The CPU cache invalidation happens at CPUHP_AP_ONLINE_DYN, which runs on the
+target CPU itself. This means the CPU has already booted and context-switch=
+ed
+into the hotplug thread before riscv_srmcfg_reset_cache() is called.
+
+If a CPU is offlined while its software cpu_srmcfg cache happens to be 0, a=
+nd
+then powered back on, its hardware SRMCFG register initializes to an
+implementation-defined value.
+
+When the CPU context-switches to the cpuhp thread (which has a default
+srmcfg of 0), __switch_to_srmcfg() might see that the incoming thread's 0
+matches the stale software cache's 0.
+
+Could this bypass the necessary CSR write, leaving the CPU to run with
+garbage values in the SRMCFG hardware CSR until the next context switch?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260706-dfustini-a=
+tl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org?part=3D3
