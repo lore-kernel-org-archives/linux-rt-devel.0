@@ -1,281 +1,204 @@
-Received: from mail-pz2-f1.google.com (mail-pz2-f1.google.com [74.125.228.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6822ACEB
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 13:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666C441A779;
+	Tue,  7 Jul 2026 13:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783429233; cv=none; b=RfWZ8aYrcE7ELTiRh1GLig0yrg9fPjJiXIkKFTeRoY/AdTkuG/qHGfa1xDtTcRdJodboEhaqKuwLhvypw95DDu6UREubnoYFUINRazE7fvKOvpjywuKJFB9EgvnvTTeIGNiIMnS4F4rHTsT5ySO86BiZzQOc61f5e8GCXfgY5hw=
+	t=1783430018; cv=none; b=qCK7LYciLZ9NEcue7m72AhRkPe8LevOWk1MoIWuxbzZKq0as8JDfj1lNj/LKLMKqstlRmyIw7HqXtGY3KWakVPzpFi53QvyXqAuJLSP4QJw4i3h/FBPkxI77DQFmrDCdNay1l9UrrW54j1xZHaOPDO2a6cfyjTm3sSc98KiK+Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783429233; c=relaxed/simple;
-	bh=RvXzUh+Z5rLxburgzcvo+g9ZGozfoPunlEYEQZcFbHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1qIgQR2f9xY69x2BYZm8kpx7qbIv6EyfUAZuZo3f68JMcjkU1maRI60DQpgLmafSByswk+YjBLM/SzCae67hqPdbZbFmeIiAvTsWONgvSrOzWO2rfM1J6A3PEhVApblda6gi5o1AHZ8RrDp+9VU36c1xrKMj3gyiU/qCdgXE4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FFuazXe9; arc=none smtp.client-ip=74.125.228.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783430018; c=relaxed/simple;
+	bh=RGLceidLdGHnhIx3dtxS9QxpMFWAZWDH9JKP3dpCEgE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=uuWx53EabJfuQ24I1BouIuNL9tQHLCK09aIzy0MJl+5V3mN84aDqJjRmPON+CwvBHExh7fVTKFdupJ7Ey1aDpyFj9LzZqmVkUYm+8mlYzhDGUdtqoHoscL/186E3naGFcIAavRxkqtOnjOMr8zEX9/OgkJu76quPqqOoppZdIto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lag9yjf4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FFuazXe9"
-Received: by mail-pz2-f1.google.com with SMTP id 41be03b00d2f7-c999d839661so796993a12.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 07 Jul 2026 06:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783429232; x=1784034032; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5W5DUkb1JUBfDdw5NFLWUB/50kxa7q0vorvfnztH0I4=;
-        b=FFuazXe9OGoko+TfMSwKRaKOAJmog9Q36SDKYnHtQmbnBf/N35rnoG7A59QGj4Syy4
-         l2XkfKD5EeK/hR7rL9VmCzJSBUlQAan7BCYXoJC5akEpyaUfb31ponhntYME9IMHcI1I
-         xLuFmjWdpZUvVWff7CieCotRmm4ifHxYuzrymOH6hxTF3RRHclIBOzhTcNSAjvA2s3Pq
-         RKE3ClpsUKOG5nSt0eXgncCXU7k/YrJUZNlnN4iNG9ZFVpCiZTOFc0AId3iVF62KqBrF
-         8yPSR5ZZ972Knu25Y0wPFQQU5LQz2MWt4KGKh86MSTyOkozM3nWMJy5ezBi1ETMhmpei
-         hVcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783429232; x=1784034032;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5W5DUkb1JUBfDdw5NFLWUB/50kxa7q0vorvfnztH0I4=;
-        b=JrHMCPGt+ePiyxQrF/V8J1pe3pyW4glfdBE0pRckDRUSBXRSRrOdriTi6psRCafCQv
-         HwBSxFBD6BCiWTUrJUQPmdBy5jG+78v0ex10W4bAqfh31nXwzGMSUPKv0u9O4b2iuiwT
-         N640TNP2ZifAH21ajPAOR6sXzjaM/4puz7Bs6NwPzUR1S6ImtIUQhXGgDi7+N7WSEb7/
-         xb4SzIqn9iF8lVa8V9a/Kj2jTfG//NKX/yl7XsEe2UVgdDc0TSUL34BDBgY4oqDZXYMH
-         uu56SRp+T90kILa1CN08DzR7BsW2i0hthvH1pFvt6izhHvj2Q/X6wYBuYw3eFuMY1xqx
-         s7Fg==
-X-Forwarded-Encrypted: i=1; AHgh+RpP2cO/Iv9uZfuGhsFkkIP+Spup/AfS87NWfi8g1EleeykYG5/hNkjnb9EQJSKQpTaNLCZmPs0TYWFGISDeGg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYgelHn1RE3E+mNSRET3lwrOHuDaz3MzPw4eTVntG7zWnu/Rj6
-	F2r094za8zvfBraAaguj6N4xz1mHX62NtP04khGtPxHvuZ02Tkzy/IX1
-X-Gm-Gg: AfdE7cnK10515HCIKg9kMOrcrr4AqpxkMvX9kxU0YIPj3Ie/szIOBadT33XwiYGaoOM
-	CBpqH+0aZXb0cH2QZyZlNv0zJK+ZVSTBwamn3Jz7yipYIpk14X+a34Zq5ysRtxXuPrQitkskIIA
-	aMVk1T56tyb/ysLtq31XoRlV4K1DMOO2CqpZ5NhbU5F+B7Ydt/VgHKmX1dWgsy1pXV9893r77oX
-	S0a/TWYQkShsZ5BQoEe02TWIZeAYVABy0llJ319DH/cKLPm588RptqSzDrUg5zX0mHE5PA3pgTw
-	AnF2vDje3w+OSSw+h9x9i/LAZSfrA+/9rVzfxOpAGbWCT/ZQiSDf4kV7pORojaB2S9AUuuc43er
-	Ey1ys5sjY7No9yqZTqXD5PydlFbWHzDRjMu44TtJwJH2mp692D8yHVFQizEemOPgG8YwGQcp6f8
-	1de0lGi9mKcW1bYv6Wx6azvAaXQw==
-X-Received: by 2002:a05:6a00:1819:b0:847:8b1d:22fe with SMTP id d2e1a72fcca58-84826df12a7mr4541501b3a.50.1783429231350;
-        Tue, 07 Jul 2026 06:00:31 -0700 (PDT)
-Received: from intel.company.local ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b5e566sm5415983b3a.3.2026.07.07.06.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 06:00:30 -0700 (PDT)
-From: Wandun Chen <chenwandun1@gmail.com>
-To: vbabka@kernel.org,
-	david@kernel.org,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	Alexander.Krabler@kuka.com,
-	hughd@google.com,
-	fvdl@google.com,
-	bigeasy@linutronix.de,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: akpm@linux-foundation.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	ljs@kernel.org,
-	riel@surriel.com,
-	liam@infradead.org,
-	harry@kernel.org,
-	jannh@google.com,
-	lance.yang@linux.dev,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	pfalcato@suse.de
-Subject: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when mlocking a range
-Date: Tue,  7 Jul 2026 20:59:25 +0800
-Message-ID: <20260707125925.3725177-5-chenwandun1@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707125925.3725177-1-chenwandun1@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lag9yjf4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D41F11F000E9;
+	Tue,  7 Jul 2026 13:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783430017;
+	bh=6muumCir5HKrQsLG/ih5q2KofcU3XiVZyikq7D4KocQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lag9yjf4gcVrDLIN2Ajk79bWNRL0Bg8yZ13X0nHCHpg+ghM5HDrJRiKReRQ3wYE3W
+	 P5hzIaNfEp9dhK+GLAnUh62MCiPI0HvlHjT29mNwlCsi0KGZQzZhnWoE3SCCYYE7Ml
+	 +fDrZXS8w4pMU4x2TpKybqOvpfWEH1FNkQ26mlmYGLEEsR0aR5AduUh5tfppqyaqUe
+	 YkeH7Ppqgi7KTmlAnCQDGX4myIK5wXUpZh2z8pEldGNTCaVYABbtT2JN6m409XMZCx
+	 Wgir4YN+B7qVLwVEnH86OZMeSRWNBsK0XiD4fCVpZDIpjjgrPzcY2TZ82IbXjp4M8w
+	 jPHLgtp2GAWig==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when
+ mlocking a range
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wandun Chen" <chenwandun1@gmail.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260707125925.3725177-5-chenwandun1@gmail.com>
 References: <20260707125925.3725177-1-chenwandun1@gmail.com>
+ <20260707125925.3725177-5-chenwandun1@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Jul 2026 13:13:36 +0000
+Message-Id: <20260707131336.D41F11F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Wandun Chen <chenwandun@lixiang.com>
+Thank you for your contribution! Sashiko AI review found 6 potential issue(=
+s) to consider:
+- [High] The `is_migrate_cma_page` condition is inverted in the PTE loop, i=
+solating non-CMA pages instead of CMA pages.
+- [High] Setting `ACTION_AGAIN` on `pte_offset_map_lock()` failure creates =
+an infinite loop.
+- [High] Folios are isolated and added to a list without elevating their re=
+fcount, causing Use-After-Free.
+- [High] Recursive `mmap_read_lock` acquisition creates an ABBA self-deadlo=
+ck risk.
+- [High] Locking order inversion between `pte_unmap` and `spin_unlock` caus=
+es a Use-After-Free of the spinlock.
+- [Medium] Unbounded folio isolation aggregates too many pages off the LRU,=
+ leading to resource exhaustion.
+--
 
-The region covered by mlock[all] may contain CMA pages. cma_alloc installs
-migration entries in the page table, if a memory access occurs at this
-point, it must wait for the migration to complete, which may cause
-latency spikes on the RT kernels.
+--- Patch [4]: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when mloc=
+king a range ---
+commit 95a15b2b2b9bbf36b5f4e3a9dd716ec837e02900
+Author: Wandun Chen <chenwandun@lixiang.com>
+mm/mlock: migrate folios out of CMA when mlocking a range
 
-Try to move the migration cost into the mlock[all] caller, which is
-typically a setup path. So reduce the chance of latency spikes on RT
-kernels by migrating the currently mapped CMA pages out of CMA region.
+This commit attempts to reduce latency spikes on RT kernels by migrating
+CMA pages out of mlocked regions during the mlock setup path. It introduces
+a page walker to collect migratable CMA pages and migrates them using
+migrate_pages().
 
-Suggested-by: Frank van der Linden <fvdl@google.com>
-Signed-off-by: Wandun Chen <chenwandun@lixiang.com>
-Link: https://lore.kernel.org/all/CAPTztWZpnX1j8-7yeppVUsxE=O9hbVeqricDjZt8_pnN7a-kBQ@mail.gmail.com/#t
----
- mm/mlock.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 118 insertions(+), 1 deletion(-)
+Link: https://lore.kernel.org/all/CAPTztWZpnX1j8-7yeppVUsxE=3DO9hbVeqricDjZ=
+t8_pnN7a-kBQ@mail.gmail.com/#t
 
-diff --git a/mm/mlock.c b/mm/mlock.c
-index ac65de40b22b..f56c685533f5 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -25,6 +25,7 @@
- #include <linux/memcontrol.h>
- #include <linux/mm_inline.h>
- #include <linux/secretmem.h>
-+#include <linux/migrate.h>
- #include <linux/compaction.h>
- 
- #include "internal.h"
-@@ -428,6 +429,119 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
- 	return 0;
- }
- 
-+#ifdef CONFIG_CMA
-+static int mlock_collect_migratable_pte_range(pmd_t *pmd, unsigned long addr,
-+			unsigned long end, struct mm_walk *walk)
-+{
-+	struct vm_area_struct *vma = walk->vma;
-+	struct list_head *folio_list = walk->private;
-+	spinlock_t *ptl;
-+	pte_t *start_pte, *pte;
-+	pte_t ptent;
-+	struct folio *folio;
-+	unsigned int step = 1;
-+
-+	if (!(vma->vm_flags & VM_LOCKED))
-+		return 0;
-+
-+	ptl = pmd_trans_huge_lock(pmd, vma);
-+	if (ptl) {
-+		if (!pmd_present(*pmd)) {
-+			if (unlikely(softleaf_is_migration(softleaf_from_pmd(*pmd)))) {
-+				spin_unlock(ptl);
-+				pmd_migration_entry_wait(vma->vm_mm, pmd);
-+				walk->action = ACTION_AGAIN;
-+				return 0;
-+			}
-+			goto out;
-+		}
-+		if (is_huge_zero_pmd(*pmd))
-+			goto out;
-+		folio = pmd_folio(*pmd);
-+		if (folio_is_zone_device(folio))
-+			goto out;
-+		if (is_migrate_cma_page(&folio->page))
-+			isolate_folio_to_list(folio, folio_list);
-+		goto out;
-+	}
-+
-+	start_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-+	if (!start_pte) {
-+		walk->action = ACTION_AGAIN;
-+		return 0;
-+	}
-+
-+	for (pte = start_pte; addr != end; pte += step, addr += step * PAGE_SIZE) {
-+		step = 1;
-+		ptent = ptep_get(pte);
-+		if (!pte_present(ptent)) {
-+			if (unlikely(softleaf_is_migration(softleaf_from_pte(ptent)))) {
-+				pte_unmap_unlock(start_pte, ptl);
-+				migration_entry_wait(vma->vm_mm, pmd, addr);
-+				walk->action = ACTION_AGAIN;
-+				return 0;
-+			}
-+			continue;
-+		}
-+		folio = vm_normal_folio(vma, addr, ptent);
-+		if (!folio || folio_is_zone_device(folio))
-+			continue;
-+		step = folio_mlock_step(folio, pte, addr, end);
-+		if (is_migrate_cma_page(&folio->page))
-+			continue;
-+		isolate_folio_to_list(folio, folio_list);
-+	}
-+	pte_unmap(start_pte);
-+out:
-+	spin_unlock(ptl);
-+	cond_resched();
-+	return 0;
-+}
-+
-+static const struct mm_walk_ops mlock_collect_migratable_ops = {
-+	.pmd_entry	= mlock_collect_migratable_pte_range,
-+	.walk_lock	= PGWALK_RDLOCK,
-+};
-+
-+static void mlock_migrate_cma_range(unsigned long start, unsigned long len)
-+{
-+	struct mm_struct *mm = current->mm;
-+	unsigned long end = start + len;
-+	LIST_HEAD(folio_list);
-+	struct migration_target_control mtc = {
-+		.nid = NUMA_NO_NODE,
-+		.gfp_mask = GFP_HIGHUSER | __GFP_NOWARN,
-+		.reason = MR_SYSCALL,
-+	};
-+
-+	if (compaction_allow_unevictable())
-+		return;
-+
-+	lru_cache_disable();
-+
-+	if (mmap_read_lock_killable(mm))
-+		goto out;
-+
-+	walk_page_range(mm, start, end, &mlock_collect_migratable_ops,
-+			&folio_list);
-+	mmap_read_unlock(mm);
-+
-+	if (list_empty(&folio_list))
-+		goto out;
-+
-+	if (migrate_pages(&folio_list, alloc_migration_target, NULL,
-+			  (unsigned long)&mtc, MIGRATE_SYNC, MR_SYSCALL, NULL))
-+		putback_movable_pages(&folio_list);
-+out:
-+	lru_cache_enable();
-+}
-+#else
-+static inline void mlock_migrate_cma_range(unsigned long start,
-+					   unsigned long len)
-+{
-+}
-+#endif /* CONFIG_CMA */
-+
- /*
-  * mlock_vma_pages_range() - mlock any pages already in the range,
-  *                           or munlock all pages in the range.
-@@ -678,6 +792,7 @@ static __must_check int do_mlock(unsigned long start, size_t len, vm_flags_t fla
- 	error = __mm_populate(start, len, 0);
- 	if (error)
- 		return __mlock_posix_error_return(error);
-+	mlock_migrate_cma_range(start, len);
- 	return 0;
- }
- 
-@@ -790,8 +905,10 @@ SYSCALL_DEFINE1(mlockall, int, flags)
- 	    capable(CAP_IPC_LOCK))
- 		ret = apply_mlockall_flags(flags);
- 	mmap_write_unlock(current->mm);
--	if (!ret && (flags & MCL_CURRENT))
-+	if (!ret && (flags & MCL_CURRENT)) {
- 		mm_populate(0, TASK_SIZE);
-+		mlock_migrate_cma_range(0, TASK_SIZE);
-+	}
- 
- 	return ret;
- }
--- 
-2.43.0
+> diff --git a/mm/mlock.c b/mm/mlock.c
+> index ac65de40b22b9..f56c685533f55 100644
+> --- a/mm/mlock.c
+> +++ b/mm/mlock.c
+[ ... ]
+> +static int mlock_collect_migratable_pte_range(pmd_t *pmd, unsigned long =
+addr,
+> +			unsigned long end, struct mm_walk *walk)
+> +{
+[ ... ]
+> +	ptl =3D pmd_trans_huge_lock(pmd, vma);
+> +	if (ptl) {
+[ ... ]
+> +		folio =3D pmd_folio(*pmd);
+> +		if (folio_is_zone_device(folio))
+> +			goto out;
+> +		if (is_migrate_cma_page(&folio->page))
+> +			isolate_folio_to_list(folio, folio_list);
 
+[Severity: High]
+Does this code risk a Use-After-Free on the folio? In the PMD path of
+mlock_collect_migratable_pte_range(), isolate_folio_to_list() is called
+without first obtaining a reference via folio_get(). Once the page table lo=
+ck
+is dropped at the end of the function, a concurrent thread could unmap the
+region, dropping the mapcount and freeing the folio while it is still on
+folio_list. When migrate_pages() iterates over the list later, it might
+access freed memory.
+
+> +		goto out;
+> +	}
+> +
+> +	start_pte =3D pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+> +	if (!start_pte) {
+> +		walk->action =3D ACTION_AGAIN;
+> +		return 0;
+> +	}
+
+[Severity: High]
+Could this create an infinite loop? When pte_offset_map_lock() returns NULL,
+which happens non-transiently for migration entries or empty PMDs, setting
+ACTION_AGAIN unconditionally tells the page walker to retry the exact same
+PMD forever. This could hang the kernel thread if mlock() races with another
+operation that installs migration entries or zaps the PMD.
+
+> +
+> +	for (pte =3D start_pte; addr !=3D end; pte +=3D step, addr +=3D step * =
+PAGE_SIZE) {
+[ ... ]
+> +		folio =3D vm_normal_folio(vma, addr, ptent);
+> +		if (!folio || folio_is_zone_device(folio))
+> +			continue;
+> +		step =3D folio_mlock_step(folio, pte, addr, end);
+> +		if (is_migrate_cma_page(&folio->page))
+> +			continue;
+> +		isolate_folio_to_list(folio, folio_list);
+
+[Severity: High]
+Is the logic inverted here? The condition causes CMA pages to be skipped
+while erroneously isolating non-CMA pages for migration. Any mlock() call
+touching regular memory might isolate and migrate those pages unnecessarily,
+while skipping the CMA pages this patch was intended to target.
+
+[Severity: High]
+Can this lead to a Use-After-Free? Just like in the PMD path, the folio here
+is isolated without a preceding folio_get() to ensure it survives outside t=
+he
+page table lock.
+
+> +	}
+> +	pte_unmap(start_pte);
+> +out:
+> +	spin_unlock(ptl);
+
+[Severity: High]
+Is there a lock ordering inversion here? Calling pte_unmap() drops the RCU
+read lock, which means the page table page could immediately be freed by
+concurrent teardown like tlb_remove_table_rcu(). The subsequent
+spin_unlock(ptl) might then access the spinlock residing within the freed
+page table page on architectures with split PMD/PTE locks.
+
+> +	cond_resched();
+> +	return 0;
+> +}
+> +
+> +static const struct mm_walk_ops mlock_collect_migratable_ops =3D {
+> +	.pmd_entry	=3D mlock_collect_migratable_pte_range,
+> +	.walk_lock	=3D PGWALK_RDLOCK,
+> +};
+> +
+> +static void mlock_migrate_cma_range(unsigned long start, unsigned long l=
+en)
+> +{
+[ ... ]
+> +	if (mmap_read_lock_killable(mm))
+> +		goto out;
+> +
+> +	walk_page_range(mm, start, end, &mlock_collect_migratable_ops,
+> +			&folio_list);
+
+[Severity: High]
+Does this introduce a recursive mmap_read_lock acquisition that could result
+in a deadlock? mlock_migrate_cma_range() explicitly acquires the
+mmap_read_lock. It then calls walk_page_range() using the
+mlock_collect_migratable_ops, which specifies PGWALK_RDLOCK. The walker will
+internally attempt to acquire the mmap_read_lock again. If a concurrent
+writer attempts to acquire mmap_write_lock between these two read-lock
+acquisitions, it will block waiting for the first read lock to be released,
+and the second read lock will block waiting for the writer, creating an ABBA
+self-deadlock.
+
+[Severity: Medium]
+Is it safe to accumulate an unbounded number of folios into a single list
+during this page walk? For example, mlockall() invokes this for the entire
+TASK_SIZE range. Millions of folios could be isolated into folio_list,
+removing them from the LRU and hiding them from memory reclaim, potentially
+leading to soft lockups or OOM situations.
+
+> +	mmap_read_unlock(mm);
+> +
+> +	if (list_empty(&folio_list))
+> +		goto out;
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260707125925.3725=
+177-1-chenwandun1@gmail.com?part=3D4
