@@ -1,92 +1,86 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240DC3438B7
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 08:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAA132E12E
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 09:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783414117; cv=none; b=FrI+QuaMvUJC7787pttU4gU2eZJ/aEB4fOULxUBtExTtFmZ+vtFTv510VHHcW51rrlIK0NOTmfJp7WEUVxPrpPvHSHL7bYmRggCXx8wsvDE+m5hS2Tf2eaeZtJoKhopvMkeE8NclH1nQh/VTjjA1qoAmissVEqeFJ916GqBuCCA=
+	t=1783415630; cv=none; b=TpXJvY0ir3jjtQFS7Ofp+SbHoLV8HrkcnYzFZKciiifgbUXF7P0D6usCgOCbsoT+eoqiaae1s3D4VX0ms2t74fXj38xJvDJbj7mtr0SyQd3BcJf+O74cHjB1H505ZoxzD8aVqDUyKB+bn/1EClMqE0H2Q2TTukzRclKZpOdCkFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783414117; c=relaxed/simple;
-	bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
+	s=arc-20240116; t=1783415630; c=relaxed/simple;
+	bh=IN3rnUdx/QJ9tTUWniQhk33tdcHEWAN8rDsusiGV/JI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpMDFtxiwOA44awSbeo/4Ff7tb4J8MvecSmymYD0vH8qo/fEcPkoGOqCnLHBZq5ieZO+5tGELxx2VLDygpfHjJwGZXXXTQQKW2MybwLLnK+VkTMPSDHaOU0MNWYwvARhpPPlWMdRi7ZHR0xzjoBQ3yB8NfUpjjNlFfzB8bjlsao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Pe/sw5/h; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FHGiQeiJojXfJG8+aCupbpDDbH+JGFWgrQhYJvRcOtrlbVYXqNEF9WPcixVTUsc/dOZWmHR8mHR6FCTXOUtjHS1oJ6JPuU5JilHYNvwttn2+nlZxkl4ozBcbwKav26l+UCOK9qXl9NVO8Di6skPdmGi9oEZ1i2xECZmD449OJx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gN+SH21T; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Pe/sw5/h"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4759b4f0897so1727159f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 07 Jul 2026 01:48:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gN+SH21T"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cacb8416a1so32828975ad.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 07 Jul 2026 02:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783414114; x=1784018914; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783415627; x=1784020427; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
-        b=Pe/sw5/hyQjQPo5uGwlcoIhc4XF4aJK20J3e0IY/bvIFdCphU5+SaWgvct8mKz0PSS
-         IC9I0U0tUddXViV4OHAtXTa52KNLRsxHMFTMQdD+AFzBp5B19L4Een8V57g/jbuGaUJ2
-         YDy249n+DZhTJft8s3LCCf3AKDTd2Dmj+s5x8+jpRtcd5zNm1sjb1cifIEq/shF9waJB
-         J6fUU9ciTEdpOO3kk+t8V2pK5vYmZThL62iNNE5T6Tti3CQjDrCyiID3D4YuAE5iQJdh
-         xX6TMLlhiZs76Tescax4cnDrZgNShXkHdGYAWVDFL1aRVrNh72nXgryyEwWmGCyWYqBa
-         7muA==
+        bh=3ZzKVPkDUFjHWiE6AseaXJ61s34t3U4h5G25MP41TIk=;
+        b=gN+SH21TlSVpDnNSwFPIiiWdBQXcMyNQVu9Ojo0BF24gxs54FGVxkUANM3gfK/C+Tr
+         XLGDM0gTrBSjidVG4ymgoDmg06q2UTDeGsdYJb9lfxyv8iry3ZsxBpNTp3HCJ4pTCU7W
+         tJblzfLdk9FdTwnSHJHVzmxZ73ORFcF434qgsJ2Me85XjXASlVXgc+iDXcrRPQJV7+Fv
+         luDBVBXAhksApTdre1+xnynZmpZBR7HMygsC5IGY+WFYE0h8cSwOieSeVsjBowxawJHQ
+         2AOpwfzaa9GI56eBC7cIPoqvhhCNjldrM1o6HN3VTXkHWBRr/mUT1+Va8E5GPDdcUhft
+         KVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783414114; x=1784018914;
+        d=1e100.net; s=20251104; t=1783415627; x=1784020427;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=B7IpEGimiq97mBhe4ez+EoRJVMiEWH0AXP6PlEke+J8=;
-        b=G2QescE+VY0IIvg8LjX0ZuDanLaV2thu7R/sMQbCqQqXBBcfsQhEUHU0jA/o+UCxtT
-         hAtnj/IIYxUr0umC5R3++EZPL+TaWNr3a6QijYceTuHU2YOh5lmccubJa4sWlCAR7ViG
-         B+l2QEpiVcvAvA/IrtUkpo0FtSTpq/d4epYlRpzLqAiaxWg5grhneLdjcTADIbZfOwwY
-         4A+/iajUmaUNcFTTwk+VyonZ4U6fgNqqaEjZO96p105SYF2FycKkKqu/ZF6iVhv5ovF+
-         HNrTE1gYu5dQX2gSn4LDEPlW7rgcRazaf/lcak9doav1IL3pbomxEM96kOFIGOtdSQDp
-         3RBw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2BbukhPCp5dNrF1cS19qURt3c7LLN2IxXjWFKR0xPSgA2VfAnbBL0fZEV2HWz7tdn50IiMr8RqHQzR1D5fw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtsxGzLeHzRFNdcrn4euZzRKNL0rI1Tn6BGareiaGtSEpxjN9w
-	BYCOY5Cjyv5Fk+TBnsuM6TxQRXoVtRiO1dfKx3SPZqtjhmLlfx8mkWBTAnLcPPFooF0=
-X-Gm-Gg: AfdE7cngJx0WllO75xBo8evlJBFs/n2aJRQy9hN8nhwaMn9lfmtRZdLgDCnrJsNua07
-	yU8aWQoqj85m5qBNftRlSYTO+qS4oxg1kV9Q4uYN9SHgVCaETfGykqmn0iPdMzyM75Bf6PdJvGf
-	v6fzXNsPis0kSp07OUOGZL5dRMMycU7qmA04uH6RoxJD8i3apjk4IzMJZtCMlSdkTJKxsDopIx8
-	cUWiYlCwPowMUG4azq22RMU6mhx/Mr4on8t6O37FPKHHI3asxSDcgwK0jYpKfHptCEIp9lbFN7d
-	845M0v1jbiS/VSrlMc5cdpHyyi4Wyk3wAr17kQpdYLg47y1GUW/eYb0ZHqB2s1jsAuHcAxMnnGy
-	rkzf8bsk/H54h33OcGGb0hCPGaFHFGLstIrHbpQVW230hfi5efOe9hfIkX20muqm9Bt+bERAmph
-	LWobQe+EHA2C7FM2yCxRkgqRilYzP9UO3DNHRolVGjAQFIB9SlYvpCYtXIvwRFXl5twEKaQKW88
-	IOH
-X-Received: by 2002:a05:6000:25c2:b0:46a:234:d2e with SMTP id ffacd0b85a97d-47de670a006mr4350047f8f.38.1783414114474;
-        Tue, 07 Jul 2026 01:48:34 -0700 (PDT)
-Received: from localhost (p200300f65f47db0437b4d928ee3eb6f8.dip0.t-ipconnect.de. [2003:f6:5f47:db04:37b4:d928:ee3e:b6f8])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa039ad21sm31630429f8f.20.2026.07.07.01.48.33
+        bh=3ZzKVPkDUFjHWiE6AseaXJ61s34t3U4h5G25MP41TIk=;
+        b=JA5qScTs4c1t5SEWbpuLgRPPR3a91FDlOoNJ8do3sFKTKp8lOzVy3eKw8WhxPW1ROl
+         e5p3lXY3Nt2SHzLv2z0voshf9vIwO92oLoUuU/F7mz1GzAfThVBYxh9KlhNws0bbIL7y
+         5b5uTdld36yHHB9LYmZbHVqTVuB5bRE+GtWR7mFqfIKsQCHeqSgnv6sHayc4Nd+2LOoG
+         QEkvUpIPsw5sQbXehKBhiMSJbrhVeJM7dVzF6WNjeYHBDXgfWEaO+ny2SGBpuekxrDbw
+         yim+x4U7AEgkgu+v6W+44GMsQy6uEkANbDhOBCObKMYhjeQpUe+v993dj3xKcH/8u2B3
+         7xuA==
+X-Forwarded-Encrypted: i=1; AHgh+RpxSRqyIvcX1gT6IRV6/85Vr2muZRXvc8OtE1zQJZ/E1Az8m7mWumHYBryKgE4AYXCaYTWb3xgg8iVgXTUs8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOI2IdO7AcIPzVF5q1zLgFVwxiNX5IPc99nhooRlmpDYuPx226
+	Wu0z08rYUmzH6GtUVM782qBHMkxBxxipf/gxJ5UdFtKx0ykTc3KvV0AO
+X-Gm-Gg: AfdE7cnOcCXovZqIwQ58UKHS9VbAgY6cgMLfJJ/Dqz8Rj5fH/lZGjastMEP/7ztCJ+2
+	C7EJLGYWViQ0NI+arpK+FLsBvTZ1BRDArB/riV2tZIjSeMH1KkEExZJk7M+ARucqhsxXQ3F5tSw
+	Z9bJM5Qu/Hg88KjOqIVuY+fVlFnkOkQtemy8rlqt2VMUsheC9fWk+kvHEtV0vOhK8Z+p5g9NsOO
+	2l+a4ipWoYmZlN5ZyD6Enb3gJDcoAx0FEJ0zgXQH6rKNsnSdKjyH/wvw7WTqSIKEhkxhbgzByxU
+	+GzLaIp4xfbRQdfHjJQrTGH6+bhBZpBuhq8wTWtAqNoRd5AAyF1C+lyU4dB49m3EU6h8HmaRsYC
+	l3qdCHwZGZKAnF7tGKi8R2v/Pk0rtwL6KMF0OKi3d3g/gv2h8Fy9zjCxUYVudfWjcbQnEgO7JFp
+	A1HV/vVKA=
+X-Received: by 2002:a17:902:f790:b0:2cc:dacc:fe27 with SMTP id d9443c01a7336-2ccdacd016dmr645665ad.30.1783415627151;
+        Tue, 07 Jul 2026 02:13:47 -0700 (PDT)
+Received: from xiaowei ([2406:da18:1aa1:6600:7a60:aa58:4b0c:e1c0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c100adsm8167815ad.32.2026.07.07.02.13.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 01:48:33 -0700 (PDT)
-Date: Tue, 7 Jul 2026 10:48:32 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Drew Fustini <fustini@kernel.org>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
-	Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>, 
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	Fenghua Yu <fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, 
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	liu.qingtao2@zte.com.cn, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-	Peter Newman <peternewman@google.com>, Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
-	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 8/8] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-Message-ID: <aky9S8A5dgIJjd7b@monoceros>
-References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
- <20260706-dfustini-atl-sc-cbqri-dt-v4-8-e75c20201d64@kernel.org>
+        Tue, 07 Jul 2026 02:13:46 -0700 (PDT)
+Date: Tue, 7 Jul 2026 17:13:38 +0800
+From: Kevin Hao <haokexin@gmail.com>
+To: christian.taedcke@weidmueller.com
+Cc: christian.taedcke-oss@weidmueller.com,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Robert Hancock <robert.hancock@calian.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net 1/2] net: macb: reprogram TBQP after shuffling the TX
+ ring on link-up
+Message-ID: <akzDQrmdYwHAMMmw@xiaowei>
+References: <20260706-upstreaming-macb-irq-storm-v1-0-ab3115b5a13a@weidmueller.com>
+ <20260706-upstreaming-macb-irq-storm-v1-1-ab3115b5a13a@weidmueller.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -94,42 +88,120 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qztydshr4q4j5sd4"
+	protocol="application/pgp-signature"; boundary="NDb1+SKKlMxGRi/m"
 Content-Disposition: inline
-In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-8-e75c20201d64@kernel.org>
+In-Reply-To: <20260706-upstreaming-macb-irq-storm-v1-1-ab3115b5a13a@weidmueller.com>
 
 
---qztydshr4q4j5sd4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--NDb1+SKKlMxGRi/m
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Subject: Re: [PATCH v4 8/8] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Mon, Jul 06, 2026 at 04:02:14PM +0200, Christian Taedcke via B4 Relay wr=
+ote:
+> From: Christian Taedcke <christian.taedcke@weidmueller.com>
+>=20
+> gem_shuffle_tx_one_ring() rotates the software TX ring so that the
+> tail sits at index 0 and resets queue->tx_tail to 0, but it never
+> reprograms the hardware transmit buffer queue pointer (TBQP). Other
+> paths that reset tx_tail to the ring base (macb_init_buffers() and
+> macb_tx_error_task()) also reprogram TBQP to queue->tx_ring_dma; this
+> path does not, leaving TBQP pointing at a stale descriptor.
+>=20
+> gem_shuffle_tx_rings() runs on every link-up from
+> macb_mac_link_up(). After a few link up/down flaps that leave
+> un-completed descriptors in the ring, the stale TBQP keeps pointing at
+> a descriptor whose used bit is set. When TX is re-enabled on link-up,
+> the GEM reads that used descriptor and raises TXUBR. macb_interrupt()
+> schedules the TX NAPI, macb_tx_poll() makes no progress (work_done =3D=3D
+> 0) and macb_tx_restart() re-issues TSTART, which makes the controller
+> read the same used descriptor again and re-assert TXUBR. As the MAC
+> interrupt is level-triggered, it never deasserts and one CPU is pegged
+> at 100% in the threaded handler, eventually triggering "sched: RT
+> throttling activated" and a dead network interface.
+>=20
+> Fix it by reprogramming TBQP to the ring base on every path of
+> gem_shuffle_tx_one_ring() that resets tx_tail to 0, mirroring
+> macb_tx_error_task(). The early return for an already-aligned tail is
+> left untouched as TBQP is already consistent there. This is safe
+> because the shuffle runs from macb_mac_link_up() while TE is still
+> disabled, so the transmitter is halted.
+>=20
+> Fixes: 881a0263d502 ("net: macb: Shuffle the tx ring before enabling tx")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+> ---
+>  drivers/net/ethernet/cadence/macb_main.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ether=
+net/cadence/macb_main.c
+> index fd282a1700fb..b11cb8f068b7 100644
+> --- a/drivers/net/ethernet/cadence/macb_main.c
+> +++ b/drivers/net/ethernet/cadence/macb_main.c
+> @@ -820,7 +820,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue=
+ *queue)
+>  	if (!count) {
+>  		queue->tx_head =3D 0;
+>  		queue->tx_tail =3D 0;
+> -		goto unlock;
+> +		goto reset_hw_ptr;
+>  	}
+> =20
+>  	shift =3D tail % ring_size;
+> @@ -869,6 +869,13 @@ static void gem_shuffle_tx_one_ring(struct macb_queu=
+e *queue)
+>  	/* Make descriptor updates visible to hardware */
+>  	wmb();
+> =20
+> +reset_hw_ptr:
+> +	/* tx_tail was reset to the ring base, so TBQP must be reprogrammed
+> +	 * to match; otherwise it keeps pointing at a stale descriptor. Safe
+> +	 * to write directly here as TX is still disabled (called from
+> +	 * macb_mac_link_up() before TE is set).
+> +	 */
 
-On Mon, Jul 06, 2026 at 04:06:18PM -0700, Drew Fustini wrote:
-> +#include <linux/mod_devicetable.h>
+Could you elaborate on why we need to reprogram the TBQP here? Based on my
+understanding, the transmit-buffer queue pointer automatically resets to the
+value of TBQP when TX is disabled. The following is quoted from the Zynq
+UltraScale TRM [1]:
+  While transmit is disabled, bit [3] of the network control is
+  set Low, the transmit-buffer queue pointer resets to point to the address=
+ indicated by the
+  transmit-buffer queue base address register. Disabling receive does not h=
+ave the same
+  effect on the receive-buffer queue pointer.
 
-Please don't add new users for this header file. Only use those
-<linux/device-id/*.h> that you actually need (if any).
+[1] https://docs.amd.com/v/u/en-US/ug1085-zynq-ultrascale-trm
 
-Thanks
-Uwe
+Thanks,
+Kevin
 
---qztydshr4q4j5sd4
-Content-Type: application/pgp-signature; name="signature.asc"
+> +	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
+>  unlock:
+>  	spin_unlock_irqrestore(&queue->tx_ptr_lock, flags);
+>  }
+>=20
+> --=20
+> 2.54.0
+>=20
+>=20
+
+--NDb1+SKKlMxGRi/m
+Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpMvV4ACgkQj4D7WH0S
-/k6v2AgAl2287/4HQdpHnTug1nV07MMobHFzJ3S4RVStcbqDYYzz13jQz2rZa6De
-h3bwnHtKRaWt0KGFus+38vYwJklCFYLbhQN03osh+8lbz0SZFCR2LhqYZ4NqRYpL
-7YE7uJZZ0+PC0e8/9zRxAzCm3uUzdWf40hTy2rY73zLaieF5wf3ouGQ9zNNfNT/4
-DQhLEXEErGBrZ+bCPvOmHXL8AOtqXFSDLgdQKssqT/pBoQMkcf9ng4DtpeDDwHzc
-a6UBUrgNPUSGvwxHGh7hOFxnOUwrrFaQiks6LKJ3T4MLICtMMHBwBulmJXRQKkzz
-JEHzbEDCw5lqHMYE4K+SFmz38WjUUA==
-=eLlr
+iQEzBAEBCgAdFiEEHc6qFoLCZqgJD98Zk1jtMN6usXEFAmpMw0EACgkQk1jtMN6u
+sXFKuwf/eTcO0PsGfR3477cVoSGkyYKAr7uk3TUnIpXDtesNZNlFvS3NQCuzYKuF
+WCCLByw6cPcu+N86dZUiaaNDAzKQl2v6D3eL8sgOEa3TIFemYcVOW0FOrrYNoWxO
+g9woZQguWKXkekrGrcTg9teWqCdFRwspZfZZxW5DAJVaacOW1As4Yre/i4dNeBL/
+j+02Z0TMji6q5z9H5QH/BmBQqx7oHDR4hjrQv00yxY9lf05LOhi3s3spWInhvgZD
+ONZs1FsZwnQeMYYnUu9SZohTSpk2aLv0T66b2k1Ybel4WMaZq9vDBR4DWdCkwr3l
+BdFPsNA9io8VvXRctioGwNmU3dHgxQ==
+=kMC1
 -----END PGP SIGNATURE-----
 
---qztydshr4q4j5sd4--
+--NDb1+SKKlMxGRi/m--
