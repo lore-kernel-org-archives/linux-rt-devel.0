@@ -1,86 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D20430CE0
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 18:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C270A3DBD60
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 18:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783448292; cv=fail; b=MSCafjkekV25wob0H7VfC7vvqPA7s3mQ9arB+kDrdv4V+xfSnR7YaYGJTt46LaSYtSCAw6E49VVtKa9ddbAYtGlXEE6P0GM/pGNLEHkuUQ9ewuuVUBZPLp4/ytD6dvJkErB482I25/5WX0xlmjpOTJOFw3t1YXNE7AEH49zmqmI=
+	t=1783448543; cv=fail; b=fFUjnuH3IyfIqSU3NA6i4fFKP8b7zkKmbhBNBPuWXQ6Z5Ih6EjbUxlJVPDyKavxTMbBd3Qml/rbTTUHxMB3JS11QpDqDgBB2xh2295chI35J1mI1SqteOBxI9NMQiK8vfFipL4O//KHFOeId13qce/l1YUBrtLIrHmi46zUoduc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783448292; c=relaxed/simple;
-	bh=Qavs8GtxVTsZ0H+2ZU7A7KeCptULPTHHlPfr0GSyt74=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NURp8opferKwiVrHQ381Y6LEGe0nO8cMzTQ3StmdZUCSZ36KCaQ7Oi7tMkGw8ca6YYUYlrlBhuTtcF/3/DfllsL0BnB1cU5cXhRExl46yPG/fFWa7GrH5ybCFMyDHBtFwKVhBe/TRS3rKjhbhy9FS93X2K2cn4xNM1Xug4VnGPY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqCmhC2u; arc=fail smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1783448543; c=relaxed/simple;
+	bh=9FHZOqY17Li9O4LPsJRYmty37uUozqvEB17ykHUx8is=;
+	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=q5CF/VJb9U1g56+Uex903FTgpQ8EZOwmBSZjiIncGzoU+bcoiMC7D8vS+6iJOP+LJagZvsEYCuSdL/Kzg9o2teNDzAKxYzoByx2Vry79m1KwVP2MNalsj/y3RItF8NjYMhynkOLVaWxVLbW8cY3CFoD0GbIX2l/yu4oX0smeDas=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+/sj0Mj; arc=fail smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqCmhC2u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+/sj0Mj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783448291; x=1814984291;
-  h=message-id:date:subject:to:cc:references:from:
+  t=1783448542; x=1814984542;
+  h=message-id:date:subject:from:to:cc:references:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=Qavs8GtxVTsZ0H+2ZU7A7KeCptULPTHHlPfr0GSyt74=;
-  b=WqCmhC2uHX4P2Xh4hclPJZMIDQLJW5Fs032iI5Rk23BXBZPq5O0r10cF
-   9KYzWHJTbydxfEfU32rkW8PKlZ7pFEShiHMHwmpnX0IfbsmC/iVA08DPJ
-   TOYFhtahbWmfoIfYXsnlVIIZOvit238Dy67U6WDrNwI508q+cGkYBCnWo
-   FmTVVD5zwze8Zs1TJnyE1Ucqu3DOJxNl8+lE0fzFjWRMzE2+6PgXlX0Ny
-   DiYWDpML6PdD/CrZMZT4U8oDyQEwqtcbOtkZdK5GcvszZKggwbbGIJgys
-   25DodmXqFa7mMlSK7IJlNM7CIIjjJpYyYY0a1lXuSt2AWyw9RrdoAXot/
-   A==;
-X-CSE-ConnectionGUID: erot3lIdTqyKqFNX9Jklvw==
-X-CSE-MsgGUID: VfWcPKuHRiids5y6GaKk4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="94458629"
+  bh=9FHZOqY17Li9O4LPsJRYmty37uUozqvEB17ykHUx8is=;
+  b=Y+/sj0Mjv5WQWYPn9UVjU63ypzwDTwcvsgjuuaC/Fs5aMPagLfwElD14
+   GOMxCYju6mnFyeEPf0amq2v7xcxYqlqc+uXEBJ3fztokbB09TPnx0vGqS
+   K/jj1b8chnuH14wFgJzOB80pZ0UNNtb/V7UYoKzYvBXFl0ad8lIJ5B7yZ
+   rKd7M0ouWLwLmJ3HlT651qqhjpTp0cBmoYUlkuKKXZ80HwGLQa9jQ+7cJ
+   fvXrK0GFC3Z+kS8PdE5VBUEqQV+UVvV4VrbNgEQdRziEXvg80ep7p8qnj
+   XP6Y8sE97VqChE5anxoZE+GaugiBYZb10NNX/WDEGtrTTToAWv4byCySC
+   Q==;
+X-CSE-ConnectionGUID: DW+k3o8TQGSezzliERh/9w==
+X-CSE-MsgGUID: StbqG7P3Qt6jCGhu+TYWsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84298507"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94458629"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:18:10 -0700
-X-CSE-ConnectionGUID: mRl94Dr4TH6fIRT7SeDUpQ==
-X-CSE-MsgGUID: wQW8YBk+SfWs+KixI7kzHg==
+   d="scan'208";a="84298507"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:22:21 -0700
+X-CSE-ConnectionGUID: cm5xMTuyRIqqpB7Ir0oLCA==
+X-CSE-MsgGUID: 68OrFSOlSXKGu7KUrr1Uwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="254712650"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:18:11 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+   d="scan'208";a="278441764"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:22:20 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 11:18:10 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.43; Tue, 7 Jul 2026 11:22:19 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Tue, 7 Jul 2026 11:18:10 -0700
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.67) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.43 via Frontend Transport; Tue, 7 Jul 2026 11:22:19 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.36) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 11:18:09 -0700
+ 15.2.2562.43; Tue, 7 Jul 2026 11:22:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dWyxrGYzYaFb5l7vgjuUv5IeQUdGewkx1mv8/4LW0Oze0KkD/VDAqw6uau7URsAVqfE20qpIeRxZJ48X8NwfX867jGaHItA9H6DN7xAO6vUPjukHQSeMD/AGIzOKglJJmPqItAE+CikWDIFt5bgQivn0CxsbGvD2jCun1NQw+R/eEfML0Q1yDKmvrqJucPfn/akaURjfD/3xqQ9xuVMMXDWMhmEjeyXosfX0619RQHZWyY+pYKDf1p4rI5+s3gFiIYAWqXwpY07Z643c1K7+KSMjwehk/eAXkAl/GZPD09MpbST0upbURRQVRwQvkrwgO10O4BR0sh/Y0kjDp7FmeQ==
+ b=Ktm27RkP+yv7KvUsOiG9y17PneXjc44roMDAjkbNg1pSouuQSZEOrt1z0as3xT3+8JW7vQ04hJTGjrSMHaP0qixcP7DigWVL4wwn/b39v/1F0O9fStXG9HYLNRd88fNlAtZ32Qj5SNrO9/cFTGK8uH3R16/ykWH+9pKSxxz8AdL6t0PZshDVwZK5vCzoob45UUAFuz+CXKIYq9D720NMTLUBWKBK7eer4kMOhdVgSw+GEaIWxS43DsyeuKsZcgd/iVFftaz6uyKTh9XAIzYB+U9OXLOUeCRGvtEiZPoa5Wr2L7HwLcLVU9zQt5LyzsC7JgtGngr+KcH7+uP0HcFBcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZorcVIzsCj9xOt8fux84uIyM+6DFsDyoT+zLDFWCC9o=;
- b=NzpHKv32JaI2gP/S/8lzWvlYgfdMEeUrY+S004WrW+sRLQ86bGHDDEpH48Pdc3CVfaqFd85oNuumfd8uGDuSPuY59HuWhEq2ZJOw9u0a29YCrbZ89V1FtFrmgHJcuVIgM4aP0K8GnMabGoV15aFYkrpS8FGFiPGA2zmdjzHgvSQq0SMw7H1EnM0uNwByIgXTW6AqIjHhf/gL3lJhIvw4BOX+emm3xQW7bS9TFLGvvFN8W9pAnj5Gu0ftRvr3eBK+L4goVMU+nV9qytNtyRkp7CB+kdSLh4jmNXaAHMYK1rB3X37Q1VjAPWeDuXMk1m05bojinr+Ss/LtCNp84Lzzmg==
+ bh=PBVhMD68JaY0bIaMfJYY5C3He9Er08VFvm0KuPnZZPc=;
+ b=WwV0DbRoL2+ciXjbLYstOD5+T04Q0fDs5hwkq4va+NnjOfbJBwY+R7e8FzmWy7Ix1K5r3ttyOCF6RHSddcUY/cbe54y7RJuURAwn3ej+al1Zft9pC4kHX1reBlS0Gdw43heoKtSIvkqTvCwk/IrXHoqbgZolhdClhqdwKfDYSBEBRiwy5aI9boI7NoTQ4GRsfOFww9dMrvWvWHIlsT6axDBBRogMOOW7SHvsNIqTmDCtxnDeB+Vx9dQr5GRKIQT0WldufoMHH2i2Gi3+/sr1YraiSKEJ0L/RXyX1j6q2gqJUpOmz/LQ+BR4frErOJmdGNQYlyRf0YOD1efGD1FdHaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by DS4PPFFF98E87FA.namprd11.prod.outlook.com (2603:10b6:f:fc02::63) with
+ by CH3PR11MB7938.namprd11.prod.outlook.com (2603:10b6:610:12f::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Tue, 7 Jul
- 2026 18:18:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 7 Jul 2026
+ 18:22:14 +0000
 Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0159.018; Tue, 7 Jul 2026
- 18:18:03 +0000
-Message-ID: <ec899c62-35e3-47c1-8d42-47eff084d30f@intel.com>
-Date: Tue, 7 Jul 2026 11:18:00 -0700
+ 18:22:14 +0000
+Message-ID: <70c9d487-93e9-417a-8b2e-bd04f5e413fe@intel.com>
+Date: Tue, 7 Jul 2026 11:22:10 -0700
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 8/8] riscv_cbqri: Add CBQRI capacity allocation
  platform driver
+From: Reinette Chatre <reinette.chatre@intel.com>
 To: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
 	<aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra
 	<atishp@rivosinc.com>, Atish Patra <atish.patra@linux.dev>, Babu Moger
@@ -104,13 +105,13 @@ CC: <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
 	<linux-rt-devel@lists.linux.dev>, <linux-doc@vger.kernel.org>
 References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
  <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
-From: Reinette Chatre <reinette.chatre@intel.com>
+ <ec899c62-35e3-47c1-8d42-47eff084d30f@intel.com>
 Content-Language: en-US
-In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
+In-Reply-To: <ec899c62-35e3-47c1-8d42-47eff084d30f@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0117.namprd04.prod.outlook.com
- (2603:10b6:303:83::32) To SJ2PR11MB8370.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4PR04CA0109.namprd04.prod.outlook.com
+ (2603:10b6:303:83::24) To SJ2PR11MB8370.namprd11.prod.outlook.com
  (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -119,174 +120,183 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|DS4PPFFF98E87FA:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0319f8c2-1253-4690-bf3e-08dedc5415e7
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|CH3PR11MB7938:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69788268-825e-4000-0b5e-08dedc54ab83
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|921020|22082099003|18002099003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info: 5TqAnOV9avymrxUhV7dyJ6hk2u6TtPgWVswyK7dsTVcCVKpeeub70nFv6w3rrxhSv21yOAFuuRZLb3ft/cMFyCnxy4cPydU/TRyGvjeWiLRm8Zt7hX50GVQIpwVqOGUiTrcMh6FksB8FPVLxXZbbnU623AHQSCIdq7T8DvAqdSsLDaA28PZVKl1MmzSvG/K1LdxdLf1/lZWSr4V+5M/m/GuyqJivOlvDLZRH5NWkJlWNKlC38C1Dbry5H3mQQ/YM7SbzKfP5m2wLenwN5mck52Dm4S6HUgbgZ/jzrHrrFJDfVLGl1VNEUBJIX9VXXNKuK+918EAOWD8Yd4w7jCaqYz+w+OYVEit0RK86kjekbeNYjt1PyZTVrvdxIlmw+nnhONwScgN7htQtvXhmiLbNSkEdEI6EniDAr5YjjBBiGR3ET0lTpENo5FgS9lM7EvXtGkpwjBRen9b4rC1/DPviMwMh4cXnyLsATjme8p708TlJE1J93vX4hd92LxOMpZ9Luduf7vaLvGZW6CrlT84vTeII00aobMor6Pkrep3X+suly5TeiplneWyssVOgKtgTgCc74NSyrdsn3dTRa3by96LSZmEVJaDeCZc5hZZMr008m2Vw1QPI6AWcrAWPzfu5722l/ARG1vfj+YDEmU5fZah8SMq+/kBYIyLdwecF48Hk12PZlR1LDkzvNlJSYL8YADrLi7oZmHYsemRWik83qA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(921020)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|18002099003|56012099006|11063799006|4143699003|921020|22082099003;
+X-Microsoft-Antispam-Message-Info: EPIlEWgMh4JeOC+eaDL8OdXjcRSDz2cmsbSXgs7tA3+YvPb5Smhj/1owfN0b499/44zLbwXVAd2MYO0cQfQ0AmehnoafathBWUchUEWt9PzEzvOTIhOWysEZ0aEdJ8tbgZHqphvpVi0f3FgbrnhwHda49Fw3L1Tn19NceklRJH4FNzBJxJa+WAsXECHBfAohh0vnuHw9pHkKXd/RqKD+sXykeyzPESNr5l6OcEuFlvAIdKN7a5aHbedggT3dKGoP0XcYxI0B2VxANNBzK8KsCtobztz/MiKlkkFLRGYXVTw2K8wSQp5V/xPmPF9LowNMYHX619gYnWKrdGEtPacOdbsU5PJlKCAoxcd1GT+Eu+MYCKAWz6REWl7Sa2G+lwN4c6sA/NPN+95aAxaYl3bS/N7JjfhQwNLtkTpUAITs/GHYM67Xo7sUdxesDf5IWp07IKNymyMJv4plMIOJmvJVJdbOF2BLlIJP5zfXOvn4/O9V4TC4E1MikBUKlICyTh4a/8jyRUcA+aVRp/KxlH3smk/FAzF26SjP4LdlUVboTuQXbWNmlmVXsXN2WWlBrL818JYjMY37km7vUVrARL3Q0TGAdCu/YxJ5eYdozXS2rjNQbZtxNe/9PVjDYBVFQe1r8UYhWvkZE7Hfjdi01rhdti6ZSDcUPKBhgeL/0/2k/DVkViaoaQ4pWs8ShIXskfjDvpQm2B68wYQlIqmf7IRQfg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(18002099003)(56012099006)(11063799006)(4143699003)(921020)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OS9wdVdPY0s4S2duUFJiNS94YkNqUGFSMXEzV2xYOXFmdUh1QmVsZDZQc0t3?=
- =?utf-8?B?SWVhMWI1QUFqNnl4ZXlLUmMrN2VPUi9yK0UvU1hXWTVHZUVWWlBVb0RsajVs?=
- =?utf-8?B?S05Vc1RLTURrSjBweDh2SlNpd2o3MXd4Y1RkRlY3ejQ4bDZ1TXpza0JSUEtS?=
- =?utf-8?B?K1JlY3FneUVYSURySXJENUlxS0Q2NnAwemg1LzJCTVJXVVdQQU45dlFkOVJv?=
- =?utf-8?B?OUtOYVpyYXJuSGhPRWhUeGFtQXFuc1V0U3AzZldoQllPSWZ0T09lYWs5M2hu?=
- =?utf-8?B?Mjc0aHAvVGQvc3pjdFA4Uzh5UVRubnFsaVphbzM3SndNWGV6Yjc5UFFOanBq?=
- =?utf-8?B?QnF0MzRWbnZZS2tJVG10TFBHZHpNMnR0WG5iMzBKQmR4RlViMFZIekJybVBV?=
- =?utf-8?B?RU9kaVozTldSSEpoWnJWeDVjdWU5SGJyWlA4WjJoSWhWbGs1ZHhtZ0FiU2lp?=
- =?utf-8?B?Rjg0R2ppQVE5ZW9VZWNhSzB2MldOdjU5U2lVU3JvdGMyMUJ4WGRiMEpXSUJC?=
- =?utf-8?B?Ujc3UjlUU0x4MlRqcS9ncmdqQjRVZnlsQ2xnNkJVMG4yQU9PQjRRYjFBMWl3?=
- =?utf-8?B?Wkd3cXViOTdROTh2RWVkQm9JMUFzTmRLVithNk1ja2hqbmZDQ2s0bVZhc3Zz?=
- =?utf-8?B?QzBIdGNwcEJNM0trS0lEa1dmV09IVEdLaTFUZTFuTnRoSFJhMUVhNFhERHRZ?=
- =?utf-8?B?TWU3ckdoOFJ3SFR3Nkd5di9lRmw5d0JXS1lDemhIY2g3bmJremhrazZtZlNQ?=
- =?utf-8?B?VC9henJhNTRzbnZtQ1NaeVZ0a25ZTU4zK2hxbjU4SjNsQ0xFVURGdkJJZVRJ?=
- =?utf-8?B?emRXOWJDaVpHNzNtQkw2cnRZVGFlc1ZXcjJROE96RFhvZVMvYkhhZzU0VTNZ?=
- =?utf-8?B?Z0xyZzlUOTlNcEpsZm9JM2l6RjBaT0JBallNc3N4Z0VEbTNrRkNoNkhUbjlR?=
- =?utf-8?B?cUlTbVJBYjl2OFdkNXhiOGpVQWRpU1M3bGFYK2hoTDdaeno4YTRMb3RPSUxs?=
- =?utf-8?B?QnZ6bTNBa08rL3QwckFseVU3MjBJalp2TG1vcmRrdzhXblhPcGZ5d0x2UmNP?=
- =?utf-8?B?bTFURSthVnE3emhicklXT1lVc0NaMTJUTUpjZVVidXFwVTl3UjBzZ0EyTmV6?=
- =?utf-8?B?VUhSQ0pWR3hmSFUzUGVuTHlhRXJidXhUMHBTQnVkYm1LMGk0M2E4SnN0Z2JY?=
- =?utf-8?B?QU9CN2ZrK2hTeWJSMnhBNkF0QldHdFNJUW81cWtyczdKbTZtTTlmN1BSZUhZ?=
- =?utf-8?B?OHVJT3dvaUlrdXczRmxCQnBzY3FObHdheEFtby9KcjZ5SHVGYTQra1hodytR?=
- =?utf-8?B?U1kzYlZsTjgvYU1kM0pqRUtGbElSUFpFVUJHd2dHVHBJQnpNUGhIZDFxM0c5?=
- =?utf-8?B?NHd1VURWZjJIbUFnT3o3c1FFamRBTUFsUXBTRDZWVDVQcWV5aml3bnEyM2Rk?=
- =?utf-8?B?YStIcVdObHd0M0QvY3hPaUgycldEcVFDMjlkaHVSWlJQT2tObWNBUXd5Y2pM?=
- =?utf-8?B?T0VNTUdTaEZEcnBvZXdmNm9LZmZoeGNmR29nbk5OaURkMmJxbXhsREJDM0xL?=
- =?utf-8?B?MDdPN1poLzF5WXMra1YyeW9KRTdBOXc3SzRKcFNNa2pJR2xOcHBxQ3JXc2tK?=
- =?utf-8?B?WEovdXFLM2g5Z3gzb0FSZ3YvVC9rZFUyNUhvZEhjZHNyYWNFUWl1WWRqbEg1?=
- =?utf-8?B?UVBEUjZtRjVxenRGcWpBRXJISUJFdGIvZ0RZYUtkeG5YMGVSQmdOR3hkM0h2?=
- =?utf-8?B?Mzc1UlNXM0VXVmErN09aTm04Mi9IYUpkZjhiSnJ4dVRkWDkwUjBYNXZDRGZr?=
- =?utf-8?B?RXUvV3dTR0VsT3VsRzBUOS9adldidVEya1JQZDFKRW1HWk9ERTVnaTR1dzVG?=
- =?utf-8?B?N1MvQUREUGRvaEJYNFFCMlZGNmFxOGNYcjdNRkRGK0tRUHhodW9YcjdMSC85?=
- =?utf-8?B?Mm90RFZYM1lXRERYL2RwdDJWdkF6U3RWY3lja1lSV21PeU5Uakwrd09hbDQ1?=
- =?utf-8?B?RkJFcGxTUEFOM2wxZHltQnRQSC9Fcnk2Ymt6cG55ODVyZGxHNjVlV21wSStQ?=
- =?utf-8?B?QVFudlBGMG5ZOTV5aWgrdkZwSEFRUWpDZ2ZlZGtvTmVZSUl0ZERQbmd2Qjla?=
- =?utf-8?B?S1lIc2xpc1Uxc280alQ2TFlBUUJUNWtxWnpxQnBscDFBSnZvUVB3ckk1dWsv?=
- =?utf-8?B?RzBLY2FFUGRsUC9NYVpIUDVVeVpjeTVJTHBXZDVjZDVjYkkvTmo4UnRvdXlM?=
- =?utf-8?B?WlAyMTU3MFh0cG4rNStXbkZ0MzhuVnN3WXpoTlBleWZpZzNubkg5ZjNadm1r?=
- =?utf-8?B?YkdiSDZIendwTUl3dnl4eG85NHpJSEJDNmtNcFpiUWszaEdjZXNqQUduSmtP?=
- =?utf-8?Q?KjRO8AA8nGgT5X/M=3D?=
-X-Exchange-RoutingPolicyChecked: sdQjpBUsV6DSRJxVFTG99b2/Hr+jErpmsHu1nJCuoDbwoRT4v+IlOFCM/BkumOrYdMYnQk5fBNFmvlg2XvbW3UdcHUxn4rZ7PKbMbXVElZ6oCvq0EAl0i5kRIAhBsTI8OiGQgI1x1nhBNldgG4TwQIlMtYwxBu1sTDeDHJhi4dQ2EssGtHpwING+V09l17xoUCla68em3R5gSjJAheC5qorKgDWVk0bn6MSnBLYKgcubALtutmqUZ4JotdGmE7DEduLlFw1vIBf63AqJ2lCpEz9J/DKI1Y6vDbSuIFCfVoUkf33kPbpEqAcjtFX4NvbxTYo8vwCIOPs82q4gN8Qt0A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0319f8c2-1253-4690-bf3e-08dedc5415e7
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlJneW9hSnRza0FzSFdHcStTTS9EZ1Q1ZTkyQTM2eXRWdnJaNkpUV2ZKZllV?=
+ =?utf-8?B?SWJoTWN1R1JqRGtmVXhpek52YTdsTmtiV2xBRmV0a1F6Y3B3cVU3MTEwWTl0?=
+ =?utf-8?B?Q0ZuNGtDK0ZQVDhlaDZoRlpRU1NUS0JySTBqeFZ6VkthQXNwZ0QvSWFjRVVC?=
+ =?utf-8?B?TFczdy9mTGx4aXZaTklyTGZ3ZkNpcnZWZ2F0Q3hnYktaTUl2eHVTUndWMVZJ?=
+ =?utf-8?B?dzlDNjFvN25xRUx5WVNFUjFQM1dTZkNnK3dYbkRDR1crZmQ3NnpIeERpZXFI?=
+ =?utf-8?B?K0ZNSkdVcmpUTGpWb2JCdEhpMUVEQmdybE5RaGUrUFROSHFueEdKK09paWNs?=
+ =?utf-8?B?YnpMRVhzTzRqeVFkNEpncTFUN3lUaDdWV3RHVXByL1lmRTZwYzBTbU5FclNm?=
+ =?utf-8?B?S1A0YUtoRkpNd1lCUlhKMllCR2tFamRuT1BhVXRnVkRHckdtQUhvYzNYclNR?=
+ =?utf-8?B?NUZUOTVXdk16ZHpGZG9EYStkYW8vSUZLR0JSQ2pzM0tDMEt6NHp2V1BuTjB6?=
+ =?utf-8?B?YlE0N2F5RHZiS3ZXUi9jcEtYb1lweEFSbmFmT2wycEtzMWJLamRQa1lWc2ll?=
+ =?utf-8?B?TDdxWUtmUjBJUDRaN2FGbTVBL0d3cWgyQWJCRDNaWXltZ1dITkVRS1hleWdR?=
+ =?utf-8?B?ZHEvc2c4dENac3BQSjJPSTRUZFkzWk90V09VQzhvbkk2WmFZVXdnWFNSSlRo?=
+ =?utf-8?B?VWtkdmNzNmpPZW1QYzB1TlNKYUVsRk5mdEcyRlBaUEloWkNvS3RreWVBVXUr?=
+ =?utf-8?B?UWNUU1ZINTR1WlJDUWsweU1HMjBYRlBaV1RKTGk5em42OE1VRzM0cDF3aCtx?=
+ =?utf-8?B?QUxoTktDODluU2xjSWdjYzV6VCtzTUJEZXcwRS9EWHp2M3U1SFJvNkswZ3JS?=
+ =?utf-8?B?WFp4QTlZZzFobjNlSEkrUVRkZlpkNytDcXhRNnJuTDZIRzdRRzJ5dVhZN2xE?=
+ =?utf-8?B?T2cwYlBUR1h0R01IQ0FKcmRZbGNuMVUwa2xydStvM0x1bElhQWc4VjRvaGFV?=
+ =?utf-8?B?c3pGeDJmYkF2VERhZmRvMFJzeU1DbnFwbVlSUlZXWTdJTXdSeDRLRXpUSE9z?=
+ =?utf-8?B?TnFSZVZrRkhHSjREV2xST0RodHhOY3p1RGVrWXJhSDArOEdQelpjRXg5eWJJ?=
+ =?utf-8?B?aVdQQmlRTmU0MUFNaTlrcFRPNEJuYU9lSlNMQjVsaDJndnpKZ3hGRjA0RDZx?=
+ =?utf-8?B?aW9tZk5oYVAySitORXhNK3NjQlBjNlU1MDM2NUx5clp0S0hOWk1JVzJROWRO?=
+ =?utf-8?B?S0NDclVKRWVsWDdXZjhydnNPMkJDV3BTNFZuYlhsV2cxWDJtaVJnT1RnVlpV?=
+ =?utf-8?B?NnRaaUFBSFhCcW9Leng2aEMyK0Y2RWRScFpCa2EvWTlLYURuWnROUDZyUDlL?=
+ =?utf-8?B?bWNSdEEvZkN3V3c3OStiTmsvSjdNQVR4OFBxZzV0L0ZBRlNPQ2NXQmZGeWRq?=
+ =?utf-8?B?dkVIK1FQYkFtRjFxRzFNYjljR1dYaHFCbDk5cnZjUXZSY2Z4TThUTE1IL2VV?=
+ =?utf-8?B?Kys1T1lzNXlLTXBqVDc2V1p3UkJ0SmhRMVpEUDB4SzllYnZ4WCtQTHhJRldX?=
+ =?utf-8?B?VzlXSEJvNXRKL2dGbEFxTzd4RVFHUndDaU5KenZYa3E5VUZqS1NNRFZZMEcv?=
+ =?utf-8?B?RE1uenFhZ2cweWVMNEd2RTRxUGZSbk93T2lVdkhET3NsQXdXYjI0NDVyZFBM?=
+ =?utf-8?B?U284NURrdHRnbWtyQnVWc1NlK2QrUE5KVXZETnBJNDdvdXhvYXl3K3hhcWg3?=
+ =?utf-8?B?Vi92bE50QnJ5NGdBdlFBdEhvMDhTYWFPa1dacjcwTTBYekwrYW12M3pWWmR5?=
+ =?utf-8?B?d3Y0cHZYM0dRM2t1VVd2cXhxMDZCSE8vUE52TlpMTnBLb1QzQjJUWmx5UURV?=
+ =?utf-8?B?WGpNYklUeGQ0UnNRcy93RjFSTnFtY2FMcmtRcmZhUHBLRHFRckR6WXU4aFZP?=
+ =?utf-8?B?eXMwVlUzNktEbGRSOUNONlczYmZkQ3k4Ui8vWDd0R1BjVXB1b0tucVE2aS9L?=
+ =?utf-8?B?elhUdkN2RGdKU3BBM2RCZ3BtbzVNcTBneHh4elUrU0d2dlF4cFpkWm9KUUlB?=
+ =?utf-8?B?TVQybWsvYXNSbVlJbERHTDlVYkFRZ1IxamJNNVl5emFEUGEzWjhrdWFSOWtI?=
+ =?utf-8?B?RHdQTnVBQnM5WTRJNExUSG4yY1lZZDQ4bzhzVXZpOUpERlhGUUw0QUpOWjBz?=
+ =?utf-8?B?ODNOclZabCtmMms3aUJlcjRSSFpLc1JRMGdUaHhDTDVqWFhLK1M0NkJ0TjdV?=
+ =?utf-8?B?YXU3WnRpWnJvYUdjeUpqRlozMnROUlJ2UVdhdWNWeVZ4UUgrbUFMaU5BOE1J?=
+ =?utf-8?B?TDR6czhmMDBWOGVEbG9HUURUc0g3b1VOSDR3L1V6Tmo5NnJtQVA0UXltZGlq?=
+ =?utf-8?Q?3NwBEC9/UFiJbUtU=3D?=
+X-Exchange-RoutingPolicyChecked: Rq0klJVNVnDDHarGLZmByV0yrTyUgiSq6wACPME+Q8OTqeaeblPSzjNHpk5woR91p/jtD5IxsVjLJH47TqoBALTaX8+K6U7AcN+lmAeUkpppnELzOTSHqV/Zp8Ksx/Zekm3xgXCScNgfY9hNloLOjg7qGbWhxtKiYerjz75iDGs2PXEqzw0whMecQhBL1wOjEFfd6VLnf+12kEwIRQNhuPPliJ3O4uSHGZG3a8EhJzrp0BhYLUfSsOobRdpkoBQbzdlPdtVNijtwTPJIugIJibsilQ+R1t7m4qWTZRDlUIfC0BB4byDihXl7RR0FSHZln7TAH/S3tBEnKVfXOMOV2g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69788268-825e-4000-0b5e-08dedc54ab83
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 18:18:03.7466
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 18:22:14.7411
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5wAxE1g/h0nojm5xZaDUTAk1E4XBN3UqkIXWZpCg4qxMcDHCv50bUEPYAGcoZDIgcUJoLaIeJwcCixKQeFW9RVDStRz2p7gr28zv14H0P0c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFFF98E87FA
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5P6ibp9WviG1RF2iJGjl1HXie1Ljjdffsib/KZkhjYAWCrjeMNuu9Xaads0Z0hkZblivjwsvshNUT7roJ4hfzHHS1rRCkO325XrAre7STMg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7938
 X-OriginatorOrg: intel.com
 
 Hi Drew,
 
-On 6/28/26 2:18 PM, Drew Fustini wrote:
+Apologies, my reply ended up in the wrong version of this series. Please consider this as a reply to v4.
+ok with me if you respond in v4.
 
-...> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-> new file mode 100644
-> index 000000000000..2172432eb328
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_capacity.c
-
-...
-
-> +static int cbqri_capacity_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cbqri_controller_info info = {};
-> +	struct device_node *cache_np;
-> +	cpumask_var_t cpu_mask;
-> +	struct resource *res;
-> +	u32 rcid_count, cache_level;
-> +	int cache_id, cpu, ret;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -EINVAL;
-> +
-> +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
-> +	if (ret) {
-> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
-> +		return ret;
-> +	}
-> +
-> +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-> +	if (!cache_np) {
-> +		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
-> +	if (ret) {
-> +		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
-> +		goto out_put;
-> +	}
-> +
-> +	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL)) {
-> +		ret = -ENOMEM;
-> +		goto out_put;
-> +	}
-> +
-> +	/*
-> +	 * Associate the controller with its cache instance via
-> +	 * cacheinfo. The matching cache provides the cache id and the
-> +	 * set of harts that share the cache.
-> +	 */
-> +	cache_id = -1;
-> +	cpus_read_lock();
-> +	for_each_online_cpu(cpu) {
-> +		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
-> +
-> +		if (ci && ci->fw_token == cache_np) {
-> +			cache_id = ci->id;
-> +			cpumask_copy(cpu_mask, &ci->shared_cpu_map);
-
-The way I understand cacheinfo::shared_cpu_map is that it only contains the online
-CPUs that share the cache with this CPU and if the CPU is offline then shared_cpu_map
-only contains the CPU self.
-
-It is thus not clear to me that this handles all the possible CPU online vs offline
-scenarios. For example, if all or some CPUs of a domain are offline during cbqri_capacity_probe()
-and then come online later. It is not clear to me whether cbqri_controller_info::cache_id,
-cbqri_controller::cache_controller::cache_id, or cbqri_controller::cache_controller::cpu_mask
-are needed. Could the cache ID associated with a CPU at the time it comes online to dynamically
-associate it with the resctrl domain that is indexed by the cache ID? This may simplify a couple
-of flows.
-
-> +			break;
-> +		}
-> +	}
-> +	cpus_read_unlock();
-> +
-> +	if (cache_id < 0) {
-> +		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
-> +			cache_np, cache_level);
-> +		ret = -ENODEV;
-> +		goto out_free;
-> +	}
-> +
-> +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-> +	info.addr = res->start;
-> +	info.size = resource_size(res);
-> +	info.rcid_count = rcid_count;
-> +	info.cache_id = cache_id;
-> +
-> +	ret = riscv_cbqri_register_cc_dt(&info, cache_level, cpu_mask);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register capacity controller: %d\n", ret);
-> +		goto out_free;
-> +	}
-> +
-> +	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
-> +		 cache_level, &info.addr, cache_id, rcid_count);
-> +
-> +out_free:
-> +	free_cpumask_var(cpu_mask);
-> +out_put:
-> +	of_node_put(cache_np);
-> +	return ret;
-> +}
 Reinette
+
+On 7/7/26 11:18 AM, Reinette Chatre wrote:
+> Hi Drew,
+> 
+> On 6/28/26 2:18 PM, Drew Fustini wrote:
+> 
+> ...> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
+>> new file mode 100644
+>> index 000000000000..2172432eb328
+>> --- /dev/null
+>> +++ b/drivers/resctrl/cbqri_capacity.c
+> 
+> ...
+> 
+>> +static int cbqri_capacity_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct cbqri_controller_info info = {};
+>> +	struct device_node *cache_np;
+>> +	cpumask_var_t cpu_mask;
+>> +	struct resource *res;
+>> +	u32 rcid_count, cache_level;
+>> +	int cache_id, cpu, ret;
+>> +
+>> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +	if (!res)
+>> +		return -EINVAL;
+>> +
+>> +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
+>> +	if (ret) {
+>> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+>> +	if (!cache_np) {
+>> +		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
+>> +	if (ret) {
+>> +		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
+>> +		goto out_put;
+>> +	}
+>> +
+>> +	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL)) {
+>> +		ret = -ENOMEM;
+>> +		goto out_put;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Associate the controller with its cache instance via
+>> +	 * cacheinfo. The matching cache provides the cache id and the
+>> +	 * set of harts that share the cache.
+>> +	 */
+>> +	cache_id = -1;
+>> +	cpus_read_lock();
+>> +	for_each_online_cpu(cpu) {
+>> +		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
+>> +
+>> +		if (ci && ci->fw_token == cache_np) {
+>> +			cache_id = ci->id;
+>> +			cpumask_copy(cpu_mask, &ci->shared_cpu_map);
+> 
+> The way I understand cacheinfo::shared_cpu_map is that it only contains the online
+> CPUs that share the cache with this CPU and if the CPU is offline then shared_cpu_map
+> only contains the CPU self.
+> 
+> It is thus not clear to me that this handles all the possible CPU online vs offline
+> scenarios. For example, if all or some CPUs of a domain are offline during cbqri_capacity_probe()
+> and then come online later. It is not clear to me whether cbqri_controller_info::cache_id,
+> cbqri_controller::cache_controller::cache_id, or cbqri_controller::cache_controller::cpu_mask
+> are needed. Could the cache ID associated with a CPU at the time it comes online to dynamically
+> associate it with the resctrl domain that is indexed by the cache ID? This may simplify a couple
+> of flows.
+> 
+>> +			break;
+>> +		}
+>> +	}
+>> +	cpus_read_unlock();
+>> +
+>> +	if (cache_id < 0) {
+>> +		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
+>> +			cache_np, cache_level);
+>> +		ret = -ENODEV;
+>> +		goto out_free;
+>> +	}
+>> +
+>> +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
+>> +	info.addr = res->start;
+>> +	info.size = resource_size(res);
+>> +	info.rcid_count = rcid_count;
+>> +	info.cache_id = cache_id;
+>> +
+>> +	ret = riscv_cbqri_register_cc_dt(&info, cache_level, cpu_mask);
+>> +	if (ret) {
+>> +		dev_err(dev, "failed to register capacity controller: %d\n", ret);
+>> +		goto out_free;
+>> +	}
+>> +
+>> +	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
+>> +		 cache_level, &info.addr, cache_id, rcid_count);
+>> +
+>> +out_free:
+>> +	free_cpumask_var(cpu_mask);
+>> +out_put:
+>> +	of_node_put(cache_np);
+>> +	return ret;
+>> +}
+> Reinette
+> 
 
