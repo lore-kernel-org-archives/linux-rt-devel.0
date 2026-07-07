@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491BD2110E;
-	Tue,  7 Jul 2026 14:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CD036A360;
+	Tue,  7 Jul 2026 14:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783434828; cv=none; b=gY9gn/BCNvNqDC2+etoiI5RiUtcn3FBNgW3mCGmOnc2k5Gy+trdK33VAfWDFF4d4LMQ5NlVwfPmhkIYrTUAYHaHAz0piJoIwg0fla1E15j/NgrWAe/GaZFHUs84F38ko/8zuP3blmKfRWnDgPZwLByRVdVyRuBQdXXht1pnayu8=
+	t=1783436116; cv=none; b=lq1oSNv1HKjqKUl9VzIKhuydlHSfgvS5GzaPSvcfSQf0KQlVMBMG7sYgbQnWx9OK7ECB7EEfaRy/L8wuCZvi66ABLEyd79o3ZkF1wEgo3kaS+I23I+uq3oC0XWg2nJEepY4z9fda0jRYcpBGpxyFFN0es3JT4vQVZww98IWbq3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783434828; c=relaxed/simple;
-	bh=ppL00GtpE5vQSexZzoIMEnNPx2PS7/V/njARikcmjjA=;
+	s=arc-20240116; t=1783436116; c=relaxed/simple;
+	bh=5iIRrEO/ZobSUfmJ/0nPSN+09pt77KoBcWHvqcQwkRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S/5DVDwwNF8454wBIJQs8LwwbvfSRgl1Fz7w+vfPU9f0Oiyl2Kt78b1J8gEnduqEZSBAm/tdtvJpLn5M1lGCPrTLydEowODFv1sIM4oVcpA9R6WgvLzGXl6Cgl+/McUCEDL/CNkFcy2EnS3RPPMXH+D71XoomzfhE3vTWlCSGss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzurjB0S; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=dzB9/o45UvxU8l8fG+8zoxROwH8gOViJzMN8BpoL8XV9JEo2/iU/0rogfgZ6bbocfg11XAIRXHTF1l6u+legnS7byHhftW1h8gRS0opUeI9C9hgCI9gdy0RqNzMaUESpRxX6pO8xcEX9ixuYm4XsqnGM1QmPvAtJFK4kOEX/bLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QV+ks0HY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzurjB0S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF6D1F000E9;
-	Tue,  7 Jul 2026 14:33:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QV+ks0HY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AB471F000E9;
+	Tue,  7 Jul 2026 14:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783434826;
-	bh=lRPHBZyUrNKHZ2wYrLs9GBkE6hyCCqTsoxHyYNlEGp4=;
+	s=k20260515; t=1783436111;
+	bh=/9mCzb7g+yV56krs+YlAAmkKn3Oaov1WcfK8GbeZDIg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jzurjB0SxrMqwZu6uNCaUfK4c2KGCtIIYOndWXuK+m1VvRu9lrbi4I9nj96Zx/pQY
-	 E5yroM9SofgfLPNUTi6rrbpvZf9oMJsje3oxScFpQoP+BheH9AY8tU9REhT4PXuCKD
-	 WhAtxsGMH4gsy6lFf6h3HV8BmOcbRD+ft8MmdaUIQYKSvS6KYXk372FgWfu8KDOT75
-	 IOl1BeNhmV2NYab9YsUTEZEEKIdxU4VtUEL0fenczLVhigCgCWx9PvSgRJl50+GIbZ
-	 fIXgoNayIVs8XG5PvCpF76T302wAO0BK51iT22HwwtIETVfzDFxL6RyGgy3/cC2lQ1
-	 7f+sCjaN2oRGA==
-Date: Tue, 7 Jul 2026 15:33:32 +0100
+	b=QV+ks0HYntwA9uKhowNtp8zOo9GveHkOSIFIr0wmdDYgDYdv+dH5Hb/h7TcwMjmad
+	 LcgNzfOkd5JYiUhz7QRIgW2A6EbwtvXiXxusWJDUeLYbt1LZ2Cd1QiumWq7LCBjf1r
+	 KBEnnWL/Quo3at5Tw/5VImKsO36vd1NY/MvgZtn4d2sEYuS1WatlnewFdElJGqVt10
+	 ck/Rkva/2KBOeS+uYqW3Gqt7t4KnvErVhOX5pQ1NzkuOQUIzZyb86gkERENikJ5GES
+	 u0Tg6ai7S90OPcXfssPxfx5gdkJiHgOxonLyoHgS1t0BVYun8G0TKAnBINd2+oLKK/
+	 8LtjNwIPskezg==
+Date: Tue, 7 Jul 2026 15:54:57 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Wandun Chen <chenwandun1@gmail.com>
 Cc: vbabka@kernel.org, david@kernel.org, rostedt@goodmis.org, 
@@ -39,11 +39,11 @@ Cc: vbabka@kernel.org, david@kernel.org, rostedt@goodmis.org,
 	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, 
 	gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, 
 	pfalcato@suse.de
-Subject: Re: [PATCH v2 2/4] mm/mlock: wait for migration to finish when
- mlocking a folio
-Message-ID: <ak0C-DP_1ZrTVSLj@lucifer>
+Subject: Re: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when mlocking
+ a range
+Message-ID: <ak0OZKzapUefmA3v@lucifer>
 References: <20260707125925.3725177-1-chenwandun1@gmail.com>
- <20260707125925.3725177-3-chenwandun1@gmail.com>
+ <20260707125925.3725177-5-chenwandun1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,198 +52,286 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260707125925.3725177-3-chenwandun1@gmail.com>
+In-Reply-To: <20260707125925.3725177-5-chenwandun1@gmail.com>
 
-On Tue, Jul 07, 2026 at 08:59:23PM +0800, Wandun Chen wrote:
+On Tue, Jul 07, 2026 at 08:59:25PM +0800, Wandun Chen wrote:
 > From: Wandun Chen <chenwandun@lixiang.com>
 >
-> In RT kernels, sysctl_compact_unevictable_allowed is false by default,
-> when the mlock/mlockall system call try to lock all the present page,
-> the mlock_pte_range function skips non-present entries. If these
-> non-present entries are migration entries, and the migration is not
-> guaranteed to have completed before the mlock/mlockall, it may result
-> in a page fault on subsequent access, which then waits for the
-> migration to finish, causing spike latency in RT kernels.
+> The region covered by mlock[all] may contain CMA pages. cma_alloc installs
+> migration entries in the page table, if a memory access occurs at this
+> point, it must wait for the migration to complete, which may cause
+> latency spikes on the RT kernels.
+>
+> Try to move the migration cost into the mlock[all] caller, which is
+> typically a setup path. So reduce the chance of latency spikes on RT
+> kernels by migrating the currently mapped CMA pages out of CMA region.
 
-Is this really noticable and measurable?
+'reduce the chances of latency' so do you have any data to back this invasive
+change or not?
 
-I suppose not too many ranges should be mock
+And for RT, but nothing in here at all checks for RT? You're using this
+compaction sysctl as an RT check somehow? That's gross.
+
+This doesn't feel like the right solution.
 
 >
-> Fix it by waiting for the migration to complete during the mlock/mlockall
-> syscall when sysctl_compact_unevictable_allowed is false.
-
-Probably better to reference the sysctl itself rather than an arbitrary varible
-name.
-
->
-> Fixes: 90d07210ab55 ("mm: mlock: use folios and a folio batch internally")
-
-Again I have no idea why you chose this as the fixes target, especially for
-this?
-
-But in any case, why is this separate from the previous commit? I sthis an
-entirely separate fix?
-
-> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+> Suggested-by: Frank van der Linden <fvdl@google.com>
 > Signed-off-by: Wandun Chen <chenwandun@lixiang.com>
-> Link: https://lore.kernel.org/lkml/c8793c0f-7156-4cb7-9e6e-7909397e2fff@kernel.org/#t
-
-A nit but please strip that #t.
-
+> Link: https://lore.kernel.org/all/CAPTztWZpnX1j8-7yeppVUsxE=O9hbVeqricDjZt8_pnN7a-kBQ@mail.gmail.com/#t
 > ---
->  mm/mlock.c | 23 +++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
+>  mm/mlock.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 118 insertions(+), 1 deletion(-)
 >
 > diff --git a/mm/mlock.c b/mm/mlock.c
-> index 97e49038d8d3..ac65de40b22b 100644
+> index ac65de40b22b..f56c685533f5 100644
 > --- a/mm/mlock.c
 > +++ b/mm/mlock.c
 > @@ -25,6 +25,7 @@
 >  #include <linux/memcontrol.h>
 >  #include <linux/mm_inline.h>
 >  #include <linux/secretmem.h>
-> +#include <linux/compaction.h>
+> +#include <linux/migrate.h>
+>  #include <linux/compaction.h>
 >
 >  #include "internal.h"
+> @@ -428,6 +429,119 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
+>  	return 0;
+>  }
 >
-> @@ -361,8 +362,17 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
->
->  	ptl = pmd_trans_huge_lock(pmd, vma);
->  	if (ptl) {
-> -		if (!pmd_present(*pmd))
+> +#ifdef CONFIG_CMA
+
+Ugh yuck. This is horrible. Why are we polluting mlock.c with CMA stuff?
+
+Also no comment?
+
+> +static int mlock_collect_migratable_pte_range(pmd_t *pmd, unsigned long addr,
+> +			unsigned long end, struct mm_walk *walk)
+> +{
+
+You've literally copy/pasted mlock_pte_range(), this is disgusting.
+
+Please don't copy/paste code like this, this isn't PHP, it's the kernel, it's
+completely unacceptable.
+
+> +	struct vm_area_struct *vma = walk->vma;
+> +	struct list_head *folio_list = walk->private;
+> +	spinlock_t *ptl;
+> +	pte_t *start_pte, *pte;
+> +	pte_t ptent;
+> +	struct folio *folio;
+> +	unsigned int step = 1;
+> +
+> +	if (!(vma->vm_flags & VM_LOCKED))
+
+Once again vma_test(vma, VMA_LOCKED_BIT) please.
+
+But also, again (since you copy/pasted), why? You're literally mlocking here...
+
+You going for that 'mlocking already mlocked ranges' sweet spot or am I missing
+something?
+
+> +		return 0;
+> +
+> +	ptl = pmd_trans_huge_lock(pmd, vma);
+> +	if (ptl) {
 > +		if (!pmd_present(*pmd)) {
-> +			if (unlikely((vma->vm_flags & VM_LOCKED) &&
+> +			if (unlikely(softleaf_is_migration(softleaf_from_pmd(*pmd)))) {
 
--> vma_test(vma, VMA_LOCKED_BIT)...
-
-What is the basis for your unlikely()? Don't use likely()/unlikely() just
-because it feels right. Leave them out unless you have actual profiling data to
-prove it.
-
-Remove it please.
-
-But I'm also confused here - why are you checking for VMAs that already had
-VMA_LOCKED_BIT set when you are about to set it?
-
-Surely this shouldn't be predicated on VMA_LOCKED_BIT?
-
-
-> +			    !compaction_allow_unevictable() &&
-
-Why do we care about compaction here? Are we assuming the softleaf migration
-entry is present only for compaction reasons?
-
-So these migration entries could be there for any reason? Does it matter? Is it
-such a big deal, on mlock, to wait for migration entries? I think probably not.
-
-But then maybe some weird workload gets affected... hmm.
-
-> +			    softleaf_is_migration(softleaf_from_pmd(*pmd)))) {
-
-Use pmd_is_migration_entry()? :)
-
-And technically you should use pmdp_get() I think? Maybe a situation where we
-don't care/need the READ_ONCE() though.
+OK so you're not actually checking for CMA here at all, you're just doing the
+migration wait stuff... again here? What?
 
 > +				spin_unlock(ptl);
 > +				pmd_migration_entry_wait(vma->vm_mm, pmd);
 > +				walk->action = ACTION_AGAIN;
 > +				return 0;
 > +			}
-
-This code is really disgusting, let's please not just copy/paste open-coded
-nested horror shows like this.
-
-A good rule of thumb is if you see a bunch of code 'poking out' like this and
-certainly if you copy/paste it or something very much like it, break it out into
-a function.
-
-So:
-
-static bool wait_for_migration(const struct vm_area_struct *vma, softleaf_t entry)
-{
->>>> As above I'm not sure should even be checking this?
-	if (!vma_test(vma, VMA_LOCKED_BIT))
-		return false;
->>>> As above I'm not sure this makes sense?
-	if (compaction_allowed_unevictable())
-		return false;
-
-	return softleaf_is_migration(entry);
-}
-
-Then call it like:
-
-	if (ptl) {
-		const pmd_t pmd = pmdp_get(pmd);
-
-		if (!pmd_present(pmd)) {
-			const softleaf_t entry = softleaf_from_pmd(pmd);
-
-			if (!wait_for_migration(vma, entry))
-				goto out;
-
-			spin_unlock(ptl);
-			pmd_migration_entry_wait(vma->vm_mm, pmd);
-			walk->action = ACTION_AGAIN;
-			return 0;
-		}
-		if (is_huge_zero_pmd(pmd))
-			goto out;
-
-(etc. going *pmd -> pmd)
-
-But we could probably do even better than that, and assuming your dubious checks
-above aren't needed, we don't even need a helper then:
-
-	if (ptl) {
-		const pmd_t pmd = pmdp_get(pmd); // possibly just *pmd?
-		const softleaf_t entry = softleaf_from_pmd(pmd);
-
-		if (softleaf_is_migration(entry)) {
-			/* Wait for migration entries. */
-			spin_unlock(ptl);
-			pmd_migration_entry_wait(vma->vm_mm, pmd);
-			walk->action = ACTION_AGAIN;
-			return 0;
-		}
-		if (!pmd_present(pmd))
-			goto out;
-		etc.
-
-And similar for the PTE stuff below.
-
-This works because softleaf_from_pmd() (and pte) will give you a 'none' softleaf
-if the entry is not a softlaf entry. So you can unconditionally call it on a
-PMD.
-
->  			goto out;
+> +			goto out;
 > +		}
->  		if (is_huge_zero_pmd(*pmd))
->  			goto out;
->  		folio = pmd_folio(*pmd);
-> @@ -383,8 +393,17 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
->
->  	for (pte = start_pte; addr != end; pte++, addr += PAGE_SIZE) {
->  		ptent = ptep_get(pte);
-> -		if (!pte_present(ptent))
+> +		if (is_huge_zero_pmd(*pmd))
+> +			goto out;
+> +		folio = pmd_folio(*pmd);
+> +		if (folio_is_zone_device(folio))
+> +			goto out;
+> +		if (is_migrate_cma_page(&folio->page))
+
+Err isn't this per-page, and you just checked that this is a huge folio, and
+you're only checking the first page? That seems wrong?
+
+> +			isolate_folio_to_list(folio, folio_list);
+
+Then you just take the whole folio?
+
+It's really horrible that you're burying this in copy/pasted code from the rest.
+
+> +		goto out;
+> +	}
+> +
+> +	start_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+> +	if (!start_pte) {
+> +		walk->action = ACTION_AGAIN;
+> +		return 0;
+> +	}
+> +
+> +	for (pte = start_pte; addr != end; pte += step, addr += step * PAGE_SIZE) {
+> +		step = 1;
+> +		ptent = ptep_get(pte);
 > +		if (!pte_present(ptent)) {
-> +			if (unlikely((vma->vm_flags & VM_LOCKED) &&
-> +			    !compaction_allow_unevictable() &&
-> +			    softleaf_is_migration(softleaf_from_pte(ptent)))) {
+> +			if (unlikely(softleaf_is_migration(softleaf_from_pte(ptent)))) {
 > +				pte_unmap_unlock(start_pte, ptl);
 > +				migration_entry_wait(vma->vm_mm, pmd, addr);
+
+BTW I also wonder if we have guaranteed forward progress here if say a migration
+happened to migrate back and forth again across a range...?
+
 > +				walk->action = ACTION_AGAIN;
 > +				return 0;
 > +			}
->  			continue;
+
+Again, since you copy/pasted, same comment - this is disgusting.
+
+And again I'm confused why you're waiting here again after you did it previously
+due to the previous commit that already does it?
+
+And why for a non-CMA range, if somebody happens to set CONFIG_CMA they now get
+this done twice?
+
+> +			continue;
 > +		}
->  		folio = vm_normal_folio(vma, addr, ptent);
->  		if (!folio || folio_is_zone_device(folio))
->  			continue;
+> +		folio = vm_normal_folio(vma, addr, ptent);
+> +		if (!folio || folio_is_zone_device(folio))
+> +			continue;
+> +		step = folio_mlock_step(folio, pte, addr, end);
+> +		if (is_migrate_cma_page(&folio->page))
+> +			continue;
+
+You mean ! surely?
+
+Why are you inverting this vs. the above? you replied to the patch so maybe you
+correct this there.
+
+> +		isolate_folio_to_list(folio, folio_list);
+
+And again you bury the actual point of this in one easily missed line and zero
+comments.
+
+No.
+
+> +	}
+> +	pte_unmap(start_pte);
+> +out:
+> +	spin_unlock(ptl);
+> +	cond_resched();
+> +	return 0;
+> +}
+
+Yeah this is just completely unacceptable. You have to find a way to deduplicate
+code. Copy/paste code dumps are not ok.
+
+But at the same time, you're dumping CMA crap in core mm mlock code which is
+horrible, you've also dumped some migration code so you're really mixing things
+up here horribly, and it doesn't seem justified?
+
+> +
+> +static const struct mm_walk_ops mlock_collect_migratable_ops = {
+> +	.pmd_entry	= mlock_collect_migratable_pte_range,
+> +	.walk_lock	= PGWALK_RDLOCK,
+> +};
+> +
+> +static void mlock_migrate_cma_range(unsigned long start, unsigned long len)
+> +{
+> +	struct mm_struct *mm = current->mm;
+> +	unsigned long end = start + len;
+> +	LIST_HEAD(folio_list);
+> +	struct migration_target_control mtc = {
+> +		.nid = NUMA_NO_NODE,
+> +		.gfp_mask = GFP_HIGHUSER | __GFP_NOWARN,
+> +		.reason = MR_SYSCALL,
+> +	};
+> +
+> +	if (compaction_allow_unevictable())
+> +		return;
+
+Again you're assuming compaction for some reason. Why?
+
+It feels like you're just gating specific behaviour for your workload on this
+flag and assuming that's ok.
+
+> +
+> +	lru_cache_disable();
+
+What, why?
+
+> +
+> +	if (mmap_read_lock_killable(mm))
+> +		goto out;
+
+OK so you got a fatal signal and you don't bother telling anybody about it and
+just skip migration?...
+
+> +
+
+Weird whitespace...
+
+> +	walk_page_range(mm, start, end, &mlock_collect_migratable_ops,
+> +			&folio_list);
+> +	mmap_read_unlock(mm);
+> +
+> +	if (list_empty(&folio_list))
+> +		goto out;
+> +
+> +	if (migrate_pages(&folio_list, alloc_migration_target, NULL,
+> +			  (unsigned long)&mtc, MIGRATE_SYNC, MR_SYSCALL, NULL))
+> +		putback_movable_pages(&folio_list);
+> +out:
+> +	lru_cache_enable();
+> +}
+> +#else
+> +static inline void mlock_migrate_cma_range(unsigned long start,
+
+inline in a .c file? Why? Drop it.
+
+> +					   unsigned long len)
+> +{
+> +}
+> +#endif /* CONFIG_CMA */
+> +
+>  /*
+>   * mlock_vma_pages_range() - mlock any pages already in the range,
+>   *                           or munlock all pages in the range.
+> @@ -678,6 +792,7 @@ static __must_check int do_mlock(unsigned long start, size_t len, vm_flags_t fla
+>  	error = __mm_populate(start, len, 0);
+>  	if (error)
+>  		return __mlock_posix_error_return(error);
+> +	mlock_migrate_cma_range(start, len);
+
+Err, unconditionally?
+
+>  	return 0;
+>  }
+>
+> @@ -790,8 +905,10 @@ SYSCALL_DEFINE1(mlockall, int, flags)
+>  	    capable(CAP_IPC_LOCK))
+>  		ret = apply_mlockall_flags(flags);
+>  	mmap_write_unlock(current->mm);
+> -	if (!ret && (flags & MCL_CURRENT))
+> +	if (!ret && (flags & MCL_CURRENT)) {
+>  		mm_populate(0, TASK_SIZE);
+> +		mlock_migrate_cma_range(0, TASK_SIZE);
+
+Err what? Why are you doing this? You're forcing a wait on migration of
+literally everything across the whole of the process whether or not they're CMA
+ranges, but as a one time thing?
+
+
+> +	}
+>
+>  	return ret;
+>  }
 > --
 > 2.43.0
 >
+
+In general this feels like the wrong solution for a specific workload that
+sticks horrible stuff in core mm and I don't really love it :)
 
 Thanks, Lorenzo
