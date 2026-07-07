@@ -1,161 +1,149 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f1.google.com (mail-pz2-f1.google.com [74.125.228.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C373ECBEB
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 12:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F963D891D
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 12:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783428855; cv=none; b=e5qXco4KDEzvuS68A3WgG6GuNaFzuOZJOcPYh4OD9XMKhCL3DDkt6qvC1/f2UWcKp2+nR9LAhd/RhATuFvP985yvz6/vY0Xhw5k46aZ4Lk3PBAOiuckHGTVf9vt7Z+NzFHZqt0GqzqJsLS37hXYnnKd5jkvj7Ygav1ECG5HOJs8=
+	t=1783429184; cv=none; b=RZT8GInjl22YrsQorbWvyz1djx99o7+XV8DhCmiwYLotChx18MXQkwWpEGqecNdnPhtPAZ8BQ+pyG3XUdcAQ6Xp+hwi/WzMV+suBiMmfp0xB2Q5TgAwTG/Im+yEvKRfnzY4Rs9oakT7h0kIaCeLFynLnus5R8xPkrdSBEqd8ZMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783428855; c=relaxed/simple;
-	bh=coCOB5qqJ+X+DFURbG7Ogj2VXwfQ4/UW9Uydsi8FxI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tcz4n63Mwq33unpFVBmc4hllNoU8cvJUuBZcypS2CyF1mj59ZzFzXwnsbGFk6WKNqlYoB6rfYvKhR2sZvfiN4TnEw9i3MHu8FeVZSoXWhlK1Lbpm0yIQBLAEOGXfXwmVl3LhjdWRI6TrqvbvFQqKvmbp1vGQBqoRn7EYLn61Tb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Eu4Dk0v; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WJ1gCCbN; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783429184; c=relaxed/simple;
+	bh=Byg3OJZRe1xd79dRgn/Udm67f4fCX5ulQy5iFP2kz1w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YL8FKUcPU7uTZ2A3ib4846bno4pW91Rx9awJD2GAmEjjx8zI0QL13JwSywFAHLjnXgysLS4ja2qzRkF7TiPsUPJ8jgFmUWjLjHilSjCJ5hssPhf5Akvo3dtchl7Pu/EbPMhhr/eRSR/6+6EkWBojzjmesW4zx23mhjy0D6xWiPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1J5eXT1; arc=none smtp.client-ip=74.125.228.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Eu4Dk0v";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WJ1gCCbN"
-Date: Tue, 7 Jul 2026 14:54:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783428852;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
-	b=2Eu4Dk0v06ysm21QQr1mFBLNtn+bSKuW3OhImOytu9etUEFCC+cCkkaYxOXV39YPcf3o1t
-	Gx83fOV9JLHklzA3T3vX5Tzgqv6wI/f7kjK+NgPh2lzm2Xcv29gzFnB3OlfBmdIJGtB8od
-	DWxsVRx8gZbt5WCgqEfXzavgjgK+uqLLQ47Vhx63LmpTo5Zi6LxbJwtc1mh85+jo9yM3Zv
-	DjKWNn9OJf1y63RBb72Weuq2QGPIlTnQX9iiq6/NeTixmwvilbd1XrmcrQ2TYq2wLzX38J
-	LFJjbdtK0/h7qYyjmCbdlRdAI5ooVRt8bBs7XpzczHhrArizbVa5RG0cXrI1Sw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783428852;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
-	b=WJ1gCCbNJ5O2SpMhyTBakk9vxkDQ3zD9r/Y9ROb779GAJXOW3JWWh29CrUsxt35SkmFFzU
-	AsI6rUH/kDVI7kAw==
-From: Benedikt Spranger <b.spranger@linutronix.de>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
- emiting code
-Message-ID: <20260707145411.53a10893@mitra>
-In-Reply-To: <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
-References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
-	<20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
-	<20260703165654.71be8707@mitra>
-	<CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
-Organization: Linutronix GmbH
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1J5eXT1"
+Received: by mail-pz2-f1.google.com with SMTP id 41be03b00d2f7-ca696c4b152so31487a12.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 07 Jul 2026 05:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783429182; x=1784033982; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bqawGs/D2kwMuaBURT3A7nHx9bziQ0g0fHDee9Yijoc=;
+        b=h1J5eXT11hisPvvumoCK14lNRPQMOEUcs87i4iK8GHJCRRu8NsbLMNNgo8raOgxRGK
+         ZxdcpCDCEes0e76RmneY2xUX9gN3Z2D5J59ZsFRVGLlfZgle0XltMX8x87n53Qbbak87
+         lItHyoidXfu2BVwOMdxlYjCs82d2IszbSkXhAFPO/0CJOXwoeaGfPc9K2L5HmnquUEdt
+         iuNgzVaUAylS6CJYvhMmoWcWp50gw2FhgTc8Qw4ZQB3hScEY21RYyE2uSGXAbwTSl/Dj
+         S98RHZypIz1lSWrykK737GauggSPz7gjhF6D5VGo3yLnQ7fMDxo1Sr2QHcV6gBinEvXq
+         8Z8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783429182; x=1784033982;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bqawGs/D2kwMuaBURT3A7nHx9bziQ0g0fHDee9Yijoc=;
+        b=aW7J4/DrE2dJl/J+TYqFPzzP+gubSaL7XZtZAdJMFdcmlwdNaaxzz1AXUxosXgJjYc
+         /mr14tWpr2vyuGJFwtElteXwfIIhaYzFX4Jp+8lP/7wN8gfhamW8CjjciFkzL1GkVc08
+         gW1VOorxTIMugtoybYCyJH6KvIS9FfI6JkUteWrG+4foKaW+udN5HtND4vjO3rc+hWtq
+         Zffl9KCFXTtB49kX8o4rG2Y1VgnMQmDOykdnlkYZMYLCywzfFT2qKL0Jo9F2jrUHdZlT
+         dg8Muq2/VeQQW8o3n3TEoDZmt/tbVkSVdy1+zFvLO4hWy321J86XDqDJFPClcyn2Gipg
+         oYzw==
+X-Forwarded-Encrypted: i=1; AHgh+Ropzrcf+stoIbp3p6GRuqMxtJUgolFh2qEFVrAHHMnD1PAABDWLID47dQ4I5epx/v2Y4fJhIUEg5Cwmo6MZmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzEryIOfgdX6CFSnJyT4iTQAMYlcvIuHrF8cnvomZUrdlOJkoQ
+	CSXEJ2weAWJxN/oN7566JhxEHOrtlQ5gEtmc/sVXyUAcJeYUhZQnFiuO
+X-Gm-Gg: AfdE7ckvwBlvRjFiATMnKSfItOFSKc9lgiw32fxHRxOYoRHFsVGyrxlnylX9CEuaEfX
+	WEFkCvQzZRRVZ1x0/NWcQ1JAbM00w47iNmezDqH4gTEOKNgSv2FMbUjEBgSsbv2f64ZG3MAN4GM
+	9Q35r87YI9lbqX/gzlq75JgaW1jynD/nDrtZN9RsX3kMpx4lErsd/CfbUEgPils1+TcVeixccAH
+	smG7bpOphyAIKEnF7++X4xltB283zBexSG+5BWMxKZoDln3f38bhS0z/Q32dLuU5xNSGq8C8cI5
+	Uc4C4xsz1fqJFfz1NtSvHsGZYx0SLDjaQ3NcnvFwZAnHdAY3xTWPNOIzLzOkJFAZN5sG0IGcVe1
+	d5t2hM19UtAbC9X5qN6IjSR3hhDCiXrev1iLeQG83T3fsVu/GTTWkn1Cx+Qx+7x4AMYg4I+8Ons
+	ysxzhGvyvBUML+hMYqXQjEAheGfQ==
+X-Received: by 2002:a05:6a00:859b:b0:848:32f5:4999 with SMTP id d2e1a72fcca58-84832f56f1dmr1523190b3a.30.1783429181654;
+        Tue, 07 Jul 2026 05:59:41 -0700 (PDT)
+Received: from intel.company.local ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b5e566sm5415983b3a.3.2026.07.07.05.59.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 05:59:40 -0700 (PDT)
+From: Wandun Chen <chenwandun1@gmail.com>
+To: vbabka@kernel.org,
+	david@kernel.org,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	Alexander.Krabler@kuka.com,
+	hughd@google.com,
+	fvdl@google.com,
+	bigeasy@linutronix.de,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: akpm@linux-foundation.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	ljs@kernel.org,
+	riel@surriel.com,
+	liam@infradead.org,
+	harry@kernel.org,
+	jannh@google.com,
+	lance.yang@linux.dev,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	pfalcato@suse.de
+Subject: [PATCH v2 0/4] mm: honour compact_unevictable_allowed in mlock and CMA paths
+Date: Tue,  7 Jul 2026 20:59:21 +0800
+Message-ID: <20260707125925.3725177-1-chenwandun1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 6 Jul 2026 18:05:06 +0100
-Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+From: Wandun Chen <chenwandun@lixiang.com>
 
-Hi Andrew,
+vm.compact_unevictable_allowed=0 (the default on RT) is meant to keep
+compaction from touching unevictable folios. Several paths still migrate
+folios that are about to become unevictable, or in CMA regions,
+installing migration entries that a later access must wait on, then
+causing latency spikes on RT kernels.
 
-> On Fri, 3 Jul 2026 at 15:56, Benedikt Spranger
-> <b.spranger@linutronix.de> wrote:
-> > On Tue, 30 Jun 2026 17:35:59 +0100
-> > Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
-> > > The printk_delay and boot_delay features are helpful for debugging
-> > > as kernel output can be slowed down during boot allowing messages
-> > > to be seen before scrolling off the screen, or to correlate timing
-> > > between some physical event and console output.
-> > By now, it slows down the boot process, which is the handy part of
-> > that feature.
-> >
-> > > However, since the introduction of nbcon and the legacy printer
-> > > thread for PREEMPT_RT kernels, printk records are now emited to
-> > > the console asynchronously to the caller of printk. Thus, any
-> > > printk delay added by boot_delay/printk_delay continues to slow
-> > > down the calling process but may not have any impact to the rate
-> > > in which records are emited to the console.
-> > Using this feature to slow down the boot/suspend/resume process and
-> > implicit make printk() happen, is the usefull part of that feature.
-> > Imagine this sequence (which hit me on suspend/resume on i.MX after
-> > shutting down all secondary CPUs)
-> >
-> >   printk("A");
-> >   (do some stuff)
-> >   printk("B");
-> >   read from peripheral --> system got stuck here since peripheral
-> > was not clocked or powered or both any more.
-> >
-> > The delay (and later on a ugly patch to make printk() synchrounous)
-> > helped to locate where the failed access happend. JTAG did not help,
-> > since the CPU got stuck --> no JTAG communication to that CPU.
-> 
-> I understand the use-case, you sprinkle printk's so you can find the
-> point where a read to a register causes the CPU to stop. This requires
-> that the printk happens before the read, and the output from the
-> printk is printed before the read.
-Enabling existing debug features in the kernel was a good start.
+This series fixes those paths and adds a tracepoint for diagnosis. It is
+a rework of the RFC [1] per review feedback, mainly from Vlastimil.
 
-> > With your purposed change you *may* see "A", but never "B".
-> > Quite challenging... 
-> At present you may see 'A' and you may see 'B'.
-That's correct. 
+RFC --> v2:
+1. On top of the isolate-path filtering, also filter by VM_LOCKED
+   during the migration unmap step.
 
-> Prior to the changes in this patchset, and assuming an nbcon console
-iMX swtched over to nbcon, so your assumption is correct.
+2. Make mlock/mlockall wait for in-flight migration entries, ensuring
+   the folio is on the unevictable LRU before mlock[all] returns.
 
-> (which may not be your usecase, but is perhaps representative of
-> future use-cases), then the printk delay will always happen within the
-> call to printk (and always before emitting).
-Which is quite good, but can be better. (See the missing sync feature
-mentioned in Johns reply)
+3. Dropped letting CMA migration take unevictable folios; instead
+   migrate CMA folios out during mlock[all], avoiding migration at
+   cma_alloc time.
 
-> However, depending on the context, that printk call may return (and
-> proceed to your CPU halting register read), before the message is
-> actually emitted to the console. I.e. it's a race.
-I am aware of that.
+4. Moved the tracepoint to the migration unmap path.
 
-> This series moves the delay to the emit side, as well as moving the
-> delay after the emit. Thus the calling code may make progress more
-> quickly, but depending on the context, it may also flush/emit before
-> returning from printk.
-Unfortunately it makes things worse.
+[1] https://lore.kernel.org/lkml/20260604023812.3700316-1-chenwandun1@gmail.com/
 
-> In my view, with or without this series, there are no guarantees that
-> you will see 'A' and 'B'. And in any case, achieving the functionality
-> for debugging required you to modify the printk anyway.
-The "sync" feature is on the TODO list as John mentioned. 
+Wandun Chen (4):
+  mm/migrate: do not migrate folios mapped into VM_LOCKED VMAs under
+    compaction
+  mm/mlock: wait for migration to finish when mlocking a folio
+  mm/migrate: add tracepoint for folios unmapped during migration
+  mm/mlock: migrate folios out of CMA when mlocking a range
 
-> > So please leave the delay on the calling side - it is helpfull
-> > there.
-> 
-> If you want to ensure printk is synchronous, perhaps you could call
-> nbcon_cpu_emergency_enter() prior to your printk, or perhaps there are
-> already printk wrappers that do somthing similar whilst debugging?
-As said I did an ugly hack and forced printk() to be synchronous.
+ include/linux/compaction.h     |   6 ++
+ include/linux/rmap.h           |   3 +
+ include/trace/events/migrate.h |  29 +++++++
+ mm/compaction.c                |   8 +-
+ mm/migrate.c                   |  23 +++++-
+ mm/mlock.c                     | 142 ++++++++++++++++++++++++++++++++-
+ mm/rmap.c                      |  16 +++-
+ 7 files changed, 216 insertions(+), 11 deletions(-)
 
-> Would that provide a more reliable way to guarantee output?
-It does.
+-- 
+2.43.0
 
-Regards
-    Benedikt Spranger
