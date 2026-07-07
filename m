@@ -1,119 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759894252AD;
-	Tue,  7 Jul 2026 07:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5B03B995B
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 07:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783409641; cv=none; b=hMMun8DoWvu+HdjTrc7dGCMONaJ7T6NOdjghs9YUaUEm145jcImDZi2jr5S367bKuW2nBTCiubmt0f0gIQ8gm5j9LFt4d3AAtjTCQa9HyCmHs0vWhjyk3sp6jbxrfF4CIFCgmYNZ7gfQ2cBY7h83Ibnlfp4e9iPk7uTCwgpSrkE=
+	t=1783409687; cv=none; b=Z4k3Ewp7cfEq2bFkuadubsCfoz5Qu4oM3ug8La4BeW+o55PcQGa/NbKCmq8idHMyk7/FCLNJQs9Lmk6SADvj2vT8A9Wh83iQX+j+NLaNo5OdTdF5XxA0Z7OLBBKyd6DRHG/xOQl/i0K34AKMpcApqSuxMxbmn9hWv54G3WdQV4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783409641; c=relaxed/simple;
-	bh=axvmtYacZzdXzwTvhYsv7217M4rSRezdK8GDLe6wL1o=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=rwh7NQbX8PXP0mlM4OeJlUEw8e1zy3NKoiC6pbFrTEVSa6dAqEjW9UaoPzCZ1YML6lM2WaXKwrn6UG0Lige+WWKanaStVR4AEaltpVafB7E+Szh6R+I9/AsKypqXZdA07fCELG9XjO/Kq9b+rdtblrsKd6xDBPF1KQMVXpL07no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l9AlrQ6U; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783409687; c=relaxed/simple;
+	bh=eVBUvk2HeOdPMHJi8L6s75rK4fBnEyioWJyfx3jmr2c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KIqqnngBgCsdcV7KO+HMl6ymaa5qtcN+cizs96i0y9MySBowQl+7I/Cuo04MC1fTNdAZxKMOm0f7RuJqBrnKZqqaf0F9MP03zJn6VSrOD2NoE1dxQB9UVfSK/QYcJsjajFbhjPZhh0mbYGhdvu7YuSNXlzXTE7sXnpGD/KMfM3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=U9cHDJFc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Jfyuvjvx; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l9AlrQ6U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 626DE1F00A3D;
-	Tue,  7 Jul 2026 07:33:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783409640;
-	bh=WSjju01qITlRREihj9UnmYy2mNsYb5lkSCXyhbNH/mc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=l9AlrQ6U6JSdJormMeIj/QOX5AfTtFDxiGZqyZBzQSJcBpPCxWLMqOgpwh9jcx/WC
-	 LJBDJs2cX3Nw3P3CfK0Z9Gjmt/4AF+hBlf1PCJ526lNdTF0LH8Rt9bF9/K2KAXSw7I
-	 89Z0M65XLSTCJb7Yo/SAQvSspTjH5nfgRQ54ASWg/ZAMC1yItPGwVi/RszI7z2OIQi
-	 rQ5b7L+4+xaEmdwqPdWEoo8hvCx/EVsgBnXIjFnC2jZfJxf/fHPcp6tq4YUeh7K850
-	 IkDuQ2vXTuzm9+8nV03PxQgCb2ojVTIoPNhgd6VgeUvpJhVgADatsz99nphJq6beWW
-	 LbpEsMuSPErVw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v19 40/40] dept: implement a basic unit test for dept
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Byungchul Park" <byungchul@sk.com>
-Cc: cassel@kernel.org, dri-devel@lists.freedesktop.org, "Jeff Layton" <jlayton@kernel.org>, dlemoal@kernel.org, tytso@mit.edu, ojeda@kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, "Anna
- Schumaker" <anna@kernel.org>, linux-ide@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260706061928.66713-41-byungchul@sk.com>
-References: <20260706061928.66713-1-byungchul@sk.com>
- <20260706061928.66713-41-byungchul@sk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Jul 2026 07:33:58 +0000
-Message-Id: <20260707073359.626DE1F00A3D@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="U9cHDJFc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Jfyuvjvx"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783409683;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eVBUvk2HeOdPMHJi8L6s75rK4fBnEyioWJyfx3jmr2c=;
+	b=U9cHDJFcF1QpvYrDFUD6MqCUvemr+Vje2i+DqqGv8xd1Ki00vd+KACHvdJonZln3Y49Pz3
+	N7hRQaLAhFMw7x1Kn7M1bn/dtJg0ZqWS69im5CzdzGj2ZbbVul1g/nYdsHxNH37+WYYyX/
+	X+XPudfWgBgb50E5wXdHcDJa4sCxj2WDUMozF95EjzdniSlxWJuELbZIKdD0lNoCNMa8hS
+	I5u0jVESiyqMdSVp0f1Qi9Q3PyJ5ahWkyEWUCUCwMI4ATJXKLPXTuF+YqGGLc4AnQP0jI9
+	sdRpMRRXiIYWJTAALV9I1srv6/Rof1vkytGh8cQPpcSAI07EPis7hEEEiMW5rw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783409683;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eVBUvk2HeOdPMHJi8L6s75rK4fBnEyioWJyfx3jmr2c=;
+	b=JfyuvjvxrT3XGYd9kFjwL0uQCJrx4fD2DoLY893ymiqgCImR5kcUVOWwHct8QND/ZJ697g
+	bHGL2lka2Vdmb2Dg==
+To: Andrew Murray <amurray@thegoodpenguin.co.uk>, Benedikt Spranger
+ <b.spranger@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Linus
+ Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+In-Reply-To: <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260703165654.71be8707@mitra>
+ <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+Date: Tue, 07 Jul 2026 09:40:42 +0206
+Message-ID: <87v7aruub1.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] Data race on lockless global `dept_ut_results` test counters.
---
+On 2026-07-06, Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+> If you want to ensure printk is synchronous, perhaps you could call
+> nbcon_cpu_emergency_enter() prior to your printk, or perhaps there are
+> already printk wrappers that do somthing similar whilst debugging?
+> Would that provide a more reliable way to guarantee output?
 
-commit ed16879949bb8cfa840ac89b2502567868a42cfe
-Author: Byungchul Park <byungchul@sk.com>
+Note that it is planned (at least on my TODO list) to introduce a "sync"
+option for consoles for exactly this purpose. I talked about it here
+[0].
 
-dept: implement a basic unit test for dept
+John
 
-This commit introduces CONFIG_DEPT_UNIT_TEST and a corresponding kernel
-module that runs basic unit tests for the Dependency Tracker (DEPT).
-
-> diff --git a/include/linux/dept_unit_test.h b/include/linux/dept_unit_tes=
-t.h
-> new file mode 100644
-> index 0000000000000..753ac9ac727c6
-> --- /dev/null
-> +++ b/include/linux/dept_unit_test.h
-[ ... ]
-> +static inline void dept_ut_ecxt_stack_account(bool valid)
-> +{
-> +	dept_ut_results.ecxt_stack_total_cnt++;
-
-[Severity: Medium]
-Since this global counter is incremented non-atomically, can it race with
-concurrent DEPT evaluations (e.g., from print_dep()) on other CPUs? A stand=
-ard
-data race here might lead to corrupted test counters or trigger KCSAN warni=
-ngs.
-
-[ ... ]
-> diff --git a/kernel/dependency/dept_unit_test.c b/kernel/dependency/dept_=
-unit_test.c
-> new file mode 100644
-> index 0000000000000..e8dada2e3dfba
-> --- /dev/null
-> +++ b/kernel/dependency/dept_unit_test.c
-[ ... ]
-> +static DEFINE_SPINLOCK(s1);
-> +static DEFINE_SPINLOCK(s2);
-> +static bool test_spin_lock_deadlock(void)
-> +{
-> +	dept_ut_results.circle_detected =3D false;
-
-[Severity: Medium]
-Is it safe to reset this flag without protection? If a genuine dependency
-issue triggers DEPT on another CPU and calls print_circle() concurrently,
-could it set circle_detected to true and interfere with this test's result?
-
-[ ... ]
-> +static int __init dept_ut_init(void)
-> +{
-> +	int i;
-> +
-> +	lockdep_off();
-> +
-> +	dept_ut_results.ecxt_stack_valid_cnt =3D 0;
-> +	dept_ut_results.ecxt_stack_total_cnt =3D 0;
-> +	dept_ut_results.wait_stack_valid_cnt =3D 0;
-> +	dept_ut_results.wait_stack_total_cnt =3D 0;
-> +	dept_ut_results.evnt_stack_valid_cnt =3D 0;
-> +	dept_ut_results.evnt_stack_total_cnt =3D 0;
-
-[Severity: Medium]
-Could resetting these global counters locklessly and without accessors like
-WRITE_ONCE cause issues? It appears this setup could race with concurrent
-DEPT reports modifying them simultaneously in print_dep().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260706061928.6671=
-3-1-byungchul@sk.com?part=3D40
+[0] https://lore.kernel.org/lkml/87a6wez9s4.fsf@jogness.linutronix.de
