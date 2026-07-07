@@ -1,124 +1,74 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020110.outbound.protection.outlook.com [52.101.196.110])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011023.outbound.protection.outlook.com [52.101.70.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08554383310
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 14:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC13B2D0D
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 14:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783433918; cv=fail; b=cwpmEuZ4Lk3JcBVk1V0pd+XCZCWr9r3ubESFJog7ZL3XpzwuoFiz0mlwhGdOIe6GS496Q6+vRQ9h0kFiLmjuQBzWn8Lofd4B3erKut0FZY+ecL3DeEdwR+nEScTzrEcho9WyH7Hfe3pe5wpW7S6TS5Bi3p+6JW4tqqFdEZI4bic=
+	t=1783434554; cv=fail; b=pnuT9pK8gbOMnqgo1sAwzy+gFR8eEzAWOUMNV3/NX18PNy0iSqf1cCB9SYKi6tsi+dDnEZ7IK/tNcBmPr5+6IUiFv43UTDSxNIU2lN81m5BRebHtwVR9+4tQwwH1E/rfJGQqyFDcmWsEodIB7Ak11p5F7vBT29UdY0qF8mERE+0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783433918; c=relaxed/simple;
-	bh=nGQqlNp3YeJ7+ZZbboYIlsBOlPsUNfXO942fidU2Xa0=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=C+1Xc0HKqutU5aFqxtK4SzwYlfoh3k5FCvJg15QsEcjm5sm8TrYqXgFThCV2q+d6mr15Q0YeKbqUQM6vqH3QE4QCRotKK2ddpkJcKnZUT8qiOW9MgxzDYcSzVBnd5sCbyS5RXXMwkEW2KfL7XehjrggVt7Yz7WASsMRH3Jc6xVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=NWZ/YLks; arc=fail smtp.client-ip=52.101.196.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1783434554; c=relaxed/simple;
+	bh=e722Hx1/U35kXCRm8E/dFFpi1+b3we0hCI2OrXkuA+w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KZLuMEcUO4v13Xo1pqrnxBvtpzF2FqRgINtIdtKpC/BVCYx0IGaPmG+dW+S9+nPN2NiubdXgs8a6p4ylKvva1pjMNOXBWRfWrjc8oIIcM1i4GQNZW2kbtPzikMm8lkbtGV05Mg9H3BJeCZ0UOns1E+nkMMNWFWXMLKrZMSpeTzs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidmueller.com; spf=pass smtp.mailfrom=weidmueller.com; dkim=pass (2048-bit key) header.d=weidmueller.com header.i=@weidmueller.com header.b=fKDfIgQ3; arc=fail smtp.client-ip=52.101.70.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidmueller.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidmueller.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="NWZ/YLks"
+	dkim=pass (2048-bit key) header.d=weidmueller.com header.i=@weidmueller.com header.b="fKDfIgQ3"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BKDQeu9IlFAlo0LXNhMGclBfY4Jpvky/RMgKFotFK9FWyqhodXPxug+Lm3rfT3W0SMMd3aDPVS24CduSUWQJLe9joS3NBq7SpZAVpUL7Yt1o6aNJ4YAgfHwH+tA+22sdb79yVj4v2rwQhZk2hVXjARS53+3dNmj4J9+ftztrbAdSfSUnyV8HgKd8SMIOI/B5HmYfHczGnnhvW3FICNosje0licJeGpa9i3UhkVIwfUDE8JAZ+IiK4du7xtLi4Sjcez4DT6VLJvjh98gMR/yYupOyWC/0yCZRwVyj/x0StZmEFvVPtxVZ0a+mW3GJ1LTErJFIrHxI6s6RRpBlXXP4yA==
+ b=NXfzviyTn1iIvCfr+hoAM5nf8uhjTYczgS5InG3fVhGcejo5Fx2wT7WiHtQ4QS5QwiBVXsBVm6XpxzLAWD8pInWBd5l4vXRQEvrXJcQ95yFv57idaw1ohZpbCZGDNthBwBygaGPJpIMjqvdpLBJ5AsKCs3OI/M+G5S0Tmcu8qr69eBWk/7RltZH4DRmKLD7NbnQshFtEasa6FW/Qdar5vUlf8nyJ/K4FHfwuRzpMhxWv8+sGo2J4bs8o1ya7KDmh/vMJopbxYg9IXs17AChzGi4UorS4xrHVgHS2jKa3Ef5BlHk120K3Yy4piE47mmTexznKz08zmIihCo/m1WqExQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V2495W9AUH/xDqzTFv2+wN86aHY/fhXZuyw1/6uJ7Ic=;
- b=rSjXGPPqYqet8CJZlHufoQxZ4HOh0Li/ZHUA3VIvrkmB1vxWjiQjhuNExtIInqz3nPiuXtWyu/hsa2sY1+J6wuk6aImgQl0UUFKlwuFUUejZPBrG9iwbey8a2vBc19b7b0O3Jaf8PsJ+ZDoGPPCLfEQdXPTMUUswQMrb0WrZup70/VOargLrgqutep1o//pRwDIcZFoxloo4S3s9Vdt18PxfONuNL1eWmRlnRc/i4IZC8RJYyk1uIfk4FTXPh6iuRhWxEWd4Rkq32t9v9C1X2ubqqYEgeBapzqLzJ7jC3EXlp2R4S8MY8461xWa37L4ZYOnRuw7OOWUh6NATUmIMpg==
+ bh=tCKG552j8rdy9jQL22SdONcp6J1z8Ihe68Q/A5NtI9c=;
+ b=lUw8QU1PqdeNPZbhYG6FtaXZcheiJ3jmbd+cYwUe2ygWgoaHr1XknQpQAdL0wzMb7/aY3YbvPZ9aZXfYQPBV7BjSAAMaCTMO1JMg5sFIRHOLiRfLGyBY/9yhCGhijDakw/I6nxqO3nbheiyJI3+7POwaXe5NS9zrKSSf8DXBtYz9GTb1BeYCvccYo/uE8Pu84JA7/EB2ZVjnEuQTmQ5t7JUyV8t2rVmrlvBJF9AWNo0crM8LFJljHa9O8ejUJfanPwkwNtXtfUZSgzDdvOVssKrstERDYTHL5KRmOH+IQRx2WfK2BV/B0GOkMSf0SnFLm4R/0At9RY1YYRz09Fx5og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V2495W9AUH/xDqzTFv2+wN86aHY/fhXZuyw1/6uJ7Ic=;
- b=NWZ/YLksCnZHeP+4M8JWrPRWGxuojC3aVv+ukQinFMEW90zPgQP1b6RQjPdgTjxi2CLpebSakZ5TQLIdjGo+XGX3o91Wc3HUxOCQPI0ltDLuaXu1R8VRdqzc5jPFUS1drx3aJ+Shs532vWYVwlvZu5ex58RZ94ymreFyrh0psc0=
+ bh=tCKG552j8rdy9jQL22SdONcp6J1z8Ihe68Q/A5NtI9c=;
+ b=fKDfIgQ3SuItqXCUjZIdfT6DUhkKK6xur1F7Waam4dxZEeuSSdgyf7WCGAzp+Z8XNOHU2uAa0+QaajNmfwCB/OJr5HKUD6CbqwN6OXs+hLtM289oBoebnT5W58zOYH98eQQ7LSOGMo94YfNV3jX7G4RVOcjMfFsc00cHrO0AieXIv4Z5v0f29ZDQgKH1Lnl7Z0zT2PfbFKzT0m78FneeqOjzMvnpf33TFZZ8Q6R3hUc91+euAp8G00wt9UenmjJp/P5MaQiUFwHjWtc9Kub/eQjm79FNbR/gqEBxIRKvVpHNkXK4HZxIUAtyYhOxHBbi3dAt1dSRXIIiPPy+QDWB1Q==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LOBP265MB8415.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:46d::7) with
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB9199.eurprd08.prod.outlook.com (2603:10a6:20b:578::22)
+ by GVXPR08MB10786.eurprd08.prod.outlook.com (2603:10a6:150:158::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
- 2026 14:18:31 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Tue, 7 Jul 2026
- 14:18:31 +0000
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Tue, 7 Jul
+ 2026 14:29:01 +0000
+Received: from AS2PR08MB9199.eurprd08.prod.outlook.com
+ ([fe80::5022:16e9:45e4:f778]) by AS2PR08MB9199.eurprd08.prod.outlook.com
+ ([fe80::5022:16e9:45e4:f778%2]) with mapi id 15.21.0181.010; Tue, 7 Jul 2026
+ 14:29:01 +0000
+Message-ID: <8d53c3d9-7918-456c-8c27-e9d73c896452@weidmueller.com>
+Date: Tue, 7 Jul 2026 16:29:00 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net 1/2] net: macb: reprogram TBQP after shuffling the TX
+ ring on link-up
+To: Kevin Hao <haokexin@gmail.com>, christian.taedcke@weidmueller.com
+Cc: =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Robert Hancock <robert.hancock@calian.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ stable@vger.kernel.org
+References: <20260706-upstreaming-macb-irq-storm-v1-0-ab3115b5a13a@weidmueller.com>
+ <20260706-upstreaming-macb-irq-storm-v1-1-ab3115b5a13a@weidmueller.com>
+ <akzDQrmdYwHAMMmw@xiaowei>
+From: "Taedcke, Christian" <christian.taedcke-oss@weidmueller.com>
+In-Reply-To: <akzDQrmdYwHAMMmw@xiaowei>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 15:18:29 +0100
-Message-Id: <DJSEK3KA2ECQ.1512A4KGOBSCV@garyguo.net>
-Subject: Re: [PATCH v19 31/40] dept: assign unique dept_key to each distinct
- wait_for_completion() caller
-From: "Gary Guo" <gary@garyguo.net>
-To: "Byungchul Park" <byungchul@sk.com>, <linux-kernel@vger.kernel.org>
-Cc: <max.byungchul.park@gmail.com>, <kernel_team@skhynix.com>,
- <torvalds@linux-foundation.org>, <damien.lemoal@opensource.wdc.com>,
- <linux-ide@vger.kernel.org>, <adilger.kernel@dilger.ca>,
- <linux-ext4@vger.kernel.org>, <mingo@redhat.com>, <peterz@infradead.org>,
- <will@kernel.org>, <tglx@linutronix.de>, <rostedt@goodmis.org>,
- <joel@joelfernandes.org>, <sashal@kernel.org>, <daniel.vetter@ffwll.ch>,
- <duyuyang@gmail.com>, <johannes.berg@intel.com>, <tj@kernel.org>,
- <tytso@mit.edu>, <willy@infradead.org>, <david@fromorbit.com>,
- <amir73il@gmail.com>, <gregkh@linuxfoundation.org>, <kernel-team@lge.com>,
- <linux-mm@kvack.org>, <akpm@linux-foundation.org>, <mhocko@kernel.org>,
- <minchan@kernel.org>, <hannes@cmpxchg.org>, <vdavydov.dev@gmail.com>,
- <sj@kernel.org>, <jglisse@redhat.com>, <dennis@kernel.org>, <cl@linux.com>,
- <penberg@kernel.org>, <rientjes@google.com>, <vbabka@suse.cz>,
- <ngupta@vflare.org>, <linux-block@vger.kernel.org>, <josef@toxicpanda.com>,
- <linux-fsdevel@vger.kernel.org>, <jack@suse.cz>, <jlayton@kernel.org>,
- <dan.j.williams@intel.com>, <hch@infradead.org>, <djwong@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <rodrigosiqueiramelo@gmail.com>,
- <melissa.srw@gmail.com>, <hamohammed.sa@gmail.com>, <harry.yoo@oracle.com>,
- <chris.p.wilson@intel.com>, <gwan-gyeong.mun@intel.com>,
- <boqun.feng@gmail.com>, <longman@redhat.com>, <yunseong.kim@ericsson.com>,
- <ysk@kzalloc.com>, <yeoreum.yun@arm.com>, <netdev@vger.kernel.org>,
- <matthew.brost@intel.com>, <her0gyugyu@gmail.com>, <corbet@lwn.net>,
- <catalin.marinas@arm.com>, <bp@alien8.de>, <x86@kernel.org>,
- <hpa@zytor.com>, <luto@kernel.org>, <sumit.semwal@linaro.org>,
- <gustavo@padovan.org>, <christian.koenig@amd.com>, <andi.shyti@kernel.org>,
- <arnd@arndb.de>, <lorenzo.stoakes@oracle.com>, <Liam.Howlett@oracle.com>,
- <rppt@kernel.org>, <surenb@google.com>, <mcgrof@kernel.org>,
- <petr.pavlu@suse.com>, <da.gomez@kernel.org>, <samitolvanen@google.com>,
- <paulmck@kernel.org>, <frederic@kernel.org>, <neeraj.upadhyay@kernel.org>,
- <joelagnelf@nvidia.com>, <josh@joshtriplett.org>, <urezki@gmail.com>,
- <mathieu.desnoyers@efficios.com>, <jiangshanlai@gmail.com>,
- <qiang.zhang@linux.dev>, <juri.lelli@redhat.com>,
- <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
- <bsegall@google.com>, <mgorman@suse.de>, <vschneid@redhat.com>,
- <chuck.lever@oracle.com>, <neil@brown.name>, <okorniev@redhat.com>,
- <Dai.Ngo@oracle.com>, <tom@talpey.com>, <trondmy@kernel.org>,
- <anna@kernel.org>, <kees@kernel.org>, <bigeasy@linutronix.de>,
- <clrkwllms@kernel.org>, <mark.rutland@arm.com>, <ada.coupriediaz@arm.com>,
- <kristina.martsenko@arm.com>, <wangkefeng.wang@huawei.com>,
- <broonie@kernel.org>, <kevin.brodsky@arm.com>, <dwmw@amazon.co.uk>,
- <shakeel.butt@linux.dev>, <ast@kernel.org>, <ziy@nvidia.com>,
- <yuzhao@google.com>, <baolin.wang@linux.alibaba.com>,
- <usamaarif642@gmail.com>, <joel.granados@kernel.org>,
- <richard.weiyang@gmail.com>, <geert+renesas@glider.be>,
- <tim.c.chen@linux.intel.com>, <linux@treblig.org>,
- <alexander.shishkin@linux.intel.com>, <lillian@star-ark.net>,
- <chenhuacai@kernel.org>, <francesco@valla.it>,
- <guoweikang.kernel@gmail.com>, <link@vivo.com>, <jpoimboe@kernel.org>,
- <masahiroy@kernel.org>, <brauner@kernel.org>,
- <thomas.weissschuh@linutronix.de>, <oleg@redhat.com>, <mjguzik@gmail.com>,
- <andrii@kernel.org>, <wangfushuai@baidu.com>, <linux-doc@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-i2c@vger.kernel.org>,
- <linux-arch@vger.kernel.org>, <linux-modules@vger.kernel.org>,
- <rcu@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>, <2407018371@qq.com>, <dakr@kernel.org>,
- <miguel.ojeda.sandonis@gmail.com>, <neilb@ownmail.net>,
- <bagasdotme@gmail.com>, <wsa+renesas@sang-engineering.com>,
- <dave.hansen@intel.com>, <geert@linux-m68k.org>, <ojeda@kernel.org>,
- <alex.gaynor@gmail.com>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <a.hindborg@kernel.org>, <aliceryhl@google.com>,
- <tmgross@umich.edu>, <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260706061928.66713-1-byungchul@sk.com>
- <20260706061928.66713-32-byungchul@sk.com>
-In-Reply-To: <20260706061928.66713-32-byungchul@sk.com>
-X-ClientProxiedBy: LO4P265CA0242.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:350::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0102.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9c::16) To AS2PR08MB9199.eurprd08.prod.outlook.com
+ (2603:10a6:20b:578::22)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -126,107 +76,169 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOBP265MB8415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4652dfb6-009e-4dec-ee96-08dedc329f75
+X-MS-TrafficTypeDiagnostic: AS2PR08MB9199:EE_|GVXPR08MB10786:EE_
+X-MS-Office365-Filtering-Correlation-Id: b94a6a5a-7bb0-4d6a-164c-08dedc3416ed
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|376014|7416014|366016|23010399003|4143699003|22082099003|56012099006|18002099003|6133799003;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|18002099003|11063799006|4143699003|56012099006|6133799003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	sPJhIVLuBxSy/+rdGbdejuVaMB89bRlTOhB9Ef3MQU7+tAoU3bnI7OuRYkS/QSmvbHfc7P0Ecr5pOYnOKPTBV34f4r80yKnKQoQBHACXB+aFKmuBxFSE8lloULqi2xdsNIGbGW4EKsPN91y60dYur8yO2uDW7tk5tqyGOnSuGRxz/vVuT6jYwYhPk78FSep9jrc1SDcffhmblJ8gF+4a5Z0xh4dNhD4j4J2RRAjcLjO7FLEXJ+WW3ehuorvujUVpwsPNr8G1JTp+KzS3It34LY0R30Fa1zGQ8YKeyYIOMMBGNPsVgyQ1OsVYuRg8YAXs1BMynhzM/pyL43hK4ujNBMcEuCCk7m2Ljn8o5bnClRKZbybYqAlwTBgLq/hLOJVGd8dAR02lu6kwcxJgfO9R43cpplkLtI4Aaj6CuubKIXrqQ3fwYldO17lPBXGCxW2Xsz2h6GWlSEZL5930QoaY09jU5OIIEslYdDvDS5G5QrDE5zfWtRnW8Ltu82fM3SN5IznedGagFNkzOQn5bIWhUaBsfDmialvKwVyAIiW/Z+hdYIYIz/S4AcG4MBKcKq9Kx5C2u+NqUwrtw70dXeY72h/yPPgAXvww0ArBRT9BprSuRXlhG+E4iVORCTnjJfNhQ+4W0FBgKphAwviCsxb+NZAZDaFwu+dWcu/+59fX1w8=
+	zzdOxSh1WvHQ2P8CIfeAApP6aIVYfjg6PwW5COeAxUaq4rJ4nGYwMhaPXRuQuc7f1o0qv8LwByZSU6HXrUHHuf7oGUrZ/S2YoU0KP4A89AhS0bwe3xwwGqBKWYeJXNgj+HFDzGz75jnh6HYkQCUDN2DFaEcl2DTldwv5bpI4UtjLCwpwoH9o3dc7J77stCNopOi5CR5dyEV6qz8fPtNTWO9eod43VfeSt6gcdQ+v8GG/9AmjO7U25OnwztSuhhV6Y1MkjGRcW74mQfC38bwhbUh+fI9iREUmgPtdxTkWhyJIbJ0MEfkxn7FeZRm3ioDwRMbTPr3wkANq9OcK/9Y90QTnqyDE5NVwbwVTldF4iVDORL9r6+Up98Xyxx2KMgYjUgmjxTYyOX7Nd0abKx3h7FEh5UG/BwY+I+xEQlYUjXFUhLVdpgU+ouaW/SA15p4FqRYa1mTROkLdFTp+R8pz68PKSdZ8O+dq4KX5gWvRCv9+1RlKAi15iAqDseBnG4ZjICY3kWYxhXlmjyvw73P2Mv/k8kz5Zgw+DZzqkrgFEn6axBdvJCB18KS9ufH2J9M6vRlbgGqAkUzltrdEUI9Y7pJLalnxW6Ao+ad1YUp6+yPsZz53afkCwHBtXCwuyZBanPIQPXqD4PlLFTCI3yVIDftsLCuF8VP0pOzjIV9KySI=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(7416014)(366016)(23010399003)(4143699003)(22082099003)(56012099006)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB9199.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(18002099003)(11063799006)(4143699003)(56012099006)(6133799003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bzVwaUtjNmxkZTZtVTBwS3hCSndRdW5abDd3RHUrbnVRNVIzMmUzVU0yOVhO?=
- =?utf-8?B?V2lSODVGbkVEcmsrK3VYd08xZzg0WTh1djE3VnBFbUZ3RkpXVENZQXJzUWlO?=
- =?utf-8?B?U3hGb0ptYUdxYjFNZ3AvaXdmZU5VZU1TR3Z2MGZHQ1ZBeEdzSkdwSENlVGxH?=
- =?utf-8?B?RmV4T2x3VlQxY1RUMEs1dkNidXNybTlPVVlVenl0M0lLVEtKZklSZ0FQZGxD?=
- =?utf-8?B?d3dnRmVYN1d6bXlsUGpyQ0gxUThuUjlsZVA5VEt4aThXWXYwUW5vOUNhNE5I?=
- =?utf-8?B?a204L0l2citOSnJUNzBrY2xhbVF4VFhjWlYyZWJDVkZPT0pOeW9WRjI3dC9t?=
- =?utf-8?B?ZW9IelZEUmtXblVYdmM3SXRjZmV2eXdtRkZaa2czRndGVkVlUU9IWmwzckFC?=
- =?utf-8?B?S1MrM1RaV1VEc1IrRjBzeVdiM2VnaHRPN2ExZlNIKzBKTDVaallQVlRUK3p6?=
- =?utf-8?B?NkRpdm5xYU1YTmwxRkZIejduaU1SV1VlMUQ4UzJMSll4Z0Y0NW1XWHZtYTdm?=
- =?utf-8?B?dTRGQnp4dXU3emI0dDVlc2dNc1lnOXh5dHZQMnJUQUxhT1VPeEIvaVBFV1U3?=
- =?utf-8?B?VzRXRWlyYUlTUGVxRWNwcXY2aitoRlY5blI0SUgvbHNuVCtJMU9uWGIxQUxE?=
- =?utf-8?B?OUk1cWRtTUUzQlBFMnBKQzEyeFdCN1EzejJKREdRMjNrVXdGaDBKazdBUHpy?=
- =?utf-8?B?ZGFpQWRvSk80ZTF0RFRwZFlVd3RoczlQWjg5R2d4RXg0L0s0eXBuaVBxK3dN?=
- =?utf-8?B?NWZLV2RURUFmZVN0UldCUm52NmQwT0hTRUNrK0sreDNCZ0pORnArTk9BdnRR?=
- =?utf-8?B?cUp6bE9NRVdib2x3Z2JOem12OHVZelhLK2lJYy9NdHZMcFFaT21USkFTQjhC?=
- =?utf-8?B?L1FuemloSlkrM3pVY3NwMVkwbmxLVFh1RDdFbmEvd0JQUlVmeEdTSGdTWFhM?=
- =?utf-8?B?RUFBelIyM1gyNEROaDBsRWk1dzFkNjJkd0V2bXQxRC9PeGpaeFJlc3FQbkJN?=
- =?utf-8?B?bVd3aVVOemYwRXZ2L21wckYvS3Ywelloa0s1N01wRlZzVHJMZGJVK0lxU1NO?=
- =?utf-8?B?eDRHRDJJcThFU3dlQy9GYWZ4akl3dmh2Q2gxbVJ0ZGZZSzBSdmhvck1takM2?=
- =?utf-8?B?dVVqK21LY2pHU2hjQUFuRFdxQ1Y1eERUQzRrb0R6WUM2bnZUMjRzV1dsVWp1?=
- =?utf-8?B?MXF1M1MrVU5oWTlZRkc3N0pBWWlrTWdlVGhJaFFsUm9ZNTRaOWlPQ1htUFpp?=
- =?utf-8?B?RlN1VnFuL3RWQ2Q2d1M0MStJTStTRDI5akJXcVhIbFVrYURaV2FJS0x4Vlg5?=
- =?utf-8?B?RWhRWW5JbGtibDhvQU1TbkRxSWltNklISXhZQzVoZ2kzTlFHK3FpdVQ3TWZQ?=
- =?utf-8?B?VThyZ2tHWmU3T05jM1F1Z25wNVJmN3JXZ0cxWXRoVUllN3hvMFo0QlhMUW9S?=
- =?utf-8?B?Mml4d3dKQU4rOXNGdXUzZ2c5NWVja2RlZ1dHUFVHY3JiSDV1U2xwMjcyZ2RK?=
- =?utf-8?B?bWRHT1lGdnJsbHdxeEFxaFlxZmJEZnkzdXBkdkd4TkFBa25nbTJ4QWpEbFhq?=
- =?utf-8?B?S3IyWkVGWHB2TWtyOENTK1UrdlExbnEyeWxlazVLNkFVWUFPejMrTTVZdXZp?=
- =?utf-8?B?Sk9abGRXVGV1S1V1R25WTmxZUzJzNGw4ODV0WFZ5cnBTSWFCTldLcm1HYkZU?=
- =?utf-8?B?TWsvNG9lTUZDUXM1QXFMdkVreS81ODhDRDNBYW5RbFVRcVpCK0ZQWk1LTzRy?=
- =?utf-8?B?Y0JPRHNzSWF5WEJiU01WOWFacFdqbFUzaldiQlhTYzVPTlVxZm9lUUF0L0V0?=
- =?utf-8?B?ZTQ1dmhyVFlLcDVWcUkwdnVyZnlFR2E0alB4c0dOYVZia2hnTmlPclQ4QmZv?=
- =?utf-8?B?dytZN045ZVJoMFczRDdNSGEyN0VrYjhaR2VZT0thdEtROTU1N2h5MTBnTVc1?=
- =?utf-8?B?b0ZYdFNET3U1cGRGdWpnbzdSQ3JTZ3hzZFpYdmoyZHZNR1FjM0pEUTN4NzZr?=
- =?utf-8?B?U2V4M1VIdjEwSXAzTEtOYXJFUHVTQkRCTTZCeStTYkdRQUlUMDVVekZhdXJj?=
- =?utf-8?B?Ry9kZFpXQzRtZkF0clplSXlNcnZDUFpGSTZ5bGF0YXozUm5mUW1KcHpRbmUv?=
- =?utf-8?B?K0lsWU1Id3pPM1o5S2xWUmcwMGU0b2VDcitZOUp2dUlaOXE3ZE4yK2pyR2o1?=
- =?utf-8?B?WVI3Wmg0TjhCZmJ3TW1Yc05WQ0dZRTdkTDFiQXV0UnNrL25DRXF2QTFsaFlX?=
- =?utf-8?B?L0hpUDAyMURTL0lWaWMxQjcxNnlwcjZoOTgyc0JMVnNxcU1uYi80V3I3Myta?=
- =?utf-8?B?Nm8rMUllZmprMmdsVEkzTUc4Wm84aXU2TC9RZDRSV2pUQXdOR3MyZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4652dfb6-009e-4dec-ee96-08dedc329f75
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+	=?utf-8?B?cEdhdFQ5cUZ4Vmswa2dhTzJIS1BFK0JrVnhrMjV6bmZqSHhqMTRjT1JxaWkw?=
+ =?utf-8?B?aGlSLzFkd0lvQXJwc3I4dWNtbjJ3MUR1QjArMEk3SFE0OHU2ZFhpOExpVVNZ?=
+ =?utf-8?B?ekwyUldwRHZjMTQ1dXlkdTNMdmVSMlVWM0lqejBGQjhTWTdnbkRwSzJGKzFZ?=
+ =?utf-8?B?OGlHNy9GUFF1dzhENUIwVnhjR2MrOC9taUExQmNReTI2MmdLc2lxS1Y3Mjhx?=
+ =?utf-8?B?VGYrOEsrMmk1MGpUL3oxd1NteFJvRm12RlhuNnQwTFpHcjZkZlAwWEhtcTJ6?=
+ =?utf-8?B?OTlFM05jWE5aNkJ4cVl6cktuVEZXclY1TXJTTWJ0S3g1ZXZkWTZHU1ZvVjh0?=
+ =?utf-8?B?bnJNaFdJV2dJU0JpcllIdzJSRytMSWw3RVNSZzNUd1BUNHI3dE1MdHAzWXVl?=
+ =?utf-8?B?cmVOWDl6TENDczJ2b1R4dGhBUlVBdVBNQ3pQTUVHTUJjR1QrL1pwMXFXSUV4?=
+ =?utf-8?B?b0tUVW5nWTRQQ1pCRUdScDRLcWZSbU1hVGdISGtuYzdtTnNTRStHK2UrWTdj?=
+ =?utf-8?B?MnJYWmNidm9LamI2V3lvZFdKVUpNbG1INkRDN0V3WTI4T3pPYTRLY0I0c3hx?=
+ =?utf-8?B?cFZUTGtTekhDNDNRci9IRVo4Z0R3amJyNjd1UzJqVEFZTnhzZ3VueEFTZ21Z?=
+ =?utf-8?B?V0ZIT2Q3a09jSVBpL3pEQ3ZqVm53dU9LRVR4MjJUNjdUNis1ZldOOWpubXRk?=
+ =?utf-8?B?aDB0VmJ5MGZ4MkFpaEJMVGhMY3dPNnBLYU15YnBiU3hYYnRrSWhNam1uM0pn?=
+ =?utf-8?B?Ym1NVE9QMEkxd1pqQkhIcWgyZXBXOXo2dUhOd29qdng1R0YzU0dNSURpbERE?=
+ =?utf-8?B?UmxpN1lsWUZXbGVqNWJTOHVQSmpSMkVvK3pUK2JCbldzSkVmaUlkRHd4Kzkx?=
+ =?utf-8?B?UGQyRTJ3TTBCTGdxbGNsRnpFVmg4aDE3RkxxZVhYSnNXMUhvY1cyV1JJTnZh?=
+ =?utf-8?B?RDhaNnN2aHFBcnpTcU9zc25JSHV1RWlVeGZDNm9ZemNGM0Y2Z0hZaTI2bHhM?=
+ =?utf-8?B?ZmZoTlJ0Z3BXWHJjL1NrOTRhTURsN0Nld055TFhHcW0xdk1tdmR5WmFuZmE1?=
+ =?utf-8?B?OE9ac2xUY0JrQnVtVEpOZjdtSFE3R2MvOHBWeXhtSStMemRlM1puTzZzMUhQ?=
+ =?utf-8?B?M0JSOE1CNjFPM09xYXlERVhFMXNIRlMzYTlnQ3hEcVJBWGhSSXYrYTVVMnZL?=
+ =?utf-8?B?UGQ5OUg1S1JEbjFKSDdMNW9KbUE4aDBudm8rYnlMalZmUXFZOXNnTHFzUWJP?=
+ =?utf-8?B?WGgwMXBmNWNDOW0vcXFqdTR5MkFtVnp4aUZab01DNDFEdEM5MU5DWDRjL3Nr?=
+ =?utf-8?B?NHM5OUZoeU9RaXZ0WEpDdDhDc1lmcWlEVDlRZEEyY2xaN0FFNjFWaE9xd0lY?=
+ =?utf-8?B?Z01IdnovZm5JWkQ4M1A2ektOUXp5Wnc5R3MyU0JEdW8rSyt1VlZEZjZRcFNN?=
+ =?utf-8?B?SStrbFo0K1lsb29ucTY0RmQrbUtJNkJOVTl4ZWpvWlJOSVZId2JwN3dxcCtj?=
+ =?utf-8?B?M29adnp2NFY4Z3R1WDJqamVWejhtUnl1bU80d2MrdlBSVDhQbUU4UjJCelo0?=
+ =?utf-8?B?TjlkL2REZUFzQWU4aUhuOEZiZmJxRFNwQXgweGpPOXorMVBiQkIyYmJsaHdu?=
+ =?utf-8?B?U0ZtTDJ6THR2dlZMMmhWcytDZ0tBOGZlRXBrUTRlZUwxbW1QQk5DZkt5eHUr?=
+ =?utf-8?B?RzBVRmIxRSsvcEtrWVNWc0lyOWlWV1ZsU2JpeU1RVHdBKy91MEMwbUloeUN1?=
+ =?utf-8?B?QnV0cDRaTWJkcVl5TmxIblZSL0RIdE14STJVckRRM20wMTFnM2RTSkxYaklm?=
+ =?utf-8?B?NDB2eHo4ckZNNjlOWTdBcTl5OTJxdy9RUk4vTU8xOThBQ1ZBZTd3OHBVb3Bv?=
+ =?utf-8?B?NmxydEl1dXd4SjJLQzVpeFM4bzdNalU2QWdLSWFDZDQ1UTZ4ZmxSZVoyYzhK?=
+ =?utf-8?B?VkJUWVpnMHc0Y082aXpSM2E3VEx5NEpqbnZkNUJkcUNYcTlnYzRKOVBHblQ3?=
+ =?utf-8?B?Z0diYjdxaHNxc2xrMm9HUFlLVWNwdWhJWWtKVXVjOWlPcjQyRHFPYmkveVRt?=
+ =?utf-8?B?aEFDOU5tNUZiMDNsdzVXZkxLQStGY3pseVFSR2xGLzFGYTZVa3FRb2VtdUp1?=
+ =?utf-8?B?UDdPTWlKM3RlWWVNQWVXSkpwNCtLUjl6RGs5QTBxeXIvbStoSElyNStsSXVt?=
+ =?utf-8?B?MHBWRzY5ZFRYYk5UQkRUMEpXSDBCUkdMaHQyNDNhb1pmMndXSFJqRTlWUThB?=
+ =?utf-8?B?Ym5jVU1tdFBubXNxZEZLUWk2SGVjVXlMWlloaktMRW11NVhYTDdFSmJCT2du?=
+ =?utf-8?B?bW1jcjlLT3VPTnhmZ3ZEcWNDMUtXWEhoOFdYaTNqZU84UWNaWkJpdzBPbEFM?=
+ =?utf-8?Q?BplsbV8KoNKNWKEmRMd13mqowpqzAR9muVI41?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b94a6a5a-7bb0-4d6a-164c-08dedc3416ed
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB9199.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 14:18:31.6428
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 14:29:01.5521
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yLW0jF1+QNZkZCfKBjmPqfGZ3gYXiwuG7Bva2L0FDgPAnCm3tZwSNsGceq1tyP4GEVmd0iYuw3AMhJhfXuj6wQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOBP265MB8415
+X-MS-Exchange-CrossTenant-UserPrincipalName: mAiMwY+TZOVEXEsZdqy0Kl8Iz7CSZJ/7OV5Ueb3/iZQskPLfdaj+V+SRv1AfzUnk7QwIFlniSmEu5eRvwajfFDEWDe0WJ6ce9yemyCpmv5No6P5ia3fX9kTBnsXwLZnW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10786
 
-On Mon Jul 6, 2026 at 7:19 AM BST, Byungchul Park wrote:
-> wait_for_completion() can be used at various points in the code and it's
-> very hard to distinguish wait_for_completion()s between different usages.
-> Using a single dept_key for all the wait_for_completion()s could trigger
-> false positive reports.
->
-> Assign unique dept_key to each distinct wait_for_completion() caller to
-> avoid false positive reports.
->
-> While at it, add a rust helper for wait_for_completion() to avoid build
-> errors.
 
-This will cause Rust code to share the same dept_key, so it will have all t=
-he
-false positives that the change is trying to avoid.
 
-In general it is easy to create Rust bindings for static inline C functions
-because it'll be just some computation, while creating bindings for C
-function-like macros that define additional statics can be challenging.
+On 7/7/2026 11:13 AM, Kevin Hao wrote:
+> On Mon, Jul 06, 2026 at 04:02:14PM +0200, Christian Taedcke via B4 Relay wrote:
+>> From: Christian Taedcke <christian.taedcke@weidmueller.com>
+>>
+>> gem_shuffle_tx_one_ring() rotates the software TX ring so that the
+>> tail sits at index 0 and resets queue->tx_tail to 0, but it never
+>> reprograms the hardware transmit buffer queue pointer (TBQP). Other
+>> paths that reset tx_tail to the ring base (macb_init_buffers() and
+>> macb_tx_error_task()) also reprogram TBQP to queue->tx_ring_dma; this
+>> path does not, leaving TBQP pointing at a stale descriptor.
+>>
+>> gem_shuffle_tx_rings() runs on every link-up from
+>> macb_mac_link_up(). After a few link up/down flaps that leave
+>> un-completed descriptors in the ring, the stale TBQP keeps pointing at
+>> a descriptor whose used bit is set. When TX is re-enabled on link-up,
+>> the GEM reads that used descriptor and raises TXUBR. macb_interrupt()
+>> schedules the TX NAPI, macb_tx_poll() makes no progress (work_done ==
+>> 0) and macb_tx_restart() re-issues TSTART, which makes the controller
+>> read the same used descriptor again and re-assert TXUBR. As the MAC
+>> interrupt is level-triggered, it never deasserts and one CPU is pegged
+>> at 100% in the threaded handler, eventually triggering "sched: RT
+>> throttling activated" and a dead network interface.
+>>
+>> Fix it by reprogramming TBQP to the ring base on every path of
+>> gem_shuffle_tx_one_ring() that resets tx_tail to 0, mirroring
+>> macb_tx_error_task(). The early return for an already-aligned tail is
+>> left untouched as TBQP is already consistent there. This is safe
+>> because the shuffle runs from macb_mac_link_up() while TE is still
+>> disabled, so the transmitter is halted.
+>>
+>> Fixes: 881a0263d502 ("net: macb: Shuffle the tx ring before enabling tx")
+>> Cc: stable@vger.kernel.org
+>> Assisted-by: Claude:claude-opus-4-8
+>> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+>> ---
+>>  drivers/net/ethernet/cadence/macb_main.c | 9 ++++++++-
+>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
+>> index fd282a1700fb..b11cb8f068b7 100644
+>> --- a/drivers/net/ethernet/cadence/macb_main.c
+>> +++ b/drivers/net/ethernet/cadence/macb_main.c
+>> @@ -820,7 +820,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue *queue)
+>>  	if (!count) {
+>>  		queue->tx_head = 0;
+>>  		queue->tx_tail = 0;
+>> -		goto unlock;
+>> +		goto reset_hw_ptr;
+>>  	}
+>>  
+>>  	shift = tail % ring_size;
+>> @@ -869,6 +869,13 @@ static void gem_shuffle_tx_one_ring(struct macb_queue *queue)
+>>  	/* Make descriptor updates visible to hardware */
+>>  	wmb();
+>>  
+>> +reset_hw_ptr:
+>> +	/* tx_tail was reset to the ring base, so TBQP must be reprogrammed
+>> +	 * to match; otherwise it keeps pointing at a stale descriptor. Safe
+>> +	 * to write directly here as TX is still disabled (called from
+>> +	 * macb_mac_link_up() before TE is set).
+>> +	 */
+> 
+> Could you elaborate on why we need to reprogram the TBQP here? Based on my
+> understanding, the transmit-buffer queue pointer automatically resets to the
+> value of TBQP when TX is disabled. The following is quoted from the Zynq
+> UltraScale TRM [1]:
+>   While transmit is disabled, bit [3] of the network control is
+>   set Low, the transmit-buffer queue pointer resets to point to the address indicated by the
+>   transmit-buffer queue base address register. Disabling receive does not have the same
+>   effect on the receive-buffer queue pointer.
+> 
+> [1] https://docs.amd.com/v/u/en-US/ug1085-zynq-ultrascale-trm
 
-Is dept_key similar to lock_class_key, where only the address matters? If s=
-o,
-the approach that I use in
-https://lore.kernel.org/rust-for-linux/DJP0CDOR98N5.29BK8PUFRWRUK@garyguo.n=
-et
-could be used for dept_key as well, then we can keep Rust `wait_for_complet=
-ion`
-still a function; otherwise we have to turn it into a macro too on the Rust=
- side
-to create such statics, which isn't ideal.
+Thanks for the review and the TRM pointer.
 
-Best,
-Gary
+I agree that the TRM says the transmit pointer is reset while TE is low. My
+question is whether this describes an internal pointer being reloaded from TBQP,
+or whether TBQP itself is restored to the original ring base.
 
->
-> Signed-off-by: Byungchul Park <byungchul@sk.com>
-> ---
->  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
->  kernel/sched/completion.c  |  60 +++++++++++-----------
->  rust/helpers/completion.c  |   5 ++
->  3 files changed, 120 insertions(+), 45 deletions(-)
+I will instrument this on my board and check how TBQP behaves across the link
+down/up path.
+
+> 
+> Thanks,
+> Kevin
+> 
+
+Christian
+
+>> +	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
+>>  unlock:
+>>  	spin_unlock_irqrestore(&queue->tx_ptr_lock, flags);
+>>  }
+>>
+>> -- 
+>> 2.54.0
+>>
+>>
+
+
