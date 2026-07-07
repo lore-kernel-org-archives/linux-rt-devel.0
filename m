@@ -1,111 +1,161 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47A74315F;
-	Tue,  7 Jul 2026 11:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C373ECBEB
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 12:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424551; cv=none; b=Yn3eCpc+rjSYku9BQphUyewLYHbQhvt/JHDOStA/5TF1i2VMb1kAN2pl5c9w9hh5tXTqe9f7QSq8r6Q89k7QzkB2X+N/UrfUyRokjOx5Xym0C7YeGhMPxAlXnbonmc4bqcu5JQLKHhfLE3FhfKXB2isp0y1Tc/qkizqh/0Mapk4=
+	t=1783428855; cv=none; b=e5qXco4KDEzvuS68A3WgG6GuNaFzuOZJOcPYh4OD9XMKhCL3DDkt6qvC1/f2UWcKp2+nR9LAhd/RhATuFvP985yvz6/vY0Xhw5k46aZ4Lk3PBAOiuckHGTVf9vt7Z+NzFHZqt0GqzqJsLS37hXYnnKd5jkvj7Ygav1ECG5HOJs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424551; c=relaxed/simple;
-	bh=4glglTyW3qyL7O1yhIb1nwsOJbb7BW/7rcrYVxnBEo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DU/Ui1k8JVAuk7omFlTueWw9CZvZF7A3nfL2Vb8kRWBza8lGAAufTiLS1Qbvw7WMoD79auZALNqY/HEIH7BTIWoIZrHywyIIsdUqNq4E/yV8H0SiT0d+T/oxPUrIVK3SnHXgeZlE5hto1d3/VRwpP/PNI5IfCo78DRU6ycXdLhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KfLafiFe; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fLyrryiW; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1783428855; c=relaxed/simple;
+	bh=coCOB5qqJ+X+DFURbG7Ogj2VXwfQ4/UW9Uydsi8FxI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tcz4n63Mwq33unpFVBmc4hllNoU8cvJUuBZcypS2CyF1mj59ZzFzXwnsbGFk6WKNqlYoB6rfYvKhR2sZvfiN4TnEw9i3MHu8FeVZSoXWhlK1Lbpm0yIQBLAEOGXfXwmVl3LhjdWRI6TrqvbvFQqKvmbp1vGQBqoRn7EYLn61Tb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Eu4Dk0v; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WJ1gCCbN; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KfLafiFe";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fLyrryiW"
-Date: Tue, 7 Jul 2026 13:42:25 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Eu4Dk0v";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WJ1gCCbN"
+Date: Tue, 7 Jul 2026 14:54:11 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783424547;
+	s=2020; t=1783428852;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4glglTyW3qyL7O1yhIb1nwsOJbb7BW/7rcrYVxnBEo4=;
-	b=KfLafiFeXkQkwS+mYl0a44pW9V/TYpLzuFZgHVdtCJK9wt2Fi1jv8K16Z5sYwlxjozEC9q
-	3ig9PuN8HExa4m34WHw/PVzD7Qsjl0ADVDW+pDC6Qw3DPFurO28lbcZyS5spm+VxL6eW5c
-	jAHE5kIxw0L7KghSsq+7rbHiYyUkyLuJ/tabwlTCer/ce2srRyu/ga1vqGh0+d/ZhzQRQw
-	44iuWgKOgYb6yOWpib63UAZlou9C7HcyBIX5I4cUnwMHJ1OPOH+47tZxE9Z2bwUj/SoOcK
-	+qbB2jHD9qnD9DF+0/RV+GfrKXIXyezWIa/W/3AT6Wxe02EYJkEjQpgNfXNaBg==
+	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
+	b=2Eu4Dk0v06ysm21QQr1mFBLNtn+bSKuW3OhImOytu9etUEFCC+cCkkaYxOXV39YPcf3o1t
+	Gx83fOV9JLHklzA3T3vX5Tzgqv6wI/f7kjK+NgPh2lzm2Xcv29gzFnB3OlfBmdIJGtB8od
+	DWxsVRx8gZbt5WCgqEfXzavgjgK+uqLLQ47Vhx63LmpTo5Zi6LxbJwtc1mh85+jo9yM3Zv
+	DjKWNn9OJf1y63RBb72Weuq2QGPIlTnQX9iiq6/NeTixmwvilbd1XrmcrQ2TYq2wLzX38J
+	LFJjbdtK0/h7qYyjmCbdlRdAI5ooVRt8bBs7XpzczHhrArizbVa5RG0cXrI1Sw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783424547;
+	s=2020e; t=1783428852;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4glglTyW3qyL7O1yhIb1nwsOJbb7BW/7rcrYVxnBEo4=;
-	b=fLyrryiWQsCyIVEl/rHvA7nvOrlW7+A2P2WVJzEwQdQkWX9O8VXdOIq8tpQDWkK/qNW2fZ
-	c0PTEMKeqKXELSBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, sashiko-reviews@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 1/2] af_unix: Do not wait for garbage collector in
- sendmsg()
-Message-ID: <20260707114225.4oj9SF_0@linutronix.de>
-References: <cover.1782922354.git.namcao@linutronix.de>
- <e663a83195f3d9f6d7ad4907c37ae3e45c151062.1782922354.git.namcao@linutronix.de>
- <20260702163608.0207A1F00A3A@smtp.kernel.org>
- <87mrw8sjo3.fsf@yellow.woof>
- <CAAVpQUB+LDxRrF66=NKwLAdLN8kt+Hssm_KBc2oc_q6FTJF0VA@mail.gmail.com>
- <87wlvbmgtv.fsf@yellow.woof>
+	bh=y/hv61aOydzHugwomfJNYebuZeFTkwhx/1G/+dLQAjA=;
+	b=WJ1gCCbNJ5O2SpMhyTBakk9vxkDQ3zD9r/Y9ROb779GAJXOW3JWWh29CrUsxt35SkmFFzU
+	AsI6rUH/kDVI7kAw==
+From: Benedikt Spranger <b.spranger@linutronix.de>
+To: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+Message-ID: <20260707145411.53a10893@mitra>
+In-Reply-To: <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+	<20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
+	<20260703165654.71be8707@mitra>
+	<CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
+Organization: Linutronix GmbH
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <87wlvbmgtv.fsf@yellow.woof>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2026-07-04 08:03:56 [+0200], Nam Cao wrote:
-> Kuniyuki Iwashima <kuniyu@google.com> writes:
-> > your patch makes it much easier to abuse.
-> > UNIX_INFLIGHT_SANE_USER is usually much smaller than
-> > RLIMIT_NOFILE.
+On Mon, 6 Jul 2026 18:05:06 +0100
+Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+
+Hi Andrew,
+
+> On Fri, 3 Jul 2026 at 15:56, Benedikt Spranger
+> <b.spranger@linutronix.de> wrote:
+> > On Tue, 30 Jun 2026 17:35:59 +0100
+> > Andrew Murray <amurray@thegoodpenguin.co.uk> wrote:
+> > > The printk_delay and boot_delay features are helpful for debugging
+> > > as kernel output can be slowed down during boot allowing messages
+> > > to be seen before scrolling off the screen, or to correlate timing
+> > > between some physical event and console output.
+> > By now, it slows down the boot process, which is the handy part of
+> > that feature.
 > >
-> > unix_schedule_gc() in sendmsg() is to self-regulate malicious users,
-> > otherwise GC relies on unrelated AF_UNIX socket's close() and could
-> > be triggered too late since GC is system-wide.
->=20
-> About the abuse, the scenario where inflight sockets bypass
-> UNIX_INFLIGHT_SANE_USER and delay GC until an unrelated AF_UNIX socket
-> closes actually exists today.
+> > > However, since the introduction of nbcon and the legacy printer
+> > > thread for PREEMPT_RT kernels, printk records are now emited to
+> > > the console asynchronously to the caller of printk. Thus, any
+> > > printk delay added by boot_delay/printk_delay continues to slow
+> > > down the calling process but may not have any impact to the rate
+> > > in which records are emited to the console.
+> > Using this feature to slow down the boot/suspend/resume process and
+> > implicit make printk() happen, is the usefull part of that feature.
+> > Imagine this sequence (which hit me on suspend/resume on i.MX after
+> > shutting down all secondary CPUs)
+> >
+> >   printk("A");
+> >   (do some stuff)
+> >   printk("B");
+> >   read from peripheral --> system got stuck here since peripheral
+> > was not clocked or powered or both any more.
+> >
+> > The delay (and later on a ugly patch to make printk() synchrounous)
+> > helped to locate where the failed access happend. JTAG did not help,
+> > since the CPU got stuck --> no JTAG communication to that CPU.
+> 
+> I understand the use-case, you sprinkle printk's so you can find the
+> point where a read to a register causes the CPU to stop. This requires
+> that the printk happens before the read, and the output from the
+> printk is printed before the read.
+Enabling existing debug features in the kernel was a good start.
 
-We don't bypass the limit for an ordinary user. That one gets blocked in
-too_many_unix_fds(). But for the CAP_SYS_RESOURCE + CAP_SYS_ADMIN it is
-a different story.
-In that case we cross the UNIX_INFLIGHT_SANE_USER and schedule the GC,
-it is not delayed. The worker is triggered regularity and the thread
-waits for its completion it is just the GC worker does not clean up
-anything so it continues to increase. The only thing that actually
-limits the sender is if it runs out of socket memory and needs to wait.
-So it kind of works for a single thread.
+> > With your purposed change you *may* see "A", but never "B".
+> > Quite challenging... 
+> At present you may see 'A' and you may see 'B'.
+That's correct. 
 
-=E2=80=A6
-> To address this properly, we can schedule the GC at task exit. I can
-> include that patch in my series, if that sounds good to you.
+> Prior to the changes in this patchset, and assuming an nbcon console
+iMX swtched over to nbcon, so your assumption is correct.
 
-task exit or closing the socket?
-Either way, in your PoC it hardly makes any sense to schedule the worker
-over and over and wait for it since it does not do anything. Sure it is
-the system as a whole so triggering might make sense but I'm not sure
-about waiting for its completion.
+> (which may not be your usecase, but is perhaps representative of
+> future use-cases), then the printk delay will always happen within the
+> call to printk (and always before emitting).
+Which is quite good, but can be better. (See the missing sync feature
+mentioned in Johns reply)
 
-Side note: gc_in_progress is redundant since you can't schedule a worker
-twice and work_pending(&unix_gc_work) would provide the same
-information. The only difference is that you avoid scheduling the worker
-while it is running but I don't think this is a problem.
+> However, depending on the context, that printk call may return (and
+> proceed to your CPU halting register read), before the message is
+> actually emitted to the console. I.e. it's a race.
+I am aware of that.
 
-> Nam
+> This series moves the delay to the emit side, as well as moving the
+> delay after the emit. Thus the calling code may make progress more
+> quickly, but depending on the context, it may also flush/emit before
+> returning from printk.
+Unfortunately it makes things worse.
 
-Sebastian
+> In my view, with or without this series, there are no guarantees that
+> you will see 'A' and 'B'. And in any case, achieving the functionality
+> for debugging required you to modify the printk anyway.
+The "sync" feature is on the TODO list as John mentioned. 
+
+> > So please leave the delay on the calling side - it is helpfull
+> > there.
+> 
+> If you want to ensure printk is synchronous, perhaps you could call
+> nbcon_cpu_emergency_enter() prior to your printk, or perhaps there are
+> already printk wrappers that do somthing similar whilst debugging?
+As said I did an ugly hack and forced printk() to be synchronous.
+
+> Would that provide a more reliable way to guarantee output?
+It does.
+
+Regards
+    Benedikt Spranger
