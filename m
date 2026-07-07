@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC67430CE0
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 18:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D20430CE0
+	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Jul 2026 18:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783448246; cv=fail; b=X7d5pfd/1G9XA9sE9Huj2Yn9tTKy7EMOGbFrrbG1puOW68oNy/Qqns0Gi/r2gWejyJP3QLudo70zV88KceIWjrJeElivgFFldIh5BWfPWYBs0iqGBMXv38LgwwEqJNVhGzTZ7+QAYNssvwOMQIjuayNMTceqbqv7pH5G/3scss4=
+	t=1783448292; cv=fail; b=MSCafjkekV25wob0H7VfC7vvqPA7s3mQ9arB+kDrdv4V+xfSnR7YaYGJTt46LaSYtSCAw6E49VVtKa9ddbAYtGlXEE6P0GM/pGNLEHkuUQ9ewuuVUBZPLp4/ytD6dvJkErB482I25/5WX0xlmjpOTJOFw3t1YXNE7AEH49zmqmI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783448246; c=relaxed/simple;
-	bh=3UbQD7Br6hx6IP8epzGjxknIv1LlkRJLgtZ0+ZXnTMQ=;
+	s=arc-20240116; t=1783448292; c=relaxed/simple;
+	bh=Qavs8GtxVTsZ0H+2ZU7A7KeCptULPTHHlPfr0GSyt74=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=grPWmHFbFB8P77CgqQMuctjgD4ReGHK8UfcCzLh+LmZRFqQXxgqL5JQF8dLzIedKMO9J+DkhDRqf9HOnj3jJ8Fkr2mSauXV4Bp4bZKrLBDi+pTDNNyuT76vr8TEeG32WJjOxI1Jnf7ktLCkge9UOiaCv1fNP75WodscTStyykFQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezM3bOjr; arc=fail smtp.client-ip=192.198.163.16
+	 Content-Type:MIME-Version; b=NURp8opferKwiVrHQ381Y6LEGe0nO8cMzTQ3StmdZUCSZ36KCaQ7Oi7tMkGw8ca6YYUYlrlBhuTtcF/3/DfllsL0BnB1cU5cXhRExl46yPG/fFWa7GrH5ybCFMyDHBtFwKVhBe/TRS3rKjhbhy9FS93X2K2cn4xNM1Xug4VnGPY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqCmhC2u; arc=fail smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezM3bOjr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqCmhC2u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783448245; x=1814984245;
+  t=1783448291; x=1814984291;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=3UbQD7Br6hx6IP8epzGjxknIv1LlkRJLgtZ0+ZXnTMQ=;
-  b=ezM3bOjrw6YQ+zXg19w2GvtyyWrw7ZaJKgLnm0chnUHPBZlQjQxEpe2F
-   jig2fUVyM8ucN6wTWaLLMIMg96chfQCVgww/LwSfd2qVTof0MqzhIOTRg
-   L2kqNFp8E1yqLSQfLpS8vUI1De743vGMnDW/VZQ2FmTsE6WEtC90C+au6
-   qAwciRDfw+5dv5ssnGEygLT7lZQcks9JkO3GdY/aN5KiRJx8j/LBmhQwv
-   T3pHoyFm9IPNSDRc5J7MiW17mZOIs6CEkJxLzOIUFZpntdjDJdTCd5RNL
-   npAzNWYWUfKaA5+SF09zEgK30DnagidCgoMJYG6SX+ZEY6SlRP5v0fOTY
-   w==;
-X-CSE-ConnectionGUID: JVJejt26SgG2yvvsxOQZJA==
-X-CSE-MsgGUID: r0smz7fqTsejWZ0Pu21Cqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="71625701"
+  bh=Qavs8GtxVTsZ0H+2ZU7A7KeCptULPTHHlPfr0GSyt74=;
+  b=WqCmhC2uHX4P2Xh4hclPJZMIDQLJW5Fs032iI5Rk23BXBZPq5O0r10cF
+   9KYzWHJTbydxfEfU32rkW8PKlZ7pFEShiHMHwmpnX0IfbsmC/iVA08DPJ
+   TOYFhtahbWmfoIfYXsnlVIIZOvit238Dy67U6WDrNwI508q+cGkYBCnWo
+   FmTVVD5zwze8Zs1TJnyE1Ucqu3DOJxNl8+lE0fzFjWRMzE2+6PgXlX0Ny
+   DiYWDpML6PdD/CrZMZT4U8oDyQEwqtcbOtkZdK5GcvszZKggwbbGIJgys
+   25DodmXqFa7mMlSK7IJlNM7CIIjjJpYyYY0a1lXuSt2AWyw9RrdoAXot/
+   A==;
+X-CSE-ConnectionGUID: erot3lIdTqyKqFNX9Jklvw==
+X-CSE-MsgGUID: VfWcPKuHRiids5y6GaKk4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="94458629"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="71625701"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:17:24 -0700
-X-CSE-ConnectionGUID: fr7r76jaSL6k8v7Un7qE9A==
-X-CSE-MsgGUID: m9ELBU1qSlmp529TPgBFuQ==
+   d="scan'208";a="94458629"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:18:10 -0700
+X-CSE-ConnectionGUID: mRl94Dr4TH6fIRT7SeDUpQ==
+X-CSE-MsgGUID: wQW8YBk+SfWs+KixI7kzHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="258369693"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:17:23 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+   d="scan'208";a="254712650"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:18:11 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 11:17:22 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.2.2562.43; Tue, 7 Jul 2026 11:18:10 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Tue, 7 Jul 2026 11:17:22 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.51) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ 15.2.2562.43 via Frontend Transport; Tue, 7 Jul 2026 11:18:10 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.67) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Tue, 7 Jul 2026 11:17:21 -0700
+ 15.2.2562.43; Tue, 7 Jul 2026 11:18:09 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sqNGy4L8dWUW4sF/2ILx7FrWo4geUGEoW2J4MLDzsjVywyZqVAwU6xdq6QBqHd1ajE9jgUVDUaJ9Os1385m2yzuF9RfyBmLe5BfI9gc3n5T9PeejXTlt9Cc/aLZk80zbXtLJUmqFjBRKGCU2YPgpGLRFkrWEQjGgBxj1hSKire6icRZCjl7q0hbHfFxOviVjoK1f3MNLY/Fz+mGAze9nJREEAfFJpjjzIegr8IFY+X3BqNqJRwB2mfyVFiFL5wWW66zrTGkOFwojBhyFNFRRorJ2H51WhPy5HFr9v0gk9lAZE53KQXy38ZYZz2DjvidYXS80DShvFoOKf2QtFnnZNQ==
+ b=dWyxrGYzYaFb5l7vgjuUv5IeQUdGewkx1mv8/4LW0Oze0KkD/VDAqw6uau7URsAVqfE20qpIeRxZJ48X8NwfX867jGaHItA9H6DN7xAO6vUPjukHQSeMD/AGIzOKglJJmPqItAE+CikWDIFt5bgQivn0CxsbGvD2jCun1NQw+R/eEfML0Q1yDKmvrqJucPfn/akaURjfD/3xqQ9xuVMMXDWMhmEjeyXosfX0619RQHZWyY+pYKDf1p4rI5+s3gFiIYAWqXwpY07Z643c1K7+KSMjwehk/eAXkAl/GZPD09MpbST0upbURRQVRwQvkrwgO10O4BR0sh/Y0kjDp7FmeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sNV2zjOceUyEXfDDDNBnAyxB06ER5GE4j9DdP3iekC4=;
- b=uMI72X8a4rIxt4YILXxg9Hn8YMHhtJtFF2BwWOPEyCYaQi1HHIS9S5Z9PRb40Kz8DK0yZd0jzJ6CSl24tFS0SXHN/mmz70S2xIp29NsMY7iBZCgy/wnqtfpS6NZ8Ltq5iPoCFa0Q8b1zYwlVF9bYVhI+syRFwORy949vsasPxRsDITGkXEHwuTb57Gywp27aqZTeorl6elL8QxXzMOKwhNKaIHYdQIMxXQhojss8R0pO/TXIl/o3dJZEb8UdlEQ+CRcTFanZC/jOx1GhKdO25pydS6s7sAItN1Q0rvSImXmhHspvcKKYWVmCI3lokBi+l1rGVN4YM5KbKuHaPhN7NQ==
+ bh=ZorcVIzsCj9xOt8fux84uIyM+6DFsDyoT+zLDFWCC9o=;
+ b=NzpHKv32JaI2gP/S/8lzWvlYgfdMEeUrY+S004WrW+sRLQ86bGHDDEpH48Pdc3CVfaqFd85oNuumfd8uGDuSPuY59HuWhEq2ZJOw9u0a29YCrbZ89V1FtFrmgHJcuVIgM4aP0K8GnMabGoV15aFYkrpS8FGFiPGA2zmdjzHgvSQq0SMw7H1EnM0uNwByIgXTW6AqIjHhf/gL3lJhIvw4BOX+emm3xQW7bS9TFLGvvFN8W9pAnj5Gu0ftRvr3eBK+L4goVMU+nV9qytNtyRkp7CB+kdSLh4jmNXaAHMYK1rB3X37Q1VjAPWeDuXMk1m05bojinr+Ss/LtCNp84Lzzmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,16 +71,16 @@ Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
  by DS4PPFFF98E87FA.namprd11.prod.outlook.com (2603:10b6:f:fc02::63) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Tue, 7 Jul
- 2026 18:17:18 +0000
+ 2026 18:18:03 +0000
 Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0159.018; Tue, 7 Jul 2026
- 18:17:18 +0000
-Message-ID: <3e7070fa-16f3-453e-9f0e-9c1a2ef38f9f@intel.com>
-Date: Tue, 7 Jul 2026 11:17:14 -0700
+ 18:18:03 +0000
+Message-ID: <ec899c62-35e3-47c1-8d42-47eff084d30f@intel.com>
+Date: Tue, 7 Jul 2026 11:18:00 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/8] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
+Subject: Re: [PATCH v3 8/8] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
 To: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
 	<aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra
 	<atishp@rivosinc.com>, Atish Patra <atish.patra@linux.dev>, Babu Moger
@@ -88,7 +88,7 @@ To: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
 	<bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, Conor Dooley
 	<conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, Dave Hansen
 	<dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua Yu
-	<fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai
+	<fenghua.yu@intel.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai
 	<gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, James Morse
 	<james.morse@arm.com>, =?UTF-8?Q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, "Liu
@@ -102,15 +102,15 @@ To: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
 CC: <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
 	<x86@kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-rt-devel@lists.linux.dev>, <linux-doc@vger.kernel.org>
-References: <20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org>
- <20260706-dfustini-atl-sc-cbqri-dt-v4-5-e75c20201d64@kernel.org>
+References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
+ <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
 From: Reinette Chatre <reinette.chatre@intel.com>
 Content-Language: en-US
-In-Reply-To: <20260706-dfustini-atl-sc-cbqri-dt-v4-5-e75c20201d64@kernel.org>
+In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0115.namprd04.prod.outlook.com
- (2603:10b6:303:83::30) To SJ2PR11MB8370.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4PR04CA0117.namprd04.prod.outlook.com
+ (2603:10b6:303:83::32) To SJ2PR11MB8370.namprd11.prod.outlook.com
  (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -120,402 +120,173 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|DS4PPFFF98E87FA:EE_
-X-MS-Office365-Filtering-Correlation-Id: de878154-04da-467c-52b4-08dedc53fac0
+X-MS-Office365-Filtering-Correlation-Id: 0319f8c2-1253-4690-bf3e-08dedc5415e7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|921020|22082099003|18002099003|6133799003|3023799007|11063799006|5023799004|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info: 1fjRqyv4YoWOtbqnIEzZF/tGpM6SkZgIFrorrSEmZvmUp1vsiDdE2trWifiShhlNdgC3dRuprNravmAtF2wlG70HhysQMzGtExEUDOS8KIQm8LcSQ1npbSUaAJ6ayA+a8cTXFe4XZ6e005Gpx7t3gwQHyh7FvSC3b4BComzbxGL1nvAijdas9JRHf7gYXpz5eBErm3/E4W7H3g4Sps/L5M37aSl0Pm8zf/zmPLZ5DF1qP4x/265iQnbY1PhlLmobxOBLwtnVordfyrndODuGZpgCC7WNclL0B+t6fAM+zwqzRVR4MdyLMW/VdGzo2iU0uuIKLblxVB+1N7rGMzwwWaMNi4H09DTfwexrY+sJ6QEuhARzeH/CJB80NErk/yvTu/y28VZiToZSSer5tBhyFFq/E/kBeiuELP8o2G5xyAGqmHK8Qw8RPfzY5Z4IT0AS5eIoUAmOZbtHTq7WhlK0y4Dp+DyXpPkJr9sXIw+ZJnSzlsAFghFvhGk2Oer9T5tNrivghB99TdsFnnqiafaU3grwme+0VCw+10f3JpfTeTK+isWZfHgTQc30DEBjrIsvlhVOzt73VWiDs6N1rSgI1oNY6LXkwjPg1LBnf9q5ao22TZ9Dh1dWm4602EFBhaQJuNwr2n1clSY0kcLTun8rI9uw7bPgMaCp4mWaRq5j8SNbXqOPhRdoGr/O+BEiCwl3sTDiQ7O1ocJTvmNGsYn3zw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(921020)(22082099003)(18002099003)(6133799003)(3023799007)(11063799006)(5023799004)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|921020|22082099003|18002099003|11063799006|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info: 5TqAnOV9avymrxUhV7dyJ6hk2u6TtPgWVswyK7dsTVcCVKpeeub70nFv6w3rrxhSv21yOAFuuRZLb3ft/cMFyCnxy4cPydU/TRyGvjeWiLRm8Zt7hX50GVQIpwVqOGUiTrcMh6FksB8FPVLxXZbbnU623AHQSCIdq7T8DvAqdSsLDaA28PZVKl1MmzSvG/K1LdxdLf1/lZWSr4V+5M/m/GuyqJivOlvDLZRH5NWkJlWNKlC38C1Dbry5H3mQQ/YM7SbzKfP5m2wLenwN5mck52Dm4S6HUgbgZ/jzrHrrFJDfVLGl1VNEUBJIX9VXXNKuK+918EAOWD8Yd4w7jCaqYz+w+OYVEit0RK86kjekbeNYjt1PyZTVrvdxIlmw+nnhONwScgN7htQtvXhmiLbNSkEdEI6EniDAr5YjjBBiGR3ET0lTpENo5FgS9lM7EvXtGkpwjBRen9b4rC1/DPviMwMh4cXnyLsATjme8p708TlJE1J93vX4hd92LxOMpZ9Luduf7vaLvGZW6CrlT84vTeII00aobMor6Pkrep3X+suly5TeiplneWyssVOgKtgTgCc74NSyrdsn3dTRa3by96LSZmEVJaDeCZc5hZZMr008m2Vw1QPI6AWcrAWPzfu5722l/ARG1vfj+YDEmU5fZah8SMq+/kBYIyLdwecF48Hk12PZlR1LDkzvNlJSYL8YADrLi7oZmHYsemRWik83qA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(921020)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eS84YjF4R2lSMzlPRE9Gd1FqTjA1K1JtbitTaTJBaFZGaHpRY3NZbXJVZkE3?=
- =?utf-8?B?YUxOSGNlNURXdmhnY2NLRGJzaW9QdEV5SnZITHZwWE5OcUNVMis1ZE9QM0l2?=
- =?utf-8?B?ekJTQ0YzMGNoMEVRNTJNYVlXaHMyRXVuZ01nU0RoVDhuTGRHVGhjS0VJZHNl?=
- =?utf-8?B?SkJxbHJtS3VIYmhFaWZEbXI4SnRSd3BSbFFOMGRLN2xzVzVqYkFXcDc5dkpQ?=
- =?utf-8?B?VU8ybzJqRHlzYzJ2SCtsbDdvbVl4MHI4TnRUUEQrbkpxRlZHU3VpY3dPVmp6?=
- =?utf-8?B?bVdlNkxZdm16dkJaRzhVdFk2V2JhTk9mc092aHRyM3hIT3JEckF6Q3BuQmRt?=
- =?utf-8?B?MTlaQ05sSmN6VW1NaDVVakh5VHBKRlZUU2I3Z1Q3c0dSdVZXVmpJUDZyV0lz?=
- =?utf-8?B?VFBhSkE2NTYyVnVjSENiU1AvVjloNjJQQXlNclRmeUlpemwrN0l2STZhdUZm?=
- =?utf-8?B?V0dGdzFiaXdIMmcwTFozcTlwamRjdjVuMmlYK3NKc1RnSkJCbzU3SWh3cmpX?=
- =?utf-8?B?TmFTUStiZ0dLUytHZXpveFJkR3BGOFBtSXlWd2xEeURaS3RFandSZ2xhQVFp?=
- =?utf-8?B?SytZWDRPNFJGZGpmSDd1T1lwVjZhRnBtcVlkYTQyWlBWcGJUVUtUOC82V1JI?=
- =?utf-8?B?RWpPZVV0LzduTjFXUjI5SXdrajdPOXFVSFZzZUxRak8xR25MdlRaNjM0L0ZG?=
- =?utf-8?B?RVRaSDBEdGVERVEyNGxBdlRsY01sMUZjeENyanIzTlNiRUgzelBtUncvLzdJ?=
- =?utf-8?B?Z0VKYnNuR2RVckg0KzhPZjlqa3FSTUtUOGtYS2FJQUUreWZJN0hld0tzMG9D?=
- =?utf-8?B?S0lUeFlaaVI2cXVZME5ZSEFtTDNVc0VwY0hPbDBvZ1NlRDQ5amMxTWsrU2Z0?=
- =?utf-8?B?bW1zcldWUm1SQm5RNmRwaHduNlo4YkVRakNTcWVMdzVkZEZVRGU1dHAySm5S?=
- =?utf-8?B?bm12ZUpYWkVwdVZVYjZ6aG5GSmQ5cG5BbkFvcXdlYVJWYUpuMTh4NmNUM2w3?=
- =?utf-8?B?S1ppUFFBT3BpcjZxQ1kzUC93SFFraHA2bjg4RXpKejhIOHR6d2xwSnczQVgr?=
- =?utf-8?B?TGFnQ25EYUFyZUY0b3pGK1ZpMmhLSSttOGUrTDNSZUJpQkI1VC9uWDVZYU5j?=
- =?utf-8?B?QXdrRGdwZHZvV1BCU0JIZHRYdDNiWnRGeVJiZUpUTmZqcDNwaVlrQzFOeWhs?=
- =?utf-8?B?clVzelo5S1dDelV1R3Q1OHB5bkRqUW5MUlZlM21HS3BOS3d6dUNXUnZrTlA4?=
- =?utf-8?B?Z1oyRW4wYUtaNGpxVFpueGU4VXVjc1RiTmhZWHhqSk1LKzY0bFdUbE40ZUZk?=
- =?utf-8?B?UWpPMzVxaDFiazM5SHJFcU9rY0dmczZqUFdIUVJPUFo4YytWTUxsNjVaNnly?=
- =?utf-8?B?Zkhod2s2YUcvTW1MSmswN0xxNEpPOXdqUVVyUm5LZGFSNWlMTzNNWFlQeUo4?=
- =?utf-8?B?ZWZtb0x0TWxXSDhQVE16aGcwV2p4TE5uUEk4UUdRNjhqMHcxRUdzYWxkdXB6?=
- =?utf-8?B?RURIOVFEWE1vUlhHVk1iMGZ5bGFYTlE3T2JyWjBSazhqZjVIZk8rbFdPYjZ5?=
- =?utf-8?B?MXhYR1JoMnN4OHNuc3NncS8ySmJic3U2bGY2Rk90MWMzSHlFY2VERW94cEFK?=
- =?utf-8?B?Q2J3ZEZCYlFjZE10OVVsSE5JUG1DMDNwVHpINy9CVDduekw2cFh6Q3FSQ1Y1?=
- =?utf-8?B?a09uNzQ5bERyNjJvQk5YakF5WE1zdTllOU81WUNHcjhIYWN6OTFtQ1doQ0pQ?=
- =?utf-8?B?WEJQb1VLSjhHY0N2SlJZcTJXS1Y1ajJ1TWQ3RnBESitFR1pLSXJ0cmRtVGdN?=
- =?utf-8?B?azNzUHlHdUcyd2NxWTExNjZBc1RnOFRKcmphaXRWalNDc1VVK01qWGMrREJq?=
- =?utf-8?B?RGpsREdnbWUrWHljNy9kUFd3bGpmNzFvU1JEVTVwdzNFb013cGNjUHRPQ1dm?=
- =?utf-8?B?R016NitYL01YU2NDWmQxU3B5MkNaYm41UUxEWlpPeFdPbE1HdnY4c01nREwv?=
- =?utf-8?B?UG1xZU5ncm1jOVlPRHMrODRDSmR6N0FYZjI3ckxNTXZBWGt3anMzM2FyTCsx?=
- =?utf-8?B?TnplUlJtTXlmZkpHbGhmQ1FMUWNZZERaanpJaVVrK3ZNME5rbFpiRHhWZERh?=
- =?utf-8?B?a3BLY2lFMW44bk1HN21NcjFTY2tpYmNwckhYZWN2L1ZUOThXRlB1VkFEZUVF?=
- =?utf-8?B?bWZLOFFLVlZhcjZoOTNoeGRVb0thTDNTOXI0VFFJYU5YMUl4K25PbXBPakc0?=
- =?utf-8?B?UElraGNpbEhWeWJKb3A5N2ovME0weVNXSUtWajJobzQySEhPc25Pb1AxNGxT?=
- =?utf-8?B?YWsvSE9sem1PZ1RuSnJoc0lRUE8vOVFCeFFTR0hZcVg2UFZwUzd0eXpDN3pv?=
- =?utf-8?Q?reuOsxa5khGFtL18=3D?=
-X-Exchange-RoutingPolicyChecked: st+7qAmBeTTE7dYWNNWsQDwAmerD4FxqcIh5QYjSPHGYf8WqlQ50GGsMPBMtBld+WRpOmoN17V59WnPCCYYnXgZd2Vv0XASZkLymfq+fvsbADadNfqkQjDW92Wz8gX2gChkmKJqVobgEGn/EqqfP5AAShEjLXuWHiIh2jcC+TFKiDDUEEU+KFtP6hQuIBSnW/waDv+W38KwPkQEwEh0smggrdoC0Oj0yEHphEzzKp8eO3WdmYg3cCunpQTTXllTGrt74/wtgvsvG9kPJAqGYUYCi6r1CNclnql2lZlqfkY/LAkHpxSXS7QT318ZgGTw7qOHdXXWKcKRpI8bDSyrNTg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: de878154-04da-467c-52b4-08dedc53fac0
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OS9wdVdPY0s4S2duUFJiNS94YkNqUGFSMXEzV2xYOXFmdUh1QmVsZDZQc0t3?=
+ =?utf-8?B?SWVhMWI1QUFqNnl4ZXlLUmMrN2VPUi9yK0UvU1hXWTVHZUVWWlBVb0RsajVs?=
+ =?utf-8?B?S05Vc1RLTURrSjBweDh2SlNpd2o3MXd4Y1RkRlY3ejQ4bDZ1TXpza0JSUEtS?=
+ =?utf-8?B?K1JlY3FneUVYSURySXJENUlxS0Q2NnAwemg1LzJCTVJXVVdQQU45dlFkOVJv?=
+ =?utf-8?B?OUtOYVpyYXJuSGhPRWhUeGFtQXFuc1V0U3AzZldoQllPSWZ0T09lYWs5M2hu?=
+ =?utf-8?B?Mjc0aHAvVGQvc3pjdFA4Uzh5UVRubnFsaVphbzM3SndNWGV6Yjc5UFFOanBq?=
+ =?utf-8?B?QnF0MzRWbnZZS2tJVG10TFBHZHpNMnR0WG5iMzBKQmR4RlViMFZIekJybVBV?=
+ =?utf-8?B?RU9kaVozTldSSEpoWnJWeDVjdWU5SGJyWlA4WjJoSWhWbGs1ZHhtZ0FiU2lp?=
+ =?utf-8?B?Rjg0R2ppQVE5ZW9VZWNhSzB2MldOdjU5U2lVU3JvdGMyMUJ4WGRiMEpXSUJC?=
+ =?utf-8?B?Ujc3UjlUU0x4MlRqcS9ncmdqQjRVZnlsQ2xnNkJVMG4yQU9PQjRRYjFBMWl3?=
+ =?utf-8?B?Wkd3cXViOTdROTh2RWVkQm9JMUFzTmRLVithNk1ja2hqbmZDQ2s0bVZhc3Zz?=
+ =?utf-8?B?QzBIdGNwcEJNM0trS0lEa1dmV09IVEdLaTFUZTFuTnRoSFJhMUVhNFhERHRZ?=
+ =?utf-8?B?TWU3ckdoOFJ3SFR3Nkd5di9lRmw5d0JXS1lDemhIY2g3bmJremhrazZtZlNQ?=
+ =?utf-8?B?VC9henJhNTRzbnZtQ1NaeVZ0a25ZTU4zK2hxbjU4SjNsQ0xFVURGdkJJZVRJ?=
+ =?utf-8?B?emRXOWJDaVpHNzNtQkw2cnRZVGFlc1ZXcjJROE96RFhvZVMvYkhhZzU0VTNZ?=
+ =?utf-8?B?Z0xyZzlUOTlNcEpsZm9JM2l6RjBaT0JBallNc3N4Z0VEbTNrRkNoNkhUbjlR?=
+ =?utf-8?B?cUlTbVJBYjl2OFdkNXhiOGpVQWRpU1M3bGFYK2hoTDdaeno4YTRMb3RPSUxs?=
+ =?utf-8?B?QnZ6bTNBa08rL3QwckFseVU3MjBJalp2TG1vcmRrdzhXblhPcGZ5d0x2UmNP?=
+ =?utf-8?B?bTFURSthVnE3emhicklXT1lVc0NaMTJUTUpjZVVidXFwVTl3UjBzZ0EyTmV6?=
+ =?utf-8?B?VUhSQ0pWR3hmSFUzUGVuTHlhRXJidXhUMHBTQnVkYm1LMGk0M2E4SnN0Z2JY?=
+ =?utf-8?B?QU9CN2ZrK2hTeWJSMnhBNkF0QldHdFNJUW81cWtyczdKbTZtTTlmN1BSZUhZ?=
+ =?utf-8?B?OHVJT3dvaUlrdXczRmxCQnBzY3FObHdheEFtby9KcjZ5SHVGYTQra1hodytR?=
+ =?utf-8?B?U1kzYlZsTjgvYU1kM0pqRUtGbElSUFpFVUJHd2dHVHBJQnpNUGhIZDFxM0c5?=
+ =?utf-8?B?NHd1VURWZjJIbUFnT3o3c1FFamRBTUFsUXBTRDZWVDVQcWV5aml3bnEyM2Rk?=
+ =?utf-8?B?YStIcVdObHd0M0QvY3hPaUgycldEcVFDMjlkaHVSWlJQT2tObWNBUXd5Y2pM?=
+ =?utf-8?B?T0VNTUdTaEZEcnBvZXdmNm9LZmZoeGNmR29nbk5OaURkMmJxbXhsREJDM0xL?=
+ =?utf-8?B?MDdPN1poLzF5WXMra1YyeW9KRTdBOXc3SzRKcFNNa2pJR2xOcHBxQ3JXc2tK?=
+ =?utf-8?B?WEovdXFLM2g5Z3gzb0FSZ3YvVC9rZFUyNUhvZEhjZHNyYWNFUWl1WWRqbEg1?=
+ =?utf-8?B?UVBEUjZtRjVxenRGcWpBRXJISUJFdGIvZ0RZYUtkeG5YMGVSQmdOR3hkM0h2?=
+ =?utf-8?B?Mzc1UlNXM0VXVmErN09aTm04Mi9IYUpkZjhiSnJ4dVRkWDkwUjBYNXZDRGZr?=
+ =?utf-8?B?RXUvV3dTR0VsT3VsRzBUOS9adldidVEya1JQZDFKRW1HWk9ERTVnaTR1dzVG?=
+ =?utf-8?B?N1MvQUREUGRvaEJYNFFCMlZGNmFxOGNYcjdNRkRGK0tRUHhodW9YcjdMSC85?=
+ =?utf-8?B?Mm90RFZYM1lXRERYL2RwdDJWdkF6U3RWY3lja1lSV21PeU5Uakwrd09hbDQ1?=
+ =?utf-8?B?RkJFcGxTUEFOM2wxZHltQnRQSC9Fcnk2Ymt6cG55ODVyZGxHNjVlV21wSStQ?=
+ =?utf-8?B?QVFudlBGMG5ZOTV5aWgrdkZwSEFRUWpDZ2ZlZGtvTmVZSUl0ZERQbmd2Qjla?=
+ =?utf-8?B?S1lIc2xpc1Uxc280alQ2TFlBUUJUNWtxWnpxQnBscDFBSnZvUVB3ckk1dWsv?=
+ =?utf-8?B?RzBLY2FFUGRsUC9NYVpIUDVVeVpjeTVJTHBXZDVjZDVjYkkvTmo4UnRvdXlM?=
+ =?utf-8?B?WlAyMTU3MFh0cG4rNStXbkZ0MzhuVnN3WXpoTlBleWZpZzNubkg5ZjNadm1r?=
+ =?utf-8?B?YkdiSDZIendwTUl3dnl4eG85NHpJSEJDNmtNcFpiUWszaEdjZXNqQUduSmtP?=
+ =?utf-8?Q?KjRO8AA8nGgT5X/M=3D?=
+X-Exchange-RoutingPolicyChecked: sdQjpBUsV6DSRJxVFTG99b2/Hr+jErpmsHu1nJCuoDbwoRT4v+IlOFCM/BkumOrYdMYnQk5fBNFmvlg2XvbW3UdcHUxn4rZ7PKbMbXVElZ6oCvq0EAl0i5kRIAhBsTI8OiGQgI1x1nhBNldgG4TwQIlMtYwxBu1sTDeDHJhi4dQ2EssGtHpwING+V09l17xoUCla68em3R5gSjJAheC5qorKgDWVk0bn6MSnBLYKgcubALtutmqUZ4JotdGmE7DEduLlFw1vIBf63AqJ2lCpEz9J/DKI1Y6vDbSuIFCfVoUkf33kPbpEqAcjtFX4NvbxTYo8vwCIOPs82q4gN8Qt0A==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0319f8c2-1253-4690-bf3e-08dedc5415e7
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 18:17:18.2601
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 18:18:03.7466
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N3XJlzwwM/ir5HE+K8yJy00+6tpxEGMYK8huih8WFGsYcVC71pOTpaa/eqShOOKyF+i0fmZwmnS2rX79sFC+D2Ow7xFY4AbCR2CEBT+djWM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5wAxE1g/h0nojm5xZaDUTAk1E4XBN3UqkIXWZpCg4qxMcDHCv50bUEPYAGcoZDIgcUJoLaIeJwcCixKQeFW9RVDStRz2p7gr28zv14H0P0c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFFF98E87FA
 X-OriginatorOrg: intel.com
 
 Hi Drew,
 
-On 7/6/26 4:06 PM, Drew Fustini wrote:
+On 6/28/26 2:18 PM, Drew Fustini wrote:
 
-...
-
-> diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
+...> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
 > new file mode 100644
-> index 000000000000..cb12a868561b
+> index 000000000000..2172432eb328
 > --- /dev/null
-> +++ b/drivers/resctrl/cbqri_resctrl.c
+> +++ b/drivers/resctrl/cbqri_capacity.c
 
 ...
 
-> +
-> +/*
-> + * fs/resctrl unconditionally references the symbols below before checking
-> + * mon_capable. They are stubs for features CBQRI does not yet support.
-> + */
-
-resctrl should not access monitoring related arch functions if the arch
-does not support monitoring. Could you please highlight which ones are causing
-problems? From what I can tell, the first one below, resctrl_arch_is_evt_configurable(),
-is indeed only called via resctrl_l3_mon_resource_init() if the L3 resource is
-mon_capable.
-
-> +bool resctrl_arch_is_evt_configurable(enum resctrl_event_id evt)
+> +static int cbqri_capacity_probe(struct platform_device *pdev)
 > +{
-> +	return false;
-> +}
+> +	struct device *dev = &pdev->dev;
+> +	struct cbqri_controller_info info = {};
+> +	struct device_node *cache_np;
+> +	cpumask_var_t cpu_mask;
+> +	struct resource *res;
+> +	u32 rcid_count, cache_level;
+> +	int cache_id, cpu, ret;
 > +
-> +void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
-> +				 enum resctrl_event_id evtid)
-
-Similarly, this should only be called when reading monitoring data which should only be
-possible if the resource is capable of monitoring.
-
-...
-
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res)
+> +		return -EINVAL;
 > +
-> +/*
-> + * Walk cbqri_controllers and pick one capacity controller (CC) per cache
-> + * level (L2/L3) to back the corresponding RDT_RESOURCE_L*. When more than
-> + * one CC sits at the same level (e.g. one per socket), they must agree on
-> + * rcid_count / ncblks / alloc_capable. A level whose controllers disagree
-> + * is dropped, since resctrl exposes a single set of caps per rid, but the
-> + * other level is still picked. The first matching controller wins.
-> + */
-
-It works but I find it to be a potentially confusing approach (just a personal opinion!).
-
-> +static void cbqri_resctrl_pick_caches(void)
-> +{
-> +	bool dropped[RDT_NUM_RESOURCES] = { };
-> +	struct cbqri_controller *ctrl;
-> +
-> +	guard(mutex)(&cbqri_controllers_lock);
-> +
-> +	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-> +		struct cbqri_resctrl_res *cbqri_res;
-> +		int rid;
-> +
-> +		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-> +			continue;
-> +		if (!ctrl->alloc_capable)
-> +			continue;
-> +
-> +		rid = cbqri_cache_level_to_rid(ctrl->cache.cache_level);
-> +		if (rid < 0) {
-> +			pr_info("skipping controller at unsupported cache level %u\n",
-> +				ctrl->cache.cache_level);
-> +			continue;
-> +		}
-> +
-> +		if (dropped[rid])
-> +			continue;
-> +
-> +		cbqri_res = &cbqri_resctrl_resources[rid];
-> +		if (cbqri_res->ctrl) {
-> +			/*
-> +			 * CCs at the same cache level must agree on every cap
-> +			 * resctrl exposes globally. On a mismatch, drop the
-> +			 * whole level rather than expose one controller's caps
-> +			 * while programming another's. The other level, and any
-> +			 * other QoS feature, is left untouched.
-> +			 */
-> +			if (cbqri_res->ctrl->rcid_count != ctrl->rcid_count ||
-> +			    cbqri_res->ctrl->cc.ncblks != ctrl->cc.ncblks ||
-> +			    cbqri_res->ctrl->cc.supports_alloc_at_code !=
-> +				    ctrl->cc.supports_alloc_at_code ||
-> +			    cbqri_res->ctrl->alloc_capable != ctrl->alloc_capable) {
-> +				pr_err("L%d controllers have mismatched capabilities, skipping this level\n",
-> +				       ctrl->cache.cache_level);
-> +				cbqri_res->ctrl = NULL;
-> +				dropped[rid] = true;
-> +			}
-> +			continue;
-> +		}
-> +
-> +		cbqri_res->ctrl = ctrl;
-> +	}
-> +}
-> +
-> +/*
-> + * Fill the rdt_resource fields for one picked rid. An rid with no picked
-> + * controller is left untouched so it stays out of resctrl_arch_get_resource().
-> + */
-> +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
-> +{
-> +	struct cbqri_controller *ctrl = cbqri_res->ctrl;
-> +	struct rdt_resource *res = &cbqri_res->resctrl_res;
-> +
-> +	if (!ctrl)
-> +		return;
-> +
-> +	switch (res->rid) {
-> +	case RDT_RESOURCE_L2:
-> +	case RDT_RESOURCE_L3:
-> +		res->name = (res->rid == RDT_RESOURCE_L2) ? "L2" : "L3";
-> +		res->schema_fmt = RESCTRL_SCHEMA_BITMAP;
-> +		res->ctrl_scope = (res->rid == RDT_RESOURCE_L2) ?
-> +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
-> +		res->cache.cbm_len = ctrl->cc.ncblks;
-> +		res->cache.shareable_bits = 0;
-> +		res->cache.min_cbm_bits = 1;
-> +		res->cache.arch_has_sparse_bitmasks = false;
-> +		res->cdp_capable = ctrl->cc.supports_alloc_at_code;
-> +		res->alloc_capable = ctrl->alloc_capable;
-> +		INIT_LIST_HEAD(&res->ctrl_domains);
-> +		INIT_LIST_HEAD(&res->mon_domains);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-> +
-> +static void cbqri_resctrl_accumulate_caps(void)
-> +{
-> +	int rid;
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
-> +		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +		if (!hw_res->ctrl)
-> +			continue;
-> +		if (hw_res->ctrl->alloc_capable)
-> +			exposed_alloc_capable = true;
-> +	}
-> +}
-> +
-> +/*
-> + * Create, list-insert, and online a fresh ctrl_domain backing ctrl on
-> + * resource res, seeded with cpu and identified by dom_id. Caller must
-> + * hold cbqri_domain_list_lock and must have already verified that no
-> + * existing ctrl_domain on res carries this id.
-> + */
-> +static struct rdt_ctrl_domain *cbqri_create_ctrl_domain(struct cbqri_controller *ctrl,
-> +							struct rdt_resource *res,
-> +							unsigned int cpu, int dom_id)
-> +{
-> +	struct rdt_ctrl_domain *domain;
-> +	struct list_head *pos = NULL;
-> +	int err;
-> +
-> +	domain = cbqri_new_domain(ctrl);
-> +	if (!domain)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
-> +	domain->hdr.id = dom_id;
-> +	domain->hdr.type = RESCTRL_CTRL_DOMAIN;
-
-Please also initialize domain->hdr.rid that is referenced by the often-used 
-domain_header_is_valid() helper.
-
-> +
-> +	err = cbqri_init_domain_ctrlval(res, domain);
-> +	if (err) {
-> +		kfree(container_of(domain, struct cbqri_resctrl_dom,
-> +				   resctrl_ctrl_dom));
-> +		return ERR_PTR(err);
+> +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
+> +	if (ret) {
+> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
+> +		return ret;
 > +	}
 > +
-> +	/* Insert sorted by id so user-visible ordering is deterministic. */
-> +	resctrl_find_domain(&res->ctrl_domains, dom_id, &pos);
-> +	list_add_tail(&domain->hdr.list, pos);
-
-The domain list became an RCU list when resctrl started supporting MPAM. 
-commit fb700810d30b ("x86/resctrl: Separate arch and fs resctrl locks") contains
-a great description of the motivation and the different accesses that the list
-should support. Historically resctrl always accessed the list with CPU hotplug lock
-held for which above is ok but there are some planned changes as part of a fix
-that accesses the list via an RCU read-side critical section. Even with this addition
-there is no immediate impact to this enabling since it is related to the
-MBA software controller but I think it is best for archs and resctrl to agree on
-how the domain list can be accessed safely.
-
-For reference to the upcoming resctrl usage see
-https://lore.kernel.org/lkml/4c88e01e29df638d9ecad71b2ee3b411e24067bd.1783377598.git.reinette.chatre@intel.com/
-
-> +
-> +	resctrl_online_ctrl_domain(res, domain);
-
-With the transition to RCU list the domain should only be added to the list after it is
-fully initialized.
-
-> +
-> +	return domain;
-> +}
-> +
-> +static int cbqri_attach_cpu_to_cap_ctrl(struct cbqri_controller *ctrl,
-> +					unsigned int cpu)
-> +{
-> +	struct cbqri_resctrl_res *hw_res;
-> +	struct rdt_ctrl_domain *domain;
-> +	struct rdt_resource *res;
-> +	int dom_id;
-> +	int rid;
-> +
-> +	rid = cbqri_cache_level_to_rid(ctrl->cache.cache_level);
-> +	if (rid < 0)
-> +		return 0;
-> +	hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +	if (!hw_res->ctrl)
-> +		return 0;
-> +
-> +	res = &hw_res->resctrl_res;
-> +	dom_id = ctrl->cache.cache_id;
-> +
-> +	domain = cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
-> +	if (domain) {
-> +		cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
-> +		return 0;
+> +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+> +	if (!cache_np) {
+> +		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
+> +		return -EINVAL;
 > +	}
 > +
-> +	domain = cbqri_create_ctrl_domain(ctrl, res, cpu, dom_id);
-> +	if (IS_ERR(domain))
-> +		return PTR_ERR(domain);
-> +
-> +	return 0;
-> +}
-> +
-> +static void cbqri_detach_cpu_from_ctrl_domains(struct rdt_resource *res,
-> +					       unsigned int cpu)
-> +{
-> +	struct rdt_ctrl_domain *domain, *tmp;
-> +
-> +	list_for_each_entry_safe(domain, tmp, &res->ctrl_domains, hdr.list) {
-> +		if (!cpumask_test_cpu(cpu, &domain->hdr.cpu_mask))
-> +			continue;
-> +		cpumask_clear_cpu(cpu, &domain->hdr.cpu_mask);
-> +		if (cpumask_empty(&domain->hdr.cpu_mask)) {
-> +			resctrl_offline_ctrl_domain(res, domain);
-> +			list_del(&domain->hdr.list);
-
-(also related to switch to RCU list, remove domain from list before
-starting to offline it)
-
-> +			kfree(container_of(domain, struct cbqri_resctrl_dom,
-> +					   resctrl_ctrl_dom));
-> +		}
+> +	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
+> +	if (ret) {
+> +		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
+> +		goto out_put;
 > +	}
-> +}
-
-How CPUs are associated with control domains are not clear to me. Above appears to
-be consequence of how platform driver initializes so I will comment more there (patch #8).
-Just for above, it is unexpected that a CPU needs to be tested against cpu_mask
-of all control domains. Would a direct query that uses the CPU's cache ID not be
-quicker? Also, above creates impression that a CPU may belong to multiple control
-domains which should not happen.
-
 > +
-> +/*
-> + * Remove a CPU from every domain it was attached to. The per-resource
-> + * detach helpers act only when the CPU is set in a domain's mask, so this
-> + * is idempotent and undoes a partial online attach as well as a full
-> + * offline. Caller holds cbqri_domain_list_lock.
-> + */
-> +static void cbqri_detach_cpu_from_all_ctrls(unsigned int cpu)
-> +{
-> +	int rid;
-> +
-> +	lockdep_assert_held(&cbqri_domain_list_lock);
-> +
-> +	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
-> +		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> +
-> +		if (!hw_res->ctrl)
-> +			continue;
-> +		cbqri_detach_cpu_from_ctrl_domains(&hw_res->resctrl_res, cpu);
+> +	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL)) {
+> +		ret = -ENOMEM;
+> +		goto out_put;
 > +	}
-> +}
-> +
-> +/*
-> + * Attach a CPU to every controller that claims it. On failure, detach the
-> + * CPU from everything attached so far: the cpuhp core does not run this
-> + * state's offline teardown when its startup fails, so a partial attach
-> + * would otherwise leak into the domain cpu_masks. Caller holds
-> + * cbqri_domain_list_lock.
-> + */
-> +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
-> +{
-> +	struct cbqri_controller *ctrl;
-> +	int err = 0;
-> +
-> +	lockdep_assert_held(&cbqri_domain_list_lock);
 > +
 > +	/*
-> +	 * Hold cbqri_controllers_lock across the walk so a controller
-> +	 * registered after boot cannot corrupt it. The register path takes
-> +	 * it as a leaf and never cbqri_domain_list_lock, so this nesting
-> +	 * cannot invert.
+> +	 * Associate the controller with its cache instance via
+> +	 * cacheinfo. The matching cache provides the cache id and the
+> +	 * set of harts that share the cache.
 > +	 */
-> +	guard(mutex)(&cbqri_controllers_lock);
-> +	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-> +		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-> +			continue;
-> +		if (!cpumask_test_cpu(cpu, &ctrl->cache.cpu_mask))
-> +			continue;
-
-What will happen if @cpu was offline when cbqri_capacity_probe() ran? From what
-I can tell @cpu will not be in ctrl->cache.cpu_mask in this scenario?
-
-> +		if (!ctrl->alloc_capable)
-> +			continue;
+> +	cache_id = -1;
+> +	cpus_read_lock();
+> +	for_each_online_cpu(cpu) {
+> +		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
 > +
-> +		err = cbqri_attach_cpu_to_cap_ctrl(ctrl, cpu);
-> +		if (err) {
-> +			cbqri_detach_cpu_from_all_ctrls(cpu);
-> +			return err;
+> +		if (ci && ci->fw_token == cache_np) {
+> +			cache_id = ci->id;
+> +			cpumask_copy(cpu_mask, &ci->shared_cpu_map);
+
+The way I understand cacheinfo::shared_cpu_map is that it only contains the online
+CPUs that share the cache with this CPU and if the CPU is offline then shared_cpu_map
+only contains the CPU self.
+
+It is thus not clear to me that this handles all the possible CPU online vs offline
+scenarios. For example, if all or some CPUs of a domain are offline during cbqri_capacity_probe()
+and then come online later. It is not clear to me whether cbqri_controller_info::cache_id,
+cbqri_controller::cache_controller::cache_id, or cbqri_controller::cache_controller::cpu_mask
+are needed. Could the cache ID associated with a CPU at the time it comes online to dynamically
+associate it with the resctrl domain that is indexed by the cache ID? This may simplify a couple
+of flows.
+
+> +			break;
 > +		}
 > +	}
+> +	cpus_read_unlock();
 > +
-> +	return err;
+> +	if (cache_id < 0) {
+> +		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
+> +			cache_np, cache_level);
+> +		ret = -ENODEV;
+> +		goto out_free;
+> +	}
+> +
+> +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
+> +	info.addr = res->start;
+> +	info.size = resource_size(res);
+> +	info.rcid_count = rcid_count;
+> +	info.cache_id = cache_id;
+> +
+> +	ret = riscv_cbqri_register_cc_dt(&info, cache_level, cpu_mask);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register capacity controller: %d\n", ret);
+> +		goto out_free;
+> +	}
+> +
+> +	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
+> +		 cache_level, &info.addr, cache_id, rcid_count);
+> +
+> +out_free:
+> +	free_cpumask_var(cpu_mask);
+> +out_put:
+> +	of_node_put(cache_np);
+> +	return ret;
 > +}
-> +
 Reinette
 
