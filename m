@@ -1,44 +1,43 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2CB3FC5A9
-	for <linux-rt-devel@lists.linux.dev>; Wed,  8 Jul 2026 08:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112F53B6368
+	for <linux-rt-devel@lists.linux.dev>; Wed,  8 Jul 2026 10:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783498762; cv=none; b=heiz7LR+K/YWvN3Ou/I2spQAB+FE4RaFrBWiweNkRe3HtSoMeer64RGFiE4ASV0G/ul2Pa+mScy06AuX9K3QeboU/48xUoFz4rdBRcoSSv8nC35hMI6n05bnceHi4B73gIAB7qmCz6DyJOavjL7HYPoc60vMU5OUwwf2N8FHd90=
+	t=1783506996; cv=none; b=qvvcnx5DR82let6OxecGZb002th0a+ErXydCDGt1pJ9Qz/2z/m1b6BY/OIgNKpGV2fvktt5tZZr+JSlFQULoF2tLbuycR0rKa3fBLH4WpXPUs6kLUQMZt7d+tU4+vj3l2W0lSRY0lMxxCZfYx7ip1iq0RHMuIuzWpJ5XTcvDdk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783498762; c=relaxed/simple;
-	bh=gZ6EGVdglCOnyc/AOvxTG7LM7fKUZ+QO35hojCNmdkw=;
+	s=arc-20240116; t=1783506996; c=relaxed/simple;
+	bh=CptA4H/0yTvtYAkCQi2Kx0njcJk4uT/iLYE9SPVIZgM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OhuJ/kzziZpdRP+fo7WG9RcrRN0FosjQcZMJrYXuOVlHf/c4MAkPOgIrHV36JMKVfFJVX8ON6LIC4SYHBO1AR3s4G+yWyKVp9JANavjE13YkncQqBhvOiioOl5grz+X9bxlKNNt2mQA2N13waA+cEc3pG0YUQa/aiOMcCYmJMy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wJBs5RQX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=owmvoh/a; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=LQyau1r/i/inWIMo9uJOMzXmBREWd+Tvu0h3dWrYn3ndoCjynAdQNXcbXyCfXt0GIXfxPpG08PiXWjPZc9enBuvn9KyAvMawRpjDR0X8spAAEyAUi6YRGdlEGCeusVhqI2R3KI1qvcy/ZTyoG0QiP6JkZVYbDQ019/qCIYtGoEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gb3HtCoK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fRArbuaP; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wJBs5RQX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="owmvoh/a"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gb3HtCoK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fRArbuaP"
 From: John Ogness <john.ogness@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783498758;
+	s=2020; t=1783506983;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QolbbD7v24l2Rpfdio7tLgTKClqjgFar5mCZ10xege0=;
-	b=wJBs5RQXT93Rj0WQ3W2UjXnibxsqiLbIDJ2EExwrm6HAo2pk85TctpHJuBEmV3aPxRE9/+
-	19IRZLp6+KLkGFv2vkCAdxikItD94lX8SW0t9VBsENgq/RFDWiL/1mTGYkXdsnO8uNoGcb
-	jkv91w7AT5oFaWCs74R4FpDddKUEoKjxzz0r5/KqtkOuhc3PfY5r9pAnBJwLgU25a1T4Om
-	7vQc756+Oohnbzd99zjRZwS66PsQ4PhS+Nnp+PlTyKJ11UZGzMMGc/RbPU3jrCdc322tXl
-	960SCdCYyRppgg5LYoxF+P8+vI/vMmSWTh7R4nkvO2zFL4Mj4nQXr1P46bg0/Q==
+	bh=4oSZ0VvgFHGlDOd8o6hkiwFx03nfgdvtHM1XfLEEIwY=;
+	b=Gb3HtCoKx6JK0GUWAyn+2ejS0xH2woEWxw3+K/nj2+wIJBR7fWvEPMFvFkyMvlwrSHvH3y
+	eYqC9WH6f0zAbTbuXVSWvtLBe4ST35ka3Sx3qaoz/My1koLC2UrFc5rGvE+V0VwrOd6njF
+	/6QPl/3E393XAhbRW6KoVsP/8FRAxYG9XY/ou3u5uSQQnxhnOp9j85d7VB+TGEBiacExE3
+	xJRbPhjE0DAIxiNex0yDdcKTec11EZmdD/YpK0wBUMeLP0I3e2YCMqu/Pyf5yPUyWPHO70
+	yB/zK+5LOoE4/L0SthgVe+xva8k3B7NyCM772BL/6skjkpHuTGfdHgW9SEka3Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783498758;
+	s=2020e; t=1783506983;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QolbbD7v24l2Rpfdio7tLgTKClqjgFar5mCZ10xege0=;
-	b=owmvoh/axlZIXsleVK++YNkeWnMsI1p5SL4D8lv15ClKwUy3AitASqBmYXqrSfVTEJkmSI
-	Du20Yva8X9oSBkBg==
-To: Petr Mladek <pmladek@suse.com>, Benedikt Spranger
- <b.spranger@linutronix.de>
+	bh=4oSZ0VvgFHGlDOd8o6hkiwFx03nfgdvtHM1XfLEEIwY=;
+	b=fRArbuaPMd9AD20Wgcx6lGklXPR5RU5QhFZJ34To/S8oQ81VuWWkxh+y3qq05R2rkX18yj
+	OVN5nvYiWZtrpKCA==
+To: Petr Mladek <pmladek@suse.com>
 Cc: Andrew Murray <amurray@thegoodpenguin.co.uk>, Jonathan Corbet
  <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Russell King
  <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -55,14 +54,12 @@ Cc: Andrew Murray <amurray@thegoodpenguin.co.uk>, Jonathan Corbet
  linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH v2 3/4] printk: nbcon: move printk_delay to console
  emiting code
-In-Reply-To: <ak0VguIf-PxmbUOS@pathway.suse.cz>
+In-Reply-To: <ak0b2S9jjYy49a8V@pathway.suse.cz>
 References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
  <20260630-deprecate_boot_delay-v2-3-f9883d36aa4b@thegoodpenguin.co.uk>
- <20260703165654.71be8707@mitra>
- <CALqELGz-KSrGq5JYvLedZiO-p21pjpRKbceO+jiSfwZGyx+91Q@mail.gmail.com>
- <20260707145411.53a10893@mitra> <ak0VguIf-PxmbUOS@pathway.suse.cz>
-Date: Wed, 08 Jul 2026 10:25:17 +0206
-Message-ID: <87qzldvqpm.fsf@jogness.linutronix.de>
+ <87zf08w7qo.fsf@jogness.linutronix.de> <ak0b2S9jjYy49a8V@pathway.suse.cz>
+Date: Wed, 08 Jul 2026 12:42:22 +0206
+Message-ID: <87echdvkd5.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -72,103 +69,43 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On 2026-07-07, Petr Mladek <pmladek@suse.com> wrote:
-> To summarize this discussion:
+>> This is too deep (also pointed out by Sashiko) because it multiplies the
+>> delay times the number of consoles. For the legacy printing, it would be
+>> more appropriate to put the delay inside console_flush_all() and
+>> legacy_kthread_func().
 >
->   + Benedikt would prefer to add the synchronous mode before
->     moving the delay from the printk() caller to the console emit
->     code path.
+> True. The question is if the proper solution is worth the complexity.
+> We would need to pass the information down two level of the API.
+> It would require adding a new (output) parameter to console_flush_one_record(),
+> nbcon_legacy_emit_next_record(), and console_emit_next_record().
 >
->   + The delay in the printk() caller code path did not guarantee
->     the output but it increased the chance to see it.
->
->   + The synchronous mode will be even more reliable than the delay
->     in printk() caller path.
->
-> Please, let me know if I did not get it right,
->
-> John, did you have any plan how to add the synchronous mode, please?
-> Does it look complicated?
->
-> I guess that we would somehow need to "mis-use" the emergency
-> priority and force it everywhere by some global system setting.
+> It is not that complicated but these functions are already hairy
+> enough so we should be careful.
 
-The synchronous mode would rely on the driver being nbcon. I envision
-something like this:
+Fair enough. But then it should be consistent and
+console_emit_next_record() should perform the delay before allowing the
+handover. Something like this:
 
----- BEGIN SYNC IDEA ----
 diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 2fe9a963c823a..beb5bb3c037b5 100644
+index 2fe9a963c823a..62fd6a5ebef66 100644
 --- a/kernel/printk/printk.c
 +++ b/kernel/printk/printk.c
-@@ -2456,6 +2456,8 @@ asmlinkage int vprintk_emit(int facility, int level,
+@@ -3161,6 +3161,8 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
+ 		 */
  
- 	if (ft.nbcon_atomic)
- 		nbcon_atomic_flush_pending();
-+	else if (have_nbcon_console_sync)
-+		nbcon_atomic_flush_sync_pending();
- 
- 	if (ft.nbcon_offload)
- 		nbcon_kthreads_wake();
-diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-index 4b03b019cd5ee..8f8f29f757614 100644
---- a/kernel/printk/nbcon.c
-+++ b/kernel/printk/nbcon.c
-@@ -1200,7 +1200,7 @@ static bool nbcon_kthread_should_wakeup(struct console *con, struct nbcon_contex
- 	cookie = console_srcu_read_lock();
- 
- 	flags = console_srcu_read_flags(con);
--	if (console_is_usable(con, flags, false)) {
-+	if (!(flags & CON_SYNC) &&  console_is_usable(con, flags, false)) {
- 		/* Bring the sequence in @ctxt up to date */
- 		ctxt->seq = nbcon_seq_read(con);
- 
-@@ -1654,7 +1654,7 @@ static void nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-  *					write_atomic() callback
-  * @stop_seq:			Flush up until this record
-  */
--static void __nbcon_atomic_flush_pending(u64 stop_seq)
-+static void __nbcon_atomic_flush_pending(u64 stop_seq, bool sync_only)
- {
- 	struct console *con;
- 	int cookie;
-@@ -1666,6 +1666,9 @@ static void __nbcon_atomic_flush_pending(u64 stop_seq)
- 		if (!(flags & CON_NBCON))
- 			continue;
- 
-+		if (sync_only && !(flags & CON_SYNC))
-+			continue;
+ 		con->write(con, outbuf, pmsg.outbuf_len);
++		printk_delay(false);
 +
- 		if (!console_is_usable(con, flags, true))
- 			continue;
+ 		con->seq = pmsg.seq + 1;
+ 	} else {
+ 		/*
+@@ -3182,6 +3184,7 @@ static bool console_emit_next_record(struct console *con, bool *handover, int co
+ 		printk_legacy_allow_spinlock_enter();
+ 		con->write(con, outbuf, pmsg.outbuf_len);
+ 		printk_legacy_allow_spinlock_exit();
++		printk_delay(true);
  
-@@ -1688,7 +1691,12 @@ static void __nbcon_atomic_flush_pending(u64 stop_seq)
-  */
- void nbcon_atomic_flush_pending(void)
- {
--	__nbcon_atomic_flush_pending(prb_next_reserve_seq(prb));
-+	__nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), false);
-+}
-+
-+void nbcon_atomic_flush_sync_pending(void)
-+{
-+	__nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), true);
- }
+ 		start_critical_timings();
  
- /**
-@@ -1701,7 +1709,7 @@ void nbcon_atomic_flush_pending(void)
- void nbcon_atomic_flush_unsafe(void)
- {
- 	panic_nbcon_allow_unsafe_takeover = true;
--	__nbcon_atomic_flush_pending(prb_next_reserve_seq(prb));
-+	__nbcon_atomic_flush_pending(prb_next_reserve_seq(prb), false);
- 	panic_nbcon_allow_unsafe_takeover = false;
- }
- 
----- END SYNC IDEA ----
-
-BTW: The sync mode is the final piece so that PeterZ can start using
-mainline code for debugging by serial instead of his own workaround [0].
 
 John
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=debug/experimental
