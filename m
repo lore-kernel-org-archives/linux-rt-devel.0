@@ -1,121 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6647D54723;
-	Thu,  9 Jul 2026 14:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA733546E3;
+	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607933; cv=none; b=eIf0cQOX6cDt97j6RhGRCQGOzUxAQFWxv19jOOhhMsAynHCCjFFBCQ7rECJ1VSyj6gQrrY7GTPJNR1VXFcC+gRxvYPzSoWpYKFezyasGH0Z3MONM8B83ZH4l6mnGCRSLcfOLiBKxW7zPXTZnVe4AqESLMgWTMYh4MtsQTKNjde0=
+	t=1783608384; cv=none; b=NafsqEM8YfEeW1vNUvIqkWohDV9m/w5k95oXrcc4D//SXjVIUuYjLKDNF5AZVm4mJk4q2ExhbgIrG+pTPATC8lGsSTCOuva6f9fTyRhzDFqpCJ8V92SSi8fqkSL1oPEdCq89FNcrcYnZKdcjZsSL9xVsNIcx6T5Y2/gRuausNRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607933; c=relaxed/simple;
-	bh=J5qEk6mSl3WKm2EI0sieq0lLU0pyb6XdpMby7zTN5so=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=aJ6zrTTWvpFEIzGHsmJ4hcELP3lm5q+MNU+NqEzbpnRlAUmKaYArDvkbmwX5JJJPSbn1cqz4/exbLwGPWNiEvvgSAFpBrZhLTBGN/b4LQ5GCcuSylnSD2lJ6VpCp7UomMMCVzBG6KSIA92FfyjMM1oyO4O6h2UMYgW/FiPX09d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZJF0jqJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783608384; c=relaxed/simple;
+	bh=eJ+h6/lXpJCk4eI/exWo4sp0JP8DgG9coEpBlM8IjJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r0QAiMZWk7jyI11NWMY6D0GdlrFzUqnSM5sgDRraGLoehct6Zpecthw2+3NLhPNIeWa/iUp1SfDEBFy4nGOCfJt5r5yEqmyZpl6L1lNH6K89S3vdLPGpZghJTknp/wh4NmXOgVz8ZEPvUIH6sIxZ7KAqWmBCZt0Eko0gmMq6Mbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nULFwRNK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZJF0jqJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8DB1F00A3A;
-	Thu,  9 Jul 2026 14:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783607932;
-	bh=VmcfCU9mg6cC+ttcEyqDVALq9F3di98UEhamxZdYAhY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IZJF0jqJcAFWtyAazX3TlNJFqZ8lAoZCoTQHf9BfkHG9ZYMqKWhZ+GSZDrzzuSeA2
-	 jcHZ7iAdY47cmw0flo5aiBf60hM70JXtkj+nwt1YTWYoZAHVQoX2miikNSK/RTzjIb
-	 hiY5JoHLag9XKUFIRZ5B0dkq1i8PcpP1sl+2KbuvOtGyZAe4d0fdvOzI42qsAIiDnd
-	 FgcRUx8okC1Z0+B4SCplr0HXJeeddVY2rHbSnc/sA2RM6yqGJCH+Pei21O24YIi1Mt
-	 /bB8MhbAkr/iiK2V9/yJrgG+Hd/oDVjwcrRENH0GdnqX51+iKkphMzSnl8m5GJGUZi
-	 USUr+/BTajUsg==
-From: sashiko-bot@kernel.org
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nULFwRNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481EF1F000E9;
+	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783608382;
+	bh=Du6XqMSaeWA87grycj96VaPj3Jaq9JvDXeSGVPV59D0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nULFwRNKnj1v8BcpS82+yTlUBkJDPTvKCqm0/GhKbEB0OsscH96h5kMd5O5ljIGlv
+	 JeTr8YQMu8n+IGm6XjcxIQn+smDH1zecZdyVL4ALGffqkwJOtJRMiOyiCJqlMh3167
+	 pB/ClWZS1chsCSICHY3/o08t21OEtB7x/Qb5N9AI=
+Date: Thu, 9 Jul 2026 16:46:19 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
 Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260709143108.UYeCUUcd@linutronix.de>
+Message-ID: <2026070922-kilowatt-matador-5e1c@gregkh>
 References: <20260709143108.UYeCUUcd@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jul 2026 14:38:51 +0000
-Message-Id: <20260709143851.8D8DB1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260709143108.UYeCUUcd@linutronix.de>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [Medium] Creating `/sys/kernel/realtime` as a regular file prevents futur=
-e extension into a directory, permanently locking the ABI.
-- [Medium] Exposing a single-purpose boolean flag instead of a generic pree=
-mption model indicator.
-- [Low] Newly added sysfs show function uses deprecated `sprintf()` instead=
- of `sysfs_emit()`.
---
+On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wrote:
+> Hi,
+> 
+> The following patch sat in the RT queue for almost 15years now. I can't
+> find its origin on the list.
+> All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
+> and returns 1.
+> 
+> Is this something that is still wanted and considered useful?
+> Is this something that can be expressed better by other means?
+> 
+> There was an in person discussion about this and it was suggested to add
+> /sys/kernel/realtime as a folder and having individual realtime features
+> as files. I don't remember a single feature that would quality for this
+> today but who knows. This is all I remember so far.
+> 
+> Now. Discussion go!
 
---- Patch [1]: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry ---
-commit b40fad0ff776ab9c6dbe7fb2b7d2cb062431ad56
-Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+At the very least, it's not ok as it's not documented in
+Documentation/ABI/ :)
 
-sysfs: Add /sys/kernel/realtime entry
+But really, why is this needed?  Userspace shouldn't care, right?
 
-This commit adds a /sys/kernel/realtime entry that returns 1 when PREEMPT_RT
-is enabled. This provides a way for userspace tools like udev to quickly
-evaluate if the system is running a realtime kernel without parsing uname
-output.
+And checkpatch should complain about the sprintf(), should be
+sysfs_emit().
 
-> diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
-> index f45ade718054a..670a7a57d7b23 100644
-> --- a/kernel/ksysfs.c
-> +++ b/kernel/ksysfs.c
+thanks,
 
-[ ... ]
-
-> @@ -133,6 +133,15 @@ KERNEL_ATTR_RO(vmcoreinfo);
-> =20
->  #endif /* CONFIG_VMCORE_INFO */
-> =20
-> +#if defined(CONFIG_PREEMPT_RT)
-> +static ssize_t realtime_show(struct kobject *kobj,
-> +			     struct kobj_attribute *attr, char *buf)
-> +{
-
-[Severity: Medium]
-The commit message asks if there are better solutions to express this state.
-
-Instead of exposing a single-purpose boolean attribute specifically for RT,
-could this be a generic preemption model indicator like
-/sys/kernel/preempt_model?
-
-The kernel supports multiple preemption models (NONE, VOLUNTARY, FULL, RT,
-LAZY). Providing a unified UAPI that leverages the existing
-preempt_model_str() for all configurations might be more scalable for
-userspace tools than a dedicated boolean file.
-
-> +	return sprintf(buf, "%d\n", 1);
-
-[Severity: Low]
-Should this use sysfs_emit() instead of sprintf() to align with modern sysfs
-API standards?
-
-> +}
-> +KERNEL_ATTR_RO(realtime);
-
-[Severity: Medium]
-The commit message mentions a past discussion about adding
-/sys/kernel/realtime as a folder. Does creating it as a regular file now
-permanently lock the ABI?
-
-If future realtime features need to be exposed individually, replacing this
-regular file with a directory later would cause a strict ABI breakage. Exis=
-ting
-userspace tools calling read() on it would suddenly receive -EISDIR.
-
-> +#endif
-> +
->  /* whether file capabilities are enabled */
->  static ssize_t fscaps_show(struct kobject *kobj,
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260709143108.UYeC=
-UUcd@linutronix.de?part=3D1
+greg k-h
