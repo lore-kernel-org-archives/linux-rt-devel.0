@@ -1,139 +1,214 @@
-Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECD641F7E9
-	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 12:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783599931; cv=none; b=G6z+7EUN2UqTfuS6NoUcjblgeVqS1Dj20n6BH3dDPRBz8laaGzzt8Qb+lf8N+KjVQbbzdsTo5h129E5+G2lId4nJPZIuU1RNU6vTtOTUR593fhDNGu09OHcqKdjn9xlU8AghfH1me2o9G7xAkti0k3rml8LTU4mmzFAeZbFNoOc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783599931; c=relaxed/simple;
-	bh=2f84/nJZ2VgJabR+1a6ihDF3698u7R6LbS1dCMgWNUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z6oxDQ76ZHPMCHnGKWZ5dv70ETTWmZj3/I8khb+4EsZDe5S0L0NpcAWbnnQUqfPgvActFY/Po3rGFIW/8Mn8VBMQ6aX73e4e+xjWygZGG4Grus4WCJOBwzMvHIMZRSI1rcKUvL/HTr7E9lGwpoCwL2FjBAgJaf18YLtX74bwa5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MGLVmEbl; arc=none smtp.client-ip=74.125.227.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC0B4218AA
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 12:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783600345; cv=pass; b=D+gTnM3tjOu4vPFkuTNbho064XkncPDRmLR6d2ccusa6lU79cev3V5CgVBjWqPEX35TVVtYD5BP7wZwz4yPZYUX2Y2lpYfxWohrMbfSbyFNCC2XJz9Z9nWyj5Y9D76H0vwGbtS+/v1mi6J6tWX0A6Sxkvx5k7J3UGcCsF9H9Lgc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783600345; c=relaxed/simple;
+	bh=HpM5oyfiz/PBhye6COIAJQLw8QryulxM6H5RQMFWI74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mud286IJqqvjq2pmt4m3zYk9mcl/lreecGFN2FRorjyiV8D5Rz6euVDNrPQeL879rE5gP6GQef7YgELTnHVP8Rpftra3/myGAEKCpY/Bs6BCjJwb2fJIfLQtCkbhOTOw/8OB5iCBo91LS+AFqt6025h7gNRzv3dmD+CKxylCdT0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=KsXlrmft; arc=pass smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGLVmEbl"
-Received: by mail-pj2-f4.google.com with SMTP id d9443c01a7336-2cad1448ddcso15053675ad.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Jul 2026 05:25:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="KsXlrmft"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6a324d200c2so1182996eaf.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Jul 2026 05:32:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783600342; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qsqwf7kBBrdzMaNdkia4c+oqLOJwraPluwPKo6eT7EUVFzV1mGZ83pKO7sE/Ck6dUw
+         w+CIMMtrYbCejrc4sKCNf3gggTYLOYcUM33Huyo6gJ8hc3KoF4qZCE9XQeNlqEiKn/Wa
+         haQZA8iUy++IOw/WAeXyDlKqjZfDJAxwtVOUi8ZkQ0uZ5rFH4cP3rdej19yL8ZP4anj9
+         vJE6P7+yWJGBbAjdoMehgVGgPZKL8xcbIrBzFElyU9yPGxqqa4/BQuUy0ZA1BDSrFj2v
+         zr8sbs/732JogVQY5PRzIw6yt4RhAdYAdzwi7kvU6X1xhhrg6ZP4H0K01C8h7i6DhugP
+         +O/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        fh=nvjmXcCjvnYy9lTG//O6+nDXfQPpvboDnKanqscZzqA=;
+        b=BEjoR6Zw+fRQoPQlQzC4WH5DRO2yxIzJVLsVE6YevhkmABh07e11VVPvfBCXPIqlR3
+         3jSyZYooOhF0/6K6FTrAGIhBlq3vhge1x2aityuKsnv1+GWj4FZvI73LTePgupPiEFNg
+         7+L5xTiI2UfrWEbFaMgGOUTvwS8FqOCuptFF/Gb7jsdeaXVmgGwDNOlFvqrwtlfqVyTc
+         511Z/ex0kIYZJjf5ibJ35QXG17HkTdEmjZHHs1JbWuRlU+UAAF9KR9mZy0TutyFeleiX
+         7AtXSjqHznrSQbq9w3uQ/LZtKBYSlgYrr6KHvkhW1kZn0QRy6rsgTDX9dSxlvNQEZ1lr
+         Qlqg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783599930; x=1784204730; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1783600342; x=1784205142; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DjINX5M4wTaoTW4+GDvLh6TXbZ20xVVmAICykKIells=;
-        b=MGLVmEblSZqJZJAh6rdyaJ1EqeTZTi4n+Gn2WLgErDprAGp9Zwk+Xm0eTLCITnczWR
-         M06cFx3HFgv9x12SVsmwhhnV2aB93ZAj1Gt/FFe5BuY6wOHoYv8G4uKQjrx+fAxuBKgL
-         QqtVlIbys+CPlvP8nMundc2qerRoehTNHAXsOp3jjxiUjw/T8vhf1eF/PdMwDrZnIirY
-         q78tbcGfess9YeMb3kC1KyAEvmGoY7smmHY4Cm8CduiP3xm2Qq3Z6NabCfFckrvdC1Mu
-         aW8/+85qwx9RW5vz2NxTwaSghLGQV8EZkonGp8jxuo5AAjZ/YiZr/mdFb9J3NE/5I/JP
-         hMLw==
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        b=KsXlrmftUxxdmYMGg2cHf2i1jWLW5jJWxgSkN0MwAMbjBKuHmthpBa0LEjeOuTJpyp
+         9Qddltm8bWf0oNXMWB+5GUuE5sedb82dyiny/y8mLrFTaEfFA6Js+aNYeItaTROCQBBH
+         9PUFUGPoa7QPerkJj4feV5JjIW06b6AZrQh56NksMrMbXZ3RrekSvu5xF7dX+756GECj
+         W55nR6xipTJSYR3BxfLy7HRlKkpsMFteiBQYjd0gyOn7gnz2AQTKwvyaEuYWt6NE3iPw
+         phfPDTRfQANEtK+kFKM5c18c80gzGJWBvlp/nfu4Qql3uaVAeggxtQbg2uFHRRl3YV/z
+         ZyDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783599930; x=1784204730;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DjINX5M4wTaoTW4+GDvLh6TXbZ20xVVmAICykKIells=;
-        b=iJlZIpnlbWJBcIbzsK3k80zMrnZPy/CRMON7DT9byurRGZEhyS3Iv+tI2yJduiIfQd
-         0lInvgLazkHowWZW2LGjB3WTBS1LIX4tsgNrbOyuoBFfw1BqqacfsyV8X/Lltg/6VOsE
-         fqqPrby142MJQgV0P9TJPfqA+nuVN0DWft4koK0wctySOTmdq9Nj/CjyQ5B2oCFx6IS2
-         s0MgAc/peQPDan71zw8N24RIhXZKwrB+WjRM5y87ZZiS5jgRylhHbhkVHci4/TPj7mYC
-         hhGBz2U5lr5RJP/yduCIFL0/N9Z0u2lVApsUFEAzn1jDXJBw0O+l+kjNbm+jI4OtLDpZ
-         QSwg==
-X-Forwarded-Encrypted: i=1; AHgh+RoKpeVQdmxRz3H18lUKTinPmDS9OFuK6l+hNDs/IEgzY6oZURf6RE7i4P6PPN0ws07Hlc2PAKoCCjT/2PVYcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZi5Gv37maMD0b4Tb2amQw9FO74DMwfm15G+WQqHP/e2a7UWs8
-	M1+7BO7c18lvZp4/a0VDyK3+EnTZq1KVuqzToZzLJhcT0af2IcWrMzur
-X-Gm-Gg: AfdE7ckJF5vmNhatsm2pImtoVPDAQ6WjRRKtdZdQe4NOPEJlx/dBTFD034OtVnMw5o0
-	Qltdg1kye5w62vSRN/6e07fQLysL1illwsNi17A12LK66UNFdD7sefk8DRL8Ey82ixJ0KCLmO52
-	a67LCTnsUJlwW7LmwJKiw5Q1p0/DahrGz1j3qYKtqbGgRsX41OtJIdfWuz1ln/JSYzMLFmMzvsJ
-	Gb780AGMCUf4j7cBuBlc3Joko7V8N+F9Fj8RPH4CJ5mbRYr9BSyvzT9Ljwbh6/7rRCcJWnYqq+7
-	QeG7KDAuHBmU27VUoUi/7EfYVHSz/BmpWVtlOMpoHb3NKDiS6aCUFVtVYhwppEfa+JpH/8sj62h
-	W3EXLq9edwUwoiSEyZ5LyL9xOI5ZXneHwVwShbQpCe0a6pSur0ULS0cKB8VNO0XkTq1zs1mthQ6
-	rwyWTmRXOJHv/CB4l1osIKL+wAdLMOlqI=
-X-Received: by 2002:a17:903:1b0d:b0:2c9:97a7:3289 with SMTP id d9443c01a7336-2ccea47c30cmr71676685ad.43.1783599929924;
-        Thu, 09 Jul 2026 05:25:29 -0700 (PDT)
-Received: from [10.125.112.20] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1e1aesm44089605ad.39.2026.07.09.05.25.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2026 05:25:28 -0700 (PDT)
-Message-ID: <6f2e6fe2-c8c0-450c-bedb-8b4fd68839ab@gmail.com>
-Date: Thu, 9 Jul 2026 20:25:11 +0800
+        d=1e100.net; s=20251104; t=1783600342; x=1784205142;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Q6uaaRn1apsA/2p+t1DBPwc+zrUv3t/8R7VmEga46LQ=;
+        b=f+W5LVvTxjCbFT7rB7EAZ/Cegpz7RrWPWVQ/RpOOEtp6Tzcz4/RrLOFHBe04XD5rOc
+         6gnIlwPHgtTWSsGoJWGivEZQVCnUnkhyXkQm4lJo03bMZdSwSOnaNz7fDgtTcYwD4E9f
+         Gl/KxUyjJAZgrGf7d13y9VJMy0P9zACZFFt/KIONDk0bj94JfyxkoDzXwDsic9oxFvAF
+         bRaSgs3b/i6A16/OnrNb0z93M3YpxFX72/4xsVwH26b7Ly083FmdP+H5Cv5L9/a7rCAu
+         /Mu0k+r3jF8PTiqwWHBzjDbR6m4NlUSYNFkaKdXwQTCfKhEjiD8lnRRm7hdSisItt8Vw
+         Sy4g==
+X-Forwarded-Encrypted: i=1; AFNElJ+T6dVrKm9XyAqJ62RyCXJ5pq1E1VNUK4ewLHG0B/oIbCIJud6z+jzOM8lkXfwFYBqE8ies8okfaLlXmskSQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyCzMoxV0Kkkj2IX1tGmp5cQJuiatsDNBKLUrkmBA+ghET+7HE
+	q0BUHQan3+GnwMtlFI74rrqabJht6Zuf9FT8eSlWVXh0hT8JPDGwHRfajSgyZg8W0lUn8ezoB4k
+	E4ELesoKmr6Bq2FYu2HWPNjsyxiBn7FDHXl7D+5LwWA==
+X-Gm-Gg: AfdE7cnqEDhKmqz3UREuNOTd9RNyOMFXUIdSimeeLFqGp3fwgwSVIRAzGOlPJzQBrzE
+	mwqkVVy1M5rVfDg0ac6y5TTnH31uqFu8Ihp6/4YloodZAG68jj7O6quGZmbZnjs6W2Zd6Fi5/kd
+	cuNsZlkRo/Wx3xjzHIrMtSanoeKAGsSTAhwIAXQ/Hu3j8Ts6wFeBhC5SwZx65HDXZ27NHahL4Lc
+	MIlCkTbwGfsNJnlCEP3maI5T/gLmQbu5mEjQehdsEhElLeeN0a6/BmFZq3Qz+vuQ81ZF+nmY85K
+	9T+PGK45Q9IrH1kwKkd5CgYBBLQzZY8pMVCrx8juPbPqjSSYwGkj3hgD8B4bol5ftJjbTXtXt6s
+	vyQK5XuljwaK8dW0UPnOKLeul1rfglB7Xbh4w3tA=
+X-Received: by 2002:a05:6820:1628:b0:6a1:18fc:519f with SMTP id
+ 006d021491bc7-6a36d6d6ec2mr5214376eaf.0.1783600342380; Thu, 09 Jul 2026
+ 05:32:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when mlocking
- a range
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: vbabka@kernel.org, david@kernel.org, rostedt@goodmis.org,
- mhiramat@kernel.org, Alexander.Krabler@kuka.com, hughd@google.com,
- fvdl@google.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- akpm@linux-foundation.org, surenb@google.com, mhocko@suse.com,
- jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, riel@surriel.com,
- liam@infradead.org, harry@kernel.org, jannh@google.com,
- lance.yang@linux.dev, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
- byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
- apopple@nvidia.com, pfalcato@suse.de
-References: <20260707125925.3725177-1-chenwandun1@gmail.com>
- <20260707125925.3725177-5-chenwandun1@gmail.com> <ak0OZKzapUefmA3v@lucifer>
- <20260709091316.TFgtBZlE@linutronix.de>
-Content-Language: en-US
-From: Wandun <chenwandun1@gmail.com>
-In-Reply-To: <20260709091316.TFgtBZlE@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-2-f9883d36aa4b@thegoodpenguin.co.uk> <ak5mPxUdp2pzCMt5@pathway.suse.cz>
+In-Reply-To: <ak5mPxUdp2pzCMt5@pathway.suse.cz>
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date: Thu, 9 Jul 2026 13:32:10 +0100
+X-Gm-Features: AUfX_myRkAQr3RlL8KDtHhqAkW7mutgbWnQw5V1Od8NNNQcLPSvfj_bgH0j4NKw
+Message-ID: <CALqELGxjTZAXEp1C1CNO2tLbUpUChZW3DHcNgyhEu4Ma-ct2ow@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] printk: deprecate boot_delay in favour of printk_delay
+To: Petr Mladek <pmladek@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Petr,
+
+On Wed, 8 Jul 2026 at 16:01, Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Tue 2026-06-30 17:35:58, Andrew Murray wrote:
+> > The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
+> > are two distinct mechanisms for providing similar functionality which add a
+> > delay prior to each printed printk message.
+> >
+> > boot_delay provides a kernel parameter for delaying printk output from
+> > kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
+> > configurable only via sysctl and thus is only used post boot.
+> >
+> > Let's deprecate the boot_delay feature in favour of printk_delay. In order
+> > to preserve functionality, we'll also extend printk_delay such that it can
+> > additionally configured via an early kernel parameter.
+> >
+> > Behavior change:
+> >
+> > The delay enabled by both "boot_delay" and "printk_delay" continues
+> > working even in SYSTEM_RUNNING state. It must be explicitly stopped
+> > by setting printk_delay=0 via sysctl.
+> >
+> > The delay is skipped when the message is suppressed in all system
+> > states. It used to skipped only for the boot_delay.
+> >
+> > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+>
+> Looks good to me:
+>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+>
+> Note that Sashiko AI warns about possible problems with negative
+> printk_delay values, see
+> https://sashiko.dev/#/patchset/20260630-deprecate_boot_delay-v2-0-f9883d36aa4b%40thegoodpenguin.co.uk
+>
+> But they should be handled in both the early parameter
+> and sysctl interface by the "10 * 1000" and "&ten_thousand"
+> limits.
+
+Yes, that was my also view.
 
 
+>
+> The only potential problem might be a warning about possible
+> "sign" mismatch from the compiler. But I do not see any
+> even with make W=2.
 
-On 7/9/26 17:13, Sebastian Andrzej Siewior wrote:
-> On 2026-07-07 15:54:57 [+0100], Lorenzo Stoakes wrote:
->> On Tue, Jul 07, 2026 at 08:59:25PM +0800, Wandun Chen wrote:
->>> From: Wandun Chen <chenwandun@lixiang.com>
->>>
->>> The region covered by mlock[all] may contain CMA pages. cma_alloc installs
->>> migration entries in the page table, if a memory access occurs at this
->>> point, it must wait for the migration to complete, which may cause
->>> latency spikes on the RT kernels.
->>>
->>> Try to move the migration cost into the mlock[all] caller, which is
->>> typically a setup path. So reduce the chance of latency spikes on RT
->>> kernels by migrating the currently mapped CMA pages out of CMA region.
->>
->> 'reduce the chances of latency' so do you have any data to back this invasive
->> change or not?
-> 
-> The application gets pages assigned which belong a CMA area. If the
-> pages are in need by the CMA then those pages are replaced with other
-> pages during a migration phase. Since there is no guarantee how long
-> this will take and is also subject to general scheduling in the system
-> it will be measurable and painful once hit.
-> 
->> And for RT, but nothing in here at all checks for RT? You're using this
->> compaction sysctl as an RT check somehow? That's gross.
-> 
-> The man-page for mlock says that it guarantees to stay in RAM and/ or
-> preventing to be moved to swap area. I would however argue that
-> replacing physical pages in the background should fall under this since
-> the application can't access them and is blocked while trying. The notes
-> section (in the man-page) lists "real-time applications" and
-> "deterministic timing".  Therefore I think it makes sense to do this
-> unconditionally for mlock areas regardless of the sysctl knob.
-> Security related application probably only care that their memory does
-> not hit the swap area and probably wouldn't mind 10ms delay.
+I suspect this will come up everytime a change is made in this area,
+or perhaps some W=2 errors will pop up via kernelci or similar. I
+propose updating the patch as follows:
 
-Thanks for helping to explain, that helps a lot, Sebastian.
-Wandun
-> 
->> This doesn't feel like the right solution.
-> 
-> Sebastian
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 5278d9cb19e4..fbb67f10c21e 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -1338,10 +1338,13 @@ static inline void early_boot_delay_msec(void)
 
+ static int __init printk_delay_setup(char *str)
+ {
+-       get_option(&str, &printk_delay_msec);
+-       if (printk_delay_msec > 10 * 1000)
+-               printk_delay_msec = 0;
++       int printk_delay_val = 0;
+
++       get_option(&str, &printk_delay_val);
++       if (printk_delay_val < 0 || printk_delay_val > 10 * 1000)
++               return 0;
++
++       printk_delay_msec = (unsigned int)printk_delay_val;
+        printk_delay_calculate();
+
+        return 0;
+diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
+index f15732e93c2e..f256fc05faaf 100644
+--- a/kernel/printk/sysctl.c
++++ b/kernel/printk/sysctl.c
+@@ -46,7 +46,7 @@ static const struct ctl_table printk_sysctls[] = {
+                .data           = &printk_delay_msec,
+                .maxlen         = sizeof(int),
+                .mode           = 0644,
+-               .proc_handler   = proc_dointvec_minmax,
++               .proc_handler   = proc_douintvec_minmax,
+                .extra1         = SYSCTL_ZERO,
+                .extra2         = (void *)&ten_thousand,
+        },
+
+This makes the cast explict, verifies the range before casting (I
+guess a range of negative values could result in a postive value
+within the 10,000 range) and also uses the correct proc_handler.
+
+This has the side effect of not showing the following pr_debug for the
+lpj calculation when a delay is not set. Though loops_per_msec is only
+used during boot, so I don't think there is any loss here.
+
+        pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
+                "HZ: %d, loops_per_msec: %llu\n",
+                printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
+
+Can I keep your Reviewed-By with these changes?
+
+Thanks,
+
+Andrew Murray
+
+>
+> Best Regards,
+> Petr
