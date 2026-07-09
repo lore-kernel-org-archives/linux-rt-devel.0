@@ -1,63 +1,46 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49EE2727FD
-	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 13:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2019528C86C
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 13:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783602915; cv=none; b=JjBTF2l8Y1JgIlkAHxHlc429nkeAwXpHbEC+NQuBI2Mwfoqsvb9CLX8ZfuNp1/Bpv7eRW4d9OPx5fUEdW0jT78inLNjFgRzf5CZyVTp/niRlk8AyQD/yURslcKJ1AF5iuUm58YWE17uqErt4nRWLHwj5gMduBpex8vmE/YLnalw=
+	t=1783604203; cv=none; b=fHAKEKx4I9dA5t274FQMGcNH/V63WHu1bh8suxY377SgzMqoRxnQ1I/Ls9o4ncMMz4eTuJVJO3igA4z5Kw/0uct7+8IygK3o6N34mH2xYPZZfLQcjXUDYXc4FI+5SyNCaKKOEzz72Ra9bMnaUeUnz7zzMBDRTfNDqH8i7xMe4y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783602915; c=relaxed/simple;
-	bh=A74DZ3n+WaImNgLn1Fj5wfej0g7UA+CMNIW8ESqng0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8qhMjDJ0+vEZ9Z/b/Wc0TyURepM2JMnfNUKGGcUoJkWZjM9cP7Zap/TRSU6QTnIWp7ayZY2KQbm0o70LdZR7tSS+MX5ARe9qKrJUKeFHY3LGJW/xluVqT2bmP3ozpD2Zz6YwGQ8hvB7gm8ezUMtCK2SnV3SiUSzKuo74mVfdh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hcHM9UjY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=50jcczpJ; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1783604203; c=relaxed/simple;
+	bh=BMeeq6fIt5jL7uijqlCJzenfKPQy2/kxMvJsSDX2bAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ihDIE8/5H9+V3+a5UdL1JcckRUN1bpuRgSba2yyorNnc6UHXwmmxkOeg0X8f5/+rFBSwteljjANWibt/DyN7THS63/kYH2/QkeNDJb+kfEV2sIsLT50xazPnxXSorEPMEjBUw0fFBv/9wQilSDkYpGylMIP6ldc2GZ8Zhb2fgRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zZ4FHlQo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+EenamWD; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hcHM9UjY";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="50jcczpJ"
-Date: Thu, 9 Jul 2026 15:15:09 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zZ4FHlQo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+EenamWD"
+Date: Thu, 9 Jul 2026 15:36:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783602911;
+	s=2020; t=1783604197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2eWXoJbsmPACrUiEI6Qes7YghoFFmPaabwm8a5YUjvg=;
-	b=hcHM9UjY2WcIxUhWAQ5bfTfhnUDaIvNt0zTL1QGxytCGn2/Pt1JuQgl1O0B0c0Fh/k8xYl
-	oozFDDllzS8gho4Q4Og9D95QhNfRy1QGX8kbN1RLp3JQnpqqz+1U/c8eQ6A/QKdH86EyDK
-	Z8/Ka4vBvFI7rJ5OHYy9hYwxrAs1ZWQDgzvgA/O8FDPKWfN773GNs5xexJBWmmDcrMWIL6
-	nhA9a5OhYmcZtXqQoKodZEp5jhMY7ck++PAE+6JX0vNZyjBZrUGr5BbqVBaaeWI49oouyK
-	cKHUfDWhXC++QmyZeOfYpSAtcDA+dqPTQuT56KkV7istkRc79R2Iz3GVAyWVxQ==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=uZgeuZ0n0lLdBlNmhh7Wr3J2Qtsvn8CcGUa5btfbdps=;
+	b=zZ4FHlQoW5Z7KzKFkGXwLYZBrS5glKHeYedEJbDSas06B3Cz0GHj68lviPt0nGX++uiNnj
+	Gd3PJodTV7hoyfr4uLMDi/dBAEw2tMBJ250yvOaJthWomJ6E2BKsZwSeMLpcTXfd6zHfSp
+	7FyhMRETCsJJKp13W99gDdpY5qzTt3M3mWpOrgWc8Ff/HtAs1CKjUUdY9YR9AwypUyTByV
+	V+V4PvVPb4CExPrPRP+mC1WaE8n7tttnE06aDA0VmdWXxK/1hMI6Gx7maNgR42nBSxPZBd
+	w+Ipf1cOAL0aZt3LIlEpBx2Ezdy5GuPdF6iFBRwybiMhNgm5p3/AacI90KfsOw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783602911;
+	s=2020e; t=1783604197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2eWXoJbsmPACrUiEI6Qes7YghoFFmPaabwm8a5YUjvg=;
-	b=50jcczpJIGp28/Y+rrdo2bcKZ4fBBALge0z10UabFspXx1idCA3exxs+6JwKQ4tQ1HdLry
-	TRfTEYvVRqMHTRDQ==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=uZgeuZ0n0lLdBlNmhh7Wr3J2Qtsvn8CcGUa5btfbdps=;
+	b=+EenamWD0JXGxeHyi3yY4KQF/ODFdJdAVKvHkw2KdAsOSKSHP8gjJcIuRQela36ZRI8X4F
+	9KDri9Xh0mcLZ5CA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Wandun Chen <chenwandun1@gmail.com>, vbabka@kernel.org,
-	rostedt@goodmis.org, mhiramat@kernel.org,
-	Alexander.Krabler@kuka.com, hughd@google.com, fvdl@google.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	akpm@linux-foundation.org, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	ljs@kernel.org, riel@surriel.com, liam@infradead.org,
-	harry@kernel.org, jannh@google.com, lance.yang@linux.dev,
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
-	gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-	pfalcato@suse.de
-Subject: Re: [PATCH v2 4/4] mm/mlock: migrate folios out of CMA when mlocking
- a range
-Message-ID: <20260709131509.iIPP2VBh@linutronix.de>
-References: <20260707125925.3725177-1-chenwandun1@gmail.com>
- <20260707125925.3725177-5-chenwandun1@gmail.com>
- <9b227263-56d9-41d5-ba8e-c969d8d68785@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v7.2-rc2-rt1
+Message-ID: <20260709133636.26mUnPEb@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,24 +49,29 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9b227263-56d9-41d5-ba8e-c969d8d68785@kernel.org>
 
-On 2026-07-09 12:04:33 [+0200], David Hildenbrand (Arm) wrote:
-> On 7/7/26 14:59, Wandun Chen wrote:
-> > From: Wandun Chen <chenwandun@lixiang.com>
-> > 
-> > The region covered by mlock[all] may contain CMA pages. cma_alloc installs
-> 
-> What about ZONE_MOVABLE where memory is supposed to be migratable?
+Dear RT folks!
 
-Would it be bad if the pages would not be movable anymore? Does this
-effect just memory-hotplug or something else, too?
+I'm pleased to announce the v7.2-rc2-rt1 patch set. 
 
-> Also, what about drivers that mmap() CMA memory to user space, and
-> __mm_populate()->populate_vma_page_range() would actually try mlocking them, and
-> they actually must remain on CMA areas?
+Changes since v7.1.1-rt2
 
-It should be safe to skip those. They belong to device and they
-shouldn't be affected by anything including getting swapped out.
+  - Update to v7.2-rc2
+
+Known issues
+    - Yoann Congal reported a bit spinlock in dm_exception_table_lock().
+        https://lore.kernel.org/all/Z8GTjqgDe_5EkE3t@P-ASN-ECS-830T8C3.local
+
+You can get this release via the git tree at:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v7.2-rc2-rt1
+
+The RT patch against v7.2-rc2 can be found here:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/7.2/older/patch-7.2-rc2-rt1.patch.xz
+
+The split quilt queue is available at:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/7.2/older/patches-7.2-rc2-rt1.tar.xz
 
 Sebastian
