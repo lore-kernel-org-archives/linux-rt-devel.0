@@ -1,129 +1,121 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2454A3890F1;
-	Thu,  9 Jul 2026 14:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6647D54723;
+	Thu,  9 Jul 2026 14:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607474; cv=none; b=PHR3JJz6wfZxjbQcwJqmU7D+LEIRlbEqyjZh+Ims+EK+3DOv+G1gyHYitKuiOETCfHqRzZ9YGGhBXSD/D1f1lcg5yC4Q0HkO73mLyGjQaBmAjPjsL0rnnZiWOhTc3utRu8rM3jYCfIQOkkgGfUH/XuGP1PmMlUSdUn9hYaC1N3M=
+	t=1783607933; cv=none; b=eIf0cQOX6cDt97j6RhGRCQGOzUxAQFWxv19jOOhhMsAynHCCjFFBCQ7rECJ1VSyj6gQrrY7GTPJNR1VXFcC+gRxvYPzSoWpYKFezyasGH0Z3MONM8B83ZH4l6mnGCRSLcfOLiBKxW7zPXTZnVe4AqESLMgWTMYh4MtsQTKNjde0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607474; c=relaxed/simple;
-	bh=tYRSRMOCoDr5c8AaPlCzkJaf9wYXXNmgZB1EM01BYX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C5CRqeT3gezjoYjDL0yxfhnd3Ic2AvBEFraizBiiVOVv1zZQ0YwtxkGcAOnDbLvM8eY3RBhY6z1bWO40kc79jB3M2yhdq/YZESszjG7jmzFDBIx4NyN4/iB2KOokHkKwfjhddzZFZ8jbXmiasJ3TV3ZTA+X8vf5REye4l2U9LLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mW+cA96R; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XNNwECeY; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783607933; c=relaxed/simple;
+	bh=J5qEk6mSl3WKm2EI0sieq0lLU0pyb6XdpMby7zTN5so=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=aJ6zrTTWvpFEIzGHsmJ4hcELP3lm5q+MNU+NqEzbpnRlAUmKaYArDvkbmwX5JJJPSbn1cqz4/exbLwGPWNiEvvgSAFpBrZhLTBGN/b4LQ5GCcuSylnSD2lJ6VpCp7UomMMCVzBG6KSIA92FfyjMM1oyO4O6h2UMYgW/FiPX09d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZJF0jqJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mW+cA96R";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XNNwECeY"
-Date: Thu, 9 Jul 2026 16:31:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783607470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=TS8BEtvMQvtLnB6vfkWXPH4LOaVjs2BDj91GOA4OgVE=;
-	b=mW+cA96RmxeGTEehWDU8SyxfkrIbx+4kKTfErwftKzdlJPFTPDYaY9Dq/PXN/CaklgWmAI
-	6mxsuxy3x9Ol6Bn8TJQlODW0htTI2WRG+ss+iQ/iTa3+dz0rQBQNZ/qlHvYGraJFAj9Fyq
-	CgCAiXYZ/hzruMIoatV18Juw00JH0G+B/tm/zLTz46J8Dn+bix+q4ahFQdBWT8a09B1jc3
-	7esakF7I7Sn4lPC9iRIWnk5jqJUHmF6H+LNmyYFkYeTCLMGgwQtJECO/hyD/NjeaP7kaYe
-	boEiKaVTSOoCT2qtNmbo9raX03lAOlZb79nlcfFrYHTdR+ukg5+G2zyxMKT0iw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783607470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=TS8BEtvMQvtLnB6vfkWXPH4LOaVjs2BDj91GOA4OgVE=;
-	b=XNNwECeYc1MIAYyh6X9dBtiS5yNzABLsSfq9sA4ZLkMC2bGNLOtXKV6+mhEDjymCEGmXzl
-	bTVZNwZpawljt0DA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Clark Williams <williams@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <20260709143108.UYeCUUcd@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZJF0jqJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8DB1F00A3A;
+	Thu,  9 Jul 2026 14:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783607932;
+	bh=VmcfCU9mg6cC+ttcEyqDVALq9F3di98UEhamxZdYAhY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IZJF0jqJcAFWtyAazX3TlNJFqZ8lAoZCoTQHf9BfkHG9ZYMqKWhZ+GSZDrzzuSeA2
+	 jcHZ7iAdY47cmw0flo5aiBf60hM70JXtkj+nwt1YTWYoZAHVQoX2miikNSK/RTzjIb
+	 hiY5JoHLag9XKUFIRZ5B0dkq1i8PcpP1sl+2KbuvOtGyZAe4d0fdvOzI42qsAIiDnd
+	 FgcRUx8okC1Z0+B4SCplr0HXJeeddVY2rHbSnc/sA2RM6yqGJCH+Pei21O24YIi1Mt
+	 /bB8MhbAkr/iiK2V9/yJrgG+Hd/oDVjwcrRENH0GdnqX51+iKkphMzSnl8m5GJGUZi
+	 USUr+/BTajUsg==
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260709143108.UYeCUUcd@linutronix.de>
+References: <20260709143108.UYeCUUcd@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jul 2026 14:38:51 +0000
+Message-Id: <20260709143851.8D8DB1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [Medium] Creating `/sys/kernel/realtime` as a regular file prevents futur=
+e extension into a directory, permanently locking the ABI.
+- [Medium] Exposing a single-purpose boolean flag instead of a generic pree=
+mption model indicator.
+- [Low] Newly added sysfs show function uses deprecated `sprintf()` instead=
+ of `sysfs_emit()`.
+--
 
-The following patch sat in the RT queue for almost 15years now. I can't
-find its origin on the list.
-All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
-and returns 1.
+--- Patch [1]: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry ---
+commit b40fad0ff776ab9c6dbe7fb2b7d2cb062431ad56
+Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Is this something that is still wanted and considered useful?
-Is this something that can be expressed better by other means?
+sysfs: Add /sys/kernel/realtime entry
 
-There was an in person discussion about this and it was suggested to add
-/sys/kernel/realtime as a folder and having individual realtime features
-as files. I don't remember a single feature that would quality for this
-today but who knows. This is all I remember so far.
+This commit adds a /sys/kernel/realtime entry that returns 1 when PREEMPT_RT
+is enabled. This provides a way for userspace tools like udev to quickly
+evaluate if the system is running a realtime kernel without parsing uname
+output.
 
-Now. Discussion go!
+> diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
+> index f45ade718054a..670a7a57d7b23 100644
+> --- a/kernel/ksysfs.c
+> +++ b/kernel/ksysfs.c
 
----------------------8>-------------------------
+[ ... ]
 
-From: Clark Williams <williams@redhat.com>
-Date: Sat, 30 Jul 2011 21:55:53 -0500
+> @@ -133,6 +133,15 @@ KERNEL_ATTR_RO(vmcoreinfo);
+> =20
+>  #endif /* CONFIG_VMCORE_INFO */
+> =20
+> +#if defined(CONFIG_PREEMPT_RT)
+> +static ssize_t realtime_show(struct kobject *kobj,
+> +			     struct kobj_attribute *attr, char *buf)
+> +{
 
-Add a /sys/kernel entry to indicate that the kernel is a
-realtime kernel.
+[Severity: Medium]
+The commit message asks if there are better solutions to express this state.
 
-Clark says that he needs this for udev rules, udev needs to evaluate
-if its a PREEMPT_RT kernel a few thousand times and parsing uname
-output is too slow or so.
+Instead of exposing a single-purpose boolean attribute specifically for RT,
+could this be a generic preemption model indicator like
+/sys/kernel/preempt_model?
 
-Are there better solutions? Should it exist and return 0 on !-rt?
+The kernel supports multiple preemption models (NONE, VOLUNTARY, FULL, RT,
+LAZY). Providing a unified UAPI that leverages the existing
+preempt_model_str() for all configurations might be more scalable for
+userspace tools than a dedicated boolean file.
 
-Signed-off-by: Clark Williams <williams@redhat.com>
-Signed-off-by: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/ksysfs.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> +	return sprintf(buf, "%d\n", 1);
 
-diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
-index f45ade718054a..670a7a57d7b23 100644
---- a/kernel/ksysfs.c
-+++ b/kernel/ksysfs.c
-@@ -133,6 +133,15 @@ KERNEL_ATTR_RO(vmcoreinfo);
- 
- #endif /* CONFIG_VMCORE_INFO */
- 
-+#if defined(CONFIG_PREEMPT_RT)
-+static ssize_t realtime_show(struct kobject *kobj,
-+			     struct kobj_attribute *attr, char *buf)
-+{
-+	return sprintf(buf, "%d\n", 1);
-+}
-+KERNEL_ATTR_RO(realtime);
-+#endif
-+
- /* whether file capabilities are enabled */
- static ssize_t fscaps_show(struct kobject *kobj,
- 				  struct kobj_attribute *attr, char *buf)
-@@ -206,6 +215,9 @@ static struct attribute * kernel_attrs[] = {
- #ifndef CONFIG_TINY_RCU
- 	&rcu_expedited_attr.attr,
- 	&rcu_normal_attr.attr,
-+#endif
-+#ifdef CONFIG_PREEMPT_RT
-+	&realtime_attr.attr,
- #endif
- 	NULL
- };
--- 
-2.53.0
+[Severity: Low]
+Should this use sysfs_emit() instead of sprintf() to align with modern sysfs
+API standards?
 
+> +}
+> +KERNEL_ATTR_RO(realtime);
+
+[Severity: Medium]
+The commit message mentions a past discussion about adding
+/sys/kernel/realtime as a folder. Does creating it as a regular file now
+permanently lock the ABI?
+
+If future realtime features need to be exposed individually, replacing this
+regular file with a directory later would cause a strict ABI breakage. Exis=
+ting
+userspace tools calling read() on it would suddenly receive -EISDIR.
+
+> +#endif
+> +
+>  /* whether file capabilities are enabled */
+>  static ssize_t fscaps_show(struct kobject *kobj,
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260709143108.UYeC=
+UUcd@linutronix.de?part=3D1
