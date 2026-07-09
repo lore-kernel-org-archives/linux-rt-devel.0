@@ -1,78 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA733546E3;
-	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783608384; cv=none; b=NafsqEM8YfEeW1vNUvIqkWohDV9m/w5k95oXrcc4D//SXjVIUuYjLKDNF5AZVm4mJk4q2ExhbgIrG+pTPATC8lGsSTCOuva6f9fTyRhzDFqpCJ8V92SSi8fqkSL1oPEdCq89FNcrcYnZKdcjZsSL9xVsNIcx6T5Y2/gRuausNRg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783608384; c=relaxed/simple;
-	bh=eJ+h6/lXpJCk4eI/exWo4sp0JP8DgG9coEpBlM8IjJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0QAiMZWk7jyI11NWMY6D0GdlrFzUqnSM5sgDRraGLoehct6Zpecthw2+3NLhPNIeWa/iUp1SfDEBFy4nGOCfJt5r5yEqmyZpl6L1lNH6K89S3vdLPGpZghJTknp/wh4NmXOgVz8ZEPvUIH6sIxZ7KAqWmBCZt0Eko0gmMq6Mbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nULFwRNK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E8931328C
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 14:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783608547; cv=pass; b=E5i3pYhOzhzta65WNe4LhdOI0b37pMe/lts6+UDGRxFtAgNqbgLWEAROtIUcFLY0ILwOIutHcI8o4GLQsDOfA+QX1Z93uqWA9pxGVHKjirtSPNHuuKNvZBqHLCfpEsuIqG49Bx03wq/k9XVRMn6ZMpdHD//dvvqLrxYpSp4zdaw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783608547; c=relaxed/simple;
+	bh=Sk6RankvhH5IPrjCp/mMpqfpvlNX0Holpo+rbRThvlE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rdfbtBdv/8zRwJ9oyQV+kCTkjoCu9gzX6WqHu4iEFILbUfzUS8mW6p+CX5A9FeFNohPT+zZC8+oRyyJq/OgoLfe5+0hricz72fbPzJ7GpTHxmzdJvYvfOh475B05cchbuS82L3fVCgucoJ4YmomV6La72psCHHrSpBe52y+Snkw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=tLeEg8LY; arc=pass smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nULFwRNK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481EF1F000E9;
-	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783608382;
-	bh=Du6XqMSaeWA87grycj96VaPj3Jaq9JvDXeSGVPV59D0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nULFwRNKnj1v8BcpS82+yTlUBkJDPTvKCqm0/GhKbEB0OsscH96h5kMd5O5ljIGlv
-	 JeTr8YQMu8n+IGm6XjcxIQn+smDH1zecZdyVL4ALGffqkwJOtJRMiOyiCJqlMh3167
-	 pB/ClWZS1chsCSICHY3/o08t21OEtB7x/Qb5N9AI=
-Date: Thu, 9 Jul 2026 16:46:19 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <2026070922-kilowatt-matador-5e1c@gregkh>
-References: <20260709143108.UYeCUUcd@linutronix.de>
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="tLeEg8LY"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-44ae14b4fd6so1047064fac.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Jul 2026 07:49:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783608545; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JuSqIM2l8WOqLAKYaw1eJqIVLd8b8O+SUpUToEcxats44boVqmn00Qt97Gv9cjkAAg
+         uW3GJREtL35RAxoVMnV7Xkqibp5pQlhuaAHcaefwfE0U5fpW9wDzh12StT2R2rvvjb/i
+         zXhLMbI7ifHNOWcdOi21GWcAPlG5V+hpTKzUgKmOHxC8SRYrJU6MrFkBMHK6g4D+9C3W
+         /iwCraAe6dNB/28Xcnu3/d/ZDJ60LOo2nsHb0W7OXOhdAGmamcAUp0lClo9lmlvpb3ml
+         jgKgIbVId1IPxV/zlMtm5k+hKpDQANpbIRG9nuvkfZ6sNHm8/oOxFyd5llX6S4ZalW/k
+         oUPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MYS2uTBqKgSrer77DXZbILY3qQ1j4rYV+efL09YAvE4=;
+        fh=XrLAZQ8YmBGzuYjbs3J+/tURQmRHJfTXw2HhQbRdNjc=;
+        b=NXA+lSS0ZfevYTSFGrnShA9ID1YOmfbH0OR+s3RFsmWophBo4CNcxRTEjTjl58CpEk
+         VQyIja/ww3b0thDpLClRHsed660xzUIiMjXil71Pjru+mf1BegWKdqxswWS0I9OIn2bS
+         Ay/Msnr3q5N8qXnu26krb5S2j5P5SMdPnqqgLJIooN0k4dWrTBZwJ07TTkaMKT1eLk5X
+         jsBgvxPFNs5xTKdovMZ7f7DmShlQxNMg0Y+lG9gL3aH1kUYUBhhrDxSt1ijNSmYxqdiD
+         05a3rpNmab1iF6V3jV9ApQV82loIdhnIKcaon00xLrIV5cAa+XlOGoo7g0fVvvT+y9vH
+         nmig==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1783608545; x=1784213345; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MYS2uTBqKgSrer77DXZbILY3qQ1j4rYV+efL09YAvE4=;
+        b=tLeEg8LYBGbgojGLQ/PrW1PYyIvxFcvtb+naEWLwWWxudhj9Wop94okDCdWbcseWmg
+         57jzvJbsLdxKDqkqBgFOXx6q+mCGT8sG/iaA2vLLaOyEpAVl7YaDfjUTihbQg5wsvhEV
+         amATCa75PiDYQ7JoQIhJrVfJrpitnoeb9PBvFtZ0odjOI2W1NcmaZxv6PYx9LMWEcSUV
+         n4Bq+NwOeamdWpFq1rrIg04Au69SY/sSL9H/vYxNEpRTyx0vxftX//HVPE3jlZHKWNrV
+         D0E2rWgNCoMTd7uS3s7LefoHHshxYH09tPUnBALqSohi/ZSrn4JxfSK+bjV4B4In9zwJ
+         TeuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783608545; x=1784213345;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MYS2uTBqKgSrer77DXZbILY3qQ1j4rYV+efL09YAvE4=;
+        b=Aw7cBzE/Qrijks73PPLmQihQhniyaFCbDQY/tfG4N3B/ea+Kcje2mFwBcb5oYB4F/O
+         WVeWK5D1CrGsMYyHIR3lyAJKflwyRgYcRzJFfaSKn3CAAty9Uri0GMg5R1J89qKPBjbt
+         EJYKn8peYeJonRCAbV07lZ99MnnyLuRaBd04CsGEHfM7u/0G3Lm5st61livItrESvmZi
+         iKkuXBAfxFFRVZRHHY4dvydWXGdfXO/gyiAeuJ55OEH6vYO+7neyj1aFmILiq3qgfeLA
+         DVTkqIoIwsB2IMNpcWn+Emm/V95ZZgSiFArPgdTs+DTzjskEAAaX5aiYha9xG7oSwlq+
+         TPow==
+X-Forwarded-Encrypted: i=1; AFNElJ9XAka8hM1H0uj8o4Cd1EaOaGv8myPYredHJI6UIaYAEhXWqTc7FCuqmFZ2DodmmJlFEePMZcOFaqK4T/o1Gg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzI+knOUhG9Oun8mJtO2NVKEdXXNprOXxsmg1ZdbXahBBYil1SO
+	p4uHcDklQxuxPKeaRyxRaUJuE9L8+kJT4fgAi9GaGdJOO3Z6Cx9s4NhlnsUWBCeSWpPo6oh4lSx
+	WDX9oYdIfaj1jpoq6iwC4A0gr+zUkgxyA+b3AHVGVrA==
+X-Gm-Gg: AfdE7cmwG1h99rgkgVWx1gRsv15GJDpt6wtpAi+9c9Tzsd33/cW14hIDOVX2FTasX11
+	or1/lIC+5jdIEOWvZD3ypPZopIxCHOvyIOTp9YA3as7EM4qQa7pRsGRr4gekd3AgJ9Q1YMXSqpu
+	G//W0O6akXQbQNIQNA161fYPK1NLhNDGgLcqckPpSzOHj8JiEVq/X1UvIOiUwjbytxONedqWKmp
+	E+HOcrTNyDMk/b4gUZVVMz6SU32G4ZL0uZ1MPou7/fPXngTACUX5DhDCeQl4p2VOu5+LqJp/JOo
+	ghbUbSvwrI8AMm2zh44HvKfENqmz4VVOjeChvyJiADTpSy4wjGqspvMOCgZcoQXpG5LNMMR93rY
+	yQVcL/AEW0KFSE2E+3xtsjjpJ4R0j
+X-Received: by 2002:a05:6820:4b91:b0:6a1:87d1:402a with SMTP id
+ 006d021491bc7-6a36d8db604mr5711492eaf.20.1783608544960; Thu, 09 Jul 2026
+ 07:49:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709143108.UYeCUUcd@linutronix.de>
+References: <20260630-deprecate_boot_delay-v2-0-f9883d36aa4b@thegoodpenguin.co.uk>
+ <20260630-deprecate_boot_delay-v2-2-f9883d36aa4b@thegoodpenguin.co.uk>
+ <ak5mPxUdp2pzCMt5@pathway.suse.cz> <CALqELGxjTZAXEp1C1CNO2tLbUpUChZW3DHcNgyhEu4Ma-ct2ow@mail.gmail.com>
+ <ak-vqrSr7NLCkGQw@pathway.suse.cz>
+In-Reply-To: <ak-vqrSr7NLCkGQw@pathway.suse.cz>
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date: Thu, 9 Jul 2026 15:48:53 +0100
+X-Gm-Features: AUfX_mwJgx6F5Vn2HOCATKNy1ql8ixFyCz9Yy1yVyKHgtQVtX5Yb7ZaDGdYvvFI
+Message-ID: <CALqELGyd0UQu2T=odSG6eavnzZ6bmJVd4VKo3oAVTyRpkkSRQA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] printk: deprecate boot_delay in favour of printk_delay
+To: Petr Mladek <pmladek@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wrote:
-> Hi,
-> 
-> The following patch sat in the RT queue for almost 15years now. I can't
-> find its origin on the list.
-> All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
-> and returns 1.
-> 
-> Is this something that is still wanted and considered useful?
-> Is this something that can be expressed better by other means?
-> 
-> There was an in person discussion about this and it was suggested to add
-> /sys/kernel/realtime as a folder and having individual realtime features
-> as files. I don't remember a single feature that would quality for this
-> today but who knows. This is all I remember so far.
-> 
-> Now. Discussion go!
+Hi Petr,
 
-At the very least, it's not ok as it's not documented in
-Documentation/ABI/ :)
+>
+> I would change this to sizeof(unsigned int) as well.
+>
+> >                 .mode           = 0644,
+> > -               .proc_handler   = proc_dointvec_minmax,
+> > +               .proc_handler   = proc_douintvec_minmax,
+> >                 .extra1         = SYSCTL_ZERO,
+> >                 .extra2         = (void *)&ten_thousand,
+> >         },
 
-But really, why is this needed?  Userspace shouldn't care, right?
+OK.
 
-And checkpatch should complain about the sprintf(), should be
-sysfs_emit().
 
-thanks,
+>
+> Otherwise, it looks good to me.
+>
+> > This makes the cast explict, verifies the range before casting
+>
+> Yup.
+>
+> > (I guess a range of negative values could result in a postive value
+> > within the 10,000 range) and also uses the correct proc_handler.
+>
+> IMHO, this should not happen. I have never seen int smaller than 4
+> bytes. If I count it correctly, positive numbers should be up to 32767.
+>
+>
+> > This has the side effect of not showing the following pr_debug for the
+> > lpj calculation when a delay is not set. Though loops_per_msec is only
+> > used during boot, so I don't think there is any loss here.
+>
+> I agree that it should not harm. But please mention this in
+> the commit message.
 
-greg k-h
+Yes, sure.
+
+
+>
+> >         pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
+> >                 "HZ: %d, loops_per_msec: %llu\n",
+> >                 printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
+> >
+> > Can I keep your Reviewed-By with these changes?
+>
+> Feel free to keep it. That said, please put at least the change
+> of the ctl_table into a separate patch. I would rather put both new
+> changes into separate file. It is never a good idea to hide
+> such changes in a complex patch which mostly reshuffles an existing
+> code.
+
+Yes, that's a fair point.
+
+Thanks,
+
+Andrew Murray
+
+
+>
+> Best Regards,
+> Petr
