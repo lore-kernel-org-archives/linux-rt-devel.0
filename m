@@ -1,80 +1,200 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF0543B3C7;
-	Fri, 10 Jul 2026 16:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC33F43B48F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 16:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783700454; cv=none; b=IrAOUyth2E6J7N7e0diHc/zNxzoVteAkXDmwVOkfcdhzERuc7IVr5bPGVVr/IN62UI4yCBJaXWfCE0YA+F7IylCOUe/ZkiwDGujyYegUdjyvcIlNjT8PW84zjzKVc0MXYbEvV3EfSLVmgX6V0mmZUEENY7+Eyae2rxs1J3yKkN8=
+	t=1783701846; cv=none; b=hfKwd8Yydirx7/Xo+ABgQ3jhviDz9Bp9T+q8sTr0ctzZxOcsZMYJGx3Lyz34+6y4JnuiRmHxt7TqCITH5pjw1xSZDPk4deDHII97KUdeIfQPzsmIE9OV4wPs61z4+PHMbaUO74lw3ePbWvRiJSR8Jdc92zvNPlH+PrpPdStvRmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783700454; c=relaxed/simple;
-	bh=GvwTa/62diZ/Zn8kt0oriCZbdJ698Nc4TIvwnU2j3EU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QID9zVXMRmAbFu9PqWhmZtQ00tvw08gcmydPdJ9Ohd3J42M/IxHHMjUkkR6XpT/HnWOu5HFgOsssmzWMz+sJavOsEBjeYN8Eddzd/vX5RgzxnEUw+DWeXUTshajzxNbMgc7P7K1O5vHUSsRcG7EILiCpWkLbvzU2kUgifkcjkQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 8EE291C85AB;
-	Fri, 10 Jul 2026 16:13:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 028196000F;
-	Fri, 10 Jul 2026 16:13:55 +0000 (UTC)
-Date: Fri, 10 Jul 2026 12:14:05 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Florian Bezdeka <florian.bezdeka@siemens.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, driver-core@lists.linux.dev,
- linux-rt-devel@lists.linux.dev, linux-rt-users@vger.kernel.org, "Rafael J.
- Wysocki" <rafael@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Clark Williams
- <williams@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Jan Kiszka
- <jan.kiszka@siemens.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <20260710121405.0262ad6c@gandalf.local.home>
-In-Reply-To: <2026071052-backstage-skype-f22d@gregkh>
-References: <20260709143108.UYeCUUcd@linutronix.de>
-	<2026070922-kilowatt-matador-5e1c@gregkh>
-	<20260709152214.rH1O_8SM@linutronix.de>
-	<748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
-	<20260710115145.32729a7c@gandalf.local.home>
-	<2026071052-backstage-skype-f22d@gregkh>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1783701846; c=relaxed/simple;
+	bh=k/DYohfKDSxjiqdIraTgAZUOXPWe4X+vqJQlCDRJ/no=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=aJVA4b4jZrsDvJc0DUqqBmtGERJNWGc1AEnAd0G1H7aiWt342Y9eHER7rSGVM8zlJU39v3WJH1A3vZHIpNpDdMfP2aIpo2T8SLBStYVrGaiEiZmrsl2rG/xCVUOYEIEaZAHDyEQFYy35ebgVvDSuDOAf3Vycyj+Hx3CgzkLJzOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fWcSTkxW; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fWcSTkxW"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5E0A21A0F38;
+	Fri, 10 Jul 2026 16:44:02 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 28CE160342;
+	Fri, 10 Jul 2026 16:44:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6711F11BD2463;
+	Fri, 10 Jul 2026 18:43:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1783701841; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5klLTY7luf2N9VlmtEJ+qRL3gV5Uke3/bj3Rh06DY0c=;
+	b=fWcSTkxWyhHL8JKpgTOxN2xozIVxTBZypNlJvyUgsrxQRH8slqs+/Op0GxLihj02cXSlXo
+	yw9iMeTzEicnruefJszL/LGcgKWGzxSorztU8r3IUwi4KVdd+chMC/OgX4uxnuE/oLu2QZ
+	xuVEU8PVZB+HVTs0Of+s8t3kMJ+WgSOoNBc/9mB4ieIPVRER4P9Mf55K5myLdsL6seSFHs
+	eSQITggZYkoemSi46v+enW0STR7BMC67fi0Cveo1rXmPaJWKu/ZW+fMLWF9JcoVQze0kfS
+	OyxwiDD6F6YPSBBaL+qAWPDE0o1g9JpsKiruJSXx92FLPbO7zvy9IFItLdN6DA==
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 9e4zt8i1b9q184cadfietxgb15erzchr
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 028196000F
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19Xu4sWlEIau/Z6FExvfaQhFYPafq2kbE0=
-X-HE-Tag: 1783700035-510940
-X-HE-Meta: U2FsdGVkX18WIHfCHAI+qI4jNCOhsm3KBDSzNZC9MKP4HTuSB5NErqVWSAgI7bXc0xs59wNQ3TNU4NLxR8/iNKRCv466blJPiDMnVsH4YM09JovS9AVeJ9OEOIk7NFo5XVFksNMkVkS1IwhclJrM7XJ9KmSmHMuor2u0IrCNQt31LoZiqWJot8J0zyLrbW6jCyKQiu2ifX19nVVKDsznSuOj1g+SWirnaZ56bPBSjIElwF+okAdqGYVsc9BFjnQeRqhnxd/ExAt0eKaFsWN0FSjHnAZ3Z54aeq++jFF8NzZPPEx1g9oYcT2KM6MFiri0u0wRUPXZOcuwjmwGAsE4hWUBt1KiDjymBuSaB2F7ybljcANAFhRUmdnZ8viEcnkDKK0hNh5kwIFRmxaqfeD0YA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 10 Jul 2026 18:43:54 +0200
+Message-Id: <DJV1J2JKZ6KW.1RXOBM28WTVGG@bootlin.com>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH net 2/2] net: macb: mask TXUBR during TX NAPI poll to
+ prevent IRQ storms
+Cc: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <stable@vger.kernel.org>
+To: <christian.taedcke@weidmueller.com>,
+ <christian.taedcke-oss@weidmueller.com>, "Conor Dooley"
+ <conor.dooley@microchip.com>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Kevin Hao" <haokexin@gmail.com>, "Simon Horman" <horms@kernel.org>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
+ <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Robert
+ Hancock" <robert.hancock@calian.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260706-upstreaming-macb-irq-storm-v1-0-ab3115b5a13a@weidmueller.com> <20260706-upstreaming-macb-irq-storm-v1-2-ab3115b5a13a@weidmueller.com>
+In-Reply-To: <20260706-upstreaming-macb-irq-storm-v1-2-ab3115b5a13a@weidmueller.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 10 Jul 2026 18:05:12 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+Hello Christian,
 
-> On Fri, Jul 10, 2026 at 11:51:45AM -0400, Steven Rostedt wrote:
-> > On Fri, 10 Jul 2026 09:23:16 +0200
-> > Florian Bezdeka <florian.bezdeka@siemens.com> wrote:
-> >   
-> > > uname might qualify, yes, but keep in mind that this sysfs based API is
-> > > already used, so a removal might break applications. Yes, userspace can
-> > > be fixed / adjusted, but it remains bad style, no?  
-> > 
-> > Then at most it will likely just stay in the -rt patch set. As it was never
-> > mainlined, it's not breaking any user space that uses only the mainline
-> > kernel.  
-> 
-> I never said I wouldn't take it, just that if I would, it has to be
-> cleaned up...
+My biggest gripe with this patch is the commit message. It's a massive
+block of text which goes here and there without enough structure.
 
-I didn't say you wouldn't take it. But you brought up a valid point about
-if it is even needed. The point I'm making is that it's not a regression
-from the POV of mainline maintainers (people like you and Linus).
+Let me try to pick issues I have with it and try to give a better
+alternative (hoping I understood the topic clearly enough).
 
--- Steve
+On Mon Jul 6, 2026 at 4:02 PM CEST, Christian Taedcke via B4 Relay wrote:
+> From: Christian Taedcke <christian.taedcke@weidmueller.com>
+>
+> macb_interrupt() defers TX completion handling to NAPI, but when it
+> schedules the poll it only masks TCOMP, even though TXUBR is enabled
+> alongside it (both are part of MACB_TX_INT_FLAGS). macb_tx_poll() is
+> asymmetric in the same way and only re-enables TCOMP. TXUBR is thus
+> left unmasked while responsibility for handling it has been deferred
+> to NAPI.
+
+Yes, so said differently:
+
+   TXUBR is acknowledged by the NAPI poll function. The IRQ signal is
+   active until then but signal is left unmasked. Do as with TCOMP and
+   mask the signal until its acknowledgment.
+
+This sounds much more straight forward to me. And it also explains what
+we do to solve the issue, which is info we expect to find in the first
+commit message paragraph. The rest is to go into details onto the
+specifics, the decisionmaking, etc.
+
+> Unlike an edge event, TXUBR is a persistent condition: the controller
+> keeps it asserted for as long as the transmitter reads a buffer
+> descriptor whose used bit is set. Leaving a level-triggered source
+> enabled while NAPI owns its processing means the interrupt refires
+> immediately after the handler returns, before the poll has had a
+> chance to clear the underlying condition. This turns into a hard
+> interrupt storm that pegs a CPU in the (threaded) MAC IRQ handler and,
+> on PREEMPT_RT, triggers RT throttling ("sched: RT throttling
+> activated"), taking the network interface down.
+
+This whole paragraph is somewhat moot to me. It highlights level versus
+edge interrupts but even with edge events the bug is present: it blocks
+any other IRQ from the HW until the TXUBR ACK (in NAPI context).
+
+Describing how the bug surfaces on your HW is interesting however.
+
+> Several situations can keep the used-bit read asserted across a poll -
+> for example unreaped completed descriptors still sitting at tx_tail,
+> or a transmit restart racing with macb_start_xmit(). The specific
+> trigger does not matter: as long as the source stays unmasked, any
+> persistent assertion is enough to storm, so the interrupt handling
+> itself must be made self-limiting.
+
+But this is unrelated? Whether TXUBR stays asserted across the poll
+processing doesn't change the fact the IRQ is unmasked until we reach
+NAPI context and the signal is still not ACKed.
+
+> Mask TXUBR together with TCOMP in the IDR write when scheduling the TX
+> NAPI, and re-enable both from the napi_complete path in
+> macb_tx_poll(), making the TX interrupt mask/unmask symmetric and
+> consistent with how the driver already treats every other
+> NAPI-serviced source. The pending TXUBR is still recorded in
+> queue->txubr_pending before masking and acted on by macb_tx_restart(),
+> so no event is lost. A persistent TXUBR now degrades to NAPI-paced
+> polling instead of a CPU-pegging hard interrupt storm.
+
+Again a lot of words for little info. Usually the patch change
+(the "mask TXUBR with TCOMP" part) belongs to the first commit message
+paragraph, we shouldn't have to wait until the last paragraph to know
+about what a patch does.
+
+Some question that is left in my head after reading, that could have
+been answered by your commit message: your approach of masking TXUBR
+until NAPI is one way, another would have been to ACK TXUBR from
+macb_interrupt(). Have you investigated that approach? The answer might
+be super straight forward.
+
+> Fixes: 138badbc21a0 ("net: macb: use NAPI for TX completion path")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+> ---
+>  drivers/net/ethernet/cadence/macb_main.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ether=
+net/cadence/macb_main.c
+> index b11cb8f068b7..f75cf2ffdf6f 100644
+> --- a/drivers/net/ethernet/cadence/macb_main.c
+> +++ b/drivers/net/ethernet/cadence/macb_main.c
+> @@ -1971,7 +1971,7 @@ static int macb_tx_poll(struct napi_struct *napi, i=
+nt budget)
+>  		    (unsigned int)(queue - bp->queues), work_done, budget);
+> =20
+>  	if (work_done < budget && napi_complete_done(napi, work_done)) {
+> -		queue_writel(queue, IER, MACB_BIT(TCOMP));
+> +		queue_writel(queue, IER, MACB_BIT(TCOMP) | MACB_BIT(TXUBR));
+>
+>  		/* Packet completions only seem to propagate to raise
+>  		 * interrupts when interrupts are enabled at the time, so if
+> @@ -2161,7 +2161,8 @@ static irqreturn_t macb_interrupt(int irq, void *de=
+v_id)
+> =20
+>  		if (status & (MACB_BIT(TCOMP) |
+>  			      MACB_BIT(TXUBR))) {
+> -			queue_writel(queue, IDR, MACB_BIT(TCOMP));
+> +			queue_writel(queue, IDR, MACB_BIT(TCOMP) |
+> +						 MACB_BIT(TXUBR));
+>  			macb_queue_isr_clear(bp, queue, MACB_BIT(TCOMP) |
+>  							MACB_BIT(TXUBR));
+>  			if (status & MACB_BIT(TXUBR)) {
+
+We risk some race condition here, but that was present before your
+patch. macb_interrupt() already grabs bp->lock but macb_tx_poll() does
+zero efforts. (I'm not saying that macb_tx_poll() should grab bp->lock
+which would throw away the benefits of our separate queues, the solution
+is more complex.)
+
+Sashiko reports that as well.
+
+It's not up to you to fix this. Or if you do it, it should be a separate
+patch. It is weird that our IRQ handlers all grab the interface-global
+bp->lock rather than a queue-specific primitive, it would probably be a
+big rework.
+
+--
+
+TLDR: if patch 2/2 fixes your bug, I'm OK with it. Please rewrite your
+commit message though. I suspect patch 1/2 is not needed.
+
+Thanks,
+
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
