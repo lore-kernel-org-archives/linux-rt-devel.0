@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D056332916;
-	Fri, 10 Jul 2026 10:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5056240F8D6;
+	Fri, 10 Jul 2026 10:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783680827; cv=none; b=nHw7cKbO3HmeZ1VyWLXNK/6vYyDnrgOMvkxCI8gr3mXwk0cY2ESoLgDI+UzFeXmZjJ3NdVdbeubOvyZUODCxpg6tSWTgJJWBTPq0137T0K7t831tEz6dVRQb6uT3/bXcXeAOKg/L6SUWMqFRYYALqgQpBtO5b77i3UvwkS0B+OU=
+	t=1783681022; cv=none; b=MkNsMJDpqxfDMcWv0FwJTTy/44Z9u/7Tr2C5Ss9Dt69rWBuPwich6KxmG/lCvbGzMnYS7OucYs43ekSz25ckjucRbhHOy7kdbvzCiam9XyKvNN9FsQjCSBfJDo63fRrXCtdP09JORSV2rBQ8doR/25gh1799aB+eQujhNx4Lxbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783680827; c=relaxed/simple;
-	bh=Vci7zlm0nvuZ7fUD2nfaFyeWgMfoAJQ++cY0u5YnoYg=;
+	s=arc-20240116; t=1783681022; c=relaxed/simple;
+	bh=4c81CBzUocB4XSeAbLvkLio2CY4yU4QNqh4rZAcf9lg=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Vv4omLrrfQSKWv80/Cb2hP405JNQvWvrjZO6f4sLVs298T2W8mxsEJbk1A+B4MCatqZu6qf7NJx2xKqjOXObdChpaTiZPDsjPVaeYgfOK5TX7ziqctwjxdnTkT7/Oithu8nc6iaoHYWgDKAQgcXV6fdQSah5662qPFeuhiwPUw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QNSG2DKc; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=m5IHzFVq7+HiWc7Ol2wB5N9xddfMOPoHO1WdNKUTpsjP74gWoyE4cmUA0ipvOnIiZk7kHtaMqzPj8HxsF3NYyAnwExy96sFfxDKqdttpQzl/wR9RYB4gpuRz5CvBDAWwHYmA02uIcuBzsqoF26MO/imgct9zVKTMIDDeXwGTM/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHbvC4DB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QNSG2DKc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA031F000E9;
-	Fri, 10 Jul 2026 10:53:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHbvC4DB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5BDE1F000E9;
+	Fri, 10 Jul 2026 10:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783680825;
-	bh=wDxzpeLFblN7rLboFovZo8rbNeczTKGXK2Yvf6Vm5sg=;
+	s=k20260515; t=1783681020;
+	bh=Nq1r1vU42rLKgF9DtlFCxpvPkBnPy6qbqzJ02MIgE5A=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QNSG2DKcZPWJaU+dnHF/TevFAPumzj3Nv2p1FsPpq7MJin6cHdPob8FH6XWxoDrPN
-	 5f9O1cFM5nA7560txdXdRLSJ+yhY93X50rPjunU3Fs/TL2X91wNqkoaMu9uEoiqy3P
-	 rqSkbjVRtPzWamdZKZrI8xYeYDqz/vmtL82Y8ViYKiOdI4QONHRdheAKqxMtrBVxoj
-	 ixX3HQohO4Tt2Hk/PMBzduWa4Z+7nQMW6zuh2YUsvcTkftYsyk5nMbWIZMrc+75Xsz
-	 T5PZaZYQNJyIM69d2Tc7+jbNwETv76/Lv/Y6asSykjQ9FCF9/lIrX8vTyDGfkF485j
-	 8q0+sq6e9jdSA==
+	b=eHbvC4DBXUTpIY8fM08TOndhIYFbvZ3ex7lcLDBZ43j04j7Q4TmM7PjmUEACNJVDL
+	 h/joc8l77hVrTcI7bHEPnZ7dsSGiVR10p30vOX6To+AYlpYTP5QtEJESUpn/jiYhaQ
+	 EONuOqCXkMXkZiL/Wr5cuWRD8aSRME3x+UkLjvb4/twWT6+PC7H2CbJqrK0H2XR2DZ
+	 QhtXS+z+dx8hrw9kUAsVNj80JdB+aBj1q7lk2BcV6bXYhTmCBLcvQJflAarpdNoDjS
+	 5MzLHz5BHhIerV7KPvXOSQJftqFJg7zRVktgAgmwhNmZ4zVvGpI0bRDnS8SV1akToj
+	 eHRH8WYRx2AaA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] mm/page_alloc: rename FPI_TRYLOCK -> FPI_NOLOCK
+Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Brendan Jackman" <jackmanb@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260710-spin-trylock-followup-v1-2-affb5fe5ed00@google.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
 References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
- <20260710-spin-trylock-followup-v1-2-affb5fe5ed00@google.com>
+ <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2026 10:53:43 +0000
-Message-Id: <20260710105345.2DA031F000E9@smtp.kernel.org>
+Date: Fri, 10 Jul 2026 10:57:00 +0000
+Message-Id: <20260710105700.A5BDE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -48,62 +48,75 @@ Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] FPI_NOLOCK frees can trigger unsafe spin_trylock in NMI on PREEMPT=
-_RT via high-order or MIGRATE_ISOLATE bypass paths.
+- [High] The `!can_spin_trylock()` safety check in `__free_frozen_pages()` =
+is bypassed for allocations with order > `pcp_allowed_order()` and for isol=
+ated pages, leaving them vulnerable to unsafe lock acquisition and potentia=
+l memory corruption on UP systems or deadlocks on PREEMPT_RT.
 --
 
---- Patch [2]: [PATCH 2/2] mm/page_alloc: rename FPI_TRYLOCK -> FPI_NOLOCK =
----
-commit 57a8fbd6534fe3dfce75d671c889c4e1ae65159c
+--- Patch [1]: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP=
+ ---
+commit af22d8399ea9f942d20dfb24bc4e88e16f5fe2e1
 Author: Brendan Jackman <jackmanb@google.com>
 
-mm/page_alloc: rename FPI_TRYLOCK -> FPI_NOLOCK
+mm/page_alloc: don't spin_trylock() in NMI on UP
    =20
-As discussed in the linked patch, there is some inconsistency between
-trylock and nolock nomenclature, so this aligns it. Since nolock is
-used in the public API, the FPI_ prefix is updated to match.
-   =20
-Link: https://lore.kernel.org/all/20260703-alloc-trylock-v5-1-c87b714e19d3@=
-google.com/
+This commit updates the NMI and hardirq safety check in __free_frozen_pages=
+()
+to use can_spin_trylock(). It addresses an issue on UP systems where
+spin_trylock() is unsafe in NMI context, which was missed on the free path.
+
+Link: https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b714e19=
+d3@google.com
 
 > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 5fe1c11f919d7..ba8d882072de5 100644
+> index 9c97a86da2b9f..5fe1c11f919d7 100644
 > --- a/mm/page_alloc.c
 > +++ b/mm/page_alloc.c
-
-[ ... ]
-
-> @@ -2979,7 +2979,7 @@ static void __free_frozen_pages(struct page *page, =
+> @@ -2979,8 +2979,7 @@ static void __free_frozen_pages(struct page *page, =
 unsigned int order,
 >  		migratetype =3D MIGRATE_MOVABLE;
 >  	}
 > =20
-> -	if (unlikely((fpi_flags & FPI_TRYLOCK) && !can_spin_trylock())) {
-> +	if (unlikely((fpi_flags & FPI_NOLOCK) && !can_spin_trylock())) {
+> -	if (unlikely((fpi_flags & FPI_TRYLOCK) && IS_ENABLED(CONFIG_PREEMPT_RT)
+> -		     && (in_nmi() || in_hardirq()))) {
+> +	if (unlikely((fpi_flags & FPI_TRYLOCK) && !can_spin_trylock())) {
 
 [Severity: High]
-This is a pre-existing issue, but does this bypass create a risk of executi=
-ng
-spin_trylock_irqsave() in NMI context on PREEMPT_RT?
+This isn't a bug introduced by this patch, but since the goal is to prevent
+unsafe lock acquisition, does this check need to be moved earlier in
+__free_frozen_pages() in mm/page_alloc.c?
 
-Looking at __free_frozen_pages() in mm/page_alloc.c, if a page's block has
-concurrently been marked MIGRATE_ISOLATE (e.g., by CMA or compaction), it
-takes this path just before the can_spin_trylock() check:
+There are early returns earlier in __free_frozen_pages() that bypass this
+safety check completely. For example, for large orders:
 
-		if (unlikely(is_migrate_isolate(migratetype))) {
-			free_one_page(zone, page, pfn, order, fpi_flags);
-			return;
-		}
+    if (!pcp_allowed_order(order)) {
+        __free_pages_ok(page, order, fpi_flags);
+        return;
+    }
 
-Similarly, if the allocation order is greater than pcp_allowed_order(), it
-immediately delegates to __free_pages_ok().
+And for isolated pages:
 
-In both bypass paths, they skip the !can_spin_trylock() check entirely and
-unconditionally call spin_trylock_irqsave(&zone->lock, flags) via
-free_one_page().
+        if (unlikely(is_migrate_isolate(migratetype))) {
+            free_one_page(zone, page, pfn, order, fpi_flags);
+            return;
+        }
 
-Could this lead to a deadlock or kernel panic if a BPF program or other
-NMI-context code calls free_pages_nolock() and hits one of these conditions?
+Both of these paths eventually reach free_one_page() (around line 1561), wh=
+ich
+unconditionally calls spin_trylock_irqsave() if FPI_TRYLOCK is set:
+
+    if (unlikely(fpi_flags & FPI_TRYLOCK)) {
+        if (!spin_trylock_irqsave(&zone->lock, flags)) {
+            add_page_to_zone_llist(zone, page, order);
+            return;
+        }
+    }
+
+Could this lead to memory corruption on UP systems or deadlocks on PREEMPT_=
+RT
+if a high-order or isolated page is freed in NMI context via
+free_frozen_pages_nolock() with FPI_TRYLOCK?
 
 >  		add_page_to_zone_llist(zone, page, order);
 >  		return;
@@ -111,4 +124,4 @@ NMI-context code calls free_pages_nolock() and hits one of these conditions?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260710-spin-trylo=
-ck-followup-v1-0-affb5fe5ed00@google.com?part=3D2
+ck-followup-v1-0-affb5fe5ed00@google.com?part=3D1
