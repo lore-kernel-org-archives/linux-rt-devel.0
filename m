@@ -1,182 +1,156 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3547C3469F6
-	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 08:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783670896; cv=none; b=NIUmmPmECRgkgUNAJi6GXxI+VB7T+Lx9d/K+TdvuHHh3DsBSR9899jTgWh/Xb3a/VBQPCL4aSQiUPXTPOa9yZjID9jcWmkwZuqLq4s8MPhEQAq8UviLqWCKcjfe08Snym+jctwlJJhwKOc9F7VlDfinC/VgqmXe0B2OubNy6TQM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783670896; c=relaxed/simple;
-	bh=Q+Yo2U7XnAZ8syfZgsKOmvbelG+Kcsw6H5GTya/Onh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j7jv1Gj+mItDywsjV4GJbN9esrnSEX9nZrAevlZKyqy0U0MpMVhPNlFzWGTUdaoOgG9Mh9H8E4pwOfknk+gaFi2CnxxFeKVoPFXzYv8+4SweOZOCalbyF/JlZ4RPyYTtjr3HPbwJo1JZBS5RSGVINkrVAfDlogN7vyoFEVxb6jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=t4RXXSZO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=L7RASeSB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8A73F1AA7
+	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 08:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783672609; cv=pass; b=RXsBsGd/oY1YjByrGXc3O7TnDNsgSNFsMADPEuxNr0l3yof2/tLGOY6IZCf257YLPGTtxlCOl8klO+lkbFVJLHm3AsUMTlMeteJJ/2FnBwjQtZqQqisbpgcGJsiEZbcr1/UHWwI2EuhkiZSZtYuwTvtOoEed5fvTIhfEETezoL0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783672609; c=relaxed/simple;
+	bh=x3VvZRtbcKKcnIyHp/en5u74HZRbH+z8+Yx2BR2/F/8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MUS9/uaUHCKzaDpKcMiluLJmWNVSGsEVTyv9KnpQO4gfd4+buwHJ76GZMi5bxe7HjLr8PJekQsBg8DjRz7xIWJKff/Bu0RwNLr00P79vPuJrg4xPLIEx6M6GHint55SwKYQWa4gQ/TBPQ3qceOLW1nyrtcyR7hZwtQed9dY13xg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NX/hY3uk; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="t4RXXSZO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="L7RASeSB"
-Date: Fri, 10 Jul 2026 10:08:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783670892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fkSyy0EdFmNm6HCxvkwcn7o7zQaNKDDJtxQq1O2JCQg=;
-	b=t4RXXSZOG4/jeKiAzEv1ALEKmJ+Ini0iOxcLJZqaZmVeYE5U4uem7GtZeVKd+TL8Y63XhI
-	cNqEN4VFPncgwC3sUg9y1PHLHxDG1VnsNdGb/jsJhizQNu7eNbLudoCtkr6n5IPBjYq0fc
-	mVEnEeUVJy8cODTgP2BshrLuGDAGp8i7FTEdq3UPnf7ZL7Q6iLaNpxDHlVsyKIQfgXD52D
-	e/8FWfyyu/KnwDpn9MlsEdO4m7O4gbbeK7FtCyahML7vUuFJ7/B+HncDUAKArnvgysZi/f
-	SzaU5yVxZQh+ms7AsLnA8MqAHzywuxoWfQ6KHnpW/3lqfgBMj2JirpmpwnML0A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783670892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fkSyy0EdFmNm6HCxvkwcn7o7zQaNKDDJtxQq1O2JCQg=;
-	b=L7RASeSB1pg0ErWTO9R22yZfLDm/ij6BAdmUQWm62sy44X+9prX96j6sAMFjHFIfM0yXWr
-	h7THdymrkjYSh6AQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Taedcke, Christian" <christian.taedcke-oss@weidmueller.com>
-Cc: christian.taedcke@weidmueller.com,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kevin Hao <haokexin@gmail.com>, Simon Horman <horms@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Robert Hancock <robert.hancock@calian.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net 1/2] net: macb: reprogram TBQP after shuffling the TX
- ring on link-up
-Message-ID: <20260710080810.ipWXip53@linutronix.de>
-References: <20260706-upstreaming-macb-irq-storm-v1-0-ab3115b5a13a@weidmueller.com>
- <20260706-upstreaming-macb-irq-storm-v1-1-ab3115b5a13a@weidmueller.com>
- <20260706150422.-wYiCBuE@linutronix.de>
- <4c0570d2-5018-4389-ab63-5f829cc41f32@weidmueller.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NX/hY3uk"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-69a19eb2e6dso6889a12.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 01:36:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783672606; cv=none;
+        d=google.com; s=arc-20260327;
+        b=i81gCvevQNNib8/ZxIJTzpESRxZezolmeR45i9MzutG+PhRkje9W2MqQxsgq3f1htH
+         idFZojSZGuNyg9Kx90ScUiT+fonFyDm1Cud3rXVOZ9vLjKgtHzNQA+WaDeJUEyWRSCkX
+         eA57aoKTWYui93+va3fo28VqX26jH7ivUdn8mYkfkwarKdDvXQ0Mbs5PCNZclCyoWBoi
+         ESM3t5+9KKcj9dz3hePszlMsapoaepEtQ4v3Gzk5eOdwRcHn9dMFaSuXMjggoTvvImJt
+         5hfV7e7WqOPyt+F9a35+oM5OciuwXVOVa9oOaktC5/eMZEs6+6r/bypHsv+o4xhQPrxn
+         79Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5vusuleFjZncfXS2nyCDuITFoJSaIiJ699qFr3aBd5M=;
+        fh=7v+rqJr1I/o55QPd3fStXohalnD2wFLoW8J9kyRbDpg=;
+        b=o/6bi6jEGbwRSJdV2BkO3QnZLxxsQQqiZWExYxIAU0cApNyGAbcWfyKC9YpB6r5+Ev
+         mPUCnmhTgU2xpXdREAicO7rIsl6e0Qz5w36c0tvxxYMx9sds+y5cBxi5eKOAS76yxmhB
+         uUAyW8rG9mNG75d0g8wzgsKl3yY4PHnsg6n1WzLDKbKw6BfT5FxgsrTWYTJw1QfYJAoz
+         jMw+paYiuRpx2zMen38f5kx8sie4T43aYBB/pcZk+R+SjGBDOf288rohr9+YSwCBuf9N
+         0/6YzHTPftVmICoZDCEsa9ZF/+Wdxdi2H+lVdR6GIs3oUskRmsBwd9eUTkqalHiECJg7
+         QxbA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783672606; x=1784277406; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5vusuleFjZncfXS2nyCDuITFoJSaIiJ699qFr3aBd5M=;
+        b=NX/hY3uk1lOxRCj+mIKqVsNz9vM9yW5ZIKKA8hQO+pibBYm9VYpCoxC4jIONPFzGa+
+         Dr2FsJnCuX2FQOTWtwr4qep5RrMucEiToVmd+FXcujQEvLLpK73tSF135bUFLuVGFQxS
+         N963wcdIN7l5PYimC2ZVd4KhiaNXatxLlQIuIDS3qWZuE+YkwO+FulXjqX02oNi4N6Ns
+         rWZphpDF+mLXmc9Q0c20VbUEtN+gEq7D8r4ZoT9Hiv+x1Q39WoeGDikd4OMsLDARsXJb
+         uXzr5Sv3uLB+v/etb9nX/1mvZgI/XBdobssPPe3zoYmoxoUCoAEVGgbaaKEV5GMSVFZa
+         FHAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783672606; x=1784277406;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5vusuleFjZncfXS2nyCDuITFoJSaIiJ699qFr3aBd5M=;
+        b=FC1wO4i8e+l/84ERldi9s/HzLt5CtJlT7MMiFL6Wx9P/eUIH1WxlV91KFSmz/q+4sO
+         h1orUJ7dgEGva+cOKqhiYNO62K4xR/jLEe45yJLN9TWlB8rLlr5+c5YgCJ0D0+L5RpHg
+         /XF+tTlr50f/F1SQ4uoGYeG8iKR1g/MZEigHyIRWE7D/vyhYR/Rf9mls5JhNXiO1ef5K
+         taKEhRirD9o33BzKRLTFvb0fbSQ0wlTiIF9VkfOxf0i0Rn9W4M4F4wcm4vBR6b4MiPxO
+         pKonuTTOLHiv5fKcKUf/nWh1qrFhVBMYh1ZnYv2jYrqmbX7YklhowGLeiAMyXxuNwgNs
+         4N3Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpOiStA2L+tB344c6tOkBH5aktatZozB/RhxHbdLICF/Uv5FAJcBjqrcZspCIxvUe8CgjXML66AxSMsZ++veg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYanNgN5faXv6KQb9fo28C6zFXxieMl7u05vqegrQwAImPtv+t
+	ji39GSFR6IaVvIapRZYdgYt0ni0HFHxw/gpn85T1vbw5vS7iWFeOMmDnJ5bebT+M8635BrQ7B0D
+	hada4Mw5T7I4EDgghNzqRWzz7IySrsU62vNktVpVf
+X-Gm-Gg: AfdE7ckbQFallDEaprIgQYH83rICsr6qLCa0du/MqqoRT0BeByD0r/GhCuSO7SYqYBi
+	eNPluaMa99kJgybT07ak8jubSU9OZVjvN8E5Tg84pvMyG+OA7fbQKMo1hjzDz23slBEiRAKa8j8
+	eXlu3/2xx8ypSubSWfQbJyrJgffqDGzM/lvsxZoLEDRv4vui51uzW+6b/1wpox+zeSpIpt58GZb
+	x64LtxdqFkXElwZ69h0LHdTZoaqbM3LiGKDd/tu0qZIQxznaxiMCA9ZJ2Nj0Ul0+PG+qtJHsbeT
+	1GIGtoeDB7lhAJVfBcBofPwsrw==
+X-Received: by 2002:a05:6402:a541:20b0:697:6b08:459a with SMTP id
+ 4fb4d7f45d1cf-69c29ed9df5mr35748a12.7.1783672605521; Fri, 10 Jul 2026
+ 01:36:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4c0570d2-5018-4389-ab63-5f829cc41f32@weidmueller.com>
+References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
+ <997c1a4d-ee99-4214-be58-7ceb3b9b9a36@kernel.org> <20260705003039.c9b4bd681c059f62b375051a@linux-foundation.org>
+In-Reply-To: <20260705003039.c9b4bd681c059f62b375051a@linux-foundation.org>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Fri, 10 Jul 2026 10:36:33 +0200
+X-Gm-Features: AVVi8Ce87UhCHbfmvKkRHtYsfZSbDlT7JQG_kxBAkz9MTI2Uf45nPVr5mC018JQ
+Message-ID: <CA+i-1C0exwnJnp-WXQa3r==d_TeRj2Ocrn9COMCdC93UiWvQoQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/18] mm: Some cleanups for page allocator APIs
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, 
+	Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, derkling@google.com, reijiw@google.com, 
+	Yosry Ahmed <yosry@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dimitris Michailidis <dmichail@fungible.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-07-07 15:36:24 [+0200], Taedcke, Christian wrote:
-> Thank you for the quick review! This is my first Linux kernel
-> contribution, so I appreciate your feedback here.
+On Sun, 5 Jul 2026 at 09:30, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Fri, 3 Jul 2026 14:47:32 +0200 "Vlastimil Babka (SUSE)" <vbabka@kernel.org> wrote:
+>
+> > On 7/3/26 14:31, Brendan Jackman wrote:
+> > > Based on mm-new.
+> >
+> > Seems ready for mm-new to me. I suspect most further non-trivial page
+> > allocator work will conflict, so better have it in mm to be based upon.
+>
+> OK, thanks, added.
+>
+> I also added some little notes to track Zi Yan's comments.
 
-You are doing good.
+Thank Andrew. In this instance, what's the best way to send updates, I
+guess now they're in mm-new it's best to just send them as fixups for
+you to squash? In reply to the thread?
 
-> On 7/6/2026 5:04 PM, Sebastian Andrzej Siewior wrote:
-> > On 2026-07-06 16:02:14 [+0200], Christian Taedcke via B4 Relay wrote:
-> >> From: Christian Taedcke <christian.taedcke@weidmueller.com>
-> >>
-> >> gem_shuffle_tx_one_ring() rotates the software TX ring so that the
-> >> tail sits at index 0 and resets queue->tx_tail to 0, but it never
-> >> reprograms the hardware transmit buffer queue pointer (TBQP). Other
-> >> paths that reset tx_tail to the ring base (macb_init_buffers() and
-> >> macb_tx_error_task()) also reprogram TBQP to queue->tx_ring_dma; this
-> >> path does not, leaving TBQP pointing at a stale descriptor.
-> >>
-> >> gem_shuffle_tx_rings() runs on every link-up from
-> >> macb_mac_link_up(). After a few link up/down flaps that leave
-> >> un-completed descriptors in the ring, the stale TBQP keeps pointing at
-> >> a descriptor whose used bit is set. When TX is re-enabled on link-up,
-> >> the GEM reads that used descriptor and raises TXUBR. macb_interrupt()
-> >> schedules the TX NAPI, macb_tx_poll() makes no progress (work_done ==
-> >> 0) and macb_tx_restart() re-issues TSTART, which makes the controller
-> >> read the same used descriptor again and re-assert TXUBR. As the MAC
-> >> interrupt is level-triggered, it never deasserts and one CPU is pegged
-> >> at 100% in the threaded handler, eventually triggering "sched: RT
-> >> throttling activated" and a dead network interface.
-> > 
-> > But this should also happen with !RT at which point the interrupt runs
-> > at 100% CPU and the softirq has hardly an chance to make progress, no?
-> 
-> Problably yes. I had issues reproducing the issue since it appeared only
-> on specific test setups when a lot packets where sent to another network
-> device and this device's power was cut. And even then on some test runs
-> the issue was not visible after a few hundred iterations. But after a
-> restart of the whole test setup (including cold reboot of all devices)
-> the issue sometimes appeared after 5 iterations.
-> I only metion RT here because it was the only thing i tested. I only ran
-> the RT kernel.
-> Should I change the description?
+> Sashiko had things to say, mainly pre-existing things.
+>
+>         https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b714e19d3@google.com
+>
+> the xpc_create_gru_mq_uv() issues look like facepalms.
 
-It makes a difference if the problem you are facing is limited to
-PREEMPT_RT (and so does not trigger on !PREEMPT_RT due to $REASON),
-or also effects !PREEMPT_RT but may or may not trigger easily on
-PREEMPT_RT.
+Oh actually I didn't see the point about the alloc_pages_nolock()
+comment before. Other than that, yeah all of those comments have been
+discussed during the reviews, or are brokenness in totally unrelated
+code.
 
-> >> Fix it by reprogramming TBQP to the ring base on every path of
-> >> gem_shuffle_tx_one_ring() that resets tx_tail to 0, mirroring
-> >> macb_tx_error_task(). The early return for an already-aligned tail is
-> >> left untouched as TBQP is already consistent there. This is safe
-> >> because the shuffle runs from macb_mac_link_up() while TE is still
-> >> disabled, so the transmitter is halted.
-> >>
-> >> Fixes: 881a0263d502 ("net: macb: Shuffle the tx ring before enabling tx")
-> > 
-> > This is v7.0-rc4. So that RT tree of yours has some backports or did you
-> > run into this while trying to reproduce it upstream?
-> 
-> There were some backports. I ran this on the linux-yocto kernel
-> https://git.yoctoproject.org/linux-yocto branch
-> v6.6/standard/preempt-rt/base.
-> The "Fixes:" commit was backported as 0a47c3889fcd before their version
-> of 6.6.130.
-> 
-> The kernel i reproduced the issue on was linux-yocto branch
-> v6.6/standard/preempt-rt/base after 6.6.142 was merged into it.
+There is this where we should probably make a decision (also a
+pre-existing issue but this time in mm/page_alloc.c):
 
-It is usually good to reproduce the issue on vanilla ensuring that the
-problem was not introduced by a backport or was solved differently
-upstream.
-
-> >> Cc: stable@vger.kernel.org
-> >> Assisted-by: Claude:claude-opus-4-8
-> >> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
-> >> ---
-> >>  drivers/net/ethernet/cadence/macb_main.c | 9 ++++++++-
-> >>  1 file changed, 8 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
-> >> index fd282a1700fb..b11cb8f068b7 100644
-> >> --- a/drivers/net/ethernet/cadence/macb_main.c
-> >> +++ b/drivers/net/ethernet/cadence/macb_main.c
-> >> @@ -820,7 +820,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue *queue)
-> >>  	if (!count) {
-> >>  		queue->tx_head = 0;
-> >>  		queue->tx_tail = 0;
-> >> -		goto unlock;
-> >> +		goto reset_hw_ptr;
-> > 
-> > This update is even needed for count == 0 case? I kind of do understand
-> > that you need to updated if you shuffled the descriptors around.
-> 
-> This was my understanding before researching more because of the email
-> from Kevin in this thread: count == 0 may happen anywhere within the ring
-> (e.g. when both the tail and the head point to the middle).
-> Resetting queue->tx_tail to 0 but not resetting TBQP results in them
-> being out-of-sync.
-> But as Kevin mentioned in his email TBQP is reset to the original
-> value when transmit is disabled (by setting bit 3 in NCR register).
-> 
-> I will investigate this further why my code change fixed the issue for
-> me, but according to the documentation in [1] it should be a no-op.
-
-I see.
-
-> [1] https://docs.amd.com/v/u/en-US/ug1085-zynq-ultrascale-trm pg. 1040
-> 
-> Christian
-
-Sebastian
+https://lore.kernel.org/all/DJOTMGFAPDBF.261U5OD4NPU74@linux.dev/
