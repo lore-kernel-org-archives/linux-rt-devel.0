@@ -1,292 +1,187 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B07D35E940
-	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jul 2026 17:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783616619; cv=pass; b=q8wEYdJkj7gyEx6fqrreRQfhuD+U763aipHxgX51dcgUxXCVAAJF6ZqRe2sSuUSNcAF+OL8mq/Jw2LlW514ljJ/v8YlRVyGldDxhPuC9jRntHEyc77ag6kWL3P4t8rMkn362wMKEH1iJ7XmxjZ5J7j6XKiIZ85rWP1rWSp8632Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783616619; c=relaxed/simple;
-	bh=YewI3WK0FI+k+A8vApRuZn3wTz1R19tXNTxrVUVVf90=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tfMLNlZNit1OC+KMA78TM15asVo2EYvU9fO4nKBa1NpWKxvAvlflMrLw7aRkTWIsit5QNV6QSez6AlYU6DndLJYROQFrVUfXPC6tIPzpJ9zGtfWXSciuiYrFirMrsUuJeM5lDCLNdAuLPtMvN5kAggusLG5hCINaHdrM5PJap6s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R7wmDjVU; arc=pass smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R7wmDjVU"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-664b05d408bso10415d50.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Jul 2026 10:03:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783616616; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ozYtPTWnwAj9UH9TGjGwCh3xtMgtRyuyYzxGsBAgvRPjuQz81kdzOoEiUJHXbJUf3m
-         pHk0JVozsIEKQD3pSvoLpTEtDAFmY7TQjOOzjwIuPpm2zBYGJX4kLzIM31Zf1jB3jCbD
-         6wpXBXNnmq82v/F1HqxKgZHr67RyMMb6rwcRvO83kAUn0uMF3HjHpaeaRWljQnu7Hw+X
-         C7oywJ/NdKd7/VPZgUJODWJxsD3HGI2konaCcKlH9lENs/m13RDzyezpolP1vXwD8lir
-         Acn/FCXq9yYcjiXX6hq8ykkFiMjGIfnUzF5gCpQoQtiiXAGttJxlC33JLK4Olqq7plZw
-         I0FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        fh=3EM//Sh09se5QXq9XlYfHBis6CqD21ALsV6zk3qbvHY=;
-        b=oq8had4Bx56zJXAqqSx3UZlRbxMyc3yU3tcupfqO3gDCHpO11a3ZACMj2S25xdpf7g
-         VFkLos2zQbRq+U37QezhO9LPVmenUZOlO0C6+EeSWQn8Qh1y++jd6pZ02H3yJvG4kSJG
-         qJHA/0FU4suTPPgEY4ZGaaDkDRomZmidiR23Swi2/OU4xzaRfTHfJWlD7q4F2fKwXXLA
-         nXeOaacu4HFH9w0p/elVZKJs6mX+3bgRCFS0CIoOQfZ1W3CjMZpf0VQ+lEEM/SiFOf+d
-         8Xo/CzrG1ixehGhGFHwiU5iWGxJwAFsNJVUi2jxf3CmcgRV7QcGTQLlvi325kYgKwqP4
-         8xcw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783616616; x=1784221416; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        b=R7wmDjVU6yKTsIJx19RgcU4FjQoT7eEQAjq4ZFgrKvWXxmn/TZlI7asKN0QRU+uehs
-         pUWQPxuJUm6IGHffCM0WrbAlkQlTnK6ODjFNZ4aOaqvLw0lbzQuroi81vh4FwCJav670
-         fetpdsDokSt2bwopSbiDPbfMZI3QgsQG89xkhe1zXqw/5MkU/8foRErLD/ukm81FSkrM
-         PIN+yqWGPw9JNUHXiEmumw5LgTQO4xHcSD8f9PDIX8CB9Wn/9On+fEUPOBaBAb8OYABk
-         GwrU8I0cdMSkTDU13CGrX17BUjfi/HvIduyKUTtehQg2ZouqApC086pjP3T2rP0v0ym4
-         0sbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783616616; x=1784221416;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yR14oOjUi6OI2bUfX4NS8nwAQpf3oK/jBWo0jGsJb5s=;
-        b=ozAkJaKPe9Rse7m5jtaqXKdYdo0O5qASuBh+mhrdw6fFqcPst0raRKvZ6LFrBtXuUC
-         uWbS7ozmigvuOAsFZPntw5XkzooMcFNwhxF0T3zmujeh+iZW6dLjTF2NWDIYxVDCTazr
-         2cynAkRMmrqi5hIqy/CgciH4g6N0LXLsBE2nwxSxvOJdyr+e1DAu+XJRMB3Rn3CHAMKy
-         ICBXjz/jC9344NPhP008JtcD3Na+8Yt3v3e2J+R3r1PNS1L0VkEKzKulkh7qERzmUuZK
-         8/jIcsUSYgbN9eoo4rzs0PPnccEReaZ+Q7ChL3qdSq53a6prznII+RcaRTuoDVx+OWWH
-         kJMg==
-X-Gm-Message-State: AOJu0YzlwAmR89qTTUSVNqHtr3K/nJjHK20vaZ3FIe0MuBmPaBwbv0Oa
-	+R+61u2HsY16mWiV3dDnUzSFfET+6Ren/7JGoE8jHsEMReZk2vLL4veCCvxYHLp1NjWxDgW5oWJ
-	7QP2+ez+Z2DhB+AxKkTt0UZ/RV3Nc5YDORhfdFtl/1Q==
-X-Gm-Gg: AfdE7cnK1ZL8PQTidfHQADkLdLQl2zNUmNpOD4mH+yz3TfccnZqwI73jMGAXqAQNCSU
-	SLk/y3Opb2c2lD4Oy9QsiVmb24ki+oGIWO9FVv3YpOMyvDYGyOUfczAFJTeZJDMNc4COivSrf/5
-	mTDiOGlSu5d9nCL/xE/pplAZGN+7zORIgqdI1gHp621CPAQLZFfvwkqFkC9kZmRVrskBvAvN0zf
-	ta/VP1AA1MZ0fYCIe997hnE7buBdpXyrIu/shnAhxHltZ9UtxWOCnIEoNZ8Nnl0lUD9l9nTbhga
-	lj/Km68nDvvuNdL7IZkjgtDYtmnNAt/H1Z07GPn013jTV71+8npzkYyRSb94FLQjXNxiegl65+S
-	cRI2gU7eAaOf9ijvuN2fU0QpIWiyJIcvsEedOK6xTYlYcRKM90UTh2sj0wTEt81Y3QgDGdVuTET
-	nOfVHMST1OSGRvrzE05aMX2ACiF9z1L8xcBa4bqIUplpKPJ6ckSMJowJmMyINjtSsTBC2RKiGed
-	+Wr9W9FNWaBdwqWPnMi+7sakNJG9hkJHHqe54LsAZCCX0z+f88kF5a3nAhGUfYgvgnTq88/5lWT
-	ZH3vi81AbGAtlwn92ZCASqe6r0Zjp6h9N7EOmUwXuMFB0x+GBGOZ/VEaV+DK1qR117DtBaLz
-X-Received: by 2002:a53:5a08:0:b0:667:8b91:2439 with SMTP id
- 956f58d0204a3-6679f26f7a1mr4147877d50.104.1783616616104; Thu, 09 Jul 2026
- 10:03:36 -0700 (PDT)
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCD0231E853
+	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 05:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783662853; cv=none; b=ueCD2zFrv+MdlRfIJHrHCJdhZo9HanZ55ZK/uRY8v2OQNFNLp5ENywz/DMih1EI0vWDe8BbiGhjXkG2ncSCxwBLfLaw5NJcTj2rAwjnC1i+C7132BtbKDJVFuKva1RfsB2+DHWa+gBYpoEqEGKsy/0rpIvbhwPnmwYTsjY2SClo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783662853; c=relaxed/simple;
+	bh=nyDBnktELM+hz7RvTSyEr5tTXDizK+ufnQXY3jTKq48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHnNTng40LYlxMTCqM6XcjVREF4/k/oaH9ahfyy5Arw+jpXnGc2i8Ro68QoH8dv0kZTkQHDUG5mFrx9Gx8Rpj42bJHAz2j5bVoS/6hG1WcF2kODfR8+yWe798+pf5Lz/2Ys5KXyOkrwWnt1aveZUFtJtjAV3PUMe3YYQo+V6YOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-c3-6a5088f7d053
+Date: Fri, 10 Jul 2026 14:53:54 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+	gustavo@padovan.org, christian.koenig@amd.com,
+	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
+	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
+	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
+	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+	alex.gaynor@gmail.com, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 31/40] dept: assign unique dept_key to each distinct
+ wait_for_completion() caller
+Message-ID: <20260710055354.GA37630@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <20260706061928.66713-32-byungchul@sk.com>
+ <DJSEK3KA2ECQ.1512A4KGOBSCV@garyguo.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260701091226.7SWW4TrT@linutronix.de>
-In-Reply-To: <20260701091226.7SWW4TrT@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Thu, 9 Jul 2026 20:03:00 +0300
-X-Gm-Features: AVVi8CeGWVzdbJXgI7g1MhHGlIvtNbOsamz5SlMClo5-ZNqp3TXp_jMt7pChNFA
-Message-ID: <CAC_iWjKEcK8Z2TGCAVNU+pHLO2QvKKTmA01d-EqhE6exaTKcsQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
- some firmware bits
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "jenswi@kernel.org" <jenswi@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
-	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJSEK3KA2ECQ.1512A4KGOBSCV@garyguo.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxzG857zngsdHYdO4ztrNlNHWJhTt7jln+gu2RdPspmxkS1u+zCb
+	9QTKVVvlssSsKKhBcAzXMtqJXFxtAFktDgfSBYt0NmjWakJqp7OSBlML6DqEIdjuUGPmt1+e
+	53mf5//h5WlVK7ua15fukQyl2mINq8CK6fT2V/89nFu46YcZNdy4FWFgvHoYw4PZwxge2c5x
+	4O/tRjC/aKOhdiApa01eDmYX/uTAXI0g6fYisASaaPjHmWAhNhJHYL4dYaE5Wo3hnr0eQXR0
+	GyRv3qHAHklQELPcl02zH0E8Gkbgduxn4VrkWfCZj7AwHfiRghknC2373QxMhtwUWI67MAyE
+	BzkIxJYo6HZth1v2SQxjjR2UPMKC5cwqsDUfoMB8+jwFC/YuDi533sBgN2WB7co1BiYcVg6S
+	bWXg+2ucgXOmMAeu66PydOgVaD94EsOQ24eh3vkLAybbPAP+4TEGrnb7Mfx8J0jBmPcShr4r
+	l2mYO6oG/3cNDJye6WDh2MwkgticnX5XJ87XHsViV18/Jfa09iBx8WETEmsbZRqZukeLNX0V
+	4k9jU6w4YL3JiTW/hTixzbVXrLk4zYh9jhyxcyhKie3xB4wYir2V+/Lniq06qVhfLhk2vr1T
+	UTB6sh/vas2sHJwcok3ob2UdSuOJsJlEL52in/DExSFmmbGQRaYPTHHLzArZJBhcSGVWCC8S
+	V1cHVYcUPC20vECuzvlSD54TisiSI5oKKQUgI+OdqZBKaEDE+9DGPDYyia8lgpeZFnJIMBGV
+	Q7zManIqwS/LacIb5P7ZeGp4pbCODPf/nuohwkQa+f5sEj++9HlywRHEjUiwPlVrfarW+n9t
+	G6K7kEpfWl6i1Rdv3lBQVaqv3PBVWYkLyb/Wvm/pi19R3J/nQQKPNOnKTd98WKhitOXGqhIP
+	IjytWaEMr5ElpU5b9bVkKPvSsLdYMnqQmseaVcrX5yp0KiFfu0cqkqRdkuGJS/Fpq01IO5G+
+	bfexuy25RxZbErfzQmcKF/Kuf2LJL6rgwp7eWemjei9nXGvO3nmionLjt1M7mo/bMg6Onrfm
+	1wWysne8r165fp9ljY6d3f2S2lkXWMoteedCQc9na/9Yt5j5waNPuYZDvYcKleTN97ZnfNzB
+	ntBsHcx4Jr6eOD3m5tot9pq7WzTYWKB9LYc2GLX/Ae5QvRexAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH877n9PTQWT0UCCdek5rFhEyRTZIn2bKLmXpivPCNhCzRRk9G
+	5aJpEWUJU6iN1ampTVqk9QJFKitMsCCOSyMBrUPnbLlIo7DCUuu6giBQCJeWnWKMfnnye57n
+	/8vzfnhpQrYkWk0r8wt4Vb4iV05JSMm+LzWbZ3UZR7bet6aCTnsKBn1+ETwv6SAhPK0j4Wp9
+	HQURyz0x6BzlIvhjoJQE9+1aBL6wDsHsgoUAbcsSCRGDSwzTcy/FYCxBsOR0ITB5DAR43fcJ
+	qGsqwTDVEKUg1DWJwDjip6AsWELCuO0CAnPAIobgw10w5msTwdLQawwDM6MIbP4oBn/HWQQR
+	Uw7csDYKummCgoWnzwgoM7oRVI4METAZHEbQ5PobgbOmlIJX+rsE9PpXQl94nIJu4y8UjHmu
+	YnjTQEFFqVMEnj9DCK5ZDAgCL5wYNFX1FJiuOUhoGW4Vgye0iGHQZMBQ69gLPluAhCd6Kxae
+	K6TuJIOlTIOF8i8G429tGOZsdvG31Yib1V4iOXtjM+a0PRGKq7teh7iFeQPipqs1BKfVC23X
+	6DjBnWk8wVU/GaW4+XA/xTlnKkjusZXlbp6bx9zlp5u5FvOQOOO7LMlXh/lcZSGvSv36oCT7
+	4c1m8tj1+JOtgXbiNHorPY/iaJbZxv7zoF0UY5L5lB3TjIpjTDGbWK93johxIrOBddit+DyS
+	0ARTvp7tmeleFhKYHHaxJrgckjLAdj2vWg7JmIuIdc1bRO8W8Wx3uZ+MMcGksN5oUAjRAq9h
+	b0Xp2DiOSWcnmiaXDycxG9mO5kdYj6Tmj2zzR7b5g12BCDtKVOYX5imUuelb1DnZRfnKk1sO
+	Hc1zIOFb2ooXL/+Opnt3dSKGRvIV0q2n9h+RiRSF6qK8TsTShDxROrxWGEkPK4p+4lVHD6iO
+	5/LqTrSGJuXJ0t2Z/EEZ86OigM/h+WO86v0W03GrT6NNrXcKip9lq88W7zBMeONTd//X03ku
+	lLh36pXsojnl5aNP0jrazUWRAcnaK+4+Q8iV3PD5TllCZtKqxuTt4YxfM+9VfpEU/N7zwD5Y
+	2+/ybf+mH+uyVuzYqV73Q3Pv20D6SNvdqopV6/V861Rl9K8+RVZC8DO38/XjffXMngvlB9J+
+	lpPqbEVaCqFSK/4HtzJC/ZIDAAA=
+X-CFilter-Loop: Reflected
 
-++Cc Jens  on his kernel.org email
+On Tue, Jul 07, 2026 at 03:18:29PM +0100, Gary Guo wrote:
+> On Mon Jul 6, 2026 at 7:19 AM BST, Byungchul Park wrote:
+> > wait_for_completion() can be used at various points in the code and it's
+> > very hard to distinguish wait_for_completion()s between different usages.
+> > Using a single dept_key for all the wait_for_completion()s could trigger
+> > false positive reports.
+> >
+> > Assign unique dept_key to each distinct wait_for_completion() caller to
+> > avoid false positive reports.
+> >
+> > While at it, add a rust helper for wait_for_completion() to avoid build
+> > errors.
+> 
+> This will cause Rust code to share the same dept_key, so it will have all the
+> false positives that the change is trying to avoid.
 
-On Wed, 1 Jul 2026 at 12:12, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> I have been reviewing how OP=E2=80=91TEE is implemented and how secure=E2=
-=80=91world
-> invocations behave. The goal was to determine whether an OP=E2=80=91TEE c=
-all can
-> delay the Linux side and introduce latency depending on the time spent
-> in the secure world.
->
-> Similar latency effects are already known for EFI runtime services, but
-> this was not documented. To mitigate the impact, EFI runtime invocations
-> can be restricted to specific CPUs so that real=E2=80=91time workloads on=
- other
-> CPUs remain unaffected. This mechanism, however, is only described in
-> the commit that introduced it.
->
-> This change adds a firmware section that documents these behaviours
-> explicitly. It highlights cases where firmware can delay the kernel,
-> information that may be unfamiliar to some users and surprising-or
-> concerning-to others.
->
-> Assisted-by: Microsoft-Copilot
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
->
-> I would appreciate an ACK from the OP-TEE camp that I got my little
-> research right.
->
->  Documentation/core-api/real-time/hardware.rst | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->
-> diff --git a/Documentation/core-api/real-time/hardware.rst b/Documentatio=
-n/core-api/real-time/hardware.rst
-> index 19f9bb3786e03..fb113848c2f70 100644
-> --- a/Documentation/core-api/real-time/hardware.rst
-> +++ b/Documentation/core-api/real-time/hardware.rst
-> @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
->  The goal of this project is to validate real-time network communication.=
- It can
->  be thought of as a "cyclictest" for networking and also serves as a star=
-ting
->  point for application development.
-> +
-> +Firmware
-> +--------
-> +
-> +The firmware often plays a significant role in system operation because =
-it can
-> +perform tasks that the kernel cannot directly access, and in some cases =
-it can
-> +even preempt or intercept the kernel.
-> +
-> +A common example of firmware assisting the kernel is when it provides a =
-generic
-> +interface to a resource. Instead of accessing an RTC chip through an I2C=
- host
-> +controller, the kernel may query the firmware for the current time, and =
-the
-> +firmware then accesses the RTC behind the scenes.
-> +
-> +Firmware can also intercept kernel execution by providing services that
-> +temporarily take control of the system. One example is memory scrubbing,=
- where
-> +the firmware periodically pauses the kernel, reads back portions of syst=
-em
-> +memory, and then returns control. During this time, the kernel is effect=
-ively
-> +interrupted.
-> +In contrast, some systems provide hardware=E2=80=91based memory scrubbin=
-g, which
-> +operates independently of firmware or software. See
-> +Documentation/edac/scrub.rst for details.
-> +
-> +If the kernel is intercepted for longer periods then these periods can b=
-e made
-> +visible with the hardware latency detector. See
-> +Documentation/trace/hwlat_detector.rst.
-> +
-> +The kernel can also be intercepted in response to specific events, such =
-as
-> +overheating. In this case, the firmware may throttle the CPU or shut it =
-down
-> +immediately to prevent hardware damage.
-> +
-> +Unless the firmware is well documented, it should be thoroughly tested t=
-o
-> +uncover any unexpected behaviour.
-> +
-> +EFI
-> +~~~~
-> +
-> +EFI provides runtime services that act as a communication interface betw=
-een the
-> +firmware and the operating system. One such service is reading and writi=
-ng EFI
-> +variables, which are used, for example, to determine the boot source.
-> +
-> +Invoking a runtime service may require the architecture to disable kerne=
-l
-> +preemption or interrupts during the call. This means the duration of a s=
-ervice
-> +invocation directly affects the system=E2=80=99s observable latency. The=
-re is also
-> +nothing that prevents a service call from disabling interrupts internall=
-y while
-> +it runs.
-> +
-> +For these reasons, EFI runtime services are disabled by default on a PRE=
-EMPT_RT
-> +kernel. They can still be enabled at boot time or via a Kconfig option i=
-f
-> +required.
-> +The native EFI runtime service implementation (where both the EFI servic=
-e and
-> +the kernel are either 32=E2=80=91bit or 64=E2=80=91bit executables) uses=
- a wrapper mechanism
-> +that invokes the service through a dedicated workqueue. This workqueue i=
-s named
-> +efi_runtime, and it can be restricted to a housekeeping CPU using the
-> +``/sys/devices/virtual/workqueue/efi_runtime/cpumask`` sysfs file. Assig=
-ning it
-> +to a housekeeping CPU ensures that potentially long service invocations =
-do not
-> +impact the real=E2=80=91time workload which is restricted to other CPUs.
-> +
-> +It must also be verified that the runtime services behave as expected. S=
-ome
-> +implementations on the x86 architecture pause all other CPUs while one C=
-PU
-> +performs the service call. In such cases, the interruption affects all C=
-PUs,
-> +and restricting the workqueue to a single CPU provides no benefit.
-> +
-> +OP-TEE (ARM)
-> +~~~~~~~~~~~~
-> +
-> +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"), e=
-nsuring that on
-> +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91world c=
-ode at a time.
-> +
-> +Execution flows from the normal world (Linux) into the secure world (OP=
-=E2=80=91TEE)
-> +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot disab=
-le or mask each
-> +other=E2=80=99s interrupts because both run at EL1 in different security=
- states.
-> +
-> +Architecturally, the secure monitor can mask or reroute normal=E2=80=91w=
-orld interrupts
-> +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=80=
-=91A implementation, it
-> +does not do this for the duration of secure calls. Normal=E2=80=91world =
-interrupts
-> +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=E2=80=
-=91TEE via EL3 and
-> +return control to Linux.
-> +
-> +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC routes a =
-device's
-> +interrupt as secure. Such a secure FIQ will preempt Linux immediately, t=
-rap
-> +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt hand=
-ler. Linux
-> +cannot mask or preempt this. Secure FIQ handlers must therefore be extre=
-mely
-> +short to avoid introducing noticeable latency.
-> +
-> +The transition from normal world -> secure monitor -> OP=E2=80=91TEE and=
- back introduces
-> +additional latency due to world switching and context save/ restore. Thi=
-s
-> +overhead is typically a few microseconds and usually remains in the nois=
-e
-> +floor.
-> +
-> +If the secure monitor masks normal=E2=80=91world interrupts during OP=E2=
-=80=91TEE invocations,
-> +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, then=
- OP=E2=80=91TEE can introduce
-> +measurable latency spikes.
-> --
-> 2.53.0
->
+Thank you for the input.
+
+> In general it is easy to create Rust bindings for static inline C functions
+> because it'll be just some computation, while creating bindings for C
+> function-like macros that define additional statics can be challenging.
+> 
+> Is dept_key similar to lock_class_key, where only the address matters? If so,
+> the approach that I use in
+> https://lore.kernel.org/rust-for-linux/DJP0CDOR98N5.29BK8PUFRWRUK@garyguo.net
+
+Yes, dept_key is similar to lock_class_key.  IIUC, the way you tried for
+lock_class_key can be applied to DEPT too.  I will do:
+
+   1) add 'key' parameter to sdt_might_sleep_start_timeout()
+   2) introduce init_completion_dkey() to allow custom keys
+   3) remove init_completion_dmap() and adjust the existing users
+
+Just in case, it's worth noting that the custom keys must be
+well-managed using e.g. dept_key_destroy() when the key gets freed.
+
+	Byungchul
+
+> could be used for dept_key as well, then we can keep Rust `wait_for_completion`
+> still a function; otherwise we have to turn it into a macro too on the Rust side
+> to create such statics, which isn't ideal.
+> 
+> Best,
+> Gary
+> 
+> >
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> > ---
+> >  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
+> >  kernel/sched/completion.c  |  60 +++++++++++-----------
+> >  rust/helpers/completion.c  |   5 ++
+> >  3 files changed, 120 insertions(+), 45 deletions(-)
