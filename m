@@ -1,112 +1,171 @@
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0A338F92D
-	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 07:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0733AFB0E
+	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 07:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783668224; cv=none; b=LqdZNrkgoWvSvY7TsCRpd0z23TqsrajlExz6LeZLYLMBDSYJZQeFs5yYXrsHqvtm147vA4mrAp1tjTF5md7i2gV0bdct1GfX8k3THy3S7oVappljG9jPkbybEV0/K0U77Yn6uPv1jOYzymIp6aV7OMaYT0z/7jZkX6ghgf22SpA=
+	t=1783668711; cv=none; b=aNgc5gBX1T8Lj84OBR/WNdwHj4QsH/UVcVUsPxREmyQeqgrz/3my2DerTbunT329Tj/Uj0QtxawatWfz2ZBZHyzdLoCGc+NddvfdwwbyJ7qZnKrpHbe1DNSxOMHGN2nvhTmXmKTPoMNJTx0LYqy/XPpLTzteZ5RDSb+MyxMpAGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783668224; c=relaxed/simple;
-	bh=IOpv7B+XqxxUP6JaKskb5LnQnNg8HmLNK+R9eVVMLvY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GQwHankWMGk35ETfai9Nksb15yFFKImRCOU7Ad+6NNJrRU6MInKn5OmWzlCL1Hcbn91XJ+Pz5vWVzFDNyEwSo78qhm+/TxoiVCsbjKohupn03Ig4mRr7EE/GQj48ofTZEhBf+RpGjOypBSV9/ewfEoyzqFuFCEEzxoQ3A156r9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=lPUm3ys8; arc=none smtp.client-ip=185.136.65.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	s=arc-20240116; t=1783668711; c=relaxed/simple;
+	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbHIOMPJhgmrIu2aZ43eU2TsqZAGpjDDOyxg5lhl9OVSemlsrtXgeYgG1Ckp/p4xYIV3Kt4MN08ZaK/dBXaK3B9JU3Q/Ei9bEzjLrawjr0jJX4Jbz5AYQwD9uK2kIRh7qHz8CSmFXvq3IUuMxgjnmLMeJAZw1SxajnH6/Mi4rPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CYWc2XMP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zkjkvLix; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="lPUm3ys8"
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260710072317c68b0bb5e900020782
-        for <linux-rt-devel@lists.linux.dev>;
-        Fri, 10 Jul 2026 09:23:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=florian.bezdeka@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=IOpv7B+XqxxUP6JaKskb5LnQnNg8HmLNK+R9eVVMLvY=;
- b=lPUm3ys8Lt3UervoAG53DZAGvuZsl5JBLleGryMrw1lWExvwUIg3gE9WbBcQnaS3zkHKaq
- deASGHHiGWZCE/KZnGM5utLxiH20i+cxYVeBgHgcQssZ1MjBJQxGUg9aqTx0oWY2UhlIpo2p
- 7agWSVT8t6q+iY/VY9q3+ZyUKqEX3jrZyKUmJyDlLm35pZDZ342lSvecd4/JMWx7NmJ+LTqz
- VNsejp5fmb/frbe6e54unRthsF1GW/yIABk8fTYLwj6tW3Iu1b1MQ/eu+Pw4Os0PWISFfcZg
- 4qyofeLiYowMjukE389zfO8vm5crsNQajnyOIwGE5YM3u3jRdxct2Jyg==;
-Message-ID: <748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-From: Florian Bezdeka <florian.bezdeka@siemens.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev, 
-	linux-rt-users@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>, Danilo
- Krummrich <dakr@kernel.org>,  Peter Zijlstra <peterz@infradead.org>, Steven
- Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,  Jan
- Kiszka <jan.kiszka@siemens.com>
-Date: Fri, 10 Jul 2026 09:23:16 +0200
-In-Reply-To: <20260709152214.rH1O_8SM@linutronix.de>
-References: <20260709143108.UYeCUUcd@linutronix.de>
-	 <2026070922-kilowatt-matador-5e1c@gregkh>
-	 <20260709152214.rH1O_8SM@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CYWc2XMP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zkjkvLix"
+Date: Fri, 10 Jul 2026 09:31:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783668708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
+	b=CYWc2XMP2kSKRhOqDExn2t5iOXHPKvWWyfoW0a/ze3JYCZ5vMi4FDPWwqUMQJ8/ls5rI9t
+	Y6Sh03ZTfPt2czfIo/cFlYooQxO//Lxgj/5e0psGv+3tSOvph6UeW82CAhaI3j5mljprsu
+	BldCShDzu1wd/eyS6Ol6IYrJEKqKkYsWOr0Ml3Ekkxzp5nIKzWRjGvi4aXfka6i3A6uSVi
+	Y4Inty2gqa/naFDDlqJ1H/n42Jrset+NK18LImANbATiDgId3ZX0RTSqjlEUIyRAPDnbnk
+	bad8x5VHi8Lno0MQnH0cbYzkMO+Dd/LS9J5crKezaviuSkRutX/5w0mfKtGZ9w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783668708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JneN2M9JbJqKy6qgUPNItB4lcaDHbu64RY5+o9oIB6c=;
+	b=zkjkvLixw+0vNVj1P8Y/gayysL+dJb4IuUxB5JvbUshMLYJ87X5OIZgQyRmbn7tYArod5m
+	K11MxyLDpE7zzFDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc: "jenswi@kernel.org" <jenswi@kernel.org>, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, Ard Biesheuvel <ardb@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>
+Subject: Re: [PATCH] Documentation: Extend the real-time hardware bits with
+ some firmware bits
+Message-ID: <20260710073147.XJAJbIwc@linutronix.de>
+References: <20260701091226.7SWW4TrT@linutronix.de>
+ <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-68982:519-21489:flowmailer
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAC_iWj+xDErhPeKGtsLK=nvPB7P8cQE3g9XCkaWf-d_j85FxCQ@mail.gmail.com>
 
-On Thu, 2026-07-09 at 17:22 +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-07-09 16:46:19 [+0200], Greg Kroah-Hartman wrote:
-> > On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wro=
-te:
-> > > Hi,
-> > >=20
-> > > The following patch sat in the RT queue for almost 15years now. I can=
-'t
-> > > find its origin on the list.
-> > > All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
-> > > and returns 1.
-> > >=20
-> > > Is this something that is still wanted and considered useful?
-> > > Is this something that can be expressed better by other means?
-> > >=20
-> > > There was an in person discussion about this and it was suggested to =
-add
-> > > /sys/kernel/realtime as a folder and having individual realtime featu=
-res
-> > > as files. I don't remember a single feature that would quality for th=
-is
-> > > today but who knows. This is all I remember so far.
-> > >=20
-> > > Now. Discussion go!
-> >=20
-> > At the very least, it's not ok as it's not documented in
-> > Documentation/ABI/ :)
+On 2026-07-10 09:29:55 [+0300], Ilias Apalodimas wrote:
+> Hi Sebastian!
+Hi Ilias,
+
+> > +++ b/Documentation/core-api/real-time/hardware.rst
+> > @@ -130,3 +130,95 @@ https://github.com/Linutronix/RTC-Testbench.
 >=20
-> :)
+> [...]
 >=20
-> > But really, why is this needed?=C2=A0 Userspace shouldn't care, right?
+> > +
+> > +OP-TEE (ARM)
+> > +~~~~~~~~~~~~
 >=20
-> So there is Clark who needed it 15y ago for some udev rules. Maybe he
-> elaborate on that.
+> That's RISC-V as well nowadays
+
+I did not find much here. Their architecture isn't the same as on ARM is
+it? But the overall concept is the same, right?
+
+> > +
+> > +OP=E2=80=91TEE uses a global serialization mechanism (the "big lock"),=
+ ensuring that on
+> > +each core only one OP=E2=80=91TEE thread executes secure=E2=80=91world=
+ code at a time.
+> > +
+> > +Execution flows from the normal world (Linux) into the secure world (O=
+P=E2=80=91TEE)
+> > +through the secure monitor at EL3. Linux and OP=E2=80=91TEE cannot dis=
+able or mask each
+> > +other=E2=80=99s interrupts because both run at EL1 in different securi=
+ty states.
 >=20
-> There is custom "software" that is designed for realtime environment and
-> if it is run on a regular kernel then it missed its timing requirements
-> and the software goes usually in a fail state and people start debugging
-> what has happen. If this happens often enough (booting a non-RT kernel)
-> they tend to add a check so that the software complains early enough
-> since checking the kernel is usually the last thing that is done.
+> That's not always true. It depends on a combination of OP-TEE and TF-A
+> configs iirc.
+> The most common though is that IRQs and FIQs are directly delivered to
+> S-EL1, in which case OP-TEE can mask IRQs.
+> There's also a difference between GICv2 and GICv3 in the way
+> interrupts are delivered.
 
-That is an important point here, RT software should complain loudly when
-the environment / kernel is unexpected, so we need some kind of RT
-detection mechanism.
+You are saying that OP-TEE can mask Linux' interrupts or if OP-TEE
+instructs TF-A to do so (via config)?
 
-uname might qualify, yes, but keep in mind that this sysfs based API is
-already used, so a removal might break applications. Yes, userspace can
-be fixed / adjusted, but it remains bad style, no?
+> > +
+> > +Architecturally, the secure monitor can mask or reroute normal=E2=80=
+=91world interrupts
+> > +before entering the secure world. In a correct OP=E2=80=91TEE/ TF=E2=
+=80=91A implementation, it
+> > +does not do this for the duration of secure calls. Normal=E2=80=91worl=
+d interrupts
+> > +remain deliverable, and a normal=E2=80=91world IRQ will preempt OP=E2=
+=80=91TEE via EL3 and
+> > +return control to Linux.
+>=20
+> The 'sane' case is indeed where IRQs are delivered to OP-TEE which
+> exits back to Linux immediately.
+>=20
+> > +
+> > +Secure=E2=80=91world interrupts (FIQs) are possible if the SoC routes =
+a device's
+> > +interrupt as secure. Such a secure FIQ will preempt Linux immediately,=
+ trap
+> > +into EL3, and transfer control to OP=E2=80=91TEE's secure interrupt ha=
+ndler. Linux
+> > +cannot mask or preempt this. Secure FIQ handlers must therefore be ext=
+remely
+> > +short to avoid introducing noticeable latency.
+>=20
+> There are also 'fast SMCs', which run with IRQs disabled for their
+> entire duration.
 
-In any case we should clearly document the way how RT detection should
-be done - and make sure this mechanism is available in all supported
-stable/stable-rt trees.
+can their be distinguished somehow from normal SMC invocations or is
+just a consequence that the secure monitor does not enable interrupts
+during transition for some of the "functions"?
 
-Florian
+> > +
+> > +The transition from normal world -> secure monitor -> OP=E2=80=91TEE a=
+nd back introduces
+> > +additional latency due to world switching and context save/ restore. T=
+his
+> > +overhead is typically a few microseconds and usually remains in the no=
+ise
+> > +floor.
+>=20
+> That's correct.
+>=20
+> > +
+> > +If the secure monitor masks normal=E2=80=91world interrupts during OP=
+=E2=80=91TEE invocations,
+> > +or if OP=E2=80=91TEE uses long=E2=80=91running secure FIQ handlers, th=
+en OP=E2=80=91TEE can introduce
+> > +measurable latency spikes.
+> > --
+> > 2.53.0
+> >
+>=20
+> Overall I think this is worth documenting, but infortunately there's a
+> wider range of configs and corner cases we have to describe.
+
+Okay.
+
+> Cheers
+> /Ilias
+
+Sebastian
