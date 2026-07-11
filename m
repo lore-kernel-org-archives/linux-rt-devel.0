@@ -1,200 +1,92 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC33F43B48F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Jul 2026 16:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1019C2FD;
+	Sat, 11 Jul 2026 00:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783701846; cv=none; b=hfKwd8Yydirx7/Xo+ABgQ3jhviDz9Bp9T+q8sTr0ctzZxOcsZMYJGx3Lyz34+6y4JnuiRmHxt7TqCITH5pjw1xSZDPk4deDHII97KUdeIfQPzsmIE9OV4wPs61z4+PHMbaUO74lw3ePbWvRiJSR8Jdc92zvNPlH+PrpPdStvRmk=
+	t=1783728194; cv=none; b=Y1GCm2kPMd4m1z8sEsbnkpxDk5CLlJG2u/4Mz1Q4HYcKW91d+4n9UY0EVNlJkMlP3rFLPzdmABeG+PgztPt1u1vESmIi+2/lxkGJq7jx9aMha4ifsGRLZUgtEtq6TVEhdbmjW+vqcHJwymdj+wSBNTiS2SKC1TLJOKiPNWrrC2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783701846; c=relaxed/simple;
-	bh=k/DYohfKDSxjiqdIraTgAZUOXPWe4X+vqJQlCDRJ/no=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=aJVA4b4jZrsDvJc0DUqqBmtGERJNWGc1AEnAd0G1H7aiWt342Y9eHER7rSGVM8zlJU39v3WJH1A3vZHIpNpDdMfP2aIpo2T8SLBStYVrGaiEiZmrsl2rG/xCVUOYEIEaZAHDyEQFYy35ebgVvDSuDOAf3Vycyj+Hx3CgzkLJzOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fWcSTkxW; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1783728194; c=relaxed/simple;
+	bh=enp0NP5xaefs9vcbyeAYqjQEkQVaejslQaL03xbi5w8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=h0XrDNFvRp2INDy0kcUKTfwvsCoRKHQSyCun1u65drNjdI0WqjxJnd3XMoLdG530hYFA00kS15xaTxnc5CErfrAiVAkE2mKVCznxInwDOQaQxI0ogvIupcJetUIlz6nsaxO/h/fG7KqKARFu8tk9cZ4QuZylbC5r3gPNuueNVvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ks717yvF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fWcSTkxW"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 5E0A21A0F38;
-	Fri, 10 Jul 2026 16:44:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 28CE160342;
-	Fri, 10 Jul 2026 16:44:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6711F11BD2463;
-	Fri, 10 Jul 2026 18:43:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783701841; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5klLTY7luf2N9VlmtEJ+qRL3gV5Uke3/bj3Rh06DY0c=;
-	b=fWcSTkxWyhHL8JKpgTOxN2xozIVxTBZypNlJvyUgsrxQRH8slqs+/Op0GxLihj02cXSlXo
-	yw9iMeTzEicnruefJszL/LGcgKWGzxSorztU8r3IUwi4KVdd+chMC/OgX4uxnuE/oLu2QZ
-	xuVEU8PVZB+HVTs0Of+s8t3kMJ+WgSOoNBc/9mB4ieIPVRER4P9Mf55K5myLdsL6seSFHs
-	eSQITggZYkoemSi46v+enW0STR7BMC67fi0Cveo1rXmPaJWKu/ZW+fMLWF9JcoVQze0kfS
-	OyxwiDD6F6YPSBBaL+qAWPDE0o1g9JpsKiruJSXx92FLPbO7zvy9IFItLdN6DA==
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ks717yvF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1A11F000E9;
+	Sat, 11 Jul 2026 00:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1783728192;
+	bh=xuhLIGvoMzgdosMhkd0fNaNt5l4k3HBHBOpccxuxKL0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ks717yvFqYIqA6WR+QY37XIQWgJADMKlFNW8jw3XJ2p3rnLamQ14UKrDDItXLbEl4
+	 qMcKrFN9cPWw4pHi6vEKiLUVCcNSTKGHw5XWQFPyyn4tHd+4kR4/AfwoZFuob4diub
+	 l93MdDD/tamKwNitPw3Y4n9eHiC14DinXg6/RRiE=
+Date: Fri, 10 Jul 2026 17:03:11 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeel.butt@linux.dev>, Harry
+ Yoo <harry@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
+Message-Id: <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
+In-Reply-To: <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
+References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
+	<20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Jul 2026 18:43:54 +0200
-Message-Id: <DJV1J2JKZ6KW.1RXOBM28WTVGG@bootlin.com>
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Subject: Re: [PATCH net 2/2] net: macb: mask TXUBR during TX NAPI poll to
- prevent IRQ storms
-Cc: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>, <stable@vger.kernel.org>
-To: <christian.taedcke@weidmueller.com>,
- <christian.taedcke-oss@weidmueller.com>, "Conor Dooley"
- <conor.dooley@microchip.com>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Kevin Hao" <haokexin@gmail.com>, "Simon Horman" <horms@kernel.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Robert
- Hancock" <robert.hancock@calian.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260706-upstreaming-macb-irq-storm-v1-0-ab3115b5a13a@weidmueller.com> <20260706-upstreaming-macb-irq-storm-v1-2-ab3115b5a13a@weidmueller.com>
-In-Reply-To: <20260706-upstreaming-macb-irq-storm-v1-2-ab3115b5a13a@weidmueller.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello Christian,
+On Fri, 10 Jul 2026 10:42:20 +0000 Brendan Jackman <jackmanb@google.com> wrote:
 
-My biggest gripe with this patch is the commit message. It's a massive
-block of text which goes here and there without enough structure.
-
-Let me try to pick issues I have with it and try to give a better
-alternative (hoping I understood the topic clearly enough).
-
-On Mon Jul 6, 2026 at 4:02 PM CEST, Christian Taedcke via B4 Relay wrote:
-> From: Christian Taedcke <christian.taedcke@weidmueller.com>
->
-> macb_interrupt() defers TX completion handling to NAPI, but when it
-> schedules the poll it only masks TCOMP, even though TXUBR is enabled
-> alongside it (both are part of MACB_TX_INT_FLAGS). macb_tx_poll() is
-> asymmetric in the same way and only re-enables TCOMP. TXUBR is thus
-> left unmasked while responsibility for handling it has been deferred
-> to NAPI.
-
-Yes, so said differently:
-
-   TXUBR is acknowledged by the NAPI poll function. The IRQ signal is
-   active until then but signal is left unmasked. Do as with TCOMP and
-   mask the signal until its acknowledgment.
-
-This sounds much more straight forward to me. And it also explains what
-we do to solve the issue, which is info we expect to find in the first
-commit message paragraph. The rest is to go into details onto the
-specifics, the decisionmaking, etc.
-
-> Unlike an edge event, TXUBR is a persistent condition: the controller
-> keeps it asserted for as long as the transmitter reads a buffer
-> descriptor whose used bit is set. Leaving a level-triggered source
-> enabled while NAPI owns its processing means the interrupt refires
-> immediately after the handler returns, before the poll has had a
-> chance to clear the underlying condition. This turns into a hard
-> interrupt storm that pegs a CPU in the (threaded) MAC IRQ handler and,
-> on PREEMPT_RT, triggers RT throttling ("sched: RT throttling
-> activated"), taking the network interface down.
-
-This whole paragraph is somewhat moot to me. It highlights level versus
-edge interrupts but even with edge events the bug is present: it blocks
-any other IRQ from the HW until the TXUBR ACK (in NAPI context).
-
-Describing how the bug surfaces on your HW is interesting however.
-
-> Several situations can keep the used-bit read asserted across a poll -
-> for example unreaped completed descriptors still sitting at tx_tail,
-> or a transmit restart racing with macb_start_xmit(). The specific
-> trigger does not matter: as long as the source stays unmasked, any
-> persistent assertion is enough to storm, so the interrupt handling
-> itself must be made self-limiting.
-
-But this is unrelated? Whether TXUBR stays asserted across the poll
-processing doesn't change the fact the IRQ is unmasked until we reach
-NAPI context and the signal is still not ACKed.
-
-> Mask TXUBR together with TCOMP in the IDR write when scheduling the TX
-> NAPI, and re-enable both from the napi_complete path in
-> macb_tx_poll(), making the TX interrupt mask/unmask symmetric and
-> consistent with how the driver already treats every other
-> NAPI-serviced source. The pending TXUBR is still recorded in
-> queue->txubr_pending before masking and acted on by macb_tx_restart(),
-> so no event is lost. A persistent TXUBR now degrades to NAPI-paced
-> polling instead of a CPU-pegging hard interrupt storm.
-
-Again a lot of words for little info. Usually the patch change
-(the "mask TXUBR with TCOMP" part) belongs to the first commit message
-paragraph, we shouldn't have to wait until the last paragraph to know
-about what a patch does.
-
-Some question that is left in my head after reading, that could have
-been answered by your commit message: your approach of masking TXUBR
-until NAPI is one way, another would have been to ACK TXUBR from
-macb_interrupt(). Have you investigated that approach? The answer might
-be super straight forward.
-
-> Fixes: 138badbc21a0 ("net: macb: use NAPI for TX completion path")
+> As noted in can_spin_trylock(), using this is unsafe in this context.
+> commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from
+> alloc_frozen_pages_nolock() in NMI on UP") fixed this on the alloc side
+> but missed the free side.
+> 
+> Reported-by: sashiko-bot@kernel.org
+> Link: https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b714e19d3@google.com
 > Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
-> ---
->  drivers/net/ethernet/cadence/macb_main.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ether=
-net/cadence/macb_main.c
-> index b11cb8f068b7..f75cf2ffdf6f 100644
-> --- a/drivers/net/ethernet/cadence/macb_main.c
-> +++ b/drivers/net/ethernet/cadence/macb_main.c
-> @@ -1971,7 +1971,7 @@ static int macb_tx_poll(struct napi_struct *napi, i=
-nt budget)
->  		    (unsigned int)(queue - bp->queues), work_done, budget);
-> =20
->  	if (work_done < budget && napi_complete_done(napi, work_done)) {
-> -		queue_writel(queue, IER, MACB_BIT(TCOMP));
-> +		queue_writel(queue, IER, MACB_BIT(TCOMP) | MACB_BIT(TXUBR));
->
->  		/* Packet completions only seem to propagate to raise
->  		 * interrupts when interrupts are enabled at the time, so if
-> @@ -2161,7 +2161,8 @@ static irqreturn_t macb_interrupt(int irq, void *de=
-v_id)
-> =20
->  		if (status & (MACB_BIT(TCOMP) |
->  			      MACB_BIT(TXUBR))) {
-> -			queue_writel(queue, IDR, MACB_BIT(TCOMP));
-> +			queue_writel(queue, IDR, MACB_BIT(TCOMP) |
-> +						 MACB_BIT(TXUBR));
->  			macb_queue_isr_clear(bp, queue, MACB_BIT(TCOMP) |
->  							MACB_BIT(TXUBR));
->  			if (status & MACB_BIT(TXUBR)) {
+> Fixes: d7242af86434 ("mm: Introduce alloc_frozen_pages_nolock()")
 
-We risk some race condition here, but that was present before your
-patch. macb_interrupt() already grabs bp->lock but macb_tx_poll() does
-zero efforts. (I'm not saying that macb_tx_poll() should grab bp->lock
-which would throw away the benefits of our separate queues, the solution
-is more complex.)
+Is this correct?  I'm not seeing anything in that commit which could
+have caused this?
 
-Sashiko reports that as well.
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -2979,8 +2979,7 @@ static void __free_frozen_pages(struct page *page, unsigned int order,
+>  		migratetype = MIGRATE_MOVABLE;
+>  	}
+>  
+> -	if (unlikely((fpi_flags & FPI_TRYLOCK) && IS_ENABLED(CONFIG_PREEMPT_RT)
+> -		     && (in_nmi() || in_hardirq()))) {
+> +	if (unlikely((fpi_flags & FPI_TRYLOCK) && !can_spin_trylock())) {
+>  		add_page_to_zone_llist(zone, page, order);
+>  		return;
+>  	}
 
-It's not up to you to fix this. Or if you do it, it should be a separate
-patch. It is weird that our IRQ handlers all grab the interface-global
-bp->lock rather than a queue-specific primitive, it would probably be a
-big rework.
+It would be nice to include a description of the userspace impact.  I'm
+suspecting that's "none known", but some speculation on what might
+happen to someone is appropriate.
 
---
+Also, please let's not combine a cc:stable bugfix with a minor macro
+renaming.  They're very different things and will take quite different
+paths into mainline and -stable kernels.
 
-TLDR: if patch 2/2 fixes your bug, I'm OK with it. Please rewrite your
-commit message though. I suspect patch 1/2 is not needed.
+Also, Sashiko might have found yet more pre-existing issues:
+	https://sashiko.dev/#/patchset/20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com
 
-Thanks,
-
---
-Th=C3=A9o Lebrun, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
