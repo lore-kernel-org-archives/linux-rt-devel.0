@@ -1,101 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6D8319851;
-	Sun, 12 Jul 2026 10:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AD586334;
+	Sun, 12 Jul 2026 10:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783852210; cv=none; b=AQ/gv1vUN5uBqRDJZcYNqWfkep3ndyWOiTJ6Xeyl3ddgSSnWtibaXxB/dXH+8nBbBAAF9/zTY4hWmxteUhiofUPKsJh2doKXJQZ8dpncpckf2d1nB8fw2qLLFYMZEFYokZ3/Vpm3/MCMd7v2EuL+MYEbDDJMbMPeysQ8F1cx+xM=
+	t=1783852293; cv=none; b=DeJRaFqLiq79EzTF7FHwvIK9qI4lswX7+LqubDJhKmX7/Zdh5YT2Pv80dU0VsuE4RazffNeJMMce2/D3JNB+zmU+waddaAs4gB2/o0hMZig6G9qEmlvJ6Zcqj7/G0ifLtbWagA0r+jOVuBwcCuZvGZEISAHdiP0aj2vvAfvXMnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783852210; c=relaxed/simple;
-	bh=2LeuN8XfxNFqvH3+TMir9ZSxGZp824FLZ70WsXtK5eQ=;
+	s=arc-20240116; t=1783852293; c=relaxed/simple;
+	bh=idd89ZuuOTrreRoN7U7Q7rAjF3s5mCTqAovGqOLo8O4=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JKXINK4ZPMJySHRWsbHmx4bJ2ynr61O9cE61+kli9zGKNGtrWWnTLP6BmUFRKr0vwKnHozq2wGCXh7Hj1NywrvIbSqN1t/AbQJBzvGqJZRMjbjMJMjZ1jl1e5usyvVNLfp3EkHWqGScjp4ugrZtalzSWYQA71tHW2yvUAh3e1mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVOMvgeL; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Ks5DYg8E5GFBSE1O7uupMf9FaG3/1w8x+wVejE83lOFyQAUstwfRwNppnRIAP6vklVarBSUxIKbWZ6izGQloAtRJMqLa32vIf5EqozVdULjmyU9Vy/6NUiwwPNR6KEfPxMmRL35UJe5Xi91iaU47omgK9mW/Jd4AoOF5Xy9iEVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ax0t7iSv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVOMvgeL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2071B1F000E9;
-	Sun, 12 Jul 2026 10:30:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ax0t7iSv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2502A1F000E9;
+	Sun, 12 Jul 2026 10:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783852209;
-	bh=K+E0wzF5X+eWcPcDmuv1BxWFOlFmO9M0zjV4XAK5gFo=;
+	s=k20260515; t=1783852292;
+	bh=HUu6RPld1p4CaZ1+dgT1hPHL6XGwHG+5Bez7ciwymgs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dVOMvgeLiDDV1RYFqE3TMBpeGBGal98XhcEhXjBqtZPyMA/+FIYpzF0yyVTZC8Vy6
-	 yo0hLVyirgbImgyLjHjmgTY0VVeapPTSWBLuBqvq9f//l+hvtx95hdyuhyqg6cMf21
-	 Pr28gMJd7CHkZHwUw9xoQJmZZgoPzpf8b2JNmItvk31zWJjMUm7m9wpzzoQXYHyw5Z
-	 iPowD2W2YN2wqLYLm1N5eT///TB9yPqtcR+G4ZGJ6hm4xTZBs5vYpE3tFqolHmgCje
-	 EdDqcD7yRkEQaaopSnCGW9vmLLrPHEgruw8YjzEXtbFCVXrcvdH9cDw7O+wGEvyiS0
-	 xjdgUaj3f6Cww==
+	b=Ax0t7iSv4ZW4gTVZ6FZZsw7udZkjnCVQyB0A75m1RKfZTWQBPGuZPvoOwmEz+xGH8
+	 IBCE0qRww1lfuWPwxy+Njy4j1b3vUeKU5j56rlWzomY0Cl43J7OW+MfwVY14wTr22G
+	 +vh8IH1zxaZJdiP5MFnKXZHD63mxunB7V6itBjDU0lEkjSMCbASnHPXuMi3suaihJg
+	 4BRA3SKaJ/gBtbe4xAuXTY/Rl2S2gHPs7aGFmc/htFc9YvVo0a+UKrqnVWY2kzmfhm
+	 RgVhTTgssA3jobVHi2dfdZtM+CEmVGdkTvRdiqfxkJZQcxYqXyikDpA7Ah8+0Syr9I
+	 Ld4toYb1KUl2w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/6] printk: add bounds checking to boot_delay
+Subject: Re: [PATCH v3 5/6] printk: nbcon: move printk_delay to console
+ emiting code
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Andrew Murray" <amurray@thegoodpenguin.co.uk>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260712-printkcleanup-v3-2-574547b8f71b@thegoodpenguin.co.uk>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260712-printkcleanup-v3-5-574547b8f71b@thegoodpenguin.co.uk>
 References: <20260712-printkcleanup-v3-0-574547b8f71b@thegoodpenguin.co.uk>
- <20260712-printkcleanup-v3-2-574547b8f71b@thegoodpenguin.co.uk>
+ <20260712-printkcleanup-v3-5-574547b8f71b@thegoodpenguin.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2026 10:30:08 +0000
-Message-Id: <20260712103009.2071B1F000E9@smtp.kernel.org>
+Date: Sun, 12 Jul 2026 10:31:31 +0000
+Message-Id: <20260712103132.2502A1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] The local variable `boot_delay_val` is read uninitialized when the=
- `boot_delay` kernel parameter is passed without a value, leading to massiv=
-e and unpredictable boot delays.
+- [High] printk_delay(true) busy-waits with IRQs disabled inside the consol=
+e lock spinning critical section, causing cross-CPU hard lockups.
+- [High] Per-message delays inside the flush loop hold console_sem and SRCU=
+ read lock hostage, severely blocking the console subsystem.
 --
 
---- Patch [2]: [PATCH v3 2/6] printk: add bounds checking to boot_delay ---
-commit d84630c2b1ca4df747144242cedfc7df2ff7c068
+--- Patch [5]: [PATCH v3 5/6] printk: nbcon: move printk_delay to console e=
+miting code ---
+commit 34b9c50abab2d207953ba74a453cbbd56801857d
 Author: Andrew Murray <amurray@thegoodpenguin.co.uk>
-printk: add bounds checking to boot_delay
 
-This commit changes the boot_delay parameter type to an unsigned int and
-adds explicit bounds checking to ensure it remains within a valid range.
+printk: nbcon: move printk_delay to console emiting code
 
+This commit moves the printk_delay logic from the printk() calling context
+into the console emitting code. The goal is to ensure that asynchronous
+console emission respects the delay without stalling the original caller.
+
+> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+> index 4b03b019cd5ee..c8427906b1c54 100644
+> --- a/kernel/printk/nbcon.c
+> +++ b/kernel/printk/nbcon.c
+[ ... ]
+> @@ -1525,6 +1532,8 @@ bool nbcon_legacy_emit_next_record(struct console *=
+con, bool *handover,
+>  	}
+> =20
+>  	progress =3D nbcon_emit_one(&wctxt, use_atomic);
+> +	if (progress && ctxt->emitted)
+> +		printk_delay(use_atomic);
+
+[Severity: High]
+Does this code hold console_sem and SRCU read lock hostage for the duration
+of the delay?
+
+If a user configures a non-zero printk_delay_msec, when legacy consoles are
+flushed, the thread holds console_sem and console_srcu_read_lock(). Inside
+the loop, the delay is now applied per-record while holding global locks.
+
+A burst of messages will multiply the delay, holding console_sem hostage for
+an extended period, which blocks TTY operations, CPU hotplug, module loadin=
+g,
+and suspend/resume which attempt to acquire console_lock().
+
+Prior to this patch, the delay was isolated in vprintk_emit() before any
+locks were taken.
+
+> =20
+>  	if (use_atomic) {
+>  		start_critical_timings();
 > diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index 31aabdf8248cc..8be562c9be277 100644
+> index 4517266e9ca11..5df09e56cf8ab 100644
 > --- a/kernel/printk/printk.c
 > +++ b/kernel/printk/printk.c
 [ ... ]
->  static int __init boot_delay_setup(char *str)
->  {
->  	unsigned long lpj;
-> +	int boot_delay_val;
+> @@ -3206,6 +3205,7 @@ static bool console_emit_next_record(struct console=
+ *con, bool *handover, int co
+>  		printk_legacy_allow_spinlock_enter();
+>  		con->write(con, outbuf, pmsg.outbuf_len);
+>  		printk_legacy_allow_spinlock_exit();
+> +		printk_delay(true);
 > =20
->  	lpj =3D preset_lpj ? preset_lpj : 1000000;	/* some guess */
->  	loops_per_msec =3D (unsigned long long)lpj / 1000 * HZ;
+>  		start_critical_timings();
 > =20
-> -	get_option(&str, &boot_delay);
-> -	if (boot_delay > 10 * 1000)
-> -		boot_delay =3D 0;
-> +	get_option(&str, &boot_delay_val);
-> +	if (boot_delay_val < 0 || boot_delay_val > 10 * 1000)
-> +		return 0;
-> +
-> +	boot_delay =3D (unsigned int)boot_delay_val;
+> @@ -3214,6 +3214,7 @@ static bool console_emit_next_record(struct console=
+ *con, bool *handover, int co
+>  		*handover =3D console_lock_spinning_disable_and_check(cookie);
+>  		printk_safe_exit_irqrestore(flags);
+>  	}
 
 [Severity: High]
-Does this code leave boot_delay_val uninitialized if get_option() returns
-early?
+Can this busy-wait cause a cross-CPU hard lockup?
 
-When the boot_delay parameter is supplied without an assigned value (for
-example, just passing "boot_delay" on the kernel command line), parse_args()
-and do_early_param() pass a NULL string to boot_delay_setup().
+When printk_delay(true) executes, it uses an mdelay() loop while the CPU
+holds the console owner state, console lock spinning is enabled, and local
+interrupts are disabled (via printk_safe_enter_irqsave()).
 
-In this scenario, get_option() returns 0 immediately without writing to
-boot_delay_val.
+If another CPU concurrently calls printk(), it enters
+console_trylock_spinning() and spins indefinitely with its own interrupts
+disabled, waiting for the first CPU to release the spinning lock.
 
-If the uninitialized stack value happens to fall between 0 and 10000, it
-gets assigned to the global boot_delay. Could this cause unexpected and
-massive boot delays after every printk message?
+Since the spinning CPU does not call touch_nmi_watchdog(), it will hard
+lockup while waiting for the owner's mdelay() loop to finish for each
+pending message.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260712-printkclea=
-nup-v3-0-574547b8f71b@thegoodpenguin.co.uk?part=3D2
+nup-v3-0-574547b8f71b@thegoodpenguin.co.uk?part=3D5
