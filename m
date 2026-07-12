@@ -1,166 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BE022D792;
-	Sun, 12 Jul 2026 21:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FCD3769F7
+	for <linux-rt-devel@lists.linux.dev>; Sun, 12 Jul 2026 21:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783891041; cv=none; b=ToB1jxsoaxK2I3ADzwi29jppStI8U7rAi2MzSSzL+DnBHKUXkGvHcmO1z+wMRh+5XZCIefL5IOquX3L2DCApebf5rMFnkan3qVlDVv39OOR+LAY4T+kFGBqyFkcRcjvFjynyfMQhd7seZv9onjl8MmUpWNP8Qzqp2arNiiyuHO4=
+	t=1783891062; cv=none; b=FiOnXU1gpmaZuTs8nCDEQ1HnbXKhrEaFC3b4lJ9kPtpa7LrM7NcprB7tuPryFnbOW6r4+UqZCSB37Gy1brsl95FSbp+AMX/HUAeYqLMBRcbr+zuk+nrQlOYCAkT7GlVSVaDNBiZB4VypIEjwH0JS195hnvGgd8mwZnLh+b4Ef5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783891041; c=relaxed/simple;
-	bh=/6b2jTNQjZ/cc8Nv+AEt/GOccgx8Tui6Cw4/FX6wfGQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=M7uE5dW5TvU4gtyN9nHcRLvNaIDWp5X7J19MPb8ejA7dY8aOviQA+ldAgou5y1+Al22APmReaVvNGm6oOZzFQrBiHYKCHX1MqCyu5tKZWtdlFUhPhDs6D9vsZhayq2n4HGlqfOueSziUO5LFFFQtCtyFlNgtmDzK6J7gLdAJW0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R4h+JNb4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783891062; c=relaxed/simple;
+	bh=2LJzXj9ppebEulv72Db9DKrXEuSmBOMhC8AFnbyQWp8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=jlFOq6+UC8vVH2vqmZ3BkirWz3jQsanTnqsliJJ6YzaCMyBJbVnSvY0PQSREM1VIw7PC843vcgEo3Dpd12rAGxXDpM//WjdWWS925zH7gbupMKblXTi06r95Ywzd9oE3vyDQWt77rk4DxLotr3sXdHD7U+7bWG9c8KDerjQQU3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=na1B37fk; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R4h+JNb4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E9D1F00A3D;
-	Sun, 12 Jul 2026 21:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783891040;
-	bh=8HS24st5/6ouw3RvThXAkuCmO7AQ6USBNd3I30PW+ug=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R4h+JNb48H++uaAZaUVexsdiF86rSHGTJ3kyRUq82iOaSYYgOEH9Ey97zA8IZNMuN
-	 q/Znl1gABmoxGEXSHrhVLWGZiNgufVDEdYawXyphz49i/86omsI8Pa0JBsRx1tuoUz
-	 +dIpfA37rlovczFPNzHWCSWc7AT0m1KvIXNKdF+n7beVlj6ysCQCF4GoMafphzcQ0X
-	 z5YqdM7swAQcvenmkKWftUTPLPXR7HuewQA9MlzGUObjoDMkN2mBDCa+EaFCFGHE/x
-	 rSGIih9adYMwStICazhsNVMaML3vs3ayg9YhVaU0lcnp8KYenFXXUlljZ1Jm7EnZDy
-	 uAm3AQHeZXWgQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] coresight: Fix scheduling while atomic in
- coresight_device_release()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohamed Ayman" <mohamedaymanworkspace@gmail.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2026 21:17:19 +0000
-Message-Id: <20260712211719.E3E9D1F00A3D@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="na1B37fk"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso1339363f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Sun, 12 Jul 2026 14:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783891057; x=1784495857; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mO9PnufslFYNDwqPjTJ3f3FlkpnmJVQM4/pFUcrdNco=;
+        b=na1B37fkVMeVGebAYVCBII3kBykUIx4gHa/9BLiW3U/43346WGm4kqqA/2CQcioUU/
+         GVPtwRe9kiTjCdiaT9Gpgwz6f9VnCFAiM1uLxHilg9zDn5w6U8efii+qR2sKtE3OSQ5O
+         WNBeA/txwR2FfIHkUqr7JfTwe+w8chvtwZfBeFutT1eYWKTsoq8kD3QSHa+2mKo4recc
+         C44U6UwVP3atk1/tAEJLtJp6m55aV/gv5eA3xgMjSLBrW5OILOTU96GNhZ6JbEFzf9v7
+         1YxSnUGcfpJabmt8HyzWUlmbsegR3fTgVrQNXLJOJjXEkwa55+HIt5W2R+k8+cs9qp8K
+         QKYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783891057; x=1784495857;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mO9PnufslFYNDwqPjTJ3f3FlkpnmJVQM4/pFUcrdNco=;
+        b=ViMhYoj5FwUSveoYDbtzo3gPHKUoIofGeAqKsQdMc3Yow2VrNpV7JXzLlZIe9NQEBR
+         FKtCf5388164g0fQfiYpTYbJ2ThYSwGt2iZBrB8PteqxG9hBGG0D58IX9HnTEkwQoo9V
+         ddJc05by5Y9hyz6Td5Wt1eFSs/+nz/i98TSpIGtR8mkr4En6we3lu46p1EAbUkISDLZk
+         R4eoqzS1nwqTEyWmbdABePL3v62ntk4A11m+BUnLDfWeK86YtE/1wE6zZxn9jbC8zHmr
+         w8R4Ag0vrNn4jtgeVP3n1vmMgI/5miM2QkJlKmNSOcCRWerRhFBLtsC8kQoWtg2Ewr8a
+         qzHA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1TxxXGL2M74UkIIpLlRcZRhVZwAjTzS+aaAf2f/By0UWwGbH3E29kQ4SFkbUkc5/nKA3GLB+UTu/x/N8Wxg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNE8h5MQ9B7kot+9Fb9Bo7BDifkiOb9AHARbeh0MgZh3fGaGH2
+	mxjCBlqC8SWWZoGFr9yCa32zG1/j/UUZM7Td4awnnOIgyVETQkYeB8Io
+X-Gm-Gg: AfdE7ckvK6vCVLfcY8fUm1l26KGfbR8Cb1+hrwj+n8SyhoNDmRgDi2ol0H7/XcPIrDJ
+	DF7nxKVejc9gCENJepMLRd/Mju82wNu0i+cVNoRgZOe2v/fiKE8+XRhEQKACFGKeDPBLO3k7B43
+	84elsuNmsSNJEZxpriP8Pb6qmJXzbTo9KHSpn6Au18SnyXpMg+8SAqSZQfg7C2xjIkEwQZdewtq
+	6WvBYS+ZFAzDKeIs+006X1WD8DRap1OY1LTO02+M86EVN1UDrrgqvKOu3QYBCJ2RHbihCK5772q
+	lVQ+AM/bY1u5Qv7Lmw5C8Sbmqdk1AQRlv0jcCoVpy79L7dP+ujcWGTxpdg05rtTMFKqvhegQl1G
+	QPhzpHKTnjQlWrD2LZS/j2I6fbu8DYbki5fQ7OqJ6q5u5Zotzy2ykY5X/N/w/aUJbfEjoAeTlRp
+	3IsPGbqmYkZHqC+chAqtNbiw==
+X-Received: by 2002:a05:600c:a42:b0:493:c77c:108a with SMTP id 5b1f17b1804b1-493f883c8ffmr70582755e9.36.1783891056739;
+        Sun, 12 Jul 2026 14:17:36 -0700 (PDT)
+Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6f3c42sm307923765e9.1.2026.07.12.14.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 14:17:36 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: Leonardo Bras <leobras.c@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Harry Yoo <harry@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Coiby Xu <coxu@redhat.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev,
+	Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush work
+Date: Sun, 12 Jul 2026 18:17:34 -0300
+Message-ID: <alQEbpfo7mHHkIcx@WindFlash>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <ag3Jh-8iUdgKvw5y@localhost.localdomain>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-2-leobras.c@gmail.com> <20260520134832.WS7TrMnu@linutronix.de> <ag3Jh-8iUdgKvw5y@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+On Wed, May 20, 2026 at 04:47:35PM +0200, Frederic Weisbecker wrote:
+> Le Wed, May 20, 2026 at 03:48:32PM +0200, Sebastian Andrzej Siewior a écrit :
+> > How likely is it, that you you had users before late_initcall()? Also
+> > can it happen that one of them uses one function to lock and the other
+> > unlock in this brief window? There is no check if this was used before
+> > static_branch usage.
+> 
+> Or let alone initialization on the wrong member of the union.
 
-New issues:
-- [High] Asynchronous device release via the global workqueue lacks module =
-exit synchronization, leading to a Use-After-Free.
+Right!
 
-Pre-existing issues:
-- [High] The patch commit message claims to remove a redundant raw_spinlock=
-_irqsave guard, but fails to actually do so.
-- [High] Deferring coresight_device_release does not make put_device() safe=
- to call from an atomic context.
---
-
---- Patch [1]: [PATCH] coresight: Fix scheduling while atomic in coresight_=
-device_release() ---
-commit c57af442711428cc5593c1e439fa97218ed23c0d
-Author: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
-
-coresight: Fix scheduling while atomic in coresight_device_release()
-
-This patch attempts to fix a scheduling while atomic bug on PREEMPT_RT buil=
-ds
-by deferring coresight_device teardown to a workqueue. It also mentions
-removing a redundant raw spinlock guard.
-
-> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtra=
-cing/coresight/coresight-core.c
-> index 6d65c43d574fd..9dbdb29770260 100644
-> --- a/drivers/hwtracing/coresight/coresight-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-core.c
-> @@ -165,13 +165,6 @@ void coresight_put_percpu_source_ref(struct coresigh=
-t_device *csdev)
-> =20
->  	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
-> =20
-> -	/*
-> -	 * TODO: coresight_device_release() is invoked to release resources when
-> -	 * the device's refcount reaches zero. It then calls free_percpu(),
-> -	 * which acquires pcpu_lock =E2=80=94 a sleepable lock when PREEMPT_RT =
-is
-> -	 * enabled. Since the raw spinlock coresight_dev_lock is held, this can
-> -	 * lead to a potential "scheduling while atomic" issue.
-> -	 */
->  	put_device(&csdev->dev);
-
-[Severity: High]
-This is a pre-existing issue, but the commit message states it will
-"remove the redundant raw_spinlock_irqsave guard in
-coresight_put_percpu_source_ref()". However, the diff only removes
-the comment block.
-
-Since the guard remains intact, won't put_device() still execute with
-coresight_dev_lock held, continuing to trigger the atomic violation?
-
-[Severity: High]
-This is also a pre-existing issue, but is it safe to call put_device()
-from an atomic context even if the release callback is deferred?
-
-If this is the last reference to the parent device (such as an AMBA or
-platform device), kobject_cleanup() can synchronously drop the parent
-reference:
-
-put_device()
-  kobject_put()
-    kobject_cleanup()
-      kobject_put(parent)
-
-If the parent's release function acquires sleepable locks, could this
-still result in an atomic sleep bug? Would it be safer to defer the
-put_device() call itself to process context?
-
->  }
-
-[ ... ]
-
-> +static void coresight_device_release_work(struct work_struct *work)
-> +{
-> +	struct coresight_device *csdev =3D
-> +		container_of(work, struct coresight_device, free_work);
-> +
-> +	free_percpu(csdev->perf_sink_id_map.cpu_map);
-> +	kfree(csdev);
-> +}
-> +
->  static void coresight_device_release(struct device *dev)
->  {
->  	struct coresight_device *csdev =3D to_coresight_device(dev);
-> =20
->  	fwnode_handle_put(csdev->dev.fwnode);
-> -	free_percpu(csdev->perf_sink_id_map.cpu_map);
-> -	kfree(csdev);
-> +
-> +	/*
-> +	 * This release callback can run with the last reference dropped
-> +	 * from atomic/IRQs-off context (e.g. coresight_put_percpu_source_ref()
-> +	 * called from the CPU_PM notifier). free_percpu() takes pcpu_lock,
-> +	 * which is a sleeping lock under PREEMPT_RT, so defer the actual
-> +	 * teardown to process context.
-> +	 */
-> +	INIT_WORK(&csdev->free_work, coresight_device_release_work);
-> +	schedule_work(&csdev->free_work);
-
-[Severity: High]
-Could scheduling this work on the global system_percpu_wq lead to a
-use-after-free during module unload?
-
-If the coresight module is unloaded while there is pending release work,
-coresight_exit() does not appear to flush this workqueue or wait for
-pending tasks to complete.=20
-
-If the module is unmapped before the asynchronous work executes, won't
-the worker thread attempt to execute the unmapped=20
-coresight_device_release_work() address?
-
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260712210446.1429=
-0-1-mohamedaymanworkspace@gmail.com?part=3D1
+> 
+> -- 
+> Frederic Weisbecker
+> SUSE Labs
