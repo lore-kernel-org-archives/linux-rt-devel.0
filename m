@@ -1,188 +1,277 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E14383991
-	for <linux-rt-devel@lists.linux.dev>; Sun, 12 Jul 2026 22:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373DB2FF144
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 03:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783895738; cv=none; b=eMuUB2SF/9j+xVa/UVNuSquusySwGIRxliFCEb3tCh2AgEIkzMUYZzWhSoFf6cjUId1GuDKpuHDomybwqrcVmYoM0SrpteEBS2+FavVz1i5EJVNcUnYm7d5v/14NbF5ozJwC4pKuhXoVN8pHJHpaJn8Dno8MsxbAk783htaApvY=
+	t=1783912053; cv=none; b=jxK+3Nw8AozQkg98gKm2dMKWFt7DuvBst5S/hsmWa5673M29sCVK6Inw6tYNK1FIU9+GffLoS3bRiGE+bJ/wzz+wMCVJPpYAyBRXZht5xPRylKLFkJBdF3LPnV1m6ExnPWOZUbZco08ITXKIHQ3GgGoCJxuuqF1ugCwJvhtFPIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783895738; c=relaxed/simple;
-	bh=zTp1DOk3NOaMktG3fJiFhErNH/BB+SGW2xP7NajgGuQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=pUQM0Pd75vxGsIga+TfvMxGwAP8yKs8qYDjbsKb2lOj8VGSrcIKpfqHf61z7P9QvO3glmaNbXX9S+X96TQZKSSN7HyhCyUXbbrV1khP26ejn6NiH1LCGKhueKVRar42KvYA6p62fw6vFkbH1BM/hfqArhX1TQhd7E6GO5v0O7LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=liDEw+Nm; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783912053; c=relaxed/simple;
+	bh=DmpDiX22ksbPEucxROJWm5xeUeLy/s/h2aCs1IPYAnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=dgtoaBLHHsxetV9Q9+ZDmgX2Iqz7EtxQcio6sQ5WRoQvcJPslrny5A2DTQbGpw6p2KnvhrXZc0kJ3DVJDbNR0OBGFe0mThxjnAcr9HUiw0ERxbDzp7hywuaDpwxfEizqBJqEJTWxhdQl/vrvvIYh5YQGaIhdH0ROLXbSJ3eBg4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fRsEJX7b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DK2WceZ1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="liDEw+Nm"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so11316655e9.1
-        for <linux-rt-devel@lists.linux.dev>; Sun, 12 Jul 2026 15:35:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fRsEJX7b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DK2WceZ1"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D29Qkp003379
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 03:07:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OVXyH/TwSzdCUV+a7THlnl3JNi6YLAM042pC5ymDPyM=; b=fRsEJX7bZx4r/kpP
+	B62dvhxpExLKtOUpw/96+r8FV7xFcaKFHJUrJ0Mxklu3hOqukq5VhiUujYlsemtg
+	d+c0MQUDkgy31tnW1cTarp9jEoyIVA01UXWpqlYugQGXvh2KIf3YM5GiecsI7+LI
+	plV5OTmJWiRP1wir3tAzhaGvq4lUnk34/LOAaQdpUBfGuDiJ1AYLBpCMylK1UwhC
+	vX2KXZHALhF60BuKeEyIWWNfMDQaS926UXCuI4Z6voPuvU258soonpLaCMv2rIqx
+	hgYcFIBhxbPMxc4R8rvrriYw3KNAbxc5/un2irJpufLUqBeSXDzcmCBokp85ju/1
+	P6qQVQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbe9144wg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 03:07:31 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-848d21bbb55so2540493b3a.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 12 Jul 2026 20:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783895735; x=1784500535; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VdrKql7RKB+YZLcnGXRPhjkopfqYReRcnCWxRaESO50=;
-        b=liDEw+Nmu3hoFF/FAQnqRPRsXpD+lydzCMFFPdF7vzeqII7Qw25weSBpr/MSyOSo6q
-         1zDNDrq7PQK8KNn5QzFH5L9fMu/3kEg8CLcJwC4BlClZ1kiwg3tsZObc7ZGLZzIVf/oc
-         CAfM4jnVcP18CjyhjdpAx7tdEzquR8W6PnxgxaOGr27gzSH2ocAKNPsK7PHF1T1wcacj
-         W50u2RlMlTOyl3D96jfEJo2UatmBosVpjihbc2FEpxYOWore33anZGtv9oAuq2Pppc8h
-         eWjwW3DeAk3RFnHP2MVmUxlQxnRaQ/i59kWC89YZTZmgCvCh5wpxUYY1jrG1Uxx5P/oW
-         HvWA==
+        d=oss.qualcomm.com; s=google; t=1783912050; x=1784516850; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OVXyH/TwSzdCUV+a7THlnl3JNi6YLAM042pC5ymDPyM=;
+        b=DK2WceZ1Zq+de3Lr/axCqjoygQVQD4Fr4pxeZTKkKOwc5fkrwQi5b0+T1zzWRYfX+4
+         VuQ3SiDxUX5760Qc9I5p4urkKxZOoPs39YXXfZNZVe/GLUv5+9iVH8KDqYQGidO5FxoK
+         V5jBnGD4KkSCZMcRAHFE7sESJN6tRLVsHamWTmpt17hbaGwl6yyXSUtii4s0vXuQQykV
+         5zumkEefjiELwE4gB2tOOVmA5h1EUuLVcAOrWOjP2Hoq8cJM4YQej1sfMX8rTnQMxYTQ
+         Pkdr6teGCRk+959F3n5NDNeRFt82TEv0QFijmP0QZfgZ/iYJHxQa1tEuDzGtIChxwldw
+         BBQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783895735; x=1784500535;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VdrKql7RKB+YZLcnGXRPhjkopfqYReRcnCWxRaESO50=;
-        b=XS69i+Qt52oGAhO+iTxCZZFY9SDBrMs1Uvt1/beEOGY1m8Df1CbLmuDni65br5ISt4
-         yJdmSmRhOw7fY0rTMssRA9vT0zoOfHa4OAUkf6MlIzP1II4aPawFTWmlJbp9yKpo+wZ7
-         1QSrygelFq56CJ6dYLddE9jdE2ZDh95jSUKDqzaK3tCX4xhcPCreqUIcnMFXyYzvvpoK
-         UP30xsyG0fwyEHz3C0Mv/9ta+MTQCp2CMSOt4Y7pnoKpccZgaAoHwzhLJ1yg+bjD2+Zc
-         /ccdOzRrBwT9DBaZFXFgU9V8zOlI1YgVLQ/pOjPUyek1Q6uSN5qfk43SAdj4le6ZkuMW
-         XuhQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoxRNS3IZBz9L3gHYAjAUqaTg4tiE0JGvgrtfqid0YzzLQ8YCImT6orWJeuRAE80HP0gftnBOQ2uH/lSJAVdw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKojhseHUiaYRJ4ZsmY+T5TvX6wibCPmHGxQZHTsRWdRKKRUyD
-	9pECTsTMRhyqlIOZF53zQK17TvuWSd5EnabJJMkAXRAln2cKQI+IY1lk
-X-Gm-Gg: AfdE7cl1Vm3IuChdO3j8DjhYpdaArsj//x+mvL1PEqaZdIlcONR7t7QCSl1Wxf7C2gl
-	W2z0F7ZSprlYaE5B7Q+ECcngdzYQAwugNkRdnBS5bu1zW9+XQ942PhFhNY8WsE0RS17q/VYunI8
-	rVgs7txl9oB3Oo1/ARzIkhjkoTLxkdErM65TnRfGoZgplTnxXV7W2cw26vd/w6ZEGV5wZZkMbQo
-	NnioBNsJj3Mb97alk2Ak6fXxxQqoW5ceoUFowWbfAOTOPwxmzF94QSiuZFi4D8UOWfNQgx8pmC6
-	Ge9GSbnWCx6brH/yVUlub2hgK9YibfqS963IEbA46aQnM03SKJF4v4/Fl9fx1jdNlPA+m/1IMFn
-	TQRefQttjQPyaG/zvdRh/whQep7Qrsh+SPrXf19CsIJtQglZsa8IhAXBgzzcuk8n+yeyQdiCYXL
-	MNpazvjwNA+EElgPdO6f8qMA==
-X-Received: by 2002:a05:600c:6989:b0:493:bfbf:1da4 with SMTP id 5b1f17b1804b1-493f881de65mr64503975e9.22.1783895735000;
-        Sun, 12 Jul 2026 15:35:35 -0700 (PDT)
-Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6df6d9sm373068445e9.7.2026.07.12.15.35.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 15:35:34 -0700 (PDT)
-From: Leonardo Bras <leobras.c@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Leonardo Bras <leobras.c@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Harry Yoo <harry@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Gary Guo <gary@garyguo.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Coiby Xu <coxu@redhat.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev,
-	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
-Date: Sun, 12 Jul 2026 19:35:28 -0300
-Message-ID: <alQWr2L_Kn23pxd9@WindFlash>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260520145308.nay9zt6r@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-5-leobras.c@gmail.com> <20260520145308.nay9zt6r@linutronix.de>
+        d=1e100.net; s=20251104; t=1783912050; x=1784516850;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OVXyH/TwSzdCUV+a7THlnl3JNi6YLAM042pC5ymDPyM=;
+        b=WKbRngl8OpqAG2tjz92+MEgIrbvONGVIvez3TjyOERE8d8c2d5ZM+OLe1NPFiYfIsJ
+         oKLmohdG2n9Uvs9wXUW+glzwarUoiKiN/UKODVpwYyTPbOBWb789SRFThaEaB2fqyorx
+         Wa67XsOMmcx7wBv4smMBlsB0Kla+CHRaNcAcOylY+yBbL96seBV+TaJW6MEIBmeMGKOY
+         7Hk6tTkX7dX524gf7FoMgh1Rpo4XbhdScw7R7zHjAV9TbFZ/iyBKGJi3sKpTy/jcpYMg
+         tMe8te/fQJU+p9P885SIV3+Pzfa7TZpYN7NWXkcgaF8FXRkBjgn4TXsPwwhQD3rc3tjj
+         jMig==
+X-Forwarded-Encrypted: i=1; AHgh+RpUkjqBKfkr9TW9n19mmzMY19kSUGQ8g9XooYd96tPmyko1nK3SRU3dv4EG1edlqt5yPeGoIr6E9BhDEuvBFg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvK/n3jeu79Bc3Y0wpCT7dTjEAiyUW9bCXJ0AAj/yJkeMcZctj
+	6nQCIRpIJKbiX4h/D2Wbwb+CBfpCDcnWXszeaJi3OLbaNjNG8BdFCKKX8gqALbtp8miXAQ0PBy7
+	Zr4f+zm2z4wWRsmRYFi7c1IlhOye7tMm5rLrnb4p0k4rucAh5mrDVgcUOCwdeOdOt5y4WJw==
+X-Gm-Gg: AfdE7cnRmvIQhA3i6yUmsBg7UqXHHe4Tc2JSvsqwVFn181kPT18hsliXKn8rWWwlVbe
+	gx48+GnzBXBsE1hYohm3YAaUsnJ0LFmSPzBdi9U2nlA7b598z14QcM+EQ2hOUhYjNZEzQEd7mIk
+	QXfnWHu9CB/Iq45blKYo0WVX6SaBAi1jfNLoBp37IQQ+cGmgvez5uw27lyjEFm6taomalvjCKCZ
+	gTh6iBMCEZFuuAIoPfxEbrBqC/Wpx6FWZ14nLYL1yVwn5FZ9ouTntbKMkMCMkQUpv4EcDzWIRJG
+	F8+F9tH7PpJnsVGYovfgo+uUXCE7uVqrZgcF7aZ9c9GSENR8i+4b6adj9OS0lReFsSFnvydgJJ8
+	1EHH6UcObN4xnTAmGz9EIaw3xsdKYQSs+mqUP80J2c9fcT/hdVnacdRlgVQ2loSWefNOrYchyQn
+	Uq
+X-Received: by 2002:a05:6a20:3d8b:b0:3b3:f46:1ef3 with SMTP id adf61e73a8af0-3c110b43746mr9251133637.41.1783912050149;
+        Sun, 12 Jul 2026 20:07:30 -0700 (PDT)
+X-Received: by 2002:a05:6a20:3d8b:b0:3b3:f46:1ef3 with SMTP id adf61e73a8af0-3c110b43746mr9251095637.41.1783912049636;
+        Sun, 12 Jul 2026 20:07:29 -0700 (PDT)
+Received: from [10.133.33.216] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca79aff904dsm5950477a12.6.2026.07.12.20.07.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2026 20:07:29 -0700 (PDT)
+Message-ID: <03d9499c-4566-423d-9bdc-ef3efd4f0119@oss.qualcomm.com>
+Date: Mon, 13 Jul 2026 11:07:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] coresight: Fix scheduling while atomic in
+ coresight_device_release()
+To: Mohamed Ayman <mohamedaymanworkspace@gmail.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>,
+        Leo Yan <leo.yan@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS"
+ <coresight@lists.linaro.org>,
+        "moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS"
+ <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT"
+ <linux-rt-devel@lists.linux.dev>
+References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
+Content-Language: en-US
+From: Jie Gan <jie.gan@oss.qualcomm.com>
+In-Reply-To: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=TbymcxQh c=1 sm=1 tr=0 ts=6a545673 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=pGLkceISAAAA:8 a=bKUmyqtfEAg2hwmyn8cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDAyOCBTYWx0ZWRfX+Cz/glCzef5V
+ Vt8xuwZrEznnJVlyvclEIniL943Y2Gs0AX1nXQ83MgH+lhrmW9YPNnWzId87BuDy+6DkgJfSYcM
+ gdjJ+YzNNEa2TuBUjo+9tE1f37x7gF4=
+X-Proofpoint-GUID: X-tCnuSj5-8z7lJ6kul5HAn_Gb-1ubs2
+X-Proofpoint-ORIG-GUID: X-tCnuSj5-8z7lJ6kul5HAn_Gb-1ubs2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDAyOCBTYWx0ZWRfX7eorIjvfaW/l
+ NQ5Tuen7Hr9fJW+G2bX6MqVFd5HSmcWAipog89vIYiUT0jQR0ZhzJ0hjnX/3a8CTKuP1DFpINmj
+ AC6l4SRioPTE1ZPXMbBSTkzUWpJZwSQA87dwNLGO0tECUIS3QgqFAlX7uNSdlF+RGHT7/SD3+ve
+ BIGyLB9fBBWPvLVDoCErlfHwGu7oHvPUPs98Fktroh3YZZa5zzmeUhvHHwyA4hryvdgq7Y+pcfJ
+ fL7wJmu2bT+H7ISWTvbL+AY61SvOO0jq1Xry+ebxmqjpLfjGQsRe9/cPgxMJhe71NJY/3gcXDg8
+ o0tZ9Pt6gACf4VhEKDrHMAQnAwPOg0hrFTjXoxmcl1jkpML8J8OdIQAySGL+tabrBGICXJwzDbn
+ OOHfBJfS+1nUb9AfJSeTsz3PA5Pm0xdBRoc15fM3+Kco1dqrmEosu+odO7qgD3kHFuni2MlAUq+
+ Xo+xnl79n6gVzzKmRNg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-12_08,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130028
 
-On Wed, May 20, 2026 at 04:53:08PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
-> > @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
-> >  
-> >  	/*
-> >  	 * We assume the percpu sheaves contain only local objects although it's
-> >  	 * not completely guaranteed, so we verify later.
-> >  	 */
-> >  	if (unlikely(node_requested && node != numa_mem_id())) {
-> >  		stat(s, ALLOC_NODE_MISMATCH);
-> >  		return NULL;
-> >  	}
-> >  
-> > -	if (!local_trylock(&s->cpu_sheaves->lock))
-> > +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
-> >  		return NULL;
+
+
+On 7/13/2026 5:04 AM, Mohamed Ayman wrote:
+> Dropping the last reference to a coresight_device can trigger a kernel
+> panic on PREEMPT_RT builds due to a "scheduling while atomic" violation.
 > 
-> alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
-> I don't remember why exactly local_trylock_t was introduced here instead
-> of a per-CPU spinlock_t. 
-
-Probably to save the cost of using atomic operations on locking, and having 
-about the same restrictions that would allow using local_locks
-
-> But there should be nothing wrong with a
-> trylock on it from NMI as you do here.
-
-Awesome!
-
+> When the CPU enters an idle state, coresight_cpu_pm_notify() is invoked
+> with local interrupts disabled (atomic context). This function eventually
+> calls coresight_put_percpu_source_ref(), which drops the device reference
+> via put_device(). If this is the last reference, it triggers the release
+> chain:
 > 
-> One thing worth noting, on !PREEMPT_RT, spin_trylock() always succeeds
-> on UP. kmalloc_nolock() checks for it, not sure about other callers.
+>    coresight_cpu_pm_notify() (IRQs off)
+>      -> coresight_put_percpu_source_ref()
+>        -> put_device()
+>          -> coresight_device_release()
+>            -> free_percpu()
+> 
+> On a PREEMPT_RT kernel, free_percpu() acquires pcpu_lock, which is
+> implemented as a sleeping rt-mutex. Sleeping while in an atomic context
+> causes a system crash.
+> 
+> Fix this by deferring the teardown of the coresight_device to process
+> context. Add a work_struct to `struct coresight_device` and use
+> schedule_work() inside coresight_device_release() to safely execute
+> free_percpu() and kfree() in a worker thread, away from the atomic PM
+> notifier path.
+> 
+> Additionally, remove the redundant raw_spinlock_irqsave guard in
 
+The code diff doesnt include this description.
 
-Sorry, I did not sure I understand that part. 
-You mean we have since it always returns true, we may be in NMI context, 
-after it was interrupted holding this lock, and it will return true which 
-will use the protected area even though the lock should avoid it?
+> coresight_put_percpu_source_ref(). The lock was originally intended to
+> protect the per-CPU pointer table, but dropping a reference does not
+> touch this table.
+> 
+> Signed-off-by: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
+> ---
+>   drivers/hwtracing/coresight/coresight-core.c | 28 +++++++++++++-------
+>   include/linux/coresight.h                    |  2 ++
+>   2 files changed, 21 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+> index 6d65c43d5..9dbdb2977 100644
+> --- a/drivers/hwtracing/coresight/coresight-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-core.c
+> @@ -165,13 +165,6 @@ void coresight_put_percpu_source_ref(struct coresight_device *csdev)
+>   
+>   	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
+>   
+> -	/*
+> -	 * TODO: coresight_device_release() is invoked to release resources when
+> -	 * the device's refcount reaches zero. It then calls free_percpu(),
+> -	 * which acquires pcpu_lock — a sleepable lock when PREEMPT_RT is
+> -	 * enabled. Since the raw spinlock coresight_dev_lock is held, this can
+> -	 * lead to a potential "scheduling while atomic" issue.
+> -	 */
+>   	put_device(&csdev->dev);
+>   }
+>   
+> @@ -1257,13 +1250,30 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
+>   	}
+>   }
+>   
+> +static void coresight_device_release_work(struct work_struct *work)
+> +{
+> +	struct coresight_device *csdev =
+> +		container_of(work, struct coresight_device, free_work);
+> +
+> +	free_percpu(csdev->perf_sink_id_map.cpu_map);
+> +	kfree(csdev);
+> +}
+> +
+>   static void coresight_device_release(struct device *dev)
+>   {
+>   	struct coresight_device *csdev = to_coresight_device(dev);
+>   
+>   	fwnode_handle_put(csdev->dev.fwnode);
+> -	free_percpu(csdev->perf_sink_id_map.cpu_map);
+> -	kfree(csdev);
+> +
+> +	/*
+> +	 * This release callback can run with the last reference dropped
+> +	 * from atomic/IRQs-off context (e.g. coresight_put_percpu_source_ref()
+> +	 * called from the CPU_PM notifier). free_percpu() takes pcpu_lock,
+> +	 * which is a sleeping lock under PREEMPT_RT, so defer the actual
+> +	 * teardown to process context.
+> +	 */
+> +	INIT_WORK(&csdev->free_work, coresight_device_release_work);
+> +	schedule_work(&csdev->free_work);
 
-Humm, but if that scenario exist, then is it actually ok to return true on 
-trylock() in that scenario?
+Consider the module unload process, the async work can lead to UAF:
+For example:
 
-Thanks!
-Leo
+1. unload ETM4X module:
+coresight_unregister() -> device_unregister() -> put_device() -> ref 0
+-> coresight_device_release() -> schedule_work(&csdev->free_work)
+
+At this point, the release work is only queued, while the ETM4X module 
+unload path proceeds as if the release operation has finished.
+
+2. unload the coresight module without flushing the workqueue
+3. A UAF occurs when the pending work is eventually executed and 
+attempts to free csdev via coresight_device_release_work(), after the 
+relevant code or resources have already been unloaded.
+
+We must drain out the workqueue in coresight_exit to close the gap.
+
+Thanks,
+Jie
+
+>   }
+>   
+>   static int coresight_orphan_match(struct device *dev, void *data)
+> diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+> index ddf18c970..63253f6c4 100644
+> --- a/include/linux/coresight.h
+> +++ b/include/linux/coresight.h
+> @@ -13,6 +13,7 @@
+>   #include <linux/perf_event.h>
+>   #include <linux/sched.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/workqueue.h>
+>   
+>   /* Peripheral id registers (0xFD0-0xFEC) */
+>   #define CORESIGHT_PERIPHIDR4	0xfd0
+> @@ -293,6 +294,7 @@ struct coresight_device {
+>   	struct csdev_access access;
+>   	struct device dev;
+>   	struct coresight_path *path;
+> +	struct work_struct free_work;
+>   	atomic_t mode;
+>   	int refcnt;
+>   	int cpu;
+
