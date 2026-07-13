@@ -1,271 +1,217 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010021.outbound.protection.outlook.com [52.101.56.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA25330E821
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 16:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783961518; cv=fail; b=S7zv3CFUr6wQAG3bvf8IRRySRBk9q7dPX+AIk6+TzY+FlZnp0iS6v2jiVWb+YXbe5DEWk4BaejMWXuWWOYf6uWbycvN7DZcSXliLl64LTiGWfP3DD2JhNwpMb1zMDNP4E+kCXFgeaY9aN118ch+HhVJpCIZXcvsOPwGhopSg+ag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783961518; c=relaxed/simple;
-	bh=zNWMAnLXv7wYuM1xzhpjPtR4hQzupUvWIicEwd9a5/E=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4B229ACC5
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 21:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783977452; cv=none; b=rrMWsItjQ74JQuA2fW+HWeQHGKKC401MbtTC8jaDfHjmCjaV7W/klhyzonpKHZ//V+P/WOp+NqXDDDQCNu06epRCAApMTchagXpHH86/HtyPOhuVjoHti9G+/jBMLDZBvWHTwM2aao0A3a2VuLS4eDr9RTUQeSV+d1zRTFnzxSc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783977452; c=relaxed/simple;
+	bh=ESZSUj+QsiIF6nv0NbuhSDu+P6Pwr5U/SNiDVxlW6sk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BWkrOdZ/MX6qplareb6L881ut6vHOVbd29DBnDL2EbIgJjirBfhAGs4C0xSwJSJhA4V05jqQ98djsmqlRVnkJNwmv1owU7M9ePfO1O1MWsBqDwVbOJoMDCE6D0E49POPD9Jrd3h91jE9kdq+mfctCaUtBA4PGqszdVWkrX5VZBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Cfvx1sGI; arc=fail smtp.client-ip=52.101.56.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	 MIME-Version:Content-Type:Content-Disposition; b=HptEz1Ybc4OBZ2UFOY9s5UoRcmAOK2EJy2soW2EsdVYCz9T81XICG/iWOgZjdKTk+zvMgnNkxta9KRIhAFfZTWzdy3PBBCJfO/EZL9Ud/vVRHgshrPQM02HYU0y+UZ1WEYAlm4cAph1Wj+uBT9/yoLXKCC4rSXbvUh3FKIor65Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFip5/L+; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cfvx1sGI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XBIE7cwvZFdjAfoO+WK44VxZWJ6lne6rMpUilrI0PsWhDN7ZK7g5JRWEvx84v6iskLXq2YHZxkypUf0gkMwz7/9eXzPdBgPeKm7mzcIBC9VtawiFvgfKgO1NVkelgBJH3Og363/O5YqZMQLp/NOpRFMm/8OXjLduwd/tbayecyb2JwZ3NQScvrlqLpkUtRvOK9kMMJ9eXcsK8P38O3s+NIdTD9tufwMsMFWX43d250EgfvdqydfCnGU5CxXWs2gMxCBdZ/mCznVYLzbX+3uy27nHm8IHjosjwxlzoNMBwcjQqeBfayfK4bENJOwM2TpEciHTWVAkv2Ao/7w3lRIftw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G83fY2RVhM/mag5R2KyPD7t8vDqd+NR91yp7+SctYfQ=;
- b=OsFJJYdPh+MvW5pQWSE7znhYrySzbPOB7n8OpZQmb0k/+Q++hNtwbP4iVlrZbvp2SXlql0oP3ricz7NYFC+B7KwXJAsbOU6ahlTOSWysZge6f4CY6hPF9KCZOhebkU1wPNE5MdHrf/zz/j4fYHoC3mljeSoLSzJryGJWa5I8id68d76zfTxwAunTmetZUCz2iDBO0jSpq8ycuGC8SUkK7n62E+lJlQ+EwN2hs5OjoSaB6KTgVnutKceSIK8QHUOF9mLIU01GenA2JRPE9bI6FZ14VHhAkoBWQUXvZMu4Pv58lqCjKg8qbXHx0MyOoO5MZVpExoHVji5BHmCpvea0uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G83fY2RVhM/mag5R2KyPD7t8vDqd+NR91yp7+SctYfQ=;
- b=Cfvx1sGI/y0Jrg7iDiPuFd5ufEhOVPSlh9NwyDoTMXErOgYF4G6KTMVmMPGhW+TxJdrQiMz6YXigfONbFlq70kF0h7hxNJbbFF4g1RO9jLL5ltwbWnZUrPaMTu3YHuQ7UqC8s3fPnklHD5aT8ulOrbe05Dx0NGP4crgP3SiGHuv/EPakfUGzJmkcPQpOlKCpc9EAAXiB98yTSrFylDPI8G6mFbguOGK+YNRVjNdIahItoKRUNe+t9XXltK9Prx3MO+DC46jZb3pt6cAiE8/1igbh1CSOUYOhCtLAk6aCSGA/NLVuTRNWyVwFPUgNsXTQpp2fu4ngZr0XHbL70dtFiQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by IA1PR12MB9062.namprd12.prod.outlook.com (2603:10b6:208:3aa::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Mon, 13 Jul
- 2026 16:51:46 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
- 16:51:46 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Brendan Jackman <brendan.jackman@linux.dev>,
- Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
- Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Hao Ge <hao.ge@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, derkling@google.com, reijiw@google.com,
- Yosry Ahmed <yosry@kernel.org>
-Subject: Re: [PATCH v5 13/18] mm: Remove __alloc_pages_node()
-Date: Mon, 13 Jul 2026 12:51:43 -0400
-X-Mailer: MailMate (3.0r7017)
-Message-ID: <7F866265-3F2E-4765-B9D4-9AB898A9C4AC@nvidia.com>
-In-Reply-To: <0e7c2aff-a278-4118-a9a9-123c2735ed67@kernel.org>
-References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
- <20260703-alloc-trylock-v5-13-c87b714e19d3@google.com>
- <DJP0VKJLE8TE.6EDLC2BFI1SG@nvidia.com> <DJXJRNZFBPQ2.2S6CM4YAKHVQ5@linux.dev>
- <399958F1-544F-4826-90E5-B471E2231375@nvidia.com>
- <0e7c2aff-a278-4118-a9a9-123c2735ed67@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-MS-Reactions: disallow
-X-ClientProxiedBy: MN2PR07CA0023.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::33) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFip5/L+"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-698bf053053so415086a12.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 14:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783977449; x=1784582249; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
+        b=HFip5/L+8Pcub0ThIYxolByL3RTm6hA6S7MVpl3n/LL9hoqC2QInnD1fTlZ4m0qrP3
+         2a4/CQTKLHO7XeApeehzLx3FsXCZVlaApkXsHj4BAAaQ19mdRIiQGo8Oh3l9su+42iyW
+         UjWl6OxeJPaaRPFJint7m9vAGnrjiAWJAO2nK6xTZ6UdneyB0Lp6QsaDjF4UPchOQI+d
+         7b2rA3BdDKVCw6tMppHr5v3Ej+74JD9+E/sphHzCtAYzdozERJxXgn6u7E0K45v5th0n
+         5VOBdvF04uklsBWu/opEOIV8/BAVChB5llFo+HeqdPqamGMhbroWwNCugxdOsK+sQS19
+         5DAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783977449; x=1784582249;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
+        b=sFzmZSKLOQ+RrWtPSpPwOfrAj3PcAKKvfRQW6DJ1rJ0yexArC0pjj3TqQYjFaWsS3H
+         0rSWXFmaGLnRFJIJq1veDj4Hfzz7hDvKQ+V6qaENQY6Ap3/gJbdfF0QIJ0YewuB97mN5
+         A+tEf+qTpTjbDZyUZQndgYiOibszLL/N8l/stUPop5gAVQAWkRatJ9tCaMY8sA2QJgRz
+         Wu/6fmEnx/6GtLc1kZBIHK1gJEDV83FP+CwTFp8Duy4sQdH33X5BYSzhhb5JoptRqn9H
+         mfZUVzwA3o5P6bYjPHiHnMxgwbPdT5uD5sOo0gb9M2lWtsml4OW+mWAORxWVKEeqyTki
+         hwmw==
+X-Forwarded-Encrypted: i=1; AHgh+RrJkQBmzIWWt63LXinShFFOaZb6epAUZ8LzOJcyitt6R9SyhjlLk/LOYqoJVInH2z5v4oSuGFqgOJZTPcUB+g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzls/gBeUBH8hi28l0walF0IIQ/loOjoto1/fOVxoSFONaBihLw
+	Toi2Cg6np4eMNhINJQSWF5/b0L9G0NXtQyPFc+X5u7xlJA7dift9JxDN
+X-Gm-Gg: AfdE7ckVn1agVCqOPaZDV1GK9nLcEixyk5ss3GFDjpI2OwHjG899NCp037J36EC0YhP
+	sCVVToo32qIZymBhl9aVSKO2Mp+i3ePeAs2GLtu0Ckl2RbvuWs8rJ7kjyQZLXWrinVVtBn5hT5n
+	SsCMkPqzG33DvY50WmZW87VTrPGWepXy9oTa/xz3KwW842oYRheI2ZaQv2s599QhkCOAAFnJqzu
+	gtkcit9qdxdujsmv97IlV2K8EsK0Ehhr/M4kr7V5AbgNqgLK97gN71vXe2ujFdLOElnXcHzyCXk
+	mzwxWXhaYK31hoByxlD/JX/93mQkfeElodYibxj1BBVKLzQWW5UfhlweGC5ue4gShgJtdMutIyJ
+	eMzQya5X4kWGvWDLYC/zVro1CrxMA9Z6iuz6DPKmXmsA+bx6cXtV9W2cQR+JJ/ukwShov5WOLqE
+	Zen3hCpvOETfLozbI2o2h1YSoU4jL9AXeg
+X-Received: by 2002:a05:6402:3220:b0:698:ad7f:9383 with SMTP id 4fb4d7f45d1cf-69c5f0c3130mr4880740a12.14.1783977448821;
+        Mon, 13 Jul 2026 14:17:28 -0700 (PDT)
+Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm386903a12.27.2026.07.13.14.17.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 14:17:27 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Leonardo Bras <leobras.c@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Harry Yoo <harry@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Coiby Xu <coxu@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] Introduce Per-CPU Work helpers (was QPW)
+Date: Mon, 13 Jul 2026 18:17:23 -0300
+Message-ID: <alVV44RO_SolaqMW@WindFlash>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713080723.XOTiibfG@linutronix.de>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260520130903.Ebsd4aUa@linutronix.de> <alP58SgTc2_8OFPc@WindFlash> <20260713080723.XOTiibfG@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|IA1PR12MB9062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bacb44b-9266-4faf-c389-08dee0ff0644
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|4143699003|11063799006|6133799003|22082099003|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	+1/gHOWdte8/EDdWMtoAjWW1+IpRy0GtuYUOp5Y7rUoi1OJEPt30pfrmCYi48EY7HgqsCOp6JCy6hfqyRGEkGsU7JKg869wienlIinnvR3Q/Ewpg/GKdVJyEoDsfD1G3aE2bScHTSbiMvtnu38iK+59zNtvYqQgXtVis5rIPIZPwwlTPoEGONYp6ZjwHGR92l/N7DMoWH4LcDdHznXQ1VAzCDAT/UgG4DNdqz8J5li/cFxEorT75AMc9tj99Krj/h5qZYoYquSThIH7P+f2AdV9S+RFCg+XbbE6Mp7u+QHcdBY+5vdxMeeKqTfWWb+wZwFHsRUfjIkLmxLEvnui8+Oz1wTBQ9fyckrJhxrDfyzsPjrxWr2SXzaocV1AwgJ1hBAdYurJ6jFVyfsycO1yyxemfwnVhPabQBs4S84/6BkVIAAx5ZzvMhnss7K3pRblq4nXmIB47SRIg/S4qMG7BIVrlsUgmlWleXt34vCaaTeow8s7X4LXHyQ/6LIy/sDDEAcUP6czbioqN0jHRkZ9dkpajQ1JXkJEFjyDOG1em9xtnPGlMLb/uqNyvsOzHjumKJrOsxvJ91jTTSfv6A3liAQBlfZBTn7TULzk6nzVk3SQMIzq0dgdCTRGPtfgGJaPG/xc83ue42rqjsGCqEdp76XLjiGWF3mf6ty4uJsGVHS8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(4143699003)(11063799006)(6133799003)(22082099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WUZ0amRtTExLd3ZPTms5RkVZaVZXSk42S3Bqb1lzN2s3ZDI0SFdUdGdORjhN?=
- =?utf-8?B?bWx1M1IxdEpxamRZcUMxYW10S0N6eUNwaHdZTStSWmN1aDRqazd5cVF4SFdZ?=
- =?utf-8?B?V2FYWmJmbXV1NUZHVUxMZUJCZVRFaXg4TGkwdXJhOXNUMU5ZdFFNUHpGSGJR?=
- =?utf-8?B?WE5iaEJRMHhTTnBxWkRmWENxOWZYdnptc3paVVI0ZkNyQStpcVlpK0k1c2k2?=
- =?utf-8?B?RjYwMmV2dDh5V1JkZzFieHpncXBveWc3bHBOL3Y1L0c3a1k1OE54Z1dDL080?=
- =?utf-8?B?d3NzWG42MkhCWTVQSTZVQ3hqRHd5aEw3R284VTJsQWtwd0FrTENCTjdzZXdt?=
- =?utf-8?B?MXNGWTI2M2FpQ0h5MEpFWFNKREovSkhBRlRMUU9uaEtyN29sM29LbE1sODhF?=
- =?utf-8?B?ekZRdEVxU0FCcWVCZVA5S0JLM0xpK3c1bjVWVk9yQTJiVDViaUJhcXFXRVpz?=
- =?utf-8?B?RjExY1NKSE1WeGh1Q2pyQnJRTVJuOEtkZ3FtdGRFUWlyQ3lPajBIajZJSTgy?=
- =?utf-8?B?Q3YwVFhiODgxYWtvaysxUDIxRjM4YkIvVHZpcHhVK1dHVGFXaHVKWUZ5TSt5?=
- =?utf-8?B?d0luckNNMkZJdGc0ZW1nZXpWMzlnQmk3WlNMQWV0VjlyY1E1TmNWMlRNblBh?=
- =?utf-8?B?QUgzZDlFVmpHYWZsUFROZXJtNmJDTWZYK0lMZFNFN3UzQS9xeVkvUFpjdHhV?=
- =?utf-8?B?V2hqRmZ6ZXRKZklSSm9VNE5lM3duQ2R1L21LeVpoTlpwRkMxMWdTdlY1bkFB?=
- =?utf-8?B?aUM0Q1pxM0dLWHdiZDdpZUtxMlMrdjFuckcwVlRqanNIRUlMSTRKcTM4Q1Qv?=
- =?utf-8?B?bW1uZnExUEh6b1hnZWw5TmpaWkZJTkZMdjFkNHUwc1Y3R2J4Tm9uSE16WU1r?=
- =?utf-8?B?SU51SmltSjdqRW5zb3BmYStORnZROFhaQ3dlZmY2YnVmUVlLL0xVSk5pZVRV?=
- =?utf-8?B?Q2tscWs5Q2RiZjNaRzJGNmJPODd2Zkt5VVF0Ykp4L0hRTHRkczVYd2l1dW5H?=
- =?utf-8?B?RGVYRGtSNFpFbkFqRVhwUGFFdks4Q1A0MXFCRktRR1QvMVdTeVVuMEM0QVd0?=
- =?utf-8?B?VVVRYmdjb3N4d3IvU2dZMWVOQVBWaTh6NWlIQjZDL1FuVnZVeHkvblhDMlE2?=
- =?utf-8?B?WlhaU3NmU2tVVDNBanhvc2IwU05SSHorZXg3dEFoNTB4QUhueHNmTlMrQjlH?=
- =?utf-8?B?Skt2dW5ZM0pSVkhHRzZMaDdCSytqZmVFSUdDbHpYaUNEZFAyMGllbUtnTkpC?=
- =?utf-8?B?VVBZdzd4QnNVOGhQN1RSeGlwOS90VzBlUG4xSTZWc1lHUW0zcDVxZmtOU2kw?=
- =?utf-8?B?QnVIbnVIZXpIVWZLWDcvaU1FYmJyN09tT2xpV0VJOWt0dEN3L05oLzVDaFg0?=
- =?utf-8?B?Njc1L0F3dFVKcWJFWXhJV2ZnREQ0RDZNanNpWWlRbjlnMFhuMUMyd2FJMDFz?=
- =?utf-8?B?YWlCZUx6Q2JMaVVtZEZLL2dxS3lMZ2t2bEsyRHA0UW1xWlVwWG40ejAvYnNv?=
- =?utf-8?B?ZnVQbVNxQ2loR0MybklZNkZ2bDM2RXBFUzRma2NZSi91VDNtTGhJQnVaVXdJ?=
- =?utf-8?B?Sjd4MWdacVVFMU8zb2plZHViTnQ0MWJRVWlnNFc1dElWRnRRdk1GOG5QaytW?=
- =?utf-8?B?cFVJQWtLdWt6UHFFTFU4T1oxQk12aFI4WWo1eUNPZnFmU1k4NldkRGdudlRX?=
- =?utf-8?B?MW9LOGR3M3RDOXZRUHFDL25JZGpha2FBTVJsQmlPb3hKM29oV0JlM3MybFlQ?=
- =?utf-8?B?ZDF3bHU5d3Vod3kyaHpUaEY0UlNYR1YxL1VQRUpVcExIVklMUVNOWEN1aWI0?=
- =?utf-8?B?Y25Ma09VYUJLMDVPK1YwS1JBTEdCdURLbUFjYy9NMy9TYk9HVytUendYNVdZ?=
- =?utf-8?B?TU9TWFkvSjBhS1JRUGNwWkY5ZzhmMUZrNW1mWitSZ1RDOG5DQ2hCdGNkV3RS?=
- =?utf-8?B?ZkEwU3ZGaHpDYU5QSDRHMGNRYTJndzN3VE41NGRvWWF5OC9BemFpOHJESi9L?=
- =?utf-8?B?cVhTUWgvci9pNXA2eFdwYkFjSVdzY1BhczJNZFFabjVjcXNtY0svRlNucklP?=
- =?utf-8?B?MGIyTFREV2phclZxeGlMcTFKMk9LQ2Y2cERmM1NtdUMzUmF5UDVpdVBKVFpl?=
- =?utf-8?B?NFBrOWFOZCtnK2hWbHRVNkdscEcyMzVXYk8wdjJBbXM1dUhHUVBVYWVzMTFn?=
- =?utf-8?B?ak1iTElrY1RRcHdGd3Y3MW9laTlvTWVjb2xGMGlKdkNjNVRIRDhTRFJ1N2R0?=
- =?utf-8?B?TW96cHhubTJoNFFwRUlvRnBKUkl5NFY5MXh4WlVUbkVJcUNxSEVDT1NkOWxM?=
- =?utf-8?Q?2hNQ3DbAGkHqjZtGs8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bacb44b-9266-4faf-c389-08dee0ff0644
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 16:51:46.2703
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SAjoJEtZBz+5eExARFrIqbmba43/WIaiuNNiW/REeyzrgbkF6AKYmZHuqtPwqTEJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9062
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 13 Jul 2026, at 12:37, Vlastimil Babka (SUSE) wrote:
+On Mon, Jul 13, 2026 at 10:07:23AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-07-12 17:32:49 [-0300], Leonardo Bras wrote:
+> > > > The idea:
+> > > > Currently with PREEMPT_RT=y, local_locks() become per-cpu spinlocks.
+> > 
+> > Hi Sebastian, thank you for reviewing!
+> > (Sorry for the delay)
+> > 
+> > > It does not become a _spin_lock because it does not spin. It sleeps.
+> > 
+> > Right, it's a per-cpu mutex. 
+> > My point is that it's a full lock, and we could use it instead of doing the 
+> > whole scheduling thing, since we are already paying the 'atomic overhead' 
+> > to get the lock here.
+> 
+> The whole lock is a spinlock_t. There is also raw_spinlock_t and
+> bit_spin_lock(). All three are considered spinlocks.
+> 
+> > > > In this case, instead of scheduling work on a remote cpu, it should
+> > > > be safe to grab that remote cpu's per-cpu spinlock and run the required
+> > > > work locally. That major cost, which is un/locking in every local function,
+> > > > already happens in PREEMPT_RT.
+> > > 
+> > > We did have this before but only in the RT tree. It was a bit messy from
+> > > the naming because it started with local_ but then it was a remote CPU.
+> > 
+> > Had the same naming issue here. This idea was initially a expansion to 
+> > local_lock() mechanism, about the same way you were planning in the past.
+> > 
+> > > The main issue was the different code path which led to a few deadlocks
+> > > back then.
+> > > By the time local_lock_t went upstream, the cross-CPU locking was
+> > > removed. As far as I remember, the cross-CPU user which did schedule
+> > > work on a remote CPU and annoyed NOHZ folks were replaced.
+> > 
+> > I understand this could be a big issue if used in a generic way.
+> > 
+> > What I am proposing here a mechanism that standardizes those 
+> > local_lock()+IPI strategies based on how they are done today, so we are 
+> > only explected to get 'remote-cpu' pwlocks in the 'IPI replacement' 
+> > operations.
+> > 
+> > The idea is pwlock_local* in every local function, and pwlock*(,cpu) in 
+> > operations that can be remote. 
+> > 
+> > Maybe being used in a more constrained way, it has less chance of being an 
+> > issue. Also, the whole idea is to improve CPU isolation numbers by 
+> > reducing IPIs, so maybe NOHZ people will be happier with that :)
+> 
+> I get that part. The local_lock_t part is cheap on !RT and becomes a
+> full lock on RT. While the lock details change the overall expectation
+> remain the same. With this change it is possible to acquire the lock
+> cross-CPU but this depends on the config/ setup. This might not be easy
+> in terms of testing and maintenance.
+> The more potential users you have, the better it might become in terms
+> of a selling argument. If you have just (say) two users it might be
+> simpler to address just those.
+> 
 
-> On 7/13/26 17:54, Zi Yan wrote:
->> On 13 Jul 2026, at 11:26, Brendan Jackman wrote:
->>
->>> On Fri Jul 3, 2026 at 2:57 PM UTC, Zi Yan wrote:
->>>> On Fri Jul 3, 2026 at 8:31 AM EDT, Brendan Jackman wrote:
->>>>> There were only a few users, which have been removed. The only advant=
-age
->>>>> of this API over alloc_pages_node() is avoiding a single conditional
->>>>> branch. The disadvantages are:
->>>>>
->>>>> 1. More API surface, more sources of confusion, more maintenance.
->>>>>
->>>>> 2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node=
-()
->>>>>    were using the result of cpu_to_node(); if the CPU gets hotplugged
->>>>>    out this will return NUMA_NO_NODE. If one of these paths fails to
->>>>>    protect against a concurrent hotplug then page_alloc.c will use
->>>>>    NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
->>>>>    memory corruption or other. With alloc_pages_node(), the code migh=
-t
->>>>>    just work fine.
->>>>>
->>>>> Ulterior motive: this frees up the __* variants of the allocator APIs=
- to
->>>>> serve specifically for use as mm-internal API.
->>>>>
->>>>> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->>>>> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->>>>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
->>>>> ---
->>>>>  include/linux/gfp.h | 20 ++++----------------
->>>>>  1 file changed, 4 insertions(+), 16 deletions(-)
->>>>>
->>>>> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
->>>>> index 01d6d2591f49e..3bf55a5f9143e 100644
->>>>> --- a/include/linux/gfp.h
->>>>> +++ b/include/linux/gfp.h
->>>>> @@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this=
-_node, gfp_t gfp_mask)
->>>>>  	dump_stack();
->>>>>  }
->>>>>
->>>>> -/*
->>>>> - * Allocate pages, preferring the node given as nid. The node must b=
-e valid and
->>>>> - * online. For more general interface, see alloc_pages_node().
->>>>> - */
->>>>> -static inline struct page *
->>>>> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int orde=
-r)
->>>>> -{
->>>>> -	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
->>>>> -	warn_if_node_offline(nid, gfp_mask);
->>>>> -
->>>>> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
->>>>> -}
->>>>> -
->>>>> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_nop=
-rof(__VA_ARGS__))
->>>>> -
->>>>>  static inline
->>>>>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int orde=
-r, int nid)
->>>>>  {
->>>>> @@ -293,7 +278,10 @@ static inline struct page *alloc_pages_node_nopr=
-of(int nid, gfp_t gfp_mask,
->>>>>  	if (nid =3D=3D NUMA_NO_NODE)
->>>>>  		nid =3D numa_mem_id();
->>>>>
->>>>> -	return __alloc_pages_node_noprof(nid, gfp_mask, order);
->>>>> +	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
->>>>
->>>> Could this become a VM_WARN_ON?
->>>
->>> Er, it will almost certainly crash later if this is violated. Personall=
-y
->>
->> You mean in warn_if_node_offline() when accessing the nodemask?
->>
->>> if I'm enabling DEBUG_VM I'd rather it crashes with a helpful stacktrac=
-e
->>> instead of chasing random poihnters, likely corrupting memory, and then
->>> crashing later in a completely undebuggable way instead.
->>
->> In this case, VM_WARN_ON + return NULL could work, right?
->
-> See below.
->
->>>
->>> TBH I don't really understand the "don't BUG" culture we have in Linux.
->>> I usually just go along with it coz it doesn't seem important enough to
->>> argue about. But now I'm wondering: if we really don't like VM_BUG_ON()
->>> why not get rid of it completely? I wonder if there's some case-by-case
->>> difference that I'm not picking up on.
->>
->> My understanding is that issues like the above one should be caught
->> at development phase, so VM_WARN_ON() is sufficient.
->>
->> The source of =E2=80=9Cdon=E2=80=99t BUG=E2=80=9D: https://git.kernel.or=
-g/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3D1cfd9d7e43d5a1cf=
-739d1420b10b1e65feb02f88
->> You can read the commit message to know when BUG_ON() can be used.
->
-> Quoted from there:
->
->     I'd prefer to keep all these warnings 'simple' - i.e. no attempted
->     recovery & control flow, unless we ever expect these to trigger.
->     [5]
->
-> So I wouldn't attempt recovery here.
+IIRC there are multiple users of this mechanism around the kernel. I 
+remember picking the first three (swap, slub and memcontrol) as examples of 
+how to use pwlocks (QPW at the time). With the concept proven, I could then 
+proceed to work with other potential users to replace it. (We ended up 
+dropping memcontrol in the process)
 
-Ah, missed that part. Yes, for this case, we do not expect the conditions
-in VM_BUG_ON().
+The main idea is to replace as many potential users as possible to reduce 
+as much as possible the amount of IPIs in isolated cpus, and allow Linux 
+to run workloads which require much lower latency.
 
+This idea came as a general solution to a bunch of latency violations  
+Marcelo and I were coming across.
 
-Best Regards,
-Yan, Zi
+Thanks!
+Leo
