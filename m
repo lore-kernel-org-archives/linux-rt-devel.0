@@ -1,42 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5E338F63D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 07:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CC8367B7B
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 07:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783927923; cv=none; b=Jf4lg0qVNALLFqRV2iX23m9dnVzX35zMZ+F/8gYNX4fl0hd5aph+d7SoXrP+xhB3dX7zebrYYOt/I9f0YfcwMIdutiX/b3tIJNUpNFWWRNHP630DDLOsUV63qSY8itPbrQMuZ9I7pSIet9QAfeW/2Uld5RvZOrgiUFbiPflgEB0=
+	t=1783928201; cv=none; b=a15O5yDvxOvG0jFcn+nCck2HRqWClv58P3NtgsY047+4UMyp8VoUicVrnP6Za/rfLeVovKLsnN2iKhr1kCBNbX+ykZArZMyJ08kOGeuJWejU+tdqJM2bT3CWsl7j6nuxn9nDCAlWN95gR9lIAdlBlYDl57xnnlED1FiWUnPJJPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783927923; c=relaxed/simple;
-	bh=GCFNw7yoOEaZPIMYweHWnYZkMho8PhFCdAZweeUSrvM=;
+	s=arc-20240116; t=1783928201; c=relaxed/simple;
+	bh=mHCZKAcQUBimskWiWG6NLWBjA8DyFG2wLO0Pm3mvtdY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lvlNmVWQWQdTvmA84IE5ajeFAat/agO4HtM4oiaHTW7uSIfZogMuTm3+4aWrnwBG0M2B6NAUu2DjB5pohishaSXe8cZRDX6SiMDzaV+ObFrteatYg6MJInE+phJbpP7XCU4VR+nbv/al9xPfJN87vi/gplLp9cF3ZUvtvU8o1FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZyRRVaaN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d10LyRPT; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=jPgIE6Yxz258ssdSboUPOOj0FbfkrqMO3jWarD2nGTg95odussC/r4z954gKe9sGyzEzMTUsD2HZIc+wFKhdHRV2J0Lf7lcBPiOGnhhH4aJcpq46VHVb8tkEiKy7pcUNKlse8l63sPmm9/jKMCAH1B/hOJHof200vJF4Chmfygc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=W0U7mlyj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SP6eoOrW; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZyRRVaaN";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d10LyRPT"
-Date: Mon, 13 Jul 2026 09:31:58 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W0U7mlyj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SP6eoOrW"
+Date: Mon, 13 Jul 2026 09:36:34 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783927920;
+	s=2020; t=1783928197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eTEFeO/5EIAP2AE6MFktsovFd8RdOZrL0IsFXTdIgCk=;
-	b=ZyRRVaaN/a7Av7n45HMCnrFZ7sdvcF8hzCP7uNhbjBapw+aHEDtJjnEs1CrWFw+3ZF2hIv
-	M3jHDVpzqCTVy5G9o5i9LomO/JobmAY9Pz7BMLALFhrVUWJDzrl6lnP1W5As75Uoio+A5w
-	MfIcfb5hkJuJI5oX6N7sHyWavnOgSsI4N1ZJLcXZrbLDcwxD1dnFZSIRBJqDrLp8YLiJnj
-	XAog1JjTU0XA1iv8403f5UcFofcWj69AZt78QBnKQa89hqhHGZGm8vFUTzlQKlRFYg+XoH
-	2rfRcwR6Jvj2iu3gM56+RHj6Oz3Mvla6+PSMdIiAO+Vfsfn5CgVrCWF8RDyMxQ==
+	bh=+oJ+oiAJmm6M2K7Ydw/ek8HK5Sp2SDGAkvAxlUMtUw8=;
+	b=W0U7mlyjOkyC/qu/kf7Rx/Jyuc+9x1Bjgu+Si4Q/HR8XmxUngDgHeyNGyfbLVKEwQx9Js+
+	TchO0iSQvF6zRyH4qCapFqKVvF4i6a5kiKjoA6OtHPnCdvOjtrGNgIMsHKzNBqKHaQnc/m
+	whwu/Kg6jRa4Ec4PoqjhNVaiHyDF9MkI34iflFI4YvHwk5Qw4ddaxEeHf3nhXSr/51E1dd
+	cW+WLkQG5DuD1uhX3ZCGTkZS/N4hmYTl3n3tTSDBTosSCmCoRBgNk5o6UV/hEKmwvAPYkl
+	NMdrDjyEdLildLm2JagNZdO/2vvZaQ3o3/clC8VBAInNYKWOdCGxZw3wUTf+VQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783927920;
+	s=2020e; t=1783928197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eTEFeO/5EIAP2AE6MFktsovFd8RdOZrL0IsFXTdIgCk=;
-	b=d10LyRPTmTNrbrJWbIolbyfdJhyGilwIxdwRklGSZNFcKFiW1zxvaina3PckVO0/A6wCzL
-	oy0ppVgdLkkzKUDA==
+	bh=+oJ+oiAJmm6M2K7Ydw/ek8HK5Sp2SDGAkvAxlUMtUw8=;
+	b=SP6eoOrWruZC728Gbiktd+y7UFnGggX0GuRBK1mtb4RABNg/mE/y0Jy9niGxN4YM+I/pVQ
+	m+9W2TOgais4OLDw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Leonardo Bras <leobras.c@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -88,12 +88,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
 	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
-Message-ID: <20260713073158.CHjwei-N@linutronix.de>
+Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
+Message-ID: <20260713073634.3Hrxpfcx@linutronix.de>
 References: <20260519012754.240804-1-leobras.c@gmail.com>
- <20260519012754.240804-4-leobras.c@gmail.com>
- <20260520150736.HZnlFkv7@linutronix.de>
- <alQKlBaKIOAxMzc2@WindFlash>
+ <20260519012754.240804-5-leobras.c@gmail.com>
+ <20260520145308.nay9zt6r@linutronix.de>
+ <alQWr2L_Kn23pxd9@WindFlash>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -102,23 +102,64 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <alQKlBaKIOAxMzc2@WindFlash>
+In-Reply-To: <alQWr2L_Kn23pxd9@WindFlash>
 
-On 2026-07-12 18:43:48 [-0300], Leonardo Bras wrote:
-> > I thought that this improved since commit
-> >   ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
+On 2026-07-12 19:35:28 [-0300], Leonardo Bras wrote:
+> On Wed, May 20, 2026 at 04:53:08PM +0200, Sebastian Andrzej Siewior wrote:
+> > On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
+> > > @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+> > >  
+> > >  	/*
+> > >  	 * We assume the percpu sheaves contain only local objects although it's
+> > >  	 * not completely guaranteed, so we verify later.
+> > >  	 */
+> > >  	if (unlikely(node_requested && node != numa_mem_id())) {
+> > >  		stat(s, ALLOC_NODE_MISMATCH);
+> > >  		return NULL;
+> > >  	}
+> > >  
+> > > -	if (!local_trylock(&s->cpu_sheaves->lock))
+> > > +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
+> > >  		return NULL;
 > > 
-> > Did it get worse or was it not entirely gone?
-> > 
+> > alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
+> > I don't remember why exactly local_trylock_t was introduced here instead
+> > of a per-CPU spinlock_t. 
 > 
-> I worked in this patchset majorly after that commit date, and it was still 
-> an issue up to last time Marcelo tested. Not sure of the impact of above 
-> commit, but I suppose it may have brought some improvements without fully 
-> fixing it.
+> Probably to save the cost of using atomic operations on locking, and having 
+> about the same restrictions that would allow using local_locks
+> 
+> > But there should be nothing wrong with a
+> > trylock on it from NMI as you do here.
+> 
+> Awesome!
 
-It would be good to know what is still missing and maybe it can be
-addressed without introducing this remote locking.
+The problem is always the unlock which requires full locking and is
+usually the problem from NMI.
 
+> > 
+> > One thing worth noting, on !PREEMPT_RT, spin_trylock() always succeeds
+> > on UP. kmalloc_nolock() checks for it, not sure about other callers.
+> 
+> 
+> Sorry, I did not sure I understand that part. 
+> You mean we have since it always returns true, we may be in NMI context, 
+> after it was interrupted holding this lock, and it will return true which 
+> will use the protected area even though the lock should avoid it?
+
+from include/linux/spinlock_api_up.h:
+| static __always_inline int _raw_spin_trylock(raw_spinlock_t *lock)
+|         __cond_acquires(true, lock)
+| {
+|         __LOCK(lock);
+|         return 1;
+| }
+
+on UP a spin_trylock() always succeeds.
+
+> Humm, but if that scenario exist, then is it actually ok to return true on 
+> trylock() in that scenario?
+> 
 > Thanks!
 > Leo
 
