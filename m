@@ -1,64 +1,64 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4B229ACC5
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 21:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF01E33A014
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 21:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783977452; cv=none; b=rrMWsItjQ74JQuA2fW+HWeQHGKKC401MbtTC8jaDfHjmCjaV7W/klhyzonpKHZ//V+P/WOp+NqXDDDQCNu06epRCAApMTchagXpHH86/HtyPOhuVjoHti9G+/jBMLDZBvWHTwM2aao0A3a2VuLS4eDr9RTUQeSV+d1zRTFnzxSc=
+	t=1783978142; cv=none; b=beSEX9jsvRrOD/BLdRUlhPktJsbqiA9sWqn597P7UoKpcm5ruKLK6vBbJpwLy+rIHqQFuHvmb2bKX1l1pKpK38Vgoc5lTmG5UZnOsb8WPvUXNpFFo4PnbwRQUQBbGF/jDXTJcnCLC1W5QZE2Ne3hJMwSRbqcr6QVyxUDt/9MMMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783977452; c=relaxed/simple;
-	bh=ESZSUj+QsiIF6nv0NbuhSDu+P6Pwr5U/SNiDVxlW6sk=;
+	s=arc-20240116; t=1783978142; c=relaxed/simple;
+	bh=2ZrCZFXS5/VhTEv6Kj24OanhcNM15iH9nGjK/9R+4zY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=HptEz1Ybc4OBZ2UFOY9s5UoRcmAOK2EJy2soW2EsdVYCz9T81XICG/iWOgZjdKTk+zvMgnNkxta9KRIhAFfZTWzdy3PBBCJfO/EZL9Ud/vVRHgshrPQM02HYU0y+UZ1WEYAlm4cAph1Wj+uBT9/yoLXKCC4rSXbvUh3FKIor65Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFip5/L+; arc=none smtp.client-ip=209.85.208.51
+	 MIME-Version:Content-Type:Content-Disposition; b=R8xsNDPgB3zMgjqDWg8D6EXlDja6HyBVPgV3UiY2rltUxSyFwEfUd71vIZIwn/K+Jg9CnrJmBJhZYV/LDKbhVcLWIYvVzMNuCnBQmFQ/gAEZnfDPzGSMyNOseBDZ1vxYDOSeZIBd24DIah8lJbiZwvDnbl9kLs5Dy48k4JPJZ2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oud4AY4U; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFip5/L+"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-698bf053053so415086a12.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 14:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oud4AY4U"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so2018495e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 14:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783977449; x=1784582249; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783978139; x=1784582939; darn=lists.linux.dev;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
-        b=HFip5/L+8Pcub0ThIYxolByL3RTm6hA6S7MVpl3n/LL9hoqC2QInnD1fTlZ4m0qrP3
-         2a4/CQTKLHO7XeApeehzLx3FsXCZVlaApkXsHj4BAAaQ19mdRIiQGo8Oh3l9su+42iyW
-         UjWl6OxeJPaaRPFJint7m9vAGnrjiAWJAO2nK6xTZ6UdneyB0Lp6QsaDjF4UPchOQI+d
-         7b2rA3BdDKVCw6tMppHr5v3Ej+74JD9+E/sphHzCtAYzdozERJxXgn6u7E0K45v5th0n
-         5VOBdvF04uklsBWu/opEOIV8/BAVChB5llFo+HeqdPqamGMhbroWwNCugxdOsK+sQS19
-         5DAA==
+        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
+        b=oud4AY4UU4JPMmm1UqU4pE+WxM5RGmXLpX/4o0cxc6pXclV/IoPe8vz6eVbhBqDA7Q
+         EGATdrV1ikU5x403TIsgjQY1Qp4LDGq+E8BX1nBdnRQ/qOcvpVkPz9rXveS3NPuF60co
+         tbzjb/+kkSRzOOMGAMjz7Cywgyeu9qxw8j8uz26VA61+TXDwThZgx8YiUqd1Tsntq91r
+         TQLhVLacJtTaRPvzvUMr0120x1zCgYjpJOpZ1xBDawz2FgCQzV5QOiMtbANLwc/czESw
+         xlQKUrjPVktpHsCIwqQb1Pja1bXXbXfTqtM85fDavCMi9zh7SzWhaY/LCu6v75zfGKg8
+         nPGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783977449; x=1784582249;
+        d=1e100.net; s=20251104; t=1783978139; x=1784582939;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=npiX22YSguzWJpXGx2hHTXeW3ywrBRl4LUKqa1yh85s=;
-        b=sFzmZSKLOQ+RrWtPSpPwOfrAj3PcAKKvfRQW6DJ1rJ0yexArC0pjj3TqQYjFaWsS3H
-         0rSWXFmaGLnRFJIJq1veDj4Hfzz7hDvKQ+V6qaENQY6Ap3/gJbdfF0QIJ0YewuB97mN5
-         A+tEf+qTpTjbDZyUZQndgYiOibszLL/N8l/stUPop5gAVQAWkRatJ9tCaMY8sA2QJgRz
-         Wu/6fmEnx/6GtLc1kZBIHK1gJEDV83FP+CwTFp8Duy4sQdH33X5BYSzhhb5JoptRqn9H
-         mfZUVzwA3o5P6bYjPHiHnMxgwbPdT5uD5sOo0gb9M2lWtsml4OW+mWAORxWVKEeqyTki
-         hwmw==
-X-Forwarded-Encrypted: i=1; AHgh+RrJkQBmzIWWt63LXinShFFOaZb6epAUZ8LzOJcyitt6R9SyhjlLk/LOYqoJVInH2z5v4oSuGFqgOJZTPcUB+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzls/gBeUBH8hi28l0walF0IIQ/loOjoto1/fOVxoSFONaBihLw
-	Toi2Cg6np4eMNhINJQSWF5/b0L9G0NXtQyPFc+X5u7xlJA7dift9JxDN
-X-Gm-Gg: AfdE7ckVn1agVCqOPaZDV1GK9nLcEixyk5ss3GFDjpI2OwHjG899NCp037J36EC0YhP
-	sCVVToo32qIZymBhl9aVSKO2Mp+i3ePeAs2GLtu0Ckl2RbvuWs8rJ7kjyQZLXWrinVVtBn5hT5n
-	SsCMkPqzG33DvY50WmZW87VTrPGWepXy9oTa/xz3KwW842oYRheI2ZaQv2s599QhkCOAAFnJqzu
-	gtkcit9qdxdujsmv97IlV2K8EsK0Ehhr/M4kr7V5AbgNqgLK97gN71vXe2ujFdLOElnXcHzyCXk
-	mzwxWXhaYK31hoByxlD/JX/93mQkfeElodYibxj1BBVKLzQWW5UfhlweGC5ue4gShgJtdMutIyJ
-	eMzQya5X4kWGvWDLYC/zVro1CrxMA9Z6iuz6DPKmXmsA+bx6cXtV9W2cQR+JJ/ukwShov5WOLqE
-	Zen3hCpvOETfLozbI2o2h1YSoU4jL9AXeg
-X-Received: by 2002:a05:6402:3220:b0:698:ad7f:9383 with SMTP id 4fb4d7f45d1cf-69c5f0c3130mr4880740a12.14.1783977448821;
-        Mon, 13 Jul 2026 14:17:28 -0700 (PDT)
+        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
+        b=mKVctUoK1dd82c/mZ3RQ8B5JSyI40Gzfkwa/QP0Z+VDtRLEnGlYqohL4OCcz/wF8tb
+         /cVCYkry+yxGR8CW+CSkpQi5Ae5Am4YN6taaqTnogSiQ4MBM2mpHBPbjidpBvNNV4bcG
+         RmH7cjjhJGIjAI0DUELK1SiWoJeK9okTO0T/DmJV3uRMk+ZDWALirlpCAVd9gkRTqsFb
+         kOMb1qUS3XdDJkwNHg+zKu1BwSWwcnhayEnL4oCYCYqm7ickf/3MAW1Xe/ZCqPZPRvAg
+         LZ3M/j4M6J7Aku5rNqZ3W3encHcBSHo/Ks8mKR8SRtTopZlVHIkgwilkJsRrBwee4rLn
+         B3oA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQRXNvoCSp0aXj+22voJI9HESagKROBd+6d/tg5i0ytWvmg/vqJGxddQ7MraEYWbOQVJ0/jptKu+xfsxJv8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyutYR01pnjWld6vAzlfagkP0/Agf2hIFtgm2/SN64cFLmu2jFs
+	b+BxkBiXMRfSFpBieRpNNfCSLzhkoFXoe62dtMriF6725jZgyF3PTblP
+X-Gm-Gg: AfdE7cnujMhvEnoHraxM5xOU8V7JKXV7s2t1wjUXpoKPs+hNkpZ82ahMOneO9ZsbpLp
+	PMR0gROtRppKnrXRUHQ/N3aNjGjV2daCAFhLbLp7SkUauN16kGcQPaj52ppQhK82jQzqgYTxIL2
+	vE/Nun5t/a999MUcyq14X7NrZg6eDVPVDTB7QPC/oOOf3IsjYRoMlDTgYhaMVA39B2LyJu4EmLW
+	jF0wgUpviNpcNnGErdzbU0Pdd5PQqCWKyaZL6Bw+K43ptLeq9a3ohDciIkrR3ISMk2OGAO7hBHr
+	6IlsTa0AAH1GfwcedK6jYM5qsAr3s0JBNzXdqkPA2jPRYwZg8gRDtWI2YYK55IolcXCYuTlr+kP
+	EW3ZHcRyE/DoH7eM0hpCRr99QgMHvpHarQTQ0gFJslMxbShKrksBEZke+Qy/KPJvsU5cMG4VJo6
+	OAN2QtsKDg/UrOrLKYAekDe+mgLW6AjqCi
+X-Received: by 2002:a05:600c:6989:b0:493:bfbf:1da4 with SMTP id 5b1f17b1804b1-493f881de65mr104977295e9.22.1783978138921;
+        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
 Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm386903a12.27.2026.07.13.14.17.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4635ac2esm2503549f8f.13.2026.07.13.14.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 14:17:27 -0700 (PDT)
+        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
 From: Leonardo Bras <leobras.c@gmail.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Leonardo Bras <leobras.c@gmail.com>,
@@ -101,7 +101,6 @@ Cc: Leonardo Bras <leobras.c@gmail.com>,
 	Wei Xu <weixugc@google.com>,
 	"Borislav Petkov (AMD)" <bp@alien8.de>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
 	Feng Tang <feng.tang@linux.alibaba.com>,
 	Dapeng Mi <dapeng1.mi@linux.intel.com>,
 	Kees Cook <kees@kernel.org>,
@@ -111,26 +110,28 @@ Cc: Leonardo Bras <leobras.c@gmail.com>,
 	Eric Biggers <ebiggers@kernel.org>,
 	"Paul E. McKenney" <paulmck@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
 	Nicolas Schier <nsc@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
 	Douglas Anderson <dianders@chromium.org>,
 	Gary Guo <gary@garyguo.net>,
 	Christian Brauner <brauner@kernel.org>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
 	Coiby Xu <coxu@redhat.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Frederic Weisbecker <frederic@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 0/4] Introduce Per-CPU Work helpers (was QPW)
-Date: Mon, 13 Jul 2026 18:17:23 -0300
-Message-ID: <alVV44RO_SolaqMW@WindFlash>
+	linux-rt-devel@lists.linux.dev,
+	Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
+Date: Mon, 13 Jul 2026 18:28:52 -0300
+Message-ID: <alVYlIPpCEUNBjeA@WindFlash>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260713080723.XOTiibfG@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com> <20260520130903.Ebsd4aUa@linutronix.de> <alP58SgTc2_8OFPc@WindFlash> <20260713080723.XOTiibfG@linutronix.de>
+In-Reply-To: <20260713073158.CHjwei-N@linutronix.de>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-4-leobras.c@gmail.com> <20260520150736.HZnlFkv7@linutronix.de> <alQKlBaKIOAxMzc2@WindFlash> <20260713073158.CHjwei-N@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -141,77 +142,35 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 13, 2026 at 10:07:23AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-07-12 17:32:49 [-0300], Leonardo Bras wrote:
-> > > > The idea:
-> > > > Currently with PREEMPT_RT=y, local_locks() become per-cpu spinlocks.
-> > 
-> > Hi Sebastian, thank you for reviewing!
-> > (Sorry for the delay)
-> > 
-> > > It does not become a _spin_lock because it does not spin. It sleeps.
-> > 
-> > Right, it's a per-cpu mutex. 
-> > My point is that it's a full lock, and we could use it instead of doing the 
-> > whole scheduling thing, since we are already paying the 'atomic overhead' 
-> > to get the lock here.
-> 
-> The whole lock is a spinlock_t. There is also raw_spinlock_t and
-> bit_spin_lock(). All three are considered spinlocks.
-> 
-> > > > In this case, instead of scheduling work on a remote cpu, it should
-> > > > be safe to grab that remote cpu's per-cpu spinlock and run the required
-> > > > work locally. That major cost, which is un/locking in every local function,
-> > > > already happens in PREEMPT_RT.
+On Mon, Jul 13, 2026 at 09:31:58AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-07-12 18:43:48 [-0300], Leonardo Bras wrote:
+> > > I thought that this improved since commit
+> > >   ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
 > > > 
-> > > We did have this before but only in the RT tree. It was a bit messy from
-> > > the naming because it started with local_ but then it was a remote CPU.
+> > > Did it get worse or was it not entirely gone?
+> > > 
 > > 
-> > Had the same naming issue here. This idea was initially a expansion to 
-> > local_lock() mechanism, about the same way you were planning in the past.
-> > 
-> > > The main issue was the different code path which led to a few deadlocks
-> > > back then.
-> > > By the time local_lock_t went upstream, the cross-CPU locking was
-> > > removed. As far as I remember, the cross-CPU user which did schedule
-> > > work on a remote CPU and annoyed NOHZ folks were replaced.
-> > 
-> > I understand this could be a big issue if used in a generic way.
-> > 
-> > What I am proposing here a mechanism that standardizes those 
-> > local_lock()+IPI strategies based on how they are done today, so we are 
-> > only explected to get 'remote-cpu' pwlocks in the 'IPI replacement' 
-> > operations.
-> > 
-> > The idea is pwlock_local* in every local function, and pwlock*(,cpu) in 
-> > operations that can be remote. 
-> > 
-> > Maybe being used in a more constrained way, it has less chance of being an 
-> > issue. Also, the whole idea is to improve CPU isolation numbers by 
-> > reducing IPIs, so maybe NOHZ people will be happier with that :)
+> > I worked in this patchset majorly after that commit date, and it was still 
+> > an issue up to last time Marcelo tested. Not sure of the impact of above 
+> > commit, but I suppose it may have brought some improvements without fully 
+> > fixing it.
 > 
-> I get that part. The local_lock_t part is cheap on !RT and becomes a
-> full lock on RT. While the lock details change the overall expectation
-> remain the same. With this change it is possible to acquire the lock
-> cross-CPU but this depends on the config/ setup. This might not be easy
-> in terms of testing and maintenance.
-> The more potential users you have, the better it might become in terms
-> of a selling argument. If you have just (say) two users it might be
-> simpler to address just those.
+> It would be good to know what is still missing and maybe it can be
+> addressed without introducing this remote locking.
 > 
 
-IIRC there are multiple users of this mechanism around the kernel. I 
-remember picking the first three (swap, slub and memcontrol) as examples of 
-how to use pwlocks (QPW at the time). With the concept proven, I could then 
-proceed to work with other potential users to replace it. (We ended up 
-dropping memcontrol in the process)
+I get the point, but the main idea is to make this as proof of concept of 
+the mechanism, that can use to solve the latency introduced by IPIs from 
+per-cpu workqueues.
 
-The main idea is to replace as many potential users as possible to reduce 
-as much as possible the amount of IPIs in isolated cpus, and allow Linux 
-to run workloads which require much lower latency.
+I remember discussing all those examples with Marcelo in the past, and IIRC 
+to solve this we would either have to use per-cpu spinlocks, which is 
+undesired in terms of performance on !RT, or skip remote operations in 
+isolated cpus, which may have weird behaviors, or disable caches in 
+isolated cpus which is terrible for performance there.
 
-This idea came as a general solution to a bunch of latency violations  
-Marcelo and I were coming across.
+In any case, the main goal is to get something generic enough to deal with 
+most cases, not an individual solution.
 
 Thanks!
 Leo
