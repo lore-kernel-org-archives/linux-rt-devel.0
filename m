@@ -1,64 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF01E33A014
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 21:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C6735F162
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 21:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978142; cv=none; b=beSEX9jsvRrOD/BLdRUlhPktJsbqiA9sWqn597P7UoKpcm5ruKLK6vBbJpwLy+rIHqQFuHvmb2bKX1l1pKpK38Vgoc5lTmG5UZnOsb8WPvUXNpFFo4PnbwRQUQBbGF/jDXTJcnCLC1W5QZE2Ne3hJMwSRbqcr6QVyxUDt/9MMMI=
+	t=1783978867; cv=none; b=F40uVhjRtEVv5V7x3q2rlmJ1GrIOJL/bLPgm+dPnlWJ743Jl8dZCV6g2y0KEIsf6+FQ973/eWWHFX3pTbncm/v8f911xkDn83CyUOz2IbTmQ1aWLpNOHkluSh/THzcWbabgg8cZ2RnZNcvx1uKR0dyguVtgGw8E9/EHJHbZMAlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978142; c=relaxed/simple;
-	bh=2ZrCZFXS5/VhTEv6Kj24OanhcNM15iH9nGjK/9R+4zY=;
+	s=arc-20240116; t=1783978867; c=relaxed/simple;
+	bh=SVMywLRbIFXVQzPixM0IKsUfpey0KwU4tI6WH0yTSZo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=R8xsNDPgB3zMgjqDWg8D6EXlDja6HyBVPgV3UiY2rltUxSyFwEfUd71vIZIwn/K+Jg9CnrJmBJhZYV/LDKbhVcLWIYvVzMNuCnBQmFQ/gAEZnfDPzGSMyNOseBDZ1vxYDOSeZIBd24DIah8lJbiZwvDnbl9kLs5Dy48k4JPJZ2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oud4AY4U; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type:Content-Disposition; b=EInCroFtIsJd8qqN5SIxx4oljwWPMUD+5Rsd4WypBfcpIUdQ/wkMinVzVj6cLHZkurkZNEXHc7sLaHtVLrE+5/Zs8t/lTm8vF9Et135Ir0Vo0/TezIEJhjytamBNJ4ZLqGkXe+LFXH4Ibc4ZnbYMS7ME6qU36M2wVjDqGH4xMRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jwBWxfbs; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oud4AY4U"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so2018495e9.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 14:29:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jwBWxfbs"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493b1710405so19537095e9.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 14:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783978139; x=1784582939; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783978864; x=1784583664; darn=lists.linux.dev;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
-        b=oud4AY4UU4JPMmm1UqU4pE+WxM5RGmXLpX/4o0cxc6pXclV/IoPe8vz6eVbhBqDA7Q
-         EGATdrV1ikU5x403TIsgjQY1Qp4LDGq+E8BX1nBdnRQ/qOcvpVkPz9rXveS3NPuF60co
-         tbzjb/+kkSRzOOMGAMjz7Cywgyeu9qxw8j8uz26VA61+TXDwThZgx8YiUqd1Tsntq91r
-         TQLhVLacJtTaRPvzvUMr0120x1zCgYjpJOpZ1xBDawz2FgCQzV5QOiMtbANLwc/czESw
-         xlQKUrjPVktpHsCIwqQb1Pja1bXXbXfTqtM85fDavCMi9zh7SzWhaY/LCu6v75zfGKg8
-         nPGQ==
+        bh=kBTvf+Z85P+YG7179a/IzMuusmQi/QF8ZEk+OKIxHQ8=;
+        b=jwBWxfbskzIPE+OTiQLP+d52lOKV813JWK4F58UpATugcnTVicZmO5yd+W3nomDgQb
+         matN+CDzcTjPBkoW2ZRBBsAfqkPzKAWwdPe7vrdQUqZD9cNdWrvgYT3xNSEssLX0FA+K
+         o27sa3D/FLndRKk58AozYutfptZhryWgh+bXlyTmRP1PJFMqKX6W2Yu43I2x1FhXree8
+         QkakuaGZxf2kMoG9OtXfcjON7xyPTfOfKP8sZn8RAQZcwb8QpQ5HwkRqD9gXvCTtKSwc
+         SIJjh0zNajgm0hGCFaFu3ZtJ+oqsCx+hlJ/dN3BxmG51zT0JH9JuMbxpRFznuj2GECev
+         t5uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783978139; x=1784582939;
+        d=1e100.net; s=20251104; t=1783978864; x=1784583664;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ZQQoNjvYMy7swaXdt0/pPw+8PJHakFz/v63Sfote3Ss=;
-        b=mKVctUoK1dd82c/mZ3RQ8B5JSyI40Gzfkwa/QP0Z+VDtRLEnGlYqohL4OCcz/wF8tb
-         /cVCYkry+yxGR8CW+CSkpQi5Ae5Am4YN6taaqTnogSiQ4MBM2mpHBPbjidpBvNNV4bcG
-         RmH7cjjhJGIjAI0DUELK1SiWoJeK9okTO0T/DmJV3uRMk+ZDWALirlpCAVd9gkRTqsFb
-         kOMb1qUS3XdDJkwNHg+zKu1BwSWwcnhayEnL4oCYCYqm7ickf/3MAW1Xe/ZCqPZPRvAg
-         LZ3M/j4M6J7Aku5rNqZ3W3encHcBSHo/Ks8mKR8SRtTopZlVHIkgwilkJsRrBwee4rLn
-         B3oA==
-X-Forwarded-Encrypted: i=1; AHgh+RpQRXNvoCSp0aXj+22voJI9HESagKROBd+6d/tg5i0ytWvmg/vqJGxddQ7MraEYWbOQVJ0/jptKu+xfsxJv8A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyutYR01pnjWld6vAzlfagkP0/Agf2hIFtgm2/SN64cFLmu2jFs
-	b+BxkBiXMRfSFpBieRpNNfCSLzhkoFXoe62dtMriF6725jZgyF3PTblP
-X-Gm-Gg: AfdE7cnujMhvEnoHraxM5xOU8V7JKXV7s2t1wjUXpoKPs+hNkpZ82ahMOneO9ZsbpLp
-	PMR0gROtRppKnrXRUHQ/N3aNjGjV2daCAFhLbLp7SkUauN16kGcQPaj52ppQhK82jQzqgYTxIL2
-	vE/Nun5t/a999MUcyq14X7NrZg6eDVPVDTB7QPC/oOOf3IsjYRoMlDTgYhaMVA39B2LyJu4EmLW
-	jF0wgUpviNpcNnGErdzbU0Pdd5PQqCWKyaZL6Bw+K43ptLeq9a3ohDciIkrR3ISMk2OGAO7hBHr
-	6IlsTa0AAH1GfwcedK6jYM5qsAr3s0JBNzXdqkPA2jPRYwZg8gRDtWI2YYK55IolcXCYuTlr+kP
-	EW3ZHcRyE/DoH7eM0hpCRr99QgMHvpHarQTQ0gFJslMxbShKrksBEZke+Qy/KPJvsU5cMG4VJo6
-	OAN2QtsKDg/UrOrLKYAekDe+mgLW6AjqCi
-X-Received: by 2002:a05:600c:6989:b0:493:bfbf:1da4 with SMTP id 5b1f17b1804b1-493f881de65mr104977295e9.22.1783978138921;
-        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
+        bh=kBTvf+Z85P+YG7179a/IzMuusmQi/QF8ZEk+OKIxHQ8=;
+        b=UBoHQUOzouX0s5C7gtGNYEgRlj7Z2mkvQoJtJEDJ3JszLawXZM9xgZZVv7uR5vESo0
+         EV23754zJlYLnXiYagfyVm3hjHcsqi+COzUf+Z2vCRPiWwTbV7k/6640RpKJWW//kyg/
+         8WckvBzY/qrVcMjpMY3ijOfByIaU8YmBouDWm8bmTx/gL8nZG4fr3Nm2GCZMa9u0Gw4R
+         qRjiBNkdYMG1mYDBLfDV4qUQzHJvIGIcXIp7wAn0S8CCjoNrgRcLn6U63KKkFQIx7m5X
+         Q4DCK+pm9EaddUxCV+1iS+23ZH9/egeB8w00SsnpfvkRDgt8TDvi4+1Yeno33Dt5ifNR
+         8g0Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3Y4amRHfXLXu8L8VnwykkrA9cVxy2negO4zaksb6VRiwVAwb7+xoVCgrwbyBTm3+tpPunoxke5M1Yq8x7cA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCkzFps2TXpmgB+JeJhNpfgoT+ZW02e5SUjeuqWvQ0A13W0bZZ
+	nJUiqgBo0dzhUPphKTwwt06/RubiKK1N3XukapculOLU0+jLsZ68myf+
+X-Gm-Gg: AfdE7cmZLQGNz1x6tIAKIhnKf7E1FZxe9E8RMOZYBGwQdGWowQCmKfGtUFaXQiQ1hgY
+	k8KR4j0ymqD7eaMdm90E/muVhjtAcDpWyD2RtX0gos6iv5smwXHtpigkyX4yVgAxrRBMsYq40J3
+	jGPY6aqlWCd1Mqc45NggjIBlWhGr+GCNwtNqL5EcM7S4bHX9pH3jpHgLlZU9naCkJSrriYr5FJ6
+	yuKnlokVkmOjwHTNrhGu0QlMoyvYhWYaij6e/nbvTwLSEVtnnjHia6efBZX0BC8Bq8Tcy0ac69k
+	brjLkbQAVG55xhP0Nkw6EX4OIuPpQJdiC0nmoKQJ6s4kpShKN8K4RJJom3bOcWRq6lKZ+5qZR6P
+	WVXlhU2MENOYxDWvObyE2YRcIm6mL1VYipPGUNJM1uNZsMgJa7icNPRPR8hzlkcho5KDJOuzKS9
+	GuMoVuLoj0tJfus7qak0nzpQ==
+X-Received: by 2002:a05:600c:1908:b0:492:3e66:6c84 with SMTP id 5b1f17b1804b1-4951830e089mr11315545e9.30.1783978864353;
+        Mon, 13 Jul 2026 14:41:04 -0700 (PDT)
 Received: from WindFlash.powerhub ([2a0a:ef40:f61:3b01:d08a:833b:756:8fce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4635ac2esm2503549f8f.13.2026.07.13.14.28.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495087384casm23602415e9.8.2026.07.13.14.41.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 14:28:58 -0700 (PDT)
+        Mon, 13 Jul 2026 14:41:03 -0700 (PDT)
 From: Leonardo Bras <leobras.c@gmail.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Leonardo Bras <leobras.c@gmail.com>,
@@ -126,12 +126,12 @@ Cc: Leonardo Bras <leobras.c@gmail.com>,
 	linux-mm@kvack.org,
 	linux-rt-devel@lists.linux.dev,
 	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
-Date: Mon, 13 Jul 2026 18:28:52 -0300
-Message-ID: <alVYlIPpCEUNBjeA@WindFlash>
+Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
+Date: Mon, 13 Jul 2026 18:40:57 -0300
+Message-ID: <alVbaf-UVMNaEtvk@WindFlash>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260713073158.CHjwei-N@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-4-leobras.c@gmail.com> <20260520150736.HZnlFkv7@linutronix.de> <alQKlBaKIOAxMzc2@WindFlash> <20260713073158.CHjwei-N@linutronix.de>
+In-Reply-To: <20260713073634.3Hrxpfcx@linutronix.de>
+References: <20260519012754.240804-1-leobras.c@gmail.com> <20260519012754.240804-5-leobras.c@gmail.com> <20260520145308.nay9zt6r@linutronix.de> <alQWr2L_Kn23pxd9@WindFlash> <20260713073634.3Hrxpfcx@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -142,35 +142,69 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 13, 2026 at 09:31:58AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-07-12 18:43:48 [-0300], Leonardo Bras wrote:
-> > > I thought that this improved since commit
-> > >   ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
+On Mon, Jul 13, 2026 at 09:36:34AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-07-12 19:35:28 [-0300], Leonardo Bras wrote:
+> > On Wed, May 20, 2026 at 04:53:08PM +0200, Sebastian Andrzej Siewior wrote:
+> > > On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
+> > > > @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+> > > >  
+> > > >  	/*
+> > > >  	 * We assume the percpu sheaves contain only local objects although it's
+> > > >  	 * not completely guaranteed, so we verify later.
+> > > >  	 */
+> > > >  	if (unlikely(node_requested && node != numa_mem_id())) {
+> > > >  		stat(s, ALLOC_NODE_MISMATCH);
+> > > >  		return NULL;
+> > > >  	}
+> > > >  
+> > > > -	if (!local_trylock(&s->cpu_sheaves->lock))
+> > > > +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
+> > > >  		return NULL;
 > > > 
-> > > Did it get worse or was it not entirely gone?
-> > > 
+> > > alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
+> > > I don't remember why exactly local_trylock_t was introduced here instead
+> > > of a per-CPU spinlock_t. 
 > > 
-> > I worked in this patchset majorly after that commit date, and it was still 
-> > an issue up to last time Marcelo tested. Not sure of the impact of above 
-> > commit, but I suppose it may have brought some improvements without fully 
-> > fixing it.
+> > Probably to save the cost of using atomic operations on locking, and having 
+> > about the same restrictions that would allow using local_locks
+> > 
+> > > But there should be nothing wrong with a
+> > > trylock on it from NMI as you do here.
+> > 
+> > Awesome!
 > 
-> It would be good to know what is still missing and maybe it can be
-> addressed without introducing this remote locking.
+> The problem is always the unlock which requires full locking and is
+> usually the problem from NMI.
+>
+
+You mean, like, the trylock succeeds in the NMI handle, does the per-cpu 
+operations, and then unlock()s? 
+
+Or by full locking you mean local_lock() instead of local_trylock() ?
+ 
+> > > 
+> > > One thing worth noting, on !PREEMPT_RT, spin_trylock() always succeeds
+> > > on UP. kmalloc_nolock() checks for it, not sure about other callers.
+> > 
+> > 
+> > Sorry, I did not sure I understand that part. 
+> > You mean we have since it always returns true, we may be in NMI context, 
+> > after it was interrupted holding this lock, and it will return true which 
+> > will use the protected area even though the lock should avoid it?
+> 
+> from include/linux/spinlock_api_up.h:
+> | static __always_inline int _raw_spin_trylock(raw_spinlock_t *lock)
+> |         __cond_acquires(true, lock)
+> | {
+> |         __LOCK(lock);
+> |         return 1;
+> | }
+> 
+> on UP a spin_trylock() always succeeds.
 > 
 
-I get the point, but the main idea is to make this as proof of concept of 
-the mechanism, that can use to solve the latency introduced by IPIs from 
-per-cpu workqueues.
-
-I remember discussing all those examples with Marcelo in the past, and IIRC 
-to solve this we would either have to use per-cpu spinlocks, which is 
-undesired in terms of performance on !RT, or skip remote operations in 
-isolated cpus, which may have weird behaviors, or disable caches in 
-isolated cpus which is terrible for performance there.
-
-In any case, the main goal is to get something generic enough to deal with 
-most cases, not an individual solution.
+Right, I got that part, I was wondering the scenarios in which would that 
+be an issue.
 
 Thanks!
 Leo
