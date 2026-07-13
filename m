@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF5B337BAB;
-	Mon, 13 Jul 2026 16:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA2330CD85;
+	Mon, 13 Jul 2026 16:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783959323; cv=none; b=Vv5wd5SjsBTkVPMoAt97DMIGCnG3fD5Ye4/F9s+VAMMQPBiD/B9dBUqw35+ftZ9JsOF/oxBZg7M2z8R6jBq3m3A0sGqx1/mzekxtLzH/cS8b1cMBh6uEox2x01Sd3wTiLfomA01yEVt8yCe0zL8fcgITWDWBGrJUVmqvs/JCBXU=
+	t=1783960256; cv=none; b=bfXCfihOuW6y+0eGdz6CH9rZ3QeX4+qps/amgrGkq/RC4KDEPKxUxLJSRPaz3quVKjD4PBij2iVS98k85yR1H2WV18aolkmTtitHSw790XIZv6VpN3SHJXFh5AazYtPYOnYnKeC/eG1BBvl4WMa6lZh5logFl+8pWYVQVq65IfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783959323; c=relaxed/simple;
-	bh=5a7bPiRMs7Qwq8lEoorWWCh7/0KOYMbTvIMeVOGwL58=;
+	s=arc-20240116; t=1783960256; c=relaxed/simple;
+	bh=UGVzdMyQyCjZvCqHUbg+b+NDUt/DV8hq+f+nqplxtwo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n7X1H5jIJPiPB0V/Ny4fHvKtsSBXtPXMaWKCrhfLlKPhHTiqugWPpMSEI/xfQ+/mWNK9uWifxm5Q9fXf6YUyG2CMa3agJxajK2Yy5PHjmRjJBh1NAtKACs3lnC7EpyF8IS3ETjho/8uWFY9VTLEAo6JgyDbwey++F6mY1GfPVic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOMPvtSa; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=fb3NrkoGdHbpSsko/Icl5uRiY5EcZ3BfQvXW2wROJZuYebAclpXe9pzgngaPpMEAf6nQAI/quubZmaMBlJm93Z1/OJbOyIEl+QXHTxrPYf365SSv5241HjIjeey7kflqYtOEoghTuWQ8GR/hOvx1p3MeFlqni/o+Z0mhoLiwHBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9AjbsfH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOMPvtSa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A3321F000E9;
-	Mon, 13 Jul 2026 16:15:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9AjbsfH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E541F000E9;
+	Mon, 13 Jul 2026 16:30:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783959317;
-	bh=oNIWkoRxlut88jezsElvPH1wV8FkiiBk36IvzZ2BAwo=;
+	s=k20260515; t=1783960254;
+	bh=PMyE14iizY5E2lFXOalrRCdzTIzlOnvgtBrcDbYeja0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QOMPvtSaMxX9MpsXzTtiH2pWD1W/+0iiLAHU0QOSAyGHZ3amnA/Bu1/A4lKY5tOYJ
-	 Wtiz3ty98R2Fbype7p9a0rxYruVz2pXVagCTCyzX3AKW1F6GKtZhPrOvL4r2TuMu2Y
-	 j/JKvmod6ihm10/0FqARNrS4oLdcQDC2tnMtCiDvjkCaz0pFmRo0GezGCV9mVXbq3N
-	 J2OgXqfodG4emrSkrdUAAiKr0PmbekyjmeRf42NigHAQlyqR6YaLXkU44ql4Hm8tI/
-	 KNUF1VCvsufqBvwNlfGGx7EXWov7p6L/NJ+6NVThcRcO2nSWwZDmQ56sFSRI/2Lu42
-	 XNYFs3mM9vTew==
-Message-ID: <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
-Date: Tue, 14 Jul 2026 01:15:08 +0900
+	b=N9AjbsfHTJXoFHnSBGJkPeYeWmKCNZDfuT0DOOPJetqIJEOAhDeeJGyh1edKit18Q
+	 W+B3YaBZZqjo/WPcS02OFCCvb4nzgLBg+WcbRjgaUY8ARbI4WSjUWqzTTTdrOKvhl2
+	 yrGVc2FWkptlj+uMGaHZqGsjJUeth/zHoY7bjpczYrkIvkEVNZ8Hj+LhZbsNjC8+Rt
+	 DoSQ1nD6MwAM41sYWMG2sk64cIOx4A9tOkrRmdckunZdZRZBIcppKnsIJZg5FblI7z
+	 FIhv7+3d/fxT6MniDEd3zWnVSx6kEHLQuPwaxGpeeUnx/yMw5UnC8GyI9OJ3zqOjAz
+	 SJHjD+q1JOjOg==
+Message-ID: <324a1790-ab9f-41fd-8671-dcb2875b9bde@kernel.org>
+Date: Mon, 13 Jul 2026 18:30:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,161 +35,166 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
-To: Brendan Jackman <brendan.jackman@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>
-Cc: Vlastimil Babka <vbabka@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, Alexei Starovoitov <ast@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org,
- stable@vger.kernel.org
-References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
- <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
- <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
- <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
+Subject: Re: [PATCH v5 13/18] mm: Remove __alloc_pages_node()
 Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------wjfaJTQWd3NhLTT80YxRJH5m"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wjfaJTQWd3NhLTT80YxRJH5m
-Content-Type: multipart/mixed; boundary="------------nxjIPOFNtOXUEKiJUGKT1hb6";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: Brendan Jackman <brendan.jackman@linux.dev>,
+To: Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>
-Cc: Vlastimil Babka <vbabka@kernel.org>,
  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, Alexei Starovoitov <ast@kernel.org>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Hao Ge <hao.ge@linux.dev>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org,
- stable@vger.kernel.org
-Message-ID: <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
-Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
-References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
- <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
- <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
- <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
-In-Reply-To: <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
-
---------------nxjIPOFNtOXUEKiJUGKT1hb6
+ linux-rt-devel@lists.linux.dev, derkling@google.com, reijiw@google.com,
+ Yosry Ahmed <yosry@kernel.org>
+References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
+ <20260703-alloc-trylock-v5-13-c87b714e19d3@google.com>
+ <DJP0VKJLE8TE.6EDLC2BFI1SG@nvidia.com> <DJXJRNZFBPQ2.2S6CM4YAKHVQ5@linux.dev>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <DJXJRNZFBPQ2.2S6CM4YAKHVQ5@linux.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-
-
-On 7/13/26 11:31 PM, Brendan Jackman wrote:
-> On Sat Jul 11, 2026 at 12:03 AM UTC, Andrew Morton wrote:
->> On Fri, 10 Jul 2026 10:42:20 +0000 Brendan Jackman <jackmanb@google.co=
-m> wrote:
+On 7/13/26 17:26, Brendan Jackman wrote:
+> On Fri Jul 3, 2026 at 2:57 PM UTC, Zi Yan wrote:
+>> On Fri Jul 3, 2026 at 8:31 AM EDT, Brendan Jackman wrote:
+>>> There were only a few users, which have been removed. The only advantage
+>>> of this API over alloc_pages_node() is avoiding a single conditional
+>>> branch. The disadvantages are:
+>>>
+>>> 1. More API surface, more sources of confusion, more maintenance.
+>>>
+>>> 2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
+>>>    were using the result of cpu_to_node(); if the CPU gets hotplugged
+>>>    out this will return NUMA_NO_NODE. If one of these paths fails to
+>>>    protect against a concurrent hotplug then page_alloc.c will use
+>>>    NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
+>>>    memory corruption or other. With alloc_pages_node(), the code might
+>>>    just work fine.
+>>>
+>>> Ulterior motive: this frees up the __* variants of the allocator APIs to
+>>> serve specifically for use as mm-internal API.
+>>>
+>>> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+>>> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+>>> ---
+>>>  include/linux/gfp.h | 20 ++++----------------
+>>>  1 file changed, 4 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+>>> index 01d6d2591f49e..3bf55a5f9143e 100644
+>>> --- a/include/linux/gfp.h
+>>> +++ b/include/linux/gfp.h
+>>> @@ -256,21 +256,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+>>>  	dump_stack();
+>>>  }
+>>>  
+>>> -/*
+>>> - * Allocate pages, preferring the node given as nid. The node must be valid and
+>>> - * online. For more general interface, see alloc_pages_node().
+>>> - */
+>>> -static inline struct page *
+>>> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+>>> -{
+>>> -	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+>>> -	warn_if_node_offline(nid, gfp_mask);
+>>> -
+>>> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+>>> -}
+>>> -
+>>> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(__VA_ARGS__))
+>>> -
+>>>  static inline
+>>>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+>>>  {
+>>> @@ -293,7 +278,10 @@ static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
+>>>  	if (nid == NUMA_NO_NODE)
+>>>  		nid = numa_mem_id();
+>>>  
+>>> -	return __alloc_pages_node_noprof(nid, gfp_mask, order);
+>>> +	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
 >>
->>> As noted in can_spin_trylock(), using this is unsafe in this context.=
+>> Could this become a VM_WARN_ON?
+> 
+> Er, it will almost certainly crash later if this is violated. Personally
 
->>> commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from
->>> alloc_frozen_pages_nolock() in NMI on UP") fixed this on the alloc si=
-de
->>> but missed the free side.
+Agreed.
 
-Ouch, do we allow alloc_pages() -> free_pages_nolock()?
-Didn't notice.
+> if I'm enabling DEBUG_VM I'd rather it crashes with a helpful stacktrace
+> instead of chasing random poihnters, likely corrupting memory, and then
+> crashing later in a completely undebuggable way instead.
+> 
+> TBH I don't really understand the "don't BUG" culture we have in Linux.
 
->>> Reported-by: sashiko-bot@kernel.org
->>> Link: https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b=
-714e19d3@google.com
->>> Cc: stable@vger.kernel.org
->>> Fixes: d7242af86434 ("mm: Introduce alloc_frozen_pages_nolock()")
->>
->> Is this correct?  I'm not seeing anything in that commit which could
->> have caused this?
->=20
-> Oh yeah I guess it should be:
->=20
-> Fixes: 8c57b687e8331 ("mm, bpf: Introduce free_pages_nolock()")
->=20
-> This is confusing coz we have:
->=20
-> A: commit d7242af86434 ("mm: Introduce alloc_frozen_pages_nolock()")
-> B: commit 8c57b687e8331 ("mm, bpf: Introduce free_pages_nolock()")
-> ...
-> X: commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from alloc_f=
-rozen_pages_nolock() in NMI on UP")=20
->=20
-> X is marked as Fixing A, but it was an incomplete fix. I just copy
-> pasted the Fixes tag. But actually I'm now changing the free path that
-> was only introduced in B.=20
->=20
->>> --- a/mm/page_alloc.c
->>> +++ b/mm/page_alloc.c
->>> @@ -2979,8 +2979,7 @@ static void __free_frozen_pages(struct page *pa=
-ge, unsigned int order,
->>>  		migratetype =3D MIGRATE_MOVABLE;
->>>  	}
->>> =20
->>> -	if (unlikely((fpi_flags & FPI_TRYLOCK) && IS_ENABLED(CONFIG_PREEMPT=
-_RT)
->>> -		     && (in_nmi() || in_hardirq()))) {
->>> +	if (unlikely((fpi_flags & FPI_TRYLOCK) && !can_spin_trylock())) {
->>>  		add_page_to_zone_llist(zone, page, order);
->>>  		return;
->>>  	}
->>
->> It would be nice to include a description of the userspace impact.  I'=
-m
->> suspecting that's "none known", but some speculation on what might
->> happen to someone is appropriate.
->=20
-> Ack. I think if you trigger this bug by accident it will probably crash=
+It comes from Linus. The main motivation AFAIU are cases that would be
+recoverable otherwise. This is almost certainly not the one, but it's hard
+sell anyway.
+I think he would also argue that the "almost certainly crash" you argue
+about above should give you enough info for you to debug it :)
+It's likely not the case that would silently corrupt something and then you
+crash in completely different context.
 
-> your machine in extremely confusing ways. If you can trigger it
-> deliberately from unpriv (depends on the rest of the host setup, e.g.
-> what tracing is being used) you can probably use it to get root/ring0.
-> Can mention this in the commit message.
+> I usually just go along with it coz it doesn't seem important enough to
+> argue about. But now I'm wondering: if we really don't like VM_BUG_ON()
+> why not get rid of it completely? I wonder if there's some case-by-case
+> difference that I'm not picking up on.
 
-Just noting, it is quite niche because it requires UP, and tracing
-something that can be called in NMI on UP is even nicher.
+IIRC we did agree on getting rid of it, but there was no concerted effort
+yet. So we're in this "if you touch something, remove it" mode for a while.
 
->> Also, Sashiko might have found yet more pre-existing issues:
->> 	https://sashiko.dev/#/patchset/20260710-spin-trylock-followup-v1-0-af=
-fb5fe5ed00@google.com
->=20
-> There are 2 cases here:
->=20
-> 1: !pcp_allowed_order() -> This is forbidden by alloc_order_allowed(),
->    quite a bad miss from Sashiko IMO.
-
-Hmm but alloc_order_allowed() would return true for !pcp_allowed_order()
-when spinning is allowed, then pages can be freed via
-free_pages_nolock()?
-
---=20
-Cheers,
-Harry / Hyeonggon
-
---------------nxjIPOFNtOXUEKiJUGKT1hb6--
-
---------------wjfaJTQWd3NhLTT80YxRJH5m
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCalUPDQAKCRCGXBN6rc5S
-1uORAP95b6ffqA3hjbQbhh4fTA8JO2q/aCxMraAwrw3m7JnqIwEAhA/YJsuRldNh
-eHZVy6QNewHI+2W+paQ1iqEOvb1FuAs=
-=UlbM
------END PGP SIGNATURE-----
-
---------------wjfaJTQWd3NhLTT80YxRJH5m--
+Here I think you can just remove it here completely, and not replace it with
+a warn. Realistically it was only potentially useful for an unexpected
+NUMA_NO_NODE passed to __alloc_pages_node_noprof() and that's gone with your
+patch. So keeping that check would be an arbitrary paranoia at this point.
