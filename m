@@ -1,96 +1,153 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29073769EF;
-	Tue, 14 Jul 2026 11:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CC53921E7;
+	Tue, 14 Jul 2026 11:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784027243; cv=none; b=f21m3+9TT6Xz6vrc+1C//CrPhNbaiNEGGRcJ9davnA1Hjn6rL3bzp8hQDpPtJnoEDP+N9jv7352HMCM5sxnOIr15NU1zwCSZ1k4goktDQJc9d/GGJOpE7VEl4JMXBv5TnQASVB3CpXTMhzucOX4uUNAtE9ddRQMJ/hzb56GkKTw=
+	t=1784030007; cv=none; b=oN2IfrsUL8qArdqMnU0wZlAxZkEzqzWIrcnmhKEH3XH3r2K+KhZiAENmbDyA7Wzmd/cMoWIekKJzhR+Stbc37XjrdkGV/Eo5ZRL/hIrRq2ynxdJFrji39REYHmFHzjH8LOYpcCPlE25cJ1DDlyfJlJWVVhQ3kfJ0pff+7jBGwic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784027243; c=relaxed/simple;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EyzTFvJumc8VrDlR+mo/OeYChbPaluKdkYZIKJdymkOjLY2Y6Inf+nUgQNdtM2WFNjlHq0EciUmrqfbQ28dwlMDdxN5OUUMOicdlQuLikFirxewmd/PfT6/jNaFDTZ18HTWfoeg60hc3lMUOrzwXzluU/+augT5ZlQuM/8iqgR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nKWMmgeO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c3tDafPm; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1784030007; c=relaxed/simple;
+	bh=2Nf0pzzNTeJOpKeQGGtmDhdnC8W2GgOPVML5TCxAQKQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R1jSEjR9hyg7MbKTxUUDw1pQMWzOQ53nj0vQCTpKYAve4wmjN9h8m+8Q408/YyGmQSauITgPdjRcnSt5Kw0GHQ+4yQtoagfNhzdiHn+pctYTmpFuIfIvroPw3iRMDWy7IRcgKnAOintYw819NW5A8f9SqXum/HbqGU3JtuSUdoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HUG61eQr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nKWMmgeO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c3tDafPm"
-Date: Tue, 14 Jul 2026 13:07:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784027239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
-	b=nKWMmgeOZusGz4tUgy+jHb8f7dPLZ6VmnGW/lJa6oQfWarzLUflFbamW/ZR1RsNbBnu43L
-	9Qwg8/+OsvuWBSp4e23ZNGDzVih7J7h3DZYae6lHi1IO0ah/xSAPjkPofGtRDmqk9ofnvF
-	G1WmNrle4tTx2BDqy+qtMg4TuTSoR70R70aF9YFEGzxxuzNqRG2NVPKYp2nEbQ2QIArpV+
-	U7XIClgPkKwYdq6Sqrw1uCC3Cdf+2SQJJkBk1fV8VawzRb1ldJ1UhZHjnIETEHEkM+l1Cr
-	DGNnMiFN8bvQW8fj+1xZ0vQcHOLKVbf6E2OIbFuhbEMBqZSVcO+G1BuA6BHZlA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784027239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
-	b=c3tDafPmqOjhcblwv6ldGP21Lj7aKhxu0ykVLDb560LIUJ8tcB6SNF/u6uo8PqjAfVqy2L
-	30NxFxsnSeF12qDQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <20260714110718.E5qV5-Hf@linutronix.de>
-References: <20260709143108.UYeCUUcd@linutronix.de>
- <2026070922-kilowatt-matador-5e1c@gregkh>
- <20260709152214.rH1O_8SM@linutronix.de>
- <748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
- <20260710115145.32729a7c@gandalf.local.home>
- <ae96c274f166301aba762d97caccddf176ad7968.camel@siemens.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HUG61eQr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4375B1F00A3A;
+	Tue, 14 Jul 2026 11:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784030006;
+	bh=2Nf0pzzNTeJOpKeQGGtmDhdnC8W2GgOPVML5TCxAQKQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HUG61eQr+qwcx4Kq4681RkPJCJLDTNpPf4qw0k95lvgmE6lqKcMDXgaVntE9jLqLd
+	 MsT/5cMj0tdbasDEma3t28y9h5wLSoG5fMXfGniSmj682PlBXb6WlE9qq4LWXspiFM
+	 CxQ1C+vistKAF2WILYIfoxuA7dm9uuPDFKKxYO4yoXmGqnylYtKXZNXyOsE2F13+w+
+	 5JZSD/J0TPhTgIrsO/ZPxX3oaQbEcwwdTS5iZ2Tn2jNmLJMXzXuL3E8+VxVKNcDXZD
+	 gZz/o+sDq8I10tXaIv0mNVqnDmokH8GR0hZA+pMbq/PPLtpQYFoBXgVAh5EVc2mLZy
+	 bER0gxU5+g+2w==
+Message-ID: <67930986-152e-483e-a00d-210fe5769a10@kernel.org>
+Date: Tue, 14 Jul 2026 20:53:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ae96c274f166301aba762d97caccddf176ad7968.camel@siemens.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
+To: Brendan Jackman <brendan.jackman@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Alexei Starovoitov <ast@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org,
+ stable@vger.kernel.org
+References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
+ <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
+ <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
+ <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
+ <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
+ <DJY7A190TSH2.B1XHHIACRSYW@linux.dev>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <DJY7A190TSH2.B1XHHIACRSYW@linux.dev>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ku0sMi9hUnR02QaV2h2WUqQg"
 
-On 2026-07-10 18:01:20 [+0200], Florian Bezdeka wrote:
-> Depends on what you consider a valid update scenario. Updating from 6.1-
-> rt with sysfs available to something like 6.18 (no sysfs anymore) will
-> still break - as long as you do not (force) update userspace in
-> lockstep.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ku0sMi9hUnR02QaV2h2WUqQg
+Content-Type: multipart/mixed; boundary="------------4kdqt064WgNYuyI40EikPph1";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Brendan Jackman <brendan.jackman@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Alexei Starovoitov <ast@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org,
+ stable@vger.kernel.org
+Message-ID: <67930986-152e-483e-a00d-210fe5769a10@kernel.org>
+Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
+References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
+ <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
+ <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
+ <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
+ <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
+ <DJY7A190TSH2.B1XHHIACRSYW@linux.dev>
+In-Reply-To: <DJY7A190TSH2.B1XHHIACRSYW@linux.dev>
 
-v6.1-RT to v6-18 no-rt will not provide the file. Also will not provide
-ARM, PowerPC or 8250-nbcon support. So it is not just that single thing
-that you "lose" if you don't apply the RT patch. It is just what you
-notice because you don't use the other things.
+--------------4kdqt064WgNYuyI40EikPph1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> I learned meanwhile that our detection moved to uname meanwhile, so this
-> is not a problem for us anymore.
 
-Okay. So you yelled loudly that you need it, now not anymore.
 
-So can we state that this it does not provide anything of value, is not
-considered needed and can be dropped?
+On 7/14/26 6:52 PM, Brendan Jackman wrote:
+> On Mon Jul 13, 2026 at 4:15 PM UTC, Harry Yoo wrote:
+>> On 7/13/26 11:31 PM, Brendan Jackman wrote:
+>>> On Sat Jul 11, 2026 at 12:03 AM UTC, Andrew Morton wrote:
+>>>> On Fri, 10 Jul 2026 10:42:20 +0000 Brendan Jackman <jackmanb@google.=
+com> wrote:
+>>>>> As noted in can_spin_trylock(), using this is unsafe in this contex=
+t.
+>>>>> commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from
+>>>>> alloc_frozen_pages_nolock() in NMI on UP") fixed this on the alloc =
+side
+>>>>> but missed the free side.
+>>
+>> Ouch, do we allow alloc_pages() -> free_pages_nolock()?
+>> Didn't notice.
+>=20
+> We don't explicitly disallow that but I'd say it's "forbidden by
+> default"...
+>=20
+> But I think that's unrelated? It doesn't mean you can't use
+> free_pages_nolock() from NMI, right? (Would be weird to alloc from
+> another context and then free in NMI, but I don't think it's "forbidden=
 
-Clark, what is the status on your end?
+> by default" in the way that using unmatched APIs is).
 
-I can postpone this and get back in a month or so if we need thinking
-time.
+If you can't free pages that are not allocated via alloc_pages_nolock(),
+and if alloc_pages_nolock() always fails, you can't really use
+free_pages_nolock().
 
-> Florian
+But yeah BPF seems to do that and also the comment says:
 
-Sebastian
+/*
+ * Can be called while holding raw_spin_lock or from IRQ and NMI for any
+ * page type (not only those that came from alloc_pages_nolock)
+ */
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+
+--------------4kdqt064WgNYuyI40EikPph1--
+
+--------------ku0sMi9hUnR02QaV2h2WUqQg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCalYjLAAKCRCGXBN6rc5S
+1onsAP9oH3K4pQoIax+qSGFDjZf1pwd025OJ8HYNXHVk+I8vEwEAiu05mhpZJWF4
+zStwwbYgpqkkPFWKzpHYUtNrcO/tdwU=
+=BfyU
+-----END PGP SIGNATURE-----
+
+--------------ku0sMi9hUnR02QaV2h2WUqQg--
