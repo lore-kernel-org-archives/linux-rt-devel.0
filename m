@@ -1,122 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E423D3D1D;
-	Mon, 13 Jul 2026 23:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C199F371867
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Jul 2026 01:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783984629; cv=none; b=XMYSFDCDtSuQJ/Fkb7YXaEI6beItmncSd69s7no5b07ZaOz1CJu5QlxUjzqrFqsXpoCcndbMGrPZxy3JoK+F9s4ZvjUxS6pFHkdn6KoCQxraZexY0L7xuCVjB3xE2yOnBzSHQ9zVxTBL10zp51n2Ef8g3cfXQNS2vMTzzfbS2CE=
+	t=1783993518; cv=none; b=kibHlQAAe+PJZPmegAdYYuVaRJnb9tW2JL3IePPWnvECtjPKJQqoiTJc0zZIT00QFu/uxvB7qQvz+BRlIf86aJcQ32DN02iAxn0fXFdtFHY9BZvfsMYRqzdvgIQIuDPe99l1PNhcb5eDoCT/i9wPFogoAoplo2jaA0IL/bTlS08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783984629; c=relaxed/simple;
-	bh=NJ9DaF6JhUSJWaUYB9Rpocopt6/mWJHr2vTjcCNZ4ro=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=XRRJl8T5ocZqqdfaD+CKUUumPgaUi5BcVGvfhMz3oh1cTfTvZx3RMUQAZhC899GvyGDZk+jj0widrHhf+A66VhIF+TlT8PFujgcozYYgGdqaaLfH82L9en2bqYJagt16r90V5DB/rFGsX9yH6ND/EJUdQSXDd6K4WdetTt1L1Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edhk7CZM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783993518; c=relaxed/simple;
+	bh=okAnVsVly5jc+yei4Wz48daP/zuQ/yq+djt9pIOtyYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p03MCaKLzfzW0tKEcJl23f7gqLK3P5liksqw5/uMv0RFLlLmSZ8DQLnNWB8dSdFBnFp7T6kux9xUZgKJHJpA4f+AHVuJn+oTDDEZV1X+VgCVmpyyMcSM49ocfhroYrbmVwCCftDLXMmLrpwvXMwDPk7JZGLeCbiPH5dGFoC3zFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kvyn5KIO; arc=none smtp.client-ip=74.125.227.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edhk7CZM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70B81F000E9;
-	Mon, 13 Jul 2026 23:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783984622;
-	bh=/rYGNCeM7epdsW87Q+BmEJkO45GUrKfVPgUWsraJ90A=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=edhk7CZMXPJy1JO+YhTaD5EeeQAr3CPW6FmNsud9eIQfX/BNKLaC1Hm8/wwFwBMJY
-	 YZuFxHNlAyG/tLhOvq2FiwjSXxVbcREZEJXy/vhKW+SLBp7FHqExSI+1koeGgiiMgT
-	 TU7fDhwxW8MvIIOU39FjqmROqy6C8SzB+nA8rYrNvMSG+azFZp/TLa+ux00Re86EWX
-	 gk4y7DsAKZeI/s9nxn2PckhvIvKlhuyBE0MYE/iOHkY3lkYvkoXuB1RhSQ/zfkAiHr
-	 B5l6DzQTyiKUJmn1kzw4EWfJJpmwlt5LEY9SEQlTa0cintSC6/fLs6sDqdvWwrKqpd
-	 dp7ocVKXbkqLg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] coresight: Fix scheduling while atomic in
- coresight_put_percpu_source_ref()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohamed Ayman" <mohamedaymanworkspace@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260713230028.8046-1-mohamedaymanworkspace@gmail.com>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
- <20260713230028.8046-1-mohamedaymanworkspace@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2026 23:17:01 +0000
-Message-Id: <20260713231701.C70B81F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kvyn5KIO"
+Received: by mail-pj2-f4.google.com with SMTP id d9443c01a7336-2cad1448ddcso31479455ad.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 13 Jul 2026 18:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783993516; x=1784598316; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=73xB3qrx3acG77JE8xn8xw37lKaovvRLQMvPzLm4bDo=;
+        b=Kvyn5KIO0nnpbDBiATrs9QzfZhlo9AUIJDkFwsYESMkZt+QS+7Crb1EqP5pXe3QpS/
+         cWtgF8LaeFvo0ITFgGsfsDMqOarB+J7iX0mh1GIYL/1cbXMDwaCnW2sb5iwnCSFxS73H
+         5FVmactmLmFUoirP3DQLX2xfcNSFeDujjrx0cG3o+G1E0dFNz/rEU4a+cJAENURUATeJ
+         fTqRq7U+xupXX9gtHcnurMpgWIpRpaiZZQgtvK83E36aWLgQRW79aVNpffN2yPE5LIMn
+         oM3oMNZk7+5FN82oOXRJ7BQOef1VUBF5JP6Q5LEMdGOo6DbIaYLeCWobJc8GHs4B16s9
+         21ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783993516; x=1784598316;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=73xB3qrx3acG77JE8xn8xw37lKaovvRLQMvPzLm4bDo=;
+        b=Kq+MJZrgkTovR/QGYZfG2Wn9z/Y+goR5pETVmPjyZgOUqWGuiB10ARKW3FVrUmhc58
+         MsEfl0fOWxr21wqbgKnPfMOLMI+dn0iFaUDUDE1BhH74DWD/ac1/YBeaP6lWmTIhqY77
+         f372tz0CjIAR2ZsenTzg6JzyWtw3UGxOEY+9yOIH+x/IU0lwp3lW4quqiU9/wp3y+lBF
+         SG3WEpfR0px3IKMIFoM13PGHUxx5vSp9rBnvksSFAcwGdt7rXUcOg0GAORJjszX+SD3P
+         8zrUqzE4FHneHvgWUwKLUBtXappJuWQ5odDC3d+60xjric4d0c0d5aAmZ2XjczqLZyEE
+         eZkA==
+X-Forwarded-Encrypted: i=1; AHgh+RoxsieW8SsWIZdMLEZgxt6wBo0s3mutA2E8jLHEYNp2Wbz9gCLFUbPTKGiH9eBsZUlkHUR9TA//psgRE6+/Gw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy4wp+XohiET6EWRmBu0tE54YiiupfrV3nk3vm9N2F2NZQegVd0
+	MzTx6samzRvFXmyRSftFPs3UFBxkAipmRGGNZ/sQ4QUoqp8iymv3Fboh
+X-Gm-Gg: AfdE7cm2r3hiMK1lTuXeM5Suj5irWlhYi4opvPbZlX8S2d2iu9et3SvkDdzvLTJhrbp
+	O1+PqubtSbamlK83+7fk4yDzl4x22uTQon7DpNawsecHgHRPNQJnrg3yXELtobkfFEQPq1m2Xjr
+	NywMx0ute1d+mjrqGM/khKcj/vfJK11Q0COTbwmAsU7sQYUM4XkWad62zNtt4jRDS5OPhoahVtP
+	oFBCF3a2TQPF5r/lm/6CdMCTj6D3PcffZzmlS6hLovlYbXArVTHe1ct5qFL+ErpD2nS2eYQW1iy
+	3QaSZcUP8UWcOXAnLk50Mvw4R3C+e67uAhBDuuTdzT3fy4xJl9GDBedFkmE5R8HDBffIsKy+95a
+	QYBfmvTO38sb9tVuHpX4PzHJh08hL1hTQDJZoOGAoi3HAaCL0S2ViTzBe4ATki8aCjExZXDpYzO
+	dF1SfKnHKv4uaHMeZRP4r2
+X-Received: by 2002:a17:903:3205:b0:2c7:f4bd:91b5 with SMTP id d9443c01a7336-2cee98446f9mr17408505ad.0.1783993516159;
+        Mon, 13 Jul 2026 18:45:16 -0700 (PDT)
+Received: from [10.125.112.20] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb86bsm107793465ad.11.2026.07.13.18.45.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2026 18:45:15 -0700 (PDT)
+Message-ID: <97c1dccb-8f17-45f3-8058-023da96620c8@gmail.com>
+Date: Tue, 14 Jul 2026 09:45:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] mm/migrate: do not migrate folios mapped into
+ VM_LOCKED VMAs under compaction
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: vbabka@kernel.org, david@kernel.org, rostedt@goodmis.org,
+ mhiramat@kernel.org, Alexander.Krabler@kuka.com, hughd@google.com,
+ fvdl@google.com, bigeasy@linutronix.de, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, akpm@linux-foundation.org,
+ surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
+ ziy@nvidia.com, riel@surriel.com, liam@infradead.org, harry@kernel.org,
+ jannh@google.com, lance.yang@linux.dev, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+ byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
+ apopple@nvidia.com, pfalcato@suse.de
+References: <20260707125925.3725177-1-chenwandun1@gmail.com>
+ <20260707125925.3725177-2-chenwandun1@gmail.com> <akz7ythMxfIZeT0d@lucifer>
+ <ak0EsCeucJarlI7G@lucifer> <f33a9dca-03d6-45f8-bd25-717b9033c75c@gmail.com>
+ <ak-2VAwNNuCD98Jv@lucifer>
+Content-Language: en-US
+From: Wandun <chenwandun1@gmail.com>
+In-Reply-To: <ak-2VAwNNuCD98Jv@lucifer>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Queuing work during CPU idle entry wakes a kworker and sets TIF_NE=
-ED_RESCHED on a CPU entering deep sleep, violating scheduler invariants.
-- [High] A race condition between atomic_inc() and queue_work() leads to a =
-Use-After-Free (UAF) of the coresight device.
---
 
---- Patch [1]: [PATCH v2] coresight: Fix scheduling while atomic in coresig=
-ht_put_percpu_source_ref() ---
-commit c63df14eb6cc796f6fe14d3388c86e37be66c857
-Author: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
 
-coresight: Fix scheduling while atomic in coresight_put_percpu_source_ref()
+On 7/9/26 23:00, Lorenzo Stoakes wrote:
+> On Thu, Jul 09, 2026 at 04:25:27PM +0800, Wandun wrote:
+>>
+>>
+>> On 7/7/26 21:55, Lorenzo Stoakes wrote:
+>>> On Tue, Jul 07, 2026 at 02:44:50PM +0100, Lorenzo Stoakes wrote:
+>>>> See above about deduplicating.
+>>>>
+>>>>> +			ttu |= TTU_RESPECT_MLOCK;
+>>>>
+>>>> Hmm. I don't love 'respect mlock'. I guess we only know about the reason
+>>>> being compaction here.
+>>>>
+>>>> But I'm confused anyway. We have the folio, why aren't we just checking for
+>>>> PG_mlocked() here instead of getting the rmap to see if it's mapped
+>>>> anywhere with VMA_LOCKED_BIT?
+>>>
+>>> Also, since compaction_allow_unevictable() is a function that is accessible
+>>> elsewhere, you could literally just have a TTU_MIGRATION here instead and have
+>>> the rmap logic call compaction_allow_unevictable() instead rather than this.
+>> Do you mean:
+>> 1. change TTU_RESPECT_MLOCK to TTU_MIGRATION, that'is OK.
+>> 2. move call compaction_allow_unevictable() to try_to_migrate_one? but as you suggested
+>>    migrate_mlock_allowed function, it already called compaction_allow_unevictable()
+>>    in order to determine whether TTU_MIGRATION needs to be added. Did I misunderstand
+>>    something somewhere?
+> 
+> The next paragraph addresses this.
+> 
+>>
+>>>
+>>> And then you could adapt the function I suggested before not to take a reason
+>>> parameter but rather a 'is_migration' one instead possibly and then pass (ttu &
+>>> TTU_MIGRATION) in.
+> 
+> 
+>>>
+>>> BUT. I still question whether this is at all needed since you have the folio you
+>>> can check for PG_mlocked...
+>>
+>> I described a race scenario at this link:
+>> https://lore.kernel.org/lkml/c372e68f-2bfc-45b6-a431-01bf55717247@gmail.com/
+> 
+> OK thanks. You really have to spell this out in the code in a comment, this is
+> really non-obvious.
 
-This commit fixes a "scheduling while atomic" panic on PREEMPT_RT by
-deferring the put_device() call to a dedicated workqueue. It introduces
-a put_pending atomic counter and a work_struct to queue the release
-safely in process context.
+I will address these in the next version.
 
-> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtra=
-cing/coresight/coresight-core.c
-> index 6d65c43d574fd..e931e6bdc84fa 100644
-> --- a/drivers/hwtracing/coresight/coresight-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-core.c
-[ ... ]
-> @@ -163,16 +175,9 @@ void coresight_put_percpu_source_ref(struct coresigh=
-t_device *csdev)
->  	if (!csdev || !coresight_is_percpu_source(csdev))
->  		return;
-> =20
-> -	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
-> +	atomic_inc(&csdev->put_pending);
-> =20
-> -	/*
-> -	 * TODO: coresight_device_release() is invoked to release resources when
-> -	 * the device's refcount reaches zero. It then calls free_percpu(),
-> -	 * which acquires pcpu_lock =E2=80=94 a sleepable lock when PREEMPT_RT =
-is
-> -	 * enabled. Since the raw spinlock coresight_dev_lock is held, this can
-> -	 * lead to a potential "scheduling while atomic" issue.
-> -	 */
-> -	put_device(&csdev->dev);
-> +	queue_work(coresight_wq, &csdev->put_work);
+Thanks,
+Wandun
 
-[Severity: High]
-Can a race condition here lead to a use-after-free of the coresight device?
+> 
+> I will try to look at your reply in due course (am between jobs atm).
+> 
+>>
+>>
+>>>
+>>> Cheers, Lorenzo
+>>
+> 
+> Thanks, Lorenzo
 
-If Thread A calls atomic_inc() and is preempted before calling queue_work(),
-and Thread B then calls atomic_inc() and queue_work(), the worker thread
-might execute coresight_put_device_work(), read the combined pending count,
-and free the device before Thread A resumes.
-
-When Thread A resumes, would it execute queue_work() using a pointer that
-now resides in freed memory?
-
-[Severity: High]
-Does queuing work here violate scheduler invariants during CPU idle entry?
-
-Since coresight_cpu_pm_notify() calls this during cpu_pm_enter() with
-interrupts disabled, the CPU is already committed to sleeping. Calling
-queue_work() on a bound workqueue wakes a local kworker, adding it to the
-runqueue and setting TIF_NEED_RESCHED on the current CPU.
-
-Will the CPU enter a deep hardware sleep with a runnable task on its runque=
-ue,
-delaying the execution of the kworker until an external hardware interrupt
-wakes the CPU and breaking the invariant that nr_running must be 0 when
-entering idle?
-
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260713230028.8046=
--1-mohamedaymanworkspace@gmail.com?part=3D1
