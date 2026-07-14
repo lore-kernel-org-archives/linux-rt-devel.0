@@ -1,169 +1,154 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0275943F8CA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Jul 2026 09:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C2F44212F
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Jul 2026 09:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784022483; cv=none; b=Iswp5NtLmifqACSWVUDfXh45IWGSMuJuc8ArsuiKzMtWTJvSjmse/KPvL8cyhAvGJ4m1h1eqU/RGFkIkM3yFT0UAqGx7a2987rX2m2XeWD/X8VHnsZMtMVBOm1HWf39BNLkuNSfT6aslAIPyI6E54H8CRYWIqr4ItXYnOhEemqE=
+	t=1784022759; cv=none; b=gaCwHprRwrmpmK7seFGDT/yD49hvTUyiZGUmFLCfz1VHqicuQqZggjHI6CQ2D2FzjRIWJ3WiLMbt/5zSnC3WUmPiluXH44QCh/2bZIrU85phJlBgGLG77OvdU1vlZVKnv2/AWb7bDdA4isqovZfHbj5RtPmnm3XmvX6LP1BdOjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784022483; c=relaxed/simple;
-	bh=tAT4Z+WZSwzntwIe2Ep114LUICO74oUvIOFxwyfiux8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qtf3PK/k2FR+2NhcUND0gLHcXdgFX/4hh+Q5UPAaAGeMMCGCgvJh5XV3ZgYuWVJpethLk3sL1m/UB4L+Y7xL1FzPjzOiOpdenVMR5v2mDg4tyGnONEG1/eBKRNIaw5xDQ7O7Z7Aa7BodYa4G+NMTIpTz4AqI35Fr9l+7YXawn1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2hWoWkG4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LP96mIHU; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1784022759; c=relaxed/simple;
+	bh=MzO2Rxdvl9SZanpazWTuXe0NLgSvD3nHYaHTHxt9JfU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=fYF8PzFQ9E5Qo4TxxKqMoLsu6Pbe4bZbNjQHi6bQIX8vj/Vxr64spK+edNZCgYE105pOjNYNOBI5Ns+bDdkleFZAP0Y1qm7yFywKT8pl3t52+uzkPYpXsuwrdPL1dDn2KGJ9zKyvVerwFyTQwqsZnV4t5gj7dS32+8CvJHjVM0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QC/nN3ic; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2hWoWkG4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LP96mIHU"
-Date: Tue, 14 Jul 2026 11:47:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784022474;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsoTcN4gOIUfOGf3p48bZzeZDJjL/YfjT1YTWmmpNPE=;
-	b=2hWoWkG465yKctF00Mw9KQ6sYZmw5YgJznP4SIGc5ImYPXmIYeS6IbfXVTCZTHv/KI4E2U
-	f8Bk6aFvBq49FugZVTn/t+nTwVk3uOjUb+xLzqQ1ylaI4YuaVeQfW1h09gVtK/zATFk1TZ
-	KoCxwcqYpF9YJ4jj1zLGKjJeoB4MSxGtc7Va4jbCSzz0ouoQjupqRadMZCq1GBawg720Bl
-	pdo2Ck6m0mFasT7WVF1Iqf3WadNyYaLzwhhBu6WdOkok08jY6fpQ8fFG0EBD9iG9UOgs41
-	BW39orBcuHa6++UhOEQPMc52HNKuWtZFgfJ6Oa6qJIbZP2toU8fOyfn2K8UUUQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784022474;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsoTcN4gOIUfOGf3p48bZzeZDJjL/YfjT1YTWmmpNPE=;
-	b=LP96mIHUFuA16DNuxJK0oAMY1HLEt9nhBrM68LGoz5RXQeqSK/DTieqKA8U5nLiTSEr7Ea
-	k0NF1Gm40CLZW6Bw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Leonardo Bras <leobras.c@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Coiby Xu <coxu@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
-	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
-Message-ID: <20260714094752.1Vi-C4fe@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com>
- <20260519012754.240804-5-leobras.c@gmail.com>
- <20260520145308.nay9zt6r@linutronix.de>
- <alQWr2L_Kn23pxd9@WindFlash>
- <20260713073634.3Hrxpfcx@linutronix.de>
- <alVbaf-UVMNaEtvk@WindFlash>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QC/nN3ic"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784022749;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l3zdQsCZaeg9r4pCa6BdAIjCC8ytsze0HKxR9F1SBpI=;
+	b=QC/nN3icWHmag6UJtqg2N4KQzscCFcQB7nlwAt+o5I5fXa2cZ5qZoeDepf/8E+iOG91z7y
+	bMSoa929x18iPeIt3YIWNGzy55z1kb8yd//PZAPapzJoedeJ+/mLkVCzRmoTakv71qiQ4G
+	kcZ5BMeEHTubiMsxntmNtQQiAVyNav0=
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <alVbaf-UVMNaEtvk@WindFlash>
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jul 2026 09:52:12 +0000
+Message-Id: <DJY7A190TSH2.B1XHHIACRSYW@linux.dev>
+Cc: "Vlastimil Babka" <vbabka@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Johannes Weiner"
+ <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Sebastian Andrzej
+ Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Shakeel Butt"
+ <shakeel.butt@linux.dev>, "Alexei Starovoitov" <ast@kernel.org>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <sashiko-bot@kernel.org>,
+ <stable@vger.kernel.org>
+Subject: Re: [PATCH 1/2] mm/page_alloc: don't spin_trylock() in NMI on UP
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: "Harry Yoo" <harry@kernel.org>, "Brendan Jackman"
+ <brendan.jackman@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Brendan Jackman" <jackmanb@google.com>
+References: <20260710-spin-trylock-followup-v1-0-affb5fe5ed00@google.com>
+ <20260710-spin-trylock-followup-v1-1-affb5fe5ed00@google.com>
+ <20260710170311.e22bfd21c658e8357ceddeec@linux-foundation.org>
+ <DJXILB94G82L.37YBL62YO9XBK@linux.dev>
+ <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
+In-Reply-To: <4c969202-a8ed-41a8-9e9a-281a12f6dde3@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-07-13 18:40:57 [-0300], Leonardo Bras wrote:
-> On Mon, Jul 13, 2026 at 09:36:34AM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2026-07-12 19:35:28 [-0300], Leonardo Bras wrote:
-> > > On Wed, May 20, 2026 at 04:53:08PM +0200, Sebastian Andrzej Siewior w=
-rote:
-> > > > On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
-> > > > > @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache =
-*s, gfp_t gfp, int node)
-> > > > > =20
-> > > > >  	/*
-> > > > >  	 * We assume the percpu sheaves contain only local objects alth=
-ough it's
-> > > > >  	 * not completely guaranteed, so we verify later.
-> > > > >  	 */
-> > > > >  	if (unlikely(node_requested && node !=3D numa_mem_id())) {
-> > > > >  		stat(s, ALLOC_NODE_MISMATCH);
-> > > > >  		return NULL;
-> > > > >  	}
-> > > > > =20
-> > > > > -	if (!local_trylock(&s->cpu_sheaves->lock))
-> > > > > +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
-> > > > >  		return NULL;
-> > > >=20
-> > > > alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
-> > > > I don't remember why exactly local_trylock_t was introduced here in=
-stead
-> > > > of a per-CPU spinlock_t.=20
-> > >=20
-> > > Probably to save the cost of using atomic operations on locking, and =
-having=20
-> > > about the same restrictions that would allow using local_locks
-> > >=20
-> > > > But there should be nothing wrong with a
-> > > > trylock on it from NMI as you do here.
-> > >=20
-> > > Awesome!
-> >=20
-> > The problem is always the unlock which requires full locking and is
-> > usually the problem from NMI.
-> >
->=20
-> You mean, like, the trylock succeeds in the NMI handle, does the per-cpu=
-=20
-> operations, and then unlock()s?=20
+On Mon Jul 13, 2026 at 4:15 PM UTC, Harry Yoo wrote:
+>
+>
+> On 7/13/26 11:31 PM, Brendan Jackman wrote:
+>> On Sat Jul 11, 2026 at 12:03 AM UTC, Andrew Morton wrote:
+>>> On Fri, 10 Jul 2026 10:42:20 +0000 Brendan Jackman <jackmanb@google.com=
+> wrote:
+>>>
+>>>> As noted in can_spin_trylock(), using this is unsafe in this context.
+>>>> commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from
+>>>> alloc_frozen_pages_nolock() in NMI on UP") fixed this on the alloc sid=
+e
+>>>> but missed the free side.
+>
+> Ouch, do we allow alloc_pages() -> free_pages_nolock()?
+> Didn't notice.
 
-Yes.
+We don't explicitly disallow that but I'd say it's "forbidden by
+default"...
 
-I'm not sure what I was thinking when I wrote it back then. Try lock
-with local_trylock() might work under RT from NMI. However the unlock
-path (which needs to follow) requires an unconditional lock of the
-inner-lock plus a potential wakeup of the waiter.=20
-:
-=E2=80=A6
+But I think that's unrelated? It doesn't mean you can't use
+free_pages_nolock() from NMI, right? (Would be weird to alloc from
+another context and then free in NMI, but I don't think it's "forbidden
+by default" in the way that using unmatched APIs is).
 
-> Thanks!
-> Leo
+>>>> Reported-by: sashiko-bot@kernel.org
+>>>> Link: https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b7=
+14e19d3@google.com
+>>>> Cc: stable@vger.kernel.org
+>>>> Fixes: d7242af86434 ("mm: Introduce alloc_frozen_pages_nolock()")
+>>>
+>>> Is this correct?  I'm not seeing anything in that commit which could
+>>> have caused this?
+>>=20
+>> Oh yeah I guess it should be:
+>>=20
+>> Fixes: 8c57b687e8331 ("mm, bpf: Introduce free_pages_nolock()")
+>>=20
+>> This is confusing coz we have:
+>>=20
+>> A: commit d7242af86434 ("mm: Introduce alloc_frozen_pages_nolock()")
+>> B: commit 8c57b687e8331 ("mm, bpf: Introduce free_pages_nolock()")
+>> ...
+>> X: commit 620b46ed6ae17 ("mm/page_alloc: return NULL early from alloc_fr=
+ozen_pages_nolock() in NMI on UP")=20
+>>=20
+>> X is marked as Fixing A, but it was an incomplete fix. I just copy
+>> pasted the Fixes tag. But actually I'm now changing the free path that
+>> was only introduced in B.=20
+>>=20
+>>>> --- a/mm/page_alloc.c
+>>>> +++ b/mm/page_alloc.c
+>>>> @@ -2979,8 +2979,7 @@ static void __free_frozen_pages(struct page *pag=
+e, unsigned int order,
+>>>>  		migratetype =3D MIGRATE_MOVABLE;
+>>>>  	}
+>>>> =20
+>>>> -	if (unlikely((fpi_flags & FPI_TRYLOCK) && IS_ENABLED(CONFIG_PREEMPT_=
+RT)
+>>>> -		     && (in_nmi() || in_hardirq()))) {
+>>>> +	if (unlikely((fpi_flags & FPI_TRYLOCK) && !can_spin_trylock())) {
+>>>>  		add_page_to_zone_llist(zone, page, order);
+>>>>  		return;
+>>>>  	}
+>>>
+>>> It would be nice to include a description of the userspace impact.  I'm
+>>> suspecting that's "none known", but some speculation on what might
+>>> happen to someone is appropriate.
+>>=20
+>> Ack. I think if you trigger this bug by accident it will probably crash
+>> your machine in extremely confusing ways. If you can trigger it
+>> deliberately from unpriv (depends on the rest of the host setup, e.g.
+>> what tracing is being used) you can probably use it to get root/ring0.
+>> Can mention this in the commit message.
+>
+> Just noting, it is quite niche because it requires UP, and tracing
+> something that can be called in NMI on UP is even nicher.
+>
+>>> Also, Sashiko might have found yet more pre-existing issues:
+>>> 	https://sashiko.dev/#/patchset/20260710-spin-trylock-followup-v1-0-aff=
+b5fe5ed00@google.com
+>>=20
+>> There are 2 cases here:
+>>=20
+>> 1: !pcp_allowed_order() -> This is forbidden by alloc_order_allowed(),
+>>    quite a bad miss from Sashiko IMO.
+>
+> Hmm but alloc_order_allowed() would return true for !pcp_allowed_order()
+> when spinning is allowed, then pages can be freed via
+> free_pages_nolock()?
 
-Sebastian
+As noted above I think that's forbidden. Now I think about it, I'll
+include a patch to document this.
