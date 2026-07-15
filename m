@@ -1,167 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB10930566D;
-	Wed, 15 Jul 2026 13:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7209388E5A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 14:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784123808; cv=none; b=LnTROCmihvz49C6cz044r8xXUAYPiIxCfGfMgEOUkApjGkNFPNZdJEeFKsTuUXFFyZdqUzGFfCQQlVCL80NPSq7edAbf5jDTFqeX8Z/3WqhDzIHT9JXeIQz974C2Y1RvOIYVbnv0OzORAvr41+ElVTKygiWapzJENjZ2ZdUdci0=
+	t=1784125983; cv=none; b=uTmemHXkz85lyZN99CghZoZ78Fa9ky4nTIKZIwtk9v8YW8WiyAQJqvfRNMCcrDHU9IiBTKE532XY8BIgGOu8U4NtrrxievfRHvTCRKYqOEfh0Xj98EW+jO9/r72tcSAivTKWHFORMtLAAmpTsNtfyzersBJtQXJAiHViuhKGKKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784123808; c=relaxed/simple;
-	bh=7FFJjfT3arlHAlINN+VL8nGb7zb+3IxIst7wVsHJmv8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D5Qma7iSwmMfAQ5GMh06YUHeP/lN2jOXF+BTsEyiFkCQifw3GZZtRMktjtFE6zuof5BxkWF+YU+B0LqhiDVzDI80s/Mm95W3UcR6Ak3+A2yoCo2zr3+w4eufRs9TQzBM+SvR+BPagtmur037rrQuiG+mYFI4NorvEbKoupWTNSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cw4boTms; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784125983; c=relaxed/simple;
+	bh=uPj+Sc+rqsDCxvIWOjSdivoSnd+ME+gL9jxKEnqWcWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JborLsWbjrLsix+GjCleY+YwCV5B3+gdCcLOFjFu7j4iiP5yB3trj0SuCKH2IXRguR85jLzofuAJvaDJPQjVlwuK3DLTEgF17EbAMZ4pYZQ5xPRWRYFq0M6gRiMDKMhyH3PkKYRGmZRYNr+wZRpAMd5ziTt+8bKJQvLhBZae+90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C7FPdE7E; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JHRP+u0d; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cw4boTms"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57BE71F000E9;
-	Wed, 15 Jul 2026 13:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784123806;
-	bh=cbKgz7rXvprr13EIVZgf2t4q5XUn8QXsE1MwfnSlNlg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Cw4boTmsvRJ5HsdR3DL8TP4eNURF9azj/01YdTbCQ00SSClYjC0ktaTG32yicWS8i
-	 rEu9JU2Sv1NQg32x3uG+1oDLYIkJDcLZK0LN8ChV02saljmpG4kvvVTdWZuE2MLTc5
-	 NJzMCUYg2OSTzA/Fvxe9UGIFdrcJeS4majmQ5zu5rw5MW679fIGZXWL5lcUSXKwRa/
-	 oM9wOaGYdKYK0+p6CJfaqB1AHcjU4DRyK8wwqd61pfOeYaZJ9vrhjU2F2+wGWhsT26
-	 Os7yzQ1+ihsCKMlNuxOVXEtdLFs+U4bf9EVaa4MWk7+7j8Bawt2CJYQwxDrCJnSV3f
-	 3DPRqIRjtR0KA==
-Message-ID: <fa67d62e-41bb-4d78-83d1-18461542aff1@kernel.org>
-Date: Wed, 15 Jul 2026 15:56:40 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C7FPdE7E";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JHRP+u0d"
+Date: Wed, 15 Jul 2026 16:32:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784125973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2a8q8ic7CkdM8yMLQ6ZHYx85VK0OYL++A5hUJ6/Z6IU=;
+	b=C7FPdE7Ejutrgrv816LOkEd/Q8mABS/mx9vkhcjk7hJeo8lo8UhqH2DCw2zP5eJuzWLJWm
+	sYSnqA9LD17Z9GCPHjiua4HMavNwO/rWKzNQYNgZgWiMXTFPHAsbQoQQ9cfUZVKw9x0vK3
+	m4vuDE8008bwcPBZoajv1c6KxNjW/llUpuseU2AKQR+OyReZ0SHwhT2g0L++lbEoptgHnj
+	ulwuz0RKgE8V/1S8UxqrAXgheVWcAe+JHLuI+nPSZcePTXeqgbrn5i7OHOcSxpWQ7bNiLJ
+	4WUp/Nga6b9IV+HS8jNtf+7uVnuPvgi/PKWL2BLUYqMxdT6zMW0ZbimHl5A8/g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784125973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2a8q8ic7CkdM8yMLQ6ZHYx85VK0OYL++A5hUJ6/Z6IU=;
+	b=JHRP+u0ds15P1h+Rp0LrpTj5s8BL33X4/0jrF2XZLD4aFKgaJA2yJZo17A5Z+lR1s1dQyH
+	QxutI5RqM6WZQeBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>, Long Li <longli@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>
+Subject: Re: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
+ with lockdep annotation
+Message-ID: <20260715143252.gWEZfb5B@linutronix.de>
+References: <20260401151517.1743555-1-bigeasy@linutronix.de>
+ <20260401151517.1743555-2-bigeasy@linutronix.de>
+ <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] mm/page_alloc: remove a couple of VM_BUG_ON()st
-Content-Language: en-US
-To: Brendan Jackman <brendan.jackman@linux.dev>,
- Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>,
- Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
- <20260715-spin-trylock-followup-v3-4-fc4d246f705d@google.com>
- <ed4572f4-0074-45c5-993d-7b6533eddc31@kernel.org>
- <DJZ6XH7C3377.1D6EIFUEK2656@linux.dev>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <DJZ6XH7C3377.1D6EIFUEK2656@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
 
-On 7/15/26 15:48, Brendan Jackman wrote:
-> On Wed Jul 15, 2026 at 1:25 PM UTC, Vlastimil Babka (SUSE) wrote:
->> Subject has stray 't' at the end?
+On 2026-04-04 01:22:08 [+0000], Michael Kelley wrote:
+> Nit: For historical consistency, use "Drivers: hv: vmbus:" as the prefix for the
+> patch "Subject:" line.  Same in Patch 2 of this series.
+
+okay.
+
+> Also, any reason not to have copied linux-kernel@vger.kernel.org? I know this
+> is pretty much just a Hyper-V thing, but I would have liked to see what the
+> Sashiko AI did with these two patches. :-)
+
+Can do.
+
+> > lockdep_hardirq_threaded() is supposed to be used within IRQ core code
+> > and not within drivers. It is not obvious from within the driver, that
+> > this is the only interrupt service routing and that it is not shared
+> > handler.
 > 
-> Thanks - will fix if we do a v3 (otherwise Andrew, please can you amend
-> when you apply it?)
+> I presume you meant "routine". And what do you mean by "the only interrupt
+> service routine"? And why is the lack of obviousness relevant here? I don't have
+> deep expertise in lockdep, but evidently there's some conclusion to reach and it
+> would have helped me to have it spelled out.
+
+You use lockdep_hardirq_threaded() which marks the hardirq as a thread
+for lockdep purposes. The reason is that the IRQ core will force-thread
+the handler and the whole routine will be threaded. It does invoke the
+function and the very begin and nothing else will be done.
+
+vmbus_isr() is using it before __vmbus_isr() is invoked and there can be
+other functions/ ISRs that are invoked afterwards which would be wrongly
+recognized.
+To make it more concrete: sysvec_hyperv_callback() invokes mshv_handler
+and vmbus_handler. Would vmbus_handler() be invoked first then it will
+"spill" this lockdep attribute into mshv_handler(). Nested locks in
+mshv_handler() would not be visible then.
+This override limits it only to __vmbus_isr() while the RT case above is
+using vmbus_irqd_wake().
+
+> > 
+> > Replace lockdep_hardirq_threaded() with a lockdep annotation limiting
+> > threaded context on PREEMPT_RT to __vmbus_isr().
 > 
->> On 7/15/26 13:03, Brendan Jackman wrote:
->>> VM_BUG_ON() is out of favour and on the way to removal, since I recently
->>> touched alloc_pages_node_noprof() I am removing that invocation, and
->>> also removing the __folio_alloc_node_noprof() one for consistency. If
->>> this precondition is violated, the system will soon crash anyway.
->>> 
->>> Suggested-by: Zi Yan <ziy@nvidia.com>
->>> Link: https://lore.kernel.org/all/7F866265-3F2E-4765-B9D4-9AB898A9C4AC@nvidia.com/
->>> Acked-by: Zi Yan <ziy@nvidia.com>
->>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
->>
->> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->>
->>> ---
->>>  include/linux/gfp.h | 1 -
->>>  mm/page_alloc.c     | 1 -
->>>  2 files changed, 2 deletions(-)
->>> 
->>> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
->>> index 4d57e9c0bf204..872bc53f32ec8 100644
->>> --- a/include/linux/gfp.h
->>> +++ b/include/linux/gfp.h
->>> @@ -255,7 +255,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
->>>  static inline
->>>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
->>>  {
->>> -	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
->>>  	warn_if_node_offline(nid, gfp);
->>>  
->>>  	return __folio_alloc_noprof(gfp, order, nid, NULL);
->>
->> Well if you want more cleanups, I can see in iommu_alloc_pages_node_sz():
->>
->>
->>         /*
->>          * __folio_alloc_node() does not handle NUMA_NO_NODE like
->>          * alloc_pages_node() did.
->>          */
->>         if (nid == NUMA_NO_NODE)
->>                 nid = numa_mem_id();
->>
->>         folio = __folio_alloc_node(gfp | __GFP_ZERO, order, nid);
->>
->> Should we introduce folio_alloc_node() and make __folio_alloc_node()
->> mm-internal, for consistency?
+> Again, I'm not clear what "limiting threaded context" means. But see my
+> additional comment further down.
+
+Does the explanation above make it clear?
+
+> > 
+> > Fixes: f8e6343b7a89c ("Drivers: hv: vmbus: Use kthread for vmbus interrupts on PREEMPT_RT")
+> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > ---
+> >  drivers/hv/vmbus_drv.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> > index bc4fc1951ae1c..e44275370ac2a 100644
+> > --- a/drivers/hv/vmbus_drv.c
+> > +++ b/drivers/hv/vmbus_drv.c
+> > @@ -1407,8 +1407,11 @@ void vmbus_isr(void)
+> >  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> >  		vmbus_irqd_wake();
+> >  	} else {
+> > -		lockdep_hardirq_threaded();
 > 
-> Ha, I literally just wrote that patch. I'm planning to do it as yet
-> another series as there's a little dance needed to get it all into
+> I see two similar occurrences of LD_WAIT_CONFIG in the kernel:
+> __kfree_rcu_sheaf() and adjacent to printk_legacy_allow_spinlock_enter().
+> Both occurrences have a multi-line comment explaining the "why". I'd like
+> to see a similar comment here so that drive-by readers of the code have 
+> some idea of what's going on. My suggestion is something like this:
+> 
+>    vmbus_isr() always runs at hard IRQ level -- the interrupt is not threaded. It
+>    calls __vmbus_isr() here, which may obtain the spinlock_t sched_lock for
+>    a VMBus channel in vmbus_chan_sched(). If CONFIG_PROVE_LOCKING=y,
+>    lockdep complains because obtaining spinlock_t's is not permitted at hard
+>    IRQ level in PREEMPT_RT configurations. However, the PREEMPT_RT path
+>    is handled separately above, so there's actually not a problem. Tell
+>    lockdep that acquiring the spinlock_t is valid by temporarily raising
+>    the wait-type to LD_WAIT_CONFIG using the "fake" lock vmbus_map.
+>    If lockdep is not enabled, the acquire & release of the fake lock are no-ops,
+>    so performance is not impacted.
+> 
+> Please review my suggested text and revise as appropriate, as I'm far
+> from an expert on any of this. The above is based on what I've learned
+> just now from a bit of research.
 
-Cool!
+What about?
+  vmbus_isr is never force-threaded and always invoked at hard IRQ level.
+  __vmbus_isr() below can acquire a spinlock_t which becomes a sleeping
+  lock and must not be acquired in this context. Therefore on PREEMPT_RT
+  this will be threaded via vmbus_irqd_wake(). On non-PREEMPT the
+  annotation lets lockdep know that acquiring a spinlock_t is not an
+  issue.
 
-> shape. But, also happy to just expand this one if you prefer.
+> And thanks for jumping in and making all this better ....
 
-Not necessary, another series is fine.
+so I've been looking at __vmbus_isr() and vmbus_chan_sched() seems fine.
+vmbus_message_sched() on the handler invokes hv_stimer0_isr() which
+should not be done in the thread but in the hardirq. Is this the only
+timer in the system or some legacy thingy that is no longer used?
 
-> Then I'm gonna add alloc_flags to the __ variant so filemap.c can set
-> ALLOC_UNMAPPED for AS_NO_DIRECT_MAP.
+And there is a lot of tasklet involved which mandates a
+local_bh_disable()/enable() in run_vmbus_irqd() around the function or
+everything gets pushed into ksoftirqd.
 
-Great!
+> Michael
+
+Sebastian
