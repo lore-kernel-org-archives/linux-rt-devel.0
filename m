@@ -1,56 +1,56 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21454483A3
-	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 11:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB504483A3
+	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 11:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784113425; cv=none; b=lqafbC1q6yAWyzfqoo4TlW+kaqrVkl/KoQZsKUryahr0iLxe2pUk3jgdpgmkoVM0luyRY9mmywu3NHj15aaldqo4UtRZ4lhT0PuGmo/m9zpVIwStA2dJ9INAG6ZFbVTVJVvMI8EolVaLaLiqwsZ3Zcvvno9zirMnyz7XB6rMHWg=
+	t=1784113427; cv=none; b=a4wpisuq460kgv6qLpJGSrNHwFqQRFgOmXkN7CIcaHKWPIN0SbzVG4lMScveQSR8HQX734YEqSnFjKEka45yZG7QLxkxZhyJ4Xxy7BqBNY8Kr7UfXRCJOkNjaOAcoEpW0e55WFxozJjs3xL1AJ6I7EtNQgqk7wOJlVEw4fo+h7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784113425; c=relaxed/simple;
-	bh=yp7DtpLSpDTNqGYFYJZ54fWV2cqq9H1TNl9IkEg5RcQ=;
+	s=arc-20240116; t=1784113427; c=relaxed/simple;
+	bh=J6H+FoeqiU5MQFbzUvf2h1acD2Gc0AUhstmNBmOjGho=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CBlsN4oum/B/yZ3YPIuRQX39nhhs1kUxIgwhQBVseWV77ktM8kGjtes5ks+rLRowOGtVR5BBKpX8nmm0j8c4vFhXQ8WWDzNtPJOQhRN33SOGqNiPy9q7c66PZmf6Qv5MXM66SBAASPUHrJVON/xv153ZUu9D2Qm5fxU4fAAPdkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sc4DHO4s; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=hVG9P1Fmmg1Bkwijcm3Sj0aJVgqmw2BUO5c1ZCxHyglFNoNXy1boQw4+aN6BHlWT9CxGJPrZxBC/4AEdUL57Wrvh+txzSdzq5Rmd0akxcU3bE7MH0MrtopMzTf+/CiA3GFvuRtAFJGEu24ByIJeNrUQ+BK+9HTErT5isNAf2iVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O14EJb63; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sc4DHO4s"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-493b0fe95b6so34211105e9.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 04:03:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O14EJb63"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-493fa6e28a7so30319815e9.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 04:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784113420; x=1784718220; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1784113422; x=1784718222; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=29O54/g86I/UhsnFuKm5xVq389jfQYeh9pI8FKcXiJI=;
-        b=sc4DHO4sNWMWGocP4rkn/Jfef4wK6hWyCus1ArLXbTStiXq7eijvBmolg/qeymCe1L
-         6K2XvBrqdCQh4Bsvt/F4iyD9kIJv+oHCk22T/3sBwpX6r3lTi23clhy9tCiuhA6kzMEb
-         1n78bkEwbMo+pHk+6qzXS82MPzfvyZq8mO75TQ+bHdvtVLE2XgyCO+1gdJspAm2zLp6b
-         yrJZcpbmXZhMlflWar22Am7twnAOt1hsr3KtMoJBo3SzTMb5e6Sba+Xi4sRJB5ffYPPh
-         tJdJCERsvGUUvyyBDmFAPJZBIVDv/DDgsjngxzoS9b3sAGi4FoXqgA7JEKFEe6UO7Xu6
-         SnKQ==
+        bh=dz86EwLqIg9rsRKy2+oVo0cZ8RAfDlpYQ8xyeR+GWfk=;
+        b=O14EJb63FnE3SRfDdWg07wH2hNBDGuL2GFDaXs/JsKcohgycSoM2YtUQurXr+WZnCD
+         9jj0tw9SaBWd7rVh4iML7pfDM0i5rVhYB2s8aNqlck0GoIVAKmo44nhEgISkHY37UM1r
+         lG1EmhLSjyDQayZKJsMb6PCgYM+1Sfa3UhNvWD5hen9wRPU1NtI5o0w3CS6CBBFMbryp
+         yqrizk45mzzFfgSOfcOKaGKEP3Mzmk+HiFY9fTHTOonvuBo6qm/5PDmP3MpvbfMNFo7Z
+         XIKRCSsqfSLIYvbYclO6+12E4W4EKOS/031GCc5ZCMxI604DnrPNrhPw+qC49rfOQtpd
+         9QRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784113420; x=1784718220;
+        d=1e100.net; s=20251104; t=1784113422; x=1784718222;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=29O54/g86I/UhsnFuKm5xVq389jfQYeh9pI8FKcXiJI=;
-        b=Z/7HYAVfQWLElTJmjgMEU0Siy/QAH7Vree6fp6OLHhztxEdK5ebvCvTlt/H3oLecx+
-         7F+BEtdE7O8m8IbeGxvSTYSD5EYUEuxrwgpfhq49KMm4r9IVupdqIrz0was+v4ZcLNh+
-         YRb/UqWr3NCRBmyGk6tNTdS41MhFiTjExopPy1QnA7SCPZ/CHCCP4KaREJmIIjNskvQk
-         xc1BobBEhGjt18noLUYLankN7Ac1BPGIBartkfk/Ka21VkxtE9y+3tf6bPRiQMKize17
-         lHIAcbWRVebFEuu9IrNsqxYaW198v/pQuX1dNhnJ0Oi6O6cfbjBBDi6nO4X0umqIo4TW
-         j6qw==
-X-Forwarded-Encrypted: i=1; AHgh+RrZi9qKU/PVjLlc6B0IuKNwUv/h/kQZPNlQogZOnUn5iPXwnLXckJnHGaZARMfZh90Fg/vS29wmjAB+q56BJQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLcFG74fPvfx+OlDZGlsfVaVqDzKuFiqicIIaajlNrq5M4Nba9
-	c0pKZoT/wp73217PvmvkPhbmKguAPRYB82pmZwcK4n+4cw9zLc+d9IioBQPZOY5tBn6TxzUqGm3
-	B/k2XEE7MkhdSzA==
-X-Received: from wmqa14.prod.google.com ([2002:a05:600c:348e:b0:48a:79a9:335c])
+        bh=dz86EwLqIg9rsRKy2+oVo0cZ8RAfDlpYQ8xyeR+GWfk=;
+        b=tZlHJDxpWtlhD0+hSJvzEI5rRAzugS0buAJoepzXGI8pwm8Mk8CY5OJniqpeaXIxYV
+         6UhnjJIfl2Akj5l/FKdxGikCtpOfUPBKh71rgaZG0zPzI/A1KeOA4pA3TMjJ6RJjxJXK
+         aWTEM2GWPzT78a0dDx9uuHUr3l71Rrz2J/IP0/DlpVC2pzMhNvlmmO+A1GLAJV2QTzht
+         sSfRXZrVWq1BgZNzpFFZ2rMb4I+YIgtv30xovQWyKQIhYQ3RIGnSt7qsxrp5RwAq/ylv
+         DYxW8Le150G/7Qbn7noHRARuXCXH6N4+rF4nWHUphZY1GxJ93JdAPqtTrmAW+dxXCUgd
+         QTbA==
+X-Forwarded-Encrypted: i=1; AHgh+RpIZ+6AjAEaboCJQvbYS5aPp1ggSlvcKnamxr9mboO/Cho6u1fCX0IkNoZqbOsl79C5bPDhq/azI5ZtozJDwQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAm8b5i23A2KTog+gSEUOy42JHWAwIyrnFdrv//z9fZWoGc1gF
+	dmCye7OPL9hFino7TaH8PWKCY3KfEJ9Eqec+MOX3JQwIbgoLg0ypsYj5mW0J3WiUF4LP0pu7rsj
+	j8/spvHGUm0q1Gw==
+X-Received: from wmoh4.prod.google.com ([2002:a05:600c:3144:b0:490:b2a6:e6f5])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1393:b0:493:fa66:4861 with SMTP id 5b1f17b1804b1-4953c273bb2mr27821985e9.25.1784113419548;
- Wed, 15 Jul 2026 04:03:39 -0700 (PDT)
-Date: Wed, 15 Jul 2026 11:03:19 +0000
+ 2002:a05:600c:3e0d:b0:493:b499:3ef2 with SMTP id 5b1f17b1804b1-4953c299474mr25989985e9.37.1784113421736;
+ Wed, 15 Jul 2026 04:03:41 -0700 (PDT)
+Date: Wed, 15 Jul 2026 11:03:21 +0000
 In-Reply-To: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260715-spin-trylock-followup-v3-2-fc4d246f705d@google.com>
-Subject: [PATCH v3 2/4] cgroup/cpuset: update some comments about the page allocator
+Message-ID: <20260715-spin-trylock-followup-v3-4-fc4d246f705d@google.com>
+Subject: [PATCH v3 4/4] mm/page_alloc: remove a couple of VM_BUG_ON()st
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -75,70 +75,44 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-These comments describing the page allocator are out of date:
-
-- __alloc_pages() is no longer a public API and has no business being
-  described outside of mm/.
-
-- The `wait` variable is gone.
-
-It may be out of date for other reasons too but this patch is just
-fixing the issues that stood out.
-
-To fix it:
-
-- Instead of referring to a specific function, instead to "the page
-  allocator"
-
-- Completely drop out-of-date details of that function's internal
-  behaviour, since they were irrelevant anyway.
+VM_BUG_ON() is out of favour and on the way to removal, since I recently
+touched alloc_pages_node_noprof() I am removing that invocation, and
+also removing the __folio_alloc_node_noprof() one for consistency. If
+this precondition is violated, the system will soon crash anyway.
 
 Suggested-by: Zi Yan <ziy@nvidia.com>
-Link: https://lore.kernel.org/all/DJP11T5V7BDW.2FZZZ8R6LOY4I@nvidia.com/
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+Link: https://lore.kernel.org/all/7F866265-3F2E-4765-B9D4-9AB898A9C4AC@nvidia.com/
+Acked-by: Zi Yan <ziy@nvidia.com>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- kernel/cgroup/cpuset.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ include/linux/gfp.h | 1 -
+ mm/page_alloc.c     | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 24ea2d09cdbdb..dfd0f827e3b92 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -4193,7 +4193,7 @@ static struct cpuset *nearest_hardwall_ancestor(struct cpuset *cs)
-  * nearest enclosing hardwalled ancestor cpuset.
-  *
-  * Scanning up parent cpusets requires callback_lock.  The
-- * __alloc_pages() routine only calls here with __GFP_HARDWALL bit
-+ * page allocator only calls here with __GFP_HARDWALL bit
-  * _not_ set if it's a GFP_KERNEL allocation, and all nodes in the
-  * current tasks mems_allowed came up empty on the first pass over
-  * the zonelist.  So only GFP_KERNEL allocations, if all nodes in the
-@@ -4206,11 +4206,8 @@ static struct cpuset *nearest_hardwall_ancestor(struct cpuset *cs)
-  * come before the __GFP_HARDWALL check, otherwise a dying task
-  * would be blocked on the fast path.
-  *
-- * The second pass through get_page_from_freelist() doesn't even call
-- * here for GFP_ATOMIC calls.  For those calls, the __alloc_pages()
-- * variable 'wait' is not set, and the bit ALLOC_CPUSET is not set
-- * in alloc_flags.  That logic and the checks below have the combined
-- * affect that:
-+ * The second pass through get_page_from_freelist() doesn't even call here for
-+ * GFP_ATOMIC calls.  That, and the checks below have the combined affect that:
-  *	in_interrupt - any node ok (current task context irrelevant)
-  *	GFP_ATOMIC   - any node ok
-  *	tsk_is_oom_victim   - any node ok
-@@ -4327,8 +4324,8 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
-  * should not be possible for the following code to return an
-  * offline node.  But if it did, that would be ok, as this routine
-  * is not returning the node where the allocation must be, only
-- * the node where the search should start.  The zonelist passed to
-- * __alloc_pages() will include all nodes.  If the slab allocator
-+ * the node where the search should start.  The zonelist used by
-+ * the allocator will include all nodes.  If the slab allocator
-  * is passed an offline node, it will fall back to the local node.
-  * See kmem_cache_alloc_node().
-  */
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 4d57e9c0bf204..872bc53f32ec8 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -255,7 +255,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+ static inline
+ struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+ {
+-	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+ 	warn_if_node_offline(nid, gfp);
+ 
+ 	return __folio_alloc_noprof(gfp, order, nid, NULL);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 25a83a57aab66..4c6815f84adc6 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -5427,7 +5427,6 @@ struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order
+ 	if (nid == NUMA_NO_NODE)
+ 		nid = numa_mem_id();
+ 
+-	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+ 	warn_if_node_offline(nid, gfp_mask);
+ 
+ 	return __alloc_pages_noprof(gfp_mask, order, nid, NULL, ALLOC_DEFAULT);
 
 -- 
 2.54.0
