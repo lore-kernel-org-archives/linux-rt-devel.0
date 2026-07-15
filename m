@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE87420466;
-	Wed, 15 Jul 2026 13:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B919A435AAB;
+	Wed, 15 Jul 2026 13:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784121443; cv=none; b=Y7Ixv3EeKXOETRvbmbO5rW7Ik2dQrA4QoATG0mPLgQvQcm0CoRJ3++4SWbWAWYPFdsBtaJfER2I7dJ+IvfkfGOl2er7HnOAjF0t2+12kXjZLkmrrAY9iRyhNxQt8T0m4umSb1IIeaX/qFi28896c8BKvHXtQpbQ3D4jLzeqSqmk=
+	t=1784121910; cv=none; b=a7EWGAxAIXb1agc7VMiImLETa1Ec2yNdqUnS8D+UkV5X2gty7JhzGWt3KXtD0+9njjIF6mTweSFuyv0dFC1Y2x98+Cj4NXDaCXeegp3jQOtJYIV4BLxSessvDHQ8/QGOZtQUxCDqcyccQN7IrV/HbZPu6lFuhQ3livLyOVqmZlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784121443; c=relaxed/simple;
-	bh=dVD4iuo97brWRnCpYdjazBjnURP/rgBRcBF9ihtcOIY=;
+	s=arc-20240116; t=1784121910; c=relaxed/simple;
+	bh=4so41e1QXZIwEbPARnxJRW5U8N9Bz1vyapVSOzV4P2M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QI49xOduMoPBxXNL3z3Z7nfhw2fBc+gPHx4HSrLdVgSU19K1GnnMpaGKE8fWAONEGIqRdYSjdtbhvZKTqxnZp/nIqXdzjpexFzr/FSXFKCA9zwmB7c6HABixnjZtiBBAApUx7butjg8BbUMTNO7LgW6PabeX0UJCCqnVo4QQ1bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kXj63vxV; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=IVAXmQa2cLzi/sFudn5HrQohY8scLuf4rGovs7g4rHdHfLahEwMwjib7mk/W7rXjg55ENCiCx9GB3Gk7Z4sKj+nXJar7p6GZyZ2WafvJjg50KFHcTYhl656U+FQE+wOIXqFCLbBkKSIaD/UMY28crRKNqVB4DLgUVCs3pyXK8rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=di8FdZIo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXj63vxV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308011F000E9;
-	Wed, 15 Jul 2026 13:17:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="di8FdZIo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC271F00A3A;
+	Wed, 15 Jul 2026 13:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784121441;
-	bh=I3NpSDdrD74Rmm6OzOcpLGZePIVlXYXOS4SHnZvujvI=;
+	s=k20260515; t=1784121909;
+	bh=yA5n4ZBJNYOM5XAvuYkUcIhS6+K7BY17vmNXNz94VaI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kXj63vxVzVN+062x+68aHw1yv1WyA+kbN58EYIjSJ3eAWP/svJzyLPp1GpKxY6R/B
-	 3Xcpv01m/f5Gr5dR8Kmj813DjgpkDm+JMQzZn0TrgiSkIwu0DQP/4DPObynawESRby
-	 TEjBwwbfGdJRwXpFeMNWhWC1bdFrjrBggoS+4Zge4oWAZEsbATksRFO/nOVPqEq6KO
-	 3+vYaAzs+aiuPowiEps2wcImrxF2usgxcOfUj42iF6gkkxWWKsbd8K6MjGJyWah2hd
-	 ytbQgCGrNJVQshs/3sFBdVMnts+UmYd4PiCCIsxFDHwDIXdD/JFhfL73LQZgqNPXfc
-	 PBiJimcYaYVrg==
-Message-ID: <d466b5bf-b423-497a-bd2a-affff25feaa4@kernel.org>
-Date: Wed, 15 Jul 2026 15:17:15 +0200
+	b=di8FdZIoTJt6u2WAfplVl+2S4T6ZFBhfdOjDO+HO0cbkAoER3Ja3UU+btPj0EQnNR
+	 RsKFE7HTaP1azWs+SSqsoHhvp/cGnEWfcXNPe2XkAnpEWPp1y30LcQ1Jmu7kZKDvar
+	 kCTgepdeBxkuukbQobU6z7pQGEy95Ib9PciiYA3l3Gylxd5XcTb6uzZAXTUGZbhSBJ
+	 BNv/ZJQ24kwq9/fSDGbJRFgwNNIp6kT+qW4PrjSmdCqAI5/1eb+E0u7/Fy1vbpts1M
+	 hnrsm8V3zozIRLOcim7MkFxQHswW5HTHRwHO2wZW2IFkrbGPHfGT+9HTnJpteX79df
+	 iIZb4HKXi+7AA==
+Message-ID: <ed4572f4-0074-45c5-993d-7b6533eddc31@kernel.org>
+Date: Wed, 15 Jul 2026 15:25:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] mm/page_alloc: fixup alloc_pages_nolock_noprof()
- comment
+Subject: Re: [PATCH v3 4/4] mm/page_alloc: remove a couple of VM_BUG_ON()st
 Content-Language: en-US
 To: Brendan Jackman <jackmanb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -50,10 +49,9 @@ To: Brendan Jackman <jackmanb@google.com>,
  Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
  Mike Rapoport <rppt@kernel.org>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- sashiko-bot@kernel.org
+ cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev
 References: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
- <20260715-spin-trylock-followup-v3-3-fc4d246f705d@google.com>
+ <20260715-spin-trylock-followup-v3-4-fc4d246f705d@google.com>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -94,38 +92,69 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260715-spin-trylock-followup-v3-3-fc4d246f705d@google.com>
+In-Reply-To: <20260715-spin-trylock-followup-v3-4-fc4d246f705d@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Subject has stray 't' at the end?
+
 On 7/15/26 13:03, Brendan Jackman wrote:
-> Update the comment to reflect the recent change to allow flags in
-> gfp_nolock.
+> VM_BUG_ON() is out of favour and on the way to removal, since I recently
+> touched alloc_pages_node_noprof() I am removing that invocation, and
+> also removing the __folio_alloc_node_noprof() one for consistency. If
+> this precondition is violated, the system will soon crash anyway.
 > 
-> Reported-by: sashiko-bot@kernel.org
-> Link: https://sashiko.dev/#/patchset/20260703-alloc-trylock-v5-0-c87b714e19d3%40google.com?part=6
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Suggested-by: Zi Yan <ziy@nvidia.com>
+> Link: https://lore.kernel.org/all/7F866265-3F2E-4765-B9D4-9AB898A9C4AC@nvidia.com/
+> Acked-by: Zi Yan <ziy@nvidia.com>
 > Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
 > ---
->  mm/page_alloc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  include/linux/gfp.h | 1 -
+>  mm/page_alloc.c     | 1 -
+>  2 files changed, 2 deletions(-)
 > 
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index 4d57e9c0bf204..872bc53f32ec8 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -255,7 +255,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+>  static inline
+>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+>  {
+> -	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+>  	warn_if_node_offline(nid, gfp);
+>  
+>  	return __folio_alloc_noprof(gfp, order, nid, NULL);
+
+Well if you want more cleanups, I can see in iommu_alloc_pages_node_sz():
+
+
+        /*
+         * __folio_alloc_node() does not handle NUMA_NO_NODE like
+         * alloc_pages_node() did.
+         */
+        if (nid == NUMA_NO_NODE)
+                nid = numa_mem_id();
+
+        folio = __folio_alloc_node(gfp | __GFP_ZERO, order, nid);
+
+Should we introduce folio_alloc_node() and make __folio_alloc_node()
+mm-internal, for consistency?
+
 > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index c2da85e69a0f8..25a83a57aab66 100644
+> index 25a83a57aab66..4c6815f84adc6 100644
 > --- a/mm/page_alloc.c
 > +++ b/mm/page_alloc.c
-> @@ -7983,7 +7983,8 @@ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned
->  }
->  /**
->   * alloc_pages_nolock - opportunistic reentrant allocation from any context
-> - * @gfp_flags: GFP flags. Only __GFP_ACCOUNT allowed.
-> + * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, plus some flags that get set
-> + *             internally regardless (see %gfp_nolock) are allowed.
->   * @nid: node to allocate from
->   * @order: allocation order size
->   *
+> @@ -5427,7 +5427,6 @@ struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order
+>  	if (nid == NUMA_NO_NODE)
+>  		nid = numa_mem_id();
+>  
+> -	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+>  	warn_if_node_offline(nid, gfp_mask);
+>  
+>  	return __alloc_pages_noprof(gfp_mask, order, nid, NULL, ALLOC_DEFAULT);
 > 
 
