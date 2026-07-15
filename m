@@ -1,132 +1,149 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9060D27BF7C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 06:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196EA432BC5
+	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 11:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784098718; cv=none; b=gqpFrzNAUPA3TCdliq3U4b8uGRUgj3cRUfL70m0w7Ul49gwCUafIh4Qk5aNzcEMrhE8I0091JOn2F5nBQtOpYrF/kvfxWp6Jvi+TdTgFluiD6LIP4WMx+sIsvmAC2WUWCAHuS/sgajc9DQUWpk6B8YTY9TGX7XUAJ2wUJs1OkXc=
+	t=1784113420; cv=none; b=oZTa/2Zd10uOaLi6+PMtcaDdMZC79nkVX176MnxJJBZ145hPtHf8aDcn+ii2RtvQjfqojsKA5f03NKsbIgZDHlwa2GrtEBeI1G/rR2Vyq4yC5CUy9+nEI/4lUS6HUip9aecwiI/eTG+y9TrlQMq1is8gczDGZllIiFq0ZovARc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784098718; c=relaxed/simple;
-	bh=qCFQQ2oojsPDFgKwrMlLcnMkmKkEahveakHU+wx0EvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fENPJamj8QSBUU7VeKCw1qu+7FbgH1zPYGJCB04oWqfVlI5yxN3nFQMz9VYpOZzxT5hHXBI+u2Lkp+MSRdGJ7xY7bICeP7lY8pGrsAxLT0azq1UjGreJCvWlS3Ior/baXZYuuuJlMWa/Yw5iNWiAeF5iyrBiu3O5xX7vaS9h3UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TIWmDRW4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lccC5GJs; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1784113420; c=relaxed/simple;
+	bh=OuHNTKCxUIMX67vpWylAoqXnFPUPv0sLTOv0JBYEmnM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Mv1CGBfTbSpLo1tZHWpvMTHkJLQDmbUWkNbpuHJSMeg4N/xNfLJYs9ZSkQjdJog4KKrmnGtKobE5SlKH+lfCkhDWMqOkBh1bdusGqt/22PhSfPpKh9ao3kIPLxzfvMfy1YY1l0ClPC3H5MCHatMVVwiTY+yFNy+Ar7b+0JI/KuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZT7O1/OM; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TIWmDRW4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lccC5GJs"
-Date: Wed, 15 Jul 2026 08:58:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784098714;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M0mol56OeFOLoPE50aRHGw+ca2VnBERRt74M97RUREk=;
-	b=TIWmDRW4FGasjDIy7WqLSusYTjUObf4nRjqHBNfsaWJvbQo272KaYPw6NTNO3CvIewl5kp
-	OIZ/qbV6lElnpU2I+0u/Pr/WmkyieoAmMWNL8OzxftlfKFq9Vj4Y2oQN2Y4piyRAOdmUmK
-	LCy5UvMcooQkqqiOYOcyFiwEyvjyOYNclPYc1WHCFiMC0EF9XwOAphI0AkJBcIwmDDF5ar
-	I7OmdRt8AJVJAMjenWkiOxMUHE+fzx6Dt2xQr6L9WtuCou/fAtgu9W3ESgaFQ4WZyiowRF
-	9oh5hfcE2+KU//adKJkkUa+L7SmJ4Z0l39DFAkLPBqOverJfirSzYXHgsq2XQQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784098714;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M0mol56OeFOLoPE50aRHGw+ca2VnBERRt74M97RUREk=;
-	b=lccC5GJsOFnqIHdkjERveWjvsMWe+8tdazhZB/+RL2ukRNuhHNJUSATmuBFVM5R5Pcgn9G
-	6kQWqDTrtGwYuhBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: MOHAMED AYMAN <mohamedaymanworkspace@gmail.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <coresight@lists.linaro.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v2] coresight: Fix scheduling while atomic in
- coresight_put_percpu_source_ref()
-Message-ID: <20260715065832.qI7c2Px5@linutronix.de>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
- <20260713230028.8046-1-mohamedaymanworkspace@gmail.com>
- <20260714104252.NuPnAQyJ@linutronix.de>
- <CABWZVho1=oJHU6U16Kc-Nh1bQbn07oz7PPkM9Diy=JS0beGjFQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZT7O1/OM"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-493c20d0468so22344335e9.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 04:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784113417; x=1784718217; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:mime-version:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BvOk2rkLE/yZxPV4YYeXjAMJoxjIiJfLSZRx9VhA7SI=;
+        b=ZT7O1/OM8rW4PFTfitMXQDEDyhFzNJqhmZ88zaPUZFSXFMOVAyWKiFBHuc/XN8gmjT
+         ESRUdH5OQVSeASwkuyT7ZfUL/YbGk9190f2G+kyH//cKxRuW9nMjmr5gSCgDFhQ0x1fI
+         kr4M4yCj7Ssemq73H4fmAqOZ8yo+LpIxdVLB859AKgvimVGVU0lWboKF+Qm//2NbNIEM
+         Yl3uhDyrQEDhRy2ooQEUgfJR5MIat3CNKHJdXWU4UIKmhnGMzbK3+F6ksR7HtPdEOgtX
+         0uZPOuPJAk+9n+qAsXydvhnLxvSqAcWigzKd68E+FlTovlVq66sxbmXV9lNt0LOm3ZS3
+         Nuaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784113417; x=1784718217;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:mime-version:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BvOk2rkLE/yZxPV4YYeXjAMJoxjIiJfLSZRx9VhA7SI=;
+        b=qsK/QN50jckrTdhsQFcIxu8GZjR45GcFgWxKPMzT2YhSb+ObxhSYdqNQQahRrcwWwb
+         ijnmB74oM8NvgvS5k/mXrJUo10dnpSQUzyFFnFWJDImvQtriDCaygOYv7ICLXD7noUZ1
+         IPZzvGJsY0ytuRl8ExXRbsbR+hJdIOEz4wIA0xlgzEiQ5NxfPYdEz7BzH2vYlqAeUiKg
+         ZoF8mNQ9QkvMbjNyDAPVh0u7iJOBytg0tl0qM+APGnCl+aNZqtwR3h4HlqROW10ExMG+
+         81qwXu93peABMHQ6CyJ3eqiA8I6qXjAhVXt8j8HW2GvLugnzrTXLcRzUMj1cg99qDCeN
+         VlVg==
+X-Forwarded-Encrypted: i=1; AHgh+Rroj98hKh0nZUFlMITe1skJ81dphTzOrozLK3ulYSj89iPMC6B2/BiX63o3aBpoSHJIhGL3vUjR6u0R1d7Vlg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxReUeb9cE8AR6AsOC2x1UsjBewDx4te5C4spKrEiQ0XP5TTRGX
+	iiOE6oT7aELKXuwiwRQS8dLR0C8QvYlGe2lkmIISNiDIrynHUAom4yNMUcXgZSl80BdLMx5LZdQ
+	VMrGNoNWn3D8/SA==
+X-Received: from wmoq16.prod.google.com ([2002:a05:600c:46d0:b0:493:b593:ca9f])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4f8a:b0:493:f7c8:eae2 with SMTP id 5b1f17b1804b1-493f87e6e9cmr175096055e9.15.1784113417076;
+ Wed, 15 Jul 2026 04:03:37 -0700 (PDT)
+Date: Wed, 15 Jul 2026 11:03:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CABWZVho1=oJHU6U16Kc-Nh1bQbn07oz7PPkM9Diy=JS0beGjFQ@mail.gmail.com>
-
-On 2026-07-14 22:42:12 [+0300], MOHAMED AYMAN wrote:
-> Hi Sebastian,
-Hi Mohamed,
-
-> Thank you for the review and the feedback.
-> 
-> Regarding the commit message:
-> You are completely right. I will update the wording in the v4 patch to
-> explicitly state that it "uses a spinlock_t for locking which becomes
-> a sleeping lock on PREEMPT_RT" instead of calling it an rt_mutex
-> directly.
-> 
-> Regarding the module-ref counter:
-> We don't explicitly bump the module reference count for each new
-> device. Instead, we rely on `destroy_workqueue(coresight_wq)` inside
-> `coresight_exit()`. `destroy_workqueue()` synchronously drains all
-> pending work items before returning, which ensures no deferred puts
-> are executed after the module is unmapped.
-
-But what stops the module unload before all devices are released?
-
-> Regarding deferring coresight_device_release() vs put_device():
-> My initial v1 patch did exactly what you suggested, it only deferred
-> the body of `coresight_device_release()`. However, it was pointed out
-> that `put_device()` synchronously recurses into `kobject_cleanup()`,
-> which invokes the child's release function and immediately afterwards
-> calls `kobject_put(parent)`.
-> 
-> If we only defer the child's release callback, the `put_device()` call
-> itself will still execute in the atomic CPU_PM notifier context. If
-> the parent device's release path acquires any sleeping locks, we will
-> still hit a "scheduling while atomic" panic. Deferring `put_device()`
-> entirely protects against this parent cascade.
-> 
-> If it is strictly guaranteed that Coresight parent devices (liike
-> AMBA) will never sleep during their release paths, I can happily
-> revert to the simpler approach of just deferring
-> `coresight_device_release()`.
-> 
-> Would you prefer I revert to deferring just the release function, or
-> keep the current architecture to safeguard the parent put?
-
-Well deferring as I suggested if the kobj goes away is a not good.
-That I part I didn't get: You have the call chain:
-|  coresight_cpu_pm_notify() (IRQs off)
-|    -> coresight_put_percpu_source_ref()
-|      -> put_device()
-|        -> coresight_device_release()
-|          -> free_percpu()
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAPVoV2oC/4XNQQ6CMBQE0KuQrq35tIDBlfcwLqD8QrVS0kKVE
+ O5uixtdGJeTzLxZiEOr0JFjshCLXjll+hD4LiGiq/oWqWpCJgxYAYcUqBtUT0c7ayNuVBqtzWM
+ aKOdMFLxAaMqShO1gUarn5p4v7+ym+opijFhsdMqNxs7bsU9j79+HTynQSso6l5hjA3BqjWk17 oW5k3ji2SeT/WJYYLhgEAjO6jT7YtZ1fQEIegvxFAEAAA==
+X-Change-Id: 20260710-spin-trylock-followup-332c636e0d99
+X-Mailer: b4 0.15.2
+Message-ID: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
+Subject: [PATCH v3 0/4] mm/page_alloc: couple of followups for recent cleanups
+From: Brendan Jackman <jackmanb@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Waiman Long <longman@redhat.com>, 
+	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	"=?utf-8?q?Michal_Koutn=C3=BD?=" <mkoutny@suse.com>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, sashiko-bot@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
 
-What you skipped is coresight_cpu_get_active_path() and this one has a
-get and a put. Your put has a irqlock on coresight_dev_lock which I am
-not sure you need. But more importantly, why is the reference going back
-to 0? There would have to be a coresight_clear_percpu_source() in
-between, right?
 
-If you could avoid grabbing a reference in the coresight_cpu_pm_notify()
-path then we wouldn't have that problem or is there more to it?
+---
+Changes in v3:
+- Fixed Sashiko Links: (Zi Yan)
+- Fixed kerneldoc syntax (Sashiko)
+- Removed extra VM_BUG_ON() (Sashiko)
+- Link to v2: https://patch.msgid.link/20260714-spin-trylock-followup-v2-0-=
+3c20ed032b14@google.com
 
-> Best regards,,
-> Mohamed Ayman
+Changes in v2:
+- Separated from functional fixes
+- Added cpuset cleanup, comment fixup, VM_BUG_ON() removal from Zi Yan's
+  review of [0].
+- Link to v1: https://patch.msgid.link/20260710-spin-trylock-followup-v1-0-=
+affb5fe5ed00@google.com
 
-Sebastian
+Based on mm-new, these are followups to [0]
+
+The alloc_pages_nolock_noprof() comment fixup could be squashed into
+"mm/page_alloc: relax GFP WARN in nolock allocs" - currently
+11770f8836f44 in mm-new.
+
+The VM_BUG_ON() removal could be squashed into "mm: remove
+__alloc_pages_node()", currently fba100a6cdfc5.
+[0]: https://lore.kernel.org/all/20260703-alloc-trylock-v5-0-c87b714e19d3@g=
+oogle.com/
+
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+To: Michal Hocko <mhocko@suse.com>
+To: Brendan Jackman <jackmanb@google.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+To: Zi Yan <ziy@nvidia.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Clark Williams <clrkwllms@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Waiman Long <longman@redhat.com>
+To: Ridong Chen <ridong.chen@linux.dev>
+To: Tejun Heo <tj@kernel.org>
+To: Michal Koutn=C3=BD <mkoutny@suse.com>
+To: David Hildenbrand <david@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: cgroups@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev
+
+---
+Brendan Jackman (4):
+      mm/page_alloc: rename FPI_TRYLOCK -> FPI_NOLOCK
+      cgroup/cpuset: update some comments about the page allocator
+      mm/page_alloc: fixup alloc_pages_nolock_noprof() comment
+      mm/page_alloc: remove a couple of VM_BUG_ON()st
+
+ include/linux/gfp.h    |  1 -
+ kernel/cgroup/cpuset.c | 13 +++++--------
+ mm/page_alloc.c        | 22 +++++++++++-----------
+ 3 files changed, 16 insertions(+), 20 deletions(-)
+---
+base-commit: 59c684a9908d2e6f7a791f7f033eae57ec2b3a61
+change-id: 20260710-spin-trylock-followup-332c636e0d99
+
+Best regards,
+-- =20
+Brendan Jackman <jackmanb@google.com>
+
