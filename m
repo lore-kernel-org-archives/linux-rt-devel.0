@@ -1,170 +1,110 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7209388E5A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 14:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C8D3815E7
+	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 15:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784125983; cv=none; b=uTmemHXkz85lyZN99CghZoZ78Fa9ky4nTIKZIwtk9v8YW8WiyAQJqvfRNMCcrDHU9IiBTKE532XY8BIgGOu8U4NtrrxievfRHvTCRKYqOEfh0Xj98EW+jO9/r72tcSAivTKWHFORMtLAAmpTsNtfyzersBJtQXJAiHViuhKGKKA=
+	t=1784127714; cv=none; b=PXUN1wG1eqkCUZjrK9jENVUxDJLlWYe5m8dnygB+2a3DNr5UCjjXQXE3nGu0bEghn5ARGXQ3KhsKZ1eCUj+KzOtAt8BdOYL+0CoDpMwWc1ir/6O4y3u72TaxZqhpoYb1TAjCYH2KgqqRsVqsZTl44Mz8gcz2z2eifAw8FnBVF4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784125983; c=relaxed/simple;
-	bh=uPj+Sc+rqsDCxvIWOjSdivoSnd+ME+gL9jxKEnqWcWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JborLsWbjrLsix+GjCleY+YwCV5B3+gdCcLOFjFu7j4iiP5yB3trj0SuCKH2IXRguR85jLzofuAJvaDJPQjVlwuK3DLTEgF17EbAMZ4pYZQ5xPRWRYFq0M6gRiMDKMhyH3PkKYRGmZRYNr+wZRpAMd5ziTt+8bKJQvLhBZae+90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C7FPdE7E; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JHRP+u0d; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1784127714; c=relaxed/simple;
+	bh=k1kqoJ3qig2IBgFwaMuCKFR8cC5FtbwhvKHacSYYEgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ETw+4hLPIGY4zGvy/Yr5eGE1ja8k4jHvRI4Is5Seu7f1PReMPtrEbpH3ofcQucllMcIkZBpOhE79oKSaFntqmoG/D7xwl4H+48vf433UIaVVufDve9T5+z3CQDbJ4JsuiKyou85NZ4lQVATBnMVKXPMCbqfGrckKKp4rBA77agE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=I7ZVS+pk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TimlBIcu; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C7FPdE7E";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JHRP+u0d"
-Date: Wed, 15 Jul 2026 16:32:52 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="I7ZVS+pk";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TimlBIcu"
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784125973;
+	s=2020; t=1784127712;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2a8q8ic7CkdM8yMLQ6ZHYx85VK0OYL++A5hUJ6/Z6IU=;
-	b=C7FPdE7Ejutrgrv816LOkEd/Q8mABS/mx9vkhcjk7hJeo8lo8UhqH2DCw2zP5eJuzWLJWm
-	sYSnqA9LD17Z9GCPHjiua4HMavNwO/rWKzNQYNgZgWiMXTFPHAsbQoQQ9cfUZVKw9x0vK3
-	m4vuDE8008bwcPBZoajv1c6KxNjW/llUpuseU2AKQR+OyReZ0SHwhT2g0L++lbEoptgHnj
-	ulwuz0RKgE8V/1S8UxqrAXgheVWcAe+JHLuI+nPSZcePTXeqgbrn5i7OHOcSxpWQ7bNiLJ
-	4WUp/Nga6b9IV+HS8jNtf+7uVnuPvgi/PKWL2BLUYqMxdT6zMW0ZbimHl5A8/g==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mRaHrK9A59TB9ieo0GwP65DcSFK32X8hnB3vC0Accqk=;
+	b=I7ZVS+pkbP2DGf5WPnYuKQB6L/u6Uk62Mx3UnOOVKOAJpZ8wqwvfhbOV7EKEI57Kgy3F0U
+	QA2jagwaBk4a/VUasz9UGjS/dGFIFlADp64uVjcFA/ksZy/T0+Xaw2KroS3xUT5zfuL9s+
+	o5Gyf5/gf65ev9zg3tbZBfsDggh2uel5TWR4R/JkSdj9Y7aavg+DwXxTUmTU7Nyt0wKTUi
+	kZvyTjdZLufvkt121AuhD8lnbiOa7N58MvYY/L9G5JlGLwQJbCimSF7xvg9XbBBOjPpaF7
+	SuV6QbPHTqMdPKp/Oy5cZhiy76RyczR8LsoKq3wo+adXBQK+pf1kvsC87Iwv4w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784125973;
+	s=2020e; t=1784127712;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2a8q8ic7CkdM8yMLQ6ZHYx85VK0OYL++A5hUJ6/Z6IU=;
-	b=JHRP+u0ds15P1h+Rp0LrpTj5s8BL33X4/0jrF2XZLD4aFKgaJA2yJZo17A5Z+lR1s1dQyH
-	QxutI5RqM6WZQeBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, Long Li <longli@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>
-Subject: Re: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
- with lockdep annotation
-Message-ID: <20260715143252.gWEZfb5B@linutronix.de>
-References: <20260401151517.1743555-1-bigeasy@linutronix.de>
- <20260401151517.1743555-2-bigeasy@linutronix.de>
- <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mRaHrK9A59TB9ieo0GwP65DcSFK32X8hnB3vC0Accqk=;
+	b=TimlBIcuoTjTOmxMpvAwavrwwxywtkx9nEIGjArwEqko6/Knze1W5anqVGuvK0tjfxeVdU
+	F7usCJVytCVpuDCQ==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: [PATCH v3 0/1] Documentation: Add real-time kernel configuration guide
+Date: Wed, 15 Jul 2026 17:01:45 +0200
+Message-ID: <20260715150147.225715-1-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On 2026-04-04 01:22:08 [+0000], Michael Kelley wrote:
-> Nit: For historical consistency, use "Drivers: hv: vmbus:" as the prefix for the
-> patch "Subject:" line.  Same in Patch 2 of this series.
+Hi,
 
-okay.
+There is a no "one size fits all" solution for configuring a PREEMPT_RT
+kernel.
 
-> Also, any reason not to have copied linux-kernel@vger.kernel.org? I know this
-> is pretty much just a Hyper-V thing, but I would have liked to see what the
-> Sashiko AI did with these two patches. :-)
+Intorduce a PREEMPT_RT kernel configuration guide to better help system
+developers and integrators.
 
-Can do.
+Changelog v3
+------------
 
-> > lockdep_hardirq_threaded() is supposed to be used within IRQ core code
-> > and not within drivers. It is not obvious from within the driver, that
-> > this is the only interrupt service routing and that it is not shared
-> > handler.
-> 
-> I presume you meant "routine". And what do you mean by "the only interrupt
-> service routine"? And why is the lack of obviousness relevant here? I don't have
-> deep expertise in lockdep, but evidently there's some conclusion to reach and it
-> would have helped me to have it spelled out.
+CONFIG_EFI_DISABLE_RUNTIME: Mention that system integrators can now assign
+the efi_runtime workqueue CPU affinity, then safely pin RT tasks on a
+different CPU range.
 
-You use lockdep_hardirq_threaded() which marks the hardirq as a thread
-for lockdep purposes. The reason is that the IRQ core will force-thread
-the handler and the whole routine will be threaded. It does invoke the
-function and the very begin and nothing else will be done.
+Changelog v2
+------------
 
-vmbus_isr() is using it before __vmbus_isr() is invoked and there can be
-other functions/ ISRs that are invoked afterwards which would be wrongly
-recognized.
-To make it more concrete: sysvec_hyperv_callback() invokes mshv_handler
-and vmbus_handler. Would vmbus_handler() be invoked first then it will
-"spill" this lockdep attribute into mshv_handler(). Nested locks in
-mshv_handler() would not be visible then.
-This override limits it only to __vmbus_isr() while the RT case above is
-using vmbus_irqd_wake().
+https://msgid.link/20260414174159.1271171-1-darwi@linutronix.de
 
-> > 
-> > Replace lockdep_hardirq_threaded() with a lockdep annotation limiting
-> > threaded context on PREEMPT_RT to __vmbus_isr().
-> 
-> Again, I'm not clear what "limiting threaded context" means. But see my
-> additional comment further down.
+Handle Rostedt remarks:
 
-Does the explanation above make it clear?
+- Better reword certain paragraphs and statements
+- Warn about enabling CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER
 
-> > 
-> > Fixes: f8e6343b7a89c ("Drivers: hv: vmbus: Use kthread for vmbus interrupts on PREEMPT_RT")
-> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > ---
-> >  drivers/hv/vmbus_drv.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> > index bc4fc1951ae1c..e44275370ac2a 100644
-> > --- a/drivers/hv/vmbus_drv.c
-> > +++ b/drivers/hv/vmbus_drv.c
-> > @@ -1407,8 +1407,11 @@ void vmbus_isr(void)
-> >  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
-> >  		vmbus_irqd_wake();
-> >  	} else {
-> > -		lockdep_hardirq_threaded();
-> 
-> I see two similar occurrences of LD_WAIT_CONFIG in the kernel:
-> __kfree_rcu_sheaf() and adjacent to printk_legacy_allow_spinlock_enter().
-> Both occurrences have a multi-line comment explaining the "why". I'd like
-> to see a similar comment here so that drive-by readers of the code have 
-> some idea of what's going on. My suggestion is something like this:
-> 
->    vmbus_isr() always runs at hard IRQ level -- the interrupt is not threaded. It
->    calls __vmbus_isr() here, which may obtain the spinlock_t sched_lock for
->    a VMBus channel in vmbus_chan_sched(). If CONFIG_PROVE_LOCKING=y,
->    lockdep complains because obtaining spinlock_t's is not permitted at hard
->    IRQ level in PREEMPT_RT configurations. However, the PREEMPT_RT path
->    is handled separately above, so there's actually not a problem. Tell
->    lockdep that acquiring the spinlock_t is valid by temporarily raising
->    the wait-type to LD_WAIT_CONFIG using the "fake" lock vmbus_map.
->    If lockdep is not enabled, the acquire & release of the fake lock are no-ops,
->    so performance is not impacted.
-> 
-> Please review my suggested text and revise as appropriate, as I'm far
-> from an expert on any of this. The above is based on what I've learned
-> just now from a bit of research.
+Handle Wilcox remarks:
 
-What about?
-  vmbus_isr is never force-threaded and always invoked at hard IRQ level.
-  __vmbus_isr() below can acquire a spinlock_t which becomes a sleeping
-  lock and must not be acquired in this context. Therefore on PREEMPT_RT
-  this will be threaded via vmbus_irqd_wake(). On non-PREEMPT the
-  annotation lets lockdep know that acquiring a spinlock_t is not an
-  issue.
+- Remove ToC comment + minor rewording
 
-> And thanks for jumping in and making all this better ....
+Changelog v1
+------------
 
-so I've been looking at __vmbus_isr() and vmbus_chan_sched() seems fine.
-vmbus_message_sched() on the handler invokes hv_stimer0_isr() which
-should not be done in the thread but in the hardirq. Is this the only
-timer in the system or some legacy thingy that is no longer used?
+https://msgid.link/20260305205023.361530-1-darwi@linutronix.de
 
-And there is a lot of tasklet involved which mandates a
-local_bh_disable()/enable() in run_vmbus_irqd() around the function or
-everything gets pushed into ksoftirqd.
+Thanks,
 
-> Michael
+8<-----
 
-Sebastian
+Ahmed S. Darwish (1):
+  Documentation: real-time: Add kernel configuration guide
+
+ Documentation/core-api/real-time/index.rst    |   1 +
+ .../real-time/kernel-configuration.rst        | 313 ++++++++++++++++++
+ 2 files changed, 314 insertions(+)
+ create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
+
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+-- 
+2.54.0
+
