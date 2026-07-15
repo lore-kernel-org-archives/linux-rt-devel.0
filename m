@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D211E5B68;
-	Wed, 15 Jul 2026 00:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2C326158C;
+	Wed, 15 Jul 2026 00:23:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784075031; cv=none; b=XgXx3ceE5oHi0339j+YeZ/gAmsmXFz7lE35ibVfxJmOChvT2PR8E5UQFLaYulfhZMZu56/Qy2tYE9SStHKl0hA17OUF4NGheZxeSmlhrZFzMUwjCKuwhIglAq4pG2gOs+aW2jXyQLqYeuNUgeaaWsvy5/Mpn7EBz1ei3PyZ3XJs=
+	t=1784075032; cv=none; b=N4iqYR9SpT4NIqsLEJ2BCOl8jw6dY5c/MX1Si3Qk193JPudflRybE6LsSP68hvNJglS7AEur0quRs24sxkE25RDSrwNLFgCvPy2iodGNYAg8rv5DP3vvN3cFPwqP2OAlEUpNIEg9Hq18njTe0y01tOmE59FscJdjvcCYw5OyR1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784075031; c=relaxed/simple;
-	bh=9IrDESLBODps6b/MrN1OK5NOij2ro1fCuRbGEvFirgg=;
+	s=arc-20240116; t=1784075032; c=relaxed/simple;
+	bh=aZiQSJwTBJSWxKbkX3vpeELVRct4/V+YDRIm9sOQ0+I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=p7MDlwTkFEr3S8Juy0l+xgvx414h1kVgR9ehaQFXTiGMvgaCrKmt8lFsFmQYykZxJhM1Sy4oLkNxbzyQwV27oZ1auHs0Ifvud4O1Tzx4FSfN646c4JGpKkC00pX9gYH1PW/ykLnlobQ/GhHuDtOyzIGqTbOD5T1apjmgsWKSfsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XJjFVnu/; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=j04SJfq6dWIqjLl5JLXXR/V5JMintG7aev6jPoZ6xP8bDrRUBsXDvADG0jYPqV3AQ9JYgJpnGsvRys6QZlg48FtDBckHQ0GYlb79QVLlzT4CDZOzMPy0p1G03HrHqAZ7Ohy+BhD6S5UTz13LENoaEcFkJ0zWK+V1acHQGponSO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJsKE1/s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJjFVnu/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 026611F00ADB;
-	Wed, 15 Jul 2026 00:23:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJsKE1/s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A971F00ACF;
+	Wed, 15 Jul 2026 00:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784075029;
-	bh=COwVRmFiam0JgsBH5zSv6qcJkLMNhPBYvpYuXgJw4PU=;
+	s=k20260515; t=1784075030;
+	bh=zBlXOadNEPylDjXjqjxYjc2w9yWcyZsP/8r9fw02Ymg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XJjFVnu/eqp0cR8u0heWHkwabtV3Wh5dcLAVLl63MlxiKOsoZX2vY/fYEL8+q6tyc
-	 g9+3ly165LsPmnJvmlQq9YFQ+TXSMcb5HDPg23+xSjTsBReY8YMnVWAi63615aVj29
-	 K5xo7MynObZSYbl1NlSzZ6qyibfBA2OQbRynwKoGWcXl1v7OVW9aAiPsGTk4VYsLwc
-	 aTtXh+CMK60PidkCn+BpKu/S/ZJA8owouqHO0RotiM7wRS1hxbiwfUadA8GZhoXNZy
-	 /glr4YOb9ReWcWO12iBC6KkKZo6x74ANQVMI2ZqW9mW88H8nPCiXe7VXbb9jPVVNcP
-	 m6NT8ucjWN9zQ==
+	b=EJsKE1/s5WrINpi+SXkIoj4WLXfPRaiIDwBS5NF364SWawIYdz0iLUq0Iian4QwR0
+	 X5UjtxYyrEDtNza8cBVAnkBYyS8276YwHswFTXK3P4l9Xw9vO4xfP7r1MqaCfUtAXQ
+	 ClSv1yjkeNkVlWGvkoZ4bThWM3EA/3kiKnM7VF1ZrHb5E7CFyhuT0qtVAtFqtV55ox
+	 6lVACj4oaVG5HLCqHACEyXVDwbnciKE4YlM0nhnDULthiSKYsF1oMwsbRjpygwExWB
+	 UTtaMI1pkAg8eiB1xMK4KZ4FX0y8ichoRXwwAgy5YfNTDDX+z9hr6BOADT8mPZzqOP
+	 dvCIbOsqpRBXQ==
 From: Drew Fustini <fustini@kernel.org>
-Date: Tue, 14 Jul 2026 17:23:28 -0700
-Subject: [PATCH v5 6/8] riscv: Enable resctrl filesystem for Ssqosid
+Date: Tue, 14 Jul 2026 17:23:29 -0700
+Subject: [PATCH v5 7/8] dt-bindings: riscv: Add binding for CBQRI
+ controllers
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-dfustini-atl-sc-cbqri-dt-v5-6-b0ae7e9c932e@kernel.org>
+Message-Id: <20260714-dfustini-atl-sc-cbqri-dt-v5-7-b0ae7e9c932e@kernel.org>
 References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
 In-Reply-To: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
 To: Adrien Ricciardi <aricciardi@baylibre.com>, 
@@ -69,49 +70,147 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1394; i=fustini@kernel.org;
- h=from:subject:message-id; bh=9IrDESLBODps6b/MrN1OK5NOij2ro1fCuRbGEvFirgg=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSFXRbMOGhdJFF4btcy3TqFukUiKycdcTH48MGk/FiR5
- tuIyi8zO0pZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQATuW/M8E89tOJA5tHbE/I1
- 8o3FzS6Ur5GRfHq/dlllj9jHbyW3m7sZ/ufreGuV1XGX3Z2RnPQv3/ZdWAjLX52lHFz1l3weHF1
- 1gAEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4724; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=aZiQSJwTBJSWxKbkX3vpeELVRct4/V+YDRIm9sOQ0+I=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSFXRZ8yzC5fcau9tTNE2qNXtnIf7nk9sTa+8P0JyuZD
+ 937JvXudkcpC4MYF4OsmCLLpg95F5Z4hX5dMP/FNpg5rEwgQxi4OAVgIlf4GRk2Nci2b3ptccJ9
+ vb++1zNu7ooHU+25w3jNdsoeq//BkRLL8D9k5YcXKnqFthm/vV9qfxMv4lnfsLxx8jXFUwz7/h2
+ dvZ0JAA==
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Make RISCV_CBQRI a user-selectable option (default y) that depends on
-RISCV_ISA_SSQOSID, rather than having RISCV_ISA_SSQOSID select it
-unconditionally. A user with Ssqosid hardware can now build a kernel
-without the CBQRI resctrl support if they do not want it, while the
-default keeps it enabled.
+Document the device tree binding for RISC-V CBQRI capacity and bandwidth
+controllers. Each controller is named by a device-specific compatible
+followed by the generic compatible. The binding also describes the
+common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
+optional riscv,cbqri-cache phandle that links a capacity controller to
+the cache whose capacity it allocates.
 
-RISCV_CBQRI selects ARCH_HAS_CPU_RESCTRL, which makes RESCTRL_FS
-available on RISC-V, since resctrl is only meaningful when the CBQRI
-core that backs it is built.
-
-The resctrl filesystem integration is gated separately by
-RISCV_CBQRI_RESCTRL_FS, a silent option that defaults to y when both
-RISCV_CBQRI and RESCTRL_FS are enabled. Enabling the resctrl filesystem
-itself stays a user choice via the standard fs/Kconfig MISC_FILESYSTEMS
-menu.
-
+Assisted-by: Claude:claude-opus-4-8
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- drivers/resctrl/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 98 insertions(+)
 
-diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-index f8566c003d49..68b4124df396 100644
---- a/drivers/resctrl/Kconfig
-+++ b/drivers/resctrl/Kconfig
-@@ -33,6 +33,8 @@ config ARM64_MPAM_RESCTRL_FS
- menuconfig RISCV_CBQRI
- 	bool "RISC-V CBQRI support"
- 	depends on RISCV && RISCV_ISA_SSQOSID
-+	select ARCH_HAS_CPU_RESCTRL
-+	default y
- 	help
- 	  Capacity and Bandwidth QoS Register Interface (CBQRI) support for
- 	  RISC-V cache QoS resources. CBQRI exposes cache capacity
+diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+new file mode 100644
+index 000000000000..62d547a0cb96
+--- /dev/null
++++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) controller
++
++description: |
++  The RISC-V CBQRI specification defines capacity-controller and
++  bandwidth-controller register blocks that allocate cache capacity and memory
++  bandwidth to resource-control IDs (RCIDs) and monitor usage per
++  monitoring-counter ID (MCID):
++  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
++
++  Allocation and monitoring share one register block, and a controller may
++  implement either or both. A driver discovers which at runtime from the
++  capabilities register, so the compatible names only the controller type. It
++  does not distinguish allocation-only, monitoring-only or combined
++  controllers, and no property declares monitoring support.
++
++maintainers:
++  - Drew Fustini <fustini@kernel.org>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - tenstorrent,ascalon-shared-cache-controller
++          - const: riscv,cbqri-capacity-controller
++      - items:
++          - {}
++          - const: riscv,cbqri-bandwidth-controller
++
++  reg:
++    maxItems: 1
++    description:
++      The CBQRI controller register block.
++
++  riscv,cbqri-rcid:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      The maximum number of RCIDs the controller supports. RCIDs are the
++      resource-control IDs that allocation operations target.
++
++  riscv,cbqri-mcid:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      The maximum number of MCIDs the controller supports. MCIDs are the
++      monitoring-counter IDs that usage-monitoring operations target. Present
++      on controllers that implement monitoring.
++
++  riscv,cbqri-cache:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Phandle to the cache node whose capacity this controller allocates.
++      Applies to capacity controllers that back a CPU cache. The cache level
++      and the harts sharing it are taken from that node's cache topology.
++
++required:
++  - compatible
++  - reg
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: tenstorrent,ascalon-shared-cache-controller
++    then:
++      required:
++        - riscv,cbqri-rcid
++        - riscv,cbqri-cache
++
++additionalProperties: false
++
++examples:
++  - |
++    l2_cache: l2-cache {
++        compatible = "cache";
++        cache-level = <2>;
++        cache-unified;
++        cache-size = <0xc00000>;
++        cache-sets = <512>;
++        cache-block-size = <64>;
++    };
++
++    qos-controller@a21a00c0 {
++        compatible = "tenstorrent,ascalon-shared-cache-controller",
++                     "riscv,cbqri-capacity-controller";
++        reg = <0xa21a00c0 0xf40>;
++        riscv,cbqri-rcid = <16>;
++        riscv,cbqri-cache = <&l2_cache>;
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b9bded8d3dd6..7acdab42e9c5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23363,6 +23363,7 @@ M:	Drew Fustini <fustini@kernel.org>
+ R:	yunhui cui <cuiyunhui@bytedance.com>
+ L:	linux-riscv@lists.infradead.org
+ S:	Supported
++F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+ F:	arch/riscv/include/asm/qos.h
+ F:	arch/riscv/include/asm/resctrl.h
+ F:	arch/riscv/kernel/qos.c
 
 -- 
 2.43.0
