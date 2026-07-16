@@ -1,65 +1,65 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D8A41D646
-	for <linux-rt-devel@lists.linux.dev>; Thu, 16 Jul 2026 13:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100B23CA4AB
+	for <linux-rt-devel@lists.linux.dev>; Thu, 16 Jul 2026 13:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784207619; cv=none; b=gjRV3PQ6+QbysxuHEtQLrVdrW5aeg7Cq5aEAuaTRwdowIVJa4gRy48/i+mwifsnyr2cWzRg7KFAMHWwi3b5P3p4FWLQvuVT5Q0FDoGd07E03p8eKOcCWyi1hh+ely7d492NJEojiRExoeJ/E89g0uj6HNHJVUoMpSjsYJJzrVqo=
+	t=1784208976; cv=none; b=ht8jT2z0G/X9z6cu4cQ5vEmb6SxjEDpPqrjBY29W2SQbutr55z6uQLtyIfvAhuiwxcNIEbKr8P25bWj/z6rZGXSezQigfPKEC6IqYR2gcmH5Hlu8pHWTJKy9jN1zG77zbausED7zvVbWCDI+20z8EdQEccsYbbWAtCsYxLa8Ja4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784207619; c=relaxed/simple;
-	bh=l2wYlPKoPn1wcA0Cb9ElP+k05wUzmXs20MA4PcGRH6s=;
+	s=arc-20240116; t=1784208976; c=relaxed/simple;
+	bh=Oecs3cF7VsLepHL3npOZJPC4VeDjnKqWP0cNPB4v85I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i09NkDZgPr419V5692wnTp/8CJ5fUzW2Hgdt98n4xp7B2mwYClViMdYYy+35UtEzUTjN/eDY2Z7ZxTtgcCVLh/5o/rO/Z8cuHPi0BEL/bft29TKBXIH5DG2u5Nfg2ABmPo2/++fP5KEUSz+BURdQ2OEQZSQDpwUEjrT6cUUWGXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=E+9Sk7hc; arc=none smtp.client-ip=209.85.128.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=sy95usov/BDSaYZ387oBaKDwZAHKfRSTqQUBRjF1ipGAOmIZP3N8XjSK9dplfdeykFumcwHvI874RJxWVtJDRJBdcidiL4YQnMNJb0xN55B+UiVD5UMpZqM5EITmHeSwjFGHcDNuKTAvy1FZpqRbdTLq499GsCWHEcYXen08uUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BL+kYXD2; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="E+9Sk7hc"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f25d47dcso19393705e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 16 Jul 2026 06:13:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BL+kYXD2"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so54550905e9.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 16 Jul 2026 06:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784207611; x=1784812411; darn=lists.linux.dev;
+        d=suse.com; s=google; t=1784208972; x=1784813772; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=HP1xYRFn9L2tLIdTryxjblP9c+avAGhHub41HiA5F0c=;
-        b=E+9Sk7hcqKfy5wW80j1hqIFATNgAbLyiiEN0AW3EYGvZYUwq5KWPzEHsY7bYrcvgKK
-         sIXxysUAfu1UfeS+WivvWzUk8RejoWq80kTjtPAzV1F7i2CkPPTKfyxo926CJmWXQfP6
-         L/GqolTfEQIo7cRhJ87reBnaFbdCsv7f+mDTDYXIVf/2ZmJvcJUw7mQUkGSr5nchT2io
-         +hI/06pEbzJrQ2BhCKgPZjauA0B/mc1KIjbdiv7SDnOqNxRd9ENyNyvFS1Q/G9W3WJT6
-         pfPWS7LWlSCtqkNBsEFp7D6814J5rT5R3UY71EDpfPebrjthBETxxvUDQqMmHfWgZK1i
-         5LFg==
+        bh=ZxMW+cZvUWvRljOA6VXL+6atXYnie85udU5ilmsN1H0=;
+        b=BL+kYXD2ehZoyLW867XsmeWG4DPCk+VrKWTQtD+uSkI60lu+Ybo9/UETF+FAZPfKJm
+         WaOXb7ehTq10SxwgF1gKLWiL5UZdg9f1Cq00yzNNZje08BAnHD+SAbYG/epUhD/6uCsS
+         e6WYqb2YxbpXda3RvxAovZNkkSv/WYOhABaurQKejBlatFO7VbGjdw3QxbcpKEBd2n1X
+         d4pDbbzRms2wVJoa8OSMGFTjLQQO1eps6D9Fi+82/WfJrzDHJSfImWiUJrez6BlSZ9eS
+         SzY3WZNMH66wyW/GwGEiHYXABG7lVWCgjY2rCQznGXLH+jHssAxsnd13hAZozLmT3Z4Z
+         4JvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784207611; x=1784812411;
+        d=1e100.net; s=20251104; t=1784208972; x=1784813772;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HP1xYRFn9L2tLIdTryxjblP9c+avAGhHub41HiA5F0c=;
-        b=ZC2z1B8jDZvIAVP5dNezFkCjEGs3ebk5XWK8YxGnrvFgYLG0nBANF2sdnqboPAG5bi
-         Hkzq8K2uTDb8Y68rJyWJKMkrribluB2sjs6BD6IJCiAuCAAHwy9+hp+XGlI5e9Ps+EUR
-         C/yoelZLYAaczod0mxaa6Q00ejulR0coK9UoRxWT02sc7v3kgqrqoNXRn7Q/6Q4uUDKw
-         I8DmL6a8bhrDqnGNTqyA8216BFpeu/mcUDjyR7VyCYTkxY2wqA4/ubYOL2GNB59UUrT0
-         OmaQk7skZkyCoVmIgem4fi9zzkNFjrt+1UPCDuDRk5ZrgZSwzTwdlEA+yVI8ne15rRak
-         4n2g==
-X-Forwarded-Encrypted: i=1; AHgh+RoU3Cn68S0mIHam7CpWBnedWq0v0HEZP5pgV63wytJEvi3ioR+Rhr6ZbZlgQVmrrYKS4uV8RZq7S/P0scxIJQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywsw7IoFHQv/EpvmOfjxI7mjf/K7YKE+m1npII70I90vk1XhQaP
-	7hMOknApcoIh9z5DCVfgkFgX+20SMp2GynSo3Oc5T+40mLhbys3T1rVCNS8EHc6odQA=
-X-Gm-Gg: AfdE7cmobWB6b+wS2//cuvufguqmBD3TI30V2Jr9yhY77EZbDrMLx/TO3+KL+RMbVX4
-	OPL+7Pm0h/CRjcwkWuVq0bzg+GwU6eV/VPQwugtnHMT44oWvcIgq/51q/Ue3i/EFwpETotbbx4t
-	QJiaXAn7dYPfNr+/iqGImNiTFx4kfNK6LT53iKQq7b/WYoMaaGAwNaUC/dehbTzzEtvR7kCxJX8
-	eWeoyNKi8uMirYYL2oFgtfCb+3n+SLCtfA07Pl0YoBh4JsC3kQsn/fVsAhstHYYDpJ0gt8W9UxU
-	cX7hYSeSlSHNadT3qUXodsy+g/9zCHlDAXfMEDtY+kjAeLNk/umUQFCIYRyK1yPJDbXzdi1oc8E
-	s0LoGecxUMp1RG2Ms+h1p3aP2hawyECn68Wk2UwU0M/tMJKQmPS/mK2AceT+Jj26pbiB8ZuZFbV
-	Ukue/V
-X-Received: by 2002:a05:600c:4ed2:b0:495:3c8c:c16a with SMTP id 5b1f17b1804b1-49541248d08mr37275695e9.0.1784207611203;
-        Thu, 16 Jul 2026 06:13:31 -0700 (PDT)
+        bh=ZxMW+cZvUWvRljOA6VXL+6atXYnie85udU5ilmsN1H0=;
+        b=WUJ2ES73rCD7xqP90jCbl1xE174wYOD4Eq5TqOtrjd6BbJVAk9UCDhTie7kXUdHTV/
+         JuQP2zKvsTDXEqCZ34y6jipKOer5w1tVJkw3bie97TB4JqN/LCEmgweQtjql4iaLS1f1
+         rkTqnGNfiAO3+kssANXusNTf0Kmt94BlZvOLLVmSCTiFHZX09ydGgSzj9zX8vHRoomjS
+         6SLGO/xwY8vJs0EEMtTw+X6SsPvwhKzWbV/kfLF3CR9+tjSzmyN7yig9+mPBGdljxupr
+         z4sLNfcy3ELVvrnR1SftdlJd1Vg5/tp4W4m4uYaDDwtaOqZerxthVfGq+Tm4Gl5B8uDj
+         YVxg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+UhrjalEB8TdbANZlVWucBdoVhEdmrZ15b38eedKArzmEOWsNiiibuvMDV0aTQdH9KZwvSWvbsgEYz5EXKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6jYI+MnhaOvJOAsT/D0TzJ3Sggit4xxWT11VDJja2U0brWFQ1
+	9CSKI1HpjP7Fe4ImecLpwZ880C64xg3K82Wm5CXxw+42jh6g43ZNi3cuae+Gip1SA/8=
+X-Gm-Gg: AfdE7ckBvIO2na4vsgC8ROFor9P6ogxWLd9L5iQWlJfDGUaTwB3OXPRS/cgAbjU9pUc
+	qLds66GbI/qGBjkcLL06zXcE5HmpPv+sVeXCBxIjS8SvHjaSR1nwK2LA//sBrJqL/xo6Vxz1uc8
+	jKd4sUSEMq9dsPWVf+LAUTpavwpvlKFU6cNfKmx5LYL5R8Gjcr6UPnizTZE39i4mgDLLX1CLdhA
+	7Cy8sirYgsmW6cUO6yZURFs7PH/EJ8ldOXMm/h1QJsuoCBFHwu7FcvN1RrfzSHGkVVhXBVfwkef
+	jladNdVbVJN6I3vJwfcoF3wMyG4JxqVs2qITxU0iBBZvNpXYsed0R85cbIUi39OS+zoFEzOnOqP
+	0LouHRj/3oDvwQ/dhT4mvhv2LlyCovtCfTBT9QGjhN4poPgU4WS6yZZUojXqKKLbwNVDMaSvLKZ
+	ncy9d7
+X-Received: by 2002:a05:600d:644d:20b0:493:c601:3e23 with SMTP id 5b1f17b1804b1-49538992cfbmr95343205e9.5.1784208972253;
+        Thu, 16 Jul 2026 06:36:12 -0700 (PDT)
 Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4953c7006dfsm90819375e9.1.2026.07.16.06.13.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f464c1f84sm24902683f8f.29.2026.07.16.06.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 06:13:29 -0700 (PDT)
-Date: Thu, 16 Jul 2026 15:13:27 +0200
+        Thu, 16 Jul 2026 06:36:12 -0700 (PDT)
+Date: Thu, 16 Jul 2026 15:36:09 +0200
 From: Petr Mladek <pmladek@suse.com>
 To: Andrew Murray <amurray@thegoodpenguin.co.uk>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
@@ -78,10 +78,11 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 2/6] printk: add bounds checking to boot_delay
-Message-ID: <aljY9xfK-TcU_Fpf@pathway.suse.cz>
+Subject: Re: [PATCH v3 4/6] printk: deprecate boot_delay in favour of
+ printk_delay
+Message-ID: <aljeSRmY7K38ySmL@pathway.suse.cz>
 References: <20260712-printkcleanup-v3-0-574547b8f71b@thegoodpenguin.co.uk>
- <20260712-printkcleanup-v3-2-574547b8f71b@thegoodpenguin.co.uk>
+ <20260712-printkcleanup-v3-4-574547b8f71b@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -90,71 +91,35 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260712-printkcleanup-v3-2-574547b8f71b@thegoodpenguin.co.uk>
+In-Reply-To: <20260712-printkcleanup-v3-4-574547b8f71b@thegoodpenguin.co.uk>
 
-On Sun 2026-07-12 11:20:33, Andrew Murray wrote:
-> As the boot_delay kernel parameter represents a duration in
-> milliseconds, let's set its type to be unsigned int and add
-> bounds checking.
+On Sun 2026-07-12 11:20:35, Andrew Murray wrote:
+> The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
+> are two distinct mechanisms for providing similar functionality which add a
+> delay prior to each printed printk message.
 > 
-> Please note that the existing pr_debug will only be displayed
-> when boot_delay is non-zero:
+> boot_delay provides a kernel parameter for delaying printk output from
+> kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
+> configurable only via sysctl and thus is only used post boot.
 > 
->  pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
->           "HZ: %d, loops_per_msec: %llu\n",
->           printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
+> Let's deprecate the boot_delay feature in favour of printk_delay. In order
+> to preserve functionality, we'll also extend printk_delay such that it can
+> additionally configured via an early kernel parameter.
 > 
+> Behavior change:
+> 
+> The delay enabled by both "boot_delay" and "printk_delay" continues
+> working even in SYSTEM_RUNNING state. It must be explicitly stopped
+> by setting printk_delay=0 via sysctl.
+> 
+> The delay is skipped when the message is suppressed in all system
+> states. It used to skipped only for the boot_delay.
+
+s/used to skipped/used to be skipped/
+
 > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
-> ---
->  kernel/printk/printk.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index 31aabdf8248cc39c54ee11685d4a37deac1c174c..8be562c9be277670ba3209ed1f810fc87175848a 100644
-> --- a/kernel/printk/printk.c
-> +++ b/kernel/printk/printk.c
-> @@ -1291,19 +1291,22 @@ static bool suppress_message_printing(int level)
->  
->  #ifdef CONFIG_BOOT_PRINTK_DELAY
->  
-> -static int boot_delay; /* msecs delay after each printk during bootup */
-> +static unsigned int boot_delay; /* msecs delay after each printk during bootup */
->  static unsigned long long loops_per_msec;	/* based on boot_delay */
->  
->  static int __init boot_delay_setup(char *str)
->  {
->  	unsigned long lpj;
-> +	int boot_delay_val;
 
-As Sashiko AI pointed out [1], the variable should get initialized:
-
-	int boot_delay_val = 0;
-
-get_option() keeps the original (random) value, for example, when the given
-string is empty.
-
-[1] https://sashiko.dev/#/patchset/20260712-printkcleanup-v3-0-574547b8f71b%40thegoodpenguin.co.uk
-
->  	lpj = preset_lpj ? preset_lpj : 1000000;	/* some guess */
->  	loops_per_msec = (unsigned long long)lpj / 1000 * HZ;
->  
-> -	get_option(&str, &boot_delay);
-> -	if (boot_delay > 10 * 1000)
-> -		boot_delay = 0;
-> +	get_option(&str, &boot_delay_val);
-> +	if (boot_delay_val < 0 || boot_delay_val > 10 * 1000)
-> +		return 0;
-> +
-> +	boot_delay = (unsigned int)boot_delay_val;
->  
->  	pr_debug("boot_delay: %u, preset_lpj: %ld, lpj: %lu, "
->  		"HZ: %d, loops_per_msec: %llu\n",
-
-The problem gets fixed in 4th patch. But should fix it here as well
-to do not break bisection. Also later changes might get reverted from
-other reasons, ...
-
-With the initialized variable:
+The code changes look good to me. With the above typo fix:
 
 Reviewed-by: Petr Mladek <pmladek@suse.com>
 
