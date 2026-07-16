@@ -1,145 +1,129 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19CA346A1D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 16 Jul 2026 06:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AE42D59E8;
+	Thu, 16 Jul 2026 06:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784184074; cv=none; b=lnRdk8M9VHTi75GKMB66O1k8qLz1c7C4K5utQGJPjZnXc9z52ZxdsrLPyD6uQiwcUj4IGwmTxTJDxTlB58+tjoy1tiaglDzzGY6C4c25GjfZ+26VZDekyhx5rSXL/2Yvp5x9WJiXBcz4RBQD1d/AeKxqXZmrYeoF7YG3z1xDehA=
+	t=1784185080; cv=none; b=WF2RYJC26iCuuJ+hWZXL4uTCnyV6oJzOHpDUqxGZWLXKnB0xMpyDapHqxfGy7lWhxhmZ8yfM1IFcoxKf4hOC52uRZEE0Z7b3LeRw4EFqoxAlN0ljass8Bp6JI7U4IiYh7MoLSDlP8I9NR99cEH/iZZhgMWb4shM+qfBwtK4h2Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784184074; c=relaxed/simple;
-	bh=ARwBqNXy7iYAR/zvzCQFr6JDEhfZR9bP5dOWQAURFD4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WEwwdM+486jn+PH/StoRy2P539BFB0M0ie++uiW8mZ90P7NARuuGQ001D6kzJ/sHk0ZV6VJYWrj3KDrnWVOFUQCqwvIyTLKgb8BJVUoIOshoP/sjmLxs1I69y2R7FT23xLi9uoZGxLxb5Pwo3P+SavkA7FSP2sqczumwwYHiqdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Du9uDPqC; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784185080; c=relaxed/simple;
+	bh=srJ/3g4KEaTGpwoCotGl56p8vv2YEVYPO6lGXmFWfb0=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=CGVY/mGyp4GTmENIwSMejry8KRI/82UyQL3ykj2qdkNhxXO0M2e/9h1Mt5Oi8nW8ncaimbRG60Bj8sj4iS1vGQMeQmoBwhPByJkpmMlVXZd3D3b4hNxw6uLAxu3m6TesIrtMV3rBBsGsH9FoMC96Q+lFr6YhTPs6ZAnUbmTobLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXKAfbsi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Du9uDPqC"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9e7391839cso2693817a12.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 15 Jul 2026 23:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784184072; x=1784788872; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8J2PB70MWAXXQG95F609SxeXRC3aZLcryE0e4szEh2g=;
-        b=Du9uDPqCn5ELWFbHqYXvif2DJgARr729rlHBvhQRTygFPwVfxre24jclm98brm/Oxr
-         iijiN2JRwi0kN48d/3u4XJ/1n/GVVoB327BioCGTAMAjc+gPTaNhZXNNRrzXPHXpoJnq
-         Y4DzUHEwWNWjt/Kz9R9ReLL3VXyByBtMSD5H4l8SDo8nBvYNduxnYXsmISvixJ9NFP5W
-         +YxlhaqGHw2uSfxl3ZrKFIuTJgO9El86zXUaJ5Rra3c5JYF0mzF2VdQby+Ln6m2Pt4/m
-         Or9pi21WB1vhurHqPmjiStCamcujGuQ70/cuUj9UPtdaynKhYREAkb2I3aMH8ICqdqTp
-         iLzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784184072; x=1784788872;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8J2PB70MWAXXQG95F609SxeXRC3aZLcryE0e4szEh2g=;
-        b=MvFfCdHBy41mXlhCYedzuavEgWlZdhSRqUdnckD+8+zTWnYoW9P5Lz2anolOw5R/hl
-         iwtjLKGW/aCIGaijX1Ig4S6vbT9iIC2U1qy9vMN3XoGrNzASTmDfhQpY26wF4FP3lqOX
-         4qHyHghTk1mYWQkQR2Gn1VkpEP3jkA5UMJsCkxCFIP/w++F+sidNT60oKy8GmqxtWTxW
-         +86OJZPg5o/16b/XH4Cb/jdw+0iLFmGawrdDiz2iDqHi1N40kdBW0LoTKeBZzmW9s2u7
-         c1xkl7MvvyQzPSueN00weKJFOoie+/XBxOUNRSjFf4UvEJkFSFVyb8bq9zB+buGYjknj
-         bNiQ==
-X-Forwarded-Encrypted: i=1; AHgh+RptzoVB/Ledl61prQ1RV7tY+/R/rA6Y2SIHBtJeVQIzqvAKdcVosfQXp8DSqe7gZRV1et6nE6Xoq5Uynu9Q+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxponfBTjA5cL5V6r+lmZ3kHD6phG2mP3QfwjcFiK+1F+sQ/txx
-	zuOXsipXkoi66ibY8+VKVlMyhdQNBJ1lSArjV26CHzXIE1pMfSAi9MYR
-X-Gm-Gg: AfdE7ckpExPaphmV5x5u8ohNuUl+qlSh0htKi0MwCnC6gfWVSEkuH5TqgqVZu1HQU5n
-	wFkc9KD+Xt0KAXiZvU+UYqUV1GkZVijNnQihTrvy+48zhZrvwCDiC49GnSYQR8UsxbTBpVTK7Zs
-	LjqZx0fEQht5SYYzVvb96/Vg0orVDf5pN7KrqZotHqPTDGhSggJfEHrL+mhKiBwvyIaLBtGleBt
-	DBVyGmwzF7ex+r8djw52AWVu2sPkt7JaPwh033/gC52qx7gTizk7qJGUzCK80iR74AhjS9Yp5ys
-	5x8r2IGmi01lqtjAqV8xFiSmin6NIl86Ut/uZJWYaN0tp3QomOspWLlho6PE3u9UWbGd1azpAI6
-	f2b97MQx6X1jMyLGtKhloAbzE4/4ZUfUil60nqR9I3AurfoXFtHtxK3a9916cFEhIKJSsEMe6I/
-	X/d48fkiygNORSMvgMCH1y
-X-Received: by 2002:a05:6a21:495:b0:3c0:9c1b:d0b5 with SMTP id adf61e73a8af0-3c1109f44ebmr22579230637.64.1784184072215;
-        Wed, 15 Jul 2026 23:41:12 -0700 (PDT)
-Received: from cyh-System-Product-Name.. ([129.227.183.200])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cb258eb856dsm1412425a12.6.2026.07.15.23.41.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 23:41:11 -0700 (PDT)
-From: yhchen312@gmail.com
-To: anup@brainfault.org
-Cc: atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	"Yuhang.chen" <yhchen312@gmail.com>,
-	Quan Zhou <zhouquan@iscas.ac.cn>
-Subject: [PATCH] RISC-V: KVM: Use raw_spinlock for VMID update critical section
-Date: Thu, 16 Jul 2026 14:40:11 +0800
-Message-Id: <20260716064011.2387501-1-yhchen312@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXKAfbsi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9461F000E9;
+	Thu, 16 Jul 2026 06:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784185078;
+	bh=lXWjQrv0O336LlV97/OEJZN+TLRP32cXFFg4W5AvGqs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=OXKAfbsiJkR2xhHkuWfFBE4JX0egad8Kj7KCzfrA5Vzm5aEk27pGzDJrr/xisUknQ
+	 Bw+BkWNKV0HqZpbDix7Rqq1p8b4UT+CE792YDnp/z3wQroI/XjnGoCjcSyRSqUk2YK
+	 yj50vv1sb5rJDh8eFhADLk59clVdCxfKD9VAgLGJWgRs6EmnBcdnrA0tYSdWy0nxQi
+	 Gr75tTkJvNJDlzbIe5WoZMG3RGUsUQCpaakIaYd5tCKorV7RpvYopm9JTSRWosvwDH
+	 hxakgpNLP6yMcAbuA7AoE1xtA3znLEaQEidEltQfQknKTiL4JdMqgCQlqQuK5t8ZcQ
+	 MT6TJlYka/aQg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] RISC-V: KVM: Use raw_spinlock for VMID update critical
+ section
+Reply-To: sashiko-reviews@lists.linux.dev
+To: yhchen312@gmail.com
+Cc: kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260716064011.2387501-1-yhchen312@gmail.com>
+References: <20260716064011.2387501-1-yhchen312@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 16 Jul 2026 06:57:57 +0000
+Message-Id: <20260716065758.4A9461F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: "Yuhang.chen" <yhchen312@gmail.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-The VMID update critical section performs an IPI broadcast via
-on_each_cpu_mask() on VMID version rollover, which must not be preempted
-under PREEMPT_RT. Convert vmid_lock to raw_spinlock_t and use plain
-raw_spin_lock()/raw_spin_unlock() (interrupts stay enabled, since
-on_each_cpu_mask() requires it).
+Pre-existing issues:
+- [Critical] Race condition during VMID rollover allows a vCPU to transient=
+ly execute in guest mode with a stale VMID, compromising cross-VM isolation.
+- [High] Integer overflow in the VMID generation counter (vmid_version) on =
+32-bit systems causes a cross-VM isolation break.
+--
 
-Assisted-by: YuanSheng:deepseek-v4-pro
-Co-developed-by: Quan Zhou <zhouquan@iscas.ac.cn>
-Signed-off-by: Quan Zhou <zhouquan@iscas.ac.cn>
-Signed-off-by: Yuhang.chen <yhchen312@gmail.com>
----
- arch/riscv/kvm/vmid.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--- Patch [1]: [PATCH] RISC-V: KVM: Use raw_spinlock for VMID update critic=
+al section ---
+commit 7d899ea43321661351b3cdd958ba47c38d85eeed
+Author: Yuhang.chen <yhchen312@gmail.com>
 
-diff --git a/arch/riscv/kvm/vmid.c b/arch/riscv/kvm/vmid.c
-index c15bdb1dd8be..21c2b276b55d 100644
---- a/arch/riscv/kvm/vmid.c
-+++ b/arch/riscv/kvm/vmid.c
-@@ -21,7 +21,7 @@
- static unsigned long vmid_version = 1;
- static unsigned long vmid_next;
- static unsigned long vmid_bits __ro_after_init;
--static DEFINE_SPINLOCK(vmid_lock);
-+static DEFINE_RAW_SPINLOCK(vmid_lock);
- 
- void __init kvm_riscv_gstage_vmid_detect(void)
- {
-@@ -78,14 +78,14 @@ void kvm_riscv_gstage_vmid_update(struct kvm_vcpu *vcpu)
- 	if (!kvm_riscv_gstage_vmid_ver_changed(vmid))
- 		return;
- 
--	spin_lock(&vmid_lock);
-+	raw_spin_lock(&vmid_lock);
- 
- 	/*
- 	 * We need to re-check the vmid_version here to ensure that if
- 	 * another vcpu already allocated a valid vmid for this vm.
- 	 */
- 	if (!kvm_riscv_gstage_vmid_ver_changed(vmid)) {
--		spin_unlock(&vmid_lock);
-+		raw_spin_unlock(&vmid_lock);
- 		return;
- 	}
- 
-@@ -117,7 +117,7 @@ void kvm_riscv_gstage_vmid_update(struct kvm_vcpu *vcpu)
- 
- 	WRITE_ONCE(vmid->vmid_version, READ_ONCE(vmid_version));
- 
--	spin_unlock(&vmid_lock);
-+	raw_spin_unlock(&vmid_lock);
- 
- 	/* Request G-stage page table update for all VCPUs */
- 	kvm_for_each_vcpu(i, v, vcpu->kvm)
--- 
-2.34.1
+RISC-V: KVM: Use raw_spinlock for VMID update critical section
 
+This commit converts the vmid_lock to a raw_spinlock_t to prevent
+preemption during the VMID update section under PREEMPT_RT. The update
+path performs an IPI broadcast which requires preemption to be disabled.
+
+> diff --git a/arch/riscv/kvm/vmid.c b/arch/riscv/kvm/vmid.c
+> index 3b426c800480c..33efde4bb9d75 100644
+> --- a/arch/riscv/kvm/vmid.c
+> +++ b/arch/riscv/kvm/vmid.c
+> @@ -20,7 +20,7 @@
+>  static unsigned long vmid_version =3D 1;
+>  static unsigned long vmid_next;
+>  static unsigned long vmid_bits __ro_after_init;
+> -static DEFINE_SPINLOCK(vmid_lock);
+> +static DEFINE_RAW_SPINLOCK(vmid_lock);
+> =20
+>  void __init kvm_riscv_gstage_vmid_detect(void)
+>  {
+
+[Severity: High]
+This is a pre-existing issue, but does this unsigned long counter present an
+overflow risk on 32-bit systems?
+
+If a host user rapidly creates and destroys VMs, the 32-bit vmid_version co=
+uld
+wrap back to 0. Since a new VM's kvm_vmid struct is zero-initialized,
+kvm_riscv_gstage_vmid_ver_changed() would evaluate (0 !=3D 0) as false:
+
+kvm_riscv_gstage_vmid_ver_changed() {
+    ...
+    return unlikely(READ_ONCE(vmid->vmid_version) !=3D
+                    READ_ONCE(vmid_version));
+}
+
+Could this cause multiple new VMs to share VMID 0, breaking cross-VM isolat=
+ion
+by allowing their memory accesses to hit each other's TLB entries?
+
+[ ... ]
+
+> @@ -118,7 +118,7 @@ void kvm_riscv_gstage_vmid_update(struct kvm_vcpu *vc=
+pu)
+> =20
+>  	WRITE_ONCE(vmid->vmid_version, READ_ONCE(vmid_version));
+> =20
+> -	spin_unlock(&vmid_lock);
+> +	raw_spin_unlock(&vmid_lock);
+> =20
+>  	/* Request G-stage page table update for all VCPUs */
+>  	kvm_for_each_vcpu(i, v, vcpu->kvm)
+>  		kvm_make_request(KVM_REQ_UPDATE_HGATP, v);
+
+[Severity: Critical]
+This isn't a bug introduced by this patch, but does dropping the lock before
+making the requests open a race window?
+
+If the lock is released after updating vmid_version but before setting
+KVM_REQ_UPDATE_HGATP, could a concurrent vCPU from the same VM observe the
+new vmid_version without the lock?
+
+If it sees no pending requests, it might proceed to enter the guest with a
+stale VMID. If a global VMID rollover just occurred, could this stale VMID
+have been re-assigned to a different VM, causing an isolation break?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260716064011.2387=
+501-1-yhchen312@gmail.com?part=3D1
