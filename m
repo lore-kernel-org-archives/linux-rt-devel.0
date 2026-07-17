@@ -1,145 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176892C15A0
-	for <linux-rt-devel@lists.linux.dev>; Fri, 17 Jul 2026 15:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1065E370ACF
+	for <linux-rt-devel@lists.linux.dev>; Fri, 17 Jul 2026 15:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784300824; cv=none; b=t9t0o4aA5Q+fQTPGrusx1aKyRIfB7bj6plueReSPTG7Ppda9PP/yaUk3sTnLvkIRZySxEOEHiIx2mp7OD06cL+SdDstxOSjVgCChKTHTsxEKnPCP1o+NIqtALkRz1xb6TJttRx9AiUD5ii14DYv6XuEkv9+OAXkPpQmVaCba1kA=
+	t=1784303936; cv=none; b=JDu8lqc2fXiQRE14WOIF61dMfEcbQdKoU+Qwju4/m0DEQd1Ioy3N6G8nNy+p7R6xzfso6No2fm+kICE3MQBXL1YMSH3RN9c2cPADwYyKUqYg8/F0CaWer60DGGyuZ4SJUcQAkhjYucNjgCiE52Nt4LiDUEAaOMdXBy1Tu5+J5Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784300824; c=relaxed/simple;
-	bh=UzXoQ54grOHBxJXqvSe20dnebBRBQrRVxlPMfN6zvdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BdmL0vseX445t30rIeCPSBH0s/o5l2LofCLLQbd0mwRlqsZOpdSsl02YBK4+XdGWbO23GRhBEUbyXOatx9KngABTgf4+Sv8nLKyS+mJ14WSpXM7oDxajMTX3Hydc61Uhrt6ZEQNO0C6/i1O/0ZyQtmhdabyojcCXsYUk//lUAHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a2QEVXwd; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784303936; c=relaxed/simple;
+	bh=AtgJblUedqk/MGp++U2qIbkbsahrGGfYJfzRXOGEZIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SkdPggMjj9sSkpGxh/dZijuPyrMai/v/KmnzLtlUFlJvd0P1kg7oCkCX+o2fXnguTLfTIOPOwJniO9TEUx6tUpdjJPeTvAPyfSmH2PWxvD7P574VihFg4m/90hJSbwpfFazxFBZxbLz/JDKLeIJjUoF1/uRkGSsPl2WIw4tDDRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=meTzP0sb; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a2QEVXwd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784300822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J51Fw8rU8N3jKV4+nr08wo0Mj4JR8dhWVcD01BFVxwA=;
-	b=a2QEVXwdM8iorRjz2Ohropxy6oSqcNTKnPWl9bKQ8Miyb5La2RhWMB7LShJ9fMjCkOMj3q
-	shtVrTxGQCat22TX9b3LW916RXQiYu1sN/7OuMX3eGj1lJVGqHSco/JoCxBQPeCdN7fnlU
-	dreaHfqUfn/S3Rch+iLISNfV0g5UUKM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-424-L9jxO2hANjmfYFmmOGOa8w-1; Fri,
- 17 Jul 2026 11:07:00 -0400
-X-MC-Unique: L9jxO2hANjmfYFmmOGOa8w-1
-X-Mimecast-MFC-AGG-ID: L9jxO2hANjmfYFmmOGOa8w_1784300817
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BCBC7180074B;
-	Fri, 17 Jul 2026 15:06:56 +0000 (UTC)
-Received: from [10.22.81.98] (unknown [10.22.81.98])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CF5911955D89;
-	Fri, 17 Jul 2026 15:06:51 +0000 (UTC)
-Message-ID: <d2bf022d-d30a-415e-8a96-4136258e347b@redhat.com>
-Date: Fri, 17 Jul 2026 11:06:50 -0400
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="meTzP0sb"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D6C81476;
+	Fri, 17 Jul 2026 08:58:47 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 013703F905;
+	Fri, 17 Jul 2026 08:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784303931; bh=AtgJblUedqk/MGp++U2qIbkbsahrGGfYJfzRXOGEZIk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=meTzP0sbPJwm08MUZ7+xwldKmtnHbAIhC4emfIEp/ILrACd6FgOdVUD5m4mNKs8+1
+	 5ZH2KJHt1aZD5SdvtCRRvDUK5x+5rCKXDHQ8QQLtLcoUe5QFTQ1FXe6gXNcQrBKfj2
+	 T8Py6kfk81fEl1iJdxoCcCByJOJUe35rdorII42U=
+Date: Fri, 17 Jul 2026 16:58:48 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <coresight@lists.linaro.org>,
+	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH v3] coresight: Fix scheduling while atomic in
+ coresight_cpu_pm_notify()
+Message-ID: <20260717155848.GB3998092@e132581.arm.com>
+References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
+ <20260716214155.2049564-1-mohamedaymanworkspace@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] cgroup/cpuset: update some comments about the page
- allocator
-To: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
- <20260715-spin-trylock-followup-v3-2-fc4d246f705d@google.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260715-spin-trylock-followup-v3-2-fc4d246f705d@google.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: EyJVYo-RRXKKOOIvlgdQs2Xu8bLbAIiBst5fqjZBY4s_1784300817
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716214155.2049564-1-mohamedaymanworkspace@gmail.com>
 
-On 7/15/26 7:03 AM, Brendan Jackman wrote:
-> These comments describing the page allocator are out of date:
->
-> - __alloc_pages() is no longer a public API and has no business being
->    described outside of mm/.
->
-> - The `wait` variable is gone.
->
-> It may be out of date for other reasons too but this patch is just
-> fixing the issues that stood out.
->
-> To fix it:
->
-> - Instead of referring to a specific function, instead to "the page
->    allocator"
->
-> - Completely drop out-of-date details of that function's internal
->    behaviour, since they were irrelevant anyway.
->
-> Suggested-by: Zi Yan <ziy@nvidia.com>
-> Link: https://lore.kernel.org/all/DJP11T5V7BDW.2FZZZ8R6LOY4I@nvidia.com/
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
->   kernel/cgroup/cpuset.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 24ea2d09cdbdb..dfd0f827e3b92 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -4193,7 +4193,7 @@ static struct cpuset *nearest_hardwall_ancestor(struct cpuset *cs)
->    * nearest enclosing hardwalled ancestor cpuset.
->    *
->    * Scanning up parent cpusets requires callback_lock.  The
-> - * __alloc_pages() routine only calls here with __GFP_HARDWALL bit
-> + * page allocator only calls here with __GFP_HARDWALL bit
->    * _not_ set if it's a GFP_KERNEL allocation, and all nodes in the
->    * current tasks mems_allowed came up empty on the first pass over
->    * the zonelist.  So only GFP_KERNEL allocations, if all nodes in the
-> @@ -4206,11 +4206,8 @@ static struct cpuset *nearest_hardwall_ancestor(struct cpuset *cs)
->    * come before the __GFP_HARDWALL check, otherwise a dying task
->    * would be blocked on the fast path.
->    *
-> - * The second pass through get_page_from_freelist() doesn't even call
-> - * here for GFP_ATOMIC calls.  For those calls, the __alloc_pages()
-> - * variable 'wait' is not set, and the bit ALLOC_CPUSET is not set
-> - * in alloc_flags.  That logic and the checks below have the combined
-> - * affect that:
-> + * The second pass through get_page_from_freelist() doesn't even call here for
-> + * GFP_ATOMIC calls.  That, and the checks below have the combined affect that:
->    *	in_interrupt - any node ok (current task context irrelevant)
->    *	GFP_ATOMIC   - any node ok
->    *	tsk_is_oom_victim   - any node ok
-> @@ -4327,8 +4324,8 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
->    * should not be possible for the following code to return an
->    * offline node.  But if it did, that would be ok, as this routine
->    * is not returning the node where the allocation must be, only
-> - * the node where the search should start.  The zonelist passed to
-> - * __alloc_pages() will include all nodes.  If the slab allocator
-> + * the node where the search should start.  The zonelist used by
-> + * the allocator will include all nodes.  If the slab allocator
->    * is passed an offline node, it will fall back to the local node.
->    * See kmem_cache_alloc_node().
->    */
-Acked-by: Waiman Long <longman@redhat.com>
+On Fri, Jul 17, 2026 at 12:41:54AM +0300, Mohamed Ayman wrote:
 
+[...]
+
+>  static struct coresight_path *coresight_cpu_get_active_path(enum cs_mode mode)
+>  {
+>  	struct coresight_device *source;
+> -	bool is_active = false;
+> +	struct coresight_path *path = NULL;
+>  
+> -	source = coresight_get_percpu_source_ref(smp_processor_id());
+> -	if (!source)
+> -		return NULL;
+> -
+> -	if (coresight_get_mode(source) & mode)
+> -		is_active = true;
+> +	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
+>  
+> -	coresight_put_percpu_source_ref(source);
+> +	source = per_cpu(csdev_source, smp_processor_id());
+> +	if (source && (coresight_get_mode(source) & mode))
+> +		path = source->path;
+
+I agree the get_device()/put_device() pair in
+coresight_cpu_get_active_path() is not a good fit for CPU PM notifier,
+because the put_device() can become the final put while IRQ is disabled.
+
+However, my understanding is this patch might cause UAF issue that the
+existing code is intended to prevent.
+
+The raw spinlock (coresight_dev_lock) serializes access to the per-CPU
+csdev_source pointer. It does not guarantee the lifetime of the source
+or its _parent_ device. coresight_unregister() is not only reached from
+module unload; it can also be called when a driver is unbind, for
+example DT overlay removal or device hotplug/unplug.
+
+This is why the UAF issue Sashiko mentioned in patch 03 of [1]. A built
+CoreSight path currently grabs references for the path components, which
+keeps module alive, but that is not the same as preventing the parent
+device/driver from being unbound and tearing down CoreSight device data
+while an active session still has raw pointers.
+
+There are also similar race window before the path is built: for
+example etm_setup_aux() has to look up source/sink state before
+coresight_build_path() establishes the path, so it might access
+released source/sink data if device is unbound.
+
+I think a proper fix needs a clearer lifetime model for an active
+session. E.g., we could consider to call device_link_add() to prevent
+device unbind / unregister, and unlink device when the session is
+finished. Once that is in place, the CPU PM notifier can safely use the
+active path without get_device()/put_device() pair anymore.
+
+Hope this is clear and makes sense.
+
+Thanks,
+Leo
+
+[1] https://sashiko.dev/#/patchset/20260405-arm_coresight_path_power_management_improvement-v10-0-13e94754a8be%40arm.com
