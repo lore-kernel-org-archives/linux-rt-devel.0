@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540933A9DA4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA11E3AB26B
 	for <linux-rt-devel@lists.linux.dev>; Fri, 17 Jul 2026 06:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784269648; cv=none; b=ZgVlZuRBgmADHxFh2Iek9zM1ceD6d87blF8ZANDSpk5TAJWlQIdc/pekRqPWTuZ9Y1GhP2Xc+NgRdcKmCSQ30htzPRRZo0QmX7MoUlP0FFwcXAwh7zKTez7rm0vyhI85y9bnks3AS+jygxwzGdTE4/ku0yishpKsRgBlK+HzUIU=
+	t=1784269649; cv=none; b=BdUofuownLeaW0Co2HBhd0MklFeXWd7BDGr6t/DCp6T6yy8fQz/iZ1rW3wvRgTRFLQdkxfkAaZkzEJxTFUk72ovlmbf3rIZJH/zW38Yipf16nKhIS8PFkfihMP/5aKjEo+bVxUbN+XlYNmTLJwKK9BjlpilB7raPSmU2Cswtjjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784269648; c=relaxed/simple;
-	bh=hrv5JrU8S6tafr5Jwa2ipc5JHUlNoubZwNJBL4oXpbs=;
+	s=arc-20240116; t=1784269649; c=relaxed/simple;
+	bh=689VtcbDsXh+fHWH44YLMs9cb4M7OUOyvHCtfNVhgLo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WFfmUEMuMsqs/M+IPSTkYFc/CIIXMt2BekeVTFtQ15RkeysNJhYjXaWRHSagrzou7x6VccAzgngkfBRkGVGKmTVjeMAf28ll7hCH1cgbuwD104qG12d08uiVu9VT7civ3ZawkqChrctNYdGb0W7ks1JwNzhkqNA7uGBsmOpjQyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bqxGcp82; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wets7NtC; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=JDANd8QN9xLk6mUq0DJFExyxrozbPcX7foHOnq5oMuLcUU4iolp06i7M9V3pGTJ4qrxyA8i3v8fui5apabO1BZ6/edLD4Yt9Soq5/VhV0ymJlcqPU3BuwRbQPNOvGtjqYWVtHQ32frkJMAfHcVREiIwwmQw7FRT91P1cHFsK6mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d+KOCcBW; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Hwzl3TO3; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bqxGcp82";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wets7NtC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d+KOCcBW";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Hwzl3TO3"
 From: Nam Cao <namcao@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784269645;
+	s=2020; t=1784269646;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mZ+2OGSU7Jn4oAIKoCuhgeqrheHZA7Ez/5R9ijduTOA=;
-	b=bqxGcp822S3x1FKhoftdgjah3JjaSpwdx+xjM0JcXWSUh7S1cvYoJ5utgOCh2wuDfASICi
-	8EnzpNlN5FmazgVKsdfCGbC/kfzUn5NGX2kUqPdk6y6UOeaNetG5ACGgavxxDCyYJHl3PN
-	EiZZJk8/D9Xs7uwihfklmRBu+zkexrHDbBvd+tYsD4f6Edouf0KX4dqpV2M7xKG3ZQZb55
-	t5Axn21qv1kxPZzd/vgR8GcYpr3XuKj+d+ea8lf9574QSnD2MIbro5C+QV9+yUVNOMOvO/
-	eu8Fb07ffDnLzX/JKEK5r2+hx2aaqDZCP7/yTgqeA0NrUNUm07Hmi7UqSVQeJw==
+	bh=MyliMw0vCjMSJDOQGg8lPpSgZOGE7vjaVCZ26+APUME=;
+	b=d+KOCcBWKnPNGhY01/toGAA1ZsRJ7WeWOU0VexAtPqcx9zz6MIbUgyaQeLprA3DjbaEIyB
+	0LuNLuMrMIKEZ4sMZobN/0UomOS2MMOfnmx2IJ3y6cVHyHbqtrXF69cr+XAfVb/FhyQGVS
+	23GKHJhSiDeHbxM6XgO2IrUUJCmhXJ83rLqMbfW6ihKEPOV2dYMcFKFmphK1iwhUxuiVSu
+	oAZxZ8OF6+CqetWiHkuVcNObYi8iS0h3oniOf9Afv576v1N9mcDFKGT+ViGaVkJJiSwEhi
+	LiorazefArl6m7kmP4spsVqwGwUomCJLa7HQE7jkJzW0ewD9d3a2mfmqvXYgEw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784269645;
+	s=2020e; t=1784269646;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mZ+2OGSU7Jn4oAIKoCuhgeqrheHZA7Ez/5R9ijduTOA=;
-	b=wets7NtCC3quSaZ/5bjqr2N4/GiY8sRE7rNGaRSBzpDXOx8tO8ls/WlkQM+f4rLnoDAQeL
-	LfCPoLEx+TqRXCDA==
+	bh=MyliMw0vCjMSJDOQGg8lPpSgZOGE7vjaVCZ26+APUME=;
+	b=Hwzl3TO3hb1/4d8T/MfBGE2HJz3LBglx22T6LdGEqLK30n4VV0gpQs0OPEkZ/5bNr8z/xN
+	RWjvkOdIcYsM2BBQ==
 To: Kuniyuki Iwashima <kuniyu@google.com>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -49,9 +49,9 @@ To: Kuniyuki Iwashima <kuniyu@google.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Nam Cao <namcao@linutronix.de>
-Subject: [PATCH net-next v2 1/3] af_unix: Schedule the garbage collector at task exit
-Date: Fri, 17 Jul 2026 08:27:15 +0200
-Message-ID: <d500ff36af658ad412e5d6f8d5665070359ef68e.1784268931.git.namcao@linutronix.de>
+Subject: [PATCH net-next v2 2/3] af_unix: Do not wait for garbage collector in sendmsg()
+Date: Fri, 17 Jul 2026 08:27:16 +0200
+Message-ID: <471af098e92e7171bf828f619ef6b309b97eb618.1784268931.git.namcao@linutronix.de>
 In-Reply-To: <cover.1784268931.git.namcao@linutronix.de>
 References: <cover.1784268931.git.namcao@linutronix.de>
 Precedence: bulk
@@ -62,121 +62,75 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-When a task exits while still having dead cyclic reference AF_UNIX sockets,
-those sockets stay behind indefinitely until the garbage collector gets
-scheduled by an unrelated reason. This can be observed with the program
-below.
+AF_UNIX sockets' sendmsg() schedules and blocks on the garbage collector if
+user has too many inflight unix sockets and there is cyclic reference in
+the system. This causes real-time issues, as cyclic reference can be
+created by any task in the system, and high priority tasks who do need to
+send lots of AF_UNIX sockets get blocked by the garbage collector which
+runs as workqueue, causing a priority inversion scenario.
 
-Resolve this issue by scheduling the garbage collector during task exit,
-after the task's file descriptors have been closed.
+The reason for blocking on garbage collector goes back to 2008, when
+it was reported that "Local/unprivileged users can cause soft lockups
+and take out system processes by triggering the OOM killer":
+https://bugzilla.redhat.com/show_bug.cgi?id=3D470201
 
-static int send_fd(int unix_fd, int fd)
-{
-        struct msghdr msgh;
-        struct cmsghdr *cmsg;
-        char buf[CMSG_SPACE(sizeof(fd))];
+The soft lockup was because a process can keep queueing AF_UNIX sockets to
+another process that is exiting. Back in 2008, the garbage collector was
+run synchronously by the exiting process, therefore keep queueing AF_UNIX
+sockets blocks that process from exiting.
 
-        memset(&msgh, 0, sizeof(msgh));
+The solution to that issue was forcing sendmsg() to wait for ongoing
+garbage collector.
 
-        memset(buf, 0, sizeof(buf));
-        msgh.msg_control =3D buf;
-        msgh.msg_controllen =3D sizeof(buf);
+The OOM killer issue was brought up again in 2010:
+https://lore.kernel.org/lkml/AANLkTi=3DQ967xpX0KLMwX-=3D_4_1AKO5wjHEuJ1TrNj=
+Cj9@mail.gmail.com/
 
-        cmsg =3D CMSG_FIRSTHDR(&msgh);
-        cmsg->cmsg_len =3D CMSG_LEN(sizeof(fd));
-        cmsg->cmsg_level =3D SOL_SOCKET;
-        cmsg->cmsg_type =3D SCM_RIGHTS;
+To resolve that report, beside blocking on the garbage collector, sendmsg()
+also schedules the garbage collector if the number of inflight AF_UNIX
+sockets in the system is too high.
 
-        msgh.msg_controllen =3D cmsg->cmsg_len;
+Then in 2015, once again, the OOM killer problem was brought up:
+https://lore.kernel.org/lkml/20151228141435.GA13351@1wt.eu/
 
-        memcpy(CMSG_DATA(cmsg), &fd, sizeof(fd));
-        return sendmsg(unix_fd, &msgh, 0);
-}
+That time, the issue was resolved by disallowing a user from having more
+inflight AF_UNIX sockets than their RLIMIT_NOFILE. That was done by commit
+712f4aad406b ("unix: properly account for FDs passed over unix sockets")
+and commit 415e3d3e90ce ("unix: correctly track in-flight fds in sending
+process user_struct").
 
-int main(int argc, char *argv[])
-{
-	int fd[2];
-	int i;
+Now, sendmsg() does not have to block on the garbage collector anymore,
+because:
 
-	for (int n =3D 0; n < 100; ++n) {
-		if (socketpair(PF_UNIX, SOCK_SEQPACKET, 0, fd) =3D=3D -1)
-			goto out_error;
+  - The OOM killer issue has already been addressed by checking
+    RLIMIT_NOFILE.
 
-		for (i =3D 0; i < 100; ++i) {
-			if (send_fd(fd[0], fd[0]) =3D=3D -1)
-				goto out_error;
+  - The soft lockup issue is no longer relevant, because the garbage
+    collector now runs asynchronously since commit d9f21b361333 ("af_unix:
+    Try to run GC async.")
 
-			if (send_fd(fd[1], fd[1]) =3D=3D -1)
-				goto out_error;
-		}
-	}
-
-	return 0;
-
-out_error:
-	fprintf(stderr, "error: %s\n", strerror(errno));
-}
+Therefore, remove that to prevent priority inversion. Running all the
+reproducers from the mentioned bug reports after this patch, no problem is
+observed.
 
 Signed-off-by: Nam Cao <namcao@linutronix.de>
 ---
- include/net/af_unix.h | 5 +++++
- kernel/exit.c         | 2 ++
- net/unix/af_unix.h    | 1 -
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ net/unix/garbage.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/net/af_unix.h b/include/net/af_unix.h
-index 34f53dde65ce..686f6f1d1c21 100644
---- a/include/net/af_unix.h
-+++ b/include/net/af_unix.h
-@@ -14,11 +14,16 @@
+diff --git a/net/unix/garbage.c b/net/unix/garbage.c
+index 0783555e2526..f180c59b3da9 100644
+--- a/net/unix/garbage.c
++++ b/net/unix/garbage.c
+@@ -300,8 +300,6 @@ int unix_prepare_fpl(struct scm_fp_list *fpl)
+ 	if (!fpl->edges)
+ 		goto err;
 =20
- #if IS_ENABLED(CONFIG_UNIX)
- struct unix_sock *unix_get_socket(struct file *filp);
-+void unix_schedule_gc(struct user_struct *user);
- #else
- static inline struct unix_sock *unix_get_socket(struct file *filp)
- {
- 	return NULL;
- }
-+
-+static inline void unix_schedule_gc(struct user_struct *user)
-+{
-+}
- #endif
+-	unix_schedule_gc(fpl->user);
+-
+ 	return 0;
 =20
- struct unix_address {
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 2c0b1c02920f..ba9404844523 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -71,6 +71,7 @@
- #include <linux/unwind_deferred.h>
- #include <linux/uaccess.h>
- #include <linux/pidfs.h>
-+#include <net/af_unix.h>
-=20
- #include <uapi/linux/wait.h>
-=20
-@@ -1002,6 +1003,7 @@ void __noreturn do_exit(long code)
- 	exit_sem(tsk);
- 	exit_shm(tsk);
- 	exit_files(tsk);
-+	unix_schedule_gc(NULL); /* Must be after exit_files() */
- 	exit_fs(tsk);
- 	if (group_dead)
- 		disassociate_ctty(1);
-diff --git a/net/unix/af_unix.h b/net/unix/af_unix.h
-index 8119dbeef3a3..fc4c59893124 100644
---- a/net/unix/af_unix.h
-+++ b/net/unix/af_unix.h
-@@ -30,7 +30,6 @@ void unix_update_edges(struct unix_sock *receiver);
- int unix_prepare_fpl(struct scm_fp_list *fpl);
- void unix_destroy_fpl(struct scm_fp_list *fpl);
- void unix_peek_fpl(struct scm_fp_list *fpl);
--void unix_schedule_gc(struct user_struct *user);
-=20
- /* SOCK_DIAG */
- long unix_inq_len(struct sock *sk);
+ err:
 --=20
 2.47.3
 
