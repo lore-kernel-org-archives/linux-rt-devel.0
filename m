@@ -1,88 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50082285072;
-	Fri, 17 Jul 2026 22:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B474230C141;
+	Sat, 18 Jul 2026 06:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784325776; cv=none; b=QQGHBbUEmd8gp7qEmZL6Az406rvM3T0BzXUto/xRcB3cQef9EEgC3RzZt6sfmhyam7mn21VaaoQ0D0IxgE8eqKBtrvnsdb9/jVYfAgihd7wCUz1sAXKeb5DUGex9sFDuLRFnLu9bnRhWYZ4Ngs0AW4TNAiyzb1avX1p6ryPv8Co=
+	t=1784356057; cv=none; b=hdlolS8wpHPRNcPS7jpf0lKTegd2nikj2TKIlgOgM115Iqbh4G1eGFWcDFBzNWwBUyWlm7mkK7cv+8zKil/BsZMGiw7Q+w6Xjdq8H3qqzDB1bXsLUBRArY6BXZvJKfimgnj8AD/NYyfgVqnrAothhW3D5+Pe9yLTPaoAxTpgin8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784325776; c=relaxed/simple;
-	bh=Cu+RcB2fgXh/agyqls+b5EC6fkWq2zM9igEXiB+56i4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujcG0Udbui8rXZdjjzMdeCL9JECO69ziLpGnmRyhpZg5kj3Aus3fxhd6/xSPg1wK5eni+/nOH5ti3Rxa08RQMCBvyx4UqSNagFkxjkcla9r8KieE3b2ndyGiczhKuMWWs5NSkp8N7f9++VB9d1kKfSX+rrELaYHS7QWh8Xt8EPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlQ6ylS+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784356057; c=relaxed/simple;
+	bh=r33ZnNdw93WrGYA5rBf4DveJ6zTy/Flqvh+wfw7CcqQ=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ozJCM/05HriRhMZxDrWfxih3MmG4WlJmijZpMUpn7YbW/8Qq+WYs8D4d1Iz6jhFCXQWUDeDQSQ4VK8FzDgFtlYfZAXuSlq2xv0qhdwS2lCKPPZ3W/1tZ54Xb/0U6r2VBhaj/DZhEGCDxiGTfXvJTnC9nGlC+H3XKzVJ1xsYZxXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LdStRZH5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlQ6ylS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B563B1F000E9;
-	Fri, 17 Jul 2026 22:02:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LdStRZH5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 199E41F000E9;
+	Sat, 18 Jul 2026 06:27:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784325774;
-	bh=vK0V6XdCn3VZKyqGqo603HO8YlBOB9rJrE2Ye6IoQho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZlQ6ylS+qxrpG6MP60Ak8CeNHceJEr9xO9SMOpxRvMGFW4sF3apaOdzJliGRruGc+
-	 uAA5I9+NtP33i6/eHULXIDlTL2cLk3X+FHzRpi9KlGLq2wavYN2oPWaLDo428h0RC8
-	 ro+YhgGhNaFM5IuFDMRWGg8eBrnmLmPd1D11HyIdG8HkterFOeqpCktX3+XQ0Q1zOF
-	 dlVDTWhRoqW44KpeTXQmbvfnAKKahYgbsuRC9XAwrBfHzOnOlNG7lb2m6WBhkTjLLH
-	 eiU/d7h2FDFPBv3mlTdDtW0pPM5KY5AFi7X0znL9g+vJHmDXDW7RPgvo1a3pL9s2WB
-	 Fok1KpRSmevgg==
-Date: Fri, 17 Jul 2026 12:02:53 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Brendan Jackman <jackmanb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] cgroup/cpuset: update some comments about the
- page allocator
-Message-ID: <alqmjd3pKWewxtWZ@slm.duckdns.org>
-References: <20260715-spin-trylock-followup-v3-0-fc4d246f705d@google.com>
- <20260715-spin-trylock-followup-v3-2-fc4d246f705d@google.com>
- <7f4e784ee2bbbc23b4b97913e144c0d9@kernel.org>
- <alplxFeazzK_Ziie@slm.duckdns.org>
- <20260717115348.9ff2498eafb8ea256a0cb504@linux-foundation.org>
+	s=k20260515; t=1784356056;
+	bh=ngDUQtHjFUIYvdNgeAV4i6YS7Owci0iw31oav+755x0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LdStRZH5GNuuHP2/BkuJ96cdTKviJQ/f6srdaXX/XJzaM26McS9PdkO9cbfPRaqs4
+	 rqBLkbOEvD3zN1YC6HnGVcZidFlb5c9AITHWezR8UoTJ8Q2L0KGWIn0mVH7IoXUu2i
+	 PkUK72lwfdymzr5ysBXWjtSj9E9/S67W2K32ZqrjjQTHzhCEwVOGV2rGHOv2ikzVSc
+	 7ulb2FPkAQASAKy8cdf0UGQ4EFG7RYX/ODA83iXIECS+oiV7LjQR+9w4YBXcMLn7wX
+	 +0rSIUrVv/IdJZ1SbU8M5bPy+0Gp5SJrDGDgBNtig1Z0Xu62+5qBAXT6loqFQTpwn7
+	 jGH6/qpC8d6jA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v2 1/3] af_unix: Schedule the garbage collector
+ at task exit
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Nam Cao" <namcao@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <d500ff36af658ad412e5d6f8d5665070359ef68e.1784268931.git.namcao@linutronix.de>
+References: <cover.1784268931.git.namcao@linutronix.de>
+ <d500ff36af658ad412e5d6f8d5665070359ef68e.1784268931.git.namcao@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 18 Jul 2026 06:27:35 +0000
+Message-Id: <20260718062736.199E41F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260717115348.9ff2498eafb8ea256a0cb504@linux-foundation.org>
 
-On Fri, Jul 17, 2026 at 11:53:48AM -0700, Andrew Morton wrote:
-> On Fri, 17 Jul 2026 07:26:28 -1000 Tejun Heo <tj@kernel.org> wrote:
-> 
-> > On Fri, Jul 17, 2026 at 07:23:58AM -1000, Tejun Heo wrote:
-> > > Hello,
-> > > 
-> > > Applied this one to cgroup/for-7.3 with Vlastimil's reviewed-by and
-> > > Waiman's ack added. Please drop it from the mm series.
-> > 
-> > Never mind. I'll drop it from mine. Sorry about the noise.
-> 
-> Thanks.  Plucking one patch from a 4-patch series is awkward.  Better to
-> retain this in mm.git with your ack(?).
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The patch reuses `unix_schedule_gc()` in `do_exit()`, but its `g=
+c_in_progress` optimization introduces a race condition that leaks cyclic s=
+ockets during concurrent task exits.
+--
 
-Yes, that was a tooling problem. Shouldn't happen again.
+--- Patch [1]: [PATCH net-next v2 1/3] af_unix: Schedule the garbage collec=
+tor at task exit ---
+commit a622ecdd6ba9403d5e403273ed947355870471a8
+Author: Nam Cao <namcao@linutronix.de>
 
- Acked-by: Tejun Heo <tj@kernel.org>
+af_unix: Schedule the garbage collector at task exit
 
-Thanks.
+This commit aims to resolve an issue where dead cyclic reference AF_UNIX
+sockets stay behind indefinitely when a task exits. It does so by
+scheduling the garbage collector during task exit, after the task's file
+descriptors have been closed.
 
--- 
-tejun
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -997,6 +998,7 @@ void __noreturn do_exit(long code)
+>  	exit_sem(tsk);
+>  	exit_shm(tsk);
+>  	exit_files(tsk);
+> +	unix_schedule_gc(NULL); /* Must be after exit_files() */
+
+[Severity: Medium]
+Will this race with concurrent task exits and leak cyclic sockets?
+
+In net/unix/garbage.c, unix_schedule_gc() only queues the work if a garbage
+collection is not already running:
+
+void unix_schedule_gc(void)
+{
+        if (!READ_ONCE(gc_in_progress))
+                queue_work(system_dfl_wq, &unix_gc_work);
+}
+
+If Task A and Task B exit concurrently with dead cyclic sockets:
+
+Task A calls unix_schedule_gc() and triggers the work, which sets
+gc_in_progress to true.
+
+Task B then calls unix_schedule_gc() while the GC is running, observes
+gc_in_progress is true, and silently skips queuing the work.
+
+Task B's newly dead cycles might be missed by the currently running GC pass.
+Since no new GC is queued by Task B, won't those sockets stay behind
+indefinitely until another unrelated task exits, defeating the purpose of
+the patch for concurrent exits?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1784268931.gi=
+t.namcao@linutronix.de?part=3D1
