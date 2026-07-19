@@ -1,106 +1,134 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D055E377AAD
-	for <linux-rt-devel@lists.linux.dev>; Sun, 19 Jul 2026 10:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9512328E0
+	for <linux-rt-devel@lists.linux.dev>; Sun, 19 Jul 2026 16:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784456898; cv=none; b=jRTpB6rP2OBQ62lj+ya9wHopQsSW3gwLTyDgvzmPdKeY+hdfgrpdDkyMLmc22m2M/oYuu4zARhaivyH+F+LUFwrjNlz0wQ//50jgs5BJtS5W95tSvb8k28KFqb8aPCmh5eF4jAiAVFcJrT1OdF/26ketahzLSEaokT3aEwoXEUI=
+	t=1784477797; cv=none; b=n5/hnPeM7PBebKSIDmUgdfgrQLqdKhmVGOxDSsvp8X8SXV2yhBAsVMV1WR3vkFH5h1+e051t56XrGe9Kx4DFTfPxICrrEx6wmX0hkRue4enzTigKDNzwhcT25owZgWChZUQs7eY0Hhbt8W8lqRCw06/xp5SitqITB1z6gOCT36k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784456898; c=relaxed/simple;
-	bh=g4ZZaOTO2J+J98q3MWOGEx72v4eV2zUx1DrY5sEQG0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qx9s6dSYddPuYHvfnHCka62x5hu0zu8gBrbfO3xQtx6t8+ItzmFvtVYunuCi5DioIwfJ9/7Sg3GJ1WRBlujuSzDdffwRhPdrH3nJEIAiSCGEP/ci1YCqnUPwXev88XQ/PPYR+zknKvNvjBPK2i5jEp9OpdK1G0wAUpokWLtx4qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVZkTIej; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784477797; c=relaxed/simple;
+	bh=hc+Uu5B4Pr31upaB0ZYC3BWeYXlQeUwcSQjw/S89tiM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=DWnUYEPgdMNqHNr4CsOrM8XnQFbTUE3AVEnRI9gybsWxOYe9wpKTZlj0b5qVtCHC7tvyLyMK0UVvv1LqlS7S5jm1qnBWtKfXn3WLviF0OpDJbX8+gyVN7oxUO9AatJ0ozolLkaBXQTm4sPdBF2MU1MaQGLMszDvib8y+o4SuQ2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=KzDXjZfr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pfGox4F7; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVZkTIej"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so6660803f8f.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 19 Jul 2026 03:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784456895; x=1785061695; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EAHHds1xld5SV8DD6I9qoxlQ4PAV7RbF6w4wkxnn+h0=;
-        b=gVZkTIeje+4QtZY6hWgd7YV7m2lDL2M6lik6rGY56DtpSNdplNhcCMt2GvSXlLA2bP
-         P0Rj6zKD+i9jVYaM13Cba49/xMGYhRaFIdBc0XVQlel8eDQDbdzbNBzBktp8ldogcSp0
-         IaBBxYKg6NRBv1J7iYIoZXRWbCcKzzUzlRFDNkQJgn+Qzr8RL3/YkglEDLIgaUxy/Mi+
-         ptpHFaRUCbzcZ0+0Y8MwJtVu8T/Y1acFOgV/pp7b/iyPSjPV+IIDY0MkmlmjWJT7WYcL
-         ojyD/QfPlM8vv+1fK4yKIkIYDO0wxUoCddm5YIXqf3DS1gEwsDtFYPS/Gm7sSDpq1ZQb
-         2/Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784456895; x=1785061695;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EAHHds1xld5SV8DD6I9qoxlQ4PAV7RbF6w4wkxnn+h0=;
-        b=Urkbn8HUtDaX7eNGMMAf653eCtsAYFDixC3/6LT1oKGFEC6ZgdCWEx9Xw+cYxBgzyb
-         vHwIL2knJ7GzP0y5cGHFj785gOYt6dWjiHgQjua65HCVeZriLcJPO6Vp1BNB3++yXZ2p
-         3QCsaJjF8o6OAHsITLKKR+mLz+dDN7pyx9Tg/k8PtwjnSnpNYcugR0E0VQL9dBOQNC9w
-         rH3DIH0OnnqYC68rOe3GPjIPkCLEe5aZ19E5CCgMvFL00qjpp6zBHch8NI5DNdluozDf
-         bzmyXoocul37xvvBj978xTE9GBNiTwYYaMFBWuqf6VdmOqpFu2LEmSurtLrvBLvxUUKn
-         z0bw==
-X-Gm-Message-State: AOJu0YxKUL5q7PeYQh42w4JcLey3vzr/cZBfiJZf/qkN4iu4f0EyBLbe
-	uanCIeqbySGVk8VTm01f3dXQ/qom4VzSEM1julmVXiwwYkYf6xD50JlU
-X-Gm-Gg: AfdE7cmVp3UN4lO9VrfJjIoDlLQzOgzRAh7KuyCkUXrpz0YKDQDhi5eUpbMP2uxVTsA
-	bD0s5j43LWQNK8VHcfpQvw1JcAG7QeIOzZOAPZRd1U1zucbhun4jp6hHbK1n5C8XArU3eRqLdu/
-	V9RLi/O9mU9N7CT1bCXo7CTlIT7A6rYl+vodJNj7CVaSvUzlY0zZxlyqddXu5QL2dnLJk8IjGGC
-	/zxFVs83vPqIo1MVfiD5wnRIIkOXU8EOb02pTf2Sc5pE87pwgrk51tZLLi+15/SjhZFrP0p6UHO
-	5aRTkBMz0eA1JDDo35kvPO7ls0mYGeBJV6ILgvhNaLuC4OpwP1Cr4qwIJtbvFsWasZQwHWXjjjE
-	lqR1zZaYOAuR9P+lTUUebvS10DT3m8yRqIOjkaRmqVRn4MBitmpN7UynwWUc7/5VaCxeLmqSt0m
-	Wpy13xTH8FEMptpP//CFWhHYjfrBxYCgmyfEtq5xltvDHiGytDS2WKcc0EggPEvpvLlZrv2ZHAQ
-	rV3D4+ccuvC4Ckvw+KTFR+UHTxajAp3QNBTvd9zFzhgxbHpASv6xg==
-X-Received: by 2002:a05:6000:1882:b0:47f:5c33:5eb9 with SMTP id ffacd0b85a97d-47f6233c20amr10734959f8f.52.1784456894756;
-        Sun, 19 Jul 2026 03:28:14 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl (dynamic-077-007-018-194.77.7.pool.telefonica.de. [77.7.18.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63eddd1csm19863025f8f.29.2026.07.19.03.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 03:28:14 -0700 (PDT)
-Date: Sun, 19 Jul 2026 12:27:41 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Subject: Re: [PATCH 1/2] serial: amba-pl011: unprepare console clock on
- unregister
-Message-ID: <alyjOGyTd19Obemi@MacBook-Pro-von-Karl>
-References: <20260719063502.18852-1-kmehltretter@gmail.com>
- <20260719063502.18852-2-kmehltretter@gmail.com>
- <20260719070454.D6FA21F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KzDXjZfr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pfGox4F7"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id D2C601D0008A;
+	Sun, 19 Jul 2026 12:16:33 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Sun, 19 Jul 2026 12:16:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784477793;
+	 x=1784564193; bh=gUI8HSQOXw19CzEPGprG8sSdxiuNnVK73lzrGltq7Hg=; b=
+	KzDXjZfrgAUl2dEnS+vRuOSZS2ScnRK3O3VDLx8AkyDaxd7/8hXJ8nVdyQ1ovfpQ
+	IZd1GerY8DD19fG3B8CwdyQxlztkZDlZeWBeOmgM2Y5AKsynbnztbYOpKYe0SAbv
+	HTmcP1DOjfeYh7qgp+Gj6mFtCG/PABgKkXTzp4HDnqIZGIq2qUuJcK6QWgtYiqOd
+	OgwypOKkdOPjO9UmFR7Vhyu+XFoTz04td0e6xElef5XsScNvGYoSaXm+I0XT67F6
+	uzqxi9CRHNgq3OO89qQq2013KhPH6fmkCe+ehTgcZ2iXmD2kvyjl/ESIcLd8+EQ3
+	bXR9/MVitfpxnXWkceeTMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784477793; x=
+	1784564193; bh=gUI8HSQOXw19CzEPGprG8sSdxiuNnVK73lzrGltq7Hg=; b=p
+	fGox4F7LtzBaRhltglocYc2n8QSaZ3HQExqQ4BzEZRbmcD34sfqCYjnn2UckP+4Q
+	IKJvI0xEvA9aqq0XgrjsxEZhWvc24DgzLxLyXsKEaLszDoK+zKgr3Sf0umL3e4gG
+	tSve268bCrJcYNgQ5J880v5zovjlvxGKG4UQMQcbXNDhg+LUynp7LYPxSgvQXRY5
+	Hef7gIJrHoVX96Vhs+l0DXPAuxRWDsWfEQfaLiu9+fTvInr9mKKyQvzslli/4lw6
+	sy2gQmqgJxiNv9ykZNXkKZeJ0FpZFkfdM4ZYJfONU0tnagbygeZmYH8lc8nzWSSF
+	FYmn8nN9JnKeLXgj1a3eg==
+X-ME-Sender: <xms:YfhcamL5gP77W5b5EtW--sUoHioqCmwJUZEWkMmr5N_8bUF5F6o8Hw>
+    <xme:Yfhcao8O3_pUc1hV_UhdNpqSrJjI4PsI9zGqSYhgtSMOuFGIMJ_nptmDYLfunt9R1
+    7OPMVVEW5i7OCJUW82YLWq81TW3MLIXusaYksPz-qfqL7TP_p0W7pA>
+X-ME-Proxy-Cause: dmFkZTFZIUlrs9grJOP06jOOFcoKJfWGUmI+xcYEiHT2X0/Yq5Uc1CZHrWm6uAvYf8eyky
+    ILq8pHiuNd5DlTAMqquKf6pBfFJRrz0JdkjQJdUKU2a/sk15Z8mEsnyrf4UuG068H2uayW
+    jTmQV6pE1tbK3u6aTNt+AjMoMFc7+bBip33x4T/Zpq0VwpAzXvfMepJ78YhZfEPT6TY5nK
+    UvRqB+kTH8Srlk3Rlh3K7cGiUhIuet4s9FiVQ+aPtispo9FhX7VtW5coD9f51JlJJ1PVms
+    RBa7PQ8UntvhBS9uBT8tkIUEH/43MZs5VandMnOrBMRS2a2C4aPc080lC7FfFpWVlqFUUr
+    H0+i0Dej4u7LwrGD8mbDsd8aqmIyy3NIs8yycQObnFwtL4cs+fDdNXLHKckx36srmbICq0
+    0KvlG6L/GJUXFil4e0QpBGWeNJ79oxX3GZ7zPykfroXW3ba2Je+aZHpTOK0H7w0ocx5JGe
+    wUWIQxs4Hj3XfbS+kqZ5s3xQcZUivyHdlmFAn+gBD4uPH+8rqwLgiyK4jwe+C0gjz1LTYo
+    eNz4YyLM6nTj/Wyce5G5NRU1XH6GanhyXnJiWJp1pK7kSK8xnPjceSTSN9QXeGEOJu6H9Q
+    THSU4ZgF8SLuKtGNvIu1fTleo5LfrtFeisT+088KU9xRkTxnTNhuJxtyGh9Q
+X-ME-Proxy: <xmx:Yfhcam9q4ygoHsMT5eRhCff3fZfa2JF0rwm2K5ecLBHAurVXaUw87A>
+    <xmx:YfhcaqZMORLks6V5zc4XLFnymNVSU73OwBri7fy8g60jCnXBV_ZU7A>
+    <xmx:Yfhcal0hDiMPWepO8AkE1DrPJrEmjwPd5dzuRPkG0K-5SXSzAwL_XQ>
+    <xmx:YfhcalYyp-oiFPXhzgAClejWD-Jqye54OCwW4EBkl6roK-DJc_-msw>
+    <xmx:YfhcakHrlrT1xoapI4m5ir4xQhUadEksdz6p4bzhd5zwODxZShVFbgEy>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 5B922182007E; Sun, 19 Jul 2026 12:16:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260719070454.D6FA21F000E9@smtp.kernel.org>
+X-ThreadId: A1Km0dGv5oGo
+Date: Sun, 19 Jul 2026 18:15:52 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Karl Mehltretter" <kmehltretter@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: linux-rt-devel@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-Id: <c919c86b-2e12-487a-8b25-66540bca0ecf@app.fastmail.com>
+In-Reply-To: <20260718214515.11275-1-kmehltretter@gmail.com>
+References: <20260718214515.11275-1-kmehltretter@gmail.com>
+Subject: Re: [PATCH] ARM: select HAVE_POSIX_CPU_TIMERS_TASK_WORK
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 19, 2026 at 07:04:54AM +0100, sashiko-bot@kernel.org wrote:
-> This is a pre-existing issue, but does uap need a NULL check here to
-> prevent a kernel panic on error paths?
-> 
-> If uart_add_one_port() fails internally (e.g., an allocation failure in
-> serial_core_add_one_port() returning -ENOMEM), it returns an error but
-> crucially fails to unregister the console that was already registered
-> earlier in uart_configure_port().
-> 
-> The caller sees the error and clears the pointer:
-> 
-> drivers/tty/serial/amba-pl011.c:pl011_register_port() {
->     ...
->     ret = uart_add_one_port(&amba_reg, &uap->port);
->     if (ret)
->         pl011_unregister_port(uap);
+On Sat, Jul 18, 2026, at 23:45, Karl Mehltretter wrote:
+> Commit c6e61c06d606 ("ARM: 9463/1: Allow to enable RT") enabled PREEMPT_RT
+> on ARM but did not select HAVE_POSIX_CPU_TIMERS_TASK_WORK. This leaves
+> CONFIG_POSIX_CPU_TIMERS_TASK_WORK disabled, so CPU timers expire in hard
+> IRQ context.
+>
+> On PREEMPT_RT this makes run_posix_cpu_timers() take the sleeping
+> sighand->siglock:
+>
+>   BUG: sleeping function called from invalid context at spinlock_rt.c:48
+>     rt_spin_lock from lock_task_sighand
+>     lock_task_sighand from run_posix_cpu_timers
+>     run_posix_cpu_timers from update_process_times
+>
+> ARM handles TIF_NOTIFY_RESUME on all return-to-user paths, including v7-M.
+> ARM32 KVM host support was removed by commit 541ad0150ca4 ("arm: Remove
+> 32bit KVM host support"), so the select need not be conditional on KVM.
+>
+> Select it to defer POSIX CPU timer expiry to task context.
+>
+> Reproduced with setrlimit(RLIMIT_CPU, ...) and a busy loop. The same path
+> is used by setitimer(ITIMER_PROF or ITIMER_VIRTUAL) and POSIX CPU timers
+> created with timer_create().
+>
+> Fixes: c6e61c06d606 ("ARM: 9463/1: Allow to enable RT")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Good catch in a rare error path.  A NULL check alone is not enough
-because other callbacks use the same pointer.
+Indeed selecting HAVE_POSIX_CPU_TIMERS_TASK_WORK was previously
+part of the RT patch [1] set but got lost during one of the
+updates before the patch got merged.
 
-The underlying issue is that serial core can leave the console registered
-after uart_add_one_port() fails. I will investigate that separately.
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Karl
+> Found with a self-hosted syzkaller instance patched to fuzz kernels on
+> QEMU's versatilepb machine (ARM926EJ-S, ARMv5TE). Runtime-tested before
+> and after the change on that setup
+
+Good to hear that this configuration works with your patch,
+I don't think many people have tested ARMv5 RT recently.
+
+    Arnd
+
+[1] https://lore.kernel.org/all/20251030152253.tK-rY89Y@linutronix.de/
