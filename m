@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCB0625;
-	Mon, 20 Jul 2026 17:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D5640D59C;
+	Mon, 20 Jul 2026 17:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784567416; cv=none; b=igiQNnv7o5Fd/Ha8WhPVF27/X4CifQgvymWclPKNf0c6Yw+jisvNPQUt0YdaWloSkBnreJ/HbPCNBbkXGgCSm1VGKlfwd8QCEyL+JfeZh3vcoeaqgK01myxCw3WghlTyx/vX+4r3Di372ta4MVt31J01q/nVTl4B6sjHIEzhIbQ=
+	t=1784567576; cv=none; b=couvcGtQiwWMzZz0n6DvYtAmRxnUcEg5xYdNncH93KTMIyFi2zNd4/+m9mZjTPH7X0BHFufH+5oHUZflZ3gFQcNK0JvaEkojOmdnhzmPlnLaFlqpVa5+PXpwAeKA43VNgT/0EsI9FFWW1dDd6Nn5Dwb32cevn6AiMoZT/wUIzp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784567416; c=relaxed/simple;
-	bh=y78gdP4Mhf4DF9a087GDBf+ZMhh7EhPFI++5A5Fodco=;
+	s=arc-20240116; t=1784567576; c=relaxed/simple;
+	bh=mWA/LFdWld21e+cruzH33uEt4i+3Kd6+JAuX3m1Fy4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9U1J4sEk+vrDcw1aD8nQm2bIZBhaDZIwrhpfY7KaNTsR3apRN1uHaSxJblhJwMrBgXOz3yxYxYHBULDfHt7zP+xckydCy1pSjbj8kuA+slJnjc5dClgEpLLTcSzyn4I9xVFmOHk/lSfG242FlbZXcrLWCVL3TyV1WiQNE7SbuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itoK4Mdj; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKJSROc/z9dfxyw8WayYSmyNOCoU96JqAsNVpdRkOVRtr+ouFwI0hqRqwkrPqWOQcUClRgSwoj3qaGBt4z2DmxQnODEaYhsbidJyIYljh+V7XH3oKkrmN6oPNJp6PkG6B1O4VkIfp2hKuT40/uMPm1IbChd8/DsM6Q2/BQSCdEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6PUV/3u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itoK4Mdj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A03961F000E9;
-	Mon, 20 Jul 2026 17:10:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6PUV/3u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B3C1F000E9;
+	Mon, 20 Jul 2026 17:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784567407;
-	bh=BjfOV+NKNZXLs5UViExwi4UTvSENVwLsFID1r6Q/kEw=;
+	s=k20260515; t=1784567569;
+	bh=oJNfS8d+wz6ZwMhpRurQqnssE2zcvL/b/o4Ai+J3GrA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=itoK4Mdjj5ii0LNFWHvWvZeKb1bM5ZWQY2SLjLXjkfO1feztT6Gn6G8NiVOat+KPg
-	 0D/NB12mkVZe0Qu8dpRL0oONt2wA5dLQq2HFtDJt5+6MzcZEUaN8ebT6E6dQey+8Bv
-	 U67NhgIIVjM0yZ2RgwCjpyBriixC3kOUjNzXDQkdhvIe5nvIncSc+M1s1QCf4Glnzw
-	 79N0nsDl390dkbxedNNurbefhulS5jWgAZhH6RiSFZ8JtYiyqnIGyKYLSKviEh1SQL
-	 11vzxbZo4cCDnI1BgewLbszrJZvcJRudTbDKrMrm+59/LFG+1WpbrwjdfmaUCqah49
-	 bbOMVK1BbfpDw==
-Date: Mon, 20 Jul 2026 10:10:05 -0700
+	b=c6PUV/3umndlldj6PU8H8U5Pza3QJ5cYCHJM/EgPWEFN+hY3MzkCJG0m92X2uL/Hu
+	 z1r1I52zaz0lkYC+mmODg2tmSMUibs9RnxMnf+ggetKU6Eo8Yv2wFBgo7Xm0IDNgbt
+	 RD7m7b4VWlIrKHJuaaT9GBOK5PJaPzpOT8Qxf4r4ZhDI/cLDwKT1USJRgOOdYDvQyD
+	 x2re0svsspMf7/NKhB/nnf/ECutHRzKTkaagawaYiup7BsYda0WFYRbtnUs3ME4pap
+	 n4d6Z614BaWJ17i5IQHyrjY22NW1Rta7BNWj2FjESYc2vkU8frzDpo9VOU29IhNnMv
+	 2/B0cifWy2tgQ==
+Date: Mon, 20 Jul 2026 10:12:47 -0700
 From: Drew Fustini <fustini@kernel.org>
 To: yunhui cui <cuiyunhui@bytedance.com>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
@@ -61,10 +61,10 @@ Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
 	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
 Subject: Re: [External] [PATCH v5 4/8] riscv_cbqri: Add capacity controller
  probe and allocation device ops
-Message-ID: <al5WbTyTVYye70LW@thelio>
+Message-ID: <al5XD5UbluV_NyE3@thelio>
 References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
  <20260714-dfustini-atl-sc-cbqri-dt-v5-4-b0ae7e9c932e@kernel.org>
- <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
+ <CAEEQ3w=9JKswTz9BcxXRvLh-kyN_Rdu3=YUR5Rey2J9UNyd0AA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -74,9 +74,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
+In-Reply-To: <CAEEQ3w=9JKswTz9BcxXRvLh-kyN_Rdu3=YUR5Rey2J9UNyd0AA@mail.gmail.com>
 
-On Mon, Jul 20, 2026 at 05:56:29PM +0800, yunhui cui wrote:
+On Mon, Jul 20, 2026 at 08:12:28PM +0800, yunhui cui wrote:
 > Hi Drew,
 > 
 > On Wed, Jul 15, 2026 at 8:24 AM Drew Fustini <fustini@kernel.org> wrote:
@@ -98,46 +98,46 @@ On Mon, Jul 20, 2026 at 05:56:29PM +0800, yunhui cui wrote:
 > >  drivers/resctrl/cbqri_internal.h | 122 +++++++++
 > >  include/linux/riscv_cbqri.h      |  45 ++++
 > >  6 files changed, 749 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index a0a4b41f02c5..064a6ae2823e 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -23365,6 +23365,9 @@ L:      linux-riscv@lists.infradead.org
-> >  S:     Supported
-> >  F:     arch/riscv/include/asm/qos.h
-> >  F:     arch/riscv/kernel/qos.c
-> > +F:     drivers/resctrl/cbqri_devices.c
-> > +F:     drivers/resctrl/cbqri_internal.h
-> > +F:     include/linux/riscv_cbqri.h
-> >
-> >  RISC-V RPMI AND MPXY DRIVERS
-> >  M:     Rahul Pathak <rahul@summations.net>
-> > diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-> > index 672abea3b03c..92b9c82cf9f3 100644
-> > --- a/drivers/resctrl/Kconfig
-> > +++ b/drivers/resctrl/Kconfig
-> > @@ -29,3 +29,16 @@ config ARM64_MPAM_RESCTRL_FS
-> >         default y if ARM64_MPAM_DRIVER && RESCTRL_FS
-> >         select RESCTRL_RMID_DEPENDS_ON_CLOSID
-> >         select RESCTRL_ASSIGN_FIXED
+[..]
+> > +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
+> > +{
+> > +       int err, status;
+> > +       int ver_major, ver_minor;
+> > +       u64 reg;
 > > +
-> > +menuconfig RISCV_CBQRI
-> > +       bool "RISC-V CBQRI support"
-> > +       depends on RISCV && RISCV_ISA_SSQOSID
-> > +       help
-> > +         Capacity and Bandwidth QoS Register Interface (CBQRI) support for
-> > +         RISC-V cache QoS resources. CBQRI exposes cache capacity
-> > +         allocation through the resctrl filesystem at /sys/fs/resctrl when
-> > +         RESCTRL_FS is also enabled.
+> > +       reg = cbqri_readq(ctrl->base + CBQRI_CC_CAPABILITIES_OFF);
+> > +       if (reg == 0)
+> > +               return -ENODEV;
 > > +
-> > +if RISCV_CBQRI
+> > +       ver_minor = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MINOR_MASK, reg);
+> > +       ver_major = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK, reg);
+> > +       ctrl->cc.ncblks = FIELD_GET(CBQRI_CC_CAPABILITIES_NCBLKS_MASK, reg);
 > > +
-> > +endif
+> > +       pr_debug("version=%d.%d ncblks=%d cache_level=%d\n",
+> > +                ver_major, ver_minor,
+> > +                ctrl->cc.ncblks, ctrl->cache.cache_level);
+> > +
+> > +       /*
+> > +        * NCBLKS == 0 would divide-by-zero in the schemata math while
+> > +        * ctrl->lock is held.
+> > +        */
+> > +       if (!ctrl->cc.ncblks) {
+> > +               pr_warn("CC at %pa has 0 capacity blocks, skipping\n",
+> > +                       &ctrl->addr);
+> > +               return -ENODEV;
+> > +       }
+> > +
+> > +       if (ctrl->cc.ncblks > 32) {
+> > +               pr_warn("CC at %pa has ncblks=%u > 32 (resctrl CBM is u32), skipping\n",
+> > +                       &ctrl->addr, ctrl->cc.ncblks);
+> > +               return -ENODEV;
+> > +       }
 > 
-> Should this empty if/endif block go in patch [8/8] instead?
+> Could you add a short comment here, like MPAM does, to note that the
+> NCBLKS <= 32 limit comes from resctrl using u32 bitmap configs?
 
-Good point. I'll move it to patch 8.
+Sure, I will add a comment that the limit comes from resctrl
+representing the CBM as a u32.
 
 Thanks,
 Drew
