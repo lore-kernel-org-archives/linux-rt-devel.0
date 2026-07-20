@@ -1,70 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D5640D59C;
-	Mon, 20 Jul 2026 17:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E7E42CAFB
+	for <linux-rt-devel@lists.linux.dev>; Mon, 20 Jul 2026 21:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784567576; cv=none; b=couvcGtQiwWMzZz0n6DvYtAmRxnUcEg5xYdNncH93KTMIyFi2zNd4/+m9mZjTPH7X0BHFufH+5oHUZflZ3gFQcNK0JvaEkojOmdnhzmPlnLaFlqpVa5+PXpwAeKA43VNgT/0EsI9FFWW1dDd6Nn5Dwb32cevn6AiMoZT/wUIzp8=
+	t=1784582814; cv=none; b=cllIHpR8jRBS7IFIQhhRxQhADikQ7g1cY1bj6QtLI55/eHz7Dpsmsre3qiXPQ7MP6RfvbkB3e3XPsOc2nKBaztsVw8/0Z8X8XZJx/l6owag7CLrtcGrSOaQiN9ppgZL+Ci5STsBFOZCzfl51RSPsPtc+v5AtcZkrrJhf8wsX7Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784567576; c=relaxed/simple;
-	bh=mWA/LFdWld21e+cruzH33uEt4i+3Kd6+JAuX3m1Fy4g=;
+	s=arc-20240116; t=1784582814; c=relaxed/simple;
+	bh=KBb6QIoZw0FdFa7o5VODkCyFlMxQ+46+6ErjuXZUcaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nKJSROc/z9dfxyw8WayYSmyNOCoU96JqAsNVpdRkOVRtr+ouFwI0hqRqwkrPqWOQcUClRgSwoj3qaGBt4z2DmxQnODEaYhsbidJyIYljh+V7XH3oKkrmN6oPNJp6PkG6B1O4VkIfp2hKuT40/uMPm1IbChd8/DsM6Q2/BQSCdEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6PUV/3u; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOn0DV3C0bPh3UKeyQt07dFTfjLjYh+XMoxA5aEYUhEDKR4GbFfMoB3o8Zq0/mHolPmlIs3aXdmVLEaHaNPmpAYv0npJBAoDeXb/LqDGGZGtbgmvtsGgHA9SMFkMocuY5xDfDjbDN97e9yP9N9inaHdXcSd8FrYIDnrOJ4nr80I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyDxWKaB; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6PUV/3u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B3C1F000E9;
-	Mon, 20 Jul 2026 17:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784567569;
-	bh=oJNfS8d+wz6ZwMhpRurQqnssE2zcvL/b/o4Ai+J3GrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c6PUV/3umndlldj6PU8H8U5Pza3QJ5cYCHJM/EgPWEFN+hY3MzkCJG0m92X2uL/Hu
-	 z1r1I52zaz0lkYC+mmODg2tmSMUibs9RnxMnf+ggetKU6Eo8Yv2wFBgo7Xm0IDNgbt
-	 RD7m7b4VWlIrKHJuaaT9GBOK5PJaPzpOT8Qxf4r4ZhDI/cLDwKT1USJRgOOdYDvQyD
-	 x2re0svsspMf7/NKhB/nnf/ECutHRzKTkaagawaYiup7BsYda0WFYRbtnUs3ME4pap
-	 n4d6Z614BaWJ17i5IQHyrjY22NW1Rta7BNWj2FjESYc2vkU8frzDpo9VOU29IhNnMv
-	 2/B0cifWy2tgQ==
-Date: Mon, 20 Jul 2026 10:12:47 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: yunhui cui <cuiyunhui@bytedance.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Atish Kumar Patra <atishp@rivosinc.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [External] [PATCH v5 4/8] riscv_cbqri: Add capacity controller
- probe and allocation device ops
-Message-ID: <al5XD5UbluV_NyE3@thelio>
-References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
- <20260714-dfustini-atl-sc-cbqri-dt-v5-4-b0ae7e9c932e@kernel.org>
- <CAEEQ3w=9JKswTz9BcxXRvLh-kyN_Rdu3=YUR5Rey2J9UNyd0AA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyDxWKaB"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4954afac04bso30335075e9.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 20 Jul 2026 14:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784582810; x=1785187610; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qyyZwG9uZSyTHP89I/9Uxi2/crj+YVtpDfvIWd9J/1M=;
+        b=OyDxWKaBAAHmveEpXXHZAMjkOVgdTdMJouYgmIjYOtgoFfCNXn425jK5SgtXLUCaIp
+         uo/pKT/Vf5Tc3WrdwNSKTija2FLRHWFkTikZ8GMnAeGgoQjwB5XjSgfFN18KlVTM/tqc
+         6RyerM8758xv7oane0kKWiNhcOGyF8VIlNdFJY+9dIHqAX3lMBkAXae1rx4WCEHnEYA/
+         QDQoKOaDxLIJPRjToKYIqzzMMI9A3TTSD/1gW9B4ijxIOmWtH8VbFWZlguea1FdbN0CX
+         L4y5RZ2L6wQqRsvx7SUpRcvYxOZPI6J4rxm6gJED3Mj5EzskTm1dVCnveYkuMD17q/hQ
+         HVeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784582810; x=1785187610;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qyyZwG9uZSyTHP89I/9Uxi2/crj+YVtpDfvIWd9J/1M=;
+        b=TnjBDIrFmZYgN2FQTDs7LXO1OqFJsSLqzDuODGpBPzsMwGfveQ1l3TjTSjomqA8ANs
+         apgX10YK6XpcStojHoKr431JCB6E4oQiI5cQWSP3ZK3t+1fEv7w3yW7BnZ19vAYlkdxy
+         HooPQTmIveroGxoALB2BPySQIz+wW8dtoyHfmXHXNcoptr+vYXg1U5IlQ/zVuq6VofWn
+         0O8moVWSsn5W1nmm7Wxx05Cc4utP2kc0oTPhpAMrEqnrcPzgJ4euMxZu+7Aq/Ip0+8cY
+         JgXsGc5qNTeQCQzmu/6AEiOwvzsCQ2g1uU2nJziO5Na0FrqWQlljVHNJXvuQze+Lib4y
+         +yNA==
+X-Forwarded-Encrypted: i=1; AHgh+RpaMBFJ0wxbeUTbxMS7H2/zMxGfO7B/tSChSaeZMuN/XapXEYJHTHd1W2o5j+mrcnbtXqwMMmFp78FaGo96pA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy57RbN9a4i/CH/0chPAYTwYI9VOCunhCMP8djm3pb3rxQXZGuT
+	16SaL/L82I1G98ajczf6H4VetKGgTpDFzreprRUBs2nwIpId8T5wqbOEsTtG5ty9
+X-Gm-Gg: AfdE7cnwRGInPpjmvCyzDITK1EFyjYziNq9S2NPJb7uGyom4R9xMQhCJE/2oAquInTL
+	V0k0S/SkLN2uqR0G+115uj0WrNkq7crK97zZCT2a4LyF7+hu8IQh9KQynkyjW9USp/tmPZZJCNa
+	Es7X3OUIw1xHJP9s7OH5BHw1Y43q8qaTNljEER/dtZKqEdQc3lwzF+POxT86s2LiIXZhshMaX7R
+	ZDW0HVqOpB9Es4aRzOonQvUHYIM9nhaA6S0MOL9blO3v9fPL+23aAxjEg8XA+ISu97/45Tf3V7e
+	wohaZN5nRybPOP9QbJxaRO6l64jbTnRLDuCKpTJhSvfbEMDqmK8J/QK39BTzRfjsgk+nKBikLfw
+	IlxZnuQgOmEoTxDFV0OyZ6iPO0cv+EXAtb/7alITO4acYvmSiuOTVWrVll4Yay15qyDyeXtZt0Y
+	2lt9U50G7z0zPIn5P8e7tCPu/kx65UHRzNBdmhVAKp/3+9HKqvmCSyyPEddny+oEkH7Vpteovu2
+	hYx0l74YJIiaIaJTZdCdeX9CL+Fq10xEZWSPqWvW49a2Xec41v7/+G1smmxK0Fw0phpyiW/KUNg
+	6O0hOsxY99PHDmSVLxjFc4Vf
+X-Received: by 2002:a05:600c:4f56:b0:495:4dd3:ca97 with SMTP id 5b1f17b1804b1-4954dd3cb28mr155374405e9.29.1784582809607;
+        Mon, 20 Jul 2026 14:26:49 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-9c4b-4f01-f5b8-3b3d-3e3d-5e7a.310.pool.telefonica.de. [2a02:3100:9c4b:4f01:f5b8:3b3d:3e3d:5e7a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956548321asm15332135e9.12.2026.07.20.14.26.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 14:26:48 -0700 (PDT)
+Date: Mon, 20 Jul 2026 23:26:46 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: John Ogness <john.ogness@linutronix.de>, 
+	sashiko-reviews@lists.linux.dev, Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 2/2] serial: amba-pl011: keep console clock enabled for
+ atomic writes
+Message-ID: <al6M1gwuWfk2wqwI@gmail.com>
+References: <20260719063502.18852-1-kmehltretter@gmail.com>
+ <20260719063502.18852-3-kmehltretter@gmail.com>
+ <20260719065214.A40521F000E9@smtp.kernel.org>
+ <20260720080100.Mk9zZFql@linutronix.de>
+ <8733xeaxix.fsf@jogness.linutronix.de>
+ <20260720082640.eGsVn61E@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -74,70 +85,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEEQ3w=9JKswTz9BcxXRvLh-kyN_Rdu3=YUR5Rey2J9UNyd0AA@mail.gmail.com>
+In-Reply-To: <20260720082640.eGsVn61E@linutronix.de>
 
-On Mon, Jul 20, 2026 at 08:12:28PM +0800, yunhui cui wrote:
-> Hi Drew,
+On Mon, Jul 20, 2026 at 10:26:40AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-07-20 10:19:58 [+0206], John Ogness wrote:
+> > This is what the suspend/resume pm callbacks are for. In this case, it
+> > is pl011_suspend() and pl011_resume().
 > 
-> On Wed, Jul 15, 2026 at 8:24 AM Drew Fustini <fustini@kernel.org> wrote:
-> >
-> > Add support for the RISC-V CBQRI capacity controller. A platform driver
-> > passes a cbqri_controller_info descriptor together with the cache level
-> > to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
-> > to the controller list.
-> >
-> > Assisted-by: Claude:claude-opus-4-8
-> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > ---
-> >  MAINTAINERS                      |   3 +
-> >  drivers/resctrl/Kconfig          |  13 +
-> >  drivers/resctrl/Makefile         |   3 +
-> >  drivers/resctrl/cbqri_devices.c  | 563 +++++++++++++++++++++++++++++++++++++++
-> >  drivers/resctrl/cbqri_internal.h | 122 +++++++++
-> >  include/linux/riscv_cbqri.h      |  45 ++++
-> >  6 files changed, 749 insertions(+)
-[..]
-> > +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
-> > +{
-> > +       int err, status;
-> > +       int ver_major, ver_minor;
-> > +       u64 reg;
-> > +
-> > +       reg = cbqri_readq(ctrl->base + CBQRI_CC_CAPABILITIES_OFF);
-> > +       if (reg == 0)
-> > +               return -ENODEV;
-> > +
-> > +       ver_minor = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MINOR_MASK, reg);
-> > +       ver_major = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK, reg);
-> > +       ctrl->cc.ncblks = FIELD_GET(CBQRI_CC_CAPABILITIES_NCBLKS_MASK, reg);
-> > +
-> > +       pr_debug("version=%d.%d ncblks=%d cache_level=%d\n",
-> > +                ver_major, ver_minor,
-> > +                ctrl->cc.ncblks, ctrl->cache.cache_level);
-> > +
-> > +       /*
-> > +        * NCBLKS == 0 would divide-by-zero in the schemata math while
-> > +        * ctrl->lock is held.
-> > +        */
-> > +       if (!ctrl->cc.ncblks) {
-> > +               pr_warn("CC at %pa has 0 capacity blocks, skipping\n",
-> > +                       &ctrl->addr);
-> > +               return -ENODEV;
-> > +       }
-> > +
-> > +       if (ctrl->cc.ncblks > 32) {
-> > +               pr_warn("CC at %pa has ncblks=%u > 32 (resctrl CBM is u32), skipping\n",
-> > +                       &ctrl->addr, ctrl->cc.ncblks);
-> > +               return -ENODEV;
-> > +       }
+> Perfect so everything is in place except for these two.
 > 
-> Could you add a short comment here, like MPAM does, to note that the
-> NCBLKS <= 32 limit comes from resctrl using u32 bitmap configs?
+> > > There is also this no_console_suspend argument…
+> > 
+> > Yes, the callbacks need to check @console_suspend_enabled. If false, the
+> > clocks obviously must not be disabled.
+> 
+> good.
+> 
 
-Sure, I will add a comment that the limit comes from resctrl
-representing the CBM as a u32.
+All right, I will send a v2 patch for this.
 
-Thanks,
-Drew
+My testing is limited to QEMU, so I cannot test the power impact or
+behaviour of real SoCs.
+
+Karl
