@@ -1,143 +1,143 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C2B4192FC;
-	Mon, 20 Jul 2026 13:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCB0625;
+	Mon, 20 Jul 2026 17:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784553068; cv=none; b=gbOEC3CicGRqaBohRW3QdzZKXwMMAZWQiEUZRE2ofBzRsQ5tIQZ56jRSLWol5YFV+ecO0pnKzZ4zoQORHW8HQ016zROKz7S3xaoMOJsS6rWAiQGwdHG/0uFg2MkRcsVEono7In+8KpwHEo7DdOu0gmxD0IE/7lH52rjCo0YFkZ8=
+	t=1784567416; cv=none; b=igiQNnv7o5Fd/Ha8WhPVF27/X4CifQgvymWclPKNf0c6Yw+jisvNPQUt0YdaWloSkBnreJ/HbPCNBbkXGgCSm1VGKlfwd8QCEyL+JfeZh3vcoeaqgK01myxCw3WghlTyx/vX+4r3Di372ta4MVt31J01q/nVTl4B6sjHIEzhIbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784553068; c=relaxed/simple;
-	bh=IuCmNEC0svnwvEcCoIlqZ5GB4sa362Gd2VmrpyfC1+w=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=r95yVKfOpue+FvvisTmFNXEGUv7ttgLLqbBQiaJ7yT9YQVCcHrf5eXBWuZK3/6GClZKyJKttQbxlDedO0PJdP39iOGOyI5xZJ4vBmmBuaGmOEOgQjJ/4+dkQnjR/bzDCEMFXub52Z9LcaAPKf8ClDqdIiY1QzXQsCdKGv0jfzys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVEyuPlX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784567416; c=relaxed/simple;
+	bh=y78gdP4Mhf4DF9a087GDBf+ZMhh7EhPFI++5A5Fodco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9U1J4sEk+vrDcw1aD8nQm2bIZBhaDZIwrhpfY7KaNTsR3apRN1uHaSxJblhJwMrBgXOz3yxYxYHBULDfHt7zP+xckydCy1pSjbj8kuA+slJnjc5dClgEpLLTcSzyn4I9xVFmOHk/lSfG242FlbZXcrLWCVL3TyV1WiQNE7SbuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itoK4Mdj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVEyuPlX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA661F000E9;
-	Mon, 20 Jul 2026 13:11:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itoK4Mdj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A03961F000E9;
+	Mon, 20 Jul 2026 17:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784553067;
-	bh=LCEPYYQ8bW0kgw/0BZ+aIkU/OBIrX7mD+rvoihfKwk4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XVEyuPlX5lJk6TD7m0hN3Vu3qzXJmV/PWirPByPbXDzhqZmabnL9OKscogAzw9U4i
-	 kZ6+z2G5zm8dOROU2vZWiymgTWdaSSaaNzlQOFUwXgc7243/Mjxi2C4WozR6iu0iSB
-	 KCp38Z07pUWLpzNkn0ZXLR0OuSk9qrvyydVcythtDNznYwij7w265tjLoV8u7XbvNb
-	 FRehcB8OzPznto4j+F4D5RDRXVYbxP/SUhHgPPgsGm0K7ZYVRH2BbQ+/Cs0T6zq5SL
-	 nZ9M8iky+NXk8bvoYG9CoVkgXflwNdb8z0vvqZO+wAaPWfKI0Vz+oNvP5WSsb+XBhw
-	 LFuiHbrdDUEmw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH slab/for-next v4 2/8] mm/slab: handle the !allow_spin
- case in kfree_rcu_sheaf()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SGFycnkgWW9vIChPcmFjbGUp?= <harry@kernel.org>
-Cc: linux-kernel@vger.kernel.org, bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260720-kfree_rcu_nolock-v4-2-964e03c41a4e@kernel.org>
-References: <20260720-kfree_rcu_nolock-v4-0-964e03c41a4e@kernel.org>
- <20260720-kfree_rcu_nolock-v4-2-964e03c41a4e@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 Jul 2026 13:11:06 +0000
-Message-Id: <20260720131106.BCA661F000E9@smtp.kernel.org>
+	s=k20260515; t=1784567407;
+	bh=BjfOV+NKNZXLs5UViExwi4UTvSENVwLsFID1r6Q/kEw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=itoK4Mdjj5ii0LNFWHvWvZeKb1bM5ZWQY2SLjLXjkfO1feztT6Gn6G8NiVOat+KPg
+	 0D/NB12mkVZe0Qu8dpRL0oONt2wA5dLQq2HFtDJt5+6MzcZEUaN8ebT6E6dQey+8Bv
+	 U67NhgIIVjM0yZ2RgwCjpyBriixC3kOUjNzXDQkdhvIe5nvIncSc+M1s1QCf4Glnzw
+	 79N0nsDl390dkbxedNNurbefhulS5jWgAZhH6RiSFZ8JtYiyqnIGyKYLSKviEh1SQL
+	 11vzxbZo4cCDnI1BgewLbszrJZvcJRudTbDKrMrm+59/LFG+1WpbrwjdfmaUCqah49
+	 bbOMVK1BbfpDw==
+Date: Mon, 20 Jul 2026 10:10:05 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: yunhui cui <cuiyunhui@bytedance.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [External] [PATCH v5 4/8] riscv_cbqri: Add capacity controller
+ probe and allocation device ops
+Message-ID: <al5WbTyTVYye70LW@thelio>
+References: <20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org>
+ <20260714-dfustini-atl-sc-cbqri-dt-v5-4-b0ae7e9c932e@kernel.org>
+ <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEEQ3w=kVgMnQ8mu=X+d3xYbANT6dNfv7w71BUwmYxP6qcUhgg@mail.gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Mon, Jul 20, 2026 at 05:56:29PM +0800, yunhui cui wrote:
+> Hi Drew,
+> 
+> On Wed, Jul 15, 2026 at 8:24 AM Drew Fustini <fustini@kernel.org> wrote:
+> >
+> > Add support for the RISC-V CBQRI capacity controller. A platform driver
+> > passes a cbqri_controller_info descriptor together with the cache level
+> > to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
+> > to the controller list.
+> >
+> > Assisted-by: Claude:claude-opus-4-8
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  MAINTAINERS                      |   3 +
+> >  drivers/resctrl/Kconfig          |  13 +
+> >  drivers/resctrl/Makefile         |   3 +
+> >  drivers/resctrl/cbqri_devices.c  | 563 +++++++++++++++++++++++++++++++++++++++
+> >  drivers/resctrl/cbqri_internal.h | 122 +++++++++
+> >  include/linux/riscv_cbqri.h      |  45 ++++
+> >  6 files changed, 749 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a0a4b41f02c5..064a6ae2823e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23365,6 +23365,9 @@ L:      linux-riscv@lists.infradead.org
+> >  S:     Supported
+> >  F:     arch/riscv/include/asm/qos.h
+> >  F:     arch/riscv/kernel/qos.c
+> > +F:     drivers/resctrl/cbqri_devices.c
+> > +F:     drivers/resctrl/cbqri_internal.h
+> > +F:     include/linux/riscv_cbqri.h
+> >
+> >  RISC-V RPMI AND MPXY DRIVERS
+> >  M:     Rahul Pathak <rahul@summations.net>
+> > diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
+> > index 672abea3b03c..92b9c82cf9f3 100644
+> > --- a/drivers/resctrl/Kconfig
+> > +++ b/drivers/resctrl/Kconfig
+> > @@ -29,3 +29,16 @@ config ARM64_MPAM_RESCTRL_FS
+> >         default y if ARM64_MPAM_DRIVER && RESCTRL_FS
+> >         select RESCTRL_RMID_DEPENDS_ON_CLOSID
+> >         select RESCTRL_ASSIGN_FIXED
+> > +
+> > +menuconfig RISCV_CBQRI
+> > +       bool "RISC-V CBQRI support"
+> > +       depends on RISCV && RISCV_ISA_SSQOSID
+> > +       help
+> > +         Capacity and Bandwidth QoS Register Interface (CBQRI) support for
+> > +         RISC-V cache QoS resources. CBQRI exposes cache capacity
+> > +         allocation through the resctrl filesystem at /sys/fs/resctrl when
+> > +         RESCTRL_FS is also enabled.
+> > +
+> > +if RISCV_CBQRI
+> > +
+> > +endif
+> 
+> Should this empty if/endif block go in patch [8/8] instead?
 
-New issues:
-- [High] kfree_rcu_sheaf() hardcodes SLAB_FREE_DEFAULT, rendering the new !=
-allow_spin fallback logic unreachable and leaving lock recursion bugs unfix=
-ed.
+Good point. I'll move it to patch 8.
 
-Pre-existing issues:
-- [High] Calling kfree_nolock() can trigger RT-mutex deadlocks when execute=
-d in NMI context on PREEMPT_RT kernels.
---
-
---- Patch [2]: [PATCH slab/for-next v4 2/8] mm/slab: handle the !allow_spin=
- case in kfree_rcu_sheaf() ---
-commit 412874c34b3d9cc0ed877c03632bf3c3cd9499d6
-Author: Harry Yoo (Oracle) <harry@kernel.org>
-
-mm/slab: handle the !allow_spin case in kfree_rcu_sheaf()
-
-This commit teaches kfree_rcu_sheaf() how to handle the allow_spin false
-case by trying to get an empty sheaf from pcs->spare or the barn even when
-spinning is not allowed. It introduces free_flags to describe the context
-and converts them to alloc_flags when allocating memory in the free path.
-
-Link: https://lore.kernel.org/linux-mm/872bd673-3d45-4111-8a41-31185db3ece5=
-@kernel.org
-
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index b6426d7ceec92..e07b4e6d6679c 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1605,7 +1605,7 @@ static bool kfree_rcu_sheaf(void *obj)
-> =20
->  	s =3D slab->slab_cache;
->  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa_mem_i=
-d()))
-> -		return __kfree_rcu_sheaf(s, obj);
-> +		return __kfree_rcu_sheaf(s, obj, SLAB_FREE_DEFAULT);
-
-[Severity: High]
-Does this hardcoded SLAB_FREE_DEFAULT prevent the new allow_spin fallback
-logic from ever being executed?
-
-Since kfree_rcu_sheaf() is the sole caller of __kfree_rcu_sheaf(), passing
-SLAB_FREE_DEFAULT unconditionally appears to make the new context-handling
-logic unreachable.
-
-> =20
->  	return false;
->  }
-
-[ ... ]
-
-> diff --git a/mm/slub.c b/mm/slub.c
-> index e32a686775374..0c350274fbff4 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2829,11 +2833,20 @@ static void free_empty_sheaf(struct kmem_cache *s=
-, struct slab_sheaf *sheaf)
->  		mark_obj_codetag_empty(sheaf);
-> =20
->  	VM_WARN_ON_ONCE(sheaf->size > 0);
-> -	kfree(sheaf);
-> +
-> +	if (likely(allow_spin))
-> +		kfree(sheaf);
-> +	else
-> +		kfree_nolock(sheaf);
-
-[Severity: High]
-This is a pre-existing issue, but can calling kfree_nolock() here trigger
-an RT-mutex deadlock when executed in NMI context on PREEMPT_RT kernels?
-
-Looking at kfree_nolock() in mm/slub.c, it calls free_to_pcs() with the
-following sequence:
-
-    if (likely(can_free_to_pcs(slab)) && likely(free_to_pcs(s, x, false)))
-        return;
-
-And free_to_pcs() acquires the lock via local_trylock():
-
-    if (!local_trylock(&s->cpu_sheaves->lock))
-        return false;
-
-On PREEMPT_RT, local_trylock() maps to an RT-mutex, which can deadlock if
-the NMI interrupted a critical section holding the internal raw spinlock on
-the same CPU.
-
-> =20
->  	stat(s, SHEAF_FREE);
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260720-kfree_rcu_=
-nolock-v4-0-964e03c41a4e@kernel.org?part=3D2
+Thanks,
+Drew
