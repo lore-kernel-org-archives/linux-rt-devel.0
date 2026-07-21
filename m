@@ -1,111 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8A14DD6E0
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 15:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAA646AA7B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 15:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784647286; cv=none; b=dQRjHo7WmAqkY/21dOZ8X0B0VOoaoczVaOYswEFJ6fYoFDtKzXTbWtJrKsYgL6Qgh6NYzn7tAgY/nBZKFE+gzuPgvqk4J5oWiMQNc2K2nkwtfsK6Gz5H33Yfx8NkZLxVojPQbuCa/AJdd2hHID/Gj8eryygrDxVvAGcYy7++REk=
+	t=1784647943; cv=none; b=lg2pAkQ0FfHP1iqVMVq88SwFjQW9x6fbnJeJELUhmjAtDo96g3f8+eh42lriK3pxNregihD/fHcWna3YKpfwJUgkS8ztfoHlp+eR54vgwMmLtNmOv3B7sOBhBUNDmJjWnOamnrCcROLIdxP6aHBv/ddQvTA6+jIr9e14kdIXg4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784647286; c=relaxed/simple;
-	bh=8tIZqKZC5uligLhDlUDw2ljDTmMQ/3tQL4faHidSgVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BvOHz9EdPazmxXoV5vT0DziyexcUc04ZT7WY3ClLpFOOZLrrnLaq/phrRyD7iEAi0llCLtRFaMbmuTXFm6+lRnP5bnCfAsWPZjPQRjtoft5V85oJARRB9qsi5RYZr+iUX1XIrdbX1cTFUTQhDEiXjL9yUviPBtkJFQ+oqTJGiFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VZtsWhbB; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1784647943; c=relaxed/simple;
+	bh=xraByHUbZBROtfuuLq4Nu7dvLRkL4mE/tvhwLC8rI30=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VRkAJkarhx/TwUaIr5o4ZMgbD7QcUr9c3zEeKzWnUjOM8jTrhqMbMeut9UyUyxlHw4XzIHC3/fD5jN615nARstQ5K1j5iX+NVDkyBCBY8jqi/SOJ0yPWUS6MvN5onV22lWSSQlGjwhhJcagfU4CgX/4cad43oUP7lNfuX/9yVIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QonKfwey; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KR/4Id0h; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VZtsWhbB"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8E76152B;
-	Tue, 21 Jul 2026 08:21:19 -0700 (PDT)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92F7C3F58B;
-	Tue, 21 Jul 2026 08:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784647284; bh=8tIZqKZC5uligLhDlUDw2ljDTmMQ/3tQL4faHidSgVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VZtsWhbBV5+/vbr/nOiCEbiiH4MAYY1Ktg6JfACAVTBu7NRgvKKuEdYYh8nfprVmA
-	 Nit5bbvaZ7YN86uI/XeQiS9BH8bJj7zxNFRg1oGtst/OFWo2TDlm7QL9TskeZpvCsr
-	 4A5ml24A5JrulZSbsrcfjmdpMkHjEqLm6vGfEw1Y=
-Date: Tue, 21 Jul 2026 16:21:21 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <coresight@lists.linaro.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v3] coresight: Fix scheduling while atomic in
- coresight_cpu_pm_notify()
-Message-ID: <20260721152121.GM3998092@e132581.arm.com>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
- <20260716214155.2049564-1-mohamedaymanworkspace@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QonKfwey";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KR/4Id0h"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784647939;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=S608Kmt1HWYBmXlyAtfEnJyZo4qSzz2UPVUErauAwgA=;
+	b=QonKfweyQKlfNzLnPt/3a9ryetPE+5eg807zYdwLwkVz3rc/XUdi/Zz9OWt3jMyWxKVONe
+	jxAzsZBJCL9kt81rZNQqnCFCxcZbpwPhtnq1gMsccFeiTYZS/7mEMRsBJbo+tdvHm0H4GL
+	PnT/cTNPPdKJLsI0jbBAPQiWOQ8sRlU9bSGyT9vHpfrEGW7oCZG//2B2+4bx56xwy8Mjmb
+	LYN2A65MC2bIvvFDzAxyz7yMs/tZ2Pmb8JD1piWtHgxcJhNR+It1PMZ+u2nD8GjxvccoJa
+	ZMP4OuvMq7ypyWS2a5feJ7M1KTnJTKJx0RWIj5nZ/PV6cyQDfhZGlWCbnHiIrA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784647939;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=S608Kmt1HWYBmXlyAtfEnJyZo4qSzz2UPVUErauAwgA=;
+	b=KR/4Id0hdWDHOiWjdReDIvPxEtFDZwdnoK6TaAAkTf0W5SiDlqotJwD9UPtPyOR2LpuPrN
+	Uu9AnXKOVO9oaBBg==
+To: linux-hyperv@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Long Li <longli@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v2 0/2] Drivers: hv: vmbus: Small cleanups 
+Date: Tue, 21 Jul 2026 17:32:14 +0200
+Message-ID: <20260721153216.382536-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260716214155.2049564-1-mohamedaymanworkspace@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 17, 2026 at 12:41:54AM +0300, Mohamed Ayman wrote:
+Replacing the lockdep_hardirq_threaded() annotation which does not
+belong in drivers and removing the vmbus_irq_initialized which seems
+redundant.
 
-[...]
+v1=E2=80=A6v2: https://lore.kernel.org/all/20260401151517.1743555-1-bigeasy=
+@linutronix.de/
+  - Added a comment next to the invocation of __vmbus_isr()
+  - Added the "Drivers:" prefix to the subject line
 
->  static struct coresight_path *coresight_cpu_get_active_path(enum cs_mode mode)
->  {
->  	struct coresight_device *source;
-> -	bool is_active = false;
-> +	struct coresight_path *path = NULL;
->  
-> -	source = coresight_get_percpu_source_ref(smp_processor_id());
-> -	if (!source)
-> -		return NULL;
-> -
-> -	if (coresight_get_mode(source) & mode)
-> -		is_active = true;
-> +	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
->  
-> -	coresight_put_percpu_source_ref(source);
-> +	source = per_cpu(csdev_source, smp_processor_id());
-> +	if (source && (coresight_get_mode(source) & mode))
-> +		path = source->path;
->  
-> -	/*
-> -	 * It is expected to run in atomic context or with the CPU lock held for
-> -	 * sysfs mode, so it cannot be preempted to disable the path. Here
-> -	 * returns the active path pointer without concern that its state may
-> -	 * change. Since the build path has taken a reference on the component,
-> -	 * the path can be safely used by the caller.
-> -	 */
+Sebastian Andrzej Siewior (2):
+  Drivers: hv: vmbus: Replace lockdep_hardirq_threaded() with lockdep
+    annotation
+  Drivers: hv: vmbus: Remove vmbus_irq_initialized
 
-Please keep the comment, as it helps explain why the path pointer can be
-returned and safely used by the caller.
+ drivers/hv/vmbus_drv.c | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-> -	return is_active ? source->path : NULL;
-> +	return path;
+--=20
+2.53.0
 
-With above update:
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-
-Just a thought: we could view this in two stages.
-
-1) The first stage is building the CoreSight path, where we need to
-   ensure the involved modules remain bound while the path is being
-   established.
-
-2) Once the path has been built and the device mode is enabled, we
-   enter the runtime stage. From that point on, observing the device
-   mode as enabled guarantees that the associated data structures
-   can be accessed safely.
-
-I would leave this to maintainers for a call in case any concerns on
-lifetime management.
