@@ -1,94 +1,74 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA0F4CA275
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 14:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA594C955F
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 14:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784645857; cv=none; b=FN6KTcSwnS9Shmu7NCNUZYNkBXcaLfbojb9Dj1gsOdCyIRUBP179SJmVMj+cpMR1JD1osML21xrQU1TDMNDzOnbSMaACT4LUd53c3a57mbHiyXjjZawqGcKAdryJsrG/JFK67O6g/tcvxu+uSNQbasQiR3OGW4LpJaNEAR+OlWU=
+	t=1784645867; cv=none; b=cQipeCLU4h5IPAJcQFmJ8WJ9jaV3gGmkw2YeTD5ykVrS5VBahfXOC96pu4f40gOngPW989Hx8U3NLfQluxLjXAZqqd9hNLKDrN2bnVL7z1sLiq8PGaz7lQI5lPHnygFAV6szJDVjyRTpzvx2VgpPpDU6o1koxteFugK9WaEIpn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784645857; c=relaxed/simple;
-	bh=4qtcIpB1P2IKiXD+CcVbmvM7uLJl/Gi8tdxbWcGhvKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cCLF40zQ9mpQoLb/hO+WTF+4NQX3KEP33aau0xhmBqH3cpngAosnJ5vAvqwNFOMJJL8YbZqTJw2RfPQQrPPnKXHRHzemHc9mTZWOEu7WasWsslnQGKrVl6NhgelZqS22T+8/AJ0TgNvmIqaoq13Wepijmjjt5fVXgq3igrgUm+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tQ3zhhOG; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tQ3zhhOG"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E80F152B;
-	Tue, 21 Jul 2026 07:57:30 -0700 (PDT)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 00D103F86F;
-	Tue, 21 Jul 2026 07:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784645854; bh=4qtcIpB1P2IKiXD+CcVbmvM7uLJl/Gi8tdxbWcGhvKY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tQ3zhhOGd04WqDEMkb7LkLTFKTpvSjf/61W3T8jfJiBAWr8jcCIUZPx7o95EX4TY3
-	 Hcf6NQAwOExBTigWC0GYX7QIWz/jsmkYDtTZD+Ji3bLeSwKikWO7MYtrhInuTYnwAj
-	 6bWHwe29vJ12HpiM1m9cEgrPDKGOF6k0C5VAVqZ0=
-Date: Tue, 21 Jul 2026 15:57:32 +0100
-From: Leo Yan <leo.yan@arm.com>
+	s=arc-20240116; t=1784645867; c=relaxed/simple;
+	bh=99vPfvbBA0u5UgLY1C9wKU4r3L8zPMWjeCFX40SJjyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uZI3Tngo0K2vaFuJABmgxaZysLzbFyPb9MQFL0vEeVcQTCFfRKYlmXXzI+E1Ss1menqgEEpqucHDXTKG9M5tvWfvnxj8BaVgsa/rsm1Xa/VELn9kDXbhEcB75kNRFEeFD5e5hqMhudo4/F9fyWzANBe638En3voESOsETTI1jTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 2020AA0111;
+	Tue, 21 Jul 2026 14:47:50 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id E8A2880017;
+	Tue, 21 Jul 2026 14:47:47 +0000 (UTC)
+Date: Tue, 21 Jul 2026 10:48:06 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Mohamed Ayman <mohamedaymanworkspace@gmail.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <coresight@lists.linaro.org>,
-	"moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v3] coresight: Fix scheduling while atomic in
- coresight_cpu_pm_notify()
-Message-ID: <20260721145732.GL3998092@e132581.arm.com>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
- <20260716214155.2049564-1-mohamedaymanworkspace@gmail.com>
- <20260717155848.GB3998092@e132581.arm.com>
- <20260717161201.3jkO5o71@linutronix.de>
+Cc: John Ogness <john.ogness@linutronix.de>, "Ahmed S. Darwish"
+ <darwi@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, Clark Williams
+ <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev, Matthew Wilcox
+ <willy@infradead.org>, Derek Barbosa <debarbos@redhat.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <20260721104806.64afcd8f@gandalf.local.home>
+In-Reply-To: <20260721143606.NqT15H0p@linutronix.de>
+References: <20260716195716.256025-1-darwi@linutronix.de>
+	<20260716195716.256025-2-darwi@linutronix.de>
+	<20260721130248.ndwsFtHE@linutronix.de>
+	<874ihs5s4d.fsf@jogness.linutronix.de>
+	<20260721143606.NqT15H0p@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260717161201.3jkO5o71@linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: E8A2880017
+X-Stat-Signature: c6yxtwqcrdefdykwts6nhp6xbetfsp8x
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/EEGBS3SQVbWmaqdQGs0MVCyUuR8AlJ1k=
+X-HE-Tag: 1784645267-927536
+X-HE-Meta: U2FsdGVkX19IcZncXP88k7vCZGmXRZYXYHAtcO/9hSm/UEUQxbCrUFw0AMNkAFPO3uZo8BuqxxuQSFFWZ3jC6GvHDMC2ZEDsbZj27a+vTT+3eLlcsaHKm+YQPmqPYMz9thbHkRNyXvVk5+v17W5q4BBtf4NBDmC0XNqjqDqJj22mJwZA6HmOSukT84ekodiypZZ1pBpeonx/4/QboOci/rmt8sicnjgIRWqEZ1qAVoGk/d03kiI6256ycA2rcwZdODYbEMi4bZo6TeNNR5CqfBq3A+VjR9RssVjgjsdlpLrMAcOhU8fEFWs7KkBmcLqU
 
-On Fri, Jul 17, 2026 at 06:12:01PM +0200, Sebastian Andrzej Siewior wrote:
+On Tue, 21 Jul 2026 16:36:06 +0200
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-[...]
-
-> > The raw spinlock (coresight_dev_lock) serializes access to the per-CPU
-> > csdev_source pointer. It does not guarantee the lifetime of the source
-> > or its _parent_ device. coresight_unregister() is not only reached from
-> > module unload; it can also be called when a driver is unbind, for
-> > example DT overlay removal or device hotplug/unplug.
+> > Unfortunately, debugfs is needed to configure the fair deadline server:
+> > 
+> >     /sys/kernel/debug/sched/fair_server/cpu*/runtime  
 > 
-> But doesn't coresight_unregister() block on the coresight_dev_lock here?
+> So drop the reference to it. It is not "bad" to have it enabled. It is
 
-Fair point.
+I believe that some distros feel that it is bad to enable because there's
+no real auditing of its interface. Although, it is now only accessible by
+root.
 
-coresight_cpu_get_active_path() can safely access the source while
-holding coresight_dev_lock. Unregistration will be blocked until the
-access from the CPU PM notifier has finished.
+> just an interface to other things. Same as sysfs except that debugfs has
+> no stable ABI unlike sysfs.
 
-> > I think a proper fix needs a clearer lifetime model for an active
-> > session. E.g., we could consider to call device_link_add() to prevent
-> > device unbind / unregister, and unlink device when the session is
-> > finished. Once that is in place, the CPU PM notifier can safely use the
-> > active path without get_device()/put_device() pair anymore.
-> 
-> Right. I am also not sure about lifetime of coresight_device::path.
+I found out the hard way that it can most definitely be a stable ABI :-p
 
-coresight_device::path is a runtime pointer that is valid only while
-the device is enabled.
-
-Since both the path and the device mode are updated atomically on the
-local CPU, observing the device mode as enabled guarantees that the
-corresponding coresight_device::path is valid.
-
-Thanks,
-Leo
+-- Steve
