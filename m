@@ -1,74 +1,211 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA594C955F
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 14:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4064F402442
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 15:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784645867; cv=none; b=cQipeCLU4h5IPAJcQFmJ8WJ9jaV3gGmkw2YeTD5ykVrS5VBahfXOC96pu4f40gOngPW989Hx8U3NLfQluxLjXAZqqd9hNLKDrN2bnVL7z1sLiq8PGaz7lQI5lPHnygFAV6szJDVjyRTpzvx2VgpPpDU6o1koxteFugK9WaEIpn0=
+	t=1784646561; cv=none; b=FA3UYYXwE9Fm23GXLBmOEJ60fle0B99sk06dRS+L/IdFSueqnB7FfYM9HT8endALifTLWSvlDvt+fbKAJr8r/KUcyxeyfc+QVOToBVt5jlHlPBQzFjaqiWnjBRvMSHeAeHSV6IlcJHUCjprtZ8OKkayMjhJ8BXgFXxp7IMn/zyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784645867; c=relaxed/simple;
-	bh=99vPfvbBA0u5UgLY1C9wKU4r3L8zPMWjeCFX40SJjyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uZI3Tngo0K2vaFuJABmgxaZysLzbFyPb9MQFL0vEeVcQTCFfRKYlmXXzI+E1Ss1menqgEEpqucHDXTKG9M5tvWfvnxj8BaVgsa/rsm1Xa/VELn9kDXbhEcB75kNRFEeFD5e5hqMhudo4/F9fyWzANBe638En3voESOsETTI1jTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 2020AA0111;
-	Tue, 21 Jul 2026 14:47:50 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id E8A2880017;
-	Tue, 21 Jul 2026 14:47:47 +0000 (UTC)
-Date: Tue, 21 Jul 2026 10:48:06 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: John Ogness <john.ogness@linutronix.de>, "Ahmed S. Darwish"
- <darwi@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, Clark Williams
- <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev, Matthew Wilcox
- <willy@infradead.org>, Derek Barbosa <debarbos@redhat.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <20260721104806.64afcd8f@gandalf.local.home>
-In-Reply-To: <20260721143606.NqT15H0p@linutronix.de>
-References: <20260716195716.256025-1-darwi@linutronix.de>
-	<20260716195716.256025-2-darwi@linutronix.de>
-	<20260721130248.ndwsFtHE@linutronix.de>
-	<874ihs5s4d.fsf@jogness.linutronix.de>
-	<20260721143606.NqT15H0p@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1784646561; c=relaxed/simple;
+	bh=xb9lvXzNIVN92FWHjr7yYFP1zI3lxgtI1P8XDTvnttQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B/89wpsL4hYgvn2uyGDffP2vJb30Z1x+Nba2VoKOmY8I8MvkwrPx5rjZ3qi+KSlV8RwgUcQHbglITz4l4fZ+mJOSTWPYooqGH7AMmVdiM1eW/0xS0AwuUfgzdeT/0/YFTWLnmIJB0tAcGxmlJHw7Kroi5WRWIXl1AvhmlucLvBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MGkO6FVL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LZR0DmHz; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MGkO6FVL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LZR0DmHz"
+Date: Tue, 21 Jul 2026 17:09:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784646556;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=dRd3BvVE6JL0B22IgwttXpAjm8q7DMONyN3c4Kx3iIA=;
+	b=MGkO6FVL26HDdc3aTyma7ZHvKVinLKeXkm1WaL3kpzv/HtN9y4gGCBi2SqIsBqRD+/mkhF
+	N8S8z7B68hTpI3NcgNGzJhpErIwOKR8psphS3LfT7BtLnv8/FAcBRXahDWHKtVRdVJNAeR
+	6vZfIX3kQFbVP4mwA8uunxyS38IgPVksSKd/kOXhzZBsA9N84Fak2FHXFc8HFLoN07V3lE
+	6LCKkoc2KIQSIYECQZ5Nz0uBBPvTVeGy4EUEjsoDSkuQIPHdZ4wlmBwBiglB4Y4YV/ktH/
+	R3VzLZJNagzG+CF9jjk7gPVyIPAJnNnoePUJ2x8/A81aTQFMfdRx5GcVT4aAIA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784646556;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=dRd3BvVE6JL0B22IgwttXpAjm8q7DMONyN3c4Kx3iIA=;
+	b=LZR0DmHzJ4qT8Ayub+rAMaoNW+Nh6Qrfk9AMR/zc5Fo5AeSbInIiG+sxN9r3oQNNkqe68x
+	jgVGCfLxKX43HmDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v7.2-rc4-rt3
+Message-ID: <20260721150914.gnlewgrV@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: E8A2880017
-X-Stat-Signature: c6yxtwqcrdefdykwts6nhp6xbetfsp8x
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/EEGBS3SQVbWmaqdQGs0MVCyUuR8AlJ1k=
-X-HE-Tag: 1784645267-927536
-X-HE-Meta: U2FsdGVkX19IcZncXP88k7vCZGmXRZYXYHAtcO/9hSm/UEUQxbCrUFw0AMNkAFPO3uZo8BuqxxuQSFFWZ3jC6GvHDMC2ZEDsbZj27a+vTT+3eLlcsaHKm+YQPmqPYMz9thbHkRNyXvVk5+v17W5q4BBtf4NBDmC0XNqjqDqJj22mJwZA6HmOSukT84ekodiypZZ1pBpeonx/4/QboOci/rmt8sicnjgIRWqEZ1qAVoGk/d03kiI6256ycA2rcwZdODYbEMi4bZo6TeNNR5CqfBq3A+VjR9RssVjgjsdlpLrMAcOhU8fEFWs7KkBmcLqU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tue, 21 Jul 2026 16:36:06 +0200
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+Dear RT folks!
 
-> > Unfortunately, debugfs is needed to configure the fair deadline server:
-> > 
-> >     /sys/kernel/debug/sched/fair_server/cpu*/runtime  
-> 
-> So drop the reference to it. It is not "bad" to have it enabled. It is
+I'm pleased to announce the v7.2-rc4-rt3 patch set. 
 
-I believe that some distros feel that it is bad to enable because there's
-no real auditing of its interface. Although, it is now only accessible by
-root.
+Changes since v7.2-rc4-rt2:
 
-> just an interface to other things. Same as sysfs except that debugfs has
-> no stable ABI unlike sysfs.
+  - Update the 8250 nbcon series as per John
+	https://lore.kernel.org/lkml/20260720103242.7265-1-john.ogness@linutronix.de/
+  - ARM could issue a "sleeping while atomic warning" if user land used
+    an "invalid opcode". Patch by Xie Yuanbin.
+  - ARM didn't use perform POSIX CPU timers in task_work as it should.
+    This was accidentally dropped in v6.18-rc4-rt3. Patch by Karl
+    Mehltretter.
 
-I found out the hard way that it can most definitely be a stable ABI :-p
+Known issues
+    - Yoann Congal reported a bit spinlock in dm_exception_table_lock().
+        https://lore.kernel.org/all/Z8GTjqgDe_5EkE3t@P-ASN-ECS-830T8C3.local
 
--- Steve
+The delta patch against v7.2-rc4-rt2 is appended below and can be found here:
+ 
+     https://cdn.kernel.org/pub/linux/kernel/projects/rt/7.2/incr/patch-7.2-rc4-rt2-rt3.patch.xz
+
+You can get this release via the git tree at:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v7.2-rc4-rt3
+
+The RT patch against v7.2-rc4 can be found here:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/7.2/older/patch-7.2-rc4-rt3.patch.xz
+
+The split quilt queue is available at:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/7.2/older/patches-7.2-rc4-rt3.tar.xz
+
+Sebastian
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 9187240a02db5..f073b5102d4ed 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -133,6 +133,7 @@ config ARM
+ 	select HAVE_PERF_EVENTS
+ 	select HAVE_PERF_REGS
+ 	select HAVE_PERF_USER_STACK_DUMP
++	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
+ 	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_RSEQ
+diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
+index afbd2ebe5c39d..6aa205a929205 100644
+--- a/arch/arm/kernel/traps.c
++++ b/arch/arm/kernel/traps.c
+@@ -375,6 +375,7 @@ void arm_notify_die(const char *str, struct pt_regs *regs,
+ 		unsigned long err, unsigned long trap)
+ {
+ 	if (user_mode(regs)) {
++		local_irq_enable();
+ 		current->thread.error_code = err;
+ 		current->thread.trap_no = trap;
+ 
+diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
+index bf358604f3dff..7598ccd9319e4 100644
+--- a/drivers/tty/serial/8250/8250_core.c
++++ b/drivers/tty/serial/8250/8250_core.c
+@@ -609,6 +609,9 @@ void serial8250_suspend_port(int line)
+ 	struct uart_8250_port *up = &serial8250_ports[line];
+ 	struct uart_port *port = &up->port;
+ 
++	/* No irq_work may be queued when suspending. */
++	up->avoid_modem_status_work = true;
++
+ 	if (!console_suspend_enabled && uart_console(port) &&
+ 	    port->type != PORT_8250) {
+ 		unsigned char canary = 0xa5;
+@@ -645,6 +648,12 @@ void serial8250_resume_port(int line)
+ 		port->uartclk = 921600*16;
+ 	}
+ 	uart_resume_port(&serial8250_reg, port);
++
++	/* irq_work allowed again. Handle MSR now if pending. */
++	up->avoid_modem_status_work = false;
++	guard(uart_port_lock_irqsave)(port);
++	if (uart_console(port) && up->msr_saved_flags)
++		serial8250_modem_status(up);
+ }
+ EXPORT_SYMBOL(serial8250_resume_port);
+ 
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 4263e423a0a38..aa4b0780638fb 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -3260,8 +3260,8 @@ void serial8250_fifo_wait_for_lsr_thre(struct uart_8250_port *up,
+ 		 * the ownership might timeout. The new owner will wait
+ 		 * for UART_LSR_THRE before reusing the fifo.
+ 		 */
+-               if (wctxt && !nbcon_can_proceed(wctxt))
+-                       return;
++		if (wctxt && !nbcon_can_proceed(wctxt))
++			return;
+ 
+ 		if (wait_for_lsr(up, UART_LSR_THRE))
+ 			return;
+@@ -3501,10 +3501,21 @@ void serial8250_console_write(struct uart_8250_port *up,
+ 		 * For atomic, it must be deferred to irq_work because this
+ 		 * may be a context that does not permit waking up tasks.
+ 		 */
+-		if (is_atomic)
+-			irq_work_queue(&up->modem_status_work);
+-		else
++		if (is_atomic) {
++			/*
++			 * For atomic, MSR handling must be deferred to
++			 * irq_work because this may be a context that does
++			 * not permit waking up tasks.
++			 *
++			 * But no irq_work may be queued when suspending.
++			 * In that case, the MSR handling will occur during
++			 * resume in serial8250_resume_port().
++			 */
++			if (!up->avoid_modem_status_work)
++				irq_work_queue(&up->modem_status_work);
++		} else {
+ 			serial8250_modem_status(up);
++		}
+ 	}
+ 
+ 	nbcon_exit_unsafe(wctxt);
+@@ -3535,9 +3546,8 @@ static void modem_status_handler(struct irq_work *iwp)
+ 	struct uart_8250_port *up = container_of(iwp, struct uart_8250_port, modem_status_work);
+ 	struct uart_port *port = &up->port;
+ 
+-	uart_port_lock(port);
++	guard(uart_port_lock)(port);
+ 	serial8250_modem_status(up);
+-	uart_port_unlock(port);
+ }
+ 
+ int serial8250_console_setup(struct uart_port *port, char *options, bool probe)
+diff --git a/include/linux/serial_8250.h b/include/linux/serial_8250.h
+index 03b17423fc5af..12c2f6aadd420 100644
+--- a/include/linux/serial_8250.h
++++ b/include/linux/serial_8250.h
+@@ -158,6 +158,9 @@ struct uart_8250_port {
+ 	 */
+ 	bool			console_line_ended;
+ 
++	/* Do not queue irq_work for MSR handling when suspending. */
++	bool			avoid_modem_status_work;
++
+ #define MSR_SAVE_FLAGS UART_MSR_ANY_DELTA
+ 	unsigned char		msr_saved_flags;
+ 	struct irq_work		modem_status_work;
+diff --git a/localversion-rt b/localversion-rt
+index c3054d08a1129..1445cd65885cd 100644
+--- a/localversion-rt
++++ b/localversion-rt
+@@ -1 +1 @@
+--rt2
++-rt3
