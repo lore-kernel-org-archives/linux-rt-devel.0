@@ -1,132 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512411A239A;
-	Tue, 21 Jul 2026 15:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5CD39EF16
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 15:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784648986; cv=none; b=jFZ2rbhTw+F32DO3iQCyGIvMjuUSYH91vFDPV0ZxbjKekuYsnpfCRE1xCoNs5VVVcm6W12rFryEdfPoK0c25os7YSPNXAGNPTyFMw2HeGfwTEE6+mOZCNjIKIRKXTPw9qd9c2I3Sqp/WYppYr4QhLq5Li+ZHzTCU82KxUh1pyrw=
+	t=1784649125; cv=none; b=HLSZGoBJ5pxnsscpw8M3135FmmkXZ2XHcQwZVGn+47T+ciXAFLT4al+s0RRIivyFvnSpYaeIBVmfmQST4aLZWYAiucBxwZ04t8YPojm7w3JXDgtKor2Hk00HY9yb/WcxeOMCcmhEnuVFsVUC+g+gWIPz+U/8VukJwAVNtXVfjl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784648986; c=relaxed/simple;
-	bh=XAy/MJK6tuuooFgAQobeeG+2mH0kFOGcU5kVjtdFVqI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=GBuG/hmEWgaJuyZavtSBeypkYKzpm6nBU/JcScOREytAKkDYDRA7eeRIKOAeBgrFSbBbE+2zeIkR6L2nYi+KkXJ85rP8IjhGlGmS+XyXpOZYz2rJguq+AlucafTw1fRxaNU+WqTOt8nGWPedtuJzpha91hGVVjC64/PlZpZD/Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hb6BKa2T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784649125; c=relaxed/simple;
+	bh=BOJNFKFHPMWMqW4Cyo7goHnFS8Qn+Tk2Jz5ToPhtb04=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f6UWT1yuGTlPOEiHhop/JvjfCc7qk/hU8tqjIqDKj1Uyu6r4CyuWi/HB8ba+8zOY39msIe8+32qdyqJJQeB22f/USKWVYKTbNnwTuHrAz1XBytbIr1GjfGgBS1aL/1t9j8cVkUDHX5r5z1cQhTU10PlPNp1Mz731L7h5B37j0RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dOrr7k/g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lKHiXfPP; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hb6BKa2T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09BD1F00A3D;
-	Tue, 21 Jul 2026 15:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784648983;
-	bh=+39Maqyi+rI2vo3QXzlwlS1yWNsub6gIne/Wxa/OVbk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hb6BKa2Tgb6NWG9sSao1UnYC3rViK3rfBjWDZIQ2dQbQ1h3iBEdv3PU1rGloktnWh
-	 vKqvxwjyH7vhnIi6lQ72mVlW9bQYK59ftB5jomyh5E0biyuUOr6Q1NhICmgXJ5yTNz
-	 04NsvyczKp8CcBAXbgrXt8gP9CFytJyJByWptFqBEEoSy5TBciqFsOPNnLf1sxFC+w
-	 t8GJiFxC92FLvg/aqCGfSk2I7gOMUITleV0hoFaYrwryig8X/DnB94YkNUfS2ltZx7
-	 eXuqX4lxtJ/y45BFWwVKC/SO+1xzdfGKa+LuaCaSKodiFgl8zJJUZs8MRYpQDJaq0O
-	 1Bc/OOWa6kGwg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: Remove vmbus_irq_initialized
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260721153216.382536-3-bigeasy@linutronix.de>
-References: <20260721153216.382536-1-bigeasy@linutronix.de>
- <20260721153216.382536-3-bigeasy@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jul 2026 15:49:43 +0000
-Message-Id: <20260721154943.A09BD1F00A3D@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dOrr7k/g";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lKHiXfPP"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784649120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U7xMNVgyGGRyIJjpXA89R9vggcnCwn9+jkC/W3//MNU=;
+	b=dOrr7k/gCpLEdMnv5dh35arkpybcWD8kCUht22t5gObuAZatCP4xhAVQjic61E2sFQzQ2S
+	MqnoA75VFM1bMW+XlwG3nlOEbc2hUVjI8SHCBzMyHvrPYmwmSnEhgsqzB1Xeb5fbIRk8ag
+	wKQH4iMhw6tZZmHxW64h3uQlPOB+m/uYM70sxuTXYZc3DjO0/Y6auycLAy0ENtYgtqcmkf
+	IVML1bKkoEiVsQtZMBaZzWruMTy2HjS0cnRHK8BljUXFtAh7z1rcLe9zIXCm6D1U5h7Yoy
+	jPh3D8HQsgywlzOaX/g5SvLVD/Bz/K4JICySxHnha5gTpj4A92mVqnWgBYgyow==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784649120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U7xMNVgyGGRyIJjpXA89R9vggcnCwn9+jkC/W3//MNU=;
+	b=lKHiXfPPd51EAGFq8GJ65zypWRA5lifGz5wyKa132AFkAABV3p1zQWIB7r9k7FImJRLy4W
+	uOpCMsOhbXf0K0DQ==
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Steven Rostedt
+ <rostedt@goodmis.org>
+Cc: "Ahmed S. Darwish" <darwi@linutronix.de>, Jonathan Corbet
+ <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+ linux-rt-devel@lists.linux.dev, Matthew Wilcox <willy@infradead.org>,
+ Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
+ configuration guide
+In-Reply-To: <20260721152114.wTED4bR5@linutronix.de>
+References: <20260716195716.256025-1-darwi@linutronix.de>
+ <20260716195716.256025-2-darwi@linutronix.de>
+ <20260721130248.ndwsFtHE@linutronix.de>
+ <874ihs5s4d.fsf@jogness.linutronix.de>
+ <20260721143606.NqT15H0p@linutronix.de>
+ <20260721104806.64afcd8f@gandalf.local.home>
+ <20260721152114.wTED4bR5@linutronix.de>
+Date: Tue, 21 Jul 2026 17:58:00 +0206
+Message-ID: <87wluo49y7.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On 2026-07-21, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> On 2026-07-21 10:48:06 [-0400], Steven Rostedt wrote:
+>> On Tue, 21 Jul 2026 16:36:06 +0200
+>> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+>> 
+>>>> Unfortunately, debugfs is needed to configure the fair deadline server:
+>>>> 
+>>>>     /sys/kernel/debug/sched/fair_server/cpu*/runtime  
+>>> 
+>>> So drop the reference to it. It is not "bad" to have it enabled. It is
+>> 
+>> I believe that some distros feel that it is bad to enable because there's
+>> no real auditing of its interface. Although, it is now only accessible by
+>> root.
+>
+> Yeah. Either way, there shouldn't be anything real-time specific that
+> requires the user have it enabled or disabled.
 
-New issues:
-- [High] Removal of vmbus_irq_initialized flag introduces a NULL pointer de=
-reference in smpboot_unregister_percpu_thread().
+The fair deadline server is certainly real-time specific. It is the
+new/additional RT throttling mechanism. Generally speaking, RT systems
+will want to disable it or at least reduce the 50ms default.
 
-Pre-existing issues:
-- [High] Unconditional cleanup in vmbus_exit() leads to multiple NULL point=
-er dereferences if module initialization was bypassed.
---
+This document is not about runtime settings, but if debugfs is not
+enabled, the user will have no way to configure the fair deadline server
+at runtime.
 
---- Patch [2]: [PATCH v2 2/2] Drivers: hv: vmbus: Remove vmbus_irq_initiali=
-zed ---
-commit 5d2e18e4c080ed3a0d4cb94c834ff4580a336e21
-Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+I am OK if it is completely dropped from this document. But if there are
+distros that think it is bad, it might be worth mentioning that this
+config is important (if not critical) for real-time systems.
 
-Drivers: hv: vmbus: Remove vmbus_irq_initialized
-
-This commit removes the vmbus_irq_initialized flag, relying on the
-assumption that if per-CPU thread registration fails, the whole
-registration aborts and vmbus_exit() is never called.
-
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 44877664d9d08..95a2c6049854d 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-
-[ ... ]
-
-> @@ -3045,10 +3040,9 @@ static void __exit vmbus_exit(void)
->  		hv_remove_vmbus_handler();
->  	else
->  		free_percpu_irq(vmbus_irq, &vmbus_evt);
-> -	if (IS_ENABLED(CONFIG_PREEMPT_RT) && vmbus_irq_initialized) {
-> +	if (IS_ENABLED(CONFIG_PREEMPT_RT))
->  		smpboot_unregister_percpu_thread(&vmbus_irq_threads);
-> -		vmbus_irq_initialized =3D false;
-> -	}
-
-[Severity: High]
-Will this unconditionally unregister uninitialized threads if the module is
-loaded and unloaded without executing vmbus_bus_init()?
-
-The commit message states that vmbus_exit() is never called if registration
-fails. However, hv_acpi_init() can return early and bypass vmbus_bus_init()
-completely:
-
-hv_acpi_init() {
-    ...
-    if (hv_root_partition() && !hv_nested)
-        return 0;
-    ...
-}
-
-If the module loads via this early return path and is later unloaded,
-vmbus_exit() will execute. Calling smpboot_unregister_percpu_thread() on
-the zero-initialized vmbus_irq_threads.list will trigger a NULL pointer
-dereference in list_del().
-
-> =20
->  	for_each_online_cpu(cpu) {
->  		struct hv_per_cpu_context *hv_cpu
->  			=3D per_cpu_ptr(hv_context.cpu_context, cpu);
-> =20
->  		tasklet_kill(&hv_cpu->msg_dpc);
-
-[Severity: High]
-This is a pre-existing issue, but won't the same early return in
-hv_acpi_init() cause multiple crashes during teardown as well?
-
-If vmbus_bus_init() is completely bypassed and the module is subsequently
-unloaded, vmbus_exit() performs unconditional cleanup on uninitialized
-resources.=20
-
-For example, tasklet_kill() will attempt to access hv_cpu derived from an
-unallocated hv_context.cpu_context. Similarly, unregister_syscore() called
-at the start of vmbus_exit() will also dereference a NULL pointer since it
-was never registered.
-
->  	}
->  	hv_debug_rm_all_dir();
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721153216.3825=
-36-1-bigeasy@linutronix.de?part=3D2
+John
