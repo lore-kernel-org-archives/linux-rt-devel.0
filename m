@@ -1,131 +1,115 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F116746AA7C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 15:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D75046C4AD;
+	Tue, 21 Jul 2026 15:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784647943; cv=none; b=TVczALp4FcUsxXEYYsHK2f2dAw6/KqRxA/mLk/uxEMAV7edEIDmtY3oyKCEuqLiX53nc7COC8/RikZ5rsQL6BHQTfdpiwGyb7Cr/rvWmG54XKyaZhH/RVZNNMCk2AJiVY8rd4d1DoM5QEuUOn2TvLcG3yRRnGpp7bBw4DBard2Y=
+	t=1784648878; cv=none; b=l5fqrjoB4dlhLQp1WYX9yJ21zYdXh7LxMWSKzObsE/xTQSNlYqj87HVKHfWrC4lCpAwqOQFtJJCUQJc7Fo0vUVTdqsDMCGi5wlvzJIYI1raxnCbOFSgEGt/txxrB72L6MKwb+3llFjMXC+85j0zUTn/EN7gg5ycMrfkx/WCGuJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784647943; c=relaxed/simple;
-	bh=hAjqELKOTrMsgdp5VtMULrtJjWyKbupOgFbdGkxVAUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QiNNEr4cLvu195nGUV5ru0N6y6Bf0r4tCZfEOhB6F9u7Q9VaaysmTKGLF7YmR0j9yn8AJ1XEzTG31oDAv29w8HHqm5XzghjmQY/uJ3/3aFZ02ZZdMierAB4zK6a82fIkItGaaA8jlSYWK9Da7UtLnoCBjcbfFNQRrq1+cmlRhqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H3PS2QJz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E5GreTxE; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1784648878; c=relaxed/simple;
+	bh=M8MPzZvQT2RyQ18aDCvrd4nr6hgXjCpwjihYz7nllns=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=YMY1v54nLpWoZhngkhSH8s5V2QZzqtpeH2jQLdwe4Utrm3/Uust81bPZFubiO9wcP2KiKxJuOGCheGNNICQ49evsLKk1bcxg3iZuzn2C8Y9mrPbXsiH+JvHanpu057UCGj17zI/6VzGLIl9dQOB3F8q43Ia6LMK2hHqykT3IvAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8Fa7X93; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H3PS2QJz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E5GreTxE"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784647940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gZ+kOeaOdGhatTWm/92wEG6NTZjICMJi0VidcGsbqRg=;
-	b=H3PS2QJzesd+mDhRXz19l9J2OauP8DxVgj1uo5Acdehj/fkR8uToYbUcF7vXOIla4gggj3
-	m3EknXlkTjvhF//ZAyy+LQPkvanknEbNAUS+O/AIH6NT+1uPhbm9uU8hL6qDJZ1vN7+97W
-	5gdCRzYNlRZfBFi9qam9T7v0rR3gbVwaLpr63gNI82jDNGG4A/0a8o2VzHq9uDYpIsbaeR
-	Lufa9pJvazj9omgTPE3x3rpLg4x/2xYT/54qIs08QxbM2GWO+56PVVkH+nRN8ZYfTPDZAL
-	C0KjN6cBWzx2vLqetQpV1qh8dCUhPj5qs5M31Dih06VZO46pFJsn51vPeCi0Ug==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784647940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gZ+kOeaOdGhatTWm/92wEG6NTZjICMJi0VidcGsbqRg=;
-	b=E5GreTxEurj1vHcu/txFN+8zg4yyvZiQs8wJIDco9MktVxkIXX/2ttV0RZR4L+BbZGfPaD
-	pL6dkSYabKSFajBQ==
-To: linux-hyperv@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Long Li <longli@microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v2 2/2] Drivers: hv: vmbus: Remove vmbus_irq_initialized
-Date: Tue, 21 Jul 2026 17:32:16 +0200
-Message-ID: <20260721153216.382536-3-bigeasy@linutronix.de>
-In-Reply-To: <20260721153216.382536-1-bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8Fa7X93"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A961F000E9;
+	Tue, 21 Jul 2026 15:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784648876;
+	bh=4pTB0MGXR4Vibqr5zUud9f3dqcCrmtj7Vhv9dny9GgU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=N8Fa7X93zQXemX3JSwp2Wm6m89EWzc7WgXxR4uOzwd3Axr6xZR2bU6vXQ6QELowBd
+	 RM3N5AFR4Fw6Y7fMV90XArD6oN5kIy37cVq0LqeynxR2JJfGGfRdqhP3GQ4r/6DEus
+	 SWxaskURo3HOzXb2eSf3rFvHQGKKjDI83vVCLs367SQgOAKUV5MJ4Lwi+rmkwY2pY8
+	 gOl98ru6J153w5yDTIyg36KlGwSDnbgyiSrYItVEN6mi7MNTq88dpJsSn0WxcCXxQN
+	 DG8siPGeP6UzRX/Xt4WRHF51EmxPb+LQw3bfZvI9zNj4tYioFe9TLEljjCcbGYMuAS
+	 BC0jC+nLxoBuQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/2] Drivers: hv: vmbus: Replace
+ lockdep_hardirq_threaded() with lockdep annotation
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260721153216.382536-2-bigeasy@linutronix.de>
 References: <20260721153216.382536-1-bigeasy@linutronix.de>
+ <20260721153216.382536-2-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Jul 2026 15:47:56 +0000
+Message-Id: <20260721154756.A2A961F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 
-vmbus_irq_initialized is only true if the registration of the per-CPU
-threads succeeded. If it failed, the whole registration aborts and the
-vmbus_exit() path is never called.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Remove vmbus_irq_initialized.
+Pre-existing issues:
+- [Critical] The clock event timer interrupt (HVMSG_TIMER_EXPIRED) is incor=
+rectly processed in a kthread on PREEMPT_RT, violating the architectural re=
+quirement that the system tick must run in hardirq context.
+--
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/hv/vmbus_drv.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+--- Patch [1]: [PATCH v2 1/2] Drivers: hv: vmbus: Replace lockdep_hardirq_t=
+hreaded() with lockdep annotation ---
+commit f939a4b9727e456e689d5d7488e6095b1358e5b5
+Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 44877664d9d08..95a2c6049854d 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1369,8 +1369,6 @@ static void run_vmbus_irqd(unsigned int cpu)
- 	__vmbus_isr();
- }
-=20
--static bool vmbus_irq_initialized;
--
- static struct smp_hotplug_thread vmbus_irq_threads =3D {
- 	.store                  =3D &vmbus_irqd,
- 	.setup			=3D vmbus_irqd_setup,
-@@ -1497,11 +1495,10 @@ static int vmbus_bus_init(void)
- 	 * the VMbus interrupt handler.
- 	 */
-=20
--	if (IS_ENABLED(CONFIG_PREEMPT_RT) && !vmbus_irq_initialized) {
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
- 		ret =3D smpboot_register_percpu_thread(&vmbus_irq_threads);
- 		if (ret)
- 			goto err_kthread;
--		vmbus_irq_initialized =3D true;
- 	}
-=20
- 	if (vmbus_irq =3D=3D -1) {
-@@ -1545,10 +1542,8 @@ static int vmbus_bus_init(void)
- 	else
- 		free_percpu_irq(vmbus_irq, &vmbus_evt);
- err_setup:
--	if (IS_ENABLED(CONFIG_PREEMPT_RT) && vmbus_irq_initialized) {
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
- 		smpboot_unregister_percpu_thread(&vmbus_irq_threads);
--		vmbus_irq_initialized =3D false;
--	}
- err_kthread:
- 	bus_unregister(&hv_bus);
- 	return ret;
-@@ -3045,10 +3040,9 @@ static void __exit vmbus_exit(void)
- 		hv_remove_vmbus_handler();
- 	else
- 		free_percpu_irq(vmbus_irq, &vmbus_evt);
--	if (IS_ENABLED(CONFIG_PREEMPT_RT) && vmbus_irq_initialized) {
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
- 		smpboot_unregister_percpu_thread(&vmbus_irq_threads);
--		vmbus_irq_initialized =3D false;
--	}
-+
- 	for_each_online_cpu(cpu) {
- 		struct hv_per_cpu_context *hv_cpu
- 			=3D per_cpu_ptr(hv_context.cpu_context, cpu);
+Drivers: hv: vmbus: Replace lockdep_hardirq_threaded() with lockdep annotat=
+ion
+
+This commit replaces the use of lockdep_hardirq_threaded() with a lockdep
+annotation. This limits the threaded context on PREEMPT_RT to __vmbus_isr()
+and clarifies that the ISR is not a shared handler.
+
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 23206640c6139..44877664d9d08 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -1384,8 +1384,19 @@ void vmbus_isr(void)
+>  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+>  		vmbus_irqd_wake();
+
+[Severity: Critical]
+This isn't a bug introduced by this patch, but is it safe to defer all
+VMbus interrupt processing to the vmbus_irqd kthread on PREEMPT_RT?
+
+When booting a PREEMPT_RT kernel on a Hyper-V host using legacy timer mode,
+the kthread handles the hypervisor timer message and invokes the timer ISR:
+
+vmbus_message_sched()
+    if (msg->header.message_type =3D=3D HVMSG_TIMER_EXPIRED) {
+        hv_stimer0_isr();
+
+This executes the clock event handler in thread context, which breaks the
+requirement that the system tick must run in hardirq context:
+
+hv_stimer0_isr()
+    ce =3D this_cpu_ptr(hv_clock_event);
+    ce->event_handler(ce);
+
+Because get_irq_regs() returns NULL when called from a kthread, calling
+tick_handle_periodic() and then
+update_process_times(user_mode(get_irq_regs())) will dereference a NULL
+pointer and panic the kernel.
+
+Alternatively, if high-resolution timers are used, tick_nohz_handler() sees
+a NULL regs pointer and skips tick_sched_handle(), completely stalling the
+scheduler tick and RCU updates, freezing the system.
+
+>  	} else {
+> -		lockdep_hardirq_threaded();
+> +		static DEFINE_WAIT_OVERRIDE_MAP(vmbus_map, LD_WAIT_CONFIG);
+> +
+> +		/*
+> +		 * vmbus_isr is never force-threaded and always invoked at hard
+
+[ ... ]
+
 --=20
-2.53.0
-
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721153216.3825=
+36-1-bigeasy@linutronix.de?part=3D1
