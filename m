@@ -1,468 +1,158 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502C6368D52
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 03:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA9930D3E7
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 04:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784690896; cv=none; b=oIEsspMN2echRSEHGGLz069eia2o/I9JbmRsQsrLs4ROxgAsxnc71xqPhAKKbOMuk1cHbLtYLXVYKD+KCj/COhWcGj0rNxH5pszZw1n86jwTBbEw7KzTfo70HgzNZgj4L5eDh6ITvXY1HUXKieWsQC29TH/JluHKhFJwwab4LC8=
+	t=1784694673; cv=none; b=dKv5cmHK7L5w+0mKcql6bQjVzlJNdFwpF0QnWxj3Ep8v+kSA82mJKamzDFL6SUu68L7BFw18ODVWCRC4fgx/A9zZVZqbWqlAY1aBb3jnzSmJPVw8Le572jinnYBOKu3YJ/iiqVDhC8qpVTIGL+cOmLUULMviEMhqUFiOKILoZzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784690896; c=relaxed/simple;
-	bh=jUnsJ8NJa4e/0bfAwLbalmOpr9lb/SgOdU4cK35BuFo=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=Kpi8OAWWw06H/mdgfNQX7+pLl0sTVffk4liOT0XQQkVtaWAVByfKsBsSZtbljZh1zEJioH1GTbxWRgpRohrvrEJ69g81HCHckkyz9MGIk5P/y2x1xMRuW0fWQVbnPh+Vuhsgcrp5PGHnaUXLSFnkGzjkl6yc+2RU7D9WOV4+blk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4h4fpW4Jhgz4xPSw;
-	Wed, 22 Jul 2026 11:28:03 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 66M3RlRs026462;
-	Wed, 22 Jul 2026 11:27:47 +0800 (+08)
-	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 22 Jul 2026 11:27:48 +0800 (CST)
-X-Zmail-TransId: 2afc6a6038b44fe-0aa85
-X-Mailer: Zmail v1.0
-Message-ID: <20260722112748588_IEr10bQdigv8c8bjw7Ck@zte.com.cn>
-In-Reply-To: <20260720-kfree_rcu_nolock-v4-1-964e03c41a4e@kernel.org>
-References: 20260720-kfree_rcu_nolock-v4-0-964e03c41a4e@kernel.org,20260720-kfree_rcu_nolock-v4-1-964e03c41a4e@kernel.org
-Date: Wed, 22 Jul 2026 11:27:48 +0800 (CST)
+	s=arc-20240116; t=1784694673; c=relaxed/simple;
+	bh=MoFBOqjbdPllrAOMjyA3z1unmWUiWpJoQ6Sdq8yEmIU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PPCU1TYp44MbZ3VPuuXbcKJ15FQnANrvYFCiEjzy+BfvZeWwYC+lBqLuHO+V7c8TenB+jTl7kaVOFUyY2o7B37N8Zp8OslPFYhLjeHGWYT8pn0i/ql2aGXnyXqJuw/aovF6tbRGWAr6JrQe/ci1oPF5zP4MDsaa0OewqZ32saFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfA7SCPE; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfA7SCPE"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49546c690ffso37304175e9.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 21:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784694669; x=1785299469; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cw+g8044aLFqtXGEWXTOBm0DvocPh9k56AtCHyZmPRw=;
+        b=FfA7SCPEMgemx7ckHrms97FZvnIfbWXFAE8KuqUKw/k/R6x1iofg61tjXT6T2P7W5j
+         OQa1SUlVnNrilgU5HmrLCqW9++XNTytbfy1oW7cDqyV4XGVe4XzsfdZ4bOlzKoMsF5vU
+         OX8mdEdvLiSVnc/HJhCtsHn8sjy+pffOqQeQJMFWdPelKBAqXWZ9SAzIhH1xlNFxjRiT
+         8KQjma1hCRjb32TFYyWFHunY0RWdMDQ+7sq3RR3kXnoNxG23Mv3fNFS1P6/LhW14Pz96
+         l589AyLahKuI8wV1ffwog53Nhl1fiqBXYf1kO3sd90WmUO15s0RPHdi/j/JSqpi+gbB/
+         c25Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784694669; x=1785299469;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cw+g8044aLFqtXGEWXTOBm0DvocPh9k56AtCHyZmPRw=;
+        b=ZWPiWng2bWELesyuQDuEH+SdNVvu/jyjGfPGB1yFN12U1sCdbnGUuE8tSfZ1rfj510
+         fSWwbUmzLj1zBHP085dsz9qlYFeaAFltBU3A5yPdj3TGFFzIBkh88xFMaGIhzWyyRu2K
+         IckORLDe4FFWi+O8FI0P7wxNYKT8GY4n4uk0r98TEiKKcjS+FWXUZdH3igD5ULmkNvaI
+         gm4fSiNf/D53k4X8oSfDI8/dn5iyAMFLJdnfJ0uEAFOQ85HekAfytciO45i/UAZp+cft
+         n4y9RdQjGNn3Td34DTyakCb4ems41Sg5X+B3PFnT9YaaUdMWzEi4f8ygQ/XnwBREvQtP
+         F0Vg==
+X-Forwarded-Encrypted: i=1; AHgh+RqH6U12UXulVvOjJSfp0FOeQBg5Mxc9Bz7tVagc/glAwjDQCvLSxeSGLixsayuX6KUyVjjsszggujk1jubrVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9RImNomRboj/WX9+kaOOEPGRRRRKbhEMZ9RHwHDhdQighnWg4
+	efCp0WSXade4XT8HOdX+Am2GSFEnTT7IF/ts9BUT9HZjpOPwPZ1fvxSo
+X-Gm-Gg: AR+sD10A2Sp64dVuVddwnNleMyKNYzSxY6F68Z0wZ01q8sCUgSGZe4z1Q45stpggi9k
+	zUCNzYTWKle+NssmeckGCB134/k4unP2zZyYdvlTf6nkeP48bmC1XzJUZql5lQn/fq3soRZ9+UB
+	x8bunbWCOkS1UJEtFL7fHLPyLx10j6vBAD6w1ls8IHUbVINg0vuVWInAv7yuvmejwUb6KV8rmuj
+	s939mHPeBJTU/M2LsEtafXRtuMpjVSMt9QuRIpu/gsQ6lo05eyDiNLyg9CIp5tp/3EfbAe8SrAC
+	2Yp68QTm1GYX9BHCm3JUWRl3sTVlwuhJ6zBnlB+vtXHPZtfiacwcRzuGl1I4gxwq777rszm5x9S
+	tMCjrz3tweGNjsrOBLm8AY9aQ3uQIUGDF2evf+HI1HbG8l5fQlkDxwuF4888HMcoM97JzUKqzza
+	v7Xs/wS+D535DtfoXj5QUCAuBAUkFE9z8y+QZaBuBRENZxRwU1vTE4E7ALdFGWR+E=
+X-Received: by 2002:a05:600c:8b16:b0:495:69eb:27fe with SMTP id 5b1f17b1804b1-49569eb28a0mr35742605e9.11.1784694669049;
+        Tue, 21 Jul 2026 21:31:09 -0700 (PDT)
+Received: from localhost.localdomain ([102.187.228.150])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956537c7desm161495895e9.7.2026.07.21.21.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 21:31:08 -0700 (PDT)
+From: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Leo Yan <leo.yan@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	coresight@lists.linaro.org (moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Cc: Mohamed Ayman <mohamedaymanworkspace@gmail.com>,
+	coresight@lists.linaro.org (moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/CORESIGHT FRAMEWORK AND DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Subject: [PATCH v4] coresight: Fix scheduling while atomic in coresight_cpu_pm_notify()
+Date: Wed, 22 Jul 2026 07:30:23 +0300
+Message-Id: <20260722043023.6978-1-mohamedaymanworkspace@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
+References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-From: <hu.shengming@zte.com.cn>
-To: <harry@kernel.org>
-Cc: <vbabka@kernel.org>, <akpm@linux-foundation.org>, <hao.li@linux.dev>,
-        <cl@gentwo.org>, <rientjes@google.com>, <roman.gushchin@linux.dev>,
-        <ast@kernel.org>, <andrii@kernel.org>, <puranjay@kernel.org>,
-        <ameryhung@gmail.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
-        <rostedt@goodmis.org>, <paulmck@kernel.org>, <frederic@kernel.org>,
-        <neeraj.upadhyay@kernel.org>, <joelagnelf@nvidia.com>,
-        <josh@joshtriplett.org>, <boqun@kernel.org>, <urezki@gmail.com>,
-        <mathieu.desnoyers@efficios.com>, <jiangshanlai@gmail.com>,
-        <qiang.zhang@linux.dev>, <pfalcato@suse.de>, <surenb@google.com>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
-        <bpf@vger.kernel.org>, <harry@kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBzbGFiL2Zvci1uZXh0IHY0IDEvOF0gbW0vc2xhYiwgc2x1Yl9rdW5pdDogcmVnaXN0ZXIga3Byb2JlIHRvIHRyaWdnZXIgX25vbG9jayBBUElz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 66M3RlRs026462
-X-TLS: YES
-X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Wed, 22 Jul 2026 11:28:03 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A6038C3.000/4h4fpW4Jhgz4xPSw
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Harry wrote:
-> Since kmalloc_nolock() always fails in NMI and hardirq contexts on
-> PREEMPT_RT, slub_kunit cannot properly test _nolock() APIs.
-> 
-> Register a kprobe pre-handler to invoke kmalloc_nolock() and
-> kfree_nolock() in the middle of the slab allocator. However, do not
-> register the handler on UP kernels because that use case is not
-> well supported [1] in the kernel.
-> 
-> To attach the pre-handler while s->cpu_sheaves->lock or n->list_lock
-> is held, add a wrapper function for lockdep_assert_held() that calls
-> a no-op function slab_attach_kprobe_locked() on debug builds. The
-> function is optimized away when neither CONFIG_PROVE_LOCKING nor
-> CONFIG_DEBUG_VM is selected and register_kprobe() fails.
-> 
-> The function calls barrier() to prevent the compiler from optimizing
-> away its callsites. Otherwise, the compiler may consider the function
-> does not have any side effect and remove callsites.
-> 
-> Compared to using plain kprobe, this has two advantages: 1) it avoids
-> hardcoding function names in the test, and 2) it can trigger those APIs
-> in the middle of a function, where the lock is expected to be held as
-> annotated with lockdep.
-> 
-> While it was proposed [2] to use kunit function redirection to test
-> this, it is currently infeasible as some lock helpers don't have
-> symbols.
-> 
-> Factor out the nested loop that calls kmalloc and friends to
-> test_kmalloc_kfree(), and call them in
-> test_kmalloc_kfree_nolock_{perf,kprobe}(), each being an independent
-> test case. During the refactoring, drop alloc_fail handling as it
-> doesn't provide much benefits.
+Dropping the last reference to a coresight_device can trigger a kernel
+panic on PREEMPT_RT builds due to a "scheduling while atomic" violation.
 
-Nice test addition!
+When the CPU enters an idle state, coresight_cpu_pm_notify() is invoked
+with local interrupts disabled. It calls coresight_cpu_get_active_path(),
+which currently uses coresight_get_percpu_source_ref() to get a kobject
+reference, and then immediately drops it with coresight_put_percpu_source_ref().
 
-Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
+If this put_device() call drops the very last reference (e.g., due to a
+concurrent device unregistration), it synchronously triggers the release
+cascade. On PREEMPT_RT, free_percpu() takes a sleeping spinlock_t.
+Furthermore, any parent device in the release chain might also acquire
+sleeping locks, causing a system crash in the atomic PM context.
 
-Nit below:
+Fix this by eliminating the get/put dance entirely in the PM notifier path.
+Since coresight_cpu_pm_notify() runs with IRQs disabled, it is safe to
+read the per-cpu source pointer directly under the coresight_dev_lock,
+check the mode, and return the path without unnecessarily manipulating the
+kobject refcount.
 
-> Link: https://lore.kernel.org/linux-mm/20260427-nolock-api-fix-v2-0-a6b83a92d9a4@kernel.org [1]
-> Link: https://lore.kernel.org/linux-mm/6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org  [2]
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
-> ---
->  lib/tests/slub_kunit.c | 167 +++++++++++++++++++++++++++++++++++--------------
->  mm/slub.c              |  36 ++++++++---
->  2 files changed, 148 insertions(+), 55 deletions(-)
-> 
-> diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
-> index fa6d31dbca16..a391467c1aa6 100644
-> --- a/lib/tests/slub_kunit.c
-> +++ b/lib/tests/slub_kunit.c
-> @@ -8,6 +8,7 @@
->  #include <linux/rcupdate.h>
->  #include <linux/delay.h>
->  #include <linux/perf_event.h>
-> +#include <linux/kprobes.h>
->  #include "../mm/slab.h"
->  
->  static struct kunit_resource resource;
-> @@ -292,7 +293,7 @@ static void test_krealloc_redzone_zeroing(struct kunit *test)
->      kmem_cache_destroy(s);
->  }
->  
-> -#ifdef CONFIG_PERF_EVENTS
-> +#if defined(CONFIG_PERF_EVENTS) || (defined(CONFIG_KPROBES) && defined(CONFIG_SMP))
->  #define NR_ITERATIONS 1000
->  #define NR_OBJECTS 1000
->  static void *objects[NR_OBJECTS];
-> @@ -302,26 +303,40 @@ struct test_nolock_context {
->      int callback_count;
->      int alloc_ok;
->      int alloc_fail;
-> +#ifdef CONFIG_PERF_EVENTS
->      struct perf_event *event;
-> +#endif
-> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
-> +    struct kprobe kprobe;
-> +#endif
->  };
->  
-> -static struct perf_event_attr hw_attr = {
-> -    .type = PERF_TYPE_HARDWARE,
-> -    .config = PERF_COUNT_HW_CPU_CYCLES,
-> -    .size = sizeof(struct perf_event_attr),
-> -    .pinned = 1,
-> -    .disabled = 1,
-> -    .freq = 1,
-> -    .sample_freq = 100000,
-> -};
-> +static void test_kmalloc_kfree(void)
-> +{
-> +    int i, j;
-> +
-> +    for (i = 0; i < NR_ITERATIONS; i++) {
-> +        for (j = 0; j < NR_OBJECTS; j++) {
-> +            gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
->  
-> -static void overflow_handler_test_kmalloc_kfree_nolock(struct perf_event *event,
-> -                               struct perf_sample_data *data,
-> -                               struct pt_regs *regs)
-> +            objects[j] = kmalloc_obj(*objects[j], gfp);
-> +            if (!objects[j]) {
-> +                j--;
-> +                while (j >= 0)
-> +                    kfree(objects[j--]);
-> +                return;
-> +            }
-> +        }
-> +
-> +        for (j = 0; j < NR_OBJECTS; j++)
-> +            kfree(objects[j]);
-> +    }
-> +}
-> +
-> +static void test_nolock(struct test_nolock_context *ctx)
->  {
->      void *objp;
->      gfp_t gfp;
-> -    struct test_nolock_context *ctx = event->overflow_handler_context;
->  
->      /* __GFP_ACCOUNT to test kmalloc_nolock() in alloc_slab_obj_exts() */
->      gfp = (ctx->callback_count % 2) ? 0 : __GFP_ACCOUNT;
-> @@ -335,47 +350,104 @@ static void overflow_handler_test_kmalloc_kfree_nolock(struct perf_event *event,
->      kfree_nolock(objp);
->      ctx->callback_count++;
->  }
-> +#endif
->  
-> -static void test_kmalloc_kfree_nolock(struct kunit *test)
-> +#ifdef CONFIG_PERF_EVENTS
-> +static struct perf_event_attr hw_attr = {
-> +    .type = PERF_TYPE_HARDWARE,
-> +    .config = PERF_COUNT_HW_CPU_CYCLES,
-> +    .size = sizeof(struct perf_event_attr),
-> +    .pinned = 1,
-> +    .disabled = 1,
-> +    .freq = 1,
-> +    .sample_freq = 100000,
-> +};
-> +
-> +static void overflow_handler_test_nolock(struct perf_event *event,
-> +                     struct perf_sample_data *data,
-> +                     struct pt_regs *regs)
-> +{
-> +    struct test_nolock_context *ctx = event->overflow_handler_context;
-> +
-> +    test_nolock(ctx);
-> +}
-> +
-> +static bool enable_perf_events(struct test_nolock_context *ctx)
->  {
-> -    int i, j;
-> -    struct test_nolock_context ctx = { .test = test };
->      struct perf_event *event;
-> -    bool alloc_fail = false;
->  
->      event = perf_event_create_kernel_counter(&hw_attr, -1, current,
-> -                         overflow_handler_test_kmalloc_kfree_nolock,
-> -                         &ctx);
-> +                         overflow_handler_test_nolock,
-> +                         ctx);
-> +
->      if (IS_ERR(event))
-> -        kunit_skip(test, "Failed to create perf event");
-> -    ctx.event = event;
-> -    perf_event_enable(ctx.event);
-> -    for (i = 0; i < NR_ITERATIONS; i++) {
-> -        for (j = 0; j < NR_OBJECTS; j++) {
-> -            gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
-> +        return false;
->  
-> -            objects[j] = kmalloc(64, gfp);
-> -            if (!objects[j]) {
-> -                j--;
-> -                while (j >= 0)
-> -                    kfree(objects[j--]);
-> -                alloc_fail = true;
-> -                goto cleanup;
-> -            }
-> -        }
-> -        for (j = 0; j < NR_OBJECTS; j++)
-> -            kfree(objects[j]);
-> -    }
-> +    ctx->event = event;
-> +    perf_event_enable(ctx->event);
-> +    return true;
-> +}
->  
-> -cleanup:
-> -    perf_event_disable(ctx.event);
-> -    perf_event_release_kernel(ctx.event);
-> +static void disable_perf_events(struct test_nolock_context *ctx)
-> +{
-> +    kunit_info(ctx->test, "HW perf events: callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
-> +           ctx->callback_count, ctx->alloc_ok, ctx->alloc_fail);
-> +
-> +    perf_event_disable(ctx->event);
-> +    perf_event_release_kernel(ctx->event);
-> +}
-> +
-> +static void test_kmalloc_kfree_nolock_perf(struct kunit *test)
-> +{
-> +    struct test_nolock_context ctx = { .test = test };
->  
-> -    kunit_info(test, "callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
-> -           ctx.callback_count, ctx.alloc_ok, ctx.alloc_fail);
-> +    if (!enable_perf_events(&ctx))
-> +        kunit_skip(test, "Failed to enable perf event, skipping");
->  
-> -    if (alloc_fail)
-> -        kunit_skip(test, "Allocation failed");
-> +    test_kmalloc_kfree();
-> +
-> +    disable_perf_events(&ctx);
-> +    KUNIT_EXPECT_EQ(test, 0, slab_errors);
-> +}
-> +#endif
-> +
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
+Signed-off-by: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
+---
+ drivers/hwtracing/coresight/coresight-core.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-Maybe it would be worth checking that the perf event actually fired:
+diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+index 6d65c43d5..9461fac9f 100644
+--- a/drivers/hwtracing/coresight/coresight-core.c
++++ b/drivers/hwtracing/coresight/coresight-core.c
+@@ -1850,16 +1850,13 @@ static void coresight_release_device_list(void)
+ static struct coresight_path *coresight_cpu_get_active_path(enum cs_mode mode)
+ {
+ 	struct coresight_device *source;
+-	bool is_active = false;
++	struct coresight_path *path = NULL;
+ 
+-	source = coresight_get_percpu_source_ref(smp_processor_id());
+-	if (!source)
+-		return NULL;
+-
+-	if (coresight_get_mode(source) & mode)
+-		is_active = true;
++	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
+ 
+-	coresight_put_percpu_source_ref(source);
++	source = per_cpu(csdev_source, smp_processor_id());
++	if (source && (coresight_get_mode(source) & mode))
++		path = source->path;
+ 
+ 	/*
+ 	 * It is expected to run in atomic context or with the CPU lock held for
+@@ -1868,7 +1865,7 @@ static struct coresight_path *coresight_cpu_get_active_path(enum cs_mode mode)
+ 	 * change. Since the build path has taken a reference on the component,
+ 	 * the path can be safely used by the caller.
+ 	 */
+-	return is_active ? source->path : NULL;
++	return path;
+ }
+ 
+ /* Return: 1 if PM is required, 0 if skip, or a negative error */
+-- 
+2.34.1
 
-    KUNIT_EXPECT_GT(test, ctx.callback_count, 0);
-
-Otherwise, the test could pass without the callback.
-
-> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
-> +static int slab_kprobe_pre_handler(struct kprobe *p, struct pt_regs *regs)
-> +{
-> +    struct test_nolock_context *ctx;
-> +
-> +    ctx = container_of(p, struct test_nolock_context, kprobe);
-> +    test_nolock(ctx);
-> +    return 0;
-> +}
-> +
-> +static bool register_slab_kprobes(struct test_nolock_context *ctx)
-> +{
-> +    ctx->kprobe.symbol_name = "slab_attach_kprobe_locked";
-> +    ctx->kprobe.pre_handler = slab_kprobe_pre_handler;
-> +
-> +    if (register_kprobe(&ctx->kprobe))
-> +        return false;
-> +    return true;
-> +}
-> +
-> +static void unregister_slab_kprobes(struct test_nolock_context *ctx)
-> +{
-> +    kunit_info(ctx->test, "kprobes: callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
-> +           ctx->callback_count, ctx->alloc_ok, ctx->alloc_fail);
-> +    unregister_kprobe(&ctx->kprobe);
-> +}
-> +
-> +static void test_kmalloc_kfree_nolock_kprobe(struct kunit *test)
-> +{
-> +    struct test_nolock_context ctx = { .test = test };
-> +
-> +    if (!register_slab_kprobes(&ctx))
-> +        kunit_skip(test, "Failed to register kprobe, skipping");
-> +
-> +    test_kmalloc_kfree();
-> +
-> +    unregister_slab_kprobes(&ctx);
->      KUNIT_EXPECT_EQ(test, 0, slab_errors);
->  }
-
-Same here. Maybe it would be useful to check that the kprobe handler was
-invoked at least once:
-
-    KUNIT_EXPECT_GT(test, ctx.callback_count, 0);
-
---
-With Best Regards,
-Shengming
-
->  #endif
-> @@ -405,7 +477,10 @@ static struct kunit_case test_cases[] = {
->      KUNIT_CASE(test_leak_destroy),
->      KUNIT_CASE(test_krealloc_redzone_zeroing),
->  #ifdef CONFIG_PERF_EVENTS
-> -    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock),
-> +    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock_perf),
-> +#endif
-> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
-> +    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock_kprobe),
->  #endif
->      {}
->  };
-> diff --git a/mm/slub.c b/mm/slub.c
-> index da9efb040040..e32a68677537 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -908,6 +908,24 @@ static inline unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
->  }
->  #endif
->  
-> +/*
-> + * A no-op function used to attach kprobe handlers in slub_kunit tests.
-> + * The barrier is needed to prevent the compiler from optimizing out callsites.
-> + */
-> +#if defined(CONFIG_DEBUG_VM) || defined(CONFIG_PROVE_LOCKING)
-> +static noinline void slab_attach_kprobe_locked(void)
-> +{
-> +    barrier();
-> +}
-> +#else
-> +static inline void slab_attach_kprobe_locked(void) { }
-> +#endif
-> +
-> +#define slab_lockdep_assert_held(lock) do {    \
-> +    lockdep_assert_held(lock);        \
-> +    slab_attach_kprobe_locked();    \
-> +} while (0)
-> +
->  #ifdef CONFIG_SLUB_DEBUG
->  
->  /*
-> @@ -1665,7 +1683,7 @@ static void add_full(struct kmem_cache *s,
->      if (!(s->flags & SLAB_STORE_USER))
->          return;
->  
-> -    lockdep_assert_held(&n->list_lock);
-> +    slab_lockdep_assert_held(&n->list_lock);
->      list_add(&slab->slab_list, &n->full);
->  }
->  
-> @@ -1674,7 +1692,7 @@ static void remove_full(struct kmem_cache *s, struct kmem_cache_node *n, struct
->      if (!(s->flags & SLAB_STORE_USER))
->          return;
->  
-> -    lockdep_assert_held(&n->list_lock);
-> +    slab_lockdep_assert_held(&n->list_lock);
->      list_del(&slab->slab_list);
->  }
->  
-> @@ -2868,7 +2886,7 @@ static unsigned int __sheaf_flush_main_batch(struct kmem_cache *s)
->      void *objects[PCS_BATCH_MAX];
->      struct slab_sheaf *sheaf;
->  
-> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
->  
->      pcs = this_cpu_ptr(s->cpu_sheaves);
->      sheaf = pcs->main;
-> @@ -3547,7 +3565,7 @@ __add_partial(struct kmem_cache_node *n, struct slab *slab, enum add_mode mode)
->  static inline void add_partial(struct kmem_cache_node *n,
->                  struct slab *slab, enum add_mode mode)
->  {
-> -    lockdep_assert_held(&n->list_lock);
-> +    slab_lockdep_assert_held(&n->list_lock);
->      __add_partial(n, slab, mode);
->  }
->  
-> @@ -3561,7 +3579,7 @@ static inline void clear_node_partial_state(struct kmem_cache_node *n,
->  static inline void remove_partial(struct kmem_cache_node *n,
->                      struct slab *slab)
->  {
-> -    lockdep_assert_held(&n->list_lock);
-> +    slab_lockdep_assert_held(&n->list_lock);
->      list_del(&slab->slab_list);
->      clear_node_partial_state(n, slab);
->  }
-> @@ -3577,7 +3595,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
->  {
->      void *object;
->  
-> -    lockdep_assert_held(&n->list_lock);
-> +    slab_lockdep_assert_held(&n->list_lock);
->  
->  #ifdef CONFIG_SLUB_DEBUG
->      if (s->flags & SLAB_CONSISTENCY_CHECKS) {
-> @@ -4642,7 +4660,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->      struct node_barn *barn;
->      bool allow_spin;
->  
-> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
->  
->      /* Bootstrap or debug cache, back off */
->      if (unlikely(!cache_has_sheaves(s))) {
-> @@ -5765,7 +5783,7 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
->          struct slub_percpu_sheaves *pcs, struct slab_sheaf *empty,
->          struct node_barn *barn)
->  {
-> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
->  
->      /* This is what we expect to find if nobody interrupted us. */
->      if (likely(!pcs->spare)) {
-> @@ -5816,7 +5834,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->      bool put_fail;
->  
->  restart:
-> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
->  
->      /* Bootstrap or debug cache, back off */
->      if (unlikely(!cache_has_sheaves(s))) {
-> 
-> -- 
-> 2.53.0
