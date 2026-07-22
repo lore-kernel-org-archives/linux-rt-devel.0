@@ -1,107 +1,468 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CF3471255
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Jul 2026 18:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502C6368D52
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 03:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657308; cv=none; b=cFVEokHPI4wL80t2xhzUGqbhg9g4n/wMujHFaPJU4HZbdE8YO9Haatza/PIuED+/dO8QzR2ZjYWWNSTs9DVCVWTZT1wgPWXveBVOoN/e4+7t4U8vwVgrE/8kiNsm2h+hhcy4iunoVocboogBiVPKOV97U9LtSIXBeNcRWrfuCSc=
+	t=1784690896; cv=none; b=oIEsspMN2echRSEHGGLz069eia2o/I9JbmRsQsrLs4ROxgAsxnc71xqPhAKKbOMuk1cHbLtYLXVYKD+KCj/COhWcGj0rNxH5pszZw1n86jwTBbEw7KzTfo70HgzNZgj4L5eDh6ITvXY1HUXKieWsQC29TH/JluHKhFJwwab4LC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657308; c=relaxed/simple;
-	bh=z/IDNeo3CYfMaSBman2RZmqnvh3FinzpYHXH5rjaeQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DVyT+GgAWVIqiDTbcgJ6C3v9kg3KCPkLZNRUPz+NlGca1Qw85jQj0614Tu/F0D7LSfhP7U6nDLhCMBFfH4BULv44/ObuPIVVnCQahqKX0TEU5d4T8bvJ7w69u/FChCE/3ebir1UCgIOC6wXGy3iBxzBin4zBOLnN58/Ma2ZVukw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gS0Du2K1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=P3sCM1aB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gS0Du2K1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="P3sCM1aB"
-Date: Tue, 21 Jul 2026 20:08:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784657300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yFentBsonVa5YUM+Pkq+IObssXO7JGS8Ljqy5X8W/OE=;
-	b=gS0Du2K16qvjG19Z0OiqiW45JIigAf2vGlRxFRuTtWpbridHz25QuV5lgNSNT779miSYes
-	glyFC9mhUhfv0WDSuU1UlTaUVKu7263UduUR04tqn0i3JlniCs5iY0SkPsti9SdonjuYFw
-	fL7GG5FLq08L/V4IhT/jqJC1Msxg2UAxXG94bBqsUsAEZadnE7lBNFdefg5RIp0IV4WLN9
-	XrZ9l8M/MuI3BQofWnu7KSUF1eC2yhb8EZ+FNFJC3BGkUIVWCGQpEMnDQQbQrwSy8p9cw1
-	F/ubMbkv9X6jvmsUTAgAHhzvV+0GY022GatQQT3LWiQPhTaEIOMIM+kmUInJqw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784657300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yFentBsonVa5YUM+Pkq+IObssXO7JGS8Ljqy5X8W/OE=;
-	b=P3sCM1aBFGA+2mjcOWPtuaLcb2tK+TnKzrOQYOlscGvoaoA4KE0/aXqzyRtR7tl5iPOcks
-	w6XLC8DEZU8QG7Cw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	Matthew Wilcox <willy@infradead.org>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <20260721180819.DY-zkSU1@linutronix.de>
-References: <20260716195716.256025-1-darwi@linutronix.de>
- <20260716195716.256025-2-darwi@linutronix.de>
- <20260721130248.ndwsFtHE@linutronix.de>
- <874ihs5s4d.fsf@jogness.linutronix.de>
- <20260721143606.NqT15H0p@linutronix.de>
- <20260721104806.64afcd8f@gandalf.local.home>
- <20260721152114.wTED4bR5@linutronix.de>
- <87wluo49y7.fsf@jogness.linutronix.de>
+	s=arc-20240116; t=1784690896; c=relaxed/simple;
+	bh=jUnsJ8NJa4e/0bfAwLbalmOpr9lb/SgOdU4cK35BuFo=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=Kpi8OAWWw06H/mdgfNQX7+pLl0sTVffk4liOT0XQQkVtaWAVByfKsBsSZtbljZh1zEJioH1GTbxWRgpRohrvrEJ69g81HCHckkyz9MGIk5P/y2x1xMRuW0fWQVbnPh+Vuhsgcrp5PGHnaUXLSFnkGzjkl6yc+2RU7D9WOV4+blk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4h4fpW4Jhgz4xPSw;
+	Wed, 22 Jul 2026 11:28:03 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl2.zte.com.cn with SMTP id 66M3RlRs026462;
+	Wed, 22 Jul 2026 11:27:47 +0800 (+08)
+	(envelope-from hu.shengming@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 22 Jul 2026 11:27:48 +0800 (CST)
+X-Zmail-TransId: 2afc6a6038b44fe-0aa85
+X-Mailer: Zmail v1.0
+Message-ID: <20260722112748588_IEr10bQdigv8c8bjw7Ck@zte.com.cn>
+In-Reply-To: <20260720-kfree_rcu_nolock-v4-1-964e03c41a4e@kernel.org>
+References: 20260720-kfree_rcu_nolock-v4-0-964e03c41a4e@kernel.org,20260720-kfree_rcu_nolock-v4-1-964e03c41a4e@kernel.org
+Date: Wed, 22 Jul 2026 11:27:48 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87wluo49y7.fsf@jogness.linutronix.de>
+Mime-Version: 1.0
+From: <hu.shengming@zte.com.cn>
+To: <harry@kernel.org>
+Cc: <vbabka@kernel.org>, <akpm@linux-foundation.org>, <hao.li@linux.dev>,
+        <cl@gentwo.org>, <rientjes@google.com>, <roman.gushchin@linux.dev>,
+        <ast@kernel.org>, <andrii@kernel.org>, <puranjay@kernel.org>,
+        <ameryhung@gmail.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
+        <rostedt@goodmis.org>, <paulmck@kernel.org>, <frederic@kernel.org>,
+        <neeraj.upadhyay@kernel.org>, <joelagnelf@nvidia.com>,
+        <josh@joshtriplett.org>, <boqun@kernel.org>, <urezki@gmail.com>,
+        <mathieu.desnoyers@efficios.com>, <jiangshanlai@gmail.com>,
+        <qiang.zhang@linux.dev>, <pfalcato@suse.de>, <surenb@google.com>,
+        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+        <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <harry@kernel.org>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBzbGFiL2Zvci1uZXh0IHY0IDEvOF0gbW0vc2xhYiwgc2x1Yl9rdW5pdDogcmVnaXN0ZXIga3Byb2JlIHRvIHRyaWdnZXIgX25vbG9jayBBUElz?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 66M3RlRs026462
+X-TLS: YES
+X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Wed, 22 Jul 2026 11:28:03 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A6038C3.000/4h4fpW4Jhgz4xPSw
 
-On 2026-07-21 17:58:00 [+0206], John Ogness wrote:
-> On 2026-07-21, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > On 2026-07-21 10:48:06 [-0400], Steven Rostedt wrote:
-> >> On Tue, 21 Jul 2026 16:36:06 +0200
-> >> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> >> 
-> >>>> Unfortunately, debugfs is needed to configure the fair deadline server:
-> >>>> 
-> >>>>     /sys/kernel/debug/sched/fair_server/cpu*/runtime  
-> >>> 
-> >>> So drop the reference to it. It is not "bad" to have it enabled. It is
-> >> 
-> >> I believe that some distros feel that it is bad to enable because there's
-> >> no real auditing of its interface. Although, it is now only accessible by
-> >> root.
-> >
-> > Yeah. Either way, there shouldn't be anything real-time specific that
-> > requires the user have it enabled or disabled.
+Harry wrote:
+> Since kmalloc_nolock() always fails in NMI and hardirq contexts on
+> PREEMPT_RT, slub_kunit cannot properly test _nolock() APIs.
 > 
-> The fair deadline server is certainly real-time specific. It is the
-> new/additional RT throttling mechanism. Generally speaking, RT systems
-> will want to disable it or at least reduce the 50ms default.
->
-> This document is not about runtime settings, but if debugfs is not
-> enabled, the user will have no way to configure the fair deadline server
-> at runtime.
-
-I would suggest to delegate it to the proper section. Also, maybe we get
-a proper interface outside of debugfs.
-
-> I am OK if it is completely dropped from this document. But if there are
-> distros that think it is bad, it might be worth mentioning that this
-> config is important (if not critical) for real-time systems.
+> Register a kprobe pre-handler to invoke kmalloc_nolock() and
+> kfree_nolock() in the middle of the slab allocator. However, do not
+> register the handler on UP kernels because that use case is not
+> well supported [1] in the kernel.
 > 
-> John
+> To attach the pre-handler while s->cpu_sheaves->lock or n->list_lock
+> is held, add a wrapper function for lockdep_assert_held() that calls
+> a no-op function slab_attach_kprobe_locked() on debug builds. The
+> function is optimized away when neither CONFIG_PROVE_LOCKING nor
+> CONFIG_DEBUG_VM is selected and register_kprobe() fails.
+> 
+> The function calls barrier() to prevent the compiler from optimizing
+> away its callsites. Otherwise, the compiler may consider the function
+> does not have any side effect and remove callsites.
+> 
+> Compared to using plain kprobe, this has two advantages: 1) it avoids
+> hardcoding function names in the test, and 2) it can trigger those APIs
+> in the middle of a function, where the lock is expected to be held as
+> annotated with lockdep.
+> 
+> While it was proposed [2] to use kunit function redirection to test
+> this, it is currently infeasible as some lock helpers don't have
+> symbols.
+> 
+> Factor out the nested loop that calls kmalloc and friends to
+> test_kmalloc_kfree(), and call them in
+> test_kmalloc_kfree_nolock_{perf,kprobe}(), each being an independent
+> test case. During the refactoring, drop alloc_fail handling as it
+> doesn't provide much benefits.
 
-Sebastian
+Nice test addition!
+
+Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
+
+Nit below:
+
+> Link: https://lore.kernel.org/linux-mm/20260427-nolock-api-fix-v2-0-a6b83a92d9a4@kernel.org [1]
+> Link: https://lore.kernel.org/linux-mm/6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org  [2]
+> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+> ---
+>  lib/tests/slub_kunit.c | 167 +++++++++++++++++++++++++++++++++++--------------
+>  mm/slub.c              |  36 ++++++++---
+>  2 files changed, 148 insertions(+), 55 deletions(-)
+> 
+> diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
+> index fa6d31dbca16..a391467c1aa6 100644
+> --- a/lib/tests/slub_kunit.c
+> +++ b/lib/tests/slub_kunit.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/rcupdate.h>
+>  #include <linux/delay.h>
+>  #include <linux/perf_event.h>
+> +#include <linux/kprobes.h>
+>  #include "../mm/slab.h"
+>  
+>  static struct kunit_resource resource;
+> @@ -292,7 +293,7 @@ static void test_krealloc_redzone_zeroing(struct kunit *test)
+>      kmem_cache_destroy(s);
+>  }
+>  
+> -#ifdef CONFIG_PERF_EVENTS
+> +#if defined(CONFIG_PERF_EVENTS) || (defined(CONFIG_KPROBES) && defined(CONFIG_SMP))
+>  #define NR_ITERATIONS 1000
+>  #define NR_OBJECTS 1000
+>  static void *objects[NR_OBJECTS];
+> @@ -302,26 +303,40 @@ struct test_nolock_context {
+>      int callback_count;
+>      int alloc_ok;
+>      int alloc_fail;
+> +#ifdef CONFIG_PERF_EVENTS
+>      struct perf_event *event;
+> +#endif
+> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
+> +    struct kprobe kprobe;
+> +#endif
+>  };
+>  
+> -static struct perf_event_attr hw_attr = {
+> -    .type = PERF_TYPE_HARDWARE,
+> -    .config = PERF_COUNT_HW_CPU_CYCLES,
+> -    .size = sizeof(struct perf_event_attr),
+> -    .pinned = 1,
+> -    .disabled = 1,
+> -    .freq = 1,
+> -    .sample_freq = 100000,
+> -};
+> +static void test_kmalloc_kfree(void)
+> +{
+> +    int i, j;
+> +
+> +    for (i = 0; i < NR_ITERATIONS; i++) {
+> +        for (j = 0; j < NR_OBJECTS; j++) {
+> +            gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
+>  
+> -static void overflow_handler_test_kmalloc_kfree_nolock(struct perf_event *event,
+> -                               struct perf_sample_data *data,
+> -                               struct pt_regs *regs)
+> +            objects[j] = kmalloc_obj(*objects[j], gfp);
+> +            if (!objects[j]) {
+> +                j--;
+> +                while (j >= 0)
+> +                    kfree(objects[j--]);
+> +                return;
+> +            }
+> +        }
+> +
+> +        for (j = 0; j < NR_OBJECTS; j++)
+> +            kfree(objects[j]);
+> +    }
+> +}
+> +
+> +static void test_nolock(struct test_nolock_context *ctx)
+>  {
+>      void *objp;
+>      gfp_t gfp;
+> -    struct test_nolock_context *ctx = event->overflow_handler_context;
+>  
+>      /* __GFP_ACCOUNT to test kmalloc_nolock() in alloc_slab_obj_exts() */
+>      gfp = (ctx->callback_count % 2) ? 0 : __GFP_ACCOUNT;
+> @@ -335,47 +350,104 @@ static void overflow_handler_test_kmalloc_kfree_nolock(struct perf_event *event,
+>      kfree_nolock(objp);
+>      ctx->callback_count++;
+>  }
+> +#endif
+>  
+> -static void test_kmalloc_kfree_nolock(struct kunit *test)
+> +#ifdef CONFIG_PERF_EVENTS
+> +static struct perf_event_attr hw_attr = {
+> +    .type = PERF_TYPE_HARDWARE,
+> +    .config = PERF_COUNT_HW_CPU_CYCLES,
+> +    .size = sizeof(struct perf_event_attr),
+> +    .pinned = 1,
+> +    .disabled = 1,
+> +    .freq = 1,
+> +    .sample_freq = 100000,
+> +};
+> +
+> +static void overflow_handler_test_nolock(struct perf_event *event,
+> +                     struct perf_sample_data *data,
+> +                     struct pt_regs *regs)
+> +{
+> +    struct test_nolock_context *ctx = event->overflow_handler_context;
+> +
+> +    test_nolock(ctx);
+> +}
+> +
+> +static bool enable_perf_events(struct test_nolock_context *ctx)
+>  {
+> -    int i, j;
+> -    struct test_nolock_context ctx = { .test = test };
+>      struct perf_event *event;
+> -    bool alloc_fail = false;
+>  
+>      event = perf_event_create_kernel_counter(&hw_attr, -1, current,
+> -                         overflow_handler_test_kmalloc_kfree_nolock,
+> -                         &ctx);
+> +                         overflow_handler_test_nolock,
+> +                         ctx);
+> +
+>      if (IS_ERR(event))
+> -        kunit_skip(test, "Failed to create perf event");
+> -    ctx.event = event;
+> -    perf_event_enable(ctx.event);
+> -    for (i = 0; i < NR_ITERATIONS; i++) {
+> -        for (j = 0; j < NR_OBJECTS; j++) {
+> -            gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
+> +        return false;
+>  
+> -            objects[j] = kmalloc(64, gfp);
+> -            if (!objects[j]) {
+> -                j--;
+> -                while (j >= 0)
+> -                    kfree(objects[j--]);
+> -                alloc_fail = true;
+> -                goto cleanup;
+> -            }
+> -        }
+> -        for (j = 0; j < NR_OBJECTS; j++)
+> -            kfree(objects[j]);
+> -    }
+> +    ctx->event = event;
+> +    perf_event_enable(ctx->event);
+> +    return true;
+> +}
+>  
+> -cleanup:
+> -    perf_event_disable(ctx.event);
+> -    perf_event_release_kernel(ctx.event);
+> +static void disable_perf_events(struct test_nolock_context *ctx)
+> +{
+> +    kunit_info(ctx->test, "HW perf events: callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
+> +           ctx->callback_count, ctx->alloc_ok, ctx->alloc_fail);
+> +
+> +    perf_event_disable(ctx->event);
+> +    perf_event_release_kernel(ctx->event);
+> +}
+> +
+> +static void test_kmalloc_kfree_nolock_perf(struct kunit *test)
+> +{
+> +    struct test_nolock_context ctx = { .test = test };
+>  
+> -    kunit_info(test, "callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
+> -           ctx.callback_count, ctx.alloc_ok, ctx.alloc_fail);
+> +    if (!enable_perf_events(&ctx))
+> +        kunit_skip(test, "Failed to enable perf event, skipping");
+>  
+> -    if (alloc_fail)
+> -        kunit_skip(test, "Allocation failed");
+> +    test_kmalloc_kfree();
+> +
+> +    disable_perf_events(&ctx);
+> +    KUNIT_EXPECT_EQ(test, 0, slab_errors);
+> +}
+> +#endif
+> +
+
+Maybe it would be worth checking that the perf event actually fired:
+
+    KUNIT_EXPECT_GT(test, ctx.callback_count, 0);
+
+Otherwise, the test could pass without the callback.
+
+> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
+> +static int slab_kprobe_pre_handler(struct kprobe *p, struct pt_regs *regs)
+> +{
+> +    struct test_nolock_context *ctx;
+> +
+> +    ctx = container_of(p, struct test_nolock_context, kprobe);
+> +    test_nolock(ctx);
+> +    return 0;
+> +}
+> +
+> +static bool register_slab_kprobes(struct test_nolock_context *ctx)
+> +{
+> +    ctx->kprobe.symbol_name = "slab_attach_kprobe_locked";
+> +    ctx->kprobe.pre_handler = slab_kprobe_pre_handler;
+> +
+> +    if (register_kprobe(&ctx->kprobe))
+> +        return false;
+> +    return true;
+> +}
+> +
+> +static void unregister_slab_kprobes(struct test_nolock_context *ctx)
+> +{
+> +    kunit_info(ctx->test, "kprobes: callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
+> +           ctx->callback_count, ctx->alloc_ok, ctx->alloc_fail);
+> +    unregister_kprobe(&ctx->kprobe);
+> +}
+> +
+> +static void test_kmalloc_kfree_nolock_kprobe(struct kunit *test)
+> +{
+> +    struct test_nolock_context ctx = { .test = test };
+> +
+> +    if (!register_slab_kprobes(&ctx))
+> +        kunit_skip(test, "Failed to register kprobe, skipping");
+> +
+> +    test_kmalloc_kfree();
+> +
+> +    unregister_slab_kprobes(&ctx);
+>      KUNIT_EXPECT_EQ(test, 0, slab_errors);
+>  }
+
+Same here. Maybe it would be useful to check that the kprobe handler was
+invoked at least once:
+
+    KUNIT_EXPECT_GT(test, ctx.callback_count, 0);
+
+--
+With Best Regards,
+Shengming
+
+>  #endif
+> @@ -405,7 +477,10 @@ static struct kunit_case test_cases[] = {
+>      KUNIT_CASE(test_leak_destroy),
+>      KUNIT_CASE(test_krealloc_redzone_zeroing),
+>  #ifdef CONFIG_PERF_EVENTS
+> -    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock),
+> +    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock_perf),
+> +#endif
+> +#if defined(CONFIG_KPROBES) && defined(CONFIG_SMP)
+> +    KUNIT_CASE_SLOW(test_kmalloc_kfree_nolock_kprobe),
+>  #endif
+>      {}
+>  };
+> diff --git a/mm/slub.c b/mm/slub.c
+> index da9efb040040..e32a68677537 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -908,6 +908,24 @@ static inline unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
+>  }
+>  #endif
+>  
+> +/*
+> + * A no-op function used to attach kprobe handlers in slub_kunit tests.
+> + * The barrier is needed to prevent the compiler from optimizing out callsites.
+> + */
+> +#if defined(CONFIG_DEBUG_VM) || defined(CONFIG_PROVE_LOCKING)
+> +static noinline void slab_attach_kprobe_locked(void)
+> +{
+> +    barrier();
+> +}
+> +#else
+> +static inline void slab_attach_kprobe_locked(void) { }
+> +#endif
+> +
+> +#define slab_lockdep_assert_held(lock) do {    \
+> +    lockdep_assert_held(lock);        \
+> +    slab_attach_kprobe_locked();    \
+> +} while (0)
+> +
+>  #ifdef CONFIG_SLUB_DEBUG
+>  
+>  /*
+> @@ -1665,7 +1683,7 @@ static void add_full(struct kmem_cache *s,
+>      if (!(s->flags & SLAB_STORE_USER))
+>          return;
+>  
+> -    lockdep_assert_held(&n->list_lock);
+> +    slab_lockdep_assert_held(&n->list_lock);
+>      list_add(&slab->slab_list, &n->full);
+>  }
+>  
+> @@ -1674,7 +1692,7 @@ static void remove_full(struct kmem_cache *s, struct kmem_cache_node *n, struct
+>      if (!(s->flags & SLAB_STORE_USER))
+>          return;
+>  
+> -    lockdep_assert_held(&n->list_lock);
+> +    slab_lockdep_assert_held(&n->list_lock);
+>      list_del(&slab->slab_list);
+>  }
+>  
+> @@ -2868,7 +2886,7 @@ static unsigned int __sheaf_flush_main_batch(struct kmem_cache *s)
+>      void *objects[PCS_BATCH_MAX];
+>      struct slab_sheaf *sheaf;
+>  
+> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+>      pcs = this_cpu_ptr(s->cpu_sheaves);
+>      sheaf = pcs->main;
+> @@ -3547,7 +3565,7 @@ __add_partial(struct kmem_cache_node *n, struct slab *slab, enum add_mode mode)
+>  static inline void add_partial(struct kmem_cache_node *n,
+>                  struct slab *slab, enum add_mode mode)
+>  {
+> -    lockdep_assert_held(&n->list_lock);
+> +    slab_lockdep_assert_held(&n->list_lock);
+>      __add_partial(n, slab, mode);
+>  }
+>  
+> @@ -3561,7 +3579,7 @@ static inline void clear_node_partial_state(struct kmem_cache_node *n,
+>  static inline void remove_partial(struct kmem_cache_node *n,
+>                      struct slab *slab)
+>  {
+> -    lockdep_assert_held(&n->list_lock);
+> +    slab_lockdep_assert_held(&n->list_lock);
+>      list_del(&slab->slab_list);
+>      clear_node_partial_state(n, slab);
+>  }
+> @@ -3577,7 +3595,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
+>  {
+>      void *object;
+>  
+> -    lockdep_assert_held(&n->list_lock);
+> +    slab_lockdep_assert_held(&n->list_lock);
+>  
+>  #ifdef CONFIG_SLUB_DEBUG
+>      if (s->flags & SLAB_CONSISTENCY_CHECKS) {
+> @@ -4642,7 +4660,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>      struct node_barn *barn;
+>      bool allow_spin;
+>  
+> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+>      /* Bootstrap or debug cache, back off */
+>      if (unlikely(!cache_has_sheaves(s))) {
+> @@ -5765,7 +5783,7 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
+>          struct slub_percpu_sheaves *pcs, struct slab_sheaf *empty,
+>          struct node_barn *barn)
+>  {
+> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+>      /* This is what we expect to find if nobody interrupted us. */
+>      if (likely(!pcs->spare)) {
+> @@ -5816,7 +5834,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>      bool put_fail;
+>  
+>  restart:
+> -    lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+> +    slab_lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+>      /* Bootstrap or debug cache, back off */
+>      if (unlikely(!cache_has_sheaves(s))) {
+> 
+> -- 
+> 2.53.0
