@@ -1,161 +1,100 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E17C3F9A10
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 08:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F173C1974
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 09:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784709160; cv=none; b=LFexWTPY/wBLfNZ9iU6RhGfhwLXSfrvWSpNUMxTh+jYu0bZfZ8P7XskrgE6Be4U7GvZN8tOpwE0smp0/xnAUKfvBJORuilZlRJ3Pi8TuqOdzmHOWn3ZXFhf0/wzWvr9WKCXsSWvlDVXdedHf74W2xmrJ+nQFMaEoBCc86R4/Llw=
+	t=1784712710; cv=none; b=aWBwtt//1ZLkfE1XOPsIiXyJRLGwW9BUUVBAqMq6DHYxImkzRUYbZR2RmdpV8eDfbTDvNSAjbAt6t4PpLJ0wgrkYH3kP8WngaAeS2HcwuCAjvUciYJP50V7ILNx9yTUiEzpyC5Tk2rJaR8k1jeVBCJA0PI6Z4x6/CoVBn/Ru0hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784709160; c=relaxed/simple;
-	bh=QdFR6f52WU7kcE0NqQgKLhBmV5FepprBUdAKqo1Hhqk=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=qXbI38pFaXrfoqcGUXRKynvsBSRX7wY67xOZj95jBqRQFapwNzkr2yTcT01zIJd17hMsorpHMBYIJve40RAcLVkrq0+06Z+NbHkCggzOgBrXy1+pUKyH6x3SdBzZVpckRqyCDuOB2RMy+vAgSRThyh5Qmr0tS8t5KAPl6FPVMUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4h4nYp2q18z55y2H;
-	Wed, 22 Jul 2026 16:32:30 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 66M8WOxP048119;
-	Wed, 22 Jul 2026 16:32:24 +0800 (+08)
-	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 22 Jul 2026 16:32:26 +0800 (CST)
-X-Zmail-TransId: 2afc6a60801acda-ec081
-X-Mailer: Zmail v1.0
-Message-ID: <202607221632263010RKz3KaXP9NUQ9kGPYnU_@zte.com.cn>
-In-Reply-To: <004d1215-a1da-448e-bf10-df637c7029f5@kernel.org>
-References: 20260722112748588_IEr10bQdigv8c8bjw7Ck@zte.com.cn,004d1215-a1da-448e-bf10-df637c7029f5@kernel.org
-Date: Wed, 22 Jul 2026 16:32:26 +0800 (CST)
+	s=arc-20240116; t=1784712710; c=relaxed/simple;
+	bh=FCSWly/X4vb4JjmvLMDZdGpBNdJfE+KvXCPFhwEso6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pdTDbEsQy/vWCaonBYCNA0JkLYzpKwta+s/nhKdmEcLzep3CcpXaqN1Z3V+n6RHZI/mUeaYFRflc3qPPjivy07vY3TNaBwdT86sI2FPu6AojbvGaS/m+65VYgFrkSgFz/yK5DHbQpBXugMxAgJBSEC5IRw1DX3cNQhzd1I+phm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GHhVTwXE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Iiqh8L2+; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GHhVTwXE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Iiqh8L2+"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784712705;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=U9gwoYlY25YZ+Zs/BNuUi3uSABuYSthk1Hlidh/LUDY=;
+	b=GHhVTwXE3/dJBK7grEMgGsJL6PvbBsT7oLgD77O0wc1V8IdE/kBfQd7wKgt1kLZ0vvj9ub
+	mwq3OmxURgNkyA2x58NMs9uXZZlSJEv6BCSHgc6hu/l9x0K7h8cdkQzjKYuZ591B1dABOm
+	MWMV7MLhihN7EfXe0hwTzN3xH7DgdLbv/2fJSKMLmcMgsW4gDnV4oVityGsEE+vFBH5mki
+	ygkdT0YInP5LzS1fzVlDB4CZUL++p/tomj/cZvC+FZxsZ90+62MB1rJQDep6MvDnP6NFJH
+	M9MCY9raBcd72oCbvkK5JGfTjGujvWNoP7xV8w5eejirsWAMXPL8wmcO5rlDng==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784712705;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=U9gwoYlY25YZ+Zs/BNuUi3uSABuYSthk1Hlidh/LUDY=;
+	b=Iiqh8L2+FPsWWXjEyy0HncRcIBQM093QhaZ59vZkXjXpXKVwOLHW1izJJBPeJu0mrluXSa
+	xlyV8Mu9ya39RiBQ==
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Nam Cao <namcao@linutronix.de>
+Subject: [PATCH net-next v3 0/3] af_unix: Fix priority inversion issue
+Date: Wed, 22 Jul 2026 11:31:33 +0200
+Message-ID: <cover.1784712370.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-From: <hu.shengming@zte.com.cn>
-To: <harry@kernel.org>
-Cc: <vbabka@kernel.org>, <akpm@linux-foundation.org>, <hao.li@linux.dev>,
-        <cl@gentwo.org>, <rientjes@google.com>, <roman.gushchin@linux.dev>,
-        <ast@kernel.org>, <andrii@kernel.org>, <puranjay@kernel.org>,
-        <ameryhung@gmail.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
-        <rostedt@goodmis.org>, <paulmck@kernel.org>, <frederic@kernel.org>,
-        <neeraj.upadhyay@kernel.org>, <joelagnelf@nvidia.com>,
-        <josh@joshtriplett.org>, <boqun@kernel.org>, <urezki@gmail.com>,
-        <mathieu.desnoyers@efficios.com>, <jiangshanlai@gmail.com>,
-        <qiang.zhang@linux.dev>, <pfalcato@suse.de>, <surenb@google.com>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
-        <bpf@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBzbGFiL2Zvci1uZXh0IHY0IDEvOF0gbW0vc2xhYiwgc2x1Yl9rdW5pdDogcmVnaXN0ZXIga3Byb2JlIHRvIHRyaWdnZXIgX25vbG9jayBBUElz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 66M8WOxP048119
-X-TLS: YES
-X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 22 Jul 2026 16:32:30 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A60801E.001/4h4nYp2q18z55y2H
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Harry wrote:
-> On 7/22/26 12:27 PM, hu.shengming@zte.com.cn wrote:
-> > Harry wrote:
-> >> Since kmalloc_nolock() always fails in NMI and hardirq contexts on
-> >> PREEMPT_RT, slub_kunit cannot properly test _nolock() APIs.
-> >>
-> >> Register a kprobe pre-handler to invoke kmalloc_nolock() and
-> >> kfree_nolock() in the middle of the slab allocator. However, do not
-> >> register the handler on UP kernels because that use case is not
-> >> well supported [1] in the kernel.
-> >>
-> >> To attach the pre-handler while s->cpu_sheaves->lock or n->list_lock
-> >> is held, add a wrapper function for lockdep_assert_held() that calls
-> >> a no-op function slab_attach_kprobe_locked() on debug builds. The
-> >> function is optimized away when neither CONFIG_PROVE_LOCKING nor
-> >> CONFIG_DEBUG_VM is selected and register_kprobe() fails.
-> >>
-> >> The function calls barrier() to prevent the compiler from optimizing
-> >> away its callsites. Otherwise, the compiler may consider the function
-> >> does not have any side effect and remove callsites.
-> >>
-> >> Compared to using plain kprobe, this has two advantages: 1) it avoids
-> >> hardcoding function names in the test, and 2) it can trigger those APIs
-> >> in the middle of a function, where the lock is expected to be held as
-> >> annotated with lockdep.
-> >>
-> >> While it was proposed [2] to use kunit function redirection to test
-> >> this, it is currently infeasible as some lock helpers don't have
-> >> symbols.
-> >>
-> >> Factor out the nested loop that calls kmalloc and friends to
-> >> test_kmalloc_kfree(), and call them in
-> >> test_kmalloc_kfree_nolock_{perf,kprobe}(), each being an independent
-> >> test case. During the refactoring, drop alloc_fail handling as it
-> >> doesn't provide much benefits.
-> > 
-> > Nice test addition!
-> > 
-> > Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
-> 
-> Thanks a lot for reviewing, Shengming!
-> 
-> Just FYI, I'm going to adjust a nit pointed out by sashiko
-> that kmalloc_obj(*objects[j], gfp) is wrong because objects is an array
-> of void pointers. (which is fixed later in the series)
+Hi,
 
-Indeed, Nice catch by sashiko. :)
+While auditing AF_UNIX sockets, I noticed that the sendmsg() code paths may
+block on the garbage collector running as workqueue. This can cause
+priority inversion and latency for real-time users.
 
-> > Nit below:
-> >> +static void test_kmalloc_kfree_nolock_perf(struct kunit *test)
-> >> +{
-> >> +    struct test_nolock_context ctx = { .test = test };
-> >>  
-> >> -    kunit_info(test, "callback_count: %d, alloc_ok: %d, alloc_fail: %d\n",
-> >> -           ctx.callback_count, ctx.alloc_ok, ctx.alloc_fail);
-> >> +    if (!enable_perf_events(&ctx))
-> >> +        kunit_skip(test, "Failed to enable perf event, skipping");
-> >>  
-> >> -    if (alloc_fail)
-> >> -        kunit_skip(test, "Allocation failed");
-> >> +    test_kmalloc_kfree();
-> >> +
-> >> +    disable_perf_events(&ctx);
-> >> +    KUNIT_EXPECT_EQ(test, 0, slab_errors);
-> >> +}
-> >> +#endif
-> >> +
-> > 
-> > Maybe it would be worth checking that the perf event actually fired:
-> > 
-> >     KUNIT_EXPECT_GT(test, ctx.callback_count, 0);
-> > 
-> > Otherwise, the test could pass without the callback.
-> 
-> I'm not sure if that would be useful though.
-> 
-> Ideally we want to make sure every code path that handles
-> allow_spin = false is tested, but it's tricky to measure that and
-> also it's tricky to make sure those paths are properly tested
-> (especially with perf events).
-> 
-> callback_count is not a good indicator to measure test coverage.
-> 
-> (I use GCOV to make sure we have reasonable coverage,
->  but it's hard to turn that into a test case...)
+The implementation does kindly avoid blocking "sane users". However, it is
+impossible to tell whether the kernel's definition of "sane users"
+accurately describes all users out there.
 
-Thanks for the explanation.
+Digging into history and figuring out the reasons why sendmsg() needs to
+wait for garbage collector, it is determined that those reasons no longer
+apply.
 
-I was considering it only as a basic sanity check, but agreed that
-callback_count does not reflect the actual path coverage. I'm fine
-with leaving it as is.
+The first patch resolves another issue reported by Sashiko in v1, paves the
+way for the second patch to remove the block. The last one is a simple
+post-cleanup.
 
---
-With Best Regards,
-Shengming
+v3:
+  - Move unix_schedule_gc() to be after exit_task_work()
+
+v2:
+  - Add patch [1/3]
+  - Rebase the other two patches onto the new patch
+  - Change commit message to be more precise
+
+Nam Cao (3):
+  af_unix: Schedule the garbage collector at task exit
+  af_unix: Do not wait for garbage collector in sendmsg()
+  af_unix: Clean up unix_schedule_gc()
+
+ include/net/af_unix.h |  5 +++++
+ kernel/exit.c         |  7 +++++++
+ net/unix/af_unix.c    |  2 +-
+ net/unix/af_unix.h    |  1 -
+ net/unix/garbage.c    | 16 +---------------
+ 5 files changed, 14 insertions(+), 17 deletions(-)
+
+--=20
+2.47.3
+
