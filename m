@@ -1,124 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AF740B39C;
-	Wed, 22 Jul 2026 04:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A943A3ACA7A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Jul 2026 06:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784695505; cv=none; b=UrtM2VNFJG4ac+MoVXA/eys+0lVKG5N/gBnScxQS6IsuwduNZ1eoHZVz3jYxN2xE2/W5+vyDZXEXRKOW10gA7jqjBgHy4L8Qd9Zi2aa4ct4dqVydbg9esq74KCc/lWGkbJArtx4C+gimj3rPXqiWgoQJ6rPRpli2cCHrt+xvCMU=
+	t=1784701833; cv=none; b=Y6Ywj39lD12rtFGDHnBpaCE1OxcFhzHucbcpelUe14MTj5GpNeyN+p4qmgcNh3ta6IG/2sSgZPoxgJLBFLO+m8dD8UIwT6zy26rtxqGucrpHjtn6AbbXFevVwmR+8ZvrlHK1GaIGZwVTW/6NL9q+oUz0Acrysy+Eqd9yjkBzv8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784695505; c=relaxed/simple;
-	bh=OIvU/SdC9UiA8d9JAIJ04kbcuozc93NtOD7eEDB1xVk=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=hG8Dca3jDXi/BDwfXEza8+sgAwe3tq3vETnGecQtajmK95j2NQrxCCMyYcFb4KuLv/q2PDYMj+921PDGAzAjWIqgm4mtAA9Sz9bEN5eEqoBulobnm0UwCMyGZlwvmlOU8G7x40+uhhi5RB1Tfe9V18kWeQJrJVOSGBTbTUW96Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekDGHCiA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784701833; c=relaxed/simple;
+	bh=ovnAJQiCLsgMI+5PHQLg5I6hq/8XkpM7SMxkd5hZixU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fT0e6y9TlAWOZtbLQ6ePD23TvHQK0tMLm0f2ZZAVzOyoT+tPCjuwXjMpjlRuOaDSyZhnHglHBYc18FgtnLF8kJCoYWbKnE3yDsCOF/dJ0GiAXwj7ekOmau12b/4rfXDXTVF+60gG7H0svx08lvffXfJZF0Sk9n1MMdv2/QD5/Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mLFJjav/; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekDGHCiA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEF31F000E9;
-	Wed, 22 Jul 2026 04:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784695504;
-	bh=B2e2cik/Y33x910idZ3spODTF0Rr2Njbxf9CJjGqHNs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ekDGHCiAQSXrX/4dk/xJLCAAJ6D/iACoBh4a2MlZvmLmIc8wVXWVXryUGbOIRLtZy
-	 uu8KaKrFGQoZQGD7+dUCdtgi+aSwukAe+sQFw39c/g9QHmZvX5Os2hSW0GGuvDRM0l
-	 X3mBdlUltv2VCnrtk4eRNHNLsdho55g7+fzfJ1y8yqkxMqvZpJaJC4PZn6qmoL9fzh
-	 1/R/v2VqBrJsA8N8q7X8yBjPpqrKf1tA0T8UA2/HnxyJQgcj7qs3IcwRL5lLgfiXkg
-	 CCV0tv2vjf6aU7Dp71aTpylfHWxscy6U4HY8nGcSFKkopRjBtGvsuTh7uX13b4CeUf
-	 fEL34igJ1lq7g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4] coresight: Fix scheduling while atomic in
- coresight_cpu_pm_notify()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohamed Ayman" <mohamedaymanworkspace@gmail.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260722043023.6978-1-mohamedaymanworkspace@gmail.com>
-References: <20260712210446.14290-1-mohamedaymanworkspace@gmail.com>
- <20260722043023.6978-1-mohamedaymanworkspace@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2026 04:45:03 +0000
-Message-Id: <20260722044503.BCEF31F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mLFJjav/"
+Message-ID: <cf2e7b98-5980-463c-82df-61524ddf253b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784701827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xwMf+4RK6SICi7wthzq1GiMbIn6GQQqznOWIrXFUXxE=;
+	b=mLFJjav/girYppI6ZaTUZBUHyD9kE9qq4lF8E7sra9OcZOrcnVW/Kf3W3tl4eQuqN2adyj
+	FiLfkrEcHZFiMyfwHTDVh2xjPEsA5khR+vUUdVV0kReBK1zE4cYJz9hkZH9X+lAij/LgGU
+	X1d9Y4dF7IaZaHo8mu5+DB4fV9UNTDY=
+Date: Wed, 22 Jul 2026 14:29:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: [PATCH v5 16/18] mm: remove the __GFP_NO_OBJ_EXT flag
+To: Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ derkling@google.com, reijiw@google.com, Yosry Ahmed <yosry@kernel.org>
+References: <20260703-alloc-trylock-v5-0-c87b714e19d3@google.com>
+ <20260703-alloc-trylock-v5-16-c87b714e19d3@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <20260703-alloc-trylock-v5-16-c87b714e19d3@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
 
-Pre-existing issues:
-- [High] The 'scheduling while atomic' bug remains unfixed in `coresight_pu=
-t_percpu_source_ref()`, which can still trigger a system panic on PREEMPT_R=
-T for other callers.
---
+On 2026/7/3 20:31, Brendan Jackman wrote:
+> From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+>
+> All users of the flag are converted to SLAB_ALLOC_NO_RECURSE or
+> ALLOC_NO_CODETAG (from __GFP_NO_CODETAG which reused the NO_OBJ_EXT bit).
+> Free up the flag bit.
+>
+> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> [Rebased onto __GFP_NO_CODETAG removal]
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
---- Patch [1]: [PATCH v4] coresight: Fix scheduling while atomic in coresig=
-ht_cpu_pm_notify() ---
-commit ced604f31de6d94adb2f729f01f491fe1766f6d1
-Author: Mohamed Ayman <mohamedaymanworkspace@gmail.com>
 
-coresight: Fix scheduling while atomic in coresight_cpu_pm_notify()
+Acked-by: Hao Ge <hao.ge@linux.dev>
 
-This commit addresses a "scheduling while atomic" bug on PREEMPT_RT in the
-PM notifier path. It removes the get/put kobject reference dance, and inste=
-ad
-reads the per-cpu source pointer directly under the coresight_dev_lock.
 
-> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtra=
-cing/coresight/coresight-core.c
-> index 6d65c43d574fd..9461fac9f1a3d 100644
-> --- a/drivers/hwtracing/coresight/coresight-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-core.c
-> @@ -1850,16 +1850,13 @@ static void coresight_release_device_list(void)
->  static struct coresight_path *coresight_cpu_get_active_path(enum cs_mode=
- mode)
->  {
->  	struct coresight_device *source;
-> -	bool is_active =3D false;
-> +	struct coresight_path *path =3D NULL;
-> =20
-> -	source =3D coresight_get_percpu_source_ref(smp_processor_id());
-> -	if (!source)
-> -		return NULL;
+> ---
+>   include/linux/gfp_types.h       |  7 -------
+>   include/trace/events/mmflags.h  | 10 +---------
+>   tools/include/linux/gfp_types.h |  7 -------
+>   3 files changed, 1 insertion(+), 23 deletions(-)
+>
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index 463b551d12d99..190191411009f 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -55,7 +55,6 @@ enum {
+>   #ifdef CONFIG_LOCKDEP
+>   	___GFP_NOLOCKDEP_BIT,
+>   #endif
+> -	___GFP_NO_OBJ_EXT_BIT,
+>   	___GFP_LAST_BIT
+>   };
+>   
+> @@ -96,7 +95,6 @@ enum {
+>   #else
+>   #define ___GFP_NOLOCKDEP	0
+>   #endif
+> -#define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+>   
+>   /*
+>    * Physical address zone modifiers (see linux/mmzone.h - low four bits)
+> @@ -138,17 +136,12 @@ enum {
+>    *
+>    * %__GFP_ACCOUNT causes the allocation to be accounted to the active
+>    * cgroup context.
+> - *
+> - * %__GFP_NO_OBJ_EXT causes slab allocation to have no object extension.
+> - * mark_obj_codetag_empty() should be called upon freeing for objects allocated
+> - * with this flag to indicate that their NULL tags are expected and normal.
+>    */
+>   #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
+>   #define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+>   #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
+>   #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
+>   #define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
+> -#define __GFP_NO_OBJ_EXT   ((__force gfp_t)___GFP_NO_OBJ_EXT)
+>   
+>   /**
+>    * DOC: Watermark modifiers
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index a6e5a44c9b429..c1a05ff0feab0 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -54,18 +54,10 @@
+>   # define TRACE_GFP_FLAGS_LOCKDEP
+>   #endif
+>   
+> -#ifdef CONFIG_SLAB_OBJ_EXT
+> -# define TRACE_GFP_FLAGS_SLAB			\
+> -	TRACE_GFP_EM(NO_OBJ_EXT)
+> -#else
+> -# define TRACE_GFP_FLAGS_SLAB
+> -#endif
 > -
-> -	if (coresight_get_mode(source) & mode)
-> -		is_active =3D true;
-> +	guard(raw_spinlock_irqsave)(&coresight_dev_lock);
-> =20
-> -	coresight_put_percpu_source_ref(source);
-
-[Severity: High]
-This is a pre-existing issue, but while this patch avoids the bug in this
-specific PM notifier path, does coresight_put_percpu_source_ref() still
-contain the exact same "scheduling while atomic" vulnerability for other
-callers?
-
-Looking at coresight_put_percpu_source_ref() in
-drivers/hwtracing/coresight/coresight-core.c:
-
-    guard(raw_spinlock_irqsave)(&coresight_dev_lock);
-
-    /*
-     * TODO: coresight_device_release() is invoked to release resources when
-     * the device's refcount reaches zero. It then calls free_percpu(),
-     * which acquires pcpu_lock =E2=80=94 a sleepable lock when PREEMPT_RT =
-is
-     * enabled. Since the raw spinlock coresight_dev_lock is held, this can
-     * lead to a potential "scheduling while atomic" issue.
-     */
-    put_device(&csdev->dev);
-
-If put_device() drops the final reference concurrently with device
-unregistration, it synchronously triggers the release function
-coresight_device_release(). This cascade eventually calls free_percpu(),
-which on PREEMPT_RT attempts to acquire the sleepable pcpu_lock.
-
-Because coresight_put_percpu_source_ref() holds coresight_dev_lock (a raw
-spinlock) via the guard during the put_device() call, could acquiring the
-sleeping lock still cause a kernel panic if other callers hit this race?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260722043023.6978=
--1-mohamedaymanworkspace@gmail.com?part=3D1
+>   #define TRACE_GFP_FLAGS				\
+>   	TRACE_GFP_FLAGS_GENERAL			\
+>   	TRACE_GFP_FLAGS_KASAN			\
+> -	TRACE_GFP_FLAGS_LOCKDEP			\
+> -	TRACE_GFP_FLAGS_SLAB
+> +	TRACE_GFP_FLAGS_LOCKDEP
+>   
+>   #undef TRACE_GFP_EM
+>   #define TRACE_GFP_EM(a) TRACE_DEFINE_ENUM(___GFP_##a##_BIT);
+> diff --git a/tools/include/linux/gfp_types.h b/tools/include/linux/gfp_types.h
+> index 6c75df30a281d..a93b8bd200b76 100644
+> --- a/tools/include/linux/gfp_types.h
+> +++ b/tools/include/linux/gfp_types.h
+> @@ -55,7 +55,6 @@ enum {
+>   #ifdef CONFIG_LOCKDEP
+>   	___GFP_NOLOCKDEP_BIT,
+>   #endif
+> -	___GFP_NO_OBJ_EXT_BIT,
+>   	___GFP_LAST_BIT
+>   };
+>   
+> @@ -96,7 +95,6 @@ enum {
+>   #else
+>   #define ___GFP_NOLOCKDEP	0
+>   #endif
+> -#define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+>   
+>   /*
+>    * Physical address zone modifiers (see linux/mmzone.h - low four bits)
+> @@ -137,17 +135,12 @@ enum {
+>    * node with no fallbacks or placement policy enforcements.
+>    *
+>    * %__GFP_ACCOUNT causes the allocation to be accounted to kmemcg.
+> - *
+> - * %__GFP_NO_OBJ_EXT causes slab allocation to have no object extension.
+> - * mark_obj_codetag_empty() should be called upon freeing for objects allocated
+> - * with this flag to indicate that their NULL tags are expected and normal.
+>    */
+>   #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
+>   #define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+>   #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
+>   #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
+>   #define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
+> -#define __GFP_NO_OBJ_EXT   ((__force gfp_t)___GFP_NO_OBJ_EXT)
+>   
+>   /**
+>    * DOC: Watermark modifiers
+>
