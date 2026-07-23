@@ -1,41 +1,40 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A584B8DCE
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Jul 2026 16:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AF13DB328
+	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Jul 2026 22:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784823440; cv=none; b=BBZytiSPJZerV1GKP+51FfvVBwHpfszIoWM7ygw4Ur/Gemox4D6Puz7HL2oKOz339swXXQUsgwIphbonRiXJfR+n4Agyo58wINptY3y6PR9LEZ6jCN6kp8r3axRjyJaRiTkR7VV64eB5GoJiY4MGWkBtKia4Q9j3LTuY2o0T5jU=
+	t=1784847102; cv=none; b=OsK9n2tfVMem0hnOHQCVted+3+vx4KfF5CO5x0DYbCV36v/83KJSc1ZVEQFp0XoevNRKt9ctrPPvlngi8J8t2FjWs0f8IkFES5nhIQCEsys1WrLLSTwHeTWtAJGyZwmL0CxMWoOC4ZPiBRBV9QpA4yUgpVD9/f8R+FO0Kt0NQfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784823440; c=relaxed/simple;
-	bh=HwpUB3HAl1qkE556UG3qifZi/H+4Sa8c5nNLKBlXqjs=;
+	s=arc-20240116; t=1784847102; c=relaxed/simple;
+	bh=wzyumeaKbuqqTbtsC17CmUJz30QzeufvXy7FOjdaQGM=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kCxS/MmRa7mAqkDdzlxZaCe6KoeKAQjiFOPU9JeS1DNM9zEMUOeizc+TzqBaVMzCvKtCnCl3lryiBg1ZsMlB+XsTmoaImb2abJFRyuaKg+4YNQzWggB1/8J53Umvn63e1yBeDTKPecTb+QCcy0CCaHDtsZkHJglwmHbDc8FUwa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=pdUm72BL; arc=none smtp.client-ip=212.227.17.11
+	 Content-Type:MIME-Version; b=Jdp0yyvt/gtPVSJp7/0r92MW2PJYpm4GqonihYMYQt3jTqazN7LxrVUNmykcE6R2J08+U5YhabShARNt4H1AAf66jUYMFbgXeptirKZcXP+lcKdZV1aHSjzQaVOmYH83ObczGtQq1v4DB7q0rLUjPjWNOg98gAXHeIs8yd8XoAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=cB1xSMpw; arc=none smtp.client-ip=212.227.15.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="pdUm72BL"
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="cB1xSMpw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1784823423; x=1785428223; i=spasswolf@web.de;
-	bh=HwpUB3HAl1qkE556UG3qifZi/H+4Sa8c5nNLKBlXqjs=;
+	s=s29768273; t=1784847080; x=1785451880; i=spasswolf@web.de;
+	bh=wzyumeaKbuqqTbtsC17CmUJz30QzeufvXy7FOjdaQGM=;
 	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=pdUm72BL0v0H1ZJ4R0MkJKdlQ9PqTCme2YDukPEjcGQNe+AYy6XPjmAjO11tqxXY
-	 SvLZUNtK4VR0XpS6GToVkYmSEl4VQ1Xux85EG0v2rYh1OzUfo6J8N5VdnG5E7R17U
-	 vvkHlLEX17mWy0PtFyWls0PeqauxNRGTU3w15VkIWz45ancnq9Oo+FFGw4Pcz+bk6
-	 EXmaSacA9wZTL87jdFQEKsNRdxhKfo89ZV6iKRSUmofyH1pxdLXt71EBFCd/e8bgP
-	 SnOjITa+yOeo7WHKhJNRtFv8MD9lz2rveg5Yl1rXZXwiAlX9rXSyJwRxeIkWZKHLo
-	 0b+ml/4vYKvV5WS1lw==
+	b=cB1xSMpwuLaIEItUY5H2Wyefab7O8/yqJbZWpJiJA+twCyLiGxDHg5NLHT6hmeg8
+	 L02KFCdlmq/lLO7OWG9J9PpDHEOX63ZhSHeCtcl7avLb0r7n0+cHoHKqpkm0m3qd8
+	 RkonM3Z4mD9ljvGfdo1FI+iDCeMevSNFpZz42OtKJopJOvzlnTs4un938j5uy1aed
+	 /sftUcxK8DdgIUREhXQUU5lHnIzRnM/OEtPYL09icAlZGrQwxHxaqmXTp5iA5N0WI
+	 z3jYAgIAaI17RnaK4qLzUpAijNSqypu5Uh/NmRAv0k4DKS3/MQA9t/IFK2dzmkURz
+	 76ri7icepQzpEQG90g==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mmymz-1xEG1w2lWx-00cu3Q; Thu, 23
- Jul 2026 18:17:03 +0200
-Message-ID: <1a0800888c2fcd42f1fcd661d8f6f50580ac2fd4.camel@web.de>
-Subject: Re: [Re] kernel panic during shutdown in v7.2-rc{3,4} and
- next-20260722 with PREEMPT_RT
+Received: from client.hidden.invalid by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1My6lX-1xBy0F1Mhb-00zdSz; Fri, 24
+ Jul 2026 00:51:20 +0200
+Message-ID: <4d7c2dd588cd77d1d112da473f2a262d22051d57.camel@web.de>
+Subject: Re: [Re] kernel panic during shutdown in  next-20260722
 From: Bert Karwatzki <spasswolf@web.de>
 To: linux-kernel@vger.kernel.org, Rafal Ostrowski <rafal.ostrowski@amd.com>
 Cc: linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
@@ -43,10 +42,11 @@ Cc: linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev,
  Mario Limonciello <mario.limonciello@amd.com>, Sebastian Andrzej Siewior
  <bigeasy@linutronix.de>, Thomas Gleixner	 <tglx@linutronix.de>,
  spasswolf@web.de
-Date: Thu, 23 Jul 2026 18:17:02 +0200
-In-Reply-To: <d24a136539c5931984f4855ad6596ca7aee8ebe2.camel@web.de>
+Date: Fri, 24 Jul 2026 00:51:19 +0200
+In-Reply-To: <1a0800888c2fcd42f1fcd661d8f6f50580ac2fd4.camel@web.de>
 References: <20260723131001.11565-1-spasswolf@web.de>
-		 <d24a136539c5931984f4855ad6596ca7aee8ebe2.camel@web.de>
+			 <d24a136539c5931984f4855ad6596ca7aee8ebe2.camel@web.de>
+	 <1a0800888c2fcd42f1fcd661d8f6f50580ac2fd4.camel@web.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.2-10 
 Precedence: bulk
@@ -56,126 +56,128 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:S4Na7vcjSYXLHOHGNUEL1suXA/PMqXWPxM19axjxI5aEgjrdkal
- Jce7scxQK7i6v9l52cCT+XtOgdsebX5Mm221JssvL3AhxlowRh1FqACaUt+iQMUE1b95tBe
- 7gACfFiNJNzsJcRwIEAYpBF36ZK9fns6NMiwRyV0I7k+lI+dElb6TPaPxDGwqZk74BgSdNC
- 5P/hP5dgrEaaGKfM3QwvA==
+X-Provags-ID: V03:K1:VlyCl2HRhbixJ6VEUvSQPjND0W/G3vzyzbHtRPfrLf2d8lyyXFz
+ HDEe2L/qUgFvVFHKaIFORSAaMx/zTBEhbqk9sDDwvf8GWbV8+E883J1Ej2lt2sjo8NYIEMJ
+ IvzurlzeNfkoFWjp3f37gcc740WpflQJYfcI72lFdMG+UXaMg+4K9NZPapqgqT03D9iaQtn
+ hJgDpPyyexqEhkx53LZRw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fUK9O2BOY7o=;CcKrPZjyH4VplNjI0SmERGDvrCo
- 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
- bw7/eFZqhzFYg3kGBfe9m
+UI-OutboundReport: notjunk:1;M01:P0:+Xw1Lx6sx1E=;04TITx2Ssql5z69tZR5SyfWicKH
+ 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
+ lrIja5itcgTg3MtdirHAr81CBlYgSc
 
-Am Donnerstag, dem 23.07.2026 um 15:23 +0200 schrieb Bert Karwatzki:
-> Am Donnerstag, dem 23.07.2026 um 15:10 +0200 schrieb Bert Karwatzki:
-> > I was able to gather the panic error message from a failed shutdown vi=
-a netconsole,
-> > this time the kernel used was v7.2-rc3:
-> > #
+Am Donnerstag, dem 23.07.2026 um 18:17 +0200 schrieb Bert Karwatzki:
+> Am Donnerstag, dem 23.07.2026 um 15:23 +0200 schrieb Bert Karwatzki:
+> > Am Donnerstag, dem 23.07.2026 um 15:10 +0200 schrieb Bert Karwatzki:
+> > > I was able to gather the panic error message from a failed shutdown =
+via netconsole,
+> > > this time the kernel used was v7.2-rc3:
+> > > #
+> > > Bert Karwatzki
+> >=20
+> > Unfortunatetly I can now reproduce these kernel panics in v7.1:
+> >=20
+> >=20
+> > So now I'm going to use memtest86+ on my machine and then look at the =
+changes I had in
+> > my userspace as the first error occured on 22.7.2026. Let's hope this =
+does not escalate ...
+> >=20
 > > Bert Karwatzki
 >=20
-> Unfortunatetly I can now reproduce these kernel panics in v7.1:
 >=20
+> But I found out an exciting thing:
+> I can only reproduce the crashes in v7.2-rc4 when watching the reboot vi=
+a netconsole,
+> without netconsole no crash occurs!(This also explains why I had not see=
+n this crashes before ...)=C2=A0
 >=20
-> So now I'm going to use memtest86+ on my machine and then look at the ch=
-anges I had in
-> my userspace as the first error occured on 22.7.2026. Let's hope this do=
-es not escalate ...
->=20
-> Bert Karwatzki
-
-So I've run memtest86+ for ~2.5h (2.6 complete runs) and found no error. E=
-ven if my memory
-contained an error, if it's that hard to trigger it would not cause freque=
-nt crashes.
-
-But I found out an exciting thing:
-I can only reproduce the crashes in v7.2-rc4 when watching the reboot via =
-netconsole,
-without netconsole no crash occurs!(This also explains why I had not seen =
-this crashes before ...)=C2=A0
-In next-20260722 the crash is reproducible without netconsole.
-So I'm going back to bisecting from v7.2-rc4 to next-20260722. Once I'm fi=
-nished with
-that I'm going to look at the "netconsole triggerred" crashes.
- Does anyone have an idea what's going on?
+Actually this is not cause by netconsole, but by rebooting right after a c=
+rash. Some
+broken state seems to be preserved across reboots. Switching off the power=
+ supply after
+a crash or even a ~30s wait after switching off the crashed machine seems =
+to be enough
+to get around this.
+ Also the hang when rebooting next-20260722 also occurs when compiling wit=
+hout PREEMPT_RT.
 
 Bert Karwatzki
+
