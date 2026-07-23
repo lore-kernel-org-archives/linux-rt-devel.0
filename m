@@ -1,138 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FF2424D5A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E88424D76;
 	Thu, 23 Jul 2026 09:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784799117; cv=none; b=rJyderqVtpCudUXuJKYu8HSVQM3JTr8+6yTvuruVSfA3Fb/uUGUrBfljK7Oopeus/q2pEc1YOEVuWU9gDIhSht702xfsCOGf6Yd9+f1ctXYcP65BQVcnGgz42KwgK3EZan0BZiFjPnXX6wpwFaZiPpYrwsOO6bXEMaOPaUkJWp0=
+	t=1784799118; cv=none; b=tA8U3b5F4bn1jnD2hiV9oOqnvuYPpT3VHP8jISZANtCTUcC2dkAb9TPnXY9aJHK3VuI5InZAI+pD9M/jP+d+SbM6Ok5Ln/xVi5LDDFI30ZR2BNLrRvZAB7DC4oiIVp1XwtjY7YNtG1om2swOccYYtK1quw3gy7nAu7EfRHCWXiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784799117; c=relaxed/simple;
-	bh=OA+z3FsTTMW9oDbn5SqZapoYUlO4cqVP8L/Jy26u7fI=;
+	s=arc-20240116; t=1784799118; c=relaxed/simple;
+	bh=RWcNRxBbg3lXxRxj+8TS7R/kkFibFRa3C5wEJBPkIQQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JcfWFg14b2HljoRiUQ/2rMdazaGETMRpZ2xhG7AWoaAT7vYJ44TeKK3vvZI8vjHfmSL8djHmzT4p7L3sriN/WlGKBPsUtrEIwPmjGFnj+BYpB2blQhPTY5XpLuSQXZk/2u4P/C5xXifiiOFGr/j/NzovAw9dFdCDLgfqu44pFbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XW1BhyX9; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=fzYxBiriPvX05n+lzg7hDrPkLlggnJrq7Nn2f7IY3dvZJiNBYPDh/KFPROkejUTx93OBnICJDdj4HKHDjLAxjNA1OrKMz75/CUZltfr5pCKPJCFmcxkAyGSvgrpu9CsRWpjB4pQrImr3m6WLFS+o2SxE2EShrAsPi8yyfdUSSU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPMfUVj0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XW1BhyX9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDB141F000E9;
-	Thu, 23 Jul 2026 09:31:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPMfUVj0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE571F00A3A;
+	Thu, 23 Jul 2026 09:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1784799116;
-	bh=SyJAZKVKDenfJqn/tM1yLuel/bmPPemVXz2xKaeEdMM=;
+	bh=xk+h6zrZwQGEblLp5f0GalUVaM+X7VKVrbT5NaaW2yk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XW1BhyX9leQ4dxEmA02LjEB3PNvw35kxG/nhrXSY2RDI6CMx8yjEG2f0KUDZvFb55
-	 7goQHD85JHbrSuu4odgmuP5H/muhphAPBPEL9lulb764zmA7/anF4Zus4GM3jpaCou
-	 2VyNeJ69iy9/p8wxBvYl89Wyz0Kd7B2XBwEHzp4pHD8wqBnQgO6rwtsfl+mJJ6BLlk
-	 k8YM9tL+VZ/lBDraQN5k/ABP+tTOoz3YZD9shtoGuMGX567dllFog9u+kplwIrVZLm
-	 dqGZtj30t1sTanFHGKQyv0eAqUw5qa5/sq4KkWWecG+9o9G3nZyZLpugrsDo9g6+yB
-	 YEZpYYu3ZIfwQ==
+	b=YPMfUVj01d9CtShRlabsGRo0Cor9Ue7houbzNJyr6YAY2LR7UPWLVtei8fxlUUHZA
+	 aKqy6VIxuKW1ic6p5T0lRf5aLXWLbGBBcjZhlUf/22rwzczcGckp95gG0SgwMcKfL4
+	 gkPMIgw7jOMzrD5GgMdQKycFoLhT+/GvtV7FL6Sh56blKvl3HFsf9K3eCc4bw/vlXV
+	 bumm2woGNOFrakL82KutmobPIcXufPgqTnTsESsbL4SiWgxxF0qUeT+lkrM3KrW402
+	 1aaHYP/2GQtXvseWDK7uUywDTzuZ3a3ytRBi/3RQKm9f1T+47qMfwVYXflNDr91E7S
+	 y4H0hcn/DehGg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v3 3/3] af_unix: Clean up unix_schedule_gc()
+Subject: Re: [PATCH net-next v3 1/3] af_unix: Schedule the garbage collector
+ at task exit
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Nam Cao" <namcao@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <79c2a0d700639a430bacea5dd9581caebcd54b08.1784712370.git.namcao@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <ba4ed2717e5225b7b77ef928fb97ee5544632811.1784712370.git.namcao@linutronix.de>
 References: <cover.1784712370.git.namcao@linutronix.de>
- <79c2a0d700639a430bacea5dd9581caebcd54b08.1784712370.git.namcao@linutronix.de>
+ <ba4ed2717e5225b7b77ef928fb97ee5544632811.1784712370.git.namcao@linutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jul 2026 09:31:54 +0000
-Message-Id: <20260723093155.DDB141F000E9@smtp.kernel.org>
+Date: Thu, 23 Jul 2026 09:31:56 +0000
+Message-Id: <20260723093156.8CE571F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] An unconditional call to `unix_schedule_gc()` in `do_exit()` cause=
-s a severe system-wide GC storm and CPU exhaustion if any live cyclic AF_UN=
-IX sockets exist.
+- [High] Unconditionally triggering the global AF_UNIX garbage collector on=
+ task exit creates a severe system-wide denial of service vulnerability.
+- [Medium] A TOCTOU race on `gc_in_progress` causes `do_exit()` to skip que=
+ueing the garbage collector if it is currently running, leaving the cyclic =
+sockets leaked indefinitely.
 --
 
---- Patch [3]: [PATCH net-next v3 3/3] af_unix: Clean up unix_schedule_gc()=
- ---
-commit fc308672f15e1ad0994af5c62a43b996e97d2e7a
+--- Patch [1]: [PATCH net-next v3 1/3] af_unix: Schedule the garbage collec=
+tor at task exit ---
+commit 9a35b6370cf5aa7dba01e2ce8f06d95e2eb14265
 Author: Nam Cao <namcao@linutronix.de>
 
-af_unix: Clean up unix_schedule_gc()
+af_unix: Schedule the garbage collector at task exit
 
-This commit simplifies unix_schedule_gc() by removing its user argument,
-since it is currently only called with NULL. The conditionals checking the
-user parameter within the function body are also removed.
+This commit attempts to fix a memory leak involving dead cyclic reference
+AF_UNIX sockets when a task exits. It does this by scheduling the garbage
+collector during task exit, after the task's file descriptors have been
+closed.
 
 > diff --git a/kernel/exit.c b/kernel/exit.c
-> index 593ac4b0105f2..50c5eff07bd65 100644
+> index 2c0b1c02920f4..593ac4b0105f2 100644
 > --- a/kernel/exit.c
 > +++ b/kernel/exit.c
-> @@ -1014,7 +1014,7 @@ void __noreturn do_exit(long code)
->  	 * Must be after exit_files() and exit_task_work(tsk) to ensure that
->  	 * the task's AF_UNIX sockets have all been closed.
->  	 */
-> -	unix_schedule_gc(NULL);
-> +	unix_schedule_gc();
-> =20
->  	sched_autogroup_exit_task(tsk);
->  	cgroup_task_exit(tsk);
-
 [ ... ]
-
-> diff --git a/net/unix/garbage.c b/net/unix/garbage.c
-> index f180c59b3da9d..d46aeb9d20518 100644
-> --- a/net/unix/garbage.c
-> +++ b/net/unix/garbage.c
-> @@ -635,23 +635,11 @@ static void unix_gc(struct work_struct *work)
+> @@ -1009,6 +1010,12 @@ void __noreturn do_exit(long code)
+>  	exit_task_work(tsk);
+>  	exit_thread(tsk);
 > =20
->  static DECLARE_WORK(unix_gc_work, unix_gc);
-> =20
-> -#define UNIX_INFLIGHT_SANE_USER		(SCM_MAX_FD * 8)
-> -
-> -void unix_schedule_gc(struct user_struct *user)
-> +void unix_schedule_gc(void)
->  {
->  	if (READ_ONCE(unix_graph_state) =3D=3D UNIX_GRAPH_NOT_CYCLIC)
->  		return;
-> =20
-> -	/* Penalise users who want to send AF_UNIX sockets
-> -	 * but whose sockets have not been received yet.
-> -	 */
-> -	if (user &&
-> -	    READ_ONCE(user->unix_inflight) < UNIX_INFLIGHT_SANE_USER)
-> -		return;
-> -
->  	if (!READ_ONCE(gc_in_progress))
->  		queue_work(system_dfl_wq, &unix_gc_work);
+> +	/*
+> +	 * Must be after exit_files() and exit_task_work(tsk) to ensure that
+> +	 * the task's AF_UNIX sockets have all been closed.
+> +	 */
+> +	unix_schedule_gc(NULL);
 
 [Severity: High]
-Does this unconditional call to unix_schedule_gc() from do_exit() create a
-risk of system-wide GC storms?
+Does unconditionally triggering the global AF_UNIX garbage collector on task
+exit create a severe system-wide denial of service vulnerability?
 
-If an unprivileged local user creates a cyclic graph of AF_UNIX sockets (for
-example, by sending the FDs of a socketpair to each other) and keeps the fi=
-le
-descriptors open, it forms a "live" cycle.
+By passing NULL to unix_schedule_gc(), the rate-limiting check
+(user->unix_inflight) is bypassed. If an unprivileged user creates a cyclic
+graph of AF_UNIX sockets, every task exit system-wide would unconditionally
+queue unix_gc_work.
 
-In this scenario:
-1. unix_graph_state becomes UNIX_GRAPH_CYCLIC (as set in unix_walk_scc_fast=
-).
-2. When unix_gc_work runs, it ignores the live cycle but leaves
-   unix_graph_state as UNIX_GRAPH_CYCLIC.
-3. Once GC finishes, gc_in_progress becomes false.
+The GC thread would then take the global unix_gc_lock spinlock and perform
+an O(N) traversal of all cyclic sockets, burning CPU and blocking all
+legitimate AF_UNIX operations system-wide.
 
-Since do_exit() unconditionally calls unix_schedule_gc(), any unrelated task
-exiting anywhere in the system will immediately re-queue the GC.
+[Severity: Medium]
+Can a race on gc_in_progress cause do_exit() to skip queueing the garbage
+collector if it is currently running, leaving the cyclic sockets leaked
+indefinitely?
 
-Could this result in CPU exhaustion and a denial of service due to heavy lo=
-ck
-contention on unix_gc_lock, as the GC continuously walks the inflight socket
-graph?
+If a background GC run is currently active, gc_in_progress is true. If the
+concurrent GC scans the exiting task's sockets before they are closed, it
+considers them alive.
 
-> -
-> -	if (user && READ_ONCE(unix_graph_cyclic_sccs))
-> -		flush_work(&unix_gc_work);
->  }
+When the exiting task subsequently closes them and calls
+unix_schedule_gc(NULL), it sees gc_in_progress is true and silently skips
+queueing a new GC pass. This fails to reliably fix the socket leak it was
+intended to resolve.
+
+> +
+>  	sched_autogroup_exit_task(tsk);
+>  	cgroup_task_exit(tsk);
+>
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1784712370.gi=
-t.namcao@linutronix.de?part=3D3
+t.namcao@linutronix.de?part=3D1
