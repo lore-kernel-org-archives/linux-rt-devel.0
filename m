@@ -1,232 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2D32C0F8C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Jul 2026 01:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE5B7080D;
+	Thu, 23 Jul 2026 02:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770943; cv=none; b=naB3cNYGpfFfvteQXN7uqHmwmnJdJxHzQpqNgiBb3q45MWZgQwhUH91qVs1+fpt5Mn+qF+gsvHT7wfCvY2UTNOm3ALPqAo632jmZeQFzjQpHEZv24mUtnQuFZwcZRxsgaBGs+hOfBtiqfK0lQJoBL0DiX5oXoofamRxjj8sFsHY=
+	t=1784772160; cv=none; b=KLR75OsmZmAAAbIGVY/vFqpcmLVDqJaP9oPHcgmA4cXyooH+aqwpjOTpwlf2fY+J2vmXusfpB6QRMsUjGGKXj1tilUWrDzbqWJtIKDYY0wEwr4pLVzMVcB/aYK6aAp3C2oluaErCV07x8TwRJPRGjb2pd3PLmFcArkqzg53rUog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770943; c=relaxed/simple;
-	bh=mNQeiHLtOE2eI3Wxy8SjxSE1jvCa/k2zMJRQl+78QXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=myuxomCOpXwXlxdhpOhRJ3dmxO3usPcbnQglrakaa6xcYsdEr2TmonCJcc/tUw/4S1hTnxx02UGyaydoDsq/DS21cEkskYDZEN2KVkGUfUpW8M/cLDKWIXFiDwV10QqckkkLyB6YRlqlaMTUKYtiYgt+MGFTTzuLMZ7yIglEfgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eotv/Bt7; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784772160; c=relaxed/simple;
+	bh=6FZo6Z42pHh3qOLHOsyHmUkINVTVkzQLzxCFW6UQ0zk=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=cIacIEAsqZMZopNBrECyPxt1lIgDIGmJAPjIOhUUKz/puy/HATC1bVhBdN5aR9TzKTRTEaaToxckOWV1/5MsG6JfFMOrkipvpoUPktxOvsG/qc8eUgHoUi8hyFVBC9uhn+Kw7BPTbzhHPrYc02SJnv9+/vDyaPBNkaTZyBzHTVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AjlsX7OL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eotv/Bt7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784770942; x=1816306942;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mNQeiHLtOE2eI3Wxy8SjxSE1jvCa/k2zMJRQl+78QXQ=;
-  b=Eotv/Bt7mya+xOvdKOEEPlsR1gbjaahGWokiu8RSpsRO1oVw7uNNIwGq
-   z3Sl78A4q/797R5r1I+DhyUWx270ypHSXJAos/URoWVKdJUykOWeM4tvG
-   aEIJ6RijwfZeOlvRXLGCbzut4GI3RKEIgRo2y25AJpx/XlSo1dBkS0iW6
-   2mO4il3D504qHMJvfSSNL0y7sv2aTQshoi6GNNwL1tT5ffv8bupKtyPS6
-   CNso+83jv7aGyEl9EHIepGaTLfb9Y4+H4rb8kqo8g479q6M14pPrSTlxN
-   gVf0LtbHn6P8zxSBiBDXyLMi/09B4TLteoOREhp/xOXSt3/dKd9Ltydkz
-   A==;
-X-CSE-ConnectionGUID: ZYbWSME9Sfqgq+1I9yaBYg==
-X-CSE-MsgGUID: vFQg9UzMS8KA5OLQhRbr6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96790317"
-X-IronPort-AV: E=Sophos;i="6.25,179,1779174000"; 
-   d="scan'208";a="96790317"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 18:42:21 -0700
-X-CSE-ConnectionGUID: J98Z6do+T8SXY+bGVZNySQ==
-X-CSE-MsgGUID: 3WHpnddbSiOHybu9ZDoe0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,179,1779174000"; 
-   d="scan'208";a="257028835"
-Received: from junjie-desk-dev.bj.intel.com (HELO junjie-desk-dev.tail2c02c1.ts.net) ([10.238.152.71])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 18:42:18 -0700
-From: Junjie Cao <junjie.cao@intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] gpio: pch: use raw_spinlock_t for the register lock
-Date: Thu, 23 Jul 2026 09:41:29 +0800
-Message-ID: <20260723014129.1129730-1-junjie.cao@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AjlsX7OL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1776C1F000E9;
+	Thu, 23 Jul 2026 02:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784772159;
+	bh=8w2X05O1575+fHNU5xD4IxJXcFclve8e1n0oPHDroHU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=AjlsX7OLfdiPquAJ2eqcUNPeoolluHWqJqeLvR3SQj+V5tZsf7QGa3Bq2gu2d9EEz
+	 yqpbigdjjaUWD1CkQhQqMlMpKqswvN4Sesyw0jiitgXd1gqPCBusMtkK/pCjGtVNfK
+	 ULn1apDBPgxMlMWE8PHXZzebyLqMPJx26WXBlUdG0EThQj/XUgp6GVESDn9pDpDetz
+	 8SDJO1kjvpUw0RLiNHOReZRvJLWNFBJ8OIBfNdSlvIS5KVUuyDRkrlhGNxeBmamBwH
+	 KXgDoQOLXE8bL+UIiZ5W8roVWpNm9ws3/Fcie09mu7DI6zt8KhMZT0aV+0wrtCmFYE
+	 bbC4KLw+CkZfA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] gpio: pch: use raw_spinlock_t for the register lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Junjie Cao" <junjie.cao@intel.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260723014129.1129730-1-junjie.cao@intel.com>
+References: <20260723014129.1129730-1-junjie.cao@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jul 2026 02:02:38 +0000
+Message-Id: <20260723020239.1776C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-pch_irq_type() is registered as the irq_chip .irq_set_type callback and
-takes chip->spinlock with spin_lock_irqsave().  This callback is reached
-from __setup_irq() -> __irq_set_trigger() -> chip->irq_set_type() while
-the caller holds desc->lock, a raw_spinlock_t, with hardirqs disabled.
-That context is not sleepable, but on PREEMPT_RT a regular spinlock_t is
-an rtmutex-backed sleeping lock, so acquiring it there is invalid.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-This was confirmed on a PREEMPT_RT kernel with lockdep
-(PROVE_RAW_LOCK_NESTING and DEBUG_ATOMIC_SLEEP).  A grounded PoC mirrored
-pch_irq_type()'s locking and drove it through the real genirq carrier
-irq_set_irq_type() -> __irq_set_trigger() -> chip->irq_set_type(), i.e.
-the same __irq_set_trigger() edge that __setup_irq() takes for a
-requested IRQ.  With the original spin_lock_irqsave() edge lockdep
-reported an invalid wait context, immediately followed by:
+Pre-existing issues:
+- [High] The GPIO chip is registered via devm_gpiochip_add_data() before it=
+s irq_base is initialized, exposing incorrect IRQ mappings to consumers.
+- [High] The shared interrupt handler is requested before the generic irqch=
+ip is fully initialized, which could lead to uninitialized descriptor acces=
+ses.
+- [High] pch_gpio_to_irq() returns valid-looking bogus IRQ numbers when IRQ=
+ allocation fails during probe.
+--
 
-  BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-  in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 95, name: insmod
-  hardirqs last disabled at (3784): _raw_spin_lock_irqsave+0x4f/0x60
-   rt_spin_lock+0x3a/0x1c0
-   repro_irq_set_type+0x64/0xa0 [pch_repro]
-   __irq_set_trigger+0x69/0x140
-   irq_set_irq_type+0x78/0xd0
-
-Switching the mirrored lock to raw_spinlock_t made both splats go away.
-
-Convert the register lock to raw_spinlock_t.  The same lock also
-serializes the GPIO direction/value callbacks and the suspend/resume
-register save/restore, but all of those critical sections only perform
-MMIO register accesses (ioread32()/iowrite32()) and
-irq_set_handler_locked(); none of them contain sleepable operations.
-Keeping this register lock non-sleeping is therefore appropriate for the
-irqchip callbacks and does not change the GPIO-side locking contract.
-
-This is the same class of issue and fix as recently addressed for other
-GPIO controllers, e.g. commit 286533cb14a3 ("gpio: sch: use raw_spinlock_t
-in the irq startup path") and commit 90f0109019e6 ("gpio: eic-sprd: use
-raw_spinlock_t in the irq startup path").
-
-Fixes: 38eb18a6f92d ("gpio-pch: Support interrupt function")
-Cc: stable@vger.kernel.org
-Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+--- Patch [1]: [PATCH] gpio: pch: use raw_spinlock_t for the register lock =
 ---
- drivers/gpio/gpio-pch.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+commit 90a7cbda6861f749a9ed833233971bb8a60d95dc
+Author: Junjie Cao <junjie.cao@intel.com>
 
-diff --git a/drivers/gpio/gpio-pch.c b/drivers/gpio/gpio-pch.c
-index 4ffa0955a9e3..07a5617b314b 100644
---- a/drivers/gpio/gpio-pch.c
-+++ b/drivers/gpio/gpio-pch.c
-@@ -96,7 +96,7 @@ struct pch_gpio {
- 	struct pch_gpio_reg_data pch_gpio_reg;
- 	int irq_base;
- 	enum pch_type_t ioh;
--	spinlock_t spinlock;
-+	raw_spinlock_t spinlock;
- };
- 
- static int pch_gpio_set(struct gpio_chip *gpio, unsigned int nr, int val)
-@@ -105,7 +105,7 @@ static int pch_gpio_set(struct gpio_chip *gpio, unsigned int nr, int val)
- 	struct pch_gpio *chip =	gpiochip_get_data(gpio);
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 	reg_val = ioread32(&chip->reg->po);
- 	if (val)
- 		reg_val |= BIT(nr);
-@@ -113,7 +113,7 @@ static int pch_gpio_set(struct gpio_chip *gpio, unsigned int nr, int val)
- 		reg_val &= ~BIT(nr);
- 
- 	iowrite32(reg_val, &chip->reg->po);
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 
- 	return 0;
- }
-@@ -133,7 +133,7 @@ static int pch_gpio_direction_output(struct gpio_chip *gpio, unsigned int nr,
- 	u32 reg_val;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 
- 	reg_val = ioread32(&chip->reg->po);
- 	if (val)
-@@ -147,7 +147,7 @@ static int pch_gpio_direction_output(struct gpio_chip *gpio, unsigned int nr,
- 	pm |= BIT(nr);
- 	iowrite32(pm, &chip->reg->pm);
- 
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 
- 	return 0;
- }
-@@ -158,12 +158,12 @@ static int pch_gpio_direction_input(struct gpio_chip *gpio, unsigned int nr)
- 	u32 pm;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 	pm = ioread32(&chip->reg->pm);
- 	pm &= BIT(gpio_pins[chip->ioh]) - 1;
- 	pm &= ~BIT(nr);
- 	iowrite32(pm, &chip->reg->pm);
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 
- 	return 0;
- }
-@@ -265,7 +265,7 @@ static int pch_irq_type(struct irq_data *d, unsigned int type)
- 		return 0;
- 	}
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 
- 	/* Set interrupt mode */
- 	im = ioread32(im_reg) & ~(PCH_IM_MASK << (im_pos * 4));
-@@ -277,7 +277,7 @@ static int pch_irq_type(struct irq_data *d, unsigned int type)
- 	else if (type & IRQ_TYPE_EDGE_BOTH)
- 		irq_set_handler_locked(d, handle_edge_irq);
- 
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 	return 0;
- }
- 
-@@ -374,7 +374,7 @@ static int pch_gpio_probe(struct pci_dev *pdev,
- 	chip->ioh = id->driver_data;
- 	chip->reg = chip->base;
- 	pci_set_drvdata(pdev, chip);
--	spin_lock_init(&chip->spinlock);
-+	raw_spin_lock_init(&chip->spinlock);
- 	pch_gpio_setup(chip);
- 
- 	ret = devm_gpiochip_add_data(dev, &chip->gpio, chip);
-@@ -407,9 +407,9 @@ static int pch_gpio_suspend(struct device *dev)
- 	struct pch_gpio *chip = dev_get_drvdata(dev);
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 	pch_gpio_save_reg_conf(chip);
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 
- 	return 0;
- }
-@@ -419,11 +419,11 @@ static int pch_gpio_resume(struct device *dev)
- 	struct pch_gpio *chip = dev_get_drvdata(dev);
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->spinlock, flags);
-+	raw_spin_lock_irqsave(&chip->spinlock, flags);
- 	iowrite32(0x01, &chip->reg->reset);
- 	iowrite32(0x00, &chip->reg->reset);
- 	pch_gpio_restore_reg_conf(chip);
--	spin_unlock_irqrestore(&chip->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
- 
- 	return 0;
- }
--- 
-2.43.0
+gpio: pch: use raw_spinlock_t for the register lock
 
+This patch converts the spinlock_t register lock in the PCH GPIO driver to a
+raw_spinlock_t. This prevents invalid wait context and scheduling while ato=
+mic
+issues on PREEMPT_RT kernels, as the lock is acquired within the non-sleepa=
+ble
+irq_set_type callback.
+
+> diff --git a/drivers/gpio/gpio-pch.c b/drivers/gpio/gpio-pch.c
+> index 4ffa0955a9e3d..07a5617b314b3 100644
+> --- a/drivers/gpio/gpio-pch.c
+> +++ b/drivers/gpio/gpio-pch.c
+[ ... ]
+> @@ -374,7 +374,7 @@ static int pch_gpio_probe(struct pci_dev *pdev,
+>  	chip->ioh =3D id->driver_data;
+>  	chip->reg =3D chip->base;
+>  	pci_set_drvdata(pdev, chip);
+> -	spin_lock_init(&chip->spinlock);
+> +	raw_spin_lock_init(&chip->spinlock);
+>  	pch_gpio_setup(chip);
+> =20
+>  	ret =3D devm_gpiochip_add_data(dev, &chip->gpio, chip);
+
+[Severity: High]
+This isn't a bug introduced by this patch, but in
+drivers/gpio/gpio-pch.c:pch_gpio_probe(), does registering the GPIO chip be=
+fore
+initializing its IRQ base expose incorrect IRQ mappings to consumers?
+
+If a consumer acquires the GPIO and calls gpiod_to_irq() in the race window
+after devm_gpiochip_add_data() but before devm_irq_alloc_descs() sets
+chip->irq_base, pch_gpio_to_irq() will return 0 + offset since the chip
+structure is initially zeroed out.
+
+[Severity: High]
+This is a pre-existing issue, but in drivers/gpio/gpio-pch.c:pch_gpio_probe=
+(),
+if devm_irq_alloc_descs() fails, probe succeeds but leaves chip->irq_base
+as -1:
+
+	irq_base =3D devm_irq_alloc_descs(dev, -1, 0,
+					gpio_pins[chip->ioh], NUMA_NO_NODE);
+	if (irq_base < 0) {
+		dev_warn(dev, "PCH gpio: Failed to get IRQ base num\n");
+		chip->irq_base =3D -1;
+		return 0;
+	}
+
+When a consumer later calls gpiod_to_irq(), pch_gpio_to_irq() calculates
+chip->irq_base + offset:
+
+static int pch_gpio_to_irq(struct gpio_chip *gpio, unsigned int offset)
+{
+	struct pch_gpio *chip =3D gpiochip_get_data(gpio);
+
+	return chip->irq_base + offset;
+}
+
+For offsets > 0, does this compute a non-negative value (e.g. 0, 1, 2),
+breaking the error-reporting contract of to_irq and potentially causing
+consumers to steal essential system IRQs?
+
+[Severity: High]
+This is also a pre-existing issue, but later in
+drivers/gpio/gpio-pch.c:pch_gpio_probe(), the shared interrupt handler is
+requested before the generic irqchip is allocated:
+
+	ret =3D devm_request_irq(dev, pdev->irq, pch_gpio_handler,
+			       IRQF_SHARED, KBUILD_MODNAME, chip);
+	if (ret)
+		return dev_err_probe(dev, ret, "Failed to request IRQ\n");
+
+	return pch_gpio_alloc_generic_chip(chip, irq_base, gpio_pins[chip->ioh]);
+
+If an interrupt fires immediately on the shared line, could pch_gpio_handle=
+r()
+try to dispatch the interrupt using uninitialized descriptors, leading to a
+handle_bad_irq warning and potentially disabling the shared interrupt line?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260723014129.1129=
+730-1-junjie.cao@intel.com?part=3D1
