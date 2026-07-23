@@ -1,38 +1,38 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B724479892
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Jul 2026 12:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8D34963AA
+	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Jul 2026 13:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784810639; cv=none; b=oJDQyemTWUBdOnqrh8wlLGP6DevJft0v8uax6CP2Y2sFth05zi3Fo04OmbclrUomPP7I90vioa8x0tyCeY6S1znGTP5n2PxNAibYp7Q6/xbjvYHcZbHt96Isf+oZEvoACNTQCYcNGAiD8AP0Bn2aM2O2z1InmbbzotV5YJ4x8L8=
+	t=1784812243; cv=none; b=hUlDGjMr/OjzolLMydUVtQrTdAU+i/O7Loy56b1H7ggFVHbS0rjI7ABtGby0dRzAFmwc8mq+SL/WNYiyc4PpNZCnL7B7r+GIJ5BzAHhs1gonDCrE7H7peyRN0ok84cxFxrDvO0NEz4uGXRYrScJDZHL66f0i8wkDmiw1cnHkzCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784810639; c=relaxed/simple;
-	bh=FgWuFDxFKMmqWhaaY8VTcCIOt1T5x0zQbg7GAwFRMOQ=;
+	s=arc-20240116; t=1784812243; c=relaxed/simple;
+	bh=/kbUKe6YdNYEIumAhMYXQk8dAWcOkWfQqHU0hWGdMSE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C5nvxwWu7xYFeLN7R1MgzR8MqxplMinO9OaooySvbuN7VRgR9RaM8HJU7ck8n5H4VzK4tsN6pfQx2ygFXhj8+ROSVmTkc8i0hGQEpwUy4QQxByFlhN5E7V0+6eI20QVMQ21shR3WMliJiRDoYJWMI+TsS5g2YDLXYgQEaJ9s0So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=kv/h4MQr; arc=none smtp.client-ip=212.227.15.4
+	 MIME-Version; b=Gjr67QRT7U/U7Df7wMBaKqEH+Rq0vsb2wmHhq+cJ0nban7uaDkyUXxInTAhPl6jAS0H4mebR5pThgA3B+sRdVDSyk6D0pAUXg6Ecvdku/CDtcBvjqt0HlPf8jAukD3oRcUYbzDrRjRtn7007C3EQHID4GtCs0qmP3SLQdwIM1eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=BxFliabs; arc=none smtp.client-ip=212.227.17.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="kv/h4MQr"
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="BxFliabs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1784810634; x=1785415434; i=spasswolf@web.de;
-	bh=n3moBTlrGcmgNYDV5M99R8jPQ+/+zOuJPJWS4sQm2b8=;
+	s=s29768273; t=1784812203; x=1785417003; i=spasswolf@web.de;
+	bh=krTN5OSRjF+KYbNd9Q2WHl5Y9svSCLcteFyfFAqzMH8=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=kv/h4MQrq+ZfgnCXfGph/rJP4Ei6HIm+0dS115qFDn6Lokb/bidiVA53U3WAktjg
-	 eYLzNWfXg4HL17lj4c9nNyRskUXKe6cTJJXri9oqSgEvKgOPlMMTTrWRqjavIPhaQ
-	 g6r9nMLVQRmu5bHfvDrKcOV7FleWagaSk9eQkr0vP3l9ge/A4Ego/ls7XrgaEYQ5N
-	 iOc+zC5ewMJibG3ed/4IWUOV6v+EvDXUmM7E0Ls+p4cwuUvhWGN1WBcnK6hp1QojD
-	 XIm96/E8vkvHALQK0j9ADY3LQPQsRr147bklZN2MFfqq+OQ+Q+omi4E04jbQgDxUo
-	 LS1/L4guSYA7JV4W9g==
+	b=BxFliabs0dwVWL1Xkdi2hkCF2UAodFn+jkC9dH8KPUsujjtRsVefmx83FEGEFzGu
+	 gM4lV6TL6ZLVlyIt0i+qO0SssqniDaC3x8AbAbQuCiHoFd6gktDNb4Yc54P2YP/HM
+	 jo2nuk8t3gGZLywrYoKHxmTrK3uIAHHc+Iqga9hPhCziUK5OQE0ZUT9TzQBkYOwt1
+	 +TImRrfmvCDgIxjvsCW6LEnjTOMsM7wPSo+m5UbkGa8Vi/IHq5VGEopZlOR514YiB
+	 cAarWbZH24s8B6A0tvYti0inC3N4SpoIGwVvHA5VmWOkGpLTRe9DZfSM5w5Ctue3I
+	 huJjM7pGXc1I4ScNgA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N1u6n-1wyODz2KuP-00wrdd; Thu, 23
- Jul 2026 14:43:54 +0200
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKuON-1wYwpq1V7d-00SK1C; Thu, 23
+ Jul 2026 15:10:03 +0200
 From: Bert Karwatzki <spasswolf@web.de>
 To: linux-kernel@vger.kernel.org,
 	Rafal Ostrowski <rafal.ostrowski@amd.com>
@@ -44,11 +44,11 @@ Cc: Bert Karwatzki <spasswolf@web.de>,
 	Mario Limonciello <mario.limonciello@amd.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Thomas Gleixner <tglx@linutronix.de>
-Subject: [Re] kernel panic during shutdown in v7.2-rc4 and next-20260722 with PREEMPT_RT
-Date: Thu, 23 Jul 2026 14:43:51 +0200
-Message-ID: <20260723124353.13040-1-spasswolf@web.de>
+Subject: [Re] kernel panic during shutdown in v7.2-rc{3,4} and next-20260722 with PREEMPT_RT
+Date: Thu, 23 Jul 2026 15:10:01 +0200
+Message-ID: <20260723131001.11565-1-spasswolf@web.de>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: :	<20260723123449.6494-1-spasswolf@web.de>
+In-Reply-To: <20260723124353.13040-1-spasswolf@web.de>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -57,360 +57,507 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ecEkC2SUHqEiKd1YPvpfSmt2mvCpIxd92y9z3ojr2NkvIcgvOxO
- aDY7oGTFsPAmMbdbyaP3sZ0w5whK7FrgHar+gzXqlTWyx/HI71J0hvFhZAbbJUSjNt5lf83
- Pz7Bj2qs+PUZyO3yL/ml9GHX3zmrGjny5jn1zDXa11ZG11YhYHvEyTBI5wP7tdu3c5dP/V7
- NZhRjt8/mmZKh9qqvsduA==
+X-Provags-ID: V03:K1:gPMg2U6cWLtzL75vQ+8RD58uRyWsMTO1VzQQWiFdEUmRAGC3eQD
+ 0qFl1VllFFR/aWgH5jHF+wllIqyHml7A+OTvfJW93K0H5ljX+iedd/iVVXoTeBrnkUwe/xN
+ T4HG6cErKz0kHV3satqlaRAhrWv8JRSNbfE2YVnETf5rBSwsY5bWpQaoajL8DHAkdJ9YXlb
+ dj0fkcsZVODTzQOPcxaqQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UVtq6w4pXCU=;PngpfM34KBkmvMarsWL4z+HGPfQ
- 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
+UI-OutboundReport: notjunk:1;M01:P0:CZLEXlwAu0U=;KVHLPmTMgO/AIAl2v74WYwVDu/5
+ 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
+ SlxAfkrIZpdQ
 
-I was able to gather an error message from a failed shutdwon in v7.2-rc4:
+I was able to gather the panic error message from a failed shutdown via ne=
+tconsole,
+this time the kernel used was v7.2-rc3:
 
-T1475;BUG: scheduling while atomic: Xorg/1475/0x00000003
-T1475,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
-rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e s=
-nd_usbmidi_lib mt7925_common snd_ump mt792x_lib snd_rawmidi intel_rapl_msr=
- snd_seq_device mt76_connac_lib iosf_mbi intel_rapl_common mt76 snd_hda_co=
-dec_atihdmi rapl snd_hda_codec_hdmi mac80211 snd_hda_intel pcspkr wmi_bmof=
- snd_hda_codec snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 spd=
-5118 snd_timer cfg80211 regmap_i2c snd soundcore rfkill aead evdev ccp k10=
-temp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 amdgpu hid_generic usbhid drm_client_lib i2c_algo_bit hid=
+T6298;netconsole: network logging started
+T6298;netconsole-setup: Test log message to verify netconsole configuratio=
+n.
+T1575;BUG: scheduling while atomic: Xorg/1575/0x00000003
+T1575,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
+rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e m=
+t7925_common snd_usbmidi_lib snd_ump mt792x_lib snd_rawmidi mt76_connac_li=
+b snd_seq_device intel_rapl_msr iosf_mbi mt76 intel_rapl_common rapl mac80=
+211 snd_hda_codec_atihdmi snd_hda_codec_hdmi pcspkr wmi_bmof snd_hda_intel=
+ snd_hda_codec libarc4 snd_hda_core cfg80211 snd_intel_dspcfg snd_hwdep sn=
+d_pcm spd5118 regmap_i2c snd_timer snd rfkill soundcore aead evdev k10temp=
+ ccp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
+xt4 mbcache jbd2 amdgpu hid_generic usbhid hid drm_client_lib i2c_algo_bit=
  drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pa=
 nel_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci=
-_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec nvme=
-_core scsi_common crc16 video nvme_keyring i2c_piix4 gpio_amdpt usb_common=
- nvme_auth wmi
-T1475,ncfrag=3D955/979; i2c_smbus gpio_generic
-T1475;CPU: 22 UID: 0 PID: 1475 Comm: Xorg Not tainted 7.2.0-rc4-stable #16=
- PREEMPT_{RT,(full)}=20
-T1475;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
+_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec scsi=
+_common nvme_core crc16 video nvme_keyring gpio_amdpt i2c_piix4 nvme_auth =
+usb_common gpi
+T1575,ncfrag=3D955/979;o_generic i2c_smbus wmi
+T1575;CPU: 16 UID: 0 PID: 1575 Comm: Xorg Not tainted 7.2.0-rc3-stable #12=
+55 PREEMPT_{RT,(full)}=20
+T1575;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
 , BIOS 1627 02/05/2026
-T1475;Call Trace:
-T1475; <TASK>
-T1475; ? dump_stack_lvl+0x4b/0x70
-T1475; ? __schedule_bug.cold+0x3e/0x4a
-T1475; ? __schedule+0xf64/0x16f0
-T1475; ? pick_task_fair+0x4b/0x6e0
-T1475; ? schedule_rtlock+0x15/0x30
-T1475; ? rtlock_slowlock_locked+0x30c/0xe50
-T1475; ? rt_spin_lock+0xc3/0x120
-T1475; ? get_page_from_freelist+0x22e/0x1640
-T1475; ? __alloc_frozen_pages_noprof+0x146/0x2b0
-T1475; ? ___kmalloc_large_node+0xae/0xd0
-T1475; ? __kvmalloc_node_noprof+0x36c/0x580
-T1475; ? dc_create_plane_state+0x24/0x80 [amdgpu]
-T1475; ? dc_create_plane_state+0x24/0x80 [amdgpu]
-T1475; ? dc_state_create_phantom_plane+0x15/0x50 [amdgpu]
-T1475; ? dml21_handle_phantom_streams_planes+0x292/0x510 [amdgpu]
-T1475; ? dml21_mode_check_and_programming+0x157/0x7e0 [amdgpu]
-T1475; ? spl_set_filters_data+0xbc/0xd0 [amdgpu]
-T1475; ? spl_calculate_scaler_params+0x39d/0x1c00 [amdgpu]
-T1475; ? dc_state_remove_plane+0xaf/0x150 [amdgpu]
-T1475; ? dcn401_validate_bandwidth+0xb8/0x1f0 [amdgpu]
-T1475; ? update_planes_and_stream_state+0xfc7/0x16a0 [amdgpu]
-T1475; ? update_planes_and_stream_prepare_v3+0xb6/0x430 [amdgpu]
-T1475; ? dc_update_planes_and_stream+0x87/0x140 [amdgpu]
-T1475; ? amdgpu_dm_atomic_commit_tail+0x16c0/0x3800 [amdgpu]
-T1475; ? commit_tail+0xad/0x140 [drm_kms_helper]
-T1475; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
-T1475; ? drm_atomic_commit+0xac/0xe0 [drm]
-T1475; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
-T1475; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
-T1475; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
-T1475; ? rt_spin_lock+0x35/0x120
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
-T1475; ? drm_ioctl+0x27f/0x500 [drm]
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0x92/0xe0
-T1475; ? do_syscall_64+0xdd/0x5d0
-T1475; ? amdgpu_drm_ioctl+0x65/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0xac/0xe0
-T1475; ? switch_fpu_return+0x42/0x70
-T1475; ? do_syscall_64+0x226/0x5d0
-T1475; ? __ext4_journal_stop+0x3a/0xc0 [ext4]
-T1475; ? ext4_da_write_end+0x2de/0x340 [ext4]
-T1475; ? generic_perform_write+0x131/0x280
-T1475; ? up_write+0x29/0x50
-T1475; ? psi_group_change+0x112/0x2c0
-T1475; ? update_cfs_rq_load_avg+0x1a/0x240
-T1475; ? psi_task_switch+0x105/0x280
-T1475; ? finish_task_switch.isra.0+0xc2/0x3c0
-T1475; ? __schedule+0x374/0x16f0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x94/0x5d0
-T1475; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
-T1475; </TASK>
-T1475;------------[ cut here ]------------
-T1475;WARNING: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:12=
-6 at dc_fpu_end+0x36/0x40 [amdgpu], CPU#1: Xorg/1475
-T1475,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
-rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e s=
-nd_usbmidi_lib mt7925_common snd_ump mt792x_lib snd_rawmidi intel_rapl_msr=
- snd_seq_device mt76_connac_lib iosf_mbi intel_rapl_common mt76 snd_hda_co=
-dec_atihdmi rapl snd_hda_codec_hdmi mac80211 snd_hda_intel pcspkr wmi_bmof=
- snd_hda_codec snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 spd=
-5118 snd_timer cfg80211 regmap_i2c snd soundcore rfkill aead evdev ccp k10=
-temp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 amdgpu hid_generic usbhid drm_client_lib i2c_algo_bit hid=
+T1575;Call Trace:
+T1575; <TASK>
+T1575; ? dump_stack_lvl+0x4b/0x70
+T1575; ? __schedule_bug.cold+0x3e/0x4a
+T1575; ? __schedule+0xf64/0x16f0
+T1575; ? schedule_rtlock+0x15/0x30
+T1575; ? rtlock_slowlock_locked+0x30c/0xe50
+T1575; ? rt_spin_lock+0xc3/0x120
+T1575; ? get_page_from_freelist+0x22e/0x1640
+T1575; ? __alloc_frozen_pages_noprof+0x146/0x2b0
+T1575; ? ___kmalloc_large_node+0xae/0xd0
+T1575; ? __kvmalloc_node_noprof+0x36c/0x580
+T1575; ? dc_create_plane_state+0x24/0x80 [amdgpu]
+T1575; ? dc_create_plane_state+0x24/0x80 [amdgpu]
+T1575; ? dc_state_create_phantom_plane+0x15/0x50 [amdgpu]
+T1575; ? dml21_handle_phantom_streams_planes+0x292/0x510 [amdgpu]
+T1575; ? dml21_mode_check_and_programming+0x157/0x7e0 [amdgpu]
+T1575; ? try_to_wake_up+0x120/0x530
+T1575; ? rt_mutex_setprio+0x61/0x340
+T1575; ? calculate_plane_rec_in_timing_active+0x142/0x1f0 [amdgpu]
+T1575; ? spl_calculate_number_of_taps.constprop.0.isra.0+0x142/0xf00 [amdg=
+pu]
+T1575; ? spl_calculate_number_of_taps.constprop.0.isra.0+0xed4/0xf00 [amdg=
+pu]
+T1575; ? dcn401_validate_bandwidth+0xb8/0x1f0 [amdgpu]
+T1575; ? dc_validate_with_context+0x5ed/0x6b0 [amdgpu]
+T1575; ? dc_commit_streams+0x27c/0x4e0 [amdgpu]
+T1575; ? amdgpu_dm_atomic_commit_tail+0x61f/0x3650 [amdgpu]
+T1575; ? generic_reg_get+0x1c/0x30 [amdgpu]
+T1575; ? optc1_get_crtc_scanoutpos+0x5f/0xa0 [amdgpu]
+T1575; ? dc_stream_get_scanoutpos+0x7a/0xc0 [amdgpu]
+T1575; ? amdgpu_display_get_crtc_scanoutpos+0xa5/0x1c0 [amdgpu]
+T1575; ? amdgpu_display_crtc_idx_to_irq_type+0x30/0x30 [amdgpu]
+T1575; ? amdgpu_crtc_get_scanout_position+0x23/0x30 [amdgpu]
+T1575; ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x180/0x3b0 =
+[drm]
+T1575; ? wait_for_completion_timeout+0x127/0x170
+T1575; ? drm_crtc_get_last_vbltimestamp+0x50/0x80 [drm]
+T1575; ? commit_tail+0xad/0x140 [drm_kms_helper]
+T1575; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
+T1575; ? drm_atomic_commit+0xac/0xe0 [drm]
+T1575; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
+T1575; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
+T1575; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
+T1575; ? drm_ioctl+0x27f/0x500 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
+T1575; ? __x64_sys_ioctl+0x92/0xe0
+T1575; ? do_syscall_64+0xdd/0x5d0
+T1575; ? do_syscall_64+0x94/0x5d0
+T1575; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
+T1575; </TASK>
+T1575;------------[ cut here ]------------
+T1575;WARNING: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:12=
+6 at dc_fpu_end+0x36/0x40 [amdgpu], CPU#22: Xorg/1575
+T1575,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
+rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e m=
+t7925_common snd_usbmidi_lib snd_ump mt792x_lib snd_rawmidi mt76_connac_li=
+b snd_seq_device intel_rapl_msr iosf_mbi mt76 intel_rapl_common rapl mac80=
+211 snd_hda_codec_atihdmi snd_hda_codec_hdmi pcspkr wmi_bmof snd_hda_intel=
+ snd_hda_codec libarc4 snd_hda_core cfg80211 snd_intel_dspcfg snd_hwdep sn=
+d_pcm spd5118 regmap_i2c snd_timer snd rfkill soundcore aead evdev k10temp=
+ ccp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
+xt4 mbcache jbd2 amdgpu hid_generic usbhid hid drm_client_lib i2c_algo_bit=
  drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pa=
 nel_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci=
-_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec nvme=
-_core scsi_common crc16 video nvme_keyring i2c_piix4 gpio_amdpt usb_common=
- nvme_auth wmi
-T1475,ncfrag=3D955/979; i2c_smbus gpio_generic
-T1475;CPU: 1 UID: 0 PID: 1475 Comm: Xorg Tainted: G        W           7.2=
-.0-rc4-stable #16 PREEMPT_{RT,(full)}=20
-T1475;Tainted: [W]=3DWARN
-T1475;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
+_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec scsi=
+_common nvme_core crc16 video nvme_keyring gpio_amdpt i2c_piix4 nvme_auth =
+usb_common gpi
+T1575,ncfrag=3D955/979;o_generic i2c_smbus wmi
+T1575;CPU: 22 UID: 0 PID: 1575 Comm: Xorg Tainted: G        W           7.=
+2.0-rc3-stable #1255 PREEMPT_{RT,(full)}=20
+T1575;Tainted: [W]=3DWARN
+T1575;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
 , BIOS 1627 02/05/2026
-T1475;RIP: 0010:dc_fpu_end+0x36/0x40 [amdgpu]
-T1475;Code: 05 4f df 16 c7 ff c8 74 10 78 1f 65 ff 0d 72 cf 15 c7 74 0c c3=
- cc cc cc cc e8 96 95 12 c6 eb eb e8 ef 09 11 c6 c3 cc cc cc cc <0f> 0b eb=
+T1575;RIP: 0010:dc_fpu_end+0x36/0x40 [amdgpu]
+T1575;Code: 05 cf e5 16 e6 ff c8 74 10 78 1f 65 ff 0d f2 d5 15 e6 74 0c c3=
+ cc cc cc cc e8 16 9c 12 e5 eb eb e8 6f 10 11 e5 c3 cc cc cc cc <0f> 0b eb=
  dd 66 0f 1f 44 00 00 41 56 41 55 41 54 55 53 48 83 ec 10
-T1475;RSP: 0018:ffffb6c2059d7118 EFLAGS: 00010296
-T1475;RAX: 00000000ffffffff RBX: ffff9e1a61f00000 RCX: 0000000000000008
-T1475;RDX: 0000000000000000 RSI: 0000000000000719 RDI: ffffffffc13b3550
-T1475;RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000001
-T1475;R10: ffff9e1a61f00000 R11: 0000000000000002 R12: ffff9e16cc280000
-T1475;R13: ffff9e1721c00000 R14: 0000000000000000 R15: 0000000000000001
-T1475;FS:  00007fbc7ca7eb80(0000) GS:ffff9e26757b5000(0000) knlGS:00000000=
+T1575;RSP: 0018:ffffa11ac5bfb638 EFLAGS: 00010296
+T1575;RAX: 00000000ffffffff RBX: ffff9490f7480000 RCX: 0000000000000008
+T1575;RDX: 0000000000000000 RSI: 0000000000000719 RDI: ffffffffc15b3550
+T1575;RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000001
+T1575;R10: ffff9490f7480000 R11: 0000000000000002 R12: ffff948e09668000
+T1575;R13: ffff948e11400000 R14: 0000000000000000 R15: 0000000000000001
+T1575;FS:  00007f2b496ccb80(0000) GS:ffff949d96af5000(0000) knlGS:00000000=
 00000000
-T1475;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-T1475;CR2: 00007ff1aa4e5000 CR3: 000000010d0d3000 CR4: 0000000000f50ef0
-T1475;PKRU: 55555554
-T1475;Call Trace:
-T1475; <TASK>
-T1475; ? dcn401_validate_bandwidth+0xd1/0x1f0 [amdgpu]
-T1475; ? update_planes_and_stream_state+0xfc7/0x16a0 [amdgpu]
-T1475; ? update_planes_and_stream_prepare_v3+0xb6/0x430 [amdgpu]
-T1475; ? dc_update_planes_and_stream+0x87/0x140 [amdgpu]
-T1475; ? amdgpu_dm_atomic_commit_tail+0x16c0/0x3800 [amdgpu]
-T1475; ? commit_tail+0xad/0x140 [drm_kms_helper]
-T1475; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
-T1475; ? drm_atomic_commit+0xac/0xe0 [drm]
-T1475; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
-T1475; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
-T1475; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
-T1475; ? rt_spin_lock+0x35/0x120
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
-T1475; ? drm_ioctl+0x27f/0x500 [drm]
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0x92/0xe0
-T1475; ? do_syscall_64+0xdd/0x5d0
-T1475; ? amdgpu_drm_ioctl+0x65/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0xac/0xe0
-T1475; ? switch_fpu_return+0x42/0x70
-T1475; ? do_syscall_64+0x226/0x5d0
-T1475; ? __ext4_journal_stop+0x3a/0xc0 [ext4]
-T1475; ? ext4_da_write_end+0x2de/0x340 [ext4]
-T1475; ? generic_perform_write+0x131/0x280
-T1475; ? up_write+0x29/0x50
-T1475; ? psi_group_change+0x112/0x2c0
-T1475; ? update_cfs_rq_load_avg+0x1a/0x240
-T1475; ? psi_task_switch+0x105/0x280
-T1475; ? finish_task_switch.isra.0+0xc2/0x3c0
-T1475; ? __schedule+0x374/0x16f0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x94/0x5d0
-T1475; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
-T1475; </TASK>
-T1475;---[ end trace 0000000000000000 ]---
-T1475;------------[ cut here ]------------
-T1475;WARNING: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:97=
- at dc_fpu_begin+0x4f/0x60 [amdgpu], CPU#23: Xorg/1475
-T1475,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
-rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e s=
-nd_usbmidi_lib mt7925_common snd_ump mt792x_lib snd_rawmidi intel_rapl_msr=
- snd_seq_device mt76_connac_lib iosf_mbi intel_rapl_common mt76 snd_hda_co=
-dec_atihdmi rapl snd_hda_codec_hdmi mac80211 snd_hda_intel pcspkr wmi_bmof=
- snd_hda_codec snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 spd=
-5118 snd_timer cfg80211 regmap_i2c snd soundcore rfkill aead evdev ccp k10=
-temp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 amdgpu hid_generic usbhid drm_client_lib i2c_algo_bit hid=
+T1575;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+T1575;CR2: 0000557ef27b3000 CR3: 000000011543b000 CR4: 0000000000f50ef0
+T1575;PKRU: 55555554
+T1575;Call Trace:
+T1575; <TASK>
+T1575; ? dcn401_validate_bandwidth+0xd1/0x1f0 [amdgpu]
+T1575; ? dc_validate_with_context+0x5ed/0x6b0 [amdgpu]
+T1575; ? dc_commit_streams+0x27c/0x4e0 [amdgpu]
+T1575; ? amdgpu_dm_atomic_commit_tail+0x61f/0x3650 [amdgpu]
+T1575; ? generic_reg_get+0x1c/0x30 [amdgpu]
+T1575; ? optc1_get_crtc_scanoutpos+0x5f/0xa0 [amdgpu]
+T1575; ? dc_stream_get_scanoutpos+0x7a/0xc0 [amdgpu]
+T1575; ? amdgpu_display_get_crtc_scanoutpos+0xa5/0x1c0 [amdgpu]
+T1575; ? amdgpu_display_crtc_idx_to_irq_type+0x30/0x30 [amdgpu]
+T1575; ? amdgpu_crtc_get_scanout_position+0x23/0x30 [amdgpu]
+T1575; ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x180/0x3b0 =
+[drm]
+T1575; ? wait_for_completion_timeout+0x127/0x170
+T1575; ? drm_crtc_get_last_vbltimestamp+0x50/0x80 [drm]
+T1575; ? commit_tail+0xad/0x140 [drm_kms_helper]
+T1575; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
+T1575; ? drm_atomic_commit+0xac/0xe0 [drm]
+T1575; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
+T1575; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
+T1575; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
+T1575; ? drm_ioctl+0x27f/0x500 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
+T1575; ? __x64_sys_ioctl+0x92/0xe0
+T1575; ? do_syscall_64+0xdd/0x5d0
+T1575; ? do_syscall_64+0x94/0x5d0
+T1575; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
+T1575; </TASK>
+T1575;---[ end trace 0000000000000000 ]---
+T1575;------------[ cut here ]------------
+T1575;WARNING: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:97=
+ at dc_fpu_begin+0x4f/0x60 [amdgpu], CPU#17: Xorg/1575
+T1575,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
+rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e m=
+t7925_common snd_usbmidi_lib snd_ump mt792x_lib snd_rawmidi mt76_connac_li=
+b snd_seq_device intel_rapl_msr iosf_mbi mt76 intel_rapl_common rapl mac80=
+211 snd_hda_codec_atihdmi snd_hda_codec_hdmi pcspkr wmi_bmof snd_hda_intel=
+ snd_hda_codec libarc4 snd_hda_core cfg80211 snd_intel_dspcfg snd_hwdep sn=
+d_pcm spd5118 regmap_i2c snd_timer snd rfkill soundcore aead evdev k10temp=
+ ccp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
+xt4 mbcache jbd2 amdgpu hid_generic usbhid hid drm_client_lib i2c_algo_bit=
  drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pa=
 nel_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci=
-_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec nvme=
-_core scsi_common crc16 video nvme_keyring i2c_piix4 gpio_amdpt usb_common=
- nvme_auth wmi
-T1475,ncfrag=3D955/979; i2c_smbus gpio_generic
-T1475;CPU: 23 UID: 0 PID: 1475 Comm: Xorg Tainted: G        W           7.=
-2.0-rc4-stable #16 PREEMPT_{RT,(full)}=20
-T1475;Tainted: [W]=3DWARN
-T1475;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
+_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec scsi=
+_common nvme_core crc16 video nvme_keyring gpio_amdpt i2c_piix4 nvme_auth =
+usb_common gpi
+T1575,ncfrag=3D955/979;o_generic i2c_smbus wmi
+T1575;CPU: 17 UID: 0 PID: 1575 Comm: Xorg Tainted: G        W           7.=
+2.0-rc3-stable #1255 PREEMPT_{RT,(full)}=20
+T1575;Tainted: [W]=3DWARN
+T1575;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
 , BIOS 1627 02/05/2026
-T1475;RIP: 0010:dc_fpu_begin+0x4f/0x60 [amdgpu]
-T1475;Code: d0 75 27 65 ff 05 c1 cf 15 c7 b8 01 00 00 00 65 0f c1 05 84 df=
- 16 c7 85 c0 74 05 c3 cc cc cc cc bf 02 00 00 00 e9 51 96 12 c6 <0f> 0b eb=
+T1575;RIP: 0010:dc_fpu_begin+0x4f/0x60 [amdgpu]
+T1575;Code: d0 75 27 65 ff 05 41 d6 15 e6 b8 01 00 00 00 65 0f c1 05 04 e6=
+ 16 e6 85 c0 74 05 c3 cc cc cc cc bf 02 00 00 00 e9 d1 9c 12 e5 <0f> 0b eb=
  d5 66 90 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 d6 b8
-T1475;RSP: 0018:ffffb6c2059d7448 EFLAGS: 00010206
-T1475;RAX: 0000000000ff0000 RBX: ffff9e1721c00000 RCX: ffff9e1703380000
-T1475;RDX: 0000000000ff0000 RSI: 000000000000073d RDI: ffffffffc13b3520
-T1475;RBP: 0000000000000001 R08: ffffb6c2059d741c R09: 000000000000000a
-T1475;R10: ffffb6c2059d73c0 R11: 0000000000000002 R12: ffff9e16cc280000
-T1475;R13: ffff9e16c14f7000 R14: ffff9e1a61f00000 R15: ffff9e1721c00000
-T1475;FS:  00007fbc7ca7eb80(0000) GS:ffff9e2675d35000(0000) knlGS:00000000=
+T1575;RSP: 0018:ffffa11ac5bfb6c8 EFLAGS: 00010206
+T1575;RAX: 0000000000ff0000 RBX: ffff949040380000 RCX: ffff9490a92f96a0
+T1575;RDX: 0000000000ff0000 RSI: 000000000000011f RDI: ffffffffc15de7a0
+T1575;RBP: ffff948e14700000 R08: ffffffffa6d02440 R09: 0000000000000006
+T1575;R10: ffffffffa6eb6440 R11: 0000000000000066 R12: ffff949040380000
+T1575;R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000000
+T1575;FS:  00007f2b496ccb80(0000) GS:ffff949d969b5000(0000) knlGS:00000000=
 00000000
-T1475;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-T1475;CR2: 0000557a0c9a9cc8 CR3: 000000010d0d3000 CR4: 0000000000f50ef0
-T1475;PKRU: 55555554
-T1475;Call Trace:
-T1475; <TASK>
-T1475; ? dcn401_prepare_mcache_programming+0x2f/0x70 [amdgpu]
-T1475; ? commit_planes_for_stream+0x155/0x1900 [amdgpu]
-T1475; ? update_planes_and_stream_execute_v3+0x3c/0xd0 [amdgpu]
-T1475; ? dc_update_planes_and_stream+0xb6/0x140 [amdgpu]
-T1475; ? amdgpu_dm_atomic_commit_tail+0x16c0/0x3800 [amdgpu]
-T1475; ? commit_tail+0xad/0x140 [drm_kms_helper]
-T1475; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
-T1475; ? drm_atomic_commit+0xac/0xe0 [drm]
-T1475; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
-T1475; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
-T1475; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
-T1475; ? rt_spin_lock+0x35/0x120
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
-T1475; ? drm_ioctl+0x27f/0x500 [drm]
-T1475; ? drm_mode_getcrtc+0x180/0x180 [drm]
-T1475; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0x92/0xe0
-T1475; ? do_syscall_64+0xdd/0x5d0
-T1475; ? amdgpu_drm_ioctl+0x65/0x80 [amdgpu]
-T1475; ? __x64_sys_ioctl+0xac/0xe0
-T1475; ? switch_fpu_return+0x42/0x70
-T1475; ? do_syscall_64+0x226/0x5d0
-T1475; ? __ext4_journal_stop+0x3a/0xc0 [ext4]
-T1475; ? ext4_da_write_end+0x2de/0x340 [ext4]
-T1475; ? generic_perform_write+0x131/0x280
-T1475; ? up_write+0x29/0x50
-T1475; ? psi_group_change+0x112/0x2c0
-T1475; ? update_cfs_rq_load_avg+0x1a/0x240
-T1475; ? psi_task_switch+0x105/0x280
-T1475; ? finish_task_switch.isra.0+0xc2/0x3c0
-T1475; ? __schedule+0x374/0x16f0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x572/0x5d0
-T1475; ? do_syscall_64+0x94/0x5d0
-T1475; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
-T1475; </TASK>
-T1475;---[ end trace 0000000000000000 ]---
-T1475;BUG: scheduling while atomic: Xorg/1475/0x00000000
-T1475,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
-rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e s=
-nd_usbmidi_lib mt7925_common snd_ump mt792x_lib snd_rawmidi intel_rapl_msr=
- snd_seq_device mt76_connac_lib iosf_mbi intel_rapl_common mt76 snd_hda_co=
-dec_atihdmi rapl snd_hda_codec_hdmi mac80211 snd_hda_intel pcspkr wmi_bmof=
- snd_hda_codec snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 spd=
-5118 snd_timer cfg80211 regmap_i2c snd soundcore rfkill aead evdev ccp k10=
-temp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 amdgpu hid_generic usbhid drm_client_lib i2c_algo_bit hid=
+T1575;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+T1575;CR2: 00007fb5ea0bfa7c CR3: 000000011543b000 CR4: 0000000000f50ef0
+T1575;PKRU: 55555554
+T1575;Call Trace:
+T1575; <TASK>
+T1575; ? dc_state_create_copy+0x76/0x120 [amdgpu]
+T1575; ? dc_commit_state_no_check+0x271/0xe00 [amdgpu]
+T1575; ? dc_commit_streams+0x2f4/0x4e0 [amdgpu]
+T1575; ? amdgpu_dm_atomic_commit_tail+0x61f/0x3650 [amdgpu]
+T1575; ? generic_reg_get+0x1c/0x30 [amdgpu]
+T1575; ? optc1_get_crtc_scanoutpos+0x5f/0xa0 [amdgpu]
+T1575; ? dc_stream_get_scanoutpos+0x7a/0xc0 [amdgpu]
+T1575; ? amdgpu_display_get_crtc_scanoutpos+0xa5/0x1c0 [amdgpu]
+T1575; ? amdgpu_display_crtc_idx_to_irq_type+0x30/0x30 [amdgpu]
+T1575; ? amdgpu_crtc_get_scanout_position+0x23/0x30 [amdgpu]
+T1575; ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x180/0x3b0 =
+[drm]
+T1575; ? wait_for_completion_timeout+0x127/0x170
+T1575; ? drm_crtc_get_last_vbltimestamp+0x50/0x80 [drm]
+T1575; ? commit_tail+0xad/0x140 [drm_kms_helper]
+T1575; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
+T1575; ? drm_atomic_commit+0xac/0xe0 [drm]
+T1575; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
+T1575; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
+T1575; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
+T1575; ? drm_ioctl+0x27f/0x500 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
+T1575; ? __x64_sys_ioctl+0x92/0xe0
+T1575; ? do_syscall_64+0xdd/0x5d0
+T1575; ? do_syscall_64+0x94/0x5d0
+T1575; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
+T1575; </TASK>
+T1575;---[ end trace 0000000000000000 ]---
+T1575;------------[ cut here ]------------
+T1575;kernel BUG at mm/vmalloc.c:3206!
+T1575;Oops: invalid opcode: 0000 [#1] SMP NOPTI
+T1575;CPU: 17 UID: 0 PID: 1575 Comm: Xorg Tainted: G        W           7.=
+2.0-rc3-stable #1255 PREEMPT_{RT,(full)}=20
+T1575;Tainted: [W]=3DWARN
+T1575;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
+, BIOS 1627 02/05/2026
+T1575;RIP: 0010:__get_vm_area_node+0x113/0x130
+T1575;Code: ff bd ff ff ff ff 48 0f bd e8 b8 0c 00 00 00 ff c5 39 c5 0f 4c=
+ e8 b8 1e 00 00 00 39 c5 0f 4f e8 c4 e2 d1 f7 ee e9 34 ff ff ff <0f> 0b 4c=
+ 89 ef e8 e3 46 01 00 45 31 ed eb ae 0f 1f 00 66 66 2e 0f
+T1575;RSP: 0018:ffffa11ac5bfb580 EFLAGS: 00010286
+T1575;RAX: 00000000ffffffff RBX: 0000000000000001 RCX: 0000000000000022
+T1575;RDX: 000000000000000c RSI: 0000000000000001 RDI: 000000000000f720
+T1575;RBP: 000000000000000c R08: ffffa11ac0000000 R09: ffffc11abfffffff
+T1575;R10: 00000000ffffffff R11: 0000000000000066 R12: ffff949040380000
+T1575;R13: 0000000000000001 R14: 0000000000000dc0 R15: 000000000000f720
+T1575;FS:  00007f2b496ccb80(0000) GS:ffff949d969b5000(0000) knlGS:00000000=
+00000000
+T1575;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+T1575;CR2: 00007fb5ea0bfa7c CR3: 000000011543b000 CR4: 0000000000f50ef0
+T1575;PKRU: 55555554
+T1575;Call Trace:
+T1575; <TASK>
+T1575; ? __vmalloc_node_range_noprof+0x14a/0x920
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dc_fpu_begin+0x51/0x60 [amdgpu]
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? asm_exc_invalid_op+0x1a/0x20
+T1575; ? __vmalloc_node_noprof+0x47/0x60
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dml21_create_copy+0x16/0x40 [amdgpu]
+T1575; ? dc_state_create_copy+0x89/0x120 [amdgpu]
+T1575; ? dc_commit_state_no_check+0x271/0xe00 [amdgpu]
+T1575; ? dc_commit_streams+0x2f4/0x4e0 [amdgpu]
+T1575; ? amdgpu_dm_atomic_commit_tail+0x61f/0x3650 [amdgpu]
+T1575; ? generic_reg_get+0x1c/0x30 [amdgpu]
+T1575; ? optc1_get_crtc_scanoutpos+0x5f/0xa0 [amdgpu]
+T1575; ? dc_stream_get_scanoutpos+0x7a/0xc0 [amdgpu]
+T1575; ? amdgpu_display_get_crtc_scanoutpos+0xa5/0x1c0 [amdgpu]
+T1575; ? amdgpu_display_crtc_idx_to_irq_type+0x30/0x30 [amdgpu]
+T1575; ? amdgpu_crtc_get_scanout_position+0x23/0x30 [amdgpu]
+T1575; ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x180/0x3b0 =
+[drm]
+T1575; ? wait_for_completion_timeout+0x127/0x170
+T1575; ? drm_crtc_get_last_vbltimestamp+0x50/0x80 [drm]
+T1575; ? commit_tail+0xad/0x140 [drm_kms_helper]
+T1575; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
+T1575; ? drm_atomic_commit+0xac/0xe0 [drm]
+T1575; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
+T1575; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
+T1575; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
+T1575; ? drm_ioctl+0x27f/0x500 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
+T1575; ? __x64_sys_ioctl+0x92/0xe0
+T1575; ? do_syscall_64+0xdd/0x5d0
+T1575; ? do_syscall_64+0x94/0x5d0
+T1575; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
+T1575; </TASK>
+T1575,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
+rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e m=
+t7925_common snd_usbmidi_lib snd_ump mt792x_lib snd_rawmidi mt76_connac_li=
+b snd_seq_device intel_rapl_msr iosf_mbi mt76 intel_rapl_common rapl mac80=
+211 snd_hda_codec_atihdmi snd_hda_codec_hdmi pcspkr wmi_bmof snd_hda_intel=
+ snd_hda_codec libarc4 snd_hda_core cfg80211 snd_intel_dspcfg snd_hwdep sn=
+d_pcm spd5118 regmap_i2c snd_timer snd rfkill soundcore aead evdev k10temp=
+ ccp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
+xt4 mbcache jbd2 amdgpu hid_generic usbhid hid drm_client_lib i2c_algo_bit=
  drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pa=
 nel_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci=
-_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec nvme=
-_core scsi_common crc16 video nvme_keyring i2c_piix4 gpio_amdpt usb_common=
- nvme_auth wmi
-T1475,ncfrag=3D955/979; i2c_smbus gpio_generic
-T1475;CPU: 20 UID: 0 PID: 1475 Comm: Xorg Tainted: G        W           7.=
-2.0-rc4-stable #16 PREEMPT_{RT,(full)}=20
-T1475;Tainted: [W]=3DWARN
-T1475;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
+_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec scsi=
+_common nvme_core crc16 video nvme_keyring gpio_amdpt i2c_piix4 nvme_auth =
+usb_common gpi
+T1575,ncfrag=3D955/979;o_generic i2c_smbus wmi
+T1575;---[ end trace 0000000000000000 ]---
+T1575;------------[ cut here ]------------
+T1575;WARNING: kernel/printk/nbcon.c:1739 at nbcon_cpu_emergency_exit+0x85=
+/0xa0, CPU#23: Xorg/1575
+T1575,ncfrag=3D0/979;Modules linked in: netconsole ccm snd_seq_dummy snd_h=
+rtimer snd_seq nls_ascii nls_cp437 vfat fat joydev snd_usb_audio mt7925e m=
+t7925_common snd_usbmidi_lib snd_ump mt792x_lib snd_rawmidi mt76_connac_li=
+b snd_seq_device intel_rapl_msr iosf_mbi mt76 intel_rapl_common rapl mac80=
+211 snd_hda_codec_atihdmi snd_hda_codec_hdmi pcspkr wmi_bmof snd_hda_intel=
+ snd_hda_codec libarc4 snd_hda_core cfg80211 snd_intel_dspcfg snd_hwdep sn=
+d_pcm spd5118 regmap_i2c snd_timer snd rfkill soundcore aead evdev k10temp=
+ ccp nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
+xt4 mbcache jbd2 amdgpu hid_generic usbhid hid drm_client_lib i2c_algo_bit=
+ drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pa=
+nel_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci=
+_pci libata xhci_hcd drm_kms_helper drm scsi_mod igc nvme usbcore cec scsi=
+_common nvme_core crc16 video nvme_keyring gpio_amdpt i2c_piix4 nvme_auth =
+usb_common gpi
+T1575,ncfrag=3D955/979;o_generic i2c_smbus wmi
+T1575;CPU: 23 UID: 0 PID: 1575 Comm: Xorg Tainted: G      D W           7.=
+2.0-rc3-stable #1255 PREEMPT_{RT,(full)}=20
+T1575;Tainted: [D]=3DDIE, [W]=3DWARN
+T1575;Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI=
 , BIOS 1627 02/05/2026
-T1475;Call Trace:
-T1475; <TASK>
-T1475; ? dump_stack_lvl+0x4b/0x70
+T1575;RIP: 0010:nbcon_cpu_emergency_exit+0x85/0xa0
+T1575;Code: 75 38 48 83 c4 10 c3 cc cc cc cc 48 8d 7c 24 04 e8 e0 ef ff ff=
+ 80 7c 24 05 00 74 ce e8 74 fc ff ff eb c7 e8 8d 67 f2 ff eb c9 <0f> 0b 8b=
+ 05 43 6a fc 00 85 c0 75 a2 0f 0b eb b0 e8 16 15 8b 00 66
+T1575;RSP: 0018:ffffa11ac5bfb3f8 EFLAGS: 00010246
+T1575;RAX: 0000000000000000 RBX: 000000000000000b RCX: 0000000000000000
+T1575;RDX: ffff949d3d9db204 RSI: 0000000000000001 RDI: ffff949d3d9db040
+T1575;RBP: 0000000000000246 R08: 0000000000000000 R09: 3fffffffffffdfff
+T1575;R10: ffffffffa6ed4e20 R11: ffffa11ac5bfb200 R12: ffffa11ac5bfb4d8
+T1575;R13: ffffffffa60d2ad3 R14: 0000000000000002 R15: 0000000000000004
+T1575;FS:  00007f2b496ccb80(0000) GS:ffff949d96b35000(0000) knlGS:00000000=
+00000000
+T1575;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+T1575;CR2: 0000557ef2780ef8 CR3: 000000011543b000 CR4: 0000000000f50ef0
+T1575;PKRU: 55555554
+T1575;Call Trace:
+T1575; <TASK>
+T1575; ? oops_exit.cold+0x13/0x1f
+T1575; ? oops_end+0x66/0xe0
+T1575; ? do_trap+0xc5/0x110
+T1575; ? do_error_trap+0x60/0x80
+T1575; ? __get_vm_area_node+0x113/0x130
+T1575; ? exc_invalid_op+0x4f/0x70
+T1575; ? __get_vm_area_node+0x113/0x130
+T1575; ? asm_exc_invalid_op+0x1a/0x20
+T1575; ? __get_vm_area_node+0x113/0x130
+T1575; ? __vmalloc_node_range_noprof+0x14a/0x920
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dc_fpu_begin+0x51/0x60 [amdgpu]
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? asm_exc_invalid_op+0x1a/0x20
+T1575; ? __vmalloc_node_noprof+0x47/0x60
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dml21_allocate_memory+0x124/0x180 [amdgpu]
+T1575; ? dml21_create_copy+0x16/0x40 [amdgpu]
+T1575; ? dc_state_create_copy+0x89/0x120 [amdgpu]
+T1575; ? dc_commit_state_no_check+0x271/0xe00 [amdgpu]
+T1575; ? dc_commit_streams+0x2f4/0x4e0 [amdgpu]
+T1575; ? amdgpu_dm_atomic_commit_tail+0x61f/0x3650 [amdgpu]
+T1575; ? generic_reg_get+0x1c/0x30 [amdgpu]
+T1575; ? optc1_get_crtc_scanoutpos+0x5f/0xa0 [amdgpu]
+T1575; ? dc_stream_get_scanoutpos+0x7a/0xc0 [amdgpu]
+T1575; ? amdgpu_display_get_crtc_scanoutpos+0xa5/0x1c0 [amdgpu]
+T1575; ? amdgpu_display_crtc_idx_to_irq_type+0x30/0x30 [amdgpu]
+T1575; ? amdgpu_crtc_get_scanout_position+0x23/0x30 [amdgpu]
+T1575; ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x180/0x3b0 =
+[drm]
+T1575; ? wait_for_completion_timeout+0x127/0x170
+T1575; ? drm_crtc_get_last_vbltimestamp+0x50/0x80 [drm]
+T1575; ? commit_tail+0xad/0x140 [drm_kms_helper]
+T1575; ? drm_atomic_helper_commit+0x137/0x180 [drm_kms_helper]
+T1575; ? drm_atomic_commit+0xac/0xe0 [drm]
+T1575; ? __drm_universal_plane_init.cold+0x11/0x11 [drm]
+T1575; ? drm_atomic_helper_set_config+0x6f/0xb0 [drm_kms_helper]
+T1575; ? drm_mode_setcrtc+0x443/0x8b0 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? drm_ioctl_kernel+0xa1/0xf0 [drm]
+T1575; ? drm_ioctl+0x27f/0x500 [drm]
+T1575; ? drm_mode_getcrtc+0x180/0x180 [drm]
+T1575; ? amdgpu_drm_ioctl+0x45/0x80 [amdgpu]
+T1575; ? __x64_sys_ioctl+0x92/0xe0
+T1575; ? do_syscall_64+0xdd/0x5d0
+T1575; ? do_syscall_64+0x94/0x5d0
+T1575; ? entry_SYSCALL_64_after_hwframe+0x55/0x5d
+T1575; </TASK>
+T1575;---[ end trace 0000000000000000 ]---
+C23;RIP: 0010:__get_vm_area_node+0x113/0x130
+C5;Code: ff bd ff ff ff ff 48 0f bd e8 b8 0c 00 00 00 ff c5 39 c5 0f 4c e8=
+ b8 1e 00 00 00 39 c5 0f 4f e8 c4 e2 d1 f7 ee e9 34 ff ff ff <0f> 0b 4c 89=
+ ef e8 e3 46 01 00 45 31 ed eb ae 0f 1f 00 66 66 2e 0f
+C5;RSP: 0018:ffffa11ac5bfb580 EFLAGS: 00010286
+C5;RAX: 00000000ffffffff RBX: 0000000000000001 RCX: 0000000000000022
+C5;RDX: 000000000000000c RSI: 0000000000000001 RDI: 000000000000f720
+C5;RBP: 000000000000000c R08: ffffa11ac0000000 R09: ffffc11abfffffff
+C5;R10: 00000000ffffffff R11: 0000000000000066 R12: ffff949040380000
+C5;R13: 0000000000000001 R14: 0000000000000dc0 R15: 000000000000f720
+C5;FS:  00007f2b496ccb80(0000) GS:ffff949d966b5000(0000) knlGS:00000000000=
+00000
+C5;CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+C5;CR2: 00007f17b8093940 CR3: 000000011543b000 CR4: 0000000000f50ef0
+C5;PKRU: 55555554
+T1575;Kernel panic - not syncing: Fatal exception in interrupt
+T1575;Kernel Offset: 0x24c00000 from 0xffffffff81000000 (relocation range:=
+ 0xffffffff80000000-0xffffffffbfffffff)
+T1575;---[ end Kernel panic - not syncing: Fatal exception in interrupt ]-=
+=2D-
 
-I'll probably try CONFIG_LOCKDEP=3Dy next.
 
 Bert Karwatzki
-
-
