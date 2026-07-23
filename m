@@ -1,118 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E88424D76;
-	Thu, 23 Jul 2026 09:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EF142BC56;
+	Thu, 23 Jul 2026 09:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784799118; cv=none; b=tA8U3b5F4bn1jnD2hiV9oOqnvuYPpT3VHP8jISZANtCTUcC2dkAb9TPnXY9aJHK3VuI5InZAI+pD9M/jP+d+SbM6Ok5Ln/xVi5LDDFI30ZR2BNLrRvZAB7DC4oiIVp1XwtjY7YNtG1om2swOccYYtK1quw3gy7nAu7EfRHCWXiw=
+	t=1784799974; cv=none; b=a5LnstnXTJwziqPP9ozi+aO5RtqfDIW4tSkyc0xceROQ6bs9L2DKV8Xa0n+/yLFURoelc7IIaszISwrWQAumaO5Gf12c6NTxqgRM2B7JNP60XKVdtI+aX0HYg/iKaq/xdpUon1EH4F0jU63Yi1mueEq1KbllrXbNF98HE9p8gZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784799118; c=relaxed/simple;
-	bh=RWcNRxBbg3lXxRxj+8TS7R/kkFibFRa3C5wEJBPkIQQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=fzYxBiriPvX05n+lzg7hDrPkLlggnJrq7Nn2f7IY3dvZJiNBYPDh/KFPROkejUTx93OBnICJDdj4HKHDjLAxjNA1OrKMz75/CUZltfr5pCKPJCFmcxkAyGSvgrpu9CsRWpjB4pQrImr3m6WLFS+o2SxE2EShrAsPi8yyfdUSSU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPMfUVj0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784799974; c=relaxed/simple;
+	bh=NitLufdE/4i0EaywdulcGJUyybW1WobriDxx0kW0zuw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aWCtqND6MYdYJU5O6xOgtC8PI+EIjX5zXM+oTBo29RMMiiNuHPIezvxDkdNS3uFnYXyQ99ceJVeIkeh31sCnQfUr+T8hzNV4GyyLrNsaQhEJMxUcFRmcQrZOKKRW3+UUVBlfN3MgZ0eJpAxeGFqfWckE18YgDqqbRUahICPsLlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a8lBic8b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPMfUVj0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE571F00A3A;
-	Thu, 23 Jul 2026 09:31:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a8lBic8b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928321F000E9;
+	Thu, 23 Jul 2026 09:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784799116;
-	bh=xk+h6zrZwQGEblLp5f0GalUVaM+X7VKVrbT5NaaW2yk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YPMfUVj01d9CtShRlabsGRo0Cor9Ue7houbzNJyr6YAY2LR7UPWLVtei8fxlUUHZA
-	 aKqy6VIxuKW1ic6p5T0lRf5aLXWLbGBBcjZhlUf/22rwzczcGckp95gG0SgwMcKfL4
-	 gkPMIgw7jOMzrD5GgMdQKycFoLhT+/GvtV7FL6Sh56blKvl3HFsf9K3eCc4bw/vlXV
-	 bumm2woGNOFrakL82KutmobPIcXufPgqTnTsESsbL4SiWgxxF0qUeT+lkrM3KrW402
-	 1aaHYP/2GQtXvseWDK7uUywDTzuZ3a3ytRBi/3RQKm9f1T+47qMfwVYXflNDr91E7S
-	 y4H0hcn/DehGg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v3 1/3] af_unix: Schedule the garbage collector
- at task exit
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Nam Cao" <namcao@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <ba4ed2717e5225b7b77ef928fb97ee5544632811.1784712370.git.namcao@linutronix.de>
-References: <cover.1784712370.git.namcao@linutronix.de>
- <ba4ed2717e5225b7b77ef928fb97ee5544632811.1784712370.git.namcao@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jul 2026 09:31:56 +0000
-Message-Id: <20260723093156.8CE571F00A3A@smtp.kernel.org>
+	s=k20260515; t=1784799971;
+	bh=aQoLo96zw0hxxBrNcRicMtUhLwVl+yi3CsLLfhJfpPY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=a8lBic8br0xTW38lbZuPJ1DFrHJ8Y8LS6+VHPO0N36kvB/eF5J14iY2vjWqpj+Daf
+	 gYHlVlYLJ7kXnczCN0bXXoGs5as9D7H3Sqb6jQxicxySwAlbFvY0vmJoFtdNLY0D1o
+	 RvphI1iVHFattz/PKtKSHR4jtKRorsH2ODMNLLsUg7/dRIH7fcGl4tYudyFmT0WiqJ
+	 GLOheMJRIrOi3zM1pH+xTgIx3AbNzQ8IJ1307cIFEU2dDpkKmTQVLO0olOpus/cmO6
+	 plcsQ3lU426dgBkTclS3U6r1GAc+O/IzzS4H3ihJBWCwr9TVSo2S6AsveSrExeCpzx
+	 nAy5I/c6mkhhA==
+Message-ID: <a8dc9a6b-a08c-426a-9a92-30a4014e2446@kernel.org>
+Date: Thu, 23 Jul 2026 11:46:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH slab/for-next v4 5/8] mm/slab: allow kfree_rcu_sheaf() on
+ PREEMPT_RT
+Content-Language: en-US
+To: Harry Yoo <harry@kernel.org>, sashiko-reviews@lists.linux.dev
+Cc: bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, hao.li@linux.dev
+References: <20260720-kfree_rcu_nolock-v4-0-964e03c41a4e@kernel.org>
+ <20260720-kfree_rcu_nolock-v4-5-964e03c41a4e@kernel.org>
+ <20260720125637.129D01F00A3A@smtp.kernel.org>
+ <1c7ce106-c5b0-4689-8c24-b32a0966eb02@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <1c7ce106-c5b0-4689-8c24-b32a0966eb02@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Unconditionally triggering the global AF_UNIX garbage collector on=
- task exit creates a severe system-wide denial of service vulnerability.
-- [Medium] A TOCTOU race on `gc_in_progress` causes `do_exit()` to skip que=
-ueing the garbage collector if it is currently running, leaving the cyclic =
-sockets leaked indefinitely.
---
+On 7/23/26 07:39, Harry Yoo wrote:
+> On 7/20/26 9:56 PM, sashiko-bot@kernel.org wrote:
+>> 
+>>> diff --git a/mm/slub.c b/mm/slub.c
+>>> index 8afa6b47b1f2b..deac315d0f23e 100644
+>>> --- a/mm/slub.c
+>>> +++ b/mm/slub.c
+>> [ ... ]
+>>> @@ -6080,10 +6081,10 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, unsigned int free_flags)
+>>>  	struct slab_sheaf *rcu_sheaf;
+>>>  	bool allow_spin = free_flags_allow_spinning(free_flags);
+>>>  
+>>> -	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_PREEMPT_RT)))
+>>> -		return false;
+>>> +	VM_WARN_ON_ONCE(IS_ENABLED(CONFIG_PREEMPT_RT) && allow_spin);
+>>>  
+>>> -	lock_map_acquire_try(&kfree_rcu_sheaf_map);
+>>> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+>>> +		lock_map_acquire_try(&kfree_rcu_sheaf_map);
+>>>  
+>>>  	if (!local_trylock(&s->cpu_sheaves->lock))
+>>              ^^^^^^^^^^^^^
+>> [Severity: High]
+>> This is a pre-existing issue, but since we are enabling this path for
+>> PREEMPT_RT, does the use of GFP_NOWAIT later in this function cause
+>> lock recursion deadlocks?
+>> 
+>> When the fast path fails, __kfree_rcu_sheaf() calls:
+>> 
+>>     empty = alloc_empty_sheaf(s, GFP_NOWAIT, alloc_flags);
+>> 
+>> GFP_NOWAIT includes __GFP_KSWAPD_RECLAIM, which invokes wakeup_kswapd().
+>> The wake-up path enters the scheduler via try_to_wake_up() and attempts to
+>> acquire scheduler locks like pi_lock and the runqueue lock.
+> 
+> This indeed looks like a real issue as kfree_rcu() can be called under
+> scheduler locks,
 
---- Patch [1]: [PATCH net-next v3 1/3] af_unix: Schedule the garbage collec=
-tor at task exit ---
-commit 9a35b6370cf5aa7dba01e2ce8f06d95e2eb14265
-Author: Nam Cao <namcao@linutronix.de>
+Are there any paths that actually do that?
 
-af_unix: Schedule the garbage collector at task exit
+> but not sure how it's been undiscovered for this long?
 
-This commit attempts to fix a memory leak involving dead cyclic reference
-AF_UNIX sockets when a task exits. It does this by scheduling the garbage
-collector during task exit, after the task's file descriptors have been
-closed.
+With kfree_rcu_sheaf_map we prevent the raw spinlock nesting detection in
+general. But I guess if there was an actual kfree_rcu() call under any
+scheduler lock involved in wakeup_kswapd(), lockdep would still trigger, right?
 
-> diff --git a/kernel/exit.c b/kernel/exit.c
-> index 2c0b1c02920f4..593ac4b0105f2 100644
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-[ ... ]
-> @@ -1009,6 +1010,12 @@ void __noreturn do_exit(long code)
->  	exit_task_work(tsk);
->  	exit_thread(tsk);
-> =20
-> +	/*
-> +	 * Must be after exit_files() and exit_task_work(tsk) to ensure that
-> +	 * the task's AF_UNIX sockets have all been closed.
-> +	 */
-> +	unix_schedule_gc(NULL);
+>> If kvfree_call_rcu() was called while the CPU already holds these scheduler
+>> locks, will this wake-up attempt cause a lock recursion self-deadlock?
+>> 
+> 
 
-[Severity: High]
-Does unconditionally triggering the global AF_UNIX garbage collector on task
-exit create a severe system-wide denial of service vulnerability?
-
-By passing NULL to unix_schedule_gc(), the rate-limiting check
-(user->unix_inflight) is bypassed. If an unprivileged user creates a cyclic
-graph of AF_UNIX sockets, every task exit system-wide would unconditionally
-queue unix_gc_work.
-
-The GC thread would then take the global unix_gc_lock spinlock and perform
-an O(N) traversal of all cyclic sockets, burning CPU and blocking all
-legitimate AF_UNIX operations system-wide.
-
-[Severity: Medium]
-Can a race on gc_in_progress cause do_exit() to skip queueing the garbage
-collector if it is currently running, leaving the cyclic sockets leaked
-indefinitely?
-
-If a background GC run is currently active, gc_in_progress is true. If the
-concurrent GC scans the exiting task's sockets before they are closed, it
-considers them alive.
-
-When the exiting task subsequently closes them and calls
-unix_schedule_gc(NULL), it sees gc_in_progress is true and silently skips
-queueing a new GC pass. This fails to reliably fix the socket leak it was
-intended to resolve.
-
-> +
->  	sched_autogroup_exit_task(tsk);
->  	cgroup_task_exit(tsk);
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1784712370.gi=
-t.namcao@linutronix.de?part=3D1
