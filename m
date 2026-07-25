@@ -1,101 +1,191 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75EA41F350
-	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Jul 2026 22:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43323304BA3
+	for <linux-rt-devel@lists.linux.dev>; Sat, 25 Jul 2026 00:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784931754; cv=none; b=EicSf15sbVEZf0b0TE3tRfOyPbjiX7zl5lBzi9ZUICr8jLHszybHwQi18DYW6TuhmaHQ8YNTYfoV5nfKZL+kS/sm40MwiCMTXyxTvCn6LCtBBx694XT48m6V38vnoi9zI+N23LZyz+Hq5OH7APFs5WShDTaLXp7haIS9/x+FKpw=
+	t=1784938682; cv=none; b=GpwNS6cWZjFAlz68CKD94IfnkdYpE7vhXv2EVNE0nYJ6rqUBWWX6lhX/NzDD7ZZiqHkpPdPjwTfHf9KnmCNXJPRQH28cPMqyfy3LD2JgUjsEWuvpbv24Z3thnI17/hySAOqtQ1vusPmydo2pFDTou7BQYKzRdrfVIVEMe02OJO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784931754; c=relaxed/simple;
-	bh=AdYfFyAgjIVO5XDodIBE9fbPfdcVANsXvv95CojMIRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihpZ9mXMo4sNmn9/rPwGBdN1vqcGR3xLD927PUhBOjJ0KnVwz88gygQ6qGQ5ssi6s18OtDc0LmQCnzI73tOKUt6hbotaRHZDEFX5pa19QIYtTLQRqbTZfavcYJjgqEj2z+bkxKfh6GtlzGVRueBvZ4h0km1n5P12yT8VQNVRyIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVewsSru; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784938682; c=relaxed/simple;
+	bh=XxPaqfAYKjeZn3sFsyCvWRBfcHJI/B4cGmsKYYY7AyE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=f+658vwxM0CujLE2Hz2cqx6mYR7IvIgqj1QNqoHENpqCjetNguEEmvNlhJXq2HtHJRuPlJxp9d/UrLxfIR4Yl80n5oJ+MDipRmOAnJfKLWz+kUKK+vY2vSddjVdq9iX69BdZE5nmA600XYhErE80PBOytzXsK0xjGr/wF+8uHnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tenstorrent.com; spf=pass smtp.mailfrom=tenstorrent.com; dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b=O4oFy+Iw; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tenstorrent.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tenstorrent.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVewsSru"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-495635a85d2so7962085e9.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 24 Jul 2026 15:22:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b="O4oFy+Iw"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6aae4823f62so330923eaf.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 24 Jul 2026 17:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784931751; x=1785536551; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=chE3xpVkIQFW5ArPDZ32cA7aJ2wqUwJA/I+4bx+PmKI=;
-        b=PVewsSruOGO4WSULgaqeIghslQwzN3U3PfEs6jzZu7hSFLh6fIC6BDUA+ArDqi76RF
-         rsMfLXF27HNBoGfVLdMR+bsBFb2cM10Y/lVdy+4zGNaBBHSB4Ic+SEi287YSn4jm2lXP
-         gaypYZhcwqEGOuuQ0zgge+VoFZPSp35Qe8nbQDvXIlaLordLXJ6iSpyAE6q328jEViKt
-         neEvNygfc0dKXqHVrrnEVwyqxrTeJ42NuPr7q5u9YefvR2yE27StqNrY99vm/g/DQYH8
-         ohEIN1YDofALyFO+q4P2HetqyjBshImLI1kkIrqac0pjgFAsrvXS86ehRtQgO9dYNB9E
-         WynQ==
+        d=tenstorrent.com; s=google; t=1784938679; x=1785543479; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OYj46W8Df7hirMITCsNQUAF2P+9YRrFHR/TmGqySuFI=;
+        b=O4oFy+Iw9qdyxhtByPc4CpFRgbTNsRWUQgPRJaTFQh6lIPPRHUXamBvahpXAd9aACs
+         S+xjJOzEAqHronhhe61bhnGaQ/f/CWsTVKimzzzHfwcHhwTVCPeugBxwwoIxUVbeNeRc
+         SYlfuYEZ6d0EVM4QwMh07U0i32Q+4QVDKb6iKpyFSkzf6aepB1Bv+KGzNIZBdgYsGsKF
+         P/qs+Ikn2kPg1caI+UCkhsJ5Z37cdgxTDnYxLIZwiGpwdo+0NlRnCnryPkFHnosvOH9Y
+         87+YWfq0suk3u8uh3kFHSbzU5OczontXeqkiFQ5aTg1VhQf5kF0K6AKgaXqVWVXTkGxa
+         5ysw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784931751; x=1785536551;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=chE3xpVkIQFW5ArPDZ32cA7aJ2wqUwJA/I+4bx+PmKI=;
-        b=KkP5/Xg6j/jNd5HvDpHJXyav8v23+NQO+GxAuwZ0xIFZhXmNsaZmfQqnVU9ltXZu09
-         powlqCYUMSqZYBFuX6SAcqwKLphpJE6MDIf2Ymsbf1m19agoOTMNtu/Ic+UFgsB1hQl5
-         lcDUmjGeP8EnNW4uDxahRvChhNv/r0Rrfl504b8HEO/IqrxnKNwi62LYoRXR7LMArYSE
-         vNvVBNAhZAPzqFmwwlJmCZNLm1Sfe+Be3JK/mX69frXMwKCR8EE6yshLHcymUamVVR9N
-         uyMa4eMOSYX5uLCxODz8ktUdQdqmjDVhzY/3zrnB5gaLouhuziBApvkiQoYWdnOtEePj
-         B/TA==
-X-Gm-Message-State: AOJu0YzK1dp4d0B4ak3vSl/fFDLbFol/BnOP4F7BazfLJuyu9Uyr0xD+
-	OBwI/PBnBOBDV0crxCmR03uZvIHKPQPQd4v6AEm4O7ZR8/7JK/A9dRjO
-X-Gm-Gg: AR+sD12S/TYj6xZA4jxOmB5tHIQk5yT3WMvhIuppVD/KIa8xE8Pppw80cSBHgCD8T5z
-	mtNH7ZstzyIz06oq53/bFwplqXlggj18akM7ooqr+8brYKQRe2fhcVSRwGPMvFVtI0V10EDXjeL
-	S+u9/HZjtBTB1jhGiYyzRqRfbLvioph6pXcAUTAmmiTdiV+8wvUsRE3RWDAU4US4nbuJdWVtBQQ
-	3ONPk5aDlYMseGn32ngGpwG7xZWo3hZAP9xRjxoC95bgyAxq+OeB8Ab9WjE0O33zwq8eod+5qHi
-	5ZdroDoS8c/uZVhpBsFYa8o9uGuQjHwKsPpqAZxv7jqVtOVsj0WCycvcOkc+EWxZiBKFvmJwN0Z
-	wC+0tXVHxFPsSeDOfhU+6mkr4LeOXE2s1Q303fd08crz5/NB7ta5Bc4gnAeHvOAss7fDW27FBeh
-	XPTB15ba/Rkl/cHK1mGqFu3Nyv+axzvsWkeO+YHKjlm37qmkijIN2QqjsbKEm3vvXwfCd/KQQHM
-	/yEMraplyH251/A6xGKfQorz5uLALd8ggzdeXbiQ++T2xbSIUZ/26owJM/GFMGEwZnq1c8wE7p5
-	/nuTcsnFPAnZY0SB
-X-Received: by 2002:a05:600c:a00b:b0:493:c182:6b08 with SMTP id 5b1f17b1804b1-496b570f64cmr1640745e9.36.1784931750842;
-        Fri, 24 Jul 2026 15:22:30 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-ae93-f301-cdd9-d5ea-080d-9131.310.pool.telefonica.de. [2a02:3100:ae93:f301:cdd9:d5ea:80d:9131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4866ddbsm25892745e9.7.2026.07.24.15.22.29
+        d=1e100.net; s=20251104; t=1784938679; x=1785543479;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OYj46W8Df7hirMITCsNQUAF2P+9YRrFHR/TmGqySuFI=;
+        b=ePELMs3CIxgTMHxkkdHHdTM+VMBDUB8WPB8PYrBRRM/nDzbh5JGaHIjvRekRdbBj4i
+         Yy2IWzeykVOaJiwRNZFIwPYjWAybnPFLLsh/IMDE1jRN2Dr7gaIPzjIiWzKA1OJiKjLG
+         dv2iqOSKilbqG84R4+06LSlJgItNiIVuvz8Qvd0A0LQ/G/CjcVy43jXwkkdfllD8ik8u
+         uQS9htJrGYLEANoQVu+tuHiFgNrhRcC2f8F4tGHuYA1epNcxOziJveCnX63hWrCkeozH
+         lo6FqdfXOhmXUxwFUDwBgZJYZuwU3VuQTqtrPYIJ4rMXJtdpFGSIRpmoJw4LcdS9/GAL
+         9/uQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrxVJrWns2cPZ8EoDUXsx2IJHaaJBxnFXrrKVDCdmzpM8sSFM1vANDaLvqkYCMI/r+w2cwjBnI7hEJ54FnBmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTmrQOBtN9Bh2NNMlinKF4ZdD4N/DOrmYXi8aCA5sxrFvh8ljA
+	LKxMKFz7Rnr87nTUFpgd0Mdia6E5zjr3exY8rzOEA/DNOWKvlcKNcaqDf1EHqK2oe7M=
+X-Gm-Gg: AR+sD10J9+k2z/ZoMwp9BV6c77pQHWDYIEcumsscsGNCZSnvssghrBdQ1qMOlwrAmvz
+	Lm92ClrgpDxyHySxTkMKseDj8oSjAm3oZtwmdaPnhzq/hlf2isIGQL3rqlEmeZvWpr31aMi8Lc3
+	FQRIgQ5mcxxYN+LJdpq6SlDSUjidtY9mIe1sInCLHWN+Dl0G0te+WgonA6FmRsvAOooERTj/FSn
+	mdyTVa4GAb3qOO5ELVMw5g0/W7SZqguR8NkNhd3Chpnek9+7ud5a7IDCVvK3/VeLP6uyZ1gP8Tn
+	eJL/4lydENJdgl1xBuuoSUK/qOnkV33vUekIOElYXQ+GfKMD/jqE8LElUkjL2eNN+HLUlVOBq1C
+	gN8aQQ0bFyPZbO5j+vj8Ge4SZNR1DCjhB4IeSTzII1k6FbEgXQt7FyFp/3mIequtlbkdvJ2g6p0
+	2y8X1Xz8bwSsbeytI2EyHW6DRznBFRteZQltI=
+X-Received: by 2002:a05:6820:6ae8:b0:6a3:c5:30ca with SMTP id 006d021491bc7-6aaff9916e4mr432102eaf.31.1784938678681;
+        Fri, 24 Jul 2026 17:17:58 -0700 (PDT)
+Received: from lima-default.tail89d63.ts.net ([12.55.13.134])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6aaf9385b35sm884057eaf.7.2026.07.24.17.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 15:22:30 -0700 (PDT)
-Date: Sat, 25 Jul 2026 00:22:28 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] serial: amba-pl011: unprepare console clock on
- unregister
-Message-ID: <amPlQCleCLARbLpY@gmail.com>
-References: <20260724213348.77418-1-kmehltretter@gmail.com>
- <20260724213348.77418-2-kmehltretter@gmail.com>
- <20260724215548.54CAC1F000E9@smtp.kernel.org>
+        Fri, 24 Jul 2026 17:17:58 -0700 (PDT)
+From: Andy Chiu <tchiu@tenstorrent.com>
+To: anup@brainfault.org,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-riscv@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Cc: kvm-riscv@lists.infradead.org,
+	Andy Chiu <tchiu@tenstorrent.com>,
+	dfustini@oss.tenstorrent.com,
+	greentime.hu@sifive.com
+Subject: [PATCH v4 2/3] riscv: vector: allow non-preemptible kernel-mode vector with IRQs off
+Date: Fri, 24 Jul 2026 19:17:41 -0500
+Message-ID: <20260725001749.2579274-3-tchiu@tenstorrent.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260725001749.2579274-1-tchiu@tenstorrent.com>
+References: <20260725001749.2579274-1-tchiu@tenstorrent.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724215548.54CAC1F000E9@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 24, 2026 at 09:55:47PM +0100, sashiko-bot@kernel.org wrote:
-> [Severity: High]
-> Is it possible for uap to be NULL here in pl011_console_exit() within
-> drivers/tty/serial/amba-pl011.c?
-> 
+Similar to commit 7137a203b251 ("arm64/fpsimd: Permit kernel mode NEON
+with IRQs off"), we are upgrading get/put_cpu_vector_context such that
+kvm_arch_vcpu_load/put can be safely called under both irq off and
+regular process context.
 
-The root cause is in serial core: serial_core_add_one_port() registers the
-console (uart_configure_port()) before the fallible tty_groups allocation,
-so a failure there leaves the console registered after the driver has
-cleared amba_ports[]. A NULL check in exit() alone would hide one of
-several symptom sites and change nothing on the write path.
+Also, export both symbols so the kvm module can call into it.
 
-This is fixed for all console UART drivers by a separate series [1],
-"serial: fix console lifetime bugs on failed bind and removal" (1/4 moves
-the fallible allocation before console registration); it reproduces this
-exact pl011_console_write_thread oops and an i.MX use-after-free. So I'd
-keep this series as-is.
+Signed-off-by: Andy Chiu <tchiu@tenstorrent.com>
+---
+Changelog v4:
+ - Include the linux/kvm_types.h to prevent build fail (patchwork ci)
+ - drop preempt_v_started check in may_use_simd()
+Changelog v3:
+ - Export {get,put}_cpu_vector_context() only to kvm modules (Sebastian)
+Changelog v2:
+ - new patch since v2
+---
+ arch/riscv/include/asm/simd.h          | 16 +++-------------
+ arch/riscv/kernel/kernel_mode_vector.c | 19 +++++++++++++------
+ 2 files changed, 16 insertions(+), 19 deletions(-)
 
-[1] https://lore.kernel.org/all/20260719221014.44354-1-kmehltretter@gmail.com/
+diff --git a/arch/riscv/include/asm/simd.h b/arch/riscv/include/asm/simd.h
+index adb50f3ec205..f176a8072c62 100644
+--- a/arch/riscv/include/asm/simd.h
++++ b/arch/riscv/include/asm/simd.h
+@@ -36,20 +36,10 @@ static __must_check inline bool may_use_simd(void)
+ 	/*
+ 	 * Nesting is achieved in preempt_v by spreading the control for
+ 	 * preemptible and non-preemptible kernel-mode Vector into two fields.
+-	 * Always try to match with preempt_v if kernel V-context exists. Then,
+-	 * fallback to check non preempt_v if nesting happens, or if the config
+-	 * is not set.
++	 * Only non-preempt_v can nest on top of preempt_v, if non-preempt_v is
++	 * unavailable, then preempt_v is not allowed.
+ 	 */
+-	if (IS_ENABLED(CONFIG_RISCV_ISA_V_PREEMPTIVE) && current->thread.kernel_vstate.datap) {
+-		if (!riscv_preempt_v_started(current))
+-			return true;
+-	}
+-	/*
+-	 * Non-preemptible kernel-mode Vector temporarily disables bh. So we
+-	 * must not return true on irq_disabled(). Otherwise we would fail the
+-	 * lockdep check calling local_bh_enable()
+-	 */
+-	return !irqs_disabled() && !(riscv_v_flags() & RISCV_KERNEL_MODE_V);
++	return !(riscv_v_flags() & RISCV_KERNEL_MODE_V);
+ }
+ 
+ #else /* ! CONFIG_RISCV_ISA_V */
+diff --git a/arch/riscv/kernel/kernel_mode_vector.c b/arch/riscv/kernel/kernel_mode_vector.c
+index 307ac369c3d4..965c8edbe984 100644
+--- a/arch/riscv/kernel/kernel_mode_vector.c
++++ b/arch/riscv/kernel/kernel_mode_vector.c
+@@ -10,6 +10,7 @@
+ #include <linux/percpu.h>
+ #include <linux/preempt.h>
+ #include <linux/types.h>
++#include <linux/kvm_types.h>
+ 
+ #include <asm/vector.h>
+ #include <asm/switch_to.h>
+@@ -55,13 +56,16 @@ void get_cpu_vector_context(void)
+ 	 * disable softirqs so it is impossible for softirqs to nest
+ 	 * get_cpu_vector_context() when kernel is actively using Vector.
+ 	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+-		local_bh_disable();
+-	else
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
++		if (!irqs_disabled())
++			local_bh_disable();
++	} else {
+ 		preempt_disable();
++	}
+ 
+ 	riscv_v_start(RISCV_KERNEL_MODE_V);
+ }
++EXPORT_SYMBOL_FOR_KVM(get_cpu_vector_context);
+ 
+ /*
+  * Release the CPU vector context.
+@@ -74,11 +78,14 @@ void put_cpu_vector_context(void)
+ {
+ 	riscv_v_stop(RISCV_KERNEL_MODE_V);
+ 
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+-		local_bh_enable();
+-	else
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
++		if (!irqs_disabled())
++			local_bh_enable();
++	} else {
+ 		preempt_enable();
++	}
+ }
++EXPORT_SYMBOL_FOR_KVM(put_cpu_vector_context);
+ 
+ #ifdef CONFIG_RISCV_ISA_V_PREEMPTIVE
+ static __always_inline u32 *riscv_v_flags_ptr(void)
+-- 
+2.43.0
+
