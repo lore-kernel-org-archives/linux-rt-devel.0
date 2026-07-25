@@ -1,121 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A8C23AE62;
-	Sat, 25 Jul 2026 00:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6B0331EB9
+	for <linux-rt-devel@lists.linux.dev>; Sat, 25 Jul 2026 09:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784939872; cv=none; b=o+N4VdIVnXNwJbTGoESegeBj7giY/yeR8Vti1P2xdrosapl6LK+Mn2zdjYmbPw80lT9wZ+s4C0k/Z5i38AJ4n5WL2hQVOTqQZF+bvo2mhSGTQ6ol/uwoWgDmxR7xRtdEPNXsvcmppDKOPibi8GN551xw21lb/6EDNUnEkjo7rOU=
+	t=1784973020; cv=none; b=RGGT6Wnb6IY1qYGjGEeEs+0SdT8wtmqKfiTFkCCtBMPnu2s4pt9sUdcpAlch9/4UvuiAnxt/uuvNU5erT510mksi0qxeFFv8XnnUyAqc3qD+owgDLFaE41cfHyVwIU4Lnu95CRwJlXyIHb3lqkEzDgI7LwCfrE1fFKSTDnalZFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784939872; c=relaxed/simple;
-	bh=2afZDJiuHfDE1sB6aFonl4S+sN03lp+Irl7dv5x47yI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=D0/b30PpPk/CI6WvV1TuGZLcMoxXwU9cEBoC0nzJ4dU4xjYDPcO764a66vnV1X923o04PXvc0X8IxomM3X2E8eqOXCWGjSIBeI1w68WOuKx61K2J5ZZ+Dexf5RAwE5VOBSet2T905uUtbABZqBnulcK9g0Cq5qmX1IQqEjtJ7UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUBOTQIp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784973020; c=relaxed/simple;
+	bh=ZOkMouzKTc6pwJSkP/6wV962hrK3jc/I5BHEdbYv3SE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r5Cgdy3Rk4FJSaNRMAmfKWADfvBkzfD6TGnrx1Qerrcw3AeF67snbqLf6xSbSazlLYnPZXDgGb8oxgghH4WwBrzTqIYgifaopjYdYsVTA6JDigDHuu5sLC0wDJDDfmkxzKMfIwcPBe97tfq7DFetoiMvDbgNrdMfFJSPXt2pUbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Htcz8lcY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUBOTQIp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A2961F000E9;
-	Sat, 25 Jul 2026 00:37:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Htcz8lcY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF6DF1F00ACA
+	for <linux-rt-devel@lists.linux.dev>; Sat, 25 Jul 2026 09:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784939871;
-	bh=5oNSHKqLlRWRJwPNA+bnUHam3PpdiLWy38DDyM6uyHg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SUBOTQIpPxIm0nrdO90Snat7iHIYdEsYPHujm11Hq5DTMh5NAFDB0nHFDlEsUqYD4
-	 sknIGbhFpubnoIHV0H9dq4wOUTfJS/bgNmaGCKWyMyg3IqK0GHhTTm/7bliEpavXN4
-	 YJHhZy76my3GwrZLzcevpfaqUvF7S7KRsIcgViIbuluxAxT1oaqFy4XBSYVygN5Vez
-	 IWSU7GqEQ6UPfpklQqdVL8bjX4ZXLb6yXojfgvmgVaEPz71pOzjsB0aP7PI8S/pG5f
-	 uV40rCVQchhnReC+D6vqc78ocXilI3ifHSdjzHGrDTyHF4OjHbkTBo3v8cG5xggu/0
-	 CVzWMZzw/cGrg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/3] riscv: vector: allow non-preemptible kernel-mode
- vector with IRQs off
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andy Chiu" <tchiu@tenstorrent.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260725001749.2579274-3-tchiu@tenstorrent.com>
-References: <20260725001749.2579274-1-tchiu@tenstorrent.com>
- <20260725001749.2579274-3-tchiu@tenstorrent.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Jul 2026 00:37:50 +0000
-Message-Id: <20260725003751.2A2961F000E9@smtp.kernel.org>
+	s=k20260515; t=1784973018;
+	bh=CBulOiBGfBvTnAmiriXvYuXX2dx8xklmA/TrVRfbsP4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Htcz8lcY817CkpGrZHc53Sl5c9ZJmWQyD+uN7Q0Y0udjZREnyHYbbqIoI6ONoY3mY
+	 NvEXE2KAmNykCl3GpLNm7iw/n9WA3G6J3fyhV+g3CZgs9zPu0MVvGJweEAaT9UiRHD
+	 8zFy6xHekGGroHNxC5hhd7mQz7klcphI3QlT+u0rkg5ESKH7O7AcJzafe5B+0WCEug
+	 8f98Wxxy65ECHQ+GysO2BXmD8ghfx7Sa+e6OrsyUqd0VWh5lZgQiMGrIRPedwhTJO2
+	 QYuAc9XW7l4YOoO3HJUMaqe04lk+Pygqy7jt5G8IGh3OkASclevUb4+V82XFdAmoyC
+	 obBUMzHU9W1zA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39c9452243cso10355181fa.3
+        for <linux-rt-devel@lists.linux.dev>; Sat, 25 Jul 2026 02:50:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RofkyjHLtgMF6Y9nF95+Eu/0S3lb5mzdmSCPewlbRoss9XzWBsBCylstqx9iuqaf/Liz98XeKA66k6rB561Lw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYOfp11diM93Zv2+bpGldBkgsKdgLmedCceVOHtHkx2r6mYUOU
+	PMzlKWeNdBqF1ltIJwpTFoDvwLTiqXB09hxlBs/P9pXCS+Bu4Rju5fZoUvgwuZVxMrOQ1L1RrqL
+	HvIdb03IG/N2ZVYM+b21h58GzSMQ46wE=
+X-Received: by 2002:a05:6512:32c6:b0:5b1:54a3:d133 with SMTP id
+ 2adb3069b0e04-5b2c1b422f3mr287463e87.44.1784973017667; Sat, 25 Jul 2026
+ 02:50:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260723014129.1129730-1-junjie.cao@intel.com>
+In-Reply-To: <20260723014129.1129730-1-junjie.cao@intel.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 25 Jul 2026 11:50:05 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=EJyWpqjwCdfosdanjS9GUAwMEJjHFrcvMyBV3iKHZZw@mail.gmail.com>
+X-Gm-Features: AUfX_mznnK_vQ59WsYiY7CKXNdlpyrZq5O3JkxdlH-E4-8Q6XPCmriF1pwb-x04
+Message-ID: <CAD++jL=EJyWpqjwCdfosdanjS9GUAwMEJjHFrcvMyBV3iKHZZw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: pch: use raw_spinlock_t for the register lock
+To: Junjie Cao <junjie.cao@intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Removing the `!irqs_disabled()` check from `may_use_simd()` expose=
-s KVM guest vector state to corruption and leakage by hardirqs.
---
+Hi Junjie,
 
---- Patch [2]: [PATCH v4 2/3] riscv: vector: allow non-preemptible kernel-m=
-ode vector with IRQs off ---
-commit db1e5a6ad1a80d124f168f9dae7f399f6eec4f67
-Author: Andy Chiu <tchiu@tenstorrent.com>
+thanks for your patch!
 
-riscv: vector: allow non-preemptible kernel-mode vector with IRQs off
+On Thu, Jul 23, 2026 at 3:42=E2=80=AFAM Junjie Cao <junjie.cao@intel.com> w=
+rote:
 
-This commit upgrades get/put_cpu_vector_context to allow safe execution und=
-er
-both IRQ off and regular process context, similar to arm64/fpsimd. It also
-exports these symbols for the KVM module to call.
+> pch_irq_type() is registered as the irq_chip .irq_set_type callback and
+> takes chip->spinlock with spin_lock_irqsave().  This callback is reached
+> from __setup_irq() -> __irq_set_trigger() -> chip->irq_set_type() while
+> the caller holds desc->lock, a raw_spinlock_t, with hardirqs disabled.
+> That context is not sleepable, but on PREEMPT_RT a regular spinlock_t is
+> an rtmutex-backed sleeping lock, so acquiring it there is invalid.
+>
+> This was confirmed on a PREEMPT_RT kernel with lockdep
+> (PROVE_RAW_LOCK_NESTING and DEBUG_ATOMIC_SLEEP).  A grounded PoC mirrored
+> pch_irq_type()'s locking and drove it through the real genirq carrier
+> irq_set_irq_type() -> __irq_set_trigger() -> chip->irq_set_type(), i.e.
+> the same __irq_set_trigger() edge that __setup_irq() takes for a
+> requested IRQ.  With the original spin_lock_irqsave() edge lockdep
+> reported an invalid wait context, immediately followed by:
+>
+>   BUG: sleeping function called from invalid context at kernel/locking/sp=
+inlock_rt.c:48
+>   in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 95, name: insmod
+>   hardirqs last disabled at (3784): _raw_spin_lock_irqsave+0x4f/0x60
+>    rt_spin_lock+0x3a/0x1c0
+>    repro_irq_set_type+0x64/0xa0 [pch_repro]
+>    __irq_set_trigger+0x69/0x140
+>    irq_set_irq_type+0x78/0xd0
+>
+> Switching the mirrored lock to raw_spinlock_t made both splats go away.
+>
+> Convert the register lock to raw_spinlock_t.  The same lock also
+> serializes the GPIO direction/value callbacks and the suspend/resume
+> register save/restore, but all of those critical sections only perform
+> MMIO register accesses (ioread32()/iowrite32()) and
+> irq_set_handler_locked(); none of them contain sleepable operations.
+> Keeping this register lock non-sleeping is therefore appropriate for the
+> irqchip callbacks and does not change the GPIO-side locking contract.
+>
+> This is the same class of issue and fix as recently addressed for other
+> GPIO controllers, e.g. commit 286533cb14a3 ("gpio: sch: use raw_spinlock_=
+t
+> in the irq startup path") and commit 90f0109019e6 ("gpio: eic-sprd: use
+> raw_spinlock_t in the irq startup path").
+>
+> Fixes: 38eb18a6f92d ("gpio-pch: Support interrupt function")
+> Cc: stable@vger.kernel.org
 
-> diff --git a/arch/riscv/include/asm/simd.h b/arch/riscv/include/asm/simd.h
-> index adb50f3ec2057..f176a8072c625 100644
-> --- a/arch/riscv/include/asm/simd.h
-> +++ b/arch/riscv/include/asm/simd.h
-[ ... ]
-> @@ -36,20 +36,10 @@ static __must_check inline bool may_use_simd(void)
->  	/*
->  	 * Nesting is achieved in preempt_v by spreading the control for
->  	 * preemptible and non-preemptible kernel-mode Vector into two fields.
-> -	 * Always try to match with preempt_v if kernel V-context exists. Then,
-> -	 * fallback to check non preempt_v if nesting happens, or if the config
-> -	 * is not set.
-> +	 * Only non-preempt_v can nest on top of preempt_v, if non-preempt_v is
-> +	 * unavailable, then preempt_v is not allowed.
->  	 */
-> -	if (IS_ENABLED(CONFIG_RISCV_ISA_V_PREEMPTIVE) && current->thread.kernel=
-_vstate.datap) {
-> -		if (!riscv_preempt_v_started(current))
-> -			return true;
-> -	}
-> -	/*
-> -	 * Non-preemptible kernel-mode Vector temporarily disables bh. So we
-> -	 * must not return true on irq_disabled(). Otherwise we would fail the
-> -	 * lockdep check calling local_bh_enable()
-> -	 */
-> -	return !irqs_disabled() && !(riscv_v_flags() & RISCV_KERNEL_MODE_V);
-> +	return !(riscv_v_flags() & RISCV_KERNEL_MODE_V);
+Really? Why to stable? Is this a regression of something that used
+to work before? Using RT is fringe IMO.
 
-[Severity: High]
-Does removing the !irqs_disabled() check here expose KVM guest vector state
-to corruption and leakage by hardirqs?
+> Signed-off-by: Junjie Cao <junjie.cao@intel.com>
 
-If KVM loads guest vector state into CPU registers during kvm_arch_vcpu_loa=
-d(),
-and a hardirq using vector instructions fires while running KVM code,
-may_use_simd() will now return true.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Would kernel_vector_begin() then save the CPU hardware registers (which con=
-tain
-KVM guest data) into the host task's current->thread.vstate, followed by the
-hardirq clobbering the CPU registers with its own vector operations?
-
-If this happens, when the hardirq returns KVM would resume with corrupted
-vector state, and the host task (e.g., QEMU) could receive the leaked guest
-state.
-
-While this series exports KVM symbols to potentially let KVM set
-RISCV_KERNEL_MODE_V to protect the state, are the actual KVM patches to set
-this flag missing from this series, leaving the tree vulnerable in the inte=
-rim?
-
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260725001749.2579=
-274-1-tchiu@tenstorrent.com?part=3D2
+Yours,
+Linus Walleij
