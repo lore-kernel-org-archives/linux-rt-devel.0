@@ -1,203 +1,158 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF22D3D1713
-	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 10:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025163F3281;
+	Mon, 27 Jul 2026 11:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785149483; cv=none; b=IlQdUmtDkNI0fTlqAMRFlXH7tWgA2cvvdBMBMCb0TU/OlSbR1SZtzwQsQxsdRteFgF3B+0VtsahNThY+AOx2hxLUjMOMnZbdGv3R7FC2GtYQWZxekxpsWU/MSn4FtmWPAhrNiq2XUQUTa3dRX1Tk4iYoGw+MZMrQdFkhWT/ew3M=
+	t=1785150678; cv=none; b=tW8NbeoGlJGj9T36vE2o3nknaS4qYJmszX2VwWWBMTeNHKa5M9NsmlNCeHI3h2UG1iG464C4C/CsV6qp2dj+1tDbRlU4Zx8bjctbBdvO7tFgpL2WREALGD/qd36nWvzyUV37GLGOJOWsrQgWQDWYHMJRgsMbIERZZI2NQmxfXHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785149483; c=relaxed/simple;
-	bh=FM5lEGvzd7f5f0+n9ZTFY3oBC7Mu0FqY3rkYLlV7Wz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YVxDa4ujFDcfells6l/aBTunM0sXIoCUcevJdR7k1K5iX+rmcrOjQaJU4zCH/b0kOqlCzgU6UCFeoimkl9w7IsR1g7TVKLO2+z5+JOkEsDakhX5SCwMOARO5mwT7WvXH8285LYNBXH6WmYOU3MPQwoUI9o/chWNNxDIpMea+f8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=qsLVtlPI; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1785150678; c=relaxed/simple;
+	bh=OKEalbowvVwYWYQ/mWx9qTlJBilPsjA/0F0pCI2xtck=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=DWgdE6rWxFlrJ1GyWg9KM2G1LlSkGBpt0ZuaTPRC7SJyljVOqYckyU38Si5UEJ4J80G//cP+nZFD13pwdJO6PYbSVamtBbXo3RxyTd3gUntE/3TrmVUrWQ/WJ7DgKd+yAn4qci9Odvm4wKbK70nyyzFlWQq87Sn6nUe2U966z6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0yRteld; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="qsLVtlPI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1785149460; x=1785754260; i=spasswolf@web.de;
-	bh=NFE8/rQmk1fksjgdJAUun1cGCbd/fVTa/yHLjHmmP7o=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=qsLVtlPIODMzOQUyavdGYXGYz3j1olQnQTyqYlfYqiUR1NKypoJ9dtvZCdcOyRxb
-	 F9Pn8T5HBvnhpJk77jItHcQaHRPqXtF8ZUcoYKfEDolJIsRch8rUrghq3GAi1BKa0
-	 5sRvcjr6vhdmesZG5gBmhG4Ae8IbtXu2yl8sj8a9aL5pqs4CcIDOh+yUGhAX9cI93
-	 KhbCRqZmIeJE8RwT2g2FsKu8BtNlSZnefHgBYiCqaVsdsJti6JDeqA9kEMFAcw9Ev
-	 JFY1fdQ2+POFNw2r72t373Pdh+NvlnSHI/qZjnpDoEp9VnqT6P7m7bCLN3TaqT+Sl
-	 Ifrddf8joeNq3ZEq4Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MxYbN-1xCPTp33n7-00wpkV; Mon, 27
- Jul 2026 12:51:00 +0200
-From: Bert Karwatzki <spasswolf@web.de>
-To: linux-kernel@vger.kernel.org
-Cc: Bert Karwatzki <spasswolf@web.de>,
-	linux-next@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org,
-	"# = v7 . 1" <stable@vger.kernel.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Rafal Ostrowski <rafal.ostrowski@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
-Date: Mon, 27 Jul 2026 12:50:58 +0200
-Message-ID: <20260727105059.75716-1-spasswolf@web.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <DS7PR12MB5838D278341AE35E0383B951F8CC2@DS7PR12MB5838.namprd12.prod.outlook.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0yRteld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D26C1F000E9;
+	Mon, 27 Jul 2026 11:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785150676;
+	bh=jUOm4SpbPha8J4lwZkA14GyOsHkM+mjKZ4GXSYTtT8U=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=i0yRteldDlHUeuMmTMsvEBeMgxT1tc/X4lDpU4XbXjIBQR9qFwlUzls3iujesrRoB
+	 WSxI1Z/kHK8clDZabd5kWeQF7tmlI1G3gZWus90TgKapqoyS+0TrY+R4T1aGnWssTt
+	 0QlI0to8TUB5EFUVtMCnFpxTualDs+0SNZ9Qfcso5+Wrgf9f0ZoN7zwAqypY+M7e9q
+	 9Yv3WEGH5h9kqt4sXhSCrApVkRhIA60ludQNvaLsADYFQRx9+P5lm3VQLVpgWyIHbq
+	 9vcD5JeWRnbhb083ifxmUv7JsBX7jNdDE0kTqjxZvVDykFhE6RxhaQPM04Kmh+G5oL
+	 HKncvuRSK04VA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Bert Karwatzki" <spasswolf@web.de>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260727105059.75716-1-spasswolf@web.de>
+References: <20260727105059.75716-1-spasswolf@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 27 Jul 2026 11:11:16 +0000
+Message-Id: <20260727111116.8D26C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wvebGZxhGIpYScwazUKf05BwUPDQktBQ5XO5B5X0qMSmUFOpxgm
- ZeQBwo266ZLjOHKsU65OaTRy641EYsONOlto1D6JYzWbqhtUl+O1ZKLaEdBxK5hT6kRItIy
- h5ki2DQy+ymEnMU10BwJbe/H8GiqYD7yJ6I+OvaW4X5oZ+oZHLP+XnwODZqhdOHuHqXg5zc
- KFi5dHntQ4RpuA1beqs+w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kZ+Pb1tCRO4=;MqLljGrp0/IBvTLNbdoir1nZ5LT
- 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
+
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+
+New issues:
+- [High] Dropping the FPU guard inside dc_create_plane_state() and the erro=
+r path of dc_create_stream_for_sink() corrupts callee-saved FPU registers o=
+n architectures like ARM64.
+
+Pre-existing issues:
+- [High] The patch addresses 'scheduling while atomic' bugs on PREEMPT_RT b=
+y wrapping memory allocations in FPU regions, but fails to apply the same f=
+ix to the symmetrical normal deallocation paths (dc_stream_free and dc_plan=
+e_state_free).
+--
+
+--- Patch [1]: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} wit=
+h PREEMPT_RT ---
+commit cf0d00c09a192f136eba5d73a1ff01aa518ca2f4
+Author: Bert Karwatzki <spasswolf@web.de>
+
+drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
 
 On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
 converted to rt_mutex. dc_create_plane_state() can be called while
 inside an FPU-guarded region, resuling in "scheduling while atomic"
 errors on PREEMPT_RT kernels.
- Fix this by calling kvzalloc_obj() with DC_RUN_WITH_PREEMPTION_ENABLED().
-Also fix the error path in dc_create_stream_for_sink().
 
-Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Pa=
-rt 1")
 Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
 
-Signed-off-by: Bert Karwatzki <spasswolf@web.de>
-=2D--
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c  | 5 +++--
- drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 4 ++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
+u/drm/amd/display/dc/core/dc_stream.c
+> index dbc12640b01c0..4ac835777b586 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> @@ -233,8 +233,9 @@ struct dc_stream_state *dc_create_stream_for_sink(
+> =20
+>  fail:
+>  	if (stream) {
+> -		kfree(stream->update_scratch);
+> -		kfree(stream);
+> +		if (stream->update_scratch)
+> +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream->update_scratch));
+> +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+>  	}
+> =20
+>  	return NULL;
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu=
-/drm/amd/display/dc/core/dc_stream.c
-index dbc12640b01c..4ac835777b58 100644
-=2D-- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -233,8 +233,9 @@ struct dc_stream_state *dc_create_stream_for_sink(
-=20
- fail:
- 	if (stream) {
--		kfree(stream->update_scratch);
--		kfree(stream);
-+		if (stream->update_scratch)
-+			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream->update_scratch));
-+		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
- 	}
-=20
- 	return NULL;
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/gp=
-u/drm/amd/display/dc/core/dc_surface.c
-index 88e825a6582c..d5c6427796b6 100644
-=2D-- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-@@ -85,8 +85,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_stat=
-e, const struct dc_plane
-  ************************************************************************=
-******/
- struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
- {
--	struct dc_plane_state *plane_state =3D kvzalloc_obj(*plane_state,
--							  GFP_ATOMIC);
-+	struct dc_plane_state *plane_state;
-+	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D kvzalloc_obj(*plane_state=
-, GFP_ATOMIC));
-=20
- 	if (NULL =3D=3D plane_state)
- 		return NULL;
-=2D-=20
-2.53.0
+[Severity: High]
+Could this cause floating-point data corruption on architectures like ARM64?
 
+If this error path is reached while a DML algorithm is calling this as a
+callback inside an FPU block, DC_RUN_WITH_PREEMPTION_ENABLED() terminates
+the kernel FPU context.=20
+
+When kernel_fpu_end() restores the user FPU state, won't the floating-point
+variables held in callee-saved FPU registers be destroyed upon returning to
+the DML caller?
+
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/g=
+pu/drm/amd/display/dc/core/dc_surface.c
+> index 88e825a6582cb..d5c6427796b65 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> @@ -85,8 +85,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_sta=
+te, const struct dc_plane
+>   ***********************************************************************=
+*******/
+>  struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+>  {
+> -	struct dc_plane_state *plane_state =3D kvzalloc_obj(*plane_state,
+> -							  GFP_ATOMIC);
+> +	struct dc_plane_state *plane_state;
+> +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D kvzalloc_obj(*plane_stat=
+e, GFP_ATOMIC));
+
+[Severity: High]
+Similar to the stream allocation above, does dropping the FPU guard here
+corrupt callee-saved FPU registers?
+
+When a DML algorithm calls dc_state_create_phantom_plane as a callback while
+inside an FPU block, it calls dc_create_plane_state().=20
+
+Dropping the FPU guard here allows the hardware FPU state to be overwritten,
+which appears to destroy the caller's FPU context.
+
+> =20
+>  	if (NULL =3D=3D plane_state)
+>  		return NULL;
+
+[Severity: High]
+This isn't a bug introduced by this patch, but since you are addressing
+'scheduling while atomic' bugs on PREEMPT_RT by wrapping memory allocations
+in FPU regions, what about the symmetrical normal deallocation paths?
+
+For example, dc_stream_free() and dc_plane_state_free() call kfree() and
+kvfree() without FPU/preemption guards.
+
+During bandwidth validation, dcn32_internal_validate_bw() executes inside an
+FPU-guarded section (with preemption disabled) and can trigger these frees:
+
+dcn32_internal_validate_bw()
+  dc_state_release_phantom_streams_and_planes()
+    // drops refcounts, leading to:
+    dc_stream_free()
+      kfree()
+
+On PREEMPT_RT kernels, won't these free functions still attempt to acquire
+sleeping locks (rt_mutex) and cause a scheduling while atomic crash?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260727105059.7571=
+6-1-spasswolf@web.de?part=3D1
