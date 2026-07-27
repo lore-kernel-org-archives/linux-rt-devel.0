@@ -1,127 +1,137 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318CD3D9DB3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 07:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37603DDDDB
+	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 08:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785137451; cv=none; b=qwiE2zgAG1XT3d+7O8Qp3LCbhpjTtyz0hAYcSGV7ilV9BLz52Yr65U1+I9OFxqIv+gmnJxmHX3HiO5haxYAtFXNxzmlOfzYEenMB6UsLeNT9mAcjzsFNwnSqSRoA/Afx3dg3nDXZfAJpUXeCoaylAiERR4cEsh0x3Rqb3iWR+M4=
+	t=1785139257; cv=none; b=pZwmt0pmg5QtNFvw33CwedPn9hN6RxnUH8/T2PixjAz361/SKC6DnlQ+4psgPKbgJOJdkoxKfD4r9S3sw8mgcBF69lRAbsWXpmhauDfnjLBxfajdDJnvepmbd2E3Dy1LAavn5YLZOqCy5EOtUUlSib2/GXQ5XBmMPyHymli7+Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785137451; c=relaxed/simple;
-	bh=ZPJKG+xl4t4TjM2rDqu8w++m594RGqMKLAmZmXGVk+4=;
+	s=arc-20240116; t=1785139257; c=relaxed/simple;
+	bh=BFO10sMHX81uroVNFUc1FnB5adRwpZpKF4tLCFZQf5Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p/PLkt6E2mLWH58//NUoCP3vkDFLJJOQsAhdAhNEeVbEQiLRysEx8164CioAxKxix8Smu+qUCyKlFzSF0mF1Z9k4grz+1V+zpZDd38/mBBZ+Eb4jBgulETKL60OX/eZqiCEm0u9HR9ufSZM5/upTivfEmdzA04/deK75YfwyAU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=g3hUekky; arc=none smtp.client-ip=91.218.175.178
+	 In-Reply-To:Content-Type; b=Ej38YVXl6MODCJCiWv/6YWvvfECTeuMJS8n+RKTNA7BHtkSlSi5359BHduMd649UxFDEmAdTHUB73cjeV0/Cr/oNuTDS+LkIWlC4YQD8QzmDWWvA+1uXaosvmypv7q9NmtEZD6lauh7jBBTOmZb3V2R99tEIW03fJKVCs70vg8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=namaSkB1; arc=none smtp.client-ip=95.215.58.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="g3hUekky"
-Message-ID: <b45fbc0f-4941-4880-9a4c-7b91198420c0@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="namaSkB1"
+Message-ID: <9a961b42-d095-4052-a749-dfabb9a45bf3@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785137447;
+	t=1785139252;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qrIWarYcK/axO6Wo8y7UEi0T0ByoE/cV3aU88cAfZlc=;
-	b=g3hUekkyxQFZhrPlNOVxjGoGGNscI4PmZnhJ/806OBoFWeT2WV6UeFp9c+O1NllXXTpLYK
-	aJQ/da8w5dQF13LYyaHgMilW2rEzvyZHM8irs4rbVXnSnfycdJHNwZmIjZZgqyrPvHXqbv
-	9uZ6xqwqKN166FfcBJCIt5esW7ynsGU=
-Date: Mon, 27 Jul 2026 15:30:21 +0800
+	bh=dtpjon/BpvDyzvwfWw7MZxTAVhL5AfZXQA29No/Azgg=;
+	b=namaSkB15KmGyr/imjdjaj6uTynOCo7i7aJkHOuhXOuageGT6Uqp7CLSV0KZJvdCPLjtFH
+	h6uCOUpHv9IJJ7/AccFOOeXkPr7ktjSCRhM53myKoFgwXnVPFsq3LgzH8Ly0fXN/qyWlFa
+	KgfUrEO84d/bVVjcb0nQF5iXmhXYsnY=
+Date: Mon, 27 Jul 2026 16:00:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next 1/3] bpf: Add a sleepable page allocator for map
- memory
+Subject: Re: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page
+ outside the lock
 To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20260727062521.376231-1-jiayuan.chen@linux.dev>
- <20260727062521.376231-2-jiayuan.chen@linux.dev>
- <20260727063709.99F3B1F000E9@smtp.kernel.org>
+ <20260727062521.376231-3-jiayuan.chen@linux.dev>
+ <20260727064257.01BD81F000E9@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Jiayuan Chen <jiayuan.chen@linux.dev>
-In-Reply-To: <20260727063709.99F3B1F000E9@smtp.kernel.org>
+In-Reply-To: <20260727064257.01BD81F000E9@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-On 7/27/26 2:37 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] NUMA Mempolicy Bypass in bpf_map_alloc_page_sleepable() and __bpf_alloc_page()
-> --
->
-> --- Patch [1]: [PATCH bpf-next 1/3] bpf: Add a sleepable page allocator for map memory ---
-> commit 7a6023ef7f19fc884e94ffe457ae83ff0d4b5e1e
-> Author: Jiayuan Chen <jiayuan.chen@linux.dev>
->
-> bpf: Add a sleepable page allocator for map memory
->
-> This commit introduces bpf_map_alloc_page_sleepable() to provide a blocking
-> page allocator for callers known to be in a sleepable context, such as user
-> page fault handlers. This avoids the conservative, non-blocking behavior of
-> can_alloc_pages() which is always false under PREEMPT_RT.
->
->> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
->> --- a/kernel/bpf/syscall.c
->> +++ b/kernel/bpf/syscall.c
-> [ ... ]
->> @@ -602,15 +602,14 @@ static bool can_alloc_pages(void)
->>   		!IS_ENABLED(CONFIG_PREEMPT_RT);
->>   }
+On 7/27/26 2:42 PM, sashiko-bot@kernel.org wrote:
+[...]
+>> @@ -489,55 +490,97 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf)
+>>   	kbase = bpf_arena_get_kern_vm_start(arena);
+>>   	kaddr = kbase + (u32)(vmf->address);
 >>   
->> +#define BPF_PAGE_GFP (GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT | __GFP_NOWARN)
+>> -	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags))
+>> +	page = vmalloc_to_page((void *)kaddr);
+>> +	if (!page) {
+>> +		/*
+>> +		 * Preallocate outside the lock so the allocation can sleep and go
+>> +		 * through reclaim (both memcg and global), the way do_anonymous_page()
+>> +		 * does. Under arena->spinlock only the non-blocking allocator is
+>> +		 * available, which never reclaims.
+>> +		 *
+>> +		 * This has to be the sleepable variant: VM_FAULT_OOM below is only
+>> +		 * meaningful if the OOM machinery was actually engaged. A failure
+>> +		 * from the non-blocking allocator engages nothing, so the fault
+>> +		 * would be retried forever.
+>> +		 */
+>> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
+>> +		new_page = bpf_map_alloc_page_sleepable(map, NUMA_NO_NODE);
+> [Severity: High]
+> Is there a potential Denial of Service vector when BPF_F_SEGV_ON_FAULT is set?
+>
+> This unconditionally preallocates a page using
+> bpf_map_alloc_page_sleepable() before checking the BPF_F_SEGV_ON_FAULT
+> flag later in the function.
+>
+> This allocation can block, trigger direct memory reclaim, and invoke the
+> OOM killer. Only after this expensive allocation does the code lock, check
+> the flag, return VM_FAULT_SIGSEGV, and discard the page.
+>
+> Could this allow an unprivileged user to force severe memory pressure by
+> repeatedly triggering page faults on unallocated addresses?
+
+Once VM_FAULT_SIGSEGV is returned, the process gets a SIGSEGV and by 
+default is killed,
+so this isn't a realistic DoS.
+
+But, I think it's worth moving the "arena->map.map_flags & 
+BPF_F_SEGV_ON_FAULT" check before the allocation.
+
+
+>> +		bpf_map_memcg_exit(old_memcg, new_memcg);
+>> +		if (!new_page)
+>> +			return VM_FAULT_OOM;
+>> +	}
 >> +
->>   static struct page *__bpf_alloc_page(int nid)
->>   {
->>   	if (!can_alloc_pages())
->>   		return alloc_pages_nolock(__GFP_ACCOUNT, nid, 0);
->>   
->> -	return alloc_pages_node(nid,
->> -				GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT
->> -				| __GFP_NOWARN,
->> -				0);
->> +	return alloc_pages_node(nid, BPF_PAGE_GFP, 0);
-> [Severity: Medium]
-> This isn't a bug introduced by this patch, but does using alloc_pages_node()
-> here bypass the task's NUMA mempolicy?
+>> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
+>>   		/* Make a reasonable effort to address impossible case */
+>> -		return VM_FAULT_RETRY;
+>> +		fault_ret = VM_FAULT_RETRY;
+>> +		goto out_err;
+>> +	}
+> [Severity: High]
+> This is a pre-existing issue, but does returning VM_FAULT_RETRY here
+> without releasing the fault lock cause a lock leak?
 >
-> Because alloc_pages_node() ignores task mempolicy, pages might land on the
-> current CPU's local NUMA node instead of the node requested by the task.
-> Could this branch to use a mempolicy-aware allocation when nid is
-> NUMA_NO_NODE?
->
->>   }
-> [ ... ]
->> +/*
->> + * For callers that know they run in a sleepable context, e.g. a user page
->> + * fault handler. can_alloc_pages() is a conservative guess made for BPF
->> + * program context - notably it is always false on PREEMPT_RT - so going
->> + * through bpf_map_alloc_pages() there would needlessly pick the
->> + * non-blocking allocator, which never reclaims and never engages the OOM
->> + * machinery.
->> + */
->> +struct page *bpf_map_alloc_page_sleepable(const struct bpf_map *map, int nid)
->> +{
->> +	might_sleep();
->> +	return alloc_pages_node(nid, BPF_PAGE_GFP, 0);
-> [Severity: Medium]
-> Since this function is intended for user space page fault handlers, will
-> unconditionally calling alloc_pages_node() cause the allocation to ignore
-> the user task's mempolicy?
->
-> Similar to __bpf_alloc_page(), if nid is NUMA_NO_NODE, replacing this with a
-> mempolicy-aware allocation might prevent silent performance regressions from
-> misaligned memory placement during page faults.
->
->> +}
+> The memory management subsystem strictly assumes the lock was released
+> if VM_FAULT_RETRY is returned. Retrying the fault will leak the read lock
+> reference, and if any thread subsequently attempts to acquire the mmap_lock
+> for writing, the system could permanently deadlock.
 
 
-You remind me. But I don't think this is really about (task) mempolicy.
-We should respect map.numa_node/map->numa_node, just like other maps do
-when allocating their elements.
+Yes, it's true. arena_vm_fault() never touches mmap_lock, so returning 
+VM_FAULT_RETRY violates the contract.
+
+'''
+do_user_addr_fault()
+{
+     fault = handle_mm_fault(...);          // call arena_vm_fault
+     ...
+     if (unlikely(fault & VM_FAULT_RETRY)) {
+         flags |= FAULT_FLAG_TRIED;
+         goto retry;                    // lock_mm_and_find_vma() will 
+call mmap_read_lock again !
+     }
+     mmap_read_unlock(mm);
+}
+'''
+
+I think I should fix it as a separate patch with high priority ?
+
 
