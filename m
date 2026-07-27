@@ -1,195 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E467F3CCFA8;
-	Mon, 27 Jul 2026 06:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACE83DAAB7;
+	Mon, 27 Jul 2026 07:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785134579; cv=none; b=tKEOu9D3Y/TlFjrznLdaF/CfPaubrZHkeAzB4efXw2RcCwVTSdQO/r0SqY0ZQvAf8vG5x2aKaPU+AsUHSf4IM92K5hTfAx25d3PEHqMHXP+EkxQe8DVZlKexIHPnOMYcipnsRPP3PIjfY7INkCHWKLKn1toYwPgg0sp7iYUvyxo=
+	t=1785136242; cv=none; b=A3X7Ep0Eb/Ax33QdZMxkneNJ+UuGMJCgd3EWlUnnEPPGz2oVHdfui2OmTpVTj0okwrHTFq/gDbYkrpnF6t1FWbIujKWv8OOAlU6QOP3JPu2HBBh3Z0jpkKB9cAGC8Bbz1g9Uc6GYW56ZI9ZzhWSYZEjLdZbAMB4CYRTo6OyzIHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785134579; c=relaxed/simple;
-	bh=gSEwSlOZCOa4il4qf8oOvr3QR5iPqOV9oIf7Qn+Nx0s=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=WHAJsBGzQH0LoeNzjbbA8Ap3//uXGeSO337t5JepZsg7FQN3Vz/Ebz5oH+X048SZAYRCOOx9nfsymE9mvlCGpShQdA89YA54IcQBCkZXrGz/4gLw6xlPsrUpkO9IC9ddjfUslEZTIXgaeyYjK7iLd3u1bEiHwLuNEok1LDC8EB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0fUeYXB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785136242; c=relaxed/simple;
+	bh=iMXvijyU4ZOT0FLE3oXO2jTcavufFEr1j+sMn4IZPK4=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=s4zucu0r8vZFiaY1DVMqbQpCv2FvE4Vu716mdDrPa4NNs1wkRZwVVdJ/8ZSTWU4STv488uwBWh/WEKwZRc/QRn570yHpHuE24JrteGb7r+EN8SYPR6wHSSON+XyK7d2FI+UpF5DG7POk8ysPuZI2s+9YVns5gZUXheflbP3I0Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nwR/fPX7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0fUeYXB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01BD81F000E9;
-	Mon, 27 Jul 2026 06:42:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nwR/fPX7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B531F000E9;
+	Mon, 27 Jul 2026 07:10:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785134577;
-	bh=1SEACZXvvYUeZWcn1NqzzGQ8WAd8S0O+WtLv0hx+3/o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=f0fUeYXBKgCHZnAIA6HguMBI93cdYs+zoKWuBuSAZjAq/S41yc423rMkEyR2M0+NL
-	 2x73Tf3BKBexrFRReVyZKZcQLy6R9rMZk9iF3+szM1Nhg54jOKDNFLlNfbKdyuKkOU
-	 59y9X6Yck9AI7UBYvVWlAExOD7/ZIwNvAUxhPTjjWAfTCdqaOl3kYmyTcUPtM0dZLE
-	 melG2DoSvvx0rvD+ObnT9XKOKEaaUS/PR9uzvon83/Z9TBrkUxOyGGuxbMKKu5FupA
-	 VRbk8QlO16HBqWwGb1xNI8CfhXSfXz33mM104nRM9vM4K6iyhQsP2TPpeYVQw4pc5G
-	 LNlgA/swREOxA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page
- outside the lock
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Cc: linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260727062521.376231-3-jiayuan.chen@linux.dev>
-References: <20260727062521.376231-1-jiayuan.chen@linux.dev>
- <20260727062521.376231-3-jiayuan.chen@linux.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jul 2026 06:42:56 +0000
-Message-Id: <20260727064257.01BD81F000E9@smtp.kernel.org>
+	s=k20260515; t=1785136240;
+	bh=QE1nhcz7QL2ZAIIYHgj8S7/C9JtQLRsLFH+uEUyscw4=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=nwR/fPX7QLkLBoZSao8D+LOlMLvHOZV6dnrEVe0OiXQqWzkHnntVXiEe0rglyHTdx
+	 +rkVsSNDaOeiQpHtSKmv73zgfyQhd+7D29EqKB+HiJMoz2bIuAvlkQxc4ni4k+We6t
+	 VXKsxsXyof6pKB5M+tew6d5DpFrmdXtedb/g/tMIlCQVILAm1OFoPtCKsrTBGsanI5
+	 TpUW/Daiidqf0rjh0jEK/m+Cfi04AkWMqMn+DR3L3eRuN02x1Ji+YuBn3eA+uWh4c5
+	 5H3PcyLw3LgktG6GerdqdjE0YO7bNXEpv0u0VqsyFq/Yp1Q19vuW8iweZ3IuRgKEDN
+	 AoGe9dS7ax1+A==
+Content-Type: multipart/mixed; boundary="===============2056660838945013230=="
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Message-Id: <040c342a22c856b323f1d2c67d2a582f31432ed464121cc73fd60de55f043c93@mail.kernel.org>
+In-Reply-To: <20260727062521.376231-3-jiayuan.chen@linux.dev>
+References: <20260727062521.376231-3-jiayuan.chen@linux.dev>
+Subject: Re: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page outside the lock
+From: bot+bpf-ci@kernel.org
+To: jiayuan.chen@linux.dev,bpf@vger.kernel.org
+Cc: jiayuan.chen@linux.dev,ast@kernel.org,daniel@iogearbox.net,john.fastabend@gmail.com,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,shuah@kernel.org,bigeasy@linutronix.de,clrkwllms@kernel.org,rostedt@goodmis.org,linux-kernel@vger.kernel.org,linux-kselftest@vger.kernel.org,linux-rt-devel@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Mon, 27 Jul 2026 07:10:38 +0000 (UTC)
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+--===============2056660838945013230==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-New issues:
-- [High] Unnecessary sleepable memory allocation introduces a Denial of Ser=
-vice and OOM vector when BPF_F_SEGV_ON_FAULT is set.
+> bpf: arena: allocate the fault-in page outside the lock
+>
+> arena_vm_fault() allocated the page while holding arena->spinlock, so it
+> could only use the non-blocking allocator. Once the memcg is at
+> memory.max that allocation just fails, the fault turns into
+> VM_FAULT_SIGSEGV, and the process gets a SIGSEGV on a perfectly valid
+> arena address. Hitting memory.max is routine (e.g. page cache from
+> reading a big file), so this kills innocent processes.
+>
+> Preallocate the page before taking the lock, like do_anonymous_page()
+> does, so the allocation can sleep and go through reclaim and the OOM
+> path, and return VM_FAULT_OOM on failure so the memcg OOM handler runs
+> instead of a fake segfault. Also tidy up the error labels.
+>
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-Pre-existing issues:
-- [High] Missing lock release before returning VM_FAULT_RETRY causes a lock=
- leak and deadlocks.
---
+This looks like a fix for a real bug that could send a SIGSEGV to a
+process on a valid arena address once the memcg hits memory.max.
 
---- Patch [2]: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page =
-outside the lock ---
-commit 618b434e77e16e8a5277e1b3cc85c17fc5ef5e7a
-Author: Jiayuan Chen <jiayuan.chen@linux.dev>
+The allocation was moved under arena->spinlock, and the error path
+switched to VM_FAULT_SIGSEGV, when arena_vm_fault() replaced its
+guard(mutex)(&arena->lock) with raw_res_spin_lock_irqsave(&arena->spinlock,
+flags). Should this carry a Fixes: tag pointing at that change?
 
-bpf: arena: allocate the fault-in page outside the lock
+  Fixes: b8467290edab ("bpf: arena: make arena kfuncs any context safe")
 
-arena_vm_fault() allocated the page while holding arena->spinlock, so it
-could only use the non-blocking allocator. Once the memcg is at
-memory.max that allocation just fails, the fault turns into
-VM_FAULT_SIGSEGV, and the process gets a SIGSEGV on a perfectly valid
-arena address. Hitting memory.max is routine (e.g. page cache from
-reading a big file), so this kills innocent processes.
 
-Preallocate the page before taking the lock, like do_anonymous_page()
-does, so the allocation can sleep and go through reclaim and the OOM
-path, and return VM_FAULT_OOM on failure so the memcg OOM handler runs
-instead of a fake segfault. Also tidy up the error labels.
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> index 34f023a537fe6..22a41e3c53b81 100644
-> --- a/kernel/bpf/arena.c
-> +++ b/kernel/bpf/arena.c
-> @@ -481,7 +481,8 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf)
->  	struct bpf_map *map =3D vmf->vma->vm_file->private_data;
->  	struct bpf_arena *arena =3D container_of(map, struct bpf_arena, map);
->  	struct mem_cgroup *new_memcg, *old_memcg;
-> -	struct page *page;
-> +	struct page *page, *new_page =3D NULL;
-> +	vm_fault_t fault_ret;
->  	long kbase, kaddr;
->  	unsigned long flags;
->  	int ret;
-> @@ -489,55 +490,97 @@ static vm_fault_t arena_vm_fault(struct vm_fault *v=
-mf)
->  	kbase =3D bpf_arena_get_kern_vm_start(arena);
->  	kaddr =3D kbase + (u32)(vmf->address);
-> =20
-> -	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags))
-> +	page =3D vmalloc_to_page((void *)kaddr);
-> +	if (!page) {
-> +		/*
-> +		 * Preallocate outside the lock so the allocation can sleep and go
-> +		 * through reclaim (both memcg and global), the way do_anonymous_page()
-> +		 * does. Under arena->spinlock only the non-blocking allocator is
-> +		 * available, which never reclaims.
-> +		 *
-> +		 * This has to be the sleepable variant: VM_FAULT_OOM below is only
-> +		 * meaningful if the OOM machinery was actually engaged. A failure
-> +		 * from the non-blocking allocator engages nothing, so the fault
-> +		 * would be retried forever.
-> +		 */
-> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
-> +		new_page =3D bpf_map_alloc_page_sleepable(map, NUMA_NO_NODE);
-
-[Severity: High]
-Is there a potential Denial of Service vector when BPF_F_SEGV_ON_FAULT is s=
-et?
-
-This unconditionally preallocates a page using
-bpf_map_alloc_page_sleepable() before checking the BPF_F_SEGV_ON_FAULT
-flag later in the function.
-
-This allocation can block, trigger direct memory reclaim, and invoke the
-OOM killer. Only after this expensive allocation does the code lock, check
-the flag, return VM_FAULT_SIGSEGV, and discard the page.
-
-Could this allow an unprivileged user to force severe memory pressure by
-repeatedly triggering page faults on unallocated addresses?
-
-> +		bpf_map_memcg_exit(old_memcg, new_memcg);
-> +		if (!new_page)
-> +			return VM_FAULT_OOM;
-> +	}
-> +
-> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
->  		/* Make a reasonable effort to address impossible case */
-> -		return VM_FAULT_RETRY;
-> +		fault_ret =3D VM_FAULT_RETRY;
-> +		goto out_err;
-> +	}
-
-[Severity: High]
-This is a pre-existing issue, but does returning VM_FAULT_RETRY here
-without releasing the fault lock cause a lock leak?
-
-The memory management subsystem strictly assumes the lock was released
-if VM_FAULT_RETRY is returned. Retrying the fault will leak the read lock
-reference, and if any thread subsequently attempts to acquire the mmap_lock
-for writing, the system could permanently deadlock.
-
->  	page =3D vmalloc_to_page((void *)kaddr);
->  	if (page) {
-> -		if (page =3D=3D arena->scratch_page)
-> +		if (page =3D=3D arena->scratch_page) {
->  			/* BPF triggered scratch here; don't lazy-alloc over it */
-> -			goto out_sigsegv;
-> +			fault_ret =3D VM_FAULT_SIGSEGV;
-> +			goto out_err_locked;
-> +		}
->  		/* already have a page vmap-ed */
->  		goto out;
->  	}
-> =20
-> +	/*
-> +	 * The lockless probe was racy: it saw a page, so nothing was
-> +	 * preallocated, but the re-check under the lock finds it gone - a
-> +	 * concurrent free must have run in between. There is nothing to
-> +	 * install and we cannot allocate under the lock, so retry the fault
-> +	 * and preallocate next time.
-> +	 */
-> +	if (!new_page) {
-> +		fault_ret =3D VM_FAULT_RETRY;
-> +		goto out_err_locked;
-> +	}
-
-[Severity: High]
-Could returning VM_FAULT_RETRY here in this new race handling path also
-leak the fault lock and risk deadlocks, similar to the lock acquisition
-failure above?
-
-> +
->  	bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
-> =20
-> -	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT)
-> +	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) {
->  		/* User space requested to segfault when page is not allocated by bpf =
-prog */
-> -		goto out_sigsegv_memcg;
-> +		fault_ret =3D VM_FAULT_SIGSEGV;
-> +		goto out_err_locked_memcg;
-> +	}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260727062521.3762=
-31-1-jiayuan.chen@linux.dev?part=3D2
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/30243398938
+--===============2056660838945013230==--
