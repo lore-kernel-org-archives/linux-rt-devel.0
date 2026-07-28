@@ -1,175 +1,188 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0909222565
-	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Jul 2026 00:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92781A9F90
+	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Jul 2026 00:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785199736; cv=none; b=ihOksRai7cZ0o7gUjU7HWzF0ABiDWbmkBTC3eABo85it+fKHgdWelNhPSPJg5FhhNLTTJ4PT/mIWWnKS9ajpLQ6WlXCaEJrD8B8C3FguYSfu4Qz+et8sEQgP2ZQhXWcZsgwFoLoOEJHVS2VgR0E6kV7PA6PBQBFdbzE3Ndn+A5I=
+	t=1785199921; cv=none; b=BcWQOsLpZH8TBU8VGzZkm8p18jj987BJJKNIVBAkDnwkflOp5zeLqvm1jhD18kmB65hXyZUCUZ9epJZr8I1rVfBHGrOKebDUnIsDa4dG6RedT53LDy9ROolgUcdZuIgUeDF9Y3GtWcL7ZWCIL3atjQG6ywOMfdZCx8PA+/H7LIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785199736; c=relaxed/simple;
-	bh=Y+LoYAP9VjQ1WH+0mTFVX5LCQoQHjHxfT6/71MrLKcg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=hQxbYe+MJ1PfJL22aqDGwVnAwyRYZsOgaADCgDm09TG7ZLKOPGOtI2O0ItxmSjrsGOtM1FUmE+iR1HIDx+0glFVmVXHOOBfD4Ec/mPp5GVzyyHP/GR+FcUik9KZhYVPu6GJr90KZaI7EQXqMtblkdWnm3OBvaIpUCsVHZ9XRkSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=NtDR7nUg; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	s=arc-20240116; t=1785199921; c=relaxed/simple;
+	bh=Z5GRTOSO0S9G9u7VZF3YwLNRY4a8OnVa7f57JM8Jl3E=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Bc+kRma9EOJ6i1Sasxm8Whn+jHF+fqgtiHjn3Vw3aaWSng2NiRyKfXpQs7AsY8jEXCcGngjjsvY7S08G24vFoFY8bVzHoZnaT+WvRP3PtR9Tft79pDFUZOzXWV4X3+G02gMoC5bDN1CULLdW+/j6sljvecGJYTMDh0aJ0uW69Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MIw02T2K; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="NtDR7nUg"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3811f512167so3096086a91.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 17:48:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIw02T2K"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39d4c864bfbso28466551fa.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 17:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1785199734; x=1785804534; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+wAfON367N7TUqFRglbZOr6w2el4iYP2m0VE4AXYueY=;
-        b=NtDR7nUgvW5vxaSZH84gTZ0+OStOP8n0q6QVs5Y8DJKS0rtbn5ZP7TiwIFE1WD5mH+
-         KSbJGLbnH114zpWRoyeXhcITiEiO8K+oN4a5URshb4VLKnCPtQTsgWk1J4ERuPlRbh8F
-         pNRddkGy3vj48/m22B/Q9KW2k5JBxZJnqof89CxWyH0FWWa7Ocwg1YeS7LFsz/ztCP+h
-         BU9WJwxh5LnFglUN0WKXizYRZmg5Hn08n5aWjISQ9gqIPn8y8uXYrMCw5ncdr6TjWyrZ
-         kvXJwCi7Gru+r+ODdc400J7WoF2d0KPetzCSBx+Ekib7L4niZ6lotMzTf0c2i1byCjAM
-         LsKQ==
+        d=gmail.com; s=20251104; t=1785199917; x=1785804717; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=YyiWxM0l+pV+N+P60T/IcxD0yZfdk4dsxpPoSCJ6HvA=;
+        b=MIw02T2KlDlXxIo+A2/dbUngVa34PrFarsQWo/rAZEzbLJF9ina8MzAtp7URsL9mqy
+         DiB485LYVOd1doXqN4BbfL8kcLPCKNpQAqA4Nx2m0z7xTamsv5mG1wsFnv4fe6s/nrfu
+         NbSt+vKXv8NaYMNpFQ8kjbIoBrynb1CkRx9n8W5F2iNDvTGeuWrBkqUtdF00grW3ORgn
+         hABFKTikvm+dHKLfJJwVEJduRrtfKMNaF4qx2U7By8qYt2K4icg3ueiUZGJ47aaOPa4s
+         oIogsZPKC6LLY+jdCcyOd2FIJ2S1fMMuhOJtSM/Y6Iziw93F0F0RullxAPripYhql4Xu
+         nzMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785199734; x=1785804534;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785199917; x=1785804717;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+wAfON367N7TUqFRglbZOr6w2el4iYP2m0VE4AXYueY=;
-        b=A6C/jfhB9OrU0d4kYmLuhhk+LiFNT+S0U0C08OoqGXd2Ww8h/6X4i+qXZx+qn6/+eI
-         c0xmrysuJvtcw+yCn+L1b3+ZFQZ6zP3wVuAQKXD5JLMLNwnPTdqBb3dREs7hXTGNZ0JC
-         C730M43NIqTWNx/aeGgTkwPvOkL/YxTFRp+EXMA3kG5mrcK6TKoHfc+tHf/0EYhB1Ib4
-         tlO3fQVbTRtawmfmQvrqxDw/edVIt3hqLdOGu8aTZofinoYm3TeCt29DDMwW+UiBcglW
-         NtgFDBVHZLHypwbVV+3lbTXpUAuQ42fRxZ+eBw++0oxhdGQyf6J9qxRDZKQJcnmrUaZq
-         DXyQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rortc20JGhM4Q45fMg9w5uTReXaBlmP7yf7TG8/J5Dn/BAC3LzeyyK3rtQ2lMlSbd3WSEAfloH+FffWjXycIw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOux8KsD5OGxejGyoyrR7dVjqEC4g2ete5yCjS3nX5sRtPHDJo
-	OmEnLKC3ndPBc3OuIFhXYO3yjXEKqRyoaOTz1CI7y6hdIglXdnyCv2/p5M1qfVqDou4=
-X-Gm-Gg: AR+sD12LcsXYJFxrsP3vn/VXyiRdTOkmtpISSTF828B2R/FALhC29UN6bGGtdIexk6d
-	BQNv7kvvZjbOZbpkFz5WlfuUyIdF7Yx08/tSSgYnBfAKwZDSZccFgcjUU1WKlx5Z5k8wfWSk5J1
-	PHjhiikZW+dPS4oDR88PK5QbAL8hS9DejZyYQr4/PDC6oHg56rvwK0Z4BZNCrded5Kj7ZUOwG4e
-	SzoUKXEXT1XFForoiU+HJ8x8xqZuGFEt8WCoZL2W864ZCKm8zRMsCjJsryenKjqfrzEpCIPrujJ
-	peE2RBy9fkXS+bBPEdZi+AEwDKaL8oPVMbMrmTOBfSY5cWM/UwhszgYMVOD26PBdrQkcqtRZMIw
-	zvW3Yaja9vCbAnLroHNyCLPvA0kai1tpuRKIQ9oJEGeWofhd8d8BuVMe63ddSIw4Zhng8eN1mS2
-	AwL1KXcyFcxhwMkasjww2IhW9izIcBl9D4iqM7AqsgvQ==
-X-Received: by 2002:a17:90a:d888:b0:38d:e658:595a with SMTP id 98e67ed59e1d1-38f6a30d87emr171911a91.2.1785199733829;
-        Mon, 27 Jul 2026 17:48:53 -0700 (PDT)
-Received: from localhost (107-190-31-17.cpe.teksavvy.com. [107.190.31.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f6414705bsm478503a91.15.2026.07.27.17.48.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 17:48:53 -0700 (PDT)
+        bh=YyiWxM0l+pV+N+P60T/IcxD0yZfdk4dsxpPoSCJ6HvA=;
+        b=R++dlW6gIWpgTJu1hCEKR1aUNpZBRGEpMyUWzPLxlD/4cshrZmFMr880lfuM6d3xyG
+         Uumtv/1//PGKfGCUAx1q034P+9yjFXD0dfYLSSMFLJk1jvuApsjjSxnmOF7NEWcChLy9
+         r95T3wW/pQybELngm/Lg7Ws2nDEnQmD6G29Qpepi4JJ73G/eyug95Ns8ZsF3MabyFx9U
+         t5mM7RJbJzS2528Ax2mkHIyJM98QdUdy2lgPg7KRSd5KaSoYyWI2LJPEu06uX6G5Hq7w
+         KKmLdB/w7ieB0hgux+hdV7ThGRLiOTzxPVLnXaDDFpKKr2dQGSEwR0MQ4DfLnRsnVOro
+         n3Ag==
+X-Forwarded-Encrypted: i=1; AHgh+Rqwp0jLQH56GcfEOuIMKxYZ5Qrs32p6IC3Y3vLZOonBNUvP/ZbubMrbLYjdz6GgNMDijxrLQV55IHs+N8zAVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydSA3B4Inl1jPwWq+tn0zQkWwv3YYHeNvBXP2zptmO5vq0RrRy
+	hCqdBWgbPcBfiBkHAtnbF8W4zRfmLQxKPqIh+h4x1dspJU3bYPUHkcKw
+X-Gm-Gg: AR+sD11PT06z9OruUDUTJlnG6IvibRgZSF45x1WmLcFRTo9+RxT8NG8l2bTj5jezKsG
+	PZ4tv7obq1+KfP2pooomebnMBg7OBT208mdHoaziQ5qj+XAblHmGla2LMnhgjeJrsaXJLWwvdJ1
+	kAdOrHbbn/GtWRZjZHD2KHIEhdJ8PL0ehex4qqFHuNpSEhBOIYwEGhrjMF94PbqDKwnAPI1s91s
+	76/WdTqJP/zNZsj5O04Wtmpq/9007y7yxq/O3NMlyLHEFiRqU0epeIJtI+P+tHEhyaPKr+xbw3g
+	Q+SVSCHqC3m5yjK9A6fLbIukrXHmbD2YpZjTw19YwOFVj01ZOE7pelLeSh8c1jBFGGqhp0y2cZF
+	hAU8wPDbYYcAnGb6gEjLlEbx8OzU/4fz4sbcq96DTuUepZj1uPb/yzFRi99zvcp8BwC+e5Gk6gt
+	jcWlz6/WCvRvyU0f5zqmOx
+X-Received: by 2002:a05:6512:3407:b0:5b0:197b:9811 with SMTP id 2adb3069b0e04-5b2d023bef9mr31905e87.53.1785199916589;
+        Mon, 27 Jul 2026 17:51:56 -0700 (PDT)
+Received: from primary-ws.local ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be077c14sm1758822e87.1.2026.07.27.17.51.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 17:51:55 -0700 (PDT)
+Message-ID: <ef1bc3d070c4156f1811c0c4a567ec98ac8fadaf.camel@gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
+From: "mikhail.v.gavrilov@gmail.com" <mikhail.v.gavrilov@gmail.com>
+To: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org
+Cc: linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	amd-gfx@lists.freedesktop.org, "# = v7 . 1" <stable@vger.kernel.org>, Alex
+ Deucher <alexander.deucher@amd.com>, Rafal Ostrowski
+ <rafal.ostrowski@amd.com>, Mario Limonciello	 <mario.limonciello@amd.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,  Thomas Gleixner
+ <tglx@linutronix.de>
+Date: Tue, 28 Jul 2026 05:51:53 +0500
+In-Reply-To: <20260727105059.75716-1-spasswolf@web.de>
+References: <20260727105059.75716-1-spasswolf@web.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.61.1 (3.61.1-3.fc45) 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 20:48:51 -0400
-Message-Id: <DK9SHN2RV21T.485J38W373WQ@etsalapatis.com>
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "John Fastabend" <john.fastabend@gmail.com>,
- "Andrii Nakryiko" <andrii@kernel.org>, "Eduard Zingerman"
- <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>, "Yonghong
- Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>, "Emil
- Tsalapatis" <emil@etsalapatis.com>, "Shuah Khan" <shuah@kernel.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH bpf-next 1/3] bpf: Add a sleepable page allocator for
- map memory
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Jiayuan Chen" <jiayuan.chen@linux.dev>, <bpf@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260727062521.376231-1-jiayuan.chen@linux.dev>
- <20260727062521.376231-2-jiayuan.chen@linux.dev>
-In-Reply-To: <20260727062521.376231-2-jiayuan.chen@linux.dev>
+MIME-Version: 1.0
 
-On Mon Jul 27, 2026 at 2:24 AM EDT, Jiayuan Chen wrote:
-> bpf_map_alloc_pages() picks the allocator via can_alloc_pages(), a
-> conservative guess for BPF program context that is always false under
-> PREEMPT_RT. So even a caller that really is sleepable gets the
-> non-blocking allocator, which never reclaims and never engages the OOM
-> machinery.
->
-> Add bpf_map_alloc_page_sleepable() for callers that know they are
-> sleepable. The next patch uses it from the arena page fault handler.
->
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-
-Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
-
+On Mon, 2026-07-27 at 12:50 +0200, Bert Karwatzki wrote:
+> On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
+> converted to rt_mutex. dc_create_plane_state() can be called while
+> inside an FPU-guarded region, resuling in "scheduling while atomic"
+> errors on PREEMPT_RT kernels.
+> =C2=A0Fix this by calling kvzalloc_obj() with
+> DC_RUN_WITH_PREEMPTION_ENABLED().
+> Also fix the error path in dc_create_stream_for_sink().
+>=20
+> Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC
+> - Part 1")
+> Link:
+> https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
+>=20
+> Signed-off-by: Bert Karwatzki <spasswolf@web.de>
 > ---
->  include/linux/bpf.h  |  1 +
->  kernel/bpf/syscall.c | 21 +++++++++++++++++----
->  2 files changed, 18 insertions(+), 4 deletions(-)
->
-> diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-> index d9542127dfdf..9ba03622709b 100644
-> --- a/include/linux/bpf.h
-> +++ b/include/linux/bpf.h
-> @@ -2779,6 +2779,7 @@ struct bpf_prog *bpf_prog_get_curr_or_next(u32 *id)=
-;
-> =20
->  int bpf_map_alloc_pages(const struct bpf_map *map, int nid,
->  			unsigned long nr_pages, struct page **page_array);
-> +struct page *bpf_map_alloc_page_sleepable(const struct bpf_map *map, int=
- nid);
->  #ifdef CONFIG_MEMCG
->  void bpf_map_memcg_enter(const struct bpf_map *map, struct mem_cgroup **=
-old_memcg,
->  			 struct mem_cgroup **new_memcg);
-> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-> index 0ff9e3aa293d..cec88450e4ce 100644
-> --- a/kernel/bpf/syscall.c
-> +++ b/kernel/bpf/syscall.c
-> @@ -602,15 +602,14 @@ static bool can_alloc_pages(void)
->  		!IS_ENABLED(CONFIG_PREEMPT_RT);
->  }
-> =20
-> +#define BPF_PAGE_GFP (GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT | __GFP_NO=
-WARN)
-> +
->  static struct page *__bpf_alloc_page(int nid)
->  {
->  	if (!can_alloc_pages())
->  		return alloc_pages_nolock(__GFP_ACCOUNT, nid, 0);
-> =20
-> -	return alloc_pages_node(nid,
-> -				GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT
-> -				| __GFP_NOWARN,
-> -				0);
-> +	return alloc_pages_node(nid, BPF_PAGE_GFP, 0);
->  }
-> =20
->  int bpf_map_alloc_pages(const struct bpf_map *map, int nid,
-> @@ -636,6 +635,20 @@ int bpf_map_alloc_pages(const struct bpf_map *map, i=
-nt nid,
->  	return ret;
->  }
-> =20
-> +/*
-> + * For callers that know they run in a sleepable context, e.g. a user pa=
-ge
-> + * fault handler. can_alloc_pages() is a conservative guess made for BPF
-> + * program context - notably it is always false on PREEMPT_RT - so going
-> + * through bpf_map_alloc_pages() there would needlessly pick the
-> + * non-blocking allocator, which never reclaims and never engages the OO=
-M
-> + * machinery.
-> + */
-> +struct page *bpf_map_alloc_page_sleepable(const struct bpf_map *map, int=
- nid)
-> +{
-> +	might_sleep();
-> +	return alloc_pages_node(nid, BPF_PAGE_GFP, 0);
-> +}
-> +
-> =20
->  static int btf_field_cmp(const void *a, const void *b)
->  {
+> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_stream.c=C2=A0 | 5 +++--
+> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 4 ++--
+> =C2=A02 files changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> index dbc12640b01c..4ac835777b58 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> @@ -233,8 +233,9 @@ struct dc_stream_state
+> *dc_create_stream_for_sink(
+> =C2=A0
+> =C2=A0fail:
+> =C2=A0	if (stream) {
+> -		kfree(stream->update_scratch);
+> -		kfree(stream);
+> +		if (stream->update_scratch)
+> +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream-
+> >update_scratch));
+> +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	return NULL;
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> index 88e825a6582c..d5c6427796b6 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> @@ -85,8 +85,8 @@ uint8_t=C2=A0 dc_plane_get_pipe_mask(struct dc_state
+> *dc_state, const struct dc_plane
+> =C2=A0
+> *********************************************************************
+> *********/
+> =C2=A0struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+> =C2=A0{
+> -	struct dc_plane_state *plane_state =3D
+> kvzalloc_obj(*plane_state,
+> -							=C2=A0
+> GFP_ATOMIC);
+> +	struct dc_plane_state *plane_state;
+> +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D
+> kvzalloc_obj(*plane_state, GFP_ATOMIC));
+> =C2=A0
+> =C2=A0	if (NULL =3D=3D plane_state)
+> =C2=A0		return NULL;
 
+Hi Bert,
+
+You may not be aware that the same allocation is already wrapped once,
+at the dcn32 call site:
+
+  183182235f6d ("drm/amd/display: Wrap DCN32 phantom-plane allocation
+in DC_RUN_WITH_PREEMPTION_ENABLED")
+
+That one only covers the dcn32 DML1 path, while your trace goes through
+dcn401_validate_bandwidth() and dml21 - so wrapping the call site could
+never have caught your case.  Which is a good argument for guarding the
+allocation in the callee, as you do: dc_create_plane_state() is reached
+from every DCN and both DML generations.
+
+On dcn32 the two wraps now nest.  That is harmless, because
+DC_RUN_WITH_PREEMPTION_ENABLED() is conditional on dc_is_fp_enabled():
+once the outer instance has left the FPU region, the inner one expands
+to a plain call.  But it does make the dcn32 wrap redundant, and I
+think it should be dropped in a follow-up now that the allocation is
+guarded in the callee.
+
+One thing that may be worth adjusting in the commit message: this is
+not only a PREEMPT_RT problem.  183182235f6d was needed on a plain non-
+RT x86 kernel. There DC_FP_START() takes fpregs_lock(), which disables
+local softirqs, and dc_plane_state is around 335 KiB, so kvzalloc_obj()
+falls through to the vmalloc path and hits BUG_ON(in_interrupt()).  So
+on RT any allocation inside the FPU region is illegal, while on non-RT
+it is specifically the large ones - two failure modes, one root cause.
+
+About the FPU register question raised by the review bot: as far as I
+can see it applies to every existing user of
+DC_RUN_WITH_PREEMPTION_ENABLED(), 183182235f6d included, so it looks
+like a property of the macro rather than something your patch
+introduces.  An answer from AMD on that would be useful either way.
+
+I have dcn32 hardware here (RX 7900 XTX) and can test the patch on
+non-RT if that helps.
+
+--=20
+Thanks,
+Mikhail
