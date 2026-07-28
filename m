@@ -1,65 +1,63 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B615723F40D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Jul 2026 00:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4791281369
+	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Jul 2026 01:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785200100; cv=none; b=s2W+0YbCvhVTRXsmuoGg7PsSxkxeKKV2h+O+xOHaQ0sKcm6Zora60NXsE9WZL0driQkESGsqQb4wE2JkwLKe5Lax8FK74Tp6boQfPiLO3nTH8iXWlTwNAUpqhUNtZs9zfT9yDWriEBZ4z/WVHKZGSLBPXNKn7elpNv46hqhy6zs=
+	t=1785200459; cv=none; b=ja1O0ojlpxOF+FEMubD6V5f3zTXtxVBHqtLEGIxEXAlMdU+QE6FhtHKRa/xGqgyGEBrUjQTCy6BUDhRBMvoYO/rdzWYZY1yUEkuSwsYRDdSZ705bmAg988OB/Sj06MN6cInr8e6s2Ruo1rnyjhlin23pDDfXOkVj0NxiDCWiwL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785200100; c=relaxed/simple;
-	bh=bE/cF7rDFDmDg/K13IVD6WT+vgfmLtwJd1vZtXfhvMg=;
+	s=arc-20240116; t=1785200459; c=relaxed/simple;
+	bh=Rv4a/ZwuMlprBGTkGl25aJZb/pq+nkMSU8+X4N67UUY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=m98QjMsEfbD3eWJsOfu53r7wrTLigVykciMkdjzQZEqC9esgeJQVbtM9NWIUwQQfCu3GXyzMMwA4XGSp8qjMh8FhpCXDbyCd/vK3c9bu7vLePqgvGF2HpjB/V8u/zH+UHWSmhAECcW72jmJ2vm3imGx2+yCov/02TGmBBMGJ1Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=lC+J30w+; arc=none smtp.client-ip=209.85.216.51
+	 References:In-Reply-To; b=R0l/bR3QWuUmELlRX7kxp6XlvvNA5oHwReRIWF4KdHWcbh24IHf9tfCKmr96YKbj2OtkftOabk19J4C+cPWs1kyLIaqo8hJllFPxTLT6gNvobrLMlW/vqX17NKs1hFpA2Wim8rdk8eiFBkeZrMnePmxbJ+lm9pKQ3H1GzFm6tnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=E1y4KqP7; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="lC+J30w+"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so3236863a91.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 17:54:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="E1y4KqP7"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84e3007a2b7so2845272b3a.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 27 Jul 2026 18:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1785200098; x=1785804898; darn=lists.linux.dev;
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1785200457; x=1785805257; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=8pp75BTZRBMs2YBS0P6BlOR/cBBd2UOnLYzK3C+0Sw8=;
-        b=lC+J30w+AQU1Da8a+gC9pkV7w7sgVQcoKUCTgAGqEGt/1Np7DJOXqVOrVFAizbp4Sw
-         4unO9rBD4yjCouHCpqcksDag57zTtbFcRmmalNDIQRyZi3us/k5hdZueTZdvx9rYGoHZ
-         XUm9cq2nkvMxOBRt2yfaMaeUtGXpLGFyZTg5DXHYxqmfl7jErYMlhlV1hxU0Z0tCeY3R
-         jguijixrZ1Lnxk+9fwFVQ/6ih40C0PxyMmdtxDqJAbsmWLoRw9lFMDPmlJb/zHyj/RLH
-         Eg+MsOeFIraV4XchrFhcupVj1D6WutsYBuIBMiCrlxlcBCaNNmMnLlzzZJS/nXZvYQQ4
-         NAgg==
+        bh=SvwuWo6QBd0znbzB9xca22veiRMAvnRdnxWbmn1rCUk=;
+        b=E1y4KqP7Txa7PzuMrJLtK+flOBu7ZA4cKmbX57Aa/O/9kiniVeB100kVY+ljz7q3Mf
+         jsiwclfPl/nZvoF0bFmlnAJ2U0d85aRkkgk8MDgHcotzZVKUH7WWg9oa6iSW3Owpycd1
+         ybYzv1WV1futtHJa5eQpFubJcF6V9QT2+Vkt4u+kkZnAH8MMCWU3sUVXHZX1/Y3K9Grl
+         kYwAm1N+os+hwX2hJbdBzBcKYwQudsgAz87jAyWt4zJmKYFIqvGjYRLCofuYa5EQqc4b
+         WkTU78Us0btlfNHePmAUEzCeW63oJ+auIG2Wc+i6OUcCpsFpNTKe+7RigbUjhkGaJRDy
+         rSSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785200098; x=1785804898;
+        d=1e100.net; s=20251104; t=1785200457; x=1785805257;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8pp75BTZRBMs2YBS0P6BlOR/cBBd2UOnLYzK3C+0Sw8=;
-        b=iGeC+ixpy4+xFe8NfgVgXNVbV3t/esfcSQNwW2mHHCRZAV+OVsivl6MmXzss4hbyvx
-         /pg/VJ3YyVnWF+XDMHt0rzVGJtEjP4CcbtbFZxw6ESsEbIQxiTv8+vOYlyq3xwI5fe0C
-         hRUvZVoN109m08OPtqyIKMMcJ2BWC5eZy/jckICDjtQ0jEgD3v+R2RmYM4W+QU6jmZa9
-         BtvC7OtLskVXPPvt4mTiangtZEJ5HNRmgCTBBVVWowLYNA8vc06WgqeNbcUzZe51l7/v
-         TJVzzglM2gmQLfHuXZp0h6DFkFwMd1HdzLdQK4viB8OOSZ4gM8iph9fQiradzCnRBW2C
-         AZYw==
-X-Forwarded-Encrypted: i=1; AHgh+RpBCeHM83VuR4KO9iCGHwN6L+9f2XX6IA+rrwDwvh5OZKzvpX1Pe8qADGHsXWaxDRTKGmcyMg5VB3OQ7n9clg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxamdy363aDMhhO1JFLkoJzviFsqe7HrJAGruZK1IAjgd5/P1fw
-	ZhQYpCwMbg/WODrhdbSf2mlYCf5DJmTTEqLGO0nJAJK1kf7At1u0wuKVZIhK8P10m+U=
-X-Gm-Gg: AR+sD10HDHQRjtERA1w75Z1YaHZDFFGiMYve2kqPKNjg1SMEVwcAS9aB1ASlu4guUsW
-	6V/r7NyyTkHtT0qHzWO0jF/brglGbwPAjXKG38pYy1568Y/njOp8XhE9Icr5L9IC/slj39E1q3N
-	Rd5l4Too8uIAHTZt3BfPbZEtMnug8vr7pKzhatuiYq9FG2CSTVUOn49KDhUB9McAY+TYnTaeCsI
-	GoVI040EW9PfcMhQZDXOHz8OmZNnUXVIggosYAUC3guDtAMkZbDA12Whc1cZK19ikHiIsRM7XHz
-	umf48e5WJtRHV+ops0O+3NlJYb4jVmNTX5FcawB8s/o6Yq40ZSsMXTGG3h6amoHETktp96Q9V1w
-	FDv7F7nXh6rQBjkrAvvP+3Poeaot3u2ovBD8qHaSk6Np0cQ78eSigRPlWG0qyIrwKzX8b+v8MAs
-	j5CHpURRltp6lAMjwDyB2Vj4NgnJKWV883x5F6tBXkcOYw9dMOBscOni+X8wbnK/n+inqdclrV9
-	+xD03/HvUPhvXuEnw==
-X-Received: by 2002:a17:90a:d64d:b0:382:1aaf:4bab with SMTP id 98e67ed59e1d1-38f6a426773mr182155a91.27.1785200097807;
-        Mon, 27 Jul 2026 17:54:57 -0700 (PDT)
+        bh=SvwuWo6QBd0znbzB9xca22veiRMAvnRdnxWbmn1rCUk=;
+        b=oOQ9XkFDMhtd3q/ffnc1RrGx7MFGXeh9YUtMqB9PTOBFXInoUCJ8ADIFDous1XOJjH
+         OsOOqh9/kxc6Cz6XstUf6mcpbgI50TxYE4jTJF0YqjXQWUJa5DbyBuOAmv1ytkz7sDf2
+         DKEl0/5U2dqt6LflqnCINI7oOm/Y2wPATsODKU3V+HtchsruXyAb1H47Ag7dVxuK56xr
+         HWcz90PMxJHEmxSq1cw8uoWaVVQWkCVXXeVHNV1d+4CnvDUszC2V+zh8EmaGhzKvMniC
+         nb9vRLwqQZ4rdxNw9zkSY285m8mtilQ7oQx2gUpFUJXTKlTgDPMeAQ9IppbSBvMb/EE+
+         hmfw==
+X-Gm-Message-State: AOJu0YzjxOO7FCr8X9VoP7Y/yOMYmhSMZKhPACFr+lBYRniNm1tnLZ19
+	dr4SM9m9LSOt+Iz6lB7YCp0MiiigU0JU3sPHmNBuOhemyObHx7sR9MlkbvEp65mpHcY=
+X-Gm-Gg: AR+sD130MzV8d5gVE5/Jdp6q+fOCQEvxU+5XzSpwfGMDnuQ06FZchPe+Vghyc4yJhb1
+	O8Z1R8XVqHeIP5YQShmZrO759n3ITbLesNhWY3fx+sh4+OELrSSZtS5jXnK99lKQwKIb2eWuUdu
+	ZkUGpqZE+eN0RqvgA+WDTyLsZ/WBaWjHsEchXNbCnzIrUJYvdIVFou7UJ69kvMop/S8ob+8I8vi
+	lhbqkaBZsA/AkJRoZ4K2+lCBrWxFi5MvQt8/6zThUWHGB1wrg3ajYXOnosNieQLmx9XgmCkOqj0
+	Xxqd42eitGnNObx0zCzWeEkSgZaMiN/5LUCckGBV2AMZ/E9I41kotguAUrUWDrHxlAwT86kM2cR
+	drQ6/qMBC2t/p+KdtbRJt3dWuk6jwulbD/AdxpWAGTdDBWy6jdhD1ICufNEQglYWFJUi7ijZhEf
+	jorOsxaID2bjLMsT8i5jtFXjJP+6BnkT4=
+X-Received: by 2002:a05:6a00:1486:b0:845:c662:2be with SMTP id d2e1a72fcca58-84e932ee091mr202766b3a.42.1785200457053;
+        Mon, 27 Jul 2026 18:00:57 -0700 (PDT)
 Received: from localhost (107-190-31-17.cpe.teksavvy.com. [107.190.31.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f64105194sm479045a91.4.2026.07.27.17.54.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e53258428sm3756444b3a.12.2026.07.27.18.00.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 17:54:57 -0700 (PDT)
+        Mon, 27 Jul 2026 18:00:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -68,276 +66,115 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 20:54:56 -0400
-Message-Id: <DK9SMAEXY39E.195HV3J7GB8AI@etsalapatis.com>
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Eduard
- Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
- <memxor@gmail.com>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Song Liu"
- <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa"
- <jolsa@kernel.org>, "Emil Tsalapatis" <emil@etsalapatis.com>, "John
- Fastabend" <john.fastabend@gmail.com>, "Shuah Khan" <shuah@kernel.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH bpf-next 3/3] selftests/bpf: Add a test for arena
- fault-in under memory.max
+Date: Mon, 27 Jul 2026 21:00:55 -0400
+Message-Id: <DK9SQVLBF4SG.2FDO076LD2E0M@etsalapatis.com>
+Cc: <linux-rt-devel@lists.linux.dev>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page
+ outside the lock
 From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Jiayuan Chen" <jiayuan.chen@linux.dev>, <bpf@vger.kernel.org>
+To: "Jiayuan Chen" <jiayuan.chen@linux.dev>,
+ <sashiko-reviews@lists.linux.dev>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260727062521.376231-1-jiayuan.chen@linux.dev>
- <20260727062521.376231-4-jiayuan.chen@linux.dev>
-In-Reply-To: <20260727062521.376231-4-jiayuan.chen@linux.dev>
+ <20260727062521.376231-3-jiayuan.chen@linux.dev>
+ <20260727064257.01BD81F000E9@smtp.kernel.org>
+ <9a961b42-d095-4052-a749-dfabb9a45bf3@linux.dev>
+In-Reply-To: <9a961b42-d095-4052-a749-dfabb9a45bf3@linux.dev>
 
-On Mon Jul 27, 2026 at 2:24 AM EDT, Jiayuan Chen wrote:
-> A child joins a memcg capped at 64M and faults an arena in until it runs
-> out of the budget. Without the kernel fix the child dies with SIGSEGV on
-> a valid arena address; with it, the child is killed by the memcg OOM
-> killer.
+On Mon Jul 27, 2026 at 4:00 AM EDT, Jiayuan Chen wrote:
 >
-> With the fix:
+> On 7/27/26 2:42 PM, sashiko-bot@kernel.org wrote:
+> [...]
+>>> @@ -489,55 +490,97 @@ static vm_fault_t arena_vm_fault(struct vm_fault =
+*vmf)
+>>>   	kbase =3D bpf_arena_get_kern_vm_start(arena);
+>>>   	kaddr =3D kbase + (u32)(vmf->address);
+>>>  =20
+>>> -	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags))
+>>> +	page =3D vmalloc_to_page((void *)kaddr);
+>>> +	if (!page) {
+>>> +		/*
+>>> +		 * Preallocate outside the lock so the allocation can sleep and go
+>>> +		 * through reclaim (both memcg and global), the way do_anonymous_pag=
+e()
+>>> +		 * does. Under arena->spinlock only the non-blocking allocator is
+>>> +		 * available, which never reclaims.
+>>> +		 *
+>>> +		 * This has to be the sleepable variant: VM_FAULT_OOM below is only
+>>> +		 * meaningful if the OOM machinery was actually engaged. A failure
+>>> +		 * from the non-blocking allocator engages nothing, so the fault
+>>> +		 * would be retried forever.
+>>> +		 */
+>>> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
+>>> +		new_page =3D bpf_map_alloc_page_sleepable(map, NUMA_NO_NODE);
+>> [Severity: High]
+>> Is there a potential Denial of Service vector when BPF_F_SEGV_ON_FAULT i=
+s set?
+>>
+>> This unconditionally preallocates a page using
+>> bpf_map_alloc_page_sleepable() before checking the BPF_F_SEGV_ON_FAULT
+>> flag later in the function.
+>>
+>> This allocation can block, trigger direct memory reclaim, and invoke the
+>> OOM killer. Only after this expensive allocation does the code lock, che=
+ck
+>> the flag, return VM_FAULT_SIGSEGV, and discard the page.
+>>
+>> Could this allow an unprivileged user to force severe memory pressure by
+>> repeatedly triggering page faults on unallocated addresses?
 >
->   serial_test_arena_memcg:PASS:child killed by signal
->   serial_test_arena_memcg:PASS:not killed by SIGSEGV
->   #5       arena_memcg:OK
+> Once VM_FAULT_SIGSEGV is returned, the process gets a SIGSEGV and by=20
+> default is killed,
+> so this isn't a realistic DoS.
 >
->   # dmesg
->    arena_vm_fault+0x655/0xa90
->   Memory cgroup out of memory: Killed process 512, file-rss:67920kB
+> But, I think it's worth moving the "arena->map.map_flags &=20
+> BPF_F_SEGV_ON_FAULT" check before the allocation.
 >
-> Without the fix:
 >
->   serial_test_arena_memcg:PASS:child killed by signal
->   serial_test_arena_memcg:FAIL:not killed by SIGSEGV: actual 11
->   #5       arena_memcg:FAIL
+>>> +		bpf_map_memcg_exit(old_memcg, new_memcg);
+>>> +		if (!new_page)
+>>> +			return VM_FAULT_OOM;
+>>> +	}
+>>> +
+>>> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
+>>>   		/* Make a reasonable effort to address impossible case */
+>>> -		return VM_FAULT_RETRY;
+>>> +		fault_ret =3D VM_FAULT_RETRY;
+>>> +		goto out_err;
+>>> +	}
+>> [Severity: High]
+>> This is a pre-existing issue, but does returning VM_FAULT_RETRY here
+>> without releasing the fault lock cause a lock leak?
+>>
+>> The memory management subsystem strictly assumes the lock was released
+>> if VM_FAULT_RETRY is returned. Retrying the fault will leak the read loc=
+k
+>> reference, and if any thread subsequently attempts to acquire the mmap_l=
+ock
+>> for writing, the system could permanently deadlock.
 >
->   # dmesg
->   test_progs[508]: segfault at 100004025000 ...
 >
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-> ---
->  .../selftests/bpf/prog_tests/arena_memcg.c    | 158 ++++++++++++++++++
->  .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
->  2 files changed, 182 insertions(+)
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
->  create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
+> Yes, it's true. arena_vm_fault() never touches mmap_lock, so returning=20
+> VM_FAULT_RETRY violates the contract.
 >
-> diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools=
-/testing/selftests/bpf/prog_tests/arena_memcg.c
-> new file mode 100644
-> index 000000000000..9665946fa29e
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-> @@ -0,0 +1,158 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <test_progs.h>
-> +#include <fcntl.h>
-> +#include <signal.h>
-> +#include <sys/mman.h>
-> +#include <sys/wait.h>
-> +#include <unistd.h>
-> +#include <sys/user.h>
-> +#ifndef PAGE_SIZE /* on some archs it comes in sys/user.h */
-> +#include <unistd.h>
-> +#define PAGE_SIZE getpagesize()
-> +#endif
-> +
-> +#include "cgroup_helpers.h"
-> +#include "arena_memcg.skel.h"
-> +
-> +#define CG_PATH		"/arena_memcg"
-> +
-> +/* Budget the arena gets on top of whatever is already charged after loa=
-d. */
-> +#define ARENA_BUDGET	(64 * 1024 * 1024)
-> +
-> +/*
-> + * cgroup_helpers builds paths from getpid(), but the work dir belongs t=
-o the
-> + * process that set the environment up. The child references it through =
-that
-> + * pid, so build the path explicitly.
-> + */
-> +static void cg_file_path(char *buf, size_t sz, pid_t owner, const char *=
-file)
-> +{
-> +	snprintf(buf, sz, "/mnt/cgroup-test-work-dir%d%s/%s", owner, CG_PATH, f=
-ile);
+> '''
+> do_user_addr_fault()
+> {
+>  =C2=A0 =C2=A0 fault =3D handle_mm_fault(...);=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 // call arena_vm_fault
+>  =C2=A0 =C2=A0 ...
+>  =C2=A0 =C2=A0 if (unlikely(fault & VM_FAULT_RETRY)) {
+>  =C2=A0 =C2=A0 =C2=A0 =C2=A0 flags |=3D FAULT_FLAG_TRIED;
+>  =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto retry;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // lock_mm_and_find_vma() will=20
+> call mmap_read_lock again !
+>  =C2=A0 =C2=A0 }
+>  =C2=A0 =C2=A0 mmap_read_unlock(mm);
+> }
+> '''
+>
+> I think I should fix it as a separate patch with high priority ?
 
-These are copied over from cgroup_helpers.c, but it's not obvious they
-originate from there. Maybe let's move them to cgroup_helpers.h where we
-can use them everywhere for consistency.
-
-The main issue I see is that this only triggers consistently with PREEMPT_R=
-T, correct?
-I tried with the default vmtest config we have but it does not trigger
-at all. More importantly, it doesn't trigger reliably with PREEMPT_RT,
-either. Does it for you? Can we cycle forks/frees multiple times to try
-and trigger this more reliably?
-
-> +}
-> +
-> +static long cg_read_ulong(pid_t owner, const char *file)
-> +{
-> +	char path[PATH_MAX], buf[64];
-> +	long val =3D -1;
-> +	FILE *f;
-> +
-> +	cg_file_path(path, sizeof(path), owner, file);
-> +	f =3D fopen(path, "r");
-> +	if (!f)
-> +		return -1;
-> +	if (fgets(buf, sizeof(buf), f))
-> +		val =3D strtol(buf, NULL, 10);
-> +	fclose(f);
-> +	return val;
-> +}
-> +
-> +static int cg_write(pid_t owner, const char *file, const char *val)
-> +{
-> +	char path[PATH_MAX];
-> +	int fd, len, ret =3D -1;
-> +
-> +	cg_file_path(path, sizeof(path), owner, file);
-> +	fd =3D open(path, O_WRONLY);
-> +	if (fd < 0)
-> +		return -1;
-> +	len =3D strlen(val);
-> +	if (write(fd, val, len) =3D=3D len)
-> +		ret =3D 0;
-> +	close(fd);
-> +	return ret;
-> +}
-> +
-> +void serial_test_arena_memcg(void)
-> +{
-> +	int cgroup_fd =3D -1, status;
-> +	const long ps =3D PAGE_SIZE;
-> +	pid_t owner, pid;
-> +
-> +	if (setup_cgroup_environment())
-> +		return;
-> +	owner =3D getpid();
-> +
-> +	cgroup_fd =3D create_and_get_cgroup(CG_PATH);
-> +	if (!ASSERT_OK_FD(cgroup_fd, "create_and_get_cgroup"))
-> +		goto out;
-> +
-> +	/* No memory controller -> nothing to test. */
-> +	if (cg_read_ulong(owner, "memory.current") < 0) {
-> +		test__skip();
-> +		goto out;
-> +	}
-> +
-> +	pid =3D fork();
-> +	if (!ASSERT_GE(pid, 0, "fork"))
-> +		goto out;
-> +	if (pid =3D=3D 0) {
-> +		struct arena_memcg *cskel;
-> +		__u32 i, npages;
-> +		char buf[32];
-> +		char *base;
-> +		size_t sz;
-> +		long cur;
-> +
-> +		/*
-> +		 * Do everything from the child: the arena vma is VM_DONTCOPY so
-> +		 * it would not survive fork(), only the child should be under the
-> +		 * limit so that a memcg OOM cannot pick test_progs, and a map is
-> +		 * charged to the memcg of the task that creates it - so join
-> +		 * before load. Errors are reported to the parent through the exit
-> +		 * code, since ASSERT_* in a forked child does not reach it.
-> +		 */
-> +		snprintf(buf, sizeof(buf), "%d", getpid());
-> +		if (cg_write(owner, "cgroup.procs", buf))
-> +			_exit(2);
-> +
-> +		cskel =3D arena_memcg__open_and_load();
-> +		if (!cskel)
-> +			_exit(3);
-> +
-> +		base =3D bpf_map__initial_value(cskel->maps.arena, &sz);
-> +		if (!base)
-> +			_exit(4);
-> +		npages =3D bpf_map__max_entries(cskel->maps.arena);
-> +
-> +		/*
-> +		 * Cap only now, after load: everything but the fault-in is
-> +		 * charged, so the arena gets a fixed budget regardless of what
-> +		 * the load itself cost, and the load can never hit the limit.
-> +		 */
-> +		cur =3D cg_read_ulong(owner, "memory.current");
-> +		if (cur < 0)
-> +			_exit(5);
-> +		snprintf(buf, sizeof(buf), "%ld", cur + ARENA_BUDGET);
-> +		if (cg_write(owner, "memory.max", buf))
-> +			_exit(6);
-> +
-> +		for (i =3D 0; i < npages; i++)
-> +			base[(size_t)i * ps] =3D 1;
-> +		_exit(0);
-> +	}
-> +
-> +	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
-> +		goto out;
-> +
-> +	/* A non-zero exit means the child failed to set up; the code says wher=
-e. */
-> +	if (WIFEXITED(status) && WEXITSTATUS(status)) {
-> +		ASSERT_OK(WEXITSTATUS(status), "child setup");
-> +		goto out;
-> +	}
-> +
-> +	/*
-> +	 * Faulting a valid arena address until memory.max is hit must not look
-> +	 * like an invalid access. Without the fix the fault path allocated wit=
-h
-> +	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV=
-,
-> +	 * and the child died with SIGSEGV on a valid address; now it is handle=
-d
-> +	 * by the memcg OOM path and the child is killed by SIGKILL instead. A
-> +	 * clean exit means the child failed to set up (see the exit codes).
-> +	 */
-> +	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
-> +		goto out;
-> +	ASSERT_NEQ(WTERMSIG(status), SIGSEGV, "not killed by SIGSEGV");
-> +out:
-> +	if (cgroup_fd >=3D 0)
-> +		close(cgroup_fd);
-> +	cleanup_cgroup_environment();
-> +}
-> diff --git a/tools/testing/selftests/bpf/progs/arena_memcg.c b/tools/test=
-ing/selftests/bpf/progs/arena_memcg.c
-> new file mode 100644
-> index 000000000000..adecd9e8463e
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/arena_memcg.c
-> @@ -0,0 +1,24 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <vmlinux.h>
-> +#include <bpf/bpf_helpers.h>
-> +#include "bpf_arena_common.h"
-> +
-> +struct {
-> +	__uint(type, BPF_MAP_TYPE_ARENA);
-> +	__uint(map_flags, BPF_F_MMAPABLE);
-> +	__uint(max_entries, 100000); /* number of pages */
-> +#ifdef __TARGET_ARCH_arm64
-> +	__ulong(map_extra, 0x1ull << 32); /* start of mmap() region */
-> +#else
-> +	__ulong(map_extra, 0x1ull << 44); /* start of mmap() region */
-> +#endif
-> +} arena SEC(".maps");
-> +
-> +SEC("syscall")
-> +int noop(void *ctx)
-> +{
-> +	return 0;
-> +}
-> +
-> +char _license[] SEC("license") =3D "GPL";
-
+Please do, I think it makes sense as a separate patch targeting the
+bpf tree while this patchset can keep targeting bpf-next.
