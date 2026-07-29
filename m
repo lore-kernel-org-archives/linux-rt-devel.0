@@ -1,141 +1,284 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781AF2BDC2F
-	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Jul 2026 11:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318E47FAE0
+	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Jul 2026 12:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785323382; cv=none; b=Jd543s2PAXf5pFOeRPZLZ+YIyXv17Bg7mJfnO9peZXuc1/l2Dnk9t1Fuc1aEhcXo3si9j2ii6efdmDwtZt58bD0et6cHOmWfwmpGRkNFQqRSuO4gD7VXBksDOtOrmVA2zthJZoAHz84BO2pAg+t6cHVOuaHnRb5aLV5bU24vd4U=
+	t=1785328579; cv=none; b=PLcwnGGqgQGlPKVWsSzYVzvIczInDbs+IgtyaNAXsa41164MPwVY8IHrQgsrZ6lomBM7Bqswo+ZhnKmI03bGFtdkl4R02VOJ0lgtjf+3y49159aB76bnuMWPPPNLDl2EHEWowV75jVuNLXW9J+BPH8fFrhFlxbNvJ63yNLrfTbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785323382; c=relaxed/simple;
-	bh=tRD9Hnc+FiDzMwa7ooASAfjCm420hLC7sETJ7IsQPtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=li+UP54nfAGftS+jQgBGyXoyxdi6Pph5Zuia5vc3QzpJ4pLDrfHByat63TddKSUF1CxOEIpJBdQiWwniWJyZDZCfRPPREsmIbkdlzcXqlNtDjH41uC6SdPn6xs3TpGhOyBn5sjU08Brz7GJR3om9vKTZsmto+2mirrFghaAfoUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Yf7gRuGM; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1785328579; c=relaxed/simple;
+	bh=SuUSfgaNjoyz2PVdLRahrunDfQf8b7iHya9Riqbdr8c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hj14UxG0LaBbRnOGMU1mjI+lEOEivNLTjizNS0RWKwvg157ifbfCU3rO7hzkp86Mhny7bYIke5CnBDS25VXJD6Z5S16xaBXmnJHk2IJxcloM4SqpqsMR940ikR7qG+7JwstUYHHKo8KmrpaN63KNYSiqtxJAWAVN6csXyzeFwu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=RA5OEsBM; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Yf7gRuGM"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954f5e8020so3944245e9.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Jul 2026 04:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1785323379; x=1785928179; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1mrR0h5a2tnzaiN6M63ThlKTtbHhhDFOkDL005+wWy0=;
-        b=Yf7gRuGMJLb18a6k6Uyz+3fHet7KNQ7PtDJMKNSfG0fFLmkwtTG9ZA6wtUrxTfIi/s
-         t0KwcRYEtA3Zb42+Hcl0zFAvuNr08XvgwfcD08Q03mYCu1Vo17f7JclcOc55ZYVTXOW7
-         UnJDyWUPoGguK9WoJBCsmE0Sq5B7dXbMIwwEKpPj7F4mhZ1pAput0ZCAp+30n9YUCX39
-         z6ng8i/exmt9qoRRY7AcPkynupGqBKymabEiydaZkLPQBbuD3yZdHQeTG75y7VmHLKLe
-         NglSB0nmrIl/YGwwB1KiAfY9xidOMsInul9vAPLEzOpYkvLEHOb1CjGqc6LvZ8vSD78v
-         Ajxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785323379; x=1785928179;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1mrR0h5a2tnzaiN6M63ThlKTtbHhhDFOkDL005+wWy0=;
-        b=IjGbc4yRtPsiE8GXOtfrpb4/LlzvFLdxNsAym00RwK3jO8beV2M84CQ4EOUmuVRsZe
-         5/rJnEdKYQmy9TQTrtolJp3zngb5YJ8/SdtCdb8w5bWRdV0F68dT1mlVWlUmJ0U8Eq2E
-         ENKcTYArIgIlq7M6xY1NoV2K+dyWkH+pFejNmlkkJdoQhqQQfL0fedBeKRRY+K1VILbn
-         P17jbeMXvyUr2NAkipvdA29uDS9yHqXu2VFmlc6ly+l0kI7ukp7udOBTtsjnSjrzySui
-         04wTkraqyBTRSTmrWkrcUhY2U7AydgFmiegtNl7ogyiAoi3ctiy7pHgY+JYx8R6wHwdr
-         MD0Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrdDuUnq+2p5omB+Kk+iFnTSaT3uKD2jBColM6i1ug30+FwU0BGKBQFvtRP/x81lt1yvrfZGBRa6oQupMXLqQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykgJRn5y7WRsqqeTRDDXKsubAQUifrs/V5tNER38LF6Ivp3ME4
-	YF0qZ/hp3o+g2l7uKXRJP/rPedc+QxbtDKI0mho7Z2nzFrz4jwM91WOZUJIbbk4SsBc=
-X-Gm-Gg: AR+sD13lMXJvS38k7lOfivFhMLVqp31ek9GJlQ0TffL79jUy2O7uFa6cp++Ru9N9WrL
-	4itjirPwx65/FAhUH4fJL0dKgK3pVDCvPiUf8TgpbzBA+2du9Pshk4fJoYwXiMZXC1Y+xLvb17u
-	En5aM2c/7OdCNnH5NpKu+6Zhvm4RUX/36iRGyYLh0CHuohjahFj6QbLQJ1uVP+mbi39v9Yg63DT
-	p06wtyPzOdczR3l2VzWomqnFlppBVgPfW3BhRxvsBFInmuuub0+hcB7m6BnqAL9kp8DwLqumrGE
-	7DtgQYiqyIL/kvg/01MUV4lWZ86mzdjjLgOee1rMpqsqT8DHc4pXXvK/ifmoaOHV7HT5AmVuN5m
-	7fQ0NuZQDoE27wqX79JNEi1MhpahgXEQ97t/5tg9cLEtvv+pCVHZrDCiTyEGBm6/RAK0s/um0uu
-	v+wYF2oGUdrZoCZgByDHIzvP97oC4PFwKMub4SX63RkAv+Itkl3MciuN8iS+2eMgs=
-X-Received: by 2002:a05:600c:3b13:b0:495:5890:8f6c with SMTP id 5b1f17b1804b1-496c653d3dcmr82110535e9.7.1785323378759;
-        Wed, 29 Jul 2026 04:09:38 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd7c4c2sm50189635e9.14.2026.07.29.04.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 04:09:38 -0700 (PDT)
-Date: Wed, 29 Jul 2026 13:09:36 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: "Toshiyuki Sato (Fujitsu)" <fj6611ie@fujitsu.com>,
-	'Karl Mehltretter' <kmehltretter@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Clark Williams <clrkwllms@kernel.org>
-Subject: Re: [PATCH v2 2/2] serial: amba-pl011: keep console clock enabled
- for atomic writes
-Message-ID: <amnfcOod6ayqfNda@pathway.suse.cz>
-References: <20260724213348.77418-1-kmehltretter@gmail.com>
- <20260724213348.77418-3-kmehltretter@gmail.com>
- <TYXPR01MB15199DA567AF4541DD79359FBD7CC2@TYXPR01MB15199.jpnprd01.prod.outlook.com>
- <87pl0863t5.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="RA5OEsBM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1785328535; x=1785933335; i=spasswolf@web.de;
+	bh=La3/EjeeiT/yepazPQRXS2mJezdgg47OaAIINry03EI=;
+	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=RA5OEsBMjjakoUO2uOurYWER9JhYdmoguDS+MIWC+7penyzYmgGxHYxdUaWforxH
+	 N/xlSAzFyvgQjH4V1yWSchXBbePdlE2QXrDoITq+SUTS1bzgMp8Do5g8eN3RUeh/t
+	 qBgW8O/0mWadg/R6XFVuAUWDuuI+k1EFzfTNcGjugrFe77SqIz0z/3UqOOIgYk+h6
+	 p0SmwgL4Rlt2g5NnxdCWrWPIRdEN6yL7GdbyoYYWTf+J05WL1bg7H7gEKlphoSnvq
+	 cFSdoXInceoihnka9AGJ37ufmH00LxVhrx/G0Dg32aCOWpHALfdG3S4o5rqBPPPr4
+	 9HR2KhiKoicNu35nJw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrwsB-1xKUa21Jxd-00aYy9; Wed, 29
+ Jul 2026 14:35:35 +0200
+Message-ID: <1ead313022bc62dce1f42af9f855727eb9074443.camel@web.de>
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
+From: Bert Karwatzki <spasswolf@web.de>
+To: "mikhail.v.gavrilov@gmail.com" <mikhail.v.gavrilov@gmail.com>, 
+	linux-kernel@vger.kernel.org
+Cc: linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	amd-gfx@lists.freedesktop.org, "# = v7 . 1" <stable@vger.kernel.org>, Alex
+ Deucher <alexander.deucher@amd.com>, Rafal Ostrowski
+ <rafal.ostrowski@amd.com>, Mario Limonciello	 <mario.limonciello@amd.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,  Thomas Gleixner
+ <tglx@linutronix.de>, spasswolf@web.de
+Date: Wed, 29 Jul 2026 14:35:34 +0200
+In-Reply-To: <ef1bc3d070c4156f1811c0c4a567ec98ac8fadaf.camel@gmail.com>
+References: <20260727105059.75716-1-spasswolf@web.de>
+		 <ef1bc3d070c4156f1811c0c4a567ec98ac8fadaf.camel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2-10 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pl0863t5.fsf@jogness.linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CKQk8lnl5lxRRlCkQJXPwtG/tj0XCbkh4W2VXTvOn/cPlF9gVNI
+ lAZX8fw2b44gQaHg2hWKMa0573QZUIqeJoZ5WBRELIp61AG0OooRCtI8SpcqbIfFiCBM3ad
+ jv7OVrcqyNbJQyvOzkjsLunXULmYJMznw5mLA6c+oSDQOGrh2KKDclGmh/2iars8UkGTG/X
+ qVa3qSAuv6R7KvoDzZpew==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:lBrE20jatY4=;mXE3W5iZh1Lpkwr6pi69WNWw6Iq
+ 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
 
-On Mon 2026-07-27 14:05:50, John Ogness wrote:
-> Hi Toshiyuki,
-> 
-> On 2026-07-27, "Toshiyuki Sato (Fujitsu)" <fj6611ie@fujitsu.com> wrote:
-> > Regarding Petr's comment [1] as well, I'm concerned about the
-> > potential impact when the clk remains enabled during periods without
-> > console output.
-> 
-> Can you elaborate on your concerns? Do you actually need such low-power
-> _and_ kernel logging directly on serial?
+Am Dienstag, dem 28.07.2026 um 05:51 +0500 schrieb mikhail.v.gavrilov@gmai=
+l.com:
+> On Mon, 2026-07-27 at 12:50 +0200, Bert Karwatzki wrote:
+> > On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
+> > converted to rt_mutex. dc_create_plane_state() can be called while
+> > inside an FPU-guarded region, resuling in "scheduling while atomic"
+> > errors on PREEMPT_RT kernels.
+> > =C2=A0Fix this by calling kvzalloc_obj() with
+> > DC_RUN_WITH_PREEMPTION_ENABLED().
+> > Also fix the error path in dc_create_stream_for_sink().
+> >=20
+> > Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC
+> > - Part 1")
+> > Link:
+> > https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
+> >=20
+> > Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+> > ---
+> > =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_stream.c=C2=A0 | 5 +++--
+> > =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 4 ++--
+> > =C2=A02 files changed, 5 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> > b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> > index dbc12640b01c..4ac835777b58 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> > @@ -233,8 +233,9 @@ struct dc_stream_state
+> > *dc_create_stream_for_sink(
+> > =C2=A0
+> > =C2=A0fail:
+> > =C2=A0	if (stream) {
+> > -		kfree(stream->update_scratch);
+> > -		kfree(stream);
+> > +		if (stream->update_scratch)
+> > +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream-
+> > > update_scratch));
+> > +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+> > =C2=A0	}
+> > =C2=A0
+> > =C2=A0	return NULL;
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> > b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> > index 88e825a6582c..d5c6427796b6 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> > @@ -85,8 +85,8 @@ uint8_t=C2=A0 dc_plane_get_pipe_mask(struct dc_state
+> > *dc_state, const struct dc_plane
+> > =C2=A0
+> > *********************************************************************
+> > *********/
+> > =C2=A0struct dc_plane_state *dc_create_plane_state(const struct dc *dc=
+)
+> > =C2=A0{
+> > -	struct dc_plane_state *plane_state =3D
+> > kvzalloc_obj(*plane_state,
+> > -							=C2=A0
+> > GFP_ATOMIC);
+> > +	struct dc_plane_state *plane_state;
+> > +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D
+> > kvzalloc_obj(*plane_state, GFP_ATOMIC));
+> > =C2=A0
+> > =C2=A0	if (NULL =3D=3D plane_state)
+> > =C2=A0		return NULL;
+>=20
+> Hi Bert,
+>=20
+> You may not be aware that the same allocation is already wrapped once,
+> at the dcn32 call site:
+>=20
+>   183182235f6d ("drm/amd/display: Wrap DCN32 phantom-plane allocation
+> in DC_RUN_WITH_PREEMPTION_ENABLED")
+>=20
+> That one only covers the dcn32 DML1 path, while your trace goes through
+> dcn401_validate_bandwidth() and dml21 - so wrapping the call site could
+> never have caught your case.  Which is a good argument for guarding the
+> allocation in the callee, as you do: dc_create_plane_state() is reached
+> from every DCN and both DML generations.
 
-Good point!
+I did try a different approach, using DC_RUN_WITH_PREEMPTION_ENABLED furth=
+er
+upward in the calltrace (This would have the slight benefit of more code
+running with preemption enabled). This does not work because dml21_utils.c=
+ is compiled
+as a _LINUX_FPU_COMPILATION_UNIT, so DC_RUN_WITH_PREEMPTION_ENABLED does n=
+othing.
+(see drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h)
 
-> > When creating nbcon patch, I saw a similar patch [2] from the past.
-> > Have you considered coordinating with the clk subsystem implementation
-> > for this?
-> 
-> AFAICT there was no real justification for enabling clocks per write
-> other than because we can. A lot has changed since 2013 and neither
-> spin_locks nor raw_spin_locks are appropriate because atomic printing
-> can occur in _any_ context (including NMI's).
-> 
-> If the amba-pl011 insists on enabling clocks per write, I would
-> recommend not implementing the write_atomic() callback. Since I assume a
-> significant amount of users _will_ want atomic printing support, perhaps
-> you can add a Kconfig to toggle building with clock-disabling and no
-> atomic, or clock-always-on and atomic.
-> 
-> Note that there is also CON_NBCON_ATOMIC_UNSAFE available, if the driver
-> wants to somehow blindly enable clocks on panic in order to unsafely
-> dump panic logs.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_utils.c b/d=
+rivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_utils.c
+index 835fece1d46a..8c92deded8cd 100644
+=2D-- a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_utils.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_utils.c
+@@ -286,7 +286,8 @@ static struct dc_plane_state *dml21_add_phantom_plane(=
+struct dml2_context *dml_c
+        (void)plane_programming;
+        struct dc_plane_state *phantom_plane;
+=20
+-       phantom_plane =3D dml_ctx->config.svp_pstate.callbacks.create_phan=
+tom_plane(dc, context, main_plane);
++       DC_RUN_WITH_PREEMPTION_ENABLED(phantom_plane
++                       =3D dml_ctx->config.svp_pstate.callbacks.create_ph=
+antom_plane(dc, context, main_plane));
+        if (!phantom_plane)
+                return NULL;
+=20
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2_0/dml2_mall_phantom.c b/d=
+rivers/gpu/drm/amd/display/dc/dml2_0/dml2_mall_phantom.c
+index 4543a60a0683..464bab9fc13b 100644
+=2D-- a/drivers/gpu/drm/amd/display/dc/dml2_0/dml2_mall_phantom.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2_0/dml2_mall_phantom.c
+@@ -769,10 +769,11 @@ static void enable_phantom_plane(struct dml2_context=
+ *ctx,
+                if (curr_pipe->top_pipe && curr_pipe->top_pipe->plane_stat=
+e =3D=3D curr_pipe->plane_state) {
+                        phantom_plane =3D prev_phantom_plane;
+                } else {
+-                       phantom_plane =3D ctx->config.svp_pstate.callbacks=
+.create_phantom_plane(
++                       DC_RUN_WITH_PREEMPTION_ENABLED(phantom_plane =3D
++                                       ctx->config.svp_pstate.callbacks.c=
+reate_phantom_plane(
+                                        ctx->config.svp_pstate.callbacks.d=
+c,
+                                        state,
+-                                       curr_pipe->plane_state);
++                                       curr_pipe->plane_state));
+                        if (!phantom_plane)
+                                return;
+                }
 
-I personally vote for removing the enable_clock()/disable_clock()
-from the console->write_*() callbacks. It was an interesting power
-optimization. But I believe that the chance to see kernel messages
-in critical situations is more important.
 
-Also I guess that the serial port is _not_ used on devices powered
-by baterry in production. It might be used when debugging and
-it is exatly the situation where the messages are important.
 
-Best Regards,
-Petr
 
-> John Ogness
-> 
-> > [1] https://lore.kernel.org/all/al4KdsU9YLOmwDoV@pathway.suse.cz/
-> > [2] https://lore.kernel.org/all/1359475526-17523-1-git-send-email-walimisdev@gmail.com/
+Bert Karwatzki
