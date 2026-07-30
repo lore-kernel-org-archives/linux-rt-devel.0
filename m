@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810E61DFDE;
-	Thu, 30 Jul 2026 01:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4732C348C4A;
+	Thu, 30 Jul 2026 01:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785373907; cv=none; b=Hk/p+O/nWA3B0zFmbOj9w8bfiB+jTMKA+oHQwRRlT18R3km1nsJFmHXbJ8qCmGhwHKNpxPbF4xVPgdmNx5pqVG1uU8D3NealimOL37P6UKbIqZ8jI+Qwyr6TW5ii6iD2ap2GQInWBsJe/eQVb/nyVGpniletJSBiLkd3qslWROo=
+	t=1785373908; cv=none; b=e5mDt+puQdTFXpEr2q3LGH/aEkPBzL+hp8cfAptXw+Fk9cVI09kuKpFw0xxh6wl6gdJtxAne1yAC8Rcl8DNGjn8fLE3g8iLs9RKmsMlfs2ZuQ59rSEceJsst0YFee8J1iYZ6c/MzVSHVHoyskLg2NnsTePGldBJ2WgUdJkzRWoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785373907; c=relaxed/simple;
-	bh=ebgjBWWGoiz8bFe8aM1k+b6Koj+oeRqpY3Kqeizgd4c=;
+	s=arc-20240116; t=1785373908; c=relaxed/simple;
+	bh=58g1568NRL7/SI4d2HoFSQSOKccqgmn0k03hr3pJQEU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XW3IfXp0bB9SiRmLBXPsf+nl1gka0F5q+lsXLfLOwneDUdkjhHWZtHTFKQcz4/cqkLiAmxsxlkpL1j65+yggeEhktUm8dymJ3pNaGJBVAzpAIFFVwVkEEJysB17rYgYUjQCqSG84vDmHexMCt4b5A+WgwahKQ6YRuv3yFX0rs7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KKOUynMW; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=lqOqCDvkJZFqPT6Ie/5vcu3IESHlhwwZwUllVyYsK7MJgJYCSydFiVrlgQUSfAmUhuqEfcXcEUMFEgYyYrJPxsld2yffLAskxMy+5fHKRjC/h0od1KlyfCVOJwVioB1Lu76942NK9/SA/TmIwxS7B+w++Bhm4jMM9z0C9N0chSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nnv1/Rpq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KKOUynMW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBE81F00ADB;
-	Thu, 30 Jul 2026 01:11:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nnv1/Rpq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E15D1F00ADE;
+	Thu, 30 Jul 2026 01:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1785373906;
-	bh=YDA0Kty7PQNT08Qk9i1E78Ah1lcxCYarON76a0LRZ+U=;
+	bh=SoMF0NvEK/nHml8RMjqK0ASTpVqLJvBd+3O6LznwQbI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=KKOUynMWINMtL/sn/xLshc2icqB+XhSrqDuVpsBiKtNp+BDKzntI3UuANmacpSEGE
-	 fgDhbdHSHH0JRr8muWw9AtiUHBNY9kTBs6mVYIGQ0Z+VHvXaXpqI2q38hyiopEwDSG
-	 TqRgmPMXbDSpxc8gxHnahj1eK22giAckvdeCzWGme2UIyTq+7ZI/kXJkpUstrjZKmE
-	 jbLvMsLUFpizbKdkZkpN1fhyIgC8yBQ0fzTfUZo+Ed5/S9ws15LW6cbpmunNbBkOew
-	 51NzFLSuIgR6QQeO9d4RlUDIO8FP+xcbXaI6GzhTTdx57PrVUxYXMCSpU+G43hceS9
-	 oeM+a8o3RfTsw==
+	b=Nnv1/RpqwrkL3I95lKEmdd9lmxKgZhKUf0krZoaO030Xo2N6eVbmV4g/7u2ZZdoqf
+	 +lH2F8kYyFfUgzsl4CZQ+2PdRiNfGmZMxcm42T5OwFCr0borTTgbeGVb9UReWprQi4
+	 tOFKmxTYpKHvpWTK+fjsgCO+sG7CbWGtAtpm9ix9JxN2NKH4+fXgHdSk2xuva/tz19
+	 ZEHC6n3U29h2dRWhM29CP4GoU7szwTuzj8O8GKE2O+lLV5lOYLSVStIV34VCSMMfQM
+	 c7xDbatXgoQc2khGeuMDTQZ4vbcWYJ1wGwwc/J6xZVgAZF1jeJ0zTjCupmmhSnGdSH
+	 nySoiVITGcIsA==
 From: Drew Fustini <fustini@kernel.org>
-Date: Wed, 29 Jul 2026 18:11:28 -0700
-Subject: [PATCH v6 1/8] dt-bindings: riscv: Add Ssqosid extension
- description
+Date: Wed, 29 Jul 2026 18:11:29 -0700
+Subject: [PATCH v6 2/8] riscv: Detect the Ssqosid extension
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -37,8 +36,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-dfustini-atl-sc-cbqri-dt-v6-1-7c22b05d461b@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
 References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
 In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
 To: Adrien Ricciardi <aricciardi@baylibre.com>, 
@@ -70,42 +69,52 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1227; i=fustini@kernel.org;
- h=from:subject:message-id; bh=ebgjBWWGoiz8bFe8aM1k+b6Koj+oeRqpY3Kqeizgd4c=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRlLblwLmmKxGpHl4LGK408EdtuhzCFBN7Y/PxMy5uFG
- vmrC1zFO0pZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQATmXKC4X9K2NS8y8Jf/5j6
- 8J7fM+lonMSsv209E6+qOK6N2aZw7K4tI0NH0L2f3iXvPwTuP8n595tNvMGHa4zvvaKusAUtcTw
- pHcEDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1637; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=58g1568NRL7/SI4d2HoFSQSOKccqgmn0k03hr3pJQEU=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRlLbmgH8mxNO3LcoPZXV8DugvafqU6LvOXWHSkwUL76
+ HyFQwLGHaUsDGJcDLJiiiybPuRdWOIV+nXB/BfbYOawMoEMYeDiFICJOE1gZJgbLLp/WTz35MjN
+ jy7EPYpjKLpYcnc6c0GpiS3Loy2yCQKMDNNeFcjfcQ34sMe9sLf/SdhJvrOhtxdvaL17RNVgH7u
+ GLxsA
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Document the ratified Supervisor-mode Quality of Service ID (Ssqosid)
-extension v1.0.
+Ssqosid is the RISC-V Quality-of-Service (QoS) Identifiers specification
+which defines the Supervisor Resource Management Configuration (srmcfg)
+register.
 
 Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
+Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/riscv/include/asm/hwcap.h | 1 +
+ arch/riscv/kernel/cpufeature.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index 5ffc40d599c0..c9dc5d80c0ea 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -232,6 +232,12 @@ properties:
-             ratified at commit d70011dde6c2 ("Update to ratified state")
-             of riscv-j-extension.
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index 7ef8e5f55c8d..b83dae5cebb9 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -112,6 +112,7 @@
+ #define RISCV_ISA_EXT_ZCLSD		103
+ #define RISCV_ISA_EXT_ZICFILP		104
+ #define RISCV_ISA_EXT_ZICFISS		105
++#define RISCV_ISA_EXT_SSQOSID		106
  
-+        - const: ssqosid
-+          description: |
-+            The standard Ssqosid extension for Quality of Service ID is
-+            ratified as v1.0 in commit d9c616497fde ("Merge pull
-+            request #7 from ved-rivos/Ratified") of riscv-ssqosid.
-+
-         - const: ssstateen
-           description: |
-             The standard Ssstateen extension for supervisor-mode view of the
+ #define RISCV_ISA_EXT_XLINUXENVCFG	127
+ 
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index f46aa5602d74..668a7e71ff1c 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -582,6 +582,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+ 	__RISCV_ISA_EXT_DATA(ssaia, RISCV_ISA_EXT_SSAIA),
+ 	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+ 	__RISCV_ISA_EXT_SUPERSET(ssnpm, RISCV_ISA_EXT_SSNPM, riscv_xlinuxenvcfg_exts),
++	__RISCV_ISA_EXT_DATA(ssqosid, RISCV_ISA_EXT_SSQOSID),
+ 	__RISCV_ISA_EXT_DATA(sstc, RISCV_ISA_EXT_SSTC),
+ 	__RISCV_ISA_EXT_DATA(svade, RISCV_ISA_EXT_SVADE),
+ 	__RISCV_ISA_EXT_DATA_VALIDATE(svadu, RISCV_ISA_EXT_SVADU, riscv_ext_svadu_validate),
 
 -- 
 2.43.0
