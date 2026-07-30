@@ -1,168 +1,199 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5D33B4E9B
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 06:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127BE3F12D0;
+	Thu, 30 Jul 2026 09:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785394396; cv=none; b=nKv1CeoIx5H5UHArz05BYwcZ041ZmJ/A5RPH/J/oGk9+O7fDOgjDsAnSgbrqc+XNdTrhzFIpTrKRQpUaBdhCPsfUkf+S9AUIW5dDSSFsjQbh3pR5wZMP7WzCbaz6QihCfGBasQo4XA9oj1XrkfSf5m4cbaNYTbh6V3hexYiM/38=
+	t=1785402082; cv=none; b=DJzqjkRWB9jg9aZJMKG9JVLe8dW94GMSfmGVL7FSvRtV/LonazIRX9EW+x49KWToqz+oWqLw9t8slh8hDMmBRTn7LPPbkPRvUtKa/smAujM+P622lQKIzkTnUPcvrfRQWVlY+f0Gw7bc+GGsYAUqoInefuw0C2q2JCMw3LEr1WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785394396; c=relaxed/simple;
-	bh=kyq4Mqzqrl2ra4IUF4UXGWP5uLof/LqbTeeX8rQT3c8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrpaS5tHkQj1wKA7Ku4ph0LaqjWAxoOkrWtla3F6+HzQkVB4IbP90tFvoUD0hD731RktHxgsBU+J5ratk8JPqNiIRmVzyEda0sK9UVwcZhUKwY3aQxBewKIsvYEouuSSlaoyzJanfnmZk6YBeCKai8AhFVO1Mn20KSoApdFIp64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPottEDk; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785402082; c=relaxed/simple;
+	bh=EgrgXehS8Eem5zAeSBXtfk3b1tTF3b01oPe3aMZL8Lk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PjNLpL0HAFyK9V0byRHNsNOVonvg354qCQGEpMjuMwDVRuYjTKeKeabau09hfqqO9ywvkqmKaR8hMskIPjk6iiy/nbmCIZ+5u8gsQvSy8KDzejm3BqPlSM03VYXtyTPtbZAwQ1noebfDrbS5DdCHR75XkHWs8R46RrbUdjU+IUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMAAyTQe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPottEDk"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso1877668e87.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Jul 2026 23:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785394389; x=1785999189; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XRuFZ6h1uhegR6Sr4/10z/GSPpr/uGFR1omQDwMWmUQ=;
-        b=UPottEDkf0dcpIt+ntOcJxHpmoBvS/FVcRmpSiQBzlJ46/QnGFZLsR2vcgZCmSho+s
-         ZJTCUVdsxlTW2YW3U4A3LcdeCI0aMcLvwQyvZaaF+/apcmwK52Nv+vHDbNrsCjq10NUj
-         uvCi3OXbpnMP0OfwEdY7uGLmzYQzqUXtmsWcwjGEr3d04fRDFcRQFBL3s2FjncZScE1O
-         INjtbI1UUfULel+t9Um0YbsefnGcmaumzq/rG9sQTrnIJzL7qYS/1nqurqTP80VB4q1W
-         kXixMK9x1cUqHFSZ4W7FrNiMd7oLfDUchXMCSHSlkm3RgY1qCUHjYGhAUTx/OK4sio/R
-         2UlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785394389; x=1785999189;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XRuFZ6h1uhegR6Sr4/10z/GSPpr/uGFR1omQDwMWmUQ=;
-        b=FjOTRCkxZU8SbcPavoCJa/T2kLUhGXD78cjkdUmoqZaCpSqkj+0XGl4ZnWOohs+NR1
-         NW/eP1rqJkxrGSEtZY+5PijyNyEePBGb5Qhy4iL1h9y4OWYwwwDJXv58QFwm5G7l5c9T
-         7b2EFzEgA57SKKzJzBZk1I1GFb1MTl6vq6MuokLq6uEFcuRMDDG5miZmmEDZI6xOEU1W
-         OWFmqSuNghFx0IpnCcDVcxowhVT7muzrHSFfm9LehwFCZqaKRiXbFguIFtd4ecybQjrM
-         XZutu7ZetuqcQAa1BKzXcBF8k5vkZnWjpcpO4Mzj3W4AXZQv6r3TsXB6EXX597sUW1x6
-         VBmQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpsuU6rh+xYLtSxfexxBBirKw7mPqQgL92IgMYTB4YFbioVr/QXHHtVUwN0rIg6E2djayAnNs8tD6Ye9p2dLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx85zOb9jSrb80f9BBnexx2cwG/5qVJHmmcJw9LGGvf+xXe9UHP
-	IyHSUrtJv5dEwGGoUWiu6eoGEfN0DXJ9//l4Lfaxx35GpprH3meFoDwS
-X-Gm-Gg: AR+sD12vSAtCFMUndeNoyEAHANllHmyDKz3OlA++gCc4gmtA2UfC79nwDpSDaRbPLvB
-	kWWPU9uXFGrA6gRkTa+5S8/bnKYYalwALQ/i+diTtFtNTaj8SkNbH2aUDVarSDP5q/QjRGO2vHG
-	x6k3xaR90FAptQr/Ig3P7HR/3FeUpWnnP7LsL39PBYYZlHwdF9WTx0RcEDvfU3PpzitfGtAZJtY
-	SnpWyIHTd0jgETMhwbQ3fnKelNlxVmqp73YzMegeb25UzsdZWVxr2IhphaWpg7Z3K61yB5U0NeO
-	36WB3ygwybUsLTKq/q6dylsuWGCgLM1j2nEJcwWIm1GPwB7xDe7rTDttGApcgCoKbGA87PTKnO/
-	XvguCWO1WxoGiEnKsKpBb+mqkE55DlzPMQUJf4HtTV98CXTLposScVUcL3zFoOnSMMpw4ykDJhq
-	GITK/1X3BWIXF1x0ifpTuLKxTk6sFtUbwf2bjCHZ5+VndoBUFYxoje3Bi6sMmitgeWPRlN+YXgm
-	iGIrlCaQbI=
-X-Received: by 2002:a05:6512:2245:b0:5ae:c239:6a2c with SMTP id 2adb3069b0e04-5b2db380b43mr251021e87.53.1785394388845;
-        Wed, 29 Jul 2026 23:53:08 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f6ac5ea80sm1635701fa.26.2026.07.29.23.53.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 23:53:07 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: amd-gfx@lists.freedesktop.org
-Cc: Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Rafal Ostrowski <rafal.ostrowski@amd.com>,
-	Dillon Varone <dillon.varone@amd.com>,
-	Bert Karwatzki <spasswolf@web.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH] drm/amd/display: make DC_RUN_WITH_PREEMPTION_ENABLED misuse a build error
-Date: Thu, 30 Jul 2026 11:53:00 +0500
-Message-ID: <20260730065300.2056809-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMAAyTQe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16F51F00A3A;
+	Thu, 30 Jul 2026 09:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785402080;
+	bh=CepvrJSCofuW+Rbn27Rzxe0iX7nFeJvfMACrLN8SBXg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cMAAyTQeOGqrx75vLFrjVKl+Q6ZyYvMe3VzKiXO3gT454huGwem31nWyXRv/q9dlS
+	 E3hQqIi3kmO60/5toa+zlCHUuM+g8Wqeu3nhCRRJ+Sf0qZx2N3FkcFXK6YLhYRpLQr
+	 t/KYFLKt7fKulDxc4uMA3avGCvf+riDMcZSldx4g+Drk+cDrNxW3LqOsYnI8qChyzL
+	 7VHsgrGNTwXbiZ3BhGlFN+vSFe+V/f8AsAU+/6IPpBHgp5VswFdaspZ9ChgObfb20X
+	 +Kdl7lpr/DuwRf+dyPvrYDM1Pns9x4LuCF0BroserOpfZgvlmji+6LlA5kagPgRpPY
+	 2550ObpT+Lr8A==
+Message-ID: <47b147f2-8c10-4ae4-8023-94839f1110a8@kernel.org>
+Date: Thu, 30 Jul 2026 11:01:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] mm/slab: introduce kfree_rcu_nolock() and improve
+ slub_kunit coverage
+To: Harry Yoo <harry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>,
+ Shengming Hu <hu.shengming@zte.com.cn>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+References: <20260729-kfree_rcu_nolock-v5-0-a28cdcda9673@kernel.org>
+ <5342124c-4847-4e93-92a4-f3512928c4d1@kernel.org>
+ <f97853e9-3021-4f20-81d3-4bb710ca444a@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <f97853e9-3021-4f20-81d3-4bb710ca444a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Inside an FPU compilation unit DC_FP_START() and DC_FP_END() are defined
-as BUILD_BUG(), so using them there fails the build.  That was done on
-purpose by
-commit a574f53ed52e ("drm/amd/display: Permit DC_FP_START/END only in non-FP compilation units").
+On 7/30/26 05:08, Harry Yoo wrote:
+> 
+> 
+> On 7/29/26 11:14 PM, Vlastimil Babka (SUSE) wrote:
+>> On 7/29/26 10:20, Harry Yoo (Oracle) wrote:
+>> 
+>> ...
+>> 
+>>> 8:  8e69c83a1e52 ! 8:  aeaf2ab60046 slub_kunit: extend the test for kfree_rcu_nolock()
+>>>     @@ lib/tests/slub_kunit.c: struct test_nolock_context {
+>>>      -			gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
+>>>      +			gfp_t gfp = (i & 1) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
+>>>       
+>>>     - 			objects[j] = kmalloc_obj(*objects[j], gfp);
+>>>     +-			objects[j] = kmalloc(64, gfp);
+>>>     ++			objects[j] = kmalloc_obj(*objects[j], gfp);
+>>>       			if (!objects[j]) {
+>>>     + 				j--;
+>>>     + 				while (j >= 0)
+>>>      @@ lib/tests/slub_kunit.c: static void test_kmalloc_kfree(void)
+>>>       			}
+>>>       		}
+>>>
+>>> Link: https://lore.kernel.org/linux-mm/20260427-nolock-api-fix-v2-0-a6b83a92d9a4@kernel.org [1]
+>>> Link: https://lore.kernel.org/linux-mm/6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org  [2]
+>>> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+>>> Link: https://lore.kernel.org/linux-mm/872bd673-3d45-4111-8a41-31185db3ece5@kernel.org
+>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+>>> Link: https://lore.kernel.org/linux-mm/6811cc17-8ee4-48c8-8cbf-6bf4d9f98162@kernel.org [1]
+>>> Link: https://lore.kernel.org/linux-mm/40591888-3a87-433e-b3d2-cda1cab543be@kernel.org [2]
+>>> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+>> 
+>> Wonder what produced this weird block of assorted trailers? "b4 prep
+>> --compare-to vX" never did that for me?
+> 
+> Interesting. I checked it again with `b4 prep --compare-to v4`, but the
+> command didn't produce this. Looking at the cover letter
+> `b4 prep --edit-cover` It's not even there.
+> 
+> Probably it was produced during b4 send --no-sign? hmm...
 
-DC_RUN_WITH_PREEMPTION_ENABLED() was added later by
-commit 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Part 1")
-and defined as a plain pass-through in that same branch instead.  A wrap
-placed inside an FPU compilation unit therefore compiles cleanly, reads
-as correct during review, and does nothing at all.
+Hmm let's see if it ever happens again.
 
-This is not hypothetical.  While chasing a "scheduling while atomic"
-splat in dc_create_plane_state() on PREEMPT_RT, an attempt to place the
-guard further up the call chain, in dml21_add_phantom_plane() in
-dc/dml2_0/dml21/dml21_utils.c, had no effect for exactly this reason:
-dc/dml2_0/Makefile applies CC_FLAGS_FPU to every object under that
-directory, and the top level Makefile adds -D_LINUX_FPU_COMPILATION_UNIT
-to CC_FLAGS_FPU.
+>>> ---
+>>> Harry Yoo (Oracle) (8):
+>>>       mm/slab, slub_kunit: register kprobe to trigger _nolock APIs
+>>>       mm/slab: handle the !allow_spin case in kfree_rcu_sheaf()
+>>>       mm/slab: use call_rcu() in unknown context if irqs are enabled
+>>>       mm/slab: extend deferred free mechanism to handle rcu sheaves
+>>>       mm/slab: allow kfree_rcu_sheaf() on PREEMPT_RT
+>>>       mm/slab: introduce struct kvfree_rcu_head for kvfree_rcu batching
+>>>       mm/slab: introduce kfree_rcu_nolock()
+>>>       slub_kunit: extend the test for kfree_rcu_nolock()
+>>>
+>>>  include/linux/rcupdate.h   |  32 ++++++-
+>>>  include/linux/slab.h       |  16 +---
+>>>  include/linux/types.h      |   8 ++
+>>>  include/trace/events/rcu.h |   2 +-
+>>>  lib/tests/slub_kunit.c     | 190 ++++++++++++++++++++++++++++-----------
+>>>  mm/slab.h                  |  52 ++++++++++-
+>>>  mm/slab_common.c           |  81 +++++++++++++----
+>>>  mm/slub.c                  | 220 ++++++++++++++++++++++++++++-----------------
+>>>  8 files changed, 433 insertions(+), 168 deletions(-)
+>> 
+>> Applied to slab/for-7.3/kfree_rcu_nolock and merged go slab/for-next, thanks!
+> 
+> Thanks a lot!
+> 
+>> Used slab/for-next-fixes as a base for a better topic branch indepdencence.
+> 
+> Ah, I see. thanks.
+> 
+> So slab/for-next is not a good base unless it depends too much on
+> existing commits on the branch?
+> 
+> And usually it's better to use the base (slab/for-next-fixes,
+> in this case) of slab/for-next as a base?
 
-Define the macro as BUILD_BUG() there as well, so that the mistake is a
-compile error rather than a guard that silently does nothing.  The code
-argument is kept in the expansion so the BUILD_BUG() failure is not
-accompanied by set-but-unused diagnostics for variables assigned inside
-it.
+Yeah. Hopefully we'll figure out some documented guidelines for this in the
+upcoming mm-next meetings.
 
-No current user is affected.  dc/core/dc_stream.c and
-dc/resource/dcn32/dcn32_resource.c are outside the dml directories, and
-dc/dml2_0/dml2_wrapper.c and dc/dml2_0/dml21/dml21_wrapper.c are built
-without the FPU flags because dc/dml2_0/Makefile replaces their CFLAGS
-with CC_FLAGS_NO_FPU and removes CC_FLAGS_FPU.
-
-Link: https://lore.kernel.org/all/1ead313022bc62dce1f42af9f855727eb9074443.camel@web.de/
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
-
-This is a build-time change, so there is nothing to reproduce at
-runtime.  Verified in both directions on x86_64 with
-CONFIG_DRM_AMD_DC_FP=y, by adding
- 
-	DC_RUN_WITH_PREEMPTION_ENABLED((void)0);
- 
-to dcn10_resource_construct_fp() in dc/dml/dcn10/dcn10_fpu.c, which is
-compiled with CC_FLAGS_FPU and already includes dc_fpu.h.
- 
-Without the patch 'make drivers/gpu/drm/amd/amdgpu/' compiles that file
-and the whole module links, so the guard is silently ineffective.  With
-the patch the build stops there:
- 
-  dcn10_fpu.c: In function 'dcn10_resource_construct_fp':
-  include/linux/compiler_types.h:702:45: error: call to
-    '__compiletime_assert_524' declared with attribute error: BUILD_BUG failed
-  dc_fpu.h:56:17: note: in expansion of macro 'BUILD_BUG'
-  dcn10_fpu.c:129:9: note: in expansion of macro 'DC_RUN_WITH_PREEMPTION_ENABLED'
- 
-No set-but-unused diagnostics accompany it.  Removing the added line
-builds cleanly again.
-
- drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
-index 5e95419d3798..e89b39a4aa83 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
-@@ -51,7 +51,11 @@ void dc_fpu_end(const char *function_name, const int line);
- #else
- #define DC_FP_START()	BUILD_BUG()
- #define DC_FP_END()	BUILD_BUG()
--#define DC_RUN_WITH_PREEMPTION_ENABLED(code) code
-+#define DC_RUN_WITH_PREEMPTION_ENABLED(code) \
-+	do { \
-+		BUILD_BUG(); \
-+		code; \
-+	} while (0)
- #endif // !_LINUX_FPU_COMPILATION_UNIT
- 
- #endif /* __DC_FPU_H__ */
--- 
-2.55.0
+>>> ---
+>>> base-commit: ffc64805cebac330b2a60b2f1f144fcc35b8ab46
+>>> change-id: 20260615-kfree_rcu_nolock-e5502555992f
+>>>
+>>> Best regards,
+> 
 
