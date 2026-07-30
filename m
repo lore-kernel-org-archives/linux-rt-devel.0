@@ -1,153 +1,168 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34653054C7
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 05:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5D33B4E9B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 06:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785387985; cv=none; b=Og+Y6pYBIo//BEDrn+8NXTKjxHz1YT1lUry6DRslkrqm3DJ/PAVNb2jfg5AUt8zoOadEMGZIe7UFwEMVFzmEVck/34WZvELdXbQalcfOu8Md2kbwAGXuV1+dGWOSap/nQ0xB1L39NlNvRzEU1M4EjdcOG5HmV6Yd1S6z7TJvQMw=
+	t=1785394396; cv=none; b=nKv1CeoIx5H5UHArz05BYwcZ041ZmJ/A5RPH/J/oGk9+O7fDOgjDsAnSgbrqc+XNdTrhzFIpTrKRQpUaBdhCPsfUkf+S9AUIW5dDSSFsjQbh3pR5wZMP7WzCbaz6QihCfGBasQo4XA9oj1XrkfSf5m4cbaNYTbh6V3hexYiM/38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785387985; c=relaxed/simple;
-	bh=fQKE96/SnAxUO0ebYseki4+Yyzcp2wI56TzlCDe4lMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oIhJIjl9KJetyf6Ie3hN3V9tpPdY9cuzU+rh1OOT+wIondWP03FW1EqQUvLuZFOQ6qeZOJx+iwfr6aufBj+CIHrV5+oUFJFM9WCkyWLrlnzOcUogro/qZnZrvns2BhZ42viU3LnyWb9UYwN1U8f1nPD8ezY4V0GIEKhSFH7FS4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dcOd/GuH; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785394396; c=relaxed/simple;
+	bh=kyq4Mqzqrl2ra4IUF4UXGWP5uLof/LqbTeeX8rQT3c8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrpaS5tHkQj1wKA7Ku4ph0LaqjWAxoOkrWtla3F6+HzQkVB4IbP90tFvoUD0hD731RktHxgsBU+J5ratk8JPqNiIRmVzyEda0sK9UVwcZhUKwY3aQxBewKIsvYEouuSSlaoyzJanfnmZk6YBeCKai8AhFVO1Mn20KSoApdFIp64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPottEDk; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dcOd/GuH"
-Message-ID: <138ba5ec-41a1-4fe3-851a-51dbb866afae@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785387980;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IiBofKYAg7Kh4AkmGa9AVwK9K17LYRb4NQmrD/NAMlw=;
-	b=dcOd/GuHZl7l9IYP5DODCu+yU3sTN+8c7pIOCddBE0Sw2mliOEDRqLrJT0NV7lLtQszb3Q
-	iAiW4voGpXX353hC9nCjZsxVVhCwfPfccCaNSvnCBJFfDYZr47uJGdBSHsFFZsp8cVyucN
-	z39E/HGJjrP4dzSQ/NPUjsCV86qDdIo=
-Date: Thu, 30 Jul 2026 13:06:08 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPottEDk"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso1877668e87.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Jul 2026 23:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785394389; x=1785999189; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XRuFZ6h1uhegR6Sr4/10z/GSPpr/uGFR1omQDwMWmUQ=;
+        b=UPottEDkf0dcpIt+ntOcJxHpmoBvS/FVcRmpSiQBzlJ46/QnGFZLsR2vcgZCmSho+s
+         ZJTCUVdsxlTW2YW3U4A3LcdeCI0aMcLvwQyvZaaF+/apcmwK52Nv+vHDbNrsCjq10NUj
+         uvCi3OXbpnMP0OfwEdY7uGLmzYQzqUXtmsWcwjGEr3d04fRDFcRQFBL3s2FjncZScE1O
+         INjtbI1UUfULel+t9Um0YbsefnGcmaumzq/rG9sQTrnIJzL7qYS/1nqurqTP80VB4q1W
+         kXixMK9x1cUqHFSZ4W7FrNiMd7oLfDUchXMCSHSlkm3RgY1qCUHjYGhAUTx/OK4sio/R
+         2UlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785394389; x=1785999189;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XRuFZ6h1uhegR6Sr4/10z/GSPpr/uGFR1omQDwMWmUQ=;
+        b=FjOTRCkxZU8SbcPavoCJa/T2kLUhGXD78cjkdUmoqZaCpSqkj+0XGl4ZnWOohs+NR1
+         NW/eP1rqJkxrGSEtZY+5PijyNyEePBGb5Qhy4iL1h9y4OWYwwwDJXv58QFwm5G7l5c9T
+         7b2EFzEgA57SKKzJzBZk1I1GFb1MTl6vq6MuokLq6uEFcuRMDDG5miZmmEDZI6xOEU1W
+         OWFmqSuNghFx0IpnCcDVcxowhVT7muzrHSFfm9LehwFCZqaKRiXbFguIFtd4ecybQjrM
+         XZutu7ZetuqcQAa1BKzXcBF8k5vkZnWjpcpO4Mzj3W4AXZQv6r3TsXB6EXX597sUW1x6
+         VBmQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpsuU6rh+xYLtSxfexxBBirKw7mPqQgL92IgMYTB4YFbioVr/QXHHtVUwN0rIg6E2djayAnNs8tD6Ye9p2dLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx85zOb9jSrb80f9BBnexx2cwG/5qVJHmmcJw9LGGvf+xXe9UHP
+	IyHSUrtJv5dEwGGoUWiu6eoGEfN0DXJ9//l4Lfaxx35GpprH3meFoDwS
+X-Gm-Gg: AR+sD12vSAtCFMUndeNoyEAHANllHmyDKz3OlA++gCc4gmtA2UfC79nwDpSDaRbPLvB
+	kWWPU9uXFGrA6gRkTa+5S8/bnKYYalwALQ/i+diTtFtNTaj8SkNbH2aUDVarSDP5q/QjRGO2vHG
+	x6k3xaR90FAptQr/Ig3P7HR/3FeUpWnnP7LsL39PBYYZlHwdF9WTx0RcEDvfU3PpzitfGtAZJtY
+	SnpWyIHTd0jgETMhwbQ3fnKelNlxVmqp73YzMegeb25UzsdZWVxr2IhphaWpg7Z3K61yB5U0NeO
+	36WB3ygwybUsLTKq/q6dylsuWGCgLM1j2nEJcwWIm1GPwB7xDe7rTDttGApcgCoKbGA87PTKnO/
+	XvguCWO1WxoGiEnKsKpBb+mqkE55DlzPMQUJf4HtTV98CXTLposScVUcL3zFoOnSMMpw4ykDJhq
+	GITK/1X3BWIXF1x0ifpTuLKxTk6sFtUbwf2bjCHZ5+VndoBUFYxoje3Bi6sMmitgeWPRlN+YXgm
+	iGIrlCaQbI=
+X-Received: by 2002:a05:6512:2245:b0:5ae:c239:6a2c with SMTP id 2adb3069b0e04-5b2db380b43mr251021e87.53.1785394388845;
+        Wed, 29 Jul 2026 23:53:08 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f6ac5ea80sm1635701fa.26.2026.07.29.23.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 23:53:07 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: amd-gfx@lists.freedesktop.org
+Cc: Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Rafal Ostrowski <rafal.ostrowski@amd.com>,
+	Dillon Varone <dillon.varone@amd.com>,
+	Bert Karwatzki <spasswolf@web.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH] drm/amd/display: make DC_RUN_WITH_PREEMPTION_ENABLED misuse a build error
+Date: Thu, 30 Jul 2026 11:53:00 +0500
+Message-ID: <20260730065300.2056809-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] hung_task: extend blocking task stacktrace dump to
- rtmutex
-Content-Language: en-US
-To: ruipengqi <ruipengqi3@gmail.com>, peterz@infradead.org
-Cc: mhiramat@kernel.org, pmladek@suse.com, mingo@redhat.com, will@kernel.org,
- boqun@kernel.org, longman@redhat.com, clrkwllms@kernel.org,
- rostedt@goodmis.org, zhouyuhang@kylinos.cn, arnd@arndb.de,
- colin.i.king@gmail.com, ebiggers@kernel.org, inux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, akpm@linux-foundation.org,
- bigeasy@linutronix.de
-References: <cover.1785376929.git.ruipengqi3@gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <cover.1785376929.git.ruipengqi3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Afraid Peter may still strongly object to this whole approach:
+Inside an FPU compilation unit DC_FP_START() and DC_FP_END() are defined
+as BUILD_BUG(), so using them there fails the build.  That was done on
+purpose by
+commit a574f53ed52e ("drm/amd/display: Permit DC_FP_START/END only in non-FP compilation units").
 
-https://lore.kernel.org/lkml/20260325150336.GF3738786@noisy.programming.kicks-ass.net/
+DC_RUN_WITH_PREEMPTION_ENABLED() was added later by
+commit 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Part 1")
+and defined as a plain pass-through in that same branch instead.  A wrap
+placed inside an FPU compilation unit therefore compiles cleanly, reads
+as correct during review, and does nothing at all.
 
-Emm ... did you reach out to Peter privately, hash this out off-list,
-and get his okay to extend it to rtmutex?
+This is not hypothetical.  While chasing a "scheduling while atomic"
+splat in dc_create_plane_state() on PREEMPT_RT, an attempt to place the
+guard further up the call chain, in dml21_add_phantom_plane() in
+dc/dml2_0/dml21/dml21_utils.c, had no effect for exactly this reason:
+dc/dml2_0/Makefile applies CC_FLAGS_FPU to every object under that
+directory, and the top level Makefile adds -D_LINUX_FPU_COMPILATION_UNIT
+to CC_FLAGS_FPU.
 
-Cheers, Lance
+Define the macro as BUILD_BUG() there as well, so that the mistake is a
+compile error rather than a guard that silently does nothing.  The code
+argument is kept in the expansion so the BUILD_BUG() failure is not
+accompanied by set-but-unused diagnostics for variables assigned inside
+it.
 
-On 2026/7/30 10:29, ruipengqi wrote:
-> From: Ruipeng Qi <ruipengqi3@gmail.com>
-> 
-> Currently, debug_show_blocker() only tracks mutex, semaphore and rwsem
-> lock types. Extend it to also cover rtmutex or rt_mutex-based
-> implementations locks on PREEMPT_RT, so that when a task is hung
-> on an rtmutex, the hung task detector can identify and report which
-> task holds the lock.
-> 
-> On 64-bit systems, lock pointers are 8-byte aligned, so their three
-> least significant bits are always zero. Use these bits to encode the
-> blocker type.
-> 
-> Unlike semaphores, rtmutex has built-in owner tracking via lock->owner,
-> so no additional bookkeeping is needed. The owner can be read with
-> rt_mutex_owner().
-> 
-> With this change, the hung task detector can now show blocker task's
-> info like below:
-> 
-> [ 3000.899985] INFO: task cat:195 blocked for more than 120 seconds.
-> [ 3000.900561]       Not tainted 7.2.0-rc4-00366-gf339a6eb59f3-dirty #22
-> [ 3000.900930] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [ 3000.901376] task:cat             state:D stack:13784 pid:195   tgid:195   ppid:1      task_flags:0x400000 flags:0x00080000
-> [ 3000.902081] Call Trace:
-> [ 3000.902233]  <TASK>
-> [ 3000.902383]  __schedule+0x514/0xf50
-> [ 3000.902677]  rt_mutex_schedule+0x1b/0x30
-> [ 3000.902916]  rt_mutex_slowlock_block.constprop.0+0x3b/0x1c0
-> [ 3000.903242]  __rt_mutex_slowlock_locked.constprop.0+0xa8/0x200
-> [ 3000.903716]  rt_mutex_slowlock.constprop.0+0x48/0xb0
-> [ 3000.904023]  rt_mutex_lock+0x32/0x40
-> [ 3000.904249]  read_dummy_rtmutex+0x2a/0x60 [hung_task_tests]
-> [ 3000.904647]  full_proxy_read+0x5b/0x90
-> [ 3000.904843]  vfs_read+0xb0/0x370
-> [ 3000.905051]  ? vm_mmap_pgoff+0xf1/0x1b0
-> [ 3000.905293]  ? vm_mmap_pgoff+0x122/0x1b0
-> [ 3000.905684]  ksys_read+0x68/0xe0
-> [ 3000.905980]  do_syscall_64+0xf9/0x540
-> [ 3000.906213]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [ 3000.906643] RIP: 0033:0x49a182
-> [ 3000.906844] RSP: 002b:00007ffc431f6528 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> [ 3000.907251] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
-> [ 3000.907673] RDX: 0000000000010000 RSI: 00007f69b2166000 RDI: 0000000000000003
-> [ 3000.908044] RBP: 00007f69b2166000 R08: 00000000ffffffff R09: 0000000000000000
-> [ 3000.908485] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
-> [ 3000.908816] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
-> [ 3000.909206]  </TASK>
-> [ 3000.909351] INFO: task cat:195 is blocked on a rtmutex likely owned by task cat:194.
-> [ 3000.909832] task:cat             state:S stack:13784 pid:194   tgid:194   ppid:1      task_flags:0x400000 flags:0x00080000
-> [ 3000.910426] Call Trace:
-> [ 3000.910618]  <TASK>
-> [ 3000.910727]  __schedule+0x514/0xf50
-> [ 3000.910912]  schedule+0x22/0xa0
-> [ 3000.911064]  schedule_timeout+0x81/0x100
-> [ 3000.911254]  ? __pfx_process_timeout+0x10/0x10
-> [ 3000.911522]  msleep_interruptible+0x28/0x50
-> [ 3000.911754]  read_dummy_rtmutex+0x34/0x60 [hung_task_tests]
-> [ 3000.912019]  full_proxy_read+0x5b/0x90
-> [ 3000.912212]  vfs_read+0xb0/0x370
-> [ 3000.912378]  ? vm_mmap_pgoff+0xf1/0x1b0
-> [ 3000.912630]  ? vm_mmap_pgoff+0x122/0x1b0
-> [ 3000.912839]  ksys_read+0x68/0xe0
-> [ 3000.913007]  do_syscall_64+0xf9/0x540
-> [ 3000.913187]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [ 3000.913461] RIP: 0033:0x49a182
-> [ 3000.913618] RSP: 002b:00007ffd0b4cf048 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> [ 3000.913972] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
-> [ 3000.914294] RDX: 0000000000010000 RSI: 00007fbf49a0d000 RDI: 0000000000000003
-> [ 3000.914648] RBP: 00007fbf49a0d000 R08: 00000000ffffffff R09: 0000000000000000
-> [ 3000.914955] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
-> [ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
-> [ 3000.915439]  </TASK>
-> 
-> Ruipeng Qi (2):
->    hung_task: show the blocker task if the task is hung on rtmutex
->    samples: enhance hung_task detector test with rtmutex support
-> 
->   include/linux/hung_task.h           | 31 +++++++++++++-----
->   kernel/hung_task.c                  | 22 +++++++++++++
->   kernel/locking/mutex.c              |  4 +--
->   kernel/locking/rtmutex.c            | 13 ++++++++
->   kernel/locking/rwsem.c              |  8 ++---
->   kernel/locking/semaphore.c          |  4 +--
->   lib/Kconfig.debug                   |  1 -
->   samples/Kconfig                     |  2 +-
->   samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
->   9 files changed, 113 insertions(+), 22 deletions(-)
-> 
+No current user is affected.  dc/core/dc_stream.c and
+dc/resource/dcn32/dcn32_resource.c are outside the dml directories, and
+dc/dml2_0/dml2_wrapper.c and dc/dml2_0/dml21/dml21_wrapper.c are built
+without the FPU flags because dc/dml2_0/Makefile replaces their CFLAGS
+with CC_FLAGS_NO_FPU and removes CC_FLAGS_FPU.
+
+Link: https://lore.kernel.org/all/1ead313022bc62dce1f42af9f855727eb9074443.camel@web.de/
+Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+---
+
+This is a build-time change, so there is nothing to reproduce at
+runtime.  Verified in both directions on x86_64 with
+CONFIG_DRM_AMD_DC_FP=y, by adding
+ 
+	DC_RUN_WITH_PREEMPTION_ENABLED((void)0);
+ 
+to dcn10_resource_construct_fp() in dc/dml/dcn10/dcn10_fpu.c, which is
+compiled with CC_FLAGS_FPU and already includes dc_fpu.h.
+ 
+Without the patch 'make drivers/gpu/drm/amd/amdgpu/' compiles that file
+and the whole module links, so the guard is silently ineffective.  With
+the patch the build stops there:
+ 
+  dcn10_fpu.c: In function 'dcn10_resource_construct_fp':
+  include/linux/compiler_types.h:702:45: error: call to
+    '__compiletime_assert_524' declared with attribute error: BUILD_BUG failed
+  dc_fpu.h:56:17: note: in expansion of macro 'BUILD_BUG'
+  dcn10_fpu.c:129:9: note: in expansion of macro 'DC_RUN_WITH_PREEMPTION_ENABLED'
+ 
+No set-but-unused diagnostics accompany it.  Removing the added line
+builds cleanly again.
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
+index 5e95419d3798..e89b39a4aa83 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
+@@ -51,7 +51,11 @@ void dc_fpu_end(const char *function_name, const int line);
+ #else
+ #define DC_FP_START()	BUILD_BUG()
+ #define DC_FP_END()	BUILD_BUG()
+-#define DC_RUN_WITH_PREEMPTION_ENABLED(code) code
++#define DC_RUN_WITH_PREEMPTION_ENABLED(code) \
++	do { \
++		BUILD_BUG(); \
++		code; \
++	} while (0)
+ #endif // !_LINUX_FPU_COMPILATION_UNIT
+ 
+ #endif /* __DC_FPU_H__ */
+-- 
+2.55.0
 
