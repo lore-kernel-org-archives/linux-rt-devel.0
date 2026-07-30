@@ -1,134 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F4934EEF3
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 01:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA79C218EBA;
+	Thu, 30 Jul 2026 01:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785374070; cv=none; b=GB8GMUprJI61Vb3GdQF+0TNM52IqP9vTwJ1ydDUMnGvcm/ZenvAaWt8PHS25EwtF8C/01s4j92xPN7gcWQxEtVVojHxJajumMwwfZEetdfW59AiFsnSP1FlZYPvr7+zSc9AX+m2VneLKu0gF4Lf/+xplG3gPxh5sAk7/0c2oqQg=
+	t=1785374486; cv=none; b=C/QThtLh6YX1BbIUGnxe1zO1yU9lGlJ7vUJoBWiBulDW5LstjPk2xwJy/LmVCZxqFZZqmme4ZzqWzTMcBtG+d7HgK+lE8MRO0WS5r+bZ/fZ/uXBrnAG+o+NaoMAJCfYsJBfCcayVFLLGKhvgJwgiKMJPyQtLiiO7HxZjRakYc/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785374070; c=relaxed/simple;
-	bh=Q8LqcvCRulwlmm/Efnm76HOirpHJ/zu+2osri09jxeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=frSCXt1Y7pF16CIc18c6RLn3cgt7fbx1xo7XyEPYbGUQVOm9M/atyeeG2BtEaGBvnS1tTU73pVDL79PI5ATNZPBrb71DkoCanC/9vqtsm3Rf58ZvDh3u/s2W/E1VHN12xVz4zMaA9/ndiF5LbX0dVtd8Rm/h0g2xobAZIDHUERo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X7qZKe9v; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785374486; c=relaxed/simple;
+	bh=DUK0UwcNVuKBCBMcOxWdATBO7j/tUEb/UmSGC6Wa5g0=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ohcw0DltBu9b9KLO0IdvWnVrccbaGlG+Fg0kA6mmGi8gtD/9z84IeDwOdq0uU0Z2E3g0kHxtZ/yVXEcVnet6/AH4cM6nLAqibhLo2DKy5VTuC1SSaTAUaE9iBozc/lzfNIVMEss4Ntgs39eR0YYF42FDPl9bLOdg6uB9oG9qSro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMjEMYjJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X7qZKe9v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785374068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oep9GUzmGHr26u2If40/oW9YH4ApgXIqp1l7c/0lb/w=;
-	b=X7qZKe9vCvVLzBl4dkdGtP7hW2kj4Ga2VoilCro+kQjHmJHLtRmiotqN2KyjcS8rbx10gg
-	TrAZBgyoLW7QVX/I7QmnLA707sgnpKCJ9Dx2wyQZI4Rat8hzJHo/SWXNJJOGcFFxy0AWmv
-	diIc4mMpUJdOt3XIDkG1ErXNNUCVFJ0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-_2QrTJkqNL6GEL1URfKMOw-1; Wed,
- 29 Jul 2026 21:14:24 -0400
-X-MC-Unique: _2QrTJkqNL6GEL1URfKMOw-1
-X-Mimecast-MFC-AGG-ID: _2QrTJkqNL6GEL1URfKMOw_1785374061
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B967119560A2;
-	Thu, 30 Jul 2026 01:14:19 +0000 (UTC)
-Received: from localhost (unknown [10.22.81.218])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CB8531956094;
-	Thu, 30 Jul 2026 01:14:15 +0000 (UTC)
-Date: Wed, 29 Jul 2026 22:14:14 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Waiman Long <longman@redhat.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Ada Couprie Diaz <ada.coupriediaz@arm.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ian Rogers <irogers@google.com>, Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@linaro.org>, Jiri Olsa <jolsa@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Russell King <linux@armlinux.org.uk>,
-	WANG Xuerui <kernel@xen0n.name>, linux-perf-users@vger.kernel.org,
-	loongarch@lists.linux.dev
-Subject: Re: [RFC PATCH] ARM, ARM64, LOONGARCH: Delay HW BP notification to
- task_work()
-Message-ID: <amqlZiO8rxu_k08L@redhat.com>
-References: <20260713144939.FuCj9yvZ@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMjEMYjJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA611F000E9;
+	Thu, 30 Jul 2026 01:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785374485;
+	bh=jJyM8N9kzgk5ZMXiqN8Cye3jqpyx4bZfxgvimKcN7I4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SMjEMYjJAw5XQnJktMZk6ykOxXcru8S5fKi17elYPYT54sp/ZV5h4insyLK+cOppK
+	 0ks/NTnUpnMd+PsYBsS/XjR+hCc50UpyMsmlNZtUwK2He/kaBfPhtCl4HXfnDLag0X
+	 ryT9GXSOQDHX5g2EHt/H3lFUUnUyWXFBG/vH12pm9oYWdA458ecBCjV43tvlKzfOED
+	 U6Ed/cPV175khCKIYrfYmYEGZOl4u59yo8mNbtNSU78ZOXOm+QpPKM7MhXLPRUaLaC
+	 klmBMqNKbp2X4mPIcIgWgZ7Mp7xSs4gpJJGzAzCvlvZYvXT6l+gKymYKIoXibie/ZN
+	 +OirdOxd5WfLg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 8/8] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Drew Fustini" <fustini@kernel.org>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-rt-devel@lists.linux.dev, robh@kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-8-7c22b05d461b@kernel.org>
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+ <20260729-dfustini-atl-sc-cbqri-dt-v6-8-7c22b05d461b@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Jul 2026 01:21:24 +0000
+Message-Id: <20260730012125.2DA611F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <20260713144939.FuCj9yvZ@linutronix.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: dGGAvVHFrLI-VkRl5esEqOFjFc6vfKfNjL4w2wi8ysk_1785374061
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Jul 13, 2026 at 04:49:39PM +0200, Sebastian Andrzej Siewior wrote:
-> Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
-> "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
-> delivered with disabled interrupts and perf intrastrucure expects
-> disabled interrupts while the overflow callback is invoked.
-> 
-> The callback then sends a SIGTRAP signal for which it acquires
-> sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
-> must not be acquired in atomic context.
-> 
-> Delay the event callback until the return to userland.
-> Add perf_arch_hwbp_notify(), a generic perf callback which delayes the
-> actual callback invocation to task_work_add() callback. This callback
-> invokes the architecture defines callback arch_hwbp_send_sig().
-> This requires struct callback_head and the functions require
-> ARCH_NEED_PERF_HW_NOTIF to be defined.
-> 
-> This was reported against ARM64. ARM and LongARCH follow the same
-> pattern are also converted.
-> 
-> Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> Reported-by: Waiman Long <longman@redhat.com>
-> Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
-> 
-> This is approximately the fifth iteration at which point I think I can
-> share what I have.
-> 
-> Could this be tested, please? I tested it on arm64 for arm64 based on
-> Luis' test. ARM compiles my HW lacks support for this I think (gdb
-> aborts early). I hope the best for LoongARCH.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The probe function unconditionally fails if the `riscv,cbqri-rci=
+d` device tree property is missing, which breaks support for monitoring-onl=
+y capacity controllers.
+--
 
-I tested your patch on baremetal (3 different aarch64 machines) and 3
-different Virtual Machines. Apart from the one VM that didn't provide the
-HW breakpoints the test used, I was able to reproduce the problem with
-v7.2-rc5-rt3 and earlier kernels in all the other setups. Applying your
-patch eliminated the backtraces. I ran several batches of 2000 and 10000
-executions in a row of the gdb test from the original thread without a
-glitch.
+--- Patch [8]: [PATCH v6 8/8] riscv_cbqri: Add CBQRI capacity allocation pl=
+atform driver ---
+commit 954af62b51bb07d376a8671fb6db032a2ae482bc
+Author: Drew Fustini <fustini@kernel.org>
 
-Having DEBUG_ATOMIC_SLEEP enabled in the kernel (along with PREEMPT_RT)
-was all I needed to reproduce the problem with the unpatched kernel. After
-I applied the patch I run tests with and without lockdep. No backtrace,
-no complaints.
+riscv_cbqri: Add CBQRI capacity allocation platform driver
 
-I started working on trying to reproduce the (possible) problem Sashiko
-highlighted, but so far, no luck in reproducing that specific scenario.
+This commit adds a device-tree platform driver for the RISC-V CBQRI capacity
+controller. It binds to the "riscv,cbqri-capacity-controller" compatible,
+determines the cache domain, and registers the controller with the resctrl
+framework.
 
-Best regards,
-Luis
+> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_cap=
+acity.c
+> new file mode 100644
+> index 0000000000000..0670a676bdb1f
+> --- /dev/null
+> +++ b/drivers/resctrl/cbqri_capacity.c
+[ ... ]
+> +static int cbqri_capacity_probe(struct platform_device *pdev)
+> +{
+[ ... ]
+> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res)
+> +		return -EINVAL;
+> +
+> +	ret =3D of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_co=
+unt);
+> +	if (ret) {
+> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
+> +		return ret;
+> +	}
 
+[Severity: Medium]
+Will this unconditionally failing check prevent monitoring-only controllers
+from probing?
+
+The core registration logic in riscv_cbqri_register_cc_dt() indicates that
+monitoring-only controllers do not need an RCID count.
+
+However, by returning an error when the riscv,cbqri-rcid property is absent,
+the driver appears to reject valid monitoring-only controllers before they
+can be registered.
+
+Would it be better to treat this property as optional and default rcid_count
+to 0 if it is missing?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260729-dfustini-a=
+tl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org?part=3D8
