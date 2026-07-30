@@ -1,155 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87E3367F2F;
-	Thu, 30 Jul 2026 03:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34653054C7
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 05:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785380933; cv=none; b=Z6qiImiM3/IxMNlA5FDoWcndwN0G8v27joahHyIwa3YTlSaED2ZkQchi7QTiE+zOG2eB3VvdS+6dZKLeTpx9aPQ4D2mD1S+sWG5/wzHYPjnkTQe1tZXKXqdSv2pAYMOTdnYSR9CX1GPU0tYhTM0BySKvuNrzU+XqpqNeE0SLbhA=
+	t=1785387985; cv=none; b=Og+Y6pYBIo//BEDrn+8NXTKjxHz1YT1lUry6DRslkrqm3DJ/PAVNb2jfg5AUt8zoOadEMGZIe7UFwEMVFzmEVck/34WZvELdXbQalcfOu8Md2kbwAGXuV1+dGWOSap/nQ0xB1L39NlNvRzEU1M4EjdcOG5HmV6Yd1S6z7TJvQMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785380933; c=relaxed/simple;
-	bh=RXUJcPQ0nd7RDchKXPgt+jkCnXJ1MtGPAWTqSFTEyXE=;
+	s=arc-20240116; t=1785387985; c=relaxed/simple;
+	bh=fQKE96/SnAxUO0ebYseki4+Yyzcp2wI56TzlCDe4lMI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BdV2d1aXzewQ2hiiaO7JvVIK9y0WFx0UwzZ7tcMVMuHuacUKMojpw2+Z1HEww1vpf3+F886C7Lh5ubx0i5NweAcfpRXkyB9cbWb0gd8vR7pMwCQcMAkoN6SqUIL9x2vCjUVY4sXPsFFKCdLBYTrGdZl8m4IDnoaimzRKAjHlV3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fkb51iDq; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=oIhJIjl9KJetyf6Ie3hN3V9tpPdY9cuzU+rh1OOT+wIondWP03FW1EqQUvLuZFOQ6qeZOJx+iwfr6aufBj+CIHrV5+oUFJFM9WCkyWLrlnzOcUogro/qZnZrvns2BhZ42viU3LnyWb9UYwN1U8f1nPD8ezY4V0GIEKhSFH7FS4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dcOd/GuH; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fkb51iDq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B9F1F000E9;
-	Thu, 30 Jul 2026 03:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785380931;
-	bh=JFYplbxEhQ00hEvZ5hng6YDKKuCP2Lh5XB9nlXgKZ7o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Fkb51iDqkqLHhVoJ5kwF3219gubEw0+gbN9PTrmEy6rMkapWH7oDh37pFO+af77/p
-	 kahJV9sx2eIC5HeZEEK5a4hik06jV5Zj94qDu1RFbxTuppTEsUCTMQco42MDHgMdnn
-	 4B5D1ck16rJRGRY8IfDwuJwucgu6QHd0hpvL1J3gEXQ1MmVC7ufOXWqkqyu1ph7nZ8
-	 tjhCBvGb8Ow0Zy8k5pqlD5tmdBpqIjJZX4uOT8jHL61KSaS3rYAcz1sDDv1N14ff0T
-	 85D3zm7H5b/fEVJBzh3I8jE7+3KKEuFiUGgOScu24FS2KR4fTV0BwKMeqOlHT0qAM7
-	 tD7nZxZ/SveFA==
-Message-ID: <f97853e9-3021-4f20-81d3-4bb710ca444a@kernel.org>
-Date: Thu, 30 Jul 2026 12:08:44 +0900
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dcOd/GuH"
+Message-ID: <138ba5ec-41a1-4fe3-851a-51dbb866afae@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785387980;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IiBofKYAg7Kh4AkmGa9AVwK9K17LYRb4NQmrD/NAMlw=;
+	b=dcOd/GuHZl7l9IYP5DODCu+yU3sTN+8c7pIOCddBE0Sw2mliOEDRqLrJT0NV7lLtQszb3Q
+	iAiW4voGpXX353hC9nCjZsxVVhCwfPfccCaNSvnCBJFfDYZr47uJGdBSHsFFZsp8cVyucN
+	z39E/HGJjrP4dzSQ/NPUjsCV86qDdIo=
+Date: Thu, 30 Jul 2026 13:06:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/8] mm/slab: introduce kfree_rcu_nolock() and improve
- slub_kunit coverage
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>,
- Shengming Hu <hu.shengming@zte.com.cn>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260729-kfree_rcu_nolock-v5-0-a28cdcda9673@kernel.org>
- <5342124c-4847-4e93-92a4-f3512928c4d1@kernel.org>
+Subject: Re: [PATCH 0/2] hung_task: extend blocking task stacktrace dump to
+ rtmutex
 Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <5342124c-4847-4e93-92a4-f3512928c4d1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: ruipengqi <ruipengqi3@gmail.com>, peterz@infradead.org
+Cc: mhiramat@kernel.org, pmladek@suse.com, mingo@redhat.com, will@kernel.org,
+ boqun@kernel.org, longman@redhat.com, clrkwllms@kernel.org,
+ rostedt@goodmis.org, zhouyuhang@kylinos.cn, arnd@arndb.de,
+ colin.i.king@gmail.com, ebiggers@kernel.org, inux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, akpm@linux-foundation.org,
+ bigeasy@linutronix.de
+References: <cover.1785376929.git.ruipengqi3@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <cover.1785376929.git.ruipengqi3@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
+Afraid Peter may still strongly object to this whole approach:
 
+https://lore.kernel.org/lkml/20260325150336.GF3738786@noisy.programming.kicks-ass.net/
 
-On 7/29/26 11:14 PM, Vlastimil Babka (SUSE) wrote:
-> On 7/29/26 10:20, Harry Yoo (Oracle) wrote:
+Emm ... did you reach out to Peter privately, hash this out off-list,
+and get his okay to extend it to rtmutex?
+
+Cheers, Lance
+
+On 2026/7/30 10:29, ruipengqi wrote:
+> From: Ruipeng Qi <ruipengqi3@gmail.com>
 > 
-> ...
+> Currently, debug_show_blocker() only tracks mutex, semaphore and rwsem
+> lock types. Extend it to also cover rtmutex or rt_mutex-based
+> implementations locks on PREEMPT_RT, so that when a task is hung
+> on an rtmutex, the hung task detector can identify and report which
+> task holds the lock.
 > 
->> 8:  8e69c83a1e52 ! 8:  aeaf2ab60046 slub_kunit: extend the test for kfree_rcu_nolock()
->>     @@ lib/tests/slub_kunit.c: struct test_nolock_context {
->>      -			gfp_t gfp = (i % 2) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
->>      +			gfp_t gfp = (i & 1) ? GFP_KERNEL : GFP_KERNEL_ACCOUNT;
->>       
->>     - 			objects[j] = kmalloc_obj(*objects[j], gfp);
->>     +-			objects[j] = kmalloc(64, gfp);
->>     ++			objects[j] = kmalloc_obj(*objects[j], gfp);
->>       			if (!objects[j]) {
->>     + 				j--;
->>     + 				while (j >= 0)
->>      @@ lib/tests/slub_kunit.c: static void test_kmalloc_kfree(void)
->>       			}
->>       		}
->>
->> Link: https://lore.kernel.org/linux-mm/20260427-nolock-api-fix-v2-0-a6b83a92d9a4@kernel.org [1]
->> Link: https://lore.kernel.org/linux-mm/6edebc2b-5f5a-4b9c-9a4c-564310acee1b@kernel.org  [2]
->> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
->> Link: https://lore.kernel.org/linux-mm/872bd673-3d45-4111-8a41-31185db3ece5@kernel.org
->> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
->> Link: https://lore.kernel.org/linux-mm/6811cc17-8ee4-48c8-8cbf-6bf4d9f98162@kernel.org [1]
->> Link: https://lore.kernel.org/linux-mm/40591888-3a87-433e-b3d2-cda1cab543be@kernel.org [2]
->> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
->> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
->> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+> On 64-bit systems, lock pointers are 8-byte aligned, so their three
+> least significant bits are always zero. Use these bits to encode the
+> blocker type.
 > 
-> Wonder what produced this weird block of assorted trailers? "b4 prep
-> --compare-to vX" never did that for me?
-
-Interesting. I checked it again with `b4 prep --compare-to v4`, but the
-command didn't produce this. Looking at the cover letter
-`b4 prep --edit-cover` It's not even there.
-
-Probably it was produced during b4 send --no-sign? hmm...
-
->> ---
->> Harry Yoo (Oracle) (8):
->>       mm/slab, slub_kunit: register kprobe to trigger _nolock APIs
->>       mm/slab: handle the !allow_spin case in kfree_rcu_sheaf()
->>       mm/slab: use call_rcu() in unknown context if irqs are enabled
->>       mm/slab: extend deferred free mechanism to handle rcu sheaves
->>       mm/slab: allow kfree_rcu_sheaf() on PREEMPT_RT
->>       mm/slab: introduce struct kvfree_rcu_head for kvfree_rcu batching
->>       mm/slab: introduce kfree_rcu_nolock()
->>       slub_kunit: extend the test for kfree_rcu_nolock()
->>
->>  include/linux/rcupdate.h   |  32 ++++++-
->>  include/linux/slab.h       |  16 +---
->>  include/linux/types.h      |   8 ++
->>  include/trace/events/rcu.h |   2 +-
->>  lib/tests/slub_kunit.c     | 190 ++++++++++++++++++++++++++++-----------
->>  mm/slab.h                  |  52 ++++++++++-
->>  mm/slab_common.c           |  81 +++++++++++++----
->>  mm/slub.c                  | 220 ++++++++++++++++++++++++++++-----------------
->>  8 files changed, 433 insertions(+), 168 deletions(-)
+> Unlike semaphores, rtmutex has built-in owner tracking via lock->owner,
+> so no additional bookkeeping is needed. The owner can be read with
+> rt_mutex_owner().
 > 
-> Applied to slab/for-7.3/kfree_rcu_nolock and merged go slab/for-next, thanks!
+> With this change, the hung task detector can now show blocker task's
+> info like below:
+> 
+> [ 3000.899985] INFO: task cat:195 blocked for more than 120 seconds.
+> [ 3000.900561]       Not tainted 7.2.0-rc4-00366-gf339a6eb59f3-dirty #22
+> [ 3000.900930] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [ 3000.901376] task:cat             state:D stack:13784 pid:195   tgid:195   ppid:1      task_flags:0x400000 flags:0x00080000
+> [ 3000.902081] Call Trace:
+> [ 3000.902233]  <TASK>
+> [ 3000.902383]  __schedule+0x514/0xf50
+> [ 3000.902677]  rt_mutex_schedule+0x1b/0x30
+> [ 3000.902916]  rt_mutex_slowlock_block.constprop.0+0x3b/0x1c0
+> [ 3000.903242]  __rt_mutex_slowlock_locked.constprop.0+0xa8/0x200
+> [ 3000.903716]  rt_mutex_slowlock.constprop.0+0x48/0xb0
+> [ 3000.904023]  rt_mutex_lock+0x32/0x40
+> [ 3000.904249]  read_dummy_rtmutex+0x2a/0x60 [hung_task_tests]
+> [ 3000.904647]  full_proxy_read+0x5b/0x90
+> [ 3000.904843]  vfs_read+0xb0/0x370
+> [ 3000.905051]  ? vm_mmap_pgoff+0xf1/0x1b0
+> [ 3000.905293]  ? vm_mmap_pgoff+0x122/0x1b0
+> [ 3000.905684]  ksys_read+0x68/0xe0
+> [ 3000.905980]  do_syscall_64+0xf9/0x540
+> [ 3000.906213]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [ 3000.906643] RIP: 0033:0x49a182
+> [ 3000.906844] RSP: 002b:00007ffc431f6528 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+> [ 3000.907251] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
+> [ 3000.907673] RDX: 0000000000010000 RSI: 00007f69b2166000 RDI: 0000000000000003
+> [ 3000.908044] RBP: 00007f69b2166000 R08: 00000000ffffffff R09: 0000000000000000
+> [ 3000.908485] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
+> [ 3000.908816] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
+> [ 3000.909206]  </TASK>
+> [ 3000.909351] INFO: task cat:195 is blocked on a rtmutex likely owned by task cat:194.
+> [ 3000.909832] task:cat             state:S stack:13784 pid:194   tgid:194   ppid:1      task_flags:0x400000 flags:0x00080000
+> [ 3000.910426] Call Trace:
+> [ 3000.910618]  <TASK>
+> [ 3000.910727]  __schedule+0x514/0xf50
+> [ 3000.910912]  schedule+0x22/0xa0
+> [ 3000.911064]  schedule_timeout+0x81/0x100
+> [ 3000.911254]  ? __pfx_process_timeout+0x10/0x10
+> [ 3000.911522]  msleep_interruptible+0x28/0x50
+> [ 3000.911754]  read_dummy_rtmutex+0x34/0x60 [hung_task_tests]
+> [ 3000.912019]  full_proxy_read+0x5b/0x90
+> [ 3000.912212]  vfs_read+0xb0/0x370
+> [ 3000.912378]  ? vm_mmap_pgoff+0xf1/0x1b0
+> [ 3000.912630]  ? vm_mmap_pgoff+0x122/0x1b0
+> [ 3000.912839]  ksys_read+0x68/0xe0
+> [ 3000.913007]  do_syscall_64+0xf9/0x540
+> [ 3000.913187]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [ 3000.913461] RIP: 0033:0x49a182
+> [ 3000.913618] RSP: 002b:00007ffd0b4cf048 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+> [ 3000.913972] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
+> [ 3000.914294] RDX: 0000000000010000 RSI: 00007fbf49a0d000 RDI: 0000000000000003
+> [ 3000.914648] RBP: 00007fbf49a0d000 R08: 00000000ffffffff R09: 0000000000000000
+> [ 3000.914955] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
+> [ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
+> [ 3000.915439]  </TASK>
+> 
+> Ruipeng Qi (2):
+>    hung_task: show the blocker task if the task is hung on rtmutex
+>    samples: enhance hung_task detector test with rtmutex support
+> 
+>   include/linux/hung_task.h           | 31 +++++++++++++-----
+>   kernel/hung_task.c                  | 22 +++++++++++++
+>   kernel/locking/mutex.c              |  4 +--
+>   kernel/locking/rtmutex.c            | 13 ++++++++
+>   kernel/locking/rwsem.c              |  8 ++---
+>   kernel/locking/semaphore.c          |  4 +--
+>   lib/Kconfig.debug                   |  1 -
+>   samples/Kconfig                     |  2 +-
+>   samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
+>   9 files changed, 113 insertions(+), 22 deletions(-)
+> 
 
-Thanks a lot!
-
-> Used slab/for-next-fixes as a base for a better topic branch indepdencence.
-
-Ah, I see. thanks.
-
-So slab/for-next is not a good base unless it depends too much on
-existing commits on the branch?
-
-And usually it's better to use the base (slab/for-next-fixes,
-in this case) of slab/for-next as a base?
-
->> ---
->> base-commit: ffc64805cebac330b2a60b2f1f144fcc35b8ab46
->> change-id: 20260615-kfree_rcu_nolock-e5502555992f
->>
->> Best regards,
-
--- 
-Cheers,
-Harry / Hyeonggon
