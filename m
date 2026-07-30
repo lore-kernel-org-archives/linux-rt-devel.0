@@ -1,38 +1,38 @@
 Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885A5407582
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 11:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A41411665
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Jul 2026 11:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785409836; cv=none; b=LJjcapxl2UYPmjmLePZi4GgFAIVSxT+lNZDTRigcHRgu/4m4D/FuPdSHwyLe5tRJXnZOZolQFTwNr4sIyPLjKnUr9nsBtN2HxQucV5tVQy5mmtWpso0E0dlkGfbnx0Cgl5Qgeocv35NvN1EiuzojjqNBhMaxim0o7RTFvgZZW4U=
+	t=1785410490; cv=none; b=BaWCnU5r4l3LR3UffzszJ5sGhdD3JW45WpA5rKurRpkt6A9Kxcygz0Yju5Qy7ejapZ6mupLne/q+NusLHY1InFp+dsBNWwbNXEl73j9ONpFpCEjpgAGbuH5MNUlv5SdE8JyJPIrZGDtEQHyWy6waKU9bnTyi0/7Xj3w2BI02vG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785409836; c=relaxed/simple;
-	bh=lNA5KQvHQyVffTClbuD5Vllw3vyTiDZXg183QcA+3b0=;
+	s=arc-20240116; t=1785410490; c=relaxed/simple;
+	bh=ZUiDRzRwPx3KGgaI1/GWF2qfluYCznYBJnvDMqpl78E=;
 	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=DEdO1KIiNFJElpQQKbNP1HuzTzxII926Gif2Qo4pgWty5a6XEh7O+QdhTLZMcGUho2Ycvg71D860sRutKnaYX3e3J1dcUMJj15uRXjLwhAhRUSFfB3Rrk+uXrlzPhKpFuGFizCGzBRcDAnHWQssUm/I8OGeXL4RYQkmmQJrhO6c=
+	 Subject:Content-Type; b=uPjEe795KESy8RPccnuUC9dIIs9SwCjv3HdtCXOdKCsbTz8t/0vRuNNFkrygfwSwUQAxcJVf7TjZED7kCCQeETkKmgBuAvZUo67qMz2KVxMk+wOiNuEA/9FlRXvRI3OfdnBxMIX9+Pa8BwHvDiMWQ6p8+WN7CjK/NZb2kVWDpPU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h9mhN3BGgz8XrrJ;
-	Thu, 30 Jul 2026 19:10:28 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 66UBAIxs066128;
-	Thu, 30 Jul 2026 19:10:18 +0800 (+08)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h9mx11HjMz8XrrM;
+	Thu, 30 Jul 2026 19:21:25 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 66UBLG7H073757;
+	Thu, 30 Jul 2026 19:21:16 +0800 (+08)
 	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp04[null])
+Received: from mapi (xaxapp05[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Thu, 30 Jul 2026 19:10:20 +0800 (CST)
-X-Zmail-TransId: 2afb6a6b311cd3c-c8b39
+	Thu, 30 Jul 2026 19:21:19 +0800 (CST)
+X-Zmail-TransId: 2afc6a6b33af5fd-db3e7
 X-Mailer: Zmail v1.0
-Message-ID: <20260730191020843srkTQnCknZzmYHU694CZi@zte.com.cn>
-In-Reply-To: <20260729-kfree_rcu_nolock-v5-2-a28cdcda9673@kernel.org>
-References: 20260729-kfree_rcu_nolock-v5-0-a28cdcda9673@kernel.org,20260729-kfree_rcu_nolock-v5-2-a28cdcda9673@kernel.org
-Date: Thu, 30 Jul 2026 19:10:20 +0800 (CST)
+Message-ID: <20260730192119586UvhYMv4xrNqaZLKIJH9X0@zte.com.cn>
+In-Reply-To: <20260729-kfree_rcu_nolock-v5-3-a28cdcda9673@kernel.org>
+References: 20260729-kfree_rcu_nolock-v5-0-a28cdcda9673@kernel.org,20260729-kfree_rcu_nolock-v5-3-a28cdcda9673@kernel.org
+Date: Thu, 30 Jul 2026 19:21:19 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -53,42 +53,59 @@ Cc: <vbabka@kernel.org>, <akpm@linux-foundation.org>, <hao.li@linux.dev>,
         <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
         <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
         <bpf@vger.kernel.org>, <harry@kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NSAyLzhdIG1tL3NsYWI6IGhhbmRsZSB0aGUgIWFsbG93X3NwaW4gY2FzZSBpbiBrZnJlZV9yY3Vfc2hlYWYoKQ==?=
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NSAzLzhdIG1tL3NsYWI6IHVzZSBjYWxsX3JjdSgpIGluIHVua25vd24gY29udGV4dCBpZiBpcnFzIGFyZSBlbmFibGVk?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 66UBAIxs066128
+X-MAIL:mse-fl1.zte.com.cn 66UBLG7H073757
 X-TLS: YES
 X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 30 Jul 2026 19:10:28 +0800
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 30 Jul 2026 19:21:25 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A6B3124.000/4h9mhN3BGgz8XrrJ
+X-Fangmail-MID-QID: 6A6B33B5.000/4h9mx11HjMz8XrrM
 
 Harry wrote:
-> Teach kfree_rcu_sheaf() how to handle the !allow_spin case. Try to get
-> an empty sheaf from pcs->spare or the barn even when spinning is not
-> allowed. Unlike __pcs_replace_full_main(), try harder to allocate
-> an empty sheaf because the fallback path will be more expensive than
-> kfree_nolock().
+> call_rcu() disables IRQs with local_irq_save() to protect its per-cpu
+> data structures. Therefore, if IRQs are not disabled, they cannot be
+> corrupted by reentrance into call_rcu(). So fall back to the deferred
+> path only when !allow_spin && irqs_disabled().
 > 
-> Now that slab has internal alloc_flags to describe context, introduce
-> free_flags analogously and convert free_flags to alloc_flags when
-> allocating memory in the free path.
+> The RCU subsystem does not guarantee this contractually, and this
+> optimization relies on RCU's implementation details. Ideally, it should
+> be removed once call_rcu_nolock() is supported by the RCU subsystem.
 > 
-> When trylock fails or the kernel observes non-NULL pcs->rcu_free after
-> lock acquisition, free the sheaf instead of putting it to the barn.
-> This is rare and not worth complicating the code.
-> 
-> Since call_rcu() cannot be called in an unknown context,
-> kfree_rcu_sheaf() fails when the rcu sheaf becomes full.
-> 
-> Link: https://lore.kernel.org/linux-mm/872bd673-3d45-4111-8a41-31185db3ece5@kernel.org
-> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> Link: https://lore.kernel.org/linux-mm/CAADnVQKRVD5ZSnEKbZZU7w86gHbGHUug2pvzpgZTngNS+fg4rw@mail.gmail.com
+> Suggested-by: Alexei Starovoitov <ast@kernel.org>
 > Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
-
+> ---
+>  mm/slub.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 2c5ba8c326e7..bb0f2975c95b 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -6157,8 +6157,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, unsigned int free_flags)
+>      if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
+>          rcu_sheaf = NULL;
+>      } else {
+> -        if (unlikely(!allow_spin)) {
+> -            /* call_rcu() cannot be called in an unknown context */
+> +        /*
+> +         * With !allow_spin, we might have interrupted call_rcu()'s
+> +         * IRQ-disabled critical section. If IRQs are not disabled,
+> +         * we know that's not the case.
+> +         */
+> +        if (unlikely(!allow_spin && irqs_disabled())) {
 
 LGTM!
 Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
+
+I initially wondered whether in_nmi() should also be checked here.
+However, irqs_disabled() already covers the relevant reentrancy case,
+since call_rcu() disables IRQs while modifying its per-CPU data.
+
+The reasoning looks sound to me  : )
 
 --
 With Best Regards,
