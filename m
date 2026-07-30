@@ -1,131 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2499C32ED40;
-	Thu, 30 Jul 2026 01:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D13DF6C;
+	Thu, 30 Jul 2026 01:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785374549; cv=none; b=LIszdtztvDSOK45iRqvMRcz7gw1FZRc/JPLO1MjPA+UE0HG2RQhp/3PkxbjP30eJju8H+e4yTj6U/Dh3BLWxjD3Vg2WeShG04YkhNkDX5GFcCBjmIAZsRRUaDzV9ZxnMWyYhpEvKFcrI6veavNZLzprMWhRFxdWeQYb2u6I5zTc=
+	t=1785374845; cv=none; b=IIEV0nG9SdbZBLxYIqv8VKdgQtdblmHVa2ujZMhVYfC0Qz8hx/wr2LuS0UXX5jq67pPDeGfosKzRG6cdevCWvelTRUxShhjzZkSvRzsQ3fgrhbv4Q1Oc6q1SIX3+hRSviqq1vaxXaZUx5uPJX6WcsynDmttbWy94VwURxZ2r9CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785374549; c=relaxed/simple;
-	bh=v+GKAzV4LU/SCUIsYQ43cKn9ZMWexs9fYvdBkHa7F0w=;
+	s=arc-20240116; t=1785374845; c=relaxed/simple;
+	bh=eP2ShQTgsPosE0sjc/rtyFVtR2KbF/tu/peyvMuCY24=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=fufS11LA64L4thAmSLWOffRi1UArOTkWsZaT3gKkDQJBMLOR7zEI2ITtGAzxcl3g+JFaZL8KIcYcMFceD2DYW3e3cYwSlgnlw/stITiCP5XlboATsTfRhjuLIVMD8rXst+pYYCDLIl+KA9OZQs5hi1BljV8bM/oQjC6AN611x9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTcTfP95; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=MKlULEa1GcsMRc24CXrfmPS5LkrmUPZK3Z/iw9J02Q4D/3vaaZ6qE3syPOn0jROZykoeVgoaK2p5mJb4u6L6tRvtTkTivSEGFwxQHxPsolNmVSnFjTQ3AawPjrvdz7yVG9NTZ7zeK26lNlO9kY12w4axGl7qYCLR1rIY/gpma64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5Xs3Gbp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTcTfP95"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F5C1F000E9;
-	Thu, 30 Jul 2026 01:22:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5Xs3Gbp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A77E71F000E9;
+	Thu, 30 Jul 2026 01:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785374547;
-	bh=u/A6smEN2MinHN2FQMu5UYm8l9+HDV7M++5ZimkU3hI=;
+	s=k20260515; t=1785374843;
+	bh=z/6E3/YD2r1NUeOSgRNpPl2j7Ee6bGqW0BcMBvFd54I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PTcTfP95hmfcssbQRElRROENUR0lhuqJiEc08i8J9cofYIgo6uO2CLMdLkccaz8NO
-	 23tKC2vK024igk7TrBwehkPaB7ABnLOwRRjKxW67Qzv8c2oEkx+PvX/gjDDNd2v1Zo
-	 OAHU6SlIInUrTc8H2FdCM+ckJNox8HcGVJlRdsyyLmpdV3i9VNvnP7DSnwG25ZxXOb
-	 jp82yhCwvpSpfYIAdVGldvavId8kFpV3OntgxjkWO/rOxk6r9q14k09cFEBhlG8UGW
-	 py3SwBnS3SNo5oCh62fy+daxiuyfr20cLi/FCKfzhbvQay8KY33GPrRfd54GmLal42
-	 auVgdO0e2IFeQ==
+	b=V5Xs3Gbp9R5O2xGHQ1x2dYgO7GKRk+NlCSBh1egldH0cM+Tw2DucXaD/gDr+8dyaN
+	 lbxNgKLWHS2ToDQNyTwf5x2fjZNMnOLUMjmkcF7rX/wpwVJDV8uiFvcSIpc9Zq0vIX
+	 x6VlPvezwa9UWlZajE65F+FY5RUr/DGWRxIJIZ7vZEPe2x8BVrIfcorzNs9+7GIVfC
+	 tiu36ZAXzRgY4NRhWkzFoMPIKx3hrr+LpExR1Tl3GmBxwMcmeGcH/sIlJNL/H9l4XV
+	 qhkYJ+UISKDViogzmL6WFRVxdunUpPeHqjh/aQ6a2QN2I3u3Gr8B+bwg6jJ0aYNEYe
+	 HFSqj/tyBhc7Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 3/8] riscv: Add support for srmcfg CSR from Ssqosid
- extension
+Subject: Re: [PATCH v6 5/8] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Drew Fustini" <fustini@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, conor+dt@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org>
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-5-7c22b05d461b@kernel.org>
 References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
- <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org>
+ <20260729-dfustini-atl-sc-cbqri-dt-v6-5-7c22b05d461b@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2026 01:22:26 +0000
-Message-Id: <20260730012227.58F5C1F000E9@smtp.kernel.org>
+Date: Thu, 30 Jul 2026 01:27:22 +0000
+Message-Id: <20260730012722.A77E71F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] The `srmcfg` CSR is not initialized during early boot or CPU hotpl=
-ug bringup, leaving CPUs running with undefined QoS tags.
-- [Medium] The architecture-specific resctrl setters `resctrl_arch_set_clos=
-id_rmid()` and `resctrl_arch_set_cpu_default_closid_rmid()` are missing.
+- [High] Capacity controllers registered after boot bypass capability valid=
+ation, which can cause resctrl failures and hardware writes with out-of-bou=
+nds parameters.
 --
 
---- Patch [3]: [PATCH v6 3/8] riscv: Add support for srmcfg CSR from Ssqosi=
-d extension ---
-commit a02eee11a5e49e74d1e00459d9acc1ec4a1982fa
+--- Patch [5]: [PATCH v6 5/8] riscv_cbqri: resctrl: Add cache allocation vi=
+a capacity block mask ---
+commit b95a917a4c4e682ec805c748e42c4a7bedae47b2
 Author: Drew Fustini <fustini@kernel.org>
 
-riscv: Add support for srmcfg CSR from Ssqosid extension
+    riscv_cbqri: resctrl: Add cache allocation via capacity block mask
 
-Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
-The CSR contains two fields: Resource Control ID (RCID) and Monitoring
-Counter ID (MCID) for tracking resource usage.
+This commit wires CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2
+and RDT_RESOURCE_L3 schemata. It handles domain creation during the cpuhp
+online callback for offline CPUs, and defines context-switch and capability
+checks for RISC-V.
 
-Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-
-> The context-switch path writes the field to the CSR, and
-> resctrl_arch_set_closid_rmid() updates it when a task is assigned to a
-> resctrl control or monitoring group.
->=20
-> A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU, set
-> by resctrl_arch_set_cpu_default_closid_rmid() on CPU group assignment.
-
-[Severity: Medium]
-Neither resctrl_arch_set_closid_rmid() nor
-resctrl_arch_set_cpu_default_closid_rmid() appear to be implemented in this
-patch.=20
-
-Since they are missing, are thread_struct.srmcfg and cpu_srmcfg_default ever
-actually modified from their initial zero values?
-
-> diff --git a/arch/riscv/kernel/qos.c b/arch/riscv/kernel/qos.c
-> index 0000000000000..99925c0e93dd8
+> diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resc=
+trl.c
+> index 0000000000000..0c4bfa2a7f433
 > --- /dev/null
-> +++ b/arch/riscv/kernel/qos.c
-> @@ -0,0 +1,101 @@
-
+> +++ b/drivers/resctrl/cbqri_resctrl.c
 [ ... ]
-
-> +	/*
-> +	 * cpuhp_setup_state() invokes the startup callback locally on every
-> +	 * already-online CPU, so no separate seed loop is needed here.
-> +	 */
-> +	err =3D cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "riscv/srmcfg:online",
-> +				riscv_srmcfg_reset_cache, riscv_srmcfg_reset_cache);
+> +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
+> +{
+> +	static const u32 levels[] =3D { 2, 3 };
+> +	struct cbqri_controller *ctrl, *c;
+> +	struct cbqri_resctrl_res *hw_res;
+> +	struct rdt_ctrl_domain *d;
+> +	struct cacheinfo *ci;
+> +	int i, rid;
+[ ... ]
+> +		/* The controller backing this CPU's cache at this level. */
+> +		ctrl =3D NULL;
+> +		list_for_each_entry(c, &cbqri_controllers, list) {
+> +			if (c->type =3D=3D CBQRI_CONTROLLER_TYPE_CAPACITY &&
+> +			    c->alloc_capable &&
+> +			    c->cache.cache_level =3D=3D levels[i] &&
+> +			    c->cache.cache_id =3D=3D ci->id) {
+> +				ctrl =3D c;
+> +				break;
+> +			}
+> +		}
+> +		if (!ctrl)
+> +			continue;
+> +
+> +		d =3D cbqri_find_ctrl_domain(&hw_res->resctrl_res.ctrl_domains,
+> +					   ci->id);
+> +		if (d) {
+> +			cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
+> +			continue;
+> +		}
+> +
+> +		d =3D cbqri_create_ctrl_domain(ctrl, &hw_res->resctrl_res, cpu,
+> +					     ci->id);
 
 [Severity: High]
-Does this software cache correctly handle CPU hotplug and early boot?
+Does this code allow a late-registered controller to bypass the capability
+validation?
 
-When a CPU is offlined, it continues context-switching as it goes down, whi=
-ch
-overwrites the U32_MAX cache sentinel with a valid tag (such as 0 for the i=
-dle
-thread).
+During boot, cbqri_resctrl_pick_caches() validates that all controllers at a
+given cache level have identical capabilities (like ncblks and rcid_count)
+using cbqri_cc_caps_agree().
 
-When the CPU is brought back online, its hardware srmcfg CSR is reset to an
-implementation-defined value. If the software cache cpu_srmcfg is still 0, =
-the
-first context switch to a task with a 0 tag in __switch_to_srmcfg() will see
-thread_srmcfg =3D=3D cpu_srmcfg and skip the CSR write:
+However, in the CPU hotplug path, if a new cache controller is probed
+after boot, cbqri_attach_cpu_to_all_ctrls() finds it and creates a
+domain without verifying it matches the baseline hw_res->ctrl.
 
-arch/riscv/include/asm/qos.h:__switch_to_srmcfg() {
-    ...
-    if (thread_srmcfg !=3D __this_cpu_read(cpu_srmcfg)) {
-        __this_cpu_write(cpu_srmcfg, thread_srmcfg);
-        csr_write(CSR_SRMCFG, thread_srmcfg);
-    }
-    ...
-}
+If the hotplugged controller has a smaller rcid_count than the baseline,
+could resctrl assume the baseline capabilities and cause hardware
+out-of-bounds writes by using an invalid RCID in
+resctrl_arch_reset_all_ctrls()?
 
-This leaves the hardware CSR undefined until this CPUHP_AP_ONLINE_DYN start=
-up
-callback runs. Is CPUHP_AP_ONLINE_DYN too late to prevent the CPU from runn=
-ing
-with undefined QoS tags?
+Would adding a call to cbqri_cc_caps_agree() here to compare the new
+controller against hw_res->ctrl prevent this?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260729-dfustini-a=
-tl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org?part=3D3
+tl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org?part=3D5
