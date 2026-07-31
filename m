@@ -1,297 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17574746BE;
-	Thu, 30 Jul 2026 23:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33519307492
+	for <linux-rt-devel@lists.linux.dev>; Fri, 31 Jul 2026 03:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785453395; cv=none; b=rVyox/pdPEokEJgPI0d5t8k8m9xDJAC5GpgITXvTLujknNCU9wuzCXAUEMjNMecy1IVp/bFETY+BYeLaJY9dmFgtMo7VYo/vj7/C0i1R06T/8VkNLl6Aigm2mqKtG93+1tZ0Ge7N3+UcsKXFqjH8+YlxyvvU38wY4sHU4hG0myg=
+	t=1785468600; cv=none; b=WpJ4NYztLNfbp0Dfas4kXo9YIPAevQGWIRjlfChURwpqzDLZilZGSQbQOcXvapBzc/75INsjqFUnolWo8Bibd9Gbz23EBkzoRGtU1qBx2B3qubgNvhJ0PF7uW9bmxOuYMD7weLcCU9oPjUkBy6lLqgNulaFeYopjkJWU8c284Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785453395; c=relaxed/simple;
-	bh=36kYkotD8232ypRfirwVZhUMIect2XGvgSaIGIyh4rQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YzQnmd++rC51pF2WW+5wbQcKcmqhW4YnrdY0LzBpbaVhC6gw0Gi1bSWR0itrnzcX92u7rRyUdlr6lSf9vlmpDLSiQvs+47+CLVr7Av95gPpHxJnfXxq7OahXpw/RP/GDoiXxW2wtn7+qutc3KME4WMd4YdkNBXhodikoh1GhthI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKBAehAq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785468600; c=relaxed/simple;
+	bh=SizCvG8mrb2naaSlE2obB5LCGkAQXOaMM17ZjJVmbZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VReMyNNzJKCTFgT9D4fXAsDok7xujpnyIp3iEuZ6mYqyA74xHwibbw6RwD7bMQhDSx5EhMAvbN/NoHnYL6d90DYUSykVpe/zxAhW6EViVUTMDLgSmXvCvHmWdYI0rS1i6ntBZXpnq/Am23xeAVpxt7dy2o5nIqQOT+3RXLX/FZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlFLqLHA; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKBAehAq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BDD1F000E9;
-	Thu, 30 Jul 2026 23:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785453393;
-	bh=pz7js+sw+oGFa3XXwr87Lwi5nwnCOQLMdwo5OYMhKOI=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=DKBAehAqh+FWn2+2t465MzHwhgA0UJytnSQpcuvINZgzdSI4Q8UD7+EsoAJ+j7IGo
-	 ApKpRXzTNfCc3COocftZzOcen+jHkQjXqCnV1BcwEcbUHoJrUnepZWBuNZOA1FCNsv
-	 SG3CMOCeOyiJ+YYC/jUFneyCIVoERlbBnYfDVP2UiMyoeq7EUTsy6TB9BmLcJnQl/I
-	 BgLa+fNtJfT//HdLV6bx/NMqUQbvyZr10hP5Z5SPRKCj7y46S6qiKBgI9ud46M6a3T
-	 zeN9EqGt/MXxXPaOW8HUYIJ+1F3BhCKvQVUDEVFDlVeyEqlQo/gQZOv4WKA8qHUYPM
-	 ds2GSBD2nqMzw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 2B348CE0F69; Thu, 30 Jul 2026 16:16:33 -0700 (PDT)
-Date: Thu, 30 Jul 2026 16:16:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Zqiang <qiang.zhang@linux.dev>
-Cc: Puranjay Mohan <puranjay@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlFLqLHA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785468599; x=1817004599;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SizCvG8mrb2naaSlE2obB5LCGkAQXOaMM17ZjJVmbZE=;
+  b=XlFLqLHABmAvk9Wa96qmc9Au62Xnsvtb5lf1Yf1Q9Y84sQdWrm2LHHH+
+   ugW+yWPQrQhf+UC3ok5r96lN2w4HUJ5A9a3JzX8G393zc/sFV+j9WOnGD
+   tA/czGPt2x4y9IHLtQb57V3//deLDIZeJnxuyYgdI5ET+wS9eTnDhnDBB
+   67LVudfXRRmBdZZVkevKMAWNwkZJCOrhjCJ8Ig/vtsu1D35ZqwcmFU2uB
+   6eZrKiFgBdS0OkwUzxCtqjoFZPKqWt9FBzZ6MgyrmcHT1D8rYlyOshBUU
+   q6L08lh2WQcI78vokvLwgwUhMLACT8Scc4fvvPagviUFt8ESUZVkPZMt7
+   w==;
+X-CSE-ConnectionGUID: kQ6cRM6KRXWd+J72x4vjfA==
+X-CSE-MsgGUID: 2o9oYyFyQJisXV6CC1ZSMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="103631613"
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="103631613"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 20:29:58 -0700
+X-CSE-ConnectionGUID: rCS5jVQSTOKmW1+KnT/hRg==
+X-CSE-MsgGUID: 6248gJzeTDeu3cFfmPm3PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="258680354"
+Received: from junjie-desk-dev.bj.intel.com (HELO junjie-desk-dev.tail2c02c1.ts.net) ([10.238.152.71])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 20:29:56 -0700
+From: Junjie Cao <junjie.cao@intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 1/6] rcu: Make call_rcu() safe to call from any context
-Message-ID: <f1ab8c9b-6c81-4603-bf1c-6097f8864c77@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260729162207.1567770-1-puranjay@kernel.org>
- <20260729162207.1567770-2-puranjay@kernel.org>
- <6ad0805c551a62283dca666fbace7302e2236e3a@linux.dev>
- <26382afc-4dde-4d2e-ba62-39f12010a3e1@paulmck-laptop>
- <8884edd1f124bcae9e8197e33cb7fbd63ad429f0@linux.dev>
- <125e6af2-e09f-49b4-9dca-5c216e632665@paulmck-laptop>
- <9a11a80b88e62b5cf4112970017087a787f1fdea@linux.dev>
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] gpio: ml-ioh: use raw_spinlock_t for the register lock
+Date: Fri, 31 Jul 2026 11:27:47 +0800
+Message-ID: <20260731032747.2987292-1-junjie.cao@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9a11a80b88e62b5cf4112970017087a787f1fdea@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 30, 2026 at 11:05:35PM +0000, Zqiang wrote:
-> > 
-> > On Thu, Jul 30, 2026 at 10:40:21PM +0000, Zqiang wrote:
-> > 
-> > > 
-> > > On Thu, Jul 30, 2026 at 12:20:54PM +0000, Zqiang wrote:
-> > >  
-> > >  > 
-> > >  > call_rcu() touches its per-CPU callback list only with interrupts
-> > >  > disabled: the enqueue runs under local_irq_save() (plus the nocb locks
-> > >  > when offloaded), as do callback invocation and grace-period work. A
-> > >  > call_rcu() that arrives with interrupts already disabled may be
-> > >  > interrupting one of those, so enqueuing directly could corrupt the list
-> > >  > or deadlock -- as an NMI or re-entrant instrumentation can.
-> > >  > 
-> > >  > Defer in that case: stage the callback on a per-CPU llist and kick an
-> > >  > irq_work that re-issues it once interrupts are back on, going straight to
-> > >  > the enqueue so it cannot defer again. Callers that merely hold interrupts
-> > >  > off are deferred too, which is harmless. Skip the gate while the
-> > >  > scheduler is down (RCU_SCHEDULER_INACTIVE): irq_work is not usable until
-> > >  > init_IRQ(), yet rcu_init() already calls call_rcu().
-> > >  > 
-> > >  > rcu_barrier() flushes pending deferred callbacks first: it waits out each
-> > >  > online CPU's irq_work and drains an offline CPU's list directly, as that
-> > >  > irq_work may never run again. rcutree_migrate_callbacks() also drains an
-> > >  > outgoing CPU's ->defer_head, so a callback deferred late in the offline
-> > >  > path runs even without an rcu_barrier(). The irq_work is
-> > >  > IRQ_WORK_INIT_HARD so the re-issue runs promptly and callbacks do not back
-> > >  > up; on PREEMPT_RT a non-HARD irq_work would run in a kthread that can be
-> > >  > delayed under load. A new hidden CONFIG_RCU_DEFER gates the code and the
-> > >  > IRQ_WORK dependency; without it call_rcu() enqueues directly as before.
-> > >  > 
-> > >  > Under CONFIG_PROVE_RCU, warn if the direct path is reached from NMI, which
-> > >  > would mean interrupts were enabled on NMI entry.
-> > >  > 
-> > >  > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> > >  > Signed-off-by: Puranjay Mohan <puranjay@kernel.org>
-> > >  > ---
-> > >  > kernel/rcu/Kconfig | 6 +++
-> > >  > kernel/rcu/rcu.h | 15 ++++++
-> > >  > kernel/rcu/tree.c | 120 +++++++++++++++++++++++++++++++++++++++++----
-> > >  > kernel/rcu/tree.h | 5 ++
-> > >  > 4 files changed, 136 insertions(+), 10 deletions(-)
-> > >  > 
-> > >  > diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
-> > >  > index f15da8038d0ba..1a5fb3156c062 100644
-> > >  > --- a/kernel/rcu/Kconfig
-> > >  > +++ b/kernel/rcu/Kconfig
-> > >  > @@ -175,6 +175,12 @@ config RCU_STALL_COMMON
-> > >  > config RCU_NEED_SEGCBLIST
-> > >  > def_bool ( TREE_RCU || TREE_SRCU || TASKS_RCU_GENERIC )
-> > >  > 
-> > >  > +# The deferral (and the IRQ_WORK it uses) is only needed where call_rcu() /
-> > >  > +# call_srcu() can be invoked while a callback-list operation is in flight.
-> > >  > +config RCU_DEFER
-> > >  > + def_bool HAVE_NMI || KPROBES || FUNCTION_TRACER || TRACEPOINTS
-> > >  > + select IRQ_WORK
-> > >  > +
-> > >  > config RCU_FANOUT
-> > >  > int "Tree-based hierarchical RCU fanout value"
-> > >  > range 2 64 if 64BIT
-> > >  > diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-> > >  > index 39a9f6fa9a7b2..ed6604445f2ac 100644
-> > >  > --- a/kernel/rcu/rcu.h
-> > >  > +++ b/kernel/rcu/rcu.h
-> > >  > @@ -572,6 +572,21 @@ static inline void tasks_cblist_init_generic(void) { }
-> > >  > #define RCU_SCHEDULER_INIT 1
-> > >  > #define RCU_SCHEDULER_RUNNING 2
-> > >  > 
-> > >  > +/*
-> > >  > + * Should a call_rcu()/call_srcu() callback be deferred rather than enqueued
-> > >  > + * now? Defer whenever interrupts are disabled: a callback-list operation may
-> > >  > + * be in flight on this CPU, so enqueuing now could corrupt it. But not while
-> > >  > + * the scheduler is down -- early boot is single-threaded and can call this
-> > >  > + * before init_IRQ() makes irq_work usable (e.g. rcu_init()'s self-tests).
-> > >  > + */
-> > >  > +static inline bool should_rcu_defer(void)
-> > >  > +{
-> > >  > + if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> > >  > + return false;
-> > >  > +
-> > >  > + return irqs_disabled() && rcu_scheduler_active != RCU_SCHEDULER_INACTIVE;
-> > >  > +}
-> > >  > +
-> > >  > enum rcutorture_type {
-> > >  > RCU_FLAVOR,
-> > >  > RCU_TASKS_FLAVOR,
-> > >  > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > >  > index 21b6ce1dffb63..93c4242345e67 100644
-> > >  > --- a/kernel/rcu/tree.c
-> > >  > +++ b/kernel/rcu/tree.c
-> > >  > @@ -24,6 +24,7 @@
-> > >  > #include <linux/smp.h>
-> > >  > #include <linux/rcupdate_wait.h>
-> > >  > #include <linux/interrupt.h>
-> > >  > +#include <linux/llist.h>
-> > >  > #include <linux/sched.h>
-> > >  > #include <linux/sched/debug.h>
-> > >  > #include <linux/nmi.h>
-> > >  > @@ -3148,21 +3149,27 @@ static void check_cb_ovld(struct rcu_data *rdp)
-> > >  > raw_spin_unlock_rcu_node(rnp);
-> > >  > }
-> > >  > 
-> > >  > -static void
-> > >  > -__call_rcu_common(struct rcu_head *head, rcu_callback_t func, bool lazy_in)
-> > >  > +/*
-> > >  > + * The callback list is only ever accessed with interrupts disabled (enqueue,
-> > >  > + * callback invocation, grace-period work). A call_rcu() with interrupts already
-> > >  > + * disabled may interrupt one of those, so __call_rcu_common() defers: the
-> > >  > + * callback is staged on a per-CPU llist that an irq_work re-issues once
-> > >  > + * interrupts are on. Only CONFIG_RCU_DEFER kernels can hit this.
-> > >  > + */
-> > >  > +static void rcu_defer_drain(struct irq_work *iw);
-> > >  > +
-> > >  > +/*
-> > >  > + * Enqueue @head on this CPU's rcu_segcblist. Also called by rcu_defer_drain()
-> > >  > + * to re-issue a deferred callback, so it must not re-check the deferral
-> > >  > + * condition. Either caller may have interrupts already disabled.
-> > >  > + */
-> > >  > +static void rcu_do_enqueue(struct rcu_head *head, rcu_callback_t func, bool lazy_in)
-> > >  > {
-> > >  > static atomic_t doublefrees;
-> > >  > unsigned long flags;
-> > >  > bool lazy;
-> > >  > struct rcu_data *rdp;
-> > >  > 
-> > >  > - /* Misaligned rcu_head! */
-> > >  > - WARN_ON_ONCE((unsigned long)head & (sizeof(void *) - 1));
-> > >  > -
-> > >  > - /* Avoid NULL dereference if callback is NULL. */
-> > >  > - if (WARN_ON_ONCE(!func))
-> > >  > - return;
-> > >  > -
-> > >  > if (debug_rcu_head_queue(head)) {
-> > >  > /*
-> > >  > * Probable double call_rcu(), so leak the callback.
-> > >  > @@ -3206,6 +3213,83 @@ __call_rcu_common(struct rcu_head *head, rcu_callback_t func, bool lazy_in)
-> > >  > local_irq_restore(flags);
-> > >  > }
-> > >  > 
-> > >  > +/*
-> > >  > + * Re-issue deferred callbacks, going straight to the enqueue so they cannot
-> > >  > + * defer again. defer_lock is held across llist_del_all() and the re-issue so
-> > >  > + * the drainers -- this CPU's irq_work, rcu_defer_flush() and
-> > >  > + * rcutree_migrate_callbacks() -- serialize and never leave a callback off
-> > >  > + * ->defer_head yet not on a callback list.
-> > >  > + */
-> > >  > +static void rcu_defer_drain(struct irq_work *iw)
-> > >  > +{
-> > >  > + struct rcu_data *rdp = container_of(iw, struct rcu_data, defer_work);
-> > >  > + struct llist_node *node, *next;
-> > >  > + unsigned long flags;
-> > >  > +
-> > >  > + raw_spin_lock_irqsave(&rdp->defer_lock, flags);
-> > >  > + llist_for_each_safe(node, next, llist_del_all(&rdp->defer_head)) {
-> > >  > + struct rcu_head *head = (struct rcu_head *)node;
-> > >  > +
-> > >  > + rcu_do_enqueue(head, head->func, false);
-> > >  > + }
-> > >  > + raw_spin_unlock_irqrestore(&rdp->defer_lock, flags);
-> > >  > +}
-> > >  > +
-> > >  > +/* Stage @head for this CPU's irq_work when call_rcu() cannot enqueue now. */
-> > >  > +static void call_rcu_defer(struct rcu_head *head, rcu_callback_t func)
-> > >  > +{
-> > >  > + struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
-> > >  > +
-> > >  > + head->func = func;
-> > >  > + if (llist_add((struct llist_node *)head, &rdp->defer_head))
-> > >  > + irq_work_queue(&rdp->defer_work);
-> > >  > 
-> > >  > If current CPU is isolation and nozh_full, maybe we should avoid to
-> > >  > queue irq_work to current CPUs(include srcu, tasks-rcu) ?
-> > >  > 
-> > >  > Maybe can wrap a helper function:
-> > >  > 
-> > >  > bool rcu_irq_work_queue(struct irq_work *iw) 
-> > >  > {
-> > >  > if (in_nmi())
-> > >  > return irq_work_queue(iw);
-> > >  > 
-> > >  > int cpu = smp_processor_id();
-> > >  > if (!housekeeping_test_cpu(cpu, HK_TYPE_KERNEL_NOISE))
-> > >  > cpu = housekeeping_any_cpu(HK_TYPE_KERNEL_NOISE);
-> > >  > 
-> > >  > return irq_work_queue_on(iw, cpu);
-> > >  > }
-> > >  > 
-> > >  You lost me on this one. We cannot invoke call_rcu() and friends unless
-> > >  we are running in kernel context, so usermode operation has already
-> > >  been interrupted, perhaps due to a configuration error that failed to
-> > >  direct interrupts away from the current CPU. In that case, is the added
-> > >  disruption of the irq-work really worth worrying about?
-> > >  
-> > >  The irqs_disabled() can return true, even if we not in hardirq context,
-> > >  for example, before this we invoke local_irq_save() to disable local
-> > >  CPU's irq.
-> > >  If a userspace application bound to isolate and nohz_full CPUS, and
-> > >  cycle enters the kernelspace do wakeup. we use ebpf hook tracepoint in 
-> > >  try_to_wake_up(), in ebpf code, the call_rcu() or call_srcu() check
-> > >  irq_disabled() return true, enter defer path, trigger irq_work to current
-> > >  CPUs, can make some noise.
-> > >  
-> > >  Did I miss something?
-> > > 
-> > No, what you described really can happen, but only if the application
-> > does a system call that does a fair amount of work. In that case,
-> > is the overhead of the irq-work measureable compared to the total
-> > system-call overhead?
-> > 
-> > Don't get me wrong, it might well be measureable. But I do need to see
-> > hard numbers to justify the added complexity.
-> 
-> Ok, I see.  
-> 
-> We have similar scenarios on our product, I'm trying to measure it.
+ioh_irq_type() is registered as the irq_chip .irq_set_type callback and
+takes chip->spinlock with spin_lock_irqsave().  This callback is reached
+from __setup_irq() -> __irq_set_trigger() -> chip->irq_set_type() while
+the caller holds desc->lock, a raw_spinlock_t, with hardirqs disabled.
+That context is not sleepable, but on PREEMPT_RT a regular spinlock_t is
+an rtmutex-backed sleeping lock, so acquiring it there is invalid.
+ioh_irq_enable() and ioh_irq_disable() take the same lock from the
+.irq_enable/.irq_disable callbacks, which are likewise invoked with
+desc->lock held.
 
-Looking forward to seeing what you come up with!
+Convert the register lock to raw_spinlock_t.  The same lock also
+serializes the GPIO direction/value callbacks and the suspend/resume
+register save/restore, and those critical sections only perform short
+sequences of MMIO register accesses (ioread32()/iowrite32()); the
+.irq_set_type callback additionally emits a dev_warn() on an unsupported
+type.  None of these are sleepable operations, so keeping this register
+lock non-sleeping is appropriate for the irqchip callbacks and does not
+change the GPIO-side locking contract.
 
-							Thanx, Paul
+This is the same fix as commit a02b8950d619 ("gpio: pch: use
+raw_spinlock_t for the register lock"); this driver shares the same
+structure as gpio-pch.
+
+Fixes: 54be566317b6 ("gpio-ml-ioh: Support interrupt function")
+Cc: stable@vger.kernel.org
+Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+---
+ drivers/gpio/gpio-ml-ioh.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpio/gpio-ml-ioh.c b/drivers/gpio/gpio-ml-ioh.c
+index 6576e5dcb0ee..0a9d34b7636e 100644
+--- a/drivers/gpio/gpio-ml-ioh.c
++++ b/drivers/gpio/gpio-ml-ioh.c
+@@ -84,7 +84,7 @@ struct ioh_gpio {
+ 	u32 gpio_use_sel;
+ 	int ch;
+ 	int irq_base;
+-	spinlock_t spinlock;
++	raw_spinlock_t spinlock;
+ };
+ 
+ static const int num_ports[] = {6, 12, 16, 16, 15, 16, 16, 12};
+@@ -95,7 +95,7 @@ static int ioh_gpio_set(struct gpio_chip *gpio, unsigned int nr, int val)
+ 	struct ioh_gpio *chip =	gpiochip_get_data(gpio);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	reg_val = ioread32(&chip->reg->regs[chip->ch].po);
+ 	if (val)
+ 		reg_val |= BIT(nr);
+@@ -103,7 +103,7 @@ static int ioh_gpio_set(struct gpio_chip *gpio, unsigned int nr, int val)
+ 		reg_val &= ~BIT(nr);
+ 
+ 	iowrite32(reg_val, &chip->reg->regs[chip->ch].po);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+@@ -123,7 +123,7 @@ static int ioh_gpio_direction_output(struct gpio_chip *gpio, unsigned nr,
+ 	u32 reg_val;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	pm = ioread32(&chip->reg->regs[chip->ch].pm);
+ 	pm &= BIT(num_ports[chip->ch]) - 1;
+ 	pm |= BIT(nr);
+@@ -136,7 +136,7 @@ static int ioh_gpio_direction_output(struct gpio_chip *gpio, unsigned nr,
+ 		reg_val &= ~BIT(nr);
+ 	iowrite32(reg_val, &chip->reg->regs[chip->ch].po);
+ 
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+@@ -147,12 +147,12 @@ static int ioh_gpio_direction_input(struct gpio_chip *gpio, unsigned nr)
+ 	u32 pm;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	pm = ioread32(&chip->reg->regs[chip->ch].pm);
+ 	pm &= BIT(num_ports[chip->ch]) - 1;
+ 	pm &= ~BIT(nr);
+ 	iowrite32(pm, &chip->reg->regs[chip->ch].pm);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+@@ -256,7 +256,7 @@ static int ioh_irq_type(struct irq_data *d, unsigned int type)
+ 	dev_dbg(chip->dev, "%s:irq=%d type=%d ch=%d pos=%d type=%d\n",
+ 		__func__, irq, type, ch, im_pos, type);
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 
+ 	switch (type) {
+ 	case IRQ_TYPE_EDGE_RISING:
+@@ -296,7 +296,7 @@ static int ioh_irq_type(struct irq_data *d, unsigned int type)
+ 	ien = ioread32(&chip->reg->regs[chip->ch].ien);
+ 	iowrite32(ien | BIT(ch), &chip->reg->regs[chip->ch].ien);
+ end:
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+@@ -326,11 +326,11 @@ static void ioh_irq_disable(struct irq_data *d)
+ 	unsigned long flags;
+ 	u32 ien;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	ien = ioread32(&chip->reg->regs[chip->ch].ien);
+ 	ien &= ~BIT(d->irq - chip->irq_base);
+ 	iowrite32(ien, &chip->reg->regs[chip->ch].ien);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ }
+ 
+ static void ioh_irq_enable(struct irq_data *d)
+@@ -340,11 +340,11 @@ static void ioh_irq_enable(struct irq_data *d)
+ 	unsigned long flags;
+ 	u32 ien;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	ien = ioread32(&chip->reg->regs[chip->ch].ien);
+ 	ien |= BIT(d->irq - chip->irq_base);
+ 	iowrite32(ien, &chip->reg->regs[chip->ch].ien);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ }
+ 
+ static irqreturn_t ioh_gpio_handler(int irq, void *dev_id)
+@@ -440,7 +440,7 @@ static int ioh_gpio_probe(struct pci_dev *pdev,
+ 		chip->base = base;
+ 		chip->reg = chip->base;
+ 		chip->ch = i;
+-		spin_lock_init(&chip->spinlock);
++		raw_spin_lock_init(&chip->spinlock);
+ 		ioh_gpio_setup(chip, num_ports[i]);
+ 		ret = devm_gpiochip_add_data(dev, &chip->gpio, chip);
+ 		if (ret) {
+@@ -484,9 +484,9 @@ static int ioh_gpio_suspend(struct device *dev)
+ 	struct ioh_gpio *chip = dev_get_drvdata(dev);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	ioh_gpio_save_reg_conf(chip);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+@@ -496,11 +496,11 @@ static int ioh_gpio_resume(struct device *dev)
+ 	struct ioh_gpio *chip = dev_get_drvdata(dev);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	raw_spin_lock_irqsave(&chip->spinlock, flags);
+ 	iowrite32(0x01, &chip->reg->srst);
+ 	iowrite32(0x00, &chip->reg->srst);
+ 	ioh_gpio_restore_reg_conf(chip);
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
++	raw_spin_unlock_irqrestore(&chip->spinlock, flags);
+ 
+ 	return 0;
+ }
+
+base-commit: a02b8950d619123da64f69b70fe1dadef217dfe4
+-- 
+2.43.0
+
