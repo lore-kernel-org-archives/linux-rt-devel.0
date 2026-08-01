@@ -1,267 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAB3355819;
-	Fri, 31 Jul 2026 19:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D932827280A
+	for <linux-rt-devel@lists.linux.dev>; Sat,  1 Aug 2026 07:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785525147; cv=none; b=D1mP+2awKK7PMvCwkUZPSkwWKqy205oKXc14yqFlI6mXJcnbs4s8aOv64TJUrUD7YEmRdXf7vh/CdiCa5aBmEPWiKOVXvur0AvYz8pp/CKpYRkHJ3ZBZ4NOkkVLtoq8ObPKQv8dRjvAB2Dev1a7JD9fPtT22YDpMLgCCoDp5++E=
+	t=1785568678; cv=none; b=Iql9KcJZdoR5rlYxnFoeHTDVq9ZXqRIAfGFUte4oFcvP0+V5XPGtFCigSl90nAHY+zl+eblRwZ3CPLtflnsu+F+XTwA3EVUJNWXnVBU7dXrEde0sjvXFZHDl1gM8Rm4qaeW0Nitp499rZUtsxarroDzFJmBaCSzXLGoOneX9Tvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785525147; c=relaxed/simple;
-	bh=yFuDe2naHJ8IMdrK2U/v9VBXUqubW7KnlQUSQfViRv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCjAs/OLm8BsWnlWgA/aXbpHjJNeC9/Pz/VlsyGZPPo5dENz7J6XBOT3lR43xww/0pHtpwlKQmUFqC83xotnxphs21/HTEGhGLNAlFB+UPn6fmW/g5cUnaHijxG7C2fx2sLUW2zR3BhqOVNb5xLVUEXzwm3sgGT1bC4dVbM0lZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+96/IdX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785568678; c=relaxed/simple;
+	bh=dnlaYSZS9KyqhJPxN2yiErqrNrjLbuahAcjAVN3mH/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nmGLsIMtco6ix/FvUfl82+iJyScCF7leyPpXap54OKv7s3Wll+bNGhVwFYjz6VkbHoH3XFaR/Vd56NsZSjFQYDBKaautrthJuawp1oX+4V8w9yWvxQyTVKJxgxphVLLrRgkqhX7NxHP/w9N5NiQDQpFNJNhn2ez1Y8Hsl/EwUBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=mb0l7tDa; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+96/IdX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD5A1F00AC4;
-	Fri, 31 Jul 2026 19:12:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785525145;
-	bh=oxtKVcMWnLp+7mkK8edrdex3rXLPKQA9LrtQrTnWZ5c=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=L+96/IdXTdIA7KnckQLPFdTMceiDIpHjDwJdmaKkj45QRObZc1piejK+RLN9S4RNm
-	 WeTY/Qg7SgcJrRATCk1/+EabzTPMXs60X0YnrsfchjCjlIwYB2ZaAw1cuZNReqB0Dt
-	 26R5J2OTObnvTPwBxhJR2/oE6Y+0wyjCyZBQ4ARMnmvLycFlJ/fi0rbmyY0u2NJrXh
-	 wUL53ewPANbaK9xTARpOsoIT6ai4PmJUV0Wu9rrQHm27pgg6HR/T3Sty7jg7wpzgp6
-	 5uatrEqWGeEsnifSj3omhcV/2mGq9+6EiqeBEqQR9YEv/nGKNx8hXpbqKLCZBVztRj
-	 tGx/y725SFHAQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 30659CE11BE; Fri, 31 Jul 2026 12:12:25 -0700 (PDT)
-Date: Fri, 31 Jul 2026 12:12:25 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Puranjay Mohan <puranjay12@gmail.com>
-Cc: Zqiang <qiang.zhang@linux.dev>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 3/6] srcu: Make call_srcu() safe to call from any context
-Message-ID: <ff720366-c537-46a0-bae1-a6dbe3bde7d7@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260729162207.1567770-1-puranjay@kernel.org>
- <20260729162207.1567770-4-puranjay@kernel.org>
- <96a07fd8d37018b005de85a0eac6045fa426e892@linux.dev>
- <CANk7y0g3tE7YJMV4nokqjiaMVeENVKxSv3zjLinXWF4GD4zzxw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="mb0l7tDa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1785568645; x=1786173445; i=spasswolf@web.de;
+	bh=mDESK30vhMZ1vtLk7G/1vm3QQOvJ9Wm1zUcVRIeD1Q0=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=mb0l7tDanHCHInBw2rivfDx6zeRLDXhSiibI9e5tEQPImF8qodPnfkHCB/NwguhM
+	 SsmWJdnDVlKZbRXG343bCeuRhys1aChUB/8puKue0tbcNBSfvAFfE3jboSVzxhNlz
+	 FkW7nAsuDiGBYO8YuCmyC5t9fmWEXwc4l5mM+rNoLztuIqMqrGNAY3xD9IoauG65A
+	 Hjv7ZjZFv/++k/sy1+9WP4z8owIeL5F43lo4Vx1wjfIfpjIgCfuI6HDmRZhSHjAPu
+	 EICqpeLUvvXeOSCS99Li7i0SO+MGmyjs/PmHSklvHw7rqvLZh58UFGHOjCAL7Yg4F
+	 LJS2lhZrFcGWO/K3Qw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N5lnF-1x1HJO2iUN-00tjDA; Sat, 01
+ Aug 2026 09:17:25 +0200
+From: Bert Karwatzki <spasswolf@web.de>
+To: linux-kernel@vger.kernel.org
+Cc: Bert Karwatzki <spasswolf@web.de>,
+	linux-next@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	amd-gfx@lists.freedesktop.org,
+	"# = v7 . 1" <stable@vger.kernel.org>,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rafal Ostrowski <rafal.ostrowski@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
+Date: Sat,  1 Aug 2026 09:17:23 +0200
+Message-ID: <20260801071724.12998-1-spasswolf@web.de>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <df5f0d9bb8f11d098f086bd2ace5aa0cef4c77d7.camel@web.de>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANk7y0g3tE7YJMV4nokqjiaMVeENVKxSv3zjLinXWF4GD4zzxw@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ditpzoXzGB5zYgnpShJq2bwKn3Qgi8DeDTbXOrOKUwzcOFcpqlT
+ TDKv6KagqjCtxAO+WNy7Bp63ZWYj7thUhZioeuG9iedDV9uxWiXcYxfvjY0YdiYJckGjJgg
+ KGs4rS6lWxYkcS5CMh/q5DIHIzvnfXbm7+sHdzOHWEx4SCFOGaQf4zKOHNlP8neEMuiXtfH
+ FMlzHS+Z8DetCxSXJHVjg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:D0cSLtkLGcc=;MrLD1GAdr9jDr8IMQ25v35Dzlum
+ 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
+ QMIzOwk+cDtmdTBzifUFgtvgfdrtBEvhEFD0s=
 
-On Fri, Jul 31, 2026 at 03:26:07PM +0100, Puranjay Mohan wrote:
-> On Fri, Jul 31, 2026 at 2:03 PM Zqiang <qiang.zhang@linux.dev> wrote:
-> >
-> > >
-> > > call_srcu() has the same constraint as call_rcu(): its callback list and
-> > > locks are only touched with interrupts disabled. srcu_gp_start_if_needed()
-> > > enqueues under raw_spin_lock_irqsave() and may walk the srcu_node tree,
-> > > and callback invocation and grace-period work do likewise. So a
-> > > call_srcu() with interrupts disabled may be racing a list operation in
-> > > flight on this CPU, and enqueuing directly could corrupt the list or
-> > > deadlock.
-> > >
-> > > Defer as call_rcu() does: stage the callback on the srcu_data's
-> > > ->defer_cbs, chain that srcu_data onto a per-CPU list, and kick a per-CPU
-> > > irq_work that re-issues it straight to the enqueue helper -- never back
-> > > through __call_srcu(), so it cannot defer again.
-> > >
-> > > The irq_work is global (per CPU, not per srcu_struct) and statically
-> > > initialized, so the deferral never runs check_init_srcu_struct(). It is
-> > > IRQ_WORK_INIT_HARD to re-issue promptly, as for call_rcu(). srcu_barrier()
-> > > and cleanup_srcu_struct() flush it first, and rcutree_migrate_callbacks()
-> > > calls srcu_offline_drain() to drain an outgoing CPU's deferred callbacks.
-> > > Gated by CONFIG_RCU_DEFER, as for call_rcu().
-> > >
-> > > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> > > Signed-off-by: Puranjay Mohan <puranjay@kernel.org>
-> > > ---
-> > >  include/linux/srcutree.h | 4 ++
-> > >  kernel/rcu/rcu.h | 3 +
-> > >  kernel/rcu/srcutree.c | 138 ++++++++++++++++++++++++++++++++++++++-
-> > >  kernel/rcu/tree.c | 2 +
-> > >  4 files changed, 144 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/include/linux/srcutree.h b/include/linux/srcutree.h
-> > > index 75e54e4f963fa..1ce759fb70948 100644
-> > > --- a/include/linux/srcutree.h
-> > > +++ b/include/linux/srcutree.h
-> > > @@ -13,6 +13,8 @@
-> > >
-> > >  #include <linux/rcu_node_tree.h>
-> > >  #include <linux/completion.h>
-> > > +#include <linux/irq_work_types.h>
-> > > +#include <linux/llist.h>
-> > >
-> > >  struct srcu_node;
-> > >  struct srcu_struct;
-> > > @@ -41,6 +43,8 @@ struct srcu_data {
-> > >  bool srcu_cblist_invoking; /* Invoking these CBs? */
-> > >  struct timer_list delay_work; /* Delay for CB invoking */
-> > >  struct work_struct work; /* Context for CB invoking. */
-> > > + struct llist_head defer_cbs; /* Callbacks deferred on re-entry. */
-> > > + struct llist_node defer_link; /* Links onto the per-CPU deferral drain list */
-> > >  struct rcu_head srcu_barrier_head; /* For srcu_barrier() use. */
-> > >  struct rcu_head srcu_ec_head; /* For srcu_expedite_current() use. */
-> > >  int srcu_ec_state; /* State for srcu_expedite_current(). */
-> > > diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-> > > index ed6604445f2ac..036d28516e92d 100644
-> > > --- a/kernel/rcu/rcu.h
-> > > +++ b/kernel/rcu/rcu.h
-> > > @@ -587,6 +587,9 @@ static inline bool should_rcu_defer(void)
-> > >  return irqs_disabled() && rcu_scheduler_active != RCU_SCHEDULER_INACTIVE;
-> > >  }
-> > >
-> > > +/* Drain an outgoing CPU's deferred SRCU callbacks; see rcutree_migrate_callbacks(). */
-> > > +void srcu_offline_drain(int cpu);
-> > > +
-> > >  enum rcutorture_type {
-> > >  RCU_FLAVOR,
-> > >  RCU_TASKS_FLAVOR,
-> > > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-> > > index 304112674e8a2..b9fe57ff91000 100644
-> > > --- a/kernel/rcu/srcutree.c
-> > > +++ b/kernel/rcu/srcutree.c
-> > > @@ -20,6 +20,7 @@
-> > >  #include <linux/percpu.h>
-> > >  #include <linux/preempt.h>
-> > >  #include <linux/irq_work.h>
-> > > +#include <linux/llist.h>
-> > >  #include <linux/rcupdate_wait.h>
-> > >  #include <linux/sched.h>
-> > >  #include <linux/smp.h>
-> > > @@ -79,6 +80,46 @@ static void process_srcu(struct work_struct *work);
-> > >  static void srcu_irq_work(struct irq_work *work);
-> > >  static void srcu_delay_timer(struct timer_list *t);
-> > >
-> > > +static void srcu_defer_drain(struct irq_work *iw);
-> > > +
-> > > +/*
-> > > + * Per-CPU call_srcu() deferral state. The irq_work is global (shared by every
-> > > + * srcu_struct), so it must find which srcu_structs deferred callbacks: a
-> > > + * callback is staged on its srcu_data's ->defer_cbs, and that srcu_data is
-> > > + * chained (->defer_link) onto this per-CPU ->list that the irq_work walks.
-> > > + */
-> > > +struct srcu_defer {
-> > > + struct llist_head list;
-> > > + struct irq_work iw;
-> > > + raw_spinlock_t lock;
-> > > +};
-> > > +
-> > > +static DEFINE_PER_CPU(struct srcu_defer, srcu_defer) = {
-> > > + .lock = __RAW_SPIN_LOCK_UNLOCKED(srcu_defer.lock),
-> > > + .iw = IRQ_WORK_INIT_HARD(srcu_defer_drain),
-> > > +};
-> > > +
-> > > +/*
-> > > + * Register pending deferred call_srcu() callbacks so a following srcu_barrier()
-> > > + * waits for them. An online CPU's own irq_work re-issues its callbacks, so wait
-> > > + * it out; an offline CPU's irq_work may never run again, so drain its list
-> > > + * directly onto this CPU instead.
-> > > + */
-> > > +static void srcu_defer_flush(void)
-> > > +{
-> > > + int cpu;
-> > > +
-> > > + if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> > > + return;
-> > > +
-> > > + for_each_possible_cpu(cpu) {
-> > > + if (cpu_online(cpu))
-> > > + irq_work_sync(&per_cpu(srcu_defer, cpu).iw);
-> > > + else
-> > > + srcu_defer_drain(&per_cpu(srcu_defer, cpu).iw);
-> > > + }
-> > > +}
-> > > +
-> > >  /*
-> > >  * Initialize SRCU per-CPU data. Note that statically allocated
-> > >  * srcu_struct structures might already have srcu_read_lock() and
-> > > @@ -107,6 +148,11 @@ static void init_srcu_struct_data(struct srcu_struct *ssp)
-> > >  sdp->cpu = cpu;
-> > >  INIT_WORK(&sdp->work, srcu_invoke_callbacks);
-> > >  timer_setup(&sdp->delay_work, srcu_delay_timer, 0);
-> > > + /*
-> > > + * ->defer_cbs and ->defer_link are valid when zeroed and are not
-> > > + * reinitialized here, lest we clobber callbacks a reentrant
-> > > + * call_srcu() already staged. See __call_srcu().
-> > > + */
-> > >  sdp->ssp = ssp;
-> > >  }
-> > >  }
-> > > @@ -697,6 +743,8 @@ void cleanup_srcu_struct(struct srcu_struct *ssp)
-> > >  return; /* Just leak it! */
-> > >  /* Wait for irq_work to finish first as it may queue a new work. */
-> > >  irq_work_sync(&sup->irq_work);
-> > > + /* Drain any deferred callbacks (shared irq_work) before freeing ->sda. */
-> > > + srcu_defer_flush();
-> >
-> > 1. Should we move srcu_defer_flush() before irq_work_sync(&sup->irq_work) ?
-> 
-> Will fix it in next version.
-> 
-> >
-> > 2. Will the following scenario trigger soft/hard_lockup ?
-> >
-> >     In irq_work context, irq disbaled:
-> >     srcu_defer_drain
-> >     ->srcu_do_enqueue
-> >       ->srcu_gp_start_if_needed
-> >         ->rcu_segcblist_enqueue
-> >           fentry ebpf prog
-> >              call_rcu_tasks_trace()
-> >              ->__call_srcu()
-> >                ->should_rcu_defer() = true
-> >                  ->llist_add() + irq_work_queue()
-> >                    the ipi send and irq_work run again -> srcu_defer_drain()->srcu_do_enqueue
-> >
-> > Did I miss something?
-> 
-> BPF programs don't allow recursion on the same CPU for the same BPF
-> program, but your scenario can still occur because here the BPF
-> program doesn't recurse rather it keeps enqueueing and firing IPIs.
-> Before this patch it would have been a deadlock.
-> 
-> So, this is expected behaviour and to fix it we have following options:
-> 
-> 1. Make stuff under call_srcu() notrace or keep the normal enqueue
-> traceable (so the outer reentry still happens once and the deadlock
-> fix is still exercised), but have srcu_defer_drain() re-issue through
-> a notrace copy of the enqueue chain so the prog can't fire during
->   the drain.
-> 2. Accept it and document it, and correct BPF programs like the
-> selftest in last patch will work because they detect reently.
-> 3. Have a per-cpu in-drain flag set in srcu_defer_drain() and if in
-> call_srcu should_rcu_defer() returns true and this flag is set +
-> in_nmi() returns false, this means we are in this refeeding loop, so
-> we can just leak that callback with a warning.
-> 
-> I prefer option 3 but let's wait for Paul for his feedback.
+On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
+converted to rt_mutex. dc_create_plane_state() can be called while
+inside an FPU-guarded region, resuling in "scheduling while atomic"
+errors on PREEMPT_RT kernels.
+ Fix this by calling kvzalloc_obj() with DC_RUN_WITH_PREEMPTION_ENABLED().
+Also fix the error path in dc_create_stream_for_sink().
 
-I am getting a bit nervous about all these special checks piling up,
-but let's start with #3 and see how it goes.
+Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Pa=
+rt 1")
+Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
 
-							Thanx, Paul
+Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+=2D--
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c  | 2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu=
+/drm/amd/display/dc/core/dc_stream.c
+index cdcf140bc1bb..accad9e20e88 100644
+=2D-- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -229,7 +229,7 @@ struct dc_stream_state *dc_create_stream_for_sink(
+=20
+ fail:
+ 	if (stream)
+-		kfree(stream);
++		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+=20
+ 	return NULL;
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/gp=
+u/drm/amd/display/dc/core/dc_surface.c
+index 88e825a6582c..d5c6427796b6 100644
+=2D-- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+@@ -85,8 +85,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_stat=
+e, const struct dc_plane
+  ************************************************************************=
+******/
+ struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+ {
+-	struct dc_plane_state *plane_state =3D kvzalloc_obj(*plane_state,
+-							  GFP_ATOMIC);
++	struct dc_plane_state *plane_state;
++	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D kvzalloc_obj(*plane_state=
+, GFP_ATOMIC));
+=20
+ 	if (NULL =3D=3D plane_state)
+ 		return NULL;
+=2D-=20
+2.53.0
+
+
+Rebased to next-20260729+. In these version the allocation of
+update_scratch has been removed from dc_create_stream_for_sink().
+
+Bert Karwatzki
