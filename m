@@ -1,213 +1,211 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-wm2-f2.google.com (mail-wm2-f2.google.com [74.125.225.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57D13624AE
-	for <linux-rt-devel@lists.linux.dev>; Sat,  1 Aug 2026 10:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785579439; cv=pass; b=Qm795duHck+TNrBOY5ogl2thGbOZXrCJX1dRGRLYzinAYimq7bdV1aKZTd8D+cIOzkDheGqcMk7ZyCDgFpfpjI/+F+7ESzgdesjcxXQaXyNFMRhDFYnbqgdo42h/DSUyqWRzACyzQfqMGV7nCZLe7zGKwb62z7Blp9rAFpGdqfU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785579439; c=relaxed/simple;
-	bh=fYuc91yYvMFDE6497qhGMtUAgZbd6nA0KxrauEEgHMg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U9JJYu4uH9Vd6crrC6gVcGC1OI5wGGnSux5mqd2jIQ4BY9lhpbS+OzH6H10mc1JXTQOZv1x7Vn5bQFP5ib95aZ1h6KRSUNGmeWPKSmAIgzzrnpuzfzFOGomY2Q9+33DWqBlB+LLFoJbbyV99KkLvfKhHEzZcii3sedsFa9161UM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3zF/w3k; arc=pass smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41760320393
+	for <linux-rt-devel@lists.linux.dev>; Sun,  2 Aug 2026 19:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785700619; cv=none; b=n2HscrXkqiXWoTN7a6WGoShPp4oNjG3Oj8thMjaqfttgv7/duMx7YFDHGpXzVLv17fPlRWcETFOtv56tUyHTWA+Y2xJIkwlKUuZ8nYg24K+IVI9La5ka2HpK5+XPniZ+turqo6JMb9S/6JDqGRUOrPdjev6mlWOPTByTq68D1mg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785700619; c=relaxed/simple;
+	bh=V1IzwZdk2mYsbL+TYSbB+904Wbwqx0+Hj3gAzFn1/gM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=mNImzOTAbL5U799BkKdOweqWIYMqx5rNol/I/fG0xiUymFq9gIS1MpHkv2NeLLbrjEDSZkubcpWd1hBY2f5IvwJ+SO58ZmwvWHW7IEsBnn6ASfa5lALduwEZcg5mkXRm3YEOveX1CyZP9WDedas/N5E8GC8bdDdpp4m+2iDqzaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTolhchE; arc=none smtp.client-ip=74.125.225.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3zF/w3k"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7e6b554044fso1604351a34.0
-        for <linux-rt-devel@lists.linux.dev>; Sat, 01 Aug 2026 03:17:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785579437; cv=none;
-        d=google.com; s=arc-20260327;
-        b=l7Epxf0kVKvNGk5EUVB7dxFoQGgsxZr3yaT+LZJ/hmU6ZLarM8kFgRC3hjyZlZgy2v
-         JP8UDX9dMrQXwsIq1Yr86fpODJHAoVF8irMReakN4qqBMxfWqLKukLeSq7rhX+GM6dct
-         SIPuupb9xbos+BKyAJTZz4MQMFc3wsn6X2mFwbBXNHIDSdwjgV5rd/Gp0HPCk8DuPks/
-         QqG6HCfro5JRazdfcxIPbUJzpomAPBhVyo9aZC4PbCOSkl48CU3wt/6oWWR6uzORf9QM
-         uXgCkFXTKrlyMHGjcuHQrX3yyrDUuZrIXfSZSSWJ+TxiMpktIyfBAZoH1JlT6VK+oH5M
-         Kapw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6SVVCVf5N1O+YrNArJsl/K5UcjWXbA/FoyoLNaVP5k8=;
-        fh=Z3LD87kjfOMHNQAwwzJIG28UFVIEmjCgEXjil0DrSrk=;
-        b=qii6K48nsk0cfA5TnwUlhic0e2dgio9PdKfqjl+5VxelFaf1VVhs0cn6S3ZRRKBxEa
-         XBjnhYNicehEB+AOtmYlWhnD+gF8H2JArSQUR3vsh8j7NS56Ib/F3fcKfNc3x3LubtkG
-         PwVPyDcAgPrCiH/zwx0jE+vPOsWFHz6PhQhNBlitL+7OnMJfhJzX//TQnT81qXZb9tTX
-         2nhGEg2Zw1HMjA+KN6BtwdqmlHoBe4HT7bOhtLZRrDXej/vpici6vCykcYWPX8j3+1Ch
-         hyejM5nAg5R8bMRCY/NETDcnrwEyd+CeI1kvLW1YS1C8ZPgyi7kriQQyqJEs5F6WZeVA
-         67/Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTolhchE"
+Received: by mail-wm2-f2.google.com with SMTP id 5b1f17b1804b1-49242309566so2762795e9.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 02 Aug 2026 12:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785579437; x=1786184237; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6SVVCVf5N1O+YrNArJsl/K5UcjWXbA/FoyoLNaVP5k8=;
-        b=h3zF/w3kZhz5rPB1bLtG+yzjy8JqtJ+pBXcP3mr2NkK+NryNRbwPN42adAStoUQdVv
-         Kd6PtnAcISIhq3Sj545UsVB140bquv8bNTKPrYOFBiQlkcELoRT0cYk8XTUznyTzRq3X
-         Kf098CKNPcjSWTwc3oQ+lFpQE+Nxa0OqPQfodR5OzTRKI+VLX41Uv8nTHwdG847BtFkA
-         x4kh2tmbySurg7TuFh2pRq1BliVJEmUkK1VKcBHja/FzG1SVkQkOVtxoDZVI76/TGJp+
-         d9WOuvelH8cdgHH1RCc5m/hovUqH1VViyxQLZ3TRxYOWQpL3UG83cyDOFtNRM+2J00WQ
-         wcoQ==
+        d=gmail.com; s=20251104; t=1785700615; x=1786305415; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=JTBPTzllvI8xs8/vG3mDDWRwtzJsDWx33RPIMSsvnUQ=;
+        b=gTolhchEIotOe1H4N9YKALH/bdE/XGpldRL4fgcSSfuYvsVWsUyCta0cHRTTyvUNaK
+         zuoyFZAyJUXolNc5prMf4bpiZXTX9Wb0YMuqN183RpU6xjbJh4lNgNjc5W8zQqRSrvzd
+         cbQbEsn8XskGfYsR19tMc3qUpQKQcvFgjqfSuzS9/pu+ylvkIe8HbJUG/BVC3zGQI6Dt
+         B8VyE1Z/TDEw4NrmTcuUkl86K37x/CCdpnJwGDmZhFQmIBpzNo94Ck8xiJinJWEjasJ2
+         WZ1M62zmi7ep5SXQz5M8zTV4gpqnIF4p0TqwOk0IMhxMOFcM+FNjm5TqTNHNQiSZZnuY
+         /o+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785579437; x=1786184237;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785700615; x=1786305415;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6SVVCVf5N1O+YrNArJsl/K5UcjWXbA/FoyoLNaVP5k8=;
-        b=Mm823sYkluMa7ti2vGA9OYB5wSYd2ZFYClwipGG8EikgaINEwdA5baypObpvlBJ1dH
-         WlMqknO7bY3z1YZuj+vmRGYpyXMz6EpuPBmIL9Yos2BwkIdDgw7PY+nGOwKK80e+V8jV
-         p7JAlkBnBU45lo/pY+XohXgD4QCghtKIbvUHGgW2a1YFCX7hmv6iRKbzu/DdKOvLwylg
-         4mcISOZyg9bD+HQSIkdpztrYhSoaTZZNie4I169ovuzsWamuQ0XrbkfYS2ZCV2jh2YYe
-         9Zd/9382rPXJJv3Du75futv4hzhTJemnuKhDmtOkGFImdY9NaUYgzmA3ETw3V7LkSFVx
-         iOMA==
-X-Forwarded-Encrypted: i=1; AHgh+RrUEasZmhdF28ecR5oGKcUPvfmi6L2Z2sU1cZxsqce59tfZt3E+Z0uOW8MOl2o1mdzKtAVpETiDCB++ydsa6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+wFyxLwjWYTlcFt4Kf5C+srADXQrOrzazBS6CbtlBPCNIiY1F
-	xyMpuwcixav4G2G3l+8/YgKxSnF2YDMyVmTwRN1PcA69pa7OjYgfecO4zU2bIJ/sumWvcRF4K6v
-	7DRj2ac2b0W7cWwNxIsUuGS3Gi61KAZI=
-X-Gm-Gg: AR+sD10pqHzxbi44Gv+Q3VrjZlAUDkJN2ET7rj63N3Wc9ZknQY0BOH2DEKH12jgFmwT
-	vnsNwZSRQK1xSTRADFZdv9d7licVMb9HwAmdUZaC6g0vPHergcgbAp1ZLC4VL2lylu7VtTgQvZH
-	D8dq8XLCS1ZeyGeW/mPVvR/RM4P3kas16tGzRQIe9rP+0vt3KSf3eZ6vHsbtxaC9F9JIrw9Knei
-	iUZ+w9wwNt7RbF5JlhlTOAsBmKz5YysPiEYxjw5qzg2c1oCV5vNaUTEhmONOaemnAuhnTSYNKuw
-	dDyVai4eXroWkk2dO/yshPpsuPWMyCATl3e+CJrnLHYB6g==
-X-Received: by 2002:a05:6830:64c8:b0:7d9:7201:1acf with SMTP id
- 46e09a7af769-7f196d407e0mr6475364a34.5.1785579436652; Sat, 01 Aug 2026
- 03:17:16 -0700 (PDT)
+        bh=JTBPTzllvI8xs8/vG3mDDWRwtzJsDWx33RPIMSsvnUQ=;
+        b=VFOnYGo11fzz4APXdJn8ac6HmBCZj8AT2mL4kKH7CDRjtN97LY1fi3wpTV74o4C3aQ
+         qAi78zG3IgjcG3OhPxeGtUyN1ShladU7dVVzPivHOHtkKv5WWi8wAM+UkCZDvPU2uBkR
+         w2T8bN2tQo5Gqge6Yy+UV7HE/fRa2S1IvVXB9uB9CWascDfD6nwoD83Dw+UOHj5S+yQX
+         zT+bEs/5T6uvJi3YhRedb1z/vD6IahKzDK0AAvxwuEaaIXWDrHbtfNNy5Tdb0nQYyBwW
+         CtWQrKDDy5CvNo9/VUSCq4kwxDqBEw9CMzyj+wWzlCWdIW8PjNYu47zfF4GFmDtp0uE5
+         kG/Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqmntKGP/OetwnEC4GKrQ98HtbhkLgQRxoqCyk+WfixOfMLmP/VV6PS4uytzmusy2uJU1v5ZUqN1Xgau7Bu6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRXI0hOWhx0nNw0YwUGkcKPp4UosQxRZJWnw8jeOC/kM58SiCw
+	2rbXirStWuQh0EesvB3tPWhshiz7wMOzUdSYTB+y41+IfcZr9a4v0rft
+X-Gm-Gg: AR+sD12YoGr4nJZkc+zY0eESL58ydEwayV0D4MC78WZX8hpShmE83Bfr6SXplWEQuyD
+	VXRovWBpDsgAs3nnzPDAUiFwGaOiPL11hC1ec5VJHCP5OOOKETs362Mj3bqDuwFn1pI1C0e14YO
+	T0mL8hj0mhZzGKzywXaSo0ylyR0cUO1Huj62GVfRL1nlRNXV1RBWVoxWw/FRbLPrLDuGYdoM6Is
+	zaJueDqiAOap79inoGtU8XM0NzK+vtOyS4I9ZA0lojBjcn9+hTt8XfY/kG/ixQE2+RVv41faNfn
+	WFMhHjstH93ICug2cSOpBywbmTx/IsYvBzGL/IDbyKjT+VaCJtMxL3/E3EsuRlflLOsp3J6bK1X
+	YDoOG7/zQqJYHytpPu36qgvhqaMT5ooMkvh57G6hBo4krdd4dqfNdiby1fRP5cTXuf2iNLWwmJX
+	URCGicz2wlamvLi+GH9PJBSS0sglmYggEvhfgvHwfe2c9dV+kSfnO5LzyHJ52lIYzOT3v1bbLU3
+	zSJjd/zp5Q/U4FLRudRH2h+cywgRXOWIVX5m964rKnFDNBjIKOqVWurmpfViC/3hqzUXxJOYlZV
+	jzSuCsjF1hql8zBxeqa6cT8xO8Ci
+X-Received: by 2002:a05:600c:470a:b0:496:c18c:f998 with SMTP id 5b1f17b1804b1-4980c6a2241mr163673185e9.19.1785700615172;
+        Sun, 02 Aug 2026 12:56:55 -0700 (PDT)
+Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd458adc9sm27799191f8f.27.2026.08.02.12.56.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 12:56:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <df5f0d9bb8f11d098f086bd2ace5aa0cef4c77d7.camel@web.de> <20260801071724.12998-1-spasswolf@web.de>
-In-Reply-To: <20260801071724.12998-1-spasswolf@web.de>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Sat, 1 Aug 2026 15:17:04 +0500
-X-Gm-Features: AUfX_mySPDS1tX6sBksLt_ubqUTn6yupd7v5vPVdQi51p4TGShRSsHENrQ2zzec
-Message-ID: <CABXGCsMFa25HyOdcSX8QR8_=58=uJT+HMVhyus=rOFHBML25=w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, amd-gfx@lists.freedesktop.org, 
-	"# = v7 . 1" <stable@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>, 
-	Rafal Ostrowski <rafal.ostrowski@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 02 Aug 2026 21:56:53 +0200
+Message-Id: <DKEQ1D0U77V6.1EMGXI819YAW9@gmail.com>
+From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
+To: <paulmck@kernel.org>, "Puranjay Mohan" <puranjay@kernel.org>
+Cc: "Lai Jiangshan" <jiangshanlai@gmail.com>, "Josh Triplett"
+ <josh@joshtriplett.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Frederic Weisbecker" <frederic@kernel.org>, "Neeraj Upadhyay"
+ <neeraj.upadhyay@kernel.org>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Boqun Feng" <boqun@kernel.org>, "Uladzislau Rezki" <urezki@gmail.com>,
+ "Davidlohr Bueso" <dave@stgolabs.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Alexei
+ Starovoitov" <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Mathieu Desnoyers"
+ <mathieu.desnoyers@efficios.com>, "Zqiang" <qiang.zhang@linux.dev>, "Martin
+ KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>, "Yonghong
+ Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>, "Emil
+ Tsalapatis" <emil@etsalapatis.com>, "Matt Fleming"
+ <mfleming@cloudflare.com>, "Harry Yoo (Oracle)" <harry@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <rcu@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH 0/6] rcu,srcu: Make call_rcu()/call_srcu() safe from any
+ context
+X-Mailer: aerc 0.21.0
+References: <20260729162207.1567770-1-puranjay@kernel.org>
+ <0096fbf8-c3be-4388-a60b-1968664e4f27@paulmck-laptop>
+In-Reply-To: <0096fbf8-c3be-4388-a60b-1968664e4f27@paulmck-laptop>
 
-On Sat, Aug 1, 2026 at 12:17=E2=80=AFPM Bert Karwatzki <spasswolf@web.de> w=
-rote:
+On Thu Jul 30, 2026 at 5:07 AM CEST, Paul E. McKenney wrote:
+> On Wed, Jul 29, 2026 at 09:21:59AM -0700, Puranjay Mohan wrote:
+>> call_rcu() and call_srcu() only ever touch their per-CPU callback lists
+>> with interrupts disabled: the enqueue runs under local_irq_save() (and t=
+he
+>> nocb locks when offloaded), and so do callback invocation and grace-peri=
+od
+>> work.  That is fine as long as call_rcu() itself is invoked with
+>> interrupts enabled, but it is not always.  An NMI handler can call
+>> call_rcu(), and instrumentation can reenter it.  The case that prompted
+>> this is a BPF program attached to rcu_segcblist_enqueue() that frees an
+>> object: the free reaches call_rcu_tasks_trace(), which is call_srcu()
+>> under the hood, back on the same CPU with the srcu_data lock already hel=
+d,
+>> and it deadlocks on that lock.  Either way, enqueuing directly can corru=
+pt
+>> the list or deadlock.
+>>
+>> Rather than scatter context checks through the enqueue, make it defer
+>> whenever interrupts are disabled: stage the callback on a per-CPU lockle=
+ss
+>> list and re-issue it from an irq_work once interrupts are back on, going
+>> straight to the enqueue helper so the re-issue cannot defer again.  Only
+>> the drain side takes a lock; the staging is a bare llist_add() and stays
+>> safe from NMI.  This is behind a new hidden CONFIG_RCU_DEFER, which is s=
+et
+>> wherever a reentrant enqueue is possible (HAVE_NMI, KPROBES,
+>> FUNCTION_TRACER or TRACEPOINTS); without it call_rcu() enqueues exactly =
+as
+>> before.
+>>
+>> CPU offline is the awkward part.  A callback can be deferred very late i=
+n
+>> the outgoing CPU's teardown -- from do_idle() or cpuhp_ap_report_dead(),
+>> past the CPUHP_AP_SMPCFD_DYING flush that would otherwise run the irq_wo=
+rk
+>> -- so the irq_work can no longer run there to re-issue it.  rcu_barrier(=
+)
+>> and srcu_barrier() therefore drain the deferred lists themselves before
+>> they wait: for online CPUs they wait the irq_work out, and for offline
+>> ones they drain the list directly, since that irq_work may never run
+>> again.  rcutree_migrate_callbacks() drains the outgoing CPU's list too, =
+so
+>> a late deferral still lands on a callback list even when nobody calls a
+>> barrier.  To keep those three drainers from stepping on each other, the
+>> drain holds a per-CPU raw lock across the llist_del_all() and the
+>> re-issue, so a drainer never returns having pulled callbacks off the
+>> deferred list but not yet put them on a callback list.  Every lock the
+>> re-issue touches (nocb, rcu_node, srcu_data) is already raw, so the
+>> nesting is fine.
+>>
+>> The irq_work is IRQ_WORK_INIT_HARD.  It is not needed for correctness, b=
+ut
+>> a non-HARD irq_work runs from a kthread on PREEMPT_RT and can be delayed
+>> under load, letting deferred callbacks pile up; running the re-issue in
+>> hard-irq context keeps that from turning into an OOM.
+>>
+>> Patches 1 and 2 do Tree and Tiny RCU, 3 and 4 Tree and Tiny SRCU.  Patch=
+ 5
+>> teaches rcutorture to issue ->call() from a perf-overflow NMI -- the
+>> nmi_calls parameter, on by default -- on the flavors that advertise it,
+>> and checks that every callback issued from NMI is later invoked.  Patch =
+6
+>> adds the BPF reentry reproducer described above.
 >
-> On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
-> converted to rt_mutex. dc_create_plane_state() can be called while
-> inside an FPU-guarded region, resuling in "scheduling while atomic"
-> errors on PREEMPT_RT kernels.
->  Fix this by calling kvzalloc_obj() with DC_RUN_WITH_PREEMPTION_ENABLED()=
-.
-> Also fix the error path in dc_create_stream_for_sink().
+> Nice!  I applied this series to -rcu for testing and review.  Patch 6
+> might want to go up a different path, but let's see how it goes.
+> If it goes via -rcu, it will need an appropriate ack.
 >
-> Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - P=
-art 1")
-> Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de=
-/
+
+I think it makes sense to take it through your tree for now. If there are i=
+ssues
+when we get these changes on BPF side (with the selftest), we'll fix forwar=
+d. If
+we take it now, it will end up deadlocking the CI, so should come with the
+relevant changes once trees are synced.
+
+You can add my ack when taking it in.
+
+Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+
+> 							Thanx, Paul
 >
-> Signed-off-by: Bert Karwatzki <spasswolf@web.de>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c  | 2 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
-u/drm/amd/display/dc/core/dc_stream.c
-> index cdcf140bc1bb..accad9e20e88 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -229,7 +229,7 @@ struct dc_stream_state *dc_create_stream_for_sink(
->
->  fail:
->         if (stream)
-> -               kfree(stream);
-> +               DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
->
->         return NULL;
->  }
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/g=
-pu/drm/amd/display/dc/core/dc_surface.c
-> index 88e825a6582c..d5c6427796b6 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> @@ -85,8 +85,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_sta=
-te, const struct dc_plane
->   ***********************************************************************=
-*******/
->  struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
->  {
-> -       struct dc_plane_state *plane_state =3D kvzalloc_obj(*plane_state,
-> -                                                         GFP_ATOMIC);
-> +       struct dc_plane_state *plane_state;
-> +       DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D kvzalloc_obj(*plan=
-e_state, GFP_ATOMIC));
+>> Puranjay Mohan (6):
+>>   rcu: Make call_rcu() safe to call from any context
+>>   rcu: Make Tiny call_rcu() safe to call from any context
+>>   srcu: Make call_srcu() safe to call from any context
+>>   srcu: Make Tiny call_srcu() safe to call from any context
+>>   rcutorture: Exercise ->call() from NMI context
+>>   selftests/bpf: Add a call_srcu() re-entry reproducer
+>>
+>>  include/linux/srcutiny.h                      |  11 +-
+>>  include/linux/srcutree.h                      |   4 +
+>>  kernel/rcu/Kconfig                            |   6 +
+>>  kernel/rcu/rcu.h                              |  18 +++
+>>  kernel/rcu/rcutorture.c                       | 115 +++++++++++++++
+>>  kernel/rcu/srcutiny.c                         |  53 ++++++-
+>>  kernel/rcu/srcutree.c                         | 138 +++++++++++++++++-
+>>  kernel/rcu/tiny.c                             | 101 ++++++++++---
+>>  kernel/rcu/tree.c                             | 122 ++++++++++++++--
+>>  kernel/rcu/tree.h                             |   5 +
+>>  .../selftests/bpf/prog_tests/rcu_reentry.c    |  58 ++++++++
+>>  .../testing/selftests/bpf/progs/rcu_reentry.c |  45 ++++++
+>>  12 files changed, 636 insertions(+), 40 deletions(-)
+>>  create mode 100644 tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
+>>  create mode 100644 tools/testing/selftests/bpf/progs/rcu_reentry.c
+>>
+>>
+>> base-commit: 9dc303e69bcd49f9668ca090ae45325269531fbb
+>> --
+>> 2.53.0-Meta
+>>
 
-
-This hunk breaks the build when CONFIG_DRM_AMD_DC_FP=3Dn.
-
-dc_surface.c gets DC_RUN_WITH_PREEMPTION_ENABLED only indirectly, via
-dc.h -> dc_types.h -> os_types.h, and there the include is guarded:
-
-#if defined(CONFIG_DRM_AMD_DC_FP)
-#include "amdgpu_dm/dc_fpu.h"
-#endif
-
-With DC_FP=3Dn nothing defines the macro in that file.  dc_stream.c is not
-affected because it includes dc_fpu.h directly.
-
-This is not only exotic architectures: DRM_AMD_DC has
-
-select DRM_AMD_DC_FP if ARCH_HAS_KERNEL_FPU_SUPPORT && \
-!(CC_IS_CLANG && (ARM64 || LOONGARCH || RISCV))
-
-so an arm64 clang build is enough.  On amd-staging-drm-next with your
-patch applied:
-
-  $ make LLVM=3D1 ARCH=3Darm64 allmodconfig
-  $ make LLVM=3D1 ARCH=3Darm64 drivers/gpu/drm/amd/amdgpu/
-  dc_surface.c:89:2: error: call to undeclared function
-    'DC_RUN_WITH_PREEMPTION_ENABLED'; ISO C99 and later do not support
-    implicit function declarations [-Wimplicit-function-declaration]
-     89 |  DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D
-kvzalloc_obj(*plane_state, GFP_ATOMIC));
-
-A plain x86_64 build (DC_FP=3Dy) is clean, which is presumably why it did
-not show up for you.
-
-Adding
-
-#include "dc_fpu.h"
-
-to dc_surface.c fixes it, and matches what dc_stream.c already does.
-Please do not copy the local fallback that sits below that include in
-dc_stream.c:
-
-#if !defined(DC_RUN_WITH_PREEMPTION_ENABLED)
-#define DC_RUN_WITH_PREEMPTION_ENABLED(code) code
-#endif
-
-It is dead code there - dc_fpu.h defines the macro in every branch - and
-in a new file it would compile cleanly while quietly doing nothing.
-
-One unrelated note: you kept Cc: stable # v7.1, but this version is
-rebased onto next-20260729, where the update_scratch allocation is gone
-from dc_create_stream_for_sink().  It does not apply to current mainline
-either, so older trees will need a separate backport - worth saying so
-in the commit message.
-
-With the include added I can give this a Tested-by on dcn32 (RX 7900
-XTX), which exercises the DML1 phantom-plane path rather than the dml21
-one you hit.
-
---=20
-Best Regards,
-Mikhail Gavrilov.
