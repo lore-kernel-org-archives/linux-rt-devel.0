@@ -1,217 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD0841D11E;
-	Mon,  3 Aug 2026 13:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5707441D207;
+	Mon,  3 Aug 2026 14:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785765246; cv=none; b=SYF6ztfDvpoJ8ghGHGuP5AQVXcOd7xQ6RUySaRc/nOOFXYnkfNulSnFVMUGmQBwTDd630Wn2CfKNGiL7BX+YNSBpfpmw/Lk51pmw3qqLsK3HszIpxaznynwP6pBpCg924a95uAvWrTl2MODpF0NKxqc30+S2TGuVjCcvWbdGW04=
+	t=1785766697; cv=none; b=L+wlIj3jglal8WNUg6kAhUcetxkYR1Bm9bNJAmewdhOECS8IQW77sNUmaCtBX2Vfo7c6eWV8V6LgLIjFFbuc7LLARLLKuJP2vZ9Vv7muhikQKIbu9Gjq0sR7wbEZ5UriOtksugGY5pJAipbfq2G9ue1IMR1Zueqq7cT5Wg7Oyg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785765246; c=relaxed/simple;
-	bh=wp013QQZyotJrLjBrIasqIfJoCCnycwD9Rfdk91JbKg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=stw0bKfRkbdBwhLE7bpO1NVgSNC9I0vnaZyElfKLrWziqpUxiTu9D4laSWuCPP+GGoA6jg1QHL8ttA49lYzVv8flBvZVYBddX/b/mDDaNPEzxdq29KmCrByoirvKIuvn4Ctd0e9gSl8AWrUvtaiQ2pUVHbuq0fzcwjpt68AkPVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxocRJ7A; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785766697; c=relaxed/simple;
+	bh=T8sRHTMTe5QlgkoWNjw44IaSUfMYsUEsNHjHOApIevg=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=C9fQv/fT9myI/yJ4WvpHLLkaHhUkE6jMRb8RRtUekvKWekj4GV1v0Rqk2JofA2a9xUFyALjEFLH8Z3Ds0VX/vmhmJ7pWvDAJZWtr9M9IjFpINDYAhl4Bjjzw//cUwn/l2AsZUIj1vCI5d3t6PbUXmnSSR/pjmhMfNc17vmt+xoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eEvhVfIc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxocRJ7A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5741F000E9;
-	Mon,  3 Aug 2026 13:54:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eEvhVfIc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A765F1F000E9;
+	Mon,  3 Aug 2026 14:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785765245;
-	bh=qeYRh45l20SmIGanD5yoc+u5gkMxwHBGK5QfYK5yQdU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HxocRJ7AMEVpGOfIuBEa4Y61N0xsjHcLE1kmTy6GW40/nz4fBMYxYrDyeVUMhEfxr
-	 JDDWidJBVHH2zB3nCRWx8JazDCj19bW044m/cqjKTRZV1MhR6j/al9vLwBNhetyJfh
-	 0BMcUIDDs2tIN8zbvCBy3+ZWPROM+VAcHZcli0enwHIuSTfRAaCWS5zh0iPAQXQzxF
-	 uom5jAWj56WhnWG8t584YuNCswpT13AskTNlrS32UhAUVeZhBTo7uskvkIJUUV27Af
-	 fWlnyQWMgwzr6fFnguNI3UV8tZxxjz4g6SjJRTuw9pZ0/nAKRci94yGvwmkHXuzx4+
-	 p3phlcimf6Jbg==
-From: Puranjay Mohan <puranjay@kernel.org>
-To: "Lai Jiangshan" <jiangshanlai@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Josh Triplett" <josh@joshtriplett.org>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	"Frederic Weisbecker" <frederic@kernel.org>,
-	"Neeraj Upadhyay" <neeraj.upadhyay@kernel.org>,
-	"Joel Fernandes" <joelagnelf@nvidia.com>,
-	"Boqun Feng" <boqun@kernel.org>,
-	"Uladzislau Rezki" <urezki@gmail.com>,
-	"Davidlohr Bueso" <dave@stgolabs.net>,
-	"Andrii Nakryiko" <andrii@kernel.org>,
-	"Eduard Zingerman" <eddyz87@gmail.com>,
-	"Alexei Starovoitov" <ast@kernel.org>,
-	"Daniel Borkmann" <daniel@iogearbox.net>,
-	"Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-Cc: Puranjay Mohan <puranjay@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v2 6/6] selftests/bpf: Add a call_srcu() re-entry reproducer
-Date: Mon,  3 Aug 2026 06:53:29 -0700
-Message-ID: <20260803135329.2327280-6-puranjay@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260803134839.2103051-1-puranjay@kernel.org>
+	s=k20260515; t=1785766695;
+	bh=Idr4OkEplk4HQ/PYnRhr8cIGroCI9uguCmarq8UsQ8Y=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eEvhVfIcWdO0TsrpqFir72+ydc4xuKbZh5quM+LvU9qh84yeI7htTkhY18FcoLgVR
+	 t2DCD+LNIh2P8XLg5kjkd24zJEjQEN5EFXiGS1djv3u6Uta3JjeB8I8B0/uto4te/E
+	 5+dtIGSgQLJJZlZBd+mjUnpHbxfHDJjaDORiTT1jRsOmmSh+U3KvvIy4U/UnZSb2cM
+	 Ro6K/e4b1ioOLhZj1SR6/V9capzJ8DB7ETje2PfrMk8mEgH2IcnpgU9Rz8w8PKolGX
+	 7nxE58lglwV4wTrCK2NH8k9nmOpnowoufY0SrUn7oIUrudvqSKEjGsPuGqY/JJ+uWj
+	 YdR8K0Q6M/xJQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/6] rcu: Make call_rcu() safe to call from any
+ context
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Puranjay Mohan" <puranjay@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260803135329.2327280-1-puranjay@kernel.org>
 References: <20260803134839.2103051-1-puranjay@kernel.org>
+ <20260803135329.2327280-1-puranjay@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Aug 2026 14:18:14 +0000
+Message-Id: <20260803141815.A765F1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Re-enter call_srcu() from a BPF program to exercise its any-context
-safety (and thus call_rcu_tasks_trace(), which is call_srcu() on
-rcu_tasks_trace_srcu_struct).
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] Concurrent `rcu_barrier()` calls can cause missed wakeups and syst=
+em hangs in `irq_work_sync()` on architectures without IPI-based `irq_work`.
+--
 
-An fentry program on rcu_segcblist_enqueue() fires mid-enqueue: that
-function is reached from srcu_gp_start_if_needed() with the srcu_data
-->lock held.  The program does a task-storage delete, whose only deferred
-work is call_rcu_tasks_trace(), re-entering the enqueue on the same CPU.
-The triggering thread is pinned to one CPU and matched by TID, so the
-program fires only for the test's own delete.
+--- Patch [1]: [PATCH v2 1/6] rcu: Make call_rcu() safe to call from any co=
+ntext ---
+commit f033f4bd0a671eccd668878bff133f083ff63d97
+Author: Puranjay Mohan <puranjay@kernel.org>
 
-Without the fix the nested call re-takes the same sdp lock and
-self-deadlocks; with it the nested __call_srcu() sees interrupts disabled
-and defers via irq_work, so the delete returns and the test passes.  Since
-it can hang an unfixed kernel, run it only against a kernel carrying the
-fix.
+rcu: Make call_rcu() safe to call from any context
 
-Signed-off-by: Puranjay Mohan <puranjay@kernel.org>
-Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
----
- .../selftests/bpf/prog_tests/rcu_reentry.c    | 58 +++++++++++++++++++
- .../testing/selftests/bpf/progs/rcu_reentry.c | 45 ++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
- create mode 100644 tools/testing/selftests/bpf/progs/rcu_reentry.c
+This commit makes call_rcu() safe to call from any context by deferring
+the callback on a per-CPU llist when interrupts are disabled, and raising
+an irq_work to re-issue it once interrupts are enabled. It introduces
+rcu_defer_flush() to flush these deferred callbacks during rcu_barrier().
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/rcu_reentry.c b/tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
-new file mode 100644
-index 0000000000000..f6ecd93be30f4
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Exercise re-entry into call_srcu() from BPF; see progs/rcu_reentry.c. */
-+#define _GNU_SOURCE
-+#include <sched.h>
-+#include <sys/syscall.h>
-+#include <test_progs.h>
-+#include "rcu_reentry.skel.h"
-+
-+static int sys_pidfd_open(pid_t pid, unsigned int flags)
-+{
-+	return syscall(__NR_pidfd_open, pid, flags);
-+}
-+
-+void test_rcu_reentry(void)
-+{
-+	struct rcu_reentry *skel;
-+	int err, pidfd = -1, map_fd;
-+	__u64 val = 1;
-+	cpu_set_t set;
-+
-+	skel = rcu_reentry__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "skel_open_and_load"))
-+		return;
-+
-+	err = rcu_reentry__attach(skel);
-+	if (!ASSERT_OK(err, "skel_attach"))
-+		goto out;
-+
-+	/* Keep the re-entry on a single CPU. */
-+	CPU_ZERO(&set);
-+	CPU_SET(0, &set);
-+	if (sched_setaffinity(0, sizeof(set), &set))
-+		perror("sched_setaffinity");
-+
-+	pidfd = sys_pidfd_open(getpid(), 0);
-+	if (!ASSERT_GE(pidfd, 0, "pidfd_open"))
-+		goto out;
-+	map_fd = bpf_map__fd(skel->maps.task_stg);
-+	err = bpf_map_update_elem(map_fd, &pidfd, &val, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "boot_create"))
-+		goto out;
-+
-+	/* Arm the handler for this thread, then trigger call_rcu_tasks_trace(). */
-+	skel->bss->target_pid = syscall(__NR_gettid);
-+	err = bpf_map_delete_elem(map_fd, &pidfd);
-+	ASSERT_OK(err, "boot_delete");
-+
-+	/* Only Tree SRCU enqueues via rcu_segcblist_enqueue(); skip elsewhere. */
-+	if (!skel->bss->hits) {
-+		test__skip();
-+		goto out;
-+	}
-+	ASSERT_EQ(skel->bss->reentered, 1, "reentry_deferred");
-+out:
-+	if (pidfd >= 0)
-+		close(pidfd);
-+	rcu_reentry__destroy(skel);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/rcu_reentry.c b/tools/testing/selftests/bpf/progs/rcu_reentry.c
-new file mode 100644
-index 0000000000000..d92a927ff51c0
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/rcu_reentry.c
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Re-enter call_srcu() from a BPF program.  fentry on rcu_segcblist_enqueue()
-+ * fires inside call_srcu()'s enqueue (reached from srcu_gp_start_if_needed()
-+ * with the srcu_data ->lock held); the handler then calls call_rcu_tasks_trace()
-+ * -- itself call_srcu() on rcu_tasks_trace_srcu_struct -- re-entering the same
-+ * srcu_data on the same CPU.
-+ */
-+#include "vmlinux.h"
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_TASK_STORAGE);
-+	__uint(map_flags, BPF_F_NO_PREALLOC);
-+	__type(key, int);
-+	__type(value, __u64);
-+} task_stg SEC(".maps");
-+
-+int target_pid;
-+int hits;
-+int reentered;
-+
-+SEC("fentry/rcu_segcblist_enqueue")
-+int BPF_PROG(reenter)
-+{
-+	struct task_struct *cur;
-+
-+	if (reentered || !target_pid)
-+		return 0;
-+
-+	cur = bpf_get_current_task_btf();
-+	if (!cur || cur->pid != target_pid)
-+		return 0;
-+
-+	/* Re-enter via a task-storage delete, which calls call_rcu_tasks_trace(). */
-+	__sync_fetch_and_add(&hits, 1);
-+	bpf_task_storage_get(&task_stg, cur, 0, BPF_LOCAL_STORAGE_GET_F_CREATE);
-+	bpf_task_storage_delete(&task_stg, cur);
-+
-+	reentered = 1;
-+	return 0;
-+}
--- 
-2.53.0-Meta
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 96848fc1f02b8..31e2d2207ac03 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
 
+[ ... ]
+
+> @@ -3896,8 +3990,12 @@ void rcu_barrier(void)
+>  	unsigned long flags;
+>  	unsigned long gseq;
+>  	struct rcu_data *rdp;
+> -	unsigned long s =3D rcu_seq_snap(&rcu_state.barrier_sequence);
+> +	unsigned long s;
+> =20
+> +	/* Register any deferred callbacks before snapshotting the sequence. */
+> +	rcu_defer_flush();
+> +
+
+[Severity: High]
+Because rcu_defer_flush() is called before taking the rcu_state.barrier_mut=
+ex,
+can multiple threads execute it concurrently?
+
+If multiple threads call rcu_defer_flush() concurrently, they will both
+call irq_work_sync(&rdp->defer_work) on the same per-CPU irq_work:
+
+kernel/rcu/tree.c:rcu_defer_flush() {
+...
+    if (cpu_online(cpu))
+        irq_work_sync(&rdp->defer_work);
+...
+}
+
+On architectures where arch_irq_work_has_interrupt() is false,
+irq_work_sync() waits using rcuwait_wait_event(). Since rcuwait only
+supports a single waiter, won't concurrent callers overwrite the internal
+task pointer, causing one of the threads to miss the wakeup and hang
+indefinitely?
+
+> +	s =3D rcu_seq_snap(&rcu_state.barrier_sequence);
+>  	rcu_barrier_trace(TPS("Begin"), -1, s);
+> =20
+>  	/* Take mutex to serialize concurrent rcu_barrier() requests. */
+>  	mutex_lock(&rcu_state.barrier_mutex);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803134839.2103=
+051-1-puranjay@kernel.org?part=3D1
