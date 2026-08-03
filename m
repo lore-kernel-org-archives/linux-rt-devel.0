@@ -1,235 +1,111 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C5033A715
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Aug 2026 06:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F702D7398;
+	Mon,  3 Aug 2026 07:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785739419; cv=none; b=QeSkzbdYbKImm/Nm41GGRUGHWpvVhW0GayZdNaLSfJYKkUfpxJN/+WlM4abeVdkUT98bpPyqputlJJV4gzwJN0fSxyk7C+L4kieF7hqXRZ7gCT2uW0JvBT4akmGIrsVVefnmlG1XPq7JQbqES794cEeI0I5ZEx8LjnPis97Qolo=
+	t=1785741575; cv=none; b=WGrnVgax3v0aQF/67bKm2H3Bt2cGkavniMVmwF1pmy1N13kYZ9LJWK9Qji4PgnC7yznPcIxXlv1/CQoSdZWs/o9UrNUnJrxDAmrypxvjXPE2ixlJS8/pkozboW24kqzdyq+B/H3yre/XJhjbSMQZn6e8eWauk4qQDSTJl41B6l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785739419; c=relaxed/simple;
-	bh=/IXFnkIU02YmqKjji2itI86qHp2ZAhnisPPE2dP2oxc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sz0WyN1gfjRdeDIdDWQDsL+Egm6YK/zOOsrDofSNKB7S+PFskiNqzau1cxQpfTeVbhs+otD67v5fRRLoVGNnlmDWqJpGXsiZY8KlN/BETGuEsNzYhOq/U/kjDB+W8vnY/Gjpy9nvnN9iTIFc9C82YxzPFLYEMfa3quZgfjJtOhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IAC8rZrj; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785741575; c=relaxed/simple;
+	bh=mVg1gkAE/IwYQ+cm6zbvqlDMO6ttXZbvtuQjV+aXoJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rKaZhSHAgsRjk2w6hBAtivLXMXdQWKqOaqoIe0MSOR3al6E+NZ9u//ew9/02sXiUh9FadyI7cXi0asarF06X2HiG8RexB1wXue0dzI8U37NNGBJZvjbV9Al+ZNTviGHWbcFMlJMu7bMsCiEKe413mTRHxNKNYYrm/jHMsT73d+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzaAoMly; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IAC8rZrj"
-Message-ID: <354f214b-bd81-49b6-9642-ddfbaa936694@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785739414;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H0j68PxZwezHySspr399yaQDfTTXgvfFRGwajE306dg=;
-	b=IAC8rZrjT8wnrsVPSpUasD5cq6pLEC0v3eunktmPfRCLRtpoLIjw8S6fvhy7JeLceN+qLq
-	E2JFu8J2VJATh1HabZGBoLuF5zdExcK8HqvBRY0CgBwFJ8b+Y8gPoLDVmeWVwnKS7+W+1n
-	0SpNnsqlppOYcy2s2ygxbYMKb/oRkrc=
-Date: Mon, 3 Aug 2026 14:43:18 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzaAoMly"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDEC11F000E9;
+	Mon,  3 Aug 2026 07:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785741574;
+	bh=ykiHD7DY9G7XaqnDrtXQxXTCaNG81ozB7o0StBvDD0I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lzaAoMlymuF4kOmQnImnMrd2VoWNnAasbFn4o2tBj12KoFhxjSN8hLToPrUhEiPO3
+	 oEu01foRUuD96Mip7GJ/acAD9l5u9VkO4iDzOrj9beBTGIyLAiEW/He4sdcfIWR3n7
+	 RoN9b4qjdAuINP2QHcnwf5x1HZN43ZdyVyrsWPcMNbDbNFueIBK0loDZwVDtJPb2SE
+	 rcklEDK89DM7Xmy1+ytTbF5YZCEtiis0hg+Kv8tXcbAnKEat5wDNORC+GyfsWBPVwO
+	 T0B5vGq7AyGeM/xz3vlVg9E4xxxTYVvJpOLWt9rRX3QR2pByMJ/nbp0UJrLour9D6V
+	 8QwW0AVgNn8CQ==
+Date: Mon, 3 Aug 2026 07:19:32 +0000
+From: Harry Yoo <harry@kernel.org>
+To: hu.shengming@zte.com.cn
+Cc: vbabka@kernel.org, akpm@linux-foundation.org, hao.li@linux.dev, 
+	cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev, ast@kernel.org, 
+	andrii@kernel.org, puranjay@kernel.org, ameryhung@gmail.com, bigeasy@linutronix.de, 
+	clrkwllms@kernel.org, rostedt@goodmis.org, paulmck@kernel.org, frederic@kernel.org, 
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org, boqun@kernel.org, 
+	urezki@gmail.com, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
+	qiang.zhang@linux.dev, pfalcato@suse.de, surenb@google.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, 
+	bpf@vger.kernel.org
+Subject: Re: [PATCH v5 3/8] mm/slab: use call_rcu() in unknown context if
+ irqs are enabled
+Message-ID: <anBAiTl_16H7NqEr@dev>
+References: <20260729-kfree_rcu_nolock-v5-3-a28cdcda9673@kernel.org>
+ <20260730192119586UvhYMv4xrNqaZLKIJH9X0@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next 2/3] bpf: arena: allocate the fault-in page
- outside the lock
-To: Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Shuah Khan <shuah@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20260727062521.376231-1-jiayuan.chen@linux.dev>
- <20260727062521.376231-3-jiayuan.chen@linux.dev>
- <DK9T753AD314.1K18DTGBR7OYN@etsalapatis.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-In-Reply-To: <DK9T753AD314.1K18DTGBR7OYN@etsalapatis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730192119586UvhYMv4xrNqaZLKIJH9X0@zte.com.cn>
 
+On Thu, Jul 30, 2026 at 07:21:19PM +0800, hu.shengming@zte.com.cn wrote:
+> Harry wrote:
+> > call_rcu() disables IRQs with local_irq_save() to protect its per-cpu
+> > data structures. Therefore, if IRQs are not disabled, they cannot be
+> > corrupted by reentrance into call_rcu(). So fall back to the deferred
+> > path only when !allow_spin && irqs_disabled().
+> > 
+> > The RCU subsystem does not guarantee this contractually, and this
+> > optimization relies on RCU's implementation details. Ideally, it should
+> > be removed once call_rcu_nolock() is supported by the RCU subsystem.
+> > 
+> > Link: https://lore.kernel.org/linux-mm/CAADnVQKRVD5ZSnEKbZZU7w86gHbGHUug2pvzpgZTngNS+fg4rw@mail.gmail.com
+> > Suggested-by: Alexei Starovoitov <ast@kernel.org>
+> > Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+> > ---
+> >  mm/slub.c | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/mm/slub.c b/mm/slub.c
+> > index 2c5ba8c326e7..bb0f2975c95b 100644
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -6157,8 +6157,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, unsigned int free_flags)
+> >      if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
+> >          rcu_sheaf = NULL;
+> >      } else {
+> > -        if (unlikely(!allow_spin)) {
+> > -            /* call_rcu() cannot be called in an unknown context */
+> > +        /*
+> > +         * With !allow_spin, we might have interrupted call_rcu()'s
+> > +         * IRQ-disabled critical section. If IRQs are not disabled,
+> > +         * we know that's not the case.
+> > +         */
+> > +        if (unlikely(!allow_spin && irqs_disabled())) {
+> 
+> LGTM!
+> Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
 
-On 7/28/26 9:22 AM, Emil Tsalapatis wrote:
-> On Mon Jul 27, 2026 at 2:24 AM EDT, Jiayuan Chen wrote:
->> arena_vm_fault() allocated the page while holding arena->spinlock, so it
->> could only use the non-blocking allocator. Once the memcg is at
->> memory.max that allocation just fails, the fault turns into
->> VM_FAULT_SIGSEGV, and the process gets a SIGSEGV on a perfectly valid
->> arena address. Hitting memory.max is routine (e.g. page cache from
->> reading a big file), so this kills innocent processes.
->>
->> Preallocate the page before taking the lock, like do_anonymous_page()
->> does, so the allocation can sleep and go through reclaim and the OOM
->> path, and return VM_FAULT_OOM on failure so the memcg OOM handler runs
->> instead of a fake segfault. Also tidy up the error labels.
->>
->> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
->> ---
->>   kernel/bpf/arena.c | 83 +++++++++++++++++++++++++++++++++++-----------
->>   1 file changed, 63 insertions(+), 20 deletions(-)
->>
->> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
->> index 34f023a537fe..22a41e3c53b8 100644
->> --- a/kernel/bpf/arena.c
->> +++ b/kernel/bpf/arena.c
->> @@ -481,7 +481,8 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf)
->>   	struct bpf_map *map = vmf->vma->vm_file->private_data;
->>   	struct bpf_arena *arena = container_of(map, struct bpf_arena, map);
->>   	struct mem_cgroup *new_memcg, *old_memcg;
->> -	struct page *page;
->> +	struct page *page, *new_page = NULL;
->> +	vm_fault_t fault_ret;
->>   	long kbase, kaddr;
->>   	unsigned long flags;
->>   	int ret;
->> @@ -489,55 +490,97 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf)
->>   	kbase = bpf_arena_get_kern_vm_start(arena);
->>   	kaddr = kbase + (u32)(vmf->address);
->>   
->> -	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags))
->> +	page = vmalloc_to_page((void *)kaddr);
->> +	if (!page) {
->> +		/*
->> +		 * Preallocate outside the lock so the allocation can sleep and go
->> +		 * through reclaim (both memcg and global), the way do_anonymous_page()
->> +		 * does. Under arena->spinlock only the non-blocking allocator is
->> +		 * available, which never reclaims.
->> +		 *
-> Can you add here that we're in process context which is why we make an
-> explicitly sleepable call? That also strengthens the explanation of why
-> we want to preallocate in the first place.
->
->> +		 * This has to be the sleepable variant: VM_FAULT_OOM below is only
->> +		 * meaningful if the OOM machinery was actually engaged. A failure
->> +		 * from the non-blocking allocator engages nothing, so the fault
->> +		 * would be retried forever.
->> +		 */
->> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
->> +		new_page = bpf_map_alloc_page_sleepable(map, NUMA_NO_NODE);
->> +		bpf_map_memcg_exit(old_memcg, new_memcg);
->> +		if (!new_page)
->> +			return VM_FAULT_OOM;
->> +	}
->> +
->> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
->>   		/* Make a reasonable effort to address impossible case */
->> -		return VM_FAULT_RETRY;
->> +		fault_ret = VM_FAULT_RETRY;
->> +		goto out_err;
->> +	}
->>   
->>   	page = vmalloc_to_page((void *)kaddr);
->>   	if (page) {
->> -		if (page == arena->scratch_page)
->> +		if (page == arena->scratch_page) {
->>   			/* BPF triggered scratch here; don't lazy-alloc over it */
->> -			goto out_sigsegv;
->> +			fault_ret = VM_FAULT_SIGSEGV;
->> +			goto out_err_locked;
->> +		}
->>   		/* already have a page vmap-ed */
->>   		goto out;
->>   	}
->>   
->> +	/*
->> +	 * The lockless probe was racy: it saw a page, so nothing was
->> +	 * preallocated, but the re-check under the lock finds it gone - a
->> +	 * concurrent free must have run in between. There is nothing to
->> +	 * install and we cannot allocate under the lock, so retry the fault
->> +	 * and preallocate next time.
->> +	 */
->> +	if (!new_page) {
->> +		fault_ret = VM_FAULT_RETRY;
->> +		goto out_err_locked;
->> +	}
->> +
->>   	bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
->>   
->> -	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT)
->> +	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) {
->>   		/* User space requested to segfault when page is not allocated by bpf prog */
->> -		goto out_sigsegv_memcg;
->> +		fault_ret = VM_FAULT_SIGSEGV;
->> +		goto out_err_locked_memcg;
->> +	}
-> Let's hoist this further up, I don't see why we're waiting to get so
-> much into handling the fault before checking if we're even allowed to
-> do it in the first place.
->
->>   
->>   	ret = range_tree_clear(&arena->rt, vmf->pgoff, 1);
->> -	if (ret)
->> -		goto out_sigsegv_memcg;
->> -
->> -	struct apply_range_data data = { .arena = arena, .pages = &page, .i = 0 };
->> -	/* Account into memcg of the process that created bpf_arena */
->> -	ret = bpf_map_alloc_pages(map, NUMA_NO_NODE, 1, &page);
->>   	if (ret) {
->> -		range_tree_set(&arena->rt, vmf->pgoff, 1);
->> -		goto out_sigsegv_memcg;
->> +		fault_ret = VM_FAULT_OOM;
-> Can you add a comment that VM_FAULT_OOM is because the only way clearing
-> the tree can fail is if there is a failed range allocation?
->
->> +		goto out_err_locked_memcg;
->>   	}
->> +	struct apply_range_data data = { .arena = arena, .pages = &new_page, .i = 0 };
->>   
->>   	ret = apply_to_page_range(&init_mm, kaddr, PAGE_SIZE, apply_range_set_cb, &data);
->>   	if (ret) {
->>   		range_tree_set(&arena->rt, vmf->pgoff, 1);
->> -		free_pages_nolock(page, 0);
->> -		goto out_sigsegv_memcg;
->> +		fault_ret = VM_FAULT_SIGSEGV;
->> +		goto out_err_locked_memcg;
->>   	}
->>   	flush_vmap_cache(kaddr, PAGE_SIZE);
->>   	bpf_map_memcg_exit(old_memcg, new_memcg);
->> +	/* new_page was consumed */
->> +	page = new_page;
->> +	new_page = NULL;
->>   out:
->>   	page_ref_add(page, 1);
->>   	raw_res_spin_unlock_irqrestore(&arena->spinlock, flags);
->> +	if (new_page)
->> +		free_pages_nolock(new_page, 0);
->>   	vmf->page = page;
->>   	return 0;
->> -out_sigsegv_memcg:
->> +
->> +out_err_locked_memcg:
->>   	bpf_map_memcg_exit(old_memcg, new_memcg);
->> -out_sigsegv:
->> +out_err_locked:
->>   	raw_res_spin_unlock_irqrestore(&arena->spinlock, flags);
->> -	return VM_FAULT_SIGSEGV;
->> +out_err:
->> +	if (new_page)
->> +		free_pages_nolock(new_page, 0);
->> +	return fault_ret;
-> The out_err label is used only once. Can we replace the label with
-> the code itself, even if this means some mild duplication? Four
-> different labels are too many imo.
->
->>   }
->>   
->>   static const struct vm_operations_struct arena_vm_ops = {
-> pw-bot: cr
+Thanks a lot, Shengming!
 
+> I initially wondered whether in_nmi() should also be checked here.
+> However, irqs_disabled() already covers the relevant reentrancy case,
+> since call_rcu() disables IRQs while modifying its per-CPU data.
 
+Exactly, that was my reasoning ;)
 
-Sorry for the delay. I missed this mail earlier...
+As a side note there is an attempt to do this in call_rcu() instead of
+slab:
 
-Everything makes sense.
+https://lore.kernel.org/all/20260729162207.1567770-1-puranjay@kernel.org
 
+Just FYI.
+
+-- 
+Cheers,
+Harry / Hyeonggon
