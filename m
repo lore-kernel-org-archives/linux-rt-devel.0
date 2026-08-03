@@ -1,159 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776B03E5A38;
-	Mon,  3 Aug 2026 15:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A908130AAD8;
+	Mon,  3 Aug 2026 15:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785770153; cv=none; b=Vw/hl+aqI4B2emSezwN4KPtDrI7UGcUULlIDedRmZR845A6Qna2yWZxPyuZg9KPCTGTlQ1hxwgLxd9GvMsJk9kwMTjmJ872fBz3fo4lqi58O3/jyWLXtlUTVIIflbQvN9wxwc4M4kYzXAO3Lkz5LXlVLGiAkgQa1JKVviJ2gUng=
+	t=1785771046; cv=none; b=FMUJLcIMoZUMhqGb92QhGl8osM3PbA+0bcuT69hRVrZHGM9twOmoElfZfL2assqrIcPdPwUrnoiRKOVGXHNrXusm4FXhnXWnIMF8nFbKBPQsnBzvkMcNjmkOXPuhkswLfn1s2izQt8YVzZq0NkpeaRlQD72uLUiDTz0vSRG7FyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785770153; c=relaxed/simple;
-	bh=C1gy7O+NaDG4RdgTsdh/63ebki0rwc1rcMQZbmMV9gM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=jk39k08E8cC77fgUfJA1yqvR3Fz7PGEoCi7Ub1CBNVHmLq20IVKrI2O4npI56seIa+rKEDzoceEjKHEjGr8cov7SMvTQh97lT+f3eysOTY4jmTCz679p4IePNjCwnQlcMw8t19c45WFPChdI+v51XcyenWa5ywEZzxfQraGYPlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtzvlPls; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785771046; c=relaxed/simple;
+	bh=LYgVEw6TU4uM0WLict6gXRn0n4Sk0/ASBM+eXr+DMwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=INMB3O6sN2PaCvOqcxO5llONQNjBumCQKKrwMYpMLftkOL9tqYsTBVah9MkvgUKy8HP1IWSxaxAYGjrWXWbVZiqzJ4aJlopJaZmkNqoBBnvItVYgNh/SIf0nKReHzKZb/pRYzHdg2QFikhTrCtHgNYPKrOnX5YVhTyfZkbPvhxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4cM7EkQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtzvlPls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1DDB1F000E9;
-	Mon,  3 Aug 2026 15:15:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4cM7EkQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298C11F000E9;
+	Mon,  3 Aug 2026 15:30:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785770152;
-	bh=1G/wAajG/qSsSmDrTvOz8OLqGc7jTAeJtxYYv6rGVMo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RtzvlPlsCdORgEXHh3zPg+ZcGTOZrOcBwMsxbnnkkrJqEOpCpTz/+bUyJ2+m3IUiR
-	 1WjAOk3Bua9ZHjDnYVjXVqn59i0ezmec9Yy1cepMSayfF7YgkficB8y+MAAxMbukmb
-	 wAR4vVBBwrDhyXZ5yCdQndOZ2J0ZVCDwmOosdGAKJdV9K85MMTcXlP5TBsJbDHwESP
-	 YVt7sCsP/Appov7s9y+KClr2B7PEY2ReAdC65tqah8vaoCwx6EMFKJZkBSNuUu2PA2
-	 86VPCWSL4SyYfgwmGRcGEmdxkNeVDRinGJX8x0mBSxun7uWldbFbpC6thMvAEHUvnG
-	 +ayxPVC223HYw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 6/6] selftests/bpf: Add a call_srcu() re-entry
- reproducer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Puranjay Mohan" <puranjay@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-In-Reply-To: <20260803135329.2327280-6-puranjay@kernel.org>
-References: <20260803134839.2103051-1-puranjay@kernel.org>
- <20260803135329.2327280-6-puranjay@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Aug 2026 15:15:51 +0000
-Message-Id: <20260803151551.C1DDB1F000E9@smtp.kernel.org>
+	s=k20260515; t=1785771045;
+	bh=o2DlwFFQ7c69iQDGWX5wN0uky725dmGY92UH68gtyxg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=H4cM7EkQ3LmPnIVD1B4GJPrQpM2/VvFq8kIOmxYWwzqFmWEeC6Aai/uUHOFR2oVYU
+	 NkSD9sg5hBgN/+MI/7ehjvmlgr+eIkgn2erHgLklpwfcTq4GGttuYAvl3VryS3HCeq
+	 Io39nbVKt229iLOwbCp9l0BFsxkmxaRgfPVavAqpRbIvdH3cF5gSSPhZ3aG6ePv+EN
+	 pVwxi5ttwl1MX6NnXocv7BT7A2un7C3dByDMUt1GXjmCoh98IjcV+mKUD2ie8hXhcM
+	 Yb4nmBeTNFuZ3otl7WRCz4eOZM21QKunTtRJNrS8sguLSFEjuWCEpCums446vZO1K5
+	 1qxxlyS3nBzwg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E7F0BCE19B2; Mon,  3 Aug 2026 08:30:44 -0700 (PDT)
+Date: Mon, 3 Aug 2026 08:30:44 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Harry Yoo <harry@kernel.org>
+Cc: hu.shengming@zte.com.cn, vbabka@kernel.org, akpm@linux-foundation.org,
+	hao.li@linux.dev, cl@gentwo.org, rientjes@google.com,
+	roman.gushchin@linux.dev, ast@kernel.org, andrii@kernel.org,
+	puranjay@kernel.org, ameryhung@gmail.com, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, rostedt@goodmis.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, pfalcato@suse.de, surenb@google.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH v5 3/8] mm/slab: use call_rcu() in unknown context if
+ irqs are enabled
+Message-ID: <03f04f1f-97c2-4800-b73c-23460ef15466@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260729-kfree_rcu_nolock-v5-3-a28cdcda9673@kernel.org>
+ <20260730192119586UvhYMv4xrNqaZLKIJH9X0@zte.com.cn>
+ <anBAiTl_16H7NqEr@dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anBAiTl_16H7NqEr@dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] Missing control flow branch after ASSERT_OK failure for bpf_map_=
-delete_elem in test_rcu_reentry.
-- [Medium] The BPF test program unconditionally marks itself as successful =
-even if it fails to trigger the nested RCU callback.
---
+On Mon, Aug 03, 2026 at 07:19:32AM +0000, Harry Yoo wrote:
+> On Thu, Jul 30, 2026 at 07:21:19PM +0800, hu.shengming@zte.com.cn wrote:
+> > Harry wrote:
+> > > call_rcu() disables IRQs with local_irq_save() to protect its per-cpu
+> > > data structures. Therefore, if IRQs are not disabled, they cannot be
+> > > corrupted by reentrance into call_rcu(). So fall back to the deferred
+> > > path only when !allow_spin && irqs_disabled().
+> > > 
+> > > The RCU subsystem does not guarantee this contractually, and this
+> > > optimization relies on RCU's implementation details. Ideally, it should
+> > > be removed once call_rcu_nolock() is supported by the RCU subsystem.
+> > > 
+> > > Link: https://lore.kernel.org/linux-mm/CAADnVQKRVD5ZSnEKbZZU7w86gHbGHUug2pvzpgZTngNS+fg4rw@mail.gmail.com
+> > > Suggested-by: Alexei Starovoitov <ast@kernel.org>
+> > > Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+> > > ---
+> > >  mm/slub.c | 8 ++++++--
+> > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/mm/slub.c b/mm/slub.c
+> > > index 2c5ba8c326e7..bb0f2975c95b 100644
+> > > --- a/mm/slub.c
+> > > +++ b/mm/slub.c
+> > > @@ -6157,8 +6157,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, unsigned int free_flags)
+> > >      if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
+> > >          rcu_sheaf = NULL;
+> > >      } else {
+> > > -        if (unlikely(!allow_spin)) {
+> > > -            /* call_rcu() cannot be called in an unknown context */
+> > > +        /*
+> > > +         * With !allow_spin, we might have interrupted call_rcu()'s
+> > > +         * IRQ-disabled critical section. If IRQs are not disabled,
+> > > +         * we know that's not the case.
+> > > +         */
+> > > +        if (unlikely(!allow_spin && irqs_disabled())) {
+> > 
+> > LGTM!
+> > Reviewed-by: Shengming Hu <hu.shengming@zte.com.cn>
+> 
+> Thanks a lot, Shengming!
+> 
+> > I initially wondered whether in_nmi() should also be checked here.
+> > However, irqs_disabled() already covers the relevant reentrancy case,
+> > since call_rcu() disables IRQs while modifying its per-CPU data.
+> 
+> Exactly, that was my reasoning ;)
+> 
+> As a side note there is an attempt to do this in call_rcu() instead of
+> slab:
+> 
+> https://lore.kernel.org/all/20260729162207.1567770-1-puranjay@kernel.org
+> 
+> Just FYI.
 
---- Patch [6]: [PATCH v2 6/6] selftests/bpf: Add a call_srcu() re-entry rep=
-roducer ---
-commit 60310d36c31afce9ef7c76534688f89f2ffa0f29
-Author: Puranjay Mohan <puranjay@kernel.org>
+Why not both?  ;-)
 
-selftests/bpf: Add a call_srcu() re-entry reproducer
+(Sorry, couldn't resist.)
 
-This commit adds a BPF selftest to exercise call_srcu() re-entry safety. It
-uses an fentry program on rcu_segcblist_enqueue() to perform a task-storage
-delete, which defers work via call_rcu_tasks_trace() and re-enters the
-enqueue on the same CPU.
-
-> diff --git a/tools/testing/selftests/bpf/prog_tests/rcu_reentry.c b/tools=
-/testing/selftests/bpf/prog_tests/rcu_reentry.c
-> new file mode 100644
-> index 0000000000000..f6ecd93be30f4
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
-
-[ ... ]
-
-> @@ -0,0 +1,58 @@
-> +// SPDX-License-Identifier: GPL-2.0
-
-[ ... ]
-
-> +	/* Arm the handler for this thread, then trigger call_rcu_tasks_trace()=
-. */
-> +	skel->bss->target_pid =3D syscall(__NR_gettid);
-> +	err =3D bpf_map_delete_elem(map_fd, &pidfd);
-> +	ASSERT_OK(err, "boot_delete");
-> +
-> +	/* Only Tree SRCU enqueues via rcu_segcblist_enqueue(); skip elsewhere.=
- */
-> +	if (!skel->bss->hits) {
-
-[Severity: Medium]
-Should this ASSERT_OK() call be placed inside an if statement?
-
-If bpf_map_delete_elem() fails, the boolean return value of ASSERT_OK() is
-ignored and the code falls through. The test will evaluate if (!skel->bss->=
-hits)
-and incorrectly skip instead of properly aborting.
-
-> +		test__skip();
-> +		goto out;
-> +	}
-> +	ASSERT_EQ(skel->bss->reentered, 1, "reentry_deferred");
-> +out:
-> +	if (pidfd >=3D 0)
-> +		close(pidfd);
-> +	rcu_reentry__destroy(skel);
-> +}
-
-> diff --git a/tools/testing/selftests/bpf/progs/rcu_reentry.c b/tools/test=
-ing/selftests/bpf/progs/rcu_reentry.c
-> new file mode 100644
-> index 0000000000000..d92a927ff51c0
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/rcu_reentry.c
-
-[ ... ]
-
-> @@ -0,0 +1,45 @@
-> +// SPDX-License-Identifier: GPL-2.0
-
-[ ... ]
-
-> +SEC("fentry/rcu_segcblist_enqueue")
-> +int BPF_PROG(reenter)
-> +{
-> +	struct task_struct *cur;
-> +
-> +	if (reentered || !target_pid)
-> +		return 0;
-> +
-> +	cur =3D bpf_get_current_task_btf();
-> +	if (!cur || cur->pid !=3D target_pid)
-> +		return 0;
-> +
-> +	/* Re-enter via a task-storage delete, which calls call_rcu_tasks_trace=
-(). */
-> +	__sync_fetch_and_add(&hits, 1);
-> +	bpf_task_storage_get(&task_stg, cur, 0, BPF_LOCAL_STORAGE_GET_F_CREATE);
-> +	bpf_task_storage_delete(&task_stg, cur);
-> +
-> +	reentered =3D 1;
-
-[Severity: Medium]
-Will this unconditionally mark the test as passed even if the BPF program
-failed to trigger the nested callback?
-
-If bpf_task_storage_get() fails (e.g., due to memory limits), the subsequent
-bpf_task_storage_delete() will safely fail without triggering the nested
-call_rcu_tasks_trace(). The tested deadlock path is never exercised, but
-reentered is still set to 1, which will cause the userspace test to assert
-success.
-
-> +	return 0;
-> +}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803134839.2103=
-051-1-puranjay@kernel.org?part=3D6
+							Thanx, Paul
