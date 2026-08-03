@@ -1,174 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E05F22CBD9;
-	Sun,  2 Aug 2026 20:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A0E9463;
+	Mon,  3 Aug 2026 06:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785703630; cv=none; b=e2mH7fLAEWGZNx73Fn92cpQ0yBMHKh5Wi6hqj/hViLH45ADRESQdP4kYn3qZeCCr75jxBUNx8FqIikhztv/2Rfn5h6VIWUEWZUxPsZZEmSTKKI+2jeDuAghSfcuf9nmWQk9Xw/L0ZHGlH4bIxaO00ADSmC1bCUMFSTxUKGwq7OU=
+	t=1785737944; cv=none; b=gwltGsBxjh0y0azD6l09rrmyE9cPTMBff6b0FnNMfMnYDI9HhXgBCwOf13UuBxXMyc4M2ox8HJwlSBYmmdRovzZ1cNI5k9HoB41PbsmttU/xPAiC4D9z8xgGUCSO35eWVKY+zU9cd58vjNk4Esd/jWFAA8pwD1mU3ZgS6Jm4vk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785703630; c=relaxed/simple;
-	bh=F5oX/jszxsav1DpNItKt47lDP8ox3JEfhfTCJmFUqOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=StXV1RjsebfjX8Z9O8tPSGjcxlehyDHTU/3XVgbB2tz8H3OCcOzXCYvLeSYhBju9E6OGjbOEqzrAXk/buDtt2jMqTmdtjHVGKdh8jljIyz57MfqBfMyUE56NExmJYXrGp5drz40z6jc8u1hFbLA8F53lIfLU89P9vHD5e9aPFew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzIwO+GP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785737944; c=relaxed/simple;
+	bh=Ugm9wYbpELahg9Xe7+XpwxXZm4/hVdPVjwdIIMqoDPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MlpxDxl4+kXtzViuGWq7CaNCh+zob39Zrh31kB9OryKC5aHGt8MT96a9O/7GeKEij8IYIWp3jwJoDG8bY6Jwq3WnyrL0so5T7zvHjS1C/5h58hJy1hcAqObd4BkcHnYdNVDwRGQiz0nbvMPQHSTFuaWcudny79Jnh9viCA06lKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=h7YI8M12; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzIwO+GP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E061F000E9;
-	Sun,  2 Aug 2026 20:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785703629;
-	bh=ZEpbOoyAgd8U9otS3+svfsLTO28M4sOEaw9r2Tv89HE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=HzIwO+GP+fXxGRnEgpXFRWrtZBcAE8WwgC6eIH9booxA+wf4wATM+IWSUQTtKoiPg
-	 5jO4bfuxL+/g4FgofthE1PrvwbDx2Vw947mGeh/xONG8pw0xcdqKPjZlbt+EIe7ISy
-	 10MNUaKW8Hs3E3rxDrt1rU5Yiq8VV1LC+WyqoviXVF4TATdq+RQem85mT+/z1CiKAc
-	 fRdwFLEpVeJj6qBtmHc94he2e2L4ERx4HyDouVfuddb3tRSsZkVLeTdNLfZOOgljCz
-	 IAq+dIE7XzED+PACUqqV0zv1wOTGV1HbrRMGyOe9sLZXDhJhoO8L8rxVyiEYyr7gqm
-	 sZcaAguEmSgIA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id C9931CE1887; Sun,  2 Aug 2026 13:47:08 -0700 (PDT)
-Date: Sun, 2 Aug 2026 13:47:08 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: Puranjay Mohan <puranjay@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="h7YI8M12"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
+	Content-Type; bh=8z/Ja8msCQyhEkE0uXSWUZRUIHxD/U1gQXqjPG00wU0=;
+	b=h7YI8M12Jzaz5cy9Cm5Pn22nsI6GiSamaOgo96RjU2yxsydKU2MISMaZyW1JBI
+	ObiLtpXiM/nE95ktCgP1dHEU7nqD65ujWOMJnyq32AykuXkHx4WStV8le+9EjwYl
+	ot790ANHolh1/E02xQlP6QmkhESoMy4K4kNHEqvnUHH7w=
+Received: from fedora (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3T9pzMnBqkykzMg--.4961S2;
+	Mon, 03 Aug 2026 14:17:25 +0800 (CST)
+From: Ju Nan <junan76@163.com>
+To: Antonio Borneo <antonio.borneo@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 0/6] rcu,srcu: Make call_rcu()/call_srcu() safe from any
- context
-Message-ID: <22a89293-b622-42c0-81a5-6b92160e0046@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260729162207.1567770-1-puranjay@kernel.org>
- <0096fbf8-c3be-4388-a60b-1968664e4f27@paulmck-laptop>
- <DKEQ1D0U77V6.1EMGXI819YAW9@gmail.com>
+	Lee Jones <lee@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-gpio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	mfd@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] pinctrl: stm32: use a raw spinlock regmap to program the EXTI mux
+Date: Mon,  3 Aug 2026 14:17:14 +0800
+Message-ID: <20260803061718.43210-1-junan76@163.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DKEQ1D0U77V6.1EMGXI819YAW9@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3T9pzMnBqkykzMg--.4961S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Jw4xJFyUCF1UXFW5Cry7trb_yoW7XFy8pF
+	W3XFWYyrs7Jr4rZrW0y3y0vFW5Kan7t3y5CwnxK3y2vrn0va45K3W3KFyUAFsFkr4kXFZ0
+	yr15AFy8uF1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UKzuZUUUUU=
+X-CM-SenderInfo: pmxqt0ixw6il2tof0z/xtbC1BZgEmpwMnZTtAAA3J
 
-On Sun, Aug 02, 2026 at 09:56:53PM +0200, Kumar Kartikeya Dwivedi wrote:
-> On Thu Jul 30, 2026 at 5:07 AM CEST, Paul E. McKenney wrote:
-> > On Wed, Jul 29, 2026 at 09:21:59AM -0700, Puranjay Mohan wrote:
-> >> call_rcu() and call_srcu() only ever touch their per-CPU callback lists
-> >> with interrupts disabled: the enqueue runs under local_irq_save() (and the
-> >> nocb locks when offloaded), and so do callback invocation and grace-period
-> >> work.  That is fine as long as call_rcu() itself is invoked with
-> >> interrupts enabled, but it is not always.  An NMI handler can call
-> >> call_rcu(), and instrumentation can reenter it.  The case that prompted
-> >> this is a BPF program attached to rcu_segcblist_enqueue() that frees an
-> >> object: the free reaches call_rcu_tasks_trace(), which is call_srcu()
-> >> under the hood, back on the same CPU with the srcu_data lock already held,
-> >> and it deadlocks on that lock.  Either way, enqueuing directly can corrupt
-> >> the list or deadlock.
-> >>
-> >> Rather than scatter context checks through the enqueue, make it defer
-> >> whenever interrupts are disabled: stage the callback on a per-CPU lockless
-> >> list and re-issue it from an irq_work once interrupts are back on, going
-> >> straight to the enqueue helper so the re-issue cannot defer again.  Only
-> >> the drain side takes a lock; the staging is a bare llist_add() and stays
-> >> safe from NMI.  This is behind a new hidden CONFIG_RCU_DEFER, which is set
-> >> wherever a reentrant enqueue is possible (HAVE_NMI, KPROBES,
-> >> FUNCTION_TRACER or TRACEPOINTS); without it call_rcu() enqueues exactly as
-> >> before.
-> >>
-> >> CPU offline is the awkward part.  A callback can be deferred very late in
-> >> the outgoing CPU's teardown -- from do_idle() or cpuhp_ap_report_dead(),
-> >> past the CPUHP_AP_SMPCFD_DYING flush that would otherwise run the irq_work
-> >> -- so the irq_work can no longer run there to re-issue it.  rcu_barrier()
-> >> and srcu_barrier() therefore drain the deferred lists themselves before
-> >> they wait: for online CPUs they wait the irq_work out, and for offline
-> >> ones they drain the list directly, since that irq_work may never run
-> >> again.  rcutree_migrate_callbacks() drains the outgoing CPU's list too, so
-> >> a late deferral still lands on a callback list even when nobody calls a
-> >> barrier.  To keep those three drainers from stepping on each other, the
-> >> drain holds a per-CPU raw lock across the llist_del_all() and the
-> >> re-issue, so a drainer never returns having pulled callbacks off the
-> >> deferred list but not yet put them on a callback list.  Every lock the
-> >> re-issue touches (nocb, rcu_node, srcu_data) is already raw, so the
-> >> nesting is fine.
-> >>
-> >> The irq_work is IRQ_WORK_INIT_HARD.  It is not needed for correctness, but
-> >> a non-HARD irq_work runs from a kthread on PREEMPT_RT and can be delayed
-> >> under load, letting deferred callbacks pile up; running the re-issue in
-> >> hard-irq context keeps that from turning into an OOM.
-> >>
-> >> Patches 1 and 2 do Tree and Tiny RCU, 3 and 4 Tree and Tiny SRCU.  Patch 5
-> >> teaches rcutorture to issue ->call() from a perf-overflow NMI -- the
-> >> nmi_calls parameter, on by default -- on the flavors that advertise it,
-> >> and checks that every callback issued from NMI is later invoked.  Patch 6
-> >> adds the BPF reentry reproducer described above.
-> >
-> > Nice!  I applied this series to -rcu for testing and review.  Patch 6
-> > might want to go up a different path, but let's see how it goes.
-> > If it goes via -rcu, it will need an appropriate ack.
-> >
-> 
-> I think it makes sense to take it through your tree for now. If there are issues
-> when we get these changes on BPF side (with the selftest), we'll fix forward. If
-> we take it now, it will end up deadlocking the CI, so should come with the
-> relevant changes once trees are synced.
-> 
-> You can add my ack when taking it in.
-> 
-> Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+stm32_gpio_domain_activate() programs the EXTI interrupt multiplexer
+with regmap_field_write(), on a regmap the driver obtains from the generic
+syscon driver via syscon_regmap_lookup_by_phandle(np, "st,syscfg").
 
-Very good, and I will apply this on my next rebase.
+An irq_domain .activate callback is by contract called from raw atomic
+context: __setup_irq() takes the raw desc->lock and calls
+irq_activate() while holding it.
 
-							Thanx, Paul
+That regmap is created by syscon with regmap_init_mmio(). The regmap-mmio
+bus sets .fast_io = true, and syscon does not set use_raw_spinlock, so
+__regmap_init() protects the regmap with a spinlock_t.
 
-> >> Puranjay Mohan (6):
-> >>   rcu: Make call_rcu() safe to call from any context
-> >>   rcu: Make Tiny call_rcu() safe to call from any context
-> >>   srcu: Make call_srcu() safe to call from any context
-> >>   srcu: Make Tiny call_srcu() safe to call from any context
-> >>   rcutorture: Exercise ->call() from NMI context
-> >>   selftests/bpf: Add a call_srcu() re-entry reproducer
-> >>
-> >>  include/linux/srcutiny.h                      |  11 +-
-> >>  include/linux/srcutree.h                      |   4 +
-> >>  kernel/rcu/Kconfig                            |   6 +
-> >>  kernel/rcu/rcu.h                              |  18 +++
-> >>  kernel/rcu/rcutorture.c                       | 115 +++++++++++++++
-> >>  kernel/rcu/srcutiny.c                         |  53 ++++++-
-> >>  kernel/rcu/srcutree.c                         | 138 +++++++++++++++++-
-> >>  kernel/rcu/tiny.c                             | 101 ++++++++++---
-> >>  kernel/rcu/tree.c                             | 122 ++++++++++++++--
-> >>  kernel/rcu/tree.h                             |   5 +
-> >>  .../selftests/bpf/prog_tests/rcu_reentry.c    |  58 ++++++++
-> >>  .../testing/selftests/bpf/progs/rcu_reentry.c |  45 ++++++
-> >>  12 files changed, 636 insertions(+), 40 deletions(-)
-> >>  create mode 100644 tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
-> >>  create mode 100644 tools/testing/selftests/bpf/progs/rcu_reentry.c
-> >>
-> >>
-> >> base-commit: 9dc303e69bcd49f9668ca090ae45325269531fbb
-> >> --
-> >> 2.53.0-Meta
-> >>
-> 
+On !RT a spinlock_t only ever spins and nothing bad happens at runtime,
+which is why this has gone unnoticed. On PREEMPT_RT spinlock_t is a
+sleeping lock, and taking it under the raw desc->lock is a sleep in atomic
+context. lockdep's wait-context checker catches this ahead of time — with
+CONFIG_PROVE_RAW_LOCK_NESTING=y the driver splats on boot as soon as
+anything requests a GPIO interrupt (here: an sii902x HDMI bridge):
+
+BUG: Invalid wait context
+...
+(&syscon_config)->lock){....}-{3:3}, at: regmap_lock_spinlock
+other info that might help us debug this:
+... 6 locks held by kworker/u8:0/12:
+ #5: (&irq_desc_lock_class){-...}-{2:2}, at: __setup_irq
+
+i.e. a wait type 3 (LD_WAIT_CONFIG, sleeping-on-RT) lock is acquired while
+the raw desc->lock has already limited the context to wait type 2
+(LD_WAIT_SPIN).
+
+Note the driver is already aware that it runs in atomic context here: it uses
+the _in_atomic() hwspinlock primitives around this very same register
+access. The syscon lock is the one lock in that section it does not control.
+
+The fix:
+
+Register a regmap with use_raw_spinlock = true for the node through
+of_syscon_register_regmap() before looking it up, so the syscon layer hands
+out that one instead of instantiating its default. It has to go through the
+syscon layer rather than staying private to the driver, because both pinctrl
+instances of an STM32MP1 (pinctrl and pinctrl_z) reference the same node —
+private regmaps would give them one lock each and no mutual exclusion on the
+mux registers. Same pattern as drivers/soc/samsung/exynos-pmu.c.
+
+Reported-by: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Closes: https://lore.kernel.org/all/20220202174430.pf37tt6lua2op3gc@pengutronix.de/
+Signed-off-by: Ju Nan <junan76@163.com>
+---
+ drivers/pinctrl/stm32/pinctrl-stm32.c | 64 +++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+
+diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
+index 6a99708a5a23..39df117489d1 100644
+--- a/drivers/pinctrl/stm32/pinctrl-stm32.c
++++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+@@ -1757,6 +1757,68 @@ static struct irq_domain *stm32_pctrl_get_irq_domain(struct platform_device *pde
+ 	return domain;
+ }
+ 
++/*
++ * The interrupt mux registers are written from stm32_gpio_domain_activate(),
++ * which the irq core calls with the raw desc->lock held. The regmap the
++ * generic syscon driver hands out is protected by a spinlock_t, which may
++ * sleep on PREEMPT_RT and therefore must not be taken from there.
++ *
++ * Publish a raw spinlock regmap for the node before looking it up, so that
++ * all of its users keep sharing one regmap, and one lock.
++ */
++static const struct regmap_config stm32_pctrl_syscfg_regmap_config = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 4,
++	.use_raw_spinlock = true,
++};
++
++static void stm32_pctrl_publish_syscfg_regmap(struct device_node *np)
++{
++	struct regmap_config config = stm32_pctrl_syscfg_regmap_config;
++	struct device_node *syscfg_np;
++	struct regmap *regmap;
++	void __iomem *base;
++	struct resource res;
++
++	syscfg_np = of_parse_phandle(np, "st,syscfg", 0);
++	if (!syscfg_np)
++		return;
++
++	if (of_address_to_resource(syscfg_np, 0, &res) ||
++	    resource_size(&res) < config.reg_stride)
++		goto out_put;
++
++	config.max_register = resource_size(&res) - config.reg_stride;
++
++	base = of_iomap(syscfg_np, 0);
++	if (!base)
++		goto out_put;
++
++	/*
++	 * The regmap is handed over to the syscon layer, which never releases
++	 * it, so it must outlive this driver: no device managed allocation
++	 * here, and no device to attach it to either.
++	 */
++	regmap = regmap_init_mmio(NULL, base, &config);
++	if (IS_ERR(regmap)) {
++		iounmap(base);
++		goto out_put;
++	}
++
++	/*
++	 * A regmap is already registered for that node, most likely by the
++	 * other pinctrl instance sharing it. Drop ours and use that one.
++	 */
++	if (of_syscon_register_regmap(syscfg_np, regmap)) {
++		regmap_exit(regmap);
++		iounmap(base);
++	}
++
++out_put:
++	of_node_put(syscfg_np);
++}
++
+ static int stm32_pctrl_dt_setup_irq(struct platform_device *pdev,
+ 			   struct stm32_pinctrl *pctl)
+ {
+@@ -1766,6 +1828,8 @@ static int stm32_pctrl_dt_setup_irq(struct platform_device *pdev,
+ 	int offset, ret, i;
+ 	int mask, mask_width;
+ 
++	stm32_pctrl_publish_syscfg_regmap(np);
++
+ 	pctl->regmap = syscon_regmap_lookup_by_phandle(np, "st,syscfg");
+ 	if (IS_ERR(pctl->regmap))
+ 		return PTR_ERR(pctl->regmap);
+-- 
+2.55.0
+
