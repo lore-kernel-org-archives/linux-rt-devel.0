@@ -1,98 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E8B429CCD
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Aug 2026 07:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F9642EEA7
+	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Aug 2026 09:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785829333; cv=none; b=DAv4Of2F/5YGU6YUc2t8F+ciVbJa2xBw4S2/4YN2Ep30XBZh+BA23nX8Q1gJ2P+alNwebkrJ4SXWqlJvitYvta2lk/B4+lcWqEgs3cUkqIhppiIFm4lnyMs/u+bAjWPzUIhtip7/QIwuxcKl4QM1lYc5rlxAknjxKXDbrkGXERM=
+	t=1785836101; cv=none; b=LbXygT0+lG36veBe6DEX/zmnoMq7z/kOm40odrEIGEJniHCEBqZcCiUEnQqn+hoiG4LD3NaVr3Nx4oC+ReDBf7ZIKvDmkOM0xnwxDCAHpl8RGly14+QPQz2eYkaRD2VGSvXmHT4q46agY/+H8EWhwgo2ESvd3TiAfYQHGZED71c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785829333; c=relaxed/simple;
-	bh=+24tJxmTNGsbjfwGGtdlYvjVz7uY6owvK0gfMvh1x4k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZMMmOJh7ciMtyJpBQ0FNL1+jSPQoEYBlW+ElVlsCVUVqH22wzEggK49gRv8U2mjm45y0xZEmlQ8eNTRorJobWqbUyuDMKznXIVUpnlWTvQ+7KWEBB9YQ0jj6lrEj5Jx6TXFnozZRRTwlcYyMztAhM2ys6VD4hlTjyf0n5tCAE+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIRWlw1i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785836101; c=relaxed/simple;
+	bh=hv13t7z2577/jtf5gTd03vLdwH2iFsUJsa+WSPPu3R0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SMtvSAXGBzZrM9GaIJQlSm6yOmscBv4FQwpzaRs7cwI6p9hexYBY2ApP5xVrLfn5VQYawkPW9r0oZiuTy7wXkWWRK0h5Ql23x/gKsKbqdNiBMTBOEceDQX8ejRjvLaLRI0twsUIMe0PHHUAsEcM/Nev4vI6SeGNJizl91v39YhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHXLkTs9; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIRWlw1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D6B11F00ACF
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Aug 2026 07:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785829332;
-	bh=Z/iyYkMo3J3MpY+sBFfuLCphuanoP24xAaUBOU7OBHg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cIRWlw1i48pKecN1ACparvW4LPLECs9JHMgI3rubS75Z5uvTkZzttg7s9+Dcrfc4o
-	 W/R0cGyNBc+9Zh3xhPxNfLeMhTP/1FvFh7spy2/q6YlR8hobyVCCmZZC2prTbM9hzh
-	 a7IothsPBRn8jj+Wt23ZR9UgcrGQf3ZnfXd6qe53rV7fnau0I2lae+Idq16so0k6tv
-	 ZescojDv4ErbAGZ9wm+HWopFnY9WoKYbc/cmQN2FDzcmWvJBsVy5iK1Us0ohCiP3Ru
-	 Hgc/TRqR41Gq49YasX8K9OJRb4NLfLE0YPqznt4QPwiqD8Xm0B9U/f8LuZpjHcLOGx
-	 4fiKs+eeekV4w==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b2a8e4c77eso4306128e87.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Aug 2026 00:42:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpEZSjW7aGTd9Iv428ntVet37rqcoOBTZxOG1TdiAHWOG+fSjVFcfoJg6684ah4yfHA9kzd7XOeINcQMtxIfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdUkX9r07Uv8INUaXvjyuJBnjqLgXxJQllazqny15j69DkWbA8
-	1jiWtys9qQXhSyiOP7pECD681Bf+HcXubyMNFatdl2Jjn+NhyBx6NwWrbkQawquMbdPguQ8YGQ8
-	UiXiam8cMDZF44xEf+ZPcE3VDc8OHO5U=
-X-Received: by 2002:a05:6512:3da8:b0:5ae:a81f:c1db with SMTP id
- 2adb3069b0e04-5b2e4f1afa6mr2972872e87.13.1785829330830; Tue, 04 Aug 2026
- 00:42:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHXLkTs9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785836098; x=1817372098;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hv13t7z2577/jtf5gTd03vLdwH2iFsUJsa+WSPPu3R0=;
+  b=LHXLkTs9U0cZRaCc0yPIvZzEJji6EOtTZs8nwN2ZpxXAyPUTPleVN9ey
+   mHH5Md9AI4PqadW5gLHm6cY4sTbizqTquZbfFQOOK+vbGVnQ86ST+NS4e
+   U5sHflIoQ/dOj/gd/Ec8zVkAVPX6Mx4F70Gll1T/wZuNmi5BeubOQmFmc
+   165gMLrBY1ivBLcL4VRNKs9V4lSQ+SRC55M92Qoe0yv+ud0Y9LDVXGVzU
+   QR1hPIAz1NjxtzBwhDtZOW2vW4yVZaYUEijw9iecGHre6k5nzO9t3IGtk
+   z+MHDlhkyX2Eorbfg7AAdhEMuiP34lKUJ+sl9KlURNpXJbLkK1+Tzl4qj
+   A==;
+X-CSE-ConnectionGUID: jQtSUuZnQtWwypuRTU2xBA==
+X-CSE-MsgGUID: 06q4n3WoTQeWFfkUPMxYRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="96975328"
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="96975328"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 02:34:50 -0700
+X-CSE-ConnectionGUID: UMUvbBujTvGEXSCL5zzi3g==
+X-CSE-MsgGUID: kEZ2DI3MRyu5fsGUPQxGkg==
+X-ExtLoop1: 1
+Received: from junjie-desk-dev.bj.intel.com (HELO junjie-desk-dev.tail2c02c1.ts.net) ([10.238.152.71])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 02:34:47 -0700
+From: Junjie Cao <junjie.cao@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] gpio: ml-ioh: use raw_spinlock_t for the register lock
+Date: Tue,  4 Aug 2026 17:33:53 +0800
+Message-ID: <20260804093355.2110800-1-junjie.cao@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAD++jLkAjQG7hFsdX+dy8wZUoKKDCaOzMD0EJ0nn3gYmaEOJDw@mail.gmail.com>
+References: <20260731032747.2987292-1-junjie.cao@intel.com> <CAD++jLkAjQG7hFsdX+dy8wZUoKKDCaOzMD0EJ0nn3gYmaEOJDw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260731032747.2987292-1-junjie.cao@intel.com>
-In-Reply-To: <20260731032747.2987292-1-junjie.cao@intel.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 4 Aug 2026 09:41:58 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkAjQG7hFsdX+dy8wZUoKKDCaOzMD0EJ0nn3gYmaEOJDw@mail.gmail.com>
-X-Gm-Features: AUfX_mxshjhXPBoVr7O5EjGs8xJzPlqOSJ7vXDCmceSjj8EKGV2yiAL6JAI4HKA
-Message-ID: <CAD++jLkAjQG7hFsdX+dy8wZUoKKDCaOzMD0EJ0nn3gYmaEOJDw@mail.gmail.com>
-Subject: Re: [PATCH] gpio: ml-ioh: use raw_spinlock_t for the register lock
-To: Junjie Cao <junjie.cao@intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 31, 2026 at 5:30=E2=80=AFAM Junjie Cao <junjie.cao@intel.com> w=
-rote:
+Hi Linus,
 
-> ioh_irq_type() is registered as the irq_chip .irq_set_type callback and
-> takes chip->spinlock with spin_lock_irqsave().  This callback is reached
-> from __setup_irq() -> __irq_set_trigger() -> chip->irq_set_type() while
-> the caller holds desc->lock, a raw_spinlock_t, with hardirqs disabled.
-> That context is not sleepable, but on PREEMPT_RT a regular spinlock_t is
-> an rtmutex-backed sleeping lock, so acquiring it there is invalid.
-> ioh_irq_enable() and ioh_irq_disable() take the same lock from the
-> .irq_enable/.irq_disable callbacks, which are likewise invoked with
-> desc->lock held.
->
-> Convert the register lock to raw_spinlock_t.  The same lock also
-> serializes the GPIO direction/value callbacks and the suspend/resume
-> register save/restore, and those critical sections only perform short
-> sequences of MMIO register accesses (ioread32()/iowrite32()); the
-> .irq_set_type callback additionally emits a dev_warn() on an unsupported
-> type.  None of these are sleepable operations, so keeping this register
-> lock non-sleeping is appropriate for the irqchip callbacks and does not
-> change the GPIO-side locking contract.
->
-> This is the same fix as commit a02b8950d619 ("gpio: pch: use
-> raw_spinlock_t for the register lock"); this driver shares the same
-> structure as gpio-pch.
->
-> Fixes: 54be566317b6 ("gpio-ml-ioh: Support interrupt function")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+Thanks for the review.
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+I checked it, and the report is correct. The PM callbacks take
+chip[0].spinlock while the save and restore helpers walk all eight
+channels, each with its own lock.
 
-If you have time, look into the issue reported by sashiko about suspend/res=
-ume
-ignoring the spinlock.
+I have a follow-up that uses one lock shared by all channels. I'll send
+it separately on top of this patch.
 
-Thanks!
-Linus Walleij
+Thanks,
+Junjie
