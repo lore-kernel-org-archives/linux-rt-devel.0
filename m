@@ -1,104 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993F1377A88;
-	Wed,  5 Aug 2026 19:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54033CDBD3
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 19:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785956446; cv=none; b=rGa6b8YTclC050eylR6z1ZrKqqGxJtIQsepY9hnUteyQ984YwxVsT72vNlaEdm6IGGPRwhihyHwWi00LnkQ3a6V3/Gby2jYOMQaNH53I23TnVMqibwnQOxNlbJfByujjoI1W3cCYPFeucPH8OCqQ7PsBfemc61u4+riLRzPps2k=
+	t=1785958936; cv=none; b=tz65fxOrpp0e38tbEok1AYhUcQKP8RLyUQVV1RChX1yhsLBdysjQ2iEr0BLsA15+xP9N9op+7MI+8fAzmqed2X6Cp5bwmyjjJCOEQBsI+WJZ/XP1+a9V/b6QPm4al3eXNbZGBjjvzoJZTod5oth+KOmQpxeU2uhOBSfb49KPQjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785956446; c=relaxed/simple;
-	bh=wUDMwDCj/hgH0HlkYKasSuvAU9tVV0SdKHtXSyl1Ixw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=IX/66G7ExDA7JaChBp6fcBih3SHmOekBxqpOuS0FLs9lDlkzXcETsQAtwsrtJ0SEbGnnr6ytMS8R32/PRr1kBBY7nd8sMO6PeFDMvfoY/lCP1qr/hizoNo3bi9WvQaGO1ma4mypPUOYYdSeceP4ko1B8SsoIs7rVGRrYY7B8Rh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EglE+9Ls; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785958936; c=relaxed/simple;
+	bh=Hyt9MIGvB9H7N7k/oqs/m0y+efiS+YLZhc6gtirJ6F4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pQmOtg0ZCF8rlfF9VAfEJVmGOOZyY+GDzqaWJrpgN/P5qvLccZojyAATxEdKdHbxN9NxILiQdVjcGAoMo/STvP8UtPtJO5o4fzs0ecSUWCxJZtGeyjR8N6qJns3R+3I1g6PERupzNEn0Ir4lUe11bmVlOO3koJPkOMDFDui7WjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aVk0iC1Z; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EglE+9Ls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D8B1F00A3D;
-	Wed,  5 Aug 2026 19:00:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785956445;
-	bh=wMYZA8AlNf6gM6blefRnFi0tolDoOtoUkOg6Cmqg2aw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=EglE+9LsA5r4LSKWNFGFi14ZsG2EApotl29OUDOp5NhSnIXJq65XBDLFDh5v65Yq2
-	 UlUetjdKKn4pWe+h82SDIUsFQIL5wGiULklf1b2DOK4jnYis/cQLzyiJ26idib/el5
-	 GhUBq64SuCW8mgp6O+rZOxNj+8JPYFNQpATNJXP2otMDZz3FvQ6+DBbyzOg4MJkdBr
-	 GwewxRculi6CFeluwVrI4dPY+jMC2Q+yQ5Diti73SKpeD/8DVFgwfMfpJ+BW46hrHc
-	 UVQY74Vw31ZEE0ZmzHAfp5geBZUrn4yDoJvijbtBuffaYVo3QeEQsZ1VnPe1VntRZH
-	 N76Iiq7Uqf20Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56933392FFC3;
-	Wed,  5 Aug 2026 19:00:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aVk0iC1Z"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 07AA3408B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785958934; bh=ACMwJksDl0CPlrXPVHPgA2VRtrsVjHiM9fJnUrGr6ZQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=aVk0iC1ZfkKr2sZXN2btfmfvktwiPaO8NGqSj8vSYsDSJEQkbc6idqY1umUk+Oe8f
+	 uLPDGlxil5ctPfwbELnkah6h/m4RjfS0eN1/3/JnlfQ0jfwoorRjH2gIsnD1ZzbROw
+	 ZgOYRbrfM5WOb5pzwpMm1PJGhih5HMkmgWUdFCaFTL7J/Ll5/GLRrg8O1HFC9nH/b6
+	 tLktvi8+X4W5HdmYSRgEwueLD6LqulRGU85pJ+GmehaerMUY6yQRtnn8VWjXTM9nnu
+	 8Zg1yfUPvvOsjTe4+BBMtiZwBqKG+mrCqLDqucgaWJSsTgPR1jJ+e/lHESrzUs9yvy
+	 62WE46qW8QxQQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 07AA3408B2;
+	Wed,  5 Aug 2026 19:42:13 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-rt-devel@lists.linux.dev
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>, Derek Barbosa
+ <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: Re: [PATCH v6 1/1] Documentation: real-time: Add kernel
+ configuration guide
+In-Reply-To: <20260804141541.747704-2-darwi@linutronix.de>
+References: <20260804141541.747704-1-darwi@linutronix.de>
+ <20260804141541.747704-2-darwi@linutronix.de>
+Date: Wed, 05 Aug 2026 13:42:13 -0600
+Message-ID: <87pkzwnylm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 0/8] riscv: Add Ssqosid and initial CBQRI resctrl
- support
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <178595640491.488016.3217391264979488942.git-patchwork-notify@kernel.org>
-Date: Wed, 05 Aug 2026 19:00:04 +0000
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
-In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-Cc: linux-riscv@lists.infradead.org, aricciardi@baylibre.com, alex@ghiti.fr,
- atishp@rivosinc.com, atish.patra@linux.dev, babu.moger@amd.com,
- ben.horgan@arm.com, bp@alien8.de, cp0613@linux.alibaba.com,
- conor.dooley@microchip.com, conor+dt@kernel.org, dave.hansen@linux.intel.com,
- Dave.Martin@arm.com, fenghuay@nvidia.com, gong.shuai@sanechips.com.cn,
- gsh517@gmail.com, guo.wenjia23@zte.com.cn, james.morse@arm.com,
- mindal@semihalf.com, krzk+dt@kernel.org, liu.qingtao2@zte.com.cn,
- zhiwei_liu@linux.alibaba.com, palmer@dabbelt.com, pjw@kernel.org,
- peternewman@google.com, rkrcmar@ventanamicro.com, reinette.chatre@intel.com,
- robh@kernel.org, samuel.holland@sifive.com, bigeasy@linutronix.de,
- tony.luck@intel.com, vasu@rivosinc.com, ved@rivosinc.com,
- liwei1518@gmail.com, cuiyunhui@bytedance.com,
- zhangzhanpeng.jasper@bytedance.com, linux-kernel@vger.kernel.org,
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-doc@vger.kernel.org
+Content-Type: text/plain
 
-Hello:
+"Ahmed S. Darwish" <darwi@linutronix.de> writes:
 
-This series was applied to riscv/linux.git (for-next)
-by Paul Walmsley <pjw@kernel.org>:
+> Add a configuration guide for real-time kernels.
+>
+> List all Kconfig options that are recommended to be either enabled or
+> disabled.  Explicitly add a table of contents at the top of the document,
+> so that all the options can be seen in a glance.
+>
+> Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
+> power management, workqueues, and no_hz.
+>
+> Add a summary at the end of the document warning users that there is no
+> "one size fits all solution" for configuring a real-time system.
+>
+> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+> ---
+>  Documentation/core-api/real-time/index.rst    |   1 +
+>  .../real-time/kernel-configuration.rst        | 307 ++++++++++++++++++
+>  2 files changed, 308 insertions(+)
+>  create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
 
-On Wed, 29 Jul 2026 18:11:27 -0700 you wrote:
-> [NOTE: only patches 4 and 8 are different in v6]
-> 
-> This series adds initial RISC-V QoS support: the Ssqosid extension [1]
-> (srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
-> [3], and a DT-based platform driver for cache controllers. It has been
-> tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
-> implementation [4].
-> 
-> [...]
+So would you like me to pick this up in the docs tree, or did you have
+another path in mind?
 
-Here is the summary with links:
-  - [v6,1/8] dt-bindings: riscv: Add Ssqosid extension description
-    (no matching commit)
-  - [v6,2/8] riscv: Detect the Ssqosid extension
-    (no matching commit)
-  - [v6,3/8] riscv: Add support for srmcfg CSR from Ssqosid extension
-    https://git.kernel.org/riscv/c/3cfa79f25467
-  - [v6,4/8] riscv_cbqri: Add capacity controller probe and allocation device ops
-    (no matching commit)
-  - [v6,5/8] riscv_cbqri: resctrl: Add cache allocation via capacity block mask
-    (no matching commit)
-  - [v6,6/8] riscv: Enable resctrl filesystem for Ssqosid
-    (no matching commit)
-  - [v6,7/8] dt-bindings: riscv: Add binding for CBQRI controllers
-    (no matching commit)
-  - [v6,8/8] riscv_cbqri: Add CBQRI capacity allocation platform driver
-    (no matching commit)
+Thanks,
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+jon
