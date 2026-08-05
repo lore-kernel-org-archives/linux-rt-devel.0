@@ -1,275 +1,109 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939AF3F929B
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 09:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CA73ACF0A;
+	Wed,  5 Aug 2026 09:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785921681; cv=none; b=qLWAgZaJjhcwrmzuekjka+zbcRESOSkLJYZrqII13dA3xkUIi93jjQad9YsZhyBux3FyOAqMBvPYvoMcKYh69PVbOVG17VqE7Ps5Ejc6tCfah7rtCv1bm73PUagH/Ia8p3OG20ACrmmY7e0zQEC14u9gX6GSRq3ZXukir42O90s=
+	t=1785922185; cv=none; b=qVoa58lUQnROLqtjwOwfDxbP6iWOfuw6+i03ab/g/fw6L+tei3JclYf8msiEaj+K+kZYmrcU3yk6ZmMyzaPAzllXrDza+21oav3y5J9hPNYteqxc+dA9JdU+2aw30nmgUw+3JLSVNlFy6nlbWu3m6PONOm8zt4RGHopMAYkYsBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785921681; c=relaxed/simple;
-	bh=rihW06zt0jOo7vObDCfKiZAycA+BvyIzlcHZEkPoyUc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hr0lfFtdFrsCSnnjxpG2wwmfSgFRhTPFEv+ifvJr2jInIz1ysiIMesE5BDP3b4y/U4J1YUjdCTCseMV1EcFxe0mg8xeGB1asfNFuwXUaBI3et9yiy5Ty8RRaQarWa/N5/cJgsDe4M8TwuH2ZbYKdvFsFoKArIk7C4rHC3Lokxsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ohTCorAb; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785922185; c=relaxed/simple;
+	bh=gHpBMNGH9qpEXsum1B26mAX8iOcbFRjuSpqrenirLKg=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Vufaj/admvSDWeMcQi9EgnbBXIcAGB9HjoS8Q2WOf1rIqPGo48qV+8mYnIRwjET+LjWFX0XJB/5lqK7h8lABcZE3WuWhzszeOt2Q23SW+3rBN7f/klkSaYtlz4L4Yo6eAXrtbgYO6FwE1Zf1cFuvnhu2alm9iIpQlFDqrnY1ZiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZc4P6js; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ohTCorAb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785921671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vahvZ+wmKcdNUH+2tDukG0ly53D64r43IRpsGL/ZSOo=;
-	b=ohTCorAbGwbGa7IEdo6ou/29iah3yAmnh5kkgYKl3VlAImSs3aZY47HGkrUV4yxt4c9Q7B
-	GYIgkJf/PuguFkXCFtc2PTKPp4k+qXZalPfBGUWvCDyvmyauPlanKGHIjXGcdy5I8f9h42
-	t0JuAWdKsvBMLUBvthEx+Vsyk6Q0s0Q=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH bpf-next v2 4/4] selftests/bpf: Add a test for arena fault-in under memory.max
-Date: Wed,  5 Aug 2026 17:15:57 +0800
-Message-ID: <20260805091720.139924-5-jiayuan.chen@linux.dev>
-In-Reply-To: <20260805091720.139924-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZc4P6js"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0351F000E9;
+	Wed,  5 Aug 2026 09:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785922184;
+	bh=vldBRBL5Z81fbzCrt18z3NiJ4+IPt1QY0AxHJtr+YOg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZZc4P6jsP2WqvEmmlEv38G0O5GwuOP/I8oh5fZZaGI7gNU5YqKrDwXU4Tiu8oiOeR
+	 lKHVuyHvoVwDupzPZXJLV+KTq6JL7Sp1uC+saBHQadtrQqHbqgcvDQOFIui38mfweY
+	 yXTtPSXq4uDffRdLe1YElO5bVE+KZchxW+QtsNwA9QV6CU8UjdGraHZuUom29V9acy
+	 QJ4LbuygD5YCQaikrsukY/gVPevUr7NTPglXi3sIJebsTmoGhVrZqza4Vi+QqnkJGI
+	 hSD9ZEXDX4NDqiZvO9aFPm11Imr+AKNeeOCZjRYbYxyNksHCQTCus3hSCMpwaA89qr
+	 IiUsCi7oU9xVw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH bpf-next v2 4/4] selftests/bpf: Add a test for arena
+ fault-in under memory.max
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jiayuan Chen" <jiayuan.chen@linux.dev>
+Cc: linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260805091720.139924-5-jiayuan.chen@linux.dev>
 References: <20260805091720.139924-1-jiayuan.chen@linux.dev>
+ <20260805091720.139924-5-jiayuan.chen@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Aug 2026 09:29:43 +0000
+Message-Id: <20260805092944.5B0351F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-A child joins a memcg capped at 64M and faults an arena in until it runs
-out of the budget. Without the kernel fix the child dies with SIGSEGV on
-a valid arena address; with it, the child is killed by the memcg OOM
-killer.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The test passes on unexpected crashes because it only asserts th=
+at the termination signal is not SIGSEGV, rather than strictly expecting SI=
+GKILL from the memcg OOM killer.
+--
 
-With the fix:
+--- Patch [4]: [PATCH bpf-next v2 4/4] selftests/bpf: Add a test for arena =
+fault-in under memory.max ---
+commit d5e6a0b924679b20cf7f391518ec1a560ae725e3
+Author: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-  serial_test_arena_memcg:PASS:child killed by signal
-  serial_test_arena_memcg:PASS:not killed by SIGSEGV
-  #5       arena_memcg:OK
+selftests/bpf: Add a test for arena fault-in under memory.max
 
-  # dmesg
-   arena_vm_fault+0x655/0xa90
-  Memory cgroup out of memory: Killed process 512, file-rss:67920kB
+This commit adds a BPF selftest for arena fault-in under a constrained memo=
+ry
+cgroup. It creates a child process to fault in an arena and verifies it is
+killed by the memcg OOM killer rather than incorrectly dying from SIGSEGV.
 
-Without the fix:
+> diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools=
+/testing/selftests/bpf/prog_tests/arena_memcg.c
+> new file mode 100644
+> index 0000000000000..ca039ebd3d674
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
+[ ... ]
+> +void serial_test_arena_memcg(void)
+> +{
+[ ... ]
+> +	/*
+> +	 * Faulting a valid arena address until memory.max is hit must not look
+> +	 * like an invalid access. Without the fix the fault path allocated with
+> +	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV,
+> +	 * and the child died with SIGSEGV on a valid address; now it is handled
+> +	 * by the memcg OOM path and the child is killed by SIGKILL instead.
+> +	 */
+> +	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
+> +		goto out;
+> +	if (!ASSERT_NEQ(WTERMSIG(status), SIGSEGV, "not killed by SIGSEGV"))
+> +		dump_memcg(read_cgroup_file);
 
-  serial_test_arena_memcg:PASS:child killed by signal
-  serial_test_arena_memcg:FAIL:not killed by SIGSEGV: actual 11
-  #5       arena_memcg:FAIL
+[Severity: Medium]
+Could this mask other failures by accepting any signal other than SIGSEGV?
 
-  # dmesg
-  test_progs[508]: segfault at 100004025000 ...
+If the child process crashes due to an unrelated issue like a libbpf intern=
+al
+assertion (SIGABRT) or an invalid memory access (SIGBUS), this assertion wo=
+uld
+evaluate to true and the test would silently pass.
 
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- .../selftests/bpf/prog_tests/arena_memcg.c    | 139 ++++++++++++++++++
- .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
- 2 files changed, 163 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
- create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
+Should this explicitly expect SIGKILL from the memcg OOM killer using
+ASSERT_EQ(WTERMSIG(status), SIGKILL)?
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-new file mode 100644
-index 000000000000..ca039ebd3d67
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <test_progs.h>
-+#include <fcntl.h>
-+#include <signal.h>
-+#include <sys/mman.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <sys/user.h>
-+#ifndef PAGE_SIZE /* on some archs it comes in sys/user.h */
-+#include <unistd.h>
-+#define PAGE_SIZE getpagesize()
-+#endif
-+
-+#include "cgroup_helpers.h"
-+#include "arena_memcg.skel.h"
-+
-+#define CG_PATH		"/arena_memcg"
-+
-+/* Budget the arena gets on top of whatever is already charged after load. */
-+#define ARENA_BUDGET	(64 * 1024 * 1024)
-+
-+static void dump_memcg(int (*rd)(const char *, const char *, char *, size_t))
-+{
-+	char buf[512];
-+
-+	/*
-+	 * memory.current reads 0 once the child has left the cgroup, so it only
-+	 * carries information when dumped from the live child; memory.peak and
-+	 * memory.events survive the child and tell the story either way.
-+	 */
-+	if (!rd(CG_PATH, "memory.current", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.current: %s", buf);
-+	if (!rd(CG_PATH, "memory.max", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.max: %s", buf);
-+	if (!rd(CG_PATH, "memory.peak", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.peak: %s", buf);
-+	if (!rd(CG_PATH, "memory.events", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.events:\n%s", buf);
-+	fflush(NULL); /* _exit() in the child would not flush stdio otherwise */
-+}
-+
-+void serial_test_arena_memcg(void)
-+{
-+	int cgroup_fd = -1, status;
-+	const long ps = PAGE_SIZE;
-+	char buf[64];
-+	pid_t pid;
-+
-+	if (setup_cgroup_environment())
-+		return;
-+
-+	cgroup_fd = create_and_get_cgroup(CG_PATH);
-+	if (!ASSERT_OK_FD(cgroup_fd, "create_and_get_cgroup"))
-+		goto out;
-+
-+	/* No memory controller -> nothing to test. */
-+	if (read_cgroup_file(CG_PATH, "memory.current", buf, sizeof(buf))) {
-+		test__skip();
-+		goto out;
-+	}
-+
-+	pid = fork();
-+	if (!ASSERT_GE(pid, 0, "fork"))
-+		goto out;
-+	if (pid == 0) {
-+		struct arena_memcg *cskel;
-+		__u32 i, npages;
-+		char *base;
-+		size_t sz;
-+		long cur;
-+
-+		/*
-+		 * Do everything from the child: the arena vma is VM_DONTCOPY so
-+		 * it would not survive fork(), only the child should be under the
-+		 * limit so that a memcg OOM cannot pick test_progs, and a map is
-+		 * charged to the memcg of the task that creates it - so join
-+		 * before load. The cgroup work dir belongs to the parent that set
-+		 * the environment up, so reach it with the _parent() helpers.
-+		 * Errors are reported to the parent through the exit code, since
-+		 * ASSERT_* in a forked child does not reach it.
-+		 */
-+		snprintf(buf, sizeof(buf), "%d", getpid());
-+		if (write_cgroup_file_parent(CG_PATH, "cgroup.procs", buf))
-+			_exit(2);
-+
-+		cskel = arena_memcg__open_and_load();
-+		if (!cskel)
-+			_exit(3);
-+
-+		base = bpf_map__initial_value(cskel->maps.arena, &sz);
-+		if (!base)
-+			_exit(4);
-+		npages = bpf_map__max_entries(cskel->maps.arena);
-+
-+		/*
-+		 * Cap only now, after load: everything but the fault-in is
-+		 * charged, so the arena gets a fixed budget regardless of what
-+		 * the load itself cost, and the load can never hit the limit.
-+		 */
-+		if (read_cgroup_file_parent(CG_PATH, "memory.current", buf, sizeof(buf)))
-+			_exit(5);
-+		cur = strtol(buf, NULL, 10);
-+		snprintf(buf, sizeof(buf), "%ld", cur + ARENA_BUDGET);
-+		if (write_cgroup_file_parent(CG_PATH, "memory.max", buf))
-+			_exit(6);
-+
-+		for (i = 0; i < npages; i++)
-+			base[(size_t)i * ps] = 1;
-+		/* Faulted everything without dying: no pressure built, dump why. */
-+		dump_memcg(read_cgroup_file_parent);
-+		_exit(0);
-+	}
-+
-+	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
-+		goto out;
-+
-+	/* A non-zero exit means the child failed to set up; the code says where. */
-+	if (WIFEXITED(status) && WEXITSTATUS(status)) {
-+		ASSERT_OK(WEXITSTATUS(status), "child setup");
-+		goto out;
-+	}
-+
-+	/*
-+	 * Faulting a valid arena address until memory.max is hit must not look
-+	 * like an invalid access. Without the fix the fault path allocated with
-+	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV,
-+	 * and the child died with SIGSEGV on a valid address; now it is handled
-+	 * by the memcg OOM path and the child is killed by SIGKILL instead.
-+	 */
-+	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
-+		goto out;
-+	if (!ASSERT_NEQ(WTERMSIG(status), SIGSEGV, "not killed by SIGSEGV"))
-+		dump_memcg(read_cgroup_file);
-+out:
-+	if (cgroup_fd >= 0)
-+		close(cgroup_fd);
-+	cleanup_cgroup_environment();
-+}
-diff --git a/tools/testing/selftests/bpf/progs/arena_memcg.c b/tools/testing/selftests/bpf/progs/arena_memcg.c
-new file mode 100644
-index 000000000000..adecd9e8463e
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/arena_memcg.c
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <vmlinux.h>
-+#include <bpf/bpf_helpers.h>
-+#include "bpf_arena_common.h"
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_ARENA);
-+	__uint(map_flags, BPF_F_MMAPABLE);
-+	__uint(max_entries, 100000); /* number of pages */
-+#ifdef __TARGET_ARCH_arm64
-+	__ulong(map_extra, 0x1ull << 32); /* start of mmap() region */
-+#else
-+	__ulong(map_extra, 0x1ull << 44); /* start of mmap() region */
-+#endif
-+} arena SEC(".maps");
-+
-+SEC("syscall")
-+int noop(void *ctx)
-+{
-+	return 0;
-+}
-+
-+char _license[] SEC("license") = "GPL";
--- 
-2.43.0
+> +out:
+> +	if (cgroup_fd >=3D 0)
+> +		close(cgroup_fd);
+> +	cleanup_cgroup_environment();
+> +}
 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260805091720.1399=
+24-1-jiayuan.chen@linux.dev?part=3D4
