@@ -1,219 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-173.mta1.migadu.com (mta1.migadu.com [37.59.57.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0932C3C7E1D;
-	Wed,  5 Aug 2026 04:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B673E5EEE
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 09:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.59.57.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785905804; cv=none; b=uSDRnq7jNp3LrgnxrfB+is9ilWyQQej08YqfvEDmzq/FEGxsBI16n2BhnmSTQjHY9zsADD2bp8tVOLrFEJjTQ9xoisY/C+BcilPfhKZX9JW302wCPF4ovTYNjRzLQRC8uf+dfXD4K9iIT7bYzX9i1VvxkiLHplYm1tBtFedHE+U=
+	t=1785921593; cv=none; b=FlpuBaAlyOy7NT4ICdLRaDXltV5XFyfZmKkD9mYouvK7ozdU+b3Ouk9hwriw4kMeeuytTilKxgVzQjZmNBbLq9deGNzjKAZVlfnKhyAUNBTyvlXU7YTc0m1wgjDSiAgub4+z4KHC78Ah3ZJZeKZTZdN4QEj4a5qowA1TH0IK0nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785905804; c=relaxed/simple;
-	bh=qi3grhX1txASeg18XwboydI22PyXnjrHs8icI6LkTjo=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=WwwNoTnll3kPMVSc2leGNNumFWGOzhTNzZCjXlx0XpAbu1hGU+bnpYCaHfYb0pB6+N8K8bQixF4vzeB6kAZJ+AN/KXZRL2UROjidrcuBolw6kMVRHoah2CBC9ajayVJaEeD4GsgjUpzOsOd6xeYE5Jw6WvVpfe7jdlzIQK6mHbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0tIDrHO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785921593; c=relaxed/simple;
+	bh=Lo29806vP7eI28qJPdczzRsLJGYQceFyTmTgdJK5Bis=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ky0tgQHgU413CT9gM+rS2wtUmRRG3Yy2QVaJ7VVhlv2zDuoJX0UkF5ik1U3LjN9Q+1s+Xuq4Rh4zM3//mNIAXIZtcQL0wPUxVrxJOep/2SKSWbvQ6OFWeQFW8g6L5kcIlembFy6yXH/o8FVD1/JMZep0TGOJ36FSpQVqUxSVEZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FPFlTQsZ; arc=none smtp.client-ip=37.59.57.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0tIDrHO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5201F000E9;
-	Wed,  5 Aug 2026 04:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785905802;
-	bh=gPdcpCkfjkD/FGzFlVyO9h8LnEnduHfxyjLsrslrlNo=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=S0tIDrHOqVznaaCqzRfeHVQSaYmBBTQIE0lQS1/GgBFsSyohjRrg14yTzeR5U4pVr
-	 7Cc2+t/vMWlyo5EvzM1toGEspmWD+AvTMAXaxSAQOZ1P0PmStiqdR6JXJQki1m8nNa
-	 bnWBBDsto6237qPZt0giPAJRF5081wiEfnN+5G9dHQcv9axfIcZnkKEMV3ciPlyfS5
-	 hCNtMVNWBDKMl556IeeP+LRb3quAxc/Ldb9BopqAXE9HWUXsLmN3VB0pUa42MLT6oJ
-	 21pU/BoI8bO7nEgJ7WF2mgoqL0NQ6dQ4HOqGNFculqqqvHQGkM+/1EVacRLrHQffUe
-	 Gq33PTtVQT03w==
-Content-Type: multipart/mixed; boundary="===============9124391864283396738=="
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FPFlTQsZ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785921589;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lVjHWRL8DAA/FlqrPl1KtO7VAi/kVzvlawB8oTzZ710=;
+	b=FPFlTQsZqf7KnfglCDh+HRiIovxMBgLs5IcwwcUDQuwx60jRVGS+zyuuRziICdBKgPELYd
+	Kl7Yqk7jKGyrHCJtpjuatoYJ17hvZgry3ZVrqJocl//qzzT1uPuQHd++g7wFYpw+HmObMm
+	gkDYd8JbQCk0LXZ43DtoQWGQz2zV4hw=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH bpf-next v2 0/4] bpf: arena: handle memory.max on fault-in with reclaim/OOM
+Date: Wed,  5 Aug 2026 17:15:53 +0800
+Message-ID: <20260805091720.139924-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <5ad3da2f1e214aac34bc15293942ec2f9ab7734cc88d1578cd07e07eb1d30f67@mail.kernel.org>
-In-Reply-To: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
-References: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
-Subject: Re: [PATCH bpf-next v3] bpf: Fix mmap_lock leak in irq_work path
-From: bot+bpf-ci@kernel.org
-To: sanghyun.park.cnu@gmail.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com
-Cc: sanghyun.park.cnu@gmail.com,sun.jian.kdev@gmail.com,puranjay@kernel.org,ihor.solodrai@linux.dev,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,bigeasy@linutronix.de,clrkwllms@kernel.org,rostedt@goodmis.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-rt-devel@lists.linux.dev,syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com,sashiko-bot@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Wed,  5 Aug 2026 04:56:41 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
---===============9124391864283396738==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Since commit e66fe1bc6d25 ("bpf: arena: Reintroduce memcg accounting"),
+arena pages are charged to the memcg of the process that created the arena.
+That accounting exposes two problems in the arena user page fault path.
 
-> diff --git a/kernel/bpf/mmap_unlock_work.h b/kernel/bpf/mmap_unlock_work.h
-> index 5d18d7d85bef9..1834db20b8612 100644
-> --- a/kernel/bpf/mmap_unlock_work.h
-> +++ b/kernel/bpf/mmap_unlock_work.h
-> @@ -4,12 +4,15 @@
->
->  #ifndef __MMAP_UNLOCK_WORK_H__
->  #define __MMAP_UNLOCK_WORK_H__
-> +#include <linux/atomic.h>
-> +#include <linux/err.h>
->  #include <linux/irq_work.h>
->
->  /* irq_work to run mmap_read_unlock() in irq_work */
->  struct mmap_unlock_irq_work {
->  	struct irq_work irq_work;
->  	struct mm_struct *mm;
-> +	atomic_t active;
->  };
->
->  DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
-> @@ -18,32 +21,36 @@ DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
->   * We cannot do mmap_read_unlock() when the irq is disabled, because of
->   * risk to deadlock with rq_lock. To look up vma when the irqs are
->   * disabled, we need to run mmap_read_unlock() in irq_work. We use a
-> - * percpu variable to do the irq_work. If the irq_work is already used
-> - * by another lookup, we fall over.
-> + * percpu variable to do the irq_work. The active flag reserves the slot
-> + * before mmap_read_trylock() and until the irq_work callback consumes mm.
->   */
+1. The fault-in allocation runs under arena->spinlock, so it can only use the
+   non-blocking allocator, which never reclaims. Once memory.current is at
+   memory.max the allocation simply fails. Reaching memory.max is completely
+   normal for a healthy application - e.g. reading a large file fills
+   memory.current with page cache - so the process ends up killed for no real
+   reason.
 
-The new comment states the reservation lasts "until the irq_work callback
-consumes mm," but there are two cases where it ends earlier: when
-irqs_disabled() is false the helper returns NULL and no slot is reserved
-at all, and when mmap_read_trylock() fails the reservation is released
-immediately by bpf_mmap_unlock_guard_put(). Would it read more clearly to
-note that the reservation may be released early on trylock failure?
+2. That failure is turned into VM_FAULT_SIGSEGV, which is misleading: the
+   faulting address is a perfectly valid arena address. When we know it is an
+   out-of-memory condition we can return VM_FAULT_OOM and let the memcg OOM
+   path handle it properly.
 
-[ ... ]
-
-> -static inline bool bpf_mmap_unlock_get_irq_work(struct mmap_unlock_irq_work **work_ptr)
-> +static inline struct mmap_unlock_irq_work *bpf_mmap_unlock_guard_get(void)
->  {
-> +	work = this_cpu_ptr(&mmap_unlock_work);
-> +	if (irq_work_is_busy(&work->irq_work) ||
-> +	    atomic_cmpxchg_acquire(&work->active, 0, 1))
-> +		return ERR_PTR(-EBUSY);
->
-> -	*work_ptr = work;
-> -	return irq_work_busy;
-> +	return work;
-> +}
-> +
-> +static inline void
-> +bpf_mmap_unlock_guard_put(struct mmap_unlock_irq_work *work)
-> +{
-> +	if (work)
-> +		atomic_set_release(&work->active, 0);
->  }
-
-This isn't a bug, but the rename to bpf_mmap_unlock_guard_get()/_put()
-might be confusing here. In current kernel usage 'guard' typically refers
-to the include/linux/cleanup.h scoped-guard family where release happens
-automatically at scope exit. These helpers do the opposite: the
-reservation is released manually, and in the success case ownership is
-handed off to the irq_work callback in do_mmap_read_unlock() which is in
-a different function. Would bpf_mmap_unlock_reserve()/_unreserve() signal
-the manual cross-function lifetime more directly?
-
-[ ... ]
-
-> diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
-> index 463f94ba1cc47..0384b32d88b57 100644
-> --- a/kernel/bpf/stackmap.c
-> +++ b/kernel/bpf/stackmap.c
-> @@ -426,15 +425,16 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
->  		return;
->  	}
->
-> -	/* If the irq_work is in use, fall back to report ips. Same
-> -	 * fallback is used for kernel stack (!user) on a stackmap with
-> -	 * build_id.
-> -	 */
-> -	if (!has_user_ctx || irq_work_busy || !mmap_read_trylock(current->mm)) {
-> -		/* cannot access current->mm, fall back to ips */
-> -		for (i = 0; i < trace_nr; i++)
-> -			stack_map_build_id_set_ip(&id_offs[i]);
-> -		return;
-> +	if (!has_user_ctx)
-> +		goto fallback;
-> +
-> +	work = bpf_mmap_unlock_guard_get();
-> +	if (IS_ERR(work))
-> +		goto fallback;
-> +
-> +	if (!mmap_read_trylock(current->mm)) {
-> +		bpf_mmap_unlock_guard_put(work);
-> +		goto fallback;
->  	}
-
-[ ... ]
-
-> @@ -465,6 +465,12 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
->  						      vma->vm_pgoff);
->  	}
->  	bpf_mmap_unlock_mm(work, current->mm);
-> +	return;
-> +
-> +fallback:
-> +	/* cannot access current->mm, fall back to ips */
-> +	for (i = 0; i < trace_nr; i++)
-> +		stack_map_build_id_set_ip(&id_offs[i]);
->  }
-
-[ ... ]
-
-> diff --git a/kernel/bpf/task_iter.c b/kernel/bpf/task_iter.c
-> index b256fb9c1214e..13e1aabe6f886 100644
-> --- a/kernel/bpf/task_iter.c
-> +++ b/kernel/bpf/task_iter.c
-> @@ -792,9 +791,14 @@ BPF_CALL_5(bpf_find_vma, struct task_struct *, task, u64, start,
->  	if (!mm)
->  		return -ENOENT;
->
-> -	irq_work_busy = bpf_mmap_unlock_get_irq_work(&work);
-> +	work = bpf_mmap_unlock_guard_get();
-> +	if (IS_ERR(work)) {
-> +		ret = PTR_ERR(work);
-> +		goto out;
-> +	}
->
-> -	if (irq_work_busy || !mmap_read_trylock(mm)) {
-> +	if (!mmap_read_trylock(mm)) {
-> +		bpf_mmap_unlock_guard_put(work);
->  		ret = -EBUSY;
->  		goto out;
->  	}
-
-[ ... ]
-
-> @@ -1191,6 +1195,8 @@ static void do_mmap_read_unlock(struct irq_work *entry)
->
->  	work = container_of(entry, struct mmap_unlock_irq_work, irq_work);
->  	mmap_read_unlock_non_owner(work->mm);
-> +	work->mm = NULL;
-> +	bpf_mmap_unlock_guard_put(work);
->  }
-
-The commit message states the Fixes tag points to commit eac9153f2b58
-which widened the gate from in_nmi() to irqs_disabled(). Looking at the
-code history, the unsafe pattern where the slot check happens before the
-reservation was introduced by bae77c5eb5b2 in May 2018, but that commit
-alone was not enough to trigger the bug. The reproducer depends on two
-later additions: the mmap_lock tracepoints that fire inside
-mmap_read_trylock(), and raw_tp programs that bypass the global per-CPU
-bpf_prog_active counter and rely only on per-prog prog->active (see
-kernel/trace/bpf_trace.c:1599 and include/linux/bpf.h:2158). All other
-BPF entry points like kprobe, perf_event, and kprobe_multi gate on the
-global bpf_prog_active and cannot nest. The commit message describes the
-bug mechanism but does not mention that only raw_tp programs can actually
-trigger this nesting path. Would adding one sentence about the raw_tp +
-mmap_lock-tracepoint precondition make the explanation more complete for
-readers trying to understand the reachability?
+Preallocate the page outside the lock (patch 2), the way do_anonymous_page()
+does, so the allocation can sleep and go through reclaim and the OOM path.
+This needs a sleepable allocator (patch 1), because can_alloc_pages() is a
+conservative guess for BPF program context and always forces the non-blocking
+allocator under PREEMPT_RT. patch 3&4 adds a selftest that faults an arena in
+under a memory.max limit: without the fix the child gets SIGSEGV on a valid
+address, with it the child is killed by the memcg OOM killer.
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+v1 -> v2:
+   - Rebase on the separate deadlock fix (found by the Sashiko AI review),
+     now applied to bpf-next.
+   - Honor the map's NUMA node on fault-in.
+   - Return VM_FAULT_SIGBUS for the non-recoverable faults (lock, range-tree
+     and page-table failures); a scratch-page hole stays VM_FAULT_SIGSEGV
+     only under BPF_F_SEGV_ON_FAULT. (Kumar Kartikeya Dwivedi)
+   - Add read_cgroup_file() to cgroup_helpers instead of open-coding the
+     /mnt/... path in the test. (Emil Tsalapatis)
+   - Dump the cgroup memory stats on test failure to ease debugging.
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/30972744877
---===============9124391864283396738==--
+v1:
+https://lore.kernel.org/bpf/20260727062521.376231-1-jiayuan.chen@linux.dev/
+
+Jiayuan Chen (4):
+  bpf: Add a sleepable page allocator for map memory
+  bpf: arena: allocate the fault-in page outside the lock
+  selftests/bpf: Add read_cgroup_file() to cgroup_helpers
+  selftests/bpf: Add a test for arena fault-in under memory.max
+
+ include/linux/bpf.h                           |   1 +
+ kernel/bpf/arena.c                            |  92 +++++++++---
+ kernel/bpf/syscall.c                          |  21 ++-
+ tools/testing/selftests/bpf/cgroup_helpers.c  |  67 +++++++++
+ tools/testing/selftests/bpf/cgroup_helpers.h  |   4 +
+ .../selftests/bpf/prog_tests/arena_memcg.c    | 139 ++++++++++++++++++
+ .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
+ 7 files changed, 323 insertions(+), 25 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
+ create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
+
+-- 
+2.43.0
+
