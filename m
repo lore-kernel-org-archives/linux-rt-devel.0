@@ -1,172 +1,109 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A729F3F8EBE
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 10:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5156A42B331
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 11:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785926225; cv=none; b=DXvKYmnTCeL5UJuziFVsW06nK3CWoK6iro7FTtqCG/XsjZDE0hKRlh82ao01i6xvhCBJFmLMJv3ZwfxzvTISY2AFjVH1EbsRrSOjGuOvGLUMZLhHxQQL18hAP9ikPnlurXagDUaH0IkgaFHjq0BmOYFMWy2VnUuyH7FO+jQysfk=
+	t=1785928795; cv=none; b=GmKYlngMPdh6e6333SrC6rnELA9CB9leBS87rOTP+YkOMYLm4bt9NlLywye8M/ihNIt/VnDvnTqzErdb+UDp8et4xfL3V3Abofrgp+TPfC6L8wZsaKXHX5Y4kz2A9MhpET+GGLEKk8XqnlslYktVTi99bVf5++NTotGHgSROKLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785926225; c=relaxed/simple;
-	bh=LS35LYkQCpQBh79iSZYLFW/+ZVWWpIVo8XtgcNbLroU=;
+	s=arc-20240116; t=1785928795; c=relaxed/simple;
+	bh=aLTzvfomwByXyEU8smjayJliRRdS33okKX+aa3Hd++Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OUcO0n5L9ZrSje6YWpj2bK77XvjXl+VuQmkvwxmJlawhGgQxjQU6Lq6aBJ8EZwZaki4n/x2P06iFuehups+3zPIx7CKzpAt5VaC0KCi+crx445U6RwCp+nO0F5zeku9u3fy7332Su/tP2MXEWWm7pif9OP6+Jqf4F0KQHdEubYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iuafqLkX; arc=none smtp.client-ip=95.215.58.176
+	 In-Reply-To:Content-Type; b=CS4Tqc3M/gr5wWHUxwmxgWq4d53zMWZQn5w1cD8NhiWcNCTStokQIRaQ8QPawYjz7BixJhYU3BwhLCVEZyl8IFwDLjLgoW8ynlHr6ODT//h8/1DSJ2C5R/ZZJ5ZQLwo/34V3BRFg84n7oAqjcRn7JDiStkCGl/P+nlG5wXcaXco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=F0jK8QMM; arc=none smtp.client-ip=91.218.175.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iuafqLkX"
-Message-ID: <48cf25f3-3f8a-4a42-a902-7d87d9dafcd8@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="F0jK8QMM"
+Message-ID: <74fddad1-fedf-4fc6-a2de-ba83a7190caa@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785926211;
+	t=1785928780;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fdMzOHfWVKaOlnzPa/ucwOQRBf5ESDgDzD6GRAtvHGY=;
-	b=iuafqLkXTS9dOqZtfWxcnvqVywZRIvlGLzzVM9FjieC7Y061NuPVtJgN6ifBCFlkoblbLH
-	3KcJaKhkPESmeG+EQzU2tWKGdEiocIC6SX9FTNaqJRfubUwVluDa1hqHGDoqxR3hfB06dR
-	B/ULHEjscoxJ4wWD82ZsuX93LQqDd3Q=
-Date: Wed, 5 Aug 2026 18:36:30 +0800
+	bh=ZG92dOdfDg3hxjpfzh/S6L/2k1BlAviAVSI0u0P4pDM=;
+	b=F0jK8QMMtgQrIfRSo3y1UqqEnTJ7HjROa0n/quKUD9+orIyVsEYBmarL+idgMM+gZ9nLNS
+	IHFi2PMfscOm2II2fi0PK0n1Ndx3u8MdcmsBy7lrxdDX77ErUsGQrp1x03PWlIPCYnGSst
+	vbaw0nHEB1oezIc1HI+MrvyqqYGHINg=
+Date: Wed, 5 Aug 2026 19:18:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 1/4] bpf: Add a sleepable page allocator for
- map memory
+Subject: Re: [PATCH bpf-next v2 4/4] selftests/bpf: Add a test for arena
+ fault-in under memory.max
 To: sashiko-reviews@lists.linux.dev
-Cc: bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+Cc: linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260805091720.139924-1-jiayuan.chen@linux.dev>
- <20260805091720.139924-2-jiayuan.chen@linux.dev>
- <20260805093251.636CC1F00A3A@smtp.kernel.org>
+ <20260805091720.139924-5-jiayuan.chen@linux.dev>
+ <20260805092944.5B0351F000E9@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Jiayuan Chen <jiayuan.chen@linux.dev>
-In-Reply-To: <20260805093251.636CC1F00A3A@smtp.kernel.org>
+In-Reply-To: <20260805092944.5B0351F000E9@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
-On 8/5/26 5:32 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
->
-> New issues:
-> - [High] Using __GFP_ZERO to zero pages intended for user-space mapping skips required dcache flushes on cache-aliasing architectures.
-> - [Medium] bpf_map_alloc_page_sleepable() and __bpf_alloc_page() silently bypass task/VMA NUMA mempolicy when the requested node is NUMA_NO_NODE.
->
-> Pre-existing issues:
-> - [High] The fallback allocation path in __bpf_alloc_page() omits __GFP_ZERO, returning uninitialized kernel memory that can be exposed to user space.
+On 8/5/26 5:29 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] The test passes on unexpected crashes because it only asserts that the termination signal is not SIGSEGV, rather than strictly expecting SIGKILL from the memcg OOM killer.
 > --
 >
-> --- Patch [1]: [PATCH bpf-next v2 1/4] bpf: Add a sleepable page allocator for map memory ---
-> commit 2a4210c942ca919834ce20218ab8bedc6cbb40a8
+> --- Patch [4]: [PATCH bpf-next v2 4/4] selftests/bpf: Add a test for arena fault-in under memory.max ---
+> commit d5e6a0b924679b20cf7f391518ec1a560ae725e3
 > Author: Jiayuan Chen <jiayuan.chen@linux.dev>
 >
-> bpf: Add a sleepable page allocator for map memory
+> selftests/bpf: Add a test for arena fault-in under memory.max
 >
-> This patch adds bpf_map_alloc_page_sleepable() to provide a blocking page
-> allocator for sleepable contexts. This avoids using the non-blocking
-> allocator, which never reclaims or engages the OOM machinery, for contexts
-> that can actually sleep.
+> This commit adds a BPF selftest for arena fault-in under a constrained memory
+> cgroup. It creates a child process to fault in an arena and verifies it is
+> killed by the memcg OOM killer rather than incorrectly dying from SIGSEGV.
 >
->> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
->> index 8d111da886553..67d8157c6623e 100644
->> --- a/kernel/bpf/syscall.c
->> +++ b/kernel/bpf/syscall.c
->> @@ -602,15 +602,14 @@ static bool can_alloc_pages(void)
->>   		!IS_ENABLED(CONFIG_PREEMPT_RT);
->>   }
->>   
->> +#define BPF_PAGE_GFP (GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT | __GFP_NOWARN)
->> +
->>   static struct page *__bpf_alloc_page(int nid)
->>   {
->>   	if (!can_alloc_pages())
->>   		return alloc_pages_nolock(__GFP_ACCOUNT, nid, 0);
-> [Severity: High]
-> This is a pre-existing issue, but does this fallback path leak uninitialized
-> kernel memory?
->
-> The call to alloc_pages_nolock() passes only __GFP_ACCOUNT and completely
-> omits __GFP_ZERO. If a BPF map is allocated on PREEMPT_RT where
-> can_alloc_pages() returns false, this could expose uninitialized pages to
-> user space.
-
-
-Not ture.
-
-alloc_pages_nolock::alloc_frozen_pages_nolock_noprof append __GFP_ZERO 
-to alloc_gfp by default.
-
-
->>   
->> -	return alloc_pages_node(nid,
->> -				GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT
->> -				| __GFP_NOWARN,
->> -				0);
->> +	return alloc_pages_node(nid, BPF_PAGE_GFP, 0);
-> [Severity: Medium]
-> When nid is NUMA_NO_NODE, does alloc_pages_node() bypass the task's NUMA
-> mempolicy?
->
-> Since alloc_pages_node() automatically resolves NUMA_NO_NODE to the local
-> CPU node rather than defaulting to the task's mempolicy, this could cause
-> pages to land on the wrong nodes for user applications.
-
-
-Already replied to v1.
-
-This matches every other bpf map allocation via alloc_pages_node(); none 
-honor the task mempolicy.
-
->>   }
->>   
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
+>> new file mode 100644
+>> index 0000000000000..ca039ebd3d674
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
 > [ ... ]
->> @@ -636,6 +635,20 @@ int bpf_map_alloc_pages(const struct bpf_map *map, int nid,
->>   	return ret;
->>   }
->>   
->> +/*
->> + * For callers that know they run in a sleepable context, e.g. a user page
->> + * fault handler. can_alloc_pages() is a conservative guess made for BPF
->> + * program context - notably it is always false on PREEMPT_RT - so going
->> + * through bpf_map_alloc_pages() there would needlessly pick the
->> + * non-blocking allocator, which never reclaims and never engages the OOM
->> + * machinery.
->> + */
->> +struct page *bpf_map_alloc_page_sleepable(const struct bpf_map *map)
+>> +void serial_test_arena_memcg(void)
 >> +{
->> +	might_sleep();
->> +	return alloc_pages_node(map->numa_node, BPF_PAGE_GFP, 0);
-> [Severity: High]
-> Does using __GFP_ZERO (via BPF_PAGE_GFP) skip required dcache flushes on
-> cache-aliasing architectures?
->
-> When allocating pages destined for user-space mapping (like the arena page
-> fault handler), __GFP_ZERO uses clear_page() which leaves zeros in the
-> kernel's dcache. Could user processes reading from these pages see stale,
-> uninitialized physical memory instead of zeros?
-
-
-The patch doesn't change zeroing, we already used  __GFP_ZERO before.
-
-
-I asked claude to check the review and it told me the review was 
-overthinking:
-
-     no arena-capable arch selects ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE, so 
-flush_dcache_page()
-     is a no-op and there's no aliasing concern.
-
-But I think this needs to be remembered.
-
-
+> [ ... ]
+>> +	/*
+>> +	 * Faulting a valid arena address until memory.max is hit must not look
+>> +	 * like an invalid access. Without the fix the fault path allocated with
+>> +	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV,
+>> +	 * and the child died with SIGSEGV on a valid address; now it is handled
+>> +	 * by the memcg OOM path and the child is killed by SIGKILL instead.
+>> +	 */
+>> +	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
+>> +		goto out;
+>> +	if (!ASSERT_NEQ(WTERMSIG(status), SIGSEGV, "not killed by SIGSEGV"))
+>> +		dump_memcg(read_cgroup_file);
 > [Severity: Medium]
-> Similar to the issue in __bpf_alloc_page(), does using alloc_pages_node()
-> here bypass the task mempolicy when map->numa_node is NUMA_NO_NODE?
+> Could this mask other failures by accepting any signal other than SIGSEGV?
 >
->> +}
->> +
+> If the child process crashes due to an unrelated issue like a libbpf internal
+> assertion (SIGABRT) or an invalid memory access (SIGBUS), this assertion would
+> evaluate to true and the test would silently pass.
+>
+> Should this explicitly expect SIGKILL from the memcg OOM killer using
+> ASSERT_EQ(WTERMSIG(status), SIGKILL)?
+
+
+I think checking "oom_kill" in memory.events would be more accurate.
+
+
+That said, I'm not sure patches 3 and 4 are necessary, they only 
+exercise the memcg behavior,
+
+so we could drop them when merging (if the series is accepted).
+
+
+Both ok for me.
+
