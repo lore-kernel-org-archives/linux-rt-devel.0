@@ -1,312 +1,133 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60212931C4
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 03:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9694D36B903
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 03:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785899759; cv=none; b=eMMQyZJv22pQlCbgy9c+oObLKT2A1cnlDg24/a8q8h6qhGqnLVUVDuU+6pByz5rtqiMSK6apkYqDzxbFOcb+eFbBCeAKEvkA/An2by1XbaLaQ4EMNCCtJTp0OkjitD6nGV/xjPaDrugZvym2orCzWQvR4fC3nlG6RLOWLrxP6GM=
+	t=1785901246; cv=none; b=T04lqoBlCbm+5MqaFA4Teq2WN/ogjx91TjloDYeSFtAWQ/t6ozIJ53giXgmgSlE/McKwulN6dqH2Un7PZN5VvoaGdLcKG3FKG9mTye23JPaMgIePwYQcNsXHaVOg8w7r88VGZcRHah1lahEEtD67BRMeMA3nQwEMLWaRsYQFds0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785899759; c=relaxed/simple;
-	bh=E9fmzVPEhc0FHQUnTqsdKOMryIMDqrwX5DamxWU2EYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mUf1QEE8r5Y0IRLbD8To/3gaMWm1Ek5i/BRJ/TmtMwsMVn9QFdLrhO6W2/NsBiU8yXGXZI4gfYLxSHAASJvFSr6u2Nf/BJKgm1vTofKGlKbKaFIHc5QIkQrttQfZyDl/Wh6peX0VovEywHh0wGQPY8sFVVlRHbEtIOgSCodrPNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Shn5kPFB; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1785901246; c=relaxed/simple;
+	bh=9bRo+Ywi3z6M397Ttk8WJOCfNaXfPL/cDqxTv2yA2Ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=krfLxs+iTjcv04OGpuHsKD8u65l5QNVaxvoN+FO+nQJqOjcWFBmETHM6lyelMuSjfsYl25V0VxPDwXfci2dqJKoP2iPTZrkyX22IHHJ9+A/fIQV/84tQ1XPwEq5Qcenx9j5iYCppMrFE2p0Pvb2pjgpkh/Gz0DgTqVjsuVzt+Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kz+9L+Po; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Shn5kPFB"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8453427d3f4so605228b3a.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Aug 2026 20:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kz+9L+Po"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d004f135b1so6731065ad.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Aug 2026 20:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785899757; x=1786504557; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1JWpXQSVlmsFGWTkJETCzoI7IiXAWiXm3VeZqV6jTpY=;
-        b=Shn5kPFB5O4xkIPwofATBv3//gf4TwYpwajSDnA2ob31Td511BZyqC4TfOD3jNZy6j
-         xkHKTTnrcCQ8QPKLEysfz6VPD6fwcNoODZ/5c9MDIh+oSjoIMWoFxSEvvwUCtfbE1ivz
-         cVHa8dKirLNFiBOIbVNf7do3RRPUQNvSZFFFIp58Ne1B7jNdB3unqxYdrknirHa9lbxR
-         f7RvgiNznhcdRzF80EAzFMPPcl04dB8lqGQVhEmJ3Xi2xABzQieEvzEoeunBJhKZbXVL
-         iSvMCbUlKEDHpy5AwwcHObiCiaD6+XMHYKlxPkdRGJtfcJ/FftMm20sjUtKSIwW6D0GY
-         0sDg==
+        d=gmail.com; s=20251104; t=1785901243; x=1786506043; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
+        b=kz+9L+PoDDj4tyoI1VR0HgxcUnTelM6ZAtZYi8VTpttzP/51lyZIMzh0zZ8q48HDqk
+         D5JoIk6ajfxRCMz4VIrscdOCnZMg/nNiOAzwcugPcebV4w2XuMNiwYnA16Lc6f5f9HQO
+         xiXbXi6g9OupeGsWfn9MEBpB7EellUAyAdIUSmcbZrDep5+5vHDWJN845vdVSAIG/7HS
+         Yil26dxECPiQs371+WaI5sjKIx0MpgS38lbJnlWDJPvpz7ISBlT6qqauQQ4V8X8t54ed
+         6XYiACzRHOk3oBRYcwYJunyr8IC5/nE4pfOQuqEKOxS4w9YiMm/FHOwpSbTIJQ5CN63k
+         nm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785899757; x=1786504557;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1JWpXQSVlmsFGWTkJETCzoI7IiXAWiXm3VeZqV6jTpY=;
-        b=hFGFa54bbs5DrC59TvWuBRBMPLWwqWNDk4m77h1L2Q9L/QYgKWqCm0neZe7vN2B0zt
-         8St7lWcwsrLF3x51AMXeOvBIbRAv+EfYNxMLc3w4iXLBEC25Au5U6VPsB18gjY9CInsL
-         wWbTEfRYOxpAm6Q9F7YgYvQIgeAyklsxWBEG8Lw9l9H/LQAczutr7eiIQl8R3gG5KdZC
-         thFFoMEiAEsxu0q3bqnj+0M3YN4ZdKztLpBvDAnkUxnRU1CMNOgLI0tmlxDhmrOV49IM
-         t0OD5kzUlsSJy5hE5VbRT0vaGVufx3d+ahnGcQU73WDHWE74RZjJg96W7Kn+iJ2+Ffqx
-         sYkQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/gKVOiPn0//JSMRxzRUg2YFprVVoj6yCOuLi+wUwmlMAsXxheQmJIjGdmmd3B8G/9QYMJYr9O+ZwSXHb/pg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHWtpI9pyPSWIr7jmWDV4z2w3gaxlK/+wq8cK8HIJq4kAWRhiW
-	TX7QcnUl1vYpN/Rs6QhCuKJF5PuWMbSB6EZWipOW6D4+XGcGG7oWFbs0
-X-Gm-Gg: AR+sD11ezVtv8EHX1dKyec6LdH0/9DgaZbqbULKCETYCsEXi8TzSWV8qy7XXgXriex1
-	Jj+1KQ0lxgqfPABbRrk91wGfNdSZncLAmxaO3GYT5gkab3/x6L7C3ndJAlSnp7zoQinOxHDCg4N
-	Hgd9+y6djpK8rpeW5/PvWrgn/fkw9HtBYi/bPJf//ZXT9t8fbgl7atKa336wt0jUxYO9OnMGNhh
-	Tqa71DzpZxHCtFYGYGMOGF+32N5qzuX/mwdMWHZ8NcHrPy2I0ZcbC75nc0q/XRDJrelsErFYtCW
-	1sZ6v2WxNEmTbBnKJ/zoaHr52zjwZ2hwUCYbt0PZzTNhYwlBV9pCj8lRk9ipewGzy788ti+HZCb
-	5+HzhtFJaeI7clnzxLfifo0fW3XF6z8jRjExDN0SEFm6ZfLQBtO+536ZZE3JW6cV9CsvTNhmwAn
-	OaWrq/+Q20T/Xbn8eotQNJmSeqBXJcPUlXPirpRT2jRvU/1IzGjIF5yr2j53k1NpvaJrbDD2YKZ
-	7EBihTwRs0r6UmSOixu4HPStw6E5SuPfky4fwajEmAwfEgVZOd766JmNS1nVaU=
-X-Received: by 2002:a05:6a00:4488:b0:848:56ff:6ce4 with SMTP id d2e1a72fcca58-84f2dfc533fmr4208442b3a.5.1785899757288;
-        Tue, 04 Aug 2026 20:15:57 -0700 (PDT)
-Received: from secrnd-cstp.tailb7f510.ts.net ([125.131.91.97])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe706e1c03sm536727a12.0.2026.08.04.20.15.53
+        d=1e100.net; s=20251104; t=1785901243; x=1786506043;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
+        b=n7KBSiO/gd+E3B9hl4Si9W1lz9vOQwkWoYt6mJmHYoBAf3V9N0nrx0CNlGqHUBsEuM
+         cwYBb1hIMciwprp+cc4ZihahzFsFpc13lhd0TRmIMEVA+pTnXomILutQxjFVanO+DFV5
+         YrBYNUzRoW1uqu/2OP4CFLYjQ/3cz9fNOXIMCBV7GevPBcQXvqidw8iThjWHFRJCzJbw
+         oHFWJw2qJ5I44MypE0Lwq5QgsjhptvjYaNIEARwrWmG5BntK6kA25YvtnVhxyJplNhvO
+         vz0zDHR1eyKRlWn6+ge/9HUBxirwF4VJoLYJMw2H+1EL/Wi2Nyuk5rtYpZg85Cy3L/lA
+         tdJA==
+X-Forwarded-Encrypted: i=1; AHgh+RpcxQIJF6TduJhXnL2gaXgdWWSfmimeC80QA0DLGdZPv7SbY191tYm6TiFS0KwHSNBd/COjY3RP5AVM+ky5+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNDSqkkyRR9FrIH13M2ODt9JT/kBh62n6PyV2WlltiqmNxyPo1
+	JtAh6LQ3R8U6wFPTs9uHVlO/dLWS/Go2fcy9YvkgiyxR+n/3qwgn7QB/
+X-Gm-Gg: AR+sD11eTHLtMjJqQ4/JXksmDCmr69+LX5P7FHqRjyuyEaq4RM9dgm96EePJPgBe7ft
+	xPXryq5Fd7SXotUN/gsU7sgBLDqvxsHiPdAh8RkQkI+ad5KmBH7F+lR/y+GXjYmUTPAcqf331N7
+	PKHm++cRFBr7QiLFxpH83+Sras35RZOX1JM2HPj8JKxAKgUbekJtL1Oa67WPs5VEl3Phy9D+qNr
+	ZOmhbTPvQ5NvN7bXt5SJuCRSPt9WX0YYfhqJx8SzB6JaR+gVnq1XJ1EiAMun/9fMQ62ezBbr4k5
+	CkgmteULGP1FhKKrTvuMJZHJ1lG6KB9JrBp/GqFBJwyIocyer+0mmsj6v6ZLajSas+bw9AuAIIX
+	sFwOhAZZjRd5rPRrFPmgjuTxt2FCRZgJ+Sh87jz+QzWvi5w0jOc+7QP+WkVZboK76aFLpqIsYmc
+	IarP5FRnYvyZBfJ88xIiUjSpUf2siTMinEwQHj8dvTvHnpVeKXAbOZIcL3bQ==
+X-Received: by 2002:a17:90b:1811:b0:38e:c7b0:84ad with SMTP id 98e67ed59e1d1-3903bb0ab77mr3022104a91.0.1785901242802;
+        Tue, 04 Aug 2026 20:40:42 -0700 (PDT)
+Received: from x1 ([184.3.251.152])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903917a5d0sm1534085a91.6.2026.08.04.20.40.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 20:15:56 -0700 (PDT)
-From: Sanghyun Park <sanghyun.park.cnu@gmail.com>
-To: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>
-Cc: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
-	Sun Jian <sun.jian.kdev@gmail.com>,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
+        Tue, 04 Aug 2026 20:40:41 -0700 (PDT)
+Date: Tue, 4 Aug 2026 20:40:39 -0700
+From: Drew Fustini <pdp7pdp7@gmail.com>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: Drew Fustini <fustini@kernel.org>,
+	Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com,
-	sashiko-bot@kernel.org
-Subject: [PATCH bpf-next v3] bpf: Fix mmap_lock leak in irq_work path
-Date: Wed,  5 Aug 2026 12:14:25 +0900
-Message-ID: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/8] riscv: Detect the Ssqosid extension
+Message-ID: <anKwt4llzgwySljb@x1>
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+ <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
+ <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
 
-stack_map_get_build_id_offset() introduced a per-CPU irq_work to defer
-mmap_read_unlock() from NMI context, and bpf_find_vma() later reused the
-same mmap_unlock_work. Both callers only check whether the work is busy
-before taking mmap_lock, so a nested caller can reuse the slot before the
-first caller queues it. Two read locks may then be acquired while only one
-deferred unlock runs, leaking a read lock and blocking exit_mmap().
+On Tue, Aug 04, 2026 at 08:47:04PM -0600, Paul Walmsley wrote:
+> On Wed, 29 Jul 2026, Drew Fustini wrote:
+> 
+> > Ssqosid is the RISC-V Quality-of-Service (QoS) Identifiers specification
+> > which defines the Supervisor Resource Management Configuration (srmcfg)
+> > register.
+> > 
+> > Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+> > Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
+> > Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> 
+> Thanks, queued for v7.3.
+> 
+> 
+> - Paul
 
-Reserve the per-CPU slot before mmap_read_trylock(). Use the same wrapper
-in stackmap and bpf_find_vma() so both callers release the reservation on
-trylock failure. Keep rejecting the slot while the irq_work remains busy.
-Release it after the irq_work callback unlocks the mm.
+Thank you for queuing patch 1 and 2. Can Patch 3 also be considered to
+make the Ssqosid CSR handling complete for this merge window?
 
-Fixes: eac9153f2b58 ("bpf/stackmap: Fix deadlock with rq_lock in bpf_get_stack()")
-Reported-by: syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=cdd6c0925e12b0af60cc
-Reported-by: sashiko-bot@kernel.org
-Closes: https://lore.kernel.org/r/20260630033745.B80201F000E9@smtp.kernel.org
-Signed-off-by: Sanghyun Park <sanghyun.park.cnu@gmail.com>
----
-v3:
- - Return the reserved work item directly and use ERR_PTR(-EBUSY), as suggested
-   by Andrii.
- - Keep irq_work_is_busy() alongside the active reservation.
- - Update the Fixes tag.
-
-Sun, Puranjay, Ihor,
-
-I dropped the Tested-by, Reviewed-by, and Acked-by tags because v3 changes
-the helper interface and restores the irq_work busy check. If you have a
-chance, could you please review or retest this version?
-
-v2: https://lore.kernel.org/bpf/20260730054858.209807-2-sanghyun.park.cnu@gmail.com/
- - Drop irq_work_is_busy() and rely exclusively on active, as suggested by
-   Ihor.
-
-v1: https://lore.kernel.org/bpf/20260722023004.1497923-2-sanghyun.park.cnu@gmail.com/
-
- kernel/bpf/mmap_unlock_work.h | 51 ++++++++++++++++++++---------------
- kernel/bpf/stackmap.c         | 28 +++++++++++--------
- kernel/bpf/task_iter.c        | 14 +++++++---
- 3 files changed, 56 insertions(+), 37 deletions(-)
-
-diff --git a/kernel/bpf/mmap_unlock_work.h b/kernel/bpf/mmap_unlock_work.h
-index 5d18d7d85bef..1834db20b861 100644
---- a/kernel/bpf/mmap_unlock_work.h
-+++ b/kernel/bpf/mmap_unlock_work.h
-@@ -4,12 +4,15 @@
- 
- #ifndef __MMAP_UNLOCK_WORK_H__
- #define __MMAP_UNLOCK_WORK_H__
-+#include <linux/atomic.h>
-+#include <linux/err.h>
- #include <linux/irq_work.h>
- 
- /* irq_work to run mmap_read_unlock() in irq_work */
- struct mmap_unlock_irq_work {
- 	struct irq_work irq_work;
- 	struct mm_struct *mm;
-+	atomic_t active;
- };
- 
- DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
-@@ -18,32 +21,36 @@ DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
-  * We cannot do mmap_read_unlock() when the irq is disabled, because of
-  * risk to deadlock with rq_lock. To look up vma when the irqs are
-  * disabled, we need to run mmap_read_unlock() in irq_work. We use a
-- * percpu variable to do the irq_work. If the irq_work is already used
-- * by another lookup, we fall over.
-+ * percpu variable to do the irq_work. The active flag reserves the slot
-+ * before mmap_read_trylock() and until the irq_work callback consumes mm.
-  */
--static inline bool bpf_mmap_unlock_get_irq_work(struct mmap_unlock_irq_work **work_ptr)
-+static inline struct mmap_unlock_irq_work *bpf_mmap_unlock_guard_get(void)
- {
--	struct mmap_unlock_irq_work *work = NULL;
--	bool irq_work_busy = false;
-+	struct mmap_unlock_irq_work *work;
- 
--	if (irqs_disabled()) {
--		if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
--			work = this_cpu_ptr(&mmap_unlock_work);
--			if (irq_work_is_busy(&work->irq_work)) {
--				/* cannot queue more up_read, fallback */
--				irq_work_busy = true;
--			}
--		} else {
--			/*
--			 * PREEMPT_RT does not allow to trylock mmap sem in
--			 * interrupt disabled context. Force the fallback code.
--			 */
--			irq_work_busy = true;
--		}
--	}
-+	if (!irqs_disabled())
-+		return NULL;
-+
-+	/*
-+	 * PREEMPT_RT does not allow to trylock mmap sem in interrupt
-+	 * disabled context. Force the fallback code.
-+	 */
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
-+		return ERR_PTR(-EBUSY);
-+
-+	work = this_cpu_ptr(&mmap_unlock_work);
-+	if (irq_work_is_busy(&work->irq_work) ||
-+	    atomic_cmpxchg_acquire(&work->active, 0, 1))
-+		return ERR_PTR(-EBUSY);
- 
--	*work_ptr = work;
--	return irq_work_busy;
-+	return work;
-+}
-+
-+static inline void
-+bpf_mmap_unlock_guard_put(struct mmap_unlock_irq_work *work)
-+{
-+	if (work)
-+		atomic_set_release(&work->active, 0);
- }
- 
- static inline void bpf_mmap_unlock_mm(struct mmap_unlock_irq_work *work, struct mm_struct *mm)
-diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
-index 463f94ba1cc4..0384b32d88b5 100644
---- a/kernel/bpf/stackmap.c
-+++ b/kernel/bpf/stackmap.c
-@@ -414,8 +414,7 @@ static void stack_map_get_build_id_offset_sleepable(struct bpf_stack_build_id *i
- static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
- 					  u32 trace_nr, bool user, bool may_fault)
- {
--	struct mmap_unlock_irq_work *work = NULL;
--	bool irq_work_busy = bpf_mmap_unlock_get_irq_work(&work);
-+	struct mmap_unlock_irq_work *work;
- 	bool has_user_ctx = user && current && current->mm;
- 	struct stack_map_build_id_cache cache = {};
- 	struct vm_area_struct *vma;
-@@ -426,15 +425,16 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
- 		return;
- 	}
- 
--	/* If the irq_work is in use, fall back to report ips. Same
--	 * fallback is used for kernel stack (!user) on a stackmap with
--	 * build_id.
--	 */
--	if (!has_user_ctx || irq_work_busy || !mmap_read_trylock(current->mm)) {
--		/* cannot access current->mm, fall back to ips */
--		for (i = 0; i < trace_nr; i++)
--			stack_map_build_id_set_ip(&id_offs[i]);
--		return;
-+	if (!has_user_ctx)
-+		goto fallback;
-+
-+	work = bpf_mmap_unlock_guard_get();
-+	if (IS_ERR(work))
-+		goto fallback;
-+
-+	if (!mmap_read_trylock(current->mm)) {
-+		bpf_mmap_unlock_guard_put(work);
-+		goto fallback;
- 	}
- 
- 	for (i = 0; i < trace_nr; i++) {
-@@ -465,6 +465,12 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
- 						      vma->vm_pgoff);
- 	}
- 	bpf_mmap_unlock_mm(work, current->mm);
-+	return;
-+
-+fallback:
-+	/* cannot access current->mm, fall back to ips */
-+	for (i = 0; i < trace_nr; i++)
-+		stack_map_build_id_set_ip(&id_offs[i]);
- }
- 
- static struct perf_callchain_entry *
-diff --git a/kernel/bpf/task_iter.c b/kernel/bpf/task_iter.c
-index b256fb9c1214..13e1aabe6f88 100644
---- a/kernel/bpf/task_iter.c
-+++ b/kernel/bpf/task_iter.c
-@@ -753,9 +753,8 @@ static struct bpf_iter_reg task_vma_reg_info = {
- BPF_CALL_5(bpf_find_vma, struct task_struct *, task, u64, start,
- 	   bpf_callback_t, callback_fn, void *, callback_ctx, u64, flags)
- {
--	struct mmap_unlock_irq_work *work = NULL;
-+	struct mmap_unlock_irq_work *work;
- 	struct vm_area_struct *vma;
--	bool irq_work_busy = false;
- 	bool __maybe_unused mmput_needed = false;
- 	struct mm_struct *mm;
- 	int ret = -ENOENT;
-@@ -792,9 +791,14 @@ BPF_CALL_5(bpf_find_vma, struct task_struct *, task, u64, start,
- 	if (!mm)
- 		return -ENOENT;
- 
--	irq_work_busy = bpf_mmap_unlock_get_irq_work(&work);
-+	work = bpf_mmap_unlock_guard_get();
-+	if (IS_ERR(work)) {
-+		ret = PTR_ERR(work);
-+		goto out;
-+	}
- 
--	if (irq_work_busy || !mmap_read_trylock(mm)) {
-+	if (!mmap_read_trylock(mm)) {
-+		bpf_mmap_unlock_guard_put(work);
- 		ret = -EBUSY;
- 		goto out;
- 	}
-@@ -1191,6 +1195,8 @@ static void do_mmap_read_unlock(struct irq_work *entry)
- 
- 	work = container_of(entry, struct mmap_unlock_irq_work, irq_work);
- 	mmap_read_unlock_non_owner(work->mm);
-+	work->mm = NULL;
-+	bpf_mmap_unlock_guard_put(work);
- }
- 
- static int __init task_iter_init(void)
-
--- 
-2.48.1
+-Drew
