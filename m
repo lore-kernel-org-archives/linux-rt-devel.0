@@ -1,121 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297F0393DC7;
-	Tue,  4 Aug 2026 15:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DE33AC00;
+	Wed,  5 Aug 2026 02:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856372; cv=none; b=tRUyT8xcwMyu8vCQzav8Y8po1paaXsPzh9R65AUoAoIYopYGdQVyUGDwqNv1fmJPQxrg9Gd7lWPmpx+A1VoBNJYjVKs/2eG3GWSmLGDwITX7l4J5qzFaO89uvkbHq67Zs14YH101K9IUQ63o5MDBdcbyb3ZQauflXvT103gMaCY=
+	t=1785898011; cv=none; b=QEfm03VS5p7rvJ0vEoDkJtNOqq7nmMWNTtvymvPFpKp8zECUSHd6Hh8fEqusGnlAuqIoM9oMygQtKa3+l9hh0ShpDsxlBeH0yMy1+BsXV6FZjMgP6LSAz0L9NbQUhM77M46LyekwdQad0IHGkYSXg98G1yEXCmwYwTnLgup1OYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856372; c=relaxed/simple;
-	bh=wd17nCm0G1BsKneBnn867vor45Jwq7191cRoZPYEZ+E=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=rMFyjFqZGsGxyzIgJHpJkVIh+o2z5UKS8Kky9wBpTupTELa3ifQV1t/JcVRfoehnHKSMVqH3BxLyffrAYSEpz/Rs0kOFXNkF8H+K0RZHi2LW7KTU9X/dxe+51ShhKkDwDnPfZmN5cRRJLaw2fa+vHlk4Wjur3zS5XF+BCcwVCt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPX40sdm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785898011; c=relaxed/simple;
+	bh=anDmmYmDCw85dJdG5F1r05td0cG0ll5ir6h6ibLQk5Y=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=VsVDAbkLs3F68gQEtDz7Hndl0xCpfcs3YXnKDQbMVt6MgmLWXg+3pkEls8nBZB1PgoenkPKjs6ciLU217REcFYZW4SBqN/ZtID1qkxAwrckE5qOsxCjEHRHwpHSuuadPHePnKppOXHa6r3mPwFnlD5bBarqMH+2gpV3i5KceQ7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=md2voIh7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPX40sdm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 649741F000E9;
-	Tue,  4 Aug 2026 15:12:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="md2voIh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295501F000E9;
+	Wed,  5 Aug 2026 02:46:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785856370;
-	bh=wd17nCm0G1BsKneBnn867vor45Jwq7191cRoZPYEZ+E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CPX40sdm4LZfGgga3caYx8PQZa7oRnJ5IA7a8czvloRIx1cU46fzPNDzIK6BIsXub
-	 oQwf655lCuoDxp9sC2zadgyuohAsujlK40ol1vlHZb35W5c6araS/9kd6ISYel5jFV
-	 FC9yolbenUtvX0KP8KQKm/qzA+aYVt7RjqdoLUuwci2ienhpNpMKl0ThKAQlFIE/V+
-	 vvqtcrnP0QuUCio8g7V0Zm06rUKnV6bvJlY6PDmHiJGkhX37PU8ifVYF48hefm9sJ8
-	 No2eunbCIAvWqwP90fjMV1y/Df4g1u1YYnGiKoItWXyOOy2nlqMpbwC9mtsIId9um9
-	 LV5a5f4jtnABg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] pinctrl: stm32: program the EXTI mux from .alloc
- instead of .activate
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ju Nan" <junan76@163.com>
-Cc: lee@kernel.org, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260804141402.86911-2-junan76@163.com>
-References: <20260803061718.43210-1-junan76@163.com>
- <20260804141402.86911-2-junan76@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Aug 2026 15:12:49 +0000
-Message-Id: <20260804151250.649741F000E9@smtp.kernel.org>
+	s=k20260515; t=1785898009;
+	bh=anDmmYmDCw85dJdG5F1r05td0cG0ll5ir6h6ibLQk5Y=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=md2voIh7SHArpmBf3q4HUy7wT+dp8MyfuKgWe70PZGwm9zg8GTsSISge1OGz0Dvay
+	 Cyy6QcZ7bKEV8MBUYudZskpMWyDjQYiQUkOfW3gmfVuI+zp4wJepzFaN9yUrN7cZiV
+	 06a8WwYxF/QIhHnuiDDhWRl0+onya9B3hwfV03aSwa8Nc10zLIHk9UVExrWZcbiFES
+	 0LoCfxM9GHxx3M5ma2l5gpaz8o3Kq9qfRrRb6ouF2KJ3bCOspfPFFW2NlR5QXzusKB
+	 BdBPsv/u4Db42cNl3bppRMo1EvkfYRfTMncaYGoLAoBfX4Bo3VzG9uWPvsajpyIFEU
+	 cZiDtUj1q4NJQ==
+Date: Tue, 4 Aug 2026 20:46:39 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
+    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+    Chen Pei <cp0613@linux.alibaba.com>, 
+    Conor Dooley <conor.dooley@microchip.com>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, 
+    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
+    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+    Peter Newman <peternewman@google.com>, 
+    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
+    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+    Samuel Holland <samuel.holland@sifive.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+    yunhui cui <cuiyunhui@bytedance.com>, 
+    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
+    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/8] dt-bindings: riscv: Add Ssqosid extension
+ description
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-1-7c22b05d461b@kernel.org>
+Message-ID: <8d9a90e2-37c5-f1d6-edc4-9531942aaa35@kernel.org>
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-1-7c22b05d461b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+On Wed, 29 Jul 2026, Drew Fustini wrote:
 
-Pre-existing issues:
-- [High] Missing hardware spinlock serialization when restoring `irqmux` in=
- the resume path.
-- [Medium] Missing cleanup of `irqmux_map` reservation and hardware mux sta=
-te when parent IRQ domain allocation fails.
-- [Medium] HWSPNLCK_TIMEOUT is defined as microseconds but passed to a func=
-tion expecting milliseconds.
---
+> Document the ratified Supervisor-mode Quality of Service ID (Ssqosid)
+> extension v1.0.
 
---- Patch [1]: [PATCH v3] pinctrl: stm32: program the EXTI mux from .alloc =
-instead of .activate ---
-(Note: The format of this report has been altered to provide a free-form su=
-mmary
-without quoting the original patch, due to recitation restrictions.)
+Thanks, queued for v7.3.
 
-commit a303f103b81b7e7b2ea355f3dc199454d3911bbc
-Author: Ju Nan <junan76@163.com>
 
-pinctrl: stm32: program the EXTI mux from .alloc instead of .activate
-
-This commit moves the programming of the EXTI interrupt multiplexer from the
-.activate callback to the sleepable .alloc callback. This prevents a wait
-context violation on PREEMPT_RT caused by a spinlock-protected regmap access
-in the syscon driver. It also ensures the EXTI mux write is serialized with=
-in
-the existing irqmux_lock section.
-
-Closes: https://lore.kernel.org/all/20220202174430.pf37tt6lua2op3gc@pengutr=
-onix.de/
-v2: https://lore.kernel.org/all/20260804032227.35017-3-junan76@163.com/
-v1: https://lore.kernel.org/all/20260803061718.43210-1-junan76@163.com/
-
-[Severity: Medium]
-This is a pre-existing issue, but in stm32_gpio_domain_alloc(), if
-irq_domain_alloc_irqs_parent() fails, the function directly returns the err=
-or
-without reverting the irqmux_map reservation or the hardware state.
-
-Because the core IRQ subsystem does not invoke the .free callback for a
-domain that fails mid-allocation, doesn't this result in the irqmux_map bit
-remaining permanently set and the hardware EXTI mux remaining incorrectly
-programmed for an abandoned allocation?
-
-[Severity: Medium]
-This is also a pre-existing issue, but when hwspin_lock_timeout_in_atomic()=
- is
-called in stm32_gpio_domain_alloc(), HWSPNLCK_TIMEOUT is passed as the time=
-out
-argument.
-
-Since HWSPNLCK_TIMEOUT is defined as 1000 microseconds, but the timeout
-parameter expects milliseconds (using msecs_to_jiffies), doesn't this result
-in a 1-second timeout instead of a 1-millisecond timeout?
-
-Spinning for 1 second in an atomic context could potentially trigger lockup
-detectors if the lock is heavily contended.
-
-[Severity: High]
-This is another pre-existing issue, but in stm32_pinctrl_restore_gpio_regs(=
-),
-the irqmux is reprogrammed using regmap_field_write() without holding the
-hardware spinlock.
-
-Since stm32_gpio_domain_alloc() correctly serializes access to the shared
-EXTI register against the coprocessor by acquiring pctl->hwlock, doesn't the
-unprotected write in the resume path risk a data race and potential hardware
-register corruption if the coprocessor contends for it concurrently?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260804141402.8691=
-1-2-junan76@163.com?part=3D1
+- Paul
