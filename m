@@ -1,93 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC4E3AC00;
-	Wed,  5 Aug 2026 02:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCEE2EA732;
+	Wed,  5 Aug 2026 03:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785898032; cv=none; b=TbE+KBKib6l5KTfd0mgIfdSaK0kftHQxaFKqtb8L8k/c1VoG8VU3vO0VIpOYQqhLZLgfaOMHAE81RGqjtnuErfFYjW64kslqSd56QkWtQ/VAxIo1zLA4Ie3qEjT8RWmEzJY8LuAdfxN89kvX2iPAIyOChc/YbkHoSrc9KBULGos=
+	t=1785898858; cv=none; b=QecEj+LaEVA8PwU6kezFLOLqGZyICdkXerLJqJl0PFQlUwT9qdqWhA9UBmR1U5lgLOYPP/MAYKDRGOp7L3V//ZYdZS72QST3o4OQxIxFWMaSx8UAXLWFRzjyD/KMty5UH7Hp0oDChvxFyUlLqs+agTVebotmtZC1kHI08QIDpVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785898032; c=relaxed/simple;
-	bh=oeoetBGFaPUjx7MKWexIh0DScT+b0I+uXQHwKRT1Oec=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=sQCiRefUg76O0DzcW5TkuPyulPPlGSCUW08F4GS/VBwj4401nG6qgN1GMxCmjDmVRxX5NW4HBSQzDSyGVfxmaM5j1DHs11+FyXuU9oThxnN4PvmvSxjikVBfaE2NiYgSwyghlVWkjWs6uoPvjIQLn0wBtKPPZ93MReK5ZksPo1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HWUowoZQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785898858; c=relaxed/simple;
+	bh=Tot2E3QGWatX6xWF6hWiGubu27vRCWwU+zDZdeKjjss=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=A6FKUJjmN9wkp3x2xjPlmQ5nA2B9iQputt12Eq3cgEhTGpxKJ5lYq0ZqhaVcrgo+PgyG8+vO3gJE1BO4l8u70RT2U9o65qNx3eCQuyXCH67RwB1NYma/IYx5eX6xU+KCuS4YixMgPYnYZiwr6z1hBtlxYiuINhEx7KGeQz9JHsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGIFxRCY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HWUowoZQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800EB1F000E9;
-	Wed,  5 Aug 2026 02:47:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGIFxRCY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62D421F00A3A;
+	Wed,  5 Aug 2026 03:00:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785898031;
-	bh=EuQ7UkVWTzna9OyzZ2ItQq8zDFnsDKDcsmb9afVZaB4=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=HWUowoZQFzrsIHAH0KZZfdJetuB3H5S3IdPe4wGbSObpEkSTySeqMLPXmLN7ESTJw
-	 ygoMtuoAwrNtHH9czbbMYAFHPqvKW6kz4C+FQZVtGqNhS0uK2j3FrVqlDzzmjc3PVA
-	 BJX6jJa4SsrSvSxWdXZBqBq1F2CTNI5wlAUebtlWB9hXndYtiEb37ay2eccWaD1JRu
-	 BBJxaas1Pkb0ZY+NL3sTpNVr7Q8UCHWL76k/UxokaLiFzqyOStxvZrrR4wAaiQrvM+
-	 YvQv3RH0Sjq2R92jUgTgftFOykKVriS41eBe5MZOj8fabwJ/Kr4oXp5TJ/CY0Sh7S3
-	 n8QHnF6+Fr/BA==
-Date: Tue, 4 Aug 2026 20:47:04 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
-    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
-    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
-    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
-    Chen Pei <cp0613@linux.alibaba.com>, 
-    Conor Dooley <conor.dooley@microchip.com>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
-    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
-    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
-    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
-    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-    Peter Newman <peternewman@google.com>, 
-    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
-    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
-    Samuel Holland <samuel.holland@sifive.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
-    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
-    yunhui cui <cuiyunhui@bytedance.com>, 
-    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
-    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/8] riscv: Detect the Ssqosid extension
-In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
-Message-ID: <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
+	s=k20260515; t=1785898857;
+	bh=ba+vbNnDg7KEZ5mkKJOl95vmh2w9hWrKDPbB0eCoedw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=JGIFxRCYCPlWG0G4Hk7AE2eI4xl4IO5QReLOsyMwhBg3ZNAw6oV4VymNBgNExtSLm
+	 3DC6KDj9Enb1q/O9CJ/bWmV6EmNmwNXX/SJYWBknS1nhZP88qGaYKDA+FIOeYy1shh
+	 5rBTeM65WYnVfP0edKMby7ZtpgzAg/Lde2UuXuHo3L6CvXCb3ieGbVQkPrfqgDFz+/
+	 n9YDEXhw73CrFpCsedj0vM8sCTAFvCkZNIN9ZKwGH1+ftnRySn21kOQgoQQYNP0sZp
+	 pHSwimau24LatlamoPqRRCgxjzRxt6+9idUT4WSyuhuvqNjMugpB+zYmv2IpNWV3zj
+	 xQEPf6zsSSM7g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0A97392666B;
+	Wed,  5 Aug 2026 03:00:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-908076126-1785898031=:1429015"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 0/8] riscv: Add Ssqosid and initial CBQRI resctrl
+ support
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <178589881738.3892316.15531912831365778150.git-patchwork-notify@kernel.org>
+Date: Wed, 05 Aug 2026 03:00:17 +0000
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: linux-riscv@lists.infradead.org, aricciardi@baylibre.com, alex@ghiti.fr,
+ atishp@rivosinc.com, atish.patra@linux.dev, babu.moger@amd.com,
+ ben.horgan@arm.com, bp@alien8.de, cp0613@linux.alibaba.com,
+ conor.dooley@microchip.com, conor+dt@kernel.org, dave.hansen@linux.intel.com,
+ Dave.Martin@arm.com, fenghuay@nvidia.com, gong.shuai@sanechips.com.cn,
+ gsh517@gmail.com, guo.wenjia23@zte.com.cn, james.morse@arm.com,
+ mindal@semihalf.com, krzk+dt@kernel.org, liu.qingtao2@zte.com.cn,
+ zhiwei_liu@linux.alibaba.com, palmer@dabbelt.com, pjw@kernel.org,
+ peternewman@google.com, rkrcmar@ventanamicro.com, reinette.chatre@intel.com,
+ robh@kernel.org, samuel.holland@sifive.com, bigeasy@linutronix.de,
+ tony.luck@intel.com, vasu@rivosinc.com, ved@rivosinc.com,
+ liwei1518@gmail.com, cuiyunhui@bytedance.com,
+ zhangzhanpeng.jasper@bytedance.com, linux-kernel@vger.kernel.org,
+ x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello:
 
---8323329-908076126-1785898031=:1429015
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+This series was applied to riscv/linux.git (for-next)
+by Paul Walmsley <pjw@kernel.org>:
 
-On Wed, 29 Jul 2026, Drew Fustini wrote:
-
-> Ssqosid is the RISC-V Quality-of-Service (QoS) Identifiers specification
-> which defines the Supervisor Resource Management Configuration (srmcfg)
-> register.
+On Wed, 29 Jul 2026 18:11:27 -0700 you wrote:
+> [NOTE: only patches 4 and 8 are different in v6]
 > 
-> Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-> Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
-> Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
-> Signed-off-by: Drew Fustini <fustini@kernel.org>
+> This series adds initial RISC-V QoS support: the Ssqosid extension [1]
+> (srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
+> [3], and a DT-based platform driver for cache controllers. It has been
+> tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
+> implementation [4].
+> 
+> [...]
 
-Thanks, queued for v7.3.
+Here is the summary with links:
+  - [v6,1/8] dt-bindings: riscv: Add Ssqosid extension description
+    (no matching commit)
+  - [v6,2/8] riscv: Detect the Ssqosid extension
+    https://git.kernel.org/riscv/c/5f94a58f4103
+  - [v6,3/8] riscv: Add support for srmcfg CSR from Ssqosid extension
+    (no matching commit)
+  - [v6,4/8] riscv_cbqri: Add capacity controller probe and allocation device ops
+    (no matching commit)
+  - [v6,5/8] riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+    (no matching commit)
+  - [v6,6/8] riscv: Enable resctrl filesystem for Ssqosid
+    (no matching commit)
+  - [v6,7/8] dt-bindings: riscv: Add binding for CBQRI controllers
+    (no matching commit)
+  - [v6,8/8] riscv_cbqri: Add CBQRI capacity allocation platform driver
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-- Paul
---8323329-908076126-1785898031=:1429015--
