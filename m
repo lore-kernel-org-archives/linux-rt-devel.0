@@ -1,139 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E393D565F;
-	Wed,  5 Aug 2026 18:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993F1377A88;
+	Wed,  5 Aug 2026 19:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785956091; cv=none; b=CvB9opAQiGyTf0ZTJW4Mtu/UPjY56ECs7XSDMlSv3gqGXIB0totk7KFdkcENo8ALaObFVl02PzBlvZM+3hs2pZMGPxtJaLCvCp8g2mXCdijuHbBAxSYoLNZZM3ThskGZjSBf20DjdiDWmnYS0PD5vKrqlfzGToI3jL1MSeegTQg=
+	t=1785956446; cv=none; b=rGa6b8YTclC050eylR6z1ZrKqqGxJtIQsepY9hnUteyQ984YwxVsT72vNlaEdm6IGGPRwhihyHwWi00LnkQ3a6V3/Gby2jYOMQaNH53I23TnVMqibwnQOxNlbJfByujjoI1W3cCYPFeucPH8OCqQ7PsBfemc61u4+riLRzPps2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785956091; c=relaxed/simple;
-	bh=N9ueinDu7+yNBWtXLB4wmzJ9pMLslPpieTw27NjT0FY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=KVrB977v2iUD1WEWU+JRu0emw5+UADvjh+W0iqfcaFG2npuU6W0RCFPGPgQJyKQe2/fy95mmm73ZvMzycIL1C+joIBvnRkQ4AFdG+e2pOZ67c1m+XrE64jMExm6eRoJji6MvApfFJME1FpaxTArEZgw0aNpkP7m+aCO9dXTGDcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0Kz/AYm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785956446; c=relaxed/simple;
+	bh=wUDMwDCj/hgH0HlkYKasSuvAU9tVV0SdKHtXSyl1Ixw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=IX/66G7ExDA7JaChBp6fcBih3SHmOekBxqpOuS0FLs9lDlkzXcETsQAtwsrtJ0SEbGnnr6ytMS8R32/PRr1kBBY7nd8sMO6PeFDMvfoY/lCP1qr/hizoNo3bi9WvQaGO1ma4mypPUOYYdSeceP4ko1B8SsoIs7rVGRrYY7B8Rh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EglE+9Ls; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0Kz/AYm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C259C1F000E9;
-	Wed,  5 Aug 2026 18:54:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EglE+9Ls"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D8B1F00A3D;
+	Wed,  5 Aug 2026 19:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785956087;
-	bh=LZFgktKwDepiLJ2wPxJe5QgCEqoGd2XF3OANmnNyJgI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=C0Kz/AYmxT/OnCfSlVLghSdaaDWTgsFLSNNPkhWLjyL8GZNtXeMtxEVfnCjeSZXJy
-	 YybQzXRgTaoeNIJkZ2nVU+b3Tlj7IAnZdHs+9/ayNPYxOc6ReFkubyT09326N7OPdW
-	 mziOxpsjXk1rqwEWAskVX8sU6IDrSen8yFF5M9qRcGet9MjOwTbtVcNYSqFDr1TNA4
-	 LCt4FenzirOQVgUKEIDpimJFAJC2i0+yfJSTV57JnuHujHh1vwMytbJTaL+Sx+vu/G
-	 y/o1GXTayoPj8T0mnhTe6/CaIJXLmcgagqrRM/gj8+B99BJma7A0Bz0LK8I67rmZkB
-	 VCHNJSWclcntQ==
-Date: Wed, 5 Aug 2026 12:54:42 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
-    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
-    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
-    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
-    Chen Pei <cp0613@linux.alibaba.com>, 
-    Conor Dooley <conor.dooley@microchip.com>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
-    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
-    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
-    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
-    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-    Peter Newman <peternewman@google.com>, 
-    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
-    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
-    Samuel Holland <samuel.holland@sifive.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
-    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
-    yunhui cui <cuiyunhui@bytedance.com>, 
-    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
-    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/8] riscv: Add support for srmcfg CSR from Ssqosid
- extension
-In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org>
-Message-ID: <3b6dd35e-dabb-3cb0-547f-0c8a0b035e1a@kernel.org>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org>
+	s=k20260515; t=1785956445;
+	bh=wMYZA8AlNf6gM6blefRnFi0tolDoOtoUkOg6Cmqg2aw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=EglE+9LsA5r4LSKWNFGFi14ZsG2EApotl29OUDOp5NhSnIXJq65XBDLFDh5v65Yq2
+	 UlUetjdKKn4pWe+h82SDIUsFQIL5wGiULklf1b2DOK4jnYis/cQLzyiJ26idib/el5
+	 GhUBq64SuCW8mgp6O+rZOxNj+8JPYFNQpATNJXP2otMDZz3FvQ6+DBbyzOg4MJkdBr
+	 GwewxRculi6CFeluwVrI4dPY+jMC2Q+yQ5Diti73SKpeD/8DVFgwfMfpJ+BW46hrHc
+	 UVQY74Vw31ZEE0ZmzHAfp5geBZUrn4yDoJvijbtBuffaYVo3QeEQsZ1VnPe1VntRZH
+	 N76Iiq7Uqf20Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56933392FFC3;
+	Wed,  5 Aug 2026 19:00:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 0/8] riscv: Add Ssqosid and initial CBQRI resctrl
+ support
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <178595640491.488016.3217391264979488942.git-patchwork-notify@kernel.org>
+Date: Wed, 05 Aug 2026 19:00:04 +0000
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: linux-riscv@lists.infradead.org, aricciardi@baylibre.com, alex@ghiti.fr,
+ atishp@rivosinc.com, atish.patra@linux.dev, babu.moger@amd.com,
+ ben.horgan@arm.com, bp@alien8.de, cp0613@linux.alibaba.com,
+ conor.dooley@microchip.com, conor+dt@kernel.org, dave.hansen@linux.intel.com,
+ Dave.Martin@arm.com, fenghuay@nvidia.com, gong.shuai@sanechips.com.cn,
+ gsh517@gmail.com, guo.wenjia23@zte.com.cn, james.morse@arm.com,
+ mindal@semihalf.com, krzk+dt@kernel.org, liu.qingtao2@zte.com.cn,
+ zhiwei_liu@linux.alibaba.com, palmer@dabbelt.com, pjw@kernel.org,
+ peternewman@google.com, rkrcmar@ventanamicro.com, reinette.chatre@intel.com,
+ robh@kernel.org, samuel.holland@sifive.com, bigeasy@linutronix.de,
+ tony.luck@intel.com, vasu@rivosinc.com, ved@rivosinc.com,
+ liwei1518@gmail.com, cuiyunhui@bytedance.com,
+ zhangzhanpeng.jasper@bytedance.com, linux-kernel@vger.kernel.org,
+ x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-doc@vger.kernel.org
 
-Hi,
+Hello:
 
-On Wed, 29 Jul 2026, Drew Fustini wrote:
+This series was applied to riscv/linux.git (for-next)
+by Paul Walmsley <pjw@kernel.org>:
 
-> Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
-> The CSR contains two fields:
+On Wed, 29 Jul 2026 18:11:27 -0700 you wrote:
+> [NOTE: only patches 4 and 8 are different in v6]
 > 
->   - Resource Control ID (RCID) for resource allocation
->   - Monitoring Counter ID (MCID) for tracking resource usage
+> This series adds initial RISC-V QoS support: the Ssqosid extension [1]
+> (srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
+> [3], and a DT-based platform driver for cache controllers. It has been
+> tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
+> implementation [4].
 > 
-> Requests from a hart to shared resources are tagged with these IDs,
-> allowing resource usage to be associated with the running task.
-> 
-> Add a srmcfg field to thread_struct with the same format as the CSR.
-> The context-switch path writes the field to the CSR, and
-> resctrl_arch_set_closid_rmid() updates it when a task is assigned to a
-> resctrl control or monitoring group.
-> 
-> A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU, set
-> by resctrl_arch_set_cpu_default_closid_rmid() on CPU group assignment.
-> On context switch, RCID and MCID inherit from the CPU default
-> independently: a task whose thread RCID field is zero takes the CPU
-> default's RCID, and likewise for MCID.
+> [...]
 
-Thanks, queued for v7.3, but with one change (below):
+Here is the summary with links:
+  - [v6,1/8] dt-bindings: riscv: Add Ssqosid extension description
+    (no matching commit)
+  - [v6,2/8] riscv: Detect the Ssqosid extension
+    (no matching commit)
+  - [v6,3/8] riscv: Add support for srmcfg CSR from Ssqosid extension
+    https://git.kernel.org/riscv/c/3cfa79f25467
+  - [v6,4/8] riscv_cbqri: Add capacity controller probe and allocation device ops
+    (no matching commit)
+  - [v6,5/8] riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+    (no matching commit)
+  - [v6,6/8] riscv: Enable resctrl filesystem for Ssqosid
+    (no matching commit)
+  - [v6,7/8] dt-bindings: riscv: Add binding for CBQRI controllers
+    (no matching commit)
+  - [v6,8/8] riscv_cbqri: Add CBQRI capacity allocation platform driver
+    (no matching commit)
 
-> diff --git a/arch/riscv/include/asm/qos.h b/arch/riscv/include/asm/qos.h
-> new file mode 100644
-> index 000000000000..cf19e8438bb9
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/qos.h
-> @@ -0,0 +1,74 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_RISCV_QOS_H
-> +#define _ASM_RISCV_QOS_H
-> +
-> +#include <linux/percpu-defs.h>
-> +
-> +#ifdef CONFIG_RISCV_ISA_SSQOSID
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/cpufeature.h>
-> +#include <linux/sched.h>
-> +
-> +#include <asm/csr.h>
-> +#include <asm/hwcap.h>
-> +
-> +/* cached value of srmcfg csr for each cpu */
-> +DECLARE_PER_CPU(u32, cpu_srmcfg);
-> +
-> +/* default srmcfg value for each cpu, set via resctrl cpu assignment */
-> +DECLARE_PER_CPU(u32, cpu_srmcfg_default);
-> +
-> +static inline void __switch_to_srmcfg(struct task_struct *next)
-> +{
-> +	u32 thread_srmcfg, default_srmcfg;
-> +
-> +	thread_srmcfg = READ_ONCE(next->thread.srmcfg);
-
-What is the intent of the READ_ONCE() here?  
-
-I've dropped it from what's been queued for now.  If it's really 
-needed, please let us know why.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-thanks,
-
-- Paul
