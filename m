@@ -1,133 +1,219 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9694D36B903
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Aug 2026 03:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0932C3C7E1D;
+	Wed,  5 Aug 2026 04:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785901246; cv=none; b=T04lqoBlCbm+5MqaFA4Teq2WN/ogjx91TjloDYeSFtAWQ/t6ozIJ53giXgmgSlE/McKwulN6dqH2Un7PZN5VvoaGdLcKG3FKG9mTye23JPaMgIePwYQcNsXHaVOg8w7r88VGZcRHah1lahEEtD67BRMeMA3nQwEMLWaRsYQFds0=
+	t=1785905804; cv=none; b=uSDRnq7jNp3LrgnxrfB+is9ilWyQQej08YqfvEDmzq/FEGxsBI16n2BhnmSTQjHY9zsADD2bp8tVOLrFEJjTQ9xoisY/C+BcilPfhKZX9JW302wCPF4ovTYNjRzLQRC8uf+dfXD4K9iIT7bYzX9i1VvxkiLHplYm1tBtFedHE+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785901246; c=relaxed/simple;
-	bh=9bRo+Ywi3z6M397Ttk8WJOCfNaXfPL/cDqxTv2yA2Ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=krfLxs+iTjcv04OGpuHsKD8u65l5QNVaxvoN+FO+nQJqOjcWFBmETHM6lyelMuSjfsYl25V0VxPDwXfci2dqJKoP2iPTZrkyX22IHHJ9+A/fIQV/84tQ1XPwEq5Qcenx9j5iYCppMrFE2p0Pvb2pjgpkh/Gz0DgTqVjsuVzt+Lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kz+9L+Po; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785905804; c=relaxed/simple;
+	bh=qi3grhX1txASeg18XwboydI22PyXnjrHs8icI6LkTjo=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=WwwNoTnll3kPMVSc2leGNNumFWGOzhTNzZCjXlx0XpAbu1hGU+bnpYCaHfYb0pB6+N8K8bQixF4vzeB6kAZJ+AN/KXZRL2UROjidrcuBolw6kMVRHoah2CBC9ajayVJaEeD4GsgjUpzOsOd6xeYE5Jw6WvVpfe7jdlzIQK6mHbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0tIDrHO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kz+9L+Po"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d004f135b1so6731065ad.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Aug 2026 20:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785901243; x=1786506043; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
-        b=kz+9L+PoDDj4tyoI1VR0HgxcUnTelM6ZAtZYi8VTpttzP/51lyZIMzh0zZ8q48HDqk
-         D5JoIk6ajfxRCMz4VIrscdOCnZMg/nNiOAzwcugPcebV4w2XuMNiwYnA16Lc6f5f9HQO
-         xiXbXi6g9OupeGsWfn9MEBpB7EellUAyAdIUSmcbZrDep5+5vHDWJN845vdVSAIG/7HS
-         Yil26dxECPiQs371+WaI5sjKIx0MpgS38lbJnlWDJPvpz7ISBlT6qqauQQ4V8X8t54ed
-         6XYiACzRHOk3oBRYcwYJunyr8IC5/nE4pfOQuqEKOxS4w9YiMm/FHOwpSbTIJQ5CN63k
-         nm2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785901243; x=1786506043;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
-        b=n7KBSiO/gd+E3B9hl4Si9W1lz9vOQwkWoYt6mJmHYoBAf3V9N0nrx0CNlGqHUBsEuM
-         cwYBb1hIMciwprp+cc4ZihahzFsFpc13lhd0TRmIMEVA+pTnXomILutQxjFVanO+DFV5
-         YrBYNUzRoW1uqu/2OP4CFLYjQ/3cz9fNOXIMCBV7GevPBcQXvqidw8iThjWHFRJCzJbw
-         oHFWJw2qJ5I44MypE0Lwq5QgsjhptvjYaNIEARwrWmG5BntK6kA25YvtnVhxyJplNhvO
-         vz0zDHR1eyKRlWn6+ge/9HUBxirwF4VJoLYJMw2H+1EL/Wi2Nyuk5rtYpZg85Cy3L/lA
-         tdJA==
-X-Forwarded-Encrypted: i=1; AHgh+RpcxQIJF6TduJhXnL2gaXgdWWSfmimeC80QA0DLGdZPv7SbY191tYm6TiFS0KwHSNBd/COjY3RP5AVM+ky5+Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNDSqkkyRR9FrIH13M2ODt9JT/kBh62n6PyV2WlltiqmNxyPo1
-	JtAh6LQ3R8U6wFPTs9uHVlO/dLWS/Go2fcy9YvkgiyxR+n/3qwgn7QB/
-X-Gm-Gg: AR+sD11eTHLtMjJqQ4/JXksmDCmr69+LX5P7FHqRjyuyEaq4RM9dgm96EePJPgBe7ft
-	xPXryq5Fd7SXotUN/gsU7sgBLDqvxsHiPdAh8RkQkI+ad5KmBH7F+lR/y+GXjYmUTPAcqf331N7
-	PKHm++cRFBr7QiLFxpH83+Sras35RZOX1JM2HPj8JKxAKgUbekJtL1Oa67WPs5VEl3Phy9D+qNr
-	ZOmhbTPvQ5NvN7bXt5SJuCRSPt9WX0YYfhqJx8SzB6JaR+gVnq1XJ1EiAMun/9fMQ62ezBbr4k5
-	CkgmteULGP1FhKKrTvuMJZHJ1lG6KB9JrBp/GqFBJwyIocyer+0mmsj6v6ZLajSas+bw9AuAIIX
-	sFwOhAZZjRd5rPRrFPmgjuTxt2FCRZgJ+Sh87jz+QzWvi5w0jOc+7QP+WkVZboK76aFLpqIsYmc
-	IarP5FRnYvyZBfJ88xIiUjSpUf2siTMinEwQHj8dvTvHnpVeKXAbOZIcL3bQ==
-X-Received: by 2002:a17:90b:1811:b0:38e:c7b0:84ad with SMTP id 98e67ed59e1d1-3903bb0ab77mr3022104a91.0.1785901242802;
-        Tue, 04 Aug 2026 20:40:42 -0700 (PDT)
-Received: from x1 ([184.3.251.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903917a5d0sm1534085a91.6.2026.08.04.20.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 20:40:41 -0700 (PDT)
-Date: Tue, 4 Aug 2026 20:40:39 -0700
-From: Drew Fustini <pdp7pdp7@gmail.com>
-To: Paul Walmsley <pjw@kernel.org>
-Cc: Drew Fustini <fustini@kernel.org>,
-	Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Atish Kumar Patra <atishp@rivosinc.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/8] riscv: Detect the Ssqosid extension
-Message-ID: <anKwt4llzgwySljb@x1>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
- <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
- <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0tIDrHO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5201F000E9;
+	Wed,  5 Aug 2026 04:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785905802;
+	bh=gPdcpCkfjkD/FGzFlVyO9h8LnEnduHfxyjLsrslrlNo=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=S0tIDrHOqVznaaCqzRfeHVQSaYmBBTQIE0lQS1/GgBFsSyohjRrg14yTzeR5U4pVr
+	 7Cc2+t/vMWlyo5EvzM1toGEspmWD+AvTMAXaxSAQOZ1P0PmStiqdR6JXJQki1m8nNa
+	 bnWBBDsto6237qPZt0giPAJRF5081wiEfnN+5G9dHQcv9axfIcZnkKEMV3ciPlyfS5
+	 hCNtMVNWBDKMl556IeeP+LRb3quAxc/Ldb9BopqAXE9HWUXsLmN3VB0pUa42MLT6oJ
+	 21pU/BoI8bO7nEgJ7WF2mgoqL0NQ6dQ4HOqGNFculqqqvHQGkM+/1EVacRLrHQffUe
+	 Gq33PTtVQT03w==
+Content-Type: multipart/mixed; boundary="===============9124391864283396738=="
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
+Message-Id: <5ad3da2f1e214aac34bc15293942ec2f9ab7734cc88d1578cd07e07eb1d30f67@mail.kernel.org>
+In-Reply-To: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
+References: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
+Subject: Re: [PATCH bpf-next v3] bpf: Fix mmap_lock leak in irq_work path
+From: bot+bpf-ci@kernel.org
+To: sanghyun.park.cnu@gmail.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com
+Cc: sanghyun.park.cnu@gmail.com,sun.jian.kdev@gmail.com,puranjay@kernel.org,ihor.solodrai@linux.dev,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,bigeasy@linutronix.de,clrkwllms@kernel.org,rostedt@goodmis.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-rt-devel@lists.linux.dev,syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com,sashiko-bot@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Wed,  5 Aug 2026 04:56:41 +0000 (UTC)
 
-On Tue, Aug 04, 2026 at 08:47:04PM -0600, Paul Walmsley wrote:
-> On Wed, 29 Jul 2026, Drew Fustini wrote:
-> 
-> > Ssqosid is the RISC-V Quality-of-Service (QoS) Identifiers specification
-> > which defines the Supervisor Resource Management Configuration (srmcfg)
-> > register.
-> > 
-> > Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-> > Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
-> > Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> 
-> Thanks, queued for v7.3.
-> 
-> 
-> - Paul
+--===============9124391864283396738==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Thank you for queuing patch 1 and 2. Can Patch 3 also be considered to
-make the Ssqosid CSR handling complete for this merge window?
+> diff --git a/kernel/bpf/mmap_unlock_work.h b/kernel/bpf/mmap_unlock_work.h
+> index 5d18d7d85bef9..1834db20b8612 100644
+> --- a/kernel/bpf/mmap_unlock_work.h
+> +++ b/kernel/bpf/mmap_unlock_work.h
+> @@ -4,12 +4,15 @@
+>
+>  #ifndef __MMAP_UNLOCK_WORK_H__
+>  #define __MMAP_UNLOCK_WORK_H__
+> +#include <linux/atomic.h>
+> +#include <linux/err.h>
+>  #include <linux/irq_work.h>
+>
+>  /* irq_work to run mmap_read_unlock() in irq_work */
+>  struct mmap_unlock_irq_work {
+>  	struct irq_work irq_work;
+>  	struct mm_struct *mm;
+> +	atomic_t active;
+>  };
+>
+>  DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
+> @@ -18,32 +21,36 @@ DECLARE_PER_CPU(struct mmap_unlock_irq_work, mmap_unlock_work);
+>   * We cannot do mmap_read_unlock() when the irq is disabled, because of
+>   * risk to deadlock with rq_lock. To look up vma when the irqs are
+>   * disabled, we need to run mmap_read_unlock() in irq_work. We use a
+> - * percpu variable to do the irq_work. If the irq_work is already used
+> - * by another lookup, we fall over.
+> + * percpu variable to do the irq_work. The active flag reserves the slot
+> + * before mmap_read_trylock() and until the irq_work callback consumes mm.
+>   */
 
--Drew
+The new comment states the reservation lasts "until the irq_work callback
+consumes mm," but there are two cases where it ends earlier: when
+irqs_disabled() is false the helper returns NULL and no slot is reserved
+at all, and when mmap_read_trylock() fails the reservation is released
+immediately by bpf_mmap_unlock_guard_put(). Would it read more clearly to
+note that the reservation may be released early on trylock failure?
+
+[ ... ]
+
+> -static inline bool bpf_mmap_unlock_get_irq_work(struct mmap_unlock_irq_work **work_ptr)
+> +static inline struct mmap_unlock_irq_work *bpf_mmap_unlock_guard_get(void)
+>  {
+> +	work = this_cpu_ptr(&mmap_unlock_work);
+> +	if (irq_work_is_busy(&work->irq_work) ||
+> +	    atomic_cmpxchg_acquire(&work->active, 0, 1))
+> +		return ERR_PTR(-EBUSY);
+>
+> -	*work_ptr = work;
+> -	return irq_work_busy;
+> +	return work;
+> +}
+> +
+> +static inline void
+> +bpf_mmap_unlock_guard_put(struct mmap_unlock_irq_work *work)
+> +{
+> +	if (work)
+> +		atomic_set_release(&work->active, 0);
+>  }
+
+This isn't a bug, but the rename to bpf_mmap_unlock_guard_get()/_put()
+might be confusing here. In current kernel usage 'guard' typically refers
+to the include/linux/cleanup.h scoped-guard family where release happens
+automatically at scope exit. These helpers do the opposite: the
+reservation is released manually, and in the success case ownership is
+handed off to the irq_work callback in do_mmap_read_unlock() which is in
+a different function. Would bpf_mmap_unlock_reserve()/_unreserve() signal
+the manual cross-function lifetime more directly?
+
+[ ... ]
+
+> diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
+> index 463f94ba1cc47..0384b32d88b57 100644
+> --- a/kernel/bpf/stackmap.c
+> +++ b/kernel/bpf/stackmap.c
+> @@ -426,15 +425,16 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+>  		return;
+>  	}
+>
+> -	/* If the irq_work is in use, fall back to report ips. Same
+> -	 * fallback is used for kernel stack (!user) on a stackmap with
+> -	 * build_id.
+> -	 */
+> -	if (!has_user_ctx || irq_work_busy || !mmap_read_trylock(current->mm)) {
+> -		/* cannot access current->mm, fall back to ips */
+> -		for (i = 0; i < trace_nr; i++)
+> -			stack_map_build_id_set_ip(&id_offs[i]);
+> -		return;
+> +	if (!has_user_ctx)
+> +		goto fallback;
+> +
+> +	work = bpf_mmap_unlock_guard_get();
+> +	if (IS_ERR(work))
+> +		goto fallback;
+> +
+> +	if (!mmap_read_trylock(current->mm)) {
+> +		bpf_mmap_unlock_guard_put(work);
+> +		goto fallback;
+>  	}
+
+[ ... ]
+
+> @@ -465,6 +465,12 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+>  						      vma->vm_pgoff);
+>  	}
+>  	bpf_mmap_unlock_mm(work, current->mm);
+> +	return;
+> +
+> +fallback:
+> +	/* cannot access current->mm, fall back to ips */
+> +	for (i = 0; i < trace_nr; i++)
+> +		stack_map_build_id_set_ip(&id_offs[i]);
+>  }
+
+[ ... ]
+
+> diff --git a/kernel/bpf/task_iter.c b/kernel/bpf/task_iter.c
+> index b256fb9c1214e..13e1aabe6f886 100644
+> --- a/kernel/bpf/task_iter.c
+> +++ b/kernel/bpf/task_iter.c
+> @@ -792,9 +791,14 @@ BPF_CALL_5(bpf_find_vma, struct task_struct *, task, u64, start,
+>  	if (!mm)
+>  		return -ENOENT;
+>
+> -	irq_work_busy = bpf_mmap_unlock_get_irq_work(&work);
+> +	work = bpf_mmap_unlock_guard_get();
+> +	if (IS_ERR(work)) {
+> +		ret = PTR_ERR(work);
+> +		goto out;
+> +	}
+>
+> -	if (irq_work_busy || !mmap_read_trylock(mm)) {
+> +	if (!mmap_read_trylock(mm)) {
+> +		bpf_mmap_unlock_guard_put(work);
+>  		ret = -EBUSY;
+>  		goto out;
+>  	}
+
+[ ... ]
+
+> @@ -1191,6 +1195,8 @@ static void do_mmap_read_unlock(struct irq_work *entry)
+>
+>  	work = container_of(entry, struct mmap_unlock_irq_work, irq_work);
+>  	mmap_read_unlock_non_owner(work->mm);
+> +	work->mm = NULL;
+> +	bpf_mmap_unlock_guard_put(work);
+>  }
+
+The commit message states the Fixes tag points to commit eac9153f2b58
+which widened the gate from in_nmi() to irqs_disabled(). Looking at the
+code history, the unsafe pattern where the slot check happens before the
+reservation was introduced by bae77c5eb5b2 in May 2018, but that commit
+alone was not enough to trigger the bug. The reproducer depends on two
+later additions: the mmap_lock tracepoints that fire inside
+mmap_read_trylock(), and raw_tp programs that bypass the global per-CPU
+bpf_prog_active counter and rely only on per-prog prog->active (see
+kernel/trace/bpf_trace.c:1599 and include/linux/bpf.h:2158). All other
+BPF entry points like kprobe, perf_event, and kprobe_multi gate on the
+global bpf_prog_active and cannot nest. The commit message describes the
+bug mechanism but does not mention that only raw_tp programs can actually
+trigger this nesting path. Would adding one sentence about the raw_tp +
+mmap_lock-tracepoint precondition make the explanation more complete for
+readers trying to understand the reachability?
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/30972744877
+--===============9124391864283396738==--
