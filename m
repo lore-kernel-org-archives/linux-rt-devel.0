@@ -1,133 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D032334CFCF;
-	Thu,  6 Aug 2026 07:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAAB3E63A4
+	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Aug 2026 08:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786000577; cv=none; b=sStgL19Vm1Nh3iz5B05qhBJcbIxLXTSK4abkk9wFQK35OaE5xGbY2zWeo9Dr9QEQ6lqLwMnxf5Pe1QdyZpAhpjkiidRLovvwrJckrgqIcnBVEl+GewMCPTVk8XobkiJxFxLp6N6cRtmNvVWVZc7DdMkoGvsszy6m8L2mxUf2gFI=
+	t=1786003363; cv=none; b=O2EfNi6JudGguUYKORmNbhl+TKaJoxCVUflPmaqTxVKwUu48Pj/JOMshsT8aQZ7U3+A7jhzYvaUCfWnEs35JDoDDaloJzxcE76Kc+bDNmqEGucbq7Rt9UHRrA1HaxAXDIMaCoHuCc+IPFYZqZuR7ryOmJ15qD6LJ117anEIEmiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786000577; c=relaxed/simple;
-	bh=ERqUUXbIbeyNBq/9zeHeMeyRQ06qpVridmloXHcDA5A=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=GdYxnyKrbIiZw9qWpLOOBw6nHthFkx0kzGn1Lme/i4ses+JgDumZH52Ka6ItNpWEli7OgX9PnF/+KP/pK4/5EJQPBVxsUwV+Iw3b4cjXa5jEcn0pkML2EBk6f0Pb279JV7XypNi3LmL9XE5h7ATC/IxdolCUFNjrGiMNE0W/fdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJATT4+O; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786003363; c=relaxed/simple;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhFb8v6rUYfijsjHk0aV9v2Ml3ZWYZNHoqqwKVji3gnY+ZtZFjDXHNdLMHe2oKdHgznoQpUQWjif5nWh1ai34fA6p4debPPwzFq5+0D2TnyLoZR9/iShNugP1V5D+vOd/6kHwn6INmUO917tcDUpwVh4F+nGHFPiDNyxjvsSUb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rTCiWdMY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PlF25EdF; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJATT4+O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F9E11F000E9;
-	Thu,  6 Aug 2026 07:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786000575;
-	bh=cQFP1f4AmVbWzP8Mg/ijPZrWbFaoRKfmVdZv5HvK5d8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HJATT4+OFwZ6PkrUo/Otd2cSjsWW4WWuxu3QbnrZizjFshLYF4jtYP5LvVptS8xBM
-	 Sh+wDr8OYLWCcefi8z7ciHjiFAX8awTO1DbWXtFUyDDzZgU8K5YRiCbA+fI58C1myr
-	 0lHLHG1iJo9ZiNwWfKZh9xxKT+Zw95RYDhEdOaI6BEjQw0YKqQuK3zfK7iO7nR06GW
-	 LZQ4iY98Ivo+LI+lShPUu0mX5jDy+1K1q1RGbn4I5oi+4tOWaUu5AP+l3wtb5Z209Y
-	 0Jo59cl5zvQi/+1rgO3Qo59Sx54zIlZSGW0zLh9AHYn9ibjyDyjyVPEkmXHltBNjde
-	 7EaSPlNnOKsXA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] mailbox: qcom-cpucp: fix PREEMPT_RT self-deadlock
- in IRQ handler
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jia Yang" <jia.yang@oss.qualcomm.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260806-mailbox-qcom-cpucp-preempt-rt-fix-v1-1-d302a63dfb5e@oss.qualcomm.com>
-References: <20260806-mailbox-qcom-cpucp-preempt-rt-fix-v1-0-d302a63dfb5e@oss.qualcomm.com>
- <20260806-mailbox-qcom-cpucp-preempt-rt-fix-v1-1-d302a63dfb5e@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 Aug 2026 07:16:14 +0000
-Message-Id: <20260806071615.6F9E11F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rTCiWdMY";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PlF25EdF"
+Date: Thu, 6 Aug 2026 10:02:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1786003360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	b=rTCiWdMYwTg3AdL0umlWZMfCwxHA8rx3+tGcbAetMIKchqjQZPE6ynzAMcqO3sctOqFiDU
+	iMVFcJv/a7IesG2vvO2dAKaZOUBEON9PULX7r1aw8ay/QHaJ7kZyyUys8mf6syq9R7K5To
+	1qkiun5o0TezJL8W1YZE2S2W/+JCFbIf9Zul4si98v5F2rlB+gtFzZLrCVNtIxXehEhkyv
+	vitDwApMDx9Uwzdy5l9voe7jLelIP/YcT6HJUzdgUYulki3nzvUYvXxrc9RpRM0atHPtMp
+	iAY6R38yP+EUlIxqIOQDD6Gw0CDYh4ZZo8/3ruIliiChAx3SoJk2Lkst/D7W7g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1786003360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	b=PlF25EdFSBKuwj+ZTAYXmsKrIvDEjtzSECZW6cJehC0jkI/GiMrVfl+Qa8luVju4tsy8kE
+	YRq5YIeFG5i2e2CQ==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <anQ_nfveudT4ax7v@lx-t490>
+References: <20260804141541.747704-1-darwi@linutronix.de>
+ <20260804141541.747704-2-darwi@linutronix.de>
+ <87pkzwnylm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pkzwnylm.fsf@trenco.lwn.net>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Dropping `chan->lock` before `mbox_chan_received_data()` introduce=
-s a TOCTOU race with `mbox_free_channel()`, leading to a NULL pointer deref=
-erence.
-- [Medium] Acknowledging the hardware RX interrupt before invoking the RX c=
-allback violates the mailbox framework API and can cause client re-entrancy.
---
 
---- Patch [1]: [PATCH 1/2] mailbox: qcom-cpucp: fix PREEMPT_RT self-deadloc=
-k in IRQ handler ---
-commit 995d8aa11aed719aa1d45f140bab12a284779e97
-Author: Jia Yang <jia.yang@oss.qualcomm.com>
+On Wed, 05 Aug 2026, Jonathan Corbet wrote:
+>
+> So would you like me to pick this up in the docs tree
+>
 
-mailbox: qcom-cpucp: fix PREEMPT_RT self-deadlock in IRQ handler
+Yes, please; through docs.
 
-This patch addresses a PREEMPT_RT self-deadlock in the qcom-cpucp mailbox I=
-RQ
-handler. It prevents lock re-entrancy by caching the channel client, cleari=
-ng
-the hardware interrupt inside the lock, and invoking the receive callback
-outside the lock.
-
-> diff --git a/drivers/mailbox/qcom-cpucp-mbox.c b/drivers/mailbox/qcom-cpu=
-cp-mbox.c
-> index 862e45e8fbd58..0f7fe189e8b1f 100644
-> --- a/drivers/mailbox/qcom-cpucp-mbox.c
-> +++ b/drivers/mailbox/qcom-cpucp-mbox.c
-> @@ -63,14 +63,25 @@ static irqreturn_t qcom_cpucp_mbox_irq_fn(int irq, vo=
-id *data)
-[ ... ]
->  		/*
->  		 * Provide mutual exclusion with changes to chan->cl.
->  		 * Save cl locally and clear the HW interrupt inside the lock,
->  		 * then invoke mbox_chan_received_data() outside the lock to
->  		 * avoid a PREEMPT_RT self-deadlock: mbox_chan_received_data()
->  		 * can call back into mbox_send_message() via scmi_rx_callback()
->  		 * -> mailbox_clear_channel(), which re-acquires chan->lock
->  		 * (converted to an rt_spinlock under PREEMPT_RT).
->  		 */
->  		spin_lock_irqsave(&chan->lock, flags);
-> -		if (chan->cl)
-> -			mbox_chan_received_data(chan, &val);
-> +		cl =3D chan->cl;
->  		writeq(BIT(i), cpucp->rx_base + APSS_CPUCP_RX_MBOX_CLEAR);
-
-[Severity: Medium]
-Does clearing the hardware interrupt before invoking the RX callback violate
-the mailbox framework API expectations?
-
-If the remote processor immediately sends another message upon seeing this
-ACK, could a new interrupt fire and be processed on another CPU while the
-lock is dropped, leading to concurrent entries into the client's rx_callback
-for the same channel?
-
->  		spin_unlock_irqrestore(&chan->lock, flags);
-> +
-> +		if (cl)
-> +			mbox_chan_received_data(chan, &val);
-
-[Severity: High]
-If mbox_free_channel() runs concurrently and sets chan->cl =3D NULL immedia=
-tely
-after spin_unlock_irqrestore(), won't mbox_chan_received_data() cause a NULL
-pointer dereference?
-
-Even though we check the local cached "cl" variable here, the framework API
-unconditionally dereferences chan->cl without locking:
-
-drivers/mailbox/mailbox.c:mbox_chan_received_data() {
-	/* No buffering the received data */
-	if (chan->cl->rx_callback)
-		chan->cl->rx_callback(chan->cl, mssg);
-}
-
-Could this race be reliably triggered during channel teardown or client
-driver unbind?
-
->  	}
-> =20
->  	return IRQ_HANDLED;
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260806-mailbox-qc=
-om-cpucp-preempt-rt-fix-v1-0-d302a63dfb5e@oss.qualcomm.com?part=3D1
+Thanks!
+Ahmed
