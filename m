@@ -1,84 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290373AB289;
-	Thu,  6 Aug 2026 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3FD2AD3C;
+	Thu,  6 Aug 2026 03:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785979274; cv=none; b=XZpLJHjOpBzythc6cX6eQ9TpzHxD2awE3zlIM62tCs+iooxzqOE15elLbCL4S/GELnHIuqlVXvj6CLGm64tNkIi8HbBLX0Y7bVTlANtuJEVwBk0NukBROlqO3RAx5hwY6Mf81yWD/6n5JCt8LVdsZu1GxJtmr9LMa2ZyI71yfus=
+	t=1785988103; cv=none; b=j6ACs+JCu3e5Gr0pHiYZ16oc/3Gey1pEcLuH+iqjuf+/IUgtJHsCx/kJpa7jIev3WF3XitQGM/NmT9s0/NLe+MOPlQEHLWMNJgGTr3GbxIoJWhE+5YQ8r7ca5wYC+44h/mmX0r7vui8Ojq18dPhyZ4wRR8F1upsDqgI+9QOeJH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785979274; c=relaxed/simple;
-	bh=0P6er77yxOQAHda1I+NPlreAN19z90eBknaLSRxsUAM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kuQwdhEPFx/5hPfSA/N4uZxxAtaJiDL7jljoL17Ps0ngdMRnk8VCgZi2NcPm9YrueqBfYZHW/pTY9miq++kJHzmMUtCzdRi/EnsPaY9D2h+WvJu5AoZsu9PdR2OOSnYe9r2gXb2gAt0bmdbbYbSVyAHJX+6w6VagNLLbV1jsUH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuJaJ7Ca; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785988103; c=relaxed/simple;
+	bh=17CY3PUmUbDY4206LrobRGj6cHDNUS+fi01DdzhC8EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nb1d+i2+CTBYoF5ZxxOaiGp62PrmuIkeead/tInL8G3+kxAyV1v99v3l8LkGEHu5nr56rgLA11nupAnelWqi2gqxVy/XpP5ckDJUcc+v++Tl7/lu+el5aGm2WFyEsdPWJm7tb3NZ6/E5zu3Ev89MQMjlIuePoxZnuoraniNvOE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuqqpGZo; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuJaJ7Ca"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0961F000E9;
-	Thu,  6 Aug 2026 01:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785979272;
-	bh=hDGqstzzjBKEwA87lDJOzh7sqG1Xvv3RgfgKzbRXTKc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=ZuJaJ7CaSUNULH/y7SLUAu0fEGbuBeEu7FyezYtiybDTQ8Pa/foOX0STx0NeHytEb
-	 l93xuHs0Z+E9Z7Vc/TnyskljCazpEUdompRI91EEwPFabhE6+bBP8onlxT+Y0OXKEG
-	 iGa3n1WDx51n1WNF7xMhNBB9O+udscqJ0jggSotCNIJ/GrhzNzapRPgXUBj59cK3jW
-	 6+W+4GyKkPhv9+fOjnWBBMecce3rdE441E4hgON18UuyHDU4ggVzAZZ389yLe/x9/T
-	 ikjF9UEL2cNoxo++KOjOxXCBf+/WmS2FEyqCt+5JakJ/b0bHxqVS/Ii3Y4nN3zfgD0
-	 tKbEbA80Pc0ag==
-Date: Wed, 5 Aug 2026 19:21:02 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-cc: Paul Walmsley <pjw@kernel.org>, Adrien Ricciardi <aricciardi@baylibre.com>, 
-    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
-    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
-    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
-    Chen Pei <cp0613@linux.alibaba.com>, 
-    Conor Dooley <conor.dooley@microchip.com>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
-    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
-    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
-    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
-    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Peter Newman <peternewman@google.com>, 
-    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
-    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
-    Samuel Holland <samuel.holland@sifive.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
-    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
-    yunhui cui <cuiyunhui@bytedance.com>, 
-    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
-    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/8] riscv: Add support for srmcfg CSR from Ssqosid
- extension
-In-Reply-To: <anOiJHmU24Lpbizi@x1>
-Message-ID: <c6d85325-7ba6-57f3-62e0-9ae843c98cf6@kernel.org>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org> <3b6dd35e-dabb-3cb0-547f-0c8a0b035e1a@kernel.org> <anOiJHmU24Lpbizi@x1>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuqqpGZo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785988101; x=1817524101;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=17CY3PUmUbDY4206LrobRGj6cHDNUS+fi01DdzhC8EE=;
+  b=HuqqpGZoNauZ6X8UbT2nc9HMvDRxA0Y1a7M0wYGa1tWOIsBL5sW/sWot
+   P5mGJaHf1VlJ7E9uv5mBPFxs3rSBTFvNl5fDZafDT3RiimJMMNtLUJXJI
+   coxDOUns1ddlQIQjrc8Xhy8nRxX9BezG+5StIVComThYvaQLwU2MkH/Qu
+   TtiiP5YdpBiF/v41isLsJO3uGa+XdtKGqm7MaoFzW0ltFD8PhJ+LLd8KQ
+   N85n6sTxN6E21dnoLxPwUfAgeDCit0zoR4IdPWjXJvC0nzZ+v06LQrVXV
+   EFUiDSkqwfpkJndbvl/zvEYuLaQgyvRoPmKxtUxXlCpaL6nx9b5lKcLHL
+   Q==;
+X-CSE-ConnectionGUID: 3F4qZnUXQt6x4mV/oqnYoQ==
+X-CSE-MsgGUID: tafyKtq3R8i4Iq/Vp96CwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="90391113"
+X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
+   d="scan'208";a="90391113"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 20:48:20 -0700
+X-CSE-ConnectionGUID: 3rUXs0JSR+2YNmvlS1AgAw==
+X-CSE-MsgGUID: /GpNXoZ9SJ2duOVMTxtToA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
+   d="scan'208";a="286649429"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Aug 2026 20:48:16 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wrp5a-00000000E3l-0KnC;
+	Thu, 06 Aug 2026 03:48:14 +0000
+Date: Thu, 6 Aug 2026 11:47:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bert Karwatzki <spasswolf@web.de>, linux-next@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	"# = v7 . 1" <stable@vger.kernel.org>,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rafal Ostrowski <rafal.ostrowski@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
+Message-ID: <202608061154.QtrglsMo-lkp@intel.com>
+References: <20260801071724.12998-1-spasswolf@web.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260801071724.12998-1-spasswolf@web.de>
 
-On Wed, 5 Aug 2026, Drew Fustini wrote:
+Hi Bert,
 
-> Thanks for queuing this patch. It is okay to leave out the READ_ONCE()
-> since only Patches 1-3 are being applied.
-> 
-> The READ_ONCE() is meant to pair with the WRITE_ONCE() in
-> resctrl_arch_set_closid_rmid(), which comes in patch 5. RCID and MCID
-> share the srmcfg csr, and resctrl can update thread.srmcfg from another
-> hart while this task is switched in.
+kernel test robot noticed the following build errors:
 
-OK thanks, that makes sense; I've put it back. 
+[auto build test ERROR on next-20260804]
+[cannot apply to drm-misc/drm-misc-next linus/master v7.2-rc6 v7.2-rc5 v7.2-rc4 v7.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bert-Karwatzki/drm-amd-display-fix-usage-of-DC_FPU_-BEGIN-END-with-PREEMPT_RT/20260805-170330
+base:   next-20260804
+patch link:    https://lore.kernel.org/r/20260801071724.12998-1-spasswolf%40web.de
+patch subject: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260806/202608061154.QtrglsMo-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061154.QtrglsMo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061154.QtrglsMo-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c:89:2: error: call to undeclared function 'DC_RUN_WITH_PREEMPTION_ENABLED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      89 |         DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
+         |         ^
+   1 error generated.
 
 
-- Paul
+vim +/DC_RUN_WITH_PREEMPTION_ENABLED +89 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c
+
+    82	
+    83	/*******************************************************************************
+    84	 * Public functions
+    85	 ******************************************************************************/
+    86	struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+    87	{
+    88		struct dc_plane_state *plane_state;
+  > 89		DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
+    90	
+    91		if (NULL == plane_state)
+    92			return NULL;
+    93	
+    94		kref_init(&plane_state->refcount);
+    95		dc_plane_construct(dc->ctx, plane_state);
+    96	
+    97		return plane_state;
+    98	}
+    99	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
