@@ -1,499 +1,151 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9092C376A1E
-	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Aug 2026 14:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786025337; cv=pass; b=hR4jK7W+mgsMXV7vHuRaqV8cMYe9IVIhAgM2Qq89mEhp0Me4qFBmUsSKmmm//OCHgGqeB/cr3BW4BhkMMbDuxbIsqwdARCXnpFWkC/QS83/wLaGeGaUQ7G/moYmcNmyHJoceuCq3VIRFk7f7/uGnyf3tNZO0xLuaxHmnweY97aA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786025337; c=relaxed/simple;
-	bh=mFKhaAl+Fosx3m1StwsxRcCv1Ai6530Gp+De9fO3uZg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ptKkfBCn+A7Ic2DoIcUTVuy1luHBf4TfkTaDNqgXzhqkxcurlVFjAwa9TWnwTOk8C6wB2EvZJBOK3o03aZ403mhaajj3lVYFAaQx74VphxvdsoQPsmooTwdpWiDkwmMrHdgtDg8TT3T+5NEclATBHNbkAt2EMnfE/7PHFxqaUkA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=quGDMrLe; arc=pass smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02F34746A2
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 12:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786106507; cv=none; b=qsm6Xm4XaJKhQzMosWZTptsV2cac2aXAw5LFbbxFxqdFBPbay/LbuzxgkS0RxSQ1XBn7NOGhT1kcF7MJB5uVfwOVEG+HIkS0pzCRGQcCLgpFpijKdwufamLN7p190nXJqpsPI43L28iTSffYuRjmA7ZA9vWyHFfUZ+G/mMKX6E8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786106507; c=relaxed/simple;
+	bh=wFNzE40Ymv2+LaUU5/1TiOaLPVcmym9cOJl91bmVRPc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:In-Reply-To:
+	 Content-Type:References; b=f4e41P0LX/jTQuAiDgZMCVkCoIWtaJ3zofE5707+IYwuXvYXFJHYQvT2DAiqzDccG33EnHLOFcAAjGcKXY/8Zo97jB7zxR4PhU6UZT/Dk/J7jNa120zexrMVUeVHIt26TuTj/rLFpsO9luEQq6+2W+Q0QU3K0OxIUzbyqghYiq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=tb9qL6WY; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="quGDMrLe"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15e2dab83eso352362766b.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 06 Aug 2026 07:08:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786025332; cv=none;
-        d=google.com; s=arc-20260327;
-        b=swMNDGa7GlVIwxhWna1r2mRiyJ8F+Ah4yHnUzANsXyiQZrpcwQsraJxYaoJMl6eBBC
-         cGDcgKXDlannTybexpoM6tOVeJUkiXSuPIXfwX88TlRxVIZkgH3npdCPt2HVwRvxgOeu
-         qW5wafG1vKQGIF42NvDVt0hCpgeBQNAZFVAAsa6tuM/Cm803hqes91mjJF7JNb4X+fKc
-         stULqfmMCEcI0KyQvJr51drT0D4G7h1u6MWUqGhe7CwgAnt3om/rFCFK+HO7c42PcetJ
-         ar4sNBrkpNkmIRl5nSE66n8rEmZlI5+1v4R0xDZjeNSyJJV1uKqkFPYyWP4B8Y91xIPR
-         OBWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zHwdN0h9N1c/LhBR5vnWXvTcj5KgW84wyAY7Lz2Uv0s=;
-        fh=8IjzSIKn0dt4QVwJBkdls6sVPg588e78LkfCPrmTXKc=;
-        b=EDBOCdcasU0gY5D36ymr8nfQ5TxjHwbC24rtKBbvwWlmrg1aEWcwLPHImSk25hkWoT
-         EI/5C8B6CDQeuOP1ZP4cQ3XrVBEH2TygmakC81jjXkUJ4SupZ7cnxKADo4YhtWFEum92
-         YjX9YDKiTPPGhNoGwkWJhVYjPbLxbc6W1j0rrHBEP3CnVdTyV4x7l0F0K0OPV3hBs2hL
-         /snVzxJai8zIzPgIcfTDo0xM5LE+Ixsva1thM3pJG5eJcER8TdnzWS3ubyhOEKfy1cUh
-         z7wOkMGW2EUTM21Wv7L7RLknnsIer3tiGPYhExaKbFpTgD6oxXXDdPWK82bF+ehMLtgV
-         DmrQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786025332; x=1786630132; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zHwdN0h9N1c/LhBR5vnWXvTcj5KgW84wyAY7Lz2Uv0s=;
-        b=quGDMrLe5xLT48OdOzWzLrYmorUBzYfc/GaMVeHw0WKLlB+gTLX6WQy+/DUv+RAj+N
-         TECShriyZkxS3vGu1ftBvCaw4IjxbKdbdc5mYoOt6wOJhSiBs97i4igTNhJsrkmkslLA
-         VInr7tgIUpmfGesIKf9F8c4UL2DZiPzfQCc3q7NiskRpH//wnytwsYliTL5zwxkGg1yu
-         sC0AeaFKwzElozVtj1ReLrXmc87eewsBvDLbeXAIzKtZsawzRkLF6W6QX0P3H20BDK3y
-         xRdF4L94RAcOw5sMnQcu0UzbHuqCvLSGwffmJWDgQvor+lSxQ8gXlcaTEh8Ahop4Oe1m
-         cozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786025332; x=1786630132;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zHwdN0h9N1c/LhBR5vnWXvTcj5KgW84wyAY7Lz2Uv0s=;
-        b=GGEtIVDqHaN9C94+sysxHqvRstR87JgSTkVVAEIKTk/abo0oXYstBGA3S5xjRni10T
-         Q1+mZz921Zfdv8FpAFS5/gxOE6pZwSIMgm7Seujf5v8KGAJrJzcoP3e4KDQVJLMvZl95
-         cN80nLTBsCTvcUriHVm/mebibalCDBju3kNlmxIclOKkKLmZ4Ko9PJGnKW2glNJgar6E
-         STgeK0cDPJDuK6S79796TIAfNotft80QUB8FxP5I4+rWh8NJboHeb0LY5AiFphMrdw0d
-         wEoblGZshnjdFAeeQIJDhT0cU8tfsfhxlIX4GpvqSbxolU1Zjr5rA61WtBD/a7Fg+aI7
-         imzw==
-X-Forwarded-Encrypted: i=1; AHgh+RrVny9mudaeFzQ6masupbGTExVSl9SEO45uT+Fdun4mtEA6tCk690QYUS3hOCC6T92aSlL1FvAxP21pOCAaBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5f+U7sHy+3bkeV/aE6Eqp2aCSTFFqwPKOO0ZkgaBkleLiGzBb
-	+vdmQFVynCQTTz7MbUtM1YIVMarILsr5dE1AS3RG3kyaa7zS6Aum/mj9X4nC4SQoE4lPF2U60PX
-	E8JGlg/SQZf2JgNiu47sMGHXiq/EZQ3U=
-X-Gm-Gg: AR+sD11g0iB3HACrXf7YjIjH4YPB+c3Okg/3nfzJKzGu8VBxF761ZQmmAqRnYjX6KiL
-	1clTEEpzJnfWvt1jquRiXFACY3QzMeFMHy/8E6bi6wDgboXN+mY6ynkivIXmn9g0LXvsktUPJo0
-	AkBZkzC1LW4xb+XncqC4vM0N5JIO5g8IHQQXKxcszpHZRQtF8HLw844AIXVudPTbxpTn9zEUAZQ
-	PetzMQEFjnQxMGPT9A2ukI5ZGikPZdyO2yQp/vjy7IVNeRDqHeJLzJZbAhgfI6MdN5uGjDC0X0C
-	ZasfPe4s6I1OGGRUyMC1Uxep956oKVYSrC9Y3qqZJrcxb2lVWuNUCbMTKEdA
-X-Received: by 2002:a17:907:d641:b0:c1f:bda0:a771 with SMTP id
- a640c23a62f3a-c2039b5e75fmr876113666b.13.1786025331613; Thu, 06 Aug 2026
- 07:08:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="tb9qL6WY"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260807124134euoutp015b7738c0a8b450d37fd5e55e38f3426b~JhmStp_EA1328613286euoutp01z
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 12:41:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260807124134euoutp015b7738c0a8b450d37fd5e55e38f3426b~JhmStp_EA1328613286euoutp01z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1786106494;
+	bh=vcU2V2rNi/Q4/Tzd/KVUpgzPRPp15jyUgegKZOy2Oeo=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+	b=tb9qL6WYpQKGKeHBYwoMBDGgf4Cq4GgeWUzIk7XR8JYMvFOs7CvSeU5JDzEegqN5U
+	 uNFqE1fdIgt8XLQtQyGzDwhAmo0S8xdpcmSGOEelhvtprzgoOZP/+qjNmgZVKxWYpA
+	 BKFsHltzE633E8A6cPN8KOaZzVAD7ElQyptsIIfk=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260807124134eucas1p22aa7ed81b96bfc482fa520eb4e5333b1~JhmSiUKij0406604066eucas1p2g;
+	Fri,  7 Aug 2026 12:41:34 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260807124133eusmtip27e7ec09ec3063cc991dd9d28e924ae96~JhmR79SEz2432824328eusmtip2M;
+	Fri,  7 Aug 2026 12:41:33 +0000 (GMT)
+Message-ID: <8296b9aa-987a-4544-8ec8-9a0227fc16a2@samsung.com>
+Date: Fri, 7 Aug 2026 14:41:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260805122346.269445-1-puranjay@kernel.org> <20260805122346.269445-4-puranjay@kernel.org>
- <5421cedd8d7372ed4b89836ac19a975226346364@linux.dev>
-In-Reply-To: <5421cedd8d7372ed4b89836ac19a975226346364@linux.dev>
-From: Puranjay Mohan <puranjay12@gmail.com>
-Date: Thu, 6 Aug 2026 15:08:38 +0100
-X-Gm-Features: AUfX_mwS1FRwwObiFpqTjI86GRrSV23Cu1WGEC-aw_yg34umvWz34c3PN1N8FhE
-Message-ID: <CANk7y0jBrmED3nHASthazvSN7qJJT=vRCcTBs8rk6hV5gH4POQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] srcu: Make call_srcu() safe to call from any context
-To: Zqiang <qiang.zhang@linux.dev>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Josh Triplett <josh@joshtriplett.org>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Boqun Feng <boqun@kernel.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Matt Fleming <mfleming@cloudflare.com>, 
-	"Harry Yoo (Oracle)" <harry@kernel.org>, linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Betterbird (Windows)
+Subject: Re: [BUG] exynos5_i2c_xfer_atomic() can sleep.
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-i2c@vger.kernel.org, linux-samsung-soc@vger.kernel.org, Waiman
+	Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev, Andi Shyti
+	<andi.shyti@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+	<alim.akhtar@samsung.com>
+Content-Language: en-US
+In-Reply-To: <55bdf688-85f5-4b2b-9e90-b4a2c671250f@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260807124134eucas1p22aa7ed81b96bfc482fa520eb4e5333b1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260506065541eucas1p2f986355d0a06ac1f72aa00e8d3148ad0
+X-EPHeader: CA
+X-CMS-RootMailID: 20260506065541eucas1p2f986355d0a06ac1f72aa00e8d3148ad0
+References: <CGME20260506065541eucas1p2f986355d0a06ac1f72aa00e8d3148ad0@eucas1p2.samsung.com>
+	<20260506065110.sY3jKS7G@linutronix.de>
+	<03c06142-12eb-45b7-8d22-ce12fab6e132@samsung.com>
+	<20260508100910.nxRkt3mA@linutronix.de>
+	<dbacd56b-2914-40ce-9139-78b819a81c13@samsung.com>
+	<20260508104235.n9gGOYqU@linutronix.de>
+	<55bdf688-85f5-4b2b-9e90-b4a2c671250f@samsung.com>
 
-On Thu, Aug 6, 2026 at 3:04=E2=80=AFPM Zqiang <qiang.zhang@linux.dev> wrote=
-:
+On 08.05.2026 17:28, Marek Szyprowski wrote:
+> On 08.05.2026 12:42, Sebastian Andrzej Siewior wrote:
+>> On 2026-05-08 12:35:51 [+0200], Marek Szyprowski wrote:
+>>> Ah, it looks that I've checked irq_disable() code, so that's why I
+>>> didn't find might_sleep() call. In the case of exynos5_i2c driver,
+>>> probably switching to disable_irq_nosync() will be enough. I assume
+>>> that all previous transfers have to be finished to start this atomic
+>>> one, so waiting for interrupts to finish is not needed.
+>> This looks kind of odd. Are the "other" transfers really done at this
+>> point? Do you have a backtrace for me from the atomic path?
+> I thought that i2c core somehow serializes the transfers for the given master.
 >
-> >
-> > call_srcu() has the same constraint as call_rcu(): its callback list an=
-d
-> > locks are only touched with interrupts disabled. srcu_gp_start_if_neede=
-d()
-> > enqueues under raw_spin_lock_irqsave() and may walk the srcu_node tree,=
- as
-> > do callback invocation and grace-period work. A call_srcu() with
-> > interrupts disabled can race a list operation in flight on this CPU and
-> > corrupt the list or deadlock. call_rcu_tasks_trace() is call_srcu() und=
-er
-> > the hood, so a sleepable BPF program freeing an object can reach this.
-> >
-> > Defer as call_rcu() does: stage the callback on the srcu_data's
-> > ->defer_cbs, chain that srcu_data onto a per-CPU list, and raise a per-=
-CPU
-> > irq_work that re-issues it straight to the enqueue helper, never back
-> > through __call_srcu(). The common path is unchanged and keeps interrupt=
-s
-> > enabled across srcu_gp_start_if_needed().
-> >
-> > The irq_work is per-CPU rather than per-srcu_struct and statically
-> > initialized, so deferral never runs check_init_srcu_struct(); it is
-> > IRQ_WORK_INIT_HARD as for call_rcu(). srcu_barrier() and
-> > cleanup_srcu_struct() flush it first, and rcutree_migrate_callbacks()
-> > calls srcu_offline_drain() for an outgoing CPU. ->lock is held across t=
-he
-> > drain so the drainers serialize.
-> >
-> > As in call_rcu(), the re-issue runs with interrupts disabled and can be
-> > re-entered by instrumentation, so a flag on the srcu_data being drained
-> > drops a deferring call_srcu() seen mid-drain (unless from an NMI). Stag=
-ing
-> > records only the callback, so an expedited request is remembered per
-> > srcu_data in ->defer_exp and the whole batch is re-issued expedited rat=
-her
-> > than silently downgraded to a normal grace period. A dropped callback c=
-an
-> > also strand state its caller associated with it, not just the callback
-> > itself.
-> >
-> > Gated by CONFIG_RCU_DEFER. Under CONFIG_PROVE_RCU, warn if the direct
-> > path is reached from an NMI.
-> >
-> > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> > Signed-off-by: Puranjay Mohan <puranjay@kernel.org>
-> > ---
-> >  include/linux/srcutree.h | 5 ++
-> >  kernel/rcu/rcu.h | 3 +
-> >  kernel/rcu/srcutree.c | 171 ++++++++++++++++++++++++++++++++++++++-
-> >  kernel/rcu/tree.c | 2 +
-> >  4 files changed, 177 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/linux/srcutree.h b/include/linux/srcutree.h
-> > index 75e54e4f963fa..09a9c8f4a6d24 100644
-> > --- a/include/linux/srcutree.h
-> > +++ b/include/linux/srcutree.h
-> > @@ -13,6 +13,8 @@
-> >
-> >  #include <linux/rcu_node_tree.h>
-> >  #include <linux/completion.h>
-> > +#include <linux/irq_work_types.h>
-> > +#include <linux/llist.h>
-> >
-> >  struct srcu_node;
-> >  struct srcu_struct;
-> > @@ -41,6 +43,9 @@ struct srcu_data {
-> >  bool srcu_cblist_invoking; /* Invoking these CBs? */
-> >  struct timer_list delay_work; /* Delay for CB invoking */
-> >  struct work_struct work; /* Context for CB invoking. */
-> > + struct llist_head defer_cbs; /* Callbacks deferred on re-entry. */
-> > + struct llist_node defer_link; /* Links onto the per-CPU deferral drai=
-n list */
-> > + bool defer_exp; /* A deferred callback asked to expedite. */
-> >  struct rcu_head srcu_barrier_head; /* For srcu_barrier() use. */
-> >  struct rcu_head srcu_ec_head; /* For srcu_expedite_current() use. */
-> >  int srcu_ec_state; /* State for srcu_expedite_current(). */
-> > diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-> > index fd075d91b80cf..84d74cd5a351c 100644
-> > --- a/kernel/rcu/rcu.h
-> > +++ b/kernel/rcu/rcu.h
-> > @@ -587,6 +587,9 @@ static inline bool should_rcu_defer(void)
-> >  return irqs_disabled() && rcu_scheduler_active !=3D RCU_SCHEDULER_INAC=
-TIVE;
-> >  }
-> >
-> > +/* Drain an outgoing CPU's deferred SRCU callbacks; see rcutree_migrat=
-e_callbacks(). */
-> > +void srcu_offline_drain(int cpu);
-> > +
-> >  enum rcutorture_type {
-> >  RCU_FLAVOR,
-> >  RCU_TASKS_FLAVOR,
-> > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-> > index 304112674e8a2..35fface51d50b 100644
-> > --- a/kernel/rcu/srcutree.c
-> > +++ b/kernel/rcu/srcutree.c
-> > @@ -20,6 +20,7 @@
-> >  #include <linux/percpu.h>
-> >  #include <linux/preempt.h>
-> >  #include <linux/irq_work.h>
-> > +#include <linux/llist.h>
-> >  #include <linux/rcupdate_wait.h>
-> >  #include <linux/sched.h>
-> >  #include <linux/smp.h>
-> > @@ -79,6 +80,45 @@ static void process_srcu(struct work_struct *work);
-> >  static void srcu_irq_work(struct irq_work *work);
-> >  static void srcu_delay_timer(struct timer_list *t);
-> >
-> > +struct srcu_defer;
-> > +static void srcu_defer_drain(struct irq_work *iw);
-> > +static void __srcu_defer_drain(struct srcu_defer *sndp, bool guard);
-> > +
-> > +/*
-> > + * Per-CPU call_srcu() deferral state, shared by every srcu_struct. A =
-deferred
-> > + * callback is staged on its srcu_data's ->defer_cbs; that srcu_data i=
-s chained
-> > + * via ->defer_link onto ->list, which the irq_work walks.
-> > + */
-> > +struct srcu_defer {
-> > + struct llist_head list;
-> > + struct irq_work iw;
-> > + raw_spinlock_t lock;
-> > + bool draining;
-> > +};
-> > +
-> > +static DEFINE_PER_CPU(struct srcu_defer, srcu_defer) =3D {
-> > + .lock =3D __RAW_SPIN_LOCK_UNLOCKED(srcu_defer.lock),
-> > + .iw =3D IRQ_WORK_INIT_HARD(srcu_defer_drain),
-> > +};
-> > +
-> > +/*
-> > + * Flush pending deferred callbacks so a following srcu_barrier() wait=
-s for them.
-> > + */
-> > +static void srcu_defer_flush(void)
-> > +{
-> > + int cpu;
-> > +
-> > + if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> > + return;
-> > +
-> > + for_each_possible_cpu(cpu) {
-> > + struct srcu_defer *sndp =3D &per_cpu(srcu_defer, cpu);
-> > +
-> > + if (!llist_empty(&sndp->list))
-> > + __srcu_defer_drain(sndp, false);
-> > + }
-> > +}
-> > +
-> >  /*
-> >  * Initialize SRCU per-CPU data. Note that statically allocated
-> >  * srcu_struct structures might already have srcu_read_lock() and
-> > @@ -107,6 +147,11 @@ static void init_srcu_struct_data(struct srcu_stru=
-ct *ssp)
-> >  sdp->cpu =3D cpu;
-> >  INIT_WORK(&sdp->work, srcu_invoke_callbacks);
-> >  timer_setup(&sdp->delay_work, srcu_delay_timer, 0);
-> > + /*
-> > + * ->defer_cbs, ->defer_link and ->defer_exp are valid when zeroed
-> > + * and are not reinitialized here, lest we clobber callbacks a
-> > + * reentrant call_srcu() already staged. See __call_srcu().
-> > + */
-> >  sdp->ssp =3D ssp;
-> >  }
-> >  }
-> > @@ -695,7 +740,12 @@ void cleanup_srcu_struct(struct srcu_struct *ssp)
-> >  return; /* Just leak it! */
-> >  if (WARN_ON(srcu_readers_active(ssp)))
-> >  return; /* Just leak it! */
-> > - /* Wait for irq_work to finish first as it may queue a new work. */
-> > + /*
-> > + * Drain deferred callbacks before syncing ->irq_work: re-issuing one =
-can
-> > + * start a grace period and re-queue ->irq_work, which then schedules
-> > + * ->work, so both must be waited out after the drain.
-> > + */
-> > + srcu_defer_flush();
-> >  irq_work_sync(&sup->irq_work);
-> >  flush_delayed_work(&sup->work);
-> >  for_each_possible_cpu(cpu) {
-> > @@ -1410,8 +1460,8 @@ static unsigned long srcu_gp_start_if_needed(stru=
-ct srcu_struct *ssp,
-> >  * srcu_read_lock(), and srcu_read_unlock() that are all passed the sam=
-e
-> >  * srcu_struct structure.
-> >  */
-> > -static void __call_srcu(struct srcu_struct *ssp, struct rcu_head *rhp,
-> > - rcu_callback_t func, bool do_norm)
-> > +static void srcu_do_enqueue(struct srcu_struct *ssp, struct rcu_head *=
-rhp,
-> > + rcu_callback_t func, bool do_norm)
-> >  {
-> >  if (debug_rcu_head_queue(rhp)) {
-> >  /* Probable double call_srcu(), so leak the callback. */
-> > @@ -1423,6 +1473,111 @@ static void __call_srcu(struct srcu_struct *ssp=
-, struct rcu_head *rhp,
-> >  (void)srcu_gp_start_if_needed(ssp, rhp, do_norm);
-> >  }
-> >
-> > +/*
-> > + * The srcu_cblist and srcu_node tree are only accessed with interrupt=
-s disabled
-> > + * (srcu_gp_start_if_needed() enqueues under raw_spin_lock_irqsave() a=
-nd may walk
-> > + * the tree). Like call_rcu(), __call_srcu() defers when interrupts ar=
-e already
-> > + * disabled, so a re-entrant call_srcu() -- e.g. call_rcu_tasks_trace(=
-) from a
-> > + * BPF program -- cannot corrupt the list or deadlock.
-> > + */
-> > +static void __call_srcu(struct srcu_struct *ssp, struct rcu_head *rhp,
-> > + rcu_callback_t func, bool do_norm)
-> > +{
-> > + if (should_rcu_defer()) {
-> > + struct srcu_defer *sndp =3D this_cpu_ptr(&srcu_defer);
-> > + struct srcu_data *sdp;
-> > +
-> > + /*
-> > + * Instrumentation on the enqueue path can re-enter here from
-> > + * inside srcu_defer_drain(). Re-queuing would livelock the
-> > + * drain, so drop the callback; an NMI cannot loop, so let it in.
-> > + */
-> > + if (READ_ONCE(sndp->draining) && !in_nmi()) {
-> > + WARN_ONCE(IS_ENABLED(CONFIG_PROVE_RCU),
-> > + "call_srcu() re-entered during callback drain; leaking callback\n");
-> > + return;
-> > + }
-> > + sdp =3D this_cpu_ptr(ssp->sda);
-> > + rhp->func =3D func;
-> > + if (!do_norm)
-> > + WRITE_ONCE(sdp->defer_exp, true);
-> > + if (llist_add((struct llist_node *)rhp, &sdp->defer_cbs)) {
-> > + /*
-> > + * Chain this srcu_data for the drain. ->ssp must be
-> > + * published here: deferral skips check_init_srcu_struct(),
-> > + * so on a never-initialized static srcu_struct the
-> > + * statically zeroed ->sda still has a NULL ->ssp.
-> > + */
-> > + sdp->ssp =3D ssp;
-> > + if (llist_add(&sdp->defer_link, &sndp->list))
-> > + irq_work_queue(&sndp->iw);
-> > + }
-> > + return;
-> > + }
-> > +
-> > + /* An NMI reaching here entered with irqs enabled, so the enqueue can=
- race. */
-> > + WARN_ON_ONCE(IS_ENABLED(CONFIG_PROVE_RCU) && in_nmi());
-> > +
-> > + srcu_do_enqueue(ssp, rhp, func, do_norm);
-> > +}
-> > +
-> > +/*
-> > + * Re-issue deferred callbacks straight to srcu_do_enqueue() so they c=
-annot defer
-> > + * again. ->lock serializes the drainers: the irq_work, srcu_defer_flu=
-sh() and
-> > + * srcu_offline_drain().
-> > + */
-> > +static void __srcu_defer_drain(struct srcu_defer *sndp, bool guard)
-> > +{
-> > + struct llist_node *snode, *snext;
-> > + unsigned long flags;
-> > +
-> > + raw_spin_lock_irqsave(&sndp->lock, flags);
-> > + if (guard)
-> > + WRITE_ONCE(sndp->draining, true);
-> > + llist_for_each_safe(snode, snext, llist_del_all(&sndp->list)) {
-> > + struct srcu_data *sdp =3D container_of(snode, struct srcu_data, defer=
-_link);
-> > + struct srcu_struct *ssp =3D sdp->ssp;
-> > + struct llist_node *cnode, *cnext;
-> > + bool do_norm;
-> > +
-> > + cnode =3D llist_del_all(&sdp->defer_cbs);
-> > + do_norm =3D !READ_ONCE(sdp->defer_exp);
-> > + if (!do_norm)
-> > + WRITE_ONCE(sdp->defer_exp, false);
-> > + llist_for_each_safe(cnode, cnext, cnode) {
-> > + struct rcu_head *rhp =3D (struct rcu_head *)cnode;
-> > +
-> > + rhp->next =3D NULL;
-> > + srcu_do_enqueue(ssp, rhp, rhp->func, do_norm);
-> > + }
-> > + }
-> > + if (guard)
-> > + WRITE_ONCE(sndp->draining, false);
-> > + raw_spin_unlock_irqrestore(&sndp->lock, flags);
-> > +}
-> > +
-> > +/*
-> > + * Only the irq_work drain can be re-fed by its own re-issue, so only =
-it sets
-> > + * ->draining. A direct drain re-issues onto this CPU, and anything st=
-aged
-> > + * during it is picked up by that CPU's own irq_work.
-> > + */
-> > +static void srcu_defer_drain(struct irq_work *iw)
-> > +{
-> > + __srcu_defer_drain(container_of(iw, struct srcu_defer, iw), true);
-> > +}
-> > +
-> > +/*
-> > + * Drain @cpu's deferred call_srcu() callbacks from rcutree_migrate_ca=
-llbacks()
-> > + * once @cpu is dead. One pass covers every srcu_struct, and the re-is=
-sue lands
-> > + * on the current CPU.
-> > + */
-> > +void srcu_offline_drain(int cpu)
-> > +{
-> > + if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> > + return;
-> > + __srcu_defer_drain(&per_cpu(srcu_defer, cpu), false);
-> > +}
-> > +
-> >  /**
-> >  * call_srcu() - Queue a callback for invocation after an SRCU grace pe=
-riod
-> >  * @ssp: srcu_struct in queue the callback
-> > @@ -1677,9 +1832,17 @@ void srcu_barrier(struct srcu_struct *ssp)
-> >  {
-> >  int cpu;
-> >  int idx;
-> > - unsigned long s =3D rcu_seq_snap(&ssp->srcu_sup->srcu_barrier_seq);
-> > + unsigned long s;
-> >
-> >  check_init_srcu_struct(ssp);
-> > +
-> > + /*
-> > + * Register any deferred callbacks before snapshotting the sequence. T=
-he
-> > + * shared irq_work may also drain other srcu_structs', which is harmle=
-ss.
-> > + */
-> > + srcu_defer_flush();
->
-> If there are two ssp1 and ssp2 concurrent call srcu_barrier(),
-> and assuming there are only two CPUs, CPU0->sndp0 and CPU1->sndp1.
->
->
-> srcu_barrier(&ssp1)
-> ->srcu_defer_flush()
->   ->llist_empty(&sndp0->list) is not empty
->   ->__srcu_defer_drain(sndp0)
->     ->raw_spinlock()
->     ->llist_for_each_safe(llist_del_all(&sndp0->list))
->
->                                                                        sr=
-cu_barrier(&ssp2)
->                                                                        ->=
-srcu_defer_flush()
->                                                                          =
- ->llist_empty(&sndp0->list) is empty
->                                                                         .=
-..
->                                                                        ->=
-srcu_barrier_one_cpu()
->                                                                          =
- ->sdp0 =3D per_cpu_ptr(ssp2->sda, 0)
->                                                                          =
- ->rcu_segcblist_entrain(&sdp0->srcu_cblist, ...)
->                                                                          =
-   //the sdp0->srcu_cblist is empty, return false.
->                                                                         r=
-eturn;
->
->      ->srcu_do_enqueue(ssp2, rhp, rhp->func, do_norm);
->        // the srcu_barrier(&ssp2) has already return,
->        // miss waiting to current queue ssp2's callback
->        // to complete.
->
->
->
->
-> Thanks
-> Zqiang
+>> Is this needed because you need to send the "power off" command via i2c?
+> Yes, most embedded boards do power off by sending i2c command to PMIC chip.
 
-Hi Zqiang,
+I finally had some time to dig into this history. I've added support for atomic
 
-Thanks for the feedback. I already realized this and fixed it for the
-next version which I will post soon.
+transfers to the s3c23xx, exynos5 and brcmstd i2c controller drivers to get rid
 
-Thanks,
-Puranjay
+of the warnings observed during the system reboot (example log from v6.7-rc1):
+
+[info] Will now restart.
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 1788 at drivers/i2c/i2c-core.h:40 i2c_transfer+0xe8/0xf4
+No atomic I2C transfer handler for 'i2c-0'
+Modules linked in: snd_soc_hdmi_codec s5p_csis s5p_fimc exynos4_is_common v4l2_fwnode v4l2_async snd_soc_i2s snd_soc_idma snd_soc_odroid snd_soc_s3c_dma spi_s3c64xx lima snd_soc_max98090 drm_shmem_helper gpu_sched snd_soc_core ac97_bus snd_pcm_dmaengine snd_pcm snd_timer snd soundcore pwm_samsung s5p_mfc exynosdrm analogix_dp samsung_dsim ehci_exynos s5p_jpeg phy_exynos_usb2 v4l2_mem2mem videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videodev videobuf2_common mc exynos_rng s5p_sss s5p_cec rtc_s3c s3c2410_wdt phy_exynos_mipi_video governor_passive exynos_bus pwm_fan exynos_ppmu
+CPU: 0 PID: 1788 Comm: reboot Not tainted 6.7.0-rc1-00001-g4ce67e6b4b7a #13398
+Hardware name: Samsung Exynos (Flattened Device Tree)
+ unwind_backtrace from show_stack+0x10/0x14
+ show_stack from dump_stack_lvl+0x40/0x4c
+ dump_stack_lvl from __warn+0x78/0x124
+ __warn from warn_slowpath_fmt+0x124/0x18c
+ warn_slowpath_fmt from i2c_transfer+0xe8/0xf4
+ i2c_transfer from regmap_i2c_read+0x64/0x9c
+ regmap_i2c_read from _regmap_raw_read+0x10c/0x258
+ _regmap_raw_read from _regmap_bus_read+0x40/0x6c
+ _regmap_bus_read from _regmap_read+0x60/0x148
+ _regmap_read from regmap_read+0x3c/0x60
+ regmap_read from regulator_get_voltage_sel_regmap+0x38/0x88
+ regulator_get_voltage_sel_regmap from regulator_get_voltage_rdev+0x70/0x170
+ regulator_get_voltage_rdev from _regulator_do_set_voltage+0x38/0x600
+ _regulator_do_set_voltage from regulator_set_voltage_rdev+0x5c/0x248
+ regulator_set_voltage_rdev from regulator_do_balance_voltage+0x338/0x4c8
+ regulator_do_balance_voltage from regulator_set_voltage_unlocked+0xd0/0x128
+ regulator_set_voltage_unlocked from regulator_set_voltage+0x58/0x94
+ regulator_set_voltage from _opp_config_regulator_single+0x44/0x118
+ _opp_config_regulator_single from _set_opp+0x110/0x4e0
+ _set_opp from dev_pm_opp_set_rate+0x114/0x220
+ dev_pm_opp_set_rate from __cpufreq_driver_target+0x178/0x72c
+ __cpufreq_driver_target from cpufreq_generic_suspend+0x28/0x50
+ cpufreq_generic_suspend from cpufreq_suspend+0x98/0x11c
+ cpufreq_suspend from device_shutdown+0x18/0x22c
+ device_shutdown from kernel_restart+0x38/0x90
+ kernel_restart from __do_sys_reboot+0x164/0x210
+ __do_sys_reboot from ret_fast_syscall+0x0/0x54
+Exception stack(0xf18edfa8 to 0xf18edff0)
+dfa0:                   beb56e14 00000004 fee1dead 28121969 01234567 00000000
+dfc0: beb56e14 00000004 004b269c 00000058 004c3000 00000000 00000000 00000000
+dfe0: b6f196d0 beb56c78 004b0fec b6f196e8
+---[ end trace 0000000000000000 ]---
+
+In meantime the commit a3368e1186e3 ("i2c: core: Fix atomic xfer check for non-preempt
+
+config") has been merged to final v6.7, which removed the need to use atomic i2c
+
+transfers during system reboot/shutdown phases, so it turned out that the atomic
+
+transfers are not really used on my setup.
+
+>> Could you try to test with PREEMPT_RT? I'm sure how this works there.
+> I will check this, but so far I run all my tests without PREEMPT_RT
+
+I've added PREEMPT_RT to my test configs but so far I see no issue related to i2c
+
+transfers.
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
