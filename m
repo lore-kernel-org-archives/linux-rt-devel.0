@@ -1,127 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E4E312807;
-	Fri,  7 Aug 2026 13:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748B42E7377
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 14:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786110679; cv=none; b=uCHXvSXeF3FJa3SSYIeQKReY64SfMFYI/23csSa29Lp1SN51KTFdl1mhw4rF/pRJUDzGf5azj2x2ZdZSsI5cQWijCKDUBhpFMWmSAtGm3zZNjGikQdZvvMvyoqRewpce81z74hVXqgh+2Fk9JV+Wi0Oy6+wzzcYS/5VY/C9cME8=
+	t=1786111244; cv=none; b=V0jQ4qJu6OaOn8AQ8/jqwl6e1ILjdQxb8MpnE6FMqnPF1IrVLbUfNCKdE2HdjjPcHIhWn7H0yEsYMZn2nuh5+3VqH5sBjEOiZcikgISnyZ4OBJbUZSHUEoF+g3Gic/CvvhYL6QLqbWYfEF9p7JpyiRb5lr/pJiy0rlUy7DbG0+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786110679; c=relaxed/simple;
-	bh=ULv5EHNv0omDKMBobosi5APF+equtZsKapOv2iw4VQs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jbrx+yOS6XC6ospOIVQV6vXASUfDO8Chw/xQ52TNUSX9cjPeaIPON66mJhFZnY8H15XJrDWXYy1XpHOCMXLxc4LS5LM6lnsKD8ln2T0x9hN8lKQ7rBLzCuL5ikMwukC884iyWTnWgOrfT9UkWiAxcr2tRJfntFXCs1hQsdO6QRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PXYh6M2K; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786111244; c=relaxed/simple;
+	bh=RKKDMvicEIoSk9m1DECOyPqK5E4m382ttP6I/dYe6v0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ine4de+Obs/cRo7dDo4FTP0ITyMe+dy3mk44+XGQWV3nISiF+5Hmk6F3v0eqba+M0or2LWDsQgpzrlDtDk+GnjmPBQymvjsFI6C4ppU3PK6CI/UMBnZ9VgwgVjYWGsDux3iUO954ripyoChNTtxw8udt5+7AvkBxuOWt0Hkz808=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Sn7NB216; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BHBxlMqn; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PXYh6M2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D01C1F00A3D;
-	Fri,  7 Aug 2026 13:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786110671;
-	bh=JsBlNoLXapzvhaOZfFVgJmB3wffwQ8ZUd0cI3plKWLk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PXYh6M2KkgQHGOcPs4VHfkvwxJyfSKuED6zAeHwMz8mmUUgtOHTbSiQM5BJieAoLO
-	 H/WV7XvvSbkldcw2ezKoX6DKUZtAcjDvgjCWVLh1TbnJnQlGY+u4pRC+AIJ1cr/4s+
-	 JByHYpe+ebHxFnreqVNPxaZ5n/PFOCKp9FCVEt1gVdNWAjj4teAKaCf/xFOIYta2uQ
-	 234zl/9rw3uirz1ArxlCvIIddHjOso0Sf2s3/7xSRv4/CUeZyw0WEXcN1ojHc4WL4H
-	 w3jDfaKIq5AcnXo1qggs2ROLMdMYAzKmTRqpoIncaxXUWYTKO89frDEQNSedcwHZs4
-	 lxnBzFqghs4Ig==
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Date: Fri, 07 Aug 2026 15:50:31 +0200
-Subject: [PATCH RFC 5/5] sched: use kfree_nolock() instead of kfree_rcu()
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Sn7NB216";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BHBxlMqn"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 59B361D000E1;
+	Fri,  7 Aug 2026 10:00:37 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 07 Aug 2026 10:00:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1786111237; x=1786197637; bh=DJAZw34dtz
+	rwkk0TYe0dNbIpi34f2Kh0DKaC/Xc8flc=; b=Sn7NB216OMhW5xjXF+Sb71qGvH
+	jPNsxpdxD3TFNCLKPKZP94iozweg8VVRk2oyCwqCPBtn+wRuISIgETcykpzRafin
+	7YJ+Gd8+0x0DT/0ydUCKUkGKkQVRRsMqLzloTvoJGIZ++rmpt5y3fhkN7zSJFH0l
+	7FpcRipNkGTrV9F6h7r2eWpUGpZc30p8IrSETTElEb/ds1mbJHpGPch9oxJsXr61
+	IK/f2Opm/z4JnarWAzjHj+lkWywKYQ0ZllpPzv7dbro7CaG2/eGzmL6kubp89eew
+	fOb2PzwasMj//L8vyh8Q7szrvovp92+y08urS12NbRk6S5l1+54KZuFJ9pGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786111237; x=1786197637; bh=DJAZw34dtzrwkk0TYe0dNbIpi34f2Kh0DKa
+	C/Xc8flc=; b=BHBxlMqnb4dkIlK8sm4MY+WS96pcPDg1fIPRtEvNZlIVh4N7L0O
+	tIdFe/XpIGpWcCzVsY1FbMlfp9ZiDYaEOh/CevstyJz9zVuW4KDYcGC1jeoYFIbl
+	wEaq46nwkmK5wt/6Q90Dd6mSYTTSMwmPvyKkbBOIXAO+5P9N+DZ7wZS0E4s+T8CK
+	+OIN1kXIRMYI4LuczkBGryYz0DyFfc+jczto/dfFowCAgCcQVwjtY98VE/wL5fKP
+	1EMrjrFobhnDKcUjbier3J1gZtP/Y+gi9xZvaLEZhqPOc80aUUL0Sk79TDIIUuk8
+	ZlbYEIPzFIfnRRoU5Gzddrd9VnXIyd6TDvw==
+X-ME-Sender: <xms:BOV1agoxdfglcapzl9fXIKBSPRnL_FNSnIgGcgoBeizrwexZUFEg2g>
+    <xme:BOV1amhcDxYQ90GSnfcJu8Ww69vEoJ5LPTA6pjHTa7q-zbeLKmasiLwHR2htrLINO
+    B30iJZfogAYaYZAQeAUzJPMceSb6ExVaxaqq9ZEJ2UnK54JIQI>
+X-ME-Received: <xmr:BOV1aijPR-hOX2F0C5rjpLiFrrwXOq-3Xbld9cMp6wS5GFYJ911LskiK-OLun3nQvruXCeebYxruUpfkQAXijo7Jdm9JkZPbZPvw2oyW-H0>
+X-ME-Proxy-Cause: dmFkZTE75DRO/Pukjqn4DdkcNqksdu5oMMCOWbuKrjBeOaPob5+OCoG2vNxkHcFNstSHMA
+    oWuPYXkMaLgPCZoU1o+rC5nM9rrk0Uuv3eLxmyjiGrkUIH0p0xyCTdFajpfxMT7IUZOgM6
+    idXWasNXKz4+PLdfB/Uw3I/IKQFNBmDIsBFUmOF6qtBMPT8zYbzCXI6CeerFi/IeeSIu3F
+    35WCv2vIP5nZhml64loCsGzzsplVd8K1AebEHclA3Rq5Ax20qYTAaOkNzIerVnxmXIzehS
+    iRUe8OZ2cQVZfsXYTH45srpQ0TnPOydhwuyKacNXr9rPQwK6b/UGhPR1Fn6D3G4gsIZHHh
+    z6Zl271iIMXbm+H4Vu1k7ApGfDGFyqE9V57iH62zraPoAdnfAPshtSoH4oF7g+aLOpIHKw
+    3q6jswCdi+fxQ0Y6v1JvhZlvE8WdX9jlr0JRyDGLCrBJafyPnI59+aHwLV2JtvC6Ec1NeF
+    wSdbqxTJCTZhD9lDqr/FBDOaVYWorJHRyFw9bHffkosHjozODxwJEErun6mRivTVzvslF/
+    gEZf1AQ1nrP8jyzzQ0BtBKmKNgzR69cgGXkYPje2T8oPUXQbss2pR5OqHrx4KFr9p8Kueh
+    5ZofMbL2+gMWQqruF09GCBhws6N4EM+Q0qV2sQqFhZkcbpA08ZeIXjU/t9IQ
+X-ME-Proxy: <xmx:BOV1akHbQftCG-95noW6kq7GJup35lnXCKkK2x5jIwUZoUDdjWGZbw>
+    <xmx:BOV1atCVetoYaPiaeP7d-1U7cwD8ltNRw2mjyQzesBsZy99rEEmpsw>
+    <xmx:BOV1ao_vZPfWiP8XOg584c2QR79-d90L6RYAEWufFkfdCHg4gUxXlg>
+    <xmx:BOV1aog1Wf0NnJCZ4VTmp-MtA5dEZFZ6TstxEi3OZk9pahWoPqt8zQ>
+    <xmx:BeV1agfxpLxd-1iPcPjC-j_KlGtEoiO_NIcQsmi5UjdlGAPehUCxI6eB>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 7 Aug 2026 10:00:36 -0400 (EDT)
+Date: Fri, 7 Aug 2026 16:00:19 +0200
+From: Greg KH <greg@kroah.com>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	"# = v7 . 1" <stable@vger.kernel.org>,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rafal Ostrowski <rafal.ostrowski@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v7.2-rc6] drm/amd/display: fix usage of
+ DC_FPU_{BEGIN,END} with PREEMPT_RT
+Message-ID: <2026080712-grandma-scrooge-9ba3@gregkh>
+References: <202608061233.eufnR5Qm-lkp@intel.com>
+ <20260807124944.154232-1-spasswolf@web.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-kfree_nolock_kmalloc-v1-5-ba993cbf7a60@kernel.org>
-References: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
-In-Reply-To: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
-To: Harry Yoo <harry@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
- Roman Gushchin <roman.gushchin@linux.dev>, bpf@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Dmitry Vyukov <dvyukov@google.com>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- kasan-dev@googlegroups.com, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
- Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, linux-rt-devel@lists.linux.dev, 
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260807124944.154232-1-spasswolf@web.de>
 
-In set_cpus_allowed_force() we use kfree_rcu() because kfree() is unsafe
-under p->pi_lock.
+On Fri, Aug 07, 2026 at 02:49:42PM +0200, Bert Karwatzki wrote:
+> On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
+> converted to rt_mutex. dc_create_plane_state() can be called while
+> inside an FPU-guarded region, resuling in "scheduling while atomic"
+> errors on PREEMPT_RT kernels.
+>  Fix this by calling kvzalloc_obj() with DC_RUN_WITH_PREEMPTION_ENABLED().
+> Also fix the error path in dc_create_stream_for_sink().
+> 
+> Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Part 1")
+> Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
+> Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc_stream.c  | 5 +++--
+>  drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 5 +++--
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> index 7666cdc78f4e..a5a304a3f802 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> @@ -233,8 +233,9 @@ struct dc_stream_state *dc_create_stream_for_sink(
+>  
+>  fail:
+>  	if (stream) {
+> -		kfree(stream->update_scratch);
+> -		kfree(stream);
+> +		if (stream->update_scratch)
+> +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream->update_scratch));
+> +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+>  	}
+>  
+>  	return NULL;
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> index 72845fc788f3..04982673ffbc 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
+> @@ -33,6 +33,7 @@
+>  #include "dpp.h"
+>  
+>  #include "dc_plane_priv.h"
+> +#include "dc_fpu.h"
+>  
+>  /*******************************************************************************
+>   * Private functions
+> @@ -86,8 +87,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_state, const struct dc_plane
+>   ******************************************************************************/
+>  struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+>  {
+> -	struct dc_plane_state *plane_state = kvzalloc_obj(*plane_state,
+> -							  GFP_ATOMIC);
+> +	struct dc_plane_state *plane_state;
+> +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
+>  
+>  	if (NULL == plane_state)
+>  		return NULL;
+> -- 
+> 2.55.0
+> 
+> Fix for stable with the old error handling in
+> dc_create_stream_for_sink() and compile fix form arm64/clang.
+> 
+> Bert Karwatzki
+> 
 
-With kfree_nolock() now being able to free arbitrary kmalloc() objects,
-we can switch to kfree_nolock() and avoid the unnecessary rcu grace
-period delay. Only in some cases the freeing might be deferred to
-irq_work().
+<formletter>
 
-Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
----
- kernel/sched/core.c  | 9 ++-------
- kernel/sched/sched.h | 7 +------
- 2 files changed, 3 insertions(+), 13 deletions(-)
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 96226707c2f6..d2929e4e23f1 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -2807,20 +2807,15 @@ void set_cpus_allowed_force(struct task_struct *p, const struct cpumask *new_mas
- 		.user_mask = NULL,
- 		.flags     = SCA_USER,	/* clear the user requested mask */
- 	};
--	union cpumask_rcuhead {
--		cpumask_t cpumask;
--		struct rcu_head rcu;
--	};
- 
- 	scoped_guard (__task_rq_lock, p)
- 		do_set_cpus_allowed(p, &ac);
- 
- 	/*
- 	 * Because this is called with p->pi_lock held, it is not possible
--	 * to use kfree() here (when PREEMPT_RT=y), therefore punt to using
--	 * kfree_rcu().
-+	 * to use kfree() here (when PREEMPT_RT=y), thus use kfree_nolock()
- 	 */
--	kfree_rcu((union cpumask_rcuhead *)ac.user_mask, rcu);
-+	kfree_nolock(ac.user_mask);
- }
- 
- int dup_user_cpus_ptr(struct task_struct *dst, struct task_struct *src,
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 56acf502ba26..6a8d0578e963 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2886,12 +2886,7 @@ static inline bool task_allowed_on_cpu(struct task_struct *p, int cpu)
- 
- static inline cpumask_t *alloc_user_cpus_ptr(int node)
- {
--	/*
--	 * See set_cpus_allowed_force() above for the rcu_head usage.
--	 */
--	int size = max_t(int, cpumask_size(), sizeof(struct rcu_head));
--
--	return kmalloc_node(size, GFP_KERNEL, node);
-+	return kmalloc_node(cpumask_size(), GFP_KERNEL, node);
- }
- 
- static inline struct task_struct *get_push_task(struct rq *rq)
-
--- 
-2.55.0
-
+</formletter>
