@@ -1,167 +1,156 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748B42E7377
-	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 14:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD543033E7;
+	Fri,  7 Aug 2026 14:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786111244; cv=none; b=V0jQ4qJu6OaOn8AQ8/jqwl6e1ILjdQxb8MpnE6FMqnPF1IrVLbUfNCKdE2HdjjPcHIhWn7H0yEsYMZn2nuh5+3VqH5sBjEOiZcikgISnyZ4OBJbUZSHUEoF+g3Gic/CvvhYL6QLqbWYfEF9p7JpyiRb5lr/pJiy0rlUy7DbG0+Q=
+	t=1786112176; cv=none; b=G55n1SvltBvungufhmBW+XoAGu+XAWTC3Sra8iwkVLW3MAfx7K1VtMAWAoUfCYIxZ77zKXNoKaBmK7V7JNDOlnzqzM2NjkCLagXpUMltdGYKJA03B2tNBm+wDPChfNFDUK38M/r9aKV2b71RcPzuPSPGmPcKZAB2Eq0bxSL5f48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786111244; c=relaxed/simple;
-	bh=RKKDMvicEIoSk9m1DECOyPqK5E4m382ttP6I/dYe6v0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ine4de+Obs/cRo7dDo4FTP0ITyMe+dy3mk44+XGQWV3nISiF+5Hmk6F3v0eqba+M0or2LWDsQgpzrlDtDk+GnjmPBQymvjsFI6C4ppU3PK6CI/UMBnZ9VgwgVjYWGsDux3iUO954ripyoChNTtxw8udt5+7AvkBxuOWt0Hkz808=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Sn7NB216; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BHBxlMqn; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1786112176; c=relaxed/simple;
+	bh=vt7CtlvPHiafxvaUEQCQjUS6XQYyYcYgu7lMoh35Ws4=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=BJ/UaLBXQpphCd5bDK94kFYRoU98Inou1RDJy7pLPU9N/63bez05YfZeuOSpxekIZvx7FMK2/sd/pNpfKqX3SMRoO3B7Ov/iDj09z7mJkxETRlzKIJ+7zm2JTwfCC2RcgLSNu2554X4o4imvEN6yaL9K0tfIoENAfOWtPzK01VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9XXTeWe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Sn7NB216";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BHBxlMqn"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 59B361D000E1;
-	Fri,  7 Aug 2026 10:00:37 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 07 Aug 2026 10:00:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1786111237; x=1786197637; bh=DJAZw34dtz
-	rwkk0TYe0dNbIpi34f2Kh0DKaC/Xc8flc=; b=Sn7NB216OMhW5xjXF+Sb71qGvH
-	jPNsxpdxD3TFNCLKPKZP94iozweg8VVRk2oyCwqCPBtn+wRuISIgETcykpzRafin
-	7YJ+Gd8+0x0DT/0ydUCKUkGKkQVRRsMqLzloTvoJGIZ++rmpt5y3fhkN7zSJFH0l
-	7FpcRipNkGTrV9F6h7r2eWpUGpZc30p8IrSETTElEb/ds1mbJHpGPch9oxJsXr61
-	IK/f2Opm/z4JnarWAzjHj+lkWywKYQ0ZllpPzv7dbro7CaG2/eGzmL6kubp89eew
-	fOb2PzwasMj//L8vyh8Q7szrvovp92+y08urS12NbRk6S5l1+54KZuFJ9pGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1786111237; x=1786197637; bh=DJAZw34dtzrwkk0TYe0dNbIpi34f2Kh0DKa
-	C/Xc8flc=; b=BHBxlMqnb4dkIlK8sm4MY+WS96pcPDg1fIPRtEvNZlIVh4N7L0O
-	tIdFe/XpIGpWcCzVsY1FbMlfp9ZiDYaEOh/CevstyJz9zVuW4KDYcGC1jeoYFIbl
-	wEaq46nwkmK5wt/6Q90Dd6mSYTTSMwmPvyKkbBOIXAO+5P9N+DZ7wZS0E4s+T8CK
-	+OIN1kXIRMYI4LuczkBGryYz0DyFfc+jczto/dfFowCAgCcQVwjtY98VE/wL5fKP
-	1EMrjrFobhnDKcUjbier3J1gZtP/Y+gi9xZvaLEZhqPOc80aUUL0Sk79TDIIUuk8
-	ZlbYEIPzFIfnRRoU5Gzddrd9VnXIyd6TDvw==
-X-ME-Sender: <xms:BOV1agoxdfglcapzl9fXIKBSPRnL_FNSnIgGcgoBeizrwexZUFEg2g>
-    <xme:BOV1amhcDxYQ90GSnfcJu8Ww69vEoJ5LPTA6pjHTa7q-zbeLKmasiLwHR2htrLINO
-    B30iJZfogAYaYZAQeAUzJPMceSb6ExVaxaqq9ZEJ2UnK54JIQI>
-X-ME-Received: <xmr:BOV1aijPR-hOX2F0C5rjpLiFrrwXOq-3Xbld9cMp6wS5GFYJ911LskiK-OLun3nQvruXCeebYxruUpfkQAXijo7Jdm9JkZPbZPvw2oyW-H0>
-X-ME-Proxy-Cause: dmFkZTE75DRO/Pukjqn4DdkcNqksdu5oMMCOWbuKrjBeOaPob5+OCoG2vNxkHcFNstSHMA
-    oWuPYXkMaLgPCZoU1o+rC5nM9rrk0Uuv3eLxmyjiGrkUIH0p0xyCTdFajpfxMT7IUZOgM6
-    idXWasNXKz4+PLdfB/Uw3I/IKQFNBmDIsBFUmOF6qtBMPT8zYbzCXI6CeerFi/IeeSIu3F
-    35WCv2vIP5nZhml64loCsGzzsplVd8K1AebEHclA3Rq5Ax20qYTAaOkNzIerVnxmXIzehS
-    iRUe8OZ2cQVZfsXYTH45srpQ0TnPOydhwuyKacNXr9rPQwK6b/UGhPR1Fn6D3G4gsIZHHh
-    z6Zl271iIMXbm+H4Vu1k7ApGfDGFyqE9V57iH62zraPoAdnfAPshtSoH4oF7g+aLOpIHKw
-    3q6jswCdi+fxQ0Y6v1JvhZlvE8WdX9jlr0JRyDGLCrBJafyPnI59+aHwLV2JtvC6Ec1NeF
-    wSdbqxTJCTZhD9lDqr/FBDOaVYWorJHRyFw9bHffkosHjozODxwJEErun6mRivTVzvslF/
-    gEZf1AQ1nrP8jyzzQ0BtBKmKNgzR69cgGXkYPje2T8oPUXQbss2pR5OqHrx4KFr9p8Kueh
-    5ZofMbL2+gMWQqruF09GCBhws6N4EM+Q0qV2sQqFhZkcbpA08ZeIXjU/t9IQ
-X-ME-Proxy: <xmx:BOV1akHbQftCG-95noW6kq7GJup35lnXCKkK2x5jIwUZoUDdjWGZbw>
-    <xmx:BOV1atCVetoYaPiaeP7d-1U7cwD8ltNRw2mjyQzesBsZy99rEEmpsw>
-    <xmx:BOV1ao_vZPfWiP8XOg584c2QR79-d90L6RYAEWufFkfdCHg4gUxXlg>
-    <xmx:BOV1aog1Wf0NnJCZ4VTmp-MtA5dEZFZ6TstxEi3OZk9pahWoPqt8zQ>
-    <xmx:BeV1agfxpLxd-1iPcPjC-j_KlGtEoiO_NIcQsmi5UjdlGAPehUCxI6eB>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Aug 2026 10:00:36 -0400 (EDT)
-Date: Fri, 7 Aug 2026 16:00:19 +0200
-From: Greg KH <greg@kroah.com>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"# = v7 . 1" <stable@vger.kernel.org>,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Rafal Ostrowski <rafal.ostrowski@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v7.2-rc6] drm/amd/display: fix usage of
- DC_FPU_{BEGIN,END} with PREEMPT_RT
-Message-ID: <2026080712-grandma-scrooge-9ba3@gregkh>
-References: <202608061233.eufnR5Qm-lkp@intel.com>
- <20260807124944.154232-1-spasswolf@web.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9XXTeWe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E201F000E9;
+	Fri,  7 Aug 2026 14:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786112166;
+	bh=hB/l2YvBvxjMIA9JdWCc7k0OtEyzmMSFvJ9NHM4YRdU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=S9XXTeWecSYQ+8o9y1TzyLapKn8ui7yrzLPsJJuMb+VI4OmvXf5FGC0BMf1eyjdWt
+	 ZNWT9FkXHpyuGeVPclWOq+kogd6CeKIIZ0cckRqKzfWD0Xyl+42lbATDysXj2+2BsK
+	 hdJaY9FIAbAWDpOUb4lBf0yHxvQ0mXu3mN/nQ6/Oua+sdFEUZpt6ObQ48v4wBBlP6z
+	 OmEjeDSsa/UN+hOATTlFRHD99FwxZB9r7ZmnwbM+zfCVpdtbRGEs71mLGuB/ATzyP2
+	 yKcLzXJ1SqLsKvNlHn4dNPD5NnqDvKY3wqLnHV7CRu0/5hqE07AQBgXgolJX/kB6Vm
+	 ZkxtCB0gTCOwA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 2/5] mm/slab, kfence: support kfence objects in
+ kfree_nolock()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?Vmxhc3RpbWlsIEJhYmthIChTVVNFKQ==?= <vbabka@kernel.org>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, media-ci@linuxtv.org, bpf@vger.kernel.org
+In-Reply-To: <20260807-kfree_nolock_kmalloc-v1-2-ba993cbf7a60@kernel.org>
+References: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
+ <20260807-kfree_nolock_kmalloc-v1-2-ba993cbf7a60@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2026 14:16:05 +0000
+Message-Id: <20260807141606.43E201F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260807124944.154232-1-spasswolf@web.de>
 
-On Fri, Aug 07, 2026 at 02:49:42PM +0200, Bert Karwatzki wrote:
-> On PREEMPT_RT kernels kvzalloc_obj() can sleep because spin_lock is
-> converted to rt_mutex. dc_create_plane_state() can be called while
-> inside an FPU-guarded region, resuling in "scheduling while atomic"
-> errors on PREEMPT_RT kernels.
->  Fix this by calling kvzalloc_obj() with DC_RUN_WITH_PREEMPTION_ENABLED().
-> Also fix the error path in dc_create_stream_for_sink().
-> 
-> Fixes: 3539437f354b ("drm/amd/display: Move FPU Guards From DML To DC - Part 1")
-> Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
-> Signed-off-by: Bert Karwatzki <spasswolf@web.de>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c  | 5 +++--
->  drivers/gpu/drm/amd/display/dc/core/dc_surface.c | 5 +++--
->  2 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> index 7666cdc78f4e..a5a304a3f802 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -233,8 +233,9 @@ struct dc_stream_state *dc_create_stream_for_sink(
->  
->  fail:
->  	if (stream) {
-> -		kfree(stream->update_scratch);
-> -		kfree(stream);
-> +		if (stream->update_scratch)
-> +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream->update_scratch));
-> +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+
+New issues:
+- [High] Double-freeing a KFENCE object via kfree_nolock() causes critical =
+list corruption (llist cycle or rcu_head overwrite), turning a detectable b=
+ug into an unrecoverable crash.
+- [Medium] kfree_nolock() silently bypasses KFENCE's invalid free detection=
+ for offset pointers, stripping the invalid offsets during deferral.
+
+Pre-existing issues:
+- [High] KFENCE fails to safely catch double-frees for SLAB_TYPESAFE_BY_RCU=
+ caches, corrupting RCU and freelists.
+--
+
+--- Patch [2]: [PATCH RFC 2/5] mm/slab, kfence: support kfence objects in k=
+free_nolock() ---
+commit c37e10ff24a4e2a898c52d16f3e89a13a643b486
+Author: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
+mm/slab, kfence: support kfence objects in kfree_nolock()
+
+This commit adds support for freeing KFENCE objects via kfree_nolock(). It
+defers the freeing to an irq_work context using an llist node, reusing the
+rcu_head space in kfence_metadata.
+
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 6577bd76954eb..42519d24687ff 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -1271,6 +1271,20 @@ void __kfence_free(void *addr)
+
+[Severity: High]
+This is a pre-existing issue, but does __kfence_free() safely handle double
+frees for SLAB_TYPESAFE_BY_RCU caches?
+
+It appears that if an already-freed object is passed, it blindly calls
+metadata_update_state() and call_rcu(&meta->rcu_head) without checking if
+the object is already freed.
+
+If the object is already in the RCU queue, this executes call_rcu() twice on
+the same rcu_head, corrupting the RCU list. If it was already fully freed,
+the state is forced back to RCU_FREEING, causing the subsequent callback to
+bypass the double-free check and corrupt the freelist.
+
 >  	}
->  
->  	return NULL;
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> index 72845fc788f3..04982673ffbc 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> @@ -33,6 +33,7 @@
->  #include "dpp.h"
->  
->  #include "dc_plane_priv.h"
-> +#include "dc_fpu.h"
->  
->  /*******************************************************************************
->   * Private functions
-> @@ -86,8 +87,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_state, const struct dc_plane
->   ******************************************************************************/
->  struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
->  {
-> -	struct dc_plane_state *plane_state = kvzalloc_obj(*plane_state,
-> -							  GFP_ATOMIC);
-> +	struct dc_plane_state *plane_state;
-> +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
->  
->  	if (NULL == plane_state)
->  		return NULL;
-> -- 
-> 2.55.0
-> 
-> Fix for stable with the old error handling in
-> dc_create_stream_for_sink() and compile fix form arm64/clang.
-> 
-> Bert Karwatzki
-> 
+>  }
+> =20
+> +struct llist_node *kfence_obj_to_llnode(void *addr)
+> +{
+> +	struct kfence_metadata *meta =3D addr_to_metadata((unsigned long)addr);
+> +
+> +	return &meta->llnode;
+> +}
+> +
+> +void *kfence_llnode_to_obj(struct llist_node *llnode)
+> +{
+> +	struct kfence_metadata *meta =3D container_of(llnode, struct kfence_met=
+adata, llnode);
+> +
+> +	return (void *)meta->addr;
+> +}
 
-<formletter>
+[Severity: Medium]
+Does this sequence bypass KFENCE's invalid free detection?
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+When kfree_nolock(obj) receives an invalid KFENCE address, such as an offset
+pointer or redzone address, defer_free_kfence() calls kfence_obj_to_llnode()
+which drops the original invalid offset.
 
-</formletter>
+Later, kfence_llnode_to_obj() reconstructs the pointer strictly as meta->ad=
+dr,
+which is the valid base address.
+
+This passes the reconstructed valid address to __kfence_free(), masking the
+original invalid pointer and preventing KFENCE from reporting the bug.
+
+[ ... ]
+
+> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+> index 1f618f9b0d12d..0fca1dc2c7941 100644
+> --- a/mm/kfence/kfence.h
+> +++ b/mm/kfence/kfence.h
+> @@ -58,7 +58,10 @@ struct kfence_track {
+>  /* KFENCE metadata per guarded allocation. */
+>  struct kfence_metadata {
+>  	struct list_head list __guarded_by(&kfence_freelist_lock);	/* Freelist =
+node. */
+> -	struct rcu_head rcu_head;	/* For delayed freeing. */
+> +	union {
+> +		struct rcu_head rcu_head;	/* For delayed freeing. */
+> +		struct llist_node llnode;	/* For kfree_nolock(). */
+> +	};
+
+[Severity: High]
+Can aliasing rcu_head and llnode risk list corruption on double frees?
+
+If a KFENCE object is double-freed via kfree_nolock() before the pending
+irq_work runs, llist_add() is called twice on the same llnode. This would
+create a circular linked list and an infinite loop in IRQ context.
+
+Additionally, for SLAB_TYPESAFE_BY_RCU caches, a double free via
+kfree_nolock() during the RCU grace period will locklessly overwrite
+meta->rcu_head.next via llist_add(), corrupting the active RCU callback lis=
+t.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807-kfree_nolo=
+ck_kmalloc-v1-0-ba993cbf7a60@kernel.org?part=3D2
