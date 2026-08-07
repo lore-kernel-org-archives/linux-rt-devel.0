@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE45B47A872;
-	Fri,  7 Aug 2026 13:13:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4766E47606D;
+	Fri,  7 Aug 2026 13:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786108430; cv=none; b=LargGicJ8gvWFNMpSnTqGhV07F5wUm2ADWAVG2zfGUz5gu2it/ZQhJkectSWJwyLHe1O/xLuKmH4uehfHD1S/rV0R0oNe2o2+mXtKefETIxKhtAWtpTzUn+q7KBfTFnUSXHGZy6OTxNkfZW7GVhEKNKnGUwKnhM8LfSgIqetSkM=
+	t=1786109510; cv=none; b=nv0IetqY2Zd+B/dMqiLDB7+jjmf8rE7c7A3HqIXKac+MuzLrwhc9I3uoQhnO0CBgZ+Ghos3nc4P/WXMDgtsyDpg0S7Q7jXToW1E3zgzwB5sPvb3N9Y6ZXU+pAcja4Pg43qRKNr8Nqlby+D+cEGTqoiY9G/mahq8JHknfUo6wrww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786108430; c=relaxed/simple;
-	bh=dkk0Uf2H0JSzxOYmQTn2vE2+DxvVn6LtuAQfVKdF7tc=;
+	s=arc-20240116; t=1786109510; c=relaxed/simple;
+	bh=B8ymhp02zgxPmgwtu7e2n6Ecfi/ODOHbKH7ft3RuU3Q=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=X1VCc6ANMaOJOOvEv4t1QgN5KGqUi7noSS4t6XaZwP+n0SipMvNxfp3OX/en65ypo1UY19/UrkLdyOQHgiSf30xdIhUcNCGwCdWjgMhGAsJhR05bOMME04DH6f0K+koygYSNdBsuNj9VpG+XvuSaWpBVGExgciWtsB8x3rx2+AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jd7RkK6G; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=M52Wu0kuYe9QpCSG8ied5KnDI/yPABp/L5Zq5vLLzn42ZRJro8mgGXeNPhOx+T3cJCUgFCKPo6HVcj70aFtJRKWe1wsYIK6g2LVl//QA6YfqfW3VCp13rgtMvF8gBUVu0skGQbkz+/Ti+UT9KuXBG+tw0kCKDFsHsncansj3Fiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGI+7Vm2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jd7RkK6G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AA01F00A3E;
-	Fri,  7 Aug 2026 13:13:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGI+7Vm2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1D81F000E9;
+	Fri,  7 Aug 2026 13:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786108417;
-	bh=wtFWNw+mNHwrtNgx4W+wmWJt2IAgXbaoZAd+uHn3EcU=;
+	s=k20260515; t=1786109503;
+	bh=tkssVBKHKnnpR9x7NtJoh+miHiwAdLhn3foqr3aaM3Y=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jd7RkK6GppERUC8I2Y9mxRt1kDKYrkD7OWxGSMyCO5nD5HO3Cm5u8y/RM+AbV21s5
-	 Lat9msnmIIGrJKz7Fh8CmejIbcR1ZqRedUbBFPXiFkwPRLAUg4iWCjt8c4+Y0j2UOK
-	 bZsDvzCWu+b5L1WhZ9dQiCrporZcfVLsDMzi+N/QcFIGMRdQTEzEPRrYLKx7cGbGBM
-	 aVgUtBAe4vO0HwxB96SNZAi+qTUOGoJ+SGqaSLOSp/YkLVpl+U2lHpOlhtFegSK/je
-	 x1BWT54v/b9Z6qfHQpTXXEYLeUEAWVR7KzU5gmdCFZJdhGP/6vEH+hzOU1kpSYuh00
-	 NdLL8ceveSwsQ==
+	b=YGI+7Vm2lCfqcd5kfY/RGI+HXonQN9BMgGxJ9ascva8m9qiRYKFAyQaqJ/cwM4oui
+	 1h7V13gHG3aIBCdn1wCnXTMkQEqvXZAeyitTExvOGKgwTYOzhXII52SJeM+SqhdNmY
+	 2vo7DaBtfY27MxvxBN6UVk4OkrXdE8JV0EBwtQUnBLaCpa0dIMMErwhU28JU/Z2L9m
+	 4QiQJ9UFYIPXsD89bpja9bE/J+seTj1Bz2Rs6UtxIGOEUWTkvpufNc1z9h2DxXJkJG
+	 PhSL7qB6CqI+3J5Qvj8wz0mhKwbrljJFfopp2USv+23a4JpIZKwdZ1HVTBefewWhSG
+	 DvKM2dtU24YEw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7.2-rc6] drm/amd/display: fix usage of
- DC_FPU_{BEGIN,END} with PREEMPT_RT
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Bert Karwatzki" <spasswolf@web.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260807124944.154232-1-spasswolf@web.de>
-References: <20260807124944.154232-1-spasswolf@web.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260807125832.157856-1-spasswolf@web.de>
+References: <20260807125832.157856-1-spasswolf@web.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 13:13:36 +0000
-Message-Id: <20260807131337.47AA01F00A3E@smtp.kernel.org>
+Date: Fri, 07 Aug 2026 13:31:42 +0000
+Message-Id: <20260807133143.1F1D81F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -47,74 +47,103 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
 
+New issues:
+- [Critical] DC_RUN_WITH_PREEMPTION_ENABLED() silently clobbers callee-save=
+d FPU/SIMD registers on architectures like ARM64.
+- [High] DC_RUN_WITH_PREEMPTION_ENABLED() fails to enable preemption if the=
+ FPU recursion depth is greater than 1.
+
 Pre-existing issues:
-- [High] Incomplete Fix: Normal deallocation paths (dc_stream_free and dc_p=
-lane_state_free) still sleep in atomic context.
-- [High] DC_RUN_WITH_PREEMPTION_ENABLED fails to re-enable preemption if FP=
-U blocks are nested.
-- [High] DC_RUN_WITH_PREEMPTION_ENABLED corrupts callee-saved FPU registers=
- on ARM64.
+- [High] The teardown paths for streams and planes call kfree() and kvfree(=
+) inside FPU-guarded regions without dropping preemption.
 --
 
---- Patch [1]: [PATCH v7.2-rc6] drm/amd/display: fix usage of DC_FPU_{BEGIN=
-,END} with PREEMPT_RT ---
-commit e67f6942f0899807d82dcd2276705097e892a34b
+--- Patch [1]: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} wit=
+h PREEMPT_RT ---
+commit ca829d4b6abc0445e9b58703c783e610dbd244a1
 Author: Bert Karwatzki <spasswolf@web.de>
 
 drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
 
-This commit wraps deallocations in dc_create_stream_for_sink and
-dc_create_plane_state with DC_RUN_WITH_PREEMPTION_ENABLED. This prevents
-"scheduling while atomic" panics on PREEMPT_RT kernels when sleeping
-allocations are called from within FPU-guarded regions.
+This commit addresses "scheduling while atomic" warnings on PREEMPT_RT by
+wrapping memory allocations in DC_RUN_WITH_PREEMPTION_ENABLED() in the
+plane and stream creation paths.
 
 Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
 
 > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
 u/drm/amd/display/dc/core/dc_stream.c
-> index 7666cdc78f4ed..a5a304a3f8029 100644
 > --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
 > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
 
 [ ... ]
 
-> @@ -233,8 +233,9 @@ struct dc_stream_state *dc_create_stream_for_sink(
+> @@ -208,13 +208,13 @@ struct dc_stream_state *dc_create_stream_for_sink(
+>  	if (sink =3D=3D NULL)
+>  		goto fail;
+> =20
+> -	stream =3D kzalloc_obj(struct dc_stream_state, GFP_ATOMIC);
+> +	DC_RUN_WITH_PREEMPTION_ENABLED(stream =3D kzalloc_obj(struct dc_stream_=
+state, GFP_ATOMIC));
+
+[Severity: Critical]
+Does DC_RUN_WITH_PREEMPTION_ENABLED() silently clobber callee-saved FPU/SIMD
+registers on architectures like ARM64?
+
+The AMD display math library relies on FPU calculations. On ARM64, the ABI
+designates certain SIMD registers (e.g., d8-d15 or v8-v15) as callee-saved.
+When the display math library calls dc_create_stream_for_sink() from within
+an FPU-guarded region, the C compiler expects these callee-saved registers
+to be preserved.
+
+When DC_RUN_WITH_PREEMPTION_ENABLED() calls DC_FP_END(), it invokes
+kernel_neon_end(). This enables preemption and clears the TIF_KERNEL_FPSTATE
+flag, but leaves TIF_FOREIGN_FPSTATE set. If a context switch occurs during
+the wrapped kzalloc_obj() allocation, fpsimd_thread_switch() checks
+TIF_FOREIGN_FPSTATE and skips saving the hardware FPU registers, erroneously
+assuming they do not contain valid task state. The hardware FPU registers a=
+re
+then clobbered by other tasks. When control returns to the math library, its
+local floating-point variables stored in callee-saved registers will contain
+garbage.
+
+> @@ -229,7 +229,7 @@ struct dc_stream_state *dc_create_stream_for_sink(
 > =20
 >  fail:
->  	if (stream) {
-> -		kfree(stream->update_scratch);
+>  	if (stream)
 > -		kfree(stream);
-> +		if (stream->update_scratch)
-> +			DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream->update_scratch));
 > +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
 
 [Severity: High]
-This isn't a bug introduced by this patch, but will the normal deallocation
-paths still sleep in atomic context?
+This is a pre-existing issue, but do the teardown paths for streams and pla=
+nes
+still call kfree() and kvfree() inside FPU-guarded regions without dropping
+preemption?
 
-When dc_state_release_phantom_streams_and_planes() is called from
-dcn32_internal_validate_bw(), it executes under DC_FP_START where
-preemption is disabled. That validation path drops references to phantom
-streams and planes, which synchronously invokes dc_stream_free() and
-dc_plane_state_free().
+For example, phantom planes and streams are destroyed during bandwidth
+validation by calling dc_state_release_phantom_streams_and_planes(), such as
+from dcn32_internal_validate_bw(). This validation executes entirely inside=
+ an
+FPU-guarded region created by DC_FP_START() in dcn32_validate_bandwidth(),
+which disables preemption.
 
-Those destructors unconditionally call kfree() and kvfree(). On PREEMPT_RT,
-slab allocators use sleepable rt_mutexes, which will still cause a kernel
-panic from scheduling while atomic. Is it possible to apply this fix to
-those deallocation paths as well?
+When the last reference is dropped, the teardown paths like dc_stream_free()
+and dc_plane_state_free() execute synchronously. Since they call kfree() and
+kvfree() directly without being wrapped in DC_RUN_WITH_PREEMPTION_ENABLED(),
+these allocations are freed while preemption is disabled, which can trigger
+the exact PREEMPT_RT bug this patch aims to fix.
 
->  	}
-> =20
 >  	return NULL;
+>  }
+
 > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/g=
 pu/drm/amd/display/dc/core/dc_surface.c
-> index 72845fc788f3f..04982673ffbc9 100644
 > --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
 > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
 
 [ ... ]
 
-> @@ -86,8 +87,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_sta=
+> @@ -85,8 +86,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_sta=
 te, const struct dc_plane
 >   ***********************************************************************=
 *******/
@@ -127,41 +156,24 @@ te, const struct dc_plane
 e, GFP_ATOMIC));
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does
-DC_RUN_WITH_PREEMPTION_ENABLED() fail to re-enable preemption if FPU blocks
-are nested?
+Does DC_RUN_WITH_PREEMPTION_ENABLED() fail to enable preemption if the FPU
+recursion depth is greater than 1?
 
-In dc_fpu_begin(), preempt_disable() is called unconditionally on every
-entry, meaning preempt_count increases with each nesting level. However,
-DC_RUN_WITH_PREEMPTION_ENABLED() calls DC_FP_END() exactly once, which
-only decrements the recursion depth and calls preempt_enable() once.
+The FPU protection in the AMD display driver supports nesting via the
+fpu_recursion_depth counter. DC_FP_END() only invokes kernel_fpu_end() (and
+thus preempt_enable()) if the recursion depth decrements to exactly 0.
 
-If the FPU recursion depth is 2 or more, preemption remains disabled and
-the wrapped kvzalloc_obj() will still crash on PREEMPT_RT.
+If dc_create_plane_state() or dc_create_stream_for_sink() is invoked from a
+nested FPU-guarded region where the depth is 2 or more, the
+DC_RUN_WITH_PREEMPTION_ENABLED() macro will merely decrement the depth
+counter by 1 but leave preemption disabled. The subsequent call to
+kvzalloc_obj() or kfree() will then execute with preemption still disabled,
+which will still trigger a scheduling while atomic panic on PREEMPT_RT.
 
-
-[Severity: High]
-This is a pre-existing issue, but can DC_RUN_WITH_PREEMPTION_ENABLED()
-corrupt callee-saved FPU registers on ARM64 when used here?
-
-A caller compiled with FPU support, such as
-dml2_mall_phantom_streams_and_planes_create(), has live variables in
-callee-saved FPU registers (v8-v15 on ARM64). It calls
-dc_state_create_phantom_plane() which routes to dc_create_plane_state().
-
-Since dc_create_plane_state() is compiled without FPU support, it doesn't
-save v8-v15 to the stack. When DC_RUN_WITH_PREEMPTION_ENABLED() calls
-DC_FP_END(), it invokes kernel_neon_end() and enables preemption.
-
-If a context switch occurs while preemption is enabled, the OS scheduler
-will not save the thread's FPU state since the kernel has yielded it. The
-v8-v15 registers are permanently clobbered, and execution returns to the
-caller with garbage FPU values.
-
-> =20
 >  	if (NULL =3D=3D plane_state)
 >  		return NULL;
+>
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807124944.1542=
-32-1-spasswolf@web.de?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807125832.1578=
+56-1-spasswolf@web.de?part=3D1
