@@ -1,80 +1,87 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3942BE043
-	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 16:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39032374E42
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 20:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786119579; cv=none; b=IKjlcNSNXWF1Fx181cMgbLLSo7NlIYr+9/iQqosm7c5pO21qPe9FYcCoSvmWMRPuTYc2TAWoXAu3bZj0jNOU5DqUIvxLmq4MNcSRZjjXzf3w4kGw5KpQbpdq62HDwUNwpbFXrvidAbZg99ELS/cRfJnRvcErsiwSyBPPbUmBVGU=
+	t=1786135845; cv=none; b=JRFNZHtERSI1yd6NYQjriAP91pxTMj+oTSEP9olniQRS5IOWJLgaUY8f3SWF8WUFC6iRdeQ2MWENIs3UXPx6mmVZG6lxiYtchGbIXiZwbcRdepJTiVG6hWRg/DPMfk3gibPX7aDiA+Szv7jCcyNrWtO/CIbxds/RPZQlnFgJCGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786119579; c=relaxed/simple;
-	bh=dEpKf7v329BrXdPs9AJn8DwSnEo1KjYommT4Au6roLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fB/atLhFf2B7jhdPvHCLxNopblI2ZPqi1S7xo76kg3O7p2z6SpSqk7HGu9NRCO95mewqwtjE8sy0MnhiP1ePZ37ZnrTodEEQ+t/wc1ZbWFYhSadioyBx2qQ2+M+yGF91sHVtXJQ0c7ZyJIqGZVwfu+zGjWLEnqEcyvlugpn7Bl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHtuEb5X; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1786135845; c=relaxed/simple;
+	bh=SBdGherCSW81nJjciKeWLXON/6esbqxqVMZGrB1zgyc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ob/d3ykhyjdTPpaa9c6vIJwWw0eF4JDWli9nAwYpJtwGHY5wmnNI+tR2HrapcUDNW1PiCLzdX12mXjhdoT2aIQLVW/Lz1XW5bMPCVI+s28etljxPyo6Es/TB1wCupl8/id7vKhqkHjAk55e33Ecj3lZKjoxoPamWl0gQbswNJgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GHoUkKSF; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHtuEb5X"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8486672f03cso4363683b3a.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 07 Aug 2026 09:19:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GHoUkKSF"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so4235e9.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 07 Aug 2026 13:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786119577; x=1786724377; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786135842; x=1786740642; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
-        b=nHtuEb5XiAJSKn1caM6yU4nGxW/0Pp1McV5cVoNRDh2d2pTEx1ldsA8kbo6M2H4++I
-         8g27FXtaRcGRsgGS1N4xYEjpOiW9R2OUYx5T5G9XJP1c1gFK8wpKOCHFIy0OZLxOWiAP
-         xKo1EyUiyIagzfoHWoEf5g1cg6dyTReCundtK6S0s2R4YYm1yxIUUYm2ZJutBdfAgQ7i
-         bjbIwH9dvYF44K4jI4t1kLtg0yizx4crbIrf0W8ehLc3b0I0TbFlPS4aY44EZhCB4xFT
-         HS4QxMUi9Lk3pJlzfC4KwrUPIUgbBsMnB09n5TMdGZ/9lkbAMraorFZWc3hCzciIwr/o
-         D5Og==
+        bh=HJ2y2c9WQsFigCJJ3iH+zv9O0e2lt5rqns3DqPN/VCQ=;
+        b=GHoUkKSF6kjZvNepvEb8vnwBcKMmcjR9QoHSGqAsb98E9ELfKu9ihHNUJLANZvZfNT
+         xQPSC9IXyUOvJEFR8LH0eDRX5F/XHuXEuwU4AaRPOLhstaEhIPD0VVm099wYIYHJsIrH
+         rEMTdrBR3coQfnnYNQpCyKRqH+6s7Yxbyetqp6ENPYLODTJwJuoWr8zL9OCF5I/SuMbg
+         BZ1QCKtG/4AwpLdRjv4pJbPwBgF4f6CZz7OoXEGrROZLMDJiCOUriZFAhttUNGbw+tvK
+         MnrL2u8ILU8BVl5I5OFj5jORlAqLgNPQ9MWrmjR5zHbjplPO4V/58i+XpTWWiMxGuP10
+         6R3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786119577; x=1786724377;
+        d=1e100.net; s=20251104; t=1786135842; x=1786740642;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
-        b=pftswWK1WehJJbBdhdcZ7ICG5nAuaPGm6XZEpso3sX9o11SkA2dS76UO4p9tsaSMDF
-         20zPQQEllQ1rl+rW+MPXQhj4slC2SCID/SMTLF0tHDtj3KuJf0JxzEEwKM8eswrm4dIw
-         CwRE1f1AnqkslZlRJouQtUIEtx8bwyB64P9JnvW6gVFmxMlO55O///fo4jvPBDmRIhzt
-         jDchXU6Ah1UkLBD4WbCk1qzvUV5qOg+kd58mU6BksaKTHotvKTuedmQ/BURau2z3vgnG
-         5PrJR1cxNZvbh8/oYBcqna0b6QKbkYLpi0jVggSQYal97NuYSgnlD9+wy0QwmamNZT/H
-         rrGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpEc95En8OAz8FgYmGr1HNm0xo/yhWcLQSWcP6HZuUORmHxgnSqPp7s1grGYfe/+/G72TzsAuQZXLadSpRr2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiYhDhpJN0X0q3BvWLYCIsP70xa9aqsmjk+jCz+O/ix6TxYfeW
-	5IrMQGcP5L2TPO20n52Wg9Y1+5seN1TZrsXNW8doZuBPtnXK1V+PMpBq
-X-Gm-Gg: AR+sD10aPYR+1yNYNQ3PfmFYBjEvyfdLQZzieKAp/dzOCG4ThP9t3YbYuV7NHpDpulh
-	yvsSK+A4UskGlg09t6N71gGDioCKrYQM3HjgTU9mDaKAN+ZIeCeRGEeR8fy+qzlgnQuMr3OMu+A
-	wi0bN9zYpuVUmnZ07LQKPb4kOv0ypJqR2/NQMFG/NA11oJVloCetQoWY39ZvK50b4cWn4gcRmWY
-	zGmW6AVPR5M1TGrJtHZKJ0Qnj2IO5BVIqj/DSSvIso9yngTuwqC5KmEfS2MXn2OY3PcnfZ3uNQU
-	iksVhYNByXShNig83d+gKHc5gt6vTl0P1U2zaIYMikBGUuibjX7U0y+FxjlNRS5Eq6lRg9ml2iM
-	XyzA/arxT29vK/s2wRdRYHo+AA6Oncy0XeKg6lOnlzjUtEHLDgxVh042p1rfGms6DPZIR43lTEf
-	ty5SipAmRc4GTt+hkpr8rjoTWahYSUsF5JXquiFvjHlZ7ypnVzB1U1xDJoPxl+HSEnEQzbMDbNj
-	w==
-X-Received: by 2002:a05:6a00:3cce:b0:847:711f:49ab with SMTP id d2e1a72fcca58-84f2e006c85mr24601093b3a.22.1786119576732;
-        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
-Received: from localhost ([220.196.228.78])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f5a3a1911sm1285011b3a.3.2026.08.07.09.19.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
-From: Liang Hao <haohlliang@gmail.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+        bh=HJ2y2c9WQsFigCJJ3iH+zv9O0e2lt5rqns3DqPN/VCQ=;
+        b=AFwthvSjoKwAXb7L1i07/KQCqhcISIaFXp4FReErpnpe8VugBtr8kkd3+llf3xsKmt
+         Ce5cwGgGhqv+7lkNjaAQaUB8TO/VMVroirnv8yJV/C8yunamFcaRiKSB9qUEl56k/2O7
+         kONkQmUD7Tfe96Jvnuj63/jOavogAh/noKCHYfLsFFyHYYMsMiq+PF2Qch3wRX2tADZG
+         2ekVFGotR+h8LN1Sav9hOPtcw/6hh1EEkEuLuX21hj+T0LMYu3NWYfYCB4qW4toROL3N
+         ctV1EM2bY4I1cOYzgs5FqoZVcmwQnfKh+1EdRsDyvWxEAh1lK3eBTYXevwTWfcwdiDhs
+         wHIA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3JW9CdZO+9BNfAu9QAR4ZgP++0MrTyIlQvji64Q2I5yp65692lnycsUiX5rdFU6jB2cWWogr8xY1aoWUB/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGxQBRkNunPf9anl+UNtdrKUakecBiJU/bYQNsSYJgHwS9Bv3n
+	HBTCIrL9UKEqF5OmBKJe5ABnVwCbkW385gae28WUaOZHMtu5zOcZp1J4
+X-Gm-Gg: AR+sD12HIStQqqXxB8NR43EfDX4isgpOEaQKuUgnNY6yoSZ9TweHoMG1ScDb7ttRzmv
+	c0PoborVKXrl5O3/C/+65NW0c6HZ/413nyPXEA1QvGHfWS2K8MxN6nYbIyUWpgJgqxf84xr5AFz
+	eoRUgPN44apKUnsrssbQddPxkr6NM2QlIlF5KM+cUasLQPARze2Yxk9CxtJEqU4lcD9XwndVDYe
+	AeW5eK4Sox4w6YJ2T1/NCP6KXZw/Jf38J/vUmvD5RQq+g3RqsroHhsWMNsVg187ikDXtdU61FZ5
+	lh4DNQFeWfUqQczuqmirIoVxwMTojrDO485sfMlUNfIaBkQ7euXDr5GVVBh5kILOoxr2PQiSMAk
+	ssLM3ZS647EaWRHJCk6SZDCf2iEd6CDDc85zPP51Xpx0gYSG0kDpMoG5cGgvicLJ+rwi8qXGJB+
+	Q0dxXSgN3s2gzcWsYB0poDUUnYtuquTxxitZ8h+b3JcuufnJqzmvyIZrKYEHFbsPO9OHfkob6En
+	cuTkEX4HCGKIRXbDCGOwmoG77qY5eN5vZeDRVIs68fFnYH6/x2iWlYnlzIkcDVCdCEGzkVmElcy
+	2pRXXNeaBO6uzV6Bt5Juvz9lW7nrbm1m3vb3JSjJqu3iU29pjViieYir1zxOs20x3bfP
+X-Received: by 2002:a05:600c:840f:b0:496:bffb:fb7b with SMTP id 5b1f17b1804b1-4994e7c0446mr315138345e9.10.1786135842375;
+        Fri, 07 Aug 2026 13:50:42 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b105-e101-a437-493a-4de9-ee3e.310.pool.telefonica.de. [2a02:3100:b105:e101:a437:493a:4de9:ee3e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499542851d6sm192408105e9.12.2026.08.07.13.50.40
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 07 Aug 2026 13:50:41 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Bradley Morgan <include@grrlz.net>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
 	Frederic Weisbecker <frederic@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>
-Subject: [PATCH] docs: timers: hrtimers: clarify expiry modes and ktimersd on PREEMPT_RT
-Date: Sat,  8 Aug 2026 00:19:29 +0800
-Message-ID: <20260807161929.49913-1-haohlliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] kcov: suppress timer and scheduler coverage leaks
+Date: Fri,  7 Aug 2026 22:50:22 +0200
+Message-Id: <20260807205027.31972-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,118 +90,57 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Documentation/timers/hrtimers.rst described the high-resolution timer
-subsystem but did not cover the PREEMPT_RT expiry-mode semantics.  On a
-PREEMPT_RT kernel a timer that is not explicitly marked
-HRTIMER_MODE_HARD is forced into softirq expiry and its callback runs on
-the per-CPU ktimers/%u thread at SCHED_FIFO priority 1, regardless of
-the priority of the task that armed it -- a SCHED_FIFO task's priority
-does not extend into its timer callback.  This is a recurring source of
-hard-to-diagnose latency for RT/DL authors who assume the opposite.
+KCOV excludes interrupt and scheduler coverage so syscall coverage stays
+input-dependent. Instrumented callees can still record when uninstrumented
+timer and scheduler paths run with in_task() true.
 
-Add a dedicated "Expiry modes and PREEMPT_RT" section that documents:
+CONFIG_KCOV_SELFTEST [1] exposes three cases on x86-64: deferred
+hrtimer rearm, __schedule() callees and PREEMPT_RT wakeups. Task-context
+wakeups and new-task enqueue also add scheduler coverage to ordinary
+syscalls.
 
- - the distinction between HRTIMER_MODE_HARD and HRTIMER_MODE_SOFT;
- - the fact that unmarked timers are forced into softirq expiry on
-   PREEMPT_RT (__hrtimer_setup());
- - the role of the per-CPU ktimers/%u thread and its fixed SCHED_FIFO
-   priority 1 (sched_set_fifo_low());
- - the absence of priority inheritance between the arming task and the
-   timer callback on RT;
- - the sleeper exception, where hrtimer_setup_sleeper() automatically
-   marks RT/DL-armed timers HRTIMER_MODE_HARD
-   (__hrtimer_setup_sleeper());
- - the critical distinction between the *requested* expiry mode (passed
-   by the caller) and the *effective* execution context (chosen by the
-   kernel and stored in timer->is_soft).
+Add a nestable KCOV_PAUSED bit. Use it around deferred hrtimer rearm,
+__schedule(), try_to_wake_up() and wake_up_new_task(). This keeps coverage
+from their instrumented callees without excluding those callees from real
+task-context coverage.
 
-The hrtimer_start tracepoint logs the *requested* mode, not the
-effective one.  On PREEMPT_RT a timer armed with the default mode
-(e.g. ABS or REL without HARD/SOFT flags) is implicitly forced into
-softirq expiry, so the effective soft nature must be inferred from the
-*absence* of explicit mode flags in the trace rather than read directly.
+Testing:
 
-Documentation only; no code or behaviour change.
+  - GCC builds across x86-64, arm32, arm64, MIPS32, PowerPC 32/64,
+    s390, RISC-V 32/64, LoongArch, Xtensa and UML
+  - x86-64 Clang and KCOV-disabled builds
+  - KCOV selftest, 10/10 x86-64 boots with and without PREEMPT_RT
+  - KCOV selftest, 3/3 RISC-V 32/64, LoongArch and s390 boots after
+    isolating unrelated architecture entry leaks
+  - 40 dummy_hcd/g_zero remote-KCOV cycles on x86-64 and arm64
+  - 400 repeated fork calls on x86-64 PREEMPT_RT
+  - syzkaller: five one-hour A/B pairs on four 2-vCPU PREEMPT_RT VMs.
+    At ~110k executions, the five-run median was 4,142 vs. 3,216
+    corpus entries (+28.8%) and 54,872 vs. 50,940 coverage (+7.7%).
+    No unsuppressed reports
 
-Signed-off-by: Liang Hao <haohlliang@gmail.com>
----
- Documentation/timers/hrtimers.rst | 66 +++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+The USB runs no longer contained the baseline PCs from deferred rearm,
+hrtick and scheduler wakeup callees. The fork run no longer contained the
+baseline __smp_call_single_queue(), generic_exec_single() or
+smp_call_function_single_async() PCs.
 
-diff --git a/Documentation/timers/hrtimers.rst b/Documentation/timers/hrtimers.rst
-index f88ff8bae89c..ff42377668c1 100644
---- a/Documentation/timers/hrtimers.rst
-+++ b/Documentation/timers/hrtimers.rst
-@@ -171,3 +171,69 @@ hrtimers-based high-resolution clock implementation, so the hrtimers
- code got a healthy amount of testing and use in practice.
- 
- 	Thomas Gleixner, Ingo Molnar
-+
-+
-+Expiry modes and PREEMPT_RT
-+---------------------------
-+
-+Each hrtimer carries an expiry mode that determines the execution context
-+of its callback:
-+
-+  * ``HRTIMER_MODE_HARD`` -- the callback runs in hard interrupt context.
-+    It must be hardirq-safe (no sleeping locks, no allocations, no
-+    scheduling).
-+  * ``HRTIMER_MODE_SOFT`` -- the callback runs in softirq context and may
-+    use operations that are not hardirq-safe.
-+  * Default (neither flag) -- the mode is selected by the subsystem or
-+    the kernel configuration.
-+
-+On ``CONFIG_PREEMPT_RT`` the choice is not optional for most timers:
-+any timer not explicitly marked ``HRTIMER_MODE_HARD`` is forced into
-+softirq expiry (see ``__hrtimer_setup()``). Instead of executing in
-+hardirq context or within the context of the task that armed it, the
-+callback runs on the per-CPU ``ktimers/%u`` thread.
-+
-+The ``ktimersd`` thread operates at ``SCHED_FIFO`` priority 1 (established
-+via ``sched_set_fifo_low()``). This priority is fixed and **does not
-+inherit the priority of the task that armed the timer**. The effective
-+execution context is determined internally by the hrtimer subsystem at
-+setup time and is reflected in ``timer->is_soft``; it is not directly
-+visible as a mode flag at arming time.
-+
-+Consequently, even if a timer is armed by a ``SCHED_FIFO`` task with
-+priority 99, its callback will execute only when the ``ktimersd`` thread
-+(priority 1) is selected to run.
-+
-+This design ensures that timer processing does not interfere with
-+higher-priority real-time workloads, while still providing bounded
-+latency relative to ``SCHED_OTHER`` tasks. However, it also means that
-+latency-sensitive processing must not rely on implicit priority
-+inheritance through the timer arming path.
-+
-+A notable exception is the sleeper path: a timer set up via
-+``hrtimer_setup_sleeper()`` (used by ``clock_nanosleep()`` and similar)
-+that is armed by an RT or DEADLINE task is automatically marked
-+``HRTIMER_MODE_HARD``, so its wakeup runs in hardirq context and does
-+not go through ``ktimersd`` (see ``__hrtimer_setup_sleeper()``).
-+
-+**Guidelines for RT authors:**
-+
-+- If the timer callback contains logic that must execute at the priority
-+  of the owning RT task, the timer must be declared as
-+  ``HRTIMER_MODE_HARD``. Ensure the callback adheres to hardirq context
-+  constraints.
-+- Alternatively, move the latency-sensitive logic out of the timer
-+  callback and into a dedicated, properly prioritized kthread which is
-+  woken by the timer.
-+
-+**Debugging context:** The ``hrtimer_start`` tracepoint logs the
-+*requested* expiry mode passed by the caller (e.g. ``ABS``, ``REL``,
-+``ABS|HARD``), not the effective mode chosen by the kernel. On
-+PREEMPT_RT, any timer armed with the default mode (i.e. the trace shows
-+``ABS`` or ``REL`` without ``|SOFT`` or ``|HARD``) is implicitly forced
-+into softirq expiry. When such a timer is armed by an RT or DEADLINE
-+task, the consequence -- the callback running at ``ktimersd`` priority
-+rather than the arming task's -- is the case to watch. The effective
-+soft nature of such timers is inferred from the *absence* of an explicit
-+mode flag in the trace, combined with the ``CONFIG_PREEMPT_RT``
-+configuration.
--- 
-2.50.1 (Apple Git-155)
+With KCOV disabled, the pause calls compile away. With KCOV enabled on
+x86-64, __schedule() grows by 117 bytes across patches 2 and 3,
+try_to_wake_up() by 106 bytes and wake_up_new_task() by 88 bytes.
 
+[1] https://lore.kernel.org/r/20260724192122.73080-1-kmehltretter@gmail.com/
+
+Karl Mehltretter (5):
+  kcov: add kcov_pause()/kcov_resume() helpers
+  hrtimer: pause KCOV during deferred rearm
+  sched: pause KCOV in __schedule()
+  sched: pause KCOV in try_to_wake_up()
+  sched: pause KCOV in wake_up_new_task()
+
+ include/linux/hrtimer_rearm.h | 18 ++++++++++++++++--
+ include/linux/kcov.h          | 25 ++++++++++++++++++++++++-
+ kernel/kcov.c                 |  2 +-
+ kernel/sched/core.c           | 15 ++++++++++++++-
+ 4 files changed, 55 insertions(+), 5 deletions(-)
+
+base-commit: 8ba098e6b6ff0db8edf28528d1552be261af30d4
