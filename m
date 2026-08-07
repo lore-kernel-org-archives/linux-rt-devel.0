@@ -1,179 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4766E47606D;
-	Fri,  7 Aug 2026 13:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E7A26B2D3;
+	Fri,  7 Aug 2026 13:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786109510; cv=none; b=nv0IetqY2Zd+B/dMqiLDB7+jjmf8rE7c7A3HqIXKac+MuzLrwhc9I3uoQhnO0CBgZ+Ghos3nc4P/WXMDgtsyDpg0S7Q7jXToW1E3zgzwB5sPvb3N9Y6ZXU+pAcja4Pg43qRKNr8Nqlby+D+cEGTqoiY9G/mahq8JHknfUo6wrww=
+	t=1786110648; cv=none; b=qKUwayDDn/TZpznBcJMr3yYK+8YHZZo4P0RQYy7VbnCzZQ+VrkWMZ/J2Ya2NN8DuKMzmd/m11MXD/6FKMlUrcSsWq95TGzDHQ301ueiS3nkrMqV2i8no+DJQD/igMSx99hf6lh12hFwSfWobwI9zN0VEbmMSW5XgBtirK3LtSDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786109510; c=relaxed/simple;
-	bh=B8ymhp02zgxPmgwtu7e2n6Ecfi/ODOHbKH7ft3RuU3Q=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=M52Wu0kuYe9QpCSG8ied5KnDI/yPABp/L5Zq5vLLzn42ZRJro8mgGXeNPhOx+T3cJCUgFCKPo6HVcj70aFtJRKWe1wsYIK6g2LVl//QA6YfqfW3VCp13rgtMvF8gBUVu0skGQbkz+/Ti+UT9KuXBG+tw0kCKDFsHsncansj3Fiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGI+7Vm2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786110648; c=relaxed/simple;
+	bh=IKSFhsETfOBK67E/46irvuKCzKLjb7kd5D8u8jysro4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B+t1WiZw6kkxmtOckxItBpe1ExJwwekvB3FMyUVI24cTWI2Ns0Xl8f02sjhTCI3qpFz6vR0pq16W3V5MGIRa9gfGwuOQZoLULVb47ncmV+vY4ZI0iX2PQyc4ztZ3sEW4VodSlaz/05YSV8Sj2VRGC7viqXpKBtSIqxIMNoXS+7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cp0jaKCR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGI+7Vm2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1D81F000E9;
-	Fri,  7 Aug 2026 13:31:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cp0jaKCR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132021F00A3A;
+	Fri,  7 Aug 2026 13:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786109503;
-	bh=tkssVBKHKnnpR9x7NtJoh+miHiwAdLhn3foqr3aaM3Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YGI+7Vm2lCfqcd5kfY/RGI+HXonQN9BMgGxJ9ascva8m9qiRYKFAyQaqJ/cwM4oui
-	 1h7V13gHG3aIBCdn1wCnXTMkQEqvXZAeyitTExvOGKgwTYOzhXII52SJeM+SqhdNmY
-	 2vo7DaBtfY27MxvxBN6UVk4OkrXdE8JV0EBwtQUnBLaCpa0dIMMErwhU28JU/Z2L9m
-	 4QiQJ9UFYIPXsD89bpja9bE/J+seTj1Bz2Rs6UtxIGOEUWTkvpufNc1z9h2DxXJkJG
-	 PhSL7qB6CqI+3J5Qvj8wz0mhKwbrljJFfopp2USv+23a4JpIZKwdZ1HVTBefewWhSG
-	 DvKM2dtU24YEw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
- PREEMPT_RT
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Bert Karwatzki" <spasswolf@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260807125832.157856-1-spasswolf@web.de>
-References: <20260807125832.157856-1-spasswolf@web.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 13:31:42 +0000
-Message-Id: <20260807133143.1F1D81F000E9@smtp.kernel.org>
+	s=k20260515; t=1786110636;
+	bh=4DjfwV4ACAZUpRZw8MHQBqFBcbFpqFXHuRpYH05Uydg=;
+	h=From:Subject:Date:To:Cc;
+	b=Cp0jaKCRDnHCNEKuRgGcimB5c/OcwG/zvo7mP0N4Fa133BwLaa7BHfpAZRKIILPo6
+	 7CjfGJ4tXc5ZG3JmqiAtktsJw0/1fbPBsODeqyAtXiuJqDiwy+0eT5ODBTu8Tvto1J
+	 Sbly6dpwQQkkx2IjEzzozvYHi9u+WDb/DN37BauhuqKeEnFPO9QYrWPkzwsUw2xf6b
+	 HmBujHQs0QlKI+EBXVHKerqIcDOGLAQ2/zICGf6VSpGoMMBboxC1LXehxtM6c/thcr
+	 OHFX3+PojipRuK5JkNDRNuB7hsPb7TdGzpFKFcjYwMIAEj34A+3zHg8LCJ+q7tdjLg
+	 HT0JC6CyGz4uw==
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Subject: [PATCH RFC 0/5] allow kfree_nolock() handle kmalloc() objects
+Date: Fri, 07 Aug 2026 15:50:26 +0200
+Message-Id: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKLidWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDc2MD3ey0otTU+Lz8nPzk7Pjs3MQcIEPXzMDM3NDcIC3FNDFFCai1oCg
+ 1LbMCbGy0UpCbs1IsRLC4NCkrNbkEZKBSbS0APFcePH0AAAA=
+X-Change-ID: 20260730-kfree_nolock_kmalloc-6067170fd5ad
+To: Harry Yoo <harry@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, bpf@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Dmitry Vyukov <dvyukov@google.com>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ kasan-dev@googlegroups.com, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+ Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, linux-rt-devel@lists.linux.dev, 
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+X-Mailer: b4 0.15.2
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+This is an initial RFC for something that could target 7.4 and
+definitely not earlier merge window. Based on
+slab/for-7.3/kfree_rcu_nolock
 
-New issues:
-- [Critical] DC_RUN_WITH_PREEMPTION_ENABLED() silently clobbers callee-save=
-d FPU/SIMD registers on architectures like ARM64.
-- [High] DC_RUN_WITH_PREEMPTION_ENABLED() fails to enable preemption if the=
- FPU recursion depth is greater than 1.
+Currently kfree_nolock() can only handle objects from kmalloc_nolock().
+Removing this restriction means an easier to use API and might be useful
+in some situations. It means dealing properly with kfence, kmemleak and
+large kmalloc allocations. Some of the cases may end up being deferred
+to the irq_wor() but that's not a big issue.
 
-Pre-existing issues:
-- [High] The teardown paths for streams and planes call kfree() and kvfree(=
-) inside FPU-guarded regions without dropping preemption.
---
+As a example of usefullness, convert a kfree_rcu() to kfree_nolock() in
+the scheduler code, where kfree_rcu() has been used as a workaround for
+kfree() being unsafe to call under pi_lock.
 
---- Patch [1]: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} wit=
-h PREEMPT_RT ---
-commit ca829d4b6abc0445e9b58703c783e610dbd244a1
-Author: Bert Karwatzki <spasswolf@web.de>
+Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+---
+Vlastimil Babka (SUSE) (5):
+      mm/slab: cleanup deferred free handling
+      mm/slab, kfence: support kfence objects in kfree_nolock()
+      mm/slab, kmemleak: handle kmemleak freeing in kfree_nolock()
+      mm/slab: handle large_kmalloc objects in kfree_nolock()
+      sched: use kfree_nolock() instead of kfree_rcu()
 
-drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
+ include/linux/kfence.h   |   5 ++
+ include/linux/kmemleak.h |  17 +++++
+ kernel/sched/core.c      |   9 +--
+ kernel/sched/sched.h     |   7 +--
+ mm/kfence/core.c         |  14 +++++
+ mm/kfence/kfence.h       |   5 +-
+ mm/kmemleak.c            |  42 +++++++++++++
+ mm/slub.c                | 157 +++++++++++++++++++++++++++++++++++++++--------
+ 8 files changed, 215 insertions(+), 41 deletions(-)
+---
+base-commit: 648294a02bfcd0eddae51877e3b30f8bbb2d4bb6
+change-id: 20260730-kfree_nolock_kmalloc-6067170fd5ad
 
-This commit addresses "scheduling while atomic" warnings on PREEMPT_RT by
-wrapping memory allocations in DC_RUN_WITH_PREEMPTION_ENABLED() in the
-plane and stream creation paths.
-
-Link: https://lore.kernel.org/lkml/20260723123449.6494-1-spasswolf@web.de/
-
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
-u/drm/amd/display/dc/core/dc_stream.c
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-
-[ ... ]
-
-> @@ -208,13 +208,13 @@ struct dc_stream_state *dc_create_stream_for_sink(
->  	if (sink =3D=3D NULL)
->  		goto fail;
-> =20
-> -	stream =3D kzalloc_obj(struct dc_stream_state, GFP_ATOMIC);
-> +	DC_RUN_WITH_PREEMPTION_ENABLED(stream =3D kzalloc_obj(struct dc_stream_=
-state, GFP_ATOMIC));
-
-[Severity: Critical]
-Does DC_RUN_WITH_PREEMPTION_ENABLED() silently clobber callee-saved FPU/SIMD
-registers on architectures like ARM64?
-
-The AMD display math library relies on FPU calculations. On ARM64, the ABI
-designates certain SIMD registers (e.g., d8-d15 or v8-v15) as callee-saved.
-When the display math library calls dc_create_stream_for_sink() from within
-an FPU-guarded region, the C compiler expects these callee-saved registers
-to be preserved.
-
-When DC_RUN_WITH_PREEMPTION_ENABLED() calls DC_FP_END(), it invokes
-kernel_neon_end(). This enables preemption and clears the TIF_KERNEL_FPSTATE
-flag, but leaves TIF_FOREIGN_FPSTATE set. If a context switch occurs during
-the wrapped kzalloc_obj() allocation, fpsimd_thread_switch() checks
-TIF_FOREIGN_FPSTATE and skips saving the hardware FPU registers, erroneously
-assuming they do not contain valid task state. The hardware FPU registers a=
-re
-then clobbered by other tasks. When control returns to the math library, its
-local floating-point variables stored in callee-saved registers will contain
-garbage.
-
-> @@ -229,7 +229,7 @@ struct dc_stream_state *dc_create_stream_for_sink(
-> =20
->  fail:
->  	if (stream)
-> -		kfree(stream);
-> +		DC_RUN_WITH_PREEMPTION_ENABLED(kfree(stream));
-
-[Severity: High]
-This is a pre-existing issue, but do the teardown paths for streams and pla=
-nes
-still call kfree() and kvfree() inside FPU-guarded regions without dropping
-preemption?
-
-For example, phantom planes and streams are destroyed during bandwidth
-validation by calling dc_state_release_phantom_streams_and_planes(), such as
-from dcn32_internal_validate_bw(). This validation executes entirely inside=
- an
-FPU-guarded region created by DC_FP_START() in dcn32_validate_bandwidth(),
-which disables preemption.
-
-When the last reference is dropped, the teardown paths like dc_stream_free()
-and dc_plane_state_free() execute synchronously. Since they call kfree() and
-kvfree() directly without being wrapped in DC_RUN_WITH_PREEMPTION_ENABLED(),
-these allocations are freed while preemption is disabled, which can trigger
-the exact PREEMPT_RT bug this patch aims to fix.
-
->  	return NULL;
->  }
-
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c b/drivers/g=
-pu/drm/amd/display/dc/core/dc_surface.c
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_surface.c
-
-[ ... ]
-
-> @@ -85,8 +86,8 @@ uint8_t  dc_plane_get_pipe_mask(struct dc_state *dc_sta=
-te, const struct dc_plane
->   ***********************************************************************=
-*******/
->  struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
->  {
-> -	struct dc_plane_state *plane_state =3D kvzalloc_obj(*plane_state,
-> -							  GFP_ATOMIC);
-> +	struct dc_plane_state *plane_state;
-> +	DC_RUN_WITH_PREEMPTION_ENABLED(plane_state =3D kvzalloc_obj(*plane_stat=
-e, GFP_ATOMIC));
-
-[Severity: High]
-Does DC_RUN_WITH_PREEMPTION_ENABLED() fail to enable preemption if the FPU
-recursion depth is greater than 1?
-
-The FPU protection in the AMD display driver supports nesting via the
-fpu_recursion_depth counter. DC_FP_END() only invokes kernel_fpu_end() (and
-thus preempt_enable()) if the recursion depth decrements to exactly 0.
-
-If dc_create_plane_state() or dc_create_stream_for_sink() is invoked from a
-nested FPU-guarded region where the depth is 2 or more, the
-DC_RUN_WITH_PREEMPTION_ENABLED() macro will merely decrement the depth
-counter by 1 but leave preemption disabled. The subsequent call to
-kvzalloc_obj() or kfree() will then execute with preemption still disabled,
-which will still trigger a scheduling while atomic panic on PREEMPT_RT.
-
->  	if (NULL =3D=3D plane_state)
->  		return NULL;
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807125832.1578=
-56-1-spasswolf@web.de?part=3D1
