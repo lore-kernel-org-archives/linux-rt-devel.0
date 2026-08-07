@@ -1,166 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50E6314B6D;
-	Fri,  7 Aug 2026 15:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3942BE043
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Aug 2026 16:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786116151; cv=none; b=L95LdBHNbddMui+Y/un+eNimpOL16mzXlWR+gODOObFmYvM1ajL0lAcrY1aBBYXLCxxB9uOqFF/v4juUOQS3W/WqrcL792QbhtfBUP5+4mSvrzrNmMTcS8wXo5EYNeSpuFGH6Xu8p3fmYhvMbH+lQ3Sg6xe8HlpAApuLz7Tb5BU=
+	t=1786119579; cv=none; b=IKjlcNSNXWF1Fx181cMgbLLSo7NlIYr+9/iQqosm7c5pO21qPe9FYcCoSvmWMRPuTYc2TAWoXAu3bZj0jNOU5DqUIvxLmq4MNcSRZjjXzf3w4kGw5KpQbpdq62HDwUNwpbFXrvidAbZg99ELS/cRfJnRvcErsiwSyBPPbUmBVGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786116151; c=relaxed/simple;
-	bh=sSH+Jf5yJy/3xp5ZjbFK5sWoWPCqjbGwpm3+BrZElX8=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=mVkWNj9+fv7kfTk6nYHpd+0tpIEoywXLHXHzY7WfTnDcCbFfKlJx/hGmUQRFey3mTIkCKhDEHg8ZQkmKPbCiTrJICte2717OQAy6oIeFpUKFTel1VsKPMgtQ+x506SDuoriNlytY98VFQGZ4wszOXSOCjExemC0zMO9rhzPBWiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jp3OlK1y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786119579; c=relaxed/simple;
+	bh=dEpKf7v329BrXdPs9AJn8DwSnEo1KjYommT4Au6roLA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fB/atLhFf2B7jhdPvHCLxNopblI2ZPqi1S7xo76kg3O7p2z6SpSqk7HGu9NRCO95mewqwtjE8sy0MnhiP1ePZ37ZnrTodEEQ+t/wc1ZbWFYhSadioyBx2qQ2+M+yGF91sHVtXJQ0c7ZyJIqGZVwfu+zGjWLEnqEcyvlugpn7Bl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHtuEb5X; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jp3OlK1y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750F11F000E9;
-	Fri,  7 Aug 2026 15:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786116149;
-	bh=7FaKSagHmoHZjUuapft1KbOwEQ94wymKg//qhLAygbY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Jp3OlK1yDjC7hF2R3AiBxqiXg3hit2hdcaJRVzpwDeGG76jSKwZFyloVUPWBPsCt5
-	 5kd2c5WA+b3a+cbS5WTfFQcj9j1C44d9UEXRU+BL3GzEWI7j4vhe5LOpQeG8/LbRvN
-	 NRq3/Qg/Fk3nlXcldX+SWYBv9BOAeY68alrz/8nx3JGRk1WMCep+hauygOWEz8yMSA
-	 PjeKZvIeGRjev41nyesPKPwG2Aqw+Gk2CQMsUsdoWMZFxU4gA9HMqFDpW0orGMFNzQ
-	 SK4p/l+nW1If4vl1Qs6EQFeZ4FOYLb51eJCgMjk6CqRNFu2oHl3UQQcA2wj4apR3RZ
-	 olUBBezLFc4Zw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 5/5] sched: use kfree_nolock() instead of
- kfree_rcu()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?Vmxhc3RpbWlsIEJhYmthIChTVVNFKQ==?= <vbabka@kernel.org>
-Cc: linux-kernel@vger.kernel.org, bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev, media-ci@linuxtv.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260807-kfree_nolock_kmalloc-v1-5-ba993cbf7a60@kernel.org>
-References: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
- <20260807-kfree_nolock_kmalloc-v1-5-ba993cbf7a60@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 15:22:28 +0000
-Message-Id: <20260807152229.750F11F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHtuEb5X"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8486672f03cso4363683b3a.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 07 Aug 2026 09:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786119577; x=1786724377; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
+        b=nHtuEb5XiAJSKn1caM6yU4nGxW/0Pp1McV5cVoNRDh2d2pTEx1ldsA8kbo6M2H4++I
+         8g27FXtaRcGRsgGS1N4xYEjpOiW9R2OUYx5T5G9XJP1c1gFK8wpKOCHFIy0OZLxOWiAP
+         xKo1EyUiyIagzfoHWoEf5g1cg6dyTReCundtK6S0s2R4YYm1yxIUUYm2ZJutBdfAgQ7i
+         bjbIwH9dvYF44K4jI4t1kLtg0yizx4crbIrf0W8ehLc3b0I0TbFlPS4aY44EZhCB4xFT
+         HS4QxMUi9Lk3pJlzfC4KwrUPIUgbBsMnB09n5TMdGZ/9lkbAMraorFZWc3hCzciIwr/o
+         D5Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786119577; x=1786724377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
+        b=pftswWK1WehJJbBdhdcZ7ICG5nAuaPGm6XZEpso3sX9o11SkA2dS76UO4p9tsaSMDF
+         20zPQQEllQ1rl+rW+MPXQhj4slC2SCID/SMTLF0tHDtj3KuJf0JxzEEwKM8eswrm4dIw
+         CwRE1f1AnqkslZlRJouQtUIEtx8bwyB64P9JnvW6gVFmxMlO55O///fo4jvPBDmRIhzt
+         jDchXU6Ah1UkLBD4WbCk1qzvUV5qOg+kd58mU6BksaKTHotvKTuedmQ/BURau2z3vgnG
+         5PrJR1cxNZvbh8/oYBcqna0b6QKbkYLpi0jVggSQYal97NuYSgnlD9+wy0QwmamNZT/H
+         rrGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpEc95En8OAz8FgYmGr1HNm0xo/yhWcLQSWcP6HZuUORmHxgnSqPp7s1grGYfe/+/G72TzsAuQZXLadSpRr2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiYhDhpJN0X0q3BvWLYCIsP70xa9aqsmjk+jCz+O/ix6TxYfeW
+	5IrMQGcP5L2TPO20n52Wg9Y1+5seN1TZrsXNW8doZuBPtnXK1V+PMpBq
+X-Gm-Gg: AR+sD10aPYR+1yNYNQ3PfmFYBjEvyfdLQZzieKAp/dzOCG4ThP9t3YbYuV7NHpDpulh
+	yvsSK+A4UskGlg09t6N71gGDioCKrYQM3HjgTU9mDaKAN+ZIeCeRGEeR8fy+qzlgnQuMr3OMu+A
+	wi0bN9zYpuVUmnZ07LQKPb4kOv0ypJqR2/NQMFG/NA11oJVloCetQoWY39ZvK50b4cWn4gcRmWY
+	zGmW6AVPR5M1TGrJtHZKJ0Qnj2IO5BVIqj/DSSvIso9yngTuwqC5KmEfS2MXn2OY3PcnfZ3uNQU
+	iksVhYNByXShNig83d+gKHc5gt6vTl0P1U2zaIYMikBGUuibjX7U0y+FxjlNRS5Eq6lRg9ml2iM
+	XyzA/arxT29vK/s2wRdRYHo+AA6Oncy0XeKg6lOnlzjUtEHLDgxVh042p1rfGms6DPZIR43lTEf
+	ty5SipAmRc4GTt+hkpr8rjoTWahYSUsF5JXquiFvjHlZ7ypnVzB1U1xDJoPxl+HSEnEQzbMDbNj
+	w==
+X-Received: by 2002:a05:6a00:3cce:b0:847:711f:49ab with SMTP id d2e1a72fcca58-84f2e006c85mr24601093b3a.22.1786119576732;
+        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
+Received: from localhost ([220.196.228.78])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f5a3a1911sm1285011b3a.3.2026.08.07.09.19.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
+From: Liang Hao <haohlliang@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Liang Hao <haohlliang@gmail.com>
+Subject: [PATCH] docs: timers: hrtimers: clarify expiry modes and ktimersd on PREEMPT_RT
+Date: Sat,  8 Aug 2026 00:19:29 +0800
+Message-ID: <20260807161929.49913-1-haohlliang@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Documentation/timers/hrtimers.rst described the high-resolution timer
+subsystem but did not cover the PREEMPT_RT expiry-mode semantics.  On a
+PREEMPT_RT kernel a timer that is not explicitly marked
+HRTIMER_MODE_HARD is forced into softirq expiry and its callback runs on
+the per-CPU ktimers/%u thread at SCHED_FIFO priority 1, regardless of
+the priority of the task that armed it -- a SCHED_FIFO task's priority
+does not extend into its timer callback.  This is a recurring source of
+hard-to-diagnose latency for RT/DL authors who assume the opposite.
 
-New issues:
-- [High] Replacing `kfree_rcu()` with `kfree_nolock()` introduces an 'Inval=
-id wait context' lockdep warning and RT deadlock risk.
+Add a dedicated "Expiry modes and PREEMPT_RT" section that documents:
 
-Pre-existing issues:
-- [Critical] Pre-existing Use-After-Free (UAF) due to lockless access of `u=
-ser_cpus_ptr` in `relax_compatible_cpus_allowed_ptr()` racing with concurre=
-nt `sched_setaffinity()`.
---
+ - the distinction between HRTIMER_MODE_HARD and HRTIMER_MODE_SOFT;
+ - the fact that unmarked timers are forced into softirq expiry on
+   PREEMPT_RT (__hrtimer_setup());
+ - the role of the per-CPU ktimers/%u thread and its fixed SCHED_FIFO
+   priority 1 (sched_set_fifo_low());
+ - the absence of priority inheritance between the arming task and the
+   timer callback on RT;
+ - the sleeper exception, where hrtimer_setup_sleeper() automatically
+   marks RT/DL-armed timers HRTIMER_MODE_HARD
+   (__hrtimer_setup_sleeper());
+ - the critical distinction between the *requested* expiry mode (passed
+   by the caller) and the *effective* execution context (chosen by the
+   kernel and stored in timer->is_soft).
 
---- Patch [5]: [PATCH RFC 5/5] sched: use kfree_nolock() instead of kfree_r=
-cu() ---
-commit 59f1ba4e68974041e778f52147c67a01b2854ec6
-Author: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+The hrtimer_start tracepoint logs the *requested* mode, not the
+effective one.  On PREEMPT_RT a timer armed with the default mode
+(e.g. ABS or REL without HARD/SOFT flags) is implicitly forced into
+softirq expiry, so the effective soft nature must be inferred from the
+*absence* of explicit mode flags in the trace rather than read directly.
 
-sched: use kfree_nolock() instead of kfree_rcu()
+Documentation only; no code or behaviour change.
 
-This commit replaces kfree_rcu() with kfree_nolock() in set_cpus_allowed_fo=
-rce()
-to avoid unnecessary RCU grace period delays. It also updates
-alloc_user_cpus_ptr() to no longer allocate extra space for the RCU head.
+Signed-off-by: Liang Hao <haohlliang@gmail.com>
+---
+ Documentation/timers/hrtimers.rst | 66 +++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 96226707c2f61..d2929e4e23f13 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -2807,20 +2807,15 @@ void set_cpus_allowed_force(struct task_struct *p=
-, const struct cpumask *new_mas
->  		.user_mask =3D NULL,
->  		.flags     =3D SCA_USER,	/* clear the user requested mask */
->  	};
-[ ... ]
->  	/*
->  	 * Because this is called with p->pi_lock held, it is not possible
-> -	 * to use kfree() here (when PREEMPT_RT=3Dy), therefore punt to using
-> -	 * kfree_rcu().
-> +	 * to use kfree() here (when PREEMPT_RT=3Dy), thus use kfree_nolock()
->  	 */
-> -	kfree_rcu((union cpumask_rcuhead *)ac.user_mask, rcu);
-> +	kfree_nolock(ac.user_mask);
+diff --git a/Documentation/timers/hrtimers.rst b/Documentation/timers/hrtimers.rst
+index f88ff8bae89c..ff42377668c1 100644
+--- a/Documentation/timers/hrtimers.rst
++++ b/Documentation/timers/hrtimers.rst
+@@ -171,3 +171,69 @@ hrtimers-based high-resolution clock implementation, so the hrtimers
+ code got a healthy amount of testing and use in practice.
+ 
+ 	Thomas Gleixner, Ingo Molnar
++
++
++Expiry modes and PREEMPT_RT
++---------------------------
++
++Each hrtimer carries an expiry mode that determines the execution context
++of its callback:
++
++  * ``HRTIMER_MODE_HARD`` -- the callback runs in hard interrupt context.
++    It must be hardirq-safe (no sleeping locks, no allocations, no
++    scheduling).
++  * ``HRTIMER_MODE_SOFT`` -- the callback runs in softirq context and may
++    use operations that are not hardirq-safe.
++  * Default (neither flag) -- the mode is selected by the subsystem or
++    the kernel configuration.
++
++On ``CONFIG_PREEMPT_RT`` the choice is not optional for most timers:
++any timer not explicitly marked ``HRTIMER_MODE_HARD`` is forced into
++softirq expiry (see ``__hrtimer_setup()``). Instead of executing in
++hardirq context or within the context of the task that armed it, the
++callback runs on the per-CPU ``ktimers/%u`` thread.
++
++The ``ktimersd`` thread operates at ``SCHED_FIFO`` priority 1 (established
++via ``sched_set_fifo_low()``). This priority is fixed and **does not
++inherit the priority of the task that armed the timer**. The effective
++execution context is determined internally by the hrtimer subsystem at
++setup time and is reflected in ``timer->is_soft``; it is not directly
++visible as a mode flag at arming time.
++
++Consequently, even if a timer is armed by a ``SCHED_FIFO`` task with
++priority 99, its callback will execute only when the ``ktimersd`` thread
++(priority 1) is selected to run.
++
++This design ensures that timer processing does not interfere with
++higher-priority real-time workloads, while still providing bounded
++latency relative to ``SCHED_OTHER`` tasks. However, it also means that
++latency-sensitive processing must not rely on implicit priority
++inheritance through the timer arming path.
++
++A notable exception is the sleeper path: a timer set up via
++``hrtimer_setup_sleeper()`` (used by ``clock_nanosleep()`` and similar)
++that is armed by an RT or DEADLINE task is automatically marked
++``HRTIMER_MODE_HARD``, so its wakeup runs in hardirq context and does
++not go through ``ktimersd`` (see ``__hrtimer_setup_sleeper()``).
++
++**Guidelines for RT authors:**
++
++- If the timer callback contains logic that must execute at the priority
++  of the owning RT task, the timer must be declared as
++  ``HRTIMER_MODE_HARD``. Ensure the callback adheres to hardirq context
++  constraints.
++- Alternatively, move the latency-sensitive logic out of the timer
++  callback and into a dedicated, properly prioritized kthread which is
++  woken by the timer.
++
++**Debugging context:** The ``hrtimer_start`` tracepoint logs the
++*requested* expiry mode passed by the caller (e.g. ``ABS``, ``REL``,
++``ABS|HARD``), not the effective mode chosen by the kernel. On
++PREEMPT_RT, any timer armed with the default mode (i.e. the trace shows
++``ABS`` or ``REL`` without ``|SOFT`` or ``|HARD``) is implicitly forced
++into softirq expiry. When such a timer is armed by an RT or DEADLINE
++task, the consequence -- the callback running at ``ktimersd`` priority
++rather than the arming task's -- is the case to watch. The effective
++soft nature of such timers is inferred from the *absence* of an explicit
++mode flag in the trace, combined with the ``CONFIG_PREEMPT_RT``
++configuration.
+-- 
+2.50.1 (Apple Git-155)
 
-[Severity: High]
-Does this change trigger an "Invalid wait context" lockdep warning and RT
-deadlock risk?
-
-set_cpus_allowed_force() is called with the target task's pi_lock held, whi=
-ch
-is a raw_spinlock_t.
-
-kfree_nolock() forwards the call to free_to_pcs():
-
-mm/slub.c:kfree_nolock() {
-    ...
-	if (likely(can_free_to_pcs(slab)) && likely(free_to_pcs(s, x, false)))
-    ...
-}
-
-free_to_pcs() then unconditionally acquires a local_trylock_t:
-
-mm/slub.c:free_to_pcs() {
-    ...
-	if (!local_trylock(&s->cpu_sheaves->lock))
-    ...
-}
-
-On PREEMPT_RT, local_trylock_t maps to a sleeping spinlock. Acquiring a
-sleeping lock (even via a trylock) while holding a raw spinlock violates the
-wait-context rules (WAIT_SLEEP under WAIT_RAW).
-
-Could this cause a lockdep splat since CONFIG_PROVE_RAW_LOCK_NESTING checks
-declared wait-types rather than runtime behavior?
-
-
-[Severity: Critical]
-This is a pre-existing issue, but can the lockless access of user_cpus_ptr =
-in
-relax_compatible_cpus_allowed_ptr() race with a concurrent sched_setaffinit=
-y()?
-
-relax_compatible_cpus_allowed_ptr() performs a lockless read of
-p->user_cpus_ptr and passes it as ctx->new_mask:
-
-kernel/sched/core.c:relax_compatible_cpus_allowed_ptr() {
-    ...
-	.new_mask  =3D task_user_cpus(p),
-    ...
-}
-
-__sched_setaffinity() then allocates temporary masks with GFP_KERNEL:
-
-kernel/sched/syscalls.c:__sched_setaffinity() {
-    ...
-	if (!alloc_cpumask_var(&cpus_allowed, GFP_KERNEL))
-    ...
-}
-
-Since GFP_KERNEL can sleep or be preempted, a concurrent thread calling the
-sched_setaffinity() syscall on the same task can update user_cpus_ptr and f=
-ree
-the old mask.
-
-When __sched_setaffinity() resumes, it dereferences the potentially freed
-memory:
-
-kernel/sched/syscalls.c:__sched_setaffinity() {
-    ...
-	cpumask_and(new_mask, ctx->new_mask, cpus_allowed);
-    ...
-}
-
-Can this use-after-free lead to memory corruption or a kernel crash if
-triggered by unprivileged userspace executing a compat binary?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807-kfree_nolo=
-ck_kmalloc-v1-0-ba993cbf7a60@kernel.org?part=3D5
