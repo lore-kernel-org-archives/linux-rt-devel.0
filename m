@@ -1,290 +1,174 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from out-171.mta1.migadu.com (mta1.migadu.com [37.59.57.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AF5418366
-	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 14:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC59328B71
+	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 15:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.59.57.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786198158; cv=none; b=aM3uzigylttFOKA9b36dui0KCfjdVT0x1ANYAZ9PrslXF7Apb9GSLkSMjfgSvtl7rpSpjAJRUMxcT/zNZ7APxymCUokQMrjrWJ4U6JBu2Z8c7SFWgZ/sICMrNNBAvMrAFCW+s2WNnyRSajQ7/YaXIYyTZA9qJHJFdPvgzuQYIZQ=
+	t=1786203277; cv=none; b=XSFoHVpQbsIlIR6Cr0bSxvSxQ/VHXGEfv/bWgQOCrEBeHpULbkwBzUAYBnC67oZTGYVdjRjdJ3hqI2B5+9kStJUG8Zsoe7nnF/0F37BCbThGODXqyHxLUhtKlOOC7BG+FP3v/2SxKl/i5rY8TUHp+5rNN0voQjHyVOYacXaMBE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786198158; c=relaxed/simple;
-	bh=HP0S7SBqXLlQwakWYhPQrCmlJdLm1kuafV054H6dPM0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NSTniUG/I/2moiIvHyLubxvT5gGmARWdWtHpVIKhRSWWn7561EIoAkCNt3rM/KnOmUKeNESz3OrOKw76SF1VVtzP3vY5WC6TFSGjTz25+hVnTo2NqnPY8/C2ZY/fEk9gJdKG9Lao4cAKn5vObD2LPXHdE6K6uTKw8jnV70PY3i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KYVfcnTH; arc=none smtp.client-ip=91.218.175.179
+	s=arc-20240116; t=1786203277; c=relaxed/simple;
+	bh=3D0G5+vkNOBtY0+pifDk0BNo7PHQz1BWxD10gZKzbl8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tv3IVqNca3+iiE4iXikM0EnzeLYueVq3To4fovmo9XvoKQ6qX+Bfn1L8RLeSeOkimWoWnGVmC1ej3+09EIqF3bn8PCLUiUPFt5eI9y9OEp3vvKAx0o/Y/6yJKMBQkwiyI4B8hV3TlXKAAAGg+enMYxJocSFMNwIan1XtZ5JpqDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vBsy/pIK; arc=none smtp.client-ip=37.59.57.117
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KYVfcnTH"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vBsy/pIK"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786198153;
+	t=1786203272;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=l+wXBBS9duMVfV4UBcV/L3Z9e2eWNdKnT/eo9Gtl7NQ=;
-	b=KYVfcnTH1yhxwXY34LyhOO5G6AJCR6qIJG+AZb5oCaGJJ0jqNTs6oO40thKBK4+aMe9J2T
-	iUYwGxdN29eKxFvN1csUgKEF3Qc1WlEJwVEUGoN/hzwxGyHXxtJj2A63N/Nf0KZPWdTlZ/
-	sV8ayqbDK6caWylF6Mr1u0zI6Wf8O/g=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
+	bh=1wJhKTX617WABgSx66ReUbIDPNqXRdWhduQT9zopWmw=;
+	b=vBsy/pIK/vqBXquT5rEDtxWn5gO7WCj5v1HY142lwvnIwnDdwl/IREISpCpTQWbBdGgqQg
+	KdlxTHO0Fl56ygfIKtOApqrp27HNNYIEHB3MZQWX4rw5zWWG0JtGSN5SxhCkhkALG/1UV9
+	SFTenzUnwQbs+OsmWFnhLbDLSqjgV/4=
+From: Lance Yang <lance.yang@linux.dev>
+To: ruipengqi3@gmail.com
+Cc: akpm@linux-foundation.org,
+	peterz@infradead.org,
+	bigeasy@linutronix.de,
+	mhiramat@kernel.org,
+	pmladek@suse.com,
+	mingo@redhat.com,
+	will@kernel.org,
+	boqun@kernel.org,
+	longman@redhat.com,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH bpf-next v3 4/4] selftests/bpf: Add a test for arena fault-in under memory.max
-Date: Sat,  8 Aug 2026 22:05:56 +0800
-Message-ID: <20260808140720.293604-5-jiayuan.chen@linux.dev>
-In-Reply-To: <20260808140720.293604-1-jiayuan.chen@linux.dev>
-References: <20260808140720.293604-1-jiayuan.chen@linux.dev>
+	linux-rt-devel@lists.linux.dev,
+	Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH v2 0/2] hung_task: show the blocker task if the task is hung on rtmutex
+Date: Sat,  8 Aug 2026 23:34:16 +0800
+Message-Id: <20260808153416.49698-1-lance.yang@linux.dev>
+In-Reply-To: <cover.1786193045.git.ruipengqi3@gmail.com>
+References: <cover.1786193045.git.ruipengqi3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-A child joins a memcg capped 64M above its post-load usage and faults an
-arena in until it runs out of that budget.
+Hi Ruipeng,
 
-With the fix the arena page comes from the sleepable allocator, so
-hitting memory.max goes through the memcg OOM path and the child is
-OOM-killed, which the test checks via memory.events "oom_kill".
+Guess I'll have to be the bad guy here ...
 
-Without the fix the test may still pass, because a concurrent blocking
-allocation in the child (e.g. a COW fault on an inherited page) can hit
-memory.max and OOM-kill it first. The goal is only that the fixed kernel
-passes reliably.
+Already raised this in v1 [1], but never got an answer ...
 
-  # test_progs -v -t arena_memcg
-  serial_test_arena_memcg:PASS:child killed by signal
-  serial_test_arena_memcg:PASS:memcg oom_kill
-  #5       arena_memcg:OK
+This touches locking too, and Peter has already made it pretty clear he
+doesn't want this kind of debug code there.
 
-  # dmesg (the OOM comes from the arena sleepable allocation)
-  test_progs invoked oom-killer: gfp_mask=GFP_KERNEL_ACCOUNT|__GFP_ZERO
-   arena_vm_fault+0x4bc/0xad0
-  Memory cgroup out of memory: Killed process 473 (test_progs)
+Please don't send another version unless Peter is on board. Otherwise,
+just spinning wheels ...
 
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- .../selftests/bpf/prog_tests/arena_memcg.c    | 156 ++++++++++++++++++
- .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
- 2 files changed, 180 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
- create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
+[1] https://lore.kernel.org/all/138ba5ec-41a1-4fe3-851a-51dbb866afae@linux.dev/
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-new file mode 100644
-index 000000000000..af49d8b1b995
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-@@ -0,0 +1,156 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <test_progs.h>
-+#include <fcntl.h>
-+#include <signal.h>
-+#include <sys/mman.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <sys/user.h>
-+#ifndef PAGE_SIZE /* on some archs it comes in sys/user.h */
-+#include <unistd.h>
-+#define PAGE_SIZE getpagesize()
-+#endif
-+
-+#include "cgroup_helpers.h"
-+#include "arena_memcg.skel.h"
-+
-+#define CG_PATH		"/arena_memcg"
-+
-+/* Budget the arena gets on top of whatever is already charged after load. */
-+#define ARENA_BUDGET	(64 * 1024 * 1024)
-+
-+static void dump_memcg(int (*rd)(const char *, const char *, char *, size_t))
-+{
-+	char buf[512];
-+
-+	/*
-+	 * memory.current reads 0 once the child has left the cgroup, so it only
-+	 * carries information when dumped from the live child; memory.peak and
-+	 * memory.events survive the child and tell the story either way.
-+	 */
-+	if (!rd(CG_PATH, "memory.current", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.current: %s", buf);
-+	if (!rd(CG_PATH, "memory.max", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.max: %s", buf);
-+	if (!rd(CG_PATH, "memory.peak", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.peak: %s", buf);
-+	if (!rd(CG_PATH, "memory.events", buf, sizeof(buf)))
-+		fprintf(stderr, "memory.events:\n%s", buf);
-+	fflush(NULL); /* _exit() in the child would not flush stdio otherwise */
-+}
-+
-+/* Read one key from a flat keyed cgroup file, e.g. "oom_kill" in memory.events. */
-+static long cg_read_key(const char *cg, const char *file, const char *key)
-+{
-+	char buf[512], *p;
-+
-+	if (read_cgroup_file(cg, file, buf, sizeof(buf)))
-+		return -1;
-+	p = strstr(buf, key);
-+	if (!p)
-+		return -1;
-+	return strtol(p + strlen(key), NULL, 10);
-+}
-+
-+void serial_test_arena_memcg(void)
-+{
-+	int cgroup_fd = -1, status;
-+	const long ps = PAGE_SIZE;
-+	char buf[64];
-+	pid_t pid;
-+
-+	if (setup_cgroup_environment())
-+		return;
-+
-+	cgroup_fd = create_and_get_cgroup(CG_PATH);
-+	if (!ASSERT_OK_FD(cgroup_fd, "create_and_get_cgroup"))
-+		goto out;
-+
-+	/* No memory controller -> nothing to test. */
-+	if (read_cgroup_file(CG_PATH, "memory.current", buf, sizeof(buf))) {
-+		test__skip();
-+		goto out;
-+	}
-+
-+	pid = fork();
-+	if (!ASSERT_GE(pid, 0, "fork"))
-+		goto out;
-+	if (pid == 0) {
-+		struct arena_memcg *cskel;
-+		__u32 i, npages;
-+		char *base;
-+		size_t sz;
-+		long cur;
-+
-+		/*
-+		 * Do everything from the child: the arena vma is VM_DONTCOPY so
-+		 * it would not survive fork(), only the child should be under the
-+		 * limit so that a memcg OOM cannot pick test_progs, and a map is
-+		 * charged to the memcg of the task that creates it - so join
-+		 * before load. The cgroup work dir belongs to the parent that set
-+		 * the environment up, so reach it with the _parent() helpers.
-+		 * Errors are reported to the parent through the exit code, since
-+		 * ASSERT_* in a forked child does not reach it.
-+		 */
-+		snprintf(buf, sizeof(buf), "%d", getpid());
-+		if (write_cgroup_file_parent(CG_PATH, "cgroup.procs", buf))
-+			_exit(2);
-+
-+		cskel = arena_memcg__open_and_load();
-+		if (!cskel)
-+			_exit(3);
-+
-+		base = bpf_map__initial_value(cskel->maps.arena, &sz);
-+		if (!base)
-+			_exit(4);
-+		npages = bpf_map__max_entries(cskel->maps.arena);
-+
-+		/*
-+		 * Cap only now, after load: everything but the fault-in is
-+		 * charged, so the arena gets a fixed budget regardless of what
-+		 * the load itself cost, and the load can never hit the limit.
-+		 */
-+		if (read_cgroup_file_parent(CG_PATH, "memory.current", buf, sizeof(buf)))
-+			_exit(5);
-+		cur = strtol(buf, NULL, 10);
-+		snprintf(buf, sizeof(buf), "%ld", cur + ARENA_BUDGET);
-+		if (write_cgroup_file_parent(CG_PATH, "memory.max", buf))
-+			_exit(6);
-+
-+		for (i = 0; i < npages; i++)
-+			base[(size_t)i * ps] = 1;
-+		/* Faulted everything without dying: no pressure built, dump why. */
-+		dump_memcg(read_cgroup_file_parent);
-+		_exit(0);
-+	}
-+
-+	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
-+		goto out;
-+
-+	/* A non-zero exit means the child failed to set up; the code says where. */
-+	if (WIFEXITED(status) && WEXITSTATUS(status)) {
-+		ASSERT_OK(WEXITSTATUS(status), "child setup");
-+		goto out;
-+	}
-+
-+	/*
-+	 * Faulting a valid arena address until memory.max is hit must not look
-+	 * like an invalid access. Without the fix the fault path allocated with
-+	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV,
-+	 * and the child died with SIGSEGV on a valid address; now it is handled
-+	 * by the memcg OOM path instead. A SIGKILL alone would not prove the
-+	 * memcg OOM killer did it (a global OOM or an unrelated crash could also
-+	 * kill the child), so check memory.events.oom_kill, which records the
-+	 * memcg OOM and survives the child.
-+	 */
-+	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
-+		goto out;
-+	if (!ASSERT_GE(cg_read_key(CG_PATH, "memory.events", "oom_kill"), 1,
-+		       "memcg oom_kill"))
-+		dump_memcg(read_cgroup_file);
-+out:
-+	if (cgroup_fd >= 0)
-+		close(cgroup_fd);
-+	cleanup_cgroup_environment();
-+}
-diff --git a/tools/testing/selftests/bpf/progs/arena_memcg.c b/tools/testing/selftests/bpf/progs/arena_memcg.c
-new file mode 100644
-index 000000000000..adecd9e8463e
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/arena_memcg.c
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <vmlinux.h>
-+#include <bpf/bpf_helpers.h>
-+#include "bpf_arena_common.h"
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_ARENA);
-+	__uint(map_flags, BPF_F_MMAPABLE);
-+	__uint(max_entries, 100000); /* number of pages */
-+#ifdef __TARGET_ARCH_arm64
-+	__ulong(map_extra, 0x1ull << 32); /* start of mmap() region */
-+#else
-+	__ulong(map_extra, 0x1ull << 44); /* start of mmap() region */
-+#endif
-+} arena SEC(".maps");
-+
-+SEC("syscall")
-+int noop(void *ctx)
-+{
-+	return 0;
-+}
-+
-+char _license[] SEC("license") = "GPL";
--- 
-2.43.0
+Thanks, Lance
 
+On Sat, Aug 08, 2026 at 09:02:16PM +0800, ruipengqi wrote:
+>From: Ruipeng Qi <ruipengqi3@gmail.com>
+>
+>Currently, debug_show_blocker() only tracks mutex, semaphore and rwsem
+>lock types. Extend it to also cover rtmutex or rt_mutex-based lock
+>implementations on PREEMPT_RT, so that when a task is hung on an
+>rtmutex, the hung task detector can identify and report which task holds
+>the lock.
+>
+>Add rt_mutex_task_owner() to get the task's lock owner when a task is
+>blocked by an rtmutex-based lock implementation.
+>
+>Since the LSBs of task->blocker pointer are already fully utilized and
+>leave no room for new blocker types, this version avoids adding a new
+>blocker type by directly leveraging rt_mutex_task_owner() to retrieve
+>the lock owner information.
+>
+>With this change, the hung task detector can now show blocker task's
+>info like below:
+>
+>[ 3000.899985] INFO: task cat:195 blocked for more than 120 seconds.
+>[ 3000.900561]       Not tainted 7.2.0-rc4-00366-gf339a6eb59f3-dirty #22
+>[ 3000.900930] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>[ 3000.901376] task:cat             state:D stack:13784 pid:195   tgid:195   ppid:1      task_flags:0x400000 flags:0x00080000
+>[ 3000.902081] Call Trace:
+>[ 3000.902233]  <TASK>
+>[ 3000.902383]  __schedule+0x514/0xf50
+>[ 3000.902677]  rt_mutex_schedule+0x1b/0x30
+>[ 3000.902916]  rt_mutex_slowlock_block.constprop.0+0x3b/0x1c0
+>[ 3000.903242]  __rt_mutex_slowlock_locked.constprop.0+0xa8/0x200
+>[ 3000.903716]  rt_mutex_slowlock.constprop.0+0x48/0xb0
+>[ 3000.904023]  rt_mutex_lock+0x32/0x40
+>[ 3000.904249]  read_dummy_rtmutex+0x2a/0x60 [hung_task_tests]
+>[ 3000.904647]  full_proxy_read+0x5b/0x90
+>[ 3000.904843]  vfs_read+0xb0/0x370
+>[ 3000.905051]  ? vm_mmap_pgoff+0xf1/0x1b0
+>[ 3000.905293]  ? vm_mmap_pgoff+0x122/0x1b0
+>[ 3000.905684]  ksys_read+0x68/0xe0
+>[ 3000.905980]  do_syscall_64+0xf9/0x540
+>[ 3000.906213]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>[ 3000.906643] RIP: 0033:0x49a182
+>[ 3000.906844] RSP: 002b:00007ffc431f6528 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+>[ 3000.907251] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
+>[ 3000.907673] RDX: 0000000000010000 RSI: 00007f69b2166000 RDI: 0000000000000003
+>[ 3000.908044] RBP: 00007f69b2166000 R08: 00000000ffffffff R09: 0000000000000000
+>[ 3000.908485] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
+>[ 3000.908816] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
+>[ 3000.909206]  </TASK>
+>[ 3000.909351] INFO: task cat:195 is blocked on a rtmutex likely owned by task cat:194.
+>[ 3000.909832] task:cat             state:S stack:13784 pid:194   tgid:194   ppid:1      task_flags:0x400000 flags:0x00080000
+>[ 3000.910426] Call Trace:
+>[ 3000.910618]  <TASK>
+>[ 3000.910727]  __schedule+0x514/0xf50
+>[ 3000.910912]  schedule+0x22/0xa0
+>[ 3000.911064]  schedule_timeout+0x81/0x100
+>[ 3000.911254]  ? __pfx_process_timeout+0x10/0x10
+>[ 3000.911522]  msleep_interruptible+0x28/0x50
+>[ 3000.911754]  read_dummy_rtmutex+0x34/0x60 [hung_task_tests]
+>[ 3000.912019]  full_proxy_read+0x5b/0x90
+>[ 3000.912212]  vfs_read+0xb0/0x370
+>[ 3000.912378]  ? vm_mmap_pgoff+0xf1/0x1b0
+>[ 3000.912630]  ? vm_mmap_pgoff+0x122/0x1b0
+>[ 3000.912839]  ksys_read+0x68/0xe0
+>[ 3000.913007]  do_syscall_64+0xf9/0x540
+>[ 3000.913187]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>[ 3000.913461] RIP: 0033:0x49a182
+>[ 3000.913618] RSP: 002b:00007ffd0b4cf048 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+>[ 3000.913972] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
+>[ 3000.914294] RDX: 0000000000010000 RSI: 00007fbf49a0d000 RDI: 0000000000000003
+>[ 3000.914648] RBP: 00007fbf49a0d000 R08: 00000000ffffffff R09: 0000000000000000
+>[ 3000.914955] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
+>[ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
+>[ 3000.915439]  </TASK>
+>
+>---
+>v2 changes:
+> - Reduce #ifdef-ery by using rt_mutex_task_owner() instead of adding a new blocker type,
+> suggested by Petr.
+> - Remove the unused function debug_trace_blocker(), suggested by Xusheng.
+> - Clean up and update relevant comments.
+> - https://lore.kernel.org/all/cover.1785376929.git.ruipengqi3@gmail.com/
+>
+>Ruipeng Qi (2):
+>  hung_task: show the blocker task if the task is hung on rtmutex
+>  samples: enhance hung_task detector test with rtmutex support
+>
+> include/linux/rtmutex.h             |  2 ++
+> kernel/hung_task.c                  | 26 +++++++++++++--
+> kernel/locking/rtmutex_api.c        | 29 +++++++++++++++++
+> lib/Kconfig.debug                   |  1 -
+> samples/Kconfig                     |  2 +-
+> samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
+> 6 files changed, 101 insertions(+), 9 deletions(-)
+>
+>-- 
+>2.25.1
+>
+>
