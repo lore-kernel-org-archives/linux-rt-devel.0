@@ -1,106 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E721E367B85;
-	Sat,  8 Aug 2026 13:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3656E1D5CE0
+	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 14:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786195314; cv=none; b=Qyo32FxCUiCM8z5i7jVlCWdKf+PQD3Yc8+E4xzgB42RoO8mu8AC9cT/hjn2yTkV0W83zIomr4j028syiAaZrR+qrNqCqxfsJcv1UHLAuqBTC+Nb4WNlG6aE+rOMsnVr9zeCgPByxhdA25/uvI7KrQRNKhjJc1jvis/Iz5XdW+/g=
+	t=1786198076; cv=none; b=tktGQ2pGAZ7xt3G2Bhj4S5bui88h/NJ6auJbNq8vlWhwq4gz6ZCB5H64v/ggXc8v3c0N4zlNCjWjsnu+6rrVE6GtXAACeMdBk0VF/AachThztUzXmB8FMqQxkBgdUOPaxUwWoRoxvX93sbFC5paKdsOuCXdUw8sFiC6hhnaEOro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786195314; c=relaxed/simple;
-	bh=4pxYi9PeFdRyacXuINAYKWS0Vac6ld8bmR7orUVJLiE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kwn7o6fjH5gkM3blOiAQ4uuCq455STgy3m9bYnAxSd5pP/tcxhgHE9zG0vFuWx5AIP26VU1VaBfK9ETShi0MdXFua0l2Q8uOplevTxIW4ykFq6+soRt31IjrmOg4bME/PIrJlI8pswwliUFjyUHgun7KfLXBkddfpfiufrg0Sm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NOMZoEYu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786198076; c=relaxed/simple;
+	bh=TmJrm89N6RG14n33SUAB/EiKXmPzuGvpEn78XOHy650=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rQXq+hTYCH1gKl/5NinQlQrVJ3OQt3U27lOZ0NoHG2GTsq6A0NmZOagLbTahMTa3cKuOVkdC+sDA01SjNRYBDhOe9Xa9NWRmv1wWf5lGnPkcHJiLd90QDTD89dn/+8rEx8tz5Z0HeJWTUvSLR7oOJpwqdNcOwgdVidXW/t1iyxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lqwYREcl; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NOMZoEYu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A231F000E9;
-	Sat,  8 Aug 2026 13:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786195312;
-	bh=W0xfsWH4IcyVYPfjqKAExPdLT/LG2w9tyjRSo2pEROg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NOMZoEYuO2IFdDbv1QvA6mbcZepDWdt0UNnEpZjUWc6pUSJNMRMCYWuu5MiyiI/8F
-	 5p2QAZarbkW2ExgjV9bres/CDSo6FM8ZweH6ww5C0mmDzeNrNoRpNBpdQ84eOFI8WM
-	 zbwI+ZgUYATxRtuRhCDUpVvpEbjoji3kWSV5h95irWhYNy6TITG2hM9SbHYyFrgbq3
-	 de9DRe5M39t6jhE8yjvZX6qnmCCLOF9sGRc/TnxPeV6roeKWxRter+v7+Hc9roVdQv
-	 fwGUbAYdp0/babtKPX/HaxnkxFngGsj7aO5I0W7/vnF33UDTlXP+673jbA9DP0rHNI
-	 VhHrJMXakOEjg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] samples: enhance hung_task detector test with
- rtmutex support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: ruipengqi <ruipengqi3@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <4991cd8e1bbddb42a1fe31dde38f85d74ff1c4cc.1786193045.git.ruipengqi3@gmail.com>
-References: <cover.1786193045.git.ruipengqi3@gmail.com>
- <4991cd8e1bbddb42a1fe31dde38f85d74ff1c4cc.1786193045.git.ruipengqi3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2026 13:21:51 +0000
-Message-Id: <20260808132152.58A231F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lqwYREcl"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786198071;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jqYn1wblY9FldRcAfyRNPo2Ja5369GK00LFkYGT2PGI=;
+	b=lqwYREclYrwGhxjyzbijgy59jiNCm0KT0p+38kjPZJfrt+pIWq+U7QcIZ46c/Tf0Vpzihj
+	TmjcJT+o4jMv+cfb1KUjCU1PBb7dQOdWd4+7xOgjk+3TGTEaC4Jd+KFbedxI203JXvLfaG
+	n+gqQp+mpp0KpXqk0EmOM5F46BC4+G8=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH bpf-next v3 0/4] bpf: arena: handle memory.max on fault-in with reclaim/OOM
+Date: Sat,  8 Aug 2026 22:05:52 +0800
+Message-ID: <20260808140720.293604-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Since commit e66fe1bc6d25 ("bpf: arena: Reintroduce memcg accounting"),
+arena pages are charged to the memcg of the process that created the arena.
+That accounting exposes two problems in the arena user page fault path.
 
-Pre-existing issues:
-- [High] Missing `.owner =3D THIS_MODULE` in `struct file_operations` allow=
-s the module to be unloaded while debugfs files are open, leading to a use-=
-after-free on module unload. This problem wasn't introduced by this patch, =
-but the patch replicates the flawed pattern.
---
+1. The fault-in allocation runs under arena->spinlock, so it can only use the
+   non-blocking allocator, which never reclaims. Once memory.current is at
+   memory.max the allocation simply fails. Reaching memory.max is completely
+   normal for a healthy application - e.g. reading a large file fills
+   memory.current with page cache - so the process ends up killed for no real
+   reason.
 
---- Patch [2]: [PATCH v2 2/2] samples: enhance hung_task detector test with=
- rtmutex support ---
-commit 1b388ec83d8aff9dc25159e4fe36a84b7c7583d7
-Author: Ruipeng Qi <ruipengqi3@gmail.com>
+2. That failure is turned into VM_FAULT_SIGSEGV, which is misleading: the
+   faulting address is a perfectly valid arena address. When we know it is an
+   out-of-memory condition we can return VM_FAULT_OOM and let the memcg OOM
+   path handle it properly.
 
-samples: enhance hung_task detector test with rtmutex support
+Preallocate the page outside the lock (patch 2), the way do_anonymous_page()
+does, so the allocation can sleep and go through reclaim and the OOM path.
+This needs a sleepable allocator (patch 1), because can_alloc_pages() is a
+conservative guess for BPF program context and always forces the non-blocking
+allocator under PREEMPT_RT. patch 3&4 adds a selftest that faults an arena in
+under a memory.max limit: without the fix the child gets SIGSEGV on a valid
+address, with it the child is killed by the memcg OOM killer.
 
-This commit extends the hung_task detector test module with an rtmutex test.
-When CONFIG_RT_MUTEXES is enabled, it creates an additional rtmutex debugfs
-file to allow testing hung-task reporting for rtmutex waits.
 
-> diff --git a/samples/hung_task/hung_task_tests.c b/samples/hung_task/hung=
-_task_tests.c
-> index 0360ec916890b..87346d65f860a 100644
-> --- a/samples/hung_task/hung_task_tests.c
-> +++ b/samples/hung_task/hung_task_tests.c
-[ ... ]
-> @@ -116,6 +147,13 @@ static const struct file_operations hung_task_mutex_=
-fops =3D {
->  	.read =3D read_dummy_mutex,
->  };
-> =20
-> +#ifdef CONFIG_RT_MUTEXES
-> +/* File operations for rtmutex */
-> +static const struct file_operations hung_task_rtmutex_fops =3D {
-> +	.read =3D read_dummy_rtmutex,
-> +};
-> +#endif
+v2 -> v3:
+   - selftest: check the memcg OOM via memory.events "oom_kill" instead of
+     the exit signal; it only aims to pass on the fixed kernel, since the
+     unfixed SIGSEGV is racy.
 
-[Severity: High]
-This is a pre-existing issue, but this new rtmutex file operations struct (=
-as
-well as the existing mutex one above it) omits the .owner field.
+v1 -> v2:
+   - Rebase on the separate deadlock fix (found by the Sashiko AI review),
+     now applied to bpf-next.
+   - Honor the map's NUMA node on fault-in.
+   - Return VM_FAULT_SIGBUS for the non-recoverable faults (lock, range-tree
+     and page-table failures); a scratch-page hole stays VM_FAULT_SIGSEGV
+     only under BPF_F_SEGV_ON_FAULT. (Kumar Kartikeya Dwivedi)
+   - Add read_cgroup_file() to cgroup_helpers instead of open-coding the
+     /mnt/... path in the test. (Emil Tsalapatis)
+   - Dump the cgroup memory stats on test failure to ease debugging.
 
-Without .owner =3D THIS_MODULE, fops_get() in the debugfs open proxy does n=
-ot
-increment the module reference count. If a user opens the debugfs file and
-concurrently unloads the module via rmmod, the module is successfully
-unloaded because debugfs_remove_recursive() does not block merely open file=
-s.
+v2:
+https://lore.kernel.org/bpf/20260805091720.139924-1-jiayuan.chen@linux.dev/
+v1:
+https://lore.kernel.org/bpf/20260727062521.376231-1-jiayuan.chen@linux.dev/
 
-When the file is eventually closed, full_proxy_release() will unconditional=
-ly
-dereference real_fops->release. Since real_fops points to the unloaded
-module's memory, can this trigger a use-after-free crash on module unload?
+Jiayuan Chen (4):
+  bpf: Add a sleepable page allocator for map memory
+  bpf: arena: allocate the fault-in page outside the lock
+  selftests/bpf: Add read_cgroup_file() to cgroup_helpers
+  selftests/bpf: Add a test for arena fault-in under memory.max
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1786193045.gi=
-t.ruipengqi3@gmail.com?part=3D2
+ include/linux/bpf.h                           |   1 +
+ kernel/bpf/arena.c                            |  92 ++++++++---
+ kernel/bpf/syscall.c                          |  21 ++-
+ tools/testing/selftests/bpf/cgroup_helpers.c  |  67 ++++++++
+ tools/testing/selftests/bpf/cgroup_helpers.h  |   4 +
+ .../selftests/bpf/prog_tests/arena_memcg.c    | 156 ++++++++++++++++++
+ .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
+ 7 files changed, 340 insertions(+), 25 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
+ create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
+
+-- 
+2.43.0
+
