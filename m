@@ -1,81 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F179F3C73D9;
-	Fri,  7 Aug 2026 22:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2D026AC3;
+	Sat,  8 Aug 2026 01:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786143061; cv=none; b=SJrz3nfzFa7ynIhaVABhe6lclthtGQxGs4b1nV/BV4nxW0s1t2RF3HEXbqCch3IRGsGPoad8TNQyPbj2+DU3MhBsokHhXZ/tgXwqWqsuhuqEbFxI98yEp0DOl37FV4vNfGF8L0W6g2q/8Yb6iQVij6kp/+cQKo2d17ccBcg1IQw=
+	t=1786151231; cv=none; b=f6dTjQHnW1HEDMaMJ1leietyjKSClQl5un8jMENmxOqtGEHm1oa/g2IoXH4IK47LQwTfxpYS59+cF7cGfqH4chvD3UskUFu1vij/5atay5EsZxqQ6WUswd+jeq+lz2sOEpWbMpfDofP94hiozQ9EwflFTdBxZjrN5b3msuY3S70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786143061; c=relaxed/simple;
-	bh=NO+x1kmRstq3z3PaDmgRojj7LkQlpDrVqfAZKoJRZRc=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KNGZksxhkgD+xT9RNaGFghfUYRATUrJAWRBIObRZWUmYDXq6x+KAyIlRfCdOJsVRk+BjdEiq8t4GaB1ykwzmUc3dKfhy5eHXcrCgGw1csyCqw1OFCNKE122zCEiH4CCyet23yHEPMG0CR7jYBwC8gapTQZ+dg/O1leLBAsX0K7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FxD8PtCU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786151231; c=relaxed/simple;
+	bh=hLY3y5m+xW/EOHr3olRy0N8NIN9E4C/A436qlb9hK+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a/0coia1N0EzVyUJSgSsAwuID8VGMA3l4LaMSnLxywN0rt4c80guRr7oUlrRq/nZjrGOj27t4DJ9unWKIpMUjSwgva6DjOHFzm0MNuJ9+gealvuHW1p+gTj2ajqXnAAih35HI9tBcuTbdnL91ZJI7lsgIOvAQIKFQJo3uMZlCmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBbmZxtQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FxD8PtCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C9E31F00A3A;
-	Fri,  7 Aug 2026 22:50:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBbmZxtQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF73F1F000E9;
+	Sat,  8 Aug 2026 01:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786143059;
-	bh=W5GucXL/+JdfjzIvb/Kt8dmC3OH5SHapv8dXOeK7DPo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=FxD8PtCUkBLTzqvnli9bH1JttoLQE+3Q7bsA72HIISAbRxgz5/21W6fwsemlzf0U6
-	 o3qw3E7MKL4AE9GgtkVeaiE6CtxsklCj+h7EMto8LTJ9twHZZfFAy50R32jrIOU9Pk
-	 CgNpQmXqQqQfgKTHkuwCsZaf/5VqkTt8jwgh6jnct118jH/vVU1Hdt3nIlDZ3TCdOC
-	 VU1joa7y6uqGfdcfR1D/KAhvBwvOkEBqpLnLaTsTHoLAFmkxzCLtEuf6pVPt54OY4q
-	 xXs6N/421164Ici00XUU14y8rdh1P53+szMNMk/JqHgUhimfty1N8Kuoi88itqAqUj
-	 Dh+b+tftzHjew==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56AA3380CEF9;
-	Fri,  7 Aug 2026 22:50:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1786151230;
+	bh=z/2BGGjV0zJcUvZzXGXmS2anusXPas9uC4FDRLhddqA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=gBbmZxtQbR+4OLMlUQOJd0cR6xOh2hfPmr7InlIlFFeMIe/+oeKIsd2+9zA+6BX9O
+	 d2AB7Vz8n5C0NoQMynnduoIONWzddAUuicvvZq9yMVT99PtVcTOEsd3z4LsjYrYlf8
+	 l5uP7GXo84eHsvQn1AsIBL0N9QuO8QyZTxW4ihayXlDNWtp5CGw6a2YeWsQ/T8t7GE
+	 67sw3x296Y/I1cDRkKtMeKRu2Df/GlVEvaWJlzETJxATYTGFKaS75/EYJQpMW4fTbl
+	 /3ZfiPuxj25CdasV+L5Yhfho05KDkzC1HhZzWyeIXpZWdsW149JVkHmdua37fXOEIL
+	 T1XTSPTB4SkpA==
+Date: Fri, 7 Aug 2026 18:07:09 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net-next v4 1/1] af_unix: Do not wait for garbage
+ collector in sendmsg()
+Message-ID: <20260807180709.6fb7f2b2@kernel.org>
+In-Reply-To: <bc759ceba26d6e20fab3bcf7333ee7e6246696b6.1785824313.git.namcao@linutronix.de>
+References: <cover.1785824313.git.namcao@linutronix.de>
+	<bc759ceba26d6e20fab3bcf7333ee7e6246696b6.1785824313.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v3] bpf: Fix mmap_lock leak in irq_work path
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178614301790.2448714.12103864417505840837.git-patchwork-notify@kernel.org>
-Date: Fri, 07 Aug 2026 22:50:17 +0000
-References: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
-In-Reply-To: <20260805031425.2157475-2-sanghyun.park.cnu@gmail.com>
-To: Sanghyun Park <sanghyun.park.cnu@gmail.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- eddyz87@gmail.com, sun.jian.kdev@gmail.com, puranjay@kernel.org,
- ihor.solodrai@linux.dev, memxor@gmail.com, martin.lau@linux.dev,
- song@kernel.org, yonghong.song@linux.dev, jolsa@kernel.org,
- emil@etsalapatis.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev,
- syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com, sashiko-bot@kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Tue,  4 Aug 2026 08:46:16 +0200 Nam Cao wrote:
+> AF_UNIX sockets' sendmsg() schedules and blocks on the garbage collector if
+> user has too many inflight unix sockets and there is cyclic reference in
+> the system. This causes real-time issues, as cyclic reference can be
+> created by any task in the system, and high priority tasks who do need to
+> send lots of AF_UNIX sockets get blocked by the garbage collector which
+> runs as workqueue, causing a priority inversion scenario.
 
-This patch was applied to bpf/bpf-next.git (master)
-by Andrii Nakryiko <andrii@kernel.org>:
-
-On Wed,  5 Aug 2026 12:14:25 +0900 you wrote:
-> stack_map_get_build_id_offset() introduced a per-CPU irq_work to defer
-> mmap_read_unlock() from NMI context, and bpf_find_vma() later reused the
-> same mmap_unlock_work. Both callers only check whether the work is busy
-> before taking mmap_lock, so a nested caller can reuse the slot before the
-> first caller queues it. Two read locks may then be acquired while only one
-> deferred unlock runs, leaking a read lock and blocking exit_mmap().
-> 
-> [...]
-
-Here is the summary with links:
-  - [bpf-next,v3] bpf: Fix mmap_lock leak in irq_work path
-    https://git.kernel.org/bpf/bpf-next/c/51476f6a06ef
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Hi Kuniyuki! Any thoughts?
