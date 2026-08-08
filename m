@@ -1,64 +1,64 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE4038E12B
-	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 13:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D34238E12B
+	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 13:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786194165; cv=none; b=oC+eD1CByfw9Yus458St/SzeOdGB2Bk5Bv/lf5pbXSvK7DmfmyPxvi3YSpI/o3z0zdE4cbuSyshTTtjIvFMXNRrqjCd5OlLeHK6FlIhEkY1cL2RsQsnUuIqkrnFBQ4W0g24H/ANJRuUdSUO3TUlMNb7nLLFRDPxkaMHjUb2ezoQ=
+	t=1786194170; cv=none; b=BYADAIEA/F1i6uC5SWJnqFnVi0wYCEgNNbkvRInNuq4PammfSBLu0VTHnFgDBkcuFrWH/5tHiLKk8kwFUh3LmXa4aOi4fg3HC95jB+Mblw/XqwXrU5U6iCZQM6FupoRAyHhKGXMZzERa7DHLXSxuc21OqUYtVIF6CFUlXl7ZiGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786194165; c=relaxed/simple;
-	bh=Fz8uUuJuZicLOuefarTv8QYWKTzU19sc/T7t7JLcAKk=;
+	s=arc-20240116; t=1786194170; c=relaxed/simple;
+	bh=tZdQfkIbTLMmQhIIpHLZqNvhV3UwMghKr9YQEd8kgnU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=h6XZIK0IBJZgHunoGknyp5QcNGmlTYSswe+PTFRPMXEeUBHjvkH2K+JQsHXOodgs1h4F7X2tTQ/0CWlLJHDbKMq21bf98TgxNfDsuGthA4K80gG1iWPaqndcVTQN5WdE6uzeGtZ70Wzo+gTyrqDAOdLTf96Ec+uRIVmzIdvhTds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oDEpC6zv; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=SU9t68WtJgW3URX1XR+a7XcRzEthQZtweFB12RqR2GOCBSplGk8qFKEHn+R5wIcX2rpPlyR2rJGMr2msCBrF1I8sBtGg4ZP0hetRSrdKhaxeW/wREANQoYOuJNqAMuaU3ZeeJ0LBRBwpb6GxDhK/DVgc6CIthb/p021vS866d3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z9YbgKob; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oDEpC6zv"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf52d15d88so3391455ad.2
-        for <linux-rt-devel@lists.linux.dev>; Sat, 08 Aug 2026 06:02:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z9YbgKob"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2caea3f742bso7726155ad.0
+        for <linux-rt-devel@lists.linux.dev>; Sat, 08 Aug 2026 06:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786194160; x=1786798960; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786194165; x=1786798965; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DcsQzzuEG+9D2g/tQc/6AnTj5eKcDL5LL0P3pegqw9k=;
-        b=oDEpC6zvWukfmweS1LTwhrxgJ2gOCOST6NhzufRIThkr+HrQmGsUcxqqHZgV08MrVH
-         6DW2rb8Y97/EEO4VcnQQhS/6VEUxXzoN4G5sUdDe5bdPK10EGCuP1qOUf7hCfx8h7kgU
-         jTtqLeskHvdvdlTKM9Ry/DS9kok2VkCYgdqpTxY+VBfng37nnSZYrTCGcZYxBpluy7Vm
-         IJ7HzMvjv9euy6v8dPkp3TDiikmi/lCVADZf2gMtE8BpBytc/qv/af/lrOqS/h4HqUvR
-         cAZz42jgp/0eLjQ84/gTnczCrU5PgZfa5R9nsGMWN9D+b3OkFMKLykB4sx6nT7FVSIRf
-         /XOA==
+        bh=Kp2VJTNh84D6ZjQn57/lnKrcvYZ5tmwmH9yfxoK/7b0=;
+        b=Z9YbgKob14Si2WaQr31DWKqGSPBKSX1xLD3hJh5yOvOvNefIOjqY67a8AT3XyInLn2
+         AjEkkE0KHLcaD4sJ7qR8xRHfk6KEIQErY2+EAH8ZyQwjY+iW1dnA8aWKwGJWZRBGdet5
+         JdnPrc1oG+l9sNQRABu75w7Eaq0ePVmNFfSK7WvTLJ79xl6PNsESOy4KeIKcnoVBvilD
+         RX102vIp884YCUoLuwTB2hU+zB08TQ83XhEZkuUERlb9qygr4/tqtX+03IIqKsovO6GW
+         5mbxeQqEatmDyTuQAU1Q1/zEnCE+toFuY6an8OTP3+0mo5+0Sk4Zj4k0GA3228lYqeI5
+         0tCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786194160; x=1786798960;
+        d=1e100.net; s=20251104; t=1786194165; x=1786798965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DcsQzzuEG+9D2g/tQc/6AnTj5eKcDL5LL0P3pegqw9k=;
-        b=TndEXKUm1QMaq7ZIYLbfkRF4k6fkzsiR/NRZzCQ1oJ56dgNClSyQQqt8EhJ+N5ujxO
-         2qvQuhbQxXkszNzvkW5KhG78stT0YfLVC0TGTW65KL34qmeKprXeej8foSf9Nqc1o0a/
-         5M63XMzBrbIKEwwdl/AcLdBOUNUEGrlp+BHlRaZeYW4C96pnnKWxNS1dw6aMlhBq62qC
-         OXhPa9Eg3ubCQjsTK8EIbZNi8yIfjPimXLXoHmLdME3GU42JXXc2dRbPaOV9bgfR8CD3
-         v/kDKUUKu7SdarXVlo0epD4d1tVNhjx2RM4ec2gvmhQG2KUfwZqV8MvN11Zjq2r7SyhN
-         L49A==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1y9JjxJTrSpfHo+J5jGKMZMbwG8TgcYef68Dn2sN66U/3uJgNWJC6Ld8JOM5ComefaRv1bMMzwMAxwirpTw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFEH+mRb87ERzjGFF6A5Mu9kc7eXYR8Uiby0H7A6Tz19Ipe8fj
-	LYgf7KAnjLIHwvr5SFWn3pQknRLDA49UtkForPqaHZLxnc+H+Hlwb/pi
-X-Gm-Gg: AR+sD126/L8/LB1xzGq6oJEEzgS8KAD9Ll0Pgq3dt6DnBf4nZNvRRvHj2dI4Vdg7kLE
-	btIvFXQRByaq8TFitFM8AtAByyDzZrav5m9C2CkEbMdU72Fk4zpg6X/lfTZOWkJXrno+oS+TckN
-	nDMYGwAk4+qwYVKldYBEiozDvGpu9SkJ6ZGOqe7uTMju1g9GHcWWkeLY2R8saQ436587pgCP1pc
-	18nex5PwfD8wZxZhrYn5/enQqQq3B75nXB/o/ibVci+fb96lJwZXsi2GBPusZtuUzc/8GOLvBo+
-	iWGnO99y3pqE4wVV9gIdS5MTDviuto80W897tIQW44dYP5aTVKexA0IE/xSQmwlaeoRAPs11y5r
-	R4YFa0pOk9kWp/OUPlDpq7gGbhf3EWbMHSjVhQ/MInQS5cccf74SnwmKqlWQ8mXVBEdLYZlcsGq
-	w843OqTqRtlE1/9nhZdoN6JRwbknZCei4sbGTij9K2zaM45OibSQi4V1gFQULEf3wcG87SGJ8F6
-	i1wHSSxDlObqSfoQEBzUY9+rAEGCYE7
-X-Received: by 2002:a17:902:ebc2:b0:2cc:d69a:354a with SMTP id d9443c01a7336-2d2a8eb76e2mr101854685ad.22.1786194159557;
-        Sat, 08 Aug 2026 06:02:39 -0700 (PDT)
+        bh=Kp2VJTNh84D6ZjQn57/lnKrcvYZ5tmwmH9yfxoK/7b0=;
+        b=W/AJXa+vXt/TcJVQjoqE7DgQF1qgJudQkmeAjQZI52KjsSKxWDidEAztpKIU4a0Cva
+         JttVNsVyLrfvDP+gPyif1UDxSrYyMA74ewK8dDMs9MFVYDazGEusYhIU4e/AqGHMIZf6
+         hEcLkcVpl3zUyDTGrxza6/vWsIqOuR77BXlQlTnt3fqoTnYPmkuDIXtQmBQje1rEAzV4
+         9jfmy0jNh3tILAXvkfMR/Brh7BNbJCu4/2/G9FGDwJp/AcSg62QbBQ+ZeU4y3qdqkj4k
+         OC2qdNgkVvH1aBWncu3ugiF11pMbrkjeZfG+o5YJ/+PqPSa5WLDmX2hpXFqb19z2ohIL
+         EN8g==
+X-Forwarded-Encrypted: i=1; AHgh+Rogv2ErCJ79vhvgDRJ16uHQoq3zXJq8dL+/fMEX26y2vDp8e0FEPophG64RQ56EkHVCr1HiI7Qkc2gnSKkx1A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJQyy0jjunc9Si2zxcWnu178OdXD2czqtv5bGe3yZj8EI8OIV8
+	JHnl9payh6R3vmLKEMWXWi3VvUkl9QDDCDRBSWyoyxY8HWgcxHpr3BiE
+X-Gm-Gg: AR+sD12ofqzDs6V+gNzgCsEGSVOcZNlLwo79IY4oCGdPk8YqmdS8xkbuUj0lffs3Z09
+	yNIj23XYetphbqp4be7zEuVFNE2ICTAw4bbkqeSFBuc4WpgpWnQIxuyjrlJANe/sz13bMPSDa76
+	kGh3WCuC8yJk15vtWq1dQbV4lX9c9O3bQk+K2yNthVcHy/KmbdWWkGhCh5rY00q/tSGEtLlQOV+
+	RTQPu9OGNpu7jIJqRFljxelKzS34+XU7TFxe3vc9rmuz7LCOU16gwgQaO4Sud0LI7rZmgqxDm5k
+	R8hJ7yNc/lvizAyMv9Q4duB8HlwsVnAaEq4CW3ADT4BSJSlyH7lu214+PGH5bdVUmzEVKv3mDMl
+	JVu/e1oqp2jsrTkz1Og1ZZsxBgrkYA50dPWFR/MpMVou3Wcr9AzMUepi4VJI3xZo+XfiA8gTlci
+	MAE/2ur1QFQSwe6VhF+2adLPwf/tX27Ga2fT6dFjbD7IG1Cx4KzaDyVBTzHIjkaMQ5gaAqoXNnU
+	qMLIBiQaCroXU9eOCnz/BYz1W0NIYpK
+X-Received: by 2002:a17:902:f605:b0:2c6:9f66:d573 with SMTP id d9443c01a7336-2d0ca71b3f0mr392851375ad.2.1786194164766;
+        Sat, 08 Aug 2026 06:02:44 -0700 (PDT)
 Received: from lixiang-ThinkCentre-M755e-N000.company.local ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccae6f8sm18584645ad.1.2026.08.08.06.02.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccae6f8sm18584645ad.1.2026.08.08.06.02.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 06:02:37 -0700 (PDT)
+        Sat, 08 Aug 2026 06:02:44 -0700 (PDT)
 From: ruipengqi <ruipengqi3@gmail.com>
 To: akpm@linux-foundation.org,
 	peterz@infradead.org,
@@ -74,11 +74,10 @@ Cc: lance.yang@linux.dev,
 	rostedt@goodmis.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	ruipengqi3@gmail.com,
-	Zhan Xusheng <zhanxusheng1024@gmail.com>
-Subject: [PATCH v2 1/2] hung_task: show the blocker task if the task is hung on rtmutex
-Date: Sat,  8 Aug 2026 21:02:17 +0800
-Message-Id: <51d7411207693824ee515b62a31c2a3d76fdf0d4.1786193045.git.ruipengqi3@gmail.com>
+	ruipengqi3@gmail.com
+Subject: [PATCH v2 2/2] samples: enhance hung_task detector test with rtmutex support
+Date: Sat,  8 Aug 2026 21:02:18 +0800
+Message-Id: <4991cd8e1bbddb42a1fe31dde38f85d74ff1c4cc.1786193045.git.ruipengqi3@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1786193045.git.ruipengqi3@gmail.com>
 References: <cover.1786193045.git.ruipengqi3@gmail.com>
@@ -92,236 +91,146 @@ Content-Transfer-Encoding: 8bit
 
 From: Ruipeng Qi <ruipengqi3@gmail.com>
 
-Currently, debug_show_blocker() only tracks mutex, semaphore and rwsem
-lock types. Extend it to also cover rtmutex or rt_mutex-based lock
-implementations on PREEMPT_RT, so that when a task is hung on an
-rtmutex, the hung task detector can identify and report which task holds
-the lock.
+Extend the hung_task detector test module with an rtmutex test. When
+CONFIG_RT_MUTEXES is enabled, the module creates an additional "rtmutex"
+debugfs file under <debugfs>/hung_task.  Concurrent reads hold and
+contend on an rtmutex for 256 seconds, allowing hung-task and blocker
+reporting to be tested for rtmutex waits.
 
-Add rt_mutex_task_owner() to get the task's lock owner when a task is
-blocked by an rtmutex-based lock implementation.
+Usage is:
 
-Since the LSBs of task->blocker pointer are already fully utilized and
-leave no room for new blocker types, this version avoids adding a new
-blocker type by directly leveraging rt_mutex_task_owner() to retrieve
-the lock owner information.
+        > cd /sys/kernel/debug/hung_task
+        > cat rtmutex & cat rtmutex
 
-With this change, the hung task detector can now show blocker task's
-info like below:
+Update the module usage comments and Kconfig description to document the
+rtmutex debugfs file.
 
-[ 3000.899985] INFO: task cat:195 blocked for more than 120 seconds.
-[ 3000.900561]       Not tainted 7.2.0-rc4-00366-gf339a6eb59f3-dirty #22
-[ 3000.900930] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-[ 3000.901376] task:cat             state:D stack:13784 pid:195   tgid:195   ppid:1      task_flags:0x400000 flags:0x00080000
-[ 3000.902081] Call Trace:
-[ 3000.902233]  <TASK>
-[ 3000.902383]  __schedule+0x514/0xf50
-[ 3000.902677]  rt_mutex_schedule+0x1b/0x30
-[ 3000.902916]  rt_mutex_slowlock_block.constprop.0+0x3b/0x1c0
-[ 3000.903242]  __rt_mutex_slowlock_locked.constprop.0+0xa8/0x200
-[ 3000.903716]  rt_mutex_slowlock.constprop.0+0x48/0xb0
-[ 3000.904023]  rt_mutex_lock+0x32/0x40
-[ 3000.904249]  read_dummy_rtmutex+0x2a/0x60 [hung_task_tests]
-[ 3000.904647]  full_proxy_read+0x5b/0x90
-[ 3000.904843]  vfs_read+0xb0/0x370
-[ 3000.905051]  ? vm_mmap_pgoff+0xf1/0x1b0
-[ 3000.905293]  ? vm_mmap_pgoff+0x122/0x1b0
-[ 3000.905684]  ksys_read+0x68/0xe0
-[ 3000.905980]  do_syscall_64+0xf9/0x540
-[ 3000.906213]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[ 3000.906643] RIP: 0033:0x49a182
-[ 3000.906844] RSP: 002b:00007ffc431f6528 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-[ 3000.907251] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
-[ 3000.907673] RDX: 0000000000010000 RSI: 00007f69b2166000 RDI: 0000000000000003
-[ 3000.908044] RBP: 00007f69b2166000 R08: 00000000ffffffff R09: 0000000000000000
-[ 3000.908485] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
-[ 3000.908816] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
-[ 3000.909206]  </TASK>
-[ 3000.909351] INFO: task cat:195 is blocked on a rtmutex likely owned by task cat:194.
-[ 3000.909832] task:cat             state:S stack:13784 pid:194   tgid:194   ppid:1      task_flags:0x400000 flags:0x00080000
-[ 3000.910426] Call Trace:
-[ 3000.910618]  <TASK>
-[ 3000.910727]  __schedule+0x514/0xf50
-[ 3000.910912]  schedule+0x22/0xa0
-[ 3000.911064]  schedule_timeout+0x81/0x100
-[ 3000.911254]  ? __pfx_process_timeout+0x10/0x10
-[ 3000.911522]  msleep_interruptible+0x28/0x50
-[ 3000.911754]  read_dummy_rtmutex+0x34/0x60 [hung_task_tests]
-[ 3000.912019]  full_proxy_read+0x5b/0x90
-[ 3000.912212]  vfs_read+0xb0/0x370
-[ 3000.912378]  ? vm_mmap_pgoff+0xf1/0x1b0
-[ 3000.912630]  ? vm_mmap_pgoff+0x122/0x1b0
-[ 3000.912839]  ksys_read+0x68/0xe0
-[ 3000.913007]  do_syscall_64+0xf9/0x540
-[ 3000.913187]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[ 3000.913461] RIP: 0033:0x49a182
-[ 3000.913618] RSP: 002b:00007ffd0b4cf048 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-[ 3000.913972] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
-[ 3000.914294] RDX: 0000000000010000 RSI: 00007fbf49a0d000 RDI: 0000000000000003
-[ 3000.914648] RBP: 00007fbf49a0d000 R08: 00000000ffffffff R09: 0000000000000000
-[ 3000.914955] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
-[ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
-[ 3000.915439]  </TASK>
-
-Suggested-by: Petr Mladek <pmladek@suse.com>
-Suggested-by: Zhan Xusheng <zhanxusheng1024@gmail.com>
 Signed-off-by: Ruipeng Qi <ruipengqi3@gmail.com>
-
 ---
-v2 changes:
- - Reduce #ifdef-ery by using rt_mutex_task_owner() instead of adding a new blocker type.
- - Remove the unused function debug_trace_blocker().
- - Clean up and update relevant comments.
----
- include/linux/rtmutex.h      |  2 ++
- kernel/hung_task.c           | 26 +++++++++++++++++++++++---
- kernel/locking/rtmutex_api.c | 29 +++++++++++++++++++++++++++++
- lib/Kconfig.debug            |  1 -
- 4 files changed, 54 insertions(+), 4 deletions(-)
+ samples/Kconfig                     |  2 +-
+ samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
+ 2 files changed, 47 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/rtmutex.h b/include/linux/rtmutex.h
-index 9e1f012f89db89..c179f946d2d040 100644
---- a/include/linux/rtmutex.h
-+++ b/include/linux/rtmutex.h
-@@ -53,6 +53,8 @@ static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
- 
- 	return (struct task_struct *) (owner & ~RT_MUTEX_HAS_WAITERS);
- }
-+
-+extern struct task_struct *rt_mutex_task_owner(struct task_struct *task);
- #endif
- extern void rt_mutex_base_init(struct rt_mutex_base *rtb);
- 
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index 6fcc94ce4ca9d2..9467011f878c95 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -27,6 +27,7 @@
- #include <linux/sys_info.h>
- 
- #include <trace/events/sched.h>
-+#include <linux/rtmutex.h>
- 
- /*
-  * The number of tasks checked:
-@@ -139,9 +140,19 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
- 	struct task_struct *g, *t;
- 	unsigned long owner, blocker, blocker_type;
- 	const char *rwsem_blocked_by, *rwsem_blocked_as;
-+	bool is_rtmutex = false;
- 
- 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(), "No rcu lock held");
- 
-+#if defined(CONFIG_RT_MUTEXES)
-+	owner = (unsigned long)rt_mutex_task_owner(task);
-+	if (owner) {
-+		is_rtmutex = true;
-+		blocker_type = -1;
-+		goto found;
-+	}
-+#endif
-+
- 	blocker = READ_ONCE(task->blocker);
- 	if (!blocker)
- 		return;
-@@ -149,12 +160,13 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
- 	blocker_type = hung_task_get_blocker_type(blocker);
- 
- 	switch (blocker_type) {
--	case BLOCKER_TYPE_MUTEX:
--		owner = mutex_get_owner(hung_task_blocker_to_lock(blocker));
--		break;
- 	case BLOCKER_TYPE_SEM:
- 		owner = sem_last_holder(hung_task_blocker_to_lock(blocker));
- 		break;
-+#ifndef CONFIG_PREEMPT_RT
-+	case BLOCKER_TYPE_MUTEX:
-+		owner = mutex_get_owner(hung_task_blocker_to_lock(blocker));
-+		break;
- 	case BLOCKER_TYPE_RWSEM_READER:
- 	case BLOCKER_TYPE_RWSEM_WRITER:
- 		owner = (unsigned long)rwsem_owner(
-@@ -165,6 +177,7 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
- 					hung_task_blocker_to_lock(blocker)) ?
- 					"reader" : "writer";
- 		break;
-+#endif
- 	default:
- 		WARN_ON_ONCE(1);
- 		return;
-@@ -190,6 +203,7 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
- 		return;
- 	}
- 
-+found:
- 	/* Ensure the owner information is correct. */
- 	for_each_process_thread(g, t) {
- 		if ((unsigned long)t != owner)
-@@ -210,6 +224,12 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
- 			       task->comm, task->pid, rwsem_blocked_as, t->comm,
- 			       t->pid, rwsem_blocked_by);
- 			break;
-+		default:
-+			if (is_rtmutex) {
-+				pr_err("INFO: task %s:%d is blocked on a rtmutex likely owned by task %s:%d.\n",
-+						task->comm, task->pid, t->comm, t->pid);
-+			}
-+			break;
- 		}
- 		/* Avoid duplicated task dump, skip if the task is also hung. */
- 		if (!task_is_hung(t, timeout))
-diff --git a/kernel/locking/rtmutex_api.c b/kernel/locking/rtmutex_api.c
-index 5d48d64725b125..d0826b31a148c0 100644
---- a/kernel/locking/rtmutex_api.c
-+++ b/kernel/locking/rtmutex_api.c
-@@ -530,6 +530,35 @@ void __sched rt_mutex_postunlock(struct rt_wake_q_head *wqh)
- 	rt_mutex_wake_up_q(wqh);
- }
- 
-+/**
-+ * rt_mutex_task_owner - Get the lock owner a task is blocked on
-+ * @task: Task to inspect.
-+ *
-+ * Caller must hold an RCU read lock. The owner value is a snapshot read
-+ * without exclusion, so it may become stale immediately. Use only for
-+ * best-effort diagnostics (e.g., hung task detection).
-+ *
-+ * Return: The task_struct owning the lock, or NULL if not blocked.
-+ */
-+struct task_struct *rt_mutex_task_owner(struct task_struct *task)
-+{
-+        struct task_struct *owner = NULL;
-+        struct rt_mutex_base *lock;
-+        unsigned long flags;
-+
-+	lockdep_assert(rcu_read_lock_held());
-+
-+        raw_spin_lock_irqsave(&task->pi_lock, flags);
-+        lock = task_blocked_on_lock(task);
-+
-+        if (lock)
-+                owner = rt_mutex_owner(lock);
-+        raw_spin_unlock_irqrestore(&task->pi_lock, flags);
-+
-+        return owner;
-+}
-+EXPORT_SYMBOL(rt_mutex_task_owner);
-+
- #ifdef CONFIG_DEBUG_RT_MUTEXES
- void rt_mutex_debug_task_free(struct task_struct *task)
- {
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 1244dcac2294ad..92dff380027e78 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1317,7 +1317,6 @@ config BOOTPARAM_HUNG_TASK_PANIC
- config DETECT_HUNG_TASK_BLOCKER
- 	bool "Dump Hung Tasks Blocker"
- 	depends on DETECT_HUNG_TASK
--	depends on !PREEMPT_RT
- 	default y
+diff --git a/samples/Kconfig b/samples/Kconfig
+index a75e8e78330da5..11096dbc43413f 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -318,7 +318,7 @@ config SAMPLE_HUNG_TASK
+ 	depends on DETECT_HUNG_TASK && DEBUG_FS
  	help
- 	  Say Y here to show the blocker task's stacktrace who acquires
+ 	  Build a module that provides debugfs files (e.g., mutex, semaphore,
+-	  rw_semaphore_read, rw_semaphore_write) under <debugfs>/hung_task.
++	  rw_semaphore_read, rw_semaphore_write, rtmutex) under <debugfs>/hung_task.
+ 	  Reading these files with multiple processes triggers hung task
+ 	  detection by holding locks for a long time (256 seconds).
+ 
+diff --git a/samples/hung_task/hung_task_tests.c b/samples/hung_task/hung_task_tests.c
+index 0360ec916890b3..87346d65f860a5 100644
+--- a/samples/hung_task/hung_task_tests.c
++++ b/samples/hung_task/hung_task_tests.c
+@@ -1,14 +1,16 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+  * hung_task_tests.c - Sample code for testing hung tasks with mutex,
+- * semaphore, etc.
++ * semaphore, rwsem, and rtmutex.
+  *
+  * Usage: Load this module and read `<debugfs>/hung_task/mutex`,
+  *        `<debugfs>/hung_task/semaphore`, `<debugfs>/hung_task/rw_semaphore_read`,
+- *        `<debugfs>/hung_task/rw_semaphore_write`, etc., with 2 or more processes.
++ *        `<debugfs>/hung_task/rw_semaphore_write`, and `<debugfs>/hung_task/rtmutex`,
++ *        with 2 or more processes.
+  *
+  * This is for testing kernel hung_task error messages with various locking
+- * mechanisms (e.g., mutex, semaphore, rw_semaphore_read, rw_semaphore_write, etc.).
++ * mechanisms (e.g., mutex, semaphore, rw_semaphore_read, rw_semaphore_write,
++ * and rtmutex).
+  * Note that this may freeze your system or cause a panic. Use only for testing purposes.
+  */
+ 
+@@ -17,6 +19,7 @@
+ #include <linux/fs.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/rtmutex.h>
+ #include <linux/semaphore.h>
+ #include <linux/rwsem.h>
+ 
+@@ -25,10 +28,16 @@
+ #define HUNG_TASK_SEM_FILE		"semaphore"
+ #define HUNG_TASK_RWSEM_READ_FILE	"rw_semaphore_read"
+ #define HUNG_TASK_RWSEM_WRITE_FILE	"rw_semaphore_write"
++#ifdef CONFIG_RT_MUTEXES
++#define HUNG_TASK_RTMUTEX_FILE		"rtmutex"
++#endif
+ #define SLEEP_SECOND			256
+ 
+ static const char dummy_string[] = "This is a dummy string.";
+ static DEFINE_MUTEX(dummy_mutex);
++#ifdef CONFIG_RT_MUTEXES
++static DEFINE_RT_MUTEX(dummy_rtmutex);
++#endif
+ static DEFINE_SEMAPHORE(dummy_sem, 1);
+ static DECLARE_RWSEM(dummy_rwsem);
+ static struct dentry *hung_task_dir;
+@@ -51,6 +60,28 @@ static ssize_t read_dummy_mutex(struct file *file, char __user *user_buf,
+ 				       sizeof(dummy_string));
+ }
+ 
++#ifdef CONFIG_RT_MUTEXES
++/* RT mutex-based read function */
++static ssize_t read_dummy_rtmutex(struct file *file, char __user *user_buf,
++				  size_t count, loff_t *ppos)
++{
++	/* Check if data is already read */
++	if (*ppos >= sizeof(dummy_string))
++		return 0;
++
++	/* Second task waits on rtmutex, entering uninterruptible sleep */
++	rt_mutex_lock(&dummy_rtmutex);
++
++	/* First task sleeps here, interruptible */
++	msleep_interruptible(SLEEP_SECOND * 1000);
++
++	rt_mutex_unlock(&dummy_rtmutex);
++
++	return simple_read_from_buffer(user_buf, count, ppos, dummy_string,
++				       sizeof(dummy_string));
++}
++#endif
++
+ /* Semaphore-based read function */
+ static ssize_t read_dummy_semaphore(struct file *file, char __user *user_buf,
+ 				    size_t count, loff_t *ppos)
+@@ -116,6 +147,13 @@ static const struct file_operations hung_task_mutex_fops = {
+ 	.read = read_dummy_mutex,
+ };
+ 
++#ifdef CONFIG_RT_MUTEXES
++/* File operations for rtmutex */
++static const struct file_operations hung_task_rtmutex_fops = {
++	.read = read_dummy_rtmutex,
++};
++#endif
++
+ /* File operations for semaphore */
+ static const struct file_operations hung_task_sem_fops = {
+ 	.read = read_dummy_semaphore,
+@@ -137,9 +175,13 @@ static int __init hung_task_tests_init(void)
+ 	if (IS_ERR(hung_task_dir))
+ 		return PTR_ERR(hung_task_dir);
+ 
+-	/* Create debugfs files for mutex and semaphore tests */
++	/* Create debugfs files for lock tests */
+ 	debugfs_create_file(HUNG_TASK_MUTEX_FILE, 0400, hung_task_dir, NULL,
+ 			    &hung_task_mutex_fops);
++#ifdef CONFIG_RT_MUTEXES
++	debugfs_create_file(HUNG_TASK_RTMUTEX_FILE, 0400, hung_task_dir, NULL,
++			    &hung_task_rtmutex_fops);
++#endif
+ 	debugfs_create_file(HUNG_TASK_SEM_FILE, 0400, hung_task_dir, NULL,
+ 			    &hung_task_sem_fops);
+ 	debugfs_create_file(HUNG_TASK_RWSEM_READ_FILE, 0400, hung_task_dir, NULL,
 -- 
 2.25.1
 
