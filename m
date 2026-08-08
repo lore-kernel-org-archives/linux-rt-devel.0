@@ -1,62 +1,64 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACC5412BEB
-	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 13:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE4038E12B
+	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 13:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786194155; cv=none; b=GurvLWkq7/cHZVb9u6WemxTys56dnAmxo6gwNTgR1RHV2DDZaC1UcDAToabr/d1uOZfm/WfWf6GAvcN4/JpIJPl8AEv0XQkt7ChpDXhsvNDpuvMfIj4UdQDpNamYGyks2dP96RMNkozQr7m30DjxygmF85PKk1M4zJ8vKoYuelg=
+	t=1786194165; cv=none; b=oC+eD1CByfw9Yus458St/SzeOdGB2Bk5Bv/lf5pbXSvK7DmfmyPxvi3YSpI/o3z0zdE4cbuSyshTTtjIvFMXNRrqjCd5OlLeHK6FlIhEkY1cL2RsQsnUuIqkrnFBQ4W0g24H/ANJRuUdSUO3TUlMNb7nLLFRDPxkaMHjUb2ezoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786194155; c=relaxed/simple;
-	bh=p4iWvSdQ3hBFw02bBF37uFmRU0GFghwTJLWgZoWp+XA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GYzss4wCr85qN/flN5ykGk/ekutrdKE1+bo0Lw7Ga1jWnAdY1jUPCHgbbTe6kykw9cRrBGrLIc4oCX2kYAWB4PUnkge5AWfh7I0qItR0//pTeqjSuHA2BZJn7ragIrT0fZmpSKHjDaBxCl+EcFwEXkkjuTH3UrxFM32C7oAozB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EysE+3ei; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1786194165; c=relaxed/simple;
+	bh=Fz8uUuJuZicLOuefarTv8QYWKTzU19sc/T7t7JLcAKk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=h6XZIK0IBJZgHunoGknyp5QcNGmlTYSswe+PTFRPMXEeUBHjvkH2K+JQsHXOodgs1h4F7X2tTQ/0CWlLJHDbKMq21bf98TgxNfDsuGthA4K80gG1iWPaqndcVTQN5WdE6uzeGtZ70Wzo+gTyrqDAOdLTf96Ec+uRIVmzIdvhTds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oDEpC6zv; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EysE+3ei"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so5162855ad.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 08 Aug 2026 06:02:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oDEpC6zv"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf52d15d88so3391455ad.2
+        for <linux-rt-devel@lists.linux.dev>; Sat, 08 Aug 2026 06:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786194152; x=1786798952; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/0BSXQBs1gRn3aBhYJEQHhB3ImTCZijGMp204g8xucw=;
-        b=EysE+3eicEC6rwHsxrgmGteT6rS5Qj4vUaO4GU58/T4DCNBbAHRmkYMKknFXjOfgWz
-         WX0be9y9ddI8g9pkPgE5cw2PcjfT08P4W8EOR7HIXfb4xLos6juTTNpRJsIWmor0iw7+
-         7kT8cq8cKRoXdGh7yLMEGoCOgRW9o4WJvT88a++jb7DpEnmfA/9tttbNF6OtRHU8mn5B
-         D3Rlg0USMrzaagZbUMajPKsI2IY3mN3InAO9AnDsIuwz2aQXrIMdvhFAKwr4KkZgRFj1
-         3xuwN8orBGbvV8kRU1ReQJJkOWtrxPS2QHcUxHxowIp4v5mAnc8WXpLh1Uss9cy0GQNL
-         QtTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786194152; x=1786798952;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1786194160; x=1786798960; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/0BSXQBs1gRn3aBhYJEQHhB3ImTCZijGMp204g8xucw=;
-        b=RAFaCnRvYvlrhKsn0HIt8ScMloIxICDL7+aKvL77VEztOtzCkDyi9DDS3wegqsJYhu
-         /tmRIJBUX0x5AZ2fbYigrIJT9RrDloxir8v7Pc720P/8bXD43p62xu8isfBrPpLZocsf
-         WFY9oDoUnSGnnPQGqmTXwKXaBuKsWEBLJfV+cYe1Qj2nFCoyNpJwgw/Yop45Ts8Ziz1s
-         AmXB5MWqnZDRk/r38OJsGrsZhyy9LRkXFUdhWG4uYzzXl4ss+i5ppmP3pDUKWPFlnMVy
-         Pztnw80vsOZNGh67gcEDNhW5ael5lQFDhdpMxhK028CyN/QNrr+uRz2j71Tu98q5KIik
-         mqgA==
-X-Forwarded-Encrypted: i=1; AHgh+RosszhIQedMeC+anEXPNRMWTghFA5AZ1GLLmd7P9GgsiHyrmytsL2ZJHJVv67x06/Hs0JzOsr+DpLFqmUEApg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfXn2UN1HX9tDLNNGcXScJpLZZwbcqFUXZVBvPCTJO2ItZgAYs
-	5dLiXLlGAB7b62vV+4rASZwi7pUvAOxLX+AcraSM7ltExRUeDhf7v/qL
-X-Gm-Gg: AR+sD10fGLPiWnfBKiAcd61iU6mqvZ//i1ZrLHa5IKdV/Ru6z9eCgALL9PBEed2a8oP
-	/CZKtfxBIa5euCYgZnrbYcqjeVHpvx9+fmSflg9ZsnRGJ0LWgEUKVt8BRQe221cDFezg8plakMB
-	4Bh7BXFk753GM2l7jdrySmNbYPQF62nQSoamrRGCyTCqBTghaW+mpN+L0Pyce433RBARPgDG/r/
-	cWRLqjo7vC2JfSDMxFFVUeuGxpqJ91/+9MwhZM1q8w/+TyMCeTUpbQdaDZyb1I1/eQDEnALBVY0
-	EfHti03hN+SqQsnSAKI5nCSLRgk+3sM80dcjtM35AbkoemRndxT0YVpjZ1j+PkUo/2SsRAzbOWT
-	gGoODvgPk34yzx7izLypZlu82BCRkUPRXrPv3VmEJd2avIzrVIIgqXIZ6u57UPNtFVUauBGEzuH
-	7rF2IZY7AnBbChPkhaZ2zlTQ/wnG6F8zDJr+hGRaEoVIet76i7ctlsuZRqSJ6lfH8HfFKtFFafd
-	GH7pLsuPgF4J/ZkuyXdIWYZrmuUQK8S
-X-Received: by 2002:a17:902:f610:b0:2d0:4021:bb6b with SMTP id d9443c01a7336-2d2a55dba41mr89761525ad.0.1786194151621;
-        Sat, 08 Aug 2026 06:02:31 -0700 (PDT)
+        bh=DcsQzzuEG+9D2g/tQc/6AnTj5eKcDL5LL0P3pegqw9k=;
+        b=oDEpC6zvWukfmweS1LTwhrxgJ2gOCOST6NhzufRIThkr+HrQmGsUcxqqHZgV08MrVH
+         6DW2rb8Y97/EEO4VcnQQhS/6VEUxXzoN4G5sUdDe5bdPK10EGCuP1qOUf7hCfx8h7kgU
+         jTtqLeskHvdvdlTKM9Ry/DS9kok2VkCYgdqpTxY+VBfng37nnSZYrTCGcZYxBpluy7Vm
+         IJ7HzMvjv9euy6v8dPkp3TDiikmi/lCVADZf2gMtE8BpBytc/qv/af/lrOqS/h4HqUvR
+         cAZz42jgp/0eLjQ84/gTnczCrU5PgZfa5R9nsGMWN9D+b3OkFMKLykB4sx6nT7FVSIRf
+         /XOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786194160; x=1786798960;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DcsQzzuEG+9D2g/tQc/6AnTj5eKcDL5LL0P3pegqw9k=;
+        b=TndEXKUm1QMaq7ZIYLbfkRF4k6fkzsiR/NRZzCQ1oJ56dgNClSyQQqt8EhJ+N5ujxO
+         2qvQuhbQxXkszNzvkW5KhG78stT0YfLVC0TGTW65KL34qmeKprXeej8foSf9Nqc1o0a/
+         5M63XMzBrbIKEwwdl/AcLdBOUNUEGrlp+BHlRaZeYW4C96pnnKWxNS1dw6aMlhBq62qC
+         OXhPa9Eg3ubCQjsTK8EIbZNi8yIfjPimXLXoHmLdME3GU42JXXc2dRbPaOV9bgfR8CD3
+         v/kDKUUKu7SdarXVlo0epD4d1tVNhjx2RM4ec2gvmhQG2KUfwZqV8MvN11Zjq2r7SyhN
+         L49A==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1y9JjxJTrSpfHo+J5jGKMZMbwG8TgcYef68Dn2sN66U/3uJgNWJC6Ld8JOM5ComefaRv1bMMzwMAxwirpTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFEH+mRb87ERzjGFF6A5Mu9kc7eXYR8Uiby0H7A6Tz19Ipe8fj
+	LYgf7KAnjLIHwvr5SFWn3pQknRLDA49UtkForPqaHZLxnc+H+Hlwb/pi
+X-Gm-Gg: AR+sD126/L8/LB1xzGq6oJEEzgS8KAD9Ll0Pgq3dt6DnBf4nZNvRRvHj2dI4Vdg7kLE
+	btIvFXQRByaq8TFitFM8AtAByyDzZrav5m9C2CkEbMdU72Fk4zpg6X/lfTZOWkJXrno+oS+TckN
+	nDMYGwAk4+qwYVKldYBEiozDvGpu9SkJ6ZGOqe7uTMju1g9GHcWWkeLY2R8saQ436587pgCP1pc
+	18nex5PwfD8wZxZhrYn5/enQqQq3B75nXB/o/ibVci+fb96lJwZXsi2GBPusZtuUzc/8GOLvBo+
+	iWGnO99y3pqE4wVV9gIdS5MTDviuto80W897tIQW44dYP5aTVKexA0IE/xSQmwlaeoRAPs11y5r
+	R4YFa0pOk9kWp/OUPlDpq7gGbhf3EWbMHSjVhQ/MInQS5cccf74SnwmKqlWQ8mXVBEdLYZlcsGq
+	w843OqTqRtlE1/9nhZdoN6JRwbknZCei4sbGTij9K2zaM45OibSQi4V1gFQULEf3wcG87SGJ8F6
+	i1wHSSxDlObqSfoQEBzUY9+rAEGCYE7
+X-Received: by 2002:a17:902:ebc2:b0:2cc:d69a:354a with SMTP id d9443c01a7336-2d2a8eb76e2mr101854685ad.22.1786194159557;
+        Sat, 08 Aug 2026 06:02:39 -0700 (PDT)
 Received: from lixiang-ThinkCentre-M755e-N000.company.local ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccae6f8sm18584645ad.1.2026.08.08.06.02.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccae6f8sm18584645ad.1.2026.08.08.06.02.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 06:02:31 -0700 (PDT)
+        Sat, 08 Aug 2026 06:02:37 -0700 (PDT)
 From: ruipengqi <ruipengqi3@gmail.com>
 To: akpm@linux-foundation.org,
 	peterz@infradead.org,
@@ -72,11 +74,14 @@ Cc: lance.yang@linux.dev,
 	rostedt@goodmis.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	ruipengqi3@gmail.com
-Subject: [PATCH v2 0/2] hung_task: show the blocker task if the task is hung on rtmutex
-Date: Sat,  8 Aug 2026 21:02:16 +0800
-Message-Id: <cover.1786193045.git.ruipengqi3@gmail.com>
+	ruipengqi3@gmail.com,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>
+Subject: [PATCH v2 1/2] hung_task: show the blocker task if the task is hung on rtmutex
+Date: Sat,  8 Aug 2026 21:02:17 +0800
+Message-Id: <51d7411207693824ee515b62a31c2a3d76fdf0d4.1786193045.git.ruipengqi3@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1786193045.git.ruipengqi3@gmail.com>
+References: <cover.1786193045.git.ruipengqi3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -158,26 +163,165 @@ info like below:
 [ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
 [ 3000.915439]  </TASK>
 
+Suggested-by: Petr Mladek <pmladek@suse.com>
+Suggested-by: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Signed-off-by: Ruipeng Qi <ruipengqi3@gmail.com>
+
 ---
 v2 changes:
- - Reduce #ifdef-ery by using rt_mutex_task_owner() instead of adding a new blocker type,
- suggested by Petr.
- - Remove the unused function debug_trace_blocker(), suggested by Xusheng.
+ - Reduce #ifdef-ery by using rt_mutex_task_owner() instead of adding a new blocker type.
+ - Remove the unused function debug_trace_blocker().
  - Clean up and update relevant comments.
- - https://lore.kernel.org/all/cover.1785376929.git.ruipengqi3@gmail.com/
+---
+ include/linux/rtmutex.h      |  2 ++
+ kernel/hung_task.c           | 26 +++++++++++++++++++++++---
+ kernel/locking/rtmutex_api.c | 29 +++++++++++++++++++++++++++++
+ lib/Kconfig.debug            |  1 -
+ 4 files changed, 54 insertions(+), 4 deletions(-)
 
-Ruipeng Qi (2):
-  hung_task: show the blocker task if the task is hung on rtmutex
-  samples: enhance hung_task detector test with rtmutex support
-
- include/linux/rtmutex.h             |  2 ++
- kernel/hung_task.c                  | 26 +++++++++++++--
- kernel/locking/rtmutex_api.c        | 29 +++++++++++++++++
- lib/Kconfig.debug                   |  1 -
- samples/Kconfig                     |  2 +-
- samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
- 6 files changed, 101 insertions(+), 9 deletions(-)
-
+diff --git a/include/linux/rtmutex.h b/include/linux/rtmutex.h
+index 9e1f012f89db89..c179f946d2d040 100644
+--- a/include/linux/rtmutex.h
++++ b/include/linux/rtmutex.h
+@@ -53,6 +53,8 @@ static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
+ 
+ 	return (struct task_struct *) (owner & ~RT_MUTEX_HAS_WAITERS);
+ }
++
++extern struct task_struct *rt_mutex_task_owner(struct task_struct *task);
+ #endif
+ extern void rt_mutex_base_init(struct rt_mutex_base *rtb);
+ 
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 6fcc94ce4ca9d2..9467011f878c95 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -27,6 +27,7 @@
+ #include <linux/sys_info.h>
+ 
+ #include <trace/events/sched.h>
++#include <linux/rtmutex.h>
+ 
+ /*
+  * The number of tasks checked:
+@@ -139,9 +140,19 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
+ 	struct task_struct *g, *t;
+ 	unsigned long owner, blocker, blocker_type;
+ 	const char *rwsem_blocked_by, *rwsem_blocked_as;
++	bool is_rtmutex = false;
+ 
+ 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(), "No rcu lock held");
+ 
++#if defined(CONFIG_RT_MUTEXES)
++	owner = (unsigned long)rt_mutex_task_owner(task);
++	if (owner) {
++		is_rtmutex = true;
++		blocker_type = -1;
++		goto found;
++	}
++#endif
++
+ 	blocker = READ_ONCE(task->blocker);
+ 	if (!blocker)
+ 		return;
+@@ -149,12 +160,13 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
+ 	blocker_type = hung_task_get_blocker_type(blocker);
+ 
+ 	switch (blocker_type) {
+-	case BLOCKER_TYPE_MUTEX:
+-		owner = mutex_get_owner(hung_task_blocker_to_lock(blocker));
+-		break;
+ 	case BLOCKER_TYPE_SEM:
+ 		owner = sem_last_holder(hung_task_blocker_to_lock(blocker));
+ 		break;
++#ifndef CONFIG_PREEMPT_RT
++	case BLOCKER_TYPE_MUTEX:
++		owner = mutex_get_owner(hung_task_blocker_to_lock(blocker));
++		break;
+ 	case BLOCKER_TYPE_RWSEM_READER:
+ 	case BLOCKER_TYPE_RWSEM_WRITER:
+ 		owner = (unsigned long)rwsem_owner(
+@@ -165,6 +177,7 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
+ 					hung_task_blocker_to_lock(blocker)) ?
+ 					"reader" : "writer";
+ 		break;
++#endif
+ 	default:
+ 		WARN_ON_ONCE(1);
+ 		return;
+@@ -190,6 +203,7 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
+ 		return;
+ 	}
+ 
++found:
+ 	/* Ensure the owner information is correct. */
+ 	for_each_process_thread(g, t) {
+ 		if ((unsigned long)t != owner)
+@@ -210,6 +224,12 @@ static void debug_show_blocker(struct task_struct *task, unsigned long timeout)
+ 			       task->comm, task->pid, rwsem_blocked_as, t->comm,
+ 			       t->pid, rwsem_blocked_by);
+ 			break;
++		default:
++			if (is_rtmutex) {
++				pr_err("INFO: task %s:%d is blocked on a rtmutex likely owned by task %s:%d.\n",
++						task->comm, task->pid, t->comm, t->pid);
++			}
++			break;
+ 		}
+ 		/* Avoid duplicated task dump, skip if the task is also hung. */
+ 		if (!task_is_hung(t, timeout))
+diff --git a/kernel/locking/rtmutex_api.c b/kernel/locking/rtmutex_api.c
+index 5d48d64725b125..d0826b31a148c0 100644
+--- a/kernel/locking/rtmutex_api.c
++++ b/kernel/locking/rtmutex_api.c
+@@ -530,6 +530,35 @@ void __sched rt_mutex_postunlock(struct rt_wake_q_head *wqh)
+ 	rt_mutex_wake_up_q(wqh);
+ }
+ 
++/**
++ * rt_mutex_task_owner - Get the lock owner a task is blocked on
++ * @task: Task to inspect.
++ *
++ * Caller must hold an RCU read lock. The owner value is a snapshot read
++ * without exclusion, so it may become stale immediately. Use only for
++ * best-effort diagnostics (e.g., hung task detection).
++ *
++ * Return: The task_struct owning the lock, or NULL if not blocked.
++ */
++struct task_struct *rt_mutex_task_owner(struct task_struct *task)
++{
++        struct task_struct *owner = NULL;
++        struct rt_mutex_base *lock;
++        unsigned long flags;
++
++	lockdep_assert(rcu_read_lock_held());
++
++        raw_spin_lock_irqsave(&task->pi_lock, flags);
++        lock = task_blocked_on_lock(task);
++
++        if (lock)
++                owner = rt_mutex_owner(lock);
++        raw_spin_unlock_irqrestore(&task->pi_lock, flags);
++
++        return owner;
++}
++EXPORT_SYMBOL(rt_mutex_task_owner);
++
+ #ifdef CONFIG_DEBUG_RT_MUTEXES
+ void rt_mutex_debug_task_free(struct task_struct *task)
+ {
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 1244dcac2294ad..92dff380027e78 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1317,7 +1317,6 @@ config BOOTPARAM_HUNG_TASK_PANIC
+ config DETECT_HUNG_TASK_BLOCKER
+ 	bool "Dump Hung Tasks Blocker"
+ 	depends on DETECT_HUNG_TASK
+-	depends on !PREEMPT_RT
+ 	default y
+ 	help
+ 	  Say Y here to show the blocker task's stacktrace who acquires
 -- 
 2.25.1
 
