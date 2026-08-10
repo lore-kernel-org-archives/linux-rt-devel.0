@@ -1,174 +1,277 @@
-Received: from out-171.mta1.migadu.com (mta1.migadu.com [37.59.57.117])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC59328B71
-	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Aug 2026 15:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.59.57.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24E61FCFEF;
+	Mon, 10 Aug 2026 12:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786203277; cv=none; b=XSFoHVpQbsIlIR6Cr0bSxvSxQ/VHXGEfv/bWgQOCrEBeHpULbkwBzUAYBnC67oZTGYVdjRjdJ3hqI2B5+9kStJUG8Zsoe7nnF/0F37BCbThGODXqyHxLUhtKlOOC7BG+FP3v/2SxKl/i5rY8TUHp+5rNN0voQjHyVOYacXaMBE4=
+	t=1786364893; cv=none; b=Yg24QJR3zBincvbPVxyHsNKVbvodq5H6Jp9YUujRd//n0u885ke8HEOvql26UE0nZpBhCHrLn6WsHxT+XBeK2WLuh4ZSzZTHD+Atx8gL598rQ5YPpeTWBmfttXLzyL0pJWg7NujRNN7zEbrgaHPfvbEOVMYW21NvHpcvSdE0nzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786203277; c=relaxed/simple;
-	bh=3D0G5+vkNOBtY0+pifDk0BNo7PHQz1BWxD10gZKzbl8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tv3IVqNca3+iiE4iXikM0EnzeLYueVq3To4fovmo9XvoKQ6qX+Bfn1L8RLeSeOkimWoWnGVmC1ej3+09EIqF3bn8PCLUiUPFt5eI9y9OEp3vvKAx0o/Y/6yJKMBQkwiyI4B8hV3TlXKAAAGg+enMYxJocSFMNwIan1XtZ5JpqDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vBsy/pIK; arc=none smtp.client-ip=37.59.57.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1786364893; c=relaxed/simple;
+	bh=eRGyBWQEM0gnHVuLKLQialPF2Ca3wD2Ia9dU+ygviK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VeAesbkLTgihhtD2f8ju459zydswVpHJ5oyHYX/ucT0mL8xRiUVoQbZdGU99/dwvir36ukGSyEDGg6c3LaUEIVPO1Km0Si28KlklsOzgEOJBZfg8ETSMM0UuTdTsYW8mF3CmaaP4CzYShqNXnVG9kLSd/FMHlbsg26Lorf5j9ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5Ji6dhr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vBsy/pIK"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786203272;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1wJhKTX617WABgSx66ReUbIDPNqXRdWhduQT9zopWmw=;
-	b=vBsy/pIK/vqBXquT5rEDtxWn5gO7WCj5v1HY142lwvnIwnDdwl/IREISpCpTQWbBdGgqQg
-	KdlxTHO0Fl56ygfIKtOApqrp27HNNYIEHB3MZQWX4rw5zWWG0JtGSN5SxhCkhkALG/1UV9
-	SFTenzUnwQbs+OsmWFnhLbDLSqjgV/4=
-From: Lance Yang <lance.yang@linux.dev>
-To: ruipengqi3@gmail.com
-Cc: akpm@linux-foundation.org,
-	peterz@infradead.org,
-	bigeasy@linutronix.de,
-	mhiramat@kernel.org,
-	pmladek@suse.com,
-	mingo@redhat.com,
-	will@kernel.org,
-	boqun@kernel.org,
-	longman@redhat.com,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5Ji6dhr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B541F000E9;
+	Mon, 10 Aug 2026 12:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786364891;
+	bh=m5k/SSTQDqCJH4t969XIGouWDXCPz1vxVRTp52ayeI4=;
+	h=From:To:Cc:Subject:Date;
+	b=A5Ji6dhrYAfGsB3vwCQkxKaenIjML+0A64u51U08xANii1ogBd7QMSvIitAPIpoKh
+	 aVKfUyiTDoxNtA0ol3NOSs7PKiCcLWhAx/I38ixMchNGd19n8ZBoaMLvLQ/YFDg3EL
+	 Gpdsj4xuq3/X3REKgzsRrg4ejswbZODJ6vLGGHkTZVpvj5LvzLrVCGjvBEv8wrm0bj
+	 IfJqUrKGvUwe1ijxeEO8pN87alnorZPEqvAqKWIGt+1Z7mCRweThhd+XyDcDVeBBco
+	 BvaaZE6zOh9pbWyu/QcWL+LG2Tpbj6gbDhOH9g06O9zzxjvnBz1jCv0PYwbsTbMyfN
+	 EjEHYgi9UHg6Q==
+From: Puranjay Mohan <puranjay@kernel.org>
+To: "Lai Jiangshan" <jiangshanlai@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"Josh Triplett" <josh@joshtriplett.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	"Frederic Weisbecker" <frederic@kernel.org>,
+	"Neeraj Upadhyay" <neeraj.upadhyay@kernel.org>,
+	"Joel Fernandes" <joelagnelf@nvidia.com>,
+	"Boqun Feng" <boqun@kernel.org>,
+	"Uladzislau Rezki" <urezki@gmail.com>,
+	"Davidlohr Bueso" <dave@stgolabs.net>,
+	"Andrii Nakryiko" <andrii@kernel.org>,
+	"Eduard Zingerman" <eddyz87@gmail.com>,
+	"Alexei Starovoitov" <ast@kernel.org>,
+	"Daniel Borkmann" <daniel@iogearbox.net>,
+	"Kumar Kartikeya Dwivedi" <memxor@gmail.com>
+Cc: Puranjay Mohan <puranjay@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Matt Fleming <mfleming@cloudflare.com>,
+	"Harry Yoo (Oracle)" <harry@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v2 0/2] hung_task: show the blocker task if the task is hung on rtmutex
-Date: Sat,  8 Aug 2026 23:34:16 +0800
-Message-Id: <20260808153416.49698-1-lance.yang@linux.dev>
-In-Reply-To: <cover.1786193045.git.ruipengqi3@gmail.com>
-References: <cover.1786193045.git.ruipengqi3@gmail.com>
+	rcu@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v4 0/6] rcu,srcu: Make call_rcu()/call_srcu() safe from any context
+Date: Mon, 10 Aug 2026 05:27:49 -0700
+Message-ID: <20260810122758.183765-1-puranjay@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Hi Ruipeng,
+call_rcu() and call_srcu() only ever touch their per-CPU callback lists
+with interrupts disabled: the enqueue runs under local_irq_save() (and the
+nocb locks when offloaded), and so do callback invocation and grace-period
+work.  That is fine as long as call_rcu() itself is invoked with
+interrupts enabled, but it is not always.  An NMI handler can call
+call_rcu(), and instrumentation can reenter it.  The case that prompted
+this is a BPF program attached to rcu_segcblist_enqueue() that frees an
+object: the free reaches call_rcu_tasks_trace(), which is call_srcu()
+under the hood, back on the same CPU with the srcu_data lock already held,
+and it deadlocks on that lock.  Either way, enqueuing directly can corrupt
+the list or deadlock.
 
-Guess I'll have to be the bad guy here ...
+Rather than scatter context checks through the enqueue, make it defer
+whenever interrupts are disabled: stage the callback on a per-CPU lockless
+list and re-issue it from an irq_work once interrupts are back on, going
+straight to the enqueue helper so the re-issue cannot defer again.  Only
+the drain side takes a lock; the staging is a bare llist_add() and stays
+safe from NMI.  This is behind a new hidden CONFIG_RCU_DEFER, which is set
+wherever a reentrant enqueue is possible (HAVE_NMI, KPROBES,
+FUNCTION_TRACER or TRACEPOINTS); without it call_rcu() enqueues exactly as
+before.  The gate is bare irqs_disabled(), so callers that merely hold
+interrupts off are deferred too and pay one irq_work hop.
 
-Already raised this in v1 [1], but never got an answer ...
+CPU offline is the awkward part.  A callback can be deferred very late in
+the outgoing CPU's teardown -- from do_idle() or cpuhp_ap_report_dead(),
+past the CPUHP_AP_SMPCFD_DYING flush that would otherwise run the irq_work
+-- so the irq_work can no longer run there to re-issue it.  rcu_barrier()
+and srcu_barrier() therefore drain every CPU's deferred list themselves
+before they wait.  They drain rather than wait the irq_work out because
+irq_work_sync() parks on an rcuwait, which holds a single waiter, so two
+concurrent barriers would clobber each other's wakeup.
+rcutree_migrate_callbacks() drains the outgoing CPU's list
+too, so a late deferral still lands on a callback list even when nobody
+calls a barrier.  To keep those drainers from stepping on each other, the
+drain holds a per-CPU raw lock across the llist_del_all() and the
+re-issue, so a drainer never returns having pulled callbacks off the
+deferred list but not yet put them on a callback list.  Every lock the
+re-issue touches (nocb, rcu_node, srcu_data) is already raw, so the
+nesting is fine.
 
-This touches locking too, and Peter has already made it pretty clear he
-doesn't want this kind of debug code there.
+The drain re-issues with interrupts disabled, so instrumentation on the
+enqueue path can re-enter call_rcu()/call_srcu() from inside it, stage
+another callback, re-raise the irq_work, and the drain never finishes.  A
+per-CPU flag catches that: a deferral that arrives while that CPU is
+inside its own irq_work drain, and is not from an NMI, is dropped rather
+than staged, with a WARN_ONCE() under CONFIG_PROVE_RCU whose backtrace
+names the instrumentation responsible.  Dropping leaks that callback, and
+can strand state its caller tied to it, but the alternative is a CPU that
+never leaves the drain, and the producer is a BPF program that emits one
+callback per enqueue, so there is nothing finite to wait for.  Only the
+irq_work drain sets the flag: a direct drain from a barrier or from
+CPU-offline re-issues onto the current CPU, so anything staged during it
+is picked up by that CPU's own irq_work rather than feeding the drain in
+progress, and no legitimate callback is dropped. Instrumenting the
+irq_work machinery itself can still loop, as it can for any irq_work user,
+and is not something this series can fix.
 
-Please don't send another version unless Peter is on board. Otherwise,
-just spinning wheels ...
+The irq_work is IRQ_WORK_INIT_HARD in all four flavors.  It is not needed
+for correctness, but a non-HARD irq_work runs from a kthread on
+PREEMPT_RT and can be delayed under load, letting deferred callbacks pile
+up; running the re-issue in hard-irq context keeps that from turning into
+an OOM.
 
-[1] https://lore.kernel.org/all/138ba5ec-41a1-4fe3-851a-51dbb866afae@linux.dev/
+Patches 1 and 2 do Tree and Tiny RCU, 3 and 4 Tree and Tiny SRCU.  Patch 5
+teaches rcutorture to issue ->call() from a perf-overflow NMI -- the
+nmi_calls parameter, on by default -- on the flavors that advertise it,
+and checks that every callback issued from NMI is later invoked.  Patch 6
+adds the BPF reentry reproducer described above.
 
-Thanks, Lance
+Changelog:
+v3: https://lore.kernel.org/rcu/20260805122346.269445-1-puranjay@kernel.org/
+Changes in v4:
+- rcu_barrier() and srcu_barrier() no longer skip a CPU whose deferred
+  list looks empty.  The lockless llist_empty() test added in v3 skipped
+  the lock that makes a drain conclusive: a concurrent drainer can already
+  have emptied the list without having re-issued yet, so the barrier could
+  return before those callbacks reached a callback list.
+- Tree SRCU: drain before cleanup_srcu_struct()'s "just leak it" early
+  returns, and in srcu_module_going() before it frees any ->sda.  Deferral
+  skips check_init_srcu_struct(), so srcu_module_going() could skip
+  cleanup_srcu_struct() and free ->sda with a staged srcu_data still
+  chained on a per-CPU list.
+- Dropped ->defer_exp: a deferred expedited call_srcu() now completes as a
+  normal grace period.  The flag lived on the srcu_data rather than on the
+  callback, so it expedited whole batches; only srcu_expedite_current()
+  with interrupts already disabled can reach this, so the downgrade costs
+  a delay and nothing else.
+- rcutorture: use a fixed perf sample period rather than .freq, which sets
+  TICK_DEP_BIT_PERF_EVENTS for every CPU and pinned the tick for whole
+  runs of TREE04 and TREE07.  Also document nmi_calls, and say on the
+  console when there is no PMU, since the issued==invoked check then
+  compares zero to zero.
+- kasan_record_aux_stack() moved to __call_rcu_common(), so a
+  use-after-free report names the caller rather than the irq_work.
+- Known gap, documented in patch 1: a callback deferred past the
+  CPUHP_AP_SMPCFD_DYING flush leaves ->defer_work claimed with its
+  self-IPI lost.  rcutree_migrate_callbacks() still re-issues the
+  callback, but the first deferral after that CPU comes back raises no IPI
+  and waits for the next irq_work there, or for rcu_barrier().
 
-On Sat, Aug 08, 2026 at 09:02:16PM +0800, ruipengqi wrote:
->From: Ruipeng Qi <ruipengqi3@gmail.com>
->
->Currently, debug_show_blocker() only tracks mutex, semaphore and rwsem
->lock types. Extend it to also cover rtmutex or rt_mutex-based lock
->implementations on PREEMPT_RT, so that when a task is hung on an
->rtmutex, the hung task detector can identify and report which task holds
->the lock.
->
->Add rt_mutex_task_owner() to get the task's lock owner when a task is
->blocked by an rtmutex-based lock implementation.
->
->Since the LSBs of task->blocker pointer are already fully utilized and
->leave no room for new blocker types, this version avoids adding a new
->blocker type by directly leveraging rt_mutex_task_owner() to retrieve
->the lock owner information.
->
->With this change, the hung task detector can now show blocker task's
->info like below:
->
->[ 3000.899985] INFO: task cat:195 blocked for more than 120 seconds.
->[ 3000.900561]       Not tainted 7.2.0-rc4-00366-gf339a6eb59f3-dirty #22
->[ 3000.900930] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->[ 3000.901376] task:cat             state:D stack:13784 pid:195   tgid:195   ppid:1      task_flags:0x400000 flags:0x00080000
->[ 3000.902081] Call Trace:
->[ 3000.902233]  <TASK>
->[ 3000.902383]  __schedule+0x514/0xf50
->[ 3000.902677]  rt_mutex_schedule+0x1b/0x30
->[ 3000.902916]  rt_mutex_slowlock_block.constprop.0+0x3b/0x1c0
->[ 3000.903242]  __rt_mutex_slowlock_locked.constprop.0+0xa8/0x200
->[ 3000.903716]  rt_mutex_slowlock.constprop.0+0x48/0xb0
->[ 3000.904023]  rt_mutex_lock+0x32/0x40
->[ 3000.904249]  read_dummy_rtmutex+0x2a/0x60 [hung_task_tests]
->[ 3000.904647]  full_proxy_read+0x5b/0x90
->[ 3000.904843]  vfs_read+0xb0/0x370
->[ 3000.905051]  ? vm_mmap_pgoff+0xf1/0x1b0
->[ 3000.905293]  ? vm_mmap_pgoff+0x122/0x1b0
->[ 3000.905684]  ksys_read+0x68/0xe0
->[ 3000.905980]  do_syscall_64+0xf9/0x540
->[ 3000.906213]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->[ 3000.906643] RIP: 0033:0x49a182
->[ 3000.906844] RSP: 002b:00007ffc431f6528 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
->[ 3000.907251] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
->[ 3000.907673] RDX: 0000000000010000 RSI: 00007f69b2166000 RDI: 0000000000000003
->[ 3000.908044] RBP: 00007f69b2166000 R08: 00000000ffffffff R09: 0000000000000000
->[ 3000.908485] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
->[ 3000.908816] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
->[ 3000.909206]  </TASK>
->[ 3000.909351] INFO: task cat:195 is blocked on a rtmutex likely owned by task cat:194.
->[ 3000.909832] task:cat             state:S stack:13784 pid:194   tgid:194   ppid:1      task_flags:0x400000 flags:0x00080000
->[ 3000.910426] Call Trace:
->[ 3000.910618]  <TASK>
->[ 3000.910727]  __schedule+0x514/0xf50
->[ 3000.910912]  schedule+0x22/0xa0
->[ 3000.911064]  schedule_timeout+0x81/0x100
->[ 3000.911254]  ? __pfx_process_timeout+0x10/0x10
->[ 3000.911522]  msleep_interruptible+0x28/0x50
->[ 3000.911754]  read_dummy_rtmutex+0x34/0x60 [hung_task_tests]
->[ 3000.912019]  full_proxy_read+0x5b/0x90
->[ 3000.912212]  vfs_read+0xb0/0x370
->[ 3000.912378]  ? vm_mmap_pgoff+0xf1/0x1b0
->[ 3000.912630]  ? vm_mmap_pgoff+0x122/0x1b0
->[ 3000.912839]  ksys_read+0x68/0xe0
->[ 3000.913007]  do_syscall_64+0xf9/0x540
->[ 3000.913187]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->[ 3000.913461] RIP: 0033:0x49a182
->[ 3000.913618] RSP: 002b:00007ffd0b4cf048 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
->[ 3000.913972] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000049a182
->[ 3000.914294] RDX: 0000000000010000 RSI: 00007fbf49a0d000 RDI: 0000000000000003
->[ 3000.914648] RBP: 00007fbf49a0d000 R08: 00000000ffffffff R09: 0000000000000000
->[ 3000.914955] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000010000
->[ 3000.915208] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000001000000
->[ 3000.915439]  </TASK>
->
->---
->v2 changes:
-> - Reduce #ifdef-ery by using rt_mutex_task_owner() instead of adding a new blocker type,
-> suggested by Petr.
-> - Remove the unused function debug_trace_blocker(), suggested by Xusheng.
-> - Clean up and update relevant comments.
-> - https://lore.kernel.org/all/cover.1785376929.git.ruipengqi3@gmail.com/
->
->Ruipeng Qi (2):
->  hung_task: show the blocker task if the task is hung on rtmutex
->  samples: enhance hung_task detector test with rtmutex support
->
-> include/linux/rtmutex.h             |  2 ++
-> kernel/hung_task.c                  | 26 +++++++++++++--
-> kernel/locking/rtmutex_api.c        | 29 +++++++++++++++++
-> lib/Kconfig.debug                   |  1 -
-> samples/Kconfig                     |  2 +-
-> samples/hung_task/hung_task_tests.c | 50 ++++++++++++++++++++++++++---
-> 6 files changed, 101 insertions(+), 9 deletions(-)
->
->-- 
->2.25.1
->
->
+v2: https://lore.kernel.org/rcu/20260803134839.2103051-1-puranjay@kernel.org/
+Changes in v3:
+- Barriers no longer call irq_work_sync() on an online CPU's ->defer_work.
+  irq_work_sync() waits on an rcuwait, which holds exactly one task, so two
+  concurrent rcu_barrier()s syncing the same per-CPU irq_work could lose a
+  wakeup and hang.  Both flushes now drain every CPU directly, guarded by a
+  lockless llist_empty() test so the no-deferrals case stays cheap.
+- The re-entry guard is now set only by the irq_work drain, which always
+  runs on the CPU owning the list it drains.  In v2 a barrier draining a
+  remote CPU set the flag on the draining CPU, so an unrelated irqs-off
+  call_rcu() there was dropped and leaked even though it could not have fed
+  the drain.
+- The drain clears ->next before re-issuing.  A double call_rcu() on a head
+  that is already debug-object-active makes llist_add() self-link it, and
+  rcu_do_enqueue()'s double-free path returns without clearing ->next, so
+  the drain span looped forever with interrupts disabled.
+- An expedited call_srcu() is no longer silently downgraded: ->defer_exp
+  records it per srcu_data and the batch is re-issued expedited.  Only
+  srcu_expedite_current() is affected, __synchronize_srcu() sleeps and so
+  is never deferred.
+- The drop is now WARN_ONCE() under CONFIG_PROVE_RCU rather than an
+  unconditional WARN, so instrumentation cannot reboot a panic_on_warn
+  kernel; the backtrace is what identifies the offending program.
+- Tiny RCU and Tiny SRCU use IRQ_WORK_INIT_HARD like the Tree flavors, and
+  READ_ONCE()/WRITE_ONCE() on their draining flags.  TINY_SRCU is
+  "default y if !SMP" with no PREEMPT_RT dependency, so it really can be
+  built on RT where a non-HARD irq_work waits on the irq_workd kthread.
+- Tiny SRCU: cleanup_srcu_struct() drains *and* irq_work_sync()s
+  ->defer_iw.  That irq_work is embedded in the srcu_struct the caller is
+  about to free, unlike the Tree flavors' static per-CPU ones.
+- rcutorture: drive the perf counters from CPU-hotplug callbacks.  The
+  one-shot for_each_online_cpu() loop lost them at the first CPU offline,
+  after which the end-of-test issued==invoked check compared 0 == 0.
+- rcutorture: per-CPU rcu_head instead of one global, so several CPUs can
+  race the drain; count the call before issuing it so mid-run stats cannot
+  show nmi-cbs > nmi-calls; release the perf events on the
+  torture_cleanup_begin() early-return path; print nmi_calls in the module
+  banner; report when nmi_calls is set but no NMI ->call() ever happened;
+  and drop sample_freq to 100, since 1000 made perf lower the system-wide
+  perf_event_max_sample_rate tenfold.
+- selftests/bpf: the old ASSERT_EQ(reentered, 1) could not fail, and an
+  atomic allocation failure in the nested task-storage delete made the test
+  pass without ever re-entering call_srcu().  It now records and asserts
+  the helper return values, probes for rcu_segcblist_enqueue() up front so
+  a Tiny kernel skips instead of failing, and restores the CPU affinity it
+  changes.
+
+Testing: rcutorture rcu/srcu/srcud/tasks-tracing with nmi_calls, hotplug,
+barriers and nocb toggling issued ~81000 callbacks from NMI with none lost,
+under PROVE_LOCKING, PROVE_RAW_LOCK_NESTING, DEBUG_OBJECTS_RCU_HEAD and
+RCU_LAZY, with no lockdep reports; SRCU-T, SRCU-U, TINY01 and TINY02 pass;
+the BPF reproducer passes.
+
+v1: https://lore.kernel.org/all/20260729162207.1567770-1-puranjay@kernel.org/
+Changes in v2:
+- Fixed the re-entry livelock Zqiang spotted: a BPF program on the enqueue
+  path re-enters call_srcu() from inside srcu_defer_drain(), stages another
+  callback and re-raises the irq_work, so the drain never finishes.  A
+  per-CPU flag now drops such a deferral, with a warning, unless it comes
+  from an NMI.
+- cleanup_srcu_struct(): drain the deferred callbacks before syncing
+  ->irq_work rather than after, since re-issuing one can start a grace
+  period and re-queue that irq_work (Zqiang).
+- Tiny SRCU: sync ->defer_iw in cleanup_srcu_struct() as well, so a
+  deferred callback is re-issued onto ->srcu_cb_head where the leak checks
+  can see it instead of being stranded on a soon-to-be-freed srcu_struct.
+- Added Kumar's ack to the BPF selftest patch.
+
+Testing: rcutorture rcu, srcu, srcud and tasks-tracing, each with
+nmi_calls, CPU hotplug and barriers, and nocb toggling for rcu, all
+End of test: SUCCESS with the count issued from NMI equal to the count
+invoked (17987, 2924, 2661 and 4412 respectively) and clean consoles,
+under PROVE_LOCKING, PROVE_RAW_LOCK_NESTING and DEBUG_OBJECTS_RCU_HEAD;
+SRCU-T, SRCU-U, TINY01 and TINY02 pass; the BPF reproducer passes.
+Build-tested x86_64 with TREE_RCU+TREE_SRCU, TINY_RCU+TINY_SRCU and
+TREE_RCU+TINY_SRCU, each with CONFIG_RCU_DEFER=y and =n, plus arm64
+TREE_RCU+TREE_SRCU with RCU_NOCB_CPU and RCU_LAZY.
+
+Puranjay Mohan (6):
+  rcu: Make call_rcu() safe to call from any context
+  rcu: Make Tiny call_rcu() safe to call from any context
+  srcu: Make call_srcu() safe to call from any context
+  srcu: Make Tiny call_srcu() safe to call from any context
+  rcutorture: Exercise ->call() from NMI context
+  selftests/bpf: Add a call_srcu() re-entry reproducer
+
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ include/linux/srcutiny.h                      |  12 +-
+ include/linux/srcutree.h                      |   4 +
+ kernel/rcu/Kconfig                            |   6 +
+ kernel/rcu/rcu.h                              |  14 ++
+ kernel/rcu/rcutorture.c                       | 150 +++++++++++++++-
+ kernel/rcu/srcutiny.c                         |  93 +++++++++-
+ kernel/rcu/srcutree.c                         | 170 +++++++++++++++++-
+ kernel/rcu/tiny.c                             | 127 ++++++++++---
+ kernel/rcu/tree.c                             | 133 ++++++++++++--
+ kernel/rcu/tree.h                             |   6 +
+ .../selftests/bpf/prog_tests/rcu_reentry.c    |  93 ++++++++++
+ .../testing/selftests/bpf/progs/rcu_reentry.c |  51 ++++++
+ 13 files changed, 818 insertions(+), 48 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
+ create mode 100644 tools/testing/selftests/bpf/progs/rcu_reentry.c
+
+base-commit: 9dc303e69bcd49f9668ca090ae45325269531fbb
+-- 
+2.53.0-Meta
+
