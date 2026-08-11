@@ -1,96 +1,177 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520CD3F327D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 14:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02673384CE5;
+	Tue, 11 Aug 2026 15:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786459347; cv=none; b=hySElm7L21+OnHr7tmKTdxw+2H+taDS02XVAyZf4/+uUBbqujzA9LmI6iBeWq8qNvPqoit7cg1Dcv4wA9jxFblvtzQ5uWyhvS4h8F+HVem3iK9o4GYgYz2fqQPdK2qkn8Zw1yvVfRHgVytMGD1OZI/SWJt8lrutATAuaYWkibcg=
+	t=1786461166; cv=none; b=QRjAxCOHfLJvObqjCJ/hWuiCnQjHyhpiFgYTo/Wu22WwUE6AXGelbgj57of4v1ZvpBVUYqSQ4qcOZtySLJdU2dW98/GYn1LZtZ9ZuL2xx40YRER54gysgaec6IdYuEPqo2z9krNqLXJtpLab3fS5nZWFbVc2uuiUL2K/VPFH2C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786459347; c=relaxed/simple;
-	bh=x8JM/8uKzUCIYdjLzqYgrf/L/uVF3VjP5scTvdfVuog=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rFR9xJWhV7U6G1sVVRnbTGfmwVFBs92f/ONLtYdyWmKaU1S8B0repKxIN3Nkropvs2umZrWrJStqdxJfWFbhXrRwAIEgqCKzs3oPl5jvzFQTenEBP3RL2Z7Fk66uYBte6GQq1P1qFpUsH5qXHqf94bzapnaqcyWY9psqGsVC4L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf06.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 80210A04AB;
-	Tue, 11 Aug 2026 14:42:22 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id 1BDE720010;
-	Tue, 11 Aug 2026 14:42:18 +0000 (UTC)
-Date: Tue, 11 Aug 2026 10:42:29 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton
- <akpm@linux-foundation.org>, David Hildenbrand	 <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, "Liam R. Howlett"	 <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport	 <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko	 <mhocko@suse.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Simona Vetter	 <simona.vetter@ffwll.ch>,
- =?UTF-8?B?SsOpcsO0bWU=?= Glisse  <jglisse@redhat.com>, Christian
- =?UTF-8?B?S8O2bmln?=	 <christian.koenig@amd.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Sean Christopherson <seanjc@google.com>, Paolo
- Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, kvm@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-Message-ID: <20260811104229.72fdd928@gandalf.local.home>
-In-Reply-To: <a552b227e18ddbb3fa1f2edf2d1cb30ee6ccff13.camel@infradead.org>
-References: <a247c49dd61af1df7ddc4dcb1cccbcb36b04d9d5.camel@infradead.org>
-	<20260811135537.GC544626@ziepe.ca>
-	<1d669aca4ffee797b9c29215382444a5b23624b3.camel@infradead.org>
-	<20260811142730.GG544626@ziepe.ca>
-	<a552b227e18ddbb3fa1f2edf2d1cb30ee6ccff13.camel@infradead.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1786461166; c=relaxed/simple;
+	bh=v0dPlt+Aa4+ZqeZw/6bpu02tt94HRXGQVIZ5D96o5MU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QK7RA62KCxxE7qo2jOvbs0QB9S5ED+XE/6lF/FOFn2Tc1+LBFCOsl0bdR77gyL55/AGQ98+krgWr1ruzg1t4zi68joWlFl4eJbx8k5sFoKR+jgBY+SpFS4cKTFZCfj7y7ptzIOD5PYV3MQIQ8H2Ug5hx4+1lgoo9SDGGygsIsuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKA8YClY; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKA8YClY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481201F000E9;
+	Tue, 11 Aug 2026 15:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786461164;
+	bh=KjnbmQ0CjfvfCvabbRwgNKDlNYfwps6m9E+P6DWnXxQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jKA8YClY4dU0SZbFCX+nX9ALHXaAF20S0uGoTYSxg5w75bE1NwCY62evaVYkNAPu/
+	 Bd/q7K9i9DO+b0WWHVcv/gLPWt+Tt0ILRby87yQpaUOfNyGln0BebF1/izQX7MtON0
+	 XrrKtaeU865KbkDPKqNQuCdLPhT7VFJ0Xm3pAS4zysFw/rBr5jENWy/V43y7bD4vdy
+	 0C+G7U8jTrD3DrnXUJ3Xtgxj8IrQMetLRD+eE0GPzTAiHiFrQPf3PUYhpM0g+XSmDy
+	 vVP0rMGdX3CFM0/nCEhd5Kp9uWFI7VQuWrZ3aVqE5DsrnXuLz+3b5hBxB66NfXMFsH
+	 358dILGA9WzYQ==
+Message-ID: <0b3ce586-a090-4741-b269-488106d33e3a@kernel.org>
+Date: Tue, 11 Aug 2026 17:12:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 1BDE720010
-X-Stat-Signature: oxypg9f677wxwcpnaarkrfp38fcwugwo
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19dAleZhUOu5jMhgkH99lyj0Dn95BWTID4=
-X-HE-Tag: 1786459338-307469
-X-HE-Meta: U2FsdGVkX1979J+Q3OdtvU+zN/hhYl9JQhI0wFYQuN1ZrCOyLwM835zzoagX5l163DZzohmxYfjMQMg9LMvXrD6bg3AeHd1TrLiR6S1r8L72HAN+v3XhoxZRX8xO+2I0Jc1dgxN+O60SUmzois9+y6MU9QJdwUAoXwKZYXZvgflOY5MkQGkqp/ZeTZ3GzgxqRZ0WF8S3WS8LB8o7TyvqBGXiA98/d9imuVuTVh0RKt7dphRhabMtXLx1CHkUp+8F6TrPt7w6fDOjixFfwzPAI0/VQK18sVl3nuIRCZ+fXGfIeFWakblsUYrcuLOfrE2v16Fx2y20k2tKyfUJUKu/Aa1kEnu9UsWEY7fVgeGUG4kiRo2q1nZuksArsq2JybJg
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+To: David Woodhouse <dwmw2@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Simona Vetter <simona.vetter@ffwll.ch>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, linux-mm@kvack.org, kvm@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <a247c49dd61af1df7ddc4dcb1cccbcb36b04d9d5.camel@infradead.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <a247c49dd61af1df7ddc4dcb1cccbcb36b04d9d5.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 11 Aug 2026 15:33:18 +0100
-David Woodhouse <dwmw2@infradead.org> wrote:
-
-> > If might_sleep doesn't work sanely at all in preempt_rt then just
-> > globally turn it off?  
+On 8/11/26 10:58, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Turn might_sleep off? Or PREEMPT_RT? :)
+> This effectively reverts commit ba170f76b69d ("mm, notifier: Catch
+> sleeping/blocking for !blockable") for the mmu_notifier call sites.
 > 
-> The RT maintainers are on this thread if you want to pick either of
-> those fights... that was not the course of action I chose to take.
+> The non_block_start/end() annotation causes the scheduler to complain
+> about *any* voluntary sleep in a non-blockable notifier. But that was
+> never the actual constraint. As Michal Hocko put it when the
+> annotation was first proposed (quoted in commit 312364f3534c
+> ("kernel.h: Add non_block_start/end()")), the OOM reaper "shouldn't
+> depend on any locks or sleepable conditionals" and checking for
+> sleepable context was "the best thing we could come up with that would
+> describe these demands at least partially". The real requirement is that the reaper
+> must not block on anything which may itself depend on memory
+> allocation (or on the dying mm) to make progress — which is why
+> spinning locks were always considered fine.
 
-I guess the question is, what exactly is the reason for sleeping to be
-prohibited? In RT, sleeping is allowed in most context because most context
-are threads (like interrupt handlers and such). Now, you still can't sleep
-in NMIs and hard interrupt handlers that were not converted to threads, but
-I'm not sure that's the case here anyway.
+I think it's conceptually more than that: "we mostly do care about it to make a
+forward progress". So yes, memory allocations are the obvious problem, but we
+also wouldn't want to wait on any lock that will be hard/impossible to get while
+reaping.
 
-If the non_block_start() is just a big hammer to make sure things are fine
-in non-RT, it will likely still be fine in RT even though it may block and
-sleep. But what it blocks on are sleeping spin locks that likely would not
-cause an issue here if they didn't cause an issue in non-RT.
+Just take a look at what some mmu_notifier_range_blockable() users end up doing:
+they skip taking locks.
 
-Thus, perhaps something like this:
+[...]
 
- 		if (ops->invalidate_range_start) {
- 			int _ret;
- 
-			if (!IS_ENABLED(CONFIG_PREEMPT_RT) && !mmu_notifier_range_blockable(range))
-				non_block_start();
- 			_ret = ops->invalidate_range_start(subscription, range);
-			if (!IS_ENABLED(CONFIG_PREEMPT_RT) && !mmu_notifier_range_blockable(range))
-				non_block_end();
+> 
+> diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+> index 245b74f39f91..cd5d15cd646a 100644
+> --- a/mm/mmu_notifier.c
+> +++ b/mm/mmu_notifier.c
+> @@ -520,11 +520,7 @@ static int mn_hlist_invalidate_range_start(
+>  		if (ops->invalidate_range_start) {
+>  			int _ret;
+>  
+> -			if (!mmu_notifier_range_blockable(range))
+> -				non_block_start();
+>  			_ret = ops->invalidate_range_start(subscription, range);
+> -			if (!mmu_notifier_range_blockable(range))
+> -				non_block_end();
+>  			if (_ret) {
+>  				pr_info("%pS callback failed with %d in %sblockable context.\n",
+>  					ops->invalidate_range_start, _ret,
+> @@ -591,14 +587,9 @@ mn_hlist_invalidate_end(struct mmu_notifier_subscriptions *subscriptions,
+>  	id = srcu_read_lock(&srcu);
+>  	hlist_for_each_entry_srcu(subscription, &subscriptions->list, hlist,
+>  				 srcu_read_lock_held(&srcu)) {
+> -		if (subscription->ops->invalidate_range_end) {
+> -			if (!mmu_notifier_range_blockable(range))
+> -				non_block_start();
+> +		if (subscription->ops->invalidate_range_end)
+>  			subscription->ops->invalidate_range_end(subscription,
+>  								range);
+> -			if (!mmu_notifier_range_blockable(range))
+> -				non_block_end();
+> -		}
+>  	}
+>  	srcu_read_unlock(&srcu, id);
+>  }
 
-?
+It's a bit odd. We have infrastructure to disallow blocking, and do so on
+multiple paths (just check for mmu_notifier_range_blockable() users where we
+skip taking mutexes, not performing memory allocations!), but now essentially
+allow blocking on some paths.
+
+That's just inconsistent. If we want different semantics, I think the whole
+thing should be re-thought: if blocking is suddenly allowed.
+
+-- 
+Cheers,
+
+David
