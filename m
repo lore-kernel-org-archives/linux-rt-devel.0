@@ -1,116 +1,95 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6C34314AE
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 17:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E883659EE;
+	Tue, 11 Aug 2026 17:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469192; cv=none; b=Sw5Mq0TQTfQTcztnHh0DexCaQ9tdyIlQhr5Uh3IatHluNKA2Qf0HZ9mvEFaV4uUiz/tFf5DscRZPM+VFHJqkt/5prg7PmEe4rhy8up301OBb/G/Ym+AgN0yZE1aC5I5R2Zk/iKAl2QM6LtkWLRCTPFW5dzQ/7tQhI7Y9xSEJfmM=
+	t=1786471178; cv=none; b=poGndBJSuTVEi5FuAszm48b6y/Clyo/o55jJOlqnIEfLCGzfINXKiR2mJyZERgGew/LckwMN08x2Vh3MxefkGD3QYhJLs/FpGmg92QzZw+eCYlzD2Z590mcBIgumilY5xfH2W5N+QlEqPw71bUK2LSXUo0meGALk/UDpYAHS+aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469192; c=relaxed/simple;
-	bh=PGN/23AcG1BdZ95Dbjp/XFqXT+g7ycHtDWwLc+SPRNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6RP5Apz2GtAr0ryffxDufZTqym6X0Ar2nUusIzH0CTKlGmXzq71sYtLkelwMeiO+gJJMdyN+2oHgY1pkq0gXAvTRxiU7I6J/QrGFzIny1+sMUiBUDssYNKBNGMoJx2py+I2hjE/Kmj8VVW4I0pBYegUi1DH8Il82Nya4OHx2Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=hsg54MdM; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1786471178; c=relaxed/simple;
+	bh=oRvfQO9cDNEHPUpYghEoRHI8U5YFrjYdfy5eDC31QM8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=G9jtM3oWY4VXpJtRo0lcCUCoViPwuGZ1O7W3eWXcOSR36zuCLCGh7nP/JTnUdB3tF0GPh+827xX43q0mFEIDadZwJST/JG/tOwyFW2wKFM4/Sd692fxKJmW8X289t7FxcRjjm/1ERrZ9EZLKt2EilasRCxSFPVxtf4svdCYbA5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JQ9gQAla; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="hsg54MdM"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-908934450cdso512516d6.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 10:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1786469189; x=1787073989; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=T9Qh79QFCvjYnoGtVduyp1NZZfqwn8kEM0DsabkDFtg=;
-        b=hsg54MdMQPCU14cyQSlxlrze3TXtqYQutapZo+x+bRC3pUouLYBMQuoD5FoQ109icA
-         ufnDkCLqEfZi9+/ZpljKY7fqORntfK4yNMspqCKd4ctoqWSrtL2wprdPW4ETOqHCzYcc
-         vR2SZjg5atae7jJK1bMOUBKlrNyUG+IgZrLgLdXK1yemvdZBcwF3stEcq+/ui0YUYrKR
-         lUyvQppoTHFMmxXWGMQZeItY+k1L2+YUdmF26YS7WaYrjw7pasSkurPDFYv3y9idHmZZ
-         Jz51vI/d3QKaOALNuZuvmCjCvxlMWi6UIlDsWJTs1P5klO+j0EqSMqufNwtxHwqb5qrh
-         zVqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786469189; x=1787073989;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T9Qh79QFCvjYnoGtVduyp1NZZfqwn8kEM0DsabkDFtg=;
-        b=m9RHIZ9UpwznnbDbmb3HrHqWNJVAoxyahEHSFqjha4TFljnewphf9TUieSSxKo59Re
-         rez/J4KNwXeUFHV9pVt/KIHptPwOMkIkEyOcnR4csabss58U9BTzCfLlztTg2MsgW7LF
-         DlnF0o9npe3+/BNKgjm//QtWZbJfwtKK5pBP1Y+KXTqXMSRMOUnsEMostKR0OXoAWdUx
-         LdIrfM0AW6JcFbhMCo15U3yl0+WbxkgIQiA/wydY8OrGtVUgOnEAhNT/7Pnoh4ukFpxZ
-         yDjF6DJqwOIuvcIlG7Ywf9vvHhfkDV+T5qRpDYuvP3MIh8nlgxnSzHrwyT1eQyBadb0R
-         1bow==
-X-Forwarded-Encrypted: i=1; AHgh+Rrhzz2a+gwNQxmQo8Lc3g0S0LU0Im6qAceMJ6SRGWaRBPuXX4osuciaDyalLaauvEu9+4fnGjyaS0aGnwQTpg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmFOx0oPkBCPT9mRXFAhWjUEdm35X5QJzGB5JB2xS4DLxMdc8B
-	13wCQkS6/liqoZ456NvtsV1g2tOSptPQDptOKYJkwtV9XL/cUXuCcBwLhCfvbvmPZ6Q=
-X-Gm-Gg: AR+sD13lV+903p4VnZmPeNcRHpOgxY1j4padhb5AAhLJXqLLL0PVtyIvTLxL5CCSag2
-	qX4C52rMtJLNYm5MkcFxtvaM7TqyT4IfYsdm9Un2Zvshtb9joISCtEFnuqVxTPWZ7SdMs+6n0MZ
-	U2L/RoxdTUeSTy7pBMaHnJPoIMX3yQmqYLOfTlLkS4twWOCBhofKNKuJ4qnfe0S+qB2nOSRGlZx
-	dTlio44ml+OmxOnh3mqhGWbjFqz/+g2GtawhDsclMyUhy0RBSe4IIZTe95N77j6djYuf6IHAnYk
-	6erU0v7AP5rHOAtZsWKOZjYQYB7IqB0KY6Pucbu10vUSqEmYrkK/bl1i6SSJU9PB/hxuV4IONky
-	NF4G3c8RjQhU0ktSa7d1AcjwhLPgF3gq1qtEqYI3fuYOUKc/uxxyIuhPEN2/Wa7EuJ9TAtEop8Y
-	/J6vORLIuZOQF8pZl5xJfpj/VqJfBziv1bKGq0bQ==
-X-Received: by 2002:ad4:576a:0:b0:907:d9bd:2f8f with SMTP id 6a1803df08f44-90a6694b0d3mr50111416d6.6.1786469189079;
-        Tue, 11 Aug 2026 10:26:29 -0700 (PDT)
-Received: from ziepe.ca ([142.166.156.215])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a6c3c8af4sm3611196d6.39.2026.08.11.10.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 10:26:28 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wtqF9-00000002gAk-2Giq;
-	Tue, 11 Aug 2026 14:26:27 -0300
-Date: Tue, 11 Aug 2026 14:26:27 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: akpm@linux-foundation.org, david@kernel.org, mhocko@suse.com,
-	rostedt@goodmis.org, bigeasy@linutronix.de, simona.vetter@ffwll.ch,
-	jglisse@redhat.com, christian.koenig@amd.com, paulmck@kernel.org,
-	seanjc@google.com, pbonzini@redhat.com, linux-mm@kvack.org,
-	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-Message-ID: <20260811172627.GN544626@ziepe.ca>
-References: <20260811162423.GL544626@ziepe.ca>
- <f33571137d2e3973e440d09c7602edaebe08b714.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JQ9gQAla"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=oRvfQO9cDNEHPUpYghEoRHI8U5YFrjYdfy5eDC31QM8=; b=JQ9gQAla8I6tnTLbk3jn327tur
+	rLcbskMcowhYir94h3SCFzHud0Jjt1adZbaN+pCNn3G1fiNBQ/1Qg+qkKLcDGERFs06dk5qd78//d
+	6fD5+pidgQpg0ZXKN0PQWyxBED7KbJzaM7JhRHjJ0Csupm70s0q0dgQeLf3tyX706/uibY8AUQV6N
+	FeIM3AZPcKspNtCP12unuRSix8bI1peGmFumGpCRevkecSd/ulouMoEsa+XBXCoPSIgaru+4Wik3+
+	lD3/TqX53NgO2RJT1llhhfSAhVg2tcLQilflaOSKq1Gj58q+JTeiI6upavSD2Qu5P63xchOiSW8sN
+	9eXVBT0A==;
+Received: from [2a02:8013:6d1:1:1427:d5db:df17:4279] (helo=ehlo.thunderbird.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wtql3-0000000EpgO-2Qy3;
+	Tue, 11 Aug 2026 17:59:25 +0000
+Date: Tue, 11 Aug 2026 18:59:24 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: akpm@linux-foundation.org, david@kernel.org, mhocko@suse.com,
+ rostedt@goodmis.org, bigeasy@linutronix.de, simona.vetter@ffwll.ch,
+ jglisse@redhat.com, christian.koenig@amd.com, paulmck@kernel.org,
+ seanjc@google.com, pbonzini@redhat.com, linux-mm@kvack.org,
+ kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_mm/mmu=5Fnotifier=3A_Remove_non=5Fb?=
+ =?US-ASCII?Q?lock=5Fstart/end=28=29_from_notifier_invocation?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260811172627.GN544626@ziepe.ca>
+References: <20260811162423.GL544626@ziepe.ca> <f33571137d2e3973e440d09c7602edaebe08b714.camel@infradead.org> <20260811172627.GN544626@ziepe.ca>
+Message-ID: <B25708F5-8425-4075-8D95-5E2A00C933DF@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f33571137d2e3973e440d09c7602edaebe08b714.camel@infradead.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Aug 11, 2026 at 06:22:12PM +0100, David Woodhouse wrote:
-> On Tue, 2026-08-11 at 13:24 -0300, Jason Gunthorpe wrote:
-> > To be clear you should not be using any synchronize_[s]rcu() primitive
-> > inside the invalidation callbacks. These are well known to have
-> > multi-second delays on loaded systems which are a completely
-> > inappropriate performance characteristic for these mm callbacks.
-> > 
-> > This statement has nothing to do with deadlock.
-> > 
-> > RCU is always a trade off, you can make the read side run really fast
-> > and the write side is ghastly slow. If you can't handle the slow write
-> > you shouldn't use RCU techniques.
-> 
-> The multi-second horror stories are about the *global* RCU/SRCU
-> domains, where the grace period has to wait out arbitrary readers all
-> over the kernel.
-> 
-> This is not that. It is a dedicated srcu_struct, private to one VM,
-> and its entire reader population is a handful of KVM fast paths that
-> until now were under irqsave rwlocks.
+On 11 August 2026 18:26:27 BST, Jason Gunthorpe <jgg@ziepe=2Eca> wrote:
+>On Tue, Aug 11, 2026 at 06:22:12PM +0100, David Woodhouse wrote:
+>> On Tue, 2026-08-11 at 13:24 -0300, Jason Gunthorpe wrote:
+>> > To be clear you should not be using any synchronize_[s]rcu() primitiv=
+e
+>> > inside the invalidation callbacks=2E These are well known to have
+>> > multi-second delays on loaded systems which are a completely
+>> > inappropriate performance characteristic for these mm callbacks=2E
+>> >=20
+>> > This statement has nothing to do with deadlock=2E
+>> >=20
+>> > RCU is always a trade off, you can make the read side run really fast
+>> > and the write side is ghastly slow=2E If you can't handle the slow wr=
+ite
+>> > you shouldn't use RCU techniques=2E
+>>=20
+>> The multi-second horror stories are about the *global* RCU/SRCU
+>> domains, where the grace period has to wait out arbitrary readers all
+>> over the kernel=2E
+>>=20
+>> This is not that=2E It is a dedicated srcu_struct, private to one VM,
+>> and its entire reader population is a handful of KVM fast paths that
+>> until now were under irqsave rwlocks=2E
+>
+>Are you sure? I've never heard that srcu has those kinds of properties=2E
+>
+>If its so fast you should just propose a non-sleeping version and
+>leave the notifiers out of it
+>
+>Jason
 
-Are you sure? I've never heard that srcu has those kinds of properties.
+I've got torture tests running for correctness on the GPC RCU conversion=
+=2E I'll throw in some metrics on how often even in that pathological case =
+we hit the wait case, and how long it actually takes=2E
 
-If its so fast you should just propose a non-sleeping version and
-leave the notifiers out of it
-
-Jason
+And I can prototype the extra-expedited case that never even falls back to=
+ the WQ, but frankly I don't know if it's even worth it=2E
