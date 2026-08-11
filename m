@@ -1,65 +1,65 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2363B4EAB
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 15:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450633B42D3
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 15:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786462892; cv=none; b=Qo6rJCr2s8dp1VKcNDWNHn31XU/mXOmswyq3qymTxGI8dGPiiYB9t9J5yLOjbgu5X1ygJNCDfak1uXSa5+FdouR4VkA9H4GMF53QhL38OD0Yx7soTUZMtjmn+v1W3lGDweuKRGmWmzMwiaG422o5VmJVC/PIANMo4uzWRXR5dx0=
+	t=1786462893; cv=none; b=t3nbsEQHymOyqNt2ewuJTh1/FUIV0fnJVmlSKPYtuGNwYw2+/MWd5WKzvz477SKRkb5uf+zTgaKjhzJHvzZQEdiRB0oLzNlreVvnP2q7IL3/H1J1TUoDvH/vzNdX4+0ylAh9iWrnvJ6cMjjQV/Q73DnedV//6F1d1nLF8RnQnBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786462892; c=relaxed/simple;
-	bh=/V1r6QXOL+eNTn/p3qGEcfXKl0uwiefVorjHNpHVPeI=;
+	s=arc-20240116; t=1786462893; c=relaxed/simple;
+	bh=s2GsF/HuuhqRgEBoKnXETG0xb+lEGpCR6SzR1Bt2wXA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aBoHQW/UUVGtW3lB/JYLgktn9MrDlCeIwj2FWn87ohlIi3tQbKhwHodgKxbDjRMUkvJuTBL/2n/YFLhYLxQ+jMef1S0rWb0AnqcTOF/2vhRtwcRlxVEiEcdHSHLnJGmGp9ZNsd/qEofnBMS7YLRw4AgMYKIAU9yHFw6cGvvFM0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqqQYAPC; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=Y3zMCnbMOw/zM90qYbhf6IfqJYvAEyNBuUdUeV9/ekS2yQoFSuCSkQjE5Vps+Kh1czoGoSJDN8iQulJsMHVFSzX1hbsLS+ZDqgJjTLnqFJLtkhQfZgXpFlaDfpTKSg6wbNY1pcGvV9+J4nPboB8HT7V5kmSycydEwMBtlwTlAwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pwr5wpNy; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqqQYAPC"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so7514515e9.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 08:41:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pwr5wpNy"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4954aff6088so28163315e9.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 11 Aug 2026 08:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786462887; x=1787067687; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786462889; x=1787067689; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HYWQ6l3VVM6j4JRhvg6XxcplbTfEh60ar/rx0eHl1vY=;
-        b=YqqQYAPCmzxEiL4Z8dayjYKNQnq1s3pxBry7Z/5d6rBzyyQXmEYtswPYbkWCPVhga6
-         6Pmlj85XIeExCNhKcnUSaCisXIOtKJu1idjzJAyWHxaKw4tsJW37unwv+ScwSBXFTkX0
-         9em0uJdlYX6gKahqc9eNvL20awvRzRdhR1pEtCkCKIpqRZYqT7b0dVOJcjnzthF+fP6F
-         VBrrcBHUrizmzhm+7SYWxCa+2aAkK6/ASNlnJuZgb33PU3+/LUWmHrJPEdKwD5H+L6Cc
-         ddjP5Ykc+9Um2/L3WbQXmzTpAeq47ArlfyZsZ0jUAar4yNFxI4//lGXJFByiuRp7ui31
-         ZRyA==
+        bh=RBg7Waiba/udBzajyRDSpAo3xkVEtASSwhEEWYlwPWA=;
+        b=Pwr5wpNyo3HthUfAa60xn+rP7Xg3kNpOG2etgWTrVF7oMdk+DGUYTsV79078GzuZCd
+         G6XorHnwfFyw+WqCIz/lVXEc6e2UjOw0XWIMYnMZopUm6jHK6aZtGWPY3WPfjqxZZWTF
+         trs8Uq5ti1bxJjo/zKFtxlay+NiwdWMKa9oM3oLdTuFmO3h6hvUNUYvnpP78S9OeJ3ha
+         i18IsKOYRT9AmAjn2iF57VSEDOhJv3etf67WButxvIwCyxmRquI23FduMcZLRDfL/ofM
+         Qu/rwwlzIHI/fIKEo8c/0mkM39nXnyHDrKLGTy4ZovDMml6xHMiESGxkP3TUStJEwLLl
+         K/ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786462887; x=1787067687;
+        d=1e100.net; s=20251104; t=1786462889; x=1787067689;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HYWQ6l3VVM6j4JRhvg6XxcplbTfEh60ar/rx0eHl1vY=;
-        b=nGLd6DQBgsdZuw798FoDF2dqCBfUBpSdabiE1BqyqNfv7rcJTivc0NCSE2fWu5VH9B
-         i76Ma6HgJoMqFRs4Y57gELM04aIkEn9RHPBjEqx+2b2pDvUuCqlfl1UY2oqpwI7Un9qf
-         DGri6sAOc10KAq1x2DRbAOFnxFw5ySf6f2dC1mp9x+1EM5eub/9gHEXGnbwdXnTlNfAm
-         0IQFGqs0n7YEW3IMlFrNBdoC91QL2v8NU+OVsEkDT3gtPqNJcVTCgfh/br0ITAmAa3HK
-         GW0EgweyuE0tBn5icFRF0X7KzTbgzeZPF2TAeK+7EJebBv04UcnDXhMBAr1uS1zHMKmp
-         1aig==
-X-Forwarded-Encrypted: i=1; AHgh+RoJBcWjNwl2WhO9HlM074oQ69Cu1jY5f67RkwzGPh1/BT3FyPwYxc0Y1ta4u1iLooPjK75UTP56mAV3I6wI2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxT6WqS11MA6ngD7nUzl9b0ZhgQ1ZO1iTQVPlUEHqDHOr9MmUr1
-	e+Pkvshd3l3Xl64Kzwr46G1YakGNwlZnyAJ3v9QUWBgql4wp5iXEYPSn
-X-Gm-Gg: AR+sD127tjrj+xYtIJHIOT0S6IE1vAg3GXatMxWDkDkylsX7wFxyLdcK4bNmz/vKTBQ
-	2+pej5ucloL05ih0v9pfHlEc13EGDMnjFqFEXXI/J7RuwA3Rn/ZFpCL6Uu6QYHXVZ6n+AqmvyVR
-	WgEcci3Mpmph2j/CDaXD9+hI43ur+T5mGFKTf5WEO3vRt6K+E2HYMMtU6OA4b2FwmIDtocnht2C
-	n7OHDMdq+mF2jp7rNczrQ+J2Kl/zjyiV6KK1A9r/1OX9CixcP4lDnzXDZv5imVLX9bZw9Co4eFZ
-	tpALYIN/g1W8r1EcROwJ56r5kOO4S3Z8Ch6iEVSm1yHsbVJ/JVwuTHglomW+mZ6WZiWVwVrFcFV
-	QhLVDdzFyOyjoMDqfqpAK4z2nGZIpHY9xizR11xBCZxP4GO+eRBktFrvwGZch7n2J5pzneRwYCN
-	TvErzwBOMNEdOseUKPnM/qzEIhCwGdCrIBhRTufD2OLIcNj8nsvS9UKP83tqztEBla5ZOzORFBW
-	0f37nviecFG+z+0gtJzmdsbuJZ06l91j/pvRqclTfJjUd8N++FD1knDxtjxxphivtgBtfesx0pH
-	aXgHKfnE9IGe2lVcIqV8NR5/DJ3QQ5y08bnGQd8IYRKe4VcQ+RYkjDS0CbeFL1QQK11R
-X-Received: by 2002:a05:600c:6a09:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-4997a70a41cmr9098195e9.6.1786462886886;
-        Tue, 11 Aug 2026 08:41:26 -0700 (PDT)
+        bh=RBg7Waiba/udBzajyRDSpAo3xkVEtASSwhEEWYlwPWA=;
+        b=Ce+w37jZaUhRCqqhty6miNorlWAofIbg8HM47hNYjGcUzpByEgSBuJ3j/WpIcDY9C1
+         zQc/3AVDygeHiXL8s29+pKsvhySksEuGLn+qHczNnPIME9b2ba1EidEm0Erx6VqWVOop
+         ZXSju5us/6a0upl6WVSBrbr/rzvxcYTMzX7aq6ETx0lFmo1zywNgIN2oGhWHOcDb/ecF
+         H3FLg7f/mnzkOb2vZLNjzCYqGTkbVZCvMJbo1PgN6wc6x9aJrOzqtBgd/huSCwAGe9p7
+         vJnaYxwlhyGopjdTIEdHK4L4FwW8Vm49CIU+SGtLdLyRnbCAX7KnEUBOyUP7NevOOPPT
+         tlsA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp46uzeUOF6ixfUtFZAT6OOL/DKIgqsWA5/khAR1cQLEq9HFW/2SW5tdHG7azD8ZBgKK5MRhJ2QxZtZl9kuAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMuWrXg6n959nHv/IoHLX4lgDFuU7DY34uwTFcqM162jLMkgy6
+	i0SPpa7xJkex1P9JS2fmOLP0ywZ0LcgB8sQ3vW1rLLgvpAyCqCQ1WJ1S
+X-Gm-Gg: AR+sD11PIxFxqt9F8qDnWUefcEjmjR+H99PQoyjsDZsfibzaRoxhVGvnOHM2glHh17y
+	TBH88y0DHXjrtucR2GNxwzKb4TjibmrdooYbpe7iIbs7Ezg6MAqYS+f5ZcLITR+iE4EfaI07uMG
+	hoFgGbjFV1WtMPPZ+W0MqlQb+fj53na5gqGfdJmVfd2VME3U+POYhd//oiJSkeP1bUxfoLi+0np
+	pDfAQn4KztdHWr1WCwXSX2IaCkn/OqwYndRmJiEWBm9MDZkwsRdher9xrM9JQzlFvJ5WO6DhfgJ
+	i2C2huVqsNGzmY/Az0NhcOqp+zHkRyS06bjK8zIqdM26jMVUb8lkh3Y7wh7bZfYy53W/pQUoT4F
+	KzKHeefJm1ITS6o9uwGil4tNaLLX/+knaMS5pK1O4UYUVGjBTTiwReFESwV5NNM3+xzzqX6rKog
+	DGMHEb+Ry5VGrVAxAFZdlZ9S/ZLRqnGeZn6lp2NgQTmekf2AwtMmJTb/DXvjy8KIAIakHbiHViP
+	WRfN5I7BPt9q5jdNyGrU54i06IHN0amhVjusurh0k8EtFbj9l60TmgLFOgahqy8F4YZiEBbFtqP
+	64ytTCOBnvr4mz29ACwLjcK1LDhJ7P/v7zz9A+G4AgzNef1WxaMjG+pLYagbOSIOiTeG
+X-Received: by 2002:a05:600c:821b:b0:493:e365:ace9 with SMTP id 5b1f17b1804b1-49978444628mr78764855e9.11.1786462889308;
+        Tue, 11 Aug 2026 08:41:29 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a133-e401-bc8e-d36c-2d08-c5e0.310.pool.telefonica.de. [2a02:3100:a133:e401:bc8e:d36c:2d08:c5e0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997aaa7aabsm1670275e9.7.2026.08.11.08.41.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997aaa7aabsm1670275e9.7.2026.08.11.08.41.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 11 Aug 2026 08:41:26 -0700 (PDT)
+        Tue, 11 Aug 2026 08:41:28 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -86,9 +86,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-rt-devel@lists.linux.dev,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/6] hrtimer: Pause KCOV during deferred rearm
-Date: Tue, 11 Aug 2026 17:41:08 +0200
-Message-Id: <20260811154111.64669-4-kmehltretter@gmail.com>
+Subject: [PATCH v2 4/6] sched/core: Pause KCOV in __schedule()
+Date: Tue, 11 Aug 2026 17:41:09 +0200
+Message-Id: <20260811154111.64669-5-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260811154111.64669-1-kmehltretter@gmail.com>
 References: <20260811154111.64669-1-kmehltretter@gmail.com>
@@ -100,105 +100,48 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Deferred hrtimer rearm can run after HARDIRQ_OFFSET is dropped. in_task()
-is then true, so KCOV attributes the instrumented timer-reprogramming
-subtree to current.
+kernel/sched/ is not instrumented, but callees such as sched_clock(),
+architecture CPU-capacity helpers and profile_hits() are.
+
+During preemption and schedule() calls, instrumented callees can add
+nondeterministic scheduler coverage to current.
 
 With CONFIG_KCOV_SELFTEST added to x86_64 defconfig, the interrupt
 selftest fails under QEMU, detecting spurious coverage in
-__hrtimer_rearm_deferred(). The same happens on s390, RISC-V and LoongArch,
-which also enable HRTIMER_REARM_DEFERRED.
+arch_scale_cpu_capacity().
 
-Excluding the involved files instead would cost their coverage on real
-task-context paths, e.g. the hrtimer and timekeeping syscalls.
+Annotating each callee would spread exclusions across architectures.
+Pause across __schedule() instead, extending the scheduler exclusion to
+its callees.
 
-Take the kcov_pause guard in an __always_inline wrapper around
-__hrtimer_rearm_deferred(). Use it at all call sites, including
-hrtick_schedule_exit(). Callers that may run with KCOV enabled for current
-are built without KCOV instrumentation or marked noinstr. HAVE_NOINSTR_HACK
-covers pre-GCC-12 x86. The other affected architectures restrict KCOV to
-GCC 12 or Clang through ARCH_WANTS_NO_INSTR. This avoids relying on
-__no_sanitize_coverage, which is empty before GCC 12. Tested with GCC 8.1
-and 15 on x86_64.
+KCOV_PAUSED remains set while a task is switched out. The guard in its
+resumed __schedule() frame restores the prior state.
 
-Fixes: 15dd3a948855 ("hrtimer: Push reprogramming timers into the interrupt return path")
+Fixes: 5c9a8750a640 ("kernel: add kcov code coverage")
 Assisted-by: Claude:claude-fable-5
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
 Notes:
     v2:
-     - take guard(kcov_pause)() in an inline wrapper
-     - clarify the test configuration and caller instrumentation requirements
+     - take guard(kcov_pause)()
+     - clarify the test configuration and reword the pause comment
 
- include/linux/hrtimer_rearm.h | 17 +++++++++++++++--
- kernel/sched/core.c           |  2 +-
- 2 files changed, 16 insertions(+), 3 deletions(-)
+ kernel/sched/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/hrtimer_rearm.h b/include/linux/hrtimer_rearm.h
-index a6f2e5d5e1c7d..45e47421fa0c7 100644
---- a/include/linux/hrtimer_rearm.h
-+++ b/include/linux/hrtimer_rearm.h
-@@ -3,10 +3,22 @@
- #define _LINUX_HRTIMER_REARM_H
- 
- #ifdef CONFIG_HRTIMER_REARM_DEFERRED
-+#include <linux/kcov.h>
- #include <linux/thread_info.h>
- 
- void __hrtimer_rearm_deferred(void);
- 
-+/*
-+ * KCOV: Pause outside __hrtimer_rearm_deferred() to suppress entry coverage.
-+ * Callers with KCOV enabled for current must be uninstrumented.
-+ */
-+static __always_inline void hrtimer_rearm_deferred_kcov_paused(void)
-+{
-+	guard(kcov_pause)();
-+
-+	__hrtimer_rearm_deferred();
-+}
-+
- /*
-  * This is purely CPU local, so check the TIF bit first to avoid the overhead of
-  * the atomic test_and_clear_bit() operation for the common case where the bit
-@@ -38,7 +50,7 @@ hrtimer_rearm_deferred_user_irq(unsigned long *tif_work, const unsigned long tif
- 	 */
- 	if (unlikely((*tif_work & TIF_REARM_MASK) == _TIF_HRTIMER_REARM)) {
- 		clear_thread_flag(TIF_HRTIMER_REARM);
--		__hrtimer_rearm_deferred();
-+		hrtimer_rearm_deferred_kcov_paused();
- 		/* Don't go into the loop if HRTIMER_REARM was the only flag */
- 		*tif_work &= ~TIF_HRTIMER_REARM;
- 		return !*tif_work;
-@@ -50,7 +62,7 @@ hrtimer_rearm_deferred_user_irq(unsigned long *tif_work, const unsigned long tif
- static __always_inline void hrtimer_rearm_deferred_tif(unsigned long tif_work)
- {
- 	if (hrtimer_test_and_clear_rearm_deferred_tif(tif_work))
--		__hrtimer_rearm_deferred();
-+		hrtimer_rearm_deferred_kcov_paused();
- }
- 
- /*
-@@ -73,6 +85,7 @@ static __always_inline bool hrtimer_test_and_clear_rearm_deferred(void)
- 
- #else  /* CONFIG_HRTIMER_REARM_DEFERRED */
- static __always_inline void __hrtimer_rearm_deferred(void) { }
-+static __always_inline void hrtimer_rearm_deferred_kcov_paused(void) { }
- static __always_inline void hrtimer_rearm_deferred(void) { }
- static __always_inline void hrtimer_rearm_deferred_tif(unsigned long tif_work) { }
- static __always_inline bool
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 96226707c2f61..3cbf817f52a4a 100644
+index 3cbf817f52a4a..e49f0bfa0ca73 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -1010,7 +1010,7 @@ static inline void hrtick_schedule_exit(struct rq *rq)
- 	}
+@@ -7073,6 +7073,9 @@ static void __sched notrace __schedule(int sched_mode)
+ 	struct rq *rq;
+ 	int cpu;
  
- 	if (rq->hrtick_sched & HRTICK_SCHED_REARM_HRTIMER)
--		__hrtimer_rearm_deferred();
-+		hrtimer_rearm_deferred_kcov_paused();
++	/* Instrumented callees would leak coverage into current. */
++	guard(kcov_pause)();
++
+ 	/* Trace preemptions consistently with task switches */
+ 	trace_sched_entry_tp(sched_mode == SM_PREEMPT);
  
- 	rq->hrtick_sched = HRTICK_SCHED_NONE;
- }
 -- 
 2.53.0
