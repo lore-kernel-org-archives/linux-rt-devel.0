@@ -1,54 +1,57 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676603403ED;
-	Tue, 11 Aug 2026 20:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B74388E69;
+	Tue, 11 Aug 2026 21:14:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786480211; cv=none; b=H9C7Oa0diJZiSTVaATwW0BXq01mnRSc+xRNCiA2zewkNR9EuvGm4BgRQCVNGYeMwcZvVGLbu01bRa8ojRvg8jFG3F6VaENw4ZJUzAnZtdmWwGZCRRLhh4Yugq7xUDtEX23C8EAJLXe1rFXVwKTMGW+lyBlMWjkE3NSGrPAfEcA0=
+	t=1786482874; cv=none; b=UXZ0UsWxvCg5AerngSH2qik0fgt5AVvebx4c/jBHq6wM1jmlrGEX/AtjVnpgEDOYafAMT+HDRaj6tfrqfk939vQUSkUw94GfF3aNe58WiYBjrc5/d6WIK0wyK5dCiViKCjSbRDpEQifz414/GJm05eAoawKVNcsmoW2czNODXi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786480211; c=relaxed/simple;
-	bh=lYLjOZHNRjRcpmu6A5r595KAsoh0CIGpzCW8/4pK/uo=;
+	s=arc-20240116; t=1786482874; c=relaxed/simple;
+	bh=GJYVKc4vqFpGY2GyZOX5iayxai8wJ3bqqyeqPSJxzvI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kk/dGyd8tfIvUFkgwc+jUPfq7bybqnVPQB3fvR3Fd7PHIJFnRBx/X2mTrjO+ORaj4Ra75AEHkLcTh4IsAcV3UR1E9zpDo/6EQlC6mhjTAg7Oph3CgkuV9dzFPGR5fu0iEzaLeburOm3NZWlmwYgkPRRvw9famuQSHNGR7ItdBA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=d8D0WZHr; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:MIME-Version; b=sjK1zhdXPyqI5qTTHw/f+fviR1Kv2XRTuDhLV8yXiU3vHCxeTBnqV/IjBmR/3G+K8sArkUZh/sMjPUFeF76L/6djyRCC4c2TJl8XLxv/Uz587nOqQQNNF1giUbUIZHodjibnBm4dHD9NUCLEWQqqLviMW8VirYvy0mxbib0ubzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mCLPDBWm; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d8D0WZHr"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mCLPDBWm"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
 	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xgGbykudFHIttje2K2rWjbkBicrY1aEq9u/MZjdSFj4=; b=d8D0WZHrUfGdECrNxhXTO0Phna
-	ZNRI5A63MYO4bxZbZjulxr5l9ERs4A/e7QardST9l49mTfSh7SdbRnSPyUm/RwDqxosxyMQ7ySnkh
-	xaGLQPF58yRSXtnw7CRQUoELR28q85zh8ks0Ec/AWIsHh8GBhOotNsEwKNQhD7Rpx26zjLoT+2qPP
-	PXz/7uPnrHy2VYVTeNRkcK1AFJshUkLdPd/mrE4Oq8ZW8gG8Ui1xHXqE+1bNagQIZCweY76cmcxx4
-	T+dpU0mnOV78n6sYm89NEfSPUnGqxP3/Q+NGGWVT1VoxVQ1RVzOsQL7pnysINhbv0aK+324Tr5hpo
-	Q/TK+a3A==;
-Received: from 54-240-197-227.amazon.com ([54.240.197.227] helo=u09cd745991455d.ant.amazon.com)
+	bh=GJYVKc4vqFpGY2GyZOX5iayxai8wJ3bqqyeqPSJxzvI=; b=mCLPDBWmADvLXBLPtDhC+cOaCt
+	7ws1QwQlnSnP7zWVQwfSlHZYXfaXlKkqVdvrCpK1MUpfQIOYKTE6J8AQXOZP4yW7/DtBmgenGZMkp
+	QF88oLkDYUvREyG/bmCM0vWfg30Z7WW6AwwWM4HbM9JZ0RIDH/8AITZiEUJzC+mRJ3Sn6RCCc+DDS
+	dJkO0oWpNm+X5vHG1MXt1upDL6R2VSdJ1QE8kPfQa7HfAk1IjlaJFIhDNC+wNNyc5a9CcTclMH8ZH
+	i3oXuuZDDEzDdut/joMiRGAdxdsXd17kTJPEFHJbJLLb7RXOcGXgv7lc7lh3uu4N9v5p8IZ0WaugZ
+	Cn7JuRbg==;
+Received: from [2001:8b0:10b:5:e09:5b1f:c111:693d] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtt6j-00000000y8U-0rXF;
-	Tue, 11 Aug 2026 20:29:58 +0000
-Message-ID: <5212728e97749b29bc1815d349e7e2b11d023257.camel@infradead.org>
+	id 1wttnj-000000010lM-2H7N;
+	Tue, 11 Aug 2026 21:14:23 +0000
+Message-ID: <27f2326dc66d6341174c0e510aa518a1297b66ae.camel@infradead.org>
 Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
  notifier invocation
 From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: akpm@linux-foundation.org, david@kernel.org, mhocko@suse.com, 
-	rostedt@goodmis.org, bigeasy@linutronix.de, simona.vetter@ffwll.ch, 
-	jglisse@redhat.com, christian.koenig@amd.com, paulmck@kernel.org, 
-	pbonzini@redhat.com, linux-mm@kvack.org, kvm@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 11 Aug 2026 21:29:51 +0100
-In-Reply-To: <anuAq2s4mtyw4_Ql@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, akpm@linux-foundation.org,
+ david@kernel.org, 	mhocko@suse.com, rostedt@goodmis.org,
+ bigeasy@linutronix.de, 	simona.vetter@ffwll.ch, jglisse@redhat.com,
+ christian.koenig@amd.com, 	paulmck@kernel.org, linux-mm@kvack.org,
+ kvm@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Tue, 11 Aug 2026 22:14:17 +0100
+In-Reply-To: <CABgObfYR+vXBuSm3v5jbbZL8vF=XnocFAnjumdShgXBzod-HCQ@mail.gmail.com>
 References: <20260811162423.GL544626@ziepe.ca>
 	 <f33571137d2e3973e440d09c7602edaebe08b714.camel@infradead.org>
 	 <20260811172627.GN544626@ziepe.ca>
 	 <B25708F5-8425-4075-8D95-5E2A00C933DF@infradead.org>
 	 <20260811181915.GO544626@ziepe.ca> <anuAq2s4mtyw4_Ql@google.com>
+	 <CABgObfYR+vXBuSm3v5jbbZL8vF=XnocFAnjumdShgXBzod-HCQ@mail.gmail.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-85SRVXFNik7CKKJwkqMg"
+	boundary="=-TbVLQf1nSIoSFSmwNNnR"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -59,55 +62,50 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-85SRVXFNik7CKKJwkqMg
+--=-TbVLQf1nSIoSFSmwNNnR
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-08-11 at 13:06 -0700, Sean Christopherson wrote:
+On Tue, 2026-08-11 at 22:21 +0200, Paolo Bonzini wrote:
 >=20
-> +static inline unsigned long kvm_gpc_read_begin(struct kvm *kvm)
-> +{
-> +	unsigned long flags;
-> +
-> +	local_irq_save(flags);
-> +	cpumask_set_cpu(smp_processor_id(), kvm->gpc_readers);
-> +}
-> +
-> +static inline void kvm_gpc_read_end(struct kvm *kvm, unsigned long flags=
-)
-> +{
-> +	cpumask_clear_cpu(smp_processor_id(), kvm->gpc_readers);
-> +	local_irq_restore(flags);
-> +}
-> +
+> for_each_present_cpu(cpu)
+> =C2=A0=C2=A0=C2=A0 if (per_cpu(kvm_gpc_reader, cpu) =3D=3D gpc)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpumask_set_cpu(cpu, gpc_reade=
+rs);
+> __kvm_kick_many_cpus(cpus, wait);
 
-Nah, those are all on the same cache line. SRCU doesn't do that, does it?
-You end up basically reinventing SRCU.
 
-I'm OK with having a special helper for kvm_gpc_read_begin/end. I was
-actually tempted to do that as patch 1 in the series which converted to
-RCU =E2=80=94 it's then an implementation detail whether it's rwlock, spinl=
-ock,
-rwlock-except-on-RT-which-gets-raw-spinlock, SRCU or whatever.
+I'm literally sitting here watching you reinvent what SRCU already
+does.
 
-If we use the helper and still make it use SRCU, we can still impose
-some of the invariants which make it actually *OK* to use SRCU because
-we know we'll never hit those worst-case latencies that Jason is
-worried about =E2=80=94 like adding non_block_start()/non_block_end() in th=
-e
-helpers to ensure that we keep the atomic semantics within the locks,
-that rwlocks always previously enforced, etc.
+Which, again, is *fine* given the behaviour of *these* read-side
+sections.
 
-It isn't *strictly* non_block_start/end because because we invoke it in
-hardirq context, of course. We'd have to work that detail out. Maybe it
-*is* local_irq_save(); not because it's strictly necessary to do so but
-just because it comes with the desired sanity-checks.
+> Alternatively, there's always the poor-man RCU using an rwlock_t; you
+> do read_lock/read_unlock as usual for begin/end of reads, while the
+> write side does
+>=20
+> =C2=A0=C2=A0 write_lock(&kvm->gpc_readers);
+> =C2=A0=C2=A0 write_unlock(&kvm->gpc_readers);
+>=20
+> in place of synchronize_src().
 
-But either way, the point is that whether you reinvent SRCU or not, it
-all works purely because we know about the behaviour of the read-side
-users.
+And now we've come full circle to the rwlock we already *have* =E2=80=94 bu=
+t
+which is back to a shared cache line for readers, and which RT turns
+into a sleeping lock, which is what I started out trying to fix in the
+first place.
 
---=-85SRVXFNik7CKKJwkqMg
+I get it. RCU is a versatile tool, and in *some* cases the *Sleepable*
+variant of RCU gets used in ways which would cause grace period
+latencies which are thoroughly unacceptable in an MMU notifier
+callback.
+
+But in the specific case of a dedicated kvm->gpc_srcu whose only
+readers are tiny snippets of code that until today were always run with
+rwlock_irqsave? That is *not* Jason's worst-case bugbear. It's fine.
+
+--=-TbVLQf1nSIoSFSmwNNnR
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -205,22 +203,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MTEyMDI5NTFaMC8GCSqGSIb3DQEJBDEiBCCeggllqFC+NiTmUh1ldHcWir5rBYCP
-Gz9/GbBuggaHkjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MTEyMTE0MTdaMC8GCSqGSIb3DQEJBDEiBCB8a5OdnshjeNNblDZcfxRyY0uR+bMA
+ebISFHy8JXdh2jCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAPvv3D46RimLaqyfnt7Ddhr83zcOLg7cn6rePJQJKb6Birc46xYEl
-TxN30jKvxM/3a7jn9EDak7O21BPox0U6N3uwOk/7MTQluVsovLPHCmvXNMac+8HOQKqKK9OlAiGN
-CzwlbiPdPMACvcrkUOGab4shAcgHxurwMUQgF8e7gnrVmODHT8rVnEtqXaf/2tCAM+OoM/ILynHb
-+C7KPm9+xHz4iTrhD8bcQB01JdvMfbLmq6svmz9HqUohtnRFUEd6534KzQZM9qXQj4649rrlnD3z
-W5lVA+H4nJX4Ok9jebtq49QdXb9LoieGd+jRezuzeP7owjF/795xzS3ZvUkKlUgIibMdy115iPVx
-oD3UviwA1Mchja+YZP79FP1aPNBf+RuRRRBFTiju0ixoDHd5aIiuMVPZV7gAYsyOrDBJwWn6pwQy
-1ew1ZuIoFEk5LeT/L2u/X4LkMU2dg5LpRCtTK1LXWCY+j7preXHpCcz/y+S1xrjPMDiZ7xMdu0mJ
-Dmwmz6Jyqeu41O74ELp/MSGVa9XkHrNAZBCCLgRCQkLfJRfTYQQTqa5Z6acJon0NKGcCM0Qfwr9c
-h1uoE5iMbYlrQbSqF18geONZyC2hKgvelRu4FmKNHpi2obWihX41J5KjyE1Qg4FVq+lwBmNWJKQA
-z1dDOzCcZt6biUeC2DrX8LgAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAYDc8t8Mm3gmi7iBn4vydgwfKpVkuLNUbRuEQikps38kXGx+mAjwK
+57A5l2K8UnD+gxdvT9nCcV5KoWGnDYnzhrwVMfJOvKm/RI4NF/dI9MZObalJmi02+shGpPKfoYe1
+ra0zYaYavXlqxe1igve9goUyLpBsdZHznIwMUCZbkyBw+56Fl/la+EKwajKWgWK7p8Kaexc8uOQ6
+zrkUbUijpg8tVx29oYDdQLAaHreXMG3uFEtyvj6rKW6ZpkMNRGwu9IcOnJt+Qi4ipBTsCY+QbTyV
+7Ybr/bogBUfzY9qiE130hNZ7kig+9Ip24Qfekl9eFdr36Ge2OyTXwTIIj4xArZY1khuEutSOKIEv
+fNRsL5zLNO7KES+sJ/53vcJiTYEa741IYo1p/3WGaL5WKzRtJfNpKoGEpC+m42DLFbVjQ9ZsDnRK
+GMwpk6iYWoPKmoamxBDmgUw+jNCY4opKDr21JAoYnsnHqfVzFgz7ECTnsxExCGhKkcm8eK18yZj9
+wHh05DgGC0H0gwI3z3gCoS4nYlJgLe4lompInZOlYEOMthMLBa//bgdJBtdOzk2Htoq9TpWOubuX
+LXh4WumROkmzJiKdl9FzPggn+B5r12q/79tjymq73O4yFiHtEdkeHau9jeyy+breDRS7KKmG3On8
+XP/YFFWeFcqoD/OEHoejP5kAAAAAAAA=
 
 
---=-85SRVXFNik7CKKJwkqMg--
+--=-TbVLQf1nSIoSFSmwNNnR--
