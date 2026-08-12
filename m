@@ -1,283 +1,284 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A47E7260D;
-	Tue, 11 Aug 2026 23:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD5F238D52;
+	Wed, 12 Aug 2026 00:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786492264; cv=none; b=JNS3hSXN9GWXfkE5qCTgvaIfGuCRpcLRmO/qH0nKYDa76/IGszMD9E3uU8C9X/pBRPpI70oqY0JZz0cWb1Or2g39lXHIeGo8L6p/stXsaM0wk00/1lXW1ugP5I2OSnPp08h4sbPjbmLExIllB+/ssG6Yz/2M/vi0aaORXeCRiV8=
+	t=1786493436; cv=none; b=en1X2ZNBGlsiFwG7ceJU49taXnYDIqAHDsoCkD8p+veeQ6I+/Yt1gB6oJtwaxIuxzRzmh8N4SOMY35cbrwYj28fdW+P9ylk2kUQYsF1YzrwDugn8NSB1+LUWVZE56uFB7wVSFiMgKBqKGleWTAl1nIOeDeLE37ttrZHICFPScDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786492264; c=relaxed/simple;
-	bh=hZBvnVAQ4n1LKMOWmVvhGGe0T7va1xDoHXp19IE0QAs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BBU4gikd2PdWKewq1JnZiA6g/nZguD+Ubgu/HXqtncCTZRI86KPtKJjEEUmhm7JQpprpq++DOv1HTGst0NNpkJEydb9zdYswKPoFstrS5soqwtafTdXypBj2KLzGdymZJ5aQwQwjE+peEkO/awl2EwiNh5MiTQS3BWRjmFCZ9d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W4riWIHV; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1786493436; c=relaxed/simple;
+	bh=t6olm83AotBRKPZq7ry71okX+xBIJg32O5iui99BuR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o7SetjavDjs6fVNRBTQlv02hXWhMEkCEwGSj/ZhKVOP1mP+psf1Sdwmv9KCjvI6/1ktz16W7uCI43UmY9IFjkRP/oMEEG+HAhL80kKNi4XXitUC9AlqRYeTeIZ0pzsgRoIohhW3pqqXLSgwYCYxiv8WsJZqRsTudazGGu0SnHew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpMB4VYZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W4riWIHV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=X6z8WtcQ8fRb1sPFOhslEpIfiG2DhcUo5AcbjKY8Mto=; b=W4riWIHVlWm2ZoE6rOjhMk2wx6
-	LP/MTtuI/K464dDWegq9HibCorv3ga70sENvp5lJTWPDuxcYBNWlNQOUEYxY3eGuFqssISgHeG+Bb
-	aOeJWADrrfI+sB48b/T1XSRzlWj7ysnlEich+Z+7G/Bkrs8UqmtusI+0rwEyuQ+wJX++fnxS5i8CB
-	i9z8pfVTCAjovhdqlCuI3oRfYNqASkx0OFJVF5cCPUdUVWalVbu+ll123jgh/T28do2MVLPZynJrg
-	rXzkgabL5ZKRAwdWDgVKsofw5fmlwWn9QYwkKpgkACkKvNOLazcuOsWw2dmZA6DEFwqh0Qq+HPMaR
-	39Pa7Hjg==;
-Received: from [2001:8b0:10b:5:e09:5b1f:c111:693d] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtwFA-00000001A5d-3ZSe;
-	Tue, 11 Aug 2026 23:50:53 +0000
-Message-ID: <824a27d101d5b2e2a8a53fb81f5e4ecf15140a1f.camel@infradead.org>
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>, Fred Griffoul
-	 <fgriffo@amazon.co.uk>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	akpm@linux-foundation.org, david@kernel.org, mhocko@suse.com,
- rostedt@goodmis.org, 	bigeasy@linutronix.de, simona.vetter@ffwll.ch,
- jglisse@redhat.com, 	christian.koenig@amd.com, paulmck@kernel.org,
- linux-mm@kvack.org, 	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 12 Aug 2026 00:50:47 +0100
-In-Reply-To: <anuo_OxfvJbQnn71@google.com>
-References: <20260811162423.GL544626@ziepe.ca>
-	 <f33571137d2e3973e440d09c7602edaebe08b714.camel@infradead.org>
-	 <20260811172627.GN544626@ziepe.ca>
-	 <B25708F5-8425-4075-8D95-5E2A00C933DF@infradead.org>
-	 <20260811181915.GO544626@ziepe.ca> <anuAq2s4mtyw4_Ql@google.com>
-	 <CABgObfYR+vXBuSm3v5jbbZL8vF=XnocFAnjumdShgXBzod-HCQ@mail.gmail.com>
-	 <27f2326dc66d6341174c0e510aa518a1297b66ae.camel@infradead.org>
-	 <anuo_OxfvJbQnn71@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-PJmlfMzue/hQTdEXciz4"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpMB4VYZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A8401F00A3A;
+	Wed, 12 Aug 2026 00:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786493434;
+	bh=uiSanArbz97BB7m2KdtVGOj8KN8QmAhB/TclJFCCfoQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=XpMB4VYZJfBoQZvALZxLl9rgbh0yLcWvJlhYnIkI3SLNpMZqanYlUxC8IUAc4dd4I
+	 ExovMldQlsBsnWZhFO5IWCXh/so0l5yLw0klPTY99iS3hXXmQ6vv6877paNKli+2ep
+	 x1oXoUdjz/42g1QN1iyAANS0Yh5kjNqaUhH9OV5e5P82wS3gpWnDdUD5F7htFyln2C
+	 Xf8Er03lVyaovpL6B1BBTQgKahgr/3cGgKyv9RDaxRFmy8slhZM5HR1Yw/PJ5WTJ/4
+	 hzJqOGYJQobvwtGSzPDMaHaTojjlhZFXzgo+utEjc6d+jSd7MlC15Q0TGUVIotJKUm
+	 gSdQ3ljsFLaoQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 1341DCE17BD; Tue, 11 Aug 2026 17:10:34 -0700 (PDT)
+Date: Tue, 11 Aug 2026 17:10:34 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Puranjay Mohan <puranjay@kernel.org>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Matt Fleming <mfleming@cloudflare.com>,
+	"Harry Yoo (Oracle)" <harry@kernel.org>,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 0/6] rcu,srcu: Make call_rcu()/call_srcu() safe from
+ any context
+Message-ID: <21c5a596-fab8-4c08-a69b-81f020e65307@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260810122758.183765-1-puranjay@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260810122758.183765-1-puranjay@kernel.org>
 
+On Mon, Aug 10, 2026 at 05:27:49AM -0700, Puranjay Mohan wrote:
+> call_rcu() and call_srcu() only ever touch their per-CPU callback lists
+> with interrupts disabled: the enqueue runs under local_irq_save() (and the
+> nocb locks when offloaded), and so do callback invocation and grace-period
+> work.  That is fine as long as call_rcu() itself is invoked with
+> interrupts enabled, but it is not always.  An NMI handler can call
+> call_rcu(), and instrumentation can reenter it.  The case that prompted
+> this is a BPF program attached to rcu_segcblist_enqueue() that frees an
+> object: the free reaches call_rcu_tasks_trace(), which is call_srcu()
+> under the hood, back on the same CPU with the srcu_data lock already held,
+> and it deadlocks on that lock.  Either way, enqueuing directly can corrupt
+> the list or deadlock.
 
---=-PJmlfMzue/hQTdEXciz4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Queued for testing and further review, thank you!
 
-On Tue, 2026-08-11 at 15:58 -0700, Sean Christopherson wrote:
-> On Tue, Aug 11, 2026, David Woodhouse wrote:
-> > On Tue, 2026-08-11 at 22:21 +0200, Paolo Bonzini wrote:
-> > >=20
-> > > for_each_present_cpu(cpu)
-> > > =C2=A0=C2=A0=C2=A0 if (per_cpu(kvm_gpc_reader, cpu) =3D=3D gpc)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpumask_set_cpu(cpu, gpc_r=
-eaders);
-> > > __kvm_kick_many_cpus(cpus, wait);
-> >=20
-> >=20
-> > I'm literally sitting here watching you reinvent what SRCU already does=
-.
->=20
-> The problem, for me at least, is that SRCU does this and a _lot_ more.
->=20
-> > Which, again, is *fine* given the behaviour of *these* read-side sectio=
-ns.
->=20
-> Well, yeah.=C2=A0 Why use a nailgun to put a nail into the wall to hang a=
- picture
-> frame? (other than the indisputable fact that power tools are fun).=C2=A0
+							Thanx, Paul
 
-It's not a nailgun, it's a drill. And in this analogy, my observation
-that it works absolutely fine for us with *these* SRCU read-side users
-... is equivalent to finding the torque setting that lets you put it
-into screwdriver mode.
-
-Power tools *are* fun. But I try to avoid buying a new one when I
-already have one that does the job correctly with care.
-
-
->  SRCU is
-> fantastic infrastructure, but I genuinely think it's not the right fit he=
-re,
-> especially since we'll likely need a different solution for in-guest read=
-ers
-> anyways.
-
-The cases where we have to hold the host physical address *during* the
-time we enter guest mode to run a vCPU were never covered by the rwlock
-either.
-
-Fred's patches which reinstate that GUEST_USES_GPC mode are kicking the
-vCPU from the invalidate_start handler, just as the original
-implementation did. However the locking (or RCU) for the in-kernel
-users ends up changing, I don't see the in-guest part changing.
-
-Unless you're imagining some scheme which could handle both? But the
-in-kernel readers are *brief* and will always go away on their own,
-while the in-guest needs to be kicked; they are opposites.
-
-> > I get it. RCU is a versatile tool, and in *some* cases the *Sleepable*
-> > variant of RCU gets used in ways which would cause grace period latenci=
-es
-> > which are thoroughly unacceptable in an MMU notifier callback.
-> >=20
-> > But in the specific case of a dedicated kvm->gpc_srcu whose only
-> > readers are tiny snippets of code that until today were always run with
-> > rwlock_irqsave? That is *not* Jason's worst-case bugbear. It's fine.
->=20
-> I agree it's more than likely fine for your use case, I'm not convinced i=
-t'll be
-> fine for use cases that heavily overcommit memory, or do NUMA balancing, =
-or (close
-> your eyes) enable KSM.
->=20
-> E.g. it doesn't take all that much for even a single expedited sync to ge=
-nerate
-> a delay of 20ms.
-> https://lore.kernel.org/all/20260309193059.2244645-1-seanjc@google.com
-
-That looks to me like a pathological case where KVM is trying to use a
-single srcu_struct in two different modes, and getting sad when they
-conflict. That would never be the case for the separate gpc_srcu.
-
-I've been playing with the soak tests, running in parallel with a load
-of about 140, with KASAN/lockdep/etc enabled.
-
-I also implemented that thing I suggested: a try_synchronize_srcu()
-which doesn't even use the waitqueue when it can trivially determine
-that it doesn't need to wait.
-
-Even when we're stressing invalidation vs readers, it ends up taking
-the fast path in about 99% of cases, taking around 4-16=C2=B5s for those;
-32-128=C2=B5s when it does need to call srcu_synchronize_expedited().
-
-It goes above 8ms in 4.4ppm of cases, with the p100 outlier being
-17.6ms. My gut tells me we'd see those occasional outliers even with
-the rwlock at this load, but I'm going to kick that test off and answer
-that definitively in the morning.
-
-
-
-
-
---=-PJmlfMzue/hQTdEXciz4
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-NDA5NlNIQTM4NDIwMjRDQTEuY3J0MA0GCSqGSIb3DQEBCwUAA4ICAQChxpuuHVw93mze9jmueUFV
-BJNzvOzZlazrt0AiW1H7TlYQutgKVXPNSEyz8s4k+WsRSjjlQMOiZerfwPEV6lo9336I0uNd+ffc
-Rf8gbjiPTiVT+gX9GD1V5AguRgtsJn/H3A6M0dlzhI3J1jsOG9/+xPloHPzy7sPn5rNkntB/VTnv
-Bix4IfUy3ScOu2vnLX0gnwP3EknfdEUvq9+kdkEEBDz7dGqQo3EuhXZoW9CHF2GM0sOpO/cuNQh2
-JzA+to3smTES7sJXYuRrt5GomCRYvtIrRiYGMalFp+z6Jw/843lEIIpNNvpWVfx5Mbawkl+wWG8k
-0IK3rF7FtbNa0it8/s288G/AEHvfsDIQYFmRLlo2LNMxxREkZO/1Qq8GHUsX/602Fi0u88I3uh5w
-bOEIeG32NzBKTKBOjdjpiUrdCA676dyaIFt967CUtnUvFti8bqGA2pe/u7pjIANthqMBAlcnY5B6
-ff2mbdD8BBLItgb4HyUOCVawzy1hc+UR2tglySwYroWeohfoG6afjesGigsl2JmnhaZ9Z0vanF74
-vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
-9ALHQXda/c4TJvAylfHQ6wqArzAuV1pfWldwy7IOBMtKqzQBXQ4dSDGCBCAwggQcAgEBMHYwYjEL
-MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
-c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
-MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MTEyMzUwNDdaMC8GCSqGSIb3DQEJBDEiBCBnwxX9QMEpFIMNNVxF++G6PwC6bJXh
-YqIB98oCRMvzhjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
-aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
-SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
-CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
-c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAYJegnfs4DVM16tcuYdGdxOTvChm66G8reZ2EthEJpchFISirDqNF
-l2OiP+iTLMOlQAY1fodq1OwWqhiPJpiRjvlvMzwMiUIxBmztUEe4i1XWXKtj9aCKNYJ5hthdsUDv
-8BxgErCklOunO94Nw4jI6m/K7odLiNXpBJ89D3LdXBsnBNQFNBtTfxgyiTscX3eF9OFQhOD+FYpS
-nQpf8+ju/3WCvs9OLDlztWMn4sHJVtARBBdQ3aunadv+mXRM5jgIzXpa5Xv5tS2ITmYD/szFVx42
-Lr+ATUFBaev4mrKL+Wma/299O1m1ntkJ6U7w25BEREkQGEvi7cltdIktd3l+8Xf0EpIjZH8F/P8f
-qF1PMH/eVrvtLGkf4ocAQfcEO/mYeFyEI3KCtCUBdIliDBjHHA29E7C/eLQMt6WAbkFP2asT4ogp
-9L6wOfQWJ8Hl/g3Ft+qrKqL+U69w6qgRFnFXhnGeBWdMkjficTQa8LHJD2Z6IBWgGCDpewekRQxg
-x+vkYqIabdiV2JIIwyDSXxjvSGDMflp6cumeOwoK4DKmxPWZNdWAy7vHxppfWfKAZRFHiftrHlH8
-0mvaXa89zdOGkJkX60dQzksKhBYArm+pTjGCJZO/nrSP8Zkf6/X6Hqk7HoAhYYsKbF3BXEoCKoGZ
-Nhkj9foqGsfBdWPDPcxV5+gAAAAAAAA=
-
-
---=-PJmlfMzue/hQTdEXciz4--
+> Rather than scatter context checks through the enqueue, make it defer
+> whenever interrupts are disabled: stage the callback on a per-CPU lockless
+> list and re-issue it from an irq_work once interrupts are back on, going
+> straight to the enqueue helper so the re-issue cannot defer again.  Only
+> the drain side takes a lock; the staging is a bare llist_add() and stays
+> safe from NMI.  This is behind a new hidden CONFIG_RCU_DEFER, which is set
+> wherever a reentrant enqueue is possible (HAVE_NMI, KPROBES,
+> FUNCTION_TRACER or TRACEPOINTS); without it call_rcu() enqueues exactly as
+> before.  The gate is bare irqs_disabled(), so callers that merely hold
+> interrupts off are deferred too and pay one irq_work hop.
+> 
+> CPU offline is the awkward part.  A callback can be deferred very late in
+> the outgoing CPU's teardown -- from do_idle() or cpuhp_ap_report_dead(),
+> past the CPUHP_AP_SMPCFD_DYING flush that would otherwise run the irq_work
+> -- so the irq_work can no longer run there to re-issue it.  rcu_barrier()
+> and srcu_barrier() therefore drain every CPU's deferred list themselves
+> before they wait.  They drain rather than wait the irq_work out because
+> irq_work_sync() parks on an rcuwait, which holds a single waiter, so two
+> concurrent barriers would clobber each other's wakeup.
+> rcutree_migrate_callbacks() drains the outgoing CPU's list
+> too, so a late deferral still lands on a callback list even when nobody
+> calls a barrier.  To keep those drainers from stepping on each other, the
+> drain holds a per-CPU raw lock across the llist_del_all() and the
+> re-issue, so a drainer never returns having pulled callbacks off the
+> deferred list but not yet put them on a callback list.  Every lock the
+> re-issue touches (nocb, rcu_node, srcu_data) is already raw, so the
+> nesting is fine.
+> 
+> The drain re-issues with interrupts disabled, so instrumentation on the
+> enqueue path can re-enter call_rcu()/call_srcu() from inside it, stage
+> another callback, re-raise the irq_work, and the drain never finishes.  A
+> per-CPU flag catches that: a deferral that arrives while that CPU is
+> inside its own irq_work drain, and is not from an NMI, is dropped rather
+> than staged, with a WARN_ONCE() under CONFIG_PROVE_RCU whose backtrace
+> names the instrumentation responsible.  Dropping leaks that callback, and
+> can strand state its caller tied to it, but the alternative is a CPU that
+> never leaves the drain, and the producer is a BPF program that emits one
+> callback per enqueue, so there is nothing finite to wait for.  Only the
+> irq_work drain sets the flag: a direct drain from a barrier or from
+> CPU-offline re-issues onto the current CPU, so anything staged during it
+> is picked up by that CPU's own irq_work rather than feeding the drain in
+> progress, and no legitimate callback is dropped. Instrumenting the
+> irq_work machinery itself can still loop, as it can for any irq_work user,
+> and is not something this series can fix.
+> 
+> The irq_work is IRQ_WORK_INIT_HARD in all four flavors.  It is not needed
+> for correctness, but a non-HARD irq_work runs from a kthread on
+> PREEMPT_RT and can be delayed under load, letting deferred callbacks pile
+> up; running the re-issue in hard-irq context keeps that from turning into
+> an OOM.
+> 
+> Patches 1 and 2 do Tree and Tiny RCU, 3 and 4 Tree and Tiny SRCU.  Patch 5
+> teaches rcutorture to issue ->call() from a perf-overflow NMI -- the
+> nmi_calls parameter, on by default -- on the flavors that advertise it,
+> and checks that every callback issued from NMI is later invoked.  Patch 6
+> adds the BPF reentry reproducer described above.
+> 
+> Changelog:
+> v3: https://lore.kernel.org/rcu/20260805122346.269445-1-puranjay@kernel.org/
+> Changes in v4:
+> - rcu_barrier() and srcu_barrier() no longer skip a CPU whose deferred
+>   list looks empty.  The lockless llist_empty() test added in v3 skipped
+>   the lock that makes a drain conclusive: a concurrent drainer can already
+>   have emptied the list without having re-issued yet, so the barrier could
+>   return before those callbacks reached a callback list.
+> - Tree SRCU: drain before cleanup_srcu_struct()'s "just leak it" early
+>   returns, and in srcu_module_going() before it frees any ->sda.  Deferral
+>   skips check_init_srcu_struct(), so srcu_module_going() could skip
+>   cleanup_srcu_struct() and free ->sda with a staged srcu_data still
+>   chained on a per-CPU list.
+> - Dropped ->defer_exp: a deferred expedited call_srcu() now completes as a
+>   normal grace period.  The flag lived on the srcu_data rather than on the
+>   callback, so it expedited whole batches; only srcu_expedite_current()
+>   with interrupts already disabled can reach this, so the downgrade costs
+>   a delay and nothing else.
+> - rcutorture: use a fixed perf sample period rather than .freq, which sets
+>   TICK_DEP_BIT_PERF_EVENTS for every CPU and pinned the tick for whole
+>   runs of TREE04 and TREE07.  Also document nmi_calls, and say on the
+>   console when there is no PMU, since the issued==invoked check then
+>   compares zero to zero.
+> - kasan_record_aux_stack() moved to __call_rcu_common(), so a
+>   use-after-free report names the caller rather than the irq_work.
+> - Known gap, documented in patch 1: a callback deferred past the
+>   CPUHP_AP_SMPCFD_DYING flush leaves ->defer_work claimed with its
+>   self-IPI lost.  rcutree_migrate_callbacks() still re-issues the
+>   callback, but the first deferral after that CPU comes back raises no IPI
+>   and waits for the next irq_work there, or for rcu_barrier().
+> 
+> v2: https://lore.kernel.org/rcu/20260803134839.2103051-1-puranjay@kernel.org/
+> Changes in v3:
+> - Barriers no longer call irq_work_sync() on an online CPU's ->defer_work.
+>   irq_work_sync() waits on an rcuwait, which holds exactly one task, so two
+>   concurrent rcu_barrier()s syncing the same per-CPU irq_work could lose a
+>   wakeup and hang.  Both flushes now drain every CPU directly, guarded by a
+>   lockless llist_empty() test so the no-deferrals case stays cheap.
+> - The re-entry guard is now set only by the irq_work drain, which always
+>   runs on the CPU owning the list it drains.  In v2 a barrier draining a
+>   remote CPU set the flag on the draining CPU, so an unrelated irqs-off
+>   call_rcu() there was dropped and leaked even though it could not have fed
+>   the drain.
+> - The drain clears ->next before re-issuing.  A double call_rcu() on a head
+>   that is already debug-object-active makes llist_add() self-link it, and
+>   rcu_do_enqueue()'s double-free path returns without clearing ->next, so
+>   the drain span looped forever with interrupts disabled.
+> - An expedited call_srcu() is no longer silently downgraded: ->defer_exp
+>   records it per srcu_data and the batch is re-issued expedited.  Only
+>   srcu_expedite_current() is affected, __synchronize_srcu() sleeps and so
+>   is never deferred.
+> - The drop is now WARN_ONCE() under CONFIG_PROVE_RCU rather than an
+>   unconditional WARN, so instrumentation cannot reboot a panic_on_warn
+>   kernel; the backtrace is what identifies the offending program.
+> - Tiny RCU and Tiny SRCU use IRQ_WORK_INIT_HARD like the Tree flavors, and
+>   READ_ONCE()/WRITE_ONCE() on their draining flags.  TINY_SRCU is
+>   "default y if !SMP" with no PREEMPT_RT dependency, so it really can be
+>   built on RT where a non-HARD irq_work waits on the irq_workd kthread.
+> - Tiny SRCU: cleanup_srcu_struct() drains *and* irq_work_sync()s
+>   ->defer_iw.  That irq_work is embedded in the srcu_struct the caller is
+>   about to free, unlike the Tree flavors' static per-CPU ones.
+> - rcutorture: drive the perf counters from CPU-hotplug callbacks.  The
+>   one-shot for_each_online_cpu() loop lost them at the first CPU offline,
+>   after which the end-of-test issued==invoked check compared 0 == 0.
+> - rcutorture: per-CPU rcu_head instead of one global, so several CPUs can
+>   race the drain; count the call before issuing it so mid-run stats cannot
+>   show nmi-cbs > nmi-calls; release the perf events on the
+>   torture_cleanup_begin() early-return path; print nmi_calls in the module
+>   banner; report when nmi_calls is set but no NMI ->call() ever happened;
+>   and drop sample_freq to 100, since 1000 made perf lower the system-wide
+>   perf_event_max_sample_rate tenfold.
+> - selftests/bpf: the old ASSERT_EQ(reentered, 1) could not fail, and an
+>   atomic allocation failure in the nested task-storage delete made the test
+>   pass without ever re-entering call_srcu().  It now records and asserts
+>   the helper return values, probes for rcu_segcblist_enqueue() up front so
+>   a Tiny kernel skips instead of failing, and restores the CPU affinity it
+>   changes.
+> 
+> Testing: rcutorture rcu/srcu/srcud/tasks-tracing with nmi_calls, hotplug,
+> barriers and nocb toggling issued ~81000 callbacks from NMI with none lost,
+> under PROVE_LOCKING, PROVE_RAW_LOCK_NESTING, DEBUG_OBJECTS_RCU_HEAD and
+> RCU_LAZY, with no lockdep reports; SRCU-T, SRCU-U, TINY01 and TINY02 pass;
+> the BPF reproducer passes.
+> 
+> v1: https://lore.kernel.org/all/20260729162207.1567770-1-puranjay@kernel.org/
+> Changes in v2:
+> - Fixed the re-entry livelock Zqiang spotted: a BPF program on the enqueue
+>   path re-enters call_srcu() from inside srcu_defer_drain(), stages another
+>   callback and re-raises the irq_work, so the drain never finishes.  A
+>   per-CPU flag now drops such a deferral, with a warning, unless it comes
+>   from an NMI.
+> - cleanup_srcu_struct(): drain the deferred callbacks before syncing
+>   ->irq_work rather than after, since re-issuing one can start a grace
+>   period and re-queue that irq_work (Zqiang).
+> - Tiny SRCU: sync ->defer_iw in cleanup_srcu_struct() as well, so a
+>   deferred callback is re-issued onto ->srcu_cb_head where the leak checks
+>   can see it instead of being stranded on a soon-to-be-freed srcu_struct.
+> - Added Kumar's ack to the BPF selftest patch.
+> 
+> Testing: rcutorture rcu, srcu, srcud and tasks-tracing, each with
+> nmi_calls, CPU hotplug and barriers, and nocb toggling for rcu, all
+> End of test: SUCCESS with the count issued from NMI equal to the count
+> invoked (17987, 2924, 2661 and 4412 respectively) and clean consoles,
+> under PROVE_LOCKING, PROVE_RAW_LOCK_NESTING and DEBUG_OBJECTS_RCU_HEAD;
+> SRCU-T, SRCU-U, TINY01 and TINY02 pass; the BPF reproducer passes.
+> Build-tested x86_64 with TREE_RCU+TREE_SRCU, TINY_RCU+TINY_SRCU and
+> TREE_RCU+TINY_SRCU, each with CONFIG_RCU_DEFER=y and =n, plus arm64
+> TREE_RCU+TREE_SRCU with RCU_NOCB_CPU and RCU_LAZY.
+> 
+> Puranjay Mohan (6):
+>   rcu: Make call_rcu() safe to call from any context
+>   rcu: Make Tiny call_rcu() safe to call from any context
+>   srcu: Make call_srcu() safe to call from any context
+>   srcu: Make Tiny call_srcu() safe to call from any context
+>   rcutorture: Exercise ->call() from NMI context
+>   selftests/bpf: Add a call_srcu() re-entry reproducer
+> 
+>  .../admin-guide/kernel-parameters.txt         |   7 +
+>  include/linux/srcutiny.h                      |  12 +-
+>  include/linux/srcutree.h                      |   4 +
+>  kernel/rcu/Kconfig                            |   6 +
+>  kernel/rcu/rcu.h                              |  14 ++
+>  kernel/rcu/rcutorture.c                       | 150 +++++++++++++++-
+>  kernel/rcu/srcutiny.c                         |  93 +++++++++-
+>  kernel/rcu/srcutree.c                         | 170 +++++++++++++++++-
+>  kernel/rcu/tiny.c                             | 127 ++++++++++---
+>  kernel/rcu/tree.c                             | 133 ++++++++++++--
+>  kernel/rcu/tree.h                             |   6 +
+>  .../selftests/bpf/prog_tests/rcu_reentry.c    |  93 ++++++++++
+>  .../testing/selftests/bpf/progs/rcu_reentry.c |  51 ++++++
+>  13 files changed, 818 insertions(+), 48 deletions(-)
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/rcu_reentry.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/rcu_reentry.c
+> 
+> base-commit: 9dc303e69bcd49f9668ca090ae45325269531fbb
+> -- 
+> 2.53.0-Meta
+> 
