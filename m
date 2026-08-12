@@ -1,45 +1,45 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1683240D588;
-	Wed, 12 Aug 2026 10:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E073043DB;
+	Wed, 12 Aug 2026 10:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786530974; cv=none; b=X0RCdlT3Jv0YEIiPXWd93zF+66BDBaJysAvxE364Jp5fDly+ZC7r0Y2nE9IBK+t5r6VGTHP1iY869n0CUY2Io6BBtCG6FjNs9A+UtaWHT1HavurhbIhLrp5Y8x+9pq5l1csRFa6gFXzKSzdKyZfobLjEueQVspfPXxS0Va24H9c=
+	t=1786530995; cv=none; b=EgGdn5L8Y/M+phobAaisSsAUbwztDh2Fqf92czUFcq9/nL6SL7c17iifBN7LROKyfi3PCxeIe89YovKIhp0rLlthRcfFKzEMW4JTr6nkXWbKimVj2I+f2Y9nZ2hzJBd33IuNZAPnlbA4wL42EKQLUkpOip2z7Ao5AtMYFhCIa3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786530974; c=relaxed/simple;
-	bh=In4n7zaUEhQcOsYlsgozGp3p2gHUIYFWintylNw48SQ=;
+	s=arc-20240116; t=1786530995; c=relaxed/simple;
+	bh=/Ft4r5DzH9kh3zjsTyNdRTZxLyUywX4Wxogccz6YMO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XCahtKV2tU/B3RYIfTybeC0Vka+NAObQi73oxDBgo3MQnCKYSrbpC04PC7kXGk1+LVt2WYgtr4ATKyluYng/VyqB+K3UdyJpNAuGfuvXCQFMpixThtDRBMt1Z/NlPWRQiHIYSLLMQvyKgoVUGDUw0pbIYJ5867U9lqo81s23qFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=abeExLCf; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=PhCoY9OSDKO6gDdoVVrbsIuVqTBc6SNt97qlLHyxMgiOGnRuArztuDRN3T+NZOvki5Ia8to+ho8eq7flyucIBMnV/aV0QIPIFI07twyGOBHT7UmptsNPlKLvHvZH4h9Amcu3iMuRG/s8ogc3aijbVTODxnDlg6SjDY1tRiClPOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KuBz3oI/; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="abeExLCf"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KuBz3oI/"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=LoRAvIVf+P6rfQXUkcFpDnWcziKc/O9MHKr0HBMCv+A=; b=abeExLCfZBK8F+9Auswhxl8oUP
-	U35xgKr06AmYv2SUNwDZgMBc6UJeURnQXnztq5LM/wKSEUajwIaF24J6u7FE89QiKckmv5Z5TuQJJ
-	773YRghA+FtWY1TmQeKzGCpSzIDJxGZ3CEbRKIxghML6RLAdykcIEN1V3hYrI85TXsIAQsbEMl3A6
-	a8YeGftJgmvdZwBm+hGHS93qj3kmHBYtyazOTHAOTtfUmJwW2cYrX0Fg33DFfLGlIXLxOOoeFiwY1
-	C8G5taeO5El4xD74fuoHFq38OX1aIULlCEGQ1JSSTGH7OSi75GILIEph1fdSuCDySgEpNN6V1HoxB
-	SKRVcD+w==;
+	bh=d5RBwZyUS6Le2BNs48LkPOz/vGZX9KDv+t0EJBSo89I=; b=KuBz3oI/lXJYGpZoQXy5h5m5iU
+	qEIPspjv3jYP00Wj8bPjrxvFLaG9Ch3J1JRPrLL/GTNn1m55eJ8UoMUhsz87u6XnNYf7Xs8M2gna0
+	bPAO2pPoeqP5teA0vv1uNHXGzSJ1tNfp1+WddDs9Nqnx74eeKEAwJWw5SLMXvSXup/qvd4Si4nP6R
+	Q45+OMC6dT9f6CeU/7WL3C+PHhquVZ7a1ItZSMY9uGf8rilpW390fL/3fnYXnhY6N9DDl/uQAsiuh
+	yQITbMlT2xrGiPvAetP9LO2VEgm5uGB1lmljHMEgNfsXGGBY7AF2MRSF8J8s3XfHfvFhasbm3mUnx
+	v5zv7sIg==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu6JY-00000001pR1-3TWu;
-	Wed, 12 Aug 2026 10:36:05 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wu6Jq-0000000FJ6K-3Uzy;
+	Wed, 12 Aug 2026 10:36:23 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7C53D300382; Wed, 12 Aug 2026 12:36:04 +0200 (CEST)
-Date: Wed, 12 Aug 2026 12:36:04 +0200
+	id 571E8300382; Wed, 12 Aug 2026 12:36:21 +0200 (CEST)
+Date: Wed, 12 Aug 2026 12:36:21 +0200
 From: Peter Zijlstra <peterz@infradead.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: Bradley Morgan <include@grrlz.net>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-	Bradley Morgan <include@grrlz.net>,
 	Anna-Maria Behnsen <anna-maria@linutronix.de>,
 	Frederic Weisbecker <frederic@kernel.org>,
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
@@ -54,10 +54,10 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Clark Williams <clrkwllms@kernel.org>,
 	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] sched/core: Pause KCOV in wake_up_new_task()
-Message-ID: <20260812103604.GI776954@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v2 0/6] kcov: Suppress timer and scheduler coverage leaks
+Message-ID: <20260812103621.GJ776954@noisy.programming.kicks-ass.net>
 References: <20260811154111.64669-1-kmehltretter@gmail.com>
- <20260811154111.64669-7-kmehltretter@gmail.com>
+ <60A84278-D257-4815-8CB0-8247DEDDA339@grrlz.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,38 +66,60 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260811154111.64669-7-kmehltretter@gmail.com>
+In-Reply-To: <60A84278-D257-4815-8CB0-8247DEDDA339@grrlz.net>
 
-On Tue, Aug 11, 2026 at 05:41:11PM +0200, Karl Mehltretter wrote:
-> wake_up_new_task() is uninstrumented, but CPU selection and enqueue call
-> instrumented helpers. During a KCOV-enabled fork, they can record
-> scheduler, hrtimer and clockevent coverage into the parent.
+On Tue, Aug 11, 2026 at 08:59:41PM +0100, Bradley Morgan wrote:
+> On 11 August 2026 16:41:05 BST, Karl Mehltretter <kmehltretter@gmail.com>
+> wrote:
+> >KCOV aims to exclude interrupt and scheduler coverage so syscall coverage
+> >stays input-dependent. Instrumented callees can still record when
+> >uninstrumented timer and scheduler paths run with in_task() true.
+> >
+> >With the diagnostic patch in [1] applied, CONFIG_KCOV_SELFTEST exposes
+> >three cases on x86-64: deferred hrtimer rearm, __schedule() callees and
+> >PREEMPT_RT wakeups. Task-context wakeups and new-task enqueue also add
+> >scheduler coverage to ordinary syscalls.
+> >
+> >Add a nestable KCOV_PAUSED bit and a kcov_pause guard. Use the guard for
+> >deferred hrtimer rearm, __schedule(), the try_to_wake_up() wakeup body
+> >and wake_up_new_task(). This suppresses their instrumented callees
+> >without excluding those callees from task-context coverage.
+> >
+> >Changes in v2:
+> > - Add patch 1 to make kcov_start()'s mode parameter unsigned int. No
+> >   functional change.
+> > - Rework patch 2 around a guard-only API with private current-only
+> >   helpers (Bradley Morgan).
+> > - Use the guard in patches 3-6 and reword the pause comments.
+> >
+> >v2 testing:
+> > - GCC builds on x86-64, arm32, arm64, MIPS32/64, PowerPC 32/64,
+> >   s390, RISC-V 32/64, LoongArch, Xtensa and UML.
+> > - PREEMPT_RT builds on x86-64, arm32, arm64, RISC-V 32/64 and
+> >   LoongArch.
+> > - x86-64 builds with GCC 8.1 and Clang 22.1. Both kernels passed a
+> >   KCOV selftest boot.
+> > - x86-64 CONFIG_KCOV=n build, with no KCOV or pause references.
+> > - KCOV selftest, 10/10 x86-64 boots with and without PREEMPT_RT. A
+> >   fresh non-RT boot passed after the helper-only rework.
+> > - 40 dummy_hcd/g_zero remote-KCOV cycles on x86-64 and arm64.
+> > - 400 repeated fork() calls on x86-64 PREEMPT_RT.
+> >
+> >Three one-hour syzkaller A/B pairs were run. Each baseline and patched
+> >run used four 2-vCPU PREEMPT_RT VMs. The patched kernel completed 22-51%
+> >more executions than base. At matched execution counts, corpus size grew
+> >42-54% and coverage 14-19%. No run produced a report.
+> >
+> >With KCOV disabled, the pause sections compile away. With KCOV enabled
+> >on x86-64, GCC 15.2 grows __schedule() by 117 bytes,
+> >try_to_wake_up() by 94 bytes and wake_up_new_task() by 88 bytes relative
+> >to the base commit.
+> >
+> >[1]
+> >https://lore.kernel.org/r/20260724192122.73080-1-kmehltretter@gmail.com
+> >
 > 
-> The paths depend on runqueue and CPU state, so coverage varies between
-> identical forks. Pause KCOV for the whole function, extending the
-> scheduler exclusion to new-task wakeups.
 > 
-> Fixes: 5c9a8750a640 ("kernel: add kcov code coverage")
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
-> Notes:
->     v2:
->      - take guard(kcov_pause)()
->      - reword the pause comment
-> 
->  kernel/sched/core.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index e863fac02e38f..f7ddfbbb5a494 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -4947,6 +4947,9 @@ void wake_up_new_task(struct task_struct *p)
->  	struct rq *rq;
->  	int wake_flags = WF_FORK;
->  
-> +	/* Instrumented callees would leak coverage into current. */
-> +	guard(kcov_pause)();
+> Reviewed-by: Bradley Morgan <include@grrlz.net>
 
-I'm sure you know what I'm about to say now, right?
+Plonk
