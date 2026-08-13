@@ -1,129 +1,209 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1533B411FBB
-	for <linux-rt-devel@lists.linux.dev>; Thu, 13 Aug 2026 06:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761FC36728B;
+	Thu, 13 Aug 2026 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786600804; cv=none; b=qwCYgtpyi1PW677Lbf9a+xYuLVEwaRbrUoWeDZrYNe+uIHGGaRWIWu5bW1OTK6VUHTn+ifpiJwGZCpsAJL5RippDAtHoZJ/VH8oFO9wm873eCO35auxlTnTGVpsPSV7QyKO1r6PZAk0H7+j4uNtbdSmfB05pOyUROOpBLAdsIB4=
+	t=1786607711; cv=none; b=ld8SdlexgT11w+dQvVMbPaKacEjsZK+5uocsHkDQbATWi38s6U73rKm7mD7X9qT/m386u/s6IlLORwKA4kTbW5+mV33l7560a29SRr+OpsBs07TzxN3tpnL9/SvrKhxLOSM4v6zCkyXFmI9LDIc8tixXQ8U/1hmq6YltW/knWQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786600804; c=relaxed/simple;
-	bh=dadrcgxZ2VGij7TkJpN8P7nmgIBrCVXfpHR/o0agZ0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CRL7YfOD0n4I2SBsZ3uRkQb8E6f7SO3iYhrexiYIQC1dT9fNim91JyeEpaPuuuCiYcwLW0TcOSnl4jKMBsLXDop2b30NIPcZHMWkN0rf5wBlPlngfBcAxvxTGGSN8Ep7zKfLVVmGYjFyWzrEw2MiAyqh51x+PFgewTm2GV9MX8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7ml6yNm; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786607711; c=relaxed/simple;
+	bh=WOgwzjyAadVx0ZDU+mKs3DNtLoxxj6BgXSurYWlX1As=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dSNvpA2/IbGR38yry4YCinpa8/mFRjPHOslk6ybGATqE893YpOvXEg8l11m9zdUdWnZ9SA5HKuB5qsmJPEuYN+VUflCCvir9KwNde2XhAuGYtXZ4ow5P4JYwd65pLMfZrLyg6XCOYEc7KR92nm7m7PtvaTArF/bWNOgqkRa4AK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g+efvutL; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7ml6yNm"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so1643511f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Aug 2026 23:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786600801; x=1787205601; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YfObPab6712OhhB848BHWwyLub6SBCc6jSsmm/kgkes=;
-        b=I7ml6yNmjh+/aPR1IIHsEAWeLgYWo/6zPOBjSNDeNnxVKewv7OP05xu1IUgXEq1plP
-         OUaT5gn8gsyESdf7/xCKmiy74BJR7DMeaRV6x2LRAb66gsIBSIcSNVufv5l9x/auRFMM
-         jFMCW1vLxO34hFEEGXqBbJ9CVeLMYNfW0rnbtGHWv6kH/Cs5aeNHd50N5Ww2frgS9tW6
-         v32QUSQgum5TNC9+Cig/10+DmPIbdpvEbDwfwPDr5/1BfEatPwkpYJ49v/G3u7PFUHiS
-         EaP2bxQpLRLHaEwq3/T2/VRu7ooP24OooFMp9Urs28n6+qiLyNjR/nLZQ7DpJjpZHgS2
-         mmrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786600801; x=1787205601;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YfObPab6712OhhB848BHWwyLub6SBCc6jSsmm/kgkes=;
-        b=BLp0itDcwCynl+MRlbm+UaLiqIbHpanDL8xzKgfKSVjkt9T/zMHKT/L92oUo2mzeyi
-         F6JZapc3d3G2NiNHvLo/IpDA6+oRaYUbZeoL1vAUbUTKwYk5mk80aNDj4RBVegiSq6k6
-         dEE8JW91e7Jt40C2olxm439tTZ+sQigfcAA8JX9PZh9khweu1Na4yH2kRjxAiwaT8nCu
-         tCfEFIuAw9PKsC2krBzXDTO25iXAcOGc25o021b/ZSwwAFQI5SuiOVDzdzpsNi4MRlkJ
-         UVGUmI9wJO8NkKYWUQJs1V+slC2iPBmRK66w9AZAkj2kEe9Rh58aFMP11dK+zRrc3FcP
-         eJnA==
-X-Forwarded-Encrypted: i=1; AHgh+RpYubxbgWxWDjvpYk77xv5QnSXYZkr8Iz6qmpA0vR7wRxO/EYn4ZJLmt8vOZc54+17Z0cIT8bdynK7/MX1D1g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxtdk1Ygw2pOzQsadQ27iDpVQ2s1QAOAzSINEY77gTCgKxu4fTw
-	3elS6kKzQKs4U6uGk+J5FA/sSepTw3j9UutrFX8PlZtYb7032IidObXT
-X-Gm-Gg: AR+sD10ZzWF6CyQZ0sXwLhYIkEzCTUapWtlFATjK/v7jv4ktr2ffHmQZE5iDaKilooV
-	MPUIWNb8WeJN86tnedJJaDVPYjfPiuvVcJ+k0S5dsqEf1LyE7oE4wxQ85/yEE2GCQzY6UDKvb5P
-	hlRmLaJ8JM+jkWDje/xf1ES0E8v2MLr/DBF5oZN872iWfRaGL22U0wo6th/iqefO1mkRZCBv+1G
-	g6aqXX7m9LBtDn9PbjPGJirG5BASvaueYY1U/22w65qZ/vQTZlNclhd0+/s95Ie8UlKsWEynAUy
-	0bi8ay1445ODn/HbgdQtuzwVlENWVVCV97Svfyf9EhvrhA7bhQR5aqhH6xalsXlXmKzQLf+fG1p
-	1kAe4i5e9aP9rV5tQrSnv0Im9dTI+6HuYo0gsFokL2IVedRp8VOwwN5s4NWKN+dzpOZtgoCPe0s
-	15O1b/bZgPHt1Mlnoyt0Z+0tWOF8IhLRK3r9t1yO6VV5rWoQqWuvHODwAzOGE0nJnjOTcBUfkbh
-	NYbXW2TBXYRbzi4pUQSWYbRQMBZivMWHqyaExSIac8Wlvz9Iphb+9seY0H+S1jWpfeApZrfDIA2
-	NvuSoxOoN6D19xi1aSv5m13hMSawFOFMZCB+lt0YV+hf29+WA6KBfGWPElgQlDsNMHc=
-X-Received: by 2002:a05:6000:3104:b0:47f:773f:2d68 with SMTP id ffacd0b85a97d-48159eea061mr4408522f8f.16.1786600801086;
-        Wed, 12 Aug 2026 23:00:01 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl (dynamic-2a02-3100-9c79-1f01-1565-573d-10dc-99f9.310.pool.telefonica.de. [2a02:3100:9c79:1f01:1565:573d:10dc:99f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815a5af4b2sm3155862f8f.17.2026.08.12.22.59.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 23:00:00 -0700 (PDT)
-Date: Thu, 13 Aug 2026 07:59:57 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
-	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] hrtimer: Pause KCOV during deferred rearm
-Message-ID: <an1dEVKGlwbusXcS@gmail.com>
-References: <20260811154111.64669-1-kmehltretter@gmail.com>
- <20260811154111.64669-4-kmehltretter@gmail.com>
- <20260812102100.GF776954@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g+efvutL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=WOgwzjyAadVx0ZDU+mKs3DNtLoxxj6BgXSurYWlX1As=; b=g+efvutLBu0Z11e+6rIY9KEaKd
+	hcaX6pPaaLyx+Q0rd21wj62nYtFYOgvPEmMKU95ziw4bz7VlCAlFvQ7B2tmzAZBQLy8IwHI4KuU8j
+	PmIsO9RIL2sErIylofvKfWuZRGFic3FOj31XE5RuxQghpB9ezwhSgU937khc4fotkzGzDhh83Koxq
+	d6DpqLwSL056QB5q0RBAh0AFAgLiKzUcIACfqJoYiUbeliLSIjgngItMfeuSltqBhznuDKr0u5sGo
+	Ptgnsx4XC4OAyeMp4pJRUejR2NCacszBXSwNfopgFX1MUouA24+NyEFQuFVgQtkv9cb2REP4RVLoE
+	C6gcQSUQ==;
+Received: from [2001:8b0:10b:5:9e94:e235:608c:ebeb] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wuQH6-00000003E9a-0Faw;
+	Thu, 13 Aug 2026 07:54:52 +0000
+Message-ID: <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+From: David Woodhouse <dwmw2@infradead.org>
+To: paulmck@kernel.org
+Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+  Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton	 <akpm@linux-foundation.org>, David Hildenbrand
+ <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka	 <vbabka@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>,  Clark Williams
+ <clrkwllms@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
+ =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>, linux-mm@kvack.org, kvm@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Thu, 13 Aug 2026 08:54:44 +0100
+In-Reply-To: <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
+References: <44c51ace9b0dc44b795f6f48c91cda440eed910b.camel@infradead.org>
+	 <20260812122759.GA662699@ziepe.ca>
+	 <c41c52f02f033ea980d4b5f9b8239d5e9411a03c.camel@infradead.org>
+	 <20260812134934.GC662699@ziepe.ca>
+	 <a48e6e7063122b22a8083bb0792984a204f316e6.camel@infradead.org>
+	 <fb87f673bf290cad133d113dbb0750a7752b9d30.camel@infradead.org>
+	 <a94b75e8b9b1d2191f365c0f4275fd5082332df5.camel@infradead.org>
+	 <d0692500893f303906fba1d7d596eb59a07a806a.camel@infradead.org>
+	 <anydY25Cl78l1HfU@google.com>
+	 <932DB129-1794-4855-A61E-F4C2B54B1EE6@infradead.org>
+	 <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-IX+4oJh5LTlmEhkCvzNP"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260812102100.GF776954@noisy.programming.kicks-ass.net>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Aug 12, 2026 at 12:21:00PM +0100, Peter Zijlstra wrote:
-> > Deferred hrtimer rearm can run after HARDIRQ_OFFSET is dropped. in_task()
-> > is then true, so KCOV attributes the instrumented timer-reprogramming
-> > subtree to current.
-> 
-> But that is clearly noinstr code; there should be no kcov calls in
-> there.
-> 
-> If kcov is emitted inside noinstr, then kcov is a broken piece of crap
-> and needs to die.
-> 
-> NAK
 
-Thanks for the review!
+--=-IX+4oJh5LTlmEhkCvzNP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-By "instrumented" I meant KCOV-instrumented. The selftest callback comes
-from __hrtimer_rearm_deferred() in ordinary .text, not .noinstr.text.
+On Wed, 2026-08-12 at 14:38 -0700, Paul E. McKenney wrote:
+> If not, please let me know, and I will put together that does the
+> job.
 
-On x86, irq_exit_rcu() runs in an instrumentable IDT-entry region.
-__irq_exit_rcu() subtracts hardirq offset before calling
-hrtimer_rearm_deferred(), so check_kcov_mode() sees in_task() and records
-callee coverage for current.
+If you're working on that, I assume it'd need the readers to be known-
+atomic. So if any of the read-side SRCU_READ_FLAVOR_ATOMIC thing I
+already threw together is useful, you can find it in my tree at
+https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Drefs/=
+heads/srcu-atomic
 
-This is the same class of failure as 477d81a1c47a ("x86/entry: Remove
-unwanted instrumentation in common_interrupt()"). There the hardirq offset
-had not yet been added, here it has already been removed. Its callee
-could be inlined. 
+Slightly orthogonally, what do you think of making
+synchronize_srcu{_expedited,}() attempt try_synchronize_srcu() first
+for an early return?
 
-Deferred rearm instead reaches shared hrtimer, tick,
-clockevent and architecture code. Statically excluding the graph
-would be pervasive and also lose coverage from ordinary task context.
+--=-IX+4oJh5LTlmEhkCvzNP
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-Do you want deferred rearm and its complete call graph converted to
-noinstr, or merely built without KCOV instrumentation?
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+YnYMhjeVkakI0g+6uHd4F6YAAAAAAAA=
 
-Thanks,
-Karl
+
+--=-IX+4oJh5LTlmEhkCvzNP--
