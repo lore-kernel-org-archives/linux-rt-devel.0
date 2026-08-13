@@ -1,209 +1,244 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761FC36728B;
-	Thu, 13 Aug 2026 07:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C4E2C0296;
+	Thu, 13 Aug 2026 08:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786607711; cv=none; b=ld8SdlexgT11w+dQvVMbPaKacEjsZK+5uocsHkDQbATWi38s6U73rKm7mD7X9qT/m386u/s6IlLORwKA4kTbW5+mV33l7560a29SRr+OpsBs07TzxN3tpnL9/SvrKhxLOSM4v6zCkyXFmI9LDIc8tixXQ8U/1hmq6YltW/knWQE=
+	t=1786609327; cv=none; b=QYL7wjzEZ8b6HA5VVViNb/6avmFgakffKx5m5gR2yitA71N7CyQRMSkhuHVKpI0w20ROvH3PRT/IgYuOlRnhU6qawj3E1TB747TDzfpUBj9kDHqykdejnlYfjQ97IDt11ej7zz3iB1OVBahIzdw8hMaBXbdjxw74yluOIkyQjVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786607711; c=relaxed/simple;
-	bh=WOgwzjyAadVx0ZDU+mKs3DNtLoxxj6BgXSurYWlX1As=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dSNvpA2/IbGR38yry4YCinpa8/mFRjPHOslk6ybGATqE893YpOvXEg8l11m9zdUdWnZ9SA5HKuB5qsmJPEuYN+VUflCCvir9KwNde2XhAuGYtXZ4ow5P4JYwd65pLMfZrLyg6XCOYEc7KR92nm7m7PtvaTArF/bWNOgqkRa4AK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g+efvutL; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1786609327; c=relaxed/simple;
+	bh=WgRRDaoWPZwOJuVMjX7/03GgTdkqCeXOBG68VI6CWMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mdmucoFn4itFxPkdT/Jij64Hw7rihGqsUevR0PZBGr9w7usaEv3unm/ImaDnugFhLCyt8KcqKuR+GBkANr/TSeOvWln7BUj1dwh1ivmDrFPi5SSz/y0FJLtjBrK814eycmpdwH98JCUpRXvkGJ7tzlubzPQmfZIjYg67RonOAKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eD96uLUc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=y3ptXPA5; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g+efvutL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WOgwzjyAadVx0ZDU+mKs3DNtLoxxj6BgXSurYWlX1As=; b=g+efvutLBu0Z11e+6rIY9KEaKd
-	hcaX6pPaaLyx+Q0rd21wj62nYtFYOgvPEmMKU95ziw4bz7VlCAlFvQ7B2tmzAZBQLy8IwHI4KuU8j
-	PmIsO9RIL2sErIylofvKfWuZRGFic3FOj31XE5RuxQghpB9ezwhSgU937khc4fotkzGzDhh83Koxq
-	d6DpqLwSL056QB5q0RBAh0AFAgLiKzUcIACfqJoYiUbeliLSIjgngItMfeuSltqBhznuDKr0u5sGo
-	Ptgnsx4XC4OAyeMp4pJRUejR2NCacszBXSwNfopgFX1MUouA24+NyEFQuFVgQtkv9cb2REP4RVLoE
-	C6gcQSUQ==;
-Received: from [2001:8b0:10b:5:9e94:e235:608c:ebeb] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuQH6-00000003E9a-0Faw;
-	Thu, 13 Aug 2026 07:54:52 +0000
-Message-ID: <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-From: David Woodhouse <dwmw2@infradead.org>
-To: paulmck@kernel.org
-Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-  Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton	 <akpm@linux-foundation.org>, David Hildenbrand
- <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka	 <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>,  Clark Williams
- <clrkwllms@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Paolo Bonzini
- <pbonzini@redhat.com>, linux-mm@kvack.org, kvm@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, 	linux-kernel@vger.kernel.org
-Date: Thu, 13 Aug 2026 08:54:44 +0100
-In-Reply-To: <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
-References: <44c51ace9b0dc44b795f6f48c91cda440eed910b.camel@infradead.org>
-	 <20260812122759.GA662699@ziepe.ca>
-	 <c41c52f02f033ea980d4b5f9b8239d5e9411a03c.camel@infradead.org>
-	 <20260812134934.GC662699@ziepe.ca>
-	 <a48e6e7063122b22a8083bb0792984a204f316e6.camel@infradead.org>
-	 <fb87f673bf290cad133d113dbb0750a7752b9d30.camel@infradead.org>
-	 <a94b75e8b9b1d2191f365c0f4275fd5082332df5.camel@infradead.org>
-	 <d0692500893f303906fba1d7d596eb59a07a806a.camel@infradead.org>
-	 <anydY25Cl78l1HfU@google.com>
-	 <932DB129-1794-4855-A61E-F4C2B54B1EE6@infradead.org>
-	 <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-IX+4oJh5LTlmEhkCvzNP"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eD96uLUc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="y3ptXPA5"
+Date: Thu, 13 Aug 2026 10:22:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1786609324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bnFio1oNNrm91Jw4PTtNlaJV8syzqd0jiUAgXBq7K3U=;
+	b=eD96uLUciE8j2GP/q4QeItW5OshyUxrCgZupSZvzlDVdpsPxWU85h6hJgZKrB1Ky/U8urP
+	VlxOJngoFCNBCVGoLwlHK8tLAeSMAqAw9Jo7gIb2VAJ6f9WNg3jmOPq6/9ffbdpAvPIPxz
+	EXyMBaA9yjmv52alX57wgmIryq0frLHKY6Ms3bNUoDp+ti15ZxCxwjd+t8iroYVyGxFOwE
+	0kxWY0XeK9YnGI2jBJOa4yejen99R1qfO6KMLPBgfJ7pAdA1S3oauMWBgzHvTnI4Hk9UhK
+	seqSwHDybl1N0TJaBZdQW7OKPuhHUi/yzMvRmDPRxDR9JeQYVWTXnjg6IbcanA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1786609324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bnFio1oNNrm91Jw4PTtNlaJV8syzqd0jiUAgXBq7K3U=;
+	b=y3ptXPA5Lo3wMSLHcgJ/kGZiDctoIQm8sXXnCRX+BOuwbubQh9IBV4PZZ11vLNFWeqaWTI
+	M7h8yC7HygwGtqDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Jassi Brar <jassisinghbrar@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>, Peng Fan <peng.fan@nxp.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH REPOST REPOST v6] remoteproc: imx_rproc: Invoke the callback
+ directly
+Message-ID: <20260813-imx_mbox_rproc-v6-1-6903a93b0456@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-IX+4oJh5LTlmEhkCvzNP
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTW6DMBAF4Ksgr+vIY+Mfsuo9qigyZtxYKjgxB
+ BFF3L0OWSQqdPlGM9+8O+kxBezJvriThGPoQ+xyUB8FcSfbfSMNTc6EM66Y5BUN7XRs6zgd0zl
+ FR3UjgXtpldeG5KNzQh+mBfw6PHPCyzW7w3NIatsjdbFtw7AvRr3jNDlNHrun0A8x3ZYuIyzL/
+ 70dgTJaG++dUAiA8vMndNchxS5MuwYXbuQvQjGxIngmLGOyapyoVWW3CPFGgF4RIhNaV6UB4A1
+ 6t0WUL0JvtCgpUKVrYFIxaxRsEfKN4LAi5IMQRlnuvJG8/EvM8/wLYGsYQegBAAA=
+X-Change-ID: 20260529-imx_mbox_rproc-7d512f5a6f78
 
-On Wed, 2026-08-12 at 14:38 -0700, Paul E. McKenney wrote:
-> If not, please let me know, and I will put together that does the
-> job.
+The imx-mailbox driver moved the callback invocation into the threaded
+IRQ handler. This means the callback is invoked in preemptible context
+and there is no need to schedule the kworker for the
+imx_rproc_notified_idr_cb() invocation.
 
-If you're working on that, I assume it'd need the readers to be known-
-atomic. So if any of the read-side SRCU_READ_FLAVOR_ATOMIC thing I
-already threw together is useful, you can find it in my tree at
-https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Drefs/=
-heads/srcu-atomic
+This was tested with the rpmsg-tty driver on imx93.
 
-Slightly orthogonally, what do you think of making
-synchronize_srcu{_expedited,}() attempt try_synchronize_srcu() first
-for an early return?
+Remove the workqueue handling and invoke the imx_rproc_notified_idr_cb()
+callback directly.
 
---=-IX+4oJh5LTlmEhkCvzNP
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+The imx's remoteproc driver uses a kworker from its mailbox callback to
+complete the request. The reason is that the imx mailbox driver invokes
+the callback from its interrupt handler and the remoteproc callback (at
+least the rpmsg-tty) requires a preemptible context.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-YnYMhjeVkakI0g+6uHd4F6YAAAAAAAA=
+This works but is problematic in a PREEMPT_RT environment where the
+latency of the invocation is important. By scheduling a kworker the
+high task priority from the threaded handler is lost and the kworker
+competes for CPU ressources with every SCHED_OTHER task in the system.
+This can lead to long delays on a busy system with other RT threads
+which are less important than the completion of this request.
 
+Looking over other mailbox driver, like the arm_mhu for instance, they
+use a threaded interrupt handler to invoke the callback. This avoids the
+kworker detour.
 
---=-IX+4oJh5LTlmEhkCvzNP--
+The here suggested change utilises a threaded interrupt to invoke the
+callback. The primary handler mask the interrupt source so that the
+handler can run without getting interrupted by the interrupt again.
+Doing so avoids marking the interrupt IRQF_ONESHOT so that in a
+shared-interrupt environment the other interrupt can still fire while
+the first is masked.
+
+The first four patches are result of the sashiko review. Does not look
+critical.
+
+This change was tested on a im93 board with rpmsg-tty driver.
+
+v5=E2=80=A6v6: https://patch.msgid.link/20260721-imx_mbox_rproc-v5-1-6386a2=
+cf8524@linutronix.de
+  - Repost. Adding Greg and akpm, hoping someone will apply it.
+
+v4=E2=80=A6v5: https://lore.kernel.org/all/20260703-imx_mbox_rproc-v4-1-67b=
+10560a861@linutronix.de/
+  - Repost
+
+v3=E2=80=A6v4: https://lore.kernel.org/r/20260617-imx_mbox_rproc-v3-0-77948=
+112defc@linutronix.de
+  - The mailbox bits are part of v7.2-rc1. This is just a repost of the
+    imx_rproc driver which is left.
+
+v2=E2=80=A6v3: https://lore.kernel.org/r/20260603-imx_mbox_rproc-v2-0-a0059=
+dc3b69a@linutronix.de
+  - Forward the error in imx_mu_generic_tx() to the caller (new patch
+    #1)
+  - Extend the patch description a bit for for "Start splitting the IRQ
+    handler" to briefly explain why callbacks are moved to the threaded
+    handler.
+  - Drop imx_mu_con_priv::pending. The primary handler wakes its
+    threaded handler. Once the handler is woken, the pending flag must
+    be set and there is no need to set/ clear it.
+  - Avoid the double clk_disable_unprepare() if
+    devm_mbox_controller_register() fails.
+
+v1=E2=80=A6v2: https://lore.kernel.org/r/20260529-imx_mbox_rproc-v1-0-b8ffc=
+36e11e5@linutronix.de
+  - Using correct register to enable RXDB event.
+  - Update commit description for the "threaded interrupt", "unmasks the
+    interrupt" =3D> "masks the interrupt event".
+  - Add a shutdown field so that the interrupt does not unmask the
+    interrupt if it has been already disabled because the channel is
+    about to be shutdown.  A possible race mentioned by sashiko.
+  - Use devm_pm_runtime_enable(). This should avoid a possible race
+    sashiko mentioned.
+  - Use devm_of_platform_populate().
+---
+ drivers/remoteproc/imx_rproc.c | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
+
+diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
+index 7662ebd9d2f49..e18ae33a5cf85 100644
+--- a/drivers/remoteproc/imx_rproc.c
++++ b/drivers/remoteproc/imx_rproc.c
+@@ -24,7 +24,6 @@
+ #include <linux/regmap.h>
+ #include <linux/remoteproc.h>
+ #include <linux/scmi_imx_protocol.h>
+-#include <linux/workqueue.h>
+=20
+ #include "imx_rproc.h"
+ #include "remoteproc_internal.h"
+@@ -115,8 +114,6 @@ struct imx_rproc {
+ 	struct mbox_client		cl;
+ 	struct mbox_chan		*tx_ch;
+ 	struct mbox_chan		*rx_ch;
+-	struct work_struct		rproc_work;
+-	struct workqueue_struct		*workqueue;
+ 	void __iomem			*rsc_table;
+ 	struct imx_sc_ipc		*ipc_handle;
+ 	struct notifier_block		rproc_nb;
+@@ -892,21 +889,11 @@ static int imx_rproc_notified_idr_cb(int id, void *pt=
+r, void *data)
+ 	return 0;
+ }
+=20
+-static void imx_rproc_vq_work(struct work_struct *work)
+-{
+-	struct imx_rproc *priv =3D container_of(work, struct imx_rproc,
+-					      rproc_work);
+-	struct rproc *rproc =3D priv->rproc;
+-
+-	idr_for_each(&rproc->notifyids, imx_rproc_notified_idr_cb, rproc);
+-}
+-
+ static void imx_rproc_rx_callback(struct mbox_client *cl, void *msg)
+ {
+ 	struct rproc *rproc =3D dev_get_drvdata(cl->dev);
+-	struct imx_rproc *priv =3D rproc->priv;
+=20
+-	queue_work(priv->workqueue, &priv->rproc_work);
++	idr_for_each(&rproc->notifyids, imx_rproc_notified_idr_cb, rproc);
+ }
+=20
+ static int imx_rproc_xtr_mbox_init(struct rproc *rproc, bool tx_block)
+@@ -1271,13 +1258,6 @@ static int imx_rproc_sys_off_handler(struct sys_off_=
+data *data)
+ 	return NOTIFY_DONE;
+ }
+=20
+-static void imx_rproc_destroy_workqueue(void *data)
+-{
+-	struct workqueue_struct *workqueue =3D data;
+-
+-	destroy_workqueue(workqueue);
+-}
+-
+ static int imx_rproc_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev =3D &pdev->dev;
+@@ -1305,17 +1285,6 @@ static int imx_rproc_probe(struct platform_device *p=
+dev)
+ 		priv->ops =3D dcfg->ops;
+=20
+ 	dev_set_drvdata(dev, rproc);
+-	priv->workqueue =3D create_workqueue(dev_name(dev));
+-	if (!priv->workqueue) {
+-		dev_err(dev, "cannot create workqueue\n");
+-		return -ENOMEM;
+-	}
+-
+-	ret =3D devm_add_action_or_reset(dev, imx_rproc_destroy_workqueue, priv->=
+workqueue);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "Failed to add devm destroy workqueue act=
+ion\n");
+-
+-	INIT_WORK(&priv->rproc_work, imx_rproc_vq_work);
+=20
+ 	ret =3D imx_rproc_xtr_mbox_init(rproc, true);
+ 	if (ret)
+
+---
+base-commit: 2ee859ebf156157609f71060ae472711c8cbc326
+change-id: 20260529-imx_mbox_rproc-7d512f5a6f78
+
+Best regards,
+-- =20
+Sebastian Andrzej Siewior <bigeasy@linutronix.de>
