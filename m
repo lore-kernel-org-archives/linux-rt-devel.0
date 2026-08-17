@@ -1,141 +1,259 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B7A3546F7
-	for <linux-rt-devel@lists.linux.dev>; Fri, 14 Aug 2026 16:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32283093DB
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Aug 2026 01:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786723971; cv=none; b=lbWOC1D0rg+qvPMxpMl9qJG0fDYoUGjdmZz/4dcep5sxPH6KpUO1WHHMEyi17cSNXBRBJPqPKsOkV2rh5YljZJzZCMJUF4xYa4zEZUQ+nsa7onNX5abrncbjwKy7qIVx7G74ITokPR5jRLdqPSrIH0reHn2Ttv0tn4B0YSA64qo=
+	t=1786931025; cv=none; b=LwrRLyoNodm3q0mqLqo+9Bk43+k5SLpklJASLYxmkueuE7m3ETZyeGL72Jp7fChyI8hL0zqp77GxrV/UZkt5D6f1w7GEz0EuKKiF1wPul3lmuBZ2+3hpknYP4X4vZqai+fnSHtAJnPi5/7yRjLq1FnV8IpH2wkfFabGHhg2b5YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786723971; c=relaxed/simple;
-	bh=hBoTlJskC3yTAUQrqdc/RwBmCeeh3r4SPWGRRWjMR10=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TedTW9gs4jc+qBbdlA5NR1A383J3MU3Fin+uZjqj6IM+jN7kZnz0kMOm0jfus7iPPkBy80NyGoATWpj/wbst+LAPz6UPMyMHMKccwoZCQfXRQQVzep6rv8fBzVVssoZ0Ma3Bo2QmohhP682lskcJsIg3dZEX6wuEK+4WS8xBzgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXMryVuI; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1786931025; c=relaxed/simple;
+	bh=KTF4SbsujXMW774XFidlx28bgRQdG/juW8w2xk4oqNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hSby6cw3z3BkhLQevU1MBiVfWNXIHUFsVJBm8oX+MpNjCi4kPd8sABSAxorOl4I+SzDha9Hj7bxGLqYyT5SNJ9JNZNKk4TNWa1BRHYk9OFFNezhdVFdl+y0YRGuVXY+dlUqIX6SIM08ZCVe516nssnqKzy7EW8aprP5Xvd71ZGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qL5WLC8V; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXMryVuI"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cace91f112so15268405ad.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 14 Aug 2026 09:12:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qL5WLC8V"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-476a130c138so3004111f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 16 Aug 2026 18:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786723967; x=1787328767; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AntyT1xcB6lPLO8SgF8lHn/f8LIO7sUmv8TB1AYj/jE=;
-        b=TXMryVuI7iPudOqpOrHLveUdg5w86tWVBH4BJLbLFCgIZETv8Bg0tbdFS6zGsYKIMu
-         +fKcJ5DBilPWZnYL/eVd6J1iixC9hmPcl/BVBKQImH57F1jpY4sDoBBWVhx+WxwaBmi0
-         J7G0sSO4EVhpxlrW5Y5q5C9ovgxpvE+wrqFcZAkVf3FccsJI3/oKuYS5Kx9roTUdIzNe
-         0JZf9kfYpBq9KmJz/YzRa3rBh741SNuR5JkpSgXdkjnvXsIP5pwVvF8vgXyAqw0a55ns
-         MuiiS42u9mWBiSfw6XA0zZiFGcljeZVRlEJ2C1cZ45P6XBT5jbPeMLgrAwmLAX/XjOjB
-         ZvTg==
+        d=gmail.com; s=20251104; t=1786931022; x=1787535822; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GNT8LbyIlLO1KA9N3Ppnv86v2THDT/5d+bmEcq3CPJY=;
+        b=qL5WLC8VLjyCtZgNQbmi+iPik4BLFwx2+jds6s/YKT7Ca8jvgyxgBGey9nLYbvgphh
+         f6MURNWhGgIjxcLIfA5evBcIBWtmTIqdmG1GHRc6vTuD7XXnSOVo9ey0RukB9ZCmmpw8
+         ENQvRC3Ak54hl1u4NFh9Y6LQt20ZsfTxEPg9EVhtV8CMtqQKhNH7dkx5whV2X3aZHdej
+         2766XFNR/vFyQMyH2GgWSXzMP9IupTVVQVZhYA4EXr3YhDhLMF0oyhYXmoOBbVjufomw
+         2hRufP0jNvtyzosKa0bjr8Q4mIdNh5L/+XWo3jKtT2H1uw5C1MnryVVaZnguwhStoj1F
+         rzmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786723967; x=1787328767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AntyT1xcB6lPLO8SgF8lHn/f8LIO7sUmv8TB1AYj/jE=;
-        b=sN9+KVTD8V44ljJyBNmMZe2aEmnpg3S4tomxbpjXULAnfpjUx/f0uy1kzi80zCy+fm
-         NI5sC+0pncEYH7nnB6gESWb0wAtPfDd6XhSKSDHoce4LfP9KX6szMVH+zPGCoXUurxqb
-         6/xlQ76auXChyJ0gQiB1ID3mmz0FaeH8MOXot8iuZZS2rgQ+nqlH2t0vtFCVQYVb5UOZ
-         MsgCfT1LjXVBteohNjBgTDsgTHG1Q3ZivCou1jCTWdUprCQ1V6QRche/oYKf2Ii+0EtT
-         dl9zm6Z7VCK0zLRCtjSaxmOam7VnmpsXzYuqc7UDdLht63Gn0y0ygKTYHYpxTLf88dya
-         59gQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrMULo/Y8BC2GkB+JmEpTMV5RUVLs1LJBWf13gq55GKShl5xvFfUPoQDya1gAlvw9YmTS/qEUIcQiUaSrG2/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywuj4O9J0jlhaVoB3jypw9afyL0OvQUFNnWPEQMQ8kEcbgh5YJm
-	bgkIyYmY3wPS1IDqTi/sAKiTngbtOnSjmxASDBbUEjcDYRyLEJ/z6vTo
-X-Gm-Gg: AR+sD13vkEQ/JpftUIBYMLXKKjboDjYJz0S1ZdZHuV8tfmRVSITIZh4JLlzY6OOJVWy
-	vDhGvHkxfRYU692P41XX8Yw2wj6jrboylF1GhrVG28NC+yqetcuBtuS9OV8KldM58A20aClffht
-	6Vmqx+NOzdIXkPeHxz8Tmzqvi8iE6x9C8KX8MsmQh5Lz371wrV4MmzGSxS4phRQT1vkef8rnVjk
-	Myu9Jjr5NRUyF117Ylre4tLi18sgkA8j+bPljiXTkagEKdUzU2T4WYwKrnuymgz2SZB/8l+vxoC
-	GQFfeyDe4P9AYMuOobZVuw5qFbT3XMvJJuNxh17g39pmv7/wA6gcmF2wiUwA9Ae50SNUZIntCLd
-	5OONghBvDQjyYOGoS3QLiFkVzN2tbVvkXuAaZFDL8AZmR3tG7pj3FsGMtkRXOFKIBJz1nBHUi40
-	ckmYFG55YUDh+WD6mjmg9tWLeHdYgAFdTU/By2m6jByTBDH3ALPaUvbb6dmxk2wByUIy8izh08Z
-	1gKT6s=
-X-Received: by 2002:a17:903:2c0f:b0:2c7:ebfb:618f with SMTP id d9443c01a7336-2d3b0eec2f6mr92007415ad.14.1786723966514;
-        Fri, 14 Aug 2026 09:12:46 -0700 (PDT)
-Received: from localhost ([220.196.228.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d3aeb887aasm12260415ad.61.2026.08.14.09.12.45
+        d=1e100.net; s=20251104; t=1786931022; x=1787535822;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GNT8LbyIlLO1KA9N3Ppnv86v2THDT/5d+bmEcq3CPJY=;
+        b=gWrZNFEMjZGnmXlvwUdKYTOIU/ij2s+yhrzzRbBsuvOcucLGHgLAo6R8nKhzTi6RM3
+         eTef1+oe0+p4u252qF57hwN9GvYNu7mXBgiHdWusPuKubpavBrd+Cyp6VKyu3chFesAx
+         +oERh+nU+Q+hs4DCJyDyuobaFv3vLfiN7Oo/4pk0DGEFbw2URzcbqs+EIoXDGCvOCx8X
+         1wYN7Xcxe8l5p4hSPMW7Jq8dpiFK/KHVXZPwWOsWTxmHDheoVWgoGlm3UYNJCG5uzREg
+         p/f9nArng76UaHjEuMvs3A3yFbvNM7/UcFDGURNAGCZPVff9w3hMB5xfCK2L7Z8Zbv04
+         wlRg==
+X-Forwarded-Encrypted: i=1; AHgh+RqYAQubjWBHVvhbxwqCLJs61CVSV/2Ir1hH9vZGdEkZ28hrORpRjpXYbcUkMwH5DjoHxKLakbWOPS1Gn+oF0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznE8hAToVIuZtLEDiXIsYT7E8x9KaQV6Qh4jAj2A77ZSdobpxe
+	bVXBGZn4iG2LuZn/umyt6vmcBuyxZVD2kIKYIFijYbLZnD+SjmZM6KSJ
+X-Gm-Gg: AR+sD12mSk/1a3sRslChmd630I8GB4i+eKJuEIoKh7XbdDiPX/oQ7KxZ0bcYCKxS27/
+	BHsA97SZ0upZWbHfsAP9+ci7MP26eUn/w0cVv0jiDZpJUet7p0YNYWolfZ/cCr5+YYVsm27BNIX
+	ButZbz1phQLy5IWkIuzwbmYxrO5RRsxYWOzTJFRXXEneRB9P47c5RicxAENP2NtFppqZKl6+QK6
+	JAnXJKSNsqZ6w3zwjki5+Yyw7t5FkhOeCiNds8N6LLVEZpqaHdw+86poATViG9uLXpMQVobvRlm
+	AKYnwBcQyCfiq3UcR08e/D3cJmEHKe9Yf5iLurEYtATHdzPKrzBCubt3MJy/9eC7YlUoLJRbMp3
+	9qPFi6v6B8CsIAUDZIV05IZAoaFPfE0Q7AhGTRrDzb6i5ko8mD24u5y3G93p1pGq08aIMbPceAM
+	y4QWnoqJ1mv3jNtUx263g1YKjRNKwa3fZhzovZoQKSoMA3oz7glwQU4h/PicepqUf4o0SAuEfif
+	S2uYFgBKPLB1gCyjWI78YJVQAJN2cqWjuO56NmMEfd/3zEDqioiZmsSJ3WJkB0UkKM7n0yd01kY
+	PGiLbRP4noMvd9vDgjUSZGxO1e6U96VJsu2TnO/K33QTPazdhmkL4/565Ss+lVqOLe5vBA==
+X-Received: by 2002:a05:6000:29cc:b0:47f:773f:2d68 with SMTP id ffacd0b85a97d-48160738c19mr25865875f8f.16.1786931021932;
+        Sun, 16 Aug 2026 18:43:41 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9dc5-9401-09c8-a88d-e919-d148.310.pool.telefonica.de. [2a02:3100:9dc5:9401:9c8:a88d:e919:d148])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2c18cbsm24837588f8f.29.2026.08.16.18.43.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 09:12:46 -0700 (PDT)
-From: Liang Hao <haohlliang@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>
-Subject: [PATCH v4] docs: real-time: mention the hrtimer sleeper HARD path
-Date: Sat, 15 Aug 2026 00:12:40 +0800
-Message-ID: <20260814161240.33774-1-haohlliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260814094910.akPMAqd4@linutronix.de>
-References: <20260814094910.akPMAqd4@linutronix.de>
+        Sun, 16 Aug 2026 18:43:41 -0700 (PDT)
+Date: Mon, 17 Aug 2026 03:43:39 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
+	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] hrtimer: Pause KCOV during deferred rearm
+Message-ID: <aoJltY3whwRjbmFW@gmail.com>
+References: <20260811154111.64669-1-kmehltretter@gmail.com>
+ <20260811154111.64669-4-kmehltretter@gmail.com>
+ <20260812102100.GF776954@noisy.programming.kicks-ass.net>
+ <an1dEVKGlwbusXcS@gmail.com>
+ <20260813130826.GW687043@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813130826.GW687043@noisy.programming.kicks-ass.net>
 
-The Timers section of Documentation/core-api/real-time/differences.rst
-describes the PREEMPT_RT default (softirq / ktimers) and HRTIMER_MODE_HARD,
-but not the sleeper helper: hrtimer_setup_sleeper_on_stack() marks the
-timer HRTIMER_MODE_HARD when the current task is RT or DEADLINE and
-HRTIMER_MODE_SOFT was not requested, so the wakeup runs in hard interrupt
-context.
+On Thu, Aug 13, 2026 at 03:08:26PM +0100, Peter Zijlstra wrote:
+> Bah, so the only reason this one pops is because it is outside of the
+> softirq code, same for those two wakeups I suppose.
+> 
+> Would something crazy like this work? That closes the holes in the
+> preempt_count munging around there.
+> 
+> *completely* untested and all that
+> 
 
-Document that behaviour. Also rename "ktimersd" to "ktimers/%u" to match
-the per-CPU thread name.
+Thanks, I tested this.
 
-No code or behaviour change.
+The idea helps, but the ksirqd check is not enough.
 
-Signed-off-by: Liang Hao <haohlliang@gmail.com>
+__do_softirq() also runs from task context and ktimerd with ksirqd=false.
+Subtracting HARDIRQ_OFFSET there corrupts preempt_count.
+
+In the direct IRQ-exit path, __local_bh_disable_ip() also warns because
+HARDIRQ_OFFSET is still set.
+
+My version below checks in_hardirq() in handle_softirqs(). For direct
+IRQ-exit dispatch it replaces HARDIRQ_OFFSET with SOFTIRQ_OFFSET, then
+restores it.
+
+Other callers keep the normal local-BH accounting. tick_irq_exit() still
+runs after HARDIRQ_OFFSET is dropped.
+
+In a 400-round KCOV test, flaky PCs fell from 140 to 129. The average
+trace size fell from 147.7 to 141.6 PCs. But measured syzcaller coverage
+did not improve significantly.
+
+I also ran a targeted KCSAN test that intentionally produced 58
+reports on each kernel. Baseline classified all IRQ-exit accesses as
+"by task". With this patch, all were "by interrupt". Both passed the
+KCSAN selftest. Lockdep and IRQ-tracing boots also passed.
+
+This patch does not replace the KCOV pause series. It only covers work
+dispatched directly from IRQ exit. Deferred rearm outside this path
+and task-context scheduler leaks remain.
+
+Karl
+
 ---
-v3 -> v4:
-- drop the Documentation/timers/hrtimers.rst section; extend differences.rst
-  instead, per review
-- add only the sleeper HARD wording and the ktimers/%u rename
-- do not restate lowest-priority / cancel-PI points already covered elsewhere
-- avoid vague "and similar" caller lists
-
- Documentation/core-api/real-time/differences.rst | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
-index a129570dab5a..c8acfba051eb 100644
---- a/Documentation/core-api/real-time/differences.rst
-+++ b/Documentation/core-api/real-time/differences.rst
-@@ -119,12 +119,17 @@ timers initialized with the HRTIMER_MODE_SOFT flag, which are executed in
- softirq context.
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 7980a4a232f..d6be8ca2793 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+ 	local_irq_enable();
+ }
  
- On a PREEMPT_RT kernel, this behavior is reversed: hrtimers are executed in
--softirq context by default, typically within the ktimersd thread. This thread
--runs at the lowest real-time priority, ensuring it executes before any
--SCHED_OTHER tasks but does not interfere with higher-priority real-time
-+softirq context by default, typically within the per-CPU ktimers/%u thread.
-+This thread runs at the lowest real-time priority, ensuring it executes before
-+any SCHED_OTHER tasks but does not interfere with higher-priority real-time
- threads. To explicitly request execution in hard interrupt context on
- PREEMPT_RT, the timer must be marked with the HRTIMER_MODE_HARD flag.
+-static inline void softirq_handle_begin(void) { }
+-static inline void softirq_handle_end(void) { }
++static inline bool softirq_handle_begin(void) { return false; }
++static inline void softirq_handle_end(bool from_hardirq) { }
  
-+hrtimer_setup_sleeper_on_stack() marks the sleeper HRTIMER_MODE_HARD when the
-+current task is in a real-time or deadline scheduling class and
-+HRTIMER_MODE_SOFT was not requested, so the wakeup runs in hard interrupt
-+context rather than on ktimers/%u.
+ static inline bool should_wake_ksoftirqd(void)
+ {
+@@ -481,15 +481,35 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-static inline void softirq_handle_begin(void)
++static inline bool softirq_handle_begin(void)
+ {
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++	bool from_hardirq = in_hardirq();
 +
- Memory allocation
- -----------------
++	if (!from_hardirq) {
++		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++		return false;
++	}
++
++	/* Replace the retained hardirq context with normal softirq context. */
++	__preempt_count_add((int)SOFTIRQ_OFFSET - (int)HARDIRQ_OFFSET);
++	if (softirq_count() == SOFTIRQ_OFFSET)
++		lockdep_softirqs_off(_RET_IP_);
++
++	return true;
+ }
  
--- 
-2.50.1 (Apple Git-155)
-
+-static inline void softirq_handle_end(void)
++static inline void softirq_handle_end(bool from_hardirq)
+ {
+-	__local_bh_enable(SOFTIRQ_OFFSET);
+-	WARN_ON_ONCE(in_interrupt());
++	if (!from_hardirq) {
++		__local_bh_enable(SOFTIRQ_OFFSET);
++		WARN_ON_ONCE(in_interrupt());
++		return;
++	}
++
++	if (softirq_count() == SOFTIRQ_OFFSET)
++		lockdep_softirqs_on(_RET_IP_);
++	__preempt_count_sub((int)SOFTIRQ_OFFSET - (int)HARDIRQ_OFFSET);
++	WARN_ON_ONCE(!in_hardirq());
+ }
+ 
+ static inline void ksoftirqd_run_begin(void)
+@@ -605,6 +625,7 @@ static void handle_softirqs(bool ksirqd)
+ 	unsigned long old_flags = current->flags;
+ 	int max_restart = MAX_SOFTIRQ_RESTART;
+ 	struct softirq_action *h;
++	bool from_hardirq;
+ 	bool in_hardirq;
+ 	__u32 pending;
+ 	int softirq_bit;
+@@ -618,7 +639,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	pending = local_softirq_pending();
+ 
+-	softirq_handle_begin();
++	from_hardirq = softirq_handle_begin();
+ 	in_hardirq = lockdep_softirq_start();
+ 	account_softirq_enter(current);
+ 
+@@ -670,7 +691,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	account_softirq_exit(current);
+ 	lockdep_softirq_end(in_hardirq);
+-	softirq_handle_end();
++	softirq_handle_end(from_hardirq);
+ 	current_restore_flags(old_flags, PF_MEMALLOC);
+ }
+ 
+@@ -740,6 +761,9 @@ static inline void wake_timersd(void) { }
+ 
+ #endif
+ 
++#define IRQ_EXIT_TIMERS	(NMI_MASK | HARDIRQ_MASK)
++#define IRQ_EXIT_SOFTIRQ	(IRQ_EXIT_TIMERS | HARDIRQ_DISABLE_MASK | SOFTIRQ_MASK)
++
+ static inline void __irq_exit_rcu(void)
+ {
+ #ifndef __ARCH_IRQ_EXIT_IRQS_DISABLED
+@@ -748,7 +772,6 @@ static inline void __irq_exit_rcu(void)
+ 	lockdep_assert_irqs_disabled();
+ #endif
+ 	account_hardirq_exit(current);
+-	preempt_count_sub(HARDIRQ_OFFSET);
+ 	/*
+ 	 * Interrupts may happen between hardirq_disable_enter() and
+ 	 * local_irq_save() in local_interrupt_disable(), if irq_exit() invokes
+@@ -757,7 +780,7 @@ static inline void __irq_exit_rcu(void)
+ 	 * hardirq disabling count is already 1, hence we need to prevent
+ 	 * invoking softirq when a local_interrupt_disable() is ongoing.
+ 	 */
+-	if (!in_interrupt() && !hardirq_disable_count() &&
++	if ((preempt_count() & IRQ_EXIT_SOFTIRQ) == HARDIRQ_OFFSET &&
+ 	    local_softirq_pending()) {
+ 		/*
+ 		 * If we left hrtimers unarmed, make sure to arm them now,
+@@ -768,9 +791,11 @@ static inline void __irq_exit_rcu(void)
+ 	}
+ 
+ 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
+-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
++	    local_timers_pending_force_th() &&
++	    (preempt_count() & IRQ_EXIT_TIMERS) == HARDIRQ_OFFSET)
+ 		wake_timersd();
+ 
++	preempt_count_sub(HARDIRQ_OFFSET);
+ 	tick_irq_exit();
+ }
+ 
