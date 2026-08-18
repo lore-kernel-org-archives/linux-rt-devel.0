@@ -1,158 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623D92931DB;
-	Tue, 18 Aug 2026 15:42:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0435B5AB;
+	Tue, 18 Aug 2026 18:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787067744; cv=none; b=YQkzNIuRVm6jkY9wxbMZobgG6Wu54uU2bSA6diojIJZhgApa92kSYJojRew6GGmFLrnwJMcDesQSjbEvc7ASNJ9rHo15Svh5FyR2iCPSnQstaF8ey9SCnlfzZ++6h/vMkyH1IfcxuLoyz6XsHLVpfgqYuNwZ2pK/Qf4asAaDX4s=
+	t=1787077114; cv=none; b=RjaI32BAGxueO/gWTYv4C9ZToOihnjh6RmUGeTlihplbihdkFWqD7zhi+vviOSS030WDIPW4JmjwMsjdZsvKsdIlbNbmCYRLhAGx5Zg1bV6utOMGlyCfvHoDrde4kBOClliO0g2cedPQQM4Hp044pHK+iPCIZEHpKe20gyKpPck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787067744; c=relaxed/simple;
-	bh=ZlV/oLL4Pw+houc+xIORV3dHefVioLh1y2FmyHFwavs=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=e+nCPaSInGUsPxKigRdZi5Mr+ZvOje2EleEcjut+3rhz1uzh1dt2sjU97XJIlLGUzEzpzfTEJHaGJaUVAhk7ZQp5Rl0a5R+w00sKKC+U+wLqBjfSnZ0dTx5CGeuqJ1cSNi4Csu2VFBui5v6OCT2CWyKPnTIg1LLYuB1mF3QNTzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7SVnuqj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787077114; c=relaxed/simple;
+	bh=gcGMQeye1GvDwotHSocWmsR6JGTyv2SiaDfnsW4qsZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GndS/6TV7dyndJ/ouwkBvj/x+rVakdfgRSMJ2J/orF0UoalEyEysV28Ax+XNRcwaHUFv2OlP9PKFbnQuL6fTV6bL3Mw8UUzTDcD9xL0eMMOj+nkm6cnc9DiMdyU0kTOVcCX1smXWMuqOxe10zeomu6ypjHbKI7ZvJdJJCeED/qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cp8x8hOS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7SVnuqj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7F8E1F00A3A;
-	Tue, 18 Aug 2026 15:42:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cp8x8hOS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70EC41F00A3A;
+	Tue, 18 Aug 2026 18:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787067742;
-	bh=azFYAMbe1AKxbeHo2jztpGi5FY/M0a7bt+1Sjy+U3sQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=B7SVnuqjreciwex4it6w9G+KWu21m3DzAOkWv3oLS8NGqbNRf3rkiH353CWMeK1Ul
-	 SlB0EmAgqNlnZXhEUgBQ5ff5K28BND6jV0/XemjQfYo1UouIsW1ZDhrLnBwopXf1Fx
-	 G1qcMh0DMp75EPksLTm/yXTr3YX2aaA1fIzxB0R7hiJuXdHbnNQmSClYPHPNcEkorb
-	 fDhGZlTK1vhSavJJJTE/jnRyfQiq09DGyBfldghoszM4wLXhSNQPAb9DfUMn1O6DVk
-	 cSdqudmEKWbf/PpK9fNq5sjG7EtfpcZlBjTCGEZf0l5HPWeFatj007SGgzHxqGSFQG
-	 EZbGm29e7Zdzg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3 1/2] net: microchip: vcap: use port number
- instead of netdev name for debugfs
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Daniel Machon" <daniel.machon@microchip.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260817-misc-fixes-sparx5-lan969x-v3-1-c7c7fef723a8@microchip.com>
-References: <20260817-misc-fixes-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com>
- <20260817-misc-fixes-sparx5-lan969x-v3-1-c7c7fef723a8@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Aug 2026 15:42:21 +0000
-Message-Id: <20260818154221.D7F8E1F00A3A@smtp.kernel.org>
+	s=k20260515; t=1787077112;
+	bh=lHkgO62VARB1BZerT3cLWYX4fEgJZv19mZbLBDUYoks=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=cp8x8hOSSpz/sJye8Q4MMvhA8ZK7QujQ0rrdjr0GbGqZP9y2r+o8cf/WZN6UI7FwI
+	 LnDTGaD0a0TK2lPowDdVJbV4CkSUAEY3Wwrmc9Ok4YvbGbEeypjgWAze154w3sXcY6
+	 lIauGUEX+Qx3BLhY7FBah0nSL1A1t6H+pQgFdf3NmOJ/sNuhAKq5feEH9+4l/KyfVR
+	 z9N31fia2WakSzVInaiahdWihqYxi4ot6SDiryHzxLLliZ4OsEY9J4zHIGwcX4AES3
+	 ml7ldAgZmb8HtZhHkgei9GL4dyogvh/VfeLfJjNcF/p/+PrrObVXvKSrkLK0V32yV0
+	 WOgzv1ynTcyGA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 2AD17CE1A23; Tue, 18 Aug 2026 11:18:32 -0700 (PDT)
+Date: Tue, 18 Aug 2026 11:18:32 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Michal Hocko <mhocko@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+Message-ID: <49df45c6-4d0e-483a-8acc-0ace7f9a6484@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <c41c52f02f033ea980d4b5f9b8239d5e9411a03c.camel@infradead.org>
+ <20260812134934.GC662699@ziepe.ca>
+ <a48e6e7063122b22a8083bb0792984a204f316e6.camel@infradead.org>
+ <fb87f673bf290cad133d113dbb0750a7752b9d30.camel@infradead.org>
+ <a94b75e8b9b1d2191f365c0f4275fd5082332df5.camel@infradead.org>
+ <d0692500893f303906fba1d7d596eb59a07a806a.camel@infradead.org>
+ <anydY25Cl78l1HfU@google.com>
+ <932DB129-1794-4855-A61E-F4C2B54B1EE6@infradead.org>
+ <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
+ <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Thu, Aug 13, 2026 at 08:54:44AM +0100, David Woodhouse wrote:
+> On Wed, 2026-08-12 at 14:38 -0700, Paul E. McKenney wrote:
+> > If not, please let me know, and I will put together that does the
+> > job.
+> 
+> If you're working on that, I assume it'd need the readers to be known-
+> atomic. So if any of the read-side SRCU_READ_FLAVOR_ATOMIC thing I
+> already threw together is useful, you can find it in my tree at
+> https://git.infradead.org/?p=users/dwmw2/linux.git;a=shortlog;h=refs/heads/srcu-atomic
 
-Pre-existing issues:
-- [High] Missing debugfs_remove_recursive() on the probe error path leaves =
-stranded debugfs files that trigger Use-After-Free when accessed.
-- [High] Failure in vcap_debugfs() drops per-port debugfs files into the gl=
-obal debugfs root, leading to UAF on module unload.
---
+Thank you, happy to steal pieces of that with attribution.  ;-)
 
---- Patch [1]: [PATCH net v3 1/2] net: microchip: vcap: use port number ins=
-tead of netdev name for debugfs ---
-commit 8d862146f79389830b4bf1733e4f4af6bbff212d
-Author: Daniel Machon <daniel.machon@microchip.com>
+My current plan says that if you have an atomic SRCU on which you
+use srcu_read_lock_atomic() and srcu_read_unlock_atomic(), you only
+ever get to use synchronize_srcu_atomic(), never synchronize_srcu(),
+synchronize_srcu_expedited(), or call_srcu().  Does that work for you?
 
-net: microchip: vcap: use port number instead of netdev name for debugfs
+> Slightly orthogonally, what do you think of making
+> synchronize_srcu{_expedited,}() attempt try_synchronize_srcu() first
+> for an early return?
 
-This commit introduces vcap_port_debugfs_portno() to create debugfs
-entries using the hardware port number instead of the netdev name. This
-resolves boot warnings in sparx5_vcap_init() when netdev names are not
-yet registered.
+No objections, but one thing at a time.
 
-> diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c b/d=
-rivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-> index cf332de6bf736..2dee2ce19fce7 100644
-> --- a/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-> +++ b/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-> @@ -2077,8 +2077,9 @@ int sparx5_vcap_init(struct sparx5 *sparx5)
->  	dir =3D vcap_debugfs(sparx5->dev, sparx5->debugfs_root, ctrl);
->  	for (idx =3D 0; idx < consts->n_ports; ++idx)
->  		if (sparx5->ports[idx])
-> -			vcap_port_debugfs(sparx5->dev, dir, ctrl,
-> -					  sparx5->ports[idx]->ndev);
-> +			vcap_port_debugfs_portno(sparx5->dev, dir, ctrl,
-> +						 sparx5->ports[idx]->ndev,
-> +						 sparx5->ports[idx]->portno);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but what happens if vcap_debugfs=
-()
-fails to allocate memory and returns NULL?
-
-In drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:vcap_debugfs():
-
-	info =3D devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-	if (!info)
-		return NULL;
-
-If dir is NULL here, passing it as the parent to vcap_port_debugfs_portno()
-will cause debugfs_create_file() to create the port debugfs files in the
-global debugfs root (e.g., /sys/kernel/debug/p0).
-
-When the module is unloaded, the driver only cleans up sparx5->debugfs_root,
-abandoning the files in the global root. The devm-managed backing data
-is freed, so reading these abandoned files afterward will cause a
-use-after-free.
-
->  	return err;
->  }
-> diff --git a/drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c b/dri=
-vers/net/ethernet/microchip/vcap/vcap_api_debugfs.c
-> index e0c65c7ab23e1..476f7496a9d44 100644
-> --- a/drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c
-> +++ b/drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c
-
-[ ... ]
-
-> @@ -400,6 +400,27 @@ void vcap_port_debugfs(struct device *dev, struct de=
-ntry *parent,
->  }
->  EXPORT_SYMBOL_GPL(vcap_port_debugfs);
-> =20
-> +void vcap_port_debugfs_portno(struct device *dev,
-> +			      struct dentry *parent,
-> +			      struct vcap_control *vctrl,
-> +			      struct net_device *ndev,
-> +			      unsigned int portno)
-> +{
-> +	struct vcap_port_debugfs_info *info;
-> +	char name[16];
-> +
-> +	info =3D devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-
-[Severity: High]
-This is a pre-existing issue, but does the probe error path properly
-clean up these debugfs files?
-
-During initialization, mchp_sparx5_probe() creates sparx5->debugfs_root and
-populates it with files backed by this devm_kzalloc() memory.
-
-If a subsequent probe step fails (such as sparx5_register_netdevs()), the
-error cleanup path does not seem to call debugfs_remove_recursive().
-
-Since the devres framework automatically frees this memory on probe failure
-but the files remain in the filesystem, could this lead to a use-after-free
-if a user later reads one of these leaked debugfs files?
-
-> +	if (!info)
-> +		return;
-> +
-> +	info->vctrl =3D vctrl;
-> +	info->ndev =3D ndev;
-> +
-> +	snprintf(name, sizeof(name), "p%u", portno);
-> +	debugfs_create_file(name, 0444, parent, info, &vcap_port_debugfs_fops);
-> +}
-> +EXPORT_SYMBOL_GPL(vcap_port_debugfs_portno);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260817-misc-fixes=
--sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com?part=3D1
+							Thanx, Paul
