@@ -1,238 +1,169 @@
-Received: from mta1.migadu.com (out-207.mta1.migadu.com [95.215.58.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A533E833E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 18 Aug 2026 11:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A95478E39;
+	Tue, 18 Aug 2026 15:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787053256; cv=none; b=DoynN8rXGAFIGXk+GzudfbFEO8EHzUaCbtsn50PLEtk+E8o+cDCGQJoixGH6ysf+IWDfQRaXSJLlkhiEcbOln7xcICur/55JvMrm5TL/P7hGvfixPDja04onFEbLyVCsyYRc8IIhz8hnX0WvUHs6JYGW2hceNatpo6PteSe3yOw=
+	t=1787067743; cv=none; b=oZZjx7rIngIzjQWGjbLzMXr6nBTFVMjP8nhyKhEUcfT6kHDa1rg4WcI134LgSI9IxS9KwrAVherZuHVdykuHW0rVubi6av3Yc8vxMNvZHNYSmOfvI4Te+P7mO1lpsdK31RVw6GgsxlvDCvgSIhLJOS0evpa/ilon9qUzd+Lu8hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787053256; c=relaxed/simple;
-	bh=1WMHENEYr0OqLYuuU4QREt9kYkPM7Zi0Jgv7vPZ7ygU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RooLKn9IqMorOcxz6h+umXH/jfJ3YzGWI7EMpHHRjf8gm/XwHB3kA9LRy8WCFIvGzhI51ga0HQVLqO6e2xffQyvNqQ5rSqLZK9y6QGm3nvGwTqdcqv4V6Pm0cmPWfDGNPC7scZ26GL3UoCBU3dtHCOSTwdlKaAXyiOBy21NX7lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WuoiiXul; arc=none smtp.client-ip=95.215.58.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787067743; c=relaxed/simple;
+	bh=xFaVxfjHVzkEbO3e5d9m4H5orn7hyydM/xGLXN/E9D4=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=sNsXPKBHxSp9+5Buv8BV9JkWdiirbxROjoX0CZdR2gU9Xwxe/EvRQClw37K3WMu1tXipho40mznTU7xVM/fn1mS/y28SPJIfGatAv/hrNCY49DrPiwTYfnOeLaVVeaEssJJymA4MzymBsgtAuds/33G3eCx6ottDdri1IOeViU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjiOQmxd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WuoiiXul"
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=1WMHENEYr0OqLYuuU4QREt9kYkPM7Zi0Jgv7vPZ7ygU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787053251; v=1; x=1787658051;
- b=WuoiiXulGs2VD+GlB0mNMAZ5G9u0uuKyukUPpijrw8tBRlEVYBpcZ7tm+H6xiB9vYmPoFKDn
- EPi63+m0ZvpgLpPfsQz+KcXSRVWkKVDS76oubsAauQsWdvwQal54KcUvubW6xE0WLDyQqFzSA1r
- hgsF/ibxBFoCw5OHUBpN/0m4=
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: from fedora (117.129.78.49)
-	by smtp.migadu.com with ESMTPS id 5b473eed746572f9;
-	Tue, 18 Aug 2026 11:40:51 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 18 Aug 2026 19:40:27 +0800
-From: Hao Li <hao.li@linux.dev>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Harry Yoo <harry@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	kasan-dev@googlegroups.com, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH RFC 3/5] mm/slab, kmemleak: handle kmemleak freeing in
- kfree_nolock()
-Message-ID: <aoRDqeBrzitJcqyY@fedora>
-References: <20260807-kfree_nolock_kmalloc-v1-0-ba993cbf7a60@kernel.org>
- <20260807-kfree_nolock_kmalloc-v1-3-ba993cbf7a60@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjiOQmxd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 540831F000E9;
+	Tue, 18 Aug 2026 15:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787067741;
+	bh=uJcCpMImIvzGL1vfYedIR0z39i5TJ8F6Fv5CYaZck6I=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=QjiOQmxdEBZDG7IJ0vunzEhct0A8hSohPIC1REkN+z2+BfclTd1t2AbyoV5ZsLWct
+	 +1pRNvH2MeXBM5uCjbWml2VOZUBjr/NQQbIKThTwjPsQCO68a4Q0INiuKWXKHOVi+K
+	 G/zngy+9F5dP2/voikQWgngGUMXNMm1AquO3XZVdRGDR2wXqwNyU7QW3sS8rUDoNaJ
+	 7vnaOpCoMxhtU9/kuMW7CU0YVvnYN9sNxQFDTpSxZ++JSgCxl4eAgT6twirhUSXqZH
+	 DbZM4gvG+80SgvwtGlkF1yQPpNof9OZGMCvr8zR47jQI8DvnfaWNRah0RacLIyEPXM
+	 vgZ7hVJXbYT2w==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v3 2/2] net: sparx5: fix sleep in atomic context in
+ MAC table access
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Daniel Machon" <daniel.machon@microchip.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260817-misc-fixes-sparx5-lan969x-v3-2-c7c7fef723a8@microchip.com>
+References: <20260817-misc-fixes-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com>
+ <20260817-misc-fixes-sparx5-lan969x-v3-2-c7c7fef723a8@microchip.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Aug 2026 15:42:20 +0000
+Message-Id: <20260818154221.540831F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260807-kfree_nolock_kmalloc-v1-3-ba993cbf7a60@kernel.org>
 
-On Fri, Aug 07, 2026 at 03:50:29PM +0200, Vlastimil Babka (SUSE) wrote:
-> Kmemleak handling is one of the reasons why kfree_nolock() cannot
-> currently handle kmalloc() objects, because calling kmemleak_free()
-> would involve spinning on its internal raw spinlocks.
-> 
-> Kmemleak is a debugging mechanism so we could simply defer all
-> kfree_nolock() to irq_work if it's enabled, and eat the extra cost. But
-> that would be unnecessary pessimistic. We expect kfree_nolock() will be
-> still mostly called on objects from kmalloc_nolock() that are not
-> registered in kmemleak so they still don't need any deferred freeing.
-> 
-> Thus introduce kmemleak_may_need_free() that can check if the object is
-> registered. This is done using __lookup_object() performed under a
-> raw_spin_trylock_irqsave(), which is safe to attempt from kfree_nolock()
-> (except from a NMI on a !CONFIG_SMP system). When that trylock fails or
-> can't be attempted, we however must assume the object might be
-> registered, and defer the freeing.
-> 
-> The ordering of kmsan/kasan handling and kmemleak is also different from
-> what kfree() is doing, but as explained in the comment, it should be OK.
-> 
-> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> ---
->  include/linux/kmemleak.h | 17 +++++++++++++++++
->  mm/kmemleak.c            | 42 ++++++++++++++++++++++++++++++++++++++++++
->  mm/slub.c                | 34 ++++++++++++++++++++++++++--------
->  3 files changed, 85 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/linux/kmemleak.h b/include/linux/kmemleak.h
-> index fbd424b2abb1..52f75f10a9ce 100644
-> --- a/include/linux/kmemleak.h
-> +++ b/include/linux/kmemleak.h
-> @@ -22,6 +22,7 @@ extern void kmemleak_alloc_percpu(const void __percpu *ptr, size_t size,
->  extern void kmemleak_vmalloc(const struct vm_struct *area, size_t size,
->  			     gfp_t gfp) __ref;
->  extern void kmemleak_free(const void *ptr) __ref;
-> +bool kmemleak_may_need_free(const void *ptr) __ref;
->  extern void kmemleak_free_part(const void *ptr, size_t size) __ref;
->  extern void kmemleak_free_percpu(const void __percpu *ptr) __ref;
->  extern void kmemleak_update_trace(const void *ptr) __ref;
-> @@ -50,6 +51,14 @@ static inline void kmemleak_free_recursive(const void *ptr, slab_flags_t flags)
->  		kmemleak_free(ptr);
->  }
->  
-> +static inline bool kmemleak_may_need_free_recursive(const void *ptr, slab_flags_t flags)
-> +{
-> +	if (!(flags & SLAB_NOLEAKTRACE))
-> +		return kmemleak_may_need_free(ptr);
-> +
-> +	return false;
-> +}
-> +
->  static inline void kmemleak_erase(void **ptr)
->  {
->  	*ptr = NULL;
-> @@ -86,6 +95,14 @@ static inline void kmemleak_free_part(const void *ptr, size_t size)
->  static inline void kmemleak_free_recursive(const void *ptr, slab_flags_t flags)
->  {
->  }
-> +static inline bool kmemleak_may_need_free(const void *ptr)
-> +{
-> +	return false;
-> +}
-> +static inline bool kmemleak_may_need_free_recursive(const void *ptr, slab_flags_t flags)
-> +{
-> +	return false;
-> +}
->  static inline void kmemleak_free_percpu(const void __percpu *ptr)
->  {
->  }
-> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-> index 7c7ba17ce7af..e3560ce82632 100644
-> --- a/mm/kmemleak.c
-> +++ b/mm/kmemleak.c
-> @@ -1168,6 +1168,48 @@ void __ref kmemleak_free(const void *ptr)
->  }
->  EXPORT_SYMBOL_GPL(kmemleak_free);
->  
-> +/**
-> + * kmemleak_may_need_free - check if object is registered
-> + * @ptr:	pointer to beginning of the object
-> + *
-> + * This function is called from the kernel allocator when an object should be
-> + * freed but the caller context might be unsafe to spin on the internal locks.
-> + *
-> + * It will therefore only use trylock and thus might return a false positive
-> + * if the trylock fails and the status cannot be determined.
-> + *
-> + * For objects that (might) need free, the allocator has to defer the actual
-> + * freeing to a safe context.
-> + *
-> + * The assumption is that most objects freed from the unsafe context are also
-> + * allocated in such context and thus are not registered in kmemleak, so it's
-> + * unlikely the defered freeing will be necessary just because kmemleak is
-> + * enabled.
-> + */
-> +bool __ref kmemleak_may_need_free(const void *ptr)
-> +{
-> +	unsigned long flags;
-> +	struct kmemleak_object *object;
-> +
-> +	pr_debug("%s(0x%px)\n", __func__, ptr);
-> +
-> +	if (!kmemleak_free_enabled || !ptr || IS_ERR(ptr))
-> +		return false;
-> +
-> +	/* On UP, raw_spin_trylock() always succeeds even when it is locked */
-> +	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
-> +		return true;
-> +
-> +	if (!raw_spin_trylock_irqsave(&kmemleak_lock, flags))
-> +		return true;
-> +
-> +	object = __lookup_object((unsigned long)ptr, 0, 0);
-> +
-> +	raw_spin_unlock_irqrestore(&kmemleak_lock, flags);
-> +
-> +	return !!object;
-> +}
-> +
->  /**
->   * kmemleak_free_part - partially unregister a previously registered object
->   * @ptr:	pointer to the beginning or inside the object. This also
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 2d7648b96bfa..423b5bdb910b 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -6390,6 +6390,8 @@ static void deferred_percpu_work_fn(struct irq_work *work)
->  		/* Point 'x' back to the beginning of allocated object */
->  		x -= s->offset;
->  
-> +		kmemleak_free_recursive(x, s->flags);
-> +
->  		/*
->  		 * We used freepointer in 'x' to link 'x' into df->objects.
->  		 * Clear it to NULL to avoid false positive detection
-> @@ -6403,8 +6405,15 @@ static void deferred_percpu_work_fn(struct irq_work *work)
->  
->  	llnode = llist_del_all(&dpw->objects_kfence);
->  	llist_for_each_safe(pos, t, llnode) {
-> +		struct kmem_cache *s;
-> +		struct slab *slab;
->  		void *obj = kfence_llnode_to_obj(pos);
->  
-> +		slab = virt_to_slab(obj);
-> +		s = slab->slab_cache;
-> +
-> +		kmemleak_free_recursive(obj, s->flags);
-> +
->  		__kfence_free(obj);
->  	}
->  
-> @@ -6781,15 +6790,10 @@ EXPORT_SYMBOL(kfree);
->  
->  /*
->   * Can be called while holding raw_spinlock_t or from IRQ and NMI,
-> - * but ONLY for objects allocated by kmalloc_nolock().
-> - *
-> - * In case kmemleak is enabled,
-> + * but may defer freeing to irq_work() in some cases.
->   *
-> - * obj = kmalloc(); kfree_nolock(obj);
-> - *
-> - * will miss kmemleak book keeping and will cause false positives.
-> - *
-> - * large_kmalloc is not supported either.
-> + * Intended mainly for objects allocated from kmalloc_nolock(), but can handle
-> + * also kmem_cache_alloc() and kmalloc() objects, except large_kmalloc.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-Do we need to add slab_want_init_on_free support for kfree_nolock as well?
+Pre-existing issues:
+- [High] The switchdev bridge join/leave handlers manually call `__dev_mc_s=
+ync` and `__dev_mc_unsync` without holding `netif_addr_lock_bh`, corrupting=
+ `dev->mc` list.
+- [High] The driver destroys its workqueue prior to unregistering the notif=
+iers that submit work to it, causing a use-after-free.
+- [High] Dynamic FDB MAC entries use `devm_kzalloc` and `devm_kfree`, causi=
+ng severe O(N) devres list traversal overhead leading to lockups.
+--
 
--- 
-Thanks,
-Hao
+--- Patch [2]: [PATCH net v3 2/2] net: sparx5: fix sleep in atomic context =
+in MAC table access ---
+commit 0271557455a8033457131b5edf4c50d634d7c1d7
+Author: Daniel Machon <daniel.machon@microchip.com>
+
+net: sparx5: fix sleep in atomic context in MAC table access
+
+This commit converts the sparx5 driver to use the ndo_set_rx_mode_async
+callback to avoid sleeping in atomic context. The previous ndo_set_rx_mode
+implementation polled the MAC access command register under a mutex, which
+is not allowed from atomic context.
+
+> diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c b/driv=
+ers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> index 1d34af78166a3..4dedf5d926416 100644
+> --- a/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> +++ b/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> @@ -162,13 +162,18 @@ static int sparx5_port_stop(struct net_device *ndev)
+>  	return 0;
+>  }
+> =20
+> -static void sparx5_set_rx_mode(struct net_device *dev)
+> +static int sparx5_set_rx_mode(struct net_device *dev,
+> +			      struct netdev_hw_addr_list *uc,
+> +			      struct netdev_hw_addr_list *mc)
+>  {
+>  	struct sparx5_port *port =3D netdev_priv(dev);
+>  	struct sparx5 *sparx5 =3D port->sparx5;
+> =20
+>  	if (!test_bit(port->portno, sparx5->bridge_mask))
+> -		__dev_mc_sync(dev, sparx5_mc_sync, sparx5_mc_unsync);
+
+[Severity: High]
+This isn't a bug introduced by this patch, but while reviewing the
+__dev_mc_sync changes, I noticed a pre-existing issue in the switchdev code.
+The bridge join/leave handlers manually call __dev_mc_sync() and
+__dev_mc_unsync() without holding netif_addr_lock_bh:
+
+drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c:sparx5_port_bridge=
+_join() {
+    ...
+    __dev_mc_unsync(ndev, sparx5_mc_unsync);
+    ...
+}
+
+drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c:sparx5_port_bridge=
+_leave() {
+    ...
+    __dev_mc_sync(port->ndev, sparx5_mc_sync, sparx5_mc_unsync);
+    ...
+}
+
+Since these are called under rtnl_lock but without netif_addr_lock_bh, could
+this corrupt the dev->mc linked list if there are concurrent unprivileged
+multicast mutations (like IGMP/MLD)?
+
+> +		return __hw_addr_sync_dev(mc, dev, sparx5_mc_sync,
+> +					  sparx5_mc_unsync);
+> +
+> +	return 0;
+>  }
+
+[ ... ]
+
+[Severity: High]
+This is a pre-existing issue, but does module removal destroy the workqueue
+while the switchdev notifier is still active?
+
+drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c:sparx5_unregister_=
+notifier_blocks() {
+    ...
+    destroy_workqueue(sparx5_owq);
+   =20
+    unregister_switchdev_blocking_notifier(&s5->switchdev_blocking_nb);
+    unregister_switchdev_notifier(&s5->switchdev_nb);
+    ...
+}
+
+If a concurrent switchdev FDB event occurs after destroy_workqueue() but
+before unregister_switchdev_notifier(), sparx5_switchdev_event() might
+queue work on the destroyed workqueue. Can this sequence result in a
+use-after-free and kernel panic?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does the driver use devres
+allocations for highly dynamic network state?
+
+drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c:alloc_mact_entry() {
+    ...
+    mact_entry =3D devm_kzalloc(sparx5->dev,
+                              sizeof(*mact_entry), GFP_ATOMIC);
+    ...
+}
+
+drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c:sparx5_del_mact_ent=
+ry() {
+    ...
+    devm_kfree(sparx5->dev, mact_entry);
+    ...
+}
+
+Because devm_kfree() linearly scans the entire devres list under the
+dev->devres_lock spinlock with IRQs disabled, could this cause severe O(N)
+traversal overhead and lockups when handling thousands of dynamic FDB MAC
+entries?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260817-misc-fixes=
+-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com?part=3D2
