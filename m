@@ -1,225 +1,279 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7944854E0;
-	Tue, 18 Aug 2026 18:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CF2384CD5
+	for <linux-rt-devel@lists.linux.dev>; Tue, 18 Aug 2026 23:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787077761; cv=none; b=cfYH8FhKgILtnNJF2XmIxm0c7FQMGLWVIqBBrOwpuT2LpUhtEMh+YIX/+CS1cL+bkzmvG2FP2MeOPmXytcWJHEk+PCDx6wiv0mDfLik/zL66qVAb3jHkVgQYVFATY9mT9mYIEB+M8EqAafg1IKmRcg4EtmckSa3u2i44Gv2mIis=
+	t=1787095115; cv=none; b=QyezObG20U+0Ec1hCaEDRG98bjf9Dv35ai/GauzI45DlHsgTx8z1h+XSDnC/2w26RMwr+cZS/2YVROoFl1UQcwffKJsd2IoVzDshV9FcG5kQ19VNU9AfTOpxMIAFXvD+xoGjR9PcBxUmvX+qB1z5sgEakjorxT5msfARERygjG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787077761; c=relaxed/simple;
-	bh=sQEnP7bw3fUula7e4ixjASA+CGvRUFzLV5Gch+qdJ+w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=racEG4Y8TSnmgbCFRoy6HzTV31NJqX0a6yBCEhbMdb1oV/TFjuY3Ycsc4zexzledyBI4cs9P1LygpeggW+9pYTn7RLgpktpzST7tLUug1NGnS26YUILkRa40Bu+UJ3JiNcofCZXWw9GM6GjwrUdHVbGwxJENEqu7EwH0DmCJgF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dLzIFXGd; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1787095115; c=relaxed/simple;
+	bh=MEPpXyDD2yM8XuU1/JIlr4bR98o+GPv/YzF6OkvAOs0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=LXcoW4geLq4OtRVv6d7SJDCmxaI2CDvmx+Yim2rpcuQn45dg7H5EDb+5cPVhUZyzjjYL171jzCL4TY0pylbWbKmP/Lj2U865eXMuxJ7oxApqwOAC/pBy/f79vINoLESzHYX1LbJZbkqo4NEhQ1JO/nBCqyjbD7y7BdfW2hXWTxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=WKE/cxcP; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dLzIFXGd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sQEnP7bw3fUula7e4ixjASA+CGvRUFzLV5Gch+qdJ+w=; b=dLzIFXGd4A2eFBRzKonNRbLQ9g
-	mE8DVqAVVQI2gbA0hkOT0/+d+BWXHZYC11BfUpjmeV/sZ5jpifC8Q++yKnFi38BqCrV9TokDoN5+q
-	e5eo5OifU6RLg2AQx74Tj/k8B64vxZj8PbnuW/wyTHmJuUEpUfCB7UIRcNrGNxSxPL5U0vYpOkOnU
-	JKxBqTAGom8XbQznpi0xraEsFzvVcdGeNjtZTpmU87UvNxIJxxOaLi0fm1h6VHRpMrIpJGkYyegKU
-	VnhnTVKhBjcULFZe3iOHQnIeC4pufl9NGLgUsGhToHHxk+WqOg/EhatrOE+TAzHw9uGSvekHmXYs4
-	UaYmYxNw==;
-Received: from [2001:8b0:10b:5:e1e9:2184:79c4:acd2] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwOYa-0000000CRNj-3YZV;
-	Tue, 18 Aug 2026 18:29:05 +0000
-Message-ID: <058392901368b969b9c8f6f850b8959d5b5661d1.camel@infradead.org>
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-From: David Woodhouse <dwmw2@infradead.org>
-To: paulmck@kernel.org
-Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-  Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton	 <akpm@linux-foundation.org>, David Hildenbrand
- <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka	 <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>,  Clark Williams
- <clrkwllms@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Paolo Bonzini
- <pbonzini@redhat.com>, linux-mm@kvack.org, kvm@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, 	linux-kernel@vger.kernel.org
-Date: Tue, 18 Aug 2026 19:28:55 +0100
-In-Reply-To: <49df45c6-4d0e-483a-8acc-0ace7f9a6484@paulmck-laptop>
-References: <c41c52f02f033ea980d4b5f9b8239d5e9411a03c.camel@infradead.org>
-	 <20260812134934.GC662699@ziepe.ca>
-	 <a48e6e7063122b22a8083bb0792984a204f316e6.camel@infradead.org>
-	 <fb87f673bf290cad133d113dbb0750a7752b9d30.camel@infradead.org>
-	 <a94b75e8b9b1d2191f365c0f4275fd5082332df5.camel@infradead.org>
-	 <d0692500893f303906fba1d7d596eb59a07a806a.camel@infradead.org>
-	 <anydY25Cl78l1HfU@google.com>
-	 <932DB129-1794-4855-A61E-F4C2B54B1EE6@infradead.org>
-	 <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
-	 <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
-	 <49df45c6-4d0e-483a-8acc-0ace7f9a6484@paulmck-laptop>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-xcIsftZ5chiA7z22mZeL"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="WKE/cxcP"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-383cb94f742so551598a91.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 18 Aug 2026 16:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1787095111; x=1787699911; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FSh4v7e+Hfv1szWaqI/qmJdvU291yDZq8xvu03yI1qM=;
+        b=WKE/cxcPvDlBsc8IrYUOA2wEDzHtvk1iSsl8iwASmO38M6ndT/65r5vn9m/hNfs27y
+         RZ0qQVL7DUScqpltbwsPIybu2wXK/JyFSBZQWsM80pct2D9IHYOl82QfQbCY1nbDm/XP
+         0EX4JP6tJzZrF6ZRylr2a6KL+3rjyVsGUpliMNIbBm+u7l+0yflYVXwulYM4hvXMr2Hq
+         0890IKP4Ir6BtaQFGlccUenwMOFnMmPEx1QZU2Nq7zUkjSFVFhloOi+rKjCxDBc9+oSM
+         +qj+c5r21U800Pa6KxLw0BpYNPUb2H9KUPgHuXYT6nRMZyOGGNTWoh6pgUKAGvAq82bM
+         Sujg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787095111; x=1787699911;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FSh4v7e+Hfv1szWaqI/qmJdvU291yDZq8xvu03yI1qM=;
+        b=C52QZ9I7+HTnHgKy1+gz1OuJjRJJJVh7W3tP21optd7+sRQHBS+Uxtnt1t4vZJskH+
+         F6yV9rDuE+VIqJJyQJUDy+wb29ifOpkq5wV0KvUmu5u0oFrMXZM+l8Y5zZkAwvx3IbEK
+         WeIGuAY3s0MeKUK+BB3CPgkO2Qg7FO6XrAkQV0KmbjyP5vLEKiiOrqPJFXF9llBFO0QW
+         FsjFEzA1uKLr0fpxtxwaCOCLU3YeewCkLV7GhZ0IJFvh3ZMD6eRPIfniyzbKtnt/gxoy
+         YTWD7pAfGotMOJjTnqqj4jJNMrmOtcDmiDSWYXV72k8bQDSEbBsISoDB2uWJs9fDrz4Q
+         iNIg==
+X-Forwarded-Encrypted: i=1; AHgh+RoxVHqa8n37Zyvz8tQfIQe2H7jHCYUTiPZ7ngx4IFuc8VFZPBiEMfQSj1hA8S4XXvhrQyTEeV53MzAOvrPIXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOr/YhAAWYc35W8c7G+bMifgdmIRYlJ7HCRM8mCqsLcG6llt2a
+	v5Rr+aHZE5yhy7FbyTCfZ/zUcIpCY46L6voCuNsNz7uJ/l8MakWdEzUm6GP9SZkBk34=
+X-Gm-Gg: AR+sD10nztmolKogdfH8scQZG0HZfCOwRjlnmeLH16Y0brqG9HKd0Mti9Q5IAfCo9fn
+	NKGrDs5IF2SaUQQV/2JVlWrTs+hzcajUPpVr8kdnF8DFFOvl97tQHnHK0AO9ua/kX53thIdYcsV
+	qr/ussd5iPGgY5aJEAzuQQQiUTm5tOqT863f/ynw/fQA/EBSV7NAk+c9P4rSd+1YU4zhitE6xIr
+	jcVSgmvn3GfvjpH8T+x3amfBGk7Y8Hgrh+DupaTD3CFID5/2TjAqQ0OBaeGkLvuy7q8vMUcJPEY
+	Cbbm04Fe1uAjsdn0uh0B041m7P2ImpTmRwQsSJAUMTd82aGjVPFc8Z4koybBQ0qxbaCgNAEsKIw
+	JsBk3OujS1HG0mG6TzuOdteNck+wcXmFn8bjwuhF2DuObB8ULAjPRUR/qpQfCXbr9sAIOFDl7xd
+	kQPpk3aQbffRjptKQ7peBV0SZ6W5Imh8Uu1zvF5E4/70ZJHAlkTQuWDUm9hl+r1W8NLK/XAZLkL
+	H24RX0hdi0GDup3Uw==
+X-Received: by 2002:a17:90b:510d:b0:38f:18f9:785 with SMTP id 98e67ed59e1d1-39580f2d498mr743485a91.8.1787095110988;
+        Tue, 18 Aug 2026 16:18:30 -0700 (PDT)
+Received: from localhost (107-190-31-17.cpe.teksavvy.com. [107.190.31.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957f9ab8besm329084a91.6.2026.08.18.16.18.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2026 16:18:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-xcIsftZ5chiA7z22mZeL
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 18 Aug 2026 19:18:29 -0400
+Message-Id: <DKSGCFDM14NC.1YMDZUUT89UVM@etsalapatis.com>
+From: "Emil Tsalapatis" <emil@etsalapatis.com>
+To: "Jiayuan Chen" <jiayuan.chen@linux.dev>, <bpf@vger.kernel.org>
+Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Eduard
+ Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
+ <memxor@gmail.com>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Song Liu"
+ <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa"
+ <jolsa@kernel.org>, "Emil Tsalapatis" <emil@etsalapatis.com>, "Ihor
+ Solodrai" <ihor.solodrai@linux.dev>, "John Fastabend"
+ <john.fastabend@gmail.com>, "Shuah Khan" <shuah@kernel.org>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
+ <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH bpf-next v3 2/4] bpf: arena: allocate the fault-in page
+ outside the lock
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260808140720.293604-1-jiayuan.chen@linux.dev>
+ <20260808140720.293604-3-jiayuan.chen@linux.dev>
+In-Reply-To: <20260808140720.293604-3-jiayuan.chen@linux.dev>
 
-On Tue, 2026-08-18 at 11:18 -0700, Paul E. McKenney wrote:
-> On Thu, Aug 13, 2026 at 08:54:44AM +0100, David Woodhouse wrote:
-> > On Wed, 2026-08-12 at 14:38 -0700, Paul E. McKenney wrote:
-> > > If not, please let me know, and I will put together that does the
-> > > job.
-> >=20
-> > If you're working on that, I assume it'd need the readers to be known-
-> > atomic. So if any of the read-side SRCU_READ_FLAVOR_ATOMIC thing I
-> > already threw together is useful, you can find it in my tree at
-> > https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Dr=
-efs/heads/srcu-atomic
->=20
-> Thank you, happy to steal pieces of that with attribution.=C2=A0 ;-)
->=20
-> My current plan says that if you have an atomic SRCU on which you
-> use srcu_read_lock_atomic() and srcu_read_unlock_atomic(), you only
-> ever get to use synchronize_srcu_atomic(), never synchronize_srcu(),
-> synchronize_srcu_expedited(), or call_srcu().=C2=A0 Does that work for yo=
-u?
+On Sat Aug 8, 2026 at 10:05 AM EDT, Jiayuan Chen wrote:
+> arena_vm_fault() allocated the page while holding arena->spinlock, so it
+> could only use the non-blocking allocator. Once the memcg is at
+> memory.max that allocation just fails, the fault turns into
+> VM_FAULT_SIGSEGV, and the process gets a SIGSEGV on a perfectly valid
+> arena address. Hitting memory.max is routine (e.g. page cache from
+> reading a big file), so this kills innocent processes.
+>
+> Rework the fault handler:
+>
+> - Preallocate the page before taking the lock, like do_anonymous_page()
+>   does, so it can sleep, reclaim and go through the OOM path, and return
+>   VM_FAULT_OOM on failure so the memcg OOM handler runs instead of a fake
+>   segfault.
+>
+> - A lockless probe skips that preallocation when a page is already mapped
+>   (e.g. allocated by the bpf program), so the common case wastes no
+>   allocation. The rare race where such a page is freed before we take the
+>   lock falls back to the non-blocking allocator under the lock.
+>
+> - Return VM_FAULT_SIGBUS for the non-recoverable errors (lock failure,
+>   range-tree and page-table failures) instead of VM_FAULT_SIGSEGV; only
+>   BPF_F_SEGV_ON_FAULT, and a scratch-page hole under that flag, is a real
+>   user addressing error and keeps VM_FAULT_SIGSEGV.
+>
+> - Tidy up the error labels.
+>
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-Yes, that works. Thanks.
+Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
 
-> > Slightly orthogonally, what do you think of making
-> > synchronize_srcu{_expedited,}() attempt try_synchronize_srcu() first
-> > for an early return?
->=20
-> No objections, but one thing at a time.
+> ---
+>  kernel/bpf/arena.c | 92 +++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 71 insertions(+), 21 deletions(-)
+>
+> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
+> index 555ee2531ef9..09a718ca4c8b 100644
+> --- a/kernel/bpf/arena.c
+> +++ b/kernel/bpf/arena.c
+> @@ -481,7 +481,8 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf=
+)
+>  	struct bpf_map *map =3D vmf->vma->vm_file->private_data;
+>  	struct bpf_arena *arena =3D container_of(map, struct bpf_arena, map);
+>  	struct mem_cgroup *new_memcg, *old_memcg;
+> -	struct page *page;
+> +	struct page *page, *new_page =3D NULL;
+> +	vm_fault_t fault_ret;
+>  	long kbase, kaddr;
+>  	unsigned long flags;
+>  	int ret;
+> @@ -489,59 +490,108 @@ static vm_fault_t arena_vm_fault(struct vm_fault *=
+vmf)
+>  	kbase =3D bpf_arena_get_kern_vm_start(arena);
+>  	kaddr =3D kbase + (u32)(vmf->address);
+> =20
+> -	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags))
+> +	page =3D vmalloc_to_page((void *)kaddr);
+> +	if (!page && !(arena->map.map_flags & BPF_F_SEGV_ON_FAULT)) {
+> +		/*
+> +		 * We run in process context here, so preallocate the page
+> +		 * outside the lock with an explicitly sleepable allocator. It
+> +		 * can then go through reclaim (both memcg and global) and the
+> +		 * OOM path, the way do_anonymous_page() does; under
+> +		 * arena->spinlock only the non-blocking allocator is available,
+> +		 * which never reclaims. That also decides the return value:
+> +		 * VM_FAULT_OOM below is only meaningful if the OOM machinery was
+> +		 * actually engaged, which the non-blocking allocator never does.
+> +		 */
+> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
+> +		new_page =3D bpf_map_alloc_page_sleepable(map);
+> +		bpf_map_memcg_exit(old_memcg, new_memcg);
+> +		if (!new_page)
+> +			return VM_FAULT_OOM;
+> +	}
+> +
+> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
+>  		/*
+>  		 * A failed lock means a possible deadlock was detected. Don't
+>  		 * return VM_FAULT_RETRY: this handler never took mmap_lock, but
+>  		 * the fault path would re-take it on retry and deadlock. Fail.
+>  		 */
+> +		if (new_page)
+> +			free_pages_nolock(new_page, 0);
+>  		return VM_FAULT_SIGBUS;
+> +	}
+> =20
+>  	page =3D vmalloc_to_page((void *)kaddr);
+>  	if (page) {
+> -		if (page =3D=3D arena->scratch_page)
+> -			/* BPF triggered scratch here; don't lazy-alloc over it */
+> -			goto out_sigsegv;
+> +		if (page =3D=3D arena->scratch_page) {
+> +			/*
+> +			 * A scratch page marks a hole. Segfault only if the user
+> +			 * asked for it; otherwise we could lazy-allocate but
+> +			 * choose not to over a hole, so report a bus error.
+> +			 */
+> +			fault_ret =3D (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) ?
+> +				    VM_FAULT_SIGSEGV : VM_FAULT_SIGBUS;
+> +			goto out_err_locked;
+> +		}
+>  		/* already have a page vmap-ed */
+>  		goto out;
+>  	}
+> =20
+> +	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) {
+> +		/* User space requested to segfault when page is not allocated by bpf =
+prog */
+> +		fault_ret =3D VM_FAULT_SIGSEGV;
+> +		goto out_err_locked;
+> +	}
+> +
+>  	bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
+> =20
+> -	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT)
+> -		/* User space requested to segfault when page is not allocated by bpf =
+prog */
+> -		goto out_sigsegv_memcg;
+> +	if (!new_page) {
+> +		/*
+> +		 * Very rare race: the bpf program had allocated a page here, so
+> +		 * the lockless probe saw it and we skipped preallocation, but it
+> +		 * freed the page before we took the lock. Now we do need one;
+> +		 * sleeping is not allowed here, so fall back to the non-blocking
+> +		 * allocator and give up if it fails.
+> +		 */
+> +		ret =3D bpf_map_alloc_pages(map, map->numa_node, 1, &new_page);
+> +		if (ret) {
+> +			fault_ret =3D VM_FAULT_SIGBUS;
+> +			goto out_err_locked_memcg;
+> +		}
+> +	}
+> =20
+>  	ret =3D range_tree_clear(&arena->rt, vmf->pgoff, 1);
+> -	if (ret)
+> -		goto out_sigsegv_memcg;
+> -
+> -	struct apply_range_data data =3D { .arena =3D arena, .pages =3D &page, =
+.i =3D 0 };
+> -	/* Account into memcg of the process that created bpf_arena */
+> -	ret =3D bpf_map_alloc_pages(map, NUMA_NO_NODE, 1, &page);
+>  	if (ret) {
+> -		range_tree_set(&arena->rt, vmf->pgoff, 1);
+> -		goto out_sigsegv_memcg;
+> +		fault_ret =3D VM_FAULT_SIGBUS;
+> +		goto out_err_locked_memcg;
+>  	}
+> +	struct apply_range_data data =3D { .arena =3D arena, .pages =3D &new_pa=
+ge, .i =3D 0 };
+> =20
+>  	ret =3D apply_to_page_range(&init_mm, kaddr, PAGE_SIZE, apply_range_set=
+_cb, &data);
+>  	if (ret) {
+>  		range_tree_set(&arena->rt, vmf->pgoff, 1);
+> -		free_pages_nolock(page, 0);
+> -		goto out_sigsegv_memcg;
+> +		fault_ret =3D VM_FAULT_SIGBUS;
+> +		goto out_err_locked_memcg;
+>  	}
+>  	flush_vmap_cache(kaddr, PAGE_SIZE);
+>  	bpf_map_memcg_exit(old_memcg, new_memcg);
+> +	/* new_page was consumed */
+> +	page =3D new_page;
+> +	new_page =3D NULL;
+>  out:
+>  	page_ref_add(page, 1);
+>  	raw_res_spin_unlock_irqrestore(&arena->spinlock, flags);
+> +	if (new_page)
+> +		free_pages_nolock(new_page, 0);
+>  	vmf->page =3D page;
+>  	return 0;
+> -out_sigsegv_memcg:
+> +
+> +out_err_locked_memcg:
+>  	bpf_map_memcg_exit(old_memcg, new_memcg);
+> -out_sigsegv:
+> +out_err_locked:
+>  	raw_res_spin_unlock_irqrestore(&arena->spinlock, flags);
+> -	return VM_FAULT_SIGSEGV;
+> +	if (new_page)
+> +		free_pages_nolock(new_page, 0);
+> +	return fault_ret;
+>  }
+> =20
+>  static const struct vm_operations_struct arena_vm_ops =3D {
 
-Ack.
-
---=-xcIsftZ5chiA7z22mZeL
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-N2ukwTng3elaTM7Jquv0xbwAAAAAAAA=
-
-
---=-xcIsftZ5chiA7z22mZeL--
