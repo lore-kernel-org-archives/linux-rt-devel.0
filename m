@@ -1,334 +1,260 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010060.outbound.protection.outlook.com [52.101.84.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11B63A5422
-	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 00:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787100724; cv=none; b=rSpBE9LSv/QdGIuSYR2Fic5GSiCacG9OyApWyd5X4Y79JuJbwk6fXQ6Si7v/tUj1dc9iBiKbWyibMLv+sO6DspvBSz9UUyxd8rTAzEe/aZfjzZkSizL9WZtOMuvNjd5gR3urJnXzAO3dl5UD/o6S4W0CPhq42Q7MiepRez0pDd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787100724; c=relaxed/simple;
-	bh=drmmQM2zQ/3arwMjOC24nDokB5ci0sg/YNQXNeZP4ZY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=fWkaEmxtnlyH0gMhLg7dQnuW6iUCAtWFkBAdx1eoRATu2oaSuWLOOsJjtGkdL3jLkXROXI1UDhpQwIcqdddJP8MMZuzXo6xolmltHD7O+SBPp0ql3G73dHAfdd8rweAri0H1ilypZwUqy5nLeOpCF2ZCAXUHsrowX7qdr7p5Nrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=GIF5dW60; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBDE43B3F4
+	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 10:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787136309; cv=fail; b=Y3Il/S6iD7x/MJEpO4vjh/KlZKofShH9jWNVjypfcWjr+lctQO3yd4bggT6nxc/BVGNMmaXuYj+NdTOiA2+1A+Jl0sB7rEB0WDUg+pQss0J7WB+c42oz+nAptSZSvWCToIMMzJn2GvvdXGB2wGB8sn2M7quBkju4NBJOA+fjiJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787136309; c=relaxed/simple;
+	bh=HRsAPdGZgWUDP3IlXGjoXEma9LHRPltUhioUW9KK/mI=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gg7Sk0UOy6fsY8pUN4Yic6qeRkdXABnZfRVYkFeln/t7aFF4UVhKrPW6/DYeFVrdSYgt0OEkUJjGf3wNIjCLjH7WHwjJUhV6E0dqni33m+/QCS5JG4WYGHMCNR1I6D7expS3d4U3cuxsgRyGWwgS7gA18eU65FE0LqjUFe3ComY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=H5isGNXn; arc=fail smtp.client-ip=52.101.84.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="GIF5dW60"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so284797a91.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 18 Aug 2026 17:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1787100718; x=1787705518; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YqZ+lquUct7OgV0Kb+n4xKfmL/YvvXGtH+0T7/T1vGA=;
-        b=GIF5dW60Z2i9jrKhWxpvKwcPrL7ZQoA8D0FN5gvte9m9mkAjksej1ZA2xMe7UIHbgY
-         eLB1dvadPc7CkLJ4aZdOxC3gCPQK0AXNiZXxpTjrIGqh1dHHjLE4nG2tb3tfZ+ToqE4j
-         RYxM8hwWFym0CrqE63x0litqI0IfW52EFAELrOAgvCv3aX12IALPuoRFcn3iQ/PxmNd2
-         TfDpL4np2qTZ2KRub8gWenXx/2zoXI60nzC83aQbMv4LyiiHGRglQj0RhnGr2DZu+Lrw
-         AfINnW8Q0yL+fAeOtaSMc8rvXW501WpgekhPeu2JdZmtGJHRRT7bWj9PukwLXR6MUgLs
-         3Ptw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787100718; x=1787705518;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YqZ+lquUct7OgV0Kb+n4xKfmL/YvvXGtH+0T7/T1vGA=;
-        b=AaFskxPUHUA6/zAiTdH1SuEJTT9wr+WnxauocRgr7gKySRfp/vLF0vO4kdHeBB++0n
-         LvDRCIzca3a3ZTMbtVyphk40xfbapFQHOEm8CZZ2ZDEnJ88GAi1CIba4044rwa+15Z8Y
-         KmzNqA4ufN1GMGDu9J7vWtJm1d5lHF74jKU0/6o7EAFNc9kVNDa/+xd8o5UsNa57hoLP
-         Lmw2P2DCPS+bx//xKdM3oLU0uM0mm40YiPbEnSm5OkrOlS3bldlvhOO5K3GTwQIEHu9m
-         j0Q4hjIJ4yx/6+4/B4xepnC1w4nhdzSdfkOxtljQsYpSSSPEGD+tvQuj1kwXjdRkQaUz
-         xIdw==
-X-Forwarded-Encrypted: i=1; AHgh+RqRWAKrO6jqahedyHrKwRM6jdA5zXXZ0ZC5/4NJVC0E5Q+tLFPJgo/ivCa1mbD350IcYZq0qf9COl1id+Ol6A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxRu+L7GhJOdbBIYmz1O4w3gt3XicGGljtzpUjXXyJ3HkTqO0Wg
-	DKTUK7kQhsRSMNBwZJeDJE26Fv2y/KlzR/cVVsfi0g6wX6N1tQbnGELkhNC/XPjBxrc=
-X-Gm-Gg: AR+sD129H4ZJNQPV4qHuQW3yE7iEK7kpruXxwTPlu+Z/qwQ8u422gP9aayicnn96pCD
-	hTm1CK0SNDLixBjtrJrAEeC+p59HEKAACVTaGNdX0epo9/G1bKKO1xOfrOO3pBke3Mo5KTdZ3sz
-	B91FfApGgaZyU7rBJbs7TbVjiNLyE+Rk/xcq2HkN06dKGUC8ku3+4viNJxUS6kGnEECK9eOJRPL
-	CIcs8EHddlwf0Eiyf6avWXz2a5vB9A4jxuVgVthH6rXckUGlkdBDOqSNsr3n6uTjIhZsIZ0QrJF
-	i+5zjxBvpt8hpyoqAWZvwEXi+Ndhnoz3Vq8RR/i3bOUPnmSPPBCnhbqm6Pqtg1Njv61GoDHzgue
-	aRnmTWEWkkYievnnzaNXFuuzZIpdF6Q9MqFYEJRUJQdFFA/PEx8i9qR6KMd3Pv3ptGoc5G3rAlR
-	Nm3JhB6jn8QcCvII6yxVteCNy1Z5dd+9aR2u0r8LWO3DcL4y36FC3lovWfUuPRYZJDdDfEajwre
-	q5MV4U6SfoYmp/omw==
-X-Received: by 2002:a17:90b:4b91:b0:384:927f:3db9 with SMTP id 98e67ed59e1d1-3957f874e86mr1158483a91.1.1787100717529;
-        Tue, 18 Aug 2026 17:51:57 -0700 (PDT)
-Received: from localhost (107-190-31-17.cpe.teksavvy.com. [107.190.31.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957fb87174sm519704a91.12.2026.08.18.17.51.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2026 17:51:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="H5isGNXn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c9zoQrMIxXHMmLI2bmkpQOnoBlyHiNuRP98yOAJ6vVHPhs1qHMyzDfBPNcEJUSagQFEivdSLX4GkllaqKEFzwGMlj/2dfCbICr3yYRUsfK9ccuP7PvgvL5RDrCdObfHHY/o/i9hdDJN9pn0HzfGrqaEQh7XPxep6eIRHwMT2lYqyYxjh0vESOpzSH7Z0mrgbL7QEV5f04cF57yYeN55921X7Yw0FQi0gDfresn85JvGpiN9c4iu2rLPhMS9Qy+2I6l9oc7jUvdNSaW6Djby7u/HorjnDMqNJnyhtRBp+8Kz0NbhKNstArAZP8lXFj0hXmOZRGz9cNSkjldzng6QaWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qyr1U8fkhOv9ra9fRE2m4yga5b9+sLqaw/WAdl07QF4=;
+ b=AORRgjmifNgH2l3Lud8sxM95y0T1Ra3aACUbp7OYr5cMPtreZxvxaKrtMPBxEZ8J9r+soAge80nbnDT6CHTRTTka6dRBxkEsJs3psyDQN/6RXWNAahGhtv+SjuPdEsjE8FDizQRPMccKYmOSDVMg4cQarYsE2F2N6qV4M36V0Whmx5aUsj8iwWyr9PNBW8BB5r1Uok9Uq10KAgZYQwLU2rktDKPDbuMdC4NtF5Tnx1PdgeCKdEO8eXkkn/O6AxOkT6TvKHYBeeCAqlmU51h/VuWzXgeAmJyI8VxUADqDGpzlguXVCkLK2rWONyGq14Ji/PjMaY4TkyBZHhnwllVRIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qyr1U8fkhOv9ra9fRE2m4yga5b9+sLqaw/WAdl07QF4=;
+ b=H5isGNXnW//o4rant0PO5wf4zJPz3VofiHtvynptnv5m7BuVvHhJDGFNu8Ba3oMov3DBLwYxoY0/3Bk3JriRyg7g1xAW14d4RuVwFDrD5Yw+oApkaSjIccvAGgUSh1lRq4lMAQC0WdhvpihK4hNvsJNdQgZYUfz+U5+P8hWlHOQAm3k4YJOit20lF3wW+T4h6Tj7hnTUw6eRCBRHbcW1aTms75efvd8WhjkHjvvOZ6Rvzh/WLMKaMc6E/tFibHQBre182FRxUUx8XptY4NALMhaHJ9TAvKvrNTxFhu+6FubkAC+aB9IsYzub3gS+EBW6MAcFf2NeKTzaCHhTN4E6fA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:588::19)
+ by AS8PR10MB6339.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:53d::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
+ 2026 10:45:00 +0000
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::be9f:e8ca:ee9:83e1]) by AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::be9f:e8ca:ee9:83e1%2]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
+ 10:45:00 +0000
+Message-ID: <16fda1b1-2c72-4d05-b1c8-f424ac2848c6@siemens.com>
+Date: Wed, 19 Aug 2026 12:44:57 +0200
+User-Agent: Mozilla Thunderbird
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [PATCH v2] irq_work: Fix use-after-free in irq_work_single on
+ PREEMPT_RT
+To: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ linux-kernel@vger.kernel.org, Florian Bezdeka <florian.bezdeka@siemens.com>
+References: <20260330073234.303732-1-jiayuan.chen@linux.dev>
+Content-Language: en-US
+Autocrypt: addr=jan.kiszka@siemens.com; keydata=
+ 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
+In-Reply-To: <20260330073234.303732-1-jiayuan.chen@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0245.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::9) To AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:588::19)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 18 Aug 2026 20:51:55 -0400
-Message-Id: <DKSIBYZNN07W.12NSCHYUCJQPH@etsalapatis.com>
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Eduard
- Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
- <memxor@gmail.com>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Song Liu"
- <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa"
- <jolsa@kernel.org>, "Emil Tsalapatis" <emil@etsalapatis.com>, "Ihor
- Solodrai" <ihor.solodrai@linux.dev>, "John Fastabend"
- <john.fastabend@gmail.com>, "Shuah Khan" <shuah@kernel.org>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: Add a test for arena
- fault-in under memory.max
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Jiayuan Chen" <jiayuan.chen@linux.dev>, <bpf@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260808140720.293604-1-jiayuan.chen@linux.dev>
- <20260808140720.293604-5-jiayuan.chen@linux.dev>
-In-Reply-To: <20260808140720.293604-5-jiayuan.chen@linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR10MB6181:EE_|AS8PR10MB6339:EE_
+X-MS-Office365-Filtering-Correlation-Id: bba9fe2d-50e4-414a-515d-08defddeeaf2
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|56012099006|6133799003|55112099003|22082099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	QnBbCV7nS2NkyCQKiEpj7Jk/9HvbZnZluKreWCrkZrq2+26X7+vA/sXassvho9/UT+pNR85SsbOnuCWO1zT8701kLhMSWLAS9VEUQ7AVuPMCB2P6ATvdY/tyJ8yzse1pX9XYmPNR0xOzEoH3tN7/d60xLppdljlCMTZh00ANEC9/NNo/WemGAIb2zlLseXExdVvSbpYGlktiAKeDZGYbEF8JRTQO2CPB+po4xQCLMdK9/J4pbZlOJBSyo34GNJshYYrQDAIFDdb3J7jWm8oNbkXOs2ib0zsMcBKaR7WW0xOZr75iUaFsgMOdU7hX/XCBCNxxEjyh9YBge37Ff/dgHQWZtx+E83LpVgH2UFiQfXTu0Zs5/Y3vZwSSmmID0UXWsmHDmEuOxLTZP+/wJN8eMcCH/rkwy6H7r6foODANHoomSITL+fEDcmulVD1FZ0yYLSAU3+FDU6gwR/u8NyDS42x93+L0qx6jnrmySMGuU04xOr3rEc1bjitPZF/Sdll582iQyiN5STUa83SxLNem/zEFoT1DIW2IzuVURXeS7X9u9tRA6l1ClwPrwyakDsdvcUib1VQSsHLnEmCdIB4iUhTXmLljr2nj37K4+9zG8t8bsNcUuxS6/I/CtGYxsm4NLf5T6lD5g41tsMgYKwLI6BNdpQgxdW5KOlT/N/+OZ8A=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(56012099006)(6133799003)(55112099003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q0Q3bCtYQkRHTWZMYlpaNlR4STcrcmIzV0E3eUl2NXJzL0RCb3VFTWpZcGZV?=
+ =?utf-8?B?WHE1NCtacFRLaHUydlhwcTZjZ1VuMWNubFNneEhlZDErSm10ZmtFT3JUVkt2?=
+ =?utf-8?B?UjREU0lRek9FbzNycHZ6VHRLNTFWZGVnaEVqUXVNZWRhL0JUNzJKRUI1dk02?=
+ =?utf-8?B?TlhzMGNyVHQ2TUdOMEZBWVNhZ2RnU3IyaUNLQm03Rk1YWjV0bmp6S2dHN2VB?=
+ =?utf-8?B?azhBNUw4cGgraXJOdE5YU3VRN2drM0k4YjZ2ZnZHMlZLRU9EMkY3OXpEMC9K?=
+ =?utf-8?B?SG9sd0R6V1lOUktyS3Q4bnNzRVM1UmdoVDlZVER5cC9OdlJYOUVWQWR5ZmR3?=
+ =?utf-8?B?MkhHOVI5K0FlSjBHUzVhbWFxS0JnVmhCS1MvTEN2WHpTVGhsKzNuZmpGVUdH?=
+ =?utf-8?B?UTJLSWIzYTc1N3lYd2Vvc3llcllQU1JMYU03a05VQ2NyOFowdUtDV0ttNGpq?=
+ =?utf-8?B?ZmUxdGs5Yzg3c3lpTDJBMWNvNFRYVTl1enptWXlsbDQ4Zkd4QUhuRmZXTUV4?=
+ =?utf-8?B?QmNGRnlzUG1LbEgyOGptcm80NWxqM2x1b3RhS0VxOStxamdoSFh2dk9hSXI0?=
+ =?utf-8?B?clZXZnMzMFpjdDhFdFZMNWJSNTNaS3VxR3c1L2tIblJHdHpxUEtyK1hiL2pG?=
+ =?utf-8?B?cTBXb0VTN1hYYmhhRi9GaGc0cXNZWmxoYkNYUXBLY2RCelNhM3Uxam9tZldE?=
+ =?utf-8?B?K3ltcm1QSmVNMTRsZFlIMnkvUUQ5UjJpNHM2ZXpMU3FuRnFLUCtNbW1rTjVz?=
+ =?utf-8?B?RW81cmhDTTlsQUo4VSswZGs4QVJYdS83QlExbzk0T3JkZCswNVlTMU5JMnNT?=
+ =?utf-8?B?aDZHY1dBU3pzZXVUZ2lFQnkzU2x6ZlZVWEM3UHgzTC80NWErR29XM0o4Zk1Z?=
+ =?utf-8?B?UTZHcHRHSVRON2k2VU1sOVE4aFFpa1pDRTRFSGptbEhLRUZXcFZySndUeEwz?=
+ =?utf-8?B?UWljS1BFaEhjTkowaHd6bTltOTJJVkR4V2F4elZZakZEbTZDRzlTV3BNYnZS?=
+ =?utf-8?B?ak40VllkbHE2YnVoaHFNSEhXeHE1b2ZsVURVY2F1MXE4dW5IRERuV2hjd0VP?=
+ =?utf-8?B?RlM5WDlMUm5oSXI0cVVMNEozdEdxKzcxVTloYXRlZDY1L2VhZnBkUnh3NHVp?=
+ =?utf-8?B?NGNPYnU5QjlLdzlDZTNoN3U1Yktad1QxWmJpbWQwend5T3l6cFVaM2lWalV1?=
+ =?utf-8?B?Z0xIT1htNVF4Qk5XSzV6UFhJSWZvVjBXQmdodkIzVU9UaDFJWjZNeEdyUzR5?=
+ =?utf-8?B?NiswZkUxMGZMVWo3TmNSNDRsVzlCdDBWdWFObHg3Z09GNE14NVVaL2cyb1hz?=
+ =?utf-8?B?SDY4REFyZTlZZWo3T1BDVlk1QWJHV1ZpU2MxZTRjWi9IbDlrQWo5WFkwa3FW?=
+ =?utf-8?B?Z1owdHk2WXpaZGo2WVRJV2tmekNjcjNJU0lNYWw2TGdiTjVMUmVqa1duN2Rx?=
+ =?utf-8?B?eVRQbS94b01icjh1bGV5Z3dVRU5SY2UrT28ya1BCUksvRnJmUlJZUzRTREFn?=
+ =?utf-8?B?NmRyNVArRGw4TFFBalNOT3RIemJ1VGdrZUJHMkE4cFhrWG4rRTM5VUM5OW5q?=
+ =?utf-8?B?d0dZeDdhSjZSYXNNenphcG9ENVp1bHVldXhNOHdDZWJST3huZXdFTllLOStw?=
+ =?utf-8?B?TVp0d0pXdzU5YkVjYzRWRUV2ZExnL1VPd0FKRFlyK09lVzlETFlMYjA2UjBy?=
+ =?utf-8?B?Y0d1VXRGeENxRFExTFQ4NkRSNlRnN3VpdmlIUExOUDJHMytpMlphM01zVnQ3?=
+ =?utf-8?B?VHRYTGRtSFJ5Y2VpaUt2QmNLdW80U2k0M0NYcUttcnRIOEdsbmxxRmQ3Mnkr?=
+ =?utf-8?B?Ri82b0dxUUh6SXhKUkZHeGlMck9VVCtWdEVHQmRPNzluMUx2RFc4b1RKcm8v?=
+ =?utf-8?B?RGNxWDBjak9MLzRqdUVDNDdTUmFqbTcxbkZNdUJaSURoQkVrYWZrTDI1bmtk?=
+ =?utf-8?B?a3BZK0w2U0paWlYxKzZxMWxFbENnUEVwbThKQjlTMEphVmNPRHVCYk9jQzZE?=
+ =?utf-8?B?dE85NThYL3RGQ2VhNkl4VTF5QXk4T3ZEVG9qK0pWd3BqN3M2MUJvQkx4c0pD?=
+ =?utf-8?B?eXNYUkE5dzZ0SHhjSnlPUDljTzFiM2Z1eEZUNzd2NHhWU1J1RlRYTUZqZW5M?=
+ =?utf-8?B?Z0ZyemsxSzFoT0Y3c2N3aXNkL0o4eXA5MmttRkVBVHF3dGVibUFRVWxBUktp?=
+ =?utf-8?B?MmJ2RTV0WkxLMHMwMC8waks4ejB4UkFJNWtqc1pvZ0JSZHEvSWJEVTQvV3Np?=
+ =?utf-8?B?T3BsMlgrdW91MVFpQXRscHhYQ0ludXJqVVVNV0wwOGdxY2NNc1EzMXN3WU5S?=
+ =?utf-8?B?TnZiRnlEMndMcWJyZTY4N2JlUmIwWGhmbXQyTGNMMGoyckRkTmtNUT09?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bba9fe2d-50e4-414a-515d-08defddeeaf2
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 10:45:00.6518
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U/eXVfMYsiNrX2JnZ/Zu6cPl5p8JLKFTOlItTIsovYpnpxi2iGPlW3IjXhuN7uxZZfJpPMSRSh+oelTFmbCO+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6339
 
-On Sat Aug 8, 2026 at 10:05 AM EDT, Jiayuan Chen wrote:
-> A child joins a memcg capped 64M above its post-load usage and faults an
-> arena in until it runs out of that budget.
->
-> With the fix the arena page comes from the sleepable allocator, so
-> hitting memory.max goes through the memcg OOM path and the child is
-> OOM-killed, which the test checks via memory.events "oom_kill".
->
-> Without the fix the test may still pass, because a concurrent blocking
-> allocation in the child (e.g. a COW fault on an inherited page) can hit
-> memory.max and OOM-kill it first. The goal is only that the fixed kernel
-> passes reliably.
->
->   # test_progs -v -t arena_memcg
->   serial_test_arena_memcg:PASS:child killed by signal
->   serial_test_arena_memcg:PASS:memcg oom_kill
->   #5       arena_memcg:OK
->
->   # dmesg (the OOM comes from the arena sleepable allocation)
->   test_progs invoked oom-killer: gfp_mask=3DGFP_KERNEL_ACCOUNT|__GFP_ZERO
->    arena_vm_fault+0x4bc/0xad0
->   Memory cgroup out of memory: Killed process 473 (test_progs)
->
+On 30.03.26 09:32, Jiayuan Chen wrote:
+> On PREEMPT_RT, non-HARD irq_work runs in per-CPU kthreads via
+> run_irq_workd(), so irq_work_sync() uses rcuwait to wait for
+> BUSY==0.
+> 
+> After irq_work_single() clears BUSY via atomic_cmpxchg(), it still
+> dereferences @work for irq_work_is_hard() and rcuwait_wake_up().
+> An irq_work_sync() caller on another CPU that enters after BUSY is
+> cleared can observe BUSY==0 immediately, return, and free the work
+> before those accesses complete — causing a use-after-free.
+> 
+> Fix this by wrapping run_irq_workd() in guard(rcu)() so that the
+> entire irq_work_single() execution is within an RCU read-side
+> critical section. Then add synchronize_rcu() in irq_work_sync()
+> after rcuwait_wait_event() to ensure the caller waits for the RCU
+> grace period before returning, preventing premature frees.
+> 
+> Fixes: 810979682ccc ("irq_work: Allow irq_work_sync() to sleep if irq_work() no IRQ support.")
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
 > Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-
-Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
-
 > ---
->  .../selftests/bpf/prog_tests/arena_memcg.c    | 156 ++++++++++++++++++
->  .../testing/selftests/bpf/progs/arena_memcg.c |  24 +++
->  2 files changed, 180 insertions(+)
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/arena_memcg.c
->  create mode 100644 tools/testing/selftests/bpf/progs/arena_memcg.c
->
-> diff --git a/tools/testing/selftests/bpf/prog_tests/arena_memcg.c b/tools=
-/testing/selftests/bpf/prog_tests/arena_memcg.c
-> new file mode 100644
-> index 000000000000..af49d8b1b995
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/arena_memcg.c
-> @@ -0,0 +1,156 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <test_progs.h>
-> +#include <fcntl.h>
-> +#include <signal.h>
-> +#include <sys/mman.h>
-> +#include <sys/wait.h>
-> +#include <unistd.h>
-> +#include <sys/user.h>
-> +#ifndef PAGE_SIZE /* on some archs it comes in sys/user.h */
-> +#include <unistd.h>
-> +#define PAGE_SIZE getpagesize()
-> +#endif
-> +
-> +#include "cgroup_helpers.h"
-> +#include "arena_memcg.skel.h"
-> +
-> +#define CG_PATH		"/arena_memcg"
-> +
-> +/* Budget the arena gets on top of whatever is already charged after loa=
-d. */
-> +#define ARENA_BUDGET	(64 * 1024 * 1024)
-> +
-> +static void dump_memcg(int (*rd)(const char *, const char *, char *, siz=
-e_t))
-> +{
-> +	char buf[512];
-> +
-> +	/*
-> +	 * memory.current reads 0 once the child has left the cgroup, so it onl=
-y
-> +	 * carries information when dumped from the live child; memory.peak and
-> +	 * memory.events survive the child and tell the story either way.
-> +	 */
-> +	if (!rd(CG_PATH, "memory.current", buf, sizeof(buf)))
-> +		fprintf(stderr, "memory.current: %s", buf);
-> +	if (!rd(CG_PATH, "memory.max", buf, sizeof(buf)))
-> +		fprintf(stderr, "memory.max: %s", buf);
-> +	if (!rd(CG_PATH, "memory.peak", buf, sizeof(buf)))
-> +		fprintf(stderr, "memory.peak: %s", buf);
-> +	if (!rd(CG_PATH, "memory.events", buf, sizeof(buf)))
-> +		fprintf(stderr, "memory.events:\n%s", buf);
-> +	fflush(NULL); /* _exit() in the child would not flush stdio otherwise *=
-/
-> +}
-> +
-> +/* Read one key from a flat keyed cgroup file, e.g. "oom_kill" in memory=
-.events. */
-> +static long cg_read_key(const char *cg, const char *file, const char *ke=
-y)
-> +{
-> +	char buf[512], *p;
-> +
-> +	if (read_cgroup_file(cg, file, buf, sizeof(buf)))
-> +		return -1;
-> +	p =3D strstr(buf, key);
-> +	if (!p)
-> +		return -1;
-> +	return strtol(p + strlen(key), NULL, 10);
-> +}
-> +
-> +void serial_test_arena_memcg(void)
-> +{
-> +	int cgroup_fd =3D -1, status;
-> +	const long ps =3D PAGE_SIZE;
-> +	char buf[64];
-> +	pid_t pid;
-> +
-> +	if (setup_cgroup_environment())
-> +		return;
-> +
-> +	cgroup_fd =3D create_and_get_cgroup(CG_PATH);
-> +	if (!ASSERT_OK_FD(cgroup_fd, "create_and_get_cgroup"))
-> +		goto out;
-> +
-> +	/* No memory controller -> nothing to test. */
-> +	if (read_cgroup_file(CG_PATH, "memory.current", buf, sizeof(buf))) {
-> +		test__skip();
-> +		goto out;
-> +	}
-> +
-> +	pid =3D fork();
-> +	if (!ASSERT_GE(pid, 0, "fork"))
-> +		goto out;
-> +	if (pid =3D=3D 0) {
-> +		struct arena_memcg *cskel;
-> +		__u32 i, npages;
-> +		char *base;
-> +		size_t sz;
-> +		long cur;
-> +
+>  kernel/irq_work.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/kernel/irq_work.c b/kernel/irq_work.c
+> index 73f7e1fd4ab4..bf411656c316 100644
+> --- a/kernel/irq_work.c
+> +++ b/kernel/irq_work.c
+> @@ -292,6 +292,12 @@ void irq_work_sync(struct irq_work *work)
+>  	    !arch_irq_work_has_interrupt()) {
+>  		rcuwait_wait_event(&work->irqwait, !irq_work_is_busy(work),
+>  				   TASK_UNINTERRUPTIBLE);
 > +		/*
-> +		 * Do everything from the child: the arena vma is VM_DONTCOPY so
-> +		 * it would not survive fork(), only the child should be under the
-> +		 * limit so that a memcg OOM cannot pick test_progs, and a map is
-> +		 * charged to the memcg of the task that creates it - so join
-> +		 * before load. The cgroup work dir belongs to the parent that set
-> +		 * the environment up, so reach it with the _parent() helpers.
-> +		 * Errors are reported to the parent through the exit code, since
-> +		 * ASSERT_* in a forked child does not reach it.
+> +		 * Ensure irq_work_single() does not access @work
+> +		 * after removing IRQ_WORK_BUSY. It is always
+> +		 * accessed within a RCU-read section.
 > +		 */
-> +		snprintf(buf, sizeof(buf), "%d", getpid());
-> +		if (write_cgroup_file_parent(CG_PATH, "cgroup.procs", buf))
-> +			_exit(2);
-> +
-> +		cskel =3D arena_memcg__open_and_load();
-> +		if (!cskel)
-> +			_exit(3);
-> +
-> +		base =3D bpf_map__initial_value(cskel->maps.arena, &sz);
-> +		if (!base)
-> +			_exit(4);
-> +		npages =3D bpf_map__max_entries(cskel->maps.arena);
-> +
-> +		/*
-> +		 * Cap only now, after load: everything but the fault-in is
-> +		 * charged, so the arena gets a fixed budget regardless of what
-> +		 * the load itself cost, and the load can never hit the limit.
-> +		 */
-> +		if (read_cgroup_file_parent(CG_PATH, "memory.current", buf, sizeof(buf=
-)))
-> +			_exit(5);
-> +		cur =3D strtol(buf, NULL, 10);
-> +		snprintf(buf, sizeof(buf), "%ld", cur + ARENA_BUDGET);
-> +		if (write_cgroup_file_parent(CG_PATH, "memory.max", buf))
-> +			_exit(6);
-> +
-> +		for (i =3D 0; i < npages; i++)
-> +			base[(size_t)i * ps] =3D 1;
-> +		/* Faulted everything without dying: no pressure built, dump why. */
-> +		dump_memcg(read_cgroup_file_parent);
-> +		_exit(0);
-> +	}
-> +
-> +	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
-> +		goto out;
-> +
-> +	/* A non-zero exit means the child failed to set up; the code says wher=
-e. */
-> +	if (WIFEXITED(status) && WEXITSTATUS(status)) {
-> +		ASSERT_OK(WEXITSTATUS(status), "child setup");
-> +		goto out;
-> +	}
-> +
-> +	/*
-> +	 * Faulting a valid arena address until memory.max is hit must not look
-> +	 * like an invalid access. Without the fix the fault path allocated wit=
-h
-> +	 * the non-blocking allocator, turned its -ENOMEM into VM_FAULT_SIGSEGV=
-,
-> +	 * and the child died with SIGSEGV on a valid address; now it is handle=
-d
-> +	 * by the memcg OOM path instead. A SIGKILL alone would not prove the
-> +	 * memcg OOM killer did it (a global OOM or an unrelated crash could al=
-so
-> +	 * kill the child), so check memory.events.oom_kill, which records the
-> +	 * memcg OOM and survives the child.
-> +	 */
-> +	if (!ASSERT_TRUE(WIFSIGNALED(status), "child killed by signal"))
-> +		goto out;
-> +	if (!ASSERT_GE(cg_read_key(CG_PATH, "memory.events", "oom_kill"), 1,
-> +		       "memcg oom_kill"))
-> +		dump_memcg(read_cgroup_file);
-> +out:
-> +	if (cgroup_fd >=3D 0)
-> +		close(cgroup_fd);
-> +	cleanup_cgroup_environment();
-> +}
-> diff --git a/tools/testing/selftests/bpf/progs/arena_memcg.c b/tools/test=
-ing/selftests/bpf/progs/arena_memcg.c
-> new file mode 100644
-> index 000000000000..adecd9e8463e
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/arena_memcg.c
-> @@ -0,0 +1,24 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <vmlinux.h>
-> +#include <bpf/bpf_helpers.h>
-> +#include "bpf_arena_common.h"
-> +
-> +struct {
-> +	__uint(type, BPF_MAP_TYPE_ARENA);
-> +	__uint(map_flags, BPF_F_MMAPABLE);
-> +	__uint(max_entries, 100000); /* number of pages */
-> +#ifdef __TARGET_ARCH_arm64
-> +	__ulong(map_extra, 0x1ull << 32); /* start of mmap() region */
-> +#else
-> +	__ulong(map_extra, 0x1ull << 44); /* start of mmap() region */
-> +#endif
-> +} arena SEC(".maps");
-> +
-> +SEC("syscall")
-> +int noop(void *ctx)
-> +{
-> +	return 0;
-> +}
-> +
-> +char _license[] SEC("license") =3D "GPL";
+> +		synchronize_rcu();
+>  		return;
+>  	}
+>  
+> @@ -302,6 +308,7 @@ EXPORT_SYMBOL_GPL(irq_work_sync);
+>  
+>  static void run_irq_workd(unsigned int cpu)
+>  {
+> +	guard(rcu)();
+>  	irq_work_run_list(this_cpu_ptr(&lazy_list));
+>  }
+>  
 
+With this patch, arm 32-bit, and a single-core SoC, I got a noticeable
+slowdown of irq_work_sync. Reverting the patch resolves this. So I dug
+deeper, found out that things were even worse before [1], but even with
+that, I could still see up to 2 ticks delay per call. If you combine
+that with an unfortunate loop of irq_work_sync calls (mine is
+out-of-tree, but I see something even "worse" in bpf_mem_alloc_destroy),
+there is this impact.
+
+While this patch is motivated by PREEMPT_RT, the condition to enter the
+modified branch are not limited to it:
+
+... || !arch_irq_work_has_interrupt()
+
+arch_irq_work_has_interrupt() is false on some archs, either always
+(very rare) or under certain conditions. On arm, it's false when
+is_smp() is false.
+
+If we "only" need the synchronize_rcu() for PREEMPT_RT, should we limit
+it to that configuration? Or do we actually need otherwise as well?
+
+And what could be done to accelerate irq_work_sync loops? Practically, a
+single synchronize_rcu() at the end could be enough, no?
+
+Jan
+
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=78370df5c3574cdc5c6de7844481b4dc0ef4f172
+
+-- 
+Siemens AG, Foundational Technologies
+Linux Expert Center
