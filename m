@@ -1,116 +1,115 @@
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E874766A7
-	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 14:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAC447ACF8
+	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 15:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787149855; cv=none; b=IgfvPoqHvNOL3wPkmRE+a0ieBuCKouH7+jHuiCvZfRqz+siS0Gt+7vlDmIIoNNf0L8jlknfwtlfcAmdvc4Rpjxa9ttq15B6drrEiq8Sf7Kxo4HSceFWe8ssug2OmjPfoIlXHHQBmu5mo3G5eSL8+zjlfZddFhuKRdsrKv7mTp1s=
+	t=1787151978; cv=none; b=F6kte+eaPj5YXu8bpb6J07lbsEgOJfSSnXggjN/9Q/ONIvocQabrjwJZqUHU0PpLRoecbT8lyOGefIGlkFDkCdxcSz8+Ka63gBHYhhOFJgn8vySPq0+CaY3lTKnD6SglBE6KS0+GsA/2XFHB2CGEqZUQq6S23NZGznWxYVy3pZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787149855; c=relaxed/simple;
-	bh=myNiNudWlAOhHqf78CNgDEMC2LXtqJxhUWb4ja/JZyo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BhZjy8t06T6t/hoPOp5bbtDvqbYJxlo3FMng+VPQrG6ViLKqknbjosqx8eoYju5pmetMUJs/l8WPW5bvdClvRU+hF57fiEvxrQfAppoO9ofkUrrmwnxvMAxbM80EKY0fwEXHQDkoy0NTo6Ku5i6sqiPMnfbyKY9ACUAew9sWxQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=Krf5ghZ9; arc=none smtp.client-ip=185.136.64.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	s=arc-20240116; t=1787151978; c=relaxed/simple;
+	bh=PYnYBPFh488OMrSekS787vgFxrdT53ki3zlpK1c28EM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VujJ4mQ5NO6u08VkNTL3Gyy4VvyYgb+UQDsixMT2D+NUOLSDma+BIUDoOSaBiNRbQxYnLrnyaua1yLGBXuFHAQYowZHE+rMJqY0fjG4nLmuI85g+PmDOVhoy2A6bK4ROAlXymy7giLa2dz9MBcA7AT/29Cl5EJSQ+TlduixGwXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Vc/cLOiH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SoonRtoK; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="Krf5ghZ9"
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260819143033bd61ee507c0002070f
-        for <linux-rt-devel@lists.linux.dev>;
-        Wed, 19 Aug 2026 16:30:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=florian.bezdeka@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=IoNmqk4kFe1ffi9HtpCtyUHKbQwKZ6Jed6SDch4oW9M=;
- b=Krf5ghZ9dUUHTj7Dh50SkIbWovR1VpLHU5vQyUfG0H0aqDOFeJuPJpqsNWdfvGzz2tM2Yb
- 62YwWfAmla6In6QMb96eWCeNtft/RpDt5ZAVgR42w0BTzqoZ+ixyK3yqwory5ETNCaldAYx2
- iTLhrkdNalnGyE9Wnrivw+ZbDmeLWx31WRnizgD3okPjOsWKfdQC6ickBE/XPeNveHHip8SM
- amtBqX/abZgRXsuhA9ecQqlohTyravo6wYZ8yIl1MlEoK6ijfJY7FuGSKSjx6mx8WRXmcpSY
- U6GeoZZHyZaDDTa4bBxkfuLryIrdwLalGGVA6BgsuFUXLiZzwES/cOkQ==;
-From: Florian Bezdeka <florian.bezdeka@siemens.com>
-Date: Wed, 19 Aug 2026 16:30:31 +0200
-Subject: [PATCH RFC 2/3] genirq: Honor existing IRQ affinities when setting
- affinity hints
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vc/cLOiH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SoonRtoK"
+Date: Wed, 19 Aug 2026 17:06:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787151972;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6hIHIO3L/iVx2Wjl3NYNyAoTXNNROo4v4ePBeHe5Jgg=;
+	b=Vc/cLOiHgZe8tYSeMrFcyoV8v9Bgzm+2efKsiYrNkaWA4un9OHTfpPVSHKgvaRA1GIGmgD
+	QW4kY19FnLi0zo9b/BNFECQtYgdubbjw5soDvm9MyiU9nbW2VSqzqXGdnvW+HxYO52NDjJ
+	kAReisCbZvx+U4nXfFV/O7aIGtgDgJRRyt/TM3yzbqSmRkIfEEbIWwofbZ0PHVcQm5i1dP
+	Bfl2UC0TMGfTh6SaKhAS9WtHW31yEQvzMydjIcUedv2hL6a8ad45b7snJSjc/Kb5C/EQ61
+	KL3Vn/ptWEzCmawGKzAQKATjIh+/izXDiVdCsV7QHdFpk5WSX6pJle8/WCHeXg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787151972;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6hIHIO3L/iVx2Wjl3NYNyAoTXNNROo4v4ePBeHe5Jgg=;
+	b=SoonRtoKA7rYx12RTVEnn9zaHk3/9QQERU4e2pU6VVsgGKTOBVJUGm6BtQw5pgzuELg2/C
+	bOmijE48UiGjkiDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Mike Schanne <mschanne@kns.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	linux-rt-users <linux-rt-users@vger.kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"chris.packham@alliedtelesis.co.nz" <chris.packham@alliedtelesis.co.nz>,
+	Todd Leitzel <tleitzel@kns.com>
+Subject: Re: [PATCH] uio: eliminate extraneous irq thread under
+ CONFIG_PREEMPT_RT
+Message-ID: <20260819150611.xWELTqJ-@linutronix.de>
+References: <TY0PR0101MB48672132B8525B7B39565EE4D2A52@TY0PR0101MB4867.apcprd01.prod.exchangelabs.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-2-3f79a99cadaf@siemens.com>
-References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Thomas Gleixner <tglx@kernel.org>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>, netdev@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, 
- Florian Bezdeka <florian.bezdeka@siemens.com>
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-68982:519-21489:flowmailer
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY0PR0101MB48672132B8525B7B39565EE4D2A52@TY0PR0101MB4867.apcprd01.prod.exchangelabs.com>
 
-Some device drivers implement an IRQ balancing / spreading mechanism
-based on cpumask_local_spread() and irq_set_affinity_hint() (deprecated)
-or irq_set_affinity_and_hint().
+Chris, what was the use case to split this?
 
-__irq_apply_affinity_hint() was overwriting already configured
-affinities and with that violating user defined affinities.
+On 2026-08-19 15:01:00 [+0000], Mike Schanne wrote:
+> Commit f8a27dfa4b82d442af1c0645a5acc70cc97c67f6 ("uio: use threaded
+> interrupts") makes all uio interrupts threaded by default.  However
+> under CONFIG_PREEMPT_RT, all interrupts are already threaded.  This
+> results in 2 irq threads per uio instance, adding an unnecessary
+> extra context switch per interrupt.
+> 
+> Do not request a threaded interrupt for uio under CONFIG_PREEMPT_RT
+> 
+> Signed-off-by: Michael Schanne mschanne@kns.com<mailto:mschanne@kns.com>
+> ---
+> drivers/uio/uio.c | 17 +++++++++++++----
+> 1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/uio/uio.c b/drivers/uio/uio.c
+> index 004a549c6..4e28777ac 100644
+> --- a/drivers/uio/uio.c
+> +++ b/drivers/uio/uio.c
+> @@ -448,8 +448,12 @@ static irqreturn_t uio_interrupt_handler(int irq, void *dev_id)
+>                irqreturn_t ret;
+>                 ret = idev->info->handler(irq, idev->info);
+> -              if (ret == IRQ_HANDLED)
+> -                              ret = IRQ_WAKE_THREAD;
+> +             if (ret == IRQ_HANDLED) {
+> +                             if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> +                                             uio_event_notify(idev->info);
+> +                             else
+> +                                             ret = IRQ_WAKE_THREAD;
+> +             }
+>                 return ret;
+> }
+> @@ -1038,8 +1042,13 @@ int __uio_register_device(struct module *owner,
+>                                 * FDs at the time of unregister and therefore may not be
+>                                 * freed until they are released.
+>                                 */
+> -                              ret = request_threaded_irq(info->irq, uio_interrupt_handler, uio_interrupt_thread,
+> -                                                                                 info->irq_flags, info->name, idev);
+> +                             if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> +                                             ret = request_irq(info->irq, uio_interrupt_handler,
+> +                                                             info->irq_flags, info->name, idev);
+> +                             } else {
+> +                                             ret = request_threaded_irq(info->irq, uio_interrupt_handler, uio_interrupt_thread,
+> +                                                             info->irq_flags, info->name, idev);
+> +                             }
+>                                if (ret) {
+>                                                info->uio_dev = NULL;
+>                                                goto err_request_irq;
 
-This was especially a problem on systems with isolated CPUs, a common
-pattern on PREEMPT_RT enabled systems. Device IRQs were balanced over
-CPUs that were isolated for RT workloads.
-
-Note that only the first call of irq_set_affinity_hint() and
-irq_set_affinity_and_hint() - for each IRQ - will have any effect.
-Afterward affinities might be controlled from userspace using the
-/proc/irq/<n>/smp_affinity{_list} interface.
-
-Signed-off-by: Florian Bezdeka <florian.bezdeka@siemens.com>
----
- kernel/irq/manage.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 7eb07e3bdb4c2419e0a58a75c29d88b4b00b8287..3937ba24df6d63375dda88164cf92fd49e70a3eb 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -503,11 +503,21 @@ EXPORT_SYMBOL_GPL(irq_force_affinity);
- 
- int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m, bool setaffinity)
- {
-+	struct irq_data *irq_data;
- 	int ret = -EINVAL;
- 
- 	scoped_irqdesc_get_and_lock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
- 		scoped_irqdesc->affinity_hint = m;
-+		irq_data = irq_desc_get_irq_data(scoped_irqdesc);
- 		ret = 0;
-+
-+		/*
-+		 * Do not overwrite the affinity in case an affinity for this
-+		 * IRQ has already been requested, e.g. by writing to
-+		 * /proc/irq/<n>/smp_affinity
-+		 */
-+		if (irqd_affinity_was_set(irq_data))
-+			setaffinity = false;
- 	}
- 
- 	if (!ret && m && setaffinity)
-
--- 
-2.55.0
-
+Sebastian
