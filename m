@@ -1,48 +1,48 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012042.outbound.protection.outlook.com [52.101.53.42])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012065.outbound.protection.outlook.com [40.107.209.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5068E3CEB8B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 18:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11F23CF208
+	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Aug 2026 18:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787164712; cv=fail; b=IrvDUH/FM8RZJP653H1NpNzwuzwo8cHMtLvv7DmmlscPniol7bF+y3frko/H9zt9n9zoKcP40MT63QvW8q7RmjySHp0496c2bznq2UfQAsRCuMs4+9cVZTaRID7QLBb9JUoeKK/qVtu5sx7D1JdHg8xMILBgp72q17cSc01oWFE=
+	t=1787165141; cv=fail; b=ecxuYSnEPYtZQGQtziZPCeJfOZNB6pDp+BUYiY63ZQkpRVxvWcsR3Q57i5DuArNfDP2aN68exB76bCUPOlqTgTMB7rlne3o6c2ZgDF9J560ufFi4XUiqliVrz2Id9YvVY0Wp7dpR1F2cE1zp/4aWrqn4+7pUAj/82KUs8f68bog=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787164712; c=relaxed/simple;
-	bh=dp/HEDvNE5cV8goQPRYsEL+fbmbG15sM+FrRa5/BgMU=;
+	s=arc-20240116; t=1787165141; c=relaxed/simple;
+	bh=5Bfs1NNmuyi42VlQvg+C8doV1U3M2j8vRMz5ATbezpg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eJPLwwmCCu8kV4eG8b3+8tOgSTl3HDHqaWI1i2usvYTAJ966vNBnMTmZET3w/mnJE1mUvga6iTaaY5BJysvQK5sLuQYl4tW4xo8J28RFMIhrSyz5NYwDoOiohbiaaaJ8tOpkp2V5FubEtJOT85BAvrk5IhnrG1i01UMKv2Vq8dY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TvnHhhKX; arc=fail smtp.client-ip=52.101.53.42
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XvcDxRsIHM+ggwTSqyjNXPp8Z720i3OpZbGpNEwMoWQBnCuHS2llo/S1qM768ql3UE3mHIPTmXuiz/G4T7Ncf4wviApWQI5y1GCXzIJeRfJsznHkmwEVC1F+WbZZPrQt+sjRECAVdAvJbYs6X/At5kM0c1GVcPMJX3bmcphQM1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hBwusGeg; arc=fail smtp.client-ip=40.107.209.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TvnHhhKX"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hBwusGeg"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e3CCnpy4/dIi4OCZFZuDMS+qD8j9k+Rir7CjvcOwfx7l2MGOR3crgyr4di7B9fPw6mhj8n2omB1U5hohdgEBOmOLCFErgkzLeINbsuckSIM8OKzgGTozRathwOUYLM7yKfbo6S3KfmScNg0Zj42Z73jXsE0XMB+wtIeqih/VVTR3K3t0+5jVe1BOyqBXDrKnXpNAx2iv0nz8yk4hcAupUc+dbOjxBQIGbq5vTdKmpOMA2EuTR67uuX+ZimMJrqINW8i3yXmZ3H6d9uIWFzdfuH6+CM+QmZ+SLowxchEz4BpuEt3zERjyXUbgVbJnJGOXiLydiIUPhuvdQ0exz6/sjQ==
+ b=k1ecZQBXXmNr3Jp7HiURpsHMc+W3rTzfNvDEH83HMCa7i2roHG0hrJ8sfx87T8pQfP2o6CGw/bsBwIqKBthbzGd59cvhbMIf+guWJHGNQkIUSTOKT/I7Fea1DtnKuCtdTUFF7Gvk0o6KsQhPR1Q8T15hXzCze/nIlD4G2Y9Jvq1yx+AdVOh7f3osXos6YdqYWigWsg+FZadZPIDnYVJoLfn6t034N3a05m3YePwL6WEdM8QBAsbu4P2XE9lF3gYJqAvlvrta4o7AKNKUiLO+uyGdP7vvtXovvIPRFrqDqF5mD5FPT+E+uSdEeBDC21wn/O7dBrRJxG2mSWnF2rOw9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bCsubKjOC4zF6FxrniHa2LF+4dOu++aq9oHsREwakNc=;
- b=JqMxMfcXIKDIZHgN/SNWHl5LuFveCziT1yfx2ZGl7MT+w/EzbTljZuy3yKk5COPiBt36FIgSDDjhIZ+aE007qlW3wGbWdndeafkRlmO2TZUnkaEOBzVNbAZQ8m9xsLgu3mRoeY8t5l2Oyt/sR/uNq/7FjEO7x23bCmJGKVB+cUUz+0E12jGd4EuYBiNbzMh8Vy9I59oylOWXlkO8DMtkA5enaeyITLgx4idoAwPNsXQZn+BL13dYKqmuMqvmFzLU9MPooZEk4Bw0Lt9tAx7llp4wV0MsJLhNN9V0EwXRpRWlBRmT5/B6B5CEpJTymr7/ZMN3Sj+8fN+9O5NSjbf/gw==
+ bh=NNAwsGTm7kQuUf+keSm8dMdgHBnRoxbRpBCcgD2gv5o=;
+ b=f9Ws+YY8H6L54WUz36xy7fFnDaD6dxA6ZIFyNZi0arQ2DrFWV+skpiUHBIxY18bmiWk8eYX6O+GgocE+JElLimMTvT3aKB4wV+FKMYL9uz9sq99nXAcJ1F0ZdYhQtT2TxRFX21nuTZnQ7TIVGIhVlwFWxfiEaFNhczVfcuRNVSfgpJROIjwTKyk5JCYrQ79ZVG/UEAsVlb/IeudhxMuqqY+WxUUmzR/JhDqT/b3jhfJtxJ3RpZ2VaQtwJ46EJw/GDUtR/RqEJeeeiT0+ULfX3gQ2uz5y6rqk9h7+/CRCe1NJB4I5FMVcZUXximKAHHkqYjn9ExhMJe+ugZJCYjncEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bCsubKjOC4zF6FxrniHa2LF+4dOu++aq9oHsREwakNc=;
- b=TvnHhhKXqeY+gFIpmROJJ295BWXduWsQqmrhr/3osbVUBtPjq93qkTHJq5J+lkpTywkBg5CVINiAKhdWRDM07frgTAjh1+G1HscGO/EQKE2qXDtzfFPALfDvjlbtuTJc7ceNGIo+gHf0/ows+uczFhq5XhMMs2/MVa38OM3Eej1daU88PrNxC5jYKz3syGXLjmMADZ9nchSB7VAMNlJDtlh2+FDvgQuU1a/l2UBDyWOgk+yHC/9IUud+X3R05NP/3I8n0N9RQXrM6Dg6ioFOhswjZOW4xtmiFYWVHHvHjITAaknIDvEFZSjfIXKMtR8hcGB7+Vc1zWCMLulkVV/6Jw==
+ bh=NNAwsGTm7kQuUf+keSm8dMdgHBnRoxbRpBCcgD2gv5o=;
+ b=hBwusGegZXAvbmAZvJeF/iarls8lF51/jk8y84Ko9mTbXSavLuR0Ev/oaOzbTUkKBqwPEKCVaJrG2tWfeeHLVvP8ejFYHSRcOGoeFnaGeAb12sX3pV/1ZeBj5bW3xaBepF/a6kOLmQ5PfQaIsilayDqNhPTz3MlMIII2CcLpecf2g8GRj+lkwMyXagA3ND7flQtbppa2KeXhrQ9hnq4NQvAqxtdcITzhBcP9jtpWnDDCuR2gSuDWQtr18tzJjikDU8A/gxPSEZvPsGhyFGI/IR3MFNz673lJ+vQYl6IvmJTXaQ4sCAhgR3Ru3COI1N2nGNxLH5eqfnZ3Lx+49c7ldg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by DM4PR12MB6399.namprd12.prod.outlook.com (2603:10b6:8:b7::15) with
+ by DS7PR12MB6071.namprd12.prod.outlook.com (2603:10b6:8:9d::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 18:38:24 +0000
+ 2026 18:45:26 +0000
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
- 18:38:24 +0000
-Date: Wed, 19 Aug 2026 14:38:22 -0400
+ 18:45:24 +0000
+Date: Wed, 19 Aug 2026 14:45:23 -0400
 From: Yury Norov <ynorov@nvidia.com>
 To: Florian Bezdeka <florian.bezdeka@siemens.com>
 Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
@@ -63,16 +63,16 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH RFC 1/3] cpumask: Honor irq_default_affinity in
+Subject: Re: [PATCH RFC 3/3] net: stmmac: Migrate IRQ balancing to
  cpumask_local_spread()
-Message-ID: <aoX4HuUxL4tNWvpq@yury>
+Message-ID: <aoX5wglLYYtLcE5J@yury>
 References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
- <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-1-3f79a99cadaf@siemens.com>
+ <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-3-3f79a99cadaf@siemens.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-1-3f79a99cadaf@siemens.com>
-X-ClientProxiedBy: BN9PR03CA0567.namprd03.prod.outlook.com
- (2603:10b6:408:138::32) To LV3PR12MB9356.namprd12.prod.outlook.com
+In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-3-3f79a99cadaf@siemens.com>
+X-ClientProxiedBy: MN0PR02CA0024.namprd02.prod.outlook.com
+ (2603:10b6:208:530::28) To LV3PR12MB9356.namprd12.prod.outlook.com
  (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -81,143 +81,165 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DM4PR12MB6399:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa87580b-3fb1-43bf-12e2-08defe210d58
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DS7PR12MB6071:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10d9abbc-0ebc-412c-1851-08defe2207b3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|6133799003|3023799007|56012099006|10067099003|4143699003|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|3023799007|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	3YEASpq9qPgFiZIKAwN+e+MtvbtjJxKTvac7pA85ovDSVKLMH7R7k/f3mAJOVpTbjjhEcxm9URx81kgrkiKnhAh+bYBk9V2C4z1E5k+xThODiujWD7eS6MPS9BEVAHH2z1lYmSFI0/qX6WkfKwS4M3ubwwSGwSiMBBVbZ2+SezOhL4c55mMVAQKA1bf5Yx9THakm1aDlNyNhNfyPZwWmBD+3DGNX4MU5yL16IVOqyRJCGItLgN2dDtvLjYA7S8Kbsyus/8Oh5sQJURlMXFFPc6LfGJLZaiN/gA+Pj+5XdTqHF3Lpf/UEKGYfYX6wFDXenvIsHbe8YKKXVFd9/RWz0qjVUn5bjuwfayh2YGWYcd6MKBlS/BQp05L0JH452/mDieSYMzDNF1yLnsCLXHzyY+hWwb8DjEIsmLWDIStvpzw5Rj882aJuGigNxXEe7Eam9Vuz8KyZlkgQ2/P1yI0OvWh3QXvHUXP8oAgdZziJ8GEQGEdIPwcXjHYRwh8Ug2hj0WcoWgoBTISRuQFFSAM0qYYq6fXafb+XGOMOt+hCC9UQ4ZBVGsT0vLUcjDPY5Dl3Oo3e2w+0LrOT+/pfDr+Yyj3mVZs7r70bFSGqGv6P8nopui1B1/2juL9xVLa+FeVayXI640+bVwYgePF4ePJaSZddy2eiJYyvgI8tn8oKZn0=
+	Rc9ZWa/NfWe54L2cRxa1wpIlZk/m+E6mV2bWnHtrKldkEOoNqYBrKgECTljKdJYBUK7Pkh8wMd+/PjPoFipFk2Dpt7u5jePZuoJXBYVw+OiUp+dP92gyfSGD4BOv5t2y9qWNXmtYD9S6/qRXbc9jX3nSFPiMWV0JrkUMuBSzDGyLz2q2d/LzKBM84vQ07GkEeSvc35RNtU+il5n3YQYZNbsqoFcLXjnED8QllsykLU+2vnmjPKYH4BYBVwIN4pK8tbJwQR0W09oxmUIJX7huxXcURASs19/kQjBPVjLVzlSwkQT01j80th1c96JTuw719neBONMB924rsjBOK6/4d7vf7tQK5C6FMSsq1LORg6BzIEJQXbDN/E+VkHr7LPIllaDn1vDsQ3KSWoSCVQEHEZiT1GpTNcuo/WadHj1PZwt1nwDjOQVnCRmSWDvpf1rzBF/VagKw0ODdxhdgSc+h81oHuKln0XT11UsUcTFKRO/SB65NP+Ehfb+qqFqXd0DxEakPFGVZEKDjKcY9f1vbZKI32dWO4q0rjdZg4pm0WH0yaddTAqB8NuEzsBl3LUp0CJTz8jgrcRI8Q4Nxr5d1Dt6QV4tuH5hFb3QUVufIXIXyVpSBc9XdnHs2ux8lWFapniawLa8Xo3YeqkFqRt6RzGj6u7si4T6M02RI0ha3+po=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(6133799003)(3023799007)(56012099006)(10067099003)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(3023799007)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UWszE8FMVddmBY7Nl2jnI8fmNBmiRcC1NdSBz+YAoZ5ypTBXTO6rl8rHwKyw?=
- =?us-ascii?Q?I/Ol8oBLpMkT+/yvqX8nRtujkxR5sLBYkxr7J5RWyXt8cPEkla9iNE5ECn2s?=
- =?us-ascii?Q?c5YPtVKhrgDjCuK4ltKcC0/+hBd3/C+EQG3/YMumgQNzXlZmF+cg6ieyEw1U?=
- =?us-ascii?Q?2icXavhIw+wTTPpAwuJgY1waAKkkvcDqBjYcHhzhVibMNwZltuSEuD5F2fcN?=
- =?us-ascii?Q?G07j0g3kiBpC8h1+pBjkbz6tSnA1zwsUvaNhfB714R2MhMbHxhppHF2LYIYu?=
- =?us-ascii?Q?qxCiQmICNVk+/3Atrsl2R+8meHac8KyjfCZfI0bhsAXGJcI80Gz6LqNKRZm7?=
- =?us-ascii?Q?mrmBtAmQY05rmEYlDOXI7Y+drUQLY7yJVWMalnwmXrBxsv0EVYv14UMa+Dsc?=
- =?us-ascii?Q?EE4WyP9/05GKUDnRXmyWoIX25VU7ukY/8zxi/iclxfkLHgi/BA0QV8wtv0/e?=
- =?us-ascii?Q?M6meYgxlfk4DhcHeb/BDsFpY12+GyivPUJm/xJ6GYPvrKX3TgNDmUYW3yb3f?=
- =?us-ascii?Q?3C2oa6wVehfjBERFILsIC2rvP/E7autA29LyHbhcduk+yeb83Cjs2zLvkg8y?=
- =?us-ascii?Q?zo230/3rkWtIvqplTz7/jPxrV6J+n5bqdh5xxlZV4BnfljdkDMckBSnNKGIU?=
- =?us-ascii?Q?GP1Pu8h0NJSaQ043Qc0xGvpos7nlBMGELvVqXJrKBBgttLXekVkW/gRTpZY7?=
- =?us-ascii?Q?IP+cFJ11Lzt4tDo7BBU10nXXuB6Pk1Q7WLLmFukVO8w9vBmcAt1NsCVvKp5Q?=
- =?us-ascii?Q?QEFTO9lEom4hwElJzKmFbplTlBQ8kXbXnDwiihuELIoaYFm0Fob9puVYkrfS?=
- =?us-ascii?Q?5inEIJKZTls09kO5OrxuRYs3Ca+sUa4yeRfuy3vHbDuIR3o8qxsR8vQlhDIi?=
- =?us-ascii?Q?Fwp5PgqSugF2E//gVekMwVus5bDbMIFD0IAGu6LiBGg6jdpN+Cgsnp9mphBN?=
- =?us-ascii?Q?WB/AxV8g0hFuAYRzvhYEtj6gG31tSLKwoTdSVO46YszjuFDhHPKPTXgLk+8z?=
- =?us-ascii?Q?B6nvwhCuX9x5lAN00b6d5Sj2+ejRRY46GJwUxIZWFtMwBexYxQ20kdZkx6Va?=
- =?us-ascii?Q?7A9fNJEC3BrJSj3RAfM5QVgAbqs4votX//VRIFZ2cUXcvEZ2/hqIwEhh5Wbz?=
- =?us-ascii?Q?b39cRwNpNqamAHWwrgUyX76SomJGjhvSnk2Gx8VeXrq/dM7+9ywS/wjZ4HD7?=
- =?us-ascii?Q?wDuj/paQYUk6nVM5d1qJRLw5SvbZB4lXKPLDEodWd5mMxoLs+yzHIreA1rfe?=
- =?us-ascii?Q?E/COAGyHNcgolR3BZI0w3zYr6w3/dbSBQpQY/9beOjwJUpRWGnNnbq+n+zmN?=
- =?us-ascii?Q?uTxQZIAogJnbh9m07Or0r4VR5B7W3jOI9K6ThFNEun+/l/UELOE2pZ9KNIjH?=
- =?us-ascii?Q?PDm/JKvTGuwgHYhNc3mIRP8AXD7yLUJMU0CYiMx7q3JDqPjLJFyW7MMrBJUc?=
- =?us-ascii?Q?Jj2EbhJt4jH1dUg3BhY6KZuW6yj0Atme731+311Zb5iOgQr4+c266+AG066E?=
- =?us-ascii?Q?gXQ2h0j1jgl4NVxsK25Ef8uZpiQSTkv/joOCh0acilvCn4VDwQgP43AdzoOJ?=
- =?us-ascii?Q?5yvcNQGp2CbItX3pW9WzV1bOu7DVoLlhEl+vlAHH+tPzt4MrwtTpcI9u9fQw?=
- =?us-ascii?Q?XG6HFJmCATcp5VxVckZoyHYNF8fj9TBvdrTqICGeeJakjRVVFdlG5yWEmc4p?=
- =?us-ascii?Q?S1IEY5ZItXjpHlnjuVrLyviN74FUsYppMN/aJGuDEFLdKCJ4?=
+	=?us-ascii?Q?Te4O5XO1M8qy6/l9+EvM7NlVRDXgdsfTLgtH9ik843+xiZ/tjKyKV1LXyI0h?=
+ =?us-ascii?Q?0chTtv9P5XqRRm7xI9WgTX5UFcHPx7VvNM7ZKAmcnT7FgM3QFl5XMSLebm9J?=
+ =?us-ascii?Q?lBiUDh1oZUcxe+YhX3CFpVqGUwtnKtAc293wi9C/b3Ua7+LCXJmaqaTyHvHy?=
+ =?us-ascii?Q?BGtl5zD0Rk+xBvJm2fcXXVbunDqtASc5dobDMreKKkhtuoWCFlNLI6U+4TCC?=
+ =?us-ascii?Q?NNIU5gId3/JYZfPH7K03EyVWNRxcnxqUlchHMyXwG4lN/EaiHH80+3SzEVKK?=
+ =?us-ascii?Q?suDrc0s4gVMMmgq/+EzlM16jndxyNW1TLJd8kU9EmYDsYIR5YAD4/m6L+Q4v?=
+ =?us-ascii?Q?Wxih0hevuA9wW398DX3COP+x5DR/zxWd0F8aI7MLsC451Rq+LY6IyXANHs/H?=
+ =?us-ascii?Q?iTAYRD+5FWTLih/Y808mfb1Jz/uRQ2ffkrv9BKKTomujycucARb4CLMtaoop?=
+ =?us-ascii?Q?5bTJoeHFaCMEhw1mW04GGhOxGO4vroZfAu2Y2yqWDtySDKEs7iCxeFQU0mZu?=
+ =?us-ascii?Q?OYNHGOxnKz8uLC1hkjFjRPBlH5sWuGYkCAQwyaEQhoW4DZ9Qy/FU70eYGsko?=
+ =?us-ascii?Q?fduModPBiditR5H+KT120roCbnKuB3wM2aqaNsF/597/WHXOQnKtzpcFsk3e?=
+ =?us-ascii?Q?b2SjBMFJIYmJ9QJutC+HJl+u7nRcbIsWkuvNj5+LLLPtnBG02LhbNwWvbAQz?=
+ =?us-ascii?Q?03D6RBVi387zQx8eJZ0SHurLABep6XKRwEBU+1AFjSGPH9uf1nT4pXMqaqnf?=
+ =?us-ascii?Q?i7Q8sadXGJHlxAJ5uUMI3LwC+9aXQ5NSmCUiu0m54JuiaP6U4cOLYy4/v4/C?=
+ =?us-ascii?Q?A70CAeIJvvaQ9hPjEhm4hnJ9KLWJtYj6Rl1ekD+SWlSed1U+2Aq4Wb/QMORT?=
+ =?us-ascii?Q?+P2Aw2Jiosoa2TQ4MiN4E2B5wG52lO2ZYrErOJX53/6e6pzXvUai48CJn/QQ?=
+ =?us-ascii?Q?v+uhkWg+NWtCeMerkGyvMzQXofJGULu/6tjN2XMeHfI0W+mDnmgFarSg+fSx?=
+ =?us-ascii?Q?ayRFlQyDm1G4QoL/TCLn7pPhkBizVDBFeqEpLsQ29/Ec/DP0Vgo/nmBtkIDV?=
+ =?us-ascii?Q?Mx7oNEwr5+wOHhcSd3Ovj0e1SVezzoVvMyEoWvrgQJtQUvyCAHS1CBK2YPnX?=
+ =?us-ascii?Q?lEfkMC/AWlqRH4z4uDcpQua0FkNxvL/5gJ+Xb3xB9EvQqoEuwftVK6uMbPn7?=
+ =?us-ascii?Q?bZXCVheY+kMhSadfIBhfx48ZfLw7mkk5peYsnfMSpkTCFTixNOz4mFdgZTyG?=
+ =?us-ascii?Q?Ak+ll6kwXwER1uPLD5kYIJ8E2rtZ4Oc4iAniy8qnPQtmLc4okBm/drgaKHiu?=
+ =?us-ascii?Q?YEshcxfy/Gda4IbDlQxlv/7656QGBJqa6o4a6Gj8dkv/3fl93f0rRvPvio5r?=
+ =?us-ascii?Q?cf1PslH45SgbSzlci8gg9ykR6n0xyvHgwTW44nYEREtCRhha5x+UUtVA38Ey?=
+ =?us-ascii?Q?HPUUmQndvNbGzQbrcABelMGY+kIplJ79eHYYfMYNrR3K0fzldzOWkmp6FWtA?=
+ =?us-ascii?Q?XzZioKnR7wH1n4v0JxMyA4nqKPq8k3zUZY/njo/xzo/7VIQtGVS4I3/m+z6v?=
+ =?us-ascii?Q?V58x4tSJO8pOoQAxbRmG35zUqcZPeIr7KSwpIkYfLrw7TTJZ7/F3aomtYbel?=
+ =?us-ascii?Q?vAZKjEKa0HmZuCsQ1lNeATccAcKHfwz2RZlzPYCtD5i6FTrmdFo8KFGPqRWd?=
+ =?us-ascii?Q?xt6hFeQRitW9wkcvLc6UpoFXCsbGF50RbLZXWeiz9jJuOnKl?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa87580b-3fb1-43bf-12e2-08defe210d58
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10d9abbc-0ebc-412c-1851-08defe2207b3
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 18:38:24.6621
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 18:45:24.6615
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Nw4XXZG5P2zlwS6xTS8iqFGhemDs9yOqcfODjVBId73lmW8fYpDsn2V3MScptCWSqnbfe0Fbq4EmZCsiuJg+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6399
+X-MS-Exchange-CrossTenant-UserPrincipalName: BaKeZ3qt/Wy1s38wgGesPrrownXqaGxNvmVnXLZlqOGeyGOhGoh407YpuX7C+aRkj5wLgDeEAXPGQSRJSJrfFQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6071
 
-On Wed, Aug 19, 2026 at 04:30:30PM +0200, Florian Bezdeka wrote:
-> Many drivers call cpumask_local_spread() to spread IRQs to several
-> CPUs, mainly to get best performance and balance CPU load. For
-> realtime (PREEMPT_RT) and other cpu-isolating workloads the old
-> implementation was triggering an IRQ placement problem. IRQs were
-> targeting CPUs that were isolated for those sensitive workloads.
+On Wed, Aug 19, 2026 at 04:30:32PM +0200, Florian Bezdeka wrote:
+> The previous balancing mechanism was based on num_online_cpus(), which
+> is a problem for systems cpu-isolating workloads. IRQs were targeting
+> CPUs that were isolated for those sensitive workloads.
 > 
-> Userland will tell the kernel about the desired IRQ configuration
-> for new interrupts by writing a proper cpumask to
-> /proc/irq/default_smp_affinity. This cpu mask has to be honored to
-> avoid IRQ noise on isolated cores.
+> With a migration to cpumask_local_spread() we
+>     - get NUMA locality
+>     - honor the default SMP affinity mask, which avoids targeting
+>       isolated CPUs.
 > 
-> The default for irq_default_affinity is "all CPUs". So all CPUs will
-> be taken into account for spreading when userland did not configure
-> something special.
+> This also aligns with the pattern used by most network drivers dealing
+> with IRQ affinities / affinity hints.
+> 
+> Signed-off-by: Florian Bezdeka <florian.bezdeka@siemens.com>
 > ---
->  lib/cpumask.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
 > 
-> diff --git a/lib/cpumask.c b/lib/cpumask.c
-> index 5adb9874fbd0f5a42ea8cd9e6c3729a70599781f..73e7b60a9201174f83df6067effbe7d1889dcdb9 100644
-> --- a/lib/cpumask.c
-> +++ b/lib/cpumask.c
-> @@ -6,6 +6,7 @@
->  #include <linux/export.h>
->  #include <linux/memblock.h>
->  #include <linux/numa.h>
-> +#include <linux/interrupt.h>
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index a71f0df263785dd8badc45292ca3067ab33bda05..949ced7e46d2814b57c6bd86b4886ac3bf33996c 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -3826,11 +3826,16 @@ static int stmmac_request_irq_multi_msi(struct net_device *dev)
+>  	struct stmmac_priv *priv = netdev_priv(dev);
+>  	struct stmmac_msi *msi = priv->msi;
+>  	enum request_irq_err irq_err;
+> +	cpumask_var_t affinity;
+>  	int irq_idx = 0;
+>  	char *int_name;
+> +	int node;
+>  	int ret;
+>  	int i;
 >  
->  /* These are not inline because of header tangles. */
->  #ifdef CONFIG_CPUMASK_OFFSTACK
-> @@ -81,8 +82,9 @@ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
->   * @i: index number
->   * @node: local numa_node
->   *
-> - * Return: online CPU according to a numa aware policy; local cpus are returned
-> - * first, followed by non-local ones, then it wraps around.
-> + * Return: online CPU according to the default IRQ affinity and a numa aware
-> + * policy; local cpus are returned first, followed by non-local ones, then it
-> + * wraps around.
->   *
->   * For those who wants to enumerate all CPUs based on their NUMA distances,
->   * i.e. call this function in a loop, like:
-> @@ -110,9 +112,9 @@ unsigned int cpumask_local_spread(unsigned int i, int node)
+> +	if (!zalloc_cpumask_var(&affinity, GFP_KERNEL))
+> +		return -ENOMEM;
+> +
+>  	/* For common interrupt */
+>  	int_name = msi->int_name_mac;
+>  	sprintf(int_name, "%s:%s", dev->name, "mac");
+> @@ -3916,6 +3921,7 @@ static int stmmac_request_irq_multi_msi(struct net_device *dev)
+>  	}
+>  
+>  	/* Request Rx MSI irq */
+> +	node = dev_to_node(&priv->dev->dev);
+>  	for (i = 0; i < priv->plat->rx_queues_to_use; i++) {
+>  		if (i >= MTL_MAX_RX_QUEUES)
+>  			break;
+> @@ -3935,8 +3941,10 @@ static int stmmac_request_irq_multi_msi(struct net_device *dev)
+>  			irq_idx = i;
+>  			goto irq_error;
+>  		}
+> -		irq_set_affinity_hint(msi->rx_irq[i],
+> -				      cpumask_of(i % num_online_cpus()));
+> +
+> +		cpumask_clear(affinity);
+> +		cpumask_set_cpu(cpumask_local_spread(i, node), affinity);
+> +		irq_set_affinity_and_hint(msi->rx_irq[i], affinity);
 
-Please don't touch this function. There's ~40 users, and we don't want
-to inspect every caller for their intention.
+If you want to spread more than one IRQ, you'd better convert your
+loop into for_each_numa_hop_mask(). That way you don't need to
+introduce new function. See the comment on top of
+cpumask_local_spread():
 
-Looking at ionic_get_preferred_cpu(), the cpumask_local_spread() is
-used there as a fallback for the affinity IRQ search:
-
- static int ionic_get_preferred_cpu(struct ionic *ionic,
-                                    struct ionic_intr_info *intr)
- {
-         int cpu;
- 
-         cpu = cpumask_first_and(*intr->affinity_mask, cpu_online_mask);
-         if (cpu >= nr_cpu_ids)
-                 cpu = cpumask_local_spread(0, dev_to_node(ionic->dev));
- 
-         return cpu;
- }
-
-Your change may affect the logic, seemingly.
-
-Instead, please create something like:
-
-        unsigned int cpumask_spread(struct cpumask cpus,
-                                    unsigned int i, int node);
+ * For those who wants to enumerate all CPUs based on their NUMA distances,
+ * i.e. call this function in a loop, like:
+ *
+ * for (i = 0; i < num_online_cpus(); i++) {
+ *      cpu = cpumask_local_spread(i, node);
+ *      do_something(cpu);
+ * }
+ *
+ * There's a better alternative based on for_each()-like iterators:
+ *
+ *      for_each_numa_hop_mask(mask, node) {
+ *              for_each_cpu_andnot(cpu, mask, prev)
+ *                      do_something(cpu);
+ *              prev = mask;
+ *      }
 
 Thanks,
 Yury
 
->  	unsigned int cpu;
+>  	}
 >  
->  	/* Wrap: we always want a cpu. */
-> -	i %= num_online_cpus();
-> +	i %= cpumask_weight(irq_default_affinity);
+>  	/* Request Tx MSI irq */
+> @@ -3959,13 +3967,18 @@ static int stmmac_request_irq_multi_msi(struct net_device *dev)
+>  			irq_idx = i;
+>  			goto irq_error;
+>  		}
+> -		irq_set_affinity_hint(msi->tx_irq[i],
+> -				      cpumask_of(i % num_online_cpus()));
+> +
+> +		cpumask_clear(affinity);
+> +		cpumask_set_cpu(cpumask_local_spread(i, node), affinity);
+> +		irq_set_affinity_and_hint(msi->tx_irq[i], affinity);
+>  	}
 >  
-> -	cpu = sched_numa_find_nth_cpu(cpu_online_mask, i, node);
-> +	cpu = sched_numa_find_nth_cpu(irq_default_affinity, i, node);
+> +	free_cpumask_var(affinity);
+> +
+>  	return 0;
 >  
->  	WARN_ON(cpu >= nr_cpu_ids);
->  	return cpu;
+>  irq_error:
+> +	free_cpumask_var(affinity);
+>  	stmmac_free_irq(dev, irq_err, irq_idx);
+>  	return ret;
+>  }
 > 
 > -- 
 > 2.55.0
