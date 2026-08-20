@@ -1,147 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90134257ACF;
-	Thu, 20 Aug 2026 14:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37A83368A4
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Aug 2026 14:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787236250; cv=none; b=ukmqV3SA1HUT8dtaB08zu1hl9QKo6cpusD/Bbb8NuLZ4ifnH6lb34sgkL69RSpLEkHHXh0X2Hyd1hypUKFOjCmT4LvqrZf22IJS282YBoe5TEx+eVXZ2vSjefE4U/EqJBsNgPZKciWxIEPGFSAwiufF+ZwCsTTd294LutDpxbss=
+	t=1787236488; cv=none; b=deSab+k5dYsJ9SfrDc7cRXEnIQuF0OdM+N8MMcBNqHUaivLsD1376FTy8NtErs55UvsSKiUnDIJ2te5cdzWbzXnMO3VswKqNxWCUI2fXQEszYJckdC6eiGXw6SMPfUotLLcAnk/qrQN2U1tcnMd0nRfQRphWHT4gYZE43FFHtXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787236250; c=relaxed/simple;
-	bh=9aaxE97+oQRXrhjSM85FHx4njn95iqVdIPkEFYCm3pc=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=D5Xi7BiSJ3Fz0O6usCOPF2M2tIPRXWz0zbhzyNeAKAZHP3fEe9Gp5IQ3NrAOA+y7701Mm3Y4UXDSxg+LhXm3qkx2Wtk9llY65Z22Wptm2COShyNiJ4xehrj6uRgdmNryB1aSDvBjjUwq9SvQQ8wt8eg513jmlyvbqUEa2XU2mXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DrIS9vdG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787236488; c=relaxed/simple;
+	bh=KYGsZx4+CC/WDyszOLkEfKaZAqbTH64INyhGQq5kiDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QN8dNwIbcEsuJkINceUN1kOgztddkYBULbVoEblggVDlFfdQGeg7M83TNbq06L4n8vUos8G1NXhNnfmjV9TLebxUs9vK2lsCtGOJVb6W7MSkP/yQH4kTmACjlOulaK2EDJ3IHjGBu0gaOYpGSLnVzqA58omkzeWdRuotBmiclcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ny1S9Smj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1ZJxG6Nw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrIS9vdG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCB41F00A3D;
-	Thu, 20 Aug 2026 14:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787236248;
-	bh=iv2BwpEqkq8xesVA2JI9pCA1ndLUgNjsOMjiQpTW+/4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DrIS9vdGCjRRQPW+ayn6bxj4rvIYj+JJ7qW6d3JizJB5sgmWJCE8Dcy1iIuSZXjlg
-	 3SgBAJf3ok8JkgyOufspQZ49GOr/UhX4xQ6kuT2Q5TxKXieN6oKzQJNR1De0AAckUK
-	 AMvaHMWWZ4aGS81E2/t3eF7t0XX5c6gLASDv6DUrXzcSVkE2VNmx17UBhQy/eYs0FL
-	 jvuuxJaLpfRH4vv6JBYNVKI9A+W4wZncEgT3PiYbgv+MzGWsAjzx/q+kN9R7r0QjnI
-	 BhqjFCZsDQTMj4aM/tQplZ9Df5GRR4SNemGAokx7T20YGdDJMaHrNYzxv0Kri7/SkD
-	 +An32cf2HsxLg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 3/3] net: stmmac: Migrate IRQ balancing to
- cpumask_local_spread()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Florian Bezdeka" <florian.bezdeka@siemens.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-3-3f79a99cadaf@siemens.com>
-References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
- <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-3-3f79a99cadaf@siemens.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2026 14:30:47 +0000
-Message-Id: <20260820143048.3DCB41F00A3D@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ny1S9Smj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1ZJxG6Nw"
+Date: Thu, 20 Aug 2026 16:34:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787236485;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rxlVhm2iZdvl6splt92kTKGhaPF1bkVXKJNBeMgxGvg=;
+	b=ny1S9SmjOp9NsmmNoh0Q09yETWOdwBOilfXZtbTkRhnR7rODPyAaiH7HCuXDx1/nnu8fw+
+	ekFOfRiaKLGotpX0d8+XPfnid3pxR/un1Dc5meRE0srYponRN5WL1yC1WiyHbUuQcksiLz
+	9jWYvnFPRlKDk6mbo8mGfAYaD4hzaoWzsEWPGJJKaKOxoCS9WQUgxXBC7sq/Rz2KO97GaW
+	emewRRneg9jlc+AJerldFZTEaU+RgQb6QWob4is03ugQJSInxHRyopYCq0RaIwFIJA64vJ
+	6hDACW5iMDSBAjoA+yoRqWClovg7p9HqnXkDfV5nB4rLkyhv/+V9BXKcr67oUQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787236485;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rxlVhm2iZdvl6splt92kTKGhaPF1bkVXKJNBeMgxGvg=;
+	b=1ZJxG6NwzDUEYTjgcDSPNZ3ftByYfwAjdMnF0ckgCPF8aiHGptGcgYtUA7AQQM/weqhabd
+	h2aGVaP89BB86UAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Daniel Machon <daniel.machon@microchip.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	UNGLinuxDriver@microchip.com, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bjarni Jonasson <bjarni.jonasson@microchip.com>,
+	Lars Povlsen <lars.povlsen@microchip.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, kees@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net v3 2/2] net: sparx5: fix sleep in atomic context in
+ MAC table access
+Message-ID: <20260820143443.RTYj4Q3u@linutronix.de>
+References: <20260817-misc-fixes-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com>
+ <20260817-misc-fixes-sparx5-lan969x-v3-2-c7c7fef723a8@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260817-misc-fixes-sparx5-lan969x-v3-2-c7c7fef723a8@microchip.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Critical] The dynamically allocated cpumask 'affinity' is stored as a po=
-inter in all IRQ descriptors via irq_set_affinity_and_hint() and then immed=
-iately freed, leading to a use-after-free when the affinity hint is read.
---
+On 2026-08-17 17:41:59 [+0200], Daniel Machon wrote:
+=E2=80=A6
+> Fixes: d6fce5141929 ("net: sparx5: add switching support")
+> Signed-off-by: Daniel Machon <daniel.machon@microchip.com>
+=E2=80=A6
+> diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c b/driv=
+ers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> index 1d34af78166a..4dedf5d92641 100644
+> --- a/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> +++ b/drivers/net/ethernet/microchip/sparx5/sparx5_netdev.c
+> @@ -249,7 +254,7 @@ static const struct net_device_ops sparx5_port_netdev=
+_ops =3D {
+>  	.ndo_open               =3D sparx5_port_open,
+>  	.ndo_stop               =3D sparx5_port_stop,
+>  	.ndo_start_xmit         =3D sparx5_port_xmit_impl,
+> -	.ndo_set_rx_mode        =3D sparx5_set_rx_mode,
+> +	.ndo_set_rx_mode_async  =3D sparx5_set_rx_mode,
+>  	.ndo_get_phys_port_name =3D sparx5_port_get_phys_port_name,
+>  	.ndo_set_mac_address    =3D sparx5_set_mac_address,
+>  	.ndo_validate_addr      =3D eth_validate_addr,
 
---- Patch [3]: [PATCH RFC 3/3] net: stmmac: Migrate IRQ balancing to cpumas=
-k_local_spread() ---
-commit 490c157da6154ac1da229e94e4e1cd92226addfa
-Author: Florian Bezdeka <florian.bezdeka@siemens.com>
+d6fce5141929 is v5.14-rc1
+ndo_set_rx_mode_async has been introduced in v7.1-rc1.
+Youngest LTS kernel is v6.18.
 
-net: stmmac: Migrate IRQ balancing to cpumask_local_spread()
+What would be the "fix" for the kernels v5.15 =E2=80=A6 v6.18?
 
-This commit migrates the IRQ balancing mechanism from num_online_cpus() to
-cpumask_local_spread() to provide NUMA locality and honor the default SMP
-affinity mask, avoiding isolated CPUs.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/=
-net/ethernet/stmicro/stmmac/stmmac_main.c
-> index a71f0df263785..949ced7e46d28 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -3826,11 +3826,16 @@ static int stmmac_request_irq_multi_msi(struct ne=
-t_device *dev)
->  	struct stmmac_priv *priv =3D netdev_priv(dev);
->  	struct stmmac_msi *msi =3D priv->msi;
->  	enum request_irq_err irq_err;
-> +	cpumask_var_t affinity;
->  	int irq_idx =3D 0;
->  	char *int_name;
-> +	int node;
->  	int ret;
->  	int i;
-> =20
-> +	if (!zalloc_cpumask_var(&affinity, GFP_KERNEL))
-> +		return -ENOMEM;
-> +
-[ ... ]
-> @@ -3935,8 +3941,10 @@ static int stmmac_request_irq_multi_msi(struct net=
-_device *dev)
->  			irq_idx =3D i;
->  			goto irq_error;
->  		}
-> -		irq_set_affinity_hint(msi->rx_irq[i],
-> -				      cpumask_of(i % num_online_cpus()));
-> +
-> +		cpumask_clear(affinity);
-> +		cpumask_set_cpu(cpumask_local_spread(i, node), affinity);
-> +		irq_set_affinity_and_hint(msi->rx_irq[i], affinity);
->  	}
-> =20
->  	/* Request Tx MSI irq */
-> @@ -3959,13 +3967,18 @@ static int stmmac_request_irq_multi_msi(struct ne=
-t_device *dev)
->  			irq_idx =3D i;
->  			goto irq_error;
->  		}
-> -		irq_set_affinity_hint(msi->tx_irq[i],
-> -				      cpumask_of(i % num_online_cpus()));
-> +
-> +		cpumask_clear(affinity);
-> +		cpumask_set_cpu(cpumask_local_spread(i, node), affinity);
-> +		irq_set_affinity_and_hint(msi->tx_irq[i], affinity);
->  	}
-> =20
-> +	free_cpumask_var(affinity);
-
-[Severity: Critical]
-Does freeing this cpumask here leave dangling pointers in the IRQ
-descriptors?
-
-When calling irq_set_affinity_and_hint() in the loops above, it stores
-the literal pointer to the local affinity mask in the descriptor,
-rather than making a copy.
-
-Since free_cpumask_var() is called unconditionally on the success path,
-the mask memory is freed while the IRQ descriptor still points to it.
-
-Could this lead to a use-after-free, for example, if a user reads the
-affinity hint later?
-
-kernel/irq/proc.c:irq_affinity_hint_proc_show() {
-    ...
-    cpumask_copy(mask, desc->affinity_hint);
-    ...
-}
-
-> +
->  	return 0;
-> =20
->  irq_error:
-> +	free_cpumask_var(affinity);
->  	stmmac_free_irq(dev, irq_err, irq_idx);
->  	return ret;
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260819-flo-net-7-=
-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com?part=3D3
+Sebastian
