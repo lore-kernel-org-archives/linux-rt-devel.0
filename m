@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918101F12F8;
-	Thu, 20 Aug 2026 14:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5809A257844;
+	Thu, 20 Aug 2026 14:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787236249; cv=none; b=mcpbpdNDJbJoxnFLzYl+rjqLKyqG1V1sblX/U+RpK1vK/g3y1GYgugEleQzRKsLZR0F0WvHLXTno5opM12Rv+2MI04F4WyQA51SXphu/Bixr/dFFxcBtD8+l8AnQybTak12/unCcb0eHhVsOyp5/NGDjabBLUVvJskHL9+bEjTw=
+	t=1787236249; cv=none; b=dqG1UtYWU2InN15CibBzGAqFP2Wq47J/vAkueu2aNL6RGnOP0k79mi35Xu8fo4I5OXJA8uxRSd6vt4S66iJeGrF1vCqsWD24tBKarSK3Hm/bLRsxVIr/yhuAeKEdnPsMKbdIlzE4fNt9dx1kx6im1jfibxOXs2BEZpf4QqhYdpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787236249; c=relaxed/simple;
-	bh=hh8Ddx7WY1oSzmoq98pwt/7a9h5Z8WAOjmKndyT2ebo=;
+	bh=PPN8E1Bz3z32P5SNvhxY97udZ88Iztj+fMi/3z8knKs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=XTuXcMDnSEyA1fSss4xBROhP9IqFDQuVbONOgANxijUJ5ulIElCUShHVNGpElkGcsMU9EUsJBwpDZKikoVJS7//sGtMrv7gYc73XiydDUP18bGrxoRJw2y31gL93xRkPkNJSabUEOxbOIQ0rs9/+twV6TUSzUqitmJ6MZGRD3Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvxBKv8d; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=MYbVMyn6tJ6JpI58cIDNpEyf+LJMk2swzgONSfDTVV1EsraHrMF6vx5y2OtWO982hBoRwnEel7vMfhmc0cG4dRdqo56cA5FI/d/FpMH+cN+efgvLHcJNjORnAlrmAoHCHvVA85qXExpACugzJVNHlfPKEXg8OS+kihc97i9ioIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLQnVMGR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvxBKv8d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C641F000E9;
-	Thu, 20 Aug 2026 14:30:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLQnVMGR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9381A1F00A3A;
+	Thu, 20 Aug 2026 14:30:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1787236247;
-	bh=n7tMbSqmwszLxvrla2Xz68UZmP3Mwl6PN1C2SKC1Rtg=;
+	bh=d+Ahhs2OJwXBTrKKAIMFqrxvPwC/18iQvqhaeDM8o0c=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MvxBKv8dyLqr1KVF1ShqYwfoEaMVludu40qzZXI/ymUdffCDhQgUROSJPA3b/O6zE
-	 4MzrKkQV+h4aNANm/Srs8poEJHHIyfyc1oEZVtFOD1Xpyd1dTWxPHXRXpSZPNv28vu
-	 y92goY4L6oacEqPokIF71Zwbc/PyacDgJJcc6nwlXP8IIemJc9/EkDe6ABSyqtnpoh
-	 jsDweK5eCpN8ZOASDnMjGYm/zQaMMHZi4N6eHGAiOJHJYUMTaxGO4HFsewaFNObiig
-	 1gF/aMO+SFfZJYxzrdrZ2wV5mz8C/YGm80o5pWTDmmjvkPf61nVbVxGgWQ5vHGkVcY
-	 JJD5WDWbv9itA==
+	b=aLQnVMGRE0SfSViHtfhaXYRrMfC7fe6Nbbd7HPWEnC8kcZpR/tcrsDWh2Wznl8kay
+	 9KhLYA6za17heiws1QKv1pU7exeqENtMq3Akr0EPXcZLGCu8OMrcO2sylXkaK9vvx5
+	 DN2Eg/0kTSSaD8W2KKmrx7RAxYWCtysEJQ9LtbrQhO30hnV92x5nzNI24LMhYpr/R/
+	 YRPgRWIwA6KKKz4KcifWSqM8Sv6v12W63P1BHiWa4QOSk8HMIIfNu3zgnI+gVXHQxK
+	 q4DbxVywLaq9U0CR8gyi2RWMtq+VwJwBxsTov5yLP4sDIs50zFhMaNXu5W0zO85G18
+	 QDuX77biL+AxA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 1/3] cpumask: Honor irq_default_affinity in
- cpumask_local_spread()
+Subject: Re: [PATCH RFC 2/3] genirq: Honor existing IRQ affinities when
+ setting affinity hints
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Florian Bezdeka" <florian.bezdeka@siemens.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-1-3f79a99cadaf@siemens.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-2-3f79a99cadaf@siemens.com>
 References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
- <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-1-3f79a99cadaf@siemens.com>
+ <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-2-3f79a99cadaf@siemens.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2026 14:30:46 +0000
-Message-Id: <20260820143046.D2C641F000E9@smtp.kernel.org>
+Date: Thu, 20 Aug 2026 14:30:47 +0000
+Message-Id: <20260820143047.9381A1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -47,79 +47,77 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Critical] cpumask_local_spread() can return an invalid CPU index (>=3D n=
-r_cpu_ids) when offline CPUs are present in irq_default_affinity, leading t=
-o out-of-bounds memory accesses in callers.
-- [High] Unprotected, non-atomic accesses to irq_default_affinity in cpumas=
-k_local_spread() can race with concurrent updates from procfs, causing a di=
-vision by zero or an out-of-bounds index return.
+- [High] irq_set_affinity_and_hint() permanently locks out subsequent affin=
+ity updates by the driver itself, breaking dynamic IRQ rebalancing.
+- [Medium] __irq_apply_affinity_hint checks IRQD_AFFINITY_SET inside a lock=
+ but applies the affinity outside the lock, introducing a TOCTOU race that =
+can overwrite user-defined affinities.
 --
 
---- Patch [1]: [PATCH RFC 1/3] cpumask: Honor irq_default_affinity in cpuma=
-sk_local_spread() ---
-commit 451b7ef83d22392d8351ba057c391bf3a21095c8
+--- Patch [2]: [PATCH RFC 2/3] genirq: Honor existing IRQ affinities when s=
+etting affinity hints ---
+commit c1f8b98c1dbbe4fae2975bbf7872df3c7c3662b6
 Author: Florian Bezdeka <florian.bezdeka@siemens.com>
 
-cpumask: Honor irq_default_affinity in cpumask_local_spread()
+genirq: Honor existing IRQ affinities when setting affinity hints
 
-This patch updates cpumask_local_spread() to honor irq_default_affinity
-instead of cpu_online_mask. This aims to prevent IRQs from targeting
-isolated CPUs for workloads like PREEMPT_RT.
+This commit modifies __irq_apply_affinity_hint to prevent overwriting an
+already configured IRQ affinity. It checks if the affinity has been set
+previously before allowing the affinity to be updated by a hint.
 
-> diff --git a/lib/cpumask.c b/lib/cpumask.c
-> index 5adb9874fbd0f..73e7b60a92011 100644
-> --- a/lib/cpumask.c
-> +++ b/lib/cpumask.c
-
-[ ... ]
-
-> @@ -110,9 +112,9 @@ unsigned int cpumask_local_spread(unsigned int i, int=
- node)
->  	unsigned int cpu;
+> diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+> index 7eb07e3bdb4c2..3937ba24df6d6 100644
+> --- a/kernel/irq/manage.c
+> +++ b/kernel/irq/manage.c
+> @@ -503,11 +503,21 @@ EXPORT_SYMBOL_GPL(irq_force_affinity);
 > =20
->  	/* Wrap: we always want a cpu. */
-> -	i %=3D num_online_cpus();
-> +	i %=3D cpumask_weight(irq_default_affinity);
+>  int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,=
+ bool setaffinity)
+>  {
+> +	struct irq_data *irq_data;
+>  	int ret =3D -EINVAL;
+> =20
+>  	scoped_irqdesc_get_and_lock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
+>  		scoped_irqdesc->affinity_hint =3D m;
+> +		irq_data =3D irq_desc_get_irq_data(scoped_irqdesc);
+>  		ret =3D 0;
+> +
+> +		/*
+> +		 * Do not overwrite the affinity in case an affinity for this
+> +		 * IRQ has already been requested, e.g. by writing to
+> +		 * /proc/irq/<n>/smp_affinity
+> +		 */
+> +		if (irqd_affinity_was_set(irq_data))
+> +			setaffinity =3D false;
 
 [Severity: High]
-Is it possible for a concurrent write to irq_default_affinity to cause a
-division by zero?
+Will this prevent drivers from dynamically rebalancing their own IRQ
+affinities after the initial setup?
 
-Userland can update the mask via /proc/irq/default_smp_affinity, which
-uses a non-atomic cpumask_copy() in default_affinity_write().
+If a driver calls irq_set_affinity_and_hint(), it inherently results in the
+IRQD_AFFINITY_SET flag being set. On any subsequent call by the same driver
+to update the affinity (for example, during CPU hotplug or queue
+reconfiguration), the irqd_affinity_was_set() check will evaluate to true
+and clear the setaffinity flag.
 
-If cpumask_local_spread() locklessly computes the weight while bits are
-being copied, could it momentarily observe a weight of 0 and trigger a
-division by zero panic here?
+Does this unintentionally lock out future driver-initiated affinity updates,
+leaving interrupts routed to suboptimal or offline CPUs?
 
+>  	}
 > =20
-> -	cpu =3D sched_numa_find_nth_cpu(cpu_online_mask, i, node);
-> +	cpu =3D sched_numa_find_nth_cpu(irq_default_affinity, i, node);
+>  	if (!ret && m && setaffinity)
 
-[Severity: Critical]
-Does this code return an invalid CPU index if there are offline CPUs
-present in irq_default_affinity?
+[Severity: Medium]
+Could this introduce a time-of-check to time-of-use race condition?
 
-The modulo above uses cpumask_weight(irq_default_affinity), which
-counts all bits in the mask regardless of whether the CPUs are online.
+The irqd_affinity_was_set() check happens inside the scoped block while the
+lock is held. However, the lock is dropped when the scoped block ends, right
+before the actual affinity update is performed.
 
-However, sched_numa_find_nth_cpu() only searches within cpu_online_mask:
-
-include/linux/topology.h:sched_numa_find_nth_cpu() {
-    return cpumask_nth_and(cpu, cpus, cpu_online_mask);
-}
-
-If irq_default_affinity contains offline CPUs, the weight can be larger than
-the number of online CPUs.
-
-If i ends up larger than or equal to the number of online CPUs in the mask,
-won't sched_numa_find_nth_cpu() fail and return an index >=3D nr_cpu_ids,
-causing out-of-bounds memory accesses in callers?
-
-> =20
->  	WARN_ON(cpu >=3D nr_cpu_ids);
->  	return cpu;
+If userspace writes to /proc/irq/<n>/smp_affinity exactly after the scoped
+block drops the lock but before __irq_set_affinity() runs, won't the driver
+blindly overwrite the newly configured user affinity?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260819-flo-net-7-=
-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com?part=3D1
+2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com?part=3D2
