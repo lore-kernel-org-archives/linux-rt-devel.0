@@ -1,67 +1,69 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24BD37A498
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Aug 2026 15:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9A847A865
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Aug 2026 15:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787238783; cv=none; b=G33UOanG/AbfVAUMQbE4K2cRHPDSe+3tReLIlKiJPjWDosfKuouHTBDZFpDYOEpseGyjyyIUCaRcUN6lCohwzs5pOvp1igk1MtvsCic5jPtsHnKW7HDbDiuZNHNlnSC7+CDEwWxpRnCQda/Q1NfLyoGTifKsRYwtZFI5h3fuS58=
+	t=1787240058; cv=none; b=YZetCjYq7jzhD6UOJu7QfiL1qIXpmLfK9eZwU0X1wuZuCXir6XtYYrsHEQcu6Iis0JhzqCr29mfRhO5qOu73yBUt7Pzq/CJvIcPhO3UcXy+zlV9gaX6aoVSVsaA3FB5NnnuI9hqpaRT5jwg5+gsokK/mhzzfucpM0CH82M4lN8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787238783; c=relaxed/simple;
-	bh=cbqnG3DMyrwpxnsNWXHiZn9LCzAndIE7W5YifE88PDY=;
+	s=arc-20240116; t=1787240058; c=relaxed/simple;
+	bh=l/Ollc2Gxv9AZOgk9zNP4zB3Y8ps7p00jkEgW36uJcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fvkasg0SgAtoEGqNMvy+AQX4VhQLqnVTr8RM7T1p/GKY0uZZQJtrm4T+32a6NGty5+TQUdBAVMtMkQkivWr1sTEGToRiLoQSZob7HysngzHoRyTRDqIuLD3HfA7D0QTyhi9LODzo3iBZJOl7xeu5PHCKo0/+EOXyl5sT97eaO1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ebvlP+j6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0A0vBAJL; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMQ+9+x95XMTTHbEfC6hxtG3Fo02xDgL/+xFI61EDXaAnWzYRvSYeUceShYtt2xIESYTgL30LYY8Ql9VndBKdPMoBw3t9ngjKzjiA2Xl4XY+P6UeDi3vKILo39ykEeIbCl4BGhlmwYBJZ8fpG8zQFrzha+MM1alNZffSB8zgdyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pfcctPuN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SbnMBF3Y; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ebvlP+j6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0A0vBAJL"
-Date: Thu, 20 Aug 2026 17:12:57 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pfcctPuN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SbnMBF3Y"
+Date: Thu, 20 Aug 2026 17:34:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787238779;
+	s=2020; t=1787240055;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cbqnG3DMyrwpxnsNWXHiZn9LCzAndIE7W5YifE88PDY=;
-	b=ebvlP+j6W3N3VZOYkqOXtyBjSDxTIkLWGo8hBYhqXMqO8RyvjYoztFkOeXPaTb63NTH7Yn
-	xmE17shxKckpIdarz/KY4TQMei0BrJ76UDYynjcFcosT73SfxdDjx34XcWsRxnbGGmk+m/
-	eRs7LN1UKEMf7WxwsV8OJsA8IoaEzcw47iULE2orQtPjdjp96Acn13EvRscEZQSdBDKsLf
-	SH/4RYiVoKiWMj0QXsJNC0k1+1I7i4cb9CYql2Xq1lsULcVXY2I+oT3BQ2Ctn0zLEsh/DA
-	vZe8HN4KGcV8dPJnwJ1BqNV3xis0yefjhnO+aaJdU88MbhQGPWE39r1uF2FazQ==
+	bh=XnQ07X6Vq1lV2T06V5sf/SOjpM/4n7JqjKjnkaB9qXc=;
+	b=pfcctPuN5/Xbfx3OXgOZDbHxVwzMgOj+0VGDZnd2Tffm0m01fR0cJvlT6tINnj1YogvMNz
+	iycKG7KKK5z+DtNSjyd7I5L6KJ98j+TuHFVAFDDJd4zP65mCNStqEyzp4hNi2FJydFiEeY
+	vOADJVPPv6e+6zQAzax6ShueyhGSokHbl6mAvnppmno6TkgV0JJZPyS3nZV89H8GbFC8sh
+	o2hxXTs4hWMZ1YmtDnYguiGQZHU1mc2Uj8zoEy7IXyPRQFy+Y09tbME7s4CUIiQyvCsAjR
+	RW1eiGVXpyQ/ajFUfUjJo9FY4iixItpjyUtKPZKMmwazIg7lWKwM+KtT4dIwUA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787238779;
+	s=2020e; t=1787240055;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cbqnG3DMyrwpxnsNWXHiZn9LCzAndIE7W5YifE88PDY=;
-	b=0A0vBAJLYsxDfMa0hzZKbBIqFxDDFr8x8En/dsyxHUEBFmtlIsvduZX+/h1Fa+j46nSZFv
-	MbD3+qRtpxXUGfCg==
+	bh=XnQ07X6Vq1lV2T06V5sf/SOjpM/4n7JqjKjnkaB9qXc=;
+	b=SbnMBF3Yj7gzKAbvIHxsY1eMaDbTkPtAdcZdgBYd1G/FlP05ovO/uptZmhdHqzIV3qJjHX
+	vlBOFDr8qv6M7MBA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Clark Williams <clrkwllms@kernel.org>,
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Michal Hocko <mhocko@suse.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH RFC 0/3] genirq: Allow drivers to respect userspace IRQ
- affinities
-Message-ID: <20260820151257.PtSDccEP@linutronix.de>
-References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Jerome Glisse <jglisse@redhat.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Sean Christopherson <seanjc@google.com>, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+Message-ID: <20260820153413.1EAmdFht@linutronix.de>
+References: <20260820133020.7ZCRIhwX@linutronix.de>
+ <448c5c0128b08ab98d175ae1099ff4d4874e49b3.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -71,38 +73,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
+In-Reply-To: <448c5c0128b08ab98d175ae1099ff4d4874e49b3.camel@infradead.org>
 
-On 2026-08-19 16:30:29 [+0200], Florian Bezdeka wrote:
-=E2=80=A6
-> The typical shortcoming of those implementations: They do not honor RT
-> relevant settings like the smp_default_affinity or isolated CPU cores.
+On 2026-08-20 15:26:35 [+0100], David Woodhouse wrote:
+>=20
+> So if you fix the might_sleep() and Paul comes through with the atomic
+> SRCU thing, I no longer care *much*, but still think the whole thing
+> deserves to die.
 
-"irqaffinity" if you refer to the boot command argument.
-"default_smp_affinity" if you refer to the proc file.
+Okay. Let me look into it then. But "the whole thing deserves to die" is
+limited to the kvm usage, not in the kernel?
 
-> Device IRQs are balanced over "all" or "all online CPUs".
-=E2=80=A6
-> That raises the question why request_irq() is called on "link up" time,
-> while the low level vector allocation takes place during device probing.
-> At least that seems to be the common pattern. Can someone tell me why
-> this is done this way? Shouldn't we call request_irq() at the same time?
+> Going back to SRCU atomic (citing your mail in reverse order):
+> > In
+> >    https://lore.kernel.org/all/a94b75e8b9b1d2191f365c0f4275fd5082332df5=
+=2Ecamel@infradead.org
+> > there was a suggestion for "srcu: Add an ATOMIC reader flavor and a spi=
+nning
+> > synchronize_srcu_atomic()". This one had preempt_disable() in
+> > srcu_read_lock_atomic(). This is bad as not only forbids to acquire any
+> > sleeping locks (such as spinlock_t) but it also does not allow any
+> > scheduling of any kind within this section.
+>=20
+> That was kind of the point :)=C2=A0
+>=20
+> My=C2=A0srcu_read_lock_atomic/synchronize_srcu_atomic() were born of the
+> "need" to avoid scheduling in OOM (RT or no), but actually I think they
+> survive even when that requirement goes away.=C2=A0Even with my
+> try_synchronize_srcu() optimisation, we saw higher tail latencies when
+> deferring to the workqueue, and Sean was very much in favour of
+> eliminating those.
+>=20
+> So I think we do want synchronize_srcu_atomic() if Paul can find a way
+> to give us that.
+>=20
+> To your point about preempt_disable() in srcu_read_lock_atomic() on the
+> read side... I don't know if we *need* it to be like that. When I threw
+> it together, I was thinking of it as a raw_spinlock, in the "must not
+> sleep" mindset.
+>=20
+> In fact, as long as the splats are dealt with, it would probably be OK
+> for it to be equivalent to a non-raw spinlock: disable preemption on
+> non-RT, but not on RT. I think that's perfectly OK for us from the KVM
+> point of view. But does heavily depend on how Paul wants to implement
+> it, of course.
 
-The IRQ vector is created while the system enumerates the IRQ-chips.
-Once the devices are enumerated (such as the NICs) the devices is linked
-with its IRQ. I think an exception are MSI-X devices which could ask for
-one or more interrupt and then (at device's probe time) the PCI core
-will link the requested amount of interrupts so their actual number
-could change.
-The driver _could_ request a "managed interrupt" which would be mapped
-to a specific CPU. The difference to a "regular interrupt" is that if
-that CPU goes down, the interrupt is not "moved" to another CPU. Instead
-is remains off and the driver needs to deal with this (this is common
-for NVME devices).
-
-If the device is not programmed (as in IP address has been assigned,
-link is up) then it should not create any interrupts. So it might be
-reasonable to not request an interrupt either.
-I *think* uarts do the same.
+okay.
 
 Sebastian
