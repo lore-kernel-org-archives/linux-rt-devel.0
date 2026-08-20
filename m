@@ -1,83 +1,128 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635ED2DCC1F;
-	Thu, 20 Aug 2026 18:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239F925B08E;
+	Thu, 20 Aug 2026 22:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787251772; cv=none; b=c2ozArEZUuUgsOl8PPVsx1Gm0c+z8ezl4v4X4RZD6Fj21tYS1Yw3ePY1aax4yzOK9xhjFuwmaXYewFpn3sHFERR7L9eSDrC8JxPii1CjYeMIJ49raBoo/InAvwR/k8VIYbT/20MWvJkpAOcVp2PAztpm1ehN0hOmK1p/YvCPcRM=
+	t=1787266776; cv=none; b=RVP/HfCgkVrPkASFb090xx33JCMTeKe6vte+ruG12hAynvNITGHEOo5JB6S4pPt5aGcqel9143aTiTpjJXU1jMNitpOUVU9ZcYDUhniNRSvmToRAOvknTt30+NWNRCzAcdq1jz6TiUN2LcTHbXgrS1bj48GxEjaN7+RRjpUtk5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787251772; c=relaxed/simple;
-	bh=Bxoz+gQaajsA5pCxftnKj5mDXSS6NnATsxXZdW81D0c=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=RfISf7ZwB7dneD6DtObQW4t9A7lD2XO2h0dPiWZDPM6+VehzJaFKrrrbjfh7Gf6os/1F2BSwL97cRbR+Pkpt4DwBDwB1FuEy+gsiVCIwm74zbC45hRhwLJdOOlAP7aINrTrh+NgCT7NxR8KO9jDjsBgTEJcozBe3GbFhaN92fhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ah5RL2tA; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1787266776; c=relaxed/simple;
+	bh=pV/fPEuj1JfKA1KXpCatzc8yZDKQrAxX4cPw2Jj7vj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nONiAo3fxY9j7rTEahtuXwjfMku5LfAN1QLa4jAnGuJNulxek6g3O+i8Xmcviv2ZWFMA2Y3bsAIZSfFFmAcZhqEZxCPCA2wAqP/bf9If0TlGudQKu8I0VFflt180UetUn8Vv6tjuhW22ZBV7Vbkc4vl/a3t37GoHjIRw69YrJwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYRK08j6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ah5RL2tA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=Bxoz+gQaajsA5pCxftnKj5mDXSS6NnATsxXZdW81D0c=; b=ah5RL2tAnpSx6WytvpN6T2b/q5
-	fqecbck3UKuInlaTaX2PJfYFVfVQ+a4wbzlJxkHBtW7BkCBWxyI6KcPi4ta6dBfk5r1fe0CZOYMyj
-	8x7dsarhPKO/rS4PmBCK1o/Nel+v7nyYg7HPnF6pbv9fGq9k1/pgQP7Odtc3/RI+JKa3EbPLc6Lsy
-	gUWw0CGaY+jWW10qZMinw0UTo+/sS8IXf6wNZQraHxeObzD1oWoxzZdLvvdG+jLJXl64DVB3uQww7
-	XORkAw9jbt3754j+O8ZGHDE5UINSbulSN9HuCPSS5i+RTo11Tu0AZCncOaPIcCcne5+vldc5+h1Ik
-	yKVzsxrw==;
-Received: from [2a02:8013:6d1:1:5309:2aed:a2fc:3ef2] (helo=ehlo.thunderbird.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wx7pE-00000003HyP-1sG3;
-	Thu, 20 Aug 2026 18:49:17 +0000
-Date: Thu, 20 Aug 2026 19:49:16 +0100
-From: David Woodhouse <dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYRK08j6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF9D1F000E9;
+	Thu, 20 Aug 2026 22:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787266774;
+	bh=SoNNm7jFJ7hNLP+hM/DABTadjVQbBib2kSdB/cwOkP8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dYRK08j6zoNmRTenwAv4fe3QLob2k1Oijqnwr8N7gOcTDx0GRNBqUp4DT7AirBFEC
+	 sl+9kri54hrncueZcPwOZ+FYQNnvdas7fhxowPFfKlbYNzULq5q0DfpQ6Kn1qe2q/j
+	 3sQBIdQy4G2M++zMUeXuqe3nj07qXmhz6xnYboMoF8/mwrFrp7QOv7YE5n6ObpjSNG
+	 ECLjgezFhsiTM0FBpmALnkPaqKlE4yHpv5jXaDcvlJeE8lKdts63ibt897WDQ3sgBN
+	 6vxIpAaRUGED8Zjfp0cRmBLla/cZypSCDZtPRGvEoTBE0DbNPvT3rpQTECp6tIKjra
+	 G8cduID7dYtHQ==
+Date: Fri, 21 Aug 2026 00:59:32 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Clark Williams <clrkwllms@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>, Jerome Glisse <jglisse@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Sean Christopherson <seanjc@google.com>, linux-mm@kvack.org,
- kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_mm/mmu=5Fnotifier=3A_Remove_non=5Fb?=
- =?US-ASCII?Q?lock=5Fstart/end=28=29_from_notifier_invocation?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260820153413.1EAmdFht@linutronix.de>
-References: <20260820133020.7ZCRIhwX@linutronix.de> <448c5c0128b08ab98d175ae1099ff4d4874e49b3.camel@infradead.org> <20260820153413.1EAmdFht@linutronix.de>
-Message-ID: <F376821D-AEF4-4DD5-A059-1714907E7E22@infradead.org>
+Cc: rcu@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Clark Williams <clrkwllms@kernel.org>
+Subject: Re: [PATCH] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
+Message-ID: <aoeG1BhFsTV2T_p4@pavilion.home>
+References: <20260820110008.v2Tlr0_H@linutronix.de>
+ <aob12RahomSmpUQY@localhost.localdomain>
+ <20260820135500.hXUAsbHR@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260820135500.hXUAsbHR@linutronix.de>
 
-On 20 August 2026 16:34:13 BST, Sebastian Andrzej Siewior <bigeasy@linutron=
-ix=2Ede> wrote:
->On 2026-08-20 15:26:35 [+0100], David Woodhouse wrote:
->>=20
->> So if you fix the might_sleep() and Paul comes through with the atomic
->> SRCU thing, I no longer care *much*, but still think the whole thing
->> deserves to die=2E
->
->Okay=2E Let me look into it then=2E But "the whole thing deserves to die"=
- is
->limited to the kvm usage, not in the kernel?
+Le Thu, Aug 20, 2026 at 03:55:00PM +0200, Sebastian Andrzej Siewior a écrit :
+> On 2026-08-20 14:40:57 [+0200], Frederic Weisbecker wrote:
+> > Le Thu, Aug 20, 2026 at 01:00:08PM +0200, Sebastian Andrzej Siewior a écrit :
+> > > The irq_work in srcu is used to schedule a delayed work. The work item
+> > > is not scheduled directly because it is not always possible wake a
+> > > thread directly.
+> > > 
+> > > On PREEMPT_RT the default irq_work is initialized with IRQ_WORK_LAZY and
+> > > is delayed to the irq_work thread. A system booted with the command line
+> > > "trace_event=…" will freeze during boot because the irq_work thread is
+> > > not yet deployed (and tracing uses synchronize_srcu() in
+> > > tp_rcu_cond_sync()).
+> > > 
+> > > The irq_work performs just a wakeup a thread, there is nothing wrong
+> > > with doing this from hardirq context on PREEMPT_RT.
+> > > 
+> > > Use IRQ_WORK_INIT_HARD for srcu's irq_work.
+> > > 
+> > > Fixes: 7c405fb3279b3 ("rcu: Use an intermediate irq_work to start process_srcu()")
+> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > ---
+> > >  kernel/rcu/srcutree.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> > > index 7c2f7cc131f7a..b703233d4a63f 100644
+> > > --- a/kernel/rcu/srcutree.c
+> > > +++ b/kernel/rcu/srcutree.c
+> > > @@ -218,7 +218,7 @@ static int init_srcu_struct_fields(struct srcu_struct *ssp, bool is_static)
+> > >  	mutex_init(&ssp->srcu_sup->srcu_barrier_mutex);
+> > >  	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
+> > >  	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
+> > > -	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
+> > > +	ssp->srcu_sup->irq_work = IRQ_WORK_INIT_HARD(srcu_irq_work);
+> > 
+> > It may need a comment to not lose that.
+> 
+> We could also make irq_work.o earlier in the Makefile, right at the top
+> so it comes before tracing. This was one of the first ideas and makes
+> the issue also go away. But given that it is just a wake we avoid waking
+> the irq_work/ thread just to schedule a timer/ wake workqueue.
+> 
+> > >  	ssp->srcu_sup->sda_is_static = is_static;
+> > >  	if (!is_static) {
+> > >  		ssp->sda = alloc_percpu(struct srcu_data);
+> > > -- 
+> > > 2.55.0
+> > > 
+> > >
+> > 
+> > Perhaps all irq works queued before the relevant kthread is started should
+> > temporarily be queued as hard?
+> 
+> Urgh. irq_work shouldn't become a widespread user ;)
+> If the scheduler is up but irq_work thread is not yet created and the
+> irq_work uses sleeping locks then it would create warnings.
+> In testing right now I see just wake_up_klogd_work_func() which is
+> always LAZY but would qualify otherwise for a warning. We wouldn't
+> trigger anything yet but you get the idea.
 
-I mean the whole of the non_block_start/end in the OOM path =E2=80=94 the =
-thing that this thread started by removing=2E
+Fair enough! But should we warn if a non-hard IRQ work is queued before
+the kthread is created?
 
-It's always been enforcing the wrong thing, and the effect it's had has on=
-ly ever been detrimental AFAICT=2E
+Thanks.
 
+> 
+> > Thanks.
+> 
+> Sebastian
+> 
+
+-- 
+Frederic Weisbecker
+SUSE Labs
