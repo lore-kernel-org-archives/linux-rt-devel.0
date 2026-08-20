@@ -1,53 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D3646C84F;
-	Thu, 20 Aug 2026 16:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDDA1A6828
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Aug 2026 17:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787244115; cv=none; b=jfZXOczX0c+xtoud5t2kv/dXC/8ouhqCiCt11H26eOVptvhoUgsvNEBb86w2G0zphIdpZ0J2LDDp9ITAqhn5hML7DrZ1njlCZwk7vxHpuVZYk8xDcbMKykN59z1gYhaSpEGYwFg+N+q3rLmHqDq/wGl8GlpZ60Qd55K9ELXOY04=
+	t=1787245245; cv=none; b=lJrvFqwG88YdPKHnv0miMmz36G+/OVIYQ/akqa83n1FvMEhNGkNo4PUIcqVezp6hI8qQ6Vun0+8pLeFWMWJthyRE0+8XHwYDZKJloRmckQ5EtL+ggnAK7vsJOCl4JQDoaUTTTtssgM2JYzJxCDnRaIUBtMO4G2IxoTl68MDfxLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787244115; c=relaxed/simple;
-	bh=XYVElV+Jk0gL+yGQDiAXMrMf5Jqk5fyT2oWtYhLd5Ak=;
+	s=arc-20240116; t=1787245245; c=relaxed/simple;
+	bh=d73/65O3EJddd94Ftz8cuWaU8eHaHvSROcHFwtE9Hgc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EFTH4XjEqCPum697lOaUQYFTwjn07byO45IoeFPCmGmKLVCi8UQsDrOcIurJAqAFvUIAX1wmhNSxgJh+oKKpXV4v2GznSruwHl15MbEvfVDFfDTiNfZHyt8LHd+xYvpiLHpsNsvGF0RJaUAPodwxHzICpvj9i6JvFxsN8IXSBMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LyhAdJ6Y; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=nGUwYAVNIxInjfQyKc4dy7Ox/TCD/arN2WBXUIn4XBeQTku+iZVDPS390wm8l5DBvm/53qqBpAUPkXIA0f87294NnLcZkC9HsUeoqIM/qfG5zB8m4hRzNC9PzLwNwDMPzHS0UOz/UBgvRceM0x6erfxUArmNj3m5caUlvWJCDMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=jj2oXFg+; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LyhAdJ6Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0442E1F00A3A;
-	Thu, 20 Aug 2026 16:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787244114;
-	bh=aLz4f+Hk4HfGPbGDqQZgNNxr9lDGlubcQpeUIHcO3cE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LyhAdJ6Ys70M2HKfEMjqm64T25fAtue1GHRERfuNMdYzuhjrdYY/eFT/y0zTI72eE
-	 3Q6p/c+EYTZ0wPIVU1UrJ2TMDQ9Dsm3TlEo4wC+0xC96XtpTGJeXfphSQozBHOKBc2
-	 3UN+4Swd2+cOD9FRquj8T8sCQw61YTOkSxwBsNd8KUM61f3LuwrgW0z2/tf02/JcsO
-	 P6VGKZUDMLPp5kfSJM1Pzlu7QHj84qQVWvIjV76ibVmnVBcDbcMux0ikoFmSOKXYrL
-	 i/6dhudroJ2cQuKolSHxOAE4/+NbwnfeXb3PFs0IzjXngENyrIljQjmUUHE1Irmsq8
-	 7KzekzcAXraag==
-Date: Thu, 20 Aug 2026 09:41:53 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Yury Norov <yury.norov@gmail.com>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, Andrew Morton
- <akpm@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, Jan
- Kiszka <jan.kiszka@siemens.com>, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH RFC 2/3] genirq: Honor existing IRQ affinities when
- setting affinity hints
-Message-ID: <20260820094153.420202f6@kernel.org>
-In-Reply-To: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-2-3f79a99cadaf@siemens.com>
-References: <20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
-	<20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-2-3f79a99cadaf@siemens.com>
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="jj2oXFg+"
+Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id EB18180205;
+	Thu, 20 Aug 2026 17:00:34 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id 6426620025;
+	Thu, 20 Aug 2026 17:00:31 +0000 (UTC)
+Date: Thu, 20 Aug 2026 13:00:28 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Frederic Weisbecker <frederic@kernel.org>, rcu@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Lai Jiangshan <jiangshanlai@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett
+ <josh@joshtriplett.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Clark Williams <clrkwllms@kernel.org>
+Subject: Re: [PATCH] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
+Message-ID: <20260820130028.2243d53c@fedora>
+In-Reply-To: <20260820135500.hXUAsbHR@linutronix.de>
+References: <20260820110008.v2Tlr0_H@linutronix.de>
+	<aob12RahomSmpUQY@localhost.localdomain>
+	<20260820135500.hXUAsbHR@linutronix.de>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,22 +44,45 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: x3tiiugppggnx6wiqjuqr5h8oao16osf
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 6426620025
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+cYqxSlDBmypQWZzLVcosmGzgtLlKeV9Y=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=FbDr8IlhceKKRQEH2RbCZ5jCU04Uji7h/bs380CjYLg=; b=jj2oXFg+NBbbqf4HDPMcFit4Knn+DRcam6pz3XuZzzshOQwItmRRGhvuzWZKn/axgE92elBEhf+OSzQdjnTT07PZSM2KpZYXySbIdULocWru5MRkobtj05sMIxlYFur3G+6m8dHE6UxdNDXzepmjehxsClMVv1us6um/5nutvcA=
+X-HE-Tag: 1787245231-857373
+X-HE-Meta: U2FsdGVkX19DDQutVmD+VA+U3XpEOOiyVS/hUGjYTgfoSQIG7LOvSq86GPbOq9YlI3qOfyUXKamsIaCj3TMEgBKW8QU2gjh6L+6BYbRWI2x99eUtR1wtJAa2C9e3VaugFz3KmiqiiUk3jQwcS0GF6xxpJ+OWe4jCeuCluXSB85Iqoe+4/+twiqOBjCNpHEyLwk4pyWOoicp8NoxtFEccsa6aa5pR47BDuK4OZwhCWP/yMIMVvjeLeB+eu4m6Rhupn1T1zLK5jyXCa4UwlhSvVnwJyEnba901zOsg3eku+bxW3X/T6tFFoDvSi1J2lMJ9U/GYWGh2tvh14FzAgRHguRQQ2tVo8A968J3J2fLmRoGINmK11V3OCshNpgHeS7Rc
 
-On Wed, 19 Aug 2026 16:30:31 +0200 Florian Bezdeka wrote:
-> Some device drivers implement an IRQ balancing / spreading mechanism
-> based on cpumask_local_spread() and irq_set_affinity_hint() (deprecated)
-> or irq_set_affinity_and_hint().
+On Thu, 20 Aug 2026 15:55:00 +0200
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-Not an expert on IRQs, but this may make the API even more confusing.
-irq_set_affinity_and_hint() not setting the affinity seems odd.
+> > > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> > > index 7c2f7cc131f7a..b703233d4a63f 100644
+> > > --- a/kernel/rcu/srcutree.c
+> > > +++ b/kernel/rcu/srcutree.c
+> > > @@ -218,7 +218,7 @@ static int init_srcu_struct_fields(struct srcu_struct *ssp, bool is_static)
+> > >  	mutex_init(&ssp->srcu_sup->srcu_barrier_mutex);
+> > >  	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
+> > >  	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
+> > > -	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
+> > > +	ssp->srcu_sup->irq_work = IRQ_WORK_INIT_HARD(srcu_irq_work);  
+> > 
+> > It may need a comment to not lose that.  
 
-I'd go the other way and either have irq_update_affinity_hint() apply
-the affinity if it's safe to do so, or create a new function for
-"defaults".
+I agree a comment would be useful here.
 
-Really, the drivers are dumb here, they are just trying to pass to 
-the core a hint which is: This is Nth of X IRQs, please spread them on
-the NUMA node where the device is attached. Ideally this (Nth of X)
-should even be part of request_irq() args. IRQ core already knows the
-device/NUMA node. Drivers juggling multiple flavors of uAPI-shaped API
-is... not very scalable. People rarely get this right.
+> 
+> We could also make irq_work.o earlier in the Makefile, right at the top
+> so it comes before tracing. This was one of the first ideas and makes
+> the issue also go away. But given that it is just a wake we avoid waking
+> the irq_work/ thread just to schedule a timer/ wake workqueue.
+
+That doesn't sound as robust as this solution. Updating Makefile order
+is a fragile solution.
+
+Anyway for this patch,
+
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org.
+
+-- Steve
+
