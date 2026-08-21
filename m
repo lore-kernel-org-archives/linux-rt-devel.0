@@ -1,90 +1,108 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F6742E42C
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 16:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D24517A586
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 16:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787330663; cv=none; b=huYi3Sm9Sxs+m+YYoXXGIxGXbmueHlTcmKrnmiatQ/BBCvOfa76z61bLtu8jb1VbwBRr4xIKjq1Lz4KTxKfZGvLqS/gREb8e6b3osclcTblvnbwawuAvBQQseIYiqZM0A/mYOd8qmcT3EepcWx/fmQOVnuw1jjfUbFNuvCJf5kk=
+	t=1787330869; cv=none; b=Mi00v/C+3Kl9Gs4Lx3vax2jZmyFp5Re0DXboMmzS885HY0ddFhWGkJ7MTDsphCpSZa+YAhitLTLFq0sspDVBtOHVQ55upZzC8ydhR9Sso1dU3QPoXqmE6/zIFXHpyUy2t83PpEBz1811y22opipdj9Lvd/hm05mSE27GsmgAAKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787330663; c=relaxed/simple;
-	bh=0xtK+TmNvOaIdV6jXOPZYGP1+lklmjT6F6aInixrRbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c8MPbJOcsm6puYxd2acKiSbsFT1TpSGqk5ZnPE93nU3NVBhuz0H1SsZQ6aLa2BeaaVV0JekEhwqvfS5jGpzxO98o7lEGjjDFWfIldvOPne/zdIb5duDvflY87fz12suEh2gaGga73qaaTqawcNG3O80wzmt1kbkaJ/QOydPa3ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=rPNa3BUf; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1787330869; c=relaxed/simple;
+	bh=6hWEk52ybKytfOaNhLZYJpexQsQeY7dx+xyw91Pdc1U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pa9qPnF7hwFnrudKWqi9q4/fl9WR+hoBvNj3RSjOMP8WnfYDfVQhuuEl3QDSNLWZ/AdsuTmrDrMMdMcAiou5ikEZsTaZgKeDTwKFKJx3FPGyOev7VjhEzP72ETu8iuUxBT8CCT6Fkl42s1fZgHyPDGfw5ah7ECUWdiUXpJwxWgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=TBwnOHPP; arc=none smtp.client-ip=185.136.64.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="rPNa3BUf"
-Received: from omf12.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id A5FED1C09CE;
-	Fri, 21 Aug 2026 16:44:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 80FB817;
-	Fri, 21 Aug 2026 16:44:14 +0000 (UTC)
-Date: Fri, 21 Aug 2026 12:44:12 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Frederic Weisbecker <frederic@kernel.org>, rcu@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Lai Jiangshan <jiangshanlai@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett
- <josh@joshtriplett.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Clark Williams <clrkwllms@kernel.org>
-Subject: Re: [PATCH] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
-Message-ID: <20260821124412.3b2e49c2@fedora>
-In-Reply-To: <20260821110108.kAu0wszk@linutronix.de>
-References: <20260820110008.v2Tlr0_H@linutronix.de>
-	<aob12RahomSmpUQY@localhost.localdomain>
-	<20260820135500.hXUAsbHR@linutronix.de>
-	<20260820130028.2243d53c@fedora>
-	<20260821100431.jvWas8Wc@linutronix.de>
-	<20260821110108.kAu0wszk@linutronix.de>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="TBwnOHPP"
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260821164737ba6c5b82f600020772
+        for <linux-rt-devel@lists.linux.dev>;
+        Fri, 21 Aug 2026 18:47:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=yAUIv3QVPUxeZj+2jjQt2DSdbC2rNzRDTLXd8pgK7IU=;
+ b=TBwnOHPPmjRt/JJJmjAiFj3ThMLkDziWdpLctnwdO+1UQAOFwoxw3/tkqalYvIdHHJQ8AT
+ aVz42iTgxiI3vccu4INGZGXK2lFvmYyB0RLzrmaiPlm6h6uHrjBmi6NPuO50z/w4gYMBYa3n
+ q4N8k1dHw7zStWfaztBAoDzvbYBLUcSGHDv50xi0rhJrkAadwWhGoX72zFrh8c6U6VKc3kur
+ rKCiJupR9LV9FBoqDeJk0+E9s2oHpHNGrRy7uMg+N5VIIo81OrGibQOke/9d3R6X2l0jgnu1
+ dszOSZsmJJFhQ3VrrIRrtpcf8/kNstKWOHRbSrwuR0vIAtlc8Vjpp8XQ==;
+Message-ID: <f452f083e6597a145ae24f80f1db7f2315bab6c2.camel@siemens.com>
+Subject: Re: [PATCH RFC 0/3] genirq: Allow drivers to respect userspace IRQ
+ affinities
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn	
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet	 <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni	 <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes	 <linux@rasmusvillemoes.dk>,
+ Andrew Morton <akpm@linux-foundation.org>,  Sebastian Andrzej Siewior	
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt	 <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, Jan
+ Kiszka	 <jan.kiszka@siemens.com>, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Date: Fri, 21 Aug 2026 18:47:36 +0200
+In-Reply-To: <f9daddae-a1c3-4823-a4b0-733775e1ad15@lunn.ch>
+References: 
+	<20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
+	 <f9daddae-a1c3-4823-a4b0-733775e1ad15@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 80FB817
-X-Stat-Signature: cyeseiai6qhd4krpiy14rgirx5r18dsf
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+1M+7kY4OcA2vrIMtjtrx7OoE5i36rK6c=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=kn93FLurHttlnRRgXzhSJoMOWAdNKw1l72AUTr8Rcxo=; b=rPNa3BUfrxuZ4LH3MO0mO8fxUudvQljEt1Va6/3Y+otbFuH+zV4c3fYDh115Zy3OmbEkhw2VqRvJM97Y5jcp08Q3RlmgHa8BSJ1RoVxbeQoIRgkl8AXONojqSaoiPXBXgA3XHU9WuWcPq0U4e7tZlLWvdzesHvMTbf92oxBavcI=
-X-HE-Tag: 1787330654-772401
-X-HE-Meta: U2FsdGVkX19zixgdhpWOKqoWC/hebcTrSbreZBKSS6jFFsz5chRt0qnTglnfj+0Gabik0sf2yzxQTCRka8dTHH2gxkyopGbkovtbBsE2C/OY8n4c+fNPq0KzDOHe80AxRt7/IpHoKKhcG6kZtDPDC37TXBNNHuFjgYd0DIM/x3IWrANkIY9b8RlyhH1RUeQoxQIq/22rqAMJ/WShSHFdXNNDcOZAQa8RiqyFP4eVHPrTiB7tV82tFJgMJEvgwK9XNav6C8q9iPasAre9zSpzD+dOclSurOSOnkgSV5bSijWF2UCl7jTzc1XPCifGRO3m
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-On Fri, 21 Aug 2026 13:01:08 +0200
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+Hi Andrew,
 
-> > > > > > +	ssp->srcu_sup->irq_work = IRQ_WORK_INIT_HARD(srcu_irq_work);    
-> > > > > 
-> > > > > It may need a comment to not lose that.    
-> > > 
-> > > I agree a comment would be useful here.  
-> > Urgh.  
-> 
-> What do you want me to cover in the comment? The arguing pro
-> IRQ_WORK_INIT_HARD is because it is "just" a workqueue schedule and it
-> avoids the jump over irq_work/ thread. This makes sense regardless of
-> the tracing issue.
-> If it would be not compatible with hard-irq context I would argue for
-> the makefile change which is still sane since there is no other way to
-> express dependencies (which we clearly have here).
+On Thu, 2026-08-20 at 01:54 +0200, Andrew Lunn wrote:
+> > That raises the question why request_irq() is called on "link up" time,
+> > while the low level vector allocation takes place during device probing=
+.
+>=20
+> If the interface is admin down, the hardware should not be generating
+> any interrupts. So there is no need to request them.
+>=20
+> > At least that seems to be the common pattern. Can someone tell me why
+> > this is done this way? Shouldn't we call request_irq() at the same time=
+?
+>=20
+> If you want to change anything, move the low level vector allocation
+> into open(). But you need to be careful of EPROBE_DEFER. If the
+> interrupt controller has not loaded yet, i _guess_ the low level
+> vector allocation will return EPROBE_DEFER, and the MAC driver will
+> try to probe again later. If you get EPROBE_DEFER in open(), there is
+> nothing you can do about it.
+>=20
+> 	Andrew
 
-Basically just a word to why it is HARD.
+Moving (=3Ddelaying) the vector allocation into open() would not help
+here. The /proc/irq/<n> interface is populated on request_irq(),
+normally done inside open() as well. Up to this point userspace is not
+able to set any affinities.
 
- 	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
- 	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
--	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
-+	/*
-+	 * trace events started on the command line require SRCU before
-+	 * the irq_work kthread starts. Since all it does is a simple
-+	 * wakeup, having it as a hard irq, even on PREEMPT_RT is fine.
-+	 */
-+	ssp->srcu_sup->irq_work = IRQ_WORK_INIT_HARD(srcu_irq_work);
- 	ssp->srcu_sup->sda_is_static = is_static;
+This is one of the shortcomings mentioned in the cover letter. Once
+/proc/irq/<n> appears, it might already be too late for a proper
+affinity setting, the IRQ might have fired already. In addition there is
+no notification mechanism that informs userspace about newly requested
+IRQs.
 
--- Steve
+It's more of the opposite that might help: Moving request_irq() into the
+probe() phase. I'm wondering why the pattern is
+    vector alloc =3D> probe()
+    request irq =3D> open()
+
+Seems that we would not "waste" too much resources when we move
+request_irq() calls into probe() as well. But as always: I might miss
+something.
+
+Florian
