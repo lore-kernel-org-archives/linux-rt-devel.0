@@ -1,68 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0360358389;
-	Fri, 21 Aug 2026 17:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5837D38E135
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 18:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787333894; cv=none; b=lwwkSbEOFhTm+5DAaOJVuTm5gxkHK42ZdPPjOI5p0f+POVKHw2okYmxMZKcoJo1k5mFJa7PJAYydkayisVbMBQQXyKl3SZl6lmDmkWX82vIAl732Jm6g1Z+/xR8pYER9Suvu3hTpfsFF+854lT3jqpsP4H8m8/LYFlFVJ0odzFo=
+	t=1787337495; cv=none; b=O+G2mWq5pu3Xhhzn2gaX1QFGrL2lWqJskztsj1+f4tRpgnUB8w+fqnZ5d9ATv1bGsemcGX8V2nyoRvCTz757J4N/fHcBrYZbzj4Yy9ItNSuXK/R+gYxkmsK4jx9qrSpqlNXUlh6cbYIcyW6Y0J3o17UV+NVoGfjXiSVqQiO13UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787333894; c=relaxed/simple;
-	bh=gtLFRmGix5BlLe7iyaTulkKgNY/5kdFtH+HZ3RaDEnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mdvh5/Mp6cTOzSK6OCSznMo/qTlnl+HEySe1VjX0iH3nakE0oNzSbr/U+rKoPAI/rkvUz9SB6GNu7QKnUcZq7x5E4hf9DG1FQ30B8+YHODUsh+aQt+aLq6ab12gmuH+V5QyZSrDoWZ6II7UKkUyiUaUlbJCHhJ7+qQ12iHqahBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NClu/56f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787337495; c=relaxed/simple;
+	bh=i0iM4CMeClX0wBoi7QQYpmlCBlrZQciscnIIH5l/RlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B679sSiuK7dkP6xIG/QgEM2F81oyn+Nf0im7mgT+/51ioHiORfz/a9epE+NFTcwO1QAL4GDRfBGjm6fR5OhBVXAQ0+TJtuPYWxqm1kQVFl9P41IlJnbkVI86DjlXH2lmcUwP390vhALPfLQhxgG/Rmu84xDUjt2f+jYq2Hr/9KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fa77s66/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sAb5sP2w; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NClu/56f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405CE1F00A3A;
-	Fri, 21 Aug 2026 17:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787333892;
-	bh=Fq1qopQjiGOPEPv7nYP2HWEyvKAIWD9DM17U/AxQx8w=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=NClu/56frA0h3WA5bKxCjZdnf3aTWlzEWF3yD1soGE14ElWcChnEkVdNaLT3GRkDc
-	 PKlC14Ixf6CvQBeTKsRKC8dvh+oB8yf6lh/YFOndr634PGp/TnTP10ixW1k6PV/o4h
-	 JzXK/SByraA7LRcN+OluR519sEvtOYF6iegKoBiK7+vpUIumPAcUvoQ3+qsYqv2A6n
-	 kDmYjPr/M5hz1H8WOy9rptUsmPN5KiUEAWxbkwHCOsNrxNsM1Qc7wTAnQvh72aV7f1
-	 FngUTTtnoqTRUhPYNMQj4EtKGhqmtjHUtkjD1PzS5Xyu/Z49X41gXFFwEFE7XdFP6M
-	 KzPvSdagV4CIg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id ECABCCE0978; Fri, 21 Aug 2026 10:38:06 -0700 (PDT)
-Date: Fri, 21 Aug 2026 10:38:06 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Michal Hocko <mhocko@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
-	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-Message-ID: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <a48e6e7063122b22a8083bb0792984a204f316e6.camel@infradead.org>
- <fb87f673bf290cad133d113dbb0750a7752b9d30.camel@infradead.org>
- <a94b75e8b9b1d2191f365c0f4275fd5082332df5.camel@infradead.org>
- <d0692500893f303906fba1d7d596eb59a07a806a.camel@infradead.org>
- <anydY25Cl78l1HfU@google.com>
- <932DB129-1794-4855-A61E-F4C2B54B1EE6@infradead.org>
- <b736237c-64ee-4eb2-8201-5685a3853844@paulmck-laptop>
- <5f6a0669f319951462c2aae3a50d595983a42e4c.camel@infradead.org>
- <49df45c6-4d0e-483a-8acc-0ace7f9a6484@paulmck-laptop>
- <a17c8d33102c49c74a64fb62d402b315ba950577.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fa77s66/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sAb5sP2w"
+Date: Fri, 21 Aug 2026 20:38:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787337490;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V7r0kaJtZqeCjXcFe8bOxkN+Hlq44U6zZusNWwnFLJ8=;
+	b=fa77s66//a96ctpHY0SyxFebbBlLvzsZSY/LrOD4N3OJWDwlU4tWgoPlgUR1XS4GsuTXJQ
+	qKLttEeY1VQV9Srf5CKZLI9ZjcJ10C0iWYT2661TgpcuIBzCB7Z2Lg50rldd1TjfHQK0l7
+	jKe/3OWeEmNIJaC3dGjQ/4A5LlOT/n6u2RTDb3mH0pbeZOED49rStMLz3p8Ws++e30jStw
+	ClUr/lrcg9U6GQTvjydAiqMe5Vp7Mcz9Tdti55BzakqsLlryPgn3f9eUADempek6Wc5/fa
+	wkQveMUD6+hFv5iA3Gl9tq78I62GZ0M1vLDgA41CHRYIe9qMfrCvf76XGHu8Ug==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787337490;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V7r0kaJtZqeCjXcFe8bOxkN+Hlq44U6zZusNWwnFLJ8=;
+	b=sAb5sP2wTWkgHQP46c0Qwm0GQp9gA0Ppo4/A0LxWeX15oQXsDjpW0w7Pno6WxB7livOB4N
+	rvrVhthY5d3/yzAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>, rcu@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Clark Williams <clrkwllms@kernel.org>
+Subject: [PATCH v2] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
+Message-ID: <20260821183809.-kRAXbZs@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -71,60 +56,54 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a17c8d33102c49c74a64fb62d402b315ba950577.camel@infradead.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 20, 2026 at 03:43:01PM +0100, David Woodhouse wrote:
-> On Tue, 2026-08-18 at 11:18 -0700, Paul E. McKenney wrote:
-> > On Thu, Aug 13, 2026 at 08:54:44AM +0100, David Woodhouse wrote:
-> > > On Wed, 2026-08-12 at 14:38 -0700, Paul E. McKenney wrote:
-> > > > If not, please let me know, and I will put together that does the
-> > > > job.
-> > > 
-> > > If you're working on that, I assume it'd need the readers to be known-
-> > > atomic. So if any of the read-side SRCU_READ_FLAVOR_ATOMIC thing I
-> > > already threw together is useful, you can find it in my tree at
-> > > https://git.infradead.org/?p=users/dwmw2/linux.git;a=shortlog;h=refs/heads/srcu-atomic
-> > 
-> > Thank you, happy to steal pieces of that with attribution.  ;-)
-> > 
-> > My current plan says that if you have an atomic SRCU on which you
-> > use srcu_read_lock_atomic() and srcu_read_unlock_atomic(), you only
-> > ever get to use synchronize_srcu_atomic(), never synchronize_srcu(),
-> > synchronize_srcu_expedited(), or call_srcu().  Does that work for you?
-> 
-> I just said this elsewhere in the thread¹ but I don't necessarily
-> expect you to be following that. So to bring it back here...
-> 
-> My mental model for srcu_read_lock_atomic() was that it was always
-> atomic, even on RT — it was basically equivalent to a raw spinlock.
-> 
-> In fact I think it would be OK for it to be equivalent to a *plain*
-> spinlock — i.e. atomic on non-RT, but might sleep on RT.
-> 
-> When I wrote that previous email I was thinking that might end up being
-> additional complexity in your implementation, but as I type this I
-> guess it could be as simple as falling back to the normal non-atomic
-> case for RT?
-> 
-> ¹ https://lore.kernel.org/all/448c5c0128b08ab98d175ae1099ff4d4874e49b3.camel@infradead.org/
+The irq_work in srcu is used to schedule a delayed work. The work item
+is not scheduled directly because it is not always possible wake a
+thread directly.
 
-The current state is that if you invoke synchronize_srcu_atomic()
-from a given context, then srcu_read_lock_atomic() must be invoked
-from that same context, or a more strict one.
+On PREEMPT_RT the default irq_work is initialized with IRQ_WORK_LAZY and
+is delayed to the irq_work thread. A system booted with the command line
+"trace_event=3D=E2=80=A6" will freeze during boot because the irq_work thre=
+ad is
+not yet deployed (and tracing uses synchronize_srcu() in
+tp_rcu_cond_sync()).
 
-So, for example, you can disable preemption across your invocation of
-synchronize_srcu_atomic(), but only if you also do so across the entire
-reader, starting before srcu_read_lock_atomic() and ending after the
-matching srcu_read_unlock_atomic().  Or you could instead disable
-interrupts across the entire SRCU reader.
+The irq_work performs just a wakeup a thread, there is nothing wrong
+with doing this from hardirq context on PREEMPT_RT.
 
-Does that work?
+Use IRQ_WORK_INIT_HARD for srcu's irq_work.
 
-Also, Tiny SRCU atomic turned out to be a bit more complicated than
-we were thinking due to lazy preemption.  ;-)
+Fixes: 7c405fb3279b3 ("rcu: Use an intermediate irq_work to start process_s=
+rcu()")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+v1=E2=80=A6v2: https://lore.kernel.org/all/20260820110008.v2Tlr0_H@linutron=
+ix.de/
+- Add a comment as suggested by Steven.
 
-If you want a sneak preview, please feel free to take a look at
-the first few commits on the "dev" branch of my -rcu tree.
+ kernel/rcu/srcutree.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-							Thanx, Paul
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index 7c2f7cc131f7a..af9fe0165a800 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -218,7 +218,12 @@ static int init_srcu_struct_fields(struct srcu_struct =
+*ssp, bool is_static)
+ 	mutex_init(&ssp->srcu_sup->srcu_barrier_mutex);
+ 	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
+ 	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
+-	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
++	/*
++	 * trace events started on the command line require SRCU before
++	 * the irq_work kthread starts. Since all it does is a simple
++	 * wakeup, having it as a hard irq, even on PREEMPT_RT is fine.
++	 */
++	ssp->srcu_sup->irq_work =3D IRQ_WORK_INIT_HARD(srcu_irq_work);
+ 	ssp->srcu_sup->sda_is_static =3D is_static;
+ 	if (!is_static) {
+ 		ssp->sda =3D alloc_percpu(struct srcu_data);
+--=20
+2.55.0
+
