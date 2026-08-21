@@ -1,57 +1,55 @@
 Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAA030C147
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 16:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004D037CD5A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 17:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787331472; cv=none; b=LM/FkhjtouoUvbfoMZHss5T92DrJB14QyT1/iTQ9s5LGs7ned601gdO/fgmjjf/2J43oG0Z/pwUlWn2Z9fvoGpqkLm2GzBDjrTE9EgBS7y/oNDxg+42yeMZVqRpNG3p2Fm8I3kw8/eJsBwxpBlDmsXj/V+yyba77ILc94k1KKpc=
+	t=1787332187; cv=none; b=Sg7vJOB9yZx8NogrBwpdAswaIaqvnPP+QnTlp+pryugfsjpjTq4Gw1BXGIcsmKq/pT8tnl5eSMPql3vksFW1gWfnbhCYtRsPx6Mqr3AQc2oOeHpf7VSf1uRtOjZMncrHxz0zRTo77EJH4dgO/fl4tGTYxMQSEBJaLnjYBX6HGvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787331472; c=relaxed/simple;
-	bh=crUoEiSV1ZBJjt5qJhBiQEQ8WinJ/cVHhIbWF6yO3R8=;
+	s=arc-20240116; t=1787332187; c=relaxed/simple;
+	bh=9jceV8GWg7QKoT2S9jzE2yIaRi4gCVIvVVvYYQ0T12s=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XWl3b1B1InjqZe98QvQdiCmjF2GJUPMhAGkqwSViIS/7MTq+h9caZwNEpPxxa2+N0Jy/zZrfRT5g4M+7/eNo9c1DAmIjr38oDL+ESraKy1kL2P7tH9PVxuudj4Zak9/HrPCP5mjRvDJtF6KNr7KyllWENix7z6hgpt6GuuZgClg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=Gcsxazk1; arc=none smtp.client-ip=185.136.64.227
+	 Content-Type:MIME-Version; b=sRyjlP5u9ixD58HfSBE1239cltWokjRL4UBiMXAq2LzCK176D/8cDGAJhb32TqaBLM2mHX+AjgZ7ImPiwrjuW9g7KHnARVXitFaMLmhz882wsmDmMN+vfkG1GIq43tD4nibOSf05P0mxB3l1ZwOXoITXwUOOsEGyF0B75rykqdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=cmDkdPV5; arc=none smtp.client-ip=185.136.64.227
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="Gcsxazk1"
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026082116574616b4cb978a000207bd
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="cmDkdPV5"
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202608211709393a9457f97700020738
         for <linux-rt-devel@lists.linux.dev>;
-        Fri, 21 Aug 2026 18:57:46 +0200
+        Fri, 21 Aug 2026 19:09:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=florian.bezdeka@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=crUoEiSV1ZBJjt5qJhBiQEQ8WinJ/cVHhIbWF6yO3R8=;
- b=Gcsxazk1W6MH62y7d/rg7ck92On/fePvDBdOfy8XjN89pu4iVq1gXMdfAioSsoMHd9fHHZ
- YWLDmhoKf4K1Rn+/SSR+0bwFtT/yw3oDnlcEnmHR7847QPJ8267tAqLSmpvmOmkPubvmWASu
- TcyuidFsB6XfBqfSjDrWYBHfRQ6vmusGp7gg+vHPzhkEw+5i/YLw3Tyc104SKvJByME+22M/
- OcMzuL/3B6uv3dhQuw6Nr3/4hwtGrrqnrElxx4W1dJb17Ks9+4WNScPLaaxf7jP8BYLHwncd
- sUdtx6bL0PXUD8i5DpWapE/Yu4AtDTRyOrig+mM2GWpefP1Rc58DlOxQ==;
-Message-ID: <e0c53d4ef0765a37aa922af2e39fc3b128550239.camel@siemens.com>
+ bh=9jceV8GWg7QKoT2S9jzE2yIaRi4gCVIvVVvYYQ0T12s=;
+ b=cmDkdPV5s72BdBlhhmdr6WXRAhPPbaucm/KAT541DBmUBJ5hs8lFnOAvSixOhFI6Pqm9sQ
+ Ux6VtcMnZEfZgqk2sZAOIwdUfGtqcZCUW87MpGdHMXUoxeU0KLBLTKZuiWj4rphDXVnBd5P9
+ S+f3P7LI7MIniBMc0RzDMrGCKq+OohE8DMSJuRlcxkaw2dfB4lIZZCjms05t8AcbJlGYhZcQ
+ 6HEh0oU9ZNsVL+5p8DEG43tW4baZ9cNBL2Wxh5spQj7oEIEoJwm/dRjx0D2PSucn2WeCg4tV
+ Fqa5dtAsvONixCcnjkhR25tENl8V3yDLo2NyWKzW+lyc3GY+NdvyFrzg==;
+Message-ID: <266e0284688fe0d5002cec50d7d18a575f20e4f3.camel@siemens.com>
 Subject: Re: [PATCH RFC 0/3] genirq: Allow drivers to respect userspace IRQ
  affinities
 From: Florian Bezdeka <florian.bezdeka@siemens.com>
-To: Andrew Lunn <andrew@lunn.ch>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn	
  <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet	 <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
  Abeni	 <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>, Yury Norov
  <yury.norov@gmail.com>, Rasmus Villemoes	 <linux@rasmusvillemoes.dk>,
- Andrew Morton <akpm@linux-foundation.org>,  Sebastian Andrzej Siewior	
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt	 <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, Jan
- Kiszka	 <jan.kiszka@siemens.com>, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com,
+ Andrew Morton <akpm@linux-foundation.org>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
+ Gleixner	 <tglx@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>,
+ netdev@vger.kernel.org, 	linux-stm32@st-md-mailman.stormreply.com,
  linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
-Date: Fri, 21 Aug 2026 18:57:45 +0200
-In-Reply-To: <babe3284-1813-4190-8478-4777a28af13e@lunn.ch>
+Date: Fri, 21 Aug 2026 19:09:39 +0200
+In-Reply-To: <20260820151257.PtSDccEP@linutronix.de>
 References: 
 	<20260819-flo-net-7-2-make-stmmac-default-affinity-aware-v1-0-3f79a99cadaf@siemens.com>
-	 <f9daddae-a1c3-4823-a4b0-733775e1ad15@lunn.ch>
-	 <babe3284-1813-4190-8478-4777a28af13e@lunn.ch>
+	 <20260820151257.PtSDccEP@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -63,39 +61,68 @@ MIME-Version: 1.0
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-On Thu, 2026-08-20 at 02:10 +0200, Andrew Lunn wrote:
-> The problem with using stmmac as an example is that it is very old. It
-> was added to Linux in 2009. I guess most of the SoCs at that time were
-> single or dual core. CPU affinity was not something developers thought
-> about for that class of SoC.
+On Thu, 2026-08-20 at 17:12 +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-08-19 16:30:29 [+0200], Florian Bezdeka wrote:
+> =E2=80=A6
+> > The typical shortcoming of those implementations: They do not honor RT
+> > relevant settings like the smp_default_affinity or isolated CPU cores.
+>=20
+> "irqaffinity" if you refer to the boot command argument.
+> "default_smp_affinity" if you refer to the proc file.
 
-Agree, stmmac might not be the best example, but this is the "driver
-under test" here and it shows a pattern that is implemented in ~35
-network drivers as well.
+The latter. Sorry.
 
-Users of irq_set_affinity_hint() in 7.2, see [1], but there is lot more
-that needs a revisit, like irq_set_affinity_and_hint().
+All the system configuration has to happen during runtime, not during
+boot time. There is no "fixed" or "static" configuration that is known
+at boot time here.
 
 >=20
-> Over time the number of cores has gone up and stmmac has got faster
-> link speeds. But is the architecture correct? Is the driver following
-> best practices?
+> > Device IRQs are balanced over "all" or "all online CPUs".
+> =E2=80=A6
+> > That raises the question why request_irq() is called on "link up" time,
+> > while the low level vector allocation takes place during device probing=
+.
+> > At least that seems to be the common pattern. Can someone tell me why
+> > this is done this way? Shouldn't we call request_irq() at the same time=
+?
+>=20
+> The IRQ vector is created while the system enumerates the IRQ-chips.
+> Once the devices are enumerated (such as the NICs) the devices is linked
+> with its IRQ. I think an exception are MSI-X devices which could ask for
+> one or more interrupt and then (at device's probe time) the PCI core
+> will link the requested amount of interrupts so their actual number
+> could change.
+> The driver _could_ request a "managed interrupt" which would be mapped
+> to a specific CPU. The difference to a "regular interrupt" is that if
+> that CPU goes down, the interrupt is not "moved" to another CPU. Instead
+> is remains off and the driver needs to deal with this (this is common
+> for NVME devices).
 
-This are exactly the questions that I would like to discuss. Seems we're
-getting closer.
+I can't see yet how managed interrupts could help here.=20
+
+Those device IRQs can happily be migrated, co-located and of course we
+want them to be configurable by userspace (/proc/irq/<n>/ interface),
+which is also not possible for managed IRQs.
 
 >=20
-> I would suggest you look at more modern MAC drivers and see how they
-> do CPU affinity, etc. Is there anything which can be learned from them
-> and implemented in stmmac?
+> If the device is not programmed (as in IP address has been assigned,
+> link is up) then it should not create any interrupts. So it might be
+> reasonable to not request an interrupt either.
+> I *think* uarts do the same.
+>=20
 
-I'm still not sure if there is "the pattern" how modern drivers (btw:
-which drivers do you consider "modern"?) implement that.
+I'm fine with that - and thanks for explaining the current
+implementation again, it matches my understanding. But: There must be a
+way that userspace can configure affinities for "un-requested" IRQs
+already.
 
-What I can tell: Most calls to irq_set_affinity_hint() (and friends) are
-a real problem on RT enabled systems as they simply overwrite any
-userspace settings.
+As already mentioned the /proc/irq/<n> interface gets populated on
+request_irq() time, which might be too late to be able to set an
+affinity before the first IRQ arrives.
+
+Please note that the default_smp_affinity can also change during
+runtime, so that we have to honor the current value each time we do the
+balancing / spreading.
 
 Florian
 
-[1] https://elixir.bootlin.com/linux/v7.2/A/ident/irq_set_affinity_hint
