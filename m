@@ -1,109 +1,85 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5837D38E135
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Aug 2026 18:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DCF3803C7;
+	Sat, 22 Aug 2026 20:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787337495; cv=none; b=O+G2mWq5pu3Xhhzn2gaX1QFGrL2lWqJskztsj1+f4tRpgnUB8w+fqnZ5d9ATv1bGsemcGX8V2nyoRvCTz757J4N/fHcBrYZbzj4Yy9ItNSuXK/R+gYxkmsK4jx9qrSpqlNXUlh6cbYIcyW6Y0J3o17UV+NVoGfjXiSVqQiO13UI=
+	t=1787430676; cv=none; b=gqhtDPgYRQjnu4NXoUC5t44W7+Uj58tbsChRhjXiNXpjQE8EnjPMj6T9St10fiNHathTxhGYW9Mfeu08Zc3+9H5MtL/9gVmYQjCEdHsrj9+VMIJ5Soio1HYlq/fVAsdrlXRoXonWncf2MDPxWTkzyScJl7nhfhCupV7HKeY4vNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787337495; c=relaxed/simple;
-	bh=i0iM4CMeClX0wBoi7QQYpmlCBlrZQciscnIIH5l/RlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B679sSiuK7dkP6xIG/QgEM2F81oyn+Nf0im7mgT+/51ioHiORfz/a9epE+NFTcwO1QAL4GDRfBGjm6fR5OhBVXAQ0+TJtuPYWxqm1kQVFl9P41IlJnbkVI86DjlXH2lmcUwP390vhALPfLQhxgG/Rmu84xDUjt2f+jYq2Hr/9KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fa77s66/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sAb5sP2w; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1787430676; c=relaxed/simple;
+	bh=bb829ReP77fPpPXBQ1aBSHRNqKouFLWIe4d842j6OF4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=sPQkA0z3RMvIEogCMFYBi12X0FnQkSQJrmgI8JJpDRQktV0iV93vlCxYCfIh0dkkzY54pF0s2bifsyk8IIB+AnVXq3hr8Gi763dTCUYabPBiNGxyUCy0z+5oQ4mwSYnXEgNjeyWI0PBtllCugvmxBln+MR8Rc5klZGPsNgKq90w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IbYsD1B2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fa77s66/";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sAb5sP2w"
-Date: Fri, 21 Aug 2026 20:38:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787337490;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=V7r0kaJtZqeCjXcFe8bOxkN+Hlq44U6zZusNWwnFLJ8=;
-	b=fa77s66//a96ctpHY0SyxFebbBlLvzsZSY/LrOD4N3OJWDwlU4tWgoPlgUR1XS4GsuTXJQ
-	qKLttEeY1VQV9Srf5CKZLI9ZjcJ10C0iWYT2661TgpcuIBzCB7Z2Lg50rldd1TjfHQK0l7
-	jKe/3OWeEmNIJaC3dGjQ/4A5LlOT/n6u2RTDb3mH0pbeZOED49rStMLz3p8Ws++e30jStw
-	ClUr/lrcg9U6GQTvjydAiqMe5Vp7Mcz9Tdti55BzakqsLlryPgn3f9eUADempek6Wc5/fa
-	wkQveMUD6+hFv5iA3Gl9tq78I62GZ0M1vLDgA41CHRYIe9qMfrCvf76XGHu8Ug==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787337490;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=V7r0kaJtZqeCjXcFe8bOxkN+Hlq44U6zZusNWwnFLJ8=;
-	b=sAb5sP2wTWkgHQP46c0Qwm0GQp9gA0Ppo4/A0LxWeX15oQXsDjpW0w7Pno6WxB7livOB4N
-	rvrVhthY5d3/yzAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>, rcu@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Clark Williams <clrkwllms@kernel.org>
-Subject: [PATCH v2] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
-Message-ID: <20260821183809.-kRAXbZs@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IbYsD1B2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A371F00A3A;
+	Sat, 22 Aug 2026 20:31:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787430674;
+	bh=U2WhrpQyzjfizAD7WjiNO5bi7n4CM21BaILhRpMuMmA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=IbYsD1B28Snl7Pxro13woCr2Do96Ncq0OUQywwKJzr1KILoT/m8w97s7skvNKOjfO
+	 26YIopy3u/XpRFBIrSm75kUkMR0/A6UXITmr9WyGMckXKSc9Gnf1mrGoIFSeiEdvVA
+	 RMs3vBsnGncnSL8pWlDq8i9xGjokh3JI3MecdcbaD97DVgrtjVap1DKWZRz7Zwg2GZ
+	 CiCqFVg85/03tY03e6/kowwkV7SvcyLbvjdHg/pGc5xC2ZniVkoG82hTiY8aBXlh/o
+	 hLay/oQNQhdQzp/dhXB9rerFUpZgpWQijxLvknvzjK90ws1vfJ9Kt7+d+oum6yq+J8
+	 zAIRZDnhJpdIQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0AB5380CEF9;
+	Sat, 22 Aug 2026 20:30:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3 0/2] net: sparx5: misc fixes for sparx5 and lan969x
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178743062338.1819488.10941044627288151617.git-patchwork-notify@kernel.org>
+Date: Sat, 22 Aug 2026 20:30:23 +0000
+References: 
+ <20260817-misc-fixes-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com>
+In-Reply-To: 
+ <20260817-misc-fixes-sparx5-lan969x-v3-0-c7c7fef723a8@microchip.com>
+To: Daniel Machon <daniel.machon@microchip.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, Steen.Hegelund@microchip.com,
+ UNGLinuxDriver@microchip.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ rostedt@goodmis.org, bjarni.jonasson@microchip.com,
+ lars.povlsen@microchip.com, p.zabel@pengutronix.de, kees@kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, steen.hegelund@microchip.com,
+ linux-rt-devel@lists.linux.dev
 
-The irq_work in srcu is used to schedule a delayed work. The work item
-is not scheduled directly because it is not always possible wake a
-thread directly.
+Hello:
 
-On PREEMPT_RT the default irq_work is initialized with IRQ_WORK_LAZY and
-is delayed to the irq_work thread. A system booted with the command line
-"trace_event=3D=E2=80=A6" will freeze during boot because the irq_work thre=
-ad is
-not yet deployed (and tracing uses synchronize_srcu() in
-tp_rcu_cond_sync()).
+This series was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-The irq_work performs just a wakeup a thread, there is nothing wrong
-with doing this from hardirq context on PREEMPT_RT.
+On Mon, 17 Aug 2026 17:41:57 +0200 you wrote:
+> This series fixes various issues in the sparx5 driver, which also
+> serves lan969x.
+> 
+> Details are in the individual commit descriptions.
+> 
+> Signed-off-by: Daniel Machon <daniel.machon@microchip.com>
+> 
+> [...]
 
-Use IRQ_WORK_INIT_HARD for srcu's irq_work.
+Here is the summary with links:
+  - [net,v3,1/2] net: microchip: vcap: use port number instead of netdev name for debugfs
+    https://git.kernel.org/netdev/net/c/b7adcc56fd3d
+  - [net,v3,2/2] net: sparx5: fix sleep in atomic context in MAC table access
+    https://git.kernel.org/netdev/net/c/b62793a7baee
 
-Fixes: 7c405fb3279b3 ("rcu: Use an intermediate irq_work to start process_s=
-rcu()")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
-v1=E2=80=A6v2: https://lore.kernel.org/all/20260820110008.v2Tlr0_H@linutron=
-ix.de/
-- Add a comment as suggested by Steven.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
- kernel/rcu/srcutree.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index 7c2f7cc131f7a..af9fe0165a800 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -218,7 +218,12 @@ static int init_srcu_struct_fields(struct srcu_struct =
-*ssp, bool is_static)
- 	mutex_init(&ssp->srcu_sup->srcu_barrier_mutex);
- 	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
- 	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
--	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
-+	/*
-+	 * trace events started on the command line require SRCU before
-+	 * the irq_work kthread starts. Since all it does is a simple
-+	 * wakeup, having it as a hard irq, even on PREEMPT_RT is fine.
-+	 */
-+	ssp->srcu_sup->irq_work =3D IRQ_WORK_INIT_HARD(srcu_irq_work);
- 	ssp->srcu_sup->sda_is_static =3D is_static;
- 	if (!is_static) {
- 		ssp->sda =3D alloc_percpu(struct srcu_data);
---=20
-2.55.0
 
