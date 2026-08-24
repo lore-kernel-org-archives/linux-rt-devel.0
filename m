@@ -1,137 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F9525C804;
-	Mon, 24 Aug 2026 10:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2197E40FDAD
+	for <linux-rt-devel@lists.linux.dev>; Mon, 24 Aug 2026 12:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787567588; cv=none; b=YllI1M7l4zaAWX/yYlZ/9iwUwCXVSxdTNxoB88SIlr2O4xxy+CJxx12N5L+jcApsyEAPGnOlfQFgpJcaslQb07uekmnQLeT5R0WSyDpTeDrm1Z5SItEQZmjUN+O6118/iGN6GGjPGmVAb0L3gUp7eaSgEucph7UPHUTe3vCYqeE=
+	t=1787574373; cv=none; b=lNN7TSUgdO0qX9czQ7h7iej93v+FcAoOD+pefK33V/QoH1F5Vc9uU6tnmhb6gYyYsXQAYXkN2S9tDcI0eV9O1JKSkSAEOLhGw4YAKUt7AHnPtfALvMpsbP5XR0owHfUuYpMGUqq70UhROZqdkxCDf0aHS3ZSdpL7+5NVipAKU20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787567588; c=relaxed/simple;
-	bh=OQiI6UYDyIcajlYqcS+P9FdjckXpalzU58XPtlusnKM=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=o9yCiI0h8LHPMAOX0H2TemDGnl5WyoBKiBDfz9s2vJhMM4GNCjdqL2PuH0LZbdQciTlj2hRDMlNx5jTna+sw9aamWaUL/29Vk3IiehnAydyXHXg9TSae2ByjGJGbnrS1Ouqecoa6/vZhS3zPTLUjIANc5U8ZtLm9f7CBahL6VJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZJHD6zo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787574373; c=relaxed/simple;
+	bh=/+ibtZfVhOlusR6XfSWvFqs9qwlfi4JTFLX1PAuC/Go=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tjE7MnL35WHdjs3azo0oLvFh4a7YWIaOkED8MXvCDXy6r4oFMafZD8i+yv5p615mC9e8TuZ5DmE+X69wv35BnKqA2bUFegERyY7gtNDDc3CP1D35BBGy0HZV6T3k/NUeAyL2FGvS1rJfvV/EozLbXJvgU72Urna9y/+qk7I3A2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=clJPvlGV; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZJHD6zo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6961F000E9;
-	Mon, 24 Aug 2026 10:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787567587;
-	bh=Jp19kyXAKUO4Zf91dNZ+LWUCCRKlm52z22Ep3C25ing=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=bZJHD6zo5u7ME/x5CHE50IbquW7cvVmAqAXYVfbA7qCgsqOXSSJ191oV3g2yvnZkT
-	 2wgVp1FBfAotw/yB1mMW6YCKUQGxveTuusW0R98QLkQ9I4cMBRjt+thyUgD2NyMTC4
-	 VpTgZsc0JT8RFCjQmCr3R/7Ck3WejpsOTswlmsPLCjnVEnU+3dsfZcb3IoTSlBPS9z
-	 tQB7tVu2i5QCY2Ono3i39B2Yhl+l5Ywpe9MBYt0fN06MbDPc5LTjleUeJA7Q5wGz6m
-	 2XJBgv/kOZHhpkxvXy6OY+EbmV2xPE03rpuyW97CaXpuOdLbE6vEP3Ya164JMv3WgI
-	 Le7KZR/1QyFpQ==
-Content-Type: multipart/mixed; boundary="===============5748986139930277636=="
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="clJPvlGV"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15ca7a7ca9so382365866b.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 24 Aug 2026 05:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1787574370; x=1788179170; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HiNLXqPQtkSfd0I+8Qv+U8OwvNuLKuIdd4i+Pk8Ei5M=;
+        b=clJPvlGV91ylDuj60mvwXWAa3bpUNgJ3Ih+bzUlStR6YC3Gfli70Kv9j0gSF8Tc+/X
+         k28UQItnvdC6vKAUyq26bZymoB5kHhOe+sLhTIVnVHtf2SpdNt0RyrIhliOroUJifQ/j
+         jCCWJZF6vEqNokYnwR+bVFg5WR/GzFnBynQYRing9TttY3a98yF1LG+csFqiFXPFJlJl
+         yniRsAy2I7Dmn0sMaBtOERVaJNTthUcUaVGNNbmvfyeykkuSxJHNTItoG2nP+44pZsmd
+         PUYn6VKWn2pE5m9FBGL1JxbOGgIO45d4IFcxshuP8sm+ZI7jMIUz7slollCXoruPkpmn
+         2fHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787574370; x=1788179170;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HiNLXqPQtkSfd0I+8Qv+U8OwvNuLKuIdd4i+Pk8Ei5M=;
+        b=Ijq0d3OKjV3R10dwiuL/LIqeFnDF9lT38w61XEOLNXTsHYAjWFzNjq0SmvatGfF9PP
+         YfPl2dCscqYt6xPoOEL0vlc7/BwRq0TEbrttYrdcMO2R7z6CKrsrT7DPW83fsjfL1C4p
+         N5QgYLeYsmprG7E1J/Dnd5uKkXU7Rf9Htm6QDA1jjh5eDfxShToys2PLAXTfjj/AxmZ4
+         9EJho/wEQSoco2tv6Xnv2ZuXOvQeENsdXPJlb2ApONOnHlssg0kK5u2Jf2CyDSXEKQEE
+         VI8euctIWq86JLgksQGFBweeFDqzs8qDjboRG8YIESeN01oc+4xLQ3pGTY6d58EvWhRb
+         hZYw==
+X-Forwarded-Encrypted: i=1; AHgh+RoCSfoBsA7N5ej1BskoVgsspNfMKNwXIR4lPa71eW8izT3Z4nXtbfAXSMlEHDMR7ByoES8jcYNT7C2i49WRIg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lWC5d18DZ/QHrkDxGo/EtaecOU+2XmMaW+WLEhlcWiyGRXeD0w
+	e0qxKKRjNkp2sWQ5xvEpAA3dxMIi6fy1PsdbSxSmbm7qPZcwaTgqz3A+pWDHbEvcpAo=
+X-Gm-Gg: AR+sD13w4g89S9yIC2wOD8hWQDERM8ghB7RFtGVumjAJ+TPaF6jEip03VC9oIytFPl7
+	qEtwXAdcSWkF53g6kgTF+RvDtbA6KItt0HTnvoxQleenYR3QwfujMA44GO6MrC96JTkGCCtT6J1
+	zD26nLah5Ui9oTRtzU1Q7I4/+mj1trxuwGBIUOcB804f0y/FGUpyNJAaDQXIJKMPEgVXVSixWkX
+	LdYqAex6VrGO2Q/VhFP0rU++x2a3eu8uVtBP6AqmX0RilaM6hcmSo+/JHnWMlLZCDCGoVTmJZ2V
+	RwmZsYs2Bgf5QGEEnSoIeQ1m2lXqdNSpZD9bwftNRB9C4hL613/cotiNNUQRAIxwO3LFOCkxYuj
+	ZQYfCaHdoqgRQs1cNcfOqjT/zsPfzyWMGYid6F2JUfw5hS+XGN/ERbkvYJWTSxvGyj650bjX0Fo
+	QiRs9AnHVwQZiDCJfSUDPAp/DfEpvtZxRrBDzzQpSszUCcoxvBES4efMD4L8PO28iYQf+H3hvg1
+	Q==
+X-Received: by 2002:a17:907:d12:b0:c15:f26a:3438 with SMTP id a640c23a62f3a-c246a6b0994mr3185124066b.24.1787574370353;
+        Mon, 24 Aug 2026 05:26:10 -0700 (PDT)
+Received: from localhost (109-81-81-112.rct.o2.cz. [109.81.81.112])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24d8375776sm177761566b.31.2026.08.24.05.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 05:26:10 -0700 (PDT)
+Date: Mon, 24 Aug 2026 14:26:08 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: bpf@vger.kernel.org, Emil Tsalapatis <emil@etsalapatis.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH bpf-next v4 1/4] bpf: Add a sleepable page allocator for
+ map memory
+Message-ID: <aow4YNCDa0gDwbfj@tiehlicka>
+References: <20260821050250.35112-1-jiayuan.chen@linux.dev>
+ <20260821050631.39784-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <cf6bbf8c5fdcb27d803f9464b9c5f8e34c753ecb54c38694a33202fb30ec37e2@mail.kernel.org>
-In-Reply-To: <20260824093122.362135-3-jiayuan.chen@linux.dev>
-References: <20260824093122.362135-3-jiayuan.chen@linux.dev>
-Subject: Re: [PATCH bpf-next v5 2/4] bpf: arena: allocate the fault-in page outside the lock
-From: bot+bpf-ci@kernel.org
-To: jiayuan.chen@linux.dev,bpf@vger.kernel.org
-Cc: jiayuan.chen@linux.dev,emil@etsalapatis.com,ast@kernel.org,daniel@iogearbox.net,john.fastabend@gmail.com,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,ihor.solodrai@linux.dev,shuah@kernel.org,bigeasy@linutronix.de,clrkwllms@kernel.org,rostedt@goodmis.org,linux-kernel@vger.kernel.org,linux-kselftest@vger.kernel.org,linux-rt-devel@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Mon, 24 Aug 2026 10:33:07 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821050631.39784-1-jiayuan.chen@linux.dev>
 
---===============5748986139930277636==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Fri 21-08-26 13:06:12, Jiayuan Chen wrote:
+> bpf_map_alloc_pages() picks the allocator via can_alloc_pages(), a
+> conservative guess for BPF program context that is always false under
+> PREEMPT_RT. So even a caller that really is sleepable gets the
+> non-blocking allocator, which never reclaims and never engages the OOM
+> machinery.
 
-> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> index 7b6847200b43..fa462a0ff1ad 100644
-> --- a/kernel/bpf/arena.c
-> +++ b/kernel/bpf/arena.c
+I thought one of the main motivations was reentrancy. As you cannot
+really assume the context bpf_map_alloc_pages is called from there is an
+extra care needed so that this doesn't re-enter the allocator from bpf
+program called from allocator path and deadlock.
 
-[ ... ]
-
-> @@ -489,59 +490,106 @@ static vm_fault_t arena_vm_fault(struct vm_fault *vmf)
->  	kbase = bpf_arena_get_kern_vm_start(arena);
->  	kaddr = kbase + (u32)(vmf->address);
->
-> +	page = vmalloc_to_page((void *)kaddr);
-> +	if (!page && !(arena->map.map_flags & BPF_F_SEGV_ON_FAULT)) {
-> +		/*
-> +		 * Preallocate outside the lock with a sleepable allocator so it
-> +		 * can reclaim and run the memcg OOM killer, which the
-> +		 * non-blocking allocator under arena->spinlock cannot. A NULL
-> +		 * return is non-recoverable, so fail with VM_FAULT_SIGBUS;
-> +		 * VM_FAULT_OOM would be retried by the fault path and can
-> +		 * livelock when the charged memcg is not the faulting task's.
-> +		 */
-> +		bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
-> +		new_page = bpf_map_alloc_page_sleepable(map);
-> +		bpf_map_memcg_exit(old_memcg, new_memcg);
-> +		if (!new_page)
-> +			return VM_FAULT_SIGBUS;
-> +	}
-> +
-> +	if (raw_res_spin_lock_irqsave(&arena->spinlock, flags)) {
-
-[ ... ]
-
->  	page = vmalloc_to_page((void *)kaddr);
->  	if (page) {
-> +		if (page == arena->scratch_page) {
-> +			/*
-> +			 * A scratch page marks a hole. Segfault only if the user
-> +			 * asked for it; otherwise we could lazy-allocate but
-> +			 * choose not to over a hole, so report a bus error.
-> +			 */
-> +			fault_ret = (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) ?
-> +				    VM_FAULT_SIGSEGV : VM_FAULT_SIGBUS;
-> +			goto out_err_locked;
-> +		}
-
-This isn't a bug, but could this comment spell out why a scratch-marked
-hole is not lazy-allocated even though an untouched hole is? A reader might
-wonder why the two cases are treated differently since both are equally
-free as far as the range tree is concerned.
-
->  		/* already have a page vmap-ed */
->  		goto out;
->  	}
->
-> +	if (arena->map.map_flags & BPF_F_SEGV_ON_FAULT) {
-> +		/* User space requested to segfault when page is not allocated by bpf prog */
-> +		fault_ret = VM_FAULT_SIGSEGV;
-> +		goto out_err_locked;
-> +	}
-> +
->  	bpf_map_memcg_enter(&arena->map, &old_memcg, &new_memcg);
->
-> +	if (!new_page) {
-> +		/*
-> +		 * Very rare race: the bpf program had allocated a page here, so
-> +		 * the lockless probe saw it and we skipped preallocation, but it
-> +		 * freed the page before we took the lock. Now we do need one;
-> +		 * sleeping is not allowed here, so fall back to the non-blocking
-> +		 * allocator and give up if it fails.
-> +		 */
-> +		ret = bpf_map_alloc_pages(map, map->numa_node, 1, &new_page);
-
-This isn't a bug, but would it be clearer to describe the condition
-generically (the lockless probe's result was invalidated before the lock
-was taken) rather than naming only the bpf-alloc-then-free case? The
-fallback is also reached if the probe observed arena->scratch_page and the
-PTE was cleared by arena_free_pages() before the lock was taken, which is
-not a bpf program page allocation.
-
-[ ... ]
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/32713810092
---===============5748986139930277636==--
+-- 
+Michal Hocko
+SUSE Labs
