@@ -1,160 +1,203 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDFE44062B
-	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Aug 2026 13:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5564738F654;
+	Tue, 25 Aug 2026 16:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787663953; cv=none; b=ksqEXK7Qj0ErkBaTzUkNBUyMzULFedBHiyoNpwgYvQzKaA2L0Sa/fx0BBcujGVczN57McazvOss79IlTGMW3aTdW2d2oTqGivIxywoNq86Pg4iLa6ChGiQRI7NQyssBwPZwkk4+xKMoRRyt52pzquMXv82+BX33o413O+Yua5NA=
+	t=1787676431; cv=none; b=thKts/f1439RAU8shBYiD9YJn6Occeu0A4Dig7mu13Ii6KlZyiSEM2d8tkUyqKEFTlCXWpjKKQ2CUAVuLFMvxjWCTC8j9KwNEljeuuqL+jy1C5VTI8fEsFjaEUAtmiHRaO0FrKzbtjt7iw61UKFdPNiYGn9iOSMKC9z2TeFuJ7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787663953; c=relaxed/simple;
-	bh=5TVEsS2ZrICCGdu5fHn5ixwm1NzymOIz9G67H0t4KAU=;
+	s=arc-20240116; t=1787676431; c=relaxed/simple;
+	bh=p0/p7lGET1X6QVDDQQaipShhjACLX6o3wQfqufZ9WZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exykkL/WSFxTMP2IPwGlEYh3s8OaRUCIKjAI1IeHOjEVkhAAQuqUgsITemzr47qxk8uecc3UXAdLFrtrmreV8zkYSAFYud0GXdhtxX5xmAIRi3RdQeD7K8QiOGsdcT1CMuc3FzVx/6I1mEzeJ22ejxs9mVd2O3PsA8gTOYHQIPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-0b-6a8d964b2220
-Date: Tue, 25 Aug 2026 22:19:06 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
-	kernel_team@skhynix.com, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
-	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
-	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-Message-ID: <20260825131906.GC23086@system.software.com>
-References: <20260706061928.66713-1-byungchul@sk.com>
- <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
- <20260821042143.GA40890@system.software.com>
- <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
- <20260825121322.GA23086@system.software.com>
- <e0c589d0-d17b-48c2-8e1b-d41b69ecaadc@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RrP/F7AVST/RRzjAiWkE6uu53XqTWeSvUz6oLup9gRg0F1ZjHLdAveXr+2HRciDZjrpKrS2/heCh/C/HnQWYPpH8YurPgld7clPS79rrqiSttYlV/ywmcp3jCKMZ9TIZ7aWjLFTz18/r0Z9nzOcZNO4u//iXusYmp8RO32ZnVCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsslkUCa; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsslkUCa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A26F1F00A3A;
+	Tue, 25 Aug 2026 16:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787676430;
+	bh=LKynmMcCNdHBz7/vpvw9+vH0+hvMd9pKSWrGj0p1+Tk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=MsslkUCawPPJeN74Hlb3+xGB//zBOdRkL34fZCyp8WAyspCTnqr8s5JXlxE4O1Dc4
+	 xdr13esqX/XWBl2PbLDnjcrPc16zMfHB9nr4mcW+qZEUdgn6QAKIhY1W8vzs/8tDRI
+	 7OZHpX+a9jaUWuzBGWNuCKHWKOSKYux6LDJRg1ykrp1Zd679/nGJZaPKtHFRY+/Gsr
+	 J68K2it4JEgroslYTDz9ltduO3r75rfFAGyzAkigr5s1OB+X0y2mDao8ut3MbagpYf
+	 CfTe6UKsFfSdrk+BWLjZlEsCDQFbr746spauWJqsqfwqE9EeFuvBiOzMb/lLMbpdb+
+	 /pprk0cdbSTqg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D37C9CE098D; Tue, 25 Aug 2026 09:47:09 -0700 (PDT)
+Date: Tue, 25 Aug 2026 09:47:09 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Michal Hocko <mhocko@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Jerome Glisse <jglisse@redhat.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+Message-ID: <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
+ <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e0c589d0-d17b-48c2-8e1b-d41b69ecaadc@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0ybZRjN+13e76Oh8bPD+W4k/qghS9BtzGzuibqL8YefITEm/tsStbHN
-	KIOytYCgISvILhQ2RpHiisxyq0DLIAWmVLpVhIIOQgsOStOGLtIicpk2ATJwQ4pZ3L+Tc85z
-	zpM8D0/LLHgvr9bkqrQaRZYcSxjJcmLj/nTT1cy08sDrcOXiBZgqdjMwMl3CwPpmHQ0X+7YY
-	eGz0cFBTjGDL5UFg8hlp8Hvv0mDvKaZg8ecYgpoHcxgeWiu2LaF5CqbXlhDMuS8jeGw6C982
-	dmOILYQRuFpLMESu99Lw2+pDDCtdGHyjiwjq64wIogEXBV82dWIw1TsYCJqMFMxaowzUdPxI
-	wSNrOwejTUEGrPoUqBubZMFjm+fg1vI4C4tRI4bZ4UssfK8Pc+CYGUJwxbnKgCvwCjRcamZg
-	0vkNhoquXhb0desseN33WJiweRkYd3aw0DLto+BB2M9C99goDWvXksFbdZWFjpVGDNUrUQQz
-	tUscTLgtFLT+XctCm2sMg8eyG7pKzdxJpWi/aUfi5oYRiS33lrC4sXofi81lG5RYNbZf7DOH
-	OLH0ToATLY48sXRwmRW7W1PFpv4FSmyIrbKio70Miw2bf9BicKoff/DqKclbSlWWOl+lPXj8
-	E0lGqLKFPediC26HKzk9qmIMKIEnwmFSHSjDT3Gfy04bEM8zQgqJRk7EaSzsI37/IzqOk4Q0
-	Mj9SQhmQhKcF20vkq9lhLi7sEo6SnmA5js9KBSDjvz4X98iETooY7/fseKTC8+SXG3M7vbSQ
-	SvxPFqi4nxaSyXdP+DidIBwn9jtzO10vCC8T9+3hnS4iRBPIn5dbqP/23EN+avUz15FgfibW
-	/Eys+f9YC6LbkUytyc9WqLMOH8go1KgLDnyak+1A239rLfrn9A8o5v1wAAk8kidKt8+VKWMV
-	+brC7AFEeFqeJP2iyJApkyoVhZ+rtDkfa/OyVLoBlMwz8helr619ppQJZxS5qrMq1TmV9qlK
-	8Ql79ej0SLCzYejgKec+U9vb1pjDkH6sVlNReyw0GAmvVVZEnYGpa56NdXSo62tbSvWRPl3B
-	ewtvvDNJH2mLsEn6MxdsStNQUFFkfdMuD5a/m3j+hO+vUGKe7EZ/80pp0u7ffQOZ79ffnE0b
-	hPSPttDd85tcnm9msHfP0dSJnJNCbkQvZ3QZikOptFan+BcD5aJdswMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTGfd/39vbS2O3aod6IWUxl0ZD4lWg8m4sf2RbvNDOaLEFnnHbj
-	RgqlaqsgW4xSaAZ1alttCa0ogq1M6mDlw3WujGAEUYitH6NRsJhciwQQo1QjUFhLYuY/J+c8
-	5/nlOX8chihiknmMWntQ0GlVGiUto2Rb1hQu2Ww/kbW82s5AsfEo9IRFCfxb0EJBdLSYgrO1
-	HhpizqtSKPaWSeBmt4GCwO81CMLRYgRvxp0EjL4pCmLWNimMvn0kBVsBgil/GwJ70EogFPiH
-	gKehAMOrukkaBq+/RGB7ItJQOlBAwYj7VwSOiFMKAzc2wnD4mgSmevsxdL8eQuAWJzGILb8g
-	iNmz4XxlfRy3v6BhvOsOgVJbAMGFJ70EXg70IWhoe4ygv3EMgb/aQMNTcyOBe+IHcD86QkOH
-	7TgNw8GzGJ7X0VBh8Esg2DmIoNxpRRB56MdQWFVLg73cS4Gv7y8pBAcnMPTYrRhqvN9A2B2h
-	4La5Esdvjrv+mAvO0kIcL88w2K5cw+vdiH9jPEnxl+ubMG+8G6N5zzkP4sfHrIgfdRUS3miO
-	j9eHRghfVJ/Hu24P0fxY9AHN+19XUPytSo6/WDKGeUvXEt7n6JVu3fCd7PMMQaPOFXTL1u6R
-	Zfaeckn2+yWHm/pOSY8hC2VCSQzHruR8fg8xIYah2E+4yNN1CZlmF3Gh0FuS6JPZ5Vz/TQM2
-	IRlD2JqPuTPhdmli8RG7mmvoOU4nWDkL3J1bHyY8CrYWc9YHDdMeOTuL6ygTp7MIm8aFJgdw
-	wk/YFO7SJJOQk9i1nKdZnM6azS7kWprasRnJHe/Rjvdox/90BSKXUbJam5ujUmtWLdVnZ+Zr
-	1YeX/rgvx4viT+k+MmH5E43e29iKWAYpZ8oDlhNZCokqV5+f04o4hiiT5T8fMWUp5Bmq/J8E
-	3b7dukMaQd+KUhhKOVe+KV3Yo2D3qg4K2YKwX9C922Imad4xZG4v2TX/i5IFXak7872z1Zlf
-	Pg6EijTN5KTPtmOoSL/z+23LtKldaYcaXdVKU2k0b05VimgNlnV7A2dM4WrX1XLVloX2Hzqp
-	zzIu8es76hbvdVZ9Onzh24ruPEPqb191bp+RHli3Rvza0pceOdCcc9r899SMzQvuh3J3Tww+
-	G+/A55WUPlO1Io3o9Kr/AKCz9huQAwAA
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
 
-On Tue, Aug 25, 2026 at 03:10:28PM +0200, David Hildenbrand (Arm) wrote:
-> >> As the saying goes, it's hard to teach old dogs new tricks, but in the end
-> >> taking care of two dogs is likely harder than only a single dog? :)
+On Tue, Aug 25, 2026 at 01:15:42PM +0100, David Woodhouse wrote:
+> On Fri, 2026-08-21 at 10:38 -0700, Paul E. McKenney wrote:
+> > The current state is that if you invoke synchronize_srcu_atomic()
+> > from a given context, then srcu_read_lock_atomic() must be invoked
+> > from that same context, or a more strict one.
 > >
-> > Or it's better to train a unmatured hunting dog than to teach a pet dog,
-> > how to hunt, for better hunting, even though the pet dog might
-> > eventually become able to.
+> > So, for example, you can disable preemption across your invocation of
+> > synchronize_srcu_atomic(), but only if you also do so across the entire
+> > reader, starting before srcu_read_lock_atomic() and ending after the
+> > matching srcu_read_unlock_atomic().  Or you could instead disable
+> > interrupts across the entire SRCU reader.
+> >
+> > Does that work?
 > 
-> I'm not sure whether "pet dog" is the right analogy to lockdep in that scenario,
-> though ;)
-
-Ah.  Okay.  I will be careful in using terms.
-
-I wanted to tell DEPT has its strength, lockdep has its own, and they
-are different.
-
-	Byungchul
-
+> Yes, I think that should work; thanks. I don't think we *need* to
+> disable interrupts or even preemption for the KVM case, but I played
+> with it a bit to look at the tail latencies that Sean was concerned
+> about.
 > 
-> --
-> Cheers,
+> I converted the GPC series to use srcu_read_lock_atomic() and
+> synchronize_srcu_atomic()¹ and redid the same invalidation flood
+> testing: 8× shinfo + 4× vcpu_info reproducers on 128-way Ice Lake.
 > 
-> David
+> On its own it isn't much of a win for this use case AFAICT, but it does
+> work nicely when combined with the try_synchronize_srcu() thing that I
+> posted before².
+> 
+> I compared three variants: synchronize_srcu_atomic() as in your dev
+> branch; the same with try_synchronize_srcu() as an inline fast path
+> in front of the GP spin loop; and my previous try_synchronize_srcu()
+> + synchronize_srcu_expedited() fallback for comparison. With
+> PREEMPT_DYNAMIC, and without all the KASAN and lockdep debugging I had
+> added for correctness checking:
+> 
+>                     avg     max
+>   atomic spin       8.0µs   6.0ms
+>   try + atomic      3.6µs   326µs
+>   try + expedited   3.7µs   4.4ms
+> 
+> The try fast path more than halves the average — it skips
+> srcu_gp_start() and the flip-driven advance loop entirely for the
+> no-readers case, which is >99% of them here. It also seems to fix
+> a problem where synchronize_srcu_atomic() calls spend their time
+> queued behind *each other* — atomic alone has no sub-4µs drains at
+> all, and 40% of its drains take 8-16µs, presumably contending for
+> the driver role and waiting out each other's flip cycles. With the
+> try in front, only the genuinely-contended calls enter the GP spin
+> loop at all.
+> 
+> I was initially dubious about that 326µs max — the slow path is still
+> just spinning like the atomic variant, just with two orders of
+> magnitude fewer entries into it, so perhaps it just didn't hit the same
+> p100 in my test runs. So I redid it with the try-failed slow path
+> instrumented separately, and it does seem to be real. Of ~5M drains,
+> 3474 took the real GP slow path: avg 13.7µs, max 326µs, none over a
+> millisecond — and the *fast* path's max was 282µs, so the worst case is
+> something like interrupt noise, not the actual grace period. For
+> comparison, the expedited fallback was consistently producing drains
+> over 1ms (sleeping and waiting for the workqueue under a saturated
+> machine). There were about 100 such >1ms waits in each 300-second test
+> window (of about 60k fallbacks).
+> 
+> So the tail win over try+expedited is real, if we care about hundreds
+> of µs vs single-digit ms. Which I think we do — that's what brings the
+> p100 to parity with the existing rwlock code (~330µs on the same test)
+> while also scaling better on the readers and resolving the whole
+> PREEMPT_RT issue.
+> 
+> One thing I didn't expect: the try falls through to the slow path about
+> 10× less often in front of the atomic variant (0.07% of drains vs 0.5-
+> 0.7% falling back to synchronize_srcu_expedited()). I suspected the
+> preempt-enabled readers in the latter, but rerunning that test with the
+> readers non-preemptible made no difference at all. So it's an effect of
+> the wait side itself somehow. It looks like the sleeping variant lets
+> the abusive invalidate/refresh cycle churn about twice as fast (11M
+> drains per window vs 5M), so the try observes readers in flight more
+> often? I'm not sure that higher throughput of the abusive test is the
+> metric we're here to measure though.
+> 
+> Could we put try_synchronize_srcu() at the front of
+> synchronize_srcu_atomic()? Without it, the atomic version is slower
+> than what I had before, across the board.
+> 
+> However...
+> 
+> Testing with my KASAN+lockdep kernels showed the p100 latency going up
+> to 200ms for the atomic version, while with try+expedited it was only
+> about 25ms (the same order of magnitude as the existing rwlock-based
+> implementation in the debug setup):
+> 
+>                     avg      max
+>   atomic spin       10.2µs   172-212ms
+>   try + atomic      10.2µs   173ms
+>   try + expedited   14.7µs   25ms
+> 
+> Pinning the grace period driver with preempt_disable() didn't make a
+> difference. A sched_switch-instrumented run showed the >1ms tail is
+> bimodal: half the samples ~100% off-CPU (the *waiter* descheduled after
+> the wait was already over), and half genuinely on-CPU spinning and
+> waiting for readers.
+> 
+> So on a debug kernel under CPU saturation a spinning waiter has a much
+> worse worst case than a sleeping one; on a production-like kernel the
+> try+spin mode does seem to give a big win in the tail latencies that
+> Sean was concerned about. I think that's OK.
+> 
+> ¹ https://git.infradead.org/?p=users/dwmw2/linux.git;a=shortlog;h=refs/heads/gpc-atomic-dev
+> ² https://lore.kernel.org/all/05e5a29a95793651062dc5d165661b4d590f08ab.camel@infradead.org/
+
+Nice!
+
+Things are getting more stable, still a few corner cases that I am
+chasing, mostly in rcutorture testing.  (No, I did not design rcutorture
+to deal with atomic grace periods, and no, it did not take this sitting
+down!)
+
+The no-readers fastpath is in place for Tiny Atomic SRCU (though with
+a bug that I am just now fixing), and it should not be hard to set up
+for Tree Atomic SRCU.
+
+On the tail latencies...
+
+The easiest way to reduce them is to require that preemption be disabled
+across srcu_read_lock_atomic()/srcu_read_unlock_atomic() regions and
+across all calls to synchronize_srcu_atomic().  Without that, the problem
+is that the scheduler does not know that the spinning is pointless,
+and we cannot use the blocking primitives that we could otherwise use
+to tell it what is going on.
+
+So, is it feasible to simply require preemption be disabled as called
+out above?
+
+PREEMPT_RT might need something different?
+
+							Thanx, Paul
