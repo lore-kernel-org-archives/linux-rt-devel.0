@@ -1,75 +1,68 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB562448B89
-	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Aug 2026 14:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EAE184540;
+	Wed, 26 Aug 2026 15:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787755603; cv=none; b=HCWlHTY2ecrkIHABS1LAlLVBRYF18UttMlk1bFreLXeVH35kc9F5kltPBuu5LpZcahFNWUtLdv2FTn+lgUxK0fHV4CY66bbXq4AI/T7eINQjn1iFsImMckNCzqo593X98CUjF5CkS0i9rG/lwd7hM6L3xFdWNgs/+VYaKVd9POw=
+	t=1787756708; cv=none; b=RRMbef8mXiJwU952SiltkX9EfBDOVEfFJYSAlTUAaoaybZ5yR9+ZXcwYDUx1PdGWt8PJMFgJBBLJYTSy0IMZne2M5fY9A+s0NH5j2jGMhwqGXM8oELpugAGDTu38RujUOm6+TMxciUlaJ+ffDAq+D72hhcODRCd6AtagSuFoFsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787755603; c=relaxed/simple;
-	bh=n/5mZkYkKK5GavBNGTNXlJp3qMnQh82rUrq1G8+x6Nw=;
+	s=arc-20240116; t=1787756708; c=relaxed/simple;
+	bh=M5vRzFgBWucHQG5a7k2WdFivewH8+vxgM0o5ta5rMgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmID3am9Ritq6d0YC1hE+co8cInTzAT/nFkpzUaUGZRGEWEW1hAxDpke373LbFcZ+AuuinXcPIoh6aIehCxIopvRCnhfbk/zWNSCELdgTFhcW0aYrIqvEKz9DjcN6izx/fyntIMadZmaO1mNlqbRTgssVfYdgl1Cbtugzy3aSsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LrU6HUGT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gozkSWv+; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gsq2LiXkN7GM2t2k1zs93F2+PTVzryebOccVI4VBOpnxllS8PT5mU2HV3q13GLJkbc73zlFpj9X2eGsRm7R8Lae3iDceVE72gzqx/6EaiMGaW+5C12HwFDsIdcB8X1ekHO+UCOVCaaOrPf/CzVRG8e3NVLMbmlVMCMoSfsTN1tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8bDSvms; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LrU6HUGT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gozkSWv+"
-Date: Wed, 26 Aug 2026 16:46:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787755597;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S0Kkynge44FrWWoalc/XYt1t696+d537CJ47hQiSN5E=;
-	b=LrU6HUGTkQ/HPzremJzckNm2cqpOlgdcnVt6mDteTHCiWw38x2TkLAPOkDqwYKiASklx/L
-	16cJ8SSSTa7or4LPHRb9naKFyEoYjDUeC7RsEIQySnA5ZWHWjJpJZq6N+xS9FalE0OB3OB
-	5V9TADPX2yz9EYITk0j2qBA0v2y9Df+m0oRzu7NNGth7jHhLBktHDad8Pihk2vvXfkTrQ+
-	glUH2itooDT6gk79kYPFH7nSw6/HU13o8ew/kJO5j9u4RUvJhRViY/HhprQ2x5OK/bIzth
-	bq0bvFl8/T0ixvO1FIui8ErYqQPhceCZ3BQH6abLN5pj9+WLUvBHxWuYjTljEA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787755597;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S0Kkynge44FrWWoalc/XYt1t696+d537CJ47hQiSN5E=;
-	b=gozkSWv+kjmm1LlGRIFiYIde5MxTEoTadSEOrNSFuVaThoY56VhcztspbhDoqkXFnMK/mz
-	hyMu85VWKTOTPkBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Puranjay Mohan <puranjay@kernel.org>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8bDSvms"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A481F000E9;
+	Wed, 26 Aug 2026 15:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787756706;
+	bh=P++naScNZowUvRJGvpwZuOXHFESG3Sw1NB7yivdb/jg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=h8bDSvmsmumTK1wPZfvvnD6Mh7l4lkruuUlW4NmjgzaGmgJ59OW6MHEVHxbpSn93i
+	 nb7BjisVl9X6I5GXUN/85C7ho409ilqX7Mu8P+jxd6Id9mAkDC5Lb4q5ezn3SYXrAF
+	 /yl7HMA7m8r2fWSi22hFgiLA3eKzuUoVYKfc85y4HWs2pU3FEfr4QHQp6uWKoDLNOZ
+	 M7ICBWkKbd6Ypel4vrldLgXEuNM5iTJsfU8yg2YDh+RAVQDiRNAkhtEC8A2cwevHo6
+	 ZorGmhZu4xIbuEvFYl0z7cSprK8zR9wsNpFjMwVVrzjoldxui6KlMckMwAQbuoO1x7
+	 tAN2oODb3bjEg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 693BECE0484; Wed, 26 Aug 2026 08:05:06 -0700 (PDT)
+Date: Wed, 26 Aug 2026 08:05:06 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Sean Christopherson <seanjc@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Michal Hocko <mhocko@suse.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 1/6] rcu: Make call_rcu() safe to call from any context
-Message-ID: <20260826144636.3IRUXeFV@linutronix.de>
-References: <20260810122758.183765-1-puranjay@kernel.org>
- <20260810122758.183765-2-puranjay@kernel.org>
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Jerome Glisse <jglisse@redhat.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+Message-ID: <dbbd6634-4da9-4ecc-9fb2-d7430e2743ca@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
+ <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
+ <124af87fb49c267eeb26b8b4d952b9b1a5b3fb68.camel@infradead.org>
+ <9427a8e0-3ba6-4f31-a35d-54429bd7e071@paulmck-laptop>
+ <3d0463b6099d4fcde9a025a2f9e231d75303b61c.camel@infradead.org>
+ <b0be19e9-b0ae-48de-bef6-d905ee007c8a@paulmck-laptop>
+ <ao3z7Rtw2FROkVpy@google.com>
+ <d4f8ff92-08ac-4253-b647-f9e95c66698d@paulmck-laptop>
+ <20260826073233.T-KtFXmj@linutronix.de>
+ <da5ee56b7d082abfbb20f71be99a6885247e9811.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -78,90 +71,32 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260810122758.183765-2-puranjay@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <da5ee56b7d082abfbb20f71be99a6885247e9811.camel@infradead.org>
 
-On 2026-08-10 05:27:50 [-0700], Puranjay Mohan wrote:
-> --- a/kernel/rcu/rcu.h
-> +++ b/kernel/rcu/rcu.h
-> @@ -572,6 +572,17 @@ static inline void tasks_cblist_init_generic(void) {=
- }
->  #define RCU_SCHEDULER_INIT	1
->  #define RCU_SCHEDULER_RUNNING	2
-> =20
-> +/*
-> + * Defer whenever interrupts are disabled, since a callback-list operati=
-on may
-> + * be in flight on this CPU.  Not before the scheduler is up: irq_work i=
-s not
-> + * usable that early, and rcu_init() itself calls call_rcu().
-> + */
-> +static inline bool should_rcu_defer(void)
-> +{
-> +	return IS_ENABLED(CONFIG_RCU_DEFER) && irqs_disabled() &&
-> +	       rcu_scheduler_active !=3D RCU_SCHEDULER_INACTIVE;
-> +}
+On Wed, Aug 26, 2026 at 08:38:27AM +0100, David Woodhouse wrote:
+> On Wed, 2026-08-26 at 09:32 +0200, Sebastian Andrzej Siewior wrote:
+> > On 2026-08-25 13:51:14 [-0700], Paul E. McKenney wrote:
+> > > Very good, preemption disabling it is!  It is quite possible that the
+> > > PREEMPT_RT guys will need something else, but one thing at a time.
+> > 
+> > This reminds me of classic RCU ;) It might work in this use case but I
+> > am afraid that other users might come along where it actually hurts.
+> > With PREEMPT LAZY the preemption within the read-section should
+> > hopefully be the exception.
+> 
+> Given the way that PREEMPT_RT treats other locks like spinlocks and
+> rwlocks — turning them into sleeping locks — I suspect it makes most
+> sense, and is consistent, to also turn rcu_read_lock_atomic() and
+> synchronize_rcu_atomic() into plain rcu_read_lock() and
+> try_synchronize_srcu()+synchronize_scru_expedited().
 
-Why does the description say that the defer part is for usage from NMI
-and the test here has irqs_disabled() instead of in_nmi()?
+That makes a lot of sense to me.
 
-> +
->  enum rcutorture_type {
->  	RCU_FLAVOR,
->  	RCU_TASKS_FLAVOR,
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index 21b6ce1dffb63..3bf3a250f9de8 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -3206,6 +3204,103 @@ __call_rcu_common(struct rcu_head *head, rcu_call=
-back_t func, bool lazy_in)
->  	local_irq_restore(flags);
->  }
-> =20
-> +/*
-> + * Re-issue deferred callbacks straight to the enqueue so they cannot de=
-fer
-> + * again.  ->defer_lock serializes the drainers: this CPU's irq_work,
-> + * rcu_defer_flush() and rcutree_migrate_callbacks().
-> + */
-> +static void __rcu_defer_drain(struct rcu_data *rdp)
-> +{
-> +	struct llist_node *node, *next;
-> +	unsigned long flags;
-> +
-> +	if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> +		return;
-> +
-> +	raw_spin_lock_irqsave(&rdp->defer_lock, flags);
-> +	llist_for_each_safe(node, next, llist_del_all(&rdp->defer_head)) {
-> +		struct rcu_head *head =3D (struct rcu_head *)node;
+For that to work, we will need a wrapper sort of like what we have for
+synchronize_rcu_tasks_trace(), but one that does SRCU for !PREEMPT_RT
+and vanilla RCU for PREEMPT_RT.
 
-Why do you need the lock. This is still not clear to me despite the
-comment. You can do llist_del_all() towards another list and then feed
-it into rcu_do_enqueue() one by one. And you use the LAZY part.
+Sebastian, thoughts?
 
-> +
-> +		/* Bounds a node self-linked by a double call_rcu(). */
-> +		head->next =3D NULL;
-> +		rcu_do_enqueue(head, head->func, false);
-> +	}
-> +	raw_spin_unlock_irqrestore(&rdp->defer_lock, flags);
-> +}
-=E2=80=A6
-> @@ -4231,6 +4330,9 @@ rcu_boot_init_percpu_data(int cpu)
->  	rdp->rcu_onl_gp_state =3D RCU_GP_CLEANED;
->  	rdp->last_sched_clock =3D jiffies;
->  	rdp->cpu =3D cpu;
-> +	init_llist_head(&rdp->defer_head);
-> +	raw_spin_lock_init(&rdp->defer_lock);
-> +	rdp->defer_work =3D IRQ_WORK_INIT_HARD(rcu_defer_drain);
-
-Why is this IRQ_WORK_INIT_HARD() instead, say, IRQ_WORK_INIT_LAZY()? Is
-there a requirement that the RCU callback needs to complete asap and not
-be delayed to the next tick? This would give kind of the LAZY part.
-
->  	rcu_boot_init_nocb_percpu_data(rdp);
->  }
-> =20
-
-Sebastian
+							Thanx, Paul
