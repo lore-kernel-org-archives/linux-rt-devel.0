@@ -1,38 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7733D524F;
-	Tue, 25 Aug 2026 20:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077123B19B0
+	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Aug 2026 07:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787691076; cv=none; b=NC61tkAS3aQOcu3xhyyeNmJgyJHYVf9H65BUGmGbXihLHIZcy4jHhAFMmJ+yBjLFSnWgTvStYNRw1wqCm28xVFqEq6MPRDkq7faqha1SpWoeIXUaPQwXTlU2YbreIHlSV08BfJuxKXj95QO2vT55SbG1GvRiSHkBaNOpxfjmmks=
+	t=1787729565; cv=none; b=AAqjCOteq2u02e9rRz8D+cnF8rtk4v8UTr0UEefNa0xTR1bWPnffvsYCFKpVVlvUSITWqrZZt+9RPxZXNDTOv3nfWoAUqTCqwOYA5Emgc9NE1SAyYhwthdZhsMZtd5w9uDI6EvhJldMDUfha7iojumeoQoioCQSwMRmDenzL5z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787691076; c=relaxed/simple;
-	bh=cM5cQyVvUDL5QM4vY3YDlPrXAJA9rSa8V1lxKxYaM8I=;
+	s=arc-20240116; t=1787729565; c=relaxed/simple;
+	bh=44bsU91JLgcVuaZAxI42z3R4oe6aaUU0l1OSN9XNqIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGi0hFTGJALBUqXbTA+C0hgjjKUBBUnndCQjvNxRdDGKmc2FshkvfBNu7TNVvPWijgP35bD3dr5fCmjHmLgfEGhyGk5IG+bfplMEcVtmG93PN022h814sS9i6eJBPprqQs3i6H1JBEgnDtqvJKt3FCDp3cSPbab5tDv9YaB+GnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URS/D749; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=lr8ZAtSue6jiYgIvpuMUGm3I4uteMbrjrqwEh/noFEIjz6BwX7btM6Cp2KVj7ALTr3UEciu0Yt6IgPWA5TIWHtcsohUMhZc0PDE+ZQG3YpC52KX4XITUjhxqrPAvThfCc4l42dp6M8M96SMtnCmlWwfqOO9SOireAAOv6ReJtxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VMQGacdc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=z2MdUAMa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URS/D749"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F661F000E9;
-	Tue, 25 Aug 2026 20:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787691075;
-	bh=i6BE0nH5fKyGi4DIZ+qOoMqZyC6oX0Uqj521Z9Rq1wI=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=URS/D749ZpGm5+vV0slOT5ZirKgXoYaeoaJBkyKND2mNiINk9MzqmrtQrnzu0q0qJ
-	 jz5mny2czckBcRW/92+lp3pXWYi2zVAkC3M3sJW+I5mE5/SoKvAzLuqO46loVuqhIk
-	 fEU72r5t+R9iFblU7J4y9KTT2YPIRa/Cpq/A2ePCRGaqw59SDj6tpnjQUTVcBp2AVX
-	 4m47/8WW3ibuZem4FHWW8PmvLPznqy1NA0/rgYlkutlJzPdSEXw/LsYeUrsAjUAjrE
-	 vGkWAoplG2/n3eeEI1ylgeR/poOvq5A99VIQQpusmzUIJYBPjqd+ri6HpMGcl/qiux
-	 BHcwxygcx+7KA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id C275BCE1DA2; Tue, 25 Aug 2026 13:51:14 -0700 (PDT)
-Date: Tue, 25 Aug 2026 13:51:14 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: David Woodhouse <dwmw2@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Michal Hocko <mhocko@suse.com>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VMQGacdc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="z2MdUAMa"
+Date: Wed, 26 Aug 2026 09:32:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787729555;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v0qYw6dI/lOMP/K9P716HVlCet1n8A6GD/0q9HLVzrs=;
+	b=VMQGacdcvMuc2msrSxPg8sy3s578U8lucEvh/cZE4V/kuiAr7MmALRl2ClMviXBxGNm52k
+	DbiAwAFtpBiS4r3m3/8x0wfzKkcxmLnRbHqy2n/cBIG430HZhfYOX7I4F1BCgRQ1KPQKgl
+	1iUepfgOJ9GiAGAOEDW3L01Ncp2uMFz/i9BWDfUuLNvR1nhKtFS1iI25NZVTck5Dwj5q6q
+	8KosOZZD7dw+zVRg/8noxbbDhR8wEdzdU4bGFERhcMcIEAMuvENanuTyijfYqGjTNnsK9r
+	TzT8azEkht+nlDD3AQN2+zNGXHPocQGutv2HAv/yecSdl7SWLMdzlhhdv2f8QA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787729555;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v0qYw6dI/lOMP/K9P716HVlCet1n8A6GD/0q9HLVzrs=;
+	b=z2MdUAMaarXzYXJUnZ9mDq2Oq8fo1ufaKMNgfCTuwIciKR+qIP2KDHfk5DiFU/9/pyr2Ng
+	e/k7E2VBHGxqtJBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Michal Hocko <mhocko@suse.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	David Hildenbrand <david@kernel.org>,
@@ -41,7 +52,6 @@ Cc: David Woodhouse <dwmw2@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
 	Vlastimil Babka <vbabka@kernel.org>,
 	Mike Rapoport <rppt@kernel.org>,
 	Suren Baghdasaryan <surenb@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Simona Vetter <simona.vetter@ffwll.ch>,
 	Jerome Glisse <jglisse@redhat.com>,
@@ -51,8 +61,7 @@ Cc: David Woodhouse <dwmw2@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
  notifier invocation
-Message-ID: <d4f8ff92-08ac-4253-b647-f9e95c66698d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+Message-ID: <20260826073233.T-KtFXmj@linutronix.de>
 References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
  <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
  <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
@@ -61,103 +70,28 @@ References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
  <3d0463b6099d4fcde9a025a2f9e231d75303b61c.camel@infradead.org>
  <b0be19e9-b0ae-48de-bef6-d905ee007c8a@paulmck-laptop>
  <ao3z7Rtw2FROkVpy@google.com>
+ <d4f8ff92-08ac-4253-b647-f9e95c66698d@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ao3z7Rtw2FROkVpy@google.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <d4f8ff92-08ac-4253-b647-f9e95c66698d@paulmck-laptop>
 
-On Tue, Aug 25, 2026 at 12:58:37PM -0700, Sean Christopherson wrote:
-> On Tue, Aug 25, 2026, Paul E. McKenney wrote:
-> > On Tue, Aug 25, 2026 at 06:48:08PM +0100, David Woodhouse wrote:
-> > > On Tue, 2026-08-25 at 10:19 -0700, Paul E. McKenney wrote:
-> > > > On Tue, Aug 25, 2026 at 06:05:54PM +0100, David Woodhouse wrote:
-> > > > > On Tue, 2026-08-25 at 09:47 -0700, Paul E. McKenney wrote:
-> > > > > > 
-> > > > > > On the tail latencies...
-> > > > > > 
-> > > > > > The easiest way to reduce them is to require that preemption be disabled
-> > > > > > across srcu_read_lock_atomic()/srcu_read_unlock_atomic() regions and
-> > > > > > across all calls to synchronize_srcu_atomic().  Without that, the problem
-> > > > > > is that the scheduler does not know that the spinning is pointless,
-> > > > > > and we cannot use the blocking primitives that we could otherwise use
-> > > > > > to tell it what is going on.
-> > > > > > 
-> > > > > > So, is it feasible to simply require preemption be disabled as called
-> > > > > > out above?
-> > > > > 
-> > > > > I'd experimented with disabling it around the GP driver loop in
-> > > > > synchronize_srcu_atomic() as seen in
-> > > > > https://git.infradead.org/?p=users/dwmw2/linux.git;a=commitdiff;h=07165e79340e
-> > > > > and that didn't seem to change anything (which seems reasonable, as
-> > > > > it's the *waiters* that were descheduled, not the threads driving the
-> > > > > actual GP). So your suggestion that we do it around the whole function
-> > > > > certainly makes sense too. I'll test it.
-> > > > > 
-> > > > > I do wonder if we're really doing the right thing here by selfishly
-> > > > > blocking preemption because we want a specific tail latency to remain
-> > > > > low in a contended system. Maybe we should allow preemption and trust
-> > > > > that the right thing will happen?
-> 
-> In my experience, preempting MMU operations, especially mmu_notifier invalidations,
-> is rarely a good idea.  E.g. see commit d02c357e5bfa ("KVM: x86/mmu: Retry fault
-> before acquiring mmu_lock if mapping is changing"), which worked around an issue
-> where KVM would drop mmu_lock and yield in an mmu_notifier callback on preemptible
-> kernels.  We "fixed" the issue by avoiding mmu_lock contention, because it was the
-> easiest fix and benefited all setups, but the underlying problem that made us take
-> action was very specifically yielding mmu_lock on preemptible kernels.
-> 
-> This isn't exactly the same, but it sounds quite similar: being greedy and hogging
-> the CPU to complete an operation can actually be beneficial for overall throughput,
-> not just for the immediate operation's latency, by avoiding trash and overhead that
-> is incurred as a result of yielding or being preempted.
+On 2026-08-25 13:51:14 [-0700], Paul E. McKenney wrote:
+> Very good, preemption disabling it is!  It is quite possible that the
+> PREEMPT_RT guys will need something else, but one thing at a time.
 
-Very good, preemption disabling it is!  It is quite possible that the
-PREEMPT_RT guys will need something else, but one thing at a time.
+This reminds me of classic RCU ;) It might work in this use case but I
+am afraid that other users might come along where it actually hurts.
+With PREEMPT LAZY the preemption within the read-section should
+hopefully be the exception.
 
-> > > > > Maybe the p100 isn't the right benchmark to be chasing... I'm looking
-> > > > > at it because Sean expressed concerns about it, but it's not the only
-> > > > > consideration.
-> > > > 
-> > > > My concern is algorithmic, not benchmark optimization.
-> > > > 
-> > > > Suppose that there is only one CPU, or, alternatively, that one of the
-> > > > atomic SRCU readers is pinned to the same CPU occupied by the (higher
-> > > > priority) task running synchronize_srcu_atomic().  In this case, the
-> > > > call to synchronize_srcu_atomic() uselessly burns CPU time until its
-> > > > priority decays, real-time throttling kicks in, or in some configurations,
-> > > > maybe never.
-> > > 
-> > > I certainly have no problem with a blanket preempt_disable() around
-> > > both sides for algorithmic reasons. As long as we aren't *just* doing
-> > > it for the selfish reasons I described. 
-> > 
-> > Suppose I simply disable preemption in srcu_read_lock_atomic(),
-> > enable it in srcu_read_unlock_atomic(), and disable it internally to
-> > synchronize_srcu_atomic()?  It might be against all RCU tradition,
-> > but might also be easier to use.  ;-)
-> > 
-> > > > Requiring preemption be disabled across both the atomic SRCU readers
-> > > > and the synchronize_srcu_atomic() avoids this, at least when running on
-> > > > bare metal.  My (perhaps naive) hope is that guest OSes get some use
-> > > > out of those cpu_relax() calls.
-> > > 
-> > > Yeah, an overcommited guest vCPU should be able to get preempted there
-> > > by the hypervisor, allowing other vCPUs to run.
-> > 
-> > Whew!!!  ;-)
-> 
-> Ya, and on KVM x86 at least, cpu_relax() => PAUSE will conditionally trigger a
-> VM-Exit after enough spins that causes KVM-the-host to try to yield the vCPU to
-> another vCPU in the same VM.  The intended use case is to detect when a vCPU is
-> spinning waiting for a lock, to try and give cycles to the vCPU that is holding
-> said lock.  IIUC, the same principle should apply here.
+=E2=80=A6
+> 							Thanx, Paul
 
-Again, whew!!!  ;-)
-
-							Thanx, Paul
+Sebastian
