@@ -1,56 +1,56 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA5E3E00A1
-	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 23:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E351F3E1680
+	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 23:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787873496; cv=none; b=dcYZC/JsawPgxQoGez3O/lxSmdLObw2sJlaFbhznNtUzQSSsN/q09AeTqSrA92Mc+Wq9YqH+zQZ2tpdNTbRSjLR4gsrLlnxRxgzK+x8Q8OHm68aZbCkCpHLd1Jr0EMm9fcLcL6+nEyVTMsm9Nh0hqzj++055fKEi4GCopvxVeKI=
+	t=1787873498; cv=none; b=DpozYMLSM3S/87BjYx/Dwc/GKVDLf2bI4BnnR0ftu2y/mOQ9/dveVZMbKTR5VtOXq9D7bZaHdyJb/z/Yb5fFSbbh35VxvVkEn5LmSVZJqY6YggDgyZDpDN7yJj/iopeFO2m9A4cAs4R+jZjHZs0NFxZ6cXK78PgZQy/u5x4qHsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787873496; c=relaxed/simple;
-	bh=IaRhJZseYtmfOAwaHfBsaGhcCpvv3aaACzd/i2DLAGY=;
+	s=arc-20240116; t=1787873498; c=relaxed/simple;
+	bh=a4DHxg2eDawzpdV6ihnCiTe31A8NEYh6oPRQKJtlYWQ=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pbIGjmWNOu1qPyQt79/89JkEIQ9X3fAkEY2XUiIVlaf7TI7WjvGvNQKtU9MtWCepGSLKSr2eSYPVclRgLsR3NJOY/rbaSmvlyOarE9cDjeQkmM0fFD9QGAQ4KLR9c2DPiVQawoig3LA4yjk2P2rFAWwAS43LYEJ3XfnV8x1J+jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KlzEJEzK; arc=none smtp.client-ip=209.85.214.200
+	 To:Cc:Content-Type; b=QKH/Y/w0+IoVhDqFGyg6SvLCHzS1c04SsENJi2MXCiQP0FnZSBLgKJ6aj+EhyVUqjVx0ql/aaBoSqkxTl/R8xRbGFZIB8x8IbyL9379ya5xQGt9aWbZPpVWutsvgyEUJpvBhud7C7/f+6kcB04mdjwyyhn8vAVfXwCnrq4e0ZaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IrEYzrZR; arc=none smtp.client-ip=209.85.216.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KlzEJEzK"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2d55d8cd938so3865005ad.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 16:31:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IrEYzrZR"
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e11baa66eso806938a91.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 16:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787873494; x=1788478294; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1787873496; x=1788478296; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=63v8voqDYPPccdvhHdT2gYF/erUoDbYrARzDm1If6YE=;
-        b=KlzEJEzKZb6/bgpdNjlaIyl1YKIdsfC7GmOVUzpoKjPK+NUY5os4m9evvjfejTfzaD
-         V0cnZa7QpQfpj5SxyJKHm+Zs60GQ2o8qYKVte53iVIo7ZxM5crSQtOYN5279LoxWbOwl
-         Z4VgdWG/v2ZWFPbpHqRq44/KY7d5FhwoCyLBVT/u5frABiloH7jOAk0YbCsuT2yp3KHR
-         kN/Mq8RSZIIVimia4yK3+l1J17puwjKjtmLBD1eDPT8p/jZxcDncqA9c5UiAxHpqvBVP
-         AANXF1WxPjyLRXR/PVdX3ohTuEBdO9PVoIubO5RzZQCeNvSfwZvb5zvm84dKA/Q5CXGl
-         Z9JA==
+        bh=THehtAVXPzXeOISNI+hN8Wh32bn5y3s9ZVH/HPQs5Ig=;
+        b=IrEYzrZR9vZyT7kt5PoldbZw2n95qlCphQ3CTn96H3KoXOHGZBHVqTlrDaca8n0Zrb
+         ePLQRBq0KBEx7cOg2n6GZiDbKn8U27KNqMjvuCT/GzjNcjwARbAYA0bspQkq1qKSA7ih
+         oiYgmKIkINaD4qRnONqCNUzMjfxzfYVbejlbO/0aN+g6viOlcK4Hbcg3aYuC6jrzFP7H
+         qtfi7UzurWLABL4IIBu5pbV2be1lc29MROmYQEd4noy8suEZarxvLz8xmA7wz0T1GXc2
+         GCsS+i7AL6M0HJcpBWxM5BuLKgVlZRa3V4GAt52XHRJjCFVvSKjS7gsd5aI31xhlko2M
+         NBiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787873494; x=1788478294;
+        d=1e100.net; s=20251104; t=1787873496; x=1788478296;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=63v8voqDYPPccdvhHdT2gYF/erUoDbYrARzDm1If6YE=;
-        b=f/YWwNB735YD16lThhwEanDBmsJbtjIatFybGv0jEp6zkbg7YoFQVX0brh56p+fap4
-         z/t/Txrahf13244iPqtgUuRLcthNwaKhlVdUe1X0CP4qzn5RUu9Eg/9N+zlIeZEmNNIj
-         YzG6ll+QmQ/lYg/jLNj5LcsH55yg4G+Sa/a19iaolRoPQJoiFWYaKpP6R3ejV0p5ghy6
-         2Gfn3INoWkTcNFW5gMV9B40YxBXDRp58qxHY0/0HoYT3JxIKDdg+GyDJmdWEiuHNY0Dn
-         QfW5NnnlPEGyByshk4oehXimlms81LHbwCp2rEW8mmn143Bv+YTJA+Vp9kfYJyGIDa7R
-         P//Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrvKTQNMaIH+orvpx5oH47yMHDo3XWvDwcz0H/kfVPF8ogWmR9jF/9ZQKqiW6NbcwSTcq0LSwc3Smm8yYsetA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lwH/sTem9wV4vfDS/tWwcWuMP0QKYeR2s8MmRs2TfRSUjUC/OM
-	s9o0MlmaUaO0Xo/TH5BG1W/8/1q/G0UPEfNJA9eUlfxMWeUN+rFnXM6MTtxuasyZyXS0+lAANxu
-	6aoKG2pcfLEg8mg==
-X-Received: from dybpd7.prod.google.com ([2002:a05:7301:4547:b0:327:dce2:b13c])
+        bh=THehtAVXPzXeOISNI+hN8Wh32bn5y3s9ZVH/HPQs5Ig=;
+        b=UUnM/AaFtIqxuMvl7djYOZ0mD/8nag5KU+Z+vYE7hKnBdUX1CIui0A9Z30fGDP5DBr
+         wj7eODDRicBPiM4nGOmDIOoKr8acvP+/BSMaoHMRvZwgXk4TJpwYHA+ec5CI4TN8gKGi
+         S/gA76ILDIv61X+hYmLM8sAi0TtM2Be+YuxE9Q4q9IJRHuuR5mBF/u8750R383Fwz4/C
+         DuaunDuw6BKuEz6NYTSy6VJY/9kTL/Q6giU/OrMKPkztD6LuLYwsC4ivP/FGRnhvK/Qb
+         B0wrZ+Hjes+KGPx6peShHcDIL5GYbrbbNnnZTyrc6MzBELw7+ey6wd2h1HOFdF7ddAfA
+         7A0A==
+X-Forwarded-Encrypted: i=1; AHgh+Ro46qQE6XwlDoY7f4+1vXAx0k+OwTYmv3Td9A1RHeeZML91v8YzfpuFpEk4jR9DtLdhykaaK561RgvvsC6xCg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mVLgmCBe1ZyCSGjhcgXuZVQb7xMsWwksu32Bmcf9zsVFqjNSe7
+	JrgpBifsNYWYrEZSoK9Zi6dfmnOdpZiwuq/5mXoHqiH+bpEaAoHxDTogm+xTpHmZmr+5q3IV8cR
+	dDZjkZ1sABD7fDw==
+X-Received: from dlbsj13.prod.google.com ([2002:a05:7022:f90d:b0:139:d9c7:3cf4])
  (user=stevensd job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:1850:b0:2d5:e3ce:3988 with SMTP id d9443c01a7336-2d74dddceebmr49959775ad.11.1787873494176;
- Thu, 27 Aug 2026 16:31:34 -0700 (PDT)
-Date: Thu, 27 Aug 2026 16:29:47 -0700
+ 2002:a17:90b:2c88:b0:396:b98b:a3c2 with SMTP id 98e67ed59e1d1-396d0f52a0amr5303479a91.8.1787873495813;
+ Thu, 27 Aug 2026 16:31:35 -0700 (PDT)
+Date: Thu, 27 Aug 2026 16:29:48 -0700
 In-Reply-To: <20260827232948.2520558-1-stevensd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260827232948.2520558-1-stevensd@google.com>
 X-Mailer: git-send-email 2.55.0.897.gb25b4bd76c-goog
-Message-ID: <20260827232948.2520558-10-stevensd@google.com>
-Subject: [RFC 09/10] x86: Enable reclaimable stacks
+Message-ID: <20260827232948.2520558-11-stevensd@google.com>
+Subject: [RFC 10/10] arm64: Enable reclaimable stacks
 From: David Stevens <stevensd@google.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
@@ -87,38 +87,38 @@ a thread_struct and enable HAVE_ARCH_RECLAIMABLE_STACK.
 
 Signed-off-by: David Stevens <stevensd@google.com>
 ---
- arch/x86/Kconfig                 | 1 +
- arch/x86/include/asm/processor.h | 5 +++++
+ arch/arm64/Kconfig                 | 1 +
+ arch/arm64/include/asm/processor.h | 5 +++++
  2 files changed, 6 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index bdad90f210e4..652d5a9c0830 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -211,6 +211,7 @@ config X86
- 	select HAVE_ARCH_USERFAULTFD_WP         if X86_64 && USERFAULTFD
- 	select HAVE_ARCH_USERFAULTFD_MINOR	if X86_64 && USERFAULTFD
- 	select HAVE_ARCH_VMAP_STACK		if X86_64
-+	select HAVE_ARCH_RECLAIMABLE_STACK	if X86_64
- 	select HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET
- 	select HAVE_ARCH_WITHIN_STACK_FRAMES
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index b3afe0688919..262a4fddce19 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -173,6 +173,7 @@ config ARM64
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
+ 	select HAVE_ARCH_VMAP_STACK
++	select HAVE_ARCH_RECLAIMABLE_STACK
+ 	select HAVE_ARM_SMCCC
  	select HAVE_ASM_MODVERSIONS
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index 87b1d4c0727e..207e7adced64 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -690,6 +690,11 @@ extern void start_thread(struct pt_regs *regs, unsigned long new_ip,
- #define GET_TSC_CTL(adr)	get_tsc_mode((adr))
- #define SET_TSC_CTL(val)	set_tsc_mode((val))
+ 	select HAVE_EBPF_JIT
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index c2a627f39314..f5a550835c94 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -204,6 +204,11 @@ struct thread_struct {
+ #endif
+ };
  
 +static inline unsigned long top_of_blocked_task_stack(struct thread_struct *thread)
 +{
-+	return thread->sp;
++	return thread->cpu_context.sp;
 +}
 +
- extern int get_tsc_mode(unsigned long adr);
- extern int set_tsc_mode(unsigned int val);
- 
+ static inline unsigned int thread_get_vl(struct thread_struct *thread,
+ 					 enum vec_type type)
+ {
 -- 
 2.55.0.897.gb25b4bd76c-goog
 
