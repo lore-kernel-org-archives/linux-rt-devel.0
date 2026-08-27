@@ -1,56 +1,56 @@
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2F238AC8A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 23:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B023DCDBF
+	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 23:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787873480; cv=none; b=kYVRB2h7Zx9si8VnFAqW6ZRqWNzeV4PKb0Q1dHs1j003esBuABDHL0hF2xW67VW+siU+vZs6U/GXxwEGrpT4mXT6k4aCttJFUvxZ9QiOGI1sNP8yJt5R/ibH3zD6SkSt2DqOYnPdFu0T44yXU4D9aCuuA+D7oMPfudJzL7XyrhM=
+	t=1787873482; cv=none; b=GqsHK6hrSCO/JfHUf2rSBoRItTt375/3wwvBk197cCfvsKoJPQM3jEP1qrwMh805newyAyxEiHgUyMTZFldu65o7IaXDv1peoiuFsH/Qfmwz1ih7SF5BFSO7+h/ZgH6ph7n4+igeqR9vNcEUH12nRJKUTkxqkWdp5znKfgVRy6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787873480; c=relaxed/simple;
-	bh=3I5dS/SQ6pCyb3i0Ix/G3rblivqux+gR9oaHKYEaKnY=;
+	s=arc-20240116; t=1787873482; c=relaxed/simple;
+	bh=1JDl/PiJOAZxnlSKEC5PiAyofjmTisyMsK4a9y30L6I=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=sqIsuFyJggabtS0+pEDFGgdIVfqgkkvmrdgH/arU7DUHe8zjDY2tCDHKCvn5CoKCeOBQ352R22x/ZXA24DNr/U6xiiJcREY7qOqTDG9+neSxSSTy5BL3qmZZ+fxoZ5RAdBB2RL45VmEvtAYgZgBnOsqHoYd3Yqeg454oojhi7lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R8iqMNck; arc=none smtp.client-ip=209.85.215.198
+	 To:Cc:Content-Type; b=hGUeVqUam3QV7qJfB+J77+vmcSuO+8nQAhOc3akHCCfs7Kgvxq0yzimcChOoUbYmqoigvQjkMsofIMv5GhHZo27SEAwoQZN2zTYnhO1JvOpH4+4w4fQqLoITil13Z8s6GBmLA4mG1tiN0b2Hv6ecuxHZagz6hY5XhkQqqgcxtUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ikd2pwC0; arc=none smtp.client-ip=209.85.216.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--stevensd.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R8iqMNck"
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c85798977dcso297715a12.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 16:31:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ikd2pwC0"
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e25e4b41cso481624a91.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 16:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787873478; x=1788478278; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1787873480; x=1788478280; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=brDKxupp32vlfYsuON/JY3iAK7z2zOrfUeaeP3zp25g=;
-        b=R8iqMNckqp8ICdF1XGMRpN6lXgmSMtuZclfk0v5CmCWvj7stRnSSkeAs1W8VOHyoUv
-         gyT8OdJL+ULHczJGs51cq+DxiG/rMbU2FD3mUVAimy2l2T6y/UIp+xdxHEbrbpOCINRZ
-         v1ly7vhVipcF7M3Ff/KbAOr7LYUCTdbNpERGgsHT9HZSP+U06NofxbRuMVfaOHEyXnNz
-         UzEOUcyHg/qg6TuEqZlsBKjqkyvqROcOkm0YopwMKC1eqxPH4GvxS4oj9D1g2l2Nd7aS
-         VHTGRIk9t9OtjVWdGhBcBuymHbogCUJHlpe/qale/HQ0BVB7oHVYt2OebQ0ajBfLuMUV
-         m9VA==
+        bh=4pKguOeL4XpEhj7eOn7cPoRPiZ6Kih53q6MwTo24ARI=;
+        b=Ikd2pwC0F98+gY7ggb7CN23ZGAkzJuctmky8YtFmj1ZKunKHrnjixPHspWeeuhBdce
+         eiBCoOzHuqvUJvgT47ckKw8PBWJgcdI04mkN8P/DgVQn7MWuTumwp5I8vPBJqT80K4ei
+         qubc8pJIrX3/8pyT3UlrP9J3QGxNdD13uaag8IgP+mdkEeagyFPd/gSvitMvnPEDxNmL
+         XUS39kP+VUZ3qKaVdLilRxvuyqVLJ5YqtoJTp6N6zc+nVBjKI486IcoFBljWY3seATb3
+         GQ+cmjCMclUQgPtVIFEUyIUVb2RE0RnXjxbaOfVQHmMJ+mMZ9lNywrhO+qH41PNooMqh
+         cmUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787873478; x=1788478278;
+        d=1e100.net; s=20251104; t=1787873480; x=1788478280;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=brDKxupp32vlfYsuON/JY3iAK7z2zOrfUeaeP3zp25g=;
-        b=o1nP9H7hJev7i1w0r0252LkVzQfuxoU4E4a6LaGj+R5N6OhP3fMpW5FoY0tXi/OMkt
-         aMGRDIODa8Vkomd1ZJFkojhQtGf2/K+RLnwmefoI/x1aqnQrelycK5gINcm86NI78qFV
-         21WMQRZDKiWTYI/sYECWkr1Tk3fSgVySpttjbvOzL4chlzCrHNwhYrxheLqfnH8F81/i
-         zFnogmY7UPLAR/XUQXyAsc8CXHsLhF0J6ka2To6cTfBE8r1AlN+aXG26k7SdzJF4v8R6
-         yIil+mkfo4JCarMKhCdPJLyveUlh7LqMJlFcclSjwQlvl/UkYUgPgc1fEkQx3Y9GurR2
-         UeJA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq56k8jsLQBOuG0SiHjRzg6Juc1dahxb0uLhI9IfL1s8pSuJyBwPyKhZwgPvfoP6E4/b80N2iHuB/kLIktbsg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kIfm/FicVM1ufW/yvrAxdIpQ8HkGbJxVk1ksVwIIliTxlAWyDM
-	j9NJmD4/7SlmVhyh4WNNEmZlf2BObrf+Sg92k+CY03PBV8GsGoGoimnO3OZ4U4KVFWoVIpzizlC
-	lh3hdrEb1ctAqqg==
-X-Received: from dybeb10.prod.google.com ([2002:a05:7300:a2ca:b0:328:4d52:8cd0])
+        bh=4pKguOeL4XpEhj7eOn7cPoRPiZ6Kih53q6MwTo24ARI=;
+        b=VzwgW8/yKL5jua9o6+qWDhBdFYwbQ89yj3PNdUhMf0LV0k64bVIKm1+SEX5Fhisb4f
+         Y829zWIfFEpEc5Eg+3ZZnCAM2qjHfK6IYctDEemUSKwkoiXOiuqKNyw5ZKAK8zq6nCAz
+         JzNT50MfffyxnlpiAZd2fVKUREOQ2voK5lxp01b/4RTetggGB56ASbTCuPD2DD0XRE6w
+         FZxj1PIh5W4aeovIMJ+uqq98cwFdnlGNJe8yPOVWlzCNUve28ezGtLleDPfbIpbzajzb
+         ykca4CHRf7sdhJ0SEaMyAsg+H1HhNoLfCSMf/YM0p5zS+qbQFf7mpywPHOFeJ31gJCv5
+         VhqA==
+X-Forwarded-Encrypted: i=1; AHgh+RoWtDT5dqZMH1O/34paRelRhTuEpLtpp/NfGiaEJnVdpf4WxIqkYThLy6IOc+pyPH13+5+klVEbxazN54vuJg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lrEY7qAJZJmXZMrT5kTIkHcQtI+ypEduFxsEr7IdH+dgjTrjJl
+	0F3YXZyBHgbZiYvfqFBJmsAdOUAZEC3NQpi5LkdyyvhKAvf2MdYXifVC5YauEW9tpMAM7Bm44cG
+	Sh/+UDbi6bLwfZA==
+X-Received: from dlbtp4.prod.google.com ([2002:a05:7022:3b84:b0:141:4abc:f12d])
  (user=stevensd job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:458b:b0:2d6:f3f0:3e7a with SMTP id d9443c01a7336-2d74dc2ade3mr36333205ad.3.1787873478170;
- Thu, 27 Aug 2026 16:31:18 -0700 (PDT)
-Date: Thu, 27 Aug 2026 16:29:39 -0700
+ 2002:a17:90b:1a8e:b0:396:4c63:7193 with SMTP id 98e67ed59e1d1-396d0fe45damr5091530a91.11.1787873480154;
+ Thu, 27 Aug 2026 16:31:20 -0700 (PDT)
+Date: Thu, 27 Aug 2026 16:29:40 -0700
 In-Reply-To: <20260827232948.2520558-1-stevensd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260827232948.2520558-1-stevensd@google.com>
 X-Mailer: git-send-email 2.55.0.897.gb25b4bd76c-goog
-Message-ID: <20260827232948.2520558-2-stevensd@google.com>
-Subject: [RFC 01/10] Add !MEMCG memcg_list_lru_alloc implementation
+Message-ID: <20260827232948.2520558-3-stevensd@google.com>
+Subject: [RFC 02/10] mm/vmalloc: Skip vmallocinfo NUMA stats for VM_SPARSE
 From: David Stevens <stevensd@google.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
@@ -82,42 +82,29 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	David Stevens <stevensd@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add a stub implementation of memcg_list_lru_alloc() when CONFIG_MEMCG
-isn't enabled.
+Bail from show_numa_info() in vmalloc_info_show() for areas with
+VM_SPARSE set. This lets clients that allocate VM_SPARSE areas directly
+use vm_struct's nr_pages and pages fields.
 
 Signed-off-by: David Stevens <stevensd@google.com>
 ---
- include/linux/list_lru.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ mm/vmalloc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/list_lru.h b/include/linux/list_lru.h
-index a450fffe1550..40eaeaa3424c 100644
---- a/include/linux/list_lru.h
-+++ b/include/linux/list_lru.h
-@@ -79,10 +79,10 @@ static inline int list_lru_init_memcg_key(struct list_lru *lru, struct shrinker
- 	return list_lru_init_memcg(lru, shrinker);
- }
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index f4fa227a8d7f..d39897300f29 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -5294,6 +5294,9 @@ static void show_numa_info(struct seq_file *m, struct vm_struct *v,
+ 	if (!counters)
+ 		return;
  
-+#ifdef CONFIG_MEMCG
- int memcg_list_lru_alloc(struct mem_cgroup *memcg, struct list_lru *lru,
- 			 gfp_t gfp);
- 
--#ifdef CONFIG_MEMCG
- /**
-  * folio_memcg_list_lru_alloc - allocate list_lru heads for shrinkable folio
-  * @folio: the newly allocated & charged folio
-@@ -106,6 +106,11 @@ static inline int folio_memcg_list_lru_alloc(struct folio *folio,
- {
- 	return 0;
- }
++	if (v->flags & VM_SPARSE)
++		return;
 +
-+static inline int memcg_list_lru_alloc(struct mem_cgroup *memcg, struct list_lru *lru, gfp_t gfp)
-+{
-+	return 0;
-+}
- #endif
+ 	memset(counters, 0, nr_node_ids * sizeof(unsigned int));
  
- void memcg_reparent_list_lrus(struct mem_cgroup *memcg, struct mem_cgroup *parent);
+ 	for (nr = 0; nr < v->nr_pages; nr += step)
 -- 
 2.55.0.897.gb25b4bd76c-goog
 
