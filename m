@@ -1,193 +1,186 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A5364E84;
-	Thu, 27 Aug 2026 21:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D5E305699
+	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 22:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787867954; cv=none; b=VxwWDD9RT1SoOzwFE4Qnctpo46C8SZ+3rpp6KNJw8VFhvREuQQ0Jj2pPtE20YPMMFm/Qzi9qq5GIiy6xKRSBSPDpOM2EW1hL1alTN7XSgZD4FfwK9utRuO6DIY0oSbKWDdCo6z80K8xRtKI5xWs/tIyCCuT7XGL/ClAUquhGTDM=
+	t=1787869081; cv=none; b=cf28IHMs+Fp6s1ekofbZiLmuL6amJ69E+lDOXBv/gQ2KKxBUjPnrwXDaY/xmy7hDeu2eQJifG03GyGfzEg7/GtZVIH75URBLVCgrSAK44kuvZuON7spU5s4dV5qLW3ZGMeYqtHCb+/Up0a3HIQv5SsWcNqi20a5zJlXYxfvCIho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787867954; c=relaxed/simple;
-	bh=qzLonAOzoeSO1KaA4hy9xTbUYSnBL2AJcsROKCH76qo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TXP8HfJ0fuRmHcj/sFchSMKyAHxi2Px/2PgYylkDLc/lXn9PJhomP4fmU8j4sXNp6HOjqWWsARDUS9r2f9zdqdde9pgdfdSeA9AsYxT/Q09x19xNiYbaUiIk/lGUFAJDmJ07WETprTY1pHtCaF4hcCQ9ewdAVYPueKzn05/aNxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mqgmylbH; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1787869081; c=relaxed/simple;
+	bh=4g6D4WJqie44pY6zCy76n2BzsOIVEEIrPZSj7mF5FAE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=eoeaE9E/Ezq4izrwhv+Sdlbee5UOgDDtvQ1vfcaxKAjXNamsH1yh90cJJz5OmvUpyafaE8nIG5QiWym2OBcS/TSwU1WNikFYbTTlbjHqtIFhRV4GobVo4yZNCO/1w9U/NZiR0MzkK0U6QDxk+SZdCvISQisov4FCXpH3ShwN76U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iW4xCTWX; arc=none smtp.client-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mqgmylbH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2Z9GfRdYNGKAyi4eYFHvynSGXbnxrg/C+pRo3xywQik=; b=mqgmylbHvFWu2TC0svcfBjnUiu
-	lp4tHhY1qKErlAUjYabOkfDtkCxLVK+qUUU6mN2LQK1OdkYtOQQ7qIFd1EbhX/aX3joGNeLEzuHuQ
-	sEZUCXnP69iE3P/jtbc/PMv6u7U7dImz0A3pJH/ADQokzM/uw8nSsaWIumdcr9rJbL7A/gY8suasJ
-	ItrbyzOrxKUDxWOnD3G9SsW3+JNsRJx/uAav+/8kys6IirlShXGK/EZWtkcZqHtytP8bFhuiH+jy9
-	Ms6r5hTJ/LMVyqV7m4IzWniiNiSNUZql71A8gDl7zOCbPGEMNWG75ouPZSQ+AHYeJXrnCK4eMHSFG
-	y7S+1+eA==;
-Received: from [2001:8b0:10b:5:c5bc:77fb:75d5:ffaf] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzi7o-0000000DXSU-48dh;
-	Thu, 27 Aug 2026 21:59:09 +0000
-Message-ID: <0bab7b4331aab38ee1d174a7b402bcda7684b50f.camel@infradead.org>
-Subject: Re: KVM: x86/mmu: __kvm_rmap_lock() preemption assert trips on
- PREEMPT_RT
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: James Houghton <jthoughton@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>,  Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>,
- kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 27 Aug 2026 22:58:56 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iW4xCTWX"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc1b8088203so272189a12.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 27 Aug 2026 15:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787869079; x=1788473879; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cw6ij3wxYDl68tkuGy7ynKowVPqKz0JRX8l/MVMdLYQ=;
+        b=iW4xCTWXZUkbJ0voA0nX1C01GFgNW4/XWmp9yuJXwNrMC4okwtAzsKlQho34mz3f1O
+         G8/pWOPLHKO4P2MmrIV0318bHpTDJ8tkHMOxGkCnA0v29ffz6ZHd7HmWp7ESxtHwxe+w
+         4hGvgcSGI6ySHqAJrNu5i3vzGPlVmPkEj5GOhb5f3yaUqsZOiEQuGtj0Le7PftoIoyaY
+         FTOxLTURxbwVvNe5J9GIeKrODRKpL+NFTnsecjNKq5JvHVT102NHcwG8+/y0SW5y3INV
+         f0Q2qyT0xCVIQ1zfe7auHoamA2emgx1m/pMP9GL4EFQsbdeVbobMX3Xr9/AZ6Jh0TQec
+         ZS5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787869079; x=1788473879;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cw6ij3wxYDl68tkuGy7ynKowVPqKz0JRX8l/MVMdLYQ=;
+        b=NKVFuzMPTKYgXQGxeF5469g7l9Q0eduYUp04X+QNhRsFXbOi7r9yTSGWXWrf1OSD++
+         WlCQeGHBe3GYh01erZy0ixzOPo69J+LHca5yGwnZTiTHz2rklzKOIwu+n8XhNor0j2uw
+         3rvnQVhi+x0QN8a3P91Z5PY95+AN7b/AeFx6kJknWDtqx3Rzd6kMAwrcfHT+2JyYK6IV
+         JhGuKOEcz8qdS8MIvRbFmH0IzcmDaAderq8YsyzXYU5xP8WKJlZDeLMFY4J7adrxr9p5
+         vaQt38mqYZHr9ExhHulk0rmCpjC4johQb1S2i3Wt99zAux58vLmfUZ5Mb5KkuHo13K+p
+         64ww==
+X-Forwarded-Encrypted: i=1; AHgh+RoYdLwl1/gnutRtPHsiNZJd/pPgP+g8BzGCBndbHfq8HEj7JhtqTToK+LM4pNh6VPqI2fGVzH0DIfHBI/fwuw==@lists.linux.dev
+X-Gm-Message-State: AFuF++nIQcINUbLk5DQm9SWwDv/43cgiioN093M1z26fh6+YVAzkeGmb
+	Stcj9DU2WGNQwnUiF8GROvY6PYQUmFFG7/tMUsV9eKmj6ppeDlxwIdMuTblS97Ex9rzZbZXyuDf
+	PDoFWSA==
+X-Received: from pghf20.prod.google.com ([2002:a63:e314:0:b0:cc1:c65d:a775])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1c8a:b0:851:8394:1696
+ with SMTP id d2e1a72fcca58-8562b49995emr4859459b3a.12.1787869078698; Thu, 27
+ Aug 2026 15:17:58 -0700 (PDT)
+Date: Thu, 27 Aug 2026 15:17:57 -0700
 In-Reply-To: <apCwV7xenDh2qmr7@google.com>
-References: <8d47b43e1829ac92703723e6a1a4afc7a2eaacb5.camel@infradead.org>
-	 <apCwV7xenDh2qmr7@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-9aQd3TZV0Yg4gzw9Vc6d"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0
+References: <8d47b43e1829ac92703723e6a1a4afc7a2eaacb5.camel@infradead.org> <apCwV7xenDh2qmr7@google.com>
+Message-ID: <apC3lYri5r4KUM3T@google.com>
+Subject: Re: KVM: x86/mmu: __kvm_rmap_lock() preemption assert trips on PREEMPT_RT
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: James Houghton <jthoughton@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-
---=-9aQd3TZV0Yg4gzw9Vc6d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 2026-08-27 at 14:47 -0700, Sean Christopherson wrote:
-> I'll take it for a spin, unless someone has a better idea.
-
-Heh, no pun intended?
-
+On Thu, Aug 27, 2026, Sean Christopherson wrote:
+> On Thu, Aug 27, 2026, David Woodhouse wrote:
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 81c30e2c74f3..31a372d0697c 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -913,11 +913,15 @@ static struct kvm_memory_slot *gfn_to_memslot_dirty_bitmap(struct kvm_vcpu *vcpu
+>   */
+>  #define KVM_RMAP_LOCKED	BIT(1)
+>  
+> -static unsigned long __kvm_rmap_lock(struct kvm_rmap_head *rmap_head)
+> +static unsigned long __kvm_rmap_lock(struct kvm *kvm,
+> +				     struct kvm_rmap_head *rmap_head)
+>  {
+>  	unsigned long old_val, new_val;
+>  
 > -	lockdep_assert_preemption_disabled();
 > +	if (IS_ENABLED(CONFIG_PREEMPT_RT))
 > +		lockdep_assert_preemption_disabled();
 > +	else
 > +		lockdep_assert_held(&kvm->mmu_lock);
 
-Other way round?
+...
 
-I'll fix that and throw it on top of my GPC/RT/RCU torture tests.
+> @@ -1745,11 +1754,15 @@ static bool kvm_rmap_age_gfn_range(struct kvm *kvm,
+>  	gfn_t gfn;
+>  	int level;
+>  
+> +#ifdef CONFIG_PREEMPT_RT
+> +	guard(read_lock)(&kvm->mmu_lock);
+> +#endif
 
---=-9aQd3TZV0Yg4gzw9Vc6d
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+And now I remember why I swept this under the rug.  This really should take
+mmu_lock for write, otherwise concurrent aging threads could theoretically get
+stuck competing for KVM_RMAP_LOCKED.  Which is silly, because they don't actually
+need to take a lock of any kind.  I.e. it's not super trivial?
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-SvVvszaRboFFjXowK5lX/j8AAAAAAAA=
+Wait, duh.  It is trivial if mmu_lock is held, because then KVM can operate on
+rmaps without any KVM_RMAP_LOCKED shenanigans.  I wouldn't test this because it
+might break horribly, but I think this?
 
-
---=-9aQd3TZV0Yg4gzw9Vc6d--
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 81c30e2c74f3..2b157b390a40 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -895,6 +895,7 @@ static struct kvm_memory_slot *gfn_to_memslot_dirty_bitmap(struct kvm_vcpu *vcpu
+  */
+ #define KVM_RMAP_MANY	BIT(0)
+ 
++#ifndef CONFIG_PREEMPT_RT
+ /*
+  * rmaps and PTE lists are mostly protected by mmu_lock (the shadow MMU always
+  * operates with mmu_lock held for write), but rmaps can be walked without
+@@ -1008,7 +1009,8 @@ static unsigned long kvm_rmap_get(struct kvm_rmap_head *rmap_head)
+  * actual locking is the same, but the caller is disallowed from modifying the
+  * rmap, and so the unlock flow is a nop if the rmap is/was empty.
+  */
+-static unsigned long kvm_rmap_lock_readonly(struct kvm_rmap_head *rmap_head)
++static unsigned long kvm_rmap_lock_readonly(struct kvm *kvm,
++					    struct kvm_rmap_head *rmap_head)
+ {
+ 	unsigned long rmap_val;
+ 
+@@ -1032,6 +1034,35 @@ static void kvm_rmap_unlock_readonly(struct kvm_rmap_head *rmap_head,
+ 	__kvm_rmap_unlock(rmap_head, old_val);
+ 	preempt_enable();
+ }
++#else
++static unsigned long kvm_rmap_get(struct kvm_rmap_head *rmap_head)
++{
++	return atomic_long_read(&rmap_head->val);
++}
++static unsigned long kvm_rmap_lock(struct kvm *kvm,
++				   struct kvm_rmap_head *rmap_head)
++{
++	lockdep_assert_held_write(&kvm->mmu_lock);
++	return kvm_rmap_get(rmap_head);
++}
++
++static void kvm_rmap_unlock(struct kvm *kvm,
++			    struct kvm_rmap_head *rmap_head,
++			    unsigned long new_val)
++{
++	atomic_long_set_release(&rmap_head->val, new_val);
++}
++
++static unsigned long kvm_rmap_lock_readonly(struct kvm *kvm,
++					    struct kvm_rmap_head *rmap_head)
++{
++	lockdep_assert_held_read(&kvm->mmu_lock);
++	return kvm_rmap_get(rmap_head);
++}
++
++static void kvm_rmap_unlock_readonly(struct kvm_rmap_head *rmap_head,
++				     unsigned long old_val) { }
++#endif
+ 
+ /*
+  * Returns the number of pointers in the rmap chain, not counting the new one.
+@@ -1745,11 +1776,15 @@ static bool kvm_rmap_age_gfn_range(struct kvm *kvm,
+ 	gfn_t gfn;
+ 	int level;
+ 
++#ifdef CONFIG_PREEMPT_RT
++	guard(read_lock)(&kvm->mmu_lock);
++#endif
++
+ 	for (level = PG_LEVEL_4K; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+ 		for (gfn = range->start; gfn < range->end;
+ 		     gfn += KVM_PAGES_PER_HPAGE(level)) {
+ 			rmap_head = gfn_to_rmap(gfn, level, range->slot);
+-			rmap_val = kvm_rmap_lock_readonly(rmap_head);
++			rmap_val = kvm_rmap_lock_readonly(kvm, rmap_head);
+ 
+ 			for_each_rmap_spte_lockless(rmap_val, &iter, sptep, old_spte) {
+ 				if (!is_accessed_spte(old_spte))
