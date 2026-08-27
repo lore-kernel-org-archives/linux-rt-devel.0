@@ -1,59 +1,47 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A095E484220;
-	Thu, 27 Aug 2026 15:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6A841D64E;
+	Thu, 27 Aug 2026 17:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787843464; cv=none; b=j3AbSvGvxQnzWudw/uk84dx7DfP+l9SQUX2I4EGMNobhuC5eyh0WCxxliEQ0Hymz/TMOegxr0DunzWbQba3U3hFNvoKsrrp2GQfPUdiR8TPAzyyACWCPtWmdQyEW0qbFUr+uW9JpqN2GBBom/4SHPh5AxWLQaPNzC0yA/Km8iW8=
+	t=1787851639; cv=none; b=nuWug349SQy/3wFMVrdwssf22I3kIS0h9Wv1xyL021E1mXqwyYjPuzvzR+Opq3t8mW+a9rhwsh6G12ThxKc0JF0EURLU4+cKWKldMxv9ckS5WNm1joMAUA8UjIP5hM4EOLM9dRn2lPy3EknirJO0KsV46OMod2pEJKS9jQc9zmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787843464; c=relaxed/simple;
-	bh=wypQmDHUmcBJmH1nhaLuSZ2cqQW4q1hP00xbJAXnlJI=;
+	s=arc-20240116; t=1787851639; c=relaxed/simple;
+	bh=JcIA44QFQn7yq9+16zF2C/HfRNhySvLZOghbFAZcrsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3YciWGf4YHRD/9z7YeBNVUWFFJeE1+2bJP9qjCPZn+nejTw/SnxfcaXKGi5qQ8nmSUXwOJEiQMSuN5QuFIhxjWN0+a5G9B1CuMkkXjFYrO9bfcpqTtOy+X9x464MRfgY+xOPM4oECTNwVFx7j4BaR13z8Prp/OXyJVRpSFMrSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=M1pVnvi5; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Z+IzuBO2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=gGDU1D+Qr4vwYTYBDTbMEVucEqI9wGMrNigI746rDmuk78Ycqzrgnd3yfCE8Txq4jUBe2gklaLD90FyUK+gKAr2eXbLREVFjqC8cirrwQV7UntcTCI0qNeV8V7HirEocqyWYUI04Sga7S3cVL8upeNc5WrUDyfkxUL4Z7ZkHrU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSpeYBwp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="M1pVnvi5";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Z+IzuBO2"
-Date: Thu, 27 Aug 2026 17:10:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787843457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wypQmDHUmcBJmH1nhaLuSZ2cqQW4q1hP00xbJAXnlJI=;
-	b=M1pVnvi5/FOctF+AJQ3fJd4zoa9BaWw8XL/6bw+AYqZ7joQGG48ky2PIxfM/l8ARJk22T3
-	zTzevqto632G7v66F5Cua0qZZFz5jmt1vIJ7iIe9MjfoCz3I/cbZRiEQy3WMhL2VBkRXAx
-	oPBYk+3gQcuG510TbF8rkYPJHHMa86Ee/+gwrSJiz8SkdYjOPurf/nbQalO7pnXKG9aql8
-	J6WXqKGsuYOOokapNZZk/LbO4hBWqZptYKqBH444tygtKQa75z6U61UlqFYRJPx027Av7Y
-	w73RoaZBYmt/yfXsxevOKp4Bjt+49RgIR1uxxooqp0N8hFBgI4O2zNdGHHsfSA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787843457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wypQmDHUmcBJmH1nhaLuSZ2cqQW4q1hP00xbJAXnlJI=;
-	b=Z+IzuBO2jz4XIuRKpsm6Kra6CrM0Db+wSUt9ljjkuUb3ojtR1Vn9faOSPItXGTQW7uFiyx
-	ohhUj+hn41Xcj+AQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ju Nan <junan76@163.com>
-Cc: antonio.borneo@foss.st.com, linusw@kernel.org,
-	alexandre.torgue@foss.st.com, arnd@arndb.de, clrkwllms@kernel.org,
-	lee@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSpeYBwp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E761F000E9;
+	Thu, 27 Aug 2026 17:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787851638;
+	bh=wb8/PaE9nlh/ttFtA9nVW7bKJvAZHzkzBtGOm4m5e98=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=iSpeYBwpuq5oexga8bQdYpswz+qOUjEdeE6bOc1r5n9+IWpVIwkcM2D8daLDOtq8E
+	 T3KOwyij75C/wBFx5D+fKbDZGxzQCS+eSPhO9GgQyBYok5KB571ArHcc7Szt+D2KxU
+	 9WoZYfoQjpaOLvMx0ZISTIW+0kpPy+TOFbQHfyykNn4e5Nkbgr+MFv8H+2zdakekv4
+	 IO4VUof/M8DCIy6qpZT5ijL+RyXb0YCPvzlwekFQjsN72HD3NIQ1fMtjoErsz6OPnj
+	 pM/BWXLvBvQpUGQEB8O3Nsf0LrANzbdR92glQPEHeK6MbW/uniPlUxtioDyY0Eeyno
+	 WqF8ztUK0bU4g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D33C2CE1496; Thu, 27 Aug 2026 10:27:17 -0700 (PDT)
+Date: Thu, 27 Aug 2026 10:27:17 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Frederic Weisbecker <frederic@kernel.org>, rcu@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com, mcoquelin.stm32@gmail.com,
-	mfd@lists.linux.dev, rostedt@goodmis.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3] pinctrl: stm32: program the EXTI mux from .alloc
- instead of .activate
-Message-ID: <20260827151056.QrjGOPuG@linutronix.de>
-References: <20260803061718.43210-1-junan76@163.com>
- <20260804141402.86911-2-junan76@163.com>
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Clark Williams <clrkwllms@kernel.org>
+Subject: Re: [PATCH v2] rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
+Message-ID: <5fd51e21-6afa-448d-bd43-6f6a2ac45cc6@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260821183809.-kRAXbZs@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,29 +50,57 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260804141402.86911-2-junan76@163.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260821183809.-kRAXbZs@linutronix.de>
 
-On 2026-08-04 22:14:03 [+0800], Ju Nan wrote:
-=E2=80=A6
-> Nothing requires the mux to be reprogrammed at interrupt startup time:
-> the domain has no .deactivate, .free() only releases the irqmux_map bit
-> without touching the registers, and the resume path reprograms the mux
-> itself in stm32_pinctrl_restore_gpio_regs().
+On Fri, Aug 21, 2026 at 08:38:09PM +0200, Sebastian Andrzej Siewior wrote:
+> The irq_work in srcu is used to schedule a delayed work. The work item
+> is not scheduled directly because it is not always possible wake a
+> thread directly.
+> 
+> On PREEMPT_RT the default irq_work is initialized with IRQ_WORK_LAZY and
+> is delayed to the irq_work thread. A system booted with the command line
+> "trace_event=…" will freeze during boot because the irq_work thread is
+> not yet deployed (and tracing uses synchronize_srcu() in
+> tp_rcu_cond_sync()).
+> 
+> The irq_work performs just a wakeup a thread, there is nothing wrong
+> with doing this from hardirq context on PREEMPT_RT.
+> 
+> Use IRQ_WORK_INIT_HARD for srcu's irq_work.
+> 
+> Fixes: 7c405fb3279b3 ("rcu: Use an intermediate irq_work to start process_srcu()")
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The deactivate was last removed in commit db0f032512443 ("pinctrl:
-stm32: check for IRQ MUX validity during alloc()")
+Good catch, queued for further review and testing, thank you!
 
-=E2=80=A6
-> While moving the code, release the mux reservation when the hwspinlock
-> cannot be taken, which the .activate callback had no way of doing.
+							Thanx, Paul
 
-It makes sense.
-Acked-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-> Reported-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> Closes: https://lore.kernel.org/all/20220202174430.pf37tt6lua2op3gc@pengu=
-tronix.de/
-> Signed-off-by: Ju Nan <junan76@163.com>
-
-Sebastian
+> ---
+> v1…v2: https://lore.kernel.org/all/20260820110008.v2Tlr0_H@linutronix.de/
+> - Add a comment as suggested by Steven.
+> 
+>  kernel/rcu/srcutree.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> index 7c2f7cc131f7a..af9fe0165a800 100644
+> --- a/kernel/rcu/srcutree.c
+> +++ b/kernel/rcu/srcutree.c
+> @@ -218,7 +218,12 @@ static int init_srcu_struct_fields(struct srcu_struct *ssp, bool is_static)
+>  	mutex_init(&ssp->srcu_sup->srcu_barrier_mutex);
+>  	atomic_set(&ssp->srcu_sup->srcu_barrier_cpu_cnt, 0);
+>  	INIT_DELAYED_WORK(&ssp->srcu_sup->work, process_srcu);
+> -	init_irq_work(&ssp->srcu_sup->irq_work, srcu_irq_work);
+> +	/*
+> +	 * trace events started on the command line require SRCU before
+> +	 * the irq_work kthread starts. Since all it does is a simple
+> +	 * wakeup, having it as a hard irq, even on PREEMPT_RT is fine.
+> +	 */
+> +	ssp->srcu_sup->irq_work = IRQ_WORK_INIT_HARD(srcu_irq_work);
+>  	ssp->srcu_sup->sda_is_static = is_static;
+>  	if (!is_static) {
+>  		ssp->sda = alloc_percpu(struct srcu_data);
+> -- 
+> 2.55.0
+> 
