@@ -1,38 +1,38 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DA444E66B;
-	Fri, 28 Aug 2026 12:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D7D328243;
+	Fri, 28 Aug 2026 12:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787921313; cv=none; b=O/VPAMtqy/0Adyr5GyXnL+WDzc+O40CXJotLeCfsJht0w0iVIYG6Ha9wzmVTqcAtvSKGvvsC47GMyoe/Jb0brIq5eJeA+A6cMP/+5+TJ/WWp9w3/vQBRgOsRpMPt/lG2OSTalodWgZr3EHWTEZp81QTNydsVC3TJR+zbwR+HyE4=
+	t=1787921842; cv=none; b=kbo8zOHA00R9dn81a09zblKlQ1mEQvAnzkNQ7e8RSnpF2zOfP3YWR1s7D1T3673b/jZR4OKvHbibIw59kf22Y/h3dEq+kPcIhjCf2puJHf1ROCq8TMb/qBDrozIDr6TJXJCONbuEqzpPTlvBagIYRxNqW3TAQCD61f2AAhfvwQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787921313; c=relaxed/simple;
-	bh=59pQEm4J632UzlRc38VlYiLZzPG9Ldg1oVqBQQFCU10=;
+	s=arc-20240116; t=1787921842; c=relaxed/simple;
+	bh=nES8lH77B+aFpP4B7r3qJxpoAExRq7bhWbrwvKyCwFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0czSPEoGxNntMBtjvovOD6IF9ZW8bFP6PEk+V5wXxQuwyyLo3FR29GPfEg4lginT70Yu9AD8MAKeiyMsA38Z319BG07L6RVlgbwnHfqIvtOfc80bllzmo8Hj2mIPQEQ8uvt17ygrD7OwLnGPd+aM2SZMAmyjZ7JupeO8LsAHi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=apd9kBBL; arc=none smtp.client-ip=90.155.92.199
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCZyJnN8s/LEC+l3AMyo/U+8SefXOiWQlKNmyBKQVWqp3nNbNKGC9ECjNXxKzY4VFKQrsjOvL8qylfa/kB6IVdWtFBqlivJTFHPnaia+xpd0RV7eFZABWBJmsP/dz9IlcyyKdTmaHpsi23jNgmZX7i0VAB4bXgNjKd7CLuT1/Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZBP0PlIg; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="apd9kBBL"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZBP0PlIg"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AY84rfjFkNDjAWFNf8AP9fCrg78WzFe8p1rGWp/UIAo=; b=apd9kBBLyOu58CYgPPP5CX3ADi
-	bQwvk9xWrikcjNqyLtRx2ifMpANi76pueMtJCNpfBW3hS6hNFriUiwNXeOieYmaxYoWVEhH4yeyGQ
-	B4ChwuMdqS6J+KGWO6Pa3/maqlBEgbclayatiFx/Nevfd831UN+Hiq0OeBqw4epE32rqEZruKNo5h
-	Q94YyBfUjvAiC772y/3ECHbKipiJm4gmgQlmEjGqyB2krabU5/5qZDMZWTDH1+KD+eIB+yuwmHYHm
-	GaTodGV5H2Mm+kMp6XQEbWwM8QktRq9qECMqOyA+DpA1ltXatP778QCi/VudQMVEmDm5i25tjrCUk
-	2pUDBrnA==;
+	bh=qHN2OGlf9GRTtKA96vHo/h+pDHfL02/7NECu7KyWS+I=; b=ZBP0PlIgUBT5PXNCWPnT6ZNLza
+	iqi8pjnn5U2zgxLE3/f1oPZ9VivUarl90IrtBOBu31xNSGl542Eh2cQMsbuXL8RhZI7DhRsskA9Ov
+	9C4dP5+Pwos2L2HWhnCqdm9+DLYTiHOEm8b8L+wIALCO+s8eaRWQDHTNysdJS3RfEZmJ/Z2v+ePz6
+	+a5Nb5uJOArtDnR8MEwaQG+AR1VGkPILsrjEtlxSAmpUHVbTu9adhmtvtwM2kOgyivnGev1wctlAd
+	c63CCdNSci5tpTj6b9w2phQOg1GEBotE4nJuU+zmBShMnRddlInXXJyDYh+NPB3FJbKSJCWhodF24
+	EYMbarmQ==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wzw00-00000008FkC-1X7M;
-	Fri, 28 Aug 2026 12:48:00 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wzw8p-0000000Eih6-0Dlt;
+	Fri, 28 Aug 2026 12:57:07 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C791030030F; Fri, 28 Aug 2026 14:47:58 +0200 (CEST)
-Date: Fri, 28 Aug 2026 14:47:58 +0200
+	id 3A54630116A; Fri, 28 Aug 2026 14:57:06 +0200 (CEST)
+Date: Fri, 28 Aug 2026 14:57:06 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: David Stevens <stevensd@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -62,11 +62,11 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>, suleiman@google.com,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
-	jstultz@google.com
-Subject: Re: [RFC 00/10] Reclaimable kernel stacks
-Message-ID: <20260828124758.GP687043@noisy.programming.kicks-ass.net>
+	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
+Message-ID: <20260828125706.GQ687043@noisy.programming.kicks-ass.net>
 References: <20260827232948.2520558-1-stevensd@google.com>
+ <20260827232948.2520558-7-stevensd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -75,28 +75,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260827232948.2520558-1-stevensd@google.com>
+In-Reply-To: <20260827232948.2520558-7-stevensd@google.com>
 
-On Thu, Aug 27, 2026 at 04:29:38PM -0700, David Stevens wrote:
+On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
+> +DEFINE_CLASS(allow_stack_reclaim, bool,
+> +	     ({
+> +		if (!_T)
+> +			current->flags &= ~PF_RECLAIMABLE_STACK;
+> +	      }),
+> +	     ({
+> +		bool was_set = current->flags & PF_RECLAIMABLE_STACK;
+> +
+> +		current->flags |= PF_RECLAIMABLE_STACK;
+> +		was_set;
+> +	      }),
+> +	     void)
 
-> On Android, system processes typically have 2000-3000 threads. App
-> processes add 1000s more threads on top of this.
+> +	allow_stack_reclaim(prev);
 
-WTF ?!? Why does that all spawn *that* many threads? Perhaps work on
-reducing that some?
+> +void __allow_stack_reclaim(struct task_struct *tsk)
+> +{
+> +	union stack_reclaim_state prev_state, target_state;
+> +
+> +	if (WARN_ON_ONCE(tsk->__state == TASK_DEAD))
+> +		return;
+> +
+> +	prev_state.val = READ_ONCE(tsk->stack_reclaim_state.val);
+> +	do {
+> +		target_state.val = prev_state.val;
+> +
+> +		if (prev_state.stack_state != STACK_PREPARE_RECLAIM) {
+> +			WARN(prev_state.stack_state != STACK_IN_USE,
+> +			     "Reclaimable state %x for previously running task", prev_state.val);
+> +			return;
+> +		}
+> +		target_state.stack_state = STACK_RECLAIMABLE;
+> +	} while (!try_cmpxchg(&tsk->stack_reclaim_state.val, &prev_state.val, target_state.val));
+> +
+> +	if (irq_work_queue(&tsk->stack_reclaim_work->irq_work)) {
+> +		/*
+> +		 * Take a ref that gets released by do_reclaim_stack() so we don't
+> +		 * have to worry about races with remove_from_stack_shrinker().
+> +		 */
+> +		get_task_struct(tsk);
+> +	}
+> +}
 
-> Tracking blocked state and when it is safe to reclaim a stack is done
-> via a series of hooks in the scheduler. The actual reclaim of stacks is
-> done asynchronously in a shrinker.
-> 
-> Once a task's stack has been reclaimed, it cannot be rescheduled until
-> its stack is repopulated. Although there can be a repopulation fast path
-> within the scheduler, reliably allocating memory to repopulate the stack
-> requires a fallback path that defers the repopulation and wakeup to a
-> workqueue context that can use GFP_KERNEL.
+> +static inline void allow_stack_reclaim(struct task_struct *tsk)
+> +{
+> +	if (unlikely(tsk->flags & PF_RECLAIMABLE_STACK))
+> +		__allow_stack_reclaim(tsk);
+> +}
 
-I am really confused. On the one hand you have John working on proxy
-execution, with the aim on reducing latencies, and then here you are,
-posting something that will introduce basically unbound latencies.
+So you have a guard with the same name as a function, but the function
+only functions when inside the guard of the same name. WTF ?!
 
+Anyway, it looks like you're sprinkling this guard around a few specific
+block sites. Which seems to suggest your PF_ flag *should* have been a
+TASK_ flag, no?
 
