@@ -1,27 +1,27 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5035537AA9C
-	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 19:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971C3BB9F4
+	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 19:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787944364; cv=none; b=fNMQbHt5Rh0ANn8Tby3p/nbwhDewgohid5ndu77XDK+/GQQWyS1DWht+MOrqimRGavViPklPAFGsabpOX7kS/WIZEcYT8tmvQD2DEHzt8dIDZaHrLulbiTvaoJG3/tjTzEkiM2WL29Ngr5jfmuZnrTuTFA73w28lGB7klzFyOCw=
+	t=1787944633; cv=none; b=iUOezwM4pZ64OFI2vXqq+Smd6KXNhgaVNIPmEag/mHAUcuKDNCt8rpvmHR1mJYnXwwwpk5jfeEvAUCrPEbqtvdsQOTfRC2ZL31SQz7GD2O82tm7JZy8V3POgkRirLzYq4lgR8FE94aeYd/w9bYzBb50eEnaoerkWJZ9rACk53Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787944364; c=relaxed/simple;
-	bh=FfwzgX8uqBO5Nk4yhSfaGrDLJCBEiHT9kEzSEsDWg5w=;
+	s=arc-20240116; t=1787944633; c=relaxed/simple;
+	bh=OjCe3CktZlYFOQFPLmGRlHo4AyWyH9sO8Gk+RrBAlYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K8+R3MgaiQu1x5/e+W5T2Hb8JQSw87SrpgwQTX2n8N/mB0ick6HRLoZRb9klqckbG+IHc1SDuajxFwh3afK3xZNSFQ2uW0IwDGnm+WX2fihH/6xJGchLfT2EnBV4Rv9vN95YO047qhdrsG2JgQyxroUiwJhv/vGe7Jy3cAYnsUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=2m2asOuE; arc=none smtp.client-ip=216.40.44.17
+	 MIME-Version:Content-Type; b=ng0ual3yZb/rNyxXWGKwfdSj3aYJcOWBfqrmtdcgnc5weys/QGyoUI0jXsmYePFtPoK5HZ/F3bYHvjlwFwwvFl4b1e6jT09VsvyCk0/FhmZyXpQVzod2uoKDRo+uM6FUvSVa+v7cx8IJ7F5OnC7jEja2ysdlYeH8S+F/nuU+svU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=gAZTVjGD; arc=none smtp.client-ip=216.40.44.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="2m2asOuE"
-Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 65FAAA3FB0;
-	Fri, 28 Aug 2026 19:12:32 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id C696B2002D;
-	Fri, 28 Aug 2026 19:12:23 +0000 (UTC)
-Date: Fri, 28 Aug 2026 15:13:13 -0400
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="gAZTVjGD"
+Received: from omf05.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id C52951A053F;
+	Fri, 28 Aug 2026 19:17:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id C3E9F20011;
+	Fri, 28 Aug 2026 19:16:57 +0000 (UTC)
+Date: Fri, 28 Aug 2026 15:17:47 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Peter Zijlstra <peterz@infradead.org>, David Stevens
@@ -45,14 +45,15 @@ Cc: Peter Zijlstra <peterz@infradead.org>, David Stevens
  linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
  linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828151313.5c4a5e4b@gandalf.local.home>
-In-Reply-To: <20260828150836.2d5b378c@gandalf.local.home>
+Message-ID: <20260828151747.20035d50@gandalf.local.home>
+In-Reply-To: <20260828151313.5c4a5e4b@gandalf.local.home>
 References: <20260827232948.2520558-1-stevensd@google.com>
 	<20260827232948.2520558-7-stevensd@google.com>
 	<20260828133620._x2XfJR_@linutronix.de>
 	<20260828135947.GU776954@noisy.programming.kicks-ass.net>
 	<20260828151018.HnR9xV1N@linutronix.de>
 	<20260828150836.2d5b378c@gandalf.local.home>
+	<20260828151313.5c4a5e4b@gandalf.local.home>
 X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -62,76 +63,59 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: dyge7ggw7d7rfphafggxzm8r13uy7gtt
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: C696B2002D
+X-Rspamd-Queue-Id: C3E9F20011
+X-Stat-Signature: j65tfsnn7wb96ijjjfomjeapo6aro4m7
+X-Rspamd-Server: rspamout03
 X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/rkZTDqyZTXYSHIbvg/SbTGvmPF9j7VV8=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=Z2Suj+uMH8IWqeDAhXO3xIkXuJMMCKizRoC/2RG7bxc=; b=2m2asOuEv8t74uU1Gan3JSqAENc8RaUvN9P1HNNtBSittc4ZS6dNRkHB+iQDKp48V8rWl/FjHiz1V7HP5iSOBYeJNgTCSbsaiNlM0/IYJtEDh4FkBKz/l4O+K5TZJLjLn7IVm7vslpivsyURkYHuFNXmcFyuKFW9XahtjqdPaQc=
-X-HE-Tag: 1787944343-285764
-X-HE-Meta: U2FsdGVkX1909Uxp8Ldf7nNU7KRK0gudD1Ufb8P4m28YOCIyzM1fQabUyiFSwXv3FXOCfu1zeVXberLA6qXl8bDofIen2OSqWaSPKGJB+heB2QFlA47FICTq09w+AKae/jaHa/KJl/DpwGQqYsKym/NPNfywRAA6WkPJibG+5t5lB70tNvEFXd36oQJGhGj93sDV1ojcwJDdPDsjLCGuFavg+dp2ChEsumGYD3PhuQlK7Aka9+JKS55fHEFT9iPdrZ4C5ViVsbwk02ttENue2ff4c1QGDoevm3rCVvtMDgTs7guBH6hDeLwSM+POInDEFzLzaI0wEEW7nE4u7yOKySoK2QvbzxX4RLDAuWiU812FEq6L4xn2wxAkWWMSwSki
+X-Session-ID: U2FsdGVkX1/FRCRqi3s+JC4roW7NUQua3g10tn9P4XM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=0RDwr71FlsrAMrAAlqln64IM9QGsxwXWA77DtZDfZwQ=; b=gAZTVjGDveN8fhsH4aJV2blL0f0S/QpEEvr3BQpYaHupiEQdLMD69nFOfdLEk1spL0/g6lXtTnfNyIqHZGTSM2GCgE4DvzYvzij8bAWlZRrSpkm67+yI+NJTg387b0JmME/jtx2tEqWIUYUrCD2W7DFVoX4NatssuHtJiesq2nE=
+X-HE-Tag: 1787944617-357454
+X-HE-Meta: U2FsdGVkX1+ViF3OvOgaM5ssQLR7tn0uySWJaFHYtcXWZ21cz7nnxMRW6iHpDWrp6Htrs0cIkgW4SbBQGFpZUf1ROkYnZEWGOtcWKXjDukDAh5xQHzSUkPxJbyaumnTpSqP3YXkkCipkNohafMlloaOqbdI5ACVjC77j7iGbrpU8lCltcFJhtONUqXBCJpw9eTajIr0/aLHn6NisdoeErwIxVK/oB2Np5iYGqcWQEGRVIxOt9i1N8E1VkhWj8uFuSoYqfpNN0eEmhPs7aE8vmz2WPbGl+v4Ry92BAG7LkkOQAqWIZjLFKEu432FqDcWspoc2zzLFnstcV5vVdG65ka7IObsOxeMhd+5KlkygWN4xwraefOr4pQuVKgzS9Rrd
 
-On Fri, 28 Aug 2026 15:08:36 -0400
+On Fri, 28 Aug 2026 15:13:13 -0400
 Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> If you want to see how big your stack is and where its used, you can run
-> the stack tracer:
-> 
->  # trace-cmd stack --start
-> 
-> [wait]
-> 
->  # trace-cmd stack
-> (stack tracer running)
->         Depth    Size   Location    (41 entries)
->         -----    ----   --------
->   0)     5032      48   choose_idle_cpu+0x5/0x100
->   1)     4984     296   select_task_rq_fair+0xa84/0x2b40
->   2)     4688     104   try_to_wake_up+0x168/0x7e0
->   3)     4584      16   task_work_add+0xd7/0xf0
->   4)     4568      16   io_req_normal_work_add+0x75/0xb0
->   5)     4552      40   io_poll_wake+0x10f/0x160
->   6)     4512      64   __wake_up_common+0x72/0xa0
->   7)     4448      40   __wake_up_sync_key+0x43/0x60
->   8)     4408      24   sock_def_readable+0x46/0xe0
->   9)     4384      80   tun_net_xmit+0x240/0x550 [tun]
->  10)     4304      80   dev_hard_start_xmit+0x63/0x1e0
->  11)     4224     256   __dev_queue_xmit+0x880/0x10b0
->  12)     3968      24   br_dev_queue_push_xmit+0x62/0xf0 [bridge]
->  13)     3944      80   br_dev_xmit+0x15e/0x4a0 [bridge]
->  14)     3864      80   dev_hard_start_xmit+0x63/0x1e0
->  15)     3784     256   __dev_queue_xmit+0x880/0x10b0
->  16)     3528      72   ip_finish_output2+0x2ce/0x650
->  17)     3456     104   ip_output+0x63/0x110
->  18)     3352      72   __ip_queue_xmit+0x16f/0x470
->  19)     3280     232   __tcp_transmit_skb+0xcb5/0x1140
->  20)     3048     120   tcp_write_xmit+0x5aa/0x1760
->  21)     2928      24   __tcp_push_pending_frames+0x39/0x110
->  22)     2904     104   tcp_rcv_established+0x37f/0xeb0
->  23)     2800      32   tcp_v4_do_rcv+0x13f/0x300
->  24)     2768     168   tcp_v4_rcv+0xc01/0x1300
->  25)     2600      48   ip_protocol_deliver_rcu+0x35/0x1b0
->  26)     2552      24   ip_local_deliver_finish+0x85/0x100
->  27)     2528      40   __netif_receive_skb_one_core+0x85/0xa0
->  28)     2488      56   netif_receive_skb+0x127/0x180
->  29)     2432     104   br_handle_frame_finish+0x428/0x680 [bridge]
->  30)     2328      40   br_handle_frame+0x132/0x2a0 [bridge]
->  31)     2288     280   __netif_receive_skb_core.constprop.0+0x16e/0xdf0
->  32)     2008      40   __netif_receive_skb_one_core+0x39/0xa0
->  33)     1968      56   netif_receive_skb+0x127/0x180
->  34)     1912     256   tun_get_user+0xbd0/0x1260 [tun]
->  35)     1656      56   tun_chr_write_iter+0x77/0xba [tun]
->  36)     1600      88   do_iter_readv_writev+0x161/0x260
->  37)     1512     256   vfs_writev+0x168/0x3c0
->  38)     1256      80   do_writev+0x7f/0x110
+> If one worries about stack size, they may want to turn off
+> CONFIG_RANDOMIZE_KSTACK_OFFSET as I see some big numbers for do_syscall_64()
 
->  39)     1176     984   do_syscall_64+0xaa/0x670
+And the scheduler has some heavy stack usage here!
 
-If one worries about stack size, they may want to turn off
-CONFIG_RANDOMIZE_KSTACK_OFFSET as I see some big numbers for do_syscall_64()
+  # trace-cmd stack
+(stack tracer running)
+        Depth    Size   Location    (31 entries)
+        -----    ----   --------
+  0)     8120      48   __msecs_to_jiffies+0x9/0x30
+  1)     8072     104   update_group_capacity+0x94/0x960
+  2)     7968     528   update_sd_lb_stats.constprop.0+0x426/0x39b0
+  3)     7440     424   sched_balance_find_src_group+0x8f/0x1150
+  4)     7016     552   sched_balance_rq+0x934/0x4130
+  5)     6464     408   pick_task_fair+0xa71/0x1fe0
+  6)     6056     496   __schedule+0x628/0x76f0
+  7)     5560      32   schedule+0xde/0x2c0
+  8)     5528      32   io_schedule+0x8c/0x100
+  9)     5496     256   rq_qos_wait+0x12b/0x230
+ 10)     5240     136   wbt_wait+0x150/0x260
+ 11)     5104      40   __rq_qos_throttle+0x51/0xa0
+ 12)     5064     304   blk_mq_submit_bio+0xc40/0x28e0
+ 13)     4760     240   submit_bio_noacct_nocheck+0x410/0xb30
+ 14)     4520      40   ext4_io_submit+0xca/0x1a0
+ 15)     4480     144   ext4_bio_write_folio+0x5e2/0x1470
+ 16)     4336      96   mpage_process_page_bufs+0x392/0x700
+ 17)     4240     616   mpage_prepare_extent_to_map+0xaae/0x1120
+ 18)     3624     480   ext4_do_writepages+0x971/0x37f0
+ 19)     3144     312   ext4_writepages+0x2d2/0x610
+ 20)     2832     152   do_writepages+0x21e/0x560
+ 21)     2680     184   __writeback_single_inode+0x119/0x1240
+ 22)     2496     752   writeback_sb_inodes+0x67d/0x17b0
+ 23)     1744     168   __writeback_inodes_wb+0xf2/0x270
+ 24)     1576     304   wb_writeback+0x63e/0x890
+ 25)     1272     320   wb_workfn+0x844/0xca0
+ 26)      952     360   process_one_work+0x8b4/0x15d0
+ 27)      592     176   worker_thread+0x5d3/0xfb0
+ 28)      416      64   kthread+0x33c/0x420
+ 29)      352     160   ret_from_fork+0x65c/0x9e0
+ 30)      192     192   ret_from_fork_asm+0x1a/0x30
+
+Note, I'm running this on my server. That is, this is a production machine.
 
 -- Steve
-
-
->  40)      192     192   entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
