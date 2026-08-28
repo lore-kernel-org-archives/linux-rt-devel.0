@@ -1,38 +1,38 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9846D43F0AA;
-	Fri, 28 Aug 2026 12:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2FE44781B;
+	Fri, 28 Aug 2026 12:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787918673; cv=none; b=rUo4hykyB4BKqoJP8gTKg59Lf8dtm8+XrgEtgGfjrcciTEN9nqZa9e8B+xm7qv0OSQoQgTkHhe2v/Kj3eFQA8RlDW46CPMUl8iJvcd6L+5ymy8zB0croKok9mmtveuwDzmnCYqvi4h+0JkpTzpHOBJ029lyngxFe1z4D7j7yH5I=
+	t=1787920891; cv=none; b=FmEuHU7UAx5vl6AIKBlhbEjqrJqs7qTbSMZVlPDjxziBPOdtTsMXHEYqJQpCuT6PCnBTWin1+966AeLHBXXh++5sos0DaGyL2UN3qZRXdHdjrLvAu0DrN14XT+Mhmf76UQNLDJSoozVjAibYBIJlqGnFXr8KncfHrXBXBMCC1iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787918673; c=relaxed/simple;
-	bh=y6MS7RW2QFwTyTrqrzjVFQkghDAB+ao6TxdiVe2xvOM=;
+	s=arc-20240116; t=1787920891; c=relaxed/simple;
+	bh=JsdYFNlmu3mZtC0DhffCWqMCuB12dqERlIoFUoVuPCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJmxDKHIAMnrNamwq4xL7YHSdhaH2LLabkatxPgqpbobYMBPCy7qUN0iqzkh9axS+X8REBol3LgRm73fl3Zl42yC1qGvkIXOjQL6ViuvzA29MdBaejTNFD+Uqt23bxNzXM5QpHVEyeazIf4gcdGYdOL823aj89doN5VWUjj33KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g+U/AXhX; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=TVU7tQCYUma7vbdnr2uOeknInzlGo2ppNs20y/ZOTkupwxbU3e6vUWLa7zzt2Ssz+p+X/Np5b230DgMMtY5KV2qbXcPKijLz228QZxAQQT0Q1eEyXyYl+k/3tl8j2kutk+o60d9rD6bQzqAvLTtGRYk2d8nefgoVmS9dGff7X4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HzpcEx3Z; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g+U/AXhX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HzpcEx3Z"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=StE6yv7xm+286I4g7RWcb83gyYNv11/og1VLCuJGGrg=; b=g+U/AXhX8u1eDgBpqdk1xR7ga/
-	Kt2hts3Z9eGty/byZBIGMnrQhk/z73YD7BnlLXJwvr6ynDNUvl0iUhKu+cG2shbEd3kuLi992Vcro
-	vmMiuuboTD5xG7X9MClGy68OxbgmVZxEfM4tAgWp1DY+SGyMeUPMCpfN8bw9sC57YlIi3JTqGiFh0
-	hUOoveqNeQM+T12KwEUktnDJFQ4VMR3Wl6HGEQ0el6HwnDTxlhplPqU0nH0qLgaMIoFPXlLLWNOEy
-	xxvq5k4GVM+EAGtMijScxqO2e+VjpG5pl9SoXYrzoimnOXM4XI/KPJcx4fglBC4lXtT0B/Y+oGdS8
-	GioRT/cA==;
+	bh=JsdYFNlmu3mZtC0DhffCWqMCuB12dqERlIoFUoVuPCg=; b=HzpcEx3Zje4gJfUb+ceU/x1FvE
+	Zl3Mh4+eWu1HIJa93GBWDAjBGZo41IkX2S3AHDLV+ABH8Iudi6x4SUr8JFb7Xp+1f8Ta90NUfIQpx
+	xATI1wocphSZX/9LCrdJL9vLsfbJVD4ikAX0dnigoFCt2X36M6tqukfVSkYUTSw7/RpzWURd7G2B7
+	ky42+wb5W0wgO3bhKN8rW0nZqed7CeNX1TYQw6coaPu0LDtCbvXRJ5cNfOXMnNwCO/uM4nFSEQZzM
+	jAGWSRVFbt1xFQbORlb47ptVlPQUcPizFCQgguncsUiMarbI0Ol/17cCxaQrLbrIovxFgxl4kOQLa
+	mZsBqG5g==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzvJY-0000000EeNr-2cYx;
-	Fri, 28 Aug 2026 12:04:08 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wzvtH-00000008FbN-2c6I;
+	Fri, 28 Aug 2026 12:41:04 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 2AC2230030F; Fri, 28 Aug 2026 14:04:08 +0200 (CEST)
-Date: Fri, 28 Aug 2026 14:04:08 +0200
+	id 07F9C30030F; Fri, 28 Aug 2026 14:41:01 +0200 (CEST)
+Date: Fri, 28 Aug 2026 14:41:00 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: David Stevens <stevensd@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -64,7 +64,7 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828120408.GN687043@noisy.programming.kicks-ass.net>
+Message-ID: <20260828124100.GO687043@noisy.programming.kicks-ass.net>
 References: <20260827232948.2520558-1-stevensd@google.com>
  <20260827232948.2520558-7-stevensd@google.com>
 Precedence: bulk
@@ -78,24 +78,11 @@ Content-Disposition: inline
 In-Reply-To: <20260827232948.2520558-7-stevensd@google.com>
 
 On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
-> @@ -4320,8 +4319,18 @@ int try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
->  		 * A similar smp_rmb() lives in __task_needs_rq_lock().
->  		 */
->  		smp_rmb();
-> -		if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags))
-> +		if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags)) {
-> +			trace_sched_waking(p);
-> +			break;
-> +		}
-> +
-> +		if (!ensure_stack_is_present(p, &need_deferred_repopulate)) {
-> +			WRITE_ONCE(p->__state, TASK_STACK_RECLAIM);
-> +			do_deferred_repopulate_wake = need_deferred_repopulate;
->  			break;
-> +		}
-> +
-> +		trace_sched_waking(p);
+> This feature does work on PREEMPT_RT, but is likely undesirable due to
+> the extra uncertainty. The fact that alloc_pages_nolock_noprof() cannot
+> be called from under the scheduler lock also makes repopulating stacks
+> more expensive.
 
-Absolutely not; ensure_stack_is_present() must not call
-repopulate_stack() while holding ->pi_lock. Not happening.
+Aaah, so you knew it was hot garbage :-(
 
+Please don't ever post anything like this again.
