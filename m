@@ -1,39 +1,43 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D7D328243;
-	Fri, 28 Aug 2026 12:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1468A44AB83
+	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 13:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787921842; cv=none; b=kbo8zOHA00R9dn81a09zblKlQ1mEQvAnzkNQ7e8RSnpF2zOfP3YWR1s7D1T3673b/jZR4OKvHbibIw59kf22Y/h3dEq+kPcIhjCf2puJHf1ROCq8TMb/qBDrozIDr6TJXJCONbuEqzpPTlvBagIYRxNqW3TAQCD61f2AAhfvwQY=
+	t=1787924197; cv=none; b=SVOxR+2w2RVj3ARYfpT3ti8ehTvjg7PLprYfV3ZUCbryBO9yxIzoaGp/MmteGn1S8g7vNyPFa8VbZa6GT2O5TBfwAS/1E68ArF12zbOo68dHZN/wErKLfXD52sSqKMyEHPSOSA7d4PJIh8V4GHJLa4oeI7WU8M/fCtwMxVGc8uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787921842; c=relaxed/simple;
-	bh=nES8lH77B+aFpP4B7r3qJxpoAExRq7bhWbrwvKyCwFc=;
+	s=arc-20240116; t=1787924197; c=relaxed/simple;
+	bh=Fma1IpH+7fDUUAe0L/pRsviNIhxjKEH7xvkFRr2tGUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dCZyJnN8s/LEC+l3AMyo/U+8SefXOiWQlKNmyBKQVWqp3nNbNKGC9ECjNXxKzY4VFKQrsjOvL8qylfa/kB6IVdWtFBqlivJTFHPnaia+xpd0RV7eFZABWBJmsP/dz9IlcyyKdTmaHpsi23jNgmZX7i0VAB4bXgNjKd7CLuT1/Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZBP0PlIg; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=eudR9wOSgTYpP7+ltK787OY8wYxSZ0YgWWvwOnhSdD2p0FmdPkZ70W/1BTyk2pgKzKzmGSZRFgh1o+IaIzAqDPnmdFvsUjdEdcOMYPmqnX5dReuZGkrQX3NCOn103SDX5rpTHhvv8lHK8XetVxLNX34pHadRAkBlEDfZYSf+TaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zHr5gm9u; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2slVRRU9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZBP0PlIg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qHN2OGlf9GRTtKA96vHo/h+pDHfL02/7NECu7KyWS+I=; b=ZBP0PlIgUBT5PXNCWPnT6ZNLza
-	iqi8pjnn5U2zgxLE3/f1oPZ9VivUarl90IrtBOBu31xNSGl542Eh2cQMsbuXL8RhZI7DhRsskA9Ov
-	9C4dP5+Pwos2L2HWhnCqdm9+DLYTiHOEm8b8L+wIALCO+s8eaRWQDHTNysdJS3RfEZmJ/Z2v+ePz6
-	+a5Nb5uJOArtDnR8MEwaQG+AR1VGkPILsrjEtlxSAmpUHVbTu9adhmtvtwM2kOgyivnGev1wctlAd
-	c63CCdNSci5tpTj6b9w2phQOg1GEBotE4nJuU+zmBShMnRddlInXXJyDYh+NPB3FJbKSJCWhodF24
-	EYMbarmQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzw8p-0000000Eih6-0Dlt;
-	Fri, 28 Aug 2026 12:57:07 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3A54630116A; Fri, 28 Aug 2026 14:57:06 +0200 (CEST)
-Date: Fri, 28 Aug 2026 14:57:06 +0200
-From: Peter Zijlstra <peterz@infradead.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zHr5gm9u";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2slVRRU9"
+Date: Fri, 28 Aug 2026 15:36:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787924182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q2R0OExeXoLUYFz9ysgWw29sTN/8ZU4lxybQbrXgrZA=;
+	b=zHr5gm9uJuQjJaXQweR/D4yoAZIHaeIlhRtOxuM7xYfNDxomg3PvGnrXsvi2LhBnduI+1g
+	Puj4mPxNDqKrow+lXe6p/m3FfqH9dks62FzRj9uE3ArSrxKZAlAbg5DieZzD7TQx8wiUsz
+	VtKSbVgIxqyr1NYWJjwiN/amwniaCzF8b89m/0RJVhEYiqEs/qLTtZWlAm2UFTPLlSfvMh
+	Oahq3izuqq6VGWa8c7D+ctlV6AAmyH1bitLxM9g22/pYE02kVc6BHdBx2uKwXHd4GjJH7w
+	saOSvYbOSReT1k23eIS23OM/bq1Ww4og3bFMIgkMrDxpfZFTEuaA0K2KW2tr+A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787924182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q2R0OExeXoLUYFz9ysgWw29sTN/8ZU4lxybQbrXgrZA=;
+	b=2slVRRU98UPacC+TgkLGX3+5I6jfQVk3efEXBJ5yWyG54KCToYRd3d3ZEA1xWi1HMwwKEu
+	Qn6vvf+pLEb51rDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: David Stevens <stevensd@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
@@ -44,6 +48,7 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Dave Chinner <david@fromorbit.com>, Qi Zheng <qi.zheng@linux.dev>,
 	Roman Gushchin <roman.gushchin@linux.dev>,
 	Muchun Song <muchun.song@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Juri Lelli <juri.lelli@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -59,12 +64,11 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Mike Rapoport <rppt@kernel.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>, suleiman@google.com,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828125706.GQ687043@noisy.programming.kicks-ass.net>
+Message-ID: <20260828133620._x2XfJR_@linutronix.de>
 References: <20260827232948.2520558-1-stevensd@google.com>
  <20260827232948.2520558-7-stevensd@google.com>
 Precedence: bulk
@@ -73,64 +77,63 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20260827232948.2520558-7-stevensd@google.com>
 
-On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
-> +DEFINE_CLASS(allow_stack_reclaim, bool,
-> +	     ({
-> +		if (!_T)
-> +			current->flags &= ~PF_RECLAIMABLE_STACK;
-> +	      }),
-> +	     ({
-> +		bool was_set = current->flags & PF_RECLAIMABLE_STACK;
+On 2026-08-27 16:29:44 [-0700], David Stevens wrote:
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index fa7507ac8e13..adb4a5957996 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -1534,6 +1534,24 @@ config VMAP_STACK
+>  	  backing virtual mappings with real shadow memory, and KASAN_VMALLOC
+>  	  must be enabled.
+>  
+> +config HAVE_ARCH_RECLAIMABLE_STACK
+> +	def_bool n
 > +
-> +		current->flags |= PF_RECLAIMABLE_STACK;
-> +		was_set;
-> +	      }),
-> +	     void)
+> +config RECLAIMABLE_STACK
+> +	default !PREEMPT_RT && !PROC_KCORE
 
-> +	allow_stack_reclaim(prev);
+This shouldn't default like this for RT. It either is useable or it is
+not.
 
-> +void __allow_stack_reclaim(struct task_struct *tsk)
-> +{
-> +	union stack_reclaim_state prev_state, target_state;
+> +	bool "Allow stacks of some blocked threads to be reclaimed"
+> +	depends on VMAP_STACK && !STACK_GROWSUP
+> +	depends on HAVE_ARCH_RECLAIMABLE_STACK
+> +	depends on !DEBUG_STACK_USAGE
+> +	depends on !KASAN_VMALLOC # TODO: add support for this
+> +	depends on !DEBUG_KMEMLEAK # TODO: add support for this
+> +	help
+> +	  Enable this to allow the unused portion of kernel stacks of most
+> +	  blocked tasks to be reclaimed.
 > +
-> +	if (WARN_ON_ONCE(tsk->__state == TASK_DEAD))
-> +		return;
-> +
-> +	prev_state.val = READ_ONCE(tsk->stack_reclaim_state.val);
-> +	do {
-> +		target_state.val = prev_state.val;
-> +
-> +		if (prev_state.stack_state != STACK_PREPARE_RECLAIM) {
-> +			WARN(prev_state.stack_state != STACK_IN_USE,
-> +			     "Reclaimable state %x for previously running task", prev_state.val);
-> +			return;
-> +		}
-> +		target_state.stack_state = STACK_RECLAIMABLE;
-> +	} while (!try_cmpxchg(&tsk->stack_reclaim_state.val, &prev_state.val, target_state.val));
-> +
-> +	if (irq_work_queue(&tsk->stack_reclaim_work->irq_work)) {
-> +		/*
-> +		 * Take a ref that gets released by do_reclaim_stack() so we don't
-> +		 * have to worry about races with remove_from_stack_shrinker().
-> +		 */
-> +		get_task_struct(tsk);
-> +	}
-> +}
+> +	  The wakeup latency of tasks with reclaimed stacks may increase,
+> +	  especially while the system is under memory pressure.
 
-> +static inline void allow_stack_reclaim(struct task_struct *tsk)
-> +{
-> +	if (unlikely(tsk->flags & PF_RECLAIMABLE_STACK))
-> +		__allow_stack_reclaim(tsk);
-> +}
+It says *may* increase and on RT it _definitely_ will increase since
+there is a kworker involved not to mention the memory allocation itself.
+Anyway. This either needs to stay away from PREEMPT_RT or find a way to
+exclude at the very least mlock()ed tasks.
+Did lockdep see this?
 
-So you have a guard with the same name as a function, but the function
-only functions when inside the guard of the same name. WTF ?!
+If I understood the whole exercise correct then you have a kernel stack
+of two pages and in best case you can unmap and release the second page
+while the task is napping.
 
-Anyway, it looks like you're sprinkling this guard around a few specific
-block sites. Which seems to suggest your PF_ flag *should* have been a
-TASK_ flag, no?
+What might be a tad simpler is to memset(,0,) the remaining part of the
+stack. Since the stack is vmap-ed it should be swapped out on its own
+without additional tricks. That memset() would help zram to compress
+better so it uses less memory. ta-da.
 
+What also should be simpler (and I am not saying just to move you away
+from the scheduler) is to have a shrinker which iterates over all tasks
+which are marked for reclaim and then similar to swap just unmap both
+stack pages and release the second page which is not used.
+Upon wake up the task should create a page_fault which would be used to
+allocate the second stack page and map the whole stack again.
+
+This sounds simpler.
+
+Sebastian
