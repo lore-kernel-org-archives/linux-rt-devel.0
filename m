@@ -1,44 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31992472777
-	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 15:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B95371880
+	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 15:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787929824; cv=none; b=YSOCt2KnGem7z+qhMM7X60ssh0RXcepYQxVO3sgJV8UiYs+7HIbkHAfed8jGBCOjIQMwPSclSQQNBY7iIN5oIjZe5DlHlJnudRi332/AQpiim8KuBjfmlbw8y7RnnE/pna5UuMQFgZej7CJfYSlSwofP4P+W2A1734pl/+8T/tw=
+	t=1787932728; cv=none; b=iLGpTqNAhgfW/HeIKsRXMROsas0iIKbH0tmvtzgjJQDkSgdUJ/+VL5oRiQscNm1q398zMXiiyfk1LvHZq/+LddSHm8BLNgN5fPRowNEpGaqOD5hyvO8NgIlUipiRIsoeZ5jdfgV6gNdV3DIkXzKDDpPCATgNNc+j8u+whqpZe2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787929824; c=relaxed/simple;
-	bh=HUCJAHpdxO3SqP8mncblfqGC9JyCR84Ecpg3rTGRQn8=;
+	s=arc-20240116; t=1787932728; c=relaxed/simple;
+	bh=x5IFlUG3Gp1H70vRS982SS1fEJ7RE3Giv2Qt4O6gvhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOXb+yt8RpxiYC+DyQwM7bGB7wb52hpDNTOmQ4ILAkc0eOLPeV6arxrYMMoukc0ckDBOX7DaAOQC+jdn9M3pOGQFHObdMhQEFw8kCjXpPGOZhHXr07u4B+0P1bhNUO+cVt7eV2C1lBSMsOPk1EZmBb3+TtCehtd9tSjYdFarpC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=k1yC3/1T; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4BPKwfdr; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=LR/lC3siGwrQrCXx9LuO+49E0iZ076SZGtrsZat1e7jbtJar0W4TM0G+6xBiubxa7uyPEdDMNb6vKgat8NTbR8wcsUcLi96NDWd2ryHCdoDREmOvl9Sgg4eNnhXpIjqrcrZq7/iCIdvIkairAM4DL5L9HgAYIdBvPSeGA6siYUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o2SzTzUs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Eit7LjiA; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k1yC3/1T";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4BPKwfdr"
-Date: Fri, 28 Aug 2026 17:10:18 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o2SzTzUs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Eit7LjiA"
+Date: Fri, 28 Aug 2026 17:58:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787929820;
+	s=2020; t=1787932724;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=txJxc7ggr3poI2FLO7VfIUDXdgIFyMuKHMC/a4AMXzQ=;
-	b=k1yC3/1TSLVucW+G2hOymttYJNyxemcF0Wij24KbbvzrWJWTl2dTj6e6PoI5S0HrfHyPXp
-	oI4RGa6W3u5aoEJG/2uXG7Yr1esVzqcii9kIAcVvca2UlTbIgjnuyFklJJzrTKZXRqX+fu
-	ejgAg7ZLLzBYuFgz7MtDzaMLtFU/HLtc0BAfv8hKr3HpJsrtlz2g3lJ/Sqlfh3LdKWrn1S
-	GTsJ4NmbyXAzkDLkFbgBjQNfoTov42PXv67fjZOSlBNDbwHx3Uq0FYD8NUjYTI3ReNlsL6
-	lO/wJgykH2TvEmnn79Xfqs7ZjEmbXcCqXW/IiJFI0ER3lTMAlcw/3g0ZxDwYLg==
+	bh=MjQ31cfuQKa5k82uaGT/Cyx34wNELqTN6/K1Rh0XD+c=;
+	b=o2SzTzUsSOuV/AWS4fKiiKyn/1LhaPYC6Yfdi9fN77edZ6oncnntoZNhDlY+g5FN0uIwEw
+	zDLTrEojOcnJRJhRQAb5HCWHd7BbTk9sIN0zPDHE7URywDDDKInIzLBonFQjkJNHVimBoL
+	kWzGMCLwRRmRuqGEMRRmC+06LriM6fJe9MbsK+pBSojb6eX8G3SqLu20XaIhwBNbTl5OoI
+	9/FFI5P8JkXnl0wGKMTDSeUYaukHKz3pwoo7a0R18G6ypphqw6MC2H45rnhcZbOQ/ClAs7
+	vMj0j3h3AzvP+zmWK/m3B+PnqHU7/qIvx3PIK31jHYeE3+dcsciApSaUFtlioA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787929820;
+	s=2020e; t=1787932724;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=txJxc7ggr3poI2FLO7VfIUDXdgIFyMuKHMC/a4AMXzQ=;
-	b=4BPKwfdrdUNYh8LjOXHLTIAFqeXqMCtM1JBZhaIPoExx/1SClqrf3LjHhwWJfGMIRfuC0h
-	PrxrqZaP9E/FVKAQ==
+	bh=MjQ31cfuQKa5k82uaGT/Cyx34wNELqTN6/K1Rh0XD+c=;
+	b=Eit7LjiABhdeRfzT4glURHG1RCeV2ZAjuv33J9ECHEaXD7arcRHH/58kzIbGZWU8KSPYLR
+	Vh8qqix9q1P5ueBA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: David Stevens <stevensd@google.com>,
@@ -70,11 +68,12 @@ Cc: David Stevens <stevensd@google.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828151018.HnR9xV1N@linutronix.de>
+Message-ID: <20260828155842.kIh5T7iS@linutronix.de>
 References: <20260827232948.2520558-1-stevensd@google.com>
  <20260827232948.2520558-7-stevensd@google.com>
  <20260828133620._x2XfJR_@linutronix.de>
  <20260828135947.GU776954@noisy.programming.kicks-ass.net>
+ <20260828142552.GN788244@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,73 +82,16 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260828135947.GU776954@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260828142552.GN788244@noisy.programming.kicks-ass.net>
 
-On 2026-08-28 15:59:47 [+0200], Peter Zijlstra wrote:
-> > > +
-> > > +	  The wakeup latency of tasks with reclaimed stacks may increase,
-> > > +	  especially while the system is under memory pressure.
-> >=20
-> > It says *may* increase and on RT it _definitely_ will increase since
-> > there is a kworker involved not to mention the memory allocation itself.
-> > Anyway. This either needs to stay away from PREEMPT_RT or find a way to
-> > exclude at the very least mlock()ed tasks.
-> > Did lockdep see this?
->=20
-> It should have. They're taking spinlock inside raw_spinlock and lockdep
-> should very much warn about that by default.
+On 2026-08-28 16:25:52 [+0200], Peter Zijlstra wrote:
+> Taking faults on the task-stack is not going to work. That fault will
+> happen while you have locks held and IRQs disabled. Ideally, it'll
+> happen when you're knee deep in the allocator.
+> 
+> That fault will then again call the allocator to allocator your stack
+> page, and...
 
-Yes. My point was that this was hidden from lockdep.
-
-> > If I understood the whole exercise correct then you have a kernel stack
-> > of two pages and in best case you can unmap and release the second page
-> > while the task is napping.
->=20
-> THREAD_SIZE_ORDER	2
-> THREAD_SIZE		(PAGE_SIZE << THREAD_SIZE_ORDER)
->=20
-> that makes for 4 pages.
-
-Oh. I wasn't aware that we have 16kib stacks these days. But looking
-at it we have it now for over 10 years=E2=80=A6 Judging from 6538b8ea886e4
-("x86_64: expand kernel stack to 16K") it might be temporary and things
-are better now? Arm64 has a different story according to 845ad05ec31e0
-("arm64: Change kernel stack size to 16K"). Risc-V also mentions "for
-now" in 0cac21b02ba5f ("riscv: use 16KB kernel stack on 64-bit").
-
-I just booted my XFS kvm box and did things and 8KiB works so far.
-
-> > What might be a tad simpler is to memset(,0,) the remaining part of the
-> > stack. Since the stack is vmap-ed it should be swapped out on its own
-> > without additional tricks. That memset() would help zram to compress
-> > better so it uses less memory. ta-da.
->=20
-> That would still be a 12k memset with IRQs-disabled and rq->lock held.
-
-Right, because the stack grew a bit. Probably still cheaper compared to
-the other things done here ;)
-
-> > What also should be simpler (and I am not saying just to move you away
-> > from the scheduler) is to have a shrinker which iterates over all tasks
-> > which are marked for reclaim and then similar to swap just unmap both
-> > stack pages and release the second page which is not used.
-> > Upon wake up the task should create a page_fault which would be used to
-> > allocate the second stack page and map the whole stack again.
->=20
-> Right, so you can FREEZE the task, unmap its stack and then thaw it or
-> something. But there should be a definite opt-out on all this, because
-> taking faults on your stack will be horrible.
-
-Definitely. Not something for the currently visible app.
-
-> Not to mention you'll suffer wakeup latencies while frozen.
-
-Right but you would use it under memory pressure and steal the stack
-=66rom the most idle tasks rather from everyone.=20
-
-> This all really sounds like what should be addressed is this insane
-> number of tasks rather than trying to cope with the consequences of
-> that.
+indeed. So I do have a few ideas floating around but I leave it at it.
 
 Sebastian
