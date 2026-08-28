@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB5144A3F1;
-	Fri, 28 Aug 2026 11:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2295044A416;
+	Fri, 28 Aug 2026 12:01:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787918082; cv=none; b=Hb1TU+0/t8GTKWab95lC3pm91D1ba/bDwnFtlcDrgGCpjE3TRaIPLexU3nMSgEsdnAL5SOikN+4STG5KexNAgWM7ZUWyyG3/zsraNH5LbQ42lID5Wq/UCQ8symwVs0iXWNjVRMBS3ZuLzZHP6r/CDRejtJoFqSDu+RP57ua8tPw=
+	t=1787918536; cv=none; b=DTCzvVWEH1FPD5SHKFmp6Idp7rbZcBiLj+QEA+De5KuDbE0M6z8bazsSH5RxRUMdhL0bXa3s2LLJcLAuAoeOf8D3bLKlloeWW1hVThit3CYKErJKYOxDG2vI3S+1LZIi8RxlSGFyAPivHtlKrnHZDTioZOL/n/E3ct5EtS26NlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787918082; c=relaxed/simple;
-	bh=/lOeYdMQM0yEpqRm+8VJ/e9jItYU1+vsePznvGbz10E=;
+	s=arc-20240116; t=1787918536; c=relaxed/simple;
+	bh=Y8SZ879oYZf4E7kU9cXFJtH3w8C6rud8iIffmvfThzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vbg1/YmRuRV48bLfLtv/r+2QE9gi1f0BmrMLrIzlo6CRxNcxEvUF1h4a/vNMaiWrIu8/c1P1FUCi+xrdqj5XF+O+SSLSQmwnu2/BUsjmbqeWbu1XAUUEqaNHlif1KUYsGpkDUGS+gz30lJ+M4yY9DyGTUpZGAZ0yZfS9Dvj47dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g5q3o2RC; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=So1UP0mSwmnK09rwum+q5AGrEwfy5FDXDM6epAF2jhud/elJ8xNpoUBtnaWBtriCzLj2TaZu3j082vWU9MguZcol1Gee4/5/h1Z7Q3x7N9NK6+BhrYIbiRv/Dr9NSfCpFD9/8yCUkg4a5VwlsuIIc89gIa2vn7BkZUyhZ07OIus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=L5TmUoS/; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g5q3o2RC"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L5TmUoS/"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/lOeYdMQM0yEpqRm+8VJ/e9jItYU1+vsePznvGbz10E=; b=g5q3o2RCbyi+Yqbp+LTKaPTquE
-	7gXYHP3tdr0knxX02PNNzCPOBFWn57YdhfVMe2wVBn0jGTz5C70WZiFqi6q+gGpJPkpRmT276v/iI
-	Nx0JCxTzmg7piqalBDEI5CPqK/IwzqOegpNF6bmFCbfFSyS7FPEGTGn4XOICrl7KJogrp6jKLKtiQ
-	BFLUSYdoBlhM6+BShUVl6Sc7u4HOo0ZtjEDUm1F2Mv+GRSw0GDtY23DSYzC52ibhjXBiKIkIMO7OJ
-	m942aboClPHVMssGPyAA7ZQN5VBksW6w6zHJtn0ckV3dbahbmennTJsAMre8Tcbx+K52/+vDwChBY
-	c6XrVZ4w==;
+	bh=R9wXHToe1gmitoaVCqOPNDibrRSsPosBSME08usIeV8=; b=L5TmUoS/h6NcQt7ksRhkKNOjmU
+	1mNZG8RevUyyo9OJGFPhIYDs4SNBWCw1yeMvtwBYu45/aGh++P23bSfG4TALzpHf1wZYEOgtjJKu3
+	FnuSMmszW1YDYwAM7yMMkYMwQwbu0tIaaTQyt30PKrGtqn+k/2O64P/xn9KhfygUBVqPXI3gK1cuI
+	UGvVEVIM+uHmQxG6FgRN57xNt7z4qG6VT2+cGzugYZXmthX9aGYBnTbjGD4JDoaWSsd1tvJ9klC/u
+	U5orgAvm9MO/sumxlfI7Mjrku7EtjdWOZc4Jn1Poa1RuzKk7ltmTfO4q8F9/76umByaXI7rn9DEbu
+	WjOeNx6w==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzv9w-0000000EdPK-1I3d;
-	Fri, 28 Aug 2026 11:54:12 +0000
+	id 1wzvGk-0000000Ee7g-2dXG;
+	Fri, 28 Aug 2026 12:01:14 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 4D3CF30030F; Fri, 28 Aug 2026 13:54:10 +0200 (CEST)
-Date: Fri, 28 Aug 2026 13:54:10 +0200
+	id B423930116A; Fri, 28 Aug 2026 14:01:13 +0200 (CEST)
+Date: Fri, 28 Aug 2026 14:01:13 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: David Stevens <stevensd@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -64,7 +64,7 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828115410.GL687043@noisy.programming.kicks-ass.net>
+Message-ID: <20260828120113.GM687043@noisy.programming.kicks-ass.net>
 References: <20260827232948.2520558-1-stevensd@google.com>
  <20260827232948.2520558-7-stevensd@google.com>
 Precedence: bulk
@@ -78,7 +78,35 @@ Content-Disposition: inline
 In-Reply-To: <20260827232948.2520558-7-stevensd@google.com>
 
 On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
-> A new TASK_STACK_RECLAIM state is introduced for tasks that are
-> blocked waiting for the stacks to be repopulated.
+> @@ -4295,8 +4296,6 @@ int try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+>  		if (!ttwu_state_match(p, state, &success))
+>  			break;
+>  
+> -		trace_sched_waking(p);
+> -
+>  		/*
+>  		 * Ensure we load p->on_rq _after_ p->state, otherwise it would
+>  		 * be possible to, falsely, observe p->on_rq == 0 and get stuck
+> @@ -4320,8 +4319,18 @@ int try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+>  		 * A similar smp_rmb() lives in __task_needs_rq_lock().
+>  		 */
+>  		smp_rmb();
+> -		if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags))
+> +		if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags)) {
+> +			trace_sched_waking(p);
+> +			break;
+> +		}
+> +
+> +		if (!ensure_stack_is_present(p, &need_deferred_repopulate)) {
+> +			WRITE_ONCE(p->__state, TASK_STACK_RECLAIM);
+> +			do_deferred_repopulate_wake = need_deferred_repopulate;
+>  			break;
+> +		}
+> +
+> +		trace_sched_waking(p);
+>  
+>  		/*
+>  		 * Ensure we load p->on_cpu _after_ p->on_rq, otherwise it would be
 
-Not yet read the full patch, but *why*.
+Don't move that tracepoint. That's simply lying about how long it takes
+to wake up the task.
