@@ -1,121 +1,170 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971C3BB9F4
-	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 19:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787944633; cv=none; b=iUOezwM4pZ64OFI2vXqq+Smd6KXNhgaVNIPmEag/mHAUcuKDNCt8rpvmHR1mJYnXwwwpk5jfeEvAUCrPEbqtvdsQOTfRC2ZL31SQz7GD2O82tm7JZy8V3POgkRirLzYq4lgR8FE94aeYd/w9bYzBb50eEnaoerkWJZ9rACk53Cw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787944633; c=relaxed/simple;
-	bh=OjCe3CktZlYFOQFPLmGRlHo4AyWyH9sO8Gk+RrBAlYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ng0ual3yZb/rNyxXWGKwfdSj3aYJcOWBfqrmtdcgnc5weys/QGyoUI0jXsmYePFtPoK5HZ/F3bYHvjlwFwwvFl4b1e6jT09VsvyCk0/FhmZyXpQVzod2uoKDRo+uM6FUvSVa+v7cx8IJ7F5OnC7jEja2ysdlYeH8S+F/nuU+svU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=gAZTVjGD; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5AD36DA18
+	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 20:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787950221; cv=pass; b=XLRvu0Czri+zeuWig27iyoXcR51MC6JnMViKIctwEWNa284HnESNsF2PsBUugq0FX0PIaROtjDuG9m3fuD2T+v+IWF7D709F4g+7CC4kMzrjc3F0zYp0qmoHgkvqNdWgJQGxwbmM/8beYsSW63TT/yCu92Z/kq9huVPGqsa3kwM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787950221; c=relaxed/simple;
+	bh=VCTTpD8pvxJ1f7angD6R6tXvCBNfl8EVF0KiF5vqwec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HbAeCvsh0CvdVIo+swR0V4I1r2xJlXFghaYZ7/Wgzs8htbiyKjlJnVZKN56vJlCUPwRSB6kOhV4ioy1E1rpzavcZdSC6M4LWmch7XaNs1xzNphO9zKwOjeu3mYiwbR9gkee6RHzyNEZJT5wyiB0mwutf8JKOe8/LsJYPieBFX3A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HkDIIFul; arc=pass smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="gAZTVjGD"
-Received: from omf05.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id C52951A053F;
-	Fri, 28 Aug 2026 19:17:06 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id C3E9F20011;
-	Fri, 28 Aug 2026 19:16:57 +0000 (UTC)
-Date: Fri, 28 Aug 2026 15:17:47 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>, David Stevens
- <stevensd@google.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin"
- <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, Dave Chinner
- <david@fromorbit.com>, Qi Zheng <qi.zheng@linux.dev>, Roman Gushchin
- <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, Uladzislau
- Rezki <urezki@gmail.com>, David Hildenbrand <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook
- <kees@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
- suleiman@google.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260828151747.20035d50@gandalf.local.home>
-In-Reply-To: <20260828151313.5c4a5e4b@gandalf.local.home>
-References: <20260827232948.2520558-1-stevensd@google.com>
-	<20260827232948.2520558-7-stevensd@google.com>
-	<20260828133620._x2XfJR_@linutronix.de>
-	<20260828135947.GU776954@noisy.programming.kicks-ass.net>
-	<20260828151018.HnR9xV1N@linutronix.de>
-	<20260828150836.2d5b378c@gandalf.local.home>
-	<20260828151313.5c4a5e4b@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HkDIIFul"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-498012a61f6so11335e9.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 13:50:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787950218; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n2TSboWjUzcNOMv6q0CFRO+4qtg0G0UJofoJCLgHHGD6FBl9yNiOVlhSfQE2/FMSlr
+         sVuFGm1GGEVXAvKAB5HueVNzgt2sbaKstAzmClpagJ+3Y4tGjYYMZ+578y6mglizId7L
+         dfIqcAcVXHf6W/wzTigDM5YLrXJuBWndDg/d9liP9XOYDUstQFE6qmqvHV1sOaW8pFay
+         x1JbCFtPhCa49jfQ7AViAM/eAh6O5hR00S7824egVOiKubofADYqldQLiJv6tRPF+l/g
+         OWCtpEUUUSkr9g3OfxzQdyuBShIhQZMqHFPrDyFV6swVxiYEBowLI7iarMuCJpRAxZ5Q
+         zWMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AshsUhDS0njxXs9dy2fBnY4fbd5Y93s1/0Sdvq7L85o=;
+        fh=yNvlsQKNwcNEVFZdRVVk+7YY28HiRSp3j5jNtWHX1MU=;
+        b=boTfUezfGtdutg8WEuDy8wYfvOwS08+VR0fJnLYWMSIad+a6OQQNLH7XziO7vbr1Cw
+         7MeRRMrl3wSS4LcDcMDgRHj8tVk76WHRgYQ+LHsFUWPlizdyeEjFIOPr70no8Ux0EgEu
+         sqdmqpcSontn0f2CzI4aBkk4phLBzD0o4xNA33O1jL/fBz+hw1MOplSkViLhDa0o7bP3
+         T+NsMGMxS5HJyjZnPx0CyBuN0kbbeLe4sUBCdLlyGXctCT7A8HtHZEKqGDH7CcDzsXNW
+         13LIIUHNe418PNaH6xtQShwY7uI9rnoCHGxC7EZyZ17SFFxVJhRiJE6ECiZTto79EB4U
+         angg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787950218; x=1788555018; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AshsUhDS0njxXs9dy2fBnY4fbd5Y93s1/0Sdvq7L85o=;
+        b=HkDIIFulFPmV6aGLvOvLSdNp2bsa6Q1iFUCCz+6rhFBni//r/i72HmC7l8rhZJbgcJ
+         bXMur0cJl0T81d+5G23yuLxOLr3Y+tUzx0AW+1N+XRXahHum7bpasnui3+4c6xrMsuAn
+         ltWLey/WOHcfu9bUjPU7EeTytUiD8PJOtvcCQcLxtqDD78PlPXgrhu0TngAm8Z4SA/DB
+         3HXnaZ6F4dn5oRbEVUCp5EhiCZqajzhiUD/bqOUkcCtaGC/YjSx89Khpk7tarJ68Dct7
+         K5KhSrueJTEflDajlrfd+SfqhuSoHbgxNOQ4qJtwYoejK+4Lm1elScuAFlVvbM0I5Qav
+         Fo5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787950218; x=1788555018;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AshsUhDS0njxXs9dy2fBnY4fbd5Y93s1/0Sdvq7L85o=;
+        b=B0QsX8Jk79C2HSSpSq6et0gt4UWZNhOsf4t5u80OKCJKNVPaBms3EnhfNzTiIJsdC1
+         RFbC5vhoMH08M13P9s7/WBzg0NEcBe+/Duym/NT1ZAkvUads3q87kLM1/2Uy7thqAIye
+         3LTJ3nl/ErIYHQIn1JVqiFswywZJ1D+g3n77PaTrJEp85WQDZ+4JlimLU3mZ1mPW/t+d
+         NXye0vdp2BqxeYRZdkJo7ojc5fdeMwvmnAigrBSuQHjxlPuLpn4tNXhtlWYbdmNmR04m
+         RXqmKpmGrishzk1cHatB+/AmaJySUValEe71p3r69BW+PA7vqAWiSBmf8f6Vjyy3a0IF
+         9GLw==
+X-Forwarded-Encrypted: i=1; AHgh+RpUXMcgMtyZNmx6zFxIi+K/ZKNLaqhlRCpX1WpVvI8Hjtb8ZwN9WEq33v7MTSnEawi8w6gHrRKO/ey0TARrXw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lmmsBDmwZia3URo6YAyuk2262xbcxgPIkZGaSmMT99KOQDM4mY
+	SZ/loFXgdrCXxnnt/E45VCCoLWmct1rxEU6EsyJ7YRjLWG3O53JEEuimZyd3xMRgYAqsbfTcb92
+	MA0zIvemE7U6X/RUTTFLGCP+qAMl/LH9UoaJ0qpFA
+X-Gm-Gg: AR+sD10yTOu3efXBDgFFph9wz2IaFilgQqyvUh4k4uaR5oXGd2ASqZUNihdMuY2XrHJ
+	eSj6uuQGz/1SIdhIPgCIr+zUP+jvZqGZ4HX374MPcsZM672R4OBFAxrjnkz+ozL75hpIke/WiTS
+	Zm/m0xowbeCGOt98anGGOUe+EjQRyxZ6zHmZsvKlW0wHKZjz5p7LltKxzsfnF7BqD5EPSUyPzff
+	TeZnvdIj+0QZ5UpV+M/4MKVRYtgAzom8n7hbg/8kyqU/ZEaW+iq2TFJyQG8CI7+2hpy0nDq7XGT
+	ZjltXqZUZbWf+7wX00AaKwTbhEV5mTtBNKVRu+3oWhYcP87AgW7i1+ERC0lrQ3noXN/Qg8378gE
+	=
+X-Received: by 2002:a05:600c:e40b:b0:499:a6a5:a687 with SMTP id
+ 5b1f17b1804b1-49ccbab90e6mr277105e9.0.1787950217353; Fri, 28 Aug 2026
+ 13:50:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: C3E9F20011
-X-Stat-Signature: j65tfsnn7wb96ijjjfomjeapo6aro4m7
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/FRCRqi3s+JC4roW7NUQua3g10tn9P4XM=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=0RDwr71FlsrAMrAAlqln64IM9QGsxwXWA77DtZDfZwQ=; b=gAZTVjGDveN8fhsH4aJV2blL0f0S/QpEEvr3BQpYaHupiEQdLMD69nFOfdLEk1spL0/g6lXtTnfNyIqHZGTSM2GCgE4DvzYvzij8bAWlZRrSpkm67+yI+NJTg387b0JmME/jtx2tEqWIUYUrCD2W7DFVoX4NatssuHtJiesq2nE=
-X-HE-Tag: 1787944617-357454
-X-HE-Meta: U2FsdGVkX1+ViF3OvOgaM5ssQLR7tn0uySWJaFHYtcXWZ21cz7nnxMRW6iHpDWrp6Htrs0cIkgW4SbBQGFpZUf1ROkYnZEWGOtcWKXjDukDAh5xQHzSUkPxJbyaumnTpSqP3YXkkCipkNohafMlloaOqbdI5ACVjC77j7iGbrpU8lCltcFJhtONUqXBCJpw9eTajIr0/aLHn6NisdoeErwIxVK/oB2Np5iYGqcWQEGRVIxOt9i1N8E1VkhWj8uFuSoYqfpNN0eEmhPs7aE8vmz2WPbGl+v4Ry92BAG7LkkOQAqWIZjLFKEu432FqDcWspoc2zzLFnstcV5vVdG65ka7IObsOxeMhd+5KlkygWN4xwraefOr4pQuVKgzS9Rrd
+References: <20260827232948.2520558-1-stevensd@google.com> <20260827232948.2520558-7-stevensd@google.com>
+ <20260828133620._x2XfJR_@linutronix.de> <20260828135947.GU776954@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260828135947.GU776954@noisy.programming.kicks-ass.net>
+From: David Stevens <stevensd@google.com>
+Date: Fri, 28 Aug 2026 13:50:05 -0700
+X-Gm-Features: AcwNN1VyWJkmCojhn4y_J0QYwM3NKcFniOfDcwtOJUcQgsmCVgZZIDC5YzitEe0
+Message-ID: <CAOiLmNHrbXeTY7zoNodmaZUoMWf+NgvGvZ_LjfWD-1sKAoiLeQ@mail.gmail.com>
+Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Dave Chinner <david@fromorbit.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, suleiman@google.com, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 28 Aug 2026 15:13:13 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Fri, Aug 28, 2026 at 6:59=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Fri, Aug 28, 2026 at 03:36:20PM +0200, Sebastian Andrzej Siewior wrote=
+:
+> > On 2026-08-27 16:29:44 [-0700], David Stevens wrote:
+> > > diff --git a/arch/Kconfig b/arch/Kconfig
+> > > index fa7507ac8e13..adb4a5957996 100644
+> > > --- a/arch/Kconfig
+> > > +++ b/arch/Kconfig
+> > > @@ -1534,6 +1534,24 @@ config VMAP_STACK
+> > >       backing virtual mappings with real shadow memory, and KASAN_VMA=
+LLOC
+> > >       must be enabled.
+> > >
+> > > +config HAVE_ARCH_RECLAIMABLE_STACK
+> > > +   def_bool n
+> > > +
+> > > +config RECLAIMABLE_STACK
+> > > +   default !PREEMPT_RT && !PROC_KCORE
+> >
+> > This shouldn't default like this for RT. It either is useable or it is
+> > not.
+> >
+> > > +   bool "Allow stacks of some blocked threads to be reclaimed"
+> > > +   depends on VMAP_STACK && !STACK_GROWSUP
+> > > +   depends on HAVE_ARCH_RECLAIMABLE_STACK
+> > > +   depends on !DEBUG_STACK_USAGE
+> > > +   depends on !KASAN_VMALLOC # TODO: add support for this
+> > > +   depends on !DEBUG_KMEMLEAK # TODO: add support for this
+> > > +   help
+> > > +     Enable this to allow the unused portion of kernel stacks of mos=
+t
+> > > +     blocked tasks to be reclaimed.
+> > > +
+> > > +     The wakeup latency of tasks with reclaimed stacks may increase,
+> > > +     especially while the system is under memory pressure.
+> >
+> > It says *may* increase and on RT it _definitely_ will increase since
+> > there is a kworker involved not to mention the memory allocation itself=
+.
+> > Anyway. This either needs to stay away from PREEMPT_RT or find a way to
+> > exclude at the very least mlock()ed tasks.
+> > Did lockdep see this?
+>
+> It should have. They're taking spinlock inside raw_spinlock and lockdep
+> should very much warn about that by default.
 
-> If one worries about stack size, they may want to turn off
-> CONFIG_RANDOMIZE_KSTACK_OFFSET as I see some big numbers for do_syscall_64()
+It does trylocks on spinlocks and local locks, inside of
+alloc_pages_nolock_noprof(). Lockdep considers that safe.
 
-And the scheduler has some heavy stack usage here!
+On PREEMPT_RT, it is necessary to skip the call to
+alloc_pages_nolock_noprof() from under pi_lock, since with that
+configuration spin_trylock can end up needing to take pi_lock. But at
+least on !PREEMPT_RT, there is no risk of deadlock.
 
-  # trace-cmd stack
-(stack tracer running)
-        Depth    Size   Location    (31 entries)
-        -----    ----   --------
-  0)     8120      48   __msecs_to_jiffies+0x9/0x30
-  1)     8072     104   update_group_capacity+0x94/0x960
-  2)     7968     528   update_sd_lb_stats.constprop.0+0x426/0x39b0
-  3)     7440     424   sched_balance_find_src_group+0x8f/0x1150
-  4)     7016     552   sched_balance_rq+0x934/0x4130
-  5)     6464     408   pick_task_fair+0xa71/0x1fe0
-  6)     6056     496   __schedule+0x628/0x76f0
-  7)     5560      32   schedule+0xde/0x2c0
-  8)     5528      32   io_schedule+0x8c/0x100
-  9)     5496     256   rq_qos_wait+0x12b/0x230
- 10)     5240     136   wbt_wait+0x150/0x260
- 11)     5104      40   __rq_qos_throttle+0x51/0xa0
- 12)     5064     304   blk_mq_submit_bio+0xc40/0x28e0
- 13)     4760     240   submit_bio_noacct_nocheck+0x410/0xb30
- 14)     4520      40   ext4_io_submit+0xca/0x1a0
- 15)     4480     144   ext4_bio_write_folio+0x5e2/0x1470
- 16)     4336      96   mpage_process_page_bufs+0x392/0x700
- 17)     4240     616   mpage_prepare_extent_to_map+0xaae/0x1120
- 18)     3624     480   ext4_do_writepages+0x971/0x37f0
- 19)     3144     312   ext4_writepages+0x2d2/0x610
- 20)     2832     152   do_writepages+0x21e/0x560
- 21)     2680     184   __writeback_single_inode+0x119/0x1240
- 22)     2496     752   writeback_sb_inodes+0x67d/0x17b0
- 23)     1744     168   __writeback_inodes_wb+0xf2/0x270
- 24)     1576     304   wb_writeback+0x63e/0x890
- 25)     1272     320   wb_workfn+0x844/0xca0
- 26)      952     360   process_one_work+0x8b4/0x15d0
- 27)      592     176   worker_thread+0x5d3/0xfb0
- 28)      416      64   kthread+0x33c/0x420
- 29)      352     160   ret_from_fork+0x65c/0x9e0
- 30)      192     192   ret_from_fork_asm+0x1a/0x30
-
-Note, I'm running this on my server. That is, this is a production machine.
-
--- Steve
+-David
