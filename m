@@ -1,82 +1,82 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AE9181334
-	for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 23:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91D981AA8
+	for <linux-rt-devel@lists.linux.dev>; Sat, 29 Aug 2026 00:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787959996; cv=pass; b=GmV7/pTdQJ48ShES82W0evC6ZJFzuTPwHoeD7ij3zK6bNPLpB3S8MjN9V/84ymchPtJP/XOFELWVVIVpbsBtB2kk3t0c8Ia8vQm7pOXs2LHCaoZFUuHVnubbvFX6bSO+kWkTf0Yjwe3W9Vs5fTA+gSko4i8GgKjhkVr5HxBY43g=
+	t=1787962701; cv=pass; b=MotSYl453M3QE6frA8/XSYvLhJt0MmP0PTyJ5uIHYMhR4Po2j4i52+c7nc1pudKC5bi127yCQcISCfRbbn35gtsqLEzEW4r8Rw8Y2CsgWpkDO41yfV1H8m9AFIc0w8xglU9NDhpOSXF3w5bytQMqwRtsprqZhDBsbtTVeEnLBPg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787959996; c=relaxed/simple;
-	bh=y2LNCyBpMU/lcaKVn6KCGli+f8PCYoXHDNxznrsxfH4=;
+	s=arc-20240116; t=1787962701; c=relaxed/simple;
+	bh=EpZWMqJMFNnhSBqC/WC1fi00kpn5Ll9AMHDCeclZHmU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=grI2MAZlCJlKkGUJkOfax/MdkvhpMyoHM39iIsVPw9+RotqveW/Ho9NOWsxel9PXO8htmEGUQU4mwcPvX4JCf4hcWS2+/IRzk4QpBYliVKS7mqOpJw+QaooFcN08/jlP4Ic4JIpOvBihOz4wCQmf7RF0gB6CsfeJtTVMJ7bbFQc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mPvbznFe; arc=pass smtp.client-ip=209.85.128.49
+	 To:Cc:Content-Type; b=i7nAJWHGrJMz6H2qZ4ousHx3WZLp9CBmHaeVPcqOD/8Ji6gNaRlMLEFZ5buiUlvgg6JGAwNcLR0k6bLXSlUEhbkIyI6Q0XIW35CXzyQkoC3ifQQ9L6nQ26JIKVNcA57SlVhgOvsZzuk2JPNNDQ+3xfq14cl1W1q5mRoPhjPMVCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p28uVwxQ; arc=pass smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mPvbznFe"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4996e2575dbso18195e9.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 16:33:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787959993; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p28uVwxQ"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-499b1409a75so8405e9.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 28 Aug 2026 17:18:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787962698; cv=none;
         d=google.com; s=arc-20260327;
-        b=S7kqWh/VDKH3dMjGozpuDdtxYpLtgyBfYPk7C6Q4vIIGXTq7z3l0+Qg711TachIiYV
-         BDRxwMQy9OJ7NzhUNdRSLeFAuKlEQNuLQH0y5+Uqr5RIEQ3sLA1/uLmYUTIUynkanjW9
-         EUvmTffh6DQINhWUpx0VH6AkD/wGsNVcnEXvE1RLrWVHiMma7W2t+9FIGx8DYkvPjwKg
-         0maWDmcT8weJiHU30IhiqTR9nX6ly+sbVTwGp2QmAaE9SND7EVFWMyDc8svTm52u6shx
-         2Ep2GHrOPAYaxNpDr1rUWB5StAI0V4sxabR27D44G5EQCS0R7aZq2uFW2jFiIo9xAeUD
-         HSbQ==
+        b=ejiBZrdN96AyCIIlK2Hj901rxdOV9/ZLfTjWBnHXg1lAoqRC7birRclTZh2f14S44+
+         I2oUpu1p3IqIhhk9YiL3q39OoFs3gVrgqQdLAbMl/tZrckryDpOvso1tg8Dnlt/xBoZt
+         v7Per8h4iog4S9Yh3FSQl+rT7Mj7q2W6bv7FxdMq5Bgq/PHo+71TEz/zGaEn5hxu32bl
+         JKTzSHY8aaRMBvlqw1OGSZWoGxj5ytMqFIMxb0x0KxjjTWURJ295TV5qpWqqsFcNf0tW
+         QIWGtKE9XkSiORh9BNs7c5FMhwE4DmhIW9dYN2xWCZaY6AA0gAejOYiA9WIGbx33W13w
+         u+kA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vPbHw3SXRt8c1h9FzmacGhPD5cdWkOAwAK9dhsy7doU=;
-        fh=KJksZ00NciZ9IcLgBFCd4PlH8a6PO6PJT1XjJVbf7iQ=;
-        b=EFKD7BBw3L6ZfM9xdTGrxXfnNd5/Z45DE9/GMv7n/bqdrsJZlt4m6CHQNOHyDRqnIi
-         P/YA8bNEyBvLyc7EQ2lpbR/zGlzmTDr0OHOO/jMqS6GIGPSvYha0Lyk45euRztwQDtNL
-         sTcbm9QXr0nTy+beGEZG1SYI4r/K508dCO69F0ny2+rSONilRaGXXIUjjnryXtlpgsEa
-         ggt2aTEqcfphEaOesHUidfy2f2Dg1VlaQzqeGEA09IFJoAX2j5EJVqNaPq/Y3jZkRc+f
-         7bcMD0n/Ng4OtDHD3oxeyFJOLdGjdC/lnaxjoj+GMQDgoKfc9FcShduAogCxvbgxTC92
-         6FHA==;
+        bh=92zwtXlgyBYYVN9xkl2KGrhKya15L+GyHSeWZLE5yFc=;
+        fh=5rhV+Q5nAoboau+fT27iBt39xP58F2eBL+0+P7m/omg=;
+        b=SXcisXhyxlk3oxaOjyqhTPMB71bUs/sWYnna7wVM6Ucymd6UrJkjucfSc7ZnkCgPPV
+         3jsXIoxUovD/ZKfi/XNb+9AvF5jdsb7dDl5Yo1/uv/qNUBWyFrPTNDS1dzP7yEmTsgaD
+         dVEUyTT2S2BjgnPpMhuZB73rrT+XB37knWGsT0tJoxHSgwmiIZ6uKKNYmkdYnCR9geLg
+         o5SaH+xaKJpqvVB0RCLwFTYWj7SqIacAAmMzJhdzGrjH0hKJHQori3Ajz8ZOLnpkuYra
+         sx4NIruyIn5emb3l/294HJjxTKi7LubV6azCsylhjy3KTCZt87L6RyexE0jQcA4hMuup
+         heOA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787959993; x=1788564793; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1787962698; x=1788567498; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=vPbHw3SXRt8c1h9FzmacGhPD5cdWkOAwAK9dhsy7doU=;
-        b=mPvbznFe40PI2U8MipaGsKhQVytJWaODPpFMzW4uyUByQ6qKKI3KNf+78bbEvD0C8l
-         5Vc47PdnfYMFsSUgUDFbNX9Ub9g9U+S/xgL1yK1G+jZKJLB6kGEs8kgBf/Awu3XxuiGi
-         vOL4IsMvLxsRTJQxNZBhaNPbIXHJPnW9U6cI1ETKDkz0LE3ATGEFKSE5hCqqtog9218d
-         dBm/23K701H7tPBZZAddiuZewlMNKnztkhmfNzrlOaC9uYr8zr8BCMj3Zir4sJn3rULq
-         m9h4a0Q8CXjcne6Ty+IOOZ30PJ/DOjOl3XIbEWLzZmcZxfMYCCxWBlxGXp3wmrDoHuHx
-         TM2Q==
+        bh=92zwtXlgyBYYVN9xkl2KGrhKya15L+GyHSeWZLE5yFc=;
+        b=p28uVwxQzTcMnowvKWLT2islKHcw5HXgbpUms86uzjpGvpJjwdyqTQkv8yfXi4c+wh
+         U5tRK/FMYpUXWRKN5Wu/ETd3ZVok7F1LdHD5wNc1oS89jHVr1662P/mS1uCiw4cKy2v9
+         CvPhOeADPD7jm59YqjS1y8f7icNHtwItXtrZESnaKLt+ZWOvIlDATtNBaw8lFnX7U/kx
+         pilzFNjS81RXaXphCUUDG2r6bN0QKiCaUS3DOrIGicQHzr7htq4UcFeLJ0cumY6NI4Ub
+         EjaqgS6xuePTUpV7gXuoC3yGdT4e1TxrAg1Pk1LQDiktwfG1I+aLWzXbDcmu7ffCj3mR
+         AHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787959993; x=1788564793;
+        d=1e100.net; s=20251104; t=1787962698; x=1788567498;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vPbHw3SXRt8c1h9FzmacGhPD5cdWkOAwAK9dhsy7doU=;
-        b=g7Ux1GXsNoUURqaps9Egl970lK0Zoouy/K3I9T4Drfh2ZBAJ+IXBXuHxMuaqfaym7l
-         Pv8SO3YTwKZM7GYpiL0j8MdT44SJtTmnIJDYMiF5atsBjTkfCPl5fJhFe8fGDktu41op
-         yDFTLrX+p3x8y9iqv28VN79RhgaSWIoBojfGyGzvRLBtuF7EbHCs/xWFEzEEn5JPxIBb
-         iWpdHfUs5S7Y/uL44M0lbrJp58MwiYTgTvz6/k0IJLbGtBJ9E0xAp2Cnco52ZdZ+KT7I
-         V/p9HJZsNeZz/EEaKCrJJvGd+7nDFNORmR9+fRSeY17RmXIi588krmL4lrybTNeoMqee
-         XZ+Q==
-X-Forwarded-Encrypted: i=1; AHgh+RplE8Za8DYf8GkuEORmWdgda1E591Jv1tNEzqRkVpyaLPiiS2awDnz1QIo0nOLvNIuUV3zlRdVBiUID2nSWDQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lapmphKXvsyfld4ypFLznRkzKq55RZ1ayVc1eE2DdEPAB8vXxC
-	KYXfdooqNq6rFcKNjdLtYYsRc62zhdQKsOu44dSywAbX/W1h82kV4Bj2d+cuDPbxcov4E1+n1E6
-	HOoj4R9rXcWIFbNDG4wnYCK5fD7SE8U9JB74oCTS0
-X-Gm-Gg: AR+sD13/8PIptDqOXg6J+GwDwepGf7KvYR6LqxR//UHqwlrvSOWYwnqNeRAvpBTvVOi
-	9EgtTxkJzH5b6EzfT7Ndm/avv7QkOQB39wbI5XFHsN6OFaJ+yrzms2iuF5gzAIuxnyox7hX9XYc
-	5zyQiAyhR+Cmop82Bw/LqsgWFkmYrJKIBhdh5eh9sm92YQmGelzawGnztNyseQnu2CNUJAnZ7BJ
-	TfRvP+nm+baZ6AL/GBvmM51VFYkCHam8BQH+O4xygXsweqvk+T8H8pz5HTTW5L+dKpUFGpieo1v
-	LxW9uhlVvMmrSRvXI6xgcMY9QSPRJe9Oo860hj4p7DEMBEb9lBfc9rHjtdUUUy6kMCYONCcokfs
+        bh=92zwtXlgyBYYVN9xkl2KGrhKya15L+GyHSeWZLE5yFc=;
+        b=JmiVWpuVVGUluTQ3JnFsfey2vGq5NXhH2qFNefhumLrgKDdeDZ3QSAcbznKgKwDTmL
+         uzz4NOxzLkLyZsUtBnEJGnyIS+F/174aK3AvTYdph/jA7nVGtxWw34vTwsGrB7m6/N0N
+         R4JIOaHLmAUyUuiQiMFoHAopsIClXX+ackQ6Xu/b8D939wzCBV5OxPoxlTM/0HoFnH7r
+         siSOMYcJIQ747h5bPgtEeRtFbFZgigUv1MoJZnYdXg1YmDNR3wrbRVJWP418eKo169R1
+         /BRlXClb09iKzpBQ0aB8HChOMbqY5jIVNJVF+1IVpvNi+EOBkybtUxRsPZz4u8mUN+SH
+         DCkQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq8rWlTnc23z1GzuD+RAWvOgXSlJOFP2Ap3cTRxfBmqrWoE5CYMMPN5p1I9Z4HRzGsTu4s1egkYfeQVYfKstg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lrINAxzZC53xfC+3DrEBEdMKLP8N8D5HNizwJyQcXlGcVc0ICn
+	hT7ImfNkUq3Qv/AxI8yDxJ19zmKcLb+IiatioArMZHva4f8aLUrPx7GeX0sngtiAtsctApNlIw0
+	pyVd/fYL4MOK7AufYq89E/oFYzZmFptjvCJmFYvBR
+X-Gm-Gg: AR+sD12dK1XjtmfzfRWyzjgU6/du/fVq3eBi7W1v6WOixRwypkz543Xc4h8J4y1DI/J
+	l9FQPZ/del9+NdKjeDC5VPE8q+fdcHPFozG/PgYnV9nLMHw5op8+0v/dt5+QHchoG3gmQNqnLzX
+	WUm3k3k8hU2A17XyW1hOXrb1431UMPjYAF2+8tA4iVxWqIox7oAWZZoPxcIq+/7O4QZPdgwRo0w
+	S8QZUp+2uDFU3a0azF1Sp3iAfVBlFa7ihDjCwIqZNEds75Rolkfr0MMF68P8+lK8WZ49uPzfd9+
+	Bls47CqSlOT9NzU+EM5pAdGiu/sNC0PegSKZVJ4kQajRC1dREN64zAsjoxyIput5ju8yTn8W8xY
 	=
-X-Received: by 2002:a05:600c:3794:b0:499:cb15:4511 with SMTP id
- 5b1f17b1804b1-49ccbb61af8mr349255e9.8.1787959992396; Fri, 28 Aug 2026
- 16:33:12 -0700 (PDT)
+X-Received: by 2002:a05:600c:6051:b0:499:c46c:addc with SMTP id
+ 5b1f17b1804b1-49ccbb107damr428575e9.2.1787962697528; Fri, 28 Aug 2026
+ 17:18:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -84,12 +84,12 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260827232948.2520558-1-stevensd@google.com> <20260827232948.2520558-7-stevensd@google.com>
- <20260828125706.GQ687043@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260828125706.GQ687043@noisy.programming.kicks-ass.net>
+ <20260828120408.GN687043@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260828120408.GN687043@noisy.programming.kicks-ass.net>
 From: David Stevens <stevensd@google.com>
-Date: Fri, 28 Aug 2026 16:33:00 -0700
-X-Gm-Features: AcwNN1X4mjRfDUQTmdB2Q8G8afN4YKn_2mHhFiMGwyOfarmpU5bToKMeymOANtE
-Message-ID: <CAOiLmNG8XUKzy7uyodfDyuSBKJa4LujqSRKhgmOiRUSFEAEjFQ@mail.gmail.com>
+Date: Fri, 28 Aug 2026 17:18:05 -0700
+X-Gm-Features: AcwNN1U6VBNd8zJTEq4mYD8VweLtljSgvulTToePYb44m-5Q8rEJ_yFqUyGXmiE
+Message-ID: <CAOiLmNHWGSwAqH815X3JWMrQCc2nh-fRNsNZ0hjQGv8JvFndag@mail.gmail.com>
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
@@ -111,71 +111,47 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 28, 2026 at 5:57=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+On Fri, Aug 28, 2026 at 5:04=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
 g> wrote:
 >
 > On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
-> > +DEFINE_CLASS(allow_stack_reclaim, bool,
-> > +          ({
-> > +             if (!_T)
-> > +                     current->flags &=3D ~PF_RECLAIMABLE_STACK;
-> > +           }),
-> > +          ({
-> > +             bool was_set =3D current->flags & PF_RECLAIMABLE_STACK;
-> > +
-> > +             current->flags |=3D PF_RECLAIMABLE_STACK;
-> > +             was_set;
-> > +           }),
-> > +          void)
->
-> > +     allow_stack_reclaim(prev);
->
-> > +void __allow_stack_reclaim(struct task_struct *tsk)
-> > +{
-> > +     union stack_reclaim_state prev_state, target_state;
-> > +
-> > +     if (WARN_ON_ONCE(tsk->__state =3D=3D TASK_DEAD))
-> > +             return;
-> > +
-> > +     prev_state.val =3D READ_ONCE(tsk->stack_reclaim_state.val);
-> > +     do {
-> > +             target_state.val =3D prev_state.val;
-> > +
-> > +             if (prev_state.stack_state !=3D STACK_PREPARE_RECLAIM) {
-> > +                     WARN(prev_state.stack_state !=3D STACK_IN_USE,
-> > +                          "Reclaimable state %x for previously running=
- task", prev_state.val);
-> > +                     return;
+> > @@ -4320,8 +4319,18 @@ int try_to_wake_up(struct task_struct *p, unsign=
+ed int state, int wake_flags)
+> >                * A similar smp_rmb() lives in __task_needs_rq_lock().
+> >                */
+> >               smp_rmb();
+> > -             if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags))
+> > +             if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flags)) =
+{
+> > +                     trace_sched_waking(p);
+> > +                     break;
 > > +             }
-> > +             target_state.stack_state =3D STACK_RECLAIMABLE;
-> > +     } while (!try_cmpxchg(&tsk->stack_reclaim_state.val, &prev_state.=
-val, target_state.val));
 > > +
-> > +     if (irq_work_queue(&tsk->stack_reclaim_work->irq_work)) {
-> > +             /*
-> > +              * Take a ref that gets released by do_reclaim_stack() so=
- we don't
-> > +              * have to worry about races with remove_from_stack_shrin=
-ker().
-> > +              */
-> > +             get_task_struct(tsk);
-> > +     }
-> > +}
+> > +             if (!ensure_stack_is_present(p, &need_deferred_repopulate=
+)) {
+> > +                     WRITE_ONCE(p->__state, TASK_STACK_RECLAIM);
+> > +                     do_deferred_repopulate_wake =3D need_deferred_rep=
+opulate;
+> >                       break;
+> > +             }
+> > +
+> > +             trace_sched_waking(p);
 >
-> > +static inline void allow_stack_reclaim(struct task_struct *tsk)
-> > +{
-> > +     if (unlikely(tsk->flags & PF_RECLAIMABLE_STACK))
-> > +             __allow_stack_reclaim(tsk);
-> > +}
->
-> So you have a guard with the same name as a function, but the function
-> only functions when inside the guard of the same name. WTF ?!
->
-> Anyway, it looks like you're sprinkling this guard around a few specific
-> block sites. Which seems to suggest your PF_ flag *should* have been a
-> TASK_ flag, no?
+> Absolutely not; ensure_stack_is_present() must not call
+> repopulate_stack() while holding ->pi_lock. Not happening.
 
-A TASK_ flag is definitely better. I was thinking in terms of defining
-safe scopes, but that just complicates things for no real benefit.
+The optimistic fast path for repopulate_stack() could be modified to
+try pulling from a pre-allocated pool of zero'ed pages. That would
+reduce the function to a couple of memcg_kmem_charge_page() calls and
+then vmap_pages_range() to repopulate the stack's page tables. That
+wouldn't require touching any locks except a raw_spinlock protecting
+the pre-allocated pool (or just make it per_cpu). In terms of cost,
+this would involve a couple of atomic operations for the page pool
+lock and the memcg charging plus non-atomic operations on 5-10 other
+cache lines.
+
+Is that within the scope of what can be done under the pi_lock? If
+that's still not happening, I can see how things look if we always
+defer wakeup to a workqueue.
 
 -David
