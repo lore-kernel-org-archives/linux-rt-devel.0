@@ -1,42 +1,46 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B633C0608;
-	Mon, 31 Aug 2026 07:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292083AF66E
+	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 07:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788160517; cv=none; b=ZqAzl6TVEjufvTePO3DQopOM4zgwrvXeBoWMZI3UxYIG07vXImS6dWU9bW625FTFg2fLnXnq9k4OiZH5yHGtjTsVc7G5dU5MYZwX6E2nfCIDW89HUdSJUZHS6Ta7ZKA4FHSOGDEOpV7IwF710rQXK2kDrsDsGKsziDOuH51jo7U=
+	t=1788161784; cv=none; b=nkjnQOphtoRyowoHvcNztSktVIgqD3FKroo+fELlUsMpVMLGMlhKs7yGjJd3Y+xZ3DvtiPxPeTH13s/1xza9uQ6y+2jvcPCOOcWZWEnwLIJwNH1/ELKndGc8AsqXJluTWjuQBDSlTS0MvcbQAgAGM6XQzgeRYS9HvbOY/LmLzTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788160517; c=relaxed/simple;
-	bh=ijEyptNiPN5HW9gpoCVFaJTKI5pwHgOUe4gqsCyv6SE=;
+	s=arc-20240116; t=1788161784; c=relaxed/simple;
+	bh=NBzwoNyefdSIH6rQCwuf5xORJ6xN6NWSfTYFyk0eN28=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACn/XfAE5hPqBUyM0QTzld6dBBXZCa3CWj0tLAW/lDQz7lsnK+lxyuB1FW46XKjHfXuWcBS2b/2l9IR8oc5GoHi5asC+1j3ewd2KnEa2ZwDoK8+CjG4EnGuGnQZIGuw/ihiT/k69wwUn7hSOdAgmA1+0WWVb0S1jqpX9fjAeL+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pGIgXFEK; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=OucIBoOoWVRjCZA3sca59r9XVLSKgoryE8N0AiREU7MgeSMQsPiZjmwZAZ2nsHQM0Dt6JjzuDdaXBniSKdKDJR5uTxMleH1bM7UAeOpv/zS+zmlbZnfTOR8chZ1L5HeRQ/bZqSl3KWBUHXbS72sLMyKK2V/EsGMos8l9V+xOUO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nq4JVzso; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pk91fDTw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pGIgXFEK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=c2115nKGBEwObmSrqlfs2WcBhmzv4iDh4H0qiO5lvUM=; b=pGIgXFEKAN/kTi6sG6t/00uMvv
-	+WycgRgKlg/+rvkAKsveOmQTewMEVutHhuo5hVygDJWrzcNnYzE7wD+mQYmhxZKmHutXGdW+zNJ0H
-	OyUKRZQJE2oXdf8gdmVvf7G1wf0r5LcVy71HIPmPUrpkyzANAaTHG15lLBvSqf7FaJ+gA2Uq5rV/g
-	uj+0F9R8YG0UxT1bpDWxxd/xYyYYqc1wmAynqepmWo4TB9B5IPbw0uCJKDqp/H3ooTXtSvGJdRSlP
-	0TMmHkfzu51BKdWUabDiW6kkL6aNKnDGgLILH9HbPwmWZLqpYHo+pm82f0/WFES3FAUGqRxoYI3Qf
-	7tFNNdGA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x0wEA-00000009bM1-2gNA;
-	Mon, 31 Aug 2026 07:14:47 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E7EBA3002D8; Mon, 31 Aug 2026 09:14:44 +0200 (CEST)
-Date: Mon, 31 Aug 2026 09:14:44 +0200
-From: Peter Zijlstra <peterz@infradead.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nq4JVzso";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pk91fDTw"
+Date: Mon, 31 Aug 2026 09:36:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1788161781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0bbLn43OEfzJk6RijiG0hY9eLwY+qM7uVXluXMN+YSs=;
+	b=nq4JVzso6agIIEJPtT+hA2jj6xB08NNe45cLx3b3da5REQJup3Vb5gX/bgy+epwACYFOwh
+	4dmrOIEwuY26RvfhCQapR4BZRlTBYX8V9rIvVQdNqVZtO9KcX8cY2gPUAvu7eG1IUk4zWI
+	iGQf6n/EHr3gsDVe8aj2pFL/0A65eG2jbRDrih1dS473/GiZE0uyEJDNlC2egaMTnbXRGM
+	I0XJQ4EsLkyrO58e8EV7+vj7II5p+fmDJfFCHdFbMJyuZD3zYw5jR1Vz6jk6oExsjbzlZX
+	KRTFOrv9cQRhCIMu5h9rUFqvjPoLMdr2d2IYVQJDRkrwgFk+D6SvmF+ajLcFWA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1788161781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0bbLn43OEfzJk6RijiG0hY9eLwY+qM7uVXluXMN+YSs=;
+	b=pk91fDTwvh9wOOk+diFwBjcIFfkAtuIAvaITJVIRjHrxu/tDM8ZpStQUYGvAopCfp7Lifw
+	XzuXrIPEv7O0J2AA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Matthew Wilcox <willy@infradead.org>
-Cc: David Stevens <stevensd@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	David Stevens <stevensd@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -65,7 +69,7 @@ Cc: David Stevens <stevensd@google.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260831071444.GT687043@noisy.programming.kicks-ass.net>
+Message-ID: <20260831073619.Ssq-wt7s@linutronix.de>
 References: <20260827232948.2520558-1-stevensd@google.com>
  <20260827232948.2520558-7-stevensd@google.com>
  <20260828133620._x2XfJR_@linutronix.de>
@@ -79,11 +83,11 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <apLxcg3Lgy0-nXA4@casper.infradead.org>
 
-On Sat, Aug 29, 2026 at 03:49:22PM +0100, Matthew Wilcox wrote:
+On 2026-08-29 15:49:22 [+0100], Matthew Wilcox wrote:
 > On Sat, Aug 29, 2026 at 10:49:01AM +0200, Peter Zijlstra wrote:
 > > > On PREEMPT_RT, it is necessary to skip the call to
 > > > alloc_pages_nolock_noprof() from under pi_lock, since with that
@@ -97,11 +101,8 @@ On Sat, Aug 29, 2026 at 03:49:22PM +0100, Matthew Wilcox wrote:
 > Why is spin_trylock() unsafe on PREEMPT_RT?  It's not intuitive since
 > one can mutex_trylock() in interrupt context or under spinlock.
 
-We should not be able to do mutex_trylock() from interrupt context.
+no, you shouldn't do mutex_trylock() in IRQ. There was something, I
+don't remember but that is the reason people use semaphores because it
+is okay to do down_trylock() in IRQ. It might be unlock path. 
 
-Because then we end up with an owner that is not a task, or if we
-account the interrupted task as the owner, idle that owns a sleeping
-lock, which also leads to problems, such as trying to boost idle and
-other such nonsense.
-
-
+Sebastian
