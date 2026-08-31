@@ -1,115 +1,189 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90144477E3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 16:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788193492; cv=none; b=a5uA43U92cUNCR0p6bJNKG+kZwz4kmmg7KWhk+Ne+4H8jmS0AZAB/uyfZG7D2if9udipGw+we1CASXPE0Ah7dadGIPiBqvQGGsB0Ziro49xPD1Z3LtvB3gpWEUxhMkpt/6j8TdYLEjVpuiy4inA+He5F3zUrEWzz2J4m0JHOxg0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788193492; c=relaxed/simple;
-	bh=4wASPUEGd3KOv6Fdubi246q8cZj4P8D3ytyUATn9DWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hH7vbVQq8jDKLnDEn1KMSTtCbTRr7AGhEvpSivXt91t57vLlDd7qrjZ/UCeo7EfXtxhVkq0ZsnFLgvO/U2MIHmK1ZUfsgo0l7sXB7/sijgpz4kAqoRStVj2qjTLDszqVAhIFn70cC3lu5murNETyOBWizZXPniPIiFJOM+SXrVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XaM4xafD; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B3C47DD4C
+	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 17:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788198286; cv=pass; b=q19QQuHasGq35kur2wpDaIJzBuCiwe/eURCsg/xOL8YpvdsyfYscTGMczGacRylrWB9i5YHNf6BGrL5ECGDr3rmkZFj7eRr2mGoR+DfHsW4OQsCvx3M3wMhSvTKZUojeeVjqbngsGk+TCSI75UhlqEcQTjgbMK0us66f5xWZERw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788198286; c=relaxed/simple;
+	bh=I9kfafs/1Bu43ruu/5AtQZH16QoOsZS1EWru04KJq6U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UHm2OFFI32jr1rYDoYiTbrbpIEIXXOJrlbqq68GL+PGRnCqOpsUxQ3lin8jTL6AI2rOqaQRjp6hiRhVCFqg5prR/i8KS/hFvQ+P/MsT6esVCbulBFueCADFvzZx6S9LAK6s67W+aZadVeuKeEm0ba/5jrMegEK3JOtH8kJAIIAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FzmzaEBH; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaM4xafD"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3964e76d0f4so3928090a91.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 09:24:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FzmzaEBH"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49ccf12bed0so2165e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 10:44:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788198282; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TzC4xT1S88TAT9pDxolUD05p2JcSDuVy8PDFYHM5briOdMEaZPxqIP+/8rpD6o8SqC
+         7vArAEFCOjzgpOmitCEVTAyVOlvTpo7Y3GUv+3fQlyoTEcQlXkv0sv4mgLe8jKST7mii
+         yZMF5NlRqMCUWmqPaiu2o8xaqcH4UZxAYaZjF+TMzNJDU5eVTzXQYI9sqlssg80K5pp5
+         hDNSJR9YgZ/DK/tiFZtnwaHuzbcKLLlWRgjF/11Ry8W01wfIuWKPTR+DOqvGjKCpPnWs
+         VRFIOkXLCmJwH7qj/3l5z0hahbXjUpFpGVomzk4DETgAsWznni23hr842V5MSKgVR99M
+         kEKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ISAzL6GuJopoRMWQpQWk2e7HTJAN8rWZ7VQ5HvwdBSw=;
+        fh=dXFNmUpwlU8ni2MHNcxT7hiLG2LRV31JSyBXbwaiW24=;
+        b=JfshK8qCGZdbYzDBr6Lo6k10Kk2dakBntDv+qHZBcO2vJlSAqvj7dvcof9nMi4n4qu
+         XMqE1WIR1d6GuNGHmLJGIcMGOqQuHd/dIINYuCYJ4w0c5Xhi+eD5QSM+o3qg26vWyay6
+         12BaF7lld883/2kbFKKvLRKb5FQ5NFBDxc8umifdqM+TP7VwPkL8UFAG8iW40oEHkOpl
+         +gsXqVGJdKQi3pVquiz6ycmjHaFjW8puYMsDM9cc87paDnTuWODqH3qPq7iLlTi2GdII
+         Mry5Vmttj1moNq/+3XZ01Acv6lbeq5Aj/xR5fE01c5eSGP9886wYeus433FX5I9S99FO
+         bNKQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788193490; x=1788798290; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=google.com; s=20251104; t=1788198282; x=1788803082; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=4wASPUEGd3KOv6Fdubi246q8cZj4P8D3ytyUATn9DWg=;
-        b=XaM4xafDI3UJdTxNnMvTLQaTLkCnNxu6H7+vYvDVF8BtwdEK+bnTkRe7xe5KHjdxne
-         +4ln7mtOFYyicR0mnVGX+pLgguKVdY5EgxDNp74sOxGmbmyAsFyhzzDyY2EFoTOZmId4
-         XS5u2OVebdBQn7oP7mHwenFSlqYP6ltkPuMgYwBl8mcNmvAT1JDaaVKPyyLZAqzk6Vav
-         zzDRfuVrUahs6P8Vlq3ooonA9elXSnMt7Q1QThAGT9HT0HPpLLj6ulMiq8Z+E3n+4cec
-         zUwUsOcuFaiIf9o+dRaPPBuZ9BuNoPQOprAq57I0S4jWan7tdX7AU37vx3rioDsQl9En
-         HYsw==
+        bh=ISAzL6GuJopoRMWQpQWk2e7HTJAN8rWZ7VQ5HvwdBSw=;
+        b=FzmzaEBHs6/PK6uM3PECNXMBac9ajVimFfJ8U6hcuWxjKWF55MGO9O70cO8cXDXDej
+         lXQP54dcslWl8h0vEBI7++QiGUIi1HBRSE3bNEUrCxtFzDrgmFuG+8IyZMNMXi/Wji/5
+         oimBK/xeeS9Qv+lTG+mlpMM/PbeUG/40L3aZ9umdUtup5JVSnFqhkYjrRak58eREVsCV
+         kf7ICfyWdI+LjURu8AqEhTZutoi9U3otlfnIsozvoLvzXekpPieqbS4T8LiDBx8FJBPt
+         wNzYcfrR8sFn0SNam2a8Xc7rII4dLW3lno+VMabmMExZaztFFVsLmH4x+b/QK19qSNQq
+         q0FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788193490; x=1788798290;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1788198282; x=1788803082;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4wASPUEGd3KOv6Fdubi246q8cZj4P8D3ytyUATn9DWg=;
-        b=TwoW94XMrdKucXljXHiRCqMFORpICH3oSeUlh/nSssWX21zjLGNEennvrTPHdAEW/B
-         yXy+JVEnnBReLzNDPfimFR/LRyuE2eVJZl3vY8kFvY6wA0JyMiHAKrxIKeh66LrDvVEt
-         XcvzPBLs9gSQQ6rZWVi/pdNsVfmeLLTto/wsGw/39WlqXtionLfV80ria6QwN9skMYWW
-         wtUv1EWa3BquqEHULtq6ZMe8BMi8F3hjGR85mhufr+7W8LcCQiAqz0tHK2bcRvBD0KTT
-         N0cFJsePyXj+qpTrfxSNTs3eoSfkWR/At8a7ga+5lyQUEmvNaoRgub/92/AYnq6B8PiF
-         gvUw==
-X-Forwarded-Encrypted: i=1; AKwUvByqm3rma7fiBiyqN1x/1lbY4lJv/XC1tLCHsnfaXIY2NN3kyy54N+pTYxpLoOzeo1ViOz1UDreavCCAuOr3Vg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nZyCqpOSZP46voH5aDQd8DwP0t+iSopR3EWYYv3hvxBzefz0HV
-	iCzQDtdbjmxa0f6votlFrfwpU5FAeoDgzHcd3GAkc9GU48vuggZ9pTay
-X-Gm-Gg: AYBFou2TwnfBM4DZdF67liyEpezYQiAJUkdetOAQdc+zCL+vqK6VhkOziIUPMk3vt2/
-	iEHvz4KxaEGX5TJ3WYES2p2A//SSh6vI+65UW0NIh9fjPCjNB8NCuDWWrwf9mlDJrBvvvPrIBKe
-	zvNj/t7VXc+JeRN/YgmZ3HoDWvRwTBVb9FQs19Pd8hR+HzZyeh3qiRg1m09THSlGckUhaBTojQY
-	C7a7/hqMZi24fePJ67E9hBz7oXXxFMuCY0jVwqogyqOGRVg+6fuE1m8S+lcZfCuHaiK/uGB53BL
-	IiJEQa67mT5yC4pJGsv+1Rf6tk1an1Ie38cO+6oIMdp4EAx9QNQd9HKe/CZ+qHNOHBPoDhUUYPN
-	yTYkkC8UJbw2lQpINRB7gg/ae/6WTSqxZf9rktrq/cYgxJSR1jZfGn1oM7kR644QxhVSVP6cdmC
-	icY+bMCr4gTMPFeeLA0NuH1uM9pJ020X8HLJdtn4a7pHRI4qwcqwOEld+ujo88/euYL4m00YF2z
-	oDv336w
-X-Received: by 2002:a17:90a:e185:b0:37f:eafd:3505 with SMTP id 98e67ed59e1d1-396d0ecbdb9mr45635347a91.6.1788193490095;
-        Mon, 31 Aug 2026 09:24:50 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:21dc:72d0:a033:17f7:ad44:4f35])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990c40d0c9sm311768a91.7.2026.08.31.09.24.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 09:24:49 -0700 (PDT)
-From: ThangNN99 <ngocthang2710.1999@gmail.com>
-To: Vlastimil Babka <vbabka@kernel.org>
-Cc: Harry Yoo <harry@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	ThangNN99 <ngocthang2710.1999@gmail.com>
-Subject: Re: [PATCH] mm/slab: disallow kfree_rcu_sheaf() on PREEMPT_RT again
-Date: Mon, 31 Aug 2026 23:24:42 +0700
-Message-ID: <20260831162442.8176-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260831-b4-kfree_rcu_hotfix-v1-1-4f0fb882638b@kernel.org>
-References: <20260831-b4-kfree_rcu_hotfix-v1-1-4f0fb882638b@kernel.org>
+        bh=ISAzL6GuJopoRMWQpQWk2e7HTJAN8rWZ7VQ5HvwdBSw=;
+        b=NZ/J4kNC2ARZy/kFA53WC9kz31TBXmmNpGLYtYPuIutzt0+L5TsTbS8bnvglSgxsc4
+         rBJZaRP2mT2X4FMQQ7ntZlN0tmsyzy5aVWhsrDwctuSogCEsr2XrO3y+f1+g8iCzodsL
+         v++NbxuHYBqyWSsO/vYLAD9z+SrFx+iwei2RPfNzD57vIgUflrG6noSAfwgBmu9HzAef
+         7XmtNrB8v38pEsQE5rsjUkko50anAEV4xEahsqwySs4iR2eO6+0dE2Anaao4gONneRWx
+         IOmHru9nun79onahiATnpwFvo5IOwawMNuYICvQeVJcxU6YvVm1M9c15xbxUzussKgyq
+         qzeA==
+X-Forwarded-Encrypted: i=1; AHgh+Ror2tihohzyOWHpfunrlj4zjScO9LP1uClWaC6v2l/FA94hT2wMEHMNwggpjad4N5aQ2nRpaXaY2aGfsz3qjQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++luXO1S+hqeHWBbvkjTPO/I0D55MXKSBKr0WrwRB632SO/ya6/R
+	AxBdnWM8dSalou2Fypfq/1P6JTVblyAGTEtDLMzPImlGrhjncFhGLIakXXm3VffSrRa9vCdu/HP
+	9gMt5MQnn+R6OcXIO9MTWg0BJGo+rLxKZPTR0GBz6
+X-Gm-Gg: AR+sD10P6MYILigj3nZr5Mbeft70ybGV9dbt7t95abbBqxlz4MImLmmz+RtDthiPwe5
+	o5eC8k2ouq0GfQan8biLAvhNW34XKQ8RFtuk6Fl1EoMpahk1MQz9oRLbPvK8o1w6sNkk47DM8f9
+	sSLnwOk9XePd6+FVBqdv1KxSRjHxagvs1P9+zSljSc40EzT1wDdTRr4CSZcRaHYaH4b98+qmF4C
+	USOieUvVH/lhi7ds85OSP4wT+i689T6DMP4C9J32rIbmd0TcIVX+2VC4qgtv7/+MrdsP7jdIl4q
+	TQ9FYe2/ocF++WPe/8mjq8tN5DPGlgyO5HbWWZ51+R3HVxiK8Xqh2fQjCrctZEVKrtThSCnJ24u
+	05+411a9QCQRfN+H6yB9tWoMw0G6JC+6QmCP6ccp7l/I=
+X-Received: by 2002:a05:600c:6d8a:b0:49b:8eb7:4a7d with SMTP id
+ 5b1f17b1804b1-49cdd243062mr28165e9.4.1788198281222; Mon, 31 Aug 2026 10:44:41
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260827232948.2520558-1-stevensd@google.com> <20260827232948.2520558-7-stevensd@google.com>
+ <20260828120408.GN687043@noisy.programming.kicks-ass.net> <CAOiLmNHWGSwAqH815X3JWMrQCc2nh-fRNsNZ0hjQGv8JvFndag@mail.gmail.com>
+ <20260829083929.GZ776954@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260829083929.GZ776954@noisy.programming.kicks-ass.net>
+From: David Stevens <stevensd@google.com>
+Date: Mon, 31 Aug 2026 10:44:29 -0700
+X-Gm-Features: AcwNN1WpmAgjgQmF9GpDiXzg08-hj-z0i4rUlR_td_jtRLd8aXHDJ1pfdit0KWY
+Message-ID: <CAOiLmNFsuaBf4C9=d5xrdi8SXYgFbjjD7ZnK1+G1=RaHquVinw@mail.gmail.com>
+Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
+To: Peter Zijlstra <peterz@infradead.org>, shakeel.butt@linux.dev
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Dave Chinner <david@fromorbit.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, suleiman@google.com, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Vlastimil, this matches what I found and is functionally the
-same fix I had in my v3. I built this exact logic (skip
-kfree_rcu_sheaf() under CONFIG_PREEMPT_RT in kvfree_call_rcu(), same
-dead-code removal in kfree_rcu_sheaf()) against commit 08dbfad3f504
-with the syzbot .config and reproduced the original splat with
-syzbot's C repro (writing "off" to
-/sys/devices/system/cpu/smt/control to trigger the
-__balance_push_cpu_stop -> select_fallback_rq ->
-cpuset_cpus_allowed_fallback -> set_cpus_allowed_force ->
-kvfree_call_rcu chain) — confirmed the exact same lockdep report as
-syzbot, then rebuilt with the fix and confirmed the splat no longer
-appears while the same code path still executes.
+On Sat, Aug 29, 2026 at 1:39=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Fri, Aug 28, 2026 at 05:18:05PM -0700, David Stevens wrote:
+> > On Fri, Aug 28, 2026 at 5:04=E2=80=AFAM Peter Zijlstra <peterz@infradea=
+d.org> wrote:
+> > >
+> > > On Thu, Aug 27, 2026 at 04:29:44PM -0700, David Stevens wrote:
+> > > > @@ -4320,8 +4319,18 @@ int try_to_wake_up(struct task_struct *p, un=
+signed int state, int wake_flags)
+> > > >                * A similar smp_rmb() lives in __task_needs_rq_lock(=
+).
+> > > >                */
+> > > >               smp_rmb();
+> > > > -             if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flag=
+s))
+> > > > +             if (READ_ONCE(p->on_rq) && ttwu_runnable(p, wake_flag=
+s)) {
+> > > > +                     trace_sched_waking(p);
+> > > > +                     break;
+> > > > +             }
+> > > > +
+> > > > +             if (!ensure_stack_is_present(p, &need_deferred_repopu=
+late)) {
+> > > > +                     WRITE_ONCE(p->__state, TASK_STACK_RECLAIM);
+> > > > +                     do_deferred_repopulate_wake =3D need_deferred=
+_repopulate;
+> > > >                       break;
+> > > > +             }
+> > > > +
+> > > > +             trace_sched_waking(p);
+> > >
+> > > Absolutely not; ensure_stack_is_present() must not call
+> > > repopulate_stack() while holding ->pi_lock. Not happening.
+> >
+> > The optimistic fast path for repopulate_stack() could be modified to
+> > try pulling from a pre-allocated pool of zero'ed pages. That would
+> > reduce the function to a couple of memcg_kmem_charge_page() calls and
+>
+> Afaict memcg_kmem_charge_page() ends up in a local_lock, which is a
+> spinlock, so that cannot be.
+>
+> Most, if not everything, in mm/ is build around being preemptible and
+> thus not suitable for use under raw_spinlock_t.
 
-Feel free to add:
+With the recent work to make memcg charging NMI safe, I had thought
+that charging from within the scheduler would be safe. However, you're
+right that the fast path does call local_trylock(). I didn't realize
+that only works because of an in_nmi() check inside local_trylock().
 
-Tested-by: ThangNN99 <ngocthang2710.1999@gmail.com>
+Given that NMI safe charging requires only using trylock and handling
+the !trylock case, it's not infeasible to have an implementation that
+always skips the trylocks.
 
-Thanks for picking this up and for the pi_lock/waitlock explanation,
-that's a much more precise description than what I had.
+The alternatives to that would be either not uncharging on unmap, as
+suggested further down the thread, or using deferred charging.
+However, both of those approaches would make memcg charging less
+accurate, which is not desirable.
 
-ThangNN99
+> > then vmap_pages_range() to repopulate the stack's page tables. That
+>
+> vmap_page_range() can end up in the allocator, which I suppose is ruled
+> out by the vmap having been populated before, but it still has a
+> might_sleep() that will scream AFAICT.
+
+It looks like when we go through vmap_small_pages_range_noflush(), the
+might_sleep() check is missing. That would explain why I haven't been
+seeing errors.
+
+We wouldn't want to remove that might_sleep(), so I guess this would
+require either a new function or flag to support mapping into existing
+page tables.
+
+
+-David
