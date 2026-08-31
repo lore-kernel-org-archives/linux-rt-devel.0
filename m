@@ -1,176 +1,175 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A64E38F95E
-	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 18:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017203911CA;
+	Mon, 31 Aug 2026 18:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788202320; cv=none; b=ryw3PqyqWz7NlxPCAtaRsGd86qd2Qf/nZ4ZOINsbsso7eUPRFuioqtTCmPgOgV7Rk90Ss68JSLa/ditW3yNZxuBknUmXMfbNFT7259hlGN/tdCzofXcrMu5hHUfxjoN8rRpApAQLBOolfKPniq/7MuI9CCuNbMLxP0u2h9KpSLw=
+	t=1788202377; cv=none; b=NzeVAh1y/Xccc0bsN2xTVKrk8KR2MHacZAmW00kHZBk0b/aaAJXhVR7NoWBopNop+5CVd20wZyEIoD4PoFvg3+GvfLc9naF3n4rFSJbqWpbOITb9KREgFOEHVRdfc3KY8plFIOOd/0UYu6YqvGR5vt5IGTmGQpyIWCyZ7Egmu7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788202320; c=relaxed/simple;
-	bh=8hjCPq9667fX+V+iDArjQoIU/4NOdMM/TkYRxWB89Ro=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Isc0AScKN8yKzgez3sBrUg2mqFmO4HZztvLfRpeyABwQGPv3IYu0HBbZjKwVOTK6qLPZkAvHrwIOHsA/V/yBxKl0/d8nGDwkdivDhHUfXa8jUuBYLBKc+8mhyU2bUU6mb/lBGQDxE3a5i8kPois1jHllVfixTx/tS2/yEHRwQBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ORhtwrK4; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1788202377; c=relaxed/simple;
+	bh=8kE3mn4MJehlGgEx4d09366c1li57ep7/5mbxQUQIaw=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=lHKSk9FivtcxqEtiVKWYB58z1A/Pz/D0WPo6SB1VqiVrhoEag7VN+XOJqnlN19jVLvsbBvOudv9gjg4we46tusmTskrbOOXeBY80hFTgkNipKatj50aPrc3EzmToMdXqu9NjVSB5uEd0GnzfIcd37Ra9bVk1CH2U2LN5HxEJBeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQlVMdhq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ORhtwrK4"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-855d2bfae95so224560b3a.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 11:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1788202316; x=1788807116; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=AthMoz/AgoYLHvPsWwEymdR4bUCvaR6JITk6QxJBrPs=;
-        b=ORhtwrK4V0B3BRel4Tf9P/VtC+gIewLYAuN53gnb6HsT6esXeauUMsfi+QoCAoXWoR
-         Frf7N8oJ5gJKPUou+z+Cg9dtNNrM/xE2wfWOvCPQt5iuvVmcbZiEcap6I0k1ZadfT2VP
-         O4s+3uJErZ4fWp0qDrAKj4SKtMNKd5dbId3BctjfrW9VxE5yS1SenfHJrbLU/3bWWqzW
-         bMqDYmROo7rkzMzAy5KfYFu5fTIPmmUzHhCrnX752740mZ71ujOEhXMptMfaPc2napdI
-         qFcb1KDSZ5WAJClGBR4AT2mvrDjw+4RyAyOBgz2ZNOvTlDdsCDtzxJCsgVUPw4FKeK/8
-         s5xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788202316; x=1788807116;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=AthMoz/AgoYLHvPsWwEymdR4bUCvaR6JITk6QxJBrPs=;
-        b=ZdIJgWe0Q8SfWW739Dq2qxiGZQp+y5UJEeqsaP9BQfB8Ld1xRoYxjO3S2uou4RbmFz
-         1XF/W9Zwvk+hYzmRtN7arGm9F7tnFGfvBEVw9SSZ5aMrai3OoSYiTgDs9SNcvpCIW95f
-         yiQbZ5CrGGwvPnCjWENX21jkoIaY6j6IoCfWL/9zdvdF/hxVTAnXJEDAUtkSuCIS7LxV
-         BvRaW+6LDS24SHnR5BVBEVykumZcKMPbydUpntzeSgZ15TxmF9tzOGWXiXjDjrJJrJfe
-         9vlRJ10W4IdFhIOjbSAi5w9YVu0bIe2PeGwt7osWQpUlD/0nQqH+k3Xehhs6NF+gOSR1
-         cBkw==
-X-Forwarded-Encrypted: i=1; AHgh+RqZHAodsFYmf0qn9Axh7pCyvTIZsqgsvGapnpiLy/pjTH5N2iBcWZh+qOtuQQhfmgXYwa4Y3SuCQMz9tdZx6w==@lists.linux.dev
-X-Gm-Message-State: AFuF++kSVK6W1FJrYJoL4lpod2sCQCVueWc+fgZrFL7GQQFhCeuAXLsM
-	wf1sfWoZMhdjOjIG1RH/RjwJAft521Is5t/WAF2ppJQruJm1+NIdssNW9KDlWyad3x0/wXUc5Hy
-	YWWzG9vs=
-X-Gm-Gg: AR+sD12ZGca48jjO9fE0l/j96CGl8I5yQIkpGJI/y3Y0ID0cSTLiFz0p8LzW9xyEkF+
-	cg/98o9w7ajdzTZVUVVBkzmU0cRTIBaWXnefRmeRv8TBt5v2YXfFCMLEB6pIyjyRUaL3sJeucZN
-	cpj5WmF8wTnW30iSZuGefqVm0Oqx7rU7Rim8cSUsi7qYeFOPzkRGmyRWL7pU9FmMEeVK+5nI8Dn
-	a4rCfekqa0EBw50rJVwBc7e3Y+of8MSMSD7Ek45mpPDQZNAhtrbtI1Qr5vk/oWkdJeNcaekzYnv
-	vksXabK6m0BO2/2wsnVA9V5AFAXcoso3n+Zv/eiwWg3mB/KqYaOqEfV5b03PPjcPAQP8FBD1lCS
-	5WKuEY97vb8XFezwgX7LKeqt45XyYpDcXMEqzvj2hW04R8ejnLKMC9/sCwwJNa/fsFZIJgSK4sR
-	SIUSYwc/28CRJ5IOMy9WMj9nXjG106SXHc75YnUT6D6lSv6AY75/5p+deajry16isluSKW
-X-Received: by 2002:a05:6a21:e38a:b0:3bf:9bd9:cf60 with SMTP id adf61e73a8af0-3d816bf48f7mr264453637.6.1788202316392;
-        Mon, 31 Aug 2026 11:51:56 -0700 (PDT)
-Received: from localhost ([71.212.197.238])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-cc1f3312146sm4820179a12.8.2026.08.31.11.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 11:51:55 -0700 (PDT)
-From: "Kevin Hilman (TI)" <khilman@baylibre.com>
-Date: Mon, 31 Aug 2026 11:51:47 -0700
-Subject: [PATCH] cpuidle: psci: Assign domain callbacks to all CPU idle
- states
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQlVMdhq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F6AE1F000E9;
+	Mon, 31 Aug 2026 18:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788202375;
+	bh=ZKV9le2OGTOsoM2XZ2llaOQkKHdNM+4MR1RB/yAg/0c=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iQlVMdhqghiYQU/bp4RqfBaWoxZCV3hjFuccPtiyG9ICjuQf7we6mlOyZBTNaCDnV
+	 Wzt5Qt3GQty6d1CL6snQgFIN/LW1rXnaL+VdDRUJMAMKNpf324Z7x42uHoKCAWvw1Q
+	 QwqQJVwQDayG2xQbtbfUZ1OtE9u4+RrmS6XWP6x7DyE15litGvOT2zMjklKDzXXCuK
+	 USamVAzGcOvWlZf6dRsRwc4h7uzs/IfZTY5VeMtdrfW084Z1avZskqBRqiJcHjvFNS
+	 mSOodeByzT0YXbjEq8Ar6ijx3SscTQltd10C3PFgDP6XzrpVQSEUrUUt+MHGJ4A19C
+	 OccQwLN7YaNcA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] mm/slab: disallow kfree_rcu_sheaf() on PREEMPT_RT again
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?Vmxhc3RpbWlsIEJhYmthIChTVVNFKQ==?= <vbabka@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260831-b4-kfree_rcu_hotfix-v1-1-4f0fb882638b@kernel.org>
+References: <20260831-b4-kfree_rcu_hotfix-v1-1-4f0fb882638b@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 31 Aug 2026 18:52:54 +0000
+Message-Id: <20260831185255.5F6AE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-topic-lpm-psci-domain-callbacks-v1-1-4a47d95c9c79@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAELNlWoC/y2Nyw6CMBAAf4Xs2TU8ohB+xXAo20VXKS1tISaEf
- 7eKx0kmMxsE9sIB2mwDz6sEsVOC4pQBPdR0ZxSdGMq8vOZNVWC0TghHZ9AFEtTWKJmQ1Dj2il4
- BVaOGnHSth+oCqeI8D/L+HW7dwWHpn0zxm/0bnuclreOhQa8CI1ljJLbZWp8r9FRAt+8f/+q1c
- K8AAAA=
-X-Change-ID: 20260831-topic-lpm-psci-domain-callbacks-a8af0cd7df35
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>
-Cc: Scaria Kochidanadu <s-kochidanadu@ti.com>, linux-pm@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3203; i=khilman@baylibre.com;
- h=from:subject:message-id; bh=8hjCPq9667fX+V+iDArjQoIU/4NOdMM/TkYRxWB89Ro=;
- b=owEBbQKS/ZANAwAIAVk3GJrT+8ZlAcsmYgBqlc1LhSNw7ZHa5daoTtWUSucRYeVlg1NKgX/Lv
- +fkTVpOXDuJAjMEAAEIAB0WIQR7h0YOFpJ/qfW/8QxZNxia0/vGZQUCapXNSwAKCRBZNxia0/vG
- ZXHbEACEedr/5CrU2dyNFywhe4xoCG2oZWYaMNNVedr2DV2qBNM/y8IPPDSmDW9eVGPE9Qx+UK9
- yfiT6WMJiyPXx2YW7Wqz5XT0NaoZ3RxsVMi0+0BVi8lODZpxVU3424FFFsxw/tJ6myEF03kCz1k
- zBgyc0EYPtIGpTZX7o0bCxmjZ6MHYhiGq7CZhI/TNrbkpHHod0QmGAHjc1cNJEAMS+eZ5VF4emX
- eape3/S+wLti5Td16kcoUAfkGlCh8YIU0Ju+Bir4tPx/rskaCmfF7zQAnTEsg3DW4B45g03kMaY
- xyzoyPWOX3FSlPXa5iVRXYla0G2AC+N5mjZjGXA/xcsdHsO4nxNm/MZ9kXrLT/kWuHCpXSO6pQC
- 2La6HyJ4v+17QgAkkhZ3wFDFxbPk1J41tO9J4dJJclKRxDd7XmNEIUcPoGyvvmd9cb/fY72MKns
- IWRBRpXW7OXMTbFICTJgM7GYMYQ/Kb9LNQkGR15owJLtvgYsJjgrB0tsNKXDqyOfAZX4YIywqoS
- /HvYzFELx5HvyWCBzj9w93lqkqLCFV3a4MAgJocVA6h8d8EGIk9YBC6+LNNSV1koxHHh8icFy65
- Vnmn01ok5luOs7YVOHAr8OXHp0ysDdJU5eCllOwQJ/k5WoZ5TKS7+WBrQXs1G8O3Ftao345mjbe
- ILgnjOOeaWUwD/Q==
-X-Developer-Key: i=khilman@baylibre.com; a=openpgp;
- fpr=7B87460E16927FA9F5BFF10C5937189AD3FBC665
 
-Previously, only the deepest CPU idle state had its enter and
-enter_s2idle callbacks set to the domain-aware implementations. This
-meant that if a QoS latency constraint excluded the deepest state during
-s2idle, find_deepest_state() would find no state with enter_s2idle set
-and skip the domain idle path entirely. Similarly, during normal runtime
-idle, shallower CPU idle states could not trigger cluster-level domain
-idle states.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-Assign both enter_s2idle and enter (non-PREEMPT_RT) to all non-WFI CPU
-idle states so that the domain-idle-state logic is triggered regardless
-of which CPU idle state is selected. The genpd governor remains
-responsible for honouring domain-level latency constraints independently.
+New issues:
+- [High] kfree_call_rcu_nolock() is fundamentally broken on PREEMPT_RT when=
+ called from raw spinlock contexts, and the newly added comment falsely ass=
+erts that it is safe.
 
-The enter_s2idle path uses dev_pm_genpd_suspend() which is safe on
-PREEMPT_RT. The enter path uses pm_runtime_put_sync_suspend() which may
-sleep and is therefore still excluded on PREEMPT_RT.
+Pre-existing issues:
+- [Critical] Lock recursion deadlock on !PREEMPT_RT due to __GFP_KSWAPD_REC=
+LAIM allocation under scheduler locks in kvfree_call_rcu().
+- [High] Lockdep 'Invalid wait context' warning on !PREEMPT_RT kernels due =
+to acquiring `local_trylock` while holding a `raw_spinlock_t` in `kvfree_ca=
+ll_rcu()`.
+--
 
-Suggested-by: Scaria Kochidanadu <s-kochidanadu@ti.com>
-Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
----
- drivers/cpuidle/cpuidle-psci.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+commit 2bc8f43addec97fafa1e1eee6c2edf8016a0ff92
+Author: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psci.c
-index dcf20ea5ef5e..db9aa57c51f5 100644
---- a/drivers/cpuidle/cpuidle-psci.c
-+++ b/drivers/cpuidle/cpuidle-psci.c
-@@ -250,6 +250,8 @@ static int psci_dt_cpu_init_topology(struct cpuidle_driver *drv,
- 				     struct psci_cpuidle_data *data,
- 				     unsigned int state_count, int cpu)
- {
-+	int i;
-+
- 	/* Currently limit the hierarchical topology to be used in OSI mode. */
- 	if (!psci_has_osi_support())
- 		return 0;
-@@ -261,14 +263,22 @@ static int psci_dt_cpu_init_topology(struct cpuidle_driver *drv,
- 	psci_cpuidle_use_syscore = true;
- 
- 	/*
--	 * Using the deepest state for the CPU to trigger a potential selection
--	 * of a shared state for the domain, assumes the domain states are all
--	 * deeper states. On PREEMPT_RT the hierarchical topology is limited to
--	 * s2ram and s2idle.
-+	 * Assign the domain-aware callbacks to all CPU idle states so that the
-+	 * domain-idle-state logic is triggered regardless of which CPU idle
-+	 * state is selected.
-+	 *
-+	 * For s2idle, enter_s2idle uses dev_pm_genpd_suspend() which is safe
-+	 * on PREEMPT_RT. find_deepest_state() will pick the deepest state
-+	 * whose exit latency fits within the active QoS constraint.
-+	 *
-+	 * For the normal idle path, enter uses pm_runtime_put_sync_suspend()
-+	 * which may sleep and is therefore not used on PREEMPT_RT.
- 	 */
--	drv->states[state_count - 1].enter_s2idle = psci_enter_s2idle_domain_idle_state;
--	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
--		drv->states[state_count - 1].enter = psci_enter_domain_idle_state;
-+	for (i = 1; i < state_count; i++) {
-+		drv->states[i].enter_s2idle = psci_enter_s2idle_domain_idle_state;
-+		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+			drv->states[i].enter = psci_enter_domain_idle_state;
-+	}
- 
- 	return 0;
- }
+mm/slab: disallow kfree_rcu_sheaf() on PREEMPT_RT again
 
----
-base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
-change-id: 20260831-topic-lpm-psci-domain-callbacks-a8af0cd7df35
+This partially reverts commit 2a8bb29ec9b2 to skip kfree_rcu_sheaf() on
+PREEMPT_RT from kvfree_call_rcu(). It adds a comment explaining that
+local_trylock() is unsafe on PREEMPT_RT when called under pi_lock.
 
-Best regards,
---  
-Kevin Hilman (TI) <khilman@baylibre.com>
+Link: https://syzkaller.appspot.com/bug?extid=3Dacf142088e0182172e58
+Link: https://lore.kernel.org/all/20260807-kfree_nolock_kmalloc-v1-0-ba993c=
+bf7a60@kernel.org/
 
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index b19ba1b31484c..7223a7596dabb 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+[ ... ]
+> @@ -1685,7 +1677,7 @@ static bool kfree_rcu_sheaf(void *obj)
+> =20
+>  	s =3D slab->slab_cache;
+>  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa_mem_i=
+d()))
+> -		return __kfree_rcu_sheaf(s, obj, free_flags);
+> +		return __kfree_rcu_sheaf(s, obj, SLAB_FREE_DEFAULT);
+
+[Severity: Critical]
+This is a pre-existing issue, but does passing SLAB_FREE_DEFAULT on
+!PREEMPT_RT risk a lock recursion deadlock during low memory conditions?
+
+When kfree_rcu_sheaf() forwards to __kfree_rcu_sheaf() with SLAB_FREE_DEFAU=
+LT,
+it sets allow_spin to true. If the sheaf is empty, it calls:
+    alloc_empty_sheaf(..., GFP_NOWAIT, ...)
+
+GFP_NOWAIT implicitly includes __GFP_KSWAPD_RECLAIM. During high memory
+pressure, this can trigger wakeup_kswapd(), which enters the scheduler via
+try_to_wake_up() and acquires scheduler locks.
+
+Since kvfree_call_rcu() is already called with task_struct::pi_lock held,
+couldn't this allocation cause a lock recursion deadlock?
+
+[ ... ]
+> @@ -2034,7 +2026,13 @@ void kvfree_call_rcu(struct kvfree_rcu_head *head,=
+ void *ptr)
+>  	if (!head)
+>  		might_sleep();
+> =20
+> -	if (kfree_rcu_sheaf(ptr))
+> +	/*
+> +	 * kvfree_rcu() is called by set_cpus_allowed_force() with
+> +	 * task_struct::pi_lock acquired. On PREEMPT_RT the local_trylock()
+> +	 * usage below will acquire the waitlock which must be avoided.
+> +	 * Therefore avoid it on PREEMPT_RT.
+> +	 */
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr))
+>  		return;
+> =20
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does executing
+kfree_rcu_sheaf() on !PREEMPT_RT under pi_lock trigger a static wait-type
+violation?
+
+kvfree_rcu() is called while holding task_struct::pi_lock, which establishes
+a RAW (LD_WAIT_SPIN) wait context. On !PREEMPT_RT, this code proceeds to
+call kfree_rcu_sheaf(), which calls local_trylock() inside __kfree_rcu_shea=
+f().
+
+Even though local_lock only disables preemption on non-RT, its lockdep map
+declares an LD_WAIT_CONFIG (spinlock) wait-type. Since
+CONFIG_PROVE_RAW_LOCK_NESTING statically checks declared wait-types rather
+than runtime behavior, won't attempting to acquire an LD_WAIT_CONFIG lock
+while holding an LD_WAIT_SPIN lock trigger an immediate "Invalid wait conte=
+xt"
+warning on !PREEMPT_RT kernels?
+
+> diff --git a/mm/slub.c b/mm/slub.c
+> index f9b56cb439e70..7a7e906a0e44d 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -6088,8 +6088,9 @@ static void rcu_free_sheaf(struct rcu_head *head)
+>  /*
+>   * kvfree_call_rcu() can be called while holding a raw_spinlock_t. Since
+>   * __kfree_rcu_sheaf() may acquire a spinlock_t (sleeping lock on PREEMP=
+T_RT),
+> - * this would violate lock nesting rules. Therefore, kvfree_call_rcu() a=
+voids
+> - * this problem by passing SLAB_FREE_NOLOCK on PREEMPT_RT.
+> + * this would violate lock nesting rules. Therefore, kfree_call_rcu_nolo=
+ck()
+> + * avoids this problem by passing SLAB_FREE_NOLOCK. kvfree_call_rcu() is
+> + * bypassing the sheaves layer completely on PREEMPT_RT.
+>   *
+
+[Severity: High]
+Is the assertion in this comment that kfree_call_rcu_nolock() avoids the lo=
+ck
+nesting problem accurate for PREEMPT_RT?
+
+Passing SLAB_FREE_NOLOCK to __kfree_rcu_sheaf() only prevents spinning, but
+it still unconditionally calls local_trylock(&s->cpu_sheaves->lock). On
+PREEMPT_RT, local_trylock() attempts to acquire a sleepable lock (rt_mutex),
+which is an invalid wait context when held from NMI or raw spinlock context=
+s.
+
+Given that kfree_call_rcu_nolock() is actively used and tested in hardirq/N=
+MI
+contexts (e.g., via test_nolock() in lib/tests/slub_kunit.c), won't this
+cause a lockdep splat or kernel panic on PREEMPT_RT?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260831-b4-kfree_r=
+cu_hotfix-v1-1-4f0fb882638b@kernel.org?part=3D1
