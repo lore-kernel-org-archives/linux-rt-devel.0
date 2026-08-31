@@ -1,164 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB65D29408;
-	Mon, 31 Aug 2026 06:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB8637646E
+	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 06:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788157255; cv=none; b=gW/PImN38e5pL0ikwO67XRQmgypJRBQeUuTb3Gh67mJ4Y4at+qaA7X00i2xYfgsNL9eZeDs7aJXZu9Yn+6h7qNu0Fs9mDgdMO8yx417HP2lL01FNtW60FqkbwV7spHZGLIngP0yUQ+oTc4ApAQCmj/y3GozJ6fPIhWJkmWy3THY=
+	t=1788158034; cv=none; b=B+EmqvfvS0VV9tzDcX6FvVaARMc19RHoTTWxgj1y8OdHRdPKPkjKQuq5ErRjCUlNKZ8umPNYyMOYpErzOnTVPeUP7Yoe1Q3zUrTO+6J8WC7d5pFvKBnoOnszQLNB4Lgn1RQ9yln0KnECTjhbv3An/jsBQgXnSD94RhqOfJJIc08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788157255; c=relaxed/simple;
-	bh=rwr1AxAfwSaLuyxoVAiITU9qmPaQWHYBLJfM3wzb1yQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KYezOYRmXj3YXXPTxivKBsu6YQ3Uu1EKfNQcNOc2SRW2ixLsMT1ExcIbkq0AzX1wLPl+5PPiSzDeaU+svvfdEyrfj4RCb8txj7ZFsZvpg5XBAgs6pw5pA6hhzWqTwuOMuXrEgeHkRDnbOphebsyichkhUFQSejHTfATzEIVqR8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPOTRWlL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788158034; c=relaxed/simple;
+	bh=4r4B989XhNn5855KWt3NM6Au1pnhG8E2OSje25w3ack=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pmpZvj3wfX+f4lxXQqrrLPnfku5rFw0dxm3Z1ojyTnfHoSDUYkat3ATLQl03yi9oTSXew8jXV8JsdRi6H0NNUUblVkzQdI+UsYWnvG1afT5U7hNZCwydYzPUCHQdnHJ0F+Pf1oPBeMriqVzs34f1281t1XHixHbN/LvG73BWNO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F31/8ntb; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPOTRWlL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319EA1F000E9;
-	Mon, 31 Aug 2026 06:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788157254;
-	bh=RccuAwUjjYQS8UYQ+DNxS0f7Ytxkz9Lfp1Z2NrXtpvw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lPOTRWlLFBTGbx8cRsnoYIIZV/iE8Bjph03VnRNZdRKq3mKCK355t9L2SpauYioiH
-	 i+e3png4VQHDDxyTTSKfRoHhC8h+UQMBi6esy0YDWXZx/d4CGqDItfgwwcEBJwATlP
-	 OtTLAiWghxR23hN6FiaMemWD+15lZSbLKmrYTc7E6L4fFv3lxW+3q602o/F7Ht/cqY
-	 +BIbmJh/8bVXdMI3KwPojJKZx9DBKMNXhQOFL/DBbrMdG76YazUIKnrFLK2HENFiBg
-	 MHbMh1w5bR8WLqc/a7y//fCxS6MhpT2uQrAvI5sbG4TbidCCIO5kvKF0fUCzNcNA/H
-	 28LuO3PrHF/8A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] mm/slab: don't use kfree_rcu sheaves on PREEMPT_RT
- in kvfree_call_rcu()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: ThangNN99 <ngocthang2710.1999@gmail.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260831060633.6831-1-ngocthang2710.1999@gmail.com>
-References: <20260831053846.107974-1-ngocthang2710.1999@gmail.com>
- <20260831060633.6831-1-ngocthang2710.1999@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 31 Aug 2026 06:20:53 +0000
-Message-Id: <20260831062054.319EA1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F31/8ntb"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d58efc7356so35929085ad.1
+        for <linux-rt-devel@lists.linux.dev>; Sun, 30 Aug 2026 23:33:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788158032; x=1788762832; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZdYVDo7588sL82RPlR1GkDzeflr+52xwAeMcbvupztY=;
+        b=F31/8ntb02IA6vXEv07KN/0yXcaV1eC42Ul8rVb8n0MTLC1J0Rd5XReAch39llqtJ0
+         VPd6SXlkzreTZYwer5KWzcCzhA8Fp1uNqp1m2MV3zXpSaEupTiFqvTj4GlbLCPhSvMSC
+         En7GNUQF18+4QrbbGRHE7e+NpIVO0bQDU/bRmkm/kqmBgUFeslmDu0aJADio3boGagXi
+         7xvWz0ku1w3FxiIRoy8QeR99xP5JDln4ogkrh55BaZLjl/v+2TT855SZzpGBKZ1qo9DB
+         KWhU8DcDMOJTLZXQ0aQ7Xho42BOoNBKGfDeEWmHMVPtHHGWjKieDbYBhWeFv4m6duTNn
+         wTTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788158032; x=1788762832;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZdYVDo7588sL82RPlR1GkDzeflr+52xwAeMcbvupztY=;
+        b=PIsMyGGl5li7jYSJLs2ErFBNuHrmmN7bkhsH8lxwxxdtM3P4AD3WQs2cfGesse26Rn
+         KbRPaskpShSpCeVRDpKDnvtaesfo57bE2ciu0gD08Gb1/s4xN+AG5e0p7M07do5OuLSZ
+         4boHptRrPOJzFxa2XgLi4SXBH4/lVAvg5Dt1NTMQhUk/QhLqcirQ0vtkhz9Dhf4TcJbb
+         csUgH4nXgXtin6c2pnFe31y5VGINwmfvdoEQzjOAR6It61SbemB2fNvZOrI4DSBk/dsd
+         tw6aroBSWHKjtOlFcX1oWF1K3jtC2eYGuqsRQxW5jgzVa4G11eI8TlK1yszYwDJYpCAg
+         XaGg==
+X-Gm-Message-State: AFuF++kbvzwEGx6hsjdvHFCR8LW3fkpLLirhsZYPsG/riOVSIpkOQWpE
+	eGF3Rr0db0buX3Zu9Mi+kYg4beXVWDOHNHXjOg/9PjhzM147XkaEaYHeJTgDYg==
+X-Gm-Gg: AYBFou3DKvOu1TCZXw6J7Vs3h6Ive8aNqJ/OMTLb5+cB+hSpslzE1L9dSnnJ/W/jGL8
+	AhwEN8Gbt5yjT37EUYDMwaoXV4e6k2pmGAxk5FkwGHn89nK+7VgrFbJIh4t12DRpsge6g3cZyyk
+	YCtpgGnABZ3zwj4OKCxtZIegCAxu6OP8cLbmJ3moHNCLLFyqbKh0mY4Kdc6/YXEf2WMi6Jb63Iq
+	PgiQ29ob8FT2fd2T95tCjV4hP2ABbfbizKFlYYyvRTQKbPhXkcrR5YiIS5CH+xAMWYbFapIDmO0
+	f+NycNI3mU4Pe2dTbojhdZ1uY3z9brtva/ypyGBJ4RmLDWN2lrerEToOsrMKN4GnsEARenQanFz
+	rOgN+pNqQr8YmkdY9woG0+Y9TmtgKR6srGxOCNvTDKPkPFE6hXAxCEsatiPIh/281DrrUrKKv7E
+	btWHgNVATTY7ao4MvgPKGp8Srl6YD8JIpp2tnEDivgEa/SGP1aK9v/5lnSKl+2C06u+5cTonBI4
+	5lzM4Q=
+X-Received: by 2002:a17:903:286:b0:2c8:248a:5dbb with SMTP id d9443c01a7336-2d74dcbe867mr391007535ad.7.1788158030880;
+        Sun, 30 Aug 2026 23:33:50 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:21dc:72d0:e0c:d445:c26f:9091])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d75963bc14sm29404725ad.32.2026.08.30.23.33.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 23:33:50 -0700 (PDT)
+From: ThangNN99 <ngocthang2710.1999@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	linux-mm@kvack.org,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Harry Yoo <harry@kernel.org>
+Subject: Re: [PATCH v2] mm/slab: don't use kfree_rcu sheaves on PREEMPT_RT in kvfree_call_rcu()
+Date: Mon, 31 Aug 2026 13:33:44 +0700
+Message-ID: <20260831063344.7933-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260831062054.319EA1F000E9@smtp.kernel.org>
+References: <20260831062054.319EA1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Thanks, both flagged items are pre-existing and out of scope for this
+patch:
 
-Pre-existing issues:
-- [High] Lock recursion deadlock in kfree_rcu() on !PREEMPT_RT when caller =
-holds scheduler locks
-- [High] kfree_call_rcu_nolock() violates its 'any context' API guarantee o=
-n PREEMPT_RT, leading to Invalid Wait Context
---
+- The headless kvfree_rcu(ptr) might_sleep()/synchronize_rcu() path is
+  never reached by the caller this patch fixes: set_cpus_allowed_force()
+  uses the headed two-argument kfree_rcu(ptr, rcu) form specifically to
+  avoid it (see its own comment), so it's unrelated to the sheaf-bypass
+  this patch adds.
 
-commit 405a1ecd91cd7581e29421663a94a33714163104
-Author: ThangNN99 <ngocthang2710.1999@gmail.com>
+- kfree_call_rcu_nolock() still hitting local_trylock(&s->cpu_sheaves->lock)
+  unconditionally is exactly what this patch's commit message already
+  calls out as unsafe under a raw spinlock. This patch intentionally
+  leaves kfree_call_rcu_nolock() untouched; fixing its 'any context'
+  guarantee belongs in a separate patch.
 
-mm/slab: don't use kfree_rcu sheaves on PREEMPT_RT in kvfree_call_rcu()
+This patch stays scoped to the specific syzbot-reported splat in
+kvfree_call_rcu(). Happy to look at the two pre-existing issues
+separately if a maintainer wants a follow-up patch for either.
 
-This commit addresses a lockdep warning by skipping the sheaf fast path
-in kvfree_call_rcu() on PREEMPT_RT, avoiding a local_trylock() under a
-raw spinlock. It also notes that kfree_call_rcu_nolock() has a similar
-problem but leaves it untouched.
-
-Closes: https://syzkaller.appspot.com/bug?extid=3Dacf142088e0182172e58
-
-> kfree_call_rcu_nolock(), added later in commit 3bc999d944b3
-> ("mm/slab: introduce kfree_rcu_nolock()"), is untouched by this
-> patch. Note it would not be a safe substitute here either: it still
-> reaches __kfree_rcu_sheaf()'s local_trylock() on &s->cpu_sheaves->lock
-> unconditionally, so a caller already holding a raw spinlock would hit
-> the same lockdep ordering cycle through that path too.
-
-[Severity: High]
-This is a pre-existing issue, but does leaving this unaddressed violate
-the API guarantee of kfree_call_rcu_nolock() in mm/slab_common.c?
-
-The documentation for kfree_call_rcu_nolock() states it is safe for any
-context. However, on PREEMPT_RT it leads to this call chain:
-
-kfree_call_rcu_nolock()
-  __kfree_rcu_sheaf(..., SLAB_FREE_NOLOCK)
-    local_trylock(&s->cpu_sheaves->lock)
-
-Since local_lock maps to a sleepable rt_mutex on PREEMPT_RT, executing
-this trylock from a raw spinlock or hardirq context violates wait-type
-rules.
-
-Won't any subsystem using kfree_call_rcu_nolock() in these contexts still
-trigger an Invalid wait context lockdep splat on PREEMPT_RT?
-
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index b19ba1b31484c..3de1eabe6c770 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1667,15 +1667,8 @@ static bool kfree_rcu_sheaf(void *obj)
->  {
->  	struct kmem_cache *s;
->  	struct slab *slab;
-> -	unsigned int free_flags =3D SLAB_FREE_DEFAULT;
-> -
-> -	/*
-> -	 * It is not safe to spin on PREEMPT_RT because the kernel might be
-> -	 * holding a raw spinlock and slab acquires sleeping locks.
-> -	 */
-> -	if (IS_ENABLED(CONFIG_PREEMPT_RT))
-> -		free_flags =3D SLAB_FREE_NOLOCK;
-> =20
-> +	/* Callers on PREEMPT_RT never reach here, see kvfree_call_rcu(). */
->  	if (is_vmalloc_addr(obj))
->  		return false;
-> =20
-> @@ -1685,7 +1678,7 @@ static bool kfree_rcu_sheaf(void *obj)
-> =20
->  	s =3D slab->slab_cache;
->  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa_mem_i=
-d()))
-> -		return __kfree_rcu_sheaf(s, obj, free_flags);
-> +		return __kfree_rcu_sheaf(s, obj, SLAB_FREE_DEFAULT);
-> =20
->  	return false;
->  }
-> @@ -2034,7 +2027,14 @@ void kvfree_call_rcu(struct kvfree_rcu_head *head,=
- void *ptr)
->  	if (!head)
->  		might_sleep();
-> =20
-> -	if (kfree_rcu_sheaf(ptr))
-> +	/*
-> +	 * Callers may hold a raw spinlock here on PREEMPT_RT (e.g.
-> +	 * set_cpus_allowed_force() with p->pi_lock held), and the sheaf/barn
-> +	 * locks are also taken as blocking locks elsewhere, so trying them
-> +	 * here creates a lockdep-visible ordering conflict. Skip sheaves on
-> +	 * PREEMPT_RT.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr))
->  		return;
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this lead to a lock
-recursion deadlock on !PREEMPT_RT?
-
-On !PREEMPT_RT, this can result in the following call chain:
-
-kvfree_call_rcu()
-  kfree_rcu_sheaf()
-    __kfree_rcu_sheaf(s, obj, SLAB_FREE_DEFAULT)
-      alloc_empty_sheaf() with GFP_NOWAIT
-        wakeup_kswapd()
-          try_to_wake_up()
-
-Since GFP_NOWAIT includes __GFP_KSWAPD_RECLAIM, the page allocator can call
-wakeup_kswapd() if the zone watermark is low.
-
-This enters the scheduler and attempts to acquire scheduler locks. If the
-caller, like set_cpus_allowed_force() in the trace above, already holds a
-scheduler raw spinlock, won't this result in a hard deadlock?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260831060633.6831=
--1-ngocthang2710.1999@gmail.com?part=3D1
+Thanks,
+ThangNN99
