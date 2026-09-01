@@ -1,189 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7657337F327;
-	Tue,  1 Sep 2026 00:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E41C13DBBD
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Sep 2026 05:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788224285; cv=none; b=Sn2350UTUGUsutIAvAgGVcr4Dvj9NTNeEgL8WlQPPB3vTAvisApO6TYu1EWxS2C3pztEaCTd25A1gLC8AgqH0h7pz4rZKI2Dy5FTkWpsmk/rDwM7elpN935fP69X7lmzJg1Bi78kUoqNHrNYsDlJ3mBIeymN3azDwv+B68RY2SQ=
+	t=1788241810; cv=none; b=qa3uie9XLZW+mZiDrvqqCJpKNmfnsQpLDbST0nsFrUH6mC2cEw8hRMngRJHuGbM2sbFAoxTLBqc/vFyIflzTdWRGyPe1FqHie5h2/Yf72kJDWeOHVk4LYoYctsSw6sSFTTpwqQANFtvqX80XBjhI4/pXGE7aXuC4J4xOFIeNrUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788224285; c=relaxed/simple;
-	bh=ZRbDdv3ON6gVaFfFiplD76Nt/U8R1aLF2BKq42LxqEI=;
+	s=arc-20240116; t=1788241810; c=relaxed/simple;
+	bh=pnefHhZaUXtX9LZJSQSVuGsmrJHNS4fDTg5BE652prU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kSxLhi81AY4d0mrkqDIEOxliwt0mrF2IOaKOYLjZnDePtGAb76wRyndS2kANk+yirp51nxvbkGdCtOHyHV2p1W+/VU122lkaSh8XGjPw5/uN9djIxIaFoXm5gvAsQq9xwDSxviP8y487tlOBnfbFa+++5J2aSVyG3Fqg4beUQWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KIfHlfBz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=OfVm5pHPzH4O1g+G8/Yju0cVm9hYqsoDPQA5U21bZ+For6WU+MH95s0KYyOitd2qcS3b+bFny0LM5238w9vOtbBjW1Gw4Qk3z9eW5cFlgdbHr+ENLJG190KWIb096pnZIsIskdKbmlaiUAcAQxIREi0aB/EW2v5wBctnL4zeX0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DbDcpwlc; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KIfHlfBz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21241F000E9;
-	Tue,  1 Sep 2026 00:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788224282;
-	bh=1bp63kcVJIGUXxJRr+a1pHibhDOvZDH0FPxWAxX9Bno=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=KIfHlfBzoIkHss6og+1dX0nGSvHrR69wBOpNZ+4R53mnZPPoJtuPTbat9lz89zYxd
-	 VoFyeKLFUG/RNEBTl/OEAaJvSVIF39P7eiAdlR3Gc5pFIStbqwCLg34Oz8CZtu+iIG
-	 cBME9O+ibShHLNVKaml/GGE4J1zl94NnomECTSbPaDtoWVSCpT3Nmcym62QsfvXJMY
-	 XO1shOHtkB0j/8Ksi1YXKq0MDkuikPzlMGo9Efhk6l8xMd9AQQKvPuIcW2vH2RGEJO
-	 uZr8/sINuVWPqGWlsVcZb6WHqqiDbtIINzWQC9Tu1mEgbGTAwkVhpvY0/iLNuUJtAC
-	 6FQqDmTaNWaJA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 8E91ECE0B65; Mon, 31 Aug 2026 17:58:02 -0700 (PDT)
-Date: Mon, 31 Aug 2026 17:58:02 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Michal Hocko <mhocko@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Jerome Glisse <jglisse@redhat.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
-	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-Message-ID: <90d91673-a912-439f-98ee-e43285294486@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
- <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
- <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
- <124af87fb49c267eeb26b8b4d952b9b1a5b3fb68.camel@infradead.org>
- <9427a8e0-3ba6-4f31-a35d-54429bd7e071@paulmck-laptop>
- <3d0463b6099d4fcde9a025a2f9e231d75303b61c.camel@infradead.org>
- <b0be19e9-b0ae-48de-bef6-d905ee007c8a@paulmck-laptop>
- <c39bda52f4c1573193aed39246f0d705755143fe.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbDcpwlc"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so43207795e9.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 22:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788241807; x=1788846607; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4pcXHVNN/f/FBlxkFnWJyCbKKWRhxlmaVfGPhM+aRWo=;
+        b=DbDcpwlct1EueIWpdRGPcMK+I4Rn+BQvn+yVLcm2OwRvGE4VJ8neicw3zVoUryORhD
+         +1tgZATqmdHPRzz8F87movx8mhgZGHmKAVZ/gQW19dzFgsdjNp6NZWUjxv4TcgWACfvV
+         V3BFEUEeHn8Z9ejNNFdq74EGv86kPsyg3O1N1vPrscjjnb3xQNr07hwkObmpa/M+qnOL
+         tO8iRPFJPIvU7io9Y+3BoqsFJdlx6ME944UBIfS06fXmZcBUoxXAeQTn+g2f4UqqQ83h
+         aLDWlIbW8O2DBLBGRD9s9/4rTWQh0S7wY9mUH6p/Dy/hmTeybevvmfnrwjAUNHd4T0XR
+         VfKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788241807; x=1788846607;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4pcXHVNN/f/FBlxkFnWJyCbKKWRhxlmaVfGPhM+aRWo=;
+        b=PlPIMQHsRyPoSAoyUW+eWVRSgXPuh6SBtRP5sucsg3b5CZPvIRd1Rd/20bFB59r/Vo
+         JvanAvWChhYgzQ6JvEpf9PTG8PMusRsnZ5Kx4Y/E4t9suUWSD2LiBNYB9QQw6NktB3Yi
+         XoHUV0mnWypLcEkUWWBRrRnoYI+iSQDWGEcFb4DyohGG7BLBQSUR8UnujsMOHIKWrFbN
+         yQ7SMFA7vubSu3isRTHg7huyB7+yjNOBEU1Um+SdtM1H5d3axr1/YEKJ74Ebn24ZNyrv
+         m5WLVZqzlCSAzyYMeLg7cKlFpyJdV0RsHCsUll7wDa1TEkDMmuqveHcq7i+ldV3xmZN0
+         sQkA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+ThA8F6A5XO04rduPDH76cokKprjK/si5RPG8U9jz32Q2weEMiOndIMthaUIOasGNRMKaufTEokWaYkK/bw==@lists.linux.dev
+X-Gm-Message-State: AFuF++l4P8eK8W+z5so212862zfb9iMI9kw4p/8Be+2/+4m1RIqoldJ6
+	b2av0dtUrXoou8xtrqZ1TvZlU1e7nbip11UAiklNgWXaVpUvJ/3/uvi6
+X-Gm-Gg: AR+sD124WwU5vS1z9ZrbmV+c+07c6Yy2D72tOOgDnh7ow1uVO9Ul1AITaKnrH3M//bi
+	mp9Q1hTneO/hyf3PfeqV7rg/0gE22I83q/+b+adn/NNAQ2amQkPtT74EoxDERafM+mkjLM2MVTf
+	yz0bBnK7DorW0bUaCQd4+hycrxdgjuLwakt5nH8hB9P14jbOH1fjQmG3rCC54nPAqitF9qLnrPb
+	tB7oScdJOcwgJPeMUcWEAs+2kD6k6oU2lN7xieD4I1aCLRCLqHLRabI5bU6WLswTkd9yxzF01Ul
+	9R+PBfcyydwxqBL/UWao39d5KjwBUTpTxmV1vzVXG2EMkD66IXdnUWimjN1kYBRgUu0M8hVlUr6
+	JEYFHP76rN8gRgHD4ggZtlWi3fFCoTnYsBvfirjaXhGqeb2pgVPX+3W9NtNwn1UgLMScE0PykRT
+	+8ksLOqD06to6xB0RPimtJn3+TmUPAIO8M7ulqfjEgdSnqvg8W3/pr3v9Px0lUN/q/gD/Nf1O4U
+	KJTLB4XnK6jqdocwP1NKhVNcUBN3lR52MKnDEREuvQRBobBQ+BjnTvU9j3Ne3bBhhCUbYUpP9OF
+	a8Gqxix1n1fMtduD+TMLi+YVu0QTbQTAWo2fF6qK5FgPeYTZmfswIhL9qDS73oll/g==
+X-Received: by 2002:a05:600c:4f8b:b0:49a:2c4b:403f with SMTP id 5b1f17b1804b1-49b91c46494mr412146165e9.13.1788241807067;
+        Mon, 31 Aug 2026 22:50:07 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a16a-7801-fd8c-4b37-36b4-e53a.310.pool.telefonica.de. [2a02:3100:a16a:7801:fd8c:4b37:36b4:e53a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce11e0fsm40774365e9.9.2026.08.31.22.50.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 22:50:06 -0700 (PDT)
+Date: Tue, 1 Sep 2026 07:50:04 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Marco Elver <elver@google.com>, Bradley Morgan <include@grrlz.net>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] kcov: Suppress timer and scheduler coverage leaks
+Message-ID: <apZlkC1lCUFFMKsl@gmail.com>
+References: <20260811154111.64669-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c39bda52f4c1573193aed39246f0d705755143fe.camel@infradead.org>
+In-Reply-To: <20260811154111.64669-1-kmehltretter@gmail.com>
 
-On Fri, Aug 28, 2026 at 12:25:01AM +0100, David Woodhouse wrote:
-> On Tue, 2026-08-25 at 11:16 -0700, Paul E. McKenney wrote:
-> >  
-> > > > Suppose that there is only one CPU, or, alternatively, that one of the
-> > > > atomic SRCU readers is pinned to the same CPU occupied by the (higher
-> > > > priority) task running synchronize_srcu_atomic().  In this case, the
-> > > > call to synchronize_srcu_atomic() uselessly burns CPU time until its
-> > > > priority decays, real-time throttling kicks in, or in some configurations,
-> > > > maybe never.
-> > > 
-> > > I certainly have no problem with a blanket preempt_disable() around
-> > > both sides for algorithmic reasons. As long as we aren't *just* doing
-> > > it for the selfish reasons I described. 
-> > 
-> > Suppose I simply disable preemption in srcu_read_lock_atomic(),
-> > enable it in srcu_read_unlock_atomic(), and disable it internally to
-> > synchronize_srcu_atomic()?  It might be against all RCU tradition,
-> > but might also be easier to use.  ;-)
+On Tue, Aug 11, 2026 at 05:41:05PM +0100, Karl Mehltretter wrote:
 > 
-> Which indeed you have done in commit c2225b77b028 "srcu_tree: Disable
-> preemption across synchronize_srcu_atomic()" so I've dropped that hack
-> from my side. The important RCU patches remaining in my tree are the
-> addition of try_synchronize_srcu() and then using it as the fast path
-> of synchronize_srcu_atomic(). I've stopped bothering to test *without*
-> those.
-
-Understood, and that fastpath is on its way.
-
-> Since it looks like I have successfully nerd-sniped you with the srcu-
-> atomic concept, I've reworked my tree to convert directly to that
-> rather than first converting to SRCU and then to atomic in a later
-> incremental commit.
-
-Now, now, that would be you *and* your friend Claude doing the
-nerd-sniping.  ;-)
-
-> This is what I'm now testing, in 
-> https://git.infradead.org/?p=users/dwmw2/linux.git;a=shortlog;h=refs/heads/gpc-v3
+> Add a nestable KCOV_PAUSED bit and a kcov_pause guard. Use the guard for
+> deferred hrtimer rearm, __schedule(), the try_to_wake_up() wakeup body
+> and wake_up_new_task(). This suppresses their instrumented callees
+> without excluding those callees from task-context coverage.
 > 
-> It's working; the latency numbers have been looking good in all of my
-> RT/DYNAMIC and debug/prod-like permutations. Redoing on the very latest
-> now...
 
-Very good!
+Andrey, Alexander, Dmitry,
 
->   * 1ccf7ba90f8b KVM: x86/mmu: Take mmu_lock for the lockless aging walk on PREEMPT_RT (gpc-v3)
->   * 51de7a793839 KVM: selftests: Add nested transition benchmark
->   * 37c9400feec3 KVM: nSVM: Cache L1's IO permissions map pages
->   * 1c10fdf9c46d KVM: nSVM: Cache L1's MSR permissions map pages
->   * 7af4264346c2 KVM: nSVM: Use a gfn_to_pfn_cache for the vmcb12 page
->   * de951cadb238 KVM: x86: Move nested GPC lock helpers to x86.h as kvm_gpc_lock_page()
->   * f04543987d9f KVM: selftests: Add nested VMX APIC cache invalidation test
->   * 1b50353089d4 KVM: nVMX: Use pinned pfncache for L1 APIC virtualization pages
->   * 4ae1202ef919 KVM: nVMX: Implement cache for L1 MSR bitmap
->   * 5102fb3c55fb KVM: x86: Post KVM_REQ_GET_NESTED_STATE_PAGES on memslot updates
->   * 47998916d89f KVM: pfncache: Return -EAGAIN for a lookup which hits an invalid memslot
->   * 2dab55238cd7 KVM: pfncache: Add guest-mode pinning (GUEST_USES_PFN successor)
->   * 9740a75db3d5 KVM: x86: Use gfn_to_pfn_cache for steal time / preempted status
->   * 3898f98ca5cd KVM: x86: Request the guest TLB flush from record_steal_time()
->   * 0a06af648fa6 KVM: x86/xen: Don't dirty track "vCPU info" page
->   * eef7b09e5b52 KVM: x86/xen: Explicitly tag "shared info" page as never being dirty tracked
->   * 99a7eae0266e KVM: x86/xen: Extract delivery of event to vCPU into a separate helper
->   * f0162bb012fb KVM: pfncache: Use atomic SRCU for readers instead of a rwlock
->   * 003716df6605 mm/mmu_notifier: Remove non_block_start/end() from notifier invocation
->   * 6d484ca99bc9 srcu: Try the inline no-readers proof first in synchronize_srcu_atomic()
+Could you please take a look at this series from the KCOV side?
 
-This is in the works.
+It fixes the CONFIG_KCOV_SELFTEST failures covered by this series. Some
+architectures still need further architecture-specific KCOV
+instrumentation exclusions.
 
->   * 23f10e07aba3 srcu: Add try_synchronize_srcu() for callers which can prove readers absent
+The three syzkaller A/B pairs from the cover letter also suggest
+better coverage: at matched execution counts, the patched kernels had
+14-19% more coverage and 42-54% larger corpora.
 
-I do not intend to provide a separate API for this given the possibility
-of indefinite postponement.
+Do you think the pause mechanism and the places where it is used make
+sense? Do you want me to continue with a v3?
 
->   * 2a55908bb12d srcu: Keep a spare node array so srcu_gp_end() need not block in reclaim
+I also looked at the Sashiko dashboard report:
 
-This should not be necessary given that call_srcu(), synchronize_srcu(),
-synchronize_srcu_expedited(), and start_poll_synchronize_srcu() are all
-ruled out for atomic srcu_struct structures.  Thus, there will never be
-a conversion to big, and thus no memory allocation.
+https://sashiko.dev/#/patchset/20260811154111.64669-1-kmehltretter@gmail.com
 
-Or am I missing something here?
+I don't think the remaining warning about reordering or removing the
+kcov_mode stores is real for these call sites.
 
-							Thanx, Paul
+One small change opportunity for v3: In try_to_wake_up(), I would take
+the kcov_pause guard before the preempt guard. Cleanup then runs
+preempt_enable() while KCOV is still paused and resumes KCOV afterwards.
 
->   * cb117542cb92 srcu: Remove development pr_alert()s from synchronize_srcu_atomic()
->   *   02738b15e08c Merge remote-tracking branch 'rcu/dev' into gpc-v3
->   |\
->   | * 7b9f3a948136 torture: Allow specifying alternative ssh command to kvm-remote.sh (rcu/dev)
->   | * cd71c7941b25 doc: RCU: Fix s/strategem/stratagem/ typo in Requirements.rst
->   | * f1b2e15ef249 rcu: fix shrink budget underflow in lazy_rcu_shrink_scan
->   | * 8c9be6c76148 rcutorture: Synchronously wait for all rcu_torture_irq() callbacks to complete
->   | * 48b4d9799efe rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
->   | * 260d0fdf6ea3 rcutorture: Fix divide-by-zero with fwd_progress_div=1
->   | * 5d9c38fbf615 fixup! srcutiny: Add an atomic Tiny SRCU
->   | * 7a263580788e fixup! srcutree: Add an atomic Tree SRCU
->   | * c2225b77b028 srcu_tree: Disable preemption across synchronize_srcu_atomic()
->   | * e56c969b6c7b rcutorture: Add support for testing synchronize_srcu_atomic()
->   | * 9a2e9996ccec srcutiny: Add an atomic Tiny SRCU
->   | * 6cf65dd4d8fb srcutree: Add an atomic Tree SRCU
->   | ⋮  (older rcu/dev elided)
->   * | dc14992a9abe KVM: pfncache: use a dedicated invalidation sequence for cache refresh (xen-v3)
->   * | a83533b07c67 KVM: x86/xen: Mark poll_evtchn accesses with READ_ONCE()/WRITE_ONCE()
->   * | f578df3dda4e KVM: x86/xen: Take kvm->srcu in __kvm_xen_has_interrupt()
->   * | 0e38de3983e6 KVM: x86/xen: Use atomic*() APIs instead of open coded equivalents
->   * | f6179ff87266 KVM: x86/xen: Use 32-bit atomics if vCPU's evtchn_pending_sel isn't aligned
->   * | 9c3243ef9edb KVM: x86/xen: Use 32-bit locked bts for vcpu_info evtchn_pending_sel
->   * | 113a5ed7489f KVM: x86/xen: Enforce 4-byte alignment of vcpu_info registration
->   * | 2505c393701c KVM: x86/xen: Latch shinfo mode in kvm_xen_schedop_poll()
->   * | 9dfe99cf7b45 KVM: x86/xen: Latch shinfo mode in kvm_xen_set_evtchn_fast()
->   * | 59325fcde6db KVM: x86/xen: Rename max_evtchn_port() to kvm_max_evtchn_port()
->   * | 2d366afb5114 KVM: x86/xen: Introduce kvm_xen_has_64bit_shinfo() macro
->   * | 2e26fc558ac9 KVM: x86/xen: Rename 'longmode' to 'is_64bit' in hypercall handling
->   o |  (kvm/next: 76671054f9a1 Merge tag 'kvmarm-7.3' ...)
+I would also replace "uninstrumented" with "built without KCOV
+instrumentation" to avoid the ambiguity Peter pointed out.
 
+Separately, I will look at turning Peter's IRQ-exit preempt-count
+proposal into a standalone patch for instrumentation in general,
+especially KCSAN. It does not replace this KCOV series, since it only
+covers work run directly from IRQ exit.
 
+Thanks,
+Karl
