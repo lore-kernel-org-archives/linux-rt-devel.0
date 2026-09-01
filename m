@@ -1,249 +1,258 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC5F470E99;
-	Tue,  1 Sep 2026 09:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255687; cv=none; b=gaMNuVImc2Ey6ctpdorT8dlBukOfyWTu60fIgWmpGHpeRwZPf7FuxK/R5tRqNSbNv2qUyPp7C/sht/l4JukFIepZLCFSrC5kUhlKNddv/t6mjowgZBAUVcW7vwUSw0VTfGFQxVf68Lssb8gYTllAPd5tyMseSynvtUlufe/Dqho=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255687; c=relaxed/simple;
-	bh=4DKfAT/5Gh3ezBw4rtq47DlTGyzXjt5OlrIPWkHdiwA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tcQEmMCTrbXCMYvP9JQxFdrSfYPdNQabhh9KbGlCT/uhFw2tYpb7tAl/4l3SWHdf630urDy3Xp8SwGT0+eEMaXMFfHZm37pJ3Wm8U7vBGuk/p/fkYTRE70MgYS6EBECWSPnpdd/8G+1m5CGlD5qWJoR/GShhNmhHYKOgi4WY0xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n6CXPS3L; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228F6381B0A
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Sep 2026 11:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788262426; cv=pass; b=S5OCaJ/KFzOuaIlSTWtBb56BNkztbA5zkaShb1Zbv9YhAtcnXTM6ofCPhq6H9oUAGdt6iwohPA5FN2yjO6MRrXnjprIIpCawwRcIqUGWrUBbDPtj3DQpQG9GTEltnwka9lche2L7rglWlDZfZSKMSe5UbaYCxTu69xUaR103bBM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788262426; c=relaxed/simple;
+	bh=wqW3HWAbcn6wnvgBF5x69NdHeVoAaMWxdEowLgFtGl8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rtkfx6qblwxNL3xUHUd7mvCWxxdbVUMtN9gDk0U63CDLcYgc96j9MZMH7Efq1+DfGkkhGx5E5ZqvaSfZK12X5sWGGOhG7W1PzRIVkIVGtfxUQieJIrZLCFhSweY31XrLs0oJmo5miQwCROpxeIXdQk77QnbC9Aqcwv1x2+Fn6PE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CH7B/SyV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UosUqKi5; arc=pass smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n6CXPS3L"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=4DKfAT/5Gh3ezBw4rtq47DlTGyzXjt5OlrIPWkHdiwA=; b=n6CXPS3L4l5Iys6BszAvoJ881C
-	ZAOJb8inC3slMaxLmftW4yu+CXBXgJSMcjwR7IIr80aZSRf/9MWcH1vaYGxJWxBnPiZ27FbgxEJ+F
-	B+mz96odEB1fuSM73TbHfSdGSvhgKJa4BZBoPqXseAr4J78M07Z0R2KetRbdMINEiFM9sLfgueFaV
-	9DM0yLHj483zY3ljk2Tbei/tFL7MRQvTOrYrSjJVnfB5+rfTCcxw4mK64pJEOKLtJfWD71pp0H3JZ
-	/3eSZQKzXPIui9eBegTSgWr2p41bKdz3g81U/UBP+Cqz11dok/klWvbhptuzc2VOg1nN2fqnvmNGD
-	YnVopuUg==;
-Received: from [2001:8b0:10b:5:c2f5:a84c:7d8:be7b] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1KzC-00000004rSp-1KfY;
-	Tue, 01 Sep 2026 09:40:58 +0000
-Message-ID: <8cd4aa65b1b499d4c614aa4cba445b6aeb89acf7.camel@infradead.org>
-Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
- notifier invocation
-From: David Woodhouse <dwmw2@infradead.org>
-To: paulmck@kernel.org
-Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-  Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton	 <akpm@linux-foundation.org>, David Hildenbrand
- <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka	 <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>,  Clark Williams
- <clrkwllms@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, Jerome
- Glisse <jglisse@redhat.com>,  Christian Koenig <christian.koenig@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, 
-	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 01 Sep 2026 10:40:27 +0100
-In-Reply-To: <90d91673-a912-439f-98ee-e43285294486@paulmck-laptop>
-References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
-		 <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
-		 <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
-		 <124af87fb49c267eeb26b8b4d952b9b1a5b3fb68.camel@infradead.org>
-		 <9427a8e0-3ba6-4f31-a35d-54429bd7e071@paulmck-laptop>
-		 <3d0463b6099d4fcde9a025a2f9e231d75303b61c.camel@infradead.org>
-		 <b0be19e9-b0ae-48de-bef6-d905ee007c8a@paulmck-laptop>
-		 <c39bda52f4c1573193aed39246f0d705755143fe.camel@infradead.org>
-		 <90d91673-a912-439f-98ee-e43285294486@paulmck-laptop>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-2gSsVKfdWwq99hspFzjf"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CH7B/SyV";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UosUqKi5"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681AJJFk1136750
+	for <linux-rt-devel@lists.linux.dev>; Tue, 1 Sep 2026 11:33:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	V6JiqLVIKwcrWqWIh9PGanD5SoJcpxSHH3ZfyxSSvuk=; b=CH7B/SyVwOMv/qdY
+	AGJIJE05vndzFXl4sW0cx3haeqXZKbeYHjbF51huewfiqApyC1Uy//LuQt24yHzx
+	FHs9InwipUZqpds17mkVmuer3WVsQw85cHUJd0QRq81ROTnSKYLsjuDs3gK3J0NL
+	lnYtO2PsCX1BN70fgcWoonzYaJWzQw6IkJDPa6EkJGtFd4gNa5DO3x2xJ0SzIu/L
+	3xe8faebpbZuImf89hhXBU93NppsJCNK115z3GUijqyb/fLWsv6L8sJqBAyX2Wci
+	eR2b5+Xhr72QRxLq412tqGH9EPYHSXAKHf+JeW/xDwDq2h1T5T9ffkltopZk+FNN
+	R5ZigA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gdrcshkhr-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-rt-devel@lists.linux.dev>; Tue, 01 Sep 2026 11:33:44 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cf1c86963bso9674575ad.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 01 Sep 2026 04:33:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788262423; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JNXEtryRHKN+5RQgUcJICaIbNFOUqQ5O3yoSvG0I7+eC3Xkwt+A/M0Jl0POpPjT/ey
+         UslBFAORmbtBVB3qacXVTFcYvs5+iYBkhfbVHAX6pMUe0vrZH4M5sjqwdPVdJL1uLpKd
+         utEMi5/a2M/dRDS6iHTeFgi+DGynL9g8xHwlWdYOH4JOr8eOfIZVtSgaPKnbPg4rFz1I
+         kWW3Ke9bA0TfzNX1RAIGRwncdm+VMQIdPHNnztIYuyU4ZbIj3HUrR30J880amEjBdvoA
+         ena53e1UeVzd/HP8ycuLzDFywH+hF87oB0i8o4hHIKhXA8fRORNk7DjZzcpnoFgyUqO1
+         t8qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=V6JiqLVIKwcrWqWIh9PGanD5SoJcpxSHH3ZfyxSSvuk=;
+        fh=Ekc84Cnpq0hx7iBPE9VaYaLATTr/UkUkhP6dBUjfMu4=;
+        b=rJvjZNn4Zc2RpZni4G7TOOXnY0C3ptfPXduqCtfc3HXVL1ybeISDJbtwP46Jj9CaIq
+         /5LPFdRbDnd0AkdfptP42y5ymyU4dBMQ2Z8AnmvrMEG3293yKaXDhPyyxVHkHhlCcKtr
+         qbG25e74RK7zIjj5m+hCa81oVkMeG3U5sFvsMV0ooq1JrVeubpml0PCi25MyM7EvhRhG
+         wgZop7M54UQ0syjnWJEwE8eQNplzRufxKzb/ckoU4hq2aQEZegwk19hMiHH56jLwsC9F
+         qITt5dwkuWTRUKPMk6WIRVK6HKNSRiGiShHXz+UdO6i4kTaJZ2E+nhGhJ5ojspiXVEAJ
+         LC6w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788262423; x=1788867223; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=V6JiqLVIKwcrWqWIh9PGanD5SoJcpxSHH3ZfyxSSvuk=;
+        b=UosUqKi5SJDU7vT2wlIc4yRiEHEHVBE5iT0cRucjHo7K38k9vmvTn01gvFLv8477Ls
+         /kgbTV+cZsFfMTVWQ5xGIjdE22jPto8s1hzo9U5zjJ8GF0GOMHndaBH+WRfej4sMp8NB
+         AX/9mvjArwqEzzEB7tXCOQOq/blf8tHZKTUVc5bmNkPDNJX0bOiq5oRHsVzkN1h6HnxC
+         JUOJxBsPQFOOL2kpQ70m/1maYyB/RFD+Ooqp/SDCIzsvX/6R0ASwy2HgyV4TTap9u7r9
+         XDWC2u9wLhsjBxBVhEN9TwKYCsz6Uoev3OI1WhN65E4YssL0xIBtqJ5DlZaqT4MzriMz
+         poPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788262423; x=1788867223;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V6JiqLVIKwcrWqWIh9PGanD5SoJcpxSHH3ZfyxSSvuk=;
+        b=py+EdDl/Trafgb8HyChRWQ7oNLlxqRqtC+jk2n6Z8PJovobzkrWTs7GrAcduiLTEjY
+         4ptcyzY/SbvJqnbvkbkjsGzCrI9iqIh6RQCQnvePg2iOLLCWPKeYGTGtmRaJC2jTdTUh
+         bCMBgd1rmtqZFPp0wIzjpTu0jCVm1ex/36KqgqprenA6OmpAC1kvxPq4HcLbTN5ygh1j
+         FkN5wjSKsc9wIQw1vfKFa2ZfsR6wcMcgFJcL5sTYI+q/Z5DgWXPyUY5xI0tLudwQB7Hj
+         uMG8IxFhlkN/KPjpcSo0TZfIFuBXxGZx0S02UHTQVIGnAQUiFkrQxB8aD78XcTCRQKjC
+         59yA==
+X-Forwarded-Encrypted: i=1; AKwUvBxaJPBuxZNv+dHcz1tneNni9Y5zd0X//H3WjUY4oeGIogNP+iV9w7xUagTMWcMyKNEN+VTwoy34OqDvuc9jww==@lists.linux.dev
+X-Gm-Message-State: AFuF++kTRpRiETGyHUa8ko7dwtqlId6fhTAIFUXZ63nLl7xnJ0XZNNOY
+	3sjh9Twzs0mK2eNiKDe7GiLdeZb5cX0BBIS9SVmVJoREooAPvAqx8RzRpp4oxnzpCqws+QdKk3e
+	yx7cnnWzmAk3D7uMg5YlUN3zANz7oJdhl5WlGF2fKTMJwheV1mxm0nPgdppbHhrXNvVKsjII7uY
+	adt5Q43ItC6tMeEwis7so/EgkRnZa4MIERR1wZDzei9QYlN3WD32sA
+X-Gm-Gg: AYBFou0Qr5qBXI8j4JNKjE6mYNHkbaEVlJKuOf5sbBugLWKuoksTIFjAGpDHY3MVW3T
+	FeIYeOnoh8VKP6r9xXzEQj5WO3Uw2lQky7cqG2yfVatreNGYz86YoWwYvL59LjykC+4pUTsU+FR
+	k4rI6BNt0e/33XtW5awM2sT9sWdXF58yP5GhloFJTK9ZBi41bnoSKaBG+EzA==
+X-Received: by 2002:a17:902:d2c4:b0:2d8:d4d2:d135 with SMTP id d9443c01a7336-2d952845317mr45504625ad.17.1788262423299;
+        Tue, 01 Sep 2026 04:33:43 -0700 (PDT)
+X-Received: by 2002:a17:902:d2c4:b0:2d8:d4d2:d135 with SMTP id
+ d9443c01a7336-2d952845317mr45504165ad.17.1788262422831; Tue, 01 Sep 2026
+ 04:33:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-2gSsVKfdWwq99hspFzjf
+References: <20260831-topic-lpm-psci-domain-callbacks-v1-1-4a47d95c9c79@baylibre.com>
+In-Reply-To: <20260831-topic-lpm-psci-domain-callbacks-v1-1-4a47d95c9c79@baylibre.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Tue, 1 Sep 2026 13:33:31 +0200
+X-Gm-Features: AcwNN1VtZoA1_YSarl9l5fAeELnFtcgDxJxCO3oJ3BzWm6vuhhyYMYT4SOZL0-0
+Message-ID: <CAPx+jO85NBZq=YCxhs5Fbo5rDZ7pGHHKiG2HRJUNVKj_1SOscg@mail.gmail.com>
+Subject: Re: [PATCH] cpuidle: psci: Assign domain callbacks to all CPU idle states
+To: "Kevin Hilman (TI)" <khilman@baylibre.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+        Scaria Kochidanadu <s-kochidanadu@ti.com>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAxMDEwMiBTYWx0ZWRfXxMOH+tPcgDr6
+ /TOy8MaWppjSG5afY0Cc4x++PdEMaI38ImEVh7lJ4/AMMSFRZiGqJ9eivtaI5m8z7GrFW9ScQiq
+ cJHiTyk9c62Hs1WKrE14src4RmE5SuY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAxMDEwMiBTYWx0ZWRfX2VMHYH4GAjyI
+ gzdMCR5ZREm4TpaRI1aYLbqny5voTMhm/Rkf2EqktjJQsrt1BH+couPOZWNQGQaOHzTRq3NjtAn
+ c3Pb4oU0yrCo6T2Btq8v2XmKML8yHdwvsiy8n6TFtulPmVl+QcSnzykFkji3blCSb/wCrNfIMZk
+ d6fIoIk6EFCXHXCEQlxqa//AjgBwXJqweth7Bf3xkWVx9hxNb5Dalv7UZQHCFj1xjlZ/R67sEWW
+ sjCLDWQ2xCc2Vp3hAVGEDm5OfWsiI6Eb9nhanrml0ZrKGbWaNIi+wWaT6BuzWqb9Iuwi4cKtqoo
+ FPRK988nbh6vXVhxVkBNna78C9duCUKYmuDj4MXxjxE1ouyV83DDpP7sRXzYIJVgZC/g4Suu0M5
+ gm2eXRgZdYOgYa5m8aTeO3KGbGomgB4f8gTktIAP7l/TXAd/szqbbCUSvM0qMnX6tVNJaZm4FOh
+ 8yzebWVnMSw2VRZEVwg==
+X-Proofpoint-GUID: OciiMzlGUVCXOnHNHxUMX2h-HEpeahNK
+X-Proofpoint-ORIG-GUID: OciiMzlGUVCXOnHNHxUMX2h-HEpeahNK
+X-Authority-Analysis: v=2.4 cv=QsNuG1yd c=1 sm=1 tr=0 ts=6a96b818 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=IpJZQVW2AAAA:8 a=sozttTNsAAAA:8
+ a=nffbhwOHn8sc9RhtvssA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+ a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-01_03,2026-08-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609010102
 
-On Mon, 2026-08-31 at 17:58 -0700, Paul E. McKenney wrote:
-> On Fri, Aug 28, 2026 at 12:25:01AM +0100, David Woodhouse wrote:
->=20
->=20
-> > =C2=A0 * 23f10e07aba3 srcu: Add try_synchronize_srcu() for callers whic=
-h can prove readers absent
->=20
-> I do not intend to provide a separate API for this given the possibility
-> of indefinite postponement.
+On Mon, Aug 31, 2026 at 8:52=E2=80=AFPM Kevin Hilman (TI) <khilman@baylibre=
+.com> wrote:
+>
+> Previously, only the deepest CPU idle state had its enter and
+> enter_s2idle callbacks set to the domain-aware implementations. This
+> meant that if a QoS latency constraint excluded the deepest state during
+> s2idle, find_deepest_state() would find no state with enter_s2idle set
+> and skip the domain idle path entirely. Similarly, during normal runtime
+> idle, shallower CPU idle states could not trigger cluster-level domain
+> idle states.
+>
+> Assign both enter_s2idle and enter (non-PREEMPT_RT) to all non-WFI CPU
+> idle states so that the domain-idle-state logic is triggered regardless
+> of which CPU idle state is selected. The genpd governor remains
+> responsible for honouring domain-level latency constraints independently.
+>
+> The enter_s2idle path uses dev_pm_genpd_suspend() which is safe on
+> PREEMPT_RT. The enter path uses pm_runtime_put_sync_suspend() which may
+> sleep and is therefore still excluded on PREEMPT_RT.
+>
+> Suggested-by: Scaria Kochidanadu <s-kochidanadu@ti.com>
+> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
+> ---
+>  drivers/cpuidle/cpuidle-psci.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psc=
+i.c
+> index dcf20ea5ef5e..db9aa57c51f5 100644
+> --- a/drivers/cpuidle/cpuidle-psci.c
+> +++ b/drivers/cpuidle/cpuidle-psci.c
+> @@ -250,6 +250,8 @@ static int psci_dt_cpu_init_topology(struct cpuidle_d=
+river *drv,
+>                                      struct psci_cpuidle_data *data,
+>                                      unsigned int state_count, int cpu)
+>  {
+> +       int i;
+> +
+>         /* Currently limit the hierarchical topology to be used in OSI mo=
+de. */
+>         if (!psci_has_osi_support())
+>                 return 0;
+> @@ -261,14 +263,22 @@ static int psci_dt_cpu_init_topology(struct cpuidle=
+_driver *drv,
+>         psci_cpuidle_use_syscore =3D true;
+>
+>         /*
+> -        * Using the deepest state for the CPU to trigger a potential sel=
+ection
+> -        * of a shared state for the domain, assumes the domain states ar=
+e all
+> -        * deeper states. On PREEMPT_RT the hierarchical topology is limi=
+ted to
+> -        * s2ram and s2idle.
+> +        * Assign the domain-aware callbacks to all CPU idle states so th=
+at the
+> +        * domain-idle-state logic is triggered regardless of which CPU i=
+dle
+> +        * state is selected.
+> +        *
+> +        * For s2idle, enter_s2idle uses dev_pm_genpd_suspend() which is =
+safe
+> +        * on PREEMPT_RT. find_deepest_state() will pick the deepest stat=
+e
+> +        * whose exit latency fits within the active QoS constraint.
+> +        *
+> +        * For the normal idle path, enter uses pm_runtime_put_sync_suspe=
+nd()
+> +        * which may sleep and is therefore not used on PREEMPT_RT.
+>          */
+> -       drv->states[state_count - 1].enter_s2idle =3D psci_enter_s2idle_d=
+omain_idle_state;
+> -       if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+> -               drv->states[state_count - 1].enter =3D psci_enter_domain_=
+idle_state;
+> +       for (i =3D 1; i < state_count; i++) {
+> +               drv->states[i].enter_s2idle =3D psci_enter_s2idle_domain_=
+idle_state;
+> +               if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+> +                       drv->states[i].enter =3D psci_enter_domain_idle_s=
+tate;
+> +       }
 
-Makes sense. In that case, calling it internally from the 'right'
-places becomes important, as the callers who care can't do so for
-themselves.
+This breaks the current contract for genpd when it tries to select a
+domain idle state for a group of CPUs that shares the same PM domain.
 
-We discussed the fact that synchronize_srcu_expedited() will also want
-to use the same fast path.
+In principle, if the CPU has a clock gating state (shallow) and a
+power collapse state (deep), it would be sufficient for the CPU to be
+in the clock gating state, while allowing the cluster PM domain
+(through genpd) to enter a domain idle state that corresponds to a
+power collapse state. Depending on the platform of course.
 
-I'm also looking back to Sean's call_srcu_expedited() patch from March:
-https://lore.kernel.org/all/20260309193059.2244645-1-seanjc@google.com/
+On the platform you are working, is there a clock gating state (or
+similar) on the cluster PM domain, which is allowed to be entered when
+the corresponding CPUs are in the similar state?
 
+>
+>         return 0;
+>  }
+>
+> ---
+> base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
+> change-id: 20260831-topic-lpm-psci-domain-callbacks-a8af0cd7df35
+>
+> Best regards,
+> --
+> Kevin Hilman (TI) <khilman@baylibre.com>
+>
 
-| Due to differences in how VMMs manage guest devices, and in the
-| architecture being emulated by userspace, some updates trigger call_srcu(=
-)
-| with concurrent readers (i.e. while the VM is active), while others occur
-| without readers, e.g. when configuring devices during a pre-boot setup.
-| For the later case (no concurrent readers), using the vanilla call_srcu()
-| is problematic, as it can kick off a normal grace period (totally fine fo=
-r
-| freeing the object) and effectively transfer the non-expedited grace peri=
-od
-| to the upcoming synchronize_srcu_expedited().
-
-So the offending path uses call_srcu() and triggers a normal GP, while
-the victim calls synchronize_srcu_expedited() and gets stuck behind
-that non-expedited GP.
-
-Sean, if the victim is the "no concurrent readers" code path, as you
-said above, do you think the fast path in the victim should suffice,
-without the cost of an expedited GP for every bus registration?
-
-> > =C2=A0 * 2a55908bb12d srcu: Keep a spare node array so srcu_gp_end() ne=
-ed not block in reclaim
->=20
-> This should not be necessary given that call_srcu(), synchronize_srcu(),
-> synchronize_srcu_expedited(), and start_poll_synchronize_srcu() are all
-> ruled out for atomic srcu_struct structures.=C2=A0 Thus, there will never=
- be
-> a conversion to big, and thus no memory allocation.
->=20
-> Or am I missing something here?
-
-Agreed. I just didn't get round to dropping it yet. I'll do so.
-
-Thanks again.
-
---=-2gSsVKfdWwq99hspFzjf
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-H+hfy66i0Tjedf31J2ZU0LsAAAAAAAA=
-
-
---=-2gSsVKfdWwq99hspFzjf--
+Kind regards
+Uffe
