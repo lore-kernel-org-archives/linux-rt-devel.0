@@ -1,358 +1,218 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C832F3C18;
-	Tue,  1 Sep 2026 12:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788265979; cv=none; b=bkRDjyYMtr4ZQqC4D5hJgJ3BMNM/fnUSjEJb5Wf3FRiwb6l+Jdolt0aNY1qZ6clq3xpLefpwiWhfX75DL64TXN2PKcya4n5AeSFR9jBUiVK1jV3yVHOAFSoyL0NdwQ7qoK2py/gKlxUuORXYRNdozNuiLv2fwNuuEieA6GDzSGM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788265979; c=relaxed/simple;
-	bh=sarvfpcmUBkbQ1pk9o9l5AkUN8fqXZ4qhuVeVsElDGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uILWksxLrz9dRVR45TLZrlz7LlNUuUJ8nNe18fvR/Q5awNSRMOA7AzjPAoylFHD8OZJg8FV2IIzz3HEMZ/ZDbn1jElt5fduyr+KsUHg/g7PuhAnbxzqBPBX3FlHRDzvvz/IZjRJXS1z1uTb+X/90yImIgvAvhqsThhbp2Zq7EZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m3LPIu+F; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB41F3C3789
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Sep 2026 12:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788267252; cv=pass; b=eW5LtLcKuy7RFkQiOe2fuf7Iuz8eY8j6dKvcYjNg8QilgvfvJ0LWaG2u4AkZTYn0ljOl1khpD+tVOOd177sM2TYHt3/+yhJ8t09ddNIbmm1foeycQ6750/qO3KZyEBnuIUmpSUkOm7cOdbaMOq3G050zsv3jtn+iUzr3gb4LKJ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788267252; c=relaxed/simple;
+	bh=5ox2ct2yboHyEver6vM5hxy9diHibI+8bx6OOjEZObc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ilPq1ZwcMokzq8ErdCXkyMxKeDWl54gKcoJE2fwDXqd5HxznsxCT/wPbAKNW/x+YqJBV/k6DOeufEhcDn+cdWGP+iPJLKxp0yrCYPm2SJVJboF+1Gr3TZl7wyx52Iz6GFzUIebZF6zXxzRwSdNFSO1sle2pHM2aepLZTXlTKORY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JG7nn2zH; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m3LPIu+F"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=11FIk8dcywNJhU7vX3fMrD3GTQv+b8U3zFVsgXjY8xM=; b=m3LPIu+FoN9GPmQNL+JAbX4umA
-	RCUc+55B7wNBeD3QfRf+OKff006wPY1a+T19QUXMcQ8KZEi3a5TwgbOb6786lS+bW2TFXIYPIRHhE
-	qRIvsbkExCXz+DP7wtsi0aHN56mVl5brXaG+jkal7C/7mYPaczD+Rl6dK7M5b3vqIeRtlPfX4Hfl/
-	1LH04kzs9EHRGu7/dwrbDFrW48rrY6d1lX5LWfchOSIbd0HdayxTR9wg4Sf2mizckZ+LOabpUVMgo
-	wtG/mnhCfGBbWaYhgPcFuc5AAYBFFlZ38IjafUCrsAko73fIWQLqur2GNEBKog4d2Smxl6v7uXoAA
-	lF7siVdQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x1NfK-0000000AwqP-2nSA;
-	Tue, 01 Sep 2026 12:32:38 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7FE65300578; Tue, 01 Sep 2026 14:32:36 +0200 (CEST)
-Date: Tue, 1 Sep 2026 14:32:36 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	David Stevens <stevensd@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dave Chinner <david@fromorbit.com>, Qi Zheng <qi.zheng@linux.dev>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>, suleiman@google.com,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [RFC 06/10] Reclaim memory from blocked kernel stacks
-Message-ID: <20260901123236.GA687043@noisy.programming.kicks-ass.net>
-References: <20260827232948.2520558-1-stevensd@google.com>
- <20260827232948.2520558-7-stevensd@google.com>
- <20260828133620._x2XfJR_@linutronix.de>
- <20260828135947.GU776954@noisy.programming.kicks-ass.net>
- <20260828151018.HnR9xV1N@linutronix.de>
- <20260828150836.2d5b378c@gandalf.local.home>
- <20260828151313.5c4a5e4b@gandalf.local.home>
- <20260828151747.20035d50@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JG7nn2zH"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so949210a12.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 01 Sep 2026 05:54:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788267249; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TSW2BTmU0A6k7Gg1VIaf53/zB3jMe79Dg8w75OCE3dNXPoZTcEPqHkpMKvfEhSwHDf
+         9Uk1UqLM7jOe8q1iT5+lMsxMvRWrKDWrqW+WgLwrR/uFqMTlPQNCgp+82w/jtn60GDBc
+         B7AHLsNMt86GmdtJA/XoGspxYnpk+vjy/7J3GTda5AELZXIfbAhk08K/8UGUQzbvgjyc
+         jl5zK5YHNtRlkQykYYz2uMnQabOSoccLPIXPnPWzq6zvNg2Nus0zp5OiY7AMe50grgxh
+         nTqYisLjNk8uUF/fwCFQHzHn02PW3wTfnpD/iBJsFAtT2IkB11UQQqKCDDzjUBahGfw6
+         GJNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RPgzm55fAw2ptYf8Sl/ajhFPBiEwWjWRkzAJIcml568=;
+        fh=I1+ijSOJNJ+uqwLhi8MRXwpYIh5i6PkNvzY/n+hkab8=;
+        b=Mvv5ypM8aH9pWGdJ7TLFRm1Z0p5SFfeO5BSyQ9bskXx3DoNQGPVwp1HcBhS77zJ3Tx
+         Utpkl7+e7JLsObeAMUdEtfDXYEIfdofIn3Cd+ZGJxrPa+DOwcxncyc5IDSwLPFAPg/Jx
+         clRqsuBakbFIQAoVZ59+1QbH/9LI7Yl8fGno2ew1sy16UZikzLh3C/k0W1Qiu66TlP+Q
+         lsP0xDfB+2/zCzGzQBLdbQbcQCIMAoYWRnoptCpPDGDFnlrRBZnMZ+WarwAvEGn0GfL/
+         85nTiOGGHJ3IO1DbjUxdGjspPlVZWkD2ZkMdjZEJnDVfAcQpM7pLU7Cqw8oqhL85c9m1
+         j6ZA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788267249; x=1788872049; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RPgzm55fAw2ptYf8Sl/ajhFPBiEwWjWRkzAJIcml568=;
+        b=JG7nn2zHwYIehlJyl4VM2hYnBzzdtxz2ZCD7c8gUL5vko9hW/FAGpzxJJzbIx4HlXd
+         LZCW1O38ggJNfIGuRaqwd186pM4cOY7BGIeqCH3ngCKVbugF4v/4pGCNUhw73gnelWw8
+         H6Wqe4YZIX7lPbUtA1V6/r+pYmza17+Eeh7/PFn19zVSQRx+hdfWs2Wg4Rg3BE76Eih2
+         VvuIxexL21GiOdmQd8QsS98YeIwvdq7NYErXGbwUVSjjEM1tlpqYZ13Tubyg7J4zEPP9
+         Zr+5bPZ+Hu9MFO5VyMPpTp98YaZI7f4yv7OfFJuqaheBdX6ao1t7jm8lZDwuoQXjBwv7
+         a5Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788267249; x=1788872049;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RPgzm55fAw2ptYf8Sl/ajhFPBiEwWjWRkzAJIcml568=;
+        b=jyCgfcCzZDFzf13G8RDT8f73gVEYjWo7Vs7ztTp2/TEgS6KJJb0ZGAOZSLZBX0CXpK
+         sJCaYOv/3YwmeDwg8hsBlSA1sx99bF+TfE4C+qZnQCrb9gpLHKSWDwK15+X87UMDNKH+
+         NziD/A51mitSloJF2khSpvre7NihoPUleO42KA1T/O5dl2fEPfB1ej4XHDBtd4oDVLqh
+         DZpKyJpDh4AcZ0fJiOkqZr0TtLeIrROZbM3RGFy54Q+KnRgBIu3TmcuSRGXrbeulO1AX
+         XCfroDG4JG/BQVV8QXw9l2xcgKVhAyJ93v8OJ5GAwI/JdbZHs2TvFs7qA+bGjwLgMZio
+         PecQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxzduTDM0xbfU19c3wK1FaPdwoN6IUqorRPI3eKrXNIfA+o45UICSluscU7eJZL1TU18bMEmxcARjdCV0biTA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lF8nM+hkvtCM4giE+dexodyf2MXAXf7dxQOcvlL1c7yRQQPCG4
+	dBqJ/MTYnC5fVL5hcjsI/TrKATubZs1h/ND7ThrZoFlscUka2Vdt/sNuOp+0OwTgnZNS1QukNj1
+	w1k9EegGBZ2lP5WsGgwebrUCAjzT7l9Q=
+X-Gm-Gg: AYBFou1rb+l2aueM3ZfxeWbTSjMpejzlzIeFgVugR46D4EsJZLGsZDpVo1l6TBcBL6a
+	2bwPCVy2G60PgKFuVDmEZTze0xKqPlno4qsi9FOyfzPC7OspP7OfRSr5iQpA6eELb2NEKtA/uTz
+	/L+7+rV47QSbsD7RQdTozMbv1DlrTOxVjL65HprxdAieQLIP/1p8Ph80FqcGKas6O7HEkbNkfP2
+	yBgMqvJj9EHlk4amZaH/LAabOgjTT/3InAStfhOh+v5+4mH3oLhroSeOw0I6/P7IwYeX8ls5BiE
+	dQykUMNrmbdGWmMaVJk9mIs79vi33loJkQ6KJ+Ky9QWTG8rIWgjEWXZCCLk=
+X-Received: by 2002:a05:6402:24d9:b0:6a5:f9ab:bdfd with SMTP id
+ 4fb4d7f45d1cf-6a60d15f4c5mr16070508a12.0.1788267248852; Tue, 01 Sep 2026
+ 05:54:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828151747.20035d50@gandalf.local.home>
+References: <20260810122758.183765-1-puranjay@kernel.org> <20260810122758.183765-2-puranjay@kernel.org>
+ <20260826144636.3IRUXeFV@linutronix.de>
+In-Reply-To: <20260826144636.3IRUXeFV@linutronix.de>
+From: Puranjay Mohan <puranjay12@gmail.com>
+Date: Tue, 1 Sep 2026 14:53:56 +0200
+X-Gm-Features: AcwNN1VMVsqA5TbOoGtCimTix5w0rFzm4VjPnSAE7cacecLqde7MaGCaDPITNHM
+Message-ID: <CANk7y0hbwXL7nBDgjTgrneBejEgGrsZnc02RztG-aSBEEvAcwQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] rcu: Make call_rcu() safe to call from any context
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Josh Triplett <josh@joshtriplett.org>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Boqun Feng <boqun@kernel.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zqiang <qiang.zhang@linux.dev>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Matt Fleming <mfleming@cloudflare.com>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 28, 2026 at 03:17:47PM -0400, Steven Rostedt wrote:
+On Wed, Aug 26, 2026 at 3:46=E2=80=AFPM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2026-08-10 05:27:50 [-0700], Puranjay Mohan wrote:
+> > --- a/kernel/rcu/rcu.h
+> > +++ b/kernel/rcu/rcu.h
+> > @@ -572,6 +572,17 @@ static inline void tasks_cblist_init_generic(void)=
+ { }
+> >  #define RCU_SCHEDULER_INIT   1
+> >  #define RCU_SCHEDULER_RUNNING        2
+> >
+> > +/*
+> > + * Defer whenever interrupts are disabled, since a callback-list opera=
+tion may
+> > + * be in flight on this CPU.  Not before the scheduler is up: irq_work=
+ is not
+> > + * usable that early, and rcu_init() itself calls call_rcu().
+> > + */
+> > +static inline bool should_rcu_defer(void)
+> > +{
+> > +     return IS_ENABLED(CONFIG_RCU_DEFER) && irqs_disabled() &&
+> > +            rcu_scheduler_active !=3D RCU_SCHEDULER_INACTIVE;
+> > +}
+>
+> Why does the description say that the defer part is for usage from NMI
+> and the test here has irqs_disabled() instead of in_nmi()?
 
->   1)     8072     104   update_group_capacity+0x94/0x960
->   2)     7968     528   update_sd_lb_stats.constprop.0+0x426/0x39b0
->   3)     7440     424   sched_balance_find_src_group+0x8f/0x1150
->   4)     7016     552   sched_balance_rq+0x934/0x4130
+We defer for both irq disabled sections, hard irq, and in_nmi() and
+checking for irqs_disabled() covers all three.
 
-Bah, yeah, those on-stack statistics just keep growing.
+>
+> > +
+> >  enum rcutorture_type {
+> >       RCU_FLAVOR,
+> >       RCU_TASKS_FLAVOR,
+> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > index 21b6ce1dffb63..3bf3a250f9de8 100644
+> > --- a/kernel/rcu/tree.c
+> > +++ b/kernel/rcu/tree.c
+> > @@ -3206,6 +3204,103 @@ __call_rcu_common(struct rcu_head *head, rcu_ca=
+llback_t func, bool lazy_in)
+> >       local_irq_restore(flags);
+> >  }
+> >
+> > +/*
+> > + * Re-issue deferred callbacks straight to the enqueue so they cannot =
+defer
+> > + * again.  ->defer_lock serializes the drainers: this CPU's irq_work,
+> > + * rcu_defer_flush() and rcutree_migrate_callbacks().
+> > + */
+> > +static void __rcu_defer_drain(struct rcu_data *rdp)
+> > +{
+> > +     struct llist_node *node, *next;
+> > +     unsigned long flags;
+> > +
+> > +     if (!IS_ENABLED(CONFIG_RCU_DEFER))
+> > +             return;
+> > +
+> > +     raw_spin_lock_irqsave(&rdp->defer_lock, flags);
+> > +     llist_for_each_safe(node, next, llist_del_all(&rdp->defer_head)) =
+{
+> > +             struct rcu_head *head =3D (struct rcu_head *)node;
+>
+> Why do you need the lock. This is still not clear to me despite the
+> comment. You can do llist_del_all() towards another list and then feed
+> it into rcu_do_enqueue() one by one. And you use the LAZY part.
 
-This should probably help. Very lightly tested. Also we can probably
-relax the assertion to bh-disabled and avoid the extra irq-disable
-around sched_balance_rq().
+Because rcu_barrier() can call this for each cpu and at the same time
+rcu_defer_drain() can call it too, so this would cause a race where
+the irq work can remove the callbacks (llist_del_all) and before it
+can enqueue them, rcu_barrier will see that the list is already empty
+and will not wait for these callbacks. We want the llist_del_all() and
+rcu_do_enqueue() to happen atomically so rcu_barrier() can work
+correctly.
 
-Anybody got time to play around with this?
+>
+> > +
+> > +             /* Bounds a node self-linked by a double call_rcu(). */
+> > +             head->next =3D NULL;
+> > +             rcu_do_enqueue(head, head->func, false);
+> > +     }
+> > +     raw_spin_unlock_irqrestore(&rdp->defer_lock, flags);
+> > +}
+> =E2=80=A6
+> > @@ -4231,6 +4330,9 @@ rcu_boot_init_percpu_data(int cpu)
+> >       rdp->rcu_onl_gp_state =3D RCU_GP_CLEANED;
+> >       rdp->last_sched_clock =3D jiffies;
+> >       rdp->cpu =3D cpu;
+> > +     init_llist_head(&rdp->defer_head);
+> > +     raw_spin_lock_init(&rdp->defer_lock);
+> > +     rdp->defer_work =3D IRQ_WORK_INIT_HARD(rcu_defer_drain);
+>
+> Why is this IRQ_WORK_INIT_HARD() instead, say, IRQ_WORK_INIT_LAZY()? Is
+> there a requirement that the RCU callback needs to complete asap and not
+> be delayed to the next tick? This would give kind of the LAZY part.
+>
 
----
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 8dff37059faf..0c83b0856a95 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -11418,6 +11418,39 @@ struct sd_lb_stats {
- 	struct sg_lb_stats local_stat;		/* Statistics of the local group */
- };
- 
-+struct pcpu_lb_stats {
-+	struct sd_lb_stats sds;
-+	struct sg_lb_stats sgs;
-+	struct sg_lb_stats local_sgs;
-+	struct sg_lb_stats idlest_sgs;
-+};
-+
-+static DEFINE_PER_CPU(struct pcpu_lb_stats, pcpu_lb_stats);
-+
-+static inline struct sd_lb_stats *this_sds(void)
-+{
-+	lockdep_assert_irqs_disabled();
-+	return this_cpu_ptr(&pcpu_lb_stats.sds);
-+}
-+
-+static inline struct sg_lb_stats *this_sgs(void)
-+{
-+	lockdep_assert_irqs_disabled();
-+	return this_cpu_ptr(&pcpu_lb_stats.sgs);
-+}
-+
-+static inline struct sg_lb_stats *this_local_sgs(void)
-+{
-+	lockdep_assert_irqs_disabled();
-+	return this_cpu_ptr(&pcpu_lb_stats.local_sgs);
-+}
-+
-+static inline struct sg_lb_stats *this_idlest_sgs(void)
-+{
-+	lockdep_assert_irqs_disabled();
-+	return this_cpu_ptr(&pcpu_lb_stats.idlest_sgs);
-+}
-+
- static inline void init_sd_lb_stats(struct sd_lb_stats *sds)
- {
- 	/*
-@@ -12406,12 +12439,13 @@ static struct sched_group *
- sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int this_cpu)
- {
- 	struct sched_group *idlest = NULL, *local = NULL, *group = sd->groups;
--	struct sg_lb_stats local_sgs, tmp_sgs;
-+	struct sg_lb_stats *local_sgs = this_local_sgs();
- 	struct sg_lb_stats *sgs;
- 	unsigned long imbalance;
--	struct sg_lb_stats idlest_sgs = {
--			.avg_load = UINT_MAX,
--			.group_type = group_overloaded,
-+	struct sg_lb_stats *idlest_sgs = this_idlest_sgs();
-+	*idlest_sgs = (struct sg_lb_stats){
-+		.avg_load = UINT_MAX,
-+		.group_type = group_overloaded,
- 	};
- 
- 	do {
-@@ -12430,17 +12464,17 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 					       sched_group_span(group));
- 
- 		if (local_group) {
--			sgs = &local_sgs;
-+			sgs = local_sgs;
- 			local = group;
- 		} else {
--			sgs = &tmp_sgs;
-+			sgs = this_sgs();
- 		}
- 
- 		update_sg_wakeup_stats(sd, group, sgs, p);
- 
--		if (!local_group && update_pick_idlest(idlest, &idlest_sgs, group, sgs)) {
-+		if (!local_group && update_pick_idlest(idlest, idlest_sgs, group, sgs)) {
- 			idlest = group;
--			idlest_sgs = *sgs;
-+			*idlest_sgs = *sgs;
- 		}
- 
- 	} while (group = group->next, group != sd->groups);
-@@ -12458,17 +12492,17 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 	 * If the local group is idler than the selected idlest group
- 	 * don't try and push the task.
- 	 */
--	if (local_sgs.group_type < idlest_sgs.group_type)
-+	if (local_sgs->group_type < idlest_sgs->group_type)
- 		return NULL;
- 
- 	/*
- 	 * If the local group is busier than the selected idlest group
- 	 * try and push the task.
- 	 */
--	if (local_sgs.group_type > idlest_sgs.group_type)
-+	if (local_sgs->group_type > idlest_sgs->group_type)
- 		return idlest;
- 
--	switch (local_sgs.group_type) {
-+	switch (local_sgs->group_type) {
- 	case group_overloaded:
- 	case group_fully_busy:
- 
-@@ -12486,17 +12520,17 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 		 */
- 
- 		if ((sd->flags & SD_NUMA) &&
--		    ((idlest_sgs.avg_load + imbalance) >= local_sgs.avg_load))
-+		    ((idlest_sgs->avg_load + imbalance) >= local_sgs->avg_load))
- 			return NULL;
- 
- 		/*
- 		 * If the local group is less loaded than the selected
- 		 * idlest group don't try and push any tasks.
- 		 */
--		if (idlest_sgs.avg_load >= (local_sgs.avg_load + imbalance))
-+		if (idlest_sgs->avg_load >= (local_sgs->avg_load + imbalance))
- 			return NULL;
- 
--		if (100 * local_sgs.avg_load <= sd->imbalance_pct * idlest_sgs.avg_load)
-+		if (100 * local_sgs->avg_load <= sd->imbalance_pct * idlest_sgs->avg_load)
- 			return NULL;
- 		break;
- 
-@@ -12545,9 +12579,9 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 				imb_numa_nr = min(w, sd->imb_numa_nr);
- 			}
- 
--			imbalance = abs(local_sgs.idle_cpus - idlest_sgs.idle_cpus);
-+			imbalance = abs(local_sgs->idle_cpus - idlest_sgs->idle_cpus);
- 			if (!adjust_numa_imbalance(imbalance,
--						   local_sgs.sum_nr_running + 1,
-+						   local_sgs->sum_nr_running + 1,
- 						   imb_numa_nr)) {
- 				return NULL;
- 			}
-@@ -12560,7 +12594,7 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 		 * up that the group has less spare capacity but finally more
- 		 * idle CPUs which means more opportunity to run task.
- 		 */
--		if (local_sgs.idle_cpus >= idlest_sgs.idle_cpus)
-+		if (local_sgs->idle_cpus >= idlest_sgs->idle_cpus)
- 			return NULL;
- 		break;
- 	}
-@@ -12647,14 +12681,13 @@ static inline void update_sd_lb_stats(struct lb_env *env, struct sd_lb_stats *sd
- {
- 	struct sched_group *sg = env->sd->groups;
- 	struct sg_lb_stats *local = &sds->local_stat;
--	struct sg_lb_stats tmp_sgs;
- 	unsigned long sum_util = 0;
- 	bool sg_overloaded = 0, sg_overutilized = 0;
- 
- 	env->dst_core_idle = !sched_smt_active() || is_core_idle(env->dst_cpu);
- 
- 	do {
--		struct sg_lb_stats *sgs = &tmp_sgs;
-+		struct sg_lb_stats *sgs = this_sgs();
- 		int local_group;
- 
- 		local_group = cpumask_test_cpu(env->dst_cpu, sched_group_span(sg));
-@@ -12929,21 +12962,21 @@ static inline void calculate_imbalance(struct lb_env *env, struct sd_lb_stats *s
- static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- {
- 	struct sg_lb_stats *local, *busiest;
--	struct sd_lb_stats sds;
-+	struct sd_lb_stats *sds = this_sds();
- 
--	init_sd_lb_stats(&sds);
-+	init_sd_lb_stats(sds);
- 
- 	/*
- 	 * Compute the various statistics relevant for load balancing at
- 	 * this level.
- 	 */
--	update_sd_lb_stats(env, &sds);
-+	update_sd_lb_stats(env, sds);
- 
- 	/* There is no busy sibling group to pull tasks from */
--	if (!sds.busiest)
-+	if (!sds->busiest)
- 		goto out_balanced;
- 
--	busiest = &sds.busiest_stat;
-+	busiest = &sds->busiest_stat;
- 
- 	/* Misfit tasks should be dealt with regardless of the avg load */
- 	if (busiest->group_type == group_misfit_task)
-@@ -12965,7 +12998,7 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- 	if (busiest->group_type == group_imbalanced)
- 		goto force_balance;
- 
--	local = &sds.local_stat;
-+	local = &sds->local_stat;
- 	/*
- 	 * If the local group is busier than the selected busiest group
- 	 * don't try and pull any tasks.
-@@ -12986,14 +13019,14 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- 			goto out_balanced;
- 
- 		/* XXX broken for overlapping NUMA groups */
--		sds.avg_load = (sds.total_load * SCHED_CAPACITY_SCALE) /
--				sds.total_capacity;
-+		sds->avg_load = (sds->total_load * SCHED_CAPACITY_SCALE) /
-+				sds->total_capacity;
- 
- 		/*
- 		 * Don't pull any tasks if this group is already above the
- 		 * domain average load.
- 		 */
--		if (local->avg_load >= sds.avg_load)
-+		if (local->avg_load >= sds->avg_load)
- 			goto out_balanced;
- 
- 		/*
-@@ -13009,9 +13042,9 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- 	 * Try to move all excess tasks to a sibling domain of the busiest
- 	 * group's child domain.
- 	 */
--	if (sds.prefer_sibling && local->group_type == group_has_spare &&
-+	if (sds->prefer_sibling && local->group_type == group_has_spare &&
- 	    (busiest->group_type == group_llc_balance ||
--	    sibling_imbalance(env, &sds, busiest, local) > 1))
-+	    sibling_imbalance(env, sds, busiest, local) > 1))
- 		goto force_balance;
- 
- 	if (busiest->group_type != group_overloaded) {
-@@ -13025,7 +13058,7 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- 		}
- 
- 		if (busiest->group_type == group_smt_balance &&
--		    smt_vs_nonsmt_groups(sds.local, sds.busiest)) {
-+		    smt_vs_nonsmt_groups(sds->local, sds->busiest)) {
- 			/* Let non SMT CPU pull from SMT CPU sharing with sibling */
- 			goto force_balance;
- 		}
-@@ -13054,8 +13087,8 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
- 
- force_balance:
- 	/* Looks like there is an imbalance. Compute it */
--	calculate_imbalance(env, &sds);
--	return env->imbalance ? sds.busiest : NULL;
-+	calculate_imbalance(env, sds);
-+	return env->imbalance ? sds->busiest : NULL;
- 
- out_balanced:
- 	env->imbalance = 0;
-@@ -13958,6 +13991,7 @@ static void sched_balance_domains(struct rq *rq, enum cpu_idle_type idle)
- 
- 		interval = get_sd_balance_interval(sd, busy);
- 		if (time_after_eq(jiffies, sd->last_balance + interval)) {
-+			guard(irqsave)();
- 			if (sched_balance_rq(cpu, rq, sd, idle, &continue_balancing)) {
- 				/*
- 				 * The LBF_DST_PINNED logic could have changed
+In discussions with Paul, we concluded that we need HARD because in
+low memory situations delaying rcu callbacks can be problematic. Given
+that we are already deferring the callbacks, it would be nice to have
+them enqueued asap. But if there are downsides to this we may change
+it later.
+
+> >       rcu_boot_init_nocb_percpu_data(rdp);
+> >  }
+> >
+>
+> Sebastian
