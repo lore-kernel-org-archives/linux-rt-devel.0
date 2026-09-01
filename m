@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCFC47D92F;
-	Tue,  1 Sep 2026 22:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC414A385F;
+	Tue,  1 Sep 2026 22:32:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788301975; cv=none; b=BWRIXIF7f4EUBp0B5uyJTUiAgTLRhf/nf9tP+VLwZ2Ax3wckf6tPnAbNa2sEBLVET4YEACz5xV/Es4R6RH+gmmpF5KoEg0BuBRYiz3Uqpy/Y1PMrq5JSawS59YwiqZDmTeNN6Z2p5rHeLGtFuHNFV9me9n+SqdxxWIyeXZShWt4=
+	t=1788301978; cv=none; b=jk3l5+XsVLkkUCw5tY5qNk90UqcohFX4LBX6IX4XPxX+z8FFKbIT0hdgskGHKrxjNTXEsts2gJPVZAf58v2C2agS7sxH0ymkyQVfvUPUBcQP2Q5FHRFc3sXvsyb1xL8W2QW6E/6xvl/UCDrwQo1+c8DipTQP9S7BumLW4bo+dMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788301975; c=relaxed/simple;
-	bh=CdAUBhOTaEeVf9rgPUvL2QQ1uLEL6Au9Vd8Nq+HmMoM=;
+	s=arc-20240116; t=1788301978; c=relaxed/simple;
+	bh=lCXTMPriC/glyY7gKTJNcVA71y1hC3GlpigDr/ugYy0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UUwPti7wfhy5+cV6/AXC9eXKti8mca/rhxR78G/U7ubGWpStzniF9Al+bGyKRKoawcBhHAX/satZylLRuUSHpdCp22VUij+xjU53QBbyTK9Fub40D0GGcptQ5bpc+GtXYMC/PEhvFYifEykbDuBjUf26PZzxp5rGHqdm9l9YdVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOE92N32; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=osnF3sMKdByivP0BXIKaaSEat7pjL64Af1dGg9Ie/CsBfuywyRH9MfC69M7GOW3x7Y1UecbthEeADD/q08wm7wd2AGZft7E3uN45mU+93Zgv7qabHM7ypoDgkNmk3HVuas9WzIydMujKYmvemwcw+pGfMR3gTOuG9CDYT0mtTrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRGzwXcE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOE92N32"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE41C1F01558;
-	Tue,  1 Sep 2026 22:32:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRGzwXcE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6928A1F01559;
+	Tue,  1 Sep 2026 22:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1788301970;
-	bh=0NB2mc0xtekbfu716FCcHXUb2M6YX42xsSVaVJ1F5BA=;
+	bh=H7Yn46+1YFzAyiJAvWcKFxCZDvlgnm8+eJoilHQ/rOM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gOE92N32jB5q2nUZ5pj2u1+TJ60tIeC/INAo3+8InF63JxoSWT+uDYS7k+zinlkAq
-	 K3eP6AHGs/HQ59H0SiT8DDYKTIwqS4IFzBthbWiEgvvzrbl+H7NafhtqlJvjUSWiCR
-	 Vi/+l//prBOpowCNWWRRssrd4r/H4qs6Gpld5TheD3uf0+BaLTIGukuDhTAP6YYxWf
-	 sWubHh4j47IYnWApxLwe+BHX3XBJsBxMtBMOKxc8a6jFa8W9MwD1/xGCmYbztqsH8g
-	 arM+3aWOmusKZ0WvpdT1VsoC2ITsm/CylA/WdnGX6vUsx68Mm9jdc3yVp3Hg3lC4Pb
-	 xvw5CO7zmXYVw==
+	b=MRGzwXcE32TE+SiBMDGCXjQ4ZVdFTKqe1WHEfgyNphw3KuFigIht+2UT3z939B56J
+	 HDxkblRaS2LiEtFai8UCwlCM/B9tbUz2yvwUr3k4U6OgQTzYwtys9fay9qt2BHNjJO
+	 6Yv0UI/6fqjGLnws7arl7vX6+oyjCzt6ALigSstOchIW2KB551ObUENzpRv7Q+T5A3
+	 fG0OxRRey6opJoGH4YN65ajBs5UUJsXgCzvZtyB2OJf+kFNU/qV8dJ1y1CKy1aEYnq
+	 l9R7hkOvjqpNRmMWWiwriF6smVb16aPc7f0Ff3P+M15/Rl1ZtK1Kf8ohDB+eHFxfYw
+	 P/eVlUZqeLiGQ==
 From: Drew Fustini <fustini@kernel.org>
-Date: Tue, 01 Sep 2026 15:31:50 -0700
-Subject: [PATCH v7 4/5] dt-bindings: riscv: Add binding for CBQRI
- controllers
+Date: Tue, 01 Sep 2026 15:31:51 -0700
+Subject: [PATCH v7 5/5] riscv_cbqri: Add CBQRI capacity allocation platform
+ driver
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dfustini-atl-sc-cbqri-dt-v7-4-ca2935d85622@kernel.org>
+Message-Id: <20260901-dfustini-atl-sc-cbqri-dt-v7-5-ca2935d85622@kernel.org>
 References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
 In-Reply-To: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
 To: Adrien Ricciardi <aricciardi@baylibre.com>, 
@@ -70,147 +70,218 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4724; i=fustini@kernel.org;
- h=from:subject:message-id; bh=CdAUBhOTaEeVf9rgPUvL2QQ1uLEL6Au9Vd8Nq+HmMoM=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRND+qtkBY9Vz5rI791o7iih9xFi2PL4wyvrJ3nmCb5K
- /7R1J3LO0pZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQAT4dzKyLBCY/mjRVZVO1qi
- QheK5a/ZF3BpgqWB35c4vpoYmbeXspMY/gf0r3d8WP1Xv+xwj4TXzo+nZ0xtjXj9qfy24t2rl35
- L3OcBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6951; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=lCXTMPriC/glyY7gKTJNcVA71y1hC3GlpigDr/ugYy0=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRND+qdN89xyUwp0V1Lj0a/k38qdkvvrnj0p7oyIQGbk
+ mRnm/ebO0pZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQAT8bFl+KcytWtn3fHLc7Vv
+ l/5JfWgxNyd6qqyI1qoDm+7PPe741PA9w18Rw3mn8149MV1nc17jxTWBPAHjg6eTjzn1v8nM2NV
+ 5q5MbAA==
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Document the device tree binding for RISC-V CBQRI capacity and bandwidth
-controllers. Each controller is named by a device-specific compatible
-followed by the generic compatible. The binding also describes the
-common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
-optional riscv,cbqri-cache phandle that links a capacity controller to
-the cache whose capacity it allocates.
+Add a device-tree platform driver, bound to the generic
+riscv,cbqri-capacity-controller compatible, that registers a CBQRI
+capacity controller as the resctrl cache-allocation resource for the
+cache it governs.
+
+The driver follows the node's riscv,cbqri-cache phandle to that cache,
+reads its level, and matches it against cacheinfo to get the resctrl
+domain id. It then hands the controller to riscv_cbqri_register_cc_dt()
+with the riscv,cbqri-rcid count from the node.
+
+Nothing is vendor-specific, and the DT "reg" is the CBQRI register block
+itself, so any SoC that describes a CBQRI capacity controller in device
+tree can reuse the driver unchanged.
 
 Assisted-by: Claude:claude-opus-4-8
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 98 insertions(+)
+ MAINTAINERS                      |   1 +
+ drivers/resctrl/Kconfig          |  15 +++++
+ drivers/resctrl/Makefile         |   1 +
+ drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 144 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-new file mode 100644
-index 000000000000..62d547a0cb96
---- /dev/null
-+++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) controller
-+
-+description: |
-+  The RISC-V CBQRI specification defines capacity-controller and
-+  bandwidth-controller register blocks that allocate cache capacity and memory
-+  bandwidth to resource-control IDs (RCIDs) and monitor usage per
-+  monitoring-counter ID (MCID):
-+  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
-+
-+  Allocation and monitoring share one register block, and a controller may
-+  implement either or both. A driver discovers which at runtime from the
-+  capabilities register, so the compatible names only the controller type. It
-+  does not distinguish allocation-only, monitoring-only or combined
-+  controllers, and no property declares monitoring support.
-+
-+maintainers:
-+  - Drew Fustini <fustini@kernel.org>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - tenstorrent,ascalon-shared-cache-controller
-+          - const: riscv,cbqri-capacity-controller
-+      - items:
-+          - {}
-+          - const: riscv,cbqri-bandwidth-controller
-+
-+  reg:
-+    maxItems: 1
-+    description:
-+      The CBQRI controller register block.
-+
-+  riscv,cbqri-rcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of RCIDs the controller supports. RCIDs are the
-+      resource-control IDs that allocation operations target.
-+
-+  riscv,cbqri-mcid:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The maximum number of MCIDs the controller supports. MCIDs are the
-+      monitoring-counter IDs that usage-monitoring operations target. Present
-+      on controllers that implement monitoring.
-+
-+  riscv,cbqri-cache:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the cache node whose capacity this controller allocates.
-+      Applies to capacity controllers that back a CPU cache. The cache level
-+      and the harts sharing it are taken from that node's cache topology.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: tenstorrent,ascalon-shared-cache-controller
-+    then:
-+      required:
-+        - riscv,cbqri-rcid
-+        - riscv,cbqri-cache
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    l2_cache: l2-cache {
-+        compatible = "cache";
-+        cache-level = <2>;
-+        cache-unified;
-+        cache-size = <0xc00000>;
-+        cache-sets = <512>;
-+        cache-block-size = <64>;
-+    };
-+
-+    qos-controller@a21a00c0 {
-+        compatible = "tenstorrent,ascalon-shared-cache-controller",
-+                     "riscv,cbqri-capacity-controller";
-+        reg = <0xa21a00c0 0xf40>;
-+        riscv,cbqri-rcid = <16>;
-+        riscv,cbqri-cache = <&l2_cache>;
-+    };
-+
-+...
 diff --git a/MAINTAINERS b/MAINTAINERS
-index db0799d8cbf8..c362d53ed355 100644
+index c362d53ed355..00b92842ef12 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -23569,6 +23569,7 @@ M:	Drew Fustini <fustini@kernel.org>
- R:	yunhui cui <cuiyunhui@bytedance.com>
- L:	linux-riscv@lists.infradead.org
- S:	Supported
-+F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+@@ -23573,6 +23573,7 @@ F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
  F:	arch/riscv/include/asm/qos.h
  F:	arch/riscv/include/asm/resctrl.h
  F:	arch/riscv/kernel/qos.c
++F:	drivers/resctrl/cbqri_capacity.c
+ F:	drivers/resctrl/cbqri_devices.c
+ F:	drivers/resctrl/cbqri_internal.h
+ F:	drivers/resctrl/cbqri_resctrl.c
+diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
+index 617b813b9808..689a91873d7b 100644
+--- a/drivers/resctrl/Kconfig
++++ b/drivers/resctrl/Kconfig
+@@ -41,6 +41,21 @@ menuconfig RISCV_CBQRI
+ 	  allocation through the resctrl filesystem at /sys/fs/resctrl when
+ 	  RESCTRL_FS is also enabled.
+ 
++if RISCV_CBQRI
++
++config RISCV_CBQRI_CAPACITY
++	bool "RISC-V CBQRI cache capacity-allocation controller"
++	depends on OF
++	help
++	  Enable driver for a RISC-V CBQRI capacity controller that
++	  governs a CPU cache, matching the "riscv,cbqri-capacity-controller"
++	  compatible. The controller's cache phandle gives the cache level and
++	  id, which the driver registers as a resctrl cache-allocation resource.
++
++	  Say N unless your device tree describes a CBQRI capacity controller.
++
++endif
++
+ config RISCV_CBQRI_RESCTRL_FS
+ 	bool
+ 	default y if RISCV_CBQRI && RESCTRL_FS
+diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
+index a7631712dba9..c8339113ef1f 100644
+--- a/drivers/resctrl/Makefile
++++ b/drivers/resctrl/Makefile
+@@ -7,3 +7,4 @@ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)	+= -DDEBUG
+ obj-$(CONFIG_RISCV_CBQRI)			+= cbqri.o
+ cbqri-y						+= cbqri_devices.o
+ cbqri-$(CONFIG_RISCV_CBQRI_RESCTRL_FS)		+= cbqri_resctrl.o
++cbqri-$(CONFIG_RISCV_CBQRI_CAPACITY)		+= cbqri_capacity.o
+diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
+new file mode 100644
+index 000000000000..0670a676bdb1
+--- /dev/null
++++ b/drivers/resctrl/cbqri_capacity.c
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Platform driver for a RISC-V CBQRI capacity controller that backs a CPU
++ * cache. The controller is described in device tree by the generic
++ * "riscv,cbqri-capacity-controller" compatible together with a phandle to the
++ * cache node it governs. The driver hands it to the CBQRI core, which probes
++ * the capabilities register and exposes a controller that supports allocation
++ * as the resctrl cache allocation resource for that cache.
++ */
++
++#define pr_fmt(fmt) "cbqri-capacity: " fmt
++
++#include <linux/cacheinfo.h>
++#include <linux/cpu.h>
++#include <linux/device-id/of.h>
++#include <linux/ioport.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/printk.h>
++#include <linux/riscv_cbqri.h>
++#include <linux/types.h>
++
++static int cbqri_capacity_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct cbqri_controller_info info = {};
++	struct device_node *cache_np;
++	struct resource *res;
++	u32 rcid_count, cache_level;
++	int cache_id, cpu, ret;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -EINVAL;
++
++	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
++	if (ret) {
++		dev_err(dev, "missing riscv,cbqri-rcid\n");
++		return ret;
++	}
++
++	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
++	if (!cache_np) {
++		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
++		return -EINVAL;
++	}
++
++	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
++	if (ret) {
++		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
++		goto out_put;
++	}
++
++	/*
++	 * Associate the controller with its cache instance via cacheinfo.
++	 * The matching cache provides the cache id used as the resctrl
++	 * domain id.
++	 *
++	 * Taking the first leaf at the level is sufficient, because fw_token
++	 * is keyed on the DT cache node, so sibling leaves of a split cache
++	 * share it, and riscv,cbqri-cache must reference a unified shared
++	 * cache (cache-unified), not a split private L1.
++	 */
++	cache_id = -1;
++	cpus_read_lock();
++	for_each_online_cpu(cpu) {
++		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
++
++		if (ci && ci->fw_token == cache_np) {
++			cache_id = ci->id;
++			break;
++		}
++	}
++	cpus_read_unlock();
++
++	if (cache_id < 0) {
++		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
++			cache_np, cache_level);
++		ret = -ENODEV;
++		goto out_put;
++	}
++
++	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
++	info.addr = res->start;
++	info.size = resource_size(res);
++	info.rcid_count = rcid_count;
++	info.cache_id = cache_id;
++
++	ret = riscv_cbqri_register_cc_dt(&info, cache_level);
++	if (ret) {
++		dev_err(dev, "failed to register capacity controller: %d\n", ret);
++		goto out_put;
++	}
++
++	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
++		 cache_level, &info.addr, cache_id, rcid_count);
++
++out_put:
++	of_node_put(cache_np);
++	return ret;
++}
++
++static const struct of_device_id cbqri_capacity_of_match[] = {
++	{ .compatible = "riscv,cbqri-capacity-controller" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, cbqri_capacity_of_match);
++
++static struct platform_driver cbqri_capacity_driver = {
++	.probe	= cbqri_capacity_probe,
++	.driver = {
++		.name		= "cbqri-capacity",
++		.of_match_table	= cbqri_capacity_of_match,
++		/*
++		 * The controller is registered permanently into the
++		 * CBQRI core for the life of the system. Block unbind
++		 * so userspace cannot leave a dangling controller.
++		 */
++		.suppress_bind_attrs = true,
++	},
++};
++
++/*
++ * Register at device_initcall so probe runs before the CBQRI core's
++ * late_initcall which walks the cbqri_controllers list.
++ */
++builtin_platform_driver(cbqri_capacity_driver);
 
 -- 
 2.43.0
