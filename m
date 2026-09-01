@@ -1,205 +1,217 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F73833EB1B
-	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Sep 2026 14:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788272610; cv=pass; b=UXLlonPStNNP+QIgz/69GWVUrkYT9kWMy1tEdYYj/jGltbnARRHpWdBviyXqKU7R79AbH1rQXmL6KkLbaQjP0DU24ZJKuE9moZJCe7HZmGV8aHmyNL8NmAk18fvzV3Uu586zlVekMlyTbyf+tXv78cf5sPrbAAxLCApgNVD/j4g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788272610; c=relaxed/simple;
-	bh=qVZFdLEELdtpeRS48YE/BFx4PZCoxsypLGymnPxXdSU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n5wWIKti87aehO9m1G1gOq60y67oGHbh+lNpC1ZtiCE4f0FQwBzit9U2Sr2zR6PaDTQcmd9y0Eom5NrakLZMKuEYVZF9i3uxBl3McibfI6+0DOHoowqoaluIs2wSP6WCWW0uMPHDExJTaPXokcoF/ZodekHjHi2+tvF2gwvoR1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mMfV642m; arc=pass smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4719849EC74
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Sep 2026 18:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788288374; cv=none; b=sY9ACNnN5w9jO0m2YIAJNphwnblfdGs7BAgHBZIHLU19Q9/THwkH9dQPR6ZDYQ3F9I9QWApaggdHqF7AMBXZS9C00ojrvJpe/p+MAHM24UUkedYq+79pHbk3ZxuWhd/CPIqHS5xT9oVrAAPrD82G+eDha/5VbRxvonWLHmrrATA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788288374; c=relaxed/simple;
+	bh=zTWHgcVtDZxO0SC49BeTSWdCu86YpldasbFV4WERbJw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OGCHHkYsjjZSzVZ8PYXFw9xbZNpFSUwHQakdJkyggmUoqaobsN8uezwlykKMMZbAwCUhlekIho96mVrlv+WKhBSxDq8ogub/b9nf0ZaCkNSSSSf53uik6Y9JBR4BcbJu5/UqwR7VWa41CeYCY42Z5WkukUu/NUbqSIWAp9EEe1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=NsMKiQ97; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mMfV642m"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-396750cfee6so3876575a91.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 01 Sep 2026 07:23:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788272608; cv=none;
-        d=google.com; s=arc-20260327;
-        b=a15m2zEIgLnoY9FnqfZH+DWqtxqONMEtwKXZUCfIyfF9TKq9K4nDxms+2e9Os9jPt5
-         DtLMoEiIlLAWVIui6cftZdEstC67BkK79YRHam8V91+Wf44Cg9KcoaYI+NJTOmsG7fcw
-         Bm08Cv4/W0ywg1htiNlqLB0tJ3gLXZvQXDLLn7oab24KfQL/6MWXvJbbIvi4DZ8uTCnS
-         zD1k3lxOiaCIOdYdRfmI8dO2T/t8yw7pNqDkrzuZGOYqbKblj0xwPNkmwVeo06KAYVxh
-         w4kK2Y6QN5Bf6JruVUi4TcP/GosmXummhF/lXB3leI2bQcAagZ78l6pyCm5hxwm8gtjP
-         QGLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yRvC0bVDQMbTYiwzOOlxphxSOpTPx7t/v7axgahVkgU=;
-        fh=XfIsMvgfA3rvXCySpCt2nK1If2S/hfJqUKXSC1Lh1+c=;
-        b=iYw/vkTGBvqzdTl+Ka3F8cvuhR8jU5JljpkFX9ZBNh6HvIbYOsuu3uGKfVRaATMbhv
-         zJsAhkSTJMu4fMHAowh4BUX+jnbyZHQ5C2ot/+MD7PW0vV8u3jqzSriHj4xX5hP29fTc
-         PD51tTjzfYTZ3gWawHqIQoMXWRVxE24TUSG+RkAOzBbIuDf6wlSqTsdkqi5WH20aPfwZ
-         ejzzfQ3SFyNqp+LV9WrU2OxpN551z101AQGk5yUblEA58cH0jmTGdOc9+FTdNRzr3V8B
-         y5L/MqoST/GOUdO1T12L4UUgE8DBsyKQVeLdBiVDkdaHIEk8MoElOXc7Ur7FtvVz611B
-         1aUg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="NsMKiQ97"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84830c774a0so218155b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 01 Sep 2026 11:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788272608; x=1788877408; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yRvC0bVDQMbTYiwzOOlxphxSOpTPx7t/v7axgahVkgU=;
-        b=mMfV642mBhODDzSro1uz25n9//qEAcxwNnchN1YOJ2uLIJZ8pLGdwTKdsB9GB7Yjxd
-         pPUuuIxak9cFYJULbIFegscVYHM/Lev66LdmeySBqNsps6qpdg5YZbSLREvDIUjYL4/G
-         ZjhNNOJXaPnpI2LrOe/P4ymSvFEgEHxDTrxPjmsRL3S0RWxU6g8E3Bjps5hIT+zdk3+R
-         YPnuK/2zHG0AYNRL4KkgLcHDJx1Tw2uBFkJgT2Q1H25JOVnxSk05YRcb3faB6yEzPSVb
-         5nPfZxb/9qF2l4sMmsEL83jIVdVLq+dj+c+kvZQC44NO7fNnlmoGQZOmxcT3TJf422PP
-         Iatw==
+        d=baylibre.com; s=google; t=1788288371; x=1788893171; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IRSg5TsPLhCh9Up4rkAnm+9DnhJsd5XJxJ094xnRn18=;
+        b=NsMKiQ97AOb69spgREynIocRqYUcIR7LfBtsZL4jGQmpqfl6KlH5DpQZLqFGTbD8GF
+         DyFx3Itmziy7ikgww4o6J5DTVr4+4NoinChCCEWaXpeQUVTx8bObcveZqUU3mIMsz2ZD
+         7nOmI1vV1SCwCUuRhzr3ZJ+o4IQuGzS9J34NCNRNysog2RrC73J8OPGJ3JG7YTGDOfgg
+         W16lFpCLcYrd8TjiYtDfLgB75nIra0ioyt2sDRNNYFBEwIPGvyqNYJOCro+XJxKzpI9I
+         PVPRNK2OAQzGhNIkFS/H9/iNHcUTcyJSgC876YVyQderXXGJgdKSa4xJlH/pE7jfqIZB
+         nQ7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788272608; x=1788877408;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788288371; x=1788893171;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yRvC0bVDQMbTYiwzOOlxphxSOpTPx7t/v7axgahVkgU=;
-        b=P0yS8U1hAOi6l6LfH2ZXuMj6aYwaI0sHskrV2390LU49i0Bw8uWsaZsON2cvjdCBm8
-         VZ5w6Q/Fma2WN1bQg5jBo0OhUOzLDtgXN+wRO7gsHIW+6vsVxLY0k46as+RNhG4oHuCC
-         avsMpBF+ymbjo2X/TC9QsPBRWfY0rJTJAUiDPR20nF4GQQ+F674WlNcksvR4S3O7l1BI
-         5M1W94sG6B/51k/Eayx2MkGsGZJl4I+YL8C2t8G96i1LU61nnAnSGNGyGTvceQZsb7P6
-         jkiryoxP4GWi+wakZUIpL0Qh/PN6nLyceZXaVhO9/JcTE8DNqrYRZo35yBv70wqD4stc
-         yK6A==
-X-Forwarded-Encrypted: i=1; AKwUvBzGOHin6y8HHxcr1faDlR3rhwWIc/XVNC0QoD/Qlp8W9/ThFrdVYHIITYHfxase4bqoeztuArdQ6xmmUiSS6w==@lists.linux.dev
-X-Gm-Message-State: AFuF++lwepc/FpN8VUdE0NYKz7fU5Q9iijoN5OGYmWdJp4Rpdo0Ussfn
-	iPQ/yQ3/53dt9WinGy6G6ZDVsOfC2/K+wJQc1ULWljLlZqZz8lBtjA2uXjmj2L34Sf53k69Dnyq
-	HQSFb3mojKP/97SdUYUzrGd8KIcqY3k3csuqT/0Rc
-X-Gm-Gg: AYBFou3+sNn7malsNcosz6kJtdwQ9BQpWX6a0/16Cekpyh05GkNKv6aDVfJcM+HTB/3
-	Td5SipFgDfuA0jkT/f6Gyr6pqNPliYymZgXwUdhv18NcENAUKhGWMIr4Qavi/+2k1XQxyRrhFhy
-	fsR5V0pTdqDrHR0xGcYmxZ7/vOXIHcTZUNUkViaPOWBq8Zg+r7+c8RM1McsMhEa/4HV87XFXR4+
-	QP3kzYwn+JRGcES6MK2A8PhheH23XEJPxgOy1c8/LVEmbxHfLgIfiwuHmnkVsYlxxitmdxWd3nZ
-	KYjiX/STOyv53cd6edys+VeHnyyAgD8CNx7PRQcFo4UCx6LNGTH/F1X9wSM9CBLA7G6FOjjqH1o
-	=
-X-Received: by 2002:a17:90b:57c8:b0:398:9bd5:4910 with SMTP id
- 98e67ed59e1d1-3989bd54c5cmr37828396a91.23.1788272607558; Tue, 01 Sep 2026
- 07:23:27 -0700 (PDT)
+        bh=IRSg5TsPLhCh9Up4rkAnm+9DnhJsd5XJxJ094xnRn18=;
+        b=Adsq89L8gh7e+Nvb3U4Iu8CPboZVnQkVUZ2pGhaHSr/iIeqokn8eBji2x5YaOW3v9H
+         /glA+ki2Kub3U+3EEtzmoIaFU8JYOMUcytJnO7ou1+yn2S0ydS1lxZVMeI/gUEXKS3ro
+         jh2Qb2lPzvZ3EYtsg3dPask8m62qcCosh1llvAJFlYVt597mQ1l65mkrVPmxPA4397Xd
+         7M5ipVNHL6CAzfn8fqVbhtexMCP4ivftUj74k0yT5rwz1oqK8duY0T1AZy2B5cV6KhSA
+         g5PzVYBHDMtmMv8iCHr5srd0KvY44tZ2dyEF3NdIfGRiAhF4arYO+YdUmCG1UE8udCdl
+         KjFA==
+X-Forwarded-Encrypted: i=1; AHgh+RphJZ4h8IQZCAkDlxabLUKxpOjzgRYf3nuJEWTPIMqjv9qk1SL9ylMHXRa0vMwI4IUqOHbqpESkupv7m6xXIw==@lists.linux.dev
+X-Gm-Message-State: AFuF++nk9fPQ8SWAZFuabn5BF0vTmvuHPHF+Ls1SB46fnOvu+bJBibpy
+	H95xmNbxB6nitmMimqAS4iPlGAjsX4IZ+5FHU+B8mU+HfECRjszV4Rp5mcKFcp3UFe8=
+X-Gm-Gg: AR+sD107gLFIMC3a00gsZWXtMCgBo0nn2vZ9qWeDrBtciobH7koFxAQxXeM99/8plYX
+	0o8WWb/RUjNW7rO97oqWwM22cli8RhvpS17IAdmSye8LFRz/rqlkjXOzrjFaQqKuj57bf23ohrt
+	kl7ojv80ZPRIPfYasr3nxDD1r5jzBG/oe6EwYM0A/bqJwwW5j/kv2pO/cv1K4XepJJ3dVUQAeLP
+	y7kCOD37cBSPlc/6fruZrcGuZHc8rZfpMjOjaNEr3yCWgtUvLymdtnv/C5/ALO7+fagI+xBZPcJ
+	kKpMLEFAsSGs4x8K2sd2F2KlID8QZjDfoKyevupY9w2lLW37X52plgJsRtjjlM+djr8wpvSUQto
+	JSbrSFyYrgWteHE9wV8cWqHUrH06RHb0Xh+bXPqeXChlZYLGGFkcBIPvSPH3jIYPHaRGwlpxBR8
+	PedfQ+HBU8PKXymwonaKQTit60i8oOsVzAQECsTgHDnEBsox8/X8FDsBJCLQ==
+X-Received: by 2002:a05:6a00:4187:b0:853:2e35:ad84 with SMTP id d2e1a72fcca58-8562a4e89aemr63794080b3a.14.1788288371275;
+        Tue, 01 Sep 2026 11:46:11 -0700 (PDT)
+Received: from localhost ([71.212.197.238])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-85db24f33a0sm300383b3a.9.2026.09.01.11.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 11:46:10 -0700 (PDT)
+From: Kevin Hilman <khilman@baylibre.com>
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>, Sudeep Holla
+ <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>, Scaria
+ Kochidanadu <s-kochidanadu@ti.com>, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] cpuidle: psci: Assign domain callbacks to all CPU idle
+ states
+In-Reply-To: <CAPx+jO85NBZq=YCxhs5Fbo5rDZ7pGHHKiG2HRJUNVKj_1SOscg@mail.gmail.com>
+References: <20260831-topic-lpm-psci-domain-callbacks-v1-1-4a47d95c9c79@baylibre.com>
+ <CAPx+jO85NBZq=YCxhs5Fbo5rDZ7pGHHKiG2HRJUNVKj_1SOscg@mail.gmail.com>
+Date: Tue, 01 Sep 2026 11:46:10 -0700
+Message-ID: <7hh5k87qtp.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811154111.64669-1-kmehltretter@gmail.com> <20260811154111.64669-3-kmehltretter@gmail.com>
-In-Reply-To: <20260811154111.64669-3-kmehltretter@gmail.com>
-From: Alexander Potapenko <glider@google.com>
-Date: Tue, 1 Sep 2026 16:22:50 +0200
-X-Gm-Features: AcwNN1UXW0GHI7VlHiZv422mZOWzTkl7pcwphIX2rF2RlL5p8DQ9JNZqMFJaNIM
-Message-ID: <CAG_fn=VcbA73TTxP83kgid2VUj1atf+6ZBU-NaKUHe=3vPzfYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] kcov: Add a kcov_pause guard
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
-	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 11, 2026 at 5:41=E2=80=AFPM Karl Mehltretter <kmehltretter@gmai=
-l.com> wrote:
->
-> Interrupt-return work can run after HARDIRQ_OFFSET is dropped, when
-> in_task() is true. KCOV then attributes instrumented callees to the
-> interrupted task.
->
-> Add a KCOV_PAUSED bit next to KCOV_IN_CTXSW and mask both in
-> kcov_mode_enabled(). The coverage callbacks need no new check because
-> check_kcov_mode()'s exact comparison rejects modes with KCOV_PAUSED set.
->
-> The context switch suppression keeps its own bit: kcov_prepare_switch()
-> runs on the previous task and kcov_finish_switch() on the one switched
-> in, so its lifetime is not a pause section.
->
-> Provide a kcov_pause guard backed by internal helpers that operate on
-> current. The guard saves the previous pause state and restores it at
-> scope exit, so sections nest. When KCOV is enabled for current, remote
-> softirq sections save and restore the complete mode, preserving the pause
-> state.
->
-> The helpers are __always_inline, and guard users must be uninstrumented:
-> inlining does not remove the caller's own coverage callbacks.
->
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
-> Notes:
->     v2:
->      - add guard(kcov_pause)() backed by private current-only helpers
->
->  include/linux/kcov.h | 40 +++++++++++++++++++++++++++++++++++++++-
->  kernel/kcov.c        |  2 +-
->  2 files changed, 40 insertions(+), 2 deletions(-)
->
-> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-> index 895b761b2db15..1b4806dab62fb 100644
-> --- a/include/linux/kcov.h
-> +++ b/include/linux/kcov.h
-> @@ -2,6 +2,8 @@
->  #ifndef _LINUX_KCOV_H
->  #define _LINUX_KCOV_H
->
-> +#include <linux/bits.h>
-> +#include <linux/cleanup.h>
->  #include <linux/sched.h>
->  #include <uapi/linux/kcov.h>
->
-> @@ -23,7 +25,8 @@ enum kcov_mode {
->         KCOV_MODE_TRACE_CMP =3D 3,
->  };
->
-> -#define KCOV_IN_CTXSW  (1 << 30)
-> +#define KCOV_IN_CTXSW  BIT(30)
-> +#define KCOV_PAUSED    BIT(29)
->
->  void kcov_task_init(struct task_struct *t);
->  void kcov_task_exit(struct task_struct *t);
-> @@ -38,6 +41,25 @@ do {                                         \
->         (t)->kcov_mode &=3D ~KCOV_IN_CTXSW;       \
->  } while (0)
->
-> +/*
-> + * Pause coverage for current. Callers must be uninstrumented.
-> + * Pass the returned state to __kcov_resume().
-> + */
-> +static __always_inline unsigned int __kcov_pause(void)
-> +{
-> +       unsigned int paused;
-> +
-> +       paused =3D current->kcov_mode & KCOV_PAUSED;
-> +       current->kcov_mode |=3D KCOV_PAUSED;
-> +       return paused;
+Ulf Hansson <ulf.hansson@oss.qualcomm.com> writes:
 
-I think these two function can be consolidated with
-kcov_prepare_switch()/kcov_finish_switch():
+> On Mon, Aug 31, 2026 at 8:52=E2=80=AFPM Kevin Hilman (TI) <khilman@baylib=
+re.com> wrote:
+>>
+>> Previously, only the deepest CPU idle state had its enter and
+>> enter_s2idle callbacks set to the domain-aware implementations. This
+>> meant that if a QoS latency constraint excluded the deepest state during
+>> s2idle, find_deepest_state() would find no state with enter_s2idle set
+>> and skip the domain idle path entirely. Similarly, during normal runtime
+>> idle, shallower CPU idle states could not trigger cluster-level domain
+>> idle states.
+>>
+>> Assign both enter_s2idle and enter (non-PREEMPT_RT) to all non-WFI CPU
+>> idle states so that the domain-idle-state logic is triggered regardless
+>> of which CPU idle state is selected. The genpd governor remains
+>> responsible for honouring domain-level latency constraints independently.
+>>
+>> The enter_s2idle path uses dev_pm_genpd_suspend() which is safe on
+>> PREEMPT_RT. The enter path uses pm_runtime_put_sync_suspend() which may
+>> sleep and is therefore still excluded on PREEMPT_RT.
+>>
+>> Suggested-by: Scaria Kochidanadu <s-kochidanadu@ti.com>
+>> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
+>> ---
+>>  drivers/cpuidle/cpuidle-psci.c | 24 +++++++++++++++++-------
+>>  1 file changed, 17 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-ps=
+ci.c
+>> index dcf20ea5ef5e..db9aa57c51f5 100644
+>> --- a/drivers/cpuidle/cpuidle-psci.c
+>> +++ b/drivers/cpuidle/cpuidle-psci.c
+>> @@ -250,6 +250,8 @@ static int psci_dt_cpu_init_topology(struct cpuidle_=
+driver *drv,
+>>                                      struct psci_cpuidle_data *data,
+>>                                      unsigned int state_count, int cpu)
+>>  {
+>> +       int i;
+>> +
+>>         /* Currently limit the hierarchical topology to be used in OSI m=
+ode. */
+>>         if (!psci_has_osi_support())
+>>                 return 0;
+>> @@ -261,14 +263,22 @@ static int psci_dt_cpu_init_topology(struct cpuidl=
+e_driver *drv,
+>>         psci_cpuidle_use_syscore =3D true;
+>>
+>>         /*
+>> -        * Using the deepest state for the CPU to trigger a potential se=
+lection
+>> -        * of a shared state for the domain, assumes the domain states a=
+re all
+>> -        * deeper states. On PREEMPT_RT the hierarchical topology is lim=
+ited to
+>> -        * s2ram and s2idle.
+>> +        * Assign the domain-aware callbacks to all CPU idle states so t=
+hat the
+>> +        * domain-idle-state logic is triggered regardless of which CPU =
+idle
+>> +        * state is selected.
+>> +        *
+>> +        * For s2idle, enter_s2idle uses dev_pm_genpd_suspend() which is=
+ safe
+>> +        * on PREEMPT_RT. find_deepest_state() will pick the deepest sta=
+te
+>> +        * whose exit latency fits within the active QoS constraint.
+>> +        *
+>> +        * For the normal idle path, enter uses pm_runtime_put_sync_susp=
+end()
+>> +        * which may sleep and is therefore not used on PREEMPT_RT.
+>>          */
+>> -       drv->states[state_count - 1].enter_s2idle =3D psci_enter_s2idle_=
+domain_idle_state;
+>> -       if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+>> -               drv->states[state_count - 1].enter =3D psci_enter_domain=
+_idle_state;
+>> +       for (i =3D 1; i < state_count; i++) {
+>> +               drv->states[i].enter_s2idle =3D psci_enter_s2idle_domain=
+_idle_state;
+>> +               if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+>> +                       drv->states[i].enter =3D psci_enter_domain_idle_=
+state;
+>> +       }
+>
+> This breaks the current contract for genpd when it tries to select a
+> domain idle state for a group of CPUs that shares the same PM domain.
 
-static __always_inline unsigned int __kcov_set_flag(struct task_struct
-*t, unsigned int flag)
-{
-    unsigned int mode =3D READ_ONCE(t->kcov_mode);
-    unsigned int prev_flag =3D mode & flag;
-    if (!prev_flag && kcov_mode_enabled(mode)) {
-        WRITE_ONCE(t->kcov_mode, mode | flag);
-        barrier();
-    }
-    return prev_flag;
-}
+Could you elaborate on what that "current contract" is or point me to
+where it's described in more detail.  I understand there was a reason
+for this design choice when first implemented, but now that we have
+added support for using QoS to constrain the state selection used for
+system-wide suspend (including s2idle) this "contract" is really
+restrictive, and doesn't allow the domain idle logic to be used at all
+for shallower states.
 
-#define kcov_prepare_switch(t) __kcov_set_flag((t), KCOV_IN_CTXSW)
+> In principle, if the CPU has a clock gating state (shallow) and a
+> power collapse state (deep), it would be sufficient for the CPU to be
+> in the clock gating state, while allowing the cluster PM domain
+> (through genpd) to enter a domain idle state that corresponds to a
+> power collapse state. Depending on the platform of course.
 
-static __always_inline unsigned int __kcov_pause(void)
-{
-    return __kcov_set_flag(current, KCOV_PAUSED);
-}
+Yes, that is possible in principle, but with an important clarification:
 
-(note the READ_ONCE()/WRITE_ONCE() around kcov_mode, plus the compiler barr=
-ier).
+Once all CPUs are in an idle state (either shallow or deep), the domain
+idle state logic is entered.  It's then up to the domain (or its
+governor) to select the appropriate state(s) for the domain.  If any of
+the CPUs are in a shallow state, the domain governor should not allow a
+deep state.
+
+In your example, you mention the CPUs in a shallow state but the cluster
+domain would pick a deep state.  I would say that's a bug in the
+PM domain (or its governor) if it would allow that.
+
+The job of the PM domain is to pick the deepest state that is possible
+based on the state of the devices (including CPUs) that are in that
+domain.
+
+The same is true today for domains that do not have CPUs.  If you have a
+device that runtime suspended, but in a shallow state (e.g. only clock
+gated), the PM domain it is in should not hit a deep (power-off) state,
+otherwise that device will lose context and not resume properly.
+
+I'm trying to enable that same thing for PM domains with CPUs.
+
+> On the platform you are working, is there a clock gating state (or
+> similar) on the cluster PM domain, which is allowed to be entered when
+> the corresponding CPUs are in the similar state?
+
+Yes.  Not only the CPUs have shallow and deep states, but the domains
+can have shallow and deep states as well.
+
+Kevin
