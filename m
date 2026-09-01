@@ -1,104 +1,189 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE903A48D9
-	for <linux-rt-devel@lists.linux.dev>; Mon, 31 Aug 2026 21:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7657337F327;
+	Tue,  1 Sep 2026 00:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788212661; cv=none; b=JyiZL8Tc/ulgMIw809+QR/7Dnh2Y4Dw8O9sBbIXCVbj7o/kSDKICquHkQfTZh8II4QAdSv0VdiBHLGdWuhL/ItRKpLlDYh2iq0PVfZkh/uM2AzDL/xlX4An0S6dXdPyqPLPRdliuFGWvO24/0MJ5NVoLQlovk2rMDBIUZKdS+Is=
+	t=1788224285; cv=none; b=Sn2350UTUGUsutIAvAgGVcr4Dvj9NTNeEgL8WlQPPB3vTAvisApO6TYu1EWxS2C3pztEaCTd25A1gLC8AgqH0h7pz4rZKI2Dy5FTkWpsmk/rDwM7elpN935fP69X7lmzJg1Bi78kUoqNHrNYsDlJ3mBIeymN3azDwv+B68RY2SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788212661; c=relaxed/simple;
-	bh=tbvMjlu2nUXQUFmCFvtfm2sb9MCvvq1DHBiU/6r4VAs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nve9gn+yD+Y3AYIq9Rs+SUQvdG4lJBzsOIdSlpZXuUUVWhz/nr0ZY+hQLa7m6JiLR4kFBxZMRlJZgBj/PHvSkl/wn1++uVDPOctdaoGKS/ucSncOEDI0vQhzEzQcvFal4INZwRevQU8fjIMevczUC5HUjbgadK46FRYZIhYUcCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Bdip5acJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788224285; c=relaxed/simple;
+	bh=ZRbDdv3ON6gVaFfFiplD76Nt/U8R1aLF2BKq42LxqEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kSxLhi81AY4d0mrkqDIEOxliwt0mrF2IOaKOYLjZnDePtGAb76wRyndS2kANk+yirp51nxvbkGdCtOHyHV2p1W+/VU122lkaSh8XGjPw5/uN9djIxIaFoXm5gvAsQq9xwDSxviP8y487tlOBnfbFa+++5J2aSVyG3Fqg4beUQWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KIfHlfBz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Bdip5acJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00C91408DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788212659; bh=ejVfa5VA9hdX/MMipqy6XJUI7HG3QYWAT2JDm/+1jw4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Bdip5acJBFyCC+OISgVyzZ7LDpuqqJ5thWnoK9qygnWegT7c1btFNFrkh6vBAnW5k
-	 ZKnPOZLs2ds4c7iljeR+j5IJOh/f+5FSi7wPKazyrORg19qx0z1bq4s9rWJbkGJ5+9
-	 1czNBSOoAA2922jJBffVaxCNMk+alCliIU0gUD8dVRBf+0oZJV37Y8lklLFEOYfd2l
-	 l0CjadDYKClrvjdKUYszFcQZUoNYh2oSS7KkOgmRCDCKnUL50YJa6nYaFMz6f+LZxT
-	 75y++dyrSDYqI/TGl72kpeB03QX3nR+RZij9AmBXTt0zIUwC6aQAW0nU/g8pUmKhmC
-	 KUEhWkLHWkqHQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 00C91408DB;
-	Mon, 31 Aug 2026 21:44:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Liang Hao <haohlliang@gmail.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker
- <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Clark
- Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Liang Hao <haohlliang@gmail.com>
-Subject: Re: [PATCH v6] docs: real-time: mention the hrtimer sleeper HARD path
-In-Reply-To: <20260820163858.27984-1-haohlliang@gmail.com>
-References: <20260820144655.22492-1-haohlliang@gmail.com>
- <20260820163858.27984-1-haohlliang@gmail.com>
-Date: Mon, 31 Aug 2026 15:44:16 -0600
-Message-ID: <87wlt6ezin.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KIfHlfBz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21241F000E9;
+	Tue,  1 Sep 2026 00:58:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788224282;
+	bh=1bp63kcVJIGUXxJRr+a1pHibhDOvZDH0FPxWAxX9Bno=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=KIfHlfBzoIkHss6og+1dX0nGSvHrR69wBOpNZ+4R53mnZPPoJtuPTbat9lz89zYxd
+	 VoFyeKLFUG/RNEBTl/OEAaJvSVIF39P7eiAdlR3Gc5pFIStbqwCLg34Oz8CZtu+iIG
+	 cBME9O+ibShHLNVKaml/GGE4J1zl94NnomECTSbPaDtoWVSCpT3Nmcym62QsfvXJMY
+	 XO1shOHtkB0j/8Ksi1YXKq0MDkuikPzlMGo9Efhk6l8xMd9AQQKvPuIcW2vH2RGEJO
+	 uZr8/sINuVWPqGWlsVcZb6WHqqiDbtIINzWQC9Tu1mEgbGTAwkVhpvY0/iLNuUJtAC
+	 6FQqDmTaNWaJA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8E91ECE0B65; Mon, 31 Aug 2026 17:58:02 -0700 (PDT)
+Date: Mon, 31 Aug 2026 17:58:02 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Michal Hocko <mhocko@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Jerome Glisse <jglisse@redhat.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/mmu_notifier: Remove non_block_start/end() from
+ notifier invocation
+Message-ID: <90d91673-a912-439f-98ee-e43285294486@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <333c4cdb-8f34-4e3f-a47f-961f47e089a0@paulmck-laptop>
+ <11dcf5a87125451897982f728c1f65a5151987e4.camel@infradead.org>
+ <69567965-48fd-48c5-abb6-0699d7f5bd16@paulmck-laptop>
+ <124af87fb49c267eeb26b8b4d952b9b1a5b3fb68.camel@infradead.org>
+ <9427a8e0-3ba6-4f31-a35d-54429bd7e071@paulmck-laptop>
+ <3d0463b6099d4fcde9a025a2f9e231d75303b61c.camel@infradead.org>
+ <b0be19e9-b0ae-48de-bef6-d905ee007c8a@paulmck-laptop>
+ <c39bda52f4c1573193aed39246f0d705755143fe.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c39bda52f4c1573193aed39246f0d705755143fe.camel@infradead.org>
 
-Liang Hao <haohlliang@gmail.com> writes:
+On Fri, Aug 28, 2026 at 12:25:01AM +0100, David Woodhouse wrote:
+> On Tue, 2026-08-25 at 11:16 -0700, Paul E. McKenney wrote:
+> >  
+> > > > Suppose that there is only one CPU, or, alternatively, that one of the
+> > > > atomic SRCU readers is pinned to the same CPU occupied by the (higher
+> > > > priority) task running synchronize_srcu_atomic().  In this case, the
+> > > > call to synchronize_srcu_atomic() uselessly burns CPU time until its
+> > > > priority decays, real-time throttling kicks in, or in some configurations,
+> > > > maybe never.
+> > > 
+> > > I certainly have no problem with a blanket preempt_disable() around
+> > > both sides for algorithmic reasons. As long as we aren't *just* doing
+> > > it for the selfish reasons I described. 
+> > 
+> > Suppose I simply disable preemption in srcu_read_lock_atomic(),
+> > enable it in srcu_read_unlock_atomic(), and disable it internally to
+> > synchronize_srcu_atomic()?  It might be against all RCU tradition,
+> > but might also be easier to use.  ;-)
+> 
+> Which indeed you have done in commit c2225b77b028 "srcu_tree: Disable
+> preemption across synchronize_srcu_atomic()" so I've dropped that hack
+> from my side. The important RCU patches remaining in my tree are the
+> addition of try_synchronize_srcu() and then using it as the fast path
+> of synchronize_srcu_atomic(). I've stopped bothering to test *without*
+> those.
 
-> The Timers section documents the PREEMPT_RT softirq default and
-> HRTIMER_MODE_HARD, but not the sleeper helper used by userspace sleeps.
-> Describe that path, and rename "ktimersd" to "ktimers" to match
-> ksoftirqd naming in this document.
->
-> No code or behaviour change.
->
-> Signed-off-by: Liang Hao <haohlliang@gmail.com>
-> ---
-> v5 -> v6:
-> - clarify soft delivery for non-RT sleepers (softirq context, not
->   HRTIMER_MODE_SOFT)
->
->  Documentation/core-api/real-time/differences.rst | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
-> index a129570dab5a..6f5be9f0da2e 100644
-> --- a/Documentation/core-api/real-time/differences.rst
-> +++ b/Documentation/core-api/real-time/differences.rst
-> @@ -119,12 +119,20 @@ timers initialized with the HRTIMER_MODE_SOFT flag, which are executed in
->  softirq context.
->  
->  On a PREEMPT_RT kernel, this behavior is reversed: hrtimers are executed in
-> -softirq context by default, typically within the ktimersd thread. This thread
-> +softirq context by default, typically within the ktimers thread. This thread
->  runs at the lowest real-time priority, ensuring it executes before any
->  SCHED_OTHER tasks but does not interfere with higher-priority real-time
->  threads. To explicitly request execution in hard interrupt context on
->  PREEMPT_RT, the timer must be marked with the HRTIMER_MODE_HARD flag.
->  
-> +Userland sleepers usually deploy a hrtimer to guarantee a precise wakeup
-> +time. The timer is initialized with hrtimer_setup_sleeper_on_stack(), which
-> +distinguishes between real-time and regular tasks. The hrtimer of a task
-> +without a real-time priority is handled in soft interrupt context, but for
-> +real-time priorities HRTIMER_MODE_HARD is used. This ensures that real-time
-> +tasks are woken up as soon as possible while ordinary tasks cannot block the
-> +CPU with a thundering herd of wakeups.
-> +
->  Memory allocation
->  -----------------
+Understood, and that fastpath is on its way.
 
-Applied, thanks.
+> Since it looks like I have successfully nerd-sniped you with the srcu-
+> atomic concept, I've reworked my tree to convert directly to that
+> rather than first converting to SRCU and then to atomic in a later
+> incremental commit.
 
-jon
+Now, now, that would be you *and* your friend Claude doing the
+nerd-sniping.  ;-)
+
+> This is what I'm now testing, in 
+> https://git.infradead.org/?p=users/dwmw2/linux.git;a=shortlog;h=refs/heads/gpc-v3
+> 
+> It's working; the latency numbers have been looking good in all of my
+> RT/DYNAMIC and debug/prod-like permutations. Redoing on the very latest
+> now...
+
+Very good!
+
+>   * 1ccf7ba90f8b KVM: x86/mmu: Take mmu_lock for the lockless aging walk on PREEMPT_RT (gpc-v3)
+>   * 51de7a793839 KVM: selftests: Add nested transition benchmark
+>   * 37c9400feec3 KVM: nSVM: Cache L1's IO permissions map pages
+>   * 1c10fdf9c46d KVM: nSVM: Cache L1's MSR permissions map pages
+>   * 7af4264346c2 KVM: nSVM: Use a gfn_to_pfn_cache for the vmcb12 page
+>   * de951cadb238 KVM: x86: Move nested GPC lock helpers to x86.h as kvm_gpc_lock_page()
+>   * f04543987d9f KVM: selftests: Add nested VMX APIC cache invalidation test
+>   * 1b50353089d4 KVM: nVMX: Use pinned pfncache for L1 APIC virtualization pages
+>   * 4ae1202ef919 KVM: nVMX: Implement cache for L1 MSR bitmap
+>   * 5102fb3c55fb KVM: x86: Post KVM_REQ_GET_NESTED_STATE_PAGES on memslot updates
+>   * 47998916d89f KVM: pfncache: Return -EAGAIN for a lookup which hits an invalid memslot
+>   * 2dab55238cd7 KVM: pfncache: Add guest-mode pinning (GUEST_USES_PFN successor)
+>   * 9740a75db3d5 KVM: x86: Use gfn_to_pfn_cache for steal time / preempted status
+>   * 3898f98ca5cd KVM: x86: Request the guest TLB flush from record_steal_time()
+>   * 0a06af648fa6 KVM: x86/xen: Don't dirty track "vCPU info" page
+>   * eef7b09e5b52 KVM: x86/xen: Explicitly tag "shared info" page as never being dirty tracked
+>   * 99a7eae0266e KVM: x86/xen: Extract delivery of event to vCPU into a separate helper
+>   * f0162bb012fb KVM: pfncache: Use atomic SRCU for readers instead of a rwlock
+>   * 003716df6605 mm/mmu_notifier: Remove non_block_start/end() from notifier invocation
+>   * 6d484ca99bc9 srcu: Try the inline no-readers proof first in synchronize_srcu_atomic()
+
+This is in the works.
+
+>   * 23f10e07aba3 srcu: Add try_synchronize_srcu() for callers which can prove readers absent
+
+I do not intend to provide a separate API for this given the possibility
+of indefinite postponement.
+
+>   * 2a55908bb12d srcu: Keep a spare node array so srcu_gp_end() need not block in reclaim
+
+This should not be necessary given that call_srcu(), synchronize_srcu(),
+synchronize_srcu_expedited(), and start_poll_synchronize_srcu() are all
+ruled out for atomic srcu_struct structures.  Thus, there will never be
+a conversion to big, and thus no memory allocation.
+
+Or am I missing something here?
+
+							Thanx, Paul
+
+>   * cb117542cb92 srcu: Remove development pr_alert()s from synchronize_srcu_atomic()
+>   *   02738b15e08c Merge remote-tracking branch 'rcu/dev' into gpc-v3
+>   |\
+>   | * 7b9f3a948136 torture: Allow specifying alternative ssh command to kvm-remote.sh (rcu/dev)
+>   | * cd71c7941b25 doc: RCU: Fix s/strategem/stratagem/ typo in Requirements.rst
+>   | * f1b2e15ef249 rcu: fix shrink budget underflow in lazy_rcu_shrink_scan
+>   | * 8c9be6c76148 rcutorture: Synchronously wait for all rcu_torture_irq() callbacks to complete
+>   | * 48b4d9799efe rcu: Use IRQ_WORK_INIT_HARD for srcu's irq_work
+>   | * 260d0fdf6ea3 rcutorture: Fix divide-by-zero with fwd_progress_div=1
+>   | * 5d9c38fbf615 fixup! srcutiny: Add an atomic Tiny SRCU
+>   | * 7a263580788e fixup! srcutree: Add an atomic Tree SRCU
+>   | * c2225b77b028 srcu_tree: Disable preemption across synchronize_srcu_atomic()
+>   | * e56c969b6c7b rcutorture: Add support for testing synchronize_srcu_atomic()
+>   | * 9a2e9996ccec srcutiny: Add an atomic Tiny SRCU
+>   | * 6cf65dd4d8fb srcutree: Add an atomic Tree SRCU
+>   | ⋮  (older rcu/dev elided)
+>   * | dc14992a9abe KVM: pfncache: use a dedicated invalidation sequence for cache refresh (xen-v3)
+>   * | a83533b07c67 KVM: x86/xen: Mark poll_evtchn accesses with READ_ONCE()/WRITE_ONCE()
+>   * | f578df3dda4e KVM: x86/xen: Take kvm->srcu in __kvm_xen_has_interrupt()
+>   * | 0e38de3983e6 KVM: x86/xen: Use atomic*() APIs instead of open coded equivalents
+>   * | f6179ff87266 KVM: x86/xen: Use 32-bit atomics if vCPU's evtchn_pending_sel isn't aligned
+>   * | 9c3243ef9edb KVM: x86/xen: Use 32-bit locked bts for vcpu_info evtchn_pending_sel
+>   * | 113a5ed7489f KVM: x86/xen: Enforce 4-byte alignment of vcpu_info registration
+>   * | 2505c393701c KVM: x86/xen: Latch shinfo mode in kvm_xen_schedop_poll()
+>   * | 9dfe99cf7b45 KVM: x86/xen: Latch shinfo mode in kvm_xen_set_evtchn_fast()
+>   * | 59325fcde6db KVM: x86/xen: Rename max_evtchn_port() to kvm_max_evtchn_port()
+>   * | 2d366afb5114 KVM: x86/xen: Introduce kvm_xen_has_64bit_shinfo() macro
+>   * | 2e26fc558ac9 KVM: x86/xen: Rename 'longmode' to 'is_64bit' in hypercall handling
+>   o |  (kvm/next: 76671054f9a1 Merge tag 'kvmarm-7.3' ...)
+
+
