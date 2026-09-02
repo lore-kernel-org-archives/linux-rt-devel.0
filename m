@@ -1,201 +1,175 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4472C11E4
-	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Sep 2026 08:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788337622; cv=none; b=kDKqFnIoQCLgaUALZbNAk/BIUFejyIvibiBpG0eCHHHhlI/G78PIG89rtn+VGyywfkgcqDcfgIaTrzwtAhAH4Y0CJO1zXgLrYNE28NwtCF3+tEwIlCH01qxIszC3WQwJKVEATJYhq9Qq4AafdVx8EIaUpjjdI8WZWTziVEzx+Fo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788337622; c=relaxed/simple;
-	bh=PpSC7WmFvvGzbjKSzGjqBShR0Ro5S3tfapiRGnFI3a8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKnBVP2FacQPXGnLCO10eDZZh9W+dM1HQSFdicsdIaQjAlfEITPYvxmkdib64c0dpoPdCoKEpnudVfkL6xkpXQe5u/hsKND21IkfWFSFVQJFNiJgLbCVwvGVlIuXucNOF/iImtTkh5HPoOaMHkb2YhH8fwd8kBKzzNFSD7ABouo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J6naH9Bn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C02zopcc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA84A3ED5B2
+	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Sep 2026 09:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788342533; cv=pass; b=Q8qsN2GacpPCyJIFIHLTwkGH4ykfUD5e/xdstd+AZ7ysIn5RyTjqa4a5P3SAnDjY/9u4w+M0OOskqaeh1N22V8H4mVVI2wZbrsbcdnAfzlMaieZYISx221yjuki7DJgCjJqZ5ja1eodcKK6G++rgr/XF48Qrek5h/Y9wOTE5znE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788342533; c=relaxed/simple;
+	bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qLc93rphHFRMG/YMuRyvOhJ+mXV2vONGNV6IU6o5FYfIVu4q/gyXBLp2QsxM1z8BCgB0zwmned80UbJgA6t05b0Cda7NRoNJr2vOF0LHaoJdD7AK5I/BtSrtTOY2fPZ1MJKioVzEtBg9iSACzis1ml9XOfUxTxdLiqyDXdWv6DM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vHqrjQFk; arc=pass smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J6naH9Bn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C02zopcc"
-Date: Wed, 2 Sep 2026 10:26:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788337619;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WEqnheI2tBlF7SO0sf64PUL6mHxiLqhvbl7GyJKIBTY=;
-	b=J6naH9BnyWtg3g6o6dZR3V3d3c6FQRHNjFd0u84SpxI0O8rMGmDlqY4iG+YilAiOak98IO
-	T8FSjW2LKmCwTWqOO6FyrU2PYRAEyozqaaG51Hf26UJtSJZZv8OwsC7+U6PMgLsPFdxbZV
-	QbtHNaFwAxKXGhQidFsbWfTzTCYTtPUTki6F3tl/3wNYLSRJGA37ICKTvgaVnAowd5VF80
-	Do2qZYfiRf+I7ZUmglU3kgGvACV+QKC0guIg0YfOl6oSGMO7eT/+RO9/ntOZz2JFpDSG9Y
-	Zc/8//DaFQTxOwV6G2Mi65l9/FgnC40MNBkvIXnX3YiV9luUdwHOGsdsF+fnkg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788337619;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WEqnheI2tBlF7SO0sf64PUL6mHxiLqhvbl7GyJKIBTY=;
-	b=C02zopccWkmJeuIV6juBBLA119+kxyAA7lVz+XDark9PG2cIfTKJSVJjD3Dpil0qyVN9DM
-	U/CR+XeCYZDbuICQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Puranjay Mohan <puranjay12@gmail.com>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Matt Fleming <mfleming@cloudflare.com>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 1/6] rcu: Make call_rcu() safe to call from any context
-Message-ID: <20260902082657.yPEhNFlo@linutronix.de>
-References: <20260810122758.183765-1-puranjay@kernel.org>
- <20260810122758.183765-2-puranjay@kernel.org>
- <20260826144636.3IRUXeFV@linutronix.de>
- <CANk7y0hbwXL7nBDgjTgrneBejEgGrsZnc02RztG-aSBEEvAcwQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vHqrjQFk"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca7c1176317so722994a12.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 02 Sep 2026 02:48:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788342531; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VaixYLgLM1cQkEYBCgJGRrBPLyqYDMM/7+3vrQM7C1fgMzpaTFJmfK+ulifLiK30/r
+         1aPZaYYOhCej+pvSCW/7vflmbMZphA7RaGnM+/UjIoOg3Tyq4VOuRyEzn1pUW+Rj10jQ
+         xpRen4hjktJ9RZDLwSsC6esBLWivKfaYyovk7+0z1e1aIKl+2nu5OjDYL33mMpMN+roy
+         6/4XT1M/A5gKMzMGSjrwEHo8wXloY0aaosAH3Zof36dkAxRZi40ionb4vOKl2O1s6HjK
+         Y/3MTIGqwbDBXLRSNSAVulNL587DFHNIGSduHo+W7KDYBdWgJ58QINAGGC6F8IJkiPVj
+         eUww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
+        fh=UTjR22ExI6LIbBkoGtACuhjvziXaLMo7uiwnk8ReUXE=;
+        b=eWjxznh7yV2MrjHFWCWdHdSo0HGCuNxOYERPen3BKjOwxnxfMdQghZhcE4rUSnT6C7
+         cZPKFA4o2OhBnL9Ce78YHvQfMLMr0iXhNoUs2ZgLcEAJFS2hvXqj8/gDb/8GwOANAq3P
+         zzYwXWY0f1+zUCWRg1hs2VJw1sYS7D8RhR4qOCKNjalmHxE1nRlvwzH1YFGX02zdzs8P
+         QWUvYldL63xsNnNHnprtxU1bql0fI2H/+uuB6L2ttESeOEJGC55S2Qs43QqjWbdo1jHA
+         7Ym783umpyyT3XuAPfRWBxA1TAPAoLbBw04cnVP5Sjt0p09vcfJMgWcqmdeBdWLGnJkY
+         vgRw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788342531; x=1788947331; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
+        b=vHqrjQFkkvIahqNouFvBVtTv0sBxdC6Jxp5tXQLZagdO0VEsNy8LblK8Gzpyfm0Aa5
+         bOyQOXjhY4lGbpkL8HQtW3kSaM6y1NRZJq7VASlPopyoPga4AjLnync/Pfe9yVd6qDiu
+         2HtbG9fXbmEJlv+tA8XrSTF1YpkAeDblofanMoGRRSG6KTpSlCB/m0SrjvS1MpwAmshd
+         WQ/dVxK0zchTQ7Im5mkKSDd0FWD0e3WeGINXSrANjtTN4u6EueDx+0drfA5BiDBQLYE2
+         lOq0geI4ZbEgAT7+mnFeSodmTAfpKNX5+8UFcewMli8h0uY7/kg3sIeHHK6fAedkIgRo
+         exkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788342531; x=1788947331;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
+        b=icAFlGQSct6XzB3y64eZKGn+R8QPjaqp6CtOTKJvBKkol6G3VfAZoTy3MxGx8uC1kH
+         U6H7dYPn+p46C4blCIQIRZCqcR0z9Iw3ZYobdFgRjMBGXE3m4tHoFZ9oUn5u/NK/LJtv
+         BgQLMFgUYLLYPZ30T9AlP/2X5NlTHXlVZB6TlXojk1fuM5qEPaXFHxQJ3lpVeJfTaJE/
+         LqKTciZ1EkkrY3CNGZI0rjRpKFIVd65+VsW4plmdVByhUrExENL6FWxSI2kergn66OQu
+         szVHWs7VOqlU1W9quOWhmGazEszDjlfOv3ruu/pHAxs7+rcjNLUZvG/+mhL2MTTWF35v
+         MMpA==
+X-Forwarded-Encrypted: i=1; AKwUvBwBSROuDWE5yQMeE5lIgRXf6SZIrq/VrKRLkQfbR2vs0+9LKXOW6BT8zCF0B54sALWId5HXTG5SzZ2I9+2nWg==@lists.linux.dev
+X-Gm-Message-State: AFuF++m1T2UPoEhKS600rY1ymliIS0RNWjphf9kYtxNxo7So0rRD0Wvv
+	PEZB4eGBrf/pzO/CdgSLnQyR5YBTnHCeaPv42rPJe8aXgtVBFsr0A0jLsFea0mMierVl07qIq7j
+	uA6uMzC/nT+2l2ARykqXY4jQDtGz8yxjAcVQXc8bV
+X-Gm-Gg: AYBFou3eC0xccJyzE6dDLdgz5YJUZcj16ZIwkMJm3rklcQm8Zd7EzXufaB8frHY6ad1
+	veeTe8GPLTbvVZw0s0h4WKocdKLK/Weehc+oNBCFgF+LQTBni0oXfY5RCUBveIQzN7fzclqKeya
+	ChzCr11MSc0msJ/LlS2AdDZmUHlBP1Cg3FwH5JjpSvAFFWQ3e6/DWT0IhZQ6vaJFaeoDgU5QDqZ
+	7awAftGJSsdbAjJD2/eLFNdlpPOAcATZ6zhqgkfccGE26mjknuNabBoeUzyCouP3h2W5h9mAaTF
+	MszAVLDbwPElbckf1W+nB0Iy096Nngd/VtmdSHOp8/Zj0Wo/CHtKfCPEebdAhJ6T+Jhp4uJovA=
+	=
+X-Received: by 2002:a17:90b:5384:b0:398:ceef:edbd with SMTP id
+ 98e67ed59e1d1-39aee1bbae0mr5657467a91.18.1788342530162; Wed, 02 Sep 2026
+ 02:48:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20260811154111.64669-1-kmehltretter@gmail.com> <apZlkC1lCUFFMKsl@gmail.com>
+In-Reply-To: <apZlkC1lCUFFMKsl@gmail.com>
+From: Alexander Potapenko <glider@google.com>
+Date: Wed, 2 Sep 2026 11:48:09 +0200
+X-Gm-Features: AcwNN1Wrf69jjm1OyBEhDEDLxC8921rklaSkn1qBn2gou8dtPIrMWnmBuSExKH4
+Message-ID: <CAG_fn=VR_mfRpbtzgXU=pO2hV9dzgqdrfSPEG_no+vZmC066QA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] kcov: Suppress timer and scheduler coverage leaks
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
+	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CANk7y0hbwXL7nBDgjTgrneBejEgGrsZnc02RztG-aSBEEvAcwQ@mail.gmail.com>
 
-On 2026-09-01 14:53:56 [+0200], Puranjay Mohan wrote:
-> On Wed, Aug 26, 2026 at 3:46=E2=80=AFPM Sebastian Andrzej Siewior
-> > > +/*
-> > > + * Defer whenever interrupts are disabled, since a callback-list ope=
-ration may
-> > > + * be in flight on this CPU.  Not before the scheduler is up: irq_wo=
-rk is not
-> > > + * usable that early, and rcu_init() itself calls call_rcu().
-> > > + */
-> > > +static inline bool should_rcu_defer(void)
-> > > +{
-> > > +     return IS_ENABLED(CONFIG_RCU_DEFER) && irqs_disabled() &&
-> > > +            rcu_scheduler_active !=3D RCU_SCHEDULER_INACTIVE;
-> > > +}
+On Tue, Sep 1, 2026 at 7:50=E2=80=AFAM Karl Mehltretter <kmehltretter@gmail=
+.com> wrote:
+>
+> On Tue, Aug 11, 2026 at 05:41:05PM +0100, Karl Mehltretter wrote:
 > >
-> > Why does the description say that the defer part is for usage from NMI
-> > and the test here has irqs_disabled() instead of in_nmi()?
->=20
-> We defer for both irq disabled sections, hard irq, and in_nmi() and
-> checking for irqs_disabled() covers all three.
-
-But it is wrong to talk about NMI and do this for other reasons not
-mentioning why this was needed/ made sense.
-Can this be fixed?
-Also what is the reasoning for doing it from any IRQ disabled region?
-
+> > Add a nestable KCOV_PAUSED bit and a kcov_pause guard. Use the guard fo=
+r
+> > deferred hrtimer rearm, __schedule(), the try_to_wake_up() wakeup body
+> > and wake_up_new_task(). This suppresses their instrumented callees
+> > without excluding those callees from task-context coverage.
 > >
-> > > +
-> > >  enum rcutorture_type {
-> > >       RCU_FLAVOR,
-> > >       RCU_TASKS_FLAVOR,
-> > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > > index 21b6ce1dffb63..3bf3a250f9de8 100644
-> > > --- a/kernel/rcu/tree.c
-> > > +++ b/kernel/rcu/tree.c
-> > > @@ -3206,6 +3204,103 @@ __call_rcu_common(struct rcu_head *head, rcu_=
-callback_t func, bool lazy_in)
-> > >       local_irq_restore(flags);
-> > >  }
-> > >
-> > > +/*
-> > > + * Re-issue deferred callbacks straight to the enqueue so they canno=
-t defer
-> > > + * again.  ->defer_lock serializes the drainers: this CPU's irq_work,
-> > > + * rcu_defer_flush() and rcutree_migrate_callbacks().
-> > > + */
-> > > +static void __rcu_defer_drain(struct rcu_data *rdp)
-> > > +{
-> > > +     struct llist_node *node, *next;
-> > > +     unsigned long flags;
-> > > +
-> > > +     if (!IS_ENABLED(CONFIG_RCU_DEFER))
-> > > +             return;
-> > > +
-> > > +     raw_spin_lock_irqsave(&rdp->defer_lock, flags);
-> > > +     llist_for_each_safe(node, next, llist_del_all(&rdp->defer_head)=
-) {
-> > > +             struct rcu_head *head =3D (struct rcu_head *)node;
-> >
-> > Why do you need the lock. This is still not clear to me despite the
-> > comment. You can do llist_del_all() towards another list and then feed
-> > it into rcu_do_enqueue() one by one. And you use the LAZY part.
->=20
-> Because rcu_barrier() can call this for each cpu and at the same time
-> rcu_defer_drain() can call it too, so this would cause a race where
-> the irq work can remove the callbacks (llist_del_all) and before it
-> can enqueue them, rcu_barrier will see that the list is already empty
-> and will not wait for these callbacks. We want the llist_del_all() and
-> rcu_do_enqueue() to happen atomically so rcu_barrier() can work
-> correctly.
+>
+> Andrey, Alexander, Dmitry,
+>
+> Could you please take a look at this series from the KCOV side?
 
-So you collect a bunch of callbacks and spent time re-arranging
-everything with irqs off.
-What is wrong with keeping it in the llist and consuming it like the
-regular rcu_segcblist?
+Hi Karl,
 
-> >
-> > > +
-> > > +             /* Bounds a node self-linked by a double call_rcu(). */
-> > > +             head->next =3D NULL;
-> > > +             rcu_do_enqueue(head, head->func, false);
-> > > +     }
-> > > +     raw_spin_unlock_irqrestore(&rdp->defer_lock, flags);
-> > > +}
-> > =E2=80=A6
-> > > @@ -4231,6 +4330,9 @@ rcu_boot_init_percpu_data(int cpu)
-> > >       rdp->rcu_onl_gp_state =3D RCU_GP_CLEANED;
-> > >       rdp->last_sched_clock =3D jiffies;
-> > >       rdp->cpu =3D cpu;
-> > > +     init_llist_head(&rdp->defer_head);
-> > > +     raw_spin_lock_init(&rdp->defer_lock);
-> > > +     rdp->defer_work =3D IRQ_WORK_INIT_HARD(rcu_defer_drain);
-> >
-> > Why is this IRQ_WORK_INIT_HARD() instead, say, IRQ_WORK_INIT_LAZY()? Is
-> > there a requirement that the RCU callback needs to complete asap and not
-> > be delayed to the next tick? This would give kind of the LAZY part.
-> >
->=20
-> In discussions with Paul, we concluded that we need HARD because in
-> low memory situations delaying rcu callbacks can be problematic. Given
-> that we are already deferring the callbacks, it would be nice to have
-> them enqueued asap. But if there are downsides to this we may change
-> it later.
+>
+> It fixes the CONFIG_KCOV_SELFTEST failures covered by this series. Some
+> architectures still need further architecture-specific KCOV
+> instrumentation exclusions.
+>
+> The three syzkaller A/B pairs from the cover letter also suggest
+> better coverage: at matched execution counts, the patched kernels had
+> 14-19% more coverage and 42-54% larger corpora.
+>
+> Do you think the pause mechanism and the places where it is used make
+> sense? Do you want me to continue with a v3?
 
-It does not look like you defer them for long at all. Every callback
-enqueued in an IRQ-off region will be immediately re-enqueued to the
-regular list the moment interrupts are enabled again.=20
-Except on architectures which don't implement irq-work interrupts where
-it will be delayed to the next HZ tick. And the next HZ tick does not
-sound like a long time either.
+I think it makes sense, although it would be nice to try to minimize
+the number of points where we insert kcov_pause()/kcov_resume()
+Perhaps we could piggyback on some common scheduler action (e.g.
+locking) to do that?
 
-> > >       rcu_boot_init_nocb_percpu_data(rdp);
-> > >  }
-> > >
+If Peter is fine with these annotations being open-coded in
+kernel/sched/core.c, then I'm also fine.
 
-Sebastian
+> I also looked at the Sashiko dashboard report:
+>
+> https://sashiko.dev/#/patchset/20260811154111.64669-1-kmehltretter@gmail.=
+com
+>
+> I don't think the remaining warning about reordering or removing the
+> kcov_mode stores is real for these call sites.
+
+I think consistently using READ_ONCE/WRITE_ONCE here is better.
+See my suggestion of converging the flag functions in "kcov: Add a
+kcov_pause guard".
+
+> One small change opportunity for v3: In try_to_wake_up(), I would take
+> the kcov_pause guard before the preempt guard. Cleanup then runs
+> preempt_enable() while KCOV is still paused and resumes KCOV afterwards.
+
+Agreed.
+
+> I would also replace "uninstrumented" with "built without KCOV
+> instrumentation" to avoid the ambiguity Peter pointed out.
+
+Ack, this is indeed clearer.
+
+> Separately, I will look at turning Peter's IRQ-exit preempt-count
+> proposal into a standalone patch for instrumentation in general,
+> especially KCSAN. It does not replace this KCOV series, since it only
+> covers work run directly from IRQ exit.
+
+Fixing the IRQ exit should also help with some KMSAN false positives,
+so I am all for it.
