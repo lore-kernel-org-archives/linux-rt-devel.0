@@ -1,175 +1,93 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA84A3ED5B2
-	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Sep 2026 09:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788342533; cv=pass; b=Q8qsN2GacpPCyJIFIHLTwkGH4ykfUD5e/xdstd+AZ7ysIn5RyTjqa4a5P3SAnDjY/9u4w+M0OOskqaeh1N22V8H4mVVI2wZbrsbcdnAfzlMaieZYISx221yjuki7DJgCjJqZ5ja1eodcKK6G++rgr/XF48Qrek5h/Y9wOTE5znE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788342533; c=relaxed/simple;
-	bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qLc93rphHFRMG/YMuRyvOhJ+mXV2vONGNV6IU6o5FYfIVu4q/gyXBLp2QsxM1z8BCgB0zwmned80UbJgA6t05b0Cda7NRoNJr2vOF0LHaoJdD7AK5I/BtSrtTOY2fPZ1MJKioVzEtBg9iSACzis1ml9XOfUxTxdLiqyDXdWv6DM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vHqrjQFk; arc=pass smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3835430CD3;
+	Wed,  2 Sep 2026 10:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788343522; cv=none; b=I6ps2KidVrZixDWPl5Eceke1rP0z6WH2iE/3belCnNg1Erb72tZ41HirXEEFIzoRmfZ0Rbpt4p7VJs6/EmwV/OpcXIJ9ZcSJNor406B3V+hSvDZdFOzRF2TQabueMXDmE5GJr7/ZTtXuWrnX7LWMXCkKkDfBgGXtS8vrnnaAw4M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788343522; c=relaxed/simple;
+	bh=pDy8xoSkObYPu/v5b7OoksLbTFhMEMX7QC4U2UlTwzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iD7t2wz+ET3CpuMlMMFBGj4VTnHkO/qYLFg6WGgUwEsmKVj1yung41Da7RKJ1R7oziXEQOvRRoi8meVWfH5JS+DLPEhi9q8A68QACksgSXGq6HXhQqPv5mbnZzW3RxeUGlbaLQm9byMqVK2loSHOGqJvSPdZCjhE9xaG5CEZn6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XuUW4AFU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vHqrjQFk"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca7c1176317so722994a12.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 02 Sep 2026 02:48:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788342531; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VaixYLgLM1cQkEYBCgJGRrBPLyqYDMM/7+3vrQM7C1fgMzpaTFJmfK+ulifLiK30/r
-         1aPZaYYOhCej+pvSCW/7vflmbMZphA7RaGnM+/UjIoOg3Tyq4VOuRyEzn1pUW+Rj10jQ
-         xpRen4hjktJ9RZDLwSsC6esBLWivKfaYyovk7+0z1e1aIKl+2nu5OjDYL33mMpMN+roy
-         6/4XT1M/A5gKMzMGSjrwEHo8wXloY0aaosAH3Zof36dkAxRZi40ionb4vOKl2O1s6HjK
-         Y/3MTIGqwbDBXLRSNSAVulNL587DFHNIGSduHo+W7KDYBdWgJ58QINAGGC6F8IJkiPVj
-         eUww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
-        fh=UTjR22ExI6LIbBkoGtACuhjvziXaLMo7uiwnk8ReUXE=;
-        b=eWjxznh7yV2MrjHFWCWdHdSo0HGCuNxOYERPen3BKjOwxnxfMdQghZhcE4rUSnT6C7
-         cZPKFA4o2OhBnL9Ce78YHvQfMLMr0iXhNoUs2ZgLcEAJFS2hvXqj8/gDb/8GwOANAq3P
-         zzYwXWY0f1+zUCWRg1hs2VJw1sYS7D8RhR4qOCKNjalmHxE1nRlvwzH1YFGX02zdzs8P
-         QWUvYldL63xsNnNHnprtxU1bql0fI2H/+uuB6L2ttESeOEJGC55S2Qs43QqjWbdo1jHA
-         7Ym783umpyyT3XuAPfRWBxA1TAPAoLbBw04cnVP5Sjt0p09vcfJMgWcqmdeBdWLGnJkY
-         vgRw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788342531; x=1788947331; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
-        b=vHqrjQFkkvIahqNouFvBVtTv0sBxdC6Jxp5tXQLZagdO0VEsNy8LblK8Gzpyfm0Aa5
-         bOyQOXjhY4lGbpkL8HQtW3kSaM6y1NRZJq7VASlPopyoPga4AjLnync/Pfe9yVd6qDiu
-         2HtbG9fXbmEJlv+tA8XrSTF1YpkAeDblofanMoGRRSG6KTpSlCB/m0SrjvS1MpwAmshd
-         WQ/dVxK0zchTQ7Im5mkKSDd0FWD0e3WeGINXSrANjtTN4u6EueDx+0drfA5BiDBQLYE2
-         lOq0geI4ZbEgAT7+mnFeSodmTAfpKNX5+8UFcewMli8h0uY7/kg3sIeHHK6fAedkIgRo
-         exkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788342531; x=1788947331;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DAYHtINMjyhnTJWyt2w2Ud93jjGFrdXSb4FUKYQtEYY=;
-        b=icAFlGQSct6XzB3y64eZKGn+R8QPjaqp6CtOTKJvBKkol6G3VfAZoTy3MxGx8uC1kH
-         U6H7dYPn+p46C4blCIQIRZCqcR0z9Iw3ZYobdFgRjMBGXE3m4tHoFZ9oUn5u/NK/LJtv
-         BgQLMFgUYLLYPZ30T9AlP/2X5NlTHXlVZB6TlXojk1fuM5qEPaXFHxQJ3lpVeJfTaJE/
-         LqKTciZ1EkkrY3CNGZI0rjRpKFIVd65+VsW4plmdVByhUrExENL6FWxSI2kergn66OQu
-         szVHWs7VOqlU1W9quOWhmGazEszDjlfOv3ruu/pHAxs7+rcjNLUZvG/+mhL2MTTWF35v
-         MMpA==
-X-Forwarded-Encrypted: i=1; AKwUvBwBSROuDWE5yQMeE5lIgRXf6SZIrq/VrKRLkQfbR2vs0+9LKXOW6BT8zCF0B54sALWId5HXTG5SzZ2I9+2nWg==@lists.linux.dev
-X-Gm-Message-State: AFuF++m1T2UPoEhKS600rY1ymliIS0RNWjphf9kYtxNxo7So0rRD0Wvv
-	PEZB4eGBrf/pzO/CdgSLnQyR5YBTnHCeaPv42rPJe8aXgtVBFsr0A0jLsFea0mMierVl07qIq7j
-	uA6uMzC/nT+2l2ARykqXY4jQDtGz8yxjAcVQXc8bV
-X-Gm-Gg: AYBFou3eC0xccJyzE6dDLdgz5YJUZcj16ZIwkMJm3rklcQm8Zd7EzXufaB8frHY6ad1
-	veeTe8GPLTbvVZw0s0h4WKocdKLK/Weehc+oNBCFgF+LQTBni0oXfY5RCUBveIQzN7fzclqKeya
-	ChzCr11MSc0msJ/LlS2AdDZmUHlBP1Cg3FwH5JjpSvAFFWQ3e6/DWT0IhZQ6vaJFaeoDgU5QDqZ
-	7awAftGJSsdbAjJD2/eLFNdlpPOAcATZ6zhqgkfccGE26mjknuNabBoeUzyCouP3h2W5h9mAaTF
-	MszAVLDbwPElbckf1W+nB0Iy096Nngd/VtmdSHOp8/Zj0Wo/CHtKfCPEebdAhJ6T+Jhp4uJovA=
-	=
-X-Received: by 2002:a17:90b:5384:b0:398:ceef:edbd with SMTP id
- 98e67ed59e1d1-39aee1bbae0mr5657467a91.18.1788342530162; Wed, 02 Sep 2026
- 02:48:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XuUW4AFU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14B21F000E9;
+	Wed,  2 Sep 2026 10:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788343521;
+	bh=8vWQxrJHayrwwhMkde5WNO4SONhqD9HgJXyCKA+9EN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XuUW4AFUy2dwHWVZf12krJbN9Ni/p6KdoXKlSOpUg42W5KpGAQwTxfimPF3TPllJ0
+	 6uQbZkh5TYAx0j228akBJyGcEcPjzkmp2GTnDZHYNqte5BnL/vW/TMKAlYjGHiWbEp
+	 WhDPsiiQ5uSkyp4oHeUlhrwstVsEpTthDvbp0zO8pH78F88UsyGBxMtb+W2PUD2+0V
+	 9A65BzsNs8wr7gvoFG/bUken5QZPbXpZtnQSwSokJZ1IEHFG4E4IvIkCIJa6FyV8LL
+	 tAvxNarFvgv6cuOrMyxT8vzFGOmEegIyQCAA3s1DR5VmOrZqwYu4GFmf9KOIemEDsV
+	 y9R2aBMcHi6BA==
+Date: Wed, 2 Sep 2026 11:05:18 +0100
+From: Harry Yoo <harry@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: ThangNN99 <ngocthang2710.1999@gmail.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, syzbot+acf142088e0182172e58@syzkaller.appspotmail.com, 
+	ast@kernel.org, puranjay@kernel.org
+Subject: Re: [PATCH v3] mm/slab: don't use kfree_rcu sheaves on PREEMPT_RT in
+ kvfree_call_rcu()
+Message-ID: <apfyeYF8IE03aazT@nixos>
+References: <20260831130057.HLukQ-zm@linutronix.de>
+ <20260831133222.8637-1-ngocthang2710.1999@gmail.com>
+ <20260831143500.x-saxdAs@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811154111.64669-1-kmehltretter@gmail.com> <apZlkC1lCUFFMKsl@gmail.com>
-In-Reply-To: <apZlkC1lCUFFMKsl@gmail.com>
-From: Alexander Potapenko <glider@google.com>
-Date: Wed, 2 Sep 2026 11:48:09 +0200
-X-Gm-Features: AcwNN1Wrf69jjm1OyBEhDEDLxC8921rklaSkn1qBn2gou8dtPIrMWnmBuSExKH4
-Message-ID: <CAG_fn=VR_mfRpbtzgXU=pO2hV9dzgqdrfSPEG_no+vZmC066QA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] kcov: Suppress timer and scheduler coverage leaks
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
-	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260831143500.x-saxdAs@linutronix.de>
 
-On Tue, Sep 1, 2026 at 7:50=E2=80=AFAM Karl Mehltretter <kmehltretter@gmail=
-.com> wrote:
->
-> On Tue, Aug 11, 2026 at 05:41:05PM +0100, Karl Mehltretter wrote:
-> >
-> > Add a nestable KCOV_PAUSED bit and a kcov_pause guard. Use the guard fo=
-r
-> > deferred hrtimer rearm, __schedule(), the try_to_wake_up() wakeup body
-> > and wake_up_new_task(). This suppresses their instrumented callees
-> > without excluding those callees from task-context coverage.
-> >
->
-> Andrey, Alexander, Dmitry,
->
-> Could you please take a look at this series from the KCOV side?
+On Mon, Aug 31, 2026 at 04:35:00PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-08-31 20:32:22 [+0700], ThangNN99 wrote:
+> > --- a/mm/slab_common.c
+> > +++ b/mm/slab_common.c
+> > @@ -2034,7 +2027,14 @@ void kvfree_call_rcu(struct kvfree_rcu_head *head, void *ptr)
+> >  	if (!head)
+> >  		might_sleep();
+> >  
+> > -	if (kfree_rcu_sheaf(ptr))
+> > +	/*
+> > +	 * Callers may hold a raw_spinlock_t here on PREEMPT_RT (e.g.
+> > +	 * set_cpus_allowed_force(), whose callers all hold
+> > +	 * task_struct::pi_lock), and the sheaf/barn locks are also taken
+> > +	 * as blocking locks elsewhere, so trying them here creates a
+> > +	 * lockdep-visible ordering conflict. Skip sheaves on PREEMPT_RT.
+> > +	 */
+> 
+> You mix up things. A raw_spinlock_t should work in general and should
+> not cause a problem. The task_struct::pi_lock is special: It used during
+> wakes and the inner waitlock of the rtmutex acquires it even during a
+> trylock. For PREEMPT_RT we don't want to acquire any locks while the
+> pi_lock is held.
 
-Hi Karl,
+So... even can_spin_trylock() is not enough handle the pi_lock's
+special case.
 
->
-> It fixes the CONFIG_KCOV_SELFTEST failures covered by this series. Some
-> architectures still need further architecture-specific KCOV
-> instrumentation exclusions.
->
-> The three syzkaller A/B pairs from the cover letter also suggest
-> better coverage: at matched execution counts, the patched kernels had
-> 14-19% more coverage and 42-54% larger corpora.
->
-> Do you think the pause mechanism and the places where it is used make
-> sense? Do you want me to continue with a v3?
+Probably we should make can_spin_trylock() check if current tasks's
+pi_lock is acquired, to determine if it's safe to call _trylock()?
 
-I think it makes sense, although it would be nice to try to minimize
-the number of points where we insert kcov_pause()/kcov_resume()
-Perhaps we could piggyback on some common scheduler action (e.g.
-locking) to do that?
+> What about
+>   
+>     kvfree_rcu() is called by set_cpus_allowed_force() with
+>     task_struct::pi_lock acquired. On PREEMPT_RT the local_trylock()
+>     usage below will acquire the waitlock which must be avoided.
+>     Therefore avoid it on PREEMPT_RT.
 
-If Peter is fine with these annotations being open-coded in
-kernel/sched/core.c, then I'm also fine.
-
-> I also looked at the Sashiko dashboard report:
->
-> https://sashiko.dev/#/patchset/20260811154111.64669-1-kmehltretter@gmail.=
-com
->
-> I don't think the remaining warning about reordering or removing the
-> kcov_mode stores is real for these call sites.
-
-I think consistently using READ_ONCE/WRITE_ONCE here is better.
-See my suggestion of converging the flag functions in "kcov: Add a
-kcov_pause guard".
-
-> One small change opportunity for v3: In try_to_wake_up(), I would take
-> the kcov_pause guard before the preempt guard. Cleanup then runs
-> preempt_enable() while KCOV is still paused and resumes KCOV afterwards.
-
-Agreed.
-
-> I would also replace "uninstrumented" with "built without KCOV
-> instrumentation" to avoid the ambiguity Peter pointed out.
-
-Ack, this is indeed clearer.
-
-> Separately, I will look at turning Peter's IRQ-exit preempt-count
-> proposal into a standalone patch for instrumentation in general,
-> especially KCSAN. It does not replace this KCOV series, since it only
-> covers work run directly from IRQ exit.
-
-Fixing the IRQ exit should also help with some KMSAN false positives,
-so I am all for it.
+-- 
+Cheers,
+Harry / Hyeonggon
