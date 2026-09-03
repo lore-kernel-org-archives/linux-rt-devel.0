@@ -1,117 +1,270 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CB343553D
-	for <linux-rt-devel@lists.linux.dev>; Thu,  3 Sep 2026 08:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FAF456E1E
+	for <linux-rt-devel@lists.linux.dev>; Thu,  3 Sep 2026 11:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788424386; cv=none; b=KtrJAhE6l7x9GHxfhCmgbeVw8e83wAIqykxhQCc1Te26Tl6SIWHV864yyEEU3yJK86aT4CDxBWoFfrhS4K2sxNzuazUxQ9OGEwQ4YQWi4aquHeMXyMG0RjcXw7MH0BlOOwVr7Ah+hmxmwmAtL3frN1iwNTc6BVi3NgxMUwot3wQ=
+	t=1788434873; cv=none; b=HAt7RLrGoSQF4RlEWJ3FDGZLTo6XGJDjTb5698z7c415klWN0CahSacTY/tnbPegTb4U3IWuCyHrdwudxINuHhnfBdbJvTDDwjRW7LuHII2UYSyW7Mtqfm/yFExq6NgRvMQC7exC0BT7qIBqwkqQ69qSBMMLD6UhVty1XbVvnEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788424386; c=relaxed/simple;
-	bh=C1+RlBHvN9fvzT0b4kNv62X9v1GMI5wMZBpkbnRiPgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=agNNt+I+VmYtqvd+gLK6e7ZrPYczag7QflgsjZ2yrUwZNtv/rzquBfK8WbjipCvmFPX51VJ43IusP/mNvLwQQrP60IXhM1B5I0qlWqLe2EsZe1T0JWY3m5rCAouzEVt/4mH02ur/GLMdj86R7qCPVr2WRIqxlNZgWm6Z1aF626g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vUa9quOt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pDYT7mMj; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1788434873; c=relaxed/simple;
+	bh=bpt7RHW5YEvSeuRX4i+k8HqnnLI/qvItvdzE0CmtwNA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p4hpI6GvKoiuA4rFx7WaXPWcdXtGbkwbewSyY3XjeJWjxnqREDddH2ffz5cOkVcwZClIqTxcFRbDNEYfJWz/iMfHI2YWPDj82u0pyCG1xgj4sbjiOYVv8MvUHnlhIf14us93VAVzMmLDjiCHV4W65IkVXJWPbCnEiZmCwbShdIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1ud0p9q; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vUa9quOt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pDYT7mMj"
-Date: Thu, 3 Sep 2026 10:33:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788424383;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C1+RlBHvN9fvzT0b4kNv62X9v1GMI5wMZBpkbnRiPgg=;
-	b=vUa9quOtdWvGrJdQKg9qmPHqIX0hijGLSqebL5wOszU/E+xMyu9t3mO/BgVc22rrwQBzE0
-	2gtj5wZCMj1nMiiKxwnK5qMXwGmtBB2YBp7gL+0Slq4S9V2QyhqRYHlTGjQlxltu3KZqx3
-	KWDuI+MafYFwR5xQdVu7oZRZsTWLfG38XWs0zJGjWOC+GIkSqJQad4NseEvESz1mv+X2MN
-	GVTzjrJbGtMcpNgD27buFrkZeV5sb6a4iPf1BLPXRpwjdXW5AqYHzNJkTi/P6H4isoqjp2
-	iTfDkeW0OaKj2C4QvA5Y4ExsyO7duoV0B58XB0UpvaKT6VQEafBV+DqNzM1wJw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788424383;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C1+RlBHvN9fvzT0b4kNv62X9v1GMI5wMZBpkbnRiPgg=;
-	b=pDYT7mMjHy+UmJD526epCpQMfULaZm9VG/JxzkXoQyK86LxfyaVsdICQtOpNwZDkryABsO
-	kEso24WTDRccffBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Harry Yoo <harry@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1ud0p9q"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-482e4998d28so1667278f8f.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 03 Sep 2026 04:27:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788434867; x=1789039667; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2uZzEoi17n5jSyEBNDhQETxzMK74y33vCW7uiC5o2HE=;
+        b=U1ud0p9qg93Ff8mzALEAJzj+6qGaWJpwrTJBwPlh3NaOBxtYhNBoZhYoCXEokK8FsV
+         0RVFYwn+G6CLO6UpkueHHNWqMk8EdgrH48vL8l5mpMbsgGAbGmfF1BgPW9GNgzvfal5R
+         NLILqNYgTwUAspTKe0uHsWm+GntH5maN0UJt26DZVTs9cUcAz4tx/vU/Wto04M8HEDeY
+         7JWiAoUvEOD7/rX0nkKEpteTpenK7e/7wds8G0TkxrS+pR4vq9SAilGVQEmTGVXo3cfm
+         L0ClmlZDg2d/ntAB8zejjQAe0kPe7LVPW4E33jgf22stguyx661O63vmI2Yus+8xsgAF
+         WEZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788434867; x=1789039667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2uZzEoi17n5jSyEBNDhQETxzMK74y33vCW7uiC5o2HE=;
+        b=ciOoxuF3QAEDe/foJ3pMw1aj15S9zrtyqMWoCfWGbmKiBsRZUQD/QOqDL++FmnwSzZ
+         72Is+uB/b6pO3EZ0xy6wMHjj93XlqP9L83VV/tNKlNx7QE0FKN1S5DKa+mHc5zfoHL+p
+         LNKANi9i6emgYiDQFYPXXjIryDmGn1T8zrMAzu/BoqUhp5Xdcnj22ZN+ljr9ACOvE+/k
+         u9Jdom+I1beKJJTzbP7m9WEBtpFp9ID0AqxSHjmbm0jC5XI83hY2PyMgX4ZieRLE729z
+         NV+0EcEnQ9lSdErGADPLzMrW7hdJudJC5tGTxdYq5iprAzx6LxPSw80lBZf5P0a5n6vB
+         XJsA==
+X-Forwarded-Encrypted: i=1; AKwUvBwWPGKSZcyCfqKPW6iLKUvcKf3rCQ1q1TZYUrLMX3P7ljeYYQfmBDQBBBayEtYmppz9QCHcmlh1PuZbuYIWmg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mEqYfTp2ckPGoSS5WzvNVRngq0GIGS6FO7jr2UvzbTnLoUhjOv
+	dwKoArbIJC43YZfoWzbC4cXu26YDLdjWfx9/K6HxquABLnzIP2yXcLRS
+X-Gm-Gg: AYBFou2H1IlDD6KAv01Gdx4lVwTmEqe0JOJ1mw4pbd7xRPxUy13KMWvaWn5lESMeA86
+	tmjFqj21dMuHy4dPias6lCDhIegW0bdwpeDNf27f5FCKuryLKtC03mBPV6ih8+b/3suSaTRgAQu
+	tGih1/MpHW7tA+X5ANEUGClWsRdAviS90hm6S4PoTfnpY0Ehd4GPin4UIG4uc2d7BoaEJiYalZ4
+	+XvwC+iltbU1uNIReRS352Sh/2LQ8lsAaMP6SqqdCbpsuRWgX/6IF21JYbQy3NHR3muqEnGRDrj
+	OTvnBCvo+a87ilDMwGqiFrnCbE6pqyZ4o+HxnxERJXBYmg4nlyQVENA+yVrneJyHuu8/m2K2VFt
+	QsgJ0ubCREnrYEbiwX5Q0j32QxgL0z868Gk1I7gLcyh1TS60oW50/Q5fwyFNFLTXkyw/GBLPM3M
+	BpXNa8WJEfxHvXF9QUf2rEDMMNYWT7J0cTBpnwyUGxxlYtqWcAbI6UbY062H5ot+lAKfGjY68Ae
+	WLgOjcHElOg/QQEirjab7nQqqe/5aJt2YmoPzuphwGRo0xZaLWBhaOmkN1fxIvfab9o9mo+5ioL
+	i1D0GGdXrPh1dfUqU8ah1nAnBJ3HgiDfOhPcwWIIZwtnXUj5p4AVFLLMdBj64yd0nppvo6KJ4Z2
+	l
+X-Received: by 2002:a05:6000:41cb:b0:484:44ec:2c14 with SMTP id ffacd0b85a97d-48488dece71mr21694820f8f.1.1788434866683;
+        Thu, 03 Sep 2026 04:27:46 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a979-9501-3df6-d7fa-8a5a-06c5.310.pool.telefonica.de. [2a02:3100:a979:9501:3df6:d7fa:8a5a:6c5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448ed30c0sm13509281f8f.24.2026.09.03.04.27.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 03 Sep 2026 04:27:46 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	syzbot+acf142088e0182172e58@syzkaller.appspotmail.com,
-	ThangNN99 <ngocthang2710.1999@gmail.com>
-Subject: Re: [PATCH] mm/slab: disallow kfree_rcu_sheaf() on PREEMPT_RT again
-Message-ID: <20260903083301.2aPFamvg@linutronix.de>
-References: <20260831-b4-kfree_rcu_hotfix-v1-1-4f0fb882638b@kernel.org>
- <20260901073339.uyKHXWCX@linutronix.de>
- <47aa459f-27d5-4b2f-9eb9-36ebca63d890@kernel.org>
- <20260902104143.j8BXrjKq@linutronix.de>
- <1846af86-cf55-456d-9eca-975a88777a40@kernel.org>
+	Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH] softirq: Preserve interrupt context during IRQ exit
+Date: Thu,  3 Sep 2026 13:27:37 +0200
+Message-Id: <20260903112737.49551-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1846af86-cf55-456d-9eca-975a88777a40@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On 2026-09-02 16:13:30 [+0200], Vlastimil Babka (SUSE) wrote:
-> >> Per sashiko review it's actually bad too under the pi_lock, because
-> >> GFP_NOWAIT means __GFP_KSWAPD_RECLAIM which can mean wakeup_kswapd() a=
-nd
-> >> thus also need scheduler locks. And it's not a PREEMPT_RT-only issue...
-> >=20
-> > \o/
->=20
-> More like /o\
+__irq_exit_rcu() drops HARDIRQ_OFFSET before deferred hrtimer rearm,
+softirq dispatch, and timersd wakeup. This work is still on the IRQ
+return path, but in_task() reports task context.
 
-Yes, true. But it is not longer an RT-only issue.
+Context-sensitive code called from this window therefore sees task
+context. ftrace records normal-context flags and selects its normal
+recursion slot. KCSAN attributes IRQ-exit accesses to the interrupted
+task, while KMSAN can select and modify that task's metadata.
 
-> >> > It could have a pool of X
-> >> > and if it runs out, it runs out and waits until the clean up process
-> >> > feeds the used sheafs back. There is fallback and the run out is not=
- the
-> >> > usual case.
-> >>=20
-> >> I'd rather not invent new pools, since there's fallback and the sheaf+=
-barn
-> >> is already a pool. Could be enough to make sure the allocation attempt=
- is
-> >> safe, i.e. use only __GFP_NOWARN.
-> >=20
-> > So we avoid the allocation and just add it to the sheaf+barn and this is
-> > it?
->=20
-> We don't need to avoid the allocation attempt if it's done in a safe way?
+Keep HARDIRQ_OFFSET until the IRQ-exit work is done. For direct softirq
+handling, replace it with SOFTIRQ_OFFSET and restore it afterwards. Other
+__do_softirq() call paths keep their existing accounting.
 
-If it safe and does not not increase the free-latency too much then it
-is fine.
-Now that I look at the kvfree_call_rcu(), there a timer, hrtimer,
-workqueue=E2=80=A6 Oh. And a __get_free_page().
+With hardirq context retained, ftrace records hardirq context, KCSAN uses
+interrupt attribution, and KMSAN no longer uses the interrupted task's
+state.
 
-> Note the new sheaf can be also served from its kmalloc slab almost
-> immediately, going all the way to page allocator should be very rare.
-> But if we stopped doing that sheaf allocation attemps completely, we could
-> easily end up having long bursts of all kfree_rcu() being deferred.
+Since softirq eligibility is now tested before HARDIRQ_OFFSET is removed,
+use irq_count() == HARDIRQ_OFFSET. This preserves the old !in_interrupt()
+semantics, including PREEMPT_RT's task-local softirq-disable state.
 
-Sure. If you have memory around then there is nothing wrong with using
-it. In my naive thinking I assumed it should be enough to fill the
-buffers and in times of bursts having plenty of RCU callbacks which are
-throttled.
+Drop HARDIRQ_OFFSET before tick_irq_exit(), as before.
 
-Sebastian
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+I reworked Peter's draft linked above into this version and tested it.
+
+Changes:
+- Use in_hardirq() in softirq_handle_begin() instead of ksirqd, since
+  __do_softirq() also has task-context callers, including ktimerd.
+- Use irq_count() for the eligibility test so PREEMPT_RT's task-local
+  BH-disabled state remains part of the decision.
+
+Tested with non-RT, threadirqs and PREEMPT_RT x86-64 QEMU boot/stress.
+The QEMU kernels had lockdep and IRQ tracing enabled and reported no new
+warnings.
+
+A focused RT test rejected every BH-disabled IRQ-exit observation. The
+old-mask negative control admitted every one.
+
+ftrace marked direct IRQ-exit work as hardirq rather than normal context.
+
+A separate A/B changed printk caller attribution from task to CPU,
+in_task() from 1 to 0 and interrupt_context_level() from 0 to 2. Fault
+injection no longer consumed the interrupted task's fail_nth state.
+
+KCSAN attributed all 16 target reports to interrupt context.
+
+KMSAN did not select or change task state in 64K IRQ-exit windows. All
+28 KMSAN KUnit tests passed.
+
+The exact TIP source also passed A/B boot/stress on a Pi 400
+(Cortex-A72, arm64).
+
+For additional coverage, the mainline adaptation passed A/B boot/stress
+on a Microchip SAM9X75 Curiosity (ARM926EJ-S/ARMv5TEJ).
+
+vmlinux linked successfully for arm64, ARM, RISC-V and s390.
+
+ kernel/softirq.c | 48 ++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 36 insertions(+), 12 deletions(-)
+
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 5d02c36c40e3..63aeaa5f62e9 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+ 	local_irq_enable();
+ }
+ 
+-static inline void softirq_handle_begin(void) { }
+-static inline void softirq_handle_end(void) { }
++static inline bool softirq_handle_begin(void) { return false; }
++static inline void softirq_handle_end(bool from_hardirq) { }
+ 
+ static inline bool should_wake_ksoftirqd(void)
+ {
+@@ -481,15 +481,35 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-static inline void softirq_handle_begin(void)
++static inline bool softirq_handle_begin(void)
+ {
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++	bool from_hardirq = in_hardirq();
++
++	if (!from_hardirq) {
++		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++		return false;
++	}
++
++	/* Replace the retained hardirq context with normal softirq context. */
++	__preempt_count_add((int)SOFTIRQ_OFFSET - (int)HARDIRQ_OFFSET);
++	if (softirq_count() == SOFTIRQ_OFFSET)
++		lockdep_softirqs_off(_RET_IP_);
++
++	return true;
+ }
+ 
+-static inline void softirq_handle_end(void)
++static inline void softirq_handle_end(bool from_hardirq)
+ {
+-	__local_bh_enable(SOFTIRQ_OFFSET);
+-	WARN_ON_ONCE(in_interrupt());
++	if (!from_hardirq) {
++		__local_bh_enable(SOFTIRQ_OFFSET);
++		WARN_ON_ONCE(in_interrupt());
++		return;
++	}
++
++	if (softirq_count() == SOFTIRQ_OFFSET)
++		lockdep_softirqs_on(_RET_IP_);
++	__preempt_count_sub((int)SOFTIRQ_OFFSET - (int)HARDIRQ_OFFSET);
++	WARN_ON_ONCE(!in_hardirq());
+ }
+ 
+ static inline void ksoftirqd_run_begin(void)
+@@ -605,6 +625,7 @@ static void handle_softirqs(bool ksirqd)
+ 	unsigned long old_flags = current->flags;
+ 	int max_restart = MAX_SOFTIRQ_RESTART;
+ 	struct softirq_action *h;
++	bool from_hardirq;
+ 	bool in_hardirq;
+ 	__u32 pending;
+ 	int softirq_bit;
+@@ -618,7 +639,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	pending = local_softirq_pending();
+ 
+-	softirq_handle_begin();
++	from_hardirq = softirq_handle_begin();
+ 	in_hardirq = lockdep_softirq_start();
+ 	account_softirq_enter(current);
+ 
+@@ -670,7 +691,7 @@ restart:
+ 
+ 	account_softirq_exit(current);
+ 	lockdep_softirq_end(in_hardirq);
+-	softirq_handle_end();
++	softirq_handle_end(from_hardirq);
+ 	current_restore_flags(old_flags, PF_MEMALLOC);
+ }
+ 
+@@ -740,6 +761,8 @@ static inline void wake_timersd(void) { }
+ 
+ #endif
+ 
++#define IRQ_EXIT_TIMERS	(NMI_MASK | HARDIRQ_MASK)
++
+ static inline void __irq_exit_rcu(void)
+ {
+ #ifndef __ARCH_IRQ_EXIT_IRQS_DISABLED
+@@ -748,8 +771,7 @@ static inline void __irq_exit_rcu(void)
+ 	lockdep_assert_irqs_disabled();
+ #endif
+ 	account_hardirq_exit(current);
+-	preempt_count_sub(HARDIRQ_OFFSET);
+-	if (!in_interrupt() && local_softirq_pending()) {
++	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
+ 		/*
+ 		 * If we left hrtimers unarmed, make sure to arm them now,
+ 		 * before enabling interrupts to run softirq.
+@@ -759,9 +781,11 @@ static inline void __irq_exit_rcu(void)
+ 	}
+ 
+ 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
+-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
++	    local_timers_pending_force_th() &&
++	    (preempt_count() & IRQ_EXIT_TIMERS) == HARDIRQ_OFFSET)
+ 		wake_timersd();
+ 
++	preempt_count_sub(HARDIRQ_OFFSET);
+ 	tick_irq_exit();
+ }
+ 
+
+base-commit: 2af470916a208b576ac9975d221d9a378cf8ace9
+-- 
+2.53.0
+
