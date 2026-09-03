@@ -1,114 +1,82 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E614F30D9
-	for <linux-rt-devel@lists.linux.dev>; Thu,  3 Sep 2026 16:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352244A498D;
+	Thu,  3 Sep 2026 17:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788454058; cv=none; b=eWDu/X6sxdMdM2zOU7m0YSz+uUqZ1BJXR0WVwLJM37cGd5zQ/J3u1j1EYSNxP5Ck8RcduLEbBWtE9R06xKd9kYcMathMqA53ufQcv2iMHmUI+H+blrbjQ7tk/JPbJ5ptCYlHmMBF2PKugyVikTocz9KheCqJ8GmwkOBY54fFnu8=
+	t=1788456653; cv=none; b=GUFb/bAD2P8vQ6ZKRapfAlKc0HBtKx6vUVLlmHj/McOacqP+6t7vfjX+d6Jlt28wyAQjLIFFZuaIkmbBSG/ywQ/rnrw9gk43GAtnFBQuski0i5yNvYX6Y3/q+LmKeWjeMBI4TSAC7+GdFiRJMnjlb47UStTw6Eg530qUUGXEaoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788454058; c=relaxed/simple;
-	bh=3X4L33LAgSrzvQW+lHKTgGo36IrXujakkpx0ktUlGvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eEltoon+7Px/acQGvpq7klUbGdrLEwMILtgnYeyLe1lIyjz1ZIsTw4cUTpAe85PtMXl2nAnJzd5pfRCrWJQIqByxz4fJak1K9W/8iTi/F6Co0/nKWbuZlQZ8Rhno3hipGb5Kj2JwIkkmPdQL0DOvk3G4Lb1vNTA2veUKNvmFK/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=I23Lcsn3; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1788456653; c=relaxed/simple;
+	bh=MgMZfjHtJWGskJ7iDZWmY8Oed8R/GMs4VyOX/TuiH1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BXDWUTA0UWLlqLKNmt3sml6ulvLuqMwzJuQRRJIiDRk5akh/VpVBdrYHhrLpdG+1fvw8U5ojdBVJhnfmrzXfoF8Ykbva4jkGJ2gGGAmEC3qNGl0DbksEJ+UDLDnTX1XkNSGPAQPFknVncdfQh4ZmOiI1k3NppLoPwzr59OVBw/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=qqcyYnkg; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="I23Lcsn3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PE4M5bZ8qa5ONlWyjoO6PT9YT/rm032gR13k1+hQA+s=; b=I23Lcsn3E+BTZqmu+d5CGfgHwK
-	3qS6wiCrS19b//RLzh7QxvWrqznkylmRe1kmkX2xuzrC1DhZrPi+XVYTpkPfwh+4CAAfHo+/iPG1g
-	X3wTaXN/QJ6sKW7EmH9x50yocWgsxMCxGEXX1+TQUR6JZZcSX6wGKgBaQFVQc3ZGNMOkOlRVU4bbC
-	oef/ChSoq+1JtplljCZYXw/S8hk1QUnR9AHu8CzVdiMaLPu61MKtQgZt+4faKdoy0dO91k0lnwfrx
-	eOOA+mxx+nnaHy7Lhg0GuOeZN9zcCmj+X+fZ09c3I5MPrQfLBT2df/qW+bDfqxrGafoaGcqBoOGhB
-	m9uNY41g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43748)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1x2Ab3-0000000013P-2RN0;
-	Thu, 03 Sep 2026 17:47:29 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1x2Aay-000000007Y3-2v7X;
-	Thu, 03 Sep 2026 17:47:24 +0100
-Date: Thu, 3 Sep 2026 17:47:24 +0100
-From: Russell King <linux@armlinux.org.uk>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
-	Ian Rogers <irogers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	Waiman Long <longman@redhat.com>, WANG Xuerui <kernel@xen0n.name>,
-	Will Deacon <will@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="qqcyYnkg"
+Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 3D481A4684;
+	Thu,  3 Sep 2026 17:30:48 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 362BB1B;
+	Thu,  3 Sep 2026 17:30:43 +0000 (UTC)
+Date: Thu, 3 Sep 2026 13:31:46 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Russell King <linux@armlinux.org.uk>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
+ loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Ian Rogers
+ <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>, "Luis Claudio
+ R. Goncalves" <lgoncalv@redhat.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, James Clark <james.clark@linaro.org>, Huacai
+ Chen <chenhuacai@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, Oleg
+ Nesterov <oleg@redhat.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Waiman Long <longman@redhat.com>, WANG
+ Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>, Clark Williams
+ <clrkwllms@kernel.org>
 Subject: Re: [PATCH v2] ARM, ARM64, LONGARCH: Delay HW BP notification to
  task_work()
-Message-ID: <apmknG55qFAn8EPf@shell.armlinux.org.uk>
+Message-ID: <20260903133146.07095885@gandalf.local.home>
+In-Reply-To: <apmknG55qFAn8EPf@shell.armlinux.org.uk>
 References: <20260814085118.OPEA_Ssn@linutronix.de>
- <20260903160710.vVf4gEL2@linutronix.de>
+	<20260903160710.vVf4gEL2@linutronix.de>
+	<apmknG55qFAn8EPf@shell.armlinux.org.uk>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903160710.vVf4gEL2@linutronix.de>
-Sender: "Russell King,,," <linux@armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: q5rtu1fiqy3jfjswxfikew81wiyencsm
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 362BB1B
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19SQN1/iG251VKiSvCm90J/LH6Jif8jlZI=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=MgMZfjHtJWGskJ7iDZWmY8Oed8R/GMs4VyOX/TuiH1U=; b=qqcyYnkg3p5F+UTVr/cgexJ1tZY0fAWBiki/WGjHsZ4h16riO0oLZP/UfGe0xdxU3KW71p1uZSD7oYxxFDSgdWxLofSFJMJqQc/uaEYXNDRZWgh/UmAbFyYg8nP9CFLA5mBn8hJD5OJy3yIsgkoNMnzTnL7skByDfjwMvD2e0vM=
+X-HE-Tag: 1788456643-677296
+X-HE-Meta: U2FsdGVkX18UDoUfH7MFH18LwOE6g10qW7dTkby7HjdB9X7BAG5qm8DxHVQQTPdtxGKneSZa9RInj6HuOfgU1jrR8yX6yW3K7fnvEf1/MlRgMD8jOUBQx2YsgQNEjrBWUvVSNqdIiYbJjJkh1E2120a+kJoPNZZT/6uir5B8TTX2BRq8V1KcQNPBobM5W6B+YvVAD/4d87POi8pasBUVzpHtLQvIraki2FkTv9BVPzITzzujsbAHvurHpIl46Ow6Cp6gV9QxwlxCX/VatqdB+E3ir7R0pC9W2Vd/V6ov65gCFH6Ja9hHLtsOf44MNChOQq5BQmWAckwdYllkNqTRN9/3dNiQVT0GA4ajriVWf566cpaX5UWqBgeoslbvLntd
 
-On Thu, Sep 03, 2026 at 06:07:10PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-08-14 10:51:18 [+0200], To linux-arm-kernel@lists.infradead.org wrote:
-> > Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
-> > "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
-> > delivered with disabled interrupts and perf intrastrucure expects
-> > disabled interrupts while the overflow callback is invoked.
-> > 
-> > The callback then sends a SIGTRAP signal for which it acquires
-> > sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
-> > must not be acquired in atomic context.
-> > 
-> > Delay the event callback until the return to userland.
-> > Add perf_arch_hwbp_notify(), a generic perf callback which delayes the
-> > actual callback invocation to task_work_add() callback. This callback
-> > invokes the architecture defines callback arch_hwbp_send_sig().
-> > This requires struct callback_head and the functions require
-> > ARCH_NEED_PERF_HW_NOTIF to be defined.
-> > 
-> > This was reported against ARM64. ARM and LongARCH follow the same
-> > pattern are also converted.
-> > 
-> > Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> > Reported-by: Waiman Long <longman@redhat.com>
-> > Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
-> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> 
-> Did this get lost, should I repost it or is there something obviously
-> wrong with it and nobody wanted to hurt my feelings by telling me?
+On Thu, 3 Sep 2026 17:47:24 +0100
+Russell King <linux@armlinux.org.uk> wrote:
 
-What do you expect to happen with this? Which arch maintainer should
-apply this patch that affects three different independently maintained
-architectures?
+> What do you expect to happen with this? Which arch maintainer should
+> apply this patch that affects three different independently maintained
+> architectures?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Looks like the patch should be broken up into a 4 part series.
+
+One to add the ARCH_NEED_PERF_HW_NOTIF code to the generic code.
+
+Then one for each architecture to add the code needed to set that.
+
+Then the architecture maintainers could ack their patch and the perf
+maintainer can pull it all in.
+
+-- Steve
