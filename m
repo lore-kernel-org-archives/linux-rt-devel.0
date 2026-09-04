@@ -1,82 +1,84 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352244A498D;
-	Thu,  3 Sep 2026 17:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A069D3CF20E
+	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 08:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788456653; cv=none; b=GUFb/bAD2P8vQ6ZKRapfAlKc0HBtKx6vUVLlmHj/McOacqP+6t7vfjX+d6Jlt28wyAQjLIFFZuaIkmbBSG/ywQ/rnrw9gk43GAtnFBQuski0i5yNvYX6Y3/q+LmKeWjeMBI4TSAC7+GdFiRJMnjlb47UStTw6Eg530qUUGXEaoE=
+	t=1788509871; cv=none; b=gjFrfGA8S3S5Cm6Asovn0iY5iDG9YKDKmCAz78768iT0lxjcenPq8g9mNKSnUB9KST90NkJCWiE1bZF/HB/946JQ9K2bCOTqK/DS9WfMsi1lLrqXpbRVL4UkqFKf6jTxlsC+d1qV68SPKWLgHrU1d4kPGX0HavbZ/8qw+cuVrK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788456653; c=relaxed/simple;
-	bh=MgMZfjHtJWGskJ7iDZWmY8Oed8R/GMs4VyOX/TuiH1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BXDWUTA0UWLlqLKNmt3sml6ulvLuqMwzJuQRRJIiDRk5akh/VpVBdrYHhrLpdG+1fvw8U5ojdBVJhnfmrzXfoF8Ykbva4jkGJ2gGGAmEC3qNGl0DbksEJ+UDLDnTX1XkNSGPAQPFknVncdfQh4ZmOiI1k3NppLoPwzr59OVBw/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=qqcyYnkg; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788509871; c=relaxed/simple;
+	bh=HNmXgmoAMksoht/4i8CVRwcYdk7auDsaJ38L54Gwr/8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NvNrias8AYjMdkvcSCDJIufE7VFmfzcxMCdmzqLfRiAoZftt9h1VWAuznXgDuzdLZP/I9mOGGJA5xK5xpj/H2+rAdDz6k+lLJHOCqErNlRi0YSRbAXCDhYjc5ZP8X4nK7xWAy8l1I7Cmn8h1hQ6Ii64TiRKMjsS8xdQwOYpaIZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wspXO/FI; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="qqcyYnkg"
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 3D481A4684;
-	Thu,  3 Sep 2026 17:30:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 362BB1B;
-	Thu,  3 Sep 2026 17:30:43 +0000 (UTC)
-Date: Thu, 3 Sep 2026 13:31:46 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Russell King <linux@armlinux.org.uk>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
- loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Ian Rogers
- <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>, "Luis Claudio
- R. Goncalves" <lgoncalv@redhat.com>, Catalin Marinas
- <catalin.marinas@arm.com>, James Clark <james.clark@linaro.org>, Huacai
- Chen <chenhuacai@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, Oleg
- Nesterov <oleg@redhat.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Waiman Long <longman@redhat.com>, WANG
- Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>, Clark Williams
- <clrkwllms@kernel.org>
-Subject: Re: [PATCH v2] ARM, ARM64, LONGARCH: Delay HW BP notification to
- task_work()
-Message-ID: <20260903133146.07095885@gandalf.local.home>
-In-Reply-To: <apmknG55qFAn8EPf@shell.armlinux.org.uk>
-References: <20260814085118.OPEA_Ssn@linutronix.de>
-	<20260903160710.vVf4gEL2@linutronix.de>
-	<apmknG55qFAn8EPf@shell.armlinux.org.uk>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wspXO/FI"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=RRZfaKoBvhh1M5ju2v6XxhyN2vsiPEHeXEVYqH14rsk=;
+	b=wspXO/FIwLnA579VlStpAUmo08I2COkXywCT/q8Xt98HVj95yxLy6jmtLGLRaOul0TnZ9L9Iw
+	bKRvIbk93pU2PEVjwAdUAqGzS+h8pNYmhnrNWlc9qcGOv2AiqcxVzsZnkjCl4YE8varVs6XAx8M
+	yqBDr4gq9l40KtfqQ/8q5nc=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hbpvq3ZNQz1K96m;
+	Fri,  4 Sep 2026 16:06:47 +0800 (CST)
+Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
+	by mail.maildlp.com (Postfix) with ESMTPS id DAB12402AB;
+	Fri,  4 Sep 2026 16:17:38 +0800 (CST)
+Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
+ (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 4 Sep
+ 2026 16:17:37 +0800
+From: Ran Hongyun <ranhongyun1@huawei.com>
+To: <namcao@linutronix.de>
+CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
+	<clrkwllms@kernel.org>, <frederic@kernel.org>, <jack@suse.cz>,
+	<jdamato@fastly.com>, <john.ogness@linutronix.de>, <kprateek.nayak@amd.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>, <linux-rt-users@vger.kernel.org>,
+	<mkarsten@uwaterloo.ca>, <rostedt@goodmis.org>, <stable@vger.kernel.org>,
+	<torvalds@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
+	<vschneid@redhat.com>, <xry111@xry111.site>, <ranhongyun1@huawei.com>,
+	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
+	<wozizhi@huawei.com>
+Subject: [QUESTION] Are these issues PREEMq:PT_RT-specific? 
+Date: Fri, 4 Sep 2026 16:10:33 +0800
+Message-ID: <20260904081034.2995593-1-ranhongyun1@huawei.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+References: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: q5rtu1fiqy3jfjswxfikew81wiyencsm
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: 362BB1B
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19SQN1/iG251VKiSvCm90J/LH6Jif8jlZI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=MgMZfjHtJWGskJ7iDZWmY8Oed8R/GMs4VyOX/TuiH1U=; b=qqcyYnkg3p5F+UTVr/cgexJ1tZY0fAWBiki/WGjHsZ4h16riO0oLZP/UfGe0xdxU3KW71p1uZSD7oYxxFDSgdWxLofSFJMJqQc/uaEYXNDRZWgh/UmAbFyYg8nP9CFLA5mBn8hJD5OJy3yIsgkoNMnzTnL7skByDfjwMvD2e0vM=
-X-HE-Tag: 1788456643-677296
-X-HE-Meta: U2FsdGVkX18UDoUfH7MFH18LwOE6g10qW7dTkby7HjdB9X7BAG5qm8DxHVQQTPdtxGKneSZa9RInj6HuOfgU1jrR8yX6yW3K7fnvEf1/MlRgMD8jOUBQx2YsgQNEjrBWUvVSNqdIiYbJjJkh1E2120a+kJoPNZZT/6uir5B8TTX2BRq8V1KcQNPBobM5W6B+YvVAD/4d87POi8pasBUVzpHtLQvIraki2FkTv9BVPzITzzujsbAHvurHpIl46Ow6Cp6gV9QxwlxCX/VatqdB+E3ir7R0pC9W2Vd/V6ov65gCFH6Ja9hHLtsOf44MNChOQq5BQmWAckwdYllkNqTRN9/3dNiQVT0GA4ajriVWf566cpaX5UWqBgeoslbvLntd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ dggpemr200001.china.huawei.com (7.185.36.96)
 
-On Thu, 3 Sep 2026 17:47:24 +0100
-Russell King <linux@armlinux.org.uk> wrote:
+The commit eb0d280c2751 ("eventpoll: Replace rwlock with spinlock") aims to fix:
 
-> What do you expect to happen with this? Which arch maintainer should
-> apply this patch that affects three different independently maintained
-> architectures?
+1.Priority inversion – On PREEMPT_RT, rwlock_t readers lack priority
+inheritance (PI), so a low-priority reader holding the lock can be
+preempted by a medium-priority task, blocking a high-priority writer
+indefinitely.
 
-Looks like the patch should be broken up into a 4 part series.
+2.Stall – A reader (p_read) holding the lock can be throttled by CFS
+bandwidth control and scheduled out. A writer (p_write) blocks waiting
+for the lock, and a timer thread (ktimers/n) needed to replenish p_read's
+runtime is blocked due to writer-fairness (286deb7ec03d). This forms a
+circular dependency and stalls the system.
 
-One to add the ARCH_NEED_PERF_HW_NOTIF code to the generic code.
+Are these issues PREEMPT_RT-specific? 
 
-Then one for each architecture to add the code needed to set that.
+Any clarification would be appreciated.
 
-Then the architecture maintainers could ack their patch and the perf
-maintainer can pull it all in.
+Thanks,
+Ran Hongyun
 
--- Steve
