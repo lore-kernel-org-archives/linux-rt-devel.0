@@ -1,17 +1,17 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A069D3CF20E
-	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 08:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C343DB62B
+	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 08:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788509871; cv=none; b=gjFrfGA8S3S5Cm6Asovn0iY5iDG9YKDKmCAz78768iT0lxjcenPq8g9mNKSnUB9KST90NkJCWiE1bZF/HB/946JQ9K2bCOTqK/DS9WfMsi1lLrqXpbRVL4UkqFKf6jTxlsC+d1qV68SPKWLgHrU1d4kPGX0HavbZ/8qw+cuVrK8=
+	t=1788509940; cv=none; b=f0K49KUI0sri33d7N5lpXYLQV631b2NouD4Q4uLAhMlhtlOlpmFVCSL1s2MsgDxNlZnBGdv+PSrz6o/fTdG+bHRKyEzo9ApizFi2FKIS0Na52NDrpYIAofipNX+2ZAPppxeluMuWFsC7W4n/IUwYn8XzJlF6XJ7YZFvWPzvvN0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788509871; c=relaxed/simple;
+	s=arc-20240116; t=1788509940; c=relaxed/simple;
 	bh=HNmXgmoAMksoht/4i8CVRwcYdk7auDsaJ38L54Gwr/8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NvNrias8AYjMdkvcSCDJIufE7VFmfzcxMCdmzqLfRiAoZftt9h1VWAuznXgDuzdLZP/I9mOGGJA5xK5xpj/H2+rAdDz6k+lLJHOCqErNlRi0YSRbAXCDhYjc5ZP8X4nK7xWAy8l1I7Cmn8h1hQ6Ii64TiRKMjsS8xdQwOYpaIZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wspXO/FI; arc=none smtp.client-ip=113.46.200.225
+	 MIME-Version:Content-Type; b=cynpTn/mKaQ9y13AFmSdvIkRg61a74Uyh4C0GxcCvnLoZPuRHfddhfy1QY0cQXo1PsTQcuBh76qDeOOhaEf28zrYya657CmmzLST1PuXcKMPpOH7ubCd1KpH6GmPE/NG9MwhpceJqx1OLjNfuUx7BEkFsczylvL7o355C8QqvfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wspXO/FI; arc=none smtp.client-ip=113.46.200.227
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
@@ -23,16 +23,16 @@ dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	b=wspXO/FIwLnA579VlStpAUmo08I2COkXywCT/q8Xt98HVj95yxLy6jmtLGLRaOul0TnZ9L9Iw
 	bKRvIbk93pU2PEVjwAdUAqGzS+h8pNYmhnrNWlc9qcGOv2AiqcxVzsZnkjCl4YE8varVs6XAx8M
 	yqBDr4gq9l40KtfqQ/8q5nc=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hbpvq3ZNQz1K96m;
-	Fri,  4 Sep 2026 16:06:47 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbpws3HCSznTVx;
+	Fri,  4 Sep 2026 16:07:41 +0800 (CST)
 Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
-	by mail.maildlp.com (Postfix) with ESMTPS id DAB12402AB;
-	Fri,  4 Sep 2026 16:17:38 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 897754056C;
+	Fri,  4 Sep 2026 16:18:53 +0800 (CST)
 Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
  (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 4 Sep
- 2026 16:17:37 +0800
+ 2026 16:18:52 +0800
 From: Ran Hongyun <ranhongyun1@huawei.com>
 To: <namcao@linutronix.de>
 CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
@@ -45,9 +45,9 @@ CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
 	<vschneid@redhat.com>, <xry111@xry111.site>, <ranhongyun1@huawei.com>,
 	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
 	<wozizhi@huawei.com>
-Subject: [QUESTION] Are these issues PREEMq:PT_RT-specific? 
-Date: Fri, 4 Sep 2026 16:10:33 +0800
-Message-ID: <20260904081034.2995593-1-ranhongyun1@huawei.com>
+Subject: [QUESTION] Are these issues PREEMPT_RT-specific? 
+Date: Fri, 4 Sep 2026 16:11:41 +0800
+Message-ID: <20260904081149.3000727-1-ranhongyun1@huawei.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
 References: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
