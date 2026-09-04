@@ -1,84 +1,96 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C343DB62B
-	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 08:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230B83DDB11
+	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 08:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788509940; cv=none; b=f0K49KUI0sri33d7N5lpXYLQV631b2NouD4Q4uLAhMlhtlOlpmFVCSL1s2MsgDxNlZnBGdv+PSrz6o/fTdG+bHRKyEzo9ApizFi2FKIS0Na52NDrpYIAofipNX+2ZAPppxeluMuWFsC7W4n/IUwYn8XzJlF6XJ7YZFvWPzvvN0I=
+	t=1788511946; cv=none; b=CEfH5Z9XLgLwx5Ws7hWpNOBAEUBcryEiR/uv0AE0otKoOKWvzKSKua0PSeI8UrjCot/1rRMkuEXH6J1PLnuGhL63EKbstvW4TY7YEe/Hf/zrVHxMtCuv+YSsFStaseWfepMBcXtPoTRrmvxIPJN10yE372KIBagrM4rKZnZsIGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788509940; c=relaxed/simple;
-	bh=HNmXgmoAMksoht/4i8CVRwcYdk7auDsaJ38L54Gwr/8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cynpTn/mKaQ9y13AFmSdvIkRg61a74Uyh4C0GxcCvnLoZPuRHfddhfy1QY0cQXo1PsTQcuBh76qDeOOhaEf28zrYya657CmmzLST1PuXcKMPpOH7ubCd1KpH6GmPE/NG9MwhpceJqx1OLjNfuUx7BEkFsczylvL7o355C8QqvfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wspXO/FI; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788511946; c=relaxed/simple;
+	bh=zwOgrFX7s8Bq/2iYUD9jj5MO5VT9r915r6LJ7serWUc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pKmhhrm+on9W2sryeeOX+SfeAgYuG8kcrN77WfgjYBNG0UUpl/DoJGmRHVjN2SQ6U8fHF1+y/HAsE9tpBcBCk+RLNx9GN02S9BrNwBHSKAUxvjnDQ4/BJkJaGFDjNW12b8ioKNfMGGyiCMEqN68N9w4EIUC6gpS5oTOdjv0+FPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=DqbGfofz; arc=none smtp.client-ip=185.136.64.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wspXO/FI"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=RRZfaKoBvhh1M5ju2v6XxhyN2vsiPEHeXEVYqH14rsk=;
-	b=wspXO/FIwLnA579VlStpAUmo08I2COkXywCT/q8Xt98HVj95yxLy6jmtLGLRaOul0TnZ9L9Iw
-	bKRvIbk93pU2PEVjwAdUAqGzS+h8pNYmhnrNWlc9qcGOv2AiqcxVzsZnkjCl4YE8varVs6XAx8M
-	yqBDr4gq9l40KtfqQ/8q5nc=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbpws3HCSznTVx;
-	Fri,  4 Sep 2026 16:07:41 +0800 (CST)
-Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
-	by mail.maildlp.com (Postfix) with ESMTPS id 897754056C;
-	Fri,  4 Sep 2026 16:18:53 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
- (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 4 Sep
- 2026 16:18:52 +0800
-From: Ran Hongyun <ranhongyun1@huawei.com>
-To: <namcao@linutronix.de>
-CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
-	<clrkwllms@kernel.org>, <frederic@kernel.org>, <jack@suse.cz>,
-	<jdamato@fastly.com>, <john.ogness@linutronix.de>, <kprateek.nayak@amd.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, <linux-rt-users@vger.kernel.org>,
-	<mkarsten@uwaterloo.ca>, <rostedt@goodmis.org>, <stable@vger.kernel.org>,
-	<torvalds@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<vschneid@redhat.com>, <xry111@xry111.site>, <ranhongyun1@huawei.com>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
-	<wozizhi@huawei.com>
-Subject: [QUESTION] Are these issues PREEMPT_RT-specific? 
-Date: Fri, 4 Sep 2026 16:11:41 +0800
-Message-ID: <20260904081149.3000727-1-ranhongyun1@huawei.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
-References: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="DqbGfofz"
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202609040852125254f9f281000207dc
+        for <linux-rt-devel@lists.linux.dev>;
+        Fri, 04 Sep 2026 10:52:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=zwOgrFX7s8Bq/2iYUD9jj5MO5VT9r915r6LJ7serWUc=;
+ b=DqbGfofztkaz5loDe1pvYHs+fSnVuiHF577LWy+0S0V/gzc+AFS6eJOU+RRdkG4gaJSFIg
+ AwORgqQUBoV15D9z0UIyPQZBsNYXV1RyrBoFmwFwnyrekd4hLvJSSImKO8MANuwMUiYk+Oco
+ Re2zvZVIrpfvXEIhXkOnk3DsdHN3LMrU1nHEaJVvlUNgMBVh3xzarVWnDS844/yG1l+Tok/v
+ 8+SSzFJlhmnO9YMTkTzHhVSdPeDFf5ATodCNxKFoCd9MpQ6c+OvtlnRzMgcUpEhnFTqBUZsS
+ Z5USkNAdM2STGSeyHzcjZ0dErdxGQWBaoOwt9mEUTBgnW+cALk+UB15g==;
+Message-ID: <63d5cd58e9b85acccdaaac9aed4a8c550cc7b868.camel@siemens.com>
+Subject: Re: [QUESTION] Are these issues PREEMPT_RT-specific?
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: Ran Hongyun <ranhongyun1@huawei.com>, namcao@linutronix.de
+Cc: axboe@kernel.dk, bigeasy@linutronix.de, brauner@kernel.org, 
+	clrkwllms@kernel.org, frederic@kernel.org, jack@suse.cz,
+ jdamato@fastly.com, 	john.ogness@linutronix.de, kprateek.nayak@amd.com,
+ linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, 	linux-rt-users@vger.kernel.org,
+ mkarsten@uwaterloo.ca, rostedt@goodmis.org, 	stable@vger.kernel.org,
+ torvalds@linux-foundation.org, viro@zeniv.linux.org.uk, 
+	vschneid@redhat.com, xry111@xry111.site, chengzhihao1@huawei.com, 
+	yangerkun@huawei.com, yi.zhang@huawei.com, wozizhi@huawei.com
+Date: Fri, 04 Sep 2026 10:52:11 +0200
+In-Reply-To: <20260904081149.3000727-1-ranhongyun1@huawei.com>
+References: 
+	<ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+	 <20260904081149.3000727-1-ranhongyun1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemr200001.china.huawei.com (7.185.36.96)
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-The commit eb0d280c2751 ("eventpoll: Replace rwlock with spinlock") aims to fix:
+On Fri, 2026-09-04 at 16:11 +0800, Ran Hongyun wrote:
+> The commit eb0d280c2751 ("eventpoll: Replace rwlock with spinlock") aims =
+to fix:
+>=20
+> 1.Priority inversion =E2=80=93 On PREEMPT_RT, rwlock_t readers lack prior=
+ity
+> inheritance (PI), so a low-priority reader holding the lock can be
+> preempted by a medium-priority task, blocking a high-priority writer
+> indefinitely.
+>=20
+> 2.Stall =E2=80=93 A reader (p_read) holding the lock can be throttled by =
+CFS
+> bandwidth control and scheduled out. A writer (p_write) blocks waiting
+> for the lock, and a timer thread (ktimers/n) needed to replenish p_read's
+> runtime is blocked due to writer-fairness (286deb7ec03d). This forms a
+> circular dependency and stalls the system.
+>=20
+> Are these issues PREEMPT_RT-specific?=20
 
-1.Priority inversion – On PREEMPT_RT, rwlock_t readers lack priority
-inheritance (PI), so a low-priority reader holding the lock can be
-preempted by a medium-priority task, blocking a high-priority writer
-indefinitely.
+No, but it's way more critical on PREEMPT_RT. !RT systems will see a
+"performance" or "throughput" drop but not a critical system stall.
 
-2.Stall – A reader (p_read) holding the lock can be throttled by CFS
-bandwidth control and scheduled out. A writer (p_write) blocks waiting
-for the lock, and a timer thread (ktimers/n) needed to replenish p_read's
-runtime is blocked due to writer-fairness (286deb7ec03d). This forms a
-circular dependency and stalls the system.
+>=20
+> Any clarification would be appreciated.
 
-Are these issues PREEMPT_RT-specific? 
+2. was addressed in 6.18 by deferring the throttling to the place where
+a task exits to user mode. See [1] for further reference.
 
-Any clarification would be appreciated.
+[1] was not backported to older (stable) kernels but the commit you
+referenced at the top was, so the 2. problem is gone there was well.
 
-Thanks,
-Ran Hongyun
+HTH,
+Florian
 
+
+[1] https://lore.kernel.org/all/20250829081120.806-1-ziqianlu@bytedance.com=
+/
