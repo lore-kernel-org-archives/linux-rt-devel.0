@@ -1,77 +1,113 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDEB4A3D5F
-	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Sep 2026 13:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BCB46F498;
+	Fri,  4 Sep 2026 15:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788529665; cv=none; b=J4afCi4Z1BeU2sK8037On2lhKB+BRvZd/iNUILH9/JTPJGyxb2DWvkWH7c8hRVEa1lOAnWTtcCEKlvuYcrwM19C8AGJudBILtjEiYQAi9DgXmtLPf/7Q/FwlLRfrhvSHPgJCRYlMqf97O2xnPmDgVgZKuWqY5KP5om1izOesRJs=
+	t=1788537252; cv=none; b=c9mR511N0Va81FUr2QFn9e1M/ZLEOarZTp0YlaBTe8z9n+X647z7anoqurOWO7lbk2JCVRyV+xXBx+W+c7p81v0EkuDDgx+26yUrRVA4X+94cTszZwwe/d4GSR/YKckjwOuWlfHHsZfEJq8kst1nvH7ViX+lr71BSpFYr2qZzPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788529665; c=relaxed/simple;
-	bh=3QqozabmMHkHUpENbmDig1ETzOhnj3lQ3G3dAmT73V8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b0le2GfdqsdjrnakmewarMFiiA2YZxgSY4expxcFOP5A+/7WFxfAluDavKgBM5RNBpI4EvCAxuHnHPGEIVDLb6vdeo+HvuPtUZ/M7dzpjfCJmnm5o1p53Xii5jYBpNCf8JPyu8lnJSS9+gHtPbmRpoMXIeKa5pSVLCRYzpYeXYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=qZd82czN; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788537252; c=relaxed/simple;
+	bh=fcE0qjmbQqnYiiwIMHIZXUGkLQxdfs+4zYEUQ4kPtYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPf3+Jljj7Ufkw2XWynM170GSr6sfPBEOcFfvUcf6WBQ1dNZI3M3/3Fc7wl3s1kH6rNtgO9sa9zrPBslVphwrkl43qGee6l9kJSLZJPK76jhuxGmrsgypHE3RIfblTlUAcaLAAqX8JwnxQB3WSvSF2Ba6YCUCSpRgxcVSwHsaKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NR7VB0Ss; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PRf96zVM; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="qZd82czN"
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 9A11A81432;
-	Fri,  4 Sep 2026 13:46:33 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id BAB8620019;
-	Fri,  4 Sep 2026 13:46:28 +0000 (UTC)
-Date: Fri, 4 Sep 2026 09:47:33 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ran Hongyun <ranhongyun1@huawei.com>
-Cc: <namcao@linutronix.de>, <axboe@kernel.dk>, <bigeasy@linutronix.de>,
- <brauner@kernel.org>, <clrkwllms@kernel.org>, <frederic@kernel.org>,
- <jack@suse.cz>, <jdamato@fastly.com>, <john.ogness@linutronix.de>,
- <kprateek.nayak@amd.com>, <linux-fsdevel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
- <linux-rt-users@vger.kernel.org>, <mkarsten@uwaterloo.ca>,
- <stable@vger.kernel.org>, <torvalds@linux-foundation.org>,
- <viro@zeniv.linux.org.uk>, <vschneid@redhat.com>, <xry111@xry111.site>,
- <chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
- <wozizhi@huawei.com>
-Subject: Re: [QUESTION] Are these issues PREEMPT_RT-specific?
-Message-ID: <20260904094733.538d2af6@gandalf.local.home>
-In-Reply-To: <20260904081149.3000727-1-ranhongyun1@huawei.com>
-References: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
-	<20260904081149.3000727-1-ranhongyun1@huawei.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NR7VB0Ss";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PRf96zVM"
+Date: Fri, 4 Sep 2026 17:54:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1788537246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZPpOywhxUYpvbT8zIkFDQanZWuSbRMA9e7oK1b0gVM4=;
+	b=NR7VB0SshEkCn8ekHb2VuYQmahkOVmFj0T4HAtnof/y45LI4Ur9o8FVFNKcCHcBczLkVH4
+	5uW1CZ9m1/QixjwrJKM02hfNBizz/QbvR02e3Yg7l8uAhsegQw0p9vseu4uuah8MU3uIxB
+	btZemSlkgPWGzBNl8d94W0M13DPyXEekq7LG84YlkNTzD3Lb60j8oICOQJlYKi2AxFOCdA
+	QZH4JilKdFKek7TfoLvYfaY6gk0snmiDQAktXy/zZqnOuq/h6lSQJ6IT045UgRTEyKrqtd
+	r2xBzacRa3vQWnsizQlyKGwfZPXXnLklqoLoACulN5mb6Wrbv0pcmXMR3xhXRw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1788537246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZPpOywhxUYpvbT8zIkFDQanZWuSbRMA9e7oK1b0gVM4=;
+	b=PRf96zVMAqAIN/FHuit61LZUjh9q3Y2QWtWZZfbGqwKuSYPGqdsu0syV75ICLNaKC1XXKf
+	KsR24XFsPNaLl5DQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Waiman Long <longman@redhat.com>, WANG Xuerui <kernel@xen0n.name>,
+	Will Deacon <will@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>
+Subject: Re: [PATCH v2] ARM, ARM64, LONGARCH: Delay HW BP notification to
+ task_work()
+Message-ID: <20260904155404.ESPFg3zi@linutronix.de>
+References: <20260814085118.OPEA_Ssn@linutronix.de>
+ <20260903160710.vVf4gEL2@linutronix.de>
+ <apmknG55qFAn8EPf@shell.armlinux.org.uk>
+ <20260903133146.07095885@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Stat-Signature: psh8ie81d61q8baqnffyuct988cftytm
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: BAB8620019
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19TT+Uqsvs68jLi/HGrQRy0ZkJtDf+Yw7A=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=3QqozabmMHkHUpENbmDig1ETzOhnj3lQ3G3dAmT73V8=; b=qZd82czN5zoTGFHIggmhPCvwpL3n8aR7RjkZ9o1RXnRkWHkwxhx+raYkfoqpNaQ5uJxRob83n61gaHyGfzQhhsXqgkPCYdZJe6yniHpvfPimWBMWvVDRAw9erkORHDUJOPIB736vPU6E3JxroHiuIkq/SBXHKmc2YCqy/vRstxU=
-X-HE-Tag: 1788529588-590148
-X-HE-Meta: U2FsdGVkX1+vA/2/aWD7umZnnOVnwj+AOUZGPU6in8BExdihItVQ54rOyPf683PlAhickS/DeDAzLjWCsXjVa3msdvYh00OIuCmMUP1/dFmMHqG3mzuWwvV6Oi2gSXVyI8Sj3L9ixgLSx2LYvAFgiAMplhjtWnVEnpy6AP0lDmA4ZJjtG+KQq+FDl9XxMvPvpTz2MH7skVNTBlXX3rOPsMTmf6NIgGr80Gayq3I8hFqoXI8xoW+CSLBPB1b+pYf2t8DHZ7w0DwYQrmpMlm33/8HS5Ce8OAXbPuORtwp4ol9veT5wBM099i+S4zzUUZTRg/de4GFfKz2eJO+igNMbh1Gc+XEdsLZ8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260903133146.07095885@gandalf.local.home>
 
-On Fri, 4 Sep 2026 16:11:41 +0800
-Ran Hongyun <ranhongyun1@huawei.com> wrote:
+On 2026-09-03 13:31:46 [-0400], Steven Rostedt wrote:
+> On Thu, 3 Sep 2026 17:47:24 +0100
+> Russell King <linux@armlinux.org.uk> wrote:
+> 
+> > What do you expect to happen with this? Which arch maintainer should
+> > apply this patch that affects three different independently maintained
+> > architectures?
 
-> 1.Priority inversion =E2=80=93 On PREEMPT_RT, rwlock_t readers lack prior=
-ity
-> inheritance (PI), so a low-priority reader holding the lock can be
-> preempted by a medium-priority task, blocking a high-priority writer
-> indefinitely.
+Well, if you as the ARM person are fine with ARM part, an ACK would be
+appreciated. If you have something to object, it would be nice to let me
+know so I can adjust accordingly.
 
-Priority inheritance to boost readers from a writer is an exponentially
-difficult problem to solve. PI is already hard enough, but multiple readers
-is exponentially more difficult (we tried).
+> Looks like the patch should be broken up into a 4 part series.
+> 
+> One to add the ARCH_NEED_PERF_HW_NOTIF code to the generic code.
+> 
+> Then one for each architecture to add the code needed to set that.
+> 
+> Then the architecture maintainers could ack their patch and the perf
+> maintainer can pull it all in.
 
-The solution is to make sure you do not have any RT critical tasks taking
-rw writer locks. This is something that the Runtime Verifier (RV) can help
-make sure you never hit this situation.
+We could first agree if this is the right way of fixing it (from both,
+perf side and ARCH side).
+Then we could either route this via perf with ARCH's acks or split it
+and route via individual trees if needed. Having it routed separately 
+needs to be coordinated since the ARCH bits can't be applied without
+having the perf bits first.
+Then there is also the question if this should get fixes tag on commit
+d8fccd9ca5f90 ("arm64: Allow to enable PREEMPT_RT.") (which would also
+cover loongarch and arm).
 
--- Steve
+As of today I have just Luis responding that it works for him. 
+
+> -- Steve
+
+Sebastian
