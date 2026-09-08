@@ -1,46 +1,46 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012058.outbound.protection.outlook.com [40.93.195.58])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012059.outbound.protection.outlook.com [40.93.195.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA9B5A987D
-	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Sep 2026 19:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A4E59E32D
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Sep 2026 19:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788895240; cv=fail; b=aFA+jfBik4MHgBM3THdX5R9xs4uOxN1k7eK3pQIhpsbkMF6s5xqH5qnseSao57pv/XQqZO+N852Y2CPgB8UkZFOix6kszZb+I2PwavbWPujXeiRhV4+6ukNv7beKigldwttlZY188qzb7OrZvIAiahHa0Q30ryxFhazg1BpNpbQ=
+	t=1788895252; cv=fail; b=Bt73MpPw5X1RGdyFj73lbHr+S4CftS59d1DTy6KEojZVKv1cg0wawjfUvR3QR9zhR4ANAvpRM6v++i4BisFpKJIWLcGvPNBQPFWi1t9tCIoFfBEO9OcT1lm+ju3F+IpFkdcJIm4DxqD6QmpuVZWTCB44SMzFhO+ZMrYUvZo7kag=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788895240; c=relaxed/simple;
-	bh=Wh4avkiaWe2T0JxVHo1fazNQ+foIiWVoF94uagQK97w=;
+	s=arc-20240116; t=1788895252; c=relaxed/simple;
+	bh=eOu9W2i7Me5z2gE07e26KZy/6PlWsoyLL9Sx2WeUmIA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=AMNK9YG9l44xuI/yKq+ZHibXLUtIsR3DwMnD32yq/0XHmDo5+tnEDQZ1wvGgNqAbsGUywvw98ERTQjIQV/2qCK4Izb429iR9xlCOFdrRk6FiD79nSuWRiuCLcEGkAH+Ry8A5fSqqeaiEFnVzx6Nx2xjhC6Ev4MRP9m/SPeR7m3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QcuCqjcz; arc=fail smtp.client-ip=40.93.195.58
+	 In-Reply-To:To:CC; b=UHwWavCd6DuyqbfKWnUTw9m0ncqmf4metRXKV8jhPNcpBccQT9SOAJ5mqGjkFVIzVvQUdtLW/chvebV0cBhwqsl0aop4cWxsDHQQGgwijj7SjFEe34y0NQDydKMQmkYuwp/uidi8x40N3Z+Ps1fH0WfzWdUJ5oxPqaqUFPdH5R0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vkZXL8oz; arc=fail smtp.client-ip=40.93.195.59
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QcuCqjcz"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vkZXL8oz"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QclTN1DWtMzLEKV/c50lDHLdCa5eWjgPOh68HBxE9E8PpRF51y/pYipNl8OeS7D1b8SVFR2bmfImszE6QXwR7gsGL+Clo8SUbKZnsBceTf8iGZljy3cHTdF+LqfRTkB2BC8KqyEQ5U3vx2WidtbHKhiBDsqcPlPkCVsEVoAIdG88xrsmaBX+3DD1aDOpxefP3fuyqJBECPqUcF7aXiud6pZ3bokvARdvgX4+smgEqUXFGse699jXdbzuH7ADih+rKV7sUXQEErafFdyIxdQfXc2cmBgr5Uy+C1m+6dYM9xuCmniWmglCIPd97WuE5lJbiYIOoGzTnLwtDAQ4fC637w==
+ b=wcFFgMzKjUzDJslR4Fg5X5Oz4fFlSIEu2CSO6ODu52wefBtCl9oFJDIj7EGY1CVpO+epFVf5fv2ilcG3hl/J/SZljs9VpyY6XJu7Vxi5Kt4hwNBwXCV26z5qZls5eez5Lsfx8LhBJ8KMJeYrglziPYEb7RW9+UK4YJYjlMCHErnp7UShiEy3Mly4fKg0dAOyve98BXD1A4Lt6Y+FtL1tQQOIjM+WHZ1N7vDQL5lvuF6jP6sa0Yl866uwJyZ2lacPu2OWMabZ0lKQkx/WKNlhcx8yEQ6V9QmSYREZpePhL5kjy5xcLova2mQY+fz6SDgDzNl7A1CkSPBbzgeUXBO2TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=upYXsiFbEClDPnWjVVZrsMcq6TGb5bBqXx1hRAbDXK8=;
- b=SqiV+jON7sUeqIvwmLQWKKVdM7DQJo5jUndveYoIYOyjHam/FGYTfFaKWWCQT4gUrVJLLqDYfkhkvaue8k8n3YoWOhY4E2Eo622YO5zMkywxvNLhkRUg5o8TA6qf2ED/1XEXV8u9lMs/Bi53JMzAoTybhXWBkoMlAvSn1nst0E3vS5ANyT1Kzl+R09qUw0/Nxtq4rR/nBYVuJGLekJUM9sBY9mEEvtY36IgNSA+rbM8nDBZWE5IIgGqFCV8K6d0Z+CtbFHElN6beaPcCzDaUBEPtX6iunQUun6hN8iDyaH094sk0izuofClRAXgsjjKup3SW14cEe86UmfmOaAp1VA==
+ bh=wf80GsUe881wpKKcZpNI+Upxtq7WdAN3T9NUYcgGTpY=;
+ b=AWGZUJG/uhaIVxRgDRGVZ/oLBpoh0Qmn3Ly51Kop7vsUK8z9LV6hUUC3IamYxFpB+osOpVL/pZCQphI7uclmumuxlJxOYdhy6gylbFh4Wp2FKia3YrLK2raY/t89gNOiyPwuxphmnY+fbVEO5dSkB2MyOHoBrGC56728HFuW3ZjDV1KCjwMce6WHewyrbc/rEvII5ri7V5QtoXWw/m3XfJPhBZrctGS0AjvovkIf/rnwVaZLMHPbrFxgoRBMjs+PNmBh/Xw2r2KYFGK68f0Uj2+ERYDnpr7bjjc/jhdKLfRKqDQ5uU9W+JXidBqMBPsVN5AgaICvdseuLsojLJJ1Ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=upYXsiFbEClDPnWjVVZrsMcq6TGb5bBqXx1hRAbDXK8=;
- b=QcuCqjcz8/dk6yAXRTkLtzGzJLWONWzYbhljeawouIC4XVipT7NdBYixBdLF80F4F6edolxm5fHAjzyEYB90ZJ54IW0ajHTC2CrQ4DFjYnkF7VRIWlRVT4f9sP1vZ/JoHfEQBQN4C30sU+RklZsYxBW1MXghAWpl4rL1JK+iBBA=
-Received: from SJ0P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::31)
- by CH8PR12MB9767.namprd12.prod.outlook.com (2603:10b6:610:275::9) with
+ bh=wf80GsUe881wpKKcZpNI+Upxtq7WdAN3T9NUYcgGTpY=;
+ b=vkZXL8ozo869HulQdVIIFA2GyfOiCXTzwx39ZQPXiS6PXNMPY2kB5Jt0DLYxYfQ3KHODxwSVOr/eCdXtTe6NaCyGNkc+K9wkgg8wwhiOXkv+spginhrXneODUUrGWPZaDAFBXEdPX+EWSPH/yZ9qR0tIoyDkYg93FABHYtvGeTk=
+Received: from SN7PR04CA0078.namprd04.prod.outlook.com (2603:10b6:806:121::23)
+ by SA1PR12MB7411.namprd12.prod.outlook.com (2603:10b6:806:2b1::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Tue, 8 Sep 2026
- 19:20:32 +0000
-Received: from SN1PEPF00036F42.namprd05.prod.outlook.com
- (2603:10b6:a03:41b:cafe::8) by SJ0P220CA0011.outlook.office365.com
- (2603:10b6:a03:41b::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.15 via Frontend Transport; Tue, 8
- Sep 2026 19:20:31 +0000
+ 19:20:37 +0000
+Received: from SN1PEPF00036F3E.namprd05.prod.outlook.com
+ (2603:10b6:806:121:cafe::95) by SN7PR04CA0078.outlook.office365.com
+ (2603:10b6:806:121::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.7 via Frontend Transport; Tue, 8
+ Sep 2026 19:20:37 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,20 +48,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF00036F42.mail.protection.outlook.com (10.167.248.26) with Microsoft
+ SN1PEPF00036F3E.mail.protection.outlook.com (10.167.248.22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Tue, 8 Sep 2026 19:20:31 +0000
+ 15.21.406.5 via Frontend Transport; Tue, 8 Sep 2026 19:20:37 +0000
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 8 Sep
- 2026 14:20:30 -0500
+ 2026 14:20:35 -0500
 Received: from xhdsneeli40.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.46 via Frontend
- Transport; Tue, 8 Sep 2026 14:20:24 -0500
+ Transport; Tue, 8 Sep 2026 14:20:30 -0500
 From: Srinivas Neeli <srinivas.neeli@amd.com>
-Date: Wed, 9 Sep 2026 00:49:52 +0530
-Subject: [PATCH net-next v2 4/8] net: xilinx: tsn: parse endpoint DMA
- channel configuration
+Date: Wed, 9 Sep 2026 00:49:53 +0530
+Subject: [PATCH net-next v2 5/8] net: xilinx: tsn: bring up the endpoint
+ MCDMA channels
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260909-patches_v2_external-v2-4-3a40babaff4c@amd.com>
+Message-ID: <20260909-patches_v2_external-v2-5-3a40babaff4c@amd.com>
 References: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
 In-Reply-To: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
 To: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>, Andrew Lunn
@@ -88,38 +88,42 @@ CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 X-Mailer: b4 0.16.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00036F42:EE_|CH8PR12MB9767:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10be9b33-ad92-4392-797f-08df0dde4011
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3E:EE_|SA1PR12MB7411:EE_
+X-MS-Office365-Filtering-Correlation-Id: e41f37ed-2c4c-4d23-3df7-08df0dde4333
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|82310400026|1800799024|36860700016|921020|10067099003|56012099006|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700016|1800799024|23010399003|921020|6133799003|10067099003|11063799006|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	Tg83W4S3yIU2tPS0mW853InbisZZ656NdzSkJnAlpmTgvNvggQAQQLIBcQCJPAACSTVjVkFiUCzSX56f2xQn7LhDvls3NV5lLFClqAoqFI1cxvyJqWwkg0+I+si0BbjHj3ncuTQyPhvTX4Mb5vDOeFz7hTuAgSJV6IGgBumnWJcRpGAWh9Fr7/Aa8ghfc8lcadL25BXv068aUZpdGI2Zb8oNdVWsrMDzcIxyixHec89Q7c0sDzAu/hUpAa3rWpTM7p/B3dgJL6opEX/3OxbPNJcH/mWeXoqHAFugib+isU0ym5aUxPTooKLyH2M6o6flNZ6TFvO1e8xc/LyE5YC8U8v5JYlQt3F6rysosAMUIK9vK+OTLWow/EdveKGI5G4wTxQFmf1UV9qqQdHm8eCED2l21OxRWK1+NkOUPVw/izw0pFyfwTto62kixAKKaU4kU0c2LDPi7KtwcvoNWICced1nXpBCkF9hI1r9VGMAfPoY/DGckZ29u9gCGZyNzRitxFTynWslzIXX4/aI1PvROoe/Cn5pn9D3wKcLJGNSctfJjBCR0p6t6PndSIDvmz7jHJz6JkKsYuHWJeC48gwjDGU2pJCgrc84yhTwjCExuytEQVy1SIczmct7vxYm1GeYbhFeSi2MqbbK/XBHtAMpMrHJbkVXibP0z4t9RxWOU70awVEQdbb1xJOkeKNUPNk7dlXwrhaJkt9d0XPs7180vov2D8GMkWQvoeohubCp9t/EjSdpLiijx3JEBF8UHSvx
+	M3QQ6TcB68XtfA8xW9VAkNDsAwu+Syja0dgRnmbyiUWqU003kfOz82WsoAXgWOjsQLZ66WARyt3e39f8sozXiaYGpbcUjOA+67xHRpEWQdu4ttHmZ/r+hlrTTYpSAON9nQeVjvNlM8kLM3KPaH7IDW8xjpvj/QozZm6pqUz/qRLEKc+Di3AMvZFWkU1GoQqfoaBhY0TTdJZnrYDzU1IEUahfOXkGp4EAbnHF/lyqxysJNsLXLAvItff8AiYxco33rEMcl2//vk0FEgiKNq5rlr+eIPA68OlQJPSOYqm/3O8xzceFBQgSLHzqUi5HFeljOXGG+buEOFGKH+zGFdd/txE0nVyerd6BXl1bQCgco/Cs8R4revGrPxtO5ih9C42ce9SbaZy8xeqehm2hG4w4Odt4KMbRvEiJz0N0vUUcMG+qdB85JjkY5643PFp2muu0/Dff8m/3xCy2RVCnKU8wS/q7h/FlGPkSZWTSTBL+MoFlAuL3TEYFmrne9zdRoqrGbbBhqLU0An3TP6O9F4nCzQTD1CbgaDuKyTQXme+ba+E18JdngJsnMOdKXLUyDiOwbpgW9Q7VSMWcQ5nHr8OlnIEQ5wQqyMmugAldsVFywUW0FjqQ0X/TqTDu83rtxddXjQRn1/lgoEBeGOIvVl0i+YHEe5FHdBy1H79WyAa59X1z0ioiR8YE1QzcYPvjZawUNqqMcC5DIMbdiCOKU1ack1RQLlYcbF53z7WBHDVqTigjl1V9T7T0MJwA+QuhTHTg
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(82310400026)(1800799024)(36860700016)(921020)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700016)(1800799024)(23010399003)(921020)(6133799003)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	kT7o14LEM2qTvU1VpPhiUEZowA6A64OCJ0pfQfDMLjPTlANe78nXvlpSzI4cnqymcpY0MrdXrEeN/epMr+4GUrSio/3M+mDZkSSTWYyZ2E9z1SZy21HQPceGODCs9Hg5x1wyZx2exkDiv6LjLLZrzR6Es/JusOuOn4ZfQvbp0ygwNTGcBAe9AUud7+x1dBTr/iPuuJoNd2CqPUA/G9nGBwu9XrmUPIvtlo+IkKb3HyQMOgLJ30lmu3yXfrD88/35qEbxYGSCpCkfkc/MQTernVp0kIEp/7enwavppZU0RFTVDNPs2R76w0uuiujhOluTpo9juPROCBlYmRkX5IuFHw+v/rPlcOR1dlvwSk1JDfeh7nmnRSoN0tkh/o1wa3x2caQO51c62yPqOWpioJEKNfTN6esfCBpD6Jc5jhxS+e80Xn69w2dYiTJDm/0xuSAg
+	kNkARlshU0tVSR1RNyqhVaU22qbLbrvIeM4ZqDMdCcJsUlLb8m7HWrO4H3kiZBimI44g3X0wjb96bM2b+H6w5Tspd8uNV+yTWRrAavz/nYbs4Qb/Kdf8Ju649u4u4IBSOdj1J9qN+POfmjUlsvW3pb0qu8aLmK9susOpbgRZ+L3SnwItXuIRdalRzn2Yy9apNbN6D43fuNgXRN0a1osrX/l5/WdQE5YfAMGUySdR7l46EU9W/Pq9sxhfNIDETWia3l0jvU6JQVyvDLEGn6pVZ7u5OlZDJxPdIbsKDbfoongcapqJkbpgmZJsb4v4WyNEZwped4Qr9MrRZRKATPS0f1NPBnOa1IxvG0ePmxfX0EpJs1nzd1BipmLfsiv8m9GkrWLgcjX58P6uS7PovPz2iBYyXobaAWpPX/Q6PkpD3SmHSp77ijTUGCppa9eAPp6M
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 19:20:31.7972
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 19:20:37.0566
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10be9b33-ad92-4392-797f-08df0dde4011
+X-MS-Exchange-CrossTenant-Network-Message-Id: e41f37ed-2c4c-4d23-3df7-08df0dde4333
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF00036F42.namprd05.prod.outlook.com
+	SN1PEPF00036F3E.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9767
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7411
 
-The endpoint has one MCDMA channel per TX queue and per RX queue, and
-the device tree lists them in "dma-names". The transmit path needs to
-know which physical DMA channel backs each logical TX queue.
+Before the endpoint can move frames, each MCDMA channel needs a ring of
+buffers and a live dmaengine channel.
 
-Count the TX and RX channels in "dma-names" and allocate the conduit
-netdev with that many hardware queues. Parse the "tx-queues-config"
-child node to map each logical TX queue to its physical DMA channel.
+Request every TX and RX channel named in the device tree when the
+interface opens, and give each one a ring of preallocated SKB descriptor
+slots. Reset the controller once at probe time through the first mapped
+TX channel, which also gates probe on the MCDMA provider being bound so
+-EPROBE_DEFER stays in the probe path and never reaches ndo_open. Release
+the channels on stop, where dmaengine_terminate_sync() returns them to a
+clean state. Add the XILINX_DMA dependency for the dmaengine and Xilinx
+DMA APIs.
 
 Co-developed-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
 Signed-off-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
@@ -127,267 +131,385 @@ Signed-off-by: Srinivas Neeli <srinivas.neeli@amd.com>
 
 ---
 Changes in v2:
-- Check xlnx,dma-channel-num against the channels that dma-names actually
-  lists, using a presence bitmask. Reject duplicates and out-of-range channels,
-  and index the channel arrays by logical queue.
-- Require one queue node per tx_chan and num-priorities equal to the TX channel
-  count. This also gives xlnx,num-priorities a consumer.
-- Cap TX and RX at 8 to match the binding.
-- Error out on an unknown dma-names entry instead of skipping it.
-- Drop the unreachable TX and RX count guards. The in-loop index and duplicate
-  checks already bound the count, so the channel arrays cannot be over-indexed.
+- Request a channel at probe time so -EPROBE_DEFER stays in the probe path and
+  ndo_open never hands a deferral back to userspace.
+- Request the channels by their real dma-names index, not a dense 0..N-1
+  sequence.
+- Reword the commit message so the reset reads as probe-time through the first
+  mapped TX channel, not on open.
 ---
- drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 197 +++++++++++++++++++++++-
- 1 file changed, 196 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/xilinx/tsn/Kconfig         |   1 +
+ drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 281 ++++++++++++++++++++++++
+ 2 files changed, 282 insertions(+)
 
+diff --git a/drivers/net/ethernet/xilinx/tsn/Kconfig b/drivers/net/ethernet/xilinx/tsn/Kconfig
+index b8939d8a92ef..292f17694404 100644
+--- a/drivers/net/ethernet/xilinx/tsn/Kconfig
++++ b/drivers/net/ethernet/xilinx/tsn/Kconfig
+@@ -6,6 +6,7 @@
+ config XILINX_TSN
+ 	tristate "Xilinx TSN Ethernet driver"
+ 	depends on OF_ADDRESS
++	depends on XILINX_DMA
+ 	help
+ 	  This driver supports the AMD/Xilinx Time-Sensitive Networking
+ 	  (TSN) Endpoint Ethernet MAC IP. It provides the wrapper device
 diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-index 089f17a126f5..24025b1f6e66 100644
+index 24025b1f6e66..23a15df71baa 100644
 --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-@@ -5,9 +5,11 @@
-  * Copyright (C) 2026 Advanced Micro Devices, Inc.
+@@ -6,16 +6,24 @@
   */
  
-+#include <linux/bitops.h>
+ #include <linux/bitops.h>
++#include <linux/circ_buf.h>
++#include <linux/dma/xilinx_dma.h>
++#include <linux/dma-mapping.h>
++#include <linux/dmaengine.h>
  #include <linux/etherdevice.h>
  #include <linux/ethtool.h>
  #include <linux/if_ether.h>
-+#include <linux/if_vlan.h>
+ #include <linux/if_vlan.h>
++#include <linux/io.h>
  #include <linux/kernel.h>
  #include <linux/module.h>
  #include <linux/netdevice.h>
-@@ -21,14 +23,31 @@
+ #include <linux/of.h>
+ #include <linux/of_net.h>
+ #include <linux/platform_device.h>
++#include <linux/scatterlist.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
  
- #define DRIVER_NAME			"xilinx_tsn_ep"
+@@ -30,6 +38,47 @@
+ #define TSN_MAX_VLAN_FRAME_SIZE		(ETH_DATA_LEN + VLAN_ETH_HLEN + \
+ 					 ETH_FCS_LEN)
  
-+#define TSN_DMA_CH_INVALID		0xFFU
-+#define TSN_MAX_TX_QUEUE		8
-+#define TSN_MAX_RX_QUEUE		8
++#define TX_BD_NUM_DEFAULT		64
++#define RX_BD_NUM_DEFAULT		128
 +
-+#define TSN_MAX_VLAN_FRAME_SIZE		(ETH_DATA_LEN + VLAN_ETH_HLEN + \
-+					 ETH_FCS_LEN)
++/**
++ * struct skbuf_dma_descriptor - skb container for each in-flight DMA descriptor
++ * @sgl: scatter-gather list backing the DMA mapping
++ * @desc: dmaengine descriptor handle
++ * @dma_address: physical address of the first sgl entry (RX path)
++ * @skb: SKB owning the buffer
++ * @sg_len: number of valid entries in @sgl (TX path)
++ */
++struct skbuf_dma_descriptor {
++	struct scatterlist sgl[MAX_SKB_FRAGS + 1];
++	struct dma_async_tx_descriptor *desc;
++	dma_addr_t dma_address;
++	struct sk_buff *skb;
++	int sg_len;
++};
++
++/**
++ * struct xlnx_tsn_ep_dma_chan - one DMA channel and its SKB ring
++ * @skb_ring: per-slot SKB descriptors
++ * @ep: pointer back to the owning EP instance
++ * @chan: dmaengine channel handle
++ * @dma_dev: device used for DMA mapping (the DMA engine, not the EP)
++ * @ring_head: producer index
++ * @ring_tail: consumer index
++ * @ring_size: number of slots in @skb_ring
++ * @is_tx: true for TX channels, false for RX
++ */
++struct xlnx_tsn_ep_dma_chan {
++	struct skbuf_dma_descriptor **skb_ring;
++	struct xlnx_tsn_ep *ep;
++	struct dma_chan *chan;
++	struct device *dma_dev;
++	u32 ring_head;
++	u32 ring_tail;
++	u32 ring_size;
++	bool is_tx;
++};
 +
  /**
   * struct xlnx_tsn_ep - EP MAC private data, embedded in net_device priv area
   * @ndev: the conduit netdev ("ep0" for the first IP instance)
-  * @dev: backing device
-+ * @num_tx_queues: number of TX DMA channels (one per priority)
-+ * @num_rx_queues: number of RX DMA channels
-+ * @tx_dma_chan_map: logical TX queue index -> physical DMA channel number
-+ * @rx_chan_num: RX ring index -> physical DMA channel number
-+ * @max_frm_size: maximum frame size accepted on RX
+@@ -39,6 +88,9 @@
+  * @tx_dma_chan_map: logical TX queue index -> physical DMA channel number
+  * @rx_chan_num: RX ring index -> physical DMA channel number
+  * @max_frm_size: maximum frame size accepted on RX
++ * @tx_chans: array of TX channels (size @num_tx_queues)
++ * @rx_chans: array of RX channels (size @num_rx_queues)
++ * @closing: set in ndo_stop so the RX completion callback stops re-arming
   */
  struct xlnx_tsn_ep {
  	struct net_device *ndev;
- 	struct device *dev;
-+	u32 num_tx_queues;
-+	u32 num_rx_queues;
-+	u32 tx_dma_chan_map[TSN_MAX_TX_QUEUE];
-+	u32 rx_chan_num[TSN_MAX_RX_QUEUE];
-+	u32 max_frm_size;
+@@ -48,8 +100,19 @@ struct xlnx_tsn_ep {
+ 	u32 tx_dma_chan_map[TSN_MAX_TX_QUEUE];
+ 	u32 rx_chan_num[TSN_MAX_RX_QUEUE];
+ 	u32 max_frm_size;
++
++	struct xlnx_tsn_ep_dma_chan **tx_chans;
++	struct xlnx_tsn_ep_dma_chan **rx_chans;
++
++	bool closing;
  };
  
++static inline struct skbuf_dma_descriptor *
++ep_get_desc(struct xlnx_tsn_ep_dma_chan *xchan, int idx)
++{
++	return xchan->skb_ring[idx];
++}
++
  static netdev_tx_t ep_start_xmit(struct sk_buff *skb, struct net_device *ndev)
-@@ -69,15 +88,173 @@ static const struct ethtool_ops ep_ethtool_ops = {
+ {
+ 	dev_kfree_skb_any(skb);
+@@ -57,8 +120,22 @@ static netdev_tx_t ep_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+ 	return NETDEV_TX_OK;
+ }
+ 
++static int ep_init_dmaengine(struct xlnx_tsn_ep *ep);
++static void ep_exit_dmaengine(struct xlnx_tsn_ep *ep);
++
+ static int ep_open(struct net_device *ndev)
+ {
++	struct xlnx_tsn_ep *ep = netdev_priv(ndev);
++	int ret;
++
++	WRITE_ONCE(ep->closing, false);
++
++	ret = ep_init_dmaengine(ep);
++	if (ret) {
++		netdev_err(ndev, "failed to initialize DMA engine\n");
++		return ret;
++	}
++
+ 	netif_tx_start_all_queues(ndev);
+ 
+ 	return 0;
+@@ -66,7 +143,11 @@ static int ep_open(struct net_device *ndev)
+ 
+ static int ep_stop(struct net_device *ndev)
+ {
++	struct xlnx_tsn_ep *ep = netdev_priv(ndev);
++
+ 	netif_tx_disable(ndev);
++	WRITE_ONCE(ep->closing, true);
++	ep_exit_dmaengine(ep);
+ 
+ 	return 0;
+ }
+@@ -88,6 +169,196 @@ static const struct ethtool_ops ep_ethtool_ops = {
  	.get_drvinfo	= ep_get_drvinfo,
  };
  
-+/*
-+ * Parse the "tx-queues-config" child of the EP node. The logical queue
-+ * index is taken from the "queue<N>" node name, so the mapping does not
-+ * depend on the order the child nodes appear in the device tree.
-+ */
-+static int ep_parse_tx_queue_config(struct xlnx_tsn_ep *ep,
-+				    struct device_node *txcfg_np, u16 tx_present)
++static struct xlnx_tsn_ep_dma_chan *
++ep_alloc_dma_chan(struct xlnx_tsn_ep *ep, const char *name, bool is_tx,
++		  int ring_size)
 +{
-+	DECLARE_BITMAP(queue_seen, TSN_MAX_TX_QUEUE) = {};
-+	DECLARE_BITMAP(chan_seen, TSN_MAX_TX_QUEUE) = {};
-+	unsigned int count = 0;
-+	int ret;
-+
-+	for_each_child_of_node_scoped(txcfg_np, qnode) {
-+		u32 chan, queue;
-+
-+		if (!str_has_prefix(qnode->name, "queue") ||
-+		    kstrtou32(qnode->name + strlen("queue"), 10, &queue) ||
-+		    queue >= ep->num_tx_queues)
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: invalid queue node %pOFn (have %u queues)\n",
-+					     qnode, ep->num_tx_queues);
-+
-+		if (test_and_set_bit(queue, queue_seen))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: queue %u described twice\n",
-+					     queue);
-+
-+		ret = of_property_read_u32(qnode, "xlnx,dma-channel-num", &chan);
-+		if (ret)
-+			return dev_err_probe(ep->dev, ret,
-+					     "tx-config: queue %u missing xlnx,dma-channel-num\n",
-+					     queue);
-+
-+		if (chan >= TSN_MAX_TX_QUEUE || !(tx_present & BIT(chan)))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: queue %u maps to channel %u not present in dma-names\n",
-+					     queue, chan);
-+
-+		if (test_and_set_bit(chan, chan_seen))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: channel %u already assigned to another queue\n",
-+					     chan);
-+
-+		ep->tx_dma_chan_map[queue] = chan;
-+		count++;
-+	}
-+
-+	if (count != ep->num_tx_queues)
-+		return dev_err_probe(ep->dev, -EINVAL,
-+				     "tx-config: described %u queues but expected %u\n",
-+				     count, ep->num_tx_queues);
-+
-+	return 0;
-+}
-+
-+static int ep_count_dma_queues(struct device *dev, u32 *out_tx, u32 *out_rx,
-+			       u16 *tx_present, u32 *rx_chan_num)
-+{
-+	u32 tx = 0, rx = 0;
-+	u16 rx_present = 0;
-+	int n, i, ret;
-+
-+	n = of_property_count_strings(dev->of_node, "dma-names");
-+	if (n < 0)
-+		return dev_err_probe(dev, n, "failed to read dma-names\n");
-+
-+	for (i = 0; i < n; i++) {
-+		const char *name;
-+		size_t plen;
-+		u32 idx;
-+
-+		ret = of_property_read_string_index(dev->of_node, "dma-names",
-+						    i, &name);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to read dma-names[%d]\n", i);
-+
-+		plen = str_has_prefix(name, "tx_chan");
-+		if (plen) {
-+			if (kstrtou32(name + plen, 10, &idx) ||
-+			    idx >= TSN_MAX_TX_QUEUE)
-+				return dev_err_probe(dev, -EINVAL,
-+						     "invalid TX channel name %s\n",
-+						     name);
-+
-+			if (*tx_present & BIT(idx))
-+				return dev_err_probe(dev, -EINVAL,
-+						     "duplicate TX channel %s\n",
-+						     name);
-+
-+			*tx_present |= BIT(idx);
-+			tx++;
-+			continue;
-+		}
-+
-+		plen = str_has_prefix(name, "rx_chan");
-+		if (plen) {
-+			if (kstrtou32(name + plen, 10, &idx) ||
-+			    idx >= TSN_MAX_RX_QUEUE)
-+				return dev_err_probe(dev, -EINVAL,
-+						     "invalid RX channel name %s\n",
-+						     name);
-+
-+			if (rx_present & BIT(idx))
-+				return dev_err_probe(dev, -EINVAL,
-+						     "duplicate RX channel %s\n",
-+						     name);
-+
-+			rx_present |= BIT(idx);
-+			rx_chan_num[rx] = idx;
-+			rx++;
-+			continue;
-+		}
-+
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unrecognised dma-names entry %s\n", name);
-+	}
-+
-+	if (!tx)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "no TX channels in dma-names\n");
-+
-+	if (!rx)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "no RX channels in dma-names\n");
-+
-+	*out_tx = tx;
-+	*out_rx = rx;
-+
-+	return 0;
-+}
-+
- static int xlnx_tsn_ep_probe(struct platform_device *pdev)
- {
-+	u32 rx_chan_num[TSN_MAX_RX_QUEUE];
- 	struct device *dev = &pdev->dev;
-+	struct device_node *txcfg_np;
-+	u32 num_tx, num_rx, num_prio;
-+	struct device_node *ip_np;
- 	struct net_device *ndev;
- 	struct xlnx_tsn_ep *ep;
- 	u8 mac_addr[ETH_ALEN];
-+	u16 tx_present = 0;
- 	int ret;
++	struct xlnx_tsn_ep_dma_chan *chan;
++	struct dma_chan *err_chan;
 +	int i;
 +
-+	ret = ep_count_dma_queues(dev, &num_tx, &num_rx, &tx_present, rx_chan_num);
-+	if (ret)
-+		return ret;
++	chan = kzalloc_obj(*chan);
++	if (!chan)
++		return ERR_PTR(-ENOMEM);
 +
-+	ip_np = of_get_parent(dev->of_node);
-+	if (!ip_np)
-+		return dev_err_probe(dev, -EINVAL, "missing parent IP node\n");
-+
-+	ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
-+	of_node_put(ip_np);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "missing xlnx,num-priorities\n");
-+
-+	if (num_tx != num_prio)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "TX channel count %u must equal num-priorities %u\n",
-+				     num_tx, num_prio);
- 
--	ndev = alloc_netdev(sizeof(*ep), "ep%d", NET_NAME_ENUM, ether_setup);
-+	ndev = alloc_netdev_mqs(sizeof(*ep), "ep%d", NET_NAME_ENUM,
-+				ether_setup, num_tx, num_rx);
- 	if (!ndev)
- 		return -ENOMEM;
- 
-@@ -89,6 +266,24 @@ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
- 	ep = netdev_priv(ndev);
- 	ep->ndev = ndev;
- 	ep->dev = dev;
-+	ep->num_tx_queues = num_tx;
-+	ep->num_rx_queues = num_rx;
-+	ep->max_frm_size = TSN_MAX_VLAN_FRAME_SIZE;
-+	memcpy(ep->rx_chan_num, rx_chan_num, num_rx * sizeof(*rx_chan_num));
-+
-+	for (i = 0; i < TSN_MAX_TX_QUEUE; i++)
-+		ep->tx_dma_chan_map[i] = TSN_DMA_CH_INVALID;
-+
-+	txcfg_np = of_get_child_by_name(dev->of_node, "tx-queues-config");
-+	if (!txcfg_np) {
-+		ret = dev_err_probe(dev, -EINVAL,
-+				    "missing tx-queues-config node\n");
-+		goto err_free_ndev;
++	chan->chan = dma_request_chan(ep->dev, name);
++	if (IS_ERR(chan->chan)) {
++		err_chan = chan->chan;
++		kfree(chan);
++		return ERR_CAST(err_chan);
 +	}
-+	ret = ep_parse_tx_queue_config(ep, txcfg_np, tx_present);
-+	of_node_put(txcfg_np);
++
++	chan->skb_ring = kcalloc(ring_size, sizeof(*chan->skb_ring), GFP_KERNEL);
++	if (!chan->skb_ring) {
++		dma_release_channel(chan->chan);
++		kfree(chan);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	for (i = 0; i < ring_size; i++) {
++		chan->skb_ring[i] = kzalloc_obj(*chan->skb_ring[i]);
++		if (!chan->skb_ring[i]) {
++			while (--i >= 0)
++				kfree(chan->skb_ring[i]);
++			kfree(chan->skb_ring);
++			dma_release_channel(chan->chan);
++			kfree(chan);
++			return ERR_PTR(-ENOMEM);
++		}
++	}
++
++	chan->is_tx = is_tx;
++	chan->ep = ep;
++	chan->ring_size = ring_size;
++	chan->dma_dev = dmaengine_get_dma_device(chan->chan);
++
++	return chan;
++}
++
++static void ep_free_dma_chan(struct xlnx_tsn_ep_dma_chan *chan)
++{
++	int i;
++
++	if (!chan)
++		return;
++
++	if (chan->chan)
++		dmaengine_terminate_sync(chan->chan);
++
++	if (chan->is_tx) {
++		while (chan->ring_tail != chan->ring_head) {
++			struct skbuf_dma_descriptor *skbuf_dma;
++
++			skbuf_dma = chan->skb_ring[chan->ring_tail &
++						  (chan->ring_size - 1)];
++			if (skbuf_dma && skbuf_dma->skb) {
++				dma_unmap_sg(chan->dma_dev, skbuf_dma->sgl,
++					     skbuf_dma->sg_len, DMA_TO_DEVICE);
++				dev_kfree_skb_any(skbuf_dma->skb);
++				skbuf_dma->skb = NULL;
++			}
++			chan->ring_tail++;
++		}
++	}
++
++	if (chan->skb_ring) {
++		for (i = 0; i < chan->ring_size; i++) {
++			struct skbuf_dma_descriptor *skbuf_dma = chan->skb_ring[i];
++
++			if (skbuf_dma && !chan->is_tx && skbuf_dma->skb) {
++				dma_unmap_single(chan->dma_dev,
++						 skbuf_dma->dma_address,
++						 chan->ep->max_frm_size,
++						 DMA_FROM_DEVICE);
++				dev_kfree_skb_any(skbuf_dma->skb);
++			}
++			kfree(chan->skb_ring[i]);
++		}
++		kfree(chan->skb_ring);
++	}
++	if (chan->chan)
++		dma_release_channel(chan->chan);
++
++	kfree(chan);
++}
++
++static void ep_exit_dmaengine(struct xlnx_tsn_ep *ep)
++{
++	int i;
++
++	if (ep->tx_chans) {
++		for (i = 0; i < ep->num_tx_queues; i++)
++			ep_free_dma_chan(ep->tx_chans[i]);
++		kfree(ep->tx_chans);
++		ep->tx_chans = NULL;
++	}
++	if (ep->rx_chans) {
++		for (i = 0; i < ep->num_rx_queues; i++)
++			ep_free_dma_chan(ep->rx_chans[i]);
++		kfree(ep->rx_chans);
++		ep->rx_chans = NULL;
++	}
++}
++
++static int ep_init_dmaengine(struct xlnx_tsn_ep *ep)
++{
++	int tx_allocated = 0, rx_allocated = 0;
++	char name[16];
++	int i, ret;
++
++	ep->tx_chans = kcalloc(ep->num_tx_queues, sizeof(*ep->tx_chans),
++			       GFP_KERNEL);
++	if (!ep->tx_chans)
++		return -ENOMEM;
++
++	ep->rx_chans = kcalloc(ep->num_rx_queues, sizeof(*ep->rx_chans),
++			       GFP_KERNEL);
++	if (!ep->rx_chans) {
++		ret = -ENOMEM;
++		goto err_free_tx;
++	}
++
++	for (i = 0; i < ep->num_tx_queues; i++) {
++		snprintf(name, sizeof(name), "tx_chan%u", ep->tx_dma_chan_map[i]);
++		ep->tx_chans[i] = ep_alloc_dma_chan(ep, name, true,
++						    TX_BD_NUM_DEFAULT);
++		if (IS_ERR(ep->tx_chans[i])) {
++			ret = PTR_ERR(ep->tx_chans[i]);
++			ep->tx_chans[i] = NULL;
++			goto err_free_chans;
++		}
++		tx_allocated++;
++	}
++
++	for (i = 0; i < ep->num_rx_queues; i++) {
++		snprintf(name, sizeof(name), "rx_chan%u", ep->rx_chan_num[i]);
++		ep->rx_chans[i] = ep_alloc_dma_chan(ep, name, false,
++						    RX_BD_NUM_DEFAULT);
++		if (IS_ERR(ep->rx_chans[i])) {
++			ret = PTR_ERR(ep->rx_chans[i]);
++			ep->rx_chans[i] = NULL;
++			goto err_free_chans;
++		}
++		rx_allocated++;
++	}
++
++	return 0;
++
++err_free_chans:
++	while (--rx_allocated >= 0)
++		ep_free_dma_chan(ep->rx_chans[rx_allocated]);
++	while (--tx_allocated >= 0)
++		ep_free_dma_chan(ep->tx_chans[tx_allocated]);
++	kfree(ep->rx_chans);
++	ep->rx_chans = NULL;
++err_free_tx:
++	kfree(ep->tx_chans);
++	ep->tx_chans = NULL;
++	return ret;
++}
++
++static int ep_reset_dma_controller(struct xlnx_tsn_ep *ep)
++{
++	struct xilinx_vdma_config cfg = { .reset = 1 };
++	struct dma_chan *reset_chan;
++	char name[16];
++	int ret;
++
++	snprintf(name, sizeof(name), "tx_chan%u", ep->tx_dma_chan_map[0]);
++	reset_chan = dma_request_chan(ep->dev, name);
++	if (IS_ERR(reset_chan))
++		return dev_err_probe(ep->dev, PTR_ERR(reset_chan),
++				     "failed to request %s for reset\n", name);
++
++	ret = xilinx_vdma_channel_set_config(reset_chan, &cfg);
++	dma_release_channel(reset_chan);
++	if (ret < 0)
++		return dev_err_probe(ep->dev, ret,
++				     "failed to reset DMA controller\n");
++
++	return 0;
++}
++
+ /*
+  * Parse the "tx-queues-config" child of the EP node. The logical queue
+  * index is taken from the "queue<N>" node name, so the mapping does not
+@@ -285,6 +556,16 @@ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_free_ndev;
+ 
++	/*
++	 * Request one DMA channel at probe time to reset the controller and to
++	 * gate on the MCDMA provider being bound. This keeps -EPROBE_DEFER in
++	 * the probe path, so the netdev is only registered once the provider is
++	 * available and ndo_open never sees a deferral.
++	 */
++	ret = ep_reset_dma_controller(ep);
 +	if (ret)
 +		goto err_free_ndev;
- 
++
  	ret = of_get_mac_address(dev->of_node, mac_addr);
  	if (ret == -EPROBE_DEFER) {
+ 		goto err_free_ndev;
 
 -- 
 2.43.0
