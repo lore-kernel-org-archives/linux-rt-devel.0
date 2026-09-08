@@ -1,71 +1,71 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013052.outbound.protection.outlook.com [40.107.201.52])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013018.outbound.protection.outlook.com [40.93.196.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3225A0AD5
-	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Sep 2026 19:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471845AEC66
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Sep 2026 19:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788895261; cv=fail; b=uBc7kBJCadQkZ2sr3PoUIeUfRSrtmkmCGnQzWZGeOpcMlDm7LVXPIC2S3bmuFmkmftmI6j7QMdc7KNytyvuDBaOSdiHMvKK9pK3ivlyowOAjndVfshqUs8I5xQq7HyiIlwdRCi0TGDaUjmFtFocDvfBMK5xPaDHv4JVvgkCAQ7w=
+	t=1788895265; cv=fail; b=jTev83c8FIRmB1Gu/nxUPl1JoWF4AkPzfgph4Rrok75HYCdjOfRAmOZvvtY0hUoMayScXXqkXyo3G1ln/04p01STXawEKXxkB/I3O3SHq/mZbD90uTtGEQ5cfxpJNpy1JPBBofGrYQ3XnRik0rkqziz8/42tpAu5edeL11UsNGU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788895261; c=relaxed/simple;
-	bh=d0r9stBMQImfokNbQnOQuq9rkUffMJdGPuiSKHp0z7w=;
+	s=arc-20240116; t=1788895265; c=relaxed/simple;
+	bh=W5YAm34tBG0hktTrUxHso6kWG0dRvWCkA5UyPreLHpM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=XjkLUuXwzNwLo9XG8CGJkMnK27/j8ygLSEmBnO5mDvuMceg0z9aXfOBs3M8wQ+r4cIlNJBdDvDFYHaAmFVddFNGGdbukHB2HaF93TCSAcW12Txqc8/QoCKJuKCKAWfwUtevc1ZXOn1bLWh3wk5Uftz1vfBmDgDZf711G7YHqS1Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rF2QjRvr; arc=fail smtp.client-ip=40.107.201.52
+	 In-Reply-To:To:CC; b=BiLApTdMqqzABDLLaSXolyd372R3WZgBwEKpj/xm7DxjyOAnJApAzQHdWrM58g3z9YoW6j6+IJqFP7+Q/Xx92Rq9ray277feR6J5ip3Cijug64zC1o9l1wtpQcOuj6cN5ONXJxU6wyrMytArh8b7WgKqymJzVjOCveYdEtqMt8w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=U6Y1cBtt; arc=fail smtp.client-ip=40.93.196.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rF2QjRvr"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="U6Y1cBtt"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yHuV44yqFypQMN9l4UVlb9EhNzwd3SzAwNfWEeZnONGb3nrEhBg94SDuXrAMkj/domzTyfOWPWdrygZDQNWKoznrDNPhhX38FpymksQjigwrdEF+i2178wukszqi02X/cqTZ1atIblFEW1UvQIRr2nN8mSlelG8D0V9KBir0ybhekv8puJVNEyQ2JpjqVNkGpj5l4YgQ79ThIDMEFSRnnhL+j2bflIRgkrZ0ir0gqNyeFX9TLzBMqBNsd7G18M91Z9bvXuNCvMikrrJ8pW65uhxsLVrP6LXX8FWIkW7iDSVsjVYUzMDBd0EuHOBgYRObB2ywbmPzv4GHg0L+fG40wA==
+ b=VJobuR5yM87PRoPNZtN8I2ecl1lQRRD+yWngMVzU6JpKgtW59xTXApY877WK4BOJnhHxuF/OJssvVw7jK2O1mp8aaDzkNDRLnagDhf6a6eZLls6pIYvo92zqyiNf8LjiKG2YCOZX3LH1np8LsGP/LnXGe+SahjNVPMG04e0pO0hlQmipujcyv8lK+EZm1cd2QsqOtCF+tB7UrucnNFvTtm/owpnfmvKT3cJ7AfUb4qtqIH/w5D76tzT9s69OmZirl/+du3bCfnuls3YFEuaUkpB+p5bAgJCFqNznnHbdUHBU5wPRfgbgjvrRiNcHAl0njW0/yi4NKlFh7ggSdXzcsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X+RCwtmufnkDttMm+0TQw4ZlhWBlLporL76du00bJdE=;
- b=mO4pCIQsPc/9nS7vNQgfDgQYfEVZWLIoAdM0S36zItvNKlZSS6kKLjLXhs4+1LEls58is4S23SgkW07jyDKMvkolfwv0aylyXtvCNVjQAp3WReSZzTIeVn91+NZtMDphK1qbFJ/GESMc4LtnOdZPsFuHw3Km1c3mY9CqlEA77ClFLFaPJl9GJEi2JsetrWsEpb02XEwOBTHq7dpoyXeeCO7AvcHn/BdF/W8b81Ha+ew9EVPOdShMc/hdX+SzpjJ2w/S9CG8TJtJNjGIu1UZOE4Ugr6L1s5FFYwl/cDTfwxNj08GSzNTh8DLv6evvnoZJUUgstdlkAwsJS5lY0dHHiA==
+ bh=lJ6ggI2YqOU/GvZZmpsMIlupDakh0igiyE27aQOh2tc=;
+ b=vQilX9hK9X2HmESmai85yJP4l304fS9hUCftm6X5BxpknzeE1AGE3JLoG6E/WpFrEAlnrRTwxQxR+uwZT2ifg3NdBwRfoQxTHpDT7AtZBbSl7MjhrL/G5UDzhQTDLWHhn06R8rzGQp3z07/i3Q3rQpOvrOB59VaEXJX7Yiq3CKikJFoLioxFNSYaZcgf37sYyiorRgjWWlVJmxNWMfIKXR84uOcBc845AnT6xGokjqZpqc0hx7ig2/ty0J2E/AHXZLH6P9dwbeW0V/WxAhWUiQ//NgQ/GZznVu/VhC97u5rKByfbCbeedbhJxPNC4R/NBk8NtNcr9Q4hF7z8X/i/pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X+RCwtmufnkDttMm+0TQw4ZlhWBlLporL76du00bJdE=;
- b=rF2QjRvrhz3+GA6zMQMWEDWAuVQSStH99GHWNoqE1uPD6cnD8XMfKMIx8PK5/xTZFUx/C5ntoE1afTrK0sYGS02O3FcWpY7S5YLNHE8RQMZ/rkvI/8ggdqPHBlqznNUyTxWqGlLdgPRc2kkrY6+4M3d57bdPU6Dmn/FCZtY9QFI=
-Received: from SN7PR04CA0077.namprd04.prod.outlook.com (2603:10b6:806:121::22)
- by IA0PR12MB8422.namprd12.prod.outlook.com (2603:10b6:208:3de::8) with
+ bh=lJ6ggI2YqOU/GvZZmpsMIlupDakh0igiyE27aQOh2tc=;
+ b=U6Y1cBtt9dnZTOYbC0Fp038wzWOBypX+LOLQ4X1UkUmjnS7c6ZLhQnCMKPfKDNRRhaAx6kzSbCQDBUiHlkb1TDgLL8SR/WDQziPxQHwVZbUdma3XSE1nMHRYkcG1x4Ua+oGg2yCoM3u33/615dQZn199yZn5Vt4ZZ/aBM4MfGGQ=
+Received: from CH0PR04CA0004.namprd04.prod.outlook.com (2603:10b6:610:76::9)
+ by CH2PR12MB4199.namprd12.prod.outlook.com (2603:10b6:610:a7::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Tue, 8 Sep 2026
- 19:20:47 +0000
-Received: from SN1PEPF00036F3E.namprd05.prod.outlook.com
- (2603:10b6:806:121:cafe::a4) by SN7PR04CA0077.outlook.office365.com
- (2603:10b6:806:121::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
+ 2026 19:20:55 +0000
+Received: from BN3PEPF0000B072.namprd04.prod.outlook.com
+ (2603:10b6:610:76:cafe::ab) by CH0PR04CA0004.outlook.office365.com
+ (2603:10b6:610:76::9) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.15 via Frontend Transport; Tue, 8
- Sep 2026 19:20:46 +0000
+ Sep 2026 19:20:55 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF00036F3E.mail.protection.outlook.com (10.167.248.22) with Microsoft
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN3PEPF0000B072.mail.protection.outlook.com (10.167.243.117) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Tue, 8 Sep 2026 19:20:46 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ 15.21.406.5 via Frontend Transport; Tue, 8 Sep 2026 19:20:55 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 8 Sep
- 2026 14:20:41 -0500
+ 2026 14:20:53 -0500
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
  (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 8 Sep
- 2026 14:20:41 -0500
+ 2026 14:20:52 -0500
 Received: from xhdsneeli40.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.46 via Frontend
- Transport; Tue, 8 Sep 2026 14:20:36 -0500
+ Transport; Tue, 8 Sep 2026 14:20:47 -0500
 From: Srinivas Neeli <srinivas.neeli@amd.com>
-Date: Wed, 9 Sep 2026 00:49:54 +0530
-Subject: [PATCH net-next v2 6/8] net: xilinx: tsn: add the endpoint RX data
- path
+Date: Wed, 9 Sep 2026 00:49:56 +0530
+Subject: [PATCH net-next v2 8/8] net: xilinx: tsn: deliver endpoint RX
+ frames to DSA user ports
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260909-patches_v2_external-v2-6-3a40babaff4c@amd.com>
+Message-ID: <20260909-patches_v2_external-v2-8-3a40babaff4c@amd.com>
 References: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
 In-Reply-To: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
 To: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>, Andrew Lunn
@@ -92,369 +92,191 @@ CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 X-Mailer: b4 0.16.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3E:EE_|IA0PR12MB8422:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd7ceb77-a6c0-41bd-bdcb-08df0dde48f8
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B072:EE_|CH2PR12MB4199:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53ecb8aa-7c7a-46da-3979-08df0dde4e1f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|23010399003|36860700016|921020|3023799007|10067099003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026|23010399003|7416014|10067099003|3023799007|11063799006|56012099006|22082099003|18002099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	MgzPT6OFVYdIlYSyEYC2wDqTsNK8ylnnp0MbL8DVesWTdAbyi6qo2T76ADfo1ZWbVEHcF8Pq+kiOEGkKxF+Z7KHxjSRj3nwKvwYTtd89+wkgDa1J40P6LgDQWxSPp9l8R5ROZSNzE6MSQW0331+vPaRf89Y3IC4fDVz2kof8fcMmxHz2kQwxzcQLzRTqhA1jY2IzBcTQTBGg6EOJeGps0/q9mVbvt9lh71bjWgxNtZvUPtuC4S7H8wZYK+G/zJDoml09R7kWUmUau6C6FbmV/m78YaM/vAU7faFtu2Y0AuXaqeN3qcm7zgvvgaaQfq1noKDqkTNcbbEzgscMkHXxuv5/kYRFU7bXXB0Q8fZaX+s96FD6Mv9yy5F0T9G9U4X2zsZTy98gGlzb4pQbZ9feGtgZw8soNEe3Qybm/+PAmiGzDzwf4u1ImTlUBalUqOmt0O2dXSIUFTgmVmPGFYOuyQ1b7WryEn2POklXL0GdeacnLpLOCZ+XuXPGeh3t8XNrNHk7++fPtehPegMn4XlmqdA56YUNSbvFZmIIpcDIGur7tQ47Ckg9k6URfyXwBzoAGgCtd7nbkIht4RZSo922CZBW75NzUkKvOuAHT4m6gAAxdHs258hfO3GUZ5f6+ibWhWghRvEMqVSQevzmZsaIVyeRDTM/B4Fi8SErTiCVDXaAXgXrAUKlf0z0oWKjasThMCme1bmRRmPQG8QlFqIYZ2Iv53dCMpC40qpEYBhSlCLm1NGdwRmY6u+I1RW9EKdX
+	DHNbqNg5YhHEntQd6W1PTEPbYlDtR1+oGTohg2ECV2JceymRZDpqyR87O9ON8U3pfYAt8B43WT2k3U6I807ffwxG+yse0WFDnCbZcxR3GJG5CcA0DjCbs62k61JkU5Rbq1jjH7JNVVP7cWm9F/WN+M71tBxHzSYyDMAGXYG8u+7HjwPNgIbTw4ysdMaszo3uMZG0oRn6WDZCpIc6gSkN3S2Uql2BhGH6efz8YPhzUehOePwdGX+Z03VSWYinaXW41PYktmo74uh+pX+Etb7T2SqhXWSxq51FzMyAEdKuFkoic0nJi6TsKL+Id68AG0sivhbwKBmEk3s3s8+RRchlopbou8dHBsDx9X0eyD4JOK7AbwZWuYYSNgrP1GVnmIdDQI4WGJGDk7OwAs8XA6ocW3Epx/c4k2dgfb/MUGkLn8RCnvo68D/3RLQN4vfgylGJEpcZCdd7l8J8FbOJL9crG3b99yjIaHHNmV+qqjpQj7+55jAyk6GkiTsjR4tk1EHkUwBbMkKXp68EWqz+cJM3q+welwUAuh1pjHF+6NChBuVUmPwnFb8MDgwd/xo/xONEVBpmSnDBlOV2Zlipl//DlBjUxPmGCLDaxzYdBCAFmYDtrFqKCRrG9weLWK8CQwLlxIIB4lfbhkkHvAdVgHtNN8oaDTjnEYhomxo/Df9zfahgV1ws3d1JgFImrKl0GG+WhEKtJ6uJUlYdMdH7hoiXfyCxQ6/mBS9+nQoNTY4JUovIz48LFe+938ja/ojXrXq6
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(23010399003)(36860700016)(921020)(3023799007)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026)(23010399003)(7416014)(10067099003)(3023799007)(11063799006)(56012099006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	KXguW69PDTsBEtZ0YgWWK5Gx5Gy1GN1NIG2HxCsXXpq65GlyF+yaI+CcA37EB6DbnmuCxGq7d+dWN1bWfp64J8lu+Rg2VoOkErjfc/oSTeNVFytvsu41OCmsAnmf2a7KPSGMwxqEbcxs6pg665ANMB3L+vXpLfOIEWobDtgeZo3TMltGI5amYzfyhgBzOBWG7k/igfN4dk+sbLwCcUnxmWpwkLxP218oFI94vAeMdUjQ6M+QKx3sdl5VHRY8z+El4CwAZdUzvyeMfDvtKAhzJEQYaC3o5dByn3kcmxXZzWbmAYnGa2JH/Eow5FClofch6218z3cp9TLAhI1W1u6DGCXgcV+oIRZdk/DN9iivll6z98mdJq8mA7NAK6NmGXs+9UJjgFPYIlZ4MWzxc4ttpxlrS98CfltxLJbm/3WwyDNhq1ce30ksN5w15RNZxsJZ
+	/qnnMjDeHSQ7AVag9dFL3ED6wyJfMc5rCzoWZcM+vj2rdltii651N1Riu3LcyqAbE9g1s8RR6Ke2aCY1hX6kBFfGH2AWkqC+vqAgGb59fzq041DanLR/hIOEZcbctkL2WwsIRQiBF2sJHBzooFqznsEpftdvBXEo5StSUp+qurSL30bFZsPgDxccO/f8elJYfWm1lOVfqM9G07/cO+VGhHVwxzDxYaQ7o1glcRhQUf0nCNghFaezyV/AUgnnK2s9XmF6ANJW2OHF8pgM1nCcZdqSQ7fclBuCZ3E4d+lSpFRNP2qLtpS/RoU5K4KTPkhriOWw0WR6oeeTS2ALpWTqunrs0yv/x7ooc8yY/v4HkU/GR8VDh1OI9nL5ymUTG1UrJ0u4wGb2PZJhIKZDBRtl4ftgDdQKJTA52WYcBK7ze3aum8i+ChRM7ADZNjrl42S7
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 19:20:46.7399
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 19:20:55.4039
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd7ceb77-a6c0-41bd-bdcb-08df0dde48f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53ecb8aa-7c7a-46da-3979-08df0dde4e1f
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF00036F3E.namprd05.prod.outlook.com
+	BN3PEPF0000B072.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8422
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4199
 
-With the RX channels armed, the endpoint can start receiving frames.
+From: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
 
-Post RX buffers to every RX channel on open and reap them from the
-completion callback. Each inbound frame carries a TUSER port_id in the
-descriptor sideband. Accept frames from MAC1 (port_id 1) and MAC2
-(port_id 2) and pass them up the stack. Drop any other port_id, since
-the bridged-only model never produces it. Drop and count frames with
-bad descriptor status, an invalid length or no metadata pointer.
+The DSA core routes an RX frame to a user port from the port metadata
+attached to the skb. Without that metadata, frames from the two MACs
+cannot reach their swpN netdevs.
 
-Refill each slot from the completion callback unless the interface is
-closing, which keeps the ring full without a separate refill worker.
+Allocate a METADATA_HW_PORT_MUX entry per MAC port at probe and attach
+the matching entry to each RX frame by its TUSER port_id. Frames from
+MAC1 and MAC2 now reach the correct user netdev, which completes the
+conduit data path.
 
-Serialise the RX refill against teardown. The completion callback re-arms
-the ring, so ndo_stop() sets a closing flag under the same per-channel
-lock the refill takes, and ep_free_dma_chan() takes that lock as a barrier
-before it terminates the channel. No descriptor is submitted once teardown
-has begun, so a single dmaengine_terminate_sync() is enough to quiesce the
-channel.
+The RX callback runs in softirq and hands the frame to __netif_rx(),
+which queues it on the backlog instead of consuming it inline, so the
+attached dst must be a counted reference (dst_hold() + skb_dst_set())
+to survive the handoff.
 
-The RX path uses __netif_rx() from the dmaengine completion callback
-rather than NAPI. dmaengine owns the RX interrupt and ring and delivers
-one descriptor per callback, so there is no poll context to run NAPI or
-GRO, and the per-packet counters use the dev->stats atomics.
-
-Co-developed-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
 Signed-off-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
+Co-developed-by: Srinivas Neeli <srinivas.neeli@amd.com>
 Signed-off-by: Srinivas Neeli <srinivas.neeli@amd.com>
 
 ---
 Changes in v2:
-- Serialise the RX refill against teardown under a per-channel rx_lock. The
-  completion callback re-arms the ring, so ndo_stop() sets a closing flag under
-  the same lock and ep_free_dma_chan() takes it as a barrier before terminating.
-- Recover a drained ring with a refill timer instead of leaving RX dead after
-  an allocation failure.
-- Fail ndo_open if a channel cannot arm any RX descriptor.
-- Set the closing flag on the ndo_open error path too, before tearing the
-  channels down.
-- Take the ring size from the channel instead of a compile-time constant.
-- Note in the commit message why RX is not NAPI based. dmaengine owns the RX
-  interrupt and ring and delivers one descriptor per callback, so there is no
-  poll context for NAPI or GRO, and the counters use the dev->stats atomics.
-- Shut the refill timer down with timer_shutdown_sync() at teardown rather than
-  relying on timer_delete_sync() plus the closing flag.
-- Return true from ep_rx_refill() when at least one descriptor is armed, false
-  otherwise, following the usual bool convention.
-- Init the refill timer and rx_lock only for RX channels.
+- Attach the RX port metadata only when the netdev is a DSA conduit
+  (netdev_uses_dsa()), so no dev-less dst leaks into the stack when no switch
+  is bound.
+- Take a real reference on the per-port metadata_dst with dst_hold() +
+  skb_dst_set() before the __netif_rx() backlog handoff, instead of
+  skb_dst_set_noref() + skb_dst_force(). The entries stay live for the driver
+  lifetime, so this drops the rcu_read_lock() that skb_dst_force() would need
+  in the softirq callback.
+- Release the per-port metadata_dst with dst_release() at teardown, not
+  metadata_dst_free(), so an skb still referencing it is not freed early.
 ---
- drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 216 +++++++++++++++++++++++-
- 1 file changed, 215 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 55 ++++++++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-index 23a15df71baa..9ed1170794e0 100644
+index 9e9a45169681..db7da26521d0 100644
 --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2026 Advanced Micro Devices, Inc.
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/bitops.h>
- #include <linux/circ_buf.h>
- #include <linux/dma/xilinx_dma.h>
-@@ -25,6 +26,7 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/string.h>
-+#include <linux/timer.h>
+@@ -29,6 +29,8 @@
+ #include <linux/timer.h>
  #include <linux/types.h>
  
- #include "xilinx_tsn.h"
-@@ -41,6 +43,19 @@
- #define TX_BD_NUM_DEFAULT		64
- #define RX_BD_NUM_DEFAULT		128
++#include <net/dsa.h>
++#include <net/dst_metadata.h>
+ #include <net/netdev_queues.h>
  
-+#define EP_RX_REFILL_RETRY		msecs_to_jiffies(10)
-+
-+/*
-+ * The DMA descriptor sideband status word packs TID/TDEST/TUSER together;
-+ * TUSER occupies the low byte, TID/TDEST sit in the upper bits.
-+ */
-+#define TSN_TUSER_MASK			GENMASK(7, 0)
-+/* TUSER Input Port ID field (bits [5:4] of the TUSER field) */
-+#define TSN_TUSER_PORT_ID_MASK		GENMASK(5, 4)
-+#define TSN_TUSER_PORT_EP		0x0
-+#define TSN_TUSER_PORT_MAC1		0x1
-+#define TSN_TUSER_PORT_MAC2		0x2
+ #include "xilinx_tsn.h"
+@@ -58,6 +60,9 @@
+ #define TSN_TUSER_PORT_MAC1		0x1
+ #define TSN_TUSER_PORT_MAC2		0x2
+ 
++/* Sized to index port_md[] by TUSER port_id (1 or 2, slot 0 unused) */
++#define XLNX_TSN_EP_PORT_MD_SLOTS	(TSN_TUSER_PORT_MAC2 + 1)
 +
  /**
   * struct skbuf_dma_descriptor - skb container for each in-flight DMA descriptor
   * @sgl: scatter-gather list backing the DMA mapping
-@@ -66,6 +81,8 @@ struct skbuf_dma_descriptor {
-  * @ring_head: producer index
-  * @ring_tail: consumer index
-  * @ring_size: number of slots in @skb_ring
-+ * @rx_lock: serialises @ring_head between the RX callback and the refill timer
-+ * @rx_refill_timer: retries RX refill after an allocation failure
-  * @is_tx: true for TX channels, false for RX
+@@ -114,6 +119,8 @@ struct xlnx_tsn_ep_dma_chan {
+  * @tx_chans: array of TX channels (size @num_tx_queues)
+  * @rx_chans: array of RX channels (size @num_rx_queues)
+  * @closing: set in ndo_stop so the RX completion callback stops re-arming
++ * @port_md: per-TUSER-port METADATA_HW_PORT_MUX entries attached on RX,
++ *	indexed by port_id (1 for MAC1, 2 for MAC2)
   */
- struct xlnx_tsn_ep_dma_chan {
-@@ -76,6 +93,8 @@ struct xlnx_tsn_ep_dma_chan {
- 	u32 ring_head;
- 	u32 ring_tail;
- 	u32 ring_size;
-+	spinlock_t rx_lock;	/* serialises @ring_head */
-+	struct timer_list rx_refill_timer;
- 	bool is_tx;
+ struct xlnx_tsn_ep {
+ 	struct net_device *ndev;
+@@ -128,6 +135,8 @@ struct xlnx_tsn_ep {
+ 	struct xlnx_tsn_ep_dma_chan **rx_chans;
+ 
+ 	bool closing;
++
++	struct metadata_dst *port_md[XLNX_TSN_EP_PORT_MD_SLOTS];
  };
  
-@@ -113,6 +132,174 @@ ep_get_desc(struct xlnx_tsn_ep_dma_chan *xchan, int idx)
- 	return xchan->skb_ring[idx];
- }
- 
-+static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result);
-+
-+static int ep_rx_submit_desc(struct xlnx_tsn_ep_dma_chan *xchan)
-+{
-+	struct dma_async_tx_descriptor *dma_rx_desc;
-+	struct skbuf_dma_descriptor *skbuf_dma;
-+	struct xlnx_tsn_ep *ep = xchan->ep;
-+	struct sk_buff *skb;
-+	dma_addr_t addr;
-+
-+	skbuf_dma = ep_get_desc(xchan, xchan->ring_head & (xchan->ring_size - 1));
-+	if (!skbuf_dma)
-+		return -ENOSPC;
-+
-+	skb = dev_alloc_skb(ep->max_frm_size);
-+	if (!skb)
-+		return -ENOMEM;
-+
-+	sg_init_table(skbuf_dma->sgl, 1);
-+	addr = dma_map_single(xchan->dma_dev, skb->data, ep->max_frm_size,
-+			      DMA_FROM_DEVICE);
-+	if (unlikely(dma_mapping_error(xchan->dma_dev, addr))) {
-+		if (net_ratelimit())
-+			dev_warn(ep->dev, "DMA mapping error on RX submit\n");
-+
-+		goto err_free_skb;
-+	}
-+	sg_dma_address(skbuf_dma->sgl) = addr;
-+	sg_dma_len(skbuf_dma->sgl) = ep->max_frm_size;
-+	dma_rx_desc = dmaengine_prep_slave_sg(xchan->chan, skbuf_dma->sgl,
-+					      1, DMA_DEV_TO_MEM,
-+					      DMA_PREP_INTERRUPT);
-+	if (!dma_rx_desc)
-+		goto err_unmap_skb;
-+
-+	skbuf_dma->skb = skb;
-+	skbuf_dma->dma_address = sg_dma_address(skbuf_dma->sgl);
-+	skbuf_dma->desc = dma_rx_desc;
-+	dma_rx_desc->callback_param = xchan;
-+	dma_rx_desc->callback_result = ep_dma_rx_cb;
-+	xchan->ring_head++;
-+	dmaengine_submit(dma_rx_desc);
-+
-+	return 0;
-+
-+err_unmap_skb:
-+	dma_unmap_single(xchan->dma_dev, addr, ep->max_frm_size, DMA_FROM_DEVICE);
-+err_free_skb:
-+	dev_kfree_skb(skb);
-+	return -ENOMEM;
-+}
-+
-+static bool ep_rx_refill(struct xlnx_tsn_ep_dma_chan *xchan, bool arm_timer)
-+{
-+	int avail, i;
-+
-+	guard(spinlock_bh)(&xchan->rx_lock);
-+
-+	if (READ_ONCE(xchan->ep->closing))
-+		return false;
-+
-+	avail = CIRC_SPACE(xchan->ring_head, READ_ONCE(xchan->ring_tail),
-+			   xchan->ring_size);
-+	for (i = 0; i < avail; i++) {
-+		if (ep_rx_submit_desc(xchan))
-+			break;
-+	}
-+	dma_async_issue_pending(xchan->chan);
-+
-+	if (xchan->ring_head != READ_ONCE(xchan->ring_tail))
-+		return true;
-+
-+	if (arm_timer)
-+		mod_timer(&xchan->rx_refill_timer, jiffies + EP_RX_REFILL_RETRY);
-+
-+	return false;
-+}
-+
-+static void ep_rx_refill_timer(struct timer_list *t)
-+{
-+	struct xlnx_tsn_ep_dma_chan *xchan = timer_container_of(xchan, t,
-+							       rx_refill_timer);
-+
-+	ep_rx_refill(xchan, true);
-+}
-+
-+static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
-+{
-+	struct xlnx_tsn_ep_dma_chan *xchan = data;
-+	struct skbuf_dma_descriptor *skbuf_dma;
-+	size_t meta_len, meta_max_len, rx_len;
-+	struct xlnx_tsn_ep *ep = xchan->ep;
-+	struct net_device *ndev = ep->ndev;
-+	struct sk_buff *skb;
-+	u32 port_id, tuser;
-+	u32 *metadata;
-+
-+	skbuf_dma = ep_get_desc(xchan, xchan->ring_tail & (xchan->ring_size - 1));
-+	WRITE_ONCE(xchan->ring_tail, xchan->ring_tail + 1);
-+	skb = skbuf_dma->skb;
-+	skbuf_dma->skb = NULL;
-+
-+	dma_unmap_single(xchan->dma_dev, skbuf_dma->dma_address,
-+			 ep->max_frm_size, DMA_FROM_DEVICE);
-+
-+	if (result->result != DMA_TRANS_NOERROR) {
-+		if (net_ratelimit())
-+			dev_warn(ep->dev, "RX DMA transfer error %d\n",
-+				 result->result);
-+
-+		dev_kfree_skb_any(skb);
-+		DEV_STATS_INC(ndev, rx_dropped);
-+		DEV_STATS_INC(ndev, rx_errors);
-+		goto submit_new;
-+	}
-+
-+	metadata = dmaengine_desc_get_metadata_ptr(skbuf_dma->desc,
-+						   &meta_len,
-+						   &meta_max_len);
-+	if (IS_ERR_OR_NULL(metadata)) {
-+		if (net_ratelimit())
-+			dev_warn(ep->dev, "Failed to get RX metadata pointer\n");
-+
-+		dev_kfree_skb_any(skb);
-+		DEV_STATS_INC(ndev, rx_dropped);
-+		DEV_STATS_INC(ndev, rx_errors);
-+		goto submit_new;
-+	}
-+
-+	/* MCDMA metadata: [0] = status, [1] = sideband (TID/TDEST/TUSER), [2..] = app */
-+	tuser = metadata[1] & TSN_TUSER_MASK;
-+	rx_len = ep->max_frm_size - result->residue;
-+
-+	if (rx_len > ep->max_frm_size || rx_len < ETH_HLEN) {
-+		if (net_ratelimit())
-+			dev_warn(ep->dev, "Invalid RX length %zu (max=%u, min=%u)\n",
-+				 rx_len, ep->max_frm_size, ETH_HLEN);
-+
-+		dev_kfree_skb_any(skb);
-+		DEV_STATS_INC(ndev, rx_dropped);
-+		DEV_STATS_INC(ndev, rx_errors);
-+		goto submit_new;
-+	}
-+
-+	port_id = FIELD_GET(TSN_TUSER_PORT_ID_MASK, tuser);
-+	if (port_id != TSN_TUSER_PORT_MAC1 && port_id != TSN_TUSER_PORT_MAC2) {
-+		if (net_ratelimit())
-+			dev_dbg(ep->dev, "RX dropping unexpected TUSER port_id=%u\n",
-+				port_id);
-+
-+		dev_kfree_skb_any(skb);
-+		DEV_STATS_INC(ndev, rx_dropped);
-+		goto submit_new;
-+	}
-+
-+	skb_put(skb, rx_len);
-+	skb->dev = ndev;
-+	skb->protocol = eth_type_trans(skb, ndev);
-+	skb->ip_summed = CHECKSUM_NONE;
-+	__netif_rx(skb);
-+
-+	DEV_STATS_INC(ndev, rx_packets);
-+	DEV_STATS_ADD(ndev, rx_bytes, rx_len);
-+
-+submit_new:
-+	ep_rx_refill(xchan, true);
-+}
-+
- static netdev_tx_t ep_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- {
- 	dev_kfree_skb_any(skb);
-@@ -211,6 +398,10 @@ ep_alloc_dma_chan(struct xlnx_tsn_ep *ep, const char *name, bool is_tx,
- 	chan->ep = ep;
- 	chan->ring_size = ring_size;
- 	chan->dma_dev = dmaengine_get_dma_device(chan->chan);
-+	if (!is_tx) {
-+		spin_lock_init(&chan->rx_lock);
-+		timer_setup(&chan->rx_refill_timer, ep_rx_refill_timer, 0);
-+	}
- 
- 	return chan;
- }
-@@ -222,8 +413,21 @@ static void ep_free_dma_chan(struct xlnx_tsn_ep_dma_chan *chan)
- 	if (!chan)
- 		return;
- 
--	if (chan->chan)
-+	if (chan->chan) {
-+		if (!chan->is_tx) {
-+			/* ep_stop() sets closing before teardown. Take rx_lock
-+			 * so any refill that already passed the closing check
-+			 * finishes and no later one submits or arms the timer,
-+			 * then shut down the timer so it cannot be rearmed
-+			 * before the channel is freed.
-+			 */
-+			spin_lock_bh(&chan->rx_lock);
-+			spin_unlock_bh(&chan->rx_lock);
-+			timer_shutdown_sync(&chan->rx_refill_timer);
-+		}
-+
- 		dmaengine_terminate_sync(chan->chan);
-+	}
- 
- 	if (chan->is_tx) {
- 		while (chan->ring_tail != chan->ring_head) {
-@@ -322,9 +526,19 @@ static int ep_init_dmaengine(struct xlnx_tsn_ep *ep)
- 		rx_allocated++;
+ static inline struct skbuf_dma_descriptor *
+@@ -292,6 +301,10 @@ static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
  	}
  
-+	for (i = 0; i < ep->num_rx_queues; i++) {
-+		if (!ep_rx_refill(ep->rx_chans[i], false)) {
-+			dev_err(ep->dev, "RX channel %d: no descriptors armed\n",
-+				i);
-+			ret = -ENOMEM;
-+			goto err_free_chans;
+ 	skb_put(skb, rx_len);
++	if (netdev_uses_dsa(ndev)) {
++		dst_hold(&ep->port_md[port_id]->dst);
++		skb_dst_set(skb, &ep->port_md[port_id]->dst);
++	}
+ 	skb->dev = ndev;
+ 	skb->protocol = eth_type_trans(skb, ndev);
+ 	skb->ip_summed = CHECKSUM_NONE;
+@@ -854,6 +867,37 @@ static int ep_count_dma_queues(struct device *dev, u32 *out_tx, u32 *out_rx,
+ 	return 0;
+ }
+ 
++static void ep_free_port_md(struct xlnx_tsn_ep *ep)
++{
++	int i;
++
++	for (i = 0; i < XLNX_TSN_EP_PORT_MD_SLOTS; i++) {
++		if (ep->port_md[i]) {
++			dst_release(&ep->port_md[i]->dst);
++			ep->port_md[i] = NULL;
 +		}
 +	}
++}
 +
++static int ep_alloc_port_md(struct xlnx_tsn_ep *ep)
++{
++	int i;
++
++	for (i = TSN_TUSER_PORT_MAC1; i <= TSN_TUSER_PORT_MAC2; i++) {
++		struct metadata_dst *md;
++
++		md = metadata_dst_alloc(0, METADATA_HW_PORT_MUX, GFP_KERNEL);
++		if (!md) {
++			ep_free_port_md(ep);
++			return -ENOMEM;
++		}
++		md->u.port_info.port_id = i;
++		ep->port_md[i] = md;
++	}
++
++	return 0;
++}
++
+ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
+ {
+ 	u32 rx_chan_num[TSN_MAX_RX_QUEUE];
+@@ -939,16 +983,24 @@ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
+ 			 ndev->dev_addr);
+ 	}
+ 
++	ret = ep_alloc_port_md(ep);
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to allocate per-port metadata\n");
++		goto err_free_ndev;
++	}
++
+ 	platform_set_drvdata(pdev, ep);
+ 
+ 	ret = register_netdev(ndev);
+ 	if (ret) {
+ 		dev_err_probe(dev, ret, "failed to register net device\n");
+-		goto err_free_ndev;
++		goto err_free_md;
+ 	}
+ 
  	return 0;
  
- err_free_chans:
-+	WRITE_ONCE(ep->closing, true);
- 	while (--rx_allocated >= 0)
- 		ep_free_dma_chan(ep->rx_chans[rx_allocated]);
- 	while (--tx_allocated >= 0)
++err_free_md:
++	ep_free_port_md(ep);
+ err_free_ndev:
+ 	free_netdev(ndev);
+ 	return ret;
+@@ -962,6 +1014,7 @@ static void xlnx_tsn_ep_remove(struct platform_device *pdev)
+ 		return;
+ 
+ 	unregister_netdev(ep->ndev);
++	ep_free_port_md(ep);
+ 	free_netdev(ep->ndev);
+ }
+ 
 
 -- 
 2.43.0
