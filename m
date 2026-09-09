@@ -1,170 +1,302 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314F14854F6;
-	Wed,  9 Sep 2026 09:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314864915A5;
+	Wed,  9 Sep 2026 09:06:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788944614; cv=none; b=XnE8I1mmUYGGBnvlcvM4Dcb4SDHg8FwBipRmbtbq/QWepnjiitGk0Yfc9rXy8rBjOEz0ik0sh7htyaYTuv3TLBopiQTiMYmq55SAy0I7q5tgNKE30eXeFl9s0nF3sfOephUlJEu42er3hXWQUpft5XbMh9sndfeT9zc1/X38z08=
+	t=1788944783; cv=none; b=r+urKTED5mRx8LM7Ss8vl/ImvtMMadAYjfAce7eGP5zAViQEm9cS5izti9vbJuftqoSBVGlbn+FLd3kBAQhMQxPuMoznV5+96464O5COBixP8ALlT8J7YkpH4rB5q8sYviiDeXQylfr68naOY7mBsRm88h7telxq5+F+J0r68vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788944614; c=relaxed/simple;
-	bh=dAW4XFaHnXuRRusbMK+XhLRVSHDX62pvCW3fTPDkR5k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dnHNHfhhQf9yahdacaNuHP12VPumampaz04rWx7qifJ/vI9Jr6+8OuPj4xKpPLSLkZQofcVCd1KupG30MfcAZu4g/tm0dLLDnwdkQ3+5Z/vdHSyBW5a7HfrxyU0lc/vjh1HugxCz67DeKTZ/kNKeVTlIFqYzEo53hqvh4z3AQmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaDw5ez+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788944783; c=relaxed/simple;
+	bh=JlSn9YddP+JeE4YK154QhRxhqOrvmvs2k/nVLpKzUxU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=oNjZIuv8Xiq0PGnP0Xzdu8oJ0Tub1BIM+VHd/Y9FABb1tEkoa1DBrCPjh3o+lWz0h7mljsz+6VciUr6wG/6KRoxuohJNwf4VcP2vTr2jGj97DCMr26bpgGZ45kjdD+eNH+c1FraOQoYd/U12PVcNg8/ZeZBz5Y8x+IcrH6Mjtmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RA3c3I9g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaDw5ez+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95341F00A3A;
-	Wed,  9 Sep 2026 09:03:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RA3c3I9g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DCC31F00A3D;
+	Wed,  9 Sep 2026 09:06:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788944612;
-	bh=ad/uP/9BUaKeqL2yxjxogEEVcG1H43vsLZmR0rGjAt0=;
-	h=From:Date:Subject:To:Cc;
-	b=HaDw5ez+b3XDVV1tsv1rTrXGgu6ItNNHZ8tcUgGcAwWdpRhMeb4e3XmIUx5LK56bR
-	 jOhxSv+JWhRrp9IvCp4urd7bzztMmsnoY1gL1kKanHFAFxIhgMH/JUIda1MxwYq6qd
-	 aL703p8YlTOtOq2yNIrxGxyBP5xJi9b73ySNRvelwqfNG2GRHAL7MQ+9u717rNSYpV
-	 6JhHZSarC7WTW99XV6CGeu+XnkwT/BVqVe8kpjQBE4o2iNUDpLTrQ2Gh7uXluXPLyG
-	 9xLVFLSoaVtukFd29sQjsFgh9AE3T+rbmQPWCwBdsguRw5k+GxJgDbL5s8Ucz3507+
-	 OP7CWwQulK8kg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 11:03:18 +0200
-Subject: [PATCH] fs/ntfs3: use d_instantiate_new() in ntfs_create_inode()
- and murder syzbot's "WARNING in do_new_mount" saga
+	s=k20260515; t=1788944780;
+	bh=FAL7Dm/W/QsCfNk7BhIHNon+A3YKI7/DuwahG4heNEg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=RA3c3I9gVha2tIGXnRf8zpXDbn11dDXIrZs0Zycy2fMTaIuZrY/7JgcuToFtW4tQA
+	 A0hyt+rQ2W0ik2DAUsw+2u7qBeiCpP3bt5cpi9N9BIZmWTYNDuSCWL9gXhfZL+Suf5
+	 s4ACVjilcUwbkxEc0ywteTlvTjN9OsPAW/N7inbLcg1VnRmcWl1P2LoEm/K6UMTOxX
+	 Ooa2aWpVgGtHLnliGERUD1HIBT3qHnGIuteCVhOo/4EkmedAasmZNV+96Bj+xIGDkP
+	 7ryekKcn6RmX+Rphu6WmXQZZtJVRiT97ipbChU/LPhGByFcsdw3aJ58lkISGCQug9u
+	 szi9BycGicslA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] drm/msm: split DPU core IRQ handler under
+ CONFIG_PREEMPT_RT
+Reply-To: sashiko-reviews@lists.linux.dev
+To: vishnu.saini@oss.qualcomm.com
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260909-drm-mis-next-split-irq-v1-1-89bc9c512c53@oss.qualcomm.com>
+References: <20260909-drm-mis-next-split-irq-v1-1-89bc9c512c53@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Sep 2026 09:06:19 +0000
+Message-Id: <20260909090620.4DCC31F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XM0QqCQBCF4VeRuW5F1wjtVSJk3B1zCsbY2TIQ3
- 71du+zyPxy+FZQCk8K5WCHQm5VnSVEfCnATyo0M+9RgK3uquqozyxweRuKojfE9i0aUyBipF1p
- MWx/RN7UnbC0k4hlo5M/OX66/1tdwJxezmR8DKpkhoLgpT1kvd73808v8hW37AiUt2920AAAA
-X-Change-ID: 20260909-work-ntfs3-d_instantiate_new-814ad31dea82
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Steven Rostedt <rostedt@goodmis.org>, jack@suse.cz, 
- syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, 
- ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, 
- syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4049; i=brauner@kernel.org;
- h=from:subject:message-id; bh=dAW4XFaHnXuRRusbMK+XhLRVSHDX62pvCW3fTPDkR5k=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtVLj/9sFvEWUe4bbrxud3z5gYcdVcXign9IOE/pfOQ
- l25evZ1HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMJOsHwh9+b+cCqz9xKuzVv
- qPk66T2+kX/bVFqmz3GfiJF8fFauFcP/qM1fX/P+80gvnrja76j4olk7dqamLzEV+NFkINWZo+r
- MBwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-ntfs_create_inode() creates a new inode via ntfs_new_inode(). It hashes
-it with insert_inode_locked() and so it's marked as I_NEW until
-unlock_new_inode().
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+s) to consider:
+- [Critical] Setting `IRQF_NO_THREAD` for backends without `irq_thread` for=
+ces them into hardirq context on PREEMPT_RT, causing kernel panics.
+- [High] Race condition in threaded IRQ handler leading to NULL pointer der=
+eference or Use-After-Free on PREEMPT_RT.
+- [High] Acquiring sleepable `spinlock_t` inside `raw_spinlock_t` on non-RT=
+ kernels violates wait-context rules, triggering lockdep splats.
+- [High] `dpu_core_irq_read()` reads hardware registers directly without ch=
+ecking `irq_pending_mask`, causing fault recovery loops to falsely timeout =
+on PREEMPT_RT.
+- [Medium] Primary IRQ handler incorrectly returns `IRQ_NONE` after clearin=
+g masked interrupts, risking permanent IRQ disablement.
+--
 
-ntfs 3 calls d_instantiate() in between though... Since the dentry was
-already hashed by the lookup before the create any path walk finds it
-without touching the parent's i_rwsem and so can lock the inode.
+commit de5a98b2b15837b087edf7ff28d14a0650953129
+Author: Naman S Thaker <namathak@qti.qualcomm.com>
+Subject: drm/msm: split DPU core IRQ handler under CONFIG_PREEMPT_RT
 
-If the inode is a directory unlock_new_inode() calls
-lockdep_annotate_inode_mutex_key() and marks i_rwsem with the
-i_mutex_dir_key class.
+This commit splits dpu_core_irq() into a minimal hardirq handler and a new
+dpu_core_irq_thread() to dispatch per-encoder callbacks on PREEMPT_RT
+kernels. It also changes irq_lock to raw_spinlock_t and drops IRQF_NO_THREAD
+where threaded handlers are not implemented.
 
-That resets the count and the owner of a lock somebody else may already
-hold by now...
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/=
+gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index 5b7cd5241f450..95b016e8d7df1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -322,6 +322,52 @@ static void dpu_core_irq_callback_handler(struct dpu=
+_kms *dpu_kms, unsigned int
+>  	irq_entry->cb(irq_entry->arg);
+>  }
+> =20
+> +/*
+> + * dpu_core_irq_dispatch() runs the fired bits for @reg_idx through their
+> + * registered callbacks directly. Only used on non-PREEMPT_RT kernels, w=
+here
+> + * dpu_core_irq() itself is allowed to take the sleepable locks reached =
+via
+> + * those callbacks.
+> + */
+> +static void dpu_core_irq_dispatch(struct dpu_kms *dpu_kms, int reg_idx, =
+u32 irq_status)
+> +{
+> +	unsigned int irq_idx;
+> +	int bit;
+> +
+> +	/*
+> +	 * Search through matching intr status.
+> +	 */
+> +	while ((bit =3D ffs(irq_status)) !=3D 0) {
+> +		irq_idx =3D DPU_IRQ_IDX(reg_idx, bit - 1);
+> +
+> +		dpu_core_irq_callback_handler(dpu_kms, irq_idx);
 
-syzbot has been spamming us with the same godforsaken bug
+[Severity: High]
+On non-RT kernels, this dispatch happens while holding the raw_spin_lock=20
+acquired in dpu_core_irq(). Does this violate wait-context rules?
 
-  "WARNING in do_new_mount"
+The dispatched callbacks (e.g., DRM vblank event handlers) acquire standard
+spinlock_t locks. Acquiring a spinlock_t (wait context LD_WAIT_CONFIG) while
+holding a raw_spinlock_t (wait context LD_WAIT_SPIN) constitutes an invalid
+wait context and triggers a lockdep splat on non-RT kernels.
 
-since 2023. I can't take it anymore so I went looking. Afaict, syzbot's
-executor chdirs into a freshly mounted ntfs3 image, creates a
-directory and then mounts some pseudofs on it. Everytime the mkdir()
-takes longer than syzbot waits mount() runs concurrently:
+[ ... ]
 
-  mkdir("./sys")                        mount(NULL, "./sys", "sysfs")
-  ntfs_create_inode()
-    d_instantiate()
-                                        user_path_at() finds the dentry
-                                        do_lock_mount()
-                                          inode_lock(inode)
-                                          namespace_lock()
-    unlock_new_inode()
-      lockdep_annotate_inode_mutex_key()
-        init_rwsem(&inode->i_rwsem)
-                                        unlock_mount()
-                                          inode_unlock(inode)
+> @@ -332,16 +378,14 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
+>  	struct dpu_kms *dpu_kms =3D to_dpu_kms(kms);
+>  	struct dpu_hw_intr *intr =3D dpu_kms->hw_intr;
+>  	int reg_idx;
+> -	unsigned int irq_idx;
+>  	u32 irq_status;
+>  	u32 enable_mask;
+> -	int bit;
+> -	unsigned long irq_flags;
+> +	bool wake_thread =3D false;
+> =20
+>  	if (!intr)
+>  		return IRQ_NONE;
+> =20
+> -	spin_lock_irqsave(&intr->irq_lock, irq_flags);
+> +	raw_spin_lock(&intr->irq_lock);
+>  	for (reg_idx =3D 0; reg_idx < MDP_INTR_MAX; reg_idx++) {
+>  		if (!test_bit(reg_idx, &intr->irq_mask))
+>  			continue;
+> @@ -363,6 +407,52 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
+>  		if (!irq_status)
+>  			continue;
 
-The mount side then releases a lock that according to the rwsem nobody
-holds:
+[Severity: Medium]
+Will this lead to the generic IRQ subsystem permanently disabling the displ=
+ay
+IRQ line?
 
-  DEBUG_RWSEMS_WARN_ON((rwsem_owner(sem) != current) && ...):
-  count = 0x0, magic = 0xffff888043a854e8, owner = 0x0,
-  curr 0xffff888000244880, list empty
-  WARNING: CPU: 0 PID: 5346 at kernel/locking/rwsem.c:1368 __up_write
-  Call Trace:
-   inode_unlock include/linux/fs.h:877 [inline]
-   unlock_mount fs/namespace.c:2892 [inline]
-   do_new_mount_fc fs/namespace.c:3828 [inline]
-   do_new_mount+0x777/0xa40 fs/namespace.c:3887
+If an interrupt fires but is filtered out by enable_mask, the hardware
+interrupt is actively cleared a few lines above this, but irq_status
+becomes 0, meaning the loop continues and wake_thread remains false.
 
-On PREEMPT_RT the same thing shows up as
+> =20
+> +		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> +			dpu_core_irq_defer_to_thread(intr, reg_idx, irq_status);
+> +			wake_thread =3D true;
+> +		} else {
+> +			dpu_core_irq_dispatch(dpu_kms, reg_idx, irq_status);
+> +		}
+> +	}
+> +
+> +	/* ensure register writes go through */
+> +	wmb();
+> +
+> +	raw_spin_unlock(&intr->irq_lock);
+> +
+> +	if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> +		return wake_thread ? IRQ_WAKE_THREAD : IRQ_NONE;
 
-  DEBUG_LOCKS_WARN_ON(rt_mutex_owner(lock) != current)
-  WARNING: kernel/locking/rtmutex_common.h:193 at rt_mutex_slowunlock
+[Severity: Medium]
+(Continued from above)
+On PREEMPT_RT, returning IRQ_NONE after actively clearing a masked interrupt
+falsely tells the generic IRQ subsystem that the interrupt was unhandled.
+This could cause the spurious interrupt detector to disable the IRQ line.
 
-The up_write() underflows the reset count. A following inode_lock() on
-that directory then never returns. A path walk into the new directory
-racing with the mkdir() corrupts the lock the same way via
-inode_lock_shared() in lookup_slow().
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +#ifdef CONFIG_PREEMPT_RT
+> +/*
+> + * dpu_core_irq_thread() runs in a genuine preemptible IRQ thread (woken=
+ via
+> + * IRQ_WAKE_THREAD from dpu_core_irq() above), so it's safe for it -- an=
+d the
+> + * per-encoder callbacks it dispatches to -- to take spinlock_t/rt_mutex
+> + * locks such as enc_spinlock, dpu_crtc::spin_lock, and the various DRM-=
+core
+> + * locks reached via vblank/CRC/writeback handling.
+> + */
+> +irqreturn_t dpu_core_irq_thread(struct msm_kms *kms)
+> +{
+> +	struct dpu_kms *dpu_kms =3D to_dpu_kms(kms);
+> +	struct dpu_hw_intr *intr =3D dpu_kms->hw_intr;
+> +	int reg_idx;
+> +	unsigned int irq_idx;
+> +	u32 irq_status;
+> +	unsigned long irq_flags;
+> +	int bit;
+> +
+> +	if (!intr)
+> +		return IRQ_NONE;
+> +
+> +	for (reg_idx =3D 0; reg_idx < MDP_INTR_MAX; reg_idx++) {
+> +		raw_spin_lock_irqsave(&intr->irq_lock, irq_flags);
+> +		irq_status =3D intr->irq_pending_mask[reg_idx];
+> +		intr->irq_pending_mask[reg_idx] =3D 0;
+> +		raw_spin_unlock_irqrestore(&intr->irq_lock, irq_flags);
+> +
+>  		/*
+>  		 * Search through matching intr status.
+>  		 */
 
-Switch to d_instantiate_new() and drop the trailing unlock_new_inode().
-All error paths bail out before that point with I_NEW still set and
-keep using discard_new_inode().
+[Severity: High]
+Does this leave the callback dispatch completely unprotected from concurrent
+modifications?
 
-May we never see this fscking bug report again.
+Since raw_spin_unlock_irqrestore() is called before iterating over the bits,
+the callback pointers can be concurrently set to NULL by
+dpu_core_irq_unregister_callback() (which acquires irq_lock).=20
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Cc: stable@vger.kernel.org # v5.15+
-Reported-by: syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/6a9beced.a5e650b3.26d8a.000b.GAE@google.com
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/ntfs3/inode.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+This allows the callback pointer to be zeroed between the check and executi=
+on
+in the thread, which could lead to a deterministic NULL pointer dereference.
+Furthermore, if the caller frees the callback context immediately after
+unregistering, it causes a Use-After-Free since no synchronization prevents
+the thread from executing the concurrently running callback.
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 56b4f6469a28..4ac26c80bd34 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1866,10 +1866,10 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
- 		goto out6;
- 
- 	/*
--	 * Call 'd_instantiate' after inode->i_op is set
-+	 * Call 'd_instantiate_new' after inode->i_op is set
- 	 * but before finish_open.
- 	 */
--	d_instantiate(dentry, inode);
-+	d_instantiate_new(dentry, inode);
- 
- 	/* Set original time. inode times (i_ctime) may be changed in ntfs_init_acl. */
- 	inode_set_atime_to_ts(inode, ni->i_crtime);
-@@ -1917,9 +1917,6 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
- 	if (!fnd)
- 		ni_unlock(dir_ni);
- 
--	if (!err)
--		unlock_new_inode(inode);
--
- 	return err;
- }
- 
+[ ... ]
 
----
-base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
-change-id: 20260909-work-ntfs3-d_instantiate_new-814ad31dea82
+> @@ -554,7 +640,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms,
+>  		return 0;
+>  	}
+> =20
+> -	spin_lock_irqsave(&intr->irq_lock, irq_flags);
+> +	raw_spin_lock_irqsave(&intr->irq_lock, irq_flags);
+> =20
+>  	reg_idx =3D DPU_IRQ_REG(irq_idx);
+>  	intr_status =3D DPU_REG_READ(&intr->hw,
+> @@ -567,7 +653,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms,
+>  	/* ensure register writes go through */
+>  	wmb();
+> =20
+> -	spin_unlock_irqrestore(&intr->irq_lock, irq_flags);
+> +	raw_spin_unlock_irqrestore(&intr->irq_lock, irq_flags);
+> =20
+>  	return intr_status;
+>  }
 
+[Severity: High]
+Could this result in false timeout errors on PREEMPT_RT?
+
+dpu_core_irq_read() is used by driver wait paths to verify if a hardware ev=
+ent
+fired but the software callback was delayed. Because it reads the hardware
+register directly (which reads as 0 because the hardirq already cleared it)
+and ignores the new irq_pending_mask, it could falsely conclude that the
+interrupt never fired.
+
+[ ... ]
+
+> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+> index e5d0ea6294484..f7d045f283ad9 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.c
+> +++ b/drivers/gpu/drm/msm/msm_kms.c
+> @@ -76,7 +90,25 @@ static int msm_irq_install(struct drm_device *dev, uns=
+igned int irq)
+> =20
+>  	msm_irq_preinstall(dev);
+> =20
+> +#ifdef CONFIG_PREEMPT_RT
+> +	/*
+> +	 * Some KMS backends (e.g. dpu1) split their handler into a minimal
+> +	 * hardirq primary handler that only acks hardware and a threaded
+> +	 * handler that does the actual (sleep-capable) callback dispatch.
+> +	 * IRQF_ONESHOT keeps the primary handler running as a true hardirq
+> +	 * even under PREEMPT_RT's forced-threading (see
+> +	 * irq_setup_forced_threading() in kernel/irq/manage.c), the same
+> +	 * property IRQF_NO_THREAD gives the backends that don't split their
+> +	 * handler and must run their whole ->irq() in hardirq context.
+> +	 */
+> +	if (kms->funcs->irq_thread)
+> +		ret =3D request_threaded_irq(irq, msm_irq, msm_irq_thread,
+> +					   IRQF_ONESHOT, dev->driver->name, dev);
+> +	else
+> +		ret =3D request_irq(irq, msm_irq, IRQF_NO_THREAD, dev->driver->name, d=
+ev);
+
+[Severity: Critical]
+Will setting IRQF_NO_THREAD force legacy backends into hardirq context on
+PREEMPT_RT, causing kernel panics?
+
+The patch sets IRQF_NO_THREAD for legacy KMS backends (e.g., MDP5, MDP4)
+because they don't implement the new irq_thread callback. However, this
+explicitly disables forced-threading on PREEMPT_RT. Because these legacy
+handlers acquire standard spinlock_t locks (which are sleepable rt_mutexes
+on RT), running them strictly in hardirq context is invalid and will result
+in a "scheduling while atomic" crash.
+
+> +#else
+>  	ret =3D request_irq(irq, msm_irq, 0, dev->driver->name, dev);
+> +#endif
+>  	if (ret)
+>  		return ret;
+>
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260909-drm-mis-ne=
+xt-split-irq-v1-1-89bc9c512c53@oss.qualcomm.com?part=3D1
