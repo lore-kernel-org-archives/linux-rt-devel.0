@@ -1,98 +1,120 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4AC53ECFA
-	for <linux-rt-devel@lists.linux.dev>; Wed,  9 Sep 2026 12:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963AE58F097;
+	Wed,  9 Sep 2026 14:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788958083; cv=none; b=hqsuXP5g9waByv59loAyoSTg9CNPiufP3aA0+t2enMy7A9KwxmR9V9HkYKhXRi853ei2DX0ZL+kFHVTMHoruAOjafrh1yrLpAN3E3dQm0WgTi/u9W1sfqPMr8DgqgTJlQhzBhtApo/sW479WSmH/5yXIe48/7LHAauSWt58p57E=
+	t=1788963972; cv=none; b=jnpGpQEO939rg3taDTC57t3PRDdaWceoqFAqJqWTgesEgvYN55vIHga6tja0E+A+ytf5YNNR4IFnGAPPdcWp+fC5zWcizJgFHZ+vBwcQ14/xB0JDTQAe23oJZuZyvPkeXG5x3AMuyqdGDlDwzuKIFuZZQbrnNMG2ePAkk+8Xj34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788958083; c=relaxed/simple;
-	bh=UH6njIIyQR9OD67VxOrA7ozK5cAuBO8Er8TuNdULDmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ec2/gKAaWTT8ZSzgi89GZVcZVdSI2nXoVvD13AnodoP6g+Hc7nByfqtcyLpVn4d6W639mMyLcS76LUmzHqJlXSxyAmOfppdF4JbTyySfGon8BpDPukp117JBmdU1CdqNwXf+Buf/g/rIvDDyD4p3RKI6qihmFtx0GXtw7RjfGgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=ADDLMYnF; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788963972; c=relaxed/simple;
+	bh=OEF2nL1MB3cGdIs7kfsCD4xcMPxbuefmxRARW5/zukk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qnw/rbyPFoI4C8LyGGwGZdx4cYxzV+vRz5tTtU87U7J6htGQ+8ev44hIQiw2Sn1qeYnJCQzhT5kBc74k3N3E41Lv97Me7b9SSW3K8NMb6ATOuKJjuAx588pdQnj+FxAkNPEYXO8xseJ0OjcYl++PBb5HChnzvz6aKojqmTgFTdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dThimuQy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="ADDLMYnF"
-Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 4C8ADA0202;
-	Wed,  9 Sep 2026 12:47:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 2ED5B80015;
-	Wed,  9 Sep 2026 12:47:50 +0000 (UTC)
-Date: Wed, 9 Sep 2026 08:49:06 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ran Hongyun <ranhongyun1@huawei.com>
-Cc: <florian.bezdeka@siemens.com>, <axboe@kernel.dk>,
- <bigeasy@linutronix.de>, <brauner@kernel.org>, <chengzhihao1@huawei.com>,
- <clrkwllms@kernel.org>, <frederic@kernel.org>, <jack@suse.cz>,
- <jdamato@fastly.com>, <john.ogness@linutronix.de>,
- <kprateek.nayak@amd.com>, <linux-fsdevel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
- <linux-rt-users@vger.kernel.org>, <mkarsten@uwaterloo.ca>,
- <namcao@linutronix.de>, <stable@vger.kernel.org>,
- <torvalds@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
- <vschneid@redhat.com>, <wozizhi@huawei.com>, <xry111@xry111.site>,
- <yangerkun@huawei.com>, <yi.zhang@huawei.com>
-Subject: Re: [QUESTION] Are these issues PREEMPT_RT-specific?
-Message-ID: <20260909084906.75ebe0ea@gandalf.local.home>
-In-Reply-To: <20260909030506.344667-1-ranhongyun1@huawei.com>
-References: <63d5cd58e9b85acccdaaac9aed4a8c550cc7b868.camel@siemens.com>
-	<20260909030506.344667-1-ranhongyun1@huawei.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dThimuQy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D121A1F00A3D;
+	Wed,  9 Sep 2026 14:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788963971;
+	bh=yxp56WrwXULUr8wGNB8WwITIC6sJ1IaZ6YhzXAjDymc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dThimuQyt/6ONTbtjVXNQCeU9T/1EWerh8NtJtv3HGLe0YrAGW7EQWb4US9HB7Dlc
+	 +yyvk4R4jvoXuYToJwGyj5TddxYDECi6MO1yUMMcfHYu3KAukrQnWorMHoHXgTNWTk
+	 OvC1iSyO5sOqrk7S484LpdWnTx17zoZqXpBRz0v2K3AjIUlJpPou9jtbK6JJoaCN8y
+	 EHzTWvEcg6EITpTGl84YpQqFnh8z3CTgwu75iJxLRCGbngR+m6QPNH6aykOsiM1KX+
+	 LXZW36JYMOM3nF0xIClM7Waydh9irjfw4ATu82rX36kvzw564uOCP5tPZ3YpDi94mU
+	 /dR3iOB21qjrg==
+Date: Wed, 9 Sep 2026 15:26:09 +0100
+From: Harry Yoo <harry@kernel.org>
+To: Puranjay Mohan <puranjay@kernel.org>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Frederic Weisbecker <frederic@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Zqiang <qiang.zhang@linux.dev>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Matt Fleming <mfleming@cloudflare.com>, linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 1/6] rcu: Make call_rcu() safe to call from any context
+Message-ID: <aqFebI06nXUccuwt@thinkstation>
+References: <20260810122758.183765-1-puranjay@kernel.org>
+ <20260810122758.183765-2-puranjay@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 2ED5B80015
-X-Stat-Signature: o3fwibtfheyjf6uxcieed6spah8gf4o6
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19Xhy7OK4OBMc93k3sLXpaXbNrFBmTU+H4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=2JZIG0evn7FRLH7buEDQNvcDz4SWp2iw0ronrwwEllg=; b=ADDLMYnF3uDGdfsjFF0AU4mcXm38KNdi8JQJqfv2s53fOhf4+RXiDVgvjxqa2qfF+eWgYXqLtvVi2r6E08M1MGNT+fqqwDF52gB0YKtOpd7t4QfDjaEHj1AhZqNh9XZiz5cv79QyyIa6+fo1PJChOsle7nl88pcyxnhjlfRkMhU=
-X-HE-Tag: 1788958070-860100
-X-HE-Meta: U2FsdGVkX197gq9AYxmfVVmX8SBppYiJWxnth8UqyGIuz6uN3lbwz0pQN7siOw3O4K0M7d4v3vNtgdpSjudf8Q3H833uzaqs1ZB9LiXp/7l6WMYMfifkrHrWiG3iE4YpahG4qYMB/z74IxWPawDwy+le3fYdPgQZIBe6+TktybcVJeTH3KS9TtSQJiWLN4Rf3I9iLhilR9Uhgnch0QOvP7kUktj5KHGRuGz+rEHhAL14UZZkhrroFB52+2Oo2d1S8Z/IMYhj1hfDgtrfuPTvugC5o0UhmQzs+HeDWnndpf6D8+/C80z7YhEhGTv8oy4mQQIn7yLB4nr8YGUvVuOZDrUBMKR44PXZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260810122758.183765-2-puranjay@kernel.org>
 
-On Wed, 9 Sep 2026 11:05:05 +0800
-Ran Hongyun <ranhongyun1@huawei.com> wrote:
+On Mon, Aug 10, 2026 at 05:27:50AM -0700, Puranjay Mohan wrote:
+> ---
+>  kernel/rcu/Kconfig |   6 +++
+>  kernel/rcu/rcu.h   |  11 ++++
+>  kernel/rcu/tree.c  | 131 +++++++++++++++++++++++++++++++++++++++++----
+>  kernel/rcu/tree.h  |   6 +++
+>  4 files changed, 143 insertions(+), 11 deletions(-)
+> 
+> diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
+> index f15da8038d0ba..1a5fb3156c062 100644
+> --- a/kernel/rcu/Kconfig
+> +++ b/kernel/rcu/Kconfig
+> @@ -175,6 +175,12 @@ config RCU_STALL_COMMON
+>  config RCU_NEED_SEGCBLIST
+>  	def_bool ( TREE_RCU || TREE_SRCU || TASKS_RCU_GENERIC )
+>  
+> +# The deferral (and the IRQ_WORK it uses) is only needed where call_rcu() /
+> +# call_srcu() can be invoked while a callback-list operation is in flight.
+> +config RCU_DEFER
+> +	def_bool HAVE_NMI || KPROBES || FUNCTION_TRACER || TRACEPOINTS
+> +	select IRQ_WORK
 
-> Florian,
->=20
-> Thank you for your reply.
->=20
-> Now I understand that the issues are particularly critical on PREEMPT_RT.=
-=20
-> However, I=E2=80=99m still not entirely clear about the "performance or t=
-hroughput
-> drop" you mentioned for !RT systems. Since !RT kernels are
-> non-preemptible, unbounded priority inversion and stalls should not occur.
+nit: I don't think this config belongs to RCU.
+Do we really need this when majority of kernels enable those?
 
-That is incorrect. !RT kernels have been preemptible for decades. There are
-different levels:
+>  config RCU_FANOUT
+>  	int "Tree-based hierarchical RCU fanout value"
+>  	range 2 64 if 64BIT
+> @@ -3206,6 +3204,103 @@ __call_rcu_common(struct rcu_head *head, rcu_callback_t func, bool lazy_in)
+>  	local_irq_restore(flags);
+>  }
+>  
+> +/*
+> + * Stage @head for this CPU's irq_work to re-issue once interrupts are on.  Only
+> + * the drain side takes a lock, so this stays safe from NMI.
+> + */
+> +static void call_rcu_defer(struct rcu_head *head, rcu_callback_t func)
+> +{
+> +	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+> +
+> +	/*
+> +	 * Instrumentation on the enqueue path can re-enter here from inside the
+> +	 * drain.  Re-queuing would livelock it, so drop the callback; an NMI
+> +	 * cannot loop, so let it through.
+> +
+> +	 */
+> +	if (READ_ONCE(rdp->defer_draining) && !in_nmi()) {
+> +		WARN_ONCE(IS_ENABLED(CONFIG_PROVE_RCU),
+> +			  "call_rcu() re-entered during callback drain; leaking callback\n");
+> +		return;
+> +	}
+> +	head->func = func;
+> +	if (llist_add((struct llist_node *)head, &rdp->defer_head))
+> +		irq_work_queue(&rdp->defer_work);
 
-  SERVER - non preemptible (but no distributions use that)
-  VOLUNTARY - Has preemptible points in the kernel (might_sleep()) - most d=
-istros used this
-  FULL - Preempts everywhere that doesn't turn off preemption
-  RT - Turns spin locks into mutexes and preempts there too
+Should RCU wait for the IRQ work to be processed during e.g.)
+rcu_barrier()?
 
-Regardless of that, unbound priority inversion can happen even in SERVER
-mode. All it takes is three tasks sharing a mutex. Only RT implements
-priority inheritance (for all locks but reader locks) in the kernel which
-would prevent unbounded priority inversion with normal locks.
-
-> Are there any other factors that could still cause such a performance or
-> throughput drop?
->=20
-> In other words, if I am running a !RT system, what benefit can I actually
-> expect from switching from rwlock to spinlock?
-
-Lack of priority inheritance is true for both RT and !RT in rwlocks. Hence
-that does affect both of them.
-
--- Steve
+-- 
+Cheers,
+Harry / Hyeonggon
