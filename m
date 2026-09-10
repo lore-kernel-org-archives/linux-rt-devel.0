@@ -1,125 +1,104 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29A24BFE60
-	for <linux-rt-devel@lists.linux.dev>; Wed,  9 Sep 2026 22:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809043191D3
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Sep 2026 06:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788994759; cv=none; b=qe3EvEG+ua4T+A8FluBb0OOeSyFCE9AWL0LVefluimUXdvrNVA7rcpUlwFSRHLaUr9GLrqmdYck3noWjO+No6E4eq6rhBdZIcUkgq7sUWfTGXcW58rw9VVesy5J7gtl9+fa05uWHDlGlDghfrACJBD7J07oWa5Yldkx9bjSDj94=
+	t=1789022849; cv=none; b=Ecl7c2UpEuFuOfG02II8miTWis5I96hnE382H+Ne+/WkuGljs5XhyV0IN2zb20YEDrh5otx7aT0uIiAmRs+EAzBROVRfc8EM1Rot8xsatiN2AafOcK4nZhXsr4bHsvgKDuOiYvymnLIF/NVWTq+zlSqZhVm09RSxDhZ7wMZnR4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788994759; c=relaxed/simple;
-	bh=smTZp+fwrcL8LRU+cUswUL9Rv8CHyW2oRBCPTYSFi+o=;
-	h=Content-Type:MIME-Version:Subject:From:To:Cc:Date:Message-ID; b=CQgbnneNmP36b5Em6mTTl+LwwGXqIQ9+jhMxuQSXb1pJPRbwCmaZr3C7ExMPz/plPbhjlHQpdUINyXqAkbikD0Y36YAtvKe7PuuMMnYdHoOu1jW0dNel+KgmXotxy+QKgUcxPCorQd0B0nmZV4Zz+ylcnZjLDDRdwEouW6QAxRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernelci.org; spf=pass smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci.org header.i=@kernelci.org header.b=OkcWTDYx; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1789022849; c=relaxed/simple;
+	bh=YWyd4+aTptKxFnnudx/oNX86Rr5QbOE1dz+qPzB/P3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SH04FIfxVaLqEUSKj2d7FKF13LrWTuDpoTj/v/9i8vXTJgX7dfun/+R+tlcJouCeF/d0GnY5DcfOQXXvgSJrTGTe8bkeXNgo13J6akXg8yV1wrw+su0Fslsd8JAd5qU/K5Wr9bKnpiPTi3rt5xE5dNUUGn6Y1IwcxqxyuGqZD+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JEP2GRUh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JjuqFWsA; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci.org header.i=@kernelci.org header.b="OkcWTDYx"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso8302824a91.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 09 Sep 2026 15:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci.org; s=google; t=1788994746; x=1789599546; darn=lists.linux.dev;
-        h=message-id:date:reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:content-type:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=NmzQVAjQi1BMSP0izW97Ra253U/DhrBqA+/Yc0fRcqY=;
-        b=OkcWTDYxgB4SQn6DtRkIajyW6hCsVQ3QCa8vuzX/eJmUy0n4H9Z+l9N73aQ6HriUQX
-         PuSGMyqvaCA58vLuyCYsOVKMiw9ixZjZrclpVhimB5bKuzcqrjYrx/gQMg4NVLeSPbFe
-         ImzYdpkHqxRdEX+ylLgE58He1kC70lIWbYcU1UsKFLcK3I1BInFmqfN4DDFAHzV2RAzp
-         27pxl7BAwMY0Ijh9x0gF4dehZT8Eo1R8mAQycEmYSUGjEoS61pCEcqfGWglBytK2Eb4a
-         9vqpGxMvF2phhMSIvxBwGkiwkoIpyqpxUICKfu1Vyc7KXdW82eCPDr+O5hP/Pmd5GxQM
-         k+fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788994746; x=1789599546;
-        h=message-id:date:reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NmzQVAjQi1BMSP0izW97Ra253U/DhrBqA+/Yc0fRcqY=;
-        b=CEhRpeB5Td7xgbNrPwydm2MDaRuhSdHDdJlvJXvNv0ok89JTCi+lOkqhm+Rm2WwSb+
-         tMCbKWtUvMguUGCzW8PfmUfFUScP9HUu1ndbtNUR14iDEAeuWsOD99tQoNZgwRApsaim
-         9E0q8Zmkb402fL8aia0rR/dSg8Vqt5+JdUTcseiuSjMmGmni3+TnLRsBhoqmEpFm5tlA
-         6ZVExDCYEJnyeCaolTzq84ODVRyD2OJASMCZYmH5J3udS1vLRnQML5AVgbVLF4OSHgIm
-         daQD5MGpSqr91C5dEotdsM7UjRsFfvj4YEhynKrc5xhktj1vcYV8W91ClXlXq9j4rFkq
-         sNAw==
-X-Gm-Message-State: AFuF++mgtB5cYhxaaU4GuEexw3gNNW+5A2zKuvl1t7e5c2sydfPXXKrA
-	7jtrHkM+mp7AJ19IlXPoAIwgVnXC6idJZ6TyQXK7/I0FWzfwkBVcRY8zQL6j282/QUEGwwNESGH
-	LQ6KG
-X-Gm-Gg: AYBFou2BRNVNHcbzcGvM4tzkI3z29OALNZVcoHn/89NOCEznePQETNHCOHHTAXPpUv+
-	5y8nqAz/7VIeV/7RxGcD7JM9D1D02jcL18jBoCqbhyATFVHiwv4+P7XVj+iQ9yIngiTkvjxvjju
-	/zAu3IPSMZviIbyko2aI2kvKIJB8Cwp0M8vLv17ltxtE+epor3wX3KJqxg/LyTq1TcvhLX0SI7N
-	Si7oUcCAouFhFyG1YFSaoO5vxrTIPbQJ0BqkYaFn4n6u76e8eSRwan5ZpSruqqG84bJT35B+eLA
-	UwU8wSXtIEL35Co0yVJixOBJgOopN2oTX3gmCXCXXThR4z1Sktiyl/rrRlFzokH5wSA3EzROFqc
-	0vEcSQCIopsiO4ztuZm5ICp/5GhHTnoveuHpKb8hd1EecFJiHMuH85bR4YTUS83yO6iJUSyImCm
-	HazkXC0DKkFnkMFjweFGcCz5k6hjKLOGBXI939Tu3tyfjW+lG3pwXSRCdRmlnlzDo=
-X-Received: by 2002:a17:90a:d647:b0:38e:70d5:b12d with SMTP id 98e67ed59e1d1-39b261074camr54350253a91.6.1788994746220;
-        Wed, 09 Sep 2026 15:59:06 -0700 (PDT)
-Received: from 41049dfc76e5 ([20.38.40.137])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm62856334c88.2.2026.09.09.15.59.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 15:59:05 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JEP2GRUh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JjuqFWsA"
+Date: Thu, 10 Sep 2026 08:47:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789022845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TeCdhF7Yub4R/46hTdO2r+79dtJz2WzZGwh+bE6OaSE=;
+	b=JEP2GRUhQsVhun7vbhk1q9LvyAQfQP6zlP59QQ16UqndaplL5J/G1L3Q+pLm/IA5W5OJku
+	W/nUmdYFWR5TLyN15PGS1CMsPN8/0FNOpSGJHyvEzM7d6V0chIl/yzSOesYtohM4TDoNMo
+	Uc6H+6gOWG9BpmB3KsKMez1osxj9vsavovGbs4Uj4GwHaHRnyCKJGm78K7YvoFbGtPmACJ
+	JvA/ljnPgvtFoPvj54Tf0jnyxMy3E2ra3Ua3ZNnPPqrP6klllygp9kN3Mbl5lxV/sfyuU4
+	ILvdjhY+ewOr6EWAX4JO6U1B56pXnwzeoKLjH1g5hgXrWDipe16LFxcsVsvnSA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789022845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TeCdhF7Yub4R/46hTdO2r+79dtJz2WzZGwh+bE6OaSE=;
+	b=JjuqFWsAOS0tHwzrdR0C9BlJ5ndwIJ8Ve/rzT3pLTGNtgF0OG43Wpyi8+mA/spQ3L/3McA
+	Qo9UJmp7R8zCuyDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: vishnu.saini@oss.qualcomm.com
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jordan Crouse <jordan@cosmicpenguin.net>,
+	Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+	Archit Taneja <architt@codeaurora.org>,
+	Jeykumar Sankaran <jsanka@codeaurora.org>,
+	Chandan Uddaraju <chandanu@codeaurora.org>,
+	Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	venkata.valluru@oss.qualcomm.com,
+	Naman S Thaker <namathak@qti.qualcomm.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/msm: split DPU core IRQ handler under
+ CONFIG_PREEMPT_RT
+Message-ID: <20260910064723.pbZP3vic@linutronix.de>
+References: <20260909-drm-mis-next-split-irq-v1-1-89bc9c512c53@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: 
- =?utf-8?b?W1JFR1JFU1NJT05dIHN0YWJsZS1ydC92Ni42LXJ0OiAoYnVpbGQpL3RtcC9rY2kv?=
- =?utf-8?b?bGludXgvaW5jbHVkZS9saW51eC9mb3J0aWZ5LXN0cmluZy5oOjgwOjMzOiBlcnJv?=
- =?utf-8?b?cjog4oCYX19idWlsLi4u?=
-From: KernelCI bot <bot@kernelci.org>
-To: kernelci-results@groups.io
-Cc: linux-rt-devel@lists.linux.dev
-Reply-To: kernelci@lists.linux.dev
-Date: Wed, 09 Sep 2026 22:59:04 -0000
-Message-ID: <178899474430.3606.7250196618057750493@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260909-drm-mis-next-split-irq-v1-1-89bc9c512c53@oss.qualcomm.com>
 
-New build issue found on stable-rt/v6.6-rt:
+On 2026-09-09 14:22:16 [+0530], vishnu.saini@oss.qualcomm.com wrote:
+> From: Naman S Thaker <namathak@qti.qualcomm.com>
+> 
+> On a PREEMPT_RT kernel, dpu_core_irq() runs as a true hardirq handler,
 
----
-/tmp/kci/linux/include/linux/fortify-string.h:80:33: error: ‘__builtin_strncat’ specified bound 18446744073709551609 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overread] in kernel/trace/trace_events_hist.o (kernel/trace/trace_events_hist.c) [logspec:kbuild,kbuild.compiler.error]
----
+*why* is this the case. The code you replaces adds some ifdefs around
+request_irq() with 0 as flags. This does not make it run has hardirq.
 
-Log excerpt:
-=====================================================
-    inlined from ‘event_hist_trigger_parse’ at /tmp/kci/linux/kernel/trace/trace_events_hist.c:6774:3:
-/tmp/kci/linux/include/linux/fortify-string.h:80:33: error: ‘__builtin_strncat’ specified bound 18446744073709551609 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overread]
-   80 | #define __underlying_strncat    __builtin_strncat
-      |                                 ^
-/tmp/kci/linux/include/linux/fortify-string.h:479:24: note: in expansion of macro ‘__underlying_strncat’
-  479 |                 return __underlying_strncat(p, q, count);
-      |                        ^~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
+> but it dispatches per-encoder callbacks that take sleepable locks
+> (spinlock_t becomes an rt_mutex on RT, and some DRM-core locks reached
+> through vblank/CRC/writeback handling are sleepable as well). Sleeping
+> inside a hardirq handler is not allowed and eventually crashes the
+> display, which is what happens after running GLMark2 for a while.
 
-=====================================================
+That is correct. That is the irq handler are threaded by default and
+only non-threaded if explicitly requested.
 
-When fixing this issue, please attribute this report according to the
-patch submission rules:
+I suggest to stick with non-threaded by default.
+There is only one request_threaded_irq() as far as I can tell and this
+msm_dp_display_request_irq():
 
-Reported-by: kernelci.org bot <bot@kernelci.org>
+|         rc = devm_request_threaded_irq(&pdev->dev, dp->irq,
+|                                        msm_dp_display_irq_handler,
+|                                        msm_dp_display_irq_thread,
+|                                        IRQ_TYPE_LEVEL_HIGH,
+|                                        "dp_display_isr", dp);
 
-For complete logs and details about the environment used, see the issue
-on the KernelCI dashboard:
+and its primary handler will be threaded on PREEMPT_RT, too. So you end
+up with two threads here.
 
-- dashboard: https://d.kernelci.org/i/maestro:7d92633e4f2c556f5a2fc8d8b519061ddc1bd32d
-- giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
-- commit HEAD:  d36765fb87b0b4546ad185f2362986638dd3e759
-- tags: v6.6.156-rt79
-
-# Builds where the incident occurred:
-
-## x86_64_defconfig+lab-setup+x86-board+kselftest on (x86_64):
-- compiler: gcc-15
-- config: None
-- dashboard: https://d.kernelci.org/build/maestro:6aa1dfda20239ade90198c24
-
-#kernelci issue maestro:7d92633e4f2c556f5a2fc8d8b519061ddc1bd32d
-
---
-This is an experimental report format. Please send feedback in!
-Talk to us at kernelci@lists.linux.dev
-
-Made with love by the KernelCI team - https://kernelci.org
+Sebastian
