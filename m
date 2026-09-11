@@ -1,133 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF2D35F8C5;
-	Fri, 11 Sep 2026 14:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596BC459AE1
+	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Sep 2026 17:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789138557; cv=none; b=P4chl81f9MpuKN2a86wpt8rugUlkL0DRDCKsKc7g1w4fdflz8bWptpH9wcljSZL/RxhGV7Dz2FgdAcvmpS/LSOGpCbtQbhd/fJimHBhogtIs+YBDp85QQ1obUZRq02SmZ/8Gexp2x1SZptKVbZv6oEV7MW5R2jrkAoz2QNp+j8U=
+	t=1789147083; cv=none; b=R+AQx02DxBhrIK+HJ3DEDikowGRfn+4iuxLWKA9P3bXNB7hSuA3VH5KLyem3tW9VKhD8TDjg+YVttQffEQcGnApDL/1BcIiH/8djaRutxLSbZsJccNX5XMGwArglMrDgr+2nns2Gnq133xtdBVLs92+aBuz3Dr6tJ3IGPDQa3tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789138557; c=relaxed/simple;
-	bh=KjCMr93PTFov7gyqhGK83knHGp41cZ419o05C6nHwc0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Ebc9BV2mspZh2WrB8w8lB0YG3qVsxPqjGA+JVG9ozyJDOXijIy6FoGUvYPaZv/rp7u1s8Kj6BEKxI9kd9zfsd3BB54uOaTteiQgUnPiQBtvDEJrK+sZIO70eoS9suQYo0LFbFrkhrNzVX3lnj+mbrZgW14XykF27FtESpxxQVG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTsL7gTR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789147083; c=relaxed/simple;
+	bh=AJSOjXZDHj/o/pVbZRp+OIJYhd2zvwmKYCPjs4w80fY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDCZgo7fPNJQ1z6Y3cSoYTvpPH5DroWMNgI8P6LUg6TffFiZrU9Ir2Zo6uQXUTCFLsAhnq94/3Iu4sVcQNOrFZoq8L/7SbW6n/Bt8HMf0c1F8KWreIAskfECIfzNC2KvXrzU+d5HDIRNOA25Lx6/EJlKqaSho35Y8xMFT6vmyLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cRs2Hojs; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTsL7gTR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE8C1F000FF;
-	Fri, 11 Sep 2026 14:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789138555;
-	bh=qkZ4IyVvStUJzakzj5R5H25jdgCJRE7/sNTSWMjUtDY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aTsL7gTRbqvy4z1G6/QhBAykaUiCrVMtt/L1GVMu+hamQ0tU+drIL6P+fULAaFqGZ
-	 OZ8UCqdoQ4zpT9FLN3jXiB8ulNwtHuKvo+YwL67kWwJWTDcEXEdue8pNth+TtwHar3
-	 3ktykKEXFu5m8Jh0xfn8038AwHyMd79sEY7Lz/HSOPivaY2lCDfhPw/W76PVznLewW
-	 pPKN5EHYs0wWZ6JSVdVbRHwtHzxb3CKtAVx1eARyyJodseDoc09/NSNOcIfCZFFYm3
-	 8+munRNtbW+AnrW989kPJxKHQTpRzZCp6jFfvc9PVj4PdJyHFz9wY0K9gzJDge1Ik6
-	 cHnIz4+gDzHaw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] irq_work: Flush lazy work CPU down on PREEMPT_RT
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260911143815.997254-3-bigeasy@linutronix.de>
-References: <20260911143815.997254-1-bigeasy@linutronix.de>
- <20260911143815.997254-3-bigeasy@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 14:55:55 +0000
-Message-Id: <20260911145555.8BE8C1F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cRs2Hojs"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso449995e9.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 11 Sep 2026 10:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789147080; x=1789751880; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2FmsgEl6y3i0C3oGLtZ2cN9LSp12HsdgI4FBDotuE0c=;
+        b=cRs2HojsKB9FYtLNDMqbz2ZKOJ+DdssXhzM29B5szhJVkwLang04cSfn+Pgk/v31T6
+         nMeaR0egc6p1YT6bFeoJ8mgPnwt+3pa1sKHksG0KE3XmjwB0O8HQF1n4vlu8puKGhMk+
+         hcTnQ7Pz7jj8M9K6IHjXyIDsn8QB+8YNXeYosMSF5TYovJZ4Aqp/LrePQHm+PZ/j6nJW
+         5ZDTtv7KIoYmXiq46htcmQRvX7hzmA5iwNOf19oGAJyA/prT9+SnpwUZX7A7aCFeK5X5
+         /7nhoQ73W/xTNtZaAGo/M1DdgiU5ZoMb5UbbMUsPnOVxGymTpR61lig6gDu/iXgw9ek1
+         VXqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789147080; x=1789751880;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2FmsgEl6y3i0C3oGLtZ2cN9LSp12HsdgI4FBDotuE0c=;
+        b=OKnEpT91i0/N7Vwz9iQ7nplcQULIclXaZSt8ujbNoEsDfQhQwLni2agIF2wtpMrxrB
+         6P5v9YBxMyTqvJPaCqOvZlPf9Lff8cy9DricAiYIQh3RPjuiaDxXxCAtVczbShCIxVCg
+         euggFWdCvcvy0ki/kUsJyj+yuNg/HC1nYXzJusKCLP6npJSYbf6WNp+wHoOWj/MrERDN
+         LR5AJreBvMe9EueqHuvnHGbA1IBfuzAbXxhpAWgbbFfWQRAXf4+3TWcfK/BlVTqbgnV6
+         o8zu+qg64lxUrtRvI+vwWiZqsGmMBWflu6Gs5jeD0kETumqafkUBpLFPMGQ1S2tRw3Rv
+         wkNA==
+X-Forwarded-Encrypted: i=1; AKwUvBzXQoBRSGKqgNzlgXGh8X2q1P4p28TFfMdbt570RyWYh+ZjI45GMuwT6ciCEK4ajFV991e6jHfrzmqUcx5HHA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kDnp6DlBOHZh4z/I59Zp99b0wzsF7c3VeMneLL7HUmn0I+g+MU
+	btXFrkqgsK70BUPCo7qOE81tB5D5DwYhKIRAKavwKHwoIb1i9Q1QPoE+91wB8SjVOQ==
+X-Gm-Gg: AYBFou3230Xs08nUTYaJHN/UfCH62akbN09eKrwY4JqrTB2dzVy7GQq/GKEY4XFZZne
+	HOWDCgYgTeJUeNQepRyAFj87filklYR1khSWQNBJvtSMHMIoCxxIkmmFFfJNd9suXShzt8nk6h5
+	APljYrDqsJhESzpqHiYE1W9jPxtVPbi9tf4N4FhzNn57RCAW/2QWFqmn/CTHbuDag35uEgFAytO
+	jQc9E16Ba9Z0eoLd9Mi91vBzXLOVeXHtT5YmbQD8fI4SwNua3/AL9O2kLXWEyYWnPuw1nrC/umD
+	1HUrNxAYXYGJaMMAgtBzqHm2W8AvTVw1CtNB5lqCeEYO82CPPtUQe5C14XXlNTVxe6r+gc5t2o3
+	Ex8PVRp/q0NTiL/waZuP1r4zyLvE46Gyo6lPg9udHpcdFVoa+CCIoIgAaEVw2EQhfxPAI58snKo
+	9KTkNCp9MIKZhkdak4+6pYzpqgqNjTNt2chVcYAivQc1fw3p/5aHKaPzEqVacVLBFYEwAitA9+7
+	i//L3r5+N8bwx4IzY8gAUFZy4jwTCliHBlQZM/IZRs=
+X-Received: by 2002:a05:600c:4683:b0:49d:1916:2133 with SMTP id 5b1f17b1804b1-49e6106d393mr64742525e9.8.1789147079818;
+        Fri, 11 Sep 2026 10:17:59 -0700 (PDT)
+Received: from google.com (135.91.155.104.bc.googleusercontent.com. [104.155.91.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e69f02c92sm20593625e9.2.2026.09.11.10.17.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 10:17:59 -0700 (PDT)
+Date: Fri, 11 Sep 2026 18:17:56 +0100
+From: Vincent Donnefort <vdonnefort@google.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Clark Williams <clrkwllms@kernel.org>
+Subject: Re: [PATCH] ring-buffer: Acquire the lock with irqsave in
+ rb_wake_up_waiters()
+Message-ID: <aqQ3xIlG9a1LlXbg@google.com>
+References: <20260911102152.YEtwkBj9@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911102152.YEtwkBj9@linutronix.de>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Executing a dying CPU's lazy irq_work callbacks on the control CPU=
- violates `this_cpu_*()` assumptions, leading to memory leaks and state cor=
-ruption.
-- [High] Use-after-free of `irq_work` structure due to missing `rcu_read_lo=
-ck()` in `irq_work_run_cpu()`.
---
+On Fri, Sep 11, 2026 at 12:21:52PM +0200, Sebastian Andrzej Siewior wrote:
+> rb_wake_up_waiters() is a irq_work callback which is initialized with
+> init_irq_work(). As such it will be invoked in thread context on
+> PREEMPT_RT. Invoking the callback in IRQ context on PREEMPT_RT is not an
+> option due its usage of wake_up_all().
+> Since this callback may run in thread context, it needs to acqurie
 
-commit c2c4af12bef2f74291db156f37cadb81d93b8598
-Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+nit: typo "acquire" 
 
-irq_work: Flush lazy work CPU down on PREEMPT_RT
+> ring_buffer_per_cpu::reader_lock with disabling interrupts and may not
+> assume that they are disabled.
+> 
+> Use raw_spinlock_irqsave() to acquire ring_buffer_per_cpu::reader_lock.
+> 
+> Fixes: 68282dd930ea3 ("ring-buffer: Fix resetting of shortest_full")
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  kernel/trace/ring_buffer.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+> index 9c03a555a6ba2..681f9daf6fabb 100644
+> --- a/kernel/trace/ring_buffer.c
+> +++ b/kernel/trace/ring_buffer.c
+> @@ -904,14 +904,13 @@ static void rb_wake_up_waiters(struct irq_work *work)
+>  		struct ring_buffer_per_cpu *cpu_buffer =
+>  			container_of(rbwork, struct ring_buffer_per_cpu, irq_work);
+>  
+> -		/* Called from interrupt context */
+> -		raw_spin_lock(&cpu_buffer->reader_lock);
+> -		rbwork->wakeup_full = false;
+> -		rbwork->full_waiters_pending = false;
+> +		scoped_guard(raw_spinlock_irqsave, &cpu_buffer->reader_lock) {
+> +			rbwork->wakeup_full = false;
+> +			rbwork->full_waiters_pending = false;
+>  
+> -		/* Waking up all waiters, they will reset the shortest full */
+> -		cpu_buffer->shortest_full = 0;
+> -		raw_spin_unlock(&cpu_buffer->reader_lock);
+> +			/* Waking up all waiters, they will reset the shortest full */
+> +			cpu_buffer->shortest_full = 0;
+> +		}
+>  
+>  		wake_up_all(&rbwork->full_waiters);
+>  	}
+> -- 
+> 2.55.0
+> 
+> 
 
-This commit adds support for flushing lazy IRQ work for a dead CPU when
-PREEMPT_RT is enabled. It introduces irq_work_run_cpu() to process the
-dying CPU's lazy list from the control CPU during smpcfd_dead_cpu().
-
-> While looking through the users of irq_work, it does not matter if the
-> callback is enqueued on another CPU. This makes it possible to invoke
-> the callbacks from a remote CPU by smpcfd_dead_cpu().
-
-[Severity: High]
-Is this statement accurate?
-
-Several lazy irq_work callbacks (e.g., cgrp_dead_tasks_iwork_fn in
-kernel/cgroup/cgroup.c) rely on this_cpu_*() accessors to process local que=
-ues:
-
-kernel/cgroup/cgroup.c:cgrp_dead_tasks_iwork_fn() {
-    ...
-    lnode =3D llist_del_all(this_cpu_ptr(&cgrp_dead_tasks));
-    ...
-}
-
-Executing them remotely on the control CPU causes them to access and drain =
-the
-control CPU's per-CPU lists instead of the dying CPU's. Could this permanen=
-tly
-leak task structs and pin cgroups on the dead CPU indefinitely, while
-incorrectly altering the state of the control CPU?
-
-> diff --git a/kernel/irq_work.c b/kernel/irq_work.c
-> index 9f19c05c9962c..73eabcbdcd50c 100644
-> --- a/kernel/irq_work.c
-> +++ b/kernel/irq_work.c
-[ ... ]
-> @@ -263,6 +263,17 @@ void irq_work_run(void)
->  }
->  EXPORT_SYMBOL_GPL(irq_work_run);
-> =20
-> +void irq_work_run_cpu(unsigned int cpu)
-> +{
-> +	if (WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_dying_mask)))
-> +		return;
-> +
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +		return;
-> +
-> +	irq_work_run_list(per_cpu_ptr(&lazy_list, cpu));
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-[Severity: High]
-Could this result in a use-after-free of the irq_work structure?
-
-irq_work_sync() protects against concurrent execution by waiting for
-IRQ_WORK_BUSY to clear and then calling synchronize_rcu(). This assumes the=
- work
-callback executes inside an RCU read-side critical section.
-
-However, irq_work_run_cpu() runs from preemptible thread context in
-smpcfd_dead_cpu() without holding the RCU read lock. irq_work_single() can =
-be
-preempted after clearing IRQ_WORK_BUSY but before calling rcuwait_wake_up().
-
-If irq_work_sync() on another CPU sees the BUSY bit clear, it will call
-synchronize_rcu() which returns immediately, and the caller may then free t=
-he
-irq_work structure. When the preempted work function resumes, could it acce=
-ss
-freed memory in rcuwait_wake_up()?
-
-> +}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260911143815.9972=
-54-1-bigeasy@linutronix.de?part=3D2
+Reviewed-by: Vincent Donnefort <vdonnefort@google.com>
