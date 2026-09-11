@@ -1,42 +1,41 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCB944160D;
-	Fri, 11 Sep 2026 11:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00D1298CAF;
+	Fri, 11 Sep 2026 11:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789126171; cv=none; b=f02/89hpQJVxlQtwYvKjTjY1enjZx4qP8vj9x0XmHhFR0wu7z9/iXCqPycs5lPi/OSr9SoHrrwBlAJf0Q6LW34Kp4LE6Qf8K7gx0RElb72/R2++ljQtJ/WoVkmFYof19SKuDxwhcarv3zRmYZYQGvc3SaBTRPI4IuPM35NvSNEU=
+	t=1789126342; cv=none; b=NL/vKqh4CQdiV8SkI8pdamraq+Zru6ryJ36d+0yXKciyj/nyeolYiEUvYrvfvNf0rNyRIb3ysTjB0cUY0U10kkBZZuoN1Z8deAAXaIO7zNPVIeGFX4IN/c94CkfNmYEbpJTQY3mk7YxTNDzHHueOKzpGXbDhSnLr7dCjbBVhXI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789126171; c=relaxed/simple;
-	bh=dylT5QwD+5iw6+xBMDDSZWueFSXPCVlmrXhdgxIr6b4=;
+	s=arc-20240116; t=1789126342; c=relaxed/simple;
+	bh=s/ODydIxsCcvKM3SXUbVkIRCg0OzptzpI7rs77XtcrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bqzmBRsuqGQKZn8hXx4UWE0dzMtAnqv5yNhjLpuq0okKuptzUWjAhzSwSwmaCAFQK7g40ybAT/sHxbBNc61IKZB1u/ITHSTJPjQgwtxCBieKo/LZ200vJn60/vs2Cq10DYJR8Yadzc19AbDEP00D8QsvEVVA3vQkD4j8QreOULU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NXaoff/c; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=YGByfOUklh56aZbYaAfF8RoqZGjoxk65DvVhGhCxvyKJbCQ6AQbJ5vuEVYjkRZVdBSLF8lRFl51zC1oGFJicp6mlxEz5tkn/X+zeINppsHnFAOXZMVN/RtcyO7DQ3aY3BPIBubegCNzfdg1NKUq53WcJDlE/aeGwTy15wbC06ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Y92TFKNZ; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NXaoff/c"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Y92TFKNZ"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4527516F2;
-	Fri, 11 Sep 2026 04:29:20 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D05216F2;
+	Fri, 11 Sep 2026 04:31:49 -0700 (PDT)
 Received: from e129823.arm.com (unknown [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DDA13F86C;
-	Fri, 11 Sep 2026 04:29:22 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 682373F59E;
+	Fri, 11 Sep 2026 04:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789126163; bh=dylT5QwD+5iw6+xBMDDSZWueFSXPCVlmrXhdgxIr6b4=;
+	t=1789126313; bh=s/ODydIxsCcvKM3SXUbVkIRCg0OzptzpI7rs77XtcrE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NXaoff/cPBT+KcaxMNnp6ng/KdjGDZ8NwVG4kDz1agyAR6lLAZ7S0WZN1BolhOVOo
-	 pxd4aCI7G3O5nJ37ny4mKcYdRlvPuUFPXCixpv+FBKRHCnH3G9NmbimgsRe9JKTUXK
-	 +qzkv/rYynzV7dg0/vgkCNJwdAX9AGs4GSc95QDo=
-Date: Fri, 11 Sep 2026 12:29:20 +0100
+	b=Y92TFKNZvfTwl+6EOT3Q+GXm7iz/4IKg439KIr0LLt9U0UArtOzJrRXGuIrYarK5b
+	 ZrEhX9NcAczEWXWKhymUFV/Ion39MzjQwNV4C41dh74r+NMFbjpa5Lax5PyGdNuVod
+	 1h25MyOm4HFPuendHZz6mVb1HwF9frFJ+z4NF7A0=
+Date: Fri, 11 Sep 2026 12:31:50 +0100
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: sashiko-reviews@lists.linux.dev
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v10 1/8] coresight: etm4x: fix inconsistencies with sysfs
- configuration
-Message-ID: <aqPmEPRDUFE1hNXM@e129823.arm.com>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 5/8] coresight: etm4x: introduce struct etm4_caps
+Message-ID: <aqPmpuIxWosNsfFd@e129823.arm.com>
 References: <20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com>
- <20260911-separate_etm_cfg_v2-v10-1-1b715d95927a@arm.com>
- <20260911112144.8EC3F1F000FF@smtp.kernel.org>
+ <20260911-separate_etm_cfg_v2-v10-5-1b715d95927a@arm.com>
+ <20260911112023.31F161F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -46,71 +45,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260911112144.8EC3F1F000FF@smtp.kernel.org>
+In-Reply-To: <20260911112023.31F161F000FF@smtp.kernel.org>
 
-On Fri, Sep 11, 2026 at 11:21:44AM +0000, sashiko-bot@kernel.org wrote:
+On Fri, Sep 11, 2026 at 11:20:22AM +0000, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Hardware counter values (`cntr_val`) read back during trace disable are saved to the temporary runtime `active_config` instead of the sysfs-visible `config` structure, permanently losing the post-session hardware state.
+> 
+> Pre-existing issues:
+> - [Critical] Hardware-reported capability counts are used as loop limits without being checked against static array capacities, leading to heap buffer overflows.
 > --
 > 
-> commit 293039b149bb540c924b83cd181604cbff99de4c
+> commit 1fb7a47435872f1b7f11824178d098d0258effdc
 > Author: Yeoreum Yun <yeoreum.yun@arm.com>
 > 
-> coresight: etm4x: fix inconsistencies with sysfs configuration
+> coresight: etm4x: introduce struct etm4_caps
 > 
-> This commit addresses inconsistencies in ETM4x sysfs configuration by
-> separating the configuration into an active_config for the current session
-> and a config for sysfs. It updates the enable/disable paths to use the
-> active session configuration to prevent corruption from concurrent access.
+> This commit introduces struct etmv4_caps to encapsulate ETMv4 capabilities 
+> and migrates the relevant capability information out of struct etmv4_drvdata 
+> into it.
 > 
 > > diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
 > > --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
 > > +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> [ ... ]
+> > @@ -1491,43 +1501,43 @@ static void etm4_init_arch_data(void *info)
+> [ ... ]
+> > -	drvdata->nr_ss_cmp = FIELD_GET(TRCIDR4_NUMSSCC_MASK, etmidr4);
+> > -	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
+> > +	caps->nr_ss_cmp = FIELD_GET(TRCIDR4_NUMSSCC_MASK, etmidr4);
+> > +	for (i = 0; i < caps->nr_ss_cmp; i++) {
+> >  		drvdata->config.ss_status[i] =
+> >  			etm4x_relaxed_read32(csa, TRCSSCSRn(i));
+> >  	}
+> 
+> [Severity: Critical]
+> This is a pre-existing issue, but does this code overflow the ss_status[] 
+> array if the hardware reports a capability count greater than the static array 
+> capacity?
+> 
+> In etm4_init_arch_data(), caps->nr_ss_cmp is read directly from the TRCIDR4 
+> hardware register. The architecture allows this field to be up to 15, but the 
+> arrays like ss_status are fixed in size to ETM_MAX_SS_CMP. Using the 
+> unvalidated hardware capability as a loop limit can lead to a heap buffer 
+> overflow.
 > 
 > [ ... ]
+> > @@ -1892,57 +1903,56 @@ static int etm4_cpu_save(struct coresight_device *csdev)
+> [ ... ]
+> > -	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
+> > +	for (i = 0; i < caps->nr_ss_cmp; i++) {
+> >  		state->trcssccr[i] = etm4x_read32(csa, TRCSSCCRn(i));
+> >  		state->trcsscsr[i] = etm4x_read32(csa, TRCSSCSRn(i));
+> >  		if (etm4x_sspcicrn_present(drvdata, i))
+> >  			state->trcsspcicr[i] = etm4x_read32(csa, TRCSSPCICRn(i));
+> >  	}
 > 
-> > @@ -1044,7 +1054,7 @@ static void etm4_disable_trace_unit(struct etmv4_drvdata *drvdata)
-> >  static void etm4_disable_hw(struct etmv4_drvdata *drvdata)
-> >  {
-> >  	u32 control;
-> > -	struct etmv4_config *config = &drvdata->config;
-> > +	struct etmv4_config *config = &drvdata->active_config;
-> >  	struct coresight_device *csdev = drvdata->csdev;
-> >  	struct csdev_access *csa = &csdev->access;
-> >  	int i;
+> [Severity: Critical]
+> This isn't a bug introduced by this patch, but does this loop risk corrupting
+> the dynamically allocated etmv4_save_state structure? 
 > 
-> [Severity: High]
-> Does this change cause the post-session hardware counter values to be lost?
+> Similar to the initialization path, etm4_cpu_save() relies on the unvalidated 
+> caps->nr_ss_cmp bound to write into state->trcssccr[] and state->trcsscsr[]. 
+> If the hypervisor or hardware provides a larger count, this will overflow the 
+> save state buffers on suspend and resume paths.
 > 
-> Later in etm4_disable_hw(), the hardware counter values are read back from
-> the device:
+> [ ... ]
+> > diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> > --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> > +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> [ ... ]
+> > @@ -2059,7 +2090,7 @@ static ssize_t ctxid_masks_store(struct device *dev,
+> [ ... ]
+> >  	mask = config->ctxid_mask0;
+> > -	for (i = 0; i < drvdata->numcidc; i++) {
+> > +	for (i = 0; i < caps->numcidc; i++) {
+> >  		/* mask value of corresponding ctxid comparator */
+> >  		maskbyte = mask & ETMv4_EVENT_MASK;
+> >  		/*
+> >  		 * each bit corresponds to a byte of respective ctxid comparator
+> >  		 * value register
+> >  		 */
+> >  		for (j = 0; j < 8; j++) {
+> >  			if (maskbyte & 1)
+> >  				config->ctxid_pid[i] &= ~(0xFFUL << (j * 8));
 > 
-> 	/* read back the current counter values */
-> 	for (i = 0; i < caps->nr_cntr; i++) {
-> 		config->cntr_val[i] =
-> 			etm4x_relaxed_read32(csa, TRCCNTVRn(i));
-> 	}
+> [Severity: Critical]
+> This is a pre-existing issue, but could this sysfs-triggered write also 
+> overflow the ctxid_pid[] array?
 > 
-> Because config now points to drvdata->active_config, the updated counter
-> values are saved to the temporary active session configuration instead of
-> the primary sysfs configuration.
-> 
-> When a user subsequently reads the counter value via the sysfs interface
-> in cntr_val_show():
-> 
-> 	struct etmv4_config *config = &drvdata->config;
-> 	...
-> 	val = config->cntr_val[idx];
-> 
-> they will read from the static drvdata->config, which never receives these
-> read-back values and will instead return the initial configuration value.
-> Should the read-back hardware state be synchronized back to drvdata->config
-> when the trace is disabled?
+> In ctxid_masks_store(), caps->numcidc is used as the loop bound for updating 
+> config->ctxid_pid[i], which is dimensioned by ETMv4_MAX_CTXID_CMP. Without 
+> clamping the hardware-reported capability, writing to this sysfs node could 
+> result in out-of-bounds memory accesses.
 > 
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com?part=1
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com?part=5
 
-The same for etm3. I'll fix it in next round.
+Nacked. All of above is false positive. array size is staticlly set as
+MAXIMUM size in coresight-etm4x.h.
 
 -- 
 Sincerely,
