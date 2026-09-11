@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD69F26ED40;
-	Fri, 11 Sep 2026 11:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1E1457E40;
+	Fri, 11 Sep 2026 11:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125651; cv=none; b=gv+xLL/+97XdQJPQVWQ0sFZo2mJKRC8Bk76LXz3KQYoZJwrEUhER+yQE9X+Ag6+AuLSw4Htugzx7yxYKJud3iS8uA0YrrqGo4LkNbvyzksIAK/0c08EaQ9996J0d7s/zK93jbqfLDnX3Z5tzmOjoRTHVQJ1gCBPgaeDS3TdOVr8=
+	t=1789125709; cv=none; b=F66wdySXPF0lfWpT6aNBL+MknD3s2dQXXv9rwfOYbaQ4SNRn7SVheG2J8iPLQkYvE0TgP5kx7pCU5z1EvhiA7uK06pHLyJ+O6V4Aqpp9EhQ9gOY45VDQoYVmt6E7Z2Eigs8dFPv3+dceu8cGQfN39nIS9Vblx+TOsAAfkjrqfBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789125651; c=relaxed/simple;
-	bh=icIONMInXrL/p90Pj9NLJHS15BrvyMWt/kQ6lVZ+gyU=;
+	s=arc-20240116; t=1789125709; c=relaxed/simple;
+	bh=U0uqeX8zjZmm8OzGTnuvDazj/KS2QfPD4Kczm2VS9r4=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=WJP1pfvoFbUwJ3dHEivFwz4JVUyQbjrda/Qbcb7TrB7GUBFP9mzJfxIZvFHts68wiHyVR8bjHE2bdtL89aqaG0Y0ryvZ0sii+NIFLfrj4uqCiEiL7XQF2a+ZqwaOJyXdE7c2ENUsYyMJtlmBw9RM+jMAv2Juj0aBKCzY0Dfi4Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLakOJpt; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=KNQ0NqgylGzJEJgCFGho68SNVZNTAK/CSvbOuVJuI+yvDGalxRBe7v9iIIerJ8VXXtHHv25ix1Z5eoGXrZCJH4kbQZayIQ2SncVKpjedbbwhJesTE6Y0IeLlb4me8+iM2ntHzKh1vCrTSgRiEeqsFQUjiDfClGFIMS6KeXO5zkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dp/dgcvD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLakOJpt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1AD1F000FF;
-	Fri, 11 Sep 2026 11:20:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dp/dgcvD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EC3F1F000FF;
+	Fri, 11 Sep 2026 11:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789125649;
-	bh=kLuPFk82kf4VOfdjuo9sUsImXN4bylmeBB661Hgy+9E=;
+	s=k20260515; t=1789125704;
+	bh=FUuyIOdaCSVB6Q6+FnhJHrufYlYSxc7UyO1FDKD9AZA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VLakOJptqfvBPnt6JyFh6vFyjPoNSRdHesSXRfQNLPafl59XwV6Yshi9i7UOsCIhx
-	 oW3B5bzdmWjVlbW/CUNCODtE8mY2vJ53ShdtalVfIRQEq91dalJbmlcWczjcq3nHrc
-	 18L+Jw8N6ICO+sLNBu+evvpnYKYkicUZA1HTuxUfxz+WtsVQgg918D3IxdvtOJJGVA
-	 bqbUwBqKc0AuyDPtSuPve94vv2a7G0bFRg/BXGZaqcwKvwyhlgPjPfg5V/5h1Iswq5
-	 Z/rwteNUr2p0dh4wsqeRXo93xPqAsNrdxjd67BvWBiVsEernESgVAEvJyJ54gV2gTq
-	 foslTcWt0aG4A==
+	b=dp/dgcvDjj2QoA8u0Xw9JksvXFc4MZaOLt8IEHm3UKMOaVghAeam9xy+uEvmlHyGH
+	 ixk/y3kHgbPAosqtBH9kKVafY2g13PumL645/utBz2tbMpIJNymEopH5S5nuFVxgIl
+	 STeN2raw8cA82GFCgUaWET8JMfWT+0k52d2d5vZ3FoG6BDi8tEHwmbE8O3Bi3++OrJ
+	 t3fR3e3mNAwRFOTbvkXKPXscVZiPVBhPL1kPye/9/e+OqtZ1b++wvdWZbCz2t4xpDU
+	 F2xFoRTq2OLv/RDFRjCMid5Hrxk/nSL2TguK0OkEKAeBYaJq0ifnalFU9RYlpaWfxY
+	 xGuO53YBicEvw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 8/8] coresight: etm3x: introduce struct etm_caps
+Subject: Re: [PATCH v10 1/8] coresight: etm4x: fix inconsistencies with
+ sysfs configuration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Yeoreum Yun" <yeoreum.yun@arm.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260911-separate_etm_cfg_v2-v10-8-1b715d95927a@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260911-separate_etm_cfg_v2-v10-1-1b715d95927a@arm.com>
 References: <20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com>
- <20260911-separate_etm_cfg_v2-v10-8-1b715d95927a@arm.com>
+ <20260911-separate_etm_cfg_v2-v10-1-1b715d95927a@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 11:20:48 +0000
-Message-Id: <20260911112048.CA1AD1F000FF@smtp.kernel.org>
+Date: Fri, 11 Sep 2026 11:21:44 +0000
+Message-Id: <20260911112144.8EC3F1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -46,38 +47,68 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] The local variable `caps` in `cntr_val_show()` is declared and init=
-ialized but never used, leading to a compiler warning.
+- [High] Hardware counter values (`cntr_val`) read back during trace disabl=
+e are saved to the temporary runtime `active_config` instead of the sysfs-v=
+isible `config` structure, permanently losing the post-session hardware sta=
+te.
 --
 
-commit 95d091834d6fbb955b9c3143fee9373f3398b6c9
+commit 293039b149bb540c924b83cd181604cbff99de4c
 Author: Yeoreum Yun <yeoreum.yun@arm.com>
 
-    coresight: etm3x: introduce struct etm_caps
-   =20
-    Introduce struct etm_caps to describe ETMv3 capabilities
-    and move capabilities information into it.
+coresight: etm4x: fix inconsistencies with sysfs configuration
 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c b/driver=
-s/hwtracing/coresight/coresight-etm3x-sysfs.c
-> index 0701edc094581..6c911b8c1be96 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+This commit addresses inconsistencies in ETM4x sysfs configuration by
+separating the configuration into an active_config for the current session
+and a config for sysfs. It updates the enable/disable paths to use the
+active session configuration to prevent corruption from concurrent access.
+
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers=
+/hwtracing/coresight/coresight-etm4x-core.c
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+
 [ ... ]
-> @@ -719,6 +724,7 @@ static ssize_t cntr_val_show(struct device *dev,
+
+> @@ -1044,7 +1054,7 @@ static void etm4_disable_trace_unit(struct etmv4_dr=
+vdata *drvdata)
+>  static void etm4_disable_hw(struct etmv4_drvdata *drvdata)
 >  {
->  	u32 val;
->  	struct etm_drvdata *drvdata =3D dev_get_drvdata(dev->parent);
-> +	const struct etm_caps *caps =3D &drvdata->caps;
+>  	u32 control;
+> -	struct etmv4_config *config =3D &drvdata->config;
+> +	struct etmv4_config *config =3D &drvdata->active_config;
+>  	struct coresight_device *csdev =3D drvdata->csdev;
+>  	struct csdev_access *csa =3D &csdev->access;
+>  	int i;
 
-[Severity: Low]
-Is this caps variable necessary? It appears to be declared and initialized
-but never used in cntr_val_show(), which might cause a compiler warning.
+[Severity: High]
+Does this change cause the post-session hardware counter values to be lost?
 
->  	struct etm_config *config =3D &drvdata->config;
-> =20
->  	if (!coresight_get_mode(drvdata->csdev)) {
+Later in etm4_disable_hw(), the hardware counter values are read back from
+the device:
+
+	/* read back the current counter values */
+	for (i =3D 0; i < caps->nr_cntr; i++) {
+		config->cntr_val[i] =3D
+			etm4x_relaxed_read32(csa, TRCCNTVRn(i));
+	}
+
+Because config now points to drvdata->active_config, the updated counter
+values are saved to the temporary active session configuration instead of
+the primary sysfs configuration.
+
+When a user subsequently reads the counter value via the sysfs interface
+in cntr_val_show():
+
+	struct etmv4_config *config =3D &drvdata->config;
+	...
+	val =3D config->cntr_val[idx];
+
+they will read from the static drvdata->config, which never receives these
+read-back values and will instead return the initial configuration value.
+Should the read-back hardware state be synchronized back to drvdata->config
+when the trace is disabled?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260911-separate_e=
-tm_cfg_v2-v10-0-1b715d95927a@arm.com?part=3D8
+tm_cfg_v2-v10-0-1b715d95927a@arm.com?part=3D1
