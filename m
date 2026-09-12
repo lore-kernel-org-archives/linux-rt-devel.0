@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB4B489875;
-	Sat, 12 Sep 2026 20:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AEA37E304;
+	Sat, 12 Sep 2026 20:36:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789245371; cv=none; b=JIK7g2MlDaje7KmJueeTk6wsMQMajOvYvY3aY8xBPt1fok2m979EAYqDIrHMGvjQmfKOMRqRqtyB4jdZHYjgQJtYcZKNqbtLC1s+QZPshEWMpuOn+64Xlm2pihtKaIc/RhqsXybNWNPWLOCNpHHmxwRisFknZfpJTEl+FX/RHlY=
+	t=1789245372; cv=none; b=sTGzVsldtnvYkItd8jiK8S+JouRvNfKbk50hL6cE1sgn3DedB0LMKytWhCT/t2LMGW1P9XVxqJWZe7CNeXIlmokdJDMhvsHjeg+w39U4A4QUUGPtbF8EtIZabFkLGGdTkV2+JD5l39aI73wjr+aIxHicjGJxf0KeH9vjYlbrhfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789245371; c=relaxed/simple;
-	bh=iy12LS6RuRyLPnuQtq01h1maLiE2P2UPCbk8VzdR7JI=;
+	s=arc-20240116; t=1789245372; c=relaxed/simple;
+	bh=RT2OUbFQDyh9sTCT+pvBbSIarmLVT+SX06rHWtJXeZQ=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DMRsCsA+L6rxFakGSaEwjQwvc5FFTZqjLRp5KCXTPb75D2uNd5ZaKxKYF09e6VQDvaCuz7o1aYt8LQSwG+AC5aHGBSWqlR90RGD0oYEKfgxUogzfA5vSM3kC0YlPY0NgW2cL8Woy0rmHcuZHFC3WUQeWF4SUur5dxY9Q6NV0eBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZO+0x2P; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:MIME-Version; b=KIGWIxIza6G3ei/R57aJtb1xUaxeniE+Z7jH8rp2turaKpd64lQpBRgtDA72nuTCFQ7jLy7UilnoXFy4h5l5FWFEdmEIL+puPgRjovgKjx6Ceh9EIcHTibpNFIQCXDYO7deI/YJeOiIPvrg70Wn5lUF6NHbnWXfFwVQxQ2GYCTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZjr33AS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZO+0x2P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AC811F00893;
-	Sat, 12 Sep 2026 20:36:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZjr33AS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29221F00898;
+	Sat, 12 Sep 2026 20:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789245368;
-	bh=4Y6jm1/pkJQDM9mGVuASKpC3wlUzOHbp3gqCKfcG1sI=;
+	s=k20260515; t=1789245370;
+	bh=yB+qPympDgej2P0RT4awNqENmPN0DVLN9Y0lFyxzCw8=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=aZO+0x2PRpTpD+JHIXWMLwn63U9B0oYIUvdqS6seoBbZozca3QhOOzC7CVaoGwoQD
-	 nxlOmVczpOWqFAiSVBvO8W+v1L8pn/fCnt5940hCExPE6VYg6GkWcwcLZ7BAZA1Zp0
-	 TLvhCuC9U4V8qYEstn5qLBzuYgtXx5ijss6i+5cuzqFxhnz9JicZCtfe+S4cKfTgDx
-	 +1isedVG5DFF5tBbsH8tSZJfepPyIo5A1FR8y17QJqlFr711O/D12B8CPyW/sDtNui
-	 FLJbikyxWteWebymI9VLft7MbEvR1fPoGVM7EHl7LKQ/WlJARNibqV/ysBJG7RJlPo
-	 f6Koc1LlYc4KQ==
-Subject:
- Re: [PATCH net-next v2 2/8] net: xilinx: tsn: add TSN endpoint wrapper driver
+	b=oZjr33ASNsZqqvhPztx3+hVwun5yHxMJZckJ0Yk0Qo2yfn2QtGEu5jfAHvZ3PTRZx
+	 ZC8QkVr2XnPZit1LQ9jjZqyMlW2eLpYRBIkv0fZIJdBCGC9GG9n8EUvL8fRBNKzOJw
+	 t3bLvXHMMLnM9yPNU7rPVxe3NQS37V5rjsn37Q7yAAWUX/8dIzYc3OTt24yN2EHCzo
+	 K9acrCJfKv0eWS7vS7rkr3fxaRLSULlV0me0NPBx9r+kXeSt+8LRLEvxl/dyN/kgef
+	 mQVkluRYAuT8kk95j32tjiqWQwsLNLWfWxkRV/8vcBvQP6dIdZHVdTKAT+Az2+AOGr
+	 te/Hy9bNuhPtw==
+Subject: Re: [PATCH net-next v2 3/8] net: xilinx: tsn: add endpoint MAC driver
+ skeleton
 From: netdev-bot+sashiko@kernel.org
 To: srinivas.neeli@amd.com
 Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -37,10 +37,10 @@ Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  rostedt@goodmis.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
-Date: Sat, 12 Sep 2026 20:36:06 +0000
-Message-ID: <178924536666.3125.1102910032368474240@kernel.org>
-In-Reply-To: <20260909-patches_v2_external-v2-2-3a40babaff4c@amd.com>
-References: <20260909-patches_v2_external-v2-2-3a40babaff4c@amd.com>
+Date: Sat, 12 Sep 2026 20:36:08 +0000
+Message-ID: <178924536843.3125.9655255476131138078@kernel.org>
+In-Reply-To: <20260909-patches_v2_external-v2-3-3a40babaff4c@amd.com>
+References: <20260909-patches_v2_external-v2-3-3a40babaff4c@amd.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -56,152 +56,90 @@ issue(s) to consider:
 
 Critical: 0 · High: 0 · Medium: 0 · Low: 2
 
-- [Low] Kconfig help text for CONFIG_XILINX_TSN claims the option
-  "provides the wrapper device and the endpoint MAC that connects the IP…
-- [Low] The binding Documentation/devicetree/bindings/net/xlnx,tsn-
-  endpoint-ethernet-mac.yaml puts 'xlnx,num-priorities' (uint32, 2..8)…
+- [Low] Commit message contradicts the code: the message body states
+  'Register the netdev named "ep"', but xlnx_tsn_ep_probe() calls…
+- [Low] Reported concern (validated as NOT a defect at the end of the
+  series): the binding Documentation/devicetree/bindings/net/xlnx,tsn-…
 
 --
 
-net: xilinx: tsn: add TSN endpoint wrapper driver
+net: xilinx: tsn: add endpoint MAC driver skeleton
 
-This adds a thin wrapper platform driver for the AMD/Xilinx TSN Endpoint
-Ethernet MAC IP node. The wrapper enables the six IP-wide clocks
-described in the device tree and then populates the DT sub-nodes so each
-one can bind to its own driver.
+This adds a platform driver for the "xlnx,tsn-ep-mac" endpoint MAC that
+registers an enumerated netdev with minimal netdev and ethtool ops, sets
+the MAC address from DT or a random one, and drops all transmitted
+frames.  The new driver is registered alongside the existing TSN
+platform driver.
 
-A couple of questions on the new Kconfig text and on the DT properties
-the wrapper consumes.
+Two questions below, both minor.
 
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/xilinx/tsn/Kconfig b/drivers/net/ethernet/xilinx/tsn/Kconfig
-> new file mode 100644
-> index 000000000000..b8939d8a92ef
-> --- /dev/null
-> +++ b/drivers/net/ethernet/xilinx/tsn/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Xilinx TSN device configuration
-> +#
-> +
-> +config XILINX_TSN
-> +	tristate "Xilinx TSN Ethernet driver"
-> +	depends on OF_ADDRESS
-> +	help
-> +	  This driver supports the AMD/Xilinx Time-Sensitive Networking
-> +	  (TSN) Endpoint Ethernet MAC IP. It provides the wrapper device
-> +	  and the endpoint MAC that connects the IP to the host CPU. The
-> +	  three-port switch is supported by the companion DSA driver.
+> Add a platform driver (compatible "xlnx,tsn-ep-mac") for the endpoint.
+> Register the netdev named "ep", set its MAC address, and provide minimal
+> netdev and ethtool ops. ndo_open starts the queues and ndo_start_xmit
+> drops frames.
 
 [Severity: Low]
-Is the help text accurate at this point in the series?  It says the
-option "provides the wrapper device and the endpoint MAC that connects
-the IP to the host CPU", but the Makefile added by this patch builds only
-the wrapper object:
+Should "the netdev named "ep"" say ep%d here?  xlnx_tsn_ep_probe() uses:
 
-  xilinx_tsn-y := xilinx_tsn_main.o
+	ndev = alloc_netdev(sizeof(*ep), "ep%d", NET_NAME_ENUM, ether_setup);
 
-and tsn_drivers[] registers only &tsn_driver, which matches
-"xlnx,tsn-endpoint-ethernet-mac-3.0".  No driver in the tree matches the
-sub-node compatibles at this commit, so devm_of_platform_populate() in
-tsn_ip_probe() creates child platform devices that cannot bind, and
-enabling the symbol here yields enabled clocks but no netdev.
+so the interface shows up as ep0, and ep1 for a second IP instance.  The
+kernel-doc for struct xlnx_tsn_ep in the same file already says '("ep0"
+for the first IP instance)'.
 
-The endpoint MAC part is resolved by later patches in this same series:
-by the end of the series the Makefile also builds xilinx_tsn_ep.o,
-tsn_drivers[] gains &xlnx_tsn_ep_driver, and xilinx_tsn_ep.c matches
-".compatible = \"xlnx,tsn-ep-mac\"", so this is only a transient
-mismatch between patches.
+The rename is described in the v2 changelog below the "---" separator,
+which is dropped when the patch is applied, so the permanent log would
+keep the old name.  Can the message body be updated to match?
 
-The remaining sentence about the "companion DSA driver" refers to
-something that is not in-tree at any point of this series.  Could that
-sentence be dropped or reworded until the DSA driver lands?
-
-> +
-> +	  If unsure, say N.
-> diff --git a/drivers/net/ethernet/xilinx/tsn/Makefile b/drivers/net/ethernet/xilinx/tsn/Makefile
+> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 > new file mode 100644
-> index 000000000000..6f99226f3dc8
+> index 000000000000..089f17a126f5
 > --- /dev/null
-> +++ b/drivers/net/ethernet/xilinx/tsn/Makefile
-> @@ -0,0 +1,2 @@
-> +obj-$(CONFIG_XILINX_TSN) += xilinx_tsn.o
-> +xilinx_tsn-y := xilinx_tsn_main.o
-> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
-> new file mode 100644
-> index 000000000000..afe7609c67fb
-> --- /dev/null
-> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
-> @@ -0,0 +1,104 @@
+> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+> @@ -0,0 +1,143 @@
 
 [ ... ]
 
-> +static int tsn_ip_probe(struct platform_device *pdev)
+> +static int xlnx_tsn_ep_probe(struct platform_device *pdev)
 > +{
 > +	struct device *dev = &pdev->dev;
-> +	struct xlnx_tsn_ip *w;
+> +	struct net_device *ndev;
+> +	struct xlnx_tsn_ep *ep;
+> +	u8 mac_addr[ETH_ALEN];
 > +	int ret;
 > +
-> +	w = devm_kzalloc(dev, sizeof(*w), GFP_KERNEL);
-> +	if (!w)
+> +	ndev = alloc_netdev(sizeof(*ep), "ep%d", NET_NAME_ENUM, ether_setup);
+> +	if (!ndev)
 > +		return -ENOMEM;
 > +
-> +	for (int i = 0; i < TSN_NUM_CLOCKS; i++)
-> +		w->clks[i].id = tsn_clk_names[i];
+> +	SET_NETDEV_DEV(ndev, dev);
+> +	ndev->netdev_ops = &ep_netdev_ops;
+> +	ndev->ethtool_ops = &ep_ethtool_ops;
+> +	ndev->features = NETIF_F_SG;
 > +
-> +	ret = devm_clk_bulk_get(dev, TSN_NUM_CLOCKS, w->clks);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to get clocks\n");
+> +	ep = netdev_priv(ndev);
+> +	ep->ndev = ndev;
+> +	ep->dev = dev;
 > +
-> +	ret = clk_bulk_prepare_enable(TSN_NUM_CLOCKS, w->clks);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to enable clocks\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, tsn_clk_bulk_disable, w);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_of_platform_populate(dev);
-> +}
+> +	ret = of_get_mac_address(dev->of_node, mac_addr);
 
 [Severity: Low]
-The binding
+This isn't a bug, but of_get_mac_address() is the only DT property read
+here, while the binding
 Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
-lists xlnx,num-priorities (uint32, 2..8) in the required: list for the
-"xlnx,tsn-endpoint-ethernet-mac-3.0" node:
+lists reg, dmas, dma-names and tx-queues-config as required for this
+node.
 
-  xlnx,num-priorities:
-    $ref: /schemas/types.yaml#/definitions/uint32
-    minimum: 2
-    maximum: 8
+The later patches in this series ("net: xilinx: tsn: parse endpoint DMA
+channel configuration" and the MCDMA/RX/TX data path patches) do add
+ep_count_dma_queues() and ep_parse_tx_queue_config(), so dmas,
+dma-names, tx-queues-config and xlnx,num-priorities all end up parsed
+and enforced with dev_err_probe() by the end of the series.
 
-tsn_ip_probe() is the only driver matching that compatible here, and it
-does devm_kzalloc(), devm_clk_bulk_get(), clk_bulk_prepare_enable(),
-devm_add_action_or_reset() and devm_of_platform_populate() without any
-of_property_read_u32(), so the mandatory property is neither read nor
-range-checked.
-
-A later patch in this series ("net: xilinx: tsn: parse endpoint DMA
-channel configuration") does consume it from the parent IP node in
-xlnx_tsn_ep_probe():
-
-  ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
-  ...
-  if (num_tx != num_prio)
-          return dev_err_probe(dev, -EINVAL, ...);
-
-so the binding/driver mismatch only exists between patches of this
-series.  Was leaving the property unconsumed by the wrapper itself
-intentional?
-
-> +
-> +static const struct of_device_id tsn_of_match[] = {
-> +	{ .compatible = "xlnx,tsn-endpoint-ethernet-mac-3.0" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, tsn_of_match);
+The one property that is still never consumed at the end of the series
+is the required reg region, since the v2 changelog notes the ioremap
+comes back with QBV support.  Is reg intended to stay documentation-only
+for the node unit address until then?
 
 [ ... ]
 
