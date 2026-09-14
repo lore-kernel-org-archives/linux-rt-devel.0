@@ -1,65 +1,65 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C4237E5ED
-	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 05:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483BD374A19
+	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 05:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789364885; cv=none; b=Y9+QfKmShaH4w/TpqPUSajvziqHTah4vP8u8khcG6ifPwqfriZv1Epi5oEeZ3Jwhrh4d/aJAjrbYl775LfwYoYgE/uBXRWyRhu6k85HH9Rd41wtKPE1n2h4R9/XKT0o/NyUAyTkxCEirIoGFWvPhUTD+EtDh5d/BPQxqVkMAfYA=
+	t=1789364886; cv=none; b=eZpb4F9tVbCakI1zfMlmcQWR0OOT6MMNkC8VRtPsWzXuqumRw6e38BtLe5z/KnY1Lcc6UdU3SmzcBZ9T1Vwn9TuUPJVhiDK1vNYYvwgkfYUUyJETHwHl/eG5Mlck5/lbQtSU/YYplhwEM7e3+OHFl8rVOeaV0evBrg0W/5MY1g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789364885; c=relaxed/simple;
-	bh=vs8iIby2nXHPAbbxM+YDs27DIBOnDI8WdDFG6sw1nDM=;
+	s=arc-20240116; t=1789364886; c=relaxed/simple;
+	bh=4/rEt6aIcLBVMLDQITGZHHjQoIY+CauyfASRMhD8tuk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GaefLa1vI/y8pnut8KkoodUVg21uCl5cBvxjbMK+a1IduDnZvY3PvzqiyrvVY0oUilP6e68O6SoEi61XJ28n/pIlqLZOVj4wyD3YY/5m6f4FYzrA9ODO1B4pt7ZdVfjgA5iaaAWGNzDd38eWGb5VQeU9GoZFAzo1P8qCdD1BnYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gLpvVelq; arc=none smtp.client-ip=74.125.225.140
+	 MIME-Version; b=UfOZCi9E1MDJMgq/6W8LbW7Zawe/Tm9GHvoPOX/kaXXnbtASPiGcy3pdAzHUuPqWGMOERNlunBg+KyzdMps6LfjB1hTdcyzYKJFLV/M+FN9aN0hvlqF+wqrTj7grb9FTGPwg5qvbLwYFFJwq4IiYygaJK2o8a33o9dSSZQZLw9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rHAdpxai; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLpvVelq"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e66390995so7130945e9.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 13 Sep 2026 22:48:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rHAdpxai"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso4535475e9.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 13 Sep 2026 22:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789364882; x=1789969682; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789364883; x=1789969683; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dMwj6bRyrsgMgTwnA+0w1Z6ygXdtryIk5Fb3zMeqsM4=;
-        b=gLpvVelqugliseFRCqxuex1wQ98Cy4s2iryahIUYnALSLdhNWk0aMGbOkmzZx0N3GP
-         eJP8q2v9GxwEsaxJXLy/r/2rvxyqa7l3h8g6U7Cu6QaQ6hJHLB+ehyfqzMzQDNXeE0Oe
-         VWQaBV13GzT6a0lbFHMlYFOl5YZ2Vcss79j27s8yQ7+cZb3mxh1gUBkW5F/Wb3vSiIoa
-         IX9Kf7jxyET0KoguFYt/qGuIjHdnE3AoJ1LvDlQqCl9iw2OVm0evTdGR/Xw55vVnhua5
-         BXrP23KLa13KlLJGQcFZvNvX5NXNUjXpSICO3420B8XLGmiEdkfC3yIojrQz60reFxI1
-         X+yw==
+        bh=gRxtvgP8q+4kgTU7CEIUrbrLAuy9hfqDj2Yu0xRVbQE=;
+        b=rHAdpxaiGQj12HaqgKZA3UW+oy2b8zXzUCR8d9LFGuEtYcCMUeb3tyxMSoTbSki92/
+         l+Hy+B18nU/CP7+6r5kbcUtY788EAp45FiVIjw00DWKS4ilP0yvBG/iM7Kofn/aMRY2x
+         cUJLyHN3EIndPfl6DUq0QSJ9F50PwL6G/psYz882VSYRbo5OuCGpv/vzuHKthvr8xVzv
+         EglDVpzv2rZvl0ZF5iwuUBxlnZK6wj0EJ25A+vyAnqwtpNxukY8iGG9tVcStCI/gXjOJ
+         NKRNsiSakcLTkWkqH6Z0zsRDOeWgGGJSR5fe05lrthpwgA3QEL2B9I0Zb04+afEmoBDY
+         wWQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789364882; x=1789969682;
+        d=1e100.net; s=20251104; t=1789364883; x=1789969683;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dMwj6bRyrsgMgTwnA+0w1Z6ygXdtryIk5Fb3zMeqsM4=;
-        b=r2V9mSPJWtwMCk/QTO+c+7/OQML9qKE1h8Xx713P29MTzfxs7ArzzwVXEjRB3DBcPu
-         Wn7yLN1OBoLAS7aOFvR829IA3OtkWA+eB+/VF6oMkcu2NA9n6aePid1A/geTfD5P7PBX
-         IEb/T4c8sY070vJA3XF4goiKOqgay+QNFrm6KQ++i7+mx4sYRU3SZIQADt+UL8mHZh0Y
-         lcgELvMXZic9bx/oL8RExuQeKqe1FapJg/0j1EmvZxUhKzgmidhzgr+xuIrjg4phgC1+
-         8FJHEgeGcP8dF5nSDLzl/r4eqiAt4kzj+JPhhvaeJo+9/01Zw06qJ79vATRog/MKUADI
-         vMnA==
-X-Forwarded-Encrypted: i=1; AKwUvBzufJ8M3TkQVrmzdN51kQPzvhnScPfnlNKXz3G40EKjIhHVtr3Xw45Go/N1rnhOoBaKojyfxwav2J8Gkmc+pw==@lists.linux.dev
-X-Gm-Message-State: AFuF++n7ntOnHSp4dcNIsV7oHBTny5ytJHqNfpcPsY3kdsPL3+UI34bI
-	Tpsj9Z8pFUzzPMPyTt9zN77kZLeByDDwSgAox18iY+Lhx7iyI2k5emEc
-X-Gm-Gg: AYBFou0rZLfoqcfm3Wslsj9Jv0lNofx+UfuCGe/ujPk51jKtfAJ1E0UMvdcG1fDfcSL
-	pJ4RM7Is9bhuLDyEgW8kBc+InrfN2KaUXHO/8lJz2dsat8lslRtgH9Tu2gJtwaZmyFYmVZG2ujs
-	N9dv0USOSsciLYkJ/bGHp1+2P9PiGwoo320cE2J4WZmKBw4qOT80tDdp4ZLd49+lxXPPAO3fZof
-	lTNUJ8KDy4LM34/y9qe9H7oDHgF6ILTR4GcJwjK5GiY3PhgP2NBdQxlrz3dr3sXO8FaWs7TWeVt
-	pkN4YImocy06OG3setk2DKVU0ElaQRhsDGplkmImxbTHPDa4k3J5YPudyajxbYxVd7v8byZ+ud6
-	hN+AiBwsE62enxLAa2CK+Zk9fVzEz22hnejtBEEGt+lIItqWhEmpRXZPnEoTWqryS7LVLKAAZME
-	qcMuDKPDi2e+zQJY8VqWIp/s5WXHWK5zPrDrOdiLM/gXviggAxoVQSPjjbLd7ywKzyVAdmWFyxL
-	X3Hy2UlztwRC8wc0IRz1l3GDvXM48dLc+cDXhOMlGk6or3lmoYS259Svw68Htloz5+ACxxcfnom
-	V3X922Op+Sj4NZ0Z2VQm4UNKGJypGko=
-X-Received: by 2002:a05:600c:871b:b0:49e:69e3:884d with SMTP id 5b1f17b1804b1-49e7a63770cmr9516405e9.4.1789364882018;
-        Sun, 13 Sep 2026 22:48:02 -0700 (PDT)
+        bh=gRxtvgP8q+4kgTU7CEIUrbrLAuy9hfqDj2Yu0xRVbQE=;
+        b=oLi82WsiNVlJJxZnJRCogKwZHFA86IBNELAulkzVuDxcDUcPWKcE+3a8/8DTyBwQQ1
+         LEp369cyhAFNa7Tsse9BtBqvCs/s6gUrELlmMBDwz/Oihi+CuBZzzqH0g/+qwCdUxRXN
+         gzgUSwxNL6OIi0XrEooGvjHYPTS3nDz2uITbSAcaSwUO6E+t+ROyjhsOn1dRIoy/yNYZ
+         MYG+rYtW+WGBBlss4Jsc0gRPasMNGNzAe3BEk25kfptE4UfkjryN2K7oAG7j/ecAFxlg
+         DGhdItrKVHhDkQoGFGHYs/zFo3g7El839EnJGu523WQNxZWrAJTit8oP+Hc3An+8wns1
+         4YJg==
+X-Forwarded-Encrypted: i=1; AKwUvByg53u7402e2qABhuqGExFjYFBxblmQ9nz0rEn8b8dyn7os367tNyMY30n3jxdn8q4GGJ2rbFY/z+ZPxWM4LQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lbrmurLVqacLGOaB/pFNA1AguyQzJDqWoXDONSnNQtCK5EPkQl
+	Q6O5FdtCCGervWwRv4h1+RwodrB0cg87Fs74Lna27HIPBp3m2FAFLczH
+X-Gm-Gg: AYBFou2ghmPytjhfe1kgDvyoAWRFDrSZ1aEMyHRgynBiuweiL5Fa18D4MRckMtkuG9t
+	BYMMpnGqdSOejVg+TD4uinnHP/zLXVGJXCRgwKtjG+OT6kaE7clv8VNyvuc1LtnpBzqHk2Q89WA
+	6k+c5lbzQXSD+owPCejp3kFv2qCC/HvS5Q1wOZO/07UQMJxN6+7yvZPp9YzQLDY+6KZVxFyvYVM
+	H8GieEQw3iHI/f5rS16dale8XCGx6tuIgrO2IYC8dTHsnF63CTvyWazWL9hSOI85vpQ8OJmOlJk
+	xXasMC0utINqcZaYDXFusIflYOWNGhln56kpAnWZNz9IX7OXaS5J5QMJWv+Y28QCi/u1Fxi1PYH
+	aMYijVi3ffoKm5nGKz6jXwSbjmtb2jEtsrglgqzcRVlEtEtL5e20lU8dh1rAceRG2nCRoqnZu4n
+	2zi4+vgXdDd+guD5xUHFbLRnXTyzL+88ULKpRvbqcdrhP56ivO6nImJ5TUYsGHmu1gYWUwj4bZ5
+	tAMJ2Jra8BOUGdegLsE2boizxhdXok0yvBQQwMjr5T4itM1yFbM+Mmi/i1BgRe25qf/T1p+uGdb
+	6OnUAQSOwnT2jNLwo0eDXa454SJhxTmp
+X-Received: by 2002:a05:600c:3484:b0:49c:f13e:e52 with SMTP id 5b1f17b1804b1-49e7a6865c1mr10069645e9.15.1789364883547;
+        Sun, 13 Sep 2026 22:48:03 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-077-007-122-014.77.7.pool.telefonica.de. [77.7.122.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6a06cfb8sm214537735e9.5.2026.09.13.22.48.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6a06cfb8sm214537735e9.5.2026.09.13.22.48.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 13 Sep 2026 22:48:01 -0700 (PDT)
+        Sun, 13 Sep 2026 22:48:03 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -86,9 +86,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-rt-devel@lists.linux.dev,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/6] sched/core: Pause KCOV in __schedule()
-Date: Mon, 14 Sep 2026 07:46:30 +0200
-Message-Id: <20260914054632.12877-5-kmehltretter@gmail.com>
+Subject: [PATCH v3 5/6] sched/core: Pause KCOV in try_to_wake_up()
+Date: Mon, 14 Sep 2026 07:46:31 +0200
+Message-Id: <20260914054632.12877-6-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260914054632.12877-1-kmehltretter@gmail.com>
 References: <20260914054632.12877-1-kmehltretter@gmail.com>
@@ -100,42 +100,40 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kernel/sched/ is built without KCOV instrumentation, but callees such
-as sched_clock(), architecture CPU-capacity helpers and profile_hits() are.
+try_to_wake_up() is built without KCOV instrumentation, but it calls
+instrumented helpers such as kthread_is_per_cpu(), CPU capacity helpers
+and SCHED_HRTICK arming. They can record into current while in_task() is
+true.
 
-During preemption and schedule() calls, instrumented callees can add
-nondeterministic scheduler coverage to current.
+CONFIG_KCOV_SELFTEST exposes this under PREEMPT_RT. The interrupt
+selftest fails on x86_64 in kthread_is_per_cpu(): RT runs the timer
+softirq in a thread, so the wakeup runs in task context during the
+selftest's spin. The same helpers leak into non-RT syscall wakeups such
+as a pipe write waking a reader.
 
-With CONFIG_KCOV_SELFTEST added to x86_64 defconfig, the interrupt
-selftest fails under QEMU, detecting spurious coverage in
-arch_scale_cpu_capacity().
-
-Annotating each callee would spread exclusions across architectures.
-Pause across __schedule() instead, extending the scheduler exclusion to
-its callees.
-
-KCOV_PAUSED remains set while a task is switched out. The guard in its
-resumed __schedule() frame restores the prior state.
+Pause the wakeup body with the kcov_pause guard. Take it before the
+preemption guard so preemption is re-enabled while KCOV remains paused.
+Wrapping only select_task_rq() would miss SCHED_HRTICK arming during
+enqueue.
 
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- kernel/sched/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ kernel/sched/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index ae97c63842a4..54b5c5383fe6 100644
+index 54b5c5383fe6..e3b50bbdf3a9 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -7116,6 +7116,9 @@ static void __sched notrace __schedule(int sched_mode)
- 	struct rq *rq;
- 	int cpu;
- 
+@@ -4266,6 +4266,8 @@ bool ttwu_state_match(struct task_struct *p, unsigned int state, int *success)
+  */
+ int try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+ {
 +	/* Instrumented callees would leak coverage into current. */
 +	guard(kcov_pause)();
-+
- 	/* Trace preemptions consistently with task switches */
- 	trace_sched_entry_tp(sched_mode == SM_PREEMPT);
+ 	guard(preempt)();
+ 	int cpu, success = 0;
  
 -- 
 2.53.0
