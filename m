@@ -1,50 +1,56 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EF2391E44;
-	Mon, 14 Sep 2026 07:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD44455600
+	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 13:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789370787; cv=none; b=c3YjJZABF8Tjc1MpLNAcBmbd7qD16BtGbzevhRsOcoBhFS3oEeA74mUDf055NB7ve1QIz0SxH+ufLDNgcURqvDmadSzblMORjitz6f79fITV3U1KHTCZL/EwoY9fnn0/f6TD+jguD145X97qnC2xLpxiZREK57EL2WfhdrGT95E=
+	t=1789391769; cv=none; b=quujKbxYGBp55M2KwWs0E+YNeU3byiAzhD42qoPXbH92ScGIdcVhVJySAFy41/70Eb55cFpjIQ/InlN3GelNTQIsZhtCo1FCDVQHzlduH3EeW+8QIJxS3OhreZwG7YBd4VuGB4FtBl+B6zsCWvCOF0yKtOYDo8ae5YUPIeS/CuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789370787; c=relaxed/simple;
-	bh=bsGdOl8K2QiBGwmi0g97VKjbfovbw4P1wi4hex5y5E8=;
+	s=arc-20240116; t=1789391769; c=relaxed/simple;
+	bh=3vwr07MU3joRPtrubT4HcmFEc9BUR3dpvqJO1KXq/IM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BtiPLODG6KiGagRYmmwxr4yb76Oq7JY8cGDvyu7rNPNGeFP0f/jqGFQuwTKTS+0vVOx2S+Eug8gSaOcDHi2MKmQQNJdM3P3x6Ln5K0XP0lam01FrZyAOUz77hQaOtdhr0UHtfNYs55sArNPhXBC+j7XGlHrkAwecDEN6UFMeaWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CFsiPCfE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5D6IopvA; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=lcE3pguzKTcD1gCieV1HNCVa0dMyPDBB1HuVIZdZnircLSR5XA7dmcckATkA4x0agOfh2nBjZy228P4j7uQGo6hNN2h+ZbeqSrQOfliCfilEJ9+yo8h3OuYlgYEdMRv9RkcPaOeo7QAjm32GjJUtNyDFd4r0+lqToMJAzlC0kjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d4qCbMt6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1XGp2t4S; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CFsiPCfE";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5D6IopvA"
-Date: Mon, 14 Sep 2026 09:26:23 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d4qCbMt6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1XGp2t4S"
+Date: Mon, 14 Sep 2026 15:16:03 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1789370784;
+	s=2020; t=1789391764;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7OGq4S9EEK8muizX5eTxulaDRgKnEZhBbib2tr3gCzU=;
-	b=CFsiPCfEGeF9XmgZTJSqe3Jwic/36JU0ej18ZLHmQ18tpFr6Jr0amoTVaRn0cwkScQxUIu
-	vKaPYVVn2f/hDyMhx3Mnt2jfr4qmNaQzTId3gO/qP8h26cBpY/kFjcfQS0l9CbJ1UZJ1CQ
-	rQ53qdFLGGJ8HYQ9jU+M4Iq8xRy2TM0XwpLJBGWbl9d8qvTQklXCjY55k4QNUuM5Ng1bfk
-	jrlsVKySyBLJlll/gCqJBjtzuT32YqNkD4q9M/Rnv80PFaYEhIbeH7j5wBN0njq6nZoPWz
-	GeJdc1SVPnmg7Y0U+bjv8P5kAbFJ6VoMx05ls7juU9jNScrkmjSMT2TACvqaRQ==
+	bh=3vwr07MU3joRPtrubT4HcmFEc9BUR3dpvqJO1KXq/IM=;
+	b=d4qCbMt6yGCiZhj2a+ZHFOmZpi2J/YabhieElMYC3lNVefjofvaJk/MRt19JzoVb5lUUie
+	Yzzp3X+u/1K8tAA3Gh9DGtqf9Yb/5xtlicqBc8pMUj81ZD2QE2nd62gWRu68mltzbGtFBU
+	NLQsG30OSKS1Gh6yEvHsdr1odzHW92MetxuNm8fv7iEFTxNYlA9DmiNtWCuSJiNyCqJLqY
+	Q2DM9vmjYYdMkkD03E8e9x9X9j0WL5cGxVJkI9yJEAhfRe+eeNWqhNxJZ5Mu3TTkCTJlPC
+	39kj6jWmTUPTHGVM72elD5Cgm/VZGE5E2w0YvJqwG+i85EQBsbkLXfgToagiFg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1789370784;
+	s=2020e; t=1789391764;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7OGq4S9EEK8muizX5eTxulaDRgKnEZhBbib2tr3gCzU=;
-	b=5D6IopvArs8zmcCStQuzr9aNjiioa49aHbktkrBKbof0She2ufNE0CNkm/tAKB1wFapvzE
-	WqfLrpYFSQjTnlCA==
+	bh=3vwr07MU3joRPtrubT4HcmFEc9BUR3dpvqJO1KXq/IM=;
+	b=1XGp2t4SF0M7XQYHGMGx2qQPX3D9Zomx1ML5e8lRRIWOjzSl+KMr4LupgGi70O3rOViVtZ
+	eirXuz5pitySxkAw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] irq_work: Flush lazy work CPU down on PREEMPT_RT
-Message-ID: <20260914072623.OegMPpLL@linutronix.de>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH 0/3] irq_work: CPU-hotplug improvements on PREEMPT_RT
+Message-ID: <20260914131603.th1LyYn0@linutronix.de>
 References: <20260911143815.997254-1-bigeasy@linutronix.de>
- <20260911143815.997254-3-bigeasy@linutronix.de>
- <20260911145555.8BE8C1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -53,68 +59,33 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260911145555.8BE8C1F000FF@smtp.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260911143815.997254-1-bigeasy@linutronix.de>
 
-On 2026-09-11 14:55:55 [+0000], sashiko-bot@kernel.org wrote:
-> [Severity: High]
-> Is this statement accurate?
-> 
-> Several lazy irq_work callbacks (e.g., cgrp_dead_tasks_iwork_fn in
-> kernel/cgroup/cgroup.c) rely on this_cpu_*() accessors to process local queues:
-> 
-> kernel/cgroup/cgroup.c:cgrp_dead_tasks_iwork_fn() {
->     ...
->     lnode = llist_del_all(this_cpu_ptr(&cgrp_dead_tasks));
->     ...
-> }
-> 
-> Executing them remotely on the control CPU causes them to access and drain the
-> control CPU's per-CPU lists instead of the dying CPU's. Could this permanently
-> leak task structs and pin cgroups on the dead CPU indefinitely, while
-> incorrectly altering the state of the control CPU?
+On 2026-09-11 16:38:11 [+0200], To linux-kernel@vger.kernel.org wrote:
+> There was an unrelated thread which made me look into how
+> !IRQ_WORK_HARD_IRQ is processed on PREEMPT_RT. Turns out the queue of
+> callbacks gets never flushed on CPU shutdown. !PREEMPT_RT has a flush
+> but on PREEMPT_RT the thread context is required.
+> This almost never happens but if it happens it is a pain.
+=20
+Something else that almost never happens: printk() has this
+__printk_percpu_data_ready() thingy. I interpreted this wrongly last
+Friday: If someone does prinkt() before per-CPU pages are setup then the
+work item has the IRQ_WORK_CLAIMED bit set and this work item is copied
+to every CPU's view of the per-CPU data. It is not protecting itself
+=66rom setting bits but the irq_work API.
+irq_work has its own per-CPU llist_head which gets copied during per-CPU
+setup. As a result, once interrupts are enabled the IRQ-work will be
+invoked on each CPU passing the "original" irq_work pointer (from the
+per-CPU-data-init sample). The actual per-CPU data (after setup) never
+gets cleared.
 
-The cover letter explained why this shouldn't happen. Additionally the
-referenced cgroup patch is already staged for 7.4. 
-
-> > diff --git a/kernel/irq_work.c b/kernel/irq_work.c
-> > index 9f19c05c9962c..73eabcbdcd50c 100644
-> > --- a/kernel/irq_work.c
-> > +++ b/kernel/irq_work.c
-> [ ... ]
-> > @@ -263,6 +263,17 @@ void irq_work_run(void)
-> >  }
-> >  EXPORT_SYMBOL_GPL(irq_work_run);
-> >  
-> > +void irq_work_run_cpu(unsigned int cpu)
-> > +{
-> > +	if (WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_dying_mask)))
-> > +		return;
-> > +
-> > +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> > +		return;
-> > +
-> > +	irq_work_run_list(per_cpu_ptr(&lazy_list, cpu));
->         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> [Severity: High]
-> Could this result in a use-after-free of the irq_work structure?
-> 
-> irq_work_sync() protects against concurrent execution by waiting for
-> IRQ_WORK_BUSY to clear and then calling synchronize_rcu(). This assumes the work
-> callback executes inside an RCU read-side critical section.
-> 
-> However, irq_work_run_cpu() runs from preemptible thread context in
-> smpcfd_dead_cpu() without holding the RCU read lock. irq_work_single() can be
-> preempted after clearing IRQ_WORK_BUSY but before calling rcuwait_wake_up().
-> 
-> If irq_work_sync() on another CPU sees the BUSY bit clear, it will call
-> synchronize_rcu() which returns immediately, and the caller may then free the
-> irq_work structure. When the preempted work function resumes, could it access
-> freed memory in rcuwait_wake_up()?
-
-Okay, this is a bummer.
-
-> > +}
-> 
+We should either disallow irq_work_queue() until per-CPU data is setup
+or flush the irq-work queue before the setup (so it has no items while
+the data is copied).
+While the printk workaround feels wrong, it gets the job done for now. I
+am a bit worried that if its usage spreads around and we get other early
+users=E2=80=A6
 
 Sebastian
