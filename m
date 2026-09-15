@@ -1,35 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6679F4B04BD
-	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Sep 2026 11:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B81E4C1516
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Sep 2026 11:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789472097; cv=none; b=gTu1I1Hm/xMz0EgdGMOsEuafol/USQciXE7GSxRiABEGqDhpMOf9zedQkNsQvgK866hu/Q51EF/LCGbCYD5SIwmNFeWlUtz3/Wrav1gPoRpZLkWLqoPORB8EitRTb0XMAFC22e6dDAs7ZLShcLCqYIFOdC2mS4LabQqdI3Dgi0I=
+	t=1789472098; cv=none; b=n3cYIzTDi8PctRG0/lLRQFrpn+ozAHNhdCq0H4n00qjMDkpLCgLup0budxGk9zgx+cC6yLlpF0pg2D0/OKElBsyuYLddXInh2jcX7O367zIocG2pDdAImwBebLT4pR4gz71HMa0ivBOu0FnTVu61bPqvmKW5FQEa2spu1sIy6Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789472097; c=relaxed/simple;
-	bh=9SznDYuGT8UWvy+LroM0/n7oks7pIldiC5cYN/ie6lc=;
+	s=arc-20240116; t=1789472098; c=relaxed/simple;
+	bh=OY9M4kkCabp+bV4ooKfCZXYd5uvoGme47JFL/fchmm8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H/PjGfFwNHHpo6sRTLCHMRNdpbLXxD0f2tCKr8hJQJQHybzhucquWrNtwB+dgpBmU3DwSsM1nXyWEgKr2AnaypwK7lJVd0TO27m7HDqIeT8e6ra12rbIZRZMiVG++wOcZN4khH/4LrQ/DMfGLo23QupbZSvEddllvaHWLJGKUmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EJxeykuK; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:To:Cc; b=pFW9thJw0L922SgjKp11xEOSYiesVI66+cBdrTNKwJ+83lhznuTCb/Ale8px7PzqDjnRRo3TboZ+vN7JQlbdglFM8qDBCRrCKvykOLp1uSB5ySgBtePDzdjJe+AXYqTGKMHB9VRVcmTKOtI645gTU/X5l6R0yYyEHZwkLfg48xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=PFL3l9JB; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EJxeykuK"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="PFL3l9JB"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5CD9C169E;
-	Tue, 15 Sep 2026 04:34:48 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AC9C3F86F;
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B5D21BD0;
 	Tue, 15 Sep 2026 04:34:50 -0700 (PDT)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D2AD3F86F;
+	Tue, 15 Sep 2026 04:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789472091; bh=9SznDYuGT8UWvy+LroM0/n7oks7pIldiC5cYN/ie6lc=;
+	t=1789472093; bh=OY9M4kkCabp+bV4ooKfCZXYd5uvoGme47JFL/fchmm8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EJxeykuKGZuefAoOIcnscNFcZbufrNIAnvNt/ygyPFdWqrXkYpB147dLaBlyIUMdC
-	 DF4gMURNpzWzMQz8DIE9bsyAgX5oeiujiznZMjNjXzrxsChNJUJqS3AkRwrsnEoK7C
-	 +bn3xSqoxgLIBsVaFJ2TSmGLyVEAIYfOP/wkF1/Y=
+	b=PFL3l9JBUgxUIxK2x05P+HdgTK88s1Tfe5qipYp9uXSOuU0fXAOKOrBrZBEIfkoYU
+	 IYAbT1gL1IHrNUncP5pQgoj7TaQrepwRUyYa5nUU0B2MeuzLBke03UWQXzre+jrcqS
+	 /POJl+B7DLSnizqbHN2UqmRA5W1/n+oYwNhPRutI=
 From: Yeoreum Yun <yeoreum.yun@arm.com>
-Date: Tue, 15 Sep 2026 12:34:36 +0100
-Subject: [PATCH v11 1/9] coresight: etm4x: prohibit modifying ss_status and
- cntr_val while session is enabled
+Date: Tue, 15 Sep 2026 12:34:37 +0100
+Subject: [PATCH v11 2/9] coresight: etm3x: prohibit modifying cntr_val and
+ reset while session is enabled
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-separate_etm_cfg_v2-v11-1-d2b258d51747@arm.com>
+Message-Id: <20260915-separate_etm_cfg_v2-v11-2-d2b258d51747@arm.com>
 References: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
 In-Reply-To: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
 To: Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, 
@@ -52,65 +52,57 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
  Yeoreum Yun <yeoreum.yun@arm.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1606; i=yeoreum.yun@arm.com;
- h=from:subject:message-id; bh=9SznDYuGT8UWvy+LroM0/n7oks7pIldiC5cYN/ie6lc=;
- b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqqS1TkdhDSHPwJcx/vmPdcKKHXF1J3vojEq0VJ
- Av5CLspdxKJAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCaqktUwAKCRBt1cPRWsUx
- Mw3xDAC2MZUtn9trX+mcrq3sX6onUAcMm+eNJV/vk+uyxqJclKUiPMK5N1Ru8xJJCy06oLvKNyO
- nQLYyrs3pMj+xtDncgt2YaeKUaPHBDydamhBBvSHeEImhXehkwph1XVXGWywu2PY580EM8681ka
- hm9MytsXjIc9AZBfXY6Zge0HOdFsDo5ZXwxxAex8ch5TP+AqUkk1OQJUb1hvUfXM5KVTvDHV0Zq
- GPi/mciXValWE+s4dgBzl4B7DNI+I161WyVk1mqs+XCm8gXIXcjjo3KX5rtGWEKkWYYsqwBnLTV
- tiEeqO/dUTChORNpnINZjK67p2JXe3ERj16KFpW+d4TplTFHhpXLrSGzLGA0XQShNMUKD4JCC/t
- xzFp761FweGV2y+9P+2hHQrUDWO8c+KtPxI35w2j3e0hTDMT/8nIAPsb7hBTn+lykszrD9vm63p
- 7Zfdy6cydalTrkHcYODmCpfcIJsiG4Y5yw3He5KjNPzxDZyx5JAaDDLjrPh8ltsLUuLew=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1369; i=yeoreum.yun@arm.com;
+ h=from:subject:message-id; bh=OY9M4kkCabp+bV4ooKfCZXYd5uvoGme47JFL/fchmm8=;
+ b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqqS1TmYIRhSMz5EhthjcSwJUaxwuP8BpyV1qsT
+ UcrhEL1dwaJAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCaqktUwAKCRBt1cPRWsUx
+ MzeNDAC7pg2DnobJUGrqYeiX7Jh3wLOoJOfPfXcMFQ6ikhLAt+4WFTQI/IpZouq+NTJXtAb6KZU
+ B7sAyTKTyBpN0KfTsjozkMko6ZUgc7k97C+l/rYSdFf0Q214QI8QlQUMKslSiaWeCGWv1uk9cjD
+ ZrPDmdRQKDOJzy7cwYWQTWuaR3fO4BNa0Gv4fYMaTfmrfCWaXQpY1ewGkcZyTioRUEcT3aKU0J6
+ QincnIEvrKBxXPErZA72fbOuMtJHnieyAjRlvpQWm5lWjUIAm4tDXRaJtY2qLn1Qmmdgypjv41G
+ MtWWPPsPTgJRyfTzEAAIeaVIEeg/8MC+KSaCMFXQtd51OdHSlHPr8tZ5OW1N0DpY7BjHOcadCO7
+ vL6AOfh1egSer4UoD9eRcyehAXXqUFzUfbXef30MKxuBAFLtaTJCLeFR8ifE1vFSzVZYbnaoj1B
+ pz+7bB6Kr2VVI8ZmId5ef113VnfGdMkzFByoGrZ0ywTsBbFc92ZYnbzTwRcbJSAw826gM=
 X-Developer-Key: i=yeoreum.yun@arm.com; a=openpgp;
  fpr=2D83E092DD0533B85875A49D6DD5C3D15AC53133
 
-ss_status and cntr_val are overwritten with the values read from the
-corresponding registers by etm4_disable_hw() when the session is disabled.
+cntr_val are overwritten with the values read from the corresponding
+registers by etm_disable_hw() when the session is disabled.
 
-This means that any changes to these values made while the session is
+This means that any changes to this value made while the session is
 enabled would be lost when the session is disabled.
 
-Therefore, prohibit modifying ss_status and cntr_val while the session is
-enabled.
+Also, reset shouldn't be called while session is enabled.
+
+Therefore, prohibit modifying cntr_val and reset while the session is enabled.
 
 Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 ---
- drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/hwtracing/coresight/coresight-etm3x-sysfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-index cc6cdd3ae29d5..8d73248b840a6 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-@@ -1613,6 +1613,8 @@ static ssize_t cntr_val_store(struct device *dev,
- 		return -EINVAL;
- 	if (val > ETM_CNTR_MAX_VAL)
- 		return -EINVAL;
+diff --git a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+index b3c67e96a82a4..d4846d6364945 100644
+--- a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
++++ b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+@@ -74,6 +74,8 @@ static ssize_t reset_store(struct device *dev,
+ 	ret = kstrtoul(buf, 16, &val);
+ 	if (ret)
+ 		return ret;
 +	if (coresight_get_mode(drvdata->csdev))
 +		return -EBUSY;
  
- 	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
-@@ -1797,6 +1799,8 @@ static ssize_t sshot_ctrl_store(struct device *dev,
- 
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
+ 	if (val) {
+ 		spin_lock(&drvdata->spinlock);
+@@ -744,6 +746,8 @@ static ssize_t cntr_val_store(struct device *dev,
+ 	ret = kstrtoul(buf, 16, &val);
+ 	if (ret)
+ 		return ret;
 +	if (coresight_get_mode(drvdata->csdev))
 +		return -EBUSY;
  
- 	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ss_idx;
-@@ -1847,6 +1851,8 @@ static ssize_t sshot_pe_ctrl_store(struct device *dev,
- 
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
-+	if (coresight_get_mode(drvdata->csdev))
-+		return -EBUSY;
- 
- 	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ss_idx;
+ 	spin_lock(&drvdata->spinlock);
+ 	config->cntr_val[config->cntr_idx] = val;
 
 -- 
 2.43.0
