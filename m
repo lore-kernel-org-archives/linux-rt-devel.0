@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668EE41A504;
-	Tue, 15 Sep 2026 11:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D804733A03A;
+	Tue, 15 Sep 2026 11:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789473077; cv=none; b=mlW0wdx9T5kuXrlvROi2titcJS7Uu8HyUW3QV1KnXmY38zZtjQEZmo8gB2Cw1rh0Hvg7bbZt7H1J8CLqOHoohWGOXZRozcst82wbzSb57L9h5sjQ2jSuXrObkkTbzlFS9aL/cQpHNwRx6a9lkZjopY5JZjBYnVaBa0/S41TVTCo=
+	t=1789473216; cv=none; b=ftv868K8JgpXhyrqVnEwh8xE083NqFXJmPsXWy+Vqnkjmucn5FKE9QDAxRC3W1kkIjCZFH/qzA+OgvVARcF8GIoTBdNfv8o9KX89AOzq93qpY+vyGJP8e+UN9pcJu9t3q6zzUKwbfuvWfTtq0HcfN/Pi/aMU/rwPLhrrgac10c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789473077; c=relaxed/simple;
-	bh=K7W4k2f+iekuoISuCnJPGAGoUblnu8UWzRlx4C8OH84=;
+	s=arc-20240116; t=1789473216; c=relaxed/simple;
+	bh=8QXbZ8I+9o9yTyJvFts1sa5d47rPzE6A80UaFqPuVWs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=beUk/eeUAvZHZmdCRowU9ii+UnpuitmUAv4Hfnbi0tLmWzovWknALHwNYzWTlh4EWij/iDhIvIggfr2djTUALm+vltG8Vtv0KiRh4f3hS18IrEmFKExvFfsyFD9rkm6sfFAALUbbG3jLXlJy0LGMMNB9RpSIYe6QwvjHbRtbGyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IA0xWGnH; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=PzS3oYFj9uY20m7ffWKWBOLBQVN2yeY7FfNkSrWGpnuH2EK1pNogKfXIfjY+vBch6JduvE1rK9uyyIQCFeRlyH5tLjhGAs9Bo9ZI/lon0nbroeVdaCUzf1r886Vqbbs/0dzGUG1DkukoMHgKXqpLymG1zzugEPnYpFrSLEmENVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvmAI+J8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IA0xWGnH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B2A1F000FF;
-	Tue, 15 Sep 2026 11:51:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvmAI+J8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49FB91F000FF;
+	Tue, 15 Sep 2026 11:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789473076;
-	bh=Gys+iiTGtcVUDYXX47MKmXZ3Eu5eRKpeRpf14iNffWk=;
+	s=k20260515; t=1789473214;
+	bh=r5FCBucUZVboJWM6zfaVu4MyS1vGwapKVq7Y/3CWpNs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IA0xWGnHm5bsyEBgBHLM2QBB4mBs6SIxkviW1aq1JnGvgyZAdg3r3k8X6WVFSVRx9
-	 8kqxsk+FQqXQWc+zxPmlX7F8g4CUgx57LOGlaQLaBaHEf9/m1WaWz1zyaNc/qa9ZYW
-	 zye8vSB6G4NqsfwkFN3/QfDbi4pFPyESgB5psuFPtNlfsjnV7y/M2k1CKwweRko5bp
-	 b7Q1LvyVIyo84+FhGoL4EnI6ekLyj5VWsPGGBIOAp07ACihKXHNdtSVWe/SVQlcEzi
-	 ltjiddVznZT77d3iccIxA35iKkkY+td1nmaphtMCdFJXUu8ErKQyMCDyadsAoF3g8+
-	 bkT+8UyFohwrQ==
+	b=hvmAI+J8VhVlIRtpF7MdpaJ/10pyVJCHWZEFxkGJFT5SatCDb1iTHDcFeHVosNIwO
+	 5PaQn/Wm5ffc9jL1CJ4E9IHLbtArowck0oa1sPPbO/zidcp3zVITcHNcU5InHYgEN/
+	 G6+fYkbCZbPh2t4yPWQADRjgdRr3gL58i5VCAGkOHcZrdJtIzU49rqkgkxpkT1svla
+	 lz3wBKyRYOA0YUKZPOXzTCF24XzAmdSPUhWxNUA3Fin2YxResaZUgPvYAuXHj8K/q7
+	 FejMB1fzWRCPoxQBoJGL5M9JzeELBq31LsjY7hvx2CQqFMP2obR5C6zGefYfSzsB3S
+	 UZbcYLYqPS0rw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 1/9] coresight: etm4x: prohibit modifying ss_status
- and cntr_val while session is enabled
+Subject: Re: [PATCH v11 3/9] coresight: etm4x: fix inconsistencies with
+ sysfs configuration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Yeoreum Yun" <yeoreum.yun@arm.com>
 Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260915-separate_etm_cfg_v2-v11-1-d2b258d51747@arm.com>
+In-Reply-To: <20260915-separate_etm_cfg_v2-v11-3-d2b258d51747@arm.com>
 References: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
- <20260915-separate_etm_cfg_v2-v11-1-d2b258d51747@arm.com>
+ <20260915-separate_etm_cfg_v2-v11-3-d2b258d51747@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Sep 2026 11:51:15 +0000
-Message-Id: <20260915115115.E6B2A1F000FF@smtp.kernel.org>
+Date: Tue, 15 Sep 2026 11:53:33 +0000
+Message-Id: <20260915115334.49FB91F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -47,104 +47,115 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] coresight: NULL pointer dereference in sysfs stores during device =
-initialization
-- [Medium] coresight: TOCTOU race in sysfs store functions bypasses session=
- check
+- [Medium] coresight: data race when updating cntr_val in etm4_disable_sysf=
+s()
+- [Medium] coresight: feat_csdev_lock macro fails to disable IRQs when __lo=
+ck is NULL
 --
 
-commit e0461b6a1ca35a227d37c4654e32e424dc9d60f7
+commit 5571e5128409a42536b24f594b727e037107f3f4
 Author: Yeoreum Yun <yeoreum.yun@arm.com>
 
-coresight: etm4x: prohibit modifying ss_status and cntr_val while session i=
-s enabled
+coresight: etm4x: fix inconsistencies with sysfs configuration
 
-This commit adds checks to prohibit modifying ss_status and cntr_val via sy=
-sfs
-while a trace session is enabled. It prevents changes to these values from
-being silently overwritten and lost when the session is disabled.
+This commit separates the active configuration applied to the current sessi=
+on
+from the sysfs configuration to resolve inconsistencies. It applies configfs
+settings after taking the appropriate mode and removes the lock/unlock arou=
+nd
+sysfs enable/disable paths except when accessing config fields.
 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/driver=
-s/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index cc6cdd3ae29d5..8d73248b840a6 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -1613,6 +1613,8 @@ static ssize_t cntr_val_store(struct device *dev,
->  		return -EINVAL;
->  	if (val > ETM_CNTR_MAX_VAL)
->  		return -EINVAL;
-> +	if (coresight_get_mode(drvdata->csdev))
+> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwt=
+racing/coresight/coresight-config.h
+> index 90fd937d3bd83..ae6295e308131 100644
+> --- a/drivers/hwtracing/coresight/coresight-config.h
+> +++ b/drivers/hwtracing/coresight/coresight-config.h
 
-[Severity: High]
-Can drvdata->csdev be NULL here if this sysfs attribute is accessed during
-device initialization?
-
-If userspace writes to this sysfs attribute immediately upon device creation
-(e.g., via udev rules), coresight_register() might not have returned yet to
-assign drvdata->csdev in etm4_probe(), leading to a NULL pointer dereferenc=
-e.
-
-Could we use to_coresight_device(dev) instead to avoid this?
-
-> +		return -EBUSY;
-> =20
->  	raw_spin_lock(&drvdata->spinlock);
-
-[Severity: Medium]
-Is there a race condition here since the mode check happens before acquiring
-the spinlock?
-
-If Thread A writes to cntr_val and passes the mode check, Thread B could
-concurrently enable the session (taking the spinlock, configuring the hardw=
-are,
-and changing the mode). Thread A would then acquire the spinlock and modify
-the software configuration, leaving it out of sync with the active hardware.
-
-Should the mode check be moved inside the spinlock?
-
->  	idx =3D config->cntr_idx;
 [ ... ]
-> @@ -1797,6 +1799,8 @@ static ssize_t sshot_ctrl_store(struct device *dev,
-> =20
->  	if (kstrtoul(buf, 16, &val))
->  		return -EINVAL;
-> +	if (coresight_get_mode(drvdata->csdev))
 
-[Severity: High]
-Does this suffer from the same NULL pointer dereference risk during device
-initialization as cntr_val_store()?
-
-> +		return -EBUSY;
+> @@ -259,4 +260,25 @@ void cscfg_csdev_disable_config(struct cscfg_config_=
+csdev *config_csdev);
+>  /* reset a feature to default values */
+>  void cscfg_reset_feat(struct cscfg_feature_csdev *feat_csdev);
 > =20
->  	raw_spin_lock(&drvdata->spinlock);
+> +#define feat_csdev_lock(feat_csdev, flags)				\
+> +	do {								\
+> +		raw_spinlock_t *__lock =3D feat_csdev->drv_spinlock;	\
+> +		typecheck(unsigned long, flags);			\
+> +		if (__lock)						\
+> +			raw_spin_lock_irqsave(__lock, flags);		\
+> +	} while (0)
+> +
+> +#define feat_csdev_unlock(feat_csdev, flags)				\
+> +	do {								\
+> +		raw_spinlock_t *__lock =3D feat_csdev->drv_spinlock;	\
+> +		typecheck(unsigned long, flags);			\
+> +		if (__lock)						\
+> +			raw_spin_unlock_irqrestore(__lock, flags);	\
+> +	} while (0)
 
 [Severity: Medium]
-Is this check also vulnerable to the same race condition by being outside
-the spinlock?
+Will these macros fail to disable IRQs when __lock is NULL?
 
->  	idx =3D config->ss_idx;
+The intent is to let cfg-configfs operate without grabbing the drv_spinlock
+when it is NULL. However, raw_spin_lock_irqsave() also saves and disables
+IRQs. If the lock is bypassed completely here, IRQs are left enabled.
+
+Could this lead to reentrancy bugs or deadlocks if generic coresight config=
+fs
+routines like cscfg_csdev_enable_active_config() are called from contexts
+where IRQs are enabled? Should there be a fallback like local_irq_save() wh=
+en
+__lock is NULL to ensure the critical section remains protected from
+interrupts?
+
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers=
+/hwtracing/coresight/coresight-etm4x-core.c
+> index 2247ad55d4442..2df7f592bb5cf 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+
 [ ... ]
-> @@ -1847,6 +1851,8 @@ static ssize_t sshot_pe_ctrl_store(struct device *d=
-ev,
-> =20
->  	if (kstrtoul(buf, 16, &val))
->  		return -EINVAL;
-> +	if (coresight_get_mode(drvdata->csdev))
 
-[Severity: High]
-Does this suffer from the same NULL pointer dereference risk during device
-initialization as cntr_val_store()?
-
-> +		return -EBUSY;
+> @@ -1140,9 +1152,17 @@ static void etm4_disable_sysfs(struct coresight_de=
+vice *csdev)
+>  	smp_call_function_single(drvdata->cpu, etm4_disable_sysfs_smp_call,
+>  				 drvdata, 1);
 > =20
->  	raw_spin_lock(&drvdata->spinlock);
+> -	raw_spin_unlock(&drvdata->spinlock);
+> +	/*
+> +	 * Userspace may read ss_status and cntr_val through sysfs after
+> +	 * the sysfs-session has been disabled.
+> +	 */
+> +	for (i =3D 0; i < drvdata->nr_ss_cmp; i++)
+> +		config->ss_status[i] =3D active_config->ss_status[i];
+> =20
+> -	cscfg_csdev_disable_active_config(csdev);
+> +	for (i =3D 0; i < drvdata->nr_cntr; i++)
+> +		config->cntr_val[i] =3D active_config->cntr_val[i];
 
 [Severity: Medium]
-Is this check also vulnerable to the same race condition by being outside
-the spinlock?
+Does this create a data race with sysfs operations?
 
->  	idx =3D config->ss_idx;
+The etm4_disable_sysfs() function removes drvdata->spinlock but continues to
+copy active_config values into config->cntr_val locklessly.
+
+Meanwhile, concurrent sysfs show and store functions access these fields un=
+der
+the spinlock:
+
+cntr_val_store() {
+        ...
+        raw_spin_lock(&drvdata->spinlock);
+        idx =3D config->cntr_idx;
+        config->cntr_val[idx] =3D val;
+        raw_spin_unlock(&drvdata->spinlock);
+        ...
+}
+
+If etm4_disable_sysfs() runs while another thread concurrently reads or
+writes cntr_val through sysfs, can it corrupt the configuration state?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260915-separate_e=
-tm_cfg_v2-v11-0-d2b258d51747@arm.com?part=3D1
+tm_cfg_v2-v11-0-d2b258d51747@arm.com?part=3D3
