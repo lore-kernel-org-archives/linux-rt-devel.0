@@ -1,171 +1,178 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CC73F12D8
-	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 14:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396994; cv=pass; b=qojkce3I62uakj6nWHlYbe/+bY6UCWuqGQvs4gMK3qazx8NGLsWo+p34LA4miVYtycURLURIn47VPtaw/wQZkOHdxSvOyra7Qz3V0FWmR4iodqseHaL7IZ2uU6bYoTRrxC/dGzFC80N9aLhVS/rS6JkRf4BLOPIiWwpsRPoTMuc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396994; c=relaxed/simple;
-	bh=HVlxiLUTNiWE+bPAoyNB60lJPdl4a+s1ny2DsDgGaHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QkkSpdxFCC81f5RMUr9h1+OvnHGbpuR269xu+M42S36cPYoWbl53kExd0NkbtKZKzGm8KHKg1wArqJkTfg90L3XmH8FTk1ZVSLZ1l43cTNNjGcm4regqcU+SyL6YlGa78CmkCmN9/f5iFYWB17B+XNnMLLkY2EF1EmAz5cg9Bpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I0BAUsrC; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574512D7DD4
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Sep 2026 00:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789433051; cv=none; b=g92/Jz5U0+afq0yS9RjoruHIxlrHHTMOAJ4lcFW7Cj4+kXLUaSjY/z6PzPx9xFQdlN1cRfHHLo/8xKAGjhkkZZjr0q1bHksd2q32KsQAPIlakS9ym2/Y4wRnKLNhgO33XJPrnyVE92CQ2+eVwKcMFqiymSB54mXhBcyULdOwn8o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789433051; c=relaxed/simple;
+	bh=Cam+G2pkyC1C2T5ka1nCaIH+HjFohyHCwADETRSirvQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VGmhPz68EwsH2vQjWfaHReNA+wO/Vh324+WPUbu+v8J8rIpK5P1F4X71fyKubgkpyCOFLkSIAIHTnPk31f1IRGe/2sRpW6i9rlRaS3VuKn7KXjPsibP2davCYK4yLQABDVP8QZ7gGHrNS8KIhg0BEzEPu2smAThS6Nxi+fBmmWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7BgIfYD; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I0BAUsrC"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb74fso2139922a91.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 07:43:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789396992; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZZVNim+76Gg6ltg6b2i+YniZ/PMutsPjJHWgU+Eo0PNSFsLOIP+QvpRKYcthTD0Qmh
-         cRYr+rS+6pvvoLgL055dgexPmiknHu4f9qotqge+XgEA5WIb1nrCANovFa1I+mWLL5DZ
-         6dH5USrS9ys+4abhshCtc526jrLzeMM7DOKwRV+p+y5B+VFknF4oTJN/hVMUUsxR7d5F
-         v8p3on58Zmkmns02FmMDoni8Wke+A3ugRKPaUwcld2TaqRXfqb++lyiTzoQttXgqe8ME
-         ONNtNleYza+Ue1hUjucgGlsduWvghwcVIRj1BkpORPVUfMGwnmvsye7ANEG4F19KNnvI
-         9hdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LH9xqDwg+UWNhqzaDxSdBTBsbVKqSIk4FBsXYbZlywo=;
-        fh=B0Bsf10rqkG7kkgsR8NmBxHZOiKLzSg8KSNK//qbznE=;
-        b=LwlgscFkN5t+C1vVfZqUXowpggL5E1NML0m6f7U3pDBri1LI8VG2B82zNAbAAef4Tk
-         GvvBcYOsOyqd4cy/uCCxhD6LbXdWSgnMgKU7qV3rtr/g/6S2yMzqAihnAsR6l8fuOWuI
-         yrlCprWDoOCF6snVE7FAzSUpORFzA1XgdZ81wAAYgcc1/ZrbLIqremvplrXNdZbpTeh3
-         3OrgvIVoNbx2fwucDO0oDZuRauRNDD3pxqufBF5dQphsQSOXD6vdziN5V1rpmdZuWoc1
-         OuzB1Hk+FTkDcOqd6uZnAPvNvQNjjl5/dfGxo+L2OHx8IlvFbcjq2SlLfYuEF9y4ABZD
-         B67Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7BgIfYD"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469b355ffso1581843b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 14 Sep 2026 17:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789396992; x=1790001792; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LH9xqDwg+UWNhqzaDxSdBTBsbVKqSIk4FBsXYbZlywo=;
-        b=I0BAUsrCKQKgMj2j2evqk1U9rgBGDAUM6roYbTtXycoNyOevHQtTrWR403LTwHtbTM
-         DzXRLgPC8tMx6W1jmPGxVYfV9pRTz/XBmYCRP6sCwv5finBRcGgaUgd1plHbn9hdu0s5
-         qL7N4o/xZDXuEcYKYGrVXTE/Hc4lxsp3KSEIQ5xlzFDnu34oHDKgXsVWitWws0vnI4p9
-         4KjFTGz79mtZEPiKPxwv3gFqm2HOVtJaEl5hOUJ97KtDzmwwkigpeCs5NAac4Pa4hw6M
-         qdV1+vk3s3EAIYAJyDUlfeRScxrllWp+KcSEGC2iHvin70XGTBI3+tbrcqev1MND+ql3
-         tTaA==
+        d=gmail.com; s=20251104; t=1789433049; x=1790037849; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pR6+8ahH0v/WhXkZabjYsMBMJZUya1nS7QcD3emiias=;
+        b=P7BgIfYDJc9AahOmDHbbEQvK03igzQVxGl+92XgA2KEzbfDGU2+LwRXlsKaLcl6bTS
+         SGHzMcTcdKiTIOxChapk6+2YGZ4KAubOlIfZ8WFDPrptKLM/6LdhgiZV2D1RvCGxgW4T
+         h9FOk14iuXw/kbDdk8+ELO7jY4GOhkjqaV+sjPnEG6jTHaJVw8QTPedu0MfIS2rCeqqm
+         FNicZnrBDvIEhC0bTPsnuGVNRd08KAU+PGwsIaTzfiZPqemIpGJ9RVsmFdbqM8ldGaq5
+         gDav+Rli7HNXpdUH+YBstRuxNNI8K2UnxQ8BbNyMXNv9qgJP8cBAEIZAlvC72zj5QvCS
+         n7tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789396992; x=1790001792;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LH9xqDwg+UWNhqzaDxSdBTBsbVKqSIk4FBsXYbZlywo=;
-        b=AC0+CHKODOeRgC6BncooqazvHWY/pnZ1QltZ+YxIBujKVorGDCsfbJ2DPqPrZBZs4o
-         0VDtVOjPMiOBVL/iMMpZU/OTyazMuC2eMdBczdRJ/wY0ingJe0nJ515gT7t2RIIZkT5Y
-         ZZZVOmVmfbGfy0wixrTEPzk/WXxoBUeMIKTUHLqLKWKmW9L/I2jrFkhbJi4VTkXKwDlF
-         fOS9Cfds17EPZpBTlciz0MD86uvSZBOqbkJ1YLYli4XWFfMaz1IYLfG4JAk7jG+mv1Pu
-         tr4CcvizCgmItInNQxH5/P63Mj2XIOeJOzDpA5I2OIpsT+gQZLslFGl71/vNpoi8xp3l
-         TqhQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwRf6javc66C7QAnhDgtuSOOzs61h45Ijp5DSzF0UQe/riLUqvp5kVNb9jf7LsAIA/hFyuBTJ2SnASUQw6rFQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mePHWA+sudll2EVQ9j6425QpzKBxxESWLFwSYLQkoPq4+YWIjp
-	sOyfeCJnsPrFBIwZgovmZPzFsFsnbJIJ/2TK/RzXsNQgvLdkFkM7lx38gX2671NVWMIO0e2FoCS
-	w52ZSHWNWt38KQTMGEyyF5LXbbwYTURDDTid7sNE7
-X-Gm-Gg: AYBFou3U0iQpKZBismryPCledD2xo7T0PXNFUJFyUQ5vLVoNVUDdR6HjlqaO82Gp8/o
-	hFahyYy9HHf8Xw/2AdTyOHbVN7dL7RyRUvmg31G4CE7vm3ygLlIwAZ4EVxck745jRwpTZi71baE
-	BEPiWzZi2PRZfOKmrDUEgQO73F+9AlfVee5GdhzgAH0Am9TpLK/4HzbXJaBrT0+ouSkvdafUYhZ
-	/vcsz8UqZf/FQbxRrJNDGBBYx4TlTCQlWFo8JsQS+r+Od7Gl0btlTuh1fwAbL3Lq0gHeQm4jw3J
-	yVQglum4JPRt6AaWgeQv/w/gF4/geHBwZvT0KFKTO0r6Z34DZCk0cY4DP0Tc00j/lmLEywIYlHp
-	/J65NGh4K//Bu
-X-Received: by 2002:a17:90b:4b81:b0:39d:f95d:bd08 with SMTP id
- 98e67ed59e1d1-39df95dc372mr1658544a91.14.1789396991179; Mon, 14 Sep 2026
- 07:43:11 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789433049; x=1790037849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pR6+8ahH0v/WhXkZabjYsMBMJZUya1nS7QcD3emiias=;
+        b=yiIgcK/Lyi9f4b9Yt1mH2AAdYXx9oAX6++8VRqfbPB1BA/TRo3QK6ydQCU9dRQZ7hu
+         v8LK89K2JFdSDEBHdPC4P0wZJnIQPoeWOzRglxHUs1n5JC0/3njFheNz4PaHehar/5cf
+         Clw9/8mG6NLPy4a5U1u6CHx+mEexnMV3XYhm/3FqWavQj5ZIeLi6ZIOxkXgHWFSYpiUt
+         SU7mdRikPYo+IHOGJf7YzB26L1QzkelK3VSaddJ5jb1esHwgLHVAmA4sbcOBpJTDHCIw
+         6lMtK2bj0OEdXYEtq62TaIniG+NbhAbx8DlpJCPfsMuELr/xvOl5hcVcNdL3qwvBSO2d
+         x34A==
+X-Forwarded-Encrypted: i=1; AKwUvBxN4u8PXE8siaL/i8iiez87uyPcZdMXEcn3sHGPD+jXI6f/DGVcyHpkq/2PLlmJsez7OXj7rDrSRmtlRZjM8Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++maH+iONeUC6bukb7d0biQXB/BgojZKlvLp6CK+/PCx6FlQz4kW
+	F/B5X8ObKTpie1fVDby9VO2NpYTJD4LroqVHagHOLC0YvIBPjU2soqFS
+X-Gm-Gg: AYBFou2D5CscUo60BMCUvlecycVGrjd9UiWkPQX39wUcMstVMZw50uAwl5okpkQ6Ds0
+	9wRA0Dlv+VX1IPaYxyOiqEOjPJzzCLrWZGjoYTbPcqJkFFEwyjWk6qdC9DGrnzhFxNBV3a+h+k6
+	XmA7pnmMR7B3ZcCGD5a7rEZh4Ti52cNVllgeig7dH2BBxV949pcCJbnG0vDsuyQxqP6Q0Ym9hXm
+	8vEd5cW93ono277Mz0z/CEPs5B305G61qjF6Q6Na06YdmLvAt7NKVM2UWMrFGb2d8K4fh/WIpWE
+	i9qZ2UR4E+A7vI5sIkOu7lRNmr1kw5SQwfuJl+eAqRRj8lhDSRHZHyl+iqrgUlwSP/IM+2RD9bX
+	2QK7Kb0CDYHZJrzRIB/8hjc16b3Du08DqgZeQyTdvZkIr78f52COrrOEQAicCYazXTLs910BAd5
+	VfmW5p8bAOtqGUSuIWrISU0BCJVn7JCuJmy5Uww3ytVLOYEkwEgSjdeMl27SSjg8fjHjbr9ymHB
+	yFQpQ6oR1E0Cx4cLqrtdPmotdFDQMmJNVi9yHMLcGFYEteKwbYcC69w6sCkApz1ulsjnb2AlsOk
+	jGp1jWiDTzclP/VqC33aEiG/AUxrjzaB05jHa7ijzI2wVXu3
+X-Received: by 2002:a05:6a21:3397:b0:3c4:3321:4fe9 with SMTP id adf61e73a8af0-3db4048a6a6mr12153286637.7.1789433048529;
+        Mon, 14 Sep 2026 17:44:08 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e34])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c615bb00sm5927945a12.4.2026.09.14.17.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 17:44:07 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-gpio@vger.kernel.org
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Subject: [PATCHv2] gpio: mvebu: keep resume masks within the irqchip cache
+Date: Mon, 14 Sep 2026 17:44:06 -0700
+Message-ID: <20260915004406.115230-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260914054632.12877-1-kmehltretter@gmail.com> <20260914054632.12877-5-kmehltretter@gmail.com>
-In-Reply-To: <20260914054632.12877-5-kmehltretter@gmail.com>
-From: Alexander Potapenko <glider@google.com>
-Date: Mon, 14 Sep 2026 16:42:33 +0200
-X-Gm-Features: AcwNN1WppAUKdCf37pS7DpvK-X6wLcpPx-Q57kOJ1aEJoSJxBHs5p6fSfydB6Xo
-Message-ID: <CAG_fn=VwN-1pdK_3=qrwpDb=EsyOdoNgNK19zB7Ga0puQZgScw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] sched/core: Pause KCOV in __schedule()
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
-	Bradley Morgan <include@grrlz.net>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 7:48=E2=80=AFAM Karl Mehltretter <kmehltretter@gmai=
-l.com> wrote:
->
-> kernel/sched/ is built without KCOV instrumentation, but callees such
-> as sched_clock(), architecture CPU-capacity helpers and profile_hits() ar=
-e.
->
-> During preemption and schedule() calls, instrumented callees can add
-> nondeterministic scheduler coverage to current.
->
-> With CONFIG_KCOV_SELFTEST added to x86_64 defconfig, the interrupt
-> selftest fails under QEMU, detecting spurious coverage in
-> arch_scale_cpu_capacity().
->
-> Annotating each callee would spread exclusions across architectures.
-> Pause across __schedule() instead, extending the scheduler exclusion to
-> its callees.
->
-> KCOV_PAUSED remains set while a task is switched out. The guard in its
-> resumed __schedule() frame restores the prior state.
->
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  kernel/sched/core.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index ae97c63842a4..54b5c5383fe6 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -7116,6 +7116,9 @@ static void __sched notrace __schedule(int sched_mo=
-de)
->         struct rq *rq;
->         int cpu;
->
-> +       /* Instrumented callees would leak coverage into current. */
+mvebu_gpio_resume() writes the edge/level mask registers saved at
+suspend time straight back to hardware, bypassing the irqchip's
+mask_cache_priv.  genirq skips mask_irq() for a line it already
+considers masked, so restoring a bit in hardware that genirq thinks
+is still masked leaves that line unmasked behind genirq's back.  An
+asserted level line then has nobody to ack it, and the moment
+interrupts are re-enabled the chained handler storms, hanging resume.
 
-Here and in other patches, I believe Peter expected different wording.
-How about "Callees instrumented with KCOV"?
+AND the restored mask values with the matching irqchip mask cache so
+only lines genirq currently considers unmasked are unmasked again.
+Read the caches under gc->lock to keep them consistent with the
+mask/unmask handlers.
 
+Tested on Helios4 (armhf): 5 suspend cycles woken by magic packet,
+no hang; mvebu_gpio_resume() returns in 6 usecs.
 
+Assisted-by: LLM
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ v2: Unlock spinlock before regmap_write.
+ drivers/gpio/gpio-mvebu.c | 33 +++++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
 
-> +       guard(kcov_pause)();
-> +
->         /* Trace preemptions consistently with task switches */
->         trace_sched_entry_tp(sched_mode =3D=3D SM_PREEMPT);
->
-> --
-> 2.53.0
->
+diff --git a/drivers/gpio/gpio-mvebu.c b/drivers/gpio/gpio-mvebu.c
+index c57758019e92..267e6d5bacd0 100644
+--- a/drivers/gpio/gpio-mvebu.c
++++ b/drivers/gpio/gpio-mvebu.c
+@@ -1049,6 +1049,8 @@ static int mvebu_gpio_suspend(struct platform_device *pdev, pm_message_t state)
+ static int mvebu_gpio_resume(struct platform_device *pdev)
+ {
+ 	struct mvebu_gpio_chip *mvchip = platform_get_drvdata(pdev);
++	u32 edge_cache = ~0U, level_cache = ~0U;
++	unsigned long flags;
+ 	int i;
+ 
+ 	regmap_write(mvchip->regs, GPIO_OUT_OFF + mvchip->offset,
+@@ -1060,32 +1062,51 @@ static int mvebu_gpio_resume(struct platform_device *pdev)
+ 	regmap_write(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset,
+ 		     mvchip->in_pol_reg);
+ 
++	/*
++	 * genirq skips mask_irq() for a line it already considers masked, so
++	 * unmasking one behind its back leaves an asserted level line that
++	 * nobody masks. Restore only bits the irqchip cache still has set.
++	 *
++	 * Snapshot the caches under the raw spinlock, but release it before
++	 * the regmap writes below: regmap_write() takes a sleepable lock on
++	 * PREEMPT_RT.
++	 */
++	if (mvchip->domain) {
++		struct irq_chip_generic *gc;
++
++		gc = irq_get_domain_generic_chip(mvchip->domain, 0);
++		raw_spin_lock_irqsave(&gc->lock, flags);
++		level_cache = gc->chip_types[0].mask_cache_priv;
++		edge_cache = gc->chip_types[1].mask_cache_priv;
++		raw_spin_unlock_irqrestore(&gc->lock, flags);
++	}
++
+ 	switch (mvchip->soc_variant) {
+ 	case MVEBU_GPIO_SOC_VARIANT_ORION:
+ 	case MVEBU_GPIO_SOC_VARIANT_A8K:
+ 		regmap_write(mvchip->regs, GPIO_EDGE_MASK_OFF + mvchip->offset,
+-			     mvchip->edge_mask_regs[0]);
++			     mvchip->edge_mask_regs[0] & edge_cache);
+ 		regmap_write(mvchip->regs, GPIO_LEVEL_MASK_OFF + mvchip->offset,
+-			     mvchip->level_mask_regs[0]);
++			     mvchip->level_mask_regs[0] & level_cache);
+ 		break;
+ 	case MVEBU_GPIO_SOC_VARIANT_MV78200:
+ 		for (i = 0; i < 2; i++) {
+ 			regmap_write(mvchip->regs,
+ 				     GPIO_EDGE_MASK_MV78200_OFF(i),
+-				     mvchip->edge_mask_regs[i]);
++				     mvchip->edge_mask_regs[i] & edge_cache);
+ 			regmap_write(mvchip->regs,
+ 				     GPIO_LEVEL_MASK_MV78200_OFF(i),
+-				     mvchip->level_mask_regs[i]);
++				     mvchip->level_mask_regs[i] & level_cache);
+ 		}
+ 		break;
+ 	case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
+ 		for (i = 0; i < 4; i++) {
+ 			regmap_write(mvchip->regs,
+ 				     GPIO_EDGE_MASK_ARMADAXP_OFF(i),
+-				     mvchip->edge_mask_regs[i]);
++				     mvchip->edge_mask_regs[i] & edge_cache);
+ 			regmap_write(mvchip->regs,
+ 				     GPIO_LEVEL_MASK_ARMADAXP_OFF(i),
+-				     mvchip->level_mask_regs[i]);
++				     mvchip->level_mask_regs[i] & level_cache);
+ 		}
+ 		break;
+ 	default:
+-- 
+2.55.0
 
-
---
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
