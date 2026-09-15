@@ -1,325 +1,173 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4840B4A5EAA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Sep 2026 11:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16494A5EC5;
+	Tue, 15 Sep 2026 11:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789472117; cv=none; b=D8rNRsRO7aWz7PFXHlqjeOV+7guIIhLu9b/uDiIxoMMklegXbkmFPt2EV0b9r40a+KMyYT09xIoQM46q1H2hGJUGrk41RYuymLTLD0BT7y3n0JQug91zR3ILzre/Xd4fj5bNFGEpbM6fVNkxGg746k3HF7X7X4nZz3uexWLWfIQ=
+	t=1789472879; cv=none; b=es5UM8rIvXWSTPsqlFwskTnJO8POaFzE4GMwMZtu8B8rvYq0ROgqPWm/W0KaP8aH5ZX1gNO6ae0QycMUM0oRRKyIA9vMz28qTtNuXfT1zkM1req9URoenCd8X0eXibz74nzGkw3s+9d8RGu6zkGzlQW7Lc0MzNs7AjhCBsFXwSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789472117; c=relaxed/simple;
-	bh=zO7pbNNdvVY9biP0avSl3GlDcgZXaeVSDchAt+brQzk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=F9+tHUeRznNyHxJmXmogww8VGXhtcR7QMJ9fQHvRXlIR4LgqT3l0IhGWbuP+HqL9ahoeN7BT/MSePqtOcqWAXgW+GC61OtVyRxabtLbV9qcOxVA7wlFHSziLdt1WGzhJjMGzm/v4zcG2LLKul3HiRpjr6PsEOYeDh0eWd5Ac25E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W1pmFuKq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789472879; c=relaxed/simple;
+	bh=wUF9aZWKc7qyKfa/9mVie/183gjEweGPJy5lLYTRj8A=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=fbDe5PMUbM7wYn2i5XhUi86XgdzNZjKzEqwxrZd9ZhtvOlDT+/V6gyWTw4bJAy1RlgymZOeLARLFXItdiXSTxdXcdXiu2+okRVZwJBKUXOuahtlH4gIFNGFUL6+KElU0J3RLu75I5NkFBSn84xZ17RwKWEhvTY/0dRZkEx31GJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRVqwqAo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W1pmFuKq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9606D1D70;
-	Tue, 15 Sep 2026 04:35:02 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 797F53F86F;
-	Tue, 15 Sep 2026 04:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789472106; bh=zO7pbNNdvVY9biP0avSl3GlDcgZXaeVSDchAt+brQzk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=W1pmFuKqVIujO72GYkWJsAU8PafO8pxi07iqmeM6y0JjdjU/UYTSRnlZE1lECX3FM
-	 x32tMQqlakrW5XQDcRRYlkszZe6yG2EdlG2YenUr+zDj9ajhLCvY0HHpbLaDdNBTHu
-	 3BZZhK5z/xBndjkz806OOE7XeFs5PK2HMhfFmWo8=
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-Date: Tue, 15 Sep 2026 12:34:43 +0100
-Subject: [PATCH v11 8/9] coresight: etm4x: remove s_ex_level from config
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRVqwqAo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8743B1F00893;
+	Tue, 15 Sep 2026 11:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789472877;
+	bh=aEhGxiVI9MqkY+MpF6UTuDKy8oADsqwRC2p2IOUycbg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XRVqwqAoiJBynbec+bD/X/FLAt0hppO7CEScrwXgLI3qs+4wWuXs2BSudTgF4jP1A
+	 Xw273si+5NNLR4obu+n/E5erlQjPlEa+zodG3uMwCWvPCMApoYBlD/lK3sgWcMtizj
+	 TFNyeOlMq864Cle+Bxku8L2CFqgYMrG9SXfJD7OFt9ihNRLnG3zVIInVenxpU5K+i+
+	 RxnXaD7Phbrjb/17Y2UUmU4Tnoon4eB5WfZGay0XttpzQr0hdrKmU7Kjwb7OKJ+vbt
+	 0Eyc+Wf7PAZllSHaKvI2Oy3y4BO2hB30lxzqmGT6ObRoBvbF/vpy9kwmY0fNlsXmXA
+	 F6vUyyUFTANBw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v11 4/9] coresight: etm3x: fix inconsistencies with
+ sysfs configuration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yeoreum Yun" <yeoreum.yun@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260915-separate_etm_cfg_v2-v11-4-d2b258d51747@arm.com>
+References: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
+ <20260915-separate_etm_cfg_v2-v11-4-d2b258d51747@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2026 11:47:57 +0000
+Message-Id: <20260915114757.8743B1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-separate_etm_cfg_v2-v11-8-d2b258d51747@arm.com>
-References: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
-In-Reply-To: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
-To: Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, 
- Leo Yan <leo.yan@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, coresight@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Yeoreum Yun <yeoreum.yun@arm.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10153; i=yeoreum.yun@arm.com;
- h=from:subject:message-id; bh=zO7pbNNdvVY9biP0avSl3GlDcgZXaeVSDchAt+brQzk=;
- b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqqS1WdPEiP3LYiv2KdGayqx1uYtxVjqNVSD1ZH
- 130nVCNWy6JAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCaqktVgAKCRBt1cPRWsUx
- M632DADJxeBDu3iG8qQB/Gf113sreIiwivBF+67UuJ0zv5Eo4RaaIPrnYO3ZSWZW8MB5zc9Vijq
- famJVesGT+q5g9Q2tk4brztquNo8OHkaJWXPg7YdaDGCW6Xxw/H4YheuNn8loPWF2iY7mcziiJ8
- bNhcW2TaxI+bf0DzgeRj4sYa/QCXdRqzX5Zl84REvsG5RJBSq9vkrRV6YREPjkZfBJjIc3hW52k
- 2MdUta4LA97fWpKsttzLDhNQTLLHXSrKwQT/GHGXBilC/V7UBvUAYNyElUpGAYy6tKh6a+BowMr
- Z+NhTl6s7bQr2qvx8yy4njjZRw0aJ5OaZOk33UwGZ0now/oK1SXZZbzVWOP54qhbKOyU8OoRjsk
- b4O0dZu381wxh5D+2FkdQtz0PbBs9ZQiAbzaOP9zBU5+Q0v18n4Lrw4/mxFiZkWOwKHXrMtOBrQ
- nQfAwsNm67TXB9TwA5Mt2hA2WNraUhGmHYXZGq9V1a4gJLJpL6Xonx8Tgscaj1XtBt5x8=
-X-Developer-Key: i=yeoreum.yun@arm.com; a=openpgp;
- fpr=2D83E092DD0533B85875A49D6DD5C3D15AC53133
 
-s_ex_level is a hardware capability rather than a configurable parameter.
-As such, it should not be stored in the configuration structure.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Medium] coresight: TOCTOU race in sysfs read paths exposes powered-down =
+hardware
+- [Low] coresight: benign data race on config->cntr_idx in cntr_val_show
+--
 
-Remove s_ex_level from the config structure and pass etm4_caps to the
-functions that need to access this capability.
+commit 7fbfa36b293dee9eea85d0d29da9faaa208abb46
+Author: Yeoreum Yun <yeoreum.yun@arm.com>
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- drivers/hwtracing/coresight/coresight-etm4x-core.c | 58 +++++++++++++---------
- .../hwtracing/coresight/coresight-etm4x-sysfs.c    |  2 +-
- drivers/hwtracing/coresight/coresight-etm4x.h      |  5 +-
- 3 files changed, 38 insertions(+), 27 deletions(-)
+coresight: etm3x: fix inconsistencies with sysfs configuration
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index 9de0c268ff954..e484e12572732 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -66,10 +66,12 @@ MODULE_PARM_DESC(pm_save_enable,
- 	"Save/restore state on power down: 1 = never, 2 = self-hosted. MMIO and DT only.");
- 
- static struct etmv4_drvdata *etmdrvdata[NR_CPUS];
--static void etm4_set_default_config(struct etmv4_config *config);
-+static void etm4_set_default_config(struct etmv4_config *config,
-+				    const struct etmv4_caps *caps);
- static int etm4_set_event_filters(struct etmv4_drvdata *drvdata,
- 				  struct perf_event *event);
--static u64 etm4_get_access_type(struct etmv4_config *config);
-+static u64 etm4_get_access_type(struct etmv4_config *config,
-+				const struct etmv4_caps *caps);
- 
- static enum cpuhp_state hp_online;
- 
-@@ -803,7 +805,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
- 		config->mode |= ETM_MODE_EXCL_GUEST;
- 
- 	/* Always start from the default config */
--	etm4_set_default_config(config);
-+	etm4_set_default_config(config, caps);
- 
- 	/* Configure filters specified on the perf cmd line, if any. */
- 	ret = etm4_set_event_filters(drvdata, event);
-@@ -1471,7 +1473,6 @@ static void etm4_init_arch_data(void *info)
- 
- 	/* EXLEVEL_S, bits[19:16] Secure state instruction tracing */
- 	caps->s_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_S_MASK, etmidr3);
--	drvdata->config.s_ex_level = caps->s_ex_level;
- 	/* EXLEVEL_NS, bits[23:20] Non-secure state instruction tracing */
- 	caps->ns_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_NS_MASK, etmidr3);
- 	/*
-@@ -1556,19 +1557,22 @@ static void etm4_init_arch_data(void *info)
- 	cpu_detect_trace_filtering(drvdata);
- }
- 
--static u32 etm4_get_victlr_access_type(struct etmv4_config *config)
-+static u32 etm4_get_victlr_access_type(struct etmv4_config *config,
-+				       const struct etmv4_caps *caps)
- {
--	return etm4_get_access_type(config) << __bf_shf(TRCVICTLR_EXLEVEL_MASK);
-+	return etm4_get_access_type(config, caps) << __bf_shf(TRCVICTLR_EXLEVEL_MASK);
- }
- 
- /* Set ELx trace filter access in the TRCVICTLR register */
--static void etm4_set_victlr_access(struct etmv4_config *config)
-+static void etm4_set_victlr_access(struct etmv4_config *config,
-+			           const struct etmv4_caps *caps)
- {
- 	config->vinst_ctrl &= ~TRCVICTLR_EXLEVEL_MASK;
--	config->vinst_ctrl |= etm4_get_victlr_access_type(config);
-+	config->vinst_ctrl |= etm4_get_victlr_access_type(config, caps);
- }
- 
--static void etm4_set_default_config(struct etmv4_config *config)
-+static void etm4_set_default_config(struct etmv4_config *config,
-+			            const struct etmv4_caps *caps)
- {
- 	/* disable all events tracing */
- 	config->eventctrl0 = 0x0;
-@@ -1587,7 +1591,7 @@ static void etm4_set_default_config(struct etmv4_config *config)
- 	config->vinst_ctrl = FIELD_PREP(TRCVICTLR_EVENT_MASK, 0x01);
- 
- 	/* TRCVICTLR::EXLEVEL_NS:EXLEVELS: Set kernel / user filtering */
--	etm4_set_victlr_access(config);
-+	etm4_set_victlr_access(config, caps);
- }
- 
- static u64 etm4_get_ns_access_type(struct etmv4_config *config)
-@@ -1619,21 +1623,24 @@ static u64 etm4_get_ns_access_type(struct etmv4_config *config)
-  * This must be shifted to the corresponding register field
-  * for usage.
-  */
--static u64 etm4_get_access_type(struct etmv4_config *config)
-+static u64 etm4_get_access_type(struct etmv4_config *config,
-+				const struct etmv4_caps *caps)
- {
- 	/* All Secure exception levels are excluded from the trace */
--	return etm4_get_ns_access_type(config) | (u64)config->s_ex_level;
-+	return etm4_get_ns_access_type(config) | (u64)caps->s_ex_level;
- }
- 
--static u64 etm4_get_comparator_access_type(struct etmv4_config *config)
-+static u64 etm4_get_comparator_access_type(struct etmv4_config *config,
-+					   const struct etmv4_caps *caps)
- {
--	return etm4_get_access_type(config) << TRCACATR_EXLEVEL_SHIFT;
-+	return etm4_get_access_type(config, caps) << TRCACATR_EXLEVEL_SHIFT;
- }
- 
- static void etm4_set_comparator_filter(struct etmv4_config *config,
-+				       const struct etmv4_caps *caps,
- 				       u64 start, u64 stop, int comparator)
- {
--	u64 access_type = etm4_get_comparator_access_type(config);
-+	u64 access_type = etm4_get_comparator_access_type(config, caps);
- 
- 	/* First half of default address comparator */
- 	config->addr_val[comparator] = start;
-@@ -1664,11 +1671,12 @@ static void etm4_set_comparator_filter(struct etmv4_config *config,
- }
- 
- static void etm4_set_start_stop_filter(struct etmv4_config *config,
-+				       const struct etmv4_caps *caps,
- 				       u64 address, int comparator,
- 				       enum etm_addr_type type)
- {
- 	int shift;
--	u64 access_type = etm4_get_comparator_access_type(config);
-+	u64 access_type = etm4_get_comparator_access_type(config, caps);
- 
- 	/* Configure the comparator */
- 	config->addr_val[comparator] = address;
-@@ -1700,7 +1708,8 @@ static void etm4_set_default_filter(struct etmv4_config *config)
- 	config->vissctlr = 0x0;
- }
- 
--static void etm4_set_default(struct etmv4_config *config)
-+static void etm4_set_default(struct etmv4_config *config,
-+			     const struct etmv4_caps *caps)
- {
- 	if (WARN_ON_ONCE(!config))
- 		return;
-@@ -1712,7 +1721,7 @@ static void etm4_set_default(struct etmv4_config *config)
- 	 * full instruction trace - with a default filter for trace all
- 	 * achieved by having no filtering.
- 	 */
--	etm4_set_default_config(config);
-+	etm4_set_default_config(config, caps);
- 	etm4_set_default_filter(config);
- }
- 
-@@ -1760,6 +1769,7 @@ static int etm4_set_event_filters(struct etmv4_drvdata *drvdata,
- {
- 	int i, comparator, ret = 0;
- 	u64 address;
-+	const struct etmv4_caps *caps = &drvdata->caps;
- 	struct etmv4_config *config = &drvdata->active_config;
- 	struct etm_filters *filters = event->hw.addr_filters;
- 
-@@ -1789,7 +1799,7 @@ static int etm4_set_event_filters(struct etmv4_drvdata *drvdata,
- 
- 		switch (type) {
- 		case ETM_ADDR_TYPE_RANGE:
--			etm4_set_comparator_filter(config,
-+			etm4_set_comparator_filter(config, caps,
- 						   filter->start_addr,
- 						   filter->stop_addr,
- 						   comparator);
-@@ -1810,7 +1820,7 @@ static int etm4_set_event_filters(struct etmv4_drvdata *drvdata,
- 				   filter->stop_addr);
- 
- 			/* Configure comparator */
--			etm4_set_start_stop_filter(config, address,
-+			etm4_set_start_stop_filter(config, caps, address,
- 						   comparator, type);
- 
- 			/*
-@@ -1846,7 +1856,8 @@ static int etm4_set_event_filters(struct etmv4_drvdata *drvdata,
- 	return ret;
- }
- 
--void etm4_config_trace_mode(struct etmv4_config *config)
-+void etm4_config_trace_mode(struct etmv4_config *config,
-+			    const struct etmv4_caps *caps)
- {
- 	u32 mode;
- 
-@@ -1860,7 +1871,7 @@ void etm4_config_trace_mode(struct etmv4_config *config)
- 	if (!(mode & ETM_MODE_EXCL_KERN) && !(mode & ETM_MODE_EXCL_USER))
- 		return;
- 
--	etm4_set_victlr_access(config);
-+	etm4_set_victlr_access(config, caps);
- }
- 
- static int etm4_online_cpu(unsigned int cpu)
-@@ -2172,6 +2183,7 @@ static int etm4_add_coresight_dev(struct etm4_init_arg *init_arg)
- 	struct coresight_platform_data *pdata = NULL;
- 	struct device *dev = init_arg->dev;
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
-+	const struct etmv4_caps *caps = &drvdata->caps;
- 	struct coresight_desc desc = { 0 };
- 	u8 major, minor;
- 	char *type_name;
-@@ -2201,7 +2213,7 @@ static int etm4_add_coresight_dev(struct etm4_init_arg *init_arg)
- 	if (!desc.name)
- 		return -ENOMEM;
- 
--	etm4_set_default(&drvdata->config);
-+	etm4_set_default(&drvdata->config, caps);
- 
- 	if (etm4x_always_pm_save(dev, init_arg->csa))
- 		pm_save = true;
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-index 50ef2e957300f..d826033d52e24 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-@@ -443,7 +443,7 @@ static ssize_t mode_store(struct device *dev,
- 		config->vinst_ctrl &= ~TRCVICTLR_TRCERR;
- 
- 	if (config->mode & (ETM_MODE_EXCL_KERN | ETM_MODE_EXCL_USER))
--		etm4_config_trace_mode(config);
-+		etm4_config_trace_mode(config, caps);
- 
- 	raw_spin_unlock(&drvdata->spinlock);
- 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-index 8c1c1364b1c44..f252da868b6de 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x.h
-+++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-@@ -955,7 +955,6 @@ struct etmv4_caps {
-  * @vmid_mask0:	VM ID comparator mask for comparator 0-3.
-  * @vmid_mask1:	VM ID comparator mask for comparator 4-7.
-  * @ext_inp:	External input selection.
-- * @s_ex_level: Secure ELs where tracing is supported.
-  */
- struct etmv4_config {
- 	u64				mode;
-@@ -998,7 +997,6 @@ struct etmv4_config {
- 	u32				vmid_mask0;
- 	u32				vmid_mask1;
- 	u32				ext_inp;
--	u8				s_ex_level;
- };
- 
- /**
-@@ -1116,7 +1114,8 @@ enum etm_addr_ctxtype {
- };
- 
- extern const struct attribute_group *coresight_etmv4_groups[];
--void etm4_config_trace_mode(struct etmv4_config *config);
-+void etm4_config_trace_mode(struct etmv4_config *config,
-+			    const struct etmv4_caps *caps);
- 
- u64 etm4x_sysreg_read(u32 offset, bool _relaxed, bool _64bit);
- void etm4x_sysreg_write(u64 val, u32 offset, bool _relaxed, bool _64bit);
+This commit splits the sysfs configuration into active and mode
+configurations to fix inconsistencies during active perf sessions. It also
+avoids locking around some sysfs paths and uses IPIs to read registers
+directly on the appropriate CPUs to reduce lock scopes.
 
--- 
-2.43.0
+> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers=
+/hwtracing/coresight/coresight-etm3x-core.c
+> index 862ad0786699c..fd76a57e5f861 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
+[ ... ]
+> @@ -630,8 +632,9 @@ static void etm_disable_perf(struct coresight_device =
+*csdev)
+>  static void etm_disable_sysfs(struct coresight_device *csdev)
+>  {
+>  	struct etm_drvdata *drvdata =3D dev_get_drvdata(csdev->dev.parent);
+> -
+> -	spin_lock(&drvdata->spinlock);
+> +	struct etm_config *config =3D &drvdata->config;
+> +	const struct etm_config *active_config =3D &drvdata->active_config;
+> +	int i;
+> =20
+>  	/*
+>  	 * Executing etm_disable_hw on the cpu whose ETM is being disabled
+> @@ -640,7 +643,14 @@ static void etm_disable_sysfs(struct coresight_devic=
+e *csdev)
+>  	smp_call_function_single(drvdata->cpu, etm_disable_sysfs_smp_call,
+>  				 drvdata, 1);
+> =20
 
+[Severity: Medium]
+When thread A disables tracing via etm_disable_sysfs(), it sends an IPI to
+power down the hardware here. Could a concurrent reader (like Thread B in
+cntr_val_show()) see the mode still set to CS_MODE_SYSFS, and issue its own
+IPI to read the hardware? Since the hardware is already powered down by
+Thread A's IPI, Thread B might read a stale or garbage value instead of the
+correctly saved trace state, breaking post-trace analysis.
+
+> -	spin_unlock(&drvdata->spinlock);
+> +	/*
+> +	 * Userspace may read seq_curr_state and cntr_val through sysfs
+> +	 * after the sysfs-session has been disabled.
+> +	 */
+> +	for (i =3D 0; i < drvdata->nr_cntr; i++)
+> +		config->cntr_val[i] =3D active_config->cntr_val[i];
+> +
+> +	config->seq_curr_state =3D active_config->seq_curr_state;
+> =20
+>  	/*
+>  	 * we only release trace IDs when resetting sysfs.
+> @@ -649,6 +659,8 @@ static void etm_disable_sysfs(struct coresight_device=
+ *csdev)
+>  	 * prior trace id allocation method
+>  	 */
+> =20
+> +	coresight_set_mode(drvdata->csdev, CS_MODE_DISABLED);
+
+[Severity: Medium]
+The software state is updated here, creating a race window between the
+hardware disable above and the mode update here where the hardware is off b=
+ut
+the mode is still CS_MODE_SYSFS. A similar window exists during
+etm_enable_sysfs().
+
+> +
+>  	dev_dbg(&csdev->dev, "ETM tracing disabled\n");
+>  }
+> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c b/driver=
+s/hwtracing/coresight/coresight-etm3x-sysfs.c
+> index d4846d6364945..2c8c129228589 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+[ ... ]
+> @@ -719,7 +752,9 @@ static DEVICE_ATTR_RW(cntr_rld_event);
+>  static ssize_t cntr_val_show(struct device *dev,
+>  			     struct device_attribute *attr, char *buf)
+>  {
+> +	int ret;
+>  	u32 val;
+> +	unsigned long val2;
+>  	struct etm_drvdata *drvdata =3D dev_get_drvdata(dev->parent);
+>  	struct etm_config *config =3D &drvdata->config;
+> =20
+> @@ -728,7 +763,10 @@ static ssize_t cntr_val_show(struct device *dev,
+>  		val =3D config->cntr_val[config->cntr_idx];
+>  		spin_unlock(&drvdata->spinlock);
+>  	} else {
+> -		val =3D etm_readl(drvdata, ETMCNTVRn(config->cntr_idx));
+> +		ret =3D etm_readl_cslocked(drvdata, ETMCNTVRn(config->cntr_idx), &val2=
+);
+
+[Severity: Low]
+Does reading config->cntr_idx without locking here create a data race? It
+appears it can race with concurrent updates in cntr_idx_store(). While this
+is likely benign since it is an 8-bit integer and bounded by
+cntr_idx_store(), preventing out-of-bounds access, could it still trigger
+sanitizer warnings when accessed by authorized users?
+
+[Severity: Medium]
+This reader accesses the hardware assuming it is active, based on a lockless
+mode check in the if condition. If this races with etm_disable_sysfs()
+powering down the hardware before the mode is updated to CS_MODE_DISABLED,
+could this read return garbage values?
+
+> +		if (ret)
+> +			return ret;
+> +		val =3D val2;
+>  	}
+> =20
+>  	return sysfs_emit(buf, "%#x\n", val);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260915-separate_e=
+tm_cfg_v2-v11-0-d2b258d51747@arm.com?part=3D4
