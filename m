@@ -1,91 +1,90 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3818386C0D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Sep 2026 08:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F0A43BDC0;
+	Wed, 16 Sep 2026 08:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789548255; cv=none; b=ZIDII7XKoKu2/mkm1qW0ACBcZDl0N+XE1vprr6ZNIF4IjPYwfpb0cSIorjVpC2qQCqGks1rAV6bpE1qpjxxZhw0IUnrUNf2Y+EsLyE4yFrrRY+PH4aUAb219kIag2Ejn5URWZK1NbjgWyw+y2l77xJyGT267s1nDqW/6VfXX8jY=
+	t=1789548499; cv=none; b=ohf71ExKaI3yZOl+WYezpWrsKJvaeJa9iMAcBICUOH17xbh64gSVJHVrqa1jupK+9VhFrfAZQTu7RloZvyEthIxjgt56p29XN71+0grDALqKpJVaDekYQ9nVxf93cQ3u+aY/I0IofaC8AZlOeQQK9exJ07pabCIrXYYRsjFYPlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789548255; c=relaxed/simple;
-	bh=lrtM+xBeckFR4nZsxsjHFZh0rlxPGu3kN0vHHxpEVk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDxoHxjOXcKFvgQLcPQPhSo+naX31/J6Witz2b4s+XleFX6W4AF0h3QPpIuNJXE/FE+9uTKe5eYJzQ3hJOBNFM9rjFLfN2uJsWH0DaWD3jduvnK6oogxUByJ2faCQGNNGVQEYwL6GjStO/MwVx8Z/PZuzLGctRMWi4Y+1fk+c1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=x0XjFA0+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1ptiGNVr; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1789548499; c=relaxed/simple;
+	bh=HJfF8atFf+EtkQ0oArlq2aMYpWd3JdC3DOPSxbMrx9A=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bQIjLIwcnSwzhtjaxGml0YrqiNrSI0kXgHimHaQBWACh0aryRgP0lYS9dsi+KpGi/Ju3NxI232C11WM1ByXi6KXCXRDHq+cuqsIKMcnwWdKLpNWny5UkweZRvu4mcdNGE63/9dl9xRcIsWMYxkhgNoUexrZZ9ajF0F1BX0wbPVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pwFpmz5v; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="x0XjFA0+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1ptiGNVr"
-Date: Wed, 16 Sep 2026 10:44:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1789548245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ASF/WpIYGZkEbpolc/F3Wi3P1TTRk1E6xzIEUVemjeI=;
-	b=x0XjFA0+VS6BEKMMEdfX7q5Mr7EzX5vKE1y8qLI28gVtUd4fqQ0gJZvoX1zIdSzgBweSvZ
-	DHJ0iNK3IgVzJ3ASqIH1f1M1R33T0DszXC4siJCzMIu9Wpd9xZXhqSSCUJzXU/0/9JHfaR
-	yyCZVH64c8Wc9x3iXPCsKGtZful+hF2cMgASgIlNe7Rt9VdQSBdHTtD/DO0q8f6XoSKQRS
-	1KVnPvm8tihat2j8M+RtsbcfExXVE++fWc0GBhT2xR/jsT6Fx9ftzEbs+H8Ha6UFa5458f
-	lU2j+Q3iAb6TfbdBU0OXUbqddMY8RkwC3PJNM9HR2ffX/J1Llv7WItTKPSed6A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1789548245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ASF/WpIYGZkEbpolc/F3Wi3P1TTRk1E6xzIEUVemjeI=;
-	b=1ptiGNVr4mlsFj9znayV4gv6dZ4sSq/SvRX/Iy9R4YOr4p6vIgSVu9BW8La9EtFdlCrxcy
-	ouInbmvfiVhXKVBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	Linus Walleij <linusw@kernel.org>, Radu Rendec <rrendec@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/4] ARM: allocate the cacheinfo early to fix the
- PREEMPT_RT boot warning
-Message-ID: <20260916084404.fjkCQKUK@linutronix.de>
-References: <20260912195552.76673-1-kmehltretter@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pwFpmz5v"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gLsBgp6/np47MXvoT7Gy3Dsz1JT/6o4ck60MxFMEbMs=;
+	b=pwFpmz5vgTArTKuy9hoBMaxXTwMiImRuPfz1SMKaEY4dU87GFBeCYZzKgiyt7j3nWyPocpbir
+	dGC4zhwfvAOZ8QlKI51gBGvKxSAC5Z4WcbRSxg+ABFESZINwusMyW9RiN1NR7O2pIqCAUmdsEhQ
+	CSnC4mKrHAUWQRrBnVCTpNc=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hlC1B1LZ8zcb3J;
+	Wed, 16 Sep 2026 16:37:02 +0800 (CST)
+Received: from kwepemk300012.china.huawei.com (unknown [7.202.194.175])
+	by mail.maildlp.com (Postfix) with ESMTPS id 87A952017D;
+	Wed, 16 Sep 2026 16:48:13 +0800 (CST)
+Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
+ kwepemk300012.china.huawei.com (7.202.194.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 16 Sep 2026 16:48:12 +0800
+From: Xie Yuanbin <xieyuanbin1@huawei.com>
+To: <sashal@kernel.org>, <gregkh@linuxfoundation.org>,
+	<linux@armlinux.org.uk>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
+	<rostedt@goodmis.org>, <rmk+kernel@armlinux.org.uk>, <linusw@kernel.org>,
+	<kuninori.morimoto.gx@renesas.com>, <arnd@arndb.de>, <xiqi2@huawei.com>,
+	<ljs@kernel.org>, <wozizhi@huaweicloud.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>, <stable@vger.kernel.org>,
+	<patches@lists.linux.dev>, <lisongze2@huawei.com>, <wangbing6@huawei.com>,
+	Xie Yuanbin <xieyuanbin1@huawei.com>
+Subject: [PATCH 5.10.y/5.15.y 0/4] ARM: fix might_sleep() WARNING for mmap_write_lock() around show_pte()
+Date: Wed, 16 Sep 2026 16:48:07 +0800
+Message-ID: <20260916084807.176359-1-xieyuanbin1@huawei.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260916080011.170295-1-xieyuanbin1@huawei.com>
+References: <20260916080011.170295-1-xieyuanbin1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260912195552.76673-1-kmehltretter@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk300012.china.huawei.com (7.202.194.175)
 
-On 2026-09-12 21:55:48 [+0200], Karl Mehltretter wrote:
-> This series moves ARM cacheinfo allocation to the boot CPU to avoid
-> sleeping-lock warnings during PREEMPT_RT secondary-CPU startup. It is
-> based on 5225b8eec4c9 (7.3-rc2 plus one day).
-> 
-> Patches 1-3 prepare for early allocation: bound cache-leaf writes,
-> include external caches in the allocation size, and guard CLIDR reads
-> on older CPUs. Patch 4 enables early allocation. Please take all four
-> patches together for stable.
-> 
-> Tested on QEMU virt (Cortex-A15), vexpress-a9 (Cortex-A9 with PL310),
-> and realview-eb-mpcore (ARM11 MPCore) with PREEMPT_RT, plus non-RT
-> virt and vexpress-a9 builds. Cache sysfs output is unchanged for the
-> normal platform DTs, and CPU hotplug passes where supported. Additional
-> checks cover DT leaf undercounting with KASAN and ARM11 DT cache
-> descriptions.
-> 
-> The full series also passes on a Raspberry Pi 400 with a 32-bit
-> PREEMPT_RT 7.2.6-rc1 kernel: the boot warning is absent and all 12 cache
-> sysfs entries match the baseline. CPU hotplug is unavailable there.
+On linux-5.10.y and linux-5.15.y, commit 07e4d5380f2a844ab7a1 ("ARM:
+9485/1: mm: acquire mmap write lock around show_pte() for user faults")
+introduces a might_sleep() WARNING when using mmap write lock. This is
+due to the lack of upstream commit 59e4f3b45b96a24fc9b7 ("ARM: ensure
+interrupts are enabled in __do_user_fault()") and
+commit e79ca91165d4fd18549c ("ARM: 9484/1: enable interrupts when
+unhandled user faults are triggered") .
 
-This makes sense.
+This series backports all these upstream patches into the linux-5.10.y:
+1. commit 7733bc7d299d682f2723 ("ARM: fix hash_name() fault")
+2. commit fd2dee1c6e2256f726ba ("ARM: fix branch predictor hardening")
+3. commit 59e4f3b45b96a24fc9b7 ("ARM: ensure interrupts are enabled in
+   __do_user_fault()")
+4. commit e79ca91165d4fd18549c ("ARM: 9484/1: enable interrupts when
+   unhandled user faults are triggered")
 
-Tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Sebastian
+In the upstream version, the following patches are a patch set:
+a. commit dea20281ac8822661576 ("ARM: group is_permission_fault() with
+   is_translation_fault()")
+b. commit 40b466db1dffb41f0529 ("ARM: allow __do_kernel_fault() to report
+   execution of memory faults")
+c. commit 7733bc7d299d682f2723 ("ARM: fix hash_name() fault"):
+   which is 1.
+d. commit fd2dee1c6e2256f726ba ("ARM: fix branch predictor hardening"):
+   which is 2.
+The fixed issues by this patch set also exist in linux-5.10 && linux-5.15.
+a. and b. do not need to be backported, and after c. and d.
+is backported, 3. and 4. can be safely patched.
