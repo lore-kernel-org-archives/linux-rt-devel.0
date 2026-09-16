@@ -1,79 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17C7EEC3;
-	Wed, 16 Sep 2026 00:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D721B3EBF14
+	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Sep 2026 06:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789518320; cv=none; b=Bjg0wf/zjc4Yx2nkh900lq8NGTguaGHehGYn+AcFAUPMSxUXwiBPSml1INEDr8E8974IZz7FUC1tKUkuRL2CEFRomJskmzBv4gjZM44Q06UYKqGzDeaJbTdKZ4KzP/gOaJN71iySwmDo/N3gGtm5ZCOTwwH1k0ss87U8gr7VwGY=
+	t=1789541729; cv=none; b=ujVfO1k9D+DCtDNzO9mKMllR4gDgan1idQppW9RaarCdBEWknpSy1lj42kJpOSuGPeLbvUWARU+/5l39igPgKF9Y/RZEqA27lgmlpWCH+jbeT4pIXU2xmF6ThJ/8NNLFj5Z09jba1vI6YsKKdEmJxrajZDnmdQ1jWmbVd0xYvrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789518320; c=relaxed/simple;
-	bh=A0Let5NCg9d9Z9NVPwRMaZTpNOePHVeO3MMV1IFuGtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TZqvj3YAUP2wOUsxmmtl5nUz4iSuGIZo/GVV4TKEdoBYMDKMeTqBnuLs1yckh4VlwpKufOQFq+hpayBKAEaej+w5mdgUJVAi7NkCpKYfmLxZN3S+VUPcZhJgJgbL41OrE66vxJd1TzYNn4EyQFsfBMwDVrEwvkAuXWrxaNxNlIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTI9RUBB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789541729; c=relaxed/simple;
+	bh=QXTe48Zea/Trvazz/Pkd3exaoVKlULQahD22GQ0/e4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8tbM3PIKOc4p9hQspTdQJeagSrYdzLuunRoa6L/BNXbg3WfII8r7+eqkE3Gy6eYWReGf34PWvuAxw4TH1GOV8W7eqPJ0Ui6gRE/9G1n54he3Vmzb0gxixXyGrHMCRRkSi8be2um9krjxtkY+GFfVpZ9R76+Re12sT9FuUCCUzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d8KzTUND; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nTqE4oSa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTI9RUBB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A301F000FF;
-	Wed, 16 Sep 2026 00:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789518319;
-	bh=oCoSEk/kdI6Jx/Hs/Ys/2xTpv2gnopuAEfd6oSTk8rU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=WTI9RUBBKTus/OejACddjmDt4WpWCJnxpQYbgneSXISSOjPXhkMi94mfL37NWPMvr
-	 1t4sJc02jmrYa86lVfMD2LosqN+Y3QDXzzN8U1nO8l1cWGW6hN/UOuJSa2Q/ECKp/n
-	 WMZJaNJYaxr4ZIeAZhpAvzsnsoe+56YtJ+Rnze8q+fJglyCZ2bIheyoKyoWQC9L0Rr
-	 KZyqPHzhPI9TtNVFpje8aUGKavG68sWrLd7ZnPhiO+CC1pDD0tASaiVQEN9ltvAr+/
-	 OEXwJjnDFzR56ZfPJs2PuRyTdgD9Jeew2GJVLtrV2ZWfclOk9B//LU0r5jG1e81iWJ
-	 61ujnb0tHDTvA==
-Date: Tue, 15 Sep 2026 17:25:18 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Srinivas Neeli <srinivas.neeli@amd.com>
-Cc: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Richard Cochran <richardcochran@gmail.com>,
- Michal Simek <michal.simek@amd.com>, "Sebastian Andrzej Siewior"
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, <netdev@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-rt-devel@lists.linux.dev>,
- <neelisrinivas18@gmail.com>, <git@amd.com>
-Subject: Re: [PATCH net-next v2 6/8] net: xilinx: tsn: add the endpoint RX
- data path
-Message-ID: <20260915172518.09e66147@kernel.org>
-In-Reply-To: <20260909-patches_v2_external-v2-6-3a40babaff4c@amd.com>
-References: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
-	<20260909-patches_v2_external-v2-6-3a40babaff4c@amd.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d8KzTUND";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nTqE4oSa"
+Date: Wed, 16 Sep 2026 08:55:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789541725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9JO/nXJM4LsTI15Dh6R6P3Rqfh7Ru0q6bmBLCp4g7U=;
+	b=d8KzTUND03j3NdeVuY3GH23jIk5brwhQtdraM7PikkrUR4bKEOI2aB9YfQwuZwQF9ijVF5
+	Hs+RE6lvS9GCn5qsmyrtGKXmAnuHYp8WGtSEHKxoONTuB3V/USNkwbUYN/DVmXTyvNbYQb
+	g8xtIBUmvAN3MZa8RQB3dm759d9QjiRjhmHXiY2W2NmzLVO7myiEc+g8m++eEAB9TFGO1Q
+	VwtqPrukbNv0l5EdXExKtnWbIQxqCBdB3+f0PjrDQUnbNEJTJmhDNndPSQ8e8zQ8lmdS9L
+	1CQM9VL4nxU+PV7idppSNyCZ9Tw18esIW2cpzrxAfoGNfhb57ggLzXCV64ZUMg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789541725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9JO/nXJM4LsTI15Dh6R6P3Rqfh7Ru0q6bmBLCp4g7U=;
+	b=nTqE4oSalnbUJXQjhv1kggMWeeRiI+xO13V29BwxV1TwdkgYL7rTZ6g0zU+oZLqhxLFISo
+	sqmSlQs+UFZPJsBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCHv2] gpio: mvebu: keep resume masks within the irqchip cache
+Message-ID: <20260916065523.ZJKAHHyW@linutronix.de>
+References: <20260915004406.115230-1-rosenp@gmail.com>
+ <20260915064352.T4HiPnt_@linutronix.de>
+ <CAKxU2N_+H50zy7V0FR-_4KiyAG8+_x4kg2QZBsumHEXgdwmqKQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAKxU2N_+H50zy7V0FR-_4KiyAG8+_x4kg2QZBsumHEXgdwmqKQ@mail.gmail.com>
 
-On Wed, 9 Sep 2026 00:49:54 +0530 Srinivas Neeli wrote:
-> +	guard(spinlock_bh)(&xchan->rx_lock);
+On 2026-09-15 15:24:24 [-0700], Rosen Penev wrote:
+> On Mon, Sep 14, 2026 at 11:43=E2=80=AFPM Sebastian Andrzej Siewior
+> <bigeasy@linutronix.de> wrote:
+> >
+> > On 2026-09-14 17:44:06 [-0700], Rosen Penev wrote:
+> > > mvebu_gpio_resume() writes the edge/level mask registers saved at
+> > > suspend time straight back to hardware, bypassing the irqchip's
+> > > mask_cache_priv.  genirq skips mask_irq() for a line it already
+> > > considers masked, so restoring a bit in hardware that genirq thinks
+> > > is still masked leaves that line unmasked behind genirq's back.  An
+> > > asserted level line then has nobody to ack it, and the moment
+> > > interrupts are re-enabled the chained handler storms, hanging resume.
+> >
+> > Why is the mask value changed after suspend?
+> In order to keep genirq and the hardware in sync.
 
-Quoting documentation:
+There seems to be write after suspend took place or before resume.
 
-  Using device-managed and cleanup.h constructs
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
-  Netdev remains skeptical about promises of all "auto-cleanup" APIs,
-  including even ``devm_`` helpers, historically. They are not the preferred
-  style of implementation, merely an acceptable one.
-  
-  Use of ``guard()`` is discouraged within any function longer than 20 lines,
-  ``scoped_guard()`` is considered more readable. Using normal lock/unlock is
-  still (weakly) preferred.
-  
-  Low level cleanup constructs (such as ``__free()``) can be used when building
-  APIs and helpers, especially scoped iterators. However, direct use of
-  ``__free()`` within networking core and drivers is discouraged.
-  Similar guidance applies to declaring variables mid-function.
-  
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#using-device-managed-and-cleanup-h-constructs
+Sebastian
