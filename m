@@ -1,80 +1,82 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56B741D105
-	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Sep 2026 19:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06DC42049A;
+	Wed, 16 Sep 2026 19:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789586663; cv=none; b=khqXQNRwSNwZ3bJQrfIY7JJnTmojUpUPWGCUJllceJvF0WjLAZO089HiqpW7Ujr/eLqfPe2+tKhnJyLwaIUZq/4T7IoYjdrbZETSmoSQwImDBSEsnwzD8ZRcD1n1YmHN7HtvGUjg6c6Con1YG77BSrWokl1e/XjFmNSqIkVc000=
+	t=1789586937; cv=none; b=Ve4GFydku9UQ3ukdiwWf54/3gAKErRi3f6A1RdtdL7OmitVDg4fwZwl1w6YGx1JdlFBKpl36xv9Jf7n6oQDIViIMeOATqc+iaRGg6qXln3IBmYQeMashVFwsn4YV/lHI5ITaHLkA0ZK1EvynyCpPOs1HBMMtRWsybdXypBKWBe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789586663; c=relaxed/simple;
-	bh=T8e4qFcoWW/dNathKMvtjSc8MmQ0SvJgeeAGEMDyUMQ=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=UwEV8rbHnSuJUO5jRvwUPlIC+vZzSJSO73n6P9oKHU3KLA3m2swJJ1Lr0M/CefkhWtntzrZm/Q7c3YW4sN7FaNDLxGqoKoFO41ISmTq9cbkkkfO5mcbcWMd6WxXMkGbNdqVv9vHCTjEulhsk0flBP5gRjmRZ5mA1FAD14L2BeSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4b2d1eb484aso134271b6e.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 16 Sep 2026 12:24:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789586646; x=1790191446;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gGav+E6NmhUVSh9XUjVdcV/Auw85chnTv3eOmsCDzNk=;
-        b=EV8TC3Ro5RpqYBGbmjd0vzYzGqJlU+U7DMtshB5sVdkousdF3L41EkPzetMHrrYIZg
-         cwDMGqmtiq4jX4R2wfBx3kApLDcdpmWjjSrlweBnYWQKFMWpVYGf1AWJDw9qe64xKVcW
-         XZS/+d5an8wP5PXZj8FWnjnb60To9VKrdaHDbi5wFMj9ye4gbwQ4oF1hhGy7pDQjvURe
-         uLa/RE/+Ilmf0EW1k8iTGaXHTkEsMTJmbKgzZadnhB1OFiiUQiMff1pgG6s1IgnzVsiI
-         nQCpxcdXzl/qoSn9SuZbY1bVPMNQbDFdbISQJY1qyPeaLHS4s0STKGZFReVRqK6Zb12z
-         uvhQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxoKpEOsv5B34KPEl/PzbgtfdFT2tNFRoErsx7gB17RXa1X8defMbUKJ8WzUkZXElSwROgZ1buYoHnMsq50yA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lUDG02cJ26nOPDHg0p5trQFn5VJMG2PzYRaSUHHS5zbV7cXoWY
-	3EvtVBcQhbu5/azEC3ReiYJIL+NZe0By4B8AQFgV30jdJqrLbTdPPDK9YmcR5IQDj8PYcYvTGKq
-	tMTzjiTJuFqe1fFT2+CLOjE51WWXFn+oTvszSJRiEVk891iDj010vCu20AQ4=
+	s=arc-20240116; t=1789586937; c=relaxed/simple;
+	bh=44UBgES1IkJtvauTNaYHC0m0R8awETaFptuQlSOAcDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J9SnSBHzzPdTv05ZAYvYU19lMiNlbgMxr9QgvkczmvyvgHWZ6+6UH461kAfiPQftngVkmNqPFUr6t1voJOd5/sHtDqW1JAdRNdZC/dUKX7LO9Fd2K8SiHjbTxCxLqtTccIVTVsfkODqf8NzlbtzbZomtjFwZGore76JMIVtvInk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Te6RnPKe; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Te6RnPKe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3291F0089C;
+	Wed, 16 Sep 2026 19:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789586914;
+	bh=iZKIoHZ2yaBwojNtcPcwmQaPcDtxcHubfSKW9FzK/3g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Te6RnPKee/lPBmv0d3R0sE+DVOk5v1yOX3/+V2z8/S9UYzSjW5YsCslAGIMz2FQYr
+	 7/Il53Lu4os64JnuiVrWMhSAcNuwhk/Y93V8AkLvyNrkdjyIC/udbTayHYTIk739c6
+	 aYTEdfDDGmTfctZDRhFdiHlN1QLOdAbhrz8TARp7geN+0vmtKnzeUal5/ky+bLGMGC
+	 hWId9AkNT/B5urJ4rCOKB/MtFFuQniAPiEwOh2s6CnEVRzgb4RLIXY+DIe4fnWMwW9
+	 f1ZNnlepGelmxZVyOfDuoi9N4hrrhYvxw+xQNnFanhIZD6xytV/XQAp2ZcC1tyM2kP
+	 AyzTZa6bOyO4g==
+From: Sasha Levin <sashal@kernel.org>
+To: gregkh@linuxfoundation.org,
+	linux@armlinux.org.uk,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	rmk+kernel@armlinux.org.uk,
+	linusw@kernel.org,
+	kuninori.morimoto.gx@renesas.com,
+	arnd@arndb.de,
+	xiqi2@huawei.com,
+	ljs@kernel.org,
+	wozizhi@huaweicloud.com
+Cc: Sasha Levin <sashal@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org,
+	patches@lists.linux.dev,
+	lisongze2@huawei.com,
+	wangbing6@huawei.com,
+	Xie Yuanbin <xieyuanbin1@huawei.com>
+Subject: Re: [PATCH 5.10.y/5.15.y 1/4] ARM: fix hash_name() fault
+Date: Wed, 16 Sep 2026 15:27:57 -0400
+Message-ID: <daily-reply-20260916-0007-re-arm-show-pte-series@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260916080011.170295-1-xieyuanbin1@huawei.com>
+References: <20260916080011.170295-1-xieyuanbin1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1a24:b0:4c3:7695:d30 with SMTP id
- 5614622812f47-4ca4a1dc406mr4599160b6e.14.1789586646123; Wed, 16 Sep 2026
- 12:24:06 -0700 (PDT)
-Date: Wed, 16 Sep 2026 12:24:06 -0700
-In-Reply-To: <aqrZMReaQPG0M9oV@gremlin>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aaaecd6.4e05fbd6.392abc.0003.GAE@google.com>
-Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
- context in kvm_mmu_notifier_invalidate_range_start
-From: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
-	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, 
-	liam@infradead.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rt-devel@lists.linux.dev, ljs@kernel.org, lkp@intel.com, 
-	llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, me@brighamcampbell.com, 
-	mhocko@suse.com, nogikh@google.com, oe-kbuild-all@lists.linux.dev, 
-	pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, seanjc@google.com, 
-	shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, skhan@linuxfoundation.org, 
-	surenb@google.com, syzkaller-bugs@googlegroups.com, vbabka@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+> [ Xie Yuanbin: At the upstream, the following patches are a patch set:
+>   1. commit dea20281ac8822661576 ("ARM: group is_permission_fault() with
+>      is_translation_fault()")
+[...]
+>   patch 1. and 2. is unneeded for 5.10.y and 5.15.y . This patch backports
+>   patch 3. and simply adapts to the context differences. ]
 
-syzbot tried to test the proposed patch but the build/boot failed:
+Patches 1/4 through 3/4 carry only Russell King's Signed-off-by. You adapted
+1/4 and 2/4 and transmitted all three, so each one needs your own
+Signed-off-by before I can take it. Could you resend with that added?
 
-failed to apply patch:
-error: corrupt patch at line 7
+Please also drop 4/4 from the resend. e79ca91165d4 ("ARM: 9484/1: enable
+interrupts when unhandled user faults are triggered") is already queued for
+both 5.15 and 5.10.
 
-
-
-Tested on:
-
-commit:         9b87fdc9 Merge tag 'sched_ext-for-7.3-rc3-fixes' of gi..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
-compiler:       
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15a16bf9580000
-
+-- 
+Thanks,
+Sasha
