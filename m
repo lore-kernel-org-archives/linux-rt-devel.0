@@ -1,3 +1,151 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129C548032F;
+	Wed, 16 Sep 2026 18:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789581931; cv=none; b=gnhsb00zeeJ1gkTPVeVHep+j5tR7e+G3jZhYWe9XzCUWHEiB+VPS3DiTOiJ2SUEPYi6uYO+UcaiCHnaSYB6iGfwCroSq242ClagtNVlsesVgHgv7eNxhexk15HHzSM6jj53aQnztVrsH3ZYYbm83/XWK5xetAi3Es8xxXrK8NDI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789581931; c=relaxed/simple;
+	bh=KP34818ZOp1fTxwt9wiGJwTcXkPW2UhipMpaxJBvnCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OoM7R3wD+uMA7eF8cxTkx+4nLj/MojzFHkfXJYCbRZSM/h4LYcFPX/XHXDRosgssauaRnsPGl2EZxAvx0t+CqeZPdAMtYfHI06z9TCPZ+f/5iJZp5LiyzkZ8ScBKdCoFuyG4IQf2up9hIjOPaM3VJBNTvF2HJNVMia5X1K0twhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBOn4oDJ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBOn4oDJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8E81F000FF;
+	Wed, 16 Sep 2026 18:05:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789581912;
+	bh=hLavNa5baPsJJ8TTW5wCZFKvbxP4p6FhMLkehjF3Fac=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hBOn4oDJU4DM0Q8Y8eUE9VLiSL+ysgK+OFWFO1vkwGi0Gdbo7DoQ+t8aUSgS1b8Yn
+	 S+qk+mRxRsNwwge37HcdsqPSgElEB/Fj85B2uDJ8Z6b54aXOgIRBHAyiVirvU+Q7Fn
+	 QP6iowl6AMIgACiS3kgJGsnkE/Z12rjSj88MWaSV+xt0FC4NJVWCAc8m5JJUlP2O56
+	 f7dzwv8u2faEAerorAWJu+7f/I7JnAo7zj2nkNj71uCcOiUyW8TJG0kfylAfPw4QUc
+	 /sy2sp88p66FtKyDwRjBfZTqq31kRqDcp8qLuD+gU6yjaHG2krjPZ/ZC1bEC8zTyLR
+	 CYhOSiUKL/RZQ==
+Date: Wed, 16 Sep 2026 19:05:03 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
+Cc: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
+	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, liam@infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
+	lkp@intel.com, llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, 
+	me@brighamcampbell.com, mhocko@suse.com, nogikh@google.com, 
+	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, 
+	seanjc@google.com, shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, 
+	skhan@linuxfoundation.org, surenb@google.com, syzkaller-bugs@googlegroups.com, 
+	vbabka@kernel.org
+Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
+ context in kvm_mmu_notifier_invalidate_range_start
+Message-ID: <aqrZMReaQPG0M9oV@gremlin>
+References: <6936812a.a70a0220.38f243.0090.GAE@google.com>
+ <6aaaa2da.86093f18.33004f.0001.GAE@google.com>
+Precedence: bulk
+X-Mailing-List: linux-rt-devel@lists.linux.dev
+List-Id: <linux-rt-devel.lists.linux.dev>
+List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="eq753chkiu5rde7c"
+Content-Disposition: inline
+In-Reply-To: <6aaaa2da.86093f18.33004f.0001.GAE@google.com>
+
+
+--eq753chkiu5rde7c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
++cc Sebastian
+
+On Wed, Sep 16, 2026 at 07:08:26AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+>
+> HEAD commit:    9b87fdc9af2f Merge tag 'sched_ext-for-7.3-rc3-fixes' of gi..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16f46bf9580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
+> dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f23925580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16f23925580000
+>
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/d9d20c79bd3c/disk-9b87fdc9.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/2a6a8f176798/vmlinux-9b87fdc9.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/db8864d1c812/bzImage-9b87fdc9.xz
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+>
+> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+> in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 38, name: oom_reaper
+> preempt_count: 0, expected: 0
+> RCU nest depth: 0, expected: 0
+> locks held by oom_reaper/38: 4, last CPU#1:
+>  #0: ffff8880370147b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:619 [inline]
+>  #0: ffff8880370147b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
+>  #0: ffff8880370147b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
+>  #0: ffff8880370147b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2b4/0xc10 mm/oom_kill.c:650
+>  #1: ffffffff8e30af80 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:495 [inline]
+>  #1: ffffffff8e30af80 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: zap_vma_for_reaping+0x193/0x380 mm/memory.c:2266
+>  #2: ffffffff8e30afd8 (srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:198 [inline]
+>  #2: ffffffff8e30afd8 (srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:305 [inline]
+>  #2: ffffffff8e30afd8 (srcu){.+.+}-{0:0}, at: mn_hlist_invalidate_range_start mm/mmu_notifier.c:515 [inline]
+>  #2: ffffffff8e30afd8 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_start+0x5c6/0xb80 mm/mmu_notifier.c:580
+>  #3: ffff8880465ad560 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  #3: ffff8880465ad560 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_start+0x1b6/0xc10 virt/kvm/kvm_main.c:745
+> CPU: 1 UID: 0 PID: 38 Comm: oom_reaper Not tainted syzkaller #0 PREEMPT_{RT,(full)}
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  __might_resched+0x31b/0x470 kernel/sched/core.c:9257
+>  __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
+
+Seems like a false positive and an RT thing?
+
+Seems like [0] addresses it?
+
+[0]:https://lore.kernel.org/all/20260916155105.qDi2MiYW@linutronix.de/
+
+>  rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
+>  spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  kvm_mmu_notifier_invalidate_range_start+0x1b6/0xc10 virt/kvm/kvm_main.c:745
+>  mn_hlist_invalidate_range_start mm/mmu_notifier.c:525 [inline]
+>  __mmu_notifier_invalidate_range_start+0x709/0xb80 mm/mmu_notifier.c:580
+>  mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:498 [inline]
+>  zap_vma_for_reaping+0x1f7/0x380 mm/memory.c:2266
+>  __oom_reap_task_mm mm/oom_kill.c:548 [inline]
+>  oom_reap_task_mm mm/oom_kill.c:585 [inline]
+>  oom_reap_task mm/oom_kill.c:609 [inline]
+>  oom_reaper+0x519/0xc10 mm/oom_kill.c:650
+>  kthread+0x38b/0x470 kernel/kthread.c:436
+>  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> oom_reaper: reaped process 8617 (syz.2.1028), now anon-rss:0kB, file-rss:72kB, shmem-rss:0kB
+>
+>
+> ---
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
+
+OK I attach the patch, so:
+
+#syz test
+
+--
+Cheers, Lorenzo
+
+--eq753chkiu5rde7c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="rt_fix.msg"
+
+From mboxrd@z Thu Jan  1 00:00:00 1970
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
@@ -238,3 +386,6 @@ ount)) ||
 --=20
 2.55.0
 
+
+
+--eq753chkiu5rde7c--
