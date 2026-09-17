@@ -1,117 +1,79 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3E8394E80;
-	Thu, 17 Sep 2026 02:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0463469FC;
+	Thu, 17 Sep 2026 07:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789612308; cv=none; b=j+qjrrchX3Z6rhnBCG2pZSrxAAaWNzqtI/dXa+ELmtxoduInWI622/Hgoznh4Ie/pDyTqXQHF7yyc1iDrfAUPCzkHGBc/RpMZcexf77HWai7MxBuYanFTANj1vKaFfhmcXIGa+bawZpVmYIbNEYk0+YKSDhfkKQ81M8LdT5m1DM=
+	t=1789630777; cv=none; b=HNuodAXYBjzlXEFOcds/YdZmD7zBXmf5IPqGgp1Tqq8n+YZ1Um8FywV050s1al1qVQ2AcGLXEPVvAL6ALJWHBzhlIUr38U+NcRyV3UfANsQMtCe4/G857bY+0AUJ2nVGyRQZq7lOa2C4q9Iusj8Pm13MuLjmizJY1LiYh5bWBUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789612308; c=relaxed/simple;
-	bh=12hCdacFQ9bFjFDdZs/2tWWhXbLVh4nO1BO1Z9+vCXI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EaZXBGd5n71neNKflHqs5gAF/G84uO4pGbbQ6/3i5AXMAJaC8GfhcB3OX5dwpcwhH02LKXJgIAYWVarlfrcAttLw9mWgCvqqBmV990mklqg3dNdPLuqsqFU6fDxAuvSQiPn89gszpWJa0wtmoy4yGlKLmAP89nVbK0/t54g9TNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Lw4b3BNU; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789630777; c=relaxed/simple;
+	bh=WZv+KO4tNtUG1yij60OhMLNffrpj6RJac9KO6/2z9I0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dm2JNmFcXlL0BvfKDb8FR0H7dHTZqNvNc2RxwGZSqqmfEMecouNtomdMu+hatvQmNe7hWgmM0o4bVCVUh8HaxN0NwqxTbJJNhN+puoDHJ0YRxKGwIZGyPlxYMN1NRDimCTcEwEvj2WQwgbgObMRVv3OhsRmM1bs+5qbGl9sOHyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=u63kw8gg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eRMxAfrK; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Lw4b3BNU"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=PSrGRkSIHQGbxbe4Ft5AX7hBVqF+BpQDdBUjrKmwX5s=;
-	b=Lw4b3BNUoNrvWcO4mMH//REihHJ177IA8d81vu5Sj3j1X2WixptbbQHCrj8+zeGCnaj+d5O1y
-	emeT4FORq7VkEvtIlYXmCuLRs8lJ0svgQMD3vRg8jj/zcCfibaweOAbIr4//1WOfOdoSha7Mn0c
-	bD97coYSyTqsL8J8Ei6IY3A=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hlfc62V9ZzRhQs;
-	Thu, 17 Sep 2026 10:20:22 +0800 (CST)
-Received: from kwepemk300012.china.huawei.com (unknown [7.202.194.175])
-	by mail.maildlp.com (Postfix) with ESMTPS id 00E964057D;
-	Thu, 17 Sep 2026 10:31:19 +0800 (CST)
-Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
- kwepemk300012.china.huawei.com (7.202.194.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 17 Sep 2026 10:31:18 +0800
-From: Xie Yuanbin <xieyuanbin1@huawei.com>
-To: <sashal@kernel.org>, <gregkh@linuxfoundation.org>,
-	<linux@armlinux.org.uk>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
-	<rostedt@goodmis.org>, <rmk+kernel@armlinux.org.uk>, <linusw@kernel.org>,
-	<kuninori.morimoto.gx@renesas.com>, <arnd@arndb.de>, <xiqi2@huawei.com>,
-	<ljs@kernel.org>, <wozizhi@huaweicloud.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, <stable@vger.kernel.org>,
-	<patches@lists.linux.dev>, <lisongze2@huawei.com>, <wangbing6@huawei.com>,
-	Yadi.hu <yadi.hu@windriver.com>, Xie Yuanbin <xieyuanbin1@huawei.com>
-Subject: [PATCH v2 5.10.y/5.15.y 3/3] ARM: ensure interrupts are enabled in __do_user_fault()
-Date: Thu, 17 Sep 2026 10:30:56 +0800
-Message-ID: <20260917023056.2280-4-xieyuanbin1@huawei.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917023056.2280-1-xieyuanbin1@huawei.com>
-References: <20260917023056.2280-1-xieyuanbin1@huawei.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="u63kw8gg";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eRMxAfrK"
+Date: Thu, 17 Sep 2026 09:39:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789630773;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0igQin304nP9DurEyIteQCtX8TEHH4rBGYmjaSQfzyc=;
+	b=u63kw8ggDgGCYSxjvQA2v7fDXEW2lPCH1T+Q07Q/QeLn6cQV+2QAkbF1Os3VH9gwTCzR+R
+	DRXDoGuV32CuTSNNju1d/A5BghGYPzHzw4YMYCFo2e8SDD3M1RE5n34J3WZ0sGrO9/foyO
+	sILJ63OAVoUFhFEAkLwa4KaR6gC0S/wMvhL7c2LXtwg6Zo7opY24flhjzCSYnpSfWQh6Ce
+	iRbmIfJieVUHkKigmQm2fVMHRdcpaV8XEXLTZp/sanuNNneWMw++bHhaTQpqKkHNBUZ/ED
+	pdIlgdPrcbBFUm2ZUa78mX1xwOF3m38Zw2ggeQaP2LG9tUGGODaKwt69aX5XYA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789630773;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0igQin304nP9DurEyIteQCtX8TEHH4rBGYmjaSQfzyc=;
+	b=eRMxAfrKdQDwv6Ea2Fg6UimVRKEms3XXSHbs5tePWbDxnZDFePCEYBq747W5wzcm1chwGY
+	+LVsn/6TxAlf2KCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>,
+	akpm@linux-foundation.org, dwmw2@infradead.org, dwmw@amazon.co.uk,
+	kvm@vger.kernel.org, liam.howlett@oracle.com, liam@infradead.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev, lkp@intel.com, llvm@lists.linux.dev,
+	lorenzo.stoakes@oracle.com, me@brighamcampbell.com, mhocko@suse.com,
+	nogikh@google.com, oe-kbuild-all@lists.linux.dev,
+	pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org,
+	seanjc@google.com, shaikhkamal2012@gmail.com,
+	shakeel.butt@linux.dev, skhan@linuxfoundation.org,
+	surenb@google.com, syzkaller-bugs@googlegroups.com,
+	vbabka@kernel.org
+Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
+ context in kvm_mmu_notifier_invalidate_range_start
+Message-ID: <20260917073931.iggMficE@linutronix.de>
+References: <6936812a.a70a0220.38f243.0090.GAE@google.com>
+ <6aaaa2da.86093f18.33004f.0001.GAE@google.com>
+ <aqrZMReaQPG0M9oV@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk300012.china.huawei.com (7.202.194.175)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aqrZMReaQPG0M9oV@gremlin>
 
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+On 2026-09-16 19:05:03 [+0100], Lorenzo Stoakes (ARM) wrote:
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
 
-[ Upstream commit 59e4f3b45b96a24fc9b7a89e5f8a2168b30f95af ]
+> Seems like a false positive and an RT thing?
 
-__do_user_fault() may be called from fault handling paths where the
-interrupts are enabled or disabled. E.g. do_page_fault() calls this
-with interrupts enabled, whereas do_sect_fault()->do_bad_area()
-will call this with interrupts disabled. Since this is a userspace
-fault, we know that interrupts were enabled in the parent context,
-so call local_irq_enable() here to give a consistent interrupt state.
+yes, it does. The proposed patch has a matching reported-by of the
+report. dwmw2 did test it via his tree
+	https://lore.kernel.org/all/6a8d9a7e.a5a502ce.31d34.0069.GAE@google.com/
 
-This is necessary for force_sig_info() when PREEMPT_RT is enabled.
-
-Reported-by: Yadi.hu <yadi.hu@windriver.com>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Signed-off-by: Xie Yuanbin <xieyuanbin1@huawei.com>
----
- arch/arm/mm/fault.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
-index 4afb076383a8..8b31d7704626 100644
---- a/arch/arm/mm/fault.c
-+++ b/arch/arm/mm/fault.c
-@@ -137,7 +137,8 @@ __do_kernel_fault(struct mm_struct *mm, unsigned long addr, unsigned int fsr,
- 
- /*
-  * Something tried to access memory that isn't in our memory map..
-- * User mode accesses just cause a SIGSEGV
-+ * User mode accesses just cause a SIGSEGV. Ensure interrupts are enabled
-+ * for preempt RT.
-  */
- static void
- __do_user_fault(unsigned long addr, unsigned int fsr, unsigned int sig,
-@@ -145,6 +146,8 @@ __do_user_fault(unsigned long addr, unsigned int fsr, unsigned int sig,
- {
- 	struct task_struct *tsk = current;
- 
-+	local_irq_enable();
-+
- #ifdef CONFIG_DEBUG_USER
- 	if (((user_debug & UDBG_SEGV) && (sig == SIGSEGV)) ||
- 	    ((user_debug & UDBG_BUS)  && (sig == SIGBUS))) {
-@@ -254,6 +257,7 @@ do_kernel_address_page_fault(struct mm_struct *mm, unsigned long addr,
- 		 * should not be faulting in kernel space, which includes the
- 		 * vector/khelper page. Handle the branch predictor hardening
- 		 * while interrupts are still disabled, then send a SIGSEGV.
-+		 * Note that __do_user_fault() will enable interrupts.
- 		 */
- 		harden_branch_predictor();
- 		__do_user_fault(addr, fsr, SIGSEGV, SEGV_MAPERR, regs);
--- 
-2.55.0
-
+Sebastian
