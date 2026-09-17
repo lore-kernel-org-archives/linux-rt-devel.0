@@ -1,111 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE39851DAE8;
-	Thu, 17 Sep 2026 17:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACF04915B9
+	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Sep 2026 23:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789665079; cv=none; b=IBRpzJ7sUrdhx2WlQmmaJ2mBMZ5SkA2eqQ0GfhymD/+rIX0vGsIJ0jwgvOhYbrlBsqxiu4wmiByNAPMXDMP3/8JlGCIHyZWGbDRwKeAZf3BnQ+jI7iF+OwAPccWgLy2YBscq/fxVqU27fsoTw9C6SWemWuFa4LExwCtsBE+VV44=
+	t=1789686566; cv=none; b=XlRsfCnJP5w4brypxvftV0YeKwm6GtCcRNdPXBYcIZA08L3+XPygfne8r941slh89L/JNPPxPTs+e+aBfmtsH1EDCbAZdeLsX8ECmDEiJ99lVY/8G3VezH8CvV2tpv/JUZGO2pSMLKiDHc67ZTr6jcPaPmrK5V4kqcK/tsCq8CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789665079; c=relaxed/simple;
-	bh=IdXe7NHfFnhBi6JL3nxqLRFqt/RRWCshiiTNe1qCQ1A=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Jz8KVtCSQCafBM+tzxZRovstYPmgT9TDvhMvFe9lwm0FzCz0+YA9qcEt2XmCRUyxR2fu/jiF7+GxqLBJf2qwML6btnrSymCiqgHTbolOGWdVUfpFZ109Jo/Jes4kXDx0ej5CJuQrVJQVJm1yyClcihrO9pCuSRkzwXsJ1smh1KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grPT7ufH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789686566; c=relaxed/simple;
+	bh=bzi3qTltra6aIkH/Jy2yzrbQPmxGzlr79foFYbz7a8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ReGbRP45fTd7pNQhLkzpuYPUzz0vVASiFMpUNDAbISKxFgj0Y9YxMlG2+LEWNLlqlEX5DeORtg4Ug8FId/HJhL1dkfDsnfHEGQvvbyMDDRMtaRyJ4l5i3S1nWGY4O8+0/vYZMMOQLUXanbahPlO1ftuyGHWnk3zJIa8VOQkBeEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i0gd5qcj; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="grPT7ufH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD781F000FF;
-	Thu, 17 Sep 2026 17:11:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789665076;
-	bh=7tu7Osnrha5cZyvzL3BFIoRysU3A7nNkZyxIAQk5XFc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=grPT7ufHljw/Z8TUtfVlYW+dXK7tZMU+ui6uAQDWnrDfwyH67+UKGmWXrGjKWtQqI
-	 ujjTQvLgQmx4qfnVHtjav0roYHy6gWQ2W8bCXMYtFU5qV97ZFWPoQZWCirIg2Ed6HE
-	 MwfhMt0Q8mZFikEU3+ALX4Ir9evXNNQTD6ln840tM+f3gF7xL17nmJ1L8yanodBc21
-	 J5n6JMGqh/IVVTFpeq67pxWVCogGp+rFiK32iAVU/C5h+JKWqo/DfXI05rbfe7eI/3
-	 un+jL4aJXMGy7y1aPU0V0sEe9uqGZk6YkNVKx1gT1qcqYF4VLWYueiJsX9qUkXUK/w
-	 S9+d4irwleI+Q==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 5/5] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Drew Fustini" <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260917-dfustini-atl-sc-cbqri-dt-v8-5-7964e8d73fe8@kernel.org>
-References: <20260917-dfustini-atl-sc-cbqri-dt-v8-0-7964e8d73fe8@kernel.org>
- <20260917-dfustini-atl-sc-cbqri-dt-v8-5-7964e8d73fe8@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2026 17:11:15 +0000
-Message-Id: <20260917171116.1AD781F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i0gd5qcj"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747eefae4so240445ad.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 17 Sep 2026 16:09:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789686558; x=1790291358; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1U17Jog9ZY7djCaBaNRYmrySX0Lr3PE+x+SDEArIf+0=;
+        b=i0gd5qcjB1sQJCoNBrggj/48YUCntazY8F2zgge9A+Yfdj4s/MuXharlKaEM04GY3d
+         BN+04OTyeaVsP0d+oi7rwnnFYg8jGjfoTgTLK1Zt4S0K8mZe8/zJu6L361HI0IF8fQuG
+         93ZAxottdZAhK3tntnv3HC2G5+eojmcq+8MLCLybV7vhLEy+LQSkaT0thopZhTrX/H0D
+         o8q+AHMisX0q0KPzi92E2Rlv97L1oxpUZ5o48bEP1YWIBsbJDnLn3HUIDCX+wY/X4n5T
+         dqxIy2ejYdt9+rJ5h1Cs+589Jz/qAk23SewK7S+XtTIn5EnB/R4YYF9PBCibiEsL1mTJ
+         XC8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789686558; x=1790291358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1U17Jog9ZY7djCaBaNRYmrySX0Lr3PE+x+SDEArIf+0=;
+        b=U2px7P8jEp6MVaBQxljMcY5wAVO8lKzdcqttwv4lrVVV8ziJyEZdg8xY1Vnhs8pCte
+         cs4N4v2/eK2pJNDbtZSPFm217zmOc6VaVSMUNTEHuMv1NZcvmsbQAV1Di96NCJkWpHuQ
+         vKRrRYgg7WnRv9bz9OnvCPxCXcNNP1d9PM0so4a/doWJdJiBZGn+BAv43ra9jjShL+8n
+         rFPTLG6Za4e04L9vLfh1EPkAcpK+BQidq2YrEMIekIL0/2OibvywZL23DIva5ppuLU4O
+         D4CrQJhljsysZewNyMmJ6MTfpT9sN8M+1Y5dARX0AlczrBETkgdelgma+S5VNDe0lNVO
+         ENmw==
+X-Forwarded-Encrypted: i=1; AKwUvBxeV4V6bMiWOqgMYLUdO3mqFGKHNYlj5NGubsnxU/fvaVsrCnR+oAPKmxr+BCoaznuyZOMIm8Qddmyy58Uq2w==@lists.linux.dev
+X-Gm-Message-State: AFuF++mSXzlqv62y+xJ0RexH1vqFBJwT9FR4TVD7zszLYs4OaYAiDwLR
+	4H2NuaNpZlCdXZfXX2cO86pAmONd/SZFl3IdSm/t+pI0EJerOC8ZA4JA
+X-Gm-Gg: AYBFou1X/mntSOtqZtQNXwsirycY7tKgUi1V+QX1ekyXmZDHQpbVglwhx8EQJDyaeuR
+	jzqi/MiBWOXA2Eot6o1boLmOCuhLszHg7H/Kutba9N58C8JNay46XmEmVikYWPfMABAIz2Lvytg
+	tCH/YhYrOAEA+9/xZ0PYfcJqaFMBQ9Ia39Qs6eMFBJjPXYc1o1LqVm04m5dxZzQTipLFuXkZiSx
+	VolPG92bXxDTTdgxyQw3OTvf7CRot7rI6tCkhbZkhqiUi4OKTBTb25ai1fO2tgylprfskxIP+mI
+	6cMaJA6wXI6ScCOOd9iWBhW5s/0ApG6y+aAcVQNASNzlCcxDg7eLyPXFuSvAmmFgNoPRGM241ZQ
+	EktHzBPfw/N4mjPOWYWbTS4IFlR2HoqXjV/xzXVmPwm7Pdy8c8D1gTmVht0IYEiTCL/Vcmkvzba
+	nFtUec3QGkJfQazFVrmRcVT7B+Ml7D5+k1fP+RdgriezaWHBIKuqIwtmGv9BVtlz4tMqBYNMaK5
+	CsASMXsuB9HUEYXvTM8B0Cf0iAMpT0X2p+GDDmjUeQ2D7/u6wgcn58aYal8SZT0AAnrmCaJi+Ac
+	s8wlVFWGVGNPw+2pZrY/ViZjCk0FfnpDMPiPmpaIElZ4Djdl
+X-Received: by 2002:a17:90b:3b8d:b0:395:8124:ac53 with SMTP id 98e67ed59e1d1-39e554cb74emr572733a91.6.1789686558386;
+        Thu, 17 Sep 2026 16:09:18 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e34])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e36116920sm7294763a91.5.2026.09.17.16.09.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 16:09:17 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-gpio@vger.kernel.org
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Subject: [PATCHv2] gpio: mvebu: use raw spinlock for MMIO regmaps
+Date: Thu, 17 Sep 2026 16:09:16 -0700
+Message-ID: <20260917230916.118382-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] cbqri: probe fails for monitoring-only capacity controllers
---
+The mask/unmask handlers run with the generic irqchip's raw spinlock
+held and call regmap_read()/regmap_write() on the GPIO regmaps. By
+default regmap protects itself with a plain spinlock, which becomes a
+sleeping rt_mutex on CONFIG_PREEMPT_RT; taking it while holding the raw
+irqchip lock trips might_sleep(), and PROVE_RAW_LOCK_NESTING flags the
+same nesting on non-RT builds.
 
-commit 8ddfa638686f4f96df4bb905203f8a16edb1ece7
-Author: Drew Fustini <fustini@kernel.org>
+Configure both GPIO regmaps with .use_raw_spinlock = true so the MMIO
+accesses stay atomic in hardirq and raw-locked context.
 
-riscv_cbqri: Add CBQRI capacity allocation platform driver
+Assisted-by: LLM
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ v2: remove inline comment
+ drivers/gpio/gpio-mvebu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This commit adds a platform driver for CBQRI capacity controllers
-described in device tree. The driver registers the controller with
-the CBQRI core to expose it through resctrl.
+diff --git a/drivers/gpio/gpio-mvebu.c b/drivers/gpio/gpio-mvebu.c
+index 267e6d5bacd0..92ce02441cc9 100644
+--- a/drivers/gpio/gpio-mvebu.c
++++ b/drivers/gpio/gpio-mvebu.c
+@@ -603,6 +603,7 @@ static const struct regmap_config mvebu_gpio_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
++	.use_raw_spinlock = true,
+ };
+ 
+ static const struct regmap_config mvebu_gpio_percpu_regmap_config = {
+@@ -610,6 +611,7 @@ static const struct regmap_config mvebu_gpio_percpu_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
++	.use_raw_spinlock = true,
+ };
+ 
+ static const struct regmap_config mvebu_pwm_regmap_config = {
+-- 
+2.55.0
 
-> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_cap=
-acity.c
-> new file mode 100644
-> index 0000000000000..0670a676bdb1f
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_capacity.c
-> @@ -0,0 +1,127 @@
-[ ... ]
-> +static int cbqri_capacity_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct cbqri_controller_info info =3D {};
-> +	struct device_node *cache_np;
-> +	struct resource *res;
-> +	u32 rcid_count, cache_level;
-> +	int cache_id, cpu, ret;
-> +
-> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -EINVAL;
-> +
-> +	ret =3D of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_co=
-unt);
-> +	if (ret) {
-> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
-> +		return ret;
-> +	}
-
-[Severity: Medium]
-Does this unconditionally fail probe for valid monitoring-only capacity
-controllers?
-
-Monitoring-only controllers legitimately omit the riscv,cbqri-rcid property,
-but this unconditional check returns an error if the property is missing.
-
-The core driver riscv_cbqri_register_cc_dt() explicitly supports
-rcid_count =3D=3D 0 for monitoring-only controllers, but making this proper=
-ty
-mandatory here prevents them from being used.
-
-> +
-> +	cache_np =3D of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-> +	if (!cache_np) {
-> +		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
-> +		return -EINVAL;
-> +	}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260917-dfustini-a=
-tl-sc-cbqri-dt-v8-0-7964e8d73fe8@kernel.org?part=3D5
