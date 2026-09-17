@@ -1,84 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A06E382299;
-	Thu, 17 Sep 2026 07:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210343B14AE
+	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Sep 2026 08:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789631486; cv=none; b=jyL/TZ8oseHZa+9lW3B6xxplVuirvRf3yEaJGi5v7MRZzwLmPIbXJg6GfbezUZSsWpOPPJqUnbHraBnBMT6l3JXoXb91Pmy6CBsCkpWRz7bN49T40anWLUhZU6YkzKIUxpa/INUloXne8XZ6hWCgGzbJLisqLGE7Qf+QvpVYoWU=
+	t=1789633518; cv=none; b=O2lEYV24OyF/tRXKVqOZOJaYYc/PXRgGg2ZnwtKYe08O853RwafAnKLHi1EysTg7YJOFr//gIaPJFLF1L3tN9HyEw+8IOQEFHDWh3qM2NKP1wmyTTI4HYo7k1opMBZUYhP4YRGEGAstNYFodVSHiiCb5Au/YMRbJPWQwIOOsPxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789631486; c=relaxed/simple;
-	bh=/QJLjEEFUSfP01bZFXaO00kTEnPjIfUKzqB2JUqvkJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=odPhW17sz44E+i+VRLPA0K42RBURyHdqidCucIjKjtnAalsOtCc/FXAhdzf/NmSjCZB2yaHFNCFZIOHV7PCNOJ3yiCOzl3tDi3wB/biF/NtHZP5Dwt5CTaaZby/DD06henp8jcR5Q+oGthIMV2syvR/X0RMmpfrNC0Ex3BoCHp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3xwywF1; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3xwywF1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58361F000FF;
-	Thu, 17 Sep 2026 07:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789631485;
-	bh=gnTwlE8vXLouBpo3zgoY8WtBR+qNusYyWfPZr7YNzr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m3xwywF1x2dNxru/88y11Jm0HWHD1B/6Wwuw8lE+KPMVIo+xdkMnfJB99wlL98z1B
-	 ycrANUp/YWFNcoeDY49fP27elybl+V3a1ox+5GWpmXlGpPJeR0wWOHn7BrAMM3kKH6
-	 AWtvNopbVC/e0fKHODRAI9g5LILH33nLB0Tzu6PZGx1oXeJS9x62xAF6um5MtgkJzD
-	 ZAT/+yrU/4+jARQeGadxY4AYcJ4BuEwgduQO0DZNaE6WJWco4iRxYc7zBAg4tslFga
-	 a+VQF+h5AK6WplXcMmz4JAaeH4ikbTY/0GgR2pDzxr+JcLElty9iyKD2+ff8+gxwus
-	 w+eQBJufdlZOg==
-Date: Thu, 17 Sep 2026 08:51:15 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
-Cc: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
-	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, liam@infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
-	lkp@intel.com, llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, 
-	me@brighamcampbell.com, mhocko@suse.com, nogikh@google.com, 
-	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, 
-	seanjc@google.com, shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, 
-	skhan@linuxfoundation.org, surenb@google.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@kernel.org
-Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
- context in kvm_mmu_notifier_invalidate_range_start
-Message-ID: <aqubuvR_2XCNav28@gremlin>
-References: <aqrZMReaQPG0M9oV@gremlin>
- <6aaaecd6.4e05fbd6.392abc.0003.GAE@google.com>
+	s=arc-20240116; t=1789633518; c=relaxed/simple;
+	bh=xzCxCEzUowtsPxWMbDjD1lRzfaA5w83hr58sbAM2xcM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=JDOueAS3RcQS2UZilAxNH8e9reM4aGkVrRldLOewp/HiYLHbFBQj+n1n8f3zsmRX9agz7Lg/sq/z/XdtGBW5OBs4oPPyAVFmlxTXB2z0JExLbufvZVGca/UreW2/w7xSr3Ycllva0XbDNGGkkIJzbk4iQQKAtYt0p6ojlZBwR+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4ab4f652f9bso494573b6e.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 17 Sep 2026 01:25:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789633502; x=1790238302;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uBkL6ZMYYdQOBhaz18ohIP2qWIBpLXjs4rOb70E61hY=;
+        b=fW8Rvq5ude5uk72R1HwcXjVPPGegBaOWdpqbmR4kx1AMkWt84m/l+UA/zhYFw4GfDw
+         J/T0HEevcRcIg2SSRofzUcN/+7ek5mtZswJbV9KBTPXVSGeMOTknWaPf5aRVcnnhq6fP
+         j7kJkHNSbuYDtelhToL8LDwH0yJ5TyjfS43Oq5MU0xjDnexQ/DdfxC5cNOJTGPLZfvFh
+         1P1S7dYXM7bkXgwTdluOmN3PTD544s72t5oLGQFANX2iXZa8v/yqIwp1YnM7grSs6JLQ
+         9ggZSvEaNXTXG/angKo9K+M0jb6txy2qrv5mi4tfEgy5qFQHHoi4Wp/jGbj9pGHW4ZTo
+         GbYA==
+X-Forwarded-Encrypted: i=1; AKwUvBxdwzKz9MXq5OVISxTgQrRE65YkHZEnMmRvoBPAPeL/ailzLD8ztQTUV/E1cjuFPbHyRiIxcVmjirbHnHnYpw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mGVsRT8u+qckKzGno6JoqAnygMDNCWASHT8ti96Pndhk31uSRL
+	UQiflHz4vp7HLNvUpJGdtYZ6WdieuXcSkVVTgMUkp8vqicbKrTrFjD5xsc2X38qwO8RMkGS+HV/
+	D8jhyDE0F5Xiv+MfFNzSo8DOhzUPwpJSO8q4gkXhOtEAgATujjypkMQAz6s0=
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6aaaecd6.4e05fbd6.392abc.0003.GAE@google.com>
+X-Received: by 2002:a05:6808:1692:b0:4c5:92fb:218d with SMTP id
+ 5614622812f47-4ca4be66e9dmr5399582b6e.22.1789633502228; Thu, 17 Sep 2026
+ 01:25:02 -0700 (PDT)
+Date: Thu, 17 Sep 2026 01:25:02 -0700
+In-Reply-To: <aqubuvR_2XCNav28@gremlin>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aaba3de.87c06881.1db2b3.0013.GAE@google.com>
+Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
+ context in kvm_mmu_notifier_invalidate_range_start
+From: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
+	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, 
+	liam@infradead.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, ljs@kernel.org, lkp@intel.com, 
+	llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, me@brighamcampbell.com, 
+	mhocko@suse.com, nogikh@google.com, oe-kbuild-all@lists.linux.dev, 
+	pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, seanjc@google.com, 
+	shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, skhan@linuxfoundation.org, 
+	surenb@google.com, syzkaller-bugs@googlegroups.com, vbabka@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 16, 2026 at 12:24:06PM -0700, syzbot wrote:
-> Hello,
->
-> syzbot tried to test the proposed patch but the build/boot failed:
->
-> failed to apply patch:
-> error: corrupt patch at line 7
+Hello,
 
-OK let's try again, aping
-https://lore.kernel.org/all/b434f7828a4d7b24de76aa5609dadda2871a932a.camel@infradead.org/
-as I see this branch is still there (David W - I hope this is OK! :)
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-#syz test git://git.infradead.org/users/dwmw2/linux.git seb-nonblock-rt-test
+Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+Tested-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
 
->
->
->
-> Tested on:
->
-> commit:         9b87fdc9 Merge tag 'sched_ext-for-7.3-rc3-fixes' of gi..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-> dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
-> compiler:
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=15a16bf9580000
->
+Tested on:
 
---
-Cheers, Lorenzo
+commit:         f902e69c sched: Allow sleeping spinlocks on PREEMPT_RT..
+git tree:       git://git.infradead.org/users/dwmw2/linux.git seb-nonblock-rt-test
+console output: https://syzkaller.appspot.com/x/log.txt?x=17d63bf9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8a263b38e64491d5
+dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+
+Note: no patches were applied.
+Note: testing is done by a robot and is best-effort only.
