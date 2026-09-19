@@ -1,347 +1,315 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9704551C325;
-	Fri, 18 Sep 2026 18:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789755314; cv=none; b=ULqiyKu69VtqE6YE9im9AfGZK+A0QZII/+GxKxqAj2BzP6IACgj6JDlpGWOkx3HFAmVk4ZcS2u2cSCpuUICvYzATA19BFERbIHlFc0D7qEZ7/c+tUhEiE7fvRKYONcoQYgKzKSl+6ltsYcWnwkLHZpcpzkdwqcNHnnKA6x5wGxo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789755314; c=relaxed/simple;
-	bh=KesATRdhFDzUzoGKlmNPfiHB+MI42bRZAdGLQVkZ+RA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UyFO+XiOBuWgblaSUlqj6M5sV23WzCxhx5ndvLPkTfo05Q2M1F61NyYgLTBd0gWp+HCXhcNRMGcMEl3tfpj1aaLwkYZITj7tGkP7PbuKeS3ZuwWIXxuFRex4qQ4lIS14OJ+8vL7C+z/jyzyar+yTHZwhKLmaLglcz5p5nvCuSCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktj/G0Wq; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EA5547043
+	for <linux-rt-devel@lists.linux.dev>; Sat, 19 Sep 2026 04:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.147.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789792919; cv=fail; b=GRzWpPZR7JeTqPpdJg+QWOHZT9YNopgypC1+gGQ8rQW8/+ziGQB1Ot9nEkzUqMIMZoL1pCWm6Dw893jb9Uggv7Z5WyAU9pRO8B33seJjkfFf+3BYY4VWJtI4NMWy8Hr4xRvOa4HkMUsCTdGTHHJ9bYWObfjm7BbnKA+7AJNoe44=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789792919; c=relaxed/simple;
+	bh=JmaHAeiaQYMDDEeqn6C+An8Mxk8gc7KnuOLRfF4ShYw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NUyAn8x/z/O6U3GiQk6C6iB4mkmmvJ6FidMHr2bbNS2KR70yLWbpQxONDFwQWjVd+DdH81Te3NkOQLAj2oFTu2IE8zUlygfHzzqYt9fiTk7Mi3j08gwyi4SyAWvjZzoDmYNuJbsnW40xhZx8+whvYoqT0oexDTKiU+Xcbh2kvd4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=m2O2cV2L; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=Rz3veKAm; arc=fail smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktj/G0Wq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C71E1F000FF;
-	Fri, 18 Sep 2026 18:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789755312;
-	bh=CbhXPRPJzPhnC7eGr+2poQlhUAHpaFK7HRpRDPeuPsU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ktj/G0Wqt43Q8JVUKtdjIxDlECxpTb81j7LuFwY4MTGxTsji3X8jAIGFdYMZzuvIj
-	 ztAD59fwFf5BXIdZ7RlnUUPYA/mcko7PcO280exjookUWqGxa6StWCAYvhUaAfURuB
-	 HwvD4heR9IXqrZVolpO7TgFiOPm5ZHN7iBUZ3QT3pQTpoNjR9sERxPWiEVf4yLK3gi
-	 vnmPh/URbMpnWMpHImcd9xjoL11mAFcErmviIk+2M+IKo4aAl4IBSfw3K/sibAa3sm
-	 mBKeQrVEoUvivqKAY32Gypywqsvj0PYafjlQZvdQZTVSoM/F1G1nOuk8Up55dgyGly
-	 4SModAFf5nk+A==
-Date: Fri, 18 Sep 2026 13:15:10 -0500
-From: Rob Herring <robh@kernel.org>
-To: Srinivas Neeli <srinivas.neeli@amd.com>
-Cc: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com,
-	git@amd.com
-Subject: Re: [PATCH net-next v2 1/8] dt-bindings: net: add Xilinx TSN
- Endpoint Ethernet MAC
-Message-ID: <20260918181510.GA1086854-robh@kernel.org>
-References: <20260909-patches_v2_external-v2-0-3a40babaff4c@amd.com>
- <20260909-patches_v2_external-v2-1-3a40babaff4c@amd.com>
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="m2O2cV2L";
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="Rz3veKAm"
+Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68J43x3Q2771432;
+	Sat, 19 Sep 2026 04:41:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=jnprhpepp0429; bh=ESI5RugOao+AnPUjhP
+	QdTlvat6VY8+VphsfZX0ieG6Y=; b=m2O2cV2LbGQP9FAY7nK96KfVvnukkytylY
+	WDaB5lZ6nGM3JVylEHLcdL7ooTjSAW931H+qxTVKFOvc2z5F/cEAwbi2ocV3wWYn
+	oF+Lp6cOwsMKha6U67n81OoLJbDPPFp6U5SKLuZFeumDu+vR2ilZ0ouCX5OQYqRg
+	SBzwxck3nFk1hONEZLNzZX1Of68EOXlGN5b4+mCQA7SSUeHnNDpaD3aueVdjex04
+	mNKmmZ6LSoTCUPI8rRFSxT23yJCxnabkvJDXfsg9dfELmif5J9/KaQk22021rSn3
+	HRn1it9YaUU6ZddDapofGJX2i1bPYuEfSclmJ4QVaZK6jb/vWSJQ==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010059.outbound.protection.outlook.com [52.101.85.59])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gsk1u87ej-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sat, 19 Sep 2026 04:41:37 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zVA6HWuEciGBoUkIa8Slu7m2ATWtyKq64c5poPfCil6t1uMTcW521mnuvBBt07xK3eGQX7a3jTIuzloihaCEH+EBRxzbxu7aM9IfyA+EUX1EFaH73Rii8DXFwZgg4pQV71Tk7K9vMJbDoxxTIidLKF1P3SbP9OokgEHUt/CVSl2CPitVeGo1SXSXeGmGhmwkl1nHLCWAGp9+IqxZHC7r8vYqUxvZoP29YvP+ZKwCSCbJIZ268W3LeRe56n4GLOyMDuNkr5lQWXMUuIWAbeV5sx1UDKNf0MpGWj8Y5vKD9CHQ567OVf/TdFw8VbyeqaRQdlwwals9nrpYKKlklAehtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=ESI5RugOao+AnPUjhPQdTlvat6VY8+VphsfZX0ieG6Y=;
+ b=IzQ6xrp9mtGXLrjwD8JeXj/1CrlzKXNUO4fcB6rKii0pWdsoA+yDwdYeRguV3Qrr39wpyl1tOqpjTDR+VMwLHHJn2OP3xZZUWhfAtlNd7YTT3k55QEotdvRRCvfqpd0C93ybrYUqW3loR2dv8ZC7cxUQH7a/nVWevxbPlAmJJtGyN+gklZ79hQKDmRfiVVBBq67sNqt2/ULzEtxtwaWrh9Fpu5/2FxJI/3r1bmwsWf1fTMZGIse4q90Aeu82w4QuXgRDUqFPerFIX3v9uYhnvBt5/uziWU6k6KNxa0TradzFEdPa/PeRFyTJeKB2njQNuGrLAHNm7+X4FzlzvzWD0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 66.129.239.19) smtp.rcpttodomain=goodmis.org
+ smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
+ pct=100) action=oreject header.from=juniper.net; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ESI5RugOao+AnPUjhPQdTlvat6VY8+VphsfZX0ieG6Y=;
+ b=Rz3veKAmHplQbTygtc5lQXUtLZcMZBzK6JF9do1iE8MydH55Ds/SPmDg8pc9J/Et01DgAGWFuikNF8gixTb2tsPlme1CX456X+PiYBJ3PxjHM2mihElO7/h1ABX+6pZroM25KiSFg8LXGCz7RIBw1UxHpuBbGuzP8xSKeFBZHBdAR1LammrWR3b1AvCylfiQjEvhvCQuE9t1jHNujHiJ3kUIWmj4d+GKX8LHSlBVJJCqbC1L0yv6PNiZtpbejLNEX4v0EduPRwPsUHgrzS0NwPLi0CkF8mvZg+lGOExeLDFXLiN3m0YPPRQ0S++0NCtfdHiKK1OaLD0+KK0DIr/jLg==
+Received: from SA9PR13CA0177.namprd13.prod.outlook.com (2603:10b6:806:28::32)
+ by SN7PR05MB7533.namprd05.prod.outlook.com (2603:10b6:806:102::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Sat, 19 Sep
+ 2026 04:41:33 +0000
+Received: from SN1PEPF00036F41.namprd05.prod.outlook.com
+ (2603:10b6:806:28:cafe::a8) by SA9PR13CA0177.outlook.office365.com
+ (2603:10b6:806:28::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.8 via Frontend Transport; Sat, 19
+ Sep 2026 04:41:33 +0000
+X-MS-Exchange-Authentication-Results: spf=none (sender IP is 66.129.239.19)
+ smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=juniper.net;
+Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
+ designate permitted sender hosts)
+Received: from juniper.net (66.129.239.19) by
+ SN1PEPF00036F41.mail.protection.outlook.com (10.167.248.25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Sat, 19 Sep 2026 04:41:32 +0000
+Received: from p-exchfe-eqx-03.jnpr.net (10.104.9.50) by
+ p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 18 Sep 2026 21:41:32 -0700
+Received: from p-exchbe-eqx-03.jnpr.net (10.104.9.86) by
+ p-exchfe-eqx-03.jnpr.net (10.104.9.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 18 Sep 2026 21:41:32 -0700
+Received: from ebf951f79306.juniper.net (10.104.20.6) by
+ p-exchbe-eqx-03.jnpr.net (10.104.9.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 18 Sep 2026 21:41:32 -0700
+Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
+	id D10031111BBA; Fri, 18 Sep 2026 21:41:31 -0700 (PDT)
+From: Prashant Singh <singhpra@juniper.net>
+To: Ard Biesheuvel <ardb@kernel.org>, Jeremy Kerr <jk@ozlabs.org>
+CC: <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        "Sebastian Andrzej
+ Siewior" <bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>, <linux-rt-devel@lists.linux.dev>,
+        Prashant Singh <singhpra@juniper.net>
+Subject: [PATCH v2] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Date: Fri, 18 Sep 2026 21:41:24 -0700
+Message-ID: <20260919044124.8268-1-singhpra@juniper.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909-patches_v2_external-v2-1-3a40babaff4c@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F41:EE_|SN7PR05MB7533:EE_
+X-MS-Office365-Filtering-Correlation-Id: df1c40ca-96c3-427a-8d7b-08df160847c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|35950700016|1800799024|7416014|376014|13003099007|11063799006|10067099003|56012099006|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	KfYEx9oHVvVWB14+B4gkeDwJTZn3orOTILeHccu6zZQvJ57TCX18A30In2MSuyhbdIMSboH0m5LoDzjciL3xN2igZaWApeSCPgXg7fiLyjdwKQKcynDCASo4Mo3zdv+GwZE1tL1bBlu6ST/dikL2CN47N+ZOWI7L4e5eP8LiEkItIzHhJxy+vbLxR02inu0W6vKqQdU41arMZ8/YHpc/Yv/tdYwz7bIydZX8Lkh1933NAYo+rLc28kqRxTYHnUC/JloVSERFM6dRRWu7DVuiWyei6xon6DnzfsOQgVhHcWyYPWzJWu8DZirCpFyBeqv8axRuIvhbXXTbv0zj/6i9j1qjNtf/DA7B2CWMAnhaMY8VWfkBcI9eOtpJGT6z3CTxU1KmGyYkyZTSH4LNQiX4xZ4rITMjP3MKCbCTVCcrAaHKk5cyTtuL70AAvoNYPfAF7itg3qridH7/xcMQFzzKo7FkEqZACj/i+Paqlw+Skifna73J8Zn8c/bw19vJc/mVNRMlEkf18sS9quHZ+8YKxPMHhh/bEIod18k2CuA4oWK8jTtCba6FgDmRFEyyYr2rRg5YRDRK3XsXxdcEaj+goUDh0L5Ca1/mRuSiy06iDO4LTxULqoofYBfmzfxKI/RwwwavC/CFTaA0LDcauDneOBBzU9VHSoE4hxIzbc/HYmmj+U/wcR4I3Y1BAkMuhXK4+zmh34ltHwyVXP23xF4/fQ==
+X-Forefront-Antispam-Report:
+	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35950700016)(1800799024)(7416014)(376014)(13003099007)(11063799006)(10067099003)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Z0O893yfIIXdohqJgyEWU3nKnrvTX38MuTUlPkryx7fgwD9EJ9cDAKUybmeZDu4UBUD+SU+O+rGMfZCSCsNmEpJ5uy1K0huzc8Wi60j/CmTsR0PVruJYOtU2uqAj9stFUa3HPieYJf/asLMPqoXCCrKQDoRDVhA6zB1WzQeEJg8KoRQn2rgM7/TUTrWm6R8QGGcPxAMzc+hbsp9yVl9vzTkIYmYbwY40MrxogEWnbb1CT4qt/RJVp50Bc3+sVYBoHdA1n8W7M0kY/quWYi0sbcLtqddyc8/9W2leGUKCDXLE9NS0B83zEhGwf8oEJ2MFqXJLGq+1Zpx6bFGpx6xgmSc7zTrDCNvGeGx7GrpeSC/GhvtIRfe8ro+Te0XlJB8BV5Nd7q6NMV/f4z710k3B9/2+g5GrYNSdb5AFF/o2RWu0cFyqh2RkHj1hj49VvlY3
+X-Exchange-RoutingPolicyChecked:
+	WHDVbimauLjBL8TIZFeE57ZZExQqhChLe40iSu8Gd+yINypmukbE/v9NjheEpC/MKwfhnaG+5DmNLsrPdBx7TDOGIZRIxSx5XYJASAV0LqN3HEzGqzWm5JO5CSJw/VLPLnjfgjtKaEabEsm3qa2GkGqxEIdtL9XfNi8ERKbOkPSPcrn8KnSSQQ5xpiVN0rRkwc1oC+rMAf41EWlvTdZvi/1De8oqbuTpU/rd8S44OBiMIhQuvOdBjixW5iPIfbKCZdDEh3hl2+cAQsBotnJUaZ6ZEggrBNrv0A0GbeVAGtvNVcDf/0FtFNmqKpyhE4meAWDVkMtlDmkA4Q3iCSkgCw==
+X-OriginatorOrg: juniper.net
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2026 04:41:32.9001
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: df1c40ca-96c3-427a-8d7b-08df160847c8
+X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF00036F41.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR05MB7533
+X-Proofpoint-ORIG-GUID: rKS8whXSH4RWQnKuXJa0GAsVayNPAlDd
+X-Authority-Analysis: v=2.4 cv=cpIOAF4i c=1 sm=1 tr=0 ts=6aae1281 cx=c_pps
+ a=333l4QiDdYhx7c8CB7C9lg==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10
+ a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=J0OTuHAx6l5K1fCpvPfz:22 a=VwQbUJbxAAAA:8
+ a=OUXY8nFuAAAA:8 a=EvKlYhCeC0pf8kTkCpQA:9 a=cAcMbU7R10T-QSRYIcO_:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE5MDA2MyBTYWx0ZWRfXyc0/lwVPZ+dc
+ HJiEPNRTdEfabjyRERtxjEfSYZn8lZIcLzzM0DBCBAK36LBCV/QA5Kv6bbASw3X5sCLGTNlZ7Hp
+ hIye7bkEYuFhzdELl27aLDB5ZCPl+Gc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE5MDA2MyBTYWx0ZWRfX2JbjNeU7Fkux
+ p9xhiV+D2lNDQkL8YWYcUj2dp1dRSyexQrcw5YQjaRWqQbKubDHyABSKFJbW9BQlLr9zjJEFE6G
+ 0TlWO1oQBxeDesFzu94yxdsIUjiNNa/QL2/Kvpd9w60EzsLbqHeyMcev7OtACNXC0SeWLmjbHcP
+ c+in6VXIF2ZqkmmstSMnDR4U7Ugwgc2VR/wAbJg1mnCq5g4agTQtHoL4MWmTDux83wVhfEhiuZh
+ 2dcqZto6KKWG6x5vcXE1lZuZtT8ORNE03SY4z2ZoCXMp23VFH8Ir1J2p5IAJorE30+t01tOcjFq
+ JpSliVtOUTKXUMMqVsLETCQFCJxGCT2V2jbsTuIVnfsyRsSzepj5mfxRY5l35algfjW1/JoW+4D
+ KMedFK1Is0jixVwGgJZdUePniXUrbdCqFWdG6ztSqnqXJxE7ZBmEKafo/1MrJP9ye9nnyZLu/pd
+ av3t8kO2UAYxYgCUFRA==
+X-Proofpoint-GUID: rKS8whXSH4RWQnKuXJa0GAsVayNPAlDd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-19_01,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
+ impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ spamscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=orgsafe scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609190063
 
-On Wed, Sep 09, 2026 at 12:49:49AM +0530, Srinivas Neeli wrote:
-> Add a binding for the Xilinx TSN Endpoint Ethernet MAC IP. The
-> top-level node describes the IP wrapper, which owns the six shared
-> IP clocks and the xlnx,num-priorities parameter, and has two
-> children:
-> 
->   - xlnx,tsn-ep-mac: the endpoint MAC, owning the host-side DMA
->     channels (dmas / dma-names / tx-queues-config).
-> 
->   - xlnx,tsn-switch: the three-port Ethernet switch covering the
->     switch fabric and the two per-MAC register windows. The MDIO
->     controllers and PTP register blocks sit at fixed offsets inside
->     the per-MAC windows, accessed through the mdio-1 / mdio-2
->     children and per-MAC interrupt-names entries. Each external
->     port@N references its PHY through a phy-handle in the matching
->     mdio-<N> child.
-> 
-> Co-developed-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
-> Signed-off-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
-> Signed-off-by: Srinivas Neeli <srinivas.neeli@amd.com>
-> 
-> ---
-> Changes in v2:
-> - Describe only the Bridged Endpoint configuration. The IP has so far been
->   simulated only as a bridged endpoint, so the binding and driver describe
->   that configuration alone. Support for an Endpoint-only design will be added
->   once that IP variant is simulated.
-> - Rename ep-mac@ to ethernet@ and mdio-mac1/mdio-mac2 to mdio-1/mdio-2, and
->   anchor the node names (^ethernet@[0-9a-f]+$, ^switch@[0-9a-f]+$), per
->   ethernet-controller.yaml and mdio.yaml.
-> - Cap TX at 8 and RX at 8 channels. The IP exposes 8 priorities, so it
->   drives at most 8 TX and 8 RX MCDMA channels. dma-names lists both
->   directions, so its combined maxItems is 16 (8 TX + 8 RX). V1 allowed up
->   to 16 per direction, which the hardware cannot use.
-> - Set additionalProperties: false on tx-queues-config and its queue nodes.
-> - Drop reg from the wrapper node. It has no registers of its own, ranges
->   already describes the child windows.
-> - Add minItems: 7 to the switch interrupts to match interrupt-names.
-> - Use a ^(ethernet-)?ports$ container with additionalProperties: false and its
->   own #address-cells/#size-cells, and require either ports or ethernet-ports.
-> - Require ethernet on the CPU port@0.
-> - Add reg (enum [1, 2]) on the external port@[1-2] ports and require reg,
->   phy-mode and phy-handle. MAC1 and MAC2 use gmii/rgmii/rgmii-id.
-> - Require port@0, port@1 and port@2. The IP is a fixed three-port bridged
->   design (port@0 CPU, port@1 MAC1, port@2 MAC2), so a device tree missing
->   any of them cannot describe working hardware.
-> - Add #address-cells and #size-cells (both const 1) on the wrapper node,
->   which the child ethernet@/switch@ windows need now that reg is dropped,
->   and set unevaluatedProperties: false on the endpoint node.
-> ---
->  .../net/xlnx,tsn-endpoint-ethernet-mac.yaml        | 364 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 371 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml b/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
-> new file mode 100644
-> index 000000000000..4e65d1710da7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
-> @@ -0,0 +1,364 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/xlnx,tsn-endpoint-ethernet-mac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xilinx TSN Endpoint Ethernet MAC
-> +
-> +description:
-> +  TSN Endpoint Ethernet MAC IP implements IEEE 802.1 Time-Sensitive
-> +  Networking (TSN) standards and provides low-latency network connectivity
-> +  in the Bridged Endpoint configuration. The IP integrates a three-port
-> +  switch, with two ports connected to the external network and one port
-> +  connected to an internal endpoint. It also supports GMII/RGMII interfaces
-> +  for connection to an external PHY, enabling full-duplex operation at
-> +  100 Mb/s and 1 Gb/s speeds.
-> +
-> +maintainers:
-> +  - Srinivas Neeli <srinivas.neeli@amd.com>
-> +  - Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: xlnx,tsn-endpoint-ethernet-mac-3.0
-> +
-> +  clocks:
-> +    items:
-> +      - description: GTX clock for transmitter logic and RTC
-> +      - description: GTX 90-degree phase shifted clock for RGMII
-> +      - description: Host RX FIFO clock
-> +      - description: Host TX FIFO clock
-> +      - description: Reference clock for IDELAY control
-> +      - description: AXI-Lite register interface clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: gtx
-> +      - const: gtx90
-> +      - const: host_rxfifo
-> +      - const: host_txfifo
-> +      - const: ref
-> +      - const: s_axi
-> +
-> +  ranges: true
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 1
-> +
-> +  xlnx,num-priorities:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 2
-> +    maximum: 8
-> +    description:
-> +      Number of traffic classes (priorities) configured in the IP.
-> +      This is an IP configuration parameter that determines the number of
-> +      priority queues available for QoS scheduling. Traffic classes map to
-> +      IEEE 802.1Q priority levels (0-7).
-> +
-> +patternProperties:
-> +  "^ethernet@[0-9a-f]+$":
-> +    type: object
-> +    $ref: /schemas/net/ethernet-controller.yaml#
-> +    unevaluatedProperties: false
-> +    description:
-> +      Endpoint MAC sub-node. Provides the host-side data path through the
-> +      DMA channels described by its dmas / dma-names.
-> +    properties:
-> +      compatible:
-> +        const: xlnx,tsn-ep-mac
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      dmas:
-> +        minItems: 2
-> +        maxItems: 16
-> +
-> +      dma-names:
-> +        minItems: 2
-> +        maxItems: 16
-> +        items:
-> +          pattern: "^(tx|rx)_chan[0-7]$"
-> +        description: |
-> +          Names matching the entries in 'dmas', one per DMA channel and in
-> +          the same order. TX channel names use "tx_chan<N>" and RX channel
-> +          names use "rx_chan<N>", where N is 0..7. Example: "tx_chan0",
-> +          "tx_chan1", ..., "rx_chan0", "rx_chan1", ....
-> +
-> +      tx-queues-config:
-> +        type: object
-> +        additionalProperties: false
-> +        description:
-> +          TX queue configuration node that maps IP priority queues to
-> +          DMA TX channels. The TSN IP supports multiple priority queues for
-> +          QoS scheduling, and each queue can be connected to a specific DMA
-> +          channel. This mapping defines which DMA TX channel is used to
-> +          transmit packets for each priority queue. For example, queue0
-> +          with xlnx,dma-channel-num set to 5 means priority queue 0 uses
-> +          tx_chan5 for data transfer.
-> +
-> +        patternProperties:
-> +          "^queue[0-7]$":
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            description:
-> +              Each subnode represents a priority queue. The
-> +              xlnx,dma-channel-num property specifies which DMA TX channel
-> +              (tx_chan0 to tx_chan7) is connected to this queue for
-> +              transmitting packets.
-> +            properties:
-> +              xlnx,dma-channel-num:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                description:
-> +                  DMA channel that transmits this priority queue, given as
-> +                  the N of the tx_chanN entry in dma-names.
-> +                minimum: 0
-> +                maximum: 7
-> +
-> +            required:
-> +              - xlnx,dma-channel-num
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - dmas
-> +      - dma-names
-> +      - tx-queues-config
-> +
-> +  "^switch@[0-9a-f]+$":
-> +    type: object
-> +    $ref: /schemas/net/dsa/dsa.yaml#/$defs/ethernet-ports
-> +    description:
-> +      Three-port Ethernet switch sub-node. Contains the switch fabric
-> +      register window and the two per-MAC register windows. Each per-MAC
-> +      window houses an MDIO controller and a PTP register block at fixed
-> +      offsets. The IP's per-MAC and PTP-timer interrupts are exposed here.
-> +
-> +    properties:
-> +      compatible:
-> +        const: xlnx,tsn-switch
-> +
-> +      reg:
-> +        items:
-> +          - description: Switch fabric register window
-> +          - description: MAC1 register window (includes MDIO and PTP)
-> +          - description: MAC2 register window (includes MDIO and PTP)
-> +
-> +      reg-names:
-> +        items:
-> +          - const: switch
-> +          - const: mac1
-> +          - const: mac2
-> +
-> +      interrupts:
-> +        minItems: 7
-> +        maxItems: 7
-> +
-> +      interrupt-names:
-> +        items:
-> +          - const: ptp_rx_mac1
-> +          - const: ptp_tx_mac1
-> +          - const: mac_irq_mac1
-> +          - const: ptp_timer
-> +          - const: ptp_rx_mac2
-> +          - const: ptp_tx_mac2
-> +          - const: mac_irq_mac2
-> +
-> +      mdio-1:
-> +        $ref: /schemas/net/mdio.yaml#
-> +        description:
-> +          MDIO bus controller for MAC1. Registers reside inside the mac1
-> +          reg-names window.
-> +        unevaluatedProperties: false
-> +
-> +      mdio-2:
-> +        $ref: /schemas/net/mdio.yaml#
-> +        description:
-> +          MDIO bus controller for MAC2. Registers reside inside the mac2
-> +          reg-names window.
-> +        unevaluatedProperties: false
-> +
-> +    patternProperties:
-> +      "^(ethernet-)?ports$":
+QueryVariableInfo() is an EFI runtime service that, on some firmware,
+takes tens of milliseconds and runs with preemption disabled, stalling
+the CPU that services it. efivarfs_statfs() calls it (rate-limited since
+commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
+the variable-store used/available capacity, so any statfs(2) -- e.g.
+every "df" -- can inject that stall into unrelated latency-sensitive
+workloads on the same CPU.
 
-'ethernet-' doesn't need to be optional for new bindings.
+Add a "nostatfs" mount option: when set, statfs(2) skips
+QueryVariableInfo() entirely and reports zero used/available. It is set
+by default on CONFIG_PREEMPT_RT so real-time kernels do not take the
+stall out of the box.
 
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +          port@0:
+Tested on an Intel Xeon E5-2628L v4, 6.12 kernel with CONFIG_PREEMPT_RT
+not set (so reporting defaults to enabled and nostatfs must be passed
+explicitly), via "strace -T -e trace=statfs df" on the efivarfs mount.
 
-ethernet-port@0
+Default mount: statfs() calls QueryVariableInfo() and returns the real
+store capacity, ~66-129 ms per call:
 
-> +            type: object
-> +            unevaluatedProperties: true
-> +            description:
-> +              CPU port. Wired internally to the endpoint MAC sibling.
-> +
-> +            properties:
-> +              reg:
-> +                const: 0
-> +
-> +              phy-mode:
-> +                const: internal
-> +
-> +            required:
-> +              - ethernet
-> +
-> +        patternProperties:
-> +          "^port@[1-2]$":
+  statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+      f_bsize=1, f_blocks=90024, f_bfree=33387, f_bavail=28267, ...})
+      = 0 <0.129124>
 
-ethernet-port
+With -o nostatfs: no firmware call, capacity reported as zero, ~11 us per
+call:
 
-Rob
+  statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+      f_bsize=1, f_blocks=0, f_bfree=0, f_bavail=0, ...}) = 0 <0.000011>
+
+Signed-off-by: Prashant Singh <singhpra@juniper.net>
+---
+Changes since v1:
+  - Per review, dropped the fs.efivarfs sysctl / cached-capacity approach
+    entirely; instead add a simple "nostatfs" mount option that skips
+    QueryVariableInfo() in statfs() and reports zero, set by default on
+    CONFIG_PREEMPT_RT.
+
+v1: https://lore.kernel.org/all/20260917071600.5587-1-singhpra@juniper.net/
+
+ Documentation/filesystems/efivarfs.rst | 10 ++++++++++
+ fs/efivarfs/internal.h                 |  1 +
+ fs/efivarfs/super.c                    | 20 +++++++++++++++++---
+ 3 files changed, 28 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/filesystems/efivarfs.rst b/Documentation/filesystems/efivarfs.rst
+index f646c3f0980f..3ead638c796a 100644
+--- a/Documentation/filesystems/efivarfs.rst
++++ b/Documentation/filesystems/efivarfs.rst
+@@ -37,6 +37,16 @@ accidentally.
+           |4_bytes_of_attributes + efivar_data|
+           +-----------------------------------+
+ 
++Mount options
++=============
++
++nostatfs
++      Do not report the variable-store used/available capacity in
++      ``statfs(2)``; report zero instead. Obtaining the capacity requires the
++      ``QueryVariableInfo()`` EFI runtime service, which on some firmware takes
++      tens of milliseconds and runs with preemption disabled, stalling the
++      calling CPU. This option is set by default on ``CONFIG_PREEMPT_RT``.
++
+ *See also:*
+ 
+ - Documentation/admin-guide/acpi/ssdt-overlays.rst
+diff --git a/fs/efivarfs/internal.h b/fs/efivarfs/internal.h
+index f913b6824289..0cb053884b4b 100644
+--- a/fs/efivarfs/internal.h
++++ b/fs/efivarfs/internal.h
+@@ -11,6 +11,7 @@
+ struct efivarfs_mount_opts {
+ 	kuid_t uid;
+ 	kgid_t gid;
++	bool nostatfs;		/* skip QueryVariableInfo() in statfs() */
+ };
+ 
+ struct efivarfs_fs_info {
+diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
+index 8d33f11db2a1..fbdaa4915d30 100644
+--- a/fs/efivarfs/super.c
++++ b/fs/efivarfs/super.c
+@@ -74,6 +74,8 @@ static int efivarfs_show_options(struct seq_file *m, struct dentry *root)
+ 	if (!gid_eq(opts->gid, GLOBAL_ROOT_GID))
+ 		seq_printf(m, ",gid=%u",
+ 				from_kgid_munged(&init_user_ns, opts->gid));
++	if (opts->nostatfs)
++		seq_puts(m, ",nostatfs");
+ 	return 0;
+ }
+ 
+@@ -82,13 +84,19 @@ static int efivarfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 	const u32 attr = EFI_VARIABLE_NON_VOLATILE |
+ 			 EFI_VARIABLE_BOOTSERVICE_ACCESS |
+ 			 EFI_VARIABLE_RUNTIME_ACCESS;
++	struct efivarfs_fs_info *sfi = dentry->d_sb->s_fs_info;
+ 	u64 storage_space, remaining_space, max_variable_size;
+ 	u64 id = huge_encode_dev(dentry->d_sb->s_dev);
+ 	efi_status_t status;
+ 
+-	/* Some UEFI firmware does not implement QueryVariableInfo() */
++	/*
++	 * Some UEFI firmware does not implement QueryVariableInfo(); the
++	 * nostatfs mount option also disables this (preempt-disabled,
++	 * potentially slow) call entirely, reporting zero used/available.
++	 */
+ 	storage_space = remaining_space = 0;
+-	if (efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
++	if (!sfi->mount_opts.nostatfs &&
++	    efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
+ 		static DEFINE_RATELIMIT_STATE(_rs, 2 * HZ, 5);
+ 		static u64 storage, remaining;
+ 		static DEFINE_SPINLOCK(lock);
+@@ -323,12 +331,13 @@ static int efivarfs_callback(efi_char16_t *name16, efi_guid_t vendor,
+ }
+ 
+ enum {
+-	Opt_uid, Opt_gid,
++	Opt_uid, Opt_gid, Opt_nostatfs,
+ };
+ 
+ static const struct fs_parameter_spec efivarfs_parameters[] = {
+ 	fsparam_uid("uid", Opt_uid),
+ 	fsparam_gid("gid", Opt_gid),
++	fsparam_flag("nostatfs", Opt_nostatfs),
+ 	{},
+ };
+ 
+@@ -350,6 +359,9 @@ static int efivarfs_parse_param(struct fs_context *fc, struct fs_parameter *para
+ 	case Opt_gid:
+ 		opts->gid = result.gid;
+ 		break;
++	case Opt_nostatfs:
++		opts->nostatfs = true;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -526,6 +538,8 @@ static int efivarfs_init_fs_context(struct fs_context *fc)
+ 
+ 	sfi->mount_opts.uid = GLOBAL_ROOT_UID;
+ 	sfi->mount_opts.gid = GLOBAL_ROOT_GID;
++	/* QueryVariableInfo() stalls the CPU; default nostatfs on PREEMPT_RT. */
++	sfi->mount_opts.nostatfs = IS_ENABLED(CONFIG_PREEMPT_RT);
+ 
+ 	fc->s_fs_info = sfi;
+ 	fc->ops = &efivarfs_context_ops;
+
+base-commit: 9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
+-- 
+2.34.1
+
