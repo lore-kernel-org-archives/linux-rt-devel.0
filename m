@@ -1,67 +1,67 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1EF364059
-	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 06:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E7C343883
+	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 06:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789970428; cv=none; b=G/8XLP4P0xn05ArfoFZ9VDA8VIQxLWN3VxLomPa4n4IeZLwGhSrbuaeRUCK9E3ScYodOGzxpbYeHVGNlc4ZTwxuCJs0hEuiwsGCgMEc6Bh+a4BWOy7Tf4hLYHjhZLuKz5b+SpDgk0HT2RGGvedqpVWLJEAD5DSzRb5tuzG10/nE=
+	t=1789970429; cv=none; b=fqqs+v6hW7EqYytRnFsWLORRXEmGr4Wetc2dJch0/WDUJgZphs0BGegEd8tOoxIdBfyGDaxXSRwIto0bSjE8H2DCY88jJVubKNT8HxzmoNony75/rIJRUtbi3FEw3N9Eh9AxrSx4mibyg6QtfWAs+xs8LP5RinC5R9Yui2ao/uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789970428; c=relaxed/simple;
-	bh=r4IZ5+oRt2NTHUYf5LXmNkSjOac+QeyqRjRNuHQhAo0=;
+	s=arc-20240116; t=1789970429; c=relaxed/simple;
+	bh=02+JiU6Y5fZuqUtj+5rjMFYK+DHyYaQSZA1fayM6koA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EvbIDvz82kHz187W6EEUFlXL80YnP3XnMnaGmOUeSwLsFKlhL45apxuzUz2gQ1EWx6ppMxt+WjTg3X+Qba06spY7Dl7ZIdzFBXtV9PhzydaUtJ4UdQ4avmWoAyor2nnM/l6KDIL4fIfr8eoJ3FORtfSCW2939tUarILvY9rcaIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PLaMkjah; arc=none smtp.client-ip=74.125.225.140
+	 Content-Type:MIME-Version; b=GiD+kg0vIrcpzno+onau46b9x3UNkgj5Etj6vP192bE254BwRM2o4HdKsdin7SFmev+KKODR/75GgN13TJpyCr3nKRuzh+NERhCugpdrGJ9V+Ur0SAfV6sMKNIgVfrHJ2SsY/PFTmcOJYHt8ikYgyJ8/GPQnPUTsLcSouehFD+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RiuoWgoa; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PLaMkjah"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e2406so12578895e9.1
-        for <linux-rt-devel@lists.linux.dev>; Sun, 20 Sep 2026 23:00:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RiuoWgoa"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so12530055e9.1
+        for <linux-rt-devel@lists.linux.dev>; Sun, 20 Sep 2026 23:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789970424; x=1790575224; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789970425; x=1790575225; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Zqp0mXAPPlkB9y/VY2ECjAIS1J7bwOQJ/4A4XQOWjYI=;
-        b=PLaMkjahe/TekP/q6qe3PEQcyGrfVBQKzEiJvofFuje5dua/pv7c89fVtVPKvPw9Gx
-         WXgZ/XE+Ia+mPdtfn8Kr9gygve/lzF0OJZ1vg9+EmV1C9j0A1+kk29Z8WNuZ4reFU/Jp
-         ucIB32RYAVVlLdcFrbFsk+8pbXR4CIddlkSh80o3yuRZNvgYTyAgMm2GGrhrDSZMC4Oj
-         xGnt4EcBy26IGlsE7EfGvNbxmMqdh4LMmMNCSIhihqKfruSv/2wZfj3Ldljiyq4XfVL5
-         /V2E/2qlE0l+P8AAQLB87yq8ZRA6f31JC9c2aaXqr2ocBQWBKJ621v26MAco7zM6BC3N
-         exFA==
+        bh=JbepAso+XoZVkbrUUQwUCzv4bigxo9mSvnxXnLcpRMk=;
+        b=RiuoWgoagRjWnGB7yQ9OVkx4ZDuleY/qVqnQlfySgEk98tC9GLibzSjXH+t4hX8Vup
+         FNe4Y8wcMIWmPUi2HF9QyRe7wPiqJQOIfLiwNWtS9tnDCpBG+VXDAlhpzcDRKjF0Nh2x
+         MjQRLn/ejYzc35CclxywE1MzV3rNrfeoffx3WYbdcFdqw/Ud7mf/KZfCHOL0czItCRHM
+         3Vp8WDFOuEF/xqqwh/l7xssV8vgE38MlOJu8GL9LgRxFUcAytE9lriJJFq7BV1nayc2Q
+         EmLjZXgEShEDEDtgpQG8lnAzWZxfrdl3tm0H9wLerBnzYI6+CgW8K3jfSN0XNG+vo5T9
+         UIpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789970424; x=1790575224;
+        d=1e100.net; s=20260707; t=1789970425; x=1790575225;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Zqp0mXAPPlkB9y/VY2ECjAIS1J7bwOQJ/4A4XQOWjYI=;
-        b=ILazGoBaMVz/ijKjCwPqz1BRKJjU4LrNT9QYOZCg5bC/vzyV5xIlylRyJKuP81tA7R
-         V0cJUDdBfxcqAwqNmIKMOGrs+btcVV9PwXTYnr5D+UrKHx2S218HInuUdjNIWfkQunmb
-         RCh6rVtW7E/IMO7BZmzkUtFGYffs4+IZmVK76wROmfOuWdZWgvZ7hWvHGpvCFYeomATZ
-         V32kgj/9hxu0INkTsyaWtOfxK64qUDJ49tcL3SX7vKyiDFQw3+mrGyR7sztcLr++jabT
-         MtUAcVuOXymL8ZJJnTf62Fxm76/ypbLs3x3NsVJlAgZywUTZqg4g+oyIQWhnUHJU9AdK
-         4gFg==
-X-Forwarded-Encrypted: i=1; AKwUvBy1cylR8aaHT+xV3iXJQfZ9g+RYnNld/hAZrtzdk92lcMlO/9uDZ3LYei4mg2U9Xm4N3jGWLUoQ4AQPuffFjA==@lists.linux.dev
-X-Gm-Message-State: AFuF++mTXrKkh1gbcekQO/eV7yyd0Hfq1vblwnNrgr4d5XavNRpYOIBx
-	Jdr3l/XYKyXlW229wtaWCEgor7sPe0QNJagJeQftSZ9f5+iELyeQ9tRU
-X-Gm-Gg: AYBFou2UAm0AWjVdMstNkgXLBpcz1/7k7wxKU5ChiEhTGKVUPuwzCK58onfhBcpN6Sh
-	ie+oCRn7Jb2+UlQr1Sg/eeiXJe/YckcV1NnS4zro4Yr245SHDjwx5vsfgasXZq15YO25hEgjALQ
-	2gvjhI7TyNuo/ncHhIHCD78Vddkk3hReVTBj1nHO1eAKOMOQsnqItRCJRBsco36N7emXCpTPVOT
-	wk37NM4vhbQw/P/JUc9+n95DA0eoUXLvkyTJKJW5kI8i5YSqpt31kDdhD7mpLxoOCWBzx5KBbwk
-	Jq+JHTVDotfOXBl7ZIMubEQ3unqxPPVwOgBLOUIkIJakyp5vtV2oFcb2jX2+yAm9FTXRPguZFOi
-	oJPDP0y1BAKveZHzMtP+/rN8xG0U9ZLcWP6vZiGsSueckdELBKdWyT2FP5WoMW4JeNYdEgkWoMt
-	vgh7bw8fOvGAYeWeuBED3St+8z6danfmDusEusRZ6VBcqTOgkDkiqS1WaJRCUkQYjp9eveD92md
-	OXxmL6XQqkHG/yBS03WTUDf3UHR3ouStTICRIykVgN2EaqHZNWBDG+LfHTJIkP8xeZuPV2B34J6
-	YGPQrDBXF4mcee0c26lp3MkqQEbPppv0+W07nu65um/G71AHrmRylUCPlcs+g0iSOPe658hkRA=
+        bh=JbepAso+XoZVkbrUUQwUCzv4bigxo9mSvnxXnLcpRMk=;
+        b=Cq6ZQtUPTXOBxsZ7nO+TQxlDQETRL4NRkQIJMwajj1E9ENdZ7XfXmUS5kiydfBmE9Y
+         /bFi6AIRmnlFZGtValNocCvrFbMCk+ng99HlA+FlT6l0EzYeJ9gDLbFEguSwTv9/SFvx
+         uaPaK6fpvHAnBagPM+iUcyg7Y5rjp0yb1Li9twVvhD+rjqlS1U6P2ACmPALlWVkREFgk
+         H51KCSHiE6990c1OTjBeRw61fnYwt/d1qDEhjqpi9QjYnxgn53gYn5RhPGNaWGbo4kHP
+         cbJOCeEZi6ElKoy6KNMUAJKSwo4eGTMyTZ7gqUERTpZ0McGTScSJPip4WFagljllsRkJ
+         SlnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwp9F/tfyPb9ichifQyXfX0p+5ny4plQcg9KLl1Ker6q9nM/Bo2Mgpe2b8vIQVyQ2ljNw7TXq8ScTJuqtlPyQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++k4IpmzjyuRl7znFTkDdWneC7mvZfmT4QO6chENrqjFF6uHeKXJ
+	og4uoRx3rvOcEY3mVmkqiI3iUtdszxqMgamtX/Bt+f7sgjmYvtMd/oGi
+X-Gm-Gg: AYBFou3CsIb9s/ridnhtHdpLszF/V+mlfWlf1gBGeH964TM8SwJ1JyTUijn/2bh5J5O
+	QMXFpFxBEjPmXXj4m2VM2Oavt1+sqgHHOoqT5fB01RoDhu3NXLbF0G1mjwqKcHJb+5yuQ2/Zuum
+	4ReiRh9SRb41Po3OuoN5w7+4g/BzCtSLAkmW7ivQTsPdAt5HVorCif66Z6NR36HwoAP4lyDkrum
+	P7X1Brk7Uqd+2TI5G+Xqs90d9Y/E7DcTix6AJnrjtIQSmOEXc+bJZJtH/MVSvWFdhaBfe1ef0zl
+	eSVCOvXV/CGM0i/7HdQfh0jZ+T1eW+ZzrDgMm9YefSIYVTfJxO0AdFlZt0/AGzicVxEl6IULbPb
+	cbpve3LDyeH6GAZIRXnx8Q5vGkuxj3blfeMNiflcIrR4F4ptEXz3oFPm1R8Di7602uaccgE5rk3
+	xN+nLTbuzp5ebesPe/1ueAxlP/4SJBdng2ejsH6fx3bf80PQ/2uTcTpzFqMMxtjn+6aZjgCaXrn
+	bv6A04DrI+7JctBPkthhtM8Ix1R58EbzJjZGSXFY0ugxtF5YdRIh5lBH4nRgbmjssqB+fSygmn7
+	EiwAAQ4MhpgAWbAOyeVIM2BOC3gTkV1cZ7A88Y4Fwxp2bTZShdYG0nQ2XE+Vloe8kRwoAcPWog=
 	=
-X-Received: by 2002:a05:600c:468a:b0:49e:7c8c:bc77 with SMTP id 5b1f17b1804b1-49fc4fae7acmr152289065e9.7.1789970423297;
-        Sun, 20 Sep 2026 23:00:23 -0700 (PDT)
+X-Received: by 2002:a05:600c:1382:b0:49d:174e:2a1e with SMTP id 5b1f17b1804b1-49fc574f42bmr125925475e9.19.1789970424498;
+        Sun, 20 Sep 2026 23:00:24 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a8e9-c501-f941-243b-87f6-e5a2.310.pool.telefonica.de. [2a02:3100:a8e9:c501:f941:243b:87f6:e5a2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd1149e0sm198706585e9.13.2026.09.20.23.00.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd1149e0sm198706585e9.13.2026.09.20.23.00.23
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 20 Sep 2026 23:00:22 -0700 (PDT)
+        Sun, 20 Sep 2026 23:00:24 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Russell King <linux@armlinux.org.uk>,
 	Dmitry Baryshkov <lumag@kernel.org>,
@@ -77,12 +77,12 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-rt-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH v2 0/4] ARM: allocate the cacheinfo early to fix the PREEMPT_RT boot warning
-Date: Mon, 21 Sep 2026 08:00:09 +0200
-Message-Id: <20260921-arm-cacheinfo-v2-5892c4531ad9-0@gmail.com>
+Subject: [PATCH v2 1/4] ARM: cacheinfo: avoid out-of-bounds write in populate_cache_leaves()
+Date: Mon, 21 Sep 2026 08:00:10 +0200
+Message-Id: <20260921-arm-cacheinfo-v2-5892c4531ad9-1@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
-References: <20260912195552.76673-1-kmehltretter@gmail.com> <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
+In-Reply-To: <20260921-arm-cacheinfo-v2-5892c4531ad9-0@gmail.com>
+References: <20260912195552.76673-1-kmehltretter@gmail.com> <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com> <20260921-arm-cacheinfo-v2-5892c4531ad9-0@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -92,54 +92,68 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series moves ARM cacheinfo allocation to the boot CPU to avoid
-sleeping-lock warnings during PREEMPT_RT secondary-CPU startup. It is
-rebased onto v7.3-rc1, cee9395acd8043be0644b25c34bfa86623f2b935.
+populate_cache_leaves() advances its bounds-checking index once per
+cache level, but split instruction/data caches consume two entries.
+CLIDR-based allocation supplies enough entries. Early allocation from
+the device tree can supply fewer and expose an out-of-bounds write.
 
-Patches 1-3 prepare for early allocation: bound cache-leaf writes,
-include external caches in the allocation size, and guard CLIDR reads
-on older CPUs. Patch 4 enables early allocation. Please take all four
-patches together for stable.
+Count each written leaf and stop before a split level that does not
+fit. This prepares ARM for DT-based early allocation and matches
+commit 875d742cf532 ("arm64: cacheinfo: Avoid out-of-bounds write to
+cacheinfo array").
 
-Changes in v2:
-- Rebase from post-v7.3-rc2 mainline (5225b8eec4c9) onto v7.3-rc1
-  as Linus requested [1].
-- Add Sebastian's Tested-by and links to the original patch posts.
-- Retest the full series on this base; results below.
-The four code diffs are unchanged.
+Fixes: a9ff94477836 ("ARM: 9433/2: implement cacheinfo support")
+Cc: stable@vger.kernel.org
+Tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Link: https://lore.kernel.org/r/20260912195552.76673-2-kmehltretter@gmail.com/
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Fresh full-series rc1 retest: three builds and seven QEMU boot/CPU
+hotplug checks passed; see the v2 cover for the matrix.
 
-Fresh testing on this v7.3-rc1 base used GCC 15.2.0 and QEMU 10.2.1.
-Three full kernel builds and W=1 checks of cacheinfo.o/topology.o passed:
-multi_v7_defconfig with and without PREEMPT_RT, and an ARMv6+ARMv7 SMP
-PREEMPT_RT configuration for ARM11 MPCore. Seven boot checks passed:
-- virt, Cortex-A15, 2 and 4 CPUs, with and without PREEMPT_RT;
-- vexpress-a9, Cortex-A9 with external PL310 L2, 4 CPUs, RT and non-RT;
-- realview-eb-mpcore, ARM11 MPCore, 4 CPUs, PREEMPT_RT.
+The detailed testing below was performed for v1, before this rebase.
 
-With DEBUG_ATOMIC_SLEEP enabled, the RT boot warning was absent.
-CPU1 offline/online succeeded in every run, with identical cache sysfs
-output before and after. ARM11 exposed no cache leaves, as expected.
-RT and non-RT cache output also matched on each ARMv7 machine.
-All four stable patch IDs match v1.
+The overrun was reproduced with KASAN on QEMU virt, cortex-a15, using
+a device tree whose cpu nodes carry only d-cache-size, so one leaf.
+With patch 4 alone the boot reports a slab-out-of-bounds write in
+populate_cache_leaves(). With this patch the boot is clean.
 
-Earlier testing of these same diffs also covered DT cache-description
-corner cases. On September 12, the full series passed on a Raspberry
-Pi 400 with a 32-bit PREEMPT_RT 7.2.6-rc1 kernel: the boot warning was
-absent and all 12 cache sysfs entries matched the baseline. CPU hotplug
-was unavailable there. That hardware test and the DT corner-case tests
-were not repeated on this rebased tree.
+ arch/arm/kernel/cacheinfo.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-v1: https://lore.kernel.org/r/20260912195552.76673-1-kmehltretter@gmail.com/
-[1] https://lore.kernel.org/r/CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com/
-
-Karl Mehltretter (4):
-  ARM: cacheinfo: avoid out-of-bounds write in populate_cache_leaves()
-  ARM: cacheinfo: count external caches in early_cache_level()
-  ARM: cacheinfo: guard the CLIDR read in populate_cache_leaves()
-  ARM: topology: allocate the cacheinfo early on the boot CPU
-
- arch/arm/kernel/cacheinfo.c | 49 +++++++++++++++++++++++----------------------
- arch/arm/kernel/topology.c  | 13 ++++++++++++
- 2 files changed, 38 insertions(+), 24 deletions(-)
+diff --git a/arch/arm/kernel/cacheinfo.c b/arch/arm/kernel/cacheinfo.c
+index e1469b641780..860eeb03cfe5 100644
+--- a/arch/arm/kernel/cacheinfo.c
++++ b/arch/arm/kernel/cacheinfo.c
+@@ -151,7 +151,7 @@ int populate_cache_leaves(unsigned int cpu)
+ 	unsigned int level, idx;
+ 	enum cache_type type;
+ 	struct cpu_cacheinfo *this_cpu_ci = get_cpu_cacheinfo(cpu);
+-	struct cacheinfo *this_leaf = this_cpu_ci->info_list;
++	struct cacheinfo *infos = this_cpu_ci->info_list;
+ 	unsigned int arch = cpu_architecture();
+ 
+ 	/* CLIDR is not present before ARMv7/v7m */
+@@ -159,13 +159,15 @@ int populate_cache_leaves(unsigned int cpu)
+ 		return -EOPNOTSUPP;
+ 
+ 	for (idx = 0, level = 1; level <= this_cpu_ci->num_levels &&
+-	     idx < this_cpu_ci->num_leaves; idx++, level++) {
++	     idx < this_cpu_ci->num_leaves; level++) {
+ 		type = get_cache_type(level);
+ 		if (type == CACHE_TYPE_SEPARATE) {
+-			ci_leaf_init(this_leaf++, CACHE_TYPE_DATA, level);
+-			ci_leaf_init(this_leaf++, CACHE_TYPE_INST, level);
++			if (idx + 1 >= this_cpu_ci->num_leaves)
++				break;
++			ci_leaf_init(&infos[idx++], CACHE_TYPE_DATA, level);
++			ci_leaf_init(&infos[idx++], CACHE_TYPE_INST, level);
+ 		} else {
+-			ci_leaf_init(this_leaf++, type, level);
++			ci_leaf_init(&infos[idx++], type, level);
+ 		}
+ 	}
+ 
 
 base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
