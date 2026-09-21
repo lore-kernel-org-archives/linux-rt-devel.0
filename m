@@ -1,183 +1,211 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB4345EAD
-	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 07:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A65347884A;
+	Mon, 21 Sep 2026 09:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789976835; cv=none; b=Kx7vZqmJ8R7rBmbcBqmpWcy3gBD5u2aBpyE0vDcgdqaPN2FJtPJmY+OWQVgzRGJNcLb1g85FlgG3iAjZjhMQZjh07hTtQTYP4IUaERIdXQpDTYw4GkU5GThAFtbAejl31xDaeZbOR39QxkW3dGn9DLeo/5jpryjgUvlxwud5T00=
+	t=1789984487; cv=none; b=cY5MBcBTvJQ8kG1KusKc+ABpieAJpsQrZrVdbqaA8xOwh0soDSYKEEeyApbsOPTjwi3iAsfVMoDwMibqQC+v28gDmVVWOzNt3T5Eh0h/Z6ricT6QTdA7EIMEdqUP7xy8W2poJXcZvoPu/s8qhurbnxFsGpsiCAmCEXx8eB0NBcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789976835; c=relaxed/simple;
-	bh=uHqzEv3bxIoes2LtlPov0BRmSAZOsCBWSajsNKxiV1k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G/awxCybqWanpTDRdVz+QLaBZUjdpxNgZ8Foe/P6gKxKOukAKlqwLCB7vKkWhfaGjUyNHCEdaAdrg4gjsCI7gm/vacCiMCg9f9hAf5UKq6doj6NoBZOwk6hrpdu4Swz/A5UBZo4aj1RTsPqK7vyR9rYthlH81UEUdxphF2CiHmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UA0o/9zZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Eoy6PZZD; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789984487; c=relaxed/simple;
+	bh=pxnpcy1owTePRNRFl9su+CAPlrDpo+Qz8mCwjZmdBa0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Bze24hzkMapGCyYYXAZEVn4qMnrg18uIjYpC5bJ/9VHs+mrjzaZ4Q07s1ArF5a5T8Iz1xFaXDtDiBNLjvZF7dL4K3rnElZESZOcpwIYRZ2YeNaXY1KKuXDX+gkT/APG2n6TPF83hPd5t3HTNp/c1VfbBl1iQzIa2vAZhMhZujp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tQimKzY9; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UA0o/9zZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Eoy6PZZD"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68L7A4bl467404
-	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 07:47:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gUu4bEc3zeYui4hd3ktvRDKKi+11f2S8vhCkBPJg2go=; b=UA0o/9zZBA88HlBd
-	W4hiEnubln+RVKIrC8iim/G+mK9eUvVH5J/D/ZBx20NSuM0S5aoPeUpxzT//oWEQ
-	2xVGC6REZnN29C9Gmex+ttlwkfjYkEzps/LTR3hT6QASlgGAzqH2ZQlPZQqe4MAF
-	2j/ypFkTm5WK5MfvTg0cbn22QFxUGn/P8Bt20SF+Yzao9qrVoNNqUem1tGcFPz5Y
-	SztqCXex+ruMK642k6XCGun0fhirhGyPG1to7jhVsNFJv+7ion4Tz0m5DBllvwan
-	/XN9OLQZHfexRmxzXYla/TON/KzVgGjR+IelHeJd+zpR3WjsCPIr9GR6xUu7Q6JE
-	Xn6P7A==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gtq8b9gnk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 07:47:12 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d6fed0652bso32047255ad.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 00:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789976832; x=1790581632; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gUu4bEc3zeYui4hd3ktvRDKKi+11f2S8vhCkBPJg2go=;
-        b=Eoy6PZZD/Lnl3snTjkfYEjMW1jphoZSMdx1euyzu6WlCwrJ4KPlw2I/FvxTI4VCSyy
-         MoS6JLzs5wLa3q/SjMYULOzCIoUglgvck6GE5yJBS2LKiIlHXJxuBSR6uCkvtzdtW3hS
-         FQQPievkMcYC4/fo9g8ie1xLZVU5iy0u6Uv6tImV8JKsIVMHY19qkhC4mBhmr4DlbGzg
-         ks2ijfr9Nm0TONdlZQHo/BhOIlDQraAibxVm3BshqKMdBa5f14mcqWvDtXYJZrbyZ2hb
-         ap8nLPw1NHKtxw8v5Zi441tEz1YgS43TJIA8g72qgXGYZpNaNUeaDYwy4tNH87Mtiupi
-         lRwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789976832; x=1790581632;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gUu4bEc3zeYui4hd3ktvRDKKi+11f2S8vhCkBPJg2go=;
-        b=PwLkz7T7+YoAGbktlfr6RKiRTqf372WkjpA6pin7JmygDT6aGdOPVjENzDjbkAPAj5
-         8DY7KwCi1Veda3WWmD4YI8Wu0kcRJUeCOu4L+4zIHfY6Mb6CRIN2wJTzhvPi0J7dillr
-         lu413GskhhFZcxAB7Et50R4UCXarGAWCFYLmOhKTrXu4ewJ+spg/ctHtSlWiB7p5z7LO
-         gqRJg4tT7r62W27b9eb+qk2YztwfVKDEk13IE7eJ8b4uZ7+lDJXgnKGr23iRmyRIYkDx
-         l27eq2E7wUYyP/UG/ut1tYOoRWV7amYnm2oQ64yRpKneEiLYW2ljLsfmeWafCR/+Z++r
-         tTHQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymVL+/f0SlucpzUHyElYKFfqN4qs9Y6Z6Zw/7OxNm/CMpILrkKCGNkVvnKBVvFTjXAHWRoqNbjOtm9HDvLOA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lFnyrNTDt8sto6CfWVGB6yqVNUzh2VIWYOquB++3CAUhim4g9Z
-	mRFgjsle/A5fJlXb8nqCNOBbukamOkr3UaFVF0AT2xYQAuG7yJ3H3Yqi4Alx3oXhT8ypxaFVWDY
-	hFLhJJMoMyMg5y68AN9oCYvYuAAHJZ5BoUeH6NlOg73BU9jWh23k6t/hDCmTQ3u+7UN8gTA==
-X-Gm-Gg: AYBFou3ADvsT+c7+rKMMUcWm9HV9gOdedbvaRoTEzLZQ4jZcSRl3hj/UfOe5wqr6y6I
-	Gh8ERzIRszjTUDG1aV8plm+1KNa1uz73S8bx1OwmCeNJ5t02vW/9F79vL8N8vpDAwQAK6HdJtEY
-	nzhCWqPxDh4OD9hMrjmaR15Y0EwG6pT8TG6XcXnCFPCtyBDKDGZCFc4rr9tU2m0JcBRhzzsNkIn
-	bdcK3Ss5JeMvnP6z8wfWJ5vpjBm2sjJ3kqGqrTd3Wd+EYLYLaGoMkhAbhLLsMi8RwKu6E+osAzt
-	FBSBuep0WEqd44RO9NnLrzm01zuye4yqiv9Ds7EJ0f/tKt5Zdpth68dbMrcaoDlQ4l02LFUlcgd
-	cdY3MMF0g5wE2V7sUij3K1damuVU+
-X-Received: by 2002:a17:903:298e:b0:2dd:c100:80c1 with SMTP id d9443c01a7336-2ddc10081dcmr89823255ad.60.1789976831686;
-        Mon, 21 Sep 2026 00:47:11 -0700 (PDT)
-X-Received: by 2002:a17:903:298e:b0:2dd:c100:80c1 with SMTP id d9443c01a7336-2ddc10081dcmr89823025ad.60.1789976831226;
-        Mon, 21 Sep 2026 00:47:11 -0700 (PDT)
-Received: from [10.239.132.187] ([114.94.8.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc179e248sm29105175ad.36.2026.09.21.00.47.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 00:47:10 -0700 (PDT)
-Message-ID: <f8e91551-64d8-4cad-9757-f461fb13fb7c@oss.qualcomm.com>
-Date: Mon, 21 Sep 2026 15:47:07 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tQimKzY9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=pxnpcy1owTePRNRFl9su+CAPlrDpo+Qz8mCwjZmdBa0=; b=tQimKzY97rPBrQljANO1Z/BwTM
+	NS+V3HQ+eatfQuCJ53Uo2EgD9KuBMXPayu9KtAMGQY4bJZ0GVgS3hbl9ygCwBzAgPS/gJoxXYXOB3
+	YqqrVXaf/mGCCy8H7Fwn/W2w/2AyjtgetUz3acLXqphF1wFJ9XwUbSLGNatH5IYyJircDhPJrSdgU
+	mGLw/ISar5sNLVpUIIA9akzF0pQ3Av3XM4xuR+ea+rcFOcwUY/oAdhuyE9f5vLui+l8fKAjoEi2KT
+	uxggnbuNEa5jLWLaoptEsx8Z0JRyMxQDRvQJL3JhBy+6VnPkNzBogLyg9aceZnqyNepFKhZEdtyyL
+	0wuS3QsQ==;
+Received: from 54-240-197-239.amazon.com ([54.240.197.239] helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x8ajO-00000001IaS-0AZh;
+	Mon, 21 Sep 2026 09:54:38 +0000
+Message-ID: <272c0fdf9e5eb9a1caf6a5c0bf674e3c006ac2ea.camel@infradead.org>
+Subject: Re: [PATCH 01/17] KVM: pfncache: Use atomic SRCU for readers
+ instead of a rwlock
+From: David Woodhouse <dwmw2@infradead.org>
+To: Hillf Danton <hdanton@sina.com>
+Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, Paolo
+ Bonzini	 <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Date: Mon, 21 Sep 2026 11:54:36 +0200
+In-Reply-To: <20260921014301.248-1-hdanton@sina.com>
+References: <20260921014301.248-1-hdanton@sina.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-k3y0dTyJnH42HOOuDeys"
+User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] sched: add CONFIG_SCHED_EXT_RT_EXPERIMENTAL to move
- SCHED_EXT above SCHED_RR/SCHED_FIFO
-To: Tejun Heo <tj@kernel.org>,
-        Fredrik Boettger Bratberg <fredrik.b.bratberg@gmail.com>
-Cc: Henrik Austad <henrik@austad.us>, Peter Ziljstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@kernel.org>, linux-rt-devel@lists.linux.dev,
-        sched-ext@lists.linux.dev, aiqun.yu@oss.qualcomm.com
-References: <20260414125933.3520885-1-fredrik.b.bratberg@gmail.com>
- <ad539mUd8A0lDWAw@slm.duckdns.org>
-Content-Language: en-US
-From: Tengfei Fan <tengfei.fan@oss.qualcomm.com>
-In-Reply-To: <ad539mUd8A0lDWAw@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDExMCBTYWx0ZWRfXxnoFXQweCZu+
- Mevv8e1DMaB5BBt0Vai30Fz2eHJlmhh7K36uHTWRGBercpkgDBM8Q5YM7b90V7vtsZ7qL+bi/l1
- L33yGcmsuljDp7W6zTDPX5EcfgxuBe5Xv5km6n9nemM9k/1RyV4Dk/r+wLukr6c0gJbVkgQCr3a
- oXZCyHFtv2TIyooSYjZ5JPwasjzgi1XkbJ4uDJ8ruDD+v36SqR1sNq085I4+01BmZnUcy9/KfH3
- qlhLoDstGOH0c3LH09PnsFdZR5ONmdy+zqKyHf0ZwsAr0D3ax/6pApA5D7inaxW11udycU1Gv3G
- F7RDxyqXvXze6qVJhxslRIdJmiv2qnM2QO5X0aFKSH6XXUlUykTAgbHP4FdAoa+JFfcUOdfNmIY
- lJI4uCQd28xNyCQOPBqeRt8sqeYaJgwQDejlMPm05iR5IC6QDOaX/k4MlpyWi3LSUANAslNQKnS
- 3fAq8CFy38wBkCyfxbg==
-X-Proofpoint-GUID: DQPU5n8Vz1ApBqmTWMnee2y9eLrLSdf0
-X-Authority-Analysis: v=2.4 cv=T/8Z3PKQ c=1 sm=1 tr=0 ts=6ab0e100 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=8ueUhNlu720Qx81Ww3kA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: DQPU5n8Vz1ApBqmTWMnee2y9eLrLSdf0
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDExMCBTYWx0ZWRfX+/NXi9vHaWyW
- MqrlnGhTHOLMQt2EgAWRwwBQxYVwp16utTlVGHAAkVXWu49vSH9p1Lt25RHOkHY/ajoFSd4PVd4
- GLS93Zr9dlXJWO9BFw0YagMFsDk5XgQ=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
- clxscore=1011 malwarescore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609210110
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
-On 4/15/2026 1:23 AM, Tejun Heo wrote:
-> Hello,
+--=-k3y0dTyJnH42HOOuDeys
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2026-09-21 at 09:42 +0800, Hillf Danton wrote:
+> On Sun, 20 Sep 2026 21:49:29 +0100 David Woodhouse wrote:
+> >=20
+> > Replace the per-cache rwlock with a dedicated per-VM atomic SRCU
+> > domain (kvm->gpc_srcu) for the read side. Readers now run under
+> > srcu_read_lock_atomic() alone =E2=80=94 preemption disabled and non-blo=
+cking
+> > enforced, which every GPC read-side section already satisfied as a
+> > former rwlock critical section. It works in any context
+> > (including hardirq and sched-out paths) and never fails or spins,
+> > eliminating the
+> > read_trylock() contortions in the atomic paths, the double-lock dance
+> > with the lockdep subclass hack in the runstate update, and the
+> > PREEMPT_RT problems inherent to taking an rwlock in those contexts.
+> > In particular, kvm_xen_set_evtchn_fast() is called from hardirq
+> > context (timer callback, kvm_arch_set_irq_inatomic()), where taking
+> > gpc->lock is a sleeping-lock-in-atomic-context bug on PREEMPT_RT.
 >
-> On Tue, Apr 14, 2026 at 02:59:33PM +0200, Fredrik Boettger Bratberg wrote:
->> A recent paper published in the 2025 Real-Time Systems Symposium (RTSS)
->> "Enabling Flexible Scheduling in ROS 2", would presumably also benefint
->> from this feature. The paper aims to address and improve the real-time
->> capabilities of Robot Operating System 2 (ROS2). As part of their paper
->> they implement an EDF using sched_ext. They do not explicitly address the
->> issue of their EDF SCHED_EXT tasks effectively having a lower priority than
->> SCHED_NORMAL, but it is a known limitation of the current sched_ext class
->> placement
-> Isn't that mostly solvable by just not putting tasks in DL/RT and enabling
-> switching_all?
+> Given the preempt_disable() in srcu_read_lock_atomic(), as PREEMPT_RT
+> has no way of handling preempt_disable(), you need to add another
+> version of srcu_read_lock_atomic() with preempt_disable() replaced with
+> something like rcu_read_lock().
 
-Sched_ext is an enhancement mechanism rather than a replacement for RT 
-scheduling. RT scheduling continues to provide the latency guarantees, 
-safety properties, and forward-progress guarantees required by the 
-system. Additionally, the system must remain fully functional if 
-sched_ext exits and falls back to the in-kernel scheduler. As a result, 
-in real-world systems, assuming that RT workloads can simply be 
-eliminated is often not practical.
->
->> This change conditionally reorders sched_class selection such that, when
->> enabled:
->>
->>    STOP > DL > EXT > RT > FAIR > IDLE
-> The problem is that RT being above EXT is required for safety as EXT depends
-> on RT superceding it for enable/disable path forward progress guarantee. If
-> you put EXT on top of RT, it's relatively easy to stall out the whole system
-> without any way to recover it.
+Hm? What's wrong with preempt_disable()? It works OK, but is generally
+frowned upon in RT unless the sections are short and bounded of course.
 
-Rather than requiring all RT tasks to be isolated from sched_ext, it may
-be beneficial to distinguish between recovery-critical RT tasks and
-non-critical RT tasks. Recovery-critical RT tasks would remain outside
-sched_ext control to guarantee safety and recoverability, while
-non-critical RT tasks could optionally be handed over to sched_ext.
+We did talk=C2=B9 about the atomic SRCU being silently downgraded to the
+sleeping version under PREEMPT_RT, as other spinlocks are silently
+converted to sleeping locks. But I don't think it's mandatory, is it?
 
-This would provide a balance between robustness and flexibility. In
-practice, many RT tasks, particularly those with lower priorities, are
-used to satisfy latency requirements while still being tightly coupled
-with the scheduling behavior of other workloads. Allowing sched_ext to
-coordinate these tasks may result in better overall scheduling outcomes
-and workload-aware optimizations.
+=C2=B9 https://lore.kernel.org/all/333c4cdb-8f34-4e3f-a47f-961f47e089a0@pau=
+lmck-laptop/
 
->
-> Thanks.
->
+--=-k3y0dTyJnH42HOOuDeys
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+PHqBA6MsvJTpOtsQMXx8UoUAAAAAAAA=
+
+
+--=-k3y0dTyJnH42HOOuDeys--
