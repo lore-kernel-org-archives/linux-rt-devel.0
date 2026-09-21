@@ -1,76 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from r3-25.sinamail.sina.com.cn (r3-25.sinamail.sina.com.cn [202.108.3.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4A33E49F3
-	for <linux-rt-devel@lists.linux.dev>; Sun, 20 Sep 2026 22:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AF12D7DFE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 01:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789942323; cv=none; b=V3VitzhTB2wxoNOb4xSs9pqnK5sKRi8LYSSyZ6zta/gSdOJYMX0tbOr426i+PlyVxFrYTb2D3Y5uH+Jru1z/qMWfx8q8SICvGWIgSQXXSRN2m5wovcm7/gcplWi4eDxkzBQj7JQ7YC4ACZvwQdI8BmpWVodSMGYir8j1q1JzT+0=
+	t=1789955008; cv=none; b=VOqqDAQJGAu5ITdETkAueMaktkuiLX6NpiMUkW54PrJTy4ToSqZiBvfeR/PM/2NACQ1gSXwhzozkXwbJS5rfVnS4jaT0elhSrTSznhzx15HEswlrUhbXouzOQrnbK3kBPI1yiTvgw6DOx9jli1YzYHRMxTXILHq/BsILtp5uP4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789942323; c=relaxed/simple;
-	bh=m3SexezWYsSk736W38SFqu2ziBc1JJcqhx3pO3GqO7o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ex2EVwTvry8QaMlcWMb5DPF/X4LrAEdwRQrRaC4th5sztJboJqRG4Ae+ZIcjzmTPyvVVbDjCrsWmT0qwdE3ezP1E55Dnaouv12m2cia0X9LXkkIbuoFRMjC0Z0UlKTr+LScDKtJwIsyyA1De5Omh1juhFE4v4p8ZXzee5AJRx1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Va0mnB4v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789955008; c=relaxed/simple;
+	bh=qhiIOzYtmp0hEvN8BoHvxGac4o9/FV+baZpvWJ/G2mM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NRRpp9JYsRs9Yv7r2VopaGU39jicSXa3mmBv0SfYtGBPNsAmUyNNkVZiAGeOtuT/TQ53k47Hbr1ae8IRgNuAY1gY6wDKX8TJDaH07drmjToljEMM2ZqPWRXYQWu8iM05roNjiB7y0l7O1pZfJKpZXYMdLyGjit5jZzBtAUX+i/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=g9ulZSQJ; arc=none smtp.client-ip=202.108.3.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Va0mnB4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A8B1F0089B
-	for <linux-rt-devel@lists.linux.dev>; Sun, 20 Sep 2026 22:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789942321;
-	bh=m3SexezWYsSk736W38SFqu2ziBc1JJcqhx3pO3GqO7o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Va0mnB4vLEyC7LJ2ZpPkd0pwrqVfYBJ9sNmipn+W9tqa6FO+hGjy0ZC281X0iHmmi
-	 xBAUUrCicU+YmUk3C0ZLj97QAFbpogDQ72J5vuE76Fdsf56mr9BBmLba0wh8PGRLZN
-	 tfbFZeFZzAQY7MvZ6IJCC514QoqDtCUqs3khMY9/jqnarpokdxEnHY919U4Bnt6bV+
-	 2Y9as+qCvkfiOjLvdun+cZ5JAQZ/TLqzJThMWI+Zzh51oawtNtnmN+G+yJfhLq0Idv
-	 NnijKuSWnKcC+3d8gDWY5MODpDsCTBKOlyyDDNxXa3DCrOBzwqr1pEH2ve9yz1kueI
-	 agBgHuknu2AqA==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b76ff64d78so2170814e87.1
-        for <linux-rt-devel@lists.linux.dev>; Sun, 20 Sep 2026 15:12:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw0ii0uQQcfK1Iz27iS+Si3UiVsqOBevbDmLn9EN5xjDmiSkzanxamz0l981QesK6kl4svzkHMqe/5WO10gOg==@lists.linux.dev
-X-Gm-Message-State: AFuF++k5lFsTyMpcO8rkOiXOnfb8qI9MNnONXnpfkLwirlqxIb50ZvdH
-	HjVS6fn4j6nb4CAd/EN5/Z23A9HZLYqnaIm7d0jhWpvJbBbI3I+0B9WSzijWLWD7Khp9TD+GMIY
-	mEF4d9pnx8m7egAgg6TI11v1uNjXBlro=
-X-Received: by 2002:a05:6512:15a2:b0:5b6:1a7c:59d1 with SMTP id
- 2adb3069b0e04-5b8c183fd80mr2413485e87.43.1789942320496; Sun, 20 Sep 2026
- 15:12:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="g9ulZSQJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1789955003;
+	bh=rU8vDUUQ7doPy3YsLbyw7gkk+iHfUwEdGMQu7Mfk3k4=;
+	h=From:Subject:Date:Message-ID;
+	b=g9ulZSQJqh5H7Hc0ax4KyQs2z/ursFhh6da+n36MBe90CYzEgQ/XwnDZy0z7P14qL
+	 jshtiwfEPWAZhsat8DqnzlsHOYwVEV/WuFgTUpcjX9WMKppw4l5OneMFFvVK51+a1U
+	 QX9+8QK2FlmYUzA2WYchbygA4set6wZUAq7zLWhM=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.194])
+	by sina.com (10.54.253.31) with ESMTP
+	id 6AB08BAE00006CA8; Mon, 21 Sep 2026 09:43:13 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 334586815960
+X-SMAIL-UIID: D2FB78204DD5429D972AB8B184240CDA-20260921-094313-1
+From: Hillf Danton <hdanton@sina.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	rcu@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH 01/17] KVM: pfncache: Use atomic SRCU for readers instead of a rwlock
+Date: Mon, 21 Sep 2026 09:42:56 +0800
+Message-ID: <20260921014301.248-1-hdanton@sina.com>
+In-Reply-To: <20260920211920.928306-2-dwmw2@infradead.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260912195552.76673-1-kmehltretter@gmail.com>
-In-Reply-To: <20260912195552.76673-1-kmehltretter@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 21 Sep 2026 00:11:47 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
-X-Gm-Features: AcwNN1UEg-rAjFzamwNmqUNbJToIegygFu5WJqv4Wp0FbND3-H0NPmWS64QMjAA
-Message-ID: <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] ARM: allocate the cacheinfo early to fix the
- PREEMPT_RT boot warning
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Pierre Gondois <pierre.gondois@arm.com>, 
-	Radu Rendec <rrendec@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 12, 2026 at 9:56=E2=80=AFPM Karl Mehltretter <kmehltretter@gmai=
-l.com> wrote:
-
-> The series applies unchanged to 7.2.6-rc1 and v6.18.
-
-OK please rebase on v7.3-rc1 because that's what we're working
-on now.
-
-After posting that I think you can put this into Russell's
-patch tracker.
-https://www.arm.linux.org.uk/developer/patches/
-
-Yours,
-Linus Walleij
+On Sun, 20 Sep 2026 21:49:29 +0100 David Woodhouse wrote:
+> 
+> Replace the per-cache rwlock with a dedicated per-VM atomic SRCU
+> domain (kvm->gpc_srcu) for the read side. Readers now run under
+> srcu_read_lock_atomic() alone — preemption disabled and non-blocking
+> enforced, which every GPC read-side section already satisfied as a
+> former rwlock critical section. It works in any context
+> (including hardirq and sched-out paths) and never fails or spins,
+> eliminating the
+> read_trylock() contortions in the atomic paths, the double-lock dance
+> with the lockdep subclass hack in the runstate update, and the
+> PREEMPT_RT problems inherent to taking an rwlock in those contexts.
+> In particular, kvm_xen_set_evtchn_fast() is called from hardirq
+> context (timer callback, kvm_arch_set_irq_inatomic()), where taking
+> gpc->lock is a sleeping-lock-in-atomic-context bug on PREEMPT_RT.
+> 
+Given the preempt_disable() in srcu_read_lock_atomic(), as PREEMPT_RT
+has no way of handling preempt_disable(), you need to add another
+version of srcu_read_lock_atomic() with preempt_disable() replaced with
+something like rcu_read_lock().
