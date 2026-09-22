@@ -1,218 +1,233 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CB04AA030;
-	Mon, 21 Sep 2026 14:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789999850; cv=none; b=kyUQlCjk3iEHeR2TOh4F4SfNRn+exdKdqMIIY+G2hZ1VmsgJmbldZUkTzUBhlgur/9skHIdcMLX78qLncRS68SeNFsER0pni3CCtYir4KPZ7kjJbKEIIXA9X7c4/nm99L3Mb28Dh+kFeWwmp62u2OMu/TnJo0QtSVHaRAbLugp8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789999850; c=relaxed/simple;
-	bh=FnOQIN5WVGUk4rSKIf5BXL3fcJCn02DqB+bDnjVfiVY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=olhIo5B4avd3BI8+qCdhZKMmYnQe1wlfVCSrPOeT3JvXKD82eZNkS1iEnl030zKn5TPT+cj2ikm+HXRaWM0zLcTWvAvoC/e/Jax4iw79ZunQ+htyWzkZUri+LvolUIhtxAgp9ZwEb0rbgQYKxnyuRD4shJZ0fJKhKcoBoLOSq+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vCB5zu+a; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349D1347FFE
+	for <linux-rt-devel@lists.linux.dev>; Tue, 22 Sep 2026 03:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.141
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790046993; cv=pass; b=QE9ZXgZe7lmXzMu8O/0UlVoJwcw9cJ6xHHs38O5YIcTaXWfRuRKy3hmAGN53C00m8oaCv53pKPvpHquhbivDsxWy2ZAA5YurXYf49NgioU9wpScN6bRD4gihXTNJyqiDRUldTJMk9TGpnDbRK089XP9asM0HN2/AohW5OdwZ8KE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790046993; c=relaxed/simple;
+	bh=nxcBcIIu8q5gjVlpoqJK0T82KS5DXH91pbYJkPqLAyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r6kL85MWPzlBR42lH+eRwDihvSK66T+giru22Z3mHx7wCJFsfEop7pydXvGqlPWcGTqWOKPi12USBeYF+4tL6Pf2oNRbYUOxT4FoYjJ9ESHFYsg8CLKbT+uXSiLrkzbmbgs2ENEpEjXnVPeqoUltkjcZgFqMfqesw8YQJtSlz2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q1SetWHY; arc=pass smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vCB5zu+a"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FnOQIN5WVGUk4rSKIf5BXL3fcJCn02DqB+bDnjVfiVY=; b=vCB5zu+ako2myIcgWVbC9kQhH5
-	JuoNi6CqKsFsa3yymq2RZYLhxtrUX/nQKX9uLUySa0d2okalN/B/AM/zJD7httsHCDGJM7rRzf7qa
-	gb+kvlwUuCUntwzcWb7Nte/hs3rjS3pYIoh4ahSCgi24hjqaaor7DBpP2XhZhlABdzAwJHgiKxsf4
-	MW4nsHKtXzjMYGMKn2osQ1El2wvuAY5hH3GOvMrw6btCXKTJffOfZtWRE7oCLDyVc3HrA8upqjlDY
-	HYzwjF8Z3MjzZFLl6W+Bu6YQ0JpcSQScMtV3VUD1N15bc+ZDwKJwSt3gIxvg4wIkA5zxG3nLgCp4y
-	KHDCDgLw==;
-Received: from [54.239.6.188] (helo=edge-m2-r3-110.e-iad50.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8ej9-00000004Jhf-1if0;
-	Mon, 21 Sep 2026 14:10:39 +0000
-Message-ID: <9fa88946c5ba6a81a971ca51e51c12a2b05ab4fa.camel@infradead.org>
-Subject: Re: [PATCH 00/17] KVM: Use atomic SRCU for gfn-to-pfn cache,
- reinstate guest mode for x86 nesting
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, Paolo
- Bonzini	 <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Paul Durrant	 <paul@xen.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, Fred
- Griffoul	 <fgriffo@amazon.co.uk>, "Paul E. McKenney" <paulmck@kernel.org>,
- Kunwu Chan	 <kunwu.chan@linux.dev>, Kunwu Chan <kunwu.chan@gmail.com>,
- Zqiang	 <qiang.zhang@linux.dev>, Boqun Feng <boqun.feng@gmail.com>, Neeraj
- Upadhyay	 <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Lai Jiangshan <jiangshanlai@gmail.com>, Josh
- Triplett <josh@joshtriplett.org>, Mathieu Desnoyers	
- <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior	
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt	 <rostedt@goodmis.org>, Jason Gunthorpe <jgg@ziepe.ca>, Michal
- Hocko	 <mhocko@suse.com>, Nikita Kalyazin <kalyazin@amazon.com>, Keir
- Fraser	 <keirf@google.com>, David Matlack <dmatlack@google.com>, 
-	nh-open-source@amazon.com
-Date: Mon, 21 Sep 2026 16:10:35 +0200
-In-Reply-To: <20260920211920.928306-1-dwmw2@infradead.org>
-References: <20260920211920.928306-1-dwmw2@infradead.org>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-3jH0PuYwZ3FIcpY+3xNi"
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q1SetWHY"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so19003535e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 20:16:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790046989; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Vm3EE6htV4kIad7saVV+9iD5LO3qh6QB+9cf6aqQAue79ce3Qen+4imy5wmHCfNFkW
+         hSl2yixWi+R3Mpu6WtlgH9spjVceBpTbIITggZ+TNmSAZQoywCXRdGc9wyYAsUGdAsxP
+         lbBsOn0JHXwqUdKICswNXHbHwDUDoVPDcpD/nsYRWgw7z/w+QQHX/+5MJrgTMwIO+ct7
+         0oLC2T/wVxE6m7NNnm7dMO29r1OX7foOEypXV4AOQn5a9FsoGjA9Ab2eo4Ef86vPg2aY
+         sVAFP7+gta3a9ihVyERLPewp7AA6hdI9MuDAsdkUX4K4dFSWYWaI2lWv6mSjJhcghYqr
+         huVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=T0hVWGyySlLly+28D7LGfZKDh0uXJmKT1sB0yr2I6gM=;
+        fh=TFctdkkv7cRIch3Tsffas641QpUDkdmM0OyQex/cmTc=;
+        b=RNOneUGlhgJb9TeO19J+fnhb9+dAw8RP4nQKbbFW4WlIV+NkDYLTOHcMyrPiFk6FBo
+         X1mvPOp9CiSIlYYwqBXuvUv3uJOL3ZPIwUEDBIZ30n+2BWaeIbA8KLlWR+dxa3DrN9jo
+         0s5LKq0vSB3z9hX8yAqF/cJFroJ33JHDI5SgYxDxXzI7pSs4tkJ2RRFfNBOr0cv/7w20
+         XoclxanzAS64DHK4krK9AXV4uM3pOCnr7aqJHerpCZsXF70jo0qdeKQxa9liu28UBoTX
+         SmCdVrYuQ5LZ7+F/K9ss6pcNReOvFX7Auxubte34Y4//jL/cQOpmltKOxPOFHfPwyiCy
+         iquA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790046989; x=1790651789; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=T0hVWGyySlLly+28D7LGfZKDh0uXJmKT1sB0yr2I6gM=;
+        b=q1SetWHYm+7cTlO8hMjh4UpRj0yUOzS62UrmGqwJYqyFeUILycOyf0wuY7FPVGF4lj
+         GBk+w3IrV2XDrjPGSq37+Gz1LFZGEj9UyBVrEJdil4QSAhEORWUSMh8UP+Pj7UkTKhlK
+         0RT8Bp1AkAN9rocTkIQcolWQuLFH/xy1gRR8yRdpmGM604hSuOjIwg+UF/jsL9ouH8M1
+         guN6FETinECWG9fTeE5fWvwBpkHS1apB6RAgQYhsMLbAxG6g7MSopzyL5jQdlhTFBH2e
+         qgVMA17yqaAHKn2XwPT4GpgPSfAIHB57u9UJdp9l2EfHJMxOKTWIcfLDTmwW3OGik6T+
+         yv5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790046989; x=1790651789;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=T0hVWGyySlLly+28D7LGfZKDh0uXJmKT1sB0yr2I6gM=;
+        b=QyzKsQqSwgQkGC0v/AiX8/GfpsuZBeutEgWbI9JBXip6bsOT90nk9LnBbHsR0TVL+8
+         ai+zvwAL8ETmre+PIjmoP8L4DbSERrtND6vTycZ1dyYcQbgWoz2vfjdCyhgfo/Tg7u0o
+         SWZbmZBi5llJtoLvjx2wkFeD99gzub4hRavQdxuGR8xFUjSBmnaTESF4GMyj1j8YTa1I
+         7CeHA7A8oBugmlDRFgHk8rC7M1A8lMb0o4zoSRYx6YDQpm5ToZ3DN4wDbr+RCUDnCjw0
+         I77MypF4Hwonh1JtqwgzxZWD9AH9auoNMuLPCVlrzYEzeKplWXRZl6mmwqddEe6oKzTL
+         4w3A==
+X-Forwarded-Encrypted: i=1; AKwUvBxZczgHxtA84Vif0bO8cr6lB1gSKpPyj5QpGTD+c5Nk0YzIpHTujrY3YpH/26vcAqvhQz+ewuc2WrGL9B9zNQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lGsWyEYOTXXhlU4+ZFlBDQHwJ/mUSvuIjZFUARdHcVenzpof/E
+	SNrAJq/B/FIs+t7nRo+cOpl19tR0RpmgI2Itzdkii4KSzckFhQYLwM5dOXtDc9RAiMV8kUAW88S
+	JTnLP1VQXvZz9ApqCxmtNnENMIN+z69U=
+X-Gm-Gg: AYBFou3BUh71oxXcNfh08arUQsZC4mW5ZO0+MW4XEyRsWqKbAackLBKzEXxjEhA1YTC
+	zSMWZkeWefpVsWrdoefWzinA6PvltjjGpKIAUYTbDHAkVD/87z0FeW/bvuYTyuDhl1L5okJwhYe
+	viGD+L4OVzLT308w3qZ5gjkx6htd8+bAyokRJsRZamKmvstEzyX8TI8jcQG6T4GkUee8GESLbWU
+	OWWyVreWniOSqN+OEP7Yhzuj3DFv18Tre6b/2aZPOQrGeDXc3+qXMn52x9xqFuWYGSz+r0A4n+y
+	N+bYvtl7vXIm9iRdXO6AeKG3Rgc/Qdcst7u6Dzi02NW2RfqZzzFHoyRyk7pkrkDLPJ10BLYBH39
+	4TO4xX1s93wUbpw==
+X-Received: by 2002:a05:600c:46cc:b0:493:f5bf:4dc6 with SMTP id
+ 5b1f17b1804b1-49fc566951dmr171043015e9.7.1790046989155; Mon, 21 Sep 2026
+ 20:16:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-3jH0PuYwZ3FIcpY+3xNi
+References: <20260920211920.928306-1-dwmw2@infradead.org>
+In-Reply-To: <20260920211920.928306-1-dwmw2@infradead.org>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Tue, 22 Sep 2026 11:16:17 +0800
+X-Gm-Features: AcwNN1WrYNyWGp1bGXe-bJN9POYZPs3FjeCDYohf8fnVdXEdiDT26MiduZxqtjc
+Message-ID: <CAN_Opa9YWJZxr=YEjnkS-Khm=83P-xqGVZ6tq2nVQzMNOiThbg@mail.gmail.com>
+Subject: Re: [PATCH 00/17] KVM: Use atomic SRCU for gfn-to-pfn cache,
+ reinstate guest mode for x86 nesting
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, Paul Durrant <paul@xen.org>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Fred Griffoul <fgriffo@amazon.co.uk>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Zqiang <qiang.zhang@linux.dev>, Boqun Feng <boqun.feng@gmail.com>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Lai Jiangshan <jiangshanlai@gmail.com>, Josh Triplett <josh@joshtriplett.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Jason Gunthorpe <jgg@ziepe.ca>, Michal Hocko <mhocko@suse.com>, 
+	Nikita Kalyazin <kalyazin@amazon.com>, Keir Fraser <keirf@google.com>, 
+	David Matlack <dmatlack@google.com>, nh-open-source@amazon.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2026-09-20 at 21:49 +0100, David Woodhouse wrote:
->=20
+Hi David,
+
+Thanks for the series. I noticed the testing results, but didn't see
+a performance comparison for the SRCU change itself.
+
+Do you happen to have any numbers comparing the GPC invalidation
+latency with regular SRCU vs. `synchronize_srcu_atomic()`? If there
+are also numbers with the reader-free fastpath, that would be useful
+for understanding its impact as well.
+
+No need to run anything specifically if you don't already have the
+numbers.
+
+Thanks,
+Kunwu
+
+On Mon, Sep 21, 2026 at 5:19=E2=80=AFAM David Woodhouse <dwmw2@infradead.or=
+g> wrote:
+>
+> Now that Paul et al have so kindly provided atomic SRCU for us, it would
+> be churlish not to use it.
+>
+> Based on the merge of kvm/next (d4b7fb647204) with Paul's dev.2026.09.17a=
+=C2=B9
+> as posted last week=C2=B2, this series:
+>
+>  =E2=80=A2 Converts the GPC to use atomic SRCU, ditching the rwlock which=
+ was a
+>    scaling and latency problem, and which PREEMPT_RT hated because it
+>    turned the rwlock into a sleeping lock.
+>
+>  =E2=80=A2 Cleans up the intentional lack of dirty-tracking of Xen shinfo=
+ and
+>    vcpu_info pages (Sean).
+>
+>  =E2=80=A2 Converts steal-time / preempted status to use gfn_to_pfn_cache=
+. (Carsten)
+>
+>  =E2=80=A2 Reinstates guest-mode pinning: replacing the old GUEST_USES_PF=
+N mode,
+>    letting nested state pages be cached and pinned while in guest context=
+.
+>
+>  =E2=80=A2 nVMX: Uses GPC for the L1 MSR bitmap, and guest mode for APIC =
+access
+>    and vAPIC pages. (Fred)
+>
+>  =E2=80=A2 nSVM: Uses GPC for vmcb12 / MSR-permissions / IO-permissions p=
+ages. This
+>    cuts the vmcb12 transition cost measurably (selftest included).
+>
+>  =E2=80=A2 Returns -EAGAIN from cache lookups which race with memslot upd=
+ates,
+>    and re-posts KVM_REQ_GET_NESTED_STATE_PAGES on memslot generation
+>    bumps so pinned caches are revalidated lazily.
+>
+> Tested: rcutorture atomic-SRCU (srcud, reader_flavor=3D0x10) on three
+> hosts; KVM selftests including new invalidation and transition tests;
+> >1 week soak of VM lifecycle + invalidation reproducers on 128-way
+> RT+KASAN+lockdep, 192-way RT and 192-way PREEMPT_DYNAMIC hosts. And
+> booted an actual Xen guest in QEMU a few times...
+>
+> =C2=B9 https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.=
+git dev.2026.09.17a
+> =C2=B2 https://lore.kernel.org/rcu/20260919003521.3134552-1-paulmck@kerne=
+l.org/
+>
 > There have been previous series which attempt to deal with various parts
 > of GPC locking, and the steal time one has definitely been posted before
 > a few times, but let's just call this v1:
 > https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Dref=
 s/heads/gpc-srcu
-
-I think I'd actually posted more of the previous RCU work than I
-remembered, so perhaps this ought to have been a v4 of
-https://lore.kernel.org/all/20260805195528.3853473-1-dwmw@amazon.co.uk/
-but the entertaining parts of it probably stand alone now with the
-atomic SRCU.
-
-On the Sashiko feedback, much of it is down to lack of visibility of
-atomic SRCU, and some parts are now fixed in my tree for what I shall
-call v2 unless someone really objects to the above omission.
-
-The interesting one is the EVTCHNOP_send deadlock, spinning on -EAGAIN
-while in a kvm->srcu read section which prevents the memslot update
-from ever completing. I've made it raise a REQ which completes it from
-outside the read section, and added a selftest.
-
-The MSR bitmap cache in patch 10 did lose the read-only mapping
-support; I've added a readonly option to the GPC.
-
-The iteration count in patch 17's commit message did indeed say 100k
-where the code only does 10k. Fixed the former.
-
---=-3jH0PuYwZ3FIcpY+3xNi
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-V82nhoCEuh/XTtRU6qbqrlMAAAAAAAA=
-
-
---=-3jH0PuYwZ3FIcpY+3xNi--
+>
+> Carsten Stollmaier (1):
+>       KVM: x86: Use gfn_to_pfn_cache for steal time / preempted status
+>
+> David Woodhouse (10):
+>       KVM: pfncache: Use atomic SRCU for readers instead of a rwlock
+>       KVM: x86: Request the guest TLB flush from record_steal_time()
+>       KVM: pfncache: Add guest-mode pinning (GUEST_USES_PFN successor)
+>       KVM: pfncache: Return -EAGAIN for a lookup which hits an invalid me=
+mslot
+>       KVM: x86: Post KVM_REQ_GET_NESTED_STATE_PAGES on memslot updates
+>       KVM: x86: Move nested GPC lock helpers to x86.h as kvm_gpc_lock_pag=
+e()
+>       KVM: nSVM: Use a gfn_to_pfn_cache for the vmcb12 page
+>       KVM: nSVM: Cache L1's MSR permissions map pages
+>       KVM: nSVM: Cache L1's IO permissions map pages
+>       KVM: selftests: Add nested transition benchmark
+>
+> Fred Griffoul (3):
+>       KVM: nVMX: Implement cache for L1 MSR bitmap
+>       KVM: nVMX: Use pinned pfncache for L1 APIC virtualization pages
+>       KVM: selftests: Add nested VMX APIC cache invalidation test
+>
+> Sean Christopherson (3):
+>       KVM: x86/xen: Extract delivery of event to vCPU into a separate hel=
+per
+>       KVM: x86/xen: Explicitly tag "shared info" page as never being dirt=
+y tracked
+>       KVM: x86/xen: Don't dirty track "vCPU info" page
+>
+>
+>  arch/x86/include/asm/kvm_host.h                    |   2 +-
+>  arch/x86/kvm/msrs.c                                |   7 +-
+>  arch/x86/kvm/svm/nested.c                          | 112 +++-
+>  arch/x86/kvm/svm/svm.h                             |  16 +
+>  arch/x86/kvm/vmx/nested.c                          | 356 ++++++++++--
+>  arch/x86/kvm/vmx/vmx.c                             |  11 +-
+>  arch/x86/kvm/vmx/vmx.h                             |  16 +-
+>  arch/x86/kvm/x86.c                                 | 181 ++++---
+>  arch/x86/kvm/x86.h                                 |  33 ++
+>  arch/x86/kvm/xen.c                                 | 279 +++++-----
+>  include/linux/kvm_host.h                           |  86 ++-
+>  include/linux/kvm_types.h                          |  52 +-
+>  include/linux/srcu.h                               |   7 +
+>  tools/testing/selftests/kvm/Makefile.kvm           |   2 +
+>  .../selftests/kvm/x86/nested_transition_bench.c    | 204 +++++++
+>  .../selftests/kvm/x86/vmx_apic_update_test.c       | 299 +++++++++++
+>  virt/kvm/kvm_main.c                                |   9 +
+>  virt/kvm/pfncache.c                                | 596 +++++++++++++++=
+++----
+>  18 files changed, 1876 insertions(+), 392 deletions(-)
