@@ -1,82 +1,53 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44FD3F4DD2
-	for <linux-rt-devel@lists.linux.dev>; Tue, 22 Sep 2026 06:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF7C3E1CE4;
+	Tue, 22 Sep 2026 06:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790057067; cv=none; b=ZrCLKELawiFt7P/q0/CNIlAxxUJ4UOsW2vRXaljjyM1JJifI3JN7OnnF+j7E68/IHcQY1ktkc0VrdxpQqE57cPrPZqZMyNWf04wAGwStxfBRNjZqoaQkYeoYtZ8Oi9ZqEGKIB2BFV1WFhTgy8spEXe5dzgOogDDhhI8Gks+qaro=
+	t=1790059283; cv=none; b=pG99aHt/H/OH96r1D8Yr3FOPVmiUxuXx/wWs+84VayC6wyml62/Wo1TAuGS79SrSyzxcENElbYs0697TkiQqB4alA5uAGqTkpXZJJw2gVtcUgxfMxArPOfTNeKCaXEkkXc/BNrM6/mnRpX10x+7ppz8G6Z4j6zBqxsbwMKrgwz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790057067; c=relaxed/simple;
-	bh=ElBhcqsUM2Ad9S8ZEGyEN9t/tY74rVMwa0Q7cwzZwxY=;
+	s=arc-20240116; t=1790059283; c=relaxed/simple;
+	bh=T/rooOz0bMUCZQoHz+LkMZ/52k8muHtt02qNmdUhTjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tYkfQmvDfldxguSAGcALpuWDACxOBP0eKJ7Eixa1bqtfvAcb3FJHH12eN8DRMXgHi5pskqNWyCY8Rs+sKm3RECPU3rghqOtI4gaGRn7SqImf3ZO+s0jNL2DUIM7twKGtH9qN2KL3yhIRO0zWyS7NHc80btF5I746M2cs6848Pm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p0E2PlaI; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jie11Cr9nj+bLYaji//pcB9zRkPFCoP6vsX8ZSXMaZhu1MZ47hvrSiq0/5OQNbrY1C+qpGcB8NzQavt3UxCmC4vkJa/a2fgguotbPP79TwgzLDIAz5tKMcK9bsMtTFNh4tbPIcDxIFGLHw4MgBR4Q7nr2l+9vOI3APOoYGB+124=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ng4Zhz4O; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0E2PlaI"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912df756so25534335e9.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 21 Sep 2026 23:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790057064; x=1790661864; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hZ4t+Je/NuLiMzspe4ek1fsrc4XzG00tppqvK5+4Vd4=;
-        b=p0E2PlaI/XLrBIIVd5cBvac786V1U27sR+iXU5qYHgkCOkfATRRRvohiXI5F4YJkyN
-         het+Cy39AOF2szNAAW0vqXEn1MVvE2i8SmynOlm/wXmnA1sCMybssLOrRruONCVGFpiU
-         lGioJ1aNPX0xCQHfPl+Ba+EHBjuJ38cDt0Hp9s+Atg30D+U1kKsFr9zvIyHlsAAQcWqp
-         yF6ZJXR0t/D/yUHK7x6WRa3mjE8Bi1T8oQ6QAK604dsmRjOe5JbI623OMWXaQY4fiCDc
-         rgciwlIbngta6vdl1Nep3jUUdB0I5n5rYhcXsmiytragfBmAaKb71yUr241DfxAjTc58
-         nQQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790057064; x=1790661864;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hZ4t+Je/NuLiMzspe4ek1fsrc4XzG00tppqvK5+4Vd4=;
-        b=1mw8PjbHn0y03lG9qXhCJw0L6dSBmZSA0Y6v7BQPXeVAyDOcFRdWEpjgR77wCvvCx6
-         kPtylVmg8lQzumrfSFQtryJidVWgneVH+fCf+3GZhL4q9YLkbpkLe9FJDy5tvRfbM0F7
-         kr9tl2RImTEUGFX2rtp452ljzT4lSEC2D9yBH8AHBUcyXFbrwDOa+zksnDwv4NBOe3wm
-         qVDQLM75ZGRJPYMkBxU7fo9MLXK6+4vC4GS5vAesWI8WuBwMQVzVvWrNfjHhnRs50yPA
-         eCsk6GgGp5Xi4GwaKjuG4FwJbBoIeDb+XQGNzf/3hhPNh0bTn4jCEUCWK+zNhRKyhi1l
-         9SmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBys1mEKC0XUYFO9Bf8heuO1b8nuPmOLa9cdTfGk2JiFlc2fv7iiswEbuelgVuFhRgZ0jj4+PKogWpNuTW7VfA==@lists.linux.dev
-X-Gm-Message-State: AFuF++k6IDmo47wm+rGX/BiBiWm6OyjyPCzftxPUxFY/S79IY5iVMbyO
-	7RUSU/jk/bIRVWh3WU2qF5+nMCiyZd1xET4Iu4oGQw4u7qckQ9SavPnx
-X-Gm-Gg: AYBFou1/Tp80vw8H2wnYj9437pt1b0TxT6kVg7g8w77/xfZPhGK7G70q4j9Vj+jTCCp
-	TPrtt4x8DunRV5aY2ppVWieA5TzBGl8xzC+ClumvByZUkA21aJ0rxokFsswist6y0E9UKtkigDp
-	8ab518Fc7meEMrAPHaKCtP3AuwGp5LYDMN+51nxbtui1xCorEKUy5L4eZESoHgN4rApW+nH4Uln
-	bNlK9HmYgbAfUw7Kkz+zcG20IgDwkDwlJ82wNdoLnAXiRlUcyjDesrq41oeBX9cgkX/NTTNWhEO
-	uJ1rwHK+NkLARcRe064GnCR79FCn9xQ6kLAb+WPoKA6z/AnAcOyWgar/9Eg/ZHedlTtW1UD1K0H
-	Skw1pkvN77QGfOM3bc1tiZdI4veQOd7RfSfEvzxWt0TTDi67mFwuAzD0cj1MbiPRWStWa03oIRK
-	xxKbWYhsySPuTdEEhumXK8bxxLbeqn7pMWVN9u7MYDGsCNgCvd3HG4044OBLy4VvSHa6mPzVtQC
-	MGDxY+jiA1FSsPzOQ33GYdxnDfGX69amYNGHUW9TPn9rl4NLZLF4zdcHY+BMymfUU7B4VyP+f16
-	EfhOc5H4DF/LLq+Xa+LTI9+aLS2eEma0WbaAIyk2Uyhvwt3KWYd5AMEzhXPbO6Sw+8RSBoQd7g=
-	=
-X-Received: by 2002:a05:600c:474e:b0:49e:7cff:f8ca with SMTP id 5b1f17b1804b1-49fc5743c69mr172251345e9.29.1790057063419;
-        Mon, 21 Sep 2026 23:04:23 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a5e6-3401-ecdc-1e24-2e52-02d6.310.pool.telefonica.de. [2a02:3100:a5e6:3401:ecdc:1e24:2e52:2d6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48862793792sm2769226f8f.31.2026.09.21.23.04.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 23:04:22 -0700 (PDT)
-Date: Tue, 22 Sep 2026 08:04:21 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hao Li <hao.li@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, 
-	Amery Hung <ameryhung@gmail.com>, Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org, 
-	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] mm: restrict can_spin_trylock() to preemptible
- context on PREEMPT_RT
-Message-ID: <arIY0wMQjCCsqidI@gmail.com>
-References: <20260919171443.90512-1-kmehltretter@gmail.com>
- <DLJHZEZMLW0F.27OPPS218CX9Q@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ng4Zhz4O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=pY6Tt3cbhiuu898NJ0FxQ3k1nT9mPSnOBzUUA1MwmA4=; b=Ng4Zhz4OfgMHYyQ6ifs+1zTLZB
+	7HBG/Ed3fQUhgafz+k7pBzaMjSLCWUQGzRiz1GpaGr77oD3yKD+du5Uys6mfF6xLlMMxVYWV60neI
+	SkfLzxapASC+ZZtYaX8zDxF7c6TwrIZZ/xGfpZhhj9id4gOUTPG4V/beO2v0h/GG8mIbA9sLlOMrL
+	oUxLwAVJ7i93xAjgQKbmFK1Qj8IcBtwsosmCLFoTQdFm+OVY7F7qx/DZRgz4T8hqycaihBQzDY6ZD
+	hVLwu3Mjb8pBjfUa0eEajYAh/ZZfxuiWmA+8JsnV03iJpfOltVyLS61mj2ppvVTlsuoOmMQWWPP7h
+	ey2BZe6g==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x8uBj-00000007Maz-1aWu;
+	Tue, 22 Sep 2026 06:41:11 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 29DCB300478; Tue, 22 Sep 2026 08:41:10 +0200 (CEST)
+Date: Tue, 22 Sep 2026 08:41:10 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Quchaosheng <quchaosheng000406@163.com>
+Cc: Ingo Molnar <mingo@redhat.com>, John Stultz <jstultz@google.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] sched/proxy: allow SCHED_PROXY_EXEC with PREEMPT_RT
+Message-ID: <20260922064110.GR4121339@noisy.programming.kicks-ass.net>
+References: <20260921102712.3245860-1-quchaosheng000406@163.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -85,53 +56,68 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DLJHZEZMLW0F.27OPPS218CX9Q@gmail.com>
+In-Reply-To: <20260921102712.3245860-1-quchaosheng000406@163.com>
 
-On Sat, Sep 19, 2026 at 06:17:30PM +0100, Alexei Starovoitov wrote:
-> 6.19 had this check in kmalloc_nolock() only. alloc_pages_nolock() and
-> free_pages_nolock() allowed irqs disabled since they were introduced,
-> and arena was sleepable only under a mutex back then.
+On Mon, Sep 21, 2026 at 06:27:12PM +0800, Quchaosheng wrote:
+> CONFIG_SCHED_PROXY_EXEC could not be enabled together with
+> CONFIG_PREEMPT_RT. The Kconfig entry carried a "depends on !PREEMPT_RT"
+> with the comment "Avoid some build failures w/ PREEMPT_RT until it can be
+> fixed", and the failures are real: building kernel/sched/core.c with both
+> options set gives:
+> 
+>   kernel/sched/core.c:6927: error: passing argument 2 of 'clear_task_blocked_on' from incompatible pointer type
+>   kernel/sched/core.c:6939: error: 'struct mutex' has no member named 'wait_lock'
+>   kernel/sched/core.c:6943: error: implicit declaration of function '__get_task_blocked_on'
+>   kernel/sched/core.c:6956: error: implicit declaration of function '__mutex_owner'
+> 
+> The proxy execution machinery tracks a task's blocked-on mutex through
+> task_struct::blocked_on and walks that chain in find_proxy_task(). It was
+> written against the native struct mutex, which embeds wait_lock directly
+> and keeps the owner in atomic_long_t owner.
+> 
+> On PREEMPT_RT, struct mutex is instead a wrapper around struct rt_mutex,
+> so both live in the embedded rt_mutex_base: wait_lock is
+> rtmutex.wait_lock and the owner is reachable via rt_mutex_owner(). On top
+> of that, the RT variants of the blocked_on accessors were stubbed out with
+> a struct rt_mutex * parameter, so find_proxy_task() could not even compile.
+> 
+> The set of errors has two independent causes, addressed separately:
+> 
+> 1. Header type mismatch. The PREEMPT_RT branch of the blocked_on helpers
+>    was declared with "struct rt_mutex *" while every caller passes a
+>    "struct mutex *". That parameter type came from __ww_mutex_die() and
+>    __ww_mutex_wound() in ww_mutex.h, which are shared with the WW_RT
+>    instantiation where the MUTEX macro expands to struct rt_mutex. Those
+>    two call sites are now compiled out for WW_RT, making the helpers
+>    consistently take a "struct mutex *". This is not a behavioural change
+>    for WW_RT: the blocked_on relation is only maintained for native
+>    mutexes, and an rt_mutex based lock relies on the rtmutex priority
+>    inheritance chain instead.
+> 
+> 2. Data structure access. Add mutex_wait_lock(), which returns the
+>    wait_lock of either mutex implementation, and provide a
+>    PREEMPT_RT __mutex_owner() that reads rt_mutex_base::owner, so that
+>    find_proxy_task() works on both.
+> 
+> With that, the Kconfig restriction can be dropped.
+> 
+> Note that this makes the combination build and boot; it does not make
+> proxy execution actually do anything useful on PREEMPT_RT. A task's
+> blocked_on is only ever set by the native mutex slow path, which is
+> compiled out when PREEMPT_RT is set, so task_is_blocked() is always false
+> and find_proxy_task() is never reached. An rt_mutex already provides
+> priority inheritance, so there is no blocked_on chain to follow either.
+> Making proxy execution functional on PREEMPT_RT would require the RT
+> mutex implementation to maintain blocked_on as well; that is not part of
+> this change.
+> 
+> Verified with a full x86_64 build plus a QEMU boot of the resulting
+> SMP PREEMPT_RT kernel, both with and without CONFIG_SCHED_PROXY_EXEC and
+> with PROVE_LOCKING, DEBUG_ATOMIC_SLEEP and DEBUG_PREEMPT enabled. The
+> kernel boots clean and an 8-thread SCHED_FIFO pthread mutex stress loop
+> runs without any BUG or WARNING.
+> 
 
-Hi Alexei,
-
-Thanks for the review!
-
-> No. This kills bpf arena on RT.
-
-I have now confirmed by testing that the RFC breaks both BPF arena paths
-on PREEMPT_RT.
-
-> As Sebastian said in
-> https://lore.kernel.org/r/20260831143500.x-saxdAs@linutronix.de
-> raw_spinlock_t is fine in general. pi_lock is special. rq lock too,
-> I think, since rt_spin_unlock() can end up in try_to_wake_up().
-> The check has to be about those and not about every irq/preempt
-> disabled section.
-
-This leaves me unsure where the boundary between the MM and BPF fixes
-should be. I see four possible directions:
-
-a) Change MM so _nolock() allocation remains safe and can still succeed
-   while pi_lock or an rq lock is held. Existing BPF behavior would
-   remain unchanged. Is this feasible, or would it require substantial
-   allocator changes?
-
-b) Restore BPF local storage's dedicated allocator, and document, with
-   debug checks if possible, that _nolock() must not be used in those
-   scheduler-lock contexts. Since the allocator change would restore
-   the behavior before f484f4a3e058 and be confined to BPF, could this
-   also be suitable for stable kernels?
-
-c) Have MM detect those contexts and return NULL. This prevents the
-   deadlock while preserving ordinary raw-lock callers such as arena,
-   but task-storage creation from scheduler tracepoints then fails
-   deterministically.
-
-d) Combine (b) and (c) restore BPF functionality first, then add
-   the MM restriction for other and future callers.
-
-Are these the right alternatives? In particular, what behavior is
-intended from the _nolock() API in these scheduler-lock contexts?
-
-Thanks,
-Karl
+I would like to wait with this until such time that we're are indeed
+ready to drop rt_mutex entirely. Having the build option but it being
+effectively 'broken' just doesn't make much sense to me.
