@@ -1,35 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677424BA9E1
-	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 17:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0BE14BA9E1
+	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 17:34:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790271256; cv=none; b=RQ1/jm1VzVxa/ThKjj8bno6BdRT6wxol+pCJa8JigOYaUkBg4eOTAA5Sr+1/df+N9Fn4PISzjNi8YUhkYcPRvLhroDfKlOsZ4Wz1fC5btTr7UKwF8ZrPvEjeD+ZUoujszVAI27eIRQzD3nEODNlDkg8gJzYGtigujTCQZ01XPOM=
+	t=1790271258; cv=none; b=o4zhMuCvIZNywCaGf2EiRSLvajhZi3HHkv4s7qdzr0CJ4QB2u+22++inR0r30Iv9cgOeOSS5r4NTcsrTR+1W7xb/m5jFKwJMiLCN+5XrfXXdi7is2yHcyOxT47RXddunmrdzMuZOJhkSKPXvYN01nb2jK5q2O5xZiBm7mkjBJ0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790271256; c=relaxed/simple;
-	bh=QdGBmO5V0iQIW02FrfgvhrRx27to9UxuZH1EW+m6zG0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ee+/qVn4RLOflb8lG2J4tq5hrpIywc/WFZPLDXH1QO3lmCc546R3x355U/BW0im+PKQ8fRhaMr4qcvQygJngM2yUQa6jNpaIRbr3lNUKprH9rptwv4bU73adZLB5l0wSTgyVMwMyXAPbAaBZtxhqmMOnO91RVcFNuRSjF1hV30g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=imnQLMT8; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1790271258; c=relaxed/simple;
+	bh=53Q5rj/7x+pKv27XfPvPIecPjq6QeuKQwbgS+7MBKw0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=McKnTyiyPur8FUktaTW6xpPzR/34RCc+bgFvpBBEqE5gE0H3g3Q+9vYD0kSpx19yy2HxYxBCaN4muHWf7wJmQq6XQVFMVWWvWRl8VAP+hSOlYsLFADCoY20siM/iAyclKB304jllAgp+hXf9K+/ZZCFrwVFjWNEf6LOjteYcnX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=J6v1g7Zk; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="imnQLMT8"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="J6v1g7Zk"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 387471E4D;
-	Thu, 24 Sep 2026 10:34:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB2741E5E;
+	Thu, 24 Sep 2026 10:34:12 -0700 (PDT)
 Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63A6A3F86F;
-	Thu, 24 Sep 2026 10:34:11 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11BDE3F86F;
+	Thu, 24 Sep 2026 10:34:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790271253; bh=QdGBmO5V0iQIW02FrfgvhrRx27to9UxuZH1EW+m6zG0=;
-	h=From:Subject:Date:To:Cc:From;
-	b=imnQLMT8axqY8MaQE9nuSLfvCEFRogkiODOjHkxYcq/BmYAwsn7cjqp3tCpgra20n
-	 S+jb0YTxqK4DCYgv71tbSwgMZw9CHpeJvwnu9FIAZYPRSxN+iMUvxeI8C9S5Hn4NT8
-	 +Gxjb1rCQY4TS40sEQrlRWNtmHMIt97bOswwwCPI=
+	t=1790271256; bh=53Q5rj/7x+pKv27XfPvPIecPjq6QeuKQwbgS+7MBKw0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=J6v1g7ZksczunscKjuZNMJU2izJgyhiTRoDKt1PNFXdwdd1F5zPsDhsnXzAOCxgAZ
+	 L8Y+74TmzGGMToqz9MioidUn6mf39WMzSdTeZDFXXU4J/tZR6k7WIReyJ1p+TWHh4o
+	 lFO7lKLJ5iLZ0kXLNvxNhIwQwJb1Sy37oeAdNr0I=
 From: Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v12 00/14] fix several inconsistencies with sysfs
- configuration in etmX
-Date: Thu, 24 Sep 2026 18:33:38 +0100
-Message-Id: <20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com>
+Date: Thu, 24 Sep 2026 18:33:39 +0100
+Subject: [PATCH v12 01/14] coresight: etm4x: read-back TRCSEQSTR at
+ disabling and prohibit modifying seq_state while enabling.
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,10 +38,9 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPNetWoC/33NQQ6CMBAF0KuQrq3pjJaCK+9hDCntFLpASEsaD
- eHuFja60eX/mf9mYZGCp8guxcICJR/9+MgB8FAw0+tHR9zbXDAUWIoagEeadNAzNTQPjXFdk5C
- fJFQaysq0zrG8nAI5/9zZ2z3n3sd5DK/9SwKx1f/BfMQFh1aBtLWsUemrDsPRjAPbvATwbcgfB
- mTDYouyshLUWX2MdV3fuhhT8fsAAAA=
+Message-Id: <20260924-separate_etm_cfg_v2-v12-1-a2b41d2f7c2b@arm.com>
+References: <20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com>
+In-Reply-To: <20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com>
 To: Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, 
  Leo Yan <leo.yan@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Mathieu Poirier <mathieu.poirier@linaro.org>, coresight@lists.linaro.org, 
@@ -53,149 +52,66 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
  Yeoreum Yun <yeoreum.yun@arm.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5641; i=yeoreum.yun@arm.com;
- h=from:subject:message-id; bh=QdGBmO5V0iQIW02FrfgvhrRx27to9UxuZH1EW+m6zG0=;
- b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqtV8L0XTVwGE93MoHZp9g+aF5HqImnglOzDEyv
- xfFaAKDtjuJAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCarVfCwAKCRBt1cPRWsUx
- M+75C/9pZInzTi1gUtVRTAsaf1UmnFVjIWxX8WJ/VhjoyspfGHH8REdzBdL/Ysik32ry10T3r2f
- nj9iZuKlmbd9+ZkfuUxdll35XW+j3ZCZ4/HnQZtq1u7RMZgs+RwU6Ae+PW+A5eYbYqYUTR3tKiV
- eJnGfqpr7GkueCA/kZk8bEv9bHvSzB5LAJ2p0fHWBMyIQbP087Xx5KyowY90N9pDylG7gtblavg
- jf4VsB85ObVtCrJmrNnEDxnRPItQlWCrHgSAiHo2jvusE0cQOFrE8oeqcljnEr/Xjf9NNZenblT
- 5A6G9aDwtcAIH66RFe+cuhwUQjYhO4tQiUbokKcJueq55/hd3vX+PV7FIewuQMfAFu7ZsyEc9Xu
- UMm4EGDN7Iap3GsYDVs283sdq4zj+o5FA59z7oU+s5T/7z5zAOugh/GHIW0JewjuNl2ad+nKTae
- vSm/Xk/BVk1V+NCv07xallonqzB6jjgJbNXfFSZgLTifDKRrA0+5+3eo2fpQs5MXr+iHQ=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1933; i=yeoreum.yun@arm.com;
+ h=from:subject:message-id; bh=53Q5rj/7x+pKv27XfPvPIecPjq6QeuKQwbgS+7MBKw0=;
+ b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqtV8L2TzE38V3muYAysfVSoimlW95GWmvvUhPA
+ jy2pl3LNLqJAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCarVfCwAKCRBt1cPRWsUx
+ M9CwC/91iDVFdb41gcvWs14pPQ2nxw1scsI/e/7l3QCUOA8VSEtsrnfuboDUqT7t3/yTnehA/py
+ 0MBfFIeRMnYMzPfEkq3YKKF6V53CGuIIqG1D7OYvwwu48RbsItOI6fl+1pS/YlmNjWVLZTpJFsP
+ KNgZltaLulip3XWdkBV7uMFW+57ljVlOjuFlIcYbHbmAcPfFyu9QHHISxiiPPpdxYy5B3db+L6w
+ pTPU2BXFVbu78HQdup6KnsS9Cqf8qllB3+Wn4Q1I8z5H5wqP6Miqm1iJe5gWVJKC/BXW7lo+mMx
+ vjKvYfi6VBAxwQkozgcmemjvEUhfi8GbECTiu1Bh1wcedLAoAo4fcQDHk7LDlvQxuja8c/9TDN5
+ ul11CxCho0HMOKc1JWuIgo0IgLkHsloqM1du/zCcfEkc/Y59aFh4Cwa9XMT5DVy5NePuw+BS0Ba
+ KVA7u+Mn7rBmHAymuw05tWSqQBeD+4xmveW/E+fpODle25CCicgvc8peRr1L2SzMsug/I=
 X-Developer-Key: i=yeoreum.yun@arm.com; a=openpgp;
  fpr=2D83E092DD0533B85875A49D6DD5C3D15AC53133
 
-The current ETMx configuration via sysfs can lead to the following
-inconsistencies:
+TRCSEQSTR can be changed by the ETM while a session is active. Its value
+therefore needs to be preserved when a sysfs session is disabled so that
+users can read the current sequence state after the session ends.
 
-  - If a configuration is modified via sysfs while a perf session is
-    active, the running configuration may differ between before
-    a sched-out and after a subsequent sched-in.
+This means that any changes made to TRCSEQSTR while the sysfs-session is active
+would be lost when the session is disabled.
 
-  - If a perf session and sysfs session tries to enable concurrently,
-    configuration from configfs could be corrupted (etm4).
+Copy the TRCSEQSTR value when disabling a sysfs session, and prohibit
+modifying seq_state while the session is active.
 
-  - There is chance to corrupt drvdata->config if perf session tries
-    to enabled among handling cscfg_csdev_disable_active_config()
-    in etm4_disable_sysfs() (etm4).
-
-To resolve these inconsistencies, the configuration should be separated into:
-
-  - curr_config, which is applied configuration for the current session
-  - config, which stores the settings configured via sysfs.
-
-and apply configuration from configfs after taking a mode.
-
-Patch History
-=============
-from v11 to v12:
-  - rename active_config to curr_config.
-  - rename config to sysfs_config.
-  - remove redundant config argument in etmX_args.
-  - add read-back and copy from curr_config to sysfs_config TRCSEQSTR
-    (seq_state).
-  - add r-b and t-b tags.
-  - Link to v11: https://lore.kernel.org/r/20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com
-
-from v10 to v11:
-  - replace direct register read from etm3 sysfs with IPI.
-  - fix issue cntr_val and others field which required to be shown after
-    sysfs session disable.
-  - prohibit the write for some etm3 sysfs while sysfs session is
-    enabled.
-  - drop locktype change in etm3
-  - Link to v10: https://lore.kernel.org/r/20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com
-
-from v9 to v10:
-  - rebase to coresight/next
-  - https://lore.kernel.org/all/20260725113645.57519-1-yeoreum.yun@arm.com/
-
-from v8 to v9:
-  - add feat_csdev_lock guard interface.
-  - set feat_csdev->drv_spinlock as NULL for etmv4_drvdata.
-  - https://lore.kernel.org/all/20260629090007.1718746-1-yeoreum.yun@arm.com/
-
-from v7 to v8:
-  - accept @Leo Yan' suggestion to handle error.
-  - small minor fixes following @Suzuki' suggestion.
-  - https://lore.kernel.org/all/20260519154812.254884-1-yeoreum.yun@arm.com/
-
-from v6 to v7:
-  - rebase on coresight/next
-  - add ETM_MAX_SEQ_TRANSITIONS define
-  - remove redundant patch relavent cpu-hotplug as coresight-pm patch
-    merged.
-  - https://lore.kernel.org/all/20260422132203.977549-1-yeoreum.yun@arm.com/
-
-from v5 to v6:
-  - fix missing of calling cscfg_csdev_disable_active_config()
-  - add rb & fixes tags.
-  - add ss_status field in etm4x_drvdata to expose STATUS and PENDING bits.
-  - https://lore.kernel.org/all/20260415165528.3369607-1-yeoreum.yun@arm.com/
-
-from v4 to v5:
-  - add rb-tag.
-  - fix underflow issue for nrseqstate.
-  - fix wrong check in etm4_sspcicrn_present().
-  - remove redundant fields on etmv4_save_state.
-  - rename caps->ss_status to ss_cmp.
-  - fix wrong location of etm4_release_trace_id.
-  - https://lore.kernel.org/all/20260413142003.3549310-1-yeoreum.yun@arm.com/
-
-from v3 to v4:
-  - change etm_drvdata->spinlock type to raw_spin_lock_t
-  - remove redundant call etmX_enable_hw() with starting_cpu() callsback.
-  - fix missing trace id release.
-  - add missing docs.
-  - https://lore.kernel.org/all/20260412175506.412301-1-yeoreum.yun@arm.com/
-
-from v2 to v3:
-  - fix build error for etm3x.
-  - fix checkpatch warning.
-  - https://lore.kernel.org/all/20260410074310.2693385-1-yeoreum.yun@arm.com/
-
-from v1 to v2
-  - rebased to v7.0-rc7.
-  - introduce etmX_caps structure to save etmX's capabilities.
-  - remove ss_status from etmv4_config.
-  - modify active_config after taking a mode (perf/sysfs).
-  - https://lore.kernel.org/all/20260317181705.2456271-1-yeoreum.yun@arm.com/
-
+Suggested-by: Mike Leach <mike.leach@arm.com>
+Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 ---
-Yeoreum Yun (14):
-      coresight: etm4x: read-back TRCSEQSTR at disabling and prohibit modifying seq_state while enabling.
-      coresight: etm4x: prohibit modifying cntr_val while session is enabled
-      coresight: etm3x: prohibit modifying cntr_val and reset while session is enabled
-      coresight: etm4x: fix inconsistencies with sysfs configuration
-      coresight: etm3x: fix inconsistencies with sysfs configuration
-      coresight: etm3x: remove redundant cpu online check on etm_enable_sysfs()
-      coresight: etm4x: introduce struct etm4_caps
-      coresight: etm4x: exclude ss_status from drvdata->config
-      coresight: etm4x: remove s_ex_level from config
-      coresight: etm4x: rename local config as curr_config referring drvdata->curr_config
-      coresight: etm4x: rename drvdata->config to sysfs_config
-      coresight: etm3x: introduce struct etm_caps
-      coresight: etm3x: rename local config as curr_config referring drvdata->curr_config
-      coresight: etm3x: rename drvdata->config to sysfs_config
+ drivers/hwtracing/coresight/coresight-etm4x-core.c  | 4 ++++
+ drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 2 ++
+ 2 files changed, 6 insertions(+)
 
- drivers/hwtracing/coresight/coresight-config.c     |  18 +-
- drivers/hwtracing/coresight/coresight-config.h     |  22 +
- drivers/hwtracing/coresight/coresight-etm.h        |  48 +-
- drivers/hwtracing/coresight/coresight-etm3x-core.c | 196 +++--
- .../hwtracing/coresight/coresight-etm3x-sysfs.c    | 461 +++++-----
- drivers/hwtracing/coresight/coresight-etm4x-cfg.c  |  14 +-
- drivers/hwtracing/coresight/coresight-etm4x-core.c | 567 ++++++------
- .../hwtracing/coresight/coresight-etm4x-sysfs.c    | 961 +++++++++++----------
- drivers/hwtracing/coresight/coresight-etm4x.h      | 199 +++--
- 9 files changed, 1340 insertions(+), 1146 deletions(-)
----
-base-commit: 9e3604d7369cfc0110100eb1a0acab1865ee2d18
-change-id: 20260911-separate_etm_cfg_v2-3518a168cbff
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+index 2247ad55d444..9ca03a5913a3 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+@@ -1073,6 +1073,10 @@ static void etm4_disable_hw(struct etmv4_drvdata *drvdata)
+ 			etm4x_relaxed_read32(csa, TRCCNTVRn(i));
+ 	}
+ 
++	/* read back the sequence state */
++	if (drvdata->nrseqstate)
++		config->seq_state = etm4x_relaxed_read32(csa, TRCSEQSTR);
++
+ 	coresight_disclaim_device_unlocked(csdev);
+ 	etm4_cs_lock(drvdata, csa);
+ 
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+index cc6cdd3ae29d..db3cf4ad6806 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+@@ -1437,6 +1437,8 @@ static ssize_t seq_state_store(struct device *dev,
+ 		return -EINVAL;
+ 	if (val >= drvdata->nrseqstate)
+ 		return -EINVAL;
++	if (IS_ERR_OR_NULL(drvdata) || coresight_get_mode(drvdata->csdev))
++		return -EBUSY;
+ 
+ 	config->seq_state = val;
+ 	return size;
 
-Best regards,
 -- 
-Sincerely,
-Yeoreum Yun
+2.43.0
 
