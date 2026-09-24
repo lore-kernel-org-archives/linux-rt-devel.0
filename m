@@ -1,121 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30BC479880;
-	Thu, 24 Sep 2026 11:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F6A4A2604
+	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 15:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790251170; cv=none; b=mOylZOAOKET+OXqMf5nVVdoa8ge/GYqjZqVy+8WIXL9KbnCp7YqGh4gRKsHe4Mc8Ns5lPkq48JJS2dyeNz7noVDOkA9XMCLhm1GZ+1kQywmSiVZA5FNejXxz3Ltk5zODb3dVjyeRzLoQX4V4bOba/JMOdrsN2PMHdgonB2Bu+Jg=
+	t=1790263549; cv=none; b=ROIIuKR8Cv35EWvNseSZR0+D4QSYhj8C0ooMqMqvj93EV1EJaSDJDlMxHsiILY9kHh09obgLYrhkNLELitwAM2Hy1uVWPr7oqN3XMfxQD+LY3oMyVjMQTDP1UWJvffM2E1BEVVB9znSnUaH2SKVMbwO+ZifB2VOdj85ja21S0p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790251170; c=relaxed/simple;
-	bh=774qvqqgMWYaywwJKJV4TivlBOUbwJtduazkCcl5ayc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=S+ylNPGZ3dfAqlIqpaDsPTqjBOZE/ZyvXsvCNd+hv7f4GbgU/QHMK4+6y1GVv9xs1UyEEsLYRbusykGJZmeBZIi22GK29viXTrYOv0fdKA/AeEjRHZ+sFIGaahSniNrLdr+aI74y6xVWswZL3mmdHlij4D2OyFT934jWb8rhzo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvE8rhzN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790263549; c=relaxed/simple;
+	bh=Hvp6b+Atb+Avq4qy65XbI5BgoGiA0NTrVIhHxTRDZy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntDwJV7duqZDNQcaBG2/RlfZlnzP7dQCADzDaiMII1KlZnvGN5RmW0wdKIzkN0HZwiUv4vMwe0MxZ/hmOcsSS5WhKsN9eLkuvWhPaIn9QEF6MW3hHAbFI/DrBby/SPzv5T0Bns03TnhgMo3bosmDrjTfnQu88gMpDQP30tstow4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EloduLO9; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvE8rhzN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1021F00898;
-	Thu, 24 Sep 2026 11:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790251168;
-	bh=rX/taSxhg8kPgoMfcN59II2ZF85nZaKfk+f+Anft+tQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=KvE8rhzNZMx9lfkitufzNhcoXcZyJaNPnIqNlpW1VttZUmWAsNk6K7Yq59+l4wJXy
-	 d9gSJ/YQlZTkngyLFxXjXSjenTxuacL0hNaLt8TdNzSYLhUVviiQOiZrub6tR0z0KI
-	 ZEVSwLzVD0fodZvRqv7ZaVxOC7rZqEci1UoUHOA8wwCLTq+NiDIZE4u0jx/XCvLS4V
-	 YY33z6kzAZ1Nhr+KmXHUTDVD81pigLKbBAm3VlE3JPda2jw3xX8lZTI7UwYF28s/fc
-	 6eGzvGneVSs9oHZEPeKuVCtauDyTflr+HAM/crf9Uq6/+0XnF6tv/jlsCw1anL3B1L
-	 Mo1p9houxL+Jw==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 1570B198005A;
-	Thu, 24 Sep 2026 07:59:26 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Thu, 24 Sep 2026 07:59:26 -0400
-X-ME-Sender: <xms:mxC1avZ5pjoMf61qaJh0Ulc5TcHJQhbJUW1MK18F7PbvuujisVx-_w>
-    <xme:mxC1apPFyyjXBRqMdKrlNhUSkjylay1PY8xcvZsxV_XAleVLgwHVez0FHN9TpqHMX
-    y-ayHfeg6aqGYGWMc-QkaXQ-40kNJf-NTB4EC2zXORi7xP0Glusdn_H>
-X-ME-Proxy-Cause: dmFkZTEuyhnv88R/Au/UH9DUc7Nhr6CsqiYYSGJM4wjUlhaSYLJ7g7XkwgeyemxfEiyzL8
-    H42xGZZ5eWVOXyi//ON5parv4gESfkNHKLLmwLfG31oSsvg7cpu+6/Qwnl+vPWUB6J4a0P
-    84k+E5qWn7XSQQAZPMJYIAhHc8a+/ZXw25yicXrYcXjLXS1sSrmSbwhwK8mS2N0hMoKu2Z
-    X3JIjCCXd/r/28hHTqrvEOr+Cl4lNs6TVbxSWBfBlNyL/NGo8dcHxHLLw6R2r+9TlmTkKH
-    8hCCqEZo4la4zzbod5D5X51Tf8s9P0zc/XupezqoiWTGwegagUFNnPi0CMdl6F05MXboi7
-    OC+x2TpLR2MrzWudFLUVJTQtaZExhpSAGW4b9EcYiyovN8rxKD+BlKu9/Vd8BuFBT+Yua3
-    /9zXWdhX/sE5qSEL6vXk1F6XGLpUwmj9FyAsomDeyEd9FDT9KD8kfKT/yQhDsMzgPiMKaX
-    oT/ZjVjfVxck32Ap0hhEH46eo8Iukq0oYdYZ9BRJ2N+BYO6Hl+fGuY6ZCD3n8HpCw4FbTj
-    VhiDihInc66wqF0Ln80mbDAxBWZbNVS3lf2Zab0RP03u9ceIsVbJOxj6HtfslptSkdtmVC
-    xtm5Xh3Mmpm12Jd4fjEZoia0CsNiRqh1Jai5JcMedJk4+dcqkh8hW7i+ciNA
-X-ME-Proxy: <xmx:nhC1ajq-bj2cj5aj5YKe2qClgbxG7kRTZWbCS1gaEjXD1Rd42H9Agg>
-    <xmx:nhC1akK69LVllif-Y_rzzXhx2RKq2h9OIuBjRXTLmxTp_EMKqIzr0Q>
-    <xmx:nhC1auOkTOLscj12UTNZkMLYdjC8nmudanxpQA_guQljjuRvwxFFPA>
-    <xmx:nhC1appytB9vBRtU9xBBkM0AMkZ4cpXsS4AdcAv9QjEGjY9ue0oGCA>
-    <xmx:nhC1apIKsUpszBUllvRXzQbzCexKZOXwQcz9nOmBtkiow1ZuYZO2q5ob>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 6B422F80080; Thu, 24 Sep 2026 07:59:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EloduLO9"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 810E41476;
+	Thu, 24 Sep 2026 08:25:42 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9218F3F86F;
+	Thu, 24 Sep 2026 08:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790263546; bh=Hvp6b+Atb+Avq4qy65XbI5BgoGiA0NTrVIhHxTRDZy0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EloduLO9QF/ahawLBjI2c5MW1xgxdY2f1q0LbzmcqYyWa9Mm8gcVYgoxsqUcT7BOc
+	 qfQ+b4pyIR4maHEsUYaJ/GTP9e5q+vZGUi1DJkByWh24RNUvuGvBaSeD0QBtUez+OZ
+	 IeOnVnbVHT7xmmU2V3qvHxI1TNKtRLAMam6qTlxw=
+Date: Thu, 24 Sep 2026 16:25:43 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v11 0/9] fix several inconsistencies with sysfs
+ configuration in etmX
+Message-ID: <20260924152543.GL200420@e132581.arm.com>
+References: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 24 Sep 2026 13:59:02 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Steve McIntyre" <93sam@debian.org>
-Cc: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
-Message-Id: <0d23d4f2-b5b8-47c3-a676-f6ec72ecf45d@app.fastmail.com>
-In-Reply-To: <arULLk3ERQmADDBU@redhat.com>
-References: <20260919044124.8268-1-singhpra@juniper.net>
- <arUD_p0Vn4qyBH_e@redhat.com> <20260924111913.GN3447081@tack.einval.com>
- <arULLk3ERQmADDBU@redhat.com>
-Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com>
 
+On Tue, Sep 15, 2026 at 12:34:35PM +0100, Yeoreum Yun wrote:
 
+> To resolve these inconsistencies, the configuration should be separated into:
+> 
+>   - active_config, which is applied configuration for the current session
+>   - config, which stores the settings configured via sysfs.
+> 
+> and apply configuration from configfs after taking a mode.
 
-On Thu, 24 Sep 2026, at 13:36, Luis Claudio R. Goncalves wrote:
-> On Thu, Sep 24, 2026 at 12:19:23PM +0100, Steve McIntyre wrote:
->> Hey all,
->>=20
->> On Thu, Sep 24, 2026 at 08:05:34AM -0300, Luis Claudio R. Goncalves w=
-rote:
->> >On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
->> >
->> >I tested the patch and was quite satisfied with the results, but upo=
-n a
->> >comment from colleagues I ran a few more tests and noticed (confirme=
-d their
->> >hunch) that fwupd complains about not being able to get the free spa=
-ce in
->> >efivars:
->> >
->> >  # fwupdmgr get-devices | grep efivars
->> >  =E2=94=82     Update Error:       getting efivars free space is no=
-t supported
->> >  =E2=94=82 =E2=94=82   Update Error:       getting efivars free spa=
-ce is not supported
->> >  ...
->> >
->> >I was not able to establish whether that would prevent specific oper=
-ations
->> >due to the HW I had available for such test.
->>=20
->> fwupd will refuse to do some of its updates if it can't read the
->> efivars free space, in particular updates of the secure boot keyrings
->> like KEK/DB/DBX.
->
-> In this case, corroborating with Sashiko findings, it is necessary to =
-have
-> a way to override that default in kernels with PREEMPT_RT enabled. To =
-be used
-> where this is required for firmware updates.
->
+I did the following tests on this series:
 
-Indeed.
+ 1) Perf test on Orion6 board:
+
+  # ./perf test coresight
+  142: CoreSight synthesized callchain                                                                           : Ok
+  143: CoreSight concurrent threads                                                                              : Ok
+  144: CoreSight context switch thread attribution                                                               : Ok
+  145: CoreSight deterministic workload decode                                                                   : Ok
+  146: CoreSight raw dump stress                                                                                 : Ok
+  147: Check Arm CoreSight trace data recording and synthesized samples                                          : FAILED!
+  148: Check Arm CoreSight disassembly script completes without errors                                           : Ok
+
+Test 147 has a known issue with per-thread mode. The failure was already
+observed before this series.
+
+ 2) Strobe mode test:
+
+  # echo 5000 > /sys/kernel/config/cs-syscfg/features/strobing/params/window/value
+
+  # echo 0 > /sys/kernel/config/cs-syscfg/features/strobing/params/period/value
+  # perf record -e cs_etm/autofdo,timestamp=0/u -m,128M  -- perf test -w brstack 3000000
+  [ perf record: Woken up 1 times to write data ]
+  [ perf record: Captured and wrote 36.301 MB perf.data ]
+
+  # echo 1 > /sys/kernel/config/cs-syscfg/features/strobing/params/period/value
+  # perf record -e cs_etm/autofdo,timestamp=0/u -m,128M  -- perf test -w brstack 3000000
+  [ perf record: Woken up 1 times to write data ]
+  [ perf record: Captured and wrote 18.361 MB perf.data ]
+
+  # echo 2 > /sys/kernel/config/cs-syscfg/features/strobing/params/period/value
+  # perf record -e cs_etm/autofdo,timestamp=0/u -m,128M  -- perf test -w brstack 3000000
+  [ perf record: Woken up 1 times to write data ]
+  [ perf record: Captured and wrote 12.246 MB perf.data ]
+
+  # echo 3 > /sys/kernel/config/cs-syscfg/features/strobing/params/period/value
+  # perf record -e cs_etm/autofdo,timestamp=0/u -m,128M  -- perf test -w brstack 3000000
+  [ perf record: Woken up 1 times to write data ]
+  [ perf record: Captured and wrote 9.197 MB perf.data ]
+
+The captured trace sizes maintain the expected proportional relationship
+with the period values.
+
+ 3) I verified the series on Juno-r2 baord with insmod and rmmod, and
+    CPU PM, and did not see any regression.
+
+Maybe it'd be good to send a new version addressing Mike's comments.
+Based on the test results, you can add my test tags:
+
+Tested-by: Leo Yan <leo.yan@arm.com>
