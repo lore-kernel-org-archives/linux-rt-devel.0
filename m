@@ -1,51 +1,51 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011064.outbound.protection.outlook.com [52.101.57.64])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013034.outbound.protection.outlook.com [40.93.201.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A323101A5
-	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 09:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB564078C0
+	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 10:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790242798; cv=fail; b=ZBJWqFmXgjY8FM3Xn8fubSIBodlgtaZzOVQ37+Ov20phCwzWidGfuIOskbUS3u80HwHslDpI3BELyihOz9kVYMPsn0iQYM7okSje3pa+QaQSVN4MnebOqzzRypGjOhXG/c1wFPa/wYP5i7Kyx/iihRDpo1HgoM4Z1Kt89JQRwAY=
+	t=1790244375; cv=fail; b=MhEmg2i/lZkF/yXLZAF3uqt8A1CtjqZQ+TR3MihV8bIzrwPFJc+jHMq2/iP/JMCnHA4x2Erq1cyPQcygXKJDXVU6vxAz3Oj/JDD/rlfIlKXo1fu8rubGozlTiTTF5OATrG08cJd2skBq7DrT9FkqHZBWlLpHYvhVoiZJj5O+Xss=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790242798; c=relaxed/simple;
-	bh=G+XkDxiio08ntnVIu+ZWorgtsu37sBeMGYg6nIEWbEA=;
+	s=arc-20240116; t=1790244375; c=relaxed/simple;
+	bh=FO/H9OWv+RbV9K9R6x5RqZJ5osn8Q0kcd66M05iiXjk=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dlXflIsWSQhEJMwqo8e709EA/FC4XXN3G7KnCJ5VW8GYvlJWYvgB90pyGxGZ7UzPj3tM+bnCVMbqvUZjiQP16HT/1OZK/OEV1Y0r2RxKE+Yizy2jTAE2SIRkJ96Di4e3HYXqx8ZsPg7cIBheG1A+hLK4VD+6xU6DCt197WUHx7U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2rKj1aPp; arc=fail smtp.client-ip=52.101.57.64
+	 Content-Type:MIME-Version; b=WOnlGjTeJfjDe9Vh/ZTc7Ghwmc/U/XVl+ZJpqGs009hKRpkYkbRp8pQMuBSHrhxtfhMhCBQvoGfwedbyulRt58hnEXKJ86DHtmfnYN2zCMXGVmz20eXx5q7PjyqrJgX6mfgNpXmBHC8iVhBnJzrU2xawCHRHF2xkWhhndQkuLNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0wyK87bQ; arc=fail smtp.client-ip=40.93.201.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2rKj1aPp"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0wyK87bQ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rbv91+9zlvjcGWw8O7sSO8YFeMbBs6Idw3FFGcuSL0JOm2IdqJrbnLDARtUlKLJ/ogMqRVX4ZMKz6XEgQ+eZYgwSU/5CKbLuMCq5J1iqNZA0D3gTwp5tTI4o8ophbiipIk1euXtOhJuCu94LYWG6mY8GtfIpB716cmuZRyV+GZwvOwym+5wu0scQ0KdlY6Ef0sS34UjTVGA6Pw4BWst2yIuV0X3068oRUCm2K3+YjuoUA1q2GMbD5IK56mgeXBfZOZ9H9sy+aLTOldmneVx39sAUzfXz2PmH99lg0sEp/jrpa8c0DaKICaNAo4kEc9wSoLb3fKUtxb9H6ctFjH0VCw==
+ b=osVqeIoJT94hlVvzudcxN5Z2tSMb5d3Wajs4lplEAN6TG29HMfl+OxjJIzXkT6JSvTqIjH6MejcOBCGRvfEEaJTrMNlQ7BFGL7sTqnxs8AZD9CodQAxT0QfV6YBsbYlPkQPmRKxtytVHcnwPrEKvi6g7l8wWkzddcNES7WOC3h41prW+11BmcMEWBQeEiyHx525zhzxwYLcQIYg0dXbU4Ri9wubePXZv0MbazgBsKAJ/8TrKz91N72Dx9+Y8MOcZu3bBIQNOFg25HfOB6tg8K2zy7JWFoiSAwWYk1qMZSAtE8i6KUB3WNdme1ZDIWy/qX/8ECkcBwmBFqGvY7GU+Dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tlg4f67883b+Ux2W8CI3/M+1QHZ38PCcX5qiZI/Nmkg=;
- b=jU4YyTAArL8XU3dQM9Ovt/9Il3oK012oXt1J+TpBVKS5KIe9w8YcWpE/Z/PvrMXzZevxi3wzHSP8k1pwps9bk6gCW8/Z0z1c1MC92fGCVQDr/oHM4eHErEoFxWWXLTpBZfYcP6WTS5xh+M17fEWq3DRhkdOQF6/o2umi6k6AU7PmzXQSvWNLvvK/79oK6MsYh8HIUT/x22nzj2ANvk5pQ/aqbUjtMWgeBMQsbRETwqROFkOVXBfJSpjiIHIcVjp11IUbrLWwey2a6MW9W6M0/y3QrqPAGUw+LJflf4keSPcU5i12yka+vKUWgnRGYd5hL1DLGRJLRR7P+QN9JQJ+sg==
+ bh=KhyGBAL2E6EVZeenmwAj9M735izEtUgCVlFmoGEthqc=;
+ b=XZdqxpbm7FvQm+iCndQB3K1RCjHGnjVdziuaJRREVcCmz3wDe1vapFJ7J7/TCch4U9sgLjctyWrRQ0X/ix5iD8b4yU4x7Jw8Dp0LxNn5XQPxVoEv0q5O6wRAnTzlYK+hboyI4NO7X1f5dpULFQnUl22WDkneCe6ehGxvmAIgWsVuI9p9JzrTEDkXXKzxWydzYG21KV0YPHijOzfbOlDZj9vwqSwsOgSKebOcdwuYdLv97j5cYlfpXj4SEx3Dztc1had+e+w74dYCJJolA35S5CdGbZzIsgXXhc4KcJ9XCowMTlqoeRDJ/Cuqkz5kpFmrGddjvu+fXL1y41Zp/qbaVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tlg4f67883b+Ux2W8CI3/M+1QHZ38PCcX5qiZI/Nmkg=;
- b=2rKj1aPpMSHSqWSsvGdijz7ItgQAn65kKTP/wLkysXZvduWRIWz2yUbw9oa7i1GsVc60WHDri+SDzy4c7PlIncpau1MugsE3xNJKiiysjAcyVhgRU70fAStd4cjMOE73vu5KfAMngUJOi9na/r7ktQ2UYOn7FNnF2pQCrXPHWvk=
+ bh=KhyGBAL2E6EVZeenmwAj9M735izEtUgCVlFmoGEthqc=;
+ b=0wyK87bQ+OauqMkk7JM55AprfrQ2MDk3DGMD0OjWdojVvNLrjfn012hCfEzVCq8FmUqVcdEJ/xSUw3+bxvhTlFcSitC87c46KaUyuPj4/pnfX5iBrKXT0BYtqNO3+Ykg9FX5FO8EgXWU4RHMyeuJDkRIkfuDiEMvXb4YGldeSv4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from SN7PR12MB8147.namprd12.prod.outlook.com (2603:10b6:806:32e::5)
- by SA3PR12MB196577.namprd12.prod.outlook.com (2603:10b6:806:533::23) with
+ by DS4PR12MB9684.namprd12.prod.outlook.com (2603:10b6:8:281::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 09:39:50 +0000
+ 2026 10:05:54 +0000
 Received: from SN7PR12MB8147.namprd12.prod.outlook.com
  ([fe80::3923:c1a4:778b:56f2]) by SN7PR12MB8147.namprd12.prod.outlook.com
  ([fe80::3923:c1a4:778b:56f2%3]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
- 09:39:50 +0000
-Message-ID: <1e3e6064-83ec-496d-8935-637c87423f85@amd.com>
-Date: Thu, 24 Sep 2026 15:09:40 +0530
+ 10:05:54 +0000
+Message-ID: <c5bed931-47fd-4538-8600-c40b8ba745c9@amd.com>
+Date: Thu, 24 Sep 2026 15:35:43 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/8] net: xilinx: tsn: add TSN endpoint
- wrapper driver
+Subject: Re: [PATCH net-next v2 4/8] net: xilinx: tsn: parse endpoint DMA
+ channel configuration
 To: netdev-bot+sashiko@kernel.org, srinivas.neeli@amd.com
 Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
@@ -54,16 +54,16 @@ Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  rostedt@goodmis.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
-References: <20260909-patches_v2_external-v2-2-3a40babaff4c@amd.com>
- <178924536666.3125.1102910032368474240@kernel.org>
+References: <20260909-patches_v2_external-v2-4-3a40babaff4c@amd.com>
+ <178924537042.3125.10976584091391894658@kernel.org>
 Content-Language: en-US
 From: "Neeli, Srinivas" <srneeli@amd.com>
-In-Reply-To: <178924536666.3125.1102910032368474240@kernel.org>
+In-Reply-To: <178924537042.3125.10976584091391894658@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0230.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1f4::11) To PH7PR12MB8156.namprd12.prod.outlook.com
- (2603:10b6:510:2b5::10)
+X-ClientProxiedBy: PN4P287CA0115.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:2b0::10) To SN7PR12MB8147.namprd12.prod.outlook.com
+ (2603:10b6:806:32e::5)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -71,248 +71,249 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8147:EE_|SA3PR12MB196577:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8867f145-5566-44bb-f0d3-08df1a1fc72f
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8147:EE_|DS4PR12MB9684:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1eea1324-2aab-48e6-f4ab-08df1a236bc0
 X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|23010399003|3023799007|6133799003|10067099003|56012099006|5023799004|4143699003|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|4143699003|10067099003|56012099006|11063799006|18002099003|22082099003|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	eddyas5BuTSf5ntXywfJ7Ig8uA0z8dD2BsQHmDP9Yt6TtzJqszPzMh1NjHlwvm97wcgKZaGfuW41CZt67nFfX+OAbxPyAnaaeuOsZyUsS9ArZBjtm7Eqr7gzM47n22wH09C3YxJQUrO9TnRVIlKGm8sV8/f76dkfl/QMkV9XQ6mZyeZYXA9QcBVQhPg8sNBvoWeU+p31nHtDIEkdh/vZHdrvZTcqrOMQ26iqRXj/vy+OkchjD5kgSJeiyzQM4YNX/7G29e3C09pxTPw/EQO6s13zahF3eG0xDm4/Ha4AZfsXzQyAU065P4G7mX0lHxA/ajccCXMq2ONHQStlZIxo9HvQU/h3gdZWwDR+D4oDuKdrqUOJFv6xYksvwaGAnDAQbHhX4MVQuw2vUvNlx4sGtvB1QhYRS6Rah+2s+a6e0wX1YfTPZinNdYGm/aVeVzTtDI59pF6lJjf3X8t2INyJCV+ui4e0loP8JMOrF6Q7jnLPNkrQBXBNe2C56Kzf4d3mImkVqxYu2D3wQKPdt1Q0+xCgvZjwChh2hCqXGfDx135csbgG5ZIzLN8WbsenvDmrk/CsIbrp+Ievp3o4siQDHgQ8tdnpcEmZkc4MO6+IOPt35VyXtN4wNFYqTZ60I1uBRWG7qYF8vfRiAxClchYdJg==
+	yn2iI3GgI823PgzwrlEMCWpofwo1ZOfCenuRobhCeLFmpLJAGIzBn82vBZvhxaBqs2w5mMTk4V9eKkwQvDlHaf//dmeHTKtjr9ebb/yU5uUq1XRnPZFu7anJUfnN8Od0+nJyijS3GTbmuCKvJxTgjS2NxHdf6HAvuRE8D6Nb5lZCViuD6sXBt9MZd4Tuv8fEkBxUhxyeH2dkAdzr8W8RWZvwG8dXUawTv8SjTJSXh8RXhHlD3hv1IYeFd4JTinOZeJ/7aknkQCfZjp0eAuRga3qnsYEjkGrM51gSwtGw+BToXzZBxROUeso3ySvX+vdoAheT4pdjv2OfnrmO0/I8hII03Hqnidsji+F8dzcI/X9wgWH5iYi+0vML9JZTW/t8regxPPgFSjaxFiIx4L+l/7eTMJc+9bB3t6xtH95CN+nc34mnsWp2xlY6PSoiAmiR6JoR5BWCgUrAq9pwVhWqClWxN9op63mbnSCryl7mXKSX8K9n1xMlbMcgfmzEyOs2XktpR/TDoPwYcDbFWS8U+Gduy/PXvTrqfQH4rVGPC4tOBAM6aIRfaxF2PgTAo1z8WxdQqa4Qa/m5splhVAOu8i69Jcnsz9iJ+ITwta2hav9oh45w3dwJ7CP1rnQB4UgUrlENsQ8Xe/3wacN6iVSTTTebeReBsUXSz454YrW+9oE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(23010399003)(3023799007)(6133799003)(10067099003)(56012099006)(5023799004)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(4143699003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UDRsWVRLRDRtSCtkZWpnbFhnOFp2QWZPTFFIOVkrRVAxa2Y2TWNIMGp2aGcx?=
- =?utf-8?B?WVFvVjl2am9VdWpYK1J1UmlYSUJtd0dpYi9PTFlSbzQ5L2taK1puRVFQVU9q?=
- =?utf-8?B?Z3FmV2ZiNXdVMTlBM0x0L014MGJWS1V4VlZVUUQ1NEIveGpDK1FMY2x0VURR?=
- =?utf-8?B?UkgrSU9jVkR5VGFCYWxxYWtKVDhvQ0lwRXhlSCtSajR1UjdWZjZlR05xSE9y?=
- =?utf-8?B?YzFNWllPMm42N0dmQVNKQitGTm1mRkdsSTRzTm9QVnpIZklMaFBnT1BTQVIy?=
- =?utf-8?B?NStxcTlrOG1IbldMR2Y3c2VJUjBUN0dFK0taVDg5T0hPMEJDS2hSMk1nVGc2?=
- =?utf-8?B?aE9OUHF3Q1FMMVBDZUN3NFo1RjBBWmNVZ3ZCR0NuYlBiRkV0NVJ5SlF4L010?=
- =?utf-8?B?b29WTXhEajV0UDMrYzI3ak44bUVVUEhianVJWk11OTdBdnNQQ2FRd1Q5REVM?=
- =?utf-8?B?UjhzQkJFTnlGT0lGSGp2YWdGaldWNDZ5OGtrZUwzdjJwODg0NjEyeDJuS3Bh?=
- =?utf-8?B?K1ZmV1pSYzNQa2tUSTdYbk43QmYzVUdtaXZuekN0QzIvWkx0Q3ZWOEJIdm1i?=
- =?utf-8?B?ZE1WbjhLUUQvMXRVdW4zdzJ1ODRVY3RTbmdzWTU1dStnWXFERzM1aTJiTW9D?=
- =?utf-8?B?SnNWSHhJcW1IOHk4bzdjR3hZVWFiYndsR1hDbHhZMzVTMUkvUG5uSTdLVXgz?=
- =?utf-8?B?SXNmRzlxcGZpbXdHRGQrYTZIcGVCZnlNNUhtTmxuYVZ3Z2tzcG9Ibk5WRUdt?=
- =?utf-8?B?RmFzMHFLNzNFTzdnTlNGT21nRlZRYU5CbEZHSjU5K1ZoQStOK3F0eHZXZmdJ?=
- =?utf-8?B?SGFFQy9KV1N3LzIwWkhBZmw0NUNrV3J0RVZ1ZTlRSEUyUEdSYzhwUEgwV2ZX?=
- =?utf-8?B?T1JTT0hiWEpTaHpVOXBXYWdZRVBzZzEwTHdkdmU2WDlETjM0WVBXWWY0Z2tw?=
- =?utf-8?B?TW5zSU9qL3BEQ2I0cEhyWDh5SkJqSGUyVGwzZ09PZWNjaTUrNkxCVTd5Tldo?=
- =?utf-8?B?bkhOQmVFcGRqUmRIbE0rWGpwRm91VTJwM05melF5bm16Wm5XcDY0bzRYYzdp?=
- =?utf-8?B?SEVZdVd6aG9VelBvWU80alZ1di9pR1h0ckE4ZUxuVDJyM3VBSzFMa1pPZCtE?=
- =?utf-8?B?a1RqdEZMaUl4Z2Z2VUFOcjNXcmxZNzBiaTQ1UXJIS2Fkb3VJQlQ3U1BVTDhz?=
- =?utf-8?B?d1YzSW9XUjNCM1E5QzkwZ3hKRWp4aG9lTmlGaGEyZHdOZDdHcFRGSVNQL3N5?=
- =?utf-8?B?dFNteUlDS0hWc2VPbWJwdXo0cWpGSTNJbzM0ZTJoRUswaDNzRDR6Q0lPK2hK?=
- =?utf-8?B?dkNNMkg3SHVWRFRjTTg1NDRGOExCZVhoK1dMS2dkQVBwS05aai8ycmNsTFl6?=
- =?utf-8?B?dFJUbnVWenhIODRvSWxVVFA5dC8rTVZvQ2pGdk16ZTdsSlllSzEvMlp6bVg0?=
- =?utf-8?B?d0tMbTdLRWY0ZHc3YkRTTnBUMk9BbnJIUnFUMkNJRnNRdllnYXJqV2U5dW5R?=
- =?utf-8?B?R2hnYTE0c3AwQk9YUlN4eUZzSlFqU0Nod2R6R0FqUThYUVFwWW9FSUVpaG9D?=
- =?utf-8?B?VEdmRWpGeFBnUEk2bGUzNzZaYTBiWTdiNlVQOE5jOGd5eVI5bTN5ZDh3WHA1?=
- =?utf-8?B?K081YmtmM0QyeEhvV2NVYU50UUV4b0R6Z0VSalBadEdvWXEwT1hCRnd2cDJK?=
- =?utf-8?B?cDZYcDNtam10NmszZGpmazJBZEdxbFd2Z29nTktROXVBcUVmTERTY2Jnczkx?=
- =?utf-8?B?NTFCK3NCcnluUWJ0Y0FGdTBMOGhuUGZyZWNIaUtJdVZnOXcraStFOXpYNGE3?=
- =?utf-8?B?OUNiZ09obEgrN2RhMWFpQiticDRXbXdLTmhDaUsxTE11QnZkT05rT0tlb2pF?=
- =?utf-8?B?QWk3RStSenN1TkZpV0ZOQ2NaYTJOK2V3ZXgxN3E0MHdmcnhBTWYxU0V2YTEr?=
- =?utf-8?B?UTVLUUppU3ZUczFGMGhSaWVKc1ZQck00UmNHNWJMMzRGMVdNa0xuYnV2TW9n?=
- =?utf-8?B?QlFsV3R0SmlrSG9OT1F3d0p5Y1ZwbXpnTVNubzR4bG8yWlRXMDgvdmZ2bTZY?=
- =?utf-8?B?UUl6MmdhK281eWVhNUs2dXpLYnJIYXd0YlJVd0pVbzBtcHhKT3lQbnB0L0tU?=
- =?utf-8?B?OG93ZGkrb3NBeklId3hNREJyMUV5MVlXMDIySGZTcTkrc2kzV2I2WkNpYzZm?=
- =?utf-8?B?OEtsZ0tHSTRnbkdjV25FaUFUUVhhVDVEUzdvZXdDRUtPQzcwN3k4WHVKcHpW?=
- =?utf-8?B?L2psUThMVGQ2aFlKcmZZT01jdnhkS3lidnpTc3Z4dlEwdGNVVlhsMUc3dW9E?=
- =?utf-8?Q?ADngdrwFf4WJ6y4AUP?=
+	=?utf-8?B?dHZTM3pWUThOOHZaYzBaMDlYQnhhZ3RvSHBnY1JOam50bldKNDBGUFovNnhU?=
+ =?utf-8?B?R3I0Yk1aTW44L1M4K3N4cndjc3NjRWNKZ1ZHSXBucGNzcjhKL0FRSTc5OURl?=
+ =?utf-8?B?ZnY5ZnIrQ0d2NFVwOGxDUjlxcjgvYTBaVm9vUS9EMXdBNmdBVDFycXRnYlB0?=
+ =?utf-8?B?SDFQWUVZd1RNKzd2OVpsbXZYbVhwMnFmVmk5VWtJeDdUSDkvOUpCemZvd28z?=
+ =?utf-8?B?VGZiM09iSlBxRGFqN29NMFdDbUQ5b3lKL2luQ0I2MU1FSFlCVzNkQ1pPQjhI?=
+ =?utf-8?B?blMzSkFBVEZJTi9Nc2tpYXZjWGNJTjNCUGtKVDNZcW9TQTFXL1JvQzkxZUZL?=
+ =?utf-8?B?RGJoRkdKQWFYMTh2MHV0ZEZuWktDejBFS1RKeHBITHpURHd6TTFTVHV5L3Q2?=
+ =?utf-8?B?MDV0WHp6ZTd5VjhIS3JQUnNiRW5FMDlwY3U3UWROUVZLWEZ0YVd2NnU4aUJS?=
+ =?utf-8?B?dnZHbTZKU3VuZ0txVU4zR2JhYXVERFBRalBhYms0UGRZVW5MRDVIRFpFK2g0?=
+ =?utf-8?B?NXZObjVKSXVPaGJYZlBLcklQaVVWaXVwUlRmbVZZUmpiYVc3eVM5QmdvREFQ?=
+ =?utf-8?B?akZyejRoallFajd1ZTRqWGlKNk5vUjNEdjl0OWMrNmhzRE93QUFDWDRFUjV0?=
+ =?utf-8?B?dmF0NlEzY0FwYks0SXU3dS9xNTVzZTB0MjhKWnU2Z0xIQjI3Y1Rpak1XWFVv?=
+ =?utf-8?B?dXJsMVFSbjRoNkxaUlloNjdpZ0UvWXk1aTNaSHh0aXNJQk0yYjlnanVFRWdt?=
+ =?utf-8?B?ZkJ0YTFCd201WGpTWVJVM2hHdTJlN0Q0OWZ0VmdyU1R3WjlCY2xnLzFxN0Ru?=
+ =?utf-8?B?YjRQYlB0b0l5a0hwUXcyVGZuWmdQd1ZxRnNuV0xQQ3NZUGRrMlZWODgrMWtm?=
+ =?utf-8?B?V2hua2ZPaEJSOXliZEd0YnhYb1F6c2xNRldoV2thaWlDbXRFWEcwUDZNT05J?=
+ =?utf-8?B?V3pJYk1HZlFGN2Q1Zkc4VmlacUtqemZiajAydzRrQlJMS1F3L2w2Ty8vNEVJ?=
+ =?utf-8?B?alRrNVZUTEVGTVh4ZitDTVM4Y240TS83WS93KytaNDF2NkdYdmxJWEZ6bHFI?=
+ =?utf-8?B?b1dBaTljaHYvajI1SUZpL2Q5UmMxbE1oMWtwbVR0cUZJVm1CRGVqeHVEd2M1?=
+ =?utf-8?B?bXZLYzUyWm51ZkRKSzdzQTBhRUQ2OFNFdEhzb3N2L2tDeGFaRjlLNzU0aUhT?=
+ =?utf-8?B?OGF0ekdoMXZ5Tm5nRXZWQ0hIUEFSZUJZRVVmMUNaSHVUSE1UODFlQ0hKMk0r?=
+ =?utf-8?B?dTkyeU43MnV5MTJaOGZ0UDg1RFNldVptVVBYeHROY1I0TFNPZGpsbzBxbmc5?=
+ =?utf-8?B?dnd2SENna1NWTnNIbUZ0Y0t5N0dZdnJ3VE1maWVvL3BrSm9iTmVKVkRzNm1u?=
+ =?utf-8?B?RVF6S0FqMnZSVlBJRkk0d3R6NVNIdVdJOHJZK096cnJOQWdta0t0bS9yTWtC?=
+ =?utf-8?B?NkVMNDNiaExxVlZhYi83bVVzRHVRdlB6VmIzbkFtdmgzeXd1dGptY2lJRHJD?=
+ =?utf-8?B?WlZwRUNNR2ltd2JabE41enJCUzBpWDJoblVuSm1nbEl0c3ZQYjFMeHRqVnlj?=
+ =?utf-8?B?QzBEa0VlZkZLTjJCdm1sWnVBeS9VM3pGTUx3RDhFMW1JMm4xY2NPWFBJbkJB?=
+ =?utf-8?B?OStkcitVTWtzMHZIK25lNmEzK1Nja3lYUjlZWWdONmNxYkNjaStMc2l4eGMx?=
+ =?utf-8?B?SU5samZiY0VVbjVPaGRqdlRSSUlReHcvVDBkTFUyUHFXS0ZxVVhtUVJmMVdF?=
+ =?utf-8?B?NDRkanZCS09rUXh5MVdRcCt3dXMrb2w3QUF3dnBtb3NFR0NZUFdjbDZaYmI4?=
+ =?utf-8?B?dVlNU1VVdTEwUGZsL21FYjBVZVluL2V3OVVDdElScmhXOVpQMnh0eWtGYXdW?=
+ =?utf-8?B?N1RVUU1IbndYSmwzQThDUXlpNXBFdWdKS3RWUytFaWJDL1FXQ09BSjl0a2dD?=
+ =?utf-8?B?QVNLVU9LL3NJNWZicjYvSDRPZzVBV0cza1NzNVVQTFFPR2htWUF3OTdLUHJP?=
+ =?utf-8?B?K3NWZWx3ZmxjRXN0Ri83RVg2WFpDL1NoNFZoZEUwSDEyemVUQTJORW9zMzE1?=
+ =?utf-8?B?L1duNUpPUmZ3R0k3UEJFYmFvZC9RN3VyTmdJbXoxZnpkeW10MVNlRUNjNzl3?=
+ =?utf-8?B?WmNCdmNQeU5pZXF3Q2V5Z2FTVUNEVU1Vc3FoQUpQc0NsWEZveGNFMEllMUZ3?=
+ =?utf-8?B?SHdqdk0xbWUxL1RWcUdEZHd6aFZ4M0dhNkRNSjdjY0kzTUxTRjc1VkhnUk5x?=
+ =?utf-8?B?TUxaRjVKczNtUFBobUNXUjNmTnlwM2FlN3RBaHdpVFJPb1gvVnVEYVBVTlEz?=
+ =?utf-8?Q?6Bz2zguTFv7iwe3O80?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8867f145-5566-44bb-f0d3-08df1a1fc72f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB8156.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eea1324-2aab-48e6-f4ab-08df1a236bc0
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8147.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 09:39:50.4980
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 10:05:54.7295
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0WsxNzD9vDvie2zpp785wCbwXIjsupAecN/eFdS1qm1TPFWbYu9DxYWjmkrY2uEj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB196577
+X-MS-Exchange-CrossTenant-UserPrincipalName: aSwGdWMeErVLFOVBYryXp70tM0tW3Yfl2TJREP54Euf0IJsPQIN2HEpsgSuou69s
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9684
 
-Hi,
+hi,
 
 On 9/13/2026 2:06 AM, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential
+> Thank you for your contribution! Sashiko AI review found 1 potential
 > issue(s) to consider:
 >
-> Critical: 0 · High: 0 · Medium: 0 · Low: 2
+> Critical: 0 · High: 0 · Medium: 1 · Low: 0
 >
-> - [Low] Kconfig help text for CONFIG_XILINX_TSN claims the option
->    "provides the wrapper device and the endpoint MAC that connects the IP…
-> - [Low] The binding Documentation/devicetree/bindings/net/xlnx,tsn-
->    endpoint-ethernet-mac.yaml puts 'xlnx,num-priorities' (uint32, 2..8)…
+> - [Medium] xlnx_tsn_ep_probe() and ep_parse_tx_queue_config() enforce two
+>    new mandatory device-tree constraints that the in-tree binding does…
 >
 > --
 >
-> net: xilinx: tsn: add TSN endpoint wrapper driver
+> net: xilinx: tsn: parse endpoint DMA channel configuration
 >
-> This adds a thin wrapper platform driver for the AMD/Xilinx TSN Endpoint
-> Ethernet MAC IP node. The wrapper enables the six IP-wide clocks
-> described in the device tree and then populates the DT sub-nodes so each
-> one can bind to its own driver.
+> This patch counts the TX and RX MCDMA channels listed in the endpoint's
+> "dma-names" property, allocates the conduit netdev with that many hardware
+> queues, and parses the "tx-queues-config" child node to map each logical TX
+> queue to a physical DMA channel.
 >
-> A couple of questions on the new Kconfig text and on the DT properties
-> the wrapper consumes.
->
+>> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+>> index 089f17a126f5..24025b1f6e66 100644
+>> --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+>> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 > [ ... ]
 >
->> diff --git a/drivers/net/ethernet/xilinx/tsn/Kconfig b/drivers/net/ethernet/xilinx/tsn/Kconfig
->> new file mode 100644
->> index 000000000000..b8939d8a92ef
->> --- /dev/null
->> +++ b/drivers/net/ethernet/xilinx/tsn/Kconfig
->> @@ -0,0 +1,15 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +#
->> +# Xilinx TSN device configuration
->> +#
->> +
->> +config XILINX_TSN
->> +	tristate "Xilinx TSN Ethernet driver"
->> +	depends on OF_ADDRESS
->> +	help
->> +	  This driver supports the AMD/Xilinx Time-Sensitive Networking
->> +	  (TSN) Endpoint Ethernet MAC IP. It provides the wrapper device
->> +	  and the endpoint MAC that connects the IP to the host CPU. The
->> +	  three-port switch is supported by the companion DSA driver.
-> [Severity: Low]
-> Is the help text accurate at this point in the series?  It says the
-> option "provides the wrapper device and the endpoint MAC that connects
-> the IP to the host CPU", but the Makefile added by this patch builds only
-> the wrapper object:
->
->    xilinx_tsn-y := xilinx_tsn_main.o
->
-> and tsn_drivers[] registers only &tsn_driver, which matches
-> "xlnx,tsn-endpoint-ethernet-mac-3.0".  No driver in the tree matches the
-> sub-node compatibles at this commit, so devm_of_platform_populate() in
-> tsn_ip_probe() creates child platform devices that cannot bind, and
-> enabling the symbol here yields enabled clocks but no netdev.
->
-> The endpoint MAC part is resolved by later patches in this same series:
-> by the end of the series the Makefile also builds xilinx_tsn_ep.o,
-> tsn_drivers[] gains &xlnx_tsn_ep_driver, and xilinx_tsn_ep.c matches
-> ".compatible = \"xlnx,tsn-ep-mac\"", so this is only a transient
-> mismatch between patches.
->
-> The remaining sentence about the "companion DSA driver" refers to
-> something that is not in-tree at any point of this series.  Could that
-> sentence be dropped or reworded until the DSA driver lands?
-   The Kconfig text describes what the option provides once the series 
-is applied,
-   and it is written once rather than edited in each patch. 
-xilinx_tsn_ep.o and
-   the endpoint driver land in the next patch of this same series, so 
-"the wrapper
-   device and the endpoint MAC" is accurate for the series as a whole.
-
-   The switch is a separate submission. V1 carried the endpoint, wrapper and
-   switch together, following the guidance to keep a series reviewable 
-we split
-   it, so the DSA switch driver is posted as its own series. The sentence
-   describes how the three-port switch is supported in the overall 
-design, which
-   is the same text V1 and V2 carried, so we are keeping it unchanged.
->> +
->> +	  If unsure, say N.
->> diff --git a/drivers/net/ethernet/xilinx/tsn/Makefile b/drivers/net/ethernet/xilinx/tsn/Makefile
->> new file mode 100644
->> index 000000000000..6f99226f3dc8
->> --- /dev/null
->> +++ b/drivers/net/ethernet/xilinx/tsn/Makefile
->> @@ -0,0 +1,2 @@
->> +obj-$(CONFIG_XILINX_TSN) += xilinx_tsn.o
->> +xilinx_tsn-y := xilinx_tsn_main.o
->> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
->> new file mode 100644
->> index 000000000000..afe7609c67fb
->> --- /dev/null
->> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
->> @@ -0,0 +1,104 @@
-> [ ... ]
->
->> +static int tsn_ip_probe(struct platform_device *pdev)
+>> @@ -69,15 +88,173 @@ static const struct ethtool_ops ep_ethtool_ops = {
+>>   	.get_drvinfo	= ep_get_drvinfo,
+>>   };
+>>   
+>> +/*
+>> + * Parse the "tx-queues-config" child of the EP node. The logical queue
+>> + * index is taken from the "queue<N>" node name, so the mapping does not
+>> + * depend on the order the child nodes appear in the device tree.
+>> + */
+>> +static int ep_parse_tx_queue_config(struct xlnx_tsn_ep *ep,
+>> +				    struct device_node *txcfg_np, u16 tx_present)
 >> +{
->> +	struct device *dev = &pdev->dev;
->> +	struct xlnx_tsn_ip *w;
+>> +	DECLARE_BITMAP(queue_seen, TSN_MAX_TX_QUEUE) = {};
+>> +	DECLARE_BITMAP(chan_seen, TSN_MAX_TX_QUEUE) = {};
+>> +	unsigned int count = 0;
 >> +	int ret;
 >> +
->> +	w = devm_kzalloc(dev, sizeof(*w), GFP_KERNEL);
->> +	if (!w)
->> +		return -ENOMEM;
+>> +	for_each_child_of_node_scoped(txcfg_np, qnode) {
+>> +		u32 chan, queue;
 >> +
->> +	for (int i = 0; i < TSN_NUM_CLOCKS; i++)
->> +		w->clks[i].id = tsn_clk_names[i];
+>> +		if (!str_has_prefix(qnode->name, "queue") ||
+>> +		    kstrtou32(qnode->name + strlen("queue"), 10, &queue) ||
+>> +		    queue >= ep->num_tx_queues)
+>> +			return dev_err_probe(ep->dev, -EINVAL,
+>> +					     "tx-config: invalid queue node %pOFn (have %u queues)\n",
+>> +					     qnode, ep->num_tx_queues);
+> [ ... ]
+>
+>> +		ep->tx_dma_chan_map[queue] = chan;
+>> +		count++;
+>> +	}
 >> +
->> +	ret = devm_clk_bulk_get(dev, TSN_NUM_CLOCKS, w->clks);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "failed to get clocks\n");
+>> +	if (count != ep->num_tx_queues)
+>> +		return dev_err_probe(ep->dev, -EINVAL,
+>> +				     "tx-config: described %u queues but expected %u\n",
+>> +				     count, ep->num_tx_queues);
 >> +
->> +	ret = clk_bulk_prepare_enable(TSN_NUM_CLOCKS, w->clks);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "failed to enable clocks\n");
+>> +	return 0;
+>> +}
+> [ ... ]
+>
+>>   static int xlnx_tsn_ep_probe(struct platform_device *pdev)
+>>   {
+>> +	u32 rx_chan_num[TSN_MAX_RX_QUEUE];
+>>   	struct device *dev = &pdev->dev;
+>> +	struct device_node *txcfg_np;
+>> +	u32 num_tx, num_rx, num_prio;
+>> +	struct device_node *ip_np;
+>>   	struct net_device *ndev;
+>>   	struct xlnx_tsn_ep *ep;
+>>   	u8 mac_addr[ETH_ALEN];
+>> +	u16 tx_present = 0;
+>>   	int ret;
+>> +	int i;
 >> +
->> +	ret = devm_add_action_or_reset(dev, tsn_clk_bulk_disable, w);
+>> +	ret = ep_count_dma_queues(dev, &num_tx, &num_rx, &tx_present, rx_chan_num);
 >> +	if (ret)
 >> +		return ret;
 >> +
->> +	return devm_of_platform_populate(dev);
->> +}
-> [Severity: Low]
-> The binding
-> Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
-> lists xlnx,num-priorities (uint32, 2..8) in the required: list for the
-> "xlnx,tsn-endpoint-ethernet-mac-3.0" node:
+>> +	ip_np = of_get_parent(dev->of_node);
+>> +	if (!ip_np)
+>> +		return dev_err_probe(dev, -EINVAL, "missing parent IP node\n");
+>> +
+>> +	ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
+>> +	of_node_put(ip_np);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "missing xlnx,num-priorities\n");
+>> +
+>> +	if (num_tx != num_prio)
+>> +		return dev_err_probe(dev, -EINVAL,
+>> +				     "TX channel count %u must equal num-priorities %u\n",
+>> +				     num_tx, num_prio);
+> [Severity: Medium]
+> Can this equality check reject device trees that the in-tree binding
+> accepts?  Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
+> describes the two properties completely independently:
 >
 >    xlnx,num-priorities:
 >      $ref: /schemas/types.yaml#/definitions/uint32
 >      minimum: 2
 >      maximum: 8
 >
-> tsn_ip_probe() is the only driver matching that compatible here, and it
-> does devm_kzalloc(), devm_clk_bulk_get(), clk_bulk_prepare_enable(),
-> devm_add_action_or_reset() and devm_of_platform_populate() without any
-> of_property_read_u32(), so the mandatory property is neither read nor
-> range-checked.
+>        dma-names:
+>          minItems: 2
+>          maxItems: 16
+>          items:
+>            pattern: "^(tx|rx)_chan[0-7]$"
 >
-> A later patch in this series ("net: xilinx: tsn: parse endpoint DMA
-> channel configuration") does consume it from the parent IP node in
-> xlnx_tsn_ep_probe():
+> With that schema, dma-names = "tx_chan0", "rx_chan0" together with
+> xlnx,num-priorities = <2> validates, but xlnx_tsn_ep_probe() now fails with
+> "TX channel count 1 must equal num-priorities 2".  A 4 TX + 4 RX endpoint
+> under xlnx,num-priorities = <8> fails the same way.
 >
->    ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
->    ...
->    if (num_tx != num_prio)
->            return dev_err_probe(dev, -EINVAL, ...);
+> The queue node checks in ep_parse_tx_queue_config() add a second constraint
+> that the schema does not express: exactly one queue<N> node per TX channel,
+> with dense indices 0..num_tx-1.  The schema has no required queue children
+> under tx-queues-config, so an empty
 >
-> so the binding/driver mismatch only exists between patches of this
-> series.  Was leaving the property unconsumed by the wrapper itself
-> intentional?
-   Yes, that is intentional. The wrapper driver only enables the IP-wide 
-clocks
-   and populates the DT sub-nodes. It does not implement a data path, so 
-it has no
-   use for the priority queue count. xlnx,num-priorities describes the 
-IP and is
-   consumed by the endpoint MAC driver, which reads it from the parent 
-IP node in
-   xlnx_tsn_ep_probe(). Keeping the property on the IP node and reading 
-it from
-   the child that needs it avoids duplicating it per sub-node.
+>    tx-queues-config {
+>    };
+>
+> is schema-valid and gets "tx-config: described 0 queues but expected N",
+> and sparse names such as queue0/queue1/queue2/queue7 with 4 TX channels get
+> "tx-config: invalid queue node queue7 (have 4 queues)".
+>
+> Because the endpoint MAC is the DSA conduit referenced by
+> port@0 { ethernet = <&ep_mac>; }, a probe failure here also takes away the
+> three-port switch, not just the ep0 netdev.
+>
+> Semantically these look like different things: xlnx,num-priorities is an
+> IP-wide traffic class count on the parent node, while dma-names describes
+> host-side MCDMA wiring on the endpoint node, and the binding's own example
+> uses an arbitrary queueN -> tx_chanM permutation.  num_prio is read here for
+> no other purpose than this comparison.
+>
+> Should the binding encode the coupling (required queue children and a
+> dma-names/num-priorities relation), or should the driver accept every
+> topology the binding advertises?
+   The binding intentionally does not encode the coupling. 
+xlnx,num-priorities is
+   an IP-wide property on the parent node describing the number of 
+egress priority
+   queues the IP is synthesised with, while dma-names describes the host 
+MCDMA
+   wiring on the endpoint node. The equality holds in this MCDMA-only
+   configuration, where the driver sets up one MCDMA TX channel per priority
+   queue, but it is not the meaning of the property, with the time-aware and
+   per-stream schedulers a priority queue can be served without an MCDMA TX
+   channel. Encoding num_tx == num-priorities in the schema would 
+describe this
+   configuration rather than the hardware.
+
+> The YAML is unchanged by this patch and by the remainder of the series, and
+> only the 8 TX / 8 RX, xlnx,num-priorities = <8> example in the binding
+> satisfies the driver, so dt_binding_check does not surface the mismatch.
+>
+> Could the commit message body state these new device tree requirements?
+> Right now they appear only in the below-the-line v2 changelog:
+>
+>    - Require one queue node per tx_chan and num-priorities equal to the TX
+>      channel count.
+>
+> [ ... ]
+   v3 adds required: [queue0] under tx-queues-config, so an empty node 
+is now rejected at
+   dt_binding_check. The remaining constraint, exactly one queueN per TX 
+channel with
+   dense indices, depends on the tx_chanN count in another property, 
+which dt-schema
+  cannot express, so the driver validates it and reports it with 
+dev_err_probe().
 
 Thanks
 Srinivas Neeli
->> +
->> +static const struct of_device_id tsn_of_match[] = {
->> +	{ .compatible = "xlnx,tsn-endpoint-ethernet-mac-3.0" },
->> +	{ }
->> +};
->> +MODULE_DEVICE_TABLE(of, tsn_of_match);
-> [ ... ]
 >
 
