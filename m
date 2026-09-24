@@ -1,248 +1,137 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F7472F9F
-	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 11:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407474746AD;
+	Thu, 24 Sep 2026 11:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790247949; cv=none; b=dh6ARAKp5QP4gf6ICvFdvevM+dp3c1aFx1Yg+ftcrDEyRLmWGG73jZYLKfsVKbCv86uUDLAH2//gPcWeCjOmZxeYqUYXYfHrvHRUQh1m7Wmp96VSYT3fkIADS8GPyg1DbK0ILODgrS1CVFddjMoVQSLStuqYE4rambNeOAsZOT4=
+	t=1790248364; cv=none; b=Kw0P9uQD/i9p/jEYGS5y+KXCEG0FKCCmpK5UiLn69uEgISh/4IwCjxcEYDfgL0pI7+2J72nu9KH1TMLotxFZSaT/cEqHzoNidfmMNPSH8dm8aNSUHVj6oRG70y9kosybtAPhM29wYcMi+kypytyx5xMn32QQU/qW2w983uI//M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790247949; c=relaxed/simple;
-	bh=utgzeSBA2M5zFswMKeucmOMbeeXxVlgSipgD4gD3Mwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=osBLv64eYyQ+eoMO0Z/4mYgFneaQeN3uxLwuf8+qVgDb6GPux5H4eMIurAkkMOroV6k4N/RFn9Kb0+PYHloFETObwuM5zkWdKL9mGE/hvvSR/uK7OZ7MqazPQPmKk4fizTHQi9MzHmgRhLbH7k5i1y7zVUCU8eQBCp2VCsZRoDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h1+LEzJm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790248364; c=relaxed/simple;
+	bh=h7v9i5BwXDpIwVukaEFMvXBYp2ISY3XxRln6ml0HgWI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=sdUKQiox+bfXxzuAhZrGxyL7EA/lgC+lbx2302puHY9yuhJ/iaJdxTaqBQygjitWvv/qJG0vJhNZoU7wXv1t2LYW7nuWSqom+0N4WFdP/4wLayQkJic1ps/YBn/uNW1zgXfXBPqTlXZyip3dhey9MtN4rhLAK1x74XnexO0Rzvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu8aBbaK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h1+LEzJm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790247945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VatXkwlXsOSuDvfRkV4aLa2L93mcMP86Fr//ozUJyQE=;
-	b=h1+LEzJm+gpJkuZ1mMlmplUVxQGc8/3RcONZamCJqbCPRAHpYtlNtf807lequDuHktjX8P
-	LB/PD/K6b1ys6Jj6qEGjUJQ9uDZa3YrCWyGnYl8Xeycb270bN8CzSCHFBMeq0jiO3yjrbd
-	CT5dR5nqGBVXTamt8wkdrB/IFqLC1DM=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-96-pUiPnD3PNj6bE5Gs_CNgxw-1; Thu,
- 24 Sep 2026 07:05:39 -0400
-X-MC-Unique: pUiPnD3PNj6bE5Gs_CNgxw-1
-X-Mimecast-MFC-AGG-ID: pUiPnD3PNj6bE5Gs_CNgxw_1790247937
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1CB541977302;
-	Thu, 24 Sep 2026 11:05:37 +0000 (UTC)
-Received: from localhost (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B8A6C180057E;
-	Thu, 24 Sep 2026 11:05:35 +0000 (UTC)
-Date: Thu, 24 Sep 2026 08:05:34 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Prashant Singh <singhpra@juniper.net>
-Cc: Ard Biesheuvel <ardb@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip
- QueryVariableInfo()
-Message-ID: <arUD_p0Vn4qyBH_e@redhat.com>
-References: <20260919044124.8268-1-singhpra@juniper.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu8aBbaK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077F61F000FF;
+	Thu, 24 Sep 2026 11:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790248362;
+	bh=pZ9RcrwyyIc5YkWnQ+0jGoe6Toe0k1NcM6yfWeK3efA=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Wu8aBbaK7t+K26nrAMs6ftExUc03TtIXLZ46FKoDLp6vhbMp0soViBrlXuz4nk6lY
+	 awIyqHskPQ9aomVVkfIVe/exeYAKUDrh8cq68wGngDHcJHlkCz0Vlm5JACigFbIGLv
+	 tayhrLyJyfxzQmU5lH4XSHKnEfE1sTrZgBT9PR/3xe4UK+HqhWWTblR4bQcoHkLIi5
+	 w3OAuz6yJyuq8m8PKi6NUWcDCWeFEMpNqAMvmB4Z7LqYNpeDOJ9m2nTDwc63XnnuX0
+	 ymkQdo95j+YMZ13ygE5u50Iod7y1//tXobNafdcqTKWAQ4TMB4Q4UWM5umRrl6kI+B
+	 2jw2kJSYagbCQ==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id A7FBB1980058;
+	Thu, 24 Sep 2026 07:12:40 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Thu, 24 Sep 2026 07:12:40 -0400
+X-ME-Sender: <xms:pgW1aiZ1_7bwHGjfBYIxAxAy2WB6Z3tzV_sWKuXVQTssEuJJuIaflQ>
+    <xme:pgW1agPZmzwlixfBX9a015lGMQyv-j9vsyBelrqE0MN4XqbVUB54ees9didMJSk-p
+    VzjtH21wYKyYzUFHq2DCyMSZItTqyXiERE-sv8hQxYAtT4c7GZko5mW>
+X-ME-Proxy-Cause: dmFkZTFHZQewR3/mQNk76XuylpN7LPhPVW8iFs2lcgNqvDHiNOWVSAvgUL2qa6a/RNHLxo
+    CyLsXURwqMYj3L7l57RlQh5wMdZikK5/IqwrEJbUPpFt/jJyFsMSQb008srMD49COeOvdf
+    3SB4bW9aYMUHoyUyGmEuFpIG4mYCzCNHdf4mwGzDyzrIXtDhm/f69pBmhR5mQZdDurp4ES
+    pmMB8OdFwCRoWhNtwnRO1G0Iq5raWx8Ncf4lEKGR4gkjF9y1KJ4iCLSHMe+Aw+hL3VmKi/
+    vKfPx8/Wg0AL0jtKuvXc65rVvi+HS9ggjDHmaoLOJdhkiAjnYPt/VraZwh1MP1i1dq0FOW
+    EMVV46SGZWPq9tWEGuylV6UD6hrbAwwXrii0o7hCTewB08iR56hJ3av5Ky2MtBDMUDThhn
+    TFuxvUJCTSTTCy8k75OtUM5AiLlipbpZ9hivC0nTCJqEwemoEjOjJQFLxBOQKdgZDFq6c8
+    U5HNqElj2DF/AYNCH95ekqT2e9MLs04it1bPyTkVUAD/A8dfa2vKUz43us+1JvOPBqDZrN
+    f52fw94BtX8H7gxGq9MOOxRcNPZxaDRRx4X41pIVe6fbAsAfCxCpBAm2xgEhoKXCRBBi2x
+    J60chuz9+XnxvxyLl5CJ5CRevXZi3h2dcQHrw6+U9Yq8Q9yG9CGWWCY6P2yA
+X-ME-Proxy: <xmx:qAW1ak_vLuk2Bre-hJ1J7HIzQrxqJk0MHkSQTs3c5SA214hDSdsLjA>
+    <xmx:qAW1auQbf8WwtJ85-GyPXRU_MdCFyIwNwR5SEglZXOMdwa0ARTNQjg>
+    <xmx:qAW1apRO6P4hwZ4LgA9b1Spo3KJOma2OmnKf2th5N9Rd8A-LoBVdKA>
+    <xmx:qAW1aq4-8TJCRHUltNfzHNmsPCltmgMUvc34_biyOSFrRN5FEFSVwA>
+    <xmx:qAW1auURCeUmUEkoTGw2UdIk2C0A0oIoGItOehzzQ6ldMIR-UmzgfVDC>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 2F81BF8007E; Thu, 24 Sep 2026 07:12:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260919044124.8268-1-singhpra@juniper.net>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: 5d0zkJLTzQ0WC3zaEm1JX4nLlWMfJAqqW56eX0wq9GQ_1790247937
-X-Mimecast-Originator: redhat.com
+Date: Thu, 24 Sep 2026 13:12:17 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Prashant Singh" <singhpra@juniper.net>
+Cc: "Jeremy Kerr" <jk@ozlabs.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
+Message-Id: <f7a04536-61e8-40df-8876-260dd2ef4fa8@app.fastmail.com>
+In-Reply-To: <arUD_p0Vn4qyBH_e@redhat.com>
+References: <20260919044124.8268-1-singhpra@juniper.net>
+ <arUD_p0Vn4qyBH_e@redhat.com>
+Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
-> QueryVariableInfo() is an EFI runtime service that, on some firmware,
-> takes tens of milliseconds and runs with preemption disabled, stalling
-> the CPU that services it. efivarfs_statfs() calls it (rate-limited since
-> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
-> the variable-store used/available capacity, so any statfs(2) -- e.g.
-> every "df" -- can inject that stall into unrelated latency-sensitive
-> workloads on the same CPU.
-> 
-> Add a "nostatfs" mount option: when set, statfs(2) skips
-> QueryVariableInfo() entirely and reports zero used/available. It is set
-> by default on CONFIG_PREEMPT_RT so real-time kernels do not take the
-> stall out of the box.
 
-I tested the patch and was quite satisfied with the results, but upon a
-comment from colleagues I ran a few more tests and noticed (confirmed their
-hunch) that fwupd complains about not being able to get the free space in
-efivars:
 
-  # fwupdmgr get-devices | grep efivars
-  │     Update Error:       getting efivars free space is not supported
-  │ │   Update Error:       getting efivars free space is not supported
-  ...
+On Thu, 24 Sep 2026, at 13:05, Luis Claudio R. Goncalves wrote:
+> On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
+>> QueryVariableInfo() is an EFI runtime service that, on some firmware,
+>> takes tens of milliseconds and runs with preemption disabled, stalling
+>> the CPU that services it. efivarfs_statfs() calls it (rate-limited si=
+nce
+>> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to rep=
+ort
+>> the variable-store used/available capacity, so any statfs(2) -- e.g.
+>> every "df" -- can inject that stall into unrelated latency-sensitive
+>> workloads on the same CPU.
+>>=20
+>> Add a "nostatfs" mount option: when set, statfs(2) skips
+>> QueryVariableInfo() entirely and reports zero used/available. It is s=
+et
+>> by default on CONFIG_PREEMPT_RT so real-time kernels do not take the
+>> stall out of the box.
+>
+> I tested the patch and was quite satisfied with the results, but upon a
+> comment from colleagues I ran a few more tests and noticed (confirmed =
+their
+> hunch) that fwupd complains about not being able to get the free space=
+ in
+> efivars:
+>
+>   # fwupdmgr get-devices | grep efivars
+>   =E2=94=82     Update Error:       getting efivars free space is not =
+supported
+>   =E2=94=82 =E2=94=82   Update Error:       getting efivars free space=
+ is not supported
+>   ...
+>
+> I was not able to establish whether that would prevent specific operat=
+ions
+> due to the HW I had available for such test.
+>
 
-I was not able to establish whether that would prevent specific operations
-due to the HW I had available for such test.
+We might have to teach fwupdmgr to check the efivarfs mount flags and re=
+mount
+it if it requires this information. We should check whether that is poss=
+ible
+with the current version of the patch.
 
-One idea that I have been musing over is whether or not it would be interesting
-to create a static view of the efivars statfs data when first mounting it
-and updating this data whenever efivars is modified (create/write/delete).
-Does that sound reasonable?
+> One idea that I have been musing over is whether or not it would be in=
+teresting
+> to create a static view of the efivars statfs data when first mounting=
+ it
+> and updating this data whenever efivars is modified (create/write/dele=
+te).
+> Does that sound reasonable?
+>
 
-Luis
- 
-> Tested on an Intel Xeon E5-2628L v4, 6.12 kernel with CONFIG_PREEMPT_RT
-> not set (so reporting defaults to enabled and nostatfs must be passed
-> explicitly), via "strace -T -e trace=statfs df" on the efivarfs mount.
-> 
-> Default mount: statfs() calls QueryVariableInfo() and returns the real
-> store capacity, ~66-129 ms per call:
-> 
->   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
->       f_bsize=1, f_blocks=90024, f_bfree=33387, f_bavail=28267, ...})
->       = 0 <0.129124>
-> 
-> With -o nostatfs: no firmware call, capacity reported as zero, ~11 us per
-> call:
-> 
->   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
->       f_bsize=1, f_blocks=0, f_bfree=0, f_bavail=0, ...}) = 0 <0.000011>
-> 
-> Signed-off-by: Prashant Singh <singhpra@juniper.net>
-> ---
-> Changes since v1:
->   - Per review, dropped the fs.efivarfs sysctl / cached-capacity approach
->     entirely; instead add a simple "nostatfs" mount option that skips
->     QueryVariableInfo() in statfs() and reports zero, set by default on
->     CONFIG_PREEMPT_RT.
-> 
-> v1: https://lore.kernel.org/all/20260917071600.5587-1-singhpra@juniper.net/
-> 
->  Documentation/filesystems/efivarfs.rst | 10 ++++++++++
->  fs/efivarfs/internal.h                 |  1 +
->  fs/efivarfs/super.c                    | 20 +++++++++++++++++---
->  3 files changed, 28 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/efivarfs.rst b/Documentation/filesystems/efivarfs.rst
-> index f646c3f0980f..3ead638c796a 100644
-> --- a/Documentation/filesystems/efivarfs.rst
-> +++ b/Documentation/filesystems/efivarfs.rst
-> @@ -37,6 +37,16 @@ accidentally.
->            |4_bytes_of_attributes + efivar_data|
->            +-----------------------------------+
->  
-> +Mount options
-> +=============
-> +
-> +nostatfs
-> +      Do not report the variable-store used/available capacity in
-> +      ``statfs(2)``; report zero instead. Obtaining the capacity requires the
-> +      ``QueryVariableInfo()`` EFI runtime service, which on some firmware takes
-> +      tens of milliseconds and runs with preemption disabled, stalling the
-> +      calling CPU. This option is set by default on ``CONFIG_PREEMPT_RT``.
-> +
->  *See also:*
->  
->  - Documentation/admin-guide/acpi/ssdt-overlays.rst
-> diff --git a/fs/efivarfs/internal.h b/fs/efivarfs/internal.h
-> index f913b6824289..0cb053884b4b 100644
-> --- a/fs/efivarfs/internal.h
-> +++ b/fs/efivarfs/internal.h
-> @@ -11,6 +11,7 @@
->  struct efivarfs_mount_opts {
->  	kuid_t uid;
->  	kgid_t gid;
-> +	bool nostatfs;		/* skip QueryVariableInfo() in statfs() */
->  };
->  
->  struct efivarfs_fs_info {
-> diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
-> index 8d33f11db2a1..fbdaa4915d30 100644
-> --- a/fs/efivarfs/super.c
-> +++ b/fs/efivarfs/super.c
-> @@ -74,6 +74,8 @@ static int efivarfs_show_options(struct seq_file *m, struct dentry *root)
->  	if (!gid_eq(opts->gid, GLOBAL_ROOT_GID))
->  		seq_printf(m, ",gid=%u",
->  				from_kgid_munged(&init_user_ns, opts->gid));
-> +	if (opts->nostatfs)
-> +		seq_puts(m, ",nostatfs");
->  	return 0;
->  }
->  
-> @@ -82,13 +84,19 @@ static int efivarfs_statfs(struct dentry *dentry, struct kstatfs *buf)
->  	const u32 attr = EFI_VARIABLE_NON_VOLATILE |
->  			 EFI_VARIABLE_BOOTSERVICE_ACCESS |
->  			 EFI_VARIABLE_RUNTIME_ACCESS;
-> +	struct efivarfs_fs_info *sfi = dentry->d_sb->s_fs_info;
->  	u64 storage_space, remaining_space, max_variable_size;
->  	u64 id = huge_encode_dev(dentry->d_sb->s_dev);
->  	efi_status_t status;
->  
-> -	/* Some UEFI firmware does not implement QueryVariableInfo() */
-> +	/*
-> +	 * Some UEFI firmware does not implement QueryVariableInfo(); the
-> +	 * nostatfs mount option also disables this (preempt-disabled,
-> +	 * potentially slow) call entirely, reporting zero used/available.
-> +	 */
->  	storage_space = remaining_space = 0;
-> -	if (efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
-> +	if (!sfi->mount_opts.nostatfs &&
-> +	    efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
->  		static DEFINE_RATELIMIT_STATE(_rs, 2 * HZ, 5);
->  		static u64 storage, remaining;
->  		static DEFINE_SPINLOCK(lock);
-> @@ -323,12 +331,13 @@ static int efivarfs_callback(efi_char16_t *name16, efi_guid_t vendor,
->  }
->  
->  enum {
-> -	Opt_uid, Opt_gid,
-> +	Opt_uid, Opt_gid, Opt_nostatfs,
->  };
->  
->  static const struct fs_parameter_spec efivarfs_parameters[] = {
->  	fsparam_uid("uid", Opt_uid),
->  	fsparam_gid("gid", Opt_gid),
-> +	fsparam_flag("nostatfs", Opt_nostatfs),
->  	{},
->  };
->  
-> @@ -350,6 +359,9 @@ static int efivarfs_parse_param(struct fs_context *fc, struct fs_parameter *para
->  	case Opt_gid:
->  		opts->gid = result.gid;
->  		break;
-> +	case Opt_nostatfs:
-> +		opts->nostatfs = true;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -526,6 +538,8 @@ static int efivarfs_init_fs_context(struct fs_context *fc)
->  
->  	sfi->mount_opts.uid = GLOBAL_ROOT_UID;
->  	sfi->mount_opts.gid = GLOBAL_ROOT_GID;
-> +	/* QueryVariableInfo() stalls the CPU; default nostatfs on PREEMPT_RT. */
-> +	sfi->mount_opts.nostatfs = IS_ENABLED(CONFIG_PREEMPT_RT);
->  
->  	fc->s_fs_info = sfi;
->  	fc->ops = &efivarfs_context_ops;
-> 
-> base-commit: 9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-> -- 
-> 2.34.1
-> 
-> 
----end quoted text---
+efivarfs is not the only component setting EFI variables. You would also=
+ have to
+hook every caller of efivar_set_variable() as well as efi.set_variable().
 
