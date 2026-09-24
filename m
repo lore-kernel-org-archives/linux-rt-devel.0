@@ -1,368 +1,363 @@
-Received: from mail-wr2-f17.google.com (mail-wr2-f17.google.com [74.125.225.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010028.outbound.protection.outlook.com [52.101.193.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707943E3D80
-	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 04:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.81
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790223357; cv=none; b=AME7RA1oyD8YFbqdZa9k0SywW5hY8Yf9mvWdL82bQ6pS0CyQ2UlJTI/+JfcM2oHzgNlUvW51aZcaVUu1y5Oz/SCWF34YhpW44tI/ZnC+Sp1M+/v+1Z0tNfL6sVsC3c10cNmjZv9O9tJfsBBsmcbEX0fYgli/nuHBZ/6iAinelDQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790223357; c=relaxed/simple;
-	bh=wd+z82daAPeQeFK3XyhpW1aFmGnFyCzSi/HyRuHpMxo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nuym5QWfcJg3Mo+XNdA/KJLuRGYJQivOb3wSXRaamPjeNbEt0kmsFtDOAd9ot7wmkTMhi++k+BelPmxduKf6B1tcxrydZ/romzqkqm3fDZbnNXOCHYuxrVJ2soSK67LZoDMOgEi9go9P1FdzFAk/nwfr91CpHD/uRbcsUMBrozU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=swl8kWhg; arc=none smtp.client-ip=74.125.225.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8629441027
+	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 09:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790242162; cv=fail; b=YsKeg4nJI+TIMUcgbiT5Bfgetu7aTPBPyxH+yZJ86VZaZqGjJsM0dDDYSjzAZ3n6TBOU0gOUR7mTV9HH+6nQ20qUSBtEzY5/5H655SJ4luBHM31G/0KxPScqRjr7jbeE6Z6ArLVlS1oMXj6idaAfSy8lIHxgPP8bmk8Ms/g9/Ug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790242162; c=relaxed/simple;
+	bh=poxf5bGyAUBXfEp4TModaSgiR9PpbBmn2mz2Z+F7x5k=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QLG7Wj/o0dDaHmoxw9mz/zQDoTOxLxpp4kmszmj8hUN8DaZUUc1VRSaYBXAkLNND4ScB5hS+mmAoQmXeojM6dS8CEq/B05duX2RspRlT8VR6us7eYzT4+r6iyZ9QdnSCwDj548S0IP8M3UXSgdoelAmzOydMeRe+UKVR8LlXuWQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iUNHWLHu; arc=fail smtp.client-ip=52.101.193.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="swl8kWhg"
-Received: by mail-wr2-f17.google.com with SMTP id ffacd0b85a97d-484366874b0so987471f8f.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 23 Sep 2026 21:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790223352; x=1790828152; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YWVcmr61uvRESgmYqL0NJuQ5Q9SFbNbhCJjJopGH0Ag=;
-        b=swl8kWhgYvsPUA6xNsYRWYDtSUnhBwXOA8LhyMXwS7CorAXs7EuY/Xysie+DsLChno
-         1AqLxyTDW3ghP3QNMDNiu9xmk+CpXbA50hD9y2/7xH2XADBa5LMu9wLvWR69sKELvXHY
-         ftzEaooP5n74jj6Lh0zHCmSIV3ELllKc0oPpKii8I4xeIgXmk06JifFIeBeEB3YqZ8i3
-         aXoeMeswehmJsWOx0vBi/ZjfjYagvnXLoM99mFDuzO70+zPj4/aRlzSiupo3xX5zzu3K
-         7ixWD3EBdGqJ+O3BVFe8MY1vtfiTNQGH/ZPuenyP2CKngidCL6KIUPSx9bHg5vunKPMB
-         zECQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790223352; x=1790828152;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YWVcmr61uvRESgmYqL0NJuQ5Q9SFbNbhCJjJopGH0Ag=;
-        b=dRSl2DLRJ/opmW7tOkT0YIvEd5DVyTVeJUR8gzaOopYuAlUOTZdz1EsCbtYP5cUub7
-         1Bcg2cM+cLBYPIcWm3QYKSroNIPucoM1Gib2koALiQSzgOo8hCl+EHDud4USwBhCiHs1
-         Mn+MdOIVsxvCuDjBt/wfxT5iB/X43uAJXuCcHcziPMu3us7ue+5jyrpFn1H5iPdHRdHM
-         CnM8CeRCQ8S5QRcbyJBVpAckvUypEejBtICUQoxnrI6SLRbIpIXeiQ7ZVRG1UBgs55Db
-         Vgb4e++ONc/vadvIom7catf/0VcgLWG/No22lP+STR+GajfU1BmDpmK8oQY1P8bEz01e
-         pKOA==
-X-Forwarded-Encrypted: i=1; AKwUvBzNxmEgVeDu7Hg3OOmZQVq/PUM6orT9Wje6t0WiJlJXQpK4ydztFWaxs2kZdt026W/C2Pi5KUv1b6GHPc5PYQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mP5JBJ3AHMvd75PxpI35EacNaYtje2UH1r91bD9TZuBUPMbf+P
-	n9vk+qMSyCY3HR3ca+rX2NnWeanwmzq+DEHqMJn8aVM28h+HBCBZOYoa
-X-Gm-Gg: AYBFou0759ie9/ol6UPoJG8rVqlHf8xPOJZ3awQXhKYIFc2V575NGt0xZwdYDECRlpb
-	PgUvHKGg7LkLm+xkk6GcTeL04fyzyGmX+KLOG5x06ctn3o8EWB3Ty2tkhMya8YLc5p0ffLkoZZX
-	orw+djLF1ZM0gTS9G7HF4uiAMvYqdnlI55rvWVxKPz7YlkpnaAX4oYKNaSRyg6SGr8MmtC8BsCn
-	3GrRU4jeSuntJTabklvTCQjXjCYMH51LwcLAtoajvD+7vOT4u8WO2BiFHTGZSCI8UonnT1pWkEc
-	yBk5SeCEEde2pNXUZJSF7duRTU1i9eX59FqyVw9jpCP02TzcnAXNp5I4ULVl8rZbDZISCmHNF5B
-	RLJYjfydmQOQLNVRWhxW8AFePzPzrfgU9y9HslImGcA9t0jPtDQB15/pvUOgIioFldYg13wQGYl
-	GViiGPr5LcM4FdYY7DRfLp2l7N1An0JUUZPXmrEdcjFWeS09Xh+4SSlvahp+Q/EkRT5sLydOIye
-	u8mWWmGt+p2woqtL6NvKetvRAp4y8qacaHxc3B3VP28OESyjYHJMV8lRWEkz0PUP0dHgaDQ18Qs
-	s+xkFkgFsOjJHeVj49dVpxUCZbnICGHw5ydpPAoAxXmddug6wJeceTewJrNs4DN5O4ggKTDSRSh
-	LeFL2pCan
-X-Received: by 2002:a05:6000:2406:b0:487:27f6:a4d0 with SMTP id ffacd0b85a97d-488716a5f55mr1807168f8f.32.1790223351681;
-        Wed, 23 Sep 2026 21:15:51 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-adbf-6901-6c54-85ea-c6d5-a48d.310.pool.telefonica.de. [2a02:3100:adbf:6901:6c54:85ea:c6d5:a48d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488682668dcsm12187186f8f.1.2026.09.23.21.15.50
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 23 Sep 2026 21:15:51 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v3] softirq: Preserve interrupt context during IRQ exit
-Date: Thu, 24 Sep 2026 06:15:38 +0200
-Message-Id: <20260924041538.52574-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iUNHWLHu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uBgZjYNW+kRhZtoBLg4odpzkS/fJo9Ibd7iEd/Ts/5G3IOwC52XTDwm1NqPcIXs9HueZxCR2ipbd9UxjPvmEUtmxm3kNVXrqyMIFbDTGxMMpk8t7tBdkUO2YsXJFfW2/XxaPnA7hrNfdgVl5BlpKXI9MMBr0kubIRocB7IbAHPkg1YRxwpSp24axDVApilkxwZ8B+jrfTj5RQV3tcwUWYg0SsG3BDoa+O8RF0YiUAqpvHBDTwL/8TpmBb/IqJ5RewgL+M8gEbWjrYeL2YMVSFioF/cqH97Kl/sVGsHgsI33ZxnURm8Q22tw2Aff8T1pR8bX4TNXVoCKUTiaqd5IgKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BkATPKz8peYTmst8OH6sGzKdxfIiedNVA9/xXGPK1dE=;
+ b=CxazQ8mzMzmnN7vLsEN7MYz1k+3Hzy8aQVgQiqjCrXjqD2J/X+WEWDbA+xwGdWP+twhXRVgS5LsUS8X6L7bLqKn2JHBgmA3gkrv6IO2PY3PgXsrwHBQB7DxmMotuxLSpFKQPOX+l3G9q41rDvyjcrTB/mplxVH6+k/zly+TJ2EaZrwgxtbL0wlHv644QHmibRZ1kfS+KdKNWnQGr8dXoR+3vqZbocM+m0J6yE9lt3niBjUExVJt7NzwFQ7lnMhpdMgggGP/VNuTby3wFsby5PLIWEVZddU7UscXI3+YcQXHJQlsVlQo5TBHfb5hW1hRx1b7grz2ygVh3KL91dU/zmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BkATPKz8peYTmst8OH6sGzKdxfIiedNVA9/xXGPK1dE=;
+ b=iUNHWLHuYzT4+4eBrBBUmoByTfsghoPuMFWHzs+0XW4WBpSRzAHJ9pbaYcbdRjsad2ObXPDp0eTf03OGpynnLlBrkhOGdDNdwi1WW3Cy4qosAwoU14n4roY60G/0N7lsgMpA+Csaj9jrHeUZLWLHCnLSt2UrW+KSFL4hZlIdBds=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN7PR12MB8147.namprd12.prod.outlook.com (2603:10b6:806:32e::5)
+ by DM4PR12MB5772.namprd12.prod.outlook.com (2603:10b6:8:63::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.16; Thu, 24 Sep
+ 2026 09:29:13 +0000
+Received: from SN7PR12MB8147.namprd12.prod.outlook.com
+ ([fe80::3923:c1a4:778b:56f2]) by SN7PR12MB8147.namprd12.prod.outlook.com
+ ([fe80::3923:c1a4:778b:56f2%3]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 09:29:13 +0000
+Message-ID: <a30f5acd-b8a8-4e8f-a01f-a94bcf04504b@amd.com>
+Date: Thu, 24 Sep 2026 14:59:02 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 1/8] dt-bindings: net: add Xilinx TSN Endpoint
+ Ethernet MAC
+To: netdev-bot+sashiko@kernel.org, srinivas.neeli@amd.com
+Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, richardcochran@gmail.com,
+ michal.simek@amd.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ rostedt@goodmis.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
+References: <20260909-patches_v2_external-v2-1-3a40babaff4c@amd.com>
+ <178924536482.3125.12884246382008244685@kernel.org>
+Content-Language: en-US
+From: "Neeli, Srinivas" <srneeli@amd.com>
+In-Reply-To: <178924536482.3125.12884246382008244685@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PEPF0000017B.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c04::46) To SN7PR12MB8147.namprd12.prod.outlook.com
+ (2603:10b6:806:32e::5)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8147:EE_|DM4PR12MB5772:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc4dbe57-8d48-4083-23d4-08df1a1e4bdb
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|3023799007|56012099006|5023799004|11063799006|6133799003|4143699003|18002099003|10067099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	qTNEuzDzqOW1TLSuelVX8y7IcNDm3nmuRyFUQGafSv/bxKwFzW/Q7Txo7GuLZEQAjUAmOpUGguUFIpdRZZM2XeANyA6lR0cp9C7sICZFefGG8GfBBxHDDR1Kt8kUTzAReAsc0y1jC1R+Bu7ZBcBt1zKDaN02BSSoqpOynf5iuNWwp37K35sSc0D5p7CiyVdiIAuGHtmNM20yFZJ7TimakedPbEWYW/Kg3e+jZd5G2dgmxhEXphILbIiYShusdZTzjlHfeay3LDnJU5XAUTrvkJdGgULjQyQHzz66p5E15XqrQmgHpHTBqZOL5Si8e5A2+hufXkPEcgNd2RSdi9DjIWgbqjd0VieoScDi1RSO1rpBb7MHB459cKKu9Z+JHyAoJ4Q2Kkc8nVkxU9X1VQ27RZDkwEEBVgzjkYmW2G6JRNCRc/toNy2p8I7FZozkOs84aQGyCN+hfWJNszPBf+NBKaci+edoI2JW6dHBUJGUgKzo2yoI7f/pl8hkcKovutxAWyGoRXRkQAhDn3cfIo2+kvcQaPPt9dsnCfJZwqWMYZxdtgzOIneeoc0ZzILbP9MhMBBaqmDsL8TLBh136+rTpWOiEdGVYZXyuxH3uVT+wEHyVsKD7lu5Xj0N2oRiVipwc7nTxK4sKR6iA5YdLCibPLtUGjseHxx+xQ16lrc+Oiw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(3023799007)(56012099006)(5023799004)(11063799006)(6133799003)(4143699003)(18002099003)(10067099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aGJLRjVNVU52ci9qdEVxYVRrSVViWHFJc1NEMWI1SmZGNXU5UjZ3TFdtYVVz?=
+ =?utf-8?B?cjdIejd0OGJ4UTZCM3lGY0dxWmJpVW5BZEhPL285TnlqSHNKbjMyWmt3TVQx?=
+ =?utf-8?B?TTQyZGhpVjl4N3N5NVoxdGhvSzMzamRwWkQxM1pkQVdaOFp6eHJqNlI3QnZO?=
+ =?utf-8?B?RGFQVTAyNEc2TkRKcWJMNUlKS2RxNklpN2c5NUxveDJjcXE0YjdrQVNDVVRH?=
+ =?utf-8?B?aW1aM1lsS2h3TzRCZEFnRk9YUlQ3dGZyU0loKy9ENHJjRG1pbHR5K2ZpWENX?=
+ =?utf-8?B?QUJjcEZPUm9JeTBwdGpmczdsdnp4S0NzbTBkWUVYa3lpOWFON1Qyb01jeEVG?=
+ =?utf-8?B?cEVxbGwydVB2U28zQ3lVdDhtTjZoS1hHVW4rSkhzVTZETHdGY2l4dllUYTdq?=
+ =?utf-8?B?bS9Tb1JzMjEycUNVdHFkRjZkcVJkaW54T2ZVWVkzbEZlWFB0OFlHVndkRzR1?=
+ =?utf-8?B?bzJrN0dCUDB0U2p1V0I2VEFJckxJRElMRXdNZUlSYkpmR3hyc1cvdithYjRI?=
+ =?utf-8?B?MjdUWFRtWXpmZTlhMk1mQ20rU2UwRlIwS1UxcTUrNDhtTmtuaU5lYU5lSW5y?=
+ =?utf-8?B?cWZFUWZhTUlheFZSSXNsa3N6WE1PZjhLVE5PZ0xjTlJNcWNuT0wzUEt1N3NY?=
+ =?utf-8?B?T051eTdpWUdDWFlBQkpmV0QydWFZeVh2ZVFYYm5NZVp4RHNSME9oYklrZTk5?=
+ =?utf-8?B?YmJnS0I5Q2tnVU9iR1J5WWZJWGlTdEh6QU9ZMEFmMUhRbkF2aCtHeVBpZWpl?=
+ =?utf-8?B?SkhqckdnQTc0TUgrdkNHZTMzWkQwL0lpWVBTZlFsdDRBUi8rY2h5dkhTRXBT?=
+ =?utf-8?B?bElEeDZZazV4SjROc0RQQWZLcW5VYkYwcXhGVHhmQVVuMmtDczFJZFAvVThq?=
+ =?utf-8?B?SkI4UlZmeG5lcmJlcVNSWUh4a2xSeFh5TVc4ZlhyK2d2c1lLQTh1dkxnYzZO?=
+ =?utf-8?B?U0l3SllVbFVIM2V2aGF3ZFRaZXpxMEFrTnpXek1uSmFGLzBzY0VzYVlxb1hy?=
+ =?utf-8?B?Umh3OC9EbEMyZ3hTRzJrZEpUZ1crNis0Mk5RbDIzOFNPdmtTc1E4TVBaYnZ0?=
+ =?utf-8?B?MmFYRkY2WWZQcmE2L2Q0QS9OUHA1WjRkWXF0K1FYZTEveWFRNUxEelFGOUdO?=
+ =?utf-8?B?dytVWENNVXR4aExPT1VwTUVIODQ5Mmd5OExRQTZzYStGdlljaTF5QWc4QUJp?=
+ =?utf-8?B?cEErUGlYcHNESzBhajBpSXdSaVJROUVuU1FSTmpyUmRWbHIvTlI5bDV0Z2pX?=
+ =?utf-8?B?UENRUjFHK1ExSXJ6eTdaQm1vd1hMNHJHaHFzUTZHS1NTZjJiNEs2clF2azVQ?=
+ =?utf-8?B?YmFyVW12M2l3cjY5WlBZS2hReWRORXYxb3dJRk80UEEzY0ZDL2kxdFV4Wi9G?=
+ =?utf-8?B?Sm9VS3NrK3JWUWZ2M09pTys1QkNUWGNLV1YwNDNQYWNVeiswbHNzMmQ5Vk4r?=
+ =?utf-8?B?NUJrOWk0N1FqVU5zMy9DRGFuZ2toWnVMM2lXS2ZtUVZMamZVOFJGZWZ0a2lW?=
+ =?utf-8?B?ZUNubkR2VktpZDB0VVZHTlZPUXdqWXN3cWdIdWRaZEswRStNRHB0OXB5dHF6?=
+ =?utf-8?B?THJVL3A5aFhxZlJmLzYyNzU1dkNXMHVPRFFvV2JQMkVLZE5zSURjNnBjWFR5?=
+ =?utf-8?B?VFc1Y0l0czBuZHU2Qk5QbEp4RFJuVnpPYjhnZDAvcCtaZy9ROS9OZGVLc3VS?=
+ =?utf-8?B?cWxZQlJBRHlkcjV6UGJneCt1OEEyQXYvdWhSM2lsMUo5SEJ2dGRWRmVTQ3hY?=
+ =?utf-8?B?TTF5bDB4dFB1aExiWWtLT24yRUhHNjRZQ3FTOGZudGNFMlFxM0M5NGxCZzB1?=
+ =?utf-8?B?cUFjTDFQRVA0TEFqdE9GRFdUWnlMWDlBV2ZPaWVLTjd4WHgydWEvSXZGN2JX?=
+ =?utf-8?B?di9ERzZoVTdRViswdmhSV1FJdkExaHN0SHV5a1Fub3JOWTJNTjRTcE9HTzZq?=
+ =?utf-8?B?dXVqRHV0NHhkYVphbEZZclE3OXNuaVZLbjl2TjY3UHJTZVEwSE9iUTFvSEZI?=
+ =?utf-8?B?SUQvZXc0enBmc0NoSUovdHpZeUFsUGpVVG5tWGg1QzZsc2x0WXd1QnBOVVl0?=
+ =?utf-8?B?THBVQXdnN3FweWZ6b2JHb2R2bGJFVWV0TFZCaWNqNzRzUWdyL0gwWUFTMER6?=
+ =?utf-8?B?eWxPekpxckV1NHUyV2xjbWZYd2wrcHpmcWphVERVQUd2cmNaWlVLR2Q3VmQ1?=
+ =?utf-8?B?ZDNCV05uYmxkOTl1SVBNdkIvdFd5TVhzc0QzUzJ6WkN1ekpYR3JTUWQ0cktF?=
+ =?utf-8?B?UUlSYzBkbWI1L0UvMGloUGt2UGh5Q3djTmpRRG00NUxWTWNGM1hrSmlCdFoy?=
+ =?utf-8?Q?qsmFVA4QW2fr1jAnPY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc4dbe57-8d48-4083-23d4-08df1a1e4bdb
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8147.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 09:29:13.7372
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TWHVzeiLGaay/RAkP3nCLfYmy1w8q85KqDBRsVEY3af493Ch3NAiRPYCC3ghN4Op
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5772
 
-__irq_exit_rcu() removes HARDIRQ_OFFSET first and then runs
-hrtimer_rearm_deferred(), invoke_softirq() and wake_timersd(). This is
-interrupt exit work with interrupts disabled, but preempt_count already
-describes the interrupted task again. Everything which derives the
-context from preempt_count gets it wrong in that window:
+Hi,
 
-  - ftrace, perf and the ring buffer record task context and use the
-    task recursion and context slots.
-  - KCSAN attributes the accesses to the interrupted task, KMSAN uses
-    and changes its state. KCOV and the printk caller id see a task.
-  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
-    interrupt context to avoid interfering with PI when the interrupted
-    task is blocked on a lock. That check does not reject calls made in
-    this window. BPF programs attached to sched_waking or sched_wakeup
-    can reach it through kmalloc_nolock().
-  - An oops kills the interrupted task instead of ending in "Fatal
-    exception in interrupt".
+On 9/13/2026 2:06 AM, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issue(s) to consider:
+>
+> Critical: 0 · High: 0 · Medium: 1 · Low: 1
+>
+> - [Medium] Inconsistent/incomplete port constraints in the new switch
+>    `^(ethernet-)?ports$` container.
+> - [Low] The endpoint MAC child's DMA/queue description is under-
+>    constrained and, more importantly, duplicates information that is…
+>
+> --
+>
+> dt-bindings: net: add Xilinx TSN Endpoint Ethernet MAC
+>
+> Adds a new binding for the Xilinx TSN Endpoint Ethernet MAC IP in the
+> Bridged Endpoint configuration.  The wrapper node owns the six IP clocks
+> and xlnx,num-priorities, and has an ethernet@ child for the endpoint MAC
+> and a switch@ child for the three-port switch plus its two per-MAC
+> windows.
+>
+> Two questions below about the schema constraints.
+>
+>> diff --git a/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml b/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
+>> new file mode 100644
+>> index 000000000000..4e65d1710da7
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/net/xlnx,tsn-endpoint-ethernet-mac.yaml
+>> @@ -0,0 +1,364 @@
+> [ ... ]
+>
+>> +  xlnx,num-priorities:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    minimum: 2
+>> +    maximum: 8
+>> +    description:
+>> +      Number of traffic classes (priorities) configured in the IP.
+>> +      This is an IP configuration parameter that determines the number of
+>> +      priority queues available for QoS scheduling. Traffic classes map to
+>> +      IEEE 802.1Q priority levels (0-7).
+> [Severity: Low]
+>
+> Is xlnx,num-priorities derivable from the properties already present in
+> the ethernet@ child?
+>
+> The driver added later in this series only accepts one value for it.  In
+> xlnx_tsn_ep_probe() in drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c:
+>
+> 	if (num_tx != num_prio)
+> 		return dev_err_probe(dev, -EINVAL,
+> 				     "TX channel count %u must equal num-priorities %u\n",
+> 				     num_tx, num_prio);
+>
+> so the only legal value is the number of tx_chanN entries in the child's
+> dma-names.
+>
+> Since this is a required ABI property, would it be better to drop it and
+> count the tx_chanN entries, or, if it must stay, to state in the
+> description which of the two is authoritative?
+>
+> [ ... ]
 
-Tracing and the sanitizers see the wrong context in this window. No
-failure caused by this misclassification is known. The early removal of
-HARDIRQ_OFFSET predates git. lockdep is not affected because
-lockdep_hardirq_exit() is the last operation in irq_exit().
+No, xlnx,num-priorities is not derivable from the ethernet@ child 
+properties.
 
-Keep HARDIRQ_OFFSET until right before tick_irq_exit(), which needs
-in_hardirq() to be false for the outermost interrupt. Softirq handlers
-must not run with HARDIRQ_OFFSET set, so softirq_handle_begin() replaces
-it with SOFTIRQ_OFFSET and softirq_handle_end() reverts that, each in a
-single raw preempt_count update. The raw operations keep the preemption
-disable location recorded by irq_enter_rcu(), and lockdep is updated by
-hand. softirq_handle_begin() detects the case with
-in_hardirq() because __do_softirq() is reached through the stack switch
-in do_softirq_own_stack() and cannot take an argument.
+xlnx,num-priorities is the number of egress priority queues the IP is
+synthesised with. It is an IP configuration parameter and describes the
+hardware, so it belongs in the binding independently of the host DMA 
+wiring in
+dma-names.
 
-The checks run before HARDIRQ_OFFSET is removed. !in_interrupt() becomes
-irq_count() == HARDIRQ_OFFSET, as in irq_enter_rcu(). The timer thread
-check becomes !in_nmi() && hardirq_count() == HARDIRQ_OFFSET. It does
-not test softirq_count(): the timer thread must also wake when the
-interrupt hit softirq processing or a section with BHs disabled.
-A softirq raised in the timer thread wakeup is handled by the timer
-thread, which handles all pending softirqs.
+The num_tx == num-priorities check reflects this MCDMA only configuration,
+where the driver sets up one MCDMA TX channel per priority queue. The driver
+requires the tx_chanN count to equal num-priorities and rejects a device 
+tree
+where they differ. That requirement is a property of this configuration, not
+the meaning of num-priorities. With the time-aware and per-stream 
+schedulers a
+priority queue can be served without an MCDMA TX channel, so 
+num-priorities is
+not derivable from the dma-names count in general.
 
-A softirq raised in the final preempt_count_sub(), e.g. by a consumer of
-the preempt_enable tracepoint, misses these checks. Wake ksoftirqd for
-it as raise_softirq_irqoff() would. Otherwise it waits for the next
-interrupt exit and a cpuidle driver reports it as pending at idle entry.
-
-The number of preempt_count updates and the interrupt time accounting
-are unchanged. The preemptoff tracer now reports the interrupt and the
-softirq processing on top of it as one section, and function graph with
-nofuncgraph-irqs also skips the interrupt exit work, including the
-__do_softirq() frame.
-
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-
-Notes:
-    Thanks for the review, Sebastian.
-    
-    v3 also adds a pending softirq check after the final
-    preempt_count_sub(). A preempt_enable tracepoint callback can raise a
-    softirq there, after the softirq and timer thread checks. With an RCU
-    reader in that callback I saw 10 NOHZ tick-stop warnings per boot in
-    QEMU without the new check, and none on the base kernel or with the
-    check. The check wakes ksoftirqd for newly pending softirqs. Does this
-    case justify the extra check on every IRQ exit?
-    
-    Changes in v3:
-    - Operands swapped, no casts, one irq_count() check per direction,
-      lockdep_softirqs_off() before it (Sebastian).
-    - Timer thread check without IRQ_EXIT_TIMERS, order of the exit work
-      kept (Sebastian).
-    - from_hardirq renamed to from_irq_exit, comment as Sebastian suggested.
-    - ksoftirqd wakeup for a softirq raised in the final
-      preempt_count_sub(), see above.
-    - Documentation/core-api/entry.rst updated.
-    - Rebased on tip/master c81f6d2398d0.
-    
-    I am not proposing this for stable.
-    
-    Testing: base against v3 in QEMU on x86-64 in separate configurations
-    (non-RT, threadirqs, RT, KCSAN, KMSAN, rcutorture), on arm32, arm64,
-    ppc64, s390x, parisc, sparc64, riscv64, loongarch64 and m68k, and on a
-    SAM9X75 (also RT), a Raspberry Pi 500+ and a Raspberry Pi 400. No
-    regressions observed in these runs.
-    
-    v2: https://lore.kernel.org/r/20260905023210.82853-1-kmehltretter@gmail.com
-
- Documentation/core-api/entry.rst | 16 ++++---
- kernel/softirq.c                 | 79 +++++++++++++++++++++++++++-----
- 2 files changed, 77 insertions(+), 18 deletions(-)
-
-diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
-index 79fdaed954d9d..ff3df997b151f 100644
---- a/Documentation/core-api/entry.rst
-+++ b/Documentation/core-api/entry.rst
-@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
- means that up to the point where irq_enter_rcu() is invoked in_hardirq()
- returns false.
- 
--irq_exit_rcu() handles interrupt time accounting, undoes the preemption
--count update and eventually handles soft interrupts and NOHZ tick state.
-+irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
-+possible, undoes the preemption count update and finally handles the NOHZ tick
-+state.
- 
- In theory, the preemption count could be updated in irqentry_enter(). In
- practice, deferring this update to irq_enter_rcu() allows the preemption-count
-@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
- is that the early entry code up to irq_enter_rcu() must be aware that the
- preemption count has not yet been updated with the HARDIRQ_OFFSET state.
- 
--Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
--before it handles soft interrupts, whose handlers must run in BH context rather
--than irq-disabled context. In addition, irqentry_exit() might schedule, which
--also requires that HARDIRQ_OFFSET has been removed from the preemption count.
-+Note that soft interrupt handlers must run in BH context rather than in hard
-+interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
-+SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
-+puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
-+is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
-+irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
-+that HARDIRQ_OFFSET has been removed from the preemption count.
- 
- Even though interrupt handlers are expected to run with local interrupts
- disabled, interrupt nesting is common from an entry/exit perspective. For
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index c3729c5b284b0..efa6707edc0e9 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
- 	local_irq_enable();
- }
- 
--static inline void softirq_handle_begin(void) { }
--static inline void softirq_handle_end(void) { }
-+static inline bool softirq_handle_begin(void) { return false; }
-+static inline void softirq_handle_end(bool from_irq_exit) { }
- 
- static inline bool should_wake_ksoftirqd(void)
- {
-@@ -481,15 +481,40 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
- }
- EXPORT_SYMBOL(__local_bh_enable_ip);
- 
--static inline void softirq_handle_begin(void)
-+static inline bool softirq_handle_begin(void)
- {
--	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
-+	bool from_irq_exit = in_hardirq();
-+
-+	if (!from_irq_exit) {
-+		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
-+		return false;
-+	}
-+
-+	/*
-+	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
-+	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
-+	 * interrupts. Use the raw operation to preserve the preemption
-+	 * disable location recorded by irq_enter_rcu(), and update lockdep
-+	 * directly.
-+	 */
-+	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+	lockdep_softirqs_off(_RET_IP_);
-+	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
-+
-+	return true;
- }
- 
--static inline void softirq_handle_end(void)
-+static inline void softirq_handle_end(bool from_irq_exit)
- {
--	__local_bh_enable(SOFTIRQ_OFFSET);
--	WARN_ON_ONCE(in_interrupt());
-+	if (!from_irq_exit) {
-+		__local_bh_enable(SOFTIRQ_OFFSET);
-+		WARN_ON_ONCE(in_interrupt());
-+		return;
-+	}
-+
-+	lockdep_softirqs_on(_RET_IP_);
-+	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
- }
- 
- static inline void ksoftirqd_run_begin(void)
-@@ -605,6 +630,7 @@ static void handle_softirqs(bool ksirqd)
- 	unsigned long old_flags = current->flags;
- 	int max_restart = MAX_SOFTIRQ_RESTART;
- 	struct softirq_action *h;
-+	bool from_irq_exit;
- 	bool in_hardirq;
- 	__u32 pending;
- 	int softirq_bit;
-@@ -618,7 +644,7 @@ static void handle_softirqs(bool ksirqd)
- 
- 	pending = local_softirq_pending();
- 
--	softirq_handle_begin();
-+	from_irq_exit = softirq_handle_begin();
- 	in_hardirq = lockdep_softirq_start();
- 	account_softirq_enter(current);
- 
-@@ -670,7 +696,7 @@ static void handle_softirqs(bool ksirqd)
- 
- 	account_softirq_exit(current);
- 	lockdep_softirq_end(in_hardirq);
--	softirq_handle_end();
-+	softirq_handle_end(from_irq_exit);
- 	current_restore_flags(old_flags, PF_MEMALLOC);
- }
- 
-@@ -742,14 +768,20 @@ static inline void wake_timersd(void) { }
- 
- static inline void __irq_exit_rcu(void)
- {
-+	u32 pending;
-+
- #ifndef __ARCH_IRQ_EXIT_IRQS_DISABLED
- 	local_irq_disable();
- #else
- 	lockdep_assert_irqs_disabled();
- #endif
- 	account_hardirq_exit(current);
--	preempt_count_sub(HARDIRQ_OFFSET);
--	if (!in_interrupt() && local_softirq_pending()) {
-+
-+	/*
-+	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
-+	 * softirqs, and only if it did not hit a softirq or BH disabled section.
-+	 */
-+	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
- 		/*
- 		 * If we left hrtimers unarmed, make sure to arm them now,
- 		 * before enabling interrupts to run softirq.
-@@ -758,10 +790,33 @@ static inline void __irq_exit_rcu(void)
- 		invoke_softirq();
- 	}
- 
-+	/*
-+	 * Wake the timer thread even if the interrupt hit a softirq or a
-+	 * section with BHs disabled. Only nested interrupts and NMIs are
-+	 * excluded.
-+	 */
- 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
--	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
-+	    local_timers_pending_force_th() &&
-+	    !in_nmi() && hardirq_count() == HARDIRQ_OFFSET)
- 		wake_timersd();
- 
-+	pending = local_softirq_pending();
-+
-+	/*
-+	 * tick_irq_exit() relies on in_hardirq() being false for the
-+	 * outermost interrupt.
-+	 */
-+	preempt_count_sub(HARDIRQ_OFFSET);
-+
-+	/*
-+	 * A softirq raised in preempt_count_sub(), e.g. by a tracepoint,
-+	 * missed the checks above. Wake ksoftirqd as raise_softirq_irqoff()
-+	 * would have done.
-+	 */
-+	if (unlikely(local_softirq_pending() & ~pending) && !in_interrupt() &&
-+	    should_wake_ksoftirqd())
-+		wakeup_softirqd();
-+
- 	tick_irq_exit();
- }
- 
-
-base-commit: c81f6d2398d063009cc9ad2c98f126daaa7669e2
--- 
-2.53.0
+Thanks
+Srinivas Neeli
+>> +      dma-names:
+>> +        minItems: 2
+>> +        maxItems: 16
+>> +        items:
+>> +          pattern: "^(tx|rx)_chan[0-7]$"
+>> +        description: |
+>> +          Names matching the entries in 'dmas', one per DMA channel and in
+>> +          the same order. TX channel names use "tx_chan<N>" and RX channel
+>> +          names use "rx_chan<N>", where N is 0..7. Example: "tx_chan0",
+>> +          "tx_chan1", ..., "rx_chan0", "rx_chan1", ....
+> [Severity: Low]
+>
+> A plain items pattern here also accepts lists the description rules out:
+> a TX-only or RX-only list, the same name repeated twice, or RX names
+> before TX names.  Could the entries be spelled out as an ordered items
+> list (or split with minItems/maxItems per direction) so the "TX first,
+> then RX" ordering is actually enforced?
+>
+>> +      tx-queues-config:
+>> +        type: object
+>> +        additionalProperties: false
+> [ ... ]
+>> +        patternProperties:
+>> +          "^queue[0-7]$":
+>> +            type: object
+>> +            additionalProperties: false
+> [ ... ]
+>> +            properties:
+>> +              xlnx,dma-channel-num:
+>> +                $ref: /schemas/types.yaml#/definitions/uint32
+>> +                description:
+>> +                  DMA channel that transmits this priority queue, given as
+>> +                  the N of the tx_chanN entry in dma-names.
+>> +                minimum: 0
+>> +                maximum: 7
+> [Severity: Low]
+>
+> tx-queues-config is required but has no required queueN child, so an
+> empty tx-queues-config node validates.  xlnx,dma-channel-num is also
+> bounded only by 0..7, so a queue may point at a channel that is absent
+> from dma-names, or at a channel another queue already claims.  Was at
+> least a required queue0 intended here?
+>
+> [ ... ]
+>
+>> +    patternProperties:
+>> +      "^(ethernet-)?ports$":
+>> +        type: object
+>> +        additionalProperties: false
+>> +
+>> +        properties:
+>> +          '#address-cells':
+>> +            const: 1
+>> +
+>> +          '#size-cells':
+>> +            const: 0
+>> +
+>> +          port@0:
+>> +            type: object
+>> +            unevaluatedProperties: true
+>> +            description:
+>> +              CPU port. Wired internally to the endpoint MAC sibling.
+>> +
+>> +            properties:
+>> +              reg:
+>> +                const: 0
+>> +
+>> +              phy-mode:
+>> +                const: internal
+>> +
+>> +            required:
+>> +              - ethernet
+> [Severity: Medium]
+>
+> Should reg be required on port@0 as well?
+>
+> The value is constrained with reg: const: 0, but the required list only
+> names ethernet, and nothing in the inherited chain makes reg mandatory:
+> dsa.yaml#/$defs/ethernet-ports -> dsa-port.yaml only defines it,
+>
+>    properties:
+>      reg:
+>        items:
+>          - description: Port number
+>
+> and its if/then on ethernet/link requires phy-mode plus one of
+> fixed-link/phy-handle/managed.  ethernet-switch.yaml's ports container
+> requires only #address-cells/#size-cells.
+>
+> So this node passes dt_binding_check:
+>
+>      port@0 {
+>          ethernet = <&ep_mac>;
+>          phy-mode = "internal";
+>          fixed-link { speed = <1000>; full-duplex; };
+>      };
+>
+> but dsa_switch_parse_ports_of() in net/dsa/dsa.c bails out on it:
+>
+> 	for_each_available_child_of_node(ports, port) {
+> 		err = of_property_read_u32(port, "reg", &reg);
+> 		if (err) {
+> 			of_node_put(port);
+> 			goto out_put_node;
+> 		}
+>
+> That is also asymmetric with the sibling ^port@[1-2]$ subschema below,
+> which does require reg.
+>
+>> +        patternProperties:
+>> +          "^port@[1-2]$":
+>> +            type: object
+>> +            unevaluatedProperties: true
+>> +            description:
+>> +              External Ethernet port. port@1 is wired to MAC1 and reached
+>> +              through the mdio-1 bus, port@2 is wired to MAC2 and reached
+>> +              through the mdio-2 bus.
+>> +
+>> +            properties:
+>> +              reg:
+>> +                enum: [1, 2]
+> [Severity: Medium]
+>
+> Since both external node names share this one subschema, reg is
+> decoupled from the unit address.  This validates:
+>
+>      port@1 { reg = <2>; phy-handle = <&phy0>; phy-mode = "rgmii-id"; };
+>      port@2 { reg = <1>; phy-handle = <&phy1>; phy-mode = "rgmii-id"; };
+>
+> as does giving both ports the same reg value.  The description keys the
+> MAC and MDIO association by node name, while the DSA core selects the
+> port by the reg value, so a swapped DT passes the schema and then
+> associates the wrong PHY/MDIO bus with each MAC.
+>
+> Would per-port subschemas with reg: const: 1 and reg: const: 2, in the
+> same style used for port@0, work better here?
+>
+> [ ... ]
+>
 
