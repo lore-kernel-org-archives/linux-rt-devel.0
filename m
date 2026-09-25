@@ -1,124 +1,94 @@
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578F2377EBF
-	for <linux-rt-devel@lists.linux.dev>; Fri, 25 Sep 2026 04:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AF41D638
+	for <linux-rt-devel@lists.linux.dev>; Fri, 25 Sep 2026 06:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790309566; cv=none; b=cjueyVwstur/+2Tt5y8iCy4/t8kX2JOYvqGt52mbkoMZAH4PbkYWt8k74HZ24H5zbHs5Z1aSeZ9SAgUIEYN+zEiUH9CicH89blRZ3ntfsATzg4KhCRnriaMr87IfzuPKOKVky4ue0NhKiNSvbJUaU4GUi7ZyvCtg3g1Ya/tLSl8=
+	t=1790316857; cv=none; b=S1R6A3Yn3c6gd8gG7TIWQenwztLdKr8mAxpEt6pPNSzW1ODTzDft2Dj0O7+ucj4GAzgz6SjehSql57QAJg/EcIuNNLvuJUAll89+nLpjUllOLs0AqI0F2XFbclx4Oh/HDqZriCl7Pn7a7vt748v/gHQs+JNNmRMJREMxroQnq7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790309566; c=relaxed/simple;
-	bh=fsGAtT13nBoh2p5VgiySeOwGY+0SCDfVVoO5fWNZ1Mc=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:In-Reply-To:
-	 References:MIME-Version; b=cYx8saXm0jZ+VUWo2pmgEGHm+PEcOVbrUIYPUUpv9J4STUz5SLGdxVVTAIkCHfyMp01c3rPBJ6HKn/M5K7wMRw3lvgqczuitkMfvpWd+xsdwkAKAS1Ylp1SbP6yoWiubGpQ8KyuT0M46C5tF/bkahsUXpPAp2pKWvlA0xDnITfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XyDOKeq0; arc=none smtp.client-ip=74.125.228.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790316857; c=relaxed/simple;
+	bh=zJPVYut3caqV+BupQglYKFwx8NCPvWAjqyqRdOTUaHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDDDV+zCdgr35DWNHPUxNwEkdidXmNBwUBbuz6wi/GDRb23fGrmXKpG5P8izsBWEQ8x/TvzrEqkgasydzjGOzEeFzVTH2narCXsroGqr9clOfS/GT6lYHAzJdE4OlJBQK6QDD4szTBAJdj0LSNOjyhHGPOfcQ7OooaCIUlwz6JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UL5H20c8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b648NJ06; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XyDOKeq0"
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc4aa0f1a94so121148a12.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 24 Sep 2026 21:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790309565; x=1790914365; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:references:in-reply-to
-         :subject:cc:to:from:message-id:date:content-type:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=U4MGTQQsIFwRWN5LVLl2bLnymyqR90tzlWdPdS9c0zU=;
-        b=XyDOKeq0D3jRYtVTqqK95wpLGbQ1JzpfGg/971us2zNa9sawuPQLbYg1Pn5M70QLFW
-         gnqGg56vao07WY0lOfxldvG9CJst1RMM4T2VP25oDE16sx5GWXqO2hhpW5kbjr0Th88o
-         BR+wIOFXjy8Wb+E4yDArMqS9XsKzlY5kP50UIA/9fn3GMeXiSUodWID7gUL80R3e8NZQ
-         kWpaB6YpkJo9HIulwhqvwT0dUlmuTRjJ6WGxKbR0STOI1xoEg53ipllA2s57LPKl22Nl
-         EuROpXyb/JHovlNRJHNASc83vJPXvpHAM4kaRA5NYbdijQqawKsZCO6DbQwXVXQm5gKR
-         54DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790309565; x=1790914365;
-        h=mime-version:content-transfer-encoding:references:in-reply-to
-         :subject:cc:to:from:message-id:date:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=U4MGTQQsIFwRWN5LVLl2bLnymyqR90tzlWdPdS9c0zU=;
-        b=prosJJdcYab2RZ7PqMSnl5ApQ94cwEusOetFON0UyD5YbIZJHDTtEbgrvdejwhcGkM
-         3eQMXHCCL2sNcSGa0Z1guuXzqnFsieNwvNy+dA7LTQkxniDKwMZp8O713xOQ8y4vqTsb
-         Zmuaq75ptVAiL16/FNpxegzD/EfjcsCIDOQXq/4r8wvqqv/xegGmBXxr5iJf4dC8CUK1
-         k0t73pxEiNxizTWyp/mvu9rrPX0TA0OiY5AZBC3stvOTKMUAQGXQ2cBERMSiV1xvAjTS
-         qYBeMhDzqP+uECbwnMUoBJBUN/TrH0iZ8jwAmyYAZiA9NWrWC32ecLgigpVP2j+Zs0Fa
-         87nw==
-X-Forwarded-Encrypted: i=1; AKwUvBxLVWyecEzKIybm9v50JNLuiiUukOgseaD8YkPSK+4L8VY5jMvXyHh7aPYM++HNtXsL8A7/e72jORb6+6qSzQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++l/jMgyt706n5gg5gn8v05U83dX10gK6GmchwUjJ2NNEFbvryUR
-	MDaS6KtTtuS65MZ/hsE/ge3HVeCXxXVMHPnUekJ8L3xY/ecZaOK1ZzKL
-X-Gm-Gg: AYBFou1xam/4lWCmOR59+V5BzNaBi6N0wGLIoyVzLllNO6BhYxpJLRBzehZvqgcP0ef
-	0VGIiAOS4UWxEHBxziTyrBCzpNDBcAQCyA5+TGiWteTWV7FzTrnuy1cBPzES3RzehaZHB/96dKR
-	sOh3Oo03Mpof2vQeA1YSR3TJR8At611oHXiosVjJyvbhJz39v7AuDKqEZGz74GPM2HqEq/SypCc
-	LF+UUr9xaYa986YT8bLv+l9oK6nmYE3wKzFx0Dk+1BkkOfvEr7TLB+DUweDtjVDwfnx2D9prkJt
-	pQ8Tlnv+/1XOxyI/+8P7Vu//GOtDA6zbVKsJHXy3wNfVM3Q3q8Mn808vM4QjFoYjHkTd/RnoUuH
-	fd7hi/u2s/rB1Wks0BwroPKpEWhU3fANrXOqfGxClGWaN1/6TcwBWCImx+l93ZtRw8O8AclAxvR
-	oFQRhpXe1UzijAH1qza0GJ4gNbjYKHFbRf4d2AG33WYQvdxk0TAkyC8BaJhYuTEPk0toDFjCfA+
-	wHCQfEkBqf3c4YfITlAqDGVsF8JU1oIWF42J0ih0VGcdRwseOateD3dOCd4Lr9D8e3tucbFpxzw
-	IGZG
-X-Received: by 2002:a17:90b:1a8a:b0:3a0:c22d:fbe8 with SMTP id 98e67ed59e1d1-3a0c22e01a7mr228479a91.38.1790309564539;
-        Thu, 24 Sep 2026 21:12:44 -0700 (PDT)
-Received: from localhost ([153.61.198.252])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b998e2bdsm1908663a91.13.2026.09.24.21.12.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 21:12:43 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 25 Sep 2026 04:12:43 +0000
-Message-Id: <DLO3RV3IQUOV.21BNLF4QS9T4W@gmail.com>
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Karl Mehltretter" <kmehltretter@gmail.com>
-Cc: "Vlastimil Babka" <vbabka@kernel.org>, "Harry Yoo" <harry@kernel.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Hao Li" <hao.li@linux.dev>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Brendan Jackman" <jackmanb@google.com>, "Amery Hung"
- <ameryhung@gmail.com>, "Swaraj Gaikwad" <swarajgaikwad1925@gmail.com>,
- "Clark Williams" <clrkwllms@kernel.org>, "Steven Rostedt"
- <rostedt@goodmis.org>, <linux-mm@kvack.org>, <bpf@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] mm: restrict can_spin_trylock() to preemptible
- context on PREEMPT_RT
-In-Reply-To: <arIY0wMQjCCsqidI@gmail.com>
-References: <20260919171443.90512-1-kmehltretter@gmail.com> <DLJHZEZMLW0F.27OPPS218CX9Q@gmail.com> <arIY0wMQjCCsqidI@gmail.com>
-X-Mailer: mkdraft (claude review draft; edit before sending)
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UL5H20c8";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b648NJ06"
+Date: Fri, 25 Sep 2026 08:14:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1790316853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+9t0kxTYJaraIMrfEqcVi2n0bhKkI1NpUKQYTTJwJiA=;
+	b=UL5H20c8pe0C3qusv5XX1mo+I4zBXKKS320j1shCqc7ov+H8lDM7SXQ/4LMT10xrtAQxXX
+	vO6BHJb1Qll7ZKK5bBFjD9HoNAMaeed8Z1PvImisuq5o8cobKA4WCJKqdQh8Bm8wfRsvKL
+	SDhapMikKeY+ccjQUHKD8CyjCQtZ5GiJK/NBo1Az9zCuLh5RcFo9UqElTT2HPHepA7AC1W
+	8VQVxGg3DRSnOiEBjXrAYLeMC15NszklfuUjZg/xwkfZuRq6xKFbwZKZ0UjXHHJPqgO2aF
+	pMga251v2F5bPbmTHOLVLQjph06IY9lSK50+YDVeim2pJLfX+eRL99x7cIQZ5g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1790316853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+9t0kxTYJaraIMrfEqcVi2n0bhKkI1NpUKQYTTJwJiA=;
+	b=b648NJ069Sf+pwW33BuNO6uws6R1OlRZBUaKyGv3pPXp/Xt80RMmolfwQ0Uk8220YySjsf
+	vFIGXzcHKp4EJ8AQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Prashant Singh <singhpra@juniper.net>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	"Luis Claudio R . Goncalves" <lgoncalv@redhat.com>,
+	Steve McIntyre <93sam@debian.org>, Jeremy Kerr <jk@ozlabs.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip
+ QueryVariableInfo()
+Message-ID: <20260925061412.Ly5-sosB@linutronix.de>
+References: <20260919044124.8268-1-singhpra@juniper.net>
+ <arUD_p0Vn4qyBH_e@redhat.com>
+ <20260924111913.GN3447081@tack.einval.com>
+ <arULLk3ERQmADDBU@redhat.com>
+ <0d23d4f2-b5b8-47c3-a676-f6ec72ecf45d@app.fastmail.com>
+ <20260925014528.2015-1-singhpra@juniper.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260925014528.2015-1-singhpra@juniper.net>
 
-On Tue, Sep 22, 2026 at 08:04 AM Karl Mehltretter <kmehltretter@gmail.com> wrote:
-> a) Change MM so _nolock() allocation remains safe and can still succeed
->    while pi_lock or an rq lock is held. Existing BPF behavior would
->    remain unchanged. Is this feasible, or would it require substantial
->    allocator changes?
+On 2026-09-24 18:45:28 [-0700], Prashant Singh wrote:
+> On Thu, 24 Sep 2026, at 13:59, Ard Biesheuvel wrote:
+> > On Thu, 24 Sep 2026, at 13:36, Luis Claudio R. Goncalves wrote:
+> >> In this case, corroborating with Sashiko findings, it is necessary to
+> >> have a way to override that default in kernels with PREEMPT_RT enabled.
+> >> To be used where this is required for firmware updates.
+> >
+> > Indeed.
+> 
+> Agreed -- and thanks Luis and Steve for catching the fwupd impact.
+> 
+> For v3 I'll make the option a negatable flag: "nostatfs" skips
+> QueryVariableInfo() (and remains the default on PREEMPT_RT), while
+> "statfs" forces reporting back on. So on an RT kernel, mounting efivarfs
+> with -o statfs restores the free-space reporting that fwupd needs for
+> KEK/DB/DBX updates, while the default still avoids the preempt-disabled
+> firmware call.
 
-I don't think it's feasible. On RT the sheaves lock, n->list_lock and
-zone->lock are all rtmutex based. When trylock succeeded and a waiter
-showed up rt_spin_unlock() has to wake it.
+Having -o remount,statfs=on and remount,statfs=off working would
+probably improve the situation.
 
-> b) Restore BPF local storage's dedicated allocator, and document, with
->    debug checks if possible, that _nolock() must not be used in those
->    scheduler-lock contexts.
+> I'll send v3 with that change shortly.
+> 
+> Thanks,
+> Prashant
 
-No. Local storage is not the only one. bpf_arena_alloc_pages(),
-bpf_stream_vprintk(), bpf_task_work_schedule_*() call kmalloc_nolock()
-as well and the same sched_waking prog can call them.
-bpf_mem_alloc was removed from local storage, because it wastes memory
-on preallocation. Same answer for d).
-
-> c) Have MM detect those contexts and return NULL. This prevents the
->    deadlock while preserving ordinary raw-lock callers such as arena,
->    but task-storage creation from scheduler tracepoints then fails
->    deterministically.
-
-This one.
-bpf_task_storage_get() with F_CREATE can return NULL and the progs
-have to check for it anyway.
-
-> Are these the right alternatives? In particular, what behavior is
-> intended from the _nolock() API in these scheduler-lock contexts?
-
-It can be called from any context and it can return NULL.
-That's what it does from NMI and hardirq on RT already.
+Sebastian
