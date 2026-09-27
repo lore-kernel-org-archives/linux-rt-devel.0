@@ -1,113 +1,121 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA753E49E9
-	for <linux-rt-devel@lists.linux.dev>; Sat, 26 Sep 2026 15:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4631AA1D5;
+	Sun, 27 Sep 2026 04:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790436423; cv=none; b=Pzpt8hmxbBxYxFqZx0PAK5atj4uCOXYuMRDPHEJzSqHmr5bZzQ1o1tQkKJbiZFoBLkdyoGpj5ntHZ3wxB+uh9oQ6tjq5FSzu1Y95BKQ8sEHmG23365PeiTrnfGFkjG4QXE52Qsm4+ThF3Fi2dBCYqnBM+lSQOtij8lCaRqMiq5s=
+	t=1790481782; cv=none; b=HSK577LWUbGioEb8qlJqU93IvEVYjH/KCBnSOOln4Y1cVu2A6DaH5bae1pe7OUbKYgTjCES5cBWCf57qzCnibHEh3sKWZyJlc6U5SQpHeJ+u8oytDRgbeYyXGXRjcx9/jKoYWhCTePiFkvdZkbbwZNtZfC+n2z8xSlb/eGUrMPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790436423; c=relaxed/simple;
-	bh=SzmAPhJSqzo5ihS4UY8Iect4WUU/nMW98tnv+6ln0n0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ijQwwWsJXZDSqTaD/eytC+z5wQQNtICuZ0UMhPQhmC8mi67Y/7R6MzTlPiP9i+GqkwdM6UaR9bcZQEzEvGZ2AMJkMpKyynJLFnGnUAaMUKBo6kNqh3gA7k//+eoA+F1fsRv+mV+dKmocBJiVUuqgcJhdRiRoi8oZsR+7FLwjsFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EqAjyw5M; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790481782; c=relaxed/simple;
+	bh=8/Pbq6e0Egu5v5AdbXrKrQZKM8VxS12zXS4hrd1rh88=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SW3h5WXjnvIALfTTNDrq8c4ekw5bAqrOmYTMJgW27G78zDNi7DcHjVIyGR0YpVxpT+JJwo2Gg4CpNcipHZXnQ4BfwhOcM5F3ulSBXp6lqhoVTB9Y0u18tpGvCm6CeOf6gsh4DaAi5xSSWx9INj+AqYYhjuqbq9nV+MVQcrKK+XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFtP15S4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqAjyw5M"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffde3cec6so1733285e9.3
-        for <linux-rt-devel@lists.linux.dev>; Sat, 26 Sep 2026 08:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790436420; x=1791041220; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=r93vo6YJEV/n1FD4tzzKSMKvC9BRqIXeipynuzwoWIM=;
-        b=EqAjyw5Mx5J2UdwvUZzOxYo9rtyEkzOaSGPZZtJxrwP+DjYnrF/wM72pfq5LKyv/JH
-         QMQyOdjKOxXsAMA6v0fcwwcVoaFwaFvnZWb4L9wpyFJAwQpiAaZIuTZsuhjwvj2hkQXG
-         485coaGhnLNR4lW4TLS4flAj3XONYeD0aZbFX5zdEp/CvaX0wyxWomHped7W8NH6y+fT
-         2FHfYXQ43cwfZuxZhpuRhSIsmaybquUB0JPzCM75z9qSOCFiEsJ6hkGogKje/8ei46Iu
-         INqs033O8M1Iup4A4U5hxk+4WtUFCOp9IquMVpQq3b5nKaorz/nw/QvMY+tdMFVD4pJv
-         YdIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790436420; x=1791041220;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r93vo6YJEV/n1FD4tzzKSMKvC9BRqIXeipynuzwoWIM=;
-        b=ChLU15pXPBlmyMM/aVydQA3xDOvroZkCH/nh+u49fd3uU7Z9+t/HPF32n9RKQNrFLz
-         ZXR+kDYeN9lPvP9COQNFh0yS3c8zPCd1/L8l0STZdTXdwqzYn1kooweNmrcN4acOnnUy
-         CFQNJseqd3zC/GoJvnKoCa+WN1oa7JxKqksaXR6M9CW0p23yVuZH4c21cOfoepC6dBgR
-         NX+LSwa5KbpxLp13az6K6yaunupVTXdqPVVXtESISwJPACy7bJHRqB/AecpWJn/abONm
-         qY6DP5sY2DuttPUf41Do68BTCppyj2lcTbHe2yzd4g8bdo4lAwmc8PSlM66rHqSNZW0g
-         Fhlw==
-X-Forwarded-Encrypted: i=1; AKwUvBwKZM+oKHEPhKrwlcEzFpWGBpMXR1GM3dY19INJEQDGsnh1mlTFiTdg1L1LPjYd5D7mnRJs4XewJRD6PWOshw==@lists.linux.dev
-X-Gm-Message-State: AFuF++lJR3Z7t5sRoPSg8WyXHTrsaz9d8xt3gKJpuUVUY0wPOZj9Bh14
-	0F3YHI+qkjlKKiwuc07XxToaGq6L+cf/73tJYuRtA8AjjyN62jBp/727
-X-Gm-Gg: AYBFou0B1tQty4Gw1MjKoXkrAoaBVx07aPskEEq/XJO8Nxzzae4QCr12F9SUJFae4gt
-	gXUOGquz14gdQZn+NSrBzdF9TkkJS9oMYCa4p8KHUPznwbuj+XkxvnaIxH6pEfSHfd/D/hVZ48m
-	i74zzyN0tPv3qEG6dZisKL0ANmS4U0itux0gTfwJYkOWNpGi+rr9aEIvgM8atGB/QaKeqjOgyjz
-	QsKktcbFzCDYtb+v+qkw2OhhPsuwvOMHACB5Jc8ogqWcIaOenX4bbXO3zqkTyVYzxAj/Fw7LIRu
-	+4rQpihefLx2QWj3HdbZkbuMKSmTKIa+GDzeWpSnw1HNmyHa5sHL8EaHZhOi+VW2busJzdGdkyf
-	UtzTYbGRXMwKky6vx6dIAucCLWHp0fpOfFo1+8RMyxcFclfbcimUkkpXnIdA8FFNu7X938cYPqS
-	YnE1L3FEXU7S0bLndQBARzOZTrQepOZI24hV/3eNkHlXI5Dz0uBsQYpagatCrOxPQsXRALf5t3B
-	K+BLWGjTjVQGbbIY15cSfF85e897BldI/2eQxicP5zVjMLukB0tMMOeGoD0A0M+C1cIfLBzojdq
-	nwpmkv81L7ubuoMTdzmuR0bXB51yFM+cJJ/K7s119aLHcWjuWTeCetIDzDRseF2ZzvqBL6TTUwU
-	=
-X-Received: by 2002:a05:600c:8b31:b0:49f:fd66:5fec with SMTP id 5b1f17b1804b1-49ffd66616bmr28453225e9.0.1790436419906;
-        Sat, 26 Sep 2026 08:26:59 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-b162-c701-4960-a998-3de8-2fce.310.pool.telefonica.de. [2a02:3100:b162:c701:4960:a998:3de8:2fce])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fef5fe71csm94423665e9.2.2026.09.26.08.26.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 08:26:59 -0700 (PDT)
-Date: Sat, 26 Sep 2026 17:26:58 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Russell King <linux@armlinux.org.uk>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Pierre Gondois <pierre.gondois@arm.com>, Radu Rendec <rrendec@redhat.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 0/4] ARM: allocate the cacheinfo early to fix the
- PREEMPT_RT boot warning
-Message-ID: <arfjs5kQjQRb_Ep2@gmail.com>
-References: <20260912195552.76673-1-kmehltretter@gmail.com>
- <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFtP15S4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5902F1F000FF;
+	Sun, 27 Sep 2026 04:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790481781;
+	bh=GC7coo6sKErkgEMskr01q7qu9o3kxRtbkgfzjm0Q4lY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=kFtP15S4BUOShAcFAgqUdROdbeOeafymgeS9M6D0J0a8jC+wMgqDIK9tixgRQJCN9
+	 Z84+fZ30DBMhOxu23nmUx0Y9JS3ufzBhY6XakzL9m8Hr1s922PUM1YVTphFKo31fGL
+	 cvbpRc5TnfgDw3amSwr0eU9q+rukAocRDmHhZdTwR0LgohJB9gH3/qRULEMj4WMvv8
+	 /JIP6dtNjzuk3kWPS2SlNZq+SDBm/aWjNW4SjklbsCruOP5eZ0PaihE1Ev0TO5GvcO
+	 Ua1A4Ti13QprF5Tb1+fRiFBoXtJJK+UsQYaHaSBXT7NhlGHZlkZ7nRnKJLp25sMJhU
+	 DejpI9xv0LZbg==
+Subject: Re: [PATCH net] net: gen_estimator: protect seqcount updates from
+ hardirq readers
+From: netdev-bot+sashiko@kernel.org
+To: runyu.xiao@seu.edu.cn
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, rostedt@goodmis.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ stable@vger.kernel.org, jianhao.xu@seu.edu.cn
+Date: Sun, 27 Sep 2026 04:02:59 +0000
+Message-ID: <179048177964.2160803.12902537767476134602@kernel.org>
+In-Reply-To: <20260923032936.2020902-1-runyu.xiao@seu.edu.cn>
+References: <20260923032936.2020902-1-runyu.xiao@seu.edu.cn>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD++jL=7OSrPMax9GRj3D7ehjmmG2uMyws53F8U0x7YGx+RNOQ@mail.gmail.com>
 
-On Mon, Sep 21, 2026 at 12:11:47AM +0100, Linus Walleij wrote:
-> > The series applies unchanged to 7.2.6-rc1 and v6.18.
-> 
-> OK please rebase on v7.3-rc1 because that's what we're working
-> on now.
-> 
-> After posting that I think you can put this into Russell's
-> patch tracker.
-> https://www.arm.linux.org.uk/developer/patches/
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Hi Linus,
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-Thanks for the guidance. I rebased the series on v7.3-rc1 and
-posted that as v2 [1].
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-And now all four patches are in Russell's tracker:
+- [Medium] The commit message describes a bug that nothing in the tree
+  can trigger, yet the patch carries Fixes: and Cc: stable.
 
-https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9520/1
-https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9521/1
-https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9522/1
-https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9523/1
+--
 
-[1] https://lore.kernel.org/r/20260921-arm-cacheinfo-v2-5892c4531ad9-0@gmail.com/
+net: gen_estimator: protect seqcount updates from hardirq readers
 
-Karl
+This commit replaces preempt_disable_nested() with local_irq_save() around
+the est->seq write section in est_timer() in net/core/gen_estimator.c. The
+aim is to stop a hardirq reader of gen_estimator_read() on the same CPU
+from spinning on an odd sequence count while the timer is interrupted.
+
+> est_timer updates the estimator seqcount with preemption disabled, which
+> does not exclude hardirq readers on non-PREEMPT_RT kernels.  A reader can
+> observe an odd sequence and spin while the timer is interrupted.
+
+[ ... ]
+
+> The hardirq context is deliberately injected to
+> exercise this interleaving; ordinary userspace traffic does not guarantee
+> it.
+>
+> Fixes: 1c0d32fde5bd ("net_sched: gen_estimator: complete rewrite of rate estimators")
+> Cc: stable@vger.kernel.org
+
+[Severity: Medium]
+Is there an in-tree hardirq or NMI caller of gen_estimator_read()?
+
+struct net_rate_estimator is private to net/core/gen_estimator.c. That
+means gen_estimator_read() is the only reader of est->seq. Its callers
+appear to be:
+
+  gnet_stats_copy_rate_est() in net/core/gen_stats.c, reached from
+  netlink dump paths in process context: tcf_action_copy_stats(),
+  tc_fill_qdisc(), and the drr/hfsc/htb/qfq dump_class_stats callbacks.
+
+  xt_rateest_mt() in net/netfilter/xt_rateest.c, which runs from
+  netfilter hooks in softirq context or with BH disabled.
+
+  tcf_police_act() in net/sched/act_police.c, which runs in the tc
+  datapath in softirq context or under rcu_read_lock_bh().
+
+Netpoll transmits with IRQs off, but it calls netdev_start_xmit()
+directly. It never reaches qdiscs, tc actions or netfilter.
+
+On !PREEMPT_RT, est_timer() runs from the timer softirq. If the writer
+interrupts a process or BH reader, that reader just retries. On
+PREEMPT_RT, preempt_disable_nested() already expanded to a real
+preempt_disable().
+
+The commit message also says the reproducer relies on a test-only
+hardirq injection.
+
+If no real hardirq reader exists, could this be presented as hardening,
+with the Fixes: and Cc: stable tags dropped? If one does exist, could the
+commit message name the hardirq path that reaches gen_estimator_read()?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260923032936.2020902-1-runyu.xiao%40seu.edu.cn
