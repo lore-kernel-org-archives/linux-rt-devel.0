@@ -1,217 +1,220 @@
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2FC4F4CFE
-	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 17:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.71
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617333; cv=none; b=oGVUAl+6W5WYH0RlT0V4LliVbuOLMGhirBxji2tYpkDUch+N0NrvCju9Xx4JX3iZKn5MZcByM57x43poZf4myvoEq/6IYYxKtaOgIJooqSTTUL0kmSdMhzvPp0CRAFdCy+a8qUK0F7t94vCsrhwho11oC2wJew+1iIWKJZ9N9bg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617333; c=relaxed/simple;
-	bh=z3qI62qf4mT1gEi8u87wgjjXgOWjBMNHyAjBz41QMeQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tMdddhZw7Wp+YQAWoxkSbFZwpud8vKUxbwoXui4DdOo4ETclIK3QxTIX3HRbbsiSz+P2VMIjd58tLXE73084gyUdm9Yf4G8I0M+1nsQgNBziBOxE8skGpdq2HXGyXc3fX3hUUPCNGd0uC7zUgP1xo+QHZwrVIGgAFZllTbCG97o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=erpTxnXe; arc=none smtp.client-ip=209.85.128.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7583264C7
+	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 20:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.147.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790626943; cv=fail; b=h/vhjkAp4A+SXpzb4kkJJvgksfy1RhApXi2yuJm6fdRMj1ubwGLMIbPzlNNeveoJOvYYXCJbi2VMIYW98oiCi68q4P8FVaRRsqQaq79E8a7gbLGbD2iLl1brRtm8gjA5fmS2Vtf2K7PLvX8giXoBzXubuNZPhFn0ieE0/2eV5qk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790626943; c=relaxed/simple;
+	bh=MAKA9E12dRIo5RC6MN7exBB3i8jqpl8gO3hyOVcCWM8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kkgT0JrwKw5AxV5IdyZZHAX/92oKxIRqZoa08q+RYqYzX6sGkQhap+VlkXN10sat+fhCmZasidJRYOYiPeTAuGmfdPXaeZSdoCCOfrUwoXBXSi8gny9hqPIKCyFIjX+fQ2tf7hrUTzinIcqoV1NCZK8ktEBEPBozeN/GVYNtZo0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=abh4RIxb; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=PvCvGFiz; arc=fail smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="erpTxnXe"
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49fff093efcso25655915e9.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 10:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617327; x=1791222127; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GvWsjS4kJdvoXcVGD6geTFWpf+d6azd0mBr60JzC1QM=;
-        b=erpTxnXewVh0TH279sxYNI2MYmXHcY5sKKMtZ2S/gD0PaOsZ80BCth/UwGxG7802t1
-         UtwImb9BdJ1AeqiOsD6FMh49aBvUm7Ca8vPBbpuygxeQ+Wehj9KxQzASItyI27qdztSH
-         2UWlWN1iXqyiaScRqriVyxaSZuMIJbDkne2lFZZA7doRy8P/+oxRhatiPNiMYdMhu+OY
-         soC7aIKvuXsPC5B5m5+6mIBcbmeYZnZwVEoMQFfYIc5PDozDujIaFk8yEb1mhazb2GXE
-         Ftly0Cd/NZo6xVyX6nGKILhzUSjEwwVAqOgMLeXuC+UxOY9K/bmqBcdsFJQszLyKmBVZ
-         T+jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617327; x=1791222127;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GvWsjS4kJdvoXcVGD6geTFWpf+d6azd0mBr60JzC1QM=;
-        b=2TK7JFRW42ViqA1InAHFn9/ARUfAe//WL8e8fABek95/r1p7xRhXCVFl0rXt5tp7gL
-         5dOw2Q/VEwIuuliAp4BrqnpETS1GRqmrwT62XvI8z+GxdDOex0JHrKMTjVK0SWG7IKbX
-         n54eeHEcKK3KrVgKtcp+LUsgaQyrv0m37YD1FP/nM6YCXVeg9iulCtgMjfTaJI8UFTMm
-         RcR5tirR3FGnPaZ310bUvMj/mWNk6OIQBNy+VUPugauQRbYd1M3K17i2QqyXQDJeZEg0
-         rsERIQ0Bt7oXGToaqE3WdszAcJdYK5n1YW71wpT2Ai5B+iHFJfCfHc5FAdJIhbG4g77g
-         oXAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw6hMiQDxIFIzocM15Cz3p4OXF4g0CYHzQAtzhFLeZHWoWv36w/HAT0uHpJf/GOnuXX50YIuRf7mSg4RJTIAw==@lists.linux.dev
-X-Gm-Message-State: AFuF++mA61lZzDQwBJnklc25GVtYCkHyYOdkzk+5aRfwTeQ26KNH7Ogj
-	AaCpEvqo5QQUBA8XmEDJmko123BKumsDoJ5XPFANaLQcRXNEwkyIr/EX6+xCe3eu7nEsn/csw5f
-	Z91Rwdii9JKYp2Q==
-X-Received: from wmpr40.prod.google.com ([2002:a05:600c:3228:b0:49f:fde6:649f])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:6287:b0:49d:827:e5b6 with SMTP id 5b1f17b1804b1-49fe7babaadmr223084505e9.20.1790617327143;
- Mon, 28 Sep 2026 10:42:07 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:22 +0000
-In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="abh4RIxb";
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="PvCvGFiz"
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68SIuUqY2284744;
+	Mon, 28 Sep 2026 20:21:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
+	 bh=1sHp6dk0VMwrxGrx+Gk1giN9rGk7oFPjP8DVFUk0Q+Q=; b=abh4RIxbGL2s
+	kA0sa9gA3PFrnXNavb0e35/1cjrvTgOR+mmAAvEayYYnfykq62C1jw+9twdrqJ+3
+	gW3b8SO2qzCYi9XxrpUdHk81dO+IkiSRO+SG9TMt+9OaY3D+FdvGBU4wEipBRnhV
+	GU/JM3VG80OycPUYGgbERwB2oY+GohcF20uIxUG3TwIkfMjnBDt8HPh+GZ3pCpwb
+	f3RniQUknJGPneq0dorfu8eH+1HhB0RMswV3dM1wwAz9CTkRyKg3klQ6cO5y0ZCR
+	dfzZhnAbhQpMxPstY28QSQYjj5/sMVOyWVQPacWSR24n8b2KpmXUuzkIXfUQmbIf
+	tUUhsm15wQ==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012030.outbound.protection.outlook.com [52.101.53.30])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gywy6s0r3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 20:21:32 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fgjhoJFTlk5YjT+Q8elUqmRSHEddO3kJl1PTQjsy4BjiobEOWWbKuYcGTXoeaG7lPlYpQur1gI5BB3dZLn4r4LvLeYB29a1MdFykLLKKmfczvMd/aEWU/QYm9JvY9CotY8DYrKUdl9g+cXw4r/VSe8ImYLgdFtowQZVYC3ADCpIif5lz0iX7xMtFoOI/OkCA96KZtw+4FYfn8bCNPKTUEswmrsJLj7didqBNb65jS/Xf/oQ3TRrU0DIXTXtfDliHdFaPOuJzn1c5p6fDySG9/6yyzJcYWj/UEafXDPM4cyA+BqA8vKV0yrgGHBy8JVDRQiE6mzpsCmLkdYshKtRv/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=1sHp6dk0VMwrxGrx+Gk1giN9rGk7oFPjP8DVFUk0Q+Q=;
+ b=mIUat63rtD0ncxd21Sk4HnkD+7xbJI4nM0kro2aucYvYYIVvumGem2bo1tg3vA4pacmMxp6dGsd1E3BQfaSWSCx15OqEFZNhQuDSb8kBeMsy9YFcASZzTvwSvqxiroEuNY8ycUXdluTjP1NqlEgSRknJGd4H+qfQaHC1ugsTj9n/oPVrlsDoiWHUUJLs8RkoKaldzHri6VqOBzUG7is8obogWawT0BEk1P9+vcUUtQZy5rlSulqafqC2Y14dp45yGCqk4Qcgiqx5e7hVmPhxu64Rvn9h2E4odQZL0UvLHa3rcZhJTmeHLkXhE8wW/AxGXszPvjZukOWBTsZbbnjBTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 66.129.239.19) smtp.rcpttodomain=debian.org
+ smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
+ pct=100) action=oreject header.from=juniper.net; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1sHp6dk0VMwrxGrx+Gk1giN9rGk7oFPjP8DVFUk0Q+Q=;
+ b=PvCvGFizgInp8JG8o/YdWgtp5Hg4w7LP52VMfOvcOARfrYfsDeLBKJKKLRkog0dSMh0WnjT0BtcdwLrqnup0SK5vdsC9s5NR5Nzv1k6TB6Vq5BR1FWKBVLq7053sIFxj7pagnNDp1Iw2whDxpVGX8KW8GEmSWkdg6DccztNomSdi13auc+DvdrSKW/62UQS6if2jAvDvNaq8YJSLjwVY/vaOopym4Fmrqf29B1v8mU07m34WZWH6TTgjaEv4wCyiHi/TT6cDuabf+q2/GZ6337pWXHghPBpJlHpvLhER1wPUJmp5/TSgSu8cCQN7tyzENGEprsHhPQQr/4pWNhsFzQ==
+Received: from SJ0PR03CA0102.namprd03.prod.outlook.com (2603:10b6:a03:333::17)
+ by PH0PR05MB9939.namprd05.prod.outlook.com (2603:10b6:510:29f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Mon, 28 Sep
+ 2026 20:21:28 +0000
+Received: from CO1PEPF00012E5F.namprd05.prod.outlook.com
+ (2603:10b6:a03:333:cafe::13) by SJ0PR03CA0102.outlook.office365.com
+ (2603:10b6:a03:333::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.15 via Frontend Transport; Mon,
+ 28 Sep 2026 20:21:28 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=none (sender IP
+ is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject header.from=juniper.net;
+Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
+ designate permitted sender hosts)
+Received: from juniper.net (66.129.239.19) by
+ CO1PEPF00012E5F.mail.protection.outlook.com (10.167.249.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Mon, 28 Sep 2026 20:21:27 +0000
+Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
+ p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 28 Sep 2026 13:21:27 -0700
+Received: from p-exchbe-eqx-03.jnpr.net (10.104.9.86) by
+ p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 28 Sep 2026 13:21:26 -0700
+Received: from ebf951f79306.juniper.net (10.104.20.6) by
+ p-exchbe-eqx-03.jnpr.net (10.104.9.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 28 Sep 2026 13:21:26 -0700
+Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
+	id A854213308F2; Mon, 28 Sep 2026 13:21:26 -0700 (PDT)
+From: Prashant Singh <singhpra@juniper.net>
+To: <ardb@kernel.org>, <jk@ozlabs.org>
+CC: Prashant Singh <singhpra@juniper.net>,
+        Sebastian Andrzej Siewior
+	<bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        "Steven
+ Rostedt" <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan
+	<skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Luis
+ Claudio R . Goncalves" <lgoncalv@redhat.com>,
+        Steve McIntyre
+	<93sam@debian.org>, <linux-efi@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH v3] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Date: Mon, 28 Sep 2026 13:21:11 -0700
+Message-ID: <20260928202111.70491-1-singhpra@juniper.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <17ae71e4-c044-4354-938e-3e8021615e6d@app.fastmail.com>
+References: <20260925113145.7396-1-singhpra@juniper.net> <17ae71e4-c044-4354-938e-3e8021615e6d@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260928174122.3380703-1-smostafa@google.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-16-smostafa@google.com>
-Subject: [RFC PATCH 15/15] arm64: mm: Set stack size from the kernel command line
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, 
-	akpm@linux-foundation.org, urezki@gmail.com, mingo@redhat.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, kees@kernel.org, 
-	david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, gustavoars@kernel.org, 
-	bigeasy@linutronix.de, clrkwllms@kernel.org, 
-	Mostafa Saleh <smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF00012E5F:EE_|PH0PR05MB9939:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee23aa62-016b-42cb-7347-08df1d9e1360
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|35950700016|376014|1800799024|7416014|82310400026|10067099003|11063799006|4143699003|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	ef5+X6vE13zBFof+heeGlb95Fatl8Ubun9E62AieUhva5sKyI7BTz6nonyoXJ/t+nXb1p19j1tCBp0JNT+Qnw5A3dUJtXXIi7gSTU89s7fvTTvscWk7cUkrd+Q5OXlQ/EX73AlBqwiFHxUCS3H/4oUGpxrdalINaY6N0aobgxIC+wbYGWD3FqMw4XpuOczli/gM3Y+u8Lad7ekDzJVvbRBiTyI4/tY4WWaXIuzhEW14v3XVX9YtL1oC417eEmJhl8WWbhaRgiZkMBYOrILOkXoSV4ChdnQYAQOiEzaz5Zm3dQUO0JKYu9wiuvB7JohYxiH+Fa8f8J6FyfSDx8miKeJUakBfTt8NWVOQbGUKkfUSFuxoPJ9qSbH9aIq5tSkxmxVWq6z4x4M6/72e3AQMfsNvB+ZedBDye0l9VgKqEAX410o1+P221Sb0Qme8xb0dIVs7A6LxiYqijdFVo69rcoLkJhMkBWXy2ZKZbLl2QI9i6PlTsvMkFusZypDCYb1sUXLV8p5++7WXB5h03G1B95Q4ZTnaDRMTLSL3xz+cVAfOV/2VvkfN0iybYhHonZAMmRip09YiTDSn8HPzuGRoUMZ2nfovHV7N5eJntNdRQ7IpwFHXr0d8R3ShaBs4hJaz5eny6jPQlJEWP2ty75PIjuvUeuwgx3X/ugce2+JvDKjrN9/skDik4UQNpmhI0P/RROfnP0dyO/43rnU4foBX8+Q==
+X-Forefront-Antispam-Report:
+	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35950700016)(376014)(1800799024)(7416014)(82310400026)(10067099003)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	LsfhsnJX13OWswdRPYUdsugFZuCGffbIGWiZHW/nzLte5Q/uccOBuFCLfOZ6iCY7m0Gdk4HEwYrRrZ+BA/ykCRMcK/brXr36Qsv0GWKSNCEPGJTRtavCoRWrEjMaSqqvojNSsuekHf51W5kX7e47mR3nGx/udITpfcX/LUmDi7EVL9IU94zBgOlxJSZGKslpxgDNZS1JrzeyEUHwLrQ6vpMAtYW8jvs8iPJI1zXM3Q+xfjmcicJMeeCzcWSZdNW4XGJYmyQeQv72b5qoUxRe/9Aicgmo06E0vhRYMV/FR0EWi3dnr0vWQL/uflm3sBmNRbPlMZ96m4p4XpJNfTR5uHEfR/I8oAI1qyZctgPJzw+Fo74KhS/0xhRNAYCZtP1peyctEvAYxJ5W/p0M/HBIxwcR7DChDWE7g7Asi+ze5u1UEaYGD7LoD4WrLWvh13vv
+X-Exchange-RoutingPolicyChecked:
+	gqnMp1+g7WE+VMbzd8epPBW1C776EgCD2ejSupcZBDgPYAT9cDp6+AGJw4VYk4x7v0/Iiut2+EjnjOphvS0jJcF9Dmq3ZGcUg4Im6XODm8jtIdsZ7PeSOaM4mSAI/FEOfpZl9Ha14kdOwMDYdFtnAgtzpWgg97nNVXmoW5/Ixo+EUvYSNDVIU8zHM6yOlWbhknJTgNXXDu0sS2jLx34WhiT+Ai/CKpaeuklHgeCNX12JCirhP1w1vPJbJrgB0Eggved2nQqF0vxKMlBSbTv1yed5OOPUZhNUPGCQYkGktogiNHyfrDpf3wBH8Fd1aksVPYScjOqCIA0CVDcns4175Q==
+X-OriginatorOrg: juniper.net
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2026 20:21:27.6461
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee23aa62-016b-42cb-7347-08df1d9e1360
+X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF00012E5F.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR05MB9939
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA4MCBTYWx0ZWRfXxnAw+M1sSH21
+ tkbsXz1M912VJE7nGls9XvYKvvay5h4PgvDqv1U+NeqBANytScnKRXSlNNoibP55ReO41mtE2X7
+ UdhpevqsYPeu088NBFtRlTc6i33jefVxyJ0PfPJjGV36av4ehB2sVoEk2nEhcc6wIwJHHTqjfQe
+ ZppsvDXdOAdYtRzoQlwep8EhaITdKPURL7bB/qGReCpgARqKjZMSMe7CqSxo1Dthphss8RizvZg
+ CFqoW/uBUe046nFmC2VajNmqhj2VcNlQ5NZwqzKCR5dGr7nVOf3j/Rc/gH+n/8IJ6DPfuLCgj6J
+ rZA15JpYAsAD/gRLOIZK4hTIcr7V++62bNmyI3jM40g+Xua2yaOpTs7RCyuqPABm67yxF41FEdT
+ gfjXVwX68nfPj1QdYzbgxvfL7rOpH/X+hR5jMCCP9w0EEmqTPSfJP4RGKC9mqrlr38wbHcgZByW
+ 85Rr6KdiVXJGcO2hyFA==
+X-Authority-Analysis: v=2.4 cv=cPZ1IVeN c=1 sm=1 tr=0 ts=6abacc4c cx=c_pps
+ a=bYEXqv4PBJnnT5HxTb2zpg==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10
+ a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=_ZmgHqWwjZUDpi_pur5s:22 a=4phcSvNbi574vPAfy4cA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA4MCBTYWx0ZWRfX0032Ai5O4d0v
+ R8xmB3erdI83nSLcGMC2+hR+r1hodPRsItUGj+vAGxte6WcmGSQQm2YIQdzWHYOhH0q7/iWxAm3
+ 1umEu4b7Aw8ad5ul7Z/vdmUkcrTGEFI=
+X-Proofpoint-ORIG-GUID: t7FRO7Rx90DctX-aiDSu-OSZSbrI4HGo
+X-Proofpoint-GUID: t7FRO7Rx90DctX-aiDSu-OSZSbrI4HGo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-28_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
+ spamscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=orgsafe scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280080
 
-Select CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE for arm64 and override
-arch_vm_stack_pages() to a value set from the command line, this
-value have the following properties:
-- Aligned to page size (doesn't need to be a power of 2), so it can
-  be 12kB for example
-- Min value is chosen to be 8kB
-- Max value will be the default stack size on arm64 which is used to
-  allocate the VA range for the kernel stack.
+Hi Ard,
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- .../admin-guide/kernel-parameters.txt         |  7 ++++++
- arch/arm64/Kconfig                            |  1 +
- arch/arm64/include/asm/memory.h               | 12 ++++++++++
- arch/arm64/kernel/entry.S                     | 10 +++++---
- arch/arm64/kernel/setup.c                     | 24 +++++++++++++++++++
- 5 files changed, 51 insertions(+), 3 deletions(-)
+Thanks for the review. v4 addresses all three points:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 33cd30996e47..e6ef22f01e01 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2920,6 +2920,13 @@ Kernel parameters
- 
- 	keepinitrd	[HW,ARM] See retain_initrd.
- 
-+	kernel_stack_pages=
-+			[ARM64,EARLY]
-+			Format: <integer>
-+			Number of pages mapped for each task kernel stack.
-+			The virtual area stays THREAD_SIZE and only its top
-+			pages are mapped.
-+
- 	kernelcore=	[KNL,X86,PPC,EARLY]
- 			Format: nn[KMGTPE] | nn% | "mirror"
- 			This parameter specifies the amount of memory usable by
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 020fcaf36b1b..5e09ae904e34 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -58,6 +58,7 @@ config ARM64
- 	select ARCH_HAS_SYSCALL_WRAPPER
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAS_ZONE_DMA_SET if EXPERT
-+	select ARCH_HAS_VARIABLE_STACK_SIZE
- 	select ARCH_HAVE_ELF_PROT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
- 	select ARCH_HAVE_TRACE_MMIO_ACCESS
-diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index 4545d9b39bd5..1d300b16032d 100644
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -113,6 +113,13 @@
- #define DIRECT_MAP_PHYSMEM_END	__pa(PAGE_END - 1)
- 
- #define MIN_THREAD_SHIFT	(14 + KASAN_THREAD_SHIFT)
-+#define MIN_KERNEL_STACK_SHIFT	(13 + KASAN_THREAD_SHIFT)
-+
-+#if (MIN_KERNEL_STACK_SHIFT < PAGE_SHIFT)
-+#define MIN_KERNEL_STACK_SIZE	PAGE_SIZE
-+#else
-+#define MIN_KERNEL_STACK_SIZE	(UL(1) << MIN_KERNEL_STACK_SHIFT)
-+#endif
- 
- /*
-  * VMAP'd stacks are allocated at page granularity, so we must ensure that such
-@@ -130,6 +137,11 @@
- 
- #define THREAD_SIZE		(UL(1) << THREAD_SHIFT)
- 
-+#ifndef __ASSEMBLY__
-+extern unsigned long kernel_stack_pages;
-+#define arch_vm_stack_pages()	(kernel_stack_pages)
-+#endif
-+
- #define THREAD_ALIGN		THREAD_SIZE
- 
- #define IRQ_STACK_SIZE		THREAD_SIZE
-diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
-index ea733b673970..39e68aace0a6 100644
---- a/arch/arm64/kernel/entry.S
-+++ b/arch/arm64/kernel/entry.S
-@@ -76,9 +76,13 @@
- 	msr	spsel, #0
- 	mov	x1, sp
- 	msr	spsel, #1
--	sub	x1, x1, x0
--	cmp	x1, #THREAD_SIZE
--	b.lo	.Lstack_ok\@
-+
-+	add	x0, x0, #THREAD_SIZE
-+	sub	x1, x0, x1
-+	adr_l	x0, kernel_stack_pages
-+	ldr	x0, [x0]
-+	cmp	x1, x0, lsl #PAGE_SHIFT
-+	b.ls	.Lstack_ok\@
- 
- 	/* Check whether we are on the IRQ, SDEI or EFI stacks. */
- 	stp	x2, x30, [sp, #-16]!
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index 29c6100f0c50..34559048dcca 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -278,6 +278,30 @@ u64 cpu_logical_map(unsigned int cpu)
- 	return __cpu_logical_map[cpu];
- }
- 
-+unsigned long kernel_stack_pages __ro_after_init = THREAD_SIZE / PAGE_SIZE;
-+
-+static int __init setup_kernel_stack_pages(char *str)
-+{
-+	unsigned long min = MIN_KERNEL_STACK_SIZE / PAGE_SIZE;
-+	unsigned long max = THREAD_SIZE / PAGE_SIZE;
-+	unsigned long val;
-+
-+	if (!str)
-+		return -EINVAL;
-+
-+	if (kstrtoul(str, 10, &val) || val < min || val > max) {
-+		pr_err("Invalid kernel_stack_pages=%s, should be between %lu and %lu\n",
-+		       str, min, max);
-+		return 0;
-+	}
-+
-+	kernel_stack_pages = val;
-+	pr_info("Kernel stack size set to %lu KiB\n", (val * PAGE_SIZE) / SZ_1K);
-+
-+	return 0;
-+}
-+early_param("kernel_stack_pages", setup_kernel_stack_pages);
-+
- void __init __no_sanitize_address setup_arch(char **cmdline_p)
- {
- 	setup_initial_init_mm(_text, _etext, _edata, _end);
--- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+On Fri, 25 Sep 2026, at 14:14, Ard Biesheuvel wrote:
+> > - Read/write nostatfs with READ_ONCE()/WRITE_ONCE(): statfs() reads it
+> >   without s_umount while remount can update it.
+>
+> Why? There is no memory ordering or tearing issue here, but only a
+> fundamental race where a remount and a statfs() might occur at the
+> same time.
 
+That's right -- a concurrent remount and statfs() is the only case, and
+it's benign (no ordering or tearing for a bool). I've dropped that
+changelog bullet. I kept READ_ONCE()/WRITE_ONCE() only to mark the
+intentional unlocked access for KCSAN, but I'm happy to drop them if you'd
+prefer.
+
+> > +	if (opts->nostatfs)
+> > +		seq_puts(m, ",nostatfs");
+> > +	else if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> > +		seq_puts(m, ",statfs");
+>
+> Please drop this else branch - it should be sufficient for the 'nostatfs'
+> to disappear from the mount options to understand what is going on.
+
+Dropped in v4. Only ",nostatfs" is shown; its absence means reporting is on.
+
+> > +	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
+> > +		sfi->mount_opts.uid = old->mount_opts.uid;
+> > +		sfi->mount_opts.gid = old->mount_opts.gid;
+>
+> Why do we need this? Does remount otherwise forget its options? Does this
+> mean that before this patch, remounting with only a different gid would
+> reset the uid specified at mount time to the default? If so, please fix
+> that in a separate (preceding) patch.
+
+No reset bug. efivarfs_reconfigure() only writes nostatfs back to the live
+sb, never uid/gid, so a remount leaves uid/gid at their mount-time values
+(verified on a PREEMPT_RT box: uid=1000 survives "remount,gid=2000", gid
+ignored). The uid/gid copies were therefore dead code -- removed. The
+branch now only preserves nostatfs, the one option remount can actually
+change.
+
+Thanks,
+Prashant
