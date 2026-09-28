@@ -1,115 +1,131 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2AC46EC69
-	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 08:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790583855; cv=none; b=qmP83bocOPXzF7sYTpgPyrJhQsieHQ8Mc7IK75YpJrOYhQNo//NeN5nwTJ4MxGJbQWAy9mpBq12WNHUJDLV/J5pZYqwkgcOjlsrfxouzENoI69p8XCZi4d46Igds7SKP9S3jhszho7m0ZlO9AK1D4jsUE/izZdLrqyMPsm85BLw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790583855; c=relaxed/simple;
-	bh=In+ZCVEKJu7O1xLlyIuk4GIGlvHKAbZJFfimuuDb8UA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uDQkIhJaTYODtmz2hWQLxMuBygsIpSDm3KB//UfvfnkShZPH579vzXe0y1YU01QQBcbCOG8SPeGpSpqPXS6Ww2pZ8oQdlPnqsL0KzCLIWWmwbod5mcYaEuF995btiCV7HxnehEG1NyaBASSfmqxX+DIY6e3/EMwi2WQbH4ESCxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sNFbQjts; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KH3wuyxB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B074AF668
+	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 11:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.203
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790596012; cv=pass; b=sxOTAGjAU+Rf5gzyKERmesXZU3RmpUTiKbzhy8f2HcS9XHvgjDIWjqo+UxOgU5/+FnTzlIGkGBdjSIJcC1Wdj/4oDiUVAyKBBlaG4PIEatyQrMLA43rAGvnXJSADm2SAJJFp90RNWxClrZXAHSxoI+xiMUoRtE0ErlV0SCi2Mdw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790596012; c=relaxed/simple;
+	bh=lBv8IBD6IJb/z9r6xNQnFgugXVsOeX1D0j5YFBOsNP8=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=YisCfOPy7lv6Wgiwh0F+B1456dTvVwXvViFOxVgo3P3g5ijDeih62OD8++CSof0Rrsr+ljfpokpcROCeku/JwFjHPKwb7Ey1UZRjQpBKAlMavRX7s5jMBUxdaDazNLrckGYjMZZ/mERqqu5XDIsjrkm9gTP+DhpwG9+cTCA6h/A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jS7CmSAc; arc=pass smtp.client-ip=74.125.231.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sNFbQjts";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KH3wuyxB"
-Date: Mon, 28 Sep 2026 10:24:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1790583845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2aY2Jmg12jNs+yCWHxN7FfAyJ0S41hqe3zjAamjhfaI=;
-	b=sNFbQjtsObmjeIgxWpXU8QceSok29vIz2nTDpLnewdG7gveN8LwcwoyR4Fz0X6RlBbzoYI
-	frYWHzy2AYYfmy2AxGGA/Usk62XpypIKRhuQ++V3hXrUrF7l9uIvQi2D8P0RKYtao3R4Dl
-	Ja3LQjMl9KaywEwF1PioU01CkhkR+A4Ng5UGpHPQVrsrPFfv/DgiMyqE/1K0w8QnX4U7I4
-	bUyr/JzQBBAk4IjxCudNiI7Djhi630vNzEraqMuYOk5+BFtMGl1ApBXxjsTeO8WSu9GN0E
-	dgtXkgiD6OeYaw6JU3iR25WtpcwCLw4LnJdOMcSe1Bq2zG7koYe1ZeJLN9SN+g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1790583845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2aY2Jmg12jNs+yCWHxN7FfAyJ0S41hqe3zjAamjhfaI=;
-	b=KH3wuyxBSQDvOqUnTpLnnj1DLOD4W2hvq92pyV0l06IQv4HTHYBW2yPR962KiE2cq5oSxf
-	I41yuw6Sp6S5sXBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Boqun Feng <boqun@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Bradley Morgan <brads@mainlining.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4] softirq: Preserve interrupt context during IRQ exit
-Message-ID: <20260928082402.1iCSzDzY@linutronix.de>
-References: <20260926143505.66024-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jS7CmSAc"
+Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-4e7133c0eeaso247425b6e.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 04:46:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790596008; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sgZQrIqpONztJDTPZMzBnf5dWMijw8U1LBqXwGEzOyV0lYAxe9SvBGWe/FV3yZH52L
+         pAujVtiNd+VqOlQrcMZPBGDPJy5d6HFakAjoXrWbYO6RDyt/skBt1x9WGsufIkFwvxaT
+         uccjdqEjGf0LSpHO3XyoWiIUFHU8gsm/a18kwuRb+lI6d6TynZ96pPYqI6LBoJNgCAu2
+         DBrX5DM2tGbg7tjYAyP+hDIPeyM0p4vMDV6rnoxkhxhedGMr3udMJKwhgtvmVpJPj/4n
+         A3EaLJ/35k9M5eDG357RgCHb2NxYAKTr9MwJe1BvJBjHHGlTeF4v7Ky6CsIM7JyEJ2av
+         Jwag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=8y/14vF+O1HeqA5emJg88NL5DefW60ELONqq7Ew71Mg=;
+        fh=mC4EkNX42ZdQC8GltcQIDeNPOEqdkHkZjpn9pBRfsqs=;
+        b=U9r5eDEt+FRieABU7h3Oca09wom56MsvgBTb4SC5aqm5ZN1CEqVd3l+q6JmopdFieI
+         fMo8FGAnFTP/QwK5yAaDP8rdGo9IGZgJFsb/8FVNC5oVNBAGw0cKhpMeMw26xQqjQdpZ
+         8C83vFNHIfJsqYdgKMacgXQ/7Sy9XncHOLNUvhi1WL7VFVcu1QGMpqY4Lsm3I0fs+WRB
+         GpuWjnjJ5GWsj4bmAP+Ipe8nDueupUXraWK5xMD5odOsjy8EEOAn0K54MilBVKTr65ay
+         WoahYYZERaPkdoT+AaGxVnBdMAuaVwa/rQoQcQptC/dBh4L03MoyjWRY0BsyMMetacjp
+         bGSQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790596008; x=1791200808; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8y/14vF+O1HeqA5emJg88NL5DefW60ELONqq7Ew71Mg=;
+        b=jS7CmSAc0BNZyns0JgTRDUVtlgIa66roI4GT9s5rMPu56gKuACkQTP9tXIcjMH1R96
+         Nm/+qb7U5KmiJ9yEvY+4uXcx8OKAHG2H2QSDWKg/cKcF9cM2Wb4C0jsYNeCW05OxbALi
+         nXHTmBJgfeBlu5+EG8hPcIbzJxMNAt20nHHb8soWYTwe016eIUxamO2KXIQrkO3mAJyK
+         4PtUHoxaB3zCoaIi/kmM6x6aEo7NQZ01CfrVjdGooMVdk/1u/URnsbwombS5xYa/qd2q
+         wUClar+VK81AvmchIH5hwI8kA1yJSsfqSFvM64JzJKMwoKGNWwHAy8EnOkqwtTLDtIMs
+         DzKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790596008; x=1791200808;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=8y/14vF+O1HeqA5emJg88NL5DefW60ELONqq7Ew71Mg=;
+        b=dwuxt3WLcLOa8jpc6YvdMdZLB10OeYEIuTcws3A4wwG6MljaefcCnhfxlvsfs50wol
+         J/sunZssLVOy+ZnaMUuhhx/SLdbhkAfJT7WLJhuDV5UHE2W1CgNnk73W851TTxq/64mA
+         SQHmdUgy1I5lJKnnmzP8Jz8lF9B6sEUQsSqKovxRDo7UrKl9XVml8ZPnKILvnsOqyhc7
+         75hoXR4qEXTXOX8aZI+iv6C+Kz6vmdWpzGh89qhIuqEC2eokP03jpBlmRKdtZ4rUgvty
+         kd8mwgXcVW7OikjYVBuZhIa2TP8yoOC5OpN8toV6Gp9tPjFjEpzUAxqjgFrAB6O4OBKI
+         oaQw==
+X-Forwarded-Encrypted: i=1; AKwUvBwRZNyLV8bLLMr1fWqJmMqiuKZ6Lo05bYIoIUYb90lXJ1tuxmIyI9gXbf9Rd5EhZtKSRt3cWnvrBUiMxc3Yvw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mXtOV0RxAFKenrJlZlswU+1wUn28aY8FSjjVy2eyN5pUD2ua6Z
+	aNE6IgCMHZkMUndHGN3ctviNMJMHrDQYQvm9Syg42y/ucb6+gNFpPl/QERkxgZ8xJez9xrbGAYL
+	dj2tQyNaYljR945CfFSgIKbavQu9DVp0=
+X-Gm-Gg: AYBFou27WGUMunmHVKRS5HWN3Grq2V2z6LQynyNHiIEY9Nwt5Y5z0z5sf6R/O13ao7w
+	YinrVJ+vJDhvt+EypMg25Yukfo7YgkqqesTYiZCbj73E3jEEVZHxkqyC4pOLCNbL/QswqyzUz59
+	omG2HdgzqUicYI1muW17bnTPRjK74T9a0Z7mxwAymK4NrkPUyz2jY24Ve458+SwCaG8JS2c8DmZ
+	SMpAM2d/NWPFJboWzZaAJNs5GwIvW028+Kg/j5e4yQG3HfMVPvU1iBsuHDQz+WjvmopdL07JiB7
+	tUtNvInL0eWZ2F8ohLFFNbvuq5z7eI8LSvQg+jESYaTPN9jkLfACE4uJYtt8SS8E67Y8LDEgo0g
+	+SQSmf2kS4w==
+X-Received: by 2002:a05:6808:bcc:b0:4b3:7da2:f393 with SMTP id
+ 5614622812f47-4d72c636b6cmr12794285b6e.15.1790596008135; Mon, 28 Sep 2026
+ 04:46:48 -0700 (PDT)
+Received: from 578479312649 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 13:46:47 +0200
+Received: from 578479312649 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 13:46:47 +0200
+From: Aveline Noir <jm5905938@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260926143505.66024-1-kmehltretter@gmail.com>
+Date: Mon, 28 Sep 2026 13:46:47 +0200
+X-Gm-Features: AclHuK8vvWWUjI-1FK5rP_VlhGDEQ4c_Oaxo0Aq7l7qcc2S08USGBF3bm-pvFn0
+Message-ID: <CANOyQmEg5abcMc-Xk6=2hQQWu9vq9wevGR3spe352QLyxsZNEw@mail.gmail.com>
+Subject: [PATCH 0/2] HID: picolcd: Fix output-request and framebuffer locking
+To: =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+912222e4cb82423535fa@syzkaller.appspotmail.com, bigeasy@linutronix.de, 
+	linux-rt-devel@lists.linux.dev, deller@gmx.de, simona@ffwll.ch, 
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-09-26 16:35:05 [+0200], Karl Mehltretter wrote:
-> On the return from interrupt path, __irq_exit_rcu() removes
-> HARDIRQ_OFFSET from the preemption counter at the very top of the
-=E2=80=A6
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming=
-=2Ekicks-ass.net
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> Reviewed-by: Bradley Morgan <brads@mainlining.org>
-> ---
+This series fixes two PicoLCD locking problems. The first moves output
+requests into sleepable context and serializes LED state updates. The
+second breaks the last-close/deferred-worker lock dependency using a
+private framebuffer update mutex.
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+The first patch was tested separately with the original syzkaller C
+reproducer and bounded concurrent sysfs/UHID-destroy workloads on
+PREEMPT_RT. The complete series additionally passed repeated framebuffer
+open/write/close and persistent-open framebuffer tests. Pre-fix modules
+reproduced the respective failures. Physical hardware, prolonged stress
+and suspend/resume have not been tested.
 
-but=E2=80=A6
-> --- a/kernel/softirq.c
-> +++ b/kernel/softirq.c
-> @@ -758,10 +788,21 @@ static inline void __irq_exit_rcu(void)
->  		invoke_softirq();
->  	}
-> =20
-> +	/*
-> +	 * Wake the timer thread even if the interrupt hit a softirq or a
-> +	 * section with BHs disabled. Only nested interrupts and NMIs are
-> +	 * excluded.
-> +	 */
->  	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
-> -	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
-> +	    local_timers_pending_force_th() &&
-> +	    !in_nmi() && hardirq_count() =3D=3D HARDIRQ_OFFSET)
+Patch 2's Fixes tag identifies the fbdev change that began draining
+deferred work from fb_release() while holding info->lock. Patch 1's Fixes
+tag was checked against the upstream transport-conversion diff.
 
-could you please do
-	(in_nmi() | hardirq_count()) =3D=3D HARDIRQ_OFFSET)
-instead? This will merge NMI check into the hardirq check, dropping one
-conditional jump away.
+Aveline Noir (2):
+  HID: picolcd: Move output requests out of spinlocked sections
+  HID: picolcd: Avoid framebuffer last-close deadlock
 
->  		wake_timersd();
-> =20
-> +	/*
-> +	 * tick_irq_exit() relies on in_hardirq() being false for the
-> +	 * outermost interrupt.
-> +	 */
-> +	preempt_count_sub(HARDIRQ_OFFSET);
->  	tick_irq_exit();
->  }
+ drivers/hid/hid-picolcd.h           |  4 +++
+ drivers/hid/hid-picolcd_backlight.c |  7 ++--
+ drivers/hid/hid-picolcd_core.c      | 46 +++++++++++++++---------
+ drivers/hid/hid-picolcd_fb.c        | 56 ++++++++++++++++++-----------
+ drivers/hid/hid-picolcd_lcd.c       |  7 ++--
+ drivers/hid/hid-picolcd_leds.c      | 31 +++++++++-------
+ 6 files changed, 93 insertions(+), 58 deletions(-)
 
-Sebastian
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.55.0
