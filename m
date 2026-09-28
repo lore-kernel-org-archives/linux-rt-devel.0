@@ -1,100 +1,135 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92E8D4DEC1D;
-	Mon, 28 Sep 2026 15:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790609951; cv=none; b=NPQ6d+Lf3icEOxRBdSaLfcfqrhR+LHGhAudbYWQHxCWBlX/CraA96MbX/1XfESL9AiYTHssX4YjfmaVJXuAFmNIKja0LkbLhn9v6raY9/FaLy6XZLar98oflhId38g0P55YyZxnC2J+hsdrlVB1Af6sRz21tCM/uz1ZTApQVizE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790609951; c=relaxed/simple;
-	bh=mI6GA1s/6zctdIbELhsFif0NG9b6bMAvxtY3uqPSZ3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JdFanY6D53l0SL7gB2CSNZHZh313s8g2nP2pR1M8v2vws7UFX2K/F0uM6LuvQfPa0B5/4d5zoUd6yKQ7d2L+ovvAXO8rBaX9+o7jE0ABa14MOy6TJyOUaoyKFqdFWLbR3VVafgKebsCiIsJAegtsudPwbpZwbbWtPoqRFDJ8P6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ftUFyFow; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974BC41D108
+	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 16:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.203
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790612156; cv=pass; b=TBkG63o/Z0SL/3vzZSfT4w1pPbm4/baxts4R4pi/E6xDnyjXqZYu1LEePFUz8d+MxkVl3kVwHk330Ihv85JH+fN7vtGMd3iO1blAgrBEyrd4PiX5WUYZWeO7xAfBIrbhkw61S06spFXBv1eXRHvo/bS5oGFehCOHKdxZhXF2/WY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790612156; c=relaxed/simple;
+	bh=5zhxTTDmIVJyF7gRnQGI1x1uORVwq6Xhxto6tH0D/wQ=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=Q6rryRCMqo8UMZfyj1G7HdcGU5WfUq1GjiSJyNwBl8TK5FtNe2X3dmyPTj29bhwLFFFOIXdarpeI1lVumx3JejwGVItFMopiTt8NopmD+rXAWirhUk/iabsu7xbDnoKEWZ5HJAh6RyFVet8n6+WqszTakAGIuqLbG4qqd6xFiaM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sqIfhARp; arc=pass smtp.client-ip=74.125.231.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ftUFyFow"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 465441655;
-	Mon, 28 Sep 2026 08:39:05 -0700 (PDT)
-Received: from [10.57.52.74] (unknown [10.57.52.74])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2D403F763;
-	Mon, 28 Sep 2026 08:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790609948; bh=mI6GA1s/6zctdIbELhsFif0NG9b6bMAvxtY3uqPSZ3I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ftUFyFowGNkXBc87rLTpLZFpaO41UpzF83wuOXuJrXaIqrjTRD+koTVspLCtsBpAP
-	 lCqvyjc6w/9Z0ICfq4F+1W5YJ5VFVbwKeqSgwW0/InO9jOT5GIkTQ+p4o/334a1xNo
-	 1TV0JjwZkiUaX876R2r4JGZc8ioeXOewTrsWT+BE=
-Message-ID: <cf2e4daa-c00c-4c7f-a9d2-ce0d7ed380e8@arm.com>
-Date: Mon, 28 Sep 2026 16:39:04 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sqIfhARp"
+Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-4c1e3be1093so1323648b6e.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 09:15:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790612145; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jattItMxlZu434rgk0W0lmonn1o/lHEzvl/vK9AHaMVcZ8caYjgLNDJjy4KLB99juh
+         ANADISEMIDuppUIn3s07ngFn4S5hH7sV3uvmkGcBy670x0EaT3tG9vfm0LNtPilNxwos
+         9czUr9QWiCkF2w46jyyQbalLWYOeTxtJYakOsBEgmN8ahqXE1QashWHNBlgFhoXo42JJ
+         fQpYJ8w4FbvojhYfcRQ44adBZS8TPxLgVcg/NbRsuZd4HCXSG+B3tTT5PZRpdJyibxEx
+         3o8/y81jaubtftFQxg/14mAoEQ9ic/szo632QhbqU1sTb+4Hs+IzmiSFPRZI2taVM6px
+         EzWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=0A5INQy7dX8LBqGciPLMu7YdS8AMK7M47XwobBkMymc=;
+        fh=oUV7NCMuL8us0sELexYQrWORGzgE2LaZIKWTCQZWTw8=;
+        b=ZM4KPmVHpsmOr+kM9nhKHu/pxkKmDBn/gYbzkyaHi2/PGOo8D+vK8XwbWhN0XGxqzb
+         /HVlfLFoebxBjJl5Ev3iN2X0tmfW5hL84QIfg9M74DTm+QGQWhGr86+59U/dxNYdPhwI
+         HyuhTNRzseiXPPN2BtuTkYLFK09VbF9kXlsD1mWxneSZ8x48w6nyzjhg43XPFZczqtYD
+         kOiLT1qBE7snPcH/ppxQzFKhNv40bqoS19QXjEfEDGrEb+qgOOWNA4raUTTv35SY42iW
+         3X7+yvwzKB+Jh8gbuOvtPdquCmr9JaVGx+xHWLEPJc+bG+to71ocMJVym70jiqub4jT9
+         VHow==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790612145; x=1791216945; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0A5INQy7dX8LBqGciPLMu7YdS8AMK7M47XwobBkMymc=;
+        b=sqIfhARp/8F28uIKT7UMYu/PcuMDRag6B5duXwVmRvjUzCQpElWzocBG8ca9xk6kSs
+         +N81/PB+soerI2fyHOiNGA3l8oGDCBoMsajgP8Jy1IbNLU/GBimv4GNzqNNnuHQzBgNT
+         Iq5pRJu6H1yNnThEb61r95hq9dOcfdOkN1D55Sufm2OCx3UJdNb0yAEwQK0VQGQIUgaE
+         8Rrml65s8i8xG7uxFl5n6hDTkNSY0GZxSMk/PvzUfM7NY1+V0Xe7c+QLjsPaKjd2MWHW
+         qJSnGauZzVNZfQ/iPMAYURxa8KJW5Tyb7ZOgBjGA4S57TrUsQzJ8P4t2m+/vP6lrp7Tj
+         QY5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790612145; x=1791216945;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=0A5INQy7dX8LBqGciPLMu7YdS8AMK7M47XwobBkMymc=;
+        b=j/MTY4c9TpKQyI4KBnWyobm06x9Z3kaHrMVUprL89ZeWyR02XezviH9v9wrb3DUAXA
+         ZYY4+riCeTG4D2KcHf+sIWkyh+tXNjoQDhMSNgM3RCAhA78Tx+9E687DJ29AsXoMPNPh
+         AcEfk6fX/ZtcWBjfHkp3cBfQsu+pJLxx3nPSOL4CTtLDUNqI+iMkq102YknLBbL6EU5p
+         VNAoe4QJBsHFgKqNlv3WGWV30Eqnx5QsHKPduew80XfMqr5rpDK9HVvlELFCVfzOkc7Q
+         LZ0RXasUVHuqQEs0yoBC7IRJDzY1pciC75IwJYinnvDuYWptrYoWHheVyMqva7NoO2Rr
+         RD7Q==
+X-Forwarded-Encrypted: i=1; AKwUvByyAZP0RRb2+sfPhxBJHUZEaWArcudAbslD9HeFrmRy+cmbewgdohHQFlySDNonsTmL5+DhO2S7tm15lsD56g==@lists.linux.dev
+X-Gm-Message-State: AFuF++lV6BF7Hz0w/npGT3Ss/3jQrDPtYsj/d8RLASxehXWtA1rsxpyM
+	BBU371+lCDGnOtSMqtaIaDUEuzIVHS17mEFZESDOlenFb+hGkujqLV5kHkriG+8Yj+uERyCv6Dz
+	6evfOPOUaWIZ+H9YzdQBa6WoEDXiRxpw=
+X-Gm-Gg: AYBFou3lxA9yUBgN6NQGyIcUiVupEHu46NIohhWHB5EWdnWejUNMADBq/bvaCVtTkXj
+	T623acxARfEFm+1rOW+b89kwkUVuitUP4xaikPGqNe55kL0d2Gn2WL0wTfE4iq8f/bq6vV0xfMf
+	1awAiJ6ntiXT34APzkpIQNsUCiD8KVRfIWnyyVuY5kH/ZGLQTblLJNcplFJ5vXXcNSqOYsldcO4
+	OkpdtRPguCTRyVZB/zd8zGRHSqKD9Aqo2zUFTJjK0DhLnPI4nM5mfMi6/SkkGD+Yfj3ns0rIysa
+	R+0acHV/WBGFItgAL1FOCrjqUofMOymTj5r7c2N+R5+Ns24/oj/VYTfgP7LQ4P/dn3hGe+IlY9n
+	mw5LYWQhzUw==
+X-Received: by 2002:a05:6808:198e:b0:4d6:90f4:48ba with SMTP id
+ 5614622812f47-4d72ac45eacmr14395634b6e.44.1790612144676; Mon, 28 Sep 2026
+ 09:15:44 -0700 (PDT)
+Received: from 578479312649 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 18:15:44 +0200
+Received: from 578479312649 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 18:15:44 +0200
+From: Aveline Noir <jm5905938@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] sched: add CONFIG_SCHED_EXT_RT_EXPERIMENTAL to move
- SCHED_EXT above SCHED_RR/SCHED_FIFO
-To: Tengfei Fan <tengfei.fan@oss.qualcomm.com>, Tejun Heo <tj@kernel.org>,
- Fredrik Boettger Bratberg <fredrik.b.bratberg@gmail.com>
-Cc: Henrik Austad <henrik@austad.us>, Peter Ziljstra <peterz@infradead.org>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>,
- linux-rt-devel@lists.linux.dev, sched-ext@lists.linux.dev,
- aiqun.yu@oss.qualcomm.com
-References: <20260414125933.3520885-1-fredrik.b.bratberg@gmail.com>
- <ad539mUd8A0lDWAw@slm.duckdns.org>
- <f8e91551-64d8-4cad-9757-f461fb13fb7c@oss.qualcomm.com>
-Content-Language: en-US
-From: Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <f8e91551-64d8-4cad-9757-f461fb13fb7c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 28 Sep 2026 18:15:44 +0200
+X-Gm-Features: AclHuK9iPdog26wVV94AzoDOB6Ecnbo54mNzfsBz7HWPWdsxEbSKehYuy5Lt6Js
+Message-ID: <CANOyQmGfmBdTRaEamVdGuMBToVLeXGi6qLrnX=xkA9acsL9TSQ@mail.gmail.com>
+Subject: [PATCH v2 0/2] HID: picolcd: Fix output-request and framebuffer locking
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+912222e4cb82423535fa@syzkaller.appspotmail.com, bigeasy@linutronix.de, 
+	linux-rt-devel@lists.linux.dev, deller@gmx.de, simona@ffwll.ch, 
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/21/26 08:47, Tengfei Fan wrote:
-> 
-> On 4/15/2026 1:23 AM, Tejun Heo wrote:
->> Hello,
->>
->> On Tue, Apr 14, 2026 at 02:59:33PM +0200, Fredrik Boettger Bratberg wrote:
->>> A recent paper published in the 2025 Real-Time Systems Symposium (RTSS)
->>> "Enabling Flexible Scheduling in ROS 2", would presumably also benefint
->>> from this feature. The paper aims to address and improve the real-time
->>> capabilities of Robot Operating System 2 (ROS2). As part of their paper
->>> they implement an EDF using sched_ext. They do not explicitly address the
->>> issue of their EDF SCHED_EXT tasks effectively having a lower priority than
->>> SCHED_NORMAL, but it is a known limitation of the current sched_ext class
->>> placement
->> Isn't that mostly solvable by just not putting tasks in DL/RT and enabling
->> switching_all?
-> 
-> Sched_ext is an enhancement mechanism rather than a replacement for RT scheduling. RT scheduling continues to provide the latency guarantees, safety properties, and forward-progress guarantees required by the system. Additionally, the system must remain fully functional if sched_ext exits and falls back to the in-kernel scheduler. As a result, in real-world systems, assuming that RT workloads can simply be eliminated is often not practical.
->>
->>> This change conditionally reorders sched_class selection such that, when
->>> enabled:
->>>
->>>    STOP > DL > EXT > RT > FAIR > IDLE
->> The problem is that RT being above EXT is required for safety as EXT depends
->> on RT superceding it for enable/disable path forward progress guarantee. If
->> you put EXT on top of RT, it's relatively easy to stall out the whole system
->> without any way to recover it.
-> 
-> Rather than requiring all RT tasks to be isolated from sched_ext, it may
-> be beneficial to distinguish between recovery-critical RT tasks and
-> non-critical RT tasks. Recovery-critical RT tasks would remain outside
-> sched_ext control to guarantee safety and recoverability, while
-> non-critical RT tasks could optionally be handed over to sched_ext.
-> 
-> This would provide a balance between robustness and flexibility. In
-> practice, many RT tasks, particularly those with lower priorities, are
-> used to satisfy latency requirements while still being tightly coupled
-> with the scheduling behavior of other workloads. Allowing sched_ext to
-> coordinate these tasks may result in better overall scheduling outcomes
-> and workload-aware optimizations.
-> 
+This series fixes two PicoLCD locking problems. The first moves output
+requests into sleepable context and serializes LED state updates. The
+second breaks the last-close/deferred-worker lock dependency using a
+private framebuffer update mutex.
 
-And what's stopping users from doing this today?
-I don't think the kernel would be able to decide which RT tasks are
-'more critical' than others, and therefore the system administrator can
-already downgrade those 'non-critical' RT tasks?
+The first patch was tested separately with the original syzkaller C
+reproducer and bounded concurrent sysfs/UHID-destroy workloads on
+PREEMPT_RT. The complete series additionally passed repeated framebuffer
+open/write/close and persistent-open framebuffer tests. Pre-fix modules
+reproduced the respective failures. Physical hardware, prolonged stress
+and suspend/resume have not been tested.
+
+Patch 2's Fixes tag identifies the fbdev change that began draining
+deferred work from fb_release() while holding info->lock. Patch 1's Fixes
+tag was checked against the upstream transport-conversion diff.
+
+Changes in v2:
+- Address Sebastian Andrzej Siewior's feedback: clarify that the issue
+  is not specific to PREEMPT_RT and identify picolcd_data::lock as a
+  spinlock_t in patch 1. The code changes are identical to v1.
+
+Aveline Noir (2):
+  HID: picolcd: Move output requests out of spinlocked sections
+  HID: picolcd: Avoid framebuffer last-close deadlock
+
+ drivers/hid/hid-picolcd.h           |  4 +++
+ drivers/hid/hid-picolcd_backlight.c |  7 ++--
+ drivers/hid/hid-picolcd_core.c      | 46 +++++++++++++++---------
+ drivers/hid/hid-picolcd_fb.c        | 56 ++++++++++++++++++-----------
+ drivers/hid/hid-picolcd_lcd.c       |  7 ++--
+ drivers/hid/hid-picolcd_leds.c      | 31 +++++++++-------
+ 6 files changed, 93 insertions(+), 58 deletions(-)
+
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.55.0
