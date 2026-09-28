@@ -1,121 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f40.google.com (mail-wr2-f40.google.com [74.125.225.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4631AA1D5;
-	Sun, 27 Sep 2026 04:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCF53630A7
+	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Sep 2026 06:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790481782; cv=none; b=HSK577LWUbGioEb8qlJqU93IvEVYjH/KCBnSOOln4Y1cVu2A6DaH5bae1pe7OUbKYgTjCES5cBWCf57qzCnibHEh3sKWZyJlc6U5SQpHeJ+u8oytDRgbeYyXGXRjcx9/jKoYWhCTePiFkvdZkbbwZNtZfC+n2z8xSlb/eGUrMPE=
+	t=1790577776; cv=none; b=X7TsWsTFJAbPoHh/f8l5q/kpixI4R/XBbP2RK3liLJcE8fme60RLsDuwvCUr6a/qvBS+lD+yCZJs/3bTd1tqWm4oUkvxs4iEXYjPxOfMCXx7k7quWdkIXhXZ5TkQ01bwHTUerkUNMh04OmJ82loyJsHXJ/PHNmKg3bKDTxFOO08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790481782; c=relaxed/simple;
-	bh=8/Pbq6e0Egu5v5AdbXrKrQZKM8VxS12zXS4hrd1rh88=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SW3h5WXjnvIALfTTNDrq8c4ekw5bAqrOmYTMJgW27G78zDNi7DcHjVIyGR0YpVxpT+JJwo2Gg4CpNcipHZXnQ4BfwhOcM5F3ulSBXp6lqhoVTB9Y0u18tpGvCm6CeOf6gsh4DaAi5xSSWx9INj+AqYYhjuqbq9nV+MVQcrKK+XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFtP15S4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790577776; c=relaxed/simple;
+	bh=7MY9g1VCfYcNl1oUjPGni8Xlg1seVgLJlQYJCr77j3M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=imG1zllud7pFUgDY++X4QuK9Xmy8RYOJjELQ2YVztzLa1pWQE1wRYON/asbYl022L/8Wo6XgksDUu1QhL3XGgfnQf/CzX9pIeiL2PiyyKtwdmwCgHXLIyMKUClIx56btesEOSsQtj1mIyJrr40h+gufbmWFAtD41mrZRIC3LvbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFidGa7F; arc=none smtp.client-ip=74.125.225.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFtP15S4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5902F1F000FF;
-	Sun, 27 Sep 2026 04:03:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790481781;
-	bh=GC7coo6sKErkgEMskr01q7qu9o3kxRtbkgfzjm0Q4lY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=kFtP15S4BUOShAcFAgqUdROdbeOeafymgeS9M6D0J0a8jC+wMgqDIK9tixgRQJCN9
-	 Z84+fZ30DBMhOxu23nmUx0Y9JS3ufzBhY6XakzL9m8Hr1s922PUM1YVTphFKo31fGL
-	 cvbpRc5TnfgDw3amSwr0eU9q+rukAocRDmHhZdTwR0LgohJB9gH3/qRULEMj4WMvv8
-	 /JIP6dtNjzuk3kWPS2SlNZq+SDBm/aWjNW4SjklbsCruOP5eZ0PaihE1Ev0TO5GvcO
-	 Ua1A4Ti13QprF5Tb1+fRiFBoXtJJK+UsQYaHaSBXT7NhlGHZlkZ7nRnKJLp25sMJhU
-	 DejpI9xv0LZbg==
-Subject: Re: [PATCH net] net: gen_estimator: protect seqcount updates from
- hardirq readers
-From: netdev-bot+sashiko@kernel.org
-To: runyu.xiao@seu.edu.cn
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, rostedt@goodmis.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- stable@vger.kernel.org, jianhao.xu@seu.edu.cn
-Date: Sun, 27 Sep 2026 04:02:59 +0000
-Message-ID: <179048177964.2160803.12902537767476134602@kernel.org>
-In-Reply-To: <20260923032936.2020902-1-runyu.xiao@seu.edu.cn>
-References: <20260923032936.2020902-1-runyu.xiao@seu.edu.cn>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFidGa7F"
+Received: by mail-wr2-f40.google.com with SMTP id ffacd0b85a97d-488780459e2so2640961f8f.2
+        for <linux-rt-devel@lists.linux.dev>; Sun, 27 Sep 2026 23:42:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790577773; x=1791182573; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=knKV+ty7Rl97pUKjME3IBtkaEdWWVK7KKAJhTAdQER8=;
+        b=YFidGa7FjFuetqHgTtEw1UR5rzF2gjaJYJmHS/pPFGnShgDsR/thGRSU2+MbrKWT35
+         Z+HPYnvYo66snlpw+zzeKZIw5rfFooNjsmvdkeL08wN771ADlCeFLmlpvFIakKzMEGpt
+         BipBUDWa+zsQ5ZoiKgQ6LTtxRsnFgi0EJ0kpIp9HjBLg0jmclXM0GNsTV4407gDQ1s62
+         GnbqbjT/HnpAC1jBYOPT7krmcT8YifkNa5QCc+dtrMhj4GRkXHWH4xEPcEeGsK465aLp
+         UvcGSWpZ8JcLYslIvwJuDuJeux6FJSjh5Xo4peSBM1IthoK6XZO2JDqo1Rze6pslnTnu
+         RJqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790577773; x=1791182573;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=knKV+ty7Rl97pUKjME3IBtkaEdWWVK7KKAJhTAdQER8=;
+        b=xKUOkTqKExfHYxuXPKl0Xcjd+aD3nlwVBQNQz2NJDX3nA5I0Yn0Xs62nWey32M2gdN
+         M//bFkpj4Oh7PzuvKTqw56b5Tw7WdU92NKo+ZulCbuDs+9jomqM7ngQzt2fmP8o0XCmJ
+         o9QNynnjW76IvIxgz/fjtAz3FcYKPCz0QYejJt4s8zpjT0sB9uRs/oVNvGpe07P6I5A2
+         BFU1OI41aMGm2wkrZhjgFe5ECYNGBY41TeNFUZTS/BwIojmPQhiO+qNTlTaQZ47YNLRA
+         QBdMXlLYPzSbt70zsDq/pWEJSqAtCTkrJJgl0aK0DuCzpDuXC0FhAYkcnaB6Y0559Hxd
+         ZZug==
+X-Forwarded-Encrypted: i=1; AKwUvBy6B/Yg1EWRS8jSHes8SPnTqUMSN7nGTGlVonc7KdXqIN+nKRejplI5PVbHSfO90DRh2h+kvSzwYOSzHKuPUQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKwmmWt1lyVN/0mfqSMUbKJbFSg5yUUVx8Fjnxy2MHka4PHMz8t
+	cufWVdCuAo6uZ11KpJsXOFmc3ponrGEUNBP+Zm5t+CT+j9e0qB1gH2Tv
+X-Gm-Gg: AYBFou2rNP5HXOrYj0dzZP+yfpRYchGa+D2K7iN9kg+wEt7nUYt4iLdazdZdUEx5snj
+	BDF+RjqLhdB75SGZ4//11izW5pGUtm+J/aefi5LVe7zBI/uY9jVe00DTh60k2luHx/8a3oVbCdr
+	mso1MFDcJLCQ6zJAeTXrz/oVxlGfUTbkgISSOsblFHzTqAVDvO5Lp1hhupq76u+DVkFg8eIMwNX
+	Aqxqmv/4ahnwVlk3/5WKZwxlrNl7O3/m2TiO73zhgHxkBFz1d/vJBC8UIBSRq8BMC69EIQWw5Ui
+	cj6QtoOEZ74oSTUQTDJtxR5frhtEFhdPjjCeCM8rxX/v0u52ihDEI7GH0zkc9+XBPXJ8dOWdf5B
+	y7gmCQ2g7xI9r/SrYgr7Dw1aBQI5EUcy80PvIL9ScxfqOGV01bUJEsVPF/Y1umXSsp7nVqYKmCq
+	yMSDRTe4/MXdnTqNdnoW4Zc4F25oQglz/CdqL3yCUBMtdSUmNPzFv3yJZyGElcy+gd9j7xwwwjm
+	34hLC6rA2w3c2pvlfZ+vbGEZPp7u1HXx20U021xT8hVBwYAMb58efZHqpQ7ysIRPWtfqmHNmjVv
+	I6CzTcmYA6dvEPqp8ND/BROW6vd1XrdrzcpuJWeDoqxrImUv535RhCNQKyn4rdFeKgRraYtUoeZ
+	TH/lnAg==
+X-Received: by 2002:a5d:5f49:0:b0:487:490:8391 with SMTP id ffacd0b85a97d-488717252c4mr22421127f8f.16.1790577773176;
+        Sun, 27 Sep 2026 23:42:53 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-acba-a601-4494-3582-465b-0eab.310.pool.telefonica.de. [2a02:3100:acba:a601:4494:3582:465b:eab])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30b1dfsm26283196f8f.4.2026.09.27.23.42.49
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 27 Sep 2026 23:42:52 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH net 0/2] netpoll: fix PREEMPT_RT deferred transmit locking
+Date: Mon, 28 Sep 2026 08:42:37 +0200
+Message-Id: <20260928064239.32456-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+netpoll's deferred transmit path can acquire two sleeping locks with hard
+interrupts disabled on PREEMPT_RT. One is the sk_buff_head lock used by
+the sender and worker. The other is the device transmit lock used by the
+worker. They produce independent atomic-sleep reports.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Patch 1 gives the deferred skb queue a dedicated raw lock.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Patch 2 makes the worker try the device transmit lock and defer the skb
+again when the lock is busy. It uses the queue helper added by patch 1.
 
-- [Medium] The commit message describes a bug that nothing in the tree
-  can trigger, yet the patch carries Fixes: and Cc: stable.
+Testing:
 
---
+- Arm64 and x86_64 PREEMPT_RT W=1 builds passed.
+- An unpatched Pi 400 emitted the queue-lock report five times during a
+  one-hour run. Ten boots with the complete fix passed, including one
+  3,606-second run. Every trigger and post-trigger marker arrived, Wi-Fi
+  remained usable, and neither atomic-sleep warning occurred.
+- An arm64 PREEMPT_RT QEMU control reproduced both warnings under forced
+  transmit backpressure. Three boots with the complete fix passed.
+- An x86_64 QEMU control reproduced the queue-lock warning on PREEMPT_RT.
+  Three fixed RT boots passed. The non-RT control and treatment each
+  passed three boots.
 
-net: gen_estimator: protect seqcount updates from hardirq readers
+Karl Mehltretter (2):
+  netpoll: use a raw lock for the deferred transmit queue
+  netpoll: avoid blocking on the transmit lock in queue_process
 
-This commit replaces preempt_disable_nested() with local_irq_save() around
-the est->seq write section in est_timer() in net/core/gen_estimator.c. The
-aim is to stop a hardirq reader of gen_estimator_read() on the same CPU
-from spinning on an odd sequence count while the timer is interrupted.
+ include/linux/netpoll.h |  1 +
+ net/core/netpoll.c      | 83 +++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 77 insertions(+), 7 deletions(-)
 
-> est_timer updates the estimator seqcount with preemption disabled, which
-> does not exclude hardirq readers on non-PREEMPT_RT kernels.  A reader can
-> observe an odd sequence and spin while the timer is interrupted.
 
-[ ... ]
-
-> The hardirq context is deliberately injected to
-> exercise this interleaving; ordinary userspace traffic does not guarantee
-> it.
->
-> Fixes: 1c0d32fde5bd ("net_sched: gen_estimator: complete rewrite of rate estimators")
-> Cc: stable@vger.kernel.org
-
-[Severity: Medium]
-Is there an in-tree hardirq or NMI caller of gen_estimator_read()?
-
-struct net_rate_estimator is private to net/core/gen_estimator.c. That
-means gen_estimator_read() is the only reader of est->seq. Its callers
-appear to be:
-
-  gnet_stats_copy_rate_est() in net/core/gen_stats.c, reached from
-  netlink dump paths in process context: tcf_action_copy_stats(),
-  tc_fill_qdisc(), and the drr/hfsc/htb/qfq dump_class_stats callbacks.
-
-  xt_rateest_mt() in net/netfilter/xt_rateest.c, which runs from
-  netfilter hooks in softirq context or with BH disabled.
-
-  tcf_police_act() in net/sched/act_police.c, which runs in the tc
-  datapath in softirq context or under rcu_read_lock_bh().
-
-Netpoll transmits with IRQs off, but it calls netdev_start_xmit()
-directly. It never reaches qdiscs, tc actions or netfilter.
-
-On !PREEMPT_RT, est_timer() runs from the timer softirq. If the writer
-interrupts a process or BH reader, that reader just retries. On
-PREEMPT_RT, preempt_disable_nested() already expanded to a real
-preempt_disable().
-
-The commit message also says the reproducer relies on a test-only
-hardirq injection.
-
-If no real hardirq reader exists, could this be presented as hardening,
-with the Fixes: and Cc: stable tags dropped? If one does exist, could the
-commit message name the hardirq path that reaches gen_estimator_read()?
-
+base-commit: a7bfaba4823e3c165bb2004c74eff7c096672bc7
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260923032936.2020902-1-runyu.xiao%40seu.edu.cn
+2.53.0
