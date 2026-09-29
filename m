@@ -1,165 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7678242AF98
-	for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 06:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A8443C056;
+	Tue, 29 Sep 2026 06:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790663548; cv=none; b=KBf6yiRf597StKOS0kVF+iyBDLcr5KTxmZ47lhmWEzzEIBq4V000S/f+zV69gClQJ4nvZQQc2Ej4DAuAZZVS2EckSwiDQT11XOxA2avOA9R5ZOBCVFoUzr8pf8mpt6aZg+VAd0l6pnpuVIAuohg83TuBQSHuWuyzfTdm2gOmrlQ=
+	t=1790664188; cv=none; b=FigQnJLracuFkRUE+INQ2/Y+tiST71IIYKMSxLt8flifbTGbngBWHxycyr0yzjJflYcswb3ATA3FMGEjrgUDsfoRHAt0PxRpFq/QQtbxvOJj58nnb8EUPeFJVjhIjzanAFjASg47ubRWdIpVhRNU7ZUfkU0NHxhgKm3gbieyPbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790663548; c=relaxed/simple;
-	bh=AIbzTbZ/AofnIejMdWe2PPEZVfsXawvroHwWq8ciIW4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=I9GXpGqMWj8ndjcedeS+TE/uOuqFmb3aVPM3Ii3BgUGmVP8wm7dGkgWWCoszrzaAexH6zJ++FG7MZLgeVviveTHRKSkJen9cL9dKbcsCIYMvR1Ndi7W1+8FtoUaZU81tckfGwPjZ/5SNCNFxppiS+/IlbiwZqD9YwlP/HKliCio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnhANRdM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790664188; c=relaxed/simple;
+	bh=C2nRmWD9empFXA+WPGdaDn6XwvjH0JpFUGAtGdDltDc=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ltPdC7V7+j25xc9grEf6hfgJHy0zv10cLVNPYoAMfl/tFmL7XTcifEDta/AfP9PuEs1ANQFUsFlm7dUmq1PIg3EVgN1V2Yyqo+Z/sLUIydN6h7DcMCH56/V/PKRj+GN05V043UzoEpnG9aOikltySszvA0M0nNBCTL/6M6x+JF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SEY5syIs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnhANRdM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442BD1F00898;
-	Tue, 29 Sep 2026 06:32:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SEY5syIs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569CE1F000FF;
+	Tue, 29 Sep 2026 06:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790663547;
-	bh=ye191Qsb4WmX9ajAZ1ttsvrrzjJ1uJXF9ugl/Q2S64I=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=SnhANRdMNUPN2UEXLYpIYBQjCVLVNuFeUOyMOMnWOCIeC2VSCLegVK6B+pR73gd1u
-	 ycL1r3LXNLwlW8n4ptxCY1QV2BiMCMW9i3kLwictuIZQ9aaX8TtHKIadwLHchqUWNl
-	 GuUWZzI8fpmJSG1BYxA51BDXupE6rZF11Y8lCD/L3nhCTgyvcBATtdIhvWSQByltVE
-	 kNEJvBqgupO1u9+UONtBREmEt22M4iseD5lJapi1oueNlApyebHnQwFnUPLRoMV2/a
-	 DrP/ZHP/vPJhwHJeDaaSgJWEqcPc1LGTW2k//nD83k22DTxnyaIRfMB9MWBfTBbWXv
-	 QzvxqvorxrnNw==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id B42DD198003A;
-	Tue, 29 Sep 2026 02:32:24 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Tue, 29 Sep 2026 02:32:24 -0400
-X-ME-Sender: <xms:dVu7aqkLo6hdQ57uKKcLcMT-_DX1qul7lHGOsJjpE99ELtjumpgRyA>
-    <xme:dVu7asqgQHOtuuSw1ByS2py3FkBV7Rv7uM7vVfIhT0GoxbxAL532u2GSa5ky-r8lj
-    sCkSKhxs7OHQdRqvphV80j8XiX8gce-k12F0HJGZQItQz_IbSnimeea>
-X-ME-Proxy-Cause: dmFkZTFRLkXnksJ+VexXEjoQC+YpGDk1a+NcmxZAZkbAT8An8Fh8r+nptUsAWHqiNi4yFw
-    lWHb6EEyDVp4wKQFdcPPkaUacLM4/AkI0IKNpBSfYs7l+ZWqd/G5vieDCnBwXb+amm55rE
-    dnoYjhgcVBvODbyEKIsy4822ogCFaNOZfh1vguTTQgcP9iGZH25xrmyNsDW6rn9eN+yZ2N
-    TMweaMPFSIM8h7oEoMufy9xK2W4hPkY6mkZGYxH5YBeihxKvNnxxtf0fQreEmmObSafRMt
-    PEvC77VxKHIQz234ejRZl2ZED9lBrywxc/nnJbdkLzDhwXiCBaUy6viktYYiu8T0VmV5VB
-    B93MCVGS9Brb4ZbcLvw380lOMbP0paDwYkZovYzTPglcgQ124ugj3vViNsRaQN68qvMuTY
-    9uAb1yg92D2LE/Re4sdKnajxDM6/bdmBDdX8Loesh8m9kJvBLLot7DuAhySCu7ZTyUaMAb
-    PosVUR+ISCkNJMusAkL9HdEVM/CJ9T6kwUzilueECA5xrj7qwcpyS9ZECB1hc44NEMcA/i
-    lJheJIOr5dd1mdhwHxhQaOZARiVO1cIRtFWr14mlTbeqMpP1d5sdWS/nDiHO6ziGsmPmPT
-    Qwg5f2G7RYeRVJj6KEMLld+CdW+N7797TXiWcuHgOSBWCfjdvnh2jAlYoVvw
-X-ME-Proxy: <xmx:eFu7akXSkxCzmDCPFfwDUimJWqLb_o4whKo9v7bXO4A3xVsp2niarw>
-    <xmx:eFu7ai-aqxLoi4nYZziv47NJnBtM0TfVt5wNKuGcIGKyLDn1cY4IkA>
-    <xmx:eFu7auh_sbGQK4An-7IHWtTR7TL8l3iGNXyxnV_50dqVEVZ2XghfbA>
-    <xmx:eFu7aucJxVYKpt8VVwqz3_RDdYeWEwUO7TqhXwIiZw32ZMBd0z3ykg>
-    <xmx:eFu7anLG6f8IzfpqfkLjL4ZqAR842zWkLhBA1SVHyMSBCVuealHBw_eS>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 8B7A0F80084; Tue, 29 Sep 2026 02:32:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1790664187;
+	bh=RjtGT9UV8snzEnfpyf+twE1cQRKeeOlW2EZvEmvRVco=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SEY5syIsgcpWYh7ixiUldPRFNbc4IW6+cE54JmtecY7YqSzpaYB3cd7r0QHH/pcS7
+	 8XGi1n+oawf3NV54M7l9/009N/4ymoVMs4Qm7+k5aVpicDFoJtVPEFma8yqIpTZmoB
+	 ohSIGblC+0DO6E4JzHhG66gGQWcGMs1SUpEulJfi2MV32mXvWOVRpImlU+ubM7GSYg
+	 iCtSXX3k38ikuoS74OmFNzBFvV9J9Sz9+AjWUx00Vweedk8P2IXRaK9EPn/Q21Gq1G
+	 0FdX7K7PqHtcJXgxIl391saKvT0DLSSIF3XoFPfRpaI35FKB1M9rm657ecFLyCISNq
+	 ZO5nYEkxWPN/w==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net 2/2] netpoll: avoid blocking on the transmit lock in
+ queue_process
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Karl Mehltretter" <kmehltretter@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260928064239.32456-3-kmehltretter@gmail.com>
+References: <20260928064239.32456-1-kmehltretter@gmail.com>
+ <20260928064239.32456-3-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 29 Sep 2026 06:43:06 +0000
+Message-Id: <20260929064307.569CE1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Tue, 29 Sep 2026 08:32:01 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>
-Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Message-Id: <52dfcc0a-7896-48d6-8b63-a160b9b3d0af@app.fastmail.com>
-In-Reply-To: <20260928203445.72318-1-singhpra@juniper.net>
-References: <20260928203445.72318-1-singhpra@juniper.net>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] net: severe latency in netpoll queue_process on lock contention
+--
 
+commit eadeea48c72992b0b24239d8a823d8f836b84527
+Author: Karl Mehltretter <kmehltretter@gmail.com>
 
-On Mon, 28 Sep 2026, at 22:34, Prashant Singh wrote:
-> QueryVariableInfo() is an EFI runtime service that, on some firmware,
-> takes tens of milliseconds and runs with preemption disabled, stalling
-> the CPU that services it. efivarfs_statfs() calls it (rate-limited since
-> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
-> the variable-store used/available capacity, so any statfs(2) -- e.g.
-> every "df" -- can inject that stall into unrelated latency-sensitive
-> workloads on the same CPU.
->
-> Add a negatable "nostatfs" mount option: with nostatfs, statfs(2) skips
-> QueryVariableInfo() and reports zero used/available; with statfs it
-> reports the capacity as before. It defaults to nostatfs on
-> CONFIG_PREEMPT_RT so real-time kernels do not take the stall out of the
-> box, but statfs can be passed there to force reporting back on -- e.g.
-> for tools such as fwupd that need the efivars free space to update Secure
-> Boot key databases.
->
-> The option can also be toggled on a live mount via remount, so reporting
-> can be enabled only for the duration of a firmware update without
-> unmounting the boot-time efivarfs mount:
->
->   mount -o remount,statfs   /sys/firmware/efi/efivars   # reporting on
->   mount -o remount,nostatfs /sys/firmware/efi/efivars   # reporting off
->
-> Tested on an Intel Xeon E5-2628L v4, 6.12 kernel, via
-> "strace -T -e trace=statfs df" on the efivarfs mount.
->
-> Cost of the firmware call (CONFIG_PREEMPT_RT not set, so reporting is
-> enabled by default). Default mount calls QueryVariableInfo() and returns
-> the real store capacity, ~66-129 ms per call:
->
->   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
->       f_bsize=1, f_blocks=90024, f_bfree=33387, f_bavail=28267, ...})
->       = 0 <0.129124>
->
-> With -o nostatfs the firmware call is skipped, capacity reported as
-> zero, ~11 us per call:
->
->   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
->       f_bsize=1, f_blocks=0, f_bfree=0, f_bavail=0, ...}) = 0 <0.000011>
->
-> PREEMPT_RT default and live remount toggle (CONFIG_PREEMPT_RT=y). The
-> boot-time mount defaults to nostatfs (mount shows nostatfs); no firmware
-> call, capacity zero:
->
->   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000018>
->
-> Enabling reporting in place with "mount -o remount,statfs" (mount now
-> shows statfs) takes the ~70 ms firmware call and returns the real
-> capacity, without unmounting:
->
->   statfs(... f_blocks=90024, f_bfree=30315, f_bavail=25195, ...)
->       = 0 <0.070293>
->
-> Disabling it again with "mount -o remount,nostatfs" returns to the fast,
-> zero-capacity path:
->
->   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000014>
->
-> An unrelated remount that does not respecify the option preserves it: a
-> "mount -o remount,rw" after "remount,statfs" leaves the mount showing
-> statfs.
->
-> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
-> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Prashant Singh <singhpra@juniper.net>
-> ---
-> Changes since v3:
-> - Drop the show_options "statfs" branch; the absence of "nostatfs" now
->   indicates reporting is on (Ard Biesheuvel).
-> - Drop the uid/gid copies on the remount path; efivarfs_reconfigure()
->   applies only nostatfs, so they were dead code (Ard Biesheuvel).
->
+netpoll: avoid blocking on the transmit lock in queue_process
 
-Please don't respond to questions by respinning the patch without
-having any discussion at all.
+This commit replaces HARD_TX_LOCK() with HARD_TX_TRYLOCK() in queue_process=
+()
+to fix a sleeping-in-atomic bug on PREEMPT_RT. If the lock is held, it requ=
+eues
+the skb and schedules a delayed work retry after HZ / 10.
 
-I asked you an honest question, and it seems Sashiko spotted an
-issue here too.
+> diff --git a/net/core/netpoll.c b/net/core/netpoll.c
+> index e0cfcb05468e2..a3c94f0b3f764 100644
+> --- a/net/core/netpoll.c
+> +++ b/net/core/netpoll.c
+> @@ -166,7 +166,13 @@ static void queue_process(struct work_struct *work)
+>  			skb_set_queue_mapping(skb, q_index);
+>  		}
+>  		txq =3D netdev_get_tx_queue(dev, q_index);
+> -		HARD_TX_LOCK(dev, txq, smp_processor_id());
+> +		if (!HARD_TX_TRYLOCK(dev, txq)) {
+> +			netpoll_txq_queue_head(npinfo, skb);
+> +			local_irq_restore(flags);
+> +
+> +			schedule_delayed_work(&npinfo->tx_work, HZ / 10);
+> +			return;
 
-Is there a problem with how the current code deals with uid and gid
-on a remount?
+[Severity: High]
+Does this schedule an excessively long delay when encountering a transient
+spinlock contention?
 
+When queue_process() attempts to transmit a deferred skb, it uses
+HARD_TX_TRYLOCK(). If another CPU is actively transmitting on the same queu=
+e,
+the TX lock is transiently held and the trylock fails.
+
+The TX spinlock is typically held for just a few microseconds during normal
+network operations, but this introduces a 100ms (HZ / 10) delay upon lock
+contention. Will this cause netpoll to stall for 100ms every time it
+encounters a busy TX lock, dropping throughput drastically (e.g., to ~10
+pkts/sec) and likely causing the deferred queue to overflow resulting in
+lost kernel logs?
+
+> +		}
+>  		if (netif_xmit_frozen_or_stopped(txq) ||
+>  		    !dev_xmit_complete(netpoll_start_xmit(skb, dev, txq))) {
+>  			netpoll_txq_queue_head(npinfo, skb);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260928064239.3245=
+6-1-kmehltretter@gmail.com?part=3D2
