@@ -1,354 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1704C43C076;
-	Tue, 29 Sep 2026 03:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7678242AF98
+	for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 06:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653561; cv=none; b=NM06n+szUWcNuG2w4bK+8dayIpNDswWJGm1fIBH+8FPD+bTQhZ4fgA7jfJ4I36Cmk57IJFxYDdVdKrBSgziu79f257hNlIGKR1zV3Fp3lfRIyV49PioAhBEEUSSVIl7GXu4oLl8eTe+aHZSp5qGXOdfvzo8gogjRw+w1BJMdlGA=
+	t=1790663548; cv=none; b=KBf6yiRf597StKOS0kVF+iyBDLcr5KTxmZ47lhmWEzzEIBq4V000S/f+zV69gClQJ4nvZQQc2Ej4DAuAZZVS2EckSwiDQT11XOxA2avOA9R5ZOBCVFoUzr8pf8mpt6aZg+VAd0l6pnpuVIAuohg83TuBQSHuWuyzfTdm2gOmrlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653561; c=relaxed/simple;
-	bh=mi6IZ5xPl3AVxu0lfG1ueBw8s2iHNQ/4ffsQGv6A3cI=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kpk6PSQjsEfQYzZVyI3x6BrqQ8AD823YPzHLTUDnFkThHCA7w7RNQfxPuCdvBmCH7+2S/5+ex8h8+cRrtnCkuu3J7qqlFtjoF+MVe8fQufilNTh5amfUdAZfCaIEcLv07x4IQVjhTQVCKlXrKpIibaVRPJDM3Nk1F7ybEiGv3uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHseI1Ur; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790663548; c=relaxed/simple;
+	bh=AIbzTbZ/AofnIejMdWe2PPEZVfsXawvroHwWq8ciIW4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=I9GXpGqMWj8ndjcedeS+TE/uOuqFmb3aVPM3Ii3BgUGmVP8wm7dGkgWWCoszrzaAexH6zJ++FG7MZLgeVviveTHRKSkJen9cL9dKbcsCIYMvR1Ndi7W1+8FtoUaZU81tckfGwPjZ/5SNCNFxppiS+/IlbiwZqD9YwlP/HKliCio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnhANRdM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHseI1Ur"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D791F0089F;
-	Tue, 29 Sep 2026 03:45:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnhANRdM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442BD1F00898;
+	Tue, 29 Sep 2026 06:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790653558;
-	bh=vszimT7HlU7NlgzQayHk0YBvZa6Achmt2AS0UdLXvP4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=aHseI1UrQ72zqWW+Bq1IM5oxyqZol/3lPl/GgxPUjHstZzvdtRlc5XJzUCNtOpFcO
-	 /sxiZf5WiwjCapDU4NXW8YF50NP0+hb28IvjOjeKUwXpB2AqkRmXrDPDxYOoWCUL7K
-	 0DjNk0dBP7DCIMyTGJ6dB3AZWDSP+lJVicVRxGM772sc+azMEiF3+ChrI0V0uf23rV
-	 f5Xc7QXzwctYJiuEwXUHniL+nr3kZjU1YcueYhth/qgwYlx70VbMrY1w3upJUtW2oc
-	 EUup4HNjs4pRqksdaIj94fNd2DC0p+Bs9xVp9qXWMkIN+2jjJSJniYsVYPkRGaxZ9W
-	 p2prE3B1E4Otw==
-Subject:
- Re: [PATCH net v4] net: cap skb->queue_mapping when the tx queue is picked
-From: netdev-bot+sashiko@kernel.org
-To: jhs@mojatatu.com
-Cc: netdev@vger.kernel.org, pablo@netfilter.org, fw@strlen.de, phil@nwl.cc,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- jiri@resnulli.us, vinicius.gomes@intel.com, horms@kernel.org,
- xiangxia.m.yue@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, victor@mojatatu.com, zdi-disclosures@trendmicro.com,
- hybris@mojatatu.ai, netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, edumazet@google.com
-Date: Tue, 29 Sep 2026 03:45:56 +0000
-Message-ID: <179065355672.434549.4187901591797286003@kernel.org>
-In-Reply-To: <QDISC-9R8V.v4.20260928081529@mojatatu.com>
-References: <QDISC-9R8V.v4.20260928081529@mojatatu.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1790663547;
+	bh=ye191Qsb4WmX9ajAZ1ttsvrrzjJ1uJXF9ugl/Q2S64I=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=SnhANRdMNUPN2UEXLYpIYBQjCVLVNuFeUOyMOMnWOCIeC2VSCLegVK6B+pR73gd1u
+	 ycL1r3LXNLwlW8n4ptxCY1QV2BiMCMW9i3kLwictuIZQ9aaX8TtHKIadwLHchqUWNl
+	 GuUWZzI8fpmJSG1BYxA51BDXupE6rZF11Y8lCD/L3nhCTgyvcBATtdIhvWSQByltVE
+	 kNEJvBqgupO1u9+UONtBREmEt22M4iseD5lJapi1oueNlApyebHnQwFnUPLRoMV2/a
+	 DrP/ZHP/vPJhwHJeDaaSgJWEqcPc1LGTW2k//nD83k22DTxnyaIRfMB9MWBfTBbWXv
+	 QzvxqvorxrnNw==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id B42DD198003A;
+	Tue, 29 Sep 2026 02:32:24 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Tue, 29 Sep 2026 02:32:24 -0400
+X-ME-Sender: <xms:dVu7aqkLo6hdQ57uKKcLcMT-_DX1qul7lHGOsJjpE99ELtjumpgRyA>
+    <xme:dVu7asqgQHOtuuSw1ByS2py3FkBV7Rv7uM7vVfIhT0GoxbxAL532u2GSa5ky-r8lj
+    sCkSKhxs7OHQdRqvphV80j8XiX8gce-k12F0HJGZQItQz_IbSnimeea>
+X-ME-Proxy-Cause: dmFkZTFRLkXnksJ+VexXEjoQC+YpGDk1a+NcmxZAZkbAT8An8Fh8r+nptUsAWHqiNi4yFw
+    lWHb6EEyDVp4wKQFdcPPkaUacLM4/AkI0IKNpBSfYs7l+ZWqd/G5vieDCnBwXb+amm55rE
+    dnoYjhgcVBvODbyEKIsy4822ogCFaNOZfh1vguTTQgcP9iGZH25xrmyNsDW6rn9eN+yZ2N
+    TMweaMPFSIM8h7oEoMufy9xK2W4hPkY6mkZGYxH5YBeihxKvNnxxtf0fQreEmmObSafRMt
+    PEvC77VxKHIQz234ejRZl2ZED9lBrywxc/nnJbdkLzDhwXiCBaUy6viktYYiu8T0VmV5VB
+    B93MCVGS9Brb4ZbcLvw380lOMbP0paDwYkZovYzTPglcgQ124ugj3vViNsRaQN68qvMuTY
+    9uAb1yg92D2LE/Re4sdKnajxDM6/bdmBDdX8Loesh8m9kJvBLLot7DuAhySCu7ZTyUaMAb
+    PosVUR+ISCkNJMusAkL9HdEVM/CJ9T6kwUzilueECA5xrj7qwcpyS9ZECB1hc44NEMcA/i
+    lJheJIOr5dd1mdhwHxhQaOZARiVO1cIRtFWr14mlTbeqMpP1d5sdWS/nDiHO6ziGsmPmPT
+    Qwg5f2G7RYeRVJj6KEMLld+CdW+N7797TXiWcuHgOSBWCfjdvnh2jAlYoVvw
+X-ME-Proxy: <xmx:eFu7akXSkxCzmDCPFfwDUimJWqLb_o4whKo9v7bXO4A3xVsp2niarw>
+    <xmx:eFu7ai-aqxLoi4nYZziv47NJnBtM0TfVt5wNKuGcIGKyLDn1cY4IkA>
+    <xmx:eFu7auh_sbGQK4An-7IHWtTR7TL8l3iGNXyxnV_50dqVEVZ2XghfbA>
+    <xmx:eFu7aucJxVYKpt8VVwqz3_RDdYeWEwUO7TqhXwIiZw32ZMBd0z3ykg>
+    <xmx:eFu7anLG6f8IzfpqfkLjL4ZqAR842zWkLhBA1SVHyMSBCVuealHBw_eS>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 8B7A0F80084; Tue, 29 Sep 2026 02:32:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Tue, 29 Sep 2026 08:32:01 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>
+Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Message-Id: <52dfcc0a-7896-48d6-8b63-a160b9b3d0af@app.fastmail.com>
+In-Reply-To: <20260928203445.72318-1-singhpra@juniper.net>
+References: <20260928203445.72318-1-singhpra@juniper.net>
+Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 (1) · Medium: 2 · Low: 1
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On Mon, 28 Sep 2026, at 22:34, Prashant Singh wrote:
+> QueryVariableInfo() is an EFI runtime service that, on some firmware,
+> takes tens of milliseconds and runs with preemption disabled, stalling
+> the CPU that services it. efivarfs_statfs() calls it (rate-limited since
+> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
+> the variable-store used/available capacity, so any statfs(2) -- e.g.
+> every "df" -- can inject that stall into unrelated latency-sensitive
+> workloads on the same CPU.
+>
+> Add a negatable "nostatfs" mount option: with nostatfs, statfs(2) skips
+> QueryVariableInfo() and reports zero used/available; with statfs it
+> reports the capacity as before. It defaults to nostatfs on
+> CONFIG_PREEMPT_RT so real-time kernels do not take the stall out of the
+> box, but statfs can be passed there to force reporting back on -- e.g.
+> for tools such as fwupd that need the efivars free space to update Secure
+> Boot key databases.
+>
+> The option can also be toggled on a live mount via remount, so reporting
+> can be enabled only for the duration of a firmware update without
+> unmounting the boot-time efivarfs mount:
+>
+>   mount -o remount,statfs   /sys/firmware/efi/efivars   # reporting on
+>   mount -o remount,nostatfs /sys/firmware/efi/efivars   # reporting off
+>
+> Tested on an Intel Xeon E5-2628L v4, 6.12 kernel, via
+> "strace -T -e trace=statfs df" on the efivarfs mount.
+>
+> Cost of the firmware call (CONFIG_PREEMPT_RT not set, so reporting is
+> enabled by default). Default mount calls QueryVariableInfo() and returns
+> the real store capacity, ~66-129 ms per call:
+>
+>   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+>       f_bsize=1, f_blocks=90024, f_bfree=33387, f_bavail=28267, ...})
+>       = 0 <0.129124>
+>
+> With -o nostatfs the firmware call is skipped, capacity reported as
+> zero, ~11 us per call:
+>
+>   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+>       f_bsize=1, f_blocks=0, f_bfree=0, f_bavail=0, ...}) = 0 <0.000011>
+>
+> PREEMPT_RT default and live remount toggle (CONFIG_PREEMPT_RT=y). The
+> boot-time mount defaults to nostatfs (mount shows nostatfs); no firmware
+> call, capacity zero:
+>
+>   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000018>
+>
+> Enabling reporting in place with "mount -o remount,statfs" (mount now
+> shows statfs) takes the ~70 ms firmware call and returns the real
+> capacity, without unmounting:
+>
+>   statfs(... f_blocks=90024, f_bfree=30315, f_bavail=25195, ...)
+>       = 0 <0.070293>
+>
+> Disabling it again with "mount -o remount,nostatfs" returns to the fast,
+> zero-capacity path:
+>
+>   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000014>
+>
+> An unrelated remount that does not respecify the option preserves it: a
+> "mount -o remount,rw" after "remount,statfs" leaves the mount showing
+> statfs.
+>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Prashant Singh <singhpra@juniper.net>
+> ---
+> Changes since v3:
+> - Drop the show_options "statfs" branch; the absence of "nostatfs" now
+>   indicates reporting is on (Ard Biesheuvel).
+> - Drop the uid/gid copies on the remount path; efivarfs_reconfigure()
+>   applies only nostatfs, so they were dead code (Ard Biesheuvel).
+>
 
-- [Medium] skb_at_tc_egress() treats skb->nf_skip_egress &&
-  !tc_at_ingress as meaning "inside sch_handle_egress()".
-- [Medium] The fix keeps skip_txqueue inside one xmit frame only if every
-  nested __dev_queue_xmit() takes the egress_needed_key branch.
-- [Low] After this patch, skb->nf_skip_egress also gates tc behaviour:
-  skb_at_tc_egress() decides whether tcf_skbedit_act() arms skip_txqueue.
+Please don't respond to questions by respinning the patch without
+having any discussion at all.
 
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but it is high
-  severity.
+I asked you an honest question, and it seems Sashiko spotted an
+issue here too.
 
---
+Is there a problem with how the current code deals with uid and gid
+on a remount?
 
-net: cap skb->queue_mapping when the tx queue is picked
-
-This patch keeps the per-CPU skip_txqueue flag inside the xmit frame that
-runs sch_handle_egress(). It saves the flag before the hook and restores
-it afterwards. tcf_skbedit_act() may now arm the flag only when
-skb_at_tc_egress() reports tc egress. The patch also writes the capped
-value back into skb->queue_mapping in netdev_tx_queue_mapping(), and
-builds skb->nf_skip_egress under CONFIG_NET_EGRESS.
-
-Link: https://lore.kernel.org/netdev/CANn89iLwYx8nCVf0pCEk_MmEiyC6kQaMwCQT9WkQVeeNzNQHqQ@mail.gmail.com/
-Link: https://lore.kernel.org/netdev/179008581937.2160803.7117814290574262942@kernel.org/
-Link: https://lore.kernel.org/netdev/179033713973.2160803.4914570693994398206@kernel.org/
-Link: https://lore.kernel.org/netdev/20260925180407.63647514@kernel.org/
-Link: https://lore.kernel.org/netdev/CANn89i+k-mZKDQVtvws_MEXeuMTAdaCcOXFZE-RfhcGTu90sjA@mail.gmail.com/
-
-[ ... ]
-
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 84308498a3a8..a3ff380d43f0 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -1020,7 +1020,7 @@ struct sk_buff {
->  #ifdef CONFIG_NET_REDIRECT
->  	__u8			from_ingress:1;
->  #endif
-> -#ifdef CONFIG_NETFILTER_SKIP_EGRESS
-> +#ifdef CONFIG_NET_EGRESS
->  	__u8			nf_skip_egress:1;
->  #endif
-
-[Severity: Low]
-This isn't a bug, but skb_at_tc_egress() now reads this bit to gate
-tcf_skbedit_act(), and the documentation still describes a flag used only
-by netfilter.
-
-The struct sk_buff kernel-doc says:
-
- *	@nf_skip_egress: packet shall skip nf egress - see netfilter_netdev.h
-
-The comment above nf_hook_egress() in include/linux/netfilter_netdev.h
-says:
-
- * The nf_skip_egress flag controls whether netfilter is applied on egress.
- * It is updated by __netif_receive_skb_core() and __dev_queue_xmit() when the
-
-Neither comment mentions the tc egress meaning. The second one also leaves
-out ifb_ri_tasklet() and netkit_prep_forward(), which write the bit too.
-The new skb_at_tc_egress() has no comment about reusing this bit or about
-the precondition it depends on.
-
-Could these comments be updated along with this change?
-
->  #ifdef CONFIG_SKB_DECRYPTED
-> diff --git a/include/net/sch_generic.h b/include/net/sch_generic.h
-> index f35bd06a6bad..1acaadb3e2cf 100644
-> --- a/include/net/sch_generic.h
-> +++ b/include/net/sch_generic.h
-> @@ -810,6 +810,15 @@ static inline bool skb_at_tc_ingress(const struct sk_buff *skb)
->  #endif
->  }
->  
-> +static inline bool skb_at_tc_egress(const struct sk_buff *skb)
-> +{
-> +#ifdef CONFIG_NET_EGRESS
-> +	return skb->nf_skip_egress && !skb_at_tc_ingress(skb);
-
-[Severity: Medium]
-Is nf_skip_egress only ever set around sch_handle_egress()? The commit
-message says:
-
-  "the marker is set only around the single sch_handle_egress() call and
-  ingress path is guarded by tc_at_ingress"
-
-Some other writers seem to leave the bit set on skbs that later reach
-__dev_queue_xmit().
-
-__netif_receive_skb_core() sets the bit before sch_handle_ingress(), but
-clears it only on the path where the skb survives:
-
-		nf_skip_egress(skb, true);
-		skb = sch_handle_ingress(skb, &pt_prev, &ret, orig_dev,
-					 &another);
-		...
-		if (!skb)
-			goto out;
-
-		nf_skip_egress(skb, false);
-
-An ingress mirred redirect consumes the skb and passes it to
-dev_queue_xmit() with the bit still set. A mirror does the same with a
-clone, which copies the bit through the headers group.
-
-ifb_ri_tasklet() sets the bit and then calls dev_queue_xmit(). On the
-from_ingress path it reinjects the skb with tc_skip_classify set, so
-__netif_receive_skb_core() never resets the bit:
-
-		skb->tc_skip_classify = 1;
-		...
-		nf_skip_egress(skb, true);
-
-netkit_prep_forward() also sets the bit. After that, netkit_xmit() calls
-skb_do_redirect(), which can reach dev_queue_xmit().
-
-In __dev_queue_xmit(), tcx_set_ingress(skb, false) always runs. The only
-reset of nf_skip_egress is inside the egress_needed_key static branch.
-
-Suppose only an ingress clsact is installed, for example one doing
-"mirred egress redirect dev qc". The skb then reaches qc's root qdisc
-enqueue with nf_skip_egress=1 and tc_at_ingress=0. A skbedit queue_mapping
-action in a prio, multiq or htb classifier passes skb_at_tc_egress() and
-calls netdev_xmit_skip_txqueue(true). The v4 changelog says this kind of
-arming from a transmit-qdisc classifier no longer happens.
-
-Nothing seems to consume this stale value today. Every reader inside the
-static branch saves, clears and restores the flag. The one exception is
-the static key race described further down.
-
-There is also a config effect. nf_skip_egress() is now built under
-CONFIG_NET_EGRESS instead of CONFIG_NETFILTER_SKIP_EGRESS. With
-CONFIG_NET_EGRESS=y and CONFIG_NETFILTER_EGRESS=n, the ingress, ifb and
-netkit calls used to compile to nothing. Now they write a bit that
-skb_at_tc_egress() reads.
-
-Should the reasoning in the commit message be revisited? Otherwise the
-planned rename to skb->skip_egress would carry the same assumption
-forward.
-
-> +#else
-> +	return false;
-> +#endif
-> +}
-
-[ ... ]
-
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index f660fccfc0db..8638c994bbcb 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -4404,9 +4404,14 @@ EXPORT_SYMBOL(dev_loopback_xmit);
->  static struct netdev_queue *
->  netdev_tx_queue_mapping(struct net_device *dev, struct sk_buff *skb)
->  {
-> -	int qm = skb_get_queue_mapping(skb);
-> +	int queue = skb_get_queue_mapping(skb);
-> +	int capped;
->  
-> -	return netdev_get_tx_queue(dev, netdev_cap_txqueue(dev, qm));
-> +	capped = netdev_cap_txqueue(dev, queue);
-> +	if (unlikely(capped != queue))
-> +		skb_set_queue_mapping(skb, capped);
-> +
-> +	return netdev_get_tx_queue(dev, capped);
->  }
-
-[Severity: High]
-This is a pre-existing issue and was not introduced by this patch. The
-commit message leaves it for a separate followup. Can a cls_bpf program on
-a transmit qdisc still index past the end of dev->_tx[]?
-
-tc_cls_act_is_valid_access() allows writes to __sk_buff queue_mapping.
-bpf_convert_ctx_access() only drops stores of NO_QUEUE_MAPPING or larger:
-
-net/core/filter.c:bpf_convert_ctx_access() {
-    ...
-			if (BPF_CLASS(si->code) == BPF_ST && si->imm >= NO_QUEUE_MAPPING) {
-				*insn++ = BPF_JMP_A(0); /* noop */
-				break;
-			}
-
-			if (BPF_CLASS(si->code) == BPF_STX)
-				*insn++ = BPF_JMP_IMM(BPF_JGE, si->src_reg, NO_QUEUE_MAPPING, 1);
-			*insn++ = BPF_EMIT_STORE(BPF_H, si, offset);
-    ...
-}
-
-The stored value is never compared with dev->num_tx_queues or
-real_num_tx_queues. A program attached under a prio or htb root runs
-inside q->enqueue(). That is after netdev_core_pick_tx() or
-netdev_tx_queue_mapping() has already capped the mapping, so the program
-can store any value up to 0xfffe.
-
-On dequeue:
-
-qdisc_restart()
-  txq = skb_get_tx_queue(dev, skb)
-    netdev_get_tx_queue()
-      DEBUG_NET_WARN_ON_ONCE(index >= dev->num_tx_queues);
-      return &dev->_tx[index];
-  sch_direct_xmit(skb, q, dev, txq, ...)
-    HARD_TX_LOCK(dev, txq, cpu)
-
-The gso_skb and skb_bad_txq requeue paths in dequeue_skb() also call
-skb_get_tx_queue().
-
-That would take txq->_xmit_lock, write xmit_lock_owner and read txq->state
-in memory past the end of the dev->_tx allocation. Loading the program
-needs CAP_BPF and CAP_NET_ADMIN, or a delegated BPF token. Even so, the
-program has passed the verifier and should not be able to corrupt kernel
-memory.
-
-[ ... ]
-
-> @@ -4848,21 +4861,25 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
->  	tcx_set_ingress(skb, false);
->  #ifdef CONFIG_NET_EGRESS
->  	if (static_branch_unlikely(&egress_needed_key)) {
-> +		bool skip_txq;
-> +
->  		if (nf_hook_egress_active()) {
->  			skb = nf_hook_egress(skb, &rc, dev);
->  			if (!skb)
->  				goto out;
->  		}
->  
-> -		netdev_xmit_skip_txqueue(false);
-> +		skip_txq = netdev_xmit_skip_txqueue(false);
->  
->  		nf_skip_egress(skb, true);
->  		skb = sch_handle_egress(skb, &rc, dev);
-> -		if (!skb)
-> +		if (!skb) {
-> +			netdev_xmit_skip_txqueue(skip_txq);
->  			goto out;
-> +		}
->  		nf_skip_egress(skb, false);
->  
-> -		if (netdev_xmit_txqueue_skipped())
-> +		if (netdev_xmit_skip_txqueue(skip_txq))
->  			txq = netdev_tx_queue_mapping(dev, skb);
->  	}
->  #endif
-
-[Severity: Medium]
-Does the flag stay confined to this frame if egress_needed_key is turned
-off while an outer frame is inside sch_handle_egress()?
-
-Each nested __dev_queue_xmit() reads the static key again.
-net_dec_egress_queue() is a plain static_branch_dec() and does not wait
-for RCU-bh readers that are already inside the branch. Consider:
-
-CPU1                                     CPU2
-__dev_queue_xmit(qa)
-  static key is on
-  skip_txq = netdev_xmit_skip_txqueue(false)
-  nf_skip_egress(skb, true)
-  sch_handle_egress()
-                                         clsact_destroy()
-                                           net_dec_egress_queue()
-                                             static_branch_dec()
-    tcf_mirred_forward()
-      (mirror clone has nf_skip_egress=1)
-      dev_queue_xmit(qc)
-        static key is off: no save/restore,
-        no nf_skip_egress reset
-        q->enqueue() -> prio classifier
-          tcf_skbedit_act()
-            skb_at_tc_egress() is true
-            netdev_xmit_skip_txqueue(true)
-  nf_skip_egress(skb, false)
-  netdev_xmit_skip_txqueue(skip_txq) returns true
-  txq = netdev_tx_queue_mapping(dev, skb)
-
-In this sequence, qa's surviving skb picks its tx queue from its own
-queue_mapping, even though it never went through skbedit. For a forwarded
-packet that value is the ingress rx_queue + 1.
-
-The capped write-back in netdev_tx_queue_mapping() still prevents the
-taprio out-of-bounds access. The result would be a wrong but valid tx
-queue, and possibly the ratelimited "selects TX queue" warning.
-
-The commit message says the flag is now owned by the xmit frame the
-egress hook runs in. Is this cross-frame leak meant to be covered as well?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/QDISC-9R8V.v4.20260928081529%40mojatatu.com
