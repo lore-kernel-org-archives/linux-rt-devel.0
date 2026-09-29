@@ -1,173 +1,207 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011062.outbound.protection.outlook.com [52.101.65.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72030242D62
-	for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 10:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790677664; cv=none; b=Ch+mNGkKx8HJiQ3qteHL+BInANuDXgLnazwVa/kRuHsPnGcdFJhTaVk4FtydlGXA3gjvzXa7FpSi0k9ooOwpvVnbYLUdVmggp735YWjCiZLfITNLcCPQ9Kud70kpakTX22YQrikr6PKIlBTyImpRgUmc7juzX1rE64un0kANvYc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790677664; c=relaxed/simple;
-	bh=oQucex6RZMs50tBRvSFd4gxrcOSnqTOU+r9tuuJZYTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlk/ItC2CgdNmhTLjyhdfiQ96yeLVzan5lLL3HIs6vnYLKf+KtKCITCsdiPtifl+pwSh26mDpw+rr3kr1GCC25rY0RmQKYtjdJqyd+QDe6EeyJRd+5J6oy8Xic0az6RZEnAxS9bMl9M1e73GIh31sV8feGWJnnyS+f8YX9rw6Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cjwtVl4J; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780C8514747
+	for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 10:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.62
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790678458; cv=fail; b=W+KM3DFRHETrXTNEGVS/NP1mRVp8uiYKA16apmrqfksklPVI8aW5piZRs0aNzY5WR3OrDGbbdsnsWA6GKjK4/EXfP/K5RrAO6Gh6VLv3GEKERwTF2XF3XPtzaS038rMs5QulUgXInkICgAZ4upTwHcPCShw5plg/smE0xlIuS7M=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790678458; c=relaxed/simple;
+	bh=DzB0O4992t8vohB1PKHlPX7yX0HRrfwFvPuZnsvySBU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gEtQ5dazLeg+HEFjiZ2RNT1EdezOdFM6eoRuGcZECIOlBb3naxjbRdvsAQX+VN1vtd9Ejl+bBKMxQYl+W52i1W+wRWqcJxDdyFdsr+o440KtkbmogsjsP/cG1PD3HF4TLZAqttdHsHALgsBl5EkscYnIyYARvkD8SzTwzsvBAWE=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=gsxsZklk; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=gsxsZklk; arc=fail smtp.client-ip=52.101.65.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cjwtVl4J"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a0061bf0d3so33515e9.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 03:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790677651; x=1791282451; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f5Y1Bj47kFdGtgtMUGRUSsPhxIRB2mIpZUPvY4e79ZM=;
-        b=cjwtVl4JR4qNirrqJLt2iMLGGm5APHbzYM/XpiGc8Nz/6+ACQ7v/yB7JaUgASPozwF
-         OErQUJCGcldLM2+M0glJDk1goGfJOjsV7YYV0FsNPkMjM1Ha9VhsLuYlfRGrOgylmeWd
-         AvabyPpRt/NbcqY8VohmpJvZfq5gYUjDpPiCGk7g9tN7FOFWiQDa4TxVPgH7i2EU8TnR
-         5x/aVpV78ifDL0RF2I5rcO13VDhDjCSjvQYGDUKZSmPE1fp7MeNkUnn6S9n15kVDo42B
-         IWWw/F529br3lwfpG9JXrcrRj6A4+owR8T/6Bqq6A8qHBlPFXBR3SK5ysLmFM66XbPCB
-         XtYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790677651; x=1791282451;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f5Y1Bj47kFdGtgtMUGRUSsPhxIRB2mIpZUPvY4e79ZM=;
-        b=V/VxXnIu5yju81RtPHrWrNqQZpO6GHk4MYt4lKzXffvMeZw7OXLVSbzcDi69SeUTmV
-         +1XWI5YC4XIblFq0sC0AFFM1m0l0Lvt0wfbKfn391bNefq5HRRbr28uvAfnN1Isk0pBS
-         QenOthafNCOS661jdh7QhDfMJE5H8CoaLJwXpGIlbuTWAbKoNjOrBQdex/noKZC7Mf6D
-         HegQosnv+5IX9emzMMD/hUxJ47K0SbnMa+owfcRoGn1Gb9o60jNNR18S4iPysaDUpJIc
-         qc8sDl0O7dtr/HJLYW+YpBfuuoEaVYmjLZBToinhAm7KNvI6yVfZZijgn3e50VDL5wmo
-         gLag==
-X-Forwarded-Encrypted: i=1; AKwUvBz3OUmSAKOORvs9ozCHn28z6cmd95y7Tinr2KMIUzxm1C0GRUfHx4puxaQqA0Bm5Np/RFXPA6+lrvt0D1P5fg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kPOljWqcNu1N6Plx2WiNJvR40oEKmCKKLjoxwPP0AjbuQNL4Ho
-	PD6TYuQayZODikSyjpUtteuPXTW0KJcL6Sw1+g9vFlFntZWQs4SdgHkQ5zjrcb6CuA==
-X-Gm-Gg: AYBFou3gDIKr34FYiA/ZRtdd1/+MkZNmY5AUyX8uogI9BJZYr5Z0palvpS+XMQGZfFy
-	o2tgd/E4Gabl+njOh5qiFaZ1ziaLJbhzO/3EoKn3gvsJZk8aM5/ee3Ix3hUqNHEIqI4hvmyU6uy
-	f4ueXJue74aeUsB3nlSabEbSAaDpwTa/Sd4YKme125jDU49H+kdu1I+nuXFYngs6psuTfjgSZwn
-	w+P6RIQQ2lnSLpuMAL/lAx6AQRd4PW6cBZfz0orFF0VuEJm7ZX4ZDdiYKk5ew2IgTegVwx9cj1X
-	f4vTQXeFnodv2+m6XSiDoJuC3FIrzp3PrqAhAhErpVNCq7j8ukw7z7MuwLOOYTAwq4mdQbFedMf
-	l+vW214+G7Kfe7i22yWxBhVdIZDzfhNCKAVuyaxPhHHsOgbbW1cXh1dxi+2+wE1ekNrNald1V8N
-	ACfRCZrGGaF5UpNWsWSxLiJvtxAAPcbLLTrQEicl6b9AXV3Vvh/GDI0n97abpCKIof6HvewCEBn
-	7TEasMN7hv2Z4wkvhlUtZwLw/1FJ0U99sEfx4P1
-X-Received: by 2002:a7b:c7d0:0:b0:49f:e312:54ea with SMTP id 5b1f17b1804b1-4a00f46d761mr379975e9.12.1790677650115;
-        Tue, 29 Sep 2026 03:27:30 -0700 (PDT)
-Received: from google.com (250.192.189.35.bc.googleusercontent.com. [35.189.192.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00c10c656sm103565205e9.2.2026.09.29.03.27.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 03:27:29 -0700 (PDT)
-Date: Tue, 29 Sep 2026 10:27:19 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
-	will@kernel.org, mark.rutland@arm.com, akpm@linux-foundation.org,
-	urezki@gmail.com, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	kees@kernel.org, david@kernel.org, ljs@kernel.org,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, gustavoars@kernel.org,
-	bigeasy@linutronix.de, clrkwllms@kernel.org
-Subject: Re: [RFC PATCH 12/15] sched/task_stack: Introduce
- ARCH_HAS_VARIABLE_STACK_SIZE
-Message-ID: <aruShxHCUWEHr4i1@google.com>
-References: <20260928174122.3380703-1-smostafa@google.com>
- <20260928174122.3380703-13-smostafa@google.com>
- <5c6edcfe-8332-4db6-b0fa-ca5d137a2075@infradead.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gsxsZklk";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gsxsZklk"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=SiztOK7X2+jodoPsHxaWqUovwFDQSdMblTa9BVfQBKa4SU7imnDId63T18s65nmUYTCgo47+fpMX9Cjy6dWf0lcdnRvH7Gz5YRIRsl9ZquW9rfRc6hOeN+1g7U+chNKRCoxyDE4q29chweyomg+pKzg7ee9qa2nedRVTlk0K7aX7l0M9NWWBD5Z4obsHE5th758+0yuGfcP0BwmtNgq+GRaENtBatx9xf9fUHShp4ObEc0mVy7dr9vdMlRj/zZVLzGwP8YLjkl9RVLBUZ/mkrAb/KCHuMd0x1VcMwMotman7aWMqs/XCkByAFrZTc52KkO90TiMYMJ3zmG/J1vz/jg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4G3SctAyKfFFacELNCLnHRq0XKk/u7uoGld4t1jEsPY=;
+ b=RlLs8jB+fOQ5I151dLl/17J/wi5yNcIvoZ4Pc1r+wrbUUHep0M4SQcuNWEJyfgyLECk6y6QGRUiF3Tgt30pHmnNDXxJ+BKu6PtCMubgKFE8h4WtQI8FVPcD8mFCS9pcL1tffZGRmVgWgT9dDrM141XYopjBHfgkZLMM63+C+kcHoMDdVTXx0qUsHKmTdN+2WqEGxiy4d4/sluaiCyYYiAKI/hQB1Rab8jQW89z2+Oowypn/1THkCUEeDOLRx7UvvAuf4KvL5D1zkU7gQMqdyjEMpBn/BYmUM/AxNEkYpJmoOtjQKla9a239knyrURh4TJ7bwjp7EE4TE2Ei+hKgWcg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=linaro.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4G3SctAyKfFFacELNCLnHRq0XKk/u7uoGld4t1jEsPY=;
+ b=gsxsZklkY0b4aJHFNd6RWl5+B8WKJ08NAAsWwPLtLQ/3QDsHhYG103/UfDYX41UngdlSVcQZDTJZsOdvK3kBRGK2+DkZm81iRE67xQXHw4leUIqLwFeNSb0CKoclHzFD3301ZsR01eWsvuMXqLopZGRIBKf+iQO5a5MW6yB5uIw=
+Received: from PAZP264CA0257.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:239::21)
+ by MMZPR08MB615799.eurprd08.prod.outlook.com (2603:10a6:190:3d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.14; Tue, 29 Sep
+ 2026 10:40:41 +0000
+Received: from MI3PEPF00008550.eurprd05.prod.outlook.com
+ (2603:10a6:102:239:cafe::6f) by PAZP264CA0257.outlook.office365.com
+ (2603:10a6:102:239::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.24 via Frontend Transport; Tue,
+ 29 Sep 2026 10:40:41 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ MI3PEPF00008550.mail.protection.outlook.com (10.167.240.4) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
+ via Frontend Transport; Tue, 29 Sep 2026 10:40:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XV2jJquesMudNd+vxE8FFHu4alvIk2zPr6UUUQ9gszpH3kymp83JtWtPN+U0EMwUEKq1SyyDsR2dqMFyn+NHqdKLy2KgR53IWMD+72VfQ42feMx0edcmWUhBBfHvoTtzNmLs/+qrWHAbVqz5mxb5Yxk4Xn2qMNGx+lswRf3MWYf8vyBbQ0N3/OaOqZa7TlGgE3waBdXVw1j5/G5jN+LNaOo/auS4zBOcO/qfWxt3J/3B+lRNZGbSm7/MPP0VL573eG+5RDThzu3AgcHiOpEuMjp6/KFVOgs9P/D9hNSKja/Xdq3ReVzYS3ef32PKie0MOr7GZ72UCBk8wqbVcXmCyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4G3SctAyKfFFacELNCLnHRq0XKk/u7uoGld4t1jEsPY=;
+ b=BES5NEl1sErqX6rncq9nqbvwOSweUFhF3Q07h80C/R7qZ+0kMpLg7lYrifUc6Iwj+W/R6RryV+5eBSMgjW1Wl1s2Nd7LBV+8OMbiq4NDImmCCLoYWw7djFzAqpWn2LK/5u+T2NSACNzQk8QMw53uMgKTFaCuQ/s1uq9aSxgFmaNIPlZubkGPvcDvKXIg2wiCCE4Tt+4wVCzAW+9VjNX/WuSQB6sRzlQbEhSIIWlyQl/HPfKGyRhIr0CcwTAzRzTMj+6aYBEho0i3a9hJzudRics9PrysLGSNIbVifdM+DGf+V/9uNKHALCFJ7RQTl2TvJ8UNYXyx+21FjUZij7yshQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4G3SctAyKfFFacELNCLnHRq0XKk/u7uoGld4t1jEsPY=;
+ b=gsxsZklkY0b4aJHFNd6RWl5+B8WKJ08NAAsWwPLtLQ/3QDsHhYG103/UfDYX41UngdlSVcQZDTJZsOdvK3kBRGK2+DkZm81iRE67xQXHw4leUIqLwFeNSb0CKoclHzFD3301ZsR01eWsvuMXqLopZGRIBKf+iQO5a5MW6yB5uIw=
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from PAVPR08MB9674.eurprd08.prod.outlook.com (2603:10a6:102:31d::14)
+ by DU0PR08MB9028.eurprd08.prod.outlook.com (2603:10a6:10:474::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Tue, 29 Sep
+ 2026 10:40:06 +0000
+Received: from PAVPR08MB9674.eurprd08.prod.outlook.com
+ ([fe80::6f25:3681:7c97:ea2e]) by PAVPR08MB9674.eurprd08.prod.outlook.com
+ ([fe80::6f25:3681:7c97:ea2e%5]) with mapi id 15.21.0472.005; Tue, 29 Sep 2026
+ 10:40:06 +0000
+Message-ID: <6ccd9dc2-0740-4f30-8fd8-1f9aa14371d6@arm.com>
+Date: Tue, 29 Sep 2026 11:40:05 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 01/14] coresight: etm4x: read-back TRCSEQSTR at
+ disabling and prohibit modifying seq_state while enabling.
+To: Yeoreum Yun <yeoreum.yun@arm.com>, James Clark <james.clark@linaro.org>,
+ Leo Yan <leo.yan@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ nd@arm.com
+References: <20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com>
+ <20260924-separate_etm_cfg_v2-v12-1-a2b41d2f7c2b@arm.com>
+Content-Language: en-US
+From: Mike Leach <mike.leach@arm.com>
+In-Reply-To: <20260924-separate_etm_cfg_v2-v12-1-a2b41d2f7c2b@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P123CA0080.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:138::13) To PAVPR08MB9674.eurprd08.prod.outlook.com
+ (2603:10a6:102:31d::14)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5c6edcfe-8332-4db6-b0fa-ca5d137a2075@infradead.org>
+X-MS-TrafficTypeDiagnostic:
+	PAVPR08MB9674:EE_|DU0PR08MB9028:EE_|MI3PEPF00008550:EE_|MMZPR08MB615799:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98b43498-dfcb-43e8-6b33-08df1e161b87
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|11063799006|6133799003|10067099003|56012099006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ Q/2z9pmfobm4PBVfNCBKTN3d36rgNMh8bQfIzBcJx95n0TgonjHNe4+re8Hda57yFjsn+DdWYq0+vXDUdb/FKXGLW7N95VGB8Pzqc73oMPSfws7CT/oRMXr2skzpb8vxEANRQqLJCHVKsAoK92qQTMlO7RkqZ5qrvpBpOLUONbs8cPT2oOqoXghso0zFjJ8brPDrbO3RLHOOVP3r4ZwOFG+hEq3iqQ9u8kPZC/gSAL6f1cL4RD1zpM7EGjX33eSxqWLX/YMbkUiXjiwJOUTk1rrsAYB6by6OBmibJBxwWnfa+1VJXHewADvFVoJWcKTfP5ROTpHXhBecxIHCwdKMQAX5qecC+KclDnR/2DEeMUCJT0T6NyPXbnuQhCjbXtn44zP+PimP1hIKoFx5ct87KgpgEcv5N9wM77PMxJWuAMP6zb/yVj+hghH8kErOF35lFWatrksUOtAwVwRDfLaxCDr/2BNw2bjmWPLPrtLAO3ae8WCEX07/Hv6/yWF6cxpwBRdlAUU56AL/KDaLLb4vav8v2ms2C/UuKrYX+0Rdm5t8YUfu0+5u3Hgm7NrwFdTK8mAtSuLvdwMCXzQj0EqzLIvE5jVd+HiqD+4YVWrw2uznKdLyvII57RIOrhAkjlbXN8w53Qqxxn+j2C8b+1/4OqJNkYHJmUjgAZLJ/AJavuA=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAVPR08MB9674.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(11063799006)(6133799003)(10067099003)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ hyesObeJzSE3KgEpZ+/fAsLXMflgcZPV83i2jXrzXF/wvECZsw4Jra8GeG6NhlEQE1+JwrrLoDtw4iQ8sZ0KwdTrbBqGwiRBgKeOLfJjLIr4yrlrwAMcYNcv8lLbxr0Y0th25jVRvd2SKXKytzVE6SnQknm/iwFVOUxxBUg5l5+ywGmfhzGUftjvXYe3A9mwovUamaPRwval5SKFlm7GhBsHi5iuhsjjWDJ7AEztZltDksYZqWbAG6tml1EPeUnCMKgF96P8j3awYNUGh+RqxLMUSIOhXgyRBBb+PtmwNCaOsPRAacCbWJDTs83HALcJ4/ZXOFVw9n+NlL/aVrEhHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9028
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ MI3PEPF00008550.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	2f7dfbf2-8ba1-4199-e7b4-08df1e1606a5
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|7416014|14060799003|36860700016|35042699022|82310400026|56012099006|11063799006|10067099003|4143699003|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	bNOoPp51I4UhBWZF+pUapPavIYQLA674dTN0HDSX00Jdg7/QjcUnkKwKn29/c9wAspzzOpRUyNJiIjMAK1MHV/P1xgRal+qcImyxOuivlR/W/TqYoCc2Zd6l+Aum2Yx+MhRa0eA1zYvT1ssPznezTFZ55iC7tw3PrwL3yQY6RNPGmR8XDwOa+ZwzQ5Ghrgh0dQApSUXtbssjUgaaJmdqRegdxOobaaQITiGltRcK8zuEEzwn0j7XxoIXgmhzk3jpGi/S+VtH2FnpKbTbGVA/X/8Iod7YmCQPCZzCWpSGEfNSwAcHkJPXU9hOitMblgNRvzgNykYgjyNm9sYt3XYqUbUkzmS+ki+sCFeE4Ddxl0Mt9rrgOR40LOCLTCvsCyGfG92hu7udImZtKLm2U9x1mzhIfd0QWdfeeVXCIwVNrY/4khZOK86pXW2lveyHCN3A3px6jLJNobd2cnGYWW1tgrh3YRA4mzrn9tWomUeDvPOGqzqLWag2Pe14U3KtTrthYErOgtaypZmeHi0Ej71Bkeil+3XUNUJ+B2uD+i18QYfjv/64sJfYEBbrxTz9AuTIiCTT7vFLvPyL6zWwWH0ES2zdQwt6njidpNKVrEh5WiPyzjc/BVzwqGyP6aykBlBLy6yqZtBAXetQ/kKmjrsGB3pRBotrbmHg11Z0sG9ItIh3riP/VirwQTNT/PoagwqlQ0QJqrc2qjh0gJwrFkefWA==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(7416014)(14060799003)(36860700016)(35042699022)(82310400026)(56012099006)(11063799006)(10067099003)(4143699003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fxjFGU31QZD2dJ66PYH25o1mDOfaJcKXwfuGtQmA0XoSlaxg94//9OkAzVNSHM4iB9/FTrKGShzIBPw6J/YyIiTirXRh1VN3vLkDnH1RKrbDrm8eW9K8uXb8eCHhm6BRukw9b2RHEHpnTMK+u+cC9HCJP/OXPOzTyW35a5wY16OfFPjDRuhJDTBbeIH+4bz9AzX2Oi+kERxnVv7Th/PlQiSZ6iAE/yFjkzWGkyLtsG4+4gGAYAK3Ha16sMJ2Ck0j/raP134fwVZZ3da71hr/y9E3xJn195rTo6oE/q75RQurcD+gLv9WGluZCDUthHZP+2y+VJ7j0JmjQOQu48PmK56VC0poHfU7mjdizkbYmWib3JF5jOiCsabVSXsfNgnjROpZgI71gEOeO28gzmMd9NZ9LLBCMttB+EJg/15ztqxnACl55HH+6OztS+RPsrsI
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 10:40:40.8141
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98b43498-dfcb-43e8-6b33-08df1e161b87
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MI3PEPF00008550.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZPR08MB615799
 
-On Mon, Sep 28, 2026 at 01:37:37PM -0700, Randy Dunlap wrote:
+Reviewed-by: Mike Leach <mike.leach@arm.com>
+
+
+On 9/24/26 18:33, Yeoreum Yun wrote:
+> TRCSEQSTR can be changed by the ETM while a session is active. Its value
+> therefore needs to be preserved when a sysfs session is disabled so that
+> users can read the current sequence state after the session ends.
 > 
+> This means that any changes made to TRCSEQSTR while the sysfs-session is active
+> would be lost when the session is disabled.
 > 
-> On 9/28/26 10:41 AM, Mostafa Saleh wrote:
-> > When CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE is enabled, the kernel stack
-> > may not be fully populated with the THREAD_SIZE virtual area.
-> > 
-> > Teach task_stack_size() to return the size of the vm area and not a
-> > fixed size.
-> > 
-> > This propagates to end_of_stack() which makes functions like
-> > stack_not_used() and set_task_stack_end_magic() to use the lowest
-> > valid stack address instead of THREAD_SIZE which would cause data
-> > aborts.
-> > 
-> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > ---
-> >  arch/Kconfig                     | 10 ++++++++++
-> >  include/linux/sched/task_stack.h |  5 +++++
-> >  2 files changed, 15 insertions(+)
-> > 
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index 45c657772362..d6fa2ccb0599 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -431,6 +431,16 @@ config HAVE_ASM_MODVERSIONS
-> >  	  <asm/asm-prototypes.h> to support the module versioning for symbols
-> >  	  exported from assembly code.
-> >  
-> > +config ARCH_HAS_VARIABLE_STACK_SIZE
-> > +	bool
-> > +	depends on VMAP_STACK
-> > +	depends on !STACK_GROWSUP
-> > +	depends on THREAD_INFO_IN_TASK
-> > +	help
-> > +	  An arch should select this if it supports dynamically configuring the
-> > +	  kernel stack size.
-> > +	  For example the kernel stack size can be from the command line.
+> Copy the TRCSEQSTR value when disabling a sysfs session, and prohibit
+> modifying seq_state while the session is active.
 > 
-> 	                                    can be set from the command line.
-> ?
+> Suggested-by: Mike Leach <mike.leach@arm.com>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+>   drivers/hwtracing/coresight/coresight-etm4x-core.c  | 4 ++++
+>   drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 2 ++
+>   2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 2247ad55d444..9ca03a5913a3 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -1073,6 +1073,10 @@ static void etm4_disable_hw(struct etmv4_drvdata *drvdata)
+>   			etm4x_relaxed_read32(csa, TRCCNTVRn(i));
+>   	}
+>   
+> +	/* read back the sequence state */
+> +	if (drvdata->nrseqstate)
+> +		config->seq_state = etm4x_relaxed_read32(csa, TRCSEQSTR);
+> +
+>   	coresight_disclaim_device_unlocked(csdev);
+>   	etm4_cs_lock(drvdata, csa);
+>   
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> index cc6cdd3ae29d..db3cf4ad6806 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> @@ -1437,6 +1437,8 @@ static ssize_t seq_state_store(struct device *dev,
+>   		return -EINVAL;
+>   	if (val >= drvdata->nrseqstate)
+>   		return -EINVAL;
+> +	if (IS_ERR_OR_NULL(drvdata) || coresight_get_mode(drvdata->csdev))
+> +		return -EBUSY;
+>   
+>   	config->seq_state = val;
+>   	return size;
 > 
 
-I will fix it in v2.
-
-Thanks,
-Mostafa
-
-> > +
-> >  config HAVE_REGS_AND_STACK_ACCESS_API
-> >  	bool
-> >  	help
-> > diff --git a/include/linux/sched/task_stack.h b/include/linux/sched/task_stack.h
-> > index 4a808f9c4631..07d73adaecd1 100644
-> > --- a/include/linux/sched/task_stack.h
-> > +++ b/include/linux/sched/task_stack.h
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/magic.h>
-> >  #include <linux/refcount.h>
-> >  #include <linux/kasan.h>
-> > +#include <linux/vmalloc.h>
-> >  
-> >  #ifdef CONFIG_THREAD_INFO_IN_TASK
-> >  
-> > @@ -96,6 +97,10 @@ static inline unsigned long *end_of_stack(const struct task_struct *p)
-> >   */
-> >  static __always_inline unsigned long task_stack_size(const struct task_struct *task)
-> >  {
-> > +#ifdef CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE
-> > +	if (task->stack_vm_area)
-> > +		return task->stack_vm_area->nr_pages * PAGE_SIZE;
-> > +#endif
-> >  	return THREAD_SIZE;
-> >  }
-> >  
-> 
-> -- 
-> ~Randy
-> 
