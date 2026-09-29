@@ -1,93 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F9255C305;
-	Tue, 29 Sep 2026 18:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BB34E0B9A
+	for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 21:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790707820; cv=none; b=YKIzEliCjfdvYKq/JgbYFkOnZY+QbcUfSTa2wELkITWRaGtnGJBf1efX+Br12RMxG0f6+ElfH1g/7ApERPImJaBaaJVLGg977WKYgax2IRZdFeXac7wOgCOJTh8FXyEbs1x7jUkqd7et3V9L+O1n2BOVXA5Mdd3q4rgO83G6+Tk=
+	t=1790717143; cv=none; b=SHTjSXE2orgu7TRmHlfgxZVuW430dg1IsA31K+9IQY9QMQAlmlLX46quSPkGkPR6Tn33D3V3y88vf/9inaSQEY4KKPw65PfVg1+E55jxHLRTD3gCRBzO4xA4ZNrKcby2K3Vh7aV481sL03rGNLOxiYe9nxQQnLzk3qV5It/xsUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790707820; c=relaxed/simple;
-	bh=a0j9ZYPE0kpuxcGqfOeJqb1F8DjbAgg+aDr2TDXJr2k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EDv2RLoUMXUceJD8SbUvs7l7UEbtke0Eut+mGUOhiG8Cf7x6ABe4avXb51jDUER/9SeS8jVEvUD23C4EIneZO8tXaGJg48U8ULex8jdS1KV1epsudvSgKqTxfdpDzRVXPCZJ4/UTEPU1PD22iZMKC4H7Hr6PsnFbsEFqqTBVZq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKL/NQJo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790717143; c=relaxed/simple;
+	bh=Tjs7FwpG8SBJ1qS8KHelfEMZVZQILD7n6hgU4O1XLxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I49pA31B3zYZm+aIL0uAgg7YsCULUOMZrKtpI+O1z/GxqmpXYl9aBCIQL1ggRVNmt5/dQ+SULlUz08HI+GzFlIrPUy2UIpgezQeiHgCXkgghvYHq7+1BAQ7aghspFvhNL987vmP68PSkfZvzTU8vvjuDmoLvw1zzL4nWfeiXm8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lr5OZj9j; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKL/NQJo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C211F000FF;
-	Tue, 29 Sep 2026 18:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790707818;
-	bh=a0j9ZYPE0kpuxcGqfOeJqb1F8DjbAgg+aDr2TDXJr2k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=AKL/NQJoQyB/VbLk21OaTs+Mad4FePYdN1yez5LipKrQ8ppXndkJ5NvSAie+kvhQ7
-	 Yqyl0+b/kdqogNgUALIq95bXiZ9mFnXgC+4UviSh6lZef0lMj6jNLORKe9IN31zuNT
-	 Vu8/t9RdpxSVVjF9Al3+GYkpLpqdUtRfCxKhcz0Wriu/JQRqpMn8u5EoboVp/bfF4C
-	 cAB0XC1Pnny4KkDArsPRqCbt9dFO62WiZa9rNGDOdAyit5ChZkRHAy8b14ZbocdFUt
-	 CA+EzLSqc4y19uaW8WZ9YTKy0iq3H/SVKVhdX4xUFyS1KmdYw5GkoFZzzmgjoSkYbO
-	 7CDUOnBLTgKsA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Yury Norov <ynorov@nvidia.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Matthew Wilcox
- <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
- <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Dennis Zhou
- <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
- <cl@gentwo.org>, "Paul E. McKenney" <paulmck@kernel.org>, Frederic
- Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Josh
- Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang@linux.dev>, Onur =?utf-8?Q?=C3=96zkan?=
- <work@onurozkan.dev>, Kees Cook
- <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, Anna-Maria
- Behnsen <anna-maria@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
- Nayak <kprateek.nayak@amd.com>, Mike Rapoport <rppt@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil
- Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
- <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio
- =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers
- <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
- <justinstitt@google.com>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, wireguard@lists.zx2c4.com,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- rcu@vger.kernel.org, virtualization@lists.linux.dev,
- linux-rt-devel@lists.linux.dev, llvm@lists.linux.dev, Yury Norov
- <yury.norov@gmail.com>
-Subject: Re: [PATCH 12/17] timers: assert static storage for DEFINE_TIMER()
-In-Reply-To: <20260915031334.1194975-7-ynorov@nvidia.com>
-References: <20260915030336.1192299-1-ynorov@nvidia.com>
- <20260915031334.1194975-7-ynorov@nvidia.com>
-Date: Tue, 29 Sep 2026 20:50:15 +0200
-Message-ID: <87o6dfj3iw.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lr5OZj9j"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ff9642c57so6413875e9.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 29 Sep 2026 14:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790717140; x=1791321940; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=o4P77awGw7CnoZ9LloNVfZMxMXD8dRiBGwj2EdNOf8w=;
+        b=Lr5OZj9j/n5ImzidDJcH6a3IUpDEgc+3KjoDkJKjEDSIqv0n+gxEr+GTf4v1HvKN9R
+         MrqEz+OGV2VyCsG+2yCJ+UkDE5kwN2SuJgElisztf/szX7XhXMWp1jHmv5+TYqf5huKN
+         q8XmcqjI7lSetwyPsF9dVQM62BzkXOSfCLVQHB7oK36QoYkcGUT9HhxjyTEXRjXRO35V
+         17UIP3wlrNCCS97ck3iREzPG/ciMTRRMzk93TeDWTrtVO6gQLQTjfrFpXqwWeycoGB7J
+         AeSdSL+Y8DmY/RRtIq6+Jbezi/r+bESrK5sHwdPYsvD7VcfNGWIJ720pOGz7LgLf3X+o
+         Ww7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790717140; x=1791321940;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=o4P77awGw7CnoZ9LloNVfZMxMXD8dRiBGwj2EdNOf8w=;
+        b=Tymo27UtN4QkdsPXQeN+6+yrne6kCvJeMMHM3AkSZY6us+mdZIeEBznzqjkDsJIP8N
+         j07agWIDm7/y9PRDc/2ZKTfQv43pxGzc3QiFQ5LRKnpKkfUnkFkfoP1wTWdMGwActCDx
+         2YRjmMtZQXKGxaasigspllYQPEK0uJf/E2qH3gqDSRPXwB+ltyUBZhOUUE2TDBbCgcm0
+         3W8hkJ/0qrYFsdR/Pq86i+GBauXKWTvDubQbwcwsLLqRejlMZJoriFHz7ty3yOAVj4Nb
+         Tn1D146+0o4vrzcsXDT1JqSOnB46eWfp1HF/VsAoui33N4fvtrv3s1FXMv0XyIjjiUBk
+         upAA==
+X-Forwarded-Encrypted: i=1; AKwUvBzedfJ1GlNhyDzexPEnWZ8wDMkFGA0dCL1i3Og5a9ccFvAYXsCuj9VjxSGc/r7MGNoapuC5kfWuMhNhTtU7ag==@lists.linux.dev
+X-Gm-Message-State: AFuF++nJKe9qB8zL4M+rZgZeyO9KpQZDxE0E/guXj741U70NkasR3Y5i
+	pYcFCXpPUVhXJIxOrwQBeLUc8084nG7LLQ8/78cd1O9Ez/ChR5fyjs1p
+X-Gm-Gg: AYBFou0vSKnm7PmpiuO2UfoqHiRh9zh0xbm/oIPDEVrlByowOaTD1cbfddC1xQburfn
+	c6HsKOzODyDG0CRL8EDXAJBSP6FNbRaHAufq5bT15ZZgsERr4R8+mjZuuaO+M2dp88t7wggZ7ha
+	luZm4vLzQfBoK7awHSsCBAQ/GSJV0eOoWuvau/FzQVNM0xpofYCfpqaQgpmcC6u8GFsMKlSh42/
+	v7m6CW5Bxbas7PmeO5Gsxcg9ZpASYeiyqX4bCuP/Dyyc39wNLCrP2kkRL9N2DTHrBeSzOQzhWfJ
+	neh56IuKSSS+OgQmmTERSxouJxM2lc9akyWzUffr+wpAj+zNsLVjAHAhSB2WBVek0zmFFESyPI6
+	shV45FlccfoZzLOPVn/ORmVoF338jfORltU3Ft8caJtELgwD4xm0SHbLMurpIjgKRotgylTIqJr
+	ODdlX31hC1RXXsmfjSiGtBq/bvqGB/zzKHvhdMJT8fwXf40TMDxLmv4fswXtAiE/dNcj9wrkBkD
+	XI5vNdjnhgOeICh+aGlBpdEBbMz2e5f9OFOPjOQOBtgI/PDPCH0HHYSQXQm1WuGBzH8nrD+dAKl
+	shbOs+l9kK3fwd++84EJEUPRixSFkMPTUTPTN3RJOwdn654JTmhiSQ7OT2RQNaZAeyBaRfHmiqM
+	=
+X-Received: by 2002:a05:600c:c176:b0:49f:fbad:29ae with SMTP id 5b1f17b1804b1-4a015142604mr5797515e9.17.1790717139884;
+        Tue, 29 Sep 2026 14:25:39 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9c32-f801-9d9d-c89f-9fb1-4ec2.310.pool.telefonica.de. [2a02:3100:9c32:f801:9d9d:c89f:9fb1:4ec2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00cfecb39sm118395395e9.7.2026.09.29.14.25.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 14:25:39 -0700 (PDT)
+Date: Tue, 29 Sep 2026 23:25:37 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Boqun Feng <boqun@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Alexander Potapenko <glider@google.com>, 
+	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Bradley Morgan <brads@mainlining.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4] softirq: Preserve interrupt context during IRQ exit
+Message-ID: <arwsK1dOHVB5KZjD@gmail.com>
+References: <20260926143505.66024-1-kmehltretter@gmail.com>
+ <20260928082402.1iCSzDzY@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928082402.1iCSzDzY@linutronix.de>
 
-On Mon, Sep 14 2026 at 23:13, Yury Norov wrote:
-> DEFINE_TIMER() marks a timer as statically initialized for debugobjects.
-> An automatic local timer instead needs timer_setup_on_stack() and the
-> corresponding on-stack destruction before leaving scope.
->
-> Add ASSERT_STATIC_STORAGE() to catch automatic declarations at compile
-> time. The timer lockdep key is already static; this check enforces the
-> debugobjects storage contract. Leave __TIMER_INITIALIZER() unchanged.
->
-> Assisted-by: OpenAI Codex
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+On Mon, Sep 28, 2026 at 10:24:02AM +0100, Sebastian Andrzej Siewior wrote:
+> could you please do
+> 	(in_nmi() | hardirq_count()) == HARDIRQ_OFFSET)
+> instead? This will merge NMI check into the hardirq check, dropping one
+> conditional jump away.
+> 
 
-Reviewed-by: Thomas Gleixner <tglx@kernel.org>
+Hello Sebastian,
+
+Good catch. With GCC it removes one conditional branch on x86-64, arm64
+and arm32. On x86-64 it also uses three fewer instructions.
+
+I will send this tweaked version soon.
+
+Thanks for the review!
+
+Karl
