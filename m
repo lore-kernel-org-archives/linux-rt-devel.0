@@ -1,103 +1,180 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237E536920D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Sep 2026 02:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534183921ED
+	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Sep 2026 06:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790737171; cv=none; b=om7QM7H48ADOQMDPThf9xTeFaT3j89ItjPasJkt7+b4zicvi58x3eyyBnFdNKRYssJEJlkTHnvy1BhVp4ynvbIGBvo3Ms6ZVFMnxY4C0B4XtNyn+52VDd88secPr022M3XROq52eKzyEA2+JE0v8AV7FF9JkYDIDmB1JfHATfsk=
+	t=1790748584; cv=none; b=GXLHnhOQA7Tsz8JSTvtKslIObDc7fohCZWLpebXl+tGM4J/IKKhMiYqlRbVNF7D12SN03nrQZbFSKdqEEFhdJ4iyQzuIAmCHOLlkXhdxehq5U1sRLLeoKJR3hMVxoL3DI5ihSaJcpoK4E7GrHojj45fQo/hz+Arn+1KV+3HKwpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790737171; c=relaxed/simple;
-	bh=jryVeyCE3ENwhs5+JjIDYwN2HfxA07BwvfI8E+aZm4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CvdLyvmFYdtSfvb+7FbHvYV8p9bt48TuLf6ismdlzwkJZC5z8B/edU1C2FY82dmINXRSGg5LjSEmhVQjBO8sZfXSIOrqBqg8Cx9qsBFRDNelzmylLDVxZf42N4g8Q1USxFzFu0syoe8NiIQMz0n6tHDmTnRz5j2hlH3swtpXxHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=UmwSPjcN; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790748584; c=relaxed/simple;
+	bh=XCROvOlzC8UhROXRYTXlDPWwk3VZngkaabZb74KjKB0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=p4477w+/6WLI9FakgvAwM1rspYWEOjoaQonvA1tGRMjZIgEOPjHjcbDUnncRGS5y9MZi/b/SobOYGskzwf3q8H0DbFO+fh9x/v9n+UjjRMmzfrn5rWK1/3F2x067NWLS4T2Twf3xa1KEWDkJJNqkYoRZS4ocOPmV8ghou8nl6qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0aJiqgl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="UmwSPjcN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Ci
-	H9O6vBnrQUkYEAwSQyoqJvAfPordHbh1DsTTGfiks=; b=UmwSPjcNHY0Pe895Lv
-	Uw7Uv0kL7hG98BW9+Z02MWqyTLjIU4bsaI7Jafzc4mdGJ9HFPzemD6+WFAjNRWWf
-	cUBCSLcs+o4XdZIdLKD79/Opr7DYx+U588f/KbC7/4vayc7NBg5QxblSM5SU2Lv7
-	cxiR2sN9e4pIKgC84xRrZ6ZLE=
-Received: from chaosheng-ASUS-TUF-Gaming-F16-FX607JV-FX607JV.lan (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDXv0PQerxqgrw7Bg--.14814S2;
-	Wed, 30 Sep 2026 10:58:26 +0800 (CST)
-From: Quchaosheng <quchaosheng000406@163.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Stultz <jstultz@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Quchaosheng <quchaosheng000406@163.com>
-Subject: [PATCH] sched/proxy: Correct the SCHED_PROXY_EXEC dependency comment
-Date: Wed, 30 Sep 2026 10:58:24 +0800
-Message-ID: <20260930025824.79296-1-quchaosheng000406@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0aJiqgl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 557DD1F00893;
+	Wed, 30 Sep 2026 06:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790748583;
+	bh=6h7uN8oZD3fZpgLOnuO8jNg+qNPB0aHlC6LIXgLd8rk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=C0aJiqglHpwJMphJCpT4ly83kzzULfY86X8xWEmDOq2pBqy67AgGL3YFrPGG23MJn
+	 +NdNlUw4P8giMvqQn7RtDXuMPWeeVcikY5m2YWr6kMg+4wVWa+UPkc5jwXydWohbDJ
+	 m1c9edqBNk11B7ekSoG2SEQ0V/nzgkRivO/gfmpyo3N9nQg9+VqqvepB8bIQixjhji
+	 4OwbXUrRlI3Gm0w+uWhO73vcwKl4h+6U3tBZCPWp/tYSLWXt4OflukSgruJAnw9iiP
+	 A6w9/5A9ck7io/2CopLIL+AEXeb1TIVNw4WF6IoHXZY4uZCctKvgwlxY1UzAe/ZGCQ
+	 Ohlvcemt1XFxA==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 94480198003A;
+	Wed, 30 Sep 2026 02:09:40 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Wed, 30 Sep 2026 02:09:40 -0400
+X-ME-Sender: <xms:oae8anI4GVEbKvhVlcjR8-LzUjW6OI8pIX4xwdE5AShm-xYggBCfzA>
+    <xme:oae8al9IGvGGArTgEiF5YPyEty4h9752h8j-gFFQveVwEoIfCoJuIO9iAa0OslTxH
+    UawP56YQYeryMLbKnajVAnkDQ1a_qJcmZKTe2KpbEm_S_Gb9hOhMp5x>
+X-ME-Proxy-Cause: dmFkZTGH3CDWrAOgFb5M8dKUdw7jBdaLrB2Pwt8r3855AuHOEEYS9lNyfJml3e2Dw82aft
+    4NyxgO+2wM2f2o/0MofBREoFjUlN0fcXDbSg/pS7qRRU5oDw78l4/t2gvNPUQyexhSycSt
+    NaVeHCiWHN4+JISu6xqaJJt6mTDAIaQvkHd63LyqxXLYaoOYjOh0tslHUgOuNZpfYZFw/g
+    LZ7QLONu1oyh6dS6HIpxt1l89FRI6Eacrsv4tm7E3MPWo/RE03KKbe0p3wSmJMTB9jGcuH
+    iNbSFAozKIM6ijzfRf92WbPAwKQzsczw4VH6i0WpOVq4lJ2zHYqfIovQJgYd/cfjVlKhjk
+    e1jP+aUIjrqaEucWf5QX3yzd8oJlT72RfwsYe+lbigeYlQ+U+oQHDoFJ3wAWpJsSmBW3B/
+    DGDwMN85cq94oVGZI1g8e0AWPYXoeKoki8n1/ZW8B9YDmAWj2GEk9E5VGmOt9oSn33ATc5
+    BxSU+h4nkzK4CWLKrE2as1Y0YmXAl98LF+LYWUd8bHl2eAK+HIAH+exjmJe6P6F++r7pQ0
+    o8dz94tGnjB/3dBhU2rWSZVqotQzJE3GcbPy7X4OqQrmm6RVTQDWp41ttcQ81UqGwb1rfh
+    bYWBVh6a4Qr0moEAa9JpdxaEgtXF2BwKI1qH8xboZknig3xSe//xi7zCRiUw
+X-ME-Proxy: <xmx:pKe8avxvzVXMRxvxUY17jp02351u8li9Z1gpWAe66HMral07sMde8A>
+    <xmx:pKe8ajG2K4xMzY109hxeYHL0r-CTQ38UceHkzldI8BgzF_caUDzCDA>
+    <xmx:pKe8avy834KnGQ6bfDnmXxYhl1jweaX-Bv9PTRe3wpd6gEVc_evBAA>
+    <xmx:pKe8amPkiBGuQigPfbr0JHSSKaV1s4LLxnrYpnPprTJvZKh0pJTnTw>
+    <xmx:pKe8alajaA18p7dGKstTDxtDh6LxrbscDldnMaDcLrfA4cWhwVkImsYX>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 74AE3F80086; Wed, 30 Sep 2026 02:09:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXv0PQerxqgrw7Bg--.14814S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF1DJr4kCFyxGw13ZF47urg_yoW8AFWkpF
-	9rWr18Krn8XF4S9w4UAr1xWF4qvw1DCa15AryUCr10kwn8GF1Y9ws3KrW29FyIyws7Ja98
-	Xr1Ygw1rt3WDuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pREoGPUUUUU=
-X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbC5BOcEmq8etNgVAAA3y
+Date: Wed, 30 Sep 2026 08:09:17 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: "Jeremy Kerr" <jk@ozlabs.org>, "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Message-Id: <2219f7bb-62a0-496f-a311-8eb651fb76e6@app.fastmail.com>
+In-Reply-To: <20260930013500.10273-1-singhpra@juniper.net>
+References: <20260928203445.72318-1-singhpra@juniper.net>
+ <20260929074312.v3jT8uel@linutronix.de>
+ <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com>
+ <20260929151401.doOQX7D0@linutronix.de>
+ <20260930013500.10273-1-singhpra@juniper.net>
+Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The comment on the !PREEMPT_RT dependency reads
 
-	# Avoid some build failures w/ PREEMPT_RT until it can be fixed
+On Wed, 30 Sep 2026, at 03:35, Prashant Singh wrote:
+> Thanks Ard and Sebastian for the comments.
+>
+>>Please don't respond to questions by respinning the patch without
+>>having any discussion at all.
+>
+> Noted, and apologies for sending v4 without first finalizing the v3
+> discussion.
+>
+>>I asked you an honest question, and it seems Sashiko spotted an
+>>issue here too.
+>>Is there a problem with how the current code deals with uid and gid
+>>on a remount?
+>
+> No, I checked and did not find a problem. I mentioned this in my
+> response to your query on v3:
+> https://lore.kernel.org/all/20260925113145.7396-1-singhpra@juniper.net/
+>
 
-That describes what happens once the dependency is removed, not the
-reason it is there, and "fixed" is never defined, so nothing says when
-the dependency can be dropped.
+Apologies, I missed that.
 
-The build failures are real, but they are not the whole reason. Under
-PREEMPT_RT a mutex is an rt_mutex, and its PI path takes pi_lock under
-wait_lock and rq->lock under pi_lock. find_proxy_task() takes
-mutex->wait_lock under rq->lock, so
+>>This until the end looks extremely verbose.
+>
+> I can drop the strace data from the commit message if that reads
+> cleaner; I had included it to highlight the issue.
+>
 
-	wait_lock -> pi_lock -> rq->lock -> wait_lock
+Yeah you can trim it a bit but git commit log space is cheap and
+only people that care about the patch will read it anyway.
 
-closes into a cycle. It stays dormant only because nothing sets
-blocked_on when PREEMPT_RT is set, and it is gone once a mutex is no
-longer an rt_mutex, which is also the condition that lets the dependency
-be dropped.
+As for the docs and code comment changes themselves, please make
+those a bit more to the point. People can go and find the commit
+that introduced/updated them to know more about the background.
 
-No functional change.
+>>could this be, I don't know something smaller not including the
+>>commandline where I would expect that people know how to use it.
+>>
+>>===================     =========================================================
+>>(no)statfs              Control whether ``statfs(2)`` reports the variable-store
+>>                        used/ available. Disabling it skips the EFI runtime
+>>                        service call, which might block the CPU for a few milliseconds,
 
-Link: https://lore.kernel.org/all/20260921102712.3245860-1-quchaosheng000406@163.com/
-Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
----
- init/Kconfig | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+might block all CPUs for a few milliseconds.
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 8583d9f..b45d8b2 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -936,7 +936,11 @@ config UCLAMP_BUCKETS_COUNT
- 
- config SCHED_PROXY_EXEC
- 	bool "Proxy Execution"
--	# Avoid some build failures w/ PREEMPT_RT until it can be fixed
-+	# Fixing the build failures is not enough: under PREEMPT_RT a mutex
-+	# is an rt_mutex whose PI path takes pi_lock under wait_lock and
-+	# rq->lock under pi_lock, while find_proxy_task() takes
-+	# mutex->wait_lock under rq->lock. The two orders close a cycle that
-+	# only goes away once a mutex is no longer an rt_mutex.
- 	depends on !PREEMPT_RT
- 	# Need to investigate how to inform sched_ext of split contexts
- 	depends on !SCHED_CLASS_EXT
--- 
-2.43.0
+>>                        reporting 0 for used and capacity. Enabled by default on
+
+Instead, report 0/0 for used/available.
+
+>>                        PREEMPT_RT.
+>>===================     =========================================================
+>>
+>>It might make sense to add this knob to Documentation/core-api/real-time/hardware.rst.
+>
+> Thanks, I will use this wording and move it to
+> Documentation/core-api/real-time/hardware.rst.
+>
+>>Here and below you add a comment to every change you make. What about
+>>focusing on the important parts, that deserve an explanation why a
+>>change has been made. For instance why nostatfs has the READ_ONCE/
+>>WRITE_ONCE accessors and sometimes it does not.
+>
+> Apologies, that was a miss on my part, and I saw that sashiko-bot
+> flagged it too. I wanted to gather any additional comments before
+> addressing it.
+>
+>>Yeah the most severe issue is that entering SMM requires a rendez-vous
+>>of all the cores, and so whether preemption is enabled or not is
+>>actually kind of irrelevant, given that all the other cores just
+>>disappear.
+>
+> Yes, I observed the same behavior. I was not sure whether this is
+> x86-specific, so I refrained from mentioning it in the commit log.
+>
+
+It is x86 specific but that is the main reason we need any of this.
+
+>>Right. So if anything, there could be a data_race() in one place
+>>instead inconsistent READ/ WRITE once as we have it now.
+>
+> I would use data_race() on the write for nostatfs. Please let me know
+> if the below looks OK:
+>
+>     /* nostatfs is read locklessly by statfs()/show_options(); the racy 
+> update is benign. */
+>     data_race(sfi->mount_opts.nostatfs = new_sfi->mount_opts.nostatfs);
+>
+
+AFAICT, that would potentially leave KCSAN instrumentation on the reboot
+path, which might trigger and interfere with the reboot. So instead,
+I'd like to put this in efi_reboot_required if we can. If it is needed
+in more places to address an actual KCSAN splat, I don't mind. If it is
+just to make Sashiko happy, then we shouldn't bother.
+
+
 
