@@ -1,60 +1,59 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4441F3AAF42
-	for <linux-rt-devel@lists.linux.dev>; Thu,  1 Oct 2026 07:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50923D891B
+	for <linux-rt-devel@lists.linux.dev>; Thu,  1 Oct 2026 07:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790840388; cv=none; b=A6E7ejRXfMZdkPCITa7821NA1dhwGKYxojr/3ruRqxMEFGGxxa4iDO3yWhpkKesyfOtEEqS7tlqTUcgJLS65za/eaTrS3MjRG9GZ8EisYrlNRGLlkKVj7HhEXgx5qw6t6YcwNaDJPrpgyHbzvGHmlQECFpBuBGnjPiKVP10dhy8=
+	t=1790840904; cv=none; b=nvsA/iWUGkRD3SVyap0ZBpMymcWVfaZoX8XaQ91zO8sjPOq86EwTaFn6m6Qy/Vsi38+kyGxc9clQhROleDxBk20IuARamUw07bZGEmFmIwNgXk6U2ciMGfa/9tRm59tq0dA96DcON4MCC8q9pkqlI8pV5yPxBlsZS55UB1Mu7Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790840388; c=relaxed/simple;
-	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
+	s=arc-20240116; t=1790840904; c=relaxed/simple;
+	bh=yg69lzNJ3fZPhpDznbur/c3nxkH01CElVx8mElSsiJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbYvlLUrKvLeG/9h1A/TC3kjztB9DgN71FBiAOaLEFkfnNWxuhqhTHsfN2SKnykSzDEGbERU1voi5UKbKnXfVzAEolGf3eqAewfATGLb1+JM4p/0FED/l2w85cp87ZLbiDe1lpbKp8RExw+3VBj4uno4rAZXzctXmi6cp5NMCX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H5ADH4RU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LC849Svj; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYb5MhL6vji1m9MS+s1AoqmPsBE9PQcmTDxH1ZUfJgET5LFZIXpdn0otCZMszvnRRJlJBLFkSwGEBktHrYkrh9Tg7hZsVcTUnn3mtNpvtmotHLmhpZVaLRPrCwa7wpq1J34fKe28nUu4NFKf7Rjqy00GtNsyQ/il6/za5dqRawQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b8Xx7JPs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fOiUvp11; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H5ADH4RU";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LC849Svj"
-Date: Thu, 1 Oct 2026 09:39:43 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b8Xx7JPs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fOiUvp11"
+Date: Thu, 1 Oct 2026 09:48:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1790840384;
+	s=2020; t=1790840900;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
-	b=H5ADH4RUxK1UUoCugVGup5Od1rW0g2NXlzeoTkKVpAxz91t3nYV3qI6ROSzssSNAldaySH
-	mTq7yTUu2It3ZLM+NsxIsRaGKaADs7CZrRZ/yUVakS3JRldvSFUSxKpy91H2D++i5tpjn+
-	/M4IQc5j2DPA8TJUAEBdboQY4sJ6j1hhvKBFPq1Er2y3n7mCilD+fz5GemnU5/g/Fl9kzv
-	tugJLt8ZGW2E9wtM3cV8gFlHNzf7q4Q0eVcb0nyi+EneWWpLyhdH7yGgygqMjkXe1BYVtY
-	MN3b78fxMwpJr33BJbxf/ooogYqCQZKLFGonJQFveJVOfM+bCBU3WbGe0Lzu1Q==
+	bh=DARbdJqOEdFwsn0mY+WvbsESMHGkYUdCqPS/ZWhkTMo=;
+	b=b8Xx7JPsYj23mx4m/9nqC6bOz3OdUmJTOUKHN5qXNopGLpCJaLUjVeW+hJWlHIPQvKjco3
+	yOnbIIV+6/maa/pqONei53cykAcjSuJ8bI9ItjpslFkYLoXKBFrYgDT+/jNur2KXnqTXSI
+	nKhMmLeMEP27o/X9mlzFP+gNwf6G16memsVblYktS5CIUZYVyhBKTZceXEnbS1i6frjg/U
+	tSq4BIWkxkgbEacw+82FZ8cZ5cA/LwXvvXUoICxY6plrEexfX0YHJ0AOp3IsX2yAz+cZNK
+	o+NgGt2fvhk9o7UrxCVSYQDa7qWrdKnOMugdCoNjwyF9jMEq9/bz/E7PSvB2oA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1790840384;
+	s=2020e; t=1790840900;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
-	b=LC849SvjZAxpKGaUQHVRpa4VX/3KdlvOFZ+Znez4n6SWj5oGojEbFVtB8uTMx5T5Yy04E7
-	cH7HenTyMsrJerBw==
+	bh=DARbdJqOEdFwsn0mY+WvbsESMHGkYUdCqPS/ZWhkTMo=;
+	b=fOiUvp11GFAv3NdAykr5PrAEjCub4Jwh4Enps6OLUsuBjRlxe9OnMRlcoxLcrHKimJsuV2
+	lS1cKx2WulVA/0AA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Boqun Feng <boqun@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Bradley Morgan <brads@mainlining.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v5] softirq: Preserve interrupt context during IRQ exit
-Message-ID: <20261001073943.QYhian_i@linutronix.de>
-References: <20260930191432.62760-1-kmehltretter@gmail.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
+ transmit queue
+Message-ID: <20261001074819.gQ3w8q6P@linutronix.de>
+References: <20260928064239.32456-1-kmehltretter@gmail.com>
+ <20260930192103.62973-2-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,16 +62,33 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260930191432.62760-1-kmehltretter@gmail.com>
+In-Reply-To: <20260930192103.62973-2-kmehltretter@gmail.com>
 
-On 2026-09-30 21:14:32 [+0200], Karl Mehltretter wrote:
-> On the return from interrupt path, __irq_exit_rcu() removes
-> HARDIRQ_OFFSET from the preemption counter at the very top of the
-> function. Everything after that reports the current context as task
-> instead of hard interrupt. The code in the function itself, such as
-=E2=80=A6
+On 2026-09-30 21:21:02 [+0200], Karl Mehltretter wrote:
+> netpoll_send_skb() calls __netpoll_send_skb() with hard interrupts
+> disabled. When direct transmission cannot complete, the latter queues
+> the skb with skb_queue_tail(). The sk_buff_head lock may sleep on
+> PREEMPT_RT:
+> 
+>   BUG: sleeping function called from invalid context
+>   in_atomic(): 0, irqs_disabled(): 1, non_block: 0
+>   rt_spin_lock
+>   skb_queue_tail
+>   netpoll_send_skb
 
-Good.
+How is this possible? netpoll is only used by netconsole right? And this
+is CON_NBCON so it only prints threaded. What is the missing piece?
+
+> The delayed transmit worker has the same problem when it requeues a busy
+> skb with skb_queue_head() after disabling interrupts.
+> 
+> Add a dedicated raw spinlock and use the unlocked skb queue helpers under
+> it. Keep raw critical sections limited to queue operations. During
+> cleanup, splice the queue to a private list before freeing its skbs.
+> 
+> Fixes: b6cd27ed3388 ("netpoll per device txq")
+> Cc: stable@vger.kernel.org # 6.12+
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
 Sebastian
