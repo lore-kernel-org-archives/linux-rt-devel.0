@@ -1,159 +1,133 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ED72DE702
-	for <linux-rt-devel@lists.linux.dev>; Thu,  1 Oct 2026 16:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606B93B2D0B
+	for <linux-rt-devel@lists.linux.dev>; Thu,  1 Oct 2026 23:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790870566; cv=none; b=RQOXz+uSDS2p0UC0CeMCekoq6QzPL3ZY8wlM2VneTqcBCRXBZBlTtwQLTQEXf/s9iFX7LH2vM/yd4K3Sd2NQz0973SJShjyoTA97OXZGHSbK0oO+ypOOlYj0wefQpWUyv/+mExEfOSQ79D8t3JTpOwSfrASZDr6scauq5T58BVM=
+	t=1790897452; cv=none; b=X9hLA97YjLaDx8e6Okgrh0F+KhL/pC8NLOWXLKAIwn0CZyx2v2987jzahf+oWjf3pFqyXeRKCQ1Y26Gg4oxpqYlc9qcu6fAWyrRzNMVPULEMSjcwSvp+bG7kUJS6bGWWkpCVh2v7BYAgcH9ZVkk8UxzyihZ8Iil6efbXNM8fr5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790870566; c=relaxed/simple;
-	bh=8SEQ5LEwZWMx8fIG82dPeZqqz2OtyFESARM0SeMil1g=;
+	s=arc-20240116; t=1790897452; c=relaxed/simple;
+	bh=WQqvvD/sQatAVKeDt7OzSCnSoyrrtfFbAK2i7nM2NgM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L/uWFNi92AnGdFA109jQQ+PVXhvXmLtn064BDY1xkho5SrwaoyRhhsVOJITdzO0NMSUv7/ENEy3t9735dYd5ZP1r8mHUjixNboGkNo7nF+tsgfx3aCmY0H/gtiGeGATtdUXTHYtZ0wvhueB3Iw1Hu2uYoX9pM1nTOjnEZNf68hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rnR8PEGL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0ky3oivQ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=HK4CsRjHbrYJ62XXSoAlV0Xm9sqZUPyID6dZsxHF9SmA0YkAZApwzqwLGwk9/uUsUcuyJUW8JRF1mb6oMwctokuOXz9iQkjbSmqv1ZJuHC7pss1JjD5X7xks92mwSnk3DP5xpUxagtkXF4MdUCa7Udf8xp9AgH7KHVKE9C2Hqzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A50lDTHa; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rnR8PEGL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0ky3oivQ"
-Date: Thu, 1 Oct 2026 18:02:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1790870560;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HiHVpFyNR2pOIXjsmsCrGQ6THqpDTioyZ8jXsUY1wOs=;
-	b=rnR8PEGLqutBHG/3yvWn65AZO3WXNjHHwj7UZiqgL5MzHMtjayrrwh1EmluaI4IJ8iKJex
-	7xavQr0nnFTOF6d/n0kSS4yuaZr97IY9VDCzSYdW1Ctf5dzwsRkT8g90+sdd9KdxCC/iYZ
-	1agPWkVKkizScTvtZVFL4JpDzJlWDgIbEXXhPbYB9qetJ0idT91uaVYYMjOqHyV5xIlKUZ
-	EUCXJ4sAjRvc+6dPS2scKFFn/JQyB29e5qtyy7AH9B0TQ8vkJhP2eZGlxOO/IDH7UUuR0O
-	Jf/XbxDyF6tPEMYoNwGAaqBgZHM9zjD6ZvI92gX6qrhNJ4SgCi8H+niINY2Z8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1790870560;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HiHVpFyNR2pOIXjsmsCrGQ6THqpDTioyZ8jXsUY1wOs=;
-	b=0ky3oivQi/n/kuMoQWWLSroLRMMz5vspW7kIB39ArBZeai9RfhCIuKufpaF37piVZxaHD8
-	oSSZ34iLoI3bQNBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Nam Cao <namcao@linutronix.de>, Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH net-next v5] af_unix: Do not wait for garbage collector
- in sendmsg()
-Message-ID: <20261001160239.j1stzfx6@linutronix.de>
-References: <20260930162457.4ajVJ-Qa@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A50lDTHa"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49fff6f0f87so39760915e9.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 01 Oct 2026 16:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790897449; x=1791502249; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DMTt9X+tMN/0URvJisKt8BWrlZlLlxVbSwTrZVovw7s=;
+        b=A50lDTHaXCyM5aVmN9rQbPykS3XuM+oXIM4S0WPcN+uZuZSpcdAfxHiF6LZzlAT4pd
+         Xko+bFT/nXUbQbsgpUQxGEZEHuzlRRKuoM7GLD+4s5I++F8YzMxlUZdNs4o8+lcXCmiF
+         OFrYulN53ERsN4/mpS255fGMaqytq8Vw8YYivsMMTpSUFbCyXdpBRRr2p5mq6a2LIbTz
+         RCtKKaDIY3T2NtXS+MXZCtIlMEdlnJxqPl699CRoQVShaohN4oyivjf8rTY5X1ApOY8f
+         4j1RM66MAkY7EB73gsHZa3nU8IK26DaY4BATULB4o5/JdzkEsFxcsozP5XWBCPMmQOLM
+         nNDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790897449; x=1791502249;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DMTt9X+tMN/0URvJisKt8BWrlZlLlxVbSwTrZVovw7s=;
+        b=PYjz1c86FwbRkb/f17+xYhl1po68KuA9C1BfdshB1k1fyR6K5vZi2z/v4a1YHJg11e
+         MpNk6XlSR8uX+u/H4Fw4iVeMh6YTe8MluKtMAQUZn5mEl/WKpn4Ho/ItyZRVcupUw6QD
+         8SNSZrA94e54iROAu4GD9MYvyYm/OVp0wAlWlFOTZ+0micPWlyBR9I7skJm4zvFGyptQ
+         GTAHir5zgHT5XLKnGujy9m/5BZR1HCaAnLw7t1pJgYaWvomoO4sYNk7ly92AVheaZKYr
+         /tsYHlv4zAJw5g0wM/aAEimBPXjCAmwxyZoaa3vDmXvfzd5xA6kHM1CemWqqWNTwaWUH
+         DXrw==
+X-Forwarded-Encrypted: i=1; AKwUvByXjD1I8UAWXZx3EKTBjCwkEK6yQR40T1vT7KzPI61x0ahdLUlrWPrkwu+3WAz7dq0O9sIt/sopbnKjWLg3Ug==@lists.linux.dev
+X-Gm-Message-State: AFuF++k4jj2lufwpfdPWVtj4qtqiVfozEHl7P9KXT/UN4Mbyyi5GHCrA
+	8P+0yw3R/DmvNvWxJNHrI0fK+Z2HU0EloSjY9rklSvKjzB7/y3crFOPO
+X-Gm-Gg: AYBFou1CO0CTRPRDEZmR8g441EOhOp7gph0pcQJEj0Ev7tUCu4RriooMNRaM4LtMaar
+	JH7bN5o+t4Z3mQWCM5G1mX1fSSiSsNxaQUppsEogPbyholCkcnojGdSnU7ip8s6ebZFp7G/kSMs
+	H1ljwvU5HtIYw178vxaxILZ7iIBHwchTh11cCsDhzb3WsJ6IeT11dEON79DhI+/5FzC5d1D65KM
+	8h7WQepxxkADNDpXOJ301NsGxKG+gsFIQffe70Gw/6SUvQKRGD/CZ/OZYg/izJzMp9U6Kcc3Rkb
+	kKYMIlnexsHTmld4+HjUS4JutdOs/dkDZ1/flPrOAbiPhIjtXZK2TKkqb2XD7fOt/GSNwYldNU+
+	Wb3NIxYgR8+hxQd/uNN2hCw2dN9jl8+NavfaENEzuQyIGZPOcMaa6ow3ZRKC3Co7t9RMufNvVX1
+	aYRELFMx3HMD2w666dxmZUnSY1aoTARlc7VIr4nuXEU1YW0Fr5iXOZ0hohY3G5jCGdCTN4ToeZX
+	7nNDjFBHEzq2jbC+6oZs8LPZELiBMQLDEzLvV6pLJ3XxL7+Cy2WlQEgwLkSoB9+L8s6J0N4w5nw
+	OFqgZ7ecJdwczNF6L76cK4S8r2KPK9cljeWqF/xbTb1sqzSN3HUcvh1vo3CKHuAA2hmqfGiYvFn
+	lNfwKUtRNnA4=
+X-Received: by 2002:a05:600c:3501:b0:49d:2562:d670 with SMTP id 5b1f17b1804b1-4a02757ab71mr17738425e9.14.1790897448522;
+        Thu, 01 Oct 2026 16:30:48 -0700 (PDT)
+Received: from MBP-von-Karl.localdomain (dynamic-2a02-3100-b3ca-3a01-3deb-81e4-0dc4-fbe8.310.pool.telefonica.de. [2a02:3100:b3ca:3a01:3deb:81e4:dc4:fbe8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03feed16bsm11717875e9.4.2026.10.01.16.30.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 16:30:47 -0700 (PDT)
+Date: Fri, 2 Oct 2026 01:30:45 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
+ transmit queue
+Message-ID: <ar7sTVun7mF-4nl6@gmail.com>
+References: <20260928064239.32456-1-kmehltretter@gmail.com>
+ <20260930192103.62973-2-kmehltretter@gmail.com>
+ <20261001074819.gQ3w8q6P@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260930162457.4ajVJ-Qa@linutronix.de>
+In-Reply-To: <20261001074819.gQ3w8q6P@linutronix.de>
 
-On 2026-09-30 18:24:59 [+0200], To netdev@vger.kernel.org wrote:
-> I played with it a bit. The first scheduling of the GC via
-> unix_schedule_gc() does not wait for its completion because it requires
+On Thu, Oct 01, 2026 at 09:48:19AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-09-30 21:21:02 [+0200], Karl Mehltretter wrote:
+> > netpoll_send_skb() calls __netpoll_send_skb() with hard interrupts
+> > disabled. When direct transmission cannot complete, the latter queues
+> > the skb with skb_queue_tail(). The sk_buff_head lock may sleep on
+> > PREEMPT_RT:
+> > 
+> >   BUG: sleeping function called from invalid context
+> >   in_atomic(): 0, irqs_disabled(): 1, non_block: 0
+> >   rt_spin_lock
+> >   skb_queue_tail
+> >   netpoll_send_skb
+> 
+> How is this possible? netpoll is only used by netconsole right? And this
+> is CON_NBCON so it only prints threaded. What is the missing piece?
+> 
 
-I have a few other data points from my play time:
-The "on the flight limit" is the FD limit. This one can be increased to
-the hardlimit by an ordinary user, so
-| $ ulimit -n 524288
+The call is from the NBCON printer thread, but netpoll_send_skb()
+explicitly disables hard interrupts around __netpoll_send_skb():
 
-next based on [0] socketpair() + sendmsg() in a loop until the FD limit
-is hit, and sleep.
-Before start of the program, "free -h" reported for used 667Mi. After it
-was done allocating (and not terminated) 3,1Gi.
+        local_irq_save(flags);
+        ret = __netpoll_send_skb(np, skb);
+        local_irq_restore(flags);
 
-I added a few trace_printk()s:
+When direct transmission cannot complete, __netpoll_send_skb() calls
+skb_queue_tail() before interrupts are restored. Its spinlock can sleep
+on PREEMPT_RT despite the caller being a thread.
 
---- a/net/unix/garbage.c
-+++ b/net/unix/garbage.c
-@@ -614,6 +614,7 @@ static void unix_gc(struct work_struct *work)
- 	WRITE_ONCE(gc_in_progress, true);
-=20
- 	spin_lock(&unix_gc_lock);
-+	trace_printk("Start\n");
-=20
- 	if (unix_graph_state =3D=3D UNIX_GRAPH_NOT_CYCLIC) {
- 		spin_unlock(&unix_gc_lock);
-@@ -627,6 +628,7 @@ static void unix_gc(struct work_struct *work)
- 	else
- 		unix_walk_scc(&hitlist);
-=20
-+	trace_printk("End\n");
- 	spin_unlock(&unix_gc_lock);
-=20
- 	skb_queue_walk(&hitlist, skb) {
-@@ -634,7 +636,9 @@ static void unix_gc(struct work_struct *work)
- 			UNIXCB(skb).fp->dead =3D true;
- 	}
-=20
-+	trace_printk("Purge %d\n", hitlist.qlen);
- 	__skb_queue_purge_reason(&hitlist, SKB_DROP_REASON_SOCKET_CLOSE);
-+	trace_printk("Purged\n");
- skip_gc:
- 	WRITE_ONCE(gc_in_progress, false);
- }
+The deferred skb is later handled by queue_process(), a workqueue
+callback. Its requeue path has the same IRQ-disabled locking:
 
-and after the program was done allocating:
+        local_irq_save(flags);
+        [...]
+        HARD_TX_LOCK(dev, txq, smp_processor_id());
+        if (netif_xmit_frozen_or_stopped(txq) ||
+            !dev_xmit_complete(netpoll_start_xmit(skb, dev, txq))) {
+                skb_queue_head(&npinfo->txq, skb);
+                HARD_TX_UNLOCK(dev, txq);
+                local_irq_restore(flags);
+                [...]
+        }
 
-|  kworker/u150:0-231     [021] ...1.  1046.960384: unix_gc: Start
-|  kworker/u150:0-231     [021] .B.1.  1046.991199: unix_gc: End
-|  kworker/u150:0-231     [021] .....  1046.991206: unix_gc: Purge 0
-|  kworker/u150:0-231     [021] .....  1046.991206: unix_gc: Purged
-
-~30ms to iterate over the lists, nothing to purge since everything is in
-use. This is what I mean, that flush_work() slows things down but does
-help. A deferred work would make sense just to throttle that gc.
-
-Now I trigged the OOM killer and saw:
-|  Tasks state (memory values in pages):
-|  [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgta=
-bles_bytes swapents oom_score_adj name
-|  [   2549]  1001  2549      643      431       24      407         0    4=
-5056        0             0 unix-fd-tc
-|  [   2365]  1001  2365     2172     1177       93     1084         0    5=
-3248        0           200 dbus-daemon
-|  oom-kill:constraint=3DCONSTRAINT_NONE,nodemask=3D(null),cpuset=3D/,mems_=
-allowed=3D0-1,global_oom,task_memcg=3D/user.slice/user-1001.slice/user@1001=
-=2Eservice/session.slice/dbus.service,task=3Ddbus-daemon,pid=3D2365,uid=3D1=
-001
-|  Out of memory: Killed process 2365 (dbus-daemon) total-vm:8688kB, anon-r=
-ss:372kB, file-rss:4336kB, shmem-rss:0kB, UID:1001 pgtables:52kB oom_score_=
-adj:200
-
-That "unix-fd-tc" program looks very thin (given that >2GiB are in use).
-But that is probably okay. I guess that the skbs are just accounted on
-the socket and I don't hit any limits here (maybe I should?).
-
-Now, killing that program, the memory remains occupied. A few seconds
-later a random close triggered the GC and then
-
-|  kworker/u143:2-2451    [030] ...1.  1066.959556: unix_gc: Start
-|  kworker/u143:2-2451    [030] ...1.  1066.989993: unix_gc: End
-|  kworker/u143:2-2451    [030] .....  1067.057696: unix_gc: Purge 524289
-|  kworker/u143:2-2451    [030] .l...  1067.705185: unix_gc: Purged
-
-again, 30ms to iterate and then free 524289 items took a bit but it was
-preemptible. After that `used' dropped back to 675Mi.
-
-I would argue that too_many_unix_fds() could use UNIX_INFLIGHT_SANE_USER
-or 2 * UNIX_INFLIGHT_SANE_USER as a hard limit. Having 1000 fd inflight
-for a user sounds insane high amount but there might be legitime
-use case=E2=80=A6
-
-[0] https://lore.kernel.org/all/ba4ed2717e5225b7b77ef928fb97ee5544632811.17=
-84712370.git.namcao@linutronix.de/
-
-Sebastian
+Thanks,
+Karl
