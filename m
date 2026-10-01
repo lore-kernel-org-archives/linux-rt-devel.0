@@ -1,59 +1,56 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50923D891B
-	for <linux-rt-devel@lists.linux.dev>; Thu,  1 Oct 2026 07:48:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441844A0EF5;
+	Thu,  1 Oct 2026 07:57:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790840904; cv=none; b=nvsA/iWUGkRD3SVyap0ZBpMymcWVfaZoX8XaQ91zO8sjPOq86EwTaFn6m6Qy/Vsi38+kyGxc9clQhROleDxBk20IuARamUw07bZGEmFmIwNgXk6U2ciMGfa/9tRm59tq0dA96DcON4MCC8q9pkqlI8pV5yPxBlsZS55UB1Mu7Co=
+	t=1790841479; cv=none; b=Oq8gYhQ1m1ItEG7keF+/4jRYW/UEdTDSV1RzzxbbxIbMp6DEkfw6hslAaOHlBbTitcUVjRUyhN67hQ7BnimdkRv+Z4eiA2Atif/VyAqdGJJWw3X9Fwbmf5gJLiqurK4WL3Q+x8kyvwUCu+Bidf73jsy3NnZn++PAu63L8PuoKLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790840904; c=relaxed/simple;
-	bh=yg69lzNJ3fZPhpDznbur/c3nxkH01CElVx8mElSsiJw=;
+	s=arc-20240116; t=1790841479; c=relaxed/simple;
+	bh=ly+BWC52sF/OYFXfYj6BaYppy1ieR0G9wlserb6IaFA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FYb5MhL6vji1m9MS+s1AoqmPsBE9PQcmTDxH1ZUfJgET5LFZIXpdn0otCZMszvnRRJlJBLFkSwGEBktHrYkrh9Tg7hZsVcTUnn3mtNpvtmotHLmhpZVaLRPrCwa7wpq1J34fKe28nUu4NFKf7Rjqy00GtNsyQ/il6/za5dqRawQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b8Xx7JPs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fOiUvp11; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=XMpCi774NVL8fKQIN3kgGu8Tijtt+Pq7FGTIZdrrlNts2U46Af+HWmZJtgFFN46KIB1UChZSvSpxL7V5aE59ZWRYUZuFl6ym/3wqoCBOiLGgi7jarRIHfRkrUId+vqhS/jvYYiXcMFIyJ2fpeg8mZltHUKdUbvB2EG6X6RcMkCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a2XN6vES; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fIWTvi4k; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b8Xx7JPs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fOiUvp11"
-Date: Thu, 1 Oct 2026 09:48:19 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a2XN6vES";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fIWTvi4k"
+Date: Thu, 1 Oct 2026 09:57:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1790840900;
+	s=2020; t=1790841476;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DARbdJqOEdFwsn0mY+WvbsESMHGkYUdCqPS/ZWhkTMo=;
-	b=b8Xx7JPsYj23mx4m/9nqC6bOz3OdUmJTOUKHN5qXNopGLpCJaLUjVeW+hJWlHIPQvKjco3
-	yOnbIIV+6/maa/pqONei53cykAcjSuJ8bI9ItjpslFkYLoXKBFrYgDT+/jNur2KXnqTXSI
-	nKhMmLeMEP27o/X9mlzFP+gNwf6G16memsVblYktS5CIUZYVyhBKTZceXEnbS1i6frjg/U
-	tSq4BIWkxkgbEacw+82FZ8cZ5cA/LwXvvXUoICxY6plrEexfX0YHJ0AOp3IsX2yAz+cZNK
-	o+NgGt2fvhk9o7UrxCVSYQDa7qWrdKnOMugdCoNjwyF9jMEq9/bz/E7PSvB2oA==
+	bh=M6T3x2RxWtqqk+wcudz6NNG13H0Pe7ygwHg54hjQ92w=;
+	b=a2XN6vEStkiFi4QOi2f58GVZzy5OQFXqqk7Ju2BKHLVRY2zZHPoryFCiT2qC/UMIjSahtI
+	1AZ2vscsoD9mRcAaXOBlO+PZOnq+861nS3Jk9nQ0/TcGn2xdVtW+qFDR2uqu7aRcvsYdX8
+	DWEsRikHHEZ+nzdqtMJaYQ3tWulAFjJzwrhZH2S8lNC0cvUmNXvZGvxlTJwUwKypOTWZNf
+	5rJHxIu7LYme0UGvq2cni+sfzkQ/FpuTv9j1e4jqx7YH2zPJcnNtyqCfVik72AjHd0sRLT
+	ZXg3oOg3HnKCho6rnZGsUfqmwCMbIMI8PBGw8fLja4uw0sRuQK3zfPS4BDuZNw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1790840900;
+	s=2020e; t=1790841476;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DARbdJqOEdFwsn0mY+WvbsESMHGkYUdCqPS/ZWhkTMo=;
-	b=fOiUvp11GFAv3NdAykr5PrAEjCub4Jwh4Enps6OLUsuBjRlxe9OnMRlcoxLcrHKimJsuV2
-	lS1cKx2WulVA/0AA==
+	bh=M6T3x2RxWtqqk+wcudz6NNG13H0Pe7ygwHg54hjQ92w=;
+	b=fIWTvi4kPkbBnrdPPo1dRokyr6OevCik1PKF0bbmV08CTQ5B5bFH2eyO9zqbURz5QiDFaE
+	u2jhQdhydAKjVPCQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+Cc: linux-wireless@vger.kernel.org,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
- transmit queue
-Message-ID: <20261001074819.gQ3w8q6P@linutronix.de>
-References: <20260928064239.32456-1-kmehltretter@gmail.com>
- <20260930192103.62973-2-kmehltretter@gmail.com>
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
+ context
+Message-ID: <20261001075755.3MilPS2C@linutronix.de>
+References: <20260930185417.61865-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,32 +59,37 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260930192103.62973-2-kmehltretter@gmail.com>
+In-Reply-To: <20260930185417.61865-1-kmehltretter@gmail.com>
 
-On 2026-09-30 21:21:02 [+0200], Karl Mehltretter wrote:
-> netpoll_send_skb() calls __netpoll_send_skb() with hard interrupts
-> disabled. When direct transmission cannot complete, the latter queues
-> the skb with skb_queue_tail(). The sk_buff_head lock may sleep on
-> PREEMPT_RT:
+On 2026-09-30 20:54:17 [+0200], Karl Mehltretter wrote:
+> With the default fcmode=0, netpoll calls ndo_start_xmit() with hard
+> interrupts disabled and reaches brcmf_sdio_bus_txdata() directly. The
+> function takes txq_lock with spin_lock_bh(), and the queue helper takes
+> the embedded sk_buff_head lock. These locks may sleep on PREEMPT_RT.
+> On non-RT, spin_unlock_bh() can run pending networking softirqs before
+> netpoll releases the transmit lock, causing a recursive transmit
+> deadlock.
 > 
->   BUG: sleeping function called from invalid context
->   in_atomic(): 0, irqs_disabled(): 1, non_block: 0
->   rt_spin_lock
->   skb_queue_tail
->   netpoll_send_skb
+> Use spin_trylock() for IRQ-disabled calls and enqueue with the unlocked
+> skb helper while holding txq_lock. On PREEMPT_RT, reject hard IRQ and NMI
+> callers, where rt-spinlocks cannot be acquired. If the lock is busy or
+> the queue is full, return through the existing drop path. Do not evict an
+> older packet from this context. Suppress the queue-full printk because
+> netconsole can recursively enter this path.
+> 
+> The flow-control callback takes another spinlock, so defer it when an
+> IRQ-disabled enqueue reaches TXHI. The data worker rechecks the bus state
+> and queue length under txq_lock before stopping the queue. Existing TXLOW
+> handling wakes the queue after it drains.
+> 
+> This fixes the direct SDIO transmit path used by fcmode=0. Modes 1 and 2
+> take the FWS lock first and need a separate change.
 
-How is this possible? netpoll is only used by netconsole right? And this
-is CON_NBCON so it only prints threaded. What is the missing piece?
+Is this the only affected driver?
+Do you have maybe a backtrace?
 
-> The delayed transmit worker has the same problem when it requeues a busy
-> skb with skb_queue_head() after disabling interrupts.
-> 
-> Add a dedicated raw spinlock and use the unlocked skb queue helpers under
-> it. Keep raw critical sections limited to queue operations. During
-> cleanup, splice the queue to a private list before freeing its skbs.
-> 
-> Fixes: b6cd27ed3388 ("netpoll per device txq")
-> Cc: stable@vger.kernel.org # 6.12+
+> Fixes: ac3d9dd034e5 ("netpoll: make ndo_poll_controller() optional")
+> Cc: stable@vger.kernel.org
 > Assisted-by: LLM
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
