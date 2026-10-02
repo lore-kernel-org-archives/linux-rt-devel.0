@@ -1,134 +1,205 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544274D4895;
-	Fri,  2 Oct 2026 17:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEB383A16AC
+	for <linux-rt-devel@lists.linux.dev>; Fri,  2 Oct 2026 19:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961777; cv=none; b=JI6JD4SUgPFwsrclTJmWX8oAv8FHU1p8sUm7Zs0nK+L7GhYyDhUcpqEzzGIEdBBlRmTybciM6HlajZ2jnJs4G0YdXK7Oc1e8GN4t10ILHr3LST7E2xRRVcEcQwFpJ+oB1KS2W5BazOFoRTnHTGsdr1Odd6yRfpvfBrg/SPibzns=
+	t=1790967819; cv=none; b=HePJig6+BNjsDRzx3G/qZi3xoj3SQSPel0jf4G447Q16V+AbhHLvf49i1bEolxcLmIWpVkflMlEd+0BsstLvCERP2395tIvafFMdaQib9kb5/3KIOfnXEZgQdq9C/x30ehlmWYSSIftaAoEvsm5d0+yxY+yYBSKZx88RDWRWSt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961777; c=relaxed/simple;
-	bh=YV1fKXXlbrVEfg5rJqDQn8ml/2AWIsJ5rBnjXuO+yQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GiImdys0cvaRmY8q0RhB8rTLs3TSYSYU7ziOKqi1xocEfyID8GWdz4/ZKZDsRrngoU/rV+XqsEDpdawX94ntRj4pftMc/Vdt8I65KVasvyVWvr3pazttqUTIlXmtBtihLZKaqPPugjedGGnT7HhikNa59A1lCpuUADJUrdIsyCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=anuOlyj4; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1790967819; c=relaxed/simple;
+	bh=TbnVt3gQWmpcMUUHHajzpHckoRHYF737sR5u33zz6ek=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WD3p0Z2fQvGFKH1BNrVLxrVPBM4ePbgWrmZS/S0gnzNlP0jmrYtudIqJzoMiGoP5BkZ8MYP1dA1FVSk1uYqVY3C8hJN5h8VjGs/nyFxIBloJ6sQE1DsPTy32oGNXQ0qy9aJVxlc5aAvLf0S9QgTbHS5KSLoNIafVb5kEuN9Lx3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jWixvWMS; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="anuOlyj4"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jWixvWMS"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F8E11476;
-	Fri,  2 Oct 2026 10:22:47 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D64142F;
+	Fri,  2 Oct 2026 12:03:33 -0700 (PDT)
 Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 412C43F85F;
-	Fri,  2 Oct 2026 10:22:50 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 400513F85F;
+	Fri,  2 Oct 2026 12:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790961771; bh=YV1fKXXlbrVEfg5rJqDQn8ml/2AWIsJ5rBnjXuO+yQk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=anuOlyj4w7vvlNbQeAHudLgHTr+uuwN88+w9QXN87X6poDNv5/zb8dnNKju7JT/pc
-	 hVr/b6srJCTTiRfidK+3uz/EOFXIdmGWMc7TWAYaBr1/+HHxJZrg+AAOGz8X80Yo9+
-	 wh3gT7I54GCLgYcoAA1H0gBVoZu65kPZh+h+JOCk=
-Date: Fri, 2 Oct 2026 18:22:48 +0100
+	t=1790967817; bh=TbnVt3gQWmpcMUUHHajzpHckoRHYF737sR5u33zz6ek=;
+	h=From:Subject:Date:To:Cc:From;
+	b=jWixvWMSQPprN4sDVPjylBBh9xxN+fGM4CMWg+dngp8op8RPklL+hjpGHySgOFIZR
+	 NQYhoAM6dgDnNfPeMAMKzNwzT91riT+Sjln7YBHwCLi6tfjhEXjStm4YLx58H2fHEz
+	 MxK9NdKLMw69ej719T258THTalBSVG8P4maHrb3M=
 From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v12 03/14] coresight: etm3x: prohibit modifying cntr_val
- and reset while session is enabled
-Message-ID: <ar_oaMevzmxSxNwN@e129823.arm.com>
-References: <20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com>
- <20260924-separate_etm_cfg_v2-v12-3-a2b41d2f7c2b@arm.com>
- <20260924175814.9AFC01F000FF@smtp.kernel.org>
+Subject: [PATCH v13 00/14] fix several inconsistencies with sysfs
+ configuration in etmX
+Date: Fri, 02 Oct 2026 20:03:21 +0100
+Message-Id: <20261002-separate_etm_cfg_v2-v13-0-fe429d8d96fb@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260924175814.9AFC01F000FF@smtp.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPn/v2oC/33NywqDMBAF0F+RrJvijMZoV/2PUiRPzcIHiUiL+
+ O+NbioFu7yXuWcWEox3JpBbshBvZhfc0McA2SUhqhV9Y6jTsSCYYpFWADSYUXgxmdpMXa1sU89
+ IMwalgKJU0loSl6M31r129vGMuXVhGvx7/zJDutX/wXhEUwqSA9MVq5CLu/DdVQ0d2bwZ4GiwE
+ wOioVEiKzUDnvMfAw8G5icGRkOgzEGj5Qrl11jX9QM+ylotPwEAAA==
+To: Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, 
+ Leo Yan <leo.yan@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, coresight@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Yeoreum Yun <yeoreum.yun@arm.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5779; i=yeoreum.yun@arm.com;
+ h=from:subject:message-id; bh=TbnVt3gQWmpcMUUHHajzpHckoRHYF737sR5u33zz6ek=;
+ b=owEB7QES/pANAwAKAW3Vw9FaxTEzAcsmYgBqv///eNenjJHKMCxTJOH7tptKpRUK4ca1T6/DG
+ bxCtbP/rNuJAbMEAAEKAB0WIQQtg+CS3QUzuFh1pJ1t1cPRWsUxMwUCar///wAKCRBt1cPRWsUx
+ M1MNDACKezudDcFRYbvFgi6Eur4LQmQY7SHC1Dxl44XhkeY0RQ32j2VUFP7JCAZLyMgMLVQ/uFf
+ jqvZAoD1osyZGwga9NPkoGMbzgMnYhu4dAKNHpSSOZtePCwQMhS6YgAKxxsG5Koqlq+LeLT25PN
+ q7RwdZnlM1Z9hXaHf8qJpBY64N65w3SUTqkYRvYdSOMC+oA10/sAN+xGDXDTbapC4lRqNclazdh
+ K/zI8Ft8IkTABtaLEjApfhUxvU+AMUunL9qqa+ZkqUFiioFM0rp+bpDLzysTehSVdt0qBQphBSD
+ 6qhinJPNtoqIw7RFS35jQXQPEVvTRtK9Ld+FXh3RZ4kpkY/RKv/TsTWo/G2sUcxfA6RvPfIxNlp
+ pALWTINtbD3MyyGWycksG55Qa7r0Shq/z53kqLoUbUwI8s2yLU54XWGMnlOuePT2ONr0HgWMjDP
+ mPvggbGMrZd9vq6FQTosiUdEdCdb3DrxzMI1pIN6vbF5pSB1+/3iRWhgpLJ9LMj2hui/Q=
+X-Developer-Key: i=yeoreum.yun@arm.com; a=openpgp;
+ fpr=2D83E092DD0533B85875A49D6DD5C3D15AC53133
 
-On Thu, Sep 24, 2026 at 05:58:14PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] coresight: TOCTOU race bypasses session-enabled check in sysfs stores
-> --
-> 
-> commit 0c7e96565d9330c7133fb31d646be9050f666c48
-> Author: Yeoreum Yun <yeoreum.yun@arm.com>
-> 
-> coresight: etm3x: prohibit modifying cntr_val and reset while session is enabled
-> 
-> This commit prevents cntr_val and reset from being modified while a
-> Coresight ETM session is enabled. Changes to cntr_val would be lost when
-> the session is disabled, and reset should not be invoked during an active
-> session.
-> 
-> > diff --git a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
-> > index b3c67e96a82a4..cdb70a4382eb8 100644
-> > --- a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
-> > +++ b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
-> > @@ -75,6 +75,10 @@ static ssize_t reset_store(struct device *dev,
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	if (IS_ERR_OR_NULL(drvdata->csdev) ||
-> > +	    coresight_get_mode(drvdata->csdev))
-> > +		return -EBUSY;
-> > +
-> 
-> [Severity: Medium]
-> Is there a race condition here since the mode check happens outside the
-> spinlock?
-> 
-> If thread A executes this check and sees the mode is disabled, thread B
-> could then enable tracing (acquiring drvdata->spinlock, applying config to
-> hardware, and updating the mode). 
-> 
-> When thread A proceeds, it will acquire the spinlock and zero the
-> configuration while the hardware is actively using it. When thread B later
-> disables tracing, it would partially overwrite the zeroed configuration with
-> hardware register values.
-> 
-> Should the coresight_get_mode() check be moved inside the spinlock to
-> prevent this time-of-check to time-of-use race?
+The current ETMx configuration via sysfs can lead to the following
+inconsistencies:
 
-TBH, reset interface seems awful and the same problem already pre-exists.
-But this kinda was relief we don't think user wouldn't try to enable
-before finishing the reset and return its result.
+  - If a configuration is modified via sysfs while a perf session is
+    active, the running configuration may differ between before
+    a sched-out and after a subsequent sched-in.
 
-So this is ignorable.
+  - If a perf session and sysfs session tries to enable concurrently,
+    configuration from configfs could be corrupted (etm4).
 
-> 
-> >  	if (val) {
-> >  		spin_lock(&drvdata->spinlock);
-> >  		memset(config, 0, sizeof(struct etm_config));
-> 
-> [ ... ]
-> 
-> > @@ -744,6 +748,9 @@ static ssize_t cntr_val_store(struct device *dev,
-> >  	ret = kstrtoul(buf, 16, &val);
-> >  	if (ret)
-> >  		return ret;
-> > +	if (IS_ERR_OR_NULL(drvdata->csdev) ||
-> > +	    coresight_get_mode(drvdata->csdev))
-> > +		return -EBUSY;
-> 
-> [Severity: Medium]
-> Does this have the same vulnerability as reset_store()?
-> 
-> The configuration could be corrupted if tracing is enabled by another thread
-> immediately after coresight_get_mode() returns but before the spinlock is
-> acquired.
-> 
-> >  
-> >  	spin_lock(&drvdata->spinlock);
-> >  	config->cntr_val[config->cntr_idx] = val;
+  - There is chance to corrupt drvdata->config if perf session tries
+    to enabled among handling cscfg_csdev_disable_active_config()
+    in etm4_disable_sysfs() (etm4).
 
-Same above and others
+To resolve these inconsistencies, the configuration should be separated into:
 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com?part=3
+  - curr_config, which is applied configuration for the current session
+  - config, which stores the settings configured via sysfs.
 
+and apply configuration from configfs after taking a mode.
+
+Patch History
+=============
+from v12 to v13:
+  - add r-b tags
+  - Link to v12: https://lore.kernel.org/r/20260924-separate_etm_cfg_v2-v12-0-a2b41d2f7c2b@arm.com
+
+from v11 to v12:
+  - rename active_config to curr_config.
+  - rename config to sysfs_config.
+  - remove redundant config argument in etmX_args.
+  - add read-back and copy from curr_config to sysfs_config TRCSEQSTR
+    (seq_state).
+  - add r-b and t-b tags.
+  - Link to v11: https://lore.kernel.org/r/20260915-separate_etm_cfg_v2-v11-0-d2b258d51747@arm.com
+
+from v10 to v11:
+  - replace direct register read from etm3 sysfs with IPI.
+  - fix issue cntr_val and others field which required to be shown after
+    sysfs session disable.
+  - prohibit the write for some etm3 sysfs while sysfs session is
+    enabled.
+  - drop locktype change in etm3
+  - Link to v10: https://lore.kernel.org/r/20260911-separate_etm_cfg_v2-v10-0-1b715d95927a@arm.com
+
+from v9 to v10:
+  - rebase to coresight/next
+  - https://lore.kernel.org/all/20260725113645.57519-1-yeoreum.yun@arm.com/
+
+from v8 to v9:
+  - add feat_csdev_lock guard interface.
+  - set feat_csdev->drv_spinlock as NULL for etmv4_drvdata.
+  - https://lore.kernel.org/all/20260629090007.1718746-1-yeoreum.yun@arm.com/
+
+from v7 to v8:
+  - accept @Leo Yan' suggestion to handle error.
+  - small minor fixes following @Suzuki' suggestion.
+  - https://lore.kernel.org/all/20260519154812.254884-1-yeoreum.yun@arm.com/
+
+from v6 to v7:
+  - rebase on coresight/next
+  - add ETM_MAX_SEQ_TRANSITIONS define
+  - remove redundant patch relavent cpu-hotplug as coresight-pm patch
+    merged.
+  - https://lore.kernel.org/all/20260422132203.977549-1-yeoreum.yun@arm.com/
+
+from v5 to v6:
+  - fix missing of calling cscfg_csdev_disable_active_config()
+  - add rb & fixes tags.
+  - add ss_status field in etm4x_drvdata to expose STATUS and PENDING bits.
+  - https://lore.kernel.org/all/20260415165528.3369607-1-yeoreum.yun@arm.com/
+
+from v4 to v5:
+  - add rb-tag.
+  - fix underflow issue for nrseqstate.
+  - fix wrong check in etm4_sspcicrn_present().
+  - remove redundant fields on etmv4_save_state.
+  - rename caps->ss_status to ss_cmp.
+  - fix wrong location of etm4_release_trace_id.
+  - https://lore.kernel.org/all/20260413142003.3549310-1-yeoreum.yun@arm.com/
+
+from v3 to v4:
+  - change etm_drvdata->spinlock type to raw_spin_lock_t
+  - remove redundant call etmX_enable_hw() with starting_cpu() callsback.
+  - fix missing trace id release.
+  - add missing docs.
+  - https://lore.kernel.org/all/20260412175506.412301-1-yeoreum.yun@arm.com/
+
+from v2 to v3:
+  - fix build error for etm3x.
+  - fix checkpatch warning.
+  - https://lore.kernel.org/all/20260410074310.2693385-1-yeoreum.yun@arm.com/
+
+from v1 to v2
+  - rebased to v7.0-rc7.
+  - introduce etmX_caps structure to save etmX's capabilities.
+  - remove ss_status from etmv4_config.
+  - modify active_config after taking a mode (perf/sysfs).
+  - https://lore.kernel.org/all/20260317181705.2456271-1-yeoreum.yun@arm.com/
+
+---
+Yeoreum Yun (14):
+      coresight: etm4x: read-back TRCSEQSTR at disabling and prohibit modifying seq_state while enabling.
+      coresight: etm4x: prohibit modifying cntr_val while session is enabled
+      coresight: etm3x: prohibit modifying cntr_val and reset while session is enabled
+      coresight: etm4x: fix inconsistencies with sysfs configuration
+      coresight: etm3x: fix inconsistencies with sysfs configuration
+      coresight: etm3x: remove redundant cpu online check on etm_enable_sysfs()
+      coresight: etm4x: introduce struct etm4_caps
+      coresight: etm4x: exclude ss_status from drvdata->config
+      coresight: etm4x: remove s_ex_level from config
+      coresight: etm4x: rename local config as curr_config referring drvdata->curr_config
+      coresight: etm4x: rename drvdata->config to sysfs_config
+      coresight: etm3x: introduce struct etm_caps
+      coresight: etm3x: rename local config as curr_config referring drvdata->curr_config
+      coresight: etm3x: rename drvdata->config to sysfs_config
+
+ drivers/hwtracing/coresight/coresight-config.c     |  18 +-
+ drivers/hwtracing/coresight/coresight-config.h     |  22 +
+ drivers/hwtracing/coresight/coresight-etm.h        |  48 +-
+ drivers/hwtracing/coresight/coresight-etm3x-core.c | 196 +++--
+ .../hwtracing/coresight/coresight-etm3x-sysfs.c    | 461 +++++-----
+ drivers/hwtracing/coresight/coresight-etm4x-cfg.c  |  14 +-
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 567 ++++++------
+ .../hwtracing/coresight/coresight-etm4x-sysfs.c    | 961 +++++++++++----------
+ drivers/hwtracing/coresight/coresight-etm4x.h      | 199 +++--
+ 9 files changed, 1340 insertions(+), 1146 deletions(-)
+---
+base-commit: a3281934612608db9e1d24aaf913c846e913de89
+change-id: 20260911-separate_etm_cfg_v2-3518a168cbff
+
+Best regards,
 -- 
 Sincerely,
 Yeoreum Yun
+
