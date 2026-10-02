@@ -1,105 +1,136 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC1522D785
-	for <linux-rt-devel@lists.linux.dev>; Fri,  2 Oct 2026 00:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB92628B4E2;
+	Fri,  2 Oct 2026 04:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790900250; cv=none; b=ZaqzL9LPynBxiYEWOmVDKNIiLsv/+/pBmK2Dhxn77WMABXUbYzATWPc1lzNRSnhDMqGgr29yZPJteFEMhcAURkcOm4nxRzao0niLm0Oa7N9EGcIj9MQiB/QxSsRnGwvJdNF+yW9uI6LNo3of6zY4eEL1gowmDMmCBSFwzbg7roM=
+	t=1790916329; cv=none; b=Yq/Ec+OWEU0Tu9O8211DAtGin8wwnyMGDU2s27n5o8hc9VDSLwsNyKAs3WUjMjhtEOHtcBFrHZOBj8JehX0rn+M5DC/VmVqtTKalZQ2yvCSLphetXNxElK1t8bjJmqAk9csYVgjVXfuhB1OHCBcDXdzcoR1f2GCOTU4nICzu4jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790900250; c=relaxed/simple;
-	bh=uU8ecgL9bHXX7U2HdHoZ1solGVk0L+qo7jnXMGu7ZxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PXAaw96FBnxDfTaWPBtZmg57IpCxS7VlG6NugJhcxMLmgwPinoh1mK5Dr4pHQQlgsHp68NUm6+Fiux54kho+QUUmxaybhk1GA6EhkM7gHYtzx2BcLI5G98wS4V3wpkU6O8051M5dPBbDeRNycdBJpbqwy19IPSaFHLMYCWwMYBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X9bgi02+; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790916329; c=relaxed/simple;
+	bh=wyAORYeusP4vcptey9/n2NPgydi9/Gw5lAe0phtrrvg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RoRHws6PKxOPRJniEBpygCnTUZbHr5rlhyAJ/fmhherkZJW0bBU+6V8OVfRfYFUviv0ZrSf2EdbJyOxUO3tMzEsccdueURb3el5Q/NtY3nXroYeKnpxLGv3F45BNkLM6OPm16L3X9puJygFYrf75GDfU+vxgFRXSXnJcB1kUMWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=c5RRVgnq; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9bgi02+"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a00d8bec5aso22428045e9.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 01 Oct 2026 17:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790900247; x=1791505047; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=px+/xLsiECPGLRTHgt+4dAM3tfLMzLHXRYmynoZyTdo=;
-        b=X9bgi02+zBRPMLwbCodpjB/MhszRqqK74irP1iWpu0fEI/gCC8NZa1ze6zv+ixep17
-         aI5VbLrFmizmLJNI9S5d9Sm6uPEBlC/GThEhIuaMQDnfjh6ZNIwhlkvHNNrOzaw3txLq
-         kMymuVQypx3ejtf9LHrZjMq3dYkhprBqvhZzmL+y8lpF/90PcIKyWOpecmx3SH95id5F
-         2JI8f10sgSFs25BnX3IDSwcwwPfJCCvBxG5xzHgCugGRVFtQ+XVcJoWckxRb8wu3c5uT
-         OO5I6Bco8ktQr7ntNgAQa8xV2mFAs43PR6WtHTg75Wdu+ao5SywKzjfQwrtsifln90Qu
-         SdiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790900247; x=1791505047;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=px+/xLsiECPGLRTHgt+4dAM3tfLMzLHXRYmynoZyTdo=;
-        b=CjS+3Uan9vX3pz3jme/RAbPbPgjn5lrMSopLaNApC0O52lZXnT4eFPruUoDlTUTsvP
-         uyjthvCBfNgDh9v8pW62ylOy91/PzIBwfqLDdEkpfO37ZKgW+VAZeoVXS+kjRB2Ii08m
-         V6DXCWNgXqf7vfuFIMWR5N4mWkHu7czvQyFs2SPOF2PBORHnpm59QBgSB8Zfc5v45AdP
-         Emikg37o5Uq+7T5RShhg1bjDlFdmvzaGIiQmyRp3EjEMKPvd4IHyEzDt1L7PLXoI/WvF
-         j808ymbHiAqj7yNK7d4o0xkoeulAmNsQ06syeOh6FUKn0KP4sSHhXEZIfpf5SJRu/GMj
-         08gA==
-X-Forwarded-Encrypted: i=1; AKwUvBwGrrUN+wdT+BH39UtMlM8v49e0Ic8Ccu1/qNQQF1eLevKZj6irLODkBjOZ1JozTvJK4Rgy1GsnlvmH+OQM7w==@lists.linux.dev
-X-Gm-Message-State: AFuF++n41IR+j7LM11OQDEibqDqIVYjpzQnGzZmpziNd6TrETId3G3Qi
-	GMOl5VskePbbOEikYeC2Etc0bY7AFhWxZIKjF6AnJgJERyhAXBqm6tn3
-X-Gm-Gg: AYBFou05aIj4A/Ya3Js9cUmdDauiJpuzpFncXaD6kgZ12DePcZF1kd91Ur7D5+yHnAQ
-	YjFCHsFYHNJb7PBZMB5gWrXCLavCCL60Kcq/ap84miL/NdIcuLSCjphxRVrxyqEb+eG9IjecN6d
-	49/OZ+bYrD5jJP4wcykrnp1dqJLLlK4Ryr9nJayIh/4q3erIQBZfPBnDVwBu4eaTJb5JGOp29Dr
-	K3yfErlN0qlelPOpB5rhg/Eo2G4POs43/INV1VvOEA4bFc0zzxxPJ0+zSu7+ID0pZzxzqaATQzU
-	efdf31xp4UIEt/iUe6kMEnt5c0ZMkkVPJ/2bG34IcXiOF6TAIV0Ei/j0oMaHqRFoEAAk4PsyqgS
-	YCRshkeqGc9RtdinNIBeYjXxs69xZj05FBAR1BDDFVASQpLizQ2Us3jp/ZKmQQbFENRUGoFaTNe
-	aghLkrHiY5UeC+k+Ig+cACTpl4s0sbTuE5zoOodoy7iwy72+9U2L9iUTZgQw6PBtox+262Lnskk
-	DtOQhRNdc8MHpe9G1zbiLS39S4Xq3RXUdwFoaPuQGIOn5uNcGoE1XtTvYm2aiur/u98j6nEDKjL
-	V5wP6Ek+LmqTPCTkQaE/AN15R75+J19u3QYNpmXIa+stBNFFZuy+Kt5UOr6Uns5uoAI51MzmFmD
-	9xMhKzF9ibmLSi6yNkDPi
-X-Received: by 2002:a05:600c:45d3:b0:49c:fc6e:a3e1 with SMTP id 5b1f17b1804b1-4a0276f556emr18772095e9.32.1790900247466;
-        Thu, 01 Oct 2026 17:17:27 -0700 (PDT)
-Received: from MBP-von-Karl.localdomain (dynamic-2a02-3100-b3ca-3a01-3deb-81e4-0dc4-fbe8.310.pool.telefonica.de. [2a02:3100:b3ca:3a01:3deb:81e4:dc4:fbe8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03048abc9sm7487875e9.0.2026.10.01.17.17.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 17:17:26 -0700 (PDT)
-Date: Fri, 2 Oct 2026 02:17:24 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Stephen Hemminger <stephen@networkplumber.org>, 
-	Arend van Spriel <arend.vanspriel@broadcom.com>, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
- transmit queue
-Message-ID: <ar73Oi6r__PY-RE1@gmail.com>
-References: <20260928064239.32456-1-kmehltretter@gmail.com>
- <20260930192103.62973-2-kmehltretter@gmail.com>
- <20261001164355.212c8ce9@kernel.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="c5RRVgnq"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6922ZUxa1680368;
+	Fri, 2 Oct 2026 04:44:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=98Wq12
+	iIlaIraiVSCF0jeRQmWRURkESi4objlUGIYfQ=; b=c5RRVgnqbtU4LjUDFWU0iQ
+	Hww3dMcTWV1YiRHd8g6woW1i5QIv6hLvN3pMSHoSeDQNaCNuAfU9FSQMYxy7U/g2
+	QAmDcFkmDtufWs3FTkXGlS4zqM2kyEumqIRC7njcEI9oyzlEi00hmkrZKyg7l0ck
+	amovJtZc0Iwx6kpaxkHF4R+XLCcOQxKc2kYeCr3KdUTox/Aak+zdXXWWFsSSDftl
+	F8bVbGZvCaE5Hreqkoe0xq8opP2XacktCTLb8Ncx0/s9vTvkTNHp174YQUzD/NxK
+	cc3070aif4h/b2n0U0RvkujGYcevZUWxNIRYvn//RBxCs6235NouD0MT8QVQsMHw
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx5qrqe8p-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 02 Oct 2026 04:44:57 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6922KDs81834253;
+	Fri, 2 Oct 2026 04:44:56 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4h1y2dhagc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Oct 2026 04:44:56 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6924isI147776040
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 2 Oct 2026 04:44:54 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43AD320043;
+	Fri,  2 Oct 2026 04:44:54 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6836420040;
+	Fri,  2 Oct 2026 04:44:52 +0000 (GMT)
+Received: from [9.124.216.180] (unknown [9.124.216.180])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  2 Oct 2026 04:44:52 +0000 (GMT)
+Message-ID: <37b02446-1e54-4ea1-9532-11056053de6c@linux.ibm.com>
+Date: Fri, 2 Oct 2026 10:14:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261001164355.212c8ce9@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ANNOUNCE] v7.3-rc4-rt1
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Maarten Lankhorst <dev@lankhorst.se>
+References: <20260922144152.x2J3_tNz@linutronix.de>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20260922144152.x2J3_tNz@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDAxOCBTYWx0ZWRfX6rzjqGf53FZd
+ BwACgFfzH0XWOQ2PQ3+HvyVzlFKnsPbCcmx018kMQMCWQfGfVryMiezZqwm7N1ov6+niYKN8yLG
+ eSmCWJQWoXOX2JEsFS5GnGXjOeuJ85beHSznYpTFoMuX/KPQVslympCCRLEWbwWiintmiMvLL/T
+ IniQOAtuI2ykDXibyry2BQl9wx8LxeRR8SjQ+0KP/bWQZ6ZpTeGgnn4C9pcWEtd3AHVLoiPIwqn
+ m6cW3ZQrOg2NsU4OelWnsend96TypV+EHtvlz3RhDfcsZt0Kuuwu/6biiTHWjVCZrdET6tFHwq7
+ FersjydK66r9chj8JwVsJRLmNxkGxLj0ZMiZ0sksi7F0UQlPI+sHcH5TMfmv6T0QWAwisbd1aPE
+ PSvBO2o0IlU7VfKz6AgnGertX61WYRQ7G383O8XY+Qdkn3Kz1Kj72fAOv8798rO2KtXTCmelguO
+ B1Mk3449ig+6hJZfOvg==
+X-Authority-Analysis: v=2.4 cv=SPbXx+vH c=1 sm=1 tr=0 ts=6abf36c9 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=DQibb4ZKopN1BLnJEHUA:9
+ a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+X-Proofpoint-ORIG-GUID: vQvH7_aSxS0iulhrs5hhgItPoqTZXnUb
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDAxOCBTYWx0ZWRfX2uls8LkMKnIS
+ aXfK1eY4jV7tV/LvWWrAPl58nqxqGIfWLmSQOpWCX+DQA4DNXxHLcyfH+j3kJjvPrFWqBH/md8/
+ dcpjo2u9qNuQIsWGf4ETKIDiq3vOrBU=
+X-Proofpoint-GUID: vQvH7_aSxS0iulhrs5hhgItPoqTZXnUb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-02_01,2026-10-01_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 spamscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2610020018
 
-On Thu, Oct 01, 2026 at 04:43:55PM +0100, Jakub Kicinski wrote:
-> On Wed, 30 Sep 2026 21:21:02 +0200 Karl Mehltretter wrote:
-> > Fixes: b6cd27ed3388 ("netpoll per device txq")
-> > Cc: stable@vger.kernel.org # 6.12+
-> > Assisted-by: LLM
+
+
+On 9/22/26 8:11 PM, Sebastian Andrzej Siewior wrote:
+> Dear RT folks!
 > 
-> This slop is definitely not a fix.
-> It never worked, it's net-next at best, no fixes tags
+> I'm pleased to announce the v7.3-rc4-rt1 patch set.
+> 
+> Changes since v7.2-rt5:
+> 
+>    - Rebase to v7.3-rc4
+> 
+> The printk related changes are all gone. What is left in the queue is
+> PowerPC, i915 and a sysfs file:
+> - PowerPC
+>    Some progress has been made. What is left is a pseries related MMU
+>    change, a patch dropping KVM_MPIC (which is e500 only) and a stack
+>    protector related workaround.
+>    The stack protector workaround might work with a different fix since
+>    only arch/powerpc is using boot_init_stack_canary().
+> 
 
-Good point. I'll drop Fixes and stable and retarget the series to
-net-next. 
+Thanks Sebastian.
 
-But first I'll wait for input from Sebastian and others.
+It is nice to see a little progress has been made atleast.
+But it was mostly my mistake that I couldn't get time to work on it.
 
-Thanks,
-Karl
+Let me see if we can atleast get these ppc patches upstream.
+Most seems sensible to me.
+
+But then would come heavy lifting on function and performance verification.
+That's a different beast altogether.
