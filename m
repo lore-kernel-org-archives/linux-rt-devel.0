@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DBFF344DAA
-	for <linux-rt-devel@lists.linux.dev>; Sat,  3 Oct 2026 06:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E6AA378D8B
+	for <linux-rt-devel@lists.linux.dev>; Sat,  3 Oct 2026 06:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791007674; cv=none; b=kNX3cfAWPxPBZf6LiHdSp34Acb/p1f7oQa5nKLjzBNhutY1juoem0Ex+NtSUg1fvZ9MPb1v/N8VE9ULfkKsIaSrPW1uVgAqhtE94Bhxc4ITZm+pskl0oWR3sdld4L64g/xU2xHbliFniptN3//LwzpFKyE51mBmoMLHbqGU1UmI=
+	t=1791007810; cv=none; b=tO/XBzD3Ua7tmeC+6nGbm9X7GfME4X/w17sT+256JcLroRvIqNNbYdEPvJxM3RgNc1DJ2KPQfPQRtUIDgCieDswbYHu16TnVtA6kD0T1rzBUoSI5YMBOSjfNk8x1dDGiT10N3BAfBs4DFxyGsnnGUpC/qw6EQ8wgifGw2HytF/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791007674; c=relaxed/simple;
-	bh=wa4AOlE/1uBwYq+kAPl6VeapNdrQNjEjASltYH2rCe4=;
+	s=arc-20240116; t=1791007810; c=relaxed/simple;
+	bh=Q88K6c2p+V4U9XzYzl+P/XsCq4/B0X4qU3qU4p8xVnY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=clbFE9Y+ZFBmsNPYT1g8hs/9v/bcbwcNDnDbuqMV6tVbmJ/sb+6S4EiU4k8d5F4OkRnvkxYtnNRLVpEEZWECm1g85IsfjRy5TUKMy+ubk+9hU9MNhe6m26JSkxrtd43wgCkvvBdl1JndSMVeIIoXFEc62qzNemmgOPCTmgNC/CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=cKtNs0Ad; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=JQtCz7uocrww+UY9HmRcxw5677ATtXxpEcFxDdqcyAj5KI4dUyWt5KuWqsXBVB0uKPjJ6WURh7b/0s4215no1yRM/n5AAV6dKf66++eNa63OqD18fxHWr8ADJs48fpBWjwTnez2uPDb3W37/zPQwg79oWg4kr5xY4e23QrrpvuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tBT5G2DI; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="cKtNs0Ad"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tBT5G2DI"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC6E72F;
-	Fri,  2 Oct 2026 23:07:48 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D4B92F;
+	Fri,  2 Oct 2026 23:10:04 -0700 (PDT)
 Received: from [10.57.8.170] (unknown [10.57.8.170])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 083CD3F763;
-	Fri,  2 Oct 2026 23:07:47 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AFDB3F763;
+	Fri,  2 Oct 2026 23:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791007672; bh=wa4AOlE/1uBwYq+kAPl6VeapNdrQNjEjASltYH2rCe4=;
+	t=1791007807; bh=Q88K6c2p+V4U9XzYzl+P/XsCq4/B0X4qU3qU4p8xVnY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cKtNs0Ad+gPzljAYfBw3MY8W50cx+46/M1zvmGn4FNCRcFRoJGGsIjbi97XNkrpL/
-	 TdIj29XCbK5Zi3bYlIgkm1XVxAAo3J8Q0Dm0qeJNVx7+hxO8kiGff/M7uJGgtrbQav
-	 EQCkJy/sz4j8VaS7pTcdFjNm0Hb0tk0iIHenhGBI=
-Message-ID: <beae08c7-798b-4314-8335-5303af23d513@arm.com>
-Date: Sat, 3 Oct 2026 07:07:42 +0100
+	b=tBT5G2DIgzL1ccv4x26BwoZyvujNVbTt5W37TYDCRmwiYao13lwP0PFQjLNauJOR4
+	 vRLUNPJxU7ShBkFlhZNUM7Pdy/uoELx9psdqI+7X7QalRn0tvcrMALxJQ5e+5MPqsQ
+	 0tIRFLNl8T0zEycDv284LDrqDn35ga4XBy9RtcnY=
+Message-ID: <ed658964-bdf2-4258-946e-0fc115d33975@arm.com>
+Date: Sat, 3 Oct 2026 07:10:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v13 01/14] coresight: etm4x: read-back TRCSEQSTR at
- disabling and prohibit modifying seq_state while enabling.
+Subject: Re: [PATCH RESEND v13 03/14] coresight: etm3x: prohibit modifying
+ cntr_val and reset while session is enabled
 Content-Language: en-GB
 To: Yeoreum Yun <yeoreum.yun@arm.com>, Mike Leach <mike.leach@arm.com>,
  James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
@@ -48,74 +48,60 @@ Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 References: <20261003-separate_etm_cfg_v2-v13-0-5d8a29aead95@arm.com>
- <20261003-separate_etm_cfg_v2-v13-1-5d8a29aead95@arm.com>
+ <20261003-separate_etm_cfg_v2-v13-3-5d8a29aead95@arm.com>
 From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20261003-separate_etm_cfg_v2-v13-1-5d8a29aead95@arm.com>
+In-Reply-To: <20261003-separate_etm_cfg_v2-v13-3-5d8a29aead95@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Levi
-
-
-Please run checkpatch on your submissions.
-
-The subject is too long, I have changed that to :
-
-coresight: etm4x: Prohibit TRCSEQSTR modifications while tracing enabled
-
 On 03/10/2026 03:52, Yeoreum Yun wrote:
-> TRCSEQSTR can be changed by the ETM while a session is active. Its value
-> therefore needs to be preserved when a sysfs session is disabled so that
-> users can read the current sequence state after the session ends.
+> cntr_val are overwritten with the values read from the corresponding
+> registers by etm_disable_hw() when the session is disabled.
 > 
-> This means that any changes made to TRCSEQSTR while the sysfs-session is active
+> This means that any changes to this value made while the session is
+> enabled would be lost when the session is disabled.
+> 
+> Also, reset shouldn't be called while session is enabled.
+> 
+> Therefore, prohibit modifying cntr_val and reset while the session is enabled.
+> 
 
-Please stick to 75 spaces. I have fixed this up.
+Same as the other one, fixed subject and the above line
 
 Cheers
 Suzuki
 
-> would be lost when the session is disabled.
-
-> 
-> Copy the TRCSEQSTR value when disabling a sysfs session, and prohibit
-> modifying seq_state while the session is active.
-> 
-> Suggested-by: Mike Leach <mike.leach@arm.com>
 > Reviewed-by: Mike Leach <mike.leach@arm.com>
+> Tested-by: Leo Yan <leo.yan@arm.com>
 > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 > ---
->   drivers/hwtracing/coresight/coresight-etm4x-core.c  | 4 ++++
->   drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 2 ++
->   2 files changed, 6 insertions(+)
+>   drivers/hwtracing/coresight/coresight-etm3x-sysfs.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 > 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 2247ad55d444..9ca03a5913a3 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -1073,6 +1073,10 @@ static void etm4_disable_hw(struct etmv4_drvdata *drvdata)
->   			etm4x_relaxed_read32(csa, TRCCNTVRn(i));
->   	}
+> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+> index b3c67e96a82a..cdb70a4382eb 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm3x-sysfs.c
+> @@ -75,6 +75,10 @@ static ssize_t reset_store(struct device *dev,
+>   	if (ret)
+>   		return ret;
 >   
-> +	/* read back the sequence state */
-> +	if (drvdata->nrseqstate)
-> +		config->seq_state = etm4x_relaxed_read32(csa, TRCSEQSTR);
-> +
->   	coresight_disclaim_device_unlocked(csdev);
->   	etm4_cs_lock(drvdata, csa);
->   
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index cc6cdd3ae29d..4945d577ceab 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -1435,6 +1435,8 @@ static ssize_t seq_state_store(struct device *dev,
->   
->   	if (kstrtoul(buf, 16, &val))
->   		return -EINVAL;
-> +	if (IS_ERR_OR_NULL(drvdata->csdev) || coresight_get_mode(drvdata->csdev))
+> +	if (IS_ERR_OR_NULL(drvdata->csdev) ||
+> +	    coresight_get_mode(drvdata->csdev))
 > +		return -EBUSY;
->   	if (val >= drvdata->nrseqstate)
->   		return -EINVAL;
+> +
+>   	if (val) {
+>   		spin_lock(&drvdata->spinlock);
+>   		memset(config, 0, sizeof(struct etm_config));
+> @@ -744,6 +748,9 @@ static ssize_t cntr_val_store(struct device *dev,
+>   	ret = kstrtoul(buf, 16, &val);
+>   	if (ret)
+>   		return ret;
+> +	if (IS_ERR_OR_NULL(drvdata->csdev) ||
+> +	    coresight_get_mode(drvdata->csdev))
+> +		return -EBUSY;
 >   
+>   	spin_lock(&drvdata->spinlock);
+>   	config->cntr_val[config->cntr_idx] = val;
 > 
 
