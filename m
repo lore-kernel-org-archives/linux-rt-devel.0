@@ -1,204 +1,174 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16DE397920
-	for <linux-rt-devel@lists.linux.dev>; Sun,  4 Oct 2026 14:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791125021; cv=pass; b=DOFU9rtr44iJp5nONgScrJZX19KKtNX7qYPCPV6hvGp2lqjo5RdOzpNDH//uNlSHATOQ6/SN/V3RWP9I6drGvslt5Ls8vkk7iyuxPIdumsWpY+eYx4qTa7xaJzwhcPeLo5SxKd2gm1MM4b6ih+lhPIMyryQXmubAzirxGipL1as=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791125021; c=relaxed/simple;
-	bh=/0GCEHSBrx/oLdC8mUVBcqc/kgOvtpuBhykRXWdVcfc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nBVIKYhxTSUV8hdOOF7IuU28J8WixZR0UDmaBNgAACbhqb7ZAWlAbeoC9s+CtS2JB1mz8xak6RiXiwHi/D+oRSXfSmFsY4xUSH2QpDK1/hMrbE0ZU5c331nAo/yCswGagLQjkXK+lTPRw71PtItcOVfrQazagw+9Xm7Bifmw72s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFUmTCir; arc=pass smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9754530F7FF;
+	Mon,  5 Oct 2026 05:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791178895; cv=none; b=YHFV+EKf6ryTcf2PMtaNFULw2nhTbXjhqKQzukETKs+W5vj/vK8Fd72rNl7Y+sfSzIgrmfRjZdPYmU0Ta/J6darALR863uJ7YVLT4f0f6Edv8LnftGWeXfjsLSjMq2vOjeiY37T4TbCBvnnz6TNEZGvXymHsZN2HjorLHyLAvmc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791178895; c=relaxed/simple;
+	bh=hsw9NSPhz5CedlJYWGP0Mi1O/i0VaMefug0YlhuqREg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QI8Vx7dKSJ6P7LFE8CeTsRLPFHOMsBMOu1PzzZm4gCVEjNzj9liCNDzhePbT5deaPhW62G6+ZIVTFSYWL/h/KkwpxpDEjmm+LQLPnFVnu+tcZQURCSNzE9gcVp2Kj+rDdMGQQDOIV8Fxr2omTD35ZTrQHA0Ju7moq0DxAizwEDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXMeP0jW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFUmTCir"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466cc9b2f02so76098fac.1
-        for <linux-rt-devel@lists.linux.dev>; Sun, 04 Oct 2026 07:43:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791125018; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FIQWm1aaSJT8VIzwsyGQS7kuJi+By/wvSTGHcJh9n8rGIPq7YQc94M5TFxw6ojVuU1
-         POJeJz9W/AQ7lMBjs7yjiqBTfan1J9ZJdWHXYrngCz4tBX5r97QuB9xrnuTmxpvSZOWK
-         zDsZPl5wGDmlNmpBofsF/f2BUvVULQFm83xqKLGMGRvoQ+hn818Rnzq4ESlpZ88Tl+9z
-         KOEAgnMEse9FsPy/B/LYLyvL3TobXiEngcMlGM0mYXJ+PWc4WJ3gEwZ4mGwNighuuKiF
-         vzOOZGbXoKVFR1iF0UprqY/IDReVeiz07xIw1H8U/MWknrcPTiFlAsK7rRVxobqHnQlZ
-         V94w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vO8DVUB8eovbQ61VNyC+4aG7Y+QXZ4ZRiFqL2N54is4=;
-        fh=HWeLN/MlYPyyvjpq61/Uq4BSpmcYOI/3lde31Dw7Z34=;
-        b=jfbXHbBgLhFIf8yfl7EqLYpPDKuimhDaVtV6RyCX3tATHef2ZYPgTaTbAKRF9KVDBq
-         BO7kfhxSmszA9ErAZckeVpl8o7yeN2cnzeiDcM/7goDOlcELrYA3vkIjugrLcacl6bKA
-         qjYWsjoKP2wSiIfUQRpk6PpWzLv0/3qhkUOV4QkP8VoV06CRKffT2qHzw8QkjZgzKMFH
-         bgKm/zKB3Jg5A58GXhXm68CuLSBOS3NFEj3T571cHSJAnCeSLK2se19e+R8BIMy4e6Ta
-         /r7dDpLahP6uzeQKe0btHNLgvv1rLblQ3q+L7TpbQRywLMQ76gg32b6nwwF/Iuzuf8ww
-         CunA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791125018; x=1791729818; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vO8DVUB8eovbQ61VNyC+4aG7Y+QXZ4ZRiFqL2N54is4=;
-        b=AFUmTCirX7Pav4eJ1m7ymaSiLo68CFz6Ty8d9Rw/vcdh9YSat0LMz1QIMbhOyA9u+B
-         g5FebGRamPp9YC4LAaPcWyh/Y++IRmloU5jz2czd9F3AFnk/AK7SnYbGetdWdlAaPnUL
-         US3zxD1Vouu2OEAlq1SpsRCBjylEgP0DiiPdp407nEHSljGWUcU4jICgMrmjGlRc3brW
-         OosXqz2umKESdqxdW/m4j8/II0mDniykAbSQW9RvRdpPFexO+PT0wWCHzTK+BSiyxpyy
-         CJws7xb2FA+8XSjh9sX5jmcEUFO8VkeiGv8NtzvBYQIwuyvNfUZeyVwgBCEOCP6+tbsL
-         +xXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791125018; x=1791729818;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vO8DVUB8eovbQ61VNyC+4aG7Y+QXZ4ZRiFqL2N54is4=;
-        b=crIeDpde0XBGyiMluIKwMAnfKB9uPELEAeEp7+RMFSHtCxV0SuTe7t3MWEhP7DaUYP
-         9wvuFeA5MwQVo45d2OOj36VCUo9g/ACoxRhPWnXx0g3eVEuXXl/63GgKGogckX1zMSWH
-         lHM0SU+oWoDuN9JBwOciEKxU5D1Gf1P7UGrEKfSCr5ERXYf62dbl8d92OQFp6ulVunf6
-         vyd3oP9gZYGzLh75HeVx95FBlSUIgW7a1zqYRCUbBz9GB6L7QTxxSUnRS7j4wvNXFuMt
-         T2fy1j/q11UzhkGAKaievIysfxyclcHTvLxWm/I1Mv7J3fArsNX5xFSEgLMC9RxAm08S
-         oByQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxmtGlZO1i06+Ai1GQY4HkKVglE+zHjqQV+5XnSL4m5VkMkT7NPPykMRHKc4xT6Aw+d9r/I54U1hOf08rbqtw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIqIGNF8AP3jr735UB52ItlgQTdnjsPbSdQPCKOEOtnqNnt5JLK
-	/x0rwuuLIpRig+gY85W0BbDp0Vja7v9Yq0kkQKKu7b2jnh41r7B1CcPQJLZvHXDQYCHDbo2xWJl
-	8ScAabwIJcVZm3C82gPjxaWGfivjRZlM=
-X-Gm-Gg: AYBFou0MyZM1wRD+4NeeIOEQdWgp7MBvcBfWHkMsze0XODb1h1kCpZ7dBfhK1DH0wjg
-	QyMuqzNe5TFCZCltLEIGw5D9JaRrJqrENXgEslYa4A7fctRx8Hdg20LIaj3TfW1VWFrga8DOHAB
-	FWjD27Vio/1SN1f8uN2rnmMNv97TexwfQ8FZPF/JbYqsElt8sURRPZbtq/SDqYob4J+JopQj3Sk
-	w3nZOWOgR6rvh8Z4pTNJG6kI4fcHCn3Cn2ygJ4Obf6uEbPYWJeOlm/VU34idb6Sj6AGq2V5kd4S
-	fHu9UuACwmJUUD+u5UaUzc0PzbBt+BWt6/Wy+ZfcW7+7rpEkg9sAPitqZA5lEI0wG/U=
-X-Received: by 2002:a05:6870:8dcc:b0:46a:c673:a16c with SMTP id
- 586e51a60fabf-49e15c87e4amr5548021fac.5.1791125017831; Sun, 04 Oct 2026
- 07:43:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXMeP0jW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5637D1F000FF;
+	Mon,  5 Oct 2026 05:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791178894;
+	bh=kEvPPDlseXzo0VIEtns5Uo5OEVsIzZ5vK243j+h4K6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jXMeP0jWqoqNrZhtOmvSchDhn3bNHe6vW/ozxHYYcIL5McnHyeVgS7Q95L6P+lEKE
+	 1fmOaHh2gm2yH923I7eiWIAjkC8eu05eLFkokl+MZUoigplShMS4YdChUwy9yN+Kgr
+	 F4NB7Tdf09vOzpaZgSDgxhpH/34X7zuG6kw0ga2bbbwRs4HAIMrLR/wbTBIfTzjIAu
+	 OZ75zMRYuKhWsSjx8fRzNlQyenMiYLe66ADtlq/F66hxqt3/pQXG55E8oIIrB8hErL
+	 9l9SEuzyCsvRdzK4gt5qgTyIaoPPmJjbDFmh1Th/DdGGDSW/xWHDb3D485A3m3jdOI
+	 q6g47SDuM3kkA==
+Date: Sun, 4 Oct 2026 22:41:24 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] dt-bindings: riscv: Add binding for CBQRI
+ controllers
+Message-ID: <asM4hITT4dNVIndy@x1gen8.tail89d63.ts.net>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
+ <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
+ <20261004-fender-oink-1646de550f3b@spud>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260928203445.72318-1-singhpra@juniper.net> <20260929074312.v3jT8uel@linutronix.de>
- <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com> <20260929151401.doOQX7D0@linutronix.de>
- <20260930013500.10273-1-singhpra@juniper.net> <20260930063217.eWGJ_JpZ@linutronix.de>
- <20261001012011.30525-1-singhpra@juniper.net> <4491d728-64f6-4ab1-aae2-22bce34a9b18@app.fastmail.com>
-In-Reply-To: <4491d728-64f6-4ab1-aae2-22bce34a9b18@app.fastmail.com>
-From: MaeeFilho FL <joaoanandalima@gmail.com>
-Date: Sun, 4 Oct 2026 11:43:25 -0300
-X-Gm-Features: AclHuK_mS1OrVdBt38iL83F6utRDrvJx_X_IRFzdoYUx1B03kcKmjAW9oBdsM3E
-Message-ID: <CAFA5sMdHPz-H1EOw3y4RFjHMO9_ZmyV45SwvqF7wh8E4spKujg@mail.gmail.com>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Prashant Singh <singhpra@juniper.net>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Jeremy Kerr <jk@ozlabs.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, Steve McIntyre <93sam@debian.org>, linux-efi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="maNOYJSQl7XIC3wz"
+Content-Disposition: inline
+In-Reply-To: <20261004-fender-oink-1646de550f3b@spud>
+
+
+--maNOYJSQl7XIC3wz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prashant, Ard, Sebastian,
+On Sun, Oct 04, 2026 at 12:05:31AM +0100, Conor Dooley wrote:
+> On Sat, Oct 03, 2026 at 12:12:29AM -0700, Drew Fustini wrote:
+> > Document the device tree binding for RISC-V CBQRI capacity and bandwidth
+> > controllers. Each controller is named by a device-specific compatible
+> > followed by the generic compatible. The binding also describes the
+> > common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
+> > optional riscv,cbqri-cache phandle that links a capacity controller to
+> > the cache whose capacity it allocates.
+> >=20
+> > Assisted-by: LLM
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++=
+++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  2 files changed, 98 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b=
+/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> > new file mode 100644
+> > index 000000000000..0924758ebdde
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> > @@ -0,0 +1,97 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) co=
+ntroller
+> > +
+> > +description: |
+> > +  The RISC-V CBQRI specification defines capacity-controller and
+> > +  bandwidth-controller register blocks that allocate cache capacity an=
+d memory
+> > +  bandwidth to resource-control IDs (RCIDs) and monitor usage per
+> > +  monitoring-counter ID (MCID):
+> > +  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.p=
+df
+> > +
+> > +  Allocation and monitoring share one register block, and a controller=
+ may
+> > +  implement either or both. A driver discovers which at runtime from t=
+he
+> > +  capabilities register, so the compatible names only the controller t=
+ype. It
+> > +  does not distinguish allocation-only, monitoring-only or combined
+> > +  controllers, and no property declares monitoring support.
+> > +
+> > +maintainers:
+> > +  - Drew Fustini <fustini@kernel.org>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - tenstorrent,ascalon-shared-cache-controller
+> > +          - const: riscv,cbqri-capacity-controller
+> > +      - items:
+> > +          - {}
+> > +          - const: riscv,cbqri-bandwidth-controller
+>=20
+> I think I lead you up the garden path here actually, it needs to be
+> "- not: {}", "- {}" permits anything.
 
-Regarding the concurrent update validation on efivarfs_reconfigure() and th=
-e
-KCSAN annotations discussed for the benign data race:
+Ah, good point. I will change it to "- not: {}" in the next rev.
 
-The implementation of data_race() directly wrapping the assignment of the
-nostatfs flag inside the reconfiguration path is clean and highly efficient
-for low-level standalone execution boundaries:
+Thanks,
+Drew
 
-    data_race(sfi->mount_opts.nostatfs =3D new_sfi->mount_opts.nostatfs);
+--maNOYJSQl7XIC3wz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Since the reads inside efivarfs_statfs() and efivarfs_show_options() stay p=
-lain,
-this approach perfectly satisfies runtime instrumentation checks without ad=
-ding
-dead memory barriers or locking overhead to unprivileged statfs(2)/df routi=
-nes.
+-----BEGIN PGP SIGNATURE-----
 
-Furthermore, preventing the global CPU stall caused by the SMM rendezvous d=
-uring
-QueryVariableInfo() on real-time environments (CONFIG_PREEMPT_RT) by defaul=
-ting
-to nostatfs is a major architectural improvement for deterministic scheduli=
-ng.
+iHUEABYKAB0WIQSy8G7QpEpV9aCf6Lbb7CzD2SixDAUCasM4dwAKCRDb7CzD2Six
+DHDzAPoDfbP02+kZlbXNjkO9p6YVGEPpNzVD/2lUwGTPtG8jrgEAmupMZOgQVR3D
+O+0kZ5PUEUvEiYg7LLv7Xo/SkiA+fAo=
+=sKfI
+-----END PGP SIGNATURE-----
 
-For the final v5 patch spin, keeping the commit log focused on the preempti=
-on
-disabled context and dropping the verbose raw strace outputs as suggested
-makes the patch documentation extremely tight and industrial grade.
-
-Acked-by: dev12124 (Jo=C3=A3o Guilherme da Silva Freitas Lima)
-<joaoanandalima@gmail.com>
-
-Em dom., 4 de out. de 2026 =C3=A0s 04:59, Ard Biesheuvel <ardb@kernel.org> =
-escreveu:
->
->
-> On Thu, 1 Oct 2026, at 03:20, Prashant Singh wrote:
-> > Thanks Ard and Sebastian for the comments.
-> >
-> ...
-> >>AFAICT, that would potentially leave KCSAN instrumentation on the reboo=
-t
-> >>path, which might trigger and interfere with the reboot. So instead,
-> >>I'd like to put this in efi_reboot_required if we can. If it is needed
-> >>in more places to address an actual KCSAN splat, I don't mind. If it is
-> >>just to make Sashiko happy, then we shouldn't bother.
-> >
-> > Could you please clarify what you mean by efi_reboot_required here? nos=
-tatfs
-> > is only read in efivarfs_statfs(), efivarfs_show_options() and
-> > efivarfs_init_fs_context(), none of which run on the reboot path, so I'=
-m
-> > not sure how it would apply.
-> >
->
-> Apologies, I managed to completely confuse myself here. Forget what I sai=
-d
-> here, please :-)
->
-> > On the annotation itself: an internal review flagged a potential KCSAN
-> > data race rather than an observed splat -- statfs() can run concurrentl=
-y
-> > with a remount updating the flag, so it is a genuine (benign) concurren=
-t
-> > access. I ran concurrent statfs/remount loops on separate CPUs under
-> > KCSAN and didn't trigger a report in a bounded run, which could be
-> > expected given KCSAN samples accesses, so it doesn't disprove the race.
-> > Since KCSAN only needs one side of the pair marked, data_race() on the
-> > write covers both readers and the reads stay plain. I'm happy to drop i=
-t
-> > entirely if you'd prefer to keep the benign race unannotated.
-> >
->
-> No, let's keep it as you suggest.
->
-> >>Please keep this description _here_ where you have it. Once this is
-> >>merged, you could send another patch, extending the documentation with
-> >>the statfs option (I think the workqueue change is in).
-> >
-> > Sure -- I'll keep it in Documentation/filesystems/efivarfs.rst for now
-> > and send a follow-up extending Documentation/core-api/real-time/hardwar=
-e.rst
-> > once this is merged.
-> >
-> >>You still have the problem that someone reading the variable leads to
-> >>the same problem but this requires a privileged user. And if I am not
-> >>mistaken, someone sent patches to have efi-runtime runtime disabled/
-> >>enabled.
-> >
-> > Agreed -- the variable-read path is the same, but needs a privileged
-> > user unlike the unprivileged statfs()/df trigger.
-> >
->
-> Indeed - this is only about anyone with read permissions on the mount
-> point being able to trigger this. And looking at your results, the
-> rate limit we added recently might be a bit too permissive as well.
->
+--maNOYJSQl7XIC3wz--
