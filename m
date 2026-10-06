@@ -1,113 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f226.google.com (mail-qk1-f226.google.com [209.85.222.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AFB260580;
-	Tue,  6 Oct 2026 07:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9616C3B995E
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Oct 2026 08:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791270606; cv=none; b=bHBFdlqFUGaOn/2zWedMcR45/syeDIGQvL3rTe0e8nTSwoZPxI+SzxwW4Y1ymnH5ShyS0oz3ameBsezP3Qw5hatqTNSimYbDufQMvk556S/GxTbrORNVH7KS3YTUdAuQ4VJ/txc8xHvPYLSeVy96vNvou0mVIsrZeYQ1GSz9Puw=
+	t=1791275254; cv=none; b=n+9GqUcGWfyFbTfBlgfOJgTGNGs1JC1odcwbpq8Ir4ASF75Z3QSybnNKtmVtPmqRP1J3nEJdRl1Baj/zxvC0tErwSBu8Ktlwfrwn8ZBlAa80WrpAUMKT3UMLLsHEw3pOC+QxkBHDBUuN45Bl3Gqb2fLjXHPaaDHJtg1sBrjyvw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791270606; c=relaxed/simple;
-	bh=/qpRFrkBociXKpV7oooGEKkR1Nt08nqoDdbWI3A0wKA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=plK/bBnZrmbirKlyqobJJ759GcdX+/liYzUaRPJlx24QDNaJCNQd7yUI7V5ehNNSlDLlrLPqXljZQAOAUIa1+H1tbWdnZYmGjP9Vop+jtQSTj9i4wNcskWsZXN7euqqahmtgFFwDdVAoZTwv8SX2G+Gs9lWf80qBYY7mfVbtlbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CLeaJp2f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791275254; c=relaxed/simple;
+	bh=AhTSB+hX8DW5/UqPj/kPlDv4TilOhsZezix19Q9Y0hU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rBum2dushufF/GsoS8FmTTI4aqToSKMJBqUmmqzcAIVGmC1tj3QsM2NVNdASxkTLVNNWDUN0RtPLxG2H1oQV78P47yucOl+CY0gUCyrQ86wp95HYl2w2A6oBaZ4BXJS0Ni51b2esmZrOW5hpfAPILoSHU/OqVkUnk8Q1OsJSKeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LFrVVh5X; arc=none smtp.client-ip=209.85.222.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CLeaJp2f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB1B1F00898;
-	Tue,  6 Oct 2026 07:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791270601;
-	bh=sOQijHY7DJOOHAhEBNsA40M7U1qEh85aVMqxzjjd0bA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=CLeaJp2foe5xzjpcqpnf2x3F+NnJZyLK4BSSJjAKzvOIliqfAc175XHfGrnCMfer0
-	 rlWBmiYtcbJemp/UEvf0ErX3SoX1O4vdv6bGCYAMSjlW35luhdY9vyN2OBoI0P7b+w
-	 FP738W8INGEg/Ef2lz+EIctRNfRG+F88KqlB9ePft6O6IZAV9NYv4og/HaaoHSCKtF
-	 P0KzkC+VeOPYNn3yrl+mo5dML6IHgq/SBNRpzDTEdfUjRleRwXyxloa1A2c4d7vrt3
-	 hVgrpLFUAGMyXQs4oR/cBoHjByOVgEHrmdx0ooL8VebEXAmi4prvbl9he/6KToFTdk
-	 QENFTaKLzG6TQ==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id F0603198003A;
-	Tue,  6 Oct 2026 03:09:57 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Tue, 06 Oct 2026 03:09:57 -0400
-X-ME-Sender: <xms:wp7EagYWhHlq7xL1kYHRmgEElwA-nzXqIMDtbtoqZGd-rSBtE9NGcg>
-    <xme:wp7EamOYHcZgAhBie_hci7Pm-UgipQX2ZQXFHISNO7WEJkKuu8fZggt4ugslGK_hW
-    I_-TbHC6sacI9dSy9tp_StGGnVVo7FHRHTgcsDqukvuo6rRl8_YQa1b>
-X-ME-Proxy-Cause: dmFkZTFfYsO83d1bf3d4Io3qJyTppZEdCv1hE3mBjiapHPJG+0iU8DU8ctD2SUouDVFqRg
-    3zYPX5y+97aiFVbZ7IK3tcRwE8ObcNvN+PppQ/SAOtLPXBU0y0PTq6WnxioTfESm/8dx2k
-    e1bobayFQdN/UM+hMi50uWFzudrcl04Z3z87PMq3YculaYF9ywHAq2xJWpQbQLW0/yPTke
-    jOZju+CNmCmKJjtZ9br5bFlQFGu+Vyb7bz3RgBH2BfMphtpLwz5TmBij4ug0kydn6Wnzx5
-    4Awq5nrHBiEDCIe3y1kpHrymIFufcSXE1I5mZ6D1jcRbWK19jzlmbmR+sk5JEUxy77f1MS
-    7TBLKgroitpdRZ01vaTOvjZB2uuxx9XRuf7FkRr+Au+ysVO5FbsSl1xBXAMExggv2FhXZZ
-    MlnjIi5h8m3dneGwyTwnvZUg7If0Y6MXP3ZiBFKP38afgGjsYVxfcGEhHlGG0VuT/0qNTq
-    OlpQ2Cf/7a2xCeGtX5LKGU9iAapYT0IsRCDxAyluzjE0hu2e5IwNr2hwgcMh3qPrtjJNmo
-    iVHS6sNSk81pxVcSpSHXJFojRufDW4w46KRx11h9fzlxJyzTWLs/gj5pMRNMqgxLX+yryG
-    rLvGU09IQ6F7eRVFbqvJlzQvHUnmUuAbYqf2xK+7S8BNh0unO2XvCD/1uP4A
-X-ME-Proxy: <xmx:xZ7EaqTQMwbMgLCTWexKSfRRhi7S7jcpk8J5yTE6d6zBm80N9R13zg>
-    <xmx:xZ7EanX9RBfHGowOOldudbaSN05ZHp6jmS6yTQ_DalnL9b47jrsypA>
-    <xmx:xZ7EancTnhzFoww7u6ATK4qonH_Tp4dJf0H0mJAGP4gBkifLCwbhXQ>
-    <xmx:xZ7EaiyTMgzSuVvFeIrFUsp4noCn45ltaESBZsF0oUmqBS0defEfww>
-    <xmx:xZ7EaqG5o4oWt4XHeEIuJIPsWqg3O4MFmYVVjd9aV4kiFNnHwHqcXLCg>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id C73EDF80090; Tue,  6 Oct 2026 03:09:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LFrVVh5X"
+Received: by mail-qk1-f226.google.com with SMTP id af79cd13be357-93e7ad9f78dso35859185a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Oct 2026 01:27:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791275252; x=1791880052;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=aO7ZMNOXH20rZFoB1a96CWPC5jLhbhIpE9Whu53E080=;
+        b=smw+o4xRcUBk3mYYqcX0eXkvOPmEA8Z5P0I+q00igu4pLswhkGDAU+mRtT5515HDez
+         E0tAJ9hdzQCNxtwJxbixl89zieEd04CMEHxa9Wqi0IpRgUXxX67bz3GInW6wIme8yuwe
+         hWbu+tj3p46o/o2JFurZH6aZ8aMSvXbrr3kyvY9Kz4Y3TpgGGEftNTRAWdlP9nfe7oOf
+         2opt1U+v4L6JhC9QpCTx32ba5P2Ds+a2CLJX6vWkAo319rqppgQu57qZPURbYmpiXNiB
+         hwwFbJcvDr/z03xInvlvQlNXozONbZ0IVZB5KiGEl2uWb5Hk28slshuRU5PPXWYZyfMo
+         FuNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxFhaQfErIdH7UqXnGqjv3iwehS9cyt/xMO2VYSfH2iWEJ+BIzAUGsdSVOyct2lPLaVqt+0N/+ORlpfpErs1Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++m7YzP3Sj4GGK2CmpyeLIUKN7AhIFpUGlmlqcku8LN+U1KZTSoi
+	yvNQzVEa27XQxhvgDjQutHIj8yz4O4fgvhaRMO6Jsiu4ZdAvRmQEefCNjjghwBMBV2rc7F7pK0L
+	p6z2ylGJ26Nf8KoITzvsltXsjmLTyLjha9RauUhYiihpEjJTRM/iN+cseikXcOjjZzsqhQNtGtv
+	IpWFKnwrM+fIZAZbvz2AlhIuIOb6+lw/jlnBpuqMjIf/gPQ0v3sHi+VGeOre7pDm/MYe8abkMhI
+	IODZJe5dT5aLjxiCDkvRpHKe8wV
+X-Gm-Gg: AYBFou3KvVAb2/vgTFI4P4RM6J7r/0sq26h3rb1frKZ42yAklDl2j9VyXq2ru0hJpWx
+	juEGVKgSKCCiph54D0b/Wg7mDSISMAhvxYLQCLbOEvPp+6QRI7JWBf7g3EEgtxz3i0eFWM3xKWJ
+	eWjPVmKo4zAEgRnozKFsNSJPpwlfUbpDUq2ksOT1olCO34dSYJkmv7JmeTUkiBrzohP3B+fRroa
+	SO3azJDOcuHk+Ex/gY/PtSK/e7gAgMBz8Pg6S9yDoraR4os4B8Pt3m+ltkTrFtiO2pC6i1YyrEF
+	6ychZe4A5/0uYEgxpiP9TansErC2+FlGiifuWxTrK7JFzD1fJwup1fLN7XlaUt7fw7gVhup6gyK
+	A6uHjeKLfeRKoPD8Ivd1Rbqd6S/Kd0+Q59lESUC/lAJvvX4U4tsrlYcw2R8lLvfKEyLWJLDyR2j
+	tCFh1mXZ8lBdlrPJhVi2XcdUJZe9kaB9RdOkcgqhDIdA==
+X-Received: by 2002:a05:620a:800e:b0:93e:5f53:28de with SMTP id af79cd13be357-93e8f4f80e7mr110898285a.51.1791275252498;
+        Tue, 06 Oct 2026 01:27:32 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
+        by smtp-relay.gmail.com with ESMTPS id af79cd13be357-93cca1ea26fsm503245785a.3.2026.10.06.01.27.31
+        for <linux-rt-devel@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Oct 2026 01:27:32 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3510a481ae9so4840555eec.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Oct 2026 01:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1791275250; x=1791880050; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aO7ZMNOXH20rZFoB1a96CWPC5jLhbhIpE9Whu53E080=;
+        b=LFrVVh5XSxB5oZk+ecGMpJAYThsOVHnT+qPg084xNmPtD13vazbWJviaj6s/kMSQZw
+         Wcn/exeLzgA4vXfUSfjI7lZyO0/NI8sRhbt4gerUFeESv4Qj3sSVLGcBDQOm7+NF+RUa
+         hNdPlB9BW4zEZzXweYgLdJzQ0kIMzNF/OkNAs=
+X-Forwarded-Encrypted: i=1; AKwUvBwfG0zjYyjWv78MEzmjeOlw6uD1IxTyZA9LDi7sJ74ZT1bYAVqKyPqAsVcDphzyWNudJiax4JKtd8tfyb+wCg==@lists.linux.dev
+X-Received: by 2002:a05:7022:288:b0:143:4d12:396d with SMTP id a92af1059eb24-15ec7b02b1dmr978948c88.26.1791275250340;
+        Tue, 06 Oct 2026 01:27:30 -0700 (PDT)
+X-Received: by 2002:a05:7022:288:b0:143:4d12:396d with SMTP id a92af1059eb24-15ec7b02b1dmr978913c88.26.1791275249521;
+        Tue, 06 Oct 2026 01:27:29 -0700 (PDT)
+Received: from [10.176.3.41] ([192.19.176.250])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-15d83d6af11sm5335442c88.10.2026.10.06.01.27.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Oct 2026 01:27:28 -0700 (PDT)
+Message-ID: <802a092a-314a-4f77-aa1d-134b3d020069@broadcom.com>
+Date: Tue, 6 Oct 2026 10:27:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 06 Oct 2026 09:09:33 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Steve McIntyre" <93sam@debian.org>, joaoanandalima@gmail.com,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Message-Id: <fd8750f7-a30c-4b60-9254-395858bc9aca@app.fastmail.com>
-In-Reply-To: <20261005232250.2620-1-singhpra@juniper.net>
-References: <20261005232250.2620-1-singhpra@juniper.net>
-Subject: Re: [PATCH v5] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
+ context
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: linux-wireless@vger.kernel.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+References: <20260930185417.61865-1-kmehltretter@gmail.com>
+ <20261004122910.1392318-1-arend.vanspriel@broadcom.com>
+ <asR1TaKQJlPFqEvR@gmail.com>
+Content-Language: en-US
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <asR1TaKQJlPFqEvR@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Hello Prashant,
+On 06/10/2026 06:18, Karl Mehltretter wrote:
+> On Sun, Oct 04, 2026 at 05:29:10AM +0100, Arend van Spriel wrote:
+>> Is there an opportunity to reuse/refactor brcmf_sdio_prec_enq() rather than
+>> adding a separate brcmf_sdio_prec_enq_irqoff() helper? For example, passing
+>> a can_evict parameter:
+>>
+> 
+> Thanks for the review!
+> 
+> Sharing the helper with a can_evict argument is cleaner.
+> 
+> One queue user does not hold txq_lock: brcmf_fws_bus_txq_cleanup()
+> dequeues through brcmu_pktq_pdeq_match().
+> 
+> Lockdep instrumentation in fcmode=1 and 2 confirmed that cleanup enters
+> without txq_lock.
 
-Thanks for respinning this.
+This is an observation unrelated to the patch, right? You mentioned in 
+the patch it only covers fcmode=0, right?
 
-On Tue, 6 Oct 2026, at 01:22, Prashant Singh wrote:
-> QueryVariableInfo() is an EFI runtime service that, on some firmware,
-> takes tens of milliseconds and runs with preemption disabled, stalling
-> the CPU that services it (and, on firmware that services it via SMM, all
-> CPUs). efivarfs_statfs() calls it (rate-limited since commit b2326338dc68
-> ("efivarfs: Rate limit statfs() handler")) to report the variable-store
-> used/available capacity, so any statfs(2) -- e.g. every "df" -- can
-> inject that stall into unrelated latency-sensitive workloads.
->
-> Add a negatable "nostatfs" mount option: with nostatfs, statfs(2) skips
-> QueryVariableInfo() and reports zero used/available; with statfs it
-> reports the capacity as before. It defaults to nostatfs on
-> CONFIG_PREEMPT_RT so real-time kernels do not take the stall out of the
-> box, but statfs can be passed there to force reporting back on -- e.g.
-> for tools such as fwupd that need the efivars free space to update Secure
-> Boot key databases.
->
-> The option can also be toggled on a live mount via remount, so reporting
-> can be enabled only for the duration of a firmware update without
-> unmounting the boot-time efivarfs mount:
->
->   mount -o remount,statfs   /sys/firmware/efi/efivars   # reporting on
->   mount -o remount,nostatfs /sys/firmware/efi/efivars   # reporting off
->
-> A remount that does not specify statfs/nostatfs keeps the current setting.
->
+> I combined the helpers, but kept brcmu_pktq_penq() for normal calls.
+Sure.
 
-So what happens with uid= /gid= in this case. Do they get reset to the
-default or not? And before this patch?
+Regards,
+Arend
