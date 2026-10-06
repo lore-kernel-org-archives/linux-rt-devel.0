@@ -1,193 +1,105 @@
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF9C37F735
-	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Oct 2026 23:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.143.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791243350; cv=fail; b=MkNPRSOp0Q5r5fmIIjgXiY97xIQZ0s1Suy8wagxzZWKnD5FjljCSzyyg0IRapU9FwLdYT+tirsa53XFGL0LYamxiPNm7D9cuFvkSeQKkVTS7Lsim7sYs9ZjneDMjnfy+1LCRfRWYPhTKHsLBqwKJYMFwDrqljP4dOxh7QOCwf14=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791243350; c=relaxed/simple;
-	bh=8/tEN7PRIkKmWJje5Ehqrjv3yQ5rS+IT1L5dsKBt1pQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vALw0dYautw2wtHQQGluZuR/uTcnqIsudCdOZQOISsYSYhWY3Pq7TsYckyjcYlIFcSvCjLksp+GYGHm2C7KswLwC20t0N81lQ3wUffcP9ubaSVl9QpVfdaE76N9OFUfoOCgwL9e2JBA8cNZqxJo2Y5yczuYr0fL/ZhRNxTQwlBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=0UUxyETC; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=Qwxgie70; arc=fail smtp.client-ip=148.163.143.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B372E06ED
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Oct 2026 04:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791260357; cv=none; b=lHA+CwN7C82AHvNs63/7g3AkCEX2hTzQRip1B3FpBYZIbu4s1k65chXZ5zLERGzB67xr1XrYWwkWOEIgEj5EoUIoKvzFgSfah2H5DakUVXtg8U4h/Sq/4QgntZiA8kUamL8TC75SxDCLW+35uHR8W6xg8EnXZhefHXSqDeenYFE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791260357; c=relaxed/simple;
+	bh=k3RSUY4fxdXMS3ZnKpvJScrf6J75V/fZ8Jp7axykJk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aENv8NW3++BgphdDj6But5Bby4V1XstznpF5T4sjE485ZlW07smKnZA9jT05FcVvAPVztz+2drZF6muP0G7JPFozGfwxQRi506JWM4JAmpzTfpQdA2S5FGehtdhLs749NzASa/agtbAqiVpuwbxeXtNkht6ZoYAuTGqy6324YQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/OJwP8W; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="0UUxyETC";
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="Qwxgie70"
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 695L25qH3423629;
-	Mon, 5 Oct 2026 23:35:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
-	 bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=; b=0UUxyETCRfU3
-	2lVhSkAUGYTRLzXOJK+U9lHKmR2y7220JB8yK55Ln1gvaGJgwcdQ+H1LH8CYVa9m
-	0RAScZH3y9pcvFFmuzIGrFbv1p/0bCXAxbfke+aXCPQ4ViOFnkVS9XtmUQAnj802
-	isJoWoyIZ/DcT82HpuwbzpLqhgVER1dF3BHBaHM6UCIZUHDymIGK2TVCY4Ork5Jo
-	SSveqcWpDFmVS2qpO0DJvOpNsxfLE0GSuQ1UuyRodNjWHSPvaGEQpZG9MbEod6Wn
-	LQPjdBN8O2EqG0lECh/cpILKFlb+rcTqFFmzWrv0CatGwetbZrIEFBTGRv7DFQIl
-	CjmToRWpfg==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010044.outbound.protection.outlook.com [52.101.56.44])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h4jtdapgn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 05 Oct 2026 23:35:31 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y2DaPCO5faN3pP2ZAAGbvDfN1qROOYWuMPtmUl/KL3MmZKlfZcXBx8hhujNsdQbmSorH32yBjRdZnxF3QZ2pMiKdwOqJ8GH/31c7q8HpLXrzQTe481MS1K9qflf/ShYwfrHbceXa8T+H3hkOA+2WNDCJZ+9nMgdqNlFo2Vn9J5DpIKhD904nFBionl2TaOuKHDexJULGznQk/9R7MLqW2eYndjZrCZK6VdpSptMq0DLkA5oE/6TugWDTn0T4Bjrm9CblneD/R0BKZ+Qtet80eAHZ3mY4mOMhGTXy2z+Ez3FbiBXIYwiKmunWsrWcoOI9d98Zo4Q8fITAwztV8o0Luw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=;
- b=HhuXYbZdV57evi52JbNGqcGpiKpStmPpGwpfD0EfF/M/Zehbvp8uoS+xBn3Gq6hTW7TX3DA6t1FiWHC0364yb0wK9EVIBdoEkDu8mZ7Tb4S9m727fwo6kbJRlqyxTrtJxTZFoX17xGw+0qm0LjS1YTXB1nM9tRF8vxOQwTfAbkRAorxC4QjbeRwr8P/DRukcHmxCFSIKRmCPD+fNLLQp4K6WtzkpnwZ/gu9vx/PIiriL6jn6QyWgY+fZQFpBoqePJ/nVPpdwZ6IxaJm1LB6pkXxGzgJ+SQZaYBHCVq0ukorjNsKZ9kzTzWlfQCcQpTjiLqkqCNhyqRbDpK7V2XYxdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 66.129.239.19) smtp.rcpttodomain=debian.org
- smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
- pct=100) action=oreject header.from=juniper.net; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=;
- b=Qwxgie70uSR9asZCjkEM21SExN6va0jcCiMppX/srhB21s27WevWblucCsoL7Hhb4mnM8aipNdh3u1R/Iex+Em0w1us6Pi1stxkSLdTsEFM2dJWOTNRiXRDSy5sGIZRLS+rRAT/dszvJCPWSY+kMECRC7hXtHVAY+X6eK46Z7iTiXPUaKYNQTdxEKGVzkxiqMa0Ho4xlcvW2cVPDzu3/1HCX2I4eZCgI5gusYqbtAF+2mMlKzY5KAqFS4MPrpvsoNXDkmL9QY5Ghlc1gllh3G4vXb/WjgeiVx+5fptsYAhDio1+3/3L07tPUbt1u2ittUrexurfZWzrZX95IikecBg==
-Received: from SJ0PR03CA0025.namprd03.prod.outlook.com (2603:10b6:a03:33a::30)
- by BY1PR05MB10798.namprd05.prod.outlook.com (2603:10b6:a03:5a5::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 23:35:27 +0000
-Received: from SJ1PEPF00002315.namprd03.prod.outlook.com
- (2603:10b6:a03:33a:cafe::47) by SJ0PR03CA0025.outlook.office365.com
- (2603:10b6:a03:33a::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Mon, 5
- Oct 2026 23:35:27 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=none (sender IP
- is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject header.from=juniper.net;
-Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
- designate permitted sender hosts)
-Received: from juniper.net (66.129.239.19) by
- SJ1PEPF00002315.mail.protection.outlook.com (10.167.242.169) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.496.14 via Frontend Transport; Mon, 5 Oct 2026 23:35:27 +0000
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 5 Oct 2026 16:35:27 -0700
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 5 Oct 2026 16:35:26 -0700
-Received: from ebf951f79306.juniper.net (10.104.20.6) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 5 Oct 2026 16:35:26 -0700
-Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
-	id 55E85152679C; Mon,  5 Oct 2026 16:35:26 -0700 (PDT)
-From: Prashant Singh <singhpra@juniper.net>
-To: MaeeFilho FL <joaoanandalima@gmail.com>
-CC: Prashant Singh <singhpra@juniper.net>, Ard Biesheuvel <ardb@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Jeremy Kerr
-	<jk@ozlabs.org>, Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt
-	<rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan
-	<skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Luis
- Claudio R. Goncalves" <lgoncalv@redhat.com>,
-        Steve McIntyre
-	<93sam@debian.org>, <linux-efi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Date: Mon, 5 Oct 2026 16:35:24 -0700
-Message-ID: <20261005233524.3022-1-singhpra@juniper.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAFA5sMdHPz-H1EOw3y4RFjHMO9_ZmyV45SwvqF7wh8E4spKujg@mail.gmail.com>
-References: <CAFA5sMdHPz-H1EOw3y4RFjHMO9_ZmyV45SwvqF7wh8E4spKujg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/OJwP8W"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a172eb31f0so1689545e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 05 Oct 2026 21:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791260354; x=1791865154; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b4cq9NsXa/9Ah4XIfTqt/umKWCh8D9nJZ3hIc35Disk=;
+        b=e/OJwP8WBqHKfSnSHW+nvZza5jU2UnzFhhACOc9DLYvPPsR+0n0Oq+KA5ziXEPXFuz
+         pE+SC7AJZ9DqfHBKWYV6rhylRA1twlaxWfpm3sIbVX4i1ipBV8i/D7vG6kqFtzAWdo+t
+         4L/IUco9v8hIrEx9LbsPalbrDa7MSznmbOrkU6vySgJ9DlSMnNM7XryDt6lAV9qqn6Zu
+         +p+tA7hRA73zzI7OPGHA2K2Ej3qmLRT/660ECarRS/aVPqP6Vx8ITpe/Brbr2WP4WpWf
+         9fB4TpVU63piAuPULQgpe4RilabmFd+nXI8yvKl2A68gvf0CvVoO8ZAZM1lcm8OM60H9
+         HCTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791260354; x=1791865154;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b4cq9NsXa/9Ah4XIfTqt/umKWCh8D9nJZ3hIc35Disk=;
+        b=Vf+t6L3ldohIvHNusPp/VBYgSUZ3+Dgd4/TDOCRdnRghBmy0PJHGsOHjRHqU3crUkw
+         j3n7t19r5uIylDEf3+BRRVMQmqyQyg7eOllcWKCfvWMFqXv5DMwhb5cA3DacLO5zywY4
+         jeNr6p1lbOJ8laser3OG5s6FL6Ibpkv/crB4WoVPZ59AO3iHHsRKslWgot6DW6YIWUxN
+         6DJGhkfIZ5a2JR3RI0sr7S4f444RQt6/QJmKiwdJTDpP/18MkRR8GF7mqKRey8RMu3ku
+         RgZv2ZT9mMKWIqRROmm4bxOUw02LPlCqoRZpVGx4BFuj1pDbfpuAr1uf0TRESKebJB7o
+         20cw==
+X-Forwarded-Encrypted: i=1; AKwUvBythL4vfcfIsL11m4+jEU4j0h+xCSheS1yfIccQjMYeTM5L0NJc0DIOd+1AMAWWLn5RUY5jw1y6aAP5xjibSg==@lists.linux.dev
+X-Gm-Message-State: AFuF++nrtGW2gziEVB9Ozw8389Tt0idGCyWdX7fe2uXU2vQ9pj1esUcK
+	rphrnsoYDqSrkfpKWWI9+dFpIjNCVqe7mntG5W4dPpmigEm4KBl2VRKO
+X-Gm-Gg: AYBFou1KmxcDrFUqI4wFI/HbE4upBQ/CrZm+s+8SU7MTXwGpe5sp63bgbSdOwf8OGM+
+	u+DgwQsOqwa5+woeU7x/w5SsHi6nVbPh+SE4dCtWU4AbCEB83G49KKF0NiBElU8hFxO+n4uvc6f
+	Hv9zFsi2ZLpJIc+znISJGHFO7gSm5RovuAQyf05+iE7BE8EUWRIdJvFqgkHMvUU5LaL6FhjDrSR
+	M5mnmyQ2keuX2reaRmbEKv3k6QT+LCtll1Racl6nWKQS0pxRT5pzsvYDebqdAwAIvbpST3dXEbN
+	FCIrO5ui/ti1FiuswIkfpRC0Su9Eu+qFl3VnBZX4xIs3dO4343zAskFKTE4JP0hI/Zh4hCyky4w
+	IvT5zEvg+Z90/uR4iVxjRSPprb3HP20KUOS7S4i79BjWiIoIpidaYCBLBlehaKPzbhr0sGwfqtN
+	ZfQFARi6ycBcfKql1vBSFkKX0WChwCCXe2/fAPflsVJcbrY2fIb58EbiA5daYFIYdFeU5VVokwh
+	ZVV835Lm0bzHczeDpHcfoDLzKjLsi3TeR60FPug48p357ca2y3FL30G8YBguz1rM9ZR1pgSbmTj
+	xlee/SIuUQlzWTMmnV0Kn00k44BLI/HuWw==
+X-Received: by 2002:a05:600c:3510:b0:4a0:1c43:3c04 with SMTP id 5b1f17b1804b1-4a17b53e298mr3201995e9.13.1791260353780;
+        Mon, 05 Oct 2026 21:19:13 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl (dynamic-095-117-040-097.95.117.pool.telefonica.de. [95.117.40.97])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1776cfe45sm44826795e9.1.2026.10.05.21.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 21:19:13 -0700 (PDT)
+Date: Tue, 6 Oct 2026 06:18:41 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc: linux-wireless@vger.kernel.org, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
+ context
+Message-ID: <asR1TaKQJlPFqEvR@gmail.com>
+References: <20260930185417.61865-1-kmehltretter@gmail.com>
+ <20261004122910.1392318-1-arend.vanspriel@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002315:EE_|BY1PR05MB10798:EE_
-X-MS-Office365-Filtering-Correlation-Id: b472414d-a658-4200-2ff4-08df233955f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|35950700016|1800799024|7416014|376014|6133799003|18002099003|10067099003|22082099003|3023799007|13003099007|56012099006|5023799004|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	Ir9B8AMiybpkkr4qfYHgbtxatBxJwVHT42Ni+LKqvj2XOFkhjHkvKRgctdKk9k9U7v7JsxKYF/Ia5odwp9BBbbYPcPeW6sYNP+5+C6qdyLkgXEYIqkWhoijUtW6WErFpqy8ramZJ6T5Sy7ZJ2RBdJwA1WuAt2tZA1sJ7nwKWYibrMcG0yT9D5OdXuZyunO4K5XASjr/qBD3M/AgAuQdib6RdGsbHgWEVPSXOgJZo6Z34UwGRzy6vknCYwIwUIuv5B2J5kiqLDG6GfKgh+qIsWlFP3chSZgrlYyua/BI+UkS1ndsSZ383AJO6pL5psUM4a3uRcbp9MB31c6c7mZ9C7cICohUDS5/M/4MdDylHIIQChuG3zXEB7yY05faC7qTYaM0L8QGP8M4Sae700lH2ZcFZdX3kJAAIqqvS0i+wCBwZZvogC2P8CklWgywXMVgyN6Yc49cLX9GMal7RTjNksa+EAcZdHs0qWD1xFidI2ltVzsSgsYgd64kVBEGDffSll50OhrnjacT2Zu40hntdM9E1YZ+Us4cwxu6/RaJmMUq8kvF20cbRCWom4PUAx13Ik1IvuYVUBC/nyO7sNGTnqrqH8TLu5ZHjUDDGY+TRart/a+dzRcRlBpEOXv0V9nDbe/sDraiw6OShJaBynzZbYDmIxL29/4jh5M/QiDiZW3BkDPQcv0LcoAtz4g7WsK8MR8eYFmCjPHPY3wuEEb7hZw==
-X-Forefront-Antispam-Report:
-	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35950700016)(1800799024)(7416014)(376014)(6133799003)(18002099003)(10067099003)(22082099003)(3023799007)(13003099007)(56012099006)(5023799004)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	X3J2+LwLo/VT9+KndujxgYf9hxHdumdQ+PCziInNc8FZvwXxGOV4zRqdcDmO1OIIbLGoPnrObAy5IhLTgcpnggSAVywscFzwldoE2GfdOe2/ee+qN12N7iO/fL/3ms6zO7GAOrQdf0O3XUgyEjT+kfOBfB/stwX/krhipmivV45EFAqmuVmH9I0dkVTb1cTs6QeTXCz8OzEcz5aBTSRMo+lu5ZZBwVYHVooE1fu6TSv9HlYjGl50CkDQtSBvH/kUYuPSLfrIhpiByDYAor+9jWfb14IZjQZuZNns8AQ9ExFGUpAGDiQSnqMSiETS027UCd1JvHHYPAMQS7L4ruBstNIGzrrby7h8ksF7tGeQcLPooafSklU0TBlzjaxfgobEtixNKvvDvOKqmTugxKFQu9P+vEdgNHkh+6Zirn8CXAZM6uEw0nNxJ9qUp3kXkJPi
-X-Exchange-RoutingPolicyChecked:
-	zcfKloEUC8ouZ+EaCGl8qx5hMJuFgnAHAN1y0eUhdpRFYZkFcqqmgExT7rFp+S1EVJ27Zh36DmMmMTQletOCMPr62ymZQA9EIC3/EHxEB8TfW1UFTGdqMyOfk/QTDzZQMC1dfdJ5IE+fFXIoFhxPu9pxRoDXjxtWSUpEOhu0HiSXCKONbyTXWG6p7yIvzcILNtpmFAeu0oBAOp67nZIE91FZca92u9oE1PuRcCR8Ixmw1kKUapba+5u1xpR52iZMd/F9OESO2OYppc3wZZuuCQlP2SO8Kf+v9IZ8568zfCFC/mgfuPEE+AttyJ4eiQvRCDUVX6Zgk33qB9Cwb7Y+rg==
-X-OriginatorOrg: juniper.net
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 23:35:27.2117
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b472414d-a658-4200-2ff4-08df233955f7
-X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002315.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR05MB10798
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA1MDA5MiBTYWx0ZWRfX389n7EPGJjz1
- 754ALCOdMcKFG8A6epfY8bkABbRsp7EsU/4EEh6fxdwUEKXZFClIIeMvB27yK7eRqNT2CmVEWMX
- a0vrvahC2JxxGRkeMv9iBstQKwbfS+c=
-X-Proofpoint-GUID: XgbfJ1Fm8E7XxjlCSPtLout-OwxBw02Z
-X-Authority-Analysis: v=2.4 cv=AM6lcTYI c=1 sm=1 tr=0 ts=6ac43443 cx=c_pps
- a=wV2zXAf6sYQQ4uINbIt3+g==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10
- a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=3haJ9R1Aw3gUfsUHDaCR:22 a=VwQbUJbxAAAA:8
- a=OUXY8nFuAAAA:8 a=LsB0FKVtz1UnEB54oekA:9 a=cAcMbU7R10T-QSRYIcO_:22
-X-Proofpoint-ORIG-GUID: XgbfJ1Fm8E7XxjlCSPtLout-OwxBw02Z
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA1MDA5MiBTYWx0ZWRfXxH3vYPhvkdej
- 78nOUvW3qXrIeSWK2zFjBqx+QL1no2L1WQ768XKcvfvld5oOryqy1kT6XFqnJ6OWGUduIVY3uup
- yv8Vj4QIbhH7QQ/bp1EGMXWL6olERf+LDfQwet+Cq4Ul1HTfLdLYihVj84f+xOrDOa9NSo8oEtZ
- v3EzdRaHS7SV2tzsMQxKcxXUKG3Bedqzz7J1bnj9mBXE8hJ/0ubxi9L9VKkDk8G5O8nSmeHmLvY
- GyYJ8Ni8StbtvFYO4Tmp4B4lOYHprJ/2CnNBTsxAoMgvlygiD8AbGsFEl52i50y/2OqiWqI9OH3
- D9nI8OobtZdO3jQ889IDmtV47Is5V2b5Shdjqd/lcsWFmLnOVHIPH0nWZqToytpipi4dA6gpupx
- VV4OxveL92WKPi0wRZSoYd+G7zd8Nmnb6cN74AL4nd+9Lzei2U71QsiJ1gRPQTPYz+qR20tWR0A
- /ybx+IqNZCMx8TmDbyg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-05_05,2026-10-05_01,2025-10-01_01
-X-Proofpoint-Spam-Reason: orgsafe
-X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=orgsafe scancount=1 engine=8.22.0-2609040000
- definitions=main-2610050092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004122910.1392318-1-arend.vanspriel@broadcom.com>
 
-On Sun, Oct 04, 2026 at 11:43:25AM -0300, MaeeFilho FL wrote:
-> For the final v5 patch spin, keeping the commit log focused on the
-> preemption-disabled context and dropping the verbose raw strace outputs
-> as suggested makes the patch documentation extremely tight and industrial
-> grade.
+On Sun, Oct 04, 2026 at 05:29:10AM +0100, Arend van Spriel wrote:
+> Is there an opportunity to reuse/refactor brcmf_sdio_prec_enq() rather than
+> adding a separate brcmf_sdio_prec_enq_irqoff() helper? For example, passing
+> a can_evict parameter:
+> 
 
-Thanks, Joao. Done in v5: the commit log now keeps only the
-preemption-disabled rationale and the raw strace dumps are gone.
+Thanks for the review!
 
-> No, let's keep it as you suggest.
+Sharing the helper with a can_evict argument is cleaner.
 
-Done -- kept as-is in v5.
+One queue user does not hold txq_lock: brcmf_fws_bus_txq_cleanup()
+dequeues through brcmu_pktq_pdeq_match(). 
 
-v5 is posted here:
-  https://lore.kernel.org/all/20261005232250.2620-1-singhpra@juniper.net/
+Lockdep instrumentation in fcmode=1 and 2 confirmed that cleanup enters
+without txq_lock.
 
-Thanks,
-Prashant
+I combined the helpers, but kept brcmu_pktq_penq() for normal calls.
+
+Karl
