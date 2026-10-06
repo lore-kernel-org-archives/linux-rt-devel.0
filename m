@@ -1,130 +1,195 @@
-Received: from mail-qk1-f226.google.com (mail-qk1-f226.google.com [209.85.222.226])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9616C3B995E
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Oct 2026 08:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.226
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791275254; cv=none; b=n+9GqUcGWfyFbTfBlgfOJgTGNGs1JC1odcwbpq8Ir4ASF75Z3QSybnNKtmVtPmqRP1J3nEJdRl1Baj/zxvC0tErwSBu8Ktlwfrwn8ZBlAa80WrpAUMKT3UMLLsHEw3pOC+QxkBHDBUuN45Bl3Gqb2fLjXHPaaDHJtg1sBrjyvw0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791275254; c=relaxed/simple;
-	bh=AhTSB+hX8DW5/UqPj/kPlDv4TilOhsZezix19Q9Y0hU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rBum2dushufF/GsoS8FmTTI4aqToSKMJBqUmmqzcAIVGmC1tj3QsM2NVNdASxkTLVNNWDUN0RtPLxG2H1oQV78P47yucOl+CY0gUCyrQ86wp95HYl2w2A6oBaZ4BXJS0Ni51b2esmZrOW5hpfAPILoSHU/OqVkUnk8Q1OsJSKeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LFrVVh5X; arc=none smtp.client-ip=209.85.222.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631353C4542
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Oct 2026 08:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.143.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791276186; cv=fail; b=MPr0uiq3O+s6nt8VImBZvwIf5MKOzqZfgXzuWHAQfmWw5lOUGEaiLjfMjlhIIe4+7RNAbk6+VYb+ll3YpjWeIdFHcyFJlp5tCYVVAyJ7fOMt3n3K3T4wCQhwQkdREi/VzhA/cWfGUjnrtDxJgEX/S5wWu5i1WTx/a8htlFfBS8o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791276186; c=relaxed/simple;
+	bh=0M00IJzf+LUazCnnSbCNCN14kp4IfgCejd9kUucSFfQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jcnssVHKv8ue2MDnwAslc1/m3/ZIYB4T6nY0T9IDEf+cRKZTX/rmXJ9cS5fdGD5dTfGWZSztUN/9t35/IRNqlny/ny/CdhKOXgQ/u599HlUf/iKv9AYRv79LNNKdBw92Kef/m9bUD1T8DnI9nMq3r/9/8faeKuBy2T0zCI9Ddto=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=1L/1X4EN; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=r44ySSyA; arc=fail smtp.client-ip=148.163.143.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LFrVVh5X"
-Received: by mail-qk1-f226.google.com with SMTP id af79cd13be357-93e7ad9f78dso35859185a.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Oct 2026 01:27:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791275252; x=1791880052;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=aO7ZMNOXH20rZFoB1a96CWPC5jLhbhIpE9Whu53E080=;
-        b=smw+o4xRcUBk3mYYqcX0eXkvOPmEA8Z5P0I+q00igu4pLswhkGDAU+mRtT5515HDez
-         E0tAJ9hdzQCNxtwJxbixl89zieEd04CMEHxa9Wqi0IpRgUXxX67bz3GInW6wIme8yuwe
-         hWbu+tj3p46o/o2JFurZH6aZ8aMSvXbrr3kyvY9Kz4Y3TpgGGEftNTRAWdlP9nfe7oOf
-         2opt1U+v4L6JhC9QpCTx32ba5P2Ds+a2CLJX6vWkAo319rqppgQu57qZPURbYmpiXNiB
-         hwwFbJcvDr/z03xInvlvQlNXozONbZ0IVZB5KiGEl2uWb5Hk28slshuRU5PPXWYZyfMo
-         FuNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxFhaQfErIdH7UqXnGqjv3iwehS9cyt/xMO2VYSfH2iWEJ+BIzAUGsdSVOyct2lPLaVqt+0N/+ORlpfpErs1Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++m7YzP3Sj4GGK2CmpyeLIUKN7AhIFpUGlmlqcku8LN+U1KZTSoi
-	yvNQzVEa27XQxhvgDjQutHIj8yz4O4fgvhaRMO6Jsiu4ZdAvRmQEefCNjjghwBMBV2rc7F7pK0L
-	p6z2ylGJ26Nf8KoITzvsltXsjmLTyLjha9RauUhYiihpEjJTRM/iN+cseikXcOjjZzsqhQNtGtv
-	IpWFKnwrM+fIZAZbvz2AlhIuIOb6+lw/jlnBpuqMjIf/gPQ0v3sHi+VGeOre7pDm/MYe8abkMhI
-	IODZJe5dT5aLjxiCDkvRpHKe8wV
-X-Gm-Gg: AYBFou3KvVAb2/vgTFI4P4RM6J7r/0sq26h3rb1frKZ42yAklDl2j9VyXq2ru0hJpWx
-	juEGVKgSKCCiph54D0b/Wg7mDSISMAhvxYLQCLbOEvPp+6QRI7JWBf7g3EEgtxz3i0eFWM3xKWJ
-	eWjPVmKo4zAEgRnozKFsNSJPpwlfUbpDUq2ksOT1olCO34dSYJkmv7JmeTUkiBrzohP3B+fRroa
-	SO3azJDOcuHk+Ex/gY/PtSK/e7gAgMBz8Pg6S9yDoraR4os4B8Pt3m+ltkTrFtiO2pC6i1YyrEF
-	6ychZe4A5/0uYEgxpiP9TansErC2+FlGiifuWxTrK7JFzD1fJwup1fLN7XlaUt7fw7gVhup6gyK
-	A6uHjeKLfeRKoPD8Ivd1Rbqd6S/Kd0+Q59lESUC/lAJvvX4U4tsrlYcw2R8lLvfKEyLWJLDyR2j
-	tCFh1mXZ8lBdlrPJhVi2XcdUJZe9kaB9RdOkcgqhDIdA==
-X-Received: by 2002:a05:620a:800e:b0:93e:5f53:28de with SMTP id af79cd13be357-93e8f4f80e7mr110898285a.51.1791275252498;
-        Tue, 06 Oct 2026 01:27:32 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
-        by smtp-relay.gmail.com with ESMTPS id af79cd13be357-93cca1ea26fsm503245785a.3.2026.10.06.01.27.31
-        for <linux-rt-devel@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Oct 2026 01:27:32 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3510a481ae9so4840555eec.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Oct 2026 01:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1791275250; x=1791880050; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aO7ZMNOXH20rZFoB1a96CWPC5jLhbhIpE9Whu53E080=;
-        b=LFrVVh5XSxB5oZk+ecGMpJAYThsOVHnT+qPg084xNmPtD13vazbWJviaj6s/kMSQZw
-         Wcn/exeLzgA4vXfUSfjI7lZyO0/NI8sRhbt4gerUFeESv4Qj3sSVLGcBDQOm7+NF+RUa
-         hNdPlB9BW4zEZzXweYgLdJzQ0kIMzNF/OkNAs=
-X-Forwarded-Encrypted: i=1; AKwUvBwfG0zjYyjWv78MEzmjeOlw6uD1IxTyZA9LDi7sJ74ZT1bYAVqKyPqAsVcDphzyWNudJiax4JKtd8tfyb+wCg==@lists.linux.dev
-X-Received: by 2002:a05:7022:288:b0:143:4d12:396d with SMTP id a92af1059eb24-15ec7b02b1dmr978948c88.26.1791275250340;
-        Tue, 06 Oct 2026 01:27:30 -0700 (PDT)
-X-Received: by 2002:a05:7022:288:b0:143:4d12:396d with SMTP id a92af1059eb24-15ec7b02b1dmr978913c88.26.1791275249521;
-        Tue, 06 Oct 2026 01:27:29 -0700 (PDT)
-Received: from [10.176.3.41] ([192.19.176.250])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-15d83d6af11sm5335442c88.10.2026.10.06.01.27.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Oct 2026 01:27:28 -0700 (PDT)
-Message-ID: <802a092a-314a-4f77-aa1d-134b3d020069@broadcom.com>
-Date: Tue, 6 Oct 2026 10:27:27 +0200
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="1L/1X4EN";
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="r44ySSyA"
+Received: from pps.filterd (m0134423.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6966dHVw3348829;
+	Tue, 6 Oct 2026 08:42:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
+	 bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=; b=1L/1X4ENNrjy
+	w7+YTdUscNnpH1v876jShUiR/OuJuVzglUhxzBYy87/Dy+/BQbydZsVm9yhUVRPW
+	q/WNZ0k2M1aqDhrNUy2J5dL5nHapYwnwNkaBEl7gY1+SNVuXwXT6Pme8JeNvWCh7
+	fE9gHpcesshASq17QeSXMdttlL+BDzbSq87zSbxM4P3fdOZVJNVb1MD2gPKT3TiS
+	0MLVs/5MeCyuSRlYdSu1WmdpdjIjSc0B9+MHA6oiShDyfcFhR3P5OfHr5FdR2fkB
+	d+HKqWO2k979nv0zIP9i+C0PlEyzmX1s0wV/lSQYptZK5qOehIXRY9u/YvfZKpGB
+	7XBVaCSKNQ==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010037.outbound.protection.outlook.com [52.101.201.37])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h4t65u6q1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 06 Oct 2026 08:42:09 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ncg7EJjAdFQ9FGkUbwKf6WZ8GBKya9YLwH/TWIidG5wWXZBxeXgNGKDiW13rB8B/xPbPUiZyFa3TCdUjQ8vbGnXK8gUKUfQ4mND+p8fNVpoxZL6SCyEVbnNxe8o1ynYkgJqz/mTFSgIbvaxa0fdO5eBirCxSFdFRK1SIwno8PTyia+ZbtGjLMdPS62DAyvX/4NjpQDJSQx0V25JF3y+z4e55JBCSB2Vb2ACq5UCDtO0+XgO1oUB62E4lZSBHx0T3PqP2KE6j6qLOx9huq0OCmBn49zKHw9AR1MWcwDvJBwpuxRDZ+udiDr6iYszvk+E/waSPpoqFGni4gYLL1OgSNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=;
+ b=j4XHV5ceOTqSpAi+cxz6ujp5RZZwxYfzgpy9fWZ68XjSddw5BMRrpcIg0dafyHmTHC0/wBkjO/yxVrNmII409gsGXZ1gnMbD/6IFFSdb26xuzSrn0/WqYbm1ZroxY+9M9pGKYG/78CMlGdyCA5xU2YXYSBhPGvBY94ltN8ZjqHhr9UFlejlrG8yg4T0kZ78Gn9H7kqJlR590WamZRngutjM+JOXP4vckEmEAqTNg7DJhybR70Uv/qNiuzTtVgryNRmlOtXxXcisPKZy3VLb6WOvWrL4EacpKOq7d5QENA/tFtFVdmJar7Jds4RLwqntCUfyu2jxIBaqEZocDoDD1iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 66.129.239.19) smtp.rcpttodomain=debian.org
+ smtp.mailfrom=ebf951f79306.juniper.net; dmarc=temperror action=none
+ header.from=juniper.net; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=;
+ b=r44ySSyAnCPXghsdA806rldR1yQkm71QSw8/9HUmoas91XfJ8bwYZ2XsbNkY9EGLx0KfuNLSTs2UDgJbM/CqLeyfYBSWy4/jhxwWyPqMn0IN/HmZ2lxjHaJ7P9q6R/0fML6Pa1JRkhrzKWqZR8Zy3iI4m5AW2e9Qg4aY0AzG+k/D7Q+5VRO0OQALGCgAsc4QjJWPGu7LJEjhDqtk0YqwHAH/e//7fhJUTRBZxz269q+f6WNH/xoH88vrC/htAaBTk+SAdRvN40wOYmEhVVuGCBSLZSkCqE+J3gfdNMVw3wxFchOCeX8hGZfeXXOLVEPw5h6pSoU0iKUQAJ45DVsHWw==
+Received: from CH0P223CA0020.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::10)
+ by DS6PR05MB434985.namprd05.prod.outlook.com (2603:10b6:8:46a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Tue, 6 Oct
+ 2026 08:42:02 +0000
+Received: from CH2PEPF0000013F.namprd02.prod.outlook.com
+ (2603:10b6:610:116:cafe::a5) by CH0P223CA0020.outlook.office365.com
+ (2603:10b6:610:116::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Tue, 6
+ Oct 2026 08:42:02 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=temperror
+ (sender IP is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net;
+ dkim=none (message not signed) header.d=none;dmarc=temperror action=none
+ header.from=juniper.net;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of ebf951f79306.juniper.net: DNS Timeout)
+Received: from juniper.net (66.129.239.19) by
+ CH2PEPF0000013F.mail.protection.outlook.com (10.167.244.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.496.14 via Frontend Transport; Tue, 6 Oct 2026 08:42:00 +0000
+Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
+ p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 6 Oct 2026 01:42:00 -0700
+Received: from ebf951f79306.juniper.net (10.104.20.6) by
+ p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 6 Oct 2026 01:42:00 -0700
+Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
+	id EA3FD152679C; Tue,  6 Oct 2026 01:41:59 -0700 (PDT)
+From: Prashant Singh <singhpra@juniper.net>
+To: Ard Biesheuvel <ardb@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
+        "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>
+CC: Prashant Singh <singhpra@juniper.net>,
+        Clark Williams
+	<clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+        Steve McIntyre <93sam@debian.org>, <joaoanandalima@gmail.com>,
+        <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH v5] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Date: Tue, 6 Oct 2026 01:41:58 -0700
+Message-ID: <20261006084158.11523-1-singhpra@juniper.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <fd8750f7-a30c-4b60-9254-395858bc9aca@app.fastmail.com>
+References: <20261005232250.2620-1-singhpra@juniper.net> <fd8750f7-a30c-4b60-9254-395858bc9aca@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
- context
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: linux-wireless@vger.kernel.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20260930185417.61865-1-kmehltretter@gmail.com>
- <20261004122910.1392318-1-arend.vanspriel@broadcom.com>
- <asR1TaKQJlPFqEvR@gmail.com>
-Content-Language: en-US
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <asR1TaKQJlPFqEvR@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013F:EE_|DS6PR05MB434985:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68dc7fae-e5be-40fa-af67-08df2385b091
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|35950700016|1800799024|18002099003|22082099003|10067099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	0HHIi2+q2SVkVlyBkCBIRzyVPF8/WLD1dwZS0hSdGF9RekwCMtag5cqpia9DD6WFF1DjvC1pNtV4NjBorrynpGPN5/7dccIvomcl1nD1GITHRzQQ4AZKAfAGLeiZRZsnWGMKAT9g71S5Im9mA/NbUNzAz2ptQhLenG/LDAet4Meq14LzTv0eWAwJClQ2Av9G9kq+epNyk3G8iB6LF8KF5RcLlWApJZhEpvOKQOcnwqtSx6lsLCXVYuQhkvfTnSCBlWkM6/3xyEP9CV7blFgGS+WWInxGBMqmMC66xZ0/KxyW2KpX0pSK6CQQ/bIzNIfex+5Zyu7O6bLIwWFXAFIcimXZxwir/2VlmXYrKSptdipqWMY3MtdJo4U0DNWH8uJViHvr9nkZwipQWCkaOoI63ZAX9jdMA1nmaymmE8Uxyto5+LtSWEVnSpc1h83tXRcTCB3U4YN8cnnfTTZPABCTO8O6CYgGxQtt/oYxfW2LokIwWFe1fzU2m6HvGfqHLHoGJLVCOsEpQLMqnre5m2bDELnT952PzAtpvjzaL2zjcoBhv2HgFEBej5wSVZuqPuNYsgAk5bSto2EEsYk1ISXDEQ3OIA5BYMXjs+rw5RE6Qpi7z69eiPBsXrDTGzlwa/H/Zn66CiVfjKInfopJFcxCoqbb28oEpCrBsvQnmqQTn4yyzoOSL9dMkm/7HeTZ47ossx/nTy6ZXpF+zWFIyIpWhA==
+X-Forefront-Antispam-Report:
+	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(35950700016)(1800799024)(18002099003)(22082099003)(10067099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	hVn1U0KZdM5T+DD7g5URU22yva86uJxsMPzMEsk6m7Omv69FHsElQBbrZzyTxt2UM3odQ+2RFc4Mprh53OclkoB0SWkmOncuNXQes3gDInh0eMtzJ8ZHR4+YynKTCWWOV7KQu6fzTaz1kRdzcBXCmNJeZ6zdr3IT3hTNcODBkpa1vNKDiUzGyfLDb3u8NADCMt/lSku+yU0vfTyWjq3eUprBdgn3F+LUJT00Zt+D7XqYvYtAnwmkQdrZ/Y1tCV3rjfXc5w2bBqWh4LTX9ElLgQ/5kOJDE67wKuPD3jo7Laj6Bm07jYrQwIGGFO7+hBaUN9LJtShnV22JkLof6Qz5+Lm2rNbtLh6p29ZvYVU4aJcALd744hgBb3oqJT/yGDmwsyUsTzE6EF5/bn5X+jlyDfoJM3IrPFO0KOKNle6YGF/JPrviwpm6mrDd6HvFtCb3
+X-Exchange-RoutingPolicyChecked:
+	InF3YwzZV3jhTG4bq/IR+bktHsej/o9eAR7xmuEKISSAlWPJXu4/vWfPbRGuGrahjYvwRWN6UhWMB+vFFEUlGy9FSiQecXjYoXEh6czDB7xrZ6F2BgczrMJKJ/SSOMupYYKSerIRdwoJMjXj1iK52QjzYqqzwYRX85Hjt94Dv6ISNwYzEi0nS17HPubGRvVLOykGW/JKRxY+Kznou+6+PNeLf9mrXdIWbxN4a83iyRZ1FxJ732J+Kew1XGQGh12c4InSM/+UCfuXVUkvPy0QN6joxE9rK/P7tlqcpStjcWNojJtWIlc81LB/Hnp5aqi49EirY6iifD/HX0+5m6rY3g==
+X-OriginatorOrg: juniper.net
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 08:42:00.8868
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68dc7fae-e5be-40fa-af67-08df2385b091
+X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF0000013F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR05MB434985
+X-Proofpoint-GUID: FCA4Ubc0HQolFAruznWMHtnZ4G5H06o_
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDAzNCBTYWx0ZWRfX1kHnbFsUONyI
+ h28AZ+OM+gUldGulj9G8OqcvHH5feozir0TT0dWqyVvg3V1STUyDKpDj2eGIF6e1yz3mO6ahnKW
+ np7PkWfBM3vNLweD+SUTEbj/X1m/ZAQ=
+X-Proofpoint-ORIG-GUID: FCA4Ubc0HQolFAruznWMHtnZ4G5H06o_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDAzNCBTYWx0ZWRfX/7cnnzioLMy6
+ Tl3KLOC6vu9VuX4Wh/msaPyik1sJHqjzcPrCIFHu/cvEQ5rLRbs7XWRTjGMaRNZzlF9zyQchKxl
+ jbz4I+GaO3mOZy7YcLstWhVICRrCzT628+BUPYzbrahfYhPjdF477Eb5AdpOrwq38kU/12sf78j
+ G8lCoWhDbY/euF6fDpykdq2Az7TbX7fZh1n0iBEYdtd1wx+g1FHWhEo4fCe7Kp+yeYVsKWz1uK7
+ JnlVcBouZ8Lr78iQZ8J2rZ5ilMsC/En8zEuAR32kLjj94Je0iUS57C10OS28XwfJFJDsKxHk4DK
+ duISXWf8PxWsjUQRQlKqIVefyeiLvTcL9DRkYINo40eLTFclMstdYGPB1HtDAbFgsZkf6GOzbh1
+ oiGVEKJb9dVvZEzjBqaZORcVwWeza9knL4EF4HcJnhcMbd2suIzJQZu3YkU/REbYHyAQg4v4xDl
+ KsQ97cguvjbbnOh5YMg==
+X-Authority-Analysis: v=2.4 cv=Y7ptIReN c=1 sm=1 tr=0 ts=6ac4b461 cx=c_pps
+ a=fIWvqWWOoOps8dVAlNTpGg==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10
+ a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=g3u0LPWLDYfGfufhFw6-:22 a=hmfSGiSs7xPFuiQWvfIA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-06_02,2026-10-05_01,2025-10-01_01
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
+ impostorscore=0 clxscore=1015 adultscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=orgsafe scancount=1 engine=8.22.0-2609040000
+ definitions=main-2610060034
 
-On 06/10/2026 06:18, Karl Mehltretter wrote:
-> On Sun, Oct 04, 2026 at 05:29:10AM +0100, Arend van Spriel wrote:
->> Is there an opportunity to reuse/refactor brcmf_sdio_prec_enq() rather than
->> adding a separate brcmf_sdio_prec_enq_irqoff() helper? For example, passing
->> a can_evict parameter:
->>
-> 
-> Thanks for the review!
-> 
-> Sharing the helper with a can_evict argument is cleaner.
-> 
-> One queue user does not hold txq_lock: brcmf_fws_bus_txq_cleanup()
-> dequeues through brcmu_pktq_pdeq_match().
-> 
-> Lockdep instrumentation in fcmode=1 and 2 confirmed that cleanup enters
-> without txq_lock.
+On Tue, 06 Oct 2026 09:09:33 +0200, Ard Biesheuvel wrote:
+> So what happens with uid=/gid= in this case. Do they get reset to the
+> default or not? And before this patch?
 
-This is an observation unrelated to the patch, right? You mentioned in 
-the patch it only covers fcmode=0, right?
+Preserved, not reset to the GLOBAL_ROOT default -- and unchanged from
+before this patch.
 
-> I combined the helpers, but kept brcmu_pktq_penq() for normal calls.
-Sure.
+efivarfs_reconfigure() applies only nostatfs to the live superblock; it
+never touches uid/gid. uid/gid are parsed in efivarfs_parse_param() and
+stamped onto inodes at creation in efivarfs_get_inode() (inode->i_uid/i_gid
+= opts->uid/gid); reconfigure() has never re-applied them, so they are
+effectively mount-time-only. A uid=/gid= given on remount lands in the
+throwaway reconfigure fs_context and is ignored -- the live inodes and
+show_options keep the original mount values.
 
-Regards,
-Arend
+Before this patch efivarfs_reconfigure() only had the ro/rw guard
+(efivar_supports_writes()) and never applied uid/gid, so there is no
+behavioural change; the patch only adds the nostatfs line.
+
+Verified on 6.12 (Xeon), identical on a stock 6.12 without the patch:
+  mount -o uid=1000,gid=1000   -> uid=1000,gid=1000  (opts + inode owner)
+  mount -o remount             -> still 1000:1000     (preserved)
+  mount -o remount,uid=2000    -> still 1000:1000     (ignored)
+
+Thanks,
+Prashant
