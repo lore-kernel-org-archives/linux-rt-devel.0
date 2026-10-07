@@ -1,199 +1,147 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010021.outbound.protection.outlook.com [40.93.198.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EEC3FD960;
-	Wed,  7 Oct 2026 18:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791399501; cv=fail; b=uXF87h+A65iL98+d8vf8vXt/r6B9LR/tKYhisZNJhAIBTzwr4xtfdVce13lEwZ0zfi4TmX4RG6YuCeQHOKjDS0lui0ThSHJqOefH6R2HRSJrduUIfQgAhw0MZrYSaVSJ2qGCLGrVkEacm2+fRh+Ry9cyKwtt8bBNt/KLwg1V3fU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791399501; c=relaxed/simple;
-	bh=9J/lPyvYen4M8J54xHbxx37ISBrL9ISY+UE/c3LtloY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=AJYsE8Ks01FfQULoKz9htdgYeNnuxUeOxPY6Z1NHBR/lM020g94emNkRdEctrLsFJjKTx0lt3zhGwa3D6bARpVaoJcdaWeTo+AbLcPpxcHJA9ZRdz+gRCYbejQMvsmGgcc1agYnn7V8GUOderiRDioCqESpborFeIXxGX8EOeQQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oAOhUaJw; arc=fail smtp.client-ip=40.93.198.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F9338F653
+	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Oct 2026 20:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791404607; cv=none; b=M3SKvotCwYFo/eAlbl+PIIiMdBKhRu9E/sicB7bNJhu0iiwUxQK0EVQH82TvdzM/FkNGHm0jr7KfncYrThQ0B+ZJyQBz7ucxpBZMFMKZGIYWTOdRsGDNzGC6e5aBQWQIjuZpkNtn7sE9NCJWZ/LGOIrBGJge9eQkhyTfZ7d3THY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791404607; c=relaxed/simple;
+	bh=3jt+5FtRz6e1tCgCtwGri+4Lp4PI5u1JFl8ZGDIJdbM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jel5P2XS/GU45dXa1wUQvtWz+NVm/Qn44fPYO7muoLifvZ00obNTruu3MSueYKM5l1WGjDH+KZTWWrNzRGcAXaPQwVxSPaRQNwUZlO0juAT0An7Etg7KzI2lnjj4dIgQ8cX/41lrE312tEKgK0VpXZvjyA2IsHc5MVB8Gi79UUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A76Aehfs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oAOhUaJw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=diZe8xMi+e34p5RL6niL23UveGkQrUEYa26x3TOMPCmP4ozgYk/E28DKDbTPinLvi83fJYpzcj+TAJ7GgwlcWecFxaqkE5a8C30QEChebjluqbY+mSh0KUpM8R6wQTLtiiUo1VRFg62/0uY7XFiYNlx+N/ZyGFiUPieuSN3tjrC6NOmF+dM/sqTXg5O3jTZFAjKYm5+trirsg4PNmodkYGtHpaBS2YpuMsFfr+Ol0jlxeutWPe2v1dcPbg3C5i5DpGLN+2/zWx3ESP2b3wniQZGZ8XCv88epqjSHTwh5ia7lCDht7cQKV97rSBAhQGWsQLxwoee9Se6yVBDfso9rbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UNTBad831l2/inXBznQ/GDVm005QmSgHz3Tz5Ypc0nM=;
- b=yexhBcshC0G8/zr0FjJ71emRCWXHUbnJYW/cGvwBrBScvvHrZ9YTwf2O/5KJgz4TyONrmSZJsyqrf80W6Xx1AJUaQw2VZwMcc7i2mN+cljCKLN1gYEIDLKcvqbwyN/joXkFHYKbsRR7ogXjgKeB9sEWFR8pvd+glvKrOfqU1lTTIPlCH55JX8Vegvfcep/k3A2NTP8CyTpM/z/IZ6CuS2p3yMlANCvD5DZk2omE4Pl5ke4LrhStFNG+v3KxL85/QKZ3qJvRTInAtozUi2KOuImmdsdRxSLqWLisPWxWk2nF3S48IrH2xTG0iqpKfbyTkGqa6JSSQtiCqL7fNcku18g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UNTBad831l2/inXBznQ/GDVm005QmSgHz3Tz5Ypc0nM=;
- b=oAOhUaJwuoucyKU2DqH2tdp7FV8JBqCfJ8HRFB7m/0BPMSUiD88gFhXJsSMEetz5zkV76OIKlJUDxbN8XkI6QyF7rmeQx7OyB6uqBwcWb1SaEUwZiBAbXMVlbkSK5Gks7HH9yMPfnhut3hX0GUBonw5i6+X3qdBh56civHQUBa5dhimIaZUiMh8VC2OeUbeDm0JHHhcw0lMX+cejvSrD6Pb0GnjkS9aCAmczu6brxO4nogWbr+p80eWLiAV6FQbKYIZuNplAJXNjWRNIhoqpDbHt6LuCzpAZADXNUyd6NawYZBe8aufu2nXtMcw/YPvwyMX2xldFLT4s5Z7i72Mv5A==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- SA1PR12MB8723.namprd12.prod.outlook.com (2603:10b6:806:385::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.16; Wed, 7 Oct
- 2026 18:58:10 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.21.0496.010; Wed, 7 Oct 2026
- 18:58:09 +0000
-Message-ID: <038a4b64-3f7d-47f7-9ba9-a962c265e0e8@nvidia.com>
-Date: Wed, 7 Oct 2026 14:58:04 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/17] rcu: assert static storage for RCU sync and SRCU
- definitions
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@gentwo.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Josh Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, Kees Cook
- <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Mike Rapoport <rppt@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, rcu@vger.kernel.org,
- virtualization@lists.linux.dev, linux-rt-devel@lists.linux.dev,
- llvm@lists.linux.dev, Yury Norov <yury.norov@gmail.com>
-References: <20260915030336.1192299-1-ynorov@nvidia.com>
- <20260915031334.1194975-11-ynorov@nvidia.com>
- <20261007184105.GA3837481@joelbox> <asaUECwON5PS98M8@yury>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <asaUECwON5PS98M8@yury>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN8PR04CA0051.namprd04.prod.outlook.com
- (2603:10b6:408:d4::25) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A76Aehfs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992701F0089C
+	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Oct 2026 20:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791404606;
+	bh=a47jPiOkL7aWI9ip0LbLLz0CKtkQQBrXCYrRxSS2YLQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=A76AehfsEYL3HheyeK8R64HIHOvrBGn8yjRvPTang8fqSq4MCB2CcMAjsFtvArsZt
+	 6AMijk40wAF6JmAX/xRflRIXL5GoLNe5yDa3DZOdLJuwl/ydz+kk1Q4tdBLGtU7FjS
+	 7+qjPlpFMqpNZiSQUyNj2bEY6gSwKblSgv3zxbL0SfGIPS0NYyIjKq32aISN1iIr5q
+	 RET4k40TwecuFfQ6WEZFcbJ3sjAdfqTTRc9fR27sQPVC/vAtoQ/Z/9mFn+DjsqFUbC
+	 wG/r+ChmqTCkYOJExj2K7uJKSZHRRJolvhNAaZHsWFjUfThxnlVCRjXcecg5NgcFhu
+	 tSI5JHQbQy1XQ==
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4a2757826b9so225096fac.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 07 Oct 2026 13:23:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzrq/JIr4fSsM8/tl3xxZhTKJt19tq32iD8cYiMG1yegWp28SaAG9LueRi8RBZhwWjb2+IM9DJz0SBJrEc+4Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKltMvY58KKUS8Xgt3tSNUJDQM229aWltnLGFLfRGiNyIhzGOQ8
+	87lYXESVwgHqW5kngD/liIQ6OU1Cqo0QvnZdIu/eGnxOytGpLT+9/NzOHf+IQ21xG7WvoFcGgvI
+	UOYBdH2ANCu4koMXU8t4NhJBCSLKDL0A=
+X-Received: by 2002:a05:6871:c8ce:b0:492:d8bd:949d with SMTP id
+ 586e51a60fabf-4a2591dda52mr3103729fac.2.1791404605866; Wed, 07 Oct 2026
+ 13:23:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SA1PR12MB8723:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf668440-b0e8-43fb-bf25-08df24a4ee0f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|10067099003|56012099006|3023799007|4143699003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	421eAfrguhnyzMb5VnpgE8yWymDanFTnxgGUExLCMmwXuI4rTJlW8Px7jH1giYUmKNFdjnArWNOuIaorrI1YwaTWGPoHdDvXH5A4OAVEE0Hyzo3L4FKULLXFmd8BIpY52YJ27HFCJzg2zoWrvHkf8D/z3+cKkkSH8+UvOlEXOsuq55VuK2a0YXpGhu0x18CGPDn60HKnnYqsSqyLeQz0T0I0ntbL8BNiqaV82kPVAuaQRn5ajmZSdRKqPhBSqdXDpeNi2Q6zQ8Hvqw2lq2iQaBzH6OpceovjXrusQ8lNAJQfgNVxwlPciyrvgR1PaBFkuPqZd+MEuMIk/SrUL9n5+L5wPEU4gzeWji22KRVFjH6IzjGph8i7mszT0u+xk5ULaWyChK+xkTBIePPg+wttscAE/f5dCeJevwQG5zgQbQNJ+5BwvE56hKZbnCGC8/z/4BKpqUuVUoNao402zH8dyfAQ+Gh3A3ega/1DOOgqtSzmWUeM4XjovCcvmXA4bjfhRkyxhdnX8YRiCkg8Fwwx+HKtuAI7Tl4P/t1M23GyN17euY0lTBTuTC0zLg/mUEEMwo/F0PnQLkvg0DWLEeOSmg7A+vSRolCAr4VDk7dsoLHOwMdZVgvL+UPJB7Wc2/xeJrS9bxhwt5pt3pChueFIqYtK+dulAxdW3rPfzY8nzY8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(10067099003)(56012099006)(3023799007)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U21QRUt6UXA4QktJV2Y3a2Z6dTlDdDNRQkVQMER0bnB2YWwyWW9mdU13MVZx?=
- =?utf-8?B?anBNYWpHWlZpODVIaXp4S1Y4UGgrN0k0c2lzcUUyeHVWSXpjOFR3TWpvR3Bx?=
- =?utf-8?B?aERqYitFT0lyRi9NVStwcFlacytQNVA3QUpVVFl4NVFkV0oycTFoUnVOTFFW?=
- =?utf-8?B?bWxnb0VWRzc4VDJxdHpwK2hmREZlZWVaVTdsWnI1OUJCcVZLeGlPWEdGcmli?=
- =?utf-8?B?anZ2dmc1Y0U2eGE5eWNuMS9TeGU1YXYvM2EvS24wdkRoalNMQXNsa25KUEFF?=
- =?utf-8?B?ajJLK2JEdDQ4K0xyM0ozTHpaSTJ1ZE1OMHNEYlJzN2lEamk4UmtwU2xFYXRy?=
- =?utf-8?B?RkJkU3ZhZysyMHMzNTZoT1hmOTIxUUlVVlBHbHJ6am5VbTFQSCt6bGNxckFW?=
- =?utf-8?B?S01ENFlyV1N3bmx1a0pObEVPSHI3N2ZwOHp4emFpYWlJMmxxY3ltR2U0bFFi?=
- =?utf-8?B?clMrdFJsRHo4ZW96b2piek81TVFjQkw0bXI4ZzNrblpOeTlXRXZJWk4wVG5E?=
- =?utf-8?B?bGc0VkNCMlFBNW9uNzFGK0hMT0JHRWgzQlRxOGM2K3N4ZjkyaS9BTHorQ09y?=
- =?utf-8?B?WjNyZzRYcjBnNXVGQ2lyTEpERW5rZCszZjVjT1ZkZEV4emdZZlZuNlBFTjJW?=
- =?utf-8?B?QjBMY2NCK2oyTHJnV2l4ekZmL2w3VjcyYUZEVDJGSUNpQm11VDZnS3ZDSUNE?=
- =?utf-8?B?NStVdDFicVdJRHVlc2ZRbE1lVFBYb0YxaHFLWVgvT2orYkJVbjZEY05XSU9Y?=
- =?utf-8?B?UTcvQXA2R0ZoWEJkaHpDSnVWU1E3UldZQVErYjN5MDQ1Ykk1VllZVHN6RmlY?=
- =?utf-8?B?MDRvNndZSXRRZFUvSkJWZ1ZiMXhJMEhSckZKQkM4ZThxSUE3aExhMkNzTWM0?=
- =?utf-8?B?bS9mdStWR09XSDgwMi9CYWdnamhTK0FTZGdMc3ZUaFBzYVl5K3A2aHdzcG1k?=
- =?utf-8?B?SGZibCthTnU2SEd3blhPT3hSbUxXUVBLTmhmSU1ISFY2SkdmWmJOVXpPRXFk?=
- =?utf-8?B?Q1YvZllGS0FoYk80VXhWTm9yUUZWOFo5YWFhdXlOK3AzQ0Q3TmdWamw0ckFl?=
- =?utf-8?B?OXdiejVXMUV0TGJseGJXUDkrWVdIYlRjcVkxL3Q3NFFERGNzUEpiOU14Yk5P?=
- =?utf-8?B?OERPTm4xaGxGZDdld0M5ZnJvVExiNytzYWhkU1JHcnZwbmpkaEFVOUxSaHc5?=
- =?utf-8?B?UVdFNnVHa1R3UkxnN3p1RUNEam1EYmV4MzE3b3o1Y0tBcUVIQWtzY294ZnJQ?=
- =?utf-8?B?WmFmVmRiQ01aR3BOZHRIOVowQmxyVFlhVEUwZXpnYzZ1TWJWNGtOUUFqR1JU?=
- =?utf-8?B?cnJCU3QzM3ZvMU9TaWdrVmFKRmtvZDJtRTJ1U0YvS2VySUs4YWlFUE5lbWll?=
- =?utf-8?B?TkFJODEwNVg4M0lqekV6bHp4ajRSY3FEVFpidS9rM2trZEQxL0NnbVNtU3g1?=
- =?utf-8?B?b2ZUdno4dm5zbUdKUlk4aFlpcFhtUFBJaWlaeXF2eGI4YTAremJibTVTRk9n?=
- =?utf-8?B?a2c2cjJZdWNiYU5WMWpsY3UxZ3Q4L3A0L2lMMVhTd2YyZTUxWEgrL1FKcUR0?=
- =?utf-8?B?WjVqVE9BQi9JMlBRNHozZVF4R1NlMElFa09XS3laeE1DTjZONWI5Z0llTmJ5?=
- =?utf-8?B?K1RFaThOVmNWUmpGeU91SU5XNEpJUUQ2alZoMHRzQ2lkcmMycWFsaURZWFIy?=
- =?utf-8?B?VHh6c01tVGgzdm52WlllRGJTY2VTbG42K21lcHdPSFZaNmhDWXlnMkt4OEZl?=
- =?utf-8?B?dElBaFlOd0JRWXRwOWFyRGZsb1oxcm1IVWYvS1V3bVBmTDBlOFM1b2RaQmxD?=
- =?utf-8?B?KzRmelNNVGNuZ095NHpvYy9aSlcxUWJjdFpkSWNUek1LK000VkowU2s0OTBp?=
- =?utf-8?B?bDVOOUJUVGxIQVVIaUN2ZkVFdkJyVGlsNWtJSGZ5aWlyOElrVkFETnF6M0Zj?=
- =?utf-8?B?cldUT1p1ZXFMdThXdDdJOVdnUWl0amd2cVhPMjVBY3ZNRFlQRUR2Y2dXL3p6?=
- =?utf-8?B?TVhlbTlIQUpqNDdrZk8wNGh2Q05ubU1QM0swL0Jlc2lMR0pWZGpqQ1RCemhn?=
- =?utf-8?B?cUZHdDVyeHZRdit2Yll0eGcvcVFMRkFZci9FVWJ5UmxualNuYlJnclcxTWZz?=
- =?utf-8?B?Q29LZUxOMmVseXJYUTRvRGRhaCtVZzBMQUJhR2ZJVVRrRzg1KzJ4UmNlbTQ0?=
- =?utf-8?B?Z2RvaUVmQlkzZDdLMWMzSW5qTE54VmhMZ3BYR3hDbVlhOHFMYndsTk9jOEpW?=
- =?utf-8?B?ZktibUZoeXVKSm1pNVRHeGpMOE5mL0c2UUcySk1nKzl6TCtFN1N1dEorQVdR?=
- =?utf-8?B?SmVkUFYxbkRwSk43TFpMelp3M1A0eWxaWmZXYnJTOS81dWI2aXZWUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf668440-b0e8-43fb-bf25-08df24a4ee0f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 18:58:09.8614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pWeCOYfpw2qqy3ftpTMrz04yc6pmjptUYgQ/QNA12Fn2ybkYus4tgKDiPvUCa1kWIWsaP2xssmwjFW+gm8wsGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8723
+References: <20261007180056.1394868-1-jkain@nuro.ai>
+In-Reply-To: <20261007180056.1394868-1-jkain@nuro.ai>
+From: Eric Dumazet <edumazet@kernel.org>
+Date: Wed, 7 Oct 2026 22:23:14 +0200
+X-Gmail-Original-Message-ID: <CAL4WiipPRh_=aWcHF1+JuKQno8AR-V1bf=yDfgaPQbTDvsOWSw@mail.gmail.com>
+X-Gm-Features: AclHuK86Q3lEDlVLZ6eCmdvtc6y2K46nwVmAQ0ck-jGa06hCicXz3-obsFcTwL0
+Message-ID: <CAL4WiipPRh_=aWcHF1+JuKQno8AR-V1bf=yDfgaPQbTDvsOWSw@mail.gmail.com>
+Subject: Re: [PATCH net] net: do not let defer_count outlive an empty defer_list
+To: Joseph Kain <jkain@nuro.ai>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de, 
+	clrkwllms@kernel.org, rostedt@goodmis.org, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Le mer. 7 oct. 2026 =C3=A0 20:03, Joseph Kain <jkain@nuro.ai> a =C3=A9crit =
+:
+>
+> __skb_defer_free_flush() can leave defer_count at or above skb_defer_max
+> with an empty defer_list. That state is absorbing: every producer then
+> takes the nodefer path without queueing, so the list never refills, and
+> the flush keeps returning early without clearing. Deferred freeing stays
+> off for that (cpu, node) until reboot, and cross-CPU frees fall back to
+> the page allocator, which is the contention deferral exists to avoid.
+>
+> Two changes from commit 844c9db7f7f5 ("net: use llist for sd->defer_list"=
+)
+> combine to produce it.
+>
+> skb_attempt_defer_free() now increments before testing the limit and does
+> not undo the increment when it rejects, so a rejected free leaves the
+> counter raised with nothing queued.
+>
+> The flush clears defer_count before llist_del_all() rather than together
+> with it under defer_lock as it did before. A remote producer that queues
+> between the two has its skb drained by that same llist_del_all() but its
+> increment retained, so the counter drifts upward until it reaches the
+> limit.
 
+This is not cumulative: the next flush finding a non-empty list resets
+the counter. To get stuck, (skb_defer_max - 1) increments must land
+between the clear and the drain of a single flush. With small limits this
+needs nothing special, but with the default of 128 the flusher has to be
+interrupted or preempted at that point. Please reword this part and the
+"needs no preemption at all" paragraph.
 
-On 10/7/2026 2:48 PM, Yury Norov wrote:
-> On Wed, Oct 07, 2026 at 02:41:05PM -0400, Joel Fernandes wrote:
->> On Mon, Sep 14, 2026 at 11:13:31PM -0400, Yury Norov wrote:
->>> DEFINE_RCU_SYNC() contains a statically initialized wait queue. SRCU
->>> static definitions similarly rely on persistent lockdep keys and, in
->>> Tiny SRCU, a statically initialized work item.
->>>
->>> Add ASSERT_STATIC_STORAGE() to DEFINE_RCU_SYNC(), both Tree SRCU
->>> __DEFINE_SRCU() variants and Tiny SRCU's common DEFINE_SRCU() declaration.
->>> This covers the non-static FAST and FAST_UPDOWN wrappers too. Tiny SRCU's
->>> explicitly static declarations already enforce the required duration.
->>> The existing per-CPU restrictions on Tree SRCU declarations still apply.
->>>
->>> Assisted-by: OpenAI Codex
->>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
->>
->> All the changes make sense to me. I'm ok with carrying this for -rcu 7.5
->> unless you want to take it.
->>
->> Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
-> 
-> Thanks Joel, carrying it with the RCU branch is the preferred route IMO.
-Ok, applying this patch for -rcu 7.5, thanks!
+>
+> Neither needs PREEMPT_RT. The drift needs no preemption at all: the
+> flush normally runs in NAPI poll on the CPU that owns the list, while
+> skb_attempt_defer_free() only ever defers to a remote CPU, so producers
+> cannot be excluded by disabling preemption on the flusher. PREEMPT_RT
+> only widens the window, because local_bh_disable() does not disable
+> preemption, so the flusher can be scheduled out between the clear and
+> the drain.
+>
+> The latch is also reachable with no race at all:
+>
+>   sysctl -w net.core.skb_defer_max=3D1    # frees increment, then reject
+>   sysctl -w net.core.skb_defer_max=3D128  # does not recover
+>
+> skb_defer_max has .extra1 =3D SYSCTL_ZERO and no .extra2, so 1 is settabl=
+e.
+> 0 is safe, because proc_do_skb_defer_max() flips skb_defer_disable_key
+> and the producer returns before incrementing, but that guard covers 0
+> only. Recovering from the latched state needs a skb_defer_max above the
+> accumulated count, which an operator has no way to determine.
+>
+> Drain before clearing, so the error can only under-read, is bounded by
+> the producers in flight, and self-heals on the next flush. Clear the
+> counter on the empty-list path as well, so no count can outlive an empty
+> list and an already-stranded counter recovers.
+>
+> llist_empty() has already loaded that cache line, so the added read is
+> free; the unlikely() keeps the store off the hot path, where it would
+> otherwise bounce the line against remote producers.
+>
+> Found on an arm64 PREEMPT_RT system running the two commits backported to
+> 6.1. With skb_defer_max lowered, defer_count reached 788,888 on one host
+> and 122,399 on another with the list empty throughout, and restoring the
+> default did not re-enable deferral.
 
-thanks,
+Not sure if this paragraph is needed?
 
-Joel Fernandes
+Lowered to which value? Have you seen this with the default?
 
+If the value was 0, note that kernels without commit 08dc30de1a40
+("net: add skb_defer_disable_key static key"), i.e. 6.18 to 7.0, have the
+same issue as your skb_defer_max=3D1 example: setting 0 and restoring the
+previous value leaves deferral disabled. This is worth mentioning, since
+0 is the documented way to turn the feature off.
+
+Please send a v2 with these changes (but please wait ~24 hours before V2)
+
+>
+> Fixes: 844c9db7f7f5 ("net: use llist for sd->defer_list")
+> Signed-off-by: Joseph Kain <jkain@nuro.ai>
+
+This is your first linux contribution, are you sure you have not used an LL=
+M?
+
+( See Assisted-by: LLM) tag in Documentation/process/coding-assistants.rst
+
+pw-bot: cr
