@@ -1,82 +1,79 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF0C3C5848
-	for <linux-rt-devel@lists.linux.dev>; Thu,  8 Oct 2026 20:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C75F3C872B
+	for <linux-rt-devel@lists.linux.dev>; Thu,  8 Oct 2026 22:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791492418; cv=none; b=MTnPHvHTrDrnz5jr1kp1YMKEN2iAue4JULk6tF1cB4YuJa3XGEEeYK3xh9nFKEIfIPSZnGaZv5UIZTxpBtgz4Ua6EyAQVPhy2NsGJ1dKcYaMkbGK/rWBRWFNakuA6qL/uNHhXCn4eNeuof78DTCZU9Aw9EocUGaOimI5/ZZmUwM=
+	t=1791497039; cv=none; b=gee8PlkA8ClZYuc17ymxxRRimYllpPwEh9g353GJADPYEDZKSXSysPL3QkAPNbELQJBhCrdzsbezskrc+08sLgvuKyvlFmn5+fjKf4S4jNPvcLcsCiy15yekaHpfRpXGc0Pfbva8c2PERfTMcpmKHWimt0ZqnRT8UW93qEbYJsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791492418; c=relaxed/simple;
-	bh=8pVDE6gKB5Gw0t6qxjwvlekmFJOu3ZyamWouP1sB23Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uITnjfoquiFYHb68pCjPjf7RGAtC97kruQUW28UpjP2cyzKUc22XZvoExijCdPkPPkIV2J6V9vf95cH9+Ud4dqpOQRtQNble+s298asePeB9MH64mOQq3u10HOvHEDDCHu11AwXMHCXEJCqvs1PoZPXzD9wupR8LvOuf1YCGUNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ksdfzaaq; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791497039; c=relaxed/simple;
+	bh=8k95RK6Zf52oGbmUpDyrJ6APv7VVAvduP/WK/ehltQ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QLTwhlIXPhrvMgi7Mv0yb2aPHwV+FJgAMOElho+zjsD3wDfhv7SaBBVpm+SByXtL9b4vTvE0VMdZM0hvASu3pLrnnwkb1qYoD7dzNCuZ4MFQ1GUKxS810hpDnFyt/wVI+p43nJSLSRiqy3M5Wf41dJik5tzpk3OimFgvf6kGzwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai; spf=pass smtp.mailfrom=nuro.ai; dkim=pass (2048-bit key) header.d=nuro.ai header.i=@nuro.ai header.b=iXxW2OqJ; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuro.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ksdfzaaq"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a020e65269so26294965e9.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 08 Oct 2026 13:46:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nuro.ai header.i=@nuro.ai header.b="iXxW2OqJ"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3515f9a5d25so1533926eec.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 08 Oct 2026 15:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791492415; x=1792097215; darn=lists.linux.dev;
+        d=nuro.ai; s=google; t=1791497036; x=1792101836; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9mZZmE9NIEQo+14wGuifnEY8q83z61KsgfZ3VlGz8po=;
-        b=ksdfzaaqMlqFmVdb52zqXqmlh9CxuY3Obez3My5joXa7aJjIewvA+rN/VozmX3AKg5
-         BZhW/PHuYTgil+ZUYzjaCZl8PGVGS8Dvw+EvPQWf1/QnMaI0HzwL+sCNjh7rdB7zZgwp
-         7xraMww/iZX+4N2qrT3bFDYdxi7HjVtXPRSzo6J5BoDpov3GY7EnRwl013U0B/y81Qwo
-         pcvSChPBNjZ1jg32KFYmkQ4lSSgh/jCLkYJeTaDR68fJPb8jVNyA66pdxf9x1dt5ebJs
-         Kx2NRNqNQbPOUnQJRxDwRaeZd0/KO/J/slq/dErCl6hcMngKr3yOM3WjfYecX2bFsfeR
-         e/vg==
+        bh=W6q2ZgKyEielHB9fMBeVKRfxouhNXO4dRwouPOAg0k8=;
+        b=iXxW2OqJNcLGilh3cFsT4xYNnDwMqybB5zc2X6Qp5zY2TJSyOzMefdBBKXvdT7swiM
+         Lc007EqR0RhI/5+a7H8sJS2pSGOtUtIctZaCCnhYkwJe0lg7bsCG9VXvUXix0qLsCLba
+         XXCEBLGFohjVSU1afNUMnA4x5MuoGJlXfGc5B5jSsTpXf1A2pN7n2S0fa9L3JSltnYms
+         Ff9XEZosTEcVYShqpw2OYOCX/nmh/hB7prTGjfxSjM537zPV9F/hgDCPbj+H9eVllKaq
+         KoBtg5oAWNVGBxN9qmgMPVviM7/JI/Q4RYcYggY9DUqZlqNRZTTyLQOlHPtQjOizrXX1
+         4cPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791492415; x=1792097215;
+        d=1e100.net; s=20260707; t=1791497036; x=1792101836;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9mZZmE9NIEQo+14wGuifnEY8q83z61KsgfZ3VlGz8po=;
-        b=W/mDWYeU5/ofelq4RvcxkR4+p1QWyW8fxU65sP/NKqTOnjMPh/vsX0HD1+P5Rwunse
-         cEmbQZPoU4iObOfe632uWKRN7TAMvOPEMbGfRhZ7aPQmKOgOWM42tQzbFp7GefQzjxcH
-         /mI0+mTKHlhKUujzxwx3fmcVTKqDKmoL/ng8620ebVj2clYtR5G1FETccjhw/wMAExPw
-         /ZHe6Vvo1PxjgD7JLj/+XzQAMVqKpaqAwOOyCHok8A9ydvg5PJkAxaSLsj/s5Drwg1Sw
-         r1173Lz6EzTKKDRSgS8VhTZ9sbOXc7QodEefYwDm4DnOp6/nxoV8KtEeyIb8mCpxiplW
-         ZYsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxgjJv9JXsDO5i/LaN41EwxlUwRhgDjk4vGDBE58LZT6MwG15/a6T+vZcapTqUrONGvAVx8d86LeMp0FJWh0A==@lists.linux.dev
-X-Gm-Message-State: AFuF++lQHl3xX4uNUNH5lTUHv9MY1XUUS58mGMybsI5HWPnfrAigGHCk
-	T3hN1dvNLoCJkQbaYiqzRH2zDSCWOeamhkWGZZUvAIBbqveAgBqD4+8L
-X-Gm-Gg: AYBFou3bqip4ESBO4ZCYADIiWJ97luKlk+h/BNLh1Fgy09KU/Ty0hX5JaTsOTTOM32c
-	SsFCYfH/1f1pE/4tXZxN9v0fNMIHv3DyMkQNQVFQ6etQBNJnQz/wsJ/0GVzhPbdkXEygogOfGPX
-	zmGX4/wBi2khXcgqQT/UC274AIpFmPUupj/vSWrgC6ugW+AghsJAJhbEqj8WSngYe+CLb35VV+3
-	uUyMK9NSvRmXfQKEHypYZ25c8w9k3fxtjOgUZ+02aOLkzs2/Xb07IsU+/+MeADmeAYbzVwOlC6W
-	sg45MyhYE2RrkCSwQ0e0/nkWhDImXRjYMkkxPAI9KThYb7E4QFAFrmrekFQ2G32thUI2qaTthnc
-	EgJ1oqcseqKMGuvsxJ/FsPUCt190Qlfeb7xkAwBr9vhCOXHCu9MBeQnPce8ZbWztTLhu+xXTOzu
-	KIcI/A9DsnkOtcOtXkdZdVko1rBt8k4MI62oDPbIrmesUfoqHJ17UZVueKI3LUbbYymZXWteAWa
-	5ivbPCY0JFzhV5HKZ5EcwhfevXbc1Ey23t+mroJPGmt+JSeg4Ofd4ZgGKGGsDoC9JCRjdOjyBwd
-	IgCGWA==
-X-Received: by 2002:a05:600c:a00e:b0:4a0:1a18:b742 with SMTP id 5b1f17b1804b1-4a1800d3de4mr132110965e9.2.1791492414594;
-        Thu, 08 Oct 2026 13:46:54 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9abdaa5sm154528f8f.35.2026.10.08.13.46.50
+        bh=W6q2ZgKyEielHB9fMBeVKRfxouhNXO4dRwouPOAg0k8=;
+        b=gCjlA2Y+lFR0Qi4tTwi1WblD8Ax2qKtWpSPsZmVfpOSOYf9nJcmL15UmOnl4jplLlv
+         TqyQeuJFurNqTzBqbGJ8v5M8/vKZiVeVINcln48soEGtyQH26tul3P7KXxMK+G4TfObL
+         D+B8TFpC08g/hD1EmAOTLo4jaOY7SxyTxvpviwrYjFvpWEnrPEOV4IEug382Y7ID678W
+         QDVw58gOY93m9i7gVkT9cLA0vi1/1k/y15c+iitebOeTIu4N3DzRGTcRULd6hcvRWiyp
+         x4gx6a7bqmt7feBUjMdkkp9fCeyiX+I3v3SROV7zF7/GVTtfJrPZX7HZANETPqAFn9wD
+         WfNg==
+X-Forwarded-Encrypted: i=1; AKwUvBzBySrdrKu2iuSlOrhdJolem2Bgb6Bg/qh7Fr2KtBXwpc4WZl3MI8g9YefEUbkFTNfz+qdO64Jjbrp7RNigAw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIP/FYJimDAvdKSUJ8zwZOWT15/QQ9H+iLaYKPS1VnYYy5aYibb
+	LmelmMpUi+JtU28pmgNNggcjGokCoikJPnjC6UPNqO8dnM9RHqfoBL7Xb2p1Gxx14WA=
+X-Gm-Gg: AYBFou0Si3yTzdjNjKPq+HZ5mwORAXxBRcpGB+hsilRotCmSAEKnvkMtadBwcFSbWMD
+	ir8EvgMjDVf8IqPAtNOmWv4BVybB/S2uCuPwOxksdtHhKPRna8DqfFbICSeCgd3Feld/Ld5v9Ma
+	9Ag1u6RPuFVkfJFeSUMAcbYHUUnruzsxzPkhnQIX1Z5J1nqPzXnZNo3cXwJ8/DVz6QKQV3b4Mej
+	GhCQCZoY2PodrMGzKWU79uZUYCUFfHAF4TtyNqcae+uiFIq26rH6g2a5Pzmz+bY6fgKR7hN8i9g
+	Dh8l144jClD8SOmYoUiRBNXTLNOXKUGthXT+1iuJkQPG0tHhjUorq87VSfybEkV8+Z0oAJrb19K
+	g9J38RTEP/tDayY3NxvLGXf6/0NEa9oz0WJaJaxVNv+RLXN6g4zTewkUa5ApLUbpZTfom06PXKD
+	zVLCdDFkX2kEwk6lFSVp61CLmA/Blf8FPRMAwi6ygNytQkwsnRjdCqnTlwen7vknBsKQd1beGon
+	Dupg6jZXy4=
+X-Received: by 2002:a05:7301:78ca:b0:351:750d:dd3b with SMTP id 5a478bee46e88-3537dde75a7mr339836eec.4.1791496985629;
+        Thu, 08 Oct 2026 15:03:05 -0700 (PDT)
+Received: from jkain-desktop.corp.nuro.team ([64.124.43.154])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cacb5e9sm920601eec.20.2026.10.08.15.03.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 13:46:53 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Andy Lutomirski <luto@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-kernel@vger.kernel.org,
+        Thu, 08 Oct 2026 15:03:05 -0700 (PDT)
+From: Joseph Kain <jkain@nuro.ai>
+To: netdev@vger.kernel.org
+Cc: edumazet@kernel.org,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [RFC PATCH] entry: Account the deferred hrtimer rearm as hardirq context for lockdep
-Date: Fri,  9 Oct 2026 01:46:49 +0500
-Message-ID: <20261008204649.62265-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	linux-kernel@vger.kernel.org,
+	Joseph Kain <jkain@nuro.ai>
+Subject: [PATCH net v2] net: do not let defer_count outlive an empty defer_list
+Date: Thu,  8 Oct 2026 15:02:56 -0700
+Message-ID: <20261008220256.1844072-1-jkain@nuro.ai>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -85,144 +82,105 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On a desktop debug kernel (PROVE_LOCKING, KASAN, LOCKDEP_CHAINS_BITS=19)
-lockdep switches itself off after about two days of uptime with
-"BUG: MAX_LOCKDEP_CHAIN_HLOCKS too low!", and locking is not validated
-until the next reboot. In the last such boot the pool ran out after 46.6
-hours, and a fifth of it, 533509 of 2621431 chain hlocks in 63838 of
-344717 chains, had been created by the deferred hrtimer rearm on return
-from interrupt.
+__skb_defer_free_flush() can leave defer_count at or above skb_defer_max
+with an empty defer_list. That state is absorbing: every producer then
+takes the nodefer path without queueing, so the list never refills, and
+the flush keeps returning early without clearing. Deferred freeing stays
+off for that (cpu, node) until reboot, and cross-CPU frees fall back to
+the page allocator, which is the contention deferral exists to avoid.
 
-Make lockdep account that rearm as part of the timer interrupt it
-belongs to.
+Two changes from commit 844c9db7f7f5 ("net: use llist for sd->defer_list")
+combine to produce it.
 
-Commit 15dd3a948855
-("hrtimer: Push reprogramming timers into the interrupt return path")
-moved the reprogramming of the clock event device out of the timer
-interrupt into the interrupt return path. On return to kernel mode
-irqentry_exit_to_kernel_mode_after_preempt() performs it after
-irq_exit_rcu() has already left lockdep's hardirq context. lockdep
-therefore records hrtimer_bases.lock and the timekeeper sequence count
-as taken by the interrupted context, on top of the locks that context
-holds, and every distinct held-lock stack an interrupt hits adds two
-lock chains. When the rearm runs from irq_enter_rcu() or
-__irq_exit_rcu() it is still inside lockdep's hardirq context, and there
-the same acquisitions reuse one pair of chains.
+skb_attempt_defer_free() increments before testing the limit and does not
+undo the increment when it rejects, so a rejected free leaves the counter
+raised with nothing queued.
 
-The dependencies recorded on the return path are "lock held with
-interrupts enabled -> hrtimer_bases.lock". Such a lock is hardirq-unsafe
-and hrtimer_bases.lock is hardirq-safe, so a path in the reverse
-direction is already reported by the irq-safety checks without these
-edges.
+The flush clears defer_count before llist_del_all() rather than together
+with it under defer_lock as it did before. A remote producer that queues
+between the two has its skb drained by that same llist_del_all() but its
+increment retained.
 
-Re-enter lockdep's hardirq context around the rearm on the kernel return
-path. The return to user mode path holds no locks and is left alone, as
-is the rearm in __schedule(), which runs under the runqueue lock.
+That part is not cumulative: any later flush finding a non-empty list
+clears the counter again, so lost increments do not build up across
+flushes. Reaching the limit takes skb_defer_max - 1 queued increments
+inside a single clear-to-drain window. At a small skb_defer_max that
+needs nothing special. At the default of 128 the flusher has to be
+interrupted or preempted between those two lines for long enough, which
+is where PREEMPT_RT matters: local_bh_disable() does not disable
+preemption there, so the flusher can be scheduled out at that point.
 
-With the same kernel tree, configuration and workload, one hour of
-uptime including a full kernel build, the chains of this shape, with
-hrtimer_bases.lock and optionally the timekeeper sequence count on top
-of a held-lock stack outside the scheduler, go from 13266 (96187 chain
-hlocks, 15.9% of those in use) to 4. Those 4 come from clock_was_set(),
-which takes cpus_read_lock() and each CPU's hrtimer_bases.lock and reads
-the clock under it.
+Once the counter is stuck at or above the limit with an empty list,
+nothing lowers it again, and that half needs no race at all:
 
-Fixes: 15dd3a948855 ("hrtimer: Push reprogramming timers into the interrupt return path")
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+  sysctl -w net.core.skb_defer_max=1    # frees increment, then reject
+  sysctl -w net.core.skb_defer_max=128  # does not recover
+
+skb_defer_max has .extra1 = SYSCTL_ZERO and no .extra2, so 1 is settable.
+From v7.1 on, 0 is safe because proc_do_skb_defer_max() flips
+skb_defer_disable_key and the producer returns before incrementing. On
+6.18 through 7.0, which carry the llist conversion but not commit
+08dc30de1a40 ("net: add skb_defer_disable_key static key"), setting 0 and
+restoring the previous value strands the counter the same way -- and 0 is
+the documented way to turn the feature off. Recovering needs a
+skb_defer_max above the accumulated count, which an operator has no way
+to determine.
+
+Drain before clearing, so the error can only under-read, is bounded by
+the producers in flight, and self-heals on the next flush. Clear the
+counter on the empty-list path as well, so no count can outlive an empty
+list and an already-stranded counter recovers.
+
+llist_empty() has already loaded that cache line, so the added read is
+free; the unlikely() keeps the store off the hot path, where it would
+otherwise bounce the line against remote producers.
+
+Fixes: 844c9db7f7f5 ("net: use llist for sd->defer_list")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Joseph Kain <jkain@nuro.ai>
 ---
-Not touched, and a question for you: the rearm in hrtick_schedule_exit()
-also stacks chains on the preempted task's locks, under the runqueue lock.
-Chains with hrtimer_bases.lock under the runqueue lock, this rearm among
-them, were 4.9% of the pool in the boot above. Should it get the same
-treatment?
+v2:
+ - Reworded the drift description: it is not cumulative, since any later
+   flush finding a non-empty list clears the counter again. Reaching the
+   limit takes skb_defer_max - 1 queued increments inside a single
+   clear-to-drain window, and said where PREEMPT_RT actually matters
+   (Eric Dumazet).
+ - Noted that 6.18..7.0 strand the counter via skb_defer_max=0, the
+   documented way to disable the feature, since they carry the llist
+   conversion but not 08dc30de1a40 (Eric Dumazet).
+ - Dropped the paragraph describing where this was first reproduced
+   (Eric Dumazet).
+ - Added Assisted-by.
 
-Tested on x86_64 only (Ryzen 9 7950X), PREEMPT_DYNAMIC. Not tested on
-PREEMPT_RT or on the other architectures that use generic entry with
-HRTIMER_REARM_DEFERRED.
+Built for x86_64 and arm64, with and without CONFIG_PREEMPT_RT. On
+v7.3-rc6 with skb_defer_max=1 and a cross-CPU TCP load, defer_count
+reached 1918118 unpatched and did not recover when the default was
+restored; with this patch it peaked at 1.
 
-Method: tree 0c2669a9f4a1 plus local fixes, the same .config
-(LOCKDEP_CHAINS_BITS=19, LOCKDEP_BITS=16) and gcc 16.2.1 for both kernels,
-built with and without this patch. Each kernel booted fresh and sat at the
-login screen with sleep inhibited; a full kernel build (make clean,
-make -j32) started at 600 s of uptime, and /proc/lockdep_chains and
-/proc/lockdep_stats were read at 3600 s. One run per kernel.
+v1: https://lore.kernel.org/netdev/20261007180056.1394868-1-jkain@nuro.ai/
+ net/core/dev.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-                                                       without    with
-lock chains                                              97283   81257
-chain hlocks used                                       603921  485100
-hrtimer_bases.lock on held-lock stacks outside the
-  scheduler (the shape above)                            13266       4
-  their chain hlocks                                     96187      12
-hrtimer_bases.lock under the runqueue lock (untouched)    5208    4665
-hardirq chains starting with hrtimer_bases.lock             11      11
-direct dependencies                                      36118   34332
-deferred rearms in 2 s (hrtimer_rearm with deferred=1)     534     578
-
-A chain is counted in the third row when it is in process or softirq
-context, hrtimer_bases.lock sits on a non-empty held-lock stack with no
-scheduler lock in it, nothing or one sequence count follows it, and
-debugobjects' obj_hash lock never follows hrtimer_bases.lock on that same
-stack (that would be the stack's own hrtimer_start()/hrtimer_cancel()).
-
-The four left with the patch:
-
-  cpu_hotplug_lock -> hrtimer_bases.lock [-> &____s->seqcount#2]
-  &dev->mutex -> cpu_hotplug_lock -> hrtimer_bases.lock [-> &____s->seqcount#2]
-
-Beyond the removed chains, the total dropped by another 2764 chains
-(2.8%); one pair of runs does not separate that from run-to-run spread,
-the untouched runqueue-lock row moved by 10% between the two runs.
-
-Peter suggested looking for such patterns in lockdep_chains here:
-https://lore.kernel.org/all/20250310112315.GS16878@noisy.programming.kicks-ass.net/
-
- include/linux/irq-entry-common.h | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/irq-entry-common.h b/include/linux/irq-entry-common.h
-index 0bb6c03481fa..521cc30cef08 100644
---- a/include/linux/irq-entry-common.h
-+++ b/include/linux/irq-entry-common.h
-@@ -468,6 +468,21 @@ static inline void irqentry_exit_to_kernel_mode_preempt(struct pt_regs *regs,
- 		irqentry_exit_cond_resched();
- }
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 18dc88990510..043a7f9166a9 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -6938,10 +6938,13 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+ 	struct llist_node *free_list;
+ 	struct sk_buff *skb, *next;
  
-+/*
-+ * The deferred hrtimer rearm is the tail of the timer interrupt, moved to the
-+ * interrupt return path so that it runs after a possible reschedule. By now
-+ * irq_exit_rcu() has left lockdep's hardirq context. Re-enter it for the
-+ * rearm, so that the hrtimer base lock and the timekeeping sequence count are
-+ * not chained onto the locks held by the interrupted context, which would add
-+ * new lock chains for every lock stack an interrupt hits.
-+ */
-+static __always_inline void irqentry_hrtimer_rearm_deferred(void)
-+{
-+	lockdep_hardirq_enter();
-+	hrtimer_rearm_deferred();
-+	lockdep_hardirq_exit();
-+}
-+
- /**
-  * irqentry_exit_to_kernel_mode_after_preempt - Establish trace, lockdep and RCU state
-  * @regs:	Pointer to current's pt_regs
-@@ -491,7 +506,7 @@ irqentry_exit_to_kernel_mode_after_preempt(struct pt_regs *regs, irqentry_state_
- 		 */
- 		if (state.exit_rcu) {
- 			instrumentation_begin();
--			hrtimer_rearm_deferred();
-+			irqentry_hrtimer_rearm_deferred();
- 			/* Tell the tracer that IRET will enable interrupts */
- 			trace_hardirqs_on_prepare();
- 			lockdep_hardirqs_on_prepare();
-@@ -502,7 +517,7 @@ irqentry_exit_to_kernel_mode_after_preempt(struct pt_regs *regs, irqentry_state_
- 		}
+-	if (llist_empty(&sdn->defer_list))
++	if (llist_empty(&sdn->defer_list)) {
++		if (unlikely(atomic_long_read(&sdn->defer_count)))
++			atomic_long_set(&sdn->defer_count, 0);
+ 		return;
+-	atomic_long_set(&sdn->defer_count, 0);
++	}
+ 	free_list = llist_del_all(&sdn->defer_list);
++	atomic_long_set(&sdn->defer_count, 0);
  
- 		instrumentation_begin();
--		hrtimer_rearm_deferred();
-+		irqentry_hrtimer_rearm_deferred();
- 		/* Covers both tracing and lockdep */
- 		trace_hardirqs_on();
- 		instrumentation_end();
+ 	llist_for_each_entry_safe(skb, next, free_list, ll_node) {
+ 		prefetch(next);
 -- 
-2.56.0
+2.55.0
 
