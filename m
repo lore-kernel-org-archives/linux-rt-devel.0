@@ -1,61 +1,60 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB7E37FF67
-	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Oct 2026 15:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B454739B969;
+	Fri,  9 Oct 2026 16:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791561150; cv=none; b=RNWZuJOq2qSM4qj/xIEd+9IRzYOLzbuoXRp1yrvFko1U/aD0Jrf9cO1zlYsEHUjNPORW+fPVqFQgAQlsC49yEzcz6O40BZYj24weINASKOZVVGprrN41xzq6at2IA/H2pQhceON71FBRvixziTE9G/37nc1xCjza8A5db8e5spo=
+	t=1791561620; cv=none; b=oUwmPDknAOfTeMRqnJ7ujDaSGW3muui2rV4pwzeu8uHb7EdqbHJrHFI0kZQBw+uKKD4tSEGcutF27TT66orAO1iEgy8Qv1zECLNXrXrZB6etc6tO9ZXDVMGWB5hLvHkapZIEcgXVxsXEne8LF7Q+52L8VHpXm0nFBOEPtaEWAOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791561150; c=relaxed/simple;
-	bh=Bp8Y3B+4k1arBEAPTQHV+Jezm+XIuoVKGwAJXnjuv9c=;
+	s=arc-20240116; t=1791561620; c=relaxed/simple;
+	bh=qaAdILM3CMjzMUnepXGcDG9HL6mZmTo+JdQvryy+9os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gsQoG7DNXVGRstNKiDgMd9MARgV25IZqm3SV1/WSee8uhsfrhvqqPILkmwrrEOeIDhI0Jbbm23zvIIIfyjyYLQuNFZWejCB5f8iWnTlWXxfQtwOh/GErArDb+hp7uzW/N3qzOvaNKKJUq1rxjceH3EmHDwJ/R2WuyNywcrMGxDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0hK3+yrw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yMZxadU1; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=V+U0bG1ZRCZrjGPdRVLkBCYfBS0SiQynRYe937skoZDx8h5SeZ7suc6a+WMY49lPYnOu9cqtTzULe8FXa9lYGYbwva+EmYzt+l6wuPn8p094Gt+vN1zHcZEXpczSAOLmL9gSP5/HyI7ZjeR17ILitQ/KA6MFZ5E/lH9IUfK9MV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XjTOJBme; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WIvWdH/c; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0hK3+yrw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yMZxadU1"
-Date: Fri, 9 Oct 2026 17:52:25 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XjTOJBme";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WIvWdH/c"
+Date: Fri, 9 Oct 2026 18:00:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1791561146;
+	s=2020; t=1791561617;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=80QEXrpzD+kFda3/t4OvfmIyHa2usi5G2SbXsA7Iaek=;
-	b=0hK3+yrwjLIuBKWsevUjEqlQwGjIc1bngq037sYMRJadfTM6pWehYVHiL8wQoE/dW6w9xt
-	bYVDKnraYa7sB0xO/OuinBr3i1iI3hJHi2G1940ynLPs3ELBknW5L2+RyWzoA8bt28r7yJ
-	dvjm4IEuMhU9Qqyn8zvEYm34M5l44Tn4nVHV5U7znEJzsbNl3/2GY9qd3jHU8vL/m6lPhY
-	yBOJDdtxPQFUCECQuToR2gFFlH6a/+QRGMg8H5f8RvlP0kZEl3D/eW6V/Kfh3/lj1i4SwX
-	kFXCu0NxeVjJpFgIwTLRaKhx/2zCZ5GPKTQpQxrBWoGCL8O33Va+V0yKW7ww5w==
+	bh=GHEUoBUYZxg9IObMlPuW6xttti1DW7KdgFxwRUKho9g=;
+	b=XjTOJBmelnNySZPZJtHgRBq8T8fd2/wQwKg4e3OmS1xmgCtkXeE8WR1wiBVe1XLaDMs/QZ
+	J5uShhdeIjSITCT60/dNDzXtR8Oba0+fBKml4lyEOrRr579peJxUHB+up0k2fOLg4K91zD
+	C3Yv8EW13lKDyFvIbofSUZBTWbao09KufhOIa9Vn9c9rpYEsUWoPuiTn9YglGuPRq0KDRQ
+	8qUjsLE/VuB2d4zOEUq+IbnfRBEyR9wQiNhX3meAwRWoChKynPo0cN2G8bTWnRAWbz+Hbt
+	mVJsHxQI6JmXqeHfFPN82WHr9yCtYa6PeF/PBm423YU3X2OL53iaXEFxKs5QhA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1791561146;
+	s=2020e; t=1791561617;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=80QEXrpzD+kFda3/t4OvfmIyHa2usi5G2SbXsA7Iaek=;
-	b=yMZxadU1OrZtchHsqw7H5PtHO4vxKtc1FDCeI9sB+ECH0vjq7LRfJOxAlO5nsNJyAabYlJ
-	hzUHf1pkzHfvsKDg==
+	bh=GHEUoBUYZxg9IObMlPuW6xttti1DW7KdgFxwRUKho9g=;
+	b=WIvWdH/cHjj533zX6iAsJnCqt6eXTdxUSsvbapXKD9i5t4GFJsSRd08GfxkVaAQuSlTtWf
+	kIjciUZdI9dhiOBg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+Cc: linux-wireless@vger.kernel.org,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Breno Leitao <leitao@debian.org>
-Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
- transmit queue
-Message-ID: <20261009155225.6Uy7b0wd@linutronix.de>
-References: <20260928064239.32456-1-kmehltretter@gmail.com>
- <20260930192103.62973-2-kmehltretter@gmail.com>
- <20261001074819.gQ3w8q6P@linutronix.de>
- <ar7sTVun7mF-4nl6@gmail.com>
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
+ contextg
+Message-ID: <20261009160015.9YCN8Lt-@linutronix.de>
+References: <20260930185417.61865-1-kmehltretter@gmail.com>
+ <20261001075755.3MilPS2C@linutronix.de>
+ <ar7vLt5kQ2HJoJY9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -64,157 +63,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ar7sTVun7mF-4nl6@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ar7vLt5kQ2HJoJY9@gmail.com>
 
-On 2026-10-02 01:30:45 [+0200], Karl Mehltretter wrote:
-> > >   BUG: sleeping function called from invalid context
-> > >   in_atomic(): 0, irqs_disabled(): 1, non_block: 0
-> > >   rt_spin_lock
-> > >   skb_queue_tail
-> > >   netpoll_send_skb
-> > 
-> > How is this possible? netpoll is only used by netconsole right? And this
-> > is CON_NBCON so it only prints threaded. What is the missing piece?
-> > 
-> 
-> The call is from the NBCON printer thread, but netpoll_send_skb()
-> explicitly disables hard interrupts around __netpoll_send_skb():
-> 
->         local_irq_save(flags);
->         ret = __netpoll_send_skb(np, skb);
->         local_irq_restore(flags);
-> 
-> When direct transmission cannot complete, __netpoll_send_skb() calls
-> skb_queue_tail() before interrupts are restored. Its spinlock can sleep
-> on PREEMPT_RT despite the caller being a thread.
+On 2026-10-02 01:41:51 [+0200], Karl Mehltretter wrote:
+> On Thu, Oct 01, 2026 at 09:57:55AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2026-09-30 20:54:17 [+0200], Karl Mehltretter wrote:
+> > > This fixes the direct SDIO transmit path used by fcmode=3D0. Modes 1 =
+and 2
+> > > take the FWS lock first and need a separate change.
+> >=20
+> > Is this the only affected driver?
+>=20
+> I also reproduced a sleeping-lock warning with 8139cp on PREEMPT_RT
+> using QEMU's RTL8139C+ device. Enabling a dynamic netconsole target caused
+> the printer thread to enter cp_start_xmit() with hard interrupts disabled:
+>=20
+>   BUG: sleeping function called from invalid context
+>   in_atomic(): 0, irqs_disabled(): 1, pid: 107, name: pr/netcon0
+>   hardirqs last disabled at netpoll_send_skb+0x1c8/0x3d0
+>   rt_spin_lock
+>   cp_start_xmit+0x31/0x8b6 [8139cp]
+>   netpoll_start_xmit+0x18e/0x260
+>   netpoll_send_skb+0x37a/0x3d0
+>   netconsole_write+0x56d/0x820
+>=20
+> That was one reproduction on the netdev base a7bfaba4823e. I have not
+> established how many drivers are affected.
+>=20
+> Source inspection also identified 8139too and macb as candidates: their
+> transmit paths take ordinary spinlock_t locks. I have not reproduced the
+> warning with either driver.
 
-We have netconsole as a user of netpoll. The netconsole user is nbcon.
-There are users such as macvlan and dsa and this looks like not a real
-user but just forwarding the netpoll packet. According to the history
-for macvlan, it is just there to forward the netconsole packets so it
-appears to check out.
+I just replied to the netconsole thread where I did suggest to lift the
+local_irq_save() part. This would obsolete this.
 
-So it is just netconsole which is NBCON but has CON_NBCON_ATOMIC_UNSAFE.
+> The earlier netpoll/NBCON discussion concerns NAPI polling and
+> scheduler-lock deadlocks, rather than this driver-lock warning:
+>=20
+> https://lore.kernel.org/linux-rt-devel/20260618111554.2n0pP_O9@linutronix=
+=2Ede/
 
-In the ::write_thread() case the interrupts are disabled due invoking
-::device_lock(). In the ::write_atomic() the lock function might not be
-invoked but due to the nature of the situation the interrupts will be
-disabled anyway. So disabling interrupts looks like a lazy way of
-letting everyone know that ::ndo_start_xmit() will be invoked from
-netpoll/ netconsole.
-I don't see anything that would mandate disabling interrupts in
-__netpoll_send_skb() except BH need to be disabled before
-HARD_TX_TRYLOCK(). 
+There was no fan club behind this change and PeterZ hated it so I
+dropped it.
+But this deadlock should not happen with nbcon or do I mix up things?
 
-I would suggest to untangle that local-irq-disable assumption. Then we
-end up with the ::write_atomic callback on PREEMPT_RT which will raise
-warnings. But those will appear only on panic() and as the last console
-due to CON_NBCON_ATOMIC_UNSAFE so everything will go according to the
-plan.
-On !RT the whole __netpoll_send_skb() will be with disabled interrupts
-due to the console lock. On RT it won't and I don't know if anything
-down the call chain assumes that.
+> > Do you have maybe a backtrace?
+> >=20
+>=20
+> This is the original Pi 400 report on 7.3-rc3 with PREEMPT_RT. That kernel
+> also had unrelated allocation-test patches applied. DEBUG_ATOMIC_SLEEP
+> was disabled, so this report is the BH-disable warning:
+=E2=80=A6
 
-To illustrate my idea a bit
-
-diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index 1c6b1eec5efd6..3853611f672be 100644
---- a/include/linux/netpoll.h
-+++ b/include/linux/netpoll.h
-@@ -71,6 +71,9 @@ void netpoll_zap_completion_queue(void);
- unsigned int netpoll_get_carrier_timeout(void);
- 
- #ifdef CONFIG_NETPOLL
-+
-+DECLARE_PER_CPU(atomic_t, netpoll_active);
-+
- static inline void *netpoll_poll_lock(struct napi_struct *napi)
- {
- 	struct net_device *dev = napi->dev;
-@@ -96,7 +99,7 @@ static inline void netpoll_poll_unlock(void *have)
- 
- static inline bool netpoll_tx_running(struct net_device *dev)
- {
--	return irqs_disabled();
-+	return atomic_read(this_cpu_ptr(&netpoll_active)) > 0;
- }
- 
- #else
-diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index fe1e0cda5d6bf..8ecdac601ca13 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -73,7 +73,9 @@ static netdev_tx_t netpoll_start_xmit(struct sk_buff *skb,
- 		}
- 	}
- 
-+	/* local_irq_save() ? */
- 	status = netdev_start_xmit(skb, dev, txq, false);
-+	/* local_irq_restore() ? */
- 
- out:
- 	return status;
-@@ -258,7 +260,8 @@ static int netpoll_owner_active(struct net_device *dev)
- 	return 0;
- }
- 
--/* call with IRQ disabled */
-+DEFINE_PER_CPU(atomic_t, netpoll_active) = ATOMIC_INIT(0);
-+
- static netdev_tx_t __netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
- {
- 	netdev_tx_t status = NETDEV_TX_BUSY;
-@@ -268,12 +271,11 @@ static netdev_tx_t __netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
- 	/* It is up to the caller to keep npinfo alive. */
- 	struct netpoll_info *npinfo;
- 
--	lockdep_assert_irqs_disabled();
--
- 	dev = np->dev;
- 	/* npinfo->txq belongs to np->dev, so retries must stay bound to it. */
- 	skb->dev = dev;
--	rcu_read_lock();
-+	rcu_read_lock_bh();
-+	atomic_inc(this_cpu_ptr(&netpoll_active));
- 	npinfo = rcu_dereference_bh(dev->npinfo);
- 
- 	if (!npinfo || !netif_running(dev) || !netif_device_present(dev)) {
-@@ -306,11 +308,6 @@ static netdev_tx_t __netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
- 
- 			udelay(USEC_PER_POLL);
- 		}
--
--		WARN_ONCE(!irqs_disabled(),
--			"netpoll_send_skb_on_dev(): %s enabled interrupts in poll (%pS)\n",
--			dev->name, dev->netdev_ops->ndo_start_xmit);
--
- 	}
- 
- 	if (!dev_xmit_complete(status)) {
-@@ -319,7 +316,8 @@ static netdev_tx_t __netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
- 	}
- 	ret = NETDEV_TX_OK;
- out:
--	rcu_read_unlock();
-+	atomic_dec(this_cpu_ptr(&netpoll_active));
-+	rcu_read_unlock_bh();
- 	return ret;
- }
- 
-@@ -332,9 +330,7 @@ netdev_tx_t netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
- 		dev_kfree_skb_irq(skb);
- 		ret = NET_XMIT_DROP;
- 	} else {
--		local_irq_save(flags);
- 		ret = __netpoll_send_skb(np, skb);
--		local_irq_restore(flags);
- 	}
- 	return ret;
- }
-
-
-and this did not even see the compiler. Plus queue_process() has been
-ignored.
+I don't mind if you have something to optimise the driver. But as far as
+the netconsole part goes, I would try to kill it at the upper level so
+the driver is not affected.
 
 > Thanks,
 > Karl
