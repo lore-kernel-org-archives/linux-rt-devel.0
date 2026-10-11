@@ -1,347 +1,152 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E861E0DD8
-	for <linux-rt-devel@lists.linux.dev>; Sun, 11 Oct 2026 09:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB93235DA42;
+	Sun, 11 Oct 2026 18:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791711067; cv=none; b=TbyUlTEU4NWZWOE2GOGTmlJfaQfBTw3TWGBIP3hnJTBkxDk2TczhaptNbDi8uWz0qmazBOnWoZ121HS77vxGlzMpT9krNUAc5UmeG04J4UaundTGHGB2FmYGwdWNrIUeXOJ8OEaDR9bSqIG7C6RfTFppn4hN7lx10a57WxUGDPU=
+	t=1791743741; cv=none; b=gTE7Q091iriDcMCmi3yTZS8nB6al1b2Myp0EfEWweAFL5GYwuQ3Qxz6FfhkHVRpoLvj1gWpn/nHYL5k4H8lPBHfe9iD7aa8Kz3NOcST9VOcU8SlEFysLTb/nzi5VEZU1fduD3Hvjrc/hBJAvwEp24Z++LWHy/287a9P+30iJg0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791711067; c=relaxed/simple;
-	bh=04rb6SlyHebM+jBx8obU7xgdb67/0ynLf6c/JCoTTNw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=G37D73l1pGmxBn7qwo056f4Ei9+DoEsw1WuOlwCe7yROHnlFdU2psxp/ufVTYQbm8RsNqSbSj3AnL8zm4FnF9FTg4LmPW+5wQIp2ESYXeh30cQGm3ua67GRg8A9RlN6GgEsUXFMyQ2yn71bt1Vild0vUAwNMg6TQ7o9u7gHHoG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=LKwrRPeR; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=RoeLV7MO; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1791743741; c=relaxed/simple;
+	bh=jkvgEiNmPdaIDXG7/7ega0mXbOBEbdWq2xBlCmsyy5Q=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=n+DQYfWECMD91I6r4tveDKp2I3pguyjMxaiKrtyAagRVPxM7a9FZQCDh++GzzvGE21YzTTA2vTP2kq8fLef9mLnaH0x5eLVrBftO28g1DOi2nvyOymF8eaHVY7JO37pVcR5UUmdLYo3yE2jdcVvYZYEW8sbHm5Yf3D8nKedN95A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l6O6dt1X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="LKwrRPeR";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="RoeLV7MO"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1791711063; bh=zhztlBmkp0ZoUFBNIAUMrpx
-	mrccUsWFwHVC4AWY1MbM=; b=LKwrRPeRsgN6WQSa+UVMZl1su2kMfLHatmWt1RklHmSynH6sGl
-	f7zOE+E0an24x9VQk84cEjMus57kRmWStQ4rmY1sgOAkuYC6Xf5LsPW0NTFPS8MIDZMcKp5pWyF
-	kRQ+VO4SQiki8Gnf/r3z+93YcFqzyepztrzlMAVblAh1di9kfnhPOuUev2tGCAys2W/062tqb59
-	QtVyvq55ItVJjqydc7d3tG3jKj5/ARY4T3POhCYitJOoW07Ys0Sepg95o0ARrQEi60KGYE9bbYn
-	mwz3OGmZFX0hS7zKskbVDv7QwE7iFe12d9n//xg/kEACqLTN1ONArf7xFLA+WrondpA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1791711063; bh=zhztlBmkp0ZoUFBNIAUMrpx
-	mrccUsWFwHVC4AWY1MbM=; b=RoeLV7MO5D2NN3m1Arakh9uD06kIGPYZSLfdxyrJ+mo31ey6sD
-	/6LrBTTiJ/MqYlt1NfJopQ1ySu2HhLVQ4oAA==;
-Date: Sun, 11 Oct 2026 10:31:04 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Boqun Feng <boqun@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: Re: [PATCH v6] softirq: Preserve interrupt context during IRQ exit
-In-Reply-To: <20261011060742.30584-1-kmehltretter@gmail.com>
-References: <20261011060742.30584-1-kmehltretter@gmail.com>
-Message-ID: <17377421-38AC-4453-B6CE-A4854ED597E6@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l6O6dt1X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D981F0089B;
+	Sun, 11 Oct 2026 18:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791743740;
+	bh=vadG8Jr+bOGNL9vaxNaELw49Sa1QcE71MooFeSTd670=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=l6O6dt1XC6FBNVpzKz/UXOhas+N8H6xsLL+neM2G/dRyy7xV9YUT0bAD8kiypQbTX
+	 nsrbXCtthM5HBklMESCd/7REwZXCnVCMJkRy1Xd9nLmGnehHifRbf+8LRxQ5GpFOGD
+	 AJ0s9XrR7X4zX/xMv87l4wqdPyGhXG4s2Kx74VkiTS9+2el19+w3Y7DXDjiJLFXav6
+	 tNH/Lypg5Ekjz6sxgSWPfIBtnLBtogQvuWlz9l8/8j3O3WFvS+76kF58Ip1m9YnLE9
+	 MizxxMMW7c26HFhhnDmdFqvw5AaJsmK5Qh8xKqRw6DuLZlcx3xFyoP+yE/zk77OOO0
+	 3spsg8wrGiW5Q==
+Subject:
+ Re: [PATCH net] net: do not let defer_count outlive an empty defer_list
+From: netdev-bot+sashiko@kernel.org
+To: jkain@nuro.ai
+Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, rostedt@goodmis.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Sun, 11 Oct 2026 18:35:39 +0000
+Message-ID: <179174373903.434549.2352317203073383628@kernel.org>
+In-Reply-To: <20261007180056.1394868-1-jkain@nuro.ai>
+References: <20261007180056.1394868-1-jkain@nuro.ai>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-On 11 October 2026 07:07:42 BST, Karl Mehltretter <kmehltretter@gmail.com>
-wrote:
->__irq_exit_rcu() removes HARDIRQ_OFFSET from preempt_count() before
->the IRQ exit work. On the outermost IRQ exit, with no NMI or softirq
->state remaining, this makes context checks report task context. The
->softirq-dispatch, timer-wakeup and tick-exit checks account for the early
->decrement, but other code reached in this window sees the wrong context:
->
->  - ftrace, perf and the ring buffer record task context and use the
->    task recursion and context slots.
->  - KCSAN attributes accesses to the interrupted task. KMSAN uses and
->    changes the interrupted task's KMSAN context. KCOV and the printk
->    caller id see a task.
->  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
->    interrupt context to avoid interfering with PI when the interrupted
->    task is blocked on a lock. Those checks do not reject calls made in
->    this window. BPF programs attached to sched_waking or sched_wakeup
->    can reach the trylock path through kmalloc_nolock().
->  - An oops kills the interrupted task instead of ending in "Fatal
->    exception in interrupt".
->
->The early decrement predates git. No failure caused by this
->misclassification is known. lockdep is unaffected because
->lockdep_hardirq_exit() is the last operation in irq_exit().
->
->Keep HARDIRQ_OFFSET until the end of __irq_exit_rcu(), including
->tick_irq_exit(). Softirq handlers must run in BH context, so replace
->HARDIRQ_OFFSET with SOFTIRQ_OFFSET while they run and restore it
->afterwards. Use one raw counter update for each transition to preserve
->the preemption disable location recorded by irq_enter_rcu(), and update
->lockdep explicitly. Detect IRQ exit with in_hardirq() in
->softirq_handle_begin() because __do_softirq() can be reached through
->do_softirq_own_stack() and cannot take an argument.
->
->Adjust the exit checks for HARDIRQ_OFFSET still being present. Use
->irq_count() == HARDIRQ_OFFSET for softirq dispatch, as in irq_enter_rcu().
->Use hardirq_count() == HARDIRQ_OFFSET for the timer thread wakeup and
->tick_irq_exit(). NMI exits use a separate path. An IRQ nested in an NMI
->has an extra HARDIRQ_OFFSET from NMI entry, so it is excluded too. The
->timer thread check must ignore softirq_count() to allow wakeups when an
->IRQ interrupts softirq processing or a BH-disabled section. The timer
->thread handles all pending softirqs, including any raised during its
->wakeup.
->
->A softirq raised from a tracepoint on the final preempt_count_sub()
->waits for the next interrupt exit and can trigger NOHZ tick-stop
->warnings. Handling that instrumentation case does not justify a check
->on every interrupt exit. A tracepoint on tick_irq_exit() can also raise
->a softirq after the normal softirq handling has finished.
->
->The number of counter updates and interrupt time accounting are
->unchanged. The preemptoff tracer now reports the interrupt and subsequent
->softirq processing as one section. With nofuncgraph-irqs, function graph
->tracing also skips the IRQ exit work, including the __do_softirq() frame.
->
->Suggested-by: Peter Zijlstra <peterz@infradead.org>
->Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
->Assisted-by: LLM
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Very beneficial change in my opinion, well, nothing looks inherently broken
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
+- [High] The fix depends on __skb_defer_free_flush() running on the CPU
+  that owns the list.
 
+--
 
->Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
->---
->
->Changes in v6:
->- Keep HARDIRQ_OFFSET through tick_irq_exit() and use
->  hardirq_count() == HARDIRQ_OFFSET for its nesting check (Frederic).
->- Update entry.rst to document NOHZ handling before the final
->  preemption-count decrement.
->- Test in_hardirq() directly in softirq_handle_begin() (Frederic).
->- Drop the in_nmi() test from the timer thread wakeup condition
->  (Frederic). NMI entry adds HARDIRQ_OFFSET, so the equality check
->  excludes IRQs nested in an NMI.
->- Drop the earlier Reviewed-by tags pending reconfirmation of the
->  tick_irq_exit() behavior change.
->
->Testing:
->QEMU IRQ-exit probes (v5/v6):
->
->                                                        v5          v6
->  Tick-exit calls (hardirq/total)                   0/5553   5339/5339
->  Tick-exit function-graph records                    5555           0
->  KMSAN selections (task/total)             427205/3492324   0/2992433
->
->The two tick-exit rows count tick_nohz_irq_exit(); function-graph
->tracing used nofuncgraph-irqs. Captures had timer activity and zero
->trace loss.
->Each KMSAN kernel passed all 28 KUnit tests; those tests generated all
->KMSAN reports.
->
->Additional testing covered 67 guest boots and 10 kernel/softirq.o builds
->across five architectures, including RT/non-RT stress, KCOV
->configurations and 600-second rcutorture.
->The KCSAN probe deliberately triggered reports to check IRQ-exit
->context.
->
->Matched configurations of the unpatched base and v6 were compared on
->Pi 400, Pi 500+, BeagleV Ahead, AMD/KVM and UP ARMv6 Pi 1B+. Pi 500+ and
->AMD tick-exit traces confirmed hardirq context with v6 and zero trace
->loss. The NOHZ_FULL tick stopped on both versions on Pi 500+ and BeagleV
->Ahead. Pi 1B+ base/v6 workloads completed without reported errors.
->
->On physical SAM9X75 (cpuidle-at91), base/v6 tick-exit traces showed
->hardirq flags in 0/556 and 540/540 calls, with 558 and zero
->function-graph records under nofuncgraph-irqs. Both kernels showed idle
->and Ethernet activity, with zero trace loss.
->
->On Pi 500+, accounted CPU time exceeded wall time under intermittent
->workloads on both the unpatched base and v6. No v6-specific regression
->was established.
->
->v5: https://lore.kernel.org/r/20260930191432.62760-1-kmehltretter@gmail.com
-> Documentation/core-api/entry.rst | 16 +++++----
-> kernel/softirq.c                 | 60 +++++++++++++++++++++++++-------
-> 2 files changed, 57 insertions(+), 19 deletions(-)
->
->diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
->index 79fdaed954d9..09942135aad1 100644
->--- a/Documentation/core-api/entry.rst
->+++ b/Documentation/core-api/entry.rst
->@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
-> means that up to the point where irq_enter_rcu() is invoked in_hardirq()
-> returns false.
-> 
->-irq_exit_rcu() handles interrupt time accounting, undoes the preemption
->-count update and eventually handles soft interrupts and NOHZ tick state.
->+irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
->+possible, handles the NOHZ tick state and finally undoes the preemption count
->+update.
-> 
-> In theory, the preemption count could be updated in irqentry_enter(). In
-> practice, deferring this update to irq_enter_rcu() allows the
-> preemption-count
->@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
-> is that the early entry code up to irq_enter_rcu() must be aware that the
-> preemption count has not yet been updated with the HARDIRQ_OFFSET state.
-> 
->-Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
->-before it handles soft interrupts, whose handlers must run in BH context rather
->-than irq-disabled context. In addition, irqentry_exit() might schedule, which
->-also requires that HARDIRQ_OFFSET has been removed from the preemption count.
->+Note that soft interrupt handlers must run in BH context rather than in hard
->+interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
->+SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
->+puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
->+is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
->+irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
->+that HARDIRQ_OFFSET has been removed from the preemption count.
-> 
-> Even though interrupt handlers are expected to run with local interrupts
-> disabled, interrupt nesting is common from an entry/exit perspective. For
->diff --git a/kernel/softirq.c b/kernel/softirq.c
->index 5d02c36c40e3..be49e6469f3a 100644
->--- a/kernel/softirq.c
->+++ b/kernel/softirq.c
->@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
-> 	local_irq_enable();
-> }
-> 
->-static inline void softirq_handle_begin(void) { }
->-static inline void softirq_handle_end(void) { }
->+static inline bool softirq_handle_begin(void) { return false; }
->+static inline void softirq_handle_end(bool from_irq_exit) { }
-> 
-> static inline bool should_wake_ksoftirqd(void)
-> {
->@@ -481,15 +481,38 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
-> }
-> EXPORT_SYMBOL(__local_bh_enable_ip);
-> 
->-static inline void softirq_handle_begin(void)
->+static inline bool softirq_handle_begin(void)
-> {
->-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
->+	if (!in_hardirq()) {
->+		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
->+		return false;
->+	}
->+
->+	/*
->+	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
->+	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
->+	 * interrupts. Use the raw operation to preserve the preemption
->+	 * disable location recorded by irq_enter_rcu(), and update lockdep
->+	 * directly.
->+	 */
->+	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
->+	lockdep_softirqs_off(_RET_IP_);
->+	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
->+
->+	return true;
-> }
-> 
->-static inline void softirq_handle_end(void)
->+static inline void softirq_handle_end(bool from_irq_exit)
-> {
->-	__local_bh_enable(SOFTIRQ_OFFSET);
->-	WARN_ON_ONCE(in_interrupt());
->+	if (!from_irq_exit) {
->+		__local_bh_enable(SOFTIRQ_OFFSET);
->+		WARN_ON_ONCE(in_interrupt());
->+		return;
->+	}
->+
->+	lockdep_softirqs_on(_RET_IP_);
->+	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
->+	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
-> }
-> 
-> static inline void ksoftirqd_run_begin(void)
->@@ -605,6 +628,7 @@ static void handle_softirqs(bool ksirqd)
-> 	unsigned long old_flags = current->flags;
-> 	int max_restart = MAX_SOFTIRQ_RESTART;
-> 	struct softirq_action *h;
->+	bool from_irq_exit;
-> 	bool in_hardirq;
-> 	__u32 pending;
-> 	int softirq_bit;
->@@ -618,7 +642,7 @@ static void handle_softirqs(bool ksirqd)
-> 
-> 	pending = local_softirq_pending();
-> 
->-	softirq_handle_begin();
->+	from_irq_exit = softirq_handle_begin();
-> 	in_hardirq = lockdep_softirq_start();
-> 	account_softirq_enter(current);
-> 
->@@ -670,7 +694,7 @@ restart:
-> 
-> 	account_softirq_exit(current);
-> 	lockdep_softirq_end(in_hardirq);
->-	softirq_handle_end();
->+	softirq_handle_end(from_irq_exit);
-> 	current_restore_flags(old_flags, PF_MEMALLOC);
-> }
-> 
->@@ -716,7 +740,7 @@ static inline void tick_irq_exit(void)
-> 
-> 	/* Make sure that timer wheel updates are propagated */
-> 	if ((sched_core_idle_cpu(cpu) && !need_resched()) || tick_nohz_full_cpu(cpu)) {
->-		if (!in_hardirq())
->+		if (hardirq_count() == HARDIRQ_OFFSET)
-> 			tick_nohz_irq_exit();
-> 	}
-> #endif
->@@ -748,8 +772,12 @@ static inline void __irq_exit_rcu(void)
-> 	lockdep_assert_irqs_disabled();
-> #endif
-> 	account_hardirq_exit(current);
->-	preempt_count_sub(HARDIRQ_OFFSET);
->-	if (!in_interrupt() && local_softirq_pending()) {
->+
->+	/*
->+	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
->+	 * softirqs, and only if it did not hit a softirq or BH disabled section.
->+	 */
->+	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
-> 		/*
-> 		 * If we left hrtimers unarmed, make sure to arm them now,
-> 		 * before enabling interrupts to run softirq.
->@@ -758,11 +786,17 @@ static inline void __irq_exit_rcu(void)
-> 		invoke_softirq();
-> 	}
-> 
->+	/*
->+	 * Wake the timer thread even if the interrupt hit a softirq or a
->+	 * section with BHs disabled. Only the outermost interrupt can wake it.
->+	 */
-> 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
->-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
->+	    local_timers_pending_force_th() &&
->+	    hardirq_count() == HARDIRQ_OFFSET)
-> 		wake_timersd();
-> 
-> 	tick_irq_exit();
->+	preempt_count_sub(HARDIRQ_OFFSET);
-> }
-> 
-> /**
->
->base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
->
+net: do not let defer_count outlive an empty defer_list
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+The patch reorders __skb_defer_free_flush() so that defer_count is cleared
+after llist_del_all() instead of before it. It also clears a non-zero
+defer_count when the defer_list is found empty. The goal is to recover a
+(cpu, node) whose counter is stranded at or above skb_defer_max.
+
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index e76762e29360e..e847e243a692e 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -6938,10 +6938,13 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+>  	struct llist_node *free_list;
+>  	struct sk_buff *skb, *next;
+>  
+> -	if (llist_empty(&sdn->defer_list))
+> +	if (llist_empty(&sdn->defer_list)) {
+> +		if (unlikely(atomic_long_read(&sdn->defer_count)))
+> +			atomic_long_set(&sdn->defer_count, 0);
+>  		return;
+
+[Severity: High]
+Does this reset run in the stranded state?
+
+__skb_defer_free_flush() only runs for this_cpu's nodes. Its callers are
+net_rx_action(), threaded NAPI, busy poll and CPU hotplug. The producer
+side, skb_attempt_defer_free() in net/core/skbuff.c, increments and
+rejects before it reaches the only kick:
+
+net/core/skbuff.c:skb_attempt_defer_free() {
+    ...
+	defer_count = atomic_long_inc_return(&sdn->defer_count);
+
+	if (defer_count >= defer_max)
+		goto nodefer;
+
+	llist_add(&skb->ll_node, &sdn->defer_list);
+    ...
+	kick = (defer_count - 1) == (defer_max >> 1);
+    ...
+	if (unlikely(kick))
+		kick_defer_list_purge(cpu);
+}
+
+Once defer_count >= defer_max, every producer goes through nodefer and
+returns. None of them calls kick_defer_list_purge(), so nothing raises
+NET_RX_SOFTIRQ on the owner CPU.
+
+napi_consume_skb() sends every alien TX-completion skb here. The owner can
+be an application CPU that allocates TX skbs but does no NAPI, RPS/RFS or
+backlog processing itself. On such a CPU, does the commit's own reproducer
+still latch?
+
+  sysctl -w net.core.skb_defer_max=1    # every free rejected, count climbs
+  sysctl -w net.core.skb_defer_max=128  # count already >= 128, no kick
+
+In that case the new reset in __skb_defer_free_flush() never runs, and
+deferral stays off for that (cpu, node).
+
+The same thing seems to happen in two other cases. With defer_max=2, one
+skb gets queued but the kick condition (defer_count - 1) == 1 never matches
+before the reject. It also happens whenever skb_defer_max is lowered below
+the current count. proc_do_skb_defer_max() does not reset the per-node
+counters or request a flush when a positive value is restored.
+
+The commit message says:
+
+  "Clear the counter on the empty-list path as well, so no count can
+  outlive an empty list and an already-stranded counter recovers."
+
+Is that only true when the owner CPU runs NET_RX for unrelated reasons?
+
+Would a producer-side change also be needed to close this? Two options are
+undoing the increment with atomic_long_dec() on the reject path, or kicking
+or flushing the owner on reject.
+
+> -	atomic_long_set(&sdn->defer_count, 0);
+> +	}
+>  	free_list = llist_del_all(&sdn->defer_list);
+> +	atomic_long_set(&sdn->defer_count, 0);
+>  
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261007180056.1394868-1-jkain%40nuro.ai
