@@ -1,108 +1,197 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509483D5229
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 19:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97295357D08;
+	Mon, 12 Oct 2026 23:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791832145; cv=none; b=RAqm6gDZXAhml+KI8OkSdw7RqcCqhQlqudMDvFeYceYWL6LBiUItJ/p9LR3CL4zht2lZyXny0APZi5h2MlUWZfGLhS2necf4t3hvUKOx8KP6kWhbfnp+nYQh49MRIQVFteNKaPYM+eGen0lBA4YpcPJ5hh9RGrCTJh/HRMNgerU=
+	t=1791847687; cv=none; b=SIBZ7ZDM34PEVxHfcft0QysbfAh2uXFT5wCMpYqhC4+N2LTk4GmplpRTcXomS9GClKhc4Cr57VN5cNpk+qz6lIxF2PBv4sS2oPDGI6PF+kan/vGANzd7Lpb3lrj4rG2zLxMPI2q2jvPXecIU9dEzBDTW//2hcWlPsNcRR44+dco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791832145; c=relaxed/simple;
-	bh=QaGsg8YHe+4kQJxQkKk1XH9DeZBJmhX14Rv5dC+iT5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nGEnL6IUlYtqEGwy4r2DepwhinYVL/kEmiceQ9BpSezPFtlX16cjlzghSC+4atPDop4xzKwYsqMPd9O2WYn/APdSYbAcoaV7GiFst4jWqStWTQNEPXngTpDc8DpsBLvmDU0XLvpbxKTYIOYfXQwLD7pbvH3x2r0WHnvO/Q2GtrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pziZ7Bpx; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791847687; c=relaxed/simple;
+	bh=QEXzlbnFVgwc+JP+qE5LQb/H6+wO6B9yWmAhgi/yCUg=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AytDpIKx37tQwZHgHYdI5bFzpwHbVGA/J7/+9Z2PvwMzhWBtKAbDx2Md4j94P2r07YjxtfrO8uFOFpCj/wo3j/ZhjrPct/8XG9PJqEL/ce/VqSciwdD56rKG2a8NLP4y4eK2cozS5CbcB1YsVPnmi9yecM83DjdxQH6aOQRwpJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fW8SmKqT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pziZ7Bpx"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso19470085e9.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 12:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791832142; x=1792436942; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XYwwSnERvRQ2SylVNRBxQCfE31X9AnGYXZyWqtwRxqU=;
-        b=pziZ7BpxWqKhz0nnahvUxRALti5ABYEf6xpkXNdkMVPe23FgImjL3ZpU/zXPy5ssPu
-         S3d4HKPUKvxRpZs8azIAIbDjE+ZJuKHAS6AmZu3ted7Yv3ftepud2RVzb8BxeU8ClYt5
-         L0FgZxorNpMj2eI/IDp5PjNPDIq1MM+iTShlt3Yw6jKI59PO27QSzzA+aBbpqyhoc3d5
-         4bReKAEE6sWtjWYacCyH6ygHex/qA5UK75E/C9rB7juwWrFz7QUQdHMpbasu2cXezvNi
-         0YQ6BqkWN+brGUONaqwIK2UmpuSa4mCUMuERn4dc8wdjtJbZofE5fqmPQyz7Px1yGByu
-         uNMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791832142; x=1792436942;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XYwwSnERvRQ2SylVNRBxQCfE31X9AnGYXZyWqtwRxqU=;
-        b=MZWcEZfVRdS27ALC+5sF423w/5GqAzPpi/kQBKq1HMMNj/22hxHbwTMKje/xHelWnK
-         32VxQXIcg4ewcpDUoy6Vjh1Wl/B75FK+YXt9sFlt6Hc1AOzTVEfOzl03GBchYzyfXDFN
-         k7MeykD47V1RgDBeXbcVx4e9fCbbe4ZtJzZyBFWRixwaWJlLhTYne5jsOUUSYpqt3pbY
-         bqJ4+ICNOy8ypexRiIDqWsX0iiabaPQQ7JAUe9pbkLsRgLP8gz+WcZUnZIweRgRHjl9A
-         ynL4U9o3om2pIiqImuqaIXlMKBax6XYUim/TDuqUvPrpUpy2nzt46AEfSbbcZgLhQZ7i
-         Bosw==
-X-Forwarded-Encrypted: i=1; AKwUvBzPedZzPS83O5xPB5BRb0Ziberp+5nHYDQovMffXaVzDLYOpHtED82FK5aUe8BlHWfsQsV/kRWiaLBHIo1LeQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJdpzArpZbf/s52wppjKU00wPEcQNmkcPY1hlyxaxMzcOLs5Jbu
-	FehE05+7MFLm0hC2/34sIMzvR9xIDceqOkYHnNwh370XTR3cMXpBGamt
-X-Gm-Gg: AYBFou0XtoAnay+gaQnHFc6vPi8yy0ANl6SDbYajmZZvox/ReH6zXj2Zey5bXacPgMf
-	ToL0PKwYN4Bl0AFd/tP2b1EbPGaFShsdzhbjyVR3R/qXdCUo+M7sfR+DTWu/Pddg2fVhk35RVbl
-	3by0PfUkbTobAV6CMYi0TfmEs0KzHiEraMUc2752wRzmm2K2wTwhJNa9g6XZTx5oHUFj5jlRr+N
-	4eMHDfjXRcJxa0dHfI5CV0htZ2LMqLfgNFW9JZ6wUBQyd+X+mtBIkVCOEqcpY0yv+iP4MMJ6q8P
-	H9lCU7DgJRkO1iwfR0T4O1CR/6aBJuL+striUGpC4vnYwsdEM1VRX8rqSnvg9gRHQBmjtd64vhZ
-	qc9xq4odCHxbx5c+UixIqmiS9Hvx6ZvN8p1vG6ntf8zvdzM5x+apoZ95ZQdZiWoSFZgBqF1jVUD
-	/IA24P3p1HE3zyXjQz/SHETEdctiT60e3k64KrsH/rQujAosKya85OHz6rJ68MBgKWgCynckGix
-	znf97Gt5s3+Y9FaEihgoCX3bcU+9EWxoAneXR3PjMYv1WmcJKvSSMYSdDN/TKSHVtMCum5uzkHx
-	ODjFq1AEx7LdCEijXTZbw+R7wQG8E6cbdU2OE1zRDqiw/8nrmyanBQ2SqKzZUW6y5lQXobuX
-X-Received: by 2002:a05:600c:8519:b0:49d:4ef:bf70 with SMTP id 5b1f17b1804b1-4a18e4a16femr188375425e9.10.1791832141574;
-        Mon, 12 Oct 2026 12:09:01 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a8ab-0f01-016a-c770-797f-eaee.310.pool.telefonica.de. [2a02:3100:a8ab:f01:16a:c770:797f:eaee])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19f249692sm200105015e9.3.2026.10.12.12.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 12:09:00 -0700 (PDT)
-Date: Mon, 12 Oct 2026 21:08:58 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Boqun Feng <boqun@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Alexander Potapenko <glider@google.com>, 
-	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: Re: [PATCH v6] softirq: Preserve interrupt context during IRQ exit
-Message-ID: <as0wCemtoR7p4S7-@gmail.com>
-References: <20261011060742.30584-1-kmehltretter@gmail.com>
- <17377421-38AC-4453-B6CE-A4854ED597E6@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fW8SmKqT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F711F0089B;
+	Mon, 12 Oct 2026 23:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791847686;
+	bh=x4QWWhSGkIIeeGunKR//0WtK5Y28qf1EYFbA7Wu7upw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=fW8SmKqTJNW4h0C323Bb4Sd24dQNBwAyuKwS3JDFzJ/VbJON0lhmcGsTqv89JtzX5
+	 TEYaNCbcQdeZ7jBFTxlS+Ag705Mw485EfbVorh0u/1wemf5jEaB7jgrhC9xmR0VVSe
+	 Opndc5PtO5N1FtHODp4PFS73rLRE6ZivvZhxCr34Mn81Uy9Pzf5B4S+N2b8kp6HmCl
+	 DOzqJhRpToGVImcxHyEPmVHREenQjWnU9SBh7eAUtwBKIiBpXhGgNRuRDqOqCiQ0bu
+	 pkNIGFLC13HQGJ8XGcO0f4V/K16Oi+KU1wrPWVQgZ3wtdiW7j3xNAv+a2gzqa2wUAb
+	 wrh48g3uh5SSw==
+Subject:
+ Re: [PATCH net v2] net: do not let defer_count outlive an empty defer_list
+From: netdev-bot+sashiko@kernel.org
+To: jkain@nuro.ai
+Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, rostedt@goodmis.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Mon, 12 Oct 2026 23:28:05 +0000
+Message-ID: <179184768524.434549.10991307098335983416@kernel.org>
+In-Reply-To: <20261008220256.1844072-1-jkain@nuro.ai>
+References: <20261008220256.1844072-1-jkain@nuro.ai>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17377421-38AC-4453-B6CE-A4854ED597E6@mainlining.org>
 
-Hi Bradley,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-On Sun, Oct 11, 2026 at 10:31:04AM +0100, Bradley Morgan wrote:
-> >Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> >Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
-> >Assisted-by: LLM
-> 
-> Very beneficial change in my opinion, well, nothing looks inherently broken
-> 
-> Reviewed-by: Bradley Morgan <brads@mainlining.org>
-> 
+Critical: 0 · High: 1 · Medium: 0 · Low: 0 (1)
 
-Thanks for reviewing this again.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-I think the patch is in good shape now, and I've also done a lot of
-testing.
+- [High] The patch only partly fixes a stranded defer_count.
 
-Thanks,
-Karl
+Pre-existing issues:
+- [Low] The skb_defer_max documentation and the sysctl range do not match
+  how the counter works.
+
+--
+
+net: do not let defer_count outlive an empty defer_list
+
+This patch changes __skb_defer_free_flush() so that it drains the
+defer_list before it clears defer_count. It also clears defer_count on the
+empty-list path. The goal is to stop a stale counter from turning off
+deferred skb freeing for a (cpu, node) pair until reboot.
+
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index e76762e29360e..e847e243a692e 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -6938,10 +6938,13 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+>  	struct llist_node *free_list;
+>  	struct sk_buff *skb, *next;
+>  
+> -	if (llist_empty(&sdn->defer_list))
+> +	if (llist_empty(&sdn->defer_list)) {
+> +		if (unlikely(atomic_long_read(&sdn->defer_count)))
+> +			atomic_long_set(&sdn->defer_count, 0);
+>  		return;
+
+[Severity: High]
+Does this recovery path ever run on a CPU whose counter is stranded?
+
+The counter is only cleared when the owner CPU calls
+__skb_defer_free_flush() itself. skb_defer_free_flush() only walks the
+this_cpu_ptr() sdns. It is called from net_rx_action(),
+napi_threaded_poll_loop() and busy-poll.
+
+The producer side in skb_attempt_defer_free() is unchanged:
+
+net/core/skbuff.c:skb_attempt_defer_free() {
+    ...
+	defer_count = atomic_long_inc_return(&sdn->defer_count);
+
+	if (defer_count >= defer_max)
+		goto nodefer;
+    ...
+	/* Send an IPI every time queue reaches half capacity. */
+	kick = (defer_count - 1) == (defer_max >> 1);
+    ...
+	if (unlikely(kick))
+		kick_defer_list_purge(cpu);
+}
+
+The reject path keeps the increment and never reaches
+kick_defer_list_purge(). Once the counter is at or above defer_max, no
+producer schedules a flush on the owner CPU.
+
+Some CPUs only get NET_RX softirq through these kicks. One example is an
+application CPU that sends TCP or UDP while NIC IRQs are pinned to
+housekeeping CPUs and RPS/RFS is off. napi_consume_skb() frees its TX
+skbs in a remote TX-completion NAPI. That path calls
+skb_attempt_defer_free() because skb->alloc_cpu != smp_processor_id().
+
+On such a CPU, wouldn't the reproducer from the commit message still
+strand the counter with this patch applied?
+
+  sysctl -w net.core.skb_defer_max=1
+  sysctl -w net.core.skb_defer_max=128
+
+The list is empty and the counter is large. Nothing calls
+__skb_defer_free_flush() on that CPU, so the new clear never runs. When
+the limit changes, proc_do_skb_defer_max() neither resets the counters
+nor schedules a flush.
+
+The same applies if the limit is lowered below the current count before
+the half-capacity kick fires, for example from 128 to 32 with the counter
+at 40. The queued skbs would then stay on a kick-only CPU's list
+indefinitely.
+
+The commit message says:
+
+  "Clear the counter on the empty-list path as well, so no count can
+  outlive an empty list and an already-stranded counter recovers."
+
+Does that hold when the owner CPU never runs net_rx_action() on its own?
+The cross-CPU TCP RX test would not show this case, because there the
+alloc_cpu is the NAPI CPU.
+
+Could the producer side change as well? One option is not to leave the
+increment in place on reject, either by undoing it or by checking before
+incrementing. Another is to make sure the owner CPU gets one kick when
+the limit is reached.
+
+> -	atomic_long_set(&sdn->defer_count, 0);
+> +	}
+>  	free_list = llist_del_all(&sdn->defer_list);
+> +	atomic_long_set(&sdn->defer_count, 0);
+
+[Severity: Low]
+This is a pre-existing issue, but the skb_defer_max documentation and the
+sysctl range don't match how the counter works.
+
+Documentation/admin-guide/sysctl/net.rst says:
+
+  Max size (in skbs) of the per-cpu list of skbs being freed
+  by the cpu which allocated them.
+
+skb_attempt_defer_free() increments before it checks
+defer_count >= defer_max, so at most defer_max - 1 skbs are queued. The
+list is also per (cpu, node), not per cpu. The doc also doesn't say that 0
+turns deferral off, which proc_do_skb_defer_max() handles through
+skb_defer_disable_key.
+
+The ctl_table entry has .extra1 = SYSCTL_ZERO and no .extra2, so 1 and 2
+are accepted. With those values, this half-capacity kick never fires:
+
+	kick = (defer_count - 1) == (defer_max >> 1);
+
+With 1, nothing is queued and the counter keeps growing. With 2, one skb
+is queued and waits until the owner CPU runs NET_RX on its own.
+
+One part of this is new with this patch. A producer that lands between
+llist_del_all() and atomic_long_set() now leaves its skb queued but not
+counted. The list can therefore briefly grow past defer_max - 1. The
+commit message covers this ("bounded by the producers in flight").
+
+Could a short comment here say that this is intentional? The similar
+qdisc path in __dev_xmit_skb() has one:
+
+	/* There is a small race because we clear defer_count not atomically
+	 * with the prior llist_del_all(). This means defer_list could grow
+	 * over qdisc_max_burst.
+	 */
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261008220256.1844072-1-jkain%40nuro.ai
