@@ -1,60 +1,68 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBDD3E44E0
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 10:17:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B0740B0FA;
+	Mon, 12 Oct 2026 10:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791800247; cv=none; b=LFnm0OJTbxBdar59lE3mMxlr5Q5p9N5uRrzMp1OEV8ts1Wtlh9frSCUnbIlx6X4knSHhO7RNtxnTC8XFKXMKpI8ubirpfXPOWeHjv3uNWLCuw4+B1sjWjJb7N6kPEq9rVZ4QYLX7Pp9KHa/Oim2HBuo9r1WUxCDXnIUtJ7T4HD4=
+	t=1791800529; cv=none; b=Uy9W8HBBAFvj5tq/b4I42eIZyLwfOcsRDd3ex7ou7b0bV75xCpFggGX2KPzsMSzp7kWhcaLJnNWwykD32QDeNh6PwN7/mu2lSF8h025Z08bzL3umy4NX8YyyLVY3ZUz7/acB2h7uM9dy6P9Qvn5WKZCCwBNA386lNNkMP2AKdLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791800247; c=relaxed/simple;
-	bh=C8b8izUnoFRkEcMLO4tjLqbVdHcgHKlMb2VYt6pTbT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VZC8Aeh2TTrQbecR61SVCqYNCeJjAGBQjdgVP22sW5zhVOw35VMVXrmvu40QnCZ+mPm3tgw3iz0JXxZRhevSAnXJ9r8r6UjuMPpQVCVaRi/AE0NI7ngDD4cT3doo4NPKYJq3ZZPmJffMTkIQpq++FIqw6BEOJwGAun8WtCBpKys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oCbNvpnO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cvv8X+bg; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1791800529; c=relaxed/simple;
+	bh=ryGcQFkXrp4eIh5B0BOLKz7Mmz9rcgC99kX3em/qqoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JJYLV2njHUntqUuMus6rcAi9NUkNcvuGtwn5A+2TsMXOJEmLZLOlVOUIaoOJSbAZUprXsFAagrYej7DxTRIdGSdDC5QOMtRDHHEcfMw2fR7mM/B7azgDXeuViTDk/nxttUlxzOCOTYZ1ESoTlRnAH5bSFiZWIvml48Qv4Sp+p0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EPf2wkUn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ROIpfpfC; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oCbNvpnO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cvv8X+bg"
-Date: Mon, 12 Oct 2026 12:17:04 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EPf2wkUn";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ROIpfpfC"
+Date: Mon, 12 Oct 2026 12:21:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1791800226;
+	s=2020; t=1791800504;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dvrA4gMuZ9jEM/4kYfdxPGWwHNrPm8/cAG973SsSPrQ=;
-	b=oCbNvpnOPZX0qQbjqNsvh3yo68/sb78ESlhlpvEs8nnLNG4Wn23OOTUlfR1qkDLDSAlqh1
-	4n7OSAeYsa219dwkoVZ04B/Sc2/fFNlCiHooBfPr0oVk8iQXIxNIPkm0JeoDkZvD3Joawv
-	PJZODrsttVGoRvjQIgeXcie8LWA7qyT0B8bf14EBNQp2VezNkI1FC6qlmMXvPN98JvH1Dz
-	GhTU+BN96bvMpNsD0frdIAxBMdxWnT+j5mfRNXlGq5R0pJDjRjsNWR1icRGKveocujg+VY
-	MxpWglCGBGg4PxO0geqO+oayVin0m8e7qYQFIY0/SKmoaP10JjpHH6DCbRCnIA==
+	 in-reply-to:in-reply-to:references:references;
+	bh=HeExXDFsSsDXoVieXWwNbhti6P2jB2qH9KovDmOCgIU=;
+	b=EPf2wkUnii4Bo6dKs624vNS73b09GrSNLdGYyDpW8TTFlt+I3vg50rqcK66Z+B0Xqvsg7/
+	rtm8ja4Pn/az0KHpP7T9zLU+Y1Lk+fdeTdyU0Blb0xk1SL0X6sl6bMsZm6SPg32//uiczM
+	2CQg/3IwPk/xTwLdgikv+XBgQJSx8turDYA0O/EpAq6jixkW+MM9SuoJ7TbYbISzWRmpdW
+	LmNm17RXcwDrrwi7lzDd3yOLPA2Qj+Th7k9yRza/vNswvrADCYTCZS3bnsmgIvu7wKx1hF
+	3zEGZt50Fza13LP08QkyAi+NsyYqJQAq5BOHY4j2c7P+vcDJwP6J7ZmdP+A9lA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1791800226;
+	s=2020e; t=1791800504;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dvrA4gMuZ9jEM/4kYfdxPGWwHNrPm8/cAG973SsSPrQ=;
-	b=Cvv8X+bgsc9CGwRc9ChlRGF3VEzgP2NODdTKzuHIxJcYXbQgL0nJPdi1zfuTAzhcCQevH+
-	Qm+aysKHFTMwm9Ag==
+	 in-reply-to:in-reply-to:references:references;
+	bh=HeExXDFsSsDXoVieXWwNbhti6P2jB2qH9KovDmOCgIU=;
+	b=ROIpfpfCZfohTWgaJ0XyH+2DOhlGL3FnkcnWoK1JRg6wmtUiJxJd4vKQozbPb15q0KBOpJ
+	p8kkqcZa0DX1EeBA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Ben Segall <bsegall@google.com>, Boqun Feng <boqun@kernel.org>,
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Oleg Nesterov <oleg@redhat.com>, WANG Xuerui <kernel@xen0n.name>,
+	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
 	Clark Williams <clrkwllms@kernel.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>, Sean Young <sean@mess.org>,
+	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	James Clark <james.clark@linaro.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v3] sched: Allow sleeping spinlocks on PREEMPT_RT within
- non_block_start()/end block.
-Message-ID: <20261012101704.gZyF2O9M@linutronix.de>
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Jiri Olsa <jolsa@kernel.org>
+Subject: Re: [PATCH v4] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP
+ notification to task_work()
+Message-ID: <20261012102143.lpVrHb9R@linutronix.de>
+References: <20261012090431.TF3iVDsk@linutronix.de>
+ <CAAhV-H4=nnhbJS4srmt7dNdgpkEZ8_RQ5Z+0baYMiXF1UrJ3KA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,177 +71,31 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAAhV-H4=nnhbJS4srmt7dNdgpkEZ8_RQ5Z+0baYMiXF1UrJ3KA@mail.gmail.com>
 
-Commit 312364f3534cc ("kernel.h: Add non_block_start/end()") added
-non_block_star()/end(). The intention was to catch any callbacks which
-depend on locks or sleep able conditionals in order to ensure forward
-progress. According to the commit message spinlocks were excluded
-"because spinlocks can't have an indirect dependency upon the page
-allocator=E2=80=A6".
-On PREEMPT_RT this leads to a splat because spinlock_t and rwlock_t are
-turned into a sleeping spinlock which have a might_sleep() as they could
-schedule() on lock contention.
+On 2026-10-12 18:15:51 [+0800], Huacai Chen wrote:
+> Hi, Sebastian,
+Hi Huacai,
 
-Besids mm, the other used of non_block_start() is pwm. Here the hrtimer
-can acnqure a spinlock_t on RT and I can't tell other user but I assume
-it is not atomic on RT since it wouldn't be able to acquire its own
-(spinlock_t) lock.
+> > diff --git a/include/linux/hw_breakpoint.h b/include/linux/hw_breakpoint.h
+> > index db199d653dd1a..91e8d80220c54 100644
+> > --- a/include/linux/hw_breakpoint.h
+> > +++ b/include/linux/hw_breakpoint.h
+> > @@ -85,6 +85,9 @@ extern int register_perf_hw_breakpoint(struct perf_event *bp);
+> >  extern void unregister_hw_breakpoint(struct perf_event *bp);
+> >  extern void unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events);
+> >  extern bool hw_breakpoint_is_used(void);
+> > +extern void perf_arch_hwbp_send_sig(struct perf_event *bp);
+> > +extern void perf_hwbp_notify(struct perf_event *bp, struct perf_sample_data *data,
+> > +                            struct pt_regs *regs);
+> Maybe this declaration can be put in one line because there is no 80
+> characters limit now.
 
-Since spinlock_t (and rwlock_t) are not problem, add a sleeping_lock
-argument to __might_resched() signaling if this is scheduling request
-is from a sleeping lock (true) or regular scheduling request (false).
-Add the `true' argument to rtlock_might_resched() which is used on
-PREEMPT_RT for both sleeping lock types.
+We don't save much, do we? It looks more readable. Maybe if the perf
+maintainer requests it. Looks like waste to repost it just for that.
 
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: Sean Young <sean@mess.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Acked-by: David Woodhouse <dwmw@amazon.co.uk>
-Fixes: 312364f3534c ("kernel.h: Add non_block_start/end()")
-Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3Dc3178b6b512446632bac
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
-v2=E2=80=A6v3: https://lore.kernel.org/all/20260916155105.qDi2MiYW@linutron=
-ix.de/
-  - Repost.
+Any comments on the looong bits?
 
-v1=E2=80=A6v2: https://lore.kernel.org/all/20260821095755.am1-Segb@linutron=
-ix.de/
- - repost with collected tags
- - Add Reported-by for syzbot
+> Huacai
 
- include/linux/kernel.h       |  5 +++--
- include/linux/sched.h        | 24 ++++++++++++------------
- kernel/locking/spinlock_rt.c |  2 +-
- kernel/sched/core.c          |  7 ++++---
- 4 files changed, 20 insertions(+), 18 deletions(-)
-
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 24414c79e59ab..c3937e081f18f 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -70,7 +70,8 @@ extern int dynamic_might_resched(void);
- #endif /* CONFIG_PREEMPT_* */
-=20
- #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
--extern void __might_resched(const char *file, int line, unsigned int offse=
-ts);
-+extern void __might_resched(const char *file, int line, unsigned int offse=
-ts,
-+			    bool rt_sleeping_lock);
- extern void __might_sleep(const char *file, int line);
- extern void __cant_sleep(const char *file, int line);
- extern void __cant_migrate(const char *file, int line);
-@@ -128,7 +129,7 @@ extern void __cant_migrate(const char *file, int line);
- # define non_block_end() WARN_ON(current->non_block_count-- =3D=3D 0)
- #else
-   static inline void __might_resched(const char *file, int line,
--				     unsigned int offsets) { }
-+				     unsigned int offsets, bool rt_sleeping_lock) { }
- static inline void __might_sleep(const char *file, int line) { }
- # define might_sleep() do { might_resched(); } while (0)
- # define cant_sleep() do { } while (0)
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index d35ae49a991f7..b758476cf8ae3 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -2174,9 +2174,9 @@ static inline int _cond_resched(void)
-=20
- #endif /* !CONFIG_PREEMPTION || CONFIG_PREEMPT_DYNAMIC */
-=20
--#define cond_resched() ({			\
--	__might_resched(__FILE__, __LINE__, 0);	\
--	_cond_resched();			\
-+#define cond_resched() ({				\
-+	__might_resched(__FILE__, __LINE__, 0, false);	\
-+	_cond_resched();				\
- })
-=20
- extern int __cond_resched_lock(spinlock_t *lock) __must_hold(lock);
-@@ -2202,19 +2202,19 @@ extern int __cond_resched_rwlock_write(rwlock_t *lo=
-ck) __must_hold(lock);
- 	(PREEMPT_LOCK_OFFSET + (1U << MIGHT_RESCHED_RCU_SHIFT))
- #endif
-=20
--#define cond_resched_lock(lock) ({						\
--	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
--	__cond_resched_lock(lock);						\
-+#define cond_resched_lock(lock) ({							\
-+	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
-	\
-+	__cond_resched_lock(lock);							\
- })
-=20
--#define cond_resched_rwlock_read(lock) ({					\
--	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
--	__cond_resched_rwlock_read(lock);					\
-+#define cond_resched_rwlock_read(lock) ({						\
-+	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
-	\
-+	__cond_resched_rwlock_read(lock);						\
- })
-=20
--#define cond_resched_rwlock_write(lock) ({					\
--	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
--	__cond_resched_rwlock_write(lock);					\
-+#define cond_resched_rwlock_write(lock) ({						\
-+	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
-	\
-+	__cond_resched_rwlock_write(lock);						\
- })
-=20
- #ifndef CONFIG_PREEMPT_RT
-diff --git a/kernel/locking/spinlock_rt.c b/kernel/locking/spinlock_rt.c
-index 1d5e1b3c60bfa..0a89e7f10af18 100644
---- a/kernel/locking/spinlock_rt.c
-+++ b/kernel/locking/spinlock_rt.c
-@@ -33,7 +33,7 @@
- 	(rcu_preempt_depth() << MIGHT_RESCHED_RCU_SHIFT)
-=20
- #define rtlock_might_resched()						\
--	__might_resched(__FILE__, __LINE__, RTLOCK_RESCHED_OFFSETS)
-+	__might_resched(__FILE__, __LINE__, RTLOCK_RESCHED_OFFSETS, true)
-=20
- static __always_inline void rtlock_lock(struct rt_mutex_base *rtm)
- {
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 1fe40de6ebe3c..0135822afdd1d 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -9190,7 +9190,7 @@ void __might_sleep(const char *file, int line)
- 			(void *)current->task_state_change,
- 			(void *)current->task_state_change);
-=20
--	__might_resched(file, line, 0);
-+	__might_resched(file, line, 0, false);
- }
- EXPORT_SYMBOL(__might_sleep);
-=20
-@@ -9215,7 +9215,8 @@ static inline bool resched_offsets_ok(unsigned int of=
-fsets)
- 	return nested =3D=3D offsets;
- }
-=20
--void __might_resched(const char *file, int line, unsigned int offsets)
-+void __might_resched(const char *file, int line, unsigned int offsets,
-+		     bool rt_sleeping_lock)
- {
- 	/* Ratelimiting timestamp: */
- 	static unsigned long prev_jiffy;
-@@ -9226,7 +9227,7 @@ void __might_resched(const char *file, int line, unsi=
-gned int offsets)
- 	rcu_sleep_check();
-=20
- 	if ((resched_offsets_ok(offsets) && !irqs_disabled() &&
--	     !is_idle_task(current) && !current->non_block_count) ||
-+	     !is_idle_task(current) && (rt_sleeping_lock || !current->non_block_c=
-ount)) ||
- 	    system_state =3D=3D SYSTEM_BOOTING || system_state > SYSTEM_RUNNING ||
- 	    oops_in_progress)
- 		return;
---=20
-2.55.0
-
+Sebastian
