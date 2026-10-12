@@ -1,128 +1,188 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48ABC3E2768
-	for <linux-rt-devel@lists.linux.dev>; Sun, 11 Oct 2026 19:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1706143C7BF
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 07:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.90.104.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791747735; cv=none; b=WOMfZEXSfRyL2Tp7T8cNWpVqlEluc+OnI6OXuSUki6+Nxq8lxj/gn4uVgXi10CRz8WGFmwdS/KRp848wvdMheQRCCHGYII0ikThqAiMZGFksX5nVpSOo9tf9dbkDOkCqiSysKgnzLyGAT9Mz/F2b6mVQH+f4QdWRQ7dBRnDvdfU=
+	t=1791790541; cv=none; b=ibd2mPl93n8v3trrkHx80FhjTHixZOYDQ4WQWuvVdMr2kVG1fAj4x9txcyg9G+/6yJGYZU9hKINBPulBgd0HhpNM1KFXEDCOiga8ZRFMHgld29EfSehbSqFRhGmoSK37fad9wnatrN8AJsFc99Au/d6LSXldzvpyrVTnvgnoldY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791747735; c=relaxed/simple;
-	bh=4AMJ4/YUrPp8c+UnnNwqZYiFxBTm23GrzrPTxaOoYuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZjfApUC8HENvHcieANMjAOtBUoCUYmqG/HeCwwoyRRsf9toJr7w9r275QHFJY6Up090PT6JrqxQHFNOgNMrVhVhtkjSngpa9VBzIQD/63tO4v/NATaXnrwXEGN9HOzq0bauZVEHo6TJ7Or3eSWVweL5vNb+BRZNNrczHVfWve30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SR8mfWK4; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791790541; c=relaxed/simple;
+	bh=rro3Q103tON6YF9EYmKQjD31tul/1auJiy4JtB4uR94=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=eRq8J+JCDW47mjqq/HkZ+pncAm/OTBdOSNaod1mOTofGBic+XxVse+zZg/njvZ2Rkkmpqa2dDI5IkayHD7a7uma3mpoXtdpRuneGPWtZz2lYh97ENRjyCA9iZHDb/ygoTEueyTLaKGVbQM+PaT1hH3bSiLCbf/gAQDEEUntjbMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com; spf=pass smtp.mailfrom=mobileye.com; dkim=fail (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b=CuRYkodd reason="key not found in DNS"; arc=none smtp.client-ip=23.90.104.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SR8mfWK4"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so12607315e9.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 11 Oct 2026 12:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791747732; x=1792352532; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z1QFtV7KI5OFWzwbAboD0j9bhs+VlQKq149o9ZSjG8g=;
-        b=SR8mfWK4/HXsAFDwsx4NGxtNmvAN4qTcnh9CEE5KIHs+pOrqw36HnHXYvUW2cTNyzL
-         wU40coBnzfZfbgBMrDgLXsZLl8IcD89Rg75ss2EtIr2/mSRJQ2sUTW1RTP3pOLV6aQH2
-         BPX+U6Y2X5tKVapFLPvIUupm7xR3JDgFMcn9QFiIfcaWGO4Sp52kjTKs+YFf1VJV0A1A
-         BCYS2MHTTtTG94SHiIlDNf6FIwUXqCDbfHPU5RONT+LSr+iCqB3L45kIOSCLbUPqjRO6
-         aU0sati4K45oJ4zgk1qPjA5sjoRaYTMnCM5AjAql2aMsu3FuCD7V5Ctr/XGgKxdjQEXG
-         MOjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791747732; x=1792352532;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z1QFtV7KI5OFWzwbAboD0j9bhs+VlQKq149o9ZSjG8g=;
-        b=IQgrpfuuDzoak8yHe6mtgf7N1ciCx/h7LUY+wyQBK1LvF4y200L4OSlTwiSLmKcqjZ
-         mjNJXAYXL6weJtaVzjLeN1MQsYiB/nUby7AsXYEDM9pteyPkidk+Ol0qqs/zeaWin9CJ
-         r5vVi8k7tdjQIW8gyJyrYGRGiIF1KMXWHcKCh7LU2Y02QiJG1uUB6xeqQuzbugz4HvHO
-         eWVkK8uZnWAukOVnM2aHGE+iG1wb1VG2xS0aTViCTuvqn6yKfCM7Ykbsj4Zb3iyF+Rex
-         XzxZjtk6nFkqA87gR0psn5X2iXqyI1mAJc9ENiblypjyejT7R/7DxcNJqM4bHVNLWqWn
-         XD0w==
-X-Forwarded-Encrypted: i=1; AKwUvBwK82JLE32/IuO59fZoITEzfyYhGJkFNsiwVeJ82SLaEXe6e35cPxoJyyH8WROxruj7JKKyn1mqXAkIWrnqbg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJICyZDZH0UFoVrCA9q4iUC0TpH/R6FNMC96AUX/q/Yc7TTjOev
-	JenSCuKvY2DOZJxa6jT0w3WeULiGsKpkMLO5CES7sA8sIgMwuYBzQkSr
-X-Gm-Gg: AYBFou0SLJJbgclU/O8y/PCruDtuPmL7LkaCpq47axHdH7CC6zIH0hE7KX9VFDpuS3R
-	tdPYSyRqDiSEM0sR6ROl5CubB5sIjir7LdD+o9IKsH2v9EDDLNjh4QJPOcLvYCKDgQBVeYhDpLE
-	jR/rAhlcOfnHMFA1ZpCBbJGy+tHWZ/6u5yXi+LVK8pMny+MSV1l5XZgrFD2H+fcB+7OhLlAp92e
-	+2njVCgQk2Vfy6GG8+uxw07XBJvaId4Yd7glQ2T3c7kU11xsFnM9Cg6r9t1eHrwJAaNsEjU1R8Y
-	8lUvGdNqfohSU4Hl7psh/5JYPKJnuEbqcehE3eOjRA5K0Uikm/oA+GduPxcOcqf5oFZsoRZQEAi
-	/4R33lOMkknYyPPweJHiVjmqgzsaulSpsVVTC9iED1txwYt96AeJbRbie1DJve9doY9oZTeEUse
-	4X4UiwqJ6/ce6j8k4EAyIZWYO3Rffu+rdh8+4yOBN/9mjq0f0ZuzVijT20dZgkDiAlg9m4UHJ22
-	7vA8NyR2Fk0lc9A12cJE1yam7SQY1YyXU1+4kaW/MlA21lhuhcGfD+2uE3LJ5ISbh+ao/KrNb9o
-	XgazXQkXsoFiy/vixA8LLJZnlwEfPBiAKLfRIgjs+xN1FaU0XMNE4I6hNkexIjfvO8lRsLBAcrm
-	cXJ4b
-X-Received: by 2002:a05:600c:34cf:b0:4a0:159b:d2a9 with SMTP id 5b1f17b1804b1-4a18e4d68aamr114369585e9.24.1791747732221;
-        Sun, 11 Oct 2026 12:42:12 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a124-4001-d491-d32f-6b9f-21c5.310.pool.telefonica.de. [2a02:3100:a124:4001:d491:d32f:6b9f:21c5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a197c465b4sm89015105e9.3.2026.10.11.12.42.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 12:42:11 -0700 (PDT)
-Date: Sun, 11 Oct 2026 21:42:10 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-wireless@vger.kernel.org, 
-	Arend van Spriel <arend.vanspriel@broadcom.com>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH] wifi: brcmfmac: avoid sleeping tx locks in netpoll
- contextg
-Message-ID: <asvjWF8q1injcEIh@gmail.com>
-References: <20260930185417.61865-1-kmehltretter@gmail.com>
- <20261001075755.3MilPS2C@linutronix.de>
- <ar7vLt5kQ2HJoJY9@gmail.com>
- <20261009160015.9YCN8Lt-@linutronix.de>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b="CuRYkodd"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1791790541; x=1823326541;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=rro3Q103tON6YF9EYmKQjD31tul/1auJiy4JtB4uR94=;
+  b=CuRYkoddrLG0+2eEf0t21G2povYHlqFAK/s7+vmEK1/bp37W7bui8RPv
+   wpGiM33zFOg0z55sNUYUP2ThKoDNDEAdGUrKuQzFJZSMFCRhVxP/hCbNw
+   4yNI+FkdCT45oEBftZxxDEYtrpnprVsZjIGI19+F9AbYoxJ4M5o5rrEL9
+   SQcIGQ17544wpH+amLN16DbCMoBgWmTexWOCvJ1G5TX+tA5hevrgdvw2s
+   YAsEb5/HLJp/6JUoVE617+I1P9W83I8TW7ZjFXrpO6kwn9mkSVBCHkWL1
+   6QejKOpANyyTrz/AIqnsYmhXyNhREbOhgm22eKk+EWmYT5PdoD9VaAyA0
+   w==;
+X-CSE-ConnectionGUID: HPlFx9CCQ2Wi0W/ug98EBA==
+X-CSE-MsgGUID: RaejHCvSR0uJBpZcYYvYIA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces02_data.me-corp.lan) ([146.255.191.134])
+  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 10:34:30 +0300
+X-CSE-ConnectionGUID: WKqFf3OrRsG/pIgJKAMBiQ==
+X-CSE-MsgGUID: 3rYXRc34TNGXk5O6BHvSzw==
+Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
+  by ces02_data.me-corp.lan with SMTP; 12 Oct 2026 10:41:51 +0300
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Mon, 12 Oct 2026 10:34:22 +0300
+From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Date: Mon, 12 Oct 2026 10:34:08 +0300
+Subject: [PATCH] irqchip/riscv-aplic: fix asynchronous probing
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261009160015.9YCN8Lt-@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261012-aplic-async-probe-v1-1-4c2c4f5b0916@mobileye.com>
+X-B4-Tracking: v=1; b=H4sIAHCNzGoC/x3MQQqAIBBA0avErBtQK4uuEi3MphoIFYUopLsnL
+ d/i/wyJIlOCscoQ6eLE3hXIugJ7GLcT8loMSigthVRowskWTXqcxRD9QjhIrVoSTadFD6ULkTa
+ +/+c0v+8HcUftPWMAAAA=
+X-Change-ID: 20261012-aplic-async-probe-81624e035607
+To: Anup Patel <anup@brainfault.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Jessica Liu <liu.xuemei1@zte.com.cn>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+X-Mailer: b4 0.14.2
 
-On Fri, Oct 09, 2026 at 06:00:15PM +0100, Sebastian Andrzej Siewior wrote:
-> > 
-> > Source inspection also identified 8139too and macb as candidates: their
-> > transmit paths take ordinary spinlock_t locks. I have not reproduced the
-> > warning with either driver.
-> 
-> I just replied to the netconsole thread where I did suggest to lift the
-> local_irq_save() part. This would obsolete this.
+boolean flag don't protect from race when probing several instances
+asynchronously. On system with multiple APLICs, if probed asynchronously,
+warning triggered as below.
 
-I've replied in the netpoll thread [1]. The netpoll candidate's RT
-locking tests look good so far on Pi 400 with unmodified brcmfmac.
+[    0.227210] riscv-aplic 67560000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+[    0.227210] riscv-aplic 674e0000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+[    0.227224] ------------[ cut here ]------------
+[    0.227227] list_add double add: new=ffffffff8130ced0, prev=ffffffff8130ced0, next=ffffffff81316d40.
+[    0.227302] WARNING: lib/list_debug.c:35 at __list_add_valid_or_report+0xe0/0xe6, CPU#4: kworker/u97:0/211
+[    0.227322] Modules linked in:
+[    0.227333] CPU: 4 UID: 0 PID: 211 Comm: kworker/u97:0 Not tainted 7.3.0-rc6 #1 PREEMPT_RT
+[    0.227341] Hardware name: EyeQ7H evaluation board (DT)
+[    0.227346] Workqueue: async async_run_entry_fn
+[    0.227358] epc : __list_add_valid_or_report+0xe0/0xe6
+[    0.227366]  ra : __list_add_valid_or_report+0xe0/0xe6
+[    0.227375] epc : ffffffff804a08a0 ra : ffffffff804a08a0 sp : ffffffc600823b90
+[    0.227379]  gp : ffffffff81389e70 tp : ffffffd60135ee00 t0 : 0000000000000000
+[    0.227383]  t1 : 3fffffffffffffff t2 : 0000000000000000 s0 : ffffffc600823bb0
+[    0.227387]  s1 : ffffffff8130ced0 a0 : 0000000000000058 a1 : ffffffd9efc9e5c0
+[    0.227391]  a2 : ffffffd9efd5c510 a3 : 0000000000000000 a4 : 0000000000000000
+[    0.227395]  a5 : 0000000000000000 a6 : ffffffd9efc6e5c0 a7 : bfffffffffffe000
+[    0.227399]  s2 : 0000000000000000 s3 : ffffffff8130ce28 s4 : 0000000000000000
+[    0.227402]  s5 : ffffffd6018b65c8 s6 : 0000000000000000 s7 : ffffffd6012fd605
+[    0.227406]  s8 : ffffffd6010c3400 s9 : 0000000000000000 s10: 0000000000000000
+[    0.227409]  s11: 0000000000000000 t3 : 3fffffffffffe000 t4 : 0000000000000020
+[    0.227413]  t5 : 0000000000000000 t6 : ffffffc6008238f8 ssp : 0000000000000000
+[    0.227417] status: 0000000200000120 badaddr: ffffffff804a08a0 cause: 0000000000000003
+[    0.227422] [<ffffffff804a08a0>] __list_add_valid_or_report+0xe0/0xe6
+[    0.227432] [<ffffffff80558226>] register_syscore+0x30/0x60
+[    0.227444] [<ffffffff804ca0fe>] aplic_probe+0xd2/0xfa
+[    0.227453] [<ffffffff80559b2e>] platform_probe+0x3e/0x7a
+[    0.227461] [<ffffffff8055731a>] really_probe+0x88/0x35c
+[    0.227469] [<ffffffff805576ae>] __driver_probe_device+0xc0/0x13a
+[    0.227478] [<ffffffff805577f4>] driver_probe_device+0x38/0xb2
+[    0.227486] [<ffffffff80557ba6>] __driver_attach_async_helper+0x3c/0xc4
+[    0.227493] [<ffffffff80054a0e>] async_run_entry_fn+0x28/0x154
+[    0.227500] [<ffffffff8004482a>] process_one_work+0x14e/0x3d2
+[    0.227509] [<ffffffff800452fe>] worker_thread+0x144/0x286
+[    0.227516] [<ffffffff8004ca3e>] kthread+0xee/0x10e
+[    0.227524] [<ffffffff8001050a>] ret_from_fork_kernel+0x18/0x14e
+[    0.227532] [<ffffffff807bef36>] ret_from_fork_kernel_asm+0x16/0x18
+[    0.227542] ---[ end trace 0000000000000000 ]---
+[    0.228475] pinctrl-single 48508000.pinctrl: 512 pins, size 2048
+[    0.228500] pinctrl-single 53838000.pinctrl: 512 pins, size 2048
+[    0.228723] pinctrl-single 67107000.pinctrl: 512 pins, size 2048
+[    0.227210] riscv-aplic 674e0000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+[    0.227224] ------------[ cut here ]------------
+[    0.227227] list_add double add: new=ffffffff8130ced0, prev=ffffffff8130ced0, next=ffffffff81316d40.
+[    0.227302] WARNING: lib/list_debug.c:35 at __list_add_valid_or_report+0xe0/0xe6, CPU#4: kworker/u97:0/211
+[    0.227322] Modules linked in:
+[    0.227333] CPU: 4 UID: 0 PID: 211 Comm: kworker/u97:0 Not tainted 7.3.0-rc6 #1 PREEMPT_RT
+[    0.227341] Hardware name: EyeQ7H evaluation board (DT)
+[    0.227346] Workqueue: async async_run_entry_fn
+[    0.227358] epc : __list_add_valid_or_report+0xe0/0xe6
+[    0.227366]  ra : __list_add_valid_or_report+0xe0/0xe6
+[    0.227375] epc : ffffffff804a08a0 ra : ffffffff804a08a0 sp : ffffffc600823b90
+[    0.227379]  gp : ffffffff81389e70 tp : ffffffd60135ee00 t0 : 0000000000000000
+[    0.227383]  t1 : 3fffffffffffffff t2 : 0000000000000000 s0 : ffffffc600823bb0
+[    0.227387]  s1 : ffffffff8130ced0 a0 : 0000000000000058 a1 : ffffffd9efc9e5c0
+[    0.227391]  a2 : ffffffd9efd5c510 a3 : 0000000000000000 a4 : 0000000000000000
+[    0.227395]  a5 : 0000000000000000 a6 : ffffffd9efc6e5c0 a7 : bfffffffffffe000
+[    0.227399]  s2 : 0000000000000000 s3 : ffffffff8130ce28 s4 : 0000000000000000
+[    0.227402]  s5 : ffffffd6018b65c8 s6 : 0000000000000000 s7 : ffffffd6012fd605
+[    0.227406]  s8 : ffffffd6010c3400 s9 : 0000000000000000 s10: 0000000000000000
+[    0.227409]  s11: 0000000000000000 t3 : 3fffffffffffe000 t4 : 0000000000000020
+[    0.227413]  t5 : 0000000000000000 t6 : ffffffc6008238f8 ssp : 0000000000000000
+[    0.227417] status: 0000000200000120 badaddr: ffffffff804a08a0 cause: 0000000000000003
+[    0.227422] [<ffffffff804a08a0>] __list_add_valid_or_report+0xe0/0xe6
+[    0.227432] [<ffffffff80558226>] register_syscore+0x30/0x60
+[    0.227444] [<ffffffff804ca0fe>] aplic_probe+0xd2/0xfa
+[    0.227453] [<ffffffff80559b2e>] platform_probe+0x3e/0x7a
+[    0.227461] [<ffffffff8055731a>] really_probe+0x88/0x35c
+[    0.227469] [<ffffffff805576ae>] __driver_probe_device+0xc0/0x13a
+[    0.227478] [<ffffffff805577f4>] driver_probe_device+0x38/0xb2
+[    0.227486] [<ffffffff80557ba6>] __driver_attach_async_helper+0x3c/0xc4
+[    0.227493] [<ffffffff80054a0e>] async_run_entry_fn+0x28/0x154
+[    0.227500] [<ffffffff8004482a>] process_one_work+0x14e/0x3d2
+[    0.227509] [<ffffffff800452fe>] worker_thread+0x144/0x286
+[    0.227516] [<ffffffff8004ca3e>] kthread+0xee/0x10e
+[    0.227524] [<ffffffff8001050a>] ret_from_fork_kernel+0x18/0x14e
+[    0.227532] [<ffffffff807bef36>] ret_from_fork_kernel_asm+0x16/0x18
+[    0.227542] ---[ end trace 0000000000000000 ]---
 
-> 
-> > The earlier netpoll/NBCON discussion concerns NAPI polling and
-> > scheduler-lock deadlocks, rather than this driver-lock warning:
-> > 
-> > https://lore.kernel.org/linux-rt-devel/20260618111554.2n0pP_O9@linutronix.de/
-> 
-> There was no fan club behind this change and PeterZ hated it so I
-> dropped it.
-> But this deadlock should not happen with nbcon or do I mix up things?
+Fixes: b330fbfd34d7 ("irqchip/riscv-aplic: Register syscore operations only once")
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+---
+ drivers/irqchip/irq-riscv-aplic-main.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-No, you're not mixing things up.
+diff --git a/drivers/irqchip/irq-riscv-aplic-main.c b/drivers/irqchip/irq-riscv-aplic-main.c
+index d9afb6ae98cf56d6fd9f858c31a3d23546c3b450..db15ec8a2d3462f6c911c1e5b7446b05b47bd127 100644
+--- a/drivers/irqchip/irq-riscv-aplic-main.c
++++ b/drivers/irqchip/irq-riscv-aplic-main.c
+@@ -116,14 +116,12 @@ static struct syscore aplic_syscore = {
+ 	.ops = &aplic_syscore_ops,
+ };
+ 
+-static bool aplic_syscore_registered __ro_after_init;
++static atomic_t aplic_syscore_registered = ATOMIC_INIT(0) __ro_after_init;
+ 
+ static void aplic_syscore_init(void)
+ {
+-	if (!aplic_syscore_registered) {
++	if (!atomic_fetch_inc(&aplic_syscore_registered))
+ 		register_syscore(&aplic_syscore);
+-		aplic_syscore_registered = true;
+-	}
+ }
+ 
+ static int aplic_pm_notifier(struct notifier_block *nb, unsigned long action, void *data)
 
-> I don't mind if you have something to optimise the driver. But as far as
-> the netconsole part goes, I would try to kill it at the upper level so
-> the driver is not affected.
+---
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+change-id: 20261012-aplic-async-probe-81624e035607
 
-Agreed. I'll hold the driver revision while we discuss the generic fix.
+Best regards,
+-- 
+Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 
-The generic fix still doesn't address calls to brcmfmac with
-interrupts disabled from non-RT netconsole or atomic writes.
-
-I still need to compare the unmodified kernel and the netpoll candidate
-on hardware with firmware flow control enabled (brcmfmac.fcmode=1 or 2).
-
-[1] https://lore.kernel.org/r/asveuLDEf6a44bkD@gmail.com/
-
-Karl
