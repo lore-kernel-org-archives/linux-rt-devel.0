@@ -1,408 +1,239 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DB03CF963
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 10:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBDD3E44E0
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 10:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791800172; cv=none; b=mGIiNFFiMs3o7V2b2NPN7IBHN9JyH5Ch3WDWCjnX1Ww36fZTC1QXGHURAWGOOdnLA2FNlvF14iQbBMdWbIFXZ+wC6qiceHzl9PQiGIlvXgvLy8elRx2OOtjYhgZCsuUPHs0NfiA3Er8R8l4wrtxwa24fhAi5mwqrEaGYsH3xxDc=
+	t=1791800247; cv=none; b=LFnm0OJTbxBdar59lE3mMxlr5Q5p9N5uRrzMp1OEV8ts1Wtlh9frSCUnbIlx6X4knSHhO7RNtxnTC8XFKXMKpI8ubirpfXPOWeHjv3uNWLCuw4+B1sjWjJb7N6kPEq9rVZ4QYLX7Pp9KHa/Oim2HBuo9r1WUxCDXnIUtJ7T4HD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791800172; c=relaxed/simple;
-	bh=L3yVb1zCDt9EJgrSPxrSjTkziqDkUrtipzK2mKk+bf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g0+mRMqnRxI5DYwIuAcUl2glPq+HtIUsTrnZzY9Ft3hM/CjSWHPE7NZFdZ8neyDybfTmBYrvkbNSuejPVImPdxJOU8k5/R7lHT7RwKbcPbqXR0ews9DuxCe53U2BT7zEXTO05mWwFwAii88T7lLL7VEeBEJQQWNCWI9EyKrdruY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fI+tmga+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791800247; c=relaxed/simple;
+	bh=C8b8izUnoFRkEcMLO4tjLqbVdHcgHKlMb2VYt6pTbT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VZC8Aeh2TTrQbecR61SVCqYNCeJjAGBQjdgVP22sW5zhVOw35VMVXrmvu40QnCZ+mPm3tgw3iz0JXxZRhevSAnXJ9r8r6UjuMPpQVCVaRi/AE0NI7ngDD4cT3doo4NPKYJq3ZZPmJffMTkIQpq++FIqw6BEOJwGAun8WtCBpKys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oCbNvpnO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cvv8X+bg; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fI+tmga+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C31AF1F008A5
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 10:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791800163;
-	bh=orl793BvU5e/CSxcYnxxsBl8AsMTBAsWY1vEB3OIDG4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fI+tmga+k57E8D0T5LnxP2Nb0fso/oPOUxz0Wj0oJJyE0g4FvgJLbmDHbhe16iNfn
-	 DrwStfRcazQINxS3eIEvUwyauJYH5qO890en8ukt4jJgA7HkaZo5ZfXcRkB9P4QU5V
-	 Dca+sJBekwOBrzwwuImo9gzMBoBDu7xeLFzO7BTGjkirFXsqSr0YZf+68N4PjGGiEn
-	 oiiPEVsbwk2H9aIHEzEtVbkQWrqEqqPzuVTnnrXjyUc1NxCpYQ2A1clPey7sgrHoJc
-	 XmOxX29JMPFfOVJnqgpF95QieZpOeAYDaIGp999fOH5pph9axRj+KUSeCWSGqBfQfJ
-	 0kv+gmchg+uxQ==
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b1aa4d71e7so937155a12.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 03:16:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxBzKcKZgEAgrwE6uJvy0M75O+tc++bCv2VNA3X0BGqJsdFM3E+EU4p8Cssp4FR2aR8EOPojRElmKRe+47tOQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJpCs8IYnYFS7J7qrP35lepNWwdLebB658GqONwDwOues0cNG7s
-	JPYP8sSypUl0W3O2tSvn4Qel0wEXYGrFufVKZ3PO62qhoFEzmsgrPPf26Ys9mffxrhXjD/KMmQ2
-	bqEbHA/skZbdYshWo7NGkqOpyBC6Azt8=
-X-Received: by 2002:a05:6402:52d4:b0:6b1:bfa2:28b2 with SMTP id
- 4fb4d7f45d1cf-6b1bfa237f9mr1810902a12.41.1791800162033; Mon, 12 Oct 2026
- 03:16:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oCbNvpnO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cvv8X+bg"
+Date: Mon, 12 Oct 2026 12:17:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1791800226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dvrA4gMuZ9jEM/4kYfdxPGWwHNrPm8/cAG973SsSPrQ=;
+	b=oCbNvpnOPZX0qQbjqNsvh3yo68/sb78ESlhlpvEs8nnLNG4Wn23OOTUlfR1qkDLDSAlqh1
+	4n7OSAeYsa219dwkoVZ04B/Sc2/fFNlCiHooBfPr0oVk8iQXIxNIPkm0JeoDkZvD3Joawv
+	PJZODrsttVGoRvjQIgeXcie8LWA7qyT0B8bf14EBNQp2VezNkI1FC6qlmMXvPN98JvH1Dz
+	GhTU+BN96bvMpNsD0frdIAxBMdxWnT+j5mfRNXlGq5R0pJDjRjsNWR1icRGKveocujg+VY
+	MxpWglCGBGg4PxO0geqO+oayVin0m8e7qYQFIY0/SKmoaP10JjpHH6DCbRCnIA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1791800226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dvrA4gMuZ9jEM/4kYfdxPGWwHNrPm8/cAG973SsSPrQ=;
+	b=Cvv8X+bgsc9CGwRc9ChlRGF3VEzgP2NODdTKzuHIxJcYXbQgL0nJPdi1zfuTAzhcCQevH+
+	Qm+aysKHFTMwm9Ag==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: Ben Segall <bsegall@google.com>, Boqun Feng <boqun@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>, Sean Young <sean@mess.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH v3] sched: Allow sleeping spinlocks on PREEMPT_RT within
+ non_block_start()/end block.
+Message-ID: <20261012101704.gZyF2O9M@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261012090431.TF3iVDsk@linutronix.de>
-In-Reply-To: <20261012090431.TF3iVDsk@linutronix.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 12 Oct 2026 18:15:51 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4=nnhbJS4srmt7dNdgpkEZ8_RQ5Z+0baYMiXF1UrJ3KA@mail.gmail.com>
-X-Gm-Features: AclHuK9TEXrFCWum0m6_oB3KBiHLt4AYM32obi_SLjhsWyEN5aWEU2MqT_igAd8
-Message-ID: <CAAhV-H4=nnhbJS4srmt7dNdgpkEZ8_RQ5Z+0baYMiXF1UrJ3KA@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP notification
- to task_work()
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, 
-	Ian Rogers <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Oleg Nesterov <oleg@redhat.com>, 
-	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Clark Williams <clrkwllms@kernel.org>, 
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, James Clark <james.clark@linaro.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Sebastian,
+Commit 312364f3534cc ("kernel.h: Add non_block_start/end()") added
+non_block_star()/end(). The intention was to catch any callbacks which
+depend on locks or sleep able conditionals in order to ensure forward
+progress. According to the commit message spinlocks were excluded
+"because spinlocks can't have an indirect dependency upon the page
+allocator=E2=80=A6".
+On PREEMPT_RT this leads to a splat because spinlock_t and rwlock_t are
+turned into a sleeping spinlock which have a might_sleep() as they could
+schedule() on lock contention.
 
-On Mon, Oct 12, 2026 at 5:04=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
-> "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
-> delivered with disabled interrupts and perf intrastrucure expects
-> disabled interrupts while the overflow callback is invoked.
->
-> The callback then sends a SIGTRAP signal for which it acquires
-> sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
-> must not be acquired in atomic context.
->
-> Delay the event callback until the return to userland.
-> Add perf_hwbp_notify(), a generic perf callback which delayes the
-> actual callback invocation to task_work_add() callback. This callback
-> invokes the architecture defined callback perf_arch_hwbp_send_sig().
-> This requires struct callback_head and the functions require
-> ARCH_NEED_PERF_HW_NOTIFY to be defined.
->
-> This was reported against ARM64. ARM, LongARCH and Xtensa follow the
-> same pattern are also converted. Xtensa is the only not supporting
-> PREEMPT_RT but now we have all architectures using the same pattern.
->
-> Fixes: d8fccd9ca5f90 ("arm64: Allow to enable PREEMPT_RT.")
-> Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> Reported-by: Waiman Long <longman@redhat.com>
-> Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
-> Reviewed-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-> Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com> (arm64)
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
-> v3=E2=80=A6v4: https://lore.kernel.org/all/20261001143516.Ew8C97WS@linutr=
-onix.de/
->  - Add fixes tag
->  - Rename the functions as suggested by Ada to use the pattern that perf
->    uses in other places:
->    - perf_arch_hwbp_notify() -> perf_hwbp_notify() (generic)
->    - arch_hwbp_send_sig() -> perf_arch_hwbp_send_sig() (arch specific)
->    - perf_arch_hwbp_send_sig() -> perf_hwbp_send_sig() (generic)
->  - Rename ARCH_NEED_PERF_HW_NOTIF -> ARCH_NEED_PERF_HW_NOTIFY
->
-> v2=E2=80=A6v3: https://lore.kernel.org/all/20260814085118.OPEA_Ssn@linutr=
-onix.de/
->  - Add Xtensa for completion
->  - sashiko complains and wants TWA_SIGNAL instead TWA_RESUME. His
->    argument is that a syscall will trap via get_user() and loop forever
->    instead making progress. This is wrong IMHO. ARM64 will single step
->    over the watchpoint and continue execution. The only downside is that
->    userland will get notified after the syscall completed. So my theory.
->    Using TWA_SIGNAL is worse: Assume we have a watchpoint on UADDR and
->    are in a futex() syscall. The get_user() invocation will trigger the
->    exception, the debug handler will step over and queue a signal. The
->    futex code will notice this and return ERESTARTNOINTR. A signal will
->    be sent, the syscall restarts, traps onto UADDR again, the loop
->    continues. But this should be case now, too=E2=80=A6
->    Now that I look into arch_build_bp_info() and do actual testing I must
->    say arm64 does not support mixed breakpoints. This means there is no
->    breakpoint in kernel on a userland address. \o/
->
-> v1=E2=80=A6v2: https://lore.kernel.org/all/20260713144939.FuCj9yvZ@linutr=
-onix.de/
->  - sashiko complained that a memory breakpoint might trigger several
->    times before a signal is sent if the syscall touches the memory (via
->    get_user()) more than once before returning back. This would lead to
->    list corruption in task_work_add(). To handle this, there is now a
->    variable which is set via xchg before task_work_add() and cleared
->    after the signal has been sent.
->
->  arch/arm/include/asm/hw_breakpoint.h       |  1 +
->  arch/arm/kernel/ptrace.c                   |  7 ++----
->  arch/arm64/include/asm/hw_breakpoint.h     |  1 +
->  arch/arm64/kernel/ptrace.c                 |  6 ++---
->  arch/loongarch/include/asm/hw_breakpoint.h |  1 +
->  arch/loongarch/kernel/ptrace.c             |  6 ++---
->  arch/xtensa/include/asm/hw_breakpoint.h    |  1 +
->  arch/xtensa/kernel/ptrace.c                |  7 ++----
->  include/linux/hw_breakpoint.h              |  3 +++
->  include/linux/perf_event.h                 |  4 ++++
->  kernel/events/core.c                       | 26 ++++++++++++++++++++++
->  11 files changed, 45 insertions(+), 18 deletions(-)
->
-> diff --git a/arch/arm/include/asm/hw_breakpoint.h b/arch/arm/include/asm/=
-hw_breakpoint.h
-> index e7f9961c53b2d..fa7fb2b2a392a 100644
-> --- a/arch/arm/include/asm/hw_breakpoint.h
-> +++ b/arch/arm/include/asm/hw_breakpoint.h
-> @@ -7,6 +7,7 @@
->  struct task_struct;
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> +#define ARCH_NEED_PERF_HW_NOTIFY
->
->  struct arch_hw_breakpoint_ctrl {
->                 u32 __reserved  : 9,
-> diff --git a/arch/arm/kernel/ptrace.c b/arch/arm/kernel/ptrace.c
-> index ed7a2a87a6707..db4b28c6e15a4 100644
-> --- a/arch/arm/kernel/ptrace.c
-> +++ b/arch/arm/kernel/ptrace.c
-> @@ -347,9 +347,7 @@ static long ptrace_hbp_idx_to_num(int idx)
->  /*
->   * Handle hitting a HW-breakpoint.
->   */
-> -static void ptrace_hbptriggered(struct perf_event *bp,
-> -                                    struct perf_sample_data *data,
-> -                                    struct pt_regs *regs)
-> +void perf_arch_hwbp_send_sig(struct perf_event *bp)
->  {
->         struct arch_hw_breakpoint *bkpt =3D counter_arch_bp(bp);
->         long num;
-> @@ -424,8 +422,7 @@ static struct perf_event *ptrace_hbp_create(struct ta=
-sk_struct *tsk, int type)
->         attr.bp_type    =3D type;
->         attr.disabled   =3D 1;
->
-> -       return register_user_hw_breakpoint(&attr, ptrace_hbptriggered, NU=
-LL,
-> -                                          tsk);
-> +       return register_user_hw_breakpoint(&attr, perf_hwbp_notify, NULL,=
- tsk);
->  }
->
->  static int ptrace_gethbpregs(struct task_struct *tsk, long num,
-> diff --git a/arch/arm64/include/asm/hw_breakpoint.h b/arch/arm64/include/=
-asm/hw_breakpoint.h
-> index bd81cf17744af..0bc75f42b0da6 100644
-> --- a/arch/arm64/include/asm/hw_breakpoint.h
-> +++ b/arch/arm64/include/asm/hw_breakpoint.h
-> @@ -124,6 +124,7 @@ extern void hw_breakpoint_pmu_read(struct perf_event =
-*bp);
->  extern int hw_breakpoint_slots(int type);
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> +#define ARCH_NEED_PERF_HW_NOTIFY
->  extern void hw_breakpoint_thread_switch(struct task_struct *next);
->  extern void ptrace_hw_copy_thread(struct task_struct *task);
->  #else
-> diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-> index f743cbec1c3ad..dc3793c2a7c3c 100644
-> --- a/arch/arm64/kernel/ptrace.c
-> +++ b/arch/arm64/kernel/ptrace.c
-> @@ -168,9 +168,7 @@ void ptrace_disable(struct task_struct *child)
->  /*
->   * Handle hitting a HW-breakpoint.
->   */
-> -static void ptrace_hbptriggered(struct perf_event *bp,
-> -                               struct perf_sample_data *data,
-> -                               struct pt_regs *regs)
-> +void perf_arch_hwbp_send_sig(struct perf_event *bp)
->  {
->         struct arch_hw_breakpoint *bkpt =3D counter_arch_bp(bp);
->         const char *desc =3D "Hardware breakpoint trap (ptrace)";
-> @@ -312,7 +310,7 @@ static struct perf_event *ptrace_hbp_create(unsigned =
-int note_type,
->         attr.bp_type    =3D type;
->         attr.disabled   =3D 1;
->
-> -       bp =3D register_user_hw_breakpoint(&attr, ptrace_hbptriggered, NU=
-LL, tsk);
-> +       bp =3D register_user_hw_breakpoint(&attr, perf_hwbp_notify, NULL,=
- tsk);
->         if (IS_ERR(bp))
->                 return bp;
->
-> diff --git a/arch/loongarch/include/asm/hw_breakpoint.h b/arch/loongarch/=
-include/asm/hw_breakpoint.h
-> index 5faa97a87a9e2..c2d061ff3763a 100644
-> --- a/arch/loongarch/include/asm/hw_breakpoint.h
-> +++ b/arch/loongarch/include/asm/hw_breakpoint.h
-> @@ -120,6 +120,7 @@ void breakpoint_handler(struct pt_regs *regs);
->  void watchpoint_handler(struct pt_regs *regs);
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> +#define ARCH_NEED_PERF_HW_NOTIFY
->  extern void ptrace_hw_copy_thread(struct task_struct *task);
->  extern void hw_breakpoint_thread_switch(struct task_struct *next);
->  #else
-> diff --git a/arch/loongarch/kernel/ptrace.c b/arch/loongarch/kernel/ptrac=
-e.c
-> index be38430f7e280..27e7e64591592 100644
-> --- a/arch/loongarch/kernel/ptrace.c
-> +++ b/arch/loongarch/kernel/ptrace.c
-> @@ -384,9 +384,7 @@ static int lbt_set(struct task_struct *target,
->  /*
->   * Handle hitting a HW-breakpoint.
->   */
-> -static void ptrace_hbptriggered(struct perf_event *bp,
-> -                               struct perf_sample_data *data,
-> -                               struct pt_regs *regs)
-> +void perf_arch_hwbp_send_sig(struct perf_event *bp)
->  {
->         int i;
->         struct arch_hw_breakpoint *bkpt =3D counter_arch_bp(bp);
-> @@ -479,7 +477,7 @@ static struct perf_event *ptrace_hbp_create(unsigned =
-int note_type,
->         attr.bp_type    =3D type;
->         attr.disabled   =3D 1;
->
-> -       bp =3D register_user_hw_breakpoint(&attr, ptrace_hbptriggered, NU=
-LL, tsk);
-> +       bp =3D register_user_hw_breakpoint(&attr, perf_hwbp_notify, NULL,=
- tsk);
->         if (IS_ERR(bp))
->                 return bp;
->
-> diff --git a/arch/xtensa/include/asm/hw_breakpoint.h b/arch/xtensa/includ=
-e/asm/hw_breakpoint.h
-> index 9ec86f440a48e..44ea340c88742 100644
-> --- a/arch/xtensa/include/asm/hw_breakpoint.h
-> +++ b/arch/xtensa/include/asm/hw_breakpoint.h
-> @@ -12,6 +12,7 @@
->  #define __ASM_XTENSA_HW_BREAKPOINT_H
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> +#define ARCH_NEED_PERF_HW_NOTIFY
->
->  #include <linux/kdebug.h>
->  #include <linux/types.h>
-> diff --git a/arch/xtensa/kernel/ptrace.c b/arch/xtensa/kernel/ptrace.c
-> index 364e4fdabb00d..c9f583d650de2 100644
-> --- a/arch/xtensa/kernel/ptrace.c
-> +++ b/arch/xtensa/kernel/ptrace.c
-> @@ -361,9 +361,7 @@ static int ptrace_pokeusr(struct task_struct *child, =
-long regno, long val)
->  }
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> -static void ptrace_hbptriggered(struct perf_event *bp,
-> -                               struct perf_sample_data *data,
-> -                               struct pt_regs *regs)
-> +void perf_arch_hwbp_send_sig(struct perf_event *bp)
->  {
->         int i;
->         struct arch_hw_breakpoint *bkpt =3D counter_arch_bp(bp);
-> @@ -395,8 +393,7 @@ static struct perf_event *ptrace_hbp_create(struct ta=
-sk_struct *tsk, int type)
->         attr.bp_type    =3D type;
->         attr.disabled   =3D 1;
->
-> -       return register_user_hw_breakpoint(&attr, ptrace_hbptriggered, NU=
-LL,
-> -                                          tsk);
-> +       return register_user_hw_breakpoint(&attr, perf_hwbp_notify, NULL,=
- tsk);
->  }
->
->  /*
-> diff --git a/include/linux/hw_breakpoint.h b/include/linux/hw_breakpoint.=
-h
-> index db199d653dd1a..91e8d80220c54 100644
-> --- a/include/linux/hw_breakpoint.h
-> +++ b/include/linux/hw_breakpoint.h
-> @@ -85,6 +85,9 @@ extern int register_perf_hw_breakpoint(struct perf_even=
-t *bp);
->  extern void unregister_hw_breakpoint(struct perf_event *bp);
->  extern void unregister_wide_hw_breakpoint(struct perf_event * __percpu *=
-cpu_events);
->  extern bool hw_breakpoint_is_used(void);
-> +extern void perf_arch_hwbp_send_sig(struct perf_event *bp);
-> +extern void perf_hwbp_notify(struct perf_event *bp, struct perf_sample_d=
-ata *data,
-> +                            struct pt_regs *regs);
-Maybe this declaration can be put in one line because there is no 80
-characters limit now.
+Besids mm, the other used of non_block_start() is pwm. Here the hrtimer
+can acnqure a spinlock_t on RT and I can't tell other user but I assume
+it is not atomic on RT since it wouldn't be able to acquire its own
+(spinlock_t) lock.
 
-Huacai
+Since spinlock_t (and rwlock_t) are not problem, add a sleeping_lock
+argument to __might_resched() signaling if this is scheduling request
+is from a sleeping lock (true) or regular scheduling request (false).
+Add the `true' argument to rtlock_might_resched() which is used on
+PREEMPT_RT for both sleeping lock types.
 
->
->  extern int dbg_reserve_bp_slot(struct perf_event *bp);
->  extern int dbg_release_bp_slot(struct perf_event *bp);
-> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-> index 2d5e7687875b0..07f2c858d50d1 100644
-> --- a/include/linux/perf_event.h
-> +++ b/include/linux/perf_event.h
-> @@ -215,6 +215,10 @@ struct hw_perf_event {
->
->         /* Last sync'ed generation of filters */
->         unsigned long                   addr_filters_gen;
-> +#ifdef ARCH_NEED_PERF_HW_NOTIFY
-> +       struct callback_head            arch_hw_notif;
-> +       int                             arch_hw_notif_busy;
-> +#endif
->
->  /*
->   * hw_perf_event::state flags; used to track the PERF_EF_* state.
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index 7846d70be57f6..619eab68d1dfd 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -13334,6 +13334,28 @@ static void account_event(struct perf_event *eve=
-nt)
->         account_pmu_sb_event(event);
->  }
->
-> +#ifdef ARCH_NEED_PERF_HW_NOTIFY
-> +static void perf_hwbp_send_sig(struct callback_head *head)
-> +{
-> +       struct perf_event *bp;
-> +
-> +       bp =3D container_of(head, struct perf_event, hw.arch_hw_notif);
-> +       perf_arch_hwbp_send_sig(bp);
-> +       xchg_relaxed(&bp->hw.arch_hw_notif_busy, 0);
-> +       put_event(bp);
-> +}
-> +
-> +void perf_hwbp_notify(struct perf_event *bp, struct perf_sample_data *da=
-ta,
-> +                     struct pt_regs *regs)
-> +{
-> +       if (WARN_ON_ONCE(!atomic_long_inc_not_zero(&bp->refcount)))
-> +               return;
-> +       if (xchg_relaxed(&bp->hw.arch_hw_notif_busy, 1) ||
-> +           WARN_ON_ONCE(task_work_add(current, &bp->hw.arch_hw_notif, TW=
-A_RESUME)))
-> +               put_event(bp);
-> +}
-> +#endif
-> +
->  /*
->   * Allocate and initialize an event structure
->   */
-> @@ -13439,6 +13461,10 @@ perf_event_alloc(struct perf_event_attr *attr, i=
-nt cpu,
->         }
->
->         if (overflow_handler) {
-> +#ifdef ARCH_NEED_PERF_HW_NOTIFY
-> +               if (overflow_handler =3D=3D perf_hwbp_notify)
-> +                       init_task_work(&event->hw.arch_hw_notif, perf_hwb=
-p_send_sig);
-> +#endif
->                 event->overflow_handler =3D overflow_handler;
->                 event->overflow_handler_context =3D context;
->         } else if (is_write_backward(event)){
-> --
-> 2.55.0
->
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Sean Young <sean@mess.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Acked-by: David Woodhouse <dwmw@amazon.co.uk>
+Fixes: 312364f3534c ("kernel.h: Add non_block_start/end()")
+Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3Dc3178b6b512446632bac
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+v2=E2=80=A6v3: https://lore.kernel.org/all/20260916155105.qDi2MiYW@linutron=
+ix.de/
+  - Repost.
+
+v1=E2=80=A6v2: https://lore.kernel.org/all/20260821095755.am1-Segb@linutron=
+ix.de/
+ - repost with collected tags
+ - Add Reported-by for syzbot
+
+ include/linux/kernel.h       |  5 +++--
+ include/linux/sched.h        | 24 ++++++++++++------------
+ kernel/locking/spinlock_rt.c |  2 +-
+ kernel/sched/core.c          |  7 ++++---
+ 4 files changed, 20 insertions(+), 18 deletions(-)
+
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 24414c79e59ab..c3937e081f18f 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -70,7 +70,8 @@ extern int dynamic_might_resched(void);
+ #endif /* CONFIG_PREEMPT_* */
+=20
+ #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
+-extern void __might_resched(const char *file, int line, unsigned int offse=
+ts);
++extern void __might_resched(const char *file, int line, unsigned int offse=
+ts,
++			    bool rt_sleeping_lock);
+ extern void __might_sleep(const char *file, int line);
+ extern void __cant_sleep(const char *file, int line);
+ extern void __cant_migrate(const char *file, int line);
+@@ -128,7 +129,7 @@ extern void __cant_migrate(const char *file, int line);
+ # define non_block_end() WARN_ON(current->non_block_count-- =3D=3D 0)
+ #else
+   static inline void __might_resched(const char *file, int line,
+-				     unsigned int offsets) { }
++				     unsigned int offsets, bool rt_sleeping_lock) { }
+ static inline void __might_sleep(const char *file, int line) { }
+ # define might_sleep() do { might_resched(); } while (0)
+ # define cant_sleep() do { } while (0)
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index d35ae49a991f7..b758476cf8ae3 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2174,9 +2174,9 @@ static inline int _cond_resched(void)
+=20
+ #endif /* !CONFIG_PREEMPTION || CONFIG_PREEMPT_DYNAMIC */
+=20
+-#define cond_resched() ({			\
+-	__might_resched(__FILE__, __LINE__, 0);	\
+-	_cond_resched();			\
++#define cond_resched() ({				\
++	__might_resched(__FILE__, __LINE__, 0, false);	\
++	_cond_resched();				\
+ })
+=20
+ extern int __cond_resched_lock(spinlock_t *lock) __must_hold(lock);
+@@ -2202,19 +2202,19 @@ extern int __cond_resched_rwlock_write(rwlock_t *lo=
+ck) __must_hold(lock);
+ 	(PREEMPT_LOCK_OFFSET + (1U << MIGHT_RESCHED_RCU_SHIFT))
+ #endif
+=20
+-#define cond_resched_lock(lock) ({						\
+-	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
+-	__cond_resched_lock(lock);						\
++#define cond_resched_lock(lock) ({							\
++	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
+	\
++	__cond_resched_lock(lock);							\
+ })
+=20
+-#define cond_resched_rwlock_read(lock) ({					\
+-	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
+-	__cond_resched_rwlock_read(lock);					\
++#define cond_resched_rwlock_read(lock) ({						\
++	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
+	\
++	__cond_resched_rwlock_read(lock);						\
+ })
+=20
+-#define cond_resched_rwlock_write(lock) ({					\
+-	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS);	\
+-	__cond_resched_rwlock_write(lock);					\
++#define cond_resched_rwlock_write(lock) ({						\
++	__might_resched(__FILE__, __LINE__, PREEMPT_LOCK_RESCHED_OFFSETS, false);=
+	\
++	__cond_resched_rwlock_write(lock);						\
+ })
+=20
+ #ifndef CONFIG_PREEMPT_RT
+diff --git a/kernel/locking/spinlock_rt.c b/kernel/locking/spinlock_rt.c
+index 1d5e1b3c60bfa..0a89e7f10af18 100644
+--- a/kernel/locking/spinlock_rt.c
++++ b/kernel/locking/spinlock_rt.c
+@@ -33,7 +33,7 @@
+ 	(rcu_preempt_depth() << MIGHT_RESCHED_RCU_SHIFT)
+=20
+ #define rtlock_might_resched()						\
+-	__might_resched(__FILE__, __LINE__, RTLOCK_RESCHED_OFFSETS)
++	__might_resched(__FILE__, __LINE__, RTLOCK_RESCHED_OFFSETS, true)
+=20
+ static __always_inline void rtlock_lock(struct rt_mutex_base *rtm)
+ {
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 1fe40de6ebe3c..0135822afdd1d 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -9190,7 +9190,7 @@ void __might_sleep(const char *file, int line)
+ 			(void *)current->task_state_change,
+ 			(void *)current->task_state_change);
+=20
+-	__might_resched(file, line, 0);
++	__might_resched(file, line, 0, false);
+ }
+ EXPORT_SYMBOL(__might_sleep);
+=20
+@@ -9215,7 +9215,8 @@ static inline bool resched_offsets_ok(unsigned int of=
+fsets)
+ 	return nested =3D=3D offsets;
+ }
+=20
+-void __might_resched(const char *file, int line, unsigned int offsets)
++void __might_resched(const char *file, int line, unsigned int offsets,
++		     bool rt_sleeping_lock)
+ {
+ 	/* Ratelimiting timestamp: */
+ 	static unsigned long prev_jiffy;
+@@ -9226,7 +9227,7 @@ void __might_resched(const char *file, int line, unsi=
+gned int offsets)
+ 	rcu_sleep_check();
+=20
+ 	if ((resched_offsets_ok(offsets) && !irqs_disabled() &&
+-	     !is_idle_task(current) && !current->non_block_count) ||
++	     !is_idle_task(current) && (rt_sleeping_lock || !current->non_block_c=
+ount)) ||
+ 	    system_state =3D=3D SYSTEM_BOOTING || system_state > SYSTEM_RUNNING ||
+ 	    oops_in_progress)
+ 		return;
+--=20
+2.55.0
+
