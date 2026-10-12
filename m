@@ -1,114 +1,115 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C54E4B1B24
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 16:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC9E3B6BE8
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 17:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791824243; cv=pass; b=Ymgx2JV6VMG55hZnUu4k7T6tmecSjj7OUJxt1sRRHLVuQZoGcbyZhT592yg2MArbLP1R1ddAgMPr5YoNggNHLOIjiTFAr5Y270/R4+9CfucHdPgCzRiVjfnW9i+2GCXi6Hiv1EtyY2/pun9JxadJrWpWLAHCUZ7Epfl7RL9I4HU=
+	t=1791824620; cv=pass; b=ri2lZ4L3I92McQyME7SjdwmKymWVOobyUxA6dB/5o6w0bVycr/hceikCHUv/tei947vgawZ6NZr8maK2cvBik2aZoJWEMxCyzTjOrFF5lR6h8CYEpsHiVHzUrOQSji0MoJKmczQa+s+x18M3NdKAUkViY3uIjVgN6Ttsr2YhvdQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791824243; c=relaxed/simple;
-	bh=1ZwHYEL9zk034YEl/vwY1GKXAdewDQli4AdtYssr/d8=;
+	s=arc-20240116; t=1791824620; c=relaxed/simple;
+	bh=dKfvJtGHZmzjUIBowW8Kzn+l9RBuWlUzTORhD2jZiOQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s9LQDlOTS5kPEvLZ9wXBGu++LeMCi0F2hudB0nR7YHh0Q52RxswIPu6q6FrQJY6emyl+8KbYri0Yv88QK8UhW6Z8QnMXB7NPTgWR80Tq+3uo9wrq0shztIaH3xiMfSmSvECf0W2S0Fe+oPa+0NE4jE7QgLWpS0WILodJhjxSDas=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cMDcUL45; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aHidiXfv; arc=pass smtp.client-ip=205.220.168.131
+	 To:Cc:Content-Type; b=LItUQwROzdFDm2e0MJX8yrXmX30AtaPzVk1XIKmCdMzbQqM6u+EGOQpROxGQ46BYBmtsB8O9cHC7RORTb44OCd9Uh4ZV1sOe63jjM4uTobruUexHTWvyxeYZoUDpjCK8/nfmj7ZWn7HKdHI2EfquBFNf+ob2R1N7WLYAdlNW9xI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gAuM4byR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KRX9N58U; arc=pass smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cMDcUL45";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aHidiXfv"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CFerSj3851202
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 16:57:18 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gAuM4byR";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KRX9N58U"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CFf0is2175323
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 17:03:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:to; s=
-	qcppdkim1; bh=47NuF1ZKqF7d8RYJGYljqA1U0z0Tidrq15wAPG9h8b0=; b=cM
-	DcUL45gRuVzE+jNsv8a6qBEwW0YUaXRh4vF8WElxOOIgmMZzaRhY7ruPaoFvy6Lj
-	qDSvQ0X0lFxTBwq6zbVb2UUqBCDF+64fcrSBck2BgsxfSY0aPjBI59yBV9SemnuF
-	jg4xUoWeLZnUS8rUWRyWRBQFNxDXxI+uZPwLVKKE6Kt+ibWKP7ABv1Vqabb8hEvt
-	LktCsN/FQJeSEwTezqgfkoea1A8vPmr2HuWNFVu5BbJA0I7kjDSw9H39g0Z1+HjA
-	trgQ6uybg3jafppp73YBth9ts2UVWUjjpterLmYN7VhiHYf/TQTofM+iER1ldPCv
-	VDxuL8ErBKA16yDFyp5w==
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com [74.125.224.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8wdr9u1h-1
+	qcppdkim1; bh=A4GClre/w4vdaRAqEfHfWYR6PD2w7avTQzzpljHZmM4=; b=gA
+	uM4byRfyRQ6OxvKWIKp3THc23mdB+NTJVIPbnaN3IWktVLDG2tOT4JlHZ8KjcYah
+	7G4bdveVl5QKTGFNGjRQUj5oj984gNtTi+tZ4RTnkm40BIf37Z/fK/JGvzureTBs
+	1/TvXAFTaKhRc/3RTa58+rcIKq99HJH7aaxcuSJI+cpKbNhHGI418Rac0AniAqMk
+	61GRMt4HsWgu2pDkvswTk4tmZn9UVLPLeeYYap7ABZSDOH+aE887WGUELNXtZJOj
+	sCL/zgQ2ZK1h4E+RSwb9uWYU7znbrq3xXKpyeLwUQHuhjvS1TsSIaq5oNqZ41s+r
+	JCok3Y1ujz6ftBYZISdw==
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8wbc1x5e-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 16:57:18 +0000 (GMT)
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-675d5613a31so2428685d50.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 09:57:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791824237; cv=none;
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 17:03:37 +0000 (GMT)
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-8b0a28d6acdso13772397b3.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 10:03:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791824614; cv=none;
         d=google.com; s=arc-20260327;
-        b=lnTJYsnh9AQz6PUjF3Hir1YlEQU0EW5Q8gWBcBcHRiGmoLcUDbQSeWY2Ovh4Fb9LSX
-         ni9usKqZXy+H08YfMU9hrggUQussFj3sFgQ2Kpyvrum8UXxrZTkY3u9hovxau2JQJ4zT
-         jHFsKlxvk1GKgF6FputhCF4Z3Q/cdIbxP2VyCaMnj6PTsN5Ozk1g4gjRjY5ZXefrvjM7
-         zGg2rF0m3sHyIbv5dBUJrwPu2dOHU7UYnexLBxV3ILm4lk9LvujeekFjnsC5Dxq6tcsl
-         Z3EMsrY0Mz0SWm+0OQkJXwcg67HpzZhgbJ0auJrq9kb2bi7de5r1fRG5lh0YKHDVWEqG
-         t2qA==
+        b=InTXUsSYQc1eiKQxmcYDXY+KlavW1s4l7RYCWug2vNH2nKLWGIAzH4kduS3rqUzY/R
+         xLL5hXYlqrkXt3+rEq0u5YMu0fTmzKMKE2ceNIqtzVbx8J0N/rIhXW6fNyTAoaMsHNfv
+         ERvbgzaMCa1PKj0ciqeVk0GWaENI0Zq6D6ifViKhDlYFsszc8hZ2QrEXSdWZ4ICD0D11
+         L8XKvdN/zL5QxafHjFNILwZ0AXEQz6Iz8NK1eUaZUZsmav4EOeqoSxeZWb39Axd6R0Cm
+         TnkJDGN6D2IpIH+CK2tRnHNygPOvX33TMNmGI5lw6AS1tui+gcZBY4uHXBoYrl0vEdFe
+         08AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:dkim-signature;
-        bh=47NuF1ZKqF7d8RYJGYljqA1U0z0Tidrq15wAPG9h8b0=;
-        fh=HgAOOnvIXLUuqFvKZbvgAtcIFG6JoUCBewfTjOAMWY0=;
-        b=ag8PGC5V4Oc5O9gbEJbsXbzfoQeVJdT7auaUNayDYPM7l9WiSuccR36ULRernnfYu/
-         SouTJWVYlLSgnW1qYR/muf8Q0KYtPeatRmZeydlCHfuICmBwvqNsk0dm1cUY7foZiC3V
-         CV8zXayZ/cmzg5xYCqxUfG1V8tFKYWFemmGgzmAhPWTjbp+nESW9SvoU5ToznIijooFJ
-         Gx1gJqyT5DZoQGn/1AYJnjqIKghJkGhKJtklsYJZKZzAbzRXdktx2S5pyD/srZSOVbZl
-         Ir1XBGdeLXbJ1Ly7HOxPZlX0UoQJfbOH1+ymwEWugE1mblwG71p2yDd1mylvwcv9Uxah
-         ePoQ==;
+        bh=A4GClre/w4vdaRAqEfHfWYR6PD2w7avTQzzpljHZmM4=;
+        fh=RUVAyu7tsgEY/xPDWp1hd6/N23AYTcwotsH+/CzMCtU=;
+        b=BTR0iTBXFguhjmI+FFh9yXvB9LC3ufgjiI/POQEjTPXs3nGGcRlxlKQzRb2C70gibv
+         03DxPPIBufMrpKaf1/IFMMgvCQA7lEy0meNV5VqUfKyBAeRXowWDmuBmIGN9Ft0SYWtL
+         jDnbAUSD62f1KddU8makiKsARe72C1P+7VaGz76vKs58aMTIUF/9oRDiyZUknH7dx8yg
+         fRtxF3VFlo3lxovfoALjfDJiMwgvRM1Y/oTWPudzHa1el2G0czGb49bphBtjYyhJUGz4
+         y6V4vu0c8oDF3XOTy7aBPBPnnNHWHlQb+F2PZ+Ib27vIgyTEABcsTiUKqQn7X42SF3TZ
+         yY8w==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791824237; x=1792429037; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1791824614; x=1792429414; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:reply-to:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=47NuF1ZKqF7d8RYJGYljqA1U0z0Tidrq15wAPG9h8b0=;
-        b=aHidiXfvdaVBkW2z+cijHGvfxM+uIaHP8GGZ1XxtjAjiwWXlHP5L0g4uCd2XPGCpts
-         uvPsi5MskWpH1cPCVNAgBhN7Sy/cPFY8YK0O7JWeRPw/FH2R/lsOeUD1p+mIN7crb27/
-         TDxl+ciKDzDJf0/HRLA/vmMqzPN+MBvLNlB7zoHISCtelVkJQ496MHjJVfqJESuWlNr3
-         kP9kKAIij2cua8yogzYXAQWwLNgPTtMgUaWekF30Xh143fI+mBiim1V+P97KQW+LJKzR
-         VcgxX5wp8wDz2JbeaNBLLi0DAWR7W8HUbvhqnatWMLy0+EstI7KuDg78Xc550bWqgIdz
-         1CCA==
+        bh=A4GClre/w4vdaRAqEfHfWYR6PD2w7avTQzzpljHZmM4=;
+        b=KRX9N58UMZLBT73TaLy+HjmP0HztDxFQJpSlv5ZvJe3IHwyvRov70mhMhITox74htl
+         yojOtn4lfKilqgHzZ6I+ydJ/JVF5pUFs8wpFtAdyO7kIC/V54q+Y/6B0JSVz4w9uBk0/
+         Wc877xhgSvBOnXqhEXgwhGQcOAN0ECnwvzXzbkETvNqYwNj/dfWAuMztdJrR42IS0XQ+
+         UkWW1wzVLqZZqLZAjQR1mWNp6OuK2N1COSJeKDjduDkTSDLAjdytxOErywsCdun9RSHl
+         Lcn6Gjey3vdhDAJEnErDRdMmRpxEzXhhG/CkEeaXyfMZaa8mFa74zPvZiqVd/vP2mkMM
+         h9/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791824237; x=1792429037;
+        d=1e100.net; s=20260707; t=1791824614; x=1792429414;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:reply-to:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=47NuF1ZKqF7d8RYJGYljqA1U0z0Tidrq15wAPG9h8b0=;
-        b=foqmduIesX1ilaYf47IYgeHil84TzsF1gGOMu0I+JHXGgc2Az0/1fE1ApMKFP/TPUg
-         baS/v7/bKz3nuseXGzbO6nsdodTNLzZjE1iOVlFTlTpk2z5LOSF3m8MRJsnXB709lY1i
-         c9wm58KfnQIOQAFxRQgduG6IEZ1j82Gth/ndZeESvcHUCtXolyMNngmK6o+Fhsc4S6N5
-         lx1Ra/bkpKuO1xpVyZwJwBVupmpiULXjo6ny/NwxliWO1O1z6OTb/kUAkxkXImRnDTEn
-         IqzdYaVkzvK6jhu+am+GLBEZsSf88QwQzHK2TfmWqOvTfVtRsG5J1GClzSeAiyAuzPvA
-         cxkg==
-X-Forwarded-Encrypted: i=1; AKwUvBzriXQ33ZnI3dSu6KbFL5SsihCdq3+w6/zoQoDDSDf2ga5AfIVxSrIEzk5OrAX6ntoRatwFDxUY8yybrX0kkg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI/gUuq7uxGUPCbuuJxKyB8MAVrx1oOElUvpm5oCbxDDv67YlsP
-	mPFt0ZjkJm3vZ9q0fAfln4iwBprjY/X2xC3KxO0sAK1dz46oHU2Xq/DA19b9wQUhA4EorUWB3K0
-	Ouy/nV+SLtxINJ8f/gQfOCGnhzd7KR8pUxXmFrrl/gLUy5QMspV+btBIe+DkH7d49nyDeYgH5P1
-	dsUt6p+wBIfxtInZpeZvFBHc4TU7xgrYTX9dCrX7u7QQ6/
-X-Gm-Gg: AYBFou3EFEJ2lu9Thi8kMWICbEg+0F87OdNLW7TDaBDFMWtVhRVaflHZQgJ5KN1SU9s
-	bnmATWRooRJHy1G9tErkEIAcAkjN+sqLV2SjC5bVOOrW3Hn4FXRa7h8PEzGae1gDvuxI0XAp0Ee
-	EeAY0y140oRzpbSazIMdL7JwtqpvnncP5xuCaWueeHeAik+OfrpIOcdW4TGyM=
-X-Received: by 2002:a05:690e:4101:b0:676:88cd:477a with SMTP id 956f58d0204a3-679360586ebmr2314592d50.64.1791824237278;
-        Mon, 12 Oct 2026 09:57:17 -0700 (PDT)
-X-Received: by 2002:a05:690e:4101:b0:676:88cd:477a with SMTP id
- 956f58d0204a3-679360586ebmr2314577d50.64.1791824236864; Mon, 12 Oct 2026
- 09:57:16 -0700 (PDT)
+        bh=A4GClre/w4vdaRAqEfHfWYR6PD2w7avTQzzpljHZmM4=;
+        b=iWo9I5IxRutOVlrtQCeqNkXRFSdORPLqYltA3gfg0CDv+oN9SwQxhBat4WdmmNI/Sx
+         eQYPJNEdfBlIxeMeawsuxUI6TXWhexYsRVzulwqn1PJJJZOWG0dSYogybAQM7hpgWJss
+         aTy2DnQ6XcB72Oujth2dlFTFin1nIfmYJ2+P+YpjgZLSyy9tyl9StO7fySZ3E5hhaD2v
+         fRwDYmpLmGeuD6XgwTP0B7+JJlRst6Ef8v5AhtvOKhZ65nvmhyMnmT0vpYWVjW5pMO8T
+         5WzuIrRiIOjuTNPd94kcMxMyipKg4YaWYzhwuS0Uo6nm8gpnJv73LzgHeqfK/c83E6fT
+         e/mQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxYP1Z1xAuZ+9kiG3HPbiGmyVm7dj9y5baT6wN79olbnv+GQnu9nKzeQ6HTJAADZgZpM19EgKEYGvwIAodTNg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJq51LqYMpwfQseDGiQSr0+x4RjxWFa8Rf9mjdqr13OYDhA9WKn
+	VNPi90wX2dFmMa44CPa2L3nuRtz3brnTQGvHBAkI0x2DTTinjevYiA/bN3Kn8NyPlMak7L8Ggjy
+	uclMWJ1At/zUjccbmV0ATPMS74mw3ZyYmAErVtf7K6HrwCSouK7eedyfVjEoegLm9Ln6jcuikJA
+	rSJnlpgSfvNEI02FlXNeJrCCLhOBTLjqPQK4PaXSXp1cVC
+X-Gm-Gg: AYBFou1b29yHRuvaDC3OQ2GWCve8T5i9gVFeBB8onJlvt9Nj9V41YG5FQB81lCT+UQB
+	builLPtEWOmxZtzVXPDTfNAdwrMcOKqjGHeM5ZUwvdaiOgl6eTG0cstZBvcTYcVubUVQ5GvCNya
+	yQdxhW99cuKuzDCgUYc43crIDyIFG8oIMM72bwJOxs/XNn9FuVrB3ay6vr9hM=
+X-Received: by 2002:a05:690c:e3c4:b0:8b0:aba3:a3e2 with SMTP id 00721157ae682-8b0aba3ab6dmr8912497b3.37.1791824613860;
+        Mon, 12 Oct 2026 10:03:33 -0700 (PDT)
+X-Received: by 2002:a05:690c:e3c4:b0:8b0:aba3:a3e2 with SMTP id
+ 00721157ae682-8b0aba3ab6dmr8911907b3.37.1791824612923; Mon, 12 Oct 2026
+ 10:03:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org> <20261003-dfustini-atl-sc-cbqri-dt-v9-3-52fd8be98dcf@kernel.org>
-In-Reply-To: <20261003-dfustini-atl-sc-cbqri-dt-v9-3-52fd8be98dcf@kernel.org>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org> <20261003-dfustini-atl-sc-cbqri-dt-v9-5-52fd8be98dcf@kernel.org>
+In-Reply-To: <20261003-dfustini-atl-sc-cbqri-dt-v9-5-52fd8be98dcf@kernel.org>
 Reply-To: sunilvl@oss.qualcomm.com
 From: Sunil V L <sunilvl@oss.qualcomm.com>
-Date: Mon, 12 Oct 2026 22:27:04 +0530
-X-Gm-Features: AclHuK96lmXU1FySMYulXru_-us2zCYXg_c0cpE2EJ1bHEgD2VYJgCcz2mj0Iv8
-Message-ID: <CAB19ukFNjO-J7YaLh3_1dAziMtELkvu6mmVbcES=WFWYQxgnSQ@mail.gmail.com>
-Subject: Re: [PATCH v9 3/5] riscv_cbqri: Make RESCTRL_FS available on RISC-V
+Date: Mon, 12 Oct 2026 22:33:21 +0530
+X-Gm-Features: AclHuK_eAnoXLHNe9JW1H0XsgI027UTvmUTL3dvXmeTZJjwIqBd2LIFlaZxAhKg
+Message-ID: <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
+Subject: Re: [PATCH v9 5/5] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
 To: Drew Fustini <fustini@kernel.org>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
         Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
@@ -143,68 +144,231 @@ Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
         linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA2NyBTYWx0ZWRfX/KCkPfB/8DH6
- VyUIwyA1wkgGHjwErcLQELDsenZiK4/CSY3sESmRjN7ZqQv6yYE6ttrmf89vbf3Svxxcmgs8YB6
- D1m4ycVu0fzOREzQDfJwxGiSbRd/Fkv8H2YXEMEE8lUwA0EM3zspX0HhvG7l3tn9V5pckRS90jm
- 8i7hyGQosBgcg5m8PBM8DUcOKy2Ut29pLQoTCPFDgabcd3JJItSYOZqTaExGKgeBgaraGU1bxkA
- /DvwXkdbHCAPi8jxhucXhOoQQpcxwx+zBpyj5v3ADL6JDkNWJKZRhKn808n7gfEwTf1bc8CLbyK
- U5sTk+FXILKuBy9R74eCbm8g3WzkCeWN5Qu4u7VU4zFdO0ZHG7TNefOwvRmBoePUZ8ohHUgOyUD
- 05aVatE5/+F9npIqLRYx9Rkwo35Kl+Xx+SYdzI4Na122OlN1v03ObecFNM+M49BKR/MIA5kXY4t
- 8dzkAMcz6hyg5Rsyv0A==
-X-Authority-Analysis: v=2.4 cv=SvAFe/O0 c=1 sm=1 tr=0 ts=6acd116e cx=c_pps
- a=S/uc88zpIJVNbziUnJ6G4Q==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA2NyBTYWx0ZWRfXwURfNRLdNBH4
+ ks7k/uMQi9KT5szkaOyD+bsdW8afNInqF+h5sm9rg+HFTjSNwRhEZfoPe7axwcwwYNGPT/YeZvU
+ AQKUtuLrKoAUyabUa8aTnbD9KoMZkV0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA2NyBTYWx0ZWRfX3QxDhf+c+YhE
+ 4g04cSUpfkiDGQXlvbZdFYTYcoEhVKG5fZbHpRfWoMTm9npx72SUPT2S3c7KeRJQ2b+MQQ1GPkT
+ cdExJxGlPc7ysgY4zON5edbAX+HbQJq8/pLJd0w5mPS5/+uvQX29Nl7GDEwsrPrAsHW54vxcBsc
+ vNKv7SsAl9XvAYeo1fHCfmLfYErqJvSl9pk7W0Yd/kDsbkFo8nGozRLiqGW+rdYjr2BVHLiURb9
+ 9QBsdIvuSvWkhbFu3V1mbkqjoddNvLIzYb1+bg6g0230ZnjoRugqpN4Kl2w3+OoUnkmFwxvlmmO
+ p4uv+S0BpYvt1e3iZ8dgexzdLn/5VztVyiuYNoPBpEcjm3efWp1Qe8apMQZ0L9D9P7pSdgJgxkw
+ CCLX9UB3JWCmiP9iHHcAkOREbHl3f/H9oj06JXLdOFhwUQlLoqtZnngQoIImM5FCp8MWLz/eTM1
+ gRPcl89pGt8fZCBQ/Xg==
+X-Authority-Analysis: v=2.4 cv=C4p8WgP+ c=1 sm=1 tr=0 ts=6acd12e9 cx=c_pps
+ a=g1v0Z557R90hA0UpD/5Yag==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=eoimf2acIAo5FJnRuUoq:22 a=VwQbUJbxAAAA:8 a=SRrdq9N9AAAA:8 a=EUspDBNiAAAA:8
- a=WVtwwdpmd8cHSuz7VWcA:9 a=QEXdDO2ut3YA:10 a=nd2WpGr1bMy9NW-iytEl:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA2NyBTYWx0ZWRfX/HHBhH/B4Lum
- 2lU6sfEpGie+FGmSSekJBaRGarw6lDDAgtxLX6I5xJzPu2EncaIUxjO/lJMbF509ZrM+7Qt3uTP
- zNUB7UIx6Sf89C33rMtJOM//wX4SfFE=
-X-Proofpoint-ORIG-GUID: mq_JC3t1MH_FN1J7oYyU6CZyvyrIQmOC
-X-Proofpoint-GUID: mq_JC3t1MH_FN1J7oYyU6CZyvyrIQmOC
+ a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8 a=SRrdq9N9AAAA:8
+ a=u8ca8oee0k6j8m9lC0cA:9 a=QEXdDO2ut3YA:10 a=MFSWADHSvvjO3QEy5MdX:22
+X-Proofpoint-ORIG-GUID: v7IFve-8goL9FTyTH7YyK8O5hJZ7g_7g
+X-Proofpoint-GUID: v7IFve-8goL9FTyTH7YyK8O5hJZ7g_7g
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-12_05,2026-10-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610120067
 
 On Sat, Oct 3, 2026 at 12:45=E2=80=AFPM Drew Fustini <fustini@kernel.org> w=
 rote:
 >
-> Enough CBQRI support is now present to enable ARCH_HAS_CPU_RESCTRL.
-> Have RISCV_CBQRI select it so that RESCTRL_FS can be enabled on
-> RISC-V, and default RISCV_CBQRI to y. RISCV_ISA_SSQOSID is default n,
-> so this only affects kernels where the user has already opted into
-> Ssqosid, and on those the CBQRI support is what makes the extension
-> useful.
+> Add a platform driver for CBQRI capacity controllers described in
+> device tree with the riscv,cbqri-capacity-controller compatible.
 >
-> This is a separate patch so that no commit makes RESCTRL_FS selectable
-> before the resctrl glue it depends on exists. Enabling the resctrl
-> filesystem itself stays a user choice under MISC_FILESYSTEMS.
+> The controller node points at the cache it governs with a
+> riscv,cbqri-cache phandle. The driver looks that cache up in cacheinfo
+> and uses its cache id as the resctrl domain id, so the binding does not
+> need to carry a CPU mask. The controller is then handed to the CBQRI
+> core, which probes its capabilities and decides whether to expose it
+> through resctrl.
 >
+> Nothing is vendor-specific and reg is the CBQRI register block itself,
+> so any SoC that describes a CBQRI capacity controller in device tree can
+> use the driver unchanged.
+>
+> Assisted-by: LLM
 > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
 > Signed-off-by: Drew Fustini <fustini@kernel.org>
 > ---
->  drivers/resctrl/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
+>  MAINTAINERS                      |   1 +
+>  drivers/resctrl/Kconfig          |  15 +++++
+>  drivers/resctrl/Makefile         |   1 +
+>  drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 144 insertions(+)
 >
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c362d53ed355..00b92842ef12 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23573,6 +23573,7 @@ F:      Documentation/devicetree/bindings/riscv/r=
+iscv,cbqri.yaml
+>  F:     arch/riscv/include/asm/qos.h
+>  F:     arch/riscv/include/asm/resctrl.h
+>  F:     arch/riscv/kernel/qos.c
+> +F:     drivers/resctrl/cbqri_capacity.c
+>  F:     drivers/resctrl/cbqri_devices.c
+>  F:     drivers/resctrl/cbqri_internal.h
+>  F:     drivers/resctrl/cbqri_resctrl.c
 > diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-> index cac23d20124b..617b813b9808 100644
+> index 617b813b9808..689a91873d7b 100644
 > --- a/drivers/resctrl/Kconfig
 > +++ b/drivers/resctrl/Kconfig
-> @@ -33,6 +33,8 @@ config ARM64_MPAM_RESCTRL_FS
->  menuconfig RISCV_CBQRI
->         bool "RISC-V CBQRI support"
->         depends on RISCV && RISCV_ISA_SSQOSID
-> +       select ARCH_HAS_CPU_RESCTRL
-> +       default y
->         help
->           Capacity and Bandwidth QoS Register Interface (CBQRI) support f=
-or
->           RISC-V cache QoS resources. CBQRI exposes cache capacity
+> @@ -41,6 +41,21 @@ menuconfig RISCV_CBQRI
+>           allocation through the resctrl filesystem at /sys/fs/resctrl wh=
+en
+>           RESCTRL_FS is also enabled.
 >
-LGTM.
+> +if RISCV_CBQRI
+> +
+> +config RISCV_CBQRI_CAPACITY
+> +       bool "RISC-V CBQRI cache capacity-allocation controller"
+> +       depends on OF
+> +       help
+> +         Enable driver for a RISC-V CBQRI capacity controller that
+> +         governs a CPU cache, matching the "riscv,cbqri-capacity-control=
+ler"
+> +         compatible. The controller's cache phandle gives the cache leve=
+l and
+> +         id, which the driver registers as a resctrl cache-allocation re=
+source.
+> +
+> +         Say N unless your device tree describes a CBQRI capacity contro=
+ller.
+> +
+> +endif
+> +
+>  config RISCV_CBQRI_RESCTRL_FS
+>         bool
+>         default y if RISCV_CBQRI && RESCTRL_FS
+> diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
+> index a7631712dba9..c8339113ef1f 100644
+> --- a/drivers/resctrl/Makefile
+> +++ b/drivers/resctrl/Makefile
+> @@ -7,3 +7,4 @@ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)       +=3D -DDE=
+BUG
+>  obj-$(CONFIG_RISCV_CBQRI)                      +=3D cbqri.o
+>  cbqri-y                                                +=3D cbqri_device=
+s.o
+>  cbqri-$(CONFIG_RISCV_CBQRI_RESCTRL_FS)         +=3D cbqri_resctrl.o
+> +cbqri-$(CONFIG_RISCV_CBQRI_CAPACITY)           +=3D cbqri_capacity.o
+> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_cap=
+acity.c
+> new file mode 100644
+> index 000000000000..0670a676bdb1
+> --- /dev/null
+> +++ b/drivers/resctrl/cbqri_capacity.c
+> @@ -0,0 +1,127 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Platform driver for a RISC-V CBQRI capacity controller that backs a C=
+PU
+> + * cache. The controller is described in device tree by the generic
+> + * "riscv,cbqri-capacity-controller" compatible together with a phandle =
+to the
+> + * cache node it governs. The driver hands it to the CBQRI core, which p=
+robes
+> + * the capabilities register and exposes a controller that supports allo=
+cation
+> + * as the resctrl cache allocation resource for that cache.
+> + */
+> +
+> +#define pr_fmt(fmt) "cbqri-capacity: " fmt
+> +
+> +#include <linux/cacheinfo.h>
+> +#include <linux/cpu.h>
+> +#include <linux/device-id/of.h>
+> +#include <linux/ioport.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/printk.h>
+> +#include <linux/riscv_cbqri.h>
+> +#include <linux/types.h>
+> +
+> +static int cbqri_capacity_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev =3D &pdev->dev;
+> +       struct cbqri_controller_info info =3D {};
+> +       struct device_node *cache_np;
+> +       struct resource *res;
+> +       u32 rcid_count, cache_level;
+> +       int cache_id, cpu, ret;
+> +
+> +       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       if (!res)
+> +               return -EINVAL;
+> +
+Unless I am missing something, I think you can simplify the code by
+using devm_platform_ioremap_resource().
 
-Reviewed-by: Sunil V L <sunilvl@oss.qualcomm.com>
+> +       ret =3D of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &r=
+cid_count);
+> +       if (ret) {
+> +               dev_err(dev, "missing riscv,cbqri-rcid\n");
+> +               return ret;
+> +       }
+> +
+> +       cache_np =3D of_parse_phandle(dev->of_node, "riscv,cbqri-cache", =
+0);
+> +       if (!cache_np) {
+> +               dev_err(dev, "missing riscv,cbqri-cache phandle\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       ret =3D of_property_read_u32(cache_np, "cache-level", &cache_leve=
+l);
+> +       if (ret) {
+> +               dev_err(dev, "%pOF: missing cache-level\n", cache_np);
+> +               goto out_put;
+> +       }
+> +
+> +       /*
+> +        * Associate the controller with its cache instance via cacheinfo=
+.
+> +        * The matching cache provides the cache id used as the resctrl
+> +        * domain id.
+> +        *
+> +        * Taking the first leaf at the level is sufficient, because fw_t=
+oken
+> +        * is keyed on the DT cache node, so sibling leaves of a split ca=
+che
+> +        * share it, and riscv,cbqri-cache must reference a unified share=
+d
+> +        * cache (cache-unified), not a split private L1.
+> +        */
+> +       cache_id =3D -1;
+> +       cpus_read_lock();
+> +       for_each_online_cpu(cpu) {
+> +               struct cacheinfo *ci =3D get_cpu_cacheinfo_level(cpu, cac=
+he_level);
+> +
+> +               if (ci && ci->fw_token =3D=3D cache_np) {
+> +                       cache_id =3D ci->id;
+> +                       break;
+> +               }
+> +       }
+> +       cpus_read_unlock();
+> +
+> +       if (cache_id < 0) {
+> +               dev_err(dev, "%pOF: no online hart reports an L%u cache f=
+or this node\n",
+> +                       cache_np, cache_level);
+> +               ret =3D -ENODEV;
+> +               goto out_put;
+> +       }
+> +
+> +       info.type =3D CBQRI_CONTROLLER_TYPE_CAPACITY;
+> +       info.addr =3D res->start;
+> +       info.size =3D resource_size(res);
+> +       info.rcid_count =3D rcid_count;
+> +       info.cache_id =3D cache_id;
+> +
+> +       ret =3D riscv_cbqri_register_cc_dt(&info, cache_level);
+>
+As I mentioned in the comment for another patch, this function doesn't
+need to have "_dt" in its name.
+
+Thanks,
+Sunil
