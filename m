@@ -1,133 +1,184 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E1E4F5DE4;
-	Tue, 13 Oct 2026 12:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6D152FE33
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Oct 2026 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791892990; cv=none; b=bazX5ZIQ7qln0HLKQONQATK4Js52TjP/QUD8oe1NQNd5ULN9a7z1r2x0LgjTMbniIijYKGNjOyV27N/5OfZfpu+vZKBRKe0aRli9aqYuohpMhwaJDrDoPEjWXMlwF0cjx02kAYSyUwK3b42/TyZ9k8aXULLTw4kRmH6yDab4bOM=
+	t=1791905252; cv=none; b=BlKGmlLwz2pVcotk0lvuWtNckmqzlCrY/nMispejAZZc1AbLYNN9eqJsPlXX9eEoAHJmhLVufJPcxFl1Y49zR+ykxLAXb1UhlN9HCUAuDY/Q/m0Qd24zwG8krOiT+VEWRKJCdq7Nt4m6wHFXOlrOL8bAzFp5nc3uhVOLpXSamvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791892990; c=relaxed/simple;
-	bh=TINdVUVnB8Zko5Okti+SHy5lVWI/uFlhVZbLYF+cxxo=;
+	s=arc-20240116; t=1791905252; c=relaxed/simple;
+	bh=qbJvRcRE98nv2IVVWpWfShG1OAvGfynIDBrsbHsL430=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R4syiqYEapOQHp4YjBmr8tsHDpTsrHGrCnr64NvKWDpVXS1iH9vKV3DUCw4b8ciq9E6Y0KtQ3eQVE5FUz9vVLQHDiZ7DNoTXbouKFiS0SGKap9x7Wab1M4/UTx4EC/p4/6hc1V625hp5+a7VKujrngxG6+H03F74HsocdAJzqB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FKJFambo; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=MqhEwnp1rRgsAaDiPf1RtNsK2//omuV4PIPAsoAM8JQR5CbfayCISBeEoVeD26S+7DMI2EDf7XrSHTl/0tUznkD5Lclu85W+y3XYYawcgksmOzFVlgcYr4Bz4WzweymJI6Tk18yxOly80WMdQB9z0WyJOmGoGazOXLQpOaB9KZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rjP+eEw5; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4h5xrAH0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FKJFambo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=YZOl0/Y1fZ+ipz8NqERLgfXbsWKnbtJ7TTNXDXnL3Q4=; b=FKJFamboC5lv/hXtJRwYIpyQ6O
-	3fs2ip7l20xXY3qn4SKttEsTm3LmSTvYgJPcaBfi+tkDbkeB8kn31GocY1mlWpJurBOFLk8K/Dlpy
-	7M/LY0eVTN2eXY6p7DvCSSE5zaU5xr6T3KbD1DrPEQ4MqSwt2CJSZCLAiv+M7z2LtbUoH1//b4vHv
-	ISZzYnOjs/hcpd9Csci2tKSbp44UBxGNkgWtsCsnlNABlolcWPtsyFrkdk/vGaJff4h3Ft52z0tsX
-	AKgeV98lgYcYZUraFA0PUBoowYJEmHX9doWMbKDYT0Z1amHQ5n+sEIsTia4X+F4/xTT0nEzcQaqUo
-	vpUowDRw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGbDj-0000000D8ON-2dRr;
-	Tue, 13 Oct 2026 12:03:03 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C3B8930063F; Tue, 13 Oct 2026 14:03:02 +0200 (CEST)
-Date: Tue, 13 Oct 2026 14:03:02 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: wangqk1 <wangqk1@xiaopeng.com>
-Cc: linux-kernel@vger.kernel.org, xiedl3@xiaopeng.com, mingo@redhat.com,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rjP+eEw5";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4h5xrAH0"
+Date: Tue, 13 Oct 2026 17:27:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1791905249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D1pv0RVRHmHu/hDts6dqOaef0+EBxYVfiItqfGjUP/E=;
+	b=rjP+eEw5xzMXUoKe72pct8cJYzABjcWR1XOTt+bEW9lwwcDE3YhbOvbknN05DKYuLYOZda
+	pN7lpGW2drS7ZX+4iGs2kSj6E514jse+j5JQTSpn44iMHriSS3IeuJ0txKN3VvNd6SveAg
+	RkYzbB+BCmy53qij79Jh5f78sHgUpdSiH1pxkTm+D9IIaTVbvMgLFMPT0b0Ag+3Sq4FQfn
+	bEvUa+R6GsgMk+yBZhE2pnemngXr7h7mXCLXRXi0VBYwWzRcFcFrKgAYxklP6PZZfb5Y9w
+	5GFNVtgO+OKYl3fxqSS6HVYS00+sj9cS5PWLbCgjPFfCXSWOwOMiS+nLukM/TA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1791905249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D1pv0RVRHmHu/hDts6dqOaef0+EBxYVfiItqfGjUP/E=;
+	b=4h5xrAH0/oA1nJYYIDfnssa+lx+mfABWGiGV8n02C3TaipbcVhCbDgYERpHhQ21xxsH2dG
+	Iheiof5VleNJEyAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Cc: Anup Patel <anup@brainfault.org>, Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jessica Liu <liu.xuemei1@zte.com.cn>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [RFC 1/1] sched/rt: Avoid RTO push to stopped CPUs during
- shutdown
-Message-ID: <20261013120302.GJ2009045@noisy.programming.kicks-ass.net>
-References: <20261013030140.682182-1-wangqk1@xiaopeng.com>
- <20261013030140.682182-2-wangqk1@xiaopeng.com>
+Subject: Re: [PATCH v3] irqchip/riscv-aplic: fix asynchronous probing
+Message-ID: <20261013152727.2cUDX3l0@linutronix.de>
+References: <20261012-aplic-async-probe-v3-1-5cf52dc28690@mobileye.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261013030140.682182-2-wangqk1@xiaopeng.com>
+In-Reply-To: <20261012-aplic-async-probe-v3-1-5cf52dc28690@mobileye.com>
 
-On Tue, Oct 13, 2026 at 11:01:40AM +0800, wangqk1 wrote:
-> During system poweroff, machine_power_off() invokes smp_send_stop(). A
-> CPU receiving IPI_CPU_STOP parks without running the CPU hotplug teardown.
-> Its RT overload state can therefore retain a stale rto_mask bit.
-> 
-> A CPU still executing the RTO irq_work iterator can select that stale bit
-> and queue work to the stopped CPU.
-> 
-> Observed call trace:
->   irq_work_queue_on()
->   rto_push_irq_work_func()
->   irq_work_single()
->   __flush_smp_call_function_queue()
->   generic_smp_call_function_single_interrupt()
->   ipi_handler()
-> 
-> Stop RTO forwarding after terminal system states begin and skip rto_mask
-> candidates that are already offline.
-> 
-> This is a workaround, not a complete synchronization protocol. The
-> cpu_online() test is not atomic with irq_work_queue_on(), and panic or
-> crash-kexec paths do not set a terminal system_state before stopping CPUs.
-> 
-> Signed-off-by: wangqk1 <wangqk1@xiaopeng.com>
+On 2026-10-12 12:12:59 [+0300], Vladimir Kondratiev wrote:
+> boolean flag don't protect from race when probing several instances
+> asynchronously. On system with multiple APLICs, if probed asynchronously,
+> warning triggered as below.
+
+Why is this async? Doesn't __platform_driver_probe() set it to sync?
+
+> [    0.227210] riscv-aplic 67560000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+> [    0.227210] riscv-aplic 674e0000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+> [    0.227224] ------------[ cut here ]------------
+> [    0.227227] list_add double add: new=ffffffff8130ced0, prev=ffffffff8130ced0, next=ffffffff81316d40.
+> [    0.227302] WARNING: lib/list_debug.c:35 at __list_add_valid_or_report+0xe0/0xe6, CPU#4: kworker/u97:0/211
+> [    0.227322] Modules linked in:
+> [    0.227333] CPU: 4 UID: 0 PID: 211 Comm: kworker/u97:0 Not tainted 7.3.0-rc6 #1 PREEMPT_RT
+> [    0.227341] Hardware name: EyeQ7H evaluation board (DT)
+> [    0.227346] Workqueue: async async_run_entry_fn
+> [    0.227358] epc : __list_add_valid_or_report+0xe0/0xe6
+> [    0.227366]  ra : __list_add_valid_or_report+0xe0/0xe6
+> [    0.227375] epc : ffffffff804a08a0 ra : ffffffff804a08a0 sp : ffffffc600823b90
+> [    0.227379]  gp : ffffffff81389e70 tp : ffffffd60135ee00 t0 : 0000000000000000
+> [    0.227383]  t1 : 3fffffffffffffff t2 : 0000000000000000 s0 : ffffffc600823bb0
+> [    0.227387]  s1 : ffffffff8130ced0 a0 : 0000000000000058 a1 : ffffffd9efc9e5c0
+> [    0.227391]  a2 : ffffffd9efd5c510 a3 : 0000000000000000 a4 : 0000000000000000
+> [    0.227395]  a5 : 0000000000000000 a6 : ffffffd9efc6e5c0 a7 : bfffffffffffe000
+> [    0.227399]  s2 : 0000000000000000 s3 : ffffffff8130ce28 s4 : 0000000000000000
+> [    0.227402]  s5 : ffffffd6018b65c8 s6 : 0000000000000000 s7 : ffffffd6012fd605
+> [    0.227406]  s8 : ffffffd6010c3400 s9 : 0000000000000000 s10: 0000000000000000
+> [    0.227409]  s11: 0000000000000000 t3 : 3fffffffffffe000 t4 : 0000000000000020
+> [    0.227413]  t5 : 0000000000000000 t6 : ffffffc6008238f8 ssp : 0000000000000000
+> [    0.227417] status: 0000000200000120 badaddr: ffffffff804a08a0 cause: 0000000000000003
+> [    0.227422] [<ffffffff804a08a0>] __list_add_valid_or_report+0xe0/0xe6
+> [    0.227432] [<ffffffff80558226>] register_syscore+0x30/0x60
+> [    0.227444] [<ffffffff804ca0fe>] aplic_probe+0xd2/0xfa
+> [    0.227453] [<ffffffff80559b2e>] platform_probe+0x3e/0x7a
+> [    0.227461] [<ffffffff8055731a>] really_probe+0x88/0x35c
+> [    0.227469] [<ffffffff805576ae>] __driver_probe_device+0xc0/0x13a
+> [    0.227478] [<ffffffff805577f4>] driver_probe_device+0x38/0xb2
+> [    0.227486] [<ffffffff80557ba6>] __driver_attach_async_helper+0x3c/0xc4
+> [    0.227493] [<ffffffff80054a0e>] async_run_entry_fn+0x28/0x154
+> [    0.227500] [<ffffffff8004482a>] process_one_work+0x14e/0x3d2
+> [    0.227509] [<ffffffff800452fe>] worker_thread+0x144/0x286
+> [    0.227516] [<ffffffff8004ca3e>] kthread+0xee/0x10e
+> [    0.227524] [<ffffffff8001050a>] ret_from_fork_kernel+0x18/0x14e
+> [    0.227532] [<ffffffff807bef36>] ret_from_fork_kernel_asm+0x16/0x18
+> [    0.227542] ---[ end trace 0000000000000000 ]---
+> [    0.228475] pinctrl-single 48508000.pinctrl: 512 pins, size 2048
+> [    0.228500] pinctrl-single 53838000.pinctrl: 512 pins, size 2048
+> [    0.228723] pinctrl-single 67107000.pinctrl: 512 pins, size 2048
+> [    0.227210] riscv-aplic 674e0000.interrupt-controller: 257 interrupts directly connected to 8 CPUs
+> [    0.227224] ------------[ cut here ]------------
+> [    0.227227] list_add double add: new=ffffffff8130ced0, prev=ffffffff8130ced0, next=ffffffff81316d40.
+> [    0.227302] WARNING: lib/list_debug.c:35 at __list_add_valid_or_report+0xe0/0xe6, CPU#4: kworker/u97:0/211
+> [    0.227322] Modules linked in:
+> [    0.227333] CPU: 4 UID: 0 PID: 211 Comm: kworker/u97:0 Not tainted 7.3.0-rc6 #1 PREEMPT_RT
+> [    0.227341] Hardware name: EyeQ7H evaluation board (DT)
+> [    0.227346] Workqueue: async async_run_entry_fn
+> [    0.227358] epc : __list_add_valid_or_report+0xe0/0xe6
+> [    0.227366]  ra : __list_add_valid_or_report+0xe0/0xe6
+> [    0.227375] epc : ffffffff804a08a0 ra : ffffffff804a08a0 sp : ffffffc600823b90
+> [    0.227379]  gp : ffffffff81389e70 tp : ffffffd60135ee00 t0 : 0000000000000000
+> [    0.227383]  t1 : 3fffffffffffffff t2 : 0000000000000000 s0 : ffffffc600823bb0
+> [    0.227387]  s1 : ffffffff8130ced0 a0 : 0000000000000058 a1 : ffffffd9efc9e5c0
+> [    0.227391]  a2 : ffffffd9efd5c510 a3 : 0000000000000000 a4 : 0000000000000000
+> [    0.227395]  a5 : 0000000000000000 a6 : ffffffd9efc6e5c0 a7 : bfffffffffffe000
+> [    0.227399]  s2 : 0000000000000000 s3 : ffffffff8130ce28 s4 : 0000000000000000
+> [    0.227402]  s5 : ffffffd6018b65c8 s6 : 0000000000000000 s7 : ffffffd6012fd605
+> [    0.227406]  s8 : ffffffd6010c3400 s9 : 0000000000000000 s10: 0000000000000000
+> [    0.227409]  s11: 0000000000000000 t3 : 3fffffffffffe000 t4 : 0000000000000020
+> [    0.227413]  t5 : 0000000000000000 t6 : ffffffc6008238f8 ssp : 0000000000000000
+> [    0.227417] status: 0000000200000120 badaddr: ffffffff804a08a0 cause: 0000000000000003
+> [    0.227422] [<ffffffff804a08a0>] __list_add_valid_or_report+0xe0/0xe6
+> [    0.227432] [<ffffffff80558226>] register_syscore+0x30/0x60
+> [    0.227444] [<ffffffff804ca0fe>] aplic_probe+0xd2/0xfa
+> [    0.227453] [<ffffffff80559b2e>] platform_probe+0x3e/0x7a
+> [    0.227461] [<ffffffff8055731a>] really_probe+0x88/0x35c
+> [    0.227469] [<ffffffff805576ae>] __driver_probe_device+0xc0/0x13a
+> [    0.227478] [<ffffffff805577f4>] driver_probe_device+0x38/0xb2
+> [    0.227486] [<ffffffff80557ba6>] __driver_attach_async_helper+0x3c/0xc4
+> [    0.227493] [<ffffffff80054a0e>] async_run_entry_fn+0x28/0x154
+> [    0.227500] [<ffffffff8004482a>] process_one_work+0x14e/0x3d2
+> [    0.227509] [<ffffffff800452fe>] worker_thread+0x144/0x286
+> [    0.227516] [<ffffffff8004ca3e>] kthread+0xee/0x10e
+> [    0.227524] [<ffffffff8001050a>] ret_from_fork_kernel+0x18/0x14e
+> [    0.227532] [<ffffffff807bef36>] ret_from_fork_kernel_asm+0x16/0x18
+> [    0.227542] ---[ end trace 0000000000000000 ]---
+
+Would you mind providing a coherent description of the problem and
+implemented solution instead of slapping console output?
+
+> Fixes: b330fbfd34d7 ("irqchip/riscv-aplic: Register syscore operations only once")
+> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 > ---
->  kernel/sched/rt.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-> index 85303add726d..716ac30c5afb 100644
-> --- a/kernel/sched/rt.c
-> +++ b/kernel/sched/rt.c
-> @@ -2084,6 +2084,14 @@ static void push_rt_tasks(struct rq *rq)
->  
->  #ifdef HAVE_RT_PUSH_IPI
->  
-> +static inline bool rto_push_allowed(void)
-> +{
-> +	enum system_states state = READ_ONCE(system_state);
-> +
-> +	return state != SYSTEM_HALT && state != SYSTEM_POWER_OFF &&
-> +	       state != SYSTEM_RESTART;
-> +}
-> +
->  /*
->   * When a high priority task schedules out from a CPU and a lower priority
->   * task is scheduled in, a check is made to see if there's any RT tasks
-> @@ -2131,6 +2139,11 @@ static int rto_next_cpu(struct root_domain *rd)
->  	int next;
->  	int cpu;
->  
-> +	if (unlikely(!rto_push_allowed())) {
-> +		rd->rto_cpu = -1;
-> +		return -1;
-> +	}
-> +
->  	/*
->  	 * When starting the IPI RT pushing, the rto_cpu is set to -1,
->  	 * rt_next_cpu() will simply return the first CPU found in
-> @@ -2155,8 +2168,13 @@ static int rto_next_cpu(struct root_domain *rd)
->  		if (cpu == this_cpu)
->  			continue;
->  
-> -		if (cpu < nr_cpu_ids)
-> +		if (cpu < nr_cpu_ids) {
-> +			/* smp_send_stop() does not clear stale rto_mask bits. */
-> +			if (!cpu_online(cpu))
-> +				continue;
-> +
->  			return cpu;
-> +		}
->  
->  		rd->rto_cpu = -1;
+> Changes in v3:
+> - drop __ro_after_init attribute due to write to read-only page concern
 
-This is horrific; lets not do this. The bug really is at the place where
-you randomly and without warning take CPUs down. We're not adding random
-hacks for things like that.
+What concern? That __ro_after_init can stay. It is built-in only.
+
+> diff --git a/drivers/irqchip/irq-riscv-aplic-main.c b/drivers/irqchip/irq-riscv-aplic-main.c
+> index d9afb6ae98cf56d6fd9f858c31a3d23546c3b450..54e1d5602f15a04127e900c0a4983022d49da553 100644
+> --- a/drivers/irqchip/irq-riscv-aplic-main.c
+> +++ b/drivers/irqchip/irq-riscv-aplic-main.c
+> @@ -116,14 +116,12 @@ static struct syscore aplic_syscore = {
+>  	.ops = &aplic_syscore_ops,
+>  };
+>  
+> -static bool aplic_syscore_registered __ro_after_init;
+> +static atomic_t aplic_syscore_registered = ATOMIC_INIT(0);
+>  
+>  static void aplic_syscore_init(void)
+>  {
+> -	if (!aplic_syscore_registered) {
+> +	if (!atomic_cmpxchg(&aplic_syscore_registered, 0, 1))
+>  		register_syscore(&aplic_syscore);
+> -		aplic_syscore_registered = true;
+> -	}
+>  }
+>  
+>  static int aplic_pm_notifier(struct notifier_block *nb, unsigned long action, void *data)
+> 
+
+Sebastian
