@@ -1,107 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out28-4.mail.aliyun.com (out28-4.mail.aliyun.com [115.124.28.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4AF22579E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Oct 2026 02:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100B04718D3
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Oct 2026 03:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791859634; cv=none; b=j6GF/lgi2mrzDRN8OkvNG5pb1oib72HaklZkI60r2mAK/dqZQpwFbvUuNs13XzgwbXZZFRVAJJ7F3gdMQ6ElYs8che6s/Y8/VYiaFHA614QYssmSIZZpm+bAJJOILNZM1c7/tUlclBiyi/ZkHNq9l52zjJ4FOJZggtxt9jlMNhk=
+	t=1791860515; cv=none; b=dIuq07Oy83bQUtBOezV+WGw4ETS4hphZRLXy9DdMN7l0UsJxN28yEp8LGUBrAxrc4HB710iHiqIvC/2caS3FUe0HSOp6qO1ZvEqDCNxlpAh8k3Lx8ShReiUlVcsnlo/OU8RJ+VUceQH4n6VKvz1GNpEvS5P1D8LV0VXRVUmCkeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791859634; c=relaxed/simple;
-	bh=e5qJ7/cHRftpI/ExivZm6EQbTQ/U1hWJ1r+cnnvzTAQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X2Igd8AaBlcA6T5nOMdKqQdvQg3dchlS5w8tsWoZFUs+WHRfU8AeCX4ATE6k0w299XRObCfu21Ta+mC6VIYmyzKT6DUjKxJOxBaikiQ2uddBtyYEj3+IAbkQngAEVSfFwJD0iCSQy3r6g0iokNCjx4UbwmlKD9NvxUhGBSNhdjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UY/GIQoV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791860515; c=relaxed/simple;
+	bh=y3X2y52qQUFYtz8qbhjWzekz++Vx/aWBGsDyRwCkEB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IZx4Y6iCwN3SRX0/A5xO9+5UQ2gdFu3SQgJGtyQ2CoXTtQOIGFFo1EXoNUylHwQoqPezkUmRIKxFhEeWJUORi6rQxiX3Pya97CuOOGbBclXUWAZe/rOkYNB37TX/ahBlhC0pbTtEgLvxKVyCRFrsYW8iqjNi8pBb+M1rIZDg/+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=n+Gs5o0d; arc=none smtp.client-ip=115.124.28.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UY/GIQoV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 374C11F000FF
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Oct 2026 02:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791859632;
-	bh=Py5W+zOf8jcv9SphAVIYRIsYaiROXNPiORfkJ1reQcA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UY/GIQoVqGInseWJ0P177oKkczg7WZqyGiTPQd15EKdjXUbz9Aj1Jex+dVj3hJgX+
-	 zciF2wxTEVW2oxSfvWvBO9tw9llIS6BetYsqVw4c+0J5JHli5fHajP6eoaVUUiiQh8
-	 IYjCtHxjTBtDu5IJ/6AzNf7WAtK4WBaDQptg/xrmR7c2j6/CUyhJi8CfF2b+/OqzeF
-	 fpxNyonQY3jchjNL26IaR8nhOxEiutpLZxyZGDjsUdhGonPKG3OLNixgXILOASsAgh
-	 up4QgyFLSap5+eHjDfyr8K8LDmCLXGvmsYWLN43DaJtzXFCICHpCxpP/13iT6aMTCx
-	 xiecxPubDIA4g==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b1aa377c61so2619008a12.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Oct 2026 19:47:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByFD+3LPAuWAT6iVm+DTlFsGlERWXwqeYKZh91E4aBTla8yJJx9vfw6oBx/9LdniuT/0UliM7qpxIA6cXxW+w==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIe/R6RQO1q21yPEbhKJRy79bpl74UMR49cOY5DhDEFgwFr/hOI
-	scS6mbEy+l61Uo75A8YZt6t/dz4uDO+ZBVJq4wTk8VCQsPAXGyUtx10QSPzmE6D0cYLGEyewX9Y
-	IzHlVZwmlKdWwQQkqO6wKOEiI6hJOgCs=
-X-Received: by 2002:a05:6402:1d49:b0:6b1:c327:a9d0 with SMTP id
- 4fb4d7f45d1cf-6b1c327b8acmr3296104a12.40.1791859630439; Mon, 12 Oct 2026
- 19:47:10 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="n+Gs5o0d"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1791860504; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=dmOTVyrFxBhnQZJyYKzyFOOBPbYhj5TFcpWHl0mfoaU=;
+	b=n+Gs5o0d6rfSeFINRzhDB/txn9+zWQKDTGQf89df/CM+4MocauMC+n0i+83HVbPIrW9S+t3gay6mNX+Bx+Mlm/8iP8sedsl353M/iRp3gWYmzMz+7obFt7XmLgpz/YAh7eOSVszeBQy8V9A+1vSwTK9T1cpdut8bbmhAKoE4pLo=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.08943662|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.405197-0.00420858-0.590595;FP=12590358247546546247|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037028158;MF=wangqk1@xiaopeng.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.jawVVt0_1791860503;
+Received: from DESKTOP-EL1SUEF.xiaopeng.local(mailfrom:wangqk1@xiaopeng.com fp:SMTPD_---.jawVVt0_1791860503 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Tue, 13 Oct 2026 11:01:44 +0800
+From: wangqk1 <wangqk1@xiaopeng.com>
+To: linux-kernel@vger.kernel.org
+Cc: xiedl3@xiaopeng.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [RFC 0/1] sched/rt: Avoid RTO push to stopped CPUs during shutdown
+Date: Tue, 13 Oct 2026 11:01:39 +0800
+Message-ID: <20261013030140.682182-1-wangqk1@xiaopeng.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261012090431.TF3iVDsk@linutronix.de> <CAAhV-H4=nnhbJS4srmt7dNdgpkEZ8_RQ5Z+0baYMiXF1UrJ3KA@mail.gmail.com>
- <20261012102143.lpVrHb9R@linutronix.de>
-In-Reply-To: <20261012102143.lpVrHb9R@linutronix.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 13 Oct 2026 10:46:59 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7xME-UrgMHcfY41793yxWyvgEMAufwgcboEL2q3Jg+VA@mail.gmail.com>
-X-Gm-Features: AclHuK-5nGNIjnalns2TTYeuiR7MEop7yTmsqLsf4e42_RR9QXEQZeMe2PdFpnw
-Message-ID: <CAAhV-H7xME-UrgMHcfY41793yxWyvgEMAufwgcboEL2q3Jg+VA@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP notification
- to task_work()
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, 
-	Ian Rogers <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Oleg Nesterov <oleg@redhat.com>, 
-	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Clark Williams <clrkwllms@kernel.org>, 
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, James Clark <james.clark@linaro.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 12, 2026 at 6:21=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-10-12 18:15:51 [+0800], Huacai Chen wrote:
-> > Hi, Sebastian,
-> Hi Huacai,
->
-> > > diff --git a/include/linux/hw_breakpoint.h b/include/linux/hw_breakpo=
-int.h
-> > > index db199d653dd1a..91e8d80220c54 100644
-> > > --- a/include/linux/hw_breakpoint.h
-> > > +++ b/include/linux/hw_breakpoint.h
-> > > @@ -85,6 +85,9 @@ extern int register_perf_hw_breakpoint(struct perf_=
-event *bp);
-> > >  extern void unregister_hw_breakpoint(struct perf_event *bp);
-> > >  extern void unregister_wide_hw_breakpoint(struct perf_event * __perc=
-pu *cpu_events);
-> > >  extern bool hw_breakpoint_is_used(void);
-> > > +extern void perf_arch_hwbp_send_sig(struct perf_event *bp);
-> > > +extern void perf_hwbp_notify(struct perf_event *bp, struct perf_samp=
-le_data *data,
-> > > +                            struct pt_regs *regs);
-> > Maybe this declaration can be put in one line because there is no 80
-> > characters limit now.
->
-> We don't save much, do we? It looks more readable. Maybe if the perf
-> maintainer requests it. Looks like waste to repost it just for that.
->
-> Any comments on the looong bits?
-Others look good to me.
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+Hi,
 
->
-> > Huacai
->
-> Sebastian
+I am sending this RFC to discuss an rto push irq_work submission to a
+CPU that has already been stopped during system shutdown.
+
+On an SMP PREEMPT_RT arm64 system, machine_power_off() eventually calls
+smp_send_stop(). The IPI_CPU_STOP handler parks the target CPU directly
+without running normal CPU hotplug teardown.
+
+In particular, rq_offline_rt() is not reached, so an overloaded RT
+runqueue can retain a stale rto_mask bit after its CPU is no longer online.
+Another CPU can still run rto_push_irq_work_func() and select that entry.
+
+The observed path is:
+
+  irq_work_queue_on()
+  rto_push_irq_work_func()
+  irq_work_single()
+  __flush_smp_call_function_queue()
+  generic_smp_call_function_single_interrupt()
+  ipi_handler()
+
+Normal CPU hotplug clears RT overload state and flushes pending
+call-function and irq_work callbacks before a CPU is parked.
+smp_send_stop() intentionally bypasses that protocol because it is also
+used by panic and crash paths.
+
+The patch stops rto forwarding after terminal system states begin and
+skips rto_mask entries that are already offline.
+
+This is a workaround, not a complete synchronization solution. It does
+not make cpu_online() and irq_work_queue_on() atomic, and it does not
+cover panic or crash-kexec paths.
+
+I would appreciate feedback on whether this consumer-side hardening is
+acceptable, or whether rto push needs an explicit quiesce protocol before
+smp_send_stop() stops secondary CPUs.
+
+Testing:
+  - Built kernel/sched/rt.o with x86_64 defconfig.
+  - checkpatch.pl reports no errors or warnings.
+  - Runtime reproduction against mainline has not yet been performed.
+
+Thanks,
+wangqk1
+
+wangqk1 (1):
+  sched/rt: Avoid RTO push to stopped CPUs during shutdown
+
+ kernel/sched/rt.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+-- 
+2.43.0
