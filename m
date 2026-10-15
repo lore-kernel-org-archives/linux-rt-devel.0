@@ -1,115 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB133939C;
-	Thu, 15 Oct 2026 01:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574323B777C;
+	Thu, 15 Oct 2026 02:13:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792029020; cv=none; b=SZBsHR3kNtLc8d1i3QjnKLe/X5mCWhb9VdqlIsOCgcv/PRzTF9h65vBfiqABOkCmjIWRotCmShrKKvtDXtG6Idiy/kHxrFdsx9Frz+oPaOaCIB1rvbX0IkF49yef5KVNz6dy1uabhCYK4tHI3ojCmR8/VlZ1asBGDgmMKktKSmU=
+	t=1792030420; cv=none; b=R6PEkpTT81PXup9RYW5QXN0XuKWWh8aNAWhd4c0lFnNwsQYoGtAeGuKOF2Ul0F3eLivAu+PRwu5RYaoqYogGNe9PoMRZm3aXTt0EI9pAubMu8Y3a/wLBO9URhhpx6OAnZsL9f66+RJt1SkvYghWQQ0Erg4L8tQbJlrd7HN1MuQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792029020; c=relaxed/simple;
-	bh=lqzqa6mXZFZB56ZiAqpMIdWmUh42nRNUKyxJ3d69eCw=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=ZoYQ+qGDUXB8IPZMwaUpcke0DsQwnUnYPS6IuP//crfevdXkYI5l+sj+OhF2QR7qyleizN7ERRBg23tVsOTqeFnVvf15rwhHWuJMXPJhf/p6Wj0sheqEIMs7nf8/EejeON4Hi1jaD/y3zt6EQnZ0FJckoEV6o58Lpy3RUliNI3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGJf06ng; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792030420; c=relaxed/simple;
+	bh=U7vH0R44tZr4m3fbNbq/kdl55DVhNFYvuaigztL5f+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eAzeMkw6wu+FlsfVldQXuVCy1FJSlnuS8E/KWCWQP0rlCHMld5F8zaFzGig3S+DSSNy+wlN5Dw2ijdHN/d5XZ1SmYWGl9G3gQq6Zpz8KJv9Q6LLUZWZ8CD32A7ID0kDwm5alNvU6aFPobn0csvcd7fsml8TZlYBZ/2k/V8soifI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ca+x6RHd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGJf06ng"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A73B1F000C4;
-	Thu, 15 Oct 2026 01:50:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ca+x6RHd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E02E1F000C4;
+	Thu, 15 Oct 2026 02:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792029019;
-	bh=XqCsBBDToclNhntWS7LwgwCgD6io3q7EceQlCXtUiuU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PGJf06ngwaQwr3biaCaU9TpAVmbFprp7n3Ipjgw+QnNJyDJ6lP8jJISWbjlWWJsTa
-	 R4RnmmLTaQliAuKDYnjo3ypOGMbGxsfj+RMFnYjUcWW3bzl9BaQ5I0esD/h9ePfMHb
-	 nRY17QRgTs9OdkABkpahY0OK4HO82/qPvVlZKtB06Mckthp7Vq/FQzBScGiNcbOZmy
-	 2P5NykZAhpS4+7brbXgufHXsK839w8P4xnvYIGRtHHfw+7oSyHH0GDGYx9pxMcL+fW
-	 9Eb+VF+d+U3mHcBgLwxvNNLOUO44ZX5amNIGycT8tAl16/mZ1Xi9XwXYcl6Y9HWqMy
-	 7zXqFugGYiDvw==
-Message-ID: <sashiko-outbox-172123@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 06/16] mtd: rawnand: sunxi: select the pattern ID for
- the current ECC step
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>, "Miquel Raynal" <miquel.raynal@bootlin.com>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
-Cc: "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, "Maxime Ripard" <mripard@kernel.org>, "Richard
- Genoud" <richard.genoud@bootlin.com>, "Boris Brezillon" <bbrezillon@kernel.org>, "Masahiro
- Yamada" <yamada.masahiro@socionext.com>, "Brian Norris" <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
-References: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com>
- <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 01:50:16 +0000
+	s=k20260515; t=1792030414;
+	bh=lYGm7luE63xYSigJ7AvIGcEshWOQl1LBRF7q+2lkSJg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ca+x6RHdf1/mOon8Y2zQUYOCRw/Fl1NLIrNEgYE1wUH6yScU7TVNUFvRV0y36s5GO
+	 cS0dQG1JM7IpURZnNkmSU9ii1fyQWLn7OVGtV5s2qjtW4frOkY8tWn79tt1Domvrgj
+	 FUs5EIChA1q/+P+Od5MssV9At101XB7ZJIG0wpC6jTtwEkib6ch43XtDT9oplLpN+4
+	 3ZUMyxNKvvN1SCP7SqK836RfujFwX8hLtt5iYpkjhocZiHpPCoiO/ISXW9SXfgxbbp
+	 qvT5S5CbDmF/DcOnbUhCe/RVGsa5HpTe9sMJwQpf+y6VWpfE5CqAk+X4HZxjPWHoID
+	 07Q7vEfYUOS3w==
+Date: Wed, 14 Oct 2026 19:13:32 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+	Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>,
+	"guo.wenjia23@zte.com.cn" <guo.wenjia23@zte.com.cn>,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	"liu.qingtao2@zte.com.cn" <liu.qingtao2@zte.com.cn>,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 2/5] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <atA2zA3S9Z8qpik5@thelio>
+References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
+ <20260901-dfustini-atl-sc-cbqri-dt-v7-2-ca2935d85622@kernel.org>
+ <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
+ <aqwN1szItGPg4Qjh@agluck-desk3>
+ <as0Zeoyjiy5CW1DT@agluck-desk3>
+ <eaeb4259-46d6-4656-8354-669ad32654b5@intel.com>
+ <SJ1PR11MB6083F4281EDD036A4E73A532FC9E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <a85a5aef-5468-47ba-afba-8bdd666dadd4@intel.com>
+ <as6Y72SbiXcJh6Ei@agluck-desk3>
+ <22ecec13-a703-414e-9f5e-75c89173e845@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22ecec13-a703-414e-9f5e-75c89173e845@intel.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] mtd: rawnand: sunxi: PIO mode overwrites zero pattern with SRAM =
-garbage
---
+On Tue, Oct 13, 2026 at 02:29:41PM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 10/13/26 1:47 PM, Luck, Tony wrote:
+[..]
+> > Don't bother with a control_mode to switch between legacy and native.
+> > Just auto-select the "L2A" control on asymmetric systems.
+> > 
+> > But since this thread started from a RISC-V thread, it would be good to
+> > hear what is needed for RISC-V.
+> ack.
 
-commit 6c354ef3bc88ac95cdf40b092e5c146de75aa789
-Author: James Hilliard <james.hilliard1@gmail.com>
-Subject: mtd: rawnand: sunxi: select the pattern ID for the current ECC step
+For RISC-V CBQRI, the number of capacity blocks (NCBLKS) is a field of
+each controller's cc_capabilities register, so two controllers at one
+cache level can report different values. This series will leave a level
+unexposed if NCBLKS differs. The per-domain max would allow such
+controllers to be fully represented in resctrl.
 
-This commit fixes the pattern-ID register check during ECC exception mode.
-It updates the correction helper to test the bit corresponding to the
-current hardware step rather than always checking bit zero, which ensures
-DMA processing classifies physical all-zero and all-ones data blocks
-correctly.
+The hardware I am working with (Ascalon shared cache) has only a single
+NCBLKS value, and I am not aware of any RISC-V hardware with different
+NCBLKS at the same cache level. Therefore, I don't think it is an
+immediate concern, but the spec does make it possible for asymmetric
+systems to emerge in the future. It would probably be reasonable to
+require native controls to be used for such systems.
 
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index 57df88099206a..8256982d1d565 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -1101,7 +1101,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chi=
-p *nand, u8 *data, u8 *oob,
->  	if (pattern_found & BIT(step)) {
->  		u8 pattern;
-> =20
-> -		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & 0x1))) {
-> +		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & BIT(step)))) {
->  			pattern =3D 0x0;
-
-[Severity: Medium]
-When the pattern is identified as 0x0, the *erased out parameter remains
-false. Later in sunxi_nfc_oob_read_batch(), the code checks this boolean
-and handles PIO mode (!read->dma) by copying directly from SRAM:
-
-sunxi_nfc_oob_read_batch() {
-    ...
-    if (erased) {
-        read->has_erased_chunk =3D true;
-        continue;
-    }
-
-    if (!read->dma)
-        memcpy_fromio(data, nfc->regs + NFC_RAM0_BASE, ecc->size);
-    ...
-}
-
-If scrambling is enabled for a physical all-zero block read in PIO mode,
-will this memcpy_fromio() overwrite the valid zeros populated in
-sunxi_nfc_hw_ecc_correct() with descrambled pseudo-random garbage from
-the SRAM?
-
-It appears this regression leaves PIO broken while fixing DMA zero
-pattern reads.
-
->  		} else {
->  			pattern =3D 0xff;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014-submit-sun=
-xi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com?part=3D6
+Thanks,
+Drew
