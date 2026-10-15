@@ -1,72 +1,115 @@
-Received: from out28-196.mail.aliyun.com (out28-196.mail.aliyun.com [115.124.28.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AE531ED93
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 01:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB133939C;
+	Thu, 15 Oct 2026 01:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792028417; cv=none; b=hvg8MpmXw8oJul+8tJG6EkB5q70+iK5TUPP9lKEirmfb7TJOP22eFBZOkbM+E54Tpj9fR4SranKiY+p9xTpszb5Oe1LdgRxb9YbI6bnCdrTS5pqR9kFQykql2UcxB+vTSL4WDuDDvehtJLmT2Khy1fSVKDZR9uka+sIZfyQTVGY=
+	t=1792029020; cv=none; b=SZBsHR3kNtLc8d1i3QjnKLe/X5mCWhb9VdqlIsOCgcv/PRzTF9h65vBfiqABOkCmjIWRotCmShrKKvtDXtG6Idiy/kHxrFdsx9Frz+oPaOaCIB1rvbX0IkF49yef5KVNz6dy1uabhCYK4tHI3ojCmR8/VlZ1asBGDgmMKktKSmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792028417; c=relaxed/simple;
-	bh=H+v/gqnjWQ3O7ct/IIm0+uSIkR+hWzXeTbgrHmFdb/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pqDYsFMkQagPcqG03h01Xolpi+p4/xFbNR5f+Jt7cQUS98I/mp6sAQiWWZ+p+Pt/Dy87m5OWLVYPVdiQeBOECi73TNcbatSx38i9OAbMJ7ftqIs5yZ8i5+GPmUItWqNuaQLFV36fio8TKEa8omxOFUwMFFxxjsaHkwJfMhW8l5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=PfT12lda; arc=none smtp.client-ip=115.124.28.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	s=arc-20240116; t=1792029020; c=relaxed/simple;
+	bh=lqzqa6mXZFZB56ZiAqpMIdWmUh42nRNUKyxJ3d69eCw=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=ZoYQ+qGDUXB8IPZMwaUpcke0DsQwnUnYPS6IuP//crfevdXkYI5l+sj+OhF2QR7qyleizN7ERRBg23tVsOTqeFnVvf15rwhHWuJMXPJhf/p6Wj0sheqEIMs7nf8/EejeON4Hi1jaD/y3zt6EQnZ0FJckoEV6o58Lpy3RUliNI3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGJf06ng; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="PfT12lda"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1792028407; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=H+v/gqnjWQ3O7ct/IIm0+uSIkR+hWzXeTbgrHmFdb/0=;
-	b=PfT12ldaoZmCUxV36k9Zzs2dQ7x4Ps8jKg8dTpDL1uy/DwcokoeKBIjcFJneeIuFNeksc7peXgl1aVGZUKm7T99AaPfVakalNfY2D3zunq8rWkI8XOdxhhafMjai60XINL7HvQrwiNPh9PFFerydIOtdh+ZgAVNyGFTNrj0vNY4=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1178455|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_enroll_verification|0.192236-0.0012412-0.806522;FP=12588089935714567190|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=wangqk1@xiaopeng.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.je7cEbj_1792028406;
-Received: from DESKTOP-EL1SUEF.xiaopeng.local(mailfrom:wangqk1@xiaopeng.com fp:SMTPD_---.je7cEbj_1792028406 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 15 Oct 2026 09:40:06 +0800
-From: wangqk1 <wangqk1@xiaopeng.com>
-To: peterz@infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev,
-	xiedl3@xiaopeng.com
-Subject: Re: [RFC 1/1] sched/rt: Avoid RTO push to stopped CPUs during shutdown
-Date: Thu, 15 Oct 2026 09:40:05 +0800
-Message-ID: <20261015014005.8885-1-wangqk1@xiaopeng.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261013120302.GJ2009045@noisy.programming.kicks-ass.net>
-References: <20261013120302.GJ2009045@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGJf06ng"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A73B1F000C4;
+	Thu, 15 Oct 2026 01:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792029019;
+	bh=XqCsBBDToclNhntWS7LwgwCgD6io3q7EceQlCXtUiuU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PGJf06ngwaQwr3biaCaU9TpAVmbFprp7n3Ipjgw+QnNJyDJ6lP8jJISWbjlWWJsTa
+	 R4RnmmLTaQliAuKDYnjo3ypOGMbGxsfj+RMFnYjUcWW3bzl9BaQ5I0esD/h9ePfMHb
+	 nRY17QRgTs9OdkABkpahY0OK4HO82/qPvVlZKtB06Mckthp7Vq/FQzBScGiNcbOZmy
+	 2P5NykZAhpS4+7brbXgufHXsK839w8P4xnvYIGRtHHfw+7oSyHH0GDGYx9pxMcL+fW
+	 9Eb+VF+d+U3mHcBgLwxvNNLOUO44ZX5amNIGycT8tAl16/mZ1Xi9XwXYcl6Y9HWqMy
+	 7zXqFugGYiDvw==
+Message-ID: <sashiko-outbox-172123@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 06/16] mtd: rawnand: sunxi: select the pattern ID for
+ the current ECC step
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "James Hilliard" <james.hilliard1@gmail.com>, "Miquel Raynal" <miquel.raynal@bootlin.com>, "Richard
+ Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
+Cc: "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Maxime Ripard" <mripard@kernel.org>, "Richard
+ Genoud" <richard.genoud@bootlin.com>, "Boris Brezillon" <bbrezillon@kernel.org>, "Masahiro
+ Yamada" <yamada.masahiro@socionext.com>, "Brian Norris" <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
+References: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com>
+ <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Oct 2026 01:50:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 13, 2026 at 02:03:02PM +0200, Peter Zijlstra wrote:
-> This is horrific; lets not do this. The bug really is at the place where
-> you randomly and without warning take CPUs down. We're not adding random
-> hacks for things like that.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] mtd: rawnand: sunxi: PIO mode overwrites zero pattern with SRAM =
+garbage
+--
 
-Understood, thanks for the quick feedback. I am dropping this patch.
+commit 6c354ef3bc88ac95cdf40b092e5c146de75aa789
+Author: James Hilliard <james.hilliard1@gmail.com>
+Subject: mtd: rawnand: sunxi: select the pattern ID for the current ECC step
 
-One note on the trigger: this was seen on the normal poweroff path, not
-on panic or crash. On arm64, machine_power_off() calls smp_send_stop()
-before do_kernel_power_off(), so every orderly shutdown stops secondary
-CPUs without hotplug teardown, and a CPU still running the rto push
-irq_work can then pick a stale rto_mask bit.
+This commit fixes the pattern-ID register check during ECC exception mode.
+It updates the correction helper to test the bit corresponding to the
+current hardware step rather than always checking bit zero, which ensures
+DMA processing classifies physical all-zero and all-ones data blocks
+correctly.
 
-I agree the fix belongs in the path that takes the CPUs down, and that
-path will need to account for the rto overload state. If I find a viable
-way to do that, I will bring it up again. Happy to test or review
-anything in that area.
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index 57df88099206a..8256982d1d565 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -1101,7 +1101,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chi=
+p *nand, u8 *data, u8 *oob,
+>  	if (pattern_found & BIT(step)) {
+>  		u8 pattern;
+> =20
+> -		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & 0x1))) {
+> +		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & BIT(step)))) {
+>  			pattern =3D 0x0;
 
-Thanks,
-wangqk1
+[Severity: Medium]
+When the pattern is identified as 0x0, the *erased out parameter remains
+false. Later in sunxi_nfc_oob_read_batch(), the code checks this boolean
+and handles PIO mode (!read->dma) by copying directly from SRAM:
+
+sunxi_nfc_oob_read_batch() {
+    ...
+    if (erased) {
+        read->has_erased_chunk =3D true;
+        continue;
+    }
+
+    if (!read->dma)
+        memcpy_fromio(data, nfc->regs + NFC_RAM0_BASE, ecc->size);
+    ...
+}
+
+If scrambling is enabled for a physical all-zero block read in PIO mode,
+will this memcpy_fromio() overwrite the valid zeros populated in
+sunxi_nfc_hw_ecc_correct() with descrambled pseudo-random garbage from
+the SRAM?
+
+It appears this regression leaves PIO broken while fixing DMA zero
+pattern reads.
+
+>  		} else {
+>  			pattern =3D 0xff;
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014-submit-sun=
+xi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com?part=3D6
