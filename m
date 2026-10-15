@@ -1,56 +1,56 @@
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D84C9DEA
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 08:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2034CDDC3
+	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 08:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052248; cv=none; b=GkLmMvm1UAUVc6QH5hccuyHjXTCW//O23XuFQH8NAqQMYOrCeMSxen+PiJiThngpRA2mg3gHWpxXzIifkW+DJDDmwC3XDvOUKgq2w2xZ9wDRNtsFLmmho8qR1LTN5ZwtStUIiRt3iO//uxTPOUU6/oKmSmtJlc0cqxcXu7OkSQ0=
+	t=1792052251; cv=none; b=BZV4Iw1+DrnZQbN8b8Hef8EUxZnwBYT1EBnhSY1D8rDm3RR5usduqK/cCy5DJxhqYLzVHHYvep209c2v/DS9FMnv0LbBVv7qmP57Dshd6CO1MRwRwjmfdae8weMyuJqxWoVzBsoakXVlh57nA1RONX8R8kjo3t5ueAlv4Ps3wfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792052248; c=relaxed/simple;
-	bh=UAAC7eIPCvw0Uq5Y++kV7v57o3dN8as0hM5yRQi71oQ=;
+	s=arc-20240116; t=1792052251; c=relaxed/simple;
+	bh=JXME0de5jdPM52GCMyjAEhHpX73VmQ/WWWKqBX3DhNA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ko3vxSE0PJ+RNKXJtPNuB0T1dBktbBiGz3YfJ+h+DFy2/GoBbbmJZkJcH1xOFkdSWQGc000svb0BBknpCWB2mIbrbAVuiSuqUyqJBwhpPmACvWKLNMFHpJkE/CwN0mJgRRT8rA4CEW1nnzZUbSohiQVkjoRRATqVchpjDm1/DvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oQb58zyh; arc=none smtp.client-ip=209.85.128.69
+	 To:Cc:Content-Type; b=hwFsXTYSFuFWdx6fxjMn2a+yJ13mgSJ59eQNPRWrE+ix/qU22brHBalfFBYuJNCII8KJgoBDRb4PkYUAOmp3Y/CQV69W+Q8jkEg6BUnYAkqMxMUqKWna7mqRXks7BIVAHyIo0I34rTAxAZboKBYEe3ZKxGLgQRrqolc9bBBSIyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RGZgkyEo; arc=none smtp.client-ip=209.85.128.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oQb58zyh"
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4994d67d0e3so12464355e9.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 01:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RGZgkyEo"
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a1721559b4so51915915e9.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 01:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792052243; x=1792657043; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1792052247; x=1792657047; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aIDkyGArz1wCtL42JSCEMaPJ5U6gQLe+G2a11MG+L0A=;
-        b=oQb58zyhj7TxA8QkjRPZHkxXCuc4em6PU2mmCaliW/4X4cNyUGwV1uD17y4HxjKv2z
-         uAQSgasMtENtkf6yWTMdUItre/b80NDq6O/jy+U4m6cYMrBcEfGy3RA1epHjaIGioU0U
-         Huq7i3jt+GEJfJ9jezi2xTSoEcrlQ5cJ5aZnGPuWX6PvRzyyuac/bRwFBEgg2Ymiy3wx
-         Mto+qXrlUUVFYRf6pOdi8xYO1PNl0cm94S9vBQ2iz+8ke7X//xcZuHTevnK6wDNEJULZ
-         /T63R4UfbgsUO53Q5ZooplrcXoyynG0Qh24q4RNZvukX2khgLJAHWs8YOABV5G6Fb0TF
-         HXCw==
+        bh=lEAmeJCQDQzAAcly9NRmZ22CcOexoN0UM1XMCQxG41Y=;
+        b=RGZgkyEobtBJ0iMBLKfIl5h6o1YTtKr6advp6KUH6QosrZ6SHZZWFjhN5vwdcuDbgG
+         QpzKTCCJjAeh/sQcakisa6je6vU+JQZiGVhUW7/Xd3ofvdsz/Nts7J0tb53Pnj1ys2ib
+         MF7aAHfk85BXr3lGx4cCmdfZW6/D5OWHDJxnUFjqkZl1Zp1fuVkdVJ2crdx5beM3dl+4
+         0sAosUGCFITimnLZY4E9Q6R9m2yAP5hIgvP2bZqs9a0LboNldl3EBzaHje2loshzEoJn
+         o4bsdTQV+OTFqDK3vT8pLBAJDE4dIz/GExHyaC5ZW9RzqNmXZXNQs6K4s3ctPUnYypgR
+         TA1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792052243; x=1792657043;
+        d=1e100.net; s=20260707; t=1792052247; x=1792657047;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aIDkyGArz1wCtL42JSCEMaPJ5U6gQLe+G2a11MG+L0A=;
-        b=O80H+kyOPGxcsrp3Eye+XJdjSNZw8Vx7op+s/eE9i3KMTsHhE+5FcvvUNpCe98l8Af
-         JdFeXNEOOpRgdd/GnEnBV/9poraZPpkM0+d157IF0lHAEVr5gCZvmBMkvP4KkH/Nzx1+
-         Gv0aLRD8NixoZr4kAbIw/OAMy3SRT2drvvJ7HdwyYY1sqiTdJQzMxYEXATVbiZTPvPie
-         y9yXANgntJGXkU/VKBrLTmees3FoO2ZL+IFNkt0qhtEjVJi7/KGTxXzpA4zY/yqKCQC0
-         +t3QPyXrvCQemcu/ZDkzWs0KtSkN5+NpMXTaqFmCy7fyBDdPfBuVv7WuOhWqSWgD+ZGA
-         MXhg==
-X-Forwarded-Encrypted: i=1; AKwUvBz51uSKpNoxpNMyFS449+nZVZChf85umQFfb/LFAYpBVq0xFUJ4dFue6cltTZdLHI4EYaFwy43HIYwi1RW4pw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI8YRlzDwYHgQJRGS0aFio/ZwFzBT/qSLBgUT6drbC8Mey+ysis
-	3r4ECEcn9Jgs9wQluWgYUzoRiZvYFtKEpjx59FCfnGSCMSpL3EyFIYAt/rCkIzvnJ+yPHqJ/xzK
-	EEhzO+bjJLA9ybLK1FA==
-X-Received: from wmix22-n2.prod.google.com ([2002:a05:600c:e556:20b0:4a1:97d9:2528])
+        bh=lEAmeJCQDQzAAcly9NRmZ22CcOexoN0UM1XMCQxG41Y=;
+        b=auqIxReK1l/GD1T5uD5l6e8aj1nguRamocJbDic6ednuzAgeip8N/QpCFpA/thvoWn
+         VnKoyCA+EFqt9DR8skhaPYJZkRNjIyFXBPiU6z67h0XzyZwvCt2KsWTDj9I9OHji/VLz
+         EH+GtlLUtyiHZhXfhPy6ojaBdHXgb4akVaFdm1sS+Ch+GFFpIwO2DVmPS5mU1Qurn/Qg
+         V+Ml7AHuDk39Z9gofPoNOjqPf80dpNpZ30YPcJ5GgbULY+nG8bH5DdRo6I6yQogENJrS
+         NuXZP6p0M9dqFyZPWekEpkGqIP0KvzSqa4V/PX07LOCi7LuTZWUTUaueAE2yfYSMp++p
+         tkxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzWBjSW/5mTglOyci/Y/jz/fTNaS6C/KXzZ3+5LMSv2lRPBFv8C14Z+Ocmeev5kW0NXLU5Va4kbNNTblgKWaw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLrNWihMq6Oxrw56tDuh7ItIiFiHi/zqLdkiLeGuTAOREMtiF1u
+	DRB01eRw8e70Y1mXf6qeONxL9WC0+br5KkUGzv7TpS4yFUNgrOhG8uXnbmge7VH2R2WdwIUKC5a
+	KS3U3XzOHw/Je9Ex7vQ==
+X-Received: from wrbdt15.prod.google.com ([2002:a05:6000:d0f:b0:48a:fe63:7751])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:1:b0:4a1:9438:71a8 with SMTP id 5b1f17b1804b1-4a1943873cfmr250948855e9.26.1792052241527;
- Thu, 15 Oct 2026 01:17:21 -0700 (PDT)
-Date: Thu, 15 Oct 2026 08:16:29 +0000
+ 2002:a05:600c:4e91:b0:4a1:7ec7:a479 with SMTP id 5b1f17b1804b1-4a18e4f56bcmr374090515e9.33.1792052244230;
+ Thu, 15 Oct 2026 01:17:24 -0700 (PDT)
+Date: Thu, 15 Oct 2026 08:16:30 +0000
 In-Reply-To: <20261015-spinlock-irq-6-18-v1-0-72c58975994e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -60,23 +60,22 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20261015-spinlock-irq-6-18-v1-0-72c58975994e@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1338; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=CPEpwMEdhdPLwug24AETWk6W40fZAJzCIAxZG+5sTok=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq0IwJh1Kue9ag2toIQDvZsSYmgjaBM5AcOCKnh
- HlzraHpGbCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCatCMCQAKCRAEWL7uWMY5
- RpRdEACU/fTcwxRgFN7PGMNAdgz98vuGY2IPUeLvE13JpdYpX/TIVAgOwhNBZX6zl++uIbVmgPT
- jBKP1U0loD2qdNQB/fudPqZhG+lWrRryWNOus7qZrztudStOt7MdT2B+xPSyA4EupjkGDA/Jr4h
- D9C228+xhY/h40HpC3tLt4ci966ERY54/AOW0EOAIqsA9EY0ApQOWvlXrna/sXCvPh1S69c1ZPK
- h/RPalV8MtYuNW+KhxYzjoPKXlnUc8npdZScRrpxATXim74VR/hsNgasVLcZkpXULE2o335wGz7
- ltNwWm36QJq87L8B8CtpM2kZevVEgNQJiZ/fOC/WrONPG3iGciRpn5EDS5/caBm1/A7mqhXpk30
- KwWbKurop/Gt40BiUVY1OGUX689zsaS3BU5OK01m9gWBDG28wUwm8egwRc1VGupdji3iZTur8Qc
- r1AJkhpmNenED5GmKhLW/qBRDNAQM4EG7BBBsN8U0RnsKDprAV9fjU/WMPhWsnjWdOHYjXFqD6D
- CN+VlBLZgokrC8vabdq2shZ7cO6KvvMwYpHAZg28SJ0THQNSohNEY2xxMD5JTY+7JF4sgwDeUMu
- zecGFjWleVBubqztV86WF2gGnEwDXohStTDJ62fmX1aN2nVDW4lwrD5sGSeDiXitob3QuzO38bT PbnSlr+56u6sF/w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1965; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=tbLu840fS74ohR67+4JJFTeLBvEKY0/KR+uIRBsYVSg=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq0IwJe2o/8TqL+TH5tUlOFF8aEsPieEsjuZtNm
+ LOffRb9MzmJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCatCMCQAKCRAEWL7uWMY5
+ Rpj8D/9xL5arvb7G2uNuOTOfXWaop6GpZI1Zrl8xejkA3r9ZMeYdM+lXEbEEaRXaBVbJyclrWib
+ cq1jy+AU9eSwwHdVAkQtp/TVfwQWjinFFM5YCtszCwuQrLUvFLYGpvz+A2bMp0cvoB5l7e01V1H
+ 0nli0nNsuKu3MVm5t9ipnvxO25fIl6dhVSBB6KyszYjc1QO+VfU+AKWAwyGpIUjpSaE3rnZG4+e
+ gQ4F1MGaJHFK75FRmuPv+iQNm3au1U9CWTM4AUZO5fE5atZ7E0r7W0r9JZvh4E9LL3fuWMsWwdX
+ BTy3qlxLvvV7pg/8+SfTXdAIbCAWWyXcXb1DvXgXvdkYnLjXxLowEMZXbS/Ox4NNg4xipxOdpn8
+ u+WdYfzTdTHetJ5W+zbdX6B3AzRjLddP75n1+wJ3wJ8KEbnpCaYE38NKfLeU04YXa1M8aW8ce9t
+ r+d7EB6Wlwy4PpmvuK8Q1yTLmKhqt00RFcgt4NXcLijqQVBn7kgh289AopXJj9rjtWCroZ3uw+f
+ 3cc4jfV9v0hFcE0cL9/COYWwB8GHA3nrzTCdWoBed6bL5p2zQIjXC1ymkHEH/VYELnYcNHBZ4zq
+ CnoBdl1uYH36G7P9V935Ac5Hsn710aN6CEVvMx6Cu5tr+3TZHxhFevc0w4gwKzxcn6tTC+wBi+g 1Ws5v5Zi827fp5w==
 X-Mailer: b4 0.14.3
-Message-ID: <20261015-spinlock-irq-6-18-v1-3-72c58975994e@google.com>
-Subject: [PATCH 6.18.y 3/6] rust: helper: Add spin_{un,}lock_irq_{enable,disable}()
- helpers
+Message-ID: <20261015-spinlock-irq-6-18-v1-4-72c58975994e@google.com>
+Subject: [PATCH 6.18.y 4/6] rust: sync: Use super::* in spinlock.rs
 From: Alice Ryhl <aliceryhl@google.com>
 To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Sasha Levin <sashal@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -93,47 +92,58 @@ Cc: Boqun Feng <boqun@kernel.org>, Lyude Paul <lyude@redhat.com>, Ingo Molnar <m
 	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-From: Boqun Feng <boqun@kernel.org>
+From: Lyude Paul <lyude@redhat.com>
 
-commit 78c998b04ef53492f3502051349e55615681e00f upstream.
+commit df9165ab5254acb2035919c6e0511de799c1e8c1 upstream.
 
-spin_lock_irq_disable() and spin_unlock_irq_enable() are inline
-functions, to use them in Rust helpers are introduced. This is for
-interrupt disabling lock abstraction in Rust.
+No functional changes.
 
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Boqun Feng <boqun@kernel.org>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Link: https://patch.msgid.link/20260807070218.27144-16-boqun@kernel.org
+Link: https://patch.msgid.link/20260807070218.27144-17-boqun@kernel.org
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/helpers/spinlock.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ rust/kernel/sync/lock/spinlock.rs | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/rust/helpers/spinlock.c b/rust/helpers/spinlock.c
-index 42c4bf01a23e..7929d59bca89 100644
---- a/rust/helpers/spinlock.c
-+++ b/rust/helpers/spinlock.c
-@@ -35,3 +35,18 @@ void rust_helper_spin_assert_is_held(spinlock_t *lock)
- {
- 	lockdep_assert_held(lock);
- }
-+
-+__rust_helper void rust_helper_spin_lock_irq_disable(spinlock_t *lock)
-+{
-+	spin_lock_irq_disable(lock);
-+}
-+
-+__rust_helper void rust_helper_spin_unlock_irq_enable(spinlock_t *lock)
-+{
-+	spin_unlock_irq_enable(lock);
-+}
-+
-+__rust_helper int rust_helper_spin_trylock_irq_disable(spinlock_t *lock)
-+{
-+	return spin_trylock_irq_disable(lock);
-+}
+diff --git a/rust/kernel/sync/lock/spinlock.rs b/rust/kernel/sync/lock/spinlock.rs
+index d7be38ccbdc7..78432a598a45 100644
+--- a/rust/kernel/sync/lock/spinlock.rs
++++ b/rust/kernel/sync/lock/spinlock.rs
+@@ -3,6 +3,7 @@
+ //! A kernel spinlock.
+ //!
+ //! This module allows Rust code to use the kernel's `spinlock_t`.
++use super::*;
+ 
+ /// Creates a [`SpinLock`] initialiser with the given name and a newly-created lock class.
+ ///
+@@ -82,7 +83,7 @@ macro_rules! new_spinlock {
+ /// ```
+ ///
+ /// [`spinlock_t`]: srctree/include/linux/spinlock.h
+-pub type SpinLock<T> = super::Lock<T, SpinLockBackend>;
++pub type SpinLock<T> = Lock<T, SpinLockBackend>;
+ 
+ /// A kernel `spinlock_t` lock backend.
+ pub struct SpinLockBackend;
+@@ -91,13 +92,11 @@ macro_rules! new_spinlock {
+ ///
+ /// This is simply a type alias for a [`Guard`] returned from locking a [`SpinLock`]. It will unlock
+ /// the [`SpinLock`] upon being dropped.
+-///
+-/// [`Guard`]: super::Guard
+-pub type SpinLockGuard<'a, T> = super::Guard<'a, T, SpinLockBackend>;
++pub type SpinLockGuard<'a, T> = Guard<'a, T, SpinLockBackend>;
+ 
+ // SAFETY: The underlying kernel `spinlock_t` object ensures mutual exclusion. `relock` uses the
+ // default implementation that always calls the same locking method.
+-unsafe impl super::Backend for SpinLockBackend {
++unsafe impl Backend for SpinLockBackend {
+     type State = bindings::spinlock_t;
+     type GuardState = ();
+ 
 
 -- 
 2.56.0.385.gd3acb90ef8-goog
