@@ -1,150 +1,144 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010036.outbound.protection.outlook.com [52.101.84.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D354A8A1C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 08:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792051895; cv=fail; b=MUIxC9De1f3RW/LZ+Y+cJveZkLez7mCeEpNxZNz71J1hqZKUJxUqjuWrFxzNu58BtYyfJNwLH7/uk5O6O/Rxs4yzByrIc/Hi9Y2/alQU8hor0lcsdx6k0N0438QDs8EqfIo4mrzU95BqwPX4/0sbggcXv1JxOT2xzSYgX8fHJsM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792051895; c=relaxed/simple;
-	bh=CuqmN+hEV1X2+dF6XQ8Oe3cQ/ddGVX4cIjnEuIhMWaM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qfu9aT7ZIyhZoA+V+mfS/aKgaOE2/YwGxTITJW+hqH7ovt0n22xMq2U/y5mrLKbmRE6cfaS+DLfxEXaABB8RstrJnJCqKtOhewQlZdBS37zW3muXIsRHVlws3Qi0tOxTtLHrjP4QcYz/+z7unv7LsibUlZd682guPUoc/EcyovE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com; spf=pass smtp.mailfrom=mobileye.com; dkim=pass (1024-bit key) header.d=mobileye.com header.i=@mobileye.com header.b=Lr9OrUZj; arc=fail smtp.client-ip=52.101.84.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB6E4B1285
+	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 08:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792052239; cv=none; b=QbNiFrxYUSEs+Xo9szJ9nfMvtDcC455MK8wguxFdtHpWwLEXiZWmZb+uOIMRnAeGFKxgErpCZ4Qwl4LlRKQriU/mswtmWz5ARICtUGvSndD34QBo5ZsezKH8PrshMi7tMMF29blMMflooX2qhnWrQI60xWLQOTuXcoBm9pJCgXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792052239; c=relaxed/simple;
+	bh=E7PZ6N0FszxLMMdaYgjXFBu8QGf6U3lNuUd7q+Uemus=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ro78o0pfMJiR+LiLjTOCvlOihmOgspOp2bsSBbtjGuXcKhMad1uF17PeXjBw1TWircEZMhIHbbkIvxlbU8lGmzfN6uj33+rifnOKtR1IEKoQjIe7cQraef4O+DVDNPmc6arf2u8ZrkeOIOilaLLV1SYd6tKXcCdXyaTNlp2aJzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ipAHHSro; arc=none smtp.client-ip=209.85.221.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mobileye.com header.i=@mobileye.com header.b="Lr9OrUZj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xfCSQojybMVALvA27Gm16vTRe17IRNgzgn8GYPDykIU3UXlJA7gv9Jv1agDECv4Rwjwj6EmfgoEHzRfGeqN/XJRiGhMmAF3v0zxCMnnjjmsAEVaDEiOdN5lxQAypY40NA5ZqHIce2wpc2BmJN1k862DlQtTlJFv+qlSh680sAX9ELzEBdeyH2NYV5gQFcV/1etkT/xAHEwvj9bM8lz3iyv7nAV4dC/+2ncrpmSxi3l1jSW77et1JoloVix9sV+pQM1FPrZ4ZixXHQwHqwmpo6tH+SB3TadHOnmX/UHQP+wLjzJ5OzXPh/tGJ/YsuTdnNZD98/1R5O6J+vmvHqx4+5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CuqmN+hEV1X2+dF6XQ8Oe3cQ/ddGVX4cIjnEuIhMWaM=;
- b=JacR/ea1ntIWeJHoRjagOqk5ZKMd+TvnoZ5EoYhx40R82mHekzo7XPVRsGeINEs1uFtzrF1RPoY1acPgFVzrXeCN6Wfr+K4QZrvEMKoPURmrsP19s5wQ2v+BFKm4YP4f/qTXXLR7whgyjLHcuG9VDQc/sioDVQNB3LQTCLmSjYU4y1wTUxjyzPmM5JxkF2HgcmdYLytvLOwu3tbzQn3LVdcnFZ3wBim8oLDMRF1h416RFq6CySbeDzrSt71Ethm2ypMAL9W9vz21t8U8T4vIPRKpE6HmLSUVFk/9yms0Vedi+l/laA5C5sAx7wkRVAagX73kDqBvN8dRzAjOgPKm/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mobileye.com; dmarc=pass action=none header.from=mobileye.com;
- dkim=pass header.d=mobileye.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mobileye.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CuqmN+hEV1X2+dF6XQ8Oe3cQ/ddGVX4cIjnEuIhMWaM=;
- b=Lr9OrUZjXlVicBRX+AQ8h6m4MiATCSZVzx7SpX6YNAcush/puWI0q8GYezyPOaeIYTX0ljoGDf4ducO6166BFo3X3pKDicjnl1a8bbmTx5euf9vO6xJi+MMrUSAzA+X0uUkhMxqBncZAvE907/IDV8MNK0l9fee2atwYQL9Xpi8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mobileye.com;
-Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
- (2603:10a6:910:e0::22) by VI0PR09MB7045.eurprd09.prod.outlook.com
- (2603:10a6:800:242::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Thu, 15 Oct
- 2026 08:11:27 +0000
-Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
- ([fe80::9006:1164:b51f:23a2]) by ZR6PR09MB889505.eurprd09.prod.outlook.com
- ([fe80::9006:1164:b51f:23a2%4]) with mapi id 15.21.0522.011; Thu, 15 Oct 2026
- 08:11:27 +0000
-Message-ID: <9bb6f315-c668-4f90-9fee-920f115a3dcd@mobileye.com>
-Date: Thu, 15 Oct 2026 11:11:24 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] irqchip/riscv-aplic: fix asynchronous probing
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Anup Patel <anup@brainfault.org>, Thomas Gleixner <tglx@kernel.org>,
- Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Jessica Liu <liu.xuemei1@zte.com.cn>,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20261012-aplic-async-probe-v3-1-5cf52dc28690@mobileye.com>
- <20261013152727.2cUDX3l0@linutronix.de>
- <5a8048ef-a241-4486-adc1-440721d3606a@mobileye.com>
- <20261014105312.xNkvgkGg@linutronix.de>
- <46eaa0f0-ff72-4a72-91c8-b610be2d893a@mobileye.com>
- <20261015063227.GBjyN6LZ@linutronix.de>
-Content-Language: en-US
-From: Vladimir Kondratiev <Vladimir.Kondratiev@mobileye.com>
-In-Reply-To: <20261015063227.GBjyN6LZ@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TL2P290CA0028.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:3::10) To ZR6PR09MB889505.eurprd09.prod.outlook.com
- (2603:10a6:910:e0::22)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ipAHHSro"
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-48c427421f6so1005675f8f.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 01:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792052235; x=1792657035; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qX7Lg8nlPzyAAsaFZtEahUdsTQmoqhdq+zOHN21G2HM=;
+        b=ipAHHSroZo0dYRXcJg1QjXinAhWI3YkbKg5ScnKf808Wzx1+fbsFPJKud2os4oY/Ei
+         PceH/jAEth9KYi51a7ibHV9qBhgutZg5advS94QHzboEV1wvoAES1O5S3KcLQdi4vpw0
+         egOcbu3ozHNv6d6R5whU7K0rhaz99NTb4n1UdBzuPNBXnSsmTKif4LvixCyUxNiz/Mlb
+         CTB6YmuTp8fcsgxwxMPuJjfJUMomiBLcyOo2BdkwUQyHR6oZBLT7WzFFFsL08D8O4GXt
+         cK7EssCesK/BMtUe4yAntD7TpV6M07TWrHeRWKp0ZxuaXJrMFMD2JEVIarnrlYGl/HS1
+         eXNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792052235; x=1792657035;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qX7Lg8nlPzyAAsaFZtEahUdsTQmoqhdq+zOHN21G2HM=;
+        b=CJwJAoUyNJsK3BllQCRXhp+DJmF55hbvR9lJO9XmDKFXY3gWx0NWK21Kze2UpKEuFx
+         3wLO6nZUZ2g0/Ghz6NY/tVnbr63onEfcxezg8jh3+A3JdsDTjVq0WEexhmG7dUW/kt8s
+         KdCCSB7hwpqyxZnjDAt4q8E86isQZkOkhUIthj8cYO7heq5CFXoKUBruhoQDUm6vcBRp
+         F7OMrYWRLGOiIdqSjmoFXVfXLFKxjwx8x40le+o8JPsvk38vKwu8g0Km3Z5V+kiMr359
+         mzs7V0qwAkHnHZ9zZQtsztgWjlc9Vl05lgWh7l7x7Lve36wWeBzmA4YkhBex+wVByMuG
+         hCFg==
+X-Forwarded-Encrypted: i=1; AKwUvBxdjbHVBvTqY1yXmP/gmMDJ3uJRsNOi9w7urlHAgEM6/Mrj2MeSB1hcAW2YFbTOc3wDsDwKq23HjJy+SfNX2A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYICCw7TEgA8XvVztFwTY1UDpkCffC1KbGX88BEj4IKksFZQcqn/
+	PDLBAf+H3eaMXWuRWxhS5wqcHQkY4dGfMoThxjQe+EUdHe+pc96OflAWBaevZTpRLYeHT4ttxTy
+	FWYv/A2ZJ6VFaXX6Pcg==
+X-Received: from wroy15.prod.google.com ([2002:adf:f14f:0:b0:48d:f52d:93ac])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:46ca:b0:48d:f14a:9188 with SMTP id ffacd0b85a97d-48df14a92b1mr4100690f8f.17.1792052235100;
+ Thu, 15 Oct 2026 01:17:15 -0700 (PDT)
+Date: Thu, 15 Oct 2026 08:16:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZR6PR09MB889505:EE_|VI0PR09MB7045:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5dd39b6-7b60-43fb-ae80-08df2a93e986
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|7416014|366016|6133799003|22082099003|10067099003|18002099003|11063799006|4143699003|261009223027099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	Cd1Gmuo4UlJzOPNoADBfVI7IBtVejVT2DR2LmMX2WInTt315D/DlPxlniMIYw0AlswBZhYvZRC1EDqXESviMomuCSTRI6NrWamP6ACpkLLJrClkjK/tg8EgZKJcTLozwHbCqu8sP2W2PHDs2SqnbjpPgfPXvHRfSnzOmEcNEWxBCaR6Jevz4xdb1kT9N9gnTCHNVSXhKxSiEIvP8Y8Dkfd1ON2cq88sG+87wLaMxyJBFOsmUi5SOjjcUakJi4Fms48D8OBgCb9HY3EkrsLHKbIJQAOkGpWMZaAiktfyoe+VU3dCjjr7RUkfuJct4elaCsf1un7TbeZv4NX0j29pPCckRNg8ube32eWJLcw+xzADQH9Atvj1MNhMvHQ0WDnfkLdWtbahzcfllVsSHfsjy9fxUNATXqBcf/5ZSsA1EbXriDYcLCgXcYoFnJFXxg3/TPeQvJgW9VZDVeU67zL6obLDdnsO+QAO5wD5lFJpiI+mCIvuBDkEcZVBAcJC+nud4eFmmF28IoewPaco8YS6aek2aClxnSMR7A0dq8PrgLiV9Gt8zAb69NPA9Z9bzFo/nE6mo+Za97oLXiMybc16KA7jMxH/hqXHSzRxC+KGp9uneIPfHQlkSJI36d2zZ3rfFyf55XTivPyvX5zVJaZoVspVoxxwE1iEwJkyh4QBDK0c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR6PR09MB889505.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(7416014)(366016)(6133799003)(22082099003)(10067099003)(18002099003)(11063799006)(4143699003)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cmkwUlpITXpTUW40akpaeWxiVThwSk85NHRyUm9jOUxucmpaVDBtK0pWKy92?=
- =?utf-8?B?ZHYrREFueG5qblVDN2g5M1lSd2RPWCtyVUtXaXNqUitkZE0zaVk0aW9ib2Vn?=
- =?utf-8?B?Z2V0cVA3WnhTSjBVYUJUZ0tQRWNkT2toZWp1bHhTeFdZMWo5VVo3Yy9jZlNI?=
- =?utf-8?B?Y0hkMEpRWnhCSkJ1Ykl3NmdzaVNTdXJpZlk5RU5uMGgzVUVmdGNya0ZwMGFT?=
- =?utf-8?B?aENTa1JsbU52aFJmRXZGV24wUDIwR2VUcWoraEpsb0w0RDNoV3JBT3pQVCtP?=
- =?utf-8?B?VWpYRS9XWHNnckJnUnYraSt5L1ZvTC9qaU8zSS8ybS9seWxTMW1KVzFXVzM2?=
- =?utf-8?B?QTJ4d3RFN2x1VTF5QWxHSFBnM25aUXVINU5FbndDczdqVUZPbTBlUW5janNw?=
- =?utf-8?B?eC9adEZhai8yZDJZQUJaaFZxZzErVE9NZmF6d1NQUXc4S2xwOFFnNmxzUWFL?=
- =?utf-8?B?YTNDc3hIa0RvTlhmeVRndHFIT1g1QUlBVUQvWEtmV1ZoTmFyZ2NDNXVkOW1M?=
- =?utf-8?B?cmtYWE0yaGo2M0ozdGRMT0pibDRZTnBNbWVFYjRlalVlV3hjUzFqY1N5ZXlC?=
- =?utf-8?B?eXZtSVlhdjlPWmxXZkluYVdOenBiaXFLSVZzOGc0T2kzeXM4bTZKbjNvU2VN?=
- =?utf-8?B?UlBXWklUaUR2a1d2WDlrTmJjRFA2WjNxYkdmQ3N2TU1wNXhvNXZKejdsYmZ3?=
- =?utf-8?B?Z2pDSUg4cUJUV2tpL2cwSi90aUlxTDllcGQwdHlzallJNEZRQ21NRkJjUitm?=
- =?utf-8?B?dVk0M3lhT1lkMVp5UVh6UFNmNDlHbVJpN0VlSzNXTVB2WEM0WWI1WW5XVWRR?=
- =?utf-8?B?dlBSQkVnNW9yOG1RSllWdTdhYzYyK0RhVDNnQmFTOVdYYzFsMkJlUzZNMGNi?=
- =?utf-8?B?YkRpR1VZdmtzd1N0Z3BuaFM3MnBaTjZIdXcvancyYVZQTHR6MjEzVTRacnBX?=
- =?utf-8?B?UjNpUVhyWG1ZM0NKajc4bnpmQUlpU1V0SjRreHRBRUMrN3pVNWFWUTRhcDlZ?=
- =?utf-8?B?OUZXbDIwcUliNVFwQ2ZZODhyT3R4WVZPOXgzamlzSTlVeWtWdWszWjFwbEo4?=
- =?utf-8?B?a0YxQkc0a2pMbXMxdXB2UTVmemxDR2FnNEFzby9YTFZkR3ZGd0ZnVHhnZXBT?=
- =?utf-8?B?SE4zYmowRmpnVDNNMDEwcm96azZpb2lUdEZqWWdYY3ZRMFJEMCt4VmJheUNM?=
- =?utf-8?B?ZUNOVFV4M1F6c3o2K3Z2MUZLUjJhZElhRjVHQVVzY1Y5Tmx5c09TblJqSzFu?=
- =?utf-8?B?UkdWcExDa3hGblQyVkpxeU1BQnFJMkpXc3h3V0xZT0R5NnpkRlNVQlZhU0tr?=
- =?utf-8?B?SWVMY0laZVVMdllLSWY5MWl5dGd2bVVQZnFuY2FaZ081WnNEMEhYOGk0amIx?=
- =?utf-8?B?aU5ROFJMV0RVNlJSNkorRTFTSkdtR3FvK0V5T1hETnlBR3lNa1haSTEzMFAr?=
- =?utf-8?B?OFlsdEVvREI0YzAzbVhSWTB3Skl2aktIMGNIRWt6Y1dVZzBjYllOcWpIQ1Z2?=
- =?utf-8?B?cXVRNXRadmx4dWVQbFlES09oWWo4UTducE9GMjBxMXJXREtzZTlCNDJwY0hV?=
- =?utf-8?B?eWlPZEZ5Z0NjUlBnUnk0bG1sdE1BN29zekxPanJzYlF3Qm5Kbkt0c09vSWVX?=
- =?utf-8?B?QW43S0dYVXprM1ZqN3ovSW5hck1TNUN1cWJ6UG00NEZ0cHpXUVhJNm16MnJl?=
- =?utf-8?B?eHdJZGRqMXVDY2JFdWhFVmZ6cHNQTUhjMmdSeTl0SUNkY0gwekJjQ1c1V0U3?=
- =?utf-8?B?Wm1JeFA3bThndlVGdXpWcEVYeHQvL3pUSXV2bERsaGFSbmFTQ0g3MmtISzVH?=
- =?utf-8?B?bUlaem9RL2JRY3FBODJQK2RLWTgrazVrVjI0b0tFcERQVm5vTWhMUmppL2dQ?=
- =?utf-8?B?dzRMOTFkMStsamE5akZ3ZmNVWnFDVExJT2U4UnhlYTROZWwxdmhDMzZKbnJI?=
- =?utf-8?B?cTVEZTgyMlYwWEVpa09WcEQ2TXFtZ0E3amhEWHF2U3RaVEYyTXgxL2tURUcv?=
- =?utf-8?B?RGR5N08yTWw1eUpPWmR1bUpMY3JEOGNuUE8wbHpPSFFvSE90aE04QmhQK1Nh?=
- =?utf-8?B?Njg2TkpUQVFsRlR1OU9OY1VqcVN6Y0dEcDc3elBUQjhVNkhWNm1IdHJ0cTlT?=
- =?utf-8?B?K3pWc09rZHM5TFQ0b0hmalVYQjhLY0RmUEpMN2YvSUV5WGlIUUxTSHpubjZl?=
- =?utf-8?B?bGNFa1p0U1NmQjBZQjdPR3pJVGNyeWlJd2E3enkvYW1nK1JZeWx0SnlQVUJs?=
- =?utf-8?B?dmpzbHkwS0dQckxuU25sVWZlaVVEbFE1ZjY0NjRxRk9SalV3Y2xmRmZrMUR0?=
- =?utf-8?B?TEtJMGVLeHlESEpscU50bTQwNnBoWUIyalVSMFJDTWkyM1MwbmRnQT09?=
-X-OriginatorOrg: mobileye.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5dd39b6-7b60-43fb-ae80-08df2a93e986
-X-MS-Exchange-CrossTenant-AuthSource: ZR6PR09MB889505.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 08:11:27.7315
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f85ba13-6953-46a6-9c5b-7599fd80e9aa
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LqagKNtVBnk/nopBK+R3C3rnmbW1jM3616GrLzz6PGcs3tZOxOe2Y/j67d3eet5MXbd8RLRynBc7hw4uwcJ57w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR09MB7045
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIANqL0GoC/x3MQQrDIBBA0auEWXfEscXaXiVkUXWaDC0mUQgJk
+ rtXunyL/ysUzsIFnl2FzJsUmVMDXToI0yuNjBKbwWhjSdMVyyLpO4cPSl7RIjl83I0O0dPNs4X WLZnfsv+fPVhFTh0wnOcPRFahxWsAAAA=
+X-Change-Id: 20261013-spinlock-irq-6-18-9720cdb14be6
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2178; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=E7PZ6N0FszxLMMdaYgjXFBu8QGf6U3lNuUd7q+Uemus=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq0IwERFzAhp1VNXrBknz/Gt2WAq3AYCiFa2d8Q
+ rh8yHyRBHCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCatCMBAAKCRAEWL7uWMY5
+ RvYfD/41o14648yaQad597iJTkzJ9ic6n9ykRuUWrHM5caQsBVoLm6StqOROvoTMoPXnxoDwVt8
+ k+D6HHmT/Wfp5hXMBLBh8cBcPN91UDml/04cVLMsEAr4Gnt/zqgdj9pVJQOiD/y2oB2SmfDGV1B
+ uIZxlPed2k8dFNl6c//nCBihgeX4Sv8cUkdSNBIdb7vOjhJB+ow5dZ2KOZX/kdeh2OBdPWK3yeN
+ grJYZcTDmPA+CYyBJ8ayGWC2DfYIDtZ9IAoh+cMFVPAUopLkk/fQRcBNw/A8sZv8Rb1i6MTDHEp
+ xNpnYnjPt+dKy3/xrqrdwDptf5s8eZBI9OoA2A1ft7e+2nkssL9RsYVeLAFykln2kcE6U6vIEKA
+ TdmDXspxrEvizz0/x6B5TVhlP0z193iwzxTkAPIM9qZIsDdgVrDqRkD+3gTMSVwqnkplynWTVh5
+ cfn2ofzRe6Vf4r5nGF1lr5Hhc/cy9UTZ8asPTITVssTbSBmSCSiUe8vVGPmqn6tJaEl6VY4DIgp
+ 3kFj70It4GLkTW0tbmTDLRkXFKmHqAZEXWpe5JAmREWwYYuldOQ/qXV5Wskz16N+oOocFPOBWhK
+ FXJN7R3/IMuW0HEz0s2iThER18f+0JnhewIDaEbuZI/FGy9meYTtSZeg0d8inU+N6EM9przq8Kj 61sj3bwXiV9QOCg==
+X-Mailer: b4 0.14.3
+Message-ID: <20261015-spinlock-irq-6-18-v1-0-72c58975994e@google.com>
+Subject: [PATCH 6.18.y 0/6] Backport spin_lock_irq_disable() to 6.18.y
+From: Alice Ryhl <aliceryhl@google.com>
+To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sasha Levin <sashal@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Gary Guo <gary@garyguo.net>
+Cc: Boqun Feng <boqun@kernel.org>, Lyude Paul <lyude@redhat.com>, Ingo Molnar <mingo@redhat.com>, 
+	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On 10/15/26 09:32, Sebastian Andrzej Siewior wrote:
-> The driver providing MSI capabilities (the MSI domain for this device)
-> must a module. This is the requirement so that _this_ driver returns
-> EPROBE_DEFER and *then* once the MSI domain driver is loaded as a module
-> (after boot) this driver is probed again and succeeds.
-Why module? for "riscv-aplic", "msi-parent" shall be "riscv-imsic" and
-it is "builtin_platform_driver", see
-drivers/irqchip/irq-riscv-imsic-platform.c
+This series backports the new spin_lock_irq_disable() API, as well as
+the new SpinLockIrq API for Rust to 6.18.y. This means that any upstream
+code using these APIs can be backported cleanly to 6.18.y without
+needing adjustment to work using the old APIs.
 
-Thanks, Vladimir
+The first commit uses a different implementation than upstream commit
+e901c1510e24 ("irq,spin_lock: Add counted interrupt
+disabling/enabling"). In mainline, `local_interrupt_enable()` works by
+carving `HARDIRQ_DISABLE_BITS` out of `preempt_count`, which requires
+reworking the `preempt_count` layout and arch-specific accessors across
+x86, arm64, and s390. Instead of backporting those invasive changes to
+6.18.y, patch 1 implements the same refcounted interrupt disabling API
+using a dedicated per-CPU nesting counter and saved irqflags word. This
+is slightly less efficient, but is much less invasive. Patches 2-6 are
+clean cherry-picks of the upstream patches.
+
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Alice Ryhl (1):
+      irq: Add refcounted local interrupt disabling
+
+Boqun Feng (1):
+      rust: helper: Add spin_{un,}lock_irq_{enable,disable}() helpers
+
+Lyude Paul (4):
+      rust: Introduce interrupt module
+      rust: sync: Use super::* in spinlock.rs
+      rust: sync: Add SpinLockIrq
+      rust: sync: Introduce SpinLockIrq::lock_with() and friends
+
+ include/linux/interrupt_rc.h      |  26 +++
+ include/linux/spinlock.h          |  61 +++++++
+ kernel/softirq.c                  |  63 ++++++++
+ rust/helpers/helpers.c            |   1 +
+ rust/helpers/interrupt.c          |  13 ++
+ rust/helpers/spinlock.c           |  15 ++
+ rust/helpers/sync.c               |   5 +
+ rust/kernel/interrupt.rs          |  89 +++++++++++
+ rust/kernel/lib.rs                |   1 +
+ rust/kernel/sync.rs               |   9 +-
+ rust/kernel/sync/lock/global.rs   |   3 +
+ rust/kernel/sync/lock/spinlock.rs | 329 +++++++++++++++++++++++++++++++++++++-
+ 12 files changed, 609 insertions(+), 6 deletions(-)
+---
+base-commit: 17ad2612c11a748b50d32eefc681344b26fea946
+change-id: 20261013-spinlock-irq-6-18-9720cdb14be6
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
