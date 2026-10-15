@@ -1,210 +1,210 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF4B489FAB;
-	Thu, 15 Oct 2026 08:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359E93E763E;
+	Thu, 15 Oct 2026 08:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792053052; cv=none; b=WVNcEo0nz4Gmp7vgue7HB/nY9if3A6l7qsj2innl9hWV7IKcn4LKTuMu8iHvaKl/kcNDtn3aBk1kEsvbS/fEKMrzqNFjU/taEZ+p5/sTMnzc29l1yiouMLITsQsuKt0wSvZc6N9z+sHvg5cLbpEr/tTyhwDZTuJWGZTaaLzcmEY=
+	t=1792053082; cv=none; b=EwBAEFPD3l6/50EXcqyDcf6lZ2VKtxrjNhbTqtw5qFUrCUd84M7irESbQp7ualY5tjrLdo1HjLwoOVaGss3GDrqd/sYWXzyAkUQXpamE4TaAQnIYIAwAXIT8RegR+KbAe8YP1WSW0tcvqsziQ0pD+kJimGHSluR1xgqz++tjmt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792053052; c=relaxed/simple;
-	bh=z8IU1fkEgp1290t/w/Z/ySFFzsb8vyPLQ7ok1wOZys8=;
+	s=arc-20240116; t=1792053082; c=relaxed/simple;
+	bh=Pcg0uLDWATDMHyw1tpnJfI4xW6R0Vn9AOSggytLRyhM=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=E0IBkXx4m0VtB5vAYtZmEcRET/U0aFZNqDvgMbRMkj0nLnkRe5RWRvR2biRVibpgUISPTOICFObLgTNwDRLS8hIvPnQlb0ff2WoEiapVh2o05wWTtvXQHXo1ZONbzHuwL2V8x33Qjus+MSsbM/F5N3nm9xXFpg1F6jmnz8xrGsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHfvrsEU; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=aXheVbXMHbQhpxjTSML8GDMh2ol0arif2Rt6QRvq/s2z69UOVw+FyzFmdjupqxXuSCfztLqLCCERHGa/h9kGS0dv0urgBBxge5GpkPMN3I2Ro0Hq97vJoEEPFoOifnNzQLtQ1MIA2ctk4dd8eimwWpspJXYdR5zPnMRuVjFr31Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnFecq4/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHfvrsEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74FD91F000C4;
-	Thu, 15 Oct 2026 08:30:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnFecq4/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4F71F000C4;
+	Thu, 15 Oct 2026 08:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792053049;
-	bh=m9ift2F/lZr6q7gHusFTJVZXU4O1x8N8mEICyyr5xAE=;
+	s=k20260515; t=1792053080;
+	bh=b2PBGZPvNQJMl05graDk2sfalTQtk5hjDTcVNq6mwz8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YHfvrsEUIqkh1h9bYyLL5L69phWVTEamO8ZGAd2YH2dlTtqeo8O4Y0J4lzG7rhW9Q
-	 ObCmY/WoUarZgpRSuAO3Qzm1vUSDUaCE54dj7nA7YY4hM8nG9BtrTF+VKtvul52jEn
-	 KabJzHXhRk5a20gOkJC76i+6TOpr6umwFwJuAwF5wo7zl2vThioyf1I53ZnxDaYpO4
-	 b4kRxSXyMW7lQBWaF2HctIU02kR2Yj4LO6JuF+IkPfRuPSjveZXvsshmqmztWDE0J/
-	 cciVApMcaYE306MPOe2cPHj2Cn3WbBqXJ/5wkSXuHJXzp2gqEtndFdyqbs2S7wqx34
-	 T8ItJIMOvz/hA==
-Message-ID: <sashiko-outbox-172495@kernel.org>
+	b=bnFecq4/cGTsmNuCjYUwrg5PikKi/Dy+8I81NzyNcsNuekm7hHuDViUELH3E6I5Um
+	 BuLf/s7MIH5f3uWddScvpMURRzopV7AeyJGua0dsOK8e0w/Lez1txiNkvk3+ausq7k
+	 IKYS1JbGdNDEOC47r/my78fBUatY/LvslbmuZB2JWs01zrTPJsW0xWITlecwbi2SpO
+	 HReKQb3j0cr7E0gTry5SVDAd2uKvrrGjz6RuubvjCm2EG9m81Y8R0h+4/8YQSjDssE
+	 ePef6egNbZXiUvp322PTQ3JaszjlSTWei6gLsaDcd8djhPCqljcJAgJMRBTdXYdHM0
+	 pSL4i0Pn9NVOw==
+Message-ID: <sashiko-outbox-172497@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 6.18.y 6/6] rust: sync: Introduce
- SpinLockIrq::lock_with() and friends
+Subject: Re: [PATCH 6.18.y 2/6] rust: Introduce interrupt module
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alice Ryhl" <aliceryhl@google.com>
 Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, ojeda@kernel.org, gary@garyguo.net
-In-Reply-To: <20261015-spinlock-irq-6-18-v1-6-72c58975994e@google.com>
+In-Reply-To: <20261015-spinlock-irq-6-18-v1-2-72c58975994e@google.com>
 References: <20261015-spinlock-irq-6-18-v1-0-72c58975994e@google.com>
- <20261015-spinlock-irq-6-18-v1-6-72c58975994e@google.com>
+ <20261015-spinlock-irq-6-18-v1-2-72c58975994e@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:30:49 +0000
+Date: Thu, 15 Oct 2026 08:31:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [High] locking: lock_with() panics on PREEMPT_RT and deadlocks with CondV=
-ar
-- [Medium] rust: sync: lockdep_assert_irqs_disabled() fails on PREEMPT_RT i=
-n kunit
+- [Medium] rust: docs falsely claim local_interrupt_disable is no-op on !PR=
+EEMPT kernels
+- [Medium] rust: interrupt: missing #[must_use] on LocalInterruptDisabled g=
+uard
+- [Low] rust: missing // INVARIANT: comment for LocalInterruptDisabled
+- [Low] rust: redundant FFI helper for out-of-line local_interrupt_disable()
 --
 
-commit 5ae395d5694f43cafc4f5157f39a1c85552be6b1
+commit d5f70a73a2c90b91e9114a20f641c084d5e70a96
 Author: Lyude Paul <lyude@redhat.com>
+rust: Introduce interrupt module
 
-rust: sync: Introduce SpinLockIrq::lock_with() and friends
+This introduces a module for dealing with interrupt-disabled contexts,
+including the ability to enable and disable interrupts along with the
+ability to annotate functions as expecting that IRQs are already
+disabled on the local CPU.
 
-This commit adds lock_with() and try_lock_with() methods to SpinLockIrq.
-These methods allow acquiring a spinlock without changing the interrupt
-state by passing a LocalInterruptDisabled token. The goal is to avoid
-overhead when it is already known that local interrupts are disabled.
+Link: https://patch.msgid.link/20260807070218.27144-15-boqun@kernel.org
 
-Link: https://patch.msgid.link/20260807070218.27144-19-boqun@kernel.org
+> diff --git a/rust/helpers/interrupt.c b/rust/helpers/interrupt.c
+> new file mode 100644
+> index 0000000000000..69595498620f5
+> --- /dev/null
+> +++ b/rust/helpers/interrupt.c
+> @@ -0,0 +1,13 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/spinlock.h>
+> +
+> +__rust_helper void rust_helper_local_interrupt_disable(void)
+> +{
+> +	local_interrupt_disable();
+> +}
+> +
+> +__rust_helper void rust_helper_local_interrupt_enable(void)
+> +{
+> +	local_interrupt_enable();
+> +}
 
-> diff --git a/rust/kernel/sync/lock/spinlock.rs b/rust/kernel/sync/lock/sp=
-inlock.rs
-> index e566f223c6494..b3a0d7a3de04c 100644
-> --- a/rust/kernel/sync/lock/spinlock.rs
-> +++ b/rust/kernel/sync/lock/spinlock.rs
-> @@ -208,7 +221,47 @@ macro_rules! new_spinlock_irq {
->  /// # Ok::<(), Error>(())
->  /// ```
->  ///
-> +/// The next example demonstrates locking a [`SpinLockIrq`] using [`lock=
-_with()`] in a function
-> +/// which can only be called when local processor interrupts are already=
- disabled.
-> +///
-> +/// ```
-> +/// use kernel::sync::{new_spinlock_irq, SpinLockIrq};
-> +/// use kernel::interrupt::*;
-> +///
-> +/// struct Inner {
-> +///     a: u32,
-> +/// }
-> +///
-> +/// #[pin_data]
-> +/// struct Example {
-> +///     #[pin]
-> +///     inner: SpinLockIrq<Inner>,
-> +/// }
-> +///
-> +/// impl Example {
-> +///     fn new() -> impl PinInit<Self> {
-> +///         pin_init!(Self {
-> +///             inner <- new_spinlock_irq!(Inner { a: 20 }),
-> +///         })
-> +///     }
-> +/// }
-> +///
-> +/// // Accessing an `Example` from a function that can only be called in=
- no-interrupt contexts.
-> +/// fn noirq_work(e: &Example, interrupt_disabled: &LocalInterruptDisabl=
-ed) {
-> +///     // Because we know interrupts are disabled from interrupt_disabl=
-e, we can skip toggling
-> +///     // interrupt state using lock_with() and the provided token
-> +///     assert_eq!(e.inner.lock_with(interrupt_disabled).a, 20);
-> +/// }
+[Severity: Low]
+This isn't a bug, but are these C FFI wrappers necessary? According to
+the subsystem rules, rust/helpers/ should only be used to export inline
+functions or function macros.
 
-[Severity: High]
-Does this code demonstrate a pattern that will crash a preempt-rt kernel?
-
-If the guard returned by lock_with() is passed to a CondVar, the condition
-variable will drop the spinlock and sleep. Because the LocalInterruptDisabl=
-ed
-token remains in scope, the thread will invoke the scheduler with hard IRQs
-physically disabled, causing a deadlock and panic.
+Looking at kernel/softirq.c, local_interrupt_disable() and
+local_interrupt_enable() are unconditionally implemented as out-of-line
+functions across all configurations. Could we expose them directly via
+bindgen by including <linux/interrupt_rc.h> in
+rust/bindings/bindings_helper.h instead of adding redundant boilerplate?
 
 [ ... ]
 
-> @@ -273,6 +326,43 @@ unsafe fn assert_is_held(ptr: *mut Self::State) {
->      }
->  }
-> =20
-> +impl<T: ?Sized> Lock<T, SpinLockIrqBackend> {
-> +    /// Casts the lock as a `Lock<T, SpinLockBackend>`.
-> +    #[inline]
-> +    fn as_lock_in_interrupt<'a>(&'a self, _context: &'a LocalInterruptDi=
-sabled) -> &'a SpinLock<T> {
-> +        // SAFETY:
-> +        // - `Lock<T, SpinLockBackend>` and `Lock<T, SpinLockIrqBackend>=
-` both have identical data
-> +        //   layouts.
-> +        // - As long as local interrupts are disabled (which is proven t=
-o be true by _context), it
-> +        //   is safe to treat a lock with SpinLockIrqBackend as a SpinLo=
-ckBackend lock.
-> +        unsafe { core::mem::transmute(self) }
-> +    }
-> +
-> +    /// Acquires the lock without modifying local interrupt state.
-> +    ///
-> +    /// This function should be used in place of the more expensive [`Lo=
-ck::lock()`] function when
-> +    /// possible for [`SpinLockIrq`] locks.
-> +    #[inline]
-> +    pub fn lock_with<'a>(&'a self, context: &'a LocalInterruptDisabled) =
--> SpinLockGuard<'a, T> {
-> +        self.as_lock_in_interrupt(context).lock()
-> +    }
+> diff --git a/rust/kernel/interrupt.rs b/rust/kernel/interrupt.rs
+> new file mode 100644
+> index 0000000000000..a880ec3b8538a
+> --- /dev/null
+> +++ b/rust/kernel/interrupt.rs
 
-[Severity: High]
-Can acquiring a spinlock here while hardware interrupts are explicitly held
-disabled by the provided context token violate wait-context rules?
+[ ... ]
 
-On preempt-rt, spinlock_t is mapped to an rt_mutex which sleeps on contenti=
-on.
-Acquiring a sleeping lock while hardware interrupts are explicitly disabled
-triggers a panic. Regular SpinLockIrq::lock() avoids this because
-spin_lock_irq() conditionally omits hard IRQ disablement on RT.
-
-> +
-> +    /// Tries to acquire the lock without modifying local interrupt stat=
-e.
-> +    ///
-> +    /// This function should be used in place of the more expensive [`Lo=
-ck::try_lock()`] function
-> +    /// when possible for [`SpinLockIrq`] locks.
-> +    ///
-> +    /// Returns a guard that can be used to access the data protected by=
- the lock if successful.
-> +    #[must_use =3D "if unused, the lock will be immediately unlocked"]
-> +    #[inline]
-> +    pub fn try_lock_with<'a>(
-> +        &'a self,
-> +        context: &'a LocalInterruptDisabled,
-> +    ) -> Option<SpinLockGuard<'a, T>> {
-> +        self.as_lock_in_interrupt(context).try_lock()
-> +    }
-
-[Severity: High]
-Is it safe to try acquiring a sleepable spinlock_t with interrupts disabled,
-or does this also trigger a wait-context violation on preempt-rt?
-
-
-While reviewing the file, I also noticed an issue in the tests:
-
-rust/kernel/sync/lock/spinlock.rs:WorkItem::run() {
-    ...
-        // Make sure the interrupts actually turned off
-        // SAFETY: It's always safe to call `lockdep_assert_irqs_disabled()`
-        unsafe { bindings::lockdep_assert_irqs_disabled() };
-    ...
-}
+> +/// # Invariants
+> +///
+> +/// Local processor interrupts are disabled on preemptible kernels for a=
+s long as an object of this
+> +/// type exists.
+> +pub struct LocalInterruptDisabled(NotThreadSafe);
 
 [Severity: Medium]
-Will this lockdep assertion incorrectly assume that SpinLockIrq::lock() dis=
-ables
-hardware interrupts across all configurations?
+Should this struct be marked with #[must_use]?
 
-On preempt-rt it does not, which triggers a lockdep warning when running the
-rust_spinlock_irq_condvar kunit test.
+Because LocalInterruptDisabled implements Drop to call
+local_interrupt_enable(), if a caller forgets to bind the returned guard to
+a variable:
+
+    local_interrupt_disable();
+
+the guard will be dropped instantly at the semicolon. This would
+unintentionally re-enable interrupts immediately, leaving the intended
+critical section unprotected against interrupts.
+
+> +
+> +/// Disable local processor interrupts on a preemptible kernel.
+> +///
+> +/// This function disables local processor interrupts on a preemptible k=
+ernel, and returns a
+> +/// [`LocalInterruptDisabled`] token as proof of this. On non-preemptibl=
+e kernels, this function is
+> +/// a no-op.
+
+[Severity: Medium]
+Does this accurately describe the behavior on non-preemptible kernels?
+
+Looking at the C implementation in kernel/softirq.c:local_interrupt_disable=
+(),
+it unconditionally calls local_irq_save(flags). This always disables
+hardware interrupts regardless of CONFIG_PREEMPT or CONFIG_PREEMPT_RT.
+
+Could this documentation mislead developers into assuming the function
+has zero cost on non-preemptible kernels, while it actually degrades
+interrupt latency?
+
+> +///
+> +/// **Usage of this function is discouraged** unless you are absolutely =
+sure you know what you are
+> +/// doing, as kernel interfaces for Rust that deal with interrupt state =
+will typically handle local
+> +/// processor interrupt state management on their own and managing this =
+by hand is quite error
+> +/// prone.
+> +#[inline]
+> +pub fn local_interrupt_disable() -> LocalInterruptDisabled {
+> +    // SAFETY: It's always safe to call `local_interrupt_disable()`.
+> +    unsafe { bindings::local_interrupt_disable() };
+> +
+> +    LocalInterruptDisabled(NotThreadSafe)
+
+[Severity: Low]
+This isn't a bug, but should this construction have an // INVARIANT: commen=
+t?
+
+The subsystem guidelines mandate that when a struct with an # Invariants
+documentation section is constructed, the code should have an // INVARIANT:
+comment explaining why the invariants are satisfied.
+
+[ ... ]
+
+> +impl LocalInterruptDisabled {
+> +    /// Assume that local processor interrupts are disabled on preemptib=
+le kernels.
+> +    ///
+> +    /// This can be used for annotating code that is known to be run in =
+contexts where local
+> +    /// processor interrupts are disabled on preemptible kernels. It mak=
+es no changes to the local
+> +    /// interrupt state on its own.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// For the whole life `'a`, local interrupts must be disabled on pr=
+eemptible kernels. This
+> +    /// could be a context like, for example, an interrupt handler.
+> +    #[inline]
+> +    pub unsafe fn assume_disabled<'a>() -> &'a LocalInterruptDisabled {
+> +        const ASSUME_DISABLED: &LocalInterruptDisabled =3D &LocalInterru=
+ptDisabled(NotThreadSafe);
+
+[Severity: Low]
+Similarly, should this construction also include an // INVARIANT: comment?
+
+> +
+> +        // Confirm they're actually disabled if lockdep is available
+> +        // SAFETY: It's always safe to call `lockdep_assert_irqs_disable=
+d()`.
+> +        unsafe { bindings::lockdep_assert_irqs_disabled() };
+> +
+> +        ASSUME_DISABLED
+> +    }
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015-spinlock-i=
-rq-6-18-v1-0-72c58975994e@google.com?part=3D6
+rq-6-18-v1-0-72c58975994e@google.com?part=3D2
