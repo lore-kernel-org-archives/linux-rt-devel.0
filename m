@@ -1,221 +1,202 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F10C531B0E
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 16:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA8353163D;
+	Thu, 15 Oct 2026 17:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792081358; cv=none; b=Fe3JNAbco9YcHI88DxdzqJF6d87xJSpHEIfw7z2fOuEG8Dxc2ueSKP0QU5ngC8QEGtsTN3kq1HMnsVVLYCdLBTkOS80UwGfSGDxCXYwhl1fywVaMkJ0U1ff6FE1oFKNYoYOjnfz+yOEoWyRUNw5G9Xa7s0uC0jVpg2u8po2VRfs=
+	t=1792086077; cv=none; b=tuQtid0j/xuRZLCKfIpL5KDj/OY70STO+6Ck06Obf3Ht2cRBdajYhPeQWunTNVTL6VTw1VkAV3qb1WdxHTO1KhpM5liWDNvYft8b6E0c6N/ywMFx+5qW9b8UMoesjThXWkrXB6FffqmgO9llDfhY739NPEkZzJosPRWC4FjhCDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792081358; c=relaxed/simple;
-	bh=pBy1f4VSb3pvW4clcyc1Qy/2nViC1kPB548ufIhq5H0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CZEPlaRmqTmC0aqSCbDVb1Pp2s77V1Sidf1beJJeLXY4YKLVx2XU2Z6kCqi3IJ/OswJg5rg6sXAvdvcxEyI1Z/MYhnM74qhu2vUTF8EFUVOIy/frW2a1bJd52kmFYjoKsbKpvdladdqxnnhekdavMBFRHNRMY4Ty0kI/l91zPK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai; spf=pass smtp.mailfrom=nuro.ai; dkim=pass (2048-bit key) header.d=nuro.ai header.i=@nuro.ai header.b=XnFfw9Sd; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuro.ai
+	s=arc-20240116; t=1792086077; c=relaxed/simple;
+	bh=JFw0bpbSMHAqeGYxKKAYz5op/Z+aunIdwy0CuRP0No4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=InZOeMFshC9qB/Wk7imympdQm2fkK0UC+xebyjUxB/TC/GMnkRIcJSQ++1PhWQzgcaPQHwePWiVAXYoqTlFFGcIBIz0an0xxfdXOIulpX0VbG0gp2UsN5dAiwJwv2Gz0Fm0pMRDV8o2E3txd/3DnDIM/cTEATUoF7UYKX5Y+pYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YH7UkG6n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuro.ai header.i=@nuro.ai header.b="XnFfw9Sd"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-15756f82e8aso90208c88.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Oct 2026 09:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nuro.ai; s=google; t=1792081345; x=1792686145; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VxoANqrdqE06En2I4F3G1u8hzDyBoOsiup8bgRwGeec=;
-        b=XnFfw9SdZSK+uxc5mkD60TwoKtkUQbI0ICVBCzHkHeQuped0pbLhs4In3LYU4CffN+
-         RgKzYMNunlfc6su1WVz4QllegY3pdY1vbmUf7C/qJCEvRbp9AVpZPJ49L1q4YoJzRe5G
-         +KXX3/z/5i0CX2OnxRcU8cdKHvyNwLMdaXgA7bOcjDectlg9XAiiJwYheDqQi1d3gNbp
-         pf9vxXomhlHC0YRPFncR3s694+rhoJthG9jVTN1wEIcNbl606aJ0Y7dVa3YMHRprX4cY
-         yoNlEFo93EVwTH7DEQt/9NU6s2LDJxZ8KJ6/5oeTepp0nmE5RzbzeChZGoYYIpGBQHqv
-         3eKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792081345; x=1792686145;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VxoANqrdqE06En2I4F3G1u8hzDyBoOsiup8bgRwGeec=;
-        b=mLxcwmz3XNDwsfy74TYWq+T3Q8xDGJAwS3itx2utmnukPxGt1b/5be90FYyN+SGjSQ
-         a7JWnQuMRyReheTFppxbkcccTplByi4Mx5k9SgGSgKsp4G6FuPHX9cS8/yBXg/nI/vuY
-         n5IaNSSdlrLu3E9zwZhIsFWJgau9ZqFQdlnLBP0U3vReh3AicZD6b9Z0WZecdOA+ydxw
-         cbidp8ztVwARyjmJwBhRRifacModrLf1lg+GJ5GezxJBqbYMs/MJ7XdBG21OCbjxtqqN
-         5zz/RVOcVX6WzyRDEMR74RTP+3rFbK9gWzZSEb+JiH2q63uo2fg3fuRw7w3/sOlaoSzc
-         DieA==
-X-Forwarded-Encrypted: i=1; AKwUvBxt0LR5dScBu27j2kBlVqFOmM3JjYdtAyCzoItfuxGK4rlRt34qvmIuvxJowGsT8meAL6yEd2qttxTP0acYhQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK6LRToBHJ/ayz3S85q75p+17AlRIcTgMyUTQytXXuW01ErchgX
-	Jg/SGp0NXc12dKN0IIrjcMYhW7dynU8fYLfIgbaXeY0INz2gc8VdY1efwEj0qY41OG0=
-X-Gm-Gg: AYBFou2c1o5C9slPULLyAg7A0GXjKZrBLjQoCma2z0C1l9ZgF7P695pwudBPZo3P881
-	JKnAfa57wSpQmFplBeuU8gh8c7GBeAYde7Z9XUITsAfrSMnyE9kkY1b/oFRk7l7D/pBoO4RYBKd
-	qo+l0z9mQLHYAswLFioyC0bCW+WP5kdqtfd6lSADDs/KcbkejNtzjic0Wf527C4gvv3ZrWuk4B3
-	v3M1AcTPRibumnNItGFxC0oFdl0/JMXRxMCbiwbxa8wZS7jaagVPjgFCbqNGO5S8snsmsIFHq3A
-	u3O6fa+E9Wf4fNCwQoJX+VBzMFCSzkM1yTJA7VB3Kl97oIOZsxVEJv5G/mPWpduX9E4CZxI7Fe8
-	Mom9ScxwRR7tL3blvsYLkpfV7BttwqxAJk5RmMmRvB7ixiQY/1OF/9Y7tmoEnYAn0wzddbHLcqo
-	f2peAkezkNEhREAYhjz574OX03MMEY2TGRrfEapIRDJnxYtzbyNghPlEyrHJPU0geiFq0f3I/b1
-	ytQxNiJthY=
-X-Received: by 2002:a05:7022:b882:b0:13c:d071:f97c with SMTP id a92af1059eb24-18251e3f05bmr523257c88.11.1792081344438;
-        Thu, 15 Oct 2026 09:22:24 -0700 (PDT)
-Received: from jkain-desktop.corp.nuro.team ([64.124.43.154])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-182a6d6969asm23010c88.12.2026.10.15.09.22.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 09:22:23 -0700 (PDT)
-From: Joseph Kain <jkain@nuro.ai>
-To: netdev@vger.kernel.org
-Cc: edumazet@kernel.org,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	kuniyu@google.com,
-	kerneljasonxing@gmail.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Joseph Kain <jkain@nuro.ai>
-Subject: [PATCH net v4] net: do not let defer_count outlive an empty defer_list
-Date: Thu, 15 Oct 2026 09:22:09 -0700
-Message-ID: <20261015162209.485940-1-jkain@nuro.ai>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YH7UkG6n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3C21F000C4;
+	Thu, 15 Oct 2026 17:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792086067;
+	bh=fCB/nAeUeRxuZBJvipKyv3oCBpQ2JvV0i093QZCY2NU=;
+	h=Date:From:To:Cc:Subject:Reply-To;
+	b=YH7UkG6nM0TvI4585CupVvBI+oDhyY1hhV2GS15il0tWR94kjkLCfE3cH8PVVZVeI
+	 627sg2AW9d6G0W2P1JZmZwBrPBv38p7shY/NjFFE6reAdaYLkf03jtpeoVpqeyBMd4
+	 fRbMXW2wPUehdju2E0oBmtCyauRRnAwM+YTSlSmrgKviio+7XlbJOIdb8OBQLbrJce
+	 tFZpieT3dQzM/kLYCXadlMMJo0qeCRKtPuJ3V0rmxnamUQfX+/7vhVAG6kjRhNTbZF
+	 hU+ljHMWnIqBj1EbkgwEqLmmN4sWfza+LnOiyAoA1HYh6b9GPy9tBS9LcdVSOPVFIt
+	 h+ydJQolZ3FiQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8BB3CCE23FD; Thu, 15 Oct 2026 10:41:07 -0700 (PDT)
+Date: Thu, 15 Oct 2026 10:41:07 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	kernel-team@meta.com
+Subject: Mapping from preempted task to running task on same CPU
+Message-ID: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-__skb_defer_free_flush() can leave defer_count at or above skb_defer_max
-with an empty defer_list. That state is absorbing: every producer then
-takes the nodefer path without queueing, so the list never refills.
-Deferred freeing stays off for that (cpu, node) until reboot, and
-cross-CPU frees fall back to the page allocator, which is the contention
-deferral exists to avoid.
+Hello!
 
-skb_attempt_defer_free() increments before testing the limit and does not
-undo the increment when it rejects, so a rejected free leaves the counter
-raised with nothing queued.
+One of the commits [1] that I used to chase down a recent bug [2] (and
+thank you again for the fix!) uses the scheduler-internal cpu_curr()
+macro to map from a given CPU to the task currently running on that CPU.
+In the commit, the actual operation is mapping from a stalled (AKA
+preempted but runnable) task to the task running on the corresponding CPU.
+This tasks's ->comm and ->pid are then printed in the RCU CPU stall
+warning console output.
 
-Nothing brings it back down. The reject path returns before
-kick_defer_list_purge(), so once the counter is stuck no producer
-schedules a flush on the owner CPU. A CPU that never raises NET_RX itself
--- an application CPU doing TX while NIC IRQs are pinned elsewhere and
-RPS is off -- then never runs the flush at all, so clearing the counter
-inside the flush cannot help it either. proc_do_skb_defer_max() neither
-resets the counters nor schedules a flush when the limit changes.
+One of the real-time folks voted in favor being able to use this (the
+group is CCed here), which suggests that I push this commit to mainline.
+Which means that I need to do something other than my crude hack of
+creating a rcu_cpu_curr() function in kernel/sched/core.c to get access
+to the scheduler-private cpu_curr() macro.
 
-It is reachable with no race at all:
+Please tell me what I should instead be doing (in the check_slow_task()
+function shown below) to get at this information.
 
-  sysctl -w net.core.skb_defer_max=1    # frees increment, then reject
-  sysctl -w net.core.skb_defer_max=128  # does not recover
+							Thanx, Paul
 
-skb_defer_max has .extra1 = SYSCTL_ZERO and no .extra2, so 1 is settable.
-From v7.1 on, 0 is safe because proc_do_skb_defer_max() flips
-skb_defer_disable_key and the producer returns before incrementing. On
-6.18 through 7.0, which carry the llist conversion but not commit
-08dc30de1a40 ("net: add skb_defer_disable_key static key"), setting 0 and
-restoring the previous value strands the counter the same way -- and 0 is
-the documented way to turn the feature off.
+[1] 68a2e5363f8f ("EXP rcu: Print CPU that preempted stalled reader wants to run on")
+    This is in -rcu, and is also shown at the end of this email.
+[2] https://lore.kernel.org/all/8fa7f795-518c-4507-b684-60b0c1cac2c5@paulmck-laptop/
 
-Test the limit before incrementing, so the counter is only ever raised by
-a producer that goes on to queue. It then cannot outlive the skbs it
-counts, and the absorbing state is unreachable without depending on a
-flush ever running on the owner CPU.
+------------------------------------------------------------------------
+68a2e5363f8f ("EXP rcu: Print CPU that preempted stalled reader wants to run on")
+------------------------------------------------------------------------
 
-This makes the limit advisory. The test no longer reserves the slot it
-checks, and the recvmsg callers run in preemptible context, so the
-overshoot is bounded by the number of producers in flight rather than by
-skb_defer_max; the post-increment test reserved the slot and bounded the
-queue exactly. The counter is already approximate -- the flush zeroes it
-without regard for producers in flight -- and the next flush erases the
-overshoot, where the latch it replaces never recovered at all.
+commit 68a2e5363f8f30f17038b3daee5dbbd661a7207e
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Mon Sep 28 13:35:01 2026 -0700
 
-Undoing the increment on the reject path instead would be wrong: a flush
-that zeroes the counter between a producer's increment and its undo
-leaves the counter negative, and the producer's local is an unsigned
-long, so every later test reads it as enormous and rejects. That is the
-same dead end, reached more easily.
+    EXP rcu: Print CPU that preempted stalled reader wants to run on
+    
+    This commit uses the dirty trick of defining an rcu_cpu_curr() within
+    kernel/sched/core.c in order to allow the RCU CPU stall warning call out
+    the CPU that a task preempted within an RCU reader would like to run on.
+    In addition, print out the task (if any) currently running on that CPU,
+    and add an exclamation mark ("!") after the CPU number if that CPU is
+    currently offline.
+    
+    This is a potential step towards allowing people (or LLMs, for that
+    matter) to locate any tasks that might be preventing the preempted RCU
+    reader task from running.
+    
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-While here, drain before clearing in the flush. A producer that queues
-between the clear and the drain currently has its skb drained but its
-increment kept, which over-counts and costs deferral until the next
-flush. Draining first matches the ordering __dev_xmit_skb() already uses
-for the qdisc defer_list.
-
-Found by manual code inspection, LLM-assisted, while backporting the
-llist conversion to 6.1 after hitting the sd->defer_lock contention it
-removes. The latch itself was not hit in production; it was reproduced by
-lowering net.core.skb_defer_max.
-
-Fixes: 844c9db7f7f5 ("net: use llist for sd->defer_list")
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Joseph Kain <jkain@nuro.ai>
----
-v4:
- - v3's "undo the increment on reject" was wrong: a flush that zeroes the
-   counter between a producer's increment and its undo leaves the counter
-   negative, and the producer's local is an unsigned long, so every later
-   test reads it as enormous and rejects forever. Test the limit before
-   incrementing instead, so there is no decrement to underflow
-   (netdev-bot sashiko).
-
-Note this changes the effective limit from skb_defer_max - 1 to
-skb_defer_max, because the test now runs before the increment rather than
-after it. That matches what Documentation/admin-guide/sysctl/net.rst
-describes. It also means the half-capacity kick can now fire at
-skb_defer_max = 1, which commit c09b0cd2cc6c ("net: avoid strange
-behavior with skb_defer_max == 1") set out to make possible.
-
-Built for x86_64 and arm64, with and without CONFIG_PREEMPT_RT. On
-v7.3-rc6 with skb_defer_max=1 and a cross-CPU TCP load, defer_count
-reached 1918118 unpatched and did not recover when the default was
-restored; with this patch it stays within the limit.
-
-v3: https://lore.kernel.org/all/20261013205416.3417296-1-jkain@nuro.ai/
-v2: https://lore.kernel.org/all/20261008220256.1844072-1-jkain@nuro.ai/
-v1: https://lore.kernel.org/all/20261007180056.1394868-1-jkain@nuro.ai/
- net/core/dev.c    | 5 ++++-
- net/core/skbuff.c | 9 ++++++---
- 2 files changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 18dc88990510..60d86bc21632 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6940,8 +6940,11 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 8b3d47a325cca..a8b3434edb2b4 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2532,3 +2532,5 @@ extern void migrate_enable(void);
+ DEFINE_LOCK_GUARD_0(migrate, migrate_disable(), migrate_enable())
  
- 	if (llist_empty(&sdn->defer_list))
- 		return;
--	atomic_long_set(&sdn->defer_count, 0);
- 	free_list = llist_del_all(&sdn->defer_list);
-+	/* Racy on purpose, as in __dev_xmit_skb(): a producer landing between
-+	 * the del_all and this store stays queued but uncounted.
-+	 */
-+	atomic_long_set(&sdn->defer_count, 0);
- 
- 	llist_for_each_entry_safe(skb, next, free_list, ll_node) {
- 		prefetch(next);
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 4aea06d5167d..25f82b7dcf01 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -7386,11 +7386,14 @@ nodefer:	kfree_skb_napi_cache(skb);
- 	sdn = per_cpu_ptr(net_hotdata.skb_defer_nodes, cpu) + cpu_to_node(my_cpu);
- 
- 	defer_max = READ_ONCE(net_hotdata.sysctl_skb_defer_max);
--	defer_count = atomic_long_inc_return(&sdn->defer_count);
--
--	if (defer_count >= defer_max)
-+	/* Test before incrementing: the reject path returns below without
-+	 * reaching kick_defer_list_purge(), so a kept increment never flushes.
-+	 */
-+	if (atomic_long_read(&sdn->defer_count) >= defer_max)
- 		goto nodefer;
- 
-+	defer_count = atomic_long_inc_return(&sdn->defer_count);
+ #endif
 +
- 	llist_add(&skb->ll_node, &sdn->defer_list);
++struct task_struct *rcu_cpu_curr(int cpu);
+diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
+index 803a56af3259f..7826c4d905248 100644
+--- a/kernel/rcu/tree_stall.h
++++ b/kernel/rcu/tree_stall.h
+@@ -309,6 +309,9 @@ struct rcu_stall_chk_rdr {
+ 	bool on_blkd_list;
+ 	bool rcu_rdr_running;
+ 	int rcu_rdr_boosted;
++	int rcu_rdr_cpu;
++	int rcu_rdr_cpu_offline;
++	struct task_struct *rcu_rdr_cpu_task;
+ };
  
- 	if (unlikely(!cpu_online(cpu) || my_cpu != raw_smp_processor_id())) {
--- 
-2.55.0
-
+ /*
+@@ -317,8 +320,10 @@ struct rcu_stall_chk_rdr {
+  */
+ static int check_slow_task(struct task_struct *t, void *arg)
+ {
++	int cpu;
+ 	struct rcu_node *rnp;
+ 	struct rcu_stall_chk_rdr *rscrp = arg;
++	struct task_struct *th;
+ 
+ 	if (task_curr(t))
+ 		return -EBUSY; // It is running, so decline to inspect it.
+@@ -327,6 +332,9 @@ static int check_slow_task(struct task_struct *t, void *arg)
+ 	rscrp->on_blkd_list = !list_empty(&t->rcu_node_entry);
+ 	rscrp->rcu_rdr_running = task_curr(t);
+ 	rscrp->rcu_rdr_boosted = 0;
++	rscrp->rcu_rdr_cpu = cpu = task_cpu(t);
++	rscrp->rcu_rdr_cpu_offline = cpu_is_offline(cpu);
++	rscrp->rcu_rdr_cpu_task = th = rcu_cpu_curr(cpu);
+ 	if (rscrp->on_blkd_list) {
+ 		rnp = READ_ONCE(t->rcu_blocked_node);
+ 		raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
+@@ -352,6 +360,7 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
+ 	int ndetected = 0;
+ 	struct rcu_stall_chk_rdr rscr;
+ 	struct task_struct *t;
++	struct task_struct *tc;
+ 	struct task_struct *ts[8];
+ 
+ 	lockdep_assert_irqs_disabled();
+@@ -372,17 +381,24 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
+ 	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+ 	while (i) {
+ 		t = ts[--i];
+-		if (task_call_func(t, check_slow_task, &rscr))
++		if (task_call_func(t, check_slow_task, &rscr)) {
+ 			pr_cont(" P%d", t->pid);
+-		else
+-			pr_cont(" P%d/%d:%c%c%c%c%c%c",
++		} else {
++			tc = rscr.rcu_rdr_cpu_task;
++			pr_cont(" P%d/%d:%c%c%c%c%c%c CPU %d%s %s (%d)%s",
+ 				t->pid, rscr.nesting,
+ 				".b"[rscr.rs.b.blocked],
+ 				".q"[rscr.rs.b.need_qs],
+ 				".e"[rscr.rs.b.exp_hint],
+ 				".l"[rscr.on_blkd_list],
+ 				".R"[rscr.rcu_rdr_running],
+-				".B?"[rscr.rcu_rdr_boosted]);
++				".B?"[rscr.rcu_rdr_boosted],
++				rscr.rcu_rdr_cpu,
++				rscr.rcu_rdr_cpu_offline ? "!" : "",
++				tc ? tc->comm : "???",
++				tc ? tc->pid : -1,
++				tc ? (is_idle_task(tc) ? " (idle!)" : "") : " (no task)");
++		}
+ 		lockdep_assert_irqs_disabled();
+ 		put_task_struct(t);
+ 		ndetected++;
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index b77152edafd92..e137cba24fc92 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -11321,3 +11321,10 @@ void sched_change_end(struct sched_change_ctx *ctx)
+ 		p->sched_class->prio_changed(rq, p, ctx->prio);
+ 	}
+ }
++
++// Not for mainline, but hopefully someone has a trick that gets this
++// job done.
++struct task_struct *rcu_cpu_curr(int cpu)
++{
++	return cpu_curr(cpu);
++}
