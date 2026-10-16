@@ -1,170 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010013.outbound.protection.outlook.com [40.93.198.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB41D254B03;
-	Fri, 16 Oct 2026 04:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792123354; cv=none; b=pulgGG4B4Y8XGrrsw3EAnQR00i9k4q79+nCtEWlS4731YuDruwBWXZ2DdJ2XcUxhxjFoU+UcRNxhgChVWBrYS7daGdW2025W7PDF2RV602LP2XZoRXhL+DJK1Wo+jwMS/eHT+gs0KYC8LN4G3GczJwSPmpO+OqMJIu3GLFaIz3E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792123354; c=relaxed/simple;
-	bh=D/7WZn96n/4VQB8L8pTjKKxOtCun2ZxLUzSvWC0YHM8=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=sqYzbpKLinrSE6LFvS/lg8dA1WMAsLcYGRf1ujXVAjtVbkBqWaTxvYkIwb7GhmzZeyNeUNt62uKWwWt/jchaNKfeQibBsh/wa4i/hYyGz8hblqR03vUOyJCakCgbbxkmoSjHAxiL7bcdDhpEDVHGaYfYnUJh0m5+ZwwikYS61ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OedRXRla; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7872D3ACA7A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 04:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792125889; cv=fail; b=EH9xjWVWFxtTIvUuf7eUyRBb9SsPjhME3OxH0y0IX9quCC/dATaEdRYfO7F7Bz8XmpXc/AVB/v6/wPL+hl6URimVIDPjhr3UYhm40rIpHdng86vHPyGbqQ8slF/Qqj6v0Lyiz3yenh4f/dWi6PyxdyFsmE+rGbGSy0LWVYHVOkg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792125889; c=relaxed/simple;
+	bh=R0nHqenyeNYVVjDMnviCLdX+UfTVnmEVr1+ra9w3yVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=BxR+NQdszw4QLegME0XpDJjPwytxS940ri5K4Wjz8DtFqrbPYI0m7xZZUUHa8oHCA/7VZ3ehl6LMu3XrpCximftGZJ251XdxGkIU/V3EVIAw8RYd7o8E4mLdtc4h0dKWUiZ9uzzmcTaV6DBW826CcPJR0jZ4+wGgBDOSD55RWmc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ggP/QFzW; arc=fail smtp.client-ip=40.93.198.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OedRXRla"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 888A51F000C4;
-	Fri, 16 Oct 2026 04:02:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792123353;
-	bh=NYhYtY6NNxHVhaTXOhMMsowXI57SxMv7/T8lMzWMVN8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OedRXRlapUce4ZGThtU3JvUeqJMCsQv8lMObcrwmI61z2UHc0QWOmhzVm6DNtGp5L
-	 chuK0oubaBpriDQSOUC8YCT3+0bYTaYmJesqyIFDUFXPiVs2uJkBZRe/L+XkEwKFjT
-	 nzznNLTeqj1Oxh0o6qE/hhhJwD08qBFwFLHuiT13uZHKBqpPwX+ILWkoG3wpp6EWn+
-	 T1lCbXIkIiNszSfWuOrKJea2GE81s8ziROlv/8rt2hhCw+VWcUe66InWcMy5H7foSX
-	 B7kl+vxTppAGGpUpuiux4aQVIazKdM4oSgS83hJkmkr2AWLYmx9BA4VC1nAmp/FQwZ
-	 9zYP3GWUDPrkA==
-Message-ID: <sashiko-outbox-173724@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 17/17] mtd: rawnand: sunxi: support the Allwinner
- randomized OOB format
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>, "Miquel Raynal" <miquel.raynal@bootlin.com>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
-Cc: "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, "Maxime Ripard" <mripard@kernel.org>, "Richard
- Genoud" <richard.genoud@bootlin.com>, "Boris Brezillon" <bbrezillon@kernel.org>, "Masahiro
- Yamada" <yamada.masahiro@socionext.com>, "Brian Norris" <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-17-8ba4881fbee8@gmail.com>
-References: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-0-8ba4881fbee8@gmail.com>
- <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-17-8ba4881fbee8@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2026 04:02:32 +0000
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ggP/QFzW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f2E3WLTPPNBQvEapcRyoPSh/bie0pTAOTNAAMtP1eSauxq/3EoBIFtDwRXPe4XTX7yd5rotZzOQk4iTb6lTS1JUS/z9+29pMoclBKdn3c6sdCK6ahrI5uw/NSTK1IC4Wm+thRS/OO5Fp2Uo3o0AIN3NsZSUus4IWbftFkl4QyAFhlmYbVpoXS5qn2GS2Gs67KhMOo5Q39BzSJrSzYaFWXs0ZZCRamhnNXjHXJ9c0bPeM0+8f+avW10rqJXX2GyTn+2WoWoBAclkJ6Qz2NQp0JIobP+EL4CpNIPtWdkYqnDYW/buO12IoPlr+/CxStTzNL13RNvoy+RiKddsValOy9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LoRbqOb+jGLYfih3UkWj/4f9aXKcVTyYumGMqAanD/g=;
+ b=MkEJOlhV0JB/2e9foCZbty2K8dBcZoymFmPr02MopMru4dZVWG6xEnVaR5U4QNnauiDApplCfpCaLa+C1rX9eN/ia9gXV1vu5NKPHCy5kX3OeTkiPMn6GQ4b0dkjmGVeEQOO0W/2Mepw1xvILAXdvSzAV/u53ViVLVU6IKoeLD0R5oVDvYYe2ZUuJQjQumWPNQRLivNv1lob5NugJh5tW2KygMq3T8v6cIvkNENUarw2swFeqW6BTXwwBs2sM4c7kFH/cn92uGM5MyTrSARyVQBb4Tk9ZtSEgnE6+dDltCZnPAjU3ToIcDV+7yK6mSywLk9vyGIT6F30TO5ai9Ho+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LoRbqOb+jGLYfih3UkWj/4f9aXKcVTyYumGMqAanD/g=;
+ b=ggP/QFzWFoMir8IWT1KfYr/TBUTpaj230yi6vVlI48LD2nTaXDFs8CltFC5DYY8ivDbq59X4Ck4d1AiCE7kRPUwVxDy8KW4546ul0RDANcaNbZZnFhfCBYSrZq94maKQ8MWLNzSOtM3DUDrE+jYsMMhIEs5wjNu90vdbULeZr4k=
+Received: from BN0PR07CA0026.namprd07.prod.outlook.com (2603:10b6:408:141::26)
+ by DS0PR12MB8197.namprd12.prod.outlook.com (2603:10b6:8:f1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Fri, 16 Oct
+ 2026 04:44:39 +0000
+Received: from BN2PEPF0000A98F.namprd04.prod.outlook.com
+ (2603:10b6:408:141:cafe::3b) by BN0PR07CA0026.outlook.office365.com
+ (2603:10b6:408:141::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Fri, 16
+ Oct 2026 04:44:39 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN2PEPF0000A98F.mail.protection.outlook.com (10.167.248.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Fri, 16 Oct 2026 04:44:39 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 15 Oct
+ 2026 23:44:32 -0500
+Received: from [10.136.45.168] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Thu, 15 Oct 2026 23:44:28 -0500
+Message-ID: <a92f4a71-614f-44e4-b4f1-38e92deffae2@amd.com>
+Date: Fri, 16 Oct 2026 10:14:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Mapping from preempted task to running task on same CPU
+To: <paulmck@kernel.org>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
+	<peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+	<vincent.guittot@linaro.org>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
+	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Joel Fernandes
+	<joelagnelf@nvidia.com>, Clark Williams <clrkwllms@kernel.org>, Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>, <kernel-team@meta.com>
+References: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000A98F:EE_|DS0PR12MB8197:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad33dcaf-d79f-4b7f-0e5f-08df2b402ff4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|36860700016|82310400026|56012099006|11063799006|261009223027099003|10067099003|18002099003|22082099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	RHmRJcvAIb1BhAtEu3UN9JM9wRHG9lsW/CvwkGdyeNLhKb7yTknuUFoOcU3Bi3GH5pqGX/DXoiL7OsT2o4qxVB8I62uoZUgpSSk2ff07xwROQ1MhBxaL2Q+GC47b3buqCQrvBF1/cji3r2BUzugSRn01SUcu+w6B6Qciq9BPSxlTvlnq/2sCZM94dVQTdIcNczZ48/i7FhKmH4bIoDigUKMBYibCNH0b7FggAkIaSA6SFNi0duqrUK+iWmKLHq3SdK9gT9Ly+cYPxFJYRkJtPtj4gT5JbV3+j/NFOD6mvEo//vDIdN+tww8KCyK8NOIZXC5/4HVZEnxpC+FWRYjYz3+iMbTlGvrXPIXhKCMRajgRyyApk+mesX8jjWaGt9RFVoro+1UWLtad/RMTVNWVEL68ykllIPJuOfr5NAinUi3E57rhTp4BFvni67eaGsyr68zUHhiySWpSl22bCpgzNCaPmk4kb5X6K7HNFVseAdyP/z9vtnCHPqjDofQWGe6nc1Kfss4ARLvTUoaIKipBxDurxPUexZ/oCIio1wlhbRHrjYlzFPbf1SgQunvx4UbAmxcqNn305i0UtLc2KIs5tFGqyJCNE4IS7M2HiUyz/9Gj9LhcUYQ+IN/O6H3Ogra8gWWrQAzmdlJQF60fQ9CWGrdV4n1f1GeMuQ9i1rXRj2WYY4hPANorUsi/iSQ3bkJ5+X38zLf0NwSwk4SoYdNkJA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(36860700016)(82310400026)(56012099006)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ViDjvkxpOic3QTHdPQUqIe9neZsuj7Dal/vxidlzv3YpndHHi5H512sntTWe2XxmRFEYZnY79uE7M+BBahYA6uybbCv+jguQIEGpvpi7rSVxTKC2CKCqZVchYaSWv6ZlQP1Cy4QyI7+xxR/PwWXo1WPpeiBoIjB1y9xRGWwVpHh3IriCZPIifKhgUAUn6nAprV+MlW6hNCMRes5h7eQOfGTmXbDknxhsygrOyD/gYNN128bj4GNCWOu9WWoewhXNb6FuKH8yu5BiVWkO2IxEFWYhOCq6fukBh5xgCqGT+TdEHrd42AI4kwipnrF5w+llv1cRm8+FpAddRKb2tZGKuIVKH63BnRG9JBtX7jZVO/oyqJKWcjnt57WEbSsHO+LHCUKf0NQv5xWljHmCN/cnrNbwHV5oYej9Kz3SVY8bdlHXcs0vmClHTtZGJh1SLhPJ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 04:44:39.1888
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad33dcaf-d79f-4b7f-0e5f-08df2b402ff4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000A98F.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8197
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] mtd: rawnand: sunxi: Missing bounds check on ecc->steps against ma=
-x_ecc_steps
---
+Hello Paul,
 
-commit a2ae1cf95bb52a1850e6dc239c873b74d175805e
-Author: James Hilliard <james.hilliard1@gmail.com>
+On 10/15/2026 11:11 PM, Paul E. McKenney wrote:
+> Hello!
+> 
+> One of the commits [1] that I used to chase down a recent bug [2] (and
+> thank you again for the fix!) uses the scheduler-internal cpu_curr()
+> macro to map from a given CPU to the task currently running on that CPU.
+> In the commit, the actual operation is mapping from a stalled (AKA
+> preempted but runnable) task to the task running on the corresponding CPU.
+> This tasks's ->comm and ->pid are then printed in the RCU CPU stall
+> warning console output.
+> 
+> One of the real-time folks voted in favor being able to use this (the
+> group is CCed here), which suggests that I push this commit to mainline.
+> Which means that I need to do something other than my crude hack of
+> creating a rcu_cpu_curr() function in kernel/sched/core.c to get access
+> to the scheduler-private cpu_curr() macro.
+> 
+> Please tell me what I should instead be doing (in the check_slow_task()
+> function shown below) to get at this information.
 
-    mtd: rawnand: sunxi: support the Allwinner randomized OOB format
-   =20
-    Normal hardware-ECC reads also decode protected OOB, including the
-    bad-block marker and metadata used in bad-block-table scans. Allwinner
-    firmware leaves the marker in the randomizer stream, but the existing
-    driver compensates it to keep a plain physical marker. On H6/H616,
-    firmware also packs protected user data before the first parity region
-    rather than maximizing its allocation across the page. Those mismatches
-    prevent normal ECC reads from interpreting firmware-formatted pages and
-    their markers.
+[..snip..]
 
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index 56594bb411933..0e2ff1c59120f 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -327,6 +332,9 @@ static int check_slow_task(struct task_struct *t, void *arg)
+>  	rscrp->on_blkd_list = !list_empty(&t->rcu_node_entry);
+>  	rscrp->rcu_rdr_running = task_curr(t);
+>  	rscrp->rcu_rdr_boosted = 0;
+> +	rscrp->rcu_rdr_cpu = cpu = task_cpu(t);
+> +	rscrp->rcu_rdr_cpu_offline = cpu_is_offline(cpu);
+> +	rscrp->rcu_rdr_cpu_task = th = rcu_cpu_curr(cpu);
 
-[ ... ]
+If you don't mind taking the overhead of rq_lock, you can use
+cpu_curr_snapshot(). It should give you gives a rcu protected
+task struct of cpu_curr() and ...
 
-> @@ -2342,6 +2353,299 @@ static const struct sunxi_nfc_oob_ops sunxi_nfc_s=
-crambled_plain_bbm_oob_ops =3D {
->  	.finish_read =3D sunxi_nfc_oob_finish_read,
->  };
-> =20
-> +/* Allwinner randomized-OOB format, selected only by allwinner,randomize=
-d-oob. */
-> +#define SUNXI_NFC_H6_ALLWINNER_OOB_MAX_USER_DATA_SZ 16
-> +
-> +static void sunxi_nfc_randomize_buf(u16 state, u8 *buf, unsigned int len)
-> +{
-> +	while (len--) {
-> +		*buf++ ^=3D state;
-> +		state =3D sunxi_nfc_randomizer_step(state, 8);
-> +	}
-> +}
-> +
-> +static void
-> +sunxi_nfc_allwinner_oob_record_status(struct nand_chip *nand,
-> +				      struct sunxi_nfc_allwinner_oob_status *result,
-> +				      int logical_step, int hw_step,
-> +				      struct sunxi_nfc_ecc_snapshot *snapshot)
-> +{
-> +	u32 count;
-> +
-> +	if ((snapshot->pattern_found & BIT(hw_step)) &&
-> +	    !(snapshot->pattern_id & BIT(hw_step)))
-> +		result->zero_steps |=3D BIT(logical_step);
+>  	if (rscrp->on_blkd_list) {
+>  		rnp = READ_ONCE(t->rcu_blocked_node);
+>  		raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
+> @@ -352,6 +360,7 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
+>  	int ndetected = 0;
+>  	struct rcu_stall_chk_rdr rscr;
+>  	struct task_struct *t;
+> +	struct task_struct *tc;
+>  	struct task_struct *ts[8];
+>  
+>  	lockdep_assert_irqs_disabled();
+> @@ -372,17 +381,24 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
+>  	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+>  	while (i) {
+>  		t = ts[--i];
+> -		if (task_call_func(t, check_slow_task, &rscr))
+> +		if (task_call_func(t, check_slow_task, &rscr)) {
+>  			pr_cont(" P%d", t->pid);
+> -		else
+> -			pr_cont(" P%d/%d:%c%c%c%c%c%c",
+> +		} else {
+> +			tc = rscr.rcu_rdr_cpu_task;
+> +			pr_cont(" P%d/%d:%c%c%c%c%c%c CPU %d%s %s (%d)%s",
+>  				t->pid, rscr.nesting,
+>  				".b"[rscr.rs.b.blocked],
+>  				".q"[rscr.rs.b.need_qs],
+>  				".e"[rscr.rs.b.exp_hint],
+>  				".l"[rscr.on_blkd_list],
+>  				".R"[rscr.rcu_rdr_running],
+> -				".B?"[rscr.rcu_rdr_boosted]);
+> +				".B?"[rscr.rcu_rdr_boosted],
+> +				rscr.rcu_rdr_cpu,
+> +				rscr.rcu_rdr_cpu_offline ? "!" : "",
+> +				tc ? tc->comm : "???",
+> +				tc ? tc->pid : -1,
+> +				tc ? (is_idle_task(tc) ? " (idle!)" : "") : " (no task)");
+> +		}
+>  		lockdep_assert_irqs_disabled();
 
-[Severity: High]
-Does this code invoke undefined behavior if logical_step exceeds the bit-wi=
-dth?
+... since you are IRQs disabled, it should be fine to use it here.
 
-The number of ECC steps is derived directly from the NAND page size in
-sunxi_nand_hw_ecc_ctrl_init():
+If you don't want to take the overhead of rq_lock() + barrier,
+you can perhaps define a cpu_curr_snapshot_rcu() like:
 
-	nsectors =3D mtd->writesize / ecc->size;
-	ret =3D sunxi_nand->oob_ops->init_user_data(nand, nsectors);
+    struct task_struct *cpu_curr_snapshot_rcu(int cpu)
+    {
+        return rcu_dereference_all(cpu_curr(cpu));
+    }
 
-It doesn't appear that nsectors is validated against the controller's
-max_ecc_steps limit. If a NAND flash with a large page size is used,
-ecc->steps (and thus logical_step) can exceed the hardware limit (e.g.,
-16 or 32). On 32-bit platforms, this could cause the BIT(logical_step)
-shift to overflow.
+in kernel/sched/core.c and expose it similar to
+cpu_curr_snapshot().
 
-Additionally, this could lead to out-of-bounds MMIO reads in
-sunxi_nfc_hw_ecc_get_prot_oob_bytes() when iterating over ecc->steps,
-as reg_index might exceed the supported hardware registers for user data.
+I'll let Peter comment if he hates it or not ;-)
 
-[ ... ]
+-- 
+Thanks and Regards,
+Prateek
 
-> +static int sunxi_nfc_allwinner_oob_finish_read(struct nand_chip *nand,
-> +					       struct sunxi_nfc_ecc_read *read,
-> +					       int *cur_off)
-> +{
-> +	struct sunxi_nfc_allwinner_oob_status *result =3D &read->allwinner_oob;
-> +	u8 *buf =3D read->buf;
-> +	bool oob_required =3D read->oob_required;
-> +	bool dma =3D read->dma;
-> +	int page =3D read->page;
-> +	struct mtd_info *mtd =3D nand_to_mtd(nand);
-> +	struct nand_ecc_ctrl *ecc =3D &nand->ecc;
-> +	int ret;
-> +
-> +	/*
-> +	 * Allwinner firmware treats an all-zero physical page as bad, even wit=
-hout
-> +	 * ECC errors. This takes precedence over the spare-byte heuristic.
-> +	 */
-> +	if (result->zero_steps =3D=3D GENMASK(ecc->steps - 1, 0)) {
-
-[Severity: High]
-Can GENMASK() invoke undefined behavior here if ecc->steps exceeds the
-architecture's bit-width?
-
-Similar to the BIT() shift above, since ecc->steps isn't bounded by
-max_ecc_steps, a large page size could cause this range to exceed 32 bits,
-leading to an overflow.
-
-> +		memset(buf, 0, mtd->writesize);
-> +		memset(nand->oob_poi, 0, mtd->oobsize);
-> +		mtd->ecc_stats.failed +=3D ecc->steps;
-> +		return 0;
-> +	}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015-submit-sun=
-xi-nand-vendor-oob-layout-v1-v8-0-8ba4881fbee8@gmail.com?part=3D17
