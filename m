@@ -1,110 +1,106 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98131317166;
-	Fri, 16 Oct 2026 07:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E7C2E7366
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 08:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792135520; cv=none; b=NJ80JFdjsGvfkiBjvMTGxG6VLVA4d9PWw1AW9GGI75lDoaVCwEIqggoOZx9UDAscjXCA8oea5YrnPgAQt61/CQqjEVwO+MC1eJoSt0MuAR4dq/mN9XNDKmJKxE6q19RVBsKccTbue9y7/DobPzS+JtGyRuCPLjDf9PiycG7HCsw=
+	t=1792140446; cv=none; b=ZQtNrzvKCm+BnVmChKX1wOJ5YMRbKHM97jlcRluX8ZsTKz2RrI4hChhbMsKpFTTgMFlLrlMFscaSECElgSaOozzZ+MybaKFaoHwc4dRj+CIx3MtbVzqmvV7a3wVscdDSx6a2b8zlb0bCTdRbJpQ90X8SLGlaehVbYZVOmBS/dJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792135520; c=relaxed/simple;
-	bh=WQ7A6YV1X5rtoOgXLneHcDdEPkWAi8eOIa8D6Hucz+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozuh7tUZB9FP/Ut5ZGITIkmj3plxkjQ0HXsHs+LVD950/+8e0hcHGQjlHqtDZ8qllrV2lEjewfYDfF0eudI4lsrpA8h5bo/pTYui2zzn3Uv4AUTD1+3Xz5FLyxHtswzUCovLNTOgFAcbb7SBzCqEvJfJ1gm4eUWbquMebXfbnyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FGf5Ae24; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1792140446; c=relaxed/simple;
+	bh=lxJ9/R+nPocJAVyK7ncDpSazd9bCHXPMmaMpTjYhrIE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PiDRRERN02n8iux8SJWorvrlkRC9hPy6wh9azd+OW2aBhzHZODcApP7kF6RGnenvrMDJBFHxjn9TQ34r3zjQCXSmubv8SDp6zaX6iH+J+8rGqfflxs5x05P49vKhnJr4feOMaBLru6aGQHR2CnYW+GtTuxgNiV2SVBclnNYcETk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com; spf=none smtp.mailfrom=mojatatu.com; dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.b=vCDtABU4; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FGf5Ae24"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=MV+/6u1JVk3GRqSO5E1FrxLlCsGxVSGy9Af+ZhLfD9U=; b=FGf5Ae24hhb9zfjAZw1KNjdgUa
-	xmUh4Q8Ua3vygWewRMjrXKyL99ZyDy5RZF/+kTIqmRD+F9OeN4jc8q0z0NTfWJD/+AK6n0iv+gaoy
-	MtIuadwhNGfQBSBGLQtDl1nSz9ipxJX+Csh6UXgVDJEL/j92BhzqzJxhfojvnZl/EUfj15ipUi27a
-	0mXEtDegxnkKCjmmK7SZ2SzQsSPM5s7pHxEIm4Jxn+Kkxlc5SHdBRv5F5tJ6BFMsB4+KLzQQSW2A0
-	6DSa3twsVQzj/Lf7hHpQriivxPv5d/LxCypIspxLqGjLIg8NUKUtSF2maWTX/oZfmm2jDtJ1HivaH
-	vL921QJA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xHcJJ-00000001CxA-3bdx;
-	Fri, 16 Oct 2026 07:25:03 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 5AD68300178; Fri, 16 Oct 2026 09:25:00 +0200 (CEST)
-Date: Fri, 16 Oct 2026 09:25:00 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: paulmck@kernel.org, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.b="vCDtABU4"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-917a04338c1so66630176d6.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 01:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu.com; s=google; t=1792140444; x=1792745244; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aBhmuSMaG4Pa2MSUzOSH5FgUKD63s+LESTxgG06O3FE=;
+        b=vCDtABU43D7TAUJX6gUwELiJjVIEVw/RrWV/sIZwrNU+aXoo16ab68Tw1MW4XwK3z9
+         zW4f5XM/X5FDEz+CHhYDr5tQJ4wL/WOtiChKR+z5ZDkAp6R389zaDWfTfaM5CbqjgQDy
+         nJYRI0lXgW7QNjx2AY6SK0xuJ/eS5fIVd4i1w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792140444; x=1792745244;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aBhmuSMaG4Pa2MSUzOSH5FgUKD63s+LESTxgG06O3FE=;
+        b=f50+CCG1d8foKPa+3YzeANwxjE4BAbzK7NfzRzfj7PSPj4DH19iKpPXThPMWNrEYGM
+         EyCp/dJTVhXyaLcfNsgGI54LSaRWl99WO7UosJ3xxqeCh/uI5ONT+XtoFouSDARwr2Zp
+         inM0ld1M3qoQb2zloFGnHHX9ZvTMD+HF0+pwAl+htj46BAJJ4ncN0u9ib39hNinp4Ndf
+         PLXczpbp6dasN/em+x2lp9Gd6vNAeACAn57kOUHwt5YfGiLprFF67PzGMZ2Ds+Zfjl/W
+         c7lb16vZk4RY0N9ScPWl00VA5ZoVgJsFR87Mu/mNXtMuMb/y6hw3eHkM/1GjwNu5i2nz
+         YwoA==
+X-Forwarded-Encrypted: i=1; AKwUvBxrF/j+qJhL9CE3FFBpjybmWs8gd8QHmdH1wxZDXmtZcBRJCTZm5HNBua06myVYAvQzsDKXX5Eql8efSgVWkA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL2e7QfNmB0Qeu4HCmt0/cHYhIOqgdrGSu1WWh+iFzErNc1MUZg
+	lNknqnh7pG07/+CChsE5XgpBI/9DcLxxbzluyT+PV+L42LwO4UkdTPwGglAx/Hh7Pw==
+X-Gm-Gg: AYBFou07icWSLj26L3pmC7GP0ac76R07jsTAtXU+Xx2c3DdxBULTgZpjx6zWM94GPgP
+	IfddFEU6ZiqkCg7ahUX6FI5M4b9cyktDKA9u9+2BpkzLN/PO0DeWKLWGECwJiRKcHMKXAZ6VnBq
+	668Ed5qjIDLmtpXYBWg2CvhWvNweSGOgN7x9wHkQsZ4/HslKhWj0q8in7LkofSjNEM3Wtjy/PTP
+	zTTikF3bIGs6hsRtg0aPyZSxKdgY1IY8fhz8NHEpvoa0EfaR+pLogVTO+SYeEQ9l/jxrqTxAyrh
+	TryqPuWZApB+WKAM0NY+8XUEpr3xUMpaanfV1Xmg0LLHgcr3GqtZzZToh8pwrmgJHS26dMaO4wT
+	h5iq9s+tFSxkvtKEJ5Mcp7YimHbOiniphjEaNWSxrEUmSmcD6vTY2Pr3yrX4zTqXjrZGMRw3BTW
+	0n8MyBbIWPJQH+470DW5tv/IMm8AwujfpIUR+BGdio8LAnoZUnMEhDZR/5yLxBlpZHE1qCH77Z/
+	8ElXbSBSpgi7GQvf7qZ9ZIopfr8wOuvxcRIIwMxU9j4
+X-Received: by 2002:a05:6214:240d:b0:91b:9136:d303 with SMTP id 6a1803df08f44-91b9136d5c9mr213297676d6.10.1792140444130;
+        Fri, 16 Oct 2026 01:47:24 -0700 (PDT)
+Received: from mbili.waya ([64.203.83.2])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcb8c4adasm17863946d6.1.2026.10.16.01.47.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 01:47:23 -0700 (PDT)
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+To: netdev@vger.kernel.org
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: Re: Mapping from preempted task to running task on same CPU
-Message-ID: <20261016072500.GX4120091@noisy.programming.kicks-ass.net>
-References: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
- <a92f4a71-614f-44e4-b4f1-38e92deffae2@amd.com>
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Patrick McHardy <kaber@trash.net>,
+	owen kwan <owen@verialabs.com>,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org,
+	sashiko-bot@kernel.org,
+	zdi-disclosures@trendmicro.com
+Subject: [PATCH net 0/2] net/sched: sch_teql: fix transmit-path regressions
+Date: Fri, 16 Oct 2026 04:47:17 -0400
+Message-Id: <QDISC-Y0BY.v1.r0.20261015184107@mojatatu.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a92f4a71-614f-44e4-b4f1-38e92deffae2@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 10:14:27AM +0530, K Prateek Nayak wrote:
+Two independent sch_teql regressions on the transmit path.
 
-> > @@ -372,17 +381,24 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
-> >  	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-> >  	while (i) {
-> >  		t = ts[--i];
-> > -		if (task_call_func(t, check_slow_task, &rscr))
-> > +		if (task_call_func(t, check_slow_task, &rscr)) {
-> >  			pr_cont(" P%d", t->pid);
-> > -		else
-> > -			pr_cont(" P%d/%d:%c%c%c%c%c%c",
-> > +		} else {
-> > +			tc = rscr.rcu_rdr_cpu_task;
-> > +			pr_cont(" P%d/%d:%c%c%c%c%c%c CPU %d%s %s (%d)%s",
-> >  				t->pid, rscr.nesting,
-> >  				".b"[rscr.rs.b.blocked],
-> >  				".q"[rscr.rs.b.need_qs],
-> >  				".e"[rscr.rs.b.exp_hint],
-> >  				".l"[rscr.on_blkd_list],
-> >  				".R"[rscr.rcu_rdr_running],
-> > -				".B?"[rscr.rcu_rdr_boosted]);
-> > +				".B?"[rscr.rcu_rdr_boosted],
-> > +				rscr.rcu_rdr_cpu,
-> > +				rscr.rcu_rdr_cpu_offline ? "!" : "",
-> > +				tc ? tc->comm : "???",
-> > +				tc ? tc->pid : -1,
-> > +				tc ? (is_idle_task(tc) ? " (idle!)" : "") : " (no task)");
-> > +		}
-> >  		lockdep_assert_irqs_disabled();
-> 
-> ... since you are IRQs disabled, it should be fine to use it here.
-> 
-> If you don't want to take the overhead of rq_lock() + barrier,
-> you can perhaps define a cpu_curr_snapshot_rcu() like:
-> 
->     struct task_struct *cpu_curr_snapshot_rcu(int cpu)
->     {
->         return rcu_dereference_all(cpu_curr(cpu));
->     }
-> 
-> in kernel/sched/core.c and expose it similar to
-> cpu_curr_snapshot().
-> 
-> I'll let Peter comment if he hates it or not ;-)
+Patch 1 makes slaves_lock safe for the hard-IRQ-disabled netpoll path and
+for PREEMPT_RT by converting it to a raw spinlock taken with IRQs saved.
 
-I would much rather do this than expose rq_lock().
+Patch 2 fixes a use-after-free when a lower virtual device consumes an skb
+but returns NET_XMIT_DROP rather than NETDEV_TX_OK.
 
+Jamal Hadi Salim (1):
+  net/sched: sch_teql: fix slaves_lock IRQ deadlock
+
+owen kwan (1):
+  net/sched: sch_teql: fix use-after-free on lower qdisc drop
+
+ net/sched/sch_teql.c | 49 +++++++++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 19 deletions(-)
+
+-- 
+2.43.0
