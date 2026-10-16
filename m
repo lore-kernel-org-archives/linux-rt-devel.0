@@ -1,46 +1,46 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012061.outbound.protection.outlook.com [52.101.48.61])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012034.outbound.protection.outlook.com [40.107.209.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A094718E1
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 09:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4048472798
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 09:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792143190; cv=fail; b=ZeMv5IjpAUNXQWyN/z2agSGXb5YY98FydX0Fv/ZFDqq8yffFfVJokUUY913Nx4t06I9zzrmaGzGXIKNOSPs1g/ihIs3klvp1IFgZ/XetNx6vXajSE5HRoTkd5xUHlnpXlh1qFkRqrbsiBC0DHd1jB6CYJKSEnGi+p7OqrXXgMho=
+	t=1792143200; cv=fail; b=ZZziK2HOLPkcQj7enDYE3+aH80ONqvVt7cURiLdiEieBZ6+MOeAAnpbiWTYtjw3v3yrRyUYsvbUBTTJLYYfs0fiNO5l4xCDQoWW7Ocs6hL7JpZuI2/XlfA+FbOmsbMIkV6DUpFhaUim+lMVzH+3N3BFMoFJhqniMrwgXeNqlcIs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792143190; c=relaxed/simple;
-	bh=QqjoOgK/EkidCE61uFQDzS4D3Vzjk7XzWqh8mAtEvk4=;
+	s=arc-20240116; t=1792143200; c=relaxed/simple;
+	bh=lZpngcIcYtAcpYgHP57sNiupPbyr/3KRHQ7rRL98SNY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=KWBPlkwLQJg8AJINjG/O6bn4jacjdGGBGElpEM3SZqarS3kfsUA1+eCnA+Nlp2wpMrORkMJuWxaJVnNJlRBLohSLjTYQKH4ODW5Uq0KTlQAXXxir4UNjjbLEHqGpHbe0qwMmbXyrCptmWI8W9Ga5HVQfhBnYRPPbC3b4qBEDjCM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Bic6H/bu; arc=fail smtp.client-ip=52.101.48.61
+	 In-Reply-To:To:CC; b=kzmSX6IlB5AkMkXVm76QIlMQYBSJ0/8hXmC69zFyP9hqzM7uUOg7Uhh9SmiIGFsrbiAo17MZDAlW9kYiguScQs1b62InN1/4eH7YIJ3m6tHX2KXnqSw99/CDsK1o7izs3C9v08ZSsiLncN+3v1r//iejiyZSMkNf9n0pYUKqLYM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MAMxPer9; arc=fail smtp.client-ip=40.107.209.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Bic6H/bu"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MAMxPer9"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EPUs5TycedtmL0ZlhnnWMtTjxRbhoCxl+GfzKExG/LnIRH0TBgWrRbBTBdLHZleo3iPO1jgfCywnjoWyQuWoqzI3pxxk/ltQFu6qUap0C/NWc0hTDWj+cFi8dOw+rLEn1YTayl122q/8quMh4KQWXS+Qf90So3RTaTkDJIq3K2t9pEZ2vDxj/16h3trdjJ+KSlkKZntBFh0z92+saIhat/c8rJv3IX6Mp93QJDJB4DemtaMDtTuOR0f+DJAj+kEiC5LpmMs16Tx+0gt4uKJNK5CEqMU+kdGhwrhdUM20Q/XzVplMU8EOn98wKt4hnCLa3DPsVfpZArtZdYa8UXumww==
+ b=klj0dXExJdpTf06VOfkq3TmOCdUDOsyE8Y3akGgGcXY15an/6Adh+CwXp+oJcmrTteZQW5Oiij8vBZZSC6SDa1CouG1Rlf4XfVyfWZiR0eyuGmzYLOrVdPJcJpjszpMEsvc87jB7KDOB9YKjS/qpzQ8HjCwRKdYp6bVYOPg0UBbe/Fgo7WvPUrcIu7adq1pB+zOnhum8+N37JwVXjspxKhRkdb+zS7tUgSnLYBLDh2xrUR2HPUJhkC9FPsum/sFtXDGRLproZ4MZA4yNxFkzgGRxrraBv8ekKtxdxJrNreI1E5fDoBJTLIBsoxhmkrTgSrjqolD0cwZ4ZpBTOH8/+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SFuDSNg+UrTBz7E/chTHJJ84Q2cg4MLn/fKbjAyCVFM=;
- b=pCYOPMpNXDLxV/zDj6BxrD4NENjv7HKmlCL6njlZ4m6+eKdYTA1J1ioctwzywFCjUNnsg2/NYzGzrimy0MEsgdCVegiw/hhndJCyJgPAWMrA2GD/YxizcAPBmaFq0N+peOc+jYrMmOLWZfMLlKm0nm74qvPUS88BptUzjHsErCTNl22cEi/HnqH/uxG0yfgdnePzq7wFDPfmWtcVs31wQcF/p3JlCHfvpv/L4LTpVDQmNUjGydUmJ71IUGAoAUPn9qu2XXw2DLD8kkq5sn4KWkMHXoiiI6aljPL+i2I5NG1ZdD/kBkGO5RFCdAglktZmvOPgnBMA3Cp+W6g8skFB2g==
+ bh=1GIv9Bxbde2aCvXr0xIMaWIiapSiPA8pKgVf6lwwuP4=;
+ b=ZFoh4aL+lzyrnTvV3F/zXfzFX0H2kSIyGk0A/F4I/J5JBOFvWOlG6SOi70K3xG+fiGhtOJeL3id4Zi7MIrDMegh0Jb4OLivyXfd2+GC3t0r1RtrBn0uRzYMJsCWCqnBmO9wMjaqJQrOH7q0AC7EvJ4xnJIf6pBERXdGpdxcQrXPYCKgKb2n1HOikBNmFEu/kaC5dNSFh/AuceoN64ZxBeOZ+af+r2SZ01z/9aCPzuTPu4IxXdyJwQxxyK5PtmTLGrmBjwK4JCr8A7QJv5nVxiWNdiCVbYYXhaBDvKUhMCS35gpUnpm1jyKLTSGPBo+/d07xL1Nwm214L15U2lVv7MQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SFuDSNg+UrTBz7E/chTHJJ84Q2cg4MLn/fKbjAyCVFM=;
- b=Bic6H/buLS+ggZF/WugmuCZctDNGBYgLaEI9Is0u5nl0WvFmdrLLwOFED3/2XJE1unC0NXiJszQpoY/0Jv4JnVUQweTEAQ+VrbIHGfcGzMG8P0sVr2Y4Z7+MKpIkDaAM4Q71KlAVKlMIfQhs8/SSg1uvc/BeeOxRQ0yAejxvEvs=
-Received: from IA1P220CA0009.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:461::6)
- by SA1PR12MB8886.namprd12.prod.outlook.com (2603:10b6:806:375::6) with
+ bh=1GIv9Bxbde2aCvXr0xIMaWIiapSiPA8pKgVf6lwwuP4=;
+ b=MAMxPer9iMIn7Pjqa4SypbZHL6NcFS14LAKOqEBpgMP8yp5PuSLIPbAtHoz2+EBKfgtNOHbHdbpbsqa70uI5fRjiWDtYbecrf8p9UbsG9X82o0FEJvSkUXKzDHcjfRo95pMByi1Qc99oIMOdojKrvBusyqMU0BKw/LsbAruZByc=
+Received: from BN8PR04CA0045.namprd04.prod.outlook.com (2603:10b6:408:d4::19)
+ by DS7PR12MB6310.namprd12.prod.outlook.com (2603:10b6:8:95::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Fri, 16 Oct
- 2026 09:33:02 +0000
-Received: from IA0PEPF0000003B.namprd03.prod.outlook.com
- (2603:10b6:208:461:cafe::8d) by IA1P220CA0009.outlook.office365.com
- (2603:10b6:208:461::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Fri, 16
- Oct 2026 09:33:01 +0000
+ 2026 09:33:12 +0000
+Received: from IA0PEPF00000039.namprd03.prod.outlook.com
+ (2603:10b6:408:d4:cafe::a5) by BN8PR04CA0045.outlook.office365.com
+ (2603:10b6:408:d4::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Fri, 16
+ Oct 2026 09:33:12 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,20 +48,24 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- IA0PEPF0000003B.mail.protection.outlook.com (10.167.249.72) with Microsoft
+ IA0PEPF00000039.mail.protection.outlook.com (10.167.249.70) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Fri, 16 Oct 2026 09:33:01 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ 15.21.522.6 via Frontend Transport; Fri, 16 Oct 2026 09:33:12 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 16 Oct
- 2026 04:32:54 -0500
+ 2026 04:33:05 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 16 Oct
+ 2026 04:33:05 -0500
 Received: from xhdsneeli40.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
- Transport; Fri, 16 Oct 2026 04:32:49 -0500
+ Transport; Fri, 16 Oct 2026 04:32:59 -0500
 From: Srinivas Neeli <srinivas.neeli@amd.com>
-Date: Fri, 16 Oct 2026 15:02:03 +0530
-Subject: [PATCH net-next v3 4/8] net: xilinx: tsn: parse endpoint DMA
- channel configuration
+Date: Fri, 16 Oct 2026 15:02:05 +0530
+Subject: [PATCH net-next v3 6/8] net: xilinx: tsn: add the endpoint RX data
+ path
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -70,7 +74,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20261016-patches_v2_external-v3-4-e33d3960ca1e@amd.com>
+Message-ID: <20261016-patches_v2_external-v3-6-e33d3960ca1e@amd.com>
 References: <20261016-patches_v2_external-v3-0-e33d3960ca1e@amd.com>
 In-Reply-To: <20261016-patches_v2_external-v3-0-e33d3960ca1e@amd.com>
 To: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>, Andrew Lunn
@@ -89,46 +93,55 @@ CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 X-Mailer: b4 0.16.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PEPF0000003B:EE_|SA1PR12MB8886:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b82971f-08e3-472c-f2f7-08df2b687926
+X-MS-TrafficTypeDiagnostic: IA0PEPF00000039:EE_|DS7PR12MB6310:EE_
+X-MS-Office365-Filtering-Correlation-Id: fba4d777-7d12-4d77-2505-08df2b687f68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|36860700016|7416014|82310400026|11063799006|56012099006|921020|5023799004|261009223027099003|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|7416014|82310400026|1800799024|376014|23010399003|36860700016|6133799003|18002099003|3023799007|22082099003|10067099003|261009223027099003|11063799006|921020|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	/oSzJYpxvQKOVIQ8DqjHd5TMU/WI5gq/yzoxrtBbyymiTkQkLg2vrPk8pu+sI0xrS+WcxQnMWhgkyRvR+lsB0JTM7W9XYBI24SYb2wRrCT+kNGLU2P24snMUVe78kWc4uaHgmbdVXspJpUPnfCKf8le+OrnBBq1dL9ffg/Y7lEy1OupbT08myfTiKLCtJ1mJ+cR8rBp2Lr6GIHtPqHZMQsvaqC6AAnWati0iHMwdw5576J8RX1brWIDwvwbAMTyeYjzemJsLPVRTi+J1tMDaO5SJN7PYra+0160j4tGiNQ89bxyReD3MY7cnPoEcDN/UkWuzcqhpda1l0rw1cEhRfdV6mWZrggoPODJb2WodX2PgGkKJIIopk0LGbxKtLrv4O1IFgGFJTAmahsvSspLZxGuvowqvoxngy9dU8TbtkXUZKuzYk/GjG31GRk9ZhMIaopvtK1Ma6RqRTZEyki7xgfTK0nK+IKh5ozEktgczkPAn2Dxd5Dlb6oZ3T256etQl8b/LE/Vc/f3hwd1W4y519LaD3FkxO5C3R/sPXkDtKqENxHIMokOurTw490aKkD3sV5JjZmUWxuAQ2IQhrB9X4qo4zssE4bRHENZ/ckLbpgzkm2Lt64KSNXvfdQHClzm2rr9Urt2ZSWS4Tb0ABeZR1qDlgrEWG6+KxHcEYagpWhYaYx/ePP3UKQelwnYC6yHrl4+rIozNdch0qj6CaDctfFRbYDUQDNcvC6x6hvx0wBSvDodxD6pi+JlMHThfvoHT
+	6sxIIAateQmnb7mj1xBGu9X1lP6Lzmo1hTliExceDHHPAksncsCv3FDS9Ia3bNuuVSwTTdoUUBdRMs+qC999/RX057vMs/gdT38JUN4lORQQ2rx67Lt3x+MKQCx231B3et6auTNN+xjkiX/jWrvCYE1Rb33Q+r/8q7NseDRLMhd7OqYdf4FWd8ACqcbGmctbYKDJNKVKMJBEMAkFMfNFsK7faDcLMkYCrZqhgQZd2js92QsPKjL9lQhu+EfNFCrmEK/+6NaD6mJDvZu0LYIEvblDMB8APTwRYL6A5EGxcEcBuhcGUdrtmu1ngnzLRWjqWMj1q9RayFwIIyQYhSZNX0jNmV9yuIucahsSuCD4ddf0G/MdYYxMUt8+vPgMrH37qHuWS2UkwW11Z6R39O0QbFjcgofMGM3fBMQOijX4pceIDsX4dx4ZRUKPuB/4C/fwadIw+rT0DsmP9UchIhLeCNIqB8v2iYDti3Ay9QHrqpM9J4s+VQW4ZZymXPcRSt6Wq164omOxPcKdUrfG1K09+9HLqU384F/ipVCcQkmIe50wA+9FMWv1LCLPzSMQtUq66OHfmNjQ22dIE1l1ONbZnzrczikuQoOi1YvPCAtGzx+8b13ycUwpjCO3ovR0m9uA+5W1oyE7lvBFbTuqL8f3PehLo9OpcSbkfgoZfOGsO1bhN8TiA03rFp1kZEch94IxdvkYIYo1nSto30G9IMd06wiW1u8G8SEiidjkRdcujQAs9GRsZsqooC5Zw00IdnTx
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(36860700016)(7416014)(82310400026)(11063799006)(56012099006)(921020)(5023799004)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(1800799024)(376014)(23010399003)(36860700016)(6133799003)(18002099003)(3023799007)(22082099003)(10067099003)(261009223027099003)(11063799006)(921020)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	AGipfRyA0/lLsbMjjhG/FOwn8MDhe3uepnv1kPmeJcZWfjRpwmaGEPkqRIPcmKH6t+bNjd71HFGCUX37pjyX9Ft8Qiz2vkci2u3d1H/Qsz2RNMAQIW0IgJCLCpNW+QNDpyeXIZb96hI5kWh/RcafzoE5aLKjdDW3gerMQ5cidXG7ITjwq8Y86DsjUVhjGLV+F7GJjWzhsyzBfyATfWn2gUUXakIpVoQ6VJmcbKfn0ryzVt09NJ6T4rva//rNEI5iiQliWnouoyWKdOeaz9fDlop6tVF3mN5hvcQ/fBQYFPtZP2BCAeIDZUA+Md8EpW9wnZgXBK2/WuLGwIO+Pe4KGelc5EAZvEvLKJjeA3rvLg52CNsHuXm9crMCqwSRQHSimt4cd2m6+1yw/8FXf/PNqaw68Iako2b2r2rt7eeRl0sW7/5qIosFlZ1+RBsDQZsK
+	hZ/Sbk/1LV273am8/tfD1tckUxfXzSmx+oPNPaMcn31FryhUuYPlh14SQVhAUsvjCuNWh+oNT/GLiJhd3N6938NrT1OPJwQi+XsWTE5QQZRZHe21WozQ3aPPu5v3Ps9BVXWNuHaz+QIh9bPY5w1F5uKek3Yvw1NIFFXCqd+kYKdSEXcQkexplGL+7v/Xuy1BcwSQ6aB+oWElQnEnfkkyeT3RoIbfKHM8cm5/wq+zZI+1ogem/IzuaJ9Vcv2pUFmHsIw5FHtR1m6ZY3J2gQ6PJcGegc4S5AfTJMhVyFIyuPEw4qopW+BzA6tICC/OZbFJj4Xyc3nItV/70nQgijfpRGIVuIGP8p8/XigKXB0xMsm0Eb7ujdq/flryxNFIv2hAGImq8q0CqlkVSBC5prawzZ9BDSRKdkIZxxq1KEXbDaiNdlAoDaMnfZwpT7001tVE
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 09:33:01.8144
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 09:33:12.3673
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b82971f-08e3-472c-f2f7-08df2b687926
+X-MS-Exchange-CrossTenant-Network-Message-Id: fba4d777-7d12-4d77-2505-08df2b687f68
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	IA0PEPF0000003B.namprd03.prod.outlook.com
+	IA0PEPF00000039.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8886
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6310
 
-The endpoint has one MCDMA channel per TX queue and per RX queue, and
-the device tree lists them in "dma-names". The transmit path needs to
-know which channel backs each logical TX queue.
+With the RX channels armed, the endpoint can start receiving frames.
 
-Count the TX and RX channels in "dma-names" and allocate the conduit
-netdev with that many hardware queues. Parse the "tx-queues-config"
-child node to map each logical TX queue to its channel.
+Post RX buffers to every RX channel on open and reap them from the
+completion callback. Each inbound frame carries a TUSER port_id in the
+descriptor sideband. Accept frames from MAC1 (port_id 1) and MAC2
+(port_id 2) and pass them up the stack. Drop any other port_id, since
+the bridged-only model never produces it. Drop and count frames with
+bad descriptor status, an invalid length or no metadata pointer.
 
-The device tree describes one "queueN" child per TX channel under
-"tx-queues-config". Each child names its channel with
-"xlnx,dma-channel-num", given as the N of the tx_chanN entry in
-"dma-names". Every logical TX queue must be described exactly once and
-name a distinct channel that "dma-names" lists, and the TX channel count
-must equal "xlnx,num-priorities" on the parent IP node. Probe fails with
-dev_err_probe() when any of that does not hold.
+Refill each slot from the completion callback unless the interface is
+closing, which keeps the ring full without a separate refill worker.
+
+Serialise the RX refill against teardown. The completion callback re-arms
+the ring, so ndo_stop() sets a closing flag before teardown and the refill
+tests it under the per-channel lock. ep_free_dma_chan() then takes that
+lock as a barrier, so any refill already past the closing test finishes
+and no later one submits or arms the timer before the channel is
+terminated. No descriptor is submitted once teardown has begun, so a single
+dmaengine_terminate_sync() is enough to quiesce the channel.
+
+The RX path uses __netif_rx() from the dmaengine completion callback
+rather than NAPI. dmaengine owns the RX interrupt and ring and delivers
+one descriptor per callback, so there is no poll context to run NAPI or
+GRO, and the per-packet counters use the dev->stats atomics.
 
 Co-developed-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
 Signed-off-by: Nagadheeraj Rottela <nagadheeraj.rottela@amd.com>
@@ -136,283 +149,376 @@ Signed-off-by: Srinivas Neeli <srinivas.neeli@amd.com>
 
 ---
 Changes in v3:
-- State the device tree requirements in the commit body. One "queueN"
-  child per TX channel naming its channel with "xlnx,dma-channel-num",
-  every TX queue described exactly once, and the TX channel count equal
-  to "xlnx,num-priorities". They were only in the v2 changelog before.
-- Correct the kernel-doc for tx_dma_chan_map. It holds the N of a tx_chanN
-  entry in "dma-names", not a hardware channel number.
-- Name the counting helper ep_count_dma_channels() and its probe results
-  num_tx_dma_channels and num_rx_dma_channels. Both count MCDMA channels
-  listed in "dma-names", which "queues" did not convey.
-- Call the RX map rx_dma_chan_map, matching tx_dma_chan_map. Both hold the
-  N of a chanN entry in "dma-names", so one concept now has one name.
-- Keep the RX map in a probe local rather than copying it into the private
-  struct. Nothing outside probe reads it.
+- Check the dmaengine_submit() cookie in ep_rx_submit_desc(). Store the skb
+  and submit, then advance ring_head only once dma_submit_error() is clear.
+  On a submit failure clear the slot, unmap and free the buffer and return
+  the error, so a failed descriptor can no longer pin its buffer or be read
+  back by a later completion.
+- Use scoped_guard() instead of guard() in ep_rx_refill() for the rx_lock,
+  per the netdev cleanup.h guidance (guard() is discouraged in functions
+  longer than 20 lines).
+- Introduce the closing flag here (field, kernel-doc and the
+  ndo_open/ndo_stop writes), together with its first reader in the RX
+  refill path. It was added in the MCDMA bring-up patch before it had a
+  consumer. Add the circ_buf.h and spinlock.h includes here, where
+  CIRC_SPACE() and spinlock_t are first used.
+- Reword the commit message to describe how the closing flag is published
+  and tested, rather than stating that ndo_stop() sets it under the
+  per-channel lock.
 
 Changes in v2:
-- Check xlnx,dma-channel-num against the channels that dma-names actually
-  lists, using a presence bitmask. Reject duplicates and out-of-range channels,
-  and index the channel arrays by logical queue.
-- Require one queue node per tx_chan and num-priorities equal to the TX channel
-  count. This also gives xlnx,num-priorities a consumer.
-- Cap TX and RX at 8 to match the binding.
-- Error out on an unknown dma-names entry instead of skipping it.
-- Drop the unreachable TX and RX count guards. The in-loop index and duplicate
-  checks already bound the count, so the channel arrays cannot be over-indexed.
+- Serialise the RX refill against teardown under a per-channel rx_lock. The
+  completion callback re-arms the ring, so ndo_stop() sets a closing flag under
+  the same lock and ep_free_dma_chan() takes it as a barrier before terminating.
+- Recover a drained ring with a refill timer instead of leaving RX dead after
+  an allocation failure.
+- Fail ndo_open if a channel cannot arm any RX descriptor.
+- Set the closing flag on the ndo_open error path too, before tearing the
+  channels down.
+- Take the ring size from the channel instead of a compile-time constant.
+- Note in the commit message why RX is not NAPI based. dmaengine owns the RX
+  interrupt and ring and delivers one descriptor per callback, so there is no
+  poll context for NAPI or GRO, and the counters use the dev->stats atomics.
+- Shut the refill timer down with timer_shutdown_sync() at teardown rather than
+  relying on timer_delete_sync() plus the closing flag.
+- Return true from ep_rx_refill() when at least one descriptor is armed, false
+  otherwise, following the usual bool convention.
+- Init the refill timer and rx_lock only for RX channels.
 ---
- drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 198 +++++++++++++++++++++++-
- 1 file changed, 197 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c | 230 +++++++++++++++++++++++-
+ 1 file changed, 229 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-index 609d444c6835..2adee07f6f51 100644
+index ab3d6d8cb944..0a13e04d4057 100644
 --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-@@ -5,9 +5,11 @@
+@@ -5,7 +5,9 @@
   * Copyright (C) 2026 Advanced Micro Devices, Inc.
   */
  
-+#include <linux/bitops.h>
- #include <linux/etherdevice.h>
- #include <linux/ethtool.h>
- #include <linux/if_ether.h>
-+#include <linux/if_vlan.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/netdevice.h>
-@@ -21,14 +23,30 @@
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
++#include <linux/circ_buf.h>
+ #include <linux/dma/xilinx_dma.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmaengine.h>
+@@ -21,7 +23,9 @@
+ #include <linux/platform_device.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
++#include <linux/spinlock.h>
+ #include <linux/string.h>
++#include <linux/timer.h>
+ #include <linux/types.h>
  
- #define DRIVER_NAME			"xilinx_tsn_ep"
+ #include "xilinx_tsn.h"
+@@ -38,6 +42,19 @@
+ #define TX_BD_NUM_DEFAULT		64
+ #define RX_BD_NUM_DEFAULT		128
  
-+#define TSN_DMA_CH_INVALID		0xFFU
-+#define TSN_MAX_TX_QUEUE		8
-+#define TSN_MAX_RX_QUEUE		8
++#define EP_RX_REFILL_RETRY		msecs_to_jiffies(10)
 +
-+#define TSN_MAX_VLAN_FRAME_SIZE		(ETH_DATA_LEN + VLAN_ETH_HLEN + \
-+					 ETH_FCS_LEN)
++/*
++ * The DMA descriptor sideband status word packs TID/TDEST/TUSER together;
++ * TUSER occupies the low byte, TID/TDEST sit in the upper bits.
++ */
++#define TSN_TUSER_MASK			GENMASK(7, 0)
++/* TUSER Input Port ID field (bits [5:4] of the TUSER field) */
++#define TSN_TUSER_PORT_ID_MASK		GENMASK(5, 4)
++#define TSN_TUSER_PORT_EP		0x0
++#define TSN_TUSER_PORT_MAC1		0x1
++#define TSN_TUSER_PORT_MAC2		0x2
 +
  /**
-  * struct xlnx_tsn_ep - EP MAC private data, embedded in net_device priv area
-  * @ndev: the conduit netdev
-  * @dev: backing device
-+ * @num_tx_queues: number of TX DMA channels (one per priority)
-+ * @num_rx_queues: number of RX DMA channels
-+ * @tx_dma_chan_map: TX queue to tx_chanN map, or TSN_DMA_CH_INVALID when
-+ *	the queue has no channel
-+ * @max_frm_size: maximum frame size accepted on RX
+  * struct skbuf_dma_descriptor - skb container for each in-flight DMA descriptor
+  * @sgl: scatter-gather list backing the DMA mapping
+@@ -63,6 +80,8 @@ struct skbuf_dma_descriptor {
+  * @ring_head: producer index
+  * @ring_tail: consumer index
+  * @ring_size: number of slots in @skb_ring
++ * @rx_lock: serialises @ring_head between the RX callback and the refill timer
++ * @rx_refill_timer: retries RX refill after an allocation failure
+  * @is_tx: true for TX channels, false for RX
+  */
+ struct xlnx_tsn_ep_dma_chan {
+@@ -73,6 +92,8 @@ struct xlnx_tsn_ep_dma_chan {
+ 	u32 ring_head;
+ 	u32 ring_tail;
+ 	u32 ring_size;
++	spinlock_t rx_lock;	/* serialises @ring_head */
++	struct timer_list rx_refill_timer;
+ 	bool is_tx;
+ };
+ 
+@@ -89,6 +110,7 @@ struct xlnx_tsn_ep_dma_chan {
+  * @rx_dma: dmaengine RX channels, held from probe until remove
+  * @tx_chans: array of TX channels (size @num_tx_queues)
+  * @rx_chans: array of RX channels (size @num_rx_queues)
++ * @closing: set in ndo_stop so the RX completion callback stops re-arming
   */
  struct xlnx_tsn_ep {
  	struct net_device *ndev;
- 	struct device *dev;
-+	u32 num_tx_queues;
-+	u32 num_rx_queues;
-+	u32 tx_dma_chan_map[TSN_MAX_TX_QUEUE];
-+	u32 max_frm_size;
+@@ -104,6 +126,7 @@ struct xlnx_tsn_ep {
+ 	struct xlnx_tsn_ep_dma_chan **tx_chans;
+ 	struct xlnx_tsn_ep_dma_chan **rx_chans;
+ 
++	bool closing;
  };
  
+ static inline struct skbuf_dma_descriptor *
+@@ -112,6 +135,181 @@ ep_get_desc(struct xlnx_tsn_ep_dma_chan *xchan, int idx)
+ 	return xchan->skb_ring[idx];
+ }
+ 
++static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result);
++
++static int ep_rx_submit_desc(struct xlnx_tsn_ep_dma_chan *xchan)
++{
++	struct dma_async_tx_descriptor *dma_rx_desc;
++	struct skbuf_dma_descriptor *skbuf_dma;
++	struct xlnx_tsn_ep *ep = xchan->ep;
++	struct sk_buff *skb;
++	dma_cookie_t cookie;
++	dma_addr_t addr;
++
++	skbuf_dma = ep_get_desc(xchan, xchan->ring_head & (xchan->ring_size - 1));
++	if (!skbuf_dma)
++		return -ENOSPC;
++
++	skb = dev_alloc_skb(ep->max_frm_size);
++	if (!skb)
++		return -ENOMEM;
++
++	sg_init_table(skbuf_dma->sgl, 1);
++	addr = dma_map_single(xchan->dma_dev, skb->data, ep->max_frm_size,
++			      DMA_FROM_DEVICE);
++	if (unlikely(dma_mapping_error(xchan->dma_dev, addr))) {
++		if (net_ratelimit())
++			dev_warn(ep->dev, "DMA mapping error on RX submit\n");
++
++		goto err_free_skb;
++	}
++	sg_dma_address(skbuf_dma->sgl) = addr;
++	sg_dma_len(skbuf_dma->sgl) = ep->max_frm_size;
++	dma_rx_desc = dmaengine_prep_slave_sg(xchan->chan, skbuf_dma->sgl,
++					      1, DMA_DEV_TO_MEM,
++					      DMA_PREP_INTERRUPT);
++	if (!dma_rx_desc)
++		goto err_unmap_skb;
++
++	skbuf_dma->dma_address = sg_dma_address(skbuf_dma->sgl);
++	skbuf_dma->desc = dma_rx_desc;
++	dma_rx_desc->callback_param = xchan;
++	dma_rx_desc->callback_result = ep_dma_rx_cb;
++
++	skbuf_dma->skb = skb;
++	cookie = dmaengine_submit(dma_rx_desc);
++	if (dma_submit_error(cookie)) {
++		skbuf_dma->skb = NULL;
++		goto err_unmap_skb;
++	}
++	xchan->ring_head++;
++
++	return 0;
++
++err_unmap_skb:
++	dma_unmap_single(xchan->dma_dev, addr, ep->max_frm_size, DMA_FROM_DEVICE);
++err_free_skb:
++	dev_kfree_skb(skb);
++	return -ENOMEM;
++}
++
++static bool ep_rx_refill(struct xlnx_tsn_ep_dma_chan *xchan, bool arm_timer)
++{
++	int avail, i;
++
++	scoped_guard(spinlock_bh, &xchan->rx_lock) {
++		if (READ_ONCE(xchan->ep->closing))
++			return false;
++
++		avail = CIRC_SPACE(xchan->ring_head, READ_ONCE(xchan->ring_tail),
++				   xchan->ring_size);
++		for (i = 0; i < avail; i++) {
++			if (ep_rx_submit_desc(xchan))
++				break;
++		}
++		dma_async_issue_pending(xchan->chan);
++
++		if (xchan->ring_head != READ_ONCE(xchan->ring_tail))
++			return true;
++
++		if (arm_timer)
++			mod_timer(&xchan->rx_refill_timer,
++				  jiffies + EP_RX_REFILL_RETRY);
++	}
++
++	return false;
++}
++
++static void ep_rx_refill_timer(struct timer_list *t)
++{
++	struct xlnx_tsn_ep_dma_chan *xchan = timer_container_of(xchan, t,
++							       rx_refill_timer);
++
++	ep_rx_refill(xchan, true);
++}
++
++static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
++{
++	struct xlnx_tsn_ep_dma_chan *xchan = data;
++	struct skbuf_dma_descriptor *skbuf_dma;
++	size_t meta_len, meta_max_len, rx_len;
++	struct xlnx_tsn_ep *ep = xchan->ep;
++	struct net_device *ndev = ep->ndev;
++	struct sk_buff *skb;
++	u32 port_id, tuser;
++	u32 *metadata;
++
++	skbuf_dma = ep_get_desc(xchan, xchan->ring_tail & (xchan->ring_size - 1));
++	WRITE_ONCE(xchan->ring_tail, xchan->ring_tail + 1);
++	skb = skbuf_dma->skb;
++	skbuf_dma->skb = NULL;
++
++	dma_unmap_single(xchan->dma_dev, skbuf_dma->dma_address,
++			 ep->max_frm_size, DMA_FROM_DEVICE);
++
++	if (result->result != DMA_TRANS_NOERROR) {
++		if (net_ratelimit())
++			dev_warn(ep->dev, "RX DMA transfer error %d\n",
++				 result->result);
++
++		dev_kfree_skb_any(skb);
++		DEV_STATS_INC(ndev, rx_dropped);
++		DEV_STATS_INC(ndev, rx_errors);
++		goto submit_new;
++	}
++
++	metadata = dmaengine_desc_get_metadata_ptr(skbuf_dma->desc,
++						   &meta_len,
++						   &meta_max_len);
++	if (IS_ERR_OR_NULL(metadata)) {
++		if (net_ratelimit())
++			dev_warn(ep->dev, "Failed to get RX metadata pointer\n");
++
++		dev_kfree_skb_any(skb);
++		DEV_STATS_INC(ndev, rx_dropped);
++		DEV_STATS_INC(ndev, rx_errors);
++		goto submit_new;
++	}
++
++	/* MCDMA metadata: [0] = status, [1] = sideband (TID/TDEST/TUSER), [2..] = app */
++	tuser = metadata[1] & TSN_TUSER_MASK;
++	rx_len = ep->max_frm_size - result->residue;
++
++	if (rx_len > ep->max_frm_size || rx_len < ETH_HLEN) {
++		if (net_ratelimit())
++			dev_warn(ep->dev, "Invalid RX length %zu (max=%u, min=%u)\n",
++				 rx_len, ep->max_frm_size, ETH_HLEN);
++
++		dev_kfree_skb_any(skb);
++		DEV_STATS_INC(ndev, rx_dropped);
++		DEV_STATS_INC(ndev, rx_errors);
++		goto submit_new;
++	}
++
++	port_id = FIELD_GET(TSN_TUSER_PORT_ID_MASK, tuser);
++	if (port_id != TSN_TUSER_PORT_MAC1 && port_id != TSN_TUSER_PORT_MAC2) {
++		if (net_ratelimit())
++			dev_dbg(ep->dev, "RX dropping unexpected TUSER port_id=%u\n",
++				port_id);
++
++		dev_kfree_skb_any(skb);
++		DEV_STATS_INC(ndev, rx_dropped);
++		goto submit_new;
++	}
++
++	skb_put(skb, rx_len);
++	skb->dev = ndev;
++	skb->protocol = eth_type_trans(skb, ndev);
++	skb->ip_summed = CHECKSUM_NONE;
++	__netif_rx(skb);
++
++	DEV_STATS_INC(ndev, rx_packets);
++	DEV_STATS_ADD(ndev, rx_bytes, rx_len);
++
++submit_new:
++	ep_rx_refill(xchan, true);
++}
++
  static netdev_tx_t ep_start_xmit(struct sk_buff *skb, struct net_device *ndev)
-@@ -69,15 +87,176 @@ static const struct ethtool_ops ep_ethtool_ops = {
- 	.get_drvinfo	= ep_get_drvinfo,
- };
- 
-+/*
-+ * Parse the "tx-queues-config" child of the EP node. The logical queue
-+ * index is taken from the "queue<N>" node name, so the mapping does not
-+ * depend on the order the child nodes appear in the device tree.
-+ */
-+static int ep_parse_tx_queue_config(struct xlnx_tsn_ep *ep,
-+				    struct device_node *txcfg_np, u16 tx_present)
-+{
-+	DECLARE_BITMAP(queue_seen, TSN_MAX_TX_QUEUE) = {};
-+	DECLARE_BITMAP(chan_seen, TSN_MAX_TX_QUEUE) = {};
-+	unsigned int count = 0;
-+	int ret;
-+
-+	for_each_child_of_node_scoped(txcfg_np, qnode) {
-+		u32 chan, queue;
-+
-+		if (!str_has_prefix(qnode->name, "queue") ||
-+		    kstrtou32(qnode->name + strlen("queue"), 10, &queue) ||
-+		    queue >= ep->num_tx_queues)
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: invalid queue node %pOFn (have %u queues)\n",
-+					     qnode, ep->num_tx_queues);
-+
-+		if (test_and_set_bit(queue, queue_seen))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: queue %u described twice\n",
-+					     queue);
-+
-+		ret = of_property_read_u32(qnode, "xlnx,dma-channel-num", &chan);
-+		if (ret)
-+			return dev_err_probe(ep->dev, ret,
-+					     "tx-config: queue %u missing xlnx,dma-channel-num\n",
-+					     queue);
-+
-+		if (chan >= TSN_MAX_TX_QUEUE || !(tx_present & BIT(chan)))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: queue %u maps to channel %u not present in dma-names\n",
-+					     queue, chan);
-+
-+		if (test_and_set_bit(chan, chan_seen))
-+			return dev_err_probe(ep->dev, -EINVAL,
-+					     "tx-config: channel %u already assigned to another queue\n",
-+					     chan);
-+
-+		ep->tx_dma_chan_map[queue] = chan;
-+		count++;
-+	}
-+
-+	if (count != ep->num_tx_queues)
-+		return dev_err_probe(ep->dev, -EINVAL,
-+				     "tx-config: described %u queues but expected %u\n",
-+				     count, ep->num_tx_queues);
-+
-+	return 0;
-+}
-+
-+static int ep_count_dma_channels(struct device *dev, u32 *out_tx, u32 *out_rx,
-+				 u16 *tx_present, u32 *rx_dma_chan_map)
-+{
-+	u32 tx = 0, rx = 0;
-+	u16 rx_present = 0;
-+	int n, i, ret;
-+
-+	n = of_property_count_strings(dev->of_node, "dma-names");
-+	if (n < 0)
-+		return dev_err_probe(dev, n, "failed to read dma-names\n");
-+
-+	for (i = 0; i < n; i++) {
-+		const char *name;
-+		size_t plen;
-+		u32 idx;
-+
-+		ret = of_property_read_string_index(dev->of_node, "dma-names",
-+						    i, &name);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to read dma-names[%d]\n", i);
-+
-+		plen = str_has_prefix(name, "tx_chan");
-+		if (plen) {
-+			if (kstrtou32(name + plen, 10, &idx) ||
-+			    idx >= TSN_MAX_TX_QUEUE)
-+				return dev_err_probe(dev, -EINVAL,
-+						     "invalid TX channel name %s\n",
-+						     name);
-+
-+			if (*tx_present & BIT(idx))
-+				return dev_err_probe(dev, -EINVAL,
-+						     "duplicate TX channel %s\n",
-+						     name);
-+
-+			*tx_present |= BIT(idx);
-+			tx++;
-+			continue;
-+		}
-+
-+		plen = str_has_prefix(name, "rx_chan");
-+		if (plen) {
-+			if (kstrtou32(name + plen, 10, &idx) ||
-+			    idx >= TSN_MAX_RX_QUEUE)
-+				return dev_err_probe(dev, -EINVAL,
-+						     "invalid RX channel name %s\n",
-+						     name);
-+
-+			if (rx_present & BIT(idx))
-+				return dev_err_probe(dev, -EINVAL,
-+						     "duplicate RX channel %s\n",
-+						     name);
-+
-+			rx_present |= BIT(idx);
-+			rx_dma_chan_map[rx] = idx;
-+			rx++;
-+			continue;
-+		}
-+
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unrecognised dma-names entry %s\n", name);
-+	}
-+
-+	if (!tx)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "no TX channels in dma-names\n");
-+
-+	if (!rx)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "no RX channels in dma-names\n");
-+
-+	*out_tx = tx;
-+	*out_rx = rx;
-+
-+	return 0;
-+}
-+
- static int xlnx_tsn_ep_probe(struct platform_device *pdev)
  {
-+	u32 num_tx_dma_channels, num_rx_dma_channels, num_prio;
-+	u32 rx_dma_chan_map[TSN_MAX_RX_QUEUE];
- 	struct device *dev = &pdev->dev;
-+	struct device_node *txcfg_np;
-+	struct device_node *ip_np;
- 	struct net_device *ndev;
- 	struct xlnx_tsn_ep *ep;
- 	u8 mac_addr[ETH_ALEN];
-+	u16 tx_present = 0;
+ 	dev_kfree_skb_any(skb);
+@@ -127,6 +325,8 @@ static int ep_open(struct net_device *ndev)
+ 	struct xlnx_tsn_ep *ep = netdev_priv(ndev);
  	int ret;
-+	int i;
-+
-+	ret = ep_count_dma_channels(dev, &num_tx_dma_channels,
-+				    &num_rx_dma_channels, &tx_present,
-+				    rx_dma_chan_map);
-+	if (ret)
-+		return ret;
-+
-+	ip_np = of_get_parent(dev->of_node);
-+	if (!ip_np)
-+		return dev_err_probe(dev, -EINVAL, "missing parent IP node\n");
-+
-+	ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
-+	of_node_put(ip_np);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "missing xlnx,num-priorities\n");
-+
-+	if (num_tx_dma_channels != num_prio)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "TX channel count %u must equal num-priorities %u\n",
-+				     num_tx_dma_channels, num_prio);
  
--	ndev = alloc_netdev(sizeof(*ep), "eth%d", NET_NAME_UNKNOWN, ether_setup);
-+	ndev = alloc_netdev_mqs(sizeof(*ep), "eth%d", NET_NAME_UNKNOWN,
-+				ether_setup, num_tx_dma_channels,
-+				num_rx_dma_channels);
- 	if (!ndev)
- 		return -ENOMEM;
++	WRITE_ONCE(ep->closing, false);
++
+ 	ret = ep_init_dmaengine(ep);
+ 	if (ret) {
+ 		netdev_err(ndev, "failed to initialize DMA engine\n");
+@@ -144,6 +344,7 @@ static int ep_stop(struct net_device *ndev)
+ 	struct xlnx_tsn_ep *ep = netdev_priv(ndev);
  
-@@ -89,6 +268,23 @@ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
- 	ep = netdev_priv(ndev);
- 	ep->ndev = ndev;
- 	ep->dev = dev;
-+	ep->num_tx_queues = num_tx_dma_channels;
-+	ep->num_rx_queues = num_rx_dma_channels;
-+	ep->max_frm_size = TSN_MAX_VLAN_FRAME_SIZE;
-+
-+	for (i = 0; i < TSN_MAX_TX_QUEUE; i++)
-+		ep->tx_dma_chan_map[i] = TSN_DMA_CH_INVALID;
-+
-+	txcfg_np = of_get_child_by_name(dev->of_node, "tx-queues-config");
-+	if (!txcfg_np) {
-+		ret = dev_err_probe(dev, -EINVAL,
-+				    "missing tx-queues-config node\n");
-+		goto err_free_ndev;
+ 	netif_tx_disable(ndev);
++	WRITE_ONCE(ep->closing, true);
+ 	ep_exit_dmaengine(ep);
+ 
+ 	return 0;
+@@ -200,6 +401,10 @@ ep_alloc_dma_chan(struct xlnx_tsn_ep *ep, struct dma_chan *dma_chan,
+ 	chan->ep = ep;
+ 	chan->ring_size = ring_size;
+ 	chan->dma_dev = dmaengine_get_dma_device(chan->chan);
++	if (!is_tx) {
++		spin_lock_init(&chan->rx_lock);
++		timer_setup(&chan->rx_refill_timer, ep_rx_refill_timer, 0);
 +	}
-+	ret = ep_parse_tx_queue_config(ep, txcfg_np, tx_present);
-+	of_node_put(txcfg_np);
-+	if (ret)
-+		goto err_free_ndev;
  
- 	ret = of_get_mac_address(dev->of_node, mac_addr);
- 	if (ret == -EPROBE_DEFER) {
+ 	return chan;
+ }
+@@ -211,8 +416,21 @@ static void ep_free_dma_chan(struct xlnx_tsn_ep_dma_chan *chan)
+ 	if (!chan)
+ 		return;
+ 
+-	if (chan->chan)
++	if (chan->chan) {
++		if (!chan->is_tx) {
++			/* ep_stop() sets closing before teardown. Take rx_lock
++			 * so any refill that already passed the closing check
++			 * finishes and no later one submits or arms the timer,
++			 * then shut down the timer so it cannot be rearmed
++			 * before the channel is freed.
++			 */
++			spin_lock_bh(&chan->rx_lock);
++			spin_unlock_bh(&chan->rx_lock);
++			timer_shutdown_sync(&chan->rx_refill_timer);
++		}
++
+ 		dmaengine_terminate_sync(chan->chan);
++	}
+ 
+ 	if (chan->is_tx) {
+ 		while (chan->ring_tail != chan->ring_head) {
+@@ -305,9 +523,19 @@ static int ep_init_dmaengine(struct xlnx_tsn_ep *ep)
+ 		rx_allocated++;
+ 	}
+ 
++	for (i = 0; i < ep->num_rx_queues; i++) {
++		if (!ep_rx_refill(ep->rx_chans[i], false)) {
++			dev_err(ep->dev, "RX channel %d: no descriptors armed\n",
++				i);
++			ret = -ENOMEM;
++			goto err_free_chans;
++		}
++	}
++
+ 	return 0;
+ 
+ err_free_chans:
++	WRITE_ONCE(ep->closing, true);
+ 	while (--rx_allocated >= 0)
+ 		ep_free_dma_chan(ep->rx_chans[rx_allocated]);
+ 	while (--tx_allocated >= 0)
 
 -- 
 2.44.4
