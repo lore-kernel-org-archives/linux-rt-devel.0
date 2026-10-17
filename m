@@ -1,185 +1,228 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBCD36F91F
-	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Oct 2026 01:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A28B2DB78C
+	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Oct 2026 06:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792200800; cv=none; b=ti7dmLMPKhG5r2olXn7j7fztxaAcjCSs7N5JgwkRUw92XdcJEgTi5u+9ipcw8a4b6sX297m0y9byXS5W9t3ziSrOBfH55Ipj4DtttyhNZXSC1DhjhfjuK/Nj5/VW8uvw0283UZQmzoq5jZYSZzQw8dvc3Ytmh/YuFlK/n5tAJIE=
+	t=1792219920; cv=none; b=nefCKCDKGxZrzfvVvghUe6TLpHE90rSTH7o32j8J4e1bsWEx9io2940/ON5nmhe129OBg8iplNI0mP1m4klo4P2KpdFOcJYxzmr+4A/2HbtrrihtOzdeNxS8RSaXDLzwUEakbfkRrvnxka2UbU/li6Fk2hh8o6yw3lBsUzJfujI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792200800; c=relaxed/simple;
-	bh=Q0OVgxmRG3Mb1iEUhHgWM/JD7gZywVlYcymBliEC/uI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jFWS3NhzD2EccIJC5+vVM5iH00mdmnjY/aRk8QHCsQhq4i4jM+hC15SJ6qz0I9L9Zb5JbSOJIGFoxvWwznTdEQ0a4LW38s/+2/tTJGuhdsOr88gMuF9pYWNgP03PtnSArGaA2VWgJICZkt0QfEPLyW7gXtPtAHAcMUwMls/J1YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITQ0C6uq; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792219920; c=relaxed/simple;
+	bh=+RGs98OKR+8RSYTh9cABiWdooY/6GYJQl2ugTgDhC/g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=HLKWGgIa1kJuG7O4+5qXFWBIPg51loiTSLHiZRFAJAzXvnua6bc9pJg1EUcWr4WY2QZ8Khz1pBlvLLl0OB7OVdncPNp5zVmfxq6g2BA5c+xiwFwMnKyXmdjX5i88fFripIi877WuRxTW4R94VNYSZ8zqke9pvC/TbLpKQCrT7O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FvAZVgri; arc=none smtp.client-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITQ0C6uq"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-35ef6b49813so871814eec.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 18:33:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FvAZVgri"
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ab2395f104so657958a91.2
+        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Oct 2026 23:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792200796; x=1792805596; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L/BMbVAoUESCQf7TQMH9otLhUC/2dV1sy9hX9s5qH9w=;
-        b=ITQ0C6uqFmqgnZGoh8CnzIOfCHrAGhxfxsi67uDZ2RlAXgqzp/7YID3aZwZ8mrDlES
-         DrRoAh4G0XpBoDsU7OHIpXoxv/7UBM5iV/AuKQZGOHkwBWwESc3I1uXptcewqHycvOCp
-         FR+v0rL9FCD1NOFKkEDpQPe8IR+ncvvNKqzJoqI1NdhWEnqwRoXS3MqoadJ0HPRuMyE8
-         /2M9NhVpixdhjgiFu1vU/48R/0+rS2jGUIGmj0OmhOZFqP+Vd4Vs3rQF3A6Klm7lm5qM
-         h8KaK5b6E+zZ/KA6xxRAvgq5omBUMIMe2ihWCb+GHgniYqnu58A6JhwveW1QFOinUZEr
-         oCTA==
+        d=google.com; s=20251104; t=1792219918; x=1792824718; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hLRycCYqFI0sJDL3wNe30VNcaI33OzZwjCiyocKoV9g=;
+        b=FvAZVgrigADKtP5J6EWD711ZxzWxuFQ+/YtePkX2BXrKclOJMDy7L9F8EJHWezrT8H
+         L8vnWSTlfP7iKSUFy4u7tpidwdPX7/nF4zNsk8HU5QPzryQ28RjHL85n3+PiB7EIEJTJ
+         3+Mzrqu0SnYUx0ghW2jMUqJpYNwV4Nr2ap/uVjg5WLJshh+JJ8swYZqXwcKqyr9kB7YG
+         nf6khwYq9dcMdbyAfZ2lwQ47X6OBNjs3eAYIcLHMRIutcpSoO6NcPOwPDpiJbIbQsn+y
+         nm/3cG4B5OGTyC19anJPtCK8l8hZ9YggjtHwsZGaAV6mqZM1NdbPhu0J9bc93jwPlr0P
+         j9bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792200796; x=1792805596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792219918; x=1792824718;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=L/BMbVAoUESCQf7TQMH9otLhUC/2dV1sy9hX9s5qH9w=;
-        b=L5T4j/XGwM90BED7i+DTq0BfBGFEWXpC64mjbdvsOLzSVHDFYLXQxmCz5IJEjMrOps
-         W5oUn3hNvfOwDl83QRF3ulfAKqbAr3pGeJq7BvP0IjdDUSFs7GrKwiuAOQNVWiWRbq8j
-         FlHAyDlCFBXjtQqfPdtnot0aUFOZGTe0CAP5qSfFp4zpTLSnk/nzwket+7zvxJaFqZga
-         B+GCq5nXdb2Z+i8torW7+Spdm20KC0976XxQoHJfNqThpX4s1Pdl1uaP9NNg6s1BPxp2
-         vqxfUZPpufxIDMhaQjOOBaRJa/0HJ6ur1S9x7/BSAH+EUbkx4zNk/WNAZjK2DdL5fm+j
-         hMDw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQcKXlUhP0Rjct+yYLkPjt/Q7UsOny8tOAQ/jl4UwiUcsXgSzyLitj32VYhkbcSBsLEFxERzfzNHJ6DMB2hw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK7GYx6SEsTV9IcMz8myYsKjdcQuNLW5BfJSv60flWqMjVRZ77D
-	+HhpyikgCXROwCZle6m5wXRzsgxPYxFSVY5CCY80zFge1dR5kcBoCTPP
-X-Gm-Gg: AYBFou0fxy8n0s4bp8ObicHHNULnjLt17N2oGa2Q0DPto+a+FX5MgWp5o7990U8Ub6J
-	bj8x95RkTq1EBitBzlmn0xPnAjCwi1DbBAsgjsEzvRKB4UEfX6AMOE8fsNLr9Nsmzfiq5RgoZNU
-	8iuhQ0HDAszpNwW9aKCRR7lXr0Op+qRyEB4M/MoiT+IQDa3fdcipicN2zycXBsQ9QscXErI+dbw
-	zmklgneldEm7aptyEDR4riMPIA+GejwDxkc59h/9e3JwFMyZlBirjj1NayW23FLRzwQEZVVtS8x
-	R7Ng/54SF4A3vr/0rORlLpmit2G47KVZSYaVqNDpzQjvwOt2ouz/L9bjG8LhmxKfsht3NDqTpTM
-	TElGdGMEzHXiMN9+1K+gRlt6kOWdT6ttJlv5koS78ak2Vjj6aykbFQTfcspxH4RoL2eSoAJXGoD
-	MKDRNcIerAVGlp7O0AaqQfBbCmCDZ6U5CjGCpNg8yDTPEXDPHTUVuxgO2ReQYEHBQuzkB3epmLj
-	Y/GtGcTxSlBeCwB2JfbKivM93j4pN7y5dLhFKLM0E29Qi2dL0b4w6aypkntifq4mB0PYhASM8nD
-	p9TyLCTKq9QcfSCAMFP3rGmJmQ==
-X-Received: by 2002:a05:7022:ea8b:b0:16c:6459:35b1 with SMTP id a92af1059eb24-1851310977dmr1987494c88.28.1792200796321;
-        Fri, 16 Oct 2026 18:33:16 -0700 (PDT)
-Received: from server1868-4.tail96fc24.ts.net ([199.188.91.198])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831a6f58c2sm13878785c88.11.2026.10.16.18.33.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 18:33:15 -0700 (PDT)
-From: Austin Schuh <austin.linux@gmail.com>
-To: axboe@kernel.dk
-Cc: io-uring@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	tglx@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Austin Schuh <austin.linux@gmail.com>
-Subject: [PATCH] io_uring/wait: wake real-time waiters from hard interrupt context
-Date: Fri, 16 Oct 2026 18:33:03 -0700
-Message-ID: <20261017013303.3919170-1-austin.linux@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        bh=hLRycCYqFI0sJDL3wNe30VNcaI33OzZwjCiyocKoV9g=;
+        b=XAA3qI5oewY7v7p3+rx8d1qxwQvXM05Hl+mnASihF5QFZDdMAvYkoArXQAqvWi6Iat
+         KeVI2lPsZ6H0VYrXGlK5f9ezZER3iGHPH7vXAIST932QKGDoOfOlM6AVEAkdgWhpQLH/
+         LnzwYmgVSPrE6P+R9vCn49Y5bNQZh+nk97euhENG/YdFFDHYNntnlBDzxQIdOYc6QRor
+         UTVMHqigQAMPsTG8X98FdQDb963sgUz8eomRgRnJkKgSG1h5RPNLsOsy0OYX4RHGwafO
+         pTBqgp32CZlA2y05H25Ou1Sn/1Ruf5ReNmuST97czY4KXQkjpKymV7gbqUh1xpjDljxD
+         Cqow==
+X-Forwarded-Encrypted: i=1; AKwUvBzPDfWb53qwADK1b1+PHBLBxPJNMwsTj82UZ/t7UInkK/MjSwwUwuP+jB9eMp+AkL/FdAe2gIss+nX4zQFC3w==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKoi996PEQqJS0LHvflOpGImTcSBy7zHEC23dace2WCoaNdCvIz
+	EG16JkI0ReY27nTY/qjwTny0wRzbNO881OdEVV8GjLrF26CSylLhIKYwrw+8iqXlr7dg61JpcZT
+	pmuVtog==
+X-Received: from pjgs9.prod.google.com ([2002:a17:90a:4409:b0:3aa:ee30:1a77])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2ec3:b0:3ab:e588:c295
+ with SMTP id 98e67ed59e1d1-3acef51e29dmr1670580a91.42.1792219917592; Fri, 16
+ Oct 2026 23:51:57 -0700 (PDT)
+Date: Sat, 17 Oct 2026 06:51:57 +0000
+In-Reply-To: <20261015162209.485940-1-jkain@nuro.ai>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20261015162209.485940-1-jkain@nuro.ai>
+Message-ID: <atMVsAmXKl7D-Fxh@google.com>
+Subject: Re: [PATCH net v4] net: do not let defer_count outlive an empty defer_list
+From: kuniyu@google.com
+To: Joseph Kain <jkain@nuro.ai>
+Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net, 
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
+	kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	rostedt@goodmis.org, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Since commit cebf123c634a ("io_uring: implement our own schedule timeout
-handling"), a CQ wait with a timeout sleeps on io_uring's own hrtimer
-instead of an hrtimer sleeper.  On PREEMPT_RT, an hrtimer that isn't
-marked for hard interrupt expiry expires in the per-CPU ktimers thread,
-which runs at SCHED_FIFO 1.  A real-time task waiting in io_uring_enter()
-is therefore not woken at its deadline while any other real-time task is
-runnable on its CPU: the wakeup waits until every one of them has blocked.
+On Thu, 15 Oct 2026 09:22:09 -0700, Joseph Kain wrote:
+> __skb_defer_free_flush() can leave defer_count at or above skb_defer_max
+> with an empty defer_list. That state is absorbing: every producer then
+> takes the nodefer path without queueing, so the list never refills.
+> Deferred freeing stays off for that (cpu, node) until reboot, and
+> cross-CPU frees fall back to the page allocator, which is the contention
+> deferral exists to avoid.
+> 
+> skb_attempt_defer_free() increments before testing the limit and does not
+> undo the increment when it rejects, so a rejected free leaves the counter
+> raised with nothing queued.
+> 
+> Nothing brings it back down. The reject path returns before
+> kick_defer_list_purge(), so once the counter is stuck no producer
+> schedules a flush on the owner CPU. A CPU that never raises NET_RX itself
+> -- an application CPU doing TX while NIC IRQs are pinned elsewhere and
+> RPS is off -- then never runs the flush at all, so clearing the counter
+> inside the flush cannot help it either. proc_do_skb_defer_max() neither
+> resets the counters nor schedules a flush when the limit changes.
+> 
+> It is reachable with no race at all:
+> 
+>   sysctl -w net.core.skb_defer_max=1    # frees increment, then reject
+>   sysctl -w net.core.skb_defer_max=128  # does not recover
+> 
+> skb_defer_max has .extra1 = SYSCTL_ZERO and no .extra2, so 1 is settable.
+> From v7.1 on, 0 is safe because proc_do_skb_defer_max() flips
+> skb_defer_disable_key and the producer returns before incrementing. On
+> 6.18 through 7.0, which carry the llist conversion but not commit
+> 08dc30de1a40 ("net: add skb_defer_disable_key static key"), setting 0 and
+> restoring the previous value strands the counter the same way -- and 0 is
+> the documented way to turn the feature off.
+> 
+> Test the limit before incrementing, so the counter is only ever raised by
+> a producer that goes on to queue. It then cannot outlive the skbs it
+> counts, and the absorbing state is unreachable without depending on a
+> flush ever running on the owner CPU.
 
-hrtimer sleepers, which schedule_hrtimeout_range_clock() used to give
-io_uring, don't have this problem: __hrtimer_setup_sleeper() marks the
-timer hard when the sleeping task is in a real-time or deadline class.
-Both of io_uring's callbacks are fine in hard interrupt context:
-io_cqring_timer_wakeup() sets a flag and calls wake_up_process(), and
-io_cqring_min_timer_wakeup() only reads ring state, under RCU, before
-doing the same or re-arming the timer.  Apply the sleeper rule to them.
+I think the state is still reachable when reducing the knob
+if the new value >> 1 is smaller than the current defer_count
+due to the kick condition (==).  This can be fixed by bumping
+the knob to defer_count * 2 though.
 
-Measured on a Jetson Orin Nano running 6.18.39-rt with this change
-backported: a SCHED_FIFO 40 task waits in io_uring_enter() for 40,000
-deadlines 500us apart, while a SCHED_FIFO 20 task runs bursts of up to
-1ms on the same CPU.  Before, 6,647 wakeups were more than 100us late,
-the latest by 1,040us, and 2,758 deadlines passed without a wakeup at
-all.  After, none were more than 100us late and the latest was 18us.
 
-This mirrors epoll: epoll_pwait2() waits on an hrtimer sleeper, so its
-timeout is already hard for real-time tasks, and on the same setup it
-was never more than 17us late.
+> 
+> This makes the limit advisory. The test no longer reserves the slot it
+> checks, and the recvmsg callers run in preemptible context, so the
+> overshoot is bounded by the number of producers in flight rather than by
+> skb_defer_max; the post-increment test reserved the slot and bounded the
+> queue exactly. The counter is already approximate -- the flush zeroes it
+> without regard for producers in flight -- and the next flush erases the
+> overshoot, where the latch it replaces never recovered at all.
+> 
+> Undoing the increment on the reject path instead would be wrong: a flush
+> that zeroes the counter between a producer's increment and its undo
+> leaves the counter negative, and the producer's local is an unsigned
+> long, so every later test reads it as enormous and rejects. That is the
+> same dead end, reached more easily.
+> 
+> While here, drain before clearing in the flush. A producer that queues
+> between the clear and the drain currently has its skb drained but its
+> increment kept, which over-counts and costs deferral until the next
+> flush. Draining first matches the ordering __dev_xmit_skb() already uses
+> for the qdisc defer_list.
+> 
+> Found by manual code inspection, LLM-assisted, while backporting the
+> llist conversion to 6.1 after hitting the sd->defer_lock contention it
+> removes. The latch itself was not hit in production; it was reproduced by
+> lowering net.core.skb_defer_max.
+> 
+> Fixes: 844c9db7f7f5 ("net: use llist for sd->defer_list")
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Joseph Kain <jkain@nuro.ai>
+> ---
+> v4:
+>  - v3's "undo the increment on reject" was wrong: a flush that zeroes the
+>    counter between a producer's increment and its undo leaves the counter
+>    negative, and the producer's local is an unsigned long, so every later
+>    test reads it as enormous and rejects forever. Test the limit before
+>    incrementing instead, so there is no decrement to underflow
+>    (netdev-bot sashiko).
+> 
+> Note this changes the effective limit from skb_defer_max - 1 to
+> skb_defer_max, because the test now runs before the increment rather than
+> after it. That matches what Documentation/admin-guide/sysctl/net.rst
+> describes. It also means the half-capacity kick can now fire at
+> skb_defer_max = 1, which commit c09b0cd2cc6c ("net: avoid strange
+> behavior with skb_defer_max == 1") set out to make possible.
+> 
+> Built for x86_64 and arm64, with and without CONFIG_PREEMPT_RT. On
+> v7.3-rc6 with skb_defer_max=1 and a cross-CPU TCP load, defer_count
+> reached 1918118 unpatched and did not recover when the default was
+> restored; with this patch it stays within the limit.
+> 
+> v3: https://lore.kernel.org/all/20261013205416.3417296-1-jkain@nuro.ai/
+> v2: https://lore.kernel.org/all/20261008220256.1844072-1-jkain@nuro.ai/
+> v1: https://lore.kernel.org/all/20261007180056.1394868-1-jkain@nuro.ai/
+>  net/core/dev.c    | 5 ++++-
+>  net/core/skbuff.c | 9 ++++++---
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index 18dc88990510..60d86bc21632 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -6940,8 +6940,11 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+>  
+>  	if (llist_empty(&sdn->defer_list))
+>  		return;
+> -	atomic_long_set(&sdn->defer_count, 0);
+>  	free_list = llist_del_all(&sdn->defer_list);
+> +	/* Racy on purpose, as in __dev_xmit_skb(): a producer landing between
+> +	 * the del_all and this store stays queued but uncounted.
+> +	 */
+> +	atomic_long_set(&sdn->defer_count, 0);
+>  
+>  	llist_for_each_entry_safe(skb, next, free_list, ll_node) {
+>  		prefetch(next);
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index 4aea06d5167d..25f82b7dcf01 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -7386,11 +7386,14 @@ nodefer:	kfree_skb_napi_cache(skb);
+>  	sdn = per_cpu_ptr(net_hotdata.skb_defer_nodes, cpu) + cpu_to_node(my_cpu);
+>  
+>  	defer_max = READ_ONCE(net_hotdata.sysctl_skb_defer_max);
+> -	defer_count = atomic_long_inc_return(&sdn->defer_count);
+> -
+> -	if (defer_count >= defer_max)
+> +	/* Test before incrementing: the reject path returns below without
+> +	 * reaching kick_defer_list_purge(), so a kept increment never flushes.
+> +	 */
+> +	if (atomic_long_read(&sdn->defer_count) >= defer_max)
+>  		goto nodefer;
+>  
+> +	defer_count = atomic_long_inc_return(&sdn->defer_count);
+> +
 
-Fixes: cebf123c634a ("io_uring: implement our own schedule timeout handling")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Austin Schuh <austin.linux@gmail.com>
----
+IIUC, atomic_long_read() before atomic_long_inc_return() needs
+two-step coherency transaction, and we could avoid that and
+the corner case above by fixing the off-by-one and calling
+kick_defer_list_purge() in the slow path:
 
-Notes:
-    Based on for-7.4/io_uring (89f193dc3ef4).  Built for arm64 with
-    PREEMPT_RT and with PREEMPT, W=1, no new warnings.  The numbers above are
-    from the same change on 6.18.39-rt (in 6.18 the code is still in
-    io_uring.c). I haven't booted for-7.4 on the board.  The test program is
-    a small C file, which I can post if it's useful.
+if (unlikely(defer_count > defer_max)) {
+    if (!llist_empty(&sdn->defer_list))
+        kick_defer_list_purge(cpu);
+    goto nodefer;
+}
 
- io_uring/wait.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/io_uring/wait.c b/io_uring/wait.c
-index b7a0292767c7..ef4b89d3c66e 100644
---- a/io_uring/wait.c
-+++ b/io_uring/wait.c
-@@ -3,6 +3,7 @@
-  * Waiting for completion events
-  */
- #include <linux/kernel.h>
-+#include <linux/sched/rt.h>
- #include <linux/sched/signal.h>
- #include <linux/io_uring.h>
- #include <linux/time_namespace.h>
-@@ -120,23 +121,39 @@ static enum hrtimer_restart io_cqring_min_timer_wakeup(struct hrtimer *timer)
- 	return io_cqring_timer_wakeup(timer);
- }
- 
-+/*
-+ * On PREEMPT_RT, hrtimers not marked for hard interrupt expiry expire in the
-+ * ktimers thread, at the lowest real-time priority, so a real-time waiter
-+ * isn't woken until every runnable real-time task on its CPU has blocked.
-+ * Like hrtimer sleepers (see __hrtimer_setup_sleeper()), expire the timer in
-+ * hard interrupt context if the waiter is a real-time task. Both callbacks
-+ * only look at the ring and wake the task, which is safe there.
-+ */
-+static enum hrtimer_mode io_cqring_timer_mode(void)
-+{
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT) && rt_or_dl_task_policy(current))
-+		return HRTIMER_MODE_ABS_HARD;
-+	return HRTIMER_MODE_ABS;
-+}
-+
- static int io_cqring_schedule_timeout(struct io_wait_queue *iowq,
- 				      clockid_t clock_id, ktime_t start_time)
- {
-+	enum hrtimer_mode mode = io_cqring_timer_mode();
- 	ktime_t timeout;
- 
- 	if (iowq->min_timeout) {
- 		timeout = ktime_add_ns(iowq->min_timeout, start_time);
- 		hrtimer_setup_on_stack(&iowq->t, io_cqring_min_timer_wakeup, clock_id,
--				       HRTIMER_MODE_ABS);
-+				       mode);
- 	} else {
- 		timeout = iowq->timeout;
- 		hrtimer_setup_on_stack(&iowq->t, io_cqring_timer_wakeup, clock_id,
--				       HRTIMER_MODE_ABS);
-+				       mode);
- 	}
- 
- 	hrtimer_set_expires_range_ns(&iowq->t, timeout, 0);
--	hrtimer_start_expires(&iowq->t, HRTIMER_MODE_ABS);
-+	hrtimer_start_expires(&iowq->t, mode);
- 
- 	if (!READ_ONCE(iowq->hit_timeout))
- 		schedule();
-
-base-commit: 89f193dc3ef462059387e9691bf6af4b1808379a
--- 
-2.47.3
-
+>  	llist_add(&skb->ll_node, &sdn->defer_list);
+>  
+>  	if (unlikely(!cpu_online(cpu) || my_cpu != raw_smp_processor_id())) {
+> -- 
+> 2.55.0
+> 
