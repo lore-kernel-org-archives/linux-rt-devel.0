@@ -1,183 +1,130 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA7C18D62A
-	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Oct 2026 17:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FFF3E275F
+	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Oct 2026 19:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792257451; cv=none; b=FaW4uNXHJieurpv0cFq2YCYDTUufFroGK28YspYm9J348p/Yn2eZgG1rSBE0CZZcywnuSiWkR598Hmy3UWoH0GUaRlOFjP9/hOKKgDDjYYSmg+fetcZsbxkB0Z1oKORtYPY08EVSSsOx22SXqoQTGuWn+ACbQj6QPg7E2UFAicE=
+	t=1792263731; cv=none; b=c5UAEOBlMaysO2GO3dRS8GtIMmduO7KRANkwMDoQQCa3mg4Q46IbT7r4/kVPCADWQwY4EnVSFUEM8GP6FJ7inSZ1fdxWLQmTvNKSaYY4Jivtf5pB3ZHNjbE9LmK48EnweBLi1utfxlrXNIFgiR8K+LtjXl9rGRrF/oERaP5VGCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792257451; c=relaxed/simple;
-	bh=+Xrjusm7uk8yi/68OHDDssqjCOfFWC3Jht37GD4VCAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VwiDIFIQIymUbFK8qumZoFW8XVtUCObt8q9t0A5m318TAvTtz/CMZSbjuUf/jO3+TFRinn7YnhcaEJOXJJXSp1jlVWqoWx4oKBHN/qiu5m4aFkJGlW4FuwLefxmKrahnWJGSGlwQCn7m4vd3HCus9Tvxw6ikDKUbT5Yydcv5/NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qWv1ybZE; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792263731; c=relaxed/simple;
+	bh=P7oEkGignlFqq9fFQaYULc1tT68y6CzrrbGtJGhPMEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kkxs0xMsIUvn3L3zpsnPF4dKy6yk6jWNKMGHO1/bq6TdhJemqOZI5BgNFDv7INbUDh2nijOBgR2vM/nLk/IbVkeDZatEDd3+AQZD8Bq0E8S143S3Hd9rAefYKhb5d3B89Zop3RZO1JEl0Nb+cwIXpsbmyEaqyqCkQ0CSazqq3zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JRmK5QBq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qWv1ybZE"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-33fb4680717so1207908eec.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 17 Oct 2026 10:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792257449; x=1792862249; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jLfEr+NgE09LwZV7PAwpKfzwycgTPnmE1PsuHXjQM58=;
-        b=qWv1ybZEhdS3V1SrA2K5mVb35IZf9n0fqLQ2WpeCjhk45/8qzdxjOWEZlh89devKk9
-         bNBL+VzgesFfb0t9xiHvVvqoIXvMJogRUbl3B2gkkhpCeWXIF8RFOED4IF2Bhhq7iNdm
-         i64j74/UX79j2ujW3zrjC+uKs21oSXFELk5aoTdxMIZjKI9J59P8Iy1vgz5IRmflF7XY
-         TYhAzmn3XW+yLOV/gSDp3AYrompdJznnE6td3XVa77LpSlcj2K6XQZCI9eDmmmgxfaHZ
-         L+LUJbYb7ybCJEsANHzkuVFe5iD80zT/HFb4oW56ISbOmC/Cp8nMmh6PC+0eBkJzz5p1
-         f7mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792257449; x=1792862249;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jLfEr+NgE09LwZV7PAwpKfzwycgTPnmE1PsuHXjQM58=;
-        b=ZAkfvgmEw8Tb1XWMfsViDKcYdGUB5puLXzSUEi+xCBbpSJPeizJr85AaN+v+cvxGGs
-         lzA3oiFlr0S83bFuwfdpJ2roGD+nss5ce4NJw+1mBhQ0KzP9effTBs750ESeZfvvdzO/
-         ZTf5XgsyS988evIJOTyIe9gC0uogdiW8WJk8Sb025YrUHuQlbCCMK1wJzJNHPNfYUxhV
-         C+4awkUSXY83uNWDP64RHnwcZbKOSVqE5o66lxEqgJEpkAr56fbGfaQ4n6JeT/rwbvtH
-         XDAdAgO0trfQ563kqGfujKdZ7zANinwTwA0hgNK+gbCGlp94ZGVvue3A/3p1JTmQhxUu
-         /9uw==
-X-Forwarded-Encrypted: i=1; AKwUvBw1CHW+GLis2I3oGQHzD9mBQISt4e2j2Gwq/L60APsWgFNi7oyf5h09bwwWYwF1IcxQs3n5urJ/zqsibsHT3g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ5K/Acl2aW85pkMmM+mxMT2Ta0wdhaIKy6C+BHFAIAf058FLOn
-	WKg1IWK5dbA7zLZyi78Rxhm+n9iFrV5+4Nj0129IAQ220h6SeRtgrY9U
-X-Gm-Gg: AYBFou0Cw+jBjbpcMNg/pQXF16JmzNbSdm9ottVGFJjQP6u9o0VhcrRjrgJF4nNYHog
-	RRi/6AI6nvwDS+hvQ0d8YwmCYrwDYjb13IF5IGDSRp6gaq2uMVULvzeveickIhmrVxy3mRl8GSr
-	MqB81AD36C2QckuYLxhMpO5H0JLNcyZlAkvjqvcBOOLUR6NJnOBYe8TJHsADHcfCR1gRz1iyzXg
-	yObtqX4oTH9sqClaZYDHS5B5HSw1YIkjMnHLNKXVgNv8zVleZEuxMAoLFon4Vu2p+HQR4axD70r
-	A+nSxuEkRsc1AdtVGMFw958pLllSOQfL6+Q1km36t5Ap/lAx5dwrpNNQ9bAdi5XKKX9YhhSLed0
-	oCPzwmKYiAnOb0+sO9wAtDE12YQhEdti5uPd/IyzjUdgrLfrZ5SJYr1DBuyunHj5pxyX9XmAU5x
-	aKjiMcpitx8gggryHpLzp2LygsW71rDnWX4SlOKnFu6JbmrHowYn56teHrAdb4P5tO8PvPQSeaL
-	iXoLucZ0hMWgQPAuwj5HK5E3Er/YnhLloAa1L8lO4QZcc9dvOrp4cwKYtLGuS80+GuXTADR5c7R
-	rbiXDEiG6tw3qW8z8Hch1JVJlA==
-X-Received: by 2002:a05:7301:2a9b:b0:351:7f5c:dbe1 with SMTP id 5a478bee46e88-361a2b3e483mr4308818eec.28.1792257449303;
-        Sat, 17 Oct 2026 10:17:29 -0700 (PDT)
-Received: from server1868-4.tail96fc24.ts.net ([199.188.91.198])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3607ee0e5e6sm17762897eec.1.2026.10.17.10.17.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 10:17:28 -0700 (PDT)
-From: Austin Schuh <austin.linux@gmail.com>
-To: axboe@kernel.dk
-Cc: bigeasy@linutronix.de,
-	io-uring@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	tglx@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Austin Schuh <austin.linux@gmail.com>
-Subject: [PATCH v2] io_uring/wait: wake real-time waiters from hard interrupt context
-Date: Sat, 17 Oct 2026 10:17:26 -0700
-Message-ID: <20261017171726.601443-1-austin.linux@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JRmK5QBq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 639871F000C4;
+	Sat, 17 Oct 2026 19:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792263728;
+	bh=ayWlkfSTipewHdV8008L6w9CQMGhx4cRMzdLM6oFEEY=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=JRmK5QBq25C4vBqKlGicf8AGId8mwmIjtGShdg2Pt5W1Os5N5EYs1pAE+uCbP3OHs
+	 +Dbpve1f8WGzfC4Y3FeP+PA/pAR79GKUFqKR70lzVZCE5jxQMHlztqauXoF4aPREMJ
+	 Tk/bd50BP0h9sDkhhFy73cLrJaXCOKSNdhopr6tdvQnIumC0tFE176F+0Xby3SpBZU
+	 XHMJhoh6DwONDkQYFw1x+ssA5QpgCEwZUhZ11BprqdqtHAMKDtsjylugqoboUWNiwV
+	 DgxgLnilWTxhQo6GMzv33fv7VXMmgUq/HCaWwse+oU2rk1B5s7tXBPVK3IWOP/vSd4
+	 99zdvV4D3usdw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 1A38FCE1ADC; Sat, 17 Oct 2026 12:02:08 -0700 (PDT)
+Date: Sat, 17 Oct 2026 12:02:08 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: Possible enhancement to RCU CPU stall warning messages
+Message-ID: <fee69cc3-731d-4612-8b66-ecc9f16175ca@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <a7a21bf3-a7d5-45bb-be4f-0119fe53fa20@paulmck-laptop>
+ <20261016112339.6d6ac80a@gandalf.local.home>
+ <7aac27b4-b323-436b-95a4-25c676f6f934@paulmck-laptop>
+ <20261016121753.0da4e4e1@gandalf.local.home>
+ <d475217c-f42e-4f92-877b-74310c50b66c@paulmck-laptop>
+ <20261016125453.36ae8efe@gandalf.local.home>
+ <112aa888-a2b9-438c-b850-d802eec54e7d@paulmck-laptop>
+ <20261016134030.6791c1e4@gandalf.local.home>
+ <4a1667ce-790a-4d85-ba2b-55f8729eea3f@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4a1667ce-790a-4d85-ba2b-55f8729eea3f@paulmck-laptop>
 
-Since commit cebf123c634a ("io_uring: implement our own schedule timeout
-handling"), a CQ wait with a timeout sleeps on io_uring's own hrtimer
-instead of an hrtimer sleeper.  On PREEMPT_RT, an hrtimer that isn't
-marked for hard interrupt expiry expires in the per-CPU ktimers thread,
-which runs at SCHED_FIFO 1.  A real-time task waiting in io_uring_enter()
-is therefore not woken at its deadline while any other real-time task is
-runnable on its CPU: the wakeup waits until every one of them has blocked.
+On Fri, Oct 16, 2026 at 04:45:06PM -0700, Paul E. McKenney wrote:
+> On Fri, Oct 16, 2026 at 01:40:30PM -0400, Steven Rostedt wrote:
+> > On Fri, 16 Oct 2026 10:05:02 -0700
+> > "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> > 
+> > > Which might mean holding the rq lock in check_slow_task().  Except that
+> > > task_call_func() already does that for me, right?
+> > 
+> > Does it? It looks to only take the run queue lock if the task passed in is
+> > running. But isn't this task usually blocked?
+> 
+> You are again quite right, it does not always acquire the run-queue lock.
+> However...
+> 
+> > Maybe we can add a special get_cpu_curr(cpu) function that could not only
+> > return the task but also get a reference for it too? Or NULL if idle.
+> 
+> Or we can rely on interrupts being disabled across the full call to
+> rcu_print_task_stall().  This interrupts-disabled region acts as an RCU
+> read-side critical section, so that the call_rcu() in put_task_struct()
+> cannot invoke its callback (and thus cannot free the task_struct
+> structure) until some time after rcu_print_task_stall().
+> 
+> Does that work, or am I still missing something?
 
-hrtimer sleepers, which schedule_hrtimeout_range_clock() used to give
-io_uring, don't have this problem: __hrtimer_setup_sleeper() marks the
-timer hard when the sleeping task is in a real-time or deadline class.
-Both of io_uring's callbacks are fine in hard interrupt context:
-io_cqring_timer_wakeup() sets a flag and calls wake_up_process(), and
-io_cqring_min_timer_wakeup() only reads ring state, under RCU, before
-doing the same or re-arming the timer.  Apply the sleeper rule to them.
+Except that if this is the case, then I don't need get_task_struct()
+in the first place for any of them, do I?  I can instead just rely on
+the call_rcu() in put_task_struct() that had to have happened sometime
+after picking up the pointer to each task structure.
 
-Measured on a Jetson Orin Nano running 6.18.39-rt with this change
-backported: a SCHED_FIFO 40 task waits in io_uring_enter() for 40,000
-deadlines 500us apart, while a SCHED_FIFO 20 task runs bursts of up to
-1ms on the same CPU.  Before, 6,647 wakeups were more than 100us late,
-the latest by 1,040us, and 2,758 deadlines passed without a wakeup at
-all.  After, none were more than 100us late and the latest was 18us.
+I clearly need to go through this one step by step and upgrade it as
+needed from a debugging hack to a proper patch.
 
-This mirrors epoll: epoll_pwait2() waits on an hrtimer sleeper, so its
-timeout is already hard for real-time tasks, and on the same setup it
-was never more than 17us late.
+> (And yes, even if it doesn't work, comments might be nice.)
 
-Fixes: cebf123c634a ("io_uring: implement our own schedule timeout handling")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Austin Schuh <austin.linux@gmail.com>
----
+But this point still holds.  ;-)
 
-Notes:
-    v2:
-    - Refer to __hrtimer_setup_sleeper() for the policy instead of restating
-      it in the comment (Sebastian).
-    
-    Based on for-7.4/io_uring (89f193dc3ef4).  Built for arm64 with
-    PREEMPT_RT and with PREEMPT, W=1, no new warnings.  The numbers above are
-    from the same change on 6.18.39-rt (in 6.18 the code is still in
-    io_uring.c); I haven't booted for-7.4 on the board.
-    
-    v1: https://lore.kernel.org/r/<v1 message-id>
+							Thanx, Paul
 
- io_uring/wait.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/io_uring/wait.c b/io_uring/wait.c
-index b7a0292767c7..fb1c082993a7 100644
---- a/io_uring/wait.c
-+++ b/io_uring/wait.c
-@@ -3,6 +3,7 @@
-  * Waiting for completion events
-  */
- #include <linux/kernel.h>
-+#include <linux/sched/rt.h>
- #include <linux/sched/signal.h>
- #include <linux/io_uring.h>
- #include <linux/time_namespace.h>
-@@ -120,23 +121,32 @@ static enum hrtimer_restart io_cqring_min_timer_wakeup(struct hrtimer *timer)
- 	return io_cqring_timer_wakeup(timer);
- }
- 
-+/* Same policy as for hrtimer sleepers, see __hrtimer_setup_sleeper(). */
-+static enum hrtimer_mode io_cqring_timer_mode(void)
-+{
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT) && rt_or_dl_task_policy(current))
-+		return HRTIMER_MODE_ABS_HARD;
-+	return HRTIMER_MODE_ABS;
-+}
-+
- static int io_cqring_schedule_timeout(struct io_wait_queue *iowq,
- 				      clockid_t clock_id, ktime_t start_time)
- {
-+	enum hrtimer_mode mode = io_cqring_timer_mode();
- 	ktime_t timeout;
- 
- 	if (iowq->min_timeout) {
- 		timeout = ktime_add_ns(iowq->min_timeout, start_time);
- 		hrtimer_setup_on_stack(&iowq->t, io_cqring_min_timer_wakeup, clock_id,
--				       HRTIMER_MODE_ABS);
-+				       mode);
- 	} else {
- 		timeout = iowq->timeout;
- 		hrtimer_setup_on_stack(&iowq->t, io_cqring_timer_wakeup, clock_id,
--				       HRTIMER_MODE_ABS);
-+				       mode);
- 	}
- 
- 	hrtimer_set_expires_range_ns(&iowq->t, timeout, 0);
--	hrtimer_start_expires(&iowq->t, HRTIMER_MODE_ABS);
-+	hrtimer_start_expires(&iowq->t, mode);
- 
- 	if (!READ_ONCE(iowq->hit_timeout))
- 		schedule();
-
-base-commit: 89f193dc3ef462059387e9691bf6af4b1808379a
--- 
-2.47.3
-
+> > -- Steve
+> > 
+> > > 
+> > > Like this, to be folded into the existing patch?  Or am I still missing
+> > > something?
+> > > 
+> > > 							Thanx, Paul
+> > > 
+> > > ------------------------------------------------------------------------
+> > > 
+> > > diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
+> > > index 33e953bb40b33..b314d79c07840 100644
+> > > --- a/kernel/rcu/tree_stall.h
+> > > +++ b/kernel/rcu/tree_stall.h
+> > > @@ -336,6 +336,8 @@ static int check_slow_task(struct task_struct *t,
+> > > void *arg) rscrp->rcu_rdr_cpu_offline = cpu_is_offline(cpu);
+> > >  	// Interrupt are disabled for RCU read-side critical section. 
+> > >  	rscrp->rcu_rdr_cpu_task = th = cpu_curr_snapshot_rcu(cpu);
+> > > +	if (th)
+> > > +		get_task_struct(th);
+> > >  	if (rscrp->on_blkd_list) {
+> > >  		rnp = READ_ONCE(t->rcu_blocked_node);
+> > >  		raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
+> > > @@ -402,6 +404,8 @@ static int rcu_print_task_stall(struct rcu_node *rnp,
+> > > unsigned long flags) }
+> > >  		lockdep_assert_irqs_disabled();
+> > >  		put_task_struct(t);
+> > > +		if (tc)
+> > > +			put_task_struct(tc);
+> > >  		ndetected++;
+> > >  	}
+> > >  	pr_cont("\n");
+> > 
