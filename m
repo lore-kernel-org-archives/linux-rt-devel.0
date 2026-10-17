@@ -1,146 +1,233 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2933D1ABD;
-	Sat, 17 Oct 2026 20:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680E72F60B2;
+	Sat, 17 Oct 2026 21:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792270615; cv=none; b=lI6zdgliTPwKdZ8JILQ8pvt3G57i7SM1yjW1mTBQ2vlMm3n8PBZx3LOLehtXP/HHkqI8kKtqhsTdpRJWWRqO4B/ZACgapOvk+xAFV743pMI5E7IPN9ieNfujosDgKqsusa28YGauaEFJsZ3ZtEN0HIhEb4KUU8YGwOqtElg1Nxc=
+	t=1792273221; cv=none; b=jkapwEu+wIGEcAPImY3xaodvbyzk8Dq0y/pgeiozj8d6NEt7PUQTgISK3zVB69BhPlZxiKjPUAc5zZKt6TuawIo+YHYL3e5dG++a+OlELdsP1oAsTfLz9xaHazgCqox5T8RDmZDVprPf8PXzrOgdwitbjpEifAWqj0z9KLVi4UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792270615; c=relaxed/simple;
-	bh=aNBNRODfl+LBphR93nXPTS1UcwhBxEF/nlaa1RPjIH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZvXr3BGanbNw1FCM3iPRi3UKRk2XV4bDQpBQh9VLx3u6gnQeuEwQ5QtBmicENFJuY1bw+VfBMc/ZshrOmnH/O4oocUGjr4trw1s70rV0h2+3dbLsZrnmiC1roKIjw1gxNEmbEW3w2LH6kAyoE9XKGzyOjQbQCsgdwJkeDkcAss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocoofUb5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792273221; c=relaxed/simple;
+	bh=ZPU+6pL9dSCS0lBdPECZAZr8Yj1+06Le9ECSNxvwusI=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R58/jaaSQs36MVLLaCffz/pz/vt4uinDJ2FeIE31FDJBqTWa4jd1i0rTmXK54b+g4lI/Q1kmtdLo7AYTI6XCweRwMf0+Cv1xDmN+dReT6qP2tzw9VYXq1/pQEq8mxzabke6TOu1QxlgUMXBnJZaZrBKMILJnfDf6yU103xVGrvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZuUnF5o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocoofUb5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE3C1F000C4;
-	Sat, 17 Oct 2026 20:56:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZuUnF5o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A8171F000C4;
+	Sat, 17 Oct 2026 21:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792270613;
-	bh=ICaHlESv3/ZEgb0CL6c9OpvIzwqhaxILgNv0hKoeWb4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ocoofUb5j8zOL9hJxSUpD9COIXYE+Qb98ZjzeRsCrYCd2mgQCqyg5Y9Kfmp48uxj/
-	 C6vcahxYvFOvszO4UHHTNQvghBy6IQZqB+J16ZtYEKbEDEFWPuJH0xXNniJJ8K0m0u
-	 x62noQj5k+QgnRLu1jJJ+8p4WTl2aOM8fNd+Fv8Xqoth1mW47YurD51peFurGGYUMb
-	 jDRCCbXsBvqJ0ZOA1xJEuZvq3RwsSRvvitD0ppxwT8yzEuCyosnk0hxjmTEgXBYqPY
-	 wFMNSwaLXbD9nzQRvYPgdwwxkUXWWO/bO0cCFODqPnNZNgi/bY1ENy6Fs5KedcMjoU
-	 bWwQlAV/qYIUg==
-Date: Sat, 17 Oct 2026 13:56:51 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-Message-ID: <atPhE6rF0Uz93qF2@thelio>
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-2-52fd8be98dcf@kernel.org>
- <CAB19ukEkAOMnPpi2jVFz68GZ_7cwYmNtrBkxnfEJtFcPb7PJ5Q@mail.gmail.com>
+	s=k20260515; t=1792273220;
+	bh=WEQoMZ2bChs4RLc/Ijgg2H/5omfdkYuVoREo4xEk6Bg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=kZuUnF5oBvFkvzuXKzzquBs8Ath7mdmtPFX+TrzNHScgan2v17kwmtk/VkBw0IOZN
+	 eMkBo7vA7PgwUSpl4ZZExc/9Mb8FgwSsPfy5Unpm/8jkHjoMniOddjXe3ZFA8oUc5K
+	 +iDZmwKEDDAivN6A+6TZKUQz4ijCpQCyDLhVKtZXEw93ynEBPXDJAagg6qJx3zEPSu
+	 tqTDH6jYt9g2mg3hra6GNsnAgfkFKfmAkynBqb6TkK3F8WKOy+mdMqzCbSVuXSmTaZ
+	 MrmzP144Rj8oMyKpzbrwzTW3PxOvbZH8yul2T28E/OZ90yCVH81wvxfQCoWz+pAlFz
+	 murPH4a4JnNew==
+Subject:
+ Re: [PATCH net v3] net: do not let defer_count outlive an empty defer_list
+From: netdev-bot+sashiko@kernel.org
+To: jkain@nuro.ai
+Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, rostedt@goodmis.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Sat, 17 Oct 2026 21:40:18 +0000
+Message-ID: <179227321891.3135.3487538638002916061@kernel.org>
+In-Reply-To: <20261013205416.3417296-1-jkain@nuro.ai>
+References: <20261013205416.3417296-1-jkain@nuro.ai>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAB19ukEkAOMnPpi2jVFz68GZ_7cwYmNtrBkxnfEJtFcPb7PJ5Q@mail.gmail.com>
 
-On Mon, Oct 12, 2026 at 10:23:57PM +0530, Sunil V L wrote:
-> On Sat, Oct 3, 2026 at 12:45 PM Drew Fustini <fustini@kernel.org> wrote:
-> >
-> > Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
-> > RDT_RESOURCE_L3 schemata.
-> >
-> > resctrl exposes a single capacity mask per resource, so when more than
-> > one capacity controller backs a cache level they must report the same
-> > number of capacity blocks. The same holds for the other capabilities
-> > resctrl exposes once per resource. A level whose controllers disagree
-> > is left unexposed. Other levels are unaffected.
-> >
-> > The set of controllers backing each level is fixed when resctrl is set
-> > up at late_initcall. Control domains are created in the cpuhp online
-> > callback and keyed on the onlining CPU's cache id from cacheinfo, so a
-> > CPU that is offline at probe time still joins its domain once it comes
-> > online, provided a controller for its cache is in that set. A CPU whose
-> > cache has no controller is left out of that level and a warning is
-> > logged once. A domain is published on the ctrl_domains RCU list only
-> > after it is fully initialized and brought online, and removed from the
-> > list before it is taken offline, following the documented safe
-> > traversal rules.
-> >
-> > Assisted-by: LLM
-> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > ---
-> >  MAINTAINERS                      |   2 +
-> >  arch/riscv/include/asm/resctrl.h | 147 +++++++
-> >  drivers/resctrl/Kconfig          |   4 +
-> >  drivers/resctrl/Makefile         |   1 +
-> >  drivers/resctrl/cbqri_resctrl.c  | 831 +++++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 985 insertions(+)
-[..]
-> > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-> > new file mode 100644
-> > index 000000000000..f10a24761b25
-> > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_resctrl.c
-[..]
-> > +static int cbqri_resctrl_setup(void)
-> > +{
-> > +       int rid;
-> > +       int err;
-> > +
-> > +       for (rid = 0; rid < RDT_NUM_RESOURCES; rid++)
-> > +               cbqri_resctrl_resources[rid].resctrl_res.rid = rid;
-> > +
-> Why can't cbqri_resctrl_control_init directly use
-> cbqri_resctrl_resources? I feel this initialization is redundant.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-This is similar to what x86 and arm mpam also do since it is important
-before any resctrl code is called. for_each_rdt_resource() will get
-stuck in a loop if the rid values are not initialized. In contrast,
-cbqri_resctrl_control_init() only handles the resources for which
-cbqri_resctrl_pick_caches() found a controller.
+Critical: 0 · High: 1 · Medium: 0 (1) · Low: 0 (1)
 
-The initialization could be moved into cbqri_resctrl_control_init()
-before any early return paths but it does introduce the possibility that
-rid initialization could be missed if cbqri_resctrl_control_init() is
-ever refactored. Given that, I'm inclined to keep the current structure.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Thanks,
-Drew
+- [High] The new reject-path undo in skb_attempt_defer_free()
+  (net/core/skbuff.c:7399) brings in a new absorbing state that leaves…
+
+Pre-existing issues:
+- [Medium] In skb_attempt_defer_free() the reject path jumps to nodefer
+  without calling kick_defer_list_purge().
+- [Low] Documentation/admin-guide/sysctl/net.rst (line 365) describes
+  skb_defer_max as the "Max size (in skbs) of the per-cpu list".
+
+--
+
+net: do not let defer_count outlive an empty defer_list
+
+When the skb_defer_max limit rejects an skb, skb_attempt_defer_free() now
+undoes its defer_count increment, so the counter only counts skbs that are
+actually queued. In __skb_defer_free_flush() the counter reset now comes
+after llist_del_all(), which avoids a transient over-count.
+
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index e76762e29360e..a5912b728ddd7 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -6940,8 +6940,11 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
+>  
+>  	if (llist_empty(&sdn->defer_list))
+>  		return;
+> -	atomic_long_set(&sdn->defer_count, 0);
+>  	free_list = llist_del_all(&sdn->defer_list);
+> +	/* Racy on purpose, as in __dev_xmit_skb(): a producer landing between
+> +	 * the del_all and this store stays queued but uncounted.
+> +	 */
+> +	atomic_long_set(&sdn->defer_count, 0);
+
+[ ... ]
+
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index 41beaf625421a..e45e15506283b 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -7392,8 +7392,13 @@ nodefer:	kfree_skb_napi_cache(skb);
+>  	defer_max = READ_ONCE(net_hotdata.sysctl_skb_defer_max);
+>  	defer_count = atomic_long_inc_return(&sdn->defer_count);
+>  
+> -	if (defer_count >= defer_max)
+> +	if (defer_count >= defer_max) {
+
+[Severity: Low]
+This is a pre-existing issue and was not introduced by this patch. The >=
+test means at most defer_max - 1 skbs are queued. However,
+Documentation/admin-guide/sysctl/net.rst describes skb_defer_max as:
+
+    Max size (in skbs) of the per-cpu list of skbs being freed
+    by the cpu which allocated them.
+
+With skb_defer_max=1, nothing is deferred at all. The list is also now per
+(cpu, node), not per-cpu.
+
+Should the documentation or the comparison be changed so they agree?
+
+> +		/* Undo, or the count outlives the skbs it was counting: the
+> +		 * reject path never reaches kick_defer_list_purge() below.
+> +		 */
+> +		atomic_long_dec(&sdn->defer_count);
+
+[Severity: High]
+Can this decrement push defer_count below zero if it races with the flush
+on the owner CPU?
+
+The increment and the undo are two separate atomic operations. The
+atomic_long_set() in __skb_defer_free_flush() can run between them. With
+defer_max = M and M-1 skbs queued:
+
+P1, P2 (remote producers)            owner CPU
+atomic_long_inc_return() -> M
+atomic_long_inc_return() -> M+1
+both take the reject branch
+                                     llist_del_all()
+                                     atomic_long_set(&sdn->defer_count, 0)
+atomic_long_dec() -> -1
+atomic_long_dec() -> -2
+
+This leaves the counter at -2 with an empty list.
+
+defer_count is an unsigned long, so the next producer's
+atomic_long_inc_return() returns -1, which reads as ULONG_MAX. The
+defer_count >= defer_max test is true, so that producer rejects and
+decrements back to -2. Every later producer that runs alone does the same.
+
+__skb_defer_free_flush() then returns early on the empty list and never
+resets the counter:
+
+    if (llist_empty(&sdn->defer_list))
+        return;
+
+dev_cpu_dead() and sysctl writes don't reset it either.
+
+Wouldn't this switch off deferral for that (cpu, node) slot indefinitely,
+even at the default skb_defer_max?
+
+Several things can widen the inc-to-dec window: hardirqs, preemption in
+process context (the TCP/UDP recvmsg paths), and softirq preemption on
+PREEMPT_RT. Meanwhile the flush runs from net_rx_action, busy poll and
+threaded NAPI on the owner CPU.
+
+This seems to contradict the commit message:
+
+    The counter then only accounts for skbs that are actually queued, so
+    it cannot outlive them, and the absorbing state is unreachable without
+    depending on a flush ever running on the owner CPU.
+
+The new comment in __skb_defer_free_flush() cites __dev_xmit_skb() as
+precedent. That path increments q->defer_count and drops without ever
+decrementing, so its reset can only under-count and can never go negative:
+
+    defer_count = atomic_long_inc_return(&q->defer_count);
+    if (unlikely(defer_count > READ_ONCE(net_hotdata.qdisc_max_burst))) {
+        kfree_skb_reason(skb, SKB_DROP_REASON_QDISC_BURST_DROP);
+        return NET_XMIT_DROP;
+
+The new comment also only covers producers that get accepted. It does not
+cover rejected producers whose increment is erased by the store before
+their decrement runs.
+
+Would an approach that never increments past the limit avoid this? Some
+options:
+
+- atomic_long_add_unless() or a cmpxchg loop
+- a signed comparison, so a negative count heals
+- having the flush subtract the number of drained skbs instead of storing 0
+
+>  		goto nodefer;
+> +	}
+
+[Severity: Medium]
+This isn't a bug introduced by this patch. The reject path still jumps to
+nodefer without calling kick_defer_list_purge(). The kick further down in
+skb_attempt_defer_free() only fires on exact equality:
+
+    kick = (defer_count - 1) == (defer_max >> 1);
+
+Can that threshold become unreachable, even with an accurate counter?
+
+With skb_defer_max=2, the only accepted value is inc_return == 1, and
+(1 - 1) == 1 is false. Every later producer increments to 2, rejects, and
+decrements back to 1.
+
+The same happens if the limit is lowered below the current count before
+the old kick fired. For example, with 127 skbs queued under a limit of 256,
+set the limit to 128. Every producer then goes 127 -> 128, rejects, and goes
+back to 127. The new threshold of 65 has already been passed.
+
+proc_do_skb_defer_max() only toggles skb_defer_disable_key on changes to or
+from 0. It doesn't reset the counters or schedule a flush:
+
+    if (nval != oval) {
+        if (nval)
+            static_branch_enable(&skb_defer_disable_key);
+        else
+            static_branch_disable(&skb_defer_disable_key);
+    }
+
+Consider an owner CPU that never runs NET_RX, such as the TX-only
+application CPU from the commit message, whose skbs are completed with
+napi_consume_skb() on another CPU. Wouldn't up to defer_max - 1 skbs stay
+pinned on that list, with deferral off for that (cpu, node), for as long as
+the sysctl keeps that value?
+
+Before this patch, the counter also climbed past the threshold without
+kicking. With this patch, it can recover once the limit is raised again.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261013205416.3417296-1-jkain%40nuro.ai
