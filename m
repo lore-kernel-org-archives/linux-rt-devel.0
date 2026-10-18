@@ -1,42 +1,42 @@
-Received: from mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from mta1.migadu.com (out-32.mta1.migadu.com [95.215.58.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC8636167E
-	for <linux-rt-devel@lists.linux.dev>; Sun, 18 Oct 2026 18:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6679F39B48D
+	for <linux-rt-devel@lists.linux.dev>; Sun, 18 Oct 2026 18:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792347352; cv=none; b=uzVBCXwwnjx+kYdbFxI87UvCMQIIQMRfRriCOBccUto/6FtrDzmcdIWn1wHJWHB2CyPSz7tyxvzX6Gz4GvGqUQeN8qOamtSR34MjKGDiwY8N7TcAL1hlJxriABVtWCbRZlFfJv3rqq2RpSuBo4Oe05DyRfJsxxePqeKzRza580U=
+	t=1792347356; cv=none; b=oHXnfJtDdHR3EqqkOxI32r71lOATmGyb3HwXghEx1/RxP9C8ddVZLfvnWRwvPELIoW6M3qGiXp1uyhFNz1kXDJIY3yx4j8+OR1nNdOsiYGkgc5gOQypQtAPC/uUlV02ds3Tn+w5AsC3Op4KFU+St4COYAPLQQPTd6IAYKr0aYG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792347352; c=relaxed/simple;
-	bh=BjxH9M4CzofdT+daVpizR78PvGADule6EhG2rLW46GM=;
+	s=arc-20240116; t=1792347356; c=relaxed/simple;
+	bh=20biJv+gYi7Qwrkn2S4IPsr/34SYjGdyvzidLkDwbV4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u4ZUHPrYUiy6Bxu4hsg3c8CS7JjHG0Fs/nOX0nRNq348HKvMkAWXJxIYQcInfwvbh287c+4s57gViD4a5cCco1WoL4HDdVq3Y1FPSrWGsojA2KWOOlU72a9ICDlmwBCPaUGS0/Y4pHsgxBZum9yofIr+PCT37AHlE0IOSMMSK94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LJBn52lk; arc=none smtp.client-ip=91.218.175.184
+	 MIME-Version; b=sNuJLjahSRia9/jp8VbB+LvJggwQIwHRwzBhIe37j0yTiSxWk58UFtTGGs70f9eP2/3br5AX4wAwbRJsTyf0KXV26GkOnB+8iTy88vwlzza/PxB5Q8FZVdduvrrfsrwMwD1+tLhqEKr4SLBM4n5zjiNZ6phWmee35U3Gb/jxfv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=e755vFwW; arc=none smtp.client-ip=95.215.58.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LJBn52lk"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="e755vFwW"
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=BjxH9M4CzofdT+daVpizR78PvGADule6EhG2rLW46GM=;
+DKIM-Signature: a=rsa-sha256; bh=20biJv+gYi7Qwrkn2S4IPsr/34SYjGdyvzidLkDwbV4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792347348; v=1; x=1792952148;
- b=LJBn52lkd1dCzVXi4Um90WE1pMpCD4+m0MzeR/cjgyoMAtUvIY7bJkc/zY5Qh8VbeJLwSSyC
- yJfY4B6bhjEtn7ZbML97KaQrsvwkn1gcavdd14/4UOmtS/aJzudFKaR5MOd9kw83jNHj9RIvenI
- 2UAdDuq3rCu2AZbBP9Ve7rX0=
+ t=1792347352; v=1; x=1792952152;
+ b=e755vFwW2HFiZpbVPkMLmnd8k5G1KJH3DQ+nqiRNLPQYnpsyXkYDyDrpdUFs3n2wWXZoRIfM
+ oBLMjQZ+GT/bShw4FJNYOwe11pRM/0rH3umVGodztMbOdtLZInyHrpaQ1CHRB/+ZzT01bU1caHE
+ VTSgzKfca/k2LaOP7s9rG3Dc=
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by mta10.migadu.com with ESMTPS id 3e6df812dc697190;
-	Sun, 18 Oct 2026 18:15:48 +0000
-X-Mizu-Trace-ID: 3e6df812dc697190
+Received: by mta10.migadu.com with ESMTPS id d80abcb8b9211ce3;
+	Sun, 18 Oct 2026 18:15:52 +0000
+X-Mizu-Trace-ID: d80abcb8b9211ce3
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>
 Cc: linux-rt-devel@lists.linux.dev
-Subject: [PATCH 6.6-rt 1/5] Revert "net: Avoid the IPI to free the"
-Date: Mon, 19 Oct 2026 02:15:23 +0800
-Message-Id: <aae57b347236c1d4c767e570dda5c5a95f8f8830.1792345413.git.wen.yang@linux.dev>
+Subject: [PATCH 6.6-rt 2/5] net: Remove conditional threaded-NAPI wakeup based on task state.
+Date: Mon, 19 Oct 2026 02:15:24 +0800
+Message-Id: <5b78687b2230329845936b951ee561223b27c1fa.1792345413.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1792345413.git.wen.yang@linux.dev>
 References: <cover.1792345413.git.wen.yang@linux.dev>
@@ -48,124 +48,82 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wen Yang <wen.yang@linux.dev>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-This reverts commit 1f7514c9c75d41974744b46ca7665fa8d6d6adab.
+commit 56364c910691f6d10ba88c964c9041b9ab777bd6 upstream.
 
-The RT-only defer_work workaround covers the deferred-free path but not
-RPS remote-backlog scheduling, which still raises NET_RX_SOFTIRQ from the
-function-call IPI, so the do_softirq_post_smp_call_flush() warning remains
-reachable. The following upstream backlog-NAPI thread backport replaces
-both paths with backlog-thread scheduling, so revert the workaround rather
-than extend it.
+A NAPI thread is scheduled by first setting NAPI_STATE_SCHED bit. If
+successful (the bit was not yet set) then the NAPI_STATE_SCHED_THREADED
+is set but only if thread's state is not TASK_INTERRUPTIBLE (is
+TASK_RUNNING) followed by task wakeup.
 
+If the task is idle (TASK_INTERRUPTIBLE) then the
+NAPI_STATE_SCHED_THREADED bit is not set. The thread is no relying on
+the bit but always leaving the wait-loop after returning from schedule()
+because there must have been a wakeup.
+
+The smpboot-threads implementation for per-CPU threads requires an
+explicit condition and does not support "if we get out of schedule()
+then there must be something to do".
+
+Removing this optimisation simplifies the following integration.
+
+Set NAPI_STATE_SCHED_THREADED unconditionally on wakeup and rely on it
+in the wait path by removing the `woken' condition.
+
+Acked-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- include/linux/netdevice.h |  4 ----
- net/core/dev.c            | 39 +++++++++------------------------------
- net/core/skbuff.c         |  7 +------
- 3 files changed, 10 insertions(+), 40 deletions(-)
+ net/core/dev.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 46f525292fb9..3510177cd1ba 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3319,11 +3319,7 @@ struct softnet_data {
- 	int			defer_count;
- 	int			defer_ipi_scheduled;
- 	struct sk_buff		*defer_list;
--#ifndef CONFIG_PREEMPT_RT
- 	call_single_data_t	defer_csd;
--#else
--	struct work_struct	defer_work;
--#endif
- };
- 
- static inline void input_queue_head_incr(struct softnet_data *sd)
 diff --git a/net/core/dev.c b/net/core/dev.c
-index 2caeb73a74bb..39ae67377358 100644
+index 39ae67377358..5ba7b5ff1c87 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
-@@ -4821,6 +4821,15 @@ static void rps_trigger_softirq(void *data)
+@@ -4589,13 +4589,7 @@ static inline void ____napi_schedule(struct softnet_data *sd,
+ 		 */
+ 		thread = READ_ONCE(napi->thread);
+ 		if (thread) {
+-			/* Avoid doing set_bit() if the thread is in
+-			 * INTERRUPTIBLE state, cause napi_thread_wait()
+-			 * makes sure to proceed with napi polling
+-			 * if the thread is explicitly woken from here.
+-			 */
+-			if (READ_ONCE(thread->__state) != TASK_INTERRUPTIBLE)
+-				set_bit(NAPI_STATE_SCHED_THREADED, &napi->state);
++			set_bit(NAPI_STATE_SCHED_THREADED, &napi->state);
+ 			wake_up_process(thread);
+ 			return;
+ 		}
+@@ -6751,8 +6745,6 @@ static int napi_poll(struct napi_struct *n, struct list_head *repoll)
  
- #endif /* CONFIG_RPS */
- 
-+/* Called from hardirq (IPI) context */
-+static void trigger_rx_softirq(void *data)
-+{
-+	struct softnet_data *sd = data;
-+
-+	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
-+	smp_store_release(&sd->defer_ipi_scheduled, 0);
-+}
-+
- /*
-  * After we queued a packet into sd->input_pkt_queue,
-  * we need to make sure this queue is serviced soon.
-@@ -6789,32 +6798,6 @@ static void skb_defer_free_flush(struct softnet_data *sd)
- 	}
- }
- 
--#ifndef CONFIG_PREEMPT_RT
--
--/* Called from hardirq (IPI) context */
--static void trigger_rx_softirq(void *data)
--{
--	struct softnet_data *sd = data;
--
--	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
--	smp_store_release(&sd->defer_ipi_scheduled, 0);
--}
--
--#else
--
--static void trigger_rx_softirq(struct work_struct *defer_work)
--{
--	struct softnet_data *sd;
--
--	sd = container_of(defer_work, struct softnet_data, defer_work);
--	smp_store_release(&sd->defer_ipi_scheduled, 0);
--	local_bh_disable();
--	skb_defer_free_flush(sd);
--	local_bh_enable();
--}
--
--#endif
--
- static int napi_threaded_poll(void *data)
+ static int napi_thread_wait(struct napi_struct *napi)
  {
- 	struct napi_struct *napi = data;
-@@ -11876,11 +11859,7 @@ static int __init net_dev_init(void)
- 		INIT_CSD(&sd->csd, rps_trigger_softirq, sd);
- 		sd->cpu = i;
- #endif
--#ifndef CONFIG_PREEMPT_RT
- 		INIT_CSD(&sd->defer_csd, trigger_rx_softirq, sd);
--#else
--		INIT_WORK(&sd->defer_work, trigger_rx_softirq);
--#endif
- 		spin_lock_init(&sd->defer_lock);
+-	bool woken = false;
+-
+ 	set_current_state(TASK_INTERRUPTIBLE);
  
- 		init_gro_hash(&sd->backlog);
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 16beed62e9e3..3f7c4e1d7c76 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -6914,13 +6914,8 @@ nodefer:	__kfree_skb(skb);
- 	/* Make sure to trigger NET_RX_SOFTIRQ on the remote CPU
- 	 * if we are unlucky enough (this seems very unlikely).
- 	 */
--	if (unlikely(kick) && !cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
--#ifndef CONFIG_PREEMPT_RT
-+	if (unlikely(kick) && !cmpxchg(&sd->defer_ipi_scheduled, 0, 1))
- 		smp_call_function_single_async(cpu, &sd->defer_csd);
--#else
--		schedule_work_on(cpu, &sd->defer_work);
--#endif
--	}
- }
+ 	while (!kthread_should_stop()) {
+@@ -6761,15 +6753,13 @@ static int napi_thread_wait(struct napi_struct *napi)
+ 		 * Testing SCHED bit is not enough because SCHED bit might be
+ 		 * set by some other busy poll thread or by napi_disable().
+ 		 */
+-		if (test_bit(NAPI_STATE_SCHED_THREADED, &napi->state) || woken) {
++		if (test_bit(NAPI_STATE_SCHED_THREADED, &napi->state)) {
+ 			WARN_ON(!list_empty(&napi->poll_list));
+ 			__set_current_state(TASK_RUNNING);
+ 			return 0;
+ 		}
  
- static void skb_splice_csum_page(struct sk_buff *skb, struct page *page,
+ 		schedule();
+-		/* woken being true indicates this thread owns this napi. */
+-		woken = true;
+ 		set_current_state(TASK_INTERRUPTIBLE);
+ 	}
+ 	__set_current_state(TASK_RUNNING);
 -- 
 2.25.1
 
