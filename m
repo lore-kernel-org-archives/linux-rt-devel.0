@@ -1,42 +1,42 @@
-Received: from mta1.migadu.com (out-35.mta1.migadu.com [95.215.58.35])
+Received: from mta0.migadu.com (out-195.mta0.migadu.com [91.218.175.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2A239B48D
-	for <linux-rt-devel@lists.linux.dev>; Sun, 18 Oct 2026 18:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BE63DAACB
+	for <linux-rt-devel@lists.linux.dev>; Sun, 18 Oct 2026 18:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792347364; cv=none; b=GAZEVd24Vlpyb4muMoqKvXkmBsKcQLZdBWksE7VmUb8wcIMT8Dlu4HlRYZFDW6Q7HCeMSWx5C5hc3s/8ewfPfPJHsozmYmDAIbtaNl3ktM98ar0r6mOQddoEzqGdfi+OEwjRjjZqJCd7QLRVsfLDN/sdvrlIicFsGf4O/m6LGX0=
+	t=1792347367; cv=none; b=NEznXOt+c4GRtb10wPgP7M1VTSxViLSiAAmy8eR1eTkTchrCoyLP0W8OrbYOz/lwDSTxpdWX5Gn+yNmNDK/5yAeFLlg6oB+LUM5Xs9Cnyk0n600hAYvUnutxHYI3GOb7rjxwNDwxiSA5khxTo+rgONA/GA96z0NnlNZg9xyMgYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792347364; c=relaxed/simple;
-	bh=KZltL9xNR26M29IGr7uwfCCiSufJHXqMktuk7hcLj+I=;
+	s=arc-20240116; t=1792347367; c=relaxed/simple;
+	bh=pGD94iNbSXVvMTk/GsQw0xJxjE7//qjk6wmO+TZQ8Q8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jRFocM7pkAnTqvsb9xg+Jl+PgTiPdhpsvpzSHzP5LCIy9wzvl6XiT+w4q6WP5h+qOSQR132gHT0tPPnwRzdP/n1l/G4sYev8qDmvTkcYASb8eH9RwFU7CiSgRfZoz+oTDtjW/q0egwitfgs3iQqcMv9ym6HzFVoIRgexEJwvho8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Bs94OGcW; arc=none smtp.client-ip=95.215.58.35
+	 MIME-Version; b=lIH9FNCPngOsiNCJex/R3E3a6IfyhMclng9ng2IfOIu26spl6hzhBGDAb5MTSPiHL4ri4+kSpE2CdnsWmx9SuZd422GmXbiV/ZTDAuG4Ie1/rqRI+S0O1xmaCAej8R7A7g6NvHVHTQgl5cXF8+w8njF018solOH2QcEm4HxOLdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T6oyUPZj; arc=none smtp.client-ip=91.218.175.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Bs94OGcW"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T6oyUPZj"
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=KZltL9xNR26M29IGr7uwfCCiSufJHXqMktuk7hcLj+I=;
+DKIM-Signature: a=rsa-sha256; bh=pGD94iNbSXVvMTk/GsQw0xJxjE7//qjk6wmO+TZQ8Q8=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792347360; v=1; x=1792952160;
- b=Bs94OGcW0WNoQGct4CSIK56pO6zIs1/2qJI7lZZkiR9PfHEzxvmlB+YO5baVj2B1Ap/rXwf9
- ZxtxVZzuCD1nhuJJcqWpmVD1kjSbUCrw8yWUByk5KHynwc+DLIqmTwRksgE6929336Tg/HUE/Uf
- d4k8yIHGz4sAHCMsPdf5E01k=
+ t=1792347363; v=1; x=1792952163;
+ b=T6oyUPZjmZSaUfNc2brs2QzBL4ImAlmQUkNZGKg082b7D+dh4Cq0soTLo6XHYc1SzDyubK13
+ iU5jHWvCu+szMD+A9L4JITQxR3W20G9EyJ5lKtVpV4UIfCVeMOEj3ndgBWoiW1ZbP5+QzviAYSY
+ aDU2VXB1l4XBLveqT7qxK8PU=
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by mta10.migadu.com with ESMTPS id 399901fc37758485;
-	Sun, 18 Oct 2026 18:16:00 +0000
-X-Mizu-Trace-ID: 399901fc37758485
+Received: by mta10.migadu.com with ESMTPS id 7979a1b146a4e0db;
+	Sun, 18 Oct 2026 18:16:03 +0000
+X-Mizu-Trace-ID: 7979a1b146a4e0db
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>
 Cc: linux-rt-devel@lists.linux.dev
-Subject: [PATCH 6.6-rt 4/5] net: Use backlog-NAPI to clean up the defer_list.
-Date: Mon, 19 Oct 2026 02:15:26 +0800
-Message-Id: <22309a8b876c53b9bfb05d642b0c16ed626b2a8c.1792345413.git.wen.yang@linux.dev>
+Subject: [PATCH 6.6-rt 5/5] net: Rename rps_lock to backlog_lock.
+Date: Mon, 19 Oct 2026 02:15:27 +0800
+Message-Id: <52d6bb9c9ad3221ff1c3f213affc0b1b20a5c453.1792345413.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1792345413.git.wen.yang@linux.dev>
 References: <cover.1792345413.git.wen.yang@linux.dev>
@@ -50,131 +50,170 @@ Content-Transfer-Encoding: 8bit
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-commit 80d2eefcb4c84aa9018b2a997ab3a4c567bc821a upstream.
+commit 765b11f8f4e20b7433e4ba4a3e9106a0d59501ed upstream.
 
-The defer_list is a per-CPU list which is used to free skbs outside of
-the socket lock and on the CPU on which they have been allocated.
-The list is processed during NAPI callbacks so ideally the list is
-cleaned up.
-Should the amount of skbs on the list exceed a certain water mark then
-the softirq is triggered remotely on the target CPU by invoking a remote
-function call. The raise of the softirqs via a remote function call
-leads to waking the ksoftirqd on PREEMPT_RT which is undesired.
-The backlog-NAPI threads already provide the infrastructure which can be
-utilized to perform the cleanup of the defer_list.
+The rps_lock.*() functions use the inner lock of a sk_buff_head for
+locking. This lock is used if RPS is enabled, otherwise the list is
+accessed lockless and disabling interrupts is enough for the
+synchronisation because it is only accessed CPU local. Not only the list
+is protected but also the NAPI state protected.
+With the addition of backlog threads, the lock is also needed because of
+the cross CPU access even without RPS. The clean up of the defer_list
+list is also done via backlog threads (if enabled).
 
-The NAPI state is updated with the input_pkt_queue.lock acquired. It
-order not to break the state, it is needed to also wake the backlog-NAPI
-thread with the lock held. This requires to acquire the use the lock in
-rps_lock_irq*() if the backlog-NAPI threads are used even with RPS
-disabled.
+It has been suggested to rename the locking function since it is no
+longer just RPS.
 
-Move the logic of remotely starting softirqs to clean up the defer_list
-into kick_defer_list_purge(). Make sure a lock is held in
-rps_lock_irq*() if backlog-NAPI threads are used. Schedule backlog-NAPI
-for defer_list cleanup if backlog-NAPI is available.
+Rename the rps_lock*() functions to backlog_lock*().
 
+Suggested-by: Jakub Kicinski <kuba@kernel.org>
 Acked-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- include/linux/netdevice.h |  1 +
- net/core/dev.c            | 25 +++++++++++++++++++++----
- net/core/skbuff.c         |  4 ++--
- 3 files changed, 24 insertions(+), 6 deletions(-)
+ net/core/dev.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 3510177cd1ba..60d7d6d1a260 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3361,6 +3361,7 @@ static inline void dev_xmit_recursion_dec(void)
- 	__this_cpu_dec(softnet_data.xmit.recursion);
- }
- 
-+void kick_defer_list_purge(struct softnet_data *sd, unsigned int cpu);
- void __netif_schedule(struct Qdisc *q);
- void netif_schedule_queue(struct netdev_queue *txq);
- 
 diff --git a/net/core/dev.c b/net/core/dev.c
-index dbd6c16b7838..abc75727f58d 100644
+index abc75727f58d..f8e31cb5ec77 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
-@@ -246,7 +246,7 @@ static bool use_backlog_threads(void)
- static inline void rps_lock_irqsave(struct softnet_data *sd,
- 				    unsigned long *flags)
- {
--	if (IS_ENABLED(CONFIG_RPS))
-+	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_lock_irqsave(&sd->input_pkt_queue.lock, *flags);
- 	else if (!IS_ENABLED(CONFIG_PREEMPT_RT))
- 		local_irq_save(*flags);
-@@ -254,7 +254,7 @@ static inline void rps_lock_irqsave(struct softnet_data *sd,
+@@ -243,8 +243,8 @@ static bool use_backlog_threads(void)
  
- static inline void rps_lock_irq_disable(struct softnet_data *sd)
- {
--	if (IS_ENABLED(CONFIG_RPS))
-+	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_lock_irq(&sd->input_pkt_queue.lock);
- 	else if (!IS_ENABLED(CONFIG_PREEMPT_RT))
- 		local_irq_disable();
-@@ -263,7 +263,7 @@ static inline void rps_lock_irq_disable(struct softnet_data *sd)
- static inline void rps_unlock_irq_restore(struct softnet_data *sd,
- 					  unsigned long *flags)
- {
--	if (IS_ENABLED(CONFIG_RPS))
-+	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_unlock_irqrestore(&sd->input_pkt_queue.lock, *flags);
- 	else if (!IS_ENABLED(CONFIG_PREEMPT_RT))
- 		local_irq_restore(*flags);
-@@ -271,7 +271,7 @@ static inline void rps_unlock_irq_restore(struct softnet_data *sd,
- 
- static inline void rps_unlock_irq_enable(struct softnet_data *sd)
- {
--	if (IS_ENABLED(CONFIG_RPS))
-+	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_unlock_irq(&sd->input_pkt_queue.lock);
- 	else if (!IS_ENABLED(CONFIG_PREEMPT_RT))
- 		local_irq_enable();
-@@ -4890,6 +4890,23 @@ static void napi_schedule_rps(struct softnet_data *sd)
- 	__napi_schedule_irqoff(&mysd->backlog);
- }
- 
-+void kick_defer_list_purge(struct softnet_data *sd, unsigned int cpu)
-+{
-+	unsigned long flags;
-+
-+	if (use_backlog_threads()) {
-+		rps_lock_irqsave(sd, &flags);
-+
-+		if (!__test_and_set_bit(NAPI_STATE_SCHED, &sd->backlog.state))
-+			__napi_schedule_irqoff(&sd->backlog);
-+
-+		rps_unlock_irq_restore(sd, &flags);
-+
-+	} else if (!cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
-+		smp_call_function_single_async(cpu, &sd->defer_csd);
-+	}
-+}
-+
- #ifdef CONFIG_NET_FLOW_LIMIT
- int netdev_flow_limit_table_len __read_mostly = (1 << 12);
  #endif
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 3f7c4e1d7c76..c5d8a24a8652 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -6914,8 +6914,8 @@ nodefer:	__kfree_skb(skb);
- 	/* Make sure to trigger NET_RX_SOFTIRQ on the remote CPU
- 	 * if we are unlucky enough (this seems very unlikely).
- 	 */
--	if (unlikely(kick) && !cmpxchg(&sd->defer_ipi_scheduled, 0, 1))
--		smp_call_function_single_async(cpu, &sd->defer_csd);
-+	if (unlikely(kick))
-+		kick_defer_list_purge(sd, cpu);
+ 
+-static inline void rps_lock_irqsave(struct softnet_data *sd,
+-				    unsigned long *flags)
++static inline void backlog_lock_irq_save(struct softnet_data *sd,
++					 unsigned long *flags)
+ {
+ 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
+ 		spin_lock_irqsave(&sd->input_pkt_queue.lock, *flags);
+@@ -252,7 +252,7 @@ static inline void rps_lock_irqsave(struct softnet_data *sd,
+ 		local_irq_save(*flags);
  }
  
- static void skb_splice_csum_page(struct sk_buff *skb, struct page *page,
+-static inline void rps_lock_irq_disable(struct softnet_data *sd)
++static inline void backlog_lock_irq_disable(struct softnet_data *sd)
+ {
+ 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
+ 		spin_lock_irq(&sd->input_pkt_queue.lock);
+@@ -260,8 +260,8 @@ static inline void rps_lock_irq_disable(struct softnet_data *sd)
+ 		local_irq_disable();
+ }
+ 
+-static inline void rps_unlock_irq_restore(struct softnet_data *sd,
+-					  unsigned long *flags)
++static inline void backlog_unlock_irq_restore(struct softnet_data *sd,
++					      unsigned long *flags)
+ {
+ 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
+ 		spin_unlock_irqrestore(&sd->input_pkt_queue.lock, *flags);
+@@ -269,7 +269,7 @@ static inline void rps_unlock_irq_restore(struct softnet_data *sd,
+ 		local_irq_restore(*flags);
+ }
+ 
+-static inline void rps_unlock_irq_enable(struct softnet_data *sd)
++static inline void backlog_unlock_irq_enable(struct softnet_data *sd)
+ {
+ 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
+ 		spin_unlock_irq(&sd->input_pkt_queue.lock);
+@@ -4895,12 +4895,12 @@ void kick_defer_list_purge(struct softnet_data *sd, unsigned int cpu)
+ 	unsigned long flags;
+ 
+ 	if (use_backlog_threads()) {
+-		rps_lock_irqsave(sd, &flags);
++		backlog_lock_irq_save(sd, &flags);
+ 
+ 		if (!__test_and_set_bit(NAPI_STATE_SCHED, &sd->backlog.state))
+ 			__napi_schedule_irqoff(&sd->backlog);
+ 
+-		rps_unlock_irq_restore(sd, &flags);
++		backlog_unlock_irq_restore(sd, &flags);
+ 
+ 	} else if (!cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
+ 		smp_call_function_single_async(cpu, &sd->defer_csd);
+@@ -4962,7 +4962,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
+ 	reason = SKB_DROP_REASON_NOT_SPECIFIED;
+ 	sd = &per_cpu(softnet_data, cpu);
+ 
+-	rps_lock_irqsave(sd, &flags);
++	backlog_lock_irq_save(sd, &flags);
+ 	if (!netif_running(skb->dev))
+ 		goto drop;
+ 	qlen = skb_queue_len(&sd->input_pkt_queue);
+@@ -4971,7 +4971,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
+ enqueue:
+ 			__skb_queue_tail(&sd->input_pkt_queue, skb);
+ 			input_queue_tail_incr_save(sd, qtail);
+-			rps_unlock_irq_restore(sd, &flags);
++			backlog_unlock_irq_restore(sd, &flags);
+ 			return NET_RX_SUCCESS;
+ 		}
+ 
+@@ -4986,7 +4986,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
+ 
+ drop:
+ 	sd->dropped++;
+-	rps_unlock_irq_restore(sd, &flags);
++	backlog_unlock_irq_restore(sd, &flags);
+ 
+ 	dev_core_stats_rx_dropped_inc(skb->dev);
+ 	kfree_skb_reason(skb, reason);
+@@ -6017,7 +6017,7 @@ static void flush_backlog(struct work_struct *work)
+ 	local_bh_disable();
+ 	sd = this_cpu_ptr(&softnet_data);
+ 
+-	rps_lock_irq_disable(sd);
++	backlog_lock_irq_disable(sd);
+ 	skb_queue_walk_safe(&sd->input_pkt_queue, skb, tmp) {
+ 		if (skb->dev->reg_state == NETREG_UNREGISTERING) {
+ 			__skb_unlink(skb, &sd->input_pkt_queue);
+@@ -6025,7 +6025,7 @@ static void flush_backlog(struct work_struct *work)
+ 			input_queue_head_incr(sd);
+ 		}
+ 	}
+-	rps_unlock_irq_enable(sd);
++	backlog_unlock_irq_enable(sd);
+ 
+ 	skb_queue_walk_safe(&sd->process_queue, skb, tmp) {
+ 		if (skb->dev->reg_state == NETREG_UNREGISTERING) {
+@@ -6043,14 +6043,14 @@ static bool flush_required(int cpu)
+ 	struct softnet_data *sd = &per_cpu(softnet_data, cpu);
+ 	bool do_flush;
+ 
+-	rps_lock_irq_disable(sd);
++	backlog_lock_irq_disable(sd);
+ 
+ 	/* as insertion into process_queue happens with the rps lock held,
+ 	 * process_queue access may race only with dequeue
+ 	 */
+ 	do_flush = !skb_queue_empty(&sd->input_pkt_queue) ||
+ 		   !skb_queue_empty_lockless(&sd->process_queue);
+-	rps_unlock_irq_enable(sd);
++	backlog_unlock_irq_enable(sd);
+ 
+ 	return do_flush;
+ #endif
+@@ -6165,7 +6165,7 @@ static int process_backlog(struct napi_struct *napi, int quota)
+ 
+ 		}
+ 
+-		rps_lock_irq_disable(sd);
++		backlog_lock_irq_disable(sd);
+ 		if (skb_queue_empty(&sd->input_pkt_queue)) {
+ 			/*
+ 			 * Inline a custom version of __napi_complete().
+@@ -6181,7 +6181,7 @@ static int process_backlog(struct napi_struct *napi, int quota)
+ 			skb_queue_splice_tail_init(&sd->input_pkt_queue,
+ 						   &sd->process_queue);
+ 		}
+-		rps_unlock_irq_enable(sd);
++		backlog_unlock_irq_enable(sd);
+ 	}
+ 
+ 	return work;
 -- 
 2.25.1
 
