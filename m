@@ -1,148 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625173A1E80;
-	Sun, 18 Oct 2026 06:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9595A447256;
+	Sun, 18 Oct 2026 12:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792304662; cv=none; b=DxJhQVCrM08eqKx2chE55WdjRfp/fcmGTFitTTKeZtH3KhfiuMg8hKmz4MH41n91Xif/9eK2/Ugloo2GPWSE6HDheNXKQcGkSCZa2p8YoP4V4o6o8AAqOJNw/5Rk/DtUVXaIAu37nj4Yz3YHuuGoGHtN8OoAuFJV4rCwVq33Ra8=
+	t=1792327413; cv=none; b=sNIQaX8LyBjqAVW/Usobld4QPCVabWmDiug04kVXTvb7CULTxxEXRmg0wR5YGqBJMwAOMBpF8pAxWKu9wI8Kg03ZMYnz4cpJ8ZQdizeE7QiMOyFBD1fxlC8KRKcxwN5rc5dzDMUfIsHYU974MAua/46Aqn4Pxnzn0j/M+6E4LYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792304662; c=relaxed/simple;
-	bh=/agrnax0wfksccKHgEoBGnRbFp7OLiMy5dYjThZCV3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laLTFZ0L8EZtYibBQZssoj7jd0mVxO66dr9IpZMNj1jnDWhfKquCcGMmPlyiqE6zP3iBjCDJ47Xt3smhd/pN0+vp6fZBbLQim9fRP3mp+3H2XezU8gSR20e6LXLRnJt+x6erH5WZD4yZN4h11BfGyU8VeFSJ9P3Dt7yspp9meVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePeHDgCz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792327413; c=relaxed/simple;
+	bh=ayUEIw5CC/Oo9JP2AH2EBFZlXFxX08FMa3VuTPOlLsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=maqKigUUGbfC/zZByJnMpZ9rbbmPogH97oUmjBP1Y0swTXYfOLiVaK6pI6hnLfeEKxhxT1nSnV+pOAEH7BW+2EbNtQRlGdkvsqwAN3YvGMN1xxT20K31ImPsfPkQqMstz/bgCa6FX5nLjikVYf3I+z5sIIqujYeJu6e6YOMkcqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bA/dyefO; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePeHDgCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CA51F000C4;
-	Sun, 18 Oct 2026 06:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792304660;
-	bh=w2Qw0jIYjCcszsE1XhibnTlIkBb9EQqyKTQh4sDtAhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ePeHDgCzDAgLo5tVEJsA16jTv75lNDD4irGGQJwjWhGDdajzpwDF1XoZKX2cH8FKG
-	 6+84L4TEf90k5sfW+5L0TxhPmVmwCWlmu6H+ZGx8D0RX67pZp744hZPBx9G1cHMBot
-	 UdMQaY3PzH1HKDwkxskY0TPGkM4ms2SL1DZcxvgCbnagZIRlGcBPr0XL7gbNWxaaQf
-	 JAsWz6BXTpZdRev/RVo/hBr4Zj8ghnrg0namZ1kxJS40CHQhfFnLtZ57xyk73av15d
-	 ZCXRYLjrG5uGL7EwCp1kRZbF1khfUAb/o+8QTP4rJ9tHcijYsoX88mHRWVDalZCG4O
-	 u5IIlWgJaAxvA==
-Date: Sat, 17 Oct 2026 23:24:19 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 5/5] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-Message-ID: <atRmE5lKNxmskzTm@thelio>
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-5-52fd8be98dcf@kernel.org>
- <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bA/dyefO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=WMNkipMcwPMTP7cNA2CPWIUSwQ0qxyWJjxciMxCkqng=;
+	b=bA/dyefOAdLU4Vyq/EAH0tER0OuFcZuUW6gEJyj8Po6nRZkJ1R4dtcDNE97wm2
+	5k7Wgvt9xX08Vl6ucS+gSoX5V5idtKURK524ymH6p+UGIIMgM9GET/ZsLhJMr1WL
+	ZhI/DveznijksLSFKrnkRhAdqMhC4tlyet7QPg5vMi+QE=
+Received: from [IPV6:2409:8a62:3e8:8320:6021:18bb:3ec8:2069] (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD338SqvtRqvbUHBA--.4070S2;
+	Sun, 18 Oct 2026 20:42:20 +0800 (CST)
+Message-ID: <202f3cb0-a599-44e4-8048-8cbe22b9eaa2@163.com>
+Date: Sun, 18 Oct 2026 20:42:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] pinctrl: stm32: fix hwspinlock timeout and EXTI
+ mux locking
+To: Linus Walleij <linusw@kernel.org>
+Cc: antonio.borneo@foss.st.com, bigeasy@linutronix.de,
+ alexandre.torgue@foss.st.com, arnd@arndb.de, clrkwllms@kernel.org,
+ lee@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+ mcoquelin.stm32@gmail.com, mfd@lists.linux.dev, rostedt@goodmis.org,
+ u.kleine-koenig@pengutronix.de
+References: <20261014160917.139241-2-junan76@163.com>
+ <CAD++jLk9Rga0OuaKyojE2ViT9cBcmD_Ow-pMth-qJbTfHgcybA@mail.gmail.com>
+Content-Language: en-US
+From: Ju Nan <junan76@163.com>
+In-Reply-To: <CAD++jLk9Rga0OuaKyojE2ViT9cBcmD_Ow-pMth-qJbTfHgcybA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
+X-CM-TRANSID:_____wD338SqvtRqvbUHBA--.4070S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Jr43Zw4xCF1UGw15GFyfJFb_yoWDWFc_ua
+	ykZa4kCw45Z3W7Ja12yr12kFyS9FZ7tryUJ395W3ZFvr9IvrZrZa95GrZ7tF4Fya95A3Wf
+	Jr9aqryIv342kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRdWFUUUUUU==
+X-CM-SenderInfo: pmxqt0ixw6il2tof0z/xtbC9QyqXGrUvqzLgwAA3r
 
-On Mon, Oct 12, 2026 at 10:33:21PM +0530, Sunil V L wrote:
-> On Sat, Oct 3, 2026 at 12:45 PM Drew Fustini <fustini@kernel.org> wrote:
-> >
-> > Add a platform driver for CBQRI capacity controllers described in
-> > device tree with the riscv,cbqri-capacity-controller compatible.
-> >
-> > The controller node points at the cache it governs with a
-> > riscv,cbqri-cache phandle. The driver looks that cache up in cacheinfo
-> > and uses its cache id as the resctrl domain id, so the binding does not
-> > need to carry a CPU mask. The controller is then handed to the CBQRI
-> > core, which probes its capabilities and decides whether to expose it
-> > through resctrl.
-> >
-> > Nothing is vendor-specific and reg is the CBQRI register block itself,
-> > so any SoC that describes a CBQRI capacity controller in device tree can
-> > use the driver unchanged.
-> >
-> > Assisted-by: LLM
-> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > ---
-> >  MAINTAINERS                      |   1 +
-> >  drivers/resctrl/Kconfig          |  15 +++++
-> >  drivers/resctrl/Makefile         |   1 +
-> >  drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 144 insertions(+)
-[..]
-> > diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-> > new file mode 100644
-> > index 000000000000..0670a676bdb1
-> > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_capacity.c
-[..]
-> > +static int cbqri_capacity_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device *dev = &pdev->dev;
-> > +       struct cbqri_controller_info info = {};
-> > +       struct device_node *cache_np;
-> > +       struct resource *res;
-> > +       u32 rcid_count, cache_level;
-> > +       int cache_id, cpu, ret;
-> > +
-> > +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +       if (!res)
-> > +               return -EINVAL;
-> > +
-> Unless I am missing something, I think you can simplify the code by
-> using devm_platform_ioremap_resource().
 
-Yes, I'll switch to devm_platform_get_and_ioremap_resource().
 
-[..]
-> > +
-> > +       info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-> > +       info.addr = res->start;
-> > +       info.size = resource_size(res);
-> > +       info.rcid_count = rcid_count;
-> > +       info.cache_id = cache_id;
-> > +
-> > +       ret = riscv_cbqri_register_cc_dt(&info, cache_level);
-> >
-> As I mentioned in the comment for another patch, this function doesn't
-> need to have "_dt" in its name.
+On 10/16/26 9:19 PM, Linus Walleij wrote:
+> Hi Ju,
+> 
+> On Wed, Oct 14, 2026 at 6:10 PM Ju Nan <junan76@163.com> wrote:
+> 
+>> This series fixes two problems around the hwspinlock-protected EXTI mux
+>> and pin configuration accesses in the STM32 pinctrl driver.
+> 
+> Patches applied for v7.4.
+> 
+> There are still complaints from Sashiko, but Sashiko always
+> complains so I'd say at this point we are close to the merge
+> window so it is better to follow up with separate fixes
+> if there are more issues.
+> 
 
-Good point, I'll drop it.
+Thank you for applying the series.
 
-Thanks,
-Drew
+Many thanks also to Antonio and Sebastian for taking the time to
+review the patches; your feedback helped improve the series a lot.
+
+> As maintainer I kind of have to decide whether to wait for
+> the perfect patch or if perfect is the enemy of good and
+> just merge the patch so the baseline looks better, so I
+> decided for the latter here.
+> 
+> Yours,
+> Linus Walleij
+
+I've looked through the remaining Sashiko comments. I'll keep an
+eye on it and send fixes if anything comes up.
+
+Yours,
+Ju Nan
+
