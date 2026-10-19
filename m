@@ -1,92 +1,179 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CB547C0FD;
-	Mon, 19 Oct 2026 06:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D83A485CDE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 06:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792392620; cv=none; b=DKzO3nKIQDxy753CrR1D9+pJriuC0aGDkiTc6TLjSzLtDNSc6jhYcs/frF9RS96B8Gfnjg5aR+U+5ELQpMUpRm183O7QYs5LXLwhrITFH8nW9rNFVa0QpC5mZAK5y87jdelauMx/8sT8Camlz4bFyv+xPDTSNq0Jia6xAFoNx+k=
+	t=1792392803; cv=none; b=uwPy94TcdUVMDDk4uXCfluWARj2n16iASOArfDgVu93qKJDKKxpnjlxcVqaz0Gt1EXMsQUYnUFdJYjT8m7ukI7ZHHORlbHdy6/I7Dm6wmcsuJfHPp54nAJUnVxAxOnXy6dSQo4edUGRnX93P3nukaoNSULiaz6F/1LMoOa6aAK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792392620; c=relaxed/simple;
-	bh=7RXQrDUrcYRxC+nYKERwwQDN6vNmNu1R5hI0Y19kG6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KViTxtUoTy9dJytQ7KsMXGOoxvziY0CVXvgagZOvFPuk06XBRhR0Uwax3XsssMe9UGo9hRXzxT7O4Qz+9DYjtAilYk0H94C11Jn25vDvGI1EUuJM0ef7DIHFx6BGDWk0xeu1tuCEip2esOEdJYchvZ+9e1k8fscnXXCPEmvAE+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=A+jIjzxX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=N0nc2AwP; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1792392803; c=relaxed/simple;
+	bh=p+X+Xl8+cPLsbpBhfIlv3qel9raJ5+zSbCI5QqSPwB4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=tmUbglg/ys8XEKyaLEYBMI8+kiKyyP4AZlPwrmpOo09DS9xS6g4kUruvB8dICpAAq/iNRTOBnvWS7uZDAkqpoO+VAcuruwKW/6sBOTEtSQVKWAQ174KuG/RLVP/ttfzitoDVOkuUtycFm4bFXzqOAj0/LkcMuv56BjnI/+AcLeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jUzyGQFB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="A+jIjzxX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N0nc2AwP"
-Date: Mon, 19 Oct 2026 08:50:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1792392615;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jUzyGQFB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792392800;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emrArgPAsqjY08ePzydEuGzwJRc8mfRvNdYNfd+oT14=;
-	b=A+jIjzxXNlwnaYRh3MCvTCxo+i9IXaPhGLvG2oH466t1wTayWoBberbLAa2GuRB/wHQgTC
-	da2tJmZEYQOBdTmUpl+dQDW/kbTi+6wuwI07icPzElp34f7sgapAxeSU028PxHEAfjbzsR
-	0Hw81pH3Tf39waNxC2ODPVF0kgQpH29elyjev+0uCfBpDrmis2ZCz92in7o6+VkKiqkzSl
-	GZkKEgGxy0VAVBDGX4vTtulhRD7wbW0gcCwP5kQG1fHjuUE9BVU9w2xmyfkJke6LrYsNX/
-	pOBOu0P59WVHGR1DGkdep5xRghY6FyD/+HgUN7MK66WEGNBihMDovhjLGbLhxA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1792392615;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emrArgPAsqjY08ePzydEuGzwJRc8mfRvNdYNfd+oT14=;
-	b=N0nc2AwPluQ0WZBDwpFX2oxBUxd7FztoVVAORN9RA8l+QPlwEeWSIu1c/c+AuEx+nY1D5I
-	CZgehYvF36e2EEAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Ia+ZEym176fLK/VRzqajkyY5xZ/llz9gMIBRTMQe8QA=;
+	b=jUzyGQFBAa8OXqudQhwrED4vvEMdw9X8456LzQ7hr2UWvCuV6puG6EckzDOp3HfLFAroLA
+	PTUR+82sWl7pbvc62JH5bUV1XsYevym5EAqDVI30OqxAjrUnF3jG2GBHHb/5tW9zYnxj0K
+	nmTtPpHbn9kWNTl77nPx4C+YE4oMMAE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-532-RhZmXjyNMK-bjT8GInK8pA-1; Mon,
+ 19 Oct 2026 06:53:16 +0000
+X-MC-Unique: RhZmXjyNMK-bjT8GInK8pA-1
+X-Mimecast-MFC-AGG-ID: RhZmXjyNMK-bjT8GInK8pA_1792392793
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C677F1955F74;
+	Mon, 19 Oct 2026 06:53:12 +0000 (UTC)
+Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.48.130])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 279441955F03;
+	Mon, 19 Oct 2026 06:53:03 +0000 (UTC)
+From: Petr Oros <poros@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Petr Oros <poros@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Shiraz Saleem <shiraz.saleem@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Kamil Maziarz <kamil.maziarz@intel.com>,
+	Rafal Rogalski <rafalx.rogalski@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Michal Schmidt <mschmidt@redhat.com>,
+	linux-rdma@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-kernel@vger.kernel.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Brian Norris <computersforpeace@gmail.com>,
-	linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v9 05/18] mtd: rawnand: sunxi: drain interrupts before
- reusing the completion
-Message-ID: <20261019065013.QUQYpnz-@linutronix.de>
-References: <20261017-submit-sunxi-nand-vendor-oob-layout-v1-v9-0-b624c09e3ee5@gmail.com>
- <20261017-submit-sunxi-nand-vendor-oob-layout-v1-v9-5-b624c09e3ee5@gmail.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mateusz Palczewski <mateusz.palczewski@intel.com>,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH iwl-net 0/3] ice: fix RTNL vs auxiliary device lock inversion
+Date: Mon, 19 Oct 2026 08:52:58 +0200
+Message-ID: <20261019065301.3983537-1-poros@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261017-submit-sunxi-nand-vendor-oob-layout-v1-v9-5-b624c09e3ee5@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: spd3XbR02K-5pIs3Ws2N9k60EpCxkT5HtQOloRZ-wN4_1792392793
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2026-10-17 13:46:00 [-0600], James Hilliard wrote:
-> 
-> This keeps additional synchronization on the timeout path, without a
-> driver lock in every interrupt and wait. The caller can sleep, this IRQ
-> is not registered as shared, and the handler does not acquire the
-> controller mutex held by the caller. The tradeoff is unbounded cleanup
-> latency and no priority inheritance: a starved IRQ thread can prevent
-> timeout cleanup from returning and block other operations on the
-> controller. This is a handler-lifetime boundary, not an RT
-> recovery-latency guarantee.
-> 
-> Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/r/20260909085434.C8F201F00A3A@smtp.kernel.org
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+ice takes the auxiliary device lock of its RDMA auxiliary device from
+three places that run with the RTNL lock held. The RDMA auxiliary probe
+takes the same two locks in the opposite order, because __driver_attach()
+holds the auxiliary device lock across ib_register_device(), which needs
+the RTNL lock. ib_query_port() reaches ib_get_eth_speed() first from the
+port immutable setup and again from ib_cache_setup_one(). The result is
+a hard deadlock that leaves the whole RTNL-serialised part of the stack
+stuck, so the boot never completes:
 
-Sebastian
+  systemd-udevd   state:D
+    really_probe                  <- holds device_lock(&adev->dev)
+    icrdma_probe
+    irdma_ib_register_device
+    ib_register_device
+    setup_device
+    irdma_roce_port_immutable
+    ib_query_port
+    irdma_query_port
+    ib_get_eth_speed              <- blocks on rtnl_lock()
+
+  lldpad          state:D
+    rtnetlink_rcv_msg             <- holds rtnl_lock()
+    dcb_doit
+    dcbnl_ieee_set
+    ice_dcbnl_setets
+    ice_pf_dcb_cfg
+    ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
+
+linkwatch, addrconf, NetworkManager and every ethtool ioctl then pile up
+behind lldpad. On a PREEMPT_RT kernel with CONFIG_DEBUG_RT_MUTEXES the
+rtmutex chain walker reports "rtmutex deadlock detected" from whichever
+task closes the cycle instead of hanging silently. Plain lockdep cannot
+flag it, because device_initialize() marks dev->mutex with
+lockdep_set_novalidate_class().
+
+The probe side cannot be changed, so the three ice callers stop blocking
+and use device_trylock() instead. Contention is only possible while the
+driver core is binding, unbinding or suspending the auxiliary device,
+since all three sites already serialise against each other under
+pf->adev_mutex, and ice_unplug_aux_dev() clears cdev->adev under that
+mutex before calling auxiliary_device_delete(). ice_unplug_aux_dev()
+itself is never reached with the RTNL lock held, so there is no fourth
+site to convert.
+
+Patch 1 then handles a contended lock per event, because the right
+answer differs. BEFORE_TC_CHANGE has to arrive before the traffic
+classes change, so the DCB reconfiguration is refused with -EBUSY. The
+MTU change and critical error events are sent from the service task,
+which consumes their pending bits before sending, so they are re-armed
+for the next run. AFTER_TC_CHANGE keeps its existing fire and forget
+behaviour, and the commit message explains why deferring that one is
+not safe. Patches 2 and 3 only turn the lock into a trylock, where a
+contended lock means the operation is refused with -EBUSY and can be
+retried, which is what the existing check already does when the RDMA
+driver is bound.
+
+This keeps the fix small enough to backport. It does not address the
+underlying layering problem, which is that ice reaches for the driver
+core lock of a foreign device at all. i40e and mlx5 both solve the same
+need with provider-owned registration instead, and converting IIDC to
+that model would make the inversion impossible by construction. That is
+a net-next change across ice, irdma and iidc_rdma.h, and I am happy to
+follow up with it if there is interest.
+
+Tested on an E810-XXV with two PFs, irdma bound to both auxiliary
+devices, on net tip commit 191aa41548b2d2 ("MAINTAINERS: add Bobby
+Eshleman as vsock reviewer") with and without this series, same config
+otherwise. A reproducer binds the irdma auxiliary driver while driving
+one of the three RTNL-held callers into the probe window:
+
+                        without the series   with the series
+  ethtool set_channels  deadlock 10/10       0/10, window entered 300x
+  ndo_setup_tc mqprio   deadlock             0/10, window entered 50x
+  dcbnl ets set         deadlock             0/10, window entered 30x
+
+A window entry is a contended device_trylock(), that is, the exact
+moment really_probe() holds the auxiliary device lock and waits for the
+RTNL lock, so each one is an occasion that used to close the cycle.
+Without the series the console shows both halves and the box only
+returns through hung_task_panic. 25 reboots on the patched kernel were
+clean.
+
+Petr Oros (3):
+  ice: avoid RTNL deadlock when notifying the RDMA auxiliary driver
+  ice: do not block on the aux device lock in ethtool set_channels
+  ice: do not block on the aux device lock in ndo_setup_tc
+
+ drivers/net/ethernet/intel/ice/ice_dcb_lib.c |  9 +++++++-
+ drivers/net/ethernet/intel/ice/ice_ethtool.c |  6 +++++-
+ drivers/net/ethernet/intel/ice/ice_idc.c     | 20 ++++++++++++++----
+ drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +-
+ drivers/net/ethernet/intel/ice/ice_main.c    | 22 +++++++++++++++-----
+ 5 files changed, 47 insertions(+), 12 deletions(-)
+
+-- 
+2.56.0
+
