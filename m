@@ -1,65 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.12
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792434626;
-	b=EThHwNFeQIIRP/Nm16RpKalWNe2fWQE1RqNods0eshIQlBzA1Ngo/F0rqzQgU7TF8+VI
-	 E1+UOBDsPKMOfZesrV+d10Xc4EoQ2BXTVOoQWntWER3E4bjoHl/YgOq0sJA5ZuhXTBZMq
-	 cAYv/QT6rKDAnnYcUA1uyNpMGid0R4vwDysb5deEISXZ7ECa/N2jHTClPRkTQQWKBl+t7
-	 tXTzSHQHwiJevW3Aw6aDYTR8CWMgbVPD0gH6XSP85Xt8o57abYCwvAoU64ME5ym120YZf
-	 kSdkSVdpXiH+1JE9PEmix7019hE3a7+jyY/lfuQ6eGA1U+Sz6wjrNbOOGR6z2IO9TVA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792434626;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Stat-Signature:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=JM2HF2CBW7kmOZAohZaF/zlwnzR8NPtgznofw2fGz2s=;
-	b=ds5rMCTVuHD/colewggXitScgVPTMWMAmihmmWrcTRg5wqM2lfg2k82jlpCW0O9Pi+8W
-	 SNK7p37Quo7FQpdO43JNVM/K6vgEt+jCm+Eik6eiDtk5h0WHWSl1rn0eBsNODmWOL4Z4/
-	 X7ZUJqkgoFfN6gtcKP+5oWofchlI+1VLxwdd3itHxDmyQ6heGN5Q4YERR3BW8CguSEcon
-	 xd81GHQTyzE7dbHiZBU44ZshbLRIShWBeWfONX50ZXK1g55VWgbvuvGnJUuJw8mqjEfcj
-	 9TOKMXl2SbaF/ekQVFeYlgH4L3tu1ml9TmyQa9EWAsZKvXYYBErZI/MH82gDUE4gDqA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=PzCkLZQd;
-	arc=none smtp.remote-ip=216.40.44.12
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792435640;
+	b=Og2F5if9khyaUNegB3/kcXZ2nx2xmQSHIRr+/JfQQDK6vbIt/pOwAw204S76cYGuL7ZN
+	 UVfo3PI1oNmKddCWRfmG3dMXg//N+24zz1ClSjQI1deyka7bN7teWXoZ6QHRC+GLlKxRG
+	 tOyP7Xb4vux8PoXAoX+J+m8ZRfNKLE+VuHlf3TJVeFBExbMCMIPXE1+8eo1YffjQLn3Js
+	 tvAUioRPSoXHvVKWvuM8h4SLTPgKkpPJQogaZ9saBAuYR/riFOwS4Lp3p+9QB+xEX7vtk
+	 Z8X2K1WZwwdzkvI1VkaPAXkqOyb01IEBaJfh9qg/58fgkf3hGmW0nUlN3bKbtFGBptA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792435640;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=V41ZP6u0L0y50jwnS09ezlAGGz+bWXVLsjSU2rSv7VE=;
+	b=vPC4rQNp+PU/9fliZAtNS/5JOdA2YGoWgw/h+2U7efWp0RtfQPB3zbtjLpVTWpdUMrZy
+	 5wlcpBy5jbpkIHpBhE9rWoi1/aOtqUytVPsUHy9lREtccg6YV+VKWLsw8z7hXvZXQKBdO
+	 GLANq0Jo9HOtw4n8mjWWdWkckEREiBgkk5zqWTr80dr/rbCpMTnHB5RfLqHTEjIqKNUgG
+	 YauFoG70VqKa0qLDdw94FXlM8MnABxByp8std4I9N1VAKqAJTHYj1yPIdmW5hNjhcf5ko
+	 jlZxdrJA9l4LqnmSXXpm9r4IO5S/MKBHXNu5vH11gnZD1NpSQvnxB5SQ+rFyITGjfeQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nuro.ai;
+	spf=pass smtp.mailfrom=nuro.ai;
+	dkim=pass header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=adsCRGdA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54C4606A321
-	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 18:30:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B54C4606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFC6606A325
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 18:47:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0CFC6606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuro.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=PzCkLZQd
-Received: from omf12.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 3FFE6A083C;
-	Mon, 19 Oct 2026 18:30:24 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 9752A17;
-	Mon, 19 Oct 2026 18:30:22 +0000 (UTC)
-Date: Mon, 19 Oct 2026 14:30:21 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev
-Subject: Re: Possible enhancement to RCU CPU stall warning messages
-Message-ID: <20261019143021.42fbde3b@gandalf.local.home>
-In-Reply-To: <846ce517-b063-4dc9-867a-603ff49bfd79@paulmck-laptop>
-References: <20261016112339.6d6ac80a@gandalf.local.home>
-	<7aac27b4-b323-436b-95a4-25c676f6f934@paulmck-laptop>
-	<20261016121753.0da4e4e1@gandalf.local.home>
-	<d475217c-f42e-4f92-877b-74310c50b66c@paulmck-laptop>
-	<20261016125453.36ae8efe@gandalf.local.home>
-	<112aa888-a2b9-438c-b850-d802eec54e7d@paulmck-laptop>
-	<20261016134030.6791c1e4@gandalf.local.home>
-	<4a1667ce-790a-4d85-ba2b-55f8729eea3f@paulmck-laptop>
-	<fee69cc3-731d-4612-8b66-ecc9f16175ca@paulmck-laptop>
-	<20261018102107.210318fa@fedora>
-	<846ce517-b063-4dc9-867a-603ff49bfd79@paulmck-laptop>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=adsCRGdA
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-3514b90bb89so6346757eec.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 11:47:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792435638; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VsqQ5iwKVP9sLFIUrQDvF2dBGokcpHY4dTFmq+2vc/DyxOm0RIn5htfl1xs3gdqemx
+         X74oQ8pJ+PAJnSzaUwsutQQR1sfCB8t5ieenbAHAvdPpGoC7mxqqvVa3Ic7057cHxQkX
+         Bw8mvGPUt6OO7Fu2hNcCeJ9NtQcJLzl9EH9QX2BtiTu2DkLMO9aUsTSpqxL9Lkj0RtaH
+         VwHN7yApI0hMO9rsgzJjpqJR/xd4ypeNkZ9SIv5yI6zDch4s77WPNY0jdFFNnIY6Ivay
+         hUiRZE487DBgzXV2G9yINgQCSTu+vZm7EA2UQ2tPnAVUyTW8QAecXzaGRJoGMVxlKscy
+         mQGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=V41ZP6u0L0y50jwnS09ezlAGGz+bWXVLsjSU2rSv7VE=;
+        fh=82cnP6ye2m0Li3qD7DiPGMmnGWkvZOp6dd7vRTR96xs=;
+        b=rZM7YSNmdyfyh5Iv2APlF8yioIUZiVYqO64APSdh2IPHPh/adO5trahqtkYp2HzEdc
+         Sk68YZZiLz5wcTvOiCOY9nkMwi8YlujXPhlYbRAXde0cY/mvQ39lCJEAIK69kN+boorm
+         2drPqt+/Hq7GX21EAk3n++R3WYYR8r8jRSW6uKBI770tAZofcwkbxRzHSvMqkRtZC8eI
+         C61v5lzuNopFpVXI2RZpW6KwNecoFbPLJFKg6iLZXYMnMW0444RTljcfTspbRJuko/Oc
+         bCJBU99Nf6nyE++tvXGWaBJVO1sNxdMv5svto9PMRYo5PrF5jhsiemd9ZSzP8PMR/iTO
+         s3Qg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nuro.ai; s=google; t=1792435638; x=1793040438; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=V41ZP6u0L0y50jwnS09ezlAGGz+bWXVLsjSU2rSv7VE=;
+        b=adsCRGdASmvUMEp6yzZPVzpNxhtFZHHK3zBbiWqT/t2dgPiYmbZ3takMDaM4EUAfJS
+         4lyw5cV6peTbs2tLWfTLJZJ2X4m1FgrDEjs1AsgKLKOSClzeyqUHBShjl05r3nTJ2pLl
+         ZX43z9tUMZarXc7po8NU5gK89OMCFXwltbn/PGxL60+bmFRX0jfL0K5H/PcQR2XWj5DX
+         VdgBJF50FrPHZDFsexIimNIFhrL7ZgrpcOxyze5AVUgxIHNuI5VYq+3BF1NJMknOdi8Y
+         qknjyaa3YUYF6qqryzN600c9Ak+JNnwxWPtDc9mZRHQxcAR1k6EJ1EsXaBprPUlU8JfZ
+         UCjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792435638; x=1793040438;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V41ZP6u0L0y50jwnS09ezlAGGz+bWXVLsjSU2rSv7VE=;
+        b=sIvci41eXlWlNLgSjYJGgf/fOVsD1PuQvFrbTjCiiqcq/rY2uv3OnPMj9NXK/mLeog
+         ELmfQSLttXXfUKNJMbvUIHSicFrJCCPInnD3kOgBhw70HPipyeLUrjrMGXG1MEJdyAMu
+         xExmni650OB1n/kvS6IjGXpCpYVZkPKkq3o2IcQbKfGEBa4KbxGO7HnFU8vziU3Vpsft
+         oJLVCW1Ip8kSHygoDrzrp8Kzw8qefs31Z04gzVQMMfR0D18x68wEsYqj39XAdPCMnpIB
+         zGV1jF0ISjt//r2gvtE1jVutKFUhaQy8I5szhFPDob/TBzeB/kgzi7Mohom5XSLwvBCp
+         T7eA==
+X-Forwarded-Encrypted: i=1; AKwUvBwyGT7KLyYj5YjrIytNPuw+8ZHAwrUKq3N7E2XBR2BNMshdL6yyksc40Bfm3lnVm98OXtOMKaj2JOKS09+EZg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKmGKZ0GDOe7qW8YuKb/PerxObAa21EkvAN7fJMEWJdbJtGOtCg
+	vTUvOivevbZtBV2+jcr7WMpXgaalldF67WRMUH6yX9Hjnv3U+fNG5pwMIqt0vobJaKCk30Vz0by
+	I8pCDR0UFRIMgFxLFhyb1ahXnpIMPMzgadAQBbLlNmg==
+X-Gm-Gg: AYBFou3tfD0RWKAGMGmPFE71n/d+qP9NroCaVmDAoXztMYTuNSs0yXHB8AFSS7ndTgk
+	mwcTSZtnq7ngn9FaYkwL5wwEHe7lB7tDRv7xfaAw+4uz5c9yroFQbSKMh96828S5TsjPaWJwu1p
+	YOClt9UaRW0xdmlyA8AHVauy87WdjZBdJ0piVH28Jek1RuFTtCtCP++esZlDcLMC2jjRCkG6M9q
+	c3etQK0g0Ved3UDVuXbVfRAdOdHPazCKosjqP/y4G7Ic7+yh2zEQ2z+BgzoSKjCLkKlszy0eLuy
+	NnkM6f9RW23fxWuQsQaIhvI6igspfA9ZfBVUj81fZFFhpd2lRFMnN8UalEZbhYLj/A==
+X-Received: by 2002:a05:693c:808c:b0:353:7e28:9c58 with SMTP id
+ 5a478bee46e88-361a3323b50mr13739930eec.41.1792435638102; Mon, 19 Oct 2026
+ 11:47:18 -0700 (PDT)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -69,41 +103,34 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: hss7ecxfsnrxj5owam8jgxxop87ipbyt
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 9752A17
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+DcQ1o0Xtz8iefg7uKaovSLtsfQpW2QBs=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=JM2HF2CBW7kmOZAohZaF/zlwnzR8NPtgznofw2fGz2s=; b=PzCkLZQdgz08Rs8hVsO1W6yWrThODiHKof39P6SCuCYkTZjcLS9PyjUNLwnFlGpmZm3gcVLPG94xt4QP6yxoJYRE0mPjTkrEo/QTWvk/G2rTEBjPv1PmSyDrOmxsk3iydQdgFw4jPT5cBqC2+8Ti6KLr2SQlnmnxhOjRaCN64zk=
-X-HE-Tag: 1792434622-152960
-X-HE-Meta: U2FsdGVkX1+v3c0anXMlogYRiIcCorNkRyb1sWV14/IdnPhrEekav23Lt91hdK4xkbTLjUOQ30+j3x/z7gUc52FmB7tbPHBm9mLV/xmf+lc1ojyBFFfdtdiQ1xc+JoObE4PMNVQZ/jVlnp0R8LBfK9Xh5GFXWI+WtbSiUdOOFX2jNPNQgkIy9TJTUJpj4Me4wNPcDbx7njdUqMHcfvWBvgaTaH6wrCaluFkOP0M4LmmwEQ03dOAFphz5VcJ/Z3SJtJMLFelwQGSYxFxFZH/k6aA7qlpH/HuHwMk4lRKRDGk31S/P7EjV53bKHNmusC0Yy6fzoVsq7ScE28hUuepSXkQpILcWG3JgO1mOyhp4pNAdCV8PIqI3N4vngjYpgUmLOlGCDDdda+em4axNSCAbkg==
+References: <20261019174258.1375583-1-jkain@nuro.ai> <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
+In-Reply-To: <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
+From: Joseph Kain <jkain@nuro.ai>
+Date: Mon, 19 Oct 2026 11:47:06 -0700
+X-Gm-Features: AclHuK8UH1QOH2EFc3ZT-WkryAT5MFnjmPJLltAW_ky2Q_LYaLtOPSHKqrEXEko
+Message-ID: <CA+Y90PjRyR2czC_Y8G3wdttj2YoDMb+OfPDR1_KGhbu0rDquxQ@mail.gmail.com>
+Subject: Re: [PATCH net v6] net: schedule a purge when the defer queue rejects
+ a free
+To: Eric Dumazet <edumazet@kernel.org>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, kuniyu@google.com, 
+	kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	rostedt@goodmis.org, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 19 Oct 2026 10:30:40 -0700
-"Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Mon, Oct 19, 2026 at 10:58=E2=80=AFAM Eric Dumazet <edumazet@kernel.org>=
+ wrote:
+>
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 559735f71b5dd..1fa63eee528c2 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -11320,3 +11320,10 @@ void sched_change_end(struct sched_change_ctx *ctx)
->  		p->sched_class->prio_changed(rq, p, ctx->prio);
->  	}
->  }
-> +
-> +// Not for mainline, but hopefully someone has a trick that gets this
-> +// job done.
+> Say not to very verbose changelog, that nobody will read.
+>
+> Since commit 844c9db7f7f5 ("net: use llist for sd->defer_list"),
+> skb_attempt_defer_free() increments sdn->defer_count before testing
+> it against skb_defer_max, and keeps the increment when it rejects.
+> __skb_defer_free_flush() returns early on an empty list without
+> clearing the counter.
+[...]
 
-Still not for mainline?
-
-> +struct task_struct *cpu_curr_snapshot_rcu(int cpu)
-> +{
-> +	return rcu_dereference_all(cpu_curr(cpu));
-> +}
-
-Anyway, LGTM.
-
-Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-
--- Steve
+Thanks, I'll use this changelog in v7.
