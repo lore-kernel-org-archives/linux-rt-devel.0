@@ -1,66 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792442879;
-	b=DefQz/kNjJsFgGS/ckwg/WnzMZeqNty6f75oaFBgfZ7qX3Pw7bcv6S/Qxp953aIfMCRO
-	 N7swTrJhTHnQsqO5Hs6EE6t17m7moOK18vht+B0jcKt5qBvTkTLqnvmsXNsSwZeYo6cUb
-	 nmYkP2vIWSZv60CybrFgu271yPrmsa5Xk37qPzAkKFUkNH8EMP3ZtknfMS/1r6IghP/M6
-	 SqGQhVNk7//u9cwPQr0Cc4seaQjjds27JwpTkjNe2ownssckpx6RJSonn+W9tfxwlRVsM
-	 cnDo+4tAMAr03Uku2USa5vYdsoScR1+EBlPzLjYydFsOL5aICK8S2hNIGpkktmOwbkA==
+	t=1792443773;
+	b=VtFHUwqG0BQWxPZXtej+R4LrJkvsYY1oTo3/FsrdJbZdZ5nZ1B7faWjgMDsu/2nU+BoV
+	 AZFs9h65Gxu22Mq1sF0bxcaxycXUOTEF51njtfsbydwP9jFG5Kt84xquz25vLTU4C4hRQ
+	 2CJKZtt8m/YslIVfPlyRAjlpnzrLhqreKDsCRZ3LMQ593H/jr9DgqM5VdHNVKzZrbvQ1h
+	 ocMlT7N3H3bhTDL0bEkudHPMQ5mZShJvq73dZUuYtjOy2rnDj6cmqA/WaG07XY5qwyPD6
+	 UuThBuJNYnYaIo1H9LBoobV+luuu9n2bZXXzlE4NHWbMT78zhkLxHd26EQGKKgMnsnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792442879;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=mxMUYzin+1iTcBhuRWJPjGD5mo13ZLuKNESWTPDIUTA=;
-	b=QsdtxggyClOsh1ZQmW5hNK3aOgNSTHY8hYcoqh6k5u9WHLdtN0hcuvDzSFDePShvL531
-	 SlQhqntUYut2HrjV5iHJNzJOx8uh5e97WNF6MFRBac2Vxsh9SlL1zU/sML8zS8STl29aF
-	 3XYUVPJT8SkZ8he4rurfwFQsat2JoIIfFIPwK57hQNVLcFAxsoccovGQq1yVFThRfomMD
-	 oSnUw+FjsDudaFHnP+mqcsei1CdmjJu1pYWLC+cEC6rXncYllFTFQvBA7bcQlqFNv4vmB
-	 YZwluuTFyF5nXJRc0wEc1sPhdDyqxwZTtOaeASVPZLczCnkWLdzRkiB20OvP83k+9ew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792443773;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Mailer;
+	bh=xFtfINSonkJB+J7cDg4OJ4WdR4XOLP+Q5XiVEZloT04=;
+	b=lbH2brZtMa2cJ8tvN44XRn4M5HxV52OtJ25lHkglDpyRBkBPY5Kep3cPrgiDTBySii+7
+	 H4FU79+XeAKKW1Dmz1xpu+bycymmBdptTbZk/Un7ApTZbj+lMXJEn+sM3R1Ah1Dw59jmF
+	 OW+aNyX6hdv6/EgI7Ow1uruHZwKN21lK8SBQydvp6UlaCrQhbV7/TmqhrOgQzQ1N355ix
+	 0EOzsKeYIfQ6Y8lsOdW3+COJdZ3DR71bHyxQi/AZpNAyJjCeEOGewPJB2PT8p0Omyukdb
+	 8wL83SNezrPWDhWeej0qKkijHJFjzpOtpxDafOgcjPYW92NpLzJryNVAUdq0cW6w+9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WUTATZz9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=kernel.dk;
+	spf=pass smtp.mailfrom=kernel.dk;
+	dkim=pass header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=ZtszNgHA;
+	arc=none smtp.remote-ip=209.85.210.44
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCE0606A31F;
-	Mon, 19 Oct 2026 20:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88DE606A31A
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 21:02:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C88DE606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WUTATZz9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4AC51F000C4;
-	Mon, 19 Oct 2026 20:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792442878;
-	bh=mxMUYzin+1iTcBhuRWJPjGD5mo13ZLuKNESWTPDIUTA=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=WUTATZz9ABjBYitGjDhoqbn/Ufegq/lOBOge+JT27WvVN3f6v5mx4NpEy2zlcMjdX
-	 qLHsou5Bbh45trNM/oH+D6aSteY8gjVdX4YZ5mn5HUsiNh4mVfmVB8pbVtpLZR7dq0
-	 ZIZHBlHzZaZXetLnFr+T9JHegmnweV00cvpe7CxR0ltI+7XbJf11k1xTV54iJAQF4E
-	 n9QENJdR0+bOE23dk4iwrugbrsAP1QYE0QyLKp6vrOWbwSbkTy9MKt0ppOI72FANCo
-	 bJOGkzbkC4hg1Afh8t2md7hz0e2Aj/t0vkrjjIrCEnwKSlHxhbMjstoUuGDtehBnmX
-	 Kdw3PqiYzL+Cg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 92890CE09FC; Mon, 19 Oct 2026 13:47:58 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:47:58 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [PATCH] rcu: Print CPU that preempted stalled reader wants to run on
-Message-ID: <7a827d0a-1a69-4be6-8b69-9a9769b182b7@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=ZtszNgHA
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7f432ac553fso1838694a34.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 14:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1792443772; x=1793048572; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xFtfINSonkJB+J7cDg4OJ4WdR4XOLP+Q5XiVEZloT04=;
+        b=ZtszNgHAYg7CJPUzDcZqIuip5XeB4PpZ43NjXkYGK1GoVOIc48BAC/xXug4LUW4k69
+         YiLkppoli+uCcpS6bGhytqvnow7d2FXu1aHm1Ri2NDOwoZ0FDQnmuycRJDsW+ZzQ3yu5
+         bnACFy9HVYCO1Zw3Og4iwwEx1FfiHZ1f7vYCy7nTWCwJjBxeghU54IpbNTaURxn+MDvK
+         61hMmxfcAdhQekYRpJo3nwmRjeQObpAmgDbRxDYsXTGVBqxu5WceerbFLcuaJK5abc2/
+         udEdj3ii6xiNpa3mP/v9FoLVIrzHCqDnR8r6VAY4e06suNjZoibI3nwXHKHGsVjYCMZZ
+         RB3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792443772; x=1793048572;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xFtfINSonkJB+J7cDg4OJ4WdR4XOLP+Q5XiVEZloT04=;
+        b=YqYtUbmKj/DgSUWibVNIHppQyegU5QvVvRTgDtQdl63qoKJjhgSo3r8pUSwipv74hz
+         wtvlJZJ3gn/hSla46nv1YptrptRDzxUhvckbTU3yRWJTKC+wkwMTf+oLT3Nfxwe7HEUW
+         6I9VLKYaMzZ46y+NBlQTyCZsn1NeUEFMe6JNVWQXK9TSlXMg1oyf47Ri9cc04a1f477O
+         BHdPZtNrAANvrDudSsdrnQXtEIAT4hR0tVWEfMy/PIzQc+2sZM3iLrgThnjdUahdKB7e
+         6lpx6DpmaFByiFW2pkK9+GgtcAcX8FjON7vAuem7cLbO0UR7DswRC5lgEWEBPN7+zKRc
+         Muvw==
+X-Forwarded-Encrypted: i=1; AKwUvBy7QbGpGkCXyvJS64HNdLDz1ZWAMMWwhGY6JIE5j9DnKmuO3MczE7WDHJlnBmixM2o3mKJGr452oSDuSu2UPQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKc93S32DeNYHcPXzMwnc1o1AKQim6PGQV6QZtqNZlbaHcQWdrj
+	/XWtysZbbfddRF3MkCp5ujpLNj2Mvmchh5jlf+pupk2dfyzZwh0SUpL3oZyj6vEqLZ8=
+X-Gm-Gg: AYBFou0NZkhtvkOUPDdbF/XYKmVanW9xmVyTqXehibJOLE38aEusL/WbyeiiuD2U+WV
+	KhP7KLLbfSRy96OqYqKlwFiF8dvyPx0QuOFhvygiTobdCs/elcB2/J6mjlX4I3woDyGrBS/YwQ3
+	akNl2ik47ntI0bO7ize2dfNgolVyXAuN7oEL7a/h1yy8tg1rDw/Y14Z9p7Q1Wp0irKAW8hvA1gN
+	55a9iNS1DTSXyRj7nHe9Y0//YJa6Ks7PjK5NZDWuhoxsW1wZco4csBW1Keigmw3gLY+IRYQChkR
+	QbqG3IUQ1T7SGgm4al8P05r084EJm5iTiVTHtO4oYc8MMWUBpqDvXSp2pLuBQsga9THPu8wtQgF
+	IFbrttx8rs0VAtX+lLHWXUOf6w4zRHii9RxnJQKHuVJNwpDB+PeZ6mb+TIBV8SW0R8I7pmLSodf
+	x7bMexcjY/mBjid5VOE/XbbUeWVCF9UfpuRfbAfDWAU1tjA/NMwdsnFKaATzJn80wzHXJL/Ifrl
+	kV8HZa7IfwjewaeqHUqtoA4oDKi5bepaNwqOKMkRrjEXS9FG3g/po8=
+X-Received: by 2002:a05:6808:17a5:b0:4fb:c2dd:c7ae with SMTP id 5614622812f47-53cc2aa9259mr8493736b6e.6.1792443771712;
+        Mon, 19 Oct 2026 14:02:51 -0700 (PDT)
+Received: from [192.168.2.38] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-5388a5572b4sm7960424b6e.6.2026.10.19.14.02.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 14:02:49 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Austin Schuh <austin.linux@gmail.com>
+Cc: bigeasy@linutronix.de, io-uring@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, clrkwllms@kernel.org, rostedt@goodmis.org, 
+ tglx@kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261017171726.601443-1-austin.linux@gmail.com>
+References: <20261017171726.601443-1-austin.linux@gmail.com>
+Subject: Re: [PATCH v2] io_uring/wait: wake real-time waiters from hard
+ interrupt context
+Message-Id: <179244376847.3231032.17554903346880483813.b4-ty@b4>
+Date: Mon, 19 Oct 2026 15:02:48 -0600
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,184 +98,30 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-This commit defines a cpu_curr_snapshot_rcu() function that invokes
-rcu_dereference_all(cpu_curr()) to determine which task is currently
-running on the specified CPU.  The RCU CPU stall warning then uses this
-new function in order to print the task that has preempted the stalled
-task (the stalled task being the one that is in an RCU read-side critical
-section, thus preventing the current RCU grace period from completing).
-This modified stall-warning message also includes the CPU, along with
-an exclamation mark ("!") after the CPU number if that CPU is currently
-offline.
 
-This is a potential step towards allowing people (or LLMs, for that
-matter) locate any tasks that might be preventing the preempted RCU
-reader task from running.
+On Sat, 17 Oct 2026 10:17:26 -0700, Austin Schuh wrote:
+> Since commit cebf123c634a ("io_uring: implement our own schedule timeout
+> handling"), a CQ wait with a timeout sleeps on io_uring's own hrtimer
+> instead of an hrtimer sleeper.  On PREEMPT_RT, an hrtimer that isn't
+> marked for hard interrupt expiry expires in the per-CPU ktimers thread,
+> which runs at SCHED_FIFO 1.  A real-time task waiting in io_uring_enter()
+> is therefore not woken at its deadline while any other real-time task is
+> runnable on its CPU: the wakeup waits until every one of them has blocked.
+> 
+> [...]
 
-Adding a get_task_struct() for the currently running task would be a
-bug because we are not in a position to prevent that task from exiting.
-Yes, yes, because interrupts are disabled throughout, the corresponding
-task_struct structure cannot be freed, but following sequence of events
-is all too possible:
+Applied, thanks!
 
-o	The check_slow_task() function places a pointer to the task_struct
-	structure in its local variable "th".
+[1/1] io_uring/wait: wake real-time waiters from hard interrupt context
+      commit: 5b01d5955ac206e38097f777eff6ab2a8b948c41
 
-o	The corresponding task exits, reducing its task_struct structure's
-	->usage to zero.  The task_struct structure is therefore passed
-	to call_rcu().
+Best regards,
+-- 
+Jens Axboe
 
-o	The check_slow_task() function invokes get_task_struct(th),
-	setting th->usage to one.
 
-o	The rcu_print_task_stall() function invokes put_task_struct(),
-	again reducing ->usage to zero, and again passing the task
-	struct to call_rcu().  This results in either double-call_rcu()
-	or use-after-free, depending on when the RCU grace period for
-	the first call_rcu() completes.  Both outcomes are bad.
 
-This commit therefore relies solely on disabled interrupts acting as
-an implicit RCU read-side critical section that prevents all of the
-task_struct structures from being freed, thus avoiding the need for
-get_task_struct().
-
-The original get_task_struct() calls in rcu_print_task_stall() on the
-tasks on the ->blkd_tasks list are safe because those tasks cannot exit
-without first acquiring the rcu_node ->lock that this code already holds
-(because these tasks must remove themselves from the ->blkd_tasks list).
-But it is better to be consistent and rely on RCU in both cases.
-These pre-existing get_task_struct() and put_task_struct() calls are
-therefore removed.
-
-[ paulmck: Apply feedback from K Prateek Nayak and Peter Zijlstra. ]
-[ paulmck: Apply feedback from Steven Rostedt. ]
-
-Link: https://lore.kernel.org/all/a7a21bf3-a7d5-45bb-be4f-0119fe53fa20@paulmck-laptop/
-Link: https://lore.kernel.org/all/e8b6b372-d16b-4939-aa7a-755b7149e0fb@paulmck-laptop/
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 8b3d47a325cca..3606e5a2cec32 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -2532,3 +2532,5 @@ extern void migrate_enable(void);
- DEFINE_LOCK_GUARD_0(migrate, migrate_disable(), migrate_enable())
- 
- #endif
-+
-+struct task_struct *cpu_curr_snapshot_rcu(int cpu);
-diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
-index 803a56af3259f..08699652f51c2 100644
---- a/kernel/rcu/tree_stall.h
-+++ b/kernel/rcu/tree_stall.h
-@@ -309,6 +309,9 @@ struct rcu_stall_chk_rdr {
- 	bool on_blkd_list;
- 	bool rcu_rdr_running;
- 	int rcu_rdr_boosted;
-+	int rcu_rdr_cpu;
-+	int rcu_rdr_cpu_offline;
-+	struct task_struct *rcu_rdr_cpu_task;
- };
- 
- /*
-@@ -317,8 +320,10 @@ struct rcu_stall_chk_rdr {
-  */
- static int check_slow_task(struct task_struct *t, void *arg)
- {
-+	int cpu;
- 	struct rcu_node *rnp;
- 	struct rcu_stall_chk_rdr *rscrp = arg;
-+	struct task_struct *th;
- 
- 	if (task_curr(t))
- 		return -EBUSY; // It is running, so decline to inspect it.
-@@ -327,6 +332,13 @@ static int check_slow_task(struct task_struct *t, void *arg)
- 	rscrp->on_blkd_list = !list_empty(&t->rcu_node_entry);
- 	rscrp->rcu_rdr_running = task_curr(t);
- 	rscrp->rcu_rdr_boosted = 0;
-+	rscrp->rcu_rdr_cpu = cpu = task_cpu(t);
-+	rscrp->rcu_rdr_cpu_offline = cpu_is_offline(cpu);
-+	lockdep_assert_irqs_disabled();
-+	rscrp->rcu_rdr_cpu_task = th = cpu_curr_snapshot_rcu(cpu);
-+	// There is no need for get_task_struct(t) because we are in
-+	// an implicit RCU read-side critical section due to interrupts
-+	// being disabled.
- 	if (rscrp->on_blkd_list) {
- 		rnp = READ_ONCE(t->rcu_blocked_node);
- 		raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
-@@ -352,6 +364,7 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
- 	int ndetected = 0;
- 	struct rcu_stall_chk_rdr rscr;
- 	struct task_struct *t;
-+	struct task_struct *tc;
- 	struct task_struct *ts[8];
- 
- 	lockdep_assert_irqs_disabled();
-@@ -364,7 +377,9 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
- 	t = list_entry(rnp->gp_tasks->prev,
- 		       struct task_struct, rcu_node_entry);
- 	list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
--		get_task_struct(t);
-+		// There is no need for get_task_struct(t) because we
-+		// are in an implicit RCU read-side critical section due
-+		// to interrupts being disabled.
- 		ts[i++] = t;
- 		if (i >= ARRAY_SIZE(ts))
- 			break;
-@@ -372,19 +387,25 @@ static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
- 	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
- 	while (i) {
- 		t = ts[--i];
--		if (task_call_func(t, check_slow_task, &rscr))
-+		if (task_call_func(t, check_slow_task, &rscr)) {
- 			pr_cont(" P%d", t->pid);
--		else
--			pr_cont(" P%d/%d:%c%c%c%c%c%c",
-+		} else {
-+			tc = rscr.rcu_rdr_cpu_task;
-+			pr_cont(" P%d/%d:%c%c%c%c%c%c CPU %d%s %s (%d)%s",
- 				t->pid, rscr.nesting,
- 				".b"[rscr.rs.b.blocked],
- 				".q"[rscr.rs.b.need_qs],
- 				".e"[rscr.rs.b.exp_hint],
- 				".l"[rscr.on_blkd_list],
- 				".R"[rscr.rcu_rdr_running],
--				".B?"[rscr.rcu_rdr_boosted]);
-+				".B?"[rscr.rcu_rdr_boosted],
-+				rscr.rcu_rdr_cpu,
-+				rscr.rcu_rdr_cpu_offline ? "!" : "",
-+				tc ? tc->comm : "???",
-+				tc ? tc->pid : -1,
-+				tc ? (is_idle_task(tc) ? " (idle!)" : "") : " (no task)");
-+		}
- 		lockdep_assert_irqs_disabled();
--		put_task_struct(t);
- 		ndetected++;
- 	}
- 	pr_cont("\n");
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 559735f71b5dd..3d88ad36ec9b4 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -11320,3 +11320,16 @@ void sched_change_end(struct sched_change_ctx *ctx)
- 		p->sched_class->prio_changed(rq, p, ctx->prio);
- 	}
- }
-+
-+/**
-+ * cpu_curr_snapshot_rcu - Return the task currently running on CPU
-+ * @cpu: CPU to query
-+ *
-+ * The caller must be within an RCU read-side critical section.
-+ *
-+ * Return: Pointer to task_struct of task running on @cpu.
-+ */
-+struct task_struct *cpu_curr_snapshot_rcu(int cpu)
-+{
-+	return rcu_dereference_all(cpu_curr(cpu));
-+}
