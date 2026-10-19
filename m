@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.230
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792428261;
-	b=1U1Dq4FRFvIZ2WvClvtyN53YsVbLxnvt9RggaLjv6QXcNB1rXqPgchKa9Qi9z3BIvNQ8
-	 xo/fYpIDS6Ks5XxUYkzS5I+z3XA/XeskApWIktEyDqSb/Fp3QfIPibCllg7Yez110oYii
-	 9+BYWVsBySHx5Ap7EfYqQSPYcYwFwKUBSUKxFgad0WG9xKO8qj09lWB5F9Jr1V/32sX/j
-	 jl7RV9TCU9NBSJjoedsWR4j9CYvIIT7HzOdXEnXm/05fncVbqrXkGWU+oqwEd8+H8flmb
-	 G1RFUaOK2+zmziGCIHTBKotkzQoGDOF4+4O+ylOHz5Qp62LBFqnKcL9vP9rOmOFfpWA==
+	t=1792430297;
+	b=XbHladRgJWOPCTCoTIScL5N8hOWOvm/DwlKbT9IekHU/c5k+x1zP55XJqnBpu2SAihLt
+	 v1pUhx6XQX2721fl9BCAI5s6pFTqWbHH0lyRaa6djHcX+JuaoXH+yZKri1TQBGHAguEg+
+	 L1s86OVZXpspHuyRNPwjXpnpFnzlQzJ+vjGc12L2uz/vFcU8F12FG/k8v6OIcgtoBd+mT
+	 ktfAmvBMoGVDN1/dyUSkKfPF1ki3T0hKRD2uqr1Lvy87/ieVQnamL+49ROaBOs0ne1pP5
+	 HP0vfdmle1aNeM+VkAp5j4bgn0gu+RxjOqqPB/uLzzHaco03u6CyDRvNE3O6YQWGk7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792428261;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=xxmctpVt6LC6OQdxxTHfXyb8cOj5HeFKq0AjwhVXAm4=;
-	b=P+4BUsmb+MDpxRn/QfGpTx026GP/JipUzQ9xxKm2jZ9At5fA3QmOmM8u+ea/18Gg9dDS
-	 6jqd/Z3mfdOLXmBLaXvWr4RL+aS091Sk+iAyytzRqwvgwX8rPVpPWAS+PqY721jWrRFhm
-	 RM2D4UY+PEW2ZD5WdFwNHR62yjSpfQC4Tzw5oCBi+QuqsiAo0BlcShbJzbTXY7rkWqTj/
-	 VMNGfgPdOjLEjvM0YB81Mnw1eBUjY5DtYTqFYMkwn8ioSt9YJm+eAHFUr8y91HK3geQ/z
-	 7vxOx26rbepbxqZmn8gJmAdA+S0sGtT3Z8RdbEXK3L2r0wuyljKqAE1lg7yjVIPcHVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792430297;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=1QVI3QjKpq5IRp/fPAlVbiDEQ4TylZ7mMiLxWJOvw/Y=;
+	b=LQSKZGYipB2PvKlF8Xt6Zxx98Bq/RubCulxh7hHjuT+4yJ28h0A0YdVqZ6hkTC4s1WST
+	 IxNJ04ZCWyXuLzaIThj33XSDYjPx6XFN5p4y83eTXOX0gRXERdkbONVnZuXq9Mim9Zc7o
+	 KHxw2MBXbeVsItQAdhapYnWxYJwb8SO77EryvLmFn/61/Z2hfLO99abq7TR2ONeDbr0Lw
+	 tNsnVW7LqV0dNXB4R1U2kmY3D7U3AHQwDgxQbT3GpIdvUaeAA9zbTHal736bmHobfNGB5
+	 8pQpqSOPZeIr/BDF3fNcn9SlPlsQMmY+jdCzY4bmi8AIJTlJps51tRoKGtiNQ/Hyxbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FQaPlh8g;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oYK0AIy4;
+	arc=none smtp.remote-ip=95.215.58.230
+Received: from mta1.migadu.com (out-230.mta1.migadu.com [95.215.58.230])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A5A606A31B;
-	Mon, 19 Oct 2026 16:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EB9606A319
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 17:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1EB9606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FQaPlh8g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C791F000C4;
-	Mon, 19 Oct 2026 16:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792428261;
-	bh=xxmctpVt6LC6OQdxxTHfXyb8cOj5HeFKq0AjwhVXAm4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=FQaPlh8gKIwJF1ZMcj9IY6o18bQPgRKhMlTz7Id+3Zx6+imad61o4TKPlBP2bGVZr
-	 JDrZ3VGH4F3C0zcTTwEEbPboog5yLn/j4nTSQz7CA30Q35EPCC7ANuEiIRAAejJzGd
-	 duviv1SH+TWKtbvtx9efkFC6WLU2Yca3ueEATXEAM2gY3gmhtGKF7ESWzvfih6hRGa
-	 rb8CdreYFeuJgbnV+FYiOzd1//UREAPMn62VGFrLnUyof093pXq7eMpxIs0BFE+BDt
-	 kmBYY2FHzU/ntW3Ai7v3Y4EpZ2W+b5VoxLhu1wbvmkheZv8f+A7BXzGWEbhF/hb3R4
-	 xD8v4G6jXfHwQ==
-Subject:
- Re: [PATCH net v4] net: do not let defer_count outlive an empty defer_list
-From: netdev-bot+sashiko@kernel.org
-To: jkain@nuro.ai
-Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, kuniyu@google.com,
- kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, linux-rt-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Mon, 19 Oct 2026 16:44:19 +0000
-Message-ID: <179242825964.3135.3632926428667630864@kernel.org>
-In-Reply-To: <20261015162209.485940-1-jkain@nuro.ai>
-References: <20261015162209.485940-1-jkain@nuro.ai>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oYK0AIy4
+X-Envelope-To: linux-rt-devel@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=q9xa9YZjnuyg7a1fSJv/UTzPcIbUjacY94dKtBXHcyA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792430294; v=1; x=1793035094;
+ b=oYK0AIy4FVdhDfDyLu+EAQr2Qlefwc1wZxgktxcdwV/RuP8/peuTPUEu0kk+gN57QOyi0pEG
+ LdVvOoQOeFu+Hdx63qMVqQxTXiid4cZJ+hbZJB7GE3EcV1OO0i3qo9qiODKlUHESbm8UDlw82Wj
+ 9xjkGiFLUr21mDG7rZ+d3SdM=
+X-Envelope-To: linux-rt-devel@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 2f87e9bf7523bc8a;
+	Mon, 19 Oct 2026 17:18:14 +0000
+X-Mizu-Trace-ID: 2f87e9bf7523bc8a
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <b957b12e-f272-4dbf-a308-c6b61bcb3d66@linux.dev>
+Date: Tue, 20 Oct 2026 01:18:06 +0800
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -65,169 +58,110 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.6-rt 0/5] net: Backport backlog-NAPI threads to resolve
+ PREEMPT_RT softirq warning in SMP flush
+To: Clark Williams <clrkwllms@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
+References: <cover.1792345413.git.wen.yang@linux.dev>
+ <atYZLK0gmG8vRHxG@demetrius>
+Content-Language: en-US
+From: Wen Yang <wen.yang@linux.dev>
+In-Reply-To: <atYZLK0gmG8vRHxG@demetrius>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On 10/19/26 21:20, Clark Williams wrote:
+> On Mon, Oct 19, 2026 at 02:15:22AM +0800, wen.yang@linux.dev wrote:
+>> From: Wen Yang <wen.yang@linux.dev>
+>>
+>> Backport backlog-NAPI threads to v6.6-rt-next first, as requested by
+>> Sebastian and Clark, before following up with the v6.1-rt backport.
+>> The base is 4c4970859022 (Linux 6.6.151-rt78-rc1).
+>>
+>> The existing RT workaround, 1f7514c9c75d ("net: Avoid the IPI to free the"),
+>> redirects deferred skb cleanup to a worker but leaves RPS remote-backlog
+>> scheduling on the function-call IPI path. In a fresh RT guest this still
+>> triggers do_softirq_post_smp_call_flush() from idle queue flushing.
+>>
+>> The ten earlier NAPI/RPS prerequisites are already present in v6.6, so this
+>> series reverts the workaround and backports the four upstream changes (all
+>> in upstream v6.10) in dependency order. Backlog-NAPI threads replace the
+>> RPS/defer function-call notifications; ordinary scheduler wakeup IPI traffic
+>> can still occur. Two of the changes were previously backported to ordinary
+>> 6.6.y and reverted (507692c05636, 5a530c8ead06) only because PREEMPT_RT is
+>> absent there, not for a functional defect.
+>>
+>> Backport notes
+>> --------------
+>> Only 3/5 needs context adaptations; they are listed in that patch's commit
+>> message. The other four apply without context edits. Unlike v6.1, v6.6 keeps
+>> WRITE_ONCE(napi->list_owner, ...) because the field already exists here.
+>>
+>> Verification
+>> ------------
+>> Each of the five stages was replayed against the base snapshot and compiled
+>> for net/core/dev.o and net/core/skbuff.o. The baseline and final RT/RPS
+>> bzImages were built with byte-identical normalized configs using GCC 9.4.0,
+>> with no compiler warnings or errors.
+>>
+>> Tests use virtme-ng 1.38, x86_64 QEMU/KVM, four vCPUs and 2 GiB memory:
+>>
+>>    vng --run <bzImage> --cpus 4 --memory 2G \
+>>        --qemu-opts='-machine accel=kvm' --exec 'bash <script>'
+>>
+>> The config enables PREEMPT_RT, SMP, SYSFS, NET_NS, VETH, RPS,
+>> IRQ_TIME_ACCOUNTING and KPROBES, with NR_CPUS=4. Run the inline script below
+>> in a fresh guest for each image; it prints one column of the table, and the
+>> columns are joined outside the guest. It covers both mechanisms: the RPS/IPI
+>> path (ping flood with RPS steered to CPU1) and the defer_list purge path
+>> (cross-CPU TCP frees traced with kprobes). See its header for details.
+>>
+> 
+> Wen,
+> 
+> I just pushed v6.6.159-rt82-rc1 up to the linux-stable-rt repository in
+> v6.6-rt-next, waiting for kernelci.org to pick it up and test it. I'll
+> let it soak for a bit so people can test it, then we can release it
+> later this week.
+> 
+> I'm betting the v6.1-rt series is going to be a bit bigger?  :)
+> 
 
-- [Medium] The patch makes the empty-list latch unreachable, but a
-  closely related latch on a non-empty list is still reachable.
-- [Low] Two user-visible behaviour changes in skb_attempt_defer_free()
-  appear only in the v4 notes below the '---' line, so they will be…
-- [Low] Documentation/admin-guide/sysctl/net.rst (lines 362-368) still
-  calls skb_defer_max the 'Max size (in skbs) of the per-cpu list of…
+Hi,
 
---
+Thanks for pushing the rc, and for giving it time to soak before release.
+On your question about the v6.1 series - you're right, it is larger:
+15 patches. That is mostly because 6.1.y does not carry the ten 
+NAPI/RPS/ defer_list prerequisites from v6.4-v6.9 that v6.6 already has, 
+so they have to come along:
+     10  prerequisite NAPI/RPS/defer_list patches
+      4  the backlog-NAPI changes (the same set as the v6.6 series)
+      1  revert of the RT defer_work workaround
 
-net: do not let defer_count outlive an empty defer_list
+Only one of the 14 upstream patches needed a change beyond context: 
+patch 06 keeps raise_softirq_irqoff() instead of 
+__raise_softirq_irqoff(), since 6.1-rt already carries 533824e6a0fb and 
+the 2023 upstream text predates it.
+The other 13 are line-for-line identical, and patch 13's five 
+hand-placed hunks are context only.
 
-This patch moves the skb_defer_max test in skb_attempt_defer_free() ahead
-of the atomic increment. A rejected free then no longer leaves defer_count
-raised with nothing queued. It also changes __skb_defer_free_flush() to
-drain the list before it zeroes defer_count.
+The code is unchanged since I posted it, so there is nothing new to 
+send; please feel free to apply and test the series as posted.
 
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 41beaf625421a..411cbf6754f9e 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -7390,11 +7390,14 @@ nodefer:	kfree_skb_napi_cache(skb);
->  	sdn = per_cpu_ptr(net_hotdata.skb_defer_nodes, cpu) + cpu_to_node(my_cpu);
->  
->  	defer_max = READ_ONCE(net_hotdata.sysctl_skb_defer_max);
-> -	defer_count = atomic_long_inc_return(&sdn->defer_count);
-> -
-> -	if (defer_count >= defer_max)
-> +	/* Test before incrementing: the reject path returns below without
-> +	 * reaching kick_defer_list_purge(), so a kept increment never flushes.
-> +	 */
-> +	if (atomic_long_read(&sdn->defer_count) >= defer_max)
->  		goto nodefer;
+https://lore.kernel.org/all/cover.1791912669.git.wen.yang@linux.dev/
 
-[Severity: Medium]
 
-This fixes the empty-list case. Can a non-empty list still get stuck the
-same way?
+Thanks,
+Wen
 
-The reject path here still returns through nodefer without calling
-kick_defer_list_purge(). The only kick is an exact-equality test later in
-skb_attempt_defer_free():
 
-	kick = (defer_count - 1) == (defer_max >> 1);
 
-proc_do_skb_defer_max() only acts when the value crosses 0:
 
-	if (nval != oval) {
-		if (nval)
-			static_branch_enable(&skb_defer_disable_key);
-		else
-			static_branch_disable(&skb_defer_disable_key);
-	}
 
-So a change from one positive value to another does not reset
-defer_count, does not flush, and does not kick.
 
-If a limit change leaves the count at or past the new half-capacity
-point, the kick never matches. The counter then climbs to the limit (or
-is already above it), and every later producer rejects without a kick.
-For example:
 
-  skb_defer_max=128, count in 51..64 (the 128 kick only fires at 65)
-  sysctl -w net.core.skb_defer_max=100   # half is 50, already passed
-  count climbs to 100, then every producer rejects
-  sysctl -w net.core.skb_defer_max=128   # half is 64, count is 100
-  pre-increment 100..127 never equals 64, so it stays stuck at 128
 
-A simpler case: lower the limit from 128 to 32 while 40 skbs are queued.
-Every producer then reads 40 >= 32 and rejects.
-
-A preemptible recvmsg producer can also miss the kick. If it samples a
-larger defer_max and the limit is lowered before it increments, it
-compares against the old half and does not kick.
-
-The owner CPU here is the one the commit message describes.
-napi_consume_skb() defers TX-completion frees to skb->alloc_cpu, so a
-TX-only application CPU that never raises NET_RX owns these lists.
-
-Deferral for that (cpu, node) stays off. The queued skbs and their pages
-stay pinned until something runs net_rx_action() or busy-poll on that
-CPU, or the CPU goes offline.
-
-The commit message says:
-
-  "the absorbing state is unreachable without depending on a flush ever
-   running on the owner CPU"
-
-Does that hold only for the empty-list state? The sequence above restores
-the default value and still does not recover, which is the same symptom
-as the reproducer in the commit message.
-
-Would it work to kick on reject when the list is non-empty, rate-limited
-through defer_ipi_scheduled or the backlog NAPI SCHED bit? Another option
-is to make the kick a threshold-crossing test. A third is to have
-proc_do_skb_defer_max() flush or kick the defer nodes when the limit
-changes.
-
->  
-> +	defer_count = atomic_long_inc_return(&sdn->defer_count);
-> +
-
-[Severity: Low]
-
-This isn't a bug, but the changelog body leaves out two behaviour changes
-that come from testing before the increment. They are only described in
-the v4 notes below the '---' line, and git am drops that part.
-
-First, the effective per-(cpu, node) limit moves from skb_defer_max - 1
-to skb_defer_max, because the old code rejected on the post-increment
-value.
-
-Second, the half-capacity kick can now fire at small limits. With
-skb_defer_max=1, the old post-increment value of 1 was always rejected,
-so no kick was ever sent. Now the first producer after each flush sees a
-pre-increment value of 0, which equals 1 >> 1, so it kicks. With
-skb_defer_max=2, the kick now fires on the second producer.
-
-Could these two changes go into the commit message itself, for stable
-backporters and for anyone tuning skb_defer_max?
-
->  	llist_add(&skb->ll_node, &sdn->defer_list);
-
-[Severity: Low]
-
-The commit message says "This makes the limit advisory", but
-Documentation/admin-guide/sysctl/net.rst still describes skb_defer_max
-as:
-
-  Max size (in skbs) of the per-cpu list of skbs being freed
-  by the cpu which allocated them.
-
-The atomic_long_read() check and the atomic_long_inc_return() are now
-separate steps. Producers that read the same below-limit value all pass
-and call llist_add(). The recvmsg callers can also be preempted between
-the two steps. The list can therefore exceed skb_defer_max by roughly the
-number of producers in flight.
-
-__skb_defer_free_flush() now does:
-
-	free_list = llist_del_all(&sdn->defer_list);
-	...
-	atomic_long_set(&sdn->defer_count, 0);
-
-Any skb queued between those two steps stays on the list without being
-counted, and up to skb_defer_max more can be added on top of it.
-
-The old code was not exact either, and the doc already says per-cpu for
-a list that is really per-(cpu, node). Should the sysctl documentation be
-updated to say the limit is approximate?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261015162209.485940-1-jkain%40nuro.ai
