@@ -1,108 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05AA4D7D5E
-	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 13:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055564F30CC
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 13:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792416046; cv=none; b=SbE9sk9k60AVheRc5UraP/JUqztA+SjT7x0J2PJZ+OBWsZAriqlfHk7s3bY34fSkdCJMzn4Xs+xhifWpJ2cdj6OsbxsZb2ee0BPOUzAF+dvF81wK4eMyeEQEYCWMwFBVty7C0/97ard0KoxXM874EQJNi9IqkbyLJSuFfzsw9UM=
+	t=1792416153; cv=none; b=ORk/JVhdyD6SWkxCnGLoDx3MSS5gjfYPVxsfyDScbVkkUjMiLM+t4AbBZ2oqfZKkwZZojlYqVTHJTsW4bPDyMWV80WUTfgJa4T+gOHCBXkkQrxmLNFwtwjPjfpXGdRSa+C9o65g/tqLc4NUJ9viIqWxQBSxm/4DUDU2hEOyZm8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792416046; c=relaxed/simple;
-	bh=Y84iBQWlpHiFtmfpXJElZZ2mZgBlnpwNYTXZe0Fyluc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1kdMp88fSZtLSeV1vFRVLm6tteQP32TsETKcZ9yPNLy2zGj41DUowgYwHsN7/BhnEmP1gIuOECWCq/YsAa8wVbv8dmQn6QHVys2+xFEV5LrAFOUxO8+usS4XXqm9ZlH56RB+JtVy9+rrI17sKlrjxrFFb2HXICGyNk2E84anBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGRFuQmI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792416153; c=relaxed/simple;
+	bh=5Dw4ApFmugf86j9b3TFizFB0Yq2QsSowt3OciC3O4bo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=prDSNbnn0gvMF4Qd+Z6PxZ0hLArcUGP9dgm2N1RZnTy+EpWsUyCOwvKHba6bvsXL8aCr+35y/pvPWNQ3cPYm9/zXFunQww0IiS1TJtPOMydI8hcBiP4VShnBvRV2q5YHftA42i7Hz0AYN550BIgMtAoGT2ZwnBWFMWRk9F3zEDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlfCTobe; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGRFuQmI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0E41F000C4;
-	Mon, 19 Oct 2026 13:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792416045;
-	bh=aFz6tMDneRfAiax81gydkYDdf/QTvsFngF3Ua5uanvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hGRFuQmIUndqJBu5VOqmBOhswg2ATuImrzNeYthILoeSTkYPNzASDT0ZRy3LSrTtm
-	 4TgDnNpZ8MR41xO1eCrTiCsO89Kr/1O0MDb4xSVfye2fEEFYN4vYpPlFYObOKMzwo9
-	 ZItQP4JkpzglGg0Xk7jrgLMs9J7FdP5LLnzhKbLK4bcT/pzsR81eClKOr8pkG/gxGV
-	 Feq65vaUB+IjVIrF3xbd37FR61vvLEJ/EYDw3+BRn8qJTerBtKpbc2GbChaSk6kFQW
-	 kH4KgRtQJ9Y3hZE8cU/QYMlp0yantjyxiVxJChUPKP5mezmwfn3394dklGDyQLT3Kv
-	 VU2mQ4vvHhsnQ==
-Date: Mon, 19 Oct 2026 08:20:44 -0500
-From: Clark Williams <clrkwllms@kernel.org>
-To: wen.yang@linux.dev
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 6.6-rt 0/5] net: Backport backlog-NAPI threads to resolve
- PREEMPT_RT softirq warning in SMP flush
-Message-ID: <atYZLK0gmG8vRHxG@demetrius>
-References: <cover.1792345413.git.wen.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlfCTobe"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-878b44611ffso1159568b3a.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 19 Oct 2026 06:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792416151; x=1793020951; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0nLKCvUycnmLTFqHSAdrCkAg3dpCGjBYjq7zy8w3DV4=;
+        b=dlfCTobeyuJfCH3GrvWo8Nl6br3bNRupwTthmiCbMlrDo4QYra4Vfbr+l5mpRY6J+X
+         DCZCiDtqDFe/XGv2DKXHVIUjSRhWwymhEG/dsroMisTLhfnbUA5mQS6Wz9NsZx/UOWDt
+         Z0gUS+kuebYsXHeQb8LocjV8r5amZ2tLPev/XUVWh1wUh68t56wR3T1GxmBZAr3vCP9d
+         o0GTBuz5cYXjNiNFIQut7my9hIqMzXuEZT5PYkNBT94mvJMx8Hq0BQaYopbXhK8oJ9NB
+         TIJM410fNoLBzFr902pnOL8JuAj5xOXhfIuLATT1m3puPYzeQuto7gCWqBS7Jy47t2TU
+         4Qrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792416151; x=1793020951;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0nLKCvUycnmLTFqHSAdrCkAg3dpCGjBYjq7zy8w3DV4=;
+        b=xRMegaMMH6HsM8aPt4V9PPSw0L+ZR+pS2Bm1FKTtQMO5gv20LQKU22iJqqrXpMNCkY
+         Pc35lQRsylgqU0BtjRjBGyJiW81Bxbvn5LAxyUHasdqw3WAVxW7xDUYTu6c8SkN9qSpt
+         6ecwIQ6qtJeAU5TuBKrHVuhXdtkf29YDJrc7e3osqbcNFKHBuusXjDH8GOZQUNQhZFdu
+         EXYkRmCpGfWErVpddMkLn9eQw13E+xC4EbpsWd16DySK0nF8jxRcitMmT4rHtNCzelLq
+         FNnr8iq7fDrZxXEoWbxkw48QWbXbDTg/mAVibWuIujxOGzpR5SKoEDb9WVOsoxir9pQl
+         4aYQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy/eg1PbF8aOhCUam5qh2+PxA4A+Ug08Sdf4REYAHf4R6sPvdu1dcpTvOJHpC4iPj0ITMkbd0jbzFGqn7xZdQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLSZqK0+JDLHG7nsNT2/UAYys0kFo1PJjyvTq8a4Py0Um7VTna7
+	X322lDb3lvgNbrnrhykP0eIuv5acGLxfvO5AG+q2jR0hS6cm3572lv3D
+X-Gm-Gg: AYBFou2xJV3lpQBp5hv7MGc6Vyht4dDr8Jj904bimytxKIPD2/ln3y86IPjzrnf+lc2
+	jeYPAW0PwzSWIyj/DUm6s3a7PubX33aen/YaXmciWIIvYI8Etw1f4QQ7B9C2/2J7Zi9z2KGMjjS
+	w3UfHpFeFWajiGLXTve5MCzKPPTE9qeggch+y8GJxfjMkFq67t5Ip3+a1tqszYS+JMnNC5qFASd
+	F63JHmkoYsOv3IgrauZbQjFUYKij/ik0ThwxiNf1fDrDx7r89OyDzbX8WB3Pz2+fZzDxzaVZdbd
+	nudNufGgTSoCET0KH0mmA53FGy1350ApicPxk0yQNT6/zHSLMxzIDp9UnyySDLJgSC6RizUhINl
+	Fe7c29O1cWJzpllRQrswAbaoKhaA/7Y9TfnSdACfYKzmIACSG86z+I54he9/rG7uL2c/G8Z0sgo
+	aLZW9hbZ0GrcrreKz5DI1b6tCMECkbppk7S29WM3f91Imq/vc3A9qC9LFiNfc3CHjtt7AHh3qOo
+	biC5g==
+X-Received: by 2002:a05:6a00:408d:b0:882:905d:aa05 with SMTP id d2e1a72fcca58-8a04c14e9fbmr6226914b3a.50.1792416151035;
+        Mon, 19 Oct 2026 06:22:31 -0700 (PDT)
+Received: from [58.206.202.11] ([104.28.215.70])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89fcd67cf30sm3329023b3a.17.2026.10.19.06.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 06:22:30 -0700 (PDT)
+From: Haoran Wang <haoranwangsec@gmail.com>
+To: Varun Prakash <varun@chelsio.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev, linux-scsi@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, haoranwangsec@gmail.com
+Subject: [PATCH] libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
+Date: Mon, 19 Oct 2026 21:22:27 +0800
+Message-ID: <179241614797.5916.13928836073297916808@whr>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1792345413.git.wen.yang@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 02:15:22AM +0800, wen.yang@linux.dev wrote:
-> From: Wen Yang <wen.yang@linux.dev>
-> 
-> Backport backlog-NAPI threads to v6.6-rt-next first, as requested by
-> Sebastian and Clark, before following up with the v6.1-rt backport.
-> The base is 4c4970859022 (Linux 6.6.151-rt78-rc1).
-> 
-> The existing RT workaround, 1f7514c9c75d ("net: Avoid the IPI to free the"),
-> redirects deferred skb cleanup to a worker but leaves RPS remote-backlog
-> scheduling on the function-call IPI path. In a fresh RT guest this still
-> triggers do_softirq_post_smp_call_flush() from idle queue flushing.
-> 
-> The ten earlier NAPI/RPS prerequisites are already present in v6.6, so this
-> series reverts the workaround and backports the four upstream changes (all
-> in upstream v6.10) in dependency order. Backlog-NAPI threads replace the
-> RPS/defer function-call notifications; ordinary scheduler wakeup IPI traffic
-> can still occur. Two of the changes were previously backported to ordinary
-> 6.6.y and reverted (507692c05636, 5a530c8ead06) only because PREEMPT_RT is
-> absent there, not for a functional defect.
-> 
-> Backport notes
-> --------------
-> Only 3/5 needs context adaptations; they are listed in that patch's commit
-> message. The other four apply without context edits. Unlike v6.1, v6.6 keeps
-> WRITE_ONCE(napi->list_owner, ...) because the field already exists here.
-> 
-> Verification
-> ------------
-> Each of the five stages was replayed against the base snapshot and compiled
-> for net/core/dev.o and net/core/skbuff.o. The baseline and final RT/RPS
-> bzImages were built with byte-identical normalized configs using GCC 9.4.0,
-> with no compiler warnings or errors.
-> 
-> Tests use virtme-ng 1.38, x86_64 QEMU/KVM, four vCPUs and 2 GiB memory:
-> 
->   vng --run <bzImage> --cpus 4 --memory 2G \
->       --qemu-opts='-machine accel=kvm' --exec 'bash <script>'
-> 
-> The config enables PREEMPT_RT, SMP, SYSFS, NET_NS, VETH, RPS,
-> IRQ_TIME_ACCOUNTING and KPROBES, with NR_CPUS=4. Run the inline script below
-> in a fresh guest for each image; it prints one column of the table, and the
-> columns are joined outside the guest. It covers both mechanisms: the RPS/IPI
-> path (ping flood with RPS steered to CPU1) and the defer_list purge path
-> (cross-CPU TCP frees traced with kprobes). See its header for details.
-> 
+ppm_get_cpu_entries() disables preemption with get_cpu(), reads the
+current CPU's pool with per_cpu_ptr(), then acquires spin_lock_bh()
+while preemption is still disabled, and finally put_cpu().
 
-Wen,
+    cpu = get_cpu();
+    pool = per_cpu_ptr(ppm->pool, cpu);
+    spin_lock_bh(&pool->lock);
+    put_cpu();
 
-I just pushed v6.6.159-rt82-rc1 up to the linux-stable-rt repository in
-v6.6-rt-next, waiting for kernelci.org to pick it up and test it. I'll
-let it soak for a bit so people can test it, then we can release it
-later this week.
+On PREEMPT_RT kernels spin_lock_bh() becomes a sleeping lock
+(rt_spin_lock).  get_cpu() raises preempt_count, so acquiring the
+lock right after sleeps with preempt_count still positive.  Sleeping
+in that state is the scheduling-while-atomic case, which under
+CONFIG_DEBUG_ATOMIC_SLEEP reports a BUG and, if the lock is contended,
+deadlocks on the spot.  The trigger path is any iSCSI offload I/O
+through a Chelsio NIC that reaches ppm_get_cpu_entries().
 
-I'm betting the v6.1-rt series is going to be a bit bigger?  :)
+The preemption disable exists only to stabilize the per-CPU accessor,
+the pool is serialized by pool->lock, not by preemption.  Replace
+get_cpu() + per_cpu_ptr() + put_cpu() with raw_smp_processor_id() +
+raw_cpu_ptr(), which read the current CPU without disabling preemption.
 
-Clark
+On non-RT kernels spin_lock_bh() does not sleep, so the BUG does not
+fire there; the defect is PREEMPT_RT-specific.
 
--- 
-The United States Coast Guard
-Ruining Natural Selection since 1790
+With the fix, preempt_count is 0 at spin_lock_bh(), so rt_spin_lock()'s
+might_sleep() no longer triggers.
+
+Signed-off-by: Haoran Wang <haoranwangsec@gmail.com>
+---
+ drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+index 2e3973a32..5f68c5d57 100644
+--- a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
++++ b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+@@ -125,10 +125,9 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm, unsigned int count,
+ 	if (!ppm->pool)
+ 		return -EINVAL;
+ 
+-	cpu = get_cpu();
+-	pool = per_cpu_ptr(ppm->pool, cpu);
++	cpu = raw_smp_processor_id();
++	pool = raw_cpu_ptr(ppm->pool);
+ 	spin_lock_bh(&pool->lock);
+-	put_cpu();
+ 
+ 	i = ppm_find_unused_entries(pool->bmap, ppm->pool_index_max,
+ 				    pool->next, count, 0);
