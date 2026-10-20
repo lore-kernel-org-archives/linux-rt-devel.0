@@ -1,87 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.54.77.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792510039;
-	b=3Zsr42LWaNyQCiNiGbYudhwKf+svyHQ4gvLi6EhjSUEg/Jtc0CzVKT92JTvlA5QoBTlO
-	 hd5qKuStd0yaKCdkT/R7hbaIn+5Q270w8O+umuy/mUlQXv88xI5n2dQTbb+QOuoqxxwLY
-	 RzNJ41YwfVrJazSnQpFLnA5VS20MFOjpg6BL2B0jyxMKu0KHvVfvAD5mCZUlXxmPpE0Qu
-	 01TLG6OkxmO+9rjvQjxhL2SEx1FUBZ7MOhE2LnXcSLwvlrWtbxFkMWIDPOTurIdzv0Hi3
-	 jcWyuPtlcu75leuLHXWq4e/qStUS+VGmFNmZLVbxT4yeZraYTl8kBgcPZ6FMkcTaHXA==
+	t=1792510758;
+	b=NZSWK429YjO/6I0SCsPaHFx71cqLAkbUlAwSGjpk0yTZnlJZuBx67MWks2nxjSZguQ5A
+	 neB22ZSiRaO7tNZDmjLY+72iAwK+uvoAFvbm5fqpXhfdma+FXMSNnfHuUUi5SjLKXp2US
+	 NmiAoKLI4Xr+atwsVfBlkFAD6tX2I+9jQ5GLvPHM0CzSIEHVuWLowuDztZOZht930j2xf
+	 0DShr4NMuRmUA7P09WXaNFoHXHRMIOiqntQl/13GsKoox8gbbN1CHE9moR8gShLeYNpPh
+	 cg6pKll3ztzNH0OZowkZIM2Kr7QG4Ms/dZGyibnAV+fniR4F72tgveFPM4c/XvLNofg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792510039;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
-	b=1e90Q+wn0AYTAUWBvdg5FhEcuK1VToJ5kg2Ul9rxJlwOa3VuoetztlBReGd2NAZ0dsOd
-	 fCbIIedPneQChpFVMY81c/rMfCDXn+Xul8jdxCa6CZuLQG90aL9+O/0fmvEd0pS5Gr6J7
-	 Owg2hfJsqz5JMg8YPTavknszactTGw4Rkdg/Z1BGs7L5n0nHr4RDicCczVYKoXiIrNitJ
-	 jX4V5qgXgwWzG2iKvdOgQ3u0FH2bynte8ScmmjvIsvSiezbdpWoxUUPFJI67u4ShHMVRX
-	 LxlDDyOfJf418DByULprpaacB9VJCpl6ynGwsKxQPPklLXE/wOfS38R9l/P8ZBBGfmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792510758;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:Received:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer;
+	bh=IEpug45/RgWjFt69iJGqq4fHXGRjLFvT4L4JSGopD8w=;
+	b=q9Qy8UjRN5j3wZpGioJ/sVdr8oTvqt4T9PjrrR5FgopTmaLJ4QtHcv5lxgecYPfz2mmG
+	 r19Xtq2WED8N4msOazLu4nR+DXp7SwTwOvjbeR6gYCzsb4BV0P48uJqGC7A7kI6ca/hn1
+	 52vTKcD/G7V+5O7zMepPrFXEPaUqIMCuesRyz+w+0UjBOvDlodcN5bx2D0m6KyfccRJdY
+	 h6Q8u+HECwwCF2kXUIWaLhNE/4w+CucG9JZJAHGgJ+dD4Z/0qw5YSLDOxKvVNoOLd6b/r
+	 aeeL19pQgumIbnz+ER40xKFx+hYtpad4pMW8Grr+uLF6PnPBILiSCpakPu6SR8ZwGDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2r02bKXd;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uu8FjPbF;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBE5606A31C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 15:27:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACBE5606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2r02bKXd;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uu8FjPbF
-Date: Tue, 20 Oct 2026 17:27:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1792510030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
-	b=2r02bKXdXozWpDueyORgIYxwfRMI1Ao9/3XAElBBhlV5gMYcVyo4gVjbr0dtBqDRL4GSOH
-	bzKSeGq52DgH3aF/eyniApMAaO2RWJQC1aw7wah6pP5TBHjy3aejp81Umu+vBn61HIpse+
-	Ohu4iaU+3c3dCDpkdXxi7Gbuf6AXW9SqpmXmngqSlqS2ugEjtBnKGqkLahp0bVoy/M3Fsu
-	MEXZpEg3pbeIRdjabpeyJsIDAfK5Sx5h9ITs5tQew4HSSiQG9BnEtbL/t50fi+JPyzP14J
-	42wATqH09Zuuk8gt3t7rJMcYZOwIUUKjARVS8bPd0FNm+UrIMWvVCfWGT6GRpg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1792510030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
-	b=uu8FjPbF7WAWVQD/GH1wBlh+67p1e0H4uQT6K/4f8AvNx0BtJsnx7f+nV4gHIb73oSnA7B
-	W+6bBIuocl25n0Bg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	David Hildenbrand <david@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	David Stevens <stevensd@google.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Shuah Khan <shuah@kernel.org>, Amery Hung <ameryhung@gmail.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on
- RT
-Message-ID: <20261020152708.3atPlnSl@linutronix.de>
-References: <20261005070625.8871-1-kmehltretter@gmail.com>
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	arc=none smtp.remote-ip=207.54.77.50
+Received: from esa3.hc555-34.eu.iphmx.com (esa3.hc555-34.eu.iphmx.com [207.54.77.50])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D116C606A33D
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 15:39:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D116C606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1792510755; x=1824046755;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=ZKlMgO+Am7f1W6tqLYmCFZtZZ52fpO6WIVEULY/+2O0=;
+  b=bEBOmrrv+aGr+RTAc9hV/a1bAWHwCiJvZ9XAiXrQZa0zzmHh0P1jiBJd
+   qKY0vhbd10M7OHsBfPB5Dd3eMHJ6YMRQU6rOXMRUtF4jGZrFOjD49HlJp
+   lFdbdAMUE3E1U0v+6F1wVSDsXnGdQhxWLHusZjsy/lnPnloyWbo7yRVx1
+   CLIoCAbamA9Hmq2moo4MPFcRZC6W2A3ANCVpU1rscIaLidgjsZxT6extj
+   lNh+Lw+8MGmD4r1pIPHv1WIZB9yHFy2XGe40aarQ7DdyvjZcZ7Y7na75C
+   gMdiPu0RV5IeIP5HlMMWuxZmbzLaPlP2cGdUatUo3/IYD3KWFuwFR374Y
+   A==;
+X-CSE-ConnectionGUID: zFJkn98zTLuN0wnQwqjKdQ==
+X-CSE-MsgGUID: l1/GtodyRWeOGRgM9rJKog==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces04_data.me-crop.lan) ([146.255.191.134])
+  by esa3.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 18:39:12 +0300
+X-CSE-ConnectionGUID: mjGPr9p4QrO3rL/VA25XsA==
+X-CSE-MsgGUID: W6NDLE3XSNefvPhNS9vl+w==
+Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
+  by ces04_data.me-crop.lan with SMTP; 20 Oct 2026 18:46:47 +0300
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Tue, 20 Oct 2026 18:39:10 +0300
+From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Subject: [PATCH v5 0/2] irqchip/riscv-aplic: fix probing of multiple APLIC
+ instances
+Date: Tue, 20 Oct 2026 18:38:47 +0300
+Message-Id: <20261020-aplic-async-probe-v5-0-c4861c2aafca@mobileye.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -91,26 +67,96 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261005070625.8871-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAeL12oC/4XNQQ6CMBCF4auQrq1ph7YUV97DuIBhkCZISWuIx
+ HB3KytjiCz/l8w3LxYpOIrslL1YoMlF54cU+pAx7KrhRtw1qRkIMFJI4NXYO+RVnAfkY/A1cSs
+ NKBK5NqJg6W4M1Lrnal6uqTsXHz7M64tJftZ/2iS55AoBVatrUUpzvvva9TTTEf2dfcAJdhFIi
+ DW2KYxVWDZbSL6L5AnR2GpoEKwpxQaivhAQW4hKiLE15poEIckfZFmWNxSqcgCEAQAA
+X-Change-ID: 20261012-aplic-async-probe-81624e035607
+To: Anup Patel <anup@brainfault.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Jessica Liu <liu.xuemei1@zte.com.cn>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+X-Mailer: b4 0.16.0
 
-On 2026-10-05 09:06:22 [+0200], Karl Mehltretter wrote:
-> On PREEMPT_RT, a BPF task-storage program attached to sched_waking
-> can deadlock when kmalloc_nolock() obtains an rtmutex-backed allocator
-> spinlock while try_to_wake_up() holds p->pi_lock. Releasing the allocator
-> lock can enter priority-inheritance or wakeup code and re-enter scheduler
-> locking.
+The APLIC driver does not set probe_type, so it follows
+PROBE_DEFAULT_STRATEGY and gets probed asynchronously when the command
+line asks for it (driver_async_probe=). The probe path of an APLIC
+instance modifies state shared by all instances without any locking,
+for example the registration of the syscore operations. On a system with
+several APLIC instances this triggers a "list_add double add" report from
+CHECK_DATA_CORRUPTION, because two instances both call register_syscore()
+for the same node.
 
-What is it that you try to achieve and why. Why is !PREEMPT_RT not
-affected? Half of the problems origin from PI-boosst.
-Why has the nolock an rmutex-backed allocator.
+Looking at the problem showed a second, unrelated issue: the flag guarding
+the syscore registration is marked __ro_after_init, but with MSI the probe
+can be deferred until the IMSIC is available, and then writes the flag
+after init memory was made read-only.
 
-can_spin_trylock() skips hardirq and NMI. There is a trylock on the
-local_lock_t.
-Why do we have this mess and couldn't we avoid having it?
+Patch 1 fixes the latter and is independent of asynchronous probing.
 
-I looked at the patches and there something about hardirq-atomic waiter.
-Wen don't have this. I don't think we want.
+Patch 2 marks the driver PROBE_FORCE_SYNCHRONOUS. The shared state also
+includes the global aplics list, aplic_direct_parent_irq (together with
+the CPU hotplug state registered for it) and the per-CPU IDC structures,
+so making probes mutually exclusive is simpler and less error-prone than
+adding a lock for each of them. An interrupt controller is needed early
+and gains nothing from probing in parallel.
 
-Sebastian
+Reproduced by booting with "driver_async_probe=riscv-aplic" on the
+not yet upstreamed "Mobileye eyeq7h" platform with 3 APLIC instances.
+
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+---
+Changes in v5:
+- split the __ro_after_init fix out into its own patch
+- drop atomic_t/atomic_cmpxchg() for the registration flag
+- mark the driver PROBE_FORCE_SYNCHRONOUS instead of protecting each piece
+  of shared state separately
+- Link to v4: https://patch.msgid.link/20261020-aplic-async-probe-v4-1-68bc35e0ece1@mobileye.com
+
+Changes in v4:
+- rework commit message
+- rebase onto v7.3
+- Link to v3: https://lore.kernel.org/r/20261012-aplic-async-probe-v3-1-5cf52dc28690@mobileye.com
+
+Changes in v3:
+- drop __ro_after_init attribute due to write to read-only page concern
+- Link to v2: https://lore.kernel.org/r/20261012-aplic-async-probe-v2-1-868d7684c9d6@mobileye.com
+
+Changes in v2:
+- fixed potential access to read-only page
+- Link to v1: https://lore.kernel.org/r/20261012-aplic-async-probe-v1-1-4c2c4f5b0916@mobileye.com
+
+To: Anup Patel <anup@brainfault.org>
+To: Thomas Gleixner <tglx@kernel.org>
+To: Radu Rendec <radu@rendec.net>
+To: Paul Walmsley <pjw@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+To: Albert Ou <aou@eecs.berkeley.edu>
+To: Alexandre Ghiti <alex@ghiti.fr>
+To: Jessica Liu <liu.xuemei1@zte.com.cn>
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+Vladimir Kondratiev (2):
+      irqchip/riscv-aplic: do not mark the syscore registered flag ro_after_init
+      irqchip/riscv-aplic: force synchronous probing
+
+ drivers/irqchip/irq-riscv-aplic-main.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+---
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+change-id: 20261012-aplic-async-probe-81624e035607
+
+Best regards,
+--  
+Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+
