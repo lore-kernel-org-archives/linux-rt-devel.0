@@ -1,63 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792497506;
-	b=yGHMPDC29TjM/7ifW3a5M1hOTGa7Ntpe4KgoV+JJApfr3eRZ/Hk/9MPtVzSDfjOggFFk
-	 IHRNQYPBCqNvJzC3OohCmC8TcHOly6EBMORTIbjj+91d/hK089PcEIzi/5pT74pQMDd4y
-	 QI/SkJACpoJiec2DSIPbe8bcG5AsDUq7yLfo94Vj6QuQmvY/+VZHuZ6aIXTxkXB4bS2+T
-	 QKz5raaLxG0YHUvb4f0yVTXqcDu3pvBXyl5X98OdOR+CyMCNRPT8G7OMzQKY1HNbEhRzL
-	 xAS4AZ2cjzhFKaQVDHJuq/lFMVoZjmzP3FXno/XlFmbpynQyLlDk8+Amn/9HEc1Yd3w==
+	t=1792502565;
+	b=2CAVvq0hHS0pAW1SkrkGlG7x1McnjjVnbEac7qWaAoQkrddG6RLOkHNv4aNPY+GXMbph
+	 8LHnDkiKoMekvP7NXqqeKDMoKYqHkwxpKNvQ6HJr9gHfKUVI51OhfXKzyiehd+rcY3dz+
+	 deA3eAkhpnLHFswKjunOtstt/o/UroFZzJuOGJQof86lWj9aTo7zb8Bgq+Xvby06lZMNI
+	 OguYOaty9Vv7oV6Zc3FscZv1l2wPST6lqhipxkGdzGAq+Bc1hD9Fx/PfFN9YpZC6ryJHt
+	 +0d2hU/zgGS3b9FN8hO+gVAZ1TOL+2RcwV0ZmHwAXdW/0blCHrUYlh/9A9QIH1p2xug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792497506;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=3cSxXqVZINLaJAxubbW3o8shpEbL0tUTG34iYCI9EGw=;
-	b=EpY9KBYIscK2QBS+Ef2I8OII84CfVsjFhwvikdhZ0WJKA2Ed/HSGsrHOFgJv/I6jOZIO
-	 XMoorDTw4kWXFWvY5Ljvp/JIRKUIRfDRwNtMETUljGXAuIU/BDjzAvPdIpjOsvnnNEQfF
-	 Af7+b4q5FlF0PvI1wND767Lm3ZU5hV+D3LMw1NI4A9U1WT3v6dXLoExxtWY41NDxLyX8K
-	 t4vLZMk2EhAaQpcV3N9fIyPpcJTm8LSAcdJnAXerPUU7hGRPPMnIQ4oiG72/P5Oc41bd4
-	 32UR86LeBcaoSJepO3+zKPcBIEn8Nq0e8dNZeE6ab5GqXYGyH9+/VCadf2gBfFkm3IQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502565;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=nBiUvq5hcSNVovnt6mmcsqdakbdKO+FxhfID33l0e9c=;
+	b=DGMnMkNMNEFpCRmE+yq4IqgkO3QOXS+COOVqr7UpoYL561pOh5CI//tE+VfkceJdDErx
+	 xMqugY8mttDoghooWWaGtNI48/EkYvh5TY0vRUximX3ZuNNgrHHKY/dfeOabO5IwiKRzH
+	 eCETuC+lLkJ4Dl8nQ3kPCV8efYCuSu/G0K/6YHdmsXgEorQvWJa+BgjqyOAtoK7zNWKcK
+	 cL+Dad6V/ir6luJ2881kZPaSCIKnEDAuVk1fEV1pU2nzv7NV9YLb9i4X/rzw0CVzwXys0
+	 IpBYu0khUurGXo7x4fiCM/42m8BQ5gdTEvrJGiPkkwl7cCaqabBIcJpIjH3PmqEe1lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPCsoNHu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzoVMOoc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBC360A3802;
-	Tue, 20 Oct 2026 11:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFB6606A320;
+	Tue, 20 Oct 2026 13:22:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPCsoNHu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E243A1F000CE;
-	Tue, 20 Oct 2026 11:58:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzoVMOoc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13BFE1F000CC;
+	Tue, 20 Oct 2026 13:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792497506;
-	bh=3cSxXqVZINLaJAxubbW3o8shpEbL0tUTG34iYCI9EGw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=mPCsoNHu8NkqOtKwnTL59BoMcQ5VHuIimMsCxFr+2x8NLW6DT0PKYBInJw/kCCBIZ
-	 98tOwk6/2FuDpBdbxok4rgu5JRvjh3To/UB1124Z69O1SbHSZ5pI8VHYhAa2I5fIVI
-	 cJTOFBqwzPmqXfXtsQbsDYNb2xBGTci7xrZuP+fulKZpdHW6Sw6L7KbYaDBybbfWIZ
-	 6HFKVLa2sYKAWwfwjINzRyTuNfkVMI4muZJoMekMMdrmgKG2aSS84ZytaEvbqUARB/
-	 usl94ajGSPaGzmkEgbf7prrhOaspifxvXDEs3DxcalPRK1NObZuo0vm46Eg7nv9utB
-	 zfSWb8qLEm7Mw==
-Subject: Re: [PATCH net-next v3 8/8] net: xilinx: tsn: deliver endpoint RX
- frames to DSA user ports
-From: netdev-bot+sashiko@kernel.org
-To: srinivas.neeli@amd.com
-Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, richardcochran@gmail.com, michal.simek@amd.com,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- edumazet@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
-Date: Tue, 20 Oct 2026 11:58:24 +0000
-Message-ID: <179249750444.3135.1692275587478159303@kernel.org>
-In-Reply-To: <20261016-patches_v2_external-v3-8-e33d3960ca1e@amd.com>
-References: <20261016-patches_v2_external-v3-8-e33d3960ca1e@amd.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1792502564;
+	bh=nBiUvq5hcSNVovnt6mmcsqdakbdKO+FxhfID33l0e9c=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=YzoVMOocGpM9V85xcNbutUBG2ypQpLmpvkqrbkfyV+iXWmjnwnj2uccIBkqhGOYUb
+	 Z3QpPe9cw2iBldYvbURP6zNZDzZD0ziddzzAxT6sBkHPZDNyzhkOXtNKFK5szjb57N
+	 Ue4r1RR1w9Z/rzZgL9L5OEu/QsdjmxWHOEDS3xjzfupBcluwd+SrVC4j6TcIgIyN1d
+	 ePPR31VIId9PzMBDFt0YScMRB1KTWadJnzcJ7rdqBpbyIdHFL0uOJPvoMvHj7FIVDo
+	 o8WVl2ZD7bp/4UEyVK8CttLJcHNV9arkMp4oDUKkYXJdxROiJwbAiK1hKe7cuizKfI
+	 fybXMYKFloNoA==
+Message-ID: <sashiko-outbox-179020@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Haoran Wang" <haoranwangsec@gmail.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <179241614797.5916.13928836073297916808@whr>
+References: <179241614797.5916.13928836073297916808@whr>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Oct 2026 13:22:43 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -66,89 +58,96 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
-
-Low priority / nit picks for your consideration:
-
-- [Low] The new RX demux in ep_dma_rx_cb()
-  (drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c) relies on a DSA…
-
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Critical] libcxgb: CPU migration between raw_smp_processor_id() and raw_=
+cpu_ptr()
 --
 
-net: xilinx: tsn: deliver endpoint RX frames to DSA user ports
+commit 45e692c0f47c6b069f27d74df45dc3a4a6360a3d
+Author: Haoran Wang <haoranwangsec@gmail.com>
 
-At probe time this commit allocates one METADATA_HW_PORT_MUX metadata dst
-for each of the two MAC ports. In ep_dma_rx_cb() it then attaches the
-matching dst to each RX frame based on its TUSER port_id, gated on
-netdev_uses_dsa(), so DSA can deliver the frame to its swpN user port.
+libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
 
-> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-> index bd8cd504cefb4..5103a3b4b018a 100644
-> --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+This commit replaces get_cpu(), per_cpu_ptr(), and put_cpu() in
+ppm_get_cpu_entries() with raw_smp_processor_id() and raw_cpu_ptr() to avoid
+acquiring spin_lock_bh() with preemption disabled on PREEMPT_RT kernels.
 
-[ ... ]
+> diff --git a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c b/drivers=
+/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> index 2e3973a32d9d1..5f68c5d5766e5 100644
+> --- a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> +++ b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> @@ -125,10 +125,9 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm=
+, unsigned int count,
+>  	if (!ppm->pool)
+>  		return -EINVAL;
+> =20
+> -	cpu =3D get_cpu();
+> -	pool =3D per_cpu_ptr(ppm->pool, cpu);
+> +	cpu =3D raw_smp_processor_id();
+> +	pool =3D raw_cpu_ptr(ppm->pool);
+>  	spin_lock_bh(&pool->lock);
+> -	put_cpu();
+> =20
+>  	i =3D ppm_find_unused_entries(pool->bmap, ppm->pool_index_max,
+>  				    pool->next, count, 0);
 
-> @@ -302,6 +311,10 @@ static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
->  	}
->  
->  	skb_put(skb, rx_len);
-> +	if (netdev_uses_dsa(ndev)) {
-> +		dst_hold(&ep->port_md[port_id]->dst);
-> +		skb_dst_set(skb, &ep->port_md[port_id]->dst);
-> +	}
+[Severity: Critical]
+Can the task be preempted and migrated to another CPU between
+raw_smp_processor_id() and raw_cpu_ptr(ppm->pool)?
 
-[Severity: Low]
-Can this branch be reached at all with the tree as submitted?
+Because preemption is enabled here, if a task in a preemptible iSCSI offload
+path (such as cxgbit_ddp_reserve() -> cxgbi_ppm_ppods_reserve() ->
+ppm_get_cpu_entries()) is migrated from CPU A to CPU B between the two
+calls, cpu will hold CPU A while pool will point to CPU B's per-CPU pool.
 
-As far as I can tell, nothing under drivers/net/dsa/ binds
-"xlnx,tsn-switch", and net/dsa/ has no TSN tagger. The only references
-are the binding in xlnx,tsn-endpoint-ethernet-mac.yaml and this Kconfig
-help text:
+ppm_get_cpu_entries() will then allocate bits in CPU B's pool->bmap, but
+compute the global pagepod index using CPU A's ID:
 
-    The three-port switch is supported by the companion DSA driver.
+drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_get_cpu_entries() {
+	...
+	i +=3D cpu * ppm->pool_index_max;
+	ppm_mark_entries(ppm, i, count, caller_data);
 
-Without that driver, nothing sets dsa_ptr on this netdev, so
-netdev_uses_dsa() is always false here. That leaves three pieces of dead
-code for now: this branch, the port_md[] allocation in
-xlnx_tsn_ep_probe(), and ep_free_port_md(). It also means RX delivery to
-swp1/swp2 can't be tested from this tree.
-
-Will the companion DSA driver be posted along with this series?
-
-The commit message also says:
-
-    guarded by netdev_uses_dsa() so it runs only while a switch is bound
-    as the conduit.
-
-netdev_uses_dsa() checks a bit more than that:
-
-include/net/dsa.h:netdev_uses_dsa() {
-    ...
-	return dev->dsa_ptr && dev->dsa_ptr->rcv;
-    ...
+	return i;
 }
 
-dsa_port_set_tag_protocol() copies cpu_dp->rcv directly from the
-tagger's ops.
+Because those bits were never marked in CPU A's pool->bmap, a subsequent
+allocation on CPU A can hand out the same global index while it is still
+active, overwriting ppm->ppod_data[i] and corrupting in-flight iSCSI DDP
+DMA transfers.
 
-Every frame accepted here carries a METADATA_HW_PORT_MUX dst, so
-dsa_switch_rcv() always takes the md_dst branch and never calls
-cpu_dp->rcv. The tagger still has to provide a non-NULL .rcv, though,
-or this code never runs.
+Later, when cxgbi_ppm_ppod_release() -> ppm_unmark_entries() releases the
+entries, it derives the pool from the global index:
 
-With a tagger that has no .rcv, such as none_ops in net/dsa/tag_none.c,
-every frame would quietly stay on the conduit eth%d. tag_none.c warns
-against using it for new switches, so this mainly applies to whatever
-tagger the companion driver adds.
+drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_unmark_entries() {
+	...
+	if (i < ppm->pool_rsvd) {
+		unsigned int cpu;
+		struct cxgbi_ppm_pool *pool;
 
-Could the commit message, or a comment here, say that the tagger must
-provide an .rcv callback, even though it won't be called for these
-frames?
+		cpu =3D i / ppm->pool_index_max;
+		i %=3D ppm->pool_index_max;
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261016-patches_v2_external-v3-0-e33d3960ca1e%40amd.com
+		pool =3D per_cpu_ptr(ppm->pool, cpu);
+		spin_lock_bh(&pool->lock);
+		bitmap_clear(pool->bmap, i, count);
+	...
+}
+
+This clears the bits in CPU A's pool->bmap while permanently leaking the
+bits that were set in CPU B's pool->bmap.
+
+Would keeping per_cpu_ptr(ppm->pool, cpu) after raw_smp_processor_id() avoid
+this mismatch by ensuring cpu and pool always refer to the same per-CPU pool
+even if migration occurs?
+
+([
+---
+])
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179241614797.5916.1=
+3928836073297916808@whr?part=3D1
