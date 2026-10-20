@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792497501;
-	b=aiL4uxkV9ILXdJXTAL3Gwr5GDj9U0IWYwZnIh79PJOGMhEgWOh65xsqN830QAYNPMh1T
-	 93zNwNixR4qIwfYs2MtIu3SbTB7gF/PtsshsSQYI6Jf+/5ic3uWe19mWIzBr3tsUrpIEX
-	 FyNj1DE0z8sgedBqpwszonA1vkh1Os5qB2MJT39hcN+sb9lO1o8+in4l9VzAlV4P5TEFh
-	 109XPcNjdsXHcaN12UF6vd/pYp5JFt42QvPZ+gT41XegjizirWsj/oACj2EVeYG30SeN0
-	 TDOsRLVdU2xYJb588Mdh9o9aDtc9PdemwLQ6eNZVM1eksUigPcHC8ZXjMnYMG9v30PA==
+	t=1792497506;
+	b=yGHMPDC29TjM/7ifW3a5M1hOTGa7Ntpe4KgoV+JJApfr3eRZ/Hk/9MPtVzSDfjOggFFk
+	 IHRNQYPBCqNvJzC3OohCmC8TcHOly6EBMORTIbjj+91d/hK089PcEIzi/5pT74pQMDd4y
+	 QI/SkJACpoJiec2DSIPbe8bcG5AsDUq7yLfo94Vj6QuQmvY/+VZHuZ6aIXTxkXB4bS2+T
+	 QKz5raaLxG0YHUvb4f0yVTXqcDu3pvBXyl5X98OdOR+CyMCNRPT8G7OMzQKY1HNbEhRzL
+	 xAS4AZ2cjzhFKaQVDHJuq/lFMVoZjmzP3FXno/XlFmbpynQyLlDk8+Amn/9HEc1Yd3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792497501;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792497506;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=vpSCBqmNjvCfEzI72/33mULq5zVEPuCqZqDGgmalYOY=;
-	b=b37DW4VqRYQqrWc8AZLyF57gKWQZWW1hsOoTMYNa8WY+1fBdylFa08zAYJfA5m3lSZ3z
-	 8yf9KhHxbXUf6CbqG4qg5jlweUJPS7CK6PMyQrmqRSfFZ8hFQmfM16E6EwT8VMLwOTtVR
-	 kF5w9hcaSYyCbMT58Q5h1pvJiHuzWWfsMAnmjwMvWNMFiPsDWMZzNSUcCI6mE1ka3LB1a
-	 rH5bxnq6tISsqbSJhYhbNd8d1b3Esp2Num/0/q5YWVQy1Ha0FOidXthPm2hMA5QqO7RQZ
-	 F3mL+H5jHKU3WhfghVB6xJx24uwMJKmU0AxdmgJQSSQ6ouTN/Fi7NHz1XiBpeXaIbLg==
+	bh=3cSxXqVZINLaJAxubbW3o8shpEbL0tUTG34iYCI9EGw=;
+	b=EpY9KBYIscK2QBS+Ef2I8OII84CfVsjFhwvikdhZ0WJKA2Ed/HSGsrHOFgJv/I6jOZIO
+	 XMoorDTw4kWXFWvY5Ljvp/JIRKUIRfDRwNtMETUljGXAuIU/BDjzAvPdIpjOsvnnNEQfF
+	 Af7+b4q5FlF0PvI1wND767Lm3ZU5hV+D3LMw1NI4A9U1WT3v6dXLoExxtWY41NDxLyX8K
+	 t4vLZMk2EhAaQpcV3N9fIyPpcJTm8LSAcdJnAXerPUU7hGRPPMnIQ4oiG72/P5Oc41bd4
+	 32UR86LeBcaoSJepO3+zKPcBIEn8Nq0e8dNZeE6ab5GqXYGyH9+/VCadf2gBfFkm3IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d06FRsxT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPCsoNHu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52BE606A334;
-	Tue, 20 Oct 2026 11:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBC360A3802;
+	Tue, 20 Oct 2026 11:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d06FRsxT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C75A1F000D0;
-	Tue, 20 Oct 2026 11:58:19 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPCsoNHu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E243A1F000CE;
+	Tue, 20 Oct 2026 11:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792497500;
-	bh=vpSCBqmNjvCfEzI72/33mULq5zVEPuCqZqDGgmalYOY=;
+	s=k20260515; t=1792497506;
+	bh=3cSxXqVZINLaJAxubbW3o8shpEbL0tUTG34iYCI9EGw=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=d06FRsxTYwJ+qu0tcjaH6OWzrK5d7sFyMXIiFtk7iRrBnhNYxn41KXbuDQ8qFLX1P
-	 NwK+M3H9oKgi3VJF+1Kylh6XAcsYBb4Rg/xw+8/ScH6NHorpyiQFiTOoNozPo4u8oW
-	 FOvuvp6DcMoEXP2UXJ1zdgSRnIxnFnrV96rRH+kEY81w1PW4c8t9GSqmxXQiQDqrhG
-	 nUgbMc6NFgxu2d61LqK0Cg6KRJaVfV7hvwWXvIIFUKIXDW7C9f8xvAkxUS0Z7oULU0
-	 rmHHVUDPA9BeARbYd3BOhzyc7F4y09rj5XLwYjQfUGLPyMaeJybdrFmODVpM1bUA0t
-	 qGDxNfw5Izzgw==
-Subject: Re: [PATCH net-next v3 5/8] net: xilinx: tsn: bring up the endpoint
- MCDMA channels
+	b=mPCsoNHu8NkqOtKwnTL59BoMcQ5VHuIimMsCxFr+2x8NLW6DT0PKYBInJw/kCCBIZ
+	 98tOwk6/2FuDpBdbxok4rgu5JRvjh3To/UB1124Z69O1SbHSZ5pI8VHYhAa2I5fIVI
+	 cJTOFBqwzPmqXfXtsQbsDYNb2xBGTci7xrZuP+fulKZpdHW6Sw6L7KbYaDBybbfWIZ
+	 6HFKVLa2sYKAWwfwjINzRyTuNfkVMI4muZJoMekMMdrmgKG2aSS84ZytaEvbqUARB/
+	 usl94ajGSPaGzmkEgbf7prrhOaspifxvXDEs3DxcalPRK1NObZuo0vm46Eg7nv9utB
+	 zfSWb8qLEm7Mw==
+Subject: Re: [PATCH net-next v3 8/8] net: xilinx: tsn: deliver endpoint RX
+ frames to DSA user ports
 From: netdev-bot+sashiko@kernel.org
 To: srinivas.neeli@amd.com
 Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -51,11 +51,11 @@ Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  edumazet@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
-Date: Tue, 20 Oct 2026 11:58:18 +0000
-Message-ID: <179249749885.3135.15584191069467566874@kernel.org>
-In-Reply-To: <20261016-patches_v2_external-v3-5-e33d3960ca1e@amd.com>
-References: <20261016-patches_v2_external-v3-5-e33d3960ca1e@amd.com>
-X-sashiko-severity: Medium
+Date: Tue, 20 Oct 2026 11:58:24 +0000
+Message-ID: <179249750444.3135.1692275587478159303@kernel.org>
+In-Reply-To: <20261016-patches_v2_external-v3-8-e33d3960ca1e@amd.com>
+References: <20261016-patches_v2_external-v3-8-e33d3960ca1e@amd.com>
+X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -68,170 +68,87 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Low priority / nit picks for your consideration:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] ep_reset_dma_controller() resets the whole MCDMA core at probe
-  through one channel handle, but the driver does not own every channel…
-- [Low] In drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c, the kernel-
-  doc for struct skbuf_dma_descriptor calls @dma_address the "physical…
+- [Low] The new RX demux in ep_dma_rx_cb()
+  (drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c) relies on a DSA…
 
 --
 
-net: xilinx: tsn: bring up the endpoint MCDMA channels
+net: xilinx: tsn: deliver endpoint RX frames to DSA user ports
 
-At probe, this patch requests every TX and RX MCDMA channel named in the
-device tree and holds them until remove. It also resets the MCDMA
-controller once, through the first TX channel. Each channel gets a ring of
-preallocated SKB descriptor slots in ndo_open, and the rings are torn down
-in ndo_stop.
+At probe time this commit allocates one METADATA_HW_PORT_MUX metadata dst
+for each of the two MAC ports. In ep_dma_rx_cb() it then attaches the
+matching dst to each RX frame based on its TUSER port_id, gated on
+netdev_uses_dsa(), so DSA can deliver the frame to its swpN user port.
 
 > diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
-> index 2adee07f6f51c..ab3d6d8cb9440 100644
+> index bd8cd504cefb4..5103a3b4b018a 100644
 > --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 > +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 
 [ ... ]
 
-> @@ -30,6 +35,47 @@
->  #define TSN_MAX_VLAN_FRAME_SIZE		(ETH_DATA_LEN + VLAN_ETH_HLEN + \
->  					 ETH_FCS_LEN)
+> @@ -302,6 +311,10 @@ static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
+>  	}
 >  
-> +#define TX_BD_NUM_DEFAULT		64
-> +#define RX_BD_NUM_DEFAULT		128
-> +
-> +/**
-> + * struct skbuf_dma_descriptor - skb container for each in-flight DMA descriptor
-> + * @sgl: scatter-gather list backing the DMA mapping
-> + * @desc: dmaengine descriptor handle
-> + * @dma_address: physical address of the first sgl entry (RX path)
+>  	skb_put(skb, rx_len);
+> +	if (netdev_uses_dsa(ndev)) {
+> +		dst_hold(&ep->port_md[port_id]->dst);
+> +		skb_dst_set(skb, &ep->port_md[port_id]->dst);
+> +	}
 
 [Severity: Low]
+Can this branch be reached at all with the tree as submitted?
 
-This isn't a bug, but is "physical address" the right description for
-@dma_address?
+As far as I can tell, nothing under drivers/net/dsa/ binds
+"xlnx,tsn-switch", and net/dsa/ has no TSN tagger. The only references
+are the binding in xlnx,tsn-endpoint-ethernet-mac.yaml and this Kconfig
+help text:
 
-The field is a dma_addr_t. ep_free_dma_chan() passes it to
-dma_unmap_single() as a mapping handle, and in the RX data path patch
-ep_rx_submit_desc() fills it from sg_dma_address() after dma_map_single().
-If an IOMMU sits in front of the MCDMA, the value is an IOVA, not a CPU
-physical address.
+    The three-port switch is supported by the companion DSA driver.
 
-The same wording is still there at the end of the series. Would something
-like "DMA address of the first sgl entry" be more accurate?
+Without that driver, nothing sets dsa_ptr on this netdev, so
+netdev_uses_dsa() is always false here. That leaves three pieces of dead
+code for now: this branch, the port_md[] allocation in
+xlnx_tsn_ep_probe(), and ep_free_port_md(). It also means RX delivery to
+swp1/swp2 can't be tested from this tree.
 
-> + * @skb: SKB owning the buffer
-> + * @sg_len: number of valid entries in @sgl (TX path)
-> + */
+Will the companion DSA driver be posted along with this series?
 
-[ ... ]
+The commit message also says:
 
-> +static int ep_reset_dma_controller(struct xlnx_tsn_ep *ep)
-> +{
-> +	struct xilinx_vdma_config cfg = { .reset = 1 };
-> +	int ret;
-> +
-> +	ret = xilinx_vdma_channel_set_config(ep->tx_dma[0], &cfg);
+    guarded by netdev_uses_dsa() so it runs only while a switch is bound
+    as the conduit.
 
-[Severity: Medium]
+netdev_uses_dsa() checks a bit more than that:
 
-Can this reset stall channels on the same MCDMA instance that belong to
-another dmaengine client?
-
-The commit message says:
-
-  "An MCDMA soft reset resets the whole core, so any channel of the
-  instance reaches it."
-
-For MCDMA, every MM2S channel uses ctrl_offset 0, which is the common
-control register. The call chain is:
-
-xlnx_tsn_ep_probe()
-  ep_reset_dma_controller()
-    xilinx_vdma_channel_set_config()
-      xilinx_dma_chan_reset()
-        xilinx_dma_reset()
-
-drivers/dma/xilinx/xilinx_dma.c:xilinx_dma_reset() {
-	dma_ctrl_set(chan, XILINX_DMA_REG_DMACR, XILINX_DMA_DMACR_RESET);
-	...
-	chan->err = false;
-	chan->idle = true;
-	chan->desc_pendingcount = 0;
-	chan->desc_submitcount = 0;
-	...
+include/net/dsa.h:netdev_uses_dsa() {
+    ...
+	return dev->dsa_ptr && dev->dsa_ptr->rcv;
+    ...
 }
 
-The hardware reset hits the whole core, but software state is only reset
-for tx_dma[0].
+dsa_port_set_tag_protocol() copies cpu_dp->rcv directly from the
+tagger's ops.
 
-The endpoint only requests the tx_chanN/rx_chanN entries in its own
-dma-names. Nothing in the binding or the driver stops the other channels of
-the instance from going to another consumer. Suppose one of those channels
-is mid-transfer when the endpoint probes, for example after a probe
-deferral or a module load. It is still marked idle == false and has
-descriptors on active_list. Its next submit then goes through:
+Every frame accepted here carries a METADATA_HW_PORT_MUX dst, so
+dsa_switch_rcv() always takes the md_dst branch and never calls
+cpu_dp->rcv. The tagger still has to provide a non-NULL .rcv, though,
+or this code never runs.
 
-drivers/dma/xilinx/xilinx_dma.c:xilinx_mcdma_start_transfer() {
-	...
-	if (chan->has_sg && list_empty(&chan->active_list))
-		xilinx_write(chan, XILINX_MCDMA_CHAN_CDESC_OFFSET(chan->tdest),
-			     head_desc->async_tx.phys);
-	...
-	if (chan->idle)
-		xilinx_dma_start(chan);
-	...
-}
+With a tagger that has no .rcv, such as none_ops in net/dsa/tag_none.c,
+every frame would quietly stay on the conduit eth%d. tag_none.c warns
+against using it for new switches, so this mainly applies to whatever
+tagger the companion driver adds.
 
-CDESC is not reprogrammed and xilinx_dma_start() is skipped. Doesn't that
-leave the engine halted, with no error reported to that client?
-
-I could not confirm that shared MCDMA designs exist in practice. The
-binding example gives the whole instance to the endpoint.
-
-Is the reset needed at all? The provider already resets each channel in
-xilinx_dma_chan_probe(). The MCDMA path of
-xilinx_dma_alloc_chan_resources() only allocates BD memory and does not
-program the hardware. So the endpoint's own channels look clean already,
-and the only visible effect of this reset is on channels the endpoint does
-not own.
-
-Calling dmaengine_terminate_sync() from ep_free_dma_chan() on ndo_stop also
-resets the whole core, through the provider's xilinx_dma_terminate_all().
-Any MCDMA client that terminates a channel causes this, so that part comes
-from the provider and not from this patch.
-
-> +	if (ret < 0)
-> +		return dev_err_probe(ep->dev, ret,
-> +				     "failed to reset DMA controller\n");
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> @@ -286,9 +587,17 @@ static int xlnx_tsn_ep_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_free_ndev;
->  
-> +	ret = ep_request_dma_chans(ep, rx_dma_chan_map);
-> +	if (ret)
-> +		goto err_free_ndev;
-> +
-> +	ret = ep_reset_dma_controller(ep);
-> +	if (ret)
-> +		goto err_release_chans;
-> +
-
-[ ... ]
+Could the commit message, or a comment here, say that the tagger must
+provide an .rcv callback, even though it won't be called for these
+frames?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261016-patches_v2_external-v3-0-e33d3960ca1e%40amd.com
