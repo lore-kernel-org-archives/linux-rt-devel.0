@@ -1,84 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792526857;
-	b=P6zd2g9Y6DTzqKhKg6H3JYgw2mU5NGdl64USlB6lBJ3fxYopl7mZbZhjeZlWosQiK385
-	 cmNIGtwnZmMerzVRfjVfN3B61adyA6O9Zq8bqvezGchez2i2P1d0dm78PDeSXviWUFf2k
-	 WiNmLibM7AejCSTqM+v4dXlXv7GRDnw59D9hzD1EiE3fFfdHM1o3GocVthtyjLYawvR25
-	 v8gVPg1z+czBFtkrW2+kxUs7pT1xAS7KG6+DX9lfO7IIBT4IGZfmCxuK29Er4m5ytulxL
-	 J9vg8HLtBJOLLfizBy/LYIOHzpPbLia/yxJwleIJDkflGCczAWiaEuFQgqHXK9Das9A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792526857;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=E2BGEbDmLFbyDFnjpJoQXmoXVufyoU6uu+OtS+on9zk=;
-	b=hqex136JhiVNsROnywsqNl+LLJmV8Cc14F97aH/C1wtb9icl6M5PDeCm95yPWROmikub
-	 W4vaqIufLil5ZchTjAvUtckknETcz9TmxVtMXxHy4UqLAsiIXHtbLRYuzoDr7leE3zdgW
-	 fhEPJGsCBIEnoKULFUhVx0xjk3O8Xys+OU63p7u2JN2iJt81ZX5+hbYogY5KICYngsUNu
-	 x0uDUitXw4IHItde66BKte8WUmoA3YLh0jIlO4rfP0fn9fCCG4AM2TCWArQwvg6QRVLBs
-	 NAZPIggFu+Xn9YkBFqdViRsxxbojfzXmfeBgJmsbV/jLWOZpEbNQ05zFiDVnzy4TfFg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9uaiLSu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792529772;
+	b=C12tPMOtPDpXyFfgZvFml2Kxap/H0igL1ZbFqtDPkN0lQTM8iXHZAjYwxYsOBHgatUaA
+	 bg9kuQGmS9KK2cMdpwjihC+G2ilFoGTno9Vy0q3yLirfHzEq7l8BY54F8h6h1g40u00BJ
+	 52i4DehP1thcTmj+zkPhIN2zBToytUlTT3IwcRqcZvJF/gkma/1rYTWd1bKR6Ti5Bz/TC
+	 2zhmvwQQYp2km7b5JlG68Rj/yZ/biVu09lGFyRfjclcKM7daIYBK9MOnEG1785sVQNZ2S
+	 2bkhqmCNoeAQAknGXc3x6cVUWvOlyyW3SImllINsfMohgowqtrYUL1XxU9HCVCyyOxw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792529772;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
+	b=jpSVCOnV06sWQC2ofndi8mjzvBqaT8LdS9N3OrH3wWOYXcmV1vmONE+vZ/qjyEd2H+Z/
+	 VUiaCivMoed6rrxw59EVLgfHX80GFhjoSFJniDXZF5mTkORkRLURloytC0NUUGkDKrLKC
+	 QiQHNe+4AwNXNytRWTN6JgmSTjV4wW2FoTXYm4j8PmhIPlz1RCq+G8qhmHC0j95O6yWvZ
+	 9xONhcRgU/qiy3HfsLVY6Nw0NZ8+KiydgxL7M+Bw09/G9RpDjVp+Xtz4c6PBBHKopk4NE
+	 8cRIziF84rnl3S1HQuZpqGj7H+lpbb01/diQ0TaGH+w9RVzWBabv5kHBDwqgabWqUTQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nuro.ai;
+	spf=pass smtp.mailfrom=nuro.ai;
+	dkim=pass header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=JUKGnpZY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5748D606A319;
-	Tue, 20 Oct 2026 20:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0CD606A324
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 20:56:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE0CD606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuro.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9uaiLSu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427201F000C9;
-	Tue, 20 Oct 2026 20:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792526856;
-	bh=E2BGEbDmLFbyDFnjpJoQXmoXVufyoU6uu+OtS+on9zk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=H9uaiLSu6EN8ZMZq3/0JMSJPE29d2PjlBFMnCo4seWtCTz0f2ARFbSmnvnjmrbNbr
-	 r22afbzsogdoWoQFtLND62nuBZ5boJ5Kq94KNgfb63qfNSi3Un1J8MO2aChHSJsMjZ
-	 LyhNJL0TYaW/zhN/AcrBvXO/ahu6lOZpiOr3fAdXUD4sY2K4cYc/KAU8XklZJMtzu5
-	 3tL7eaI8RBuZ8pUC/Pvf2+LSADAZDP8oJNwyWTdoqk1Zww7hynaKaD1pvJOQ5utyzL
-	 2bP6TvWec1JC0u3mPd9wwV3QP3f3qqPGw5KGhj2x5vE5aPdAlN7qXa5mJQ/aAi5DNL
-	 QBbisxdPEIJ9w==
-Date: Tue, 20 Oct 2026 13:07:35 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-Message-ID: <atfKB-aHUdQAlmho@thelio>
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-2-52fd8be98dcf@kernel.org>
- <49444078-0777-4318-9f8b-0d582d8a29ad@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=JUKGnpZY
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-36681e85e87so1658493eec.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 13:56:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792529766; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mz5PpH5I/MXC8kcc7FWgjwJqIbvthBhjqsqwZzp/iu1XHTw/sMEJX898lg8SiNAJvS
+         1POyezg1NVmawHQj33ggdmlHKkMIemYqmp246n7nzgUe9bpzkddEx2P7QG5IP+WXKs0n
+         64DbaHrB3AJoD+24g/g2KO4mVmujOmeMsyafdPvEZHDsfpso6wISLbfiGtEQunLOGM4f
+         eHJhgQrmxoWJl/v07YVHu+trMYrFCWrq2xL/R4awispQ/6uIjzcugFhlixtHRIDjoJNH
+         Oiru1aSaetG4ofKPXOh3yjZKlad+eWBL4MPR9LqckddccOIqlVy1px+nl6mX1+B9VYDO
+         Nf3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
+        fh=oQZa0Rvb/0QWm1SkHRDM8krqUtu/PdXe6N8c8Pfdv2o=;
+        b=XQHxWq98vtIPxlGPyqyykVam4Jm6MlOhhSdmKeYWFGT8ECKUqo7LzLaPUEloL5tbai
+         Ej/Xbmb7ZDCRTXO81lgnAcFwubTN3oVaEaEw/RDTtH7RcSg3o3rskxNnb5uolsLapwWj
+         HqsLaOgdAd1m5iCSv1YDQdXs5s05haC99TeW7raN6zvPIK0ws+2tPbLcvVAIW2Rso6kQ
+         oYCoN5PBo2Frc5BYxyzs4bVwP4eNxQF7oaIaGKA7t04pJzNtXc3nQhEpmFDAeME4cTvN
+         1fDN/SxF2WIgZ+JmBldBr/SYwRW4xG9ZbIG0z2HlXaiDJpi8X7pGgT+IwbRvEd/a4INb
+         zylA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nuro.ai; s=google; t=1792529766; x=1793134566; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
+        b=JUKGnpZYWf57Qr+fdL83IEeX3KvdNnZs59GwgmiRqCOPZw60agpcNHrgphZXryMOfM
+         gT6C9RUnXoepvBijEc0jPQPjYUm4a8omKdxvD8X+O+R+gUr4/74FPASUVK7U7ce8gj4V
+         nY/dxyBkS+TSsT2kWvNckvhhj2WNns3p/bblhUvcbbXQHSGNxGkXL5pulmO3pq0D/9rn
+         vtcwWqYTeMQh9sTu2WnTGt+ThRFYYWGS/026pnx/sJwGtjGFq2qijxDIyzxG5cNspDRj
+         ecwzo0iJTuBzuxhzPjc/WuO5oOfZNFxwo5uEzafpi+CFLjYQ3GD04/SRDB76JJyTPoLw
+         F+dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792529766; x=1793134566;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
+        b=2CEe1AlU0FQXVGIo4UXoa7zbtQjzCzGKHmR0wIBVeRnUUu0z/LnUk0P+EyCWfL+KRw
+         bLYTzDPPSkIshLGtecZPDY+8abMq0fTWo6ikdFn/bjkD8UUyR4KZSTQmoHT7zeSesB0Z
+         qqPnv+AGe9uY/56tqIyUPif8r7K4pSP2TOqTsoArPo2+9IwhNu5o76pcs9Vv9AD40O/P
+         X8IZMUPIvcQvtYhDwWg9V0Osn0Tbh3Cz+tiTo2Ksf6Ml11jkyaASAYFWmcyS53ptocxm
+         4o5LfZh2MKIjWqzyKDwuAyEI6zUF4hkOi74jLJ7fyjtBZ+jK3+lZHOU4Hq4BKmKkKOek
+         CuSQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz2UEihdlXMOvNOmOWvE5Ep+DM+8Nu3SGFpHQczfJAUpfD6njbLjf+4Kr0HpbC5ixXdZh6VU7B9CpaP6XQEWQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL+Gn9t8Y6ncmpGAsKfqL/IcUBOWsbDcM/3t8QRzK2EAEU/w50+
+	W7vbvdZhbrd4N+jkl/13uvmHj6e2GATp+i5r5y4XINVdYFFciBkzBrOTiAO0h4g8JCM8QFKJ4OA
+	PK6xDEOjWuYj11NYmONt4RAR7xcX7uyulGGqUVWiT4A==
+X-Gm-Gg: AYBFou33LpGi+QE0j32U5+Wz62eZrMytYbCTqyX9dEwqSrF3ovDeig4hgIYSfiqCL1V
+	cPBA4HCD2U2Yb7EtzroI6pvvHSzHzgl9cUU0x9FrqBGOJMcnj2XaUxoEWcH0S8WE5PrMYN6JAAx
+	grmvddbGshCVw8hWQbGpy2VOQo4ZJSQS+ENMRHFymGkYd4QJMKpe+P1XxbU0wvicHy7U23+2mUX
+	sri80obDG4o7Xw7J/DcSDfMHExp1+Dbh9LTRGqU1hOjHZw5S4U9niJaeSJimXN89o2AS4Z4i5yA
+	uVjwkFUAZ7BIDewvF/ycdKJCwaUzPAPKL+W2jLjH+lNDnVGwKlj2GBdQJovqwLdc2ztVV2FG9Gg
+	4MYHzkkzsm6jdJDKHEP7UWu9qI1eIo08spXjv
+X-Received: by 2002:a05:693c:60cf:b0:353:8205:8558 with SMTP id
+ 5a478bee46e88-3674b82ad86mr744900eec.5.1792529765608; Tue, 20 Oct 2026
+ 13:56:05 -0700 (PDT)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -88,213 +104,65 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49444078-0777-4318-9f8b-0d582d8a29ad@intel.com>
+References: <20261019174258.1375583-1-jkain@nuro.ai> <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
+In-Reply-To: <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
+From: Joseph Kain <jkain@nuro.ai>
+Date: Tue, 20 Oct 2026 13:55:47 -0700
+X-Gm-Features: AclHuK-crS7z_XIcQyguixXXCUEme6bZ9BWpgUYG6WSh9lO_ed8dYy8vP4sPrPk
+Message-ID: <CA+Y90Pg5UaL9WkaGghc3PZadrsN+ud-vY89aE3xuZ3UjUxz9Ww@mail.gmail.com>
+Subject: Re: [PATCH net v6] net: schedule a purge when the defer queue rejects
+ a free
+To: Eric Dumazet <edumazet@kernel.org>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, kuniyu@google.com, 
+	kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	rostedt@goodmis.org, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2026 at 11:37:52AM -0700, Reinette Chatre wrote:
-> Hi Drew,
+On Mon, Oct 19, 2026 at 10:58=E2=80=AFAM Eric Dumazet <edumazet@kernel.org>=
+ wrote:
+>
+> Say not to very verbose changelog, that nobody will read.
+>
+> Since commit 844c9db7f7f5 ("net: use llist for sd->defer_list"),
+> skb_attempt_defer_free() increments sdn->defer_count before testing
+> it against skb_defer_max, and keeps the increment when it rejects.
+> __skb_defer_free_flush() returns early on an empty list without
+> clearing the counter.
+>
 
-Hi, thanks for your comments and Ack.
+Review bots found that:
 
-> On 10/3/26 12:12 AM, Drew Fustini wrote:
-> 
-> ...
-> 
-> > diff --git a/arch/riscv/include/asm/resctrl.h b/arch/riscv/include/asm/resctrl.h
-> > new file mode 100644
-> > index 000000000000..867db663d958
-> > --- /dev/null
-> > +++ b/arch/riscv/include/asm/resctrl.h
-> 
-> ...
-> 
-> > +/**
-> > + * resctrl_arch_mon_ctx_alloc() - allocate per-monitor-event arch context
-> > + * @r:     resctrl resource being monitored
-> > + * @evtid: which monitor event needs context
-> > + *
-> > + * The CBQRI driver implements no monitoring events, so there is no per-event
-> > + * context to allocate and the stub returns NULL. fs/resctrl references it
-> > + * unconditionally before checking resctrl_arch_mon_capable().
-> 
-> The last sentence is unexpected. fs/resctrl only calls resctrl_arch_mon_ctx_alloc()
-> from mon_event_read(), __check_limbo() and mbm_update_one_event(), and none of these
-> can run on a system that does not support monitoring.
+1. skb_defer_max=3D0 still latches.
 
-Good point, I will remove that final sentence.
+proc_do_skb_defer_max() publishes the new value before it calls
+static_branch_enable(), so a producer can read skb_defer_max=3D0,
+increment, and reject with an empty list, which skips the kick.
+__skb_defer_free_flush() then returns early without clearing. Restoring
+any limit at or below the count that accumulated leaves every later
+producer rejecting on an empty list. On 6.18 through 7.0, which the
+Fixes: tag targets, there is no skb_defer_disable_key at all, so there it
+is deterministic rather than a race.
 
-> > + */
-> > +void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
-> > +
-> > +/**
-> 
-> ...
-> 
-> > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-> > new file mode 100644
-> > index 000000000000..f10a24761b25
-> > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_resctrl.c
-> 
-> ...
-> 
-> > +void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
-> > +{
-> > +	u32 num_closid = resctrl_arch_get_num_closid(r);
-> > +	struct rdt_ctrl_domain *d;
-> > +	enum resctrl_conf_type t;
-> > +	u32 default_ctrl;
-> > +	u32 i;
-> > +
-> > +	lockdep_assert_cpus_held();
-> > +
-> > +	if (!num_closid)
-> > +		return;
-> > +
-> > +	default_ctrl = resctrl_get_default_ctrl(r);
-> > +
-> > +	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-> > +		for (i = 0; i < num_closid; i++) {
-> > +			for (t = 0; t < CDP_NUM_TYPES; t++) {
-> > +				int rerr;
-> > +
-> > +				rerr = resctrl_arch_update_one(r, d, i, t, default_ctrl);
-> > +				if (rerr)
-> > +					pr_err_ratelimited("rid=%d reset RCID %u type %u failed (%d)\n",
-> > +							   r->rid, i, t, rerr);
-> > +			}
-> > +		}
-> 
-> 
-> Above looks to be an open-code of cbqri_init_domain_ctrlval(). The loop
-> is unexpected here due to the duplicate writes impacting types not used by current
-> CDP mode that the comment within cbqri_init_domain_ctrlval() justifies.
+2. The kick does not coalesce the way I said it did.
 
-Thanks for pointing this out. I'll simplify it by calling
-cbqri_init_domain_ctrlval() for each domain.
+trigger_rx_softirq() clears sd->defer_ipi_scheduled as soon as the IPI
+runs, before the list is drained, so if the owner has BHs disabled the
+next rejection sends another IPI. With use_backlog_threads(),
+kick_defer_list_purge() also takes sd->input_pkt_queue.lock before it
+tests NAPI_STATE_SCHED, and on PREEMPT_RT that is a remote
+spin_lock_irqsave() per rejected free. This series started from
+sd->defer_lock contention on this same path, so I would rather not ship
+that.
 
-> 
-> > +	}
-> > +}
-> > +
-> 
-> ...
-> 
-> > +
-> > +static int cbqri_init_domain_ctrlval(struct rdt_resource *r, struct rdt_ctrl_domain *d)
-> > +{
-> > +	u32 num_closid = resctrl_arch_get_num_closid(r);
-> > +	enum resctrl_conf_type t;
-> > +	int err = 0;
-> > +	u32 i;
-> > +
-> > +	for (i = 0; i < num_closid; i++) {
-> > +		/*
-> > +		 * Seed both DATA and CODE staged slots so a later mount
-> 
-> nit: This seems to refer to d->staged_config[] that is only populated by resctrl fs.
 
-I'll change the wording to refer to the hardware configuration for each
-type and not the staged config.
+For v7 I plan to restore the empty-list clear in the flush which covers 1
+(but was dropped in v3).  I=E2=80=99ll keep a kick for the case where the
+owner never raises NET_RX on its own, but bound it.
 
-> 
-> > +		 * with -o cdp does not see stale CODE values.
-> > +		 * On non-AT controllers cbqri_cc_alloc_op() masks AT to 0
-> > +		 * so all three iterations land on the same hardware state.
-> > +		 * The redundant writes are harmless.
-> > +		 */
-> > +		for (t = 0; t < CDP_NUM_TYPES; t++) {
-> > +			err = resctrl_arch_update_one(r, d, i, t,
-> > +						      resctrl_get_default_ctrl(r));
-> > +			if (err)
-> > +				return err;
-> > +		}
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> 
-> ...
-> 
-> > +/*
-> > + * Attach a CPU to the picked capacity controller at each cache level whose
-> > + * cache the CPU shares. On failure, detach the CPU from everything attached
-> > + * so far: the cpuhp core does not run this state's offline teardown when
-> > + * its startup fails, so a partial attach would otherwise leak into the
-> > + * domain cpu_masks. Caller holds cbqri_domain_list_lock.
-> > + */
-> > +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
-> > +{
-> > +	static const u32 levels[] = { 2, 3 };
-> > +	struct cbqri_resctrl_res *hw_res;
-> > +	struct cbqri_controller *ctrl;
-> > +	struct rdt_ctrl_domain *d;
-> > +	struct list_head *pos;
-> > +	struct cacheinfo *ci;
-> > +	int i, rid;
-> > +
-> > +	lockdep_assert_held(&cbqri_domain_list_lock);
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(levels); i++) {
-> > +		ci = get_cpu_cacheinfo_level(cpu, levels[i]);
-> > +		if (!ci)
-> > +			continue;
-> > +
-> > +		rid = cbqri_cache_level_to_rid(levels[i]);
-> > +		hw_res = &cbqri_resctrl_resources[rid];
-> > +		if (!hw_res->nr_ctrls)
-> > +			continue;
-> > +
-> > +		ctrl = cbqri_resctrl_find_ctrl(hw_res, ci->id);
-> > +		if (!ctrl) {
-> > +			pr_warn_once("no L%u controller for cache id %u, CPU %u is not controlled at this level\n",
-> > +				     levels[i], ci->id, cpu);
-> > +			continue;
-> > +		}
-> > +
-> > +		d = cbqri_find_ctrl_domain(&hw_res->resctrl_res.ctrl_domains,
-> > +					   ci->id, &pos);
-> > +		if (d) {
-> > +			cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
-> > +			continue;
-> > +		}
-> > +
-> > +		d = cbqri_create_ctrl_domain(ctrl, &hw_res->resctrl_res, cpu,
-> > +					     ci->id, pos);
-> > +		if (IS_ERR(d)) {
-> > +			cbqri_detach_cpu_from_all_ctrls(cpu);
-> > +			return PTR_ERR(d);
-> > +		}
-> 
-> Should a failure to set up one domain prevent the CPU from coming online?
-> 
-> As I understand the driver already brings a CPU online without a domain (albeit
-> with a pr_warn_once()) at a level when its cache has no controller (the earlier
-> cbqri_resctrl_find_ctrl()), so I wonder if here (on domain creation failure) the
-> CPU could just be left without a domain at this level without failing the CPU
-> online entirely? It looks like cbqri_detach_cpu_from_all_ctrls() keeps the domains
-> consistent.
-
-Good question. It does seem like an additional cpu would be beneficial
-to a system, even if the qos functionality is not working as expected.
-I will change the driver to warn but not fail the cpu online.
-
-> 
-> In the end this is a driver design question, so up to you.
-> 
-> I just have a few nits and a check-in on the design but all the resctrl filesystem 
-> interactions look good to me.
-> 
-> The one open is the coordination with Tony's series that moves the
-> resctrl_arch_alloc_capable() and resctrl_arch_mon_capable() work into
-> resctrl filesystem. Thanks for making the switch to use alloc_capable, that will
-> simplify the accompanying RISC-V changes.
-
-I'll remove the hooks if Tony's series lands first.
-
-> Acked-by: Reinette Chatre <reinette.chatre@intel.com>
-
-Thanks for your attention on this series!
-
-Drew
+The bound is what I am unsure of. Kicking only on the first rejection
+after the limit is crossed costs one IPI per overflow, but nothing
+retries if that one does not land. Would you prefer that, or something
+that keeps retrying?
