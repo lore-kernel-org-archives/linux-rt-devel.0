@@ -1,55 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792502565;
-	b=2CAVvq0hHS0pAW1SkrkGlG7x1McnjjVnbEac7qWaAoQkrddG6RLOkHNv4aNPY+GXMbph
-	 8LHnDkiKoMekvP7NXqqeKDMoKYqHkwxpKNvQ6HJr9gHfKUVI51OhfXKzyiehd+rcY3dz+
-	 deA3eAkhpnLHFswKjunOtstt/o/UroFZzJuOGJQof86lWj9aTo7zb8Bgq+Xvby06lZMNI
-	 OguYOaty9Vv7oV6Zc3FscZv1l2wPST6lqhipxkGdzGAq+Bc1hD9Fx/PfFN9YpZC6ryJHt
-	 +0d2hU/zgGS3b9FN8hO+gVAZ1TOL+2RcwV0ZmHwAXdW/0blCHrUYlh/9A9QIH1p2xug==
+	t=1792510039;
+	b=3Zsr42LWaNyQCiNiGbYudhwKf+svyHQ4gvLi6EhjSUEg/Jtc0CzVKT92JTvlA5QoBTlO
+	 hd5qKuStd0yaKCdkT/R7hbaIn+5Q270w8O+umuy/mUlQXv88xI5n2dQTbb+QOuoqxxwLY
+	 RzNJ41YwfVrJazSnQpFLnA5VS20MFOjpg6BL2B0jyxMKu0KHvVfvAD5mCZUlXxmPpE0Qu
+	 01TLG6OkxmO+9rjvQjxhL2SEx1FUBZ7MOhE2LnXcSLwvlrWtbxFkMWIDPOTurIdzv0Hi3
+	 jcWyuPtlcu75leuLHXWq4e/qStUS+VGmFNmZLVbxT4yeZraYTl8kBgcPZ6FMkcTaHXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792502565;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=nBiUvq5hcSNVovnt6mmcsqdakbdKO+FxhfID33l0e9c=;
-	b=DGMnMkNMNEFpCRmE+yq4IqgkO3QOXS+COOVqr7UpoYL561pOh5CI//tE+VfkceJdDErx
-	 xMqugY8mttDoghooWWaGtNI48/EkYvh5TY0vRUximX3ZuNNgrHHKY/dfeOabO5IwiKRzH
-	 eCETuC+lLkJ4Dl8nQ3kPCV8efYCuSu/G0K/6YHdmsXgEorQvWJa+BgjqyOAtoK7zNWKcK
-	 cL+Dad6V/ir6luJ2881kZPaSCIKnEDAuVk1fEV1pU2nzv7NV9YLb9i4X/rzw0CVzwXys0
-	 IpBYu0khUurGXo7x4fiCM/42m8BQ5gdTEvrJGiPkkwl7cCaqabBIcJpIjH3PmqEe1lw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792510039;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
+	b=1e90Q+wn0AYTAUWBvdg5FhEcuK1VToJ5kg2Ul9rxJlwOa3VuoetztlBReGd2NAZ0dsOd
+	 fCbIIedPneQChpFVMY81c/rMfCDXn+Xul8jdxCa6CZuLQG90aL9+O/0fmvEd0pS5Gr6J7
+	 Owg2hfJsqz5JMg8YPTavknszactTGw4Rkdg/Z1BGs7L5n0nHr4RDicCczVYKoXiIrNitJ
+	 jX4V5qgXgwWzG2iKvdOgQ3u0FH2bynte8ScmmjvIsvSiezbdpWoxUUPFJI67u4ShHMVRX
+	 LxlDDyOfJf418DByULprpaacB9VJCpl6ynGwsKxQPPklLXE/wOfS38R9l/P8ZBBGfmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzoVMOoc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2r02bKXd;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uu8FjPbF;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFB6606A320;
-	Tue, 20 Oct 2026 13:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBE5606A31C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 15:27:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACBE5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzoVMOoc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13BFE1F000CC;
-	Tue, 20 Oct 2026 13:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792502564;
-	bh=nBiUvq5hcSNVovnt6mmcsqdakbdKO+FxhfID33l0e9c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YzoVMOocGpM9V85xcNbutUBG2ypQpLmpvkqrbkfyV+iXWmjnwnj2uccIBkqhGOYUb
-	 Z3QpPe9cw2iBldYvbURP6zNZDzZD0ziddzzAxT6sBkHPZDNyzhkOXtNKFK5szjb57N
-	 Ue4r1RR1w9Z/rzZgL9L5OEu/QsdjmxWHOEDS3xjzfupBcluwd+SrVC4j6TcIgIyN1d
-	 ePPR31VIId9PzMBDFt0YScMRB1KTWadJnzcJ7rdqBpbyIdHFL0uOJPvoMvHj7FIVDo
-	 o8WVl2ZD7bp/4UEyVK8CttLJcHNV9arkMp4oDUKkYXJdxROiJwbAiK1hKe7cuizKfI
-	 fybXMYKFloNoA==
-Message-ID: <sashiko-outbox-179020@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Haoran Wang" <haoranwangsec@gmail.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <179241614797.5916.13928836073297916808@whr>
-References: <179241614797.5916.13928836073297916808@whr>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 13:22:43 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2r02bKXd;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uu8FjPbF
+Date: Tue, 20 Oct 2026 17:27:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1792510030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
+	b=2r02bKXdXozWpDueyORgIYxwfRMI1Ao9/3XAElBBhlV5gMYcVyo4gVjbr0dtBqDRL4GSOH
+	bzKSeGq52DgH3aF/eyniApMAaO2RWJQC1aw7wah6pP5TBHjy3aejp81Umu+vBn61HIpse+
+	Ohu4iaU+3c3dCDpkdXxi7Gbuf6AXW9SqpmXmngqSlqS2ugEjtBnKGqkLahp0bVoy/M3Fsu
+	MEXZpEg3pbeIRdjabpeyJsIDAfK5Sx5h9ITs5tQew4HSSiQG9BnEtbL/t50fi+JPyzP14J
+	42wATqH09Zuuk8gt3t7rJMcYZOwIUUKjARVS8bPd0FNm+UrIMWvVCfWGT6GRpg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1792510030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AMP8JdgNkDiR02HwTbm0bVfT+4C/h/UkSkbT7J7kPuA=;
+	b=uu8FjPbF7WAWVQD/GH1wBlh+67p1e0H4uQT6K/4f8AvNx0BtJsnx7f+nV4gHIb73oSnA7B
+	W+6bBIuocl25n0Bg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	David Hildenbrand <david@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	David Stevens <stevensd@google.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on
+ RT
+Message-ID: <20261020152708.3atPlnSl@linutronix.de>
+References: <20261005070625.8871-1-kmehltretter@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -58,96 +90,27 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261005070625.8871-1-kmehltretter@gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Critical] libcxgb: CPU migration between raw_smp_processor_id() and raw_=
-cpu_ptr()
---
+On 2026-10-05 09:06:22 [+0200], Karl Mehltretter wrote:
+> On PREEMPT_RT, a BPF task-storage program attached to sched_waking
+> can deadlock when kmalloc_nolock() obtains an rtmutex-backed allocator
+> spinlock while try_to_wake_up() holds p->pi_lock. Releasing the allocator
+> lock can enter priority-inheritance or wakeup code and re-enter scheduler
+> locking.
 
-commit 45e692c0f47c6b069f27d74df45dc3a4a6360a3d
-Author: Haoran Wang <haoranwangsec@gmail.com>
+What is it that you try to achieve and why. Why is !PREEMPT_RT not
+affected? Half of the problems origin from PI-boosst.
+Why has the nolock an rmutex-backed allocator.
 
-libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
+can_spin_trylock() skips hardirq and NMI. There is a trylock on the
+local_lock_t.
+Why do we have this mess and couldn't we avoid having it?
 
-This commit replaces get_cpu(), per_cpu_ptr(), and put_cpu() in
-ppm_get_cpu_entries() with raw_smp_processor_id() and raw_cpu_ptr() to avoid
-acquiring spin_lock_bh() with preemption disabled on PREEMPT_RT kernels.
+I looked at the patches and there something about hardirq-atomic waiter.
+Wen don't have this. I don't think we want.
 
-> diff --git a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c b/drivers=
-/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> index 2e3973a32d9d1..5f68c5d5766e5 100644
-> --- a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> +++ b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> @@ -125,10 +125,9 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm=
-, unsigned int count,
->  	if (!ppm->pool)
->  		return -EINVAL;
-> =20
-> -	cpu =3D get_cpu();
-> -	pool =3D per_cpu_ptr(ppm->pool, cpu);
-> +	cpu =3D raw_smp_processor_id();
-> +	pool =3D raw_cpu_ptr(ppm->pool);
->  	spin_lock_bh(&pool->lock);
-> -	put_cpu();
-> =20
->  	i =3D ppm_find_unused_entries(pool->bmap, ppm->pool_index_max,
->  				    pool->next, count, 0);
-
-[Severity: Critical]
-Can the task be preempted and migrated to another CPU between
-raw_smp_processor_id() and raw_cpu_ptr(ppm->pool)?
-
-Because preemption is enabled here, if a task in a preemptible iSCSI offload
-path (such as cxgbit_ddp_reserve() -> cxgbi_ppm_ppods_reserve() ->
-ppm_get_cpu_entries()) is migrated from CPU A to CPU B between the two
-calls, cpu will hold CPU A while pool will point to CPU B's per-CPU pool.
-
-ppm_get_cpu_entries() will then allocate bits in CPU B's pool->bmap, but
-compute the global pagepod index using CPU A's ID:
-
-drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_get_cpu_entries() {
-	...
-	i +=3D cpu * ppm->pool_index_max;
-	ppm_mark_entries(ppm, i, count, caller_data);
-
-	return i;
-}
-
-Because those bits were never marked in CPU A's pool->bmap, a subsequent
-allocation on CPU A can hand out the same global index while it is still
-active, overwriting ppm->ppod_data[i] and corrupting in-flight iSCSI DDP
-DMA transfers.
-
-Later, when cxgbi_ppm_ppod_release() -> ppm_unmark_entries() releases the
-entries, it derives the pool from the global index:
-
-drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_unmark_entries() {
-	...
-	if (i < ppm->pool_rsvd) {
-		unsigned int cpu;
-		struct cxgbi_ppm_pool *pool;
-
-		cpu =3D i / ppm->pool_index_max;
-		i %=3D ppm->pool_index_max;
-
-		pool =3D per_cpu_ptr(ppm->pool, cpu);
-		spin_lock_bh(&pool->lock);
-		bitmap_clear(pool->bmap, i, count);
-	...
-}
-
-This clears the bits in CPU A's pool->bmap while permanently leaking the
-bits that were set in CPU B's pool->bmap.
-
-Would keeping per_cpu_ptr(ppm->pool, cpu) after raw_smp_processor_id() avoid
-this mismatch by ensuring cpu and pool always refer to the same per-CPU pool
-even if migration occurs?
-
-([
----
-])
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179241614797.5916.1=
-3928836073297916808@whr?part=3D1
+Sebastian
