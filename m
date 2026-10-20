@@ -1,85 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792481560;
-	b=Jd0/4mCUQDw2JN28DgeOiieFmppGOdIYi/fygkbngV4DRxHAfgiy9qgQSv8vAmBaLupE
-	 I7iOIUY58+K3lHjon4IJy8ZFt2uOM7Fqu29LwsnLGAG8OmlNtVGjNaxYorFhBkIxXZa/K
-	 3DIjg1/YL+N6xDTIX7k9mVnM6xdkDxpekJvuMTtlMMVMLrInQI1SmS1GsL2iUhLTYpIpq
-	 ogTtkLm3Y2ofzMfadDYJ79a52DJysqQ9ZXt14PNo7OO7UZMiH/DQgDuBfJyxdCBECm+B8
-	 SLX0cf8NZqFvIa0KGPldKiIGlLMpJJ3MgviRFZpNoufX+BFYM6d83Y+/NcQjSeGFGXA==
+	t=1792482128;
+	b=nLFkEjLBEuo28y6nEHkYkfQXB1kPpDBPuJ7neMDaB6G8/MKWdXzH3hBYUTJDWFFqqFLr
+	 tqUz1YKFLtP3YIortTqzZ2HtelaGRoXbvOVE4ECtR35sIHomFDiBUO5mktztYo87197VP
+	 fy3BYgPME2ddpsiYkZvPmBcJWlOHwtuZuGaloWLFi0CwiyY4rWpMsc7EPbn2hmv8frI3h
+	 IhIDQpK+VdHz7/nqgU51Cey2NT+GUJcBu44u3iRBSuDsooxrTLxsbtQa5IqaIij0DFSj0
+	 qzjBlFJ/ryxc16bdTlbJ5EuiWfoEMbNuwqBL4HD0BsVwiRdRIqh51/QEGUqjMwXmmrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792481560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792482128;
 	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=AbbG2Q6j4Hecrtu/PulD9TnwIM8oYREi3XENRG9e+T0=;
-	b=yzz6v+5Dqsl6YQbQ4wblrZ4K8bl5IYvMAiD+VLeK0bOBqp85Vb7DWjXsCT3evDK90lfp
-	 pofALtTo3+i9qfY3C2eNp+jd3VMGkZGvyiezNDmxrLMKqvJ7AkUpe4OoD/wr6oy2AOPAa
-	 JFidhk+6P5OI0DVlZuJs6j/4uEt15m01m+psFLlU7fPfws1eQMw7hXgt4FBL1JvLqmRLk
-	 PuG0Lhcbu5mEPC8Is4XaljZDPp6b7sF3wkQVTg9wZChjpHINmyLoKlHz5v7wkDuYbnOw0
-	 PSQYXok0GwK5AeBz0ow4kG9zluoIslHe9UessFuhGWs/pvAh2VWf9Izo8sTJh4NPkcg==
+	 In-Reply-To;
+	bh=SuWKI/RUrqXAHxQn1RyYywEeadNWv9dy2AG43KMbWRg=;
+	b=EY7Sh9Ty/DnS1u48EiBaluTuoprjXmT9euDQ1VIdV0PK5j+IoWufkZhBZdpyQJeEsWc2
+	 NKEDTv8bPZpD6bPvdiKlo6YpJXbnywS8foEfTz9whSTfk057bU/nsiAiEhiomg414a033
+	 Fzem7/U/CGdfgIaD0116zQpsqAzRr1uq+6xMQeEFjvFX7dZPNURxvBUTFuBwJgc9pClru
+	 qt710njuoA4a1wdvdxqm9BeFui71fmR7q/uRhAEGmSaZF6YKgHAEmlcJGs+4jGXc0RQKB
+	 hsfym9QSDoNOMdouKZ5Zk/9moX8S7ctl4hnRuKqP7/EoZzaYsYm6dXBJL11xbMAzA5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=K477aKgm;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=CY4xOlG9;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=zHc4DU9u;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=NUIaLfL5;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFAB606A31C;
-	Tue, 20 Oct 2026 07:32:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAFAB606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054E606A31B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 07:42:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E054E606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=K477aKgm;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=CY4xOlG9
-Date: Tue, 20 Oct 2026 09:32:36 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=zHc4DU9u;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=NUIaLfL5
+Date: Tue, 20 Oct 2026 09:42:01 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1792481557;
+	s=2020; t=1792482123;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AbbG2Q6j4Hecrtu/PulD9TnwIM8oYREi3XENRG9e+T0=;
-	b=K477aKgmkz+L+RRd+uucEpbLJ0f0xKJRbJMfRt+6Ovxjrea0w0kLPKBE5pAcVCIEDbo1l5
-	mT0KYpEsopt8ZkoUShMmn45KL4YIHT3PvAwNfUPHN73uzIG1rdp4RQlRpVNduOaSunwJ1I
-	fFI6AZFYjFCqqDkshKZ1oSh6lyYxhQjWWrNKyyZv5s6IxcBDyREqjG6ss/H7Ouja4XWYig
-	3nGe9jgw5DNxc0PaBrFMUPvEEG8JbQXAUsnIQXEW40UkFvqcvoS7nhV+9dO4VdiACU7tLX
-	9FrRFppKhgnJvIikvN2imkbISyzdfwGDbZvSYQUBa0dC2Ff13nHAYlrzkWZ4hA==
+	bh=SuWKI/RUrqXAHxQn1RyYywEeadNWv9dy2AG43KMbWRg=;
+	b=zHc4DU9uVGws6yzHHa9NO/l7OoEaXxR+mkXy5M9iFzwrNq7EsK4VRXKjy3EVJp7Q1iLsXo
+	nVIfTEijBf6WdkzpnI/hbDpxcjpDjqWXHOa4nm1Y+0/hl/AzthsIK3Sf5QIsEsN/k6lIgJ
+	PFLnIZ0SvPuI0z1Uz0tKvGRIc+KZw0w+0HOJSKLL7hn+LyNZPhgiq7NO11kbJbSRkZLDXh
+	8j5rArUCmTshptRF9AaHTjxM54v18leNtCrgwawybTKfinNH3alQDZxNhVkeu/fjI0TBxd
+	Zzk47MwB5kxvedyMomsQzf2BXbro19QCPI7xsehY4iYrBInl2xCla0MyqP9ZqA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1792481557;
+	s=2020e; t=1792482123;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AbbG2Q6j4Hecrtu/PulD9TnwIM8oYREi3XENRG9e+T0=;
-	b=CY4xOlG9QFW8DCbV7CCf/a69uJonoMF1BH+tVAs9yDlMABxmZbFtFiTlS0+2B5nu9/U1+T
-	INrARMRaDy1GEgBA==
+	bh=SuWKI/RUrqXAHxQn1RyYywEeadNWv9dy2AG43KMbWRg=;
+	b=NUIaLfL5rD4fWCZZjCNXdenRMCpfsTt5DUlzX8yP8vmPTEuadwgtBf1MoUXIcRE4FlMT7o
+	kElxRLlYiZ41ozDw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ryan Brue <ryanbrue.dev@gmail.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Sean Wang <sean.wang@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Yingjoe Chen <yingjoe.chen@mediatek.com>,
-	Chaotian Jing <chaotian.jing@mediatek.com>,
-	Hongzhou Yang <hongzhou.yang@mediatek.com>,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev, mfd@lists.linux.dev
-Subject: Re: [PATCH] pinctrl: mediatek: common-v1: Use a raw spinlock for the
- pinctrl regmap
-Message-ID: <20261020073236.dDVmd3BW@linutronix.de>
-References: <20260929-rbrue-suez-upstreaming-mtk-pinctrl-raw-regmap-v1-1-db92943f42cb@gmail.com>
- <20260930080609.dnK1-Uta@linutronix.de>
- <CAGXv+5FssQL3Go3VDFbLAT6HP12RS3U3OgxhYOeapzs64QTdUw@mail.gmail.com>
- <d3d3e7b3-eb8b-456d-9a2c-116334e86c14@gmail.com>
+	Ilia Lin <ilialin@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 3/3] regulator: qcom_spmi: don't take a sleeping lock in
+ the SAW IPI
+Message-ID: <20261020074201.Hug86drL@linutronix.de>
+References: <20261019-fix-qcom-saw-v1-0-9c7ba3fc2493@oss.qualcomm.com>
+ <20261019-fix-qcom-saw-v1-3-9c7ba3fc2493@oss.qualcomm.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -91,50 +84,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d3d3e7b3-eb8b-456d-9a2c-116334e86c14@gmail.com>
+In-Reply-To: <20261019-fix-qcom-saw-v1-3-9c7ba3fc2493@oss.qualcomm.com>
 
-On 2026-10-06 19:57:01 [-0500], Ryan Brue wrote:
-> Hi Chen-Yu and Sebastian,
->=20
-> Thanks for looking at this.
->=20
-> On 9/30/26 3:17 AM, Chen-Yu Tsai wrote:
-> > The syscon node is the provider of the regmap. You need to fix it there,
-> > not duplicate it in the consumer.
->=20
-> Unless I'm misunderstanding, no driver binds to that node, so its regmap
-> comes from the generic syscon code, and changing it there would affect ev=
-ery
-> syscon. Lee, Arnd, Mark, would that be acceptable?
->=20
-> These are the options I see. Please let me know if there's a better one:
->=20
-> - Do what Sebastian suggested and make syscon use a raw spinlock, except
-> when the node has a clock, since regmap-mmio calls clk_enable() under the
-> lock. Off PREEMPT_RT, nothing changes. On RT the lock would no longer be
-> preemptible for most syscons, including across bulk writes. Most syscon
-> users that do bulk writes only write a few registers, but enabling the
-> Amlogic G12A PCIe PLL writes a sequence with 40 us of udelay() under the
-> lock.
+On 2026-10-19 17:39:21 [+0300], Dmitry Baryshkov wrote:
+> --- a/drivers/regulator/qcom_spmi-regulator.c
+> +++ b/drivers/regulator/qcom_spmi-regulator.c
+> @@ -2523,12 +2532,22 @@ static int qcom_spmi_regulator_probe(struct platform_device *pdev)
+>  	if (!reg)
+>  		return -ENODEV;
+>  
+> -	syscon = of_parse_phandle(node, "qcom,saw-reg", 0);
+> -	if (syscon) {
+> -		saw_regmap = syscon_node_to_regmap(syscon);
+> -		of_node_put(syscon);
+> -		if (IS_ERR(saw_regmap))
+> -			dev_err(dev, "ERROR reading SAW regmap\n");
+> +	saw = of_parse_phandle(node, "qcom,saw-reg", 0);
+> +	if (saw) {
+> +		saw_base = devm_of_iomap(dev, saw, 0, NULL);
 
-bulk writes could be a concern. The 40us delay is within the lock
-acquired? If so, could this be done without the lock? I assume this is
-part of the init sequence so nothing should use the HW so the writes
-should not be interrupted by other writes to the device.
+I was asking if the syscon could be made using a raw_spinlock_t if all
+users do simple reads/writes.
+	https://lore.kernel.org/all/20260929-rbrue-suez-upstreaming-mtk-pinctrl-raw-regmap-v1-1-db92943f42cb@gmail.com/T/#u
 
-> - Have the pinctrl ioremap() the node a second time alongside syscon's
-> mapping and read the input register (DIN) with readl(). That read is the
-> only access the EINT code makes in raw context. This would go around the
-> syscon, and it requires that DIN never be written in a multi-step sequenc=
-e,
-> which is currently the case.
+If the qcom,saw-reg registers are not shared anywhere, then this should
+work, too.
 
-So it would be safe for now=E2=80=A6
-
-> I'd like to know the best approach before sending out a v2.
->=20
-> Best regards,
-> Ryan Brue
+> +		of_node_put(saw);
 
 Sebastian
