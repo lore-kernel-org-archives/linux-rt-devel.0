@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792550394;
-	b=lRjItnX8L3AyHeNjvSBG1LBxQ8f3UaS7fxUsZdHHBurRRb++NxUwpnVJo9/CKTMBvD+0
-	 ob0ix0SGCogN/Xx9VaMc2Ik3GjwjP+witzBUZ/xxMc2U2dXT7iX8JNILPw13SAML8GBaa
-	 DEKU2Nm11HgUSTIFEkNf7gj2MP28bO+n4MmsdFRiv8yfxhj62fLhljZR2JvJxHmRAbGXz
-	 TMQ68MdlN6oBBnhxnBRw20QtTSP1Q7TNIhjZ2oKjVUA6dAspFeFruTh5uj4k/vy5OQzOH
-	 vw7XC242B6JjxKLji+2dy3TgwfFxroayVuyTr5wFMD8FHijGssSKF1bnX/UmqjDc9BA==
+	t=1792550396;
+	b=KSSb4cmc7Qp5LYBR9sR9FA0q2OgtiC4ftOexzeFPaR7JMK3cJj8N6LAdCjtLEyYtize7
+	 TKwwmK+EhPQgpHQcRbeJ4MqdHXeO5Dp2G5rlIP3TLnERSI2Sp46fHgEXEj7bdB/HokaFN
+	 TyF2hdTx0CGYy67Xk76eqMoT4E1w9rUb0LUKWvS/Q52lHNNY1QEzWkAxfx5iVDrsD5WzF
+	 qqtBEckC2Xp+aX5jtE3YtkzgA1oRZhh339o0910rtnmWjuYntK4yYocLUXmRHrh1xgCa7
+	 K2q0cLPEj5wJzTq6dZeXWD4XtFZlsUUzpiUNndfHgOXMoTKjyZmPPl47fT97C/xG8cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792550394;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792550396;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=7QVMVg0G5DwyEPbJ20bA+yPvHu9eLQ0AyyKAfGn2Dqw=;
-	b=EutYpny4uR+RQe3saEoM4XLiodUCYbg2SXsCxbcWAsaFPWLBIybYlEfGXKS1EzyRS66O
-	 sXc/ajHmoR3Bu4rU2KzmQSjzeV7+pbj4EV1bxQAUvNDeEbyqev+XqxqsRxRQvgdmXW0bx
-	 yBaIImoDQFwhyirW2SbC86hChYEEJvKLVy9Hvyo7ZeJ4OgNXEFKkxT4Wt01I7twJI/7cN
-	 tyBb9KqIyCCIDAi5xm2r/Rnvbc/0remOJoC1OdpnTAY1+HmVZCalwGFCMoL0uXkgDgQFG
-	 jpXkygb70j+DKuqcVJHrQnKLgYndUVs7sM/9UcBFa2wWm46x9AYoh8ogOJFE6Vn0luw==
+	bh=SIfdYuKrZowGGWCzHHgolNoCF8XMtQxMyZQ9b0XJkH8=;
+	b=WzQwBqKcVKVVuZYEVZedLt/m0cknroTbooDMQRly4DVQO4/VyRME0B3DS1wYO57i1KmY
+	 JwMQpYZ7DDZXZnZZ/9eNqeZn211qRt+LzZLmz/5WweNpmjD+txFg47e0l8s7Lm3cAHGfo
+	 FZwNKcO4lxucvu8UCg7x21tOm5jsb35W6vmwWUSgeTykl3NIpFbSxVOyiWlHKCPxhzgiM
+	 87gE7dGQqAAW+SoO8EgK0Xsyw0IJiMW2TOTOoUBHKMLLqLHoGqcZKxmwXiwyxyjpEUiVd
+	 o1tssASZDh3TKSy7uDDJAnRKHqZGck4jdPDOF3nzXEZo6cHmBPjEu5Nr8IqDUnG2Hbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b="bS0/egmB";
-	arc=none smtp.remote-ip=209.85.219.49
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=WgHku+Cz;
+	arc=none smtp.remote-ip=209.85.222.169
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2578B60A2606
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 02:39:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2578B60A2606
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B395960A2616
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 02:39:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B395960A2616
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=bS0/egmB
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-917997ab0d9so2859266d6.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 19:39:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=WgHku+Cz
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93f3c616c84so24419385a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 19:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1792550393; x=1793155193; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1792550395; x=1793155195; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7QVMVg0G5DwyEPbJ20bA+yPvHu9eLQ0AyyKAfGn2Dqw=;
-        b=bS0/egmB+AEK/LQ+IjFp4K98H8P4jcsoFtauhQ0K0RE+PC7pRAUUqhkAmRx17EKVTE
-         QVhmXffKFcdPj2g3GP0EDRzOsA0UPnRCSxooQsdoVXdNJw2TKEm8BbAgTBLRhGEN+cud
-         zvOH2d2aKhy5Tc32qXdwyBPc21Mu+mddcDnrKunx3WXdRRkB0PeyiSwihMgoDY1bNwPB
-         jV1v4A9PjtfHtktqR4JXcsPWsFGSUzrIreU/Opj6gCixvT+c77DprcN/btp7YcxwkXEp
-         hG/GPGxf8/eVVdTdlI6d5cOM6Jj6vD5hSEmV1tg8u0yvLvYNmtd3eROj+CgiAoKoTFDx
-         Ac5A==
+        bh=SIfdYuKrZowGGWCzHHgolNoCF8XMtQxMyZQ9b0XJkH8=;
+        b=WgHku+Cztln6C8p7O66ynywXCGqE065YRqkca/RYa7Z9z0P3Uq/29dTnPPE67yoqif
+         +0KxNmxIVKVCiLhVLMHJ1YUv39rO0azF5/WWlhsD/vi3Mizi20VBXj8FPArRcjlArLlX
+         OvnLid32y48GzLZHihPorDtg3ttk1HbVfyyygge/YvupN2sbZmBNoaxeNatG+kFwxZe7
+         PTNBCP22bdBjRnNb1PkpQe8Mdc6wUwJ5VVbqFiB6CxjwqTaIApqFt2VHZlQmHukb+A6C
+         2GfyOHoMON21Q7MKYzOAEtFFUau6xFetms3sqck6FZSjZu3MlBHNuvavMfhrIJUAH3wE
+         99UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792550393; x=1793155193;
+        d=1e100.net; s=20260707; t=1792550395; x=1793155195;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7QVMVg0G5DwyEPbJ20bA+yPvHu9eLQ0AyyKAfGn2Dqw=;
-        b=Vh946VhmSXmxuA3ef/nnffPZk/yrh95CGz/KpSjxNfO6nBT8niF6H06tUe8q6WWZRT
-         vkzi1m9mgmzxGmXMwmgXUrS+lZ26Tp+tSUAvDJ3SQZOcjl2RK0qOgq6CdmEx3IqHEfEc
-         nY0FtO/l5XXwBB//WOjvz518RGIwGYdMJf+aTBmzyJJUUKJcphq0QpL59hRy9Tn40KWW
-         +HjHT4s0eywEgzzLYsu2it1NdO+fhiYexURzka+iFTXVwYseyTG1PvUDRaMzTZP2z73L
-         hIjm2VOWvNGPtfs5oJdrft460SuxiYxNuZIwYFatmCbGFb31nj7Kz2OIxqf6dmi2AZ9L
-         1gXg==
-X-Forwarded-Encrypted: i=1; AKwUvBwnJFoc+dXwe5qmCP1T+TwwZI9tzumEtNewQ/yTYoFtaCFFfwDUl9S+IHpDg2vGEnhexTSmN9svYO5MnAl5HQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJsL8aEsbdG5Vz01eWzVydT0CL4eMXWI1/0TboSQFgz1GvRm331
-	yd+9j3bOn576qpyVKWcaqGx2N2ALpjP7uGhU4W0CIew5qw2w7/jUdmmOzr4UsIHgFZU=
-X-Gm-Gg: AYBFou2busDI/XVTHefxLBGtQttm1M9llXcM3wQv8cDuTc5pgo6GidFWOBwWHOA7Fz8
-	dOdO/Sc9VD47LnzAGMWBA8+cynt1ule6cwkoaHOqJ9kPo7KcEAUeRlADTOVHEYnFHEVxcuQSLm6
-	odJSgM5psen31HFM8cge5Z8hx3VqNKVgvyZufnuMl62v5U9IwOIoNQ/tKUsqK3BTMooKpMlBwwI
-	p4azSe+2BnFQWY781TwjOC0EDrfuvw5CuV68+ncMhMERmg4waEJ5Rc3wgtWKuc9z9rw4xAx1AqW
-	Xh9HBdpTrthYz2tl+LHT8d5g7J4zPesIKTl60tFNqdU0Vwa5R6qhzM83JpdUI+vMe4qjDkAhset
-	7S9b2tYJhcrahOFP7jdXiJO/oUqOvFF5OnkQNYyIhJCS+L0ROupG4IWLE4xSKGCB9eDsp9EGUtC
-	M3la2/c99ofL+LQKGEW+YsijagqEfCvmrYjiv1kjyascScgSeWcCmyhWOLbYlmiTIiStXcyMdN4
-	ZZtcfj8WhQHTlXDFaSGi6TWHD4kEOJZEslaMxMAlLRkYCpqR3S8AB47OVYg8ILqx7dFr72AB43L
-	vRsbifNW1RT5E6pmsFxR1BVIk2EHQtgEZyNzDCN4MQ==
-X-Received: by 2002:ad4:5d67:0:b0:91b:d948:c415 with SMTP id 6a1803df08f44-91c12f1de15mr12928996d6.44.1792550393065;
-        Tue, 20 Oct 2026 19:39:53 -0700 (PDT)
+        bh=SIfdYuKrZowGGWCzHHgolNoCF8XMtQxMyZQ9b0XJkH8=;
+        b=N8IoH0F3ztBw2aVzZps7SvrVI3ITvZRHNFmC62XSYuJ+1mRMQC+bOFHIwov6HHtIPq
+         QyMRxuNZa992NZCg4EZ1KcP6BbsCOjI8xV1/G8GZBI5fxDi+0IPArf0H9Iwrh5WzkpN+
+         SoU65SQYE0vTIh+qravGjTNyUO5eU63LiqhS+dBewrerrF3Ei9R+TumoEdY9UHnSmz/U
+         Tp7JM+9Fn54X1hMXBFhWOqHAHf1GY5Oill7TmQgfhmaK23f5GBuQD0g8Qq5MkAGKKGU/
+         xIeBzdgzaH4Hc7wEytUHtaWHhdQ6BE+PEdMqcrdrwLr+PMHByhI7vodZzf1EECY9x/+V
+         CmMg==
+X-Forwarded-Encrypted: i=1; AKwUvByhsKOxwpL/nkcnMxQlaXin9obNXcImyeopnKjkSZyDDt0srXuwEg/20L33zq6bOuA6EsC9vcTC8+WGmrFkAQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ5u9oOGu3xALcPctX+/5FemEBjRKvoEIFaC39Cp5+RIEF8KRfH
+	dKgDNJM2agkQzjQecL+KPj2pDFANRFl7YewXVyeGUEk5YpFUaH2nzySYuZMlpyRSOSY=
+X-Gm-Gg: AYBFou3UbRsyGOpqmTNaAGt4p+KZ8nEuFNaOHUcW1SFilLTI+4RIlptwrbyjPCBftZg
+	i3Wq1tgluIST02W29mfpzukH0wbglP0EhGjVqtRakFtGnoL8h3W356gJjFFTGUnshGHclAs4uqp
+	MOQ7Z2CIqpOBpwX3Mj+kfv1pFdh5Q+qto8XsR+4GYZlQCHVxFAUhq62h7Tqk6GcOscwvvtdS77z
+	F+IcWHXwDnEMAXeEeX/cBHo7ehBRRWEoMlu7BUhiCwRybWnvBa899bt5hoh7Z7EpAopJza1F2T1
+	msrw4FE2678eetZIG7hDNKdLXbKl3ajrLld6FStS4/xrdpnL9rSP43DFK/ypgbF6C+x/YXPs/mb
+	XHYFuOFpwjbf8CgJ+SptlCy8yiO0T+LDGD1ct0M48Sr9jwrTnAgadqbKHC/0EuxqCjm+ftCFCQu
+	gUOlD4BIOAIRJ5DRK7ESdWDlKFZcQZKd9wRV7ibP7ri/yPgFF8Uq6EUMxRXBAtZ0MJWDeVzpkzc
+	hxFhjithO2zkVkipyijGFbBMlH9GRThccP6g5Yzj4SDtNWQszBt9b9F0PaZew4f39295xQ2otWz
+	0GpyLxrb04KJT5qvIZuIPd0ePGZVYkUAYXHa1FajQWgfHFD7u3KfIsSt5k9xgLo=
+X-Received: by 2002:a05:620a:260a:b0:93e:48fc:aa85 with SMTP id af79cd13be357-93f57f1d75dmr211957385a.43.1792550394720;
+        Tue, 20 Oct 2026 19:39:54 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10a45336sm13819426d6.3.2026.10.20.19.39.51
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10a45336sm13819426d6.3.2026.10.20.19.39.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 19:39:52 -0700 (PDT)
+        Tue, 20 Oct 2026 19:39:54 -0700 (PDT)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -109,9 +109,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Bessel.Wang@huawei.com,
 	jiang.liu@huawei.com,
 	stable@vger.kernel.org
-Subject: [PATCH v3 5/8] mm/page_alloc: retry allocations that raced with a zonelist rebuild
-Date: Tue, 20 Oct 2026 22:39:37 -0400
-Message-ID: <20261021023940.1940971-6-gourry@gourry.net>
+Subject: [PATCH v3 6/8] mm/hugetlb: retry the pool walk when the zonelist is rebuilt
+Date: Tue, 20 Oct 2026 22:39:38 -0400
+Message-ID: <20261021023940.1940971-7-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261021023940.1940971-1-gourry@gourry.net>
 References: <20261021023940.1940971-1-gourry@gourry.net>
@@ -127,153 +127,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Onlining the first block of a zone rebuilds every zonelist in place,
-shifting the slots after the new zone. A GFP_KERNEL request can then
-land in ZONE_MOVABLE, and a nodemask request can land on a node outside
-its mask.
+shifting the slots after the new zone. A hugetlb fault bound to one node
+can then take a pool page from another.
 
-The iterator approves a slot by its zone index and node, and the
-allocator loads the zone from the slot afterwards:
+dequeue_hugetlb_folio_nodemask() picks pool nodes by walking a zonelist
+with the policy nodemask. The iterator approves a slot by its node, and
+the walk loads the zone from the slot afterwards:
 
   CPU 0                             CPU 1
-  prepare_alloc_pages()
-    first_zones_zonelist(nodemask {1})
-      slot 0 (NORMAL1) approved
+  dequeue_hugetlb_folio_nodemask(nodemask {2})
+    slot 3 (NORMAL2) approved
                                     online_pages()
                                       build_all_zonelists()
-                                        [NORMAL1, NORMAL2, ...]
-                                        -> [MOVABLE1, NORMAL1, ...]
-  get_page_from_freelist()
-    zone = zonelist_zone(slot 0)    /* MOVABLE1 */
-    allocates from MOVABLE1
+                                        [.., NORMAL1, NORMAL2]
+                                        -> [.., MOVABLE1, NORMAL1, ...]
+    zone = zonelist_zone(slot 3)    /* NORMAL1 */
+    dequeue_hugetlb_folio_node_exact(h, 1)
 
-zonelist_update_seq detects the rebuild, but only the slowpath's failure
-exits check it, and this race ends in a successful allocation.
+Check zonelist_update_seq before using each zone the walk returns, and
+on the way out with nothing found, and restart the walk if it changed.
+Checking before the dequeue leaves nothing to put back. Reset the node
+the walk last tried on every restart, so a restart does not skip it.
 
-Check the count whenever an allocation succeeds, and free the page and
-retry if it changed, as the memcg charge failure path already frees a
-fresh page.
-
-The fast and bulk paths sample the count without waiting for a writer: a
-sample taken during a write only costs a retry, and a fastpath
-ALLOC_NOLOCK caller can be an NMI that interrupted the writer. They read
-the seqcount inside the seqlock, because on PREEMPT_RT the seqlock
-accessor takes the spinlock while a write is in progress, which
-ALLOC_NOLOCK cannot do.
-
-check_retry_zonelist() now returns 0 when the check is compiled out, so
-a backport without the hot-add change stays harmless.
-
-With kprobes holding the walk across the online, the base kernel
-misplaced the page in all 18 runs, through the fast path, the slowpath
-and the bulk allocator, and none was misplaced with this change. The
-check adds 5 instructions to an order-0 allocation on x86.
+With kprobes holding the walk across the online, a hugetlb fault bound
+to node 2 took its page from node 1 in 3 of 3 runs, and from node 2 in 3
+of 3 runs with this change.
 
 Fixes: 11cd8638c37f ("mm, page_alloc: remove stop_machine from build_all_zonelists")
 Cc: stable@vger.kernel.org
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/page_alloc.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ mm/hugetlb.c    | 13 ++++++++++---
+ mm/page_alloc.c |  4 ++--
+ mm/page_alloc.h |  3 +++
+ 3 files changed, 15 insertions(+), 5 deletions(-)
 
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index b37d7d0db7fc9..8edf323baf0fc 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1293,11 +1293,11 @@ static struct folio *dequeue_hugetlb_folio_node_exact(struct hstate *h,
+ static struct folio *dequeue_hugetlb_folio_nodemask(struct hstate *h, gfp_t gfp_mask,
+ 							int nid, nodemask_t *nmask)
+ {
+-	unsigned int cpuset_mems_cookie;
++	unsigned int cpuset_mems_cookie, zonelist_cookie;
+ 	struct zonelist *zonelist;
+ 	struct zone *zone;
+ 	struct zoneref *z;
+-	int node = NUMA_NO_NODE;
++	int node;
+ 
+ 	/* 'nid' should not be NUMA_NO_NODE. Try to catch any misuse of it and rectifiy. */
+ 	if (nid == NUMA_NO_NODE)
+@@ -1306,10 +1306,16 @@ static struct folio *dequeue_hugetlb_folio_nodemask(struct hstate *h, gfp_t gfp_
+ 	zonelist = node_zonelist(nid, gfp_mask);
+ 
+ retry_cpuset:
++	node = NUMA_NO_NODE;
+ 	cpuset_mems_cookie = read_mems_allowed_begin();
++	zonelist_cookie = zonelist_iter_begin();
+ 	for_each_zone_zonelist_nodemask(zone, z, zonelist, gfp_zone(gfp_mask), nmask) {
+ 		struct folio *folio;
+ 
++		/* A rebuild may have shifted a node outside @nmask into this slot. */
++		if (unlikely(check_retry_zonelist(zonelist_cookie)))
++			goto retry_cpuset;
++
+ 		if (!cpuset_zone_allowed(zone, gfp_mask))
+ 			continue;
+ 		/*
+@@ -1324,7 +1330,8 @@ static struct folio *dequeue_hugetlb_folio_nodemask(struct hstate *h, gfp_t gfp_
+ 		if (folio)
+ 			return folio;
+ 	}
+-	if (unlikely(read_mems_allowed_retry(cpuset_mems_cookie)))
++	if (unlikely(read_mems_allowed_retry(cpuset_mems_cookie) ||
++		     check_retry_zonelist(zonelist_cookie)))
+ 		goto retry_cpuset;
+ 
+ 	return NULL;
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 1bb308296fcdc..dd8c9046f9a06 100644
+index dd8c9046f9a06..5ca8e57c5fcbf 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -4419,12 +4419,25 @@ static unsigned int zonelist_iter_begin(void)
+@@ -4411,7 +4411,7 @@ EXPORT_SYMBOL_GPL(fs_reclaim_release);
+  */
+ static DEFINE_SEQLOCK(zonelist_update_seq);
+ 
+-static unsigned int zonelist_iter_begin(void)
++unsigned int zonelist_iter_begin(void)
+ {
+ 	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
+ 		return read_seqbegin(&zonelist_update_seq);
+@@ -4432,7 +4432,7 @@ static unsigned int zonelist_iter_sample(void)
  	return 0;
  }
  
-+/*
-+ * Never wait for the writer, which an ALLOC_NOLOCK caller in NMI may have
-+ * interrupted. Read the raw seqcount: on PREEMPT_RT the seqlock accessor takes
-+ * the spinlock while a write is in progress.
-+ */
-+static unsigned int zonelist_iter_sample(void)
-+{
-+	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
-+		return raw_seqcount_begin(&zonelist_update_seq.seqcount.seqcount);
-+
-+	return 0;
-+}
-+
- static unsigned int check_retry_zonelist(unsigned int seq)
+-static unsigned int check_retry_zonelist(unsigned int seq)
++unsigned int check_retry_zonelist(unsigned int seq)
  {
  	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
  		return read_seqretry(&zonelist_update_seq, seq);
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index 2b1017a91928c..53df6b8a0c00a 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
+@@ -265,6 +265,9 @@ extern void zone_pcp_disable(struct zone *zone);
+ extern void zone_pcp_enable(struct zone *zone);
+ extern void zone_pcp_init(struct zone *zone);
  
--	return seq;
-+	return 0;
- }
- 
- /* Perform direct synchronous page reclaim */
-@@ -5114,6 +5127,12 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	warn_alloc(gfp_mask, ac->nodemask,
- 			"page allocation failure: order:%u", order);
- got_pg:
-+	/* A rebuild during the walk may have handed out an ineligible zone. */
-+	if (page && check_retry_zonelist(zonelist_iter_cookie)) {
-+		__free_frozen_pages(page, order, FPI_NONE);
-+		page = NULL;
-+		goto restart;
-+	}
- 	return page;
- }
- 
-@@ -5198,6 +5217,7 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
- 	struct list_head *pcp_list;
- 	struct alloc_context ac;
- 	unsigned int alloc_flags = ALLOC_WMARK_LOW;
-+	unsigned int zonelist_iter_cookie;
- 	int nr_populated = 0, nr_account = 0;
- 
- 	/*
-@@ -5238,6 +5258,7 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
- 	/* May set ALLOC_NOFRAGMENT, fragmentation will return 1 page. */
- 	gfp &= gfp_allowed_mask;
- 	gfp = current_gfp_context(gfp);
-+	zonelist_iter_cookie = zonelist_iter_sample();
- 	if (!prepare_alloc_pages(gfp, 0, preferred_nid, nodemask, &ac, &gfp, &alloc_flags))
- 		goto out;
- 
-@@ -5287,6 +5308,10 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
- 	if (unlikely(!zone))
- 		goto failed;
- 
-+	/* The zone was chosen from a zonelist that a rebuild may have changed. */
-+	if (unlikely(check_retry_zonelist(zonelist_iter_cookie)))
-+		goto failed;
++unsigned int zonelist_iter_begin(void);
++unsigned int check_retry_zonelist(unsigned int seq);
 +
- 	/* spin_trylock may fail due to a parallel drain or IRQ reentrancy. */
- 	pcp = pcp_spin_trylock(zone->per_cpu_pageset);
- 	if (!pcp)
-@@ -5427,6 +5452,7 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
- 		.alloc_flags = alloc_flags,
- 	};
- 	unsigned int fastpath_alloc_flags = alloc_flags;
-+	unsigned int zonelist_iter_cookie;
- 
- 	/* Other flags could be supported later if needed. */
- 	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG)))
-@@ -5456,6 +5482,7 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
- 	 */
- 	gfp = current_gfp_context(gfp);
- 	alloc_gfp = gfp;
-+	zonelist_iter_cookie = zonelist_iter_sample();
- 	if (!prepare_alloc_pages(gfp, order, preferred_nid, nodemask, &ac,
- 			&alloc_gfp, &fastpath_alloc_flags))
- 		return NULL;
-@@ -5472,6 +5499,11 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
- 
- 	/* First allocation attempt (or, for nolock, only attempt) */
- 	page = get_page_from_freelist(alloc_gfp, order, fastpath_alloc_flags, &ac);
-+	if (likely(page) && unlikely(check_retry_zonelist(zonelist_iter_cookie))) {
-+		__free_frozen_pages(page, order,
-+				    alloc_flags & ALLOC_NOLOCK ? FPI_NOLOCK : 0);
-+		page = NULL;
-+	}
- 	if (likely(page) || (alloc_flags & ALLOC_NOLOCK))
- 		goto out;
- 
+ enum fallback_result {
+ 	/* Found suitable migratetype, *mt_out is valid. */
+ 	FALLBACK_FOUND,
 -- 
 2.53.0-Meta
 
