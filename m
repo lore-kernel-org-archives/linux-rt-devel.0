@@ -1,54 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.114
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792600242;
-	b=5jqTNLDqkTs0c673FJxIdlE4Ibv1kp+2/RstZZre/ZrSae/bh2C1a2fJxI3e9fkvnRAW
-	 i3auER13OnyyzEkP8dC3qjIoBhkY/fCml4q0JsM6iw+fkX1q2IvmjpSYsQt80Wk6GMJqV
-	 1NsiVhpQrW7CS43TZdUqgIVJMuRbZ7Y7eZY78F3+BDC47q+Pe9+jQyQJDkqlO7Bk9l+/T
-	 f1Zdej+i4PFpEp7iV4FUHO0nIa9xbF/DFpqL34v+jTQdMKHCCF8HTaK7M1csYjHVLM/vt
-	 RZy34LRMftTXVbgwM7TVPqsBRqiMvsF+gOBLI8GicFQFz9KrxDGwBHyu/VrgEDL2R7Q==
+	t=1792614492;
+	b=brxLYMJiMIoKOM9zcRJ32av6FHkFr4wJUl2UIv7ouTaO0rXgsd9sz4VJYmzG6VnVcvfV
+	 sfWu+EHu1UUXrofAkFD/QaNmK2HOAPAFwnLMxVVztoVmyOr+6ZDh+KyPq1T2/1K1lotCW
+	 9ULWSfyyfNdKUk1NVMRxRdKw846TKNsJtazsXGLscAfKpU+G5jZyBzqM7mrXoSIRvSiD7
+	 EEPhV1AgwRupc2+MrA0zXstTkhRDVKqxc0xT8Wl8sCfwxfFNGaDzmDnPrPMfqYAiL2wKo
+	 WtS6cVqR4RfeMPqVOl2NXPTilwRfo/6YuB5ZW3SLE4llD1fxHkuCzWPkxNbiQEPp4Pw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792600242;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=yI2IBrjD/EwwFBxz9C0DBtizEBBStKNN6HmmrKwPsNc=;
-	b=nKoy5cIYAUNNpO9DAcAuNHTxcphadkGLY4FhXLouvwg+K+oFYCrE14L9E06NW75sGmu3
-	 fHQ/rpW2hUqJvmnypaXjQYbreNagj7RE2ktW281CMFsnV1PgW8z4CnFCOfQfZ0mPNaKmf
-	 rWh4SGc1YRIhGx+gjtoyLnwpRnZJ/vDmdyZOu9zMNoPLWudZbUzkZbBVeTAb4VP7E6Erq
-	 7cWRihyUBZg5dYpSdOOcJIIQj59tWFLdLIr2Kw5Wsh3EuuRBM9yJQm9zb7kQkdues2WKe
-	 Wy37KcopwFNFbD4R7E5F7mcWZuoyc6kD0GP1Ewy/HcclGfFpMfOb7XJoN8CG8+9Zo7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792614492;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VSHl/+6gsuyQcoPA3hVHSxV2FoDIUKsJ5OqZcbF+mxY=;
+	b=fUlyg9WCX/zQhblD9LPf5/fmvzuCLVpZKWQrMKa5PHuraIYCiZxmC8+gBVKdqtZI+UPb
+	 6X30HowiEDbuYkUQmOfoJmaw6S4Poi6AEqjD+XDyEr5VrbdMenI6p7N6lYKvsob3UrXq0
+	 CIRG+t4aufhpqNYOiYP0j4iArdBLpML574AW66c7jVmkPpBmfI0c4dtA5I1VO1pUdiaMe
+	 VQxMItKkjeIlIucHJiAXdmgOPfwVDTfDfk8eFmHbaN+c+/4wphL4KkqHdmSMC7ff6Xc3O
+	 FIiMkBiNcsaaGOAEm2kWOAtVFjl4cDFS8i4HxF1NPySXzVqLco65WrMOIjza+3MWYZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ka6dKNrG;
-	arc=none smtp.remote-ip=91.218.175.114
-Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kB7qldVF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CAA606A31B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 16:30:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41CAA606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14A8606A319
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 20:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ka6dKNrG
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=PgP4HL1xv4LQjoI7vWK/HPX2JuhjD0gGL1S27rjJ1g4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792600238; v=1; x=1793205038;
- b=ka6dKNrGViCBdQLQl/Uirj2oqH3Ek9/ecOF1QQN5W09Qvwdw9BVcWLIGG866A38kaBvhTzSY
- Kl9mjkScpLapKnL6a6GkkZvTgzIA+Ov+j2RIsQa6Cis7Tx5d0BsQhFngXjntwEi/Q70giv3fgBH
- jsqZHS7rtpsveKLSRE3OrzCw=
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id d0dbefea6029aa64;
-	Wed, 21 Oct 2026 16:30:26 +0000
-X-Mizu-Trace-ID: d0dbefea6029aa64
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <7f5046fd-f38e-4966-a616-0c8d95833eed@linux.dev>
-Date: Thu, 22 Oct 2026 00:30:22 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kB7qldVF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 447A61F000C1;
+	Wed, 21 Oct 2026 20:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792614491;
+	bh=VSHl/+6gsuyQcoPA3hVHSxV2FoDIUKsJ5OqZcbF+mxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kB7qldVFMeStD7ZsvOlqwKDLG0shcc6Trfdigc3VICy9Butb1yFJ186tWvXskpy4Z
+	 wIJsUfGcI+jpJaS7tKfpcFzWJPoDX21xtmMSNqiKVYE7CptbTaKBdRxaFZNDTwOLMe
+	 fTu5zcp+EdqU6+eaf//vVYBXgjfivsRle8sDYLNFCNPdDJ1T/XcghRBEjIOOWHT62D
+	 +iGu4Gw+JZ/MgJg5ADmn9b34psDOe41gMsgApxFgE2kTpZeHSodtIK+UMdDvc4o8VE
+	 txLcc4grilwIV+jNJ6ngej1pT80fqN3dk/19pNBfhxu2T21kgLYlW/Q00PHn1yJbO2
+	 APmEUNcU4Colw==
+Date: Wed, 21 Oct 2026 15:28:10 -0500
+From: Clark Williams <clrkwllms@kernel.org>
+To: Wen Yang <wen.yang@linux.dev>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 6.6-rt 0/5] net: Backport backlog-NAPI threads to resolve
+ PREEMPT_RT softirq warning in SMP flush
+Message-ID: <atkgWnLibc_213ES@demetrius>
+References: <cover.1792345413.git.wen.yang@linux.dev>
+ <atYZLK0gmG8vRHxG@demetrius>
+ <b957b12e-f272-4dbf-a308-c6b61bcb3d66@linux.dev>
+ <atZWIBciePyeMnWa@demetrius>
+ <atZmgh0uq6sTdWTc@demetrius>
+ <7f5046fd-f38e-4966-a616-0c8d95833eed@linux.dev>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -58,55 +63,57 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6.6-rt 0/5] net: Backport backlog-NAPI threads to resolve
- PREEMPT_RT softirq warning in SMP flush
-To: Clark Williams <clrkwllms@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
-References: <cover.1792345413.git.wen.yang@linux.dev>
- <atYZLK0gmG8vRHxG@demetrius> <b957b12e-f272-4dbf-a308-c6b61bcb3d66@linux.dev>
- <atZWIBciePyeMnWa@demetrius> <atZmgh0uq6sTdWTc@demetrius>
-Content-Language: en-US
-From: Wen Yang <wen.yang@linux.dev>
-In-Reply-To: <atZmgh0uq6sTdWTc@demetrius>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f5046fd-f38e-4966-a616-0c8d95833eed@linux.dev>
 
-
-
-On 10/20/26 02:50, Clark Williams wrote:
-> On Mon, Oct 19, 2026 at 12:40:48PM -0500, Clark Williams wrote:
->> Meh, 15 patches doesn't suck. I'll try and get to that tonight or
->> tomorrow and see if we can have both v6.6-rt-next and v6.1-rt-next
->> soaking.
->>
->> Clark
->> -- 
+On Thu, Oct 22, 2026 at 12:30:22AM +0800, Wen Yang wrote:
 > 
-> Wen,
 > 
-> I was reading back through the threads and the previous series and am
-> confused as to whether your 15-patch series has all the RPS code that's
-> required. I seem to recall Sebastian indicating that the original
-> v6.1-rt patchset needed some extra RPS bits?
+> On 10/20/26 02:50, Clark Williams wrote:
+> > On Mon, Oct 19, 2026 at 12:40:48PM -0500, Clark Williams wrote:
+> > > Meh, 15 patches doesn't suck. I'll try and get to that tonight or
+> > > tomorrow and see if we can have both v6.6-rt-next and v6.1-rt-next
+> > > soaking.
+> > > 
+> > > Clark
+> > > -- 
+> > 
+> > Wen,
+> > 
+> > I was reading back through the threads and the previous series and am
+> > confused as to whether your 15-patch series has all the RPS code that's
+> > required. I seem to recall Sebastian indicating that the original
+> > v6.1-rt patchset needed some extra RPS bits?
+> > 
+> > Clark
+> > 
 > 
-> Clark
+> Hi Clark,
 > 
+> Thanks for checking, and sorry for confusion.
+> 
+> My understanding is that Sebastian's comment referred to the existing
+> RT defer_work workaround, which covers deferred freeing but not RPS.
+> 
+> After rechecking against the upstream code, I haven't found an additional
+> RPS prerequisite needed for this series.
+> 
+> Sebastian, could you please check whether this addresses your earlier
+> concern about RPS coverage? I'd appreciate any pointers to prerequisites
+> I may have missed.
+> 
+> Thanks,
+> Wen
 
-Hi Clark,
+No worries, my natural state is confusion :)
 
-Thanks for checking, and sorry for confusion.
+I've applied your 15 patch series and built/smoke-tested it. I'll wait
+for Sebastian to comment and then I'll push what I have up to
+v6.1-rt-next.
 
-My understanding is that Sebastian's comment referred to the existing
-RT defer_work workaround, which covers deferred freeing but not RPS.
+Clark
 
-After rechecking against the upstream code, I haven't found an 
-additional RPS prerequisite needed for this series.
-
-Sebastian, could you please check whether this addresses your earlier
-concern about RPS coverage? I'd appreciate any pointers to prerequisites
-I may have missed.
-
-Thanks,
-Wen
+-- 
+The United States Coast Guard
+Ruining Natural Selection since 1790
