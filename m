@@ -1,47 +1,191 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792571098;
-	b=A8ZA6QsOLONwCK/je3behnvLWdkbLqn4101IeX/8sefqoHWB6S1yyOupiIn85DlFvX1A
-	 r+LDhU13Egl2vLdedeXsZHFquMHnV29mKjjnDjfsZeLQ6JsORoOwtUbYnjhSlmoEuW75p
-	 PsyE4/NvmmfVwEfQNrNVFad0s3REw1SYeGBnxCN8yVq+Pu+D+yGcn1VSZEZRsuHbmOcsn
-	 EffQ2O6ngFGa1kiehvX/jsHzvomwQKakTERw2LrZSodd8juh8w+PKBM5qwizUOUYT+qUd
-	 mYsceC1OeByzDask/TDQEOkGyU1TYX9u537s2sndoqfwOK+GyjaTgcxU6elAxG02JTA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792571098;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=J+wlJA0rtb40EYpHl8bU9DDEGkk4vMgjHF45RyGHlDQ=;
-	b=OH+29TL5A93as0VNqdWDEQp4d04fQAuJAbnj7hnBzmK/GLSwFUjEzmLhKoDlgqFnroMf
-	 xuun8VwkKCYuQy8EFyZaN0d1ENCmj6MTEYK5ir15S3kR4NHT9cEmf6eXajgXqxxy3Mg95
-	 mLYV5LfmwhSo52Ov6Xd85fTp1XBjbqAs8+Jr2G/VNvDtqKi51Ldl8dRHInm1GVRRYZ6Oc
-	 Scx4T1oSN6FzPoXrh9u3mCwlvi/QdpTP89cd3B9O31dz258pOIrygAhsofg/3l8DPEiXI
-	 doRUsF5iuokk6bxSAigw04xpOWwyztF9SWFEgNx+ncH0HNolCo2528hFqq/JBl74ugg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJp41Fmi;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792581655;
+	b=e9ggZmXdcfJYq1XzmOaLf2WFJ+cNVj7UtujxbiUjDNnLUSH0drCuEkER2RLKcy5ouD3x
+	 jU5QCi7ygPcBUBxbxQyAtlxvkvAcwiR+jkabUxFXwjsE5w9c7sNFC7idSkr00ZjWG25Ou
+	 8KxX1TSIr5c2wQezjj0+e78/U1bJ89fSyRP3lgqXZiTpEirPrgE3Vo/mdphmlXgZtqib1
+	 JkHSkAFKTs+pioPtMuxbX7h5T3bKdVS6V8X8VBi05on1+K6ne7n3Ai4ZLgGaf96WvxrNP
+	 gsl+wfooQmiw7j9x4u7hi5faMCH8CK6qZtBpK8conuKCHkOIYnj4RtbAsgezHTBdtag==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792581655;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ld-processed:
+	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=apDxtG0LsfRBAYG1fhqlDrhnE1TJe0Oe8aukwH8aDp0=;
+	b=L8sLVp6IrmprXwIrKpZiPTZj2VKnfi107gPVhuoGwvKprZqTgb4e0NWkKv9CefRh4g/n
+	 FrDRB+iVreOsKKqQzqXuJ7gV5s8dvahRW9oDK2BNHOlLOke4sXj4GWhKTa5P9f/QzrMO3
+	 FeYqrY/t6SI9NirBkGUcHAWV3tDM4KaeYcSU0IAl9uU0odE7ZXP3SVs7KmNSvw59FILyX
+	 5/ALC+Go6HXiha09Bv4D36pDCE5X/ioKtuDok7RvB4dQr2stIdtR0QvjzALCfO2zf/II9
+	 XQMGHCEeXQcgfEJiwjnoWxw8PFc4efM4de4C8nQSzPbtgK8U2oqqKheDrqoZ+Dz9TrA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Taj6LMig;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A66E606A31B;
-	Wed, 21 Oct 2026 08:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA63C606A31D
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 11:20:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA63C606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJp41Fmi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD2551F000CA;
-	Wed, 21 Oct 2026 08:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792571097;
-	bh=J+wlJA0rtb40EYpHl8bU9DDEGkk4vMgjHF45RyGHlDQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HJp41FmiOp267MHOYY4JXF4ir7F268Bt+49x/nO1nk3Pp17O2Wsc48uRaeSYy1Eac
-	 P3iFcJnNmiAeWMQ/wuyjlmAqIxMfBsrIm41S9CMGj2uSsGaQtb+K2OAc7z0lPZCeeI
-	 EIShLpBVHHdWBXEl/8avMjDhbesel7q47a6bYWbEJhFWXNI10J41d3gp8RMAwR6hVd
-	 sKKabIM4kGFu8Lb8iRDohmtJEpmtu0S+H8OFTA5F5JTZPUAwM6rY+dqTiP6KnNA5HI
-	 NbsqF/QEfSMiDkxwTQAnE5/BZMJMJ4qWojLXAz84e12I1L4tTSEiKKB5qr4ZCdTyyH
-	 cdWuvu0BX/7DQ==
-Message-ID: <63521469-3829-4895-a7d9-a0f7806c58a1@kernel.org>
-Date: Wed, 21 Oct 2026 10:24:48 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Taj6LMig
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792581655; x=1824117655;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Zzi6oDIzzzJ4SlVAWUgAG+Q/tldkwsdqP6dtrMwNeQY=;
+  b=Taj6LMigkOl72q81gOXktMiH5Jw4O6d/mSAvGmah+8RgoJsSJFtSWnho
+   fRIbH1q7SAXBw6fjfhveUiu5ag37GtZzz9c8Av4byQwymiU6otj1AFloB
+   /KIbfny8M0ctaoglGglr9yx4cPb/CawWaivf7nh5BE8UlIawOuWtcRDN3
+   EJWnSTuXg5f1pSZ2wFYPWHh9hiY51752cYaHM5WBfF8HU0Sus5cJrPlrb
+   w/RNuRxO65t7eC38WeFuTSbDqe2qggCdKQhLWeKcmGLuBn3oTMjFR3nSq
+   XCzpoZaAJEEcLDzrSiiI89hssh5Wx+c5MgPyFyIsrjqMzBvWl2hGdz9Pj
+   w==;
+X-CSE-ConnectionGUID: dGKzElo3TXSVgxC+ViwPYA==
+X-CSE-MsgGUID: cYM3G+28QzaXgjIFS/sSvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1320292"
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="1320292"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 04:20:51 -0700
+X-CSE-ConnectionGUID: SY6xZjVwRfK89mXU8IkISA==
+X-CSE-MsgGUID: eNleYNrHSqmxzTNNRTaqlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="3393692"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 04:20:51 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 21 Oct 2026 04:20:50 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 21 Oct 2026 04:20:50 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.54) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 21 Oct 2026 04:20:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RgYVnkLQw9lirbtJfpnWFccga0vgTMCQ58lZ3MUzhkJCIbH9BDDsXBsWjQ91Iy7DCDc9vfCIG2zJdCwr072IMSg5r/LyzF9n5iRAflq1WPzCj3xaPQsqpsCcfN63e5nVKez1mBwu8aHHGdNEL1BjDlL/A7fJEheXpJAJMOx1EY7AsjZf3QqaX5i8nm8ywnQyQYRRopnLZEmruQoYBKL5zkE+qW+FuW4a3Sk3ylTlO0Flpz4XpLhI/wsBwZv9JFhhymrgpWA8nqp4Ec5lJnAfd6o3O95u6VvCB3FehVT6cAYZ636wlsNq4DzQ6WQtkW3UyNfmrjrqWoQyJwUB60vSSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=apDxtG0LsfRBAYG1fhqlDrhnE1TJe0Oe8aukwH8aDp0=;
+ b=Jm9VbhppIZNqvlMnt/UMPJTnqOUy8pbfsf1N5JWhcRiy+JykF5lfueqM7VqCFDMGCSP9G3xq8a7DJDQaThOfP0deUbDBEFN6BwWSkscpWR9H21wC+/nYgtSnKQjbkd62js0X9x/6uFBS7e7CELaVaOUpIiwoA15qxlZtmpsaRiTvvy1xEtPTXPB5rjWU3cv6QuMcc3FniuzqItcm1M2RLFd5OVTay7/hxCLPTNJwmkzDjb33EnZcJpLM0xU+/wLuGIWB6gNFnJLnO2YcqCCI195rW83GeeDv9GUbZWdTq0IiZEmKuUOKf+CNT8fkQUmd6TK+/hFEjVO+E3Ct2/g5jA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH3PR11MB566895.namprd11.prod.outlook.com
+ (2603:10b6:610:34d::22) by PH7PR11MB8549.namprd11.prod.outlook.com
+ (2603:10b6:510:308::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
+ 2026 11:20:46 +0000
+Received: from CH3PR11MB566895.namprd11.prod.outlook.com
+ ([fe80::87f5:c8cf:d52:e584]) by CH3PR11MB566895.namprd11.prod.outlook.com
+ ([fe80::87f5:c8cf:d52:e584%7]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
+ 11:20:46 +0000
+From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+To: "Oros, Petr" <poros@redhat.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>
+CC: "Oros, Petr" <poros@redhat.com>, "Nguyen, Anthony L"
+	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S
+ . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Ertman, David
+ M" <david.m.ertman@intel.com>, Shiraz Saleem <shiraz.saleem@intel.com>, "Leon
+ Romanovsky" <leon@kernel.org>, "Maziarz, Kamil" <kamil.maziarz@intel.com>,
+	Rafal Rogalski <rafalx.rogalski@intel.com>, "Schmidt, Michal"
+	<mschmidt@redhat.com>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Mateusz Palczewski <mateusz.palczewski@intel.com>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>
+Subject: RE: [PATCH iwl-net 1/3] ice: avoid RTNL deadlock when notifying the
+ RDMA auxiliary driver
+Thread-Topic: [PATCH iwl-net 1/3] ice: avoid RTNL deadlock when notifying the
+ RDMA auxiliary driver
+Thread-Index: AQHdX5aQklaskxUBMEe+InjmVE4GX7cH3JUA
+Date: Wed, 21 Oct 2026 11:20:46 +0000
+Message-ID: <CH3PR11MB566895C406B00646530A5249C9E5662@CH3PR11MB566895.namprd11.prod.outlook.com>
+References: <20261019065301.3983537-1-poros@redhat.com>
+ <20261019065301.3983537-2-poros@redhat.com>
+In-Reply-To: <20261019065301.3983537-2-poros@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR11MB566895:EE_|PH7PR11MB8549:EE_
+x-ms-office365-filtering-correlation-id: 31f1b376-ec94-4890-74a5-08df2f655a6a
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|38070700021|56012099006|4143699003|11063799006|261009223027099003|10067099003|22082099003|18002099003;
+x-microsoft-antispam-message-info: ukLAAyTQvh1WSHC81u6HMNB8iNF5wdnM1vmSuLpaRuLaYjVizlppFCQs8ddL0KxcES8ff+uh6dmBIDu7x2zZPYOZbE5o/l/yeX13lwznBrBF9pGWTSJuSEqzsbckUGbOOwxirtNd4bQ/2T1rR2IvY2N2zFyVmuDAu1PvWRn+j/JRjcx7YKnq3PSFKFARJ8L7XXZEGCzhY8slSTgHxuqwO44a4pw1/WB+lVxnmDY+5SpqGBzbEsWpoOw4CCo8sNpYbFFzivoBzmT3ZPBC3iVR2dCFFQm0HThq43CzWGRS1A2VUTjvSL84XvKIsL4rNtLhLMpsoSZr+4JODbqJWJJbiA5urHr1VFR9oJ69kpiDyA6DaELTmOrBMoXwE2YGy3Hnvjy/NpIRUkHS2bfLEk0iV6c5DJM9pexaXSe6oV+45G3a9HChyLDbhMwXGO9AMQFvAEPC6WsiAkE/nnIQMs+zYQeUv1Z2CY4idyPzQJN7m+QFFcRsHI9OdIiE6KHCin2uy4qs6ZkrvnK/TDhkupWlnpgISvdJ4rd3mU1YydAGpRh6Qi1aWArMsMP3AuCRhJgC5Eo86KW6/ZxltYq1DYpmZzrSqx55aTPieFSU2DJ+OFG11LIBXdVh7odBAyGxJbOHhxbeOh/KgIQWRMpb467UNlUelF3x0rYqmptwVY49LOCpfc86p+mm/CzFc8huGJqloOzbReuBud0uFC/f9LUBKTJsB9iXCRq0GfV0I3tJeGE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB566895.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(38070700021)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Y3uj4+g2IP53rhFVTo8ZLs+L9Iz6z4rMgioFc3exGWt1fknLuR9JlnjnPFzr?=
+ =?us-ascii?Q?1wG7XuFDNxdT7HoyblbZzA15CNENaOR2p4uFWLRzBn0KKdeDYQpDwg2ge2g5?=
+ =?us-ascii?Q?OVBS+Q2xED/KZ/Ksu7O5eC6ElPIPvfGzYyhFnO/AiTGPjK28V1QZksrmm8AP?=
+ =?us-ascii?Q?i4YkAJ/Zpuq3d6EGFOJmiH8p44k5hXUgEr09HKwKKcxFDImI/pPfs6/p/hKr?=
+ =?us-ascii?Q?6YPrKoVU4EwxZ6ESVTjsfwUiQrn/7p+0/W5SaBSnoGtSw7QbAuTurehTqTbG?=
+ =?us-ascii?Q?wgQBfjR/ahFXsiaPKraQNfKjrv0y80PcX4Tu92cubugHb1+VcH3W+FL2fWgU?=
+ =?us-ascii?Q?k/B1MCtAx1CoP9uO+KZdvmH9AtiwMTcIJMbyWnBNRoK9tOUuN8thDxe7NTiF?=
+ =?us-ascii?Q?ACK5Na+D9nfT/VOnbkROfHU4imNARcBLK+ZaHmegLf8zZdXWK2uxbyDPC8G2?=
+ =?us-ascii?Q?NyD4RAF3sugMjszWG8+64PdvKpJ/JoeIa54fAmmOuLaYy/GM47maWS4UMSfH?=
+ =?us-ascii?Q?PJTiSciqNC11Vk9I4IodAPfAUfs+aJGfdZ5VhG6x2j9Oic8aebVeSr3hTxTG?=
+ =?us-ascii?Q?B0mOX6R4/ZLnIAUDw0OXxcb5BJsakZdAEA0gNsQmJilTSxkUjrUi9bPvafXA?=
+ =?us-ascii?Q?nj9l75VGMbhdnOAFYtRFEsjznd+bPFtxKsiKjVRDUVuYrvrYRA+DanGgmUlj?=
+ =?us-ascii?Q?b0zPPGy7ISPjPoiaq4l/CheaDxQojJ855OCBsDLTzvoTCIw7D7s6u0hHTNn+?=
+ =?us-ascii?Q?3Yo2OgUAiQzgcYeEFGV1w4rMHsfVq2r1JJZJyPtvQda8oVRxA977909sl0S5?=
+ =?us-ascii?Q?w8txDt/7cPRBrTypbAzhHgaDChnwzxR+2E3VGVU7cuxhC+WlPG/xIb3osiY2?=
+ =?us-ascii?Q?szLIqLwy/i697I+mg/lVS4+y6SfGjoDlUGl6Rj0P/oqwPMHUZKi+wHBXywxq?=
+ =?us-ascii?Q?XYeVvIxyFUHUQuEO60NYWwTH8SKkl4ouX82evIfe2TFBVY1ZPF3tIBCpO3LK?=
+ =?us-ascii?Q?KI1cpC2ypshjAEOqaeKT00t2WC3HMul93M96/b32Klv6+DZ6Cxf3WkZhn1lY?=
+ =?us-ascii?Q?NFPNuq3PcI/oR3gUQ2RHq58Tyt5uPjM4B88GPy1cO1f7chV2+Vpla3jo31y6?=
+ =?us-ascii?Q?OZ+tLSK+Ub7/MKHo+h9LkkPilZAlCDwJAtWGz1iMWywHFwqJA65m59AkRae2?=
+ =?us-ascii?Q?7afrbN/9YMrv2+2CYYr+Hs8FcBonal4nwm85msJ6QAqRgTMTbaavmzlitomg?=
+ =?us-ascii?Q?GOQy9XXl9SzjzttUe53ogVEhpMkC4x/y4LPvrQ9IQ5qwMRjyvquaOkyUz1nx?=
+ =?us-ascii?Q?I9NXzzrtvMxsHXwS0K3zFFdYFNwvLpb/onmSx2K8wMIdDtdeKykuciGpiuLk?=
+ =?us-ascii?Q?cX+ULPjRb/2TVMNeOuObJboMPFc8ShoOHjjY/xJUVe68I/p1agffogKYtKYb?=
+ =?us-ascii?Q?IfMPzqUpIdQQshulKYGyOlBHrxPg5/yhmOG4/M4feELhjwU18Vd3ZNsyJxm1?=
+ =?us-ascii?Q?nXOPmgd1Js8xdFwK99NQWR8VXo3I8KWIQvsja7r+D+tURqzCyZzWsOqRW+vH?=
+ =?us-ascii?Q?4vET9rKB16bgLF1lyXz6j73YZN2Fdkxi16YrvZQoYBJ+xpy/AxgpOADvUpQb?=
+ =?us-ascii?Q?aM9HmugCTQemzqiEASx/OUY6re4TZkEaAznPecmf5ObrE2W4WFBJC4XGN76E?=
+ =?us-ascii?Q?jP82A4IA/O7OuIM8dRSCQfT1GRQI7+0SxEni5JaE5nIkUESVspYc0GX62Sjd?=
+ =?us-ascii?Q?AfF1gE5Ar21eb8HGVe/jnzUQpTPNeGY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,294 +195,146 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] mm: fix allocator races with memory hotplug
-To: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, kernel-team@meta.com,
- akpm@linux-foundation.org, mhocko@suse.com, rientjes@google.com,
- shakeel.butt@linux.dev, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, muchun.song@linux.dev, osalvador@suse.de,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, brendan.jackman@linux.dev, hannes@cmpxchg.org,
- ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- mgorman@techsingularity.net, anshuman.khandual@arm.com,
- Bessel.Wang@huawei.com, jiang.liu@huawei.com
-References: <20261021023940.1940971-1-gourry@gourry.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261021023940.1940971-1-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 10/21/26 04:39, Gregory Price (Meta) wrote:
-
-Usual reminder to slow down a bit :)
-
-We have
-
-	Documentation/process/submitting-patches.rst
-
-Saying
-
-	"Wait for a minimum of one week before resubmitting or pinging reviewers
-	 - possibly longer during busy times like merge windows.
-
-A lot of this here was broken forever, so there is no need to rush.
-
-(thanks for the fixes ;) )
-
-> Eight fixes for allocator paths that can act on state another CPU is
-> updating: zonelists rebuilt by memory hotplug, and the pagesets of a
-> zone that offlining empties.
-> 
-> I've packaged these together because they're all related to hotplug.
-> 
-> *** Backport note - Patches 5-7 build on patch 1: without it, their
->     retry is compiled out when CONFIG_MEMORY_HOTREMOVE=n.
-> 
-> Most of these race conditions stem from zonelists being re-ordered
-> in-place at runtime during hotplug.  The result is a mixture of failed
-> allocations, NULL dereferences, incorrect placement (GFP_KERNEL in
-> ZONE_MOVABLE), node misplacement, or incorrectly allowing hugetlb /
-> contig allocations on a node/zone otherwise not eligible.
-> 
-> Most of these are incredibly narrow race conditions, but since the most
-> likely impacted machines are VMs with memory hotplug, the narrow
-> condition can more easily occur when a vCPU takes a long interrupt / VM
-> exit of some kind.  I've made all of these race conditions
-> deterministics with a kprobe reproduction module described below.
-> 
-> Reproducers
-> ===========
-> 
-> All eight races were reproduced on unmodified source in a QEMU guest
-> with three NUMA nodes:
->    node 0: 3G, CPUs 0-1
->    node 1: 1G ZONE_NORMAL, CPU 2
->    node 2: 1G ZONE_NORMAL, CPU 3
-> 
-> And a 512M pc-dimm cold-plugged on node 1, left offline at boot
-> (CONFIG_ACPI_HOTPLUG_MEMORY=y).
-> 
-> Patch 1 needs CONFIG_MEMORY_HOTREMOVE=n to show the failure
-> Patch 3 needs mm/mmzone.o built with -fno-inline -fno-ipa-sra,
->         without which the two reads are merged.
-> Patch 4 needs the reclaim_retry_zone tracepoint enabled.
-> Patch 7's hugetlb case needs a 64G guest (node 1: 4G) so that one
->         memory block is 1G, with a 2G pc-dimm on node 1.
-> 
-> The windows are a few instructions wide, so I used a test module to
-> widen them with kprobes that stall one CPU inside the window. This
-> emulates an interrupt or vCPU preemption.  The vCPU preemption is the
-> more likely event to cause this at large scale with memory hotplug.
-> 
-> Patch 1 (zonelist):
-> 
->   Online node 1's first memory block as ZONE_MOVABLE, which rebuilds
->   node 1's zonelists.
-> 
->   Stall the rebuild after it writes ZONE_MOVABLE into the first entry
->   but before it writes ZONE_NORMAL into the second.
-> 
->   On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1.
-> 
->   Before: the allocation fails, 3/3 runs.
->   After:  the allocation waits for the rebuild and succeeds, 3/3 runs.
-> 
-> Patch 2 (preferred zone):
-> 
->   Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
->   [MOVABLE, NORMAL].
-> 
->   On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1,
->   whose preferred slot is NORMAL, and stall it after it loads the zone.
-> 
->   Offline the block, which rebuilds the list as [NORMAL] and moves the
->   terminator into the preferred slot.
-> 
->   Before: NULL dereference in get_page_from_freelist(), 3/3 runs.
->   After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
-> 
-> Patch 3 (slot reread):
-> 
->   Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
->   [MOVABLE, NORMAL].
-> 
->   On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1
->   with nodemask {1}, and stall it after __next_zones_zonelist() tests
->   the NORMAL slot for NULL but before it reads the slot again.
-> 
->   Offline the block, which rebuilds the list as [NORMAL] and moves the
->   terminator into that slot.
-> 
->   Before: NULL dereference in zone_to_nid(), 3/3 runs.
->   After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
-> 
-> Patch 4 (tracepoint):
-> 
->   Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
->   [MOVABLE, NORMAL], and enable the reclaim_retry_zone tracepoint.
-> 
->   On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1, with
->   its get_page_from_freelist() calls failed so that the slowpath reaches
->   should_reclaim_retry(), and stall it in zone_reclaimable_pages() for
->   node 1's NORMAL zone.
-> 
->   Offline the block, which rebuilds the list as [NORMAL] and moves the
->   terminator into that slot.
-> 
->   Before: NULL dereference in the tracepoint, 3/3 runs. With the
->           tracepoint disabled, no oops (1 run).
->   After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
-> 
-> Patch 5 (zonelist slots):
-> 
->   On one CPU, allocate GFP_KERNEL with a nodemask, and stall it after
->   the iterator approves its first zonelist slot but before the
->   allocator loads the zone from that slot.
-> 
->   Online node 1's first memory block as ZONE_MOVABLE, which inserts
->   ZONE_MOVABLE at the front of node 1's zonelists.
-> 
->   This was run for single-page and bulk allocations, and for a
->   single-page allocation whose fast path is made to fail so that the
->   slowpath's walk races.
-> 
->   Before: nodemask {1} gets a node 1 ZONE_MOVABLE page and nodemask
->           {2} a node 1 ZONE_NORMAL page, 18/18 runs.
->   After:  nodemask {1} gets node 1 ZONE_NORMAL and nodemask {2} gets
->           node 2 ZONE_NORMAL, 18/18 runs.
-> 
->   The check adds 5 instructions to an order-0 allocation on x86,
->   counted with a hardware counter on a non-debug build.
-> 
-> Patch 6 (hugetlb):
-> 
->   Reserve hugetlb pages on every node. On CPU 1, fault a hugetlb page
->   bound to node 2 with mbind(); the pool walk uses node 0's zonelist,
->   where node 2 follows node 1. Stall the walk after it approves
->   node 2's slot.
-> 
->   Online node 1's first memory block as ZONE_MOVABLE, which shifts
->   node 1's ZONE_NORMAL into that slot.
-> 
->   Before: the page comes from node 1, 3/3 runs.
->   After:  the page comes from node 2, 3/3 runs.
-> 
-> Patch 7 (alloc_contig):
-> 
->   Write 1 to node 1's 1G nr_hugepages, and stall the gigantic page's
->   zonelist walk after it approves node 1's ZONE_NORMAL slot.
-> 
->   Online node 1's first memory block as ZONE_MOVABLE, which inserts
->   ZONE_MOVABLE into that slot.
-> 
->   Before: the 1G page is allocated from ZONE_MOVABLE, 3/3 runs.
->   After:  the 1G page is allocated from ZONE_NORMAL, 3/3 runs.
-> 
->   Calling alloc_contig_pages() directly with GFP_KERNEL in the first
->   guest, as in patch 5, nodemask {1} gets a ZONE_MOVABLE range and
->   nodemask {2} a node 1 range before, 3/3 runs each, and neither after.
-> 
-> Patch 8 (pagesets):
-> 
->   Online node 1's block as ZONE_MOVABLE, then offline it.
-> 
->   Stall the offline before the zone empties, and stall the vmstat
->   worker on another CPU (kicked through /proc/sys/vm/stat_refresh) in
->   decay_pcp_high() for that zone. Let the offline free the pagesets,
->   reallocate the freed percpu area with a known value, then release
->   the worker.
-> 
->   Before: decay_pcp_high() runs on the freed pageset, 6/6 runs. In
->           1/6 the area was reallocated before the worker resumed, and
->           decay_pcp_high() rewrote the new object.
->   After:  the pageset is not freed, 3/3 runs.
-> 
-> All eight reproducers also pass on the series tip, 3/3 runs each.
-> 
-> Changes in v3
-> =============
-> - Replaced v2 patch 2 (zonelist_zone_valid() recheck) with patch 5,
->   which checks zonelist_update_seq whenever an allocation succeeds
->   (Vlastimil). A raced attempt's page is discarded, so a stale preferred
->   zone can no longer affect the result (Sashiko).
-> - Moved the NULL dereference fixes ahead of patch 5.
-> - Added patches 6 and 7 for the hugetlb pool walk and
->   alloc_contig_pages(), which have the same slot shift.
-> - Added patch 4 for the reclaim_retry_zone tracepoint's re-read.
-> - Fixes: tags on patches 2-6 now name the stop_machine
->   removal that made rebuilds run concurrently with zonelist walks.
-> 
-> Link: https://lore.kernel.org/linux-mm/20261014222456.2318284-1-gourry@gourry.net/
-> Link: https://lore.kernel.org/linux-mm/20261015210539.3243563-1-gourry@gourry.net/
-> Link: https://lore.kernel.org/linux-mm/20261019172346.3344005-1-gourry@gourry.net/
-> 
-> Gregory Price (Meta) (8):
->   mm/page_alloc: detect zonelist rebuilds from memory hot-add
->   mm/page_alloc: snapshot the preferred zone against shrink rebuilds
->   mm/mmzone: read each zoneref slot once when filtering by nodemask
->   mm/page_alloc: pass the zone, not the zoneref, to reclaim_retry_zone
->   mm/page_alloc: retry allocations that raced with a zonelist rebuild
->   mm/hugetlb: retry the pool walk when the zonelist is rebuilt
->   mm/page_alloc: retry alloc_contig_pages() when the zonelist is rebuilt
->   mm/page_alloc: keep a zone's pagesets when it goes empty
-> 
->  include/trace/events/oom.h |   8 +--
->  mm/hugetlb.c               |  13 +++--
->  mm/mmzone.c                |  11 ++--
->  mm/page_alloc.c            | 106 +++++++++++++++++++++++++++++--------
->  mm/page_alloc.h            |   3 ++
->  5 files changed, 107 insertions(+), 34 deletions(-)
-> 
+X-Exchange-RoutingPolicyChecked: iTgqxHbWIq8Hhag80fQ8FPFY6eENcdyWruDSYMc1VomGKXF730IrITGuTckP5Lfv1gEi8Kg9ZOrYyc8vuGw5HAGPlhZGzTeK+y3k94ieQr+1wxFbcbqmprJIvdSC0eqwQ3EHSAJYgUVxwNR8C7ZkqAry8ESdRTj+MuTUcMQEmQTpqhmKz59/pAuxDftEJTnW0KhvosgJBLD9xV4HhVWN23Fd4pIA32XBzmui+MSChed/PmHWdW8fpQGMf/UQfKacrKFi/YtSB+/+f0/98Hu56RmYCH+3VyRqS+azEncbF9klDAF8GpbLKBLZzdp9t2u8Zob2rLZS9cG5kFlKnd1ceg==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB566895.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31f1b376-ec94-4890-74a5-08df2f655a6a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 11:20:46.4662
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: foMhF8q99/8qWltqSMvDmThzSq7EyysnQ36tfjZrsRZc12J20FDPBLM0FzDgIk6RKpKgMt5CXlGKVepoGg3qzRMGeKmxVr06PiEDS6bwGho=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8549
+X-OriginatorOrg: intel.com
 
 
--- 
-Cheers,
 
-David
+> -----Original Message-----
+> From: Petr Oros <poros@redhat.com>
+> Sent: Monday, October 19, 2026 8:53 AM
+> To: netdev@vger.kernel.org
+> Cc: Oros, Petr <poros@redhat.com>; Nguyen, Anthony L
+> <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
+> <przemyslaw.kitszel@intel.com>; Andrew Lunn <andrew+netdev@lunn.ch>;
+> David S . Miller <davem@davemloft.net>; Eric Dumazet
+> <edumazet@kernel.org>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
+> <pabeni@redhat.com>; Ertman, David M <david.m.ertman@intel.com>; Shiraz
+> Saleem <shiraz.saleem@intel.com>; Leon Romanovsky <leon@kernel.org>;
+> Maziarz, Kamil <kamil.maziarz@intel.com>; Rafal Rogalski
+> <rafalx.rogalski@intel.com>; Loktionov, Aleksandr
+> <aleksandr.loktionov@intel.com>; Schmidt, Michal <mschmidt@redhat.com>;
+> linux-rdma@vger.kernel.org; intel-wired-lan@lists.osuosl.org; linux-
+> kernel@vger.kernel.org; stable@vger.kernel.org; Sebastian Andrzej
+> Siewior <bigeasy@linutronix.de>; Clark Williams <clrkwllms@kernel.org>;
+> Steven Rostedt <rostedt@goodmis.org>; Mateusz Palczewski
+> <mateusz.palczewski@intel.com>; linux-rt-devel@lists.linux.dev
+> Subject: [PATCH iwl-net 1/3] ice: avoid RTNL deadlock when notifying the
+> RDMA auxiliary driver
+>=20
+> ice_send_event_to_aux() blocks on the auxiliary device lock, and the
+> dcbnl callers reach it with the RTNL lock held. The RDMA auxiliary probe
+> takes the two in the opposite order, because __driver_attach() holds the
+> auxiliary device lock across ib_register_device(), which needs the RTNL
+> lock:
+>=20
+>   systemd-udevd   state:D
+>     really_probe                  <- holds device_lock(&adev->dev)
+>     icrdma_probe
+>     irdma_ib_register_device
+>     ib_register_device
+>     setup_device
+>     irdma_roce_port_immutable
+>     ib_query_port
+>     irdma_query_port
+>     ib_get_eth_speed              <- blocks on rtnl_lock()
+>=20
+>   lldpad          state:D
+>     rtnetlink_rcv_msg             <- holds rtnl_lock()
+>     dcb_doit
+>     dcbnl_ieee_set
+>     ice_dcbnl_setets
+>     ice_pf_dcb_cfg
+>     ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
+>=20
+> Everything else that needs the RTNL lock piles up behind lldpad and the
+> boot never completes. The probe side cannot be changed, so use
+> device_trylock() and report whether the event reached the driver.
+>=20
+> IIDC_RDMA_EVENT_BEFORE_TC_CHANGE has to arrive before the traffic
+> classes change, so ice_pf_dcb_cfg() refuses the request with -EBUSY
+> rather than run it behind the RDMA driver's back. The critical error and
+> MTU change events are sent from the service task, which consumes their
+> pending bits before sending, so those are re-armed instead.
+> AFTER_TC_CHANGE keeps its fire and forget behaviour, it can be neither
+> refused, the hardware has already changed, nor deferred, every lock that
+> would serialise a deferred delivery against the dcbnl callers forms
+> another cycle.
+>=20
+> Fixes: 348048e724a0 ("ice: Implement iidc operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Petr Oros <poros@redhat.com>
+> ---
+>  drivers/net/ethernet/intel/ice/ice_dcb_lib.c |  9 ++++++++-
+>  drivers/net/ethernet/intel/ice/ice_idc.c     | 20 ++++++++++++++++----
+>  drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +-
+>  drivers/net/ethernet/intel/ice/ice_main.c    | 16 ++++++++++++----
+>  4 files changed, 37 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+> b/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+> index 0bc6dd37568792..2022b46c990cb2 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+> +++ b/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+> @@ -355,8 +355,10 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct
+> ice_dcbx_cfg *new_cfg, bool locked)
+>  	struct iidc_rdma_event *event;
+>  	int ret =3D ICE_DCB_NO_HW_CHG;
+>  	struct ice_vsi *pf_vsi;
+> +	bool dcb_ena;
+>=20
+>  	curr_cfg =3D &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
+> +	dcb_ena =3D test_bit(ICE_FLAG_DCB_ENA, pf->flags);
+>=20
+>  	/* FW does not care if change happened */
+>  	if (!pf->hw.port_info->qos_cfg.is_sw_lldp)
+> @@ -406,7 +408,12 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct
+> ice_dcbx_cfg *new_cfg, bool locked)
+>  	}
+>=20
+>  	set_bit(IIDC_RDMA_EVENT_BEFORE_TC_CHANGE, event->type);
+> -	ice_send_event_to_aux(pf, event);
+> +	if (!ice_send_event_to_aux(pf, event)) {
+> +		assign_bit(ICE_FLAG_DCB_ENA, pf->flags, dcb_ena);
+> +		kfree(event);
+> +		ret =3D -EBUSY;
+-EBUSY doesn't match to any ICE_DCB_* constant, are you sure you tested thi=
+s case?
+It looks like it will be processed like ICE_DCB_NO_HW_CHG i.e. no change ne=
+eded, isn't it?
+
+
+> +		goto free_cfg;
+> +	}
+>  	kfree(event);
+>=20
+>  	/* avoid race conditions by holding the lock while disabling and
+> diff --git a/drivers/net/ethernet/intel/ice/ice_idc.c
+> b/drivers/net/ethernet/intel/ice/ice_idc.c
+> index 102d63c3018b1f..7fd35ce966ea65 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_idc.c
+> +++ b/drivers/net/ethernet/intel/ice/ice_idc.c
+> @@ -34,30 +34,42 @@ ice_get_auxiliary_drv(struct iidc_rdma_core_dev_info
+> *cdev)
+>   * ice_send_event_to_aux - send event to RDMA AUX driver
+>   * @pf: pointer to PF struct
+>   * @event: event struct
+
+...
+
+>  			kfree(event);
+>  		}
+>  	}
+> --
+> 2.56.0
+
