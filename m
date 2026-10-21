@@ -1,100 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792529772;
-	b=C12tPMOtPDpXyFfgZvFml2Kxap/H0igL1ZbFqtDPkN0lQTM8iXHZAjYwxYsOBHgatUaA
-	 bg9kuQGmS9KK2cMdpwjihC+G2ilFoGTno9Vy0q3yLirfHzEq7l8BY54F8h6h1g40u00BJ
-	 52i4DehP1thcTmj+zkPhIN2zBToytUlTT3IwcRqcZvJF/gkma/1rYTWd1bKR6Ti5Bz/TC
-	 2zhmvwQQYp2km7b5JlG68Rj/yZ/biVu09lGFyRfjclcKM7daIYBK9MOnEG1785sVQNZ2S
-	 2bkhqmCNoeAQAknGXc3x6cVUWvOlyyW3SImllINsfMohgowqtrYUL1XxU9HCVCyyOxw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792529772;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792550386;
+	b=dZ/dxp7eO8B/YgNvfvndxEVOYgmrY6N+g5TIM1EC+7c0pFdfOTlCAhPEYZihpX++Lgzm
+	 sSZbanAI9UBL52M68Fbin0YPpXPEbowQNY2Nq3S9Q6DDuJnfhVoo/B7Xt5uzJy0zrDrad
+	 oTqa36oYXrXbLY9ZWZfzTk6cHi9/zOrfCGEWmHPQB/WB78vK2HMkX9VEYyx8T5D5w2t7z
+	 XGmvouJmLt0hv78RO+TcXFc0gQgWCGYYFovWYRqR2CqYV7+fqkyJa7m9/Ptwmp0DeTd8j
+	 YM7R8qsFtdOZ9SzXaRoU3Ln7S0Jwgzbq1gSHgaKKmHrozPuqbdqPAnEK1bKF8nDeljg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792550386;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
-	b=jpSVCOnV06sWQC2ofndi8mjzvBqaT8LdS9N3OrH3wWOYXcmV1vmONE+vZ/qjyEd2H+Z/
-	 VUiaCivMoed6rrxw59EVLgfHX80GFhjoSFJniDXZF5mTkORkRLURloytC0NUUGkDKrLKC
-	 QiQHNe+4AwNXNytRWTN6JgmSTjV4wW2FoTXYm4j8PmhIPlz1RCq+G8qhmHC0j95O6yWvZ
-	 9xONhcRgU/qiy3HfsLVY6Nw0NZ8+KiydgxL7M+Bw09/G9RpDjVp+Xtz4c6PBBHKopk4NE
-	 8cRIziF84rnl3S1HQuZpqGj7H+lpbb01/diQ0TaGH+w9RVzWBabv5kHBDwqgabWqUTQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nuro.ai;
-	spf=pass smtp.mailfrom=nuro.ai;
-	dkim=pass header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=JUKGnpZY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=IJC2MsJ0jpysriv3T3ncr7oRZBUiitKdqEmiCZfBP3c=;
+	b=0y/CwVI0Tzwl9A/b6k+odzVVLyZDUZVKvk55gBtwA4/rL4nVmS2Tu6n6LPWK8Ix+F1j+
+	 gzjTOoKjoavWQiMrhMy6Hy5ssQXyy3JyzMUHKUKt+x5Y5lgVKI4Gk+hC9O010KMwOxRAZ
+	 5LhJ5CYP83NbAkFfebDbb1eNHfa+kGTnWMO8tx9EvT5qGz5Q6YJrlXwIEfWsZY7pBdH8E
+	 pDGU411Gi/MZ/yFZar9u2UlCKCyEeFJut+cfyOTVmTnCgdgfJjSQNsVq/yul0l1z8kLzU
+	 jyP++wlo9rjXDltHTWtFQR7iolQDmUC5vdSLZhFQob4IJKGQk37yBzzlXeKgL2hNU2A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=BmIDOOih;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0CD606A324
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 20:56:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE0CD606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuro.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuro.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559E3606A31B
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 02:39:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 559E3606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuro.ai header.i=@nuro.ai header.a=rsa-sha256 header.s=google header.b=JUKGnpZY
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-36681e85e87so1658493eec.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 13:56:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792529766; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mz5PpH5I/MXC8kcc7FWgjwJqIbvthBhjqsqwZzp/iu1XHTw/sMEJX898lg8SiNAJvS
-         1POyezg1NVmawHQj33ggdmlHKkMIemYqmp246n7nzgUe9bpzkddEx2P7QG5IP+WXKs0n
-         64DbaHrB3AJoD+24g/g2KO4mVmujOmeMsyafdPvEZHDsfpso6wISLbfiGtEQunLOGM4f
-         eHJhgQrmxoWJl/v07YVHu+trMYrFCWrq2xL/R4awispQ/6uIjzcugFhlixtHRIDjoJNH
-         Oiru1aSaetG4ofKPXOh3yjZKlad+eWBL4MPR9LqckddccOIqlVy1px+nl6mX1+B9VYDO
-         Nf3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
-        fh=oQZa0Rvb/0QWm1SkHRDM8krqUtu/PdXe6N8c8Pfdv2o=;
-        b=XQHxWq98vtIPxlGPyqyykVam4Jm6MlOhhSdmKeYWFGT8ECKUqo7LzLaPUEloL5tbai
-         Ej/Xbmb7ZDCRTXO81lgnAcFwubTN3oVaEaEw/RDTtH7RcSg3o3rskxNnb5uolsLapwWj
-         HqsLaOgdAd1m5iCSv1YDQdXs5s05haC99TeW7raN6zvPIK0ws+2tPbLcvVAIW2Rso6kQ
-         oYCoN5PBo2Frc5BYxyzs4bVwP4eNxQF7oaIaGKA7t04pJzNtXc3nQhEpmFDAeME4cTvN
-         1fDN/SxF2WIgZ+JmBldBr/SYwRW4xG9ZbIG0z2HlXaiDJpi8X7pGgT+IwbRvEd/a4INb
-         zylA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=BmIDOOih
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91b55859245so3767816d6.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Oct 2026 19:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nuro.ai; s=google; t=1792529766; x=1793134566; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
-        b=JUKGnpZYWf57Qr+fdL83IEeX3KvdNnZs59GwgmiRqCOPZw60agpcNHrgphZXryMOfM
-         gT6C9RUnXoepvBijEc0jPQPjYUm4a8omKdxvD8X+O+R+gUr4/74FPASUVK7U7ce8gj4V
-         nY/dxyBkS+TSsT2kWvNckvhhj2WNns3p/bblhUvcbbXQHSGNxGkXL5pulmO3pq0D/9rn
-         vtcwWqYTeMQh9sTu2WnTGt+ThRFYYWGS/026pnx/sJwGtjGFq2qijxDIyzxG5cNspDRj
-         ecwzo0iJTuBzuxhzPjc/WuO5oOfZNFxwo5uEzafpi+CFLjYQ3GD04/SRDB76JJyTPoLw
-         F+dg==
+        d=gourry.net; s=google; t=1792550384; x=1793155184; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IJC2MsJ0jpysriv3T3ncr7oRZBUiitKdqEmiCZfBP3c=;
+        b=BmIDOOih1ob29rlwNvTtTIvKjUZWY7AN+q+me695RyfFTJII4Moz/mRKMafGoAamQU
+         QfG5Rn4B8pLNmdrz0Z3OikSsLEUq/P3Rrt0BCowyrcXe+TZe7CmWdXeD0KVGZXegVvku
+         BXYtGQBywecHLiSWiLjztzFmqZuT2Z7cmZt+Rrui4zOxe+w63LVPYRqIxmHavdekiiE7
+         CqjAoI26q1aOWX1+OBErVBV+YTs2Qorx/N88n9aFd1FI4XQeEzdAykjxMVaJUeWMQIpA
+         MvrY8t3c6rsoowDYruSlqDFB/1wstDJzMSYjzvHFruNCL8sDGLMcAPMU38A7TR4biBDn
+         sXkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792529766; x=1793134566;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sl+ao6jj/EJqVd8mitMcxYql8KlVrUDpfsHnTJtiC1U=;
-        b=2CEe1AlU0FQXVGIo4UXoa7zbtQjzCzGKHmR0wIBVeRnUUu0z/LnUk0P+EyCWfL+KRw
-         bLYTzDPPSkIshLGtecZPDY+8abMq0fTWo6ikdFn/bjkD8UUyR4KZSTQmoHT7zeSesB0Z
-         qqPnv+AGe9uY/56tqIyUPif8r7K4pSP2TOqTsoArPo2+9IwhNu5o76pcs9Vv9AD40O/P
-         X8IZMUPIvcQvtYhDwWg9V0Osn0Tbh3Cz+tiTo2Ksf6Ml11jkyaASAYFWmcyS53ptocxm
-         4o5LfZh2MKIjWqzyKDwuAyEI6zUF4hkOi74jLJ7fyjtBZ+jK3+lZHOU4Hq4BKmKkKOek
-         CuSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz2UEihdlXMOvNOmOWvE5Ep+DM+8Nu3SGFpHQczfJAUpfD6njbLjf+4Kr0HpbC5ixXdZh6VU7B9CpaP6XQEWQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL+Gn9t8Y6ncmpGAsKfqL/IcUBOWsbDcM/3t8QRzK2EAEU/w50+
-	W7vbvdZhbrd4N+jkl/13uvmHj6e2GATp+i5r5y4XINVdYFFciBkzBrOTiAO0h4g8JCM8QFKJ4OA
-	PK6xDEOjWuYj11NYmONt4RAR7xcX7uyulGGqUVWiT4A==
-X-Gm-Gg: AYBFou33LpGi+QE0j32U5+Wz62eZrMytYbCTqyX9dEwqSrF3ovDeig4hgIYSfiqCL1V
-	cPBA4HCD2U2Yb7EtzroI6pvvHSzHzgl9cUU0x9FrqBGOJMcnj2XaUxoEWcH0S8WE5PrMYN6JAAx
-	grmvddbGshCVw8hWQbGpy2VOQo4ZJSQS+ENMRHFymGkYd4QJMKpe+P1XxbU0wvicHy7U23+2mUX
-	sri80obDG4o7Xw7J/DcSDfMHExp1+Dbh9LTRGqU1hOjHZw5S4U9niJaeSJimXN89o2AS4Z4i5yA
-	uVjwkFUAZ7BIDewvF/ycdKJCwaUzPAPKL+W2jLjH+lNDnVGwKlj2GBdQJovqwLdc2ztVV2FG9Gg
-	4MYHzkkzsm6jdJDKHEP7UWu9qI1eIo08spXjv
-X-Received: by 2002:a05:693c:60cf:b0:353:8205:8558 with SMTP id
- 5a478bee46e88-3674b82ad86mr744900eec.5.1792529765608; Tue, 20 Oct 2026
- 13:56:05 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792550384; x=1793155184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IJC2MsJ0jpysriv3T3ncr7oRZBUiitKdqEmiCZfBP3c=;
+        b=mAWbhBXXcjzR+033IiL+D93PeaRXNbZi11BPGIgkD/On8+TYdZQ1tAT+6fb1QalZ2V
+         03qmW3qo6+3VXE0GcVDbfX9qbWpvv+82Z99uo9PWTIILeKyVT5lVKwGROSNbTXSoo4u4
+         apmpeYwVuL/RdNqbaGebvhp6HRhjvKo0LXiW26wmHArh3xTIn70hWgPufqZ3KaOzbVgC
+         PJsvKV427lGtRAV4HRHpZ7gD12gpcKxSAk9bsw2ZxqbvPyyUFpjuMB6OiBzz4PLXdF9V
+         UMNKntR4Dvaz6eIoBGM7xEXr/71VqNJTMHemy4fGK9OlmLTCsN3lzVobwPuzQzHxdNb6
+         x8uw==
+X-Forwarded-Encrypted: i=1; AKwUvBzac0BYXeiMJcCYVrrN1LUceJhGFrnv8WkVnFUlWm1/uMYqlSYdpcGDjpLzExxa0kMyi1g8pKF9aY1iUF/FFQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKd4Cc7ZJPBfLgogLRI3inPrigRK3woplAunNO3fffoF+qWlt9g
+	XEkqwP/XJRQ8Z84eis8fLTMU+XQLhGZP3J8ThYcePDP2aMzDQlnsLeGIj8+D9lihhMA=
+X-Gm-Gg: AYBFou1WnNLFbOjeBU/BddA0dkJQv1h5wNJvU/7D+d9hpP6ouL+H5YDnGFowtbEXied
+	VnBgzr5f397d6kBsdcVbKOONcscCCHJGzON+FPpu+kuxNvwRjrjYmZU1RxzLbZ3XmvIY7HnHe9r
+	NISYGUDTY14iA7so9ob27NBYy5akwq6hX4SEne/fEgoGRe3hL9Qfwi1re3q+dGVDg2zN7ZICrqL
+	BJBFiB3fHv6WJG6xuyRyWC8F0E637hSVifmKIC49vAPLeqf0FndrnLdLdihbLutYNeOfiFQ49y8
+	xCfa5Y5Quu3TckuZYfiRYvWtVyfefcgf25TnAtZcXi8i5huyLEmTfcYNT9z2GamRC+IPQfW+VO2
+	m7II/E4mIGHJn3HmDBybJEFWqA121RuXaezIhsjMbCj+sTjTJaah4smj5E7GNuKwf4l+MelhcOK
+	BAHt1E//ED/Wnd1mpqJ38i4tDkAfky5XUhPUBzIuhvDxM9W/+1CaXZ/Fcqrsr0czWLXMG9jaIwa
+	8cqe/YbtkuhmpQaeaSHPnzafZYaTJDvHGV47gEP6cP5tEffLwhMrcYKF3pbIDozZ/XdWDaC1nvf
+	0sHa0AYvbJ0Y/KBGycV4X/6awMa2pacqrZpNBc0+8A==
+X-Received: by 2002:a05:6214:3bc5:b0:91b:8059:5037 with SMTP id 6a1803df08f44-91c12ee3a7dmr14525426d6.32.1792550384097;
+        Tue, 20 Oct 2026 19:39:44 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10a45336sm13819426d6.3.2026.10.20.19.39.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 19:39:43 -0700 (PDT)
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	kernel-team@meta.com,
+	akpm@linux-foundation.org,
+	mhocko@suse.com,
+	rientjes@google.com,
+	shakeel.butt@linux.dev,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	brendan.jackman@linux.dev,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	mgorman@techsingularity.net,
+	anshuman.khandual@arm.com,
+	Bessel.Wang@huawei.com,
+	jiang.liu@huawei.com
+Subject: [PATCH v3 0/8] mm: fix allocator races with memory hotplug
+Date: Tue, 20 Oct 2026 22:39:32 -0400
+Message-ID: <20261021023940.1940971-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -104,65 +120,212 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261019174258.1375583-1-jkain@nuro.ai> <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
-In-Reply-To: <CAL4WiipkRkOnc_QJ51g6_9uB=pTeCSp6U8L-YVD2ytuZn4g5Qg@mail.gmail.com>
-From: Joseph Kain <jkain@nuro.ai>
-Date: Tue, 20 Oct 2026 13:55:47 -0700
-X-Gm-Features: AclHuK-crS7z_XIcQyguixXXCUEme6bZ9BWpgUYG6WSh9lO_ed8dYy8vP4sPrPk
-Message-ID: <CA+Y90Pg5UaL9WkaGghc3PZadrsN+ud-vY89aE3xuZ3UjUxz9Ww@mail.gmail.com>
-Subject: Re: [PATCH net v6] net: schedule a purge when the defer queue rejects
- a free
-To: Eric Dumazet <edumazet@kernel.org>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, horms@kernel.org, kuniyu@google.com, 
-	kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org, 
-	rostedt@goodmis.org, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 10:58=E2=80=AFAM Eric Dumazet <edumazet@kernel.org>=
- wrote:
->
-> Say not to very verbose changelog, that nobody will read.
->
-> Since commit 844c9db7f7f5 ("net: use llist for sd->defer_list"),
-> skb_attempt_defer_free() increments sdn->defer_count before testing
-> it against skb_defer_max, and keeps the increment when it rejects.
-> __skb_defer_free_flush() returns early on an empty list without
-> clearing the counter.
->
+Eight fixes for allocator paths that can act on state another CPU is
+updating: zonelists rebuilt by memory hotplug, and the pagesets of a
+zone that offlining empties.
 
-Review bots found that:
+I've packaged these together because they're all related to hotplug.
 
-1. skb_defer_max=3D0 still latches.
+*** Backport note - Patches 5-7 build on patch 1: without it, their
+    retry is compiled out when CONFIG_MEMORY_HOTREMOVE=n.
 
-proc_do_skb_defer_max() publishes the new value before it calls
-static_branch_enable(), so a producer can read skb_defer_max=3D0,
-increment, and reject with an empty list, which skips the kick.
-__skb_defer_free_flush() then returns early without clearing. Restoring
-any limit at or below the count that accumulated leaves every later
-producer rejecting on an empty list. On 6.18 through 7.0, which the
-Fixes: tag targets, there is no skb_defer_disable_key at all, so there it
-is deterministic rather than a race.
+Most of these race conditions stem from zonelists being re-ordered
+in-place at runtime during hotplug.  The result is a mixture of failed
+allocations, NULL dereferences, incorrect placement (GFP_KERNEL in
+ZONE_MOVABLE), node misplacement, or incorrectly allowing hugetlb /
+contig allocations on a node/zone otherwise not eligible.
 
-2. The kick does not coalesce the way I said it did.
+Most of these are incredibly narrow race conditions, but since the most
+likely impacted machines are VMs with memory hotplug, the narrow
+condition can more easily occur when a vCPU takes a long interrupt / VM
+exit of some kind.  I've made all of these race conditions
+deterministics with a kprobe reproduction module described below.
 
-trigger_rx_softirq() clears sd->defer_ipi_scheduled as soon as the IPI
-runs, before the list is drained, so if the owner has BHs disabled the
-next rejection sends another IPI. With use_backlog_threads(),
-kick_defer_list_purge() also takes sd->input_pkt_queue.lock before it
-tests NAPI_STATE_SCHED, and on PREEMPT_RT that is a remote
-spin_lock_irqsave() per rejected free. This series started from
-sd->defer_lock contention on this same path, so I would rather not ship
-that.
+Reproducers
+===========
 
+All eight races were reproduced on unmodified source in a QEMU guest
+with three NUMA nodes:
+   node 0: 3G, CPUs 0-1
+   node 1: 1G ZONE_NORMAL, CPU 2
+   node 2: 1G ZONE_NORMAL, CPU 3
 
-For v7 I plan to restore the empty-list clear in the flush which covers 1
-(but was dropped in v3).  I=E2=80=99ll keep a kick for the case where the
-owner never raises NET_RX on its own, but bound it.
+And a 512M pc-dimm cold-plugged on node 1, left offline at boot
+(CONFIG_ACPI_HOTPLUG_MEMORY=y).
 
-The bound is what I am unsure of. Kicking only on the first rejection
-after the limit is crossed costs one IPI per overflow, but nothing
-retries if that one does not land. Would you prefer that, or something
-that keeps retrying?
+Patch 1 needs CONFIG_MEMORY_HOTREMOVE=n to show the failure
+Patch 3 needs mm/mmzone.o built with -fno-inline -fno-ipa-sra,
+        without which the two reads are merged.
+Patch 4 needs the reclaim_retry_zone tracepoint enabled.
+Patch 7's hugetlb case needs a 64G guest (node 1: 4G) so that one
+        memory block is 1G, with a 2G pc-dimm on node 1.
+
+The windows are a few instructions wide, so I used a test module to
+widen them with kprobes that stall one CPU inside the window. This
+emulates an interrupt or vCPU preemption.  The vCPU preemption is the
+more likely event to cause this at large scale with memory hotplug.
+
+Patch 1 (zonelist):
+
+  Online node 1's first memory block as ZONE_MOVABLE, which rebuilds
+  node 1's zonelists.
+
+  Stall the rebuild after it writes ZONE_MOVABLE into the first entry
+  but before it writes ZONE_NORMAL into the second.
+
+  On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1.
+
+  Before: the allocation fails, 3/3 runs.
+  After:  the allocation waits for the rebuild and succeeds, 3/3 runs.
+
+Patch 2 (preferred zone):
+
+  Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
+  [MOVABLE, NORMAL].
+
+  On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1,
+  whose preferred slot is NORMAL, and stall it after it loads the zone.
+
+  Offline the block, which rebuilds the list as [NORMAL] and moves the
+  terminator into the preferred slot.
+
+  Before: NULL dereference in get_page_from_freelist(), 3/3 runs.
+  After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
+
+Patch 3 (slot reread):
+
+  Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
+  [MOVABLE, NORMAL].
+
+  On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1
+  with nodemask {1}, and stall it after __next_zones_zonelist() tests
+  the NORMAL slot for NULL but before it reads the slot again.
+
+  Offline the block, which rebuilds the list as [NORMAL] and moves the
+  terminator into that slot.
+
+  Before: NULL dereference in zone_to_nid(), 3/3 runs.
+  After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
+
+Patch 4 (tracepoint):
+
+  Online node 1's block as ZONE_MOVABLE, so node 1's local zonelist is
+  [MOVABLE, NORMAL], and enable the reclaim_retry_zone tracepoint.
+
+  On another CPU, allocate GFP_KERNEL | __GFP_THISNODE from node 1, with
+  its get_page_from_freelist() calls failed so that the slowpath reaches
+  should_reclaim_retry(), and stall it in zone_reclaimable_pages() for
+  node 1's NORMAL zone.
+
+  Offline the block, which rebuilds the list as [NORMAL] and moves the
+  terminator into that slot.
+
+  Before: NULL dereference in the tracepoint, 3/3 runs. With the
+          tracepoint disabled, no oops (1 run).
+  After:  the allocation succeeds from ZONE_NORMAL, 3/3 runs.
+
+Patch 5 (zonelist slots):
+
+  On one CPU, allocate GFP_KERNEL with a nodemask, and stall it after
+  the iterator approves its first zonelist slot but before the
+  allocator loads the zone from that slot.
+
+  Online node 1's first memory block as ZONE_MOVABLE, which inserts
+  ZONE_MOVABLE at the front of node 1's zonelists.
+
+  This was run for single-page and bulk allocations, and for a
+  single-page allocation whose fast path is made to fail so that the
+  slowpath's walk races.
+
+  Before: nodemask {1} gets a node 1 ZONE_MOVABLE page and nodemask
+          {2} a node 1 ZONE_NORMAL page, 18/18 runs.
+  After:  nodemask {1} gets node 1 ZONE_NORMAL and nodemask {2} gets
+          node 2 ZONE_NORMAL, 18/18 runs.
+
+  The check adds 5 instructions to an order-0 allocation on x86,
+  counted with a hardware counter on a non-debug build.
+
+Patch 6 (hugetlb):
+
+  Reserve hugetlb pages on every node. On CPU 1, fault a hugetlb page
+  bound to node 2 with mbind(); the pool walk uses node 0's zonelist,
+  where node 2 follows node 1. Stall the walk after it approves
+  node 2's slot.
+
+  Online node 1's first memory block as ZONE_MOVABLE, which shifts
+  node 1's ZONE_NORMAL into that slot.
+
+  Before: the page comes from node 1, 3/3 runs.
+  After:  the page comes from node 2, 3/3 runs.
+
+Patch 7 (alloc_contig):
+
+  Write 1 to node 1's 1G nr_hugepages, and stall the gigantic page's
+  zonelist walk after it approves node 1's ZONE_NORMAL slot.
+
+  Online node 1's first memory block as ZONE_MOVABLE, which inserts
+  ZONE_MOVABLE into that slot.
+
+  Before: the 1G page is allocated from ZONE_MOVABLE, 3/3 runs.
+  After:  the 1G page is allocated from ZONE_NORMAL, 3/3 runs.
+
+  Calling alloc_contig_pages() directly with GFP_KERNEL in the first
+  guest, as in patch 5, nodemask {1} gets a ZONE_MOVABLE range and
+  nodemask {2} a node 1 range before, 3/3 runs each, and neither after.
+
+Patch 8 (pagesets):
+
+  Online node 1's block as ZONE_MOVABLE, then offline it.
+
+  Stall the offline before the zone empties, and stall the vmstat
+  worker on another CPU (kicked through /proc/sys/vm/stat_refresh) in
+  decay_pcp_high() for that zone. Let the offline free the pagesets,
+  reallocate the freed percpu area with a known value, then release
+  the worker.
+
+  Before: decay_pcp_high() runs on the freed pageset, 6/6 runs. In
+          1/6 the area was reallocated before the worker resumed, and
+          decay_pcp_high() rewrote the new object.
+  After:  the pageset is not freed, 3/3 runs.
+
+All eight reproducers also pass on the series tip, 3/3 runs each.
+
+Changes in v3
+=============
+- Replaced v2 patch 2 (zonelist_zone_valid() recheck) with patch 5,
+  which checks zonelist_update_seq whenever an allocation succeeds
+  (Vlastimil). A raced attempt's page is discarded, so a stale preferred
+  zone can no longer affect the result (Sashiko).
+- Moved the NULL dereference fixes ahead of patch 5.
+- Added patches 6 and 7 for the hugetlb pool walk and
+  alloc_contig_pages(), which have the same slot shift.
+- Added patch 4 for the reclaim_retry_zone tracepoint's re-read.
+- Fixes: tags on patches 2-6 now name the stop_machine
+  removal that made rebuilds run concurrently with zonelist walks.
+
+Link: https://lore.kernel.org/linux-mm/20261014222456.2318284-1-gourry@gourry.net/
+Link: https://lore.kernel.org/linux-mm/20261015210539.3243563-1-gourry@gourry.net/
+Link: https://lore.kernel.org/linux-mm/20261019172346.3344005-1-gourry@gourry.net/
+
+Gregory Price (Meta) (8):
+  mm/page_alloc: detect zonelist rebuilds from memory hot-add
+  mm/page_alloc: snapshot the preferred zone against shrink rebuilds
+  mm/mmzone: read each zoneref slot once when filtering by nodemask
+  mm/page_alloc: pass the zone, not the zoneref, to reclaim_retry_zone
+  mm/page_alloc: retry allocations that raced with a zonelist rebuild
+  mm/hugetlb: retry the pool walk when the zonelist is rebuilt
+  mm/page_alloc: retry alloc_contig_pages() when the zonelist is rebuilt
+  mm/page_alloc: keep a zone's pagesets when it goes empty
+
+ include/trace/events/oom.h |   8 +--
+ mm/hugetlb.c               |  13 +++--
+ mm/mmzone.c                |  11 ++--
+ mm/page_alloc.c            | 106 +++++++++++++++++++++++++++++--------
+ mm/page_alloc.h            |   3 ++
+ 5 files changed, 107 insertions(+), 34 deletions(-)
+
+-- 
+2.53.0-Meta
+
