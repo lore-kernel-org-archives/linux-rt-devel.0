@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792637241;
-	b=r/xndGidMvrAkL+rH79P2E6azAh07QEs31FdJzoHqI+m//SIBWB8qvCAX+BHX/CUY5lM
-	 IxXRC3S9N4Q7Mr/F8Gzt0mn8BPCR2t6evU9wCd9A3Dlitu6+DRadSeC+xOd5bB68Ui5/m
-	 +KB4bnYTICKRWSaLdYiIBJZg2uk8uwVRb8BS/uJrr/mLUi6mQUatM7xOZbSIP/jVdfFNm
-	 7901wHPkPnSyMNiIS7VSeO3z6LySSfaywaenrGMCJVyY4W8LzjYrV+5wVAIA9wH9ldywH
-	 mtfn9ifv53JCDaPvASUlZ2+QSbllT1E+JqS/r+fByZm6+MrKrZhZHVYqrkUGFNEm87Q==
+	t=1792637245;
+	b=uGlGgGo0cbe/E8zBK85k1aoBdV91zWgic0ukLpeXWA/ydx2lw8IHnczE66hX4TOtvtBI
+	 cHX/TThT4GlPT205B2JZmWr+lRAaCTvoTAJSZTRIUrWZzr0+N7ge6USUZavhYB9VeG5EW
+	 PSPd8HiTf57xvTmUCQD4RcqN4THpyAc7HvdiY3HmFdB7+cmkBWaCtf4UW3LyhGjUcgfNk
+	 sj5bobewH+QVob8mkhZMvIeex6nQthGbmX0FAvufQha8Ko7G2wej7Exw1AzOblDeHH6wl
+	 u37qZWith6jVh2WtNn8PgHQ/LXZ4rPaHdcAoFvMj0pd2sBDKLkrboa+FIhRZuh/mFIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792637241;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792637245;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
-	b=gCICsn0ii13JIJIJNdm8j0UW3TTKkjTC8pSR10c7rzLM6G34pFwwzKSPxFVO8q0bcCQ6
-	 UgGwvrrQ9wvmNqXUIt5Oo7X2jX/Z1naGZSURz1Ph3wcFqQbDkdURL+RBd9zCAE7Bxz68+
-	 KlxDbCn9DXeIHCyJcWnPCyhzy4+QgXjgOk5oXL+qQ46eywZ9s+H144VDG2vY5qKFE+iPi
-	 bmNXxTFa9L0JJIN0sPPP/l3xItn9vCLZlb2qQcQThJ7cUak8ODWO/lDgzmFGJQGpD0mA6
-	 A+2ApRyqfVfyPud6CDYBTXLHfmN3nN/n/HKMEIbuurV0MZ3eCvTVsuOk+VK3yY+wEYQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=LDiCxQcjQAeD8OMkln84Ebe26iu3V9fzssX8qiug9B0=;
+	b=NRboop/xwLnxTYNutvzQNZhY1PS5w9Tkvv1xlxydU/QZijgK7JI7twUF7CEVLlQzNffb
+	 MSmF6Enf46A3FNVtlpt6T5daL5SsiHbKGPShlKuQGdEKrdyr13MLPQ1wKc9QjHhBRCRAv
+	 JPAWejaSNw1TlTT2wScLxVCY5S7dTgQTjRZgmY8ELPmEMyMwBddeIUub6m0mmVDP3xmXf
+	 IJUmIjIdE4p/wNYONg/j+/x0aJzxSwlfdbCdjJ4Tbn37g3gm2N8diFosj64c2Ji62e7Nv
+	 bl0VhnDQ/CEhNAfko+tYb4gMK7uPay0TjKkv5v+k+W3GYTVFztfA/wEZEtsfFHdYrZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QHi43w3D;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CIWJhvt1;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF50D606A31A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 02:47:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF50D606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9EF606A31E
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 02:47:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E9EF606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QHi43w3D
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35f036b17easo301281eec.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 19:47:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CIWJhvt1
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-35f1f76ea84so1996469eec.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 19:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792637240; x=1793242040; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
-        b=QHi43w3Dd1ulwUPgQUyCx+NIDrri25brE54KOmHG8+XUoy7x9/04xaflqU+Ij8ZBM/
-         anopk/Vu4VG4oDHbMWmofmJICjAusU+OAV7f7FMtaDFsO35Ybr39KiiEgbJw++bSPNQg
-         aGoB/gisNENLzDIWB9pJwd5askhSj+wED1LvfUTDbI5TP6TdXPJhklt5HcjCJ33GXBH9
-         4XsE8VtNBMntObwNDFOOdf+VEsRQctvalkql37B3fdZ27bGkxBY46JtNUpDGxvHTWBVx
-         yhi+y5eieNI/fZ6pjenFjLB7HyQtBIOUAPJYujUQaHMWvjW3JnR+QFmbljFePLxNUB1t
-         vjNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792637240; x=1793242040;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792637244; x=1793242044; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
-        b=foQXuTUI0BaqebwTNQTdRE/QSTlwaVaH2HOKjEADgU6xZKIfy0/hvBV311XFJkwrhh
-         0oomkMf2XMzIoeAhFJF7S277Ixbdco2teSuywfgpdmUpN+ec/+QlfSXJf9L38Pc5T1Ky
-         SS1JeA7vekbiJSLHqGUPzzcyj95Z2sj0oJLmlZSrlv8ehniqjw1aJwls4zo5hkuQ7hsD
-         D7GjzpY4EfOow0au93ZMujlYV2TDFrRY/dglVbK108EJpRvnp6JWfp+jNQKut7Vmqw0c
-         yRQ6qjWjIb0OpyK4cTqwMXz/gFcW8kBeIGbG3qtOATbZLNzESzV7qFIlIXoOXvWwnT63
-         RP1g==
-X-Forwarded-Encrypted: i=1; AKwUvBznGnESWnjXXZssrJ8ImIaQKvXwoUjoij8cdKq5+r8yM/pBCyphPKjz7qdYN0dErQdr8zZaLLiDCq2Lifcr6g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIK8rKN/T3sJ8kGvRmHReMStxPUTtmXt03rQUffmNr8hgVEREQg
-	azu/hU+2hNhAYN3VyBm5cAUdryPOYkgqE+oiDgFNpGfKe8H3NMUf3iGb
-X-Gm-Gg: AYBFou1q1zeEra4fsRQksJj7L2vFGvncJVVpQnHRstmS0pFbb/6LakrP32bOnvGlKHh
-	IezAd736DH618PDW5FOP8VcWHxaRS7k4o2/rGsK8xAAaFZYrP5HVO3vhnnY0EnwOBFi18KmzuXy
-	9Rpfl9r/KFz+42QjS6cA3SE9J7rhmevzlQW9r7XLxqYyIXPHjNW5lL/wN8AuNyPFeM8g3qp7W42
-	SaK1wwGsXIzQhjEHJ6R1Fue6kp8dyVpLXpWv8RR2vpi6M3FzwSW7YkVzoZMFKkxCCslzNbLUEJK
-	hKJNZvZXPMektVkBhUm6iGS4LdRtXPhpqpPOE4wBpthuWtbcwSAByOqZONpjqIa2YWcxfMbwidY
-	HacXhyEC4Lm4wnY7mhmYbbwiLB3qArnLx9xiKr9pYVa7e2NK7D3AAw0Dt5pkfZuTlp8wdcYJM41
-	vgikiSpUAP0M/q/C9a4R6XO7EKwEsi9a3Fzaote7FU96ZnbpVhg8dlnXZl/p7K4Vb7celsk4nrU
-	MJj6L/f6HBReNQasaPhEVDA8R8SbYgc/5kBJSTa9liK5IvhuyCuBWg8CPbzlz2QyrkS4jd+Q7vR
-	H8SuHwX+psyhOga241bXesroZ5S3NJ00wVTcDbolo54JSd37mQXsuE1yA8mdfCgAit9eO8Mjyso
-	8h7LYLNd+uKDyDMcTS2eHhK/MjExr
-X-Received: by 2002:a05:7300:106:b0:35d:d9a9:e455 with SMTP id 5a478bee46e88-3674ef292b9mr6286668eec.21.1792637239772;
-        Wed, 21 Oct 2026 19:47:19 -0700 (PDT)
+        bh=LDiCxQcjQAeD8OMkln84Ebe26iu3V9fzssX8qiug9B0=;
+        b=CIWJhvt1hvZ3xjiZrs+xflxjiM5Fo7g9azI3aGJD+obKSma1FFAtz+DGMLnMhzT7hq
+         DNjxY1vrBKKF5IHfCO5IPKdQ4LzvYVY5Dy9JW2gvV1szeeKHSIURJwmYndmAThh1xYKB
+         c5eeWibwaljjLVRGArtHn88BTombGWM32n5aCWKaRpYjqP9zemSpm4xglXxaeS1uLzcx
+         D57j3uXoORax6rzBrYTyBQvyUXc2IVvnvYgRm8F1ODhUnmNZhH1zp8KNCJLssqBp+NmI
+         eQFJRUuFus3QJw8jOEYRWluitH4DrGcNlotT61aKmn9XCLgtrLf+N+wvUsp+ZIu/FpDz
+         9d6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792637244; x=1793242044;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LDiCxQcjQAeD8OMkln84Ebe26iu3V9fzssX8qiug9B0=;
+        b=MhtV12aCCpmepz1OsEFU4zaTn2hJL7zrm4vIAm1WUa5zz/QagbLcAn9JuGqfgq2Kyf
+         CYEfhCYfpOwwajU94Yx8oHFSgnA1GH99Pp/OPL/9cKP7zesH7gBElX1lEDdGt3LEnJTR
+         /D2jOiY/unTNTCN9+Bm1U26SuEnaQwUhZ8Bd3bsr2qEBNW5G8DUEaQmD+G5JCplTk/my
+         J0ioxbYP0JHkM96oOD6Q7l1blDCHZBUjRWqrLsbHW48/HOdqscWwueqH5NOJqEDUv1K/
+         HsX9NpqT5M9A7ekXmzjMn3ygNQGuJrHBHtCsnNqZxaA3UH2dAX/FhXpKSPO6PBuIA8Lc
+         psDw==
+X-Forwarded-Encrypted: i=1; AKwUvBzzUDqqtDGppw4xmUGPFFIapa9Ua3SzEVYWlDzF7qPWDapP5+TzbO6Tg7aUAeLj88Ls+gV6ozrEdvJH28ycig==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLCh1cWd5eAafuQTb+heFZd0qvEZHdOB5jHujN3YxgsBcr2r0CE
+	ji8+7nxvbleSjhChv8BBWZwzxW7/fHQc8RtaGSoBmcSMVyvnLeiswR0Y
+X-Gm-Gg: AYBFou1ypwtkWXeR8WNAG+mfVrpNk2zaqwu7Iy2Nx+18D1gBxdZrjECzJyHt46ECAEE
+	UuSxY9mPVjPdtatpn5tUeSQQCutef/saBSZkcroPTHIFiWP7xvp3KubddRn8Vxni9yPqlDKJCom
+	OjFTRcjJa5Fjx+MKlzJlbac0ycwqLfLZ3CGJY7WlQPq69eYPXMhLljKAuKWBJqv4Qo/mNoVHA7J
+	3vrK+g3CearpaYRRqgRCUerorDGcJKNGf1haz2W3hXf6y5pTs72DNxZX6cixSuWDSaB2t892n3J
+	AhatbyInwSsNnvOQBgPjQJ8TGTD/F1epsM74aT7gckCrxYDNR00vnXNdymU9F9Sk+zkI0ZsEgja
+	Jf2fGsZjxq6gJy57JuBJVT+ya5XLp8DhqwWT1pbwrMroOb7Otnz1ZSxJ9DWOhFzwYP2isK/nLWv
+	jwfkPvKVAnTjeQsxWuAlXhii4zyhLIeUhSD6KfgdiXHSy8ZWq7c2df7iE+vq28FramD60AOE74d
+	RAGw+cueA/WcHX3AfzLL28Nl90cgpXEPP+L+87DS+PpJH32TP11aLrW6bRlUFUJZKFUmsvBNKNc
+	fEZS3OXs4lcfSfwh3rIgR3DIvit0a5p6Rj0DmKAEdlG+GaXnZ69XMKQnVRH7MXMLYCMW8MDfkYo
+	zyCL7mQY=
+X-Received: by 2002:a05:7300:72d0:b0:35d:187c:72cc with SMTP id 5a478bee46e88-3674de4c834mr6921854eec.23.1792637244223;
+        Wed, 21 Oct 2026 19:47:24 -0700 (PDT)
 Received: from server1868-4.tail96fc24.ts.net ([199.188.91.198])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-368ca914bb8sm2318629eec.5.2026.10.21.19.47.18
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-368ca914bb8sm2318629eec.5.2026.10.21.19.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 19:47:19 -0700 (PDT)
+        Wed, 21 Oct 2026 19:47:23 -0700 (PDT)
 From: Austin Schuh <austin.linux@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Austin Schuh <austin.linux@gmail.com>,
@@ -93,10 +94,12 @@ Cc: Austin Schuh <austin.linux@gmail.com>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	linux-rt-devel@lists.linux.dev
-Subject: [RFC PATCH 0/2] io_uring: futex wakeups that a preempted lower-priority task can't delay
-Date: Wed, 21 Oct 2026 19:46:54 -0700
-Message-ID: <20261022024701.1574811-1-austin.linux@gmail.com>
+Subject: [RFC PATCH 1/2] io_uring: don't let a preempted task_work add hold back the wake up
+Date: Wed, 21 Oct 2026 19:46:55 -0700
+Message-ID: <20261022024701.1574811-2-austin.linux@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261022024701.1574811-1-austin.linux@gmail.com>
+References: <20261022024701.1574811-1-austin.linux@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -108,131 +111,168 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Thanks for the prompt reviews, Jens!
+Only one local task_work add per wait cycle wakes the waiter: the one
+that takes ->cq_wait_nr's credit.  Every later add sees the credit gone
+and returns.  The credit is taken after the entry is queued and the
+wake up comes after that, with nothing held in between, so an adder
+preempted in that window leaves the waiter asleep with work queued.  A
+lazy add preempted before it counts itself down does the same: the add
+that would have reached zero stops one short.
 
-I run robot control systems on kernels built with CONFIG_PREEMPT_RT.
-Each process runs an io_uring event loop, and processes publish to each
-other through shared-memory queues, with the publisher waking each
-subscriber's loop.  Real-time and lower-priority processes publish and
-subscribe on the same queues.  The real-time ones run on CPUs kept free
-of interrupts, and the interrupt threads and everything else run on the
-rest.
+The waiter stays asleep for as long as anything of higher priority runs
+on the adder's CPU, whatever the waiter's own priority.  Nothing boosts
+the adder, since it holds no lock.  This bites IORING_OP_MSG_RING into
+a DEFER_TASKRUN ring in particular, where the adds come from other
+tasks of any priority: a real-time sender's message waits for a
+lower-priority sender that took the credit and was preempted.  On
+PREEMPT_RT, where threaded interrupt handlers preempt everything below
+them, that is routine.
 
-io_uring fits this well, for the same reasons it is fast: most of its
-state is per ring.  The submission and completion rings are shared with
-userspace without a lock, and the kernel-side ring locks belong to the
-ring.  Requests and single futex wait data come from per-ring caches
-once warm, not the slab.  With DEFER_TASKRUN, completions run in the
-ring's own task when it waits, so no other task posts to its completion
-ring, and another task hands it work with a push onto a lock-free list
-and a wake up, taking no lock that sleeps on PREEMPT_RT.  Each of those
-removes a place where a lower-priority task could be holding something
-the real-time task needs.  And io_uring already lets a ring register
-files and buffers once, so each request skips looking them up again.
+Traced on a Jetson Orin Nano (6.18.39-rt), with a SCHED_FIFO 60 sender
+posting to a SCHED_FIFO 60 receiver every 500us while lower-priority
+processes post to the same ring from CPUs loaded with SCHED_FIFO 50
+bursts: of the 17 wakeups over 100us late in 60s, 15 were delivered by
+a lower-priority sender whose MSG_RING had been in flight since before
+the real-time sender's returned, for 12 to 479us.
 
-The wakeup between event loops is where that breaks down.  What I need
-is for a real-time publisher to wake a real-time subscriber on time,
-whatever the lower-priority processes on the same queue are doing and
-however busy their CPUs are with interrupts.  Which mechanism carries
-the wakeup doesn't matter to me.  Running the real-time tasks above the
-interrupt threads isn't a great answer: a lower-priority task boosted
-to their priority would then outrank the interrupt threads on the CPUs
-they were moved to, which undoes the isolation.
+On for-7.4/io_uring with PREEMPT_RT, before and after this patch, the
+real-time sender on CPU 4 posts a MSG_RING to the real-time receiver's
+DEFER_TASKRUN ring on CPU 5 every 500us.  On CPUs 0 and 1,
+lower-priority processes post to the same ring every 200us, alongside
+SCHED_FIFO 50 threads running 20us to 1ms bursts and normal-priority
+interrupt and system load.  Ten minutes a run, 1.2 million messages
+each, timed from the send to the receiver handling it:
 
-Each mechanism I've looked at lets a preempted lower-priority task hold
-that wakeup back:
+                              late by    late by
+                     runs   over 100us  over 1ms   longest
+  FIFO 40, before      3     889-1139   341-417   8.6-11.8ms
+  FIFO 40, after       3        15-21         0   0.69-0.94ms
+  FIFO 60, before      1         1058       438     8.3ms
+  FIFO 60, after       1            0         0      71us
 
- - A futex wake takes the futex hash bucket lock, and so does every
-   one-shot IORING_OP_FUTEX_WAIT arm, which an event loop does after
-   every wakeup.  On PREEMPT_RT that is a sleeping lock, and priority
-   inheritance lifts the lower-priority holder only to the waker's
-   priority, which loses to threaded interrupt handlers above it.
+The three runs at FIFO 40 are that setup as is, plus a thread in each
+real-time process mapping and unmapping memory on CPU 0 or 1, and with
+no lower-priority processes starting or stopping.  What remains at FIFO
+40 is the sender's own MSG_RING being slow, 44 to 60 sends over 100us a
+run, before and after.  Traced on 6.18, its request allocation waits on
+the slab node's list_lock, held by a lower-priority process that
+inheritance only lifts to 40, under the FIFO 50 bursts.  At 60, nothing
+is left.
 
- - IORING_OP_MSG_RING allocates an io_kiocb per send from a shared slab
-   cache, whose slow path takes the slab's list_lock, a sleeping lock
-   on PREEMPT_RT that any task on the system can be holding.
+Keep preemption disabled from queueing the entry to the wake up, as
+mpscq_push() already does for the push itself.  That covers a few
+atomics and try_to_wake_up().  eventfd_signal() takes a spinlock_t,
+which sleeps on PREEMPT_RT, so signal the eventfd and wake ring pollers
+after that instead of before.
 
- - eventfd and signals take a spinlock_t, the eventfd's wait queue lock
-   or the target's siglock, which on PREEMPT_RT is a sleeping lock that
-   lower-priority writers and readers of the same eventfd or process
-   hold too.
+Fixes: 8751d15426a3 ("io_uring: reduce scheduling due to tw")
+Assisted-by: LLM
+Signed-off-by: Austin Schuh <austin.linux@gmail.com>
+---
+ io_uring/tw.c | 80 +++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 52 insertions(+), 28 deletions(-)
 
-I measured each on a Jetson Orin Nano with PREEMPT_RT.  A SCHED_FIFO 40
-sender on CPU 4 sends a message every 500us to a SCHED_FIFO 40
-receiver's event loop on CPU 5.  On CPUs 0 and 1, lower-priority
-processes send and receive on the same queue every 200us, starting and
-stopping, beside SCHED_FIFO 50 threads running 20us to 1ms bursts and
-interrupt and system load.  Ten minutes and 1.2 million messages a run.
-Counted here is the real-time sender's time in the call that wakes the
-receiver, which is where it waits on the lock:
-
-                                       runs  over 100us   longest
-  futex, one-shot io_uring wait (7.4)    1       10,285    1.0ms
-  MSG_RING (7.4)                         1           55    1.0ms
-  signal, signalfd (6.18)                2  33,080-36,122  1.7ms
-
-Traced on 6.18, the futex sender waits on the bucket lock, the MSG_RING
-sender on the slab's list_lock, and the signal sender on the receiver's
-siglock, each held by a lower-priority task boosted to 40 and preempted
-by the SCHED_FIFO 50 threads.  The receiver's one-shot futex arms wait
-on the same bucket lock, so for futexes 10,348 messages reached the
-receiver over 100us after they were sent, worst 3.5ms.
-
-The options I see:
-
- 1. Persistent futex waits and registered wakes: look the futex up
-    once and cache it.  The waker registers the futex word with its
-    ring once, and the waiter arms a wait on it once and keeps it
-    armed.  Both meet in one node for that futex, so a wake goes
-    straight to the cached node and walks its waiters, with no key
-    lookup, no futex hash bucket, no lock that sleeps on PREEMPT_RT
-    and no allocation.  Patch 2; prototyped and measured.
-
- 2. An allocation-free MSG_RING: IORING_MSG_DOORBELL.  A ring's task
-    registers a doorbell, and a sender ORs bits into a word in the
-    target ctx and wakes its task; the target posts one CQE per drain.
-    Real-time kernels solve this problem the same way: seL4
-    notifications and FreeRTOS task notifications OR bits into a word
-    the waiter owns.  Prototyped on 6.18, not posted: at SCHED_FIFO 40,
-    no message over 100us late, worst 43us.
-
- 3. Keep MSG_RING's data messages, but take the io_kiocb from a cache
-    on the target ring instead of the slab.  Not prototyped.
-
-Patch 2 is option 1.  A persistent wait posts one CQE per wakeup and
-is re-armed by its slot, without looking the futex up again.  Futexes
-also simplify discovery: a publisher wakes whoever waits on the word
-without knowing who they are, where a doorbell or MSG_RING needs every
-subscriber's ring fd.  In the same test, with persistent waits no send
-took over 100us, the longest 25us, and no message reached the receiver
-over 100us after it was sent, the worst 30.5us.
-
-Patch 2 is here to start the discussion, not as a polished solution.
-It is probably more useful to discuss the design before digging too far
-into the details of that patch.
-
-Patch 1 is a fix to the DEFER_TASKRUN wake up that patch 2 depends on.
-It stands on its own; its commit message has the details.
-
-I'd love any feedback you've got, or suggestions on other options that
-I've missed.
-
-Austin Schuh (2):
-  io_uring: don't let a preempted task_work add hold back the wake up
-  io_uring/futex: add persistent waits and registered wakes
-
- include/linux/io_uring_types.h |   6 +
- include/uapi/linux/io_uring.h  |  52 ++-
- io_uring/futex.c               | 788 ++++++++++++++++++++++++++++++++-
- io_uring/futex.h               |  28 ++
- io_uring/io_uring.c            |   1 +
- io_uring/register.c            |  13 +
- io_uring/tw.c                  | 124 ++++--
- io_uring/tw.h                  |   4 +-
- 8 files changed, 983 insertions(+), 33 deletions(-)
-
-
-base-commit: 5b01d5955ac206e38097f777eff6ab2a8b948c41
+diff --git a/io_uring/tw.c b/io_uring/tw.c
+index 0b5066f97224..cfb591508662 100644
+--- a/io_uring/tw.c
++++ b/io_uring/tw.c
+@@ -179,37 +179,14 @@ static void io_local_work_wake_poll(struct io_ring_ctx *ctx, unsigned int flags)
+ 	call_rcu_hurry(&ctx->poll_wq_rcu, io_poll_wq_wake_rcu);
+ }
+ 
+-void io_req_local_work_add(struct io_kiocb *req, unsigned flags)
++/*
++ * Issue the wake up of the waiter's cycle if this add is the one that takes
++ * ->cq_wait_nr's credit, see io_cq_wait_arm().
++ */
++static void io_local_work_wake(struct io_ring_ctx *ctx, unsigned int flags)
+ {
+-	struct io_ring_ctx *ctx = req->ctx;
+ 	int nr_wait;
+ 
+-	/* pairs with synchronize_rcu() in io_ring_exit_work() */
+-	guard(rcu)();
+-
+-	/*
+-	 * We don't know how many requests there are in the link and whether
+-	 * they can even be queued lazily, fall back to non-lazy.
+-	 */
+-	if (req->flags & IO_REQ_LINK_FLAGS)
+-		flags &= ~IOU_F_TWQ_LAZY_WAKE;
+-
+-	/*
+-	 * The xchg() in mpscq_push() implies a full barrier, which pairs with
+-	 * the barrier in io_cq_wait_arm() on the io_cqring_wait() side. This
+-	 * ensures that either we see the updated ->cq_wait_nr, or waiters going
+-	 * to sleep will observe the work added to the list, which is similar to
+-	 * the wait/wake task state sync.
+-	 */
+-	if (mpscq_push(&ctx->work_list, &req->io_task_work.node)) {
+-		io_ctx_mark_taskrun(ctx);
+-		if (data_race(ctx->int_flags) & IO_RING_F_HAS_EVFD)
+-			io_eventfd_signal(ctx, false, flags & IOU_F_TWQ_IN_WAKE);
+-		/* whoever sets the flag wakes ->poll_wq afterwards */
+-		if (data_race(ctx->int_flags) & IO_RING_F_POLL_ACTIVATED)
+-			io_local_work_wake_poll(ctx, flags);
+-	}
+-
+ 	/*
+ 	 * No one is waiting (IO_CQ_WAKE_INIT), or this cycle's wake up has
+ 	 * already been issued (zero or negative, see below).
+@@ -239,6 +216,53 @@ void io_req_local_work_add(struct io_kiocb *req, unsigned flags)
+ 	wake_up_state(ctx->submitter_task, TASK_INTERRUPTIBLE);
+ }
+ 
++void io_req_local_work_add(struct io_kiocb *req, unsigned flags)
++{
++	struct io_ring_ctx *ctx = req->ctx;
++	bool first;
++
++	/* pairs with synchronize_rcu() in io_ring_exit_work() */
++	guard(rcu)();
++
++	/*
++	 * We don't know how many requests there are in the link and whether
++	 * they can even be queued lazily, fall back to non-lazy.
++	 */
++	if (req->flags & IO_REQ_LINK_FLAGS)
++		flags &= ~IOU_F_TWQ_LAZY_WAKE;
++
++	/*
++	 * Only the add that takes the credit wakes the waiter, later ones
++	 * return early, and a lazy add that hasn't counted itself down yet
++	 * holds back the one that would. Neither may be preempted between
++	 * queueing its entry and the wake up: the waiter, whatever its
++	 * priority, sleeps with the entry queued for as long as anything of
++	 * higher priority runs on the adder's CPU, and nothing boosts the
++	 * adder, as it holds no lock.
++	 *
++	 * The xchg() in mpscq_push() implies a full barrier, which pairs with
++	 * the barrier in io_cq_wait_arm() on the io_cqring_wait() side. This
++	 * ensures that either we see the updated ->cq_wait_nr, or waiters going
++	 * to sleep will observe the work added to the list, which is similar to
++	 * the wait/wake task state sync.
++	 */
++	preempt_disable();
++	first = mpscq_push(&ctx->work_list, &req->io_task_work.node);
++	if (first)
++		io_ctx_mark_taskrun(ctx);
++	io_local_work_wake(ctx, flags);
++	preempt_enable();
++
++	/* eventfd_signal() takes a spinlock_t, not allowed above on PREEMPT_RT */
++	if (first) {
++		if (data_race(ctx->int_flags) & IO_RING_F_HAS_EVFD)
++			io_eventfd_signal(ctx, false, flags & IOU_F_TWQ_IN_WAKE);
++		/* whoever sets the flag wakes ->poll_wq afterwards */
++		if (data_race(ctx->int_flags) & IO_RING_F_POLL_ACTIVATED)
++			io_local_work_wake_poll(ctx, flags);
++	}
++}
++
+ void io_req_normal_work_add(struct io_kiocb *req)
+ {
+ 	struct io_uring_task *tctx = req->tctx;
 -- 
 2.47.3
 
