@@ -1,49 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792662956;
-	b=EJR87NxLd4Fb8XhPaTjuprRu3uRtOIcidGnnYv4O6LebmenDS7mPuaOPePzFXT0Tou52
-	 YLMCSLFgZQKdvGUPd0bVrcd0kVnknr7cPray1fQElbKpsYlBnWxp/S9AlCl5k2KfnsvMO
-	 pwTdVTYZ+HfLaDuyCS8Ot8Ng04H0lAZxCqI/Ob5pXUhCUGgE/tiPC72zx3OMEF5U7ipDZ
-	 HIKrk6AveTPD/VRAHXJipQEfRQLXa8DYnTtF7ncsVxYwjNreZaCjq1AFX4MN0ek6H8Fdw
-	 h5mFa6AnSTLFZ5ER8sLCUnxNbI6OXZ8oEUHkWmCNSEFtctFKsYBgIJJN1+5rau5Ai5w==
+	t=1792665624;
+	b=v+toP4fd0eYr7grhvF7x5lMDc5E7lNezIY829rK2NK0Uc/jlGoazT5Pxsf0h7u1twalx
+	 O4APp8zMeGdjUPuv4sQhvdkDnCxwJPUsincZrMUpBPkv1XFGXnDlTNpbmV5tBojTXadHd
+	 nQO4ymLAcKy1KhTcc2hxoovoerw75fpdrbrVegZVCCXCeR06EcEx+t/henXeRrCMxkCoS
+	 BoXGjyYXEjNHX64V02jkWLmomQSGBZ3wlnFaNPMHL1Hfs9w+xnvZDR9j9O9jhH0UkqAIN
+	 NdaqeP61yKJa9w7Q5mIUGbYxHS6jk1a4UG2gQ0axauKkJi0ngA1M8SukDnOktKydQhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792662956;
-	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=qaKCa+TjoD1OzgCla43bUHaZNaOHmxBbECmuWAdteZU=;
-	b=ZnTgxq4755unQRyOcRGQyEmz9/Glb629sVldQDJEUy/9FUe94htFRFe8A5siCmeJP/C9
-	 pqWvw7UK4xrBZHyEocKQwmynM9iQ+3vJlANen5o+A4/rwLslppU4mUZLfi3+x09dyEGEe
-	 aDl3HKBtAFb15D0+9od2A2s3YJ5iuAof2jsbHiSJX1O7R16UBqlHxgYfHZMwrlM8XMBl9
-	 tRSPMuD5OBVj8jN7PrDh4QxWRnaB3gQIUWAJNVM4HQ2f2m4Wjc/Dk5T90yjS+1ngbRprT
-	 9EHyxAUfNDLUKGTMfyFp5T8f46FzwoLEy6ypC+Rf5vuH9CYVLmsvsQkFjsar/tMduAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792665624;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 To:Cc:References:From:In-Reply-To:X-Mimecast-Spam-Score:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:Content-Language:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=FEKm5nQsGf/I+ugCmSSfq8QJNoZ1NYPo9Xa7ZqzEb5w=;
+	b=f6osGjCa9k1j2TYCACn0iZ1iyQsOsgbUMtR57+7B0InZSOl1JzZObWq3kYaSeuJa3/bL
+	 0r/llxVbJCbO1Wh0AHYbyq6OMI6I9Z1JawfMqaEEB/lnV3MhxIrI98kZlj5lVXW+hQJ/H
+	 Qiyqoy23/xPx1+LK2kVACaJxVyDvvK4odDViolHTTAxxEMI6/qPv7U4HASBIDtE4cbd3d
+	 biF3RudnX383tG/+G6QJP4M6of2FieaJehbOMEzmrD4zt0DIylzZwXSYIX4gZlX1sNC61
+	 F0UDBUVKhWbcR2jSgufIxllMwX/u/tLzVbFsiF6yGRohmv7TyCdLp6iQsP88cTpdavQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=jkGd8yDi;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J62rSZlB;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E0D606A319
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 09:55:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6E0D606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166C0606A31F
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 10:40:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 166C0606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=jkGd8yDi
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7DD1DA002E;
-	Thu, 22 Oct 2026 11:55:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1792662952; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=qaKCa+TjoD1OzgCla43bUHaZNaOHmxBbECmuWAdteZU=;
-	b=jkGd8yDibczG1IzorFlU0eIzFeR7ouTn8kpjRjh7Z8+AH6tILxsPy7X8E6zi1qSBFO3315
-	jQlgC/jX1h+tP+NaF80fxQlpB8233HvEKYYKL800t+7a4eKgLcXQR2u8HzuPl1gDTMsHzz
-	SbuOVUx5ThCI120xgTHKGO+alPwUBXrcwj2lJh6sPxzUTMuQ34ZbLN+XkJgYdC4lOKq9On
-	S/X935HMwWM3CjrtsQS+LxSbro1EOAqgNMuJDxX+kLIiGC2r1HZhdit+DfyxjJ4QQM3z2w
-	nRmDL/QS1EoyeIDeuP/hln1d3WluMMJ2ILpq7LHM2WnI1LG3GqhAoy9hyZs7Ww==
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J62rSZlB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792665623;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FEKm5nQsGf/I+ugCmSSfq8QJNoZ1NYPo9Xa7ZqzEb5w=;
+	b=J62rSZlB8F6qTOzFEpgzqYjNfSgFBFDmrBzLphkd3002TrjWKz8iWrs37lGt0d5cie4HsD
+	MVjjHsRY/HSmLEHeeIVOZqZewgYvzpk4fCU8i/ungatplNh4aCLipw3ExCHtyAwdYwKBrP
+	4yr16+KAHK8Cls5groX2/3+CWW3Sm/U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-lO-5_tP6NeCTzYPbwaNYKQ-1; Thu, 22 Oct 2026 10:40:18 +0000
+X-MC-Unique: lO-5_tP6NeCTzYPbwaNYKQ-1
+X-Mimecast-MFC-AGG-ID: lO-5_tP6NeCTzYPbwaNYKQ_1792665618
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a020cf06c3so9746295e9.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 03:40:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792665617; x=1793270417;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FEKm5nQsGf/I+ugCmSSfq8QJNoZ1NYPo9Xa7ZqzEb5w=;
+        b=AO7UUOU9aTlJEzkcy4ZtntwX5LUuvgA3aqptXTvAbQhS76U8Ihl0mn0n0fHqgFuvTn
+         AMArAl7gFhh1kFtco+D6Vq7wfRiMB6l2+Ia9bucaXLi4np/hn3HzttDgY2oiqmTEyM6h
+         3dYnHt1t+wIosML74m7345sv6oelDFJRUbOlBH0HhcO1srPyPk8hkVaM1h/YJObTg63G
+         ynbSOqyXikddxqAkK8HOzwL7DP5C/ewJmGp7j+hoVeQ6r7WsZlC7uX2dad/hOjN0PfzA
+         Wni3snllMEfdlRrrpOF1UzK+w1J+sAoYGA4m8gKiiu/NqESX0Di61vhm4/0j52jJzmIc
+         vhYg==
+X-Forwarded-Encrypted: i=1; AKwUvBwBFlIoeQWxy39mS2g/6bbtNWrP+j3zGcOC2c8ClXAfA6Q/MFdo085iF13/dYIVMWp2IyF/7scldkriSrdMEw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIIt+YcX7Iig1w74hHHSqmqclxNBLaDvI1Coyv811YZRWddoNkJ
+	lDFTiuXJ8FzabDex2eIa+oqaxl0BQXESwxH4zuO2Se+lNwsiQV0W62DV2054o2hq7Hkty5kblxc
+	FGjxSUpZ1fGIs290y7ErlFg/j7Lc3UHI1AB8nXKEVh2wSYrwlAejD64oU2bhNSkFZiGfg
+X-Gm-Gg: AYBFou2z/sykr1s80StT/Fq24fSZ/vL2CccEWp1xeCh1UpfksinFGR10Tp6Z6XLKAL9
+	LhOlBt/ZDNRtklVfpfzZx1RRc4Cvd4auEnfWp0iayqGh46Kz0XGC7A5Wpp8WgC319tfGDSdHgCJ
+	cqpCunG4iGVSjHHkR1vvYlMDFRuOctzJURug/rK9kJW//5rAVTQU1R0rGIZseTPWkxlid1iL76R
+	ordDTRc+JLsaOSyK/TARNa1BrpRGohkmyS04oSvAdKWxC8PpInq/879GIXbmd4Zwr3Si9AOjtN2
+	ggTvTnvIrXn4zPegNl3OUZJdSE0mXDug/8Dtv/7DVwXhNHmWiqz74YDHK5FkDEeKKFHD9LC3jQ=
+	=
+X-Received: by 2002:a05:600c:5308:b0:4a2:47:b79c with SMTP id 5b1f17b1804b1-4a20047b7bemr73764685e9.32.1792665617534;
+        Thu, 22 Oct 2026 03:40:17 -0700 (PDT)
+X-Received: by 2002:a05:600c:5308:b0:4a2:47:b79c with SMTP id 5b1f17b1804b1-4a20047b7bemr73764225e9.32.1792665616929;
+        Thu, 22 Oct 2026 03:40:16 -0700 (PDT)
+Received: from [192.168.2.75] ([46.175.183.46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a207fd494dsm17235475e9.4.2026.10.22.03.40.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 03:40:16 -0700 (PDT)
+Message-ID: <9d167482-2cac-42eb-9fa1-c242406c493d@redhat.com>
+Date: Thu, 22 Oct 2026 12:40:13 +0200
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -53,89 +97,177 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Thu, 22 Oct 2026 11:55:49 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Steffen Dirkwinkel <lists@steffen.cc>
-Cc: =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, Conor Dooley
- <conor.dooley@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Kevin Hao <haokexin@gmail.com>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Russell King <linux@armlinux.org.uk>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Christian Taedcke
- <christian.taedcke@weidmueller.com>, Andrea della Porta
- <andrea.porta@suse.com>, stable@vger.kernel.org, Steffen Dirkwinkel
- <s.dirkwinkel@beckhoff.com>
-Subject: Re: [PATCH RFC net 0/6] net: macb: fix TX stalls, IRQ storms and a
- lost NCR update on link-up
-In-Reply-To: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
-References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
-Message-ID: <21335ef00521312c158b0a71bf8ef08d@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH iwl-net 1/3] ice: avoid RTNL deadlock when notifying the
+ RDMA auxiliary driver
+To: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Cc: "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+ "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Ertman, David M" <david.m.ertman@intel.com>,
+ Shiraz Saleem <shiraz.saleem@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ "Maziarz, Kamil" <kamil.maziarz@intel.com>,
+ Rafal Rogalski <rafalx.rogalski@intel.com>,
+ "Schmidt, Michal" <mschmidt@redhat.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Mateusz Palczewski <mateusz.palczewski@intel.com>,
+ "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>
+References: <20261019065301.3983537-1-poros@redhat.com>
+ <20261019065301.3983537-2-poros@redhat.com>
+ <CH3PR11MB566895C406B00646530A5249C9E5662@CH3PR11MB566895.namprd11.prod.outlook.com>
+From: Petr Oros <poros@redhat.com>
+In-Reply-To: <CH3PR11MB566895C406B00646530A5249C9E5662@CH3PR11MB566895.namprd11.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 3TJv_hqqXtOt4AL7NVCN1EuBcqK59UJ86rHJzHzrVpA_1792665618
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Steffen
 
-On 22.10.2026 11:38, Steffen Dirkwinkel wrote:
-> Hello Théo, Christian, all,
+
+On 10/21/26 1:20 PM, Loktionov, Aleksandr wrote:
 > 
-> I've been looking at RCU and TX stalls on macb devices (Xilinx ZynqMP 
-> on
-> Beckhoff CX9240) for a while and have been carrying downstream patches
-> similar to Christian's. A while ago I let Claude try to reproduce this 
-> on my
-> devices, it was able to reproduce and found some fixes but I wasn't
-> happy with the quality of the patches and my understanding of them. I
-> briefly talked to Théo in Prague and he suggested I send what I have as
-> either the patches or the reproducers may be useful for ideas.
-> I've finally gotten around to it and also ran some more testing and 
-> improved
-> the patches in the meantime. The series includes Christian's patches in 
-> the
-> original form (should also at least be reworded) and I also have Patch 
-> 1 in here
-> since the bench seems to have reproduced the issue on hardware (see 
-> below).
 > 
-> If anyone has other ideas / patches for these issues I'm also happy to
-> run tests on devices.
+>> -----Original Message-----
+>> From: Petr Oros <poros@redhat.com>
+>> Sent: Monday, October 19, 2026 8:53 AM
+>> To: netdev@vger.kernel.org
+>> Cc: Oros, Petr <poros@redhat.com>; Nguyen, Anthony L
+>> <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
+>> <przemyslaw.kitszel@intel.com>; Andrew Lunn <andrew+netdev@lunn.ch>;
+>> David S . Miller <davem@davemloft.net>; Eric Dumazet
+>> <edumazet@kernel.org>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
+>> <pabeni@redhat.com>; Ertman, David M <david.m.ertman@intel.com>; Shiraz
+>> Saleem <shiraz.saleem@intel.com>; Leon Romanovsky <leon@kernel.org>;
+>> Maziarz, Kamil <kamil.maziarz@intel.com>; Rafal Rogalski
+>> <rafalx.rogalski@intel.com>; Loktionov, Aleksandr
+>> <aleksandr.loktionov@intel.com>; Schmidt, Michal <mschmidt@redhat.com>;
+>> linux-rdma@vger.kernel.org; intel-wired-lan@lists.osuosl.org; linux-
+>> kernel@vger.kernel.org; stable@vger.kernel.org; Sebastian Andrzej
+>> Siewior <bigeasy@linutronix.de>; Clark Williams <clrkwllms@kernel.org>;
+>> Steven Rostedt <rostedt@goodmis.org>; Mateusz Palczewski
+>> <mateusz.palczewski@intel.com>; linux-rt-devel@lists.linux.dev
+>> Subject: [PATCH iwl-net 1/3] ice: avoid RTNL deadlock when notifying the
+>> RDMA auxiliary driver
+>>
+>> ice_send_event_to_aux() blocks on the auxiliary device lock, and the
+>> dcbnl callers reach it with the RTNL lock held. The RDMA auxiliary probe
+>> takes the two in the opposite order, because __driver_attach() holds the
+>> auxiliary device lock across ib_register_device(), which needs the RTNL
+>> lock:
+>>
+>>    systemd-udevd   state:D
+>>      really_probe                  <- holds device_lock(&adev->dev)
+>>      icrdma_probe
+>>      irdma_ib_register_device
+>>      ib_register_device
+>>      setup_device
+>>      irdma_roce_port_immutable
+>>      ib_query_port
+>>      irdma_query_port
+>>      ib_get_eth_speed              <- blocks on rtnl_lock()
+>>
+>>    lldpad          state:D
+>>      rtnetlink_rcv_msg             <- holds rtnl_lock()
+>>      dcb_doit
+>>      dcbnl_ieee_set
+>>      ice_dcbnl_setets
+>>      ice_pf_dcb_cfg
+>>      ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
+>>
+>> Everything else that needs the RTNL lock piles up behind lldpad and the
+>> boot never completes. The probe side cannot be changed, so use
+>> device_trylock() and report whether the event reached the driver.
+>>
+>> IIDC_RDMA_EVENT_BEFORE_TC_CHANGE has to arrive before the traffic
+>> classes change, so ice_pf_dcb_cfg() refuses the request with -EBUSY
+>> rather than run it behind the RDMA driver's back. The critical error and
+>> MTU change events are sent from the service task, which consumes their
+>> pending bits before sending, so those are re-armed instead.
+>> AFTER_TC_CHANGE keeps its fire and forget behaviour, it can be neither
+>> refused, the hardware has already changed, nor deferred, every lock that
+>> would serialise a deferred delivery against the dcbnl callers forms
+>> another cycle.
+>>
+>> Fixes: 348048e724a0 ("ice: Implement iidc operations")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Petr Oros <poros@redhat.com>
+>> ---
+>>   drivers/net/ethernet/intel/ice/ice_dcb_lib.c |  9 ++++++++-
+>>   drivers/net/ethernet/intel/ice/ice_idc.c     | 20 ++++++++++++++++----
+>>   drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +-
+>>   drivers/net/ethernet/intel/ice/ice_main.c    | 16 ++++++++++++----
+>>   4 files changed, 37 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+>> b/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+>> index 0bc6dd37568792..2022b46c990cb2 100644
+>> --- a/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+>> +++ b/drivers/net/ethernet/intel/ice/ice_dcb_lib.c
+>> @@ -355,8 +355,10 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct
+>> ice_dcbx_cfg *new_cfg, bool locked)
+>>   	struct iidc_rdma_event *event;
+>>   	int ret = ICE_DCB_NO_HW_CHG;
+>>   	struct ice_vsi *pf_vsi;
+>> +	bool dcb_ena;
+>>
+>>   	curr_cfg = &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
+>> +	dcb_ena = test_bit(ICE_FLAG_DCB_ENA, pf->flags);
+>>
+>>   	/* FW does not care if change happened */
+>>   	if (!pf->hw.port_info->qos_cfg.is_sw_lldp)
+>> @@ -406,7 +408,12 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct
+>> ice_dcbx_cfg *new_cfg, bool locked)
+>>   	}
+>>
+>>   	set_bit(IIDC_RDMA_EVENT_BEFORE_TC_CHANGE, event->type);
+>> -	ice_send_event_to_aux(pf, event);
+>> +	if (!ice_send_event_to_aux(pf, event)) {
+>> +		assign_bit(ICE_FLAG_DCB_ENA, pf->flags, dcb_ena);
+>> +		kfree(event);
+>> +		ret = -EBUSY;
+> -EBUSY doesn't match to any ICE_DCB_* constant, are you sure you tested this case?
+> It looks like it will be processed like ICE_DCB_NO_HW_CHG i.e. no change needed, isn't it?
 
-Thanks for posting this RFC. I will go later through the details, but 
-wanted to let you
-know that I'm also investigating the macb watchdog issue on RPi RP1 [1].
+The negative return takes the same path as the existing -EBUSY for the
+custom Tx scheduler. ice_dcbnl_setets() and setpfc() pass it to dcbnl
+unchanged, only ICE_DCB_NO_HW_CHG is mapped to zero. setapp() and
+cee_set_all() mask every error, that is pre-existing and also hides
+-ENOMEM and the AQ errors. I have noted this in the v2 message.
 
-Yesterday Théo also shared some findings in the thread.
+> 
+> 
+>> +		goto free_cfg;
+>> +	}
+>>   	kfree(event);
+>>
+>>   	/* avoid race conditions by holding the lock while disabling and
+>> diff --git a/drivers/net/ethernet/intel/ice/ice_idc.c
+>> b/drivers/net/ethernet/intel/ice/ice_idc.c
+>> index 102d63c3018b1f..7fd35ce966ea65 100644
+>> --- a/drivers/net/ethernet/intel/ice/ice_idc.c
+>> +++ b/drivers/net/ethernet/intel/ice/ice_idc.c
+>> @@ -34,30 +34,42 @@ ice_get_auxiliary_drv(struct iidc_rdma_core_dev_info
+>> *cdev)
+>>    * ice_send_event_to_aux - send event to RDMA AUX driver
+>>    * @pf: pointer to PF struct
+>>    * @event: event struct
+> 
+> ...
+> 
+>>   			kfree(event);
+>>   		}
+>>   	}
+>> --
+>> 2.56.0
+> 
 
-Three things from that work which touch your series:
-
-- Patch 3 changes the IER write in macb_tx_poll() that I need a readl 
-after. The write
-   is posted, a TCOMP landing between the ring check and the write 
-reaching the MAC is
-   lost. That seems to be the RP1 stall, masking TXUBR does not change 
-it.
-   The two patches need ordering.
-
-- The watchdog only recovers a lost TSTART. With a missed completion 
-TBQP == tx_head and
-   macb_tx_restart() does nothing, the queue never comes back. I have a 
-patch that
-   schedules TX NAPI from macb_tx_timeout() when the tail descriptor has 
-TX_USED set.
-
-- RP1 has a single TX queue, so the starvation from patch 6 is not what 
-we see.
-
-I can run the series on an RP1 board with my reproducer if that helps.
-
-[1] 
-https://github.com/raspberrypi/linux/issues/7661#issuecomment-6322904343
-
-> [...]
-
-Thanks,
-Nicolai
