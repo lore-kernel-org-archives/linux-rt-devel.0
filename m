@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792646274;
-	b=Pqfddq7v0qR+QsjdZ/TDTItUQ5rW5Kki/x0GtqNgPnghCPcJe8olHs8hzej96X/L+cIh
-	 ugQV7vYpmh4T0COTBNFX9Wr4gkQ9pXZgpgU/6xZi+9VJ8ZJKPIxW6wW86TIhPpI6w09VP
-	 LILCyEIA8Ss69pHCEL20qjKAJ4tv2N5ROw+ZgL7Mk6a6fyG0Aeiv6SSCvQr0suzVRUDhg
-	 YJfmZrMyYuzqh/etOJC9ZLGnCiiViShERwxVjRyM4DAC4yf/nXnts1Sow+qbaDNVRiwGJ
-	 JVhClX+jsL8HuaX3fEGVZqMcsFV/S8oMtNq/xhFcUboAAqS/MGlbxgydVX85+y+rROQ==
+	t=1792646281;
+	b=3S6EWyq+a10R0B13vRlfQAsOW+I0VtsWEz9a6xVTozwGiaZLhTH8CTIuGDrutl6jZXvD
+	 i0INV05KUp7VlDao9ijvsChMJ0ZnF9j/qJKN8ZmEVQ8gx7r/xZWlc8h2efcoGQOpqfCFe
+	 ihCoE3gXwiYAIrRxa1l1YG7S/z+7/1kMwIDat3ybnPO8XUePHDdY+RpzjxRvGzTc3pMaO
+	 blfamNkhJsgxd5oNauaKUKfbyn7WZ89wrUu0Aj2m34TtTPWqDgUnP8mCjAoeANLfFNIdw
+	 ub558WhdwEq58h3pDGjhIJ5drdkyIq7pUQiS9lnIym7MoDtRWiUECncv0sWUcFoBeWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792646274;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792646281;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=s8aI8a3P6Aq6+tBvBYl4aRZbjZMBmTJC4bYbBQam67c=;
-	b=mOts6DNlVYmanSepJJAxD8oot5sUuN3Luld7WoNIc4GuuhGJhJcuDXtN7Ke6/FiAVdop
-	 lQrpafIaBTJ0jAm1dYE2Iba0zikPVXr4ouM/BGEMZbsHE/UxYQGkEEKlqrMJ0OSbEDCaN
-	 RDWHy83eB77Z7OmA7R77oBleBP/zUsnf0GGmUhVufEP7dFbfFmIpu8YOcf7Nk3rf/9rue
-	 axgIhU91t8n8aZ8M1MnnPPi7mqNf/1GhXftaZNvPdIAdLK62s4jjIS+hyXrlBiYgRcfDJ
-	 p9/nmsmWVjQA6FF1edL+1gbgk/2V/XKmpDyTAGwfJ1Ajm+QJ5YOChXGaKdMhRPmDn1g==
+	bh=Mo4ijoE4/zyX2xv2dQEbhTN41cna2GSZkZljd09Fpk4=;
+	b=cVeejQvz+EGxeWVqsHKllVn4kz2fqxPDSWEgVRg1WSiVfMCZfeuFFnLnXNkwSwPPZyJ3
+	 zEd+mi1GBgNoWiKfAHrK1QStsz4fsXzr71y+sbayFwui5SkVIP+K9Wj16Kk1bdNDZE4UN
+	 lG3eu3LugjZY7kFWNIQKI9nkii/QyFLKQ5jJbr8ryApYBt4tCjtbEa2pvoUWA+5mSsAfq
+	 mdCjRGqbI0UhVeXgMOLMo0OrBpyhCjgMVlH0JHrtDR99iNscLTUmWyNnnhJJTmmCQljDa
+	 g5EAaWizSirOLKD+1mEscoOOjl2l+QWS97hraMKrsnNqSSR6LU0khg1mhHJ5wdvbD2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bDgz3Da+;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jDdQY2hi;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AAE60A2603
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 05:17:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32AAE60A2603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE12360A260C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 05:17:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE12360A260C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bDgz3Da+
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a018792ab3so11397065e9.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 22:17:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jDdQY2hi
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a20568c8c0so2397245e9.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 22:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792646272; x=1793251072; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792646274; x=1793251074; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=s8aI8a3P6Aq6+tBvBYl4aRZbjZMBmTJC4bYbBQam67c=;
-        b=bDgz3Da+Ke7ybh9+QrhQUgC7dA6zslNEj7vqevxZ0mOqV55PiFZO3QD4N1vI6Bsn/+
-         haJLOHcOxf5072AhXbbs7XQoOp+FGBrO6Fn0LV+wM0/Kwbx5OvY663FPtg6Ob5/aMF9b
-         F16pYnN3V6GgFXv1Da7T1PS7JQBReM/euWRG60QWYMduIaf+J+xhaya/xscFB5gTVYJk
-         8/PCb6yZfG+kSFG0bs8QW4ZNNa318x3aV6CnSo/bzHp4ZSxY+ZfaPADQYVN50rZ3Oay1
-         ix8f6vlhURBD4Um7MBhq0LmhC7MVsdL7km42yDOtjfC3zdoYcpMyyN0oDgtugDBMzqJf
-         4DDA==
+        bh=Mo4ijoE4/zyX2xv2dQEbhTN41cna2GSZkZljd09Fpk4=;
+        b=jDdQY2hisz8TMYWTI29+GYLOa+ORWtv4igvGXYnM07evglAEUnle7RxucKv9VJtchQ
+         ogEJdcm79/wz1HSmOGHhod4gPvO6Tr3Saq5JwLdsaca0341egxvYHz6flfqsMDb7jMpN
+         ZCRM1A6PMWcv0QtDBT2eg2ZfJGaZw47wuOD4tO3u1278s0jO2RcUjbS5OLyUaQ0SGXrI
+         ivcqiqdmX9ALtjJYHLS5VafZl0bEdRltZsOKkamvChe9a4URkhUA4Ul1NpIqwmCmVEPd
+         STlI/NqBFUwojMPR582S+KtAVWBw/ihKeCCk4mXj9G8ZUXpWJmNuGX+Al7lno5syuTX2
+         2ZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792646272; x=1793251072;
+        d=1e100.net; s=20260707; t=1792646274; x=1793251074;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=s8aI8a3P6Aq6+tBvBYl4aRZbjZMBmTJC4bYbBQam67c=;
-        b=KImPtiF9EzpWXx8UsCJfkpSFkZuDEHvx/um38k14vq4eQvxP/ojYYm44Wp09MZFA7Y
-         ZxPIOO4yFwxy4RXEVXed5rXVW0XSYvzIbnNlXzcxvqdukH9pefBYdp3Q2GlWiP9tN6CZ
-         BaYuYfWbgrGYeWumzxfv3yAIqdEwCrnES3kgk8eJQmF7d7+pmhetoQmVsqkOiDD1YPA+
-         rlK/0cI1ls3vD29FMIrK1nYbwMmzYNo65p763y+OY5Asw6r841vi/JJiNBrjWmxyKSxH
-         wOzSN6ocaY3RmmLeeLvuHAvrC2FPRrvdq7B7I/cVgNMypbVutLRIuqUkkO25nTPPKgOf
-         pPWw==
-X-Forwarded-Encrypted: i=1; AKwUvBzpuVYVc/Bob1f2NiQPwHkPMNG0UqSrEfAYd8A+NHn+MTAXvztiXS/o/Xzqf34hvhNU1hc+QfzCHSWtPEom7A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIi1SUTeNODVPgxEtBjZk1MLTARx3Mht/6+Oo+gyXRFMXo1BzOD
-	sAJ1MdEKtgKBgBawYA24hId68wmbhuuN+bIKkXDFj3N9eqZiW6QLKmg4
-X-Gm-Gg: AYBFou0QpHAaUSwv599uz6up0c6ScTtTtkSTMi90Dj9D4CwmHM6zIY3xi+TL76pvlo0
-	fNNa/fNLQmf2ZUDvpVONn3mxmrgrdGAsW+ox7vVOGsFDDgKFmQQO3SogqRKU4FsjeJE3E+tv9Ci
-	ZgldivhNSdmjaFlCscZONv0R/VuNozj6fG/0/q1qaGQlYUX136Vta1L7m065rCdJj0Vgus5sGaK
-	zwUsedMoIXaOSk0h5Jm/EfGOCcDIfhtvWYzG7+/ozj+fD4MTOMoEIbAVvrMXbWIDIHgKvqPokgf
-	pZoZhJt3bH6RXwb3J2EUusV+8/QAOoghTnL7hrf+J08d+8tIKgR1b2wIxQUvCERf3l5pYFSrXFn
-	veb4WgIVac63t0qSj3UQ5SvpdEU0UMdT8e85nvHYxAoUxDqOvSWMODHblW9qnepljziKOXEXuWo
-	+w/x11WIzmDdb2ixSpzsjre8lO9IWaD3DMjFs011sR1MfXirn5yQi5FUsqA0tcZcip0E0SY6gko
-	wy5Tn3f50DVV+HqpdFnfWO7zx6g2lXBbu+LgAm5NW69vHASkAkQf3ReFAdrGBz0V+J/I8a4r7+E
-	8dQxy7F2F/bYU601Dn7pTWzEQfM2xD047pjjfqt6v6+/9niw7Ewi559W1ozGVfH5gF2FqYIsNhf
-	EbJauK1ue5ozQXyEqftVqe4TOsdY9GsltUq44bjHRpgdVwMJEkxRciX7unu8JV87Ncsd3maM5eH
-	YTZZen
-X-Received: by 2002:a05:600c:4715:b0:4a1:e46d:1bd4 with SMTP id 5b1f17b1804b1-4a1fdd574dcmr76596295e9.29.1792646271519;
-        Wed, 21 Oct 2026 22:17:51 -0700 (PDT)
+        bh=Mo4ijoE4/zyX2xv2dQEbhTN41cna2GSZkZljd09Fpk4=;
+        b=uSoxjMiEDO9dUd/XvhNBZzDVxmBSvvsgOa2f18L/XvhNE7e23xRQ/ld/qj7rttt7B5
+         PQ82W4xPCVfAcOMY5oRJ2kIu7Drm6MUjILmAw2IdVdkvPqCo6SNvx8VLhTbmazqbMxny
+         TK6I+sbw4Ge1H7PEKDUfJfSlwX7rls0BQpKO+vDleaEJSTnqxbSghP3EUSBtlX9S0dHa
+         dDVG8VP4X3Y25X74c6jqG9y3sG+fn5exCwfLmpwfpbba2UasuBpAj6wlXVvkAI4EOJWR
+         j/PgCnyJF86QhC3+T07lAfam8GyVqvMAIq4Q1llrPBHObVbTKSA+Z4qiTKL0JQt0I5Sh
+         WYHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzY66oTmsep/IcrvpZaBnKzAcJfE7f5Lu6A+QCJdJsLH8dC5Os1TVs8ANjtjoqNqWAOD5tYXXo16jumAKm9iw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLIK3L7hqAmtmUW6NrRuVyTGlnYQsMKl/ktvTIlwdKWZE++3Ikj
+	7/PVu/QDTFZEkeeJmqNq323xfXk1c9tLuQIO8PTKhKmwCNMmVZhJLQyz
+X-Gm-Gg: AYBFou2gwJHb0ylVYRAJ6/R8SfsiA3OoU1/3deo4sjgwt+Lc3PgVFd1WqzxbfmQ1QE6
+	QwPz87kAcT+G7QfGQ7vN3PdTBeMw46rle2zkQtss0xMPd/J8loG0i3DFBxhFo3a8og9h147A2Fa
+	7n0DXaXtt6fJzs4fBJG6uMBs4nDoY+rjYPT/ocI4QAErQf1baBq6++HIWvQv6mOxSx4Los1fSlM
+	cGy2d99WWovGy+cARh8aq82AGRRr+0b2Kh9TJlxSAzBdDol/xAre2apCs5QNhvxf+QpkRp0+Yn2
+	D09b7YAi6r/OxTS+Cb6T62U+6PBbX1vbBC7+BUCVYYYHnYxsvybwfRpqbzfPcQ75x3zZa0GwIZx
+	ruDFaLPuJ8zV4AcfkKeL6yRVHFMD266WqWJqhALPt7Wu7hyWb5QNdVJ2/ZzEh0GNyG7b8xijcAT
+	eknCsGDkxaLT0Y8lQ83aTkISS8sgS/TD04xoXdi0FyxclA1ozzHcItmiEg2fctV/TGLCJ+d8pir
+	v9mRhVWKtpCyS4MrhPKE7ZKw+hLtLlP95sby+KbS7yuTh8QC5q2sXWG8sFh89gl/khT2CmwK7M1
+	OdTmyZPNnTfQJ170ldyxhCzkU+53C9bEJPzlkpYdmlZCb01eGBBYLCQ6X9o8s4lwDgrXRmpdzyP
+	NewdDDQnvjYm1fvpjkXNVWfO3Keh9vPv2ehL7diLgm92qoWRaltxPtbfWwfV7
+X-Received: by 2002:a05:600c:1c09:b0:4a1:e00b:a10b with SMTP id 5b1f17b1804b1-4a1fdd2468bmr84667645e9.7.1792646274255;
+        Wed, 21 Oct 2026 22:17:54 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-ad43-d501-2c28-bb72-120d-420e.310.pool.telefonica.de. [2a02:3100:ad43:d501:2c28:bb72:120d:420e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fd0f4427sm90362275e9.3.2026.10.21.22.17.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fd0f4427sm90362275e9.3.2026.10.21.22.17.51
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 22:17:50 -0700 (PDT)
+        Wed, 21 Oct 2026 22:17:53 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -117,9 +116,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-doc@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 11/12] locking/selftest: Exercise hardirq return-tail preparation
-Date: Thu, 22 Oct 2026 07:16:53 +0200
-Message-Id: <20261022051654.79224-12-kmehltretter@gmail.com>
+Subject: [RFC PATCH 12/12] tracing: Pin recursion state for its complete lifetime
+Date: Thu, 22 Oct 2026 07:16:54 +0200
+Message-Id: <20261022051654.79224-13-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261022051654.79224-1-kmehltretter@gmail.com>
 References: <20261022051654.79224-1-kmehltretter@gmail.com>
@@ -134,90 +133,85 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The return-tail lockdep preparation must accept exactly one live
-hardirq context. Zero and nested contexts must fail, and the ordinary
-preparation helper must continue to reject a live hardirq context.
+trace_test_and_set_recursion() publishes the task recursion bit before it
+disables preemption. Scheduler tracing can therefore run while acquisition
+is in progress. Conversely, trace_clear_recursion() enables preemption
+before clearing the bit, so a reschedule can observe stale recursion state
+during release.
 
-Add focused boot-time lockdep cases for those four states. Skip the
-final IRQ-state transition after an expected preparation failure so
-that each failure remains attributable to the preparation invariant.
+CONFIG_FTRACE_VALIDATE_RCU_IS_WATCHING also validates RCU state before the
+outer preemption disable. rcu_is_watching() drops its internal preemption
+reference before returning, and the warning path accesses
+TRACE_RECORD_RECURSION_BIT outside the protected lifetime.
+
+Disable preemption before validation and retain that reference until the
+recursion bit is cleared. Balance both rejection paths. This keeps
+validation and published recursion state inside one preemption-disabled
+interval.
+
+Keep the transition slot unchanged. It remains necessary for
+interrupt-entry intervals whose context is not yet reflected in
+preempt_count().
+
+Use preempt_enable_notrace() because this inline API is also used by
+modules. The no-reschedule variant is unavailable there.
 
 Assisted-by: LLM
 ---
- lib/locking-selftest.c | 53 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ include/linux/trace_recursion.h | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/lib/locking-selftest.c b/lib/locking-selftest.c
-index c3d976c801bb4..1575a04f65d46 100644
---- a/lib/locking-selftest.c
-+++ b/lib/locking-selftest.c
-@@ -222,6 +222,55 @@ static void init_shared_classes(void)
- 		local_irq_enable();		\
- 		local_bh_enable();
+diff --git a/include/linux/trace_recursion.h b/include/linux/trace_recursion.h
+index e6ca052b2a85a..fd14380751404 100644
+--- a/include/linux/trace_recursion.h
++++ b/include/linux/trace_recursion.h
+@@ -126,11 +126,16 @@ extern void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip);
+ static __always_inline int trace_test_and_set_recursion(unsigned long ip, unsigned long pip,
+ 							int start)
+ {
+-	unsigned int val = READ_ONCE(current->trace_recursion);
++	unsigned int val;
+ 	int bit;
  
-+static void irqtail_prepare_test_enter(unsigned int nr)
-+{
-+	unsigned int i;
+-	if (trace_warn_on_no_rcu(ip))
++	preempt_disable_notrace();
++	if (trace_warn_on_no_rcu(ip)) {
++		preempt_enable_notrace();
+ 		return -1;
++	}
 +
-+	local_irq_disable();
-+	for (i = 0; i < nr; i++)
-+		__irq_enter_raw();
-+	trace_hardirqs_on_prepare();
-+}
-+
-+static void irqtail_prepare_test_exit(unsigned int nr)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nr; i++)
-+		__irq_exit_raw();
-+	if (debug_locks)
-+		lockdep_hardirqs_on(_THIS_IP_);
-+	raw_local_irq_enable();
-+}
-+
-+static void prepare_irqtail_0(void)
-+{
-+	irqtail_prepare_test_enter(0);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(0);
-+}
-+
-+static void prepare_irqtail_1(void)
-+{
-+	irqtail_prepare_test_enter(1);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(1);
-+}
-+
-+static void prepare_irqtail_2(void)
-+{
-+	irqtail_prepare_test_enter(2);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(2);
-+}
-+
-+static void prepare_regular_1(void)
-+{
-+	irqtail_prepare_test_enter(1);
-+	lockdep_hardirqs_on_prepare();
-+	irqtail_prepare_test_exit(1);
-+}
-+
- /*
-  * Shortcuts for lock/unlock API variants, to keep
-  * the testcases compact:
-@@ -2934,6 +2983,10 @@ void locking_selftest(void)
- 	DO_TESTCASE_6x2x2RW("irq read-recursion", irq_read_recursion);
- 	DO_TESTCASE_6x2x2RW("irq read-recursion #2", irq_read_recursion2);
- 	DO_TESTCASE_6x2x2RW("irq read-recursion #3", irq_read_recursion3);
-+	DO_TESTCASE_1B("IRQ tail prepare", prepare_irqtail, 0);
-+	DO_TESTCASE_1("IRQ tail prepare", prepare_irqtail, 1);
-+	DO_TESTCASE_1B("IRQ tail prepare", prepare_irqtail, 2);
-+	DO_TESTCASE_1B("regular IRQ prepare", prepare_regular, 1);
++	val = READ_ONCE(current->trace_recursion);
  
- 	ww_tests();
+ 	bit = trace_get_context_bit() + start;
+ 	if (unlikely(val & (1 << bit))) {
+@@ -145,6 +150,7 @@ static __always_inline int trace_test_and_set_recursion(unsigned long ip, unsign
+ 		bit = TRACE_CTX_TRANSITION + start;
+ 		if (val & (1 << bit)) {
+ 			do_ftrace_record_recursion(ip, pip);
++			preempt_enable_notrace();
+ 			return -1;
+ 		}
+ 	}
+@@ -153,8 +159,6 @@ static __always_inline int trace_test_and_set_recursion(unsigned long ip, unsign
+ 	current->trace_recursion = val;
+ 	barrier();
  
+-	preempt_disable_notrace();
+-
+ 	return bit;
+ }
+ 
+@@ -163,9 +167,9 @@ static __always_inline int trace_test_and_set_recursion(unsigned long ip, unsign
+  */
+ static __always_inline void trace_clear_recursion(int bit)
+ {
+-	preempt_enable_notrace();
+ 	barrier();
+ 	trace_recursion_clear(bit);
++	preempt_enable_notrace();
+ }
+ 
+ /**
 -- 
 2.39.5 (Apple Git-154)
 
