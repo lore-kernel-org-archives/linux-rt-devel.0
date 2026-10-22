@@ -1,57 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792636891;
-	b=EJkQM9QmFICxfv7jeGxYdb4HWWnsJ4yLTUJT70ZTm+WI4FyWkLHMiGyKD59JSelBl8cC
-	 cibtAkGIRcDdVizIx0U1JffYNivAWpuYVHzw6JD9b3q5T0sB1NHWWiu5jdEsDqKPId/i7
-	 xtQpWRDG/k575nhPvD85cklP2T2vabJ840OCA2yFxjFBvt2vi40wezMxhcPYap3qKiX6j
-	 E26Io5SvOr9h0JA89ozNRIqHo3PzAYDV8GC9zyZakquJNS+OdUX+IswH9Nd4O9/uIc2IU
-	 YmP8co49crTnRXKe8T4knRrnYgI5Fl3raMf8ir+Yk0t/BLatN8S/r9pCJTfxNr+1L0w==
+	t=1792637241;
+	b=r/xndGidMvrAkL+rH79P2E6azAh07QEs31FdJzoHqI+m//SIBWB8qvCAX+BHX/CUY5lM
+	 IxXRC3S9N4Q7Mr/F8Gzt0mn8BPCR2t6evU9wCd9A3Dlitu6+DRadSeC+xOd5bB68Ui5/m
+	 +KB4bnYTICKRWSaLdYiIBJZg2uk8uwVRb8BS/uJrr/mLUi6mQUatM7xOZbSIP/jVdfFNm
+	 7901wHPkPnSyMNiIS7VSeO3z6LySSfaywaenrGMCJVyY4W8LzjYrV+5wVAIA9wH9ldywH
+	 mtfn9ifv53JCDaPvASUlZ2+QSbllT1E+JqS/r+fByZm6+MrKrZhZHVYqrkUGFNEm87Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792636891;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hwz8KwnzYesAWw+pJbG6JjCf7JDB6j+uq8/Noh3mphw=;
-	b=mrkB4VHNS3JpKiaQPG2kLCOE2nc60TFpt4GOj3Alx7nh8RZd+2aBtwqTuG+AhXwdqxlX
-	 PAoqC6tONprooLxtdkc1Gy34hu4zew/eww2y6iDQ4pxFOqpTaLaBb1nuniwd5UgGbb3ap
-	 +fwVu+3g8JWBFi4tZwsQc+PZ3c1IQ22glexJv4Q9mxWgPdHsXb0X8RcGHdbgQPTNEyjjP
-	 VkvXY8YTFn0EIJWAdfp9THSLSEbtaVkV/YHUZJpsJOmZoiDKM50O5lzRRFkZmHnSNg6Ke
-	 vHDQvmqZ2CBkFh8web3Kb+IzQSEBj+AleRkaDeBtpgtnSi8gz5qI8xGFi2ji9d53EYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792637241;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
+	b=gCICsn0ii13JIJIJNdm8j0UW3TTKkjTC8pSR10c7rzLM6G34pFwwzKSPxFVO8q0bcCQ6
+	 UgGwvrrQ9wvmNqXUIt5Oo7X2jX/Z1naGZSURz1Ph3wcFqQbDkdURL+RBd9zCAE7Bxz68+
+	 KlxDbCn9DXeIHCyJcWnPCyhzy4+QgXjgOk5oXL+qQ46eywZ9s+H144VDG2vY5qKFE+iPi
+	 bmNXxTFa9L0JJIN0sPPP/l3xItn9vCLZlb2qQcQThJ7cUak8ODWO/lDgzmFGJQGpD0mA6
+	 A+2ApRyqfVfyPud6CDYBTXLHfmN3nN/n/HKMEIbuurV0MZ3eCvTVsuOk+VK3yY+wEYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hBVWmPbo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QHi43w3D;
+	arc=none smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCE9606A31A;
-	Thu, 22 Oct 2026 02:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF50D606A31A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 02:47:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF50D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hBVWmPbo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECDB1F000C1;
-	Thu, 22 Oct 2026 02:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792636890;
-	bh=hwz8KwnzYesAWw+pJbG6JjCf7JDB6j+uq8/Noh3mphw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hBVWmPboF2Fa4QC//+1hcRTzeNrYA5258Nkn+gxRl3xbPw4Cg7beSeEDjLiiZk3+B
-	 9eDa5NSjOTNYh54X8eCIo49ulHqDZuYbt7tyEpeYEBxczCUIqQ3j2ir/3D+2yBdB0I
-	 Uy+QWYiBvqdoWPoTKVMX0arncdTvR01vnq0Kn0Efn+yY/zmKE6S/OshAjiG9pKCB8j
-	 R6j0ItS51xJPQjpjUNTc1R2iPep9qSb+3QhACU5Z2FI6qca5Ccs/LE3AmKS4CPqkGD
-	 o9qszAKymSzz5YY2E53u8psyrOyX27SD+Zcd6oChCCbuXTGj5BhuTD/5vvWF50DlvW
-	 U0sr0RWGW00UQ==
-Message-ID: <sashiko-outbox-180880@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 5/8] mm/page_alloc: retry allocations that raced with
- a zonelist rebuild
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?R3JlZ29yeSBQcmljZSAoTWV0YSk=?= <gourry@gourry.net>, linux-mm@kvack.org
-Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, kernel-team@meta.com, akpm@linux-foundation.org, mhocko@suse.com, rientjes@google.com, shakeel.butt@linux.dev, rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com, muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org, mgorman@techsingularity.net, anshuman.khandual@arm.com, Bessel.Wang@huawei.com, jiang.liu@huawei.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261021023940.1940971-6-gourry@gourry.net>
-References: <20261021023940.1940971-1-gourry@gourry.net>
- <20261021023940.1940971-6-gourry@gourry.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 02:41:28 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QHi43w3D
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35f036b17easo301281eec.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Oct 2026 19:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792637240; x=1793242040; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
+        b=QHi43w3Dd1ulwUPgQUyCx+NIDrri25brE54KOmHG8+XUoy7x9/04xaflqU+Ij8ZBM/
+         anopk/Vu4VG4oDHbMWmofmJICjAusU+OAV7f7FMtaDFsO35Ybr39KiiEgbJw++bSPNQg
+         aGoB/gisNENLzDIWB9pJwd5askhSj+wED1LvfUTDbI5TP6TdXPJhklt5HcjCJ33GXBH9
+         4XsE8VtNBMntObwNDFOOdf+VEsRQctvalkql37B3fdZ27bGkxBY46JtNUpDGxvHTWBVx
+         yhi+y5eieNI/fZ6pjenFjLB7HyQtBIOUAPJYujUQaHMWvjW3JnR+QFmbljFePLxNUB1t
+         vjNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792637240; x=1793242040;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Volwfxv4Wq+pPVT4Y+NA3cT3h65Pl/GgAPXC0wXcxI0=;
+        b=foQXuTUI0BaqebwTNQTdRE/QSTlwaVaH2HOKjEADgU6xZKIfy0/hvBV311XFJkwrhh
+         0oomkMf2XMzIoeAhFJF7S277Ixbdco2teSuywfgpdmUpN+ec/+QlfSXJf9L38Pc5T1Ky
+         SS1JeA7vekbiJSLHqGUPzzcyj95Z2sj0oJLmlZSrlv8ehniqjw1aJwls4zo5hkuQ7hsD
+         D7GjzpY4EfOow0au93ZMujlYV2TDFrRY/dglVbK108EJpRvnp6JWfp+jNQKut7Vmqw0c
+         yRQ6qjWjIb0OpyK4cTqwMXz/gFcW8kBeIGbG3qtOATbZLNzESzV7qFIlIXoOXvWwnT63
+         RP1g==
+X-Forwarded-Encrypted: i=1; AKwUvBznGnESWnjXXZssrJ8ImIaQKvXwoUjoij8cdKq5+r8yM/pBCyphPKjz7qdYN0dErQdr8zZaLLiDCq2Lifcr6g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIK8rKN/T3sJ8kGvRmHReMStxPUTtmXt03rQUffmNr8hgVEREQg
+	azu/hU+2hNhAYN3VyBm5cAUdryPOYkgqE+oiDgFNpGfKe8H3NMUf3iGb
+X-Gm-Gg: AYBFou1q1zeEra4fsRQksJj7L2vFGvncJVVpQnHRstmS0pFbb/6LakrP32bOnvGlKHh
+	IezAd736DH618PDW5FOP8VcWHxaRS7k4o2/rGsK8xAAaFZYrP5HVO3vhnnY0EnwOBFi18KmzuXy
+	9Rpfl9r/KFz+42QjS6cA3SE9J7rhmevzlQW9r7XLxqYyIXPHjNW5lL/wN8AuNyPFeM8g3qp7W42
+	SaK1wwGsXIzQhjEHJ6R1Fue6kp8dyVpLXpWv8RR2vpi6M3FzwSW7YkVzoZMFKkxCCslzNbLUEJK
+	hKJNZvZXPMektVkBhUm6iGS4LdRtXPhpqpPOE4wBpthuWtbcwSAByOqZONpjqIa2YWcxfMbwidY
+	HacXhyEC4Lm4wnY7mhmYbbwiLB3qArnLx9xiKr9pYVa7e2NK7D3AAw0Dt5pkfZuTlp8wdcYJM41
+	vgikiSpUAP0M/q/C9a4R6XO7EKwEsi9a3Fzaote7FU96ZnbpVhg8dlnXZl/p7K4Vb7celsk4nrU
+	MJj6L/f6HBReNQasaPhEVDA8R8SbYgc/5kBJSTa9liK5IvhuyCuBWg8CPbzlz2QyrkS4jd+Q7vR
+	H8SuHwX+psyhOga241bXesroZ5S3NJ00wVTcDbolo54JSd37mQXsuE1yA8mdfCgAit9eO8Mjyso
+	8h7LYLNd+uKDyDMcTS2eHhK/MjExr
+X-Received: by 2002:a05:7300:106:b0:35d:d9a9:e455 with SMTP id 5a478bee46e88-3674ef292b9mr6286668eec.21.1792637239772;
+        Wed, 21 Oct 2026 19:47:19 -0700 (PDT)
+Received: from server1868-4.tail96fc24.ts.net ([199.188.91.198])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-368ca914bb8sm2318629eec.5.2026.10.21.19.47.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 19:47:19 -0700 (PDT)
+From: Austin Schuh <austin.linux@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Austin Schuh <austin.linux@gmail.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	io-uring@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: [RFC PATCH 0/2] io_uring: futex wakeups that a preempted lower-priority task can't delay
+Date: Wed, 21 Oct 2026 19:46:54 -0700
+Message-ID: <20261022024701.1574811-1-austin.linux@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,154 +105,134 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] mm/page_alloc: __alloc_pages_slowpath() restart loses reserve re=
-try
-- [Medium] mm/page_alloc: post-rmqueue() zonelist retry leaves ZONE_MOVABLE=
- blocks unmovable
---
+Thanks for the prompt reviews, Jens!
 
-commit 3b023f87050323ef9781701d5864437d2b2b4b5e
-Author: Gregory Price (Meta) <gourry@gourry.net>
+I run robot control systems on kernels built with CONFIG_PREEMPT_RT.
+Each process runs an io_uring event loop, and processes publish to each
+other through shared-memory queues, with the publisher waking each
+subscriber's loop.  Real-time and lower-priority processes publish and
+subscribe on the same queues.  The real-time ones run on CPUs kept free
+of interrupts, and the interrupt threads and everything else run on the
+rest.
 
-mm/page_alloc: retry allocations that raced with a zonelist rebuild
+io_uring fits this well, for the same reasons it is fast: most of its
+state is per ring.  The submission and completion rings are shared with
+userspace without a lock, and the kernel-side ring locks belong to the
+ring.  Requests and single futex wait data come from per-ring caches
+once warm, not the slab.  With DEFER_TASKRUN, completions run in the
+ring's own task when it waits, so no other task posts to its completion
+ring, and another task hands it work with a push onto a lock-free list
+and a wake up, taking no lock that sleeps on PREEMPT_RT.  Each of those
+removes a place where a lower-priority task could be holding something
+the real-time task needs.  And io_uring already lets a ring register
+files and buffers once, so each request skips looking them up again.
 
-This commit checks zonelist_update_seq after page allocation succeeds in the
-fast path, slowpath, and bulk allocator, freeing the allocated page and
-retrying if a concurrent zonelist rebuild occurred during the zonelist walk.
+The wakeup between event loops is where that breaks down.  What I need
+is for a real-time publisher to wake a real-time subscriber on time,
+whatever the lower-priority processes on the same queue are doing and
+however busy their CPUs are with interrupts.  Which mechanism carries
+the wakeup doesn't matter to me.  Running the real-time tasks above the
+interrupt threads isn't a great answer: a lower-priority task boosted
+to their priority would then outrank the interrupt threads on the CPUs
+they were moved to, which undoes the isolation.
 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 1bb308296fcdc..dd8c9046f9a06 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-[ ... ]
-> @@ -5114,6 +5127,12 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned in=
-t order,
->  	warn_alloc(gfp_mask, ac->nodemask,
->  			"page allocation failure: order:%u", order);
->  got_pg:
-> +	/* A rebuild during the walk may have handed out an ineligible zone. */
-> +	if (page && check_retry_zonelist(zonelist_iter_cookie)) {
-> +		__free_frozen_pages(page, order, FPI_NONE);
-> +		page =3D NULL;
-> +		goto restart;
-> +	}
->  	return page;
->  }
+Each mechanism I've looked at lets a preempted lower-priority task hold
+that wakeup back:
 
-[Severity: Medium]
-In __alloc_pages_slowpath() in mm/page_alloc.c, can_retry_reserves is
-initialized to true only once before the restart: label:
+ - A futex wake takes the futex hash bucket lock, and so does every
+   one-shot IORING_OP_FUTEX_WAIT arm, which an event loop does after
+   every wakeup.  On PREEMPT_RT that is a sleeping lock, and priority
+   inheritance lifts the lower-priority holder only to the waker's
+   priority, which loses to threaded interrupt handlers above it.
 
-	bool compact_first =3D false;
-	bool can_retry_reserves =3D true;
-	unsigned long alloc_start_time =3D jiffies;
+ - IORING_OP_MSG_RING allocates an io_kiocb per send from a shared slab
+   cache, whose slow path takes the slab's list_lock, a sleeping lock
+   on PREEMPT_RT that any task on the system can be holding.
 
-When a reserve-eligible allocation (such as PF_MEMALLOC, __GFP_MEMALLOC, or
-an OOM victim) fails its initial get_page_from_freelist() attempt at retry:,
-it sets reserve_flags in alloc_flags, clears ac->nodemask, sets
-can_retry_reserves =3D false, and jumps to retry:
+ - eventfd and signals take a spinlock_t, the eventfd's wait queue lock
+   or the target's siglock, which on PREEMPT_RT is a sleeping lock that
+   lower-priority writers and readers of the same eventfd or process
+   hold too.
 
-	reserve_flags =3D __gfp_pfmemalloc_flags(gfp_mask);
-	if (reserve_flags)
-		alloc_flags =3D alloc_flags_cma(gfp_mask) | reserve_flags |
-				ac->alloc_flags | (alloc_flags & ALLOC_KSWAPD);
+I measured each on a Jetson Orin Nano with PREEMPT_RT.  A SCHED_FIFO 40
+sender on CPU 4 sends a message every 500us to a SCHED_FIFO 40
+receiver's event loop on CPU 5.  On CPUs 0 and 1, lower-priority
+processes send and receive on the same queue every 200us, starting and
+stopping, beside SCHED_FIFO 50 threads running 20us to 1ms bursts and
+interrupt and system load.  Ten minutes and 1.2 million messages a run.
+Counted here is the real-time sender's time in the call that wakes the
+receiver, which is where it waits on the lock:
 
-	if (!(alloc_flags & ALLOC_CPUSET) || reserve_flags) {
-		ac->nodemask =3D NULL;
-		ac->preferred_zoneref =3D first_zones_zonelist(ac->zonelist,
-					ac->highest_zoneidx, ac->nodemask);
+                                       runs  over 100us   longest
+  futex, one-shot io_uring wait (7.4)    1       10,285    1.0ms
+  MSG_RING (7.4)                         1           55    1.0ms
+  signal, signalfd (6.18)                2  33,080-36,122  1.7ms
 
-		if (can_retry_reserves) {
-			can_retry_reserves =3D false;
-			goto retry;
-		}
-	}
+Traced on 6.18, the futex sender waits on the bucket lock, the MSG_RING
+sender on the slab's list_lock, and the signal sender on the receiver's
+siglock, each held by a lower-priority task boosted to 40 and preempted
+by the SCHED_FIFO 50 threads.  The receiver's one-shot futex arms wait
+on the same bucket lock, so for futexes 10,348 messages reached the
+receiver over 100us after they were sent, worst 3.5ms.
 
-If that reserve pass allocates a page and reaches got_pg: while
-check_retry_zonelist(zonelist_iter_cookie) is true, the new check frees the
-page and jumps to restart:.
+The options I see:
 
-At restart:, alloc_flags is reinitialized without reserve_flags:
+ 1. Persistent futex waits and registered wakes: look the futex up
+    once and cache it.  The waker registers the futex word with its
+    ring once, and the waiter arms a wait on it once and keeps it
+    armed.  Both meet in one node for that futex, so a wake goes
+    straight to the cached node and walks its waiters, with no key
+    lookup, no futex hash bucket, no lock that sleeps on PREEMPT_RT
+    and no allocation.  Patch 2; prototyped and measured.
 
-	alloc_flags =3D ac->alloc_flags | alloc_flags_slowpath(gfp_mask, order);
+ 2. An allocation-free MSG_RING: IORING_MSG_DOORBELL.  A ring's task
+    registers a doorbell, and a sender ORs bits into a word in the
+    target ctx and wakes its task; the target posts one CQE per drain.
+    Real-time kernels solve this problem the same way: seL4
+    notifications and FreeRTOS task notifications OR bits into a word
+    the waiter owns.  Prototyped on 6.18, not posted: at SCHED_FIFO 40,
+    no message over 100us late, worst 43us.
 
-Because can_retry_reserves is still false (and ac->nodemask remains NULL), =
-if
-the first get_page_from_freelist() after restart: fails without
-reserve_flags, the can_retry_reserves retry is skipped. Callers with
-!can_direct_reclaim (for example GFP_NOWAIT | __GFP_MEMALLOC or
-GFP_ATOMIC | __GFP_MEMALLOC) or current->flags & PF_MEMALLOC then jump
-directly to nopage: and fail without ever retrying get_page_from_freelist()
-with reserve_flags on the rebuilt zonelist.
+ 3. Keep MSG_RING's data messages, but take the io_kiocb from a cache
+    on the target ring instead of the slab.  Not prototyped.
 
-Could jumping to restart: from got_pg: without resetting can_retry_reserves
-(and restoring ac->nodemask) cause reserve-eligible allocations to lose the=
-ir
-reserve retry and fail spuriously?
+Patch 2 is option 1.  A persistent wait posts one CQE per wakeup and
+is re-armed by its slot, without looking the futex up again.  Futexes
+also simplify discovery: a publisher wakes whoever waits on the word
+without knowing who they are, where a doorbell or MSG_RING needs every
+subscriber's ring fd.  In the same test, with persistent waits no send
+took over 100us, the longest 25us, and no message reached the receiver
+over 100us after it was sent, the worst 30.5us.
 
-[ ... ]
-> @@ -5472,6 +5499,11 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp=
-, unsigned int order,
-> =20
->  	/* First allocation attempt (or, for nolock, only attempt) */
->  	page =3D get_page_from_freelist(alloc_gfp, order, fastpath_alloc_flags,=
- &ac);
-> +	if (likely(page) && unlikely(check_retry_zonelist(zonelist_iter_cookie)=
-)) {
-> +		__free_frozen_pages(page, order,
-> +				    alloc_flags & ALLOC_NOLOCK ? FPI_NOLOCK : 0);
-> +		page =3D NULL;
-> +	}
->  	if (likely(page) || (alloc_flags & ALLOC_NOLOCK))
->  		goto out;
-> =20
+Patch 2 is here to start the discussion, not as a polished solution.
+It is probably more useful to discuss the design before digging too far
+into the details of that patch.
 
-[Severity: Medium]
-When a non-movable request (such as GFP_KERNEL with MIGRATE_UNMOVABLE or
-MIGRATE_RECLAIMABLE) races with online_pages() -> build_all_zonelists() and
-get_page_from_freelist() selects ZONE_MOVABLE, rmqueue() runs on ZONE_MOVAB=
-LE
-before check_retry_zonelist() is checked in __alloc_frozen_pages_noprof() or
-at got_pg: in __alloc_pages_slowpath().
+Patch 1 is a fix to the DEFER_TASKRUN wake up that patch 2 depends on.
+It stands on its own; its commit message has the details.
 
-Because ZONE_MOVABLE has no free pages in MIGRATE_UNMOVABLE,
-rmqueue() -> rmqueue_pcplist() -> __rmqueue_pcplist() -> rmqueue_bulk() ->
-__rmqueue() -> __rmqueue_claim() -> try_to_claim_block() claims a
-MIGRATE_MOVABLE block in ZONE_MOVABLE, converts its pageblock migratetype to
-start_type, and expands the remaining pages into ZONE_MOVABLE's non-movable
-freelists and PCP list:
+I'd love any feedback you've got, or suggestions on other options that
+I've missed.
 
-	/* Take ownership for orders >=3D pageblock_order */
-	if (current_order >=3D pageblock_order) {
-		unsigned int nr_added;
+Austin Schuh (2):
+  io_uring: don't let a preempted task_work add hold back the wake up
+  io_uring/futex: add persistent waits and registered wakes
 
-		del_page_from_free_list(page, zone, current_order, block_type);
-		change_pageblock_range(page, current_order, start_type);
-		nr_added =3D expand(zone, page, order, current_order, start_type);
-		account_freepages(zone, nr_added, start_type);
-		return page;
-	}
+ include/linux/io_uring_types.h |   6 +
+ include/uapi/linux/io_uring.h  |  52 ++-
+ io_uring/futex.c               | 788 ++++++++++++++++++++++++++++++++-
+ io_uring/futex.h               |  28 ++
+ io_uring/io_uring.c            |   1 +
+ io_uring/register.c            |  13 +
+ io_uring/tw.c                  | 124 ++++--
+ io_uring/tw.h                  |   4 +-
+ 8 files changed, 983 insertions(+), 33 deletions(-)
 
-When check_retry_zonelist() then detects the race and calls
-__free_frozen_pages(), __free_frozen_pages() reads the mutated pageblock
-migratetype:
 
-	zone =3D page_zone(page);
-	migratetype =3D get_pfnblock_migratetype(page, pfn);
+base-commit: 5b01d5955ac206e38097f777eff6ab2a8b948c41
+-- 
+2.47.3
 
-and frees only that single page back to ZONE_MOVABLE's MIGRATE_UNMOVABLE PCP
-list or buddy freelist.
-
-Can checking check_retry_zonelist() only after rmqueue() has already mutated
-the zone leave converted MIGRATE_UNMOVABLE, MIGRATE_RECLAIMABLE, or
-MIGRATE_HIGHATOMIC pageblocks and populated non-movable PCP/free lists insi=
-de
-ZONE_MOVABLE, where normal movable allocations will not consume the PCP list
-and compaction will skip the non-movable pageblocks?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021023940.1940=
-971-1-gourry@gourry.net?part=3D5
