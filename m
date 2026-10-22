@@ -1,64 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792661956;
-	b=Y94gofVgPMXiFzkX+BKx9DiOSkaBQLxV7K/YKDvWu5ETFkV7NCrSRCScl0cPL9AqXpHG
-	 B70ggP5OzQnHk8Zg3XA/AgnXekRA9OvZcOcAGVaixHMvyQzjRsnD0iJPIkqKy5LZq6FAd
-	 U4oX54UbX3SuFZuKxDeIdd8W1BYcnuQ9/ZriJHAaY4VVyfXWYZERSo28lhGJvZUNrFIIz
-	 ruZMbvVS+IgoRtyVfpT6XPeU16X/+hJIHVXx86ULajPZb+BZ4pV79OzCWVie1GXikpXxr
-	 jWtk+Qc00HlsVD7WbyHcCK3jsoCxxMWleUW2bURiIyys2XRk8/nR77gD8ayr9cmLxIQ==
+	t=1792662956;
+	b=EJR87NxLd4Fb8XhPaTjuprRu3uRtOIcidGnnYv4O6LebmenDS7mPuaOPePzFXT0Tou52
+	 YLMCSLFgZQKdvGUPd0bVrcd0kVnknr7cPray1fQElbKpsYlBnWxp/S9AlCl5k2KfnsvMO
+	 pwTdVTYZ+HfLaDuyCS8Ot8Ng04H0lAZxCqI/Ob5pXUhCUGgE/tiPC72zx3OMEF5U7ipDZ
+	 HIKrk6AveTPD/VRAHXJipQEfRQLXa8DYnTtF7ncsVxYwjNreZaCjq1AFX4MN0ek6H8Fdw
+	 h5mFa6AnSTLFZ5ER8sLCUnxNbI6OXZ8oEUHkWmCNSEFtctFKsYBgIJJN1+5rau5Ai5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792661956;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Rspamd-Queue-Id;
-	bh=kzmCI/l9V2ma8jVCxH+Cwual/NZUn9FFJRGkBx38n0g=;
-	b=n3F6qemVd/O+Fg0jxVpPg2GVuHLlO0hyCC23TmR0H+4/aKUMzSvDLdqWN9ntMGwv8U9k
-	 q405fLwdQO7LYoBlRHeC1FTZOWCh6Yxn1w4kr3L47oTc+nOHtq+sIv9/M1/9CgxWDbCjq
-	 znPIZfcNZQOUjZsuY9GurfsUmbHxtBMJapoEnSRqVl26Vd2nfeWINU06qKmCOS4kz22qM
-	 lU1bueZHVV3iz8EtztLrCzKlLkcCxBUZxUDyNh5/DOQK5HkeVRD6MFru/swP2Gk5hk7Jo
-	 yIT0wfHIsVjri9BNn0dKh7LBqRaIzXGC9k325h7HxisiaDBccP9WDd3EeNduzs0t7DA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792662956;
+	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=qaKCa+TjoD1OzgCla43bUHaZNaOHmxBbECmuWAdteZU=;
+	b=ZnTgxq4755unQRyOcRGQyEmz9/Glb629sVldQDJEUy/9FUe94htFRFe8A5siCmeJP/C9
+	 pqWvw7UK4xrBZHyEocKQwmynM9iQ+3vJlANen5o+A4/rwLslppU4mUZLfi3+x09dyEGEe
+	 aDl3HKBtAFb15D0+9od2A2s3YJ5iuAof2jsbHiSJX1O7R16UBqlHxgYfHZMwrlM8XMBl9
+	 tRSPMuD5OBVj8jN7PrDh4QxWRnaB3gQIUWAJNVM4HQ2f2m4Wjc/Dk5T90yjS+1ngbRprT
+	 9EHyxAUfNDLUKGTMfyFp5T8f46FzwoLEy6ypC+Rf5vuH9CYVLmsvsQkFjsar/tMduAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=steffen.cc;
-	spf=pass smtp.mailfrom=steffen.cc;
-	dkim=pass header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=TjmXI+Pk;
-	arc=none smtp.remote-ip=80.241.56.171
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	dmarc=none header.from=tipi-net.de;
+	spf=pass smtp.mailfrom=tipi-net.de;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=jkGd8yDi;
+	arc=none smtp.remote-ip=194.13.80.246
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5361B60A382B
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 09:39:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5361B60A382B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=steffen.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=steffen.cc
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E0D606A319
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 09:55:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6E0D606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=TjmXI+Pk
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4j9LhB0hqdzMlCj;
-	Thu, 22 Oct 2026 11:39:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001;
-	t=1792661946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kzmCI/l9V2ma8jVCxH+Cwual/NZUn9FFJRGkBx38n0g=;
-	b=TjmXI+Pkz2CvANQ6hct5or+XJz5wZZnOkel6pZJIq5+UmFnuH0FFyU0QswFVE021Wxcl5f
-	xkemRv7doI3s4hylzTw7byq9vrY3laeXnvWPALea4V5+U7MvW4pIV/6Onwcwi3/gHjtQ2V
-	+eUF0piYxI50TnOMjWKGRiXIzziFG946yfBMEGcF4O3UC6NqzxR99cHkCDF4kHwBN5qhbh
-	0FGGO8C/A3wfJRNQNRblRh2N4CtMijfGvd07yTNfj7Ks2LdxGPfmXbctNMhTRY9Ivcw+WP
-	hbiF3rgL+TyJaL0aKxdK4wyxNRoMKNoHa7vHGBcLwYrsVA9fMxMZJnuYDOQ8Qg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of lists@steffen.cc designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=lists@steffen.cc
-From: Steffen Dirkwinkel <lists@steffen.cc>
-Date: Thu, 22 Oct 2026 11:38:48 +0200
-Subject: [PATCH RFC net 3/6] net: macb: mask TXUBR during TX NAPI poll to
- prevent IRQ storms
+	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=jkGd8yDi
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7DD1DA002E;
+	Thu, 22 Oct 2026 11:55:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1792662952; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=qaKCa+TjoD1OzgCla43bUHaZNaOHmxBbECmuWAdteZU=;
+	b=jkGd8yDibczG1IzorFlU0eIzFeR7ouTn8kpjRjh7Z8+AH6tILxsPy7X8E6zi1qSBFO3315
+	jQlgC/jX1h+tP+NaF80fxQlpB8233HvEKYYKL800t+7a4eKgLcXQR2u8HzuPl1gDTMsHzz
+	SbuOVUx5ThCI120xgTHKGO+alPwUBXrcwj2lJh6sPxzUTMuQ34ZbLN+XkJgYdC4lOKq9On
+	S/X935HMwWM3CjrtsQS+LxSbro1EOAqgNMuJDxX+kLIiGC2r1HZhdit+DfyxjJ4QQM3z2w
+	nRmDL/QS1EoyeIDeuP/hln1d3WluMMJ2ILpq7LHM2WnI1LG3GqhAoy9hyZs7Ww==
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,101 +53,89 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261022-std-macb-v14-send-v1-3-9187bc545bf6@beckhoff.com>
-References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
+Date: Thu, 22 Oct 2026 11:55:49 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Steffen Dirkwinkel <lists@steffen.cc>
+Cc: =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, Conor Dooley
+ <conor.dooley@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Kevin Hao <haokexin@gmail.com>, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Russell King <linux@armlinux.org.uk>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Christian Taedcke
+ <christian.taedcke@weidmueller.com>, Andrea della Porta
+ <andrea.porta@suse.com>, stable@vger.kernel.org, Steffen Dirkwinkel
+ <s.dirkwinkel@beckhoff.com>
+Subject: Re: [PATCH RFC net 0/6] net: macb: fix TX stalls, IRQ storms and a
+ lost NCR update on link-up
 In-Reply-To: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
-To: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Kevin Hao <haokexin@gmail.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Russell King <linux@armlinux.org.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, 
- Christian Taedcke <christian.taedcke@weidmueller.com>, 
- Nicolai Buchwitz <nb@tipi-net.de>, 
- Andrea della Porta <andrea.porta@suse.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792661936; l=3260;
- i=s.dirkwinkel@beckhoff.com; s=20260625; h=from:subject:message-id;
- bh=Ry/7hRqGEZyq9b5C9wqUyTj2TzGBoxi3BglkG+4sBZg=;
- b=jFz2xGBPYsaKcJ/gPvFOuLGhNBL3/dpQNRNCmZQSLwMgDcU66Y9rnelgoPvvGP4x+RpMYHhK9
- bE1PcFle6uNC+JClpnQiO/ea0iXbqZiTXz9L1Tzj0iQfkqwZpBPFNii
-X-Developer-Key: i=s.dirkwinkel@beckhoff.com; a=ed25519;
- pk=5DcsaSpVtmm7nCi3Bnw5A4vbXI+sg3hBgt8e2A2U/gw=
-X-Rspamd-Queue-Id: 4j9LhB0hqdzMlCj
+References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
+Message-ID: <21335ef00521312c158b0a71bf8ef08d@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+Hi Steffen
 
-macb_interrupt() defers TX completion handling to NAPI, but when it
-schedules the poll it only masks TCOMP, even though TXUBR is enabled
-alongside it (both are part of MACB_TX_INT_FLAGS). macb_tx_poll() is
-asymmetric in the same way and only re-enables TCOMP. TXUBR is thus
-left unmasked while responsibility for handling it has been deferred
-to NAPI.
+On 22.10.2026 11:38, Steffen Dirkwinkel wrote:
+> Hello Théo, Christian, all,
+> 
+> I've been looking at RCU and TX stalls on macb devices (Xilinx ZynqMP 
+> on
+> Beckhoff CX9240) for a while and have been carrying downstream patches
+> similar to Christian's. A while ago I let Claude try to reproduce this 
+> on my
+> devices, it was able to reproduce and found some fixes but I wasn't
+> happy with the quality of the patches and my understanding of them. I
+> briefly talked to Théo in Prague and he suggested I send what I have as
+> either the patches or the reproducers may be useful for ideas.
+> I've finally gotten around to it and also ran some more testing and 
+> improved
+> the patches in the meantime. The series includes Christian's patches in 
+> the
+> original form (should also at least be reworded) and I also have Patch 
+> 1 in here
+> since the bench seems to have reproduced the issue on hardware (see 
+> below).
+> 
+> If anyone has other ideas / patches for these issues I'm also happy to
+> run tests on devices.
 
-Unlike an edge event, TXUBR is a persistent condition: the controller
-keeps it asserted for as long as the transmitter reads a buffer
-descriptor whose used bit is set. Leaving a level-triggered source
-enabled while NAPI owns its processing means the interrupt refires
-immediately after the handler returns, before the poll has had a
-chance to clear the underlying condition. This turns into a hard
-interrupt storm that pegs a CPU in the (threaded) MAC IRQ handler and,
-on PREEMPT_RT, triggers RT throttling ("sched: RT throttling
-activated"), taking the network interface down.
+Thanks for posting this RFC. I will go later through the details, but 
+wanted to let you
+know that I'm also investigating the macb watchdog issue on RPi RP1 [1].
 
-Several situations can keep the used-bit read asserted across a poll -
-for example unreaped completed descriptors still sitting at tx_tail,
-or a transmit restart racing with macb_start_xmit(). The specific
-trigger does not matter: as long as the source stays unmasked, any
-persistent assertion is enough to storm, so the interrupt handling
-itself must be made self-limiting.
+Yesterday Théo also shared some findings in the thread.
 
-Mask TXUBR together with TCOMP in the IDR write when scheduling the TX
-NAPI, and re-enable both from the napi_complete path in
-macb_tx_poll(), making the TX interrupt mask/unmask symmetric and
-consistent with how the driver already treats every other
-NAPI-serviced source. The pending TXUBR is still recorded in
-queue->txubr_pending before masking and acted on by macb_tx_restart(),
-so no event is lost. A persistent TXUBR now degrades to NAPI-paced
-polling instead of a CPU-pegging hard interrupt storm.
+Three things from that work which touch your series:
 
-Fixes: 138badbc21a0 ("net: macb: use NAPI for TX completion path")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
----
- drivers/net/ethernet/cadence/macb_main.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+- Patch 3 changes the IER write in macb_tx_poll() that I need a readl 
+after. The write
+   is posted, a TCOMP landing between the ring check and the write 
+reaching the MAC is
+   lost. That seems to be the RP1 stall, masking TXUBR does not change 
+it.
+   The two patches need ordering.
 
-diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
-index 97494933eb1e..14c8299cb7f3 100644
---- a/drivers/net/ethernet/cadence/macb_main.c
-+++ b/drivers/net/ethernet/cadence/macb_main.c
-@@ -1979,7 +1979,7 @@ static int macb_tx_poll(struct napi_struct *napi, int budget)
- 		    (unsigned int)(queue - bp->queues), work_done, budget);
- 
- 	if (work_done < budget && napi_complete_done(napi, work_done)) {
--		queue_writel(queue, IER, MACB_BIT(TCOMP));
-+		queue_writel(queue, IER, MACB_BIT(TCOMP) | MACB_BIT(TXUBR));
- 
- 		/* Packet completions only seem to propagate to raise
- 		 * interrupts when interrupts are enabled at the time, so if
-@@ -2174,7 +2174,8 @@ static irqreturn_t macb_interrupt(int irq, void *dev_id)
- 
- 		if (status & (MACB_BIT(TCOMP) |
- 			      MACB_BIT(TXUBR))) {
--			queue_writel(queue, IDR, MACB_BIT(TCOMP));
-+			queue_writel(queue, IDR, MACB_BIT(TCOMP) |
-+						 MACB_BIT(TXUBR));
- 			macb_queue_isr_clear(bp, queue, MACB_BIT(TCOMP) |
- 							MACB_BIT(TXUBR));
- 			if (status & MACB_BIT(TXUBR)) {
+- The watchdog only recovers a lost TSTART. With a missed completion 
+TBQP == tx_head and
+   macb_tx_restart() does nothing, the queue never comes back. I have a 
+patch that
+   schedules TX NAPI from macb_tx_timeout() when the tail descriptor has 
+TX_USED set.
 
--- 
-2.56.0
+- RP1 has a single TX queue, so the starvation from patch 6 is not what 
+we see.
 
+I can run the series on an RP1 board with my reproducer if that helps.
+
+[1] 
+https://github.com/raspberrypi/linux/issues/7661#issuecomment-6322904343
+
+> [...]
+
+Thanks,
+Nicolai
