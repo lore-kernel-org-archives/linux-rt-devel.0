@@ -1,64 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792661948;
-	b=l/pvto0zMfNqgcJ/uVwBhUoxnhHmUxX3xY8UVt5mc9vFC7gz2rM4qTtpX2m8cUA3bFCn
-	 sR3V5+vn8fTVpudT2q0pcmnetNXGk/McVHwG+Hs8tUWbzuciKFu7eDIsjezq5hhRl2Fv8
-	 HjFYA5UACV8gWl8zHM2R1BnW/ZAf9UjmlwrjDL3cEOV2jEydJJTUXerGaE3VV+KjReY59
-	 rygWgRomGTP5o81GUK3Eh/dVq+UNg2l0tRHjf2uWF2SFMdWC5iPr5c7xOE6Tf2t5MkWd3
-	 XvjkCZDzTc7i5LOlU2bU6/VuqyFSqUVIzXVLzkutQg1JFXIxcktqRLBmeDZyivFEuoA==
+	t=1792661951;
+	b=4dOjsVJ/0uac30s2NVURsPG2MEQoTupz3RvLjfMPoz6TDtrZ5ql8snlmqi6d5N8biduo
+	 npx5inNbyQ5HMxFJVqSIMSMMNxRq1WC6FulV4+stAqQ81SelYSMPnk8ZxV3I5oR26uIJD
+	 +ipqVDwjeh0X6F4WOjxTE9ZyRcJ+w+NKOfPL/GL8Dea8p6w5LOf5UYHsrb+cZLXIC2S5w
+	 PzfqnMxTRVKrKbZ6ZhNlMnHLU3PxjYOERBu7mj4IdO4yju4bUtmJqf28DQJfu8lV03mW2
+	 OUmGBoNQ1vXekxC9lSdbWDOdA8QU7K54GSegGe/alniVcBOoxt7z16vf0TTeIQftlvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792661948;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792661951;
 	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Rspamd-Queue-Id;
-	bh=DQQ6Ux9jXPPYVl3eL1qiITspn2MEQEJ2iHgUWM8g/LM=;
-	b=OBUoswKa43FLgfEKrrjYHziMciPECtvanTX1THphfGsgLGIJ3mSdFovyFO4yZ47CCYEj
-	 366ZAm0j7o7oTSCo0FKoQUW3+kui0B+0cm6pm8u+XS2dS7H0h8v3bR2Y1SYzIfdwpsQKO
-	 13vSI26xmF0m/hjj+8P/qT99TXFuCKwlR0UH22RahlKP0qupFXHTCDpeelOaaKaWhYPIe
-	 IG6DJhjg5CiC9DGEl56T3eeAmqk8qJBVzbDPUgSRgHI+5utQP16GFGekoJz/QfWeLIKxk
-	 7pwrmylR2xH2GP5ma5KvRUwICrNZNMZXEdzM7A+v0Ksa5dRp/8TYc5JZMWywsFON7kA==
+	bh=n8VLqU8X1/rvJlMP8QTqyuejzFMpUVHeeiGzG9y9yC8=;
+	b=dB/ngHBJULBwS6v7V/B0XfrNTkT/s0vycxoeE8oqXvBzQrsfgINA4HHmUPwv0bhUonmc
+	 qP9xBD6HJdkfjBAt2DBO1a3D/Vfpc1I+DS7PJDgzkcViQYNn0QYjuu0s/980fVoYajIsH
+	 Ej5enrJfR/yGsZHFtorT085kMOm9zE6K7iNfc3+Hp+25oNb5E6oRqTp8J+b+yintf18yt
+	 YTsu/HUl5oznEkE5qazv9shcaHChY0k6TGfmYsihJqfqoDxIUeMFJBnxmnRSEBaaeHz8F
+	 0fWBdQ6e6F6BrUgvgYvm4WRx1Rzv5pPjMczTZ4sp/ob7KKHxSm/o7FacpLiZSSYmBWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=steffen.cc;
 	spf=pass smtp.mailfrom=steffen.cc;
-	dkim=pass header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=UymfAfX9;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	dkim=pass header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=vnFKD6Zo;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F6C606A331
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 09:39:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0F6C606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C6760A261D
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Oct 2026 09:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69C6760A261D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=steffen.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=steffen.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=UymfAfX9
+	dkim=pass (2048-bit key, unprotected) header.d=steffen.cc header.i=@steffen.cc header.a=rsa-sha256 header.s=MBO0001 header.b=vnFKD6Zo
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4j9Lh82CL3zKn28;
-	Thu, 22 Oct 2026 11:39:04 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4j9Lh558qKz8v0b;
+	Thu, 22 Oct 2026 11:39:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001;
-	t=1792661944;
+	t=1792661941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DQQ6Ux9jXPPYVl3eL1qiITspn2MEQEJ2iHgUWM8g/LM=;
-	b=UymfAfX9PRzbKHIOEPe/VKBMbOH0baGrQoa6B9xchnZupYAkYr9RAX/JVh4EseZlkAV9z4
-	i7YyV+7XK8u9QhfMnPx8Yc/lsLWZnrPJd67dI9iLJIHsPHrh7HiPmziDAIzl0Y90EaenOB
-	nom3lTwZBJlbizxYu+Te+LhpeKpyju0qfOaT36QgO8nVTCe269M1ACwmTo4uV4mzuVPAp1
-	EMpMhMCExjNLXe+YCXtltHwBiaKerqrTTeAwqreDQrz4GJPP98YI8pLCWpbMrxe252DMEs
-	59bvoZFl0I4VJsG1EfWszJPlUaxHCe56kS4JfpImkiQvH2+7ZSg/N0r4phBkWA==
+	bh=n8VLqU8X1/rvJlMP8QTqyuejzFMpUVHeeiGzG9y9yC8=;
+	b=vnFKD6ZoZXIGOFHK4r+eYFOu5U8S1za/28aieN54KmhIDjzob0MeFMGcjieL5DKYaTz8MG
+	+tc5ksZVpwvMIrSoWEzHgphAnLrtWh8y2kLpOh83k0hqXXBkB5Za770LRPCBkDybUbBeaw
+	juB1SzZJVJxxX0rsgU15wQC3mHKlgalJeLZLf61lpzwNY4l9wAk8rE5CtS9OjaBLQbrqYR
+	d+dUJixtlkqB2PctOvkz/JYyNxwpaOUOrlHTwiSkRp0G9aJk6P2uNYq4yb8QOamSlCFg8E
+	sZ6jjAGJHXd3exFfktgiUb7u1n29RhntosvELNfQOci/KbIe6oDLNIvFPjCDlg==
 Authentication-Results: outgoing_mbo_mout;
 	dkim=none;
 	spf=pass (outgoing_mbo_mout: domain of lists@steffen.cc designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=lists@steffen.cc
 From: Steffen Dirkwinkel <lists@steffen.cc>
-Date: Thu, 22 Oct 2026 11:38:47 +0200
-Subject: [PATCH RFC net 2/6] net: macb: reprogram TBQP after shuffling the
- TX ring on link-up
+Date: Thu, 22 Oct 2026 11:38:46 +0200
+Subject: [PATCH RFC net 1/6] net: macb: take bp->lock around NCR
+ read-modify-writes
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -69,8 +69,8 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261022-std-macb-v14-send-v1-2-9187bc545bf6@beckhoff.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261022-std-macb-v14-send-v1-1-9187bc545bf6@beckhoff.com>
 References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
 In-Reply-To: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
 To: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
@@ -87,78 +87,112 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Nicolai Buchwitz <nb@tipi-net.de>, 
  Andrea della Porta <andrea.porta@suse.com>, stable@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792661936; l=2872;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792661936; l=3510;
  i=s.dirkwinkel@beckhoff.com; s=20260625; h=from:subject:message-id;
- bh=PVXdyWnGxC/U+cT1+etV6P/qyYxZAkjmK8bSnBlzMjM=;
- b=kGrSYFlMrLIcORqZZ7UPZaFYiwTWg0ekvlY8Sc8NpclG7BoxG6ZCvoDzUfwV/p+9DcW++/3XW
- Ac8pCcKPAU3AaYJ1Q7okRvv49oTE+lJDYYAZR7sF1oiggbWQKLRAsqV
+ bh=JAFcJ/X0rEVHNId3QslLF0CCZGplzoClBUV8j/p/9fk=;
+ b=mReO/ATBuedMrogAYTppWW+7skEJ++GIjWGJaR2eRPRENi46qDxSf7JZc+pdRtu/FuWpPYA1E
+ gO05pO+HB+WBxz0hnBa0TNHvzQMzKpDLVqRmLcCCzFGb80xR3bp/IGh
 X-Developer-Key: i=s.dirkwinkel@beckhoff.com; a=ed25519;
  pk=5DcsaSpVtmm7nCi3Bnw5A4vbXI+sg3hBgt8e2A2U/gw=
-X-Rspamd-Queue-Id: 4j9Lh82CL3zKn28
+X-Rspamd-Queue-Id: 4j9Lh558qKz8v0b
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+From: Théo Lebrun <theo.lebrun@bootlin.com>
 
-gem_shuffle_tx_one_ring() rotates the software TX ring so that the
-tail sits at index 0 and resets queue->tx_tail to 0, but it never
-reprograms the hardware transmit buffer queue pointer (TBQP). Other
-paths that reset tx_tail to the ring base (macb_init_buffers() and
-macb_tx_error_task()) also reprogram TBQP to queue->tx_ring_dma; this
-path does not, leaving TBQP pointing at a stale descriptor.
+NCR is read-modify-written from many contexts:
 
-gem_shuffle_tx_rings() runs on every link-up from
-macb_mac_link_up(). After a few link up/down flaps that leave
-un-completed descriptors in the ring, the stale TBQP keeps pointing at
-a descriptor whose used bit is set. When TX is re-enabled on link-up,
-the GEM reads that used descriptor and raises TXUBR. macb_interrupt()
-schedules the TX NAPI, macb_tx_poll() makes no progress (work_done ==
-0) and macb_tx_restart() re-issues TSTART, which makes the controller
-read the same used descriptor again and re-assert TXUBR. As the MAC
-interrupt is level-triggered, it never deasserts and one CPU is pegged
-at 100% in the threaded handler, eventually triggering "sched: RT
-throttling activated" and a dead network interface.
+ - macb_mac_link_down() clears RE|TE,
+ - macb_mac_link_up() sets RE|TE|PTPUNI,
+ - macb_hresp_error_task() clears then re-sets RE|TE,
+ - macb_start_xmit() / macb_tx_restart() / macb_tx_error_task() set
+   TSTART (already under bp->lock),
+ - macb_interrupt() might toggle RE (also under bp->lock).
 
-Fix it by reprogramming TBQP to the ring base on every path of
-gem_shuffle_tx_one_ring() that resets tx_tail to 0, mirroring
-macb_tx_error_task(). The early return for an already-aligned tail is
-left untouched as TBQP is already consistent there. This is safe
-because the shuffle runs from macb_mac_link_up() while TE is still
-disabled, so the transmitter is halted.
+The first three risk concurrent RMW with anyone from the list as they
+don't grab bp->lock.
 
-Fixes: 881a0263d502 ("net: macb: Shuffle the tx ring before enabling tx")
+Theoretical bugfix only, it has never reproduced on hardware. Also note
+it does *not* take the lock hoping to protect against full races
+inbetween BH scheduling concurrently. We only want to ensure consistent
+NCR RMW operations.
+
+Fixes: 7897b071ac3b ("net: macb: convert to phylink")
 Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
 ---
- drivers/net/ethernet/cadence/macb_main.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/cadence/macb_main.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
-index 4b5037867537..97494933eb1e 100644
+index 261a7e87520a..4b5037867537 100644
 --- a/drivers/net/ethernet/cadence/macb_main.c
 +++ b/drivers/net/ethernet/cadence/macb_main.c
-@@ -823,7 +823,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue *queue)
- 	if (!count) {
- 		queue->tx_head = 0;
- 		queue->tx_tail = 0;
--		goto unlock;
-+		goto reset_hw_ptr;
+@@ -777,6 +777,7 @@ static void macb_mac_link_down(struct phylink_config *config, unsigned int mode,
+ 	struct net_device *netdev = to_net_dev(config->dev);
+ 	struct macb *bp = netdev_priv(netdev);
+ 	struct macb_queue *queue;
++	unsigned long flags;
+ 	unsigned int q;
+ 	u32 ctrl;
+ 
+@@ -786,8 +787,10 @@ static void macb_mac_link_down(struct phylink_config *config, unsigned int mode,
+ 				     bp->rx_intr_mask | MACB_TX_INT_FLAGS | MACB_BIT(HRESP));
+ 
+ 	/* Disable Rx and Tx */
++	spin_lock_irqsave(&bp->lock, flags);
+ 	ctrl = macb_readl(bp, NCR) & ~(MACB_BIT(RE) | MACB_BIT(TE));
+ 	macb_writel(bp, NCR, ctrl);
++	spin_unlock_irqrestore(&bp->lock, flags);
+ 
+ 	netif_tx_stop_all_queues(netdev);
+ }
+@@ -940,11 +943,13 @@ static void macb_mac_link_up(struct phylink_config *config,
  	}
  
- 	shift = tail % ring_size;
-@@ -872,6 +872,13 @@ static void gem_shuffle_tx_one_ring(struct macb_queue *queue)
- 	/* Make descriptor updates visible to hardware */
- 	wmb();
+ 	/* Enable Rx and Tx; Enable PTP unicast */
++	spin_lock_irqsave(&bp->lock, flags);
+ 	ctrl = macb_readl(bp, NCR);
+ 	if (gem_has_ptp(bp))
+ 		ctrl |= MACB_BIT(PTPUNI);
  
-+reset_hw_ptr:
-+	/* tx_tail was reset to the ring base, so TBQP must be reprogrammed
-+	 * to match; otherwise it keeps pointing at a stale descriptor. Safe
-+	 * to write directly here as TX is still disabled (called from
-+	 * macb_mac_link_up() before TE is set).
-+	 */
-+	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
- unlock:
- 	spin_unlock_irqrestore(&queue->tx_ptr_lock, flags);
+ 	macb_writel(bp, NCR, ctrl | MACB_BIT(RE) | MACB_BIT(TE));
++	spin_unlock_irqrestore(&bp->lock, flags);
+ 
+ 	netif_tx_wake_all_queues(netdev);
  }
+@@ -1995,6 +2000,7 @@ static void macb_hresp_error_task(struct work_struct *work)
+ 	struct macb *bp = from_work(bp, work, hresp_err_bh_work);
+ 	struct net_device *netdev = bp->netdev;
+ 	struct macb_queue *queue;
++	unsigned long flags;
+ 	unsigned int q;
+ 	u32 ctrl;
+ 
+@@ -2003,9 +2009,11 @@ static void macb_hresp_error_task(struct work_struct *work)
+ 					 MACB_TX_INT_FLAGS |
+ 					 MACB_BIT(HRESP));
+ 	}
++	spin_lock_irqsave(&bp->lock, flags);
+ 	ctrl = macb_readl(bp, NCR);
+ 	ctrl &= ~(MACB_BIT(RE) | MACB_BIT(TE));
+ 	macb_writel(bp, NCR, ctrl);
++	spin_unlock_irqrestore(&bp->lock, flags);
+ 
+ 	netif_tx_stop_all_queues(netdev);
+ 	netif_carrier_off(netdev);
+@@ -2022,8 +2030,10 @@ static void macb_hresp_error_task(struct work_struct *work)
+ 			     MACB_TX_INT_FLAGS |
+ 			     MACB_BIT(HRESP));
+ 
+-	ctrl |= MACB_BIT(RE) | MACB_BIT(TE);
+-	macb_writel(bp, NCR, ctrl);
++	spin_lock_irqsave(&bp->lock, flags);
++	ctrl = MACB_BIT(RE) | MACB_BIT(TE);
++	macb_writel(bp, NCR, macb_readl(bp, NCR) | ctrl);
++	spin_unlock_irqrestore(&bp->lock, flags);
+ 
+ 	netif_carrier_on(netdev);
+ 	netif_tx_start_all_queues(netdev);
 
 -- 
 2.56.0
