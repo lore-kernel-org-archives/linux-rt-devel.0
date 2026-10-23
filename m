@@ -1,61 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792691193;
-	b=1VtJokvK82i29Qh0dp09P5ZsESPDuKJS5rDF5D3beZH7wC/pBFDej+mZaejl60D72Zjo
-	 69IewPgHzkqc6+XDdfeqtPkN/frJNJO9R+RjRuX4Xtou6vFM0hFTmRxYfev9jfn9bGx5U
-	 ByjIZtZVHuHRwIt/OaWG/mWGPJiixI0rvc1OvVIi+ENZ4E0t2CBfmhw3Kgtk8M/Ge7Q3B
-	 IFiRibNjDTzhm0i56el8W+CFfKSvB3Zc/KvbmaIWffoKNakTqe9xwFkCKuPy+VpxcSitw
-	 u3WQywehS0FpMJQzui03+AFpdYxlpWYUoLbyMFVbOBy9p6r+GmsL3IWBgA0WgxrsUeQ==
+	t=1792738998;
+	b=euHUWatbjSiDmHScpQuaMBjJIQCi3pRTBpFDhloZkfQICX7PXTYMfHcmnRMQA/gepygr
+	 RWb4Ct69ymPewXKmeiMyRWY2GrofTdmtwgXZsi9hlaGPGT3jLZdSDTnZFB3/PqJEfDxxZ
+	 DrdLCPb/KYN961VLfXrgJFyZUL1l/84Z8FlDxYZvs2NWMRDjSPRNtda29wekI7fs56Ghc
+	 DG4RWu7CgsmdH9Zui5EYFvRdSzrDW8RwzBbnRuPgqM6zpg2eN/LfWFK1wjyfwoZSKmGOu
+	 K2kpLMyAeYM9kNN5qQv221rupET/3SXOJy6Fxv45C6yoQKCoWXK3qbejCagizgY3TMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792691193;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=RN1roBnXGHM2RUIZqsOiBG/dxCptL71UAyh6p8TcQBA=;
-	b=SGVZKISAwxDTma8NOCCFW3zpAneUhzwTy3EcvCGVMMinxY/Cp/xWwD8qIu08V2/DTJAf
-	 M9SnIO+g0yLa4sTKw4u1IaVimT/e29Pgu/hBcLRvr5wpux0RCc/KJ/ciikSSkAv2vTtYB
-	 o9FAcTc7TkklNnmp0NGFBB8+jaHPaaq+uThWr4XoGhdh4OjpecfKmPwBRku27/2fPfUcD
-	 lHr1qiVmJCAMA1M6Wx3+aEfZcZO+uhP1KXRngZox9kzQpyBIrS0hWzngR5n5BuDhDwEK0
-	 A37mIfbCh/smX9N3/FlT7vQNZiOkH/iJDg2F5JkJthPOKkTNTRg5Zp+IvBo0RQcoRyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792738998;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:X-Scanned-By:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Transfer-Encoding:content-type;
+	bh=AmfJDAjkugxPQ6TZZdNY6FdOTzwxxq33jzmqfI3RYJU=;
+	b=OE8qXy9URfeDEHSf4NLzCG1DqYY6E9HBlPk2v1gSJsWj3gXazuTlxmy+Vmxe7HFr9fKl
+	 w4trt6aqIpxU54gp5CQx+I7nQ68SQ0Tu2saTFcTqBnDEXkxXWJxIItGh6vJy8k33aZ/NM
+	 7hchpjlNmApX9/fD6ggDK4Q/S86mkOjmthkfFogzi/0bDS29U38BldhyfiMUO0MKhXkk+
+	 Bc2QX/DAvqZobXAfmyOXMtBYcBP9aTEB9EQTXNe5lApKcwyCH9oN2SAXoS2/vBmqVjTah
+	 YOpwnMCqjF+BG9RyMBE1hhqg18K8ruI5H0lmkMPQRmPPnCQuktZuDOJTt7zFntlvXEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O+KSrfRF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cjGl2JQW;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9858F606A319;
-	Thu, 22 Oct 2026 17:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D1E606A31A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 07:03:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27D1E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O+KSrfRF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C18C11F01825;
-	Thu, 22 Oct 2026 17:46:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792691193;
-	bh=RN1roBnXGHM2RUIZqsOiBG/dxCptL71UAyh6p8TcQBA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=O+KSrfRF3uctHI9NPm2SH/1HZi2ZQzfYWRpILKCbF2c+/Q5vG/euq5rH4PzgLpaYL
-	 Ilh2P4kxtFtGGeMkjMTATdVBXAfFoMXmfgOaWtlkSu4EUhLpZv2qcz0DiXTY86n4Bq
-	 DWSvuK+f6ca825pfR2EfK0HFXfUNmI4oQ6a2jpKAh7y5k75YbFpG1sfGRjrZm80lJ4
-	 XqDp9b2FNMlE9KmTQWv9YaaRTsMy/UxairqYjQIOLFoZ5C6Ua3to32hUeatDufzwAV
-	 zb4ozOLbHJikIKdF7ulMooMD0KCA/4JDv8Wp1mq2vS4OZw5w1mwfp3D3ifblGrECI9
-	 mGukJHIhzQnpQ==
-Subject:
- Re: [PATCH net v6] net: schedule a purge when the defer queue rejects a free
-From: netdev-bot+sashiko@kernel.org
-To: jkain@nuro.ai
-Cc: netdev@vger.kernel.org, edumazet@kernel.org, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, kuniyu@google.com,
- kerneljasonxing@gmail.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, linux-rt-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Thu, 22 Oct 2026 17:46:32 +0000
-Message-ID: <179269119233.3135.4255107020079411339@kernel.org>
-In-Reply-To: <20261019174400.1377093-1-jkain@nuro.ai>
-References: <20261019174400.1377093-1-jkain@nuro.ai>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cjGl2JQW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792738996;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AmfJDAjkugxPQ6TZZdNY6FdOTzwxxq33jzmqfI3RYJU=;
+	b=cjGl2JQWZh36gXCqf8qSgs6mpx9ixB5G0ZYHx9rSLdGwB4zxrUhx+Z+3GHNXweqSuaLbHP
+	tTT4uz4ydTD8Yu8gP+ThCi9fPKFLAigtod/KoMcZD9St1OfyTeS9CfyOZgzJnoPb6p2YKS
+	hXkiG93pyov8rGlkTmwwmO8I3V6lajk=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-94-ajkdnhQkPMC7JQNKU9NkXg-1; Fri,
+ 23 Oct 2026 03:03:12 -0400
+X-MC-Unique: ajkdnhQkPMC7JQNKU9NkXg-1
+X-Mimecast-MFC-AGG-ID: ajkdnhQkPMC7JQNKU9NkXg_1792738989
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5DE151956052;
+	Fri, 23 Oct 2026 07:03:09 +0000 (UTC)
+Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.32.22])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3A6101800347;
+	Fri, 23 Oct 2026 07:03:03 +0000 (UTC)
+From: Petr Oros <poros@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Petr Oros <poros@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Mateusz Palczewski <mateusz.palczewski@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Rafal Rogalski <rafalx.rogalski@intel.com>,
+	Shiraz Saleem <shiraz.saleem@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	intel-wired-lan@lists.osuosl.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH iwl-net v2 0/5] ice: fix RTNL vs auxiliary device lock inversion
+Date: Fri, 23 Oct 2026 09:02:52 +0200
+Message-ID: <20261023070258.730168-1-poros@redhat.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -65,215 +93,100 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: c52Ybvi9sA6A36x_-h0WBDzGxsXzRfrz8YK4BRS14-U_1792738989
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+ice takes the auxiliary device lock of its RDMA auxiliary device from
+three places that run with the RTNL lock held. The RDMA auxiliary probe
+takes the two in the opposite order, because __driver_attach() holds the
+auxiliary device lock across ib_register_device(), which needs the RTNL
+lock. The result is a hard deadlock of everything that needs the RTNL
+lock, so the boot never completes:
 
-Critical: 0 · High: 1 · Medium: 1 · Low: 0 (1)
+  systemd-udevd   state:D
+    really_probe                  <- holds device_lock(&adev->dev)
+    icrdma_probe
+    irdma_ib_register_device
+    ib_register_device
+    setup_device
+    irdma_roce_port_immutable
+    ib_query_port
+    irdma_query_port
+    ib_get_eth_speed              <- blocks on rtnl_lock()
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+  lldpad          state:D
+    rtnetlink_rcv_msg             <- holds rtnl_lock()
+    dcb_doit
+    dcbnl_ieee_set
+    ice_dcbnl_setets
+    ice_pf_dcb_cfg
+    ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
 
-- [High] The patch does not remove the absorbing state that its commit
-  message names in its first sentence (defer_count at or above…
-- [Medium] skb_attempt_defer_free() (net/core/skbuff.c:7399-7400) now
-  calls kick_defer_list_purge(cpu) on every rejected deferred free while…
+Lockdep cannot flag it, because device_initialize() marks dev->mutex
+with lockdep_set_novalidate_class(). A PREEMPT_RT kernel with
+CONFIG_DEBUG_RT_MUTEXES reports "rtmutex deadlock detected" instead.
 
-Pre-existing issues:
-- [Low] Documentation/admin-guide/sysctl/net.rst (lines 362-368)
-  describes skb_defer_max as the 'Max size (in skbs) of the per-cpu…
+The probe side cannot be changed, so the three ice callers use
+device_trylock() and refuse the operation with -EBUSY when the driver
+core holds the lock. Patches 1 and 2 are new in v2 and fix two separate
+problems on the same sites, the auxiliary device pointer was tested
+before pf->adev_mutex was taken, and ndo_setup_tc() took pf->adev_mutex
+before pf->tc_mutex while the dcbnl handlers take them the other way
+round. Patch 3 keeps the locks across the whole DCB reconfiguration so
+that BEFORE_TC_CHANGE and AFTER_TC_CHANGE are either both delivered or
+the request is refused before anything changes, and re-arms the service
+task events. Patches 4 and 5 turn the remaining two locks into trylocks.
 
---
+The proper fix is provider-owned registration as in i40e and mlx5, which
+makes the inversion impossible by construction. That is a net-next change
+across ice, irdma and iidc_rdma.h, this series is the backportable part.
 
-net: schedule a purge when the defer queue rejects a free
+Tested on an E810-XXV with two PFs, irdma bound to both auxiliary
+devices, on net tip commit 191aa41548b2d2 ("MAINTAINERS: add Bobby
+Eshleman as vsock reviewer") with and without this series. A reproducer
+binds the irdma auxiliary driver while driving one of the three RTNL
+held callers into the probe window:
 
-This patch makes skb_attempt_defer_free() call kick_defer_list_purge()
-when a deferred free is rejected and the defer_list is not empty. It also
-changes the limit test from >= to >, so the effective limit becomes
-skb_defer_max. Finally, __skb_defer_free_flush() now drains the list
-before zeroing defer_count, so that defer_count no longer stays above
-skb_defer_max while the defer_list is empty.
+                        without the series   with the series
+  ethtool set_channels  deadlock 10/10       0/10, window entered 300x
+  ndo_setup_tc mqprio   deadlock             0/10, window entered 50x
+  dcbnl ets set         deadlock             0/10, window entered 30x
 
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index e76762e29360..a5912b728ddd 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -6940,8 +6940,11 @@ static void __skb_defer_free_flush(struct skb_defer_node *sdn, int budget)
->  
->  	if (llist_empty(&sdn->defer_list))
->  		return;
-> -	atomic_long_set(&sdn->defer_count, 0);
->  	free_list = llist_del_all(&sdn->defer_list);
-> +	/* Racy on purpose, as in __dev_xmit_skb(): a producer landing between
-> +	 * the del_all and this store stays queued but uncounted.
-> +	 */
-> +	atomic_long_set(&sdn->defer_count, 0);
+A window entry is a contended device_trylock(), so each one used to
+close the cycle. 25 reboots on the patched kernel were clean.
 
-[Severity: Low]
-This is a pre-existing issue, but the commit message says the new > test
-matches "what Documentation/admin-guide/sysctl/net.rst describes". The
-net.rst text is:
+Changes since v1:
+- new patch 1 for the auxiliary device pointer race
+- new patch 2 for the pf->tc_mutex order in ndo_setup_tc()
+- patch 3 holds the auxiliary device locks across the whole DCB
+  reconfiguration and sends AFTER_TC_CHANGE under them instead of
+  dropping it when the lock is contended, and takes the locks before it
+  consumes pf->oicr_err_reg in the service task
+- patch 5 warns instead of netdev_dbg(), the qdisc teardown ignores the
+  return value
 
-    Max size (in skbs) of the per-cpu list of skbs being freed
-    by the cpu which allocated them.
+Link to v1:
+https://lore.kernel.org/all/20261019065301.3983537-1-poros@redhat.com/
 
-skb_attempt_defer_free() actually enforces the limit per (owner cpu,
-producer node):
+Petr Oros (5):
+  ice: check the auxiliary device pointer under adev_mutex
+  ice: take tc_mutex before the auxiliary device locks in ndo_setup_tc
+  ice: avoid RTNL deadlock when notifying the RDMA auxiliary driver
+  ice: do not block on the aux device lock in ethtool set_channels
+  ice: do not block on the aux device lock in ndo_setup_tc
 
-    sdn = per_cpu_ptr(net_hotdata.skb_defer_nodes, cpu) + cpu_to_node(my_cpu);
+ drivers/net/ethernet/intel/ice/ice_dcb_lib.c | 46 ++++++++++++++++---
+ drivers/net/ethernet/intel/ice/ice_ethtool.c | 26 +++++++----
+ drivers/net/ethernet/intel/ice/ice_idc.c     | 48 ++++++++++++++++----
+ drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +
+ drivers/net/ethernet/intel/ice/ice_main.c    | 47 +++++++++++++------
+ 5 files changed, 130 insertions(+), 39 deletions(-)
 
-net.rst also doesn't say that 0 disables the feature through
-skb_defer_disable_key in proc_do_skb_defer_max().
 
-Should net.rst be updated to describe the per-node scope and what 0
-means?
-
-With the new ordering, a producer that calls llist_add() between
-llist_del_all() and atomic_long_set() stays queued but uncounted. A list
-can then go a few skbs past skb_defer_max. The old clear-then-drain order
-allowed the same thing (increment before the clear, llist_add() after
-the del_all). The new order only makes that window slightly larger, and
-the new comment marks it as intentional.
-
->  
->  	llist_for_each_entry_safe(skb, next, free_list, ll_node) {
->  		prefetch(next);
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 41beaf625421..596f99811bac 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -7392,8 +7392,14 @@ nodefer:	kfree_skb_napi_cache(skb);
->  	defer_max = READ_ONCE(net_hotdata.sysctl_skb_defer_max);
->  	defer_count = atomic_long_inc_return(&sdn->defer_count);
->  
-> -	if (defer_count >= defer_max)
-> +	if (unlikely(defer_count > defer_max)) {
-> +		/* The kept increment only comes back down when a flush zeroes
-> +		 * it, and this is the one path that sees a full queue.
-> +		 */
-> +		if (!llist_empty(&sdn->defer_list))
-> +			kick_defer_list_purge(cpu);
-
-[Severity: High]
-Can defer_count still get stuck above skb_defer_max while the
-defer_list is empty?
-
-This path only kicks when the list is not empty. The only reset of
-defer_count is in __skb_defer_free_flush(), and that function returns
-before the reset when the list is empty:
-
-net/core/dev.c:__skb_defer_free_flush() {
-    if (llist_empty(&sdn->defer_list))
-        return;
-    free_list = llist_del_all(&sdn->defer_list);
-    ...
-    atomic_long_set(&sdn->defer_count, 0);
-    ...
-}
-
-So an increment that is rejected while the list is empty never triggers
-a kick and is never cleared.
-
-The Fixes: tag targets the 6.18 to 7.0 trees, which don't have
-skb_defer_disable_key. There, net.core.skb_defer_max=0 seems to lead to
-this sequence:
-
-  - the first reject sees a non-empty list and kicks
-  - the flush empties the list and sets defer_count to 0
-  - every later cross-CPU free increments, rejects (count > 0), finds
-    the list empty, and sends no kick
-
-defer_count then grows without bound. Restoring 128 leaves it far above
-128 with an empty list. That is the same "setting 0 and restoring the
-previous value" case the commit message describes.
-
-On mainline, proc_do_skb_defer_max() stores the new value before the
-static key changes:
-
-net/core/sysctl_net_core.c:proc_do_skb_defer_max() {
-    ...
-    ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-    nval = !net_hotdata.sysctl_skb_defer_max;
-
-    if (nval != oval) {
-        if (nval)
-            static_branch_enable(&skb_defer_disable_key);
-    ...
-}
-
-Producers that run between that store and static_branch_enable() taking
-effect can read defer_max == 0 and raise the counter while the list is
-empty. If a limit at or below the stranded count is then restored (for
-example 0 followed by 1), would that latch in the same way?
-
-If so, the claims "From v7.1 on, 0 is safe" and "The reject-path kick
-recovers both" don't seem to hold. Some possible fixes:
-
-  - undo the increment on reject
-  - reset the counter, and kick, even when the list is empty
-  - have proc_do_skb_defer_max() reset the counters or schedule flushes
-
-Would one of these work?
-
-[Severity: Medium]
-Does this add a remote lock or a remote cmpxchg to every rejected free
-while the list is full?
-
-Before this patch, a reject only called kfree_skb_napi_cache(). Now every
-reject with a non-empty list calls kick_defer_list_purge(). The commit
-message says:
-
-  kick_defer_list_purge() already coalesces through
-  sd->defer_ipi_scheduled, so a burst of rejects costs one IPI.
-
-When use_backlog_threads() is true, defer_ipi_scheduled is not used at
-all. That is always the case on PREEMPT_RT, or with thread_backlog_napi
-on the command line. The remote lock is also taken before
-NAPI_STATE_SCHED is tested:
-
-net/core/dev.c:kick_defer_list_purge() {
-    if (use_backlog_threads()) {
-        backlog_lock_irq_save(sd, &flags);
-
-        if (!__test_and_set_bit(NAPI_STATE_SCHED, &sd->backlog.state))
-            __napi_schedule_irqoff(&sd->backlog);
-
-        backlog_unlock_irq_restore(sd, flags);
-    } else if (!cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
-    ...
-}
-
-Every over-limit cross-CPU free (napi_consume_skb() on TX completion,
-tcp_eat_recv_skb(), skb_consume_udp()) would then take the owner CPU's
-sd->input_pkt_queue.lock with IRQs disabled, until that CPU's backlog
-thread flushes. enqueue_to_backlog() and process_backlog() on the owner
-CPU use the same lock.
-
-In IPI mode, every reject does a cmpxchg on the remote
-sd->defer_ipi_scheduled. trigger_rx_softirq() clears the flag before the
-flush runs:
-
-net/core/dev.c:trigger_rx_softirq() {
-    __raise_softirq_irqoff(NET_RX_SOFTIRQ);
-    smp_store_release(&sd->defer_ipi_scheduled, 0);
-}
-
-When threadirqs or ksoftirqd defers NET_RX, each reject in that gap
-would send another IPI.
-
-The notes below the cut line report about 756k kicks over about 750k
-skb_attempt_defer_free() calls at skb_defer_max=1. That looks like one
-kick per call rather than one per burst. Was the cost on PREEMPT_RT
-measured?
-
->  		goto nodefer;
-> +	}
->  
->  	llist_add(&skb->ll_node, &sdn->defer_list);
->
-
+base-commit: 07bd391eb9572e74f073c49acef327611234f9bb
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261019174400.1377093-1-jkain%40nuro.ai
+2.56.0
+
