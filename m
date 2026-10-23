@@ -1,93 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792739024;
-	b=A4Ez2DlpVEYFZCaweQqd+HlGWaiY1UW79lrP/nEkq7COh0v282oXPMdm6fwEYcGX7Y5l
-	 SgCWOWYouStgdyJ6R70Z+qt/Q+peHrzA/4z4LVWgVi9S7AGevNSb8pjp4rsouSmJdXZkQ
-	 3jdeHdjjaU8n0s0Mq19wffMZRtA9uknIcn0t/FutWYs9YALK1sRGPyJOjtaj13zZgS3ev
-	 +eVlaWMBfax3Hi7uGXtY7lSduTgt6n3/GpqSk+i13cXNcNYb2FnPTn6/cJpEI8nTHDqyM
-	 0sQjzjDox84xrxzFjK6HnMKeg01mYL+gA8r3qpb0nq6i3oyHaoG3EQPJ6HBzoTfE5Tg==
+	t=1792748358;
+	b=DFHEE9gJ7aZSbhu8UABR7ujzdIvUbDBrzlSlxIVk2KfZxExvTSO/aSR3zlFrlfocZkAu
+	 cfbjXMZQUUpRExrBy8zCSRkJlxw1Z/bsHyUaAfVOUG73wIkBGQ1NAtNfWcUB1eUzn7nLB
+	 kV2MlRuYCHU8M0o5G/7lWXGZhZk/6qqB14+BzQ5mLCguHBlj0H6skiFdPOdhRcS3z7Pad
+	 +BjMfVG2wv6zrHCvW9drtnqFLsy6/N+Kpid9MCQcbsxi40Z/P9rSyBivWxcypTfZRg752
+	 zclaEZgAtzWITcHyMsOr6HZXVIjU1xPcNjMjDPE9QTk1WCB8N0rbidLfkseB3LcHPjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792739024;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
-	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Transfer-Encoding:content-type;
-	bh=5VmmDXq4OzoNj3hj8BcuC3rJKucr2wP7gcadVhT2RHM=;
-	b=X8PQz6JJv1SqOvfqKU40v9/jwedq6/3aCaOdnzZLA4BhIoF0INV2del8RE4XZviyv9Aq
-	 LO4Lya/pfXeWHHkvyr+H0oDqjt6/nuDgUhAw/v/CZX1snrpVY2Ks+YdCylsx9lnjAYH4o
-	 WIH/Or+sCEjDVdVd4FQPUSeNfzkFiUAIZhjUoK7QmjDZp/Vy2j8dlCzg0NGmuW2/HO6h3
-	 1AZHP/fTY9mwAC+Br7caZMBxMTGsc5gpWd084htWfIvvS8EmCBjhgeVV03h7uPI+BegO+
-	 AfUQ+a+dOgONhuuxMxfSPhopUDDImpVEh5mhZ7krsnYmI9v0/kZqaQiFNwY5eNl9ZaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792748358;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=4tf90m9jG5eMljEYtnk9jbkUFR0mOTT0OPUqGGC0+2g=;
+	b=2EA7oR2kx03UeHTa/k7K4Usf2kLSs37cG1b8UVApRI1/cQ+dWFlXgIeqHRaU6GaiwWo2
+	 ZlBBvm1kpa1Z4EflASFpWnOdgkUkFO3b29kpXdjWGwCCVeZVaJrSbYuYktF8k6IuJLaZI
+	 exv4b/M8b/9s1E6luLEbRBTkG0KaV2IRtOQDjbEVoOLFrbaEXEP99EVdsGeSkjIzmnC6U
+	 PjVPjAdDLMreYVoEFMlOB75pqgsRslfD4Kqmpbwqi6tjdcuqQbWzhQp6fQAHzDCHX5WIW
+	 rwZC6mg0XVwFrxzlMGBTLApopyLGh9vlls2MlFCz31NiKVIkEcMNcjtgkBv2RIM43XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JGQLpkuv;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dK/vWTv/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5241A60A3824
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 07:03:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5241A60A3824
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ED8606A32D;
+	Fri, 23 Oct 2026 09:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JGQLpkuv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792739023;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5VmmDXq4OzoNj3hj8BcuC3rJKucr2wP7gcadVhT2RHM=;
-	b=JGQLpkuvdTQrnEl8ZlNFRI4EKmm+z2ivm1+IRqQjt8ZTDiJFLEv7XlNgFz6EG3Mw23NL+j
-	b/Vc0FfYlHcwOFUnap6rVUJ46cJbgJk4ZtjNofzecSUBzN7pnsGQ1b/SxzE3d1Bi0QxKaN
-	h9ZjWiQp9VlpnKxrtOTDEvuccDPWP8g=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-6dwtmr-BPEaaGiperbAeJA-1; Fri,
- 23 Oct 2026 03:03:39 -0400
-X-MC-Unique: 6dwtmr-BPEaaGiperbAeJA-1
-X-Mimecast-MFC-AGG-ID: 6dwtmr-BPEaaGiperbAeJA_1792739017
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1631A1956053;
-	Fri, 23 Oct 2026 07:03:37 +0000 (UTC)
-Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.32.22])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C4BB11800347;
-	Fri, 23 Oct 2026 07:03:31 +0000 (UTC)
-From: Petr Oros <poros@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Petr Oros <poros@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Mateusz Palczewski <mateusz.palczewski@intel.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Rafal Rogalski <rafalx.rogalski@intel.com>,
-	Shiraz Saleem <shiraz.saleem@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH iwl-net v2 5/5] ice: do not block on the aux device lock in ndo_setup_tc
-Date: Fri, 23 Oct 2026 09:02:57 +0200
-Message-ID: <20261023070258.730168-6-poros@redhat.com>
-In-Reply-To: <20261023070258.730168-1-poros@redhat.com>
-References: <20261023070258.730168-1-poros@redhat.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dK/vWTv/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB451F01829;
+	Fri, 23 Oct 2026 09:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792748357;
+	bh=4tf90m9jG5eMljEYtnk9jbkUFR0mOTT0OPUqGGC0+2g=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dK/vWTv/SAR/e14ze+NhyRR/ReYun9CIL8eD2Oy5sJVpP3Z030bykKASSCELK9srv
+	 tKmwzPRyRt2Rgyxd35gFjoOrOBnhPAKSRJ2VpVqdK4QpwQxT6HBGh1d3cNIgMNuL20
+	 D2OYSK/dxQpfOdTRO+SBrfZ0Ua505eOYrcKit6tCXOzfVSDekiX+A2FGNIsR1m45fa
+	 oLqUoLJ2BAGbxrIikfcMDj4WgGuVCkR3CBJAeY8oJGt6/bJoKWEpdvv7WoQS36/H5n
+	 xCH1NqlwgRler+zymp3YZUVSddbC3dJKQolYWO7Po4EvdRJGbiZuYNIoK6+1rhqXnN
+	 PxiwhiJohdPvQ==
+Message-ID: <sashiko-outbox-182612@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC net 2/6] net: macb: reprogram TBQP after shuffling
+ the TX ring on link-up
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Steffen Dirkwinkel" <lists@steffen.cc>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20261022-std-macb-v14-send-v1-2-9187bc545bf6@beckhoff.com>
+References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
+ <20261022-std-macb-v14-send-v1-2-9187bc545bf6@beckhoff.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 09:39:17 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -96,65 +60,113 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: J2Ft_vaJux1YQGVPlpqA-GP2XCyKFCUiy-mtJg4KfxY_1792739017
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 
-The TC_SETUP_QDISC_MQPRIO path of ice_setup_tc() takes the auxiliary
-device lock to test whether the RDMA driver is bound, and ndo_setup_tc()
-runs with the RTNL lock held. This closes the same cycle against the
-RDMA auxiliary probe as the two preceding patches.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] net: macb: missing TX_USED bit on desc 0 in gem_shuffle_tx_one_rin=
+g()
+--
 
-Use device_trylock() and report the device as busy when it fails. When
-the qdisc is added, userspace gets -EBUSY and can retry. When it is
-deleted, mqprio_disable_offload() ignores the return value, so the
-hardware traffic classes and the channel VSIs stay in place until a
-later qdisc teardown gets through, the same as the existing -EBUSY for
-a bound RDMA driver. The message is a netdev_warn() because of that
-second case, nothing else reports it.
+commit ded0ab42c83afe9d93d9bc6c0ab9623a1dc038f5
+Author: Christian Taedcke <christian.taedcke@weidmueller.com>
 
-Fixes: 4b31fd4d77ff ("ice: Fix RDMA VSI removal during queue rebuild")
-Signed-off-by: Petr Oros <poros@redhat.com>
----
-v2:
-- rebased on the new patches 1 and 2
-- netdev_warn() instead of netdev_dbg(), the qdisc teardown cannot
-  retry and ignores the return value
+net: macb: reprogram TBQP after shuffling the TX ring on link-up
 
-v1: https://lore.kernel.org/all/20261019065301.3983537-4-poros@redhat.com/
----
- drivers/net/ethernet/intel/ice/ice_main.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+This commit reprograms the hardware transmit buffer queue pointer (TBQP) to
+queue->tx_ring_dma in gem_shuffle_tx_one_ring() whenever tx_tail is reset to
+0 during link-up, preventing TBQP from pointing at a stale descriptor.
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index 9de375f5c4deb5..7eb653a7ebacd5 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -9451,7 +9451,12 @@ ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
- 			mutex_lock(&pf->adev_mutex);
- 			adev = cdev->adev;
- 			if (adev) {
--				device_lock(&adev->dev);
-+				if (!device_trylock(&adev->dev)) {
-+					mutex_unlock(&pf->adev_mutex);
-+					netdev_warn(netdev, "RDMA auxiliary device is busy, qdisc not changed\n");
-+					err = -EBUSY;
-+					goto tc_unlock;
-+				}
- 				locked = true;
- 				if (adev->dev.driver) {
- 					netdev_err(netdev, "Cannot change qdisc when RDMA is active\n");
-@@ -9471,6 +9476,7 @@ ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
- 			device_unlock(&adev->dev);
- 			mutex_unlock(&pf->adev_mutex);
- 		}
-+tc_unlock:
- 		mutex_unlock(&pf->tc_mutex);
- 		return err;
- 	case TC_SETUP_QDISC_ETF:
--- 
-2.56.0
+> diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ether=
+net/cadence/macb_main.c
+> index 4b50378675378..97494933eb1ee 100644
+> --- a/drivers/net/ethernet/cadence/macb_main.c
+> +++ b/drivers/net/ethernet/cadence/macb_main.c
+> @@ -823,7 +823,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue=
+ *queue)
+>  	if (!count) {
+>  		queue->tx_head =3D 0;
+>  		queue->tx_tail =3D 0;
+> -		goto unlock;
+> +		goto reset_hw_ptr;
+>  	}
+> =20
+>  	shift =3D tail % ring_size;
+> @@ -872,6 +872,13 @@ static void gem_shuffle_tx_one_ring(struct macb_queu=
+e *queue)
+>  	/* Make descriptor updates visible to hardware */
+>  	wmb();
+> =20
+> +reset_hw_ptr:
+> +	/* tx_tail was reset to the ring base, so TBQP must be reprogrammed
+> +	 * to match; otherwise it keeps pointing at a stale descriptor. Safe
+> +	 * to write directly here as TX is still disabled (called from
+> +	 * macb_mac_link_up() before TE is set).
+> +	 */
+> +	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
 
+[Severity: High]
+When count is 0 and gem_shuffle_tx_one_ring() in
+drivers/net/ethernet/cadence/macb_main.c jumps from the !count branch to
+reset_hw_ptr without rotating the ring, is descriptor 0 guaranteed to have
+MACB_BIT(TX_USED) set before TBQP is reprogrammed to queue->tx_ring_dma?
+
+When a multi-descriptor frame (such as scatter-gather or segmentation
+offload) wraps around the end of tx_ring so that descriptor 0 is a non-first
+descriptor of that frame, macb_tx_map() clears MACB_BIT(TX_USED) on all
+descriptors of the frame and sets MACB_BIT(TX_USED) on the sentinel
+descriptor at tx_head. On frame completion, the hardware only sets
+MACB_BIT(TX_USED) on the first descriptor of the frame, and
+macb_tx_complete() unmaps the buffers without setting MACB_BIT(TX_USED) on
+the remaining descriptors:
+
+drivers/net/ethernet/cadence/macb_main.c:macb_tx_complete() {
+	...
+		/* TX_USED bit is only set by hardware on the very first buffer
+		 * descriptor of the transmitted frame.
+		 */
+		if (!(ctrl & MACB_BIT(TX_USED)))
+			break;
+	...
+}
+
+If the queue subsequently drains (count =3D=3D 0) at a non-zero ring index
+(tail % ring_size !=3D 0) before link-up, the TX_USED sentinel sits at
+desc[tail % ring_size] while desc[0]->ctrl still has TX_USED cleared and
+desc[0]->addr holds an unmapped dma address.
+
+Jumping to reset_hw_ptr points TBQP at desc[0] with TX_USED =3D=3D 0. If
+MACB_BIT(TSTART) is then written to NCR (for example when another queue
+transmits in macb_start_xmit() or when TSTART is kicked on link-up) before a
+new frame is mapped on this queue, can the controller read the stale unmapp=
+ed
+address in desc[0]->addr and advance TBQP past index 0 while tx_head and
+tx_tail remain 0?
+
+In comparison, macb_tx_error_task() marks descriptor 0 as used and issues a
+write barrier before writing TBQP:
+
+drivers/net/ethernet/cadence/macb_main.c:macb_tx_error_task() {
+	...
+	/* Set end of TX queue */
+	desc =3D macb_tx_desc(queue, 0);
+	macb_set_addr(bp, desc, 0);
+	desc->ctrl =3D MACB_BIT(TX_USED);
+
+	/* Make descriptor updates visible to hardware */
+	wmb();
+
+	/* Reinitialize the TX desc queue */
+	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
+	...
+}
+
+Should the !count path also set MACB_BIT(TX_USED) on descriptor 0 and call
+wmb() before reprogramming TBQP?
+
+>  unlock:
+>  	spin_unlock_irqrestore(&queue->tx_ptr_lock, flags);
+>  }
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-std-macb-v=
+14-send-v1-0-9187bc545bf6@beckhoff.com?part=3D2
