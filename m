@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792748358;
-	b=DFHEE9gJ7aZSbhu8UABR7ujzdIvUbDBrzlSlxIVk2KfZxExvTSO/aSR3zlFrlfocZkAu
-	 cfbjXMZQUUpRExrBy8zCSRkJlxw1Z/bsHyUaAfVOUG73wIkBGQ1NAtNfWcUB1eUzn7nLB
-	 kV2MlRuYCHU8M0o5G/7lWXGZhZk/6qqB14+BzQ5mLCguHBlj0H6skiFdPOdhRcS3z7Pad
-	 +BjMfVG2wv6zrHCvW9drtnqFLsy6/N+Kpid9MCQcbsxi40Z/P9rSyBivWxcypTfZRg752
-	 zclaEZgAtzWITcHyMsOr6HZXVIjU1xPcNjMjDPE9QTk1WCB8N0rbidLfkseB3LcHPjQ==
+	t=1792748359;
+	b=qDXcG3DpZjeDlh4JQOEOsmA22ngtqe4wu+Z6P+7q/BTDduP29LJRMMKSkcptibQAm5i1
+	 lf9376kOGn+IGyXT3xQpaiKYVp8PkFuOUw/O1g+d6tQ1VN9eovDVtLq7weiF/yvrmUiF+
+	 fSXwrNubkyQXBotal2nXJuhLNtpI34QqybQdsXq98aY/9MR+/AWvb6qtr/FLNqf4MIiqi
+	 6DaZRxADRJNeB0YPkCuWl4ggCOzAjGGkDxLPM+O1kO+TJkOma8U/Vs6hiCrmVr5w6udqm
+	 yg68JepeMEcY1XYBmJ3jY/FP1cWguOfK1QhOHeLosG2HUSgspBFGf6Ybc8HT9+XzVzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792748358;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792748359;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=4tf90m9jG5eMljEYtnk9jbkUFR0mOTT0OPUqGGC0+2g=;
-	b=2EA7oR2kx03UeHTa/k7K4Usf2kLSs37cG1b8UVApRI1/cQ+dWFlXgIeqHRaU6GaiwWo2
-	 ZlBBvm1kpa1Z4EflASFpWnOdgkUkFO3b29kpXdjWGwCCVeZVaJrSbYuYktF8k6IuJLaZI
-	 exv4b/M8b/9s1E6luLEbRBTkG0KaV2IRtOQDjbEVoOLFrbaEXEP99EVdsGeSkjIzmnC6U
-	 PjVPjAdDLMreYVoEFMlOB75pqgsRslfD4Kqmpbwqi6tjdcuqQbWzhQp6fQAHzDCHX5WIW
-	 rwZC6mg0XVwFrxzlMGBTLApopyLGh9vlls2MlFCz31NiKVIkEcMNcjtgkBv2RIM43XA==
+	bh=6IWJHyZ7u9fcny5kqPQ36kMf+/FUiOJV/SSQ0AoHVmQ=;
+	b=jeZDi32SHD9WiMdS7OYyzcqxJSyCyJIhIYnjpclksxO6ObSbbddgFWkFpzwGW3/ON6Bx
+	 GIkMQro0ZlqIf5Nhsn7z9BXjIhPfa/t7qpDDP+4mKYJByNxxw5aHKoDBeD8aM6m5creeU
+	 boYFVJRnHdoL58d5Y3onLfPne3k4S3btyH2HmYSN5YLU58Ckzcs0PYiBgqiN5cmVQ+MQ6
+	 03v+qVlLJ+DTxm1qTVs9u06XZhs5UyWt5MGg6C0EwlNgpv68oZG2Dysfb8s4TlUmUwAAs
+	 xJIwbsJiwo+B9VTKsx76y6ku8tZDZDd5fmYtGZ/KBdqC9wpmOQUevKehNA1oLxLpIxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dK/vWTv/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRszCCsm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ED8606A32D;
-	Fri, 23 Oct 2026 09:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0548606A32C;
+	Fri, 23 Oct 2026 09:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dK/vWTv/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB451F01829;
-	Fri, 23 Oct 2026 09:39:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRszCCsm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E741F031E1;
+	Fri, 23 Oct 2026 09:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792748357;
-	bh=4tf90m9jG5eMljEYtnk9jbkUFR0mOTT0OPUqGGC0+2g=;
+	s=k20260515; t=1792748358;
+	bh=6IWJHyZ7u9fcny5kqPQ36kMf+/FUiOJV/SSQ0AoHVmQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dK/vWTv/SAR/e14ze+NhyRR/ReYun9CIL8eD2Oy5sJVpP3Z030bykKASSCELK9srv
-	 tKmwzPRyRt2Rgyxd35gFjoOrOBnhPAKSRJ2VpVqdK4QpwQxT6HBGh1d3cNIgMNuL20
-	 D2OYSK/dxQpfOdTRO+SBrfZ0Ua505eOYrcKit6tCXOzfVSDekiX+A2FGNIsR1m45fa
-	 oLqUoLJ2BAGbxrIikfcMDj4WgGuVCkR3CBJAeY8oJGt6/bJoKWEpdvv7WoQS36/H5n
-	 xCH1NqlwgRler+zymp3YZUVSddbC3dJKQolYWO7Po4EvdRJGbiZuYNIoK6+1rhqXnN
-	 PxiwhiJohdPvQ==
-Message-ID: <sashiko-outbox-182612@kernel.org>
+	b=QRszCCsmAP8kSKJIZZngJA1wO7f/dM7M7e8sJAaEfWnIBwWjriFfFMccAYXNCJcHK
+	 GZGpdDq0ZTaBy5DBiggerksIz6QcOIbUNM7e8nw+ubUgpUOL0bLnJcSvbkNqb7IDfQ
+	 jMNjWcWFbgu2Bw0OsH2wNOw6vP1yBjDkN7vS1IzNl9cMxL7uQIWyNfnx0jRVGMxpAK
+	 RZ/v/vCeHZXMuj/FuE3wIEj2ZaHJbJVOqNpW9fSaBwHkph22W+b8QOzVb3v66Rv8Mg
+	 qvsG2h3Prm6wsJNkTOD10E94PPXxEG54Ip65HOnNw2QwBxHTkSMyvt3JQgKDaUDv2P
+	 X34aQH50QOXMw==
+Message-ID: <sashiko-outbox-182613@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC net 2/6] net: macb: reprogram TBQP after shuffling
- the TX ring on link-up
+Subject: Re: [PATCH RFC net 3/6] net: macb: mask TXUBR during TX NAPI poll
+ to prevent IRQ storms
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Steffen Dirkwinkel" <lists@steffen.cc>
 Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261022-std-macb-v14-send-v1-2-9187bc545bf6@beckhoff.com>
+In-Reply-To: <20261022-std-macb-v14-send-v1-3-9187bc545bf6@beckhoff.com>
 References: <20261022-std-macb-v14-send-v1-0-9187bc545bf6@beckhoff.com>
- <20261022-std-macb-v14-send-v1-2-9187bc545bf6@beckhoff.com>
+ <20261022-std-macb-v14-send-v1-3-9187bc545bf6@beckhoff.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Fri, 23 Oct 2026 09:39:17 +0000
@@ -61,112 +61,141 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] net: macb: missing TX_USED bit on desc 0 in gem_shuffle_tx_one_rin=
-g()
+- [High] net: macb: lost TXUBR event while masked in macb_tx_poll() stalls =
+TX queue
+- [Medium] net: macb: TXUBR left unmasked when macb_tx_poll() reschedules N=
+API
 --
 
-commit ded0ab42c83afe9d93d9bc6c0ab9623a1dc038f5
+commit a3dccad77456cfe6ddb20424831a548f63c5269b
 Author: Christian Taedcke <christian.taedcke@weidmueller.com>
 
-net: macb: reprogram TBQP after shuffling the TX ring on link-up
+net: macb: mask TXUBR during TX NAPI poll to prevent IRQ storms
 
-This commit reprograms the hardware transmit buffer queue pointer (TBQP) to
-queue->tx_ring_dma in gem_shuffle_tx_one_ring() whenever tx_tail is reset to
-0 during link-up, preventing TBQP from pointing at a stale descriptor.
+This commit updates macb_interrupt() to mask MACB_BIT(TXUBR) alongside
+MACB_BIT(TCOMP) when scheduling the TX NAPI poll, and updates macb_tx_poll()
+to re-enable both bits when NAPI completes.
 
 > diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ether=
 net/cadence/macb_main.c
-> index 4b50378675378..97494933eb1ee 100644
+> index 97494933eb1ee..14c8299cb7f37 100644
 > --- a/drivers/net/ethernet/cadence/macb_main.c
 > +++ b/drivers/net/ethernet/cadence/macb_main.c
-> @@ -823,7 +823,7 @@ static void gem_shuffle_tx_one_ring(struct macb_queue=
- *queue)
->  	if (!count) {
->  		queue->tx_head =3D 0;
->  		queue->tx_tail =3D 0;
-> -		goto unlock;
-> +		goto reset_hw_ptr;
->  	}
+> @@ -1979,7 +1979,7 @@ static int macb_tx_poll(struct napi_struct *napi, i=
+nt budget)
+>  		    (unsigned int)(queue - bp->queues), work_done, budget);
 > =20
->  	shift =3D tail % ring_size;
-> @@ -872,6 +872,13 @@ static void gem_shuffle_tx_one_ring(struct macb_queu=
-e *queue)
->  	/* Make descriptor updates visible to hardware */
->  	wmb();
+>  	if (work_done < budget && napi_complete_done(napi, work_done)) {
+> -		queue_writel(queue, IER, MACB_BIT(TCOMP));
+> +		queue_writel(queue, IER, MACB_BIT(TCOMP) | MACB_BIT(TXUBR));
 > =20
-> +reset_hw_ptr:
-> +	/* tx_tail was reset to the ring base, so TBQP must be reprogrammed
-> +	 * to match; otherwise it keeps pointing at a stale descriptor. Safe
-> +	 * to write directly here as TX is still disabled (called from
-> +	 * macb_mac_link_up() before TE is set).
-> +	 */
-> +	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
+>  		/* Packet completions only seem to propagate to raise
+>  		 * interrupts when interrupts are enabled at the time, so if
+
+[Severity: Medium]
+In drivers/net/ethernet/cadence/macb_main.c, when work_done < budget and
+napi_complete_done(napi, work_done) returns true, macb_tx_poll() writes
+MACB_BIT(TCOMP) | MACB_BIT(TXUBR) to IER to unmask both TX interrupt source=
+s.
+
+Immediately afterward, macb_tx_poll() checks macb_tx_complete_pending(queue)
+to handle packets that completed while interrupts were disabled:
+
+		if (macb_tx_complete_pending(queue)) {
+			queue_writel(queue, IDR, MACB_BIT(TCOMP));
+			macb_queue_isr_clear(bp, queue, MACB_BIT(TCOMP));
+			netdev_vdbg(bp->netdev, "TX poll: packets pending, reschedule\n");
+			napi_schedule(napi);
+		}
+
+Unlike macb_rx_poll(), which writes bp->rx_intr_mask to IER and then masks
+the same bp->rx_intr_mask in IDR when macb_rx_pending(queue) is true:
+
+		if (macb_rx_pending(queue)) {
+			queue_writel(queue, IDR, bp->rx_intr_mask);
+			macb_queue_isr_clear(bp, queue, MACB_BIT(RCOMP));
+			netdev_vdbg(bp->netdev, "poll: packets pending, reschedule\n");
+			napi_schedule(napi);
+		}
+
+should this reschedule block in macb_tx_poll() also write
+MACB_BIT(TCOMP) | MACB_BIT(TXUBR) to IDR and macb_queue_isr_clear() so that
+MACB_BIT(TXUBR) is not left unmasked while napi_tx is rescheduled and polli=
+ng?
+
+> @@ -2174,7 +2174,8 @@ static irqreturn_t macb_interrupt(int irq, void *de=
+v_id)
+> =20
+>  		if (status & (MACB_BIT(TCOMP) |
+>  			      MACB_BIT(TXUBR))) {
+> -			queue_writel(queue, IDR, MACB_BIT(TCOMP));
+> +			queue_writel(queue, IDR, MACB_BIT(TCOMP) |
+> +						 MACB_BIT(TXUBR));
+>  			macb_queue_isr_clear(bp, queue, MACB_BIT(TCOMP) |
+>  							MACB_BIT(TXUBR));
+>  			if (status & MACB_BIT(TXUBR)) {
 
 [Severity: High]
-When count is 0 and gem_shuffle_tx_one_ring() in
-drivers/net/ethernet/cadence/macb_main.c jumps from the !count branch to
-reset_hw_ptr without rotating the ring, is descriptor 0 guaranteed to have
-MACB_BIT(TX_USED) set before TBQP is reprogrammed to queue->tx_ring_dma?
+Can masking MACB_BIT(TXUBR) in macb_interrupt() cause a TXUBR halt event to
+be lost during NAPI polling, stalling the TX queue until macb_tx_timeout()
+fires?
 
-When a multi-descriptor frame (such as scatter-gather or segmentation
-offload) wraps around the end of tx_ring so that descriptor 0 is a non-first
-descriptor of that frame, macb_tx_map() clears MACB_BIT(TX_USED) on all
-descriptors of the frame and sets MACB_BIT(TX_USED) on the sentinel
-descriptor at tx_head. On frame completion, the hardware only sets
-MACB_BIT(TX_USED) on the first descriptor of the frame, and
-macb_tx_complete() unmaps the buffers without setting MACB_BIT(TX_USED) on
-the remaining descriptors:
+In drivers/net/ethernet/cadence/macb_main.c, when macb_interrupt() handles a
+normal TX completion where status only has MACB_BIT(TCOMP) set, it now writ=
+es
+MACB_BIT(TCOMP) | MACB_BIT(TXUBR) to IDR, masking TXUBR while
+queue->txubr_pending remains false, and schedules queue->napi_tx. Similarly,
+in macb_tx_poll(), queue->txubr_pending is cleared to false before calling
+macb_tx_restart() while TXUBR remains masked until napi_complete_done() (or
+across multiple polls when work_done =3D=3D budget):
 
-drivers/net/ethernet/cadence/macb_main.c:macb_tx_complete() {
-	...
-		/* TX_USED bit is only set by hardware on the very first buffer
-		 * descriptor of the transmitted frame.
-		 */
-		if (!(ctrl & MACB_BIT(TX_USED)))
-			break;
-	...
-}
+	rmb(); // ensure txubr_pending is up to date
+	if (queue->txubr_pending) {
+		queue->txubr_pending =3D false;
+		netdev_vdbg(bp->netdev, "poll: tx restart\n");
+		macb_tx_restart(queue);
+	}
 
-If the queue subsequently drains (count =3D=3D 0) at a non-zero ring index
-(tail % ring_size !=3D 0) before link-up, the TX_USED sentinel sits at
-desc[tail % ring_size] while desc[0]->ctrl still has TX_USED cleared and
-desc[0]->addr holds an unmapped dma address.
+When the transmitter reads a descriptor with MACB_BIT(TX_USED) set, it halt=
+s.
+As noted in the comments in macb_tx_poll() and macb_rx_poll() (and commits
+0bf476fc3624 and 1900e30d0ef7), events on this controller only propagate to
+raise interrupts if the corresponding interrupt bit is enabled at the moment
+the event occurs; re-enabling the bit in IER later does not raise an
+interrupt.
 
-Jumping to reset_hw_ptr points TBQP at desc[0] with TX_USED =3D=3D 0. If
-MACB_BIT(TSTART) is then written to NCR (for example when another queue
-transmits in macb_start_xmit() or when TSTART is kicked on link-up) before a
-new frame is mapped on this queue, can the controller read the stale unmapp=
-ed
-address in desc[0]->addr and advance TBQP past index 0 while tx_head and
-tx_tail remain 0?
+If the race between macb_start_xmit() updating descriptors and the controll=
+er
+reading MACB_BIT(TX_USED) (commit 4298388574da) happens while MACB_BIT(TXUB=
+R)
+is masked, the transmitter halts at the unsent descriptor (with TBQP !=3D
+tx_head) without latching MACB_BIT(TXUBR) in ISR, so queue->txubr_pending
+stays false.
 
-In comparison, macb_tx_error_task() marks descriptor 0 as used and issues a
-write barrier before writing TBQP:
+In macb_tx_poll(), macb_tx_complete() then reaps completed frames and stops=
+ at
+the unsent frame at queue->tx_tail (where MACB_BIT(TX_USED) is 0), and skips
+macb_tx_restart() because queue->txubr_pending is false. When
+napi_complete_done() succeeds and macb_tx_poll() writes
+MACB_BIT(TCOMP) | MACB_BIT(TXUBR) to IER, no interrupt is raised for the
+earlier TXUBR halt, and macb_tx_complete_pending(queue) returns false becau=
+se
+macb_tx_desc(queue, queue->tx_tail)->ctrl still has MACB_BIT(TX_USED) clear:
 
-drivers/net/ethernet/cadence/macb_main.c:macb_tx_error_task() {
-	...
-	/* Set end of TX queue */
-	desc =3D macb_tx_desc(queue, 0);
-	macb_set_addr(bp, desc, 0);
-	desc->ctrl =3D MACB_BIT(TX_USED);
+	if (queue->tx_head !=3D queue->tx_tail) {
+		/* Make hw descriptor updates visible to CPU */
+		rmb();
 
-	/* Make descriptor updates visible to hardware */
-	wmb();
+		if (macb_tx_desc(queue, queue->tx_tail)->ctrl & MACB_BIT(TX_USED))
+			retval =3D true;
+	}
 
-	/* Reinitialize the TX desc queue */
-	queue_writel(queue, TBQP, lower_32_bits(queue->tx_ring_dma));
-	...
-}
-
-Should the !count path also set MACB_BIT(TX_USED) on descriptor 0 and call
-wmb() before reprogramming TBQP?
-
->  unlock:
->  	spin_unlock_irqrestore(&queue->tx_ptr_lock, flags);
->  }
+Could NAPI then complete without calling macb_tx_restart(), leaving the
+transmitter halted with unsent frames in the ring until the netdev watchdog
+times out?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-std-macb-v=
-14-send-v1-0-9187bc545bf6@beckhoff.com?part=3D2
+14-send-v1-0-9187bc545bf6@beckhoff.com?part=3D3
