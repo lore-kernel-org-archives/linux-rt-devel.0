@@ -1,64 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792738998;
-	b=euHUWatbjSiDmHScpQuaMBjJIQCi3pRTBpFDhloZkfQICX7PXTYMfHcmnRMQA/gepygr
-	 RWb4Ct69ymPewXKmeiMyRWY2GrofTdmtwgXZsi9hlaGPGT3jLZdSDTnZFB3/PqJEfDxxZ
-	 DrdLCPb/KYN961VLfXrgJFyZUL1l/84Z8FlDxYZvs2NWMRDjSPRNtda29wekI7fs56Ghc
-	 DG4RWu7CgsmdH9Zui5EYFvRdSzrDW8RwzBbnRuPgqM6zpg2eN/LfWFK1wjyfwoZSKmGOu
-	 K2kpLMyAeYM9kNN5qQv221rupET/3SXOJy6Fxv45C6yoQKCoWXK3qbejCagizgY3TMQ==
+	t=1792739003;
+	b=DvrEzV/SQwCow89OQ/bCMbsvHG3ZK2yZeznXOTvqPR5OjpaFt8XE8/iCfKXCUEjrJ37z
+	 l8wVlKgBI2Imud8yxj2v4CI6QY0hw8TCUHHshQf8Zsu3UXUt+/jfQSQ14n01coyjPQjkg
+	 PNylarJfebG/nR6VFkSNbNKr0pGrtY9ncV1dX6/dY7P6avOAmUgyNKitANstCTB77vPUX
+	 5he9UJzwy6fddLL0cfAZI+uZJSqLP9/U04S9jn5KUVdlrUDMeIF8tgmGI0zH/HZGZ0uTD
+	 mP2rjFihs9rckvJE4O4IWxeFH3b0nIutawMUiYWEDDQyGz4aYlnOPc3IFyMiJ8VH3gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792738998;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792739003;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:MIME-Version:X-Scanned-By:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Transfer-Encoding:content-type;
-	bh=AmfJDAjkugxPQ6TZZdNY6FdOTzwxxq33jzmqfI3RYJU=;
-	b=OE8qXy9URfeDEHSf4NLzCG1DqYY6E9HBlPk2v1gSJsWj3gXazuTlxmy+Vmxe7HFr9fKl
-	 w4trt6aqIpxU54gp5CQx+I7nQ68SQ0Tu2saTFcTqBnDEXkxXWJxIItGh6vJy8k33aZ/NM
-	 7hchpjlNmApX9/fD6ggDK4Q/S86mkOjmthkfFogzi/0bDS29U38BldhyfiMUO0MKhXkk+
-	 Bc2QX/DAvqZobXAfmyOXMtBYcBP9aTEB9EQTXNe5lApKcwyCH9oN2SAXoS2/vBmqVjTah
-	 YOpwnMCqjF+BG9RyMBE1hhqg18K8ruI5H0lmkMPQRmPPnCQuktZuDOJTt7zFntlvXEQ==
+	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Transfer-Encoding:content-type;
+	bh=fjvVqcSfa+2zBtBR5VJVLHJipBPKH87jRFs97wxFpX8=;
+	b=IdVwOn7yt6UiPTmzadkUSKi2kHSwwjdVBsJLSeBdTz8rVZgUEGVEA/RXinOiTKdHv4qv
+	 bph1cK2PlLXFXRej7dzL+kh5mtoQ2jkryyDg/7JRuy2dbT0As9c/g1jXDGhV5n6+2ZUUa
+	 NPM/HVDj5JVSOfQkbLSSPH9qN8rk+oo2rzqAPA4xui+MafePicUiqrP7x8d3MzK6iullz
+	 BdQTw+sr9OG2JnOrkFqTuvmJjz20q96WFmKkMATcqu9wDqx+VlVVAbTc7nuYaL5jVA/jM
+	 +0UvGrwzosWYyo3dLMkTogWkLzSmNm4Mk24QUoqe4DEh4WakfditmbI387az0GlG0mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cjGl2JQW;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iYFQ3KCV;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D1E606A31A
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 07:03:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27D1E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485B1606A322
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 07:03:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 485B1606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cjGl2JQW
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iYFQ3KCV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792738996;
+	s=mimecast20190719; t=1792739001;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=AmfJDAjkugxPQ6TZZdNY6FdOTzwxxq33jzmqfI3RYJU=;
-	b=cjGl2JQWZh36gXCqf8qSgs6mpx9ixB5G0ZYHx9rSLdGwB4zxrUhx+Z+3GHNXweqSuaLbHP
-	tTT4uz4ydTD8Yu8gP+ThCi9fPKFLAigtod/KoMcZD9St1OfyTeS9CfyOZgzJnoPb6p2YKS
-	hXkiG93pyov8rGlkTmwwmO8I3V6lajk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fjvVqcSfa+2zBtBR5VJVLHJipBPKH87jRFs97wxFpX8=;
+	b=iYFQ3KCVVDSMV/qvqL4vud7v7u06U0aUKmyig4LxgqIzSul4vNHRrddhBDhxN+tKItc1X1
+	ytGlz43ZmZQ2qUeBsQJvUoyiCl92M66Uhd5fPRC2bW4huWRbNceXH0w4ixCFgAxgl6pTAc
+	ifId9hEhRopMyGYfGx/D1jixTFziWoY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-94-ajkdnhQkPMC7JQNKU9NkXg-1; Fri,
- 23 Oct 2026 03:03:12 -0400
-X-MC-Unique: ajkdnhQkPMC7JQNKU9NkXg-1
-X-Mimecast-MFC-AGG-ID: ajkdnhQkPMC7JQNKU9NkXg_1792738989
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-329-mX9E7ey5N4iP5lpaaMmYTQ-1; Fri,
+ 23 Oct 2026 03:03:17 -0400
+X-MC-Unique: mX9E7ey5N4iP5lpaaMmYTQ-1
+X-Mimecast-MFC-AGG-ID: mX9E7ey5N4iP5lpaaMmYTQ_1792738994
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5DE151956052;
-	Fri, 23 Oct 2026 07:03:09 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B731E1800149;
+	Fri, 23 Oct 2026 07:03:14 +0000 (UTC)
 Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.32.22])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3A6101800347;
-	Fri, 23 Oct 2026 07:03:03 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BED8E180029C;
+	Fri, 23 Oct 2026 07:03:09 +0000 (UTC)
 From: Petr Oros <poros@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Petr Oros <poros@redhat.com>,
@@ -81,9 +83,11 @@ Cc: Petr Oros <poros@redhat.com>,
 	intel-wired-lan@lists.osuosl.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH iwl-net v2 0/5] ice: fix RTNL vs auxiliary device lock inversion
-Date: Fri, 23 Oct 2026 09:02:52 +0200
-Message-ID: <20261023070258.730168-1-poros@redhat.com>
+Subject: [PATCH iwl-net v2 1/5] ice: check the auxiliary device pointer under adev_mutex
+Date: Fri, 23 Oct 2026 09:02:53 +0200
+Message-ID: <20261023070258.730168-2-poros@redhat.com>
+In-Reply-To: <20261023070258.730168-1-poros@redhat.com>
+References: <20261023070258.730168-1-poros@redhat.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -94,99 +98,129 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: c52Ybvi9sA6A36x_-h0WBDzGxsXzRfrz8YK4BRS14-U_1792738989
+X-Mimecast-MFC-PROC-ID: 10VyXF4x0jNCD0gRHCTTQPiJ7lwvE72jCm-_w1OkCQw_1792738994
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-ice takes the auxiliary device lock of its RDMA auxiliary device from
-three places that run with the RTNL lock held. The RDMA auxiliary probe
-takes the two in the opposite order, because __driver_attach() holds the
-auxiliary device lock across ib_register_device(), which needs the RTNL
-lock. The result is a hard deadlock of everything that needs the RTNL
-lock, so the boot never completes:
+ice_set_channels() and the mqprio path of ice_setup_tc() test
+cdev->adev before taking pf->adev_mutex and dereference it afterwards.
+ice_unplug_aux_dev() clears the pointer under the mutex from the
+service task, from ice_prepare_for_reset() and from the devlink RoCE
+and iWARP parameter handlers, none of which hold the RTNL lock, so the
+pointer can go away between the test and the device_lock() call.
 
-  systemd-udevd   state:D
-    really_probe                  <- holds device_lock(&adev->dev)
-    icrdma_probe
-    irdma_ib_register_device
-    ib_register_device
-    setup_device
-    irdma_roce_port_immutable
-    ib_query_port
-    irdma_query_port
-    ib_get_eth_speed              <- blocks on rtnl_lock()
+Take pf->adev_mutex first and test the pointer under it. Without a
+device the mutex is released again and the rebuild runs unlocked as
+before.
 
-  lldpad          state:D
-    rtnetlink_rcv_msg             <- holds rtnl_lock()
-    dcb_doit
-    dcbnl_ieee_set
-    ice_dcbnl_setets
-    ice_pf_dcb_cfg
-    ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
+Fixes: a6a0974aae42 ("ice: Prevent set_channel from changing queues while RDMA active")
+Fixes: 4b31fd4d77ff ("ice: Fix RDMA VSI removal during queue rebuild")
+Signed-off-by: Petr Oros <poros@redhat.com>
+---
+v2:
+- new patch, the pointer test raced with ice_unplug_aux_dev()
+---
+ drivers/net/ethernet/intel/ice/ice_ethtool.c | 22 +++++++++++++-------
+ drivers/net/ethernet/intel/ice/ice_main.c    | 22 +++++++++++++-------
+ 2 files changed, 28 insertions(+), 16 deletions(-)
 
-Lockdep cannot flag it, because device_initialize() marks dev->mutex
-with lockdep_set_novalidate_class(). A PREEMPT_RT kernel with
-CONFIG_DEBUG_RT_MUTEXES reports "rtmutex deadlock detected" instead.
-
-The probe side cannot be changed, so the three ice callers use
-device_trylock() and refuse the operation with -EBUSY when the driver
-core holds the lock. Patches 1 and 2 are new in v2 and fix two separate
-problems on the same sites, the auxiliary device pointer was tested
-before pf->adev_mutex was taken, and ndo_setup_tc() took pf->adev_mutex
-before pf->tc_mutex while the dcbnl handlers take them the other way
-round. Patch 3 keeps the locks across the whole DCB reconfiguration so
-that BEFORE_TC_CHANGE and AFTER_TC_CHANGE are either both delivered or
-the request is refused before anything changes, and re-arms the service
-task events. Patches 4 and 5 turn the remaining two locks into trylocks.
-
-The proper fix is provider-owned registration as in i40e and mlx5, which
-makes the inversion impossible by construction. That is a net-next change
-across ice, irdma and iidc_rdma.h, this series is the backportable part.
-
-Tested on an E810-XXV with two PFs, irdma bound to both auxiliary
-devices, on net tip commit 191aa41548b2d2 ("MAINTAINERS: add Bobby
-Eshleman as vsock reviewer") with and without this series. A reproducer
-binds the irdma auxiliary driver while driving one of the three RTNL
-held callers into the probe window:
-
-                        without the series   with the series
-  ethtool set_channels  deadlock 10/10       0/10, window entered 300x
-  ndo_setup_tc mqprio   deadlock             0/10, window entered 50x
-  dcbnl ets set         deadlock             0/10, window entered 30x
-
-A window entry is a contended device_trylock(), so each one used to
-close the cycle. 25 reboots on the patched kernel were clean.
-
-Changes since v1:
-- new patch 1 for the auxiliary device pointer race
-- new patch 2 for the pf->tc_mutex order in ndo_setup_tc()
-- patch 3 holds the auxiliary device locks across the whole DCB
-  reconfiguration and sends AFTER_TC_CHANGE under them instead of
-  dropping it when the lock is contended, and takes the locks before it
-  consumes pf->oicr_err_reg in the service task
-- patch 5 warns instead of netdev_dbg(), the qdisc teardown ignores the
-  return value
-
-Link to v1:
-https://lore.kernel.org/all/20261019065301.3983537-1-poros@redhat.com/
-
-Petr Oros (5):
-  ice: check the auxiliary device pointer under adev_mutex
-  ice: take tc_mutex before the auxiliary device locks in ndo_setup_tc
-  ice: avoid RTNL deadlock when notifying the RDMA auxiliary driver
-  ice: do not block on the aux device lock in ethtool set_channels
-  ice: do not block on the aux device lock in ndo_setup_tc
-
- drivers/net/ethernet/intel/ice/ice_dcb_lib.c | 46 ++++++++++++++++---
- drivers/net/ethernet/intel/ice/ice_ethtool.c | 26 +++++++----
- drivers/net/ethernet/intel/ice/ice_idc.c     | 48 ++++++++++++++++----
- drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +
- drivers/net/ethernet/intel/ice/ice_main.c    | 47 +++++++++++++------
- 5 files changed, 130 insertions(+), 39 deletions(-)
-
-
-base-commit: 07bd391eb9572e74f073c49acef327611234f9bb
+diff --git a/drivers/net/ethernet/intel/ice/ice_ethtool.c b/drivers/net/ethernet/intel/ice/ice_ethtool.c
+index bf9a821c543b7f..5482a64c81c95a 100644
+--- a/drivers/net/ethernet/intel/ice/ice_ethtool.c
++++ b/drivers/net/ethernet/intel/ice/ice_ethtool.c
+@@ -3888,6 +3888,7 @@ static int ice_vsi_set_dflt_rss_lut(struct ice_vsi *vsi, int req_rss_size)
+ static int ice_set_channels(struct net_device *dev, struct ethtool_channels *ch)
+ {
+ 	struct ice_netdev_priv *np = netdev_priv(dev);
++	struct auxiliary_device *adev = NULL;
+ 	struct ice_vsi *vsi = np->vsi;
+ 	struct ice_pf *pf = vsi->back;
+ 	int new_rx = 0, new_tx = 0;
+@@ -3942,14 +3943,19 @@ static int ice_set_channels(struct net_device *dev, struct ethtool_channels *ch)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (pf->cdev_info && pf->cdev_info->adev) {
++	if (pf->cdev_info) {
+ 		mutex_lock(&pf->adev_mutex);
+-		device_lock(&pf->cdev_info->adev->dev);
+-		locked = true;
+-		if (pf->cdev_info->adev->dev.driver) {
+-			netdev_err(dev, "Cannot change channels when RDMA is active\n");
+-			ret = -EBUSY;
+-			goto adev_unlock;
++		adev = pf->cdev_info->adev;
++		if (adev) {
++			device_lock(&adev->dev);
++			locked = true;
++			if (adev->dev.driver) {
++				netdev_err(dev, "Cannot change channels when RDMA is active\n");
++				ret = -EBUSY;
++				goto adev_unlock;
++			}
++		} else {
++			mutex_unlock(&pf->adev_mutex);
+ 		}
+ 	}
+ 
+@@ -3965,7 +3971,7 @@ static int ice_set_channels(struct net_device *dev, struct ethtool_channels *ch)
+ 
+ adev_unlock:
+ 	if (locked) {
+-		device_unlock(&pf->cdev_info->adev->dev);
++		device_unlock(&adev->dev);
+ 		mutex_unlock(&pf->adev_mutex);
+ 	}
+ 	return ret;
+diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
+index d88835482d3aac..984479f1e1f6d9 100644
+--- a/drivers/net/ethernet/intel/ice/ice_main.c
++++ b/drivers/net/ethernet/intel/ice/ice_main.c
+@@ -9406,6 +9406,7 @@ ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
+ 	struct ice_netdev_priv *np = netdev_priv(netdev);
+ 	enum flow_block_binder_type binder_type;
+ 	struct iidc_rdma_core_dev_info *cdev;
++	struct auxiliary_device *adev = NULL;
+ 	struct ice_pf *pf = np->vsi->back;
+ 	flow_setup_cb_t *flower_handler;
+ 	bool locked = false;
+@@ -9438,14 +9439,19 @@ ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
+ 		}
+ 
+ 		cdev = pf->cdev_info;
+-		if (cdev && cdev->adev) {
++		if (cdev) {
+ 			mutex_lock(&pf->adev_mutex);
+-			device_lock(&cdev->adev->dev);
+-			locked = true;
+-			if (cdev->adev->dev.driver) {
+-				netdev_err(netdev, "Cannot change qdisc when RDMA is active\n");
+-				err = -EBUSY;
+-				goto adev_unlock;
++			adev = cdev->adev;
++			if (adev) {
++				device_lock(&adev->dev);
++				locked = true;
++				if (adev->dev.driver) {
++					netdev_err(netdev, "Cannot change qdisc when RDMA is active\n");
++					err = -EBUSY;
++					goto adev_unlock;
++				}
++			} else {
++				mutex_unlock(&pf->adev_mutex);
+ 			}
+ 		}
+ 
+@@ -9456,7 +9462,7 @@ ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
+ 
+ adev_unlock:
+ 		if (locked) {
+-			device_unlock(&cdev->adev->dev);
++			device_unlock(&adev->dev);
+ 			mutex_unlock(&pf->adev_mutex);
+ 		}
+ 		return err;
 -- 
 2.56.0
 
