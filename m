@@ -1,189 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.9
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792767401;
-	b=BTNWMF/np93SxGdnniA05acw67dqFkbHx/RCymx3B10hQBcpON4XHwRPxXS7YK8C/81j
-	 5jXkdt/1evZumKP8Ao4zr+C/TczgrUmztpfy8tRn5jVRVmatuZFdQWTlBfYge6Cz2A+mM
-	 ksluvrFZgiyxl3/fECw9NA6petIZOWRVyXmeQsbxmDnbHlnzB/NUsux+FCmHvM1T7AC43
-	 GYTTKzdxnlON4tJIeDHfkGkWJmypdEXHDXhZ2+CHAqg8/sjA3601S8iRlNo9bWp2rgGh0
-	 JSsxxumh4bOg3fsKmmpzUHDoA039IQKyOjZ4tC4kf1Us6Bob7AbF2CnzaSsZqGqR5Uw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792767401;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ld-processed:
-	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
-	 x-microsoft-antispam:x-microsoft-antispam-message-info:
-	 x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=RnrfelN52PjZk0gZd9Y5uXLnWEDVXG4+u2JR5D5ajrc=;
-	b=zCfZcAUhc8Y+WpeLyVfkHLs006Sm6HENg2QwcFufclr3XOuEu504mn6v8xF6wRTQXtON
-	 LcMVEdFLiK8qXtGQr/+yCLj6Ao9VrMrxW1LRbfa1Z6tuqfnKJKiLb4f1IL+6/VAyEZ5ga
-	 CHeZEAozbPnPl4KDGskALnzTGSWbpTX/vqGSR3k7KyPm6S2BcpYflqeJTDUUpEPlTryXr
-	 2xXX0aNCg85DMn7pJ6B7c1pyCKc31bUlgQRR4eS4SjfPW/4SxHMcPFlbiH5EcOkwbG8Ae
-	 s+2olQ+CemvcoPzPCjZ1forMJzJ5HyNGjOyIIHgzZL0eZuDdHlFQFAzVMA6groVshMQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R38CrdCH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792771538;
+	b=0zM+6Ly14gbwVPzTOI2yqOWbCxiXdL3U4aZkTvTWDowSRDn/2e0hFf3VIWI1LYcXDIxf
+	 gTwGwr+r48BIfobdSTRFlhEhR+LMLzigipyjsbdM1Yk5mYE9qCoAwhQa9IqcN9u2bxebW
+	 YFSHIicCg3+RzBl1pQBpob3mnPlTbujJOqZ1/dwCIZIuqUmFXMEFUpAZo5wUjM5A561tv
+	 4+cT0BoQoTR9DBX5MrCPdncwQxZFWJoCKhGEOp5iug+wAZ0jPXxvkeNG8x9ELDM+ALAaW
+	 19qyOOvHllYJ8cn2wS2sKmorDLK9cmiz2Qx0rJe1JVdDZJUTeeqpUCOVhom1E5MSu7g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792771538;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Autocrypt:User-Agent:MIME-Version:X-Mimecast-Spam-Score:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
+	b=GXIxjCPRnJ7ztnuOMaOgseekWERYkXijUmCXUWOEYKcvNRt6UeUsrMUBYapn1BYS5gmf
+	 1nD3YKlnUEClQsEMRG3vTkvLvsgvFD7rHH4YueR4ht1G5Djn9JV49WbBx6CauxiC8ZYuZ
+	 10g1v7F77laADAcDGF/PmKIXzjk8oGCU42kC2R4TNXgeZMPpuF5XO52iGsBPwBy586s33
+	 +T1BT18+JYZEJM3oCnCnZOQVTOD8X+oW4O140zkht3ijCKfHv4fdBQ7wkehU6B1bgr1mx
+	 wbUb3RCDRvfI2st79nZtvg2bJx6m8kA15qACL+NKvK5D+ImVVCm/ShKUA0ItvAJS05A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f7fjgzf6;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A88606A31A
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 14:56:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8A88606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F1D606A31A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 16:05:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7F1D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R38CrdCH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792767400; x=1824303400;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Lr/7iD6zdWq55EL6dy/S4RuswmyqYSu08XkqypPWS+w=;
-  b=R38CrdCHPmVlGdOS4rMModfjHS39HRbr7naMHf1MQv7WNDLPttrzjw/W
-   EbQ4WZHGacjPBObz8lBhxLoXBBE+/3UWsRRKgaJyV15FPO6mWq1qKr23J
-   sMFVC5YVPIksW9oIs+4kN27NNLWLJYpkcHc4SXafMKV/OWVwzJuFsg1KL
-   UyokERHq2udvVNWpfs+yoGWdOqBhGqpNJE1LcQ1/758+g6wWesLEHiHWh
-   7/oTYk98Z3uBXd/zWMmvQVrC/8X/p2gL7T4hcGJgPznbAnd68crLdKTh3
-   SnSppbSYKHRwM4G0tGkdPDPjvXSHt1zIgzJoqGx5qxaDVlUf8LhCMuzGE
-   Q==;
-X-CSE-ConnectionGUID: WcGUAEs4RR6PG7k6ihvy1Q==
-X-CSE-MsgGUID: z2UbXrdrQPmbKVAOie7cvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1408399"
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1408399"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:56:39 -0700
-X-CSE-ConnectionGUID: YwogONWMQXadWQEX98OVjA==
-X-CSE-MsgGUID: 6LteufvBTzC4MT/wRurI3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="5421140"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa012.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:56:40 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Fri, 23 Oct 2026 07:56:38 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Fri, 23 Oct 2026 07:56:38 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.17) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Fri, 23 Oct 2026 07:56:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K+zcs/8d8IREYpLAtXmGClyRKmHx6enuoX5cQeB0u9q6Nptt7hUyJNSLoNL48CQNrKO127Jx6v37Ergm3Q1dqmwlpzcrRqfgXJtU8GK0pY+Kyy0fxMWJC3TSrKFkfTqtFml3ho21A6JCNqQWyFbkgLKB0102uQu4jc7LJnXRiS8lufp8eRO93br38kioVIfNB6hR3tehIWysV0uVpvVPdmh4kzDiu9MeQ82L02tzMk91c6Fl8EAuvchDeeKFd7BWWo5aPk9raPlr9yXNQrNgA5HvM1qlHAXgJ6q1bgciIcx/Bkn6049ZHvjxBliRZlqJIXYfQuXO4JiG37QnlrgHbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RnrfelN52PjZk0gZd9Y5uXLnWEDVXG4+u2JR5D5ajrc=;
- b=Emh5ZH8AGMmHFQSm3s1Whr6dc6q9N5LjxC6j9+BrxJhr/edF9iIGgp0oXnfNmCPx0yBy9REcIwUNwfTGby+N1UEiKrQvtAnVRidgPvDVR8iXKHbdUJznpdAFr9UL4b8dKIlBE1p9hQPxLUVhzRxoM5d5Ir/TfIxNOnVl2SW0+Q/VxfzVQuuGhGF+V/Q71OvrZ8yN9+6cbmzh2nbNmby5wMNmC42T/k2yR9V6UXpO+Judj45S1UemTxCI8PaHlTlqp2OsqumpLJKOz7zMXRbRgzZb4XCL97LBWHgUZd5NNOwB8f97FImd6/5cjvL06iUlv0oz6FVKM+KYVtbwO1GqTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB566895.namprd11.prod.outlook.com
- (2603:10b6:610:34d::22) by LV3PR11MB8694.namprd11.prod.outlook.com
- (2603:10b6:408:21b::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.18; Fri, 23 Oct
- 2026 14:56:32 +0000
-Received: from CH3PR11MB566895.namprd11.prod.outlook.com
- ([fe80::87f5:c8cf:d52:e584]) by CH3PR11MB566895.namprd11.prod.outlook.com
- ([fe80::87f5:c8cf:d52:e584%7]) with mapi id 15.21.0546.017; Fri, 23 Oct 2026
- 14:56:32 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: "Oros, Petr" <poros@redhat.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>
-CC: "Oros, Petr" <poros@redhat.com>, "Nguyen, Anthony L"
-	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, "Ertman, David
- M" <david.m.ertman@intel.com>, Mateusz Palczewski
-	<mateusz.palczewski@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafal
- Rogalski" <rafalx.rogalski@intel.com>, Shiraz Saleem
-	<shiraz.saleem@intel.com>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-rt-devel@lists.linux.dev"
-	<linux-rt-devel@lists.linux.dev>
-Subject: RE: [PATCH iwl-net v2 4/5] ice: do not block on the aux device lock
- in ethtool set_channels
-Thread-Topic: [PATCH iwl-net v2 4/5] ice: do not block on the aux device lock
- in ethtool set_channels
-Thread-Index: AQHdYryq1czVLVwGqUSnQdo+qsIBHbcLN9Mg
-Date: Fri, 23 Oct 2026 14:56:32 +0000
-Message-ID: <CH3PR11MB566895CE5BD6E1BBB6B13C3101E5642@CH3PR11MB566895.namprd11.prod.outlook.com>
-References: <20261023070258.730168-1-poros@redhat.com>
- <20261023070258.730168-5-poros@redhat.com>
-In-Reply-To: <20261023070258.730168-5-poros@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB566895:EE_|LV3PR11MB8694:EE_
-x-ms-office365-filtering-correlation-id: 5a86e983-0337-4be0-49be-08df3115d3a8
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|7416014|18002099003|261021121427099003|22082099003|10067099003|261021123027099003|38070700021|11063799006|261009223027099003|4143699003|261022105027099003|56012099006|261022075727099003;
-x-microsoft-antispam-message-info: qa6I+9EWf3gjpJhUKnlShPhppGPgh/ANm2AB2+4fLy+vWV2SqBU9o7O6NNzlFT9VbbfYKDZiu/N850YWBcAUCyRiPU6Rz/G16PmtEiPiRG/Os4esBcbNPmyCAPwWEFICFBZRr9N57d69V+qk89HXEohDiRJNnkh22skBCq6OsVVowkSa8H+NUBNgvw5RsLV3T1CnMMBDtVF+bRHCugvE024qIgFWbMqmTCdaQEOMD8YawUGv549fYRjvdbWEPce5vVzVQ265SI7sJvWm1crE+3WBJsUpvaU5/RXFBGV3ROsK7W9KC4mw5Vk0xOt1qlmH2gCpwNxz1uQmpzqZaN7JgGHCydFkem1yUfUsoK4PJnqUh6v26Ns72+G/AuyIEtHwWky/B0nYNARE7jKy8A965q1MU/z5KbuDnqKk11Guf8SpjDpZ5o4Wx28qNpfD36jitV+jrk+bMwx5Px16mvy9gdgvMUKuP1db7AxNle8WU6wiqZhf0T8w73u1CQO6G9y5gDzon+Y8XoiQG9nYH+i/7BAMAaI3o/woUeRXj5ltGktIvn5fFmlgRbq7WaVscSFq0TwZSu354sEbQJ+rSGtXwzy+Z4O0zRlwG+n0NjS3PyJQ/ct7uGoO/d6wXCjCmVlw2TsKKMN57h/VUclk10CEniiCyu+ukOMDu1fTjQyBGHulriO81Dx7IQ8eC/InGgXl
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB566895.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(7416014)(18002099003)(261021121427099003)(22082099003)(10067099003)(261021123027099003)(38070700021)(11063799006)(261009223027099003)(4143699003)(261022105027099003)(56012099006)(261022075727099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?H4iENuD12LimNiAAtMN8AW3p7C6jpvlia2ewuD6Z19x9fv9bsx7y5eE289Gf?=
- =?us-ascii?Q?y6JaLhGhfQHElig4o7Zs1UEEnHXZeuNBzpybWwXkcI7aEkLGhV4wAGPvyaQf?=
- =?us-ascii?Q?QY81yZt9oDm3aE3mxwNFhGg5Y/Wr+JRpiwdLTjBN545vWyzKxr5VXLopHb9q?=
- =?us-ascii?Q?+JUhCtM4rlWUp7GNJPGtrRcbtfl0Tf8GlOasHkBzo1VAo7MQzhSu/xsQLvOC?=
- =?us-ascii?Q?3rFt9DNguQs1OLvIcrdBDRfy+ZPKHMEsgyAgjUb4i0dDc4RHIsJz1JUi/Buz?=
- =?us-ascii?Q?vULrkrEDH57lr/Ax2Sv/vTIcC3PQ2F7wTqPeSerNXPJ3qa5JwiYfynMdNxaN?=
- =?us-ascii?Q?6pwcm7knIlhKcHMUwTAEup8fpKazmw+Ec/lolBv8arM3wEnbxmnzyqG8qviB?=
- =?us-ascii?Q?Y6zcyNc8KIL7iiRjGpRGMZVRWVoqN8GOZUJisZeOUfROlY9xsW2u81FLspu4?=
- =?us-ascii?Q?4iA29zYJhzizeP3W3+EUnEdELTkYI/IyMrlerat72xU5SRG2VUw1dYYHNaqn?=
- =?us-ascii?Q?BrnIaiu9mIonldDY3CM+bDIYBov0DlewSuFfZ304ibN3s2X4lROs5BfPTCEQ?=
- =?us-ascii?Q?qwQmCeVeF5aHFG3FTIWAyWR9nElbAPjesluGA9Cbrmb4K8UbyBe3/8X+Iw9L?=
- =?us-ascii?Q?tNzT68xCfzTsDdaeRFaFmoZK6GjFKXycnepXcWNTFBjIIPRzBtpjE3VfVNXm?=
- =?us-ascii?Q?kNV+jvQ1wAQNRX1UsQ/UjzysTt1hZ5SDXE55y2mbf6huo7c5Eq2UCI983hZA?=
- =?us-ascii?Q?U17kuXIXDYiTTpFc0cUKFDQaNKWGFJEU6ERQ4Flw0I906zAfSXFHbDai9fqt?=
- =?us-ascii?Q?4nr5uH6rBWbDJ1FXrPD2rhtWtD4LY4rddorOnFE0IiPoGQewbU9jEzgI1aRH?=
- =?us-ascii?Q?A8v153p9uqKgUnIo22rtVab1dbI70B7wcXaL5Xxwrdmx9RxkFtmQMOBzq5pv?=
- =?us-ascii?Q?SGLMnXSqD0UPvErd3o5Da+cw4+TvynSNrmzNf3mSHcNWpoSTA6S6CCSwibG/?=
- =?us-ascii?Q?ZQGb6k+qNZD2mjIn5XU3UCyER6HPvF5/OZ6PqNwmKwQNnr/7KXGrv2SfuJpV?=
- =?us-ascii?Q?WbAhWAwoRZzdRdDq/PkcMiD51PiDqD1srNGkiTvquzuHdSad2tQ5EEGb3XGf?=
- =?us-ascii?Q?J/pXcoC9mTHOjmXP1lEIaL3ZensfjQyZgi4yC3JD6IIPG7RK3nqLepUYeSQy?=
- =?us-ascii?Q?M+WcqTygAfgjzP+YYim7+8WXTRDyxLnNwJCIm0/O2CsTl0Qfdj9o1t1hNeX6?=
- =?us-ascii?Q?4H5aY0nF3z8oB+OD76snEVFpWgXpNrAXk8/VtDVE9D+gQbtcIMrn0Vu55GAD?=
- =?us-ascii?Q?PuG6jx1iDqQ6qWcL0r2GCZL5O485w59FMpzxp+g6pkYuU3jtnsZzBzdFmEAD?=
- =?us-ascii?Q?IvjfXrVNdiOSIL7OpbChvCIRlfbBlP1wkkmFrPkMCylVWcGXomEvhUqdn7gw?=
- =?us-ascii?Q?N4NZyXB8xkg6yfBlsvbIKeWBtCCyUw6wpWwCisyoisaOnBw18StZ943p8Qg3?=
- =?us-ascii?Q?V/nFDrgpEOX61tO124Od0tHSPgj1upVeugesDPRg1oNvOgPSEP0T42bgD+v9?=
- =?us-ascii?Q?AIjWk4F37VYBNCVsqt7CAeHYpKQ6tADVa768L4Xab1C2vcAx19xomQ4lFnIr?=
- =?us-ascii?Q?i8rz2qma68fEZmMg8LOUVgzdsrb+UgZpPQ1ejo7sAANNhmYPusd0yLT3Dde2?=
- =?us-ascii?Q?1yO4qzvg40oFtCvj6YGX/SHGW1xL/63+U6thEjXkpqKy7JLsTaosCbqunZIp?=
- =?us-ascii?Q?Hzd+5T8exDz+mqFxZ3ufC0RWaL9RGBM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f7fjgzf6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792771536;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
+	b=f7fjgzf6Khkl/ZFPkz2neLM5hyPuDZGbst+5FWWM8wM3QWYgSkrAb5Wg15J7bkaq8mgihZ
+	K7X6xc+NtThfWZhbP+TXtU5Y5NU3Zvpq0XYvEaSCm8QyvyKEI3u/T/SESrgYPeDTOcDWcd
+	faTkTutIeeMNhoM9e7ka4MMXfzFCaNM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-sDEgpaerOH6ctMnHrgMn9Q-1; Fri, 23 Oct 2026 12:05:35 -0400
+X-MC-Unique: sDEgpaerOH6ctMnHrgMn9Q-1
+X-Mimecast-MFC-AGG-ID: sDEgpaerOH6ctMnHrgMn9Q_1792771534
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a1895ffc83so7691795e9.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 09:05:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792771534; x=1793376334;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
+        b=ncS2i1R9EVlSZhFbrTapPAazrlbnDJ4W8VfVabpzoZ53qsRSmpnHAHLQj934NBAKlV
+         e2tDb+Dh1bO4oPaTSnUShPIHaOUeyqrUUW8cOyA9tAAFvrwh1Ax2N7uZMPrQAtII303r
+         B+omJMMnvXXupEiQ7ehZ2e1r7x8oBXvpF523ZjEhLr6aF1inNc4U6KpOmVdclKZ7mMXl
+         ms7yvMXUQFTNrHItcJcHM8W4WLwiRbbajfsPyRPhwLQ645lir3dJVio3VctpJPjbSiSJ
+         evyCO/fodD4kKdrlLF1iojWJcttNES5JaN0R6oVBtA8M712fVdeWg9JFAMLiOJIruzPs
+         n5pw==
+X-Forwarded-Encrypted: i=1; AKwUvByI1+YO+1Cs9CgKJ80FUwMnX5EQK/1n2+WP8QRhMMS0A70Bq7Eiif+mN8zmnsK/JZsJPPQ/QxTQJfITQpz7iw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJjfW2lDUTkSjQQOv6IADPdwQZXVj2fRTm/SaW2d6xVVGFG26Gt
+	Aa6gYuTBo6bsWfxCowdNacJN1DXhHOjEwUeqZIlwktDrEuhvni+vviYMvA26IS1psPALWvm+a8q
+	qK7P5np1lY3NebLJ1PWNVSDwfW270h9jtKiJQ1T1R2JgbDTngGv+mstUlIQDHlJOwCGKy
+X-Gm-Gg: AYBFou3hkoVga1PZPj5WiBHe0poQPQ5xwoKbi5xvvx6yl5N8xYHCWDPgZuEbowtwTRF
+	mMXEfTHRz2k038yimfLFOifdCNJQPZVPTa6qse6CIotRtG1dVuM+IFq5RRC+kcrL8Fxky49NIu/
+	WrD5J7LA4pS/PfLbkIYzqkEvamlSbPn21Y199HiiKqCgkf8x9JfWO2b4ayLZ0HIcO7tbItQTfcA
+	98/EPSkMtxi1j2d+BqgobVxukWSP4RIf0aiW6ePjMC5h5DYgNGHvvKq8polnLoAQaYnc2CHafWK
+	xOK42ljDuCzwPcvZscuqlWB7R48Mvk6Ey5m3DEtfklvbSndeu8qTWl04zpbKBc7yVb5GrSi18Nx
+	+kt9GcycmfOVmyzst2zgMqYMAjx1E
+X-Received: by 2002:a05:600c:3514:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a211ed7602mr43987685e9.26.1792771533995;
+        Fri, 23 Oct 2026 09:05:33 -0700 (PDT)
+X-Received: by 2002:a05:600c:3514:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a211ed7602mr43987145e9.26.1792771533585;
+        Fri, 23 Oct 2026 09:05:33 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.133.173])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a312ea914esm4004515e9.2.2026.10.23.09.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 09:05:32 -0700 (PDT)
+Message-ID: <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
+Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
+	 <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers	
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Ingo Molnar	 <mingo@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Andy Lutomirski	 <luto@kernel.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
+ <vschneid@redhat.com>,  K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Randy
+ Dunlap <rdunlap@infradead.org>, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Fri, 23 Oct 2026 18:05:30 +0200
+In-Reply-To: <20261022050712.75035-1-kmehltretter@gmail.com>
+References: <20261022050712.75035-1-kmehltretter@gmail.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -193,87 +126,193 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: hguwTG6fyq46HRNT/lmNOynZf2w/4fJrYSbAeE+GazwL0QD4MPusvqKK09wBKSjKWcLLO6Mg70pcwwjKCN0nkQWIWf59p3hu1y+nYXpv/aFe7iLJISyhDD/CQDLzHecie+m5A5GS/HVSKlfVPy2Z5NLthGi7LI/3gMbOyr40816RgTrpp/8lGr/isHPw0Zy2C4I9vD9TMAxYcraAr2oAf8o4Od2JFOzUzq5XiHL7kpty5QtcmsXteK7YI+Ns2RDGjLZv6acwxRZEJOCWL/x/M3KsKkXaPHf3UyTX8ognkqI32xDpa54bqbtRGmOnK0hYY2z3yDTDHYA394NG2qSYrQ==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB566895.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a86e983-0337-4be0-49be-08df3115d3a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2026 14:56:32.4645
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ADSLphac2sZHzBgz23l2Y0kTM1qECvvZRgO+8eTNfNVFHa8nSYJQfMKky7R3gKG1JtzHgcPe77eAjIvF6tkKN/CAvdWhu/7aCkjwUAbo/F4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8694
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: oJUMxhA0DNagkfXUqQSOOY7BzxwW7ozm3pdRMV5KZuM_1792771534
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, 2026-10-22 at 07:07 +0200, Karl Mehltretter wrote:
+> IRQ action tracepoints describe handlers, but not the lifetime of the
+> enclosing IRQ context. One context may run several actions, and an action
+> may be dispatched outside hardirq context. PREEMPT_RT may also enter
+> serving-softirq state without invoking an action. This leaves no generic
+> event stream from which an RV monitor can check IRQ-context transitions.
+>=20
+> This RFC adds events at the generic hardirq and serving-softirq
+> boundaries. The irqstate RV monitor checks their order and agreement with
+> live kernel state. irqexit follows the owner of a preempt_schedule_irq()
+> invocation across task switches and CPU migration.
+>=20
+> The hardirq events cover paths through irq_enter() or irq_enter_rcu() and
+> their matching exits. They do not cover direct __irq_enter() and
+> __irq_exit() users, raw paths, or architecture-specific entry and return
+> intervals. irqexit covers preempt_schedule_irq(), not the complete
+> interrupt-return path.
+>=20
+> Boundary callbacks can raise softirq work after the pending-work check.
+> The series wakes ksoftirqd or ktimerd for remaining work. KUnit covers
+> nesting, monitor synchronization, PREEMPT_RT worker intervals, provenance
+> and late-work handoff.
 
+Hi Karl,
 
-> -----Original Message-----
-> From: Petr Oros <poros@redhat.com>
-> Sent: Friday, October 23, 2026 9:03 AM
-> To: netdev@vger.kernel.org
-> Cc: Oros, Petr <poros@redhat.com>; Nguyen, Anthony L
-> <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
-> <przemyslaw.kitszel@intel.com>; Andrew Lunn <andrew+netdev@lunn.ch>;
-> David S. Miller <davem@davemloft.net>; Eric Dumazet
-> <edumazet@kernel.org>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
-> <pabeni@redhat.com>; Sebastian Andrzej Siewior <bigeasy@linutronix.de>;
-> Clark Williams <clrkwllms@kernel.org>; Steven Rostedt
-> <rostedt@goodmis.org>; Ertman, David M <david.m.ertman@intel.com>;
-> Mateusz Palczewski <mateusz.palczewski@intel.com>; Leon Romanovsky
-> <leon@kernel.org>; Rafal Rogalski <rafalx.rogalski@intel.com>; Shiraz
-> Saleem <shiraz.saleem@intel.com>; Loktionov, Aleksandr
-> <aleksandr.loktionov@intel.com>; intel-wired-lan@lists.osuosl.org;
-> linux-kernel@vger.kernel.org; linux-rt-devel@lists.linux.dev
-> Subject: [PATCH iwl-net v2 4/5] ice: do not block on the aux device lock
-> in ethtool set_channels
->=20
-> ice_set_channels() takes the auxiliary device lock to test whether the
-> RDMA driver is bound, and ethtool ops run with the RTNL lock held. This
-> is the same inversion against the RDMA auxiliary probe as the one fixed
-> in ice_send_event_to_aux(), reached through a different caller.
->=20
-> Use device_trylock() and report the device as busy when it fails. The
-> existing diagnostic is not reused, a contended lock does not mean the
-> RDMA driver is bound. It is a netdev_dbg(), the condition is transient
-> and userspace already learns about it from -EBUSY.
->=20
-> Fixes: a6a0974aae42 ("ice: Prevent set_channel from changing queues
-> while RDMA active")
-> Signed-off-by: Petr Oros <poros@redhat.com>
-> ---
-> v2:
-> - rebased on the new patches 1 and 2, the trylock now sits inside the
->   pointer test done under adev_mutex
->=20
-> v1: https://lore.kernel.org/all/20261019065301.3983537-3-
-> poros@redhat.com/
-> ---
->  drivers/net/ethernet/intel/ice/ice_ethtool.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/net/ethernet/intel/ice/ice_ethtool.c
-> b/drivers/net/ethernet/intel/ice/ice_ethtool.c
-> index 5482a64c81c95a..dbc662d6233957 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_ethtool.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_ethtool.c
-> @@ -3947,7 +3947,11 @@ static int ice_set_channels(struct net_device
-> *dev, struct ethtool_channels *ch)
->  		mutex_lock(&pf->adev_mutex);
->  		adev =3D pf->cdev_info->adev;
->  		if (adev) {
-> -			device_lock(&adev->dev);
-> +			if (!device_trylock(&adev->dev)) {
-> +				mutex_unlock(&pf->adev_mutex);
-> +				netdev_dbg(dev, "RDMA auxiliary device is
-> busy, try again\n");
-> +				return -EBUSY;
-> +			}
->  			locked =3D true;
->  			if (adev->dev.driver) {
->  				netdev_err(dev, "Cannot change channels when
-> RDMA is active\n");
-> --
-> 2.56.0
+thanks for your contribution!
+I'm probably not going to have much time to look at this soon as I have a f=
+ew
+holidays planned and other series to review first. But it looks interesting=
+.
 
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+What points my eyes is that you didn't include any schematic graph in the
+documentation.
+Some folks don't like RST, but I find having a textual representation of th=
+e
+model there easy to understand what you're trying to do without having to b=
+uild
+the models.
+We use graph-easy for that (and adapt things if the model is too complex).
+
+Do not send a V2 just for this, but please keep that in mind for next time.
+
+Thanks,
+Gabriele
+
+>=20
+> Cross-architecture RV KUnit testing also exposed an Arm-specific opid bug=
+:
+>=20
+> =C2=A0 https://lore.kernel.org/r/20261020035158.90190-1-kmehltretter@gmai=
+l.com
+>=20
+> I would especially appreciate feedback on:
+>=20
+> =C2=A0 1. Should the context boundaries be trace events or private RV
+> =C2=A0=C2=A0=C2=A0=C2=A0 instrumentation?
+> =C2=A0 2. Are dedicated scheduler events the right way to follow
+> =C2=A0=C2=A0=C2=A0=C2=A0 preempt_schedule_irq() across task switches and =
+migration?
+> =C2=A0 3. Should irqstate and irqexit remain separate monitors?
+> =C2=A0 4. Is the KUnit-only hook for an empty ksoftirqd invocation accept=
+able?
+> =C2=A0=C2=A0=C2=A0=C2=A0 Outside a KUnit run, its worker checks take a di=
+sabled static-key
+> =C2=A0=C2=A0=C2=A0=C2=A0 path.
+>=20
+> Patches 1-5 add the events, monitors, and documentation. Patches 6-9 add
+> KUnit coverage.
+>=20
+> This series is based on v7.3 (c03c1a14507d) and depends on the following
+> accepted change, which is not included:
+>=20
+> =C2=A0 softirq: Preserve interrupt context on return from interrupt
+> =C2=A0 https://lore.kernel.org/r/20261011060742.30584-1-kmehltretter@gmai=
+l.com
+>=20
+> A pre-existing issue can make rv_test_dummy intermittently report a
+> false-positive invalid-wait-context warning under lockdep. Wen Yang has
+> posted a fix:
+>=20
+> =C2=A0
+> https://lore.kernel.org/lkml/5586dd00789a0f904cc299cd8889744b8c6f8dc9.178=
+9412799.git.wen.yang@linux.dev/
+>=20
+> This series does not include that fix.
+>=20
+> Karl Mehltretter (9):
+> =C2=A0 tracing/irq: Add generic IRQ context boundary events
+> =C2=A0 tracing/sched: Add IRQ preemption lifecycle events
+> =C2=A0 rv: Add a monitor for generic IRQ context transitions
+> =C2=A0 rv: Add a monitor for IRQ-exit scheduling ownership
+> =C2=A0 docs/rv: Document the IRQ-entry monitors
+> =C2=A0 rv: Add KUnit coverage for IRQ context transitions
+> =C2=A0 rv: Add KUnit coverage for IRQ-exit scheduling
+> =C2=A0 rv: Test empty PREEMPT_RT softirq worker intervals
+> =C2=A0 rv: Test IRQ-exit softirq provenance and handoff
+>=20
+> =C2=A0Documentation/trace/rv/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
+> =C2=A0Documentation/trace/rv/monitor_irqentry.rst=C2=A0=C2=A0 |=C2=A0 398=
+ ++++
+> =C2=A0include/linux/interrupt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0=C2=A0 7 +
+> =C2=A0include/rv/kunit.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 34 +-
+> =C2=A0include/trace/events/irq.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0 70 +
+> =C2=A0include/trace/events/sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 51 +
+> =C2=A0kernel/sched/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +
+> =C2=A0kernel/softirq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 308 ++-
+> =C2=A0kernel/trace/rv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 5 +
+> =C2=A0kernel/trace/rv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +
+> =C2=A0kernel/trace/rv/monitors/irqentry/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 13 +
+> =C2=A0kernel/trace/rv/monitors/irqentry/irqentry.c=C2=A0 |=C2=A0=C2=A0 35=
+ +
+> =C2=A0kernel/trace/rv/monitors/irqentry/irqentry.h=C2=A0 |=C2=A0=C2=A0=C2=
+=A0 3 +
+> =C2=A0kernel/trace/rv/monitors/irqexit/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 14 +
+> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 172 ++
+> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.h=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 85 +
+> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.c |=C2=A0 537 +++++
+> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.h |=C2=A0=C2=A0 21 +
+> =C2=A0.../trace/rv/monitors/irqexit/irqexit_trace.h |=C2=A0=C2=A0 19 +
+> =C2=A0kernel/trace/rv/monitors/irqstate/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 14 +
+> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.c=C2=A0 |=C2=A0 289 +++
+> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.h=C2=A0 |=C2=A0 139 ++
+> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
+ 2062 +++++++++++++++++
+> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 25 +
+> =C2=A0.../rv/monitors/irqstate/irqstate_trace.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 15 +
+> =C2=A0kernel/trace/rv/rv_monitors_test.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 29 +
+> =C2=A0kernel/trace/rv/rv_trace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0=C2=A0 2 +
+> =C2=A0.../verification/models/irqentry/irqexit.dot=C2=A0 |=C2=A0=C2=A0 21=
+ +
+> =C2=A0.../verification/models/irqentry/irqstate.dot |=C2=A0=C2=A0 32 +
+> =C2=A029 files changed, 4397 insertions(+), 13 deletions(-)
+> =C2=A0create mode 100644 Documentation/trace/rv/monitor_irqentry.rst
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/Kconfig
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.c
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.c
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.c
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
+.c
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
+.h
+> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace=
+.h
+> =C2=A0create mode 100644 tools/verification/models/irqentry/irqexit.dot
+> =C2=A0create mode 100644 tools/verification/models/irqentry/irqstate.dot
+>=20
+> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+> prerequisite-patch-id: 6ac7167f0aa7c5319dac78bf5b06a989fd7dfac5
+
