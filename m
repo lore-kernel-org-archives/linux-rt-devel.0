@@ -1,122 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792771538;
-	b=0zM+6Ly14gbwVPzTOI2yqOWbCxiXdL3U4aZkTvTWDowSRDn/2e0hFf3VIWI1LYcXDIxf
-	 gTwGwr+r48BIfobdSTRFlhEhR+LMLzigipyjsbdM1Yk5mYE9qCoAwhQa9IqcN9u2bxebW
-	 YFSHIicCg3+RzBl1pQBpob3mnPlTbujJOqZ1/dwCIZIuqUmFXMEFUpAZo5wUjM5A561tv
-	 4+cT0BoQoTR9DBX5MrCPdncwQxZFWJoCKhGEOp5iug+wAZ0jPXxvkeNG8x9ELDM+ALAaW
-	 19qyOOvHllYJ8cn2wS2sKmorDLK9cmiz2Qx0rJe1JVdDZJUTeeqpUCOVhom1E5MSu7g==
+	t=1792772048;
+	b=NrukuDibEUiiEv5H1pCIkHZIFQbRON1Kz8Jkj/wq4XWiWxoIe2f6VPnZXaIllYWOlIE9
+	 tdrwEG8bqrth/A32y4zsFyFla5Ipje5DuafuOXWofvlFnHp8jt06Eh3fSOQGccs415Y8n
+	 xxwk8H3wmuqox31RC8f+PNVRX1B75szb3Yps97v+GjVVvg4DPm+WrqauH89wnzpZIZWm/
+	 jn4qBVL1l19ISMIwzF7uEkpgKF6dIEqWV07z3DootBSZdalx+VsDDu76iB4HpvMOJsBnB
+	 mmC8mJSjLckiFuxblie+gYYDOY5ZM9Uh0mSQL0uOrvig70Rgx9W3Kfm6SvNrefn1ADA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792771538;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Autocrypt:User-Agent:MIME-Version:X-Mimecast-Spam-Score:
-	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792772048;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding;
-	bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
-	b=GXIxjCPRnJ7ztnuOMaOgseekWERYkXijUmCXUWOEYKcvNRt6UeUsrMUBYapn1BYS5gmf
-	 1nD3YKlnUEClQsEMRG3vTkvLvsgvFD7rHH4YueR4ht1G5Djn9JV49WbBx6CauxiC8ZYuZ
-	 10g1v7F77laADAcDGF/PmKIXzjk8oGCU42kC2R4TNXgeZMPpuF5XO52iGsBPwBy586s33
-	 +T1BT18+JYZEJM3oCnCnZOQVTOD8X+oW4O140zkht3ijCKfHv4fdBQ7wkehU6B1bgr1mx
-	 wbUb3RCDRvfI2st79nZtvg2bJx6m8kA15qACL+NKvK5D+ImVVCm/ShKUA0ItvAJS05A==
+	bh=Asfzo7d0ZU4tyWErLKe4Wr1LaU1gRWvW6QItwU7vgRg=;
+	b=ZkppOJxGuz21oF4Ef7SszPbqk4i9RXY4bBVbpRNHPHu4CNH4mV+o2MUUqDk7lr2tdCq+
+	 e42QZSQcK8Gvptmgzr6d9CmY2K15cxAs1LbmIE5uOAslehxlIDPN5j+uHMoI4bRK3TZiv
+	 4ZZHi3KoII4ZGbagLYw/7jll7rDWqSvicjixm5MIpQ9XXpH6bFpOg1EZey493WEE1eZ0g
+	 Vig6zKAUXADO03F8ax3HntsWgakrQQ6yQyW9Thji2wzbDlsbgk8llaUXJ2QxkiyFkWOMt
+	 QXmqslqIoQWF8I04EKC6vYkV4QUCsINBum5xWuvT8hIO6jK6SmIInr14j5hdsHCIjfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f7fjgzf6;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=0Yuev588;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=djBMFzOW;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F1D606A31A
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 16:05:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7F1D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30052606A31A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 16:13:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30052606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f7fjgzf6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792771536;
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=0Yuev588;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=djBMFzOW
+Date: Fri, 23 Oct 2026 18:13:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1792772030;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
-	b=f7fjgzf6Khkl/ZFPkz2neLM5hyPuDZGbst+5FWWM8wM3QWYgSkrAb5Wg15J7bkaq8mgihZ
-	K7X6xc+NtThfWZhbP+TXtU5Y5NU3Zvpq0XYvEaSCm8QyvyKEI3u/T/SESrgYPeDTOcDWcd
-	faTkTutIeeMNhoM9e7ka4MMXfzFCaNM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-sDEgpaerOH6ctMnHrgMn9Q-1; Fri, 23 Oct 2026 12:05:35 -0400
-X-MC-Unique: sDEgpaerOH6ctMnHrgMn9Q-1
-X-Mimecast-MFC-AGG-ID: sDEgpaerOH6ctMnHrgMn9Q_1792771534
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a1895ffc83so7691795e9.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Oct 2026 09:05:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792771534; x=1793376334;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=K14cnwecKDZXuHS20WMKxtkA3ZjcXzFbG9A0UfcDyZs=;
-        b=ncS2i1R9EVlSZhFbrTapPAazrlbnDJ4W8VfVabpzoZ53qsRSmpnHAHLQj934NBAKlV
-         e2tDb+Dh1bO4oPaTSnUShPIHaOUeyqrUUW8cOyA9tAAFvrwh1Ax2N7uZMPrQAtII303r
-         B+omJMMnvXXupEiQ7ehZ2e1r7x8oBXvpF523ZjEhLr6aF1inNc4U6KpOmVdclKZ7mMXl
-         ms7yvMXUQFTNrHItcJcHM8W4WLwiRbbajfsPyRPhwLQ645lir3dJVio3VctpJPjbSiSJ
-         evyCO/fodD4kKdrlLF1iojWJcttNES5JaN0R6oVBtA8M712fVdeWg9JFAMLiOJIruzPs
-         n5pw==
-X-Forwarded-Encrypted: i=1; AKwUvByI1+YO+1Cs9CgKJ80FUwMnX5EQK/1n2+WP8QRhMMS0A70Bq7Eiif+mN8zmnsK/JZsJPPQ/QxTQJfITQpz7iw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJjfW2lDUTkSjQQOv6IADPdwQZXVj2fRTm/SaW2d6xVVGFG26Gt
-	Aa6gYuTBo6bsWfxCowdNacJN1DXhHOjEwUeqZIlwktDrEuhvni+vviYMvA26IS1psPALWvm+a8q
-	qK7P5np1lY3NebLJ1PWNVSDwfW270h9jtKiJQ1T1R2JgbDTngGv+mstUlIQDHlJOwCGKy
-X-Gm-Gg: AYBFou3hkoVga1PZPj5WiBHe0poQPQ5xwoKbi5xvvx6yl5N8xYHCWDPgZuEbowtwTRF
-	mMXEfTHRz2k038yimfLFOifdCNJQPZVPTa6qse6CIotRtG1dVuM+IFq5RRC+kcrL8Fxky49NIu/
-	WrD5J7LA4pS/PfLbkIYzqkEvamlSbPn21Y199HiiKqCgkf8x9JfWO2b4ayLZ0HIcO7tbItQTfcA
-	98/EPSkMtxi1j2d+BqgobVxukWSP4RIf0aiW6ePjMC5h5DYgNGHvvKq8polnLoAQaYnc2CHafWK
-	xOK42ljDuCzwPcvZscuqlWB7R48Mvk6Ey5m3DEtfklvbSndeu8qTWl04zpbKBc7yVb5GrSi18Nx
-	+kt9GcycmfOVmyzst2zgMqYMAjx1E
-X-Received: by 2002:a05:600c:3514:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a211ed7602mr43987685e9.26.1792771533995;
-        Fri, 23 Oct 2026 09:05:33 -0700 (PDT)
-X-Received: by 2002:a05:600c:3514:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a211ed7602mr43987145e9.26.1792771533585;
-        Fri, 23 Oct 2026 09:05:33 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.133.173])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a312ea914esm4004515e9.2.2026.10.23.09.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 09:05:32 -0700 (PDT)
-Message-ID: <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
-Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers	
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@kernel.org>, 
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Ingo Molnar	 <mingo@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Andy Lutomirski	 <luto@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>,  K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Randy
- Dunlap <rdunlap@infradead.org>, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 23 Oct 2026 18:05:30 +0200
-In-Reply-To: <20261022050712.75035-1-kmehltretter@gmail.com>
-References: <20261022050712.75035-1-kmehltretter@gmail.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Asfzo7d0ZU4tyWErLKe4Wr1LaU1gRWvW6QItwU7vgRg=;
+	b=0Yuev588qVG8lOMhfasNCGTpCrsax7sG9ipjBEYzyoV8ZjGljdwTItl7AaTW9qI1x0KEpB
+	YzE2BYMNcSwp9b6VXD/92kxE9JLbltu04UMoU8BDfEaQySj5dRsg0X3md2UFi/eskoZvna
+	htKYQ1XhlFTMjxFSlBRglWwFDrs71gYgWKw4wYOF4J9sSIZ5YO/p4PV47LRxpkQfcLLg3w
+	fnmkL5HwSmUpKx+mf5owISNHfaccPCWRRPf/a/nfaFPDVMQEm9utf808dtXadxxtK3hJS6
+	fCihMFeqncwyfJ0P4I1W/Zm6qZ42fpErXKNjawFhwSQ2bVYAcejRJ02LJYIvjw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1792772030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Asfzo7d0ZU4tyWErLKe4Wr1LaU1gRWvW6QItwU7vgRg=;
+	b=djBMFzOWevmLNVTffTsSU+q172gBXT/hEAulmgKrP3S/SYUpPL9YJmHVhVR3i5qeAf/fsx
+	kSNK4HyT7nVV3BCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>
+Subject: [RFC] RT throttling, DL/ fair server, RT_GROUP_SCHED and everything
+Message-ID: <20261023161348.t3lpPLQZ@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -126,193 +79,170 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: oJUMxhA0DNagkfXUqQSOOY7BzxwW7ozm3pdRMV5KZuM_1792771534
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-10-22 at 07:07 +0200, Karl Mehltretter wrote:
-> IRQ action tracepoints describe handlers, but not the lifetime of the
-> enclosing IRQ context. One context may run several actions, and an action
-> may be dispatched outside hardirq context. PREEMPT_RT may also enter
-> serving-softirq state without invoking an action. This leaves no generic
-> event stream from which an RV monitor can check IRQ-context transitions.
->=20
-> This RFC adds events at the generic hardirq and serving-softirq
-> boundaries. The irqstate RV monitor checks their order and agreement with
-> live kernel state. irqexit follows the owner of a preempt_schedule_irq()
-> invocation across task switches and CPU migration.
->=20
-> The hardirq events cover paths through irq_enter() or irq_enter_rcu() and
-> their matching exits. They do not cover direct __irq_enter() and
-> __irq_exit() users, raw paths, or architecture-specific entry and return
-> intervals. irqexit covers preempt_schedule_irq(), not the complete
-> interrupt-return path.
->=20
-> Boundary callbacks can raise softirq work after the pending-work check.
-> The series wakes ksoftirqd or ktimerd for remaining work. KUnit covers
-> nesting, monitor synchronization, PREEMPT_RT worker intervals, provenance
-> and late-work handoff.
+Hi,
 
-Hi Karl,
+this is about the old RT throttling mechanism, the DL/fair server around
+the RT tasks, the /proc/sys/kernel/sched_rt_* mechanism to control the
+former and CONFIG_RT_GROUP_SCHED which never worked as it supposed to.
+The current status looks like a mess and I'm not sure if there is a bug
+somewhere leading to my headaches or if this is just not meant to be
+working together. If so out with it.
 
-thanks for your contribution!
-I'm probably not going to have much time to look at this soon as I have a f=
-ew
-holidays planned and other series to review first. But it looks interesting=
-.
+tl;dr /proc/=E2=80=A6/sched_rt_*, sched_rt_runtime_exceeded() probably
+CONFIG_RT_GROUP_SCHED should be removed. A bit of docs should be added
+for the fair server (or the right place).
 
-What points my eyes is that you didn't include any schematic graph in the
-documentation.
-Some folks don't like RST, but I find having a textual representation of th=
-e
-model there easy to understand what you're trying to do without having to b=
-uild
-the models.
-We use graph-easy for that (and adapt things if the model is too complex).
+Now. Details.
 
-Do not send a V2 just for this, but please keep that in mind for next time.
+The "old" RT throttler was meant to throttle RT task(s) that went rogue.
+The idea was to throttle the RT tasks so that the admin, using
+SCHED_OTHER, could step in and kill the misbehaving task.
+This, as simple as it sounds, is problematic on a PREEMPT_RT system
+because all the drivers are running also as SCHED_FIFO meaning
+throttling the RT class resulted also in not servicing any HW. So an
+admin can't interact with the system via SSH/ network or keyboard/ USB.
+What often did help was the fact that the RT application did realise its
+overstepping and contained themself.
+As a result real-time applications under PREEMPT_RT disable the RT
+throttler because from time to time they do have legitimate cases where
+the RT class runs > 1s and the throttler just breaks everything. So
+hush.
+Some people did not learn about the RT-throttler because at some point
+one CPU could run 100% real-time tasks if there were other CPUs
+available (the argument was that the SCHED_OTHER workload could be moved
+there).
 
-Thanks,
-Gabriele
+The throttler used to be present unconditionally. Since commit
+5f6bd380c7bdb ("sched/rt: Remove default bandwidth control") (v6.12) it
+is hidden behind CONFIG_RT_GROUP_SCHED. Without CONFIG_RT_GROUP_SCHED
+defined it does not exist, yet the proc files are there. Not sure if
+they do much.
 
->=20
-> Cross-architecture RV KUnit testing also exposed an Arm-specific opid bug=
-:
->=20
-> =C2=A0 https://lore.kernel.org/r/20261020035158.90190-1-kmehltretter@gmai=
-l.com
->=20
-> I would especially appreciate feedback on:
->=20
-> =C2=A0 1. Should the context boundaries be trace events or private RV
-> =C2=A0=C2=A0=C2=A0=C2=A0 instrumentation?
-> =C2=A0 2. Are dedicated scheduler events the right way to follow
-> =C2=A0=C2=A0=C2=A0=C2=A0 preempt_schedule_irq() across task switches and =
-migration?
-> =C2=A0 3. Should irqstate and irqexit remain separate monitors?
-> =C2=A0 4. Is the KUnit-only hook for an empty ksoftirqd invocation accept=
-able?
-> =C2=A0=C2=A0=C2=A0=C2=A0 Outside a KUnit run, its worker checks take a di=
-sabled static-key
-> =C2=A0=C2=A0=C2=A0=C2=A0 path.
->=20
-> Patches 1-5 add the events, monitors, and documentation. Patches 6-9 add
-> KUnit coverage.
->=20
-> This series is based on v7.3 (c03c1a14507d) and depends on the following
-> accepted change, which is not included:
->=20
-> =C2=A0 softirq: Preserve interrupt context on return from interrupt
-> =C2=A0 https://lore.kernel.org/r/20261011060742.30584-1-kmehltretter@gmai=
-l.com
->=20
-> A pre-existing issue can make rv_test_dummy intermittently report a
-> false-positive invalid-wait-context warning under lockdep. Wen Yang has
-> posted a fix:
->=20
-> =C2=A0
-> https://lore.kernel.org/lkml/5586dd00789a0f904cc299cd8889744b8c6f8dc9.178=
-9412799.git.wen.yang@linux.dev/
->=20
-> This series does not include that fix.
->=20
-> Karl Mehltretter (9):
-> =C2=A0 tracing/irq: Add generic IRQ context boundary events
-> =C2=A0 tracing/sched: Add IRQ preemption lifecycle events
-> =C2=A0 rv: Add a monitor for generic IRQ context transitions
-> =C2=A0 rv: Add a monitor for IRQ-exit scheduling ownership
-> =C2=A0 docs/rv: Document the IRQ-entry monitors
-> =C2=A0 rv: Add KUnit coverage for IRQ context transitions
-> =C2=A0 rv: Add KUnit coverage for IRQ-exit scheduling
-> =C2=A0 rv: Test empty PREEMPT_RT softirq worker intervals
-> =C2=A0 rv: Test IRQ-exit softirq provenance and handoff
->=20
-> =C2=A0Documentation/trace/rv/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
-> =C2=A0Documentation/trace/rv/monitor_irqentry.rst=C2=A0=C2=A0 |=C2=A0 398=
- ++++
-> =C2=A0include/linux/interrupt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 7 +
-> =C2=A0include/rv/kunit.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 34 +-
-> =C2=A0include/trace/events/irq.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 70 +
-> =C2=A0include/trace/events/sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 51 +
-> =C2=A0kernel/sched/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +
-> =C2=A0kernel/softirq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 308 ++-
-> =C2=A0kernel/trace/rv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 5 +
-> =C2=A0kernel/trace/rv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +
-> =C2=A0kernel/trace/rv/monitors/irqentry/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 13 +
-> =C2=A0kernel/trace/rv/monitors/irqentry/irqentry.c=C2=A0 |=C2=A0=C2=A0 35=
- +
-> =C2=A0kernel/trace/rv/monitors/irqentry/irqentry.h=C2=A0 |=C2=A0=C2=A0=C2=
-=A0 3 +
-> =C2=A0kernel/trace/rv/monitors/irqexit/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 14 +
-> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 172 ++
-> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 85 +
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.c |=C2=A0 537 +++++
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.h |=C2=A0=C2=A0 21 +
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_trace.h |=C2=A0=C2=A0 19 +
-> =C2=A0kernel/trace/rv/monitors/irqstate/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 14 +
-> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.c=C2=A0 |=C2=A0 289 +++
-> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.h=C2=A0 |=C2=A0 139 ++
-> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 2062 +++++++++++++++++
-> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 25 +
-> =C2=A0.../rv/monitors/irqstate/irqstate_trace.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 15 +
-> =C2=A0kernel/trace/rv/rv_monitors_test.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 29 +
-> =C2=A0kernel/trace/rv/rv_trace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0=C2=A0 2 +
-> =C2=A0.../verification/models/irqentry/irqexit.dot=C2=A0 |=C2=A0=C2=A0 21=
- +
-> =C2=A0.../verification/models/irqentry/irqstate.dot |=C2=A0=C2=A0 32 +
-> =C2=A029 files changed, 4397 insertions(+), 13 deletions(-)
-> =C2=A0create mode 100644 Documentation/trace/rv/monitor_irqentry.rst
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
-.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
-.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace=
-.h
-> =C2=A0create mode 100644 tools/verification/models/irqentry/irqexit.dot
-> =C2=A0create mode 100644 tools/verification/models/irqentry/irqstate.dot
->=20
-> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-> prerequisite-patch-id: 6ac7167f0aa7c5319dac78bf5b06a989fd7dfac5
+With CONFIG_RT_GROUP_SCHED enabled assigning SCHED_FIFO-1 priority to a
+user task is kind of broken as it returns with -EPERM due to
 
+| #ifdef CONFIG_RT_GROUP_SCHED
+|                 /*
+|                  * Do not allow real-time tasks into groups that have no =
+runtime
+|                  * assigned.
+|                  */
+|                 if (rt_group_sched_enabled() &&
+|                                 rt_bandwidth_enabled() && rt_policy(polic=
+y) &&
+|                                 task_group(p)->rt_bandwidth.rt_runtime =
+=3D=3D 0 &&
+|                                 !task_group_is_autogroup(task_group(p))) {
+|                         retval =3D -EPERM;
+|                         pr_err("%s(%d)\n", __func__, __LINE__);
+|                         goto unlock;
+|                 }
+| #endif /* CONFIG_RT_GROUP_SCHED */
+
+rt_bandwidth.rt_runtime is zero and auto-group (which is SCHED_OTHER
+anyway) is off. I did not find a way to enable one of these knobs. The
+cgroup file (rt_runtime_us) that _should_ set rt_bandwidth.rt_runtime is
+CGroup v1 and not available (since we do v2 these days). I don't see how
+to bypass this. Unless rt_group_sched_enabled() is disabled I see no
+hope.
+Oh wait, this was exactly mentioned in commit 277e0909754e9 ("sched:
+Bypass bandwitdh checks with runtime disabled RT_GROUP_SCHED").
+
+Once I passed these gates I got stuck at the next barrier. Since commit
+c2e390197ad13 ("sched/rt: Update default bandwidth for real-time tasks
+to ONE") (v7.2) the value for sysctl_sched_rt_runtime is at 1s, same as
+sysctl_sched_rt_period. (I am not going to mention that the
+documentation in Documentation/scheduler/sched-rt-group.rst is kind of
+outdated.)
+
+This means the throttler does nothing since period can not exceed
+the runtime. I'm not sure why exactly but I can't lower the value
+because then tg_rt_schedulable() will complain in
+
+|         /*
+|          * Nobody can have more than the global setting allows.
+|          */
+|         if (total > to_ratio(global_rt_period(), global_rt_runtime()))
+|                 return -EINVAL;
+
+so that one second remains. It can be disabled (via -1). One can revert
+the commit and have the throttler is working again (but more later).
+Once at 0.95s it can go up to 1s and down again but it can't go below
+its initial value. This does not look as it is working as designed.
+
+Without enabled RT_GROUP_SCHED the files can be set. Are they useful?
+According to Documentation/scheduler/sched-deadline.rst it used for
+"admission control" whatever that means. Anyway the fair server still
+kicks if it is disabled. So I *think* this is just something else and
+not part for the docs there.
+
+With RT_GROUP_SCHED enabled the two proc files can't change their
+content. Plus it all kind of works just for cgroup-v1 and for v2 it
+breaks RT applications. And it never worked AFAIK. So from my point of
+view CONFIG_RT_GROUP_SCHED did not serve any good and can go.
+
+Moving on. The old throttler did warn one before throttling real-time
+tasks so the risk of a heart attack was limited but still there. The
+sched* trace events do not show this: the RT task goes away and the CPU
+might go idle in the end. But we did have the printk().
+On the other hand the fair-server decides that it is time for a
+SCHED_OTHER task, the scheduler obeys and we switch to SCHED_OTHER and
+then back to SCHED_FIFO. Okay, more efficient (as no CPU in idle). No
+hint what goes on.
+
+In order to get to the non-throttling behavior one needs to
+	echo 0 > /sys/kernel/debug/sched/fair_server/cpuX/runtime
+
+There is a crumble of documentation in sched-rt-group.rst which went
+in via commit b1536481c81fb ("sched/rt: Update limit of sched_rt sysctl
+in documentation") but it has nothing to do with CONFIG_RT_GROUP_SCHED
+and the fair server is 100% fine working without it. I don't think it is
+the right place for this.
+
+Side note: Remember me asking for a sched-event in sched_tick() if
+sched-lazy is promoted to an actual scheduling request? Well, this is
+what the fair-server preemption looks like with sched event enabled:
+
+|       loop-time-1295    [000] d.h1.   339.006215: sched_stat_runtime: com=
+m=3Dloop-time pid=3D1295 runtime=3D3999761 [ns]
+|       loop-time-1295    [000] d.h1.   339.006482: sched_stat_runtime: com=
+m=3Dloop-time pid=3D1295 runtime=3D267302 [ns]
+|       loop-time-1295    [000] d.h1.   339.008953: sched_stat_runtime: com=
+m=3Dloop-time pid=3D1295 runtime=3D2471124 [ns]
+|       loop-time-1295    [000] dN.2.   339.008955: sched_stat_runtime: com=
+m=3Dloop-time pid=3D1295 runtime=3D1152 [ns]
+|       loop-time-1295    [000] d..2.   339.008956: sched_switch: prev_comm=
+=3Dloop-time prev_pid=3D1295 prev_prio=3D9 prev_state=3DR =3D=3D> next_comm=
+=3Dkworker/u4:4 next_pid=3D1148 next_prio=3D120
+|    kworker/u4:4-1148    [000] d..21   339.008959: sched_waking: comm=3Dss=
+hd-session pid=3D1256 prio=3D120 target_cpu=3D000
+
+suddenly Need-resched is set and we schedule to lower prio task. Not a
+problem if you know about this=E2=80=A6 Or have the timer events enabled at
+which point dl_task_timer will give you a hint. But we have LLMs so=E2=80=A6
+
+Anyway. Could this interface be moved to /sys/kernel/sched/fair_server
+away from the debugfs part? debugfs is not for stable kernels/ ABI. Is
+there a reason why this might be considered debugging and not final or
+restricted from productive?
+
+Just to summarize:
+- Remove /proc/sys/kernel/sched_rt_*
+  [ ] Yes [ ] No, because
+              _____________________
+- Remove CONFIG_RT_GROUP_SCHED
+  [ ] Yes [ ] No, because
+              _____________________
+
+- An additional trace sched event for fair server preemption
+  [ ] Yes   [ ] No, it is silly to have
+
+- Fair server documentation needs to go to
+  [ ] It is fine where it is
+  [ ] To ____________________
+
+Sebastian
