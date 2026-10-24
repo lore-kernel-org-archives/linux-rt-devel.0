@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792848654;
-	b=nsoMwUB/OC1B8SsWlXqRyZI/+IskhB7eS7BJWjgI/Tr2cNM5ec6jI5Q2y8kcyPaJHKAC
-	 Q6lpfvc7vEJ3QEw32LzwEbS/6BT+rXsLdMiMH0Sg+BujH0dIaFnHyvpjiIty7Q66j2Iuy
-	 PQn2us1OeWBYBJAJ9Kx9R6d0zUM6peTh75Wx/FMAmCUAhm9undeBCZmaAcQudNvoK+HOo
-	 STwZo+cWnL9C0ntbdzy0bhVDztmMkK1pIgctuWWHNo4OKleSI18lGOZ+IC7S+lnqqr+8b
-	 K+Rxf8w7FGoJhaQkZU6Vd2oE5J10TAXd3HhA8Jof6Av7pqIbRwLBN8rn6OtdrsDKw+g==
+	t=1792848660;
+	b=3HvbBS2c54NpnzFrCKP9SAsGQ/dzP+YnhDGqyhJS4wugiHCRtevLjsoasOB/rxQumwg9
+	 8q2+mKnUmfvwAjZv58o4CqHsFsKXJD4M/MyNhzOPAQBBjgpHKTtQ5ARbMCqXhR2FxMoZZ
+	 ooxSh9K/qsoSmKofQgbFoMUnv5bHEtcOMfL1bhyjQyLi9JUcYexmY7U/hPRe/uVX6enj5
+	 xf4uugv5+wu/tAb9Q3vDG2TtfsOqyqq9/WkeRPu0+PtIpPsBAEI2mpT5kYBBF8ApqCMl2
+	 FaKRPlqCkfsekAduFNaBeMsrTBeOg/RbcsQoSzCmb7abqnw80aaejuaNHS4o8hCMyVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792848654;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792848660;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=QbdRzKTr2Rl9eV0O34NZ1XahI9TwRKXXiukfxr79S+o=;
-	b=4C1qGONclCCHEXnX+O8QEdgqI4iqlYlEQXrKCnDw3rr8XkjHJ0P81Plj0MizZu5LVyyv
-	 NiAVjirttHK0e0y1KwIyvlnA9aaqH1wbnv1smBhknl6VKpJkLZD9yVqV5KeXAlFA53B2e
-	 qBCjdagH9zMX47i1BZvmrUmy5TGu1217NuzaFi8jgqhJTAeCn7Cjcn4jYf0OctCTqD3I7
-	 NcxQiEdn1+w/I+x9aUOirFwhvHpkQZVIURDo/tcoyniysxbO3SHafyIw2Q2QalD6/eeev
-	 VNQ/c01kNPTRUSUP1QCuJs5Nt9kW2vkTvQIemNZTBQ+61/QxgyWz/hLI1YZ+1EqJGIg==
+	bh=A1MY6H5B5YFmKLR6e6IGXuVoYXt232jFbf6/Clm0ZVE=;
+	b=0eOqFgtzY6N+RLM8CegSeJogclcfF0ugLW73GJtR2t8Xj/CnW9b28zV3W/JcGEyE/djd
+	 94plgC9WJ0kq6KiFZEyI99ncGg4HBGx18hmjXOQM20kCE8qkbWZaZ+0Y+Ps0fWIPhVkOc
+	 n7nNyLMXwsPY9ez1m6tkTTafvrZp71QjUbnBT7/jPr3I87GeIG8KKz528AYharRaHeXdc
+	 DK7ISQHzzJPVrXPpMqvaSAI+bbLhS7KZw6vY0nuSDd4Tli8IfBaOdt+7n0ci6O7pwQdXo
+	 aobe9sVv1Y7pN4MFfK2aJrhYoRshUmxcyLAS3ROBIdFp/VXQXqg2KXIsbgUfVWOqO6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EWtIqwz7;
-	arc=none smtp.remote-ip=95.215.58.17
-Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=sKFKX80I;
+	arc=none smtp.remote-ip=95.215.58.20
+Received: from mta1.migadu.com (out-20.mta1.migadu.com [95.215.58.20])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7A6606A31D
-	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 13:30:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A7A6606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C199606A31A
+	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 13:30:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C199606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EWtIqwz7
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=sKFKX80I
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=hc0b6c2PXRIxYG6V/KHnEs6I6EzoXLJjB2vmU1fF8Bg=;
+DKIM-Signature: a=rsa-sha256; bh=UlY7QlMUrNEOh4hmb9le0VB8UsxmrmjM0k/WpNGXkOI=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792848650; v=1; x=1793453450;
- b=EWtIqwz7NDgY2HZ8GJLfPfhnDKXyYsO5RZEZFiTD0VI7RNEvtRIPjBvcvah5CKkvWru+tE3f
- okJAI11XB2SWK4gxpWsD3Xd77pLtZiXn1ELA0ODCSvDKlTg5tGmrTeWLUkBi96duSTeSYMPhqBG
- 0ztGlCMUhpHb5jLMahF6B0/8=
+ t=1792848656; v=1; x=1793453456;
+ b=sKFKX80Ix84Fs350MK00f4edHKLj4RuZrmcwa99md6zqJCpzKHUFQlIICd9uuM9mYOm4M3QZ
+ 3urNDywXxldYI3t3LfSJMf0cad2aA3feMqg4sV0BxVHYFnIlF29TD6c/1SdiCiBSJAQ/LOY9QLz
+ OyStvmomSFPOtmOMZ2HPnj7U=
 X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by mta11.migadu.com with ESMTPS id 5cfe49cf9140ddd7;
-	Sat, 24 Oct 2026 13:30:49 +0000
-X-Mizu-Trace-ID: 5cfe49cf9140ddd7
+Received: by mta11.migadu.com with ESMTPS id 774620f7950678cc;
+	Sat, 24 Oct 2026 13:30:56 +0000
+X-Mizu-Trace-ID: 774620f7950678cc
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>
 Cc: linux-rt-devel@lists.linux.dev
-Subject: [PATCH 6.1-rt v2 01/15] Revert "net: Avoid the IPI to free the"
-Date: Sat, 24 Oct 2026 21:30:25 +0800
-Message-Id: <a36d97a1db7d7092f4d506ff0df79e17ac55ec9f.1792847032.git.wen.yang@linux.dev>
+Subject: [PATCH 6.1-rt v2 02/15] net: avoid irqsave in skb_defer_free_flush
+Date: Sat, 24 Oct 2026 21:30:26 +0800
+Message-Id: <027595d505fb50c2bff406cec058d05c781994e8.1792847032.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1792847031.git.wen.yang@linux.dev>
 References: <cover.1792847031.git.wen.yang@linux.dev>
@@ -69,120 +69,67 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wen Yang <wen.yang@linux.dev>
+From: Jesper Dangaard Brouer <brouer@redhat.com>
 
-This reverts commit 8d152d22d9f056f87875f97aec016a65622abbf0.
+commit 3176eb82681ec9c8af31c6588ddedcc6cfb9e445 upstream.
 
-The RT-only defer_work workaround covers the deferred-free path but not
-RPS remote-backlog scheduling, which still raises NET_RX_SOFTIRQ from the
-function-call IPI, so the do_softirq_post_smp_call_flush() warning remains
-reachable. The following upstream backlog-NAPI thread backport replaces
-both paths with backlog-thread scheduling, so revert the workaround rather
-than extend it.
+The spin_lock irqsave/restore API variant in skb_defer_free_flush can
+be replaced with the faster spin_lock irq variant, which doesn't need
+to read and restore the CPU flags.
 
+Using the unconditional irq "disable/enable" API variant is safe,
+because the skb_defer_free_flush() function is only called during
+NAPI-RX processing in net_rx_action(), where it is known the IRQs
+are enabled.
+
+Expected gain is 14 cycles from avoiding reading and restoring CPU
+flags in a spin_lock_irqsave/restore operation, measured via a
+microbencmark kernel module[1] on CPU E5-1650 v4 @ 3.60GHz.
+
+Microbenchmark overhead of spin_lock+unlock:
+ - spin_lock_unlock_irq     cost: 34 cycles(tsc)  9.486 ns
+ - spin_lock_unlock_irqsave cost: 48 cycles(tsc) 13.567 ns
+
+We don't expect to see a measurable packet performance gain, as
+skb_defer_free_flush() is called infrequently once per NIC device NAPI
+bulk cycle and conditionally only if SKBs have been deferred by other
+CPUs via skb_attempt_defer_free().
+
+[1] https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/time_bench_sample.c
+
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Jesper Dangaard Brouer <brouer@redhat.com>
+Link: https://lore.kernel.org/r/167421646327.1321776.7390743166998776914.stgit@firesoul
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- include/linux/netdevice.h |  4 ----
- net/core/dev.c            | 37 +++++++++----------------------------
- net/core/skbuff.c         |  7 +------
- 3 files changed, 10 insertions(+), 38 deletions(-)
+ net/core/dev.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index fbd3b17463da..e97967ca2760 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3199,11 +3199,7 @@ struct softnet_data {
- 	int			defer_count;
- 	int			defer_ipi_scheduled;
- 	struct sk_buff		*defer_list;
--#ifndef CONFIG_PREEMPT_RT
- 	call_single_data_t	defer_csd;
--#else
--	struct work_struct	defer_work;
--#endif
- };
- 
- static inline void input_queue_head_incr(struct softnet_data *sd)
 diff --git a/net/core/dev.c b/net/core/dev.c
-index 5d6ca8510227..f44ffac6cba6 100644
+index f44ffac6cba6..efe483d7e03f 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
-@@ -4712,6 +4712,15 @@ static void rps_trigger_softirq(void *data)
- 
- #endif /* CONFIG_RPS */
- 
-+/* Called from hardirq (IPI) context */
-+static void trigger_rx_softirq(void *data)
-+{
-+	struct softnet_data *sd = data;
-+
-+	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
-+	smp_store_release(&sd->defer_ipi_scheduled, 0);
-+}
-+
- /*
-  * Check if this softnet_data structure is another cpu one
-  * If yes, queue it to our IPI list and return 1
-@@ -6772,30 +6781,6 @@ static void skb_defer_free_flush(struct softnet_data *sd)
- 	}
- }
- 
--#ifndef CONFIG_PREEMPT_RT
--/* Called from hardirq (IPI) context */
--static void trigger_rx_softirq(void *data)
--{
--	struct softnet_data *sd = data;
--
--	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
--	smp_store_release(&sd->defer_ipi_scheduled, 0);
--}
--
--#else
--
--static void trigger_rx_softirq(struct work_struct *defer_work)
--{
--	struct softnet_data *sd;
--
--	sd = container_of(defer_work, struct softnet_data, defer_work);
--	smp_store_release(&sd->defer_ipi_scheduled, 0);
--	local_bh_disable();
--	skb_defer_free_flush(sd);
--	local_bh_enable();
--}
--#endif
--
- static __latent_entropy void net_rx_action(struct softirq_action *h)
+@@ -6762,17 +6762,16 @@ static int napi_threaded_poll(void *data)
+ static void skb_defer_free_flush(struct softnet_data *sd)
  {
- 	struct softnet_data *sd = this_cpu_ptr(&softnet_data);
-@@ -11620,11 +11605,7 @@ static int __init net_dev_init(void)
- 		INIT_CSD(&sd->csd, rps_trigger_softirq, sd);
- 		sd->cpu = i;
- #endif
--#ifndef CONFIG_PREEMPT_RT
- 		INIT_CSD(&sd->defer_csd, trigger_rx_softirq, sd);
--#else
--		INIT_WORK(&sd->defer_work, trigger_rx_softirq);
--#endif
- 		spin_lock_init(&sd->defer_lock);
+ 	struct sk_buff *skb, *next;
+-	unsigned long flags;
  
- 		init_gro_hash(&sd->backlog);
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 665be0ad4b8d..a66066bc9861 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -6746,11 +6746,6 @@ nodefer:	__kfree_skb(skb);
- 	/* Make sure to trigger NET_RX_SOFTIRQ on the remote CPU
- 	 * if we are unlucky enough (this seems very unlikely).
- 	 */
--	if (unlikely(kick) && !cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
--#ifndef CONFIG_PREEMPT_RT
-+	if (unlikely(kick) && !cmpxchg(&sd->defer_ipi_scheduled, 0, 1))
- 		smp_call_function_single_async(cpu, &sd->defer_csd);
--#else
--		schedule_work_on(cpu, &sd->defer_work);
--#endif
--	}
- }
+ 	/* Paired with WRITE_ONCE() in skb_attempt_defer_free() */
+ 	if (!READ_ONCE(sd->defer_list))
+ 		return;
+ 
+-	spin_lock_irqsave(&sd->defer_lock, flags);
++	spin_lock_irq(&sd->defer_lock);
+ 	skb = sd->defer_list;
+ 	sd->defer_list = NULL;
+ 	sd->defer_count = 0;
+-	spin_unlock_irqrestore(&sd->defer_lock, flags);
++	spin_unlock_irq(&sd->defer_lock);
+ 
+ 	while (skb != NULL) {
+ 		next = skb->next;
 -- 
 2.25.1
 
