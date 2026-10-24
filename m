@@ -1,63 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792848722;
-	b=twDCrzEmGlSZqqsCBQN4686fPuttn2a/0B9ur1XymsCiDpje/IY8S0fv5vyZmi1TpcuW
-	 R1eobaEt3xPwnqc9y2mC5w08v33InK8X+nmZbp76ovCu6mxTv3Dcf12mXGesKFqVYx013
-	 BmxCexR1hku5hS3KNNc86tRya27O0Zn6vMfb81+GHnUm4fpJnM01vojIidhrMtAi9JASV
-	 TJeSNVXCin+CA0CncEZwN7qUgj7HHz6SLx28OQyoqvWchwBhkLpvOVilthwRFVXQQY132
-	 FqztYMCE1vItnF6xHuIfABrqWigjrdH7B5zTvAnytFpUy4fYFqw0VQhfQRmt03vZCAQ==
+	t=1792852460;
+	b=KAAw9xgb+1pIgsYwWnJfiWCIpDeF8+G+6T+yeNWHlJla6wy/90XFKs9RlwwA0oh7jaoX
+	 nH8EOuqp6Jr6QA9eSk9H7Xl31QSjnJKAulYkXHkOh6X7VNEiRwfY3rBQTwtEyVQQjSK3B
+	 rWJCN1nPT9uJMVyS0QUWc1uam0Bgq7g9EctcsajoTZMUIq5hkTi7J80D2WHaLAHVcAeJq
+	 FnPsfho95qe7na/AWaRCYtEseAmqqnC2VVAV5r9y84558dKP9snYgIblMmM1OuLUQLyu8
+	 Kt5RzEBzPOkdkp0G9XZpOXUxk+9WFllBA/Rya2PcKrhYy5jZkHPe3w+UiPSPwBw0Jqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792848722;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792852460;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=GvXA5G/d5rtRhjHJNLiOl1BfEfqAeqrxlrCvKiBth9w=;
-	b=hFY9DvJ5UOciy68ECFjOyRQWj4uq6n4jsROEVkq/2Ouahi6B4FJo7VLvRM9BxdaDd7a/
-	 FqU5qZP6TG/fcmazgB9p5ixagJywfKykamRyRfILGbPhgEwNAV4WrM/0Uf0b5BP4+Q/rL
-	 gCRAWjEa25WQIvAURlq1/AeYvXJ/qi83O7MLsYO3h3OIR3WJIhN0wzeOUUIX7N3BC0gP/
-	 caN8NTl4l4Gs/Hpdiz42TeIydaaPlGKC04TERBq0ZzOJUDxAIUy0JiQSoWvz8u5xNf7rA
-	 KAFeQ8KpEJCifYMtf7lt7jTYPfWjyLVutv8MONQMo4jhweWDtgPj6CVzZyMAdzBptwQ==
+	bh=eQA+OynjfjY036ybXbiOfQTgbOLnKOtIL4CZzoyqqmo=;
+	b=3tDdRTFGXvYtNzqAESbCKomQkPrTGHNXt3JsG5pt0DZl5o3/D52pJ8CUS+q6e5UxVNZt
+	 qSteKgLxN9J/e5uywCuIwizhNz5b4u2W7WRxVqk3r3naweToIfKZDJPN3czqLAgMgsJv9
+	 n97zz6H313zfYX3LY9gP+oVNljgRdZWMF49IJ7p4G3RW+pya35J5qZrq6qCGXHWKGUcFx
+	 RbXOKfC8nH7XwbL7PY7oTK/bg6rE0yE4CbKxYn6aup2PuXKUGT7huHnTS6jJhVr8FE9em
+	 Z10cBTJ28bt1KTIuuWQoCTETPiBPQjwalGLHpz9qS0g/YhhKlx+e5y7qrShnplsInhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=R9SsvetN;
-	arc=none smtp.remote-ip=95.215.58.69
-Received: from mta1.migadu.com (out-69.mta1.migadu.com [95.215.58.69])
+	dmarc=none header.from=mojatatu.com;
+	spf=none smtp.mailfrom=mojatatu.com;
+	dkim=pass header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=t1Q5teoP;
+	arc=none smtp.remote-ip=209.85.219.53
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1AF606A31B
-	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 13:32:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB1AF606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51022606A31A
+	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 14:34:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51022606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=R9SsvetN
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=R+pI384S0Q9r6atCJ0SvFSIfiwHu6LC+34s4EEpq3to=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792848719; v=1; x=1793453519;
- b=R9SsvetNnYv6jyxvdWHkQEwAcS9CJIa/UEsllv9n6KgWOVj+fYqBdxYwguGrDGN+8QtnC9X8
- oJMT1oL96lGy0xUI75Og3IHJlN73v0HW7J1Onctrd5JdJW+oNDnGsLU2NHgcfw7Ulhyj5XYkc92
- 1ljC1qhlSLXMEiEpEVhU1CVA=
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by mta11.migadu.com with ESMTPS id 9d141d559e62e5e8;
-	Sat, 24 Oct 2026 13:31:59 +0000
-X-Mizu-Trace-ID: 9d141d559e62e5e8
-X-Migadu-Flow: FLOW_OUT
-From: wen.yang@linux.dev
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	dkim=pass (1024-bit key, unprotected) header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=t1Q5teoP
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-91bb5795792so20346026d6.2
+        for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 07:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu.com; s=google; t=1792852459; x=1793457259; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eQA+OynjfjY036ybXbiOfQTgbOLnKOtIL4CZzoyqqmo=;
+        b=t1Q5teoPDDkoAM58ifQTNJDlCLuHAz/xsUiD/MUrpjVSgAHCdqZcmIHGPS7jchnbba
+         PGwbLVXa8WHxh7BgIhHcijvIIzHEBHMZBMmKViT0dqF4U24cWf3LOTWDrOLNPtaWciJb
+         GOlNW3uZE2U8o7lJFgbeZr6WlXBWMP3t9tyQY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792852459; x=1793457259;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eQA+OynjfjY036ybXbiOfQTgbOLnKOtIL4CZzoyqqmo=;
+        b=HwsSLE9TuFPdnJ9LkWyUmGZaciXDboezNbHc/ArXMUEX/+0ZNlSG82Q0fYN92Ci4FD
+         iRxX1QNpMnTeG83+EeocNUpUj7arSGPQXOZlGneB8k5SXdEyyDVUQj6F2oi92GZwJxQg
+         sV2fr3XGHBPAOvBchICgHLfxXAdsgGLZPnrwqcUBcSvpBofYihkJmsRNT4HDC6I8Rbam
+         xkQ+PfSHuqg9GVPw41/PedeOqso9uCYHd/f4trbdh2jgSri+ozd8TEpw+ta3o3C8GGqg
+         1XvVPCVOdiOvattRXtbQrw0LI67xycpKTNPl1texAKqTRpYr8RMOenFIzbEMiq3OOe4h
+         VXpw==
+X-Forwarded-Encrypted: i=1; AKwUvBzeoddsqaMORjwe9EMwy9WIQXYpQUEFGsTxw4rRHJ2xaUbCK1sBSNz/6VU7pk23HKtZwzUsSvPMYjnqCVezAw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJDla/E4WA0Lm6VmtNe5+JWhoSJbIgAtpVUUKW2IUq3K0irekHS
+	xQxggUVteChZs7jdfcWlcf3U2DshMOJljjIBG0kjR39RsRXixlFrlOomlS5wrVLz9Q==
+X-Gm-Gg: AYBFou1NLdJIq6GcJvL9adUzH5Ds0sMk0Z+9frCFfGOCm5SQDatehu2ZcjuLz3UiDcl
+	xhQFp1N6vOaM8JAk+skaCllJcfNYPnLPXhNG91qwRFslIpanS9SHh877GHjRl2SEw7s96KqPO8E
+	BBp0tRgl/26OPZPFxnfhx1oTovTfKNVLnXsZevmQiVeqAUsZ00WGHF7GBNWCObsV6/gbSXCnTRm
+	Hr1rMblDDQ82ebfYnlOuGwr563jQ/kccdfgwTUO2TCY9zPwR8iZPbaa7tYGkSdVBwcj9FHSP4km
+	F19DLxgBw5xtHybqHM1HpmwzPit1OTmFTRvtd2O8eVVp5Tkto+VU7/qnVRFoBq2ZDlkPmVRkVsg
+	u7oVWO9xs9ZgpRqP48IsNVx0UVN/tcdmKeaENGSQLILEtNTpPizbSrnYWpfcrRwIBphfzLIRIrD
+	YVZbHfv07S2WrqJwrh9pm/NfLG3IEC24pd4ZdmrVAAxd7tnbPP1e1havKQB6NmbDqfxjW4VoJ4G
+	cKt96wtJGL+0GJBauuQBTbH4agyh5CR2e5d5HTzgZo4UFlEw3qqQweuj07mckotSA0Jp6SWPXp0
+	hi24MoQr0Nj6tD19dC9E21C0sEvfwakaOuFnZFd0+o0=
+X-Received: by 2002:a05:6214:da4:b0:91c:15a6:ead5 with SMTP id 6a1803df08f44-91c48e56e21mr32544566d6.36.1792852459348;
+        Sat, 24 Oct 2026 07:34:19 -0700 (PDT)
+Received: from mbili.tail33bf8.ts.net ([64.203.83.2])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47bd5b65sm22397466d6.10.2026.10.24.07.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 07:34:18 -0700 (PDT)
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+To: netdev@vger.kernel.org
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-rt-devel@lists.linux.dev
-Subject: [PATCH 6.1-rt v2 15/15] net: Rename rps_lock to backlog_lock.
-Date: Sat, 24 Oct 2026 21:30:39 +0800
-Message-Id: <b5a680ca3e528f11845ccc41512ded20bc72434d.1792847032.git.wen.yang@linux.dev>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1792847031.git.wen.yang@linux.dev>
-References: <cover.1792847031.git.wen.yang@linux.dev>
+	Steven Rostedt <rostedt@goodmis.org>,
+	owen kwan <owen@verialabs.com>,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org,
+	sashiko-bot@kernel.org,
+	zdi-disclosures@trendmicro.com
+Subject: [PATCH net v2 0/2] net/sched: sch_teql: fix transmit-path regressions
+Date: Sat, 24 Oct 2026 10:34:13 -0400
+Message-Id: <QDISC-Y0BY.v2.r0.20261024060625@mojatatu.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -69,172 +107,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+v2: resend of the two-patch series.
 
-commit 765b11f8f4e20b7433e4ba4a3e9106a0d59501ed upstream.
+- Patch 1/2 is unchanged
 
-The rps_lock.*() functions use the inner lock of a sk_buff_head for
-locking. This lock is used if RPS is enabled, otherwise the list is
-accessed lockless and disabling interrupts is enough for the
-synchronisation because it is only accessed CPU local. Not only the list
-is protected but also the NAPI state protected.
-With the addition of backlog threads, the lock is also needed because of
-the cross CPU access even without RPS. The clean up of the defer_list
-list is also done via backlog threads (if enabled).
+- Patch 2/2 now fixes the drop accounting raised by the Sashiko
+  review of v1 (both providers): only NETDEV_TX_OK and NET_XMIT_CN
+  count as accepted transmits (CN can accompany acceptance of the
+  current packet); any other consumed result, e.g. NET_XMIT_DROP,
+  is charged to tx_dropped instead of being counted as a good
+  transmit.  The skb-ownership fix is unchanged (Sashiko-gemini).
 
-It has been suggested to rename the locking function since it is no
-longer just RPS.
+The v2 revision follows the review of patch 2/2
+(https://lore.kernel.org/netdev/179248763469.3135.1739559328868319628@kernel.org/)
+and Simon Horman's request for a response
+(https://lore.kernel.org/netdev/20261023162821.GN708417@horms.kernel.org/).
 
-Rename the rps_lock*() functions to backlog_lock*().
+Two independent sch_teql regressions on the transmit path.
 
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Acked-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Paolo Abeni <pabeni@redhat.com>
-Signed-off-by: Wen Yang <wen.yang@linux.dev>
----
- net/core/dev.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+Patch 1 makes slaves_lock safe for the hard-IRQ-disabled netpoll path and
+for PREEMPT_RT by converting it to a raw spinlock taken with IRQs saved.
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 317c221c99c2..f1ac29d7144e 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -243,8 +243,8 @@ static bool use_backlog_threads(void)
- 
- #endif
- 
--static inline void rps_lock_irqsave(struct softnet_data *sd,
--				    unsigned long *flags)
-+static inline void backlog_lock_irq_save(struct softnet_data *sd,
-+					 unsigned long *flags)
- {
- 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_lock_irqsave(&sd->input_pkt_queue.lock, *flags);
-@@ -252,7 +252,7 @@ static inline void rps_lock_irqsave(struct softnet_data *sd,
- 		local_irq_save(*flags);
- }
- 
--static inline void rps_lock_irq_disable(struct softnet_data *sd)
-+static inline void backlog_lock_irq_disable(struct softnet_data *sd)
- {
- 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_lock_irq(&sd->input_pkt_queue.lock);
-@@ -260,8 +260,8 @@ static inline void rps_lock_irq_disable(struct softnet_data *sd)
- 		local_irq_disable();
- }
- 
--static inline void rps_unlock_irq_restore(struct softnet_data *sd,
--					  unsigned long *flags)
-+static inline void backlog_unlock_irq_restore(struct softnet_data *sd,
-+					      unsigned long *flags)
- {
- 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_unlock_irqrestore(&sd->input_pkt_queue.lock, *flags);
-@@ -269,7 +269,7 @@ static inline void rps_unlock_irq_restore(struct softnet_data *sd,
- 		local_irq_restore(*flags);
- }
- 
--static inline void rps_unlock_irq_enable(struct softnet_data *sd)
-+static inline void backlog_unlock_irq_enable(struct softnet_data *sd)
- {
- 	if (IS_ENABLED(CONFIG_RPS) || use_backlog_threads())
- 		spin_unlock_irq(&sd->input_pkt_queue.lock);
-@@ -4790,12 +4790,12 @@ void kick_defer_list_purge(struct softnet_data *sd, unsigned int cpu)
- 	unsigned long flags;
- 
- 	if (use_backlog_threads()) {
--		rps_lock_irqsave(sd, &flags);
-+		backlog_lock_irq_save(sd, &flags);
- 
- 		if (!__test_and_set_bit(NAPI_STATE_SCHED, &sd->backlog.state))
- 			__napi_schedule_irqoff(&sd->backlog);
- 
--		rps_unlock_irq_restore(sd, &flags);
-+		backlog_unlock_irq_restore(sd, &flags);
- 
- 	} else if (!cmpxchg(&sd->defer_ipi_scheduled, 0, 1)) {
- 		smp_call_function_single_async(cpu, &sd->defer_csd);
-@@ -4857,7 +4857,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
- 	reason = SKB_DROP_REASON_NOT_SPECIFIED;
- 	sd = &per_cpu(softnet_data, cpu);
- 
--	rps_lock_irqsave(sd, &flags);
-+	backlog_lock_irq_save(sd, &flags);
- 	if (!netif_running(skb->dev))
- 		goto drop;
- 	qlen = skb_queue_len(&sd->input_pkt_queue);
-@@ -4866,7 +4866,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
- enqueue:
- 			__skb_queue_tail(&sd->input_pkt_queue, skb);
- 			input_queue_tail_incr_save(sd, qtail);
--			rps_unlock_irq_restore(sd, &flags);
-+			backlog_unlock_irq_restore(sd, &flags);
- 			return NET_RX_SUCCESS;
- 		}
- 
-@@ -4881,7 +4881,7 @@ static int enqueue_to_backlog(struct sk_buff *skb, int cpu,
- 
- drop:
- 	sd->dropped++;
--	rps_unlock_irq_restore(sd, &flags);
-+	backlog_unlock_irq_restore(sd, &flags);
- 
- 	dev_core_stats_rx_dropped_inc(skb->dev);
- 	kfree_skb_reason(skb, reason);
-@@ -5977,7 +5977,7 @@ static void flush_backlog(struct work_struct *work)
- 	local_bh_disable();
- 	sd = this_cpu_ptr(&softnet_data);
- 
--	rps_lock_irq_disable(sd);
-+	backlog_lock_irq_disable(sd);
- 	skb_queue_walk_safe(&sd->input_pkt_queue, skb, tmp) {
- 		if (skb->dev->reg_state == NETREG_UNREGISTERING) {
- 			__skb_unlink(skb, &sd->input_pkt_queue);
-@@ -5985,7 +5985,7 @@ static void flush_backlog(struct work_struct *work)
- 			input_queue_head_incr(sd);
- 		}
- 	}
--	rps_unlock_irq_enable(sd);
-+	backlog_unlock_irq_enable(sd);
- 
- 	skb_queue_walk_safe(&sd->process_queue, skb, tmp) {
- 		if (skb->dev->reg_state == NETREG_UNREGISTERING) {
-@@ -6003,14 +6003,14 @@ static bool flush_required(int cpu)
- 	struct softnet_data *sd = &per_cpu(softnet_data, cpu);
- 	bool do_flush;
- 
--	rps_lock_irq_disable(sd);
-+	backlog_lock_irq_disable(sd);
- 
- 	/* as insertion into process_queue happens with the rps lock held,
- 	 * process_queue access may race only with dequeue
- 	 */
- 	do_flush = !skb_queue_empty(&sd->input_pkt_queue) ||
- 		   !skb_queue_empty_lockless(&sd->process_queue);
--	rps_unlock_irq_enable(sd);
-+	backlog_unlock_irq_enable(sd);
- 
- 	return do_flush;
- #endif
-@@ -6125,7 +6125,7 @@ static int process_backlog(struct napi_struct *napi, int quota)
- 
- 		}
- 
--		rps_lock_irq_disable(sd);
-+		backlog_lock_irq_disable(sd);
- 		if (skb_queue_empty(&sd->input_pkt_queue)) {
- 			/*
- 			 * Inline a custom version of __napi_complete().
-@@ -6141,7 +6141,7 @@ static int process_backlog(struct napi_struct *napi, int quota)
- 			skb_queue_splice_tail_init(&sd->input_pkt_queue,
- 						   &sd->process_queue);
- 		}
--		rps_unlock_irq_enable(sd);
-+		backlog_unlock_irq_enable(sd);
- 	}
- 
- 	return work;
+Patch 2 fixes a use-after-free when a lower virtual device consumes an skb
+but returns NET_XMIT_DROP rather than NETDEV_TX_OK, and stops counting
+those consumed drops as good transmits.
+
+Jamal Hadi Salim (1):
+  net/sched: sch_teql: fix slaves_lock IRQ deadlock
+
+owen kwan (1):
+  net/sched: sch_teql: fix use-after-free on lower qdisc drop
+
+ net/sched/sch_teql.c | 60 +++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 22 deletions(-)
+
 -- 
-2.25.1
-
+2.43.0
