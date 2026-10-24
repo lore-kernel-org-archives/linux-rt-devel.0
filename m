@@ -1,57 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792825437;
-	b=QDxL+xrKdri+8S4Q2zRgJBhvEZVtdhm3tFBJWQa8zDnPl9FZnLh4cCpKKHCzlxPIGtqI
-	 DiziOLcjab/+4YW5jKlA4g7ZXyiOQyMi3BSy8+kmuKtL9WJScmSmvRUZjcNmFJVavm5KT
-	 Sv5J8aonpbQOQhIg5UcWGsesL4FtNruzj60Q7wQOUP6T3t03w/qqqav3NCb4YWexrSs4G
-	 /1S7n9y58q0BR7aVJtcsI8jZik/a1zlId3MdTG5G/qj3pl9lVDo3AqrRHvU7RIQCOuXua
-	 Z56ueQ1XjvhwyFofYZR4sf1QdikoWY4/CaKFtpqxWLYN+TO5wLX4UOqmkHH6DvzVfDQ==
+	t=1792837685;
+	b=kjw2NdNj55eXOta9ovVS1gN4K3o69ssRYvlQ8LRL4N0hSSBRrVT/OBLAnhwGxXpDLPuu
+	 KywVdKR1nsRmm+7P5pTTAbAoEsWgzrAtIJ+B8B7nwr/myaTlPA13xGqiKOroBifolY2pB
+	 riCHSqVwoKR62zO/+4NkCw1WJ0i5SV7jtScbMmNGEPcYanKJb+CdqjqlIj1eGhkq3V+AF
+	 YbmE7kXmkuc6uAG1Lupy4eQKjSL3w+duC4cIWzaCK5O2mJsinNwRvXODGRhQUeGH+pqn9
+	 fYZ+lBDKIjbQ+2ynHYszz4tWW3iBn6Z3sUyHhNPKaOpjVtnj7LBDQLuu5n4faM7ZHpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792825437;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2FdeqYZg0t+ii5NnwM8v7ZVFrQHVdVZTti3YtFSfjtk=;
-	b=bW+OfQZyaEGJ/aa+XATF4cO68kV7NEo4I1w+DhP29wXYymMpmXi+Diamsr9/ZoXvysCQ
-	 BCH9sCutg77BvjQ7Me0XjKtLdCAlTMG0bmiUw/uXHHM67guhBF26rF/tnSLF5flhILc66
-	 tCesivNx6dAANwNzP4SO0i4FPAynuoKVd9Vro9q6IqjdcmrkY3XgaGiD0YBPzV553sCHZ
-	 yVfPo0cQLUjE+BgikbfpFvAsDftosedYAK4IfbFL5ndLorW4gojrAap13IcTisJas9QI0
-	 ld4sUcqFLZQ4g5VbSW3njijQcC25Djpui7TRor9aL6zSTkmnA7rRS2HXb/6l/U2FjPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792837685;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+	b=PsUAiAIaWQPhHEa0y6gvn7KFE3k/17Kp7u1d+xP3RrD7mj37MB7bQ52lLsS/6Uj4Hq2w
+	 oQ2nXguqknFgwtF2b+2pPkG3Md9uEHZOezZs3Q9yB9A7sJ5Exw0nM1CiupbnFXly2BTLg
+	 uRfO8foF99gf0lY14Gjo3CCnCfJRrTTQJUGR32YOL4oJM12BCe0qG3neSH1c6wRT7WkgC
+	 Xr2Gers3K87htO4l3KZmgf/x7bLUbrMdRWay85oSSGsMbW1T/dC6N95jW/AyYg7MofdsT
+	 AOvgxoPqOXELFeZVKHCb+PoxC7B4A4jQ3I4P5n0z1VSyFhK0OoeXUQ+jp8NXSl+5Abw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="O/F0XP2O";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="JSnM/rkj";
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA362606A31E;
-	Sat, 24 Oct 2026 07:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79638606A31D
+	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 10:28:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79638606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O/F0XP2O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F721F01828;
-	Sat, 24 Oct 2026 07:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792825436;
-	bh=2FdeqYZg0t+ii5NnwM8v7ZVFrQHVdVZTti3YtFSfjtk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=O/F0XP2OBz8PlHx4SnKE8Fle2Ln5XX4kiHYoqARouBvRnRM+OuKBUEc1a8rjrF+dt
-	 irb2gsI/FFu6eylkgB0iIWe6UsDHlPZ3N52/FqS1f+TANdEbnTVFZIpJKsmaI2XAS9
-	 GvFginHrMCqXt3km2uSnJTf4jpgACer1BLxA/+kM9HPYkf85kPhl7uR39NbXBuodDI
-	 jiL+hw5v5pQWXzzQQGXHtM1x8do5cs9ACQMXfAicGIkfD7mRkoMU3xkCQXviSuiDzX
-	 VNNSZxFd6fx76ClMP/Le4e/rgrO90f+j4JkdxF9uTd/yF81kKyPZU5gPr5EHiL8fBE
-	 VNq3Ni7fW0/Sg==
-Message-ID: <sashiko-outbox-183581@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH iwl-net v2 5/5] ice: do not block on the aux device lock
- in ndo_setup_tc
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Petr Oros" <poros@redhat.com>
-Cc: intel-wired-lan@lists.osuosl.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261023070258.730168-6-poros@redhat.com>
-References: <20261023070258.730168-1-poros@redhat.com>
- <20261023070258.730168-6-poros@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 24 Oct 2026 07:03:56 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JSnM/rkj
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e20edd106so1372897f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 24 Oct 2026 03:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792837684; x=1793442484; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+        b=JSnM/rkjmObauhQYVBBFD7PkKf99Asi5Ihz9vp4o9/NnNUvpv4th7YyhHB8YUblR07
+         NhvAF/oos68z/e6voK0/xUvGK7UMPXy0BBazS99Gk1ghzNj3O8rQyaWcDJaWxHvv5o1M
+         yNyoqubf1bF5nMZPKJolVhfoglHXMaS5oSTzN3g/K7SXEUA7j2CFB/xK0Pyv5i7rmajk
+         5pC8qsCUxigy8vN7tAvPCZdPjkvEQyK+CwgSG3sr3geyTCHXa2pEmQ08hCcRiHI+eLdF
+         ekK/6JgWhqOLS/jdo+LqzjM563UpJQIXNKE5BWywu7xqfHC+hOcnRz5Mzw14mfS0iqLA
+         kFOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792837684; x=1793442484;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+        b=cY2mBiJUB3gVZBVKSK4pakLRyfEth+q1x00KLvwNxgHw33FlSo7XsnWX/FhOrD+hTI
+         tgLghW0lCmq4LWxPemx8LH4P9IPFKDDdshitXLW3hg9gSBPxgxW7yEw5fnaZw048tiI0
+         ZwH6Z0e2lorCFZfnlrtiERTgYtBo/Rfb7+hKh8vZ2DtULlbnA4pQgvKdxRbvH5iTyvk0
+         Fjzt/J+qfav+OMgekSvILm0ik89XREB2YvE4L/KeYLJzCuABihOg2f4ygh1oOdFmnhoU
+         pnFLDF/6c9ZVoGo2Han9m0pvGS20WP83YseXbvgo06SBskpUFHu27sQ7xXrw0BReRKdm
+         qktg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/dRd1UmXu6dEtKVewDOvOhlQvIA+vU9w/KU4iyGe+KU3FpiBvBM4G0yf/EOWmHMNE1pjt9uPI2+Eh0ryVjQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJL7AIlyLwxY6Ix0vXsSbdyAdzSSGwnOelpiAjhGc2R7jem04+Y
+	dVi4RFuvah4RHjlFm8R/LiKALKBHN1wbM07qu/pi6+1NhcJBoRA5pmmL
+X-Gm-Gg: AYBFou14yNcFCa7tRx4rWvelSTwqgqFq1CHD4aAFmVpcd/QEkU51loEUeQI4D2yFXJW
+	RER69+xzAA8eAcGrW4Nt/WTGQ+VASrWHvQ8lD239U6gTN0G6Qy5JuCP85ZsClF9t1trmLX8iiah
+	hrJ2SrcYGZ7F/DsDjjppzMDlax6AbT8fOZMWvkkDSqzV1RJfQ9yaj711Ko+rub81Ho1KuBsizPO
+	1ADUs12AikMI9Sufyln86dYr09PQXeM/URwamhAjErsRt9/DnsK9Q7JKNuLwabJ3v8/y9RAT31g
+	xGI7sL8X/w5D0ojlOzOSejyQknZZ8JsHujI3fGG68vzIAPjZLTRXz1GaTWYmr1DNHihLOKALY8z
+	0AdqoX5RpdmaSdWtsQ4Uv3j8Jva/HbScZ7mWOxL0xFrjJJECkezVMzEKoHeJL1kNcIU+b6TyesF
+	bD25YzKkimMPyJ3cuDW/xQbROSHL4rqcIXkTYDVvcBPBw4YhCeTxyAtq1MMiZA0SbVur+OsBRrq
+	4KbgK6AN6aTIG5Hp8U1qwDryBu1ULQ9DDjh2onodS4Ub4vu7rXFhIbT16W7mGF1iXILivdg9UD1
+	NVfhFeMrKqNWPnxXYhi6hUCioMIFSJoDntIg/0Hh3qLCcbIt0CRtVWjDyPTN6wI/jB/wYLLa9vg
+	T+bo4SJ7BWTXa66S3ksgplNnoD6Dyq3UPBfCpFdC9AuOa19WAkXoMUBQ4
+X-Received: by 2002:a5d:5d10:0:b0:48d:e62f:db70 with SMTP id ffacd0b85a97d-48e3eb9c239mr2514461f8f.48.1792837683543;
+        Sat, 24 Oct 2026 03:28:03 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9da9-5f01-d5f0-7ecf-afa4-4bc6.310.pool.telefonica.de. [2a02:3100:9da9:5f01:d5f0:7ecf:afa4:4bc6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3a1csm3506285f8f.16.2026.10.24.03.28.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 03:28:02 -0700 (PDT)
+Date: Sat, 24 Oct 2026 12:27:59 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-trace-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
+Message-ID: <atyGqz5lcvYQvCYp@gmail.com>
+References: <20261022050712.75035-1-kmehltretter@gmail.com>
+ <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,103 +106,45 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ice: orphaned channel VSIs and memory leak when ice_setup_tc() fai=
-ls teardown
---
+On Fri, Oct 23, 2026 at 06:05:30PM +0100, Gabriele Monaco wrote:
+> On Thu, 2026-10-22 at 07:07 +0200, Karl Mehltretter wrote:
+> > This RFC adds events at the generic hardirq and serving-softirq
+> > boundaries. The irqstate RV monitor checks their order and agreement with
+> > live kernel state. irqexit follows the owner of a preempt_schedule_irq()
+> > invocation across task switches and CPU migration.
+> > 
 
-commit 58934f25b30092ac8064d34365ba48edb6a32a06
-Author: Petr Oros <poros@redhat.com>
+> 
+> Hi Karl,
+> 
+> thanks for your contribution!
+> I'm probably not going to have much time to look at this soon as I have a few
+> holidays planned and other series to review first. But it looks interesting.
+> 
+> What points my eyes is that you didn't include any schematic graph in the
+> documentation.
+> Some folks don't like RST, but I find having a textual representation of the
+> model there easy to understand what you're trying to do without having to build
+> the models.
+> We use graph-easy for that (and adapt things if the model is too complex).
+> 
+> Do not send a V2 just for this, but please keep that in mind for next time.
+> 
 
-ice: do not block on the aux device lock in ndo_setup_tc
+Hi Gabriele,
 
-This commit replaces device_lock() with device_trylock() on the RDMA
-auxiliary device in the TC_SETUP_QDISC_MQPRIO path of ice_setup_tc() to
-avoid a lock dependency cycle with the RTNL lock, returning -EBUSY when
-the lock is contended.
+thanks for the encouragment! Yes I continue working on this RFC and use
+it to check for my related early irq cleanup series. I will use your doc
+suggestion.
 
-> diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethe=
-rnet/intel/ice/ice_main.c
-> index 9de375f5c4deb..7eb653a7ebacd 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_main.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_main.c
-> @@ -9451,7 +9451,12 @@ ice_setup_tc(struct net_device *netdev, enum tc_se=
-tup_type type,
->  			mutex_lock(&pf->adev_mutex);
->  			adev =3D cdev->adev;
->  			if (adev) {
-> -				device_lock(&adev->dev);
-> +				if (!device_trylock(&adev->dev)) {
-> +					mutex_unlock(&pf->adev_mutex);
-> +					netdev_warn(netdev, "RDMA auxiliary device is busy, qdisc not chang=
-ed\n");
-> +					err =3D -EBUSY;
-> +					goto tc_unlock;
-> +				}
+I will wait for further input and liekly post a v2 in a week or two.
 
-[Severity: High]
-Can failing with -EBUSY during qdisc removal permanently leak the
-struct ice_channel entries on vsi->ch_list and leave channel VSI state
-orphaned?
+Any broad strategic direction for me and my LLM are always welcome.
 
-The commit message notes that when the qdisc is deleted,
-mqprio_disable_offload() ignores the return value so the hardware traffic
-classes and channel VSIs stay in place until a later qdisc teardown gets
-through.
-
-However, in net/sched/sch_mqprio.c, mqprio_destroy() calls
-mqprio_disable_offload() once while destroying the Qdisc:
-
-net/sched/sch_mqprio.c:mqprio_destroy() {
-	...
-	if (priv->hw_offload && dev->netdev_ops->ndo_setup_tc)
-		mqprio_disable_offload(sch);
-	else
-		netdev_set_num_tc(dev, 0);
-}
-
-Once mqprio_destroy() finishes, the Qdisc object is freed and no mqprio
-Qdisc remains attached to the net_device, so no subsequent teardown call
-will happen for it (including on unregister_netdev()).
-
-During driver unload (ice_remove() -> ice_unload() -> ice_deinit() ->
-ice_vsi_release_all()), ice_deinit_pf_sw() releases the main VSI without
-calling ice_remove_q_channels(), and ice_vsi_release_all() skips
-ICE_VSI_CHNL VSIs:
-
-drivers/net/ethernet/intel/ice/ice_main.c:ice_vsi_release_all() {
-	...
-		if (pf->vsi[i]->type =3D=3D ICE_VSI_CHNL)
-			continue;
-
-		err =3D ice_vsi_release(pf->vsi[i]);
-	...
-}
-
-Moreover, if a user later adds a new offloaded mqprio qdisc (hw !=3D 0) to
-attempt another teardown, ice_setup_tc_mqprio_qdisc() only removes existing
-channels when disabling offload:
-
-drivers/net/ethernet/intel/ice/ice_main.c:ice_setup_tc_mqprio_qdisc() {
-	...
-	if (!hw && !test_bit(ICE_FLAG_TC_MQPRIO, pf->flags))
-		ice_remove_q_channels(vsi, true);
-	...
-	if (hw) {
-		...
-		ret =3D ice_create_q_channels(vsi);
-		...
-	}
-}
-
-Wouldn't adding a new offloaded mqprio qdisc leave the old struct
-ice_channel entries on vsi->ch_list, rebuild the main VSI rings, and append
-duplicate channels via ice_create_q_channels(), potentially indexing past
-vsi->tx_rings[] and vsi->rx_rings[] in ice_remove_q_channels() if the new
-qdisc configures fewer queues?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023070258.7301=
-68-1-poros@redhat.com?part=3D5
+Regards,
+Karl
