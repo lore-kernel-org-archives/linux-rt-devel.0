@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793007880;
-	b=5kYTFvbfKJw50AaQKTBxeEQE24Fj7MDP4Nwfbi2JbuhtS189wFAgi2jubM4WXOLvfImH
-	 MUE1WXzJtmO13XK3vEfdcFSsLialD3J9Qtz5sehuITCvgalt6hQ4OKWqhSGVuVpGMCrV1
-	 oGHM8ApFMGxF0wg3CpCRYgluPyeSR6sBjkPdu3ewWNoV8vOl7jVLPevJp2AzF0QWTXNW9
-	 Gb845PfIKjlRl3QO4bz9+1qHR0ohIxsW+/PiqE3HU7N2tki+AclBKCcLMpG+898o2PMtv
-	 bBZ31DKp6MCSb+TAj4dnJSUn6zPG0MU0t24h7mjA55QqIzB0R6JVfkgIQxuZx9sovYA==
+	t=1793008769;
+	b=swMkD6aNjhM/IZO2oCRPnl0lOAFmp79Zky+5Pu7wRINWM1QTAD9hOK3kZkg7S/lsqtPH
+	 CeW5Ytv+B4CFKQ5riLEz8kUDlJEackfp2F7TbzCgjKHtt+Tlz/wWyaCBZ20gQLu4apat4
+	 lMV5fEkAjlNq7Zm7Uvtc4LCGiRtcpPfQ4xqEBT7AFJFJo3/rfPvh4hwvNe9P1Rv5uxR96
+	 pUhH9kaeFtQX5sUWDb4OA+G2C8IKhQhZy9W8gHNgf/PWlt04fCgYcMQicbsC16Nob5QCm
+	 0olHnVGrygvBuMaQaVtJGyIOTOvJbHXhoiWc2k2jFyAC31XWIKRo9bGMCfZr5iIjVkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793007880;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793008769;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ouH7elD+tXB8LAqogI+xevrlgTvhoMe5/2JANL6xi8Q=;
-	b=MCVDwv2jJK0YvwlO19psaVXwpxY2oHByYAWGAbqiuvrLsLdfX46oBMUew+hPn/vNkPDv
-	 qw9esUHa91kIBiWmunaEvS/iriy/lFWlH4jSOoyQmkZDcs3QmLxwruAKhTDB7pvdBMOnv
-	 RZDql9juPDhKNKihrKtwHXeW06jljggMipi3U744TWc2IqgWJ/JBQWgNvK8GWPfp05IWd
-	 Sj3Sq66z76eF+/KbsWM5YAHAkmpgY/oxjksUG/q4Uchrc8r4zeLnWyimVRPQoWiwypmNR
-	 Oa/jRUK8JfyOIJvbJaMt7DiSyyMynz46Z5jIZYEnexQjcQ6WzJqkHEZmQRelb0Jbb6A==
+	bh=P5O3bIMA8niIU8uNgsYdMxQzL+EPdl0GXXhQhteX0V8=;
+	b=4WgRfsuGR3ZNbbFuX+PUKy8AiFRw65GfcnLWztwQxNJ3aaGZ8K4ijJLaOKZDbJRHeJ3i
+	 5XFEtXJqh+nUWXushwyBL2ec14YkxeXNVbYzQ/qxx0RD7igh//6SbYdkuwXSAPbzXmclw
+	 pJgKl1OUrutqnSDpMOjtqjX08O9EZH/CpdohYrIqmy6Dk6eNW+fWyt1KAWk9lvHNvesVE
+	 dITONb2VaGvwQaNEuWlcFKS0UMdZ3ktrAI83O31VIONm/tsmw8qD2YDZZTWM2A6MJeYhI
+	 dV7XU8X3b3DBKqsiOBQoIMi9rdNVhAykEcWFhsCNZZQIj/m/o98BKZdKp/BZ0P1wxyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NdGgZToe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aZnKrMYX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2FA60A2606;
-	Mon, 26 Oct 2026 09:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B24C606A31A;
+	Mon, 26 Oct 2026 09:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NdGgZToe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A67F81F031E6;
-	Mon, 26 Oct 2026 09:44:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aZnKrMYX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73E81F01825;
+	Mon, 26 Oct 2026 09:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793007879;
-	bh=ouH7elD+tXB8LAqogI+xevrlgTvhoMe5/2JANL6xi8Q=;
+	s=k20260515; t=1793008769;
+	bh=P5O3bIMA8niIU8uNgsYdMxQzL+EPdl0GXXhQhteX0V8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NdGgZToeK6jIg8FTtLUHtsV1/8m7bIMzE2XnbrvtFgiJ08Or5XCLYkeNci5Bv4ztU
-	 pzK1APGZT+TXXwJ9Qlgn820ROna4M2tCOxQW4L9JIdCkPv8zCY6cdO/UQ4wwyx5JvK
-	 j7I56hTR5+0aSmdk9UpcVcs2rrhYlZaqj5B5LNuNwFsskTv10UNzSinbZqMNTZeNzu
-	 kkvWE9Bx09gWbP96QB+GbeeFWYAdORVkDqzqhHty6yJO4BEa/PABU9ks10UiuZSVVy
-	 W+Z6kjLOndlMzZTVjvgB9o20yKW1BFbWTgIK3DLCgUDT2/4lSiGSMqmnwqGO7MWbF7
-	 mKsjfFKeLQtOQ==
-Message-ID: <sashiko-outbox-184830@kernel.org>
+	b=aZnKrMYX06AvKDByfFq/KMHbyZ77EWds7MaRkbDoqwUrvInW5oxj9OwFj4vG1FC/+
+	 6NaGBli+tJlJ+ratR4by8qGeOMvagakRvg3lVY2lA4NjWRMzA3lj3I1LdYurWmJkN4
+	 8Z7vET79kX3yb3S2xi0Yt83GH77OTmKOuEMcFu3039xFAfj4H4BvPZxfOdDkS63kK+
+	 0fpuWR3sg0Xa6i2zDLIh4c7L2OoprnxEH42lfqDW9MYeCzMTbesNNQmrOTfLdHqBem
+	 syZviD2PPHb6ukQ48ANmjfZBvxY9Sc2lO0t8lfNHvglBnFKhmxhKW0Aq3zDcsBXVRV
+	 ba9mb2KU+Kulw==
+Message-ID: <sashiko-outbox-184858@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] clocksource/drivers/nxp-stm: Fix missed comparator
- match in set_next_event
+Subject: Re: [PATCH 3/3] clocksource/drivers/nxp-stm: Increase min_delta to
+ 20us for PREEMPT_RT
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Enric Balletbo i Serra" <eballetb@redhat.com>
 Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261026-nxp-stm-fixes-v1-2-20a64a4ea454@redhat.com>
+In-Reply-To: <20261026-nxp-stm-fixes-v1-3-20a64a4ea454@redhat.com>
 References: <20261026-nxp-stm-fixes-v1-0-20a64a4ea454@redhat.com>
- <20261026-nxp-stm-fixes-v1-2-20a64a4ea454@redhat.com>
+ <20261026-nxp-stm-fixes-v1-3-20a64a4ea454@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 09:44:39 +0000
+Date: Mon, 26 Oct 2026 09:59:28 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,86 +63,104 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] clocksource: nxp-stm: overshoot race in nxp_stm_clockevent_set_nex=
-t_event()
+- [Medium] clocksource/drivers/nxp-stm: overshoot check runs before enablin=
+g comparator
 --
 
-commit 45f273b782a28cec6ef30880d738a9cb690edce9
+commit 1dea5edcdc7544abe47a47e00f3d79d5b290fb1a
 Author: Enric Balletbo i Serra <eballetb@redhat.com>
 
-clocksource/drivers/nxp-stm: Fix missed comparator match in set_next_event
+clocksource/drivers/nxp-stm: Increase min_delta to 20us for PREEMPT_RT
 
-This patch fixes the overshoot check in nxp_stm_clockevent_set_next_event()
-by using a signed comparison between the target comparator value and the
-current counter value to avoid missed matches and 32-bit wraparound stalls.
+This commit increases the clockevent min_delta from 2us to 20us in
+nxp_stm_clockevent_starting_cpu() to avoid counter overshoot under bus
+contention on PREEMPT_RT kernels.
+
+>     clocksource/drivers/nxp-stm: Increase min_delta to 20us for PREEMPT_RT
+>    =20
+>     Under bus contention on PREEMPT_RT kernels, the 2us min_delta is too
+>     small and the counter can advance past the programmed comparator value
+>     before the overshoot check runs. While the -ETIME fallback handles th=
+is
+>     case, repeated retries add latency. Increase min_delta to 20us to red=
+uce
+>     collision probability.
+>    =20
+>     Cc: stable@vger.kernel.org
+>     Signed-off-by: Enric Balletbo i Serra <eballetb@redhat.com>
 
 > diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/ti=
 mer-nxp-stm.c
-> index ee249fed1b918..ed7662a4e2bc4 100644
+> index ed7662a4e2bc4..a0761d7f8b013 100644
 > --- a/drivers/clocksource/timer-nxp-stm.c
 > +++ b/drivers/clocksource/timer-nxp-stm.c
-> @@ -247,7 +247,7 @@ static int nxp_stm_clockevent_shutdown(struct clock_e=
-vent_device *ced)
->  static int nxp_stm_clockevent_set_next_event(unsigned long delta, struct=
- clock_event_device *ced)
->  {
->  	struct stm_timer *stm_timer =3D ced_to_stm(ced);
-> -	u32 val;
-> +	u32 val, now;
-> =20
->  	nxp_stm_clockevent_disable(stm_timer);
-> =20
-> @@ -258,16 +258,12 @@ static int nxp_stm_clockevent_set_next_event(unsign=
-ed long delta, struct clock_e
->  	writel(val, STM_CMP0(stm_timer->base));
-> =20
+> @@ -335,14 +335,14 @@ static int nxp_stm_clockevent_starting_cpu(unsigned=
+ int cpu)
 >  	/*
-> -	 * The counter is shared across the channels and can not be
-> -	 * stopped while we are setting the next event. If the delta
-> -	 * is very small it is possible the counter increases above
-> -	 * the computed 'val'. The min_delta value specified when
-> -	 * registering the clockevent will prevent that. The second
-> -	 * case is if the counter wraps while we compute the 'val' and
-> -	 * before writing the comparator register. We read the counter,
-> -	 * check if we are back in time and abort the timer with -ETIME.
-> +	 * If the counter reached or passed 'val' during or before the
-> +	 * write to the comparator, the hardware match will be missed,
-> +	 * resulting in a full 32-bit (32.2s) wraparound lockup.
+>  	 * The timings measurement show reading the counter register
+>  	 * and writing to the comparator register takes as a maximum
+> -	 * value 1100 ns at 133MHz rate frequency. The timer must be
+> -	 * set above this value and to be secure we set the minimum
+> -	 * value equal to 2000ns, so 2us.
+> +	 * value 1100 ns at 133MHz rate frequency. However, under bus
+> +	 * contention on PREEMPT_RT, 2us is too small and causes missed
+> +	 * matches resulting in 32s wraparounds. Increase to 20us.
+>  	 *
+> -	 * minimum ticks =3D (rate / MICRO) * 2
+> +	 * minimum ticks =3D (rate / MICRO) * 20
 >  	 */
-> -	if (val > nxp_stm_clockevent_read_counter(stm_timer) + delta)
-> +	now =3D nxp_stm_clockevent_read_counter(stm_timer);
-> +	if ((int)(val - now) <=3D 0)
->  		return -ETIME;
-> =20
->  	nxp_stm_clockevent_enable(stm_timer);
+>  	clockevents_config_and_register(&stm_timer->ced, stm_timer->rate,
+> -					(stm_timer->rate / MICRO) * 2, 0x7FFFFFFFU);
+> +					(stm_timer->rate / MICRO) * 20, 0x7FFFFFFFU);
 
-[Severity: High]
-Can the counter still advance past val before nxp_stm_clockevent_enable()
-arms the channel comparator in drivers/clocksource/timer-nxp-stm.c?
+[Severity: Medium]
+The commit message states that the -ETIME fallback handles counter
+overshoot and that increasing min_delta to 20us only reduces retry
+latency, whereas the comment added in nxp_stm_clockevent_starting_cpu()
+states that 2us causes missed matches resulting in 32s wraparounds.
 
-At the beginning of nxp_stm_clockevent_set_next_event(), channel 0 is
-disabled before programming STM_CMP0:
+Looking at nxp_stm_clockevent_set_next_event() in
+drivers/clocksource/timer-nxp-stm.c:
+
+static int nxp_stm_clockevent_set_next_event(unsigned long delta, struct cl=
+ock_event_device *ced)
+{
+	struct stm_timer *stm_timer =3D ced_to_stm(ced);
+	u32 val, now;
 
 	nxp_stm_clockevent_disable(stm_timer);
-	...
+
+	stm_timer->delta =3D delta;
+
 	val =3D nxp_stm_clockevent_read_counter(stm_timer) + delta;
+
 	writel(val, STM_CMP0(stm_timer->base));
+	...
+	now =3D nxp_stm_clockevent_read_counter(stm_timer);
+	if ((int)(val - now) <=3D 0)
+		return -ETIME;
 
-Unlike timer-imx-gpt where the compare interrupt remains enabled while
-writing TCMP, writing STM_CMP0 in the NXP STM does not arm the comparator
-until nxp_stm_clockevent_enable() writes STM_CCR_CEN to STM_CCR0.
+	nxp_stm_clockevent_enable(stm_timer);
 
-Because now is read from STM_CNT before nxp_stm_clockevent_enable() is
-called, if now is sampled just below val (so (int)(val - now) <=3D 0 is fal=
-se)
-and STM_CNT reaches or passes val before the subsequent write to STM_CCR0
-takes effect in hardware, the match occurs while channel 0 is still disabled
-and is missed.
+	return 0;
+}
 
-Should nxp_stm_clockevent_enable(stm_timer) be called before reading now for
-the overshoot check, with nxp_stm_clockevent_disable(stm_timer) called on
-the -ETIME path?
+nxp_stm_clockevent_disable() clears STM_CCR_CEN in STM_CCR0, so no
+hardware comparator match can occur until nxp_stm_clockevent_enable()
+writes STM_CCR_CEN back to STM_CCR0.
+
+Because now is read and checked against val before calling
+nxp_stm_clockevent_enable(), if now is sampled just before val, can the
+counter reach and pass val while the STM_CCR0 enable write is still in
+flight under bus contention, missing the hardware match while
+nxp_stm_clockevent_set_next_event() returns 0 and causing the 32.2s
+wraparound?
+
+Should nxp_stm_clockevent_set_next_event() enable the comparator channel
+before reading now for the overshoot check (and disable it again if
+returning -ETIME) so that the -ETIME check covers the channel-enable
+write latency as well?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-nxp-stm-fi=
-xes-v1-0-20a64a4ea454@redhat.com?part=3D2
+xes-v1-0-20a64a4ea454@redhat.com?part=3D3
