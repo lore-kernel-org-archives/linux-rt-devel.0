@@ -1,108 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793001951;
-	b=k42sOTCmccX/TseFoZIU4E2Zqy0x6YPPQXX8lU2E5EwEzZrgHuSAWsYm5Xjwp8ESi1Pc
-	 vunztJR3Gp605J9BItMnymjHRGTaqi87L9k7/v6Luf/9D3IKKNQnDs7pwCQzY0KfydDMi
-	 WlRcniCKH4Hm5LKJgjTffT4QL4xvShfZ+f7fFvdAS3rSLfagqUw9KOY056tTF6OcN/4Ho
-	 oGOGFf+R38he0K88HIlT0l+5V6YMAYVxjnlzdD14/ENm4QDLR2ECZomadaD93GZco7Yuf
-	 dD8RhbU4HhOUGS9jlO6/7YS2wf7zmyMv3kJehunvRQMqM+zKLcB8GngoJs8PKYD4UkA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793001951;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:References:MIME-Version:In-Reply-To:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=D242ShT8h8RdqZ5L8WmZvCimBf9zTP6sn6+Cdrpwgt0=;
-	b=c8KJV2Ww/sh8y7iQnagjyHWM3jCWwNSI53Lmp0Q6W/iBFH6OqLZ5Gca6OW6zsh071pLM
-	 kG/acuxhWOry6VNvW9YB12IUWCLSiO2pVuTpBmat7v9IvQY5cIyrh1Lo2QDGLS0cTbIkH
-	 UfAY3h8Vtazg9+llwhneu3jxj6mDe9LeqV67tdLqRgMxm7EK54DIP77aEa0sRDdc5EZMU
-	 f2mj4ZxwB8SIDXJtwz5w+eNV1uVBDFI4P0qIzG/7UmxISgC8h8nc9wbsjVwsA++wlorWj
-	 lxaicfXlcqWFtV/x2+xrg08YCMrkBMpbCQQB7o7PCi3GGvWgKxt3NG2qBr+9yKUTuZA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cM5ExTEn;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793004295;
+	b=mvSuPKQKnv8WUtgGG7jlL0W63YdB93VAdBnMIZIVnHI/5EXqAnTCwR8buMPseJm14M1a
+	 UBmZE/RJjWSvhQxgLiO+ZNvbuUReIinOBTUG/GNj9sjDF/w/yCclDyIWUMfj7Kz04sZjK
+	 ZrigrMLYbuKZiAeRkIyRF7/9ufvIY6+q0HpS33KDI3guo9gsHX6UWhAk9ox/p1s9J3eEH
+	 IHJCY0shRecbZH7/kRVqS/WbeTclrhQKQ4Ft4m+20OVnoCbAp25PwBdeq7NOqi5pYa5sq
+	 CEer2DBi6iZBfxG/3KIyFeH8Atyjib5AfkKQw1MMOesG8+cCHzLgM8Cz0ne/wjZ9LAA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793004295;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=jz30Kqva1oj2ZOG9QQrY/EiApxn9BM5nq3IuAzI3TSs=;
+	b=WgF39tCMKgLMCnduiDDYRdjGEha0Wy9fw5IruCaPQgOsVoQXmpoYi1rRp81X9e4JyCSw
+	 NnecXd0Axh8r+G/wZLgIxVBsQliL4Xx5aOfPskqrsdYeB/E2i8ipTtx0u6ZhLWz7MaTq5
+	 QEyPSrLvSE51WYwpgtBNVco+p+ncEOjk+aSGfCV8rNVNvkiJRgxT8PCQ7R6FtuEl+RIv2
+	 LfcJeIXz7/x8iBY1mLa8pDxNt9jFZ+GzQS15185bpKJFmzmnObk5SuVyROOTwSqdBGNbm
+	 wAepkU+cXA6/gH9Jm9+JOq3zhQtDQZpAjkaRo5rtlfufsYci2aeM19Z8vqa36RGSs9Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMJKtiEh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E30606A31A;
+	Mon, 26 Oct 2026 08:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMJKtiEh
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793004295;
+	b=dWAN0EA67mkCKq8VUjhqFwoFk5EgPe7rQxVRZtXhCamRDaG0JOQBtpRNRIpXws6k40pC
+	 tJP+5kOd6C4Hgyi6XuuQ+U01PEOO2ZtDebFLBpkLn8Y7iwkhrdzlgShRRNedcsnLEW9pl
+	 MEuTuGsmbb/alOXiHDwUKAKt0La+bBfX8M9IeoOzv4BqVqkwUhQ4Sihi8wpjd/QwOKldV
+	 ZTs4O9yJFEqJ3sr/NfWaipq/KZKX31pI7Q7Amj2HFcYTLGnJvwQNx4gTIvXDp5OHNwxQH
+	 oD70KtbJXOLfK+HN1x4RbMqP+oalQ6zgQjLXMPz8zi5xxcu1Jqv4FN8JB9RESgKeowQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793004295;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=jz30Kqva1oj2ZOG9QQrY/EiApxn9BM5nq3IuAzI3TSs=;
+	b=V2glH+uPavtLp8oC12tl6S82+lnS2XoUinfKVH1jwr1dQrH703vtaCUGENd4zVgbUn9Y
+	 mgmYSVnSGySHYw8kzTZc7h5zQVGBwjydRPt2D9ciAYUicEuXna+tmfyzX5hS2fQGLLd76
+	 Gd00nlH8x//PWJrp4cxLMtQ80N+gzwoQpIMEuw2VnlhCNV6XKghFVdAf6S9nbRLrdFPPH
+	 V0na7/SZvzGCFZYd8p+PloY8RmcgqtbqBQpf/7zF/GgK5Syo+pqZORR2MlWOdQAETG4d/
+	 ifgdWx5Zdg6D6nHH+CzJ/jrj1QK1+0gCiHCxDreHj4rGweboxjftByzcmWkc9Ll1s3A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75151606A322
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Oct 2026 08:05:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75151606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cM5ExTEn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793001950;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D242ShT8h8RdqZ5L8WmZvCimBf9zTP6sn6+Cdrpwgt0=;
-	b=cM5ExTEnpyMtMqK1RTTYH4l0UBXUfEgtlegi5oIpLFVynDMyfI7Juq12CZIExtslARfKOe
-	/SaOKJO3C2vxBGpEYy4wbNhdr52u9QiwerdbuoJRhrkx4YmPqUyqP2KkB12u0bjd76512A
-	b26BNNW/nuCQXR11TH1ag7kDe/QuWpI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-UohhgNeXNCyKXxmJ3UsBDQ-1; Mon, 26 Oct 2026 04:05:47 -0400
-X-MC-Unique: UohhgNeXNCyKXxmJ3UsBDQ-1
-X-Mimecast-MFC-AGG-ID: UohhgNeXNCyKXxmJ3UsBDQ_1793001946
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a204f135ffso16069355e9.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 26 Oct 2026 01:05:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793001946; x=1793606746;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=D242ShT8h8RdqZ5L8WmZvCimBf9zTP6sn6+Cdrpwgt0=;
-        b=ffdNXz4doG4iKUR0jGYfdLl+CvL2H+btAnCNx0f6fG3fCcRtMYEILP1FdJBjU8XY7X
-         M5HyfLDX5SFOOX7pHCsd6uH6GtV9sAlM8a+murVpWOnXm5WoAuMPAikmadaKyI5oBDSq
-         RWDuX6qAzLRNFg7gzF3K0W+pKi6Qx/iaE1+okh1N3pSvhlEPB+r0R0d/tY/KOoDW+/7r
-         46USsBKJDFKRul1J9zRv0Ad6lLHBB82jnu9RKI1R+I2esEFb1FoYYpQ/qhbHhFXqMKzH
-         ZTkSOVxWneVWajpdM/C/V2tp+QIz/I6eyDwdZwDKryuVTGeU4AWW6bCHDckNu1kN3uUI
-         tVeA==
-X-Gm-Message-State: AFq9FYL2zJzAtFSTEVTaicP1bS3Mk+mv95FOSroG2N4kjkUi0NAeX22t
-	A/FMNymtISOY/wAK1MsZHs35nKf36BSK9/JHsA6xTv+vcpeEnATZRRdkA7dqxLuoTaCVGQFlHEl
-	CXbX7I1U0lub4dsQez+WcfisFp6brWy86+ny/hvEJgk4PDHgiyFzDwoX/R4J2v9bfDmFLOckQTm
-	bUC80=
-X-Gm-Gg: AYBFou3vE6TQ+N/JjoDioatHGP3rgxdjt+dwoSiIisxWm41AAsUEMmdL/wCleo+vkL7
-	fCDN/Ijg1VeXxwSaN+/Y7u8OFmcO+/BT9slHnT4dG5eg/PShE+iDo63HSpuJCFvYXorLdipvBis
-	a3GQ57GDWeos5pqnpKTR+Eq0dUcxoDEsmEp2x5fzben7iO6rpL2XLwPhMfKw28c3jkH57/MeI+c
-	QSmP2KKf1gDeu27sUBAREePj2d1jk1kzYy9UMlaJs0CyzUJlalK3yMI44OaaZbVIX1auB4iN5iC
-	xOvOMeM/jupILzkRrskxA7WBrDHcycGmkTBtn5cW2D89fZdJMJk5UGahP0ReAWFhToK2+8sIeZd
-	AoaGNIXmYMoIX6QE1QeO7Q9jjVx/Fny8=
-X-Received: by 2002:a05:600c:190b:b0:4a5:cfc:1e95 with SMTP id 5b1f17b1804b1-4a50d0b6418mr72057925e9.33.1793001945631;
-        Mon, 26 Oct 2026 01:05:45 -0700 (PDT)
-X-Received: by 2002:a05:600c:190b:b0:4a5:cfc:1e95 with SMTP id 5b1f17b1804b1-4a50d0b6418mr72057595e9.33.1793001945189;
-        Mon, 26 Oct 2026 01:05:45 -0700 (PDT)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([176.206.35.229])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3cfasm14911211f8f.17.2026.10.26.01.05.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 01:05:44 -0700 (PDT)
-Date: Mon, 26 Oct 2026 09:05:42 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>
-Subject: Re: [RFC] RT throttling, DL/ fair server, RT_GROUP_SCHED and
- everything
-Message-ID: <at8J1mimeQ2oPZDE@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261023161348.t3lpPLQZ@linutronix.de>
+	by smtp.kernel.org (Postfix) with ESMTPS id 6D5901F01825;
+	Mon, 26 Oct 2026 08:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793004295;
+	bh=jz30Kqva1oj2ZOG9QQrY/EiApxn9BM5nq3IuAzI3TSs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=gMJKtiEhaIn1a8UWqUtN0VcNNYZr2qYm/gsIoW1ftDtXtGpU7qPh7SpqdZgRHbAov
+	 3IIIl2ogDpTY+vBlxc8gH9x83SEg3WaRj8FvSiFvq4usmr5fDEd2cpw7E+pxyo0/Ow
+	 hg8hMrpbFiBx+yifOqbJ0V3tzYJY7X5FcmKJ364HsmfbkFPNMbALe5QR9p7bd8pyz0
+	 Xx3JrZ6JbeTA+wzR9ZnpMBlB+eZFklCcxK6iuu3X0WFS7razZ5/qo8j1c+FHQpqKFs
+	 YYkXyWC6mqaQPOmzYwJB3pxKAZNroon3Vc7Z7pOXKOfwxCioUZUylIo54wRYk8I5Ir
+	 lLoF+rr0JB/VA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id E064A44C77;
+	Mon, 26 Oct 2026 08:44:53 +0000 (UTC)
+From: Enric Balletbo i Serra via B4 Relay <devnull+eballetb.redhat.com@kernel.org>
+Date: Mon, 26 Oct 2026 09:44:34 +0100
+Subject: [PATCH 3/3] clocksource/drivers/nxp-stm: Increase min_delta to
+ 20us for PREEMPT_RT
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -112,108 +83,73 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261023161348.t3lpPLQZ@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hsD9w1gJ39sl26KqHwGGLjjEtjxZXQnugaZoDnzi_AI_1793001946
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261026-nxp-stm-fixes-v1-3-20a64a4ea454@redhat.com>
+References: <20261026-nxp-stm-fixes-v1-0-20a64a4ea454@redhat.com>
+In-Reply-To: <20261026-nxp-stm-fixes-v1-0-20a64a4ea454@redhat.com>
+To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
+ Enric Balletbo i Serra <eballetb@redhat.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793004293; l=1611;
+ i=eballetb@redhat.com; s=20261026; h=from:subject:message-id;
+ bh=2oVeDkpoG/kZGujP8YpSokhvVMo8D6Pr1tME75FCvYQ=;
+ b=oJOj++Ax9eLtn9MXj4cg6VRzFKwnoiO5tNLT0d23izNOmKsdtC/1h8bWWET1Y35f76g/bOVb0
+ XhycJ+0Wl1tApeDDk7ptKBEbENZ1EAQRpXw1C/GUzgfGlAMb2CHSQBl
+X-Developer-Key: i=eballetb@redhat.com; a=ed25519;
+ pk=5zh6xuAxTiQwglL2NXQFqWuyRPmCE8T5KPXLbNXhnKI=
+X-Endpoint-Received: by B4 Relay for eballetb@redhat.com/20261026 with
+ auth_id=1324
+X-Original-From: Enric Balletbo i Serra <eballetb@redhat.com>
+Reply-To: eballetb@redhat.com
+Content-Transfer-Encoding: 7bit
 
-Hi Sebastian,
+From: Enric Balletbo i Serra <eballetb@redhat.com>
 
-On 23/10/26 18:13, Sebastian Andrzej Siewior wrote:
-> Hi,
-> 
-> this is about the old RT throttling mechanism, the DL/fair server around
-> the RT tasks, the /proc/sys/kernel/sched_rt_* mechanism to control the
-> former and CONFIG_RT_GROUP_SCHED which never worked as it supposed to.
-> The current status looks like a mess and I'm not sure if there is a bug
-> somewhere leading to my headaches or if this is just not meant to be
-> working together. If so out with it.
-> 
-> tl;dr /proc/…/sched_rt_*, sched_rt_runtime_exceeded() probably
-> CONFIG_RT_GROUP_SCHED should be removed. A bit of docs should be added
-> for the fair server (or the right place).
+Under bus contention on PREEMPT_RT kernels, the 2us min_delta is too
+small and the counter can advance past the programmed comparator value
+before the overshoot check runs. While the -ETIME fallback handles this
+case, repeated retries add latency. Increase min_delta to 20us to reduce
+collision probability.
 
-Thanks for putting this recap together!
+Cc: stable@vger.kernel.org
+Signed-off-by: Enric Balletbo i Serra <eballetb@redhat.com>
+---
+ drivers/clocksource/timer-nxp-stm.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> Now. Details.
+diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/timer-nxp-stm.c
+index ed7662a4e2bc..a0761d7f8b01 100644
+--- a/drivers/clocksource/timer-nxp-stm.c
++++ b/drivers/clocksource/timer-nxp-stm.c
+@@ -335,14 +335,14 @@ static int nxp_stm_clockevent_starting_cpu(unsigned int cpu)
+ 	/*
+ 	 * The timings measurement show reading the counter register
+ 	 * and writing to the comparator register takes as a maximum
+-	 * value 1100 ns at 133MHz rate frequency. The timer must be
+-	 * set above this value and to be secure we set the minimum
+-	 * value equal to 2000ns, so 2us.
++	 * value 1100 ns at 133MHz rate frequency. However, under bus
++	 * contention on PREEMPT_RT, 2us is too small and causes missed
++	 * matches resulting in 32s wraparounds. Increase to 20us.
+ 	 *
+-	 * minimum ticks = (rate / MICRO) * 2
++	 * minimum ticks = (rate / MICRO) * 20
+ 	 */
+ 	clockevents_config_and_register(&stm_timer->ced, stm_timer->rate,
+-					(stm_timer->rate / MICRO) * 2, 0x7FFFFFFFU);
++					(stm_timer->rate / MICRO) * 20, 0x7FFFFFFFU);
+ 
+ 	return 0;
+ }
 
-...
+-- 
+2.52.0
 
-> Without enabled RT_GROUP_SCHED the files can be set. Are they useful?
-> According to Documentation/scheduler/sched-deadline.rst it used for
-> "admission control" whatever that means. Anyway the fair server still
-> kicks if it is disabled. So I *think* this is just something else and
-> not part for the docs there.
-
-Right, confusing, but for a root_domain comprising M CPUs, -deadline tasks can
-be created while the sum of their bandwidths stays below
-
-  M * (sched_rt_runtime_us / sched_rt_period_us)
-
-and writing -1 disables the check altogether. That's the "admission control"
-the docs hand-wave about, and it's also why the knobs can't simply be deleted.
-As you noticed already, the servers are completely independent of these knobs:
-writing -1 does not disable the fair server, it only lifts the DL admission
-cap. In principle we could move this to a different interface that reads closer
-to the underlying purpose, but I'm not sure how much breakage it could cause.
-
-...
-
-> Anyway. Could this interface be moved to /sys/kernel/sched/fair_server
-> away from the debugfs part? debugfs is not for stable kernels/ ABI. Is
-> there a reason why this might be considered debugging and not final or
-> restricted from productive?
-
-I think this was raised already in the past, but at the time maybe it
-was still to early to say if dl-servers will stick around. They now have
-got more users (sched-ext), so it might be a time we discuss a stable
-(non-debug) interface for it. Your suggestion doesn't look bad to me.
-
-> Just to summarize:
-> - Remove /proc/sys/kernel/sched_rt_*
->   [ ] Yes [ ] No, because
->               _____________________
-
-Yes and no :). We need an interface to tweak admission control, but we
-could find a better/different one.
-
-> - Remove CONFIG_RT_GROUP_SCHED
->   [ ] Yes [ ] No, because
->               _____________________
-
-Luca already commented on this. I believe the plan is still to come up
-with a DEADLINE backed RT_GROUP_SCHED for Cgroups v2. If cleaner, an
-approach could be to first merge the removal of RT_GROUP_SCHED and then
-reimplement the whole lot as Yuri and Luca are proposing to do. The
-series is already somewhat doing that, but it could be made more
-explicit/clean I guess.
-
-> - An additional trace sched event for fair server preemption
->   [ ] Yes   [ ] No, it is silly to have
-
-With 820725b0eb59f ("sched: Add deadline tracepoints") we already have
-some of that: sched_dl_{throttle,replenish,update,server_start,server_stop},
-which fire for fair/ext servers too (there's a type field, DL_SERVER_FAIR
-and friends). They of course require something like this [1] to be
-activated. We could add more if they are still not enough to get a clear
-picture about what's going on.
-
-> - Fair server documentation needs to go to
->   [ ] It is fine where it is
->   [ ] To ____________________
-
-Not fine where it is: the servers (fair & ext) work independently of
-RT_GROUP_SCHED and deserve their own description (defaults 50ms/1s per
-CPU, what they guarantee for fair tasks under RT pressure, how to tune
-or disable them). Either a new section in sched-deadline.rst (they are
-DL servers after all) or a small standalone file works for me.
-
-Thanks!
-Juri
-
-1 - https://github.com/jlelli/sched_tp/commits/deadline-tp/
-    from Qais' https://github.com/qais-yousef/sched_tp
 
