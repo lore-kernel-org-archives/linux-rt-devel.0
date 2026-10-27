@@ -1,84 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793038336;
-	b=B0RHRf77i5JovEeVIH7sPIk0mR6GxmzK4r+zwN/KpqPxuXghnjE/RxIKwzdE3i2gBhha
-	 1bJuEisN6G4XYCStFXJWhJg7p0Q/E9SoIeydyrZkIqYuee0shAr4o6jrHGChcqYB5Qp1v
-	 zexSw/HwCMEBb/utrWVSGgxxfWdJpLT8zOhn9VdffqNHZYFly4FRJSFFrj8p3v5skE5tv
-	 GG04UUn/9qIIABZOiVLMA8eoFwDJpKhh9GgTC4VAAjfhMemoMruJLIA6hCeKvY04Cxch7
-	 oAkSLJ3ZectELd+2MWHq+YVY0zoyb1Rr3ywXKb1KhJxnPB1/rZcYT9LkTErBfSZON1Q==
+	t=1793087244;
+	b=BnfO45KCgAJez3EoUeDnNRsx8m8Y5GNvKi2paXRIAM6KW1X6TiXAibwLWWd+n3eWClEs
+	 Tg1Lmp3SKOuDu5CNicXpQ7FNvB3MGdOC6cFcaU0GX6p9fHi+P/Adk0UhwOs1+9Y+VHNBT
+	 p6Mq0SjIh9ey9Nbcfmn4V/qJlchEdjJ0sDXL1NSnEzry37qgTm6rpFQfuQhArKxnuDyNp
+	 /wPnx5Wtgjt2SFbr/QRGDNu7chcDsPvMwLVF8ZaqLF7kzU1n0wNgybQ6XUSvNIxTL14R6
+	 PXQsqVojdMasXnU0vr6KOg0zBKddBvq49TqJg0bo0GoNahSEIE3GagBlVo9mBq0kqTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793038336;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=q5LRojRVuKvX7mEgiFNp5sY87D/Oh0+01py2kiHB1uk=;
-	b=Xc+KHWripMllaEa3CHotaJ7WccAiSqGZpds32HAxYAlIXPgsnIW7WDExbXiTHcm3/eTJ
-	 ueYTHYnwUTY6nHqQ4sH0qhFzjqtw6KDXR3CsT2I0ULa/CaDcMLK3BUhXmBbJM/Mk+iJ7U
-	 lzv3zb6xZNYjT1DLda8MdUsKn/v4bRA456Gaoc061J4w2zgIzzHGqL8FDngL5Ig9w4BjO
-	 2jc7Zy6G4NQ6xfJQMa9RhwgPLLUv4dml4yqB7/vmM7AEsaUd63dnHkoXyua5jeahfdN2J
-	 doAl5JgFcvOvqj7GsCpqe7k0pp9S/XVUgNe5jCWR9uxvL8bLXgfQQwe7W7hrFPHNwmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793087244;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=t18E7UE4PFJI3gidN0TaBJ4kzWBHAiAbXIwjPN/F3kE=;
+	b=AV7aNiXsk+SDda80mV1R5wEOLVp24Jko7Wp4hw4ho8auJj2K8cPJIAvna+Xz+ek/cvjP
+	 mdAXnDQZsgxYHQ4YQM3WMBQDo4NcJc46C5xRLdllq3qNG0F10O0qXiv9h7Deh5hSWOiFk
+	 CDMThUFG22boGDJmN0ltkiF+AohHNAnPBnqnteD9mpVPspLTYRF0VCZafRphe7O7Pq0Fv
+	 RtfvhmFU/NjRE2bfMwl+bc7XWdtQsTy5DV+LdtxIl2Du592HEqEdrixeASAfCiUGwFdaD
+	 MnKiZr81wldgOPfFyZ9UvjTY87BzL0Xn/+3Ddcbw9wbe7bXI7EBcVyH6Pt6Sw+AuKhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FWAXJW4P;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ejeEoHnH;
+	arc=none smtp.remote-ip=74.125.82.46
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42454606A31F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Oct 2026 18:12:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42454606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800F6606A31B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 27 Oct 2026 07:47:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 800F6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FWAXJW4P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793038334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q5LRojRVuKvX7mEgiFNp5sY87D/Oh0+01py2kiHB1uk=;
-	b=FWAXJW4Pif4ia1yY5VWlNPMCoF4HzsjAQCeM1kUExCmBvSNOTp8fabxJZaFK3fh0iV0sxG
-	OEOiPTHtlkCi1uCduyiQMeF4ezu/1SpB2s8sy5TFDumSVYlmSsiorxdFW5UlyN2V1Kq5R6
-	ET2XxGnBrTgvtWh1xr/KgHPv4FlIo6A=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-xJSkhvvmPcmFX6UaVHeSuA-1; Mon, 26 Oct 2026 14:12:12 -0400
-X-MC-Unique: xJSkhvvmPcmFX6UaVHeSuA-1
-X-Mimecast-MFC-AGG-ID: xJSkhvvmPcmFX6UaVHeSuA_1793038331
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-3ac5b80c1a9so3228161fa.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 26 Oct 2026 11:12:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ejeEoHnH
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1a2af4c8d00so1757400c88.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 27 Oct 2026 00:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793087242; x=1793692042; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t18E7UE4PFJI3gidN0TaBJ4kzWBHAiAbXIwjPN/F3kE=;
+        b=ejeEoHnH6r1vfHNm5W5u/U31AQModKLIBioPbajyN/XG8CSMWYHfyFW/cOZKd0vQY1
+         dEkNghhx/rvnusvyx8RBmwx1JRyelsASxJyPdog33fDOaa23BYF41JEv6SODJuMUPZIf
+         W+uHMOW9liz+pXgOjuLhlnsppUv5FzLh2dSgiKPRodsWTgH0/HMUhcbWmIeIdgO99jJt
+         j+7xGHFy/+jPx8+AVjbc3zFD8SgVEeUwMUakn9025gQijhQtMgkCRZ21j4HqwM0GDiy5
+         SketQcbWLUhTKGUhRXJgmiAbdcawZVUp0z5SObx27H779PDKupuWDzoAqUNRAm+idlTc
+         8bxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793038331; x=1793643131;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=q5LRojRVuKvX7mEgiFNp5sY87D/Oh0+01py2kiHB1uk=;
-        b=jIWJ1cxwJtxebvjNu889QHXEXEOUvV+sLQ+GREKg6LvBTa94MQqbsJ7zCBq9rkufRV
-         wUtXsS8wsftnj2DKTrpocgIpVm7YF+TDYcBa7K41x6BmpJDYuyTjY2xLamnPUhqviSwe
-         +Z7vtEg3qrf6gJv7jf35utamSqHJwwYV3a7M+WR6pSkG65mT4Z9ckkusaHpfhfO3K9jE
-         XITUBuE2nsZ6y4SQv9TIV6gRW79igPH1jF5168T3yzdN1hChnGOPLRVzkTep/qL0x3se
-         uiQNu/bxOmFPrcFEcZg3LEcyIjuInZc1gv//RKHUqtwPhwxHzEgh4r4avlzxDfguwDkn
-         E4bg==
-X-Gm-Message-State: AFq9FYKD3vP6xO5ZJjuVQqxpGi2A6D2xpmJWpJ/RBPhWm1x2ZPDUIUO/
-	rsVOrmdGKQ6vH9VoUhMy86SgiinKuZXjaNQ54as0hceJV/FrIz1QwVlqbcWob5fzTFpNet4rovD
-	M1PWHOs7VUs6x8P9VtP6Jfp5MxtZpBGVs/f2FsXY1phREtLCRSxJaGp1hnw6Lds5pCmw2vqIP6D
-	EjDknTNQ4ckKIEYpQagRqe9QFyzFTwCDmnUWz0j7CyfHI=
-X-Gm-Gg: AYBFou04ZPdKnbYTCVslza5GcMEkkdh0GhvybfpxRQCk+OXFk+UaSQEcjIHSiPcoBsG
-	9c0oIycJRWeoHk3Kms101nRPVhZGunHjSXQF1EoMF4z83yacSt/ciaLHkacpKAgEpOyKf68jGog
-	FbM9BQ239NdlH8xrqCcdMoBOSddIGGUV7zJvpPMxU2x3SzOV0EnAX0PxOf
-X-Received: by 2002:a2e:80d1:0:b0:3a6:5cdf:d9a4 with SMTP id 38308e7fff4ca-3ac6fca987dmr13222221fa.2.1793038331214;
-        Mon, 26 Oct 2026 11:12:11 -0700 (PDT)
-X-Received: by 2002:a2e:80d1:0:b0:3a6:5cdf:d9a4 with SMTP id
- 38308e7fff4ca-3ac6fca987dmr13222151fa.2.1793038330658; Mon, 26 Oct 2026
- 11:12:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793087242; x=1793692042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=t18E7UE4PFJI3gidN0TaBJ4kzWBHAiAbXIwjPN/F3kE=;
+        b=0LWHACALpUS/bNxe+frpmqdffcLLA02jIjsQrJe9dP5UzlPrb1anmvIvOYzeNREZBW
+         JxP16N6SRUo8gf4Gg64/C85vpsjmUiyF8A/j1m++mr3EozvXY1gsfkDW8jZ22Md8gvPP
+         W/fk/P8xOKG9q5DZZxpBQMGCNYD/XbGEkotuV7ApUtwslPkg98hMU4128joGTr/niaaU
+         q+Fwu+kkU212MBvdVJuUtuIoyNUvZp+hyVlBCNZpvnICxjKTUBZ8ht/8PP5Wy9nfOu8P
+         9Xb+uc1M7ZaOMo4tqqFWH//69xJxEZQlWD5RoVL1DvngAASF15R0GSYWYcB/BHUNKQfX
+         rVFA==
+X-Forwarded-Encrypted: i=1; AKwUvBwxsHQOMmMmEWcJDKAyvMUG4fC5Yo0019qEMIG0bROkRm8g3RPpinuCPC13d+hiz//yOmDWeVeD17D+4De3Ng==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKMtnGtGuqjGnrwWcg3+4fLc0FoUf3fexWgi16+6UYjeLI+LLa7
+	zIb7yj+cx0hgSyPFK5LrmYPsMgD8G0OVNo61MnLFhEH8pxmCuwntRtG8
+X-Gm-Gg: AYBFou0pywC0zM8mBwb4CcBFNqsIE7PkaQZJyozgmEgXFVOm3gGKE/k8T/UKTFSxC1N
+	tYgIrfYQeyt3TqKHZuyUlhI0wnk6pVbrECLNWjtqYC7Kx9dQW8KvtZ4w/J615u0ecA0ZFA08sjf
+	+PmK61OcybMmzaDaZMHrebYPE1PBCJX/BaOBn7jvKifl8wozsqw+VLL2Nc57OwWETVsoezVx8bw
+	QqFBvhbUtsx2jAaBsvtueE/UPABqXM9fXbdsZvoLnw9vW2V7JRexexTlFm7gSQaMU9DOmUlY9tX
+	khNGFb3XZzNhaO7LbCpp3C+ws4AdeGXT+Aad5y6dVxXFzPHuz9xRjXEM9nQz3E2o/tq1xirLUVZ
+	OO91+NvY6NW5RpKmKHOqbWobAPrpg2Fo/wLJenFfdN26v+KEOgiKDujK0pXkjCMjhtiUtmyo0G8
+	Fvta6+eaQvl6VQEaexS7hqqJyM7WQ62HyP/GSH7vZ0PBk2qTFmDRx7sOzU6mENPRmYfc2E9PAKm
+	71muVr2ZgEMlbWWyhJJA1JTv0n56MiNAUdxRQOwKK2pxmJ4e/MQiAGLjbKunoqNZYzW6lo3FxBq
+	RrkR1GRHmsVkvD7zFQ4KEKvRuyuInes=
+X-Received: by 2002:a05:7022:1508:b0:195:49ee:94c7 with SMTP id a92af1059eb24-19934a926ecmr14662254c88.8.1793087242216;
+        Tue, 27 Oct 2026 00:47:22 -0700 (PDT)
+Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com.com ([106.51.165.23])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a0e8d700sm36526698c88.10.2026.10.27.00.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 00:47:21 -0700 (PDT)
+From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
+To: maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	chleroy@kernel.org,
+	ritesh.list@gmail.com,
+	sshegde@linux.ibm.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	mkchauras@gmail.com,
+	msuchanek@suse.de,
+	bwiedemann@suse.de,
+	ryan.roberts@arm.com,
+	mchauras@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH V2] powerpc: Support for generic TIF bits
+Date: Tue, 27 Oct 2026 13:17:10 +0530
+Message-ID: <20261027074710.129819-1-mkchauras@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -88,136 +109,164 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026-nxp-stm-fixes-v1-0-20a64a4ea454@redhat.com>
- <20261026-nxp-stm-fixes-v1-2-20a64a4ea454@redhat.com> <sashiko-outbox-184830@kernel.org>
-In-Reply-To: <sashiko-outbox-184830@kernel.org>
-From: Enric Balletbo i Serra <eballetb@redhat.com>
-Date: Mon, 26 Oct 2026 19:11:59 +0100
-X-Gm-Features: AclHuK81-1LK4q_yytgG1uMwQPIDanhJ70i6Kw8EPDWxX6uc0SJ6PQv6pFkREWI
-Message-ID: <CALE0LRuWsWm-i3PPvdsJV66MAUmm9GZgWJRvXfD6iNp10McfLQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clocksource/drivers/nxp-stm: Fix missed comparator
- match in set_next_event
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: b6DpK_EymLPik0ZfuYd9FQiV2XtvEC6v1By-IRqVwxg_1793038331
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+powerpc already uses GENERIC_ENTRY for the irq entry/exit path.  That
+means the generic entry code handles all the arch-independent
+thread_info flags (TIF_SIGPENDING, TIF_NOTIFY_RESUME, TIF_NOTIFY_SIGNAL,
+TIF_NEED_RESCHED, TIF_NEED_RESCHED_LAZY, TIF_UPROBE, TIF_PATCH_PENDING,
+TIF_MEMDIE, TIF_RSEQ, TIF_HRTIMER_REARM, TIF_USER_RETURN_NOTIFY) on
+behalf of the arch.  The only remaining blocker was that powerpc defined
+its own bit numbers for those flags, which conflicted with the layout
+required by the common header include/asm-generic/thread_info_tif.h.
 
-On Mon, Oct 26, 2026 at 10:50=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] clocksource: nxp-stm: overshoot race in nxp_stm_clockevent_set_n=
-ext_event()
-> --
->
-> commit 45f273b782a28cec6ef30880d738a9cb690edce9
-> Author: Enric Balletbo i Serra <eballetb@redhat.com>
->
-> clocksource/drivers/nxp-stm: Fix missed comparator match in set_next_even=
-t
->
-> This patch fixes the overshoot check in nxp_stm_clockevent_set_next_event=
-()
-> by using a signed comparison between the target comparator value and the
-> current counter value to avoid missed matches and 32-bit wraparound stall=
-s.
->
-> > diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/=
-timer-nxp-stm.c
-> > index ee249fed1b918..ed7662a4e2bc4 100644
-> > --- a/drivers/clocksource/timer-nxp-stm.c
-> > +++ b/drivers/clocksource/timer-nxp-stm.c
-> > @@ -247,7 +247,7 @@ static int nxp_stm_clockevent_shutdown(struct clock=
-_event_device *ced)
-> >  static int nxp_stm_clockevent_set_next_event(unsigned long delta, stru=
-ct clock_event_device *ced)
-> >  {
-> >       struct stm_timer *stm_timer =3D ced_to_stm(ced);
-> > -     u32 val;
-> > +     u32 val, now;
-> >
-> >       nxp_stm_clockevent_disable(stm_timer);
-> >
-> > @@ -258,16 +258,12 @@ static int nxp_stm_clockevent_set_next_event(unsi=
-gned long delta, struct clock_e
-> >       writel(val, STM_CMP0(stm_timer->base));
-> >
-> >       /*
-> > -      * The counter is shared across the channels and can not be
-> > -      * stopped while we are setting the next event. If the delta
-> > -      * is very small it is possible the counter increases above
-> > -      * the computed 'val'. The min_delta value specified when
-> > -      * registering the clockevent will prevent that. The second
-> > -      * case is if the counter wraps while we compute the 'val' and
-> > -      * before writing the comparator register. We read the counter,
-> > -      * check if we are back in time and abort the timer with -ETIME.
-> > +      * If the counter reached or passed 'val' during or before the
-> > +      * write to the comparator, the hardware match will be missed,
-> > +      * resulting in a full 32-bit (32.2s) wraparound lockup.
-> >        */
-> > -     if (val > nxp_stm_clockevent_read_counter(stm_timer) + delta)
-> > +     now =3D nxp_stm_clockevent_read_counter(stm_timer);
-> > +     if ((int)(val - now) <=3D 0)
-> >               return -ETIME;
-> >
-> >       nxp_stm_clockevent_enable(stm_timer);
->
-> [Severity: High]
-> Can the counter still advance past val before nxp_stm_clockevent_enable()
-> arms the channel comparator in drivers/clocksource/timer-nxp-stm.c?
->
-> At the beginning of nxp_stm_clockevent_set_next_event(), channel 0 is
-> disabled before programming STM_CMP0:
->
->         nxp_stm_clockevent_disable(stm_timer);
->         ...
->         val =3D nxp_stm_clockevent_read_counter(stm_timer) + delta;
->         writel(val, STM_CMP0(stm_timer->base));
->
-> Unlike timer-imx-gpt where the compare interrupt remains enabled while
-> writing TCMP, writing STM_CMP0 in the NXP STM does not arm the comparator
-> until nxp_stm_clockevent_enable() writes STM_CCR_CEN to STM_CCR0.
->
-> Because now is read from STM_CNT before nxp_stm_clockevent_enable() is
-> called, if now is sampled just below val (so (int)(val - now) <=3D 0 is f=
-alse)
-> and STM_CNT reaches or passes val before the subsequent write to STM_CCR0
-> takes effect in hardware, the match occurs while channel 0 is still disab=
-led
-> and is missed.
->
-> Should nxp_stm_clockevent_enable(stm_timer) be called before reading now =
-for
-> the overshoot check, with nxp_stm_clockevent_disable(stm_timer) called on
-> the -ETIME path?
->
+This patch selects HAVE_GENERIC_TIF_BITS and switches powerpc's
+thread_info.h over to include <asm-generic/thread_info_tif.h> for the
+arch-independent bits, using HAVE_TIF_NEED_RESCHED_LAZY to opt in to
+the lazy-preemption flag.  The powerpc-private bits (TIF_RESTORE_TM,
+TIF_SINGLESTEP, TIF_RESTOREALL, TIF_NOERROR, TIF_EMULATE_STACK_STORE,
+TIF_ELF2ABI, TIF_POLLING_NRFLAG, TIF_32BIT, TIF_SYSCALL_RET) are
+renumbered to start at bit 16, which is the reserved range for arch use.
 
-The race is possible but I believe it cannot occur in practice with
-the current min_delta:
+Enabling HAVE_GENERIC_TIF_BITS unlocks the following features that were
+previously unavailable on powerpc because their Kconfig dependencies
+could not be satisfied:
 
-set_next_event is called with local interrupts disabled, so
-nothing can preempt or extend that window. The gap between reading
-now and the writel in nxp_stm_clockevent_enable() is a
-comparison, a branch, and a single MMIO write. With min_delta =3D 2us, the
-check is still close to the write.
+  1. RSEQ_SLICE_EXTENSION (CONFIG_RSEQ_SLICE_EXTENSION)
+     Allows userspace to register an RSEQ critical section and request
+     a limited time-slice extension when the task is about to be
+     preempted.  The kernel grants the extension (via the RSEQ shared
+     data ABI) so the critical section can complete, avoiding the
+     thundering-herd problem where many threads spin on the same
+     lock/resource after a preemption.  This feature requires a
+     dedicated TIF_RSEQ bit, which only exists when HAVE_GENERIC_TIF_BITS
+     is set.  Depends on: RSEQ && HIGH_RES_TIMERS && GENERIC_ENTRY &&
+     HAVE_GENERIC_TIF_BITS.
 
-Reordering to enable-before-check introduces a different problem: if
-the comparator match fires between nxp_stm_clockevent_enable() and
-reading now, the interrupt handler delivers the event via
-ced->event_handler(ced) and then we also return -ETIME, causing
-the clockevents layer to program another event =E2=80=94 a double delivery.
+  2. HRTIMER_REARM_DEFERRED (CONFIG_HRTIMER_REARM_DEFERRED)
+     Defers re-arming of the hrtimer interrupt to the return-to-user
+     path, using the dedicated TIF_HRTIMER_REARM bit.  This avoids
+     redundant hrtimer_interrupt() invocations within the same tick
+     period and reduces latency jitter for high-resolution timer users
+     (e.g., PREEMPT_RT workloads, audio, real-time tasks).  Depends on:
+     GENERIC_ENTRY && HAVE_GENERIC_TIF_BITS && HIGH_RES_TIMERS &&
+     SCHED_HRTICK.
 
-This check-then-enable ordering is also pre-existing in the original
-driver; this series only fixes the comparison logic, not the
-sequencing.
+  3. Dedicated TIF_RSEQ flag (fast-path RSEQ handling)
+     Without HAVE_GENERIC_TIF_BITS, TIF_RSEQ falls back to aliasing
+     TIF_NOTIFY_RESUME, forcing the generic entry slow-path to run on
+     every return-to-user for all RSEQ-registered threads.  With the
+     dedicated bit, the fast path can skip RSEQ work unless the flag
+     is actually set, reducing overhead in the common case.
 
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-nxp-stm-=
-fixes-v1-0-20a64a4ea454@redhat.com?part=3D2
->
+  4. TIF_USER_RETURN_NOTIFY
+     The generic bit for the user-return-notifier subsystem
+     (kernel/user-return-notifier.c).  Used by KVM on x86 to lazily
+     restore guest MSRs; having the generic bit available means future
+     powerpc KVM work can use the same infrastructure.
+
+The arch-specific bits that do not exist in the generic header retain
+their private numbering in the powerpc-reserved range (bits 16+), so
+no existing powerpc functionality is affected.
+
+Tested on powerpc (POWER11 pSeries CONFIG_RSEQ=y +
+CONFIG_RSEQ_SLICE_EXTENSION=y + CONFIG_HRTIMER_REARM_DEFERRED=y):
+
+  * tools/testing/selftests/rseq/ -- all tests pass (basic_test,
+    param_test, basic_percpu_ops_test, syscall_errors_test,
+    slice_test via run_timeslice_test.sh)
+  * tools/testing/selftests/timers/hrtimer-rearm.sh -- deferred=1
+    events observed; no new dmesg warnings
+  * Boot and basic workload testing shows no regression
+
+Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
+---
+This patch is applicabe over
+https://lore.kernel.org/all/961c058f3f3e03045552186c083a68a0fde3f43f.1791975972.git.msuchanek@suse.de/
+
+Changelog:
+
+V1 -> V2:
+ - Commit message updated
+V1: https://lore.kernel.org/all/20261021144453.232372-2-mkchauras@gmail.com/
+
+ arch/powerpc/Kconfig                   |  1 +
+ arch/powerpc/include/asm/thread_info.h | 36 +++++++++-----------------
+ 2 files changed, 13 insertions(+), 24 deletions(-)
+
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 7f7910f38a67..e5527b56159a 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -255,6 +255,7 @@ config PPC
+ 	select HAVE_FUNCTION_GRAPH_TRACER
+ 	select HAVE_FUNCTION_TRACER		if !COMPILE_TEST && (PPC64 || (PPC32 && CC_IS_GCC))
+ 	select HAVE_GCC_PLUGINS
++	select HAVE_GENERIC_TIF_BITS
+ 	select HAVE_HARDLOCKUP_DETECTOR_ARCH	if PPC_BOOK3S_64 && SMP
+ 	select HAVE_HARDLOCKUP_DETECTOR_PERF	if PERF_EVENTS && HAVE_PERF_EVENTS_NMI
+ 	select HAVE_HW_BREAKPOINT		if PERF_EVENTS && (PPC_BOOK3S || PPC_8xx)
+diff --git a/arch/powerpc/include/asm/thread_info.h b/arch/powerpc/include/asm/thread_info.h
+index 4b7ec1db3034..4df3f4b5bd56 100644
+--- a/arch/powerpc/include/asm/thread_info.h
++++ b/arch/powerpc/include/asm/thread_info.h
+@@ -93,44 +93,32 @@ void arch_setup_new_exec(void);
+ 
+ #endif /* __ASSEMBLER__ */
+ 
++#define HAVE_TIF_NEED_RESCHED_LAZY
++
++#include <asm-generic/thread_info_tif.h>
+ /*
+  * thread information flag bit numbers
+  */
+-#define TIF_SIGPENDING		1	/* signal pending */
+-#define TIF_NEED_RESCHED	2	/* rescheduling necessary */
+-#define TIF_NOTIFY_SIGNAL	3	/* signal notifications exist */
+-#define TIF_RESTORE_TM		5	/* need to restore TM FP/VEC/VSX */
+-#define TIF_PATCH_PENDING	6	/* pending live patching update */
+-#define TIF_SINGLESTEP		8	/* singlestepping active */
+-#define TIF_NEED_RESCHED_LAZY	9       /* Scheduler driven lazy preemption */
+-#define TIF_RESTOREALL		11	/* Restore all regs (implies NOERROR) */
+-#define TIF_NOERROR		12	/* Force successful syscall return */
+-#define TIF_NOTIFY_RESUME	13	/* callback before returning to user */
+-#define TIF_UPROBE		14	/* breakpointed or single-stepping */
+-#define TIF_EMULATE_STACK_STORE	16	/* Is an instruction emulation
++#define TIF_RESTORE_TM		16	/* need to restore TM FP/VEC/VSX */
++#define TIF_SINGLESTEP		17	/* singlestepping active */
++#define TIF_RESTOREALL		18	/* Restore all regs (implies NOERROR) */
++#define TIF_NOERROR		19	/* Force successful syscall return */
++#define TIF_EMULATE_STACK_STORE	20	/* Is an instruction emulation
+ 						for stack store? */
+-#define TIF_MEMDIE		17	/* is terminating due to OOM killer */
+ #if defined(CONFIG_PPC64)
+-#define TIF_ELF2ABI		18	/* function descriptors must die! */
++#define TIF_ELF2ABI		21	/* function descriptors must die! */
+ #endif
+-#define TIF_POLLING_NRFLAG	19	/* true if poll_idle() is polling TIF_NEED_RESCHED */
+-#define TIF_32BIT		20	/* 32 bit binary */
+-#define TIF_SYSCALL_RET		21	/* syscall error value set */
++#define TIF_POLLING_NRFLAG	22	/* true if poll_idle() is polling TIF_NEED_RESCHED */
++#define TIF_32BIT		23	/* 32 bit binary */
++#define TIF_SYSCALL_RET		24	/* syscall error value set */
+ 
+ /* as above, but as bit values */
+-#define _TIF_SIGPENDING		(1<<TIF_SIGPENDING)
+-#define _TIF_NEED_RESCHED	(1<<TIF_NEED_RESCHED)
+-#define _TIF_NEED_RESCHED_LAZY	(1<<TIF_NEED_RESCHED_LAZY)
+-#define _TIF_NOTIFY_SIGNAL	(1<<TIF_NOTIFY_SIGNAL)
+ #define _TIF_POLLING_NRFLAG	(1<<TIF_POLLING_NRFLAG)
+ #define _TIF_32BIT		(1<<TIF_32BIT)
+ #define _TIF_RESTORE_TM		(1<<TIF_RESTORE_TM)
+-#define _TIF_PATCH_PENDING	(1<<TIF_PATCH_PENDING)
+ #define _TIF_SINGLESTEP		(1<<TIF_SINGLESTEP)
+ #define _TIF_RESTOREALL		(1<<TIF_RESTOREALL)
+ #define _TIF_NOERROR		(1<<TIF_NOERROR)
+-#define _TIF_NOTIFY_RESUME	(1<<TIF_NOTIFY_RESUME)
+-#define _TIF_UPROBE		(1<<TIF_UPROBE)
+ #define _TIF_EMULATE_STACK_STORE	(1<<TIF_EMULATE_STACK_STORE)
+ 
+ #define _TIF_USER_WORK_MASK	(_TIF_SIGPENDING | _TIF_NEED_RESCHED | \
+-- 
+2.56.0
 
