@@ -1,98 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.128
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793198132;
-	b=cotixp3ceW12Q6yJy8fOBIgMTHrz1o82ciEzw/GPOvFo9FngBKs1jxqZLNavaQekCjaU
-	 fW+758F8TRpl3J0rEsF1LvLrM7nhIkSWhnLm0w6C866tStNTMYDVH5gGfZtmws6liRGYw
-	 YDzcNz2rAOWsfOjlq8vbdDX5zPOmqqk29cQLq+f/kguwYfaW13fxRZ7ez6sDYwgjuQlkU
-	 uzHx/YrgT43ZfLs4lLafVbW9Y0Hc3a04/P9TxfIxm2MjMHmFPCVcxe4SuSh1/H0I75aeh
-	 kXmwg/g/OdAL7SNJMPaBZGVTDfDwlxlbQIYWz+EkXLbYi2ykS2zuUteLT0HqqS+nmiQ==
+	t=1793219442;
+	b=RBjHnGo8oJVbjRqZwcU0IJds/Q2RTcHN36zDptltz35maZoq7o7TMREg5VwEiZozJ2PR
+	 USbyuM46+7XyTuO/Kc3zUHFOo0wmioKj1pw+njq07beadA6NAE63GhX9nXOAJpLz/qzCn
+	 HQZ1t9qYJ4Y2yZo/osBO+TMXJEJwaYFhzYFHmlvMD5PzOSZmNplI0IiCbV/l4+UMsU2EM
+	 FJG0mbIBTOX3gpFzU/rx+5KsUSJpeAHIJ1S1bRG34x7VFIRpxMatIAyJmIMJ8ahlVa2LO
+	 pJpqZf2YqChig0AIB7NJfi0RqXBjMYgR9lkK8E+1OpWMglYJjzwSFKw17r1dbU/eltA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793198132;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793219442;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=pN1MSQu89b3Fcl+JyWjZEXsAVAkBhCmDK4pMhtAcO+I=;
-	b=wsisGm8gvWv1IRWUfLMsCSgQt7AmFACuUMOLlBI8HdqvrY+ulHevD5jQ2vXH12I3jJIs
-	 b96x5cKO0HAxmzDzKlVBvMtobL67VJnL08qavqje6N03ViTqYH3YKqbrcsyUrAIe0TCiK
-	 frfXJQcfv8vISpCtzkepXdusGYFzkye9LzzpV2sqG2xv+S97oZcIxZda1IdzBgd3L8Klw
-	 9Tdh9SL81kl6TmDFtCUeVzkBn+2tAn6MO8oawm0BAl6pyr7GyOQvEm9R9YypAhtHWqMmu
-	 TyVnn6WGZIebUnwO+4nGS/a8Rc3nWSuy0HUUz1jFY9qBgbv7pyt2JD6d3FbKb7J7/6A==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
+	b=KjKG1xNGeycOaq8rCIJEF6YtP5O48N3OUDtRUq+hcgdzdfZtmsb3U+hdBnvVtAI2zaxk
+	 LbyjNXcGiiCreIL7219ZIxYTvI+lM/pMDIOGlVazwB2HT3JDoXzLFLlFmi/Sx1iYmRtRb
+	 EgM2YQfO/0qzd3/+AhFvPloZk1W+Va1cl1M5XOjVc3WhYywue1xIFaD5MAxk7QcFWdbAR
+	 Fxg7XGKhk/9Rh2+yj1YcHTwhniM2FgBTlgXJX6h8LbEYg8Agz6Zne7XO+aqHnTceVWs7M
+	 MBlyj4Pt08rSJBrXoblVX/QHFz4JBHfInhomYiunMWtn8lVmWlIVhQ6SePBisyoCSXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pC/Ddi07";
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnG61BgV;
+	arc=none smtp.remote-ip=74.125.231.128
+Received: from mail-oo2-f0.google.com (mail-oo2-f0.google.com [74.125.231.128])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E63606A32A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 14:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6E63606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B61606A31E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 20:30:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8B61606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pC/Ddi07
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ab60ff4273so935640a91.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 07:35:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnG61BgV
+Received: by mail-oo2-f0.google.com with SMTP id 46e09a7af769-84e8a9fae57so563686a34.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 13:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793198131; x=1793802931; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pN1MSQu89b3Fcl+JyWjZEXsAVAkBhCmDK4pMhtAcO+I=;
-        b=pC/Ddi07Xhrm/BrDQLojoFwUHnoZJFkwucjLCGv3vUKVM9Z98qngwj2tdMxz1ccgtI
-         iQvR0zu1qFOZz/GqlUDdnjRpSAhpzUkCE5+Vp4colUWvGCP7NHlLyBAiGC2OfgNn0/An
-         +s2SdcE0JOEv1c1c3XGZ+ifG86TNWKeWeBRm5uI7t/YMKpI9MxFvtsc3NYUQjrYyCxfu
-         5KO5RLTwi6760ofDcC/4KV+vy7I/WaS2/Wx460xg4p/+iddPYLvd4UsqziLBaS6x4QTP
-         wEhkwQZwzVKay/K2RBRUCfJrEao8V2k7swOBnhLDVWiKTFsbi3nDBhUFtTmV+5sy/R6K
-         DkYg==
+        d=gmail.com; s=20260707; t=1793219440; x=1793824240; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
+        b=XnG61BgVPJUeE+5vPSb+QwM42wDInGnowESkxUK27qSvDeiZ9M0n78e42BtLXk83/J
+         dg4K7lV/UMsztTCvNzLeIzwfYNSaSLnYWikslAEfUlWRYycvpoaHqK6fOTWcdiGJ91J0
+         S2xKYO5xt+2I9ZcPo+Bx7ezSlxAnGaFGY2EIL79Y1qmb+01eOpUETZMhadV5Dh6/dJdt
+         6rh/gKPw2ZLKXMJGAtZZXCBohq3sQkXcy7Wx1yEKmTjJSz/Vor2XYXnBHaAr44bzo9M0
+         qDCLLXKR1+17Bhpv7yUic7q6TBfIleOaFp/GWbj0bPuEd9xVCecqsmleGQtWZcgQVSst
+         C/1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793198131; x=1793802931;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pN1MSQu89b3Fcl+JyWjZEXsAVAkBhCmDK4pMhtAcO+I=;
-        b=K1pXIP30FW2IEwHurLx+Df0e5kOdm5eLyDzRUnqcC+MJAtvN9f3lyZfBgIyOIXtk5f
-         lNdvVpnfRDdsB+RzvHkXWM3S8pfmzKKigqC2pRkls0KEZ7AsUOiKnF6inpoAFzLikW+t
-         pO11ng7ZVtKH0MBkBRKataUx/Z4b1xf5JRJv6EWhYayiIyazA5XjChmsUAFciKV9aqEh
-         un4lf6TSQeXdW38b6wCSd5Szb5llO0sCdfOWE1lo1vrjc/JKA3b4GWthe7tny46oPvsp
-         j/noWTaFSMtcW5EF0ACY6wTMPTu0KXLa774Ijn4y4XNe4f671QbUn/DU2N6Xt2rZwWkw
-         +6Zg==
-X-Forwarded-Encrypted: i=1; AKwUvBwC8NUG10L/RhxU+KIgbothW83pqzAm+4fIP3j686p8Kg4rDMycyEkDXzMDIKA+3iN9Zg0ePn3xwUN27NHsEg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIRJwhZQ+V96x4hl1+z188sdc7vRuiVVHvCQlLBu80SM2PEchbk
-	ijD+YpbO/YMruLP7yzYK4qoc1hwWwVR5MvS2v0M/LkjMQ+rQ+3Fa1tg8
-X-Gm-Gg: AYBFou1WCqIMGVjQdZQMgep38rRDev1B3WD+kbMh+mnvUZzTsNr9Nx8ekgpTdN+717d
-	+Ixa6Et9qGYgf1dm7APv7QGTvmA5W7OOQWkfmHsl8p0ApV6xxU2Deed2W811AANWxq0tWMxwsLB
-	2WtX8WANV0Ti4i6JazcZLFcg4Jm2+U9EsyZNIRNTB0uPvgQxg4FIJzkb35wkgJgGE+DTUlwaJNx
-	pKSfnD4fcv9mvT45p2mOf1kx5SKlHIlYE0le9VG934oo2rLtYkNrR8AOqKCBdjI+aN0Uqwswxws
-	/B6UjX0jhr/iYqN4+S2EBETJAZAEjLTqSpgnV439e7syxZXI0MCdB4jaikQRZG8j1yWLLoVJzHx
-	JUv+u0Rhn0sCXFtrck/aw+6w4F+LqhmxFA+q7cHGuK49LukIZ06v7/euLA8BwuQ2k6M5Uer+bU8
-	h6XtVAxPAXVxnbic152+GtZblDxcfPup1cR7FBilVAwid0r57jHWB7i/75NKh8STGq7/s/yCDer
-	Tal9TQlceSNQmZ2W8Gh2CcYv5XH9uuzy/5Q30DAebgF68sbKQhHDaCBqcZM9dBjfT89/5v/zktv
-	dLm0xwcFZPfX4faywUEuCAg1ce/bCfT6zvu4WpPqEUgcN9k6E7fRDQu2pHnp5s7G6PJtbCNNNGQ
-	=
-X-Received: by 2002:a17:90b:2543:b0:39d:84af:a0b3 with SMTP id 98e67ed59e1d1-3ae581b5095mr1763826a91.18.1793198131090;
-        Wed, 28 Oct 2026 07:35:31 -0700 (PDT)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.165.23])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae5a5834b1sm3422045a91.13.2026.10.28.07.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 07:35:30 -0700 (PDT)
-Date: Wed, 28 Oct 2026 20:05:22 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, ritesh.list@gmail.com, sshegde@linux.ibm.com, 
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, bwiedemann@suse.de, 
-	ryan.roberts@arm.com, mchauras@linux.ibm.com, agordeev@linux.ibm.com, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH V2] powerpc: Support for generic TIF bits
-Message-ID: <auIHxotTRFuyJGBv@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20261027074710.129819-1-mkchauras@gmail.com>
- <auCJ9ZDlTpHlnyTi@kunlun.suse.cz>
+        d=1e100.net; s=20260707; t=1793219440; x=1793824240;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
+        b=TmvvcuRwT8MIdxNcKfohZJ8LT6jBlx/Q8gXB5fTPf2dp0NpSf8G0AlTNPSAa4CaKGP
+         lzzC2Nf+7yBRZmVmyNgxOQ1Py+OZ9+eWVV2C4HN2CAUwFV4ceJ5t/ok9j+w3ybE+/tes
+         JBZnuB4PkTB/kk86qO5LQIpcU91dUj7v+KTKiqi31p7tWastw5Mq7rRWh0tjygH01gqP
+         DBhICSqYCxk202OFh26rzOJu1O93Y74VIqtMnTyhAL9IZfgYTZK/EFqQn0Gd++1K/dVv
+         AnJSWNFKUNfbDnIYqykceUa4VSXKr2iia7qZun8RzYZ2mA6le7Aqjyf+whero+x9t5SE
+         KO6w==
+X-Forwarded-Encrypted: i=1; AKwUvBw0DVZotH9aVTtRmcN0vBznMyXTWtBcICdpffws+8vT6UPHDGIiLjyVP1iui6qHxvScBlxhtdl1uba4CAUwkg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJk4GBKtiQOWUr5RqxI4mUYIEnqbm6kVJLCEliMPyp/T/afFSP9
+	Uql5byjCtJWZCtn/1XTWGm0o0s4XXzqYcRJykx7b55gfHlgnrMTTNUHG
+X-Gm-Gg: AYBFou3WHegrRsztiUAHB2eOg9w1Tno6WKmp9JY1p/Jm/L0Gfh4BpbxqzRRMwxe72id
+	1umLYD1ZWFCvTl5atESJ2NJtK9hFkERVDC1B6bfR5EQmtbMHYoPEGrIaBCZONgPy+ER3dqeXMys
+	c1ddjtnXgWcG3s3pCE0BmBZmKDqYBfMyOIQM8kvKuKw6prgrzjX5hfeNWT41Cb4a3mY7181kixE
+	x7S4qvcyLscWNAZo6Ohy8VBVcza/55fYLOr/cZDfCJRO8F2jk9RzPkIlgeNdUgZ5OmwJFkxTi2T
+	Hf1AiSEIlJ6Ff2niiE+GZkzffhJ8COqw0z5I8yRooO4dNrPsRGranqQzBHVJYV2GBIAzUc/FFAl
+	msIdo023lksDjcVpakieaetCF9o9Jnf2hs/P8PrJGr3CEBLg2Yid9COS8eNvYg29vn0tcNDWec+
+	jvA0NdfY1Y/dy4k1bCOTpGsNibZyf4adCzDvFdx8rOUp1pCi84S84A+ZSXbW5CJ14WZj8cVTYYx
+	byuPmSTx7zsSxYOWFTCTrpH9wGdOJ0EV8z9TKLcUblUl7VsmEDke4Y716waZJvG7Zs8I4VHEaGI
+	8afQG6gHN4kE2VG3Yv9PvVQv+9hTKG1Jky1PbNWEV0aUEti7E9HvLYSPoRSrM6QYx12y5T9VzJj
+	a+i1bovVXlw3wN/Ww5Oz9TQqmEPsP9FseED6ENW4Ifw==
+X-Received: by 2002:a05:6830:680f:b0:81c:a8c5:633c with SMTP id 46e09a7af769-85ab7b0d6b0mr3330153a34.17.1793219440535;
+        Wed, 28 Oct 2026 13:30:40 -0700 (PDT)
+Received: from [10.10.121.179] (wsip-64-207-253-118.tu.ok.cox.net. [64.207.253.118])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm2618813a34.1.2026.10.28.13.30.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 13:30:39 -0700 (PDT)
+Message-ID: <7981f7c6-c949-42e6-ad53-15e6530588cb@gmail.com>
+Date: Wed, 28 Oct 2026 15:30:38 -0500
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -102,30 +93,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pinctrl: mediatek: common-v1: Use a raw spinlock for the
+ pinctrl regmap
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Sean Wang <sean.wang@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Bartosz Golaszewski <brgl@kernel.org>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Yingjoe Chen <yingjoe.chen@mediatek.com>,
+ Chaotian Jing <chaotian.jing@mediatek.com>,
+ Hongzhou Yang <hongzhou.yang@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rt-devel@lists.linux.dev, mfd@lists.linux.dev
+References: <20260929-rbrue-suez-upstreaming-mtk-pinctrl-raw-regmap-v1-1-db92943f42cb@gmail.com>
+ <20260930080609.dnK1-Uta@linutronix.de>
+ <CAGXv+5FssQL3Go3VDFbLAT6HP12RS3U3OgxhYOeapzs64QTdUw@mail.gmail.com>
+ <d3d3e7b3-eb8b-456d-9a2c-116334e86c14@gmail.com>
+ <20261020073236.dDVmd3BW@linutronix.de>
+Content-Language: en-US
+From: Ryan Brue <ryanbrue.dev@gmail.com>
+In-Reply-To: <20261020073236.dDVmd3BW@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <auCJ9ZDlTpHlnyTi@kunlun.suse.cz>
 
-On Tue, Oct 27, 2026 at 12:24:37PM +0100, Michal Suchánek wrote:
-> Hello,
-> 
-> what is the interaction with
-> https://lore.kernel.org/linuxppc-dev/f6c831c95f1171e0b82353e611485231482f3deb.1791975972.git.msuchanek@suse.de/
-> 
-> Does it supersede this patch or should it be added on top of it?
-> 
-Hey Michal,
-This patch is applied on top of your patch.
+On 10/20/26 2:32 AM, Sebastian Andrzej Siewior wrote:
+> bulk writes could be a concern. The 40us delay is within the lock
+> acquired? If so, could this be done without the lock? I assume this is
+> part of the init sequence so nothing should use the HW so the writes
+> should not be interrupted by other writes to the device.
 
-> Also does this one need the first patch of that series?
-> 
-I took your both patches and made my changes over it, so i guess yeah we
-need both.
-> Thanks
-> 
-> Michal
-> 
-Regards,
-Mukesh
-[...]
+Yes, it's under the lock. regmap_multi_reg_write() holds the regmap lock 
+for the whole sequence, and since an MMIO syscon's regmap can't sleep, 
+the delays are udelay()s. The PLL's enable runs that sequence (13 
+writes, 40 us of delays) whenever the PLL goes from off to on, retrying 
+up to 10 times until it locks.
+
+In practice it's init-time, though. The G12A USB3/PCIe PHY takes the PLL 
+with devm_clk_get_enabled() at probe and keeps it on, so it runs only 
+once. Nothing else writes the PLL then, but the lock is the HHI 
+syscon's, so on RT the other clocks in that block would wait it out. 
+Running it without the lock would mean changing how the meson PLL code 
+writes its init sequence, which I wouldn't want to take on in a pinctrl 
+fix (unless that were preferred).
+
+> So it would be safe for nowâ€¦
+Yes, that's the trade-off with the second option, which relies on the 
+DIN never being written in a multi-step sequence. Nothing enforces that 
+though.
+
+I'd like to send a v2 after -rc1, but I don't know the best option for 
+the fix. Still waiting on Lee, Arnd, and Mark to pitch in if they have a 
+preference, or any option I've missed.
+
+Best regards,
+Ryan Brue
