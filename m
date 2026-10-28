@@ -1,128 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793158341;
-	b=D5TkYiLi47BGq7Plcc9dOpjyVoXonfaUMg03seiAvw5sr3NX+AXw20cv9fV0yD63VVLO
-	 N6lhLXRwY36iDk318TEZQHn3PUuzaeqZr9JcbogWqAZuqXnPsmxFIWJqO96IDFgH7V8J1
-	 9RvbvBbTfenjQX3DPflSvo7Z68Uo0Y1mLzzcJtQTwtJy9JBZ4iwNPmqzARuTAAx6rbYeP
-	 QHvQau63dnXmubhk8fZrTVixdc1QM8d0K+KIODfSxEfW23nKGdPv+Y8udeEJvWrW9B0rB
-	 7gT6/YIaBvo6XJiEs4WfNUiu8FWlc89V/WRNWfz2hkjTmysbTl6hbskuL+OgmSYLwuA==
+	t=1793159477;
+	b=vYo/ltzD66FXCPQFkyd5PUBZ76aPiLJAF2T5TIkvpszN8GGZAA8x901LEZZ68AutMdnM
+	 RJmm0lEy53x4J0orKXU1Dxkixs78rCdVsblYV7zKQW7/QdPScWgeLdj79SQLMKfY99dd8
+	 +Fkk3QSCei6U0kIGLMtp78GQi7Qe2/pridocE7fNALomOP2vYtBSk2xV2PNClblHfHmGx
+	 4iEXarKK3ULI60PE/48cdC1mKbFsk7QIM4ojTBJwmN0tKVEPY87Bla8dbYiG65OjVR6aT
+	 Q+ygRBvsoWnC7+/RI+WZh8rPu5Qp4J0nLRymWYeuPVhkX0fmNGDiF/T4hFHhupDq7OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793158341;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ZR3iK/21HRL590OT/HWs7TggzA8Gmahp8IuVcPxIo1I=;
-	b=b8dYzmbBfkhVPcPrJB5BnpWekJkb5/aH+6lWlGW5XSCMcwZ7fSvpZXtFQFVSZ0HN07b7
-	 caEIVdigThmDCBWTlOet0qdG0rRdG56QlsOipfVtu6DB1pHMkroJxeWN5Mryf0p1pxUkx
-	 pGDfV+8CiLRlQ4i19UFtB/CRlvCqEXe8aUSrjIsS9EFqBPjoKgHQTcJNL4Cei0zfAzEJm
-	 OE0dY4nPc1I8nPgYNO6Dt0ztij8gnP34OqMFe3dCaY+UXfCagInIYyrwrXYy+qovLKzA9
-	 GiX1diEuitdPA5a5ffLBmmqOr1LtoQ0MLnqkyFSVbA3I0cb1Jjq9NSF/kxTr2BfktIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793159477;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=8qtZEtNk142TpRoxmSCaOn+jQTO7rPmHhdimqqTaAXo=;
+	b=3TCSSnhRRn8+uy9Nj+x0XY9GGsNIqD3AScMtrbKl1VehQRpb2DD+UoQ1vCZrSuYf09af
+	 Idp5/eK8Yp4fUJhf79rqzl4QRoUp8t9M9lSE1DapPWFzIpgTVkK4AsUpAEiVF4c8aqOVA
+	 74Yu5DFyb7Aqmr5ld80EK5eLx78zmgZoNzi51lpCkvnX9E6ii23GIDKMZZF71260Ob0CU
+	 6MXLlYgfJJgChU3b+ZpmUuq/M+bYXMhIIU59K407+DvyxB0/hE9UzveFLdh1FLvbNIVgK
+	 Lrjw5jRveQYKHL2lr8p9xsyQmT4LZwiYtF7iS72fZVd5OpZZYpHzaK6hS+G6zUBsD+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pYewvRJo;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSmRGO7a;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5A5606A33C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 03:32:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C5A5606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC99606A31E;
+	Wed, 28 Oct 2026 03:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pYewvRJo
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2072b9832so9950165e9.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 27 Oct 2026 20:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793158340; x=1793763140; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZR3iK/21HRL590OT/HWs7TggzA8Gmahp8IuVcPxIo1I=;
-        b=pYewvRJo2ad9DvGMM8vBMzuDVLbtjFgeMpstmyaDKVWPbWbvmk7z/IA/K7nW8FBjaC
-         nT9WBD1/fcGC4sSwjawbLjfywKxuU27JlHJhM/UQuRA0UMCejNgw6lSJ0up+US885sEq
-         TFlGzzzaH9QAGmmmL4ts8XdCSmsKdZdc82J3xiODfT16dVHVM5kD34091PvL/s05QyMj
-         LRJ4rAyBp3spJFoXbT2UY8O5MxAiSw1SuihpUjNV3crvzyy6PVk/RFq9XyWHDwyC8E11
-         JfSXJhe1zmur2MKE/DKoqfjOQvt9EAnvS3yTfdIWasGlCDXbSk2YRVRAs80Q7LqlOWDX
-         Namw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793158340; x=1793763140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZR3iK/21HRL590OT/HWs7TggzA8Gmahp8IuVcPxIo1I=;
-        b=uCPYhu9OcRYIDk3DwW+zXEgvJnr7xCivZdIgpZjn1xmKwx5wVqJGa7jsRUdd4LFTDd
-         tsFd7vJgP4+7pvFLT5TNFjLq2stLBhbxs2WxS0n38QW7UNSA2kGObQnrgaQMvgrcfJ5j
-         8BkS9a8aY+zkqQ7a+Kbqf2jDXligjGtJYZAtUNtdP1ZmAmMRZVr45U/Jee03cVSYnUlp
-         9OLyHe5YK7I55bR+FYkhCvLnLn4aZm8dkUbdNMiVveL8k/C/yzfbJemKHkCT2zBYqy86
-         mD6NeiSzZVAQcLsPGWupOcfbpPZbGuVqWSk5zOfG6TkLFWG8xs4Qbjfq/VWX93RC3SGh
-         CnGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxLu+bfbiKF7cfVKzKQ6b4THozUnAUP0vyTtDmvaOlgZTPg4Sp8Nf8xx/rN6ymJ726qvWDA0uvxTAYIIBsEng==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJWz+tcCOw8YdhWnNJwKGAwdFfZLvqmRn6NOqXuPKiqbPYZuXIF
-	GJ7wYbqufZllxeRmmx756+E/iPZ8nzDzUzEml8knMXIWgfxxdX2XRrVX
-X-Gm-Gg: AYBFou1cHWBCqEndv+A64Ig10PfsYC7UJkkfjSU9BIlOhuTxL9D5e/DVKdonKuqV7/M
-	Y/58TY+QbfRJk4MJ486Cni18P9SzsmVo0njxjN56uMHoD1b27aeK+HbMbEKw8IuMRSk/PztdWB3
-	cZGEVWBNjbnvSKrZSJmlx6OcjXlx2WCC7BHpgnNpvtdvfXqugLHGTOrW7ofIg/xmlJg1pLTI29O
-	lXf9Wb/dAl2xed1Ey43hicWh3VHg7V1BI3JPa3NiTaoVCpi+u/TKJ7g2Nvc3MOz5Hz3DgkNAiIk
-	KtdR+x7xmP4NyM01HBV7/llCCXPQg5Zgpcy2mpZ0puVtRxDvFWhqi3XbJP7o9i3IyLL+8YoNMyZ
-	wgbIcDoiM6bo7EGmKrBYBvhcp2faLGKgaRYdEQjeiSC2ysACM6Hl9Kchp2TGsoZQunkofYMR1dl
-	oyfmJW+1fcoL3E0Q/TZqq23XzZQLoTjp6CIy2FeRPfUUDbWodQ0aI+G1KNHA9c4ESb7Y5W3lT7j
-	EjjmIo7ur1F/XiY4ZbNp3p9VtXaYcSZ7uYKaXlil5sVILhd7RPwhvrvzb1rQ7neue5/JVaCMTgc
-	oe0sxqap6ZCLPlU/icgtJagZuUwBbTKg8Ywynnkhi/ZUDeiH9lpFujvIKimbA0+JuFPmvqVzawm
-	v0zK4hTt/OnYgp1g/Xvtnclsll3YZgmPUxuvpav1GH+tVWpQNyvvADaFpfmNJhAEjCAY8QDeivX
-	v3ZPGBNVhSUF5xxddCUgWLjA3lKvVNyF6F
-X-Received: by 2002:a05:600d:8641:20b0:4a2:10d:5e0d with SMTP id 5b1f17b1804b1-4a7c58f389cmr88355155e9.14.1793158339700;
-        Tue, 27 Oct 2026 20:32:19 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a45b-7d01-5035-b393-698f-53f0.310.pool.telefonica.de. [2a02:3100:a45b:7d01:5035:b393:698f:53f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdfd8dsm24290569f8f.56.2026.10.27.20.32.17
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 27 Oct 2026 20:32:19 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Hongyan Xia <hongyan.xia@transsion.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 13/13] locking/selftest: Exercise hardirq return-tail preparation
-Date: Wed, 28 Oct 2026 04:31:27 +0100
-Message-Id: <20261028033127.82193-14-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261028033127.82193-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSmRGO7a
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F8B1F01825;
+	Wed, 28 Oct 2026 03:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793159476;
+	bh=8qtZEtNk142TpRoxmSCaOn+jQTO7rPmHhdimqqTaAXo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SSmRGO7a82I4IO8/3OJJvX18J7Fo8K3qy0ns7b0Xn3KGY4vSVBLt4BkWCLEtWiMbY
+	 c96aLiKZOUBqdyZ74ebhIIrS9vS2t7iBHZeCupcCkrXzNNg6DpPL9EsonKT92HOt0M
+	 0F06Ci1A1lPyU9KQ9keT4vh1Qh64pdN+GYLpJUl6wICF6kCVAclRZbsVySiNHW6z4G
+	 Yrz0IPYqI4/9M0MQ352ez71rnD71xoEsqDjl/RtDZ1n+f1ORkdmHCItOzO2ER9qtkQ
+	 sQVWdgyG54KuAHCbUzAO8MIQFvRFULY3T564zdNsVFyIQ4pgGTyM+VVdDC2LgS5ziM
+	 lZ8v+8J2yh7bQ==
+Message-ID: <sashiko-outbox-187447@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH v2 06/13] entry: Skip inactive IRQ-return reschedule
+ calls
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Karl Mehltretter" <kmehltretter@gmail.com>
+Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20261028033127.82193-7-kmehltretter@gmail.com>
 References: <20261028033127.82193-1-kmehltretter@gmail.com>
+ <20261028033127.82193-7-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 03:51:16 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -131,93 +60,83 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The return-tail lockdep preparation must see a live hardirq context. A zero
-depth must fail. Depth one and nested contexts must pass. The ordinary
-preparation helper must continue to reject a live hardirq context.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] entry: missing __always_inline on irqentry_exit_to_kernel_mode_p=
+reempt()
+--
 
-Add focused boot-time lockdep cases for those four states. Skip the final
-IRQ-state transition after an expected preparation failure so that each
-failure remains attributable to the preparation invariant.
+commit b2284e95ad33bdfe152568730c196eaa50875e40
+Author: Karl Mehltretter <kmehltretter@gmail.com>
 
-Assisted-by: LLM
----
- lib/locking-selftest.c | 53 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+entry: Skip inactive IRQ-return reschedule calls
 
-diff --git a/lib/locking-selftest.c b/lib/locking-selftest.c
-index c3d976c801bb4..7e26b757344a4 100644
---- a/lib/locking-selftest.c
-+++ b/lib/locking-selftest.c
-@@ -222,6 +222,55 @@ static void init_shared_classes(void)
- 		local_irq_enable();		\
- 		local_bh_enable();
- 
-+static void irqtail_prepare_test_enter(unsigned int nr)
-+{
-+	unsigned int i;
-+
-+	local_irq_disable();
-+	for (i = 0; i < nr; i++)
-+		__irq_enter_raw();
-+	trace_hardirqs_on_prepare();
-+}
-+
-+static void irqtail_prepare_test_exit(unsigned int nr)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nr; i++)
-+		__irq_exit_raw();
-+	if (debug_locks)
-+		lockdep_hardirqs_on(_THIS_IP_);
-+	raw_local_irq_enable();
-+}
-+
-+static void prepare_irqtail_0(void)
-+{
-+	irqtail_prepare_test_enter(0);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(0);
-+}
-+
-+static void prepare_irqtail_1(void)
-+{
-+	irqtail_prepare_test_enter(1);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(1);
-+}
-+
-+static void prepare_irqtail_2(void)
-+{
-+	irqtail_prepare_test_enter(2);
-+	lockdep_hardirqs_on_prepare_irqtail();
-+	irqtail_prepare_test_exit(2);
-+}
-+
-+static void prepare_regular_1(void)
-+{
-+	irqtail_prepare_test_enter(1);
-+	lockdep_hardirqs_on_prepare();
-+	irqtail_prepare_test_exit(1);
-+}
-+
- /*
-  * Shortcuts for lock/unlock API variants, to keep
-  * the testcases compact:
-@@ -2934,6 +2983,10 @@ void locking_selftest(void)
- 	DO_TESTCASE_6x2x2RW("irq read-recursion", irq_read_recursion);
- 	DO_TESTCASE_6x2x2RW("irq read-recursion #2", irq_read_recursion2);
- 	DO_TESTCASE_6x2x2RW("irq read-recursion #3", irq_read_recursion3);
-+	DO_TESTCASE_1B("IRQ tail prepare", prepare_irqtail, 0);
-+	DO_TESTCASE_1("IRQ tail prepare", prepare_irqtail, 1);
-+	DO_TESTCASE_1("IRQ tail prepare", prepare_irqtail, 2);
-+	DO_TESTCASE_1B("regular IRQ prepare", prepare_regular, 1);
- 
- 	ww_tests();
- 
--- 
-2.39.5 (Apple Git-154)
+This commit checks preempt_count() in irqentry_exit_to_kernel_mode_preempt()
+to avoid calling irqentry_exit_cond_resched() when preemption is disabled, =
+and
+marks arm64's preempt_count() as __always_inline for noinstr callers.
 
+> diff --git a/include/linux/irq-entry-common.h b/include/linux/irq-entry-c=
+ommon.h
+> index 289e308d2d46c..e1fd9155410c1 100644
+> --- a/include/linux/irq-entry-common.h
+> +++ b/include/linux/irq-entry-common.h
+> @@ -503,7 +503,7 @@ static inline void irqentry_exit_to_kernel_mode_preem=
+pt(struct pt_regs *regs,
+>  	if (regs_irqs_disabled(regs) || state.exit_rcu)
+>  		return;
+> =20
+> -	if (IS_ENABLED(CONFIG_PREEMPTION))
+> +	if (IS_ENABLED(CONFIG_PREEMPTION) && !preempt_count())
+>  		irqentry_exit_cond_resched();
+>  }
+
+[Severity: Medium]
+Should irqentry_exit_to_kernel_mode_preempt() in
+include/linux/irq-entry-common.h also be marked __always_inline (like its
+companions irqentry_enter_from_kernel_mode(),
+irqentry_exit_to_kernel_mode_after_preempt(), and
+irqentry_exit_to_kernel_mode())?
+
+On arm64, __el1_irq() and arm64_exit_to_kernel_mode() call noinstr function
+arm64_exit_to_kernel_mode_preempt() in arch/arm64/kernel/entry-common.c, wh=
+ich
+invokes irqentry_exit_to_kernel_mode_preempt() directly without
+instrumentation_begin():
+
+    static void noinstr arm64_exit_to_kernel_mode_preempt(struct pt_regs *r=
+egs,
+                                                          irqentry_state_t =
+state)
+    {
+            irqentry_exit_to_kernel_mode_preempt(regs, state);
+            __arm64_exit_to_kernel_mode(regs, state);
+    }
+
+While preempt_count() in arch/arm64/include/asm/preempt.h is changed to
+__always_inline so Clang does not outline the new check into instrumentable
+text, irqentry_exit_to_kernel_mode_preempt() itself remains static inline:
+
+    static inline void irqentry_exit_to_kernel_mode_preempt(struct pt_regs =
+*regs,
+                                                            irqentry_state_=
+t state)
+
+Because noinstr in include/linux/compiler_types.h strips sanitizer and
+profiling attributes (__no_kcsan, __no_sanitize_address, __no_profile,
+__no_sanitize_coverage, __no_sanitize_memory) whereas inline only adds
+notrace, building with Clang and CONFIG_KASAN=3Dy, CONFIG_KCSAN=3Dy, or
+CONFIG_GCOV_KERNEL=3Dy can cause LLVM to refuse to inline a non-__always_in=
+line
+callee due to mismatched attributes.
+
+If that happens, couldn't Clang inline preempt_count() into
+irqentry_exit_to_kernel_mode_preempt() and then outline
+irqentry_exit_to_kernel_mode_preempt() itself into instrumentable .text,
+allowing sanitizer instrumentation or kprobes to run on the noinstr return
+path even when state.exit_rcu or regs_irqs_disabled(regs) is true?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028033127.8219=
+3-1-kmehltretter@gmail.com?part=3D6
