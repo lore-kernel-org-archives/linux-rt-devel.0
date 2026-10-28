@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793155454;
-	b=HGvU7vFKSTJdcb5ihNZmIm2igW2aUOKVUmYNFieti6xlZCxfhHsDQN42pp+6P1QyE5aX
-	 G+F9UeQSDEqbzcMSe4vu4HLA9ZbhUpqibDD3g6LNXn23qFeZFNTvrzudwVjSHDreejSWh
-	 gQXRcPnk+BBdUZw0M0cLXJB1munEjpS/05zog8kJL6PX0pO5SCrnNMCI8jocGK7IXRqOs
-	 YkXVjEQQWv59mvcHLCK+X14WJefqCoOTXHRz0Nqge4861XoI1ZbYy4HjteEWeCPvl8dsn
-	 neSxsUgIm7SpxrIMMSvX4JL8qjr/ZQreEzD52y/oz+B5MbkRqrOKgrX4dS2Ivd/n5wQ==
+	b=NcenzZ0eSk1SWnCreDHe+rMqFH2gXjNtgMf70GcZ6uXfDRLmDcP1nWmozwdC9M01hC5h
+	 MYZh6LnLrYMdorI12Ji+TxoKXbr03+flPzONrj9sajXHstXfiN8LFpOF5XeNMZzgLSphb
+	 tI/JplpVG24xVhYac27xyrxrj1UfXLFRSt9eWsTG/0NnE0vBa/mGLNCSUAgvBd9D+G7s1
+	 B0tKd3nX4zIMGtQ6Pdz4HQb3W+03Q39S08vofz2HVbtelh2AdsIHeWorMfguWiMdbyYKO
+	 eGidXVdS8FfcEl+9FQ0vwEPw2eGydziIR2y36CqLyOKny+zXsr4fw7NBExHblDnKvCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793155454;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=6amw0xuR/0wHXI09csvyb45ihbeTnCR/nXnfcBWArEk=;
-	b=OY2OHOh41uEOQH7Y500XFAk81bapfD8Iw5ndeM79u/WygLiB99ZMPgj2vpjhvYW12DwD
-	 WqGwOO/Nzo+hF9EDOv7UpgRUsXwH1ylt2vtNQhisXgjIj9dKFQ9l8HOR9iKh0EZn6mjEn
-	 mzxuY1TtT9qqZ/O5goAwCC1IZ2epPojaZOuhM3psHkh2N1uzVXvPwFiTvsgjhgIru2yk1
-	 RwvCb3mGmyN9+zWEA77yIKs/Eou97YFojl+ihAaaC8MA7cPnGW0qKyDdLsH6ZC2BxA2FW
-	 3bS6ZWI7FS/nwfn5Nk359EtVwPZrI3NORYG77Ic/PzIhKAc3uNFJ28/tknQvJ9SHMlA==
+	bh=oo/01Jp9FjfS/2vPevSBVo3jb7P52PPUK77gNUPhv1Q=;
+	b=yk6/yiOUWryjleZypoYSE8/QTnc54uksqVIyfPLlko+HWaoMIIWnNjdOIj4R46+iPJAV
+	 KQxH3KZ+bHt+hxIECA+JrcSOmkh7tJnPIRt/LKo2gRRaQWWATQef942bsUIu2Z/429jw5
+	 e0IJ4s5jpGluzbmu89+MGh7c+jGVVcVQIdZ67wwP3pBenR8C6sKBfZamFLcfLi7mliNGs
+	 pZBQ0y4nE7UxlXxWkPXBwm6XqMlawu3SCGW7aWLLIk4peWkXlTSY3ALkBcuol4aZuZ87h
+	 OxWrw7e5Rjqt6j5vRxfXq72vA+NLYWMomV+PaGHEGVL8ONFZsmfbzZvn51BTlHhyBYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=VVEUKljH;
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=0ya6vdEb;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61C2606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391A606A31F
 	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 02:44:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A61C2606A320
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9391A606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=VVEUKljH
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=0ya6vdEb
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=6amw0xuR/0wHXI09csvyb45ihbeTnCR/nXnfcBWArEk=;
-	b=VVEUKljHGcliCzV63x8BOdvfJCXbmDGPhRz1BVJ+FuT5impFG+/GGSas0NDQA03tpzDZZhOWJ
-	Tr7qBDYVrOFlMAsyuNm7/34wXY/CPQ90edaxFGDNh2oDTqi8wdqfMxEE/671aUG52Y9T0MMcGBD
-	QPkMl/Ken3s+Fx2byQq5amI=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jDsBW5L0WzLlYq;
-	Wed, 28 Oct 2026 10:44:03 +0800 (CST)
+	bh=oo/01Jp9FjfS/2vPevSBVo3jb7P52PPUK77gNUPhv1Q=;
+	b=0ya6vdEbU5Mfqn1RFJsUVc/88GAzKW+T/UBkDTmNWfJgQMH59agRyxVZ/B5GgYIouxxqL34nX
+	ENUgBMJZecIpIWCm2y0m+Ybkgmxt7UvaBglR10oSURNSmBD9j1FyTesjKhpX6FGSWa3GyFVks2T
+	0aAqqT2OD2zbiBGNYLNk1hs=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jDsBV60Xtz1cyqv;
+	Wed, 28 Oct 2026 10:44:02 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1023240572;
-	Wed, 28 Oct 2026 10:44:10 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 688134057C;
+	Wed, 28 Oct 2026 10:44:09 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 28 Oct
- 2026 10:44:09 +0800
+ 2026 10:44:08 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
 	<bigeasy@linutronix.de>, <clrkwllms@kernel.org>, <rostedt@goodmis.org>,
@@ -60,9 +60,9 @@ To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-rt-devel@lists.linux.dev>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH 2/2] docs: sched-preemption: Fix the list of runtime-selectable models
-Date: Wed, 28 Oct 2026 10:43:33 +0800
-Message-ID: <20261028024333.795917-3-ruanjinjie@huawei.com>
+Subject: [PATCH 1/2] docs: kernel-parameters: Drop unsupported preempt= modes
+Date: Wed, 28 Oct 2026 10:43:32 +0800
+Message-ID: <20261028024333.795917-2-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261028024333.795917-1-ruanjinjie@huawei.com>
 References: <20261028024333.795917-1-ruanjinjie@huawei.com>
@@ -80,52 +80,32 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
  kwepemk200008.china.huawei.com (7.202.194.74)
 
-CONFIG_PREEMPT_DYNAMIC now depends on CONFIG_ARCH_HAS_PREEMPT_LAZY, so the
-none and voluntary models can no longer be selected at runtime; passing
-either to preempt= is rejected with "Dynamic Preempt: unsupported mode".
+Since commit d3d16750693b ("sched: dynamic: Make PREEMPT_DYNAMIC depend
+on ARCH_HAS_PREEMPT_LAZY") only "full" and "lazy" are accepted with
+CONFIG_PREEMPT_DYNAMIC: every architecture that supports it selects
+ARCH_HAS_PREEMPT_LAZY, which excludes the none and voluntary models.
+Passing either is rejected with "Dynamic Preempt: unsupported mode".
 
-Drop them from the table of runtime-selectable models, and describe the
-build-time situation instead of implying the choice simply depends on the
-architecture offering lazy preemption.  Keep the per-model descriptions
-below, which still explain how a scheduling request is honoured under
-models used by other kernels.
+Remove the two lines so the parameter reference matches the code.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- Documentation/scheduler/sched-preemption.rst | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-preemption.rst b/Documentation/scheduler/sched-preemption.rst
-index b48e53587a7a..0b5ddf7d26f2 100644
---- a/Documentation/scheduler/sched-preemption.rst
-+++ b/Documentation/scheduler/sched-preemption.rst
-@@ -20,9 +20,6 @@ change.
- The models selectable at runtime are:
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fce0d52b9cfe..11f0b700d56a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5428,8 +5428,6 @@ Kernel parameters
  
- 	=========	====================================================
--	none		No preemption of kernel code other than at explicit
--			``cond_resched()`` / blocking points.
--	voluntary	As ``none``, plus ``might_sleep()`` sites.
- 	full		Any section that is not explicitly preempt disabled
- 			may be preempted at any time.
- 	lazy		As ``full``, except that the scheduling request is
-@@ -31,10 +28,12 @@ The models selectable at runtime are:
- 			apply to real-time tasks.
- 	=========	====================================================
- 
--Not every model is available on every kernel.  An architecture that provides
--lazy-preempt support offers only ``full`` and ``lazy``, and ``none`` and
--``voluntary`` are rejected there.  A PREEMPT_RT kernel always offers ``full``,
--and ``lazy`` as well if the architecture provides it.
-+CONFIG_PREEMPT_DYNAMIC depends on CONFIG_ARCH_HAS_PREEMPT_LAZY, so ``none``
-+and ``voluntary`` are never selectable at runtime; passing either is
-+rejected with "Dynamic Preempt: unsupported mode".  The two models are only
-+left as build-time choices on architectures without lazy-preempt support.
-+A PREEMPT_RT kernel always offers ``full``, and ``lazy`` as well if the
-+architecture provides it.
- 
- The model that is actually active is reported in the boot log::
- 
+ 	preempt=	[KNL]
+ 			Select preemption mode if you have CONFIG_PREEMPT_DYNAMIC
+-			none - Limited to cond_resched() calls
+-			voluntary - Limited to cond_resched() and might_sleep() calls
+ 			full - Any section that isn't explicitly preempt disabled
+ 			       can be preempted anytime.  Tasks will also yield
+ 			       contended spinlocks (if the critical section isn't
 -- 
 2.34.1
 
