@@ -1,57 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793159861;
-	b=f1XqszroFqT8U7ByHzmKeYMW7nwXwEEalP7RjNx0qE3HQfwI75DYOVvSeSZoSAXK+V4/
-	 2TVBKZvF+f+eJM133JyFnhQNHO/2f/Rm+Q5hgK4o5BgYL/a5doiu4RNQ8t5VSwf3ADS20
-	 WzPpnT4c3NvTboZqPmgmSKH5jP7lI1TNIpE4qTuejHSQb3SD6xrAerFn3QcCkVOQiotjy
-	 0A2bW3mqDAxchRC+q5WnoFj2//GmmwTKxecysDsS4O703KiGnrkBk2m1jV5RsB/UPqok8
-	 DSB40cp5oq8Ql/rqTJ1N14w1o0qBQgycf1weQwFvdB3d5J2ZaX0bHjwDjvovM4QDqlQ==
+	t=1793176669;
+	b=dTwbsA6W7NoYoYcIL7z/3CNMseJ67ov5eC6URvR51ZmXKgM+LgiSYACz1IIAuNd7pj1o
+	 N+ewYmcaoJ9rIJ/82asbPueLnShWpfCzzxxcacXOdTOgeCT1CSE8VpJPs3GStRmL8lGTr
+	 5sRUmnYAivBkm4HIdWJmgITJB7nFstUubzmlm9wBHPvWNGIKYwYMAvqTuU/pmxPVsZwNO
+	 4RwxCndL1J6auJ2FyltIhEUeScXwzKRoUDReiZoG5D1ELhd9lKf8cd8VPvR3rR2T+0y9F
+	 6q7nMsf9PTqAK2uulwjfdrlEIK28ke2VdtD7rZKUi3uodwXNX1HPY8Ltyr1/iM/2G3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793159861;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LdDS6KYDzJ/oVKmzl6A3jbAlVTd7hn4RSeZTrpSGhHg=;
-	b=ws3NiYllQ8jkLc0YJ3BZY3sC08hlkH1V+IHbDrIzXTJ5qLn2ekEo6xEs+pr+7YreCnTc
-	 zNzYUFTQ8zA4XfSZOXr+7bUdXzpBSY9PKPpyemUYzEM1snt/Nyr6yMQc9DYpdQDTZdPgd
-	 SJiPH57VhqI+VMOV1ixN3nTDR4DZAD61vvWTViG5fqBkhlnULnJVlmr40x7gecTFBFvNn
-	 DEAko2hiZ9tVEPJOZYSIrNztxmX592dPDai8kj6bRW2+0rE0nzGMTuqcsD41E0N0T/Lgj
-	 Ikrf7ux/SKp/V5gXjOaMeZuG5pYA1SuG+Ngn2uzBdVV2Lhx62gL+yYP0n5rb9de5sjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793176669;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=1wbs7cHydDEQXXO5KItG+AMA3doDxVoVAxLbCzDRe70=;
+	b=ESZkGTm6bp8FDnoVjqNN3xHQ6L7RQJSK/oI6996f+/prWPmd1+4MCC5jppKSAgaAYyYb
+	 0Pz9daicOMewS9kjTBOJ1sIQGzvBp6/U1CxhV0VM2GP381Scdm/JK3j1I3fEYsVeulev1
+	 GCtcexFEhTZWz97ultRFuB0p6C8q++8adMW8b8v5/vKV0IvMIK0W0g5tApPNcp0Z+2j4W
+	 546y+bQPoVKsHZpmj+1wm3+65H8E+U9SxG2p3FNBNN2yElz8QJynoLqhQE5G9OI09iREN
+	 mFicm7HIPBoxODcunRrtVbSjpIks6TXbAiwnDpODMS9sIa2+zqno8jpZWychJIB6yyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="gpgg/EGp";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ppjq6uci;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8B7606A31A;
-	Wed, 28 Oct 2026 03:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FEB606A31A;
+	Wed, 28 Oct 2026 08:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gpgg/EGp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2653A1F01825;
-	Wed, 28 Oct 2026 03:57:40 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ppjq6uci
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CCC61F01825;
+	Wed, 28 Oct 2026 08:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793159860;
-	bh=LdDS6KYDzJ/oVKmzl6A3jbAlVTd7hn4RSeZTrpSGhHg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gpgg/EGpmMB723mqPbY7OOOD1P6n3seyd1glrnnLY6rthjzqY1DgUgusvwQAjciPF
-	 ta8jtdzZOpVqswtk2X6LHHe1tvBt4jFO3232KrP6zKEjcz3cYkfD28BAv6QfINDs4V
-	 Imjit55qhCaOmZfWBHawCdBqjJairX0nN5q3v5AG8r0UcfebOzqg4PxA93Z8H947Pq
-	 P2ctZNafyDrElhLE8jzkFMm4LBwllgzFiWIbPY41LzlkkB37uXMsHWJBkhuktWuDdt
-	 EvclwypcDjrUVOnyTJ6sx/QEKKee683CNuQInHDiIB5raIXqgTeJEydjGKGm9Adwqa
-	 5ady9t6KH4VxA==
-Message-ID: <sashiko-outbox-187457@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH v2 10/13] entry: Classify ordinary hardirq
- return-tail work as hardirq context
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Karl Mehltretter" <kmehltretter@gmail.com>
-Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261028033127.82193-11-kmehltretter@gmail.com>
-References: <20261028033127.82193-1-kmehltretter@gmail.com>
- <20261028033127.82193-11-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 03:57:39 +0000
+	s=k20260515; t=1793176668;
+	bh=1wbs7cHydDEQXXO5KItG+AMA3doDxVoVAxLbCzDRe70=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ppjq6ucixIquylI1RXa0glpRlIx0VRokubeu3+Rd9Zd3zOXS9VnLl/cf7El20ued2
+	 LHGK6Xk9IQaRqA1ZpE5lW55bE8uTquQAGIOd9nbpx+msITLI5rBfXXBi6zLH41Zeqc
+	 PQVQTbbhTl+Xu3JKPXDUPG5SFtltCsZNT5zDz5R5fMPIh9kI/s6nMR6wCLH/WBSttZ
+	 Jd5uHYmnCRco+nGQQ0WjggVO4uKe9cQrI20/3HnGRX8jkvjhI3JLTfX7mJMkM07Cdu
+	 F2b+fzMNBq2vYgLkkqQ8IJadCUPcQEYgH5F/oqVQGjN5I00CKnmk+1zKvUPVkVo3LC
+	 m4OYLuMKXTIMQ==
+Message-ID: <5e980194-d892-4b68-80fe-612c910c29d7@kernel.org>
+Date: Wed, 28 Oct 2026 09:37:39 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,252 +50,97 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] mm: fix allocator races with memory hotplug
+To: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, kernel-team@meta.com,
+ akpm@linux-foundation.org, mhocko@suse.com, rientjes@google.com,
+ shakeel.butt@linux.dev, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, muchun.song@linux.dev, osalvador@suse.de,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, brendan.jackman@linux.dev, hannes@cmpxchg.org,
+ ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ mgorman@techsingularity.net, anshuman.khandual@arm.com,
+ Bessel.Wang@huawei.com, jiang.liu@huawei.com
+References: <20261021023940.1940971-1-gourry@gourry.net>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20261021023940.1940971-1-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] entry: irqentry_exit_to_kernel_mode_after_preempt() breaks preempt=
-irqsoff
-- [Medium] softirq: irqentry_hardirq_tail_exit() repeats wakeups with wake_=
-flags =3D 0
-- [Medium] entry: irqentry_hardirq_tail_exit() wakes softirq threads after =
-preempt check
---
+On 10/21/26 04:39, Gregory Price (Meta) wrote:
+> Eight fixes for allocator paths that can act on state another CPU is
+> updating: zonelists rebuilt by memory hotplug, and the pagesets of a
+> zone that offlining empties.
+> 
+> I've packaged these together because they're all related to hotplug.
+> 
+> *** Backport note - Patches 5-7 build on patch 1: without it, their
+>     retry is compiled out when CONFIG_MEMORY_HOTREMOVE=n.
+> 
+> Most of these race conditions stem from zonelists being re-ordered
+> in-place at runtime during hotplug.  The result is a mixture of failed
+> allocations, NULL dereferences, incorrect placement (GFP_KERNEL in
+> ZONE_MOVABLE), node misplacement, or incorrectly allowing hugetlb /
+> contig allocations on a node/zone otherwise not eligible.
+> 
+> Most of these are incredibly narrow race conditions, but since the most
+> likely impacted machines are VMs with memory hotplug, the narrow
+> condition can more easily occur when a vCPU takes a long interrupt / VM
+> exit of some kind.  I've made all of these race conditions
+> deterministics with a kprobe reproduction module described below.
 
-commit d2af631b0f352ba4a12e0eb8fa80f5ff66476c74
-Author: Karl Mehltretter <kmehltretter@gmail.com>
+What's the status of this? "memory hotplug" caught my attention, but then then
+is all page_alloc material :)
 
-entry: Classify ordinary hardirq return-tail work as hardirq context
+-- 
+Cheers,
 
-This commit stages a fresh hardirq-count attempt and restores lockdep
-classification across traceable return-tail work on return from ordinary
-hardirqs. It adds irqentry_hardirq_tail_enter() and
-irqentry_hardirq_tail_exit() around the post-preemption return tail so
-return-tail callbacks run as hardirq context.
-
-> diff --git a/include/linux/irq-entry-common.h b/include/linux/irq-entry-c=
-ommon.h
-> index 6f649f6613312..f51aafc1b49fd 100644
-> --- a/include/linux/irq-entry-common.h
-> +++ b/include/linux/irq-entry-common.h
-> @@ -383,6 +383,32 @@ irqentry_hardirq_count_state_set(irqentry_state_t *s=
-tate,
->  		IRQENTRY_HARDIRQ_APPLIED : IRQENTRY_HARDIRQ_REJECTED;
->  }
-> =20
-> +/**
-> + * irqentry_hardirq_tail_enter - Stage ordinary-hardirq return-tail state
-> + * @state: Pointer to state returned by the matching irqentry_hardirq_en=
-ter()
-> + *
-> + * Make a fresh staged hardirq-count attempt and establish the lockdep
-> + * classification which traceable return-tail work needs. Accounting, RC=
-U and
-> + * tick handling belong to the completed interrupt and must not be repea=
-ted
-> + * here.
-> + */
-> +static __always_inline void
-> +irqentry_hardirq_tail_enter(irqentry_state_t *state)
-> +{
-> +	struct irqentry_hardirq_cookie cookie;
-> +
-> +	if (!state->hardirq)
-> +		return;
-> +
-> +	cookie =3D irqentry_hardirq_count_start();
-> +	lockdep_hardirq_enter();
-> +
-> +	instrumentation_begin();
-> +	irqentry_hardirq_count_finish(cookie);
-> +	instrumentation_end();
-> +	irqentry_hardirq_count_state_set(state, cookie);
-> +}
-
-[ ... ]
-
-> @@ -543,6 +574,31 @@ static __always_inline void irqentry_hrtimer_rearm_d=
-eferred(void)
->  static __always_inline void
->  irqentry_exit_to_kernel_mode_after_preempt(struct pt_regs *regs, irqentr=
-y_state_t state)
->  {
-> +	struct ct_irq_exit_state ct_state =3D { };
-> +
-> +	if (state.hardirq) {
-> +		if (!regs_irqs_disabled(regs)) {
-> +			instrumentation_begin();
-> +			hrtimer_rearm_deferred();
-> +			/* Tell the tracer that the return will enable IRQs. */
-> +			trace_hardirqs_on_prepare();
-> +			lockdep_hardirqs_on_prepare_irqtail();
-> +			instrumentation_end();
-> +		}
-> +
-> +		if (state.exit_rcu)
-> +			ct_state =3D ct_irq_exit_prepare();
-> +
-> +		irqentry_hardirq_tail_exit(irqentry_hardirq_count_state(state));
-
-[Severity: High]
-Does ordering trace_hardirqs_on_prepare() before irqentry_hardirq_tail_exit=
-()
-cause a regression for the preemptirqsoff tracer when returning to
-preemptible, IRQ-enabled kernel mode?
-
-In irqentry_exit_to_kernel_mode(), irqentry_hardirq_tail_enter() stages
-HARDIRQ_OFFSET in preempt_count() and calls:
-
-irqentry_hardirq_count_finish()
-  preempt_latency_start(HARDIRQ_OFFSET)
-    trace_preempt_off()
-
-Next, when !regs_irqs_disabled(regs),
-irqentry_exit_to_kernel_mode_after_preempt() calls trace_hardirqs_on_prepar=
-e()
-while HARDIRQ_OFFSET is still set in preempt_count(). In
-kernel/trace/trace_irqsoff.c:
-
-void tracer_hardirqs_on(unsigned long a0, unsigned long a1)
-{
-	if (!preempt_trace(preempt_count()) && irq_trace())
-		stop_critical_timing(a0, a1);
-}
-
-When the preemptirqsoff tracer is active (both CONFIG_IRQSOFF_TRACER and
-CONFIG_PREEMPT_TRACER enabled, so trace_type has both TRACER_IRQS_OFF and
-TRACER_PREEMPT_OFF), preempt_trace(preempt_count()) evaluates to true becau=
-se
-preempt_count() contains HARDIRQ_OFFSET. As a result, tracer_hardirqs_on()
-skips stop_critical_timing(), while trace_hardirqs_on_prepare() still clears
-tracing_irq_cpu.
-
-Immediately after that, irqentry_hardirq_tail_exit() calls:
-
-irqentry_hardirq_exit_prepare()
-  irqentry_hardirq_count_sub_prepare()
-    preempt_latency_stop(HARDIRQ_OFFSET)
-      trace_preempt_on()
-        tracer_preempt_on()
-
-In kernel/trace/trace_irqsoff.c:
-
-void tracer_preempt_on(unsigned long a0, unsigned long a1)
-{
-	if (preempt_trace(preempt_count()) && !irq_trace())
-		stop_critical_timing(a0, a1);
-}
-
-Because hardware interrupts remain disabled at the CPU until the exception
-return instruction, irqs_disabled() is still true, so irq_trace() evaluates=
- to
-true and tracer_preempt_on() also skips stop_critical_timing().
-
-Finally, irqentry_hardirq_exit_finish() removes HARDIRQ_OFFSET via
-__preempt_count_sub(HARDIRQ_OFFSET). Won't this leave per_cpu(tracing_cpu, =
-cpu)
-stuck active after returning to preemptible, IRQ-enabled kernel execution, =
-as
-well as emitting extra preempt_disable, irq_enable, and preempt_enable trace
-events in inverted order?
-
-> diff --git a/kernel/softirq.c b/kernel/softirq.c
-> index 169c559832501..85b167db37c29 100644
-> --- a/kernel/softirq.c
-> +++ b/kernel/softirq.c
-> @@ -837,6 +837,27 @@ irq_exit_wake_late_softirqs(unsigned int wake_flags)
->  		irq_exit_wake_ksoftirqd();
->  }
-> =20
-> +/**
-> + * irqentry_hardirq_tail_exit - Close work and remove return-tail state
-> + * @cookie: Staged hardirq-count cookie from irqentry_hardirq_tail_enter=
-()
-> + *
-> + * Run every instrumentable teardown operation, including the final work=
-er
-> + * closure, before conditionally removing any applied raw hardirq count =
-and
-> + * ending lockdep nesting.
-> + */
-> +void noinstr
-> +irqentry_hardirq_tail_exit(struct irqentry_hardirq_cookie cookie)
-> +{
-> +	bool do_sub;
-> +
-> +	instrumentation_begin();
-> +	do_sub =3D irqentry_hardirq_exit_prepare(cookie);
-> +	irq_exit_wake_late_softirqs(0);
-> +	instrumentation_end();
-> +
-> +	irqentry_hardirq_exit_finish(do_sub);
-> +}
-
-[Severity: Medium]
-Can passing a hardcoded 0 to irq_exit_wake_late_softirqs(0) in
-irqentry_hardirq_tail_exit() cause redundant wake_up_process() calls for
-ksoftirqd and ktimerd?
-
-During the earlier main hardirq exit in irq_exit_rcu_preempt_counted_prepar=
-e(),
-__irq_exit_rcu(true) records IRQ_EXIT_WAKE_KSOFTIRQD and IRQ_EXIT_WAKE_KTIM=
-ERD
-in wake_flags so irq_exit_wake_late_softirqs(wake_flags) avoids waking those
-threads a second time. However, local_softirq_pending() or
-local_timers_pending_force_th() remains non-zero until the woken thread
-actually runs on the CPU and clears the pending bits.
-
-If irqentry_exit_to_kernel_mode_preempt() does not switch to the worker thr=
-ead
-(for example, on any interrupt from an RCU-idle context where state.exit_rc=
-u is
-true, when the interrupted kernel context has preemption disabled, when
-regs_irqs_disabled(regs) is true, or when current has higher priority),
-irqentry_hardirq_tail_exit() runs with those pending bits still set:
-
-irq_exit_wake_late_softirqs(0)
-  if (!ksoftirqd_wake_requested)
-      ksoftirqd_wake_requested =3D irq_exit_wake_ksoftirqd();
-  if (!ktimerd_wake_requested)
-      ktimerd_wake_requested =3D irq_exit_wake_timersd();
-
-Because wake_flags is 0, won't this call wakeup_softirqd() or wake_timersd()
-a second time even when no return-tail callback raised new work, and do so
-after trace_hardirqs_on_prepare(), ct_irq_exit_prepare(), and
-irqentry_hardirq_exit_prepare() have already completed?
-
-[Severity: Medium]
-What happens if a return-tail callback raises softirq or forced-thread timer
-work while returning to a preemptible kernel context?
-
-In irqentry_exit_to_kernel_mode():
-
-	instrumentation_begin();
-	irqentry_exit_to_kernel_mode_preempt(regs, state);
-	instrumentation_end();
-
-	irqentry_hardirq_tail_enter(&state);
-	irqentry_exit_to_kernel_mode_after_preempt(regs, state);
-
-the preemption check in irqentry_exit_to_kernel_mode_preempt() runs before =
-the
-hardirq return tail is entered.
-
-If a callback inside the return tail (such as during hrtimer_rearm_deferred=
-(),
-trace_hardirqs_on_prepare(), lockdep_hardirqs_on_prepare_irqtail(), or
-irqentry_hardirq_exit_prepare()) raises softirq or timer work,
-irq_exit_wake_late_softirqs(0) in irqentry_hardirq_tail_exit() wakes ksofti=
-rqd
-or ktimerd while HARDIRQ_OFFSET is still set in preempt_count(), setting
-need_resched() on current. Immediately afterwards,
-irqentry_hardirq_exit_finish() drops HARDIRQ_OFFSET via
-__preempt_count_sub(HARDIRQ_OFFSET) without checking for rescheduling.
-
-Could this return to a preemptible kernel task with need_resched() set and
-miss preempting for the newly woken worker thread (including a higher-prior=
-ity
-SCHED_FIFO ktimerd/ksoftirqd under PREEMPT_RT or force_irqthreads)?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028033127.8219=
-3-1-kmehltretter@gmail.com?part=3D10
+David
