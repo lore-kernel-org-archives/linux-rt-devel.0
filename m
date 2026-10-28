@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793158324;
-	b=I6/miWe6Oq8By8QseXaeS1DSUbXCLQo11JhQPtVGuRopPFmVPQjoI/NzgvYeVuM7P0S1
-	 u7WVI7DeckreYZKggmjE0M+69LR7wlknGNsopYQCX4RdXMRTavvXTxwEVbzaqL7J0GJH7
-	 6Uulkw6ym9e1aj7Q3NkjH3j20R1nMzMpEPwNyv+FvKLa9ivAvaU/7UATF03NAfngNA573
-	 VmO0JRrXA4IlEbSJWIGFhJjqRzmn4OdMFnFQsPJP7/hqFupJ/a/LUrZOKFrPCmbzMur19
-	 oYMS9IYSuKNHxgMME5svYwabxHozn30CAWa52uYM4PI8uFy4tBhtWZDOqTuFSttwhmA==
+	t=1793158329;
+	b=HXdVf6SNiRowzsqVrEcadnM7iaQ6KTi0II/3f4NiKuYvtdGpYQhZ5/PQiJe/eqWbIBqJ
+	 aDSqVC5Rlqtn+UcEylNDezaZ4lOV2WS7SDSI5WiLTCaZN/Ub06ghqebZREdQpOIcm0c9f
+	 0PJQA4yFrKDZ1xGOq7xYWxluPSwSKMp1ygz8oaBdEe1KD/sn7K9Dd9Yv4xvdeBfc4Q/On
+	 58DQHDw5GMh+Gs2JoIEmZDGZe7IOgQZ+DMiecUOW7q75fXrl10scjaREkEpI4fCg5B1/N
+	 wpAMOb7i5S1XwXIShAZ72jAJqXz2zNKg2wSvX9hyTsoI36b2CZzDdEeAPgj34JOF8GA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793158324;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158329;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Jtc1fVPemAMqEoN4axaTKj+FevgUODBLdLJA6bSk8XM=;
-	b=JUHvt4tLTDs4PMovqIdawYuqA27GSIkakpNtAMvDSXe8Wv/cmc8lhYxH0POin5KYvX6N
-	 b/Y5LGK7uyRkBn1bOc2UV4EcKo67yl5RY1VDNcWg8SzYuZ28z09d3kp6jtq2k8YdiOi7b
-	 WsaGyKQgN8P0K5denlo196gtkT5iAXsKM4Fh5FjruQvYvtOWPb84oM7Oz64jlNDDD0MX2
-	 6xrUlFNHM+DJnbXZM416NrkXbBUCg87AY7CLGpBrHllvp9ZDgvUbyD32VMro4krPU5COq
-	 uD4PtD2L90Rp3fPj+oqZnJeJ5ie7rffyqJkbs1AMvF9nUbdbFXjpf0T3EbiCVuREw4w==
+	bh=gbskEFrs/q8sEy5EcDMb9bqLWWCDi117BEzygxdkUw4=;
+	b=0Lb19ROGIh3oIgWFOJebuppmvWjqsBTbAy5JRlV8PdJK5Hv47MdJj+PxygX+Um7prxzI
+	 uilogve5ayikdCXN6aGS70ZUojxQvd9jpj+r7QEglNAuVWRqztCT66G+CSJBsvYCBnRXF
+	 MZrNZBImxZR7+r7BeGE2nZ5wAcR4QDSnICxyMi8oHB1l1NkJmt59xJKE3iJY1tHtFfrmt
+	 XSwSZiz2sQpDNBI4ScMBW+DlMAxnM2K5Hra/UNdO/A+ZEt3fMTPrINpSg4G8xLDRMkXih
+	 6qP+mIJPQ9gRwJOImBJg0tLm6d7dUe6KcNvR99ybNj7GGpUigcRSDsW6PFIweS0G6lQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DZlS5Cri;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SLZbsxZr;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10437606A31A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 03:32:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10437606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D764606A33B
+	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 03:32:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D764606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DZlS5Cri
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a60f9474c4so5739715e9.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 27 Oct 2026 20:32:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SLZbsxZr
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48afcfc4bf5so403096f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 27 Oct 2026 20:32:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793158322; x=1793763122; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793158328; x=1793763128; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Jtc1fVPemAMqEoN4axaTKj+FevgUODBLdLJA6bSk8XM=;
-        b=DZlS5Cri/BpN9iTMzyE6Dp/cl862gKoAF/15qieH8ZeDTV76cInsZoGXdaeWl3MldH
-         BWqvOsaxe3LptQwq7IDkHVBmhe7b4BNbHePN+byJF00zWAO/ELkTNywk29EP+J68UB20
-         zdEh9rYH8hkoCVjPOPgav570Q8RpFJw3Ec1zPemlj7+KncnYp1CKtKDKKUGLPG3+v7rt
-         GV5r1GzTPUwXfJw1b8NDd+l6w8fvdJl4bjTs+t6ua57twL6NcIEhbTUYkgNU4MSkwiSv
-         BeMhSjiH/AKhIXl51T1INAOOzCaef846oYAg8amkKG2uvpmTOEQJEC7dbkiM6/TYm+7a
-         Tnjw==
+        bh=gbskEFrs/q8sEy5EcDMb9bqLWWCDi117BEzygxdkUw4=;
+        b=SLZbsxZr4b4U7s3N6fQVby1zhFEX+y1eYgIQnRU8V26pvvMSXi/ATOivRRDLFE8roA
+         YLFVEhLHj2WMcVRQmgyuLnFGRqkSZ3ZRQbcbLVCvwbD+IOrIjyY50JIoWqE0gjwERyYt
+         18UmcS6NtnDmpYIyCaHCn7UDsCx5lBCRY4muwVVuE3+mNNib8UrPEGFDqOF7seiP91a+
+         JBw+MBQ1c24RqROYSgPNBjGNhermG+S3/yh7SNDF+VBtpHbJwSR/BnA2VBO8kzArdlur
+         whUykdraRC7su+C4vjez3jskKDURYeKfzQhiS6lXGtCbCDqg2SyRxHdlCXsZxhf1IaQB
+         AJng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793158322; x=1793763122;
+        d=1e100.net; s=20260707; t=1793158328; x=1793763128;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jtc1fVPemAMqEoN4axaTKj+FevgUODBLdLJA6bSk8XM=;
-        b=f1RYy80QjxNeKgXOHOR0NCrw+o1yrgmPen5yGf07tCIhpF6ZuDXivNwI14yckYhdSJ
-         QUnNX9f9PeTMx5TKrWP5NpJSacgAiNB84hibUFmP1uWz7Ubu6WoQdLWx5hMnG7CXh1xD
-         w/rWg+PV78Z71sbXHjDHheJWY4C74k2hewF9VJscPk06sv3VpKFaXZrqkyOgFIa5mBFS
-         eTPREJ5F614fhAhu8ehn4FP4qWt5L4Uu+jxaKhyVJK1BxHGu2rr8iHydm7qZ9HKQW3pS
-         TbPMyR1/CKVVkv9qjfULxzndP9+7VDhaCNxhmhglWpPSdAx2GrWdh3R3KoHhTZXY58js
-         8QnA==
-X-Forwarded-Encrypted: i=1; AKwUvBwEK6EW/K8i7WlM4Lz6i3QC373qCYZmO/EYcIy/FieDbmzUDeRyzbTPrUqUdYLkpwu231KxML3H5CRBc8IBOA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL0e2PZ1D3JOLDf7SLm5Kx+e73ZhK2aDnrq8BRK8XJryr7aikUF
-	SzDR0L1sXv8Kq51rBC6p5btOQoWCvPkHI7V1byITHQ5flme4pguQl/o7
-X-Gm-Gg: AYBFou0jvqsDfl9EKNXTQ1qEU/4gCSw5NH9/b6pDyXsHzXZpUqtaqxOIZ7itzFWw24E
-	4oE/B6kIf1eOQyWhTm2ADU1i1sUnezKlDGYTvNHQkgEtIG75sLGRMdtbw1rjc/NAyNtSvWr4Thl
-	hUAhvrb5Cq5RX+qHMTTnQzxk/1YarFDhNTlrxpPEETZehg5aWOYx3m+9p/Gq1gl6b84e7rUBYZ0
-	3lu6jYPzsN2zRyYZqc+8be89B7k/bQY/NDsg71u+K86QAi64xeYTwAI1zo4/L5uanCb+625iSVk
-	x+NCimMCX0lO3oDeprKCBBEQZVdq+OIm5+9wyhCx/+8DiCMM0B31evuQ+T/zZ4XoAuE96u768fU
-	Nglrxw7Bhwu8Z1N+g6JML+B1eAiaO2ke3H42+8e36m0T2esR2iUGKNc1W5oJvWHY2BAXi6KU7EF
-	cwy/rEyO1hJ8aKTuWpaGuJJcvmZFsdQ1760q1CJwqkfU+OkGT95ttTmt6Ai/+QKWizo1MIxgUu/
-	mekeg1Qwbepp35zRh2YW8XSOsAmDHVdilcgKGwsrm1/aijnOhgijRNYKt7/rjMBKag8C+RFTfZM
-	WMamyKZ5kZg1Isq0yV9Xmw4LXIchYbsTyUntMRLGzM3jF6actP/CF5hwHrv3iDPhXCvXkUrKKGG
-	OVO3Q5aPXRl2Q7P+GIYSYbWCeGWfCpfi9UoadK2TXjlgtTy5fjR8uNO5G+znoka2DMYK+kW5NAX
-	WSKJw2a1ycfaXGOLECiwXnoPiudEg6vZrT
-X-Received: by 2002:a05:600c:a314:b0:4a3:5d64:df91 with SMTP id 5b1f17b1804b1-4a96b29d208mr13460435e9.18.1793158322397;
-        Tue, 27 Oct 2026 20:32:02 -0700 (PDT)
+        bh=gbskEFrs/q8sEy5EcDMb9bqLWWCDi117BEzygxdkUw4=;
+        b=WhlMVTZRylJDrEIhSF1g+5nqW/RjBnE4QAlG5ZkEqyRVehM60gLSrJ+nc6WW4CCsIP
+         PZ0dpMLod+l89HOZNETBFbwgNQ4aCmQ/02V7lb60Bhr+X8h4Kih1fU48DuGut9qM3neL
+         TP3yZ+7RGXu15eoRLnKJlchRFyHKdcsPR5zt91B7zcLbFuJzoAwCoKeJsiknierMscaj
+         VuIRvfjsuOn20JBdq3ZCLwhxFIXYhfwGSLyQ2T53MAismdMJEEocclu6QvuXnK8CTvNB
+         CMxzC65XlKJwBPti5u0Nei09PZ8gN3ZtGnZs3X25z4yStMKfv7smvjmTKyOfes8VHPn5
+         sqzg==
+X-Forwarded-Encrypted: i=1; AKwUvBw6T/qlzRd7tYfhppFVd6SVw5CIP73oPa5kDv6lL7cfjhtA3sVUmvuN/uO6z0VsXdb664R0/daO1BlyRn4C1A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJgGuEreSMKDnxpjJh0KJCrs9dHGfU9eicXx02nZF4qQZ5KBBFb
+	N4bR+iozp4gLmCWxLNCLMlE1/cNwuY5hbwBMHGGKWsD5biJD4+++FnQV
+X-Gm-Gg: AYBFou3Y6PJFnt93G+Vvl7Z+43ILyT4jhbMkHOO+9aqfMCxaWHoVxeshtamjL5yamMe
+	GUFjx/JpCRoTOYhsfbRw8pHXhLOswm9HD6XR4acYKJ/r9PpgyTVEFaT9ilEdIc8vKPqMyyMGX2G
+	nBfAI0CYFvzalKPKtewFBIuihqNbvy106HsdZ8wX3g/UKRBJBOuaJgz4Z9GAoS23bB6lWCNpVFK
+	5A91o8xgfsBE2JwKAiqpmL6HB2vAZYnREckPUhHxpw1EnUn1R01CMiXH4SpmzDimzHTOoRMsjm1
+	CQaNmYxbOCueQYwFVGFdNUSZ+CLFODKBDIgqG9Te0adMeNgoFAX2ym4u+FTO8H4+coHQBdi7DTo
+	GzF1+gIU9yxico0WWHMbXXKX0NKEjrAqvysTHCK7CwJ46rbTG5wHKxYOd4UyEqvy/8FVBltGgP2
+	2rTtARCllZi4fkK+Lz4eqvScufAzMiswS8pQAn2nU3I0MgL+83B8FR5Db51Cu1E7d449ync8Bk7
+	Fez3Q3+vLS2R9w1W61n009NV4oLNS+OcrjWFYyrXHkr/+dYl0+rrRcYBxROMJ8OQHjVS8j8EFwk
+	8bMSZO8ulNaaDy0QClm8hH1Qr9pvNMf4iU28U+qbDbJeYV9ANeRooRw80M1QJvtyF5CikZZP8ke
+	bVS3Fp9cpcCSodT47jhxsj/ndJKvwyeat+YMjDbpWTxDl56+/NQOn7xjB6mlCnDvpMnBlrryjgq
+	/M7wtPSAzy5uKz2N7WjLpUo7LGl+Kqv5MS
+X-Received: by 2002:a5d:5e8d:0:b0:48d:f464:6989 with SMTP id ffacd0b85a97d-48e5d45a4edmr2964330f8f.27.1793158327517;
+        Tue, 27 Oct 2026 20:32:07 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a45b-7d01-5035-b393-698f-53f0.310.pool.telefonica.de. [2a02:3100:a45b:7d01:5035:b393:698f:53f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdfd8dsm24290569f8f.56.2026.10.27.20.31.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdfd8dsm24290569f8f.56.2026.10.27.20.32.04
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 27 Oct 2026 20:32:01 -0700 (PDT)
+        Tue, 27 Oct 2026 20:32:06 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -117,9 +117,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-doc@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 07/13] context_tracking: Split IRQ-exit preparation from the EQS transition
-Date: Wed, 28 Oct 2026 04:31:21 +0100
-Message-Id: <20261028033127.82193-8-kmehltretter@gmail.com>
+Subject: [RFC PATCH v2 09/13] entry: Carry ordinary-hardirq provenance through kernel return
+Date: Wed, 28 Oct 2026 04:31:23 +0100
+Message-Id: <20261028033127.82193-10-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261028033127.82193-1-kmehltretter@gmail.com>
 References: <20261028033127.82193-1-kmehltretter@gmail.com>
@@ -134,204 +134,78 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ct_irq_exit() combines traceable nesting and tracepoint work with the final
-transition to an RCU extended quiescent state. A pre-counted ordinary
-hardirq return needs to run that preparation before its synthetic hardirq
-classification is removed, but it must enter the quiescent state only after
-the raw count and lockdep teardown.
+The entry state can cross hardirq teardown and a possible reschedule before
+the architecture completes its return tail. At that point preempt_count()
+no longer identifies whether the original entry was an ordinary hardirq, a
+synchronous exception, or an NMI-like event.
 
-Split IRQ exit into prepare and finish phases. The prepare phase validates
-and updates interrupt nesting, then emits the tracepoint while RCU is
-watching. The finish phase performs the raw quiescent-state transition and
-RCU Tasks bookkeeping.
-
-Keep ct_irq_exit() and ct_nmi_exit() as adjacent prepare and finish
-wrappers. Existing IRQ and NMI callers retain their ordering and behavior.
+Initialize the hardirq state in every entry path so irqentry_state_t
+distinguishes ordinary hardirqs from other entries across kernel return
+while keeping the two-byte generic state layout. A later return tail can
+restore hardirq classification only for entries which established the
+pre-counted hardirq lifecycle.
 
 Assisted-by: LLM
 ---
- include/linux/context_tracking_irq.h | 32 +++++++++++-
- kernel/context_tracking.c            | 78 ++++++++++++++++++++++------
- 2 files changed, 93 insertions(+), 17 deletions(-)
+ include/linux/irq-entry-common.h | 6 ++++--
+ kernel/entry/common.c            | 6 +++++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/context_tracking_irq.h b/include/linux/context_tracking_irq.h
-index 197916ee91a4b..b038cd1249148 100644
---- a/include/linux/context_tracking_irq.h
-+++ b/include/linux/context_tracking_irq.h
-@@ -2,8 +2,23 @@
- #ifndef _LINUX_CONTEXT_TRACKING_IRQ_H
- #define _LINUX_CONTEXT_TRACKING_IRQ_H
- 
-+#include <linux/types.h>
-+
-+/**
-+ * struct ct_irq_exit_state - Opaque context-tracking IRQ-exit state
-+ * @exit_rcu: The interrupted context was in an RCU extended quiescent state
-+ *
-+ * This object is filled in by ct_irq_exit_prepare() and must be passed to the
-+ * matching ct_irq_exit_finish(). Callers must consider its members private.
-+ */
-+struct ct_irq_exit_state {
-+	bool exit_rcu;
-+};
-+
- #ifdef CONFIG_CONTEXT_TRACKING_IDLE
- void ct_irq_enter(void);
-+struct ct_irq_exit_state ct_irq_exit_prepare(void);
-+void ct_irq_exit_finish(struct ct_irq_exit_state state);
- void ct_irq_exit(void);
- void ct_irq_enter_irqson(void);
- void ct_irq_exit_irqson(void);
-@@ -11,7 +26,22 @@ void ct_nmi_enter(void);
- void ct_nmi_exit(void);
- #else
- static __always_inline void ct_irq_enter(void) { }
--static __always_inline void ct_irq_exit(void) { }
-+static __always_inline struct ct_irq_exit_state ct_irq_exit_prepare(void)
-+{
-+	return (struct ct_irq_exit_state) { };
-+}
-+
-+static __always_inline void ct_irq_exit_finish(struct ct_irq_exit_state state)
-+{
-+	(void)state;
-+}
-+
-+static __always_inline void ct_irq_exit(void)
-+{
-+	struct ct_irq_exit_state state = ct_irq_exit_prepare();
-+
-+	ct_irq_exit_finish(state);
-+}
- static inline void ct_irq_enter_irqson(void) { }
- static inline void ct_irq_exit_irqson(void) { }
- static __always_inline void ct_nmi_enter(void) { }
-diff --git a/kernel/context_tracking.c b/kernel/context_tracking.c
-index a743e7ffa6c00..80ed8ec606c6a 100644
---- a/kernel/context_tracking.c
-+++ b/kernel/context_tracking.c
-@@ -169,20 +169,10 @@ static void noinstr ct_kernel_enter(bool user, int offset)
- 	instrumentation_end();
- }
- 
--/**
-- * ct_nmi_exit - inform RCU of exit from NMI context
-- *
-- * If we are returning from the outermost NMI handler that interrupted an
-- * RCU-idle period, update ct->state and ct->nmi_nesting
-- * to let the RCU grace-period handling know that the CPU is back to
-- * being RCU-idle.
-- *
-- * If you add or remove a call to ct_nmi_exit(), be sure to test
-- * with CONFIG_RCU_EQS_DEBUG=y.
-- */
--void noinstr ct_nmi_exit(void)
-+static struct ct_irq_exit_state noinstr __ct_nmi_exit_prepare(void)
+diff --git a/include/linux/irq-entry-common.h b/include/linux/irq-entry-common.h
+index e1fd9155410c1..6f649f6613312 100644
+--- a/include/linux/irq-entry-common.h
++++ b/include/linux/irq-entry-common.h
+@@ -341,8 +341,8 @@ enum irqentry_hardirq_state {
+  *            exit path has to invoke ct_irq_exit().
+  * @lockdep: Used exclusively in the irqentry_nmi_*() calls; ensures that
+  *           lockdep state is restored correctly on exit from nmi.
+- * @hardirq: Encodes whether the current staged hardirq-count attempt was
+- *           applied.
++ * @hardirq: Encodes ordinary-hardirq provenance and whether the current
++ *           staged hardirq-count attempt was applied.
+  *
+  * This opaque object is filled in by the irqentry_*_enter() functions and
+  * must be passed back into the corresponding irqentry_*_exit() functions
+@@ -412,6 +412,8 @@ __irqentry_enter_from_kernel_mode(struct pt_regs *regs, bool hardirq)
  {
- 	struct context_tracking *ct = this_cpu_ptr(&context_tracking);
-+	struct ct_irq_exit_state state = { };
+ 	irqentry_state_t ret = {
+ 		.exit_rcu = false,
++		.hardirq = hardirq ? IRQENTRY_HARDIRQ_APPLIED :
++				      IRQENTRY_HARDIRQ_NONE,
+ 	};
  
- 	instrumentation_begin();
  	/*
-@@ -203,7 +193,7 @@ void noinstr ct_nmi_exit(void)
- 		WRITE_ONCE(ct->nmi_nesting, /* No store tearing. */
- 			   ct_nmi_nesting() - 2);
- 		instrumentation_end();
--		return;
-+		return state;
- 	}
+diff --git a/kernel/entry/common.c b/kernel/entry/common.c
+index 9d207c37c5707..c7814c51bb35d 100644
+--- a/kernel/entry/common.c
++++ b/kernel/entry/common.c
+@@ -112,6 +112,7 @@ noinstr irqentry_state_t irqentry_enter(struct pt_regs *regs)
+ 	if (user_mode(regs)) {
+ 		irqentry_state_t ret = {
+ 			.exit_rcu = false,
++			.hardirq = IRQENTRY_HARDIRQ_NONE,
+ 		};
  
- 	/* This NMI interrupted an RCU-idle CPU, restore RCU-idleness. */
-@@ -213,6 +203,15 @@ void noinstr ct_nmi_exit(void)
- 	// instrumentation for the noinstr ct_kernel_exit_state()
- 	instrument_atomic_write(&ct->state, sizeof(ct->state));
- 	instrumentation_end();
-+	state.exit_rcu = true;
-+
-+	return state;
-+}
-+
-+static void noinstr __ct_nmi_exit_finish(struct ct_irq_exit_state state)
-+{
-+	if (!state.exit_rcu)
-+		return;
+ 		irqentry_enter_from_user_mode(regs);
+@@ -144,6 +145,7 @@ noinstr irqentry_state_t irqentry_hardirq_enter(struct pt_regs *regs)
+ 	if (user_mode(regs)) {
+ 		ret = (irqentry_state_t) {
+ 			.exit_rcu = false,
++			.hardirq = IRQENTRY_HARDIRQ_APPLIED,
+ 		};
+ 		irqentry_hardirq_count_state_set(&ret, cookie);
  
- 	// RCU is watching here ...
- 	ct_kernel_exit_state(CT_RCU_WATCHING);
-@@ -222,6 +221,24 @@ void noinstr ct_nmi_exit(void)
- 		rcu_task_exit();
- }
+@@ -193,7 +195,9 @@ noinstr void irqentry_exit(struct pt_regs *regs, irqentry_state_t state)
  
-+/**
-+ * ct_nmi_exit - inform RCU of exit from NMI context
-+ *
-+ * If we are returning from the outermost NMI handler that interrupted an
-+ * RCU-idle period, update ct->state and ct->nmi_nesting
-+ * to let the RCU grace-period handling know that the CPU is back to
-+ * being RCU-idle.
-+ *
-+ * If you add or remove a call to ct_nmi_exit(), be sure to test
-+ * with CONFIG_RCU_EQS_DEBUG=y.
-+ */
-+void noinstr ct_nmi_exit(void)
-+{
-+	struct ct_irq_exit_state state = __ct_nmi_exit_prepare();
-+
-+	__ct_nmi_exit_finish(state);
-+}
-+
- /**
-  * ct_nmi_enter - inform RCU of entry to NMI context
-  *
-@@ -348,7 +365,35 @@ noinstr void ct_irq_enter(void)
- }
- 
- /**
-- * ct_irq_exit - inform RCU that current CPU is exiting irq towards idle
-+ * ct_irq_exit_prepare - prepare to exit an IRQ towards idle
-+ *
-+ * Perform the traceable part of an IRQ exit and return an opaque object for
-+ * ct_irq_exit_finish(). RCU remains watching until the matching finish call.
-+ * The caller must keep interrupts disabled, must not schedule or migrate, and
-+ * must invoke ct_irq_exit_finish() exactly once.
-+ *
-+ * Return: An opaque object to pass to ct_irq_exit_finish().
-+ */
-+struct ct_irq_exit_state noinstr ct_irq_exit_prepare(void)
-+{
-+	lockdep_assert_irqs_disabled();
-+	return __ct_nmi_exit_prepare();
-+}
-+
-+/**
-+ * ct_irq_exit_finish - finish exiting an IRQ towards idle
-+ * @state: Return value from the matching ct_irq_exit_prepare()
-+ *
-+ * Complete a pending transition to an RCU extended quiescent state. Nothing
-+ * traceable may run between this function and the low-level return path.
-+ */
-+void noinstr ct_irq_exit_finish(struct ct_irq_exit_state state)
-+{
-+	__ct_nmi_exit_finish(state);
-+}
-+
-+/**
-+ * ct_irq_exit - inform RCU that current CPU is exiting IRQ towards idle
-  *
-  * Exit from an interrupt handler, which might possibly result in entering
-  * idle mode, in other words, leaving the mode in which read-side critical
-@@ -368,8 +413,9 @@ noinstr void ct_irq_enter(void)
-  */
- noinstr void ct_irq_exit(void)
+ irqentry_state_t noinstr irqentry_nmi_enter(struct pt_regs *regs)
  {
--	lockdep_assert_irqs_disabled();
--	ct_nmi_exit();
-+	struct ct_irq_exit_state state = ct_irq_exit_prepare();
-+
-+	ct_irq_exit_finish(state);
- }
+-	irqentry_state_t irq_state;
++	irqentry_state_t irq_state = {
++		.hardirq = IRQENTRY_HARDIRQ_NONE,
++	};
  
- /*
+ 	irq_state.lockdep = lockdep_hardirqs_enabled_raw();
+ 
 -- 
 2.39.5 (Apple Git-154)
 
