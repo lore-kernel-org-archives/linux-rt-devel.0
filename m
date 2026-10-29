@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793219442;
-	b=RBjHnGo8oJVbjRqZwcU0IJds/Q2RTcHN36zDptltz35maZoq7o7TMREg5VwEiZozJ2PR
-	 USbyuM46+7XyTuO/Kc3zUHFOo0wmioKj1pw+njq07beadA6NAE63GhX9nXOAJpLz/qzCn
-	 HQZ1t9qYJ4Y2yZo/osBO+TMXJEJwaYFhzYFHmlvMD5PzOSZmNplI0IiCbV/l4+UMsU2EM
-	 FJG0mbIBTOX3gpFzU/rx+5KsUSJpeAHIJ1S1bRG34x7VFIRpxMatIAyJmIMJ8ahlVa2LO
-	 pJpqZf2YqChig0AIB7NJfi0RqXBjMYgR9lkK8E+1OpWMglYJjzwSFKw17r1dbU/eltA==
+	t=1793266347;
+	b=NhjEfWNecmWmLXeUrLcax1SQANYinfRQat6GnoxXJPjlwS/IcJLaBQ2b56foQfgsqJiw
+	 RxFxKR8dB2DvOvT3SZCrrlXvU+skf9uCRhDpxS+Lwio2RRQx9CQqlqfO97wRnZdJdsCvJ
+	 iE51zOZgx8NkqTu3tuaUfbYH4QeGqmXcDZC1jX3br7001Q2bJ6Vvdu7pmcVmx+l4Zc7oh
+	 m7gWDEepkCw/nUUcg9tlyxvhVqRuug2yTo6iq4AmEvUPjLydUgH+yArUKvGxc7o8hdrnx
+	 QXxQKuKZYhPaKwENcL0w2R9izyMLNWbVBua7/9XXgy69sT77mKs6nYVQnF1dTNZUz0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793219442;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
-	b=KjKG1xNGeycOaq8rCIJEF6YtP5O48N3OUDtRUq+hcgdzdfZtmsb3U+hdBnvVtAI2zaxk
-	 LbyjNXcGiiCreIL7219ZIxYTvI+lM/pMDIOGlVazwB2HT3JDoXzLFLlFmi/Sx1iYmRtRb
-	 EgM2YQfO/0qzd3/+AhFvPloZk1W+Va1cl1M5XOjVc3WhYywue1xIFaD5MAxk7QcFWdbAR
-	 Fxg7XGKhk/9Rh2+yj1YcHTwhniM2FgBTlgXJX6h8LbEYg8Agz6Zne7XO+aqHnTceVWs7M
-	 MBlyj4Pt08rSJBrXoblVX/QHFz4JBHfInhomYiunMWtn8lVmWlIVhQ6SePBisyoCSXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793266347;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9QVb+91XYYBUr8R59VhzK+f/JX4StneV4cYQuLGB04s=;
+	b=zuH1puDq+TinQPSCrf4rClDdVj/nP3Ae2981GWdMxED32LYdVmYXoz9M0l4/yjsP1/L8
+	 jSLedYkIJxZc9G5lXfmX6V3Q3fZJGK4WwxjpfE1KZKHCxFabvcr9ar+0ay/w51Sx9Md14
+	 ZnKmhonXAB+vk+qRtFfb2kgTtBtp55RAehlskAQovOpc7n1b4InhqPnbQfL+0geDEeSYN
+	 FZIZF7pjNDjiEL2CeYZT57X0rMX7g9Txiv7pdwZsgdjC1jBiJFKsiaLEmYQfYjxZl6v8a
+	 IZM+jGA/jY3Y1qE52IYKxo14MufSQYQZt7n8/EvFaFwQKUkgNk4g2F3Z0q37jUA/Ggg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnG61BgV;
-	arc=none smtp.remote-ip=74.125.231.128
-Received: from mail-oo2-f0.google.com (mail-oo2-f0.google.com [74.125.231.128])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=tvo3Kx0W;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B61606A31E
-	for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 20:30:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8B61606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B709606A31C;
+	Thu, 29 Oct 2026 09:32:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B709606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnG61BgV
-Received: by mail-oo2-f0.google.com with SMTP id 46e09a7af769-84e8a9fae57so563686a34.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 28 Oct 2026 13:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793219440; x=1793824240; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
-        b=XnG61BgVPJUeE+5vPSb+QwM42wDInGnowESkxUK27qSvDeiZ9M0n78e42BtLXk83/J
-         dg4K7lV/UMsztTCvNzLeIzwfYNSaSLnYWikslAEfUlWRYycvpoaHqK6fOTWcdiGJ91J0
-         S2xKYO5xt+2I9ZcPo+Bx7ezSlxAnGaFGY2EIL79Y1qmb+01eOpUETZMhadV5Dh6/dJdt
-         6rh/gKPw2ZLKXMJGAtZZXCBohq3sQkXcy7Wx1yEKmTjJSz/Vor2XYXnBHaAr44bzo9M0
-         qDCLLXKR1+17Bhpv7yUic7q6TBfIleOaFp/GWbj0bPuEd9xVCecqsmleGQtWZcgQVSst
-         C/1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793219440; x=1793824240;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SagG7hnlNkBMWrHHVXZ8fa/+eusWUEksklF+xlNh03I=;
-        b=TmvvcuRwT8MIdxNcKfohZJ8LT6jBlx/Q8gXB5fTPf2dp0NpSf8G0AlTNPSAa4CaKGP
-         lzzC2Nf+7yBRZmVmyNgxOQ1Py+OZ9+eWVV2C4HN2CAUwFV4ceJ5t/ok9j+w3ybE+/tes
-         JBZnuB4PkTB/kk86qO5LQIpcU91dUj7v+KTKiqi31p7tWastw5Mq7rRWh0tjygH01gqP
-         DBhICSqYCxk202OFh26rzOJu1O93Y74VIqtMnTyhAL9IZfgYTZK/EFqQn0Gd++1K/dVv
-         AnJSWNFKUNfbDnIYqykceUa4VSXKr2iia7qZun8RzYZ2mA6le7Aqjyf+whero+x9t5SE
-         KO6w==
-X-Forwarded-Encrypted: i=1; AKwUvBw0DVZotH9aVTtRmcN0vBznMyXTWtBcICdpffws+8vT6UPHDGIiLjyVP1iui6qHxvScBlxhtdl1uba4CAUwkg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJk4GBKtiQOWUr5RqxI4mUYIEnqbm6kVJLCEliMPyp/T/afFSP9
-	Uql5byjCtJWZCtn/1XTWGm0o0s4XXzqYcRJykx7b55gfHlgnrMTTNUHG
-X-Gm-Gg: AYBFou3WHegrRsztiUAHB2eOg9w1Tno6WKmp9JY1p/Jm/L0Gfh4BpbxqzRRMwxe72id
-	1umLYD1ZWFCvTl5atESJ2NJtK9hFkERVDC1B6bfR5EQmtbMHYoPEGrIaBCZONgPy+ER3dqeXMys
-	c1ddjtnXgWcG3s3pCE0BmBZmKDqYBfMyOIQM8kvKuKw6prgrzjX5hfeNWT41Cb4a3mY7181kixE
-	x7S4qvcyLscWNAZo6Ohy8VBVcza/55fYLOr/cZDfCJRO8F2jk9RzPkIlgeNdUgZ5OmwJFkxTi2T
-	Hf1AiSEIlJ6Ff2niiE+GZkzffhJ8COqw0z5I8yRooO4dNrPsRGranqQzBHVJYV2GBIAzUc/FFAl
-	msIdo023lksDjcVpakieaetCF9o9Jnf2hs/P8PrJGr3CEBLg2Yid9COS8eNvYg29vn0tcNDWec+
-	jvA0NdfY1Y/dy4k1bCOTpGsNibZyf4adCzDvFdx8rOUp1pCi84S84A+ZSXbW5CJ14WZj8cVTYYx
-	byuPmSTx7zsSxYOWFTCTrpH9wGdOJ0EV8z9TKLcUblUl7VsmEDke4Y716waZJvG7Zs8I4VHEaGI
-	8afQG6gHN4kE2VG3Yv9PvVQv+9hTKG1Jky1PbNWEV0aUEti7E9HvLYSPoRSrM6QYx12y5T9VzJj
-	a+i1bovVXlw3wN/Ww5Oz9TQqmEPsP9FseED6ENW4Ifw==
-X-Received: by 2002:a05:6830:680f:b0:81c:a8c5:633c with SMTP id 46e09a7af769-85ab7b0d6b0mr3330153a34.17.1793219440535;
-        Wed, 28 Oct 2026 13:30:40 -0700 (PDT)
-Received: from [10.10.121.179] (wsip-64-207-253-118.tu.ok.cox.net. [64.207.253.118])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm2618813a34.1.2026.10.28.13.30.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 13:30:39 -0700 (PDT)
-Message-ID: <7981f7c6-c949-42e6-ad53-15e6530588cb@gmail.com>
-Date: Wed, 28 Oct 2026 15:30:38 -0500
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=tvo3Kx0W
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=9QVb+91XYYBUr8R59VhzK+f/JX4StneV4cYQuLGB04s=; b=tvo3Kx0WyXFmj5M1UvwLLzlyRd
+	+tPht+PutUDK9vhZCFChbmxYV68/EO1F64DavgTMgqxxqQKL795BQUJuLN6EviC/v9eCsVF0z5uRC
+	x19XRvbyqDt4SmLO/C0GjnzTmlX+3X5ClUru9Os+JtIBJtPmh1JX4q5R7N0X1uE76fBfVwMFUMfHX
+	GNOEX8uD1TPYzyljcWQZnMmsMD+Q6hEvICezSBh4ITqD8fAbL9XAeHO2IatFqLLinlugDee5J3UDa
+	chJ92lordKxmQdKlAl430pe6b5m1qQQt8HKYWyta3yjE8QAkfeSG7UXMEmHRgaJWvr/3u0cJozy0+
+	1XgqVJVQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xMMUe-0000000E6mx-1M9Z;
+	Thu, 29 Oct 2026 09:32:20 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 6E93C300329; Thu, 29 Oct 2026 10:32:19 +0100 (CET)
+Date: Thu, 29 Oct 2026 10:32:19 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Hongyan Xia <hongyan.xia@transsion.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 03/13] sched: Split preempt-count bookkeeping from
+ raw updates
+Message-ID: <20261029093219.GH1779021@noisy.programming.kicks-ass.net>
+References: <20261028033127.82193-1-kmehltretter@gmail.com>
+ <20261028033127.82193-4-kmehltretter@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -93,62 +93,39 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pinctrl: mediatek: common-v1: Use a raw spinlock for the
- pinctrl regmap
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Sean Wang <sean.wang@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Yingjoe Chen <yingjoe.chen@mediatek.com>,
- Chaotian Jing <chaotian.jing@mediatek.com>,
- Hongzhou Yang <hongzhou.yang@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rt-devel@lists.linux.dev, mfd@lists.linux.dev
-References: <20260929-rbrue-suez-upstreaming-mtk-pinctrl-raw-regmap-v1-1-db92943f42cb@gmail.com>
- <20260930080609.dnK1-Uta@linutronix.de>
- <CAGXv+5FssQL3Go3VDFbLAT6HP12RS3U3OgxhYOeapzs64QTdUw@mail.gmail.com>
- <d3d3e7b3-eb8b-456d-9a2c-116334e86c14@gmail.com>
- <20261020073236.dDVmd3BW@linutronix.de>
-Content-Language: en-US
-From: Ryan Brue <ryanbrue.dev@gmail.com>
-In-Reply-To: <20261020073236.dDVmd3BW@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261028033127.82193-4-kmehltretter@gmail.com>
 
-On 10/20/26 2:32 AM, Sebastian Andrzej Siewior wrote:
-> bulk writes could be a concern. The 40us delay is within the lock
-> acquired? If so, could this be done without the lock? I assume this is
-> part of the init sequence so nothing should use the HW so the writes
-> should not be interrupted by other writes to the device.
+On Wed, Oct 28, 2026 at 04:31:17AM +0100, Karl Mehltretter wrote:
+> Very early hardirq entry code needs to update the preempt count before
+> instrumentable debug and tracing code can run. Conversely, hardirq return
+> code needs to finish instrumentable validation and latency tracing before
+> raw teardown.
+> 
+> Add a small hardirq-entry header with irqentry_hardirq_count_start() to
+> stage the raw HARDIRQ_OFFSET addition and record whether it was applied in
+> an opaque cookie. With DEBUG_PREEMPT and without separate reschedule bits,
+> route an already-negative count through a noinstr slow helper which
+> preserves the existing DEBUG_LOCKS_WARN_ON() oops short circuit. Add
+> irqentry_hardirq_count_finish() to report a rejected addition or complete
+> post-add debug checks and latency tracing, and add
+> irqentry_hardirq_count_sub_prepare() for validation and tracing before a
+> raw subtraction. Keep preempt_count_add() and preempt_count_sub() behavior
+> and ordering unchanged.
+> 
+> Keep latency tracing in each calling path so CALLER_ADDR0 identifies the
+> caller. Force the start and stop helpers inline because trace provenance
+> depends on their stack frames.
 
-Yes, it's under the lock. regmap_multi_reg_write() holds the regmap lock 
-for the whole sequence, and since an MMIO syscon's regmap can't sleep, 
-the delays are udelay()s. The PLL's enable runs that sequence (13 
-writes, 40 us of delays) whenever the PLL goes from off to on, retrying 
-up to 10 times until it locks.
+Urgh, so much crazy.
 
-In practice it's init-time, though. The G12A USB3/PCIe PHY takes the PLL 
-with devm_clk_get_enabled() at probe and keeps it on, so it runs only 
-once. Nothing else writes the PLL then, but the lock is the HHI 
-syscon's, so on RT the other clocks in that block would wait it out. 
-Running it without the lock would mean changing how the meson PLL code 
-writes its init sequence, which I wouldn't want to take on in a pinctrl 
-fix (unless that were preferred).
+So WARNs in noinstr code are 'fine'. That is, they should not happen, if
+they do, bad things have happened and we need the warning out ASAP, if
+it takes the machine down, too bad. See the
+instrumentation_{begin,end}() markers in x86 asm/bug.h.
 
-> So it would be safe for now…
-Yes, that's the trade-off with the second option, which relies on the 
-DIN never being written in a multi-step sequence. Nothing enforces that 
-though.
-
-I'd like to send a v2 after -rc1, but I don't know the best option for 
-the fix. Still waiting on Lee, Arnd, and Mark to pitch in if they have a 
-preference, or any option I've missed.
-
-Best regards,
-Ryan Brue
+But yes, the tracing needs to go. But moving that around should not be
+this ugly and also, that will give you the opportunity to fix
+preempt_{en,dis}able_notrace(), since they currently also skip the bound
+checks.
