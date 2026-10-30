@@ -1,19 +1,20 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.126
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793348124;
-	b=J3ZyMfhDmKFPqC/8ktN2lM7z11BtpfXRC6JDoqOmEgUjtCzRXH/l0YU9BTb4Xi5EFR8x
-	 8Ef6m2KYUJ+v7o3v7wCecPyHys0xSbkeCpyfsJ9OaoX6IS1W32sjhjLC7HZYQo91UDRtT
-	 Vg7gEDAgTsPJEYTS5K7verTLGuexaDO2GVCFmhE2vMUZFLIvMNWWJtqCslh3m3rgMeE9e
-	 XFTUy605k3l3C2OgT4vsVS7pTyd64+W6S6HPP3dvhqsk6LVYsXk2EQHJEM9SqlU7T9n8k
-	 4VVMrjEBhJY5L+jw2ikl0Mf/knw2sdwbZTvUSwX6Gud6Lk2pVrnPZzWjN/55BkjDGSg==
+	t=1793348125;
+	b=iSySLAhQj+UaTRLMosRJGCnQPxeyQZUbaJsTGw5CuikldFv/xjDhlbc4rvJRwKrBGxr8
+	 kYV/8PciEi3sAxMnnKmapwXjIi2EVdWMcQUHD0OiZen96LfhtBSlAN2I5H3G0Muk9xbQW
+	 EgolaFnZBZ5dudkTe7PSqnilcTf1zdSsmcQja5EDg4yt9K3u3UOhk+J8Bwz/Yp8xEN6tz
+	 9/xZwrO9nnSVq/8NtUOxxb89N5JMqJJcG/Dh/HXqMNdQKO6qVJRiM+Af+d5PJVdTRTylD
+	 YJ+muUud0zk6/lOsDjoLqvmXYA0fvtd1/nfiKl2cMIG7UvYK4arfwsWgnlMLaqWhpNA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793348124;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793348125;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
 	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
@@ -23,53 +24,53 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=EPWY86Jl8JPm3FFXtIzlMu2CCzJzgX8axZImHcjclTI=;
-	b=pwT8jws+BbGPqFI9hC22jmOWioREtkloZ0wUW6Y8bjr5t3157PNvRYKLEDlo+54Zs2FL
-	 poTJ6Me6Py0GQtKM/cwZ03l8e73NSuiE0tlp8lfBsCCLlOAql6KmWQ45mhz7gTD1ac1Yb
-	 9/wjH7xmEqJe8r62pbO7usxx5R+zl2yO/ECMWYm2DT0nW7OS3pE46pDbKYgc8mqlZyPMY
-	 5XPgB2wI7AuVPpVXPIHECOrKGqOn4ph8OzqIDPg3mg9+EFVvQdDx9hig2fDRv3+ofAtkm
-	 +Up1gy3G4bBTNC09izos3P4V5EabX6x4xNPwGdx501Wi7lhbu08L0eYgoTnXaiSLl7Q==
+	bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
+	b=FA+rP81oif50hr5PT59bNiwtg3rE0rBJfTELr6EERu93sRAW405RuwWOq5cPLGZSEvtP
+	 wcEkif90VwIiZU4MTfQ+t1+UnAAQkJN3LHn+zfrLAshQokCpBJlha2F5dT74GU6LnV9a/
+	 gxdVK7KXz7ti22s1MTMUx1+GoQxU7ha5WqT0UUCtiRlxsv5CnvUKWokq6rBkRfTW5ZyXv
+	 +sbc/7mUHsDHCQan49UyiUMfYZCoT3K6Jy1Wo5vR/Pu0irmlNgeYgetZQkrBD39Cj3qT9
+	 ZWjDl11zoHAIw0AWJYPdvXzktSsPl23gIE0AzWmmjznoYS+S0cI7QB/9bUqwrkTdnMA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=deeproute.ai;
 	spf=pass smtp.mailfrom=deeproute.ai;
-	dkim=pass header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=ILW5wbhL;
+	dkim=pass header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=W1VRpx26;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.126
 Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2126.outbound.protection.partner.outlook.cn [139.219.146.126])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6AA606A324
-	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:15:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F6AA606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCA7606A324
+	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:15:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FCA7606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=deeproute.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeproute.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=ILW5wbhL
+	dkim=pass (1024-bit key, unprotected) header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=W1VRpx26
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mfYngSUfOFsjh9KYmlBPQd72sO2D3CFYnNtKcqwn1bv/DgHSpqCg1disDQWl86K98gwzmEqRKqY2OytKLov+ua45kLfubFBTjCKufLs4bkAzmjfGcyiDDYM0hjdCB3wtB3T544FbJaaWc2fXcRGezncQhoJLTiua4J4BqrXjH1sIQBxtv0P3V4OQ0epxiz8v6SS3fwuBdJhROda8WpSFGXcSA+LViLLshS+E+NlK20QzH88NdAPX/FxH40nF6QSjgW/XEkXj5u6uuNtmFGmYunbRKFvkExP/Vj1OU9SVgXFkYO6j/up3TuD74DBXQGGXKqSIrCWy3O02buDSvSzyZg==
+ b=HIParGJoywhS/DooKytl/C7iu2WuisSuaLbK+CSJZVA5POhftlSP9zkFmOChxyuXk9R5UREq1lJu6miwWqSb41CAcnoFRKHvKNs5R6iYzTb++SKCmVE/itg8RRWbI7GxiHquYOVfrG+pYlZTEPAeRILui2ZXAQZmTnXkdJRguWUiTvEIFug6XBUXQg5jYQuVGkHBmvNvBgdwc9SDPLMWkWty9qPNfCRCAZjwcKofcUo56oH0cJq6wUrPCvK7Lfzv6HADbOgVGmGgBPBoZ/By8hRFcWCKB0WudiS07fA6gSI87w+4huHS+Bw6Z+TVSLhtPDBjfKocpYMUPtrLH71NRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EPWY86Jl8JPm3FFXtIzlMu2CCzJzgX8axZImHcjclTI=;
- b=CEmhWedA4dHTgV6Bi1789LOZKCC0YJxNw+ZH+nFUmerq+ga4DH1kuOVHIUKU/AzMu57Kp+AvO4Y+zOqMsz7KQVDm28V4fYizPy3KlPEAIWjL2+4W7UDK5j8ppaIYwK/0t4/8yKX6On0ZjDf1py2Jx9j+C1w7lSpgFREwphpWNv7IuSHZCPPuhvhy/vwh4EVrHYSWAr2HAvDZXnCGphImKt0o/8bm3lOv9GwwBquyx6ciQC9Muc/AsVATrVy/Z4iJeDTg8BFTrE3mN8fKRGiTWAWYiw7G931UvExqc1qN2sqkAy2CM3mn+M3hmHfPmjgX6PkVkdaVurrNDSrpFqJWSg==
+ bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
+ b=MyNNbwBn6W2mWc+x1qRTmGvgVCYfqHnYBjeFVsf9ivVSKXxHMEekwpCtoRsjD9rZDntvg1HJHFIMPF1PqrVCC1AkUpYgDenWZAcTdQTl1AEw8Pw23ZdeNgYLrrr/MVDUvXjq/G8wJVmLxpuUCk+Vh4tGGeoukXg8scZfupPNljjOfwkJjQC0fpfZu/Rvv18TQKmhJAXumyMS3fQdXCwf4u8A+6M9KJc1S2b7wKSfjQTZQcpPRLHBkhfHyFWsLFkCw5Ow39ElTsrMDRCE/VOweCmugTvHgAavgvwN+Jk54oU3Fk4HPjGCnVnv22Cm18ocOcy0IvYyQzIAnyUh11CjGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=deeproute.ai; dmarc=pass action=none header.from=deeproute.ai;
  dkim=pass header.d=deeproute.ai; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deeproute.ai;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EPWY86Jl8JPm3FFXtIzlMu2CCzJzgX8axZImHcjclTI=;
- b=ILW5wbhLmz47Y4+4dheVVHxW0NaTCWkp9wuEm9H8gILAJn8MNY7C7muUe2tXxeIn3P5rHFfjkIndK4im61Gi0GFgXaasu0U6FQRqZAStk+5B9I7wkRHMOCI11ef7aqlE3GtsRaKdTQtbJRBosfFcFq+OiXv8HULd0+lJr+gjNfA=
+ bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
+ b=W1VRpx26miel0Eql+sLGdnpeE3EVosvYhJdx4U/aem9csy1P6KEWOscZBYx2SYJy0fZUL/39UaYvlNpDzO+HDblDtWIMtNA3AqqsTkJsmj3WqsTmXbtudIfRUwpjdK1O01+TqjKqB1gIHbMa9R6KWb89kSEBwug42NcO12+o6xw=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=deeproute.ai;
 Received: from ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1::5) by ZQ0PR01MB1239.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1c::11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 08:15:12 +0000
+ 2026 08:15:13 +0000
 Received: from ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
  ([fe80::197a:1934:4b5b:4520]) by
  ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn ([fe80::197a:1934:4b5b:4520%3])
- with mapi id 15.21.0569.008; Fri, 30 Oct 2026 08:15:12 +0000
+ with mapi id 15.21.0569.008; Fri, 30 Oct 2026 08:15:13 +0000
 From: Jingxuan Xie <jingxuanxie@deeproute.ai>
 To: netdev@vger.kernel.org
 Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -84,10 +85,12 @@ Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	John Ogness <john.ogness@linutronix.de>,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [RFC net v2 0/2] af_packet: retire TPACKET_V3 blocks without waiting for copiers
-Date: Fri, 30 Oct 2026 08:14:38 +0000
-Message-ID: <20261030081440.251635-1-jingxuanxie@deeproute.ai>
+Subject: [RFC net v2 1/2] af_packet: prepare the virtio header before reserving an RX frame
+Date: Fri, 30 Oct 2026 08:14:39 +0000
+Message-ID: <20261030081440.251635-2-jingxuanxie@deeproute.ai>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261030081440.251635-1-jingxuanxie@deeproute.ai>
+References: <20261030081440.251635-1-jingxuanxie@deeproute.ai>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 X-ClientProxiedBy: SH0PR01CA0014.CHNPR01.prod.partner.outlook.cn
@@ -104,125 +107,129 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB0982:EE_|ZQ0PR01MB1239:EE_
-X-MS-Office365-Filtering-Correlation-Id: e57bb457-762d-4f17-6b55-08df365deb6f
+X-MS-Office365-Filtering-Correlation-Id: 67ffddcd-cf9a-44b9-46f6-08df365dec1e
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|23010399003|366016|376014|38350700014|56012099006|261028144727099003|261022105027099003|261026140227099003|261026121527099003|261021123027099003|261022075727099003|10067099003|261021135927099003|261021121427099003|261009223027099003|261022115727099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|52116014|23010399003|366016|376014|38350700014|56012099006|261028144727099003|261022105027099003|261026135527099003|261026140227099003|261026130827099003|261026121527099003|261021133027099003|261021123027099003|261022075727099003|10067099003|261021135927099003|261021121427099003|261009223027099003|261022113327099003|261021130227099003|261022115727099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	vtthhAna70LmBvArwjy/7IKaH5aedKN0iLCrqvzpZJqswp3i+HUS6XJPFhdOMme2PZAFfOFed84ayvSyxqqeL8RrJh7ECMQiNDVEQCFxew9ApikCGbZH1JoZN6ImPuS1RvNXDtcFaksdrLMCBWMRgoQtFTztFWAuQToM0U/OGvY4Pp2dFy4ad1rQ0dLzGTI34I2t9wBibdx1Et9v6TXV5Oyvwz5ea3GykBO7/HoaD5f0Z8DT5Flb+Hkupn/WWUEnU1P8IpAMv0WpdKcM5Xie2IIqcHCI+MghLtcqyhvWSBKKvj2RerF8nXcek/lHT7VA8B6oGA4O7TDdefUesCpHJIKd4UcEB62fkaA/5/9ALM3InQEflCWInF2QhyWoWhRSYN8R0VWvRxwb/P3h3M3xmdPPcn3BnaV506IO31mMKV9KLfzD0Nb59zIxI9/M0dOh5m3o33uxsMKqzhVIAjagYSNj1MkBeS7x2xJGyDpcivoC9ZRMaUBNpM4bz6FU73xMc998AcHvRg+ENw7G7PslmWvMeEaSuy4tN/U/XqhfWfs2H8Y8XQ3L98VsOkLsPjwn
+	geyW8o0Kabi5/cYLv9uqsak1/ReSpsfsoPVUe9y4h7cfbMUWLbIy47w6lH53Tokc6yalJ/u6rH7jb9VooZfA9OyklPT+DjSv3Aoqk/PGoX8cqF8LMIw41ALfuFyz7ydxqB+R7xvZCI8+yzlC1NuAaBGvzr5K49/QfdZ0HhMD6ToTDMr+6chMeCgJzNxV+V2jJYT70LAEw4HivbYJ1b8OOARZ3WftjTX8YLwz8IwaAEu89Jc5q9LUDKZ+GqETM+BUJAAnk0NBjUBfWUr2gAd6Psmg+G2gs9yTrex9e9941Df14eY24AjJlAhIZDDCqVegU7DwIRI9xkEMs33/IeRQA2DTxjcgUIsYlTzvQAO+LoeXHyFPsbncHiCpjLlM6Ojq5+kc5qJnS/a0krmFQAc7LBif3eCJgvWUQFKYHNFbnoM3fvPbhRuRrhlbXk54gftU1+3Q0LNsknbnCKDAE9BgrqVb6fsCcdbmFypjXpXJ4vmAmtYmAgY0zPTbMQbFUSlzpIBn0fTvG6UBZdIUnu35kmN2cvS2i1b4YOeN2C9sAGfyeR+J0LMO+PEUepGildJl
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(23010399003)(366016)(376014)(38350700014)(56012099006)(261028144727099003)(261022105027099003)(261026140227099003)(261026121527099003)(261021123027099003)(261022075727099003)(10067099003)(261021135927099003)(261021121427099003)(261009223027099003)(261022115727099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(23010399003)(366016)(376014)(38350700014)(56012099006)(261028144727099003)(261022105027099003)(261026135527099003)(261026140227099003)(261026130827099003)(261026121527099003)(261021133027099003)(261021123027099003)(261022075727099003)(10067099003)(261021135927099003)(261021121427099003)(261009223027099003)(261022113327099003)(261021130227099003)(261022115727099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P4miUgEFnYKOWJW2M3moPbqwfjsscsbPfZKgUpQBU8HUkdAhF7bnEZ/Ys1KN?=
- =?us-ascii?Q?xtCSBhHkZpjo1dqba4tGVVk+n9fjbwBq1ckiniqUuvCP2t5Dy9wAjTETPhc1?=
- =?us-ascii?Q?koc4CZpJmKZl2ykqK1Na3G1QynbAWsZ+xK3iI8Y9FboGnrAxfnRC7igWcobr?=
- =?us-ascii?Q?ZysP4V539Vj/k6602URbnr3adUTAH90WRTll4Rcgtzy1x63E3VJtlYLgJSUN?=
- =?us-ascii?Q?IYQIic6+bKJ0/dxoVV4VqWdaN3VkKpdbcZZ0ObjDWO0WAGBusMxs68+9YBM3?=
- =?us-ascii?Q?l2Ex8qW2evyqq0uMCyArIwLVB4kLEBRYuHJmeItTVk2P3BUvwNbvXttR39C+?=
- =?us-ascii?Q?jUIaWYN7IBC9nu4L9y5Wpifj371xA+q6Eznb1IaP1MrRukDSl2QOK6fVsMKg?=
- =?us-ascii?Q?Ur4s/mC+c15RixgzrKZDL4XCQiLOJBV3xD7SFh3AZVBQdOtsql6rgHNOPCCu?=
- =?us-ascii?Q?pG6temwTh19IJ4gpB/mteqOxyX+lA/sR4IYo2hXLYPo8AAwIc6f0IYG4txWA?=
- =?us-ascii?Q?PlKsHaTVbtV98/U3M2txaHZhUMoRnQuQaQzvef6x+Cu/h9Plv9NIWMG7ipHI?=
- =?us-ascii?Q?h6F+5neDPR6qCCnB4wfBzsLFmikaq5CwFw1ZOZVC5s/SVWXHB8ac2S5bLV4E?=
- =?us-ascii?Q?lvvodMNHWZq+gy3tSW+H49EhBTtfbfBCCsabsS5Z2U+mAQyXB9xPQ4Xj9+ZL?=
- =?us-ascii?Q?198T4b/GyT+V8SK3Y7lZ6f9IvrKvia0eEkmQyXkiIU9Qsbrbzv+rn4iBMvDj?=
- =?us-ascii?Q?gs8qOG20Q/6OSZRw/+TcTUiFGO6RDkmZb0nLFhuVFn510pJjJ56Sc7NRTYfF?=
- =?us-ascii?Q?Oskdm7xOFpXsQ+aKrS5l/UDAFJLBtJ4Hegl0N4PVdAexSpbCmzzOEde12V/u?=
- =?us-ascii?Q?q0kPbOBvTgJUxhr5KBOXzpFWkYC0kFJjbHfBxCSuS63o3/1QpHM9OViHHZRn?=
- =?us-ascii?Q?l1yGGXOQVoclzWOhB7SikKWYAkatsT1b9bW1I4BwwiL6y4vAHdcQOPxV7Uxj?=
- =?us-ascii?Q?hpHMSccmIz4Miny2uPT7AqG1/ve7tr3XBGE/U4C7i2PxjPi5zz2K0yvmx0TL?=
- =?us-ascii?Q?DnXU+iS7IdBhpKAi5PTxgBlNvZWDomQNKFVIdt4VLEFXRw5AHDL5HLst9vmK?=
- =?us-ascii?Q?a1dxV/SOYWqeAIrhVr3uaiePSKJA2RFDg4eWxOJDLT3IEW0y9z544kVxuqLk?=
- =?us-ascii?Q?RrvarwXXkbeoOc5WxKSS/Jm3Vtm5ffB5gALLJxWsDT6rLm5l5y+zs9U1h6cW?=
- =?us-ascii?Q?y/DeV7uWqmGN7QyGVgwKLO8RSptiGkZFxzsKRfaLZ79bYcsY6Gf1swvbpDQ2?=
- =?us-ascii?Q?0gb0I9vToEzsz9ZWPmdFMTPKPyLanxVIpjGP25Mk4VwQScoRnVl6f1b1vR/q?=
- =?us-ascii?Q?y5pe8IeWQrY5MervlczUp0Sy0ak2ApG6W6yZ50uOxIK/+fLE1AuVLUKR0E12?=
- =?us-ascii?Q?GnbDr1Q0FUymggc4IYwBUPZfDoL6GV5lUvTgR9Tr97QD6aeVajzqDKc/BPhO?=
- =?us-ascii?Q?z/TSYDbN8fsMqkeiuqpiAj6yWnPOh5kNg+Ueui+kwv1gkMJbAXUKir+KB2ue?=
- =?us-ascii?Q?yyzlbWhzT3hFHfkjqegaOAwm0WZED4sPBWqEzMIyQlVLXekzW/Q7mD+V2NRs?=
- =?us-ascii?Q?u/w+LVwobqhDCr3yemnETr/I+ICeE7Gnzvl8jeeI3/5zPuUJeZWciCVtxIBO?=
- =?us-ascii?Q?Y07zlHOFnkhvYOAM+iXikjnCgUBgj5bqjrYeUPRYxhIuHruxs/Qye6NXTV7T?=
- =?us-ascii?Q?UDsXWrcR7A=3D=3D?=
+	=?us-ascii?Q?sUX1AUbUUnX9X7x/K5jZWXYJ3r6qKUMRGi/vshkj4HQn/klnSJEi2SC3FSCd?=
+ =?us-ascii?Q?kwJJaDoIIfegujKmZMZsOdSjcwdYmuueLS1dleI+NxW0flN41jzpLpAF1SAe?=
+ =?us-ascii?Q?mLXNOgYWEBtP+u0c9y+rRv/dpvdyS2Uc8M1jpgQPZEUMoAqKEG8jRongni6h?=
+ =?us-ascii?Q?k8BO5Hiy0fIv4Plt0/CT3CFH+IfOL9rY+v1+ZZiSlm3aE57VEg8Q64cuduAU?=
+ =?us-ascii?Q?iMO4K7G3HV0TFBDUAuhMy1G6RsBipTVdT08s1hy2P6FN5vttTiCzYf79mCDk?=
+ =?us-ascii?Q?mlpIv3su2M+clrjtxrS0cFCQZoDApc5bJMMHUR2YSlAuUdMPcX5XwPOZKQQN?=
+ =?us-ascii?Q?ujSdrF/zhrcZhgnUOdULj9ISdVR0/p7WfY+JpHz0x2eLiFI+CQ/tIgdEpJQe?=
+ =?us-ascii?Q?ydIo+urRtOIh6a3Wr1tA2AwggDAO3SPVM7cl+0zTAe6BEHh9owxnjOQYvF0U?=
+ =?us-ascii?Q?U4mUFs7XyX0zJnhuq41h8igkCOcl7AvHmMQ8INn+P4rOrV7KxySIh1LiTxwV?=
+ =?us-ascii?Q?X/vQztqHPn15kULvuRu/67iWAkY0I53IMbffbqFwClPJLgaVVZ+nMzaQy8H3?=
+ =?us-ascii?Q?8+vKkjx+8hL9zBabX6OgfdKG+xY4qOTU+KOHXP94kuWHV4emfe0eBuc5xZ+b?=
+ =?us-ascii?Q?434YGBZedU9ULJNiGg9yGoz8GAhxG9ve5fER90ZPqPMnstxGKujK9plMJWN6?=
+ =?us-ascii?Q?4mKaXKW3eiMWH75763q32HCZw+YsbcUSYIecl9AnY1eqwMyYRc/4rTdD0AM0?=
+ =?us-ascii?Q?OstKk6QslApIM1zVXzJee4CDU8X/GCtAWiX6JfRQ2zIH2CaqdK45APKFOBRo?=
+ =?us-ascii?Q?4g7wh1Z5nIVe9oyzyUd0ogwxcoX01WyKaq8UrPeJaafKWFVFm2pMUvauSWW+?=
+ =?us-ascii?Q?7NZrohDPuSgcPQF/V7GF188N6YyRam011herW5mm7SqG2Q8i8hJIfgWKK5Ki?=
+ =?us-ascii?Q?KOwmqRhXgYTVn6H/5bE+HjZeM7b2WlbC5Ed9/LcXIc3SFu9kBknrh561Q0M8?=
+ =?us-ascii?Q?KqLjFACigp/Gj8KaDxu3kDOdeMtUus26HTUUMsclZTZX2f56rOQ3DSSySpYI?=
+ =?us-ascii?Q?Q3rJKuA/NqDrW6merM8KclS7SWDgh/VflKiYuzos2RqDMAAfQoI1QVsIetoj?=
+ =?us-ascii?Q?Uaq/T+eu0wCnKtH+nazVdkNifa/qeN9ch9KLLLPXO73TEf/UC4bsig0shtYE?=
+ =?us-ascii?Q?b2KY7YjD9yHzZqZutO1ZJZtYRoJ18QDxHqZSU23ulGOn1+VDIB/4jpRA2WMx?=
+ =?us-ascii?Q?J4kWu2+vSPa7oUywBBzkW/KK+oJI0lYXjaCOhNgxX+Gdb6/Dh9MRZglPLf7m?=
+ =?us-ascii?Q?Mz9dnumlmO3KrlP55OZfRr2FRj90JDUmla4hr7CAuaiyDxoGqwssK/gNmUH8?=
+ =?us-ascii?Q?b+Kdr5U5eibpQ+db5s61epURPJ5RKlPhaFr7Db88aVGbuBTmDHwyesdGxSpI?=
+ =?us-ascii?Q?Uf6te34s1mTNh0l17w4Y0JLd72K40dxMe7mJi+fYjk5tzNcSxzmqrWH82CSa?=
+ =?us-ascii?Q?TfBpWmZ2RPJ4w1jT5R1KBBEWEUrZLSSXYyANZ9VwEUCNl+6V1mq0OAgWIFnq?=
+ =?us-ascii?Q?D5QTt7fiXJLGKJ+ad4abfkdmtfxd2J16/VQCZ1mRU5coHuzhevL2qCkFaUu/?=
+ =?us-ascii?Q?/15Wa7QyrieaQw7J+NTc5j2wUkBo+cZ9VnCyc0gIQ0Z3MtprrWOX3Wgf0OZt?=
+ =?us-ascii?Q?wkhmSsyIG5ItVTqr/xbglo/RBOmsoyZ1T6vQ/N8mH8wRBNvXBICSWhv5zWhc?=
+ =?us-ascii?Q?OQZOLKGagw=3D=3D?=
 X-OriginatorOrg: deeproute.ai
-X-MS-Exchange-CrossTenant-Network-Message-Id: e57bb457-762d-4f17-6b55-08df365deb6f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67ffddcd-cf9a-44b9-46f6-08df365dec1e
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:15:12.0459
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:15:13.2099
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: df535b4a-68e6-4339-a092-afa4f2c24fcc
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6wEPY4E/VeJmPVXsqfCvIDWA4rRItOd/ieK6iOABB7Pg6enh+/VRYqcrqn/0hi7HWcVJk6GCkY+20nCQsWE+Kbo+eq79hyEvG88mtyDaR7E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LxHeuOJ9g8GxVgsipZrvwqyD9WEUFuiV8I12DluyjSJOo4BEKZypD1O34wZjcj5tu7/i9+BoA+hMFQ7u6HGPwHqxKPfjbO8xyC8t/6iOaR4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1239
 
-This revision keeps asynchronous block retirement but removes completion-si=
-de
-queue locking, the four-state enum, the eight-block publication budget and
-the workqueue used in v1. Private copy accounting now lives in the existing
-pgv allocation. Packet allocation and the existing retirement timer publish
-ready blocks in order under their existing receive queue lock.
+From: jingxuanxie <jingxuanxie@deeproute.ai>
 
-A preempted copier in a sealed block does not prevent capture into the next
-available block. Copy completion only performs a release decrement. In the
-absence of further traffic, publication may wait for a later timer callback=
+An RX virtio-header conversion can fail after packet_current_rx_frame()
+has reserved space in a TPACKET_V3 block and increased its packet count.
+Releasing the copy lock on that error path does not remove the incomplete
+record from the block.
+
+Prepare the header in a local variable before reserving a frame, and copy
+it to the reserved frame only after conversion succeeds. Keep drop
+accounting, notification and copy_skb cleanup on conversion failure.
+This also keeps conversion out of the receive queue critical section.
+
+Assisted-by: LLM
+Signed-off-by: Jingxuan Xie <jingxuanxie@deeproute.ai>
+---
+ net/packet/af_packet.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
+index 823e0911c910..7b3e1e27f777 100644
+--- a/net/packet/af_packet.c
++++ b/net/packet/af_packet.c
+@@ -2273,6 +2273,7 @@ static int tpacket_rcv(struct sk_buff *skb, struct ne=
+t_device *dev,
+        __u32 ts_status;
+        unsigned int slot_id =3D 0;
+        int vnet_hdr_sz =3D 0;
++       struct virtio_net_hdr vnet_hdr;
+
+        /* struct tpacket{2,3}_hdr is aligned to a multiple of TPACKET_ALIG=
+NMENT.
+         * We may add members to them until current aligned size without fo=
+rcing
+@@ -2375,6 +2376,14 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
+et_device *dev,
+                        vnet_hdr_sz =3D 0;
+                }
+        }
++       if (vnet_hdr_sz &&
++           virtio_net_hdr_from_skb(skb, &vnet_hdr, vio_le(), true, 0)) {
++               drop_reason =3D SKB_DROP_REASON_PACKET_SOCK_ERROR;
++               atomic_inc(&po->tp_drops);
++               sk->sk_data_ready(sk);
++               sk_skb_reason_drop(sk, copy_skb, drop_reason);
++               goto drop_n_restore;
++       }
+        spin_lock(&sk->sk_receive_queue.lock);
+        h.raw =3D packet_current_rx_frame(po, skb,
+                                        TP_STATUS_KERNEL, (macoff+snaplen))=
 ;
-there is no hard bound under RT starvation. A finite ring can still exhaust=
-.
+@@ -2388,16 +2397,9 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
+et_device *dev,
+                __set_bit(slot_id, po->rx_ring.rx_owner_map);
+        }
 
-Patch 1 independently moves virtio RX-header preparation ahead of frame
-reservation. Patch 2 implements the retirement change. Neither patch change=
-s
-the mmap layout or adds a UAPI.
+-       if (vnet_hdr_sz &&
+-           virtio_net_hdr_from_skb(skb, h.raw + macoff -
+-                                   sizeof(struct virtio_net_hdr),
+-                                   vio_le(), true, 0)) {
+-               if (po->tp_version <=3D TPACKET_V2)
+-                       __clear_bit(slot_id, po->rx_ring.rx_owner_map);
+-               else
+-                       prb_clear_blk_fill_status(&po->rx_ring);
+-               goto drop_n_account;
+-       }
++       if (vnet_hdr_sz)
++               memcpy(h.raw + macoff - sizeof(vnet_hdr), &vnet_hdr,
++                      sizeof(vnet_hdr));
 
-Changes since v1, in response to Willem de Bruijn:
-- Split virtio header preparation into its own patch.
-- Remove the second receive queue lock acquisition from copy completion.
-- Remove the state enum, separate metadata allocation and worker lifecycle.
-- Replace the fixed publication budget with a loop over existing ready bloc=
-ks.
-- Use release completion and acquire observation of per-block counts.
-- Permit idle delivery to wait for the existing retirement timer.
-
-Testing: ARM64 QEMU virt, four CPUs, PREEMPT_RT and lockdep. The unmodified
-retirement logic blocks sender B behind a deliberately delayed copier A.
-With v2, B completes capture before A is released, for full-block and timer
-retirement; idle delivery, block sequence, lengths and payload are checked.
-The delay is introduced by validation-only kernel instrumentation and is
-not included in this series. Ordinary psock_tpacket and psock_fanout pass
-on uninstrumented RT and non-RT builds. External validation tests exercise
-the actual private helpers; LKMM tests check multi-copier ordering.
-
-The ready-block loop has no fixed work budget: a large ready backlog can
-lengthen the receive queue critical section. A validation case publishes
-1000 blocks in one call. This tradeoff is explicitly retained for review.
-Separate RT KASAN and strict KCSAN runs pass the helper checks, psock tests=
-,
-delayed-copy tests and concurrent-close test without sanitizer reports.
-Patch 1 also passes an independent malformed-GSO runtime check. ARM64 W=3D1
-packet-object builds pass for each patch and under allyesconfig/allmodconfi=
-g.
-QEMU does not establish hardware NIC or Orin integration acceptance.
-
-v1:
-https://lore.kernel.org/netdev/20261028070528.139531-1-jingxuanxie@deeprout=
-e.ai/
-
-Review:
-https://lore.kernel.org/netdev/willemdebruijn.kernel.31ae9fde05c@gmail.com/
-
-Base: fcc00b15cb21a6de76826e5012b2c758505f5e65 (net/main).
-
-jingxuanxie (2):
-  af_packet: prepare the virtio header before reserving an RX frame
-  af_packet: retire TPACKET_V3 blocks without waiting for copiers
-
- net/packet/af_packet.c | 162 +++++++++++++++++++++----------------------
- net/packet/internal.h  |   9 ++-
- 2 files changed, 88 insertions(+), 83 deletions(-)
-
-
-base-commit: fcc00b15cb21a6de76826e5012b2c758505f5e65
+        if (po->tp_version <=3D TPACKET_V2) {
+                packet_increment_rx_head(po, &po->rx_ring);
 --
 2.25.1
 
