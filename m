@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.17.111
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793348249;
-	b=boDqB7MYSwvYia1yT+OIBReMMGI5oHE0Y5rulzLjEi/XI+oyw3DbLkQ6OKTm1j7IDQYF
-	 PdJwIKcNiJpsohdjIbDq4ssMnOW8Cm2ndCBEGWiSEXMNwA+jykkY7ar00AMk/Wzv91D2V
-	 PJXBY/BAJ3Q2t+kJjA8ZqyB7UGv/W18MCNrOQQINJ21PS8BAF8TZIdSycWCbRb6fh1YqJ
-	 rt+csgrSRO71vz0hroMDib9lhx1iTkxxSmQ9DLXBYzhB7JSU1jE7wzdunkIsMin4hIQ35
-	 DFHeUgUfAx8DM4e3LotxmKSwM6o3PtqZw/46nUAFcilLmRprzQo6XnKvgcSRl3TvfNw==
+	t=1793348250;
+	b=aQIzRjIqyi1virf9fyvI+9ZN8dyk/QWU1lcfK6JSFBkQQpfXC92Ph7TKmEA2Dxg1OEqQ
+	 lJcUTF9hT7YAdkl0UcT34lGQ6gKRXlKOm5/gdK0LldRj3qqv1aRdR0ysnPLIfv65a2rq7
+	 OFH7IjyXjcw6dm6+os7yWpuqQrF6IJLyqS4cs5mUFqL4TIrW/KSO6DjtGWqEKM4dtbZzP
+	 N4kVb1zUzpdPI67c+KKEVdepsb3Wi6Jaf6TCTtlfRs4SAmbgfqax1Ub5V70u1c4S4HQRv
+	 xI9mKU062naYgBqDTryNZvFdMW61KQiu6pA1Ch2jZCq2/k5FgdNu0siQAQwaQoMYggg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793348249;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793348250;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -24,53 +24,53 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
-	b=rkH3Yn97Q2a1jTZpPs8hJ7jZ1aeSaD5rkgYywJ23H1M66eft/aaOswZBCvOTOanMVdnS
-	 YFh4w85IxTQOmuGmf+e6wwsBWshD+JUy367obgEnmYGJ3bYZNRVTwObpngCZSt5D9M6Wx
-	 ET7HT2iOzqmLCuTWixsheEr9M9chciJZslbWfpdWCNdLTCwwmTI0m2VlpRKOcpC/n0kQn
-	 i3kLvy5zxa/MsvQ3obXBomsOMhc3wdN4VWXLATIL1ELiZ4uuUzFrKC1yW6o28LRfzdCK9
-	 c122fjEkIsy5QF5h6Lae+53OuGOvY7DusHBk/dmLfueUnOzuy9qyuWQTkFKuzVZZmKw==
+	bh=JrRAjSRPFk1ac20MYsOWg8gOGCe9vIQquLa1QaKxQ08=;
+	b=gbQ65qngw4i76MnZvYmWXY6PnXbRp7zvfvR/QXQ3O8VqFjC5/UC4rtg0UrNt5kaYXwss
+	 LpIW7S1QItnB1eY1qmP4pKvKzy4dnNaRzZuaoyRijFtH/THXWIuUyFK92O4s61tG9JoQ9
+	 9vjo0Vo2WEv/k0dqIiiK8sPxs3KSQ+ysrJcB5HEKotqHCyHDa5sLQn3fHzCJfdO4525oX
+	 Bmov+y6Sb+/fVosLsdYNpAoE802VhYGzAtn2sqX7zFlrSoof1fqi/e3J/rUcJ/NjlAgNU
+	 smRGLTVYPH8LAFHMlezI9DxkeP51B51e5vLnTYf8PeC48N5dXXWXcs8nP8qCbjKB4Uw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=deeproute.ai;
 	spf=pass smtp.mailfrom=deeproute.ai;
-	dkim=pass header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=n00MBMtG;
+	dkim=pass header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=kfZN+QOl;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.17.111
 Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2111.outbound.protection.partner.outlook.cn [139.219.17.111])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B08606A331
-	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:17:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76B08606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69007606A331
+	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:17:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69007606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=deeproute.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeproute.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=n00MBMtG
+	dkim=pass (1024-bit key, unprotected) header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=kfZN+QOl
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GLZn8OzYIhTORM/Nc4O3wEEjeUJuqg80e8N+Lg9TgKFeaMiUfl8umvDuIw6BiQZHcsSGb8tFvWQglsWsTvbH72TyEjeZEa9+3Bo2kSpx5m8TdO8AZdfEIS0WykdlxUPIgJ0C/LHtIS79DxrLMum4sqEauM3/EGD3gFVcdCFqFr2W2goMt3IF+UiLkDDJA7lhm1Hi5Bi0nQUs3i2ylwrcWZltYX9Q7WJjbovDd1PNYmKUJoe3XFbfcpCJxgnunu7qtkWEWpiPIznZOBT/lPEloHZn6pzC+sfSKHsRCPHDfu8qdmhLvW1rSwGSFyCCBLe97E0LYSP/Ujc1bAJ9IgJvfg==
+ b=PBcv/cOrsyJjhfpdah5DrrCL3YnpaROuGXQm2YzSZR6cwXkVK567tB7mRsavJpXNnqYLHbDqT+Q0b73jm0cLdHroILg4Ln+4miCXvoIJHuZcqxt9s7wKwiSk/ovvd+3pYEmc935+QmDLGbWXmEwtWlAvvF2/EB5Y/u7vTeH1X/v+6A9NLeyBSCPZAeuEW3Skxw2Yj0Tz5HjVPnMeYhZdjOopRGd9IEbp614WOfOaIbBMsDdcqPZcpA8bgzX14nynOHQ2PBP4cqVq3Xi7diHF/CeaJRAJX8OrmsKlGxpaNvzYTsHg9pl9eHWb5+hh90FVwCURAWGaQjQhvPO9mvM/RQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
- b=LnQp3gFnjzLzPVeOPuE8R4MyxHypuZXexTf3u7fM1c2zIObG44cXXIs9Kjn5Llik79NCObRVMPtP8F6odKgzmzpj4NC/dIpl3f+E8jcS1xb5TRP/lqQ5677t+FvqyJfb7ACz3w0Cb1/zHLX0pObY2SqWttVNRFk3JzML6egPKljvXEceqR2DazlH48GPKLqrOuMkN6kshIiFlBZMKtNiieFHFl7CPXE/1XXK0u6hLbr1DIOFilcz+/wgOZYjYiYKEAh91uviBf2SgOI9v4fmDBsMuBpV8l7pk6kk1r09bWCQ1pmlTfYO5nZrKxxMHORTyqpmEF0n/R0hCSMgeiGGPw==
+ bh=JrRAjSRPFk1ac20MYsOWg8gOGCe9vIQquLa1QaKxQ08=;
+ b=KeOlC4iX1giAjgimMiuFP27tN4r6EbBMkxzFdIzuOOkBfDgMmWBIgeYOPHXiJWOnY/Ju5eDPtVd5SvdRI4LhDwsWXGwpViCOkSwzp5/UlzRIb6zoTiGQKLn7swv7G1H1WYOYfIKp+XDY2xSgZvHEf5sREUxr/IfD1AD2IQ00vFMoiOuHOUpHUaOvp5QZt9hpwjmqezktJoOk+kOAAJAbO1dph3NyNlRWfuPekYlbq4ukz9smTdeTmpuOcQJOYSgNeeSKbpkjnHqgmihg1WHa0CRE5jamRpHgh409f3NRcFX9qTbwqVTogs9DiZ/oQyfFYHuXXbhMrBAiHYs/uWHbfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=deeproute.ai; dmarc=pass action=none header.from=deeproute.ai;
  dkim=pass header.d=deeproute.ai; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deeproute.ai;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7uKBDmelTul5hGRH2P8jTfQs2nG6n3F69DtU8FuRRo=;
- b=n00MBMtGTmlp11M5u5VFAdXN6GiVcrtdvpaNzs8rQK49OEsvukIJcjIz1axNE1V1MXCYi/zO7MsdJd4XdooeRNgBtOHJWtr1m5jF0eHd4FUTwjX4eDjq6reZH+F4bg1EpS6e6x4p8sZLrCXyVR+S598Y/gtWM677Tlw9fbluX7s=
+ bh=JrRAjSRPFk1ac20MYsOWg8gOGCe9vIQquLa1QaKxQ08=;
+ b=kfZN+QOl5fedwWfI2Hyi4obDTEM2ogyXoaQg/fnrHa+f2fRkhC4aZs74ihSMl4alE9SmIfhIBCriSzh1WfDSGFdxvWszekbcJ8mHyEtqwoykF9yH3AZTrTKMfBa2wWF9lO4lqUAzi0/sMLoESQGwdBlJjZENcNO5TLeU8LOjYbU=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=deeproute.ai;
 Received: from ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1::5) by ZQ0PR01MB1157.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1a::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 08:17:17 +0000
+ 2026 08:17:18 +0000
 Received: from ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
  ([fe80::197a:1934:4b5b:4520]) by
  ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn ([fe80::197a:1934:4b5b:4520%3])
- with mapi id 15.21.0569.008; Fri, 30 Oct 2026 08:17:17 +0000
+ with mapi id 15.21.0569.008; Fri, 30 Oct 2026 08:17:18 +0000
 From: Jingxuan Xie <jingxuanxie@deeproute.ai>
 To: netdev@vger.kernel.org
 Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -85,9 +85,9 @@ Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	John Ogness <john.ogness@linutronix.de>,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [RFC net v2 1/2] af_packet: prepare the virtio header before reserving an RX frame
-Date: Fri, 30 Oct 2026 08:17:03 +0000
-Message-ID: <20261030081704.251652-2-jingxuanxie@deeproute.ai>
+Subject: [RFC net v2 2/2] af_packet: retire TPACKET_V3 blocks without waiting for copiers
+Date: Fri, 30 Oct 2026 08:17:04 +0000
+Message-ID: <20261030081704.251652-3-jingxuanxie@deeproute.ai>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261030081704.251652-1-jingxuanxie@deeproute.ai>
 References: <20261030081704.251652-1-jingxuanxie@deeproute.ai>
@@ -107,129 +107,517 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB0982:EE_|ZQ0PR01MB1157:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59b291e0-0e0f-4ac4-eb16-08df365e3643
+X-MS-Office365-Filtering-Correlation-Id: a2fd6171-b403-431f-ec63-08df365e36ed
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|52116014|376014|366016|1800799024|38350700014|56012099006|261009223027099003|261026130827099003|261026140227099003|261026135527099003|261026121527099003|261028144727099003|261021133027099003|261021135927099003|261021130227099003|261021123027099003|261022113327099003|261022105027099003|261022075727099003|261021121427099003|261022115727099003|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|23010399003|52116014|376014|366016|1800799024|38350700014|5023799004|56012099006|261009223027099003|261026140227099003|261026121527099003|261028144727099003|261021123027099003|261022105027099003|261022075727099003|261021121427099003|261022115727099003|10067099003|22082099003|18002099003|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	jNFPbrPzJFMT55doFVURk56dbA/Nm+Ve6GFwxt0m17TSC8lHbPBPEooN3m5saKBuxH4i9VVYxdmS30uNuaNpdqdsBIzojHq6NGRXZC36aMbnn3Fr4gIsMXxR/B9SSSWqNm0cG/BW0P/3BRW1LGJ55inJBssXt1Lz1nu9fGdIEAWglBO4chzuBBkhqjrq3DfVNXyHi8V2wX3rmCZ95scN3bj1VAJgZtgMawBWfCkBX80TMX23SzNSjHcGKqUvrU1SGllHqMw42GeTKMB966G9Hkx+1/v+JLjVZDXMUDZaJEFGSKpUizG/XJ4d77wHi/bI4/5bZ0wJa5gVxNK9bID3cAujF/U9+lfj8s/xd52y9tuJSN2rAnNl3lug9ISpbRGQS4Su5tiCeCG1SPNwtsW2KXVKepb5u3flJ8P9gr6nkaTmMLMooadQmMaAHEs9/osh8TXZfaikutL4IXCGjgiSDqoWqNzayNEqhdMJI8dHZjIApUEFRZhZYPPlZQEvU29wml8MtbJWlOacZqaqsIU0uaWC17O8WFG+qwOzIyiOlxxNyYfsDlPIgPQFGTbZTobH
+	RE5NgwCuAYlbKurb+jyxVem21Cu43Q4Y5tXn/MA4MP7yTRWeqE3y7Wg+NmugtfeyAPJT02WIReUKsF5val9CrNixn7GYZgpQsrrhI6caLhgBCThWGyNiQWLS9qUOfnHq8HVHsi9WSnyG7TlQ9pi+wYw1zob+HPwUTRqgmy00TFr1QQDGO67YyYWysv1/KUV5MEyqmwg15TXjKJ1hU2rJuSMl2RqxjIJPPygY8qlXf32D292lPMy6ftNPyFpFfVyPvo4WdJBF+Czpt+x6ZEB0u9VjQGFPa8YGcCHvrpNPrlm7iLXAJ5fc1GGYX33wdvnQrO9VxmuavJDLzlkfNjeDkwzVeiJggwdLloxrOmKOQRIodsOx2fKoLjyU9OhOQISpPNwYktNskfB9Jy1UDgcmgB9Y1lfB7KXG2YQB2OXtHqsYdtHRJjVwcuBTE/2fEMgy1v0e1rkJrfwGvl676Z8YlJp/ofAkAyZr7BWggqBcRigy/3uWxN4zdkNw4NlnBTg7G7c5dfQLazuUZ9Hv4vs3vBZ8WP5xEISqkGbKSKnvFf218J7ow3O4AhcCVaDw/lHs
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(376014)(366016)(1800799024)(38350700014)(56012099006)(261009223027099003)(261026130827099003)(261026140227099003)(261026135527099003)(261026121527099003)(261028144727099003)(261021133027099003)(261021135927099003)(261021130227099003)(261021123027099003)(261022113327099003)(261022105027099003)(261022075727099003)(261021121427099003)(261022115727099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(376014)(366016)(1800799024)(38350700014)(5023799004)(56012099006)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(261021123027099003)(261022105027099003)(261022075727099003)(261021121427099003)(261022115727099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?toY3cjEKl7m9jNWTsAcX9+/goBCfrYgMQOSvEmI7SAwfykvZRJ05kxQ995+d?=
- =?us-ascii?Q?v09AsTfsUtXBiFDKiF1H3duPlByBczdJh7axgt8ac3sILHvowYNb8pu6HgM9?=
- =?us-ascii?Q?VofTYUt4YzEZwvBmEodNyAepyj0XVzc8i6fuxK96Pz2aKx8QlS2IyTAjrn4J?=
- =?us-ascii?Q?nuwQ21Ed5qoj6IZnOUZEZe/+wwUy/YTTQlmVjEnbUTpG1qwo2Y7mrSviYoE3?=
- =?us-ascii?Q?ele+VrkG6/KWEEjpL1SVGNdWHhGYM3mgxn9UJfu8aSvyijTHpva5e7EqcILN?=
- =?us-ascii?Q?27b+oE0V+AXJtMk5yT2m9KadX3L0+KUJgtmx8KhdOBN11uBhzLhColcdTjoE?=
- =?us-ascii?Q?tE1T7QtE0csOT2td7f++z4gecE6aqmLDMXHktA2w2XJuOaGK+tNl2Oe/LlUw?=
- =?us-ascii?Q?mgkquP4QzC6xzoODQmB3//joaZxqQxnOI8phhd2ff+luwuhNtY8Gr+UJxNmz?=
- =?us-ascii?Q?Pg4yxbA4JO9jVthJqRltdH5z1us5MRNi0UDWWPWc/bq8QEqUWq4Y4ebixVCf?=
- =?us-ascii?Q?hgY2Tit4nvlSr2peM41cGPV7WV7X4Ob149BiX9VeHUh44AuOH+KGJS0TvK+Z?=
- =?us-ascii?Q?6HdLfv0dkb+YPwIXUKwCVaLEtGa/jkq/S2dp/VDZsCDVa/uCPPIMM4icvMAt?=
- =?us-ascii?Q?URE9S08d2Jz9yilQKocP5F3eN2FmUJHskZb2u3SqNsePDz8555bvaKQZwRxc?=
- =?us-ascii?Q?+r6RPLZKPLCY+bH2/8/hjiBSYjR5FebZ4dDU929qfcS7D+maV66T91+shT/Y?=
- =?us-ascii?Q?dUV63I1qkeJzyN3TkEJa16bSMVY7ZrnqyuyG7a9VDz4GuIaBUOWun/8pXQyx?=
- =?us-ascii?Q?JbgUz4dqXQG531gS2YAiVze9XluTMWSY46G5s2gj7E+/nxQck6abj+hG1A/L?=
- =?us-ascii?Q?4TKC1cUlu4kp9o9AkZvzBXm/RvjGyKwRM9N6MhpatPHLYpKOoGSIgacuXIgw?=
- =?us-ascii?Q?DQtpBPcyumE1608Rd5C8W3c+UitzRvIaQ/YnTCTN8h5mWWb1R2du44dklAEN?=
- =?us-ascii?Q?9sDk1L2ZIW0k0EVm29QwKoJDbXUDF0Qzf9Pamc8lToXDX7+S5R8wA6ddfwP7?=
- =?us-ascii?Q?iVP6pEr3eKYKwyJwmEPKShmyIEi/4jvqQtIe0asMrftzqZ4VsYofBLrtcKYR?=
- =?us-ascii?Q?j+v/L/4bGaHCd6xhCiLnuCMqAGKzIzV2of/BdOr+npUMo3ehsH84HUyqlWFz?=
- =?us-ascii?Q?SFrfpwUtwhVT5Fi7MFPmMuTZKW69w+mfExFjxR7s1COguk3LDOepxA0nuOH5?=
- =?us-ascii?Q?SajKGiKnsqRHO87phNd68aS3ZV33Co0r3osy8bcXlHpVcS3/cWJmAf6UN3ok?=
- =?us-ascii?Q?bt7OUsBBeNEb9RccqIevtWkB/lhsirpTjCJ1CYXbSZv4cxYpiEZ54addEo2Y?=
- =?us-ascii?Q?ADFG2e0tFhglL0ywWgUrMTkUNY9SPq64OHowTgIqDqxtMRzzEzBdj4QPSpFR?=
- =?us-ascii?Q?BBZ7kh2c4pts+42EJhSyx2xBNeT8fEskxvjU6O5n/kZ+bkCHLWNBkAs2NgOe?=
- =?us-ascii?Q?GSVORndGw453YOF0DkAp6FEAonOOWOBrX+EF9srtugUIMFKHrJSbHAzDv0EF?=
- =?us-ascii?Q?uWh6AyNCA6FAq2hOFImG26I80Pc3d9HhRO8KKQxTplxo2E4/0f8IZj5apPu0?=
- =?us-ascii?Q?u+FnySAPMHgopl4VjjjGEK79FOPGaSi0v5RQa3d0TT24RtkFqqz17M8mIH38?=
- =?us-ascii?Q?f24mczt/OGZjbaSR15au721w9rdJFCPx17TZU01Lz/bq1r7tsZIA5GmZd4Yh?=
- =?us-ascii?Q?junpAS/zbw=3D=3D?=
+	=?us-ascii?Q?+NElK/3b3db3O8LsVGFuv6BUC/bbgfO6paUwHVWfe/Fhg9pfCEVnLWvLRBmv?=
+ =?us-ascii?Q?ftmvPN5/Fss5EayT/SnfNwM+RMuqlU/gSyEsuXvK/P+UrxOIYrvgttcfEyk5?=
+ =?us-ascii?Q?ZjdHZf+oGVl4P3GE/SOiah8I0ckVwk0L4mL7gLzmLSCrMG/z+FEcjBkqjhp6?=
+ =?us-ascii?Q?TovIpJ9eJLrcIkc6uWZbaUp/BgGF8H1c2NagOrwm9joDasEvHieNQjE9opda?=
+ =?us-ascii?Q?116tWZKdywBZc/BRfJhOuqWg3OCrRcfIjONnwuyxsSj5sVMiOLqBaifVk6dy?=
+ =?us-ascii?Q?H/sWK/Upy2OdlS67FJyUjonERHdf+5dkwBUiKJgFhZhi9nT2PRloaa2iwYbE?=
+ =?us-ascii?Q?MRCX1b1NNAzlWjYMWSInoUFeDxHKHTch2NTckIUiqp6mhpnRJUCi4hAeOaAN?=
+ =?us-ascii?Q?7o+l5lLN92n9uszPGOJ35XFLTJxBR5yAAqoJ9+tK0oI46cT1FQG6J23leEuV?=
+ =?us-ascii?Q?6AGkHfO/S3prXV7llr44/GCbfX5m9EA8ZRdhn9uQz2W88B2sQ6+HS7LwGPBo?=
+ =?us-ascii?Q?iTisULYvUAwgVelsoc+Psg7+KtVZv9svdTt09vmG2ANbvg+2hFnSfOcehin2?=
+ =?us-ascii?Q?gTZwRkO50ljphZsFalyrtWpaj7G2/cUqi0NIQs5LHIZzwqF2QqA2Gw3c6T2x?=
+ =?us-ascii?Q?c+xw74t+xgcjXBvr913ySHZh3yYZna9bvSCPG+sy9JKH5U5COvnKlpJFlWpz?=
+ =?us-ascii?Q?WwqwtjVt8w1Ilt9oaAoAKOR+mDB+28wPImVDhdcr19l/tPz/+IyHiMDZTlz1?=
+ =?us-ascii?Q?Lg94ggSrvqTxFwS7S2uL8zMYGjlzDbGgTmym8UKOEsFwoJFWdTRcMUiuiTDy?=
+ =?us-ascii?Q?fkFVYiMuw2ERmUHMcDmWJ0jRuJI/xPtvZs09ariEAPhE2PrYN8//E0MOr5qC?=
+ =?us-ascii?Q?UPaOIn5DCkl9zJebOTkmzO37uDazfJmzwnK7aIAckXyps1Q98AegqJbTC8Cs?=
+ =?us-ascii?Q?HQFqZrzTQa8XrX8bsBLEvE/jVZeCl6tkr+yi/IS1p4EetQ0/1+e2KRPxSwmY?=
+ =?us-ascii?Q?M64juKCDGZ8wxMtprtXlJ7f/SE1QDan7vRDHn464fquQA/dxXcGElpLkuYp4?=
+ =?us-ascii?Q?pd5rX7VfoBelLJqvCJd9hb38gT4ElXepOrpdA7wXKq+Kkxa/FWD7xeW+O7P5?=
+ =?us-ascii?Q?kVUqgn72KigOz4Dm3HPWgEzJi+RvDFIKWiXXhrNdGft7jlljVyT47rfIBkkR?=
+ =?us-ascii?Q?E472TN7ZbVvK4SJMUWHF76t4nqktpAB0UyCMyJHkl4DME/IDvwBTE5aEWhfa?=
+ =?us-ascii?Q?2PE/inD/bCwmWqijkebaRTBfXoVRouitN6CYdMiVofyAy6s8Y+2v+blMwmBP?=
+ =?us-ascii?Q?5J/3va8U6TiYaEMjP6K1XuzisCsqWsdHD4wSMUaHu1cxzWiTAfvR360jzmtt?=
+ =?us-ascii?Q?v8p53y12LyIjyJl+/BVY4HXC0GkexEuBn1srbWo2npC+th4TVfMkTKViBFiG?=
+ =?us-ascii?Q?XQAXE4SnF9uoeZJ6XIbovW50MuI8lClpuXLMgno4JJgV0dzh93BHxUK9bSii?=
+ =?us-ascii?Q?P36GMxIwdB6v+lSavSIh+9pa88qVYw/gAJq2mPThvXieIKOZNmpZio6rW7tU?=
+ =?us-ascii?Q?/eZHdvVV5/bhnXTtYeeBZuYD65SIZKJ6FAfZkt+IbrUWksF97EmeXn6Tr99i?=
+ =?us-ascii?Q?Sybfnc+m++Ipcy2DtV5/oL/rmudVBe+JV1uN56ItmiWRBsv6Ex6oxKbM552X?=
+ =?us-ascii?Q?K+zjnw0CWb7089jheoQn+MLa3X0JYIrV+CvC4KZmArTzRQQyAS5nq85hX/Gu?=
+ =?us-ascii?Q?4hvXOM9Ybw=3D=3D?=
 X-OriginatorOrg: deeproute.ai
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59b291e0-0e0f-4ac4-eb16-08df365e3643
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2fd6171-b403-431f-ec63-08df365e36ed
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:17:17.5871
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:17:18.7113
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: df535b4a-68e6-4339-a092-afa4f2c24fcc
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uxToovAo+8OnFNA9WqPZl6k/bBbN39SxlcYKY7d6HwyOE7QgMmZssgzmGxAhUy+22pt3rHyJYG3xjIoP2DrFQlaMMlsJ7N6ncbBqBSyzzXM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: y11tNmQGGw5B+sNvgNTDZmzXKHKAWwEud/3SDPd7Gc8Ry16ypIQnLGW5LE5H/qd18zBmANpu16ytXCnbOfn7/wLuorMAQt4IF0eh4wDt46M=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1157
 
 From: jingxuanxie <jingxuanxie@deeproute.ai>
 
-An RX virtio-header conversion can fail after packet_current_rx_frame()
-has reserved space in a TPACKET_V3 block and increased its packet count.
-Releasing the copy lock on that error path does not remove the incomplete
-record from the block.
+TPACKET_V3 waits for a ring-wide read lock while holding the receive
+queue lock before retiring a block. On PREEMPT_RT a preempted copier
+can delay another packet path or the retirement timer until it runs
+again. This was investigated after an approximately 355 ms retirement
+wait in a PREEMPT_RT deployment.
 
-Prepare the header in a local variable before reserving a frame, and copy
-it to the reserved frame only after conversion succeeds. Keep drop
-accounting, notification and copy_skb cleanup on conversion failure.
-This also keeps conversion out of the receive queue critical section.
+Keep copy accounting in each block's existing private pgv descriptor.
+Seal a full or expired block and advance to the next block without
+waiting. Retain the original descriptor across copying and release its
+copy reference after all packet data and headers have been written.
+Publish sealed blocks in order when an acquire read observes no copies.
 
+Publication runs under the existing receive queue lock in packet
+allocation and timer paths. Completion does not reacquire that lock.
+No worker or publication budget is needed. When traffic stops, completed
+blocks may remain unpublished until the next timer callback; this does
+not promise a hard capture delivery deadline. Ring exhaustion can still
+drop capture copies.
+
+Use each retired block's saved last packet and its own cache-flush range,
+and exclude sealed blocks from allocation and fanout space checks. Poll
+uses the publication cursor instead of the producer cursor. Widen the
+producer index to cover the same block count as the publication index.
+Allow an exactly fitting record so a maximum-size first record cannot
+cause an empty block to be reopened instead of advancing publication.
+
+Reproduction uses a QEMU ARM64 SMP PREEMPT_RT kernel with validation-only
+instrumentation delaying an outgoing copier after frame reservation.
+The instrumentation is excluded from these patches.
+
+Fixes: 632ca50f2cbd ("af_packet: TPACKET_V3: replace busy-wait loop")
 Assisted-by: LLM
 Signed-off-by: Jingxuan Xie <jingxuanxie@deeproute.ai>
 ---
- net/packet/af_packet.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ net/packet/af_packet.c | 140 ++++++++++++++++++++---------------------
+ net/packet/internal.h  |   9 ++-
+ 2 files changed, 76 insertions(+), 73 deletions(-)
 
 diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
-index 823e0911c910..7b3e1e27f777 100644
+index 7b3e1e27f777..5bc486326be9 100644
 --- a/net/packet/af_packet.c
 +++ b/net/packet/af_packet.c
-@@ -2273,6 +2273,7 @@ static int tpacket_rcv(struct sk_buff *skb, struct ne=
+@@ -197,7 +197,7 @@ static void *packet_previous_frame(struct packet_sock *=
+po,
+                struct packet_ring_buffer *rb,
+                int status);
+ static void packet_increment_head(struct packet_ring_buffer *buff);
+-static int prb_curr_blk_in_use(struct tpacket_block_desc *);
++static int prb_curr_blk_in_use(struct tpacket_kbdq_core *);
+ static void *prb_dispatch_next_block(struct tpacket_kbdq_core *,
+                        struct packet_sock *);
+ static void prb_retire_current_block(struct tpacket_kbdq_core *,
+@@ -205,6 +205,7 @@ static void prb_retire_current_block(struct tpacket_kbd=
+q_core *,
+ static int prb_queue_frozen(struct tpacket_kbdq_core *);
+ static void prb_open_block(struct tpacket_kbdq_core *,
+                struct tpacket_block_desc *);
++static void prb_publish_blocks(struct tpacket_kbdq_core *, struct packet_s=
+ock *);
+ static enum hrtimer_restart prb_retire_rx_blk_timer_expired(struct hrtimer=
+ *);
+ static void prb_fill_rxhash(struct tpacket_kbdq_core *, struct tpacket3_hd=
+r *);
+ static void prb_clear_rxhash(struct tpacket_kbdq_core *,
+@@ -666,7 +667,6 @@ static void init_prb_bdqc(struct packet_sock *po,
+                p1->interval_ktime =3D ms_to_ktime(prb_calc_retire_blk_tmo(=
+po,
+                                                 req_u->req3.tp_block_size)=
+);
+        p1->blk_sizeof_priv =3D req_u->req3.tp_sizeof_priv;
+-       rwlock_init(&p1->blk_fill_in_prog_lock);
+
+        p1->max_frame_len =3D p1->kblk_size - BLK_PLUS_PRIV(p1->blk_sizeof_=
+priv);
+        prb_init_ft_ops(p1, req_u);
+@@ -697,25 +697,11 @@ static enum hrtimer_restart prb_retire_rx_blk_timer_e=
+xpired(struct hrtimer *t)
+        struct tpacket_block_desc *pbd;
+
+        spin_lock(&po->sk.sk_receive_queue.lock);
++       prb_publish_blocks(pkc, po);
+
+        frozen =3D prb_queue_frozen(pkc);
+        pbd =3D GET_CURR_PBLOCK_DESC_FROM_CORE(pkc);
+
+-       /* We only need to plug the race when the block is partially filled=
+.
+-        * tpacket_rcv:
+-        *              lock(); increment BLOCK_NUM_PKTS; unlock()
+-        *              copy_bits() is in progress ...
+-        *              timer fires on other cpu:
+-        *              we can't retire the current block because copy_bits
+-        *              is in progress.
+-        *
+-        */
+-       if (BLOCK_NUM_PKTS(pbd)) {
+-               /* Waiting for skb_copy_bits to finish... */
+-               write_lock(&pkc->blk_fill_in_prog_lock);
+-               write_unlock(&pkc->blk_fill_in_prog_lock);
+-       }
+-
+        if (!frozen) {
+                if (BLOCK_NUM_PKTS(pbd)) {
+                        /* Not an empty block. Need retire the block. */
+@@ -726,7 +712,7 @@ static enum hrtimer_restart prb_retire_rx_blk_timer_exp=
+ired(struct hrtimer *t)
+                /* Case 1. Queue was frozen because user-space was
+                 * lagging behind.
+                 */
+-               if (!prb_curr_blk_in_use(pbd)) {
++               if (!prb_curr_blk_in_use(pkc)) {
+                        /* Case 2. queue was frozen,user-space caught up,
+                         * now the link went idle && the timer fired.
+                         * We don't have a block to close.So we open this
+@@ -756,7 +742,7 @@ static void prb_flush_block(struct tpacket_kbdq_core *p=
+kc1,
+        /* Skip the block header(we know header WILL fit in 4K) */
+        start +=3D PAGE_SIZE;
+
+-       end =3D (u8 *)PAGE_ALIGN((unsigned long)pkc1->pkblk_end);
++       end =3D (u8 *)PAGE_ALIGN((unsigned long)pbd1 + pkc1->kblk_size);
+        for (; start < end; start +=3D PAGE_SIZE)
+                flush_dcache_page(pgv_to_page(start));
+
+@@ -777,15 +763,7 @@ static void prb_flush_block(struct tpacket_kbdq_core *=
+pkc1,
+ #endif
+ }
+
+-/*
+- * Side effect:
+- *
+- * 1) flush the block
+- * 2) Increment active_blk_num
+- *
+- * Note:We DONT refresh the timer on purpose.
+- *     Because almost always the next block will be opened.
+- */
++/* The producer may already be filling another block. */
+ static void prb_close_block(struct tpacket_kbdq_core *pkc1,
+                struct tpacket_block_desc *pbd1,
+                struct packet_sock *po, unsigned int stat)
+@@ -799,7 +777,7 @@ static void prb_close_block(struct tpacket_kbdq_core *p=
+kc1,
+        if (atomic_read(&po->tp_drops))
+                status |=3D TP_STATUS_LOSING;
+
+-       last_pkt =3D (struct tpacket3_hdr *)pkc1->prev;
++       last_pkt =3D pkc1->pkbdq[pkc1->publish_blk_num].last_pkt;
+        last_pkt->tp_next_offset =3D 0;
+
+        /* Get the ts of the last pkt */
+@@ -824,8 +802,27 @@ static void prb_close_block(struct tpacket_kbdq_core *=
+pkc1,
+        prb_flush_block(pkc1, pbd1, status);
+
+        sk->sk_data_ready(sk);
++}
++
++/* Caller holds the receive queue lock. Never wait for unfinished copies. =
+*/
++static void prb_publish_blocks(struct tpacket_kbdq_core *pkc,
++                              struct packet_sock *po)
++{
++       unsigned int pending =3D pkc->pending_blocks;
++
++       while (pending--) {
++               struct pgv *block =3D &pkc->pkbdq[pkc->publish_blk_num];
++               struct tpacket_block_desc *pbd =3D (void *)block->buffer;
+
+-       pkc1->kactive_blk_num =3D GET_NEXT_PRB_BLK_NUM(pkc1);
++               /* Pairs with the release decrement after every completed c=
+opy. */
++               if (atomic_read_acquire(&block->in_flight))
++                       break;
++               prb_close_block(pkc, pbd, po, block->retire_status);
++               WRITE_ONCE(block->last_pkt, NULL);
++               if (++pkc->publish_blk_num =3D=3D pkc->knum_blocks)
++                       pkc->publish_blk_num =3D 0;
++               pkc->pending_blocks--;
++       }
+ }
+
+ static void prb_thaw_queue(struct tpacket_kbdq_core *pkc)
+@@ -852,6 +849,7 @@ static void prb_open_block(struct tpacket_kbdq_core *pk=
+c1,
+ {
+        struct timespec64 ts;
+        struct tpacket_hdr_v1 *h1 =3D &pbd1->hdr.bh1;
++       struct pgv *block =3D &pkc1->pkbdq[pkc1->kactive_blk_num];
+
+        smp_rmb();
+
+@@ -877,6 +875,7 @@ static void prb_open_block(struct tpacket_kbdq_core *pk=
+c1,
+        pbd1->version =3D pkc1->version;
+        pkc1->prev =3D pkc1->nxt_offset;
+        pkc1->pkblk_end =3D pkc1->pkblk_start + pkc1->kblk_size;
++       atomic_set(&block->in_flight, 0);
+
+        prb_thaw_queue(pkc1);
+
+@@ -932,7 +931,7 @@ static void *prb_dispatch_next_block(struct tpacket_kbd=
+q_core *pkc,
+        pbd =3D GET_CURR_PBLOCK_DESC_FROM_CORE(pkc);
+
+        /* 2. If this block is currently in_use then freeze the queue */
+-       if (TP_STATUS_USER & BLOCK_STATUS(pbd)) {
++       if (prb_curr_blk_in_use(pkc)) {
+                prb_freeze_queue(pkc, po);
+                return NULL;
+        }
+@@ -950,31 +949,24 @@ static void prb_retire_current_block(struct tpacket_k=
+bdq_core *pkc,
+                struct packet_sock *po, unsigned int status)
+ {
+        struct tpacket_block_desc *pbd =3D GET_CURR_PBLOCK_DESC_FROM_CORE(p=
+kc);
++       struct pgv *block =3D &pkc->pkbdq[pkc->kactive_blk_num];
+
+-       /* retire/close the current block */
+-       if (likely(TP_STATUS_KERNEL =3D=3D BLOCK_STATUS(pbd))) {
+-               /*
+-                * Plug the case where copy_bits() is in progress on
+-                * cpu-0 and tpacket_rcv() got invoked on cpu-1, didn't
+-                * have space to copy the pkt in the current block and
+-                * called prb_retire_current_block()
+-                *
+-                * We don't need to worry about the TMO case because
+-                * the timer-handler already handled this case.
+-                */
+-               if (!(status & TP_STATUS_BLK_TMO)) {
+-                       /* Waiting for skb_copy_bits to finish... */
+-                       write_lock(&pkc->blk_fill_in_prog_lock);
+-                       write_unlock(&pkc->blk_fill_in_prog_lock);
+-               }
+-               prb_close_block(pkc, pbd, po, status);
++       if (!BLOCK_NUM_PKTS(pbd))
+                return;
+-       }
++       block->retire_status =3D status;
++       WRITE_ONCE(block->last_pkt, (struct tpacket3_hdr *)pkc->prev);
++       pkc->pending_blocks++;
++       pkc->kactive_blk_num =3D GET_NEXT_PRB_BLK_NUM(pkc);
++       prb_publish_blocks(pkc, po);
+ }
+
+-static int prb_curr_blk_in_use(struct tpacket_block_desc *pbd)
++static int prb_curr_blk_in_use(struct tpacket_kbdq_core *pkc)
+ {
+-       return TP_STATUS_USER & BLOCK_STATUS(pbd);
++       struct pgv *block =3D &pkc->pkbdq[pkc->kactive_blk_num];
++       struct tpacket_block_desc *pbd =3D (void *)block->buffer;
++
++       return READ_ONCE(block->last_pkt) ||
++              (TP_STATUS_USER & READ_ONCE(BLOCK_STATUS(pbd)));
+ }
+
+ static int prb_queue_frozen(struct tpacket_kbdq_core *pkc)
+@@ -982,14 +974,6 @@ static int prb_queue_frozen(struct tpacket_kbdq_core *=
+pkc)
+        return pkc->reset_pending_on_curr_blk;
+ }
+
+-static void prb_clear_blk_fill_status(struct packet_ring_buffer *rb)
+-       __releases(&pkc->blk_fill_in_prog_lock)
+-{
+-       struct tpacket_kbdq_core *pkc  =3D GET_PBDQC_FROM_RB(rb);
+-
+-       read_unlock(&pkc->blk_fill_in_prog_lock);
+-}
+-
+ static void prb_fill_rxhash(struct tpacket_kbdq_core *pkc,
+                        struct tpacket3_hdr *ppd)
+ {
+@@ -1038,7 +1022,6 @@ static void prb_fill_curr_block(char *curr,
+                                struct tpacket_kbdq_core *pkc,
+                                struct tpacket_block_desc *pbd,
+                                unsigned int len)
+-       __acquires(&pkc->blk_fill_in_prog_lock)
+ {
+        struct tpacket3_hdr *ppd;
+
+@@ -1048,7 +1031,7 @@ static void prb_fill_curr_block(char *curr,
+        pkc->nxt_offset +=3D TOTAL_PKT_LEN_INCL_ALIGN(len);
+        BLOCK_LEN(pbd) +=3D TOTAL_PKT_LEN_INCL_ALIGN(len);
+        BLOCK_NUM_PKTS(pbd) +=3D 1;
+-       read_lock(&pkc->blk_fill_in_prog_lock);
++       atomic_inc(&pkc->pkbdq[pkc->kactive_blk_num].in_flight);
+        prb_run_all_ft_ops(pkc, ppd);
+ }
+
+@@ -1063,6 +1046,7 @@ static void *__packet_lookup_frame_in_block(struct pa=
+cket_sock *po,
+        char *curr, *end;
+
+        pkc =3D GET_PBDQC_FROM_RB(&po->rx_ring);
++       prb_publish_blocks(pkc, po);
+        pbd =3D GET_CURR_PBLOCK_DESC_FROM_CORE(pkc);
+
+        /* Queue is frozen when user space is lagging behind */
+@@ -1071,7 +1055,7 @@ static void *__packet_lookup_frame_in_block(struct pa=
+cket_sock *po,
+                 * Check if that last block which caused the queue to freez=
+e,
+                 * is still in_use by user-space.
+                 */
+-               if (prb_curr_blk_in_use(pbd)) {
++               if (prb_curr_blk_in_use(pkc)) {
+                        /* Can't record this packet */
+                        return NULL;
+                } else {
+@@ -1091,7 +1075,7 @@ static void *__packet_lookup_frame_in_block(struct pa=
+cket_sock *po,
+        end =3D (char *)pbd + pkc->kblk_size;
+
+        /* first try the current block */
+-       if (curr+TOTAL_PKT_LEN_INCL_ALIGN(len) < end) {
++       if (curr + TOTAL_PKT_LEN_INCL_ALIGN(len) <=3D end) {
+                prb_fill_curr_block(curr, pkc, pbd, len);
+                return (void *)curr;
+        }
+@@ -1142,7 +1126,9 @@ static void *prb_lookup_block(const struct packet_soc=
+k *po,
+        struct tpacket_kbdq_core *pkc  =3D GET_PBDQC_FROM_RB(rb);
+        struct tpacket_block_desc *pbd =3D GET_PBLOCK_DESC(pkc, idx);
+
+-       if (status !=3D BLOCK_STATUS(pbd))
++       if (status =3D=3D TP_STATUS_KERNEL && READ_ONCE(pkc->pkbdq[idx].las=
+t_pkt))
++               return NULL;
++       if (status !=3D (READ_ONCE(BLOCK_STATUS(pbd)) & TP_STATUS_USER))
+                return NULL;
+        return pbd;
+ }
+@@ -1150,8 +1136,8 @@ static void *prb_lookup_block(const struct packet_soc=
+k *po,
+ static int prb_previous_blk_num(struct packet_ring_buffer *rb)
+ {
+        unsigned int prev;
+-       if (rb->prb_bdqc.kactive_blk_num)
+-               prev =3D rb->prb_bdqc.kactive_blk_num-1;
++       if (rb->prb_bdqc.publish_blk_num)
++               prev =3D rb->prb_bdqc.publish_blk_num - 1;
+        else
+                prev =3D rb->prb_bdqc.knum_blocks-1;
+        return prev;
+@@ -1269,6 +1255,8 @@ static bool __tpacket_v3_has_room(const struct packet=
+_sock *po, int pow_off)
+
+        len =3D READ_ONCE(po->rx_ring.prb_bdqc.knum_blocks);
+        idx =3D READ_ONCE(po->rx_ring.prb_bdqc.kactive_blk_num);
++       if (!prb_lookup_block(po, &po->rx_ring, idx, TP_STATUS_KERNEL))
++               return false;
+        if (pow_off)
+                idx +=3D len >> pow_off;
+        if (idx >=3D len)
+@@ -2274,6 +2262,7 @@ static int tpacket_rcv(struct sk_buff *skb, struct ne=
 t_device *dev,
-        __u32 ts_status;
         unsigned int slot_id =3D 0;
         int vnet_hdr_sz =3D 0;
-+       struct virtio_net_hdr vnet_hdr;
+        struct virtio_net_hdr vnet_hdr;
++       struct pgv *copy_block =3D NULL;
 
         /* struct tpacket{2,3}_hdr is aligned to a multiple of TPACKET_ALIG=
 NMENT.
          * We may add members to them until current aligned size without fo=
 rcing
-@@ -2375,6 +2376,14 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
+@@ -2306,8 +2295,10 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
 et_device *dev,
-                        vnet_hdr_sz =3D 0;
-                }
+        if (!res)
+                goto drop_n_restore;
+
+-       /* If we are flooded, just give up */
+-       if (__packet_rcv_has_room(po, skb) =3D=3D ROOM_NONE) {
++       /* V3 allocation must get a chance to publish completed pending blo=
+cks. */
++       if (__packet_rcv_has_room(po, skb) =3D=3D ROOM_NONE &&
++           (po->tp_version !=3D TPACKET_V3 ||
++            !READ_ONCE(po->rx_ring.prb_bdqc.pending_blocks))) {
+                atomic_inc(&po->tp_drops);
+                goto drop_n_restore;
         }
-+       if (vnet_hdr_sz &&
-+           virtio_net_hdr_from_skb(skb, &vnet_hdr, vio_le(), true, 0)) {
-+               drop_reason =3D SKB_DROP_REASON_PACKET_SOCK_ERROR;
-+               atomic_inc(&po->tp_drops);
-+               sk->sk_data_ready(sk);
-+               sk_skb_reason_drop(sk, copy_skb, drop_reason);
-+               goto drop_n_restore;
-+       }
-        spin_lock(&sk->sk_receive_queue.lock);
-        h.raw =3D packet_current_rx_frame(po, skb,
+@@ -2389,6 +2380,11 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
+et_device *dev,
                                         TP_STATUS_KERNEL, (macoff+snaplen))=
 ;
-@@ -2388,16 +2397,9 @@ static int tpacket_rcv(struct sk_buff *skb, struct n=
-et_device *dev,
-                __set_bit(slot_id, po->rx_ring.rx_owner_map);
-        }
-
--       if (vnet_hdr_sz &&
--           virtio_net_hdr_from_skb(skb, h.raw + macoff -
--                                   sizeof(struct virtio_net_hdr),
--                                   vio_le(), true, 0)) {
--               if (po->tp_version <=3D TPACKET_V2)
--                       __clear_bit(slot_id, po->rx_ring.rx_owner_map);
--               else
--                       prb_clear_blk_fill_status(&po->rx_ring);
--               goto drop_n_account;
--       }
-+       if (vnet_hdr_sz)
-+               memcpy(h.raw + macoff - sizeof(vnet_hdr), &vnet_hdr,
-+                      sizeof(vnet_hdr));
+        if (!h.raw)
+                goto drop_n_account;
++       if (po->tp_version =3D=3D TPACKET_V3) {
++               struct tpacket_kbdq_core *pkc =3D &po->rx_ring.prb_bdqc;
++
++               copy_block =3D &pkc->pkbdq[pkc->kactive_blk_num];
++       }
 
         if (po->tp_version <=3D TPACKET_V2) {
-                packet_increment_rx_head(po, &po->rx_ring);
+                slot_id =3D po->rx_ring.head;
+@@ -2518,7 +2514,8 @@ static int tpacket_rcv(struct sk_buff *skb, struct ne=
+t_device *dev,
+                spin_unlock(&sk->sk_receive_queue.lock);
+                sk->sk_data_ready(sk);
+        } else if (po->tp_version =3D=3D TPACKET_V3) {
+-               prb_clear_blk_fill_status(&po->rx_ring);
++               /* No frame accesses may follow this release. */
++               atomic_dec_return_release(&copy_block->in_flight);
+        }
+
+ drop_n_restore:
+@@ -4376,8 +4373,9 @@ static __poll_t packet_poll(struct file *file, struct=
+ socket *sock,
+
+        spin_lock_bh(&sk->sk_receive_queue.lock);
+        if (po->rx_ring.pg_vec) {
+-               if (!packet_previous_rx_frame(po, &po->rx_ring,
+-                       TP_STATUS_KERNEL))
++               if (po->tp_version =3D=3D TPACKET_V3 ?
++                   !!packet_previous_rx_frame(po, &po->rx_ring, TP_STATUS_=
+USER) :
++                   !packet_previous_rx_frame(po, &po->rx_ring, TP_STATUS_K=
+ERNEL))
+                        mask |=3D EPOLLIN | EPOLLRDNORM;
+        }
+        __packet_rcv_try_clear_pressure(po);
+diff --git a/net/packet/internal.h b/net/packet/internal.h
+index f5c8cd0eed2c..bece88a9672c 100644
+--- a/net/packet/internal.h
++++ b/net/packet/internal.h
+@@ -20,7 +20,7 @@ struct tpacket_kbdq_core {
+        unsigned int    feature_req_word;
+        unsigned int    hdrlen;
+        unsigned char   reset_pending_on_curr_blk;
+-       unsigned short  kactive_blk_num;
++       unsigned int    kactive_blk_num;
+        unsigned int    blk_sizeof_priv;
+
+        unsigned short  version;
+@@ -36,7 +36,8 @@ struct tpacket_kbdq_core {
+
+        struct sk_buff  *skb;
+
+-       rwlock_t        blk_fill_in_prog_lock;
++       unsigned int    publish_blk_num;
++       unsigned int    pending_blocks;
+
+        /* Default is set to 8ms */
+ #define DEFAULT_PRB_RETIRE_TOV (8)
+@@ -49,6 +50,10 @@ struct tpacket_kbdq_core {
+
+ struct pgv {
+        char *buffer;
++       /* RX V3 only; last_pkt marks a sealed, unpublished block. */
++       struct tpacket3_hdr *last_pkt;
++       atomic_t in_flight;
++       unsigned int retire_status;
+ };
+
+ struct packet_ring_buffer {
 --
 2.25.1
 
