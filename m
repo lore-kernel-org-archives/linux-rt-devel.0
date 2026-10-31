@@ -1,105 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793452187;
-	b=lCGNYC/X8IBZVT4nx7Y+mOgklIjzioGrZmbSghCYhWDdMviHyS/MybMUpO+un7Tqv1Fv
-	 yJXDUYmkbdiEUrTzQ/pkYDEv44JNjV/2pSFNGrr4Y+Q39Co1qJ5SzPKJt4Y1oMRiwVNy9
-	 BDyeYRcQFejJYFE8ka0d7sapzr86DsRHd1b0tCdZTf/pZkGyDQCwYm8/dvx2QF9tuzBON
-	 /O1+lrmp8w6k69gj4RLlVXMSzBLiOFu9dP+CaqeuhfUpK1YDyta8535idZlsb8G8NFAl3
-	 TtU341V7cRZCMFgSdkMEODrh1JZnw5XoXT/7ajLvu23UtcCr/3HNTX69bmWjGEvNORw==
+	t=1793464292;
+	b=fEtRZZ7S1VTUspn4by6mLj+8QulPUSiv5PmtIqmUBC2SeylNP40EXjVkASs6sXi8cCr1
+	 6+9yamHEhY5npJf4WD9Delb6u5+9X7Cl+I6Lw459zl4xezPFeM2Ag3OrgWUpomU9QAe2w
+	 4QjNmliB+SGpQanzKDTzqERou9Ys0X9xnXqpBXt00EWty+JnAk87DvgIuK6OVXiv0aU2U
+	 JQs25kKb1S895e7gVv4zqHoDgymitYRQdBvCHKNakcbX3imeCS1atRjVcOgwHcULYG+kx
+	 A/fVfZy2PAhkCvA+vrzSWklqUfw8Y9bi0gL4sY/c750nw1h7QVumtkSqZRgAUc+vmSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793452187;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793464292;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=AsdiVPeKCV3aUvIOkRhblwdU+P9wwsjvQNPDztlCLtg=;
-	b=JtCJBewt7oBGlcZpCU1ElNa5k+yDoaN/vZQPO1a2ZVf/5gWsmGctyjCclc+wSRqWqcvR
-	 9z+VCAfZ28V7FQ6k1brVG5H1JaXMoHSppv0N+u0KrLKxWphDANlm4bjEbx47mYoAulW+b
-	 k6Q1d3qtFoUnp2vvjSH7TdQz5yAv3Rx0Kw9a7BGNcRrlEi4pYkNj6E3IGS3u8k8lKyYA7
-	 McNaEiuNgVj3+MhO6M3QywTHjCSVFYjrSTtYxbXhsehdAlFpC+jpOeHE8JCGCB5IgvZiC
-	 7W5U8Y4Fyt0i0i2bfcvbtVzeTtflYuNaBCwAcYfM1FLF7coxSg6rWKfAOcJ4q/rZiIw==
+	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=SCL+ExvyxTDNNteFin+VBl38Uc6A50cRx/B+LfB0KAg=;
+	b=GgfIrcGTwfcjTFEWSI/tBNLbfKGCOo3m9gZXjzJ0AunU/NvXDEzC3XOxYjTffr4LMZNo
+	 bT7wtGOMfjguoHH3a0IFtiWRqUQuRVsffLT99LlNtpPmw7e18lcDZhFJJK7fxXqPV89m/
+	 6KIcmHgv/fQ70jVFLfchMOSBd5ndPqjLAGDcLqvZz9V8qf4XVQpOetkBy9R/TIoNG3CBd
+	 8uIByY01Gyd6aLyKuQo2VkYJMyz/Fe3szKmbfbgssmFv891qfTKedKW67qdD0jceXCOjK
+	 y8RUzoHVoZ6J+o7z4l2HEzEDA0Cf4NkCVUifkiE1toxlhU1d2dYqCqT4L3KGwHe9GnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qHaCOb8r;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xcRjzXz3;
+	arc=none smtp.remote-ip=209.85.222.41
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465A3606A31A
-	for <linux-rt-devel@lists.linux.dev>; Sat, 31 Oct 2026 13:09:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 465A3606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA31C606A31C
+	for <linux-rt-devel@lists.linux.dev>; Sat, 31 Oct 2026 16:31:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA31C606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qHaCOb8r
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so13923845e9.0
-        for <linux-rt-devel@lists.linux.dev>; Sat, 31 Oct 2026 06:09:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xcRjzXz3
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-98c78660542so950237241.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 31 Oct 2026 09:31:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793452186; x=1794056986; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AsdiVPeKCV3aUvIOkRhblwdU+P9wwsjvQNPDztlCLtg=;
-        b=qHaCOb8rYCh2h5myFPGO+oWmGrC8r3P4Vuua7rpuZecUxFhHF9OtrnxKaTswS2/r/C
-         Gopdpaz7bc4SrtdValGQ+VFXufyEvsrbh36brgz6elADiqmbMmsL5uR/lW+LgQv5E0h5
-         0jZpzFgrXAabs+CoXOvfG6frXs1TE8Zao4oMn4pBcLWFAAjEqJJWFlopKGelQm9sTHwy
-         zG1u/Ri55BaDzfB5g/cKg8aq5rK3OJZW9Bk/Tdu1kCiuyNL6vkJJFaEpiPRXfDOwouDt
-         u8yZvDznaYqGlYLK/+n2UeASrJ7vv5y3RzJbNM5orGV97ZMe+xp9t23yZ0kewKXKEefq
-         nnFw==
+        d=gmail.com; s=20260707; t=1793464291; x=1794069091; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SCL+ExvyxTDNNteFin+VBl38Uc6A50cRx/B+LfB0KAg=;
+        b=xcRjzXz3vK1VEAImzLG78HcDsDTAcVxHJGlMoj8uoQ5WacXAKSnw//lePeNniFj1pb
+         kuZm3Y6uLNwS1nb5wyBf8Kp6cfKWOn2mQAoilumt4YTAR322pt8J/s3g4ZyK3C41+8eU
+         0UPVLBqb8qG/zekfmNLlGMdStRiccWwnKiT/zDhR3Gl/94DbiLLlbWWHIiBuT7drre3r
+         nlQEd9KwSzpICvJ8VndbUOta6DNl0Z3z+hpBgfSSgIJ5MRwr0T6jd5HGcfaqLeCClGDo
+         gO/oBLyzOqmv+KahAYhN/Nj/1WLIF2PmV6fTI6XcLx0e0t0BVi62zFElXCzVSEXpg9M3
+         uWxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793452186; x=1794056986;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793464291; x=1794069091;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AsdiVPeKCV3aUvIOkRhblwdU+P9wwsjvQNPDztlCLtg=;
-        b=suAdSs949Dl9UnLmAzOHz72FWsx+VwQR5ZSZQf/qnuH+nd78ZrIkEXJCwvNQbN330N
-         nfWMdZVWm3rDtfric1dID5yMJx+AAFG18Gsk8QB6s63Hikl0fWwowPn5vTclfc2LHsqL
-         9p0kosRo8K3+hY1EGUaAzq+jm4+EjO96RhfWIi7xiIRpOa0IbFOG9v9bykJxMieggBkc
-         C3OEWQvN2SJq+sREMNNI2SUVHT3Kd3Onc4j7yYb4WpkG8lvAJW7tmhvKFeUD4T4+jsPX
-         X175fe4Ipco5e1CnVIV4gdoWJ2htM/aUCanLm7ccSU6nmK9S9i3pyJaN1zsq6xdy7LTp
-         ZiGw==
-X-Forwarded-Encrypted: i=1; AKwUvBy/D1oIq6uhEFGESk9EHLjeEWhS5kvrezCklr+dmZpPJcDtj1gIFq5SgpYcwBxYsU+TbiSH9ydKjtNusimf3Q==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKhoGH/Dy8WZMEQmqkv4PYu3xg/zLAsR/NhoPWFJ3p08nkPIHN1
-	uORbivHqm/iCmeRHhrULqp/w8Z0VgDWbKBwtUZYt3Ug2eo4Yynl9Z4TM
-X-Gm-Gg: AYBFou2x6A1MTpSriI9f+n+AQ4qOl4yj80cRz3YGGwchr2/lfintX5+CgLKqjUngltW
-	lVBRgyw9iORJBeXT2X2zlV2pLGeIeeVhyIXrwNccJlQWMDcbP7Y7Jx+LGebhTkty2ZtSIjNm/w5
-	cWsCnw1RWeCCEsZ833vFv9nB6ZI70CGm+S8/z6JYqYHMn+vO1gUJU8Vj7jpYRuAbBV/RXH3JzHu
-	B0mJoNeStzouhjron4vq5lJsJcgPdW8EgcYPEPou+d1tbBNk8nece7E2oOU9Oo0SK6Oo9aKX6R8
-	+6aTFnP6xpReaxBtpumviuBDwc6QpZnmGL+ydEGoaB1KWyRFISsQduf7MW8vC3LUizQvXlEfbUC
-	VyrMmi2/uWtgEyVRxKFA/fXlx4pGZ3S/fwdKDA/gYWF3nxLRofaiHrEIo0rAygjFb1U2PZxCcT2
-	3aUvX7IlhA8J6UC8uAZjRj74bDRLr2Q7EONuNItDMjcjt3w4vsbS1Twrk52WMMQoCAFdXGhrbyg
-	HLJio/KuvExbpaXt75VoepWQIqYzaf3Izx2NTZAJbrwInsnaMyJDWdpF/Q5wxtXlaGEagVprTgD
-	nFqOUgGmfn7Ta6j1YWrK1SWbf86RkJ+gGTBdnksiUcmh+CKQqT/DFFKU+kS3F0NAIrJn1kkBStr
-	2Ufmu1gM0k2XPI+wxBI4TG1qdnIn38Qq9qzEoStJ7BWhxBE1JuVbcTC0Yq4sMcPDPwpz/3IZ3xm
-	2zrtQVMmRGRk6z0YUe9UDs1iBJq7Briml9gB/8KzCpHagx1nQQsg==
-X-Received: by 2002:a05:600c:8b01:b0:49f:c5aa:9ef4 with SMTP id 5b1f17b1804b1-4ac16fa4f73mr122793835e9.8.1793452185480;
-        Sat, 31 Oct 2026 06:09:45 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a81d-e001-9c9b-db33-f166-0fda.310.pool.telefonica.de. [2a02:3100:a81d:e001:9c9b:db33:f166:fda])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f322c46sm196891285e9.2.2026.10.31.06.09.42
+        bh=SCL+ExvyxTDNNteFin+VBl38Uc6A50cRx/B+LfB0KAg=;
+        b=qqLLiTX+eNmnUIH5dKtou0gHDWqVqlAbMaOhL8TlReGLpjm2y22KvEdoP4RASnUl0Z
+         eAFP9hVnzhmMvROnM3eAeCuuFE+lsC9vqhJcg/4lmxgO/3YWy+GhvTZd65IjUyGRkEnU
+         jcbXiIvnivQOOwIHjyNs+g8tO2V4hH+mi7FRIQbPpJ4GtIOlQ9ACMmr2b5eqqZDPFAyF
+         uZkiG8C6YOAzWXH1rSsuuvaeUjwaC8pix56zuG28ubHRm8+/bZbRDavczqZH74yDGGZ3
+         82qkSu5LRAxliA/RbX5knhleGmg8a9IJ1btclac25EcA9RO+nCVqe0idxqmL2i9CcTrl
+         F3ow==
+X-Forwarded-Encrypted: i=1; AKwUvByjUd4yfv4U62YupGS6emDjsQCggQ+g1hdeXAGaobMJK08jBDeFlt0Ut5lGs9D/29YWANLJWbPRYg5w8P/7uA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL1PB5Hg+BSyb2sQZu+rvRJAne/ye/AdYv5wXyXa19ub1VvX8pz
+	JCNsSPFgCSVZUfLdictnFMSU1hh1zHg04kdRDKgpda9WTEBifSmba8PUlkGv9Q==
+X-Gm-Gg: AYBFou28KqtWCL0OxSEM0t9QlUm8jPWrAZ1VPy0jvjmcR86tCT0y3LBJpVoJqB8S4Pp
+	FO4skOq4HTngY/9nEEpISgw/xTtLBy7kBWMMTibrs7k8HNIOqUS9Esif/92kodKYXHf4MVq8tB4
+	QWO+x/93juHcdtuDV5MP71WmhD3wFKdkeRF1V5FGN9ZldYl1nBEvudBHW0bYulXSRdVey3xbjjB
+	zUqgu8aWknf9TPTyAaDndeJ7GiU0xzupbh1q78pKY4t3bzIrmHUnCmhxXMEdcgvCzfN3I0BFt2t
+	R9yCpLNTLwQw3o3XxbDyQx3ftzHWr3aOFdY0l2MTokpsp0cpnpVtoP//hUJM/eQqyJhaO8RdOMi
+	GJsGuxxj71NN1N5p6VPf4uzqNs6k4g8munZQoib4IBF8YZc0pSKQEMutDG8B3v43tN1AUTpT0Hc
+	HE4rS48d4llWOdUw3BpNQWmQ218A5/pi8rwpqHHKI0Xx8pYlPCsLXiyudj5AoKTPxVOHyZGAGHc
+	wlDur68PBxersaDZ3MyfkaIYysTCSfc34PuFUjJTmu0zWHmUqLi9VL/zuBJ/UJOvGF/m9rQNztQ
+	YlKi71SyyFqTZ8SqYgb3MzGRMoViZMhdkfuLeRfg7zRluGv4GGVhe5GNyQWISko41CCP/CQCqbW
+	eI16DhysZgx5ybIfJxdaoAREVaDHglME2gxl1zJhJUuzUatTHH4yXthVVMErWj4I3VbqP
+X-Received: by 2002:a05:6102:3706:b0:7bb:c382:2ff4 with SMTP id ada2fe7eead31-7d0726ca2femr2413661137.20.1793464290850;
+        Sat, 31 Oct 2026 09:31:30 -0700 (PDT)
+Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-992ee41f108sm7037066241.7.2026.10.31.09.31.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:09:44 -0700 (PDT)
-Date: Sat, 31 Oct 2026 14:09:42 +0100
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Marco Elver <elver@google.com>, Bradley Morgan <brads@mainlining.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] sched/core: Pause KCOV in __schedule()
-Message-ID: <auXoWFzEuirP2IuC@gmail.com>
-References: <20261005185803.39170-1-kmehltretter@gmail.com>
- <20261005185803.39170-5-kmehltretter@gmail.com>
- <20261030142354.bbc5e7f26fbfb6a8eee21290@linux-foundation.org>
+        Sat, 31 Oct 2026 09:31:29 -0700 (PDT)
+Date: Sat, 31 Oct 2026 12:31:29 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jingxuan Xie <jingxuanxie@deeproute.ai>, 
+ netdev@vger.kernel.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ John Ogness <john.ogness@linutronix.de>, 
+ linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev
+Message-ID: <willemdebruijn.kernel.54d115047658@gmail.com>
+In-Reply-To: <20261030081704.251652-3-jingxuanxie@deeproute.ai>
+References: <20261030081704.251652-1-jingxuanxie@deeproute.ai>
+ <20261030081704.251652-3-jingxuanxie@deeproute.ai>
+Subject: Re: [RFC net v2 2/2] af_packet: retire TPACKET_V3 blocks without
+ waiting for copiers
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -109,34 +111,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261030142354.bbc5e7f26fbfb6a8eee21290@linux-foundation.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 30, 2026 at 02:23:54PM +0100, Andrew Morton wrote:
-> 		__attribute__((no_instrument_function))
-> 		__attribute__((__always_inline__))
-> class_kcov_pause_t class_kcov_pause_constructor(void)
-> {
-> 		class_kcov_pause_t _t = { .lock = (void*)1 },
-> 			*_T __attribute__((__unused__)) = &_t;
-> 		_T->paused = __kcov_pause();
-> 		return _t;
-> }
+Jingxuan Xie wrote:
+> From: jingxuanxie <jingxuanxie@deeproute.ai>
 > 
-> Adding all this goop to core scheduler functions on non-KCOV kernels
-> won't be terribly popular!
+> TPACKET_V3 waits for a ring-wide read lock while holding the receive
+> queue lock before retiring a block. On PREEMPT_RT a preempted copier
+> can delay another packet path or the retirement timer until it runs
+> again. This was investigated after an approximately 355 ms retirement
+> wait in a PREEMPT_RT deployment.
 > 
-> A bit of macro magic can trivially make all this go away for non-KCOV
-> kernels.  The overhead is probably acceptable with CONFIG_KCOV=y
-> kernels - seems it's only enabled for debug/research/fuzzing kernels.
+> Keep copy accounting in each block's existing private pgv descriptor.
+> Seal a full or expired block and advance to the next block without
+> waiting. Retain the original descriptor across copying and release its
+> copy reference after all packet data and headers have been written.
+> Publish sealed blocks in order when an acquire read observes no copies.
 > 
-> Ditto the hrtimer change.  Aim to make these patches produce no change
-> in generated code with CONFIG_KCOV=n.
+> Publication runs under the existing receive queue lock in packet
+> allocation and timer paths. Completion does not reacquire that lock.
+> No worker or publication budget is needed. When traffic stops, completed
+> blocks may remain unpublished until the next timer callback; this does
+> not promise a hard capture delivery deadline. Ring exhaustion can still
+> drop capture copies.
 > 
+> Use each retired block's saved last packet and its own cache-flush range,
+> and exclude sealed blocks from allocation and fanout space checks. Poll
+> uses the publication cursor instead of the producer cursor. Widen the
+> producer index to cover the same block count as the publication index.
+> Allow an exactly fitting record so a maximum-size first record cannot
+> cause an empty block to be reopened instead of advancing publication.
+> 
+> Reproduction uses a QEMU ARM64 SMP PREEMPT_RT kernel with validation-only
+> instrumentation delaying an outgoing copier after frame reservation.
+> The instrumentation is excluded from these patches.
+> 
+> Fixes: 632ca50f2cbd ("af_packet: TPACKET_V3: replace busy-wait loop")
+> Assisted-by: LLM
+> Signed-off-by: Jingxuan Xie <jingxuanxie@deeproute.ai>
+> ---
+>  net/packet/af_packet.c | 140 ++++++++++++++++++++---------------------
+>  net/packet/internal.h  |   9 ++-
+>  2 files changed, 76 insertions(+), 73 deletions(-)
 
-Good point. Leaving the guard outside #ifdef CONFIG_KCOV was an
-oversight in v2. I will fix this and the hrtimer wrapper in v5.
+This is still a very large change across many chunks, for a fairly
+small well defined problem.
 
-Thanks,
-Karl
+Let's try to a find a smaller solution to this problem.
+
+For instance, switch to a non-blocking write_trylock for block
+retirement. If it fails, it will retry in 8ms.
+
+Or, if spillover to the next block is really needed (explain why),
+at least simplify. Do not allow running N blocks ahead.
+
+There are also bugs introduced in this patch, which is to be expected
+given its complexity. Instead of focusing on those, let's try to move
+to a much simpler fix.
