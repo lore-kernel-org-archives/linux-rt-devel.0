@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627173;
-	b=1Cb7IEl7BS+FHVtzgWmrC1QC+ktPvo88lfc5iKo3MS6YVCGJmTkiY5cvGbhuwUvHzKgm
-	 WAJNmhnJ/8x6xoMXy8+Un+Cj46UjqQwCnC17MTfNfjGRmLXXuXJFmLZa7MRzi4CF7diDS
-	 WZHTJpgAtRNtD8lkEnL0uAmFlrf0T114XQaNZTZRjFpjJrPEyzeqoA1LsCcwhl/lzdG/j
-	 0EkOWLJVx4Bv4vIMovP6zooCS1TAj87iEDaFWv1qxML3zjzljEMr1NZXYaJFKLoM9b3Ls
-	 I4KcbO2vOg9LVxpdWHG+CNeq9e1QpFTP+lvpsrJy2+hzx/uXj0NYWW/c1QrFohS8+ew==
+	t=1793627667;
+	b=ibhC/siouLhCkiBn9uvGlVonW9e4XyRXqeG1X4YI5J1GkCXUPp2No2voE0HCi8QMTQiW
+	 cP2TgUj5uStneeDHiFy7ztdGU5JR6jDJNhwBpTwYZTmCsSaB03yehmG83S09Vsxpn/F1K
+	 J+TZu9JSFnFivizh+oMjcRtGdtNaip/BtRfC9LRQ5+LKLlyk7CQiKovyblFoF4jDd+oa1
+	 5lbYwgmaKg5csex6st6HraXSoX8MBZo3TRhwS5J5/aCkLzNcyrSdCvtm0UAxDqOsTSB4l
+	 YeSNXLlHFJ6bYhlDoa6MZxFehINUkgJ145LJRM0pRzEybPPo/lqD5hRVdq5HxlsoFyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627173;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793627667;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=iIKunQE+SicAhyjZQ/MMzEjIQWaAEW2rMinTZr7v7uI=;
-	b=dyHOsX2bUXV1F3dZ1YlKMH6MfBhVkDaLG5q+EpSZbryk0lm95veUv6/j4h0m6uYmDc3B
-	 KEdbnY/y+HA4IW6OkzAcA01jHsqwWu0uacO4xVPYl2MX/xwl832ZIL7PGmifZIKHyfFq6
-	 A8YjV5N7+onuvWNJHE2wALXNJE+x104aMbtHn8fJOOE7CxZbdcpS1ND7+LXDKldpF21s/
-	 swXu6vn2qno+M5qmZ4dAfOWhrGbmj/noF66mDd43ji96z1YJ1OJKq0jsL9jslQfAD9HUF
-	 EZDdD279x4HXcQjKgnEuqQloXXGrRGA9H0hzpJaSkBh+fY50I51i+gzipy6dVPPahGw==
+	bh=lIefd9a9G0gKsYsn6Cn42nkLbuWYrCDoWkU3bV3hULo=;
+	b=l11BlPs8b8gJrF0Ga0jh1HxHVoT8ZWl+SGgDGRiaY8C33EP88lUNIBZEQFb8OvZG4rHW
+	 Ai+PpUeDspv1P5xDLNyTWw7cKBy8Vbtq1CHJ1Bn6Sc980L76Q9XSabEmm4SImp8MOXxzf
+	 4YhcvIv/jlCDzA+SKaOO+tPxn05jEcxgqgg5zfHdBWBR+KzFOvJBsd6oJQGdpwCgZYBTs
+	 cxFuXFW0io2+wh8iyUxV3OgSa9rZOtIgsf7LmPMeH1H56PqHZJO+lA6r8ckkMGm6ZLs01
+	 62HgWYxKDL3+8g5BREX7/vLwszxhagGd+kLVhlNtBi76/eRZJcaw5Z77QpDki8NS8Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GTIdO7nD;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="JQ8/fcdl";
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59D3606A326
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 13:46:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D59D3606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0D860A2612
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 13:54:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF0D860A2612
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GTIdO7nD
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so34725505e9.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 05:46:12 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JQ8/fcdl
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e10a70540so1693593f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 05:54:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793627171; x=1794231971; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793627665; x=1794232465; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iIKunQE+SicAhyjZQ/MMzEjIQWaAEW2rMinTZr7v7uI=;
-        b=GTIdO7nDFHSSNpCOrNa+XUpCb/uC++GiHuMMDdX49M5hp9GRTFW5mhkvVXf6T3kdyz
-         J+ZUsVN6UyAXXhuaYcS4zpjQKgX01zzQ7dKpBx4rfuI+Ol2CL60NG/5IYRTcoLz9HL61
-         Mn94DGp6mhK3Bcv6MppWiocpY7/JlMmiuxXkNUNDF3bRbBnn4WZP9RuZ0UVNvTCnizI7
-         1GUR4YPnpSPD64NohbKU98eJixVD4AjqRNLdiMwRhxWDx7c3WEl7XkSSWlQxdKzGCpzJ
-         MClRDIemKZlUpC+RdRAJbSly++Mla3XZ3yG+3aGOBUkoH5QuW9nPhlKhHWF2sKscsbbl
-         Z6/g==
+        bh=lIefd9a9G0gKsYsn6Cn42nkLbuWYrCDoWkU3bV3hULo=;
+        b=JQ8/fcdlCAO9U0q6NSTqQTBMyxlh7wTwLz8VgQu7z5CdOkwsmEBjM3ggMncDlYyTMP
+         8MSNVwghtM11ZHXxqpbx1wOGUt5bxNHyUedA+mKP96T/md++ZvmYEVdeWmGAXAfEGgYg
+         cgwJIv1f2kwGJs8AK4Q9ZZwhM99gBdcM9A5VAbAjdgXP7rhfNdhjO++nEiBPvqqfplFE
+         woYsXnC3/0xPFg3KpAZ8AvfPs8SG6JjRIMFaFba45dUd356RX8023/U0bLjFRavkUFeL
+         J14HbT05y3yTDqdITs1ijWZ3y7SOB6R7WylwIr1nnqITH5qN5fZN7SgKK/t42wE+KwLv
+         dVhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793627171; x=1794231971;
+        d=1e100.net; s=20260707; t=1793627665; x=1794232465;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=iIKunQE+SicAhyjZQ/MMzEjIQWaAEW2rMinTZr7v7uI=;
-        b=YU3sroamZkl9ZvmLLpqbcfnzTOvP4q59O/MzZcZJzMejOKeNVJmG264X8K+qCFf14x
-         IEHdRCsUP5tQmH2WM0UOTkl64eNhwGycVfVTecCSowvcbK+7BcXf3qF+eLCgAtVPMxPg
-         aYfVTmqWHDWY0Rc/8R6lahmY8eWHZVe8oujZGPNT8b1hYHYa/FxD4CMnAaUjIoaA+t20
-         iU6CQWdd4JuwnjkexhymiYMaOggKGS5tikvwatD+gP2Lx1fwmpWSXLeR4XjvXJSExSXs
-         WmUb+I3l5jdDmNowqK4cXoQoG4+riQJOfRFHp8sTJ/oYT3+N9rrExE+TKQgplsK0lq6m
-         munw==
-X-Forwarded-Encrypted: i=1; AKwUvBxRIcqEqLBuZO8g92oLONGP1rbjiw5Nh6tH/NbNXqldlabD98qdy1ICuNOkS4PU0ESksmP1bTDh7SVR1LliaQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLaJn5xT7XTql0TdAPLDoYLIgZCO7PXjykm2Xr5LzJlU+4ChMkm
-	0Zjjbou11oU/64sAnOcTf/igbQAfZCP0IuommsWivO5ERj4NCd5E8Q6I
-X-Gm-Gg: AYBFou3bo0e/2wQNvLkaKcPgSpUCAG0j6/RWGqpWr35OSUtp1Dbal6Jvvn2TFWIUMAt
-	QM+nrRmLPOPlJt1/Rzfr6amf6viyM+eR4Bva039xOgdANF6XIH0xGP5qYaROa6J02BNCLFIChFF
-	5VJyRuSqhY1VFDRSA/GpeehXuq2MZAbxKEpqG3UyZNL3afDA0/bb2YnGkNo4l8q+Mw7zwpWGQrS
-	n7yHBYEpOVLU8OnTTvhj457w4/E7jkunPFrDXJ5Gd5N/tWyBaNN6GSXoeWRbSQzj8VRn2i4eEaD
-	CHMYekSWuXPq6quGBGT5v8fIQThv7lHb2EGogNe+tcBgFlClC8CVHk+tmzVZhgONddUU3FP6L62
-	hDdHuaI+fOyj+j9Pxk5bwu3WJ3EfasZef4Wc/tp8bqOtTBVGxOrVad7dFJp2kKJ5irtzdXfHXnS
-	vXUFlMyfOqa+3ltJGmTaxCiW/BWaXGGbgQzggoQ2ttWM44cIxjLnSWgMOy0NcBNC7BQv5UYRwvL
-	Lp5DXHEJgGi6TsJQ3hOQq3pq646FBwYjLjPqPR1LedhWtkNOhnkytGd3ouykjKbeDADmrvg34St
-	J40nBaCRa3c9Adzs89FA7K/OAeF05a+3MH3RkIk/KPEgVqxwASNRn/SafEdsxyCcsxjOtPaBmsv
-	EDrqnAPk8Z3LGSHNI8fME
-X-Received: by 2002:a05:600c:848c:b0:4a1:f99e:f22d with SMTP id 5b1f17b1804b1-4ac17471091mr245581665e9.6.1793627170881;
-        Mon, 02 Nov 2026 05:46:10 -0800 (PST)
+        bh=lIefd9a9G0gKsYsn6Cn42nkLbuWYrCDoWkU3bV3hULo=;
+        b=icB6s1rMedKXOt9X5SLY2BYUfghD6BB5B5X8jyROCvdJr2MCSeMrP3n1TDU/gv+93D
+         WQaoDXea4UeD22figVSTlMd4kapRaYfW4RPuvk7KiFRRKnbznixK0bKCjWJHY/etoOm+
+         ghztyzHSs9B6TIstCk0YbrJGYM28CL0viG/MmQhzI6m2gmSuuHsCkRujItoMwCOc8b3x
+         FFsQxKNxxvJC7Pehh5KtasYyJK7y9MonJF7DHLFCwoXG99okQiYPaUhXpddaK+JST5dD
+         OyNtyccicjYGzEfEcFoZAZuVp0QFSEvZoOMQsXamp/ymSaE+X4L2AeAXZZW6eWaO6yE7
+         QS4w==
+X-Forwarded-Encrypted: i=1; AKwUvBzCWE9P9Lj2fIovGzDXRk5D6R8ZYdq+nFa6gN1sbqsFARxfA/P9+9rMtD/in/ov16UlZyQhkVeAb9O8p1DvmA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8QKsYEY5JHCCsyG0ALYsSnAv+Vz6rVAO4SZ691lLxfvyQxK3Yt
+	lmfRb5JMI1dCKDgRcpZQmx6Qt9COHVFiHdyoE2YF9NceK2HFJC4VO68k
+X-Gm-Gg: AYBFou0syPJiOdehd6sRpDWT/C75db+4Qx3m37UHUpkSBjWf9AeXuVXg3Zbn/FI6eYv
+	5rGPSItaqvAM5fT3N7KPScgXNHHGwWjDBBa+quwTiYpL7/0MHoHThl+BtNjkGyvsQbacr2w3p5+
+	LMGrbkqpqv14N6OWDJ1j8/hLTsjqJPibl5vQizIu2PYbTgyb/29vgGv6R2P5Ui4jtwVOE92bLyQ
+	5b0jfd8HJ/SUALWULLC19ZDRSY1fATFyW3WtlP0lFW88AFpR0E+OSDH+vYyZvJ955HOeeMAar6q
+	BrqmCKXcIwaWTzx+nSoXbMVq1p4nHf24JbSLfF/P1DBLFNx2bBE/RAXAQLEohnjqv0S4hbHVcfp
+	56rnovdQxp/alzLytqYhq2BtDBePlMDyGFEu25fiVg6ZrJmuvh+4etka9azxLLzzJrWDJaGnJP/
+	p22ZLI4UUC4YaR6jAtTcEZbMLzzK8y9Oj1UZmW40rs14nj0/3fdUpqvBXjg0Phq+QpukbBWoYGD
+	/c5rYJEp9D7fiBBslluavwTdnWUBkmRCZiKHIB5Bgg13O2wT2x9p5HMZbHF2SRz15WBXYYpj058
+	xadeg1+GwEhg1QYPaNxGRLmW0QZx/k6qXWOHhUHEgqSksroJipFoWg2/BQEn1uLndMwW9UM/cvs
+	=
+X-Received: by 2002:a5d:6f0d:0:b0:48e:19c7:6e23 with SMTP id ffacd0b85a97d-48e73e1be0emr19149710f8f.37.1793627664934;
+        Mon, 02 Nov 2026 05:54:24 -0800 (PST)
 Received: from andreayoga.wind3.hub ([31.189.68.219])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09cc3e9asm120156185e9.3.2026.11.02.05.46.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b77f06sm20138662f8f.21.2026.11.02.05.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 05:46:10 -0800 (PST)
+        Mon, 02 Nov 2026 05:54:24 -0800 (PST)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Ingo Molnar <mingo@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -90,16 +90,14 @@ Cc: Andrea Parri <parri.andrea@gmail.com>,
 	Mel Gorman <mgorman@suse.de>,
 	Valentin Schneider <vschneid@redhat.com>,
 	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Waiman Long <longman@redhat.com>,
-	Tejun Heo <tj@kernel.org>,
-	Hui Su <sh_def@163.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
 	linux-rt-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] sched: Fix cpuset_mutex double unlock in __sched_setscheduler()
-Date: Mon,  2 Nov 2026 14:46:05 +0100
-Message-ID: <20261102134606.242743-1-parri.andrea@gmail.com>
+Subject: [PATCH] sched/deadline: Fix spurious -EPERM for migration-disabled tasks
+Date: Mon,  2 Nov 2026 14:54:19 +0100
+Message-ID: <20261102135420.244745-1-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -112,66 +110,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A sched_setattr() with SCHED_FLAG_KEEP_POLICY on a SCHED_DEADLINE task
-unlocks cpuset_mutex twice if the task's policy changes concurrently:
+sched_setattr() can refuse to make a task SCHED_DEADLINE with -EPERM,
+even though the task's affinity covers the whole root domain. A retry
+can succeed, but the error blames an affinity the task does not have.
 
-  WARNING: bad unlock balance detected!
-  7.4.0-rc1 #1 Not tainted
-  -------------------------------------
-  repro/126 is trying to release lock (cpuset_mutex) at:
-  [<ffffffff9a17cacc>] __sched_setscheduler+0x9cc/0xc40
-  but there are no more locks to release!
-  ...
-  Call Trace:
-   print_unlock_imbalance_bug.part.0+0xfb/0x110
-   lock_release+0x286/0x2e0
-   __mutex_unlock_slowpath+0x1a/0x400
-   __sched_setscheduler+0x9cc/0xc40
-   __x64_sys_sched_setattr+0xa3/0x1b0
-   do_syscall_64+0x106/0x5f0
-   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+__sched_setscheduler() tests p->cpus_ptr, which is not always the task's
+affinity. When a task is scheduled out inside a migrate_disable() section,
+migrate_disable_switch() points p->cpus_ptr at the current CPU until
+migrate_enable(). On PREEMPT_RT every spinlock_t holder is in such a
+section, so ordinary kernel work opens the window. Elsewhere, seccomp
+filters run in one.
 
-__sched_setscheduler() samples p->policy before taking any lock, and
-restarts from the recheck label if p->policy differs under the rq lock.
-The restart drops cpuset_mutex but leaves cpuset_locked set, so a pass
-that no longer needs the mutex still unlocks it on its way out:
+Test p->cpus_mask instead, which keeps the task's affinity and is what
+sched_getaffinity() reports. This should be safe because an admitted
+task's cpus_mask covers the root domain, so set_cpus_allowed_dl() moves
+no bandwidth when migrate_enable() restores p->cpus_ptr.
 
-  CPU 1                                CPU 2
-  __sched_setscheduler(KEEP_POLICY)
-    policy = p->policy /* DEADLINE */
-                                       __sched_setscheduler(SCHED_OTHER)
-                                         p->policy = SCHED_OTHER
-    cpuset_locked = true
-    cpuset_lock()
-    rq = task_rq_lock(p)
-    oldpolicy != p->policy
-      cpuset_unlock()
-      goto recheck
-    /* no cpuset_lock() this time */
-    ...
-    if (cpuset_locked)
-      cpuset_unlock()
-
-Without CONFIG_DEBUG_MUTEXES, or CONFIG_DEBUG_RT_MUTEXES on PREEMPT_RT,
-nothing warns. The second unlock still clears the owner field regardless
-of who holds the mutex, so another task can lose cpuset_mutex inside its
-critical section. Entering SCHED_DEADLINE needs CAP_SYS_NICE, but a
-racing caller that owns the task does not need it if it samples a policy
-other than SCHED_DEADLINE.
-
-Clear cpuset_locked when dropping the mutex for the restart. This should be
-safe because the flag is only tested on the paths leaving the next pass,
-after that pass has set it again if it took the mutex.
-
-The following program, run as root, reproduces the splat, which no longer
-appears with this applied. On PREEMPT_RT it crashes the kernel within
-seconds, which this also fixes:
+The following program, run as root, had 553679, 453720 and 424623 of its
+1000000 requests refused on three boots of a 4-CPU PREEMPT_RT guest, and
+236182, 217174 and 237183 without PREEMPT_RT. With this applied the count
+is 0, also with lockdep, and a task pinned to one CPU is still refused:
 
   #define _GNU_SOURCE
+  #include <errno.h>
+  #include <linux/filter.h>
+  #include <linux/seccomp.h>
   #include <pthread.h>
+  #include <stddef.h>
   #include <stdint.h>
+  #include <stdio.h>
   #include <sys/syscall.h>
   #include <unistd.h>
+
+  #define REQUESTS 1000000
+  #define INSNS 300
 
   struct attr {
       uint32_t size, policy;
@@ -184,103 +156,100 @@ seconds, which this also fixes:
   static volatile int stop;
   static volatile pid_t target;
 
-  static void set(struct attr a)
+  static long set(struct attr a)
   {
       a.size = sizeof(a);
-      syscall(SYS_sched_setattr, target, &a, 0);
+      return syscall(SYS_sched_setattr, target, &a, 0);
   }
 
-  static void *sleeper(void *arg)
+  static void *worker(void *arg)
   {
+      struct sock_filter f[INSNS + 1];
+      struct sock_fprog prog = { .len = INSNS + 1, .filter = f };
+      int i;
+
+      /* Reading the arguments keeps seccomp from caching the result */
+      for (i = 0; i < INSNS; i++)
+          f[i] = (struct sock_filter)
+              BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
+                       offsetof(struct seccomp_data, args));
+      f[INSNS] = (struct sock_filter)
+          BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW);
+      syscall(SYS_seccomp, SECCOMP_SET_MODE_FILTER, 0, &prog);
+
       target = syscall(SYS_gettid);
       while (!stop)
-          usleep(1000);
+          syscall(SYS_getppid);
       return arg;
   }
 
-  static void *switcher(void *arg)
+  static void *hog(void *arg)
   {
-      while (!stop) {
-          /* SCHED_DEADLINE, 2us every 1s */
-          set((struct attr){ .policy = 6, .runtime = 2000,
-                             .deadline = 1000000000,
-                             .period = 1000000000 });
-          set((struct attr){ .policy = 0 }); /* SCHED_OTHER */
-      }
-      return arg;
-  }
-
-  static void *racer(void *arg)
-  {
-      /* KEEP_POLICY | KEEP_PARAMS */
       while (!stop)
-          set((struct attr){ .flags = 0x18 });
+          ;
       return arg;
   }
 
   int main(void)
   {
-      pthread_t t[5];
+      pthread_t t[9];
+      long refused = 0;
       int i;
 
-      pthread_create(&t[0], NULL, sleeper, NULL);
+      pthread_create(&t[0], NULL, worker, NULL);
       while (!target)
           usleep(100);
-      pthread_create(&t[1], NULL, switcher, NULL);
-      for (i = 2; i < 5; i++)
-          pthread_create(&t[i], NULL, racer, NULL);
-      sleep(30);
+      for (i = 1; i < 9; i++)
+          pthread_create(&t[i], NULL, hog, NULL);
+      for (i = 0; i < REQUESTS; i++) {
+          /* SCHED_DEADLINE, 2us every 1s */
+          if (set((struct attr){ .policy = 6, .runtime = 2000,
+                                 .deadline = 1000000000,
+                                 .period = 1000000000 }) && errno == EPERM)
+              refused++;
+          set((struct attr){ .policy = 0 }); /* SCHED_OTHER */
+      }
       stop = 1;
-      for (i = 0; i < 5; i++)
+      for (i = 0; i < 9; i++)
           pthread_join(t[i], NULL);
+      printf("%ld of %d requests refused\n", refused, REQUESTS);
       return 0;
   }
 
-An LLM helped find the PREEMPT_RT crash and write this patch and its test.
+An LLM helped find this bug and write this patch and its test.
 
-Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://sashiko.dev/#/patchset/20261016062629.2102883-1-sh_def%40163.com
+Fixes: af449901b84c ("sched: Add migrate_disable()")
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 Cc: stable@vger.kernel.org
 ---
-Sashiko reported this while reviewing [1], which adds another exit from
-the second pass. The bug does not depend on that patch.
+This textually conflicts with [1], which rewrites this line and keeps
+p->cpus_ptr. Whichever goes second needs to keep &p->cpus_mask.
 
-Tested on x86_64 with lockdep and DEBUG_MUTEXES: the splat fires without
-this patch and not with it.
+Also tested on PREEMPT_RT with lockdep by holding a 1ms/10ms reservation
+for 3ms at a time, so that tasks admitted while migration-disabled reach
+migrate_enable() as SCHED_DEADLINE: no warnings, total_bw unchanged, and
+none of 6788 requests refused. Without this patch, 826 of 6645 are refused.
 
-Also tested on PREEMPT_RT with lockdep, with DEBUG_RT_MUTEXES only and with
-neither: each kernel oopses within seconds without this patch, and runs
-clean for 30 seconds with it.
+Other !PREEMPT_RT migrate_disable() users were not tested.
 
-The 2us reservation only keeps the test running: tasks leaving
-SCHED_DEADLINE while asleep leak total_bw [2], so a 1ms/10ms reservation
-stops being admitted after 38 switches on 4 CPUs, and 2us after about 2
-million.
+[1] https://lore.kernel.org/20261030151307.768523-2-atomlin@atomlin.com/
 
-[1] https://lore.kernel.org/20261016062629.2102883-1-sh_def@163.com/
-[2] https://lore.kernel.org/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
-
- kernel/sched/syscalls.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ kernel/sched/syscalls.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 45a127deeadd9..2af550f92ac65 100644
+index 45a127deeadd9..fb8f332074b88 100644
 --- a/kernel/sched/syscalls.c
 +++ b/kernel/sched/syscalls.c
-@@ -640,8 +640,10 @@ int __sched_setscheduler(struct task_struct *p,
- 	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
- 		policy = oldpolicy = -1;
- 		task_rq_unlock(rq, p, &rf);
--		if (cpuset_locked)
-+		if (cpuset_locked) {
- 			cpuset_unlock();
-+			cpuset_locked = false;
-+		}
- 		goto recheck;
- 	}
- 
+@@ -628,7 +628,7 @@ int __sched_setscheduler(struct task_struct *p,
+ 			 * the entire root_domain to become SCHED_DEADLINE. We
+ 			 * will also fail if there's no bandwidth available.
+ 			 */
+-			if (!cpumask_subset(span, p->cpus_ptr) ||
++			if (!cpumask_subset(span, &p->cpus_mask) ||
+ 			    rq->rd->dl_bw.bw == 0) {
+ 				retval = -EPERM;
+ 				goto unlock;
 -- 
 2.53.0
 
