@@ -1,100 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793634444;
-	b=SoyYEn5j5DekBibBr8OzInr9KUA51KY7KXs3o5W74KeNiC7FkCSV5pimLOQ1rXe+KV4b
-	 dwyP9qRCGef+IDgvuBNhRqbPeya1oR8AiHARxS1CsGxxzy1P7J1F/dce+sTUpvJ74FLQQ
-	 8uvgvy14lfc/EhI3nsj2h36luZGJpMrKRJI1PEmEIB9ktPcBiSfAa0sRi8YNERq9TzJo7
-	 6qBBayeXM4qd8sMI67+s2bSiFeOMqWf6aopq/JSIvHZgVEw08WLlt9O2bUlnRBEexXAP/
-	 Fdd0UpOfJNg2N8mIY/ZupcdiDyRcq0at/G8821aRz5Ge28Jb9WyPFSPRBcePUHWe00Q==
+	t=1793634780;
+	b=Pb+kUVp8suasAMGWYTozO5bOaS+dYn+V1okLGBbecyU+RZgL6blT1mQdIn1ihJbfezf7
+	 RBi9Br/LC4+VHF1w+kcoSwaX1H3j3T+l0bnPfk0OhfQmQ5+Vtkbbgk0210ICAtgwQkLaC
+	 cAqO9o0kOic8bv1YfYMNL9ZykMvSJMtXuRm2kI/EVH2oAhLoH4hVqECgUaI75l2B0gZAU
+	 18nSIGYnvyF25J3VJQUWumWHIh8+QgPhOAoN/C1I0iSu4wA2T/Lz+8xt89id63ikHEbFc
+	 QrSwPM/OHRaAK4V+53+4++KrRC0Vepj5EovmuAXM5X2u8g5DbJ+ZK6KSkpy8odx4AZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793634444;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
-	b=NESp96J5BEzVTUYPVDbQd+Bysa1Phnih5sGV4XcRSAjqGUU/jtDweNpeAT3eu+dzrUge
-	 AzWB34ac+KKjXOCXtleCivv7Ty7cKci4vOsaca0qGdwdwl4Hcb+4K9zaI+MR0pxzK1H9m
-	 ekcOzLa9Gp0JhOfOeNA8A81YcHyfDDtRgiZ4wWxMsuzu+r5hELFINcaIYYQg1cxEj98vK
-	 nTA6gjb1WWYS3zFVvh6Lr4mK3gOn+4zeMdhDFVkIZqrVm09QOhUDyMf0Tx27crR4Ge9dE
-	 H1xuDV+aZ9CqyZ+JY7sSwqEmnfR2nTYQ8MqZGHFIzFnroliasSBe+I44gqeN3qQl9+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793634780;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=qJ9CDNyfi0b8bi4oc+B3vwfFf2lhdQn7U7nevKnjIhk=;
+	b=C/ua8d3NsZf4HKZAX9EK4Mio1ZkZwT5ZiJggvBtjolyvOuO1j6W9PBm+B8iEJ3FZ9Yt2
+	 3Pa4Q7imVybdgNM/ROPpD96iQBswqZhHIXXZ2C+3NF8JItiICZrgSPe9pFn0do9R4ugMC
+	 c7hG/ms+wexK2cSFjlP+/xRTFFxVy+iyELeSBthpvWyS8jCzOJUW8+ZeVjAkae3cCDx8D
+	 EzmenK/AfHC99vFL40NIfSWAXiIKaV9h8dQ4WyXhV6QTnW6aTNXXnpG8xAeF4BrQIVdQC
+	 9rWMMC9+mvtVXAWDzczcUhDFfUqAOVJ8RSJicImYyPUiSBk+y1Obd2yUQRyRkvBavdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rC1l5dEa;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=sLffMh0B;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=V0mwhSgj;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7BB606B1D9
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 15:47:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F7BB606B1D9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8550C606D821
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 15:52:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8550C606D821
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rC1l5dEa
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a68f888a41so5490325e9.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 07:47:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793634442; x=1794239242; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
-        b=rC1l5dEa9QOqo+24JrMwSClwBfBK3zjCDn42COkCD6IaN5VUl3dNiEcWgErwN+Y560
-         jwzCYXlxYdkvMvS5EN4fjFBOW64R3uUaXha6A4uDfogZ7S1xHLlfzBOZLZ9lIGKFN9DE
-         rtXtz1yHQsIgZZHrjnS19dDMi7H+MaA0qOR2KybuB0pT9SfM0IbuCulAg6MbNBDMCWta
-         8r1vh2AvrRxXV/2T342Vmgc1SCIDpto1+wZwyzh0rBrDIcLT4ryWZD1HdVHvyuPz6JE/
-         BQG+jOX2aTfyfqptAmamYappdc+kTjPxeb8ybkXB+XHlz/pPSIERtjDtawodqapjsf2N
-         9b8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793634442; x=1794239242;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
-        b=p5h9v5SW2MECBGxVpQ1B4P12TrdEe/0JfTrEfDdTMeBmTbmVwzNiWYvom2R/aIOpmn
-         DUpMD2pNjGp4olDHctnheOd/tEKZQ+gOo1FwU04FdP9Rn0qrvJJk+jzQTgz2QcRu/EPc
-         nMkioSaYYTfiRb5iUlZzsT0qZX72D7bWdhXa3fCTQYMKw//2rLu6kDBPCbx9ldz0AUID
-         5oHvHam8lc0z+6pvTBSMKTSBalAAm9c7Pg81c2Wp1aqn2AaLCVszi34VKXgcJehkV2/x
-         0cC6wYIDH9Ld96omziFoKsMGQ5XQ+bonPJ3jsRXSMIm8OtvxjLZRdU1WoHG/YaLKNb2T
-         LBJw==
-X-Forwarded-Encrypted: i=1; AKwUvBzpPzrtBFTKgVM70M5IKN4M/3II6lho9Zxqo4T4d/HvPDskf8AHsWHKxgP3gRuCp+syzSkIlZhyvycdQqZtfw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLGHJJmJjDO6yraxIg47KbfSVsQ8xlfiPQhH+D2s8QEkKKFhiZh
-	7s0P3bd06mNUcr/6qClG4a0tlLMJBHm3uxeRno8w7xV8yq7FuyGWRygq
-X-Gm-Gg: AYBFou2MXh149vaK/Mmroj2/731toaFSlI7rp2743GE1zvVQBh6kpqdjp0GVe8Y76Wv
-	LJ2cehq9bFiWtQlwuD8YgqFkNSaCImbZ5PZr586f+kPdOdYQ9x+R3icJJnXhFj1W4mKr89akr0h
-	o4F1Yh4OexfbzCA1odyhlKpISbBe9xUzPGD643HLDj0UN16scvSmZP+lLYeMJCFZ0OrDxU6CrU4
-	/WNDcLpbznN9qm/u2kPtc79TpYD4c5nXcHMq0OHPOvKaVBjJk15eTxHxsDJTS5on/hE6ppfRJrM
-	j61u4rPr3m9tIgtVY6DCaJEGJndqeqmbP/6KGc6AFByPpI5oj4XgDAqyldP9d3JasIHQt2zGQbF
-	sSYtgrXGyPFH1Ni20BLWMaNj11LfzUbpSr3cgY6m3UfgBwvOdeD6nQNNrfJqANHL2eIxysvJHwU
-	DQfczGAz+iymr5MWAfP1RvldYLksLPBY66WaYwMsneq4176PnsrqJsYp1zUuRc2yV6YCeSNV7SE
-	LkKIyzHR1QC5Q/0VGcdNWfry5WOgPBeW1FclkSur964n4XTeX3onrRy2gVRAjls08TcZyZ4FKd1
-	8x+T/urnRXeEUnA5/HXYT9qJJabLsx6X3vk2O3um+e4zuOInvDzvZoIwNAdzQVCr/IQmMfHMjKY
-	B
-X-Received: by 2002:a05:600c:c08c:b0:4a2:1a:a115 with SMTP id 5b1f17b1804b1-4ac1209f120mr204038965e9.0.1793634442375;
-        Mon, 02 Nov 2026 07:47:22 -0800 (PST)
-Received: from scheduler.schedules ([85.100.66.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6e63e0esm359259525e9.12.2026.11.02.07.47.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 07:47:21 -0800 (PST)
-Date: Mon, 2 Nov 2026 18:47:17 +0300
-From: Kayra Cizmeci <kayracizmeci@gmail.com>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, Hui Su <sh_def@163.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched: Fix cpuset_mutex double unlock in
- __sched_setscheduler()
-Message-ID: <auimbkttN-iPGtwZ@scheduler.schedules>
-References: <20261102134606.242743-1-parri.andrea@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=sLffMh0B;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=V0mwhSgj
+Date: Mon, 2 Nov 2026 16:52:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793634775;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qJ9CDNyfi0b8bi4oc+B3vwfFf2lhdQn7U7nevKnjIhk=;
+	b=sLffMh0BUO9IemDLOjs2NyYeRf3SeBlmqDJBrgKsW9IQjwZZzCRZjTNz+JFi1uOQHs2JhO
+	t8n6uXSvMZ+oEa0OKraydUhCf2hvFsnlGcy+2gCaZkxXoQH7BC/UNVde3v/fdHWtYlLMib
+	gJBvkn3kY3U27G2+1txgjxx7eRmqCtaCxNEWIag/w8whkmGPX2eAZh1rAYRE439rC+UaRO
+	GkTaHit3rbRpqs4EVS/9T6+DmLTFeJfnN1I5oBLDp0yGwEoos5HnY0QDDQ/CyQBDXE/zKJ
+	eoU0Or7EzryAhwfrG4NmQLyehXZlkYaOSK2bZ1pLynT5JDjAgec2uKFbXgUKAg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793634775;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qJ9CDNyfi0b8bi4oc+B3vwfFf2lhdQn7U7nevKnjIhk=;
+	b=V0mwhSgjH0D0MmkE+M1GdYLYtfHRZlsuGY/SEpKYqSfuqBsTdtcz9evLm985JJo9IRPPEE
+	eLtdPYemoOCgQ6DQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Daniel Vacek <neelx@suse.com>
+Cc: linux-btrfs@vger.kernel.org, "Naulls, Peter" <PeterNaulls@eaton.com>,
+	linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] btrfs: fix a livelock in wait_for_commit() on PREEMPT_RT
+Message-ID: <20261102155254.XxBU8-kd@linutronix.de>
+References: <20261030153617.329733-1-neelx@suse.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -106,50 +73,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261102134606.242743-1-parri.andrea@gmail.com>
+In-Reply-To: <20261030153617.329733-1-neelx@suse.com>
 
-On Mon, Nov 02, 2026 at 02:46:05PM +0100, Andrea Parri wrote:
-:
-> A sched_setattr() with SCHED_FLAG_KEEP_POLICY on a SCHED_DEADLINE task
-> unlocks cpuset_mutex twice if the task's policy changes concurrently:
+On 2026-10-30 16:36:17 [+0100], Daniel Vacek wrote:
+> Peter reported [1] that running multiple RR tasks doing sync()
+> on fully preemptible kernel may starve other/normal sync() tasks
+> due to fs_info::trans_lock turned into rt_mutex.
 
-Uh-oh.
+I don't want to nitpick here but 
+/fully preemptible/PREEMPT_RT 
+/RR/SCHED_FIFO or maybe better /RR/real-time priority
 
->  kernel/sched/syscalls.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> This is caused by RR tasks contending over the mutex with priority over
+> other tasks, which in turn lack progress and they are no longer able to
+> remove TRANS_STATE_COMPLETED transactions from the fs_info::trans_list.
+
+Yes, the important detail is that rt_mutex gives the lock to the task
+with the highest priority even if it comes last and the long waiting
+SCHED_OTHER will remain waiting. In contrast to raw_spinlock_t (the
+spinlock_t on !PREEMPT_RT) will rotate over every waiter.
+
+> The offenders start looping in wait_for_commit() expecting the completed
+> transactions to get off the trans_list but since they're bouncing the
+> trans_lock the tasks with other/normal priority which are about to delist
+> such transactions never get a chance to do so due to lower priority.
 > 
-> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-> index 45a127deeadd9..2af550f92ac65 100644
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -640,8 +640,10 @@ int __sched_setscheduler(struct task_struct *p,
->  	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
->  		policy = oldpolicy = -1;
->  		task_rq_unlock(rq, p, &rf);
-> -		if (cpuset_locked)
-> +		if (cpuset_locked) {
->  			cpuset_unlock();
-> +			cpuset_locked = false;
-> +		}
->  		goto recheck;
->  	}
->  
-> -- 
-> 2.53.0
+> A simple reproducer can be found in the mentioned email thread [1].
 > 
+> The situation can be resolved by boosting the priority of the starved
+> tasks or dropping priority of the offenders. Thought this fix prevents
+> the situation from happening in the first place. We simply delist the
+> transactions before changing them to completed state. That breaks the
+> loop condition.
+> 
+> [1] https://lore.kernel.org/linux-btrfs/SJ0PR17MB4288C46458DCE2C015839D0FBB9E2@SJ0PR17MB4288.namprd17.prod.outlook.com/
+> 
+> Reported-by: Naulls, Peter <PeterNaulls@eaton.com>
+> Fixes: 5fd76bf31ccfe ("btrfs: fix relocation crash due to premature return from btrfs_commit_transaction()")
+> CC: stable@vger.kernel.org # 5.15+
+> Tested-by: Naulls, Peter <PeterNaulls@eaton.com>
+> Signed-off-by: Daniel Vacek <neelx@suse.com>
 
-So the issue is that when tasks policy changes before we come to this
-check, we don't clear cpuset_locked while calling cpuset_unlock().
+Thank you for looking into this.
 
-In the other calls of cpuset_unlock() this is not a problem since we
-just return and don't use the local cpuset_locked. But on this one we
-do. And if we don't retake the lock it just stays true. Even if we
-didn't claimed the lock. And that causes bad, bad, bad, bad problems.
-
-Reviewed-by: Kayra Cizmeci <kayracizmeci@gmail.com>
-
-
-Thanks,
-
-Kayra
-
+Sebastian
