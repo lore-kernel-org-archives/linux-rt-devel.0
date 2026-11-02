@@ -1,90 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.78
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793638822;
-	b=nXL/OWAflw3LRE/r7ZROxngWfaI7yBfiQjc+Cjj5+t+0K4N/fwl35Tfg3iR0dxVgVM07
-	 mP5aZExCRoVN7eIJUQ+UVvBBJFMmaDfYuVpH1pwXqmtA51bsXBTEbvsBV3T0L6NfGqHdo
-	 S6iTUNfeQ0iiSwUR2cNwZtx+cGOvahoRqC9B8Ak7IBCnsLkfhN5nD07jk2d4qA6e1CiB4
-	 pYsXlY1jm+vFpLGGO4y6xKJYMlry658po5SXTAFr5zIBruENUpn47t1BZ7T3XLJm2vmAG
-	 lf1KdHRv2aZL/cZGkg4D1tJjP1ITWE8d/steMefcWItUCjDgCukAy1tIcRg/n+GpTvg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793638822;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:Content-Type:Content-Disposition:In-Reply-To:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=j9oI0fLeZ1pjwibZu3lutP1KAB6Rovkz2jW5iHNIs04=;
-	b=UDuLr/3+1wLfUt6e/07h34dHSWXoYK1tsr1op2buvBiDuL99E4NtXd5ltLTvDgqJ0CBe
-	 9jmo48DI9Y2wDQMY0d/+Yu3oV5T47NHpDVif3iY7lCYrnlYS79LR0N1gGk+nQno2nZW+y
-	 HPRHX/Em2zthOODNkm22zSorja3LVybJTuzAvh4cWu0MO8MsjbeBMbznHEC+7i8iT8LOj
-	 rsQ21rPYg0IN+fOGzBEorNS1d8EFA6/ZRdVIYUNwiIr0mGpmPP81xds96iCV4cIqEZ0Rw
-	 HDgg9WXVeEHKVQgdPV+SvVqkzfWhP1TFW988AkUU6L959BsF5kWWpFyenow/bm84OJw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=atomlin.com;
-	spf=pass smtp.mailfrom=atomlin.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.78
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020078.outbound.protection.outlook.com [52.101.196.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.198
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793641418;
+	b=lXjFibhjfdNhVkxANozZ2O4LPLH+A2wj6ji3iTQBkCnlL1wl+G74Nm9POYhw5dhvmGkf
+	 wAfDG1beRLUy6JI+yWLmsfJ7FMFf8382PT/VoBiJWp2kcPf1Jfe113tkWW4gMnXVGOz6X
+	 wmbTQNvDZbj2SHQoZLQV+j8YgyxMv+MTLtr8xgSbCAr6fFPJFer5DWwJtFNQy9SCoWJdN
+	 AF1TUgiJ+dFbiOdjlVt091+06nln7yi87OW5XaSv8Mxvv48b6WIr7DNs2VgmDobgfs/jT
+	 65a7A/lb3AfEYTYhc/qTDi64emgWosjj/+oQhokSfV0pl5tP7XSB5gbz9Csy/exhrvw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793641418;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
+	b=3/Igid+viOJX+ARFdDTrit+9x8BUbDpNBPy4vEAcWPmkdblU7WgGSFy9upykC3pvARRz
+	 8YK/mV7RTd+0FhRxcRPoQklNP3FXi8IgO+nYasJfh+JzpZoeO/3sZiRLoeksrF+pd9/Fn
+	 3+VYZX3R6FMoRjgA3pK+tioq06QKxyDPUrrMnOr14yK59mDtzIIJNd0gSR2S7xSCa4g+C
+	 q1hgwcKeUiQnExFjyKl766v5H3KPpobi6teNCrKhlz5Ayb7DxoYhxL6Yq/uBAczXGGQfC
+	 Lmn+RrO+21De2zPnEG9E69E3GIEQjc0fLPsDadhAzQsM/63bU09ZVR9rKpruE8a+/qw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eO4x5WmQ;
+	arc=none smtp.remote-ip=209.85.214.198
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BC9606EE85
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 17:00:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50BC9606EE85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZF5rT/SCsyyvBaxSvuhy9/e2cLqUHz1OQQK/aklIQsi5qJU3V/miQ6pOaP6g9avhVZBjj3c5d7CO7829sKnscFLyIVe2jYzqoNv80tpB4UD7ByAvSR7/A+EU0ERnVMcWCAYodmaeFsZItKt/Khh9fnuO4bO7a4eTJtQGIkDTiKQmLU4HOXPRGYOPSW4XeCRCGGrHJ0rhVUy/8zL5k5hOCxmPnKOlyQ3ZBsCvWHD0LqW2OqaiRQ4WxToCzDSv1+lApH6+Ej1zVEZ/zySyp6CwEV4FmwXMPb4yfYErf1ZW1oXHXmYlXfN9l8Nuv7hQ6dK+C/WVFbrdDqg9YtlPFBeqzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=j9oI0fLeZ1pjwibZu3lutP1KAB6Rovkz2jW5iHNIs04=;
- b=FU+s/WjM1w9jhPJqWbeMbluzsLs6+e1Accu5AdAkjWMUFdI26SS2yVSGwVOv24opaB2rKMWdHo4g6a8q+fy6GKIEjteT+Cx7l0nDGULYq3zL/wQr7ETGr/Jnqmy4HOHhaIrcwSjrkgfZt6yIK2xD7i5+aZWGcM00ZhU5dHxWsBOaos1kRr2y6Ht67GlncTWcfC2w0hgIuP1SKizxvejTGPxnMGvpZNgs3yYRgGKurBljrpvapIMvuK7ShtmK0Ek/ZiBVpvL0uKWHUgyqXqu8mgZ9A8kzkWDem7Ig465CzVpyH9ccCz2K5NFtVWDdKwdE1GLX5FdBpsphvadzSE2cpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
- by LO2P123MB7408.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:31d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 17:00:17 +0000
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 17:00:17 +0000
-Date: Mon, 2 Nov 2026 12:00:11 -0500
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched/deadline: Fix spurious -EPERM for
- migration-disabled tasks
-Message-ID: <545lvmqzloqcwbur3yftkiy5zqube4purvuzmwvdqm6o2ft5xr@xvmqapbjumx2>
-References: <20261102135420.244745-1-parri.andrea@gmail.com>
- <v5c3zc2sy66bsummtsvw6ciri65kc5tphm6xs752ifh5eujn6k@qflvq77fph5d>
- <20261102151457.364631-1-parri.andrea@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261102151457.364631-1-parri.andrea@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0175.namprd05.prod.outlook.com
- (2603:10b6:a03:339::30) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:163::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6F606B1D0
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 17:43:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AB6F606B1D0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eO4x5WmQ
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e9821ca96fso52967345ad.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 09:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793641416; x=1794246216; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
+        b=eO4x5WmQbT8vQqilJziO3o11hS1goX2gdlU6DHfdKP2oOpZ9TY8vNCuayUQ79ItcQB
+         eUHy3Rqp9Yxg70SzEiX1leCWFzK8TnzKmA1Yunizx9JTPrs/rbPoq6sDOKNRFnGLsiyO
+         GAoMfEiwPUrkntINlANcbtEQyMGNKCXogQBP9n/N60n4h0Bv1JDnDzh83K0ltbVs2Cv7
+         dSGzkml1ikZ+jlVvrXEvXgllbTifwRDS/xZIyZgBpf0xpCl56RJFePhO3q7yiXmc0B+F
+         zhJv0pOKkU/nnRzH08lYskjjd8mcnlzzjFgl1LFbxPslSTxQTkpuq9OW9XoN5iH7Qkil
+         wyoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793641416; x=1794246216;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
+        b=N3zpYCZxwALFGj4/Sps+NRWlzNOiVbKg3xGeDNTFsL4pBTYnhbrhc1piWGsLbgzBUD
+         yLodg8cTTQ34uzRKH2FuQGcT3bwJAncPD8e/y2CHFZl0mSx+sVrKlo2r1H3qcpZOuSOX
+         0as13RN69KNpOEny95yataKBZ9LcBpWSxOTXuaKhhVUAd+56Yr1pU84bWZGy4WJ++DxP
+         irmy5i6m89uPHcq1rWXU0YXf7Q3gm8ZTn44a2y8je/64Bhpj6+W/Z3BNsJgr7Hjs7I0k
+         aYXTY5ellBM3cvQ+05jBoIg+SX2o4HXZCoItLaBnwbx3tXKt26G88T2OA007RivpJtpa
+         K4JA==
+X-Forwarded-Encrypted: i=1; AKwUvBwNOVisZ1P9SqY9AMrrSUKSPgGK6dhoIskAa4NEP5hdwbm/Th099u6U8MZTMjBMrsNHZd/Kvj9AhkTZPjMSzg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z92/ZqzkjcL5Gso5yU4ZJMlxifn5iLdhauGDNh71Yvxlhy4Oi1W
+	7qVWvf2So52EnkWbBfDhXo3rxXyVKevjOwtih9RpKqW48xZ3JFx2mtJihk33Ht9jyyLhEuXySZ+
+	Jn03hqw==
+X-Received: from plkg13.prod.google.com ([2002:a17:903:19cd:b0:2e8:1f84:7c18])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ea0d:b0:2e8:1d5c:f6f9
+ with SMTP id d9443c01a7336-2eb364715ddmr105628745ad.46.1793641416165; Mon, 02
+ Nov 2026 09:43:36 -0800 (PST)
+Date: Mon, 2 Nov 2026 09:43:35 -0800
+In-Reply-To: <20261027163929.2bb28d5b@gandalf.local.home>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -93,91 +77,152 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LO2P123MB7408:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a7afa44-2728-4823-22b5-08df3902c551
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|10067099003|18002099003|22082099003|56012099006|4143699003|261026140227099003|261022105027099003|261026121527099003|261022113327099003|261028144727099003;
-X-Microsoft-Antispam-Message-Info:
-	qrrds54ieXBWa20rKxLhbH/1eAnRVBj3mSF/5Js6pw2YA4tvjbBEieeS8hAecnX6+OcdaTSIattuIhJ6Xp7fYeoMDM/YhjG8yk62tQZWyOhJfPmtkfu6Gb271UDX4+7cYIpSIMU6wBEX8u9Q6D/Omv9t8FXoLfNdyRIfnQ+3Pu9EKk+mGqMUAELFrocIc/OjiVobbSvy6LergSmIzt6xZFsL9rATf+LbMiSl3e3IOyRhced0msXRepjFms0DdJGPmCbWQN2hlzR3Qnj5lCm/1xn23AXIW7mSkUZDLbJqBABZBeXXTy7wSbMFO9OyIr1GonzGC1+bmaMQl7TP8NZZ5X9kL4XiqRbcgT/RidtDRAi4YDEqF+JAMxPbK9vfXUnQg2nRcVhX7CgNYpxiwuD8zFtF+XK8HhFek3dccG3LoRUdceczJMsioNLLX1l8JZRlo4jkbItbSo3gA89C2oqtCEVEnEN6keyJIUGT08yT9N+HHlgt8j4+6anpw2BYJpEJZNyWgbLzHW9sYWMamHwexDl474F8gyC+IxKU+aSaqDjPZRyYQOyN1/PZSy6O5SwGbqZZ97OR7YUhC9jPZh2/NSnIFO5UP4/Wmru/4bT2gWM7bz/YzivFvtbMWMiPaXcSY3EBb3SEVK1gj7WYpkntqgFm98OWyXeBxTNb8paEoCQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(10067099003)(18002099003)(22082099003)(56012099006)(4143699003)(261026140227099003)(261022105027099003)(261026121527099003)(261022113327099003)(261028144727099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y0V1KzgyTWI0TDJVVlVnNUdWOVk3NHoveklJd0xYdkFvc3h2N0cxckFXWFBl?=
- =?utf-8?B?MlVKdnc2a0h3K0ZvTlBHa3gweVc1MnJRdmNFRjVIdEFET2NGSmY2TFE0OGh6?=
- =?utf-8?B?aTdwY1YvcUszVW4wNzFrUkYySm1nSG8vZnFsc2I4YTlwaGZrTlhDU2hmaFZ6?=
- =?utf-8?B?UFFLRmtTYUx3WnF5NnNSSnNGZzlibDZQZHBXN3hzQmxDWkptYVRTYlNTNXNj?=
- =?utf-8?B?YzhyRDJJbExRNFl4VjdjYlpDOVNiUy9zUjdwdDl1ZlZwaWZlUWpxRkl3dnVt?=
- =?utf-8?B?YWYzS2oxL1dMdlQ5a1pnZ3RwaGpRZXZwQVdBZXFuaVlkODR3ek5Db25OVzRH?=
- =?utf-8?B?UHZMM1FJNzNkZnVnSE0vOHIwT2FOL2pkbzdBWHRGdzBxWnVzcVFsVDZSdHBG?=
- =?utf-8?B?Tm9aRm51dkFVVXpQYncrbmlXT2xMTkRNSWVpd1Y1SjV5N3Azd1RXbDFsdTJC?=
- =?utf-8?B?RWhLNzVBbGE2MENHcHRWL2VidVVLME9iUUZRcldFOFMzMDdBZWNWRlRjUGUw?=
- =?utf-8?B?TWo0eC9mR0VhNVByQVlXS1BTa0d5VHI1YVNDU2xHWFJLcVBWVHBlMUt4ZGZL?=
- =?utf-8?B?bUpmNktnUklzRHZFeU9Hb2hSeFZaZXlVKzZxa3Z2V3FpbEN0UlZ2V3Q2UDZw?=
- =?utf-8?B?eWpmaHFsZDlmN1NKTHpEOUd4RjlLY2ZGTVYvTWUwcWVFaWNXL1R3TENiSTFU?=
- =?utf-8?B?dSsxdElHdHgzTHVJY09wbk1qcEdlbmgrNUUvMnhQQUtCY0s4cnpNK1QwZi9j?=
- =?utf-8?B?SjRkM0lWWGEvZkZ3Y2c2Yk5ob0RyeVFMekF3SzZNZkk3UXl4THNaQmFRUE1G?=
- =?utf-8?B?eHdKTW5wTHRIL1UxMDhCeUkyT3pEdW12V0poOEJMTU00TkR0VTI4VWtFNHBC?=
- =?utf-8?B?T2FtRnUrTC9jOThSWU1ZSjVVdGRPQnNjY29paGxGa00zQjMwT1BrdjlBRXpY?=
- =?utf-8?B?WmxFNDJ1czVpSjNXMERtOHhKVGJNdDVQUE1LR2kycU5jTzhEdmRLTDV1NDdV?=
- =?utf-8?B?RlVlVFpScUhnMldDanlML1E1SlkvbWtTamZPRnkrT2k5UVh5QkpMMTM0ekVa?=
- =?utf-8?B?SUFRR2hVNEFaa3VXN1ZHdWNEMHlUTG1VUFZzbCtOSUF5MVVQbENIeTFDdlNY?=
- =?utf-8?B?U28vNjlCM3ludi85Zkx6RlBXOVNiTmxrZmRyemh6R1AvNkhmeVRud0RLa3Vl?=
- =?utf-8?B?ZVd5V3hlaFFlbkEzMlF4Sm1BVlFodHpVYmxWQzZBYmJWNml5d1VFOEU3ZlEr?=
- =?utf-8?B?OUpmMzYyWTk1MGVvb2RyS1dId25yUUU4cVhBdW1XRkJsUzlTTTFDWGYzZlFx?=
- =?utf-8?B?YWRib21aL09xdWNKM1JpZDdPYUdsZERJRkw1U1FTS2RlaGVPMXFuWDdWajI5?=
- =?utf-8?B?ZUZpUXdpM25NS0UrWldjd0NPT0laTmUrZDU2QU1IL3NzVUZ1V1o2aFdkOU1u?=
- =?utf-8?B?UE5kcGt1M2NJYm55dEdtRlM3K1BEQ1dxa2hubjJIR1VTYkJkUXNrVW12ZmpL?=
- =?utf-8?B?UFBKeC9tR29pbGc0b3ZodmpHdEJPeEd1NVNvZFNHbWxRb0lZWUxWb29pcWlH?=
- =?utf-8?B?TERQZ3ZrZG5aYUJsNG5vWmV4dm92ZFNVL0E4ZnZmQjJXM1dSSDArZ1RSa1lL?=
- =?utf-8?B?bm9UMUhDRHR2eG9UK2toUjZjdXh4d05yYzNudFh6MDREUC92Yzh5b1ZCd2J4?=
- =?utf-8?B?OVdlQnVzd3FMRXVYSnNoMU1GZ09XK1BhcXpDNU1KSjByaGJ2c29YYnJrb1cy?=
- =?utf-8?B?b0JoWHN2ZzJaRlg1eWhuZ1pzNXVTaERnazZsVU9Ndm1LYVZhRi81c3RiVU90?=
- =?utf-8?B?UHdxdGl5OXMrajFaY1N3TWhVTVcyN0U1c1h2ZGcyTlNhb0VWQVJhcHBVY3Qx?=
- =?utf-8?B?QXBuSVlyM1pxTnhMbWlJYVFxOXZ6YTVuRTY4YU9BQ0drZU9ra0ZsYVd1bXJw?=
- =?utf-8?B?QmI1eHl4ZzVlU2RHeTlveGZwT25WdXRHdldLR3RPc1g3TTlnbHJyL3JRdWF4?=
- =?utf-8?B?Rnh6NGE0K2t3S1pjbHJKNXNxUVA4V3hZeXVxa2VOZ0Z0ejNDa3dZUUswcGRh?=
- =?utf-8?B?b1AzYzE1alArS0FSNjBlbXNsMk9FWXJiaXFnQmJveEpHZE1uR29lWEhwbUow?=
- =?utf-8?B?bHRWMWM0a1ROOE9QVHpEelp3dFk1L1hTSUVISnRURGFldzNDNmlMZzdJS0Jt?=
- =?utf-8?B?OG5RRE8rSlROMjkxWk5aRkNMUHBab1RvdlpvYjNzT0ZaQ1RsT1E2MmU0ZThu?=
- =?utf-8?B?WDRjMWk3ZTNLME90elFITkVIMFcwWlUzR0Vzd2o1WXZ1MmR0bWdkbDh1Lzd4?=
- =?utf-8?B?SFVja1ZrOUZsNTJwVUNpR040SlByRkpsYVl4ZFhBQi8vbmFTb3FGQT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a7afa44-2728-4823-22b5-08df3902c551
-X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 17:00:17.4353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JopvV+Rx2ncJM3BKqxRsOMuYH+JiuCK8Ds5lFIRRVNIJanpqUJJBl4uTSsuwzVWdS7nHGXoydq8WTP1wYZ0k1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB7408
+Mime-Version: 1.0
+References: <6adf2939.67317f00.38c4bc.00ae.GAE@google.com> <20261026224305.1254-1-hdanton@sina.com>
+ <auCucDdZb8mig7UZ@google.com> <auDvUyfzg6nLtVox@thinkstation> <20261027163929.2bb28d5b@gandalf.local.home>
+Message-ID: <aujLx1FOc12E72rF@google.com>
+Subject: Re: [syzbot] [kvm?] WARNING: locking bug in __refill_objects_node
+From: Sean Christopherson <seanjc@google.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Harry Yoo <harry@kernel.org>, Hillf Danton <hdanton@sina.com>, Boqun Feng <boqun@kernel.org>, 
+	syzbot <syzbot+f11512d1e5878ba5e60e@syzkaller.appspotmail.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzkaller-bugs@googlegroups.com, 
+	Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Nov 02, 2026 at 04:14:56PM +0100, Andrea Parri wrote:
-> On Mon, Nov 02, 2026 at 09:45:30AM -0500, Aaron Tomlin wrote:
-> 
-> [...]
-> 
-> > Do you mind if I include your patch in my series [1]?
-> 
-> Thanks for the offer, but I'd rather keep this one standalone: it's a
-> stable fix, and it shouldn't have to wait for the debugfs series.  If it
-> goes in first, your 1/6 just needs to keep &p->cpus_mask on that line:
-> 
-> 	if (!cpumask_subset(rd->span, &p->cpus_mask) ||
-> 	    rd->dl_bw.bw == 0) {
-> 
-> If the maintainers would rather have it in your series, I'm fine with
-> that, as the first patch and with its authorship and its Fixes and
-> stable tags unchanged.
++Paolo
 
-Acknowledged.
+On Tue, Oct 27, 2026, Steven Rostedt wrote:
+> On Tue, 27 Oct 2026 18:48:28 +0000
+> Harry Yoo <harry@kernel.org> wrote:
+> 
+> > [+Cc RT folks]
+> > 
+> > On Tue, Oct 27, 2026 at 07:00:16AM -0700, Sean Christopherson wrote:
+> > > +slub folks
+> > > 
+> > > On Tue, Oct 27, 2026, Hillf Danton wrote:  
+> > > > Ask the locking people to shed light on the warning.  
+> > > 
+> > > get_partial_node_bulk() is waiting on a non-raw spinlock while in hard IRQ context,
+> > > and it looks like __refill_objects_node() would do the same later on.  On PREEMPT_RT,
+> > > those spinlocks become sleepable locks, which is what triggers the splat.
+> > > 
+> > > The alloction coming from KVM-as-a-guest code is GFP_ATOMIC, so I think that wonky
+> > > code is fine.  
+> > 
+> > But memory allocation w/ GFP_ATOMIC is fine only on non-RT?
+> 
+> Correct. GFP_ATOMIC is meaningless on RT. It still cannot be called with
+> preemption disabled. Most places that disable preemption in the non-RT case
+> do not disable it in the RT case. For example, spin_lock() disables
+> preemption on non-RT but does not in RT. Same for interrupt handlers, as in
+> RT interrupt handlers are run in task context.
+> 
+> That is, in RT only "special" places disable preemption for real.
 
-Kind regards,
--- 
-Aaron Tomlin
+...
+
+> > > > > =============================
+> > > > > [ BUG: Invalid wait context ]
+> > > > > syzkaller #0 Tainted: G S                 
+> > > > > -----------------------------
+> > > > > syz-executor177/6041 is trying to lock:
+> > > > > ffff88801d040618 (&n->list_lock){-.-.}-{3:3}, at: get_partial_node_bulk mm/slub.c:3831 [inline]
+> > > > > ffff88801d040618 (&n->list_lock){-.-.}-{3:3}, at: __refill_objects_node+0x104/0xab0 mm/slub.c:7279
+> > > > > other info that might help us debug this:
+> > > > > context-{2:2}
+> > > > > locks held by syz-executor177/6041: 1, last CPU#1:
+> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:198 [inline]
+> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:305 [inline]
+> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: tomoyo_read_lock security/tomoyo/common.h:1112 [inline]
+> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: tomoyo_check_open_permission+0x169/0x3c0 security/tomoyo/file.c:772
+> > > > > stack backtrace:
+> > > > > CPU: 1 UID: 0 PID: 6041 Comm: syz-executor177 Tainted: G S                  syzkaller #0 PREEMPT(full) 
+> > > > > Tainted: [S]=CPU_OUT_OF_SPEC
+> > > > > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> > > > > Call Trace:
+> > > > >  <IRQ>
+> > > > >  __dump_stack lib/dump_stack.c:94 [inline]
+> > > > >  dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+> > > > >  print_lock_invalid_wait_context kernel/locking/lockdep.c:4874 [inline]
+> > > > >  check_wait_context kernel/locking/lockdep.c:4946 [inline]
+> > > > >  __lock_acquire+0xfcc/0x1f40 kernel/locking/lockdep.c:5238
+> > > > >  lock_acquire kernel/locking/lockdep.c:5942 [inline]
+> > > > >  lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+> > > > >  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:155 [inline]
+> > > > >  _raw_spin_lock_irqsave+0x3a/0x60 kernel/locking/spinlock.c:181
+> > > > >  get_partial_node_bulk mm/slub.c:3831 [inline]
+> > > > >  __refill_objects_node+0x104/0xab0 mm/slub.c:7279
+> > > > >  refill_objects+0x58/0x410 mm/slub.c:7405
+> > > > >  refill_sheaf mm/slub.c:2885 [inline]
+> > > > >  __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
+> > > > >  alloc_from_pcs mm/slub.c:4850 [inline]
+> > > > >  slab_alloc_node mm/slub.c:4984 [inline]
+> > > > >  __kmalloc_cache_noprof+0x4f4/0x6d0 mm/slub.c:5559
+> > > > >  _kmalloc_noprof include/linux/slab.h:991 [inline]
+> > > > >  _kzalloc_noprof include/linux/slab.h:1312 [inline]
+> > > > >  kvm_async_pf_task_wake arch/x86/kernel/kvm.c:224 [inline]
+> 
+> Hmm, this part is OK:
+> 
+>                 if (!dummy) {
+>                         raw_spin_unlock(&b->lock);
+>                         dummy = kzalloc_obj(*dummy, GFP_ATOMIC);
+> 
+> As it releases the raw_spin_lock() before calling kzalloc_obj().
+> 
+> So something else must have disabled preemption/interrupts.
+
+Heh, yeah, the IRQ that kicked all of this off.
+
+> > > > >  __sysvec_kvm_asyncpf_interrupt+0x334/0x610 arch/x86/kernel/kvm.c:338
+> 
+> DEFINE_IDTENTRY_SYSVEC(sysvec_kvm_asyncpf_interrupt)
+> {       
+>         struct pt_regs *old_regs = set_irq_regs(regs);
+>         u32 token;
+>                 
+>         apic_eoi();
+> 
+>         inc_irq_stat(HYPERVISOR_CALLBACK);
+> 
+>         if (__this_cpu_read(async_pf_enabled)) {
+>                 token = __this_cpu_read(apf_reason.token);
+>                 kvm_async_pf_task_wake(token);
+>                 __this_cpu_write(apf_reason.token, 0);
+>                 wrmsrq(MSR_KVM_ASYNC_PF_ACK, 1);
+>         }
+> 
+>         set_irq_regs(old_regs);
+> }
+> 
+> 
+> Is that run in hard interrupt context?
+
+Yep.
+
+> If so, we need to make that a thread for RT kernels if you want to call
+> kzalloc_obj().
+
+Eww.  I can't imagine there's a sane usecase for memory overcommitting a real-time
+guest.  I'd rather just disable PV async #PF support, e.g.
+
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 6b0a5861ccb8..b14b03720525 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -51,7 +51,7 @@
+ 
+ DEFINE_STATIC_KEY_FALSE_RO(kvm_async_pf_enabled);
+ 
+-static int kvmapf = 1;
++static int kvmapf = !IS_ENABLED(CONFIG_PREEMPT_RT);
+ 
+ static int __init parse_no_kvmapf(char *arg)
+ {
