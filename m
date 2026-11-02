@@ -1,74 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793641418;
-	b=lXjFibhjfdNhVkxANozZ2O4LPLH+A2wj6ji3iTQBkCnlL1wl+G74Nm9POYhw5dhvmGkf
-	 wAfDG1beRLUy6JI+yWLmsfJ7FMFf8382PT/VoBiJWp2kcPf1Jfe113tkWW4gMnXVGOz6X
-	 wmbTQNvDZbj2SHQoZLQV+j8YgyxMv+MTLtr8xgSbCAr6fFPJFer5DWwJtFNQy9SCoWJdN
-	 AF1TUgiJ+dFbiOdjlVt091+06nln7yi87OW5XaSv8Mxvv48b6WIr7DNs2VgmDobgfs/jT
-	 65a7A/lb3AfEYTYhc/qTDi64emgWosjj/+oQhokSfV0pl5tP7XSB5gbz9Csy/exhrvw==
+	t=1793654201;
+	b=P2ODLE+oMahpasg9AoO4/T8Qa+L0Sxtnv4f6SG+qOACZwwOBE59fiUNaSPgaULn3/VGA
+	 WJHcPw7/v3MqJJNms0c11RkQZDbAEzrWh4JrpaVHBkcGZzexP8ABKIb8c1GRt9ODE5Lmi
+	 6fsTODeisQawL6m7/oL3W4thqb4GF7dob8nSLWWAUMXC6pvHFrgeFXayly/A136fa2uYR
+	 6TIkjjBhjJNPyLyJHp/yfp2kPJiBuz50uKeSD4YbuQPNdWEmS5S98PSmyyWBv1Ho94fFc
+	 4RZrccL6SI2AdkmS/Z+C1VbCuGAPxRvU8/plUhMQ8z5udt4KY3ckEQql6wt9yBmgAhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793641418;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
-	b=3/Igid+viOJX+ARFdDTrit+9x8BUbDpNBPy4vEAcWPmkdblU7WgGSFy9upykC3pvARRz
-	 8YK/mV7RTd+0FhRxcRPoQklNP3FXi8IgO+nYasJfh+JzpZoeO/3sZiRLoeksrF+pd9/Fn
-	 3+VYZX3R6FMoRjgA3pK+tioq06QKxyDPUrrMnOr14yK59mDtzIIJNd0gSR2S7xSCa4g+C
-	 q1hgwcKeUiQnExFjyKl766v5H3KPpobi6teNCrKhlz5Ayb7DxoYhxL6Yq/uBAczXGGQfC
-	 Lmn+RrO+21De2zPnEG9E69E3GIEQjc0fLPsDadhAzQsM/63bU09ZVR9rKpruE8a+/qw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793654201;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:From:Date:Subject:MIME-Version:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Transfer-Encoding;
+	bh=u/8iyy4HZ7/aVXuOHPUsPysy0WI5/Kcxb2nLLftofoI=;
+	b=BAAgb1LepZJ/YjKaMTUzk3/U+Kk/WqPWYRjotAiXRhAr+X9UjkkdnGJe1NhrFa0VKnGt
+	 M9CA0+plDOoxiwSGfwryR4slrxGp9O3remtczGQljISGK5lNwdrkWWw70QxvDizLy/BN1
+	 RH2X9ToekwZDg87KqKm8qkPkPZb9SOqlFUJyws6GKRpWPV3MaYQYJLvDcQoHZLsDm5PfN
+	 6QAj9PZTI/P3P8gWl40hsYvY2GwkPurnUxdk1546IcH/cC5wVjEB9uDrLKP/Zw8dzdPht
+	 SuMwSBmzqFmju+UPfSh9tFXk6cJh/shr9F3VMYgA/lFkvdGTMQXga4CJkLk134yy35w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eO4x5WmQ;
-	arc=none smtp.remote-ip=209.85.214.198
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KfIZcCjS;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6F606B1D0
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 17:43:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AB6F606B1D0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D6606A32D
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 21:16:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B1D6606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eO4x5WmQ
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e9821ca96fso52967345ad.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 09:43:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793641416; x=1794246216; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
-        b=eO4x5WmQbT8vQqilJziO3o11hS1goX2gdlU6DHfdKP2oOpZ9TY8vNCuayUQ79ItcQB
-         eUHy3Rqp9Yxg70SzEiX1leCWFzK8TnzKmA1Yunizx9JTPrs/rbPoq6sDOKNRFnGLsiyO
-         GAoMfEiwPUrkntINlANcbtEQyMGNKCXogQBP9n/N60n4h0Bv1JDnDzh83K0ltbVs2Cv7
-         dSGzkml1ikZ+jlVvrXEvXgllbTifwRDS/xZIyZgBpf0xpCl56RJFePhO3q7yiXmc0B+F
-         zhJv0pOKkU/nnRzH08lYskjjd8mcnlzzjFgl1LFbxPslSTxQTkpuq9OW9XoN5iH7Qkil
-         wyoQ==
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KfIZcCjS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793654200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/8iyy4HZ7/aVXuOHPUsPysy0WI5/Kcxb2nLLftofoI=;
+	b=KfIZcCjSQp+/TDRQij30V06YWyk70Lc4D8Ks7QqG6b/nilBZIA4kk6nIA9wI6bca5JSyTg
+	xhhAo/OlWFgioK4sfqV6oMEHvwCo1B1k3KL9vKCTQ1fUEUPQfcADeomCpLzj5kNtYSSNEC
+	HmsiaKQ+t1PL9+Imxv1MoyjEgcjKuEQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-255-FKOnyOO_M6GuaWnsVhWLZg-1; Mon, 02 Nov 2026 16:16:39 -0500
+X-MC-Unique: FKOnyOO_M6GuaWnsVhWLZg-1
+X-Mimecast-MFC-AGG-ID: FKOnyOO_M6GuaWnsVhWLZg_1793654198
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48df02f2bdeso78661f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 13:16:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793641416; x=1794246216;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=raeJlK9yYBGSF7+QYGBqsG5Ux8i2znTMcBRplAhhHPo=;
-        b=N3zpYCZxwALFGj4/Sps+NRWlzNOiVbKg3xGeDNTFsL4pBTYnhbrhc1piWGsLbgzBUD
-         yLodg8cTTQ34uzRKH2FuQGcT3bwJAncPD8e/y2CHFZl0mSx+sVrKlo2r1H3qcpZOuSOX
-         0as13RN69KNpOEny95yataKBZ9LcBpWSxOTXuaKhhVUAd+56Yr1pU84bWZGy4WJ++DxP
-         irmy5i6m89uPHcq1rWXU0YXf7Q3gm8ZTn44a2y8je/64Bhpj6+W/Z3BNsJgr7Hjs7I0k
-         aYXTY5ellBM3cvQ+05jBoIg+SX2o4HXZCoItLaBnwbx3tXKt26G88T2OA007RivpJtpa
-         K4JA==
-X-Forwarded-Encrypted: i=1; AKwUvBwNOVisZ1P9SqY9AMrrSUKSPgGK6dhoIskAa4NEP5hdwbm/Th099u6U8MZTMjBMrsNHZd/Kvj9AhkTZPjMSzg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z92/ZqzkjcL5Gso5yU4ZJMlxifn5iLdhauGDNh71Yvxlhy4Oi1W
-	7qVWvf2So52EnkWbBfDhXo3rxXyVKevjOwtih9RpKqW48xZ3JFx2mtJihk33Ht9jyyLhEuXySZ+
-	Jn03hqw==
-X-Received: from plkg13.prod.google.com ([2002:a17:903:19cd:b0:2e8:1f84:7c18])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ea0d:b0:2e8:1d5c:f6f9
- with SMTP id d9443c01a7336-2eb364715ddmr105628745ad.46.1793641416165; Mon, 02
- Nov 2026 09:43:36 -0800 (PST)
-Date: Mon, 2 Nov 2026 09:43:35 -0800
-In-Reply-To: <20261027163929.2bb28d5b@gandalf.local.home>
+        d=1e100.net; s=20260707; t=1793654198; x=1794258998;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u/8iyy4HZ7/aVXuOHPUsPysy0WI5/Kcxb2nLLftofoI=;
+        b=mRoRphNCc5EDqIG3O9yS8UKXrP7lLO10tQ8sfEVwbSPAqWeJgr08Qbd/Iu6oYjK/cp
+         bsiYp/F25uRBVeYkKH37kk0bFRO9ahS5PH8WWTyJVifrGB7BIbMK4kQfbihagUzQd4TP
+         XSMWIArNOmOyHHAAMUwNhyTF+We1TMivCPZkiXKhO7cBwTEQGLfTbcn1Cr+oKaYcTVXm
+         oLNN8SBwjz+JQE0jipluixQXRsFAQyhlpD9MwnUnxiCdR21rYJyKPKYoxTc+fk6ga/QU
+         tdb09IeA6v6VGU/3+/+imE75Q37asgk4urb7vVgR+Xxk1ya3aWYYL//LEdiaDSqTGEZG
+         Bpkw==
+X-Forwarded-Encrypted: i=1; AKwUvBy8TSOEVvhZ1Et0wAr5GJ8fROR8dpnoP0uFSOeV+pf8HIc73sKy616FpVgvX2lWyxi9sqhp8hTBp97jBDVYSQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8Yyq983ZkjAmdCXLf0S664QvE9J/1y95PnAp3vE291kFQ1oiRN
+	X782KJLyjbP0bO30+SwgvnM3hReOR2Lmtk6/odr4wC1eEIjfjKO8SL2qw7PgR4YYD6j2BAvzPZc
+	Sf516FQ2J0cXlKoegpk/KojFW+GsXKGw7ERiovBA/Fx+XfWl4OVJobkv9DNTsmAaSixaZ
+X-Gm-Gg: AYBFou04pDhlHBYMDNwnUvUu2uBlH9PC5XZyrdOEe93rdbVf2l12A1BN/KIIIU7cVhV
+	7yDw4wwbu3Z3iBWPV+3GVUjlGC91PQZYcjhurVGC4FFI2JW7oqxY9wgWCEPEEK2KjM2hT3w1VVs
+	ZAw2o8IgGLznT3METpUIfJU/NGBbssTQaRYllTgjIFcyNzMG2M3xfya9PhwwnkJxixnXduZiZ8t
+	qhtbdI8pUOLtnG2IMStlcnutf6X8lUHU8FnohcSaa7HxpJrEMcwF3iIB0spJx2o+Pw1CnhCmb7g
+	+/jCRhnEyhnwlDTkCkDl/dK4GcRN9RfulbQsiAw5iSWw/jgbeaur69Otp+ZT6IKpO2NWLQYxgk3
+	zSJqQPl1Tzyq+7r1cnGCdTe+iOF3iP3dC46v3mdVNCTO/qlci1/KDz3xsgSwlCq10eT9ZldEJIC
+	HkDNa282IbacH6dg==
+X-Received: by 2002:a5d:5f48:0:b0:48e:6ff2:606a with SMTP id ffacd0b85a97d-48e6ff2609dmr27631589f8f.6.1793654197964;
+        Mon, 02 Nov 2026 13:16:37 -0800 (PST)
+X-Received: by 2002:a5d:5f48:0:b0:48e:6ff2:606a with SMTP id ffacd0b85a97d-48e6ff2609dmr27631544f8f.6.1793654197560;
+        Mon, 02 Nov 2026 13:16:37 -0800 (PST)
+Received: from localhost (119.red-83-42-172.dynamicip.rima-tde.net. [83.42.172.119])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71baa1b3sm20838703f8f.56.2026.11.02.13.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 13:16:37 -0800 (PST)
+From: Enric Balletbo i Serra <eballetb@redhat.com>
+Date: Mon, 02 Nov 2026 22:16:20 +0100
+Subject: [PATCH v2 1/3] clocksource/drivers/nxp-stm: Fix max_delta overflow
+ on 64-bit platforms
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -77,152 +99,65 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <6adf2939.67317f00.38c4bc.00ae.GAE@google.com> <20261026224305.1254-1-hdanton@sina.com>
- <auCucDdZb8mig7UZ@google.com> <auDvUyfzg6nLtVox@thinkstation> <20261027163929.2bb28d5b@gandalf.local.home>
-Message-ID: <aujLx1FOc12E72rF@google.com>
-Subject: Re: [syzbot] [kvm?] WARNING: locking bug in __refill_objects_node
-From: Sean Christopherson <seanjc@google.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Harry Yoo <harry@kernel.org>, Hillf Danton <hdanton@sina.com>, Boqun Feng <boqun@kernel.org>, 
-	syzbot <syzbot+f11512d1e5878ba5e60e@syzkaller.appspotmail.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzkaller-bugs@googlegroups.com, 
-	Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Message-Id: <20261102-nxp-stm-fixes-v2-1-8ca2706f30ef@redhat.com>
+References: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
+In-Reply-To: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
+To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
+ Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
+ NXP S32 Linux Team <s32@nxp.com>, stable@vger.kernel.org, 
+ Enric Balletbo i Serra <eballetb@redhat.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793654192; l=1278;
+ i=eballetb@redhat.com; s=20261026; h=from:subject:message-id;
+ bh=DVfNt64Fa2EP/J0U6rHzSmiL2wOHXcUfdf87XnRZfSg=;
+ b=l9hNDdzUrhma71aFw5r9/uBmIB5COcdfl4Gq7cRYpas8co0jiLEqNrhksseawGF7HVyaMLcJR
+ wxiPwGkenjpCPQfWwh1t6b2mYj7Q1sJtwNbsSjje6VTqWdOIE/SHRzQ
+X-Developer-Key: i=eballetb@redhat.com; a=ed25519;
+ pk=5zh6xuAxTiQwglL2NXQFqWuyRPmCE8T5KPXLbNXhnKI=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: lNDjo7HgiJ3rcHdUPZ-gP-eS7FrPnxKjNzOi3d6IOqI_1793654198
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-+Paolo
+The NXP STM timer has a 32-bit counter and 32-bit compare registers.
+Using ULONG_MAX as the max_delta parameter for
+clockevents_config_and_register() is incorrect on 64-bit platforms where
+unsigned long is 64 bits, as this exceeds the hardware's capability.
 
-On Tue, Oct 27, 2026, Steven Rostedt wrote:
-> On Tue, 27 Oct 2026 18:48:28 +0000
-> Harry Yoo <harry@kernel.org> wrote:
-> 
-> > [+Cc RT folks]
-> > 
-> > On Tue, Oct 27, 2026 at 07:00:16AM -0700, Sean Christopherson wrote:
-> > > +slub folks
-> > > 
-> > > On Tue, Oct 27, 2026, Hillf Danton wrote:  
-> > > > Ask the locking people to shed light on the warning.  
-> > > 
-> > > get_partial_node_bulk() is waiting on a non-raw spinlock while in hard IRQ context,
-> > > and it looks like __refill_objects_node() would do the same later on.  On PREEMPT_RT,
-> > > those spinlocks become sleepable locks, which is what triggers the splat.
-> > > 
-> > > The alloction coming from KVM-as-a-guest code is GFP_ATOMIC, so I think that wonky
-> > > code is fine.  
-> > 
-> > But memory allocation w/ GFP_ATOMIC is fine only on non-RT?
-> 
-> Correct. GFP_ATOMIC is meaningless on RT. It still cannot be called with
-> preemption disabled. Most places that disable preemption in the non-RT case
-> do not disable it in the RT case. For example, spin_lock() disables
-> preemption on non-RT but does not in RT. Same for interrupt handlers, as in
-> RT interrupt handlers are run in task context.
-> 
-> That is, in RT only "special" places disable preemption for real.
+Cap the max_delta to 0x7FFFFFFFU to match the 32-bit compare channel
+width, avoiding potential timer event misses or unexpected delays caused
+by programming an unreachable compare value.
 
-...
+Fixes: cec32ac75827 ("clocksource/drivers/nxp-timer: Add the System Timer Module for the s32gx platforms")
 
-> > > > > =============================
-> > > > > [ BUG: Invalid wait context ]
-> > > > > syzkaller #0 Tainted: G S                 
-> > > > > -----------------------------
-> > > > > syz-executor177/6041 is trying to lock:
-> > > > > ffff88801d040618 (&n->list_lock){-.-.}-{3:3}, at: get_partial_node_bulk mm/slub.c:3831 [inline]
-> > > > > ffff88801d040618 (&n->list_lock){-.-.}-{3:3}, at: __refill_objects_node+0x104/0xab0 mm/slub.c:7279
-> > > > > other info that might help us debug this:
-> > > > > context-{2:2}
-> > > > > locks held by syz-executor177/6041: 1, last CPU#1:
-> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:198 [inline]
-> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:305 [inline]
-> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: tomoyo_read_lock security/tomoyo/common.h:1112 [inline]
-> > > > >  #0: ffffffff9090b438 (tomoyo_ss){.+.+}-{0:0}, at: tomoyo_check_open_permission+0x169/0x3c0 security/tomoyo/file.c:772
-> > > > > stack backtrace:
-> > > > > CPU: 1 UID: 0 PID: 6041 Comm: syz-executor177 Tainted: G S                  syzkaller #0 PREEMPT(full) 
-> > > > > Tainted: [S]=CPU_OUT_OF_SPEC
-> > > > > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> > > > > Call Trace:
-> > > > >  <IRQ>
-> > > > >  __dump_stack lib/dump_stack.c:94 [inline]
-> > > > >  dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
-> > > > >  print_lock_invalid_wait_context kernel/locking/lockdep.c:4874 [inline]
-> > > > >  check_wait_context kernel/locking/lockdep.c:4946 [inline]
-> > > > >  __lock_acquire+0xfcc/0x1f40 kernel/locking/lockdep.c:5238
-> > > > >  lock_acquire kernel/locking/lockdep.c:5942 [inline]
-> > > > >  lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-> > > > >  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:155 [inline]
-> > > > >  _raw_spin_lock_irqsave+0x3a/0x60 kernel/locking/spinlock.c:181
-> > > > >  get_partial_node_bulk mm/slub.c:3831 [inline]
-> > > > >  __refill_objects_node+0x104/0xab0 mm/slub.c:7279
-> > > > >  refill_objects+0x58/0x410 mm/slub.c:7405
-> > > > >  refill_sheaf mm/slub.c:2885 [inline]
-> > > > >  __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
-> > > > >  alloc_from_pcs mm/slub.c:4850 [inline]
-> > > > >  slab_alloc_node mm/slub.c:4984 [inline]
-> > > > >  __kmalloc_cache_noprof+0x4f4/0x6d0 mm/slub.c:5559
-> > > > >  _kmalloc_noprof include/linux/slab.h:991 [inline]
-> > > > >  _kzalloc_noprof include/linux/slab.h:1312 [inline]
-> > > > >  kvm_async_pf_task_wake arch/x86/kernel/kvm.c:224 [inline]
-> 
-> Hmm, this part is OK:
-> 
->                 if (!dummy) {
->                         raw_spin_unlock(&b->lock);
->                         dummy = kzalloc_obj(*dummy, GFP_ATOMIC);
-> 
-> As it releases the raw_spin_lock() before calling kzalloc_obj().
-> 
-> So something else must have disabled preemption/interrupts.
+Signed-off-by: Enric Balletbo i Serra <eballetb@redhat.com>
+---
+ drivers/clocksource/timer-nxp-stm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Heh, yeah, the IRQ that kicked all of this off.
-
-> > > > >  __sysvec_kvm_asyncpf_interrupt+0x334/0x610 arch/x86/kernel/kvm.c:338
-> 
-> DEFINE_IDTENTRY_SYSVEC(sysvec_kvm_asyncpf_interrupt)
-> {       
->         struct pt_regs *old_regs = set_irq_regs(regs);
->         u32 token;
->                 
->         apic_eoi();
-> 
->         inc_irq_stat(HYPERVISOR_CALLBACK);
-> 
->         if (__this_cpu_read(async_pf_enabled)) {
->                 token = __this_cpu_read(apf_reason.token);
->                 kvm_async_pf_task_wake(token);
->                 __this_cpu_write(apf_reason.token, 0);
->                 wrmsrq(MSR_KVM_ASYNC_PF_ACK, 1);
->         }
-> 
->         set_irq_regs(old_regs);
-> }
-> 
-> 
-> Is that run in hard interrupt context?
-
-Yep.
-
-> If so, we need to make that a thread for RT kernels if you want to call
-> kzalloc_obj().
-
-Eww.  I can't imagine there's a sane usecase for memory overcommitting a real-time
-guest.  I'd rather just disable PV async #PF support, e.g.
-
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 6b0a5861ccb8..b14b03720525 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -51,7 +51,7 @@
+diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/timer-nxp-stm.c
+index 6fe098a4a33f..ee249fed1b91 100644
+--- a/drivers/clocksource/timer-nxp-stm.c
++++ b/drivers/clocksource/timer-nxp-stm.c
+@@ -346,7 +346,7 @@ static int nxp_stm_clockevent_starting_cpu(unsigned int cpu)
+ 	 * minimum ticks = (rate / MICRO) * 2
+ 	 */
+ 	clockevents_config_and_register(&stm_timer->ced, stm_timer->rate,
+-					(stm_timer->rate / MICRO) * 2, ULONG_MAX);
++					(stm_timer->rate / MICRO) * 2, 0x7FFFFFFFU);
  
- DEFINE_STATIC_KEY_FALSE_RO(kvm_async_pf_enabled);
- 
--static int kvmapf = 1;
-+static int kvmapf = !IS_ENABLED(CONFIG_PREEMPT_RT);
- 
- static int __init parse_no_kvmapf(char *arg)
- {
+ 	return 0;
+ }
+
+-- 
+2.56.0
+
