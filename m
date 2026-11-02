@@ -1,106 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793632523;
-	b=qwqMuKGrtWp+Fizi4wfE6O5mTsFHiNXOt8Uudbmt1oRw3Mfp0DLO8OFExahO0Lff0Mg+
-	 RHzjFzBzIrWBwFOv72S6xiVkTDyLLPO99djsfah1eJ99/qn0UC5g9NTbYqPY8yY0XOVZl
-	 ul82L0iZFDbmAVPnGD5AIX3Lkj4Uuc06q4EiGlAs2Qr8c7AuoHRI9yysnLdQjyHDnBW9F
-	 XYsb9s45MPZuHeKjtCh1vY39XRTRJb+UXpuqdpx/RWtGQ6Sp/xx7gXZfC93VYZTjI0H3n
-	 xyLqtZvntAQFL0q3+/an3BeWhevr5WljdUe06LLzJL0Zc4oppw1jguryv6AefG/XzlQ==
+	t=1793634444;
+	b=SoyYEn5j5DekBibBr8OzInr9KUA51KY7KXs3o5W74KeNiC7FkCSV5pimLOQ1rXe+KV4b
+	 dwyP9qRCGef+IDgvuBNhRqbPeya1oR8AiHARxS1CsGxxzy1P7J1F/dce+sTUpvJ74FLQQ
+	 8uvgvy14lfc/EhI3nsj2h36luZGJpMrKRJI1PEmEIB9ktPcBiSfAa0sRi8YNERq9TzJo7
+	 6qBBayeXM4qd8sMI67+s2bSiFeOMqWf6aopq/JSIvHZgVEw08WLlt9O2bUlnRBEexXAP/
+	 Fdd0UpOfJNg2N8mIY/ZupcdiDyRcq0at/G8821aRz5Ge28Jb9WyPFSPRBcePUHWe00Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793632523;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793634444;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=uslC4FnJpKGu4fXxxhRPOOfMsIJImwUJFmWZBF9HWbc=;
-	b=rMusiV2vCgqRgHrDHTmNJprISHrc7septM0yq7UQUUbMgCvaepk8H6BEVrL3FGn4aq3U
-	 ivR88ggCkr13dNYQx6ZlQ2L8jYfqSXvPs3CojWVNLFe+bP0/qXuM1cblAz5Amh+ekv1+M
-	 hmjOmxRT3insIDOQtqMijyyp43qlRDdARttomrAed3ljgkb5GHUgBhVw8i5RiNahrUcr7
-	 g09sKBW8cau3DDWhJSeGZ29esdAAwYTKGWhBmDcS5QmVaVDKUM58krj7KKuAUe2fTXEw7
-	 fkoAPn8fdkgO8iCeT7vDs7lU0zvGuImoLS5hKjN3BJy3TnuUJsmKBHGEs3ITCQj4EwQ==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
+	b=NESp96J5BEzVTUYPVDbQd+Bysa1Phnih5sGV4XcRSAjqGUU/jtDweNpeAT3eu+dzrUge
+	 AzWB34ac+KKjXOCXtleCivv7Ty7cKci4vOsaca0qGdwdwl4Hcb+4K9zaI+MR0pxzK1H9m
+	 ekcOzLa9Gp0JhOfOeNA8A81YcHyfDDtRgiZ4wWxMsuzu+r5hELFINcaIYYQg1cxEj98vK
+	 nTA6gjb1WWYS3zFVvh6Lr4mK3gOn+4zeMdhDFVkIZqrVm09QOhUDyMf0Tx27crR4Ge9dE
+	 H1xuDV+aZ9CqyZ+JY7sSwqEmnfR2nTYQ8MqZGHFIzFnroliasSBe+I44gqeN3qQl9+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="g/OCenPc";
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rC1l5dEa;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4F6079078
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 15:15:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48F4F6079078
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7BB606B1D9
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Nov 2026 15:47:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F7BB606B1D9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g/OCenPc
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48e6eb21a8fso1229071f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 07:15:23 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rC1l5dEa
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a68f888a41so5490325e9.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 02 Nov 2026 07:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793632522; x=1794237322; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uslC4FnJpKGu4fXxxhRPOOfMsIJImwUJFmWZBF9HWbc=;
-        b=g/OCenPcTWq3Kv2tPNyq/K7hM3e7iANUXXpYBwYrBvTAB4HlyBxhTSzZDXYCiV2ilJ
-         cWVS4ksINajgF2k6yx6vpdc3rEZ0wnRVM3QcXS32YAZmP49GAHTGIQRBZSxnPyK7OKQM
-         7m2+eUgPDPOjb2s21l9OqzaDyDjssmiuySGiO71HC/K+u1TZi7Nl5g7cpnVjnKdZrSr3
-         aNsmunexdiqpgdlMP4+pbttU+xeORrSL//q381p7cmc7vyUCtfwebVNTAge7Keq+nKzi
-         agbwq45kBqwOdf0lW0O+9q7BWoAEQzDhxUin2ZRjMS3CnRJcYAHDj52nllndwFcBDhMq
-         iJzw==
+        d=gmail.com; s=20260707; t=1793634442; x=1794239242; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
+        b=rC1l5dEa9QOqo+24JrMwSClwBfBK3zjCDn42COkCD6IaN5VUl3dNiEcWgErwN+Y560
+         jwzCYXlxYdkvMvS5EN4fjFBOW64R3uUaXha6A4uDfogZ7S1xHLlfzBOZLZ9lIGKFN9DE
+         rtXtz1yHQsIgZZHrjnS19dDMi7H+MaA0qOR2KybuB0pT9SfM0IbuCulAg6MbNBDMCWta
+         8r1vh2AvrRxXV/2T342Vmgc1SCIDpto1+wZwyzh0rBrDIcLT4ryWZD1HdVHvyuPz6JE/
+         BQG+jOX2aTfyfqptAmamYappdc+kTjPxeb8ybkXB+XHlz/pPSIERtjDtawodqapjsf2N
+         9b8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793632522; x=1794237322;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uslC4FnJpKGu4fXxxhRPOOfMsIJImwUJFmWZBF9HWbc=;
-        b=SL25zMHLq2nUySIzdq/eEpCplyp69n+87lHE2PWgIu8WTZvUJ8IKOjg90tUnuAh/vT
-         S23p1vL1vvQq8EMGtLYxFqsidATmcmv2Ta6tEfGM0OWRDHT27ATrCFK9hqLWqS2KB/Zv
-         MC/UjM22qRk6QnVVb0nYNvhzYfrDQX846nAgM2Bcx8C6oIian4zeUa6Heg47s5NfOBeN
-         ttr9mcTDwpZ6Zy4heaBaSORfMvtww7+W233J4WtZmLCWpkR4lPDb5MOlQOj9WyTNgFmy
-         QVPMemo4TeTe5aQNIsNNxcoUZiDe4qOnhkjc6HQzgLiDhSHfFINV605Mnq3RInrS/CPI
-         LmFw==
-X-Forwarded-Encrypted: i=1; AKwUvByAvFgj1sQCb1z7xJ5q6GB4Y1eJTQGW7mJaHlJ1BtytDxIU5sTDzJ8hU081sasLlmCZ7IgUadTNK/KqXKHVkw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK8qdR7v10EVkwv+AKLr74hzF4Ix9lKF5Qv9Lo10f0P8ekEoS0b
-	//Rmxnozgi1S71doLNpzQ1mSUEKdywP5XrmOs2nnjFEyTPHpjF9E1xm8
-X-Gm-Gg: AYBFou1CZZY3F4FxJiHK7RFuGb8/ZgrpGVgJKhnYLhsCCT7FWnfZlPXKqS1ltf6Imcc
-	f8if1S9YxZ41DZgcyn3AbdVws+oFH+Gzw0W/DxSiGvJzpa1ABwXT4j/dED08Nz5c/qraNwf8q2U
-	O0bGhaH8z37tmdQjRtcr2/HQtCvWuUoXCcL8QAy5B1T2iyrct23+dG7Wcb5AqMFu9CsOLhZBF00
-	ObKBZACMC7JU3EEJonLvgKDJcIXFZnuGyNtM9KHadcUZY0lx4VdouFJMVRV9Y0AQdOM31smVJ3W
-	Hi+fe4VtylRP2UdgJxgOAbYcdV5yTh+lEke5nDbjL86DQzlqGROW3Asb+V/dRtXffu6/kObJpre
-	D6cI0Oni+wEqF39RccSksJQj//zPSfuxJ9oPc9fZXuTxIChyWkk6ZKAyKeRj0lacGgDZM4A+yVF
-	CJalmuQsNzH225J8YZF7QlWk7ieD+1IkFGtlvBQSCHI4SHgfEy3VLK3g1TpJSRSby0KAkXu++2g
-	aEqmX1GSBtqTE0Pt5/gs0zrG2i3TiIVFqf2l8c2a5w0WyopomIyYGFcmNX5ubZRzb7Gg/i5WcLQ
-	hfgrF9ZMiiz+rWAc6duDYkFHkZnt4rfQ30CEFVI/42UEOxDb6+lglTcY6ksag2QNb4CnCCb3paQ
-	=
-X-Received: by 2002:a05:600c:4e14:b0:4a5:a5ca:de1d with SMTP id 5b1f17b1804b1-4ac187a80bfmr242034965e9.30.1793632521391;
-        Mon, 02 Nov 2026 07:15:21 -0800 (PST)
-Received: from andreayoga.wind3.hub ([31.189.68.219])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b723bfsm19309800f8f.15.2026.11.02.07.15.19
+        d=1e100.net; s=20260707; t=1793634442; x=1794239242;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+aPQ/bEuRJE66ZkZ1N1K788ZV0S5XvqiSxNz34MixTk=;
+        b=p5h9v5SW2MECBGxVpQ1B4P12TrdEe/0JfTrEfDdTMeBmTbmVwzNiWYvom2R/aIOpmn
+         DUpMD2pNjGp4olDHctnheOd/tEKZQ+gOo1FwU04FdP9Rn0qrvJJk+jzQTgz2QcRu/EPc
+         nMkioSaYYTfiRb5iUlZzsT0qZX72D7bWdhXa3fCTQYMKw//2rLu6kDBPCbx9ldz0AUID
+         5oHvHam8lc0z+6pvTBSMKTSBalAAm9c7Pg81c2Wp1aqn2AaLCVszi34VKXgcJehkV2/x
+         0cC6wYIDH9Ld96omziFoKsMGQ5XQ+bonPJ3jsRXSMIm8OtvxjLZRdU1WoHG/YaLKNb2T
+         LBJw==
+X-Forwarded-Encrypted: i=1; AKwUvBzpPzrtBFTKgVM70M5IKN4M/3II6lho9Zxqo4T4d/HvPDskf8AHsWHKxgP3gRuCp+syzSkIlZhyvycdQqZtfw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLGHJJmJjDO6yraxIg47KbfSVsQ8xlfiPQhH+D2s8QEkKKFhiZh
+	7s0P3bd06mNUcr/6qClG4a0tlLMJBHm3uxeRno8w7xV8yq7FuyGWRygq
+X-Gm-Gg: AYBFou2MXh149vaK/Mmroj2/731toaFSlI7rp2743GE1zvVQBh6kpqdjp0GVe8Y76Wv
+	LJ2cehq9bFiWtQlwuD8YgqFkNSaCImbZ5PZr586f+kPdOdYQ9x+R3icJJnXhFj1W4mKr89akr0h
+	o4F1Yh4OexfbzCA1odyhlKpISbBe9xUzPGD643HLDj0UN16scvSmZP+lLYeMJCFZ0OrDxU6CrU4
+	/WNDcLpbznN9qm/u2kPtc79TpYD4c5nXcHMq0OHPOvKaVBjJk15eTxHxsDJTS5on/hE6ppfRJrM
+	j61u4rPr3m9tIgtVY6DCaJEGJndqeqmbP/6KGc6AFByPpI5oj4XgDAqyldP9d3JasIHQt2zGQbF
+	sSYtgrXGyPFH1Ni20BLWMaNj11LfzUbpSr3cgY6m3UfgBwvOdeD6nQNNrfJqANHL2eIxysvJHwU
+	DQfczGAz+iymr5MWAfP1RvldYLksLPBY66WaYwMsneq4176PnsrqJsYp1zUuRc2yV6YCeSNV7SE
+	LkKIyzHR1QC5Q/0VGcdNWfry5WOgPBeW1FclkSur964n4XTeX3onrRy2gVRAjls08TcZyZ4FKd1
+	8x+T/urnRXeEUnA5/HXYT9qJJabLsx6X3vk2O3um+e4zuOInvDzvZoIwNAdzQVCr/IQmMfHMjKY
+	B
+X-Received: by 2002:a05:600c:c08c:b0:4a2:1a:a115 with SMTP id 5b1f17b1804b1-4ac1209f120mr204038965e9.0.1793634442375;
+        Mon, 02 Nov 2026 07:47:22 -0800 (PST)
+Received: from scheduler.schedules ([85.100.66.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6e63e0esm359259525e9.12.2026.11.02.07.47.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 07:15:20 -0800 (PST)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched/deadline: Fix spurious -EPERM for migration-disabled tasks
-Date: Mon,  2 Nov 2026 16:14:56 +0100
-Message-ID: <20261102151457.364631-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <v5c3zc2sy66bsummtsvw6ciri65kc5tphm6xs752ifh5eujn6k@qflvq77fph5d>
-References: <20261102135420.244745-1-parri.andrea@gmail.com> <v5c3zc2sy66bsummtsvw6ciri65kc5tphm6xs752ifh5eujn6k@qflvq77fph5d>
+        Mon, 02 Nov 2026 07:47:21 -0800 (PST)
+Date: Mon, 2 Nov 2026 18:47:17 +0300
+From: Kayra Cizmeci <kayracizmeci@gmail.com>
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, Hui Su <sh_def@163.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sched: Fix cpuset_mutex double unlock in
+ __sched_setscheduler()
+Message-ID: <auimbkttN-iPGtwZ@scheduler.schedules>
+References: <20261102134606.242743-1-parri.andrea@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -110,37 +104,52 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261102134606.242743-1-parri.andrea@gmail.com>
 
-On Mon, Nov 02, 2026 at 09:45:30AM -0500, Aaron Tomlin wrote:
+On Mon, Nov 02, 2026 at 02:46:05PM +0100, Andrea Parri wrote:
+:
+> A sched_setattr() with SCHED_FLAG_KEEP_POLICY on a SCHED_DEADLINE task
+> unlocks cpuset_mutex twice if the task's policy changes concurrently:
 
-[...]
+Uh-oh.
 
-> Do you mind if I include your patch in my series [1]?
+>  kernel/sched/syscalls.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index 45a127deeadd9..2af550f92ac65 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -640,8 +640,10 @@ int __sched_setscheduler(struct task_struct *p,
+>  	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
+>  		policy = oldpolicy = -1;
+>  		task_rq_unlock(rq, p, &rf);
+> -		if (cpuset_locked)
+> +		if (cpuset_locked) {
+>  			cpuset_unlock();
+> +			cpuset_locked = false;
+> +		}
+>  		goto recheck;
+>  	}
+>  
+> -- 
+> 2.53.0
+> 
 
-Thanks for the offer, but I'd rather keep this one standalone: it's a
-stable fix, and it shouldn't have to wait for the debugfs series.  If it
-goes in first, your 1/6 just needs to keep &p->cpus_mask on that line:
+So the issue is that when tasks policy changes before we come to this
+check, we don't clear cpuset_locked while calling cpuset_unlock().
 
-	if (!cpumask_subset(rd->span, &p->cpus_mask) ||
-	    rd->dl_bw.bw == 0) {
+In the other calls of cpuset_unlock() this is not a problem since we
+just return and don't use the local cpuset_locked. But on this one we
+do. And if we don't retake the lock it just stays true. Even if we
+didn't claimed the lock. And that causes bad, bad, bad, bad problems.
 
-If the maintainers would rather have it in your series, I'm fine with
-that, as the first patch and with its authorship and its Fixes and
-stable tags unchanged.
+Reviewed-by: Kayra Cizmeci <kayracizmeci@gmail.com>
 
-> Also, please detail the LLM used as per Documentation/process/coding-assistants.rst:
->
->     Assisted-by: LLM [TOOL1] [TOOL2]
-
-That tag is gone as of v7.4-rc1, which this patch is based on: commit
-1e035297ffda ("docs: remove Assisted-by references") dropped it from
-coding-assistants.rst and checkpatch.  tip/sched/core is still on an
-older base, where the docs have it.
-
-Per Documentation/process/generated-content.rst, the tool was Claude
-Code with Claude Opus 5.5.  It helped find the bug and write the patch,
-its changelog and its test, and I reviewed the result.
 
 Thanks,
-  Andrea
+
+Kayra
+
