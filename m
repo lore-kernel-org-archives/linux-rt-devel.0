@@ -1,19 +1,20 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.84
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.195.90
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793673902;
-	b=iqzpRYe9OgUJtqzjv+Wa81Djt1DiWtrzBn6shqCWRNoqv6LD96p7BXPHMcx/qsqRHu1j
-	 d5/QC2dgGaCwptrJiGVZQPveSv+9Ep/ExJwiN6ahml269TvSa///nQHJAk+mWYL79NlUX
-	 lmXNMc5jrX1Ugk4AP8B6Sw9kdF6KemQfF3nCoyWY90AFPpW/vvB6myz+ZCJNoe/C+mdKw
-	 vEPJXHhnLYa49tTzZZFUgUvDWt0MjqR0And9EiU5hFy4QxkSndvHGdonBLq4Hy3ezJiGY
-	 Y1++wcXSuTnuNN70AVNnaOS6kRzS4TftNxerdRN7Kqd7lzN2PGUtLKoXZuzKTBJlDww==
+	t=1793673908;
+	b=Pcc3Zzw+CFWWLFJp1EaO/6xzOb8jFE8HcvgSjUP1lBsPUAC4+9Uc8HYtWHMXJ7lFvQQA
+	 bdvjAz3unu9XezoO1xeIRjlvCB01CYQwIzc0p52rU4ZYxMck60pPFh6MENgdHdn+pGIE3
+	 fREdX1Lah+Onwzq3GVI1VwRiAjeYxPsyEpIo3I8TeHpjD2S1oy3Eg6sPUvArLJCKo4aNG
+	 m8x9lT7m3aoWpsMbgwfoangcJhSuhHcGi4v3JvMKFXbvZB/NY2xutoMe8Hy3sQ5MO0qbs
+	 TB70o1r+Gqo1/sHkDUNiKR7cOIsVk1JY/abu7ljM3gT4RNJRY5bYq6f+nRBBoV02xbQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793673902;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793673908;
 	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-Mailer:In-Reply-To:References:Content-Transfer-Encoding:
+	 Content-Type:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
 	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
@@ -23,45 +24,45 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=PasfR8oWRxIWO6bhP8LVJP213oGmqY14zGIXgd+JWBY=;
-	b=Bq5oEXX3AdA6taCm/6dRL6MvMvuFj8gR2MyQeT3BqlOyHqKZsGOzG63Bz2ngTOSAL25Q
-	 aZtKNdeevTmZaVrg42lWrMl119mlbl3KnozdUXHB+faQCgKvdeEY1QKktIpXSvk2JxJer
-	 770CgCQKHzalXX1s/WSKyUG4G4yvV7EE0dLMpIFvq6uEURNXjTFW2I72Q2l7BvOM431E0
-	 dh2bCTUx4GfRadxPvJM1BqsV1DjvODa8hpQequqzGPUQzGRwGunlwNt661wAIvuHtKNsB
-	 93bgnIdiM1o+dwHhBu2ygFFDanlbgRLG67vBcJaJzr0ptiXDqFgs/SnzXj3chVT6wfQ==
+	bh=ftvaG1o2ZuK9RpRIZjOlT4Siw57MMPBlDTzMlX4Vqlw=;
+	b=2YQyW1O/rfEFZxIT4wxVXd5luJ+7puG/iRT+/cB7782j3re+zM8XjIm0ksCq9ItCb1PD
+	 pk61m7j6ZcLE73/jnkxHWGk/hPDmV94ZOH/uQTeavVfhn5ZNMuBRmAmmHyZOCSSO55LgO
+	 OpW9zAkDexcyvzspt2YiZ6sIeQsw1RR8u7C07gsIkRrdz0EIlpsYDhXvaCAv8dDHrXY50
+	 DyeMMP40/m8EN+GlbH/MF6/d9P4WmpmY1o7P/hakk/rKppQioj1KaSndeQUFGoa5mvrXK
+	 si9IPn/cUmD8/hyUxdN/JNE0Gn6pp7XgkPGv2YeTt56TL8oBRlToYuidNjQn157e+xg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=atomlin.com;
 	spf=pass smtp.mailfrom=atomlin.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.84
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020084.outbound.protection.outlook.com [52.101.196.84])
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.195.90
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020090.outbound.protection.outlook.com [52.101.195.90])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB60E606A327
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 02:45:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB60E606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F31606A338
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 02:45:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8F31606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SyRD3jwXv1mWnfa5FIniXUqJcmKMXv1zfoY/pDhBtT4Z6LUU21cl66Ptr4+pLE54sGdJAYRthNIvO8hVQZeNYC7jb/ihnT57FZpubr1hBnnp6/9Q7Iu1UeVoKGDdbp9rim95sTT7shU+GStTCQL/H5BE9DL1335FIhJd6SWt/RPXInWHIirlFLIUW5IzomFrQtI6SDrAt66b7MfFIWtO5giZoOPAMy0hhLwvkmjiX2edSNsVng51Q/vIYq7LlAUE3BMqlhIeq/nhjAysZDe7VM9j5jiecOAhciuDeget2Aexzr/KAIaTZC3c9RTBXe6lGE0mlGZ1h8hy3AtidQBASA==
+ b=fYl6d00dTDj8YFzJLc0upKLO5BJSUfhB3dd7/ptvI72jjXVWk41K7/KLLjlZ5hC1Bl7MFmqAiY81QQ1ZaIGpJWwDV1eb0fJEMYs0pUbiTBxsqatOYdC0092hrWJF1dkd//sCLEVmEbRevqhtI0a2eSfTTOBAVegH+juSmVjFHnrWclfk1cdC0LC8nMEmzlZYjPpoX13NX2nDJPpkyXTaFbJ1HjVfaMMuWVJVma8mwQtnbl6xBa5zRfGEio0+sTRkiEUqih4fFlK2KC6p8g6dnl2MgZMH6phf1tmQJAzSaa/QLzt4HYQPHWFpiG0ybXZpdbHG0Ei6Pbg7Hr5/qwJEww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=PasfR8oWRxIWO6bhP8LVJP213oGmqY14zGIXgd+JWBY=;
- b=EAOOjLUb/tVEj8M4XHAP1zljsBOZd9bPx/3xenejEZM+o5XKDKZwzKFuPv0Tl20dGgIFzhqqyPg54A87cCrh5eqRLCFAYQ7Nu685c3a2o1OLxrPqtoWcBzGax4TBWdCaSWYAOLGcjseumYYAQXqmfjBAwZUSwE6KezpYh3IuCu5NxfYA2qy5addhKb0QJhcJ2ys4J5T4xwVT+5yD4x4BRX+lOhWIBy35C5iPDh+NqYXhgS9DTMe67MdZcNo7wOwEofH28Y8MlKfkQDoLNdrqwd/7xlqJZABbOCoaas8clc+vHdocypL+6xrGfAjaYArV1nT/++1WVHGdpvGmWoubUg==
+ bh=ftvaG1o2ZuK9RpRIZjOlT4Siw57MMPBlDTzMlX4Vqlw=;
+ b=tOqQDMjEeT3DC3vR0dMdc3cGQma3ZRPWouMdtGXtx4Q4KTndaxWAmsjUUCxcmmTTPXtRQXhY5Re5nhU4G26VyzU1y+CNliUCtY9f+Gx7ZfhiyhrInowGvRbAeN9U5MJwWIa5abtiO1lzNw6PHGmFc+iw3GxYzovFNXp3yQ5Mj+Kj2+qwn+3QnNeT8XmIh5RUvZD/QMjLlFH6gWkuBr7TzxH757TmKss7//tH4LO+uEhYYOW+iRIWwnyEfWHzNESaRpc5FpWekmFM4AtKznxHSGsDvzaBbEEKT2Y/6Qqnqj2MnJW/QTxtY6Rh/EaeVI0tiF/9vqmqNN3RpoWeI08s4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=atomlin.com;
 Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
- by LO2P123MB6972.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:31d::5) with
+ by LOEP123MB620368.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:501::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
- 2026 02:44:57 +0000
+ 2026 02:45:04 +0000
 Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
  ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
  ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
- 02:44:57 +0000
+ 02:45:04 +0000
 From: Aaron Tomlin <atomlin@atomlin.com>
 To: pmladek@suse.com,
 	john.ogness@linutronix.de,
@@ -104,14 +105,16 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-trace-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [RFC PATCH v2 0/5] panic, crash_core, sys_info: Introduce crash_kexec_in_memory_sys_info
-Date: Mon,  2 Nov 2026 21:44:48 -0500
-Message-ID: <20261103024453.922373-1-atomlin@atomlin.com>
+Subject: [RFC PATCH v2 2/5] mm/show_mem: Avoid blocking on zone->lock during Oops or panic
+Date: Mon,  2 Nov 2026 21:44:50 -0500
+Message-ID: <20261103024453.922373-3-atomlin@atomlin.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261103024453.922373-1-atomlin@atomlin.com>
+References: <20261103024453.922373-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0449.namprd03.prod.outlook.com
- (2603:10b6:408:113::34) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BN9PR03CA0431.namprd03.prod.outlook.com
+ (2603:10b6:408:113::16) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:600:163::8)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -123,171 +126,114 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LO2P123MB6972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d5320ae-248e-44f9-8ec0-08df39547276
+X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LOEP123MB620368:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cca2195-e6c3-40e0-89b2-08df395476d1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|6133799003|10067099003|261102123227099003|18002099003|3023799007|261102130727099003|921020|56012099006|5023799004|261026140227099003|261022105027099003|261021121427099003|261009221227099003|261021123027099003|261022075727099003|261026121527099003|261009223027099003|261028144727099003|261021135927099003;
+	BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|6133799003|10067099003|22082099003|261102123227099003|18002099003|921020|56012099006|5023799004|261021123027099003|261022075727099003|261021135927099003|261021121427099003;
 X-Microsoft-Antispam-Message-Info:
-	U0WZ+jUnRXc/rHYiiDDTJtTfZEp3+4ooVXUTY+8/uoS/T949hrlsvlykyEJXBgC4rw6MXhB79PrEl5vviq5++3bsfsYrF3lRS7mJv+fNoO0JI2qarc2d8MwWKsYzCf8oZ73TMr7KDEI11ebOiBVMhReXgLSGDh+aMaymbxmNxHoTul/VPHnWwI66VB8l51PmqQMHVc79Ll+ZVsk4JVm4a2VK3DLpkYnj5Ygj9G9l8OSMM1xyvBRARNWiuAbUV4B8fWGvZ7FLq2mQk/A+lKLtUReEvIxjkG+qM4DipUsSlVrM7eAh+N7L5Wy0pef3kHFRoPOQkU5tmqfSTucsEaUym5qB5xpG3jo6pOEvZt91L3UMf+pzGLEWcvJrPGY6a594wGlF3t9Xqe1Y9JKwGi+iZ5yjg2GB+yQD3E5rbVE9RbmQHetN7iLekl3lvpZODBIx1fQLuIyBGYmeQ0I3cVUkbhJ5m2CH+CC6ID0w5kK2MwvBZ/qZ0PYa9ZE2SOIlk8juzohZrq3gyfCeQ7ZAi+DrsXY8m/1al2vv0S5SS5jr/x9UO5b8lFLKbEPq+IQFw2pYaJXTsaP2mj+4bG9AE/ZDLcKcG6LMTJrpEljvpHCQGPDyaTRPDtGuzPse83XE9ksxCIxyKSwaEOArgu/2j2UOedoTQWPocxm3mNIuS8qqt98=
+	f/aurlGl/qw7tE+xWQnBOn7WxYABpXS+wKYuZunS2LcjrAR/9FKvgK3gRZYmRMo/inkdKscM3qmrOowkQGl9Hu8M3sSowr4dfAssu/ZUMyPoN1lE2ZRicsakFkrXDVNgxNS+RSspBG2O4Bxblb9WnaQG8DxF1p7Kg/NXv40FmY6kivqLO8syiCw6DT0Iu41hHlvLCJnPfNeTE7roijRdM2t7qFm50PY2WBVanhobZMnK6vGY9UY24g55HtUoaxUlUWzHvSLE7v+ovQFhji5i2pd2KqvMIgRNDN2xl+MHbmxjnAxnKe1JhBrT5XJfxFc9YQClBtQp/i5pxPA2myZJJtQylXkCyUu0lTGFX596soV3mMq4yKHb7AHU/xMrcvckjgEpKii7W61tcI1QkSB/vXLD8sm86NKfGBf5ENPcO61hn7g8S66frP7JslngJGmsL09mKp6hhfnIR1ORumF/aqEz5FUTq5/4+V/6mHuuzB6DK1Dd3gYwakX2ThcOjoofDoCOaj2Hb/leO0ecvhaAKbRRB7OpdSm7HOP6t1jUx5WDtN8sxSN1xRUWgC7s08H6W8wNJbcHOuj0lxyKe7+4txv9I9b8T3uyUibFT+z/u1K3fopHSX82NI8HkT3NfNq57mRO2OYzsmYC+H6lpEmY7T+teDm0d9hO4edq4XKl6LG0anlpQycFP1/6eRNWeY+uRL6LeCw/kMg5bFYqLvLoLA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(6133799003)(10067099003)(261102123227099003)(18002099003)(3023799007)(261102130727099003)(921020)(56012099006)(5023799004)(261026140227099003)(261022105027099003)(261021121427099003)(261009221227099003)(261021123027099003)(261022075727099003)(261026121527099003)(261009223027099003)(261028144727099003)(261021135927099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(6133799003)(10067099003)(22082099003)(261102123227099003)(18002099003)(921020)(56012099006)(5023799004)(261021123027099003)(261022075727099003)(261021135927099003)(261021121427099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Cw1ikrewJbIK5ulxhJLMFqJOJfG11ydNgAmIS9v/sXNYHRzHswqB86iafjhK?=
- =?us-ascii?Q?bdeTrmsnCKmNDXN59zjdbvR3+bMWXsg8QAun4lzaOVZGkxVJZ646tjR/XCMl?=
- =?us-ascii?Q?N7FFu81K+y1HFM9h7H9GVURQODD6IOQa6wkXE2umFnraY7ZMluH3cNj/sAkc?=
- =?us-ascii?Q?Hi/T55oXb13chAfbjBX6/RdNkPmivki3LopIVZbr2ygJpx5uUiWqgfRz6hTZ?=
- =?us-ascii?Q?zfRy72UxMaeXp0TxXtLoWndui6eVt9Ou+ueITfLWyg/niJDGWrO1GeAXKzQh?=
- =?us-ascii?Q?dGoI49Np2CSxTK+NmBp8wKtoY7qFpxcxXkYsmZ8uiSWmoMWqLt/bEIfo17LQ?=
- =?us-ascii?Q?ImmS1VkX7+b7ZrY0oOkOie9LEFG12sty2zXAQ4++wKwAV3xOQoyUcSSCOKP5?=
- =?us-ascii?Q?ZVVsF3P8W1bSzQl/nl71DbzHg3PzVflM9ClIBbynj86omFwn4db/aga8fZb4?=
- =?us-ascii?Q?J147JYkDXzzwaZgBghBBg/seDvbl9QdsHva6fX0Np3mM3iwTonj9x3Sl0uQa?=
- =?us-ascii?Q?zckQtIZW/x8aq8J/qEHx1sGu1heD5YDHAKEMacqa7bEJQtSE41rm2zX1sgvE?=
- =?us-ascii?Q?+s1VzEp7/tO1zUkqe8rh/GONzmJyxDK4aD7FCf0rnonB8qhL6QCR+2HtZsch?=
- =?us-ascii?Q?fRHfoIhuLtmNG6VeSrWI7bN46PjdJ4Mv47+irK19hXdW3fzZmzwgzru1tXss?=
- =?us-ascii?Q?0DMlg4Hr7Kg1ammKFBQtxzVpOwKDpcXWqYKJ9LOtPFsWSlm6dux0QqUk6oyc?=
- =?us-ascii?Q?D+3byleDEkLx3QlGSev0FRjGjQUhK6opns6ahwiDD8HbMvSz7WGgnE6ydbUd?=
- =?us-ascii?Q?LVtzKD62XFt8XCIFZhOrv1EBU0LfxhsD0xIxA4xO/I3EUZQVb35uyDuC6xTD?=
- =?us-ascii?Q?7E7eYTs38WYS4/6nqwIUtPi2xDJ+zaBXYFixxtFsl056j5K8IYG4hdWKIqSw?=
- =?us-ascii?Q?ud+Lo+edvVSho/Ozru9DNc9U9BfZm+2GpK401Wiq5tVshgXiUFvqZCw665OS?=
- =?us-ascii?Q?U7/Wj97+4D9S5K3hdbzHPpVoADF8/1Q5II/NLDfqRZCRS2fn6uyOcVXakpMo?=
- =?us-ascii?Q?Gh5TIlAAQFukIT6vpDb3WDCJ7mttNtLNZ7jFlpY1tGC/eMaSqq3HnGywdOKY?=
- =?us-ascii?Q?kHotYzL5uDKZLEge+h07Lo+CT1c1wkQERbErrSMIRf91Oh3IpgnUQw/Mj4UT?=
- =?us-ascii?Q?yMtq5w+9A+isxiKk4/fbyuBR4tFJE4y/paWPTZevkQqej5JWSKXpLecvlY0L?=
- =?us-ascii?Q?lE3iH6iI+ay5Joy2IoUV4VRavehWkp/mxSAKfgRft9B8qGhu6EisOQwmjE51?=
- =?us-ascii?Q?5/7SeqR09Yh+oBRONrLc9Ac2RhLZrHjo+4NbvvJ7u/UmUA2SBBosbk9hRSvn?=
- =?us-ascii?Q?3wUDAkSSmsiXAHsO2KptyKUIibgGM4KZmekk/6PCdfHHUlrtdD25xx3sn1rs?=
- =?us-ascii?Q?bQXn222Vw2x7dQk3yjHup5g0q8AWDJIp9Ha3MslitNQK3oE0yNpnEiDuWrVM?=
- =?us-ascii?Q?jzWKbSNCT5/DGfyyyWLtxRwwNvKCvcf5zbFZrfqYigFA0xpxOs6KvjuH7Cxg?=
- =?us-ascii?Q?7uE3wp+ZUafgDMKd4JRIDXbyTNb/jnJksGjX+w4AgXjlJPCHCDskq4Ivofds?=
- =?us-ascii?Q?iKmEBx7tG9Il26K6T1ARgNmmYjVOipqS+XHSP/Vh1Ff3r/89Xb5PQQPryA4G?=
- =?us-ascii?Q?l9W1J4vPmG7B8HnbE7PmVDca5uX8yW0nA+xMct3LNTYQU4nU6UqTr+6oxU0z?=
- =?us-ascii?Q?7hi0jNOE9w=3D=3D?=
+	=?us-ascii?Q?uWvjaBIFx1c6QgMHhhb8vgBqlBEQQvlFE9i4CsRH8beDYraLCFfuJnI75jeu?=
+ =?us-ascii?Q?iE/aeHb55dRZaogYzLVCVoTEUcpNvoFSxWj6yDDJCPU0YTJVtDh9KQkR2XwP?=
+ =?us-ascii?Q?s9tHTBx99VWhj2023lV7dFcFSNwLWbUyPQbmXAmUWSw+IbY4BlN7eXmQ1IFM?=
+ =?us-ascii?Q?hcmWqTdrL560kkZZ+4AF/5CaSGoWHVxBirlSFV4LyaTwxyWbEbEGw0TC4dnr?=
+ =?us-ascii?Q?ML6eLoA/7P1Chb6lS76u4vazGpoXG8Q1e7mG67Nk35jI9TmFDakHJni+G6Zl?=
+ =?us-ascii?Q?NPcqv6+7XjBm4zVtBEk+cE7rquHrqitOUBhirDup+TSfxDq6k0kvN2BOjeOx?=
+ =?us-ascii?Q?svs+tlytSgrujw3WtrUQADQ6HNOCtbkaBM248HVWlKqyNJ32oHprAEUt/yFc?=
+ =?us-ascii?Q?sjRDLYmFaALVqcvwvI2L3GsRa5OXQIegIMX7n3ft+bQi8bgRiHuBybLIyudy?=
+ =?us-ascii?Q?jskItb+uxc3oH6dq3yQhzmN4tns1jjQBw4QgR2W4+aTp56DdP8RKKhUyD4rP?=
+ =?us-ascii?Q?zNxLfXhl2FomTXwdqaFyGnblWKgPBngxGCabz4s3fsLtmndpGXrE3U/9WycW?=
+ =?us-ascii?Q?aRd2Sb7iYNoh+yx4M4fnFGk06WUo3gywrcuV3Wpam8/+5QEmE+ZwB0FH+8qS?=
+ =?us-ascii?Q?iGZNW4njH5d8WvzOQpIud9So/HlzYymTjXsmcqAr6lJ2OYZHGIJYsjj8F+vt?=
+ =?us-ascii?Q?pFqJo+hh8mY0Ju5j2w+ER0Wrykw6qMDpJP/C/MfOYFcLf+/7Sxa1G6uhc6l+?=
+ =?us-ascii?Q?qBNHBZ2yrS0tCHNsx3YkTTQTVtE9yUC/aaB5InKRKT69aL4DtPUm/yN5NAtO?=
+ =?us-ascii?Q?pIsS5XnoeksPxkqZ52DoZwvGocLDHieUjHojONqjEWiDzYth1cNR92itb52F?=
+ =?us-ascii?Q?me639G4PDdtV7479qtVgiMOvPrf/UQ2LHEDk91aHTcVvYla3Kb8XHYni7jsE?=
+ =?us-ascii?Q?Nt9NnLwt8Y+mfJejOATl8WdiiAF2PhAXez0qyRJwgIOd2q2ZkNuOsv9debwJ?=
+ =?us-ascii?Q?vzpf0xASbD2Q3kchyUkQvVDlYReB2v0eskgjbcUgPLYNg03yIQX/d+1F56AM?=
+ =?us-ascii?Q?E5cVzYQKzFUUmDFjuL9Ndj2fOwBmgJOa+amAPiwwk4muSnzY7x/7EDxK+RJ9?=
+ =?us-ascii?Q?8cH4rfijNfNT9zmQYdcnficfECOB3/24/Ny+CGR7Xy8ib7YPzUwnysXzRga4?=
+ =?us-ascii?Q?hBIqNBMsm8A4nR40qja0xgFjse/s7Pz2TOBcgLGzJk5FaHGrD/+755QVtVo6?=
+ =?us-ascii?Q?ktYshGcJSG2VCxbh24C/ooUQquYaYXzTxuWEovs2MyEgpExVln9Uu9zaTnjt?=
+ =?us-ascii?Q?Zt2a2dxM3u67o4VaZlZi2HZRkhV+8cihN6HgLf0lHEprX68YL8avS0DRyoX9?=
+ =?us-ascii?Q?ofr1udujjddsYBv2vR1vdFKZ7PX+vwxy0/8gjJbYbjBu2wvEz9sUBwFfj6on?=
+ =?us-ascii?Q?pTORwXoEHAUMC89yrQYGtu5iguwHuAuUTEUjimS6M4ttSRBJrsqcQRBk3veB?=
+ =?us-ascii?Q?SvJNam1nlsfH/1/C7JIqIdtJBW5PiNbNHctZ3/1I9RxMpk/Unh7s+NsZbtUT?=
+ =?us-ascii?Q?i/PVKNZfFMHyj23m6Ae+SaX5HJRZB+YNghMgw5HhCWlQGZQBhtT8eNcqc6mo?=
+ =?us-ascii?Q?SDikW4opLpC88s8OxcAKa8MtJRX+YEqyHsAgI+WpO+oR6fMslYJ99NelDtDt?=
+ =?us-ascii?Q?L/pQAwG8BQfdlLc3pu1/xwkcnCBw7QRQq21hth6/LVzaaBfdn0pxiWQiCy9e?=
+ =?us-ascii?Q?5th0dFpYVA=3D=3D?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d5320ae-248e-44f9-8ec0-08df39547276
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cca2195-e6c3-40e0-89b2-08df395476d1
 X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 02:44:57.2299
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 02:45:04.5013
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uM45Gkal7ZRggI3yDaOVTm0IgXlR6bWjZWf0BbF7i0sLZae5Uvukw+MYUBvvGxLOoxuhhGxogjCFfY/tBv2mhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB6972
+X-MS-Exchange-CrossTenant-UserPrincipalName: NJLbb7mT7AKig0wuLEe2hPsl8cIphaNdtf617Gq1aiD1mkZMPDRndOJSdxZxGN2V8auuSBui1BeA2MZWV9R9ZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOEP123MB620368
 
-In modern fleet environments, capturing a full multi-gigabyte vmcore via
-kdump can occasionally fail or be intentionally skipped due to storage,
-network, or encryption constraints. In these scenarios, the extracted
-dmesg buffer (e.g. vmcore-dmesg.txt) is often the sole artefact
-available for post-mortem triage.
+When show_free_areas() iterates over populated memory zones, it
+unconditionally acquires zone->lock via spin_lock_irqsave(). If
+show_mem() is invoked from an Oops or panic context while the crashing
+CPU or a wedged remote CPU already holds zone->lock, or from an NMI or
+hardirq context under CONFIG_PREEMPT_RT where spinlock_t is a sleeping
+rt_mutex, acquiring zone->lock can self-deadlock or fault before
+post-mortem recovery (such as kdump) can proceed.
 
-Currently, appending supplemental system state (such as memory usage, held
-locks, active timers, task states, or ftrace buffers) via panic_print prior
-to kdump requires enabling crash_kexec_post_notifiers. Doing so exposes the
-crash path to registered panic notifiers (vastly increasing the risk of
-hanging or deadlocking) and forces panic_print output to be flushed
-synchronously to physical consoles. On a slow serial console or IPMI
-Serial-over-LAN (e.g. 115200 baud), flushing comprehensive sys_info()
-output (e.g. tasks or stacktraces) can exceed 10 seconds, allowing the
-hardware timer to expire and reset the system before kdump can initialise.
-Furthermore, on large systems, high-volume telemetry can wrap the printk
-ring buffer and overwrite the initial Oops, BUG, or panic stack trace.
+Check can_spin_trylock() and use spin_trylock_irqsave() when
+!can_spin_trylock(), in_nmi(), oops_in_progress, or panic_in_progress()
+is active, and emit the zone header after releasing zone->lock,
+logging a contention notice and skipping the locked zone rather than
+spinning indefinitely.
 
-This series introduces the "crash_kexec_in_memory_sys_info" kernel
-command-line parameter to decouple in-memory telemetry collection from
-both panic notifiers and physical console flushing when kdump is active:
+Fixes: d999bd9392de ("panic: add options to print system info when panic happens")
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+ mm/show_mem.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-    1.  Fixes duplicate and dropped all-CPU backtraces when SYS_INFO_ALL_BT
-        is configured in panic_print across early SMP shutdown and
-        __sys_info().
-
-    2.  Avoids spinning indefinitely on zone->lock in show_free_areas()
-        during NMI, Oops, or panic contexts by falling back to non-blocking
-        trylock acquisitions and skipping contended zones.
-
-    3.  Avoids blocking on timekeeping seqcounts and hrtimer_cpu_base locks
-        in sysrq_timer_list_show() and print_active_timers() during NMI,
-        Oops, or panic contexts.
-
-    4.  Adds printk console flush suppression across nbcon, legacy
-        consoles, and klogd, alongside ring buffer tail pinning so
-        pre-crash records can still be recycled while protecting the
-        initial crash output from being overwritten by subsequent telemetry
-        or ftrace dumps.
-
-    5.  Introduces crash_kexec_in_memory_sys_info and invokes
-        panic_in_memory_sys_info() from __crash_kexec() prior to
-        machine_crash_shutdown() when crash_kexec_post_notifiers is not
-        enabled. It also marks the start of crash diagnostics across
-        bust_spinlocks(), __report_bug(), oops_enter(), and vpanic(), and
-        reorders __sys_info() so compact, high-signal dumps (SYS_INFO_MEM,
-        SYS_INFO_LOCKS, SYS_INFO_TIMERS, SYS_INFO_BLOCKED_TASKS) execute
-        before high-volume dumps (SYS_INFO_ALL_BT, SYS_INFO_TASKS,
-        SYS_INFO_FTRACE).
-
-Changes since v1:
-
-    - Split the single patch into a 5-patch series separating prerequisite
-      panic all-CPU backtrace fixes, crash-time lock safety in show_mem()
-      and timer_list, printk/tracing infrastructure, and the crash_kexec
-      integration
-
-    - Moved in-memory sys_info() collection from vpanic() into
-      __crash_kexec() via panic_in_memory_sys_info() with local interrupts
-      disabled so all crash_kexec() entry points (including direct Oops/die
-      paths prior to vpanic()) are covered, and kept console flush
-      suppression and tail pinning active through machine_crash_shutdown()
-      and machine_kexec() unless machine_kexec() returns
-
-    - Replaced unconditional ring buffer tail freezing with crash-start
-      sequence pinning (printk_mark_panic_start(),
-      printk_clear_panic_start(), and printk_is_tail_full()), allowing
-      pre-crash records to be recycled while preserving the initial
-      Oops/panic trace, finalising the last record when full, and stopping
-      ftrace_dump_one() before consuming unprinted trace entries
-
-    - Extended printk_suppress_console_flush() to cover nbcon atomic
-      flushes and kthreads, legacy console_flush_one_record() and kthreads,
-      and wake_up_klogd(), and dropped unnecessary EXPORT_SYMBOL_GPL
-      exports
-
-    - Added crash-context trylock and NMI-safe timekeeping handling in
-      show_free_areas(), sysrq_timer_list_show(), and
-      print_active_timers(), and fixed duplicate/dropped all-CPU backtraces
-      when SYS_INFO_ALL_BT is used during panic
-
- - Link to v1: https://lore.kernel.org/lkml/20260916201546.661384-1-atomlin@atomlin.com/
-
-Aaron Tomlin (5):
-  panic, sys_info: Fix duplicate and dropped all-CPU backtraces in panic
-  mm/show_mem: Avoid blocking on zone->lock during Oops or panic
-  timers: Avoid blocking on hrtimer_cpu_base lock during Oops or panic
-  printk, tracing: Support console flush suppression and tail pinning
-  panic, crash_core, sys_info: Introduce crash_kexec_in_memory_sys_info
-
- .../admin-guide/kernel-parameters.txt         |  11 ++
- include/linux/panic.h                         |   2 +
- include/linux/printk.h                        |  27 +++
- include/linux/sched.h                         |   3 +
- include/linux/sys_info.h                      |   4 +
- kernel/crash_core.c                           |   6 +
- kernel/exit.c                                 |  10 ++
- kernel/fork.c                                 |   3 +
- kernel/panic.c                                |  87 ++++++++-
- kernel/printk/internal.h                      |   4 +
- kernel/printk/nbcon.c                         |  11 +-
- kernel/printk/printk.c                        |  29 ++-
- kernel/printk/printk_ringbuffer.c             | 168 +++++++++++++++++-
- kernel/time/timer_list.c                      |  13 +-
- kernel/trace/trace.c                          |  20 ++-
- lib/bug.c                                     |  18 +-
- lib/bust_spinlocks.c                          |  22 ++-
- lib/sys_info.c                                |  33 ++--
- mm/show_mem.c                                 |  15 +-
- 19 files changed, 447 insertions(+), 39 deletions(-)
-
+diff --git a/mm/show_mem.c b/mm/show_mem.c
+index b938cbcd774a..77098077523a 100644
+--- a/mm/show_mem.c
++++ b/mm/show_mem.c
+@@ -367,10 +367,17 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 			continue;
+ 		if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
+ 			continue;
+-		show_node(zone);
+-		printk(KERN_CONT "%s: ", zone->name);
+ 
+-		spin_lock_irqsave(&zone->lock, flags);
++		if (!can_spin_trylock() || in_nmi() ||
++		    oops_in_progress || panic_in_progress()) {
++			if (!can_spin_trylock() ||
++			    !spin_trylock_irqsave(&zone->lock, flags)) {
++				pr_warn("zone %s lock contended\n", zone->name);
++				continue;
++			}
++		} else {
++			spin_lock_irqsave(&zone->lock, flags);
++		}
+ 		for (order = 0; order < NR_PAGE_ORDERS; order++) {
+ 			struct free_area *area = &zone->free_area[order];
+ 			int type;
+@@ -385,6 +392,8 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 			}
+ 		}
+ 		spin_unlock_irqrestore(&zone->lock, flags);
++		show_node(zone);
++		printk(KERN_CONT "%s: ", zone->name);
+ 		for (order = 0; order < NR_PAGE_ORDERS; order++) {
+ 			printk(KERN_CONT "%lu*%lukB ",
+ 			       nr[order], K(1UL) << order);
 -- 
 2.55.0
 
