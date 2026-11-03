@@ -1,79 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793693515;
-	b=nR3RmqOrK4aUkCivlStmr++at4aEQv0YQoOT3fiJ57LrNRZKVVZDfByJ83mwzDSJ4I28
-	 7Tkj3Cn38SPl8uLobqlwHz98IVlazK8AYUnbTDTQDQ8SfE4opWPw7cl7CH/+pGRz+TlWF
-	 jp9LFpj8+ILufIQIV8fJT+aZZnESvJgWnVmbU6Ia2pv18wQe3wZX6PBLJd0rbDh0dQtwO
-	 S+o7jiHRzZ3+ooSTT70LXIHwkvBRYbANLTry7BVD1z7pr9jDBcHC7FyEisheNNimLMNqz
-	 pP32YmMKHzzWLSH1Zx0KYpKkTE1GsyqN6jgPp5C5KNIAMVN6hVwq/qHEWAB796aj0Jg==
+	t=1793696403;
+	b=eZREf8+M99Ayagerb5AoNIoIjgLx9Ks9rUJqPUXr/r7LaUuzE5vtmR/gU9Da0qIun2x5
+	 qA6Jk5gTBPhEo+cGOXO9q7Qg93+QyikeJodWhPoReB8hhOiivU82vvNVmq5iigdi2uZGa
+	 jNe326vluQcNx/O6qxnpuyClIiHIn+VMcuNThOR9N9GO0T5dRChbknHxn9ebI07EMqyIN
+	 6qLjX2AUaBn06S8VTyFRtjVTvLoOq9+S4H1V4Z8v+ZJBSvZTUm9bv6PAKW1twlZ4nxc0v
+	 ATU2VHYgPde+ZBBBh40lf8d7W4FsMlHEnbjCWcSYOJjw53JtRHwYc9QEpPJXttL855w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793693515;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793696403;
 	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=HWHjCDaJOo5JyfbAzChFMw0H7Jj/ipterv1TFKU6BAI=;
-	b=v5puMs/9bSfnKZ4cHnWkxHWRrXYKmL6IwwQi4x/jGjke+dqfMKqeKGNEn8OVB6iikJeq
-	 GPIAIAlP6n4n1d/Sufrmbj0tQTsC1LaXQuVbv15VumgMQniyiI7XObzRDb1N26xQNrjU5
-	 2ERGuI2qlgI5Itp7IWXsPbTZ7JEoI2iX9Tj7lXpXRdr23Ypar3SzXlmUfO5IHMpoNLfdK
-	 sb2mwgjnWpVTtDMn2Dr2lKkrFxYjDR8MhJJa36ePkV2VndShD9lvyGdF/+5Jv5KmdaDun
-	 zjxwTCk0jzHDfyEhV10biBI2S4DG43FpkLYJQjsJX82bJ+sCFxAzb2g51dn8RoR5iEg==
+	 In-Reply-To;
+	bh=QD+CkWG5oyxTZO6V2pW1MZiGJv6VerTZJtv13Pu63rQ=;
+	b=Za82GdYv1yWbUJTr7vFugpy3Lhrc1vX68slDi5FZwVvj+iiQJKRohD19mXIs/QYXAVVF
+	 6j9jVR7zMcO/PEr2zj7g+tema00ncYQsWDsTliT0pcb71qMW/cTr4Tmffek5dlfCBcDkJ
+	 i20Xbiq43aNmsmMABRsHZzSYMDC0jswddNnVnR4+vSa5uI01Rr1TnMa28WPkjY2x72bxE
+	 t/3J9XYv8G9JZMy/Y1Gq7CL2YVpr1qM2JfWOEGjrEhIOiNxeyTLgg1eO77Ix+lN8mk5W6
+	 LGKw1HAtN7H7nV/V9gytA9BzZL6nAeXnA9T1CCijmQQDeETIveHlWMyyOmbpWeibGcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Se4uKvp5;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z93SV010;
+	dkim=temperror header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=TZQcwYgH;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=BkGYvZPs;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536E1606A32D
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 08:11:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 536E1606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA9F606A324
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 08:59:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DA9F606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Se4uKvp5;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z93SV010
-Date: Tue, 3 Nov 2026 09:11:49 +0100
+	dkim=temperror header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=TZQcwYgH;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=BkGYvZPs
+Date: Tue, 3 Nov 2026 09:59:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793693511;
+	s=2020; t=1793696391;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HWHjCDaJOo5JyfbAzChFMw0H7Jj/ipterv1TFKU6BAI=;
-	b=Se4uKvp5dOU5iN/zYf/bE4zWagFx8rgG4Qg6eWdYLqE5NrMjD0xZpWFCbM+9dGivi2Z+t0
-	zsZzXIST9Ws+gdaQ/SIFPmSFcWYjkhBZgAhgpKEm5XA+WaSkqaqgH2CBHmq10s0oXtzD6a
-	o7d5RGOApsp/zUz6rvzO4hds8gAOasac2UIGUDy9Z8Hvbe6Q8niwRsW9mMMLE2Kc/YBMLL
-	mtqai9frPwai282tSm3wMJ66OaUxrVKF+8bxlKDXtshx67U02KTSi1l/Gi8dfK8L/+Iyns
-	rnOQXkW8LnZ/Er2sZkUqmYddns0U/YYo4ePS4+SDxaOWUmx3fL1EqqT4dLeQIA==
+	bh=QD+CkWG5oyxTZO6V2pW1MZiGJv6VerTZJtv13Pu63rQ=;
+	b=TZQcwYgHEkQKzBdxCYgoF4NlP5tocqsMMzriVFP/C1WqBZa09mv2OB2oqDSLHTxPBMi56Z
+	xx9RC2sOxOvZZSB4ZGllg+wsv4OXMdYS/+VlZKuPXwAaLh3FZ3j8s0rKXV9sp9qYypwgjd
+	vjhVej7+5lui3ST4QgKreOQJE8m53gvuNdZR/+OogXkO4p1wJShVaMIqzRlCCXOYe+pENX
+	A41rGs9i7z2HuLPiMK8mvMrTjZLIIZsWw1XDlCq3MJduJg23yNiKC8twgnpIePHoKQe12N
+	yZpcBoh3XX/1DZmq/iyUy4UxgODCgMvbhy3dVFVwJVMmYRKpW+PLCnbcDGN+/w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793693511;
+	s=2020e; t=1793696391;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HWHjCDaJOo5JyfbAzChFMw0H7Jj/ipterv1TFKU6BAI=;
-	b=z93SV010ZECHpJWbxZsrQ1aF2AVMp318MTR7S8Ueyme1UCECjKOZEZiKUZMULMSJTm9Xzj
-	ef7cz/bQUY87aKBA==
+	bh=QD+CkWG5oyxTZO6V2pW1MZiGJv6VerTZJtv13Pu63rQ=;
+	b=BkGYvZPsVd4OcDfywug6gYGoeGQK32t2wF3ew8Ol7bpFcJo40b4EnCyNA4YhhGdid6FuuP
+	iS5opXFdm3oDP4CQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
+To: Troy Mitchell <troy.mitchell@linux.dev>
+Cc: Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched/deadline: Fix spurious -EPERM for
- migration-disabled tasks
-Message-ID: <20261103081149.DuyWNhVe@linutronix.de>
-References: <20261102135420.244745-1-parri.andrea@gmail.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+	Anup Patel <apatel@ventanamicro.com>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] irqchip/riscv-imsic: Synchronize remote state with IRQ
+ work
+Message-ID: <20261103085949.HPHNwwhb@linutronix.de>
+References: <20261103-imsic-remote-sync-irqwork-v1-1-8b5c951fc62a@linux.dev>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -85,41 +81,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261102135420.244745-1-parri.andrea@gmail.com>
+In-Reply-To: <20261103-imsic-remote-sync-irqwork-v1-1-8b5c951fc62a@linux.dev>
 
-On 2026-11-02 14:54:19 [+0100], Andrea Parri wrote:
-> sched_setattr() can refuse to make a task SCHED_DEADLINE with -EPERM,
-> even though the task's affinity covers the whole root domain. A retry
-> can succeed, but the error blames an affinity the task does not have.
+On 2026-11-03 08:04:33 [+0000], Troy Mitchell wrote:
+> Without a real broadcast device, the tick code falls back to the hrtimer
+> based broadcast, which keeps one CPU's local timer running. Once the SoC
+> timer is registered it replaces the hrtimer broadcast, and every CPU may
+> stop its local timer in idle.
+> 
+> On K3 the SoC timer interrupt goes through APLIC in MSI mode to IMSIC.
+> When the CPU owning it goes offline, the interrupt is moved to a CPU
+> that may already be idle with its local timer stopped. IMSIC leaves the
+> enable on the new target to a timer on that CPU, and that timer can only
+> fire through the broadcast interrupt, which is not enabled yet. The
+> system stalls.
 
-=E2=80=A6
-
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -628,7 +628,7 @@ int __sched_setscheduler(struct task_struct *p,
->  			 * the entire root_domain to become SCHED_DEADLINE. We
->  			 * will also fail if there's no bandwidth available.
->  			 */
-> -			if (!cpumask_subset(span, p->cpus_ptr) ||
-> +			if (!cpumask_subset(span, &p->cpus_mask) ||
-
-The task's cpus_ptr must share at least one CPU of cpus_mask. But it is
-not a subset if more than one CPU is involved. So the problem is that
-while it is in a migrate_disable() section after it has been scheduled
-out, it will see only one CPU via ->cpus_ptr while span may have two.
-That makes sense.
-
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Looking at sched_setaffinity(), there is dl_task_check_affinity() which
-makes the same check. It is skipped for !task_has_dl_policy(). This
-looks time like there is a small window in sched_setscheduler() where
-the affinity check passes, the task is not yet DL, and then
-sched_setaffinity() makes the affinity smaller.
-
->  			    rq->rd->dl_bw.bw =3D=3D 0) {
->  				retval =3D -EPERM;
->  				goto unlock;
+So the broadcast timer is moved on CPU which is idle and waking the CPU
+is done by a timer, which does not work if the CPU is idle.
+This makes sense.
 
 Sebastian
