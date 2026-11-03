@@ -1,106 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793720096;
-	b=iLkQjMWGHH8H/keTk42r2rVFSPrugHB0Y1J6/S57s7wQWeyzJhIUQgbyPNCL7zsO0KPd
-	 GpXtHwO4dvtjToDtiqnIC1sHATLTgZJmkrT03k1OATbzRigyLxqoBEBP88qltyvX9K1lc
-	 7lyCok2YD2RuvKHQPMSwRDLnQzqBzMaJ88tVlzbO9onG/2wAMS+4zUKQInhQTlbrQ/hiQ
-	 3gTBFZxZaRPJfUnTH8+lGZ4Em/UhtMkgYUV3kiT7SiVxzTF3lYqv/dUkWomn4L4UGnrXi
-	 utzdweYcOT/szjI7QGmMtCTg5DzS8G/HUGV/cbxYOdWySGnxSO0mp4OH5RfNiJCFRbg==
+	t=1793720570;
+	b=cIrQWRHX2P3Ix5JOigiYVwpdEmgyOr+3CQRarRerlMcEsgI4w9U39MJVK2JFd1GVNA5u
+	 2PD7q3t4LWSGDHONrDNDqn+1NwieyZQnf2JVcG3Yk8FhVsP0Rm8PH3v0mwM5bPaVCSXID
+	 yibAeTtnldTk+BOHEyKGrbGB+5wOJrukST8yuE5QyMbDlMhBkMKpfTIl0lj0EOp8B/mnd
+	 6Cack95NMkfZFEh+rXfTGCSV/ObdWHrHdoKIsKIdgP8oV25EHbAfnAUD+j1HQiEQ+9P61
+	 v+E6vgMc5w5XicewDa/ct1TgBTqMDYqvlf3AGirqBnRzpWEXD/LnLu8+M0jcQRGJJ+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793720096;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
-	b=TYp4frSecIfm3oQR1oexrBBGvgE3IE2I5TuB1qHnD0arpqbn7557JoWerUkAHjE7BVvY
-	 H1LvxfIY5B2YL5nF3DACIIa6vYjWpRn9+tksftFx2FTerWc4sPUE/7b8FOS29cLUOMAV1
-	 u3WaMRkdlwm+aPFT8Fb3Ad9ZGobulQHGJenGM3dNHeh8FPLCXfY/PW1L5TI9cXYF6hW06
-	 AXGtlVGMhbq64vAo27l3mJqjcwo8z6VbZNYZsB56TPu3i3f1O7BRzzdU6eUBrxJr4f7j7
-	 tabK4mDqkVbnnxg2HxdAQR4Dz4uVM1MeU3DODBySFZCbtmRAj6mByTynCxVVugTQNEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793720570;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
+	b=DijO9YfrJGdX0tgoA5lpv9T101p0tvFqEYwk+HEky2sxuEbVPaMZVT2CkLLzSsG6Jc+m
+	 xYfPb0zxz5R8KLm9qE8iCBg2c6RDV//BIfow+KZdT6W0iSlMH+lBJr6DjyHcE+nrTaz4z
+	 UUt5MUkyfb4XI9CargUYDY4oI1Qq+m6tjPphuP9RX9PE2mdHH3myfPVslY0INoY9g2K+G
+	 S4FmYum4yme4TB2URsLKZ+svFAe97EO1WLrem0Pmhlct+Z5LpDYqALBmLSsIhC3gjaIKq
+	 LMbKUkUTDszcSofT+O6seMaxnAfK4SWjJ2tBz7KnhJ2fnL9SPxi9Gs0ZpXf4VHDDPbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dhc06jJM;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=p7irUjyG;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="wRGD6VE/";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A436606A339
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A436606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ABD606D803
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:42:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22ABD606D803
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dhc06jJM
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c411e139259so396609466b.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 03 Nov 2026 07:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793720094; x=1794324894; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
-        b=dhc06jJM/WWs+wtkqIZS3kH13zLLX9Ev95P3jzVQF5D62B5tFYZAzAO52QgoqCzGiz
-         UpmJnR09outDMx86UcCZtMMrVeJ7+DdTvgqNblWthCQhWAB2pc/ycHVVKagOvPgfb9mE
-         ziDpFDAbV/apcHrHx2Wk407xc0HefTCeKHSqkOV0BjnvWO7mYx+p6xDd5uOq2SKtHURI
-         NzafhcAJchyFv2lHmzeUpspKOZ70+gl4oAFJMxE6LIdSSE4xzQYd9E1ftVnqp503BPr9
-         Atf7+VpXPJ9ZlRAi3wXR9y+a/EX7DS3C77pZw6R1HqRSMUSM/7Ed4wSu87nzWIcKxioV
-         DOTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793720094; x=1794324894;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
-        b=W+Ej/NHrg1HRU+dTwH3VXEUURs0fQ7at94jnrnwdF3u8eMwP/++V2XQ+vGNa09bXwc
-         z3hds79+nnZRmzZOhKEf8IrdizflmfVPTd7RjkHGGPaaQT/3adHJo+gYie60jVi0j6mE
-         /i5D5MhiweVOtpo2mZS4MhLk/a8ByfSW4wmuv8V2jUsgwlK5LZ8AH6FNfJ7rE+izudvu
-         G6AI0forWMVtlYcH2obAQOuPphQ8xuHF/e5Rt7WhcK4ZrrldBjTwVGaj52tS2966tmB0
-         uaMgyVoz9N43Jx7zfcj7ovrOYV68w9OHiEiB8Jc0PX6Y8745nHiZiswIDtkir6nZ+7pr
-         kX2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzt0u2koSIGLBIduZpGCygSZLhn6PlxJFrs0C4iTAsfFQww/9CdAvtRk8qb/VzfRLMmDP2mDKNWMw18L8jx1A==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9kNkcjnqlqPt+zZOsBr83h4kcGUIhd370kPRp85G4yDQCzFOtQ
-	/AEV4QlVLopTbp9mLtUUDgQsVTt1OeYA11HjhmpKLQJTnBp4g2IeGcHA
-X-Gm-Gg: AYBFou16wXC7y5KFsIglNDRv9omxFCTQD3Z+1gtNqRkzqZjxGxqRZrVHFolOo5J25BR
-	FwM4xETR13fLE1ZXWo34dy+q4TzUqc3/C65y7YIiIWiVY38HFSHzx38X2t+MD+cNPBh9HDdvRZa
-	SHixfAI0rw8uCVkWVkeuhhKZ8cQ+cb+03XY+njAfT1/crBtSw+fhGP10jpyY9RtCD/HEPCZyzrK
-	HFsZQHC6LWY7G/SlLYQEm8Ji9NaSq4oA5sePrf59OqjtJSCUBC4pgf3qtpppnEQ45ulHZabCbNf
-	mkItJHbyYAm3nGxWsqeychSqy/H+GtbSkwso66PmlIVNtFzsARJYTQNaZ5imZDhYUj1rhTfsn9o
-	o7oQEC6njHR9HVHuG23mFtqPNznt0UUDz2rsmNP8QG5FnIheeyuoo2jXTVlQqLuccRPTPmOw0ID
-	KlUKEhWC8vgNUsyUkvSitC8SShfFVSG8S5ZFJOV7FIw1JO+UXgkv7jmEVb9YZLBJss3/RBPBnLu
-	LYCAnTPsJ4FqX01zw22giWEXK953ConpJWd8SXMWXqnZUwM5j26Za9Rbv7/ePiDNgtyS2h6zwWQ
-	dJPPecvxVh0sv8sv231WwX51S9VPY3aIfWfnprlmpqh506q8sn32qMA5ydASfF0zi2L/YvxoPyp
-	KSg==
-X-Received: by 2002:a17:907:9346:b0:c49:b9b6:4b5e with SMTP id a640c23a62f3a-c4ca7b1f727mr1085268366b.20.1793720094382;
-        Tue, 03 Nov 2026 07:34:54 -0800 (PST)
-Received: from andreayoga.wind3.hub ([31.189.68.219])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e7a1d9d71sm20358929f8f.48.2026.11.03.07.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 07:34:53 -0800 (PST)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=p7irUjyG;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=wRGD6VE/
+Date: Tue, 3 Nov 2026 16:42:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793720568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
+	b=p7irUjyGce931pmrKe0HlmEOEKWi5zSVj2OTXAl7IEl9b6Lhvbn1veh158nshUjDv1gebs
+	Xw/JOZa75WvcZTNh2l0kyWY2+WJHKP0aT2BaQtiGif3tNLbHx2v4yumRxS+w6P9w8tOmHI
+	I4LXXOc/sNDkFaI1eiIBL4olZsoSXByXN0SSuAbFoyl/zZPnp0X88a/D3kebd3bpFdLl9/
+	s5t4boyT2LhTSC3uBAWRx+wHNQOeupos4SjN9lY4+5P38/mZBnN7Lg56tg1aBG8RkJw7L3
+	knMc8muBRQ/o3WP9sQQmbeLQPUHiaKrn16fKZQDsXBWdGciveB+qgg11KRPRAw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793720568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
+	b=wRGD6VE/Vpp6881jDOQDLdqnMy28nj/j0tSyIPjeZ4nX/IoljV9pTJdDxE5UORi0aWARGP
+	OT5QtvQLz33d2VCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Enric Balletbo i Serra <eballetb@redhat.com>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched/deadline: Fix spurious -EPERM for migration-disabled tasks
-Date: Tue,  3 Nov 2026 16:34:41 +0100
-Message-ID: <20261103153443.187455-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261103081149.DuyWNhVe@linutronix.de>
-References: <20261102135420.244745-1-parri.andrea@gmail.com> <20261103081149.DuyWNhVe@linutronix.de>
+	Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>,
+	NXP S32 Linux Team <s32@nxp.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Fix NXP STM clockevent bugs causing lockups
+Message-ID: <20261103154246.S-8NqN99@linutronix.de>
+References: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -110,45 +82,47 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
 
-On Tue, Nov 03, 2026 at 09:11:49AM +0100, Sebastian Andrzej Siewior wrote:
+On 2026-11-02 22:16:19 [+0100], Enric Balletbo i Serra wrote:
+> This series fixes three bugs in the NXP STM clocksource driver that can
+> cause soft lockups and missed timer events, particularly visible on
+> PREEMPT_RT kernels running on S32G platforms.
+>=20
+> The NXP STM generates an interrupt only on exact match between the
+> counter and comparator registers. If the counter passes the programmed
+> value, the match is missed and the hardware must count through all 2^32
+> ticks (~32.2s at 133 MHz) before firing, causing soft lockups.
+>=20
+> Patch 1 fixes max_delta: on 64-bit platforms, ULONG_MAX exceeds the
+> hardware's 32-bit compare register width, making it possible to program
+> an unreachable compare value.
 
-[...]
+This looks fine
 
-> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Patch 2 fixes the overshoot detection in set_next_event: the existing
+> check only detected counter wraps, not the normal case where the counter
+> advances past the programmed value during the read-modify-write window.
+> Replace it with a signed comparison following the pattern used by
+> timer-imx-gpt.
 
-Thanks!
+okay=E2=80=A6
 
-> Looking at sched_setaffinity(), there is dl_task_check_affinity() which
-> makes the same check. It is skipped for !task_has_dl_policy(). This
-> looks time like there is a small window in sched_setscheduler() where
-> the affinity check passes, the task is not yet DL, and then
-> sched_setaffinity() makes the affinity smaller.
+> Patch 3 increases min_delta from 2us to 20us: under bus contention on
+> PREEMPT_RT, 2us is not enough margin and the counter frequently
+> overshoots the programmed value, triggering repeated -ETIME retries.
 
-Agreed.  __sched_setaffinity() calls dl_task_check_affinity() before
-taking task_rq_lock(), which only __set_cpus_allowed_ptr() takes later,
-whereas __sched_setscheduler() runs the admission check and switches the
-policy under a single task_rq_lock().  So setaffinity can see a non-DL
-task, setscheduler then admits it against the old, wide cpus_mask, and
-setaffinity finally narrows it.
+This all sounds like the hpet trouble on x86. I'm not sure what heavy
+busy contention means and why the device is enabled/ disable during
+setting. I would assume that the programmed value hits the HW after the
+wrap so you wait until the counter wraps again for the equal match.
+Worst case would be you read back the expected value but the HW sees it
+later (after the wrap).
+hpet_clkevt_set_next_event() does in principle the same check as you in
+#2 except it compares against the "min" value instead <=3D0.
+Would this make sense?
 
-The window may be wider than it looks, too: it includes setaffinity
-waiting for task_rq_lock() while setscheduler holds it, so the two only
-need to overlap.
-
-That's independent of this patch: the same happens with p->cpus_ptr.
-
-restrict_cpus_allowed_ptr() already does its DL check under
-task_rq_lock(), so doing the same in the setaffinity path looks like
-the way to close it.  One thing to keep in mind there: when
-__sched_setaffinity() races with a cpuset update, it calls
-__set_cpus_allowed_ptr() again to reset the task to the cpuset's mask.
-That second call should probably stay unchecked, as it is today, since
-cpuset_update_tasks_cpumask() narrows DL tasks without a check anyway;
-refusing it would leave the task allowed on CPUs outside its cpuset.
-
-I'll follow up on this separately.
-
-Thanks,
-  Andrea
+Sebastian
