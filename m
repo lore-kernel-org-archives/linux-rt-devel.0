@@ -1,76 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793719026;
-	b=2vjiXb2v99Q/hW3qtIovidbrYc/qsMPDtCytUn0Wcssr9NB67RMbaVlCGY/dAhX4DqRp
-	 /RbuPB8tpbpB/oUtrPbxQmtuyFAg6yvCxrJG++LgSf/DxXg3QXfH/MUg7UNRkVZ58fdLj
-	 mngPxO1L5GB5skVhjeIgX6EUTsy9PrkagcXeOH0j2bMkCteAY3QXbcQS3tQCbUM1yJJCc
-	 v8gmSojONTBbl2q/E+j/VGRBUjIo/0HxYKfDhgZHRuFhjYcJvkNf4xZ2TzPWoO91kIvvj
-	 IsRODgybCX3DeBWE83ViKuQ1JoiQtmq/63pSoKAJBb900GGS90J4QON/SvQ3uQnTw+g==
+	t=1793720096;
+	b=iLkQjMWGHH8H/keTk42r2rVFSPrugHB0Y1J6/S57s7wQWeyzJhIUQgbyPNCL7zsO0KPd
+	 GpXtHwO4dvtjToDtiqnIC1sHATLTgZJmkrT03k1OATbzRigyLxqoBEBP88qltyvX9K1lc
+	 7lyCok2YD2RuvKHQPMSwRDLnQzqBzMaJ88tVlzbO9onG/2wAMS+4zUKQInhQTlbrQ/hiQ
+	 3gTBFZxZaRPJfUnTH8+lGZ4Em/UhtMkgYUV3kiT7SiVxzTF3lYqv/dUkWomn4L4UGnrXi
+	 utzdweYcOT/szjI7QGmMtCTg5DzS8G/HUGV/cbxYOdWySGnxSO0mp4OH5RfNiJCFRbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793719026;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793720096;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
-	b=4GfztwgUHShoZMqz5UO8dGTkul8KP2/CKEE2qnr2NeZHFOQFuHJvKcN71rKzpsyGkm9g
-	 ADLc5V89smDMoNJRlGknBmBKBZ8dUG73qwnTsMJF1lHsarZhNnodLBRYDPs/9pD6EY1G/
-	 Xq31/6e45v/h7hgcYBLL3OQvAfs8BGju/BUI9MhMQWjYZYTAcolDU36U7RXBtezEgyIhj
-	 e+QyRmFrGmxmcXJpELmbQGAbdzi5dcXy+1wJbvysh1aBol+DKc1I+yh7s8RqK8T7rKnUW
-	 5CXAt9b/4s7D3qT/1eZ7jwMTaAcK6Qas5JGscv2cv8pCBp7SA9A7HA/Yo5FavCo0uGQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
+	b=TYp4frSecIfm3oQR1oexrBBGvgE3IE2I5TuB1qHnD0arpqbn7557JoWerUkAHjE7BVvY
+	 H1LvxfIY5B2YL5nF3DACIIa6vYjWpRn9+tksftFx2FTerWc4sPUE/7b8FOS29cLUOMAV1
+	 u3WaMRkdlwm+aPFT8Fb3Ad9ZGobulQHGJenGM3dNHeh8FPLCXfY/PW1L5TI9cXYF6hW06
+	 AXGtlVGMhbq64vAo27l3mJqjcwo8z6VbZNYZsB56TPu3i3f1O7BRzzdU6eUBrxJr4f7j7
+	 tabK4mDqkVbnnxg2HxdAQR4Dz4uVM1MeU3DODBySFZCbtmRAj6mByTynCxVVugTQNEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GemeLBV2;
-	arc=none smtp.remote-ip=209.85.214.197
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dhc06jJM;
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9C8606D2F8
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:17:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB9C8606D2F8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A436606A339
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:34:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A436606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GemeLBV2
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e9d52f684fso42299685ad.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 03 Nov 2026 07:17:05 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dhc06jJM
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c411e139259so396609466b.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 03 Nov 2026 07:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793719025; x=1794323825; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
-        b=GemeLBV2bK4zdIXfrSBlVm4i2GtblOK7PkEYT26GmxbmBtNa28thV+QRUp7ENgwIC6
-         FKk5r4R28KC6vZyS7UId3+w34egIaH1OP827i9Y78hWaszOh5qXWAhKJ2TEMAe0PDpih
-         Zf01hTDzqFOqRTz14EnM4d+lEJhGQNcDAHNvlkOCCVssJvdp+MsABFOyl0+6yhmBzTy2
-         TFP1l2TNnATvcz8uYMQMzk8anyZzWr7Au2x5AnSd3+TBHHKKQ5mwClFT1y1E91LsSBEj
-         oLLxUYBr8lyS7bi9UdjBv7+4P2V+WmNMDWD0kfzdVd1jKr8VJvrah9qnialCtEB4a2GW
-         6ZAQ==
+        d=gmail.com; s=20260707; t=1793720094; x=1794324894; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
+        b=dhc06jJM/WWs+wtkqIZS3kH13zLLX9Ev95P3jzVQF5D62B5tFYZAzAO52QgoqCzGiz
+         UpmJnR09outDMx86UcCZtMMrVeJ7+DdTvgqNblWthCQhWAB2pc/ycHVVKagOvPgfb9mE
+         ziDpFDAbV/apcHrHx2Wk407xc0HefTCeKHSqkOV0BjnvWO7mYx+p6xDd5uOq2SKtHURI
+         NzafhcAJchyFv2lHmzeUpspKOZ70+gl4oAFJMxE6LIdSSE4xzQYd9E1ftVnqp503BPr9
+         Atf7+VpXPJ9ZlRAi3wXR9y+a/EX7DS3C77pZw6R1HqRSMUSM/7Ed4wSu87nzWIcKxioV
+         DOTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793719025; x=1794323825;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
-        b=zRQhAxelioIjYPU1ubT/owtJg6ZbracA0mXJ+xp1KGNBu5ZHca5t7jYPseRYnPiig+
-         cKOYg1lOc3V4+E9hg93bxFRs7iPGTB+QF43S88vq90H4GnD/f5Iy4z6N4ZFeplt/ajgT
-         M64hws0J35UNEgTjhnrNl5J5sUleGxRF9gZjNJXLa1tSWosAnET1FFDwy0bUXSsmkcmj
-         DbZDKv92m4KM2V2SKZ1E9IkBWIOtrtojzwqgvXVBMyzu1fL2SMNtNw0rwgMUwN123dYM
-         CdAGNqjiUdfJXWR5v3C4cRp6WWe/TQiPn/wEO8oDyaDFQ7VJjVONa5Li8NEJxlg6Gjq4
-         YRsw==
-X-Forwarded-Encrypted: i=1; AKwUvBy3aCFj7xou4yhbbYynzYobHEbQfWaaLujvxwwy1IJkDHybOS3KK3OeOHA1Xrys0uMdhCt1stkgHYD9ic+gAQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8qplC+e+qrk7VV29iEepnP/sa2Sy9EEz8HnloXJr0UIFfAmvhD
-	b3AzNyueCVGAXktotPnZ1VQQbx1g/w6xVLB88APAqH61/RqAgOn69w/cJUkM+8M0d2fCzZ96v0w
-	AOSe7Ww==
-X-Received: from plsr11.prod.google.com ([2002:a17:902:be0b:b0:2ea:d63d:f2c5])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:22c3:b0:2e5:334f:f47e
- with SMTP id d9443c01a7336-2eb36489c9bmr122626395ad.21.1793719024883; Tue, 03
- Nov 2026 07:17:04 -0800 (PST)
-Date: Tue, 3 Nov 2026 07:17:04 -0800
-In-Reply-To: <CABgObfZ9mHj7Fsq7Z2S5vFy8R2Gkh2tHBATGJN2BpH=6Waks9w@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1793720094; x=1794324894;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HhcRZEH+04vR9Ns2ermSLszSPV9tZtFpE1GJn9nCycI=;
+        b=W+Ej/NHrg1HRU+dTwH3VXEUURs0fQ7at94jnrnwdF3u8eMwP/++V2XQ+vGNa09bXwc
+         z3hds79+nnZRmzZOhKEf8IrdizflmfVPTd7RjkHGGPaaQT/3adHJo+gYie60jVi0j6mE
+         /i5D5MhiweVOtpo2mZS4MhLk/a8ByfSW4wmuv8V2jUsgwlK5LZ8AH6FNfJ7rE+izudvu
+         G6AI0forWMVtlYcH2obAQOuPphQ8xuHF/e5Rt7WhcK4ZrrldBjTwVGaj52tS2966tmB0
+         uaMgyVoz9N43Jx7zfcj7ovrOYV68w9OHiEiB8Jc0PX6Y8745nHiZiswIDtkir6nZ+7pr
+         kX2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzt0u2koSIGLBIduZpGCygSZLhn6PlxJFrs0C4iTAsfFQww/9CdAvtRk8qb/VzfRLMmDP2mDKNWMw18L8jx1A==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9kNkcjnqlqPt+zZOsBr83h4kcGUIhd370kPRp85G4yDQCzFOtQ
+	/AEV4QlVLopTbp9mLtUUDgQsVTt1OeYA11HjhmpKLQJTnBp4g2IeGcHA
+X-Gm-Gg: AYBFou16wXC7y5KFsIglNDRv9omxFCTQD3Z+1gtNqRkzqZjxGxqRZrVHFolOo5J25BR
+	FwM4xETR13fLE1ZXWo34dy+q4TzUqc3/C65y7YIiIWiVY38HFSHzx38X2t+MD+cNPBh9HDdvRZa
+	SHixfAI0rw8uCVkWVkeuhhKZ8cQ+cb+03XY+njAfT1/crBtSw+fhGP10jpyY9RtCD/HEPCZyzrK
+	HFsZQHC6LWY7G/SlLYQEm8Ji9NaSq4oA5sePrf59OqjtJSCUBC4pgf3qtpppnEQ45ulHZabCbNf
+	mkItJHbyYAm3nGxWsqeychSqy/H+GtbSkwso66PmlIVNtFzsARJYTQNaZ5imZDhYUj1rhTfsn9o
+	o7oQEC6njHR9HVHuG23mFtqPNznt0UUDz2rsmNP8QG5FnIheeyuoo2jXTVlQqLuccRPTPmOw0ID
+	KlUKEhWC8vgNUsyUkvSitC8SShfFVSG8S5ZFJOV7FIw1JO+UXgkv7jmEVb9YZLBJss3/RBPBnLu
+	LYCAnTPsJ4FqX01zw22giWEXK953ConpJWd8SXMWXqnZUwM5j26Za9Rbv7/ePiDNgtyS2h6zwWQ
+	dJPPecvxVh0sv8sv231WwX51S9VPY3aIfWfnprlmpqh506q8sn32qMA5ydASfF0zi2L/YvxoPyp
+	KSg==
+X-Received: by 2002:a17:907:9346:b0:c49:b9b6:4b5e with SMTP id a640c23a62f3a-c4ca7b1f727mr1085268366b.20.1793720094382;
+        Tue, 03 Nov 2026 07:34:54 -0800 (PST)
+Received: from andreayoga.wind3.hub ([31.189.68.219])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e7a1d9d71sm20358929f8f.48.2026.11.03.07.34.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 07:34:53 -0800 (PST)
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sched/deadline: Fix spurious -EPERM for migration-disabled tasks
+Date: Tue,  3 Nov 2026 16:34:41 +0100
+Message-ID: <20261103153443.187455-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261103081149.DuyWNhVe@linutronix.de>
+References: <20261102135420.244745-1-parri.andrea@gmail.com> <20261103081149.DuyWNhVe@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -79,65 +109,46 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <6adf2939.67317f00.38c4bc.00ae.GAE@google.com> <20261026224305.1254-1-hdanton@sina.com>
- <auCucDdZb8mig7UZ@google.com> <auDvUyfzg6nLtVox@thinkstation>
- <20261027163929.2bb28d5b@gandalf.local.home> <aujLx1FOc12E72rF@google.com> <CABgObfZ9mHj7Fsq7Z2S5vFy8R2Gkh2tHBATGJN2BpH=6Waks9w@mail.gmail.com>
-Message-ID: <aun68Iv_z6Xiz9mc@google.com>
-Subject: Re: [syzbot] [kvm?] WARNING: locking bug in __refill_objects_node
-From: Sean Christopherson <seanjc@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Harry Yoo <harry@kernel.org>, 
-	Hillf Danton <hdanton@sina.com>, Boqun Feng <boqun@kernel.org>, 
-	syzbot <syzbot+f11512d1e5878ba5e60e@syzkaller.appspotmail.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzkaller-bugs@googlegroups.com, 
-	Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026, Paolo Bonzini wrote:
-> On Mon, Nov 2, 2026 at 6:43=E2=80=AFPM Sean Christopherson <seanjc@google=
-.com> wrote:
-> > > If so, we need to make that a thread for RT kernels if you want to ca=
-ll
-> > > kzalloc_obj().
-> >
-> > Eww.  I can't imagine there's a sane usecase for memory overcommitting =
-a real-time
-> > guest.
->=20
-> While I agree with the feeling, the dummy allocation path should be
-> mostly dead, because page fault should never (?) enable interrupts
-> before waiting:
->=20
-> #PF interrupt gate
->   exc_page_fault()
->     kvm_handle_async_pf()
->       __kvm_handle_async_pf()
->         irqentry_enter()
->         kvm_async_pf_task_wait_schedule()
->           kvm_async_pf_queue_task() <- registers waiter
->           prepare_to_swait_exclusive()
->           local_irq_enable()
->=20
-> The dummy allocation path is only reachable if it's an L1 hypervisor
-> that is getting an async page fault while L2 is running, because it
-> enables irq before the call to kvm_async_pf_task_wait_schedule(). I
-> think we can drop the dummy allocation for good, which would be even
-> better.
+On Tue, Nov 03, 2026 at 09:11:49AM +0100, Sebastian Andrzej Siewior wrote:
 
-+1, I completely forgot what this code is doing (although that implies I ev=
-er
-knew in the first place...).
+[...]
 
-> Whether you would still want to disable APF for RT kernels is up to you.
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Nah, on second thought there are use cases for async #PF other than memory
-overcommit.  Whether or not they coincide with PREEMPT_RT is debatable, but=
- I
-don't think it makes sense to go looking for trouble.
+Thanks!
+
+> Looking at sched_setaffinity(), there is dl_task_check_affinity() which
+> makes the same check. It is skipped for !task_has_dl_policy(). This
+> looks time like there is a small window in sched_setscheduler() where
+> the affinity check passes, the task is not yet DL, and then
+> sched_setaffinity() makes the affinity smaller.
+
+Agreed.  __sched_setaffinity() calls dl_task_check_affinity() before
+taking task_rq_lock(), which only __set_cpus_allowed_ptr() takes later,
+whereas __sched_setscheduler() runs the admission check and switches the
+policy under a single task_rq_lock().  So setaffinity can see a non-DL
+task, setscheduler then admits it against the old, wide cpus_mask, and
+setaffinity finally narrows it.
+
+The window may be wider than it looks, too: it includes setaffinity
+waiting for task_rq_lock() while setscheduler holds it, so the two only
+need to overlap.
+
+That's independent of this patch: the same happens with p->cpus_ptr.
+
+restrict_cpus_allowed_ptr() already does its DL check under
+task_rq_lock(), so doing the same in the setaffinity path looks like
+the way to close it.  One thing to keep in mind there: when
+__sched_setaffinity() races with a cpuset update, it calls
+__set_cpus_allowed_ptr() again to reset the task to the cpuset's mask.
+That second call should probably stay unchecked, as it is today, since
+cpuset_update_tasks_cpumask() narrows DL tasks without a check anyway;
+refusing it would leave the task allowed on CPUs outside its cpuset.
+
+I'll follow up on this separately.
+
+Thanks,
+  Andrea
