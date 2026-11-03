@@ -1,78 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793720570;
-	b=cIrQWRHX2P3Ix5JOigiYVwpdEmgyOr+3CQRarRerlMcEsgI4w9U39MJVK2JFd1GVNA5u
-	 2PD7q3t4LWSGDHONrDNDqn+1NwieyZQnf2JVcG3Yk8FhVsP0Rm8PH3v0mwM5bPaVCSXID
-	 yibAeTtnldTk+BOHEyKGrbGB+5wOJrukST8yuE5QyMbDlMhBkMKpfTIl0lj0EOp8B/mnd
-	 6Cack95NMkfZFEh+rXfTGCSV/ObdWHrHdoKIsKIdgP8oV25EHbAfnAUD+j1HQiEQ+9P61
-	 v+E6vgMc5w5XicewDa/ct1TgBTqMDYqvlf3AGirqBnRzpWEXD/LnLu8+M0jcQRGJJ+g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793720570;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
-	b=DijO9YfrJGdX0tgoA5lpv9T101p0tvFqEYwk+HEky2sxuEbVPaMZVT2CkLLzSsG6Jc+m
-	 xYfPb0zxz5R8KLm9qE8iCBg2c6RDV//BIfow+KZdT6W0iSlMH+lBJr6DjyHcE+nrTaz4z
-	 UUt5MUkyfb4XI9CargUYDY4oI1Qq+m6tjPphuP9RX9PE2mdHH3myfPVslY0INoY9g2K+G
-	 S4FmYum4yme4TB2URsLKZ+svFAe97EO1WLrem0Pmhlct+Z5LpDYqALBmLSsIhC3gjaIKq
-	 LMbKUkUTDszcSofT+O6seMaxnAfK4SWjJ2tBz7KnhJ2fnL9SPxi9Gs0ZpXf4VHDDPbg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=p7irUjyG;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="wRGD6VE/";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.96.124
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793720953;
+	b=J9szKyL1JEtYf5yBsba53s6nzgne6V/AZbgz/U7wXYRU1R4VunJAa/NpgxjTEY6uzwjt
+	 UIunrOrmm0FF2ZLZCqCe7AjaALGG3BDfeDR/SD7yrB0H9qXPZFTtSrVmboZA7E3umYi3/
+	 MssD4DeaMyjbzm2pbhUq4ovpZ9JnxDXQGtVwapUe7g4RqEsPiEce0/Cvjruyiaf2fxwhP
+	 X+bIN+h1PC9t/yS/kR0R7M0ZVB7VITRlVUjlkEGnAlxHx08kfxDsMPbuYH8OzlCIztguR
+	 dWIQa5o47qab1Hx2TzZdvP9fC6E6CaF0KxAsySnidiNFTNYc9J4SNfF0qkM2I1/Xdjw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793720953;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:Content-Type:Content-Disposition:In-Reply-To:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=G2XykKOaEX7XUj1gS14Gn+ztX57QDQUXLilHcM0crdY=;
+	b=Q4AJjJmcSopX9qQdYcLN43AkNv7PKfKyhcrPkRfq8mXin/6LsD896E1K3qZvLtmFam3R
+	 Wfb/+Fo/XXoGirFlCCvcE4aJBt0lTnfs+wbzORvOsUD29rWLqWExQ4v+g71UezmqI66Et
+	 Xb4AKPSNcNoJqgDaA1QWDXpaQrPhavsyGMj4l8nE3c2v4Wea0gEXerG84FtJOFNp08kmA
+	 5jcbzmXXKA6kiBLN3yylCJxgrNEMqf0u3UQvDwlbOlw3p/e6lvVZfmWGIrZIq4Tmit0Ch
+	 n9A7qE4uNn2ySa4T4FfZMyCrLPQpNnGU65EUNkzx+8x49C7wEmjEaXuanQ1q3Y2WGOA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=atomlin.com;
+	spf=pass smtp.mailfrom=atomlin.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.96.124
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022124.outbound.protection.outlook.com [52.101.96.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ABD606D803
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:42:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22ABD606D803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=p7irUjyG;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=wRGD6VE/
-Date: Tue, 3 Nov 2026 16:42:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793720568;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
-	b=p7irUjyGce931pmrKe0HlmEOEKWi5zSVj2OTXAl7IEl9b6Lhvbn1veh158nshUjDv1gebs
-	Xw/JOZa75WvcZTNh2l0kyWY2+WJHKP0aT2BaQtiGif3tNLbHx2v4yumRxS+w6P9w8tOmHI
-	I4LXXOc/sNDkFaI1eiIBL4olZsoSXByXN0SSuAbFoyl/zZPnp0X88a/D3kebd3bpFdLl9/
-	s5t4boyT2LhTSC3uBAWRx+wHNQOeupos4SjN9lY4+5P38/mZBnN7Lg56tg1aBG8RkJw7L3
-	knMc8muBRQ/o3WP9sQQmbeLQPUHiaKrn16fKZQDsXBWdGciveB+qgg11KRPRAw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793720568;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wuK7LmgcC7u8EwiAYxopNkKKaHx7rf/5CAdOouqZE3w=;
-	b=wRGD6VE/Vpp6881jDOQDLdqnMy28nj/j0tSyIPjeZ4nX/IoljV9pTJdDxE5UORi0aWARGP
-	OT5QtvQLz33d2VCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Enric Balletbo i Serra <eballetb@redhat.com>
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>,
-	NXP S32 Linux Team <s32@nxp.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Fix NXP STM clockevent bugs causing lockups
-Message-ID: <20261103154246.S-8NqN99@linutronix.de>
-References: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD36B606A328
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:49:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD36B606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ndo/vIWw1x34Mc8lXtE6ITp+Z2onAABvLJ2E5jfKRp4Jj6hs5alPbDzVjtjpPiwlmuIntoMk8gjbG9wMgA0r6QR1d7tfw6bgQp6P0W8oh9Z35aF0uTKfuWUqGVUjzz4IjYUe9xFpSpnVD5Zu4SeyXH6mbBwbWyypRCZw4WTwDqhXRGAw8W+3QPE3quRvn4bLRpqx8h7x0WiXdyPQi28KYnN1u9jBCQig7CJE0AFVJ/kH2BGUNWmGLGaeXUWbtKIbDz0cDmfuVZi70lQ0a9dLZPbYBPoANf03rY6PY27mAdrYPbdAsFvJptuevm5aHElhOTv+Vo2VchhIIdXnqTtC1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=G2XykKOaEX7XUj1gS14Gn+ztX57QDQUXLilHcM0crdY=;
+ b=Yw2RrgCDYy55dUYGKVM1zjbUh2vkaBzIT7epvpMhRfcyuBXJHcxo2HrGHpg6/+ICgEWozKpZGDcSRgj5qZAKb5MS4uRNCA1s+iDDNcMUxxoPkOSeT65mgBhUCkgWN9AM6h4JQFZ+OsELZnwOE270Ridy8lU5ZSR0lKyF4M18eo5kfm2xEklsF61z+Ey9DPTDxQ18pLF1feLrmjfNhIkIgTNm6qpqPjWs4LSYmyre/hw8dYMAimRoUlZbIHQlgXU57rN5q9Y3Kehz7fAz5adL1fpE0+qLl2E26XQY2408CDF+nA1VZj1NXnd2pv4Y/1mNH2sz35D3Ixb+sPHAkPXTeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
+ by LOAP123MB8863.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:49a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
+ 15:49:08 +0000
+Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0592.007; Tue, 3 Nov 2026
+ 15:49:08 +0000
+Date: Tue, 3 Nov 2026 10:49:04 -0500
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: pmladek@suse.com, john.ogness@linutronix.de, senozhatsky@chromium.org, 
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, 
+	vschneid@redhat.com, kprateek.nayak@amd.com, akpm@linux-foundation.org, 
+	baoquan.he@linux.dev, rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
+	ruirui.yang@linux.dev, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, surenb@google.com, mhocko@suse.com, kees@kernel.org, 
+	anna-maria@linutronix.de, frederic@kernel.org, tglx@kernel.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com, 
+	bigeasy@linutronix.de, clrkwllms@kernel.org, linux-kernel@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [RFC PATCH v2 4/5] printk, tracing: Support console flush
+ suppression and tail pinning
+Message-ID: <ow5u2gfpdarlp7b32p73j3rp42zbr5bvece5mteyir26arjq57@f7rklmb6wwk3>
+References: <20261103024453.922373-1-atomlin@atomlin.com>
+ <20261103024453.922373-5-atomlin@atomlin.com>
+ <20261103095512.7b8c2d3f@gandalf.local.home>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261103095512.7b8c2d3f@gandalf.local.home>
+X-ClientProxiedBy: BN9PR03CA0956.namprd03.prod.outlook.com
+ (2603:10b6:408:108::31) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:163::8)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -82,47 +99,123 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261102-nxp-stm-fixes-v2-0-8ca2706f30ef@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LOAP123MB8863:EE_
+X-MS-Office365-Filtering-Correlation-Id: 181ca7cd-7f3c-475e-b7ab-08df39c1ff44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|4143699003|56012099006|261009223027099003|261022105027099003|261021135927099003|261102123227099003|261022075727099003|261021121427099003|261028144727099003|261026140227099003|10067099003|22082099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	7LYcTW10L6p70KlGrtPwtrGjWfFHYM0S4Jqc8UbcSguHFj2cW/3aR4Y+L8CxlkLKquXsGnEflzhWql+cNszvoK7/gFECE9M997IszXmPrw512VkyJFXDUP3IQCYEDgHeNlrTyz35QdYIeCQ8rmZDTOPMiAqc4mPW9bl5kssRBJRt1b1T3SQ6VeuY14gesNgaFUeGx8Ea7xBWfFCc5p05Ttr7mpwtJl1XY5UWzNwvlqR+fayy7Rj2b1eS2Y4eGaVBJI3lXeygm0l5HGAXjQEKgywS+/6fOQctnpJfdZoylCK54ECLcpqdV86BtdMKI/TBGlVB1NF5lWQZXn60ClOwKJJfOEwH5pYYTYqgPClKTlZwepUtfrQXRkQs3qHjcChkf9FsnqZsuKVdheEfaoR9bvDt/iELyteJBAWTqEBPIA2CWy9mqBZSxIhWQLbd1709WyCf+kRbldGqmI/Jzt/6INhVwyTvKwLU7YLOjMNa2tpXB6m7mHtTZmQDtl4bgf8mMAz5ZG0faYQpWN+VyU5/NnCbNnzj2U7KDdUMUmJd43NZzJpXAVXX9hGaqYPVsSfBjDBIy0+4IUrwMPwXucUwvNG9peMtTGZ3UYyV84G7673i4oxj9KlpiH64XkSXtJtIhkOdoOPBYFoAky1DHpKlE40jD7qxg+75P2v/sBWCNI8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(4143699003)(56012099006)(261009223027099003)(261022105027099003)(261021135927099003)(261102123227099003)(261022075727099003)(261021121427099003)(261028144727099003)(261026140227099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bVNRQk1MSEtVcWY1MENiMldpRXdFZENQd29TQnBRQUYra0pGbTJPbTNCNEI0?=
+ =?utf-8?B?NTM0Si8xWGFzMFVkbWE4L0RQRjBvdVpTNlBBQ0E4eDVJdHpXYkplQXYwQmRu?=
+ =?utf-8?B?OWtzVndNZWFVK3ZmTUw3M215bGNTUktzLzg1c1l2MUtNMnJTd1Bsa1RZTHRW?=
+ =?utf-8?B?ZHdCdzQ5UjRBOXZQQVBJLzgyNGpMTi85T2dsclpCVU91Slc4QS9ZU0M5U0VS?=
+ =?utf-8?B?SkdQVFRyRyttaFp3c01jRjZyNTB1elZKc3RPMkhpNzNKWVMvRitGa3orWUUv?=
+ =?utf-8?B?VlpCZ0hKZXNGaTZ6VkRDczY5Qm5lRmxocTYvR1FtZFU4KzhId3V5cWZQdW5n?=
+ =?utf-8?B?Y3BMUUFUMzdOdnRXd1cybUFaVFU2bkNVL0dENVl5eXRuQmV0QkpQNWVEQURF?=
+ =?utf-8?B?WGxwTVFaU3lJOC9TTFpsZzRqOXYrandhSFJUbDRpdkxYK0dSam1NaDFLVStv?=
+ =?utf-8?B?My8wRTA2VWVPWjA5QTZEbVdFTFJwY2ZuUk9CNytwM3EvWnBZeTVyS0VRUnlv?=
+ =?utf-8?B?WnM1ZjVPNTlPTDRMb3NwcUxxaDJyckpCMktoM0dNbHRodU9LNVgyQ085Y0JE?=
+ =?utf-8?B?NnFydldHRHNXNXVPdGlob0cwN0FQZHNpTXdoeFlrSDR0VFlJajliVWZVbThX?=
+ =?utf-8?B?SG1ucGZJMnUxNy8xVkE4U29qSnFtWmgyVXVrT1UvVXRoY2h5TVlUd3BCUHR1?=
+ =?utf-8?B?a0J4aHBNdXRZRWFLS1FqUlNmTldXRU15QlJ1YXZ2ZDVBdzJnWEl2MHhadWdL?=
+ =?utf-8?B?TjhnYzFDWE1GSjFMZmlIaXBNV1lORjFiQkpDMktTS21VcE1LcGZWUTZvSHU5?=
+ =?utf-8?B?YXJCVUlnZWQ4andFNWFmNGtJV2V1R1lTY2QzQjZTU2tTWUFTTno5LzVUY01X?=
+ =?utf-8?B?ZUpmNTVNYTRVYzV2U1hNKzRIVndVcHg4WjQxOWhkcDhjakw5UFpRbHZseXBC?=
+ =?utf-8?B?UUJ6Uy83Z1hiVUNpUXY2QVhHQmlQYWdDUndzODg3Tzh2MG1jelkrVEh6SlBu?=
+ =?utf-8?B?Q0Qydnd6bVhUcEcvN1M5bEJhSnNjVFNpa0FCSGlTTVFTeGw0b252ZlpmUFFC?=
+ =?utf-8?B?ZHh3NnYvbFRqOWx2Y210bUgyNkNYa1UwUVM1SC9Pclh5WEdybjJhcTg5Y2tW?=
+ =?utf-8?B?UzVCa1JqL2hMMHR3VmxQOUQxOCtDRzFIMHY2K2R6SzRzc0RvQWtqNmpyUHpK?=
+ =?utf-8?B?K3NGMkc3UnVOM0ltVGJBd2tBK0h1WEtPUmljWFQrckJXbEtJVnZNSFFhYWRU?=
+ =?utf-8?B?NTFDeVo0eFpWSzJDOW5iZklkYUVSUUc4NW5RenNOenpSUHdFRWRjUUNQdFlR?=
+ =?utf-8?B?eWZ3bUI5em1JeEhNQTJ3cEhLMGZNZ2IxZlRyT2pkQUp0aWV6UUNCMm5sNzZB?=
+ =?utf-8?B?RHVjZXJ5b2hEcVV3aUw0STZyVld4cVZFNlIzcWRvZFZuNjdqa2dDaW4rWlE4?=
+ =?utf-8?B?K2ZmMjcwdzVCYUFzQ051WEJic1hEZllYQ3NNZU1QRnhnRWZ5OURCQ1Zxdlox?=
+ =?utf-8?B?Y1EvczRSb2pmQW45cXR4emZwMUFpOVI1cEtzSW1UcGpMNExZcTk3QVZYTVdj?=
+ =?utf-8?B?N1VRR3R4OXZBbTUvQ2RETERrWm5hc3NmMGhIdTFnSnl6aW82VjRGQzJLUmxr?=
+ =?utf-8?B?bXlhTEZwU3ZMTVYxaXVncGV4Z085ZVJCeXpXODBpZXVFbk1GZ05LWjVWOEdn?=
+ =?utf-8?B?VU9kZVJpNDR5VHZFeUFlZyttRUZNTkQrclhQa2dnTlROTEg3bzI5MFlTRGNI?=
+ =?utf-8?B?R3ZVSGFXc0JodC9nbUJEWUc1ck01Q1VFaWdJbDN2WDNTOVdrWFZ6Y3FYQTcw?=
+ =?utf-8?B?eTFZeDFzbEVyR0FpN0ZxQzl0ZTJ0Q2xmLy9hMGNLdU5IbGpML0dtTTlnS0RB?=
+ =?utf-8?B?WjhxUXIwNlVhZ01yYnZZODcycjVUNmFMR2hadVQvQUNTSnhZNkMxQTM0Vmg2?=
+ =?utf-8?B?RmR5c05EQTJCTFBvb2dJbWp2NkI2WVpyMDJMVE9wOFhIa09rVUhLTnc3T1JH?=
+ =?utf-8?B?dE5tYzJaUGR5ZEIvT3pCSDJML0NhcExjS2pvcC8xZFhvTmJOTVlFUFliQmJT?=
+ =?utf-8?B?L0Jzd01uMG1jR2Q3TGtDdzBwQThSSUwwU3JPK2o5eUtvZXNMcEhBN01sRHZl?=
+ =?utf-8?B?Y2dlWEhMWUdhRmVSNXNRNHNBUDh6SjUvZWpxV0hlMHNYZGxvSE5zdEJJMFFs?=
+ =?utf-8?B?U2xxRnZzSE9HenlaVHBjVDc1ZjhEcVJUMmhkQUUxUG8remFIQ2xVd1VIQjdl?=
+ =?utf-8?B?akRBbGhyQzhMNDdBSGltbnpCeFV6ZjVLWmp1MmVkRWh4Ri82RFZRR3pCd0FX?=
+ =?utf-8?B?YlMwR3I3Y1hFQ2FXQXQ2RXJKQ2h2NHhvRElQTm5SVHhDaTN2YUJLZz09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 181ca7cd-7f3c-475e-b7ab-08df39c1ff44
+X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 15:49:08.6471
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ogMQhGivZRbxD489Prv79NSdFg3UPIb7XZgc3pNmWvH55y80y8Vd5KUHhh+R4jaYPJCicHMF8RX9DMNWtWGsSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOAP123MB8863
 
-On 2026-11-02 22:16:19 [+0100], Enric Balletbo i Serra wrote:
-> This series fixes three bugs in the NXP STM clocksource driver that can
-> cause soft lockups and missed timer events, particularly visible on
-> PREEMPT_RT kernels running on S32G platforms.
->=20
-> The NXP STM generates an interrupt only on exact match between the
-> counter and comparator registers. If the counter passes the programmed
-> value, the match is missed and the hardware must count through all 2^32
-> ticks (~32.2s at 133 MHz) before firing, causing soft lockups.
->=20
-> Patch 1 fixes max_delta: on 64-bit platforms, ULONG_MAX exceeds the
-> hardware's 32-bit compare register width, making it possible to program
-> an unreachable compare value.
+On Tue, Nov 03, 2026 at 09:55:12AM -0500, Steven Rostedt wrote:
+> On Mon,  2 Nov 2026 21:44:52 -0500
+> Aaron Tomlin <atomlin@atomlin.com> wrote:
+> 
+> > diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> > index e8c4efa8107b..35a56f04e9b3 100644
+> > --- a/kernel/trace/trace.c
+> > +++ b/kernel/trace/trace.c
+> > @@ -9519,6 +9519,9 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
+> >  	else
+> >  		iter.cpu_file = RING_BUFFER_ALL_CPUS;
+> >  
+> > +	if (printk_is_tail_full())
+> > +		goto out_enable;
+> > +
+> >  	if (tr == &global_trace)
+> >  		printk(KERN_TRACE "Dumping ftrace buffer:\n");
+> >  	else
+> > @@ -9537,10 +9540,13 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
+> >  	 * and then release the locks again.
+> >  	 */
+> >  
+> > -	while (!trace_empty(&iter)) {
+> > +	while (!trace_empty(&iter) && !printk_is_tail_full()) {
+> 
+> Wait? Is this to prevent overwriting the printk ring buffer? If so, this
+> is wrong here!
 
-This looks fine
+Oops!
 
-> Patch 2 fixes the overshoot detection in set_next_event: the existing
-> check only detected counter wraps, not the normal case where the counter
-> advances past the programmed value during the read-modify-write window.
-> Replace it with a signed comparison following the pattern used by
-> timer-imx-gpt.
+> In your change log, you mention not losing the initial oops or registers.
+> But if someone is using ftrace_dump_on_oops, that's not what they are
+> after. They want to know what happened that lead to the crash. That output
+> is at the *end* of the trace.
+> 
+> By stopping the output of the ftrace buffer early, you just lost the
+> information you are looking for.
 
-okay=E2=80=A6
+Agreed. Because ftrace_dump_one() iterates from oldest to newest, stopping
+once the pinned printk ring buffer fills up retains only the oldest trace
+entries and discards the end of the trace leading up to the crash.
 
-> Patch 3 increases min_delta from 2us to 20us: under bus contention on
-> PREEMPT_RT, 2us is not enough margin and the counter frequently
-> overshoots the programmed value, triggering repeated -ETIME retries.
+If a user explicitly enables ftrace via panic_sys_info=ftrace alongside
+crash_kexec_in_memory_sys_info, freezing the printk ring buffer tail
+defeats the purpose of dumping the trace buffer for the exact reason you
+described.
 
-This all sounds like the hpet trouble on x86. I'm not sure what heavy
-busy contention means and why the device is enabled/ disable during
-setting. I would assume that the programmed value hits the HW after the
-wrap so you wait until the counter wraps again for the equal match.
-Worst case would be you read back the expected value but the HW sees it
-later (after the wrap).
-hpet_clkevt_set_next_event() does in principle the same check as you in
-#2 except it compares against the "min" value instead <=3D0.
-Would this make sense?
+I will drop the kernel/trace/trace.c changes altogether and skip
+printk_freeze_tail(true) in panic_in_memory_sys_info() when SYS_INFO_FTRACE
+is requested. That keeps console flush suppression active so the dump still
+completes at RAM speed prior to kexec, while allowing the printk ring
+buffer to wrap so the end of the trace is preserved.
 
-Sebastian
+Thank you,
+-- 
+Aaron Tomlin
