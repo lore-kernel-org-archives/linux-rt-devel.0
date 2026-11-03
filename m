@@ -1,69 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717729;
-	b=tgvwNzCDiDInCkoL+DrtYjkaRa7aoKitUB/d7XG6Sd64iXWdvbRADKRSKj7xJg6HN3hy
-	 MwVOpuws/UlwGBPULRITb4Ba32s/rzcjljRCFbVviitl5/YBY4eWI3zYr4V5EEc4WpmBv
-	 5w4zlSW72WdTbmuffzr0SZNRRkuOuPftxwigHiYHMUuwpxB3KuSNQfvxaTvBcfZDHJtAq
-	 3RZcaq9zU59kSI4kDcUChsQYuGW4q0YzRX6s+JsIm5RJXxLfkTTLxzJrdgvjcgLELa23N
-	 G+wa8H17wPl2rdX9uBGjaNfBhuzb+LwyJ1GqUlDamx/FWZzhgHyJOVSyV/1fMjotwNQ==
+	t=1793719026;
+	b=2vjiXb2v99Q/hW3qtIovidbrYc/qsMPDtCytUn0Wcssr9NB67RMbaVlCGY/dAhX4DqRp
+	 /RbuPB8tpbpB/oUtrPbxQmtuyFAg6yvCxrJG++LgSf/DxXg3QXfH/MUg7UNRkVZ58fdLj
+	 mngPxO1L5GB5skVhjeIgX6EUTsy9PrkagcXeOH0j2bMkCteAY3QXbcQS3tQCbUM1yJJCc
+	 v8gmSojONTBbl2q/E+j/VGRBUjIo/0HxYKfDhgZHRuFhjYcJvkNf4xZ2TzPWoO91kIvvj
+	 IsRODgybCX3DeBWE83ViKuQ1JoiQtmq/63pSoKAJBb900GGS90J4QON/SvQ3uQnTw+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717729;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Stat-Signature:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=yfddeYQH6ujsdtrqW+DK7nJG3jSGc85HvZV3WQ41HAI=;
-	b=iLzbqqNv1ek+sY1JccCCclTHhAAboHlxPCYOCE5qqY/jhULTxjYWS9qEztmZzRmXBfu2
-	 szpv9KpMZsFPnApXCqQTbZ8rdj93g/riNtqW8bMB7knluDeynOzm4DLgF5DYZIbjWOACR
-	 wzLbBjP5YZiJS9Q4rkOs7bGP1xHPIGlxijd+IH/mliqsYDZSjdiNYj2HQ9APoAL4FKvLi
-	 IduI3QNBu6XYpukVq8gngQ+Svkuxg3Lw4ooub3dNyTKZrRSWKRLIz9R5zq7v5/NYsYK73
-	 FDMm0L3tBFLpcLLWFH4Nhcwnje+8yjw2pur3qKJv3aewV0MFzZQ8GNsHr2smxCkKsDQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793719026;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
+	b=4GfztwgUHShoZMqz5UO8dGTkul8KP2/CKEE2qnr2NeZHFOQFuHJvKcN71rKzpsyGkm9g
+	 ADLc5V89smDMoNJRlGknBmBKBZ8dUG73qwnTsMJF1lHsarZhNnodLBRYDPs/9pD6EY1G/
+	 Xq31/6e45v/h7hgcYBLL3OQvAfs8BGju/BUI9MhMQWjYZYTAcolDU36U7RXBtezEgyIhj
+	 e+QyRmFrGmxmcXJpELmbQGAbdzi5dcXy+1wJbvysh1aBol+DKc1I+yh7s8RqK8T7rKnUW
+	 5CXAt9b/4s7D3qT/1eZ7jwMTaAcK6Qas5JGscv2cv8pCBp7SA9A7HA/Yo5FavCo0uGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=ccOpwd2t;
-	arc=none smtp.remote-ip=216.40.44.12
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GemeLBV2;
+	arc=none smtp.remote-ip=209.85.214.197
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29C6606A781
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 14:55:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D29C6606A781
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9C8606D2F8
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 15:17:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB9C8606D2F8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=ccOpwd2t
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 9CF50A0427;
-	Tue,  3 Nov 2026 14:55:23 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id C284720028;
-	Tue,  3 Nov 2026 14:55:13 +0000 (UTC)
-Date: Tue, 3 Nov 2026 09:55:12 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: pmladek@suse.com, john.ogness@linutronix.de, senozhatsky@chromium.org,
- mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
- akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org,
- pasha.tatashin@soleen.com, pratyush@kernel.org, ruirui.yang@linux.dev,
- david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
- surenb@google.com, mhocko@suse.com, kees@kernel.org,
- anna-maria@linutronix.de, frederic@kernel.org, tglx@kernel.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com,
- bigeasy@linutronix.de, clrkwllms@kernel.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [RFC PATCH v2 4/5] printk, tracing: Support console flush
- suppression and tail pinning
-Message-ID: <20261103095512.7b8c2d3f@gandalf.local.home>
-In-Reply-To: <20261103024453.922373-5-atomlin@atomlin.com>
-References: <20261103024453.922373-1-atomlin@atomlin.com>
-	<20261103024453.922373-5-atomlin@atomlin.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GemeLBV2
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e9d52f684fso42299685ad.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 03 Nov 2026 07:17:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793719025; x=1794323825; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
+        b=GemeLBV2bK4zdIXfrSBlVm4i2GtblOK7PkEYT26GmxbmBtNa28thV+QRUp7ENgwIC6
+         FKk5r4R28KC6vZyS7UId3+w34egIaH1OP827i9Y78hWaszOh5qXWAhKJ2TEMAe0PDpih
+         Zf01hTDzqFOqRTz14EnM4d+lEJhGQNcDAHNvlkOCCVssJvdp+MsABFOyl0+6yhmBzTy2
+         TFP1l2TNnATvcz8uYMQMzk8anyZzWr7Au2x5AnSd3+TBHHKKQ5mwClFT1y1E91LsSBEj
+         oLLxUYBr8lyS7bi9UdjBv7+4P2V+WmNMDWD0kfzdVd1jKr8VJvrah9qnialCtEB4a2GW
+         6ZAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793719025; x=1794323825;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gZPyGNb7zpjaaj961jv5er4Nb77WoHldzauRxys7WyE=;
+        b=zRQhAxelioIjYPU1ubT/owtJg6ZbracA0mXJ+xp1KGNBu5ZHca5t7jYPseRYnPiig+
+         cKOYg1lOc3V4+E9hg93bxFRs7iPGTB+QF43S88vq90H4GnD/f5Iy4z6N4ZFeplt/ajgT
+         M64hws0J35UNEgTjhnrNl5J5sUleGxRF9gZjNJXLa1tSWosAnET1FFDwy0bUXSsmkcmj
+         DbZDKv92m4KM2V2SKZ1E9IkBWIOtrtojzwqgvXVBMyzu1fL2SMNtNw0rwgMUwN123dYM
+         CdAGNqjiUdfJXWR5v3C4cRp6WWe/TQiPn/wEO8oDyaDFQ7VJjVONa5Li8NEJxlg6Gjq4
+         YRsw==
+X-Forwarded-Encrypted: i=1; AKwUvBy3aCFj7xou4yhbbYynzYobHEbQfWaaLujvxwwy1IJkDHybOS3KK3OeOHA1Xrys0uMdhCt1stkgHYD9ic+gAQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8qplC+e+qrk7VV29iEepnP/sa2Sy9EEz8HnloXJr0UIFfAmvhD
+	b3AzNyueCVGAXktotPnZ1VQQbx1g/w6xVLB88APAqH61/RqAgOn69w/cJUkM+8M0d2fCzZ96v0w
+	AOSe7Ww==
+X-Received: from plsr11.prod.google.com ([2002:a17:902:be0b:b0:2ea:d63d:f2c5])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:22c3:b0:2e5:334f:f47e
+ with SMTP id d9443c01a7336-2eb36489c9bmr122626395ad.21.1793719024883; Tue, 03
+ Nov 2026 07:17:04 -0800 (PST)
+Date: Tue, 3 Nov 2026 07:17:04 -0800
+In-Reply-To: <CABgObfZ9mHj7Fsq7Z2S5vFy8R2Gkh2tHBATGJN2BpH=6Waks9w@mail.gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -72,92 +79,65 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: nc4kisin8m3wyjdgtdpom7c1au41iqa3
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: C284720028
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18bF8bDrvU8IQ31ZfoMj2/1FBDtsGgnaNM=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=yfddeYQH6ujsdtrqW+DK7nJG3jSGc85HvZV3WQ41HAI=; b=ccOpwd2tRjlDkvLbOszT0B1ym6UiYCfrRWT0qA4+g9GnoqpEdGbtdba9bNqnSGo8WEXhJAmxC0nC9r/jQRz0ydIwgnnbdbE+fkNtv7+eOe9CahVZ9Tf38wAfwDUrGkJffHQpfufHMkf6c76Qt5z5WupeU0bID+ji4KLPijQfrbw=
-X-HE-Tag: 1793717713-47761
-X-HE-Meta: U2FsdGVkX19lBMKb7T+S15I1bJ1yR/TpScDr1lLD4QbN59L8ZM4I0NZGtNhm2A8c1bmSxupnsLnRAsBUwVGiAfWzpLEfSX3Adc9DNtb6PKQ5qJNeVEATThLVWUurVwo9CE5t/iLx93jzKYVjROq1YZpyEKFbbFeS0fkiZcRmgC2kbjBnXH6i1894/YQUb3zmpt9AzD9eP/WJIIhyybCls1BbTVchuLjJ9gzzG6y6eMRLctFBr4SOmLD53JvLUC49y8ZRAywfuklEeeyZQgz1N8jIf42a2Jf292eBO4csSC2VZy7+hRLMlrdiX2PfR5HNPn57OrUIwJiwWiRoeehnpiHDKniSg9g5+r1a5FR/JVhzWytRVeYOTvnpX6+QVIy/
+Mime-Version: 1.0
+References: <6adf2939.67317f00.38c4bc.00ae.GAE@google.com> <20261026224305.1254-1-hdanton@sina.com>
+ <auCucDdZb8mig7UZ@google.com> <auDvUyfzg6nLtVox@thinkstation>
+ <20261027163929.2bb28d5b@gandalf.local.home> <aujLx1FOc12E72rF@google.com> <CABgObfZ9mHj7Fsq7Z2S5vFy8R2Gkh2tHBATGJN2BpH=6Waks9w@mail.gmail.com>
+Message-ID: <aun68Iv_z6Xiz9mc@google.com>
+Subject: Re: [syzbot] [kvm?] WARNING: locking bug in __refill_objects_node
+From: Sean Christopherson <seanjc@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Harry Yoo <harry@kernel.org>, 
+	Hillf Danton <hdanton@sina.com>, Boqun Feng <boqun@kernel.org>, 
+	syzbot <syzbot+f11512d1e5878ba5e60e@syzkaller.appspotmail.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzkaller-bugs@googlegroups.com, 
+	Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon,  2 Nov 2026 21:44:52 -0500
-Aaron Tomlin <atomlin@atomlin.com> wrote:
+On Tue, Nov 03, 2026, Paolo Bonzini wrote:
+> On Mon, Nov 2, 2026 at 6:43=E2=80=AFPM Sean Christopherson <seanjc@google=
+.com> wrote:
+> > > If so, we need to make that a thread for RT kernels if you want to ca=
+ll
+> > > kzalloc_obj().
+> >
+> > Eww.  I can't imagine there's a sane usecase for memory overcommitting =
+a real-time
+> > guest.
+>=20
+> While I agree with the feeling, the dummy allocation path should be
+> mostly dead, because page fault should never (?) enable interrupts
+> before waiting:
+>=20
+> #PF interrupt gate
+>   exc_page_fault()
+>     kvm_handle_async_pf()
+>       __kvm_handle_async_pf()
+>         irqentry_enter()
+>         kvm_async_pf_task_wait_schedule()
+>           kvm_async_pf_queue_task() <- registers waiter
+>           prepare_to_swait_exclusive()
+>           local_irq_enable()
+>=20
+> The dummy allocation path is only reachable if it's an L1 hypervisor
+> that is getting an async page fault while L2 is running, because it
+> enables irq before the call to kvm_async_pf_task_wait_schedule(). I
+> think we can drop the dummy allocation for good, which would be even
+> better.
 
-> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> index e8c4efa8107b..35a56f04e9b3 100644
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -9519,6 +9519,9 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
->  	else
->  		iter.cpu_file = RING_BUFFER_ALL_CPUS;
->  
-> +	if (printk_is_tail_full())
-> +		goto out_enable;
-> +
->  	if (tr == &global_trace)
->  		printk(KERN_TRACE "Dumping ftrace buffer:\n");
->  	else
-> @@ -9537,10 +9540,13 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
->  	 * and then release the locks again.
->  	 */
->  
-> -	while (!trace_empty(&iter)) {
-> +	while (!trace_empty(&iter) && !printk_is_tail_full()) {
++1, I completely forgot what this code is doing (although that implies I ev=
+er
+knew in the first place...).
 
-Wait? Is this to prevent overwriting the printk ring buffer? If so, this
-is wrong here!
+> Whether you would still want to disable APF for RT kernels is up to you.
 
-In your change log, you mention not losing the initial oops or registers.
-But if someone is using ftrace_dump_on_oops, that's not what they are
-after. They want to know what happened that lead to the crash. That output
-is at the *end* of the trace.
-
-By stopping the output of the ftrace buffer early, you just lost the
-information you are looking for.
-
--- Steve
-
-
->  
-> -		if (!cnt)
-> +		if (!cnt) {
->  			printk(KERN_TRACE "---------------------------------\n");
-> +			if (printk_is_tail_full())
-> +				break;
-> +		}
->  
->  		cnt++;
->  
-> @@ -9551,19 +9557,25 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
->  			int ret;
->  
->  			ret = print_trace_line(&iter);
-> +			trace_printk_seq(&iter.seq);
-> +			if (printk_is_tail_full())
-> +				break;
-> +
->  			if (ret != TRACE_TYPE_NO_CONSUME)
->  				trace_consume(&iter);
-> -
-> -			trace_printk_seq(&iter.seq);
->  		}
->  		touch_nmi_watchdog();
->  	}
->  
-> +	if (printk_is_tail_full())
-> +		goto out_enable;
-> +
->  	if (!cnt)
->  		printk(KERN_TRACE "   (ftrace buffer empty)\n");
->  	else
->  		printk(KERN_TRACE "---------------------------------\n");
->  
-> +out_enable:
->  	tr->trace_flags |= old_userobj;
->  
->  	tracer_tracing_enable(tr);
-
+Nah, on second thought there are use cases for async #PF other than memory
+overcommit.  Whether or not they coincide with PREEMPT_RT is debatable, but=
+ I
+don't think it makes sense to go looking for trouble.
