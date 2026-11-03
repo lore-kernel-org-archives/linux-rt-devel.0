@@ -1,49 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717301;
-	b=PrBterFyBHgK2IRZ+hwBHyfa5rYvoa4OnbfiEZywqtwle1PHEXjQ146UKRLADCXGiSW8
-	 g06lLw8UY5fzAi0cc4b2CFrmumDvJTErFSROg2JGy65iGnAxpUGJSGoLYeyxfk27UlUCn
-	 FXiG93vwUbTiCPqMK4ZqajEVylt3NUikejN7Kr6spPtpBQxSfTVvp/a9yY9F8cDf5f0T6
-	 IZk9kVeHXi9huIcCnoelCsfgRaCqfDALOuX/zNasK2IcG1eGpBuQaXa6hKRmmCpKYeHrD
-	 CnXlOS4X0jm4EJuaaRIIuwi3se13nx8SkGMRe1ljGsEz2lWhSSKHsAG0PLWjlnmxiYQ==
+	t=1793717729;
+	b=tgvwNzCDiDInCkoL+DrtYjkaRa7aoKitUB/d7XG6Sd64iXWdvbRADKRSKj7xJg6HN3hy
+	 MwVOpuws/UlwGBPULRITb4Ba32s/rzcjljRCFbVviitl5/YBY4eWI3zYr4V5EEc4WpmBv
+	 5w4zlSW72WdTbmuffzr0SZNRRkuOuPftxwigHiYHMUuwpxB3KuSNQfvxaTvBcfZDHJtAq
+	 3RZcaq9zU59kSI4kDcUChsQYuGW4q0YzRX6s+JsIm5RJXxLfkTTLxzJrdgvjcgLELa23N
+	 G+wa8H17wPl2rdX9uBGjaNfBhuzb+LwyJ1GqUlDamx/FWZzhgHyJOVSyV/1fMjotwNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717301;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=gD+JfyFsFqSMM5CGTKNOp21IwpvoIZuhMHjwjkhQ9Y4=;
-	b=CTfS7iKYSM73fH4YJR2YLp/qNj2BhypAg0rOHP+WY2prj6vhJS2y4CXKWENYM05yUiqv
-	 AkWRAFurZpHMXsoCP9RI+zErSKKKP4lr8K9yAu6nbBpunRMVMU4J88jw3D7xgITVuxFk/
-	 bZRGNOQw6vye6ToaZAHviOz4nl9crcAVnJ9Ck7canxpUyyS4nCnvGsuaf8l/EHhSCX/dQ
-	 zUrFHBkmBogxmfhRKmehmO8zuQe1MPZWKRfgYFF8NVlN3AvzygO97zDDLzphsld5j2Dwv
-	 KIZBsc6t1+gFqw8pyBQZEIaHuvzFWnpy9hXiZI4Bs+PCxQmJ5bXYdmHqVvtrLRuwYTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717729;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Stat-Signature:X-Rspamd-Server:
+	 X-Rspamd-Queue-Id:X-Spam-Status:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=yfddeYQH6ujsdtrqW+DK7nJG3jSGc85HvZV3WQ41HAI=;
+	b=iLzbqqNv1ek+sY1JccCCclTHhAAboHlxPCYOCE5qqY/jhULTxjYWS9qEztmZzRmXBfu2
+	 szpv9KpMZsFPnApXCqQTbZ8rdj93g/riNtqW8bMB7knluDeynOzm4DLgF5DYZIbjWOACR
+	 wzLbBjP5YZiJS9Q4rkOs7bGP1xHPIGlxijd+IH/mliqsYDZSjdiNYj2HQ9APoAL4FKvLi
+	 IduI3QNBu6XYpukVq8gngQ+Svkuxg3Lw4ooub3dNyTKZrRSWKRLIz9R5zq7v5/NYsYK73
+	 FDMm0L3tBFLpcLLWFH4Nhcwnje+8yjw2pur3qKJv3aewV0MFzZQ8GNsHr2smxCkKsDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O77gfe8k;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=ccOpwd2t;
+	arc=none smtp.remote-ip=216.40.44.12
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06266071C35;
-	Tue,  3 Nov 2026 14:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29C6606A781
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Nov 2026 14:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D29C6606A781
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O77gfe8k
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0324C1F00A02;
-	Tue,  3 Nov 2026 14:48:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717300;
-	bh=gD+JfyFsFqSMM5CGTKNOp21IwpvoIZuhMHjwjkhQ9Y4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=O77gfe8kp25hNoBGGIpC6DtRiBGmJPBhWTL/hDCA5+40SPpjiLXP+1QdEzJtXYuk8
-	 PGqiTX3BM5EwlBxY4d77MPivJkSwbOK9K8gWZKUCbRLj268RO5hcZWX2HEN/rpCv8m
-	 IQZe8dH2k2nvGSXI6U7HnXrlw3KVT5+4UuwqNblGOLfjAktu2xrAejReS/e+4O76ml
-	 uLIr3xHA+hTy6w/ig2jAXuCk0KXSr1iSqFdXByf+ozWqigWRvLaIggx4fsyICZvUXv
-	 /Rpc9v4Kn8Kw3JD2ei8tFnzdFKhVulxHaMnj5Z23rw21Ynd4QIva2GCVTVPgiY2LVG
-	 jaEOxNCbwa13Q==
-From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Tue, 03 Nov 2026 14:47:53 +0000
-Subject: [PATCH for-next-fixes v2 4/5] mm/slab: fix a deadlock in
- memcg_alloc_abort_single()
+	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=ccOpwd2t
+Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 9CF50A0427;
+	Tue,  3 Nov 2026 14:55:23 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id C284720028;
+	Tue,  3 Nov 2026 14:55:13 +0000 (UTC)
+Date: Tue, 3 Nov 2026 09:55:12 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: pmladek@suse.com, john.ogness@linutronix.de, senozhatsky@chromium.org,
+ mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
+ akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org,
+ pasha.tatashin@soleen.com, pratyush@kernel.org, ruirui.yang@linux.dev,
+ david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
+ surenb@google.com, mhocko@suse.com, kees@kernel.org,
+ anna-maria@linutronix.de, frederic@kernel.org, tglx@kernel.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, linux-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [RFC PATCH v2 4/5] printk, tracing: Support console flush
+ suppression and tail pinning
+Message-ID: <20261103095512.7b8c2d3f@gandalf.local.home>
+In-Reply-To: <20261103024453.922373-5-atomlin@atomlin.com>
+References: <20261103024453.922373-1-atomlin@atomlin.com>
+	<20261103024453.922373-5-atomlin@atomlin.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -53,91 +73,91 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-kmalloc-nolock-fixes-v2-4-19167cfe4779@kernel.org>
-References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
-In-Reply-To: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
-To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, Harry Yoo <harry@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
- David Rientjes <rientjes@google.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- Sashiko <sashiko-bot@kernel.org>
-X-Mailer: b4 0.16.0
+X-Stat-Signature: nc4kisin8m3wyjdgtdpom7c1au41iqa3
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: C284720028
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18bF8bDrvU8IQ31ZfoMj2/1FBDtsGgnaNM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=yfddeYQH6ujsdtrqW+DK7nJG3jSGc85HvZV3WQ41HAI=; b=ccOpwd2tRjlDkvLbOszT0B1ym6UiYCfrRWT0qA4+g9GnoqpEdGbtdba9bNqnSGo8WEXhJAmxC0nC9r/jQRz0ydIwgnnbdbE+fkNtv7+eOe9CahVZ9Tf38wAfwDUrGkJffHQpfufHMkf6c76Qt5z5WupeU0bID+ji4KLPijQfrbw=
+X-HE-Tag: 1793717713-47761
+X-HE-Meta: U2FsdGVkX19lBMKb7T+S15I1bJ1yR/TpScDr1lLD4QbN59L8ZM4I0NZGtNhm2A8c1bmSxupnsLnRAsBUwVGiAfWzpLEfSX3Adc9DNtb6PKQ5qJNeVEATThLVWUurVwo9CE5t/iLx93jzKYVjROq1YZpyEKFbbFeS0fkiZcRmgC2kbjBnXH6i1894/YQUb3zmpt9AzD9eP/WJIIhyybCls1BbTVchuLjJ9gzzG6y6eMRLctFBr4SOmLD53JvLUC49y8ZRAywfuklEeeyZQgz1N8jIf42a2Jf292eBO4csSC2VZy7+hRLMlrdiX2PfR5HNPn57OrUIwJiwWiRoeehnpiHDKniSg9g5+r1a5FR/JVhzWytRVeYOTvnpX6+QVIy/
 
-When kmalloc_nolock() successfully grabs a slab object but memcg aborts
-the allocation, the object is freed via __slab_free(). Calling
-__slab_free() in unknown context is not allowed and can lead to a
-deadlock.
+On Mon,  2 Nov 2026 21:44:52 -0500
+Aaron Tomlin <atomlin@atomlin.com> wrote:
 
-Free the object via defer_free() when spinning is not allowed.
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index e8c4efa8107b..35a56f04e9b3 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -9519,6 +9519,9 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
+>  	else
+>  		iter.cpu_file = RING_BUFFER_ALL_CPUS;
+>  
+> +	if (printk_is_tail_full())
+> +		goto out_enable;
+> +
+>  	if (tr == &global_trace)
+>  		printk(KERN_TRACE "Dumping ftrace buffer:\n");
+>  	else
+> @@ -9537,10 +9540,13 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
+>  	 * and then release the locks again.
+>  	 */
+>  
+> -	while (!trace_empty(&iter)) {
+> +	while (!trace_empty(&iter) && !printk_is_tail_full()) {
 
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260610-slab_alloc_flags-v2-0-7190909db118%40kernel.org?part=9
-Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
-Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
----
- mm/slub.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+Wait? Is this to prevent overwriting the printk ring buffer? If so, this
+is wrong here!
 
-diff --git a/mm/slub.c b/mm/slub.c
-index 48415f24e115..6dfa8ca3c937 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -2533,7 +2533,8 @@ static inline void slab_obj_ext_has_codetag_init(void)
- 
- #ifdef CONFIG_MEMCG
- 
--static void memcg_alloc_abort_single(struct kmem_cache *s, void *object);
-+static void memcg_alloc_abort_single(struct kmem_cache *s, void *object,
-+				     bool allow_spin);
- 
- static __fastpath_inline
- bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
-@@ -2551,7 +2552,9 @@ bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
- 		return true;
- 
- 	if (likely(size == 1)) {
--		memcg_alloc_abort_single(s, *p);
-+		bool allow_spin = alloc_flags_allow_spinning(ac->alloc_flags);
-+
-+		memcg_alloc_abort_single(s, *p, allow_spin);
- 		*p = NULL;
- 	} else {
- 		kmem_cache_free_bulk(s, size, p);
-@@ -6663,16 +6666,20 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
- #ifdef CONFIG_MEMCG
- /* Do not inline the rare memcg charging failed path into the allocation path */
- static noinline
--void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
-+void memcg_alloc_abort_single(struct kmem_cache *s, void *object, bool allow_spin)
- {
- 	struct slab *slab = virt_to_slab(object);
- 	bool init = slab_want_init_on_free(s);
--	bool allow_spin = true;
- 
- 	alloc_tagging_slab_free_hook(s, slab, &object, 1);
- 
--	if (likely(slab_free_hook(s, object, init, false, allow_spin)))
-+	if (unlikely(!slab_free_hook(s, object, init, false, allow_spin)))
-+		return;
-+
-+	if (likely(allow_spin))
- 		__slab_free(s, slab, object, object, 1, _RET_IP_);
-+	else
-+		defer_free(s, object);
- }
- #endif
- 
+In your change log, you mention not losing the initial oops or registers.
+But if someone is using ftrace_dump_on_oops, that's not what they are
+after. They want to know what happened that lead to the crash. That output
+is at the *end* of the trace.
 
--- 
-2.54.0
+By stopping the output of the ftrace buffer early, you just lost the
+information you are looking for.
+
+-- Steve
+
+
+>  
+> -		if (!cnt)
+> +		if (!cnt) {
+>  			printk(KERN_TRACE "---------------------------------\n");
+> +			if (printk_is_tail_full())
+> +				break;
+> +		}
+>  
+>  		cnt++;
+>  
+> @@ -9551,19 +9557,25 @@ static void ftrace_dump_one(struct trace_array *tr, enum ftrace_dump_mode dump_m
+>  			int ret;
+>  
+>  			ret = print_trace_line(&iter);
+> +			trace_printk_seq(&iter.seq);
+> +			if (printk_is_tail_full())
+> +				break;
+> +
+>  			if (ret != TRACE_TYPE_NO_CONSUME)
+>  				trace_consume(&iter);
+> -
+> -			trace_printk_seq(&iter.seq);
+>  		}
+>  		touch_nmi_watchdog();
+>  	}
+>  
+> +	if (printk_is_tail_full())
+> +		goto out_enable;
+> +
+>  	if (!cnt)
+>  		printk(KERN_TRACE "   (ftrace buffer empty)\n");
+>  	else
+>  		printk(KERN_TRACE "---------------------------------\n");
+>  
+> +out_enable:
+>  	tr->trace_flags |= old_userobj;
+>  
+>  	tracer_tracing_enable(tr);
 
