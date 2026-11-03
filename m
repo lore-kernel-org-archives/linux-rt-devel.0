@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717297;
-	b=SNUFhCnGCg4ug3P/tz3si0CGGNnht8WwX5lYMlb9y6fdGKBj+EWlFMhPRSiI/+8I8PFi
-	 MrjxHlrezlvaSInLIFGG60wy61m66Wl2GX/zbGwooHc7TkmR7Acb3JdZlzzs4xgHcm6Pt
-	 NZsv7sQtnZDyAf274B7CKu/L7jIahGAfBxPkVk/NFvfndIg/6Vsh6dceJ5WXSIzFDrt5R
-	 7B8hJ8n/cS7iRHIkyiu8azn2+/wqviGFMSUvMSkW8/6rH02szlosxbdb3/Fwk/wzjJQUe
-	 m6fQmmqyxm/bGrS6l/7HvHBalruP6EY/oREIBKvwUa3BZhDz/3ZV1Z4Kw6q0ZjFnNaA==
+	t=1793717304;
+	b=a+65OyWaCB+zTWH53p3fFK8yuHzLrqnktAb+02KGPQvrpDw5s9jiN79R7FavSvPK50jR
+	 QGlrSgSCC1DK3w2an3WIr5hzYGTrulsBCO2hDsjHLf6rPYqBQVBdi2BRZgIsC7oAcMYbA
+	 p+WGEYi2E3czSzR4WijlvvfxvGommW7S8W2edsEh1naio3310QTrrfIBvYP+6AtoMJHye
+	 c6N5Yi85zwLpH/eqPCpMFTVdxuNmvx3OTJPJFDDehj/P+ilYWEh5WZQqesL8glS4zQDb9
+	 eihFpsQf4LYFLm3JS6LhiFhS1gT1WLqNhI79jACRH37QMsjB8LxsgB2NN+zmr4xvAgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717297;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717304;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=0Td4JZi2w+id+C91r1df/3sYplbTy8QIwHQVkHMEd4Y=;
-	b=tNLML5feE7qjSFs6VV/ubzZT/qfNHrtFkjWJ+djvIM7xQrwPjmVqjVl0qvOhPSEm3aoz
-	 bIiVRnIZie9TQXaTK3/r/jhxnYU8YflHNZzDEy/QDyBZB89J2t3TKkuMtxSE2HFyk88TJ
-	 88ykHEcJKuUwkJWcmM/tMf8eQgxQwWT3WMC+J5z5Qnlug+aW7YtzlpSXusnXamd9pJ2xP
-	 tu4kW7yeLlXxK2p1YspaCS+blRiQKbnJCN3s3Pb6LdlkGv0JoJT4xWkDzuvklO4y7C+7l
-	 oplryHJDIIKT1OagxIr27gAV3SiBMA8k7UzALIlPwW3mov3RIp1fn7ll0BA6fWlMblw==
+	bh=wM4ihzCKOLfh0ZD7M58/6B4bo5IJr12GDvSCHj1N144=;
+	b=h4I78+IMSpivReL3Rkb7R8qtzUJU4rXCI4aAS+c65nrfmEub6vmEm6bCZ5qRHPfSR9WU
+	 CBAHrTXyjrYyNLy3za3as+8Mb+6hov1yDIRG4W49RcpWd7cVhNWPuuMJiaqxQQA5OhmO5
+	 yNc5EMpGui3ZbBiVJrgIda+nOsEoNwTzAVCdTAmBzO4OziG+l+LWdZ3wlcVKXUiXeOdW5
+	 +/C9uiInfWplwvUSmbf3UtZzD+b+7vNGkRjcwXDsqLD9KknZ7aWAKrbf+gffZK4ZgmedZ
+	 Wbcx6xvdnarVTE6/IRpNBDzTI2O2Sw3aPXfrxrMHGETQqbNIQOY1gdQSqr1RlortG4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="EK0/vsNV";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C2dwqdtU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC00E60A6F72;
-	Tue,  3 Nov 2026 14:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB5C606B243;
+	Tue,  3 Nov 2026 14:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EK0/vsNV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7231D1F00919;
-	Tue,  3 Nov 2026 14:48:13 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C2dwqdtU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B112A1F00A25;
+	Tue,  3 Nov 2026 14:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717296;
-	bh=0Td4JZi2w+id+C91r1df/3sYplbTy8QIwHQVkHMEd4Y=;
+	s=k20260515; t=1793717304;
+	bh=wM4ihzCKOLfh0ZD7M58/6B4bo5IJr12GDvSCHj1N144=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EK0/vsNVB13SfzCl1rZBecIZcse/4JBWehfYgBqwpmG5oqD+xXe18TpP62x6fmfzH
-	 hgIHV7c4uDapudMzSLqh8RVyG6f56qZJG58wnGntIv/hoPlUX1DrgfV0UrzJukmklC
-	 KgCKk0m1/PdVRvYiFKdcdEaYieBaFf8F8jlGNkaAAoGATsVZWVu1OqmuzQgMY4s332
-	 1sVrRaptCMgkDW7+sQN1y6UQh7XiYnQ8cYcGXCdRWzrzFO+FauFx2r7FxlUvV7cB+C
-	 SXapQUyyOAVlBK+Av20/qX3mpbtsU1AYwwpMjnZfBWq8IKxDoLJNSKqjtWQYBzEG5G
-	 8Y81ok+NYe1hA==
+	b=C2dwqdtUzJs0e/4mAoyZd9elv6kGwKzRzrkZZLnkSLPmb0EBBXF9mz5ki97+BdPpJ
+	 XR3t5RyYj6b5JGCnc4iLzpR9PSDADmGNoM5Kd3Q3Z8+mjRreHGdeq4mhUv0XwtD16Z
+	 SXlW5JSQnlmhaOFn59oW5j5O3l95kkxXNXhYvLsr1LZcKDf896lWNYyANEtDQKBG+a
+	 tv597acbLMufhvpLiQDo3PFyTTKsytOB/N0JBHE5QTcBCta9qmQDVrOlvNxpjHSu4f
+	 3PR0956zqC196DuCc1QWbJtDGLpRfklTrrMuglgZiq0FibC8MHKMBVtWmf8Qls7xfR
+	 90csUx2uFzarQ==
 From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Tue, 03 Nov 2026 14:47:52 +0000
-Subject: [PATCH for-next-fixes v2 3/5] mm/slab: call debug_locks and KCSAN
- checks in kfree_nolock()
+Date: Tue, 03 Nov 2026 14:47:54 +0000
+Subject: [PATCH for-next-fixes v2 5/5] mm/slab: serialize
+ deferred_work_barrier()
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-kmalloc-nolock-fixes-v2-3-19167cfe4779@kernel.org>
+Message-Id: <20261103-kmalloc-nolock-fixes-v2-5-19167cfe4779@kernel.org>
 References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
 In-Reply-To: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
 To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
@@ -68,77 +68,55 @@ To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.16.0
 
-kfree_nolock() skips free hooks that may acquire spinlocks because it
-can be called from any context. debug_check_no_locks_freed() and
-__kcsan_check_access() are skipped as well.
+irq_work_sync() uses rcuwait instead of busy waiting in two cases:
 
-However, they acquire a spinlock only when they report a bug.
-debug_check_no_locks_freed() disables interrupts and walks
-current->held_locks, and reaches printk only when a held lock is inside
-the freed object. KCSAN takes report_lock only when it observes a race.
+  1. The kernel is using PREEMPT_RT and the irq work does not run in a
+     hardirq context.
 
-Just like KASAN, take the risk of potential deadlock for bug reporting.
-Call debug_check_no_locks_freed() and __kcsan_check_access() regardless
-of allow_spin.
+  2. The architecture cannot send inter-processor interrupts to make
+     busy waiting reasonably short.
 
+However, rcuwait.h says:
+> The caller is responsible for locking around rcuwait_wait_event(),
+> and [prepare_to/finish]_rcuwait() such that writes to @task are
+> properly serialized.
+
+Since deferred_work_barrier() calls irq_work_sync() without any locks,
+it can potentially cause a hang as writes to @task are not serialized.
+
+Fix this by serializing deferred_work_barrier() with a dedicated mutex.
+We cannot reuse slab_mutex because e.g.) some users of
+kvfree_rcu_barrier() are outside mm/.
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org?part=5
+Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
 Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 ---
- mm/slub.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ mm/slub.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/mm/slub.c b/mm/slub.c
-index 36e7bb93418a..48415f24e115 100644
+index 6dfa8ca3c937..50e88edcef3a 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -2707,19 +2707,25 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
+@@ -6636,8 +6636,12 @@ void defer_kfree_rcu(struct kvfree_rcu_head *head)
+ /* Must be called before flush_rcu_sheaves_on_cache() */
+ void deferred_work_barrier(void)
+ {
++	static DEFINE_MUTEX(barrier_mutex);
+ 	int cpu;
  
- 	kmsan_slab_free(s, x);
- 
-+	/*
-+	 * debug_locks, KCSAN, KASAN may acquire a spinlock to report a bug,
-+	 * but otherwise don't acquire any lock. Take the risk of deadlock
-+	 * for reporting.
-+	 */
-+	debug_check_no_locks_freed(x, s->object_size);
++	/* irq_work_sync() may use rcuwait that requires serialization */
++	guard(mutex)(&barrier_mutex);
 +
-+	/* Use KCSAN to help debug racy use-after-free. */
-+	if (!still_accessible)
-+		__kcsan_check_access(x, s->object_size,
-+				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
-+
- 	/* Hooks that acquire locks or kmalloc_nolock() skips alloc hook counterpart */
- 	if (likely(allow_spin)) {
- 		kmemleak_free_recursive(x, s->flags);
--		debug_check_no_locks_freed(x, s->object_size);
- 
- 		if (!(s->flags & SLAB_DEBUG_OBJECTS))
- 			debug_check_no_obj_freed(x, s->object_size);
- 
--		/* Use KCSAN to help debug racy use-after-free. */
--		if (!still_accessible)
--			__kcsan_check_access(x, s->object_size,
--					     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
--
- 		if (kfence_free(x))
- 			return false;
- 	}
-@@ -2727,13 +2733,6 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
- 	/*
- 	 * Give KASAN a chance to notice an invalid free operation before we
- 	 * modify the object.
--	 *
--	 * If KASAN finds a bug it will do kasan_report_invalid_free() which
--	 * will call raw_spin_lock_irqsave() which is technically unsafe from
--	 * NMI, but take chance and report kernel bug. The sequence of
--	 * kasan_report_invalid_free() -> raw_spin_lock_irqsave() -> NMI
--	 * -> kfree_nolock() -> kasan_report_invalid_free() on the same CPU
--	 *  is double buggy and deserves to deadlock.
- 	 */
- 	if (kasan_slab_pre_free(s, x))
- 		return false;
+ 	for_each_possible_cpu(cpu)
+ 		irq_work_sync(&per_cpu_ptr(&deferred_percpu_work, cpu)->work);
+ }
 
 -- 
 2.54.0
