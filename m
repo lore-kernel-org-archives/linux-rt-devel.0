@@ -1,57 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793806392;
-	b=ypx8F7q14LuWGQyzanms9/M5Uq4BhReg03iK4F2br3mzNHJH3Ft/QzmxkYjyVJPky5oZ
-	 28gDgE5ANLQuMsaVFRZfJawAJlq/OOtvQ7/OiiXTKxEWv5Ysnb0Bbe23xIFK0e9FuTAFT
-	 0Lrc41UBNI8b+iZkAg+qzmO2myrTsWE5IRMa800QVLrWCmK+fFZ0xu6VaT+5VcTToBq56
-	 Gz4M4bahO89oafkP2OLKqrzzcIRA8Xcbm5/VPsUy/mBxqdkiYJnPAOvK9r3B/t6BMXCMp
-	 l0rlxt6LKXbSV6cmA3jjNs9zv/n/+tyazeuuJ3pmx8DFYkptX6XcghuJ5HPFz2zmE2Q==
+	t=1793806518;
+	b=xnVnSMD0eIN+t4d1x4gF10vBxqhlDPnGLlShToMdpMXD1NUIm4zmZ6aMVXMEPTnym6Hu
+	 e9MmBojL+qIBtqSi3Y/krbiI5Sp34p/OMJnRPIXuno94ygdSQezSHA+a66phoKvaNa4D0
+	 c9MOu+kYEyx0sVpmabT7XHhSIXP9IRwBmA7xvkPSoVJX12UR15K6bkQUq/XAQ4+2Hi6CA
+	 yxWv6nGAYeCFWTt+veIKmoLocUNWNtbzU+okCPZdZK17GsIbAV7SbK/RVPupjOCSAL/mV
+	 WR6RzPMv263CCONmdZYroiehGXmlIyinMzLyhU1ZxNtOQBJ7LkpDIVa0Nue+d7wrsjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793806392;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ijgGCnSqrjIVk6YkV/Tk0OCRls1u+aL1OVhTRnPDVEw=;
-	b=DhJz8oCm8jt2j0RHAob8rtSW3dIq+4SlNRFBUq14RIPNPgK44dhZp0/sXgol8te6rVFR
-	 oAKDDQWhgHbBjME+sD+mLV0y2LbtrLCEqssVcHVxyMgI05Jr8SqUDZLgsXbGpka7rwUsH
-	 mnvk83K6+/DOK/LXOF1K1XRzyKf7tpxYrV+OA1pVkDyboW3ApdYOFAv0vUwwKWtEHX7/A
-	 LAOsHasJVcUT8/Eko+V76BQE+gh7EhYQYDVIECTRWluatCdp+/oUlO6uUp5r1dEUu8gW/
-	 8mSAEGNK49WkKyJjtad2mm3IcGlj1T1HbJBi1BPKqb7gKahFY3XRNPaorij3ypdovRQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806518;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=qP1iq0olN33Pbj7s1LpnKxEDc19GAI3fREIGaO3xv2I=;
+	b=M8QIU5hX/tm9PjS6nRBnhpnlbHqfYbD4szF1eSRmSYP9dopkbrP54cPtxmTfGl8/pefQ
+	 aNDe9XRzO7wLKxoC1EAV/nCFnn91lp6Co7BIoqhYIIPbxW2wdXQFcpZ2m1r6SAOsDiK2m
+	 PSRaqtXAm3dZEr2dkjL0xCBteXPeExt+6mLHRM/RwoHQ6u4+2lI8urM3vkD/8A9gmKmLj
+	 4IlJMo47qK/TZK9eNMZmejKUwHwAEIkJLWpGfXUqIQ3YIqzwigDw3oVikMnB1V9E66P8I
+	 jp6NuCE2i6ejxwyPb50boZGAMfegfjD7uChSQ9MdpLG/kBlvo2sdRzOBl9eFMJIDw7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UanPt8Ab;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dVUnZZF2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A503606A31B;
-	Wed,  4 Nov 2026 15:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B3E606A31B;
+	Wed,  4 Nov 2026 15:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UanPt8Ab
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62461F00A15;
-	Wed,  4 Nov 2026 15:33:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dVUnZZF2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86331F00919;
+	Wed,  4 Nov 2026 15:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793806392;
-	bh=ijgGCnSqrjIVk6YkV/Tk0OCRls1u+aL1OVhTRnPDVEw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UanPt8Ab3aWe29Kx9mDWZ326Rw/aPLRuEWwsuAdv9JZhC43Tnn5jJh+ZlYqvkOrb2
-	 5JeVBI5fLe3ioSUGZJ0zPWZ4h81II/x2fLCfjITa0CryrCtgjAnfAzLyEv3zzC5AcG
-	 EfWSQKqWgWOpZLbdk1aZQGSbjOSvfL9Ks1+1Um98P1sSzgRUpCj8R4llYET/MexYfk
-	 v97TOqa2gYSgPqlRoh/d6KMwHtrclOCbiXka50GvrdOkGPPch2pSMIwphqL5Q5Ldrj
-	 GA5km1M+1R4LWW4h/T4TYRuBtLZkutyXneDvAkzpFAkmh43adH+DQ8lU5x5ts84jw9
-	 UnmBsQp2EFqqA==
-Message-ID: <sashiko-outbox-197510@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 05/12] sched/deadline: Do not release a departing
- sleeper's bandwidth twice
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <21f538f65f013a71920547ac92c76ca8ba544d19.1793804635.git.mathieu.desnoyers@efficios.com>
-References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
- <21f538f65f013a71920547ac92c76ca8ba544d19.1793804635.git.mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 15:33:11 +0000
+	s=k20260515; t=1793806517;
+	bh=qP1iq0olN33Pbj7s1LpnKxEDc19GAI3fREIGaO3xv2I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dVUnZZF2JbbWHkh7TlBjyQ+8ZqlC0Kbnm95XH1obnujxhf98eX7KvMnOQMGreH9qn
+	 bYG0x3iMgD5BXGdksHjkl3dvtZ36XlxCMqVl0pQWAK0foVkfzjK03N4TSpPSH/sZRY
+	 Y2IRcQOAyWBrY2Lw8Z0n8TxpHgTKrUEF3ZSSY78nszazsxWCX3upfrgGE3Z5fuSzH8
+	 1sDRmbxV12YJa3bE94Ckwh6lK8P5UkC9Z1tPgyufH30swBcuFnOw79xxxtcCauARhV
+	 xZ+MxXxCJWOdWf6scPuXKnMsgJwA/BkxPQ/odsXjiA3DUsgv/DTE+IiC4jyNidJaLK
+	 J1H+oE37KddgQ==
+Message-ID: <6441429b-eff2-485b-acf3-26c3034910ae@kernel.org>
+Date: Wed, 4 Nov 2026 16:35:11 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,149 +50,101 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next-fixes v2 4/5] mm/slab: fix a deadlock in
+ memcg_alloc_abort_single()
+Content-Language: en-US
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Harry Yoo <harry@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Sashiko <sashiko-bot@kernel.org>
+References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
+ <20261103-kmalloc-nolock-fixes-v2-4-19167cfe4779@kernel.org>
+ <DMLSN9VHK0P3.2A97046A4YXGY@gmail.com> <auo5G__ac1qA9JRs@thinkstation>
+ <DMLVUTB5J1RJ.2QKOUW6UB04ZM@gmail.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <DMLVUTB5J1RJ.2QKOUW6UB04ZM@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] sched/deadline: infinite loop in replenish_dl_entity() on PI donor=
- clear
---
+On 11/3/26 22:11, Alexei Starovoitov wrote:
+> On Tue, Nov 03, 2026 at 12:21 PM Harry Yoo <harry@kernel.org> wrote:
+>> While this is technically true, this relies too much on the current
+>> implementation details and makes the code hard to follow.
+> 
+> Fair enough. I don't insist.
+> 
+>> Patch 2 is an independent bugfix as-is already. We should really stop
+>> open-coding slab_free_hook(). That ended up missing init_on_free handing.
+> 
+> Right. No objection to patch 2.
+> With patches 2 and 3 the !allow_spin side of memcg_alloc_abort_single()
+> is an open coded kfree_nolock():
+> 
+>   kfree_nolock()                    memcg_alloc_abort_single(!allow_spin)
+>   --------------------------------  -------------------------------------
+>   memcg_slab_free_hook()            -
+>   alloc_tagging_slab_free_hook()    alloc_tagging_slab_free_hook()
+>   slab_free_hook(!allow_spin)       slab_free_hook(!allow_spin)
+>   free_to_pcs()                     -
+>   defer_free()                      defer_free()
+> 
+> I don't insist on kfree_nolock() there,
+> but can we try free_to_pcs() before defer_free() ?
+> Like:
+> 
+> 	if (likely(allow_spin))
+> 		__slab_free(s, slab, object, object, 1, _RET_IP_);
+> 	else if (!can_free_to_pcs(slab) || !free_to_pcs(s, object, false))
+> 		defer_free(s, object);
 
-commit 0ea45c3b24aa9d9591791893080fc323c30a9de8
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-
-sched/deadline: Do not release a departing sleeper's bandwidth twice
-
-This commit prevents switched_from_dl() from releasing root domain bandwidth
-for tasks without their own deadline parameters or special sugov entities, =
-and
-clears the deadline parameters after releasing a departing sleeper's bandwi=
-dth
-so it cannot be released a second time.
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index d474fbfd9be6d..3c57e5f5fc056 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -3567,6 +3567,8 @@ static void switched_from_dl(struct rq *rq, struct =
-task_struct *p)
->  	dec_dl_tasks_cs(p);
-> =20
->  	if (!task_on_rq_queued(p)) {
-> +		bool released =3D false;
-> +
->  		if (p->dl.dl_non_contending) {
->  			/*
->  			 * Inactive timer is armed. However, p is leaving
-> @@ -3579,12 +3581,18 @@ static void switched_from_dl(struct rq *rq, struc=
-t task_struct *p)
->  			 * release total_bw via __dl_sub().
->  			 */
->  			sub_running_bw(&p->dl, &rq->dl);
-> -		} else {
-> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
->  			/*
->  			 * No pending inactive timer: the task never ran as
->  			 * DEADLINE or the timer already fired while still
->  			 * DEADLINE (only dropping running_bw at that time).
->  			 * Nobody else will release total_bw, do it now.
-> +			 *
-> +			 * Not for a task without parameters of its own, one
-> +			 * deboosted from priority inheritance, whose mask may
-> +			 * have no active CPU for dl_task_root_domain_cpu(),
-> +			 * nor for a special one: neither has bandwidth in
-> +			 * total_bw.
->  			 */
->  			unsigned int cpu =3D dl_task_root_domain_cpu(p);
->  			struct dl_bw *dl_b =3D &cpu_rq(cpu)->rd->dl_bw;
-> @@ -3592,8 +3600,20 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  			raw_spin_lock(&dl_b->lock);
->  			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
->  			raw_spin_unlock(&dl_b->lock);
-> +			released =3D true;
->  		}
->  		sub_rq_bw(&p->dl, &rq->dl);
-> +		/*
-> +		 * Released: reset the parameters, as inactive_task_timer()
-> +		 * does. Kept, they would make the task one with bandwidth to
-> +		 * task_contending() and task_non_contending() once priority
-> +		 * inheritance boosts it, and a deboost while it sleeps would
-> +		 * release that bandwidth again. So would the inactive timer's
-> +		 * handler when it runs late, dl_non_contending cleared under
-> +		 * it by migrate_task_rq_dl(): it finds !dl_task(p).
-> +		 */
-> +		if (released)
-> +			__dl_clear_params(&p->dl);
-
-[Severity: High]
-Can calling __dl_clear_params(&p->dl) in switched_from_dl() cause an infini=
-te
-loop in replenish_dl_entity() when p is blocked on an rt_mutex and acting as
-the priority inheritance donor for the lock owner?
-
-If a non-deadline owner holds an rt_mutex and a SCHED_DEADLINE task p blocks
-on it as the top waiter, task_blocks_on_rt_mutex() -> rt_mutex_setprio() se=
-ts
-owner->dl.pi_se =3D &p->dl and places the owner into dl_sched_class.
-
-If p's 0-lag time has already elapsed while p sleeps on the lock (so
-p->dl.dl_non_contending =3D=3D 0) and p is switched to another policy via
-__sched_setscheduler() in kernel/sched/syscalls.c, switched_from_dl() runs
-inside the sched_change guard before rt_mutex_adjust_pi(p) is called:
-
-    scoped_guard (sched_change, p, queue_flags) {
-        /* sched_change_begin() -> switched_from_dl() */
-        ...
-    }
-
-    preempt_disable();
-    head =3D splice_balance_callbacks(rq);
-    task_rq_unlock(rq, p, &rf);
-
-    if (pi) {
-        if (cpuset_locked)
-            cpuset_unlock();
-        rt_mutex_adjust_pi(p);
-    }
-
-At that point __dl_clear_params(&p->dl) zeroes p->dl.dl_runtime,
-p->dl.dl_deadline, and p->dl.dl_period while the lock owner still has
-owner->dl.pi_se pointing to &p->dl.
-
-Even once rt_mutex_adjust_pi(p) calls rt_mutex_setprio() in
-kernel/sched/core.c to deboost the owner, sched_change_begin() dequeues and
-updates the owner before resetting owner->dl.pi_se:
-
-    scoped_guard (sched_change, p, queue_flag) {
-        /* sched_change_begin() -> dequeue_task_dl() -> update_curr_dl() */
-        ...
-        } else {
-            if (dl_prio(oldprio))
-                p->dl.pi_se =3D &p->dl;
-
-If the boosted owner exhausts its runtime (or yields) either concurrently on
-another CPU before rt_mutex_adjust_pi(p) runs, or during the dequeue in
-rt_mutex_setprio(), update_curr_dl_se() sees is_dl_boosted(&owner->dl) and
-calls:
-
-    enqueue_task_dl(rq, owner, ENQUEUE_REPLENISH)
-      -> enqueue_dl_entity()
-        -> replenish_dl_entity(&owner->dl)
-
-In kernel/sched/deadline.c:replenish_dl_entity(), pi_of(dl_se) still resolv=
-es
-to &p->dl where dl_runtime and dl_period are now 0:
-
-    WARN_ON_ONCE(pi_of(dl_se)->dl_runtime <=3D 0);
-    ...
-    while (dl_se->runtime <=3D 0) {
-        dl_se->deadline +=3D pi_of(dl_se)->dl_period;
-        dl_se->runtime +=3D pi_of(dl_se)->dl_runtime;
-    }
-
-Wouldn't this trigger the warning and spin forever with the runqueue lock
-held and interrupts disabled?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793804635.gi=
-t.mathieu.desnoyers@efficios.com?part=3D5
+Why not try free_to_pcs with allow_spin as well then, and improve
+memcg_alloc_abort_single() for both contexts?
