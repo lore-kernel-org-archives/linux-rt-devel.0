@@ -1,96 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.96.97
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793827469;
-	b=YoK1mGO1D8FSmYk1rAeekPZb0rGXjwHcQfhVnFtlc0ETJ/KD041trSkDd0ZkYwBT3jUg
-	 FgOp+18Zy5U2RNE3BjeXqnvKcFgNnSdgUyTWejDR2jKeYL8SECgy67otzJmBj8aM8GBkQ
-	 HHHLNxzC7SaTbTIVZnxZAndblYLmStid7hAwj7unNJLZklBdMvapKejGFIDSuMNRvkX6d
-	 VG51lKBCpKMsUTpVKQzOmrdhmyDv6EK2zSGNCoqeIb+Nez2MG/bbluNU7tpgOpob9is2C
-	 HnGuOSrb8LCBHAB0yeJ641dDQHsqCIZ1YrkjldY5wCWu4r67XInAHbQpAp0uylJ8sEw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793827469;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ZvbyKWbvjRXfdCahcmMw/zZ48pSDnL9iKfnxz5mk/hI=;
-	b=o/Cv+eqJHIhZE0PqF04RcMvzlXOT6vyXqJFSDJfVCsRUkgp1VQmqAfedRVmWbd0kKi4p
-	 yRBbd5jbYun8kjX7Ailuuy0BCC1ix6jqtrcudH2VCvW6lQm1NgaibfYGdnxU6NyyM8K6A
-	 iG5q1A29qMkwZBZCJDp0gx7Vzdxs90Enn8djFfqBy8PzD8OxR27oCKjfLPFo+2CjdoylF
-	 EBvGk9rmfZeT017xCJ3jXCvp2Nc8VGR6gl73HrYuMxHsdGQY0Nw73jo719jefaypAGXiO
-	 5wVkZYhUTBjJNsVj+XTkXjGFv3NYyvr14j0CeTD8+nK+pn02WeY5MSYAe83utQo2LJg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=atomlin.com;
-	spf=pass smtp.mailfrom=atomlin.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.96.97
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022097.outbound.protection.outlook.com [52.101.96.97])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793828811;
+	b=nL9LlOfU+cVoTkHpnKVhUe3oncF9XJDh6Ni7kFwsVASMuQZdbaX2SZRAL5Myngxr0ccm
+	 brjKFEBxcmeopwBPKz6AWDG+tMxO8BEnibAc9ouGp3MZAJRWRZUacPmu3BmrH71RaBLtt
+	 oWpP9vlYfzpvAao+p4iFt94rcSki1mxLBv4cY7dOjQRb6AxU+nhX8XxMBY/DOhT+aRr3t
+	 zWBu6fYVa3bvwMP8Zf+9OqS5tTC0v2LFpjctj6NEn4Qg47oDZoOlZZDhZWlZxvpEVLyQJ
+	 SrFcIZ/2eW1p2BAN/D98shK5k0yHuZ7ewnp90QJT0HfxH9zU8ryep3GyBLmKsGSTlPQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793828811;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=B/+Tw39nWIip5+PScAXZbdossYLtNBKyZ8Bm07MqdZc=;
+	b=fj8HIcPZEy8n6ah/NmDMZiKiy876uQMOe3oIsJEyIR/4g1X6BQyQIb72K5PcfwNXSuny
+	 s4FWD/ezeBCan/9rX4snw4gZBP+e3rbuUej+M4C0Zb3cIk2l/4LwKYeAVBriTiAXnlD28
+	 /bUGPrkDz9+/rEhfl08orjZysJ5UAjHJ8fpWcEkd665Wbb1jbboH2/fFouowQfGlebNiI
+	 iPnI26q9yL4xR5nRyFgFX7eLnWcTRrn0YHD2pAd0hLVT6IsnyAGsRm3YwjBRmhEMZomIM
+	 oxVy+GMtJ9etQr0pxVN2cSwGV8xdlJL9OTPy/bfhYVRL8etIFPYxfUDbpO8mp1b4B7g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWcDN+va;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFFA606BA36;
-	Wed,  4 Nov 2026 21:24:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BFFA606BA36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G6NsO0r4xCNeZX6jUviRajHvXxBhECwlo8UdIoRtyVsYaAW3/6ZTU1ytjUUjl8dtU+hRZ5ZH1GgriFwwWxAwV41mdc7rh8408segnS4icCc49CVK3q1c8RlaPdIcca8skG7kmauyrr1MbcSHSsblllJVIwhuwkQ1FqSwFLPT4Oq8IqZ54N+hp6lJ5klepcOYA0Mk4xyUqp664wmkqjwYShVd4Kc1dCaCezm4vBmdyL6Tb9EEcRPUR7qSWRG1Ni1nra7VgoO4PiYAUdhgSDOr8MVge3iCZstZ8v+jSeFGs0anZz+dLqk08VG7eOxsWGu2QrBFmLDty5hhFKGGfhfp6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ZvbyKWbvjRXfdCahcmMw/zZ48pSDnL9iKfnxz5mk/hI=;
- b=Cg6tDfhFZO6GU53VHwZmE6miLHANG+kxVHAjMmq83V0anqcR//IFLdvnmrafibIvu9qdtVPNTXUuEM5K5VDYarc+3ywyHVIpSdRDBTASygm11Z3qy6Zw4CxnihdbFpKmTSGgsnrValB6HQvuYg1IzEoRfA1HCXNHputbIQ802SHVqe7XxolAbR5wF1oS2fzBV9wLyS51H4Z/dMnZeqtKtzUaLVUU8AzFT7wqZbcGHCHmvkX8DR5Jhk4aG+C0wwWneeLeK0rLuzhOMujM0TMW6aig6cbwMDoXqnjOgYn6QD7/shmXdPc0y+kYog7j0mWi8AfFpbFcV1hh/xSWg2oleQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
- by LOYP123MB3006.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:f3::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
- 21:24:24 +0000
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
- 21:24:23 +0000
-Date: Wed, 4 Nov 2026 16:24:19 -0500
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: pmladek@suse.com, john.ogness@linutronix.de, rostedt@goodmis.org, 
-	senozhatsky@chromium.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, 
-	vschneid@redhat.com, kprateek.nayak@amd.com, akpm@linux-foundation.org, 
-	baoquan.he@linux.dev, rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
-	ruirui.yang@linux.dev, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, surenb@google.com, mhocko@suse.com, kees@kernel.org, 
-	anna-maria@linutronix.de, frederic@kernel.org, tglx@kernel.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com, 
-	bigeasy@linutronix.de, clrkwllms@kernel.org, kexec@lists.infradead.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 2/5] mm/show_mem: Avoid blocking on zone->lock
- during Oops or panic
-Message-ID: <ygc3ylz5hxlkqt7n5xnl6klydhmjtflkctidr4qabf3p4dxxsq@64gqisbenf5k>
-References: <20261103024453.922373-1-atomlin@atomlin.com>
- <20261103024453.922373-3-atomlin@atomlin.com>
- <sashiko-outbox-196525@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B84D606A330;
+	Wed,  4 Nov 2026 21:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWcDN+va
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E4F1F000C1;
+	Wed,  4 Nov 2026 21:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793828810;
+	bh=B/+Tw39nWIip5+PScAXZbdossYLtNBKyZ8Bm07MqdZc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IWcDN+vaWTiwJa6L8FJaeo5XfPD0ZTQDqkTwTdnbBMO8u6comfo9C9YCmcT8wttD9
+	 x4ZCDVcQ4cTmcjvgeJDiP6GjeiKF3SdUs4CkqMatnisdjDwiXFYoc9ziBQ/4cfJuWs
+	 /+3YSB792iBITLjuhYnGE5uCKfzW4mPeQ+IGsnkUIcgxw0VRz7KoY/2SHfIEMSVpaF
+	 Qcje2eTQPYNFFAtFfzYgove5iibISSoWY6RHcci/gGDTNzsfGYnxXnRjJwDnmKfnKP
+	 HwMLZ5HV9shJOTN6yW5Rv9G7H3MnlRX/wJ33i+yWVI56H8jDUb5SwUvIxrsBqNVgS+
+	 r31A/QVMnFCUQ==
+Message-ID: <sashiko-outbox-198153@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 04/21] sched/deadline: Do not divide by zero active
+ CPUs of a root domain
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20261104211207.1392343-5-mathieu.desnoyers@efficios.com>
+References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
+ <20261104211207.1392343-5-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-196525@kernel.org>
-X-ClientProxiedBy: BL1P223CA0018.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::23) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:163::8)
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 21:46:49 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -99,147 +60,151 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LOYP123MB3006:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5936cbd9-4fda-4842-de67-08df3ab9ff2d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|56012099006|261021135927099003|261022105027099003|4143699003|261022075727099003|261009223027099003|261026140227099003|261028144727099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	B4MoVTGX6QLPHc+rDooe8rpV0f7vcatJRj14LiHX5sUs3tpra6pgmap5fY4PgUJPhDztj/sQ4L2bvD+gAtoPXI6N3MG+W3SBbhWP/AFMzdio0ss6A8/FJrrVP8bwYQXDYeNM1Cdqvkvz/bXoztWTrL3NoACdkSq4XIAtGGwOekt9g3VwO5eFtCBaoxMaKQSERahZS+7TVOGJL1arxhzKslqWQStJ09nfJxHmCq8ncehglf+PHoYDX1jbg2/zjcXAHU+R1ZK+10a0sxSKDCYAkZgtMvDg9zfXatynLgEv9JUgqzAk27Rw1/wpTmLDfN0O5wCFol6Yz6JbcSnOpJGqnKnoYVrhgio3gS66upSlQjijf3Ucv57UrMwAr13qmILc+YrWWLJ6otjpp0hDF2GFeXn20PgGlxgBFBRMwFzXTpw/I4PPsQxrMXFS7D0uNRJ1HJhCRN4fRQv/HgYFd0qfkcQeLNlv7Tx0VJSnKAGONRpaZkjiF7tI86nn9ONVr+jvuT9y+PpQKFy/z6XhNr36HUyJ+nwNnVY+LaY7g9ZSUqgT0HtizqxKOntAp4seBKGwslto086V+CNvszriBp547KONbG/iLmvMfv/r7qVMorY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(56012099006)(261021135927099003)(261022105027099003)(4143699003)(261022075727099003)(261009223027099003)(261026140227099003)(261028144727099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U0VPVTJuVklUMTZNdW51SXU1dlFySm81LzlEZWY4WnNHN1pVbFFtV2dMR1NY?=
- =?utf-8?B?anlEbGFQbFRweGd5Q1hqeFNMVUN3SUV2L0hxVmwyZDZyS25RQnBPemRwbEhM?=
- =?utf-8?B?aWlqdW8ySDRkcldaS2lrNkxvVW5SUE81b29COEFCSjlGTS9rbTVuYXNjM2x6?=
- =?utf-8?B?UnZMNHdNN09qZGE5RkE5bnlxM2psN1ZLZS8vT21VWVpZbWgxZHdPWkxBeXZ0?=
- =?utf-8?B?ZVk3V0ZtSGo0Mk95WDJ6RlFEYUEwUklUckJ0NkVPbGdtMTU5MU15S05FQXlu?=
- =?utf-8?B?MjlYQmxMVTZsZElxUHFVUlVlaDNnVkxZNzJ3eTl6WGNtWUlBa0JZSTRjTkg5?=
- =?utf-8?B?Sy9nSGh0MmkxU1N0bmZkK2EzS3pob2FUN3gvNC9oMnhObDNuTEtYN0xQd2Zv?=
- =?utf-8?B?VWtkdk1JdXBhSEU5bThQNFR3R0RLU3pBRzlFMU1yM0NVQklFWUNnckpXblhG?=
- =?utf-8?B?OHkxYW4rd1Y2Z2RKd1RXcjNFTHdSTjRTNkpnUmRlWHhkQysrbkM1SExSRlBJ?=
- =?utf-8?B?Ly9sS3dOTU42N200d1A3d0VyTW8xTEpPcXZ5SkM1aE9zUTN6VkJ5SkhxZ0pP?=
- =?utf-8?B?eWJ1cVp6eDdVWEUyOWZZbEtRTzVXMnBlU1R5Ulhic1ZJOGljekthd1lXcHBn?=
- =?utf-8?B?OHB6ZlRZd2NDajRXRXZsWUJ4NnkwanpMM3U3WTZ3QTFrUCtTSHhPTXdBZ09s?=
- =?utf-8?B?RVZiYWhidGo4dFJaMVRSRWdsWEFyclhucnUxQW02amRlYk5iUDl2NHFONGJH?=
- =?utf-8?B?Nzc1eTJNS2V6Rm0zc2MwWXlMTjZPS0FTVlhodVIwRzdmS2pxUy96WCtiRkN0?=
- =?utf-8?B?YStraStmY0VjbzN4cndQcWZTZ3VsRlRhZXNRalp3eldBWFBWZzJSQmhyRks3?=
- =?utf-8?B?RWhyR1laWWc0a0NwR3NSSDAwR1lvOVIwT1UzakhYNmI0T0wwNlZjcmdyMnpa?=
- =?utf-8?B?NWE4aGpNWFR2TnN3TlFCemVXSWNaNDcybms0dllPM1hJc0NVcG9XL0tKRFdI?=
- =?utf-8?B?VU5IRFRIZEZMeG5sWFFxK0xDekxxejNzdU9SeG1EVHowV3ZIWHFZMWtYMGpF?=
- =?utf-8?B?T1VuSjFQMHVRb09JMHlBcmF5RWJJc2Joa0V4RVluVU1VQ2FrWDZnSjdTczF0?=
- =?utf-8?B?VHduc0Jaei9sZm1aQVI3MXF1NGp5UVNYVTVLbnJWVjhhWFBzWGlEdzc5cTN4?=
- =?utf-8?B?YUlMSWp2bmVRK3Y5UnRrajJrVkFpOVRneWdtc3kzYnVsQWpBM0NMcnE3YnEz?=
- =?utf-8?B?Uk16VzZ0OWwycHVab0k3Ti9BVSt5QWNTbUlmSkh4b2pudU9vMkJqUFZlMzI0?=
- =?utf-8?B?ZU9Eb0tTeWZLY1RaY2hWWDZqMEhxblhoSzc2VW1kWmtoeGF6YWNBMlQvNGZN?=
- =?utf-8?B?cjFKUDc1Tm5qNWhSSjlEU0QrSDI0b3hHUVUrVU1sYXlaQVVNVXZIY3k1Qk16?=
- =?utf-8?B?bXVxY2pPMUtncE00MWNUT0xpcVUwQysrWFREQ011UjhIYnJzMVkxOW45cVdp?=
- =?utf-8?B?dVpGYU53NllZMkxsNEFMUlY0OHZPb0VLcE9RMEtqNi9GR1FCT29iTVJ0eVc0?=
- =?utf-8?B?aTlZb3hYRlJkb1FWYjQ1NFAzeTFhUTFpU0Z5OElmMWdrVVdXWUNLYmc1bFdH?=
- =?utf-8?B?cHl5UFN6dFo2TXpzV1lKRzFIYk9jd1orRVRHTzNNaWZQcldwYWNQT2paR2k0?=
- =?utf-8?B?VDRiczBsT2dZVS9WaW9oMVpUTGRyb3Uyb085cU93bDVHWU1pQzRPZUxkWEc4?=
- =?utf-8?B?K2F6dnlIN3VvTnQxV21qdVJtckpoSlQ5NllYM0tvYWtJZ2hDUFcyckxyUm9K?=
- =?utf-8?B?dU84U3FnVmdKQWZJSmhYTWJLUFhnaWwwMHVWUkw1cWxqYmMzdzIrWUVUbk80?=
- =?utf-8?B?b1JOOXZLVTA1d1R0ekplNlU1eGxVUWZ3U3hkTVBRV3F2K0lpeDk2a2VnWXdS?=
- =?utf-8?B?SDRKU2NYaFY5TFZxWkpDU2s4TTZ6ekpkUGo4MS9rYUlvKzVCN2RqYVdnYmd3?=
- =?utf-8?B?dkpoa2dTcVBsaFdGaHhUZEdRWFR1a1dadlpla2FVdU8zeWNscGxhSmx1LzlO?=
- =?utf-8?B?aWYzUEs5ZUU4WFNaMGR2S3NzWVJvSytVMGFoTFZDaFpKNnZEcjdjbXBIMHo1?=
- =?utf-8?B?OS9aZGRlQk9JU2NodmkxbXdFbk5mNUVNY1hGbnJQN1BicjB4T1VkUFB0MlEw?=
- =?utf-8?B?WTBuZkJnNFhjTlpjbWI5ZVNBRUtwd2xrTWJBb3QyTkExVmlpQ2I0SmRzLzdq?=
- =?utf-8?B?SWlGMXV5WnZhYUZrTTZKd3lEZHdPc1VDdGdMMHo3YUFtNSsyZDNNTW9rdTFa?=
- =?utf-8?B?aGlEdnBuUXRtTE44Y2hLdW5zZituSThsczByYTNwcXE5NFZZV1ZrUT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5936cbd9-4fda-4842-de67-08df3ab9ff2d
-X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 21:24:23.6745
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mX83XXz0UDS6Kd6a3dostHVE/ly4PP7cXSCUxkqCM/OEnhV61pwEeyjX1e94r/wQgKwvWWz40ckXFkOdBC7r2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP123MB3006
 
-On Wed, Nov 04, 2026 at 02:49:19AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] mm/show_mem: false lock contention warning in show_free_areas()
-> --
-> 
-> commit e1c6e11316c0b99b2f700b8251c5ed2b76aad84a
-> Author: Aaron Tomlin <atomlin@atomlin.com>
-> 
-> mm/show_mem: Avoid blocking on zone->lock during Oops or panic
-> 
-> This commit updates show_free_areas() in mm/show_mem.c to avoid unconditionally calling spin_lock_irqsave() on zone->lock during Oops, panic, or NMI/atomic contexts, skipping zones when acquiring the lock is unsafe or contended.
-> 
-> > diff --git a/mm/show_mem.c b/mm/show_mem.c
-> > index b938cbcd774a1..77098077523a9 100644
-> > --- a/mm/show_mem.c
-> > +++ b/mm/show_mem.c
-> > @@ -367,10 +367,17 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
-> >  			continue;
-> >  		if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
-> >  			continue;
-> > -		show_node(zone);
-> > -		printk(KERN_CONT "%s: ", zone->name);
-> >  
-> > -		spin_lock_irqsave(&zone->lock, flags);
-> > +		if (!can_spin_trylock() || in_nmi() ||
-> > +		    oops_in_progress || panic_in_progress()) {
-> > +			if (!can_spin_trylock() ||
-> > +			    !spin_trylock_irqsave(&zone->lock, flags)) {
-> > +				pr_warn("zone %s lock contended\n", zone->name);
-> > +				continue;
-> > +			}
-> > +		} else {
-> > +			spin_lock_irqsave(&zone->lock, flags);
-> > +		}
-> 
-> [Severity: Medium]
-> In show_free_areas(), when can_spin_trylock() returns false (such as in NMI or
-> hardirq context under CONFIG_PREEMPT_RT, or in NMI context under !CONFIG_SMP):
-> 
-> mm/internal.h:can_spin_trylock() {
-> 	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
-> 		return false;
-> 
-> 	/* On UP, spin_trylock() always succeeds even when it is locked */
-> 	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
-> 		return false;
-> 
-> 	return true;
-> }
-> 
-> the inner !can_spin_trylock() check short-circuits before
-> spin_trylock_irqsave() is ever called, yet still prints "zone %s lock
-> contended" for every populated zone even when zone->lock is completely
-> uncontended.
-> 
-> The commit message also states:
-> 
->   Check can_spin_trylock() and use spin_trylock_irqsave() when
->   !can_spin_trylock(), in_nmi(), oops_in_progress, or panic_in_progress()
->   is active
-> 
-> Additionally, because show_node(zone) is moved after spin_unlock_irqrestore()
-> below, skipping a zone here only logs zone->name (for example, Normal or
-> DMA32) without the NUMA node ID on CONFIG_NUMA systems.
-> 
-> Should the !can_spin_trylock() case avoid claiming that zone->lock is
-> contended (and match the commit message description), and should the skipped
-> zone message include the node ID?
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261103024453.922373-1-atomlin@atomlin.com?part=2
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] sched/deadline: dl_b->total_bw underflow in __dl_sub() and __dl_=
+add()
+--
 
-I have updated the commit message in the next revision to accurately
-describe this two-stage check, and updated the pr_warn() message to include
-the NUMA node ID via zone_to_nid(zone).
+commit 1283d9f058013be0f43eec132085929ecd9c1f99
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-Kind regards,
--- 
-Aaron Tomlin
+sched/deadline: Do not divide by zero active CPUs of a root domain
+
+This commit guards the calls to __dl_update() in __dl_sub() and __dl_add()
+with a check that cpus is non-zero to avoid dividing by zero when all CPUs =
+in
+a root domain are inactive. When cpus is zero, it leaves the dl_b->total_bw
+updates in place without updating per-CPU extra_bw.
+
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 963fda6ddb7f6..dadda1a528ec6 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -189,18 +189,25 @@ void __dl_update(struct dl_bw *dl_b, s64 bw)
+>  	}
+>  }
+> =20
+> +/*
+> + * @cpus is the number of active CPUs of the root domain, whose extra_bw
+> + * shares the change: none once they all went offline, and total_bw alone
+> + * changes then.
+> + */
+>  static inline
+>  void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+>  {
+>  	dl_b->total_bw -=3D tsk_bw;
+> -	__dl_update(dl_b, (s32)tsk_bw / cpus);
+> +	if (cpus)
+> +		__dl_update(dl_b, (s32)tsk_bw / cpus);
+>  }
+> =20
+>  static inline
+>  void __dl_add(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+>  {
+>  	dl_b->total_bw +=3D tsk_bw;
+> -	__dl_update(dl_b, -((s32)tsk_bw / cpus));
+> +	if (cpus)
+> +		__dl_update(dl_b, -((s32)tsk_bw / cpus));
+>  }
+
+[Severity: Medium]
+Can updating dl_b->total_bw when cpus =3D=3D 0 (or on an inactive CPU) unde=
+rflow
+or corrupt dl_b->total_bw in the paths mentioned in the commit message?
+
+During a root-domain rebuild in dl_rebuild_rd_accounting(),
+dl_clear_root_domain() resets rd->dl_bw.total_bw to 0 and dl_server_add_bw()
+only adds server bandwidth back for active CPUs:
+
+kernel/sched/deadline.c:dl_clear_root_domain() {
+	rd->dl_bw.total_bw =3D 0;
+	for_each_cpu(i, rd->span)
+		cpu_rq(i)->dl.extra_bw =3D cpu_rq(i)->dl.max_bw;
+
+	for_each_cpu(i, rd->span)
+		dl_server_add_bw(rd, i);
+}
+
+kernel/sched/deadline.c:dl_server_add_bw() {
+	dl_se =3D &cpu_rq(cpu)->fair_server;
+	if (dl_server(dl_se) && dl_se->dl_bw_attached && cpu_active(cpu))
+		__dl_add(&rd->dl_bw, dl_se->dl_bw, dl_bw_cpus(cpu));
+}
+
+Likewise, __dl_server_attach_bw_locked() and __dl_server_detach_bw_locked()
+only update dl_b->total_bw when cpu_active(cpu_of(rq)) is true, because an
+inactive CPU's server bandwidth is not accounted in dl_b->total_bw.
+
+In dl_server_apply_params(), however, dl_b is updated unconditionally when
+dl_se->dl_bw_attached is set:
+
+kernel/sched/deadline.c:dl_server_apply_params() {
+	if (__dl_overflow(dl_b, cap, old_bw, new_bw))
+		return -EBUSY;
+
+	if (init) {
+		__add_rq_bw(new_bw, &rq->dl);
+		__dl_add(dl_b, new_bw, cpus);
+		dl_se->dl_bw_attached =3D 1;
+	} else if (dl_se->dl_bw_attached) {
+		__dl_sub(dl_b, dl_se->dl_bw, cpus);
+		__dl_add(dl_b, new_bw, cpus);
+
+		dl_rq_change_utilization(rq, dl_se, new_bw);
+	}
+}
+
+While a CPU sits in def_root_domain with !cpu_active(cpu) (between
+sched_cpu_deactivate() and CPU offline, or between CPU online and
+sched_cpu_activate()), its fair_server bandwidth is not in
+def_root_domain.dl_bw.total_bw. If admission control is disabled
+(dl_b->bw =3D=3D -1) and a debugfs write sets new_bw < dl_se->dl_bw,
+__dl_overflow() passes and __dl_sub() followed by __dl_add() subtracts the
+unaccounted dl_se->dl_bw from 0, underflowing def_root_domain.dl_bw.total_b=
+w.
+Even with admission control enabled, if def_root_domain also contains active
+isolated CPUs (cpus > 0), dl_server_apply_params() on the inactive
+hotplugging CPU will subtract unaccounted dl_se->dl_bw and add new_bw to
+def_root_domain.dl_bw.total_bw and the active CPUs' extra_bw. Should
+dl_server_apply_params() gate the __dl_overflow(), __dl_sub(), and __dl_add=
+()
+calls on cpu_active(cpu), matching __dl_server_attach_bw_locked() and
+__dl_server_detach_bw_locked()?
+
+For the task paths mentioned in the commit message, at this commit:
+
+1. In inactive_task_timer() (and task_non_contending()), if a task leaves
+SCHED_DEADLINE or dies before its 0-lag time and task_cpu(p) goes offline
+before the timer fires, the root-domain rebuild has already reset
+def_root_domain.dl_bw.total_bw to 0 without re-adding the departed task:
+
+kernel/sched/deadline.c:inactive_task_timer() {
+	if (!dl_task(p) || READ_ONCE(p->__state) =3D=3D TASK_DEAD) {
+		struct dl_bw *dl_b =3D dl_bw_of(task_cpu(p));
+		...
+		raw_spin_lock(&dl_b->lock);
+		__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
+		raw_spin_unlock(&dl_b->lock);
+}
+
+Calling __dl_sub() with cpus =3D=3D 0 then subtracts p->dl.dl_bw from 0 and
+underflows def_root_domain.dl_bw.total_bw. (A later commit in this series,
+commit 1e8adcf8ed27 ("sched/deadline: Keep departing bandwidth across a root
+domain rebuild"), addresses the rebuild race via dl_departed_list and
+dl_bw_gen.)
+
+2. With admission control off, if sched_setattr() switches a task asleep on
+an offline CPU to SCHED_DEADLINE, sched_dl_overflow() calls __dl_add() on
+def_root_domain (where cpus =3D=3D 0), adding new_bw to
+def_root_domain.dl_bw.total_bw. Subsequent removal in switched_from_dl() or
+set_cpus_allowed_dl() uses dl_task_root_domain_cpu(p) in an active root
+domain, leaving def_root_domain.dl_bw.total_bw elevated and underflowing the
+active root domain's total_bw. (A later commit in this series, commit
+90cd336704a1 ("sched/deadline: Record the root domain holding a task's
+bandwidth"), records dl_bw_cpu on the entity.)
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104211207.1392=
+343-1-mathieu.desnoyers@efficios.com?part=3D4
