@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793826735;
-	b=qBlRi0CgkCkc6pEvyZw/lZJNdzbwAz+JeIUNkbB2MlKn0sFjplm6s3JSuUDvfpXv/tZd
-	 svTtQvaHGBn182x/WChTSi26weSkRabKykQuIWST9OXpuMbHkHAZIRwiZj1SuCyA5qQMm
-	 brx1KeTwZE+g+/ZJN0frvIrWa5xk2O/XpOWVrp4FaU6ipT2YV28vt7LDxeYlPrpIS1F3y
-	 K/Nv0W2GD7VhtK5HdPY2ITQ8MoGw58HbbnOMqJQ3gONAxuu8vLPgZ2gRmMrYZknFsgI8b
-	 xOiPd9ptcmprcl5nJTQ2e1AdYFjtWM8gV+jrt+MHGjsndRu4r97d4bgMpAZE+FT9z1A==
+	b=AFyfhIotHfBLnmgJ+NH90u3MxXCqh1M7uHWyn0oR1QoqSruP9CXswNzkLxBIRFFhQLNz
+	 P6yIPoWAe9mulmuVVeRJHWWhb7qqUBm8PDABq/9M2/iE21DxS9IEj8cOgFchwe0mOyThE
+	 VjjeP9go7riFiH64TPeE0B2GmONqua4bncpCHaoq44xv0qk1UcD+t97hm4Zr4w1piQ/is
+	 UZHcTCNiElnb/oyVxgOG6HA/Ae/GIFj/1jdGYxKFSF10iRKMI22Nti7rkqTMhwR/ilKuW
+	 K6srqpnENY5+SXSpJa0wOtMstbJst/f1UAGISsETk/5dLXMSAmi9t+HIt5w6IFvRiog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793826735;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=o3Cw2LxQFj/sOcaa0cN2pMz0x6px6mdmeBIG0Gey0zs=;
-	b=PxDG77PHti6dWwIm5fwoka9W9RXiZ1uczCxAj2k2BAD+tnEfUEiMD3PZzArI/IzxDMwR
-	 72urw7dDhrUVCLQ2V5E6zIqUMTFugi4/7pn1g0JV33L8nAN9TifbTuDXOVqPc1zudC09n
-	 pNgYW1G423fEqcG5yH8T5rr5FG7H6e154DY4NQXuoy4ckdbSUP4r9z+uU3gK4432LfBpP
-	 Nb9fp8DRmMbVqHyleM/BsHeAJs4mTACLEHvJ3BNbjlOpw3pzT1EBoi+/zL90IqMlPicJV
-	 iI1k4y2LuNSnHkB05DQIyN6T03MFD6AEvzGqp/xPY66qIef4XE3p0i2z56Jciiedl7Q==
+	bh=sWPlGrtoENRtv1Qn/Jmt5SSK5q5qz3CWqDLDGE+bsjs=;
+	b=kWsgRkmlDi6RYABrBONUnkYd9fKFvzqvNbgLIvp4/90kh4KrKbFZIEidgYZwT6j4/f48
+	 kF+sc1o0rLo+RQ5orFl0ueFmcFB39B8y58tlcp78aRvXwRl8RoUcRn5nihqW0uanzVSC7
+	 0adi8U+MpCPH87VTDixS2l1ARXuekjcSg4SV346yqfofKj7eU2/UKPAFt0zX1C5gaj7Z9
+	 4XauziUz+MsXq4/1TjtnIIYl2QrcxuxIgCKtQiJf4/Oe86Yy+/PJ7HvB6CE0PArtlhOG0
+	 DV369LAp41tiBvV8zIyOFbCBzGxcqC/8MxWRwZ5FE3H9TNGKEREVCqTwk6D68hXVYSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=UuwJ90Qb;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ZoAgffMz;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E934F6081760
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D37608176B
 	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 21:12:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E934F6081760
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20D37608176B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=UuwJ90Qb
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ZoAgffMz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1793826733;
-	bh=o3Cw2LxQFj/sOcaa0cN2pMz0x6px6mdmeBIG0Gey0zs=;
+	bh=sWPlGrtoENRtv1Qn/Jmt5SSK5q5qz3CWqDLDGE+bsjs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UuwJ90Qbaq6sRM4p+eeIYR1O4CJcTakr4ic9enuvUanG3lzFm4i4AZ1n55kme9u9J
-	 DoZBYZR1d3GfExB3yuYV1rcG8GlQSnQMLV5nfnA7EOPuSU5I9DlDBDRGS9rhMn1wpr
-	 jOVdDZ1ZdPnmBAuEULIZRr9aFbWUiOWqA9cxH6ykN121RlhPTqaiiUpcAHHx5miNBn
-	 meKZXs2wl2pyr4avSlq7FbQt7KB5fCskKFTgpkH/YKUi5Diw1lC71IDAkGkeSZ/318
-	 JfRAmtNl8QddsbwizzdejAVV9skn7lqt2LCmBoDg0UKAMNm8j7/u8itEWOS1/AwMVj
-	 iHtJAAWIpI2VQ==
+	b=ZoAgffMzY3yMslrpmmX/rYkqDcmD0jV/8+vl4bL9hTL7Km62W6EB8vOri28NRX/u5
+	 145a3O51Nyjs8+GVd3KbGWEI/cRuorVHr3LHG6GFoAcRMR5QoayBrKMdC1fhOTgD6t
+	 sKSbvBmHTHsHe8ai23qKecPCkOH5yrrw/nWG+D++8AgNswNDhwid9attZ83BUQC3EA
+	 RMPumS4t+dr1QZkJc5s58y2SvebC+hKRVbbl+2M1va1vV1HsR/3L6aKSo8yuMmfdpA
+	 MjKCja8TicXNrhF+VDrn2+BoCW+b3GrYkO8du6pWxMPaH1zPZ8V1ZyZQBP9pQ2aspK
+	 4prM8GS/gY3NQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKdRx29vKzLXS;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKdRx3QyvzLXT;
 	Wed, 04 Nov 2026 16:12:13 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: Juri Lelli <juri.lelli@redhat.com>,
@@ -72,9 +72,9 @@ Cc: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v2 05/21] sched/deadline: Do not BUG() on a deadline task with no active CPU allowed
-Date: Wed,  4 Nov 2026 16:11:51 -0500
-Message-Id: <20261104211207.1392343-6-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v2 06/21] sched/deadline: Do not lose a throttled task switched out and back
+Date: Wed,  4 Nov 2026 16:11:52 -0500
+Message-Id: <20261104211207.1392343-7-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
 References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
@@ -89,73 +89,90 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dl_task_root_domain_cpu() finds the root domain that holds a deadline
-task's bandwidth from the first active CPU of the task's mask, and
-BUG()s when the mask has none. A mask can have none:
+A SCHED_DEADLINE task that is throttled, switched to another policy and
+switched back before its 0-lag time can be left throttled with nothing
+to replenish it: runnable, queued as far as the core is concerned, but
+on no dl_rq and with no timer pending. It never runs again, and a fatal
+signal cannot make it run; only another switch out of SCHED_DEADLINE
+requeues it.
 
- - a task boosted into the deadline class by priority inheritance keeps
-   the affinity of its own policy, which may allow one CPU alone, or a
-   cpuset of one. dl_task_needs_bw_move() and set_cpus_allowed_dl()
-   take it for a deadline task, dl_task(p) being true, and look the root
-   domain up from the mask they are replacing, which allows that CPU,
-   inactive by then: the cpuset code updates the masks of a cpuset's
-   tasks once the CPU is inactive, and select_fallback_rq() widens the
-   mask of a task it pushes off that CPU;
- - with admission control off (sched_rt_runtime_us at -1), a deadline
-   task may be pinned to fewer CPUs than its root domain spans, and
-   those may all go offline.
+ 1. the task exhausts its runtime: dl_throttled is set, and the
+    replenishment timer armed for the start of its next period;
+ 2. sched_setscheduler() switches it to SCHED_OTHER: switched_from_dl()
+    calls task_non_contending(), which arms the inactive timer for the
+    0-lag time; the parameters are kept until then, so that leaving and
+    reentering SCHED_DEADLINE gains no bandwidth;
+ 3. the replenishment timer fires: dl_task_timer() finds a task that is
+    not a deadline task and returns, dl_throttled still set;
+ 4. sched_setattr() switches it back before the 0-lag time:
+    switched_to_dl() cancels the inactive timer, and enqueue_dl_entity()
+    leaves a throttled task to its replenishment timer, which has fired
+    already.
 
-Both take the kernel down on the first try, in 8-CPU VMs of v7.4-rc1
-with the four deadline fixes of sched/urgent. The priority inheritance
-one, which asks for no unusual configuration, through the wakeup of the
-boosted owner:
+The window between the deadline and the 0-lag time is the overrun
+scaled by period/runtime: about 100us for an overrun of 20us at 20%
+bandwidth. The replenishment timer cleared the parameters, dl_throttled
+included, of a task it found out of SCHED_DEADLINE until
+commit 209a0cbda7a0 ("sched/deadline: Improve the tracking of active
+utilization") moved that reset to the inactive timer, at the 0-lag
+time.
 
-  kernel BUG at kernel/sched/deadline.c:3340!
-  CPU: 7 UID: 0 PID: 0 Comm: swapper/7
-  RIP: 0010:set_cpus_allowed_dl+0xf0/0x100
-  Call Trace:
-   <IRQ>
-   set_cpus_allowed_force+0x9f/0xf0
-   cpuset_cpus_allowed_fallback+0x12b/0x1d0
-   select_fallback_rq+0x238/0x340
-   try_to_wake_up+0x2a0/0xb70
+Give the task the replenishment the timer owes it, as the timer already
+does for one that is throttled and not queued: the overrun comes off the
+periods that follow, the deadline moves past it, and dl_throttled and
+dl_yielded are cleared. A return before the 0-lag time then finds an
+entity it can run on, and a return after it finds the parameters reset
+by the inactive timer, as before.
 
-Fall back to the CPU the task last ran on, which these callers used
-before the commit this one fixes. Its root domain may have no active CPU
-left: the previous patch has __dl_sub() and __dl_add() take that. Ten
-rounds of each case leave no warning with it.
+Clearing dl_throttled alone would leave the overrun in the runtime, for
+the new period of the enqueue to forgive, the deadline behind, for
+dl_check_constrained_dl() to throttle the task on again, and a yield of
+that period set, for update_curr_dl_se() to throttle it at once. The
+first version of this patch did, and the Sashiko AI review of the first
+posting of this series pointed the three out.
 
-Fixes: b4a61fdc19c5 ("sched/deadline: Fix stale root domain in cpuset bandwidth transfer")
+The selftest added two patches later fails its throttled_round_trip
+case 8 times out of 8, on v7.3 as on v7.4-rc1 with the four deadline
+fixes of sched/urgent, and passes it 8 times out of 8 with this change.
+It was found by a cgroup selftest under development,
+test_concurrency_deadline, which hung about once in 1350 runs.
+
+Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/deadline.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ kernel/sched/deadline.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index dadda1a528ec..30a52e42c26d 100644
+index 30a52e42c26d..b646063a7b0d 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -3338,13 +3338,19 @@ static void task_woken_dl(struct rq *rq, struct task_struct *p)
-  * current cpus_mask (not yet updated to the new mask) to find the
-  * actual root domain. Use cpus_mask rather than cpus_ptr, which
-  * may be temporarily narrowed by migrate_disable().
-+ *
-+ * The mask has no active CPU left when the CPUs it allows went offline,
-+ * which the affinity of a deadline task allows with admission control
-+ * off, and that of a task boosted into the deadline class by priority
-+ * inheritance always: fall back to the CPU the task last ran on.
-  */
- static unsigned int dl_task_root_domain_cpu(struct task_struct *p)
- {
- 	unsigned int cpu;
+@@ -1232,10 +1232,23 @@ static enum hrtimer_restart dl_task_timer(struct hrtimer *timer)
  
- 	cpu = cpumask_first_and(&p->cpus_mask, cpu_active_mask);
--	BUG_ON(cpu >= nr_cpu_ids);
-+	if (cpu >= nr_cpu_ids)
-+		cpu = task_cpu(p);
- 	return cpu;
- }
+ 	/*
+ 	 * The task might have changed its scheduling policy to something
+-	 * different than SCHED_DEADLINE (through switched_from_dl()).
++	 * different than SCHED_DEADLINE (through switched_from_dl()). It
++	 * keeps its parameters until its 0-lag time and may come back to
++	 * SCHED_DEADLINE before then, switched_to_dl() cancelling the
++	 * inactive timer: give it the replenishment this timer owes it, as
++	 * the !queued case below does, and leave the enqueue to its return.
++	 * A throttle left behind would never be lifted; an overrun left in
++	 * its runtime would be forgiven by the new period its enqueue
++	 * starts; and a yield left set would throttle it again at once.
+ 	 */
+-	if (!dl_task(p))
++	if (!dl_task(p)) {
++		if (dl_se->dl_throttled && !is_dl_boosted(dl_se)) {
++			sched_clock_tick();
++			update_rq_clock(rq);
++			replenish_dl_entity(dl_se);
++		}
+ 		goto unlock;
++	}
  
+ 	/*
+ 	 * The task might have been boosted by someone else and might be in the
 -- 
 2.47.3
 
