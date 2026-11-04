@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793806964;
-	b=F1faHPCEFKpXxhUKYmLt2fYU8NLeJrcR3lRKrNMB9idU0fNugry8nkhmYJxlCSuJoqAG
-	 BFCC4rhg7eT9gBtkaXMFMXBBi6z9/A1oB51ujdmW5hZcPN3ri0P6Mb6VjeoaBxgVwfQHA
-	 ib+Q0Mmd4WIWNBl80CCjf5W/crVaCazu+aKQV0iB6Ro37Ye7vjYuMJVCdqefy4zapjMpo
-	 cpTKm7kTK/oruaFKDDWr2met/fGuJkNdIdrkj6xX5/l+BetP+4pJeFjZ7laSKiRqwPdGm
-	 MjmfmqrgIEFdI7YTNXJNtr8FFCALgrqWGP1/lllMEgLMdvNMAsEM3RDnHpK6HJ7E7IA==
+	t=1793807108;
+	b=QK7THlb4P3w6ZvBgPId8q94bvlkGkH+q8hbGg35zqc/eXvj71B/XqDfPtJjPIODTuscH
+	 CdC0+us9cHEouSEHKCKcTWdpy797fvSfQb6QwnXxDdOQKtQ+jMPOpWw6GNI6A20X0HTIm
+	 2iQEfx1FPIMmi8UxFCnlfehFENxFUn1vVP5XRFkW0TlSNi6IpRlT4Li6hQimCeCGnNDGO
+	 3OzPJCWXicPFDzkwXlLN0eDRxdbIxlaBqTtpwsCnhpqQNq4GagmAyOdimnpKxr1rqGJVn
+	 cmZr6Iox/QVSz+NhKteKkqB9cXpggvhYG92LEZ9moJvGzqASTyLP1+eEjieQbc5BM2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793806964;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793807108;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OOrY76HST88toXJHCO5fPSyBCbHQM5OhP9gCTyjkFSM=;
-	b=o5QeJbehOh0V8FmitlcexnwoPzBjDPxkP4iojNQ/3C8+i4f/10pi4VT58OkuHX615M24
-	 BtCSRZMnoZHmKbd6G2IOELbQRS02BWWnflpMknuGieTWiDdeRs3zU4M54z6Uinc3O3dnZ
-	 Tp7wZC1OudvuChuPMSdiuV/5aoOLDKumMvIlhwxFHHBTVm54+N2KMRY0SDbWPnCiDViZb
-	 Vn0uu4TqRqfBycBgcpnof1/hTJQrij3PGhC+uykx22/6pXDPtF4kYG9sgcpyKBoPemkX7
-	 nGdtHhi+PjRcpwBjKR9T6uS7XqKUVGDCp1vhZBdL990MYciIKbvrwtWtgGlfVe8DnGA==
+	bh=z4CCc46y3/2NIWh2Af04uPLjxR6LiWLu1foNS8mTlVA=;
+	b=shYuZ2TODxYrKsfl2Ak6pUelxdb7aOSGRSsrrKh0UOGyRQpUT8VYWmYz/RtAe/3fa/bh
+	 zZ3wD29bjv0zOxMsHf8/dL/c37XyX+91ploTZbh8JO5fWkg0wCZjOJhWyDrItRLPawL2/
+	 4Vcn5GYFzehF+4IxtV8l9foPnG+uNRMN3/PkmBDj22uP1eMGAfTltSOQBJ30iBSi+UxKB
+	 Vbo867YL2ZoJsVMzdysBocJNJL+JtboZ67B8df31ITW9VP6TWly3sdbVg7APU/OL9K3WY
+	 2XzmFB4EAPM4wjpGfFW2nwYKGmGrNTTOEQ1eTa/3twdhZJMvrlYlxKjj0PEhmknypSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fFl7Uz8o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ihX+Jzlm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D17606A330;
-	Wed,  4 Nov 2026 15:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD493606A326;
+	Wed,  4 Nov 2026 15:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fFl7Uz8o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C281F000C1;
-	Wed,  4 Nov 2026 15:42:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ihX+Jzlm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348751F00A15;
+	Wed,  4 Nov 2026 15:45:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793806963;
-	bh=OOrY76HST88toXJHCO5fPSyBCbHQM5OhP9gCTyjkFSM=;
+	s=k20260515; t=1793807107;
+	bh=z4CCc46y3/2NIWh2Af04uPLjxR6LiWLu1foNS8mTlVA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fFl7Uz8oVYtEPklE8rph9f+kECYmHM4odN+OluuEGLAlDcOhzQdagoT+4uHdVXU21
-	 kbD1PpUyov86RCaz88Zdp4GK+zRd8v8hL+Q8Rm/YMrHtB2hyF7OFrO+WQu2MRN8PBr
-	 YiQg/q6E8jl6T2jQK499YOt5LfWLoVwnzYnBriBaFyAeAaR6sdXMopQhqtH0DHuF7o
-	 xkrp/RMulG5w4QJpwgROdzl1hamXyKhIJ+OIaD2qB1+Kroa0JdeyX37BpWrnrSGiQj
-	 lhSgEoId4HJEzaOGNMTrH4Ie3UzfqdunRYc8lNuAK291iNj6ESSkJYAIZaicOUHMjN
-	 aJCOW8FbOwefw==
-Message-ID: <sashiko-outbox-197527@kernel.org>
+	b=ihX+JzlmmmwTcudd2BzANdPB3v/LWqLjcz5KyzJuFpL0kpIidBY+B9bBxD2I9G+YS
+	 O2azdgBPg6QubVJyqfIR7jqlyOPNv9Du5qjbimiFn3uSvJ1KOHhd/a/ZHWO/YvZLBg
+	 kWiwHzSFJCGd5NQt4Xb47GbyDAuVJh1Keloe1s0dQ6QNzP17/QGGAGG1rkyAib+q9s
+	 wZoigep5QqEAS4UX9XDSgusvf0HHYPJKepUmTS9qwGtLbcbmVDnf8JReNCaF2TeS5j
+	 VBCW+s3IuswIZB4nyl4TbeYZqh18YjmqoWFR7BEQp5rgEJDTqob9S/3VUhx4Bt+7Db
+	 V72SRo5tGncFQ==
+Message-ID: <sashiko-outbox-197534@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 04/12] sched/deadline: Do not lose a throttled task
- switched out and back
+Subject: Re: [PATCH 09/12] sched/deadline: Do not take a waking task's
+ bandwidth off a runqueue it left
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <1b0485061f99455deaca614016de741f2091c4a8.1793804635.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <828cd80ec6e4764f04f8667fc98d7aa22d2bf076.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
- <1b0485061f99455deaca614016de741f2091c4a8.1793804635.git.mathieu.desnoyers@efficios.com>
+ <828cd80ec6e4764f04f8667fc98d7aa22d2bf076.1793804635.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 15:42:42 +0000
+Date: Wed, 04 Nov 2026 15:45:06 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,147 +63,130 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Medium] sched/deadline: incomplete replenishment when clearing dl_thrott=
-led
-- [Medium] sched/deadline: stale dl_yielded left set by dl_task_timer()
+- [High] sched/deadline: double add_rq_bw() in task_contending() on wake_li=
+st switch
+- [Medium] sched/deadline: migrate_task_rq_dl() leaves dl_bw_offrq set for =
+dl_runtime =3D=3D 0
 --
 
-commit b274aa4dbc0a2822908373f43a14a8b8436d20eb
+commit 38f78e09a172accddd40a9e36af4e6c19f0febc1
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Do not lose a throttled task switched out and back
+sched/deadline: Do not take a waking task's bandwidth off a runqueue it left
 
-This commit clears dl_se->dl_throttled in dl_task_timer() when a throttled
-SCHED_DEADLINE task has been switched to another scheduling policy before
-its replenishment timer fires, so that switching back to SCHED_DEADLINE
-before the 0-lag time does not leave the task permanently throttled.
+This commit adds a dl_bw_offrq bit to struct sched_dl_entity to track when a
+waking deadline task has had its bandwidth removed from its previous runque=
+ue
+by migrate_task_rq_dl() but has not yet been enqueued on its target CPU. Wh=
+ile
+dl_bw_offrq is set, dl_change_utilization() and switched_from_dl() avoid
+subtracting the task's bandwidth from the target CPU's runqueue before the
+wakeup enqueue charges it via add_rq_bw().
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 30a52e42c26d8..d474fbfd9be6d 100644
+> index 8ead9b050dfcf..a8906cf966401 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -1232,10 +1232,17 @@ static enum hrtimer_restart dl_task_timer(struct =
-hrtimer *timer)
-> =20
->  	/*
->  	 * The task might have changed its scheduling policy to something
-> -	 * different than SCHED_DEADLINE (through switched_from_dl()).
-> +	 * different than SCHED_DEADLINE (through switched_from_dl()). It
-> +	 * keeps its parameters until its 0-lag time and may come back to
-> +	 * SCHED_DEADLINE before then, switched_to_dl() cancelling the
-> +	 * inactive timer: it must not come back throttled, since this was
-> +	 * its replenishment. Its deadline has passed: the enqueue starts a
-> +	 * new period.
->  	 */
-> -	if (!dl_task(p))
-> +	if (!dl_task(p)) {
-> +		dl_se->dl_throttled =3D 0;
->  		goto unlock;
-> +	}
+
+[ ... ]
+
+> @@ -2785,6 +2794,12 @@ static void migrate_task_rq_dl(struct task_struct =
+*p, int new_cpu __maybe_unused
+>  		cancel_inactive_timer(&p->dl);
+>  	}
+>  	sub_rq_bw(&p->dl, &rq->dl);
+> +	/*
+> +	 * Until the enqueue on the CPU it wakes on charges it there, which
+> +	 * add_rq_bw() tells of, this bandwidth is on no runqueue: the rq of
+> +	 * task_cpu() is not the one it was taken from.
+> +	 */
+> +	p->dl.dl_bw_offrq =3D 1;
+>  	rq_unlock(rq, &rf);
+>  }
 
 [Severity: Medium]
-Could clearing only dl_se->dl_throttled here without calling
-replenish_dl_entity(dl_se) forgive negative runtime overruns and leave
-dl_se->deadline stale when the task switches back to SCHED_DEADLINE before
-its 0-lag time?
+What happens if a non-deadline task boosted via priority inheritance (with
+p->dl.dl_runtime =3D=3D 0) blocks and migrates on wakeup through
+try_to_wake_up() -> set_task_cpu() -> migrate_task_rq_dl()?
 
-The window between the replenishment timer and the inactive timer exists
-specifically when a task has overrun its runtime (dl_se->runtime < 0),
-making the 0-lag time later than dl_next_period(dl_se). Normal replenishment
-in replenish_dl_entity() deducts that overrun from subsequent periods:
+Here migrate_task_rq_dl() unconditionally sets p->dl.dl_bw_offrq =3D 1, but
+when the wakeup enqueues the task via enqueue_task_dl() ->
+enqueue_dl_entity() -> task_contending(), task_contending() returns early
+before calling add_rq_bw():
 
-kernel/sched/deadline.c:replenish_dl_entity() {
+kernel/sched/deadline.c:task_contending() {
+	if (dl_se->dl_runtime =3D=3D 0)
+		return;
+
+	if (flags & ENQUEUE_MIGRATED)
+		add_rq_bw(dl_se, dl_rq);
+
+Because switched_from_dl() only clears dl_bw_offrq when !task_on_rq_queued(=
+p),
+won't p->dl.dl_bw_offrq remain stuck at 1 after the wakeup completes?
+
+If the task later blocks while still PI-boosted in dl_sched_class and
+sched_setattr() assigns it SCHED_DEADLINE parameters, __sched_setscheduler()
+sees prev_class =3D=3D next_class =3D=3D &dl_sched_class and does not call
+switched_to_dl(). Wouldn't the stale p->dl.dl_bw_offrq =3D=3D 1 then cause
+dl_change_utilization() or a subsequent switched_from_dl() while blocked to
+skip updating rq->dl.this_bw?
+
+> @@ -3736,7 +3751,9 @@ static void switched_from_dl(struct rq *rq, struct =
+task_struct *p)
+>  			dl_task_release_bw(p, dl_task_root_domain_cpu(p));
+>  			released =3D true;
+>  		}
+> -		sub_rq_bw(&p->dl, &rq->dl);
+> +		if (!p->dl.dl_bw_offrq)
+> +			sub_rq_bw(&p->dl, &rq->dl);
+> +		p->dl.dl_bw_offrq =3D 0;
+
+[Severity: High]
+Can this leak p->dl.dl_bw into the target CPU's rq->dl.this_bw when a task
+queued on the target CPU's wake_list switches out of SCHED_DEADLINE and back
+into SCHED_DEADLINE before sched_ttwu_pending() runs?
+
+When try_to_wake_up() migrates a waking deadline task and queues it via
+ttwu_queue_wakelist(), p->sched_remote_wakeup is set to 1 while
+!task_on_rq_queued(p) and migrate_task_rq_dl() sets p->dl.dl_bw_offrq =3D 1.
+
+If the task then leaves SCHED_DEADLINE before sched_ttwu_pending() runs,
+switched_from_dl() sees p->dl.dl_bw_offrq =3D=3D 1, skips sub_rq_bw(), and =
+clears
+p->dl.dl_bw_offrq =3D 0. If the task is then switched back to SCHED_DEADLINE
+(or if a non-deadline task on the wake_list with p->sched_remote_wakeup =3D=
+=3D 1
+switches to SCHED_DEADLINE) while still waiting on the wake_list,
+switched_to_dl() charges the target CPU's rq->dl.this_bw immediately:
+
+kernel/sched/deadline.c:switched_to_dl() {
 	...
-	while (dl_se->runtime <=3D 0) {
-		dl_se->deadline +=3D pi_of(dl_se)->dl_period;
-		dl_se->runtime +=3D pi_of(dl_se)->dl_runtime;
+	/* If p is not queued we will update its parameters at next wakeup. */
+	if (!task_on_rq_queued(p)) {
+		add_rq_bw(&p->dl, &rq->dl);
+
+		return;
 	}
+
+When sched_ttwu_pending() subsequently runs on the target CPU, it sees
+p->sched_remote_wakeup =3D=3D 1 and calls ttwu_do_activate() with WF_MIGRAT=
+ED,
+which passes ENQUEUE_MIGRATED into enqueue_task_dl() -> enqueue_dl_entity()=
+ ->
+task_contending():
+
+kernel/sched/deadline.c:task_contending() {
 	...
-}
+	if (flags & ENQUEUE_MIGRATED)
+		add_rq_bw(dl_se, dl_rq);
 
-By only clearing dl_se->dl_throttled and leaving dl_se->deadline in the past
-and dl_se->runtime negative, a task returning to SCHED_DEADLINE before its
-0-lag time enters enqueue_dl_entity(), where setup_new_dl_entity() (on
-ENQUEUE_MOVE) or update_dl_entity() (on ENQUEUE_WAKEUP) calls
-replenish_dl_new_period(dl_se, rq):
-
-kernel/sched/deadline.c:enqueue_dl_entity() {
-	...
-	} else if ((flags & ENQUEUE_MOVE) &&
-		   !is_dl_boosted(dl_se) &&
-		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
-		setup_new_dl_entity(dl_se);
-	}
-	...
-}
-
-replenish_dl_new_period() unconditionally resets dl_se->runtime to the full
-pi_of(dl_se)->dl_runtime rather than deducting the prior negative runtime
-overrun, allowing the task to bypass bandwidth enforcement by switching
-policies across its replenishment point.
-
-In addition, in enqueue_dl_entity(), dl_check_constrained_dl() runs before
-the ENQUEUE_MOVE branch:
-
-kernel/sched/deadline.c:enqueue_dl_entity() {
-	...
-	if (!dl_se->dl_throttled && !dl_is_implicit(dl_se))
-		dl_check_constrained_dl(dl_se);
-	...
-}
-
-If the task returns with constrained-deadline parameters (for example, with
-a larger dl_period passed to sched_setattr() so that dl_se->deadline <
-rq_clock(rq) < dl_next_period(dl_se)), dl_check_constrained_dl() sees the
-un-advanced dl_se->deadline and re-throttles the task before
-setup_new_dl_entity() is reached. And if the task migrated to another CPU
-while in SCHED_OTHER whose rq_clock(rq) has not yet strictly passed
-dl_se->deadline when it switches back, dl_time_before(dl_se->deadline,
-rq_clock(rq)) evaluates to false and the task is enqueued onto dl_rq with
-dl_se->runtime <=3D 0.
-
-[Severity: Medium]
-What happens if the task had also called sched_yield() in the period where
-it was throttled, leaving dl_se->dl_yielded set to 1 when dl_task_timer()
-fires?
-
-In yield_task_dl(), rq->donor->dl.dl_yielded =3D 1 is set before calling
-update_curr_dl(rq) -> update_curr_dl_se():
-
-kernel/sched/deadline.c:yield_task_dl() {
-	...
-	rq->donor->dl.dl_yielded =3D 1;
-
-	update_rq_clock(rq);
-	update_curr_dl(rq);
-	...
-}
-
-If the elapsed execution time in that slice also pushes dl_se->runtime < 0,
-update_curr_dl_se() throttles the task with both dl_se->dl_throttled =3D=3D=
- 1
-and dl_se->dl_yielded =3D=3D 1, and arms the inactive timer for a 0-lag time
-later than the deadline when the task switches out of SCHED_DEADLINE.
-
-Unlike replenish_dl_entity() and __dl_clear_params(), which clear both
-dl_se->dl_yielded and dl_se->dl_throttled:
-
-kernel/sched/deadline.c:replenish_dl_entity() {
-	...
-	if (dl_se->dl_yielded)
-		dl_se->dl_yielded =3D 0;
-	if (dl_se->dl_throttled)
-		dl_se->dl_throttled =3D 0;
-	...
-}
-
-neither the !dl_task(p) path in dl_task_timer() nor replenish_dl_new_period=
-()
-clears dl_se->dl_yielded. When the task switches back to SCHED_DEADLINE
-before its 0-lag time, wouldn't it be enqueued with a stale
-dl_se->dl_yielded =3D=3D 1 and immediately get throttled again for an entire
-new period on the next call to update_curr_dl_se()?
+Since task_contending() checks (flags & ENQUEUE_MIGRATED) rather than
+dl_se->dl_bw_offrq, won't it call add_rq_bw() a second time on the target
+CPU's dl_rq even though switched_to_dl() already added p->dl.dl_bw and clea=
+red
+dl_bw_offrq?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793804635.gi=
-t.mathieu.desnoyers@efficios.com?part=3D4
+t.mathieu.desnoyers@efficios.com?part=3D9
