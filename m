@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793805148;
-	b=bAf7o7VvV2AhduDkkiP9hOn7HzmLhYatGaqAtoOAcD9tNuxdcUcf8LOgTYi/LGjzR/39
-	 VfmVjDIT3vQ57FPriHCzUvWjaPMrLyAwzwWcww7v5Ooa4P4PsFdz+XHhQWrAd64Vm55Fo
-	 alrwF8zIwdWV7HUTzyBSDyN0jETY6QC4UAmY9hzbo3+yW6DrbmtxjwgTSKYqU/e71Zx82
-	 S/FEuGl0cpsWKhj1fFxK831SdQ8swtYElQDuJyL42EQ4zkSNwiBnsKba4diRrUuV7vinB
-	 mHLl2EEJ9XASCGTAVCqql7AE1Wja2xTEGp0iw4OIPjh45t3Ki1s3UGAxN05IKI/B/xg==
+	t=1793805149;
+	b=OUroLiYi8amBC/frn9a1bNTcFwtsa2lZ56G5M9zvqInlUOuHmhuMXCMBchpSkjPGsPiu
+	 OGxCMQV1wsn1hKxoWgws2sP7Jh1LG1UqPck5RhwbkRrtmjMjEzun46TWJdyJqvC+ms841
+	 pMolmURZMFQAMrHlE/VX9Fuig30EyBVd15PVdVOWdLiSXSLN4MO0bIa5QjlnTNURcDVch
+	 AZpZJx3Ipy8RPae9vKf0RO1ESB4NzHLKp9Nk8UdvNG/HZQ3sseb9ie8oxjNgjtdRgJYNL
+	 Hclp/2LRBIOUip7dait4441sfYXhRX8YgiBsgAGVRWY2D5RWuFHIlWYbX/F+JNeWvRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793805148;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793805149;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=o3Cw2LxQFj/sOcaa0cN2pMz0x6px6mdmeBIG0Gey0zs=;
-	b=cJ8GRCO1pI1PnljrHFhcHeS4WR3BNs5VCsgypTwYNr+xlBNR/X0/90ORLHav9Crtm2Jn
-	 vAEAXQGbvcqlVLyRXEzNIp+N4C6tONTfZaMwvvkYAW6guD1sm3sc12Odv2Zr7dwqdgEUb
-	 sW2wKEcwVQTzZDXZ0qTz8KE2VBtRbfzVD2T19X9enddIVyuJz20tHT1pk5DN5qEv8+4hy
-	 03b9+XvqjJ2zu0qfNOCjUPQI2Yfia+HQqju8VnhKIGkk1muUJk+1Eutar4hbTXeu7QkoM
-	 eGa01C6y6hC6K6FbWmbByeZhCj3p/k0gTerODfU4YUV1MLAtm6ZPHkETONK0+t0BY0Q==
+	bh=Iq+pznlnzu/qU50yyJxufWBiCcDbgVCSPC0v09LMgfw=;
+	b=hYQ7onwgbpSKUBBuaa9MhAGxah708UWLz6ekjOhcPjnQMAm63Y8h9lMMLC1Ap6i04Wlt
+	 ePaUzAO+7jNTCvVDTafHHZyU8oDs+QEcY/V+ljTu4fseUPBXIarKlKhjLdPAF7MZNFR1M
+	 OHsOiLc87ABVtPs1gM2O/DskfEwfkXMV5QN4MRK+64dBTYPJWEy6PVIqYo1Q7t43FfBe9
+	 IbfiLvTGCO+bEVJ1iPR74UxjJgWzkTmmne0Su+Vu3Mapt5rYudtfieEf+Wbx3o5Xwh4/K
+	 FTs1y6yi5wZlXcySIeYgo91o34NZN//hzxS2Eg61hWMind5vk5E+EB2Hofd2wq5xwZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="wgzWSa/s";
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QGc1VVjs;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DC7606A330
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 15:12:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12DC7606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46C4606D814
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 15:12:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D46C4606D814
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=wgzWSa/s
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QGc1VVjs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793805140;
-	bh=o3Cw2LxQFj/sOcaa0cN2pMz0x6px6mdmeBIG0Gey0zs=;
+	s=smtpout1; t=1793805141;
+	bh=Iq+pznlnzu/qU50yyJxufWBiCcDbgVCSPC0v09LMgfw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=wgzWSa/s0U/zl/aKzHmYRzgzv+6XVlcMMkphvZpxpp+jiO0P0qVDbKtFoCmWpkrjc
-	 hWWLo4HFyXbAoo80fONtCpn6h3bropcm2S5x73wnWKTZd9vK6t2Rmk0r+RgGOTKZjv
-	 67kcGZUGrp9s27GGMY+Ei7PNtbhjvmLqt6V3Fd7sswIgi8lTCvDh4arS5jAxySaLRm
-	 TWNf8QWxcmHo0EN3Elb3EYrHHYDyJlbYCc06hk8F7/SJ6KlBO7TT/cWZKO923J5kl5
-	 98a3f3CXxfxItMZMqfy8M6hW3VXQ7aEf1AbsQ+qfP5jBPyXsVyvpb/QO0odE2DNgdx
-	 91MDPYBC6lKPw==
+	b=QGc1VVjsUdrN2U6dHi4+3xWa/riLF9jAn7MURij3IfJepBkFIdSTxdLvdG139CD8N
+	 beAkYG/89r26wQmkUc2taras878FC/643wmlb7+EhiJFe/gchMzY9W2G010QDLM0zV
+	 88y2nbxtdo0IMNYfLrkCV4yVLOXHn1kKqX4f5B31VfzeGZm3DEMdlBEIiK0IpkmFyl
+	 ridJfqF7dID1rDvXO2HU/auzgs3KYRWbGB33pdR5ZjatFWSyYCaNQ1BXpjUalcfJjf
+	 hykbZxdULm7c0tkFh7DwKSBZ02FCRkPSOGleYw2EY2hLjnCsdH9WVLuq06k9B4q3So
+	 8teqrqBoFx0Zw==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKTSh1sNSzKTG;
-	Wed, 04 Nov 2026 10:12:20 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKTSj2sLlzKJ4;
+	Wed, 04 Nov 2026 10:12:21 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: Juri Lelli <juri.lelli@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -73,9 +73,9 @@ Cc: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH 03/12] sched/deadline: Do not BUG() on a deadline task with no active CPU allowed
-Date: Wed,  4 Nov 2026 10:10:24 -0500
-Message-Id: <9cf4959749b84933fa506de5fc43b2dc0e02cd05.1793804635.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH 10/12] sched/debug: Show the deadline bandwidth of each runqueue
+Date: Wed,  4 Nov 2026 10:10:31 -0500
+Message-Id: <f67fc6f8ee934d03960de70fe5404072ea59e83f.1793804635.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
@@ -90,73 +90,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dl_task_root_domain_cpu() finds the root domain that holds a deadline
-task's bandwidth from the first active CPU of the task's mask, and
-BUG()s when the mask has none. A mask can have none:
+sched_debug prints the bandwidth each root domain has handed out
+(dl_bw->total_bw), and nothing of the two sums each runqueue keeps:
+this_bw, the bandwidth of every deadline task of that CPU, and
+running_bw, the part of it whose tasks are active. GRUB drains the
+runtime of a reclaiming task at the rate the two give, the bandwidth of
+its CPU that is reserved and active (grub_reclaim(): max_bw - (this_bw -
+running_bw) - extra_bw): the less of its CPU is active, the slower its
+runtime drains, and the longer it runs on.
 
- - a task boosted into the deadline class by priority inheritance keeps
-   the affinity of its own policy, which may allow one CPU alone, or a
-   cpuset of one. dl_task_needs_bw_move() and set_cpus_allowed_dl()
-   take it for a deadline task, dl_task(p) being true, and look the root
-   domain up from the mask they are replacing, which allows that CPU,
-   inactive by then: the cpuset code updates the masks of a cpuset's
-   tasks once the CPU is inactive, and select_fallback_rq() widens the
-   mask of a task it pushes off that CPU;
- - with admission control off (sched_rt_runtime_us at -1), a deadline
-   task may be pinned to fewer CPUs than its root domain spans, and
-   those may all go offline.
+Both sums have invariants a test can check, which the kernel itself
+warns about when they break: neither may wrap, and running_bw never
+exceeds this_bw. Print them.
 
-Both take the kernel down on the first try, in 8-CPU VMs of v7.4-rc1
-with the four deadline fixes of sched/urgent. The priority inheritance
-one, which asks for no unusual configuration, through the wakeup of the
-boosted owner:
-
-  kernel BUG at kernel/sched/deadline.c:3340!
-  CPU: 7 UID: 0 PID: 0 Comm: swapper/7
-  RIP: 0010:set_cpus_allowed_dl+0xf0/0x100
-  Call Trace:
-   <IRQ>
-   set_cpus_allowed_force+0x9f/0xf0
-   cpuset_cpus_allowed_fallback+0x12b/0x1d0
-   select_fallback_rq+0x238/0x340
-   try_to_wake_up+0x2a0/0xb70
-
-Fall back to the CPU the task last ran on, which these callers used
-before the commit this one fixes. Its root domain may have no active CPU
-left: the previous patch has __dl_sub() and __dl_add() take that. Ten
-rounds of each case leave no warning with it.
-
-Fixes: b4a61fdc19c5 ("sched/deadline: Fix stale root domain in cpuset bandwidth transfer")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/deadline.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ kernel/sched/debug.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index dadda1a528ec..30a52e42c26d 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -3338,13 +3338,19 @@ static void task_woken_dl(struct rq *rq, struct task_struct *p)
-  * current cpus_mask (not yet updated to the new mask) to find the
-  * actual root domain. Use cpus_mask rather than cpus_ptr, which
-  * may be temporarily narrowed by migrate_disable().
-+ *
-+ * The mask has no active CPU left when the CPUs it allows went offline,
-+ * which the affinity of a deadline task allows with admission control
-+ * off, and that of a task boosted into the deadline class by priority
-+ * inheritance always: fall back to the CPU the task last ran on.
-  */
- static unsigned int dl_task_root_domain_cpu(struct task_struct *p)
- {
- 	unsigned int cpu;
+diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+index e6a3b516c703..8a726817baa0 100644
+--- a/kernel/sched/debug.c
++++ b/kernel/sched/debug.c
+@@ -1166,6 +1166,8 @@ void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq)
+ 	SEQ_printf(m, "  .%-30s: %lu\n", #x, (unsigned long)(dl_rq->x))
  
- 	cpu = cpumask_first_and(&p->cpus_mask, cpu_active_mask);
--	BUG_ON(cpu >= nr_cpu_ids);
-+	if (cpu >= nr_cpu_ids)
-+		cpu = task_cpu(p);
- 	return cpu;
- }
- 
+ 	PU(dl_nr_running);
++	PU(running_bw);
++	PU(this_bw);
+ 	dl_bw = &cpu_rq(cpu)->rd->dl_bw;
+ 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->bw", dl_bw->bw);
+ 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->total_bw", dl_bw->total_bw);
 -- 
 2.47.3
 
