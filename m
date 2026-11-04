@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793805149;
-	b=OUroLiYi8amBC/frn9a1bNTcFwtsa2lZ56G5M9zvqInlUOuHmhuMXCMBchpSkjPGsPiu
-	 OGxCMQV1wsn1hKxoWgws2sP7Jh1LG1UqPck5RhwbkRrtmjMjEzun46TWJdyJqvC+ms841
-	 pMolmURZMFQAMrHlE/VX9Fuig30EyBVd15PVdVOWdLiSXSLN4MO0bIa5QjlnTNURcDVch
-	 AZpZJx3Ipy8RPae9vKf0RO1ESB4NzHLKp9Nk8UdvNG/HZQ3sseb9ie8oxjNgjtdRgJYNL
-	 Hclp/2LRBIOUip7dait4441sfYXhRX8YgiBsgAGVRWY2D5RWuFHIlWYbX/F+JNeWvRQ==
+	b=PwTdao424NkzVQoOSSRYoJXaDTamqJCrVtBTA1ojPJ6jDh8Lpa2k/eVhSt1xqkPzufPB
+	 JPvYivTzStAJMCKDbMs4rWl2Mh40kgzw8HE2OhlkX2mL2gA38XjaanjUCVghlXPC/ZPZV
+	 UAQD+/xIAf/wF2qHzj8kTpHbf5UdNUZ0MJwScgd39KONnViWxX1JEeWYaQiZ+kbfVCKqR
+	 Lv7W2xZEogl/2GE4ryyOowHrKqcSMisBWR7v/0zadKDCe3XN3M3blsxPKiJAflWi/aB/z
+	 UIxBPKBpcCMC7oSb500JxPOvGccTeGkGKSTmF72dqj7bmgsx3+6mNKYPdAWy2QoXVaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793805149;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Iq+pznlnzu/qU50yyJxufWBiCcDbgVCSPC0v09LMgfw=;
-	b=hYQ7onwgbpSKUBBuaa9MhAGxah708UWLz6ekjOhcPjnQMAm63Y8h9lMMLC1Ap6i04Wlt
-	 ePaUzAO+7jNTCvVDTafHHZyU8oDs+QEcY/V+ljTu4fseUPBXIarKlKhjLdPAF7MZNFR1M
-	 OHsOiLc87ABVtPs1gM2O/DskfEwfkXMV5QN4MRK+64dBTYPJWEy6PVIqYo1Q7t43FfBe9
-	 IbfiLvTGCO+bEVJ1iPR74UxjJgWzkTmmne0Su+Vu3Mapt5rYudtfieEf+Wbx3o5Xwh4/K
-	 FTs1y6yi5wZlXcySIeYgo91o34NZN//hzxS2Eg61hWMind5vk5E+EB2Hofd2wq5xwZA==
+	bh=aVWrFhpEnfMXGEZkvUTJyLjJszY90Acq8hqoYwyKwQk=;
+	b=y7BWHemD52oAg+lAypEiZgPQ0D8KTEOhlN+O7KGlBqzpZA53qgARqB6K0tbcgLdz4G+u
+	 1VSjB864pfj+3zMdb+ZDp4KI5P52eXHpkknF0nF3H7njUBNOD93Npkqm4QbCaugPWauED
+	 GpK3ZNZq3F0DJpNXhHATvqEkThotZxFv5ZFV7fr/gvKu3CLtvVKvvAYtXBrTkeGtOiDCS
+	 r22rncfawNWj85JmuPmac7wG2bw7pV3f//vJaiZ2cw3m4jxdSsFrfHJxLpx04su86wNlY
+	 /t8FrD7DhLdcFicDhQh+CrJxz8LuLSeJz3EiL/5O3yD2W7BdjgKvJ4q8nW3+yohsNFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QGc1VVjs;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=PydbVvGw;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46C4606D814
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B05606D819
 	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 15:12:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D46C4606D814
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4B05606D819
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QGc1VVjs
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=PydbVvGw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1793805141;
-	bh=Iq+pznlnzu/qU50yyJxufWBiCcDbgVCSPC0v09LMgfw=;
+	bh=aVWrFhpEnfMXGEZkvUTJyLjJszY90Acq8hqoYwyKwQk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QGc1VVjsUdrN2U6dHi4+3xWa/riLF9jAn7MURij3IfJepBkFIdSTxdLvdG139CD8N
-	 beAkYG/89r26wQmkUc2taras878FC/643wmlb7+EhiJFe/gchMzY9W2G010QDLM0zV
-	 88y2nbxtdo0IMNYfLrkCV4yVLOXHn1kKqX4f5B31VfzeGZm3DEMdlBEIiK0IpkmFyl
-	 ridJfqF7dID1rDvXO2HU/auzgs3KYRWbGB33pdR5ZjatFWSyYCaNQ1BXpjUalcfJjf
-	 hykbZxdULm7c0tkFh7DwKSBZ02FCRkPSOGleYw2EY2hLjnCsdH9WVLuq06k9B4q3So
-	 8teqrqBoFx0Zw==
+	b=PydbVvGw+oti6Gjb6wiHbcCBrqpJDF6KCxq/kW9aH1+IU2itEbrc/6vmZBNX91F2d
+	 /KjeOo4WsgywmJFqj7eBbAoqwc6i7UtZ1OBvLloVUShb/ut7Vu838iQJocqiwxTa3b
+	 mmxG7rIl12pVhQFLSC+TpvBM4FgydxNeAlz5dBdd+IKgcvCnQ+EQyb4cpQhTMFPfKR
+	 pkxXKpRWU11z4LMSgaq8Fb/zT2v89d943SLauOAGyL+E3XWPUmxbSGw4ai/e8B21qa
+	 1UIh1ZaFzy22548xrjuVqW+gC4OGO3lZQajVhpLCc1R5tNFZaRJSRWMAE8ork06WM+
+	 Zk3JqHitck9wg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKTSj2sLlzKJ4;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKTSj1mKFzL1Q;
 	Wed, 04 Nov 2026 10:12:21 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: Juri Lelli <juri.lelli@redhat.com>,
@@ -73,9 +73,9 @@ Cc: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH 10/12] sched/debug: Show the deadline bandwidth of each runqueue
-Date: Wed,  4 Nov 2026 10:10:31 -0500
-Message-Id: <f67fc6f8ee934d03960de70fe5404072ea59e83f.1793804635.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH 09/12] sched/deadline: Do not take a waking task's bandwidth off a runqueue it left
+Date: Wed,  4 Nov 2026 10:10:30 -0500
+Message-Id: <828cd80ec6e4764f04f8667fc98d7aa22d2bf076.1793804635.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
@@ -90,37 +90,122 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sched_debug prints the bandwidth each root domain has handed out
-(dl_bw->total_bw), and nothing of the two sums each runqueue keeps:
-this_bw, the bandwidth of every deadline task of that CPU, and
-running_bw, the part of it whose tasks are active. GRUB drains the
-runtime of a reclaiming task at the rate the two give, the bandwidth of
-its CPU that is reserved and active (grub_reclaim(): max_bw - (this_bw -
-running_bw) - extra_bw): the less of its CPU is active, the slower its
-runtime drains, and the longer it runs on.
+A deadline task that wakes on another CPU has its bandwidth taken off
+the runqueue it slept on by migrate_task_rq_dl(), from set_task_cpu(),
+and charged to the one it wakes on by the enqueue that follows. That
+enqueue can be left to the target CPU through the wake list, and
+try_to_wake_up() returns before it runs: the task's task_cpu() is then
+the CPU it wakes on while its bandwidth is on no runqueue at all.
 
-Both sums have invariants a test can check, which the kernel itself
-warns about when they break: neither may wrap, and running_bw never
-exceeds this_bw. Print them.
+sched_setattr() of that task meanwhile finds it off the runqueues, and
+dl_change_utilization() takes its old bandwidth off the runqueue of
+task_cpu(), which never held it. this_bw of that CPU underflows, which
+costs every other task and the fair server there their own, for good.
+switched_from_dl() leaves the class through the same hole.
 
+Reaching it needs a deadline task whose wakeup migrates, which asks for
+more than one CPU in its root domain and for them to be taken. It is
+easier to reach with CONFIG_SCHED_PROXY_EXEC=y, where a task blocked on
+a mutex is migrated to the CPU of its owner and wakes back on its own.
+
+In 8 VMs of 8 vCPUs, a task of 10ms every 100ms that sleeps and wakes in
+a partition root of two CPUs, both taken by deadline tasks of an earlier
+deadline, its runtime changed between 10ms and 20ms from a CPU outside,
+warns in all 8 within a second, and the warnings spread to the idle
+task's accounting of both CPUs:
+
+  WARNING: kernel/sched/deadline.c:352 at dl_rq_change_utilization+0x71/0x2e0, CPU#0: wake_race/109
+   __sub_rq_bw(): this_bw underflow
+  WARNING: kernel/sched/deadline.c:316 at task_contending+0x244/0x260, CPU#6: swapper/6/0
+   __add_running_bw(): running_bw overflow
+
+Record that window in the entity, as dl_bw_offrq, and leave the
+runqueue alone while it is set: the enqueue to come charges the CPU the
+task wakes on, with the new bandwidth, which __setparam_dl() sets right
+after sched_dl_overflow(). add_rq_bw() clears it, so every path that
+charges a runqueue does. The 8 VMs above warn no more. deadline_bw_test,
+added later in this series, has params_waking for this: without this
+change it fails on every one of those VMs, and random_mix on one of
+three.
+
+Fixes: 8fd27231c330 ("sched/deadline: Track the "total rq utilization" too")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/debug.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/sched.h   |  1 +
+ kernel/sched/deadline.c | 20 +++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index e6a3b516c703..8a726817baa0 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1166,6 +1166,8 @@ void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq)
- 	SEQ_printf(m, "  .%-30s: %lu\n", #x, (unsigned long)(dl_rq->x))
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 0633a73579db..8ffc076a485f 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -718,6 +718,7 @@ struct sched_dl_entity {
+ 	unsigned int			dl_defer_running  : 1;
+ 	unsigned int			dl_defer_idle     : 1;
+ 	unsigned int			dl_bw_attached    : 1;
++	unsigned int			dl_bw_offrq       : 1;
  
- 	PU(dl_nr_running);
-+	PU(running_bw);
-+	PU(this_bw);
- 	dl_bw = &cpu_rq(cpu)->rd->dl_bw;
- 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->bw", dl_bw->bw);
- 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->total_bw", dl_bw->total_bw);
+ 	/*
+ 	 * Bandwidth enforcement timer. Each -deadline task has its
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 8ead9b050dfc..a8906cf96640 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -358,6 +358,7 @@ void __sub_rq_bw(u64 dl_bw, struct dl_rq *dl_rq)
+ static inline
+ void add_rq_bw(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
+ {
++	dl_se->dl_bw_offrq = 0;
+ 	if (!dl_entity_is_special(dl_se))
+ 		__add_rq_bw(dl_se->dl_bw, dl_rq);
+ }
+@@ -435,6 +436,14 @@ static void dl_change_utilization(struct task_struct *p, u64 new_bw)
+ 	if (task_on_rq_queued(p))
+ 		return;
+ 
++	/*
++	 * Waking up on another CPU, the task has its bandwidth on no
++	 * runqueue: the enqueue to come charges the new one, with the new
++	 * parameters, which __setparam_dl() sets right after this.
++	 */
++	if (p->dl.dl_bw_offrq)
++		return;
++
+ 	dl_rq_change_utilization(task_rq(p), &p->dl, new_bw);
+ }
+ 
+@@ -2785,6 +2794,12 @@ static void migrate_task_rq_dl(struct task_struct *p, int new_cpu __maybe_unused
+ 		cancel_inactive_timer(&p->dl);
+ 	}
+ 	sub_rq_bw(&p->dl, &rq->dl);
++	/*
++	 * Until the enqueue on the CPU it wakes on charges it there, which
++	 * add_rq_bw() tells of, this bandwidth is on no runqueue: the rq of
++	 * task_cpu() is not the one it was taken from.
++	 */
++	p->dl.dl_bw_offrq = 1;
+ 	rq_unlock(rq, &rf);
+ }
+ 
+@@ -3736,7 +3751,9 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 			dl_task_release_bw(p, dl_task_root_domain_cpu(p));
+ 			released = true;
+ 		}
+-		sub_rq_bw(&p->dl, &rq->dl);
++		if (!p->dl.dl_bw_offrq)
++			sub_rq_bw(&p->dl, &rq->dl);
++		p->dl.dl_bw_offrq = 0;
+ 		/*
+ 		 * Released: reset the parameters, as inactive_task_timer()
+ 		 * does. Kept, they would make the task one with bandwidth to
+@@ -4191,6 +4208,7 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_defer			= 0;
+ 	dl_se->dl_defer_running		= 0;
+ 	dl_se->dl_defer_armed		= 0;
++	dl_se->dl_bw_offrq		= 0;
+ 
+ #ifdef CONFIG_RT_MUTEXES
+ 	dl_se->pi_se			= dl_se;
 -- 
 2.47.3
 
