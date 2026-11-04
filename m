@@ -1,47 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793809493;
-	b=jOc4YQvggdSZ3HApWW2byPS2lUKZIhny9VEUVS61/0yCiydPr/JSDRQQzLzW2zDAeCp1
-	 ifgZxBGUinD+0UTZyGWkYgTGcIRrglf5O0u2ULx3Bld6PYOvnRa09CVhB+mVH0/6ZqXSM
-	 /8BfhGySJNjuf0coREpRJ3qj96fw6XzUnkii/DCfDxzFSAXlEW8phA93Gd5dWYVcth9mz
-	 g0o/LEGonzWHXUK6GEwENMkQTipw432tzZDn/kmtrqdVu+m2OV94pXsnqVweLVzoGaw6J
-	 rXbqQX3gUos/t0kvkMaFzpy5RigP40WGqC5GLmckVNZpZXo3K9Yp7ZP0zVQSwA+6Biw==
+	t=1793810789;
+	b=fSamSVxcB6QdcNsIW8v11cEB9jqXsnuCSAbLf83126Eph33ssIh91EeuUJk7zIn5xgr0
+	 esijRCH7FeHWmBcGSucXbiqmHFpzDrxZJHgKRD/Qek4f9YGxQBnSLnO6G7luUdtF/Io39
+	 pMG9Ge2UwQQ1SihRPCvTsIBx4Z0kgch0xKYKE9OjODa5EAYlXQMTYbPDmCmfzdgYWVQAx
+	 axM/xuXt+2yXF1qBqKMsA9o+Ork79fhxRjUucZr2/i0RW+naWY0RwJes7xAutuZ/p7afV
+	 jWI1vLXlERgm+Eu2IEtZmKRO+nUMdk/v4Q0tAY2tuCZA3xaosdf/kB7PgF2CnSMX+uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793809493;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0jAbavI8ymZD98DRzmcyyK930fQyxtvawv4WSCcoeMY=;
-	b=FEXR0W3YuVQAYPC/t8wUcpC9Vkvr9QTiAozWtPAQufeO1siGP9nZCxaiFeKiAmU1yqj2
-	 +uNFyi6s8rRbSCRuPxeFrCL8iaEUfSs/9XwRv/3LCBDEbmYYgPhcBC5NkTo85pHvbxNiQ
-	 LNp/IGAmCqjMBfa6cdq7+ejq2pKq6dvO64wp3u4S7KVCNRiwWSqOTimkwNT0htqPxKzJg
-	 JPYMNsavvhs/lfX3FA47y+OEHXk1J0eNR2pjxUHJqCjD/CnqJioLBKeWPlfJHcEmlFUOI
-	 RAy38PRny50WZ7WhsYqkXqQMBir8RAXEzg+Ul/r1/SKZQ1VbsWyi7vKkoJEi7LqOWFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793810789;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Date:Message-Id:Subject:From:To:Cc:In-Reply-To:
+	 References:Content-Transfer-Encoding:MIME-Version;
+	bh=qxevzDe0ERznAZjpDl0rGSZzGbCrk7b/Nsjrdx1IHxQ=;
+	b=Ziuh2EEHIvxgkJf2OfPpS5lHyatR4DikZYvtzg5NIfeOTK1si2xD92RVqCLpI3p27dbJ
+	 QLmIDF4fEcBADS1EBLX/NdCL9lMjp+KgU35LI//CsGaxui7sQejDdoImJeAAWvIdN213W
+	 HfoDRt6ovaMh69/lKYxqQbRjUVXTW/NQQSnk741mOLFXjlLJybyzECq3iYICdIEkkNJzs
+	 kWGRv3Nv+OSdOcp6JH7K7DshEMClN+rolXXuI0Yqe77V1Lk9DGxYMU3uY0yGF6Xrgf4D8
+	 p4oW2QInNH9Qr3NiSincIWwyaUqFWpaqPe76NkQfezzyZ+u9YLYbEIy5FXMbXTyV6Ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fmwQKII2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MAoFwTuo;
+	arc=none smtp.remote-ip=209.85.214.174
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7765606A32C;
-	Wed,  4 Nov 2026 16:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA446082BE3
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 16:46:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EA446082BE3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fmwQKII2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E171F000C1;
-	Wed,  4 Nov 2026 16:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793809492;
-	bh=0jAbavI8ymZD98DRzmcyyK930fQyxtvawv4WSCcoeMY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fmwQKII2OcOxpajVA5m6X2WFvwAjWfOocU2T+k3T70EY6soxn1uhskGNqKdz6OvIN
-	 VmsTpfWcJ5T2hMgM8ew3aaX5VkIgFgcNknEmUwKqhluTKM15Til1zGkd8qPNGzVRU4
-	 9wtox6Lb4jWK0+GXsbHnqkx9ufit513GlaHrZx6yxW/3391rhDCQhMjsB7LHFTu/N1
-	 Ea/N8tDlz9xWQxJc+6fVZrdyQ8SJqe2cpNdAzkBk+sSdys3aYDfbv9/nlAp3txGad0
-	 grJf84a6ksmA9E335KvNDmCzIwyY7OWS2Hh52xgdE6jCnDQ4k4IX59FYf2NMjVZj3J
-	 aGcO6EHA1+JYA==
-Message-ID: <37ed51ad-5160-46b5-a951-a0da2ff1824d@kernel.org>
-Date: Wed, 4 Nov 2026 17:24:47 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MAoFwTuo
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2e940d5d2beso4070235ad.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 04 Nov 2026 08:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793810789; x=1794415589; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
+         :from:subject:message-id:date:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qxevzDe0ERznAZjpDl0rGSZzGbCrk7b/Nsjrdx1IHxQ=;
+        b=MAoFwTuoKw1OA5ieNq3kWkCl6SJ4m6wxVat4MFgG5RKKZGdcC/ogzt2kB5oBXZDC4L
+         ZAMjSyLTiaDycFPQgoHicjR3CiVuMqYwa0GMmQIEcFrvALJxU3oNfI/xAGVj4qcixcV7
+         5A74rj+KMgM4pQ0I/7lRzQisIngtHVUHxtiaJv6Q55oH9eu74DvgD6ndqxj1yU0AM2EW
+         CbRdqOPbnux9y+RxwBkHVNIBOR9UBYco3/vF1EozUduWzwluRcBQ5rh9bFMJzzOlzwB6
+         HwN8nYwMWFroWMl7kjlJnXTijvET7Pvh279qR3jBxQb3q8G0c9qKIKyarjokGxJZtT2s
+         0tSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793810789; x=1794415589;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
+         :from:subject:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qxevzDe0ERznAZjpDl0rGSZzGbCrk7b/Nsjrdx1IHxQ=;
+        b=yMUBX/2MzWDJy23KTt4EFhxOfy+yqvc+1KbLWJE50KhBwLe0mLRwzzfIHp6qka+7Z/
+         LWwQX2ckWK+5iBLnP0aUHqglVRRVWtjqWGz5SIWdeQjy9D/80gAe7mVCGMBd6uUYNxdu
+         bvDY57wsmCErIFevoBAM5KZqA51zxGkne2vioCK07JMBHkP50MX2zzOIm2rVdtopyMRd
+         exgukJ1522no9JP6NqLX9A5h3/xWKh6gJPVuHKLvFzbWZnGg9I2aL2h85gYC2ddtJibl
+         yoVc96mX1dflaG5N6y+ltI6TkGAi6YdU0Lcey35wfA76ALSYVRnWwmspQWVBaerr7xla
+         HdMg==
+X-Forwarded-Encrypted: i=1; AKwUvBwkC2lHJbbjta8fvWLeb4zy4DztOpZcQ4dtexpdGdK9Z7NcM/EPgNos0K3xAUNxct5rYIAyyn5LA14w7j4MLA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9qLSGyn7LIN2E+qZF0vvm6tz8IQfECNWFE9dLeKI7OK17qFGch
+	lfsh1X1qiNLpw1xBv/NUpTKkQSfsGP8avyp2GcXuMED99PXE1DIApThn
+X-Gm-Gg: AYBFou07+Ld/Rj5u9tK2y9aHtt23d9UxOj4KPDHXh98HjInp1bcavj2v6FuwbLMdxBj
+	bmneAdiOxdnQoDGn768nmwQhPrcUxedlPVBvWkUVorCJUQXZ29ISQdXeuqNIWUZzxNrLsA2WobI
+	pzcRH50VyAD/3s/XYvVsUsdPQRi/WK3OEVBIRuXWw69U2yxehKlJjCIM4vYhmPNPZsF+Lsrpfmd
+	/4qKZ8d2xfJwvsR4szlAMfIRoPk2x3jz0Oc/+Lk2DPEc3FxpPntoZaQ4RcRasXVbmfERhJG9EMs
+	P/WST83pNlE32zAa8cQBmj1aKaDKmsQtXdaNzV893B9yZSrTNkolGLksf/1nEwZX7V7oCBawpvQ
+	4DAEjLbW0LDM6on9VYX0Gto/vadLPUV/nCmPP3dDHKUF9NVW+XnxmuNwM4gfI40MMUXOYdvny7W
+	//osigtaIEvZmNXjL1Q1//9zoxgGtFYJh2pfEIzP5cpm1CbitjEOYgYkcbBkN0UI8XhIcVyv1pz
+	XG2FfNq249Z8MxG6IMkHAxk41PBpUXzsTcUJdptsHPtQyOCjs6XF4/BLCRBQ2qzVsur0qu1QxYN
+	jBYLQuZ16991uu7R2lWD3t5Pk7wfJwBiUQROARcpDdH0tvCrfnLZvVLTUy4GeRQUg1bak+8DVFS
+	9d+qRiI3x680QerJPqK8ZGp9y+tNAL1Ia52w=
+X-Received: by 2002:a17:903:4b0e:b0:2e9:9a19:c54 with SMTP id d9443c01a7336-2eb3646ee38mr139469995ad.50.1793810788339;
+        Wed, 04 Nov 2026 08:46:28 -0800 (PST)
+Received: from localhost ([153.61.198.251])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed08bd4a3csm9983805ad.11.2026.11.04.08.46.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Nov 2026 08:46:27 -0800 (PST)
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Nov 2026 16:46:26 +0000
+Message-Id: <DMMKUQVDEM0N.322USN1ZSYMCU@gmail.com>
+Subject: Re: [PATCH for-next-fixes v2 4/5] mm/slab: fix a deadlock in
+ memcg_alloc_abort_single()
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Harry Yoo"
+ <harry@kernel.org>
+Cc: "Johannes Weiner" <hannes@cmpxchg.org>, "Michal Hocko"
+ <mhocko@kernel.org>, "Roman Gushchin" <roman.gushchin@linux.dev>, "Shakeel
+ Butt" <shakeel.butt@linux.dev>, "Muchun Song" <muchun.song@linux.dev>,
+ "Andrew Morton" <akpm@linux-foundation.org>, "Hao Li" <hao.li@linux.dev>,
+ "Christoph Lameter" <cl@gentwo.org>, "David Rientjes"
+ <rientjes@google.com>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>, "Steven Rostedt"
+ <rostedt@goodmis.org>, <kernel-team@meta.com>, <cgroups@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, "Sashiko" <sashiko-bot@kernel.org>
+In-Reply-To: <6441429b-eff2-485b-acf3-26c3034910ae@kernel.org>
+References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org> <20261103-kmalloc-nolock-fixes-v2-4-19167cfe4779@kernel.org> <DMLSN9VHK0P3.2A97046A4YXGY@gmail.com> <auo5G__ac1qA9JRs@thinkstation> <DMLVUTB5J1RJ.2QKOUW6UB04ZM@gmail.com> <6441429b-eff2-485b-acf3-26c3034910ae@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,117 +110,30 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next-fixes v2 5/5] mm/slab: serialize
- deferred_work_barrier()
-Content-Language: en-US
-To: "Harry Yoo (Meta)" <harry@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Sashiko <sashiko-bot@kernel.org>
-References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
- <20261103-kmalloc-nolock-fixes-v2-5-19167cfe4779@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20261103-kmalloc-nolock-fixes-v2-5-19167cfe4779@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 11/3/26 15:47, Harry Yoo (Meta) wrote:
-> irq_work_sync() uses rcuwait instead of busy waiting in two cases:
-> 
->   1. The kernel is using PREEMPT_RT and the irq work does not run in a
->      hardirq context.
-> 
->   2. The architecture cannot send inter-processor interrupts to make
->      busy waiting reasonably short.
-> 
-> However, rcuwait.h says:
->> The caller is responsible for locking around rcuwait_wait_event(),
->> and [prepare_to/finish]_rcuwait() such that writes to @task are
->> properly serialized.
-> 
-> Since deferred_work_barrier() calls irq_work_sync() without any locks,
-> it can potentially cause a hang as writes to @task are not serialized.
-> 
-> Fix this by serializing deferred_work_barrier() with a dedicated mutex.
-> We cannot reuse slab_mutex because e.g.) some users of
-> kvfree_rcu_barrier() are outside mm/.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org?part=5
-> Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
-> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+On Wed, Nov 04, 2026 at 07:35 AM Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
+>> I don't insist on kfree_nolock() there,
+>> but can we try free_to_pcs() before defer_free() ?
+>> Like:
+>>
+>> 	if (likely(allow_spin))
+>> 		__slab_free(s, slab, object, object, 1, _RET_IP_);
+>> 	else if (!can_free_to_pcs(slab) || !free_to_pcs(s, object, false))
+>> 		defer_free(s, object);
+>
+> Why not try free_to_pcs with allow_spin as well then, and improve
+> memcg_alloc_abort_single() for both contexts?
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+yep. Even better.
+The bulk side does that already.
+Like:
 
+	if (likely(can_free_to_pcs(slab)) &&
+	    likely(free_to_pcs(s, object, allow_spin)))
+		return;
 
-> ---
->  mm/slub.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 6dfa8ca3c937..50e88edcef3a 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -6636,8 +6636,12 @@ void defer_kfree_rcu(struct kvfree_rcu_head *head)
->  /* Must be called before flush_rcu_sheaves_on_cache() */
->  void deferred_work_barrier(void)
->  {
-> +	static DEFINE_MUTEX(barrier_mutex);
->  	int cpu;
->  
-> +	/* irq_work_sync() may use rcuwait that requires serialization */
-> +	guard(mutex)(&barrier_mutex);
-> +
->  	for_each_possible_cpu(cpu)
->  		irq_work_sync(&per_cpu_ptr(&deferred_percpu_work, cpu)->work);
->  }
-> 
-
+	if (likely(allow_spin))
+		__slab_free(s, slab, object, object, 1, _RET_IP_);
+	else
+		defer_free(s, object);
+?
