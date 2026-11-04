@@ -1,98 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.17.95
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793796780;
-	b=Q22afZDfiJunOh8Q+5GwziNczoGk687jx/svWU4YHi0eszGtevsuS+1AKf5oq/h/lDvX
-	 V1ITIjZvMBK5+jf4WvbShb/Ay2+GOYffrxhIOI+KA4njm631HRQqXuAB0R8CjDgc6W718
-	 qhPwG561z/SYfKfRHEmx2TLUjpQ7THukoAKU+h4YYWtnjxljQtjSx/A2GvaJxqToHhETw
-	 llzJ+pNFvTdd/PKCS+nP7BZFzhCZTuxgrFrZQrlKRoqTrWajOpdr4Ahm/iUmPTTy6vgkB
-	 JWYQZ2Q0kBUA5lLr4bYkeC9XkL9zrAq/6bVS1ZgWtTjoZcJ80Dsa89lk8P+yvLGu5hw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793796780;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=qyGUyHFJ7o8vvx3s4dL4/0NyZ/TbiTkbOx0FESJVHek=;
-	b=eqZsuOibnMeFS25U8M4QF6bKn6d/5c6Tcv9K81TqkQlZspoMUNFSe7wtHlhDmYj8Rfie
-	 Hq/hoxSbHpSdJrNQXbyhCeVDOHgisFTdhmgk27XrbJbdzOG0BmDUL7rmX/3Znk+HntwI8
-	 6cIwkttAP9ePkiXjVZgUSC0pR57z9UwCNLIVHYsZISIOXEPvCu+VIJyr9pUI1mSZh1Ena
-	 gDremslPndQr/52qokXhvsUlSe+4KODMBHQk3vClBi0GNckdTMdHzxaDnd+CTuYIMvsUa
-	 /ZLiYtH8wkzCtHGDdiDHaA/jaypwMUFdd2cSyIOa3JMjKjX27OS2C31amBus5NW8twQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=deeproute.ai;
-	spf=pass smtp.mailfrom=deeproute.ai;
-	dkim=pass header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=Rdp+NVPi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.17.95
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2095.outbound.protection.partner.outlook.cn [139.219.17.95])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793800460;
+	b=5OWXaXtdU9SCRYl1dy6Ym5zudvJFUJv0Q2F3aNe/ORl0/J4ISwMdZHPklkOJhLE0SZfB
+	 dOMPIzrw3MjIrzdQkjqFqFfFGVg22qZN1VXuJD81FNbmvM/8Xv8Ghs7291V/VMEgLLtT5
+	 PV/Uu+wUFfilIzvYAY8HUOGFj12/y8kAT5CHL9+M4VdD5ETLu/RIK2fQmGJxz2B1IIQYV
+	 uge59ZF6oUIOD5RfQRJDrTZqpC+QVMrHVX6S6rREZ3f2w44Bkc8c3wpXeHsguH8u8DskU
+	 Kg6WocByynvi8MKMssPQ85N6kzrQ2azCwJIsaRgZ0IyXvz9LWnKlN1KzEb60TofEeIg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793800460;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=S3pJmErjwAa/a8tAUggZF8o5Tv6d/nci7fJnbo3TZA0=;
+	b=FPCqx/2Bt95Qc0Vb9TvQVXr70z09UwXAQCRzBkXorB5C/D2rs9+xWXFeL0qhBACc0RRW
+	 GMkhmibShHFyEK98DbNVdrhYIiGPep0dxkfYcfs3LYgAayYiPWG+QX+UTH4Bti7kEaHeg
+	 VsjecJ5toADagsztHzMcCry/4/PdFfSAEkDg7L8whi0hsyXwYJZ2SamnMh1VYIFywmBD3
+	 Lz3bxDHqD/fETalHb6yf+UrJM/2KjK1uxfpOlJjVjMGBPDWv2Cx7udT5D5nO2IEyfgZSR
+	 koG/0uKCz3nAC2pHdOuZfsXohyY8MV8nEdKCedq6BZPb3nYzgRNMOeQXnKEy59wfoAQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YU5qEs60;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9833606A31B
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 12:52:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9833606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=deeproute.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeproute.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55956606A33F;
+	Wed,  4 Nov 2026 13:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=deeproute.ai header.i=@deeproute.ai header.a=rsa-sha256 header.s=selector1 header.b=Rdp+NVPi
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BYm/AA/Y74Tv6ktCfQZdtNYd8YZQ1250Rvcf/GpJyAa1tyHnbRyov6JIBopR452eU9KIv++XNHIZYFB/fdNuq08wLeyFUHO5wnSDf7uGP4Xsv3ulo+HAC6OEb5ierWD3SanVhdn5kxCNFaTxpVm/8ilsegp4Vd4Rr0sS7+GBCvi/L8+bWovdVxMN1fI7CbsfHXndmTe6mxNcvQFH9vYq92dswYMy9SkmQwZ5PFlShEh9tTH/Mt/d8/ON07cy6vhIWhcYDRdZJ7oYZo87zevYryQEMwVGXE7czPPTwSIOATt8HjWlRxxXG4pEH2pnh3hvtrUV9zGxXwtdG61+XsM51g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qyGUyHFJ7o8vvx3s4dL4/0NyZ/TbiTkbOx0FESJVHek=;
- b=ZmDeLYwORN17rm3K2SivW5XCsEbha8bzLsG+JX+fjtSNbxQeQtKuF6v5I7TfJ0eUdKP0xeMHlfqgkvMZnGyAxn3UpbDeN/rTUBLhgivLdWDBXePYVsXgYLxa3RVM96q4ha+YHVgdHT09PrMpMIff2Ypg3BUZtWXnzr3xYzIZ/S8RLuCDprRVkLIbphYf3LEoao9uE8yBzcJCYPtyvz+9UjJ75CuIpg8VGAac5Ma5NwQCeqTeIjY2m8+MJdHMOOhcytxkXpLiTkfbee2osUjbYySHD31XJjAoXKDXSqqDEy6t+yYmq1Ou8xG444ptzazGPllxkMRHD53HyMzRBGjEMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=deeproute.ai; dmarc=pass action=none header.from=deeproute.ai;
- dkim=pass header.d=deeproute.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deeproute.ai;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qyGUyHFJ7o8vvx3s4dL4/0NyZ/TbiTkbOx0FESJVHek=;
- b=Rdp+NVPi/On5zI7xf0b1TP3NrheAWAmePNIuY9izY4h1IxQags++5GbRxWLZxELFHXY++q7clexFIPfu3rDX6dk5olIzek5/zEOMPXoCa8vstT/NFViPV6XGXLH/zgS6lsXH83TNyGKsKXuCI8y/iWrhO34k/1bVkG8Qd4adw6g=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=deeproute.ai;
-Received: from ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:a::9) by ZQZPR01MB1075.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:b::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 4 Nov
- 2026 12:52:47 +0000
-Received: from ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn
- ([fe80::2dda:e54d:5a3c:d686]) by
- ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn ([fe80::2dda:e54d:5a3c:d686%6])
- with mapi id 15.21.0592.009; Wed, 4 Nov 2026 12:52:47 +0000
-From: Jingxuan Xie <jingxuanxie@deeproute.ai>
-To: netdev@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [RFC PATCH net v3 0/1] af_packet: avoid waiting for TPACKET_V3
- copies at retirement
-Date: Wed, 04 Nov 2026 20:23:24 +0800
-Message-ID: <179379500489.189393.11299513853625665657@deeproute.ai>
-In-Reply-To: <179369815762.488859.15460471694371846273@kernel.org>
-References: <20261103092541.273847-1-jingxuanxie@deeproute.ai>
- <179369815762.488859.15460471694371846273@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SH0PR01CA0009.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:5::21) To ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:a::9)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YU5qEs60
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7C21F00A1B;
+	Wed,  4 Nov 2026 13:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793800460;
+	bh=S3pJmErjwAa/a8tAUggZF8o5Tv6d/nci7fJnbo3TZA0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=YU5qEs60XjjUeEBD77pQbg6/xmWoJP8iudizS9+1/E7nnNXmYGw59U2ramn/5rrTK
+	 OD1X3UZz7EgwiGUY/WeJjjFtt6IvRLpiQP3KfDftk5vwCeJcgduxzng3yDOZvjiFpu
+	 98OgYiPISL1njTo4Q9Pg4Ey6pUQJMNQhnQmwmAtEGo7w1irLbSHdTeJKkvE+0nDWO1
+	 GIN0oUc8AqvtG3ipgHjgtTMBiaOTJ8or53xksbnHg8tTYfC0koIDBHbTMVvhX3a9rx
+	 z6h/DFs5bdITuquTEa0tk4FJHuqShBrmszpyItePwFbBjP1DhxgEN5zDZ78ycH46cP
+	 fIVlxbZylxC5A==
+Message-ID: <f31885cd-57c2-428d-9760-a76a0137f989@kernel.org>
+Date: Wed, 4 Nov 2026 14:54:13 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -102,135 +51,349 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQZPR01MB0980:EE_|ZQZPR01MB1075:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99e5299c-8936-45a5-6434-08df3a728700
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|10067099003|22082099003|18002099003|56012099006|4143699003|261022075727099003|261026121527099003|261022115727099003|261022105027099003|261026140227099003|261028144727099003|261021123027099003|261009223027099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	chYY4PGOCQigQPTL5m4fmKD7u/BHCgAexlhDC+4PpyeAVF12mhTipkVl077R7jqVCxdaRS8riXWiD7ZUXcvqjGUnj9gU+0q6dvBRp3d2Tx4KRPHYmpdEstK1j3FfNYud1gVM4ySdThs4Ez7IOhcx69Mhy0HsNdYbTA3qjyihcDkpvJZ2tfzouk4DSVLfENojhiyrAL4yLAw43sX8MUu5DI5morpg/AUuXrIbZOd/dlrgzGVyja5GAo3A3cdwjrk3mdMSmnBkGldh+NLmxiUPpZjEE65xyFfxP5X2HX+ZZwDck5tA/zHlY9+n1ni+xOipXsFoXPKRFEBR4fysjtvEKMSYBRBaqy9C+fI6uP7OrVOsJMkyhNjPvA/X5i8PKlV58WdnGy0qGdzs9qNq8lp3bkThsv8Gb5t6hhj3Zk8P0knP3VrJs7MW/CHTwJwrE0n2QxSmxtq+2Hwr/hb0AaCyg5KemVc3k1ScgivTm6XE5PalHLrz95pgFLNAkSOsUwKpr6ydajFyFiUtotV93+ijuFLEy1KLFl9txA6/MBbD0a+acyPp9qM4+5VZkZYix90M
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(10067099003)(22082099003)(18002099003)(56012099006)(4143699003)(261022075727099003)(261026121527099003)(261022115727099003)(261022105027099003)(261026140227099003)(261028144727099003)(261021123027099003)(261009223027099003)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y3llNTJ3dUhEVFF1Y0FDZWZQL05ZdS81aGZOTzlXUDVJWTRRSGlkUHZ1WmhI?=
- =?utf-8?B?czVRU0cwK1R5TExKaEkyVldJMUF5UUhXOGpVTHFvS1RITDhWcWRIVDF4U3dO?=
- =?utf-8?B?blpZdldqUmRnUjhJd0J6OCt3bVVlaEJXZ1B0WkI5N2sxR3cwVTRyaXlxdGpH?=
- =?utf-8?B?SncwTkt0NFZhd0hvUTEwOXdSaTV3TER6WDVpemRzaXloWENkZHNEUDc4SnQv?=
- =?utf-8?B?YkNFTFpLTnVDZUZ2Ty9TY0lueVhFakN1QjY2YXpHSERaSk0xd3BZbTJsN3Iy?=
- =?utf-8?B?Q2lXeGd4SUNPbFEySEZ6RlhIL29Wem1kd2pLZitpN0I1Y1pjZG90ZnV1eXhK?=
- =?utf-8?B?VjNiZFFVUmVYbTIzYlpFVU9oS0ttWjYzWnIwbitJanFGN0ZUL2pnZzVFeURq?=
- =?utf-8?B?b0FQUmRUK3lkeWdBMlVUOC82aTh3a3U0OWloT1FxUDM4QUpCY0VYcEdUcW5r?=
- =?utf-8?B?OUNLTWd0YXU5UXJUVTlDdkg1RUZPdUtCWTVEVE9MaHA1aDhhYTZ4NUtxQ0di?=
- =?utf-8?B?M2hGMkc0UFVzQTJlcG0vWnBmeDhXK0MrR0xHeTZkTWlMdE1SbFBWQU1oUWVL?=
- =?utf-8?B?anltdlNWVmJjcktyd0NHaXFvZFpheVRmK0J3V28rN2NmeURVMms3dFNhazN3?=
- =?utf-8?B?b0VaZlg3NVhvQW1WYVl5cGh5TEN4Q3BPSWFjampTNm1uNXNjM3pGN3VLNkdn?=
- =?utf-8?B?eXpoS0E5Mm1NczkzQ0Q1WVEwV1JrYUFjZTFLZnFRWDhQRHp0R25qck1UNjdO?=
- =?utf-8?B?aVFqa2tUNDVRbW5mdEtkQ1daSFF3emhuOHZuaE45UmtXY3I1VUhYZkh4dkN6?=
- =?utf-8?B?OG9OTTBQb0llTTc4ZWVwcURJTHBZY2tKRWgyU210MFZoc2t4OEVIelVJYm1w?=
- =?utf-8?B?bTZBL24xMlFsUVQ3UEswYnA3RThpNVZoM1JOS1BMS1F2SjBoVE80ZllxNEt3?=
- =?utf-8?B?bkNFdktEbGNSWHNZbWhjRWY3TTg4dm1rQjR4Q2xwcWhVdGMzWUZrWjFmWnZE?=
- =?utf-8?B?UFFrL0NYMllZdU1wV2Q5TGdCOFhYQnpoc2dzNDh0MHhwNU10UFVuZTF3N3VJ?=
- =?utf-8?B?UGsvbHIwOTlXenlVdGJYb0tYT1M0QWl6cVFSNktwT2E2QW9TdFFNUHQ4YWg5?=
- =?utf-8?B?dVNLMndVMmg0eEJuWVVrcjJrLzNIUTRveThvOFJxTlNBWkpVYWM0L0JuNTZt?=
- =?utf-8?B?YUh2SmlzbnVqeHpHYjR2bTNGZC9YcTJPdVlJMWdVQUtHdVVpYThBSXVxYlpi?=
- =?utf-8?B?d25yODRrQ0R3bytXUHROdnp3RC9RRFEvOVhaSWowRE0yOW9SVk9XL2t2UURB?=
- =?utf-8?B?UkZoMGxWdVl3YUVSZUF1V1M4R01Sc3R5dlZYdVZHenJzU2RYaWg1R1VBM3My?=
- =?utf-8?B?czdUa2RQM2Y2RmlhMjlweUdST0NTQy9qby9QVEhibmZIR3BzZjJsMmpiendT?=
- =?utf-8?B?NnlUaEN6dURZWXlURlJRcE84cTFQYzFhclBMOTdYVEg1NlE0YWNtNVI5WjlO?=
- =?utf-8?B?bExJbFdHbDByaEJZR0x2Rk42SWRodmhRVnNreUtLSkxMMnlDc2UxOUZIaFpz?=
- =?utf-8?B?MEtYcTBGNXY3Yk1IRWhwa0V1TWV2ZXYwQXJGNnVSWXgwb1c2dWFBQkpCRFNO?=
- =?utf-8?B?SmlxeDFuVEp0OG5OYjBaWVZ4QU9sN0ZDZU5HZjBtSlFkdEJ2R2lRUkx4WmF1?=
- =?utf-8?B?YVB6UW4wRXZVaVY5MEtNc1liZVQwZXZ3R05CSUl2c0dlRDRmMkJlOFJTUFJu?=
- =?utf-8?B?MXdCbGdSbU10WS9EWURTdGRDbDYxTzc0MTBjajNFVndZTWY3aFp5UHRZMTdZ?=
- =?utf-8?B?VTczNUdML01oamNtQ3RjZnBQWlVtRWdrQTJMVHRPT2pEL1VYVDhQazdzb1Ay?=
- =?utf-8?B?SStwNitNTTdGYThMVHcxaGpoZ3BCNmpUelRTQS96OE8xeSttYllSOG5FbTNv?=
- =?utf-8?B?V1FDbzlpaG9PL21ZQXlYY2hSSmJlMndHM3J2UjhNd2R0dG9OcTBLNGNEV3lu?=
- =?utf-8?B?SjNNSDJ1Qk5rZjdqTXJZdU5qbW81K1B1V1d1WWFuZUxUcUZGZndTTkJWYlFx?=
- =?utf-8?B?QUV5cVlkNjdxZFNvbHUwbi85Ym0zTW1GemlVcCt3M2RRN0pKeThSejhqWStY?=
- =?utf-8?B?NjlLVFRkQU9SMTlYOUxaZDh4bW1XWWMrRUZPcHFXZlpFWmxMUTZ0UzlLdEJT?=
- =?utf-8?B?SFpXKzhLbnpzZU9VTzBySkowRjR5Qm5hOUR0VkJCMWZTdEVmY1paTmRhQUVK?=
- =?utf-8?B?akdybm5qd0tqSXBFUXd4R25vTEV1NlVoTDNPVDJ0eVJuK2VtL3h4US9lYVd1?=
- =?utf-8?B?WUZJcVlhRVpES1pxVjkwckUxVDlDbnJPTmVXQjlyR2J0M0NsR0dpUT09?=
-X-OriginatorOrg: deeproute.ai
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99e5299c-8936-45a5-6434-08df3a728700
-X-MS-Exchange-CrossTenant-AuthSource: ZQZPR01MB0980.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 12:52:47.7578
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: df535b4a-68e6-4339-a092-afa4f2c24fcc
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5uf5BTD7NBUVWCjcZ7bvQBbWllp0XJqemTfZHv27GGa/SkEO04SBsLZtpawTyy5n+wU9x7Q0XL9Eb9N59+ecGY4AlQnop4rOxaco+BY0v98=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQZPR01MB1075
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next-fixes v2 2/5] mm/slab: handle allow_spin in
+ slab_free_hook() instead of open coding
+Content-Language: en-US
+To: "Harry Yoo (Meta)" <harry@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org>
+ <20261103-kmalloc-nolock-fixes-v2-2-19167cfe4779@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20261103-kmalloc-nolock-fixes-v2-2-19167cfe4779@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The issue was found from a field observation in a PREEMPT_RT
-deployment: a receive path blocked for hundreds of milliseconds in
-prb_retire_current_block() waiting for blk_fill_in_prog_lock, which was
-held for read by a preempted packet copy. Manual code inspection found
-the same unconditional write_lock() in both the full-block and timer
-retirement paths.
+On 11/3/26 15:47, Harry Yoo (Meta) wrote:
+> kfree_nolock() deliberately skips slab free hooks that should not be
+> called in unknown context. However, there is one more place that
+> needs the same thing: memcg_alloc_abort_single().
+> 
+> Instead of open coding slab_free_hook(), let it handle the allow_spin
+> parameter. This is required to correctly handle allocation failures due
+> to memcg charging.
+> 
+> There are two functional changes from this.
+> 
+> First, memcg_alloc_abort_single() -> slab_free_hook() path no longer
+> calls free hooks that acquire spinlocks if !allow_spin.
 
-I reproduced the ordering on QEMU ARM64 SMP PREEMPT_RT by delaying a
-copier after frame reservation. Without the patch, the second send
-blocks until the copier is released; with the patch, only that capture
-record is dropped, and the block is published after release.
+Hm, since this is only changed by patch 4, I don't think it needs mentioning
+here, as it's not any functional change yet.
+> Second, kfree_nolock() now follows init_on_free which has been ignored.
+> 
+> Besides that, no functional change intended.
+> 
+> Closes: https://lore.kernel.org/asiSUpAYYU8Od4HM@gmail.com
+> Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+> ---
+>  mm/slub.c | 104 +++++++++++++++++++++++++++++++++-----------------------------
+>  1 file changed, 56 insertions(+), 48 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 45e077c7526c..36e7bb93418a 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2686,41 +2686,54 @@ struct rcu_delayed_free {
+>   * - memcg_slab_post_alloc_hook()
+>   * - alloc_tagging_slab_alloc_hook()
+>   *
+> + * slab_free_hook() assumes that memcg_slab_free_hook() and
+> + * alloc_tagging_slab_free_hook() are already invoked.
+> + *
+>   * Free hooks that must handle missing corresponding alloc hooks:
+>   * - kmemleak_free_recursive()
+>   * - kfence_free()
+>   *
+> - * Free hooks that have no alloc hook counterpart, and thus safe to call:
+> + * Free hooks that have no alloc hook counterpart:
+>   * - debug_check_no_locks_freed()
+>   * - debug_check_no_obj_freed()
+>   * - __kcsan_check_access()
+>   */
+>  static __always_inline
+>  bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
+> -		    bool after_rcu_delay)
+> +		    bool after_rcu_delay, bool allow_spin)
 
-I will include this in the commit message if a v4 is needed for other
-reasons.
+Hm 3 bools. Could we bite the bullet and try doing free_flags (extended to
+cover init and after_rcu_delay) here already? :) Given it's not intended for
+a stable backport.
 
-Thanks,
-Jingxuan
+>  {
+>  	/* Are the object contents still accessible? */
+>  	bool still_accessible = (s->flags & SLAB_TYPESAFE_BY_RCU) && !after_rcu_delay;
+>  
+> -	kmemleak_free_recursive(x, s->flags);
+>  	kmsan_slab_free(s, x);
+>  
+> -	debug_check_no_locks_freed(x, s->object_size);
+> +	/* Hooks that acquire locks or kmalloc_nolock() skips alloc hook counterpart */
+> +	if (likely(allow_spin)) {
+> +		kmemleak_free_recursive(x, s->flags);
+> +		debug_check_no_locks_freed(x, s->object_size);
+>  
+> -	if (!(s->flags & SLAB_DEBUG_OBJECTS))
+> -		debug_check_no_obj_freed(x, s->object_size);
+> +		if (!(s->flags & SLAB_DEBUG_OBJECTS))
+> +			debug_check_no_obj_freed(x, s->object_size);
+>  
+> -	/* Use KCSAN to help debug racy use-after-free. */
+> -	if (!still_accessible)
+> -		__kcsan_check_access(x, s->object_size,
+> -				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
+> +		/* Use KCSAN to help debug racy use-after-free. */
+> +		if (!still_accessible)
+> +			__kcsan_check_access(x, s->object_size,
+> +					     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
+>  
+> -	if (kfence_free(x))
+> -		return false;
+> +		if (kfence_free(x))
+> +			return false;
+> +	}
+>  
+>  	/*
+>  	 * Give KASAN a chance to notice an invalid free operation before we
+>  	 * modify the object.
+> +	 *
+> +	 * If KASAN finds a bug it will do kasan_report_invalid_free() which
+> +	 * will call raw_spin_lock_irqsave() which is technically unsafe from
+> +	 * NMI, but take chance and report kernel bug. The sequence of
+> +	 * kasan_report_invalid_free() -> raw_spin_lock_irqsave() -> NMI
+> +	 * -> kfree_nolock() -> kasan_report_invalid_free() on the same CPU
+> +	 *  is double buggy and deserves to deadlock.
+>  	 */
+>  	if (kasan_slab_pre_free(s, x))
+>  		return false;
+> @@ -2729,6 +2742,7 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
+>  	if (still_accessible) {
+>  		struct rcu_delayed_free *delayed_free;
+>  
+> +		VM_WARN_ON_ONCE(!allow_spin);
+>  		delayed_free = kmalloc_obj(*delayed_free, GFP_NOWAIT);
+>  		if (delayed_free) {
+>  			/*
+> @@ -2776,8 +2790,11 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
+>  		set_orig_size(s, x, orig_size);
+>  
+>  	}
+> -	/* KASAN might put x into memory quarantine, delaying its reuse. */
+> -	return !kasan_slab_free(s, x, init, still_accessible, false);
+> +	/*
+> +	 * KASAN might put x into memory quarantine, delaying its reuse.
+> +	 * Skip quarantine when spinning is not allowed as it uses a spinlock.
+> +	 */
+> +	return !kasan_slab_free(s, x, init, still_accessible, !allow_spin);
+>  }
+>  
+>  static __fastpath_inline
+> @@ -2789,9 +2806,10 @@ bool slab_free_freelist_hook(struct kmem_cache *s, void **head, void **tail,
+>  	void *next = *head;
+>  	void *old_tail = *tail;
+>  	bool init;
+> +	bool allow_spin = true;
 
-________________________________
+Then we wouldn't need tricks like this I guess?
 
+>  
+>  	if (is_kfence_address(next)) {
+> -		slab_free_hook(s, next, false, false);
+> +		slab_free_hook(s, next, false, false, allow_spin);
+>  		return false;
+>  	}
+>  
+> @@ -2806,7 +2824,7 @@ bool slab_free_freelist_hook(struct kmem_cache *s, void **head, void **tail,
+>  		next = get_freepointer(s, object);
+>  
+>  		/* If object's reuse doesn't have to be delayed */
+> -		if (likely(slab_free_hook(s, object, init, false))) {
+> +		if (likely(slab_free_hook(s, object, init, false, allow_spin))) {
+>  			/* Move object to the new freelist */
+>  			set_freepointer(s, object, *head);
+>  			*head = object;
+> @@ -3031,6 +3049,7 @@ static bool __rcu_free_sheaf_prepare(struct kmem_cache *s,
+>  	void **p = &sheaf->objects[0];
+>  	unsigned int i = 0;
+>  	bool pfmemalloc = false;
+> +	bool allow_spin = true;
+>  
+>  	while (i < sheaf->size) {
+>  		struct slab *slab = virt_to_slab(p[i]);
+> @@ -3038,7 +3057,7 @@ static bool __rcu_free_sheaf_prepare(struct kmem_cache *s,
+>  		memcg_slab_free_hook(s, slab, p + i, 1);
+>  		alloc_tagging_slab_free_hook(s, slab, p + i, 1);
+>  
+> -		if (unlikely(!slab_free_hook(s, p[i], init, true))) {
+> +		if (unlikely(!slab_free_hook(s, p[i], init, true, allow_spin))) {
+>  			p[i] = p[--sheaf->size];
+>  			continue;
+>  		}
+> @@ -6479,6 +6498,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  	bool init = slab_want_init_on_free(s);
+>  	void **remote_objects = p;
+>  	unsigned int remote_nr = 0;
+> +	bool allow_spin = true;
+>  
+>  	/*
+>  	 * Process the free hooks and separate out remote objects by
+> @@ -6494,7 +6514,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  		memcg_slab_free_hook(s, slab, p + i, 1);
+>  		alloc_tagging_slab_free_hook(s, slab, p + i, 1);
+>  
+> -		if (unlikely(!slab_free_hook(s, p[i], init, false))) {
+> +		if (unlikely(!slab_free_hook(s, p[i], init, false, allow_spin))) {
+>  			p[i] = p[--size];
+>  			continue;
+>  		}
+> @@ -6624,13 +6644,17 @@ static __fastpath_inline
+>  void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>  	       unsigned long addr)
+>  {
+> +	bool allow_spin = true;
+> +	bool init = slab_want_init_on_free(s);
+> +
+>  	memcg_slab_free_hook(s, slab, &object, 1);
+>  	alloc_tagging_slab_free_hook(s, slab, &object, 1);
+>  
+> -	if (unlikely(!slab_free_hook(s, object, slab_want_init_on_free(s), false)))
+> +	if (unlikely(!slab_free_hook(s, object, init, false, allow_spin)))
+>  		return;
+>  
+> -	if (likely(can_free_to_pcs(slab)) && likely(free_to_pcs(s, object, true)))
+> +	if (likely(can_free_to_pcs(slab)) &&
+> +			likely(free_to_pcs(s, object, allow_spin)))
+>  		return;
+>  
+>  	__slab_free(s, slab, object, object, 1, addr);
+> @@ -6643,10 +6667,12 @@ static noinline
+>  void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
+>  {
+>  	struct slab *slab = virt_to_slab(object);
+> +	bool init = slab_want_init_on_free(s);
+> +	bool allow_spin = true;
+>  
+>  	alloc_tagging_slab_free_hook(s, slab, &object, 1);
+>  
+> -	if (likely(slab_free_hook(s, object, slab_want_init_on_free(s), false)))
+> +	if (likely(slab_free_hook(s, object, init, false, allow_spin)))
+>  		__slab_free(s, slab, object, object, 1, _RET_IP_);
+>  }
+>  #endif
+> @@ -6675,6 +6701,8 @@ static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+>  	void *object = delayed_free->object;
+>  	struct slab *slab = virt_to_slab(object);
+>  	struct kmem_cache *s;
+> +	bool allow_spin = true;
+> +	bool init;
+>  
+>  	kfree(delayed_free);
+>  
+> @@ -6688,8 +6716,9 @@ static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+>  	if (WARN_ON(!(s->flags & SLAB_TYPESAFE_BY_RCU)))
+>  		return;
+>  
+> +	init = slab_want_init_on_free(s);
+>  	/* resume freeing */
+> -	if (slab_free_hook(s, object, slab_want_init_on_free(s), true)) {
+> +	if (slab_free_hook(s, object, init, true, allow_spin)) {
+>  		__slab_free(s, slab, object, object, 1, _THIS_IP_);
+>  		stat(s, FREE_SLOWPATH);
+>  	}
+> @@ -6938,6 +6967,8 @@ void kfree_nolock(const void *object)
+>  	struct slab *slab;
+>  	struct kmem_cache *s;
+>  	void *x = (void *)object;
+> +	bool allow_spin = false;
+> +	bool init;
+>  
+>  	if (unlikely(ZERO_OR_NULL_PTR(object)))
+>  		return;
+> @@ -6952,33 +6983,10 @@ void kfree_nolock(const void *object)
+>  
+>  	memcg_slab_free_hook(s, slab, &x, 1);
+>  	alloc_tagging_slab_free_hook(s, slab, &x, 1);
+> -	/*
+> -	 * Unlike slab_free() do NOT call the following:
+> -	 * kmemleak_free_recursive(x, s->flags);
+> -	 * debug_check_no_locks_freed(x, s->object_size);
+> -	 * debug_check_no_obj_freed(x, s->object_size);
+> -	 * __kcsan_check_access(x, s->object_size, ..);
+> -	 * kfence_free(x);
+> -	 * since they take spinlocks or not safe from any context.
+> -	 */
+> -	kmsan_slab_free(s, x);
+> -	/*
+> -	 * If KASAN finds a kernel bug it will do kasan_report_invalid_free()
+> -	 * which will call raw_spin_lock_irqsave() which is technically
+> -	 * unsafe from NMI, but take chance and report kernel bug.
+> -	 * The sequence of
+> -	 * kasan_report_invalid_free() -> raw_spin_lock_irqsave() -> NMI
+> -	 *  -> kfree_nolock() -> kasan_report_invalid_free() on the same CPU
+> -	 * is double buggy and deserves to deadlock.
+> -	 */
+> -	if (kasan_slab_pre_free(s, x))
+> +
+> +	init = slab_want_init_on_free(s);
+> +	if (unlikely(!slab_free_hook(s, x, init, false, allow_spin)))
+>  		return;
+> -	/*
+> -	 * memcg, kasan_slab_pre_free are done for 'x'.
+> -	 * The only thing left is kasan_poison without quarantine,
+> -	 * since kasan quarantine takes locks and not supported from NMI.
+> -	 */
+> -	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
+>  
+>  	if (likely(can_free_to_pcs(slab)) && likely(free_to_pcs(s, x, false)))
+>  		return;
+> 
 
-=E6=9C=AC=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E5=8F=8A=E8=BD=AC=E8=BD=BD=E7=
-=9A=84=E4=BB=BB=E4=BD=95=E6=96=87=E4=BB=B6=E9=83=BD=E5=B1=9E=E7=BB=9D=E5=AF=
-=86=E6=96=87=E4=BB=B6=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=BB=85=E4=BE=9B=E6=A0=87=
-=E6=98=8E=E5=9C=B0=E5=9D=80=E7=9A=84=E4=B8=AA=E4=BA=BA=E6=88=96=E5=9B=A2=E4=
-=BD=93=E4=BD=BF=E7=94=A8=E3=80=82=E5=A6=82=E6=9E=9C=E6=82=A8=E6=94=B6=E5=88=
-=B0=E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E5=AD=98=E5=9C=A8=E9=94=99=
-=E8=AF=AF=EF=BC=8C=E8=AF=B7=E9=80=9A=E7=9F=A5=E6=9C=AC=E5=85=AC=E5=8F=B8=EF=
-=BC=8C=E5=88=A0=E9=99=A4=E5=85=A8=E9=83=A8=E5=8E=9F=E5=A7=8B=E4=BF=A1=E6=81=
-=AF=EF=BC=88=E5=8C=85=E6=8B=AC=E4=BB=BB=E4=BD=95=E5=8E=9F=E5=A7=8B=E4=BF=A1=
-=E6=81=AF=E7=9A=84=E5=A4=87=E4=BB=BD=EF=BC=89=EF=BC=8C=E5=B9=B6=E4=B8=94=E7=
-=A6=81=E6=AD=A2=E6=95=A3=E5=B8=83=E6=88=96=E5=88=86=E5=8F=91=E5=85=A8=E9=83=
-=A8=E6=88=96=E9=83=A8=E5=88=86=E5=8E=9F=E5=A7=8B=E4=BF=A1=E6=81=AF=E3=80=82=
-=E6=9C=AC=E5=85=AC=E5=8F=B8=E4=B8=8D=E6=8B=85=E4=BF=9D=E6=9C=AC=E7=94=B5=E5=
-=AD=90=E9=82=AE=E4=BB=B6=E4=B8=AD=E4=BF=A1=E6=81=AF=E7=9A=84=E5=87=86=E7=A1=
-=AE=E6=80=A7=E3=80=81=E9=80=82=E5=BD=93=E6=80=A7=E6=88=96=E5=AE=8C=E6=95=B4=
-=E6=80=A7=EF=BC=8C=E5=B9=B6=E4=B8=94=E5=AF=B9=E6=AD=A4=E4=BA=A7=E7=94=9F=E7=
-=9A=84=E4=BB=BB=E4=BD=95=E9=94=99=E8=AF=AF=E6=88=96=E7=96=8F=E5=BF=BD=E4=B8=
-=8D=E6=89=BF=E6=8B=85=E4=BB=BB=E4=BD=95=E8=B4=A3=E4=BB=BB=E3=80=82=E5=9C=A8=
-=E6=AD=A3=E5=BC=8F=E5=8D=8F=E8=AE=AE=E7=AD=BE=E8=AE=A2=E4=BB=A5=E5=89=8D=EF=
-=BC=8C=E8=BF=99=E9=87=8C=E6=8F=90=E5=88=B0=E7=9A=84=E4=BB=BB=E4=BD=95=E5=8F=
-=82=E8=80=83=E6=9C=AF=E8=AF=AD=E3=80=81=E4=B8=8E=E4=B8=BB=E9=A2=98=E7=9B=B8=
-=E5=85=B3=E7=9A=84=E6=83=85=E5=BD=A2=E4=BB=A5=E5=8F=8A=E9=9A=8F=E5=90=8E=E7=
-=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E4=B8=AD=E7=9A=84=E8=B0=88=E5=88=
-=A4=EF=BC=8C=E9=83=BD=E5=B0=86=E4=B8=A5=E6=A0=BC=E2=80=9C=E9=81=B5=E5=AE=88=
-=E5=90=88=E5=90=8C=E2=80=9D=E3=80=82=E6=8E=A5=E6=94=B6=E6=96=B9=E5=BA=94=E5=
-=9C=A8=E6=8E=A5=E6=94=B6=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E6=88=96=E4=BB=
-=BB=E4=BD=95=E9=99=84=E4=BB=B6=E6=97=B6=E6=A3=80=E6=9F=A5=E6=9C=89=E6=97=A0=
-=E7=97=85=E6=AF=92=EF=BC=8C=E6=9C=AC=E5=85=AC=E5=8F=B8=E5=AF=B9=E7=94=B1=E4=
-=BA=8E=E8=BD=AC=E8=BD=BD=E6=9C=AC=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=B6=E8=80=
-=8C=E5=BC=95=E5=8F=91=E7=97=85=E6=AF=92=E4=BA=A7=E7=94=9F=E7=9A=84=E4=BB=BB=
-=E4=BD=95=E6=8D=9F=E5=9D=8F=E4=B8=8D=E6=89=BF=E6=8B=85=E4=BB=BB=E4=BD=95=E8=
-=B4=A3=E4=BB=BB=E3=80=82
-
-
-Reproduced in this e-mail and any files are considered top-secret documents=
-, and only indicate the address of individuals or groups. If you receive an=
- e-mail there is an error, please notify the Company, delete all the origin=
-al information (including any backup of the original information), and the =
-prohibition of the dissemination or distribution of all or part of the orig=
-inal information. The Company does not guarantee the accuracy of the inform=
-ation in this e-mail, adequacy, or completeness, and this produces any erro=
-r or omission does not bear any responsibility. The formal agreement was si=
-gned prior to any reference to the term mentioned here, and the circumstanc=
-es relevant to the subject and subsequent e-mail in the negotiations will b=
-e strictly "comply with the contract." The receiver should be receiving an =
-e-mail or any attachment, check for viruses. The company reproduced this e-=
-mail because of the virus caused any damage resulting from not bear any res=
-ponsibility.
