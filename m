@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793807232;
-	b=b/m0Dngw03/0j9oxPS2wMFH/CJ00Iv8SSC0UOr30KNDVS2EcmzlrlVqpPSSdZxAhx+QS
-	 y8OxW9auJYykHAQM05jM8DebYN6DVMmgxTTkVPJE1LSCyqY1WdsR8Lkm7CtHnaLtd5O55
-	 JZ8UJUY9NTwLLHLzUtru1YifwiOWkGDs3r+WnJ0rN3cS/U+/ug7GSkT+G6swySdtoWC1F
-	 5gfDtMkEROrwMqOKeFOOyCuFEHImQFBJAe3QeLtLk49i82l+ViAcCqbVd9KodUTMbuDPO
-	 omgDWtw3+f7FID6p3oVfgc3CzE/3yuCzRgW3x1nWnuv8DhA6IfZG7b2+fe1zbHsHnqA==
+	t=1793807561;
+	b=HKadBX/ClrmxFJ2P/eAcyPCS9E2YZ+Dy4Y5La7y4/GMaRWYIx7/ck1Qz3e5nwUV0WcK5
+	 3zz42BBUThdh4I2C5PA9J41PvBk2kubrbNPj6LtkDqsJ9Q6srGJjLBO72YaU5ghp6hX9S
+	 qu7Y3QXTgmkWdj6KerPp9n26E+nEunGbbNDbsCQsNMQ6VAvjnwMaENGRjOqNx+Zz4nEM2
+	 2E+7Oss6DzS6ZkuulcZH/4dLJuImvbyObSedCUxMvEAjQRvIfpT0vNKL34orEbjGS0Npn
+	 v04S1TeuGZPAlKdKEAH7vv6LbboXqKIeL0+MJn2iUThvRV8jqMuYdDMyxy8mFAA2Vng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793807232;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793807561;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aec1Lu6Nd3VPvPPXwOhn7jLshGozOB4bDpOOIOHYEuI=;
-	b=Mn7vmoN9vY9SpOCNQayHeY9gZnLAP5jSlAS7MaJdMFnM45+MSUyR7P3TG4KhQJJIYzEZ
-	 W75nctwilGngU2XCtRjuTq7gL1DuXWB94N+Jryixd5EKsdKA7c98roqE1fY5Tv4vvxJ73
-	 BcAA/tRyCKU+BOqovET3O5NVyg6sN70XhujiVbrTEAHdhEXvXC2sYWSDJfYcf7DnzFJ36
-	 zlPHMkIlEpMFcF03s0GS5d44qVgJX/Hym8NGWE4C5lO8AYFmowNgDDBVJkuVyDAPVvdrA
-	 O2TuM18q89EW4pLGGC3ect2cs/vWAKH3OlL6sYho0/R2CuCqD0LOozFlBEmrPJz3KlA==
+	bh=95XPUtnv/nhj2ccphEgTpHACpjAxCOWBTu5I2zY7qoY=;
+	b=HkVjtWFhyL62FudfFvynaKgoyHB5vlsvJ/T2pHXXqGEoxNXsgbahXUDr7DhLwocV/ifc
+	 z+YPicizhWtqf/yCfR3M5s0lH4icsCi0ZkMWHxD1F1yaer1Q7bRL3JX+FwXmwUWP/+uwg
+	 eSG/Ug0teGWw+yDCI6LiHOX3Hbfq4lP6EGJ2hW+4Sljn9K9o19yZlM+/eIWOqbSuSjPn+
+	 rzooWDkaNRVtbfkv6WuRzHWt6DD6ZnO0/QKg4rn3PwwSUZwaiypdQ4THss6juoU7aDTw1
+	 /5BXyQemIF8meZSVd63fvXaR0CT1xfg+oS974dXEDtWEpGsgl2mdb7V0Gf64SppgLLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c0KP84hc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sx5L1fJe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C950606A328;
-	Wed,  4 Nov 2026 15:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B70606A328;
+	Wed,  4 Nov 2026 15:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c0KP84hc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A251F00A18;
-	Wed,  4 Nov 2026 15:47:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sx5L1fJe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990001F000C1;
+	Wed,  4 Nov 2026 15:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793807231;
-	bh=aec1Lu6Nd3VPvPPXwOhn7jLshGozOB4bDpOOIOHYEuI=;
+	s=k20260515; t=1793807560;
+	bh=95XPUtnv/nhj2ccphEgTpHACpjAxCOWBTu5I2zY7qoY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=c0KP84hcDWw+KWS2ofZI3jdDRPl552Szs3ckar+ftRHc1+PR6h9EkFV7vjDexYegz
-	 faSnpgPmUfFUPPnjhoLL9CY1o2wUIzfZtV1ramMT+/+0GYbmKQ2i9zoyYyuFJMzz2A
-	 teiJmRX8USRe+ayMgfPDvk//pMWgR0XIb0+cE2RkQU1kKLlDr27CEjJ93DHbcFgiXv
-	 yclYrYocY+WvKwKcVkwToREqpTTuODJXwZrov+C7YcyUSxXyh2uWNwcddv2ykRoHeM
-	 Ml83yUbly9sn7XZa5bMCzRwjDu9Jqa+bvbViICxcksFoWAXTjTNChDG3mHl6IcWT8/
-	 SEdxvjHgTSSbQ==
-Message-ID: <sashiko-outbox-197541@kernel.org>
+	b=Sx5L1fJevbZF3nGZueEsaAJhts5kgENy/CjgYbca6c0l6kHJ6i7y2x/YXakmSWl13
+	 HVBp1rNdJLfZZEi74WZKh6PEeswPWtc23coHfHOcuBEs1Se101gH8UfW34cJIdzgMg
+	 h7C9V9LqHmiws4dCnDcNj0+B32/NRDQ6e5VObgKnQ9zM8xHbdLDnBJSXapKNILjfLX
+	 Z9LwypIrFc6+cR4gj23rionb7iqytdrofVii/yZqtluXswINIeAlamv0jRbBnyufWc
+	 CI6mI4rP9okcN9OkxjaLuItB9xEIs3VOJVVBbuj5kjTJEQnWYZ/UqhRe9dbV7nlfgR
+	 2Rd1fWsQk2lGg==
+Message-ID: <sashiko-outbox-197548@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 07/12] sched/deadline: Keep departing bandwidth across a
- root domain rebuild
+Subject: Re: [PATCH 12/12] selftests/sched: Add a test of SCHED_DEADLINE
+ bandwidth accounting
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <9a2c58b84302e5ed3765f773eca3c71c7d5ea7bb.1793804635.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <bd80a4a54b998762a8aa192b76fd3efcf7b01172.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
- <9a2c58b84302e5ed3765f773eca3c71c7d5ea7bb.1793804635.git.mathieu.desnoyers@efficios.com>
+ <bd80a4a54b998762a8aa192b76fd3efcf7b01172.1793804635.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 15:47:10 +0000
+Date: Wed, 04 Nov 2026 15:52:40 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,361 +61,388 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 8 potential issue(=
 s) to consider:
-- [High] sched/deadline: bandwidth leak and underflow in switched_to_dl() o=
-n PI boost
-- [High] sched/deadline: dl_clear_root_domains() drops and resurrects depar=
-ted bw
-- [High] sched/deadline: exiting tasks lose or corrupt bandwidth across rd =
-rebuild
-- [High] sched/deadline: task_non_contending() uses task_cpu() instead of m=
-ask CPU
+- [Medium] selftests/sched: deadline_bw_test exceeds default 45s kselftest =
+timeout
+- [Medium] selftests/sched: hardcoded 64 KiB thread stack in probe() and ho=
+ld()
+- [Medium] selftests/sched: mix_worker() reuses r % 8 making r % 4 and r % =
+2 always 0
+- [Medium] selftests/sched: overrun_group_death() triggers SIGXCPU before s=
+ibling setup
+- [Medium] selftests/sched: cpu_up() in hotplug_departed() masks bandwidth =
+corruption
+- [Medium] selftests/sched: missing shm_lock_init() call in random_mix()
+- [Medium] selftests/sched: return -1 from probe() when pthread_create() fa=
+ils
+- [Low] selftests/sched: silent KSFT_SKIP returns without reason strings
 --
 
-commit e37776f3c05c45d876702021f65c587c9806cb26
+commit e47dbb10f477e11f4985642a757e69830e31cc5f
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Keep departing bandwidth across a root domain rebuild
+selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
 
-This commit tracks tasks that leave SCHED_DEADLINE or die before their
-0-lag time on a departed list associated with a CPU of their root domain,
-and uses a rebuild generation counter to preserve or release their
-bandwidth across root domain accounting rebuilds.
+This commit adds the deadline_bw_test selftest with 43 test cases exercising
+SCHED_DEADLINE bandwidth accounting across priority inheritance, parameter
+changes, cpuset moves, task deaths, sched_yield(), runtime overruns, GRUB
+bandwidth reclaiming, fair server changes, a randomized mix, and CPU hotplu=
+g.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 3c57e5f5fc056..8ead9b050dfcf 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-
-[ ... ]
-
-> @@ -217,6 +223,88 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap,=
- u64 old_bw, u64 new_bw)
->  	       cap_scale(dl_b->bw, cap) < dl_b->total_bw - old_bw + new_bw;
->  }
+> diff --git a/tools/testing/selftests/sched/Makefile b/tools/testing/selft=
+ests/sched/Makefile
+> index 728e046b463c9..a32a0f7aa76b8 100644
+> --- a/tools/testing/selftests/sched/Makefile
+> +++ b/tools/testing/selftests/sched/Makefile
+> @@ -10,6 +10,6 @@ LDLIBS +=3D -lpthread
 > =20
-> +/*
-> + * A task that leaves SCHED_DEADLINE, or dies, before its 0-lag time kee=
-ps
-> + * its bandwidth in total_bw until then: the inactive timer removes it. A
-> + * rebuild of the root domains' accounting meanwhile (dl_clear_root_doma=
-ins()
-> + * and dl_add_task_root_domain(), on any change of the partitions or CPU
-> + * hotplug) finds no such task among the deadline tasks of the cpusets: =
-it
-> + * puts that bandwidth back from dl_departed_list, which holds them from
-> + * their departure to their timer, in the root domain each left, found by
-> + * its mask then (dl_task_root_domain_cpu()), or by the CPU it dies on: =
-the
-> + * CPU it last ran on may be of another one, when it was moved asleep. T=
+>  TEST_GEN_FILES :=3D cs_prctl_test
+>  TEST_PROGS :=3D cs_prctl_test
+> -TEST_GEN_PROGS :=3D deadline_switch_test deadline_rebuild_test
+> +TEST_GEN_PROGS :=3D deadline_switch_test deadline_rebuild_test deadline_=
+bw_test
+
+[Severity: Medium]
+When deadline_bw_test is added to TEST_GEN_PROGS in
+tools/testing/selftests/sched/Makefile without a companion
+tools/testing/selftests/sched/settings file, the kselftest runner applies t=
 he
-> + * task may run anywhere meanwhile, as another policy; its timer holds a
-> + * reference to it.
-> + *
-> + * dl_bw_gen counts the rebuilds, and each task records the one that last
-> + * counted its bandwidth. A rebuild that dropped it since then leaves
-> + * nothing to remove: the CPU recorded was no longer active, or the task
-> + * exited while the rebuild ran, which the cpuset walk skips, and was not
-> + * dead yet when the list was put back. Both counts, and the list, are u=
-nder
-> + * dl_departed_lock, taken with interrupts disabled (under the task's rq
-> + * lock or pi_lock, or by the rebuild) and before any dl_bw lock.
-> + */
-> +static LIST_HEAD(dl_departed_list);
-> +static DEFINE_RAW_SPINLOCK(dl_departed_lock);
-> +static unsigned int dl_bw_gen;
+default 45-second timeout (kselftest_default_timeout=3D45 in
+tools/testing/selftests/kselftest/runner.sh).
 
+In main() -> run_p_cases(), the 43 sequential test cases perform unconditio=
+nal
+sleeps totaling over 74 seconds when all features are enabled (including 25
+MEASURED_IN_P cases sleeping at least 900ms each across two probe() calls a=
+nd
+measured(), server_states() sleeping 9.9s, params_waking() sleeping 5.3s, a=
+nd
+random_mix() sleeping 5.3s), and over 51 seconds even when the debugfs and
+hotplug cases are skipped.
+
+Because deadline_bw_test does not handle SIGTERM, when runner.sh kills the
+test after 45 seconds it exits without running remove_p(),
+remove_partition(cg_q), server_restore(), or restoring cgroup.subtree_contr=
+ol,
+leaving active cpuset partitions and modified fair_server parameters on the
+system.
+
+Should tools/testing/selftests/sched/settings be added with a higher timeout
+(and a signal handler installed to clean up cgroups and fair_server state on
+termination)?
+
+> diff --git a/tools/testing/selftests/sched/deadline_bw_test.c b/tools/tes=
+ting/selftests/sched/deadline_bw_test.c
+> new file mode 100644
+> index 0000000000000..d16aee10155b3
+> --- /dev/null
+> +++ b/tools/testing/selftests/sched/deadline_bw_test.c
 [ ... ]
-
-> +static void dl_task_release_bw(struct task_struct *p, int cpu)
+> +static int probe(const char *cg)
 > +{
-> +	struct sched_dl_entity *dl_se =3D &p->dl;
-> +	struct dl_bw *dl_b;
+> +	int fd[2], n =3D -1, max =3D 16 * ncpus + 16;
+> +	pid_t pid;
 > +
-> +	lockdep_assert_irqs_disabled();
-> +	guard(raw_spinlock)(&dl_departed_lock);
-> +	if (dl_se->dl_departed_cpu >=3D 0) {
-> +		cpu =3D dl_se->dl_departed_cpu;
-> +		dl_se->dl_departed_cpu =3D -1;
-> +		list_del(&dl_se->dl_departed_node);
+> +	if (pipe(fd)) {
+> +		ksft_print_msg("pipe: %s\n", strerror(errno));
+> +		return -1;
 > +	}
-> +	if (dl_se->dl_bw_gen =3D=3D dl_bw_gen) {
-> +		dl_b =3D dl_bw_of(cpu);
-> +		raw_spin_lock(&dl_b->lock);
-> +		__dl_sub(dl_b, dl_se->dl_bw, dl_bw_cpus(cpu));
-> +		raw_spin_unlock(&dl_b->lock);
-> +	}
-> +	dl_se->dl_bw_gen =3D dl_bw_gen;
-> +}
-
-[Severity: High]
-What happens when dl_rebuild_rd_accounting() runs while a SCHED_DEADLINE
-task is in the middle of do_exit()?
-
-In do_exit(), exit_signals() sets PF_EXITING and decrements signal->live to
-0 near the beginning of task teardown, before exit_mm(), exit_files(),
-exit_notify(), and cgroup_exit(), whereas do_task_dead() -> __schedule() ->
-deactivate_task() -> dequeue_task_dl() -> task_non_contending() ->
-dl_task_depart() only runs at the very end of do_exit().
-
-If dl_rebuild_rd_accounting() runs during that window (or if the task
-reaches do_task_dead() after dl_clear_root_domains() has walked
-dl_departed_list, and unlinks from its cset before
-dl_update_tasks_root_domain() walks it), dl_clear_root_domains() increments
-dl_bw_gen without finding the task on dl_departed_list, and
-dl_update_tasks_root_domain() calls css_task_iter_start(&cs->css, 0, &it)
-without CSS_TASK_ITER_WITH_DEAD, which skips the task because PF_EXITING is
-set and signal->live is 0.
-
-Doesn't that cause three problems for an exiting deadline task?
-
-1. Its bandwidth is dropped from total_bw while the task is still running
-in do_exit() and before its 0-lag time.
-
-2. When the task finally reaches do_task_dead() -> task_non_contending()
-with zerolag_time >=3D 0, task_non_contending() unconditionally calls
-dl_task_depart(p, task_cpu(p)) without checking whether p->dl.dl_bw_gen
-matches dl_bw_gen. If a second rebuild runs before inactive_task_timer()
-fires, dl_clear_root_domains() will add p->dl.dl_bw back into total_bw on
-top of any bandwidth admitted after the first rebuild.
-
-3. If the task is migrated while in do_exit() after the first rebuild
-dropped its bandwidth (for example via set_cpus_allowed_dl() or
-dl_task_offline_migration()), those paths subtract p->dl.dl_bw from the
-source root domain without checking p->dl.dl_bw_gen =3D=3D dl_bw_gen
-(underflowing total_bw), and dl_task_offline_migration() adds p->dl.dl_bw
-to later_rq->rd->dl_bw without updating p->dl.dl_bw_gen, so
-dl_task_release_bw() later skips subtracting it and leaks p->dl.dl_bw in
-later_rq->rd.
-
-[ ... ]
-
-> @@ -449,13 +537,9 @@ static void task_non_contending(struct sched_dl_enti=
-ty *dl_se, bool dl_task)
->  				sub_running_bw(dl_se, dl_rq);
-> =20
->  			if (!dl_task || READ_ONCE(p->__state) =3D=3D TASK_DEAD) {
-> -				struct dl_bw *dl_b =3D dl_bw_of(task_cpu(p));
-> -
->  				if (READ_ONCE(p->__state) =3D=3D TASK_DEAD)
->  					sub_rq_bw(dl_se, &rq->dl);
-> -				raw_spin_lock(&dl_b->lock);
-> -				__dl_sub(dl_b, dl_se->dl_bw, dl_bw_cpus(task_cpu(p)));
-> -				raw_spin_unlock(&dl_b->lock);
-> +				dl_task_release_bw(p, task_cpu(p));
->  				__dl_clear_params(dl_se);
->  			}
->  		}
-> @@ -464,8 +548,18 @@ static void task_non_contending(struct sched_dl_enti=
-ty *dl_se, bool dl_task)
->  	}
-> =20
->  	dl_se->dl_non_contending =3D 1;
-> -	if (!dl_server(dl_se))
-> -		get_task_struct(dl_task_of(dl_se));
-> +	if (!dl_server(dl_se)) {
-> +		struct task_struct *p =3D dl_task_of(dl_se);
+> +	pid =3D fork_child("the admission check");
+> +	if (!pid) {
+> +		struct probe_slot *s =3D calloc(max, sizeof(*s));
+> +		pthread_attr_t a;
+> +		int i, k =3D 0;
 > +
-> +		get_task_struct(p);
-> +		/*
-> +		 * Dying: its bandwidth is in the root domain of the CPU it
-> +		 * runs on. switched_from_dl() records one that leaves
-> +		 * SCHED_DEADLINE.
-> +		 */
-> +		if (READ_ONCE(p->__state) =3D=3D TASK_DEAD)
-> +			dl_task_depart(p, task_cpu(p));
-> +	}
+> +		close(fd[0]);
+> +		if (!s || sem_init(&probe_done, 0, 0) || pipe(probe_hold) ||
+> +		    (cg && enter(cg, getpid())))
+> +			_exit(1);
+> +		if (pthread_attr_init(&a) || pthread_attr_setstacksize(&a, 64 * 1024))
+> +			_exit(1);
 
-[Severity: High]
-Should task_non_contending() use dl_task_root_domain_cpu(p) instead of
-task_cpu(p) when calling dl_task_release_bw() and dl_task_depart()?
+[Severity: Medium]
+On architectures where PTHREAD_STACK_MIN is larger than 64 KiB (for example,
+ppc64le where PTHREAD_STACK_MIN is 128 KiB, or kernels configured with 64 K=
+iB
+pages), will pthread_attr_setstacksize(&a, 64 * 1024) fail with EINVAL in b=
+oth
+probe() and hold()?
 
-Suppose a SCHED_DEADLINE task p is running on CPU 0 in RD_0 (or has
-is_migration_disabled(p) true) while it is moved to a cpuset partition in
-RD_1:
+In probe(), that causes the child to exit with 1 and probe() to return -1,
+which causes measured() to skip all 25 MEASURED_IN_P cases and fails the
+remaining cases that call probe() directly.
 
-  cpuset_can_attach()
-    -> reserves p->dl.dl_bw in RD_1->dl_bw.total_bw
-  cpuset_attach_task()
-    -> set_cpus_allowed_ptr()
-      -> __set_cpus_allowed_ptr_locked()
-        -> do_set_cpus_allowed()
-          -> set_cpus_allowed_dl()
-            -> subtracts p->dl.dl_bw from RD_0->dl_bw.total_bw
-            -> updates p->cpus_mask to RD_1
-        -> affine_move_task()
-          -> task_on_cpu(rq0, p) or is_migration_disabled(p) is true
-          -> unlocks rq0 and queues migration_cpu_stop (or waits for
-             migrate_enable())
+In hold(), the same call also logs strerror(errno) even though
+pthread_attr_init() and pthread_attr_setstacksize() return the error number
+directly rather than setting errno:
 
-Before migration_cpu_stop runs on CPU 0 (or while migration remains
-disabled), p's bandwidth is already accounted in RD_1 (matching
-p->cpus_mask), but task_cpu(p) is still CPU 0 in RD_0.
-
-If p then exits into do_task_dead() -> dequeue_task_dl() ->
-task_non_contending(&p->dl, true), or switches policy via
-switched_from_dl() -> task_non_contending(&p->dl, false) when zerolag_time
-< 0 or hrtimer_active(&dl_se->inactive_timer) is true, passing task_cpu(p)
-causes dl_task_release_bw() or dl_task_depart() to target RD_0 instead of
-RD_1, underflowing RD_0->dl_bw.total_bw and leaking p->dl.dl_bw in
-RD_1->dl_bw.total_bw.
-
-[ ... ]
-
-> @@ -3542,9 +3653,37 @@ void dl_clear_root_domain(struct root_domain *rd)
->  		dl_server_add_bw(rd, i);
->  }
-> =20
-> -void dl_clear_root_domain_cpu(int cpu)
-> +/*
-> + * Clear every root domain ahead of a rebuild of their accounting, which
-> + * dl_add_task_root_domain() then fills with the deadline tasks of the
-> + * cpusets: put back their servers, and the bandwidth of the tasks that
-> + * left SCHED_DEADLINE, or died, before their 0-lag time, which no cpuset
-> + * holds as a deadline task, in the root domain of the CPU recorded for
-> + * each; dropped if it is no longer active.
-> + */
-> +void dl_clear_root_domains(void)
->  {
-> -	dl_clear_root_domain(cpu_rq(cpu)->rd);
-> +	struct sched_dl_entity *dl_se;
-> +	u64 cookie =3D ++dl_cookie;
-> +	struct dl_bw *dl_b;
-> +	int cpu;
-> +
-> +	guard(raw_spinlock_irqsave)(&dl_departed_lock);
-> +	dl_bw_gen++;
-> +	for_each_possible_cpu(cpu) {
-> +		if (!dl_bw_visited(cpu, cookie))
-> +			dl_clear_root_domain(cpu_rq(cpu)->rd);
-> +	}
-> +	list_for_each_entry(dl_se, &dl_departed_list, dl_departed_node) {
-> +		cpu =3D dl_se->dl_departed_cpu;
-> +		if (!cpu_active(cpu))
-> +			continue;
-> +		dl_b =3D dl_bw_of(cpu);
-> +		raw_spin_lock(&dl_b->lock);
-> +		__dl_add(dl_b, dl_se->dl_bw, dl_bw_cpus(cpu));
-> +		raw_spin_unlock(&dl_b->lock);
-> +		dl_se->dl_bw_gen =3D dl_bw_gen;
-> +	}
->  }
-
-[Severity: High]
-Can dl_clear_root_domains() prematurely drop departed bandwidth in a
-multi-CPU root domain and later resurrect it?
-
-When a task departs or dies in a root domain spanning CPUs 0 and 1,
-dl_task_depart() records only a single CPU in dl_se->dl_departed_cpu (for
-example, CPU 1). If CPU 1 is then taken offline via sched_cpu_deactivate(1)
-before the task's 0-lag time while CPU 0 remains active in the same root
-domain, dl_bw_deactivate(1) succeeds if CPU 0 has enough capacity for the
-root domain's total_bw. However, when cpuset_cpu_inactive() ->
-dl_rebuild_rd_accounting() -> dl_clear_root_domains() runs, cpu_active(1)
-is false, so dl_clear_root_domains() skips dl_se and drops its bandwidth
-from the still-active root domain before its 0-lag time.
-
-In addition, when dl_clear_root_domains() skips an entry because
-!cpu_active(cpu), the entry stays on dl_departed_list with its old
-dl_bw_gen. If CPU 1 becomes active again and another rebuild runs before
-inactive_task_timer() fires, dl_clear_root_domains() does not check whether
-dl_se->dl_bw_gen matched the previous generation before dl_bw_gen++, so it
-adds dl_se->dl_bw back into dl_bw_of(cpu) and updates dl_se->dl_bw_gen =3D
-dl_bw_gen after that bandwidth was already dropped.
-
-[ ... ]
-
-> @@ -3642,6 +3786,16 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  static void switched_to_dl(struct rq *rq, struct task_struct *p)
->  {
->  	cancel_inactive_timer(&p->dl);
-> +	/*
-> +	 * Boosted back into the class before its 0-lag time (a policy change
-> +	 * released that bandwidth in sched_dl_overflow()): the inactive
-> +	 * timer will not remove it, but its leaving the class again. That
-> +	 * forgets the CPU recorded: moved to another root domain meanwhile,
-> +	 * the task then removes the bandwidth from that one, as it did
-> +	 * before departures were recorded.
-> +	 */
-> +	if (p->dl.dl_departed_cpu >=3D 0)
-> +		dl_task_undepart(p);
-
-[ ... ]
-
-> @@ -3909,6 +4055,19 @@ int sched_dl_overflow(struct task_struct *p, int p=
-olicy,
->  	}
->  	raw_spin_unlock(&dl_b->lock);
-> =20
-> +	/*
-> +	 * Back before its 0-lag time, the task still has the bandwidth it
-> +	 * left with, which the new one replaces: removed from the root
-> +	 * domain that keeps it (dl_task_release_bw()). A rebuild cannot
-> +	 * run meanwhile: the caller holds cpuset_mutex.
-> +	 */
-> +	if (!err && dl_policy(policy) && !task_has_dl_policy(p)) {
-> +		lockdep_assert_cpuset_lock_held();
-> +		if (p->dl.dl_departed_cpu >=3D 0)
-> +			dl_task_release_bw(p, -1);
-> +		p->dl.dl_bw_gen =3D dl_bw_gen;
-> +	}
-> +
->  	return err;
->  }
-
-[Severity: High]
-Does calling dl_task_undepart(p) in switched_to_dl() when a departed task
-is PI-boosted cause bandwidth leaks and cross-root-domain underflows?
-
-When a SCHED_DEADLINE task p switches to SCHED_OTHER before its 0-lag time,
-switched_from_dl() arms inactive_timer, keeps p->dl.dl_runtime and
-p->dl.dl_bw set, and records the origin root domain CPU in
-p->dl.dl_departed_cpu via dl_task_depart(). If p is then boosted into
-dl_sched_class via rt_mutex_setprio() before the timer fires,
-switched_to_dl() cancels inactive_timer and calls dl_task_undepart(p),
-which resets p->dl.dl_departed_cpu to -1 and removes p from
-dl_departed_list without releasing p->dl.dl_bw from the origin root domain:
-
-1. If p is switched back to SCHED_DEADLINE via sched_setattr() while still
-PI-boosted (!task_has_dl_policy(p) is true), sched_dl_overflow() adds
-new_bw to dl_b->total_bw and then checks:
-
-	if (p->dl.dl_departed_cpu >=3D 0)
-		dl_task_release_bw(p, -1);
-
-Because switched_to_dl() already set p->dl.dl_departed_cpu =3D -1 (or if p
-was already PI-boosted when it earlier switched from SCHED_DEADLINE to
-SCHED_OTHER, so switched_from_dl() never ran), dl_task_release_bw() is
-skipped and __setparam_dl() overwrites p->dl.dl_bw with new_bw, permanently
-leaking the old p->dl.dl_bw in total_bw (and in rq->dl.this_bw if p was not
-queued when boosted).
-
-2. If p migrated to another root domain (RD_B) while in SCHED_OTHER and is
-then PI-boosted, dl_task_undepart(p) forgets the origin root domain (RD_A)
-recorded in dl_departed_cpu. When p is later deboosted in RD_B,
-switched_from_dl() releases or re-departs p->dl.dl_bw from RD_B via
-dl_task_root_domain_cpu(p), underflowing RD_B->dl_bw.total_bw and leaking
-the bandwidth in RD_A->dl_bw.total_bw.
-
-3. If p is sleeping when PI-boosted and the waiter times out or is
-interrupted while p is still sleeping (!task_on_rq_queued(p)), deboosting p
-calls switched_from_dl() with p->dl.dl_non_contending =3D=3D 0, which enter=
-s:
-
-	} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
-		dl_task_release_bw(p, dl_task_root_domain_cpu(p));
-		released =3D true;
+	if (pthread_attr_init(&a) || pthread_attr_setstacksize(&a, 64 * 1024)) {
+		ksft_print_msg("pthread_attr: %s\n", strerror(errno));
+		return -1;
 	}
 
-and releases p->dl.dl_bw immediately before p's 0-lag time.
+Should the stack size in probe() and hold() be clamped to at least
+PTHREAD_STACK_MIN, and hold() pass the returned error code to strerror()?
 
-4. If dl_clear_root_domains() runs while p is PI-boosted (so p is not on
-dl_departed_list) and p is deboosted before dl_add_task_root_domain(p)
-visits it, dl_add_task_root_domain(p) sees !dl_task(p) and returns early,
-dropping p's bandwidth before its 0-lag time.
+> +		for (i =3D 0; i < max; i++) {
+> +			if (pthread_create(&s[i].t, &a, probe_thread, &s[i]))
+> +				break;
+
+[Severity: Medium]
+If pthread_create() fails partway through the admission loop in probe() (for
+example with EAGAIN due to RLIMIT_NPROC, cgroup pids.max, or memory pressure
+when probing across many CPUs), breaking out of the loop leaves k at the
+number of threads created so far rather than setting k =3D -1.
+
+Won't probe() then write that partial count k to the pipe and return it as a
+valid admission count, causing callers like measured(), admits_in(), and
+moves() to misreport a bandwidth leak or double-release?
+
+[ ... ]
+> +/* The deadline threads of overrun_group_death(). */
+> +static void *og_thread(void *arg)
+> +{
+> +	switch ((int)(long)arg) {
+> +	case 0:		/* overruns its runtime: SIGXCPU to the group */
+> +		if (set_deadline_flags(0, 10 * NSEC_PER_MSEC, PERIOD,
+> +				       SCHED_FLAG_DL_OVERRUN))
+> +			_exit(1);
+> +		spin_ns(30 * NSEC_PER_MSEC);
+> +		break;
+> +	case 1:		/* asleep, its 0-lag time past */
+> +		if (set_deadline(0, 20 * NSEC_PER_MSEC, PERIOD))
+> +			_exit(1);
+> +		spin_ns(NSEC_PER_MSEC);
+> +		break;
+> +	case 2:		/* asleep, mostly before its 0-lag time */
+> +		if (set_deadline(0, 15 * NSEC_PER_MSEC, PERIOD))
+> +			_exit(1);
+> +		for (;;) {
+> +			spin_ns(3 * NSEC_PER_MSEC);
+> +			sleep_ns(22 * NSEC_PER_MSEC);
+> +		}
+> +	}
+> +	for (;;)
+> +		pause();
+> +}
+> +
+> +/*
+> + * The SIGXCPU of an overrun kills the whole thread group: the bandwidth
+> + * of its three deadline threads comes back.
+> + */
+> +static int overrun_group_death(void)
+> +{
+> +	pid_t pid =3D fork_child("a group of deadline threads");
+> +	int i, status;
+> +
+> +	if (!pid) {
+> +		pthread_t t;
+> +
+> +		for (i =3D 0; i < 3; i++)
+> +			if (pthread_create(&t, NULL, og_thread, (void *)(long)i))
+> +				_exit(1);
+> +		for (;;)
+> +			pause();
+> +	}
+
+[Severity: Medium]
+overrun_group_death() runs inside cg_p, which is a single-CPU cpuset partit=
+ion
+root, and creates thread 0 first without waiting for threads 1 and 2 to rea=
+ch
+their sleeping states.
+
+In og_thread(), thread 0 immediately enters SCHED_DEADLINE with a 10ms runt=
+ime
+and 100ms period and calls spin_ns(30 * NSEC_PER_MSEC) on P's single CPU. E=
+ven
+if threads 1 and 2 also enter SCHED_DEADLINE before thread 0 starts spinnin=
+g,
+all three share the same 100ms relative deadline so thread 0 has the earlie=
+st
+deadline and monopolizes the single CPU until it overruns at 10ms and deliv=
+ers
+SIGXCPU to the thread group.
+
+Doesn't this kill the process before threads 1 and 2 can spin and go to sle=
+ep
+in their intended states?
+
+[ ... ]
+> +static pid_t mix_worker(int idx, unsigned int seed)
+> +{
+> +	static const uint64_t runtime[] =3D { 5, 10, 20, 30 };
+> +	static const uint64_t period[] =3D { 50, 100 };
+> +	static const uint64_t flag[] =3D { 0, SCHED_FLAG_RECLAIM, SCHED_FLAG_DL=
+_OVERRUN };
+> +	pid_t pid =3D fork_child("a worker of the mix");
+> +
+> +	if (!pid) {
+> +		struct sigaction sa =3D { .sa_handler =3D catch_xcpu };
+> +		int err;
+> +
+> +		if (sigaction(SIGXCPU, &sa, NULL))
+> +			_exit(1);
+> +		seed +=3D idx;
+> +		/*
+> +		 * A refusal is part of the mix: each call below is made in
+> +		 * whatever state the worker is in, and an error is what the
+> +		 * kernel is entitled to answer.
+> +		 */
+> +		while (!mix_state[0]) {
+> +			unsigned int r =3D rand_r(&seed);
+> +
+> +			switch (r % 8) {
+> +			case 0:
+> +				set_deadline_flags(0, runtime[r % 4] * NSEC_PER_MSEC,
+> +						   period[r % 2] * NSEC_PER_MSEC,
+> +						   flag[r % 3]);
+> +				break;
+
+[Severity: Medium]
+In mix_worker(), case 0 of switch (r % 8) is only entered when r is a multi=
+ple
+of 8. Because runtime[r % 4] and period[r % 2] use r directly without divid=
+ing
+by 8, aren't r % 4 and r % 2 always 0 here, causing mix_worker() to only ev=
+er
+select runtime[0] (5ms) and period[0] (50ms)?
+
+[ ... ]
+> +			case 5:
+> +				err =3D pthread_mutex_trylock(shm_lock);
+> +				if (err =3D=3D EOWNERDEAD)	/* its owner died holding it */
+> +					err =3D pthread_mutex_consistent(shm_lock);
+> +				if (!err) {
+> +					spin_ns(NSEC_PER_MSEC);
+> +					if (pthread_mutex_unlock(shm_lock))
+> +						_exit(1);
+> +				}
+> +				break;
+[ ... ]
+> +static int random_mix(void)
+> +{
+[ ... ]
+> +	mix_state =3D mv_state + 16;
+> +	for (i =3D 0; i <=3D MIX_WORKERS; i++)
+> +		mix_state[i] =3D 0;
+> +	for (i =3D 0; i < MIX_WORKERS; i++) {
+> +		pid[i] =3D mix_worker(i, seed);
+> +		if (pid[i] < 0) {
+> +			ret =3D KSFT_FAIL;
+> +			goto out;
+> +		}
+> +	}
+
+[Severity: Medium]
+In random_mix(), the mix_worker() child processes lock and unlock shm_lock
+across processes while random_mix() periodically kills workers with SIGKILL,
+but random_mix() never calls shm_lock_init().
+
+In main(), shm_lock is only pointed at zero-initialized MAP_SHARED memory:
+
+	shm_lock =3D (pthread_mutex_t *)((char *)mv_state + 256);
+
+shm_lock_init() (which configures PTHREAD_PROCESS_SHARED,
+PTHREAD_PRIO_INHERIT, and PTHREAD_MUTEX_ROBUST) is only called inside
+pi_death() for the earlier death_pi_* cases. If the death_pi_* cases were
+skipped in measured(), or if shm_lock_init() failed there, shm_lock remains=
+ a
+zero-initialized process-private non-robust mutex when random_mix() runs; a=
+nd
+if an earlier death_pi_* case failed before its waiter recovered and unlock=
+ed
+shm_lock, shm_lock enters random_mix() in an inconsistent or unrecoverable
+state.
+
+Should random_mix() call shm_lock_init() (or skip case 5 in mix_worker() wh=
+en
+shm_lock_init() fails)?
+
+[ ... ]
+> +static int hotplug_departed(void)
+> +{
+> +	int base =3D probe(NULL), after, cpu, ret =3D KSFT_PASS;
+> +	pid_t pid;
+> +
+> +	mv_state[0] =3D 0;
+> +	mv_state[1] =3D 0;
+> +	pid =3D mover(MV_THROTTLED, 40 * NSEC_PER_MSEC);
+> +	if (pid < 0 || child_up("a departing deadline task", 0)) {
+> +		reap(pid);
+> +		return KSFT_FAIL;
+> +	}
+> +	sleep_ns(PERIOD / 2);
+> +	/* Running and queued: its bandwidth stays until its 0-lag time. */
+> +	if (set_other(pid))
+> +		ret =3D KSFT_FAIL;
+> +	cpu =3D task_cpu_of(pid);
+> +	if (cpu <=3D 0) {
+> +		cpu_set_t set;
+> +
+> +		/* Out of the class now: it may be moved to the CPU we offline. */
+> +		cpu =3D hp_cpu;
+> +		CPU_ZERO(&set);
+> +		CPU_SET(cpu, &set);
+> +		if (sched_setaffinity(pid, sizeof(set), &set))
+> +			ret =3D KSFT_FAIL;
+> +	}
+> +	if (ret =3D=3D KSFT_PASS && cpu_online(cpu, 0)) {
+> +		ksft_print_msg("offline of CPU %d refused\n", cpu);
+> +		ret =3D KSFT_FAIL;
+> +	}
+> +	sleep_ns(2 * PERIOD);
+> +	cpu_up(cpu);
+> +	reap(pid);
+> +	sleep_ns(3 * PERIOD);
+> +	after =3D probe(NULL);
+
+[Severity: Medium]
+In hotplug_departed(), after offlining cpu and sleeping 2 * PERIOD (so
+inactive_task_timer() has already fired and cleared the departed task's
+deadline parameters), the test calls cpu_up(cpu) before calling
+after =3D probe(NULL).
+
+Doesn't bringing cpu back online trigger dl_rebuild_rd_accounting() ->
+dl_clear_root_domains(), resetting the root domain's total_bw to 0 and
+recomputing it from scratch before probe(NULL) measures it, which masks any
+total_bw leak or underflow that occurred when the inactive timer fired while
+cpu was offline?
+
+Also, since pid runs in the root cgroup with all online CPUs in its affinity
+mask when set_other(pid) is called, switched_from_dl() ->
+dl_task_root_domain_cpu() picks the first CPU in pid's cpus_mask (CPU 0) as
+dl_departed_cpu rather than the CPU offlined here. Should probe(NULL) be
+checked while cpu is still offline (or should pid's affinity be restricted =
+to
+include cpu and exclude CPU 0 before entering SCHED_DEADLINE)?
+
+[ ... ]
+> +static void report(const char *name, int ret)
+> +{
+> +	if (ret =3D=3D KSFT_PASS)
+> +		ksft_test_result_pass("%s\n", name);
+> +	else if (ret =3D=3D KSFT_SKIP)
+> +		ksft_test_result_skip("%s\n", name);
+> +	else
+> +		ksft_test_result_fail("%s\n", name);
+> +}
+
+[Severity: Low]
+In report(), ksft_test_result_skip("%s\n", name) only prints the test name,
+and many of the KSFT_SKIP return paths (such as in run_in(), params_refused=
+(),
+params_keep_class_change(), yield_switched_out(), overrun_caught(),
+reclaim_runs(), reclaim_switched(), server_params(), server_rebuilds(),
+server_states(), server_reclaim(), params_waking(), random_mix(),
+hotplug_refused(), hotplug_server(), and hotplug_server_refused()) return
+KSFT_SKIP without printing why the test was skipped.
+
+Could the skip paths pass or log a reason string explaining which prerequis=
+ite
+was missing, per kselftest conventions?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793804635.gi=
-t.mathieu.desnoyers@efficios.com?part=3D7
+t.mathieu.desnoyers@efficios.com?part=3D12
