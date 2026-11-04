@@ -1,57 +1,141 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793832269;
-	b=ztstOPMgJ1ozBOg230DrZVL8YzZGQUj2Rx/5Ig43hss1bwEfNQo0VVU1XO+iu0+wlxQv
-	 lx4PRUkg6CNYbPt2p2oQ18SPJBkrwE4qJ76PXcYVvsbeU5IH45DYJ2OAxDarkeF6gHuVT
-	 DWjNMdDGgfNZfUPq7z3MBnOS0rlVAyUv6HdANZu2YeiGoukjSnY35EhA4ARl4G7j1UhST
-	 XEm3y88ZSHVqIap5b1svcHSSOON1KbVdgjfx+Mwri5J9dK0h5csSCedQvCzIUWPryT0Rk
-	 57DdnHM6/WKO0pD37IBl2qbVw+Inu3lQUABqgJE5FObW0Lud/MF4MyaEXxmWHKA65Tw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793832269;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Q8QJSTYLWOmcirwSrHJZlqljESPHG1DSVnqXXWP28rw=;
-	b=WxwXTG65tplr5GDT+l0B+529KLpiOUAMplRV44aNmGWIT0ptQZJ2v5ajhO0VofOS92pl
-	 MiQgtBIwTDrG5W9bvLUQS2h+rGjW+BMgeAUjRqyK++Ac85BUIDzraj4DHeFjuP31yYO75
-	 bXtEyIx6H39CCfRNZxSgkG/DY351cHVUIg7EvosMdFVyXVNfFB7tEkw2Ic1CH1JsVv/9I
-	 1h81Q76G4C0Qzu8naFIoFGSd1u4Z8Yq4ZnQXoLVZc+9o5EAFWy9h3L5qqNMLxNweRomVu
-	 ztrjfFst36UjSk9msfzekwEYV5XXz984Hd8ARtrnqNXJH6KXjKLLzaKg8bmDmM/e68w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SgR2MXI0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=192.198.163.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793833865;
+	b=0bs2wrR+EzdlX9LMPlF9HO71wHBgPe/SmXnnPbJhyVeSCcZMbWibUqXGIDcfUy0tCVOI
+	 z4238iRjgT2fQixMj3y7BfimIEaGo+84/oKM02zgU5sT0LjSEULqonxpB6AKcc8PRmyJM
+	 0pFfFJgg2jLdDWh9UttHvMww/MneNXDTYwMrtcekIYeNvIHq8g6igaskUbinPrgdIfy/H
+	 KsLjzwGb/X4BfvhATZku2Z8+crByuVBMGLlLtG14SkpPbHZZvTBVVAP7mNu3/rphBu2hf
+	 IaE1K7husrqIPuBq8vfwGQcHRmrCwZNzoiS4Eapjn4uROiTF3Xx8XaTDPnBWDtJ1aIA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793833865;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=PXwGsWfbzW2AuTDJWd9zRoeRJzTDU+WGD8TMRSsQDdE=;
+	b=gmxZrOjoOO2c3ugUbumgdnHKPVTtT8OaPuPqCzYFoPmxJq2r8QDeUVrDleMhZ4qfOILl
+	 fwFhVLyPBQyuK0XiFL8VlyWJ8Iiepfgoar9Gwz31scrbRhzr+4pI9cqSyxhwssTgZjSBN
+	 LR6uQDQDDTO9QLHed5ddj6BDkMmemWxtSAp+snAAUBLFq1t1T31FpId/iYqqXOSu/Ia8x
+	 q4oI3De6hXfJ6GAe8bxxJLsJ5/9VJtDIVdycPSpkqE8XNvBEPrZiSVaCG7a8muH+uP9IX
+	 Q/niQqFMu9wWAjWYUzkmOpsbntlkvXXfYq/r7llFwLrTzh0VYZyMKXzuEA5ZjXmIzWQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=disztraN;
+	arc=fail smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D83606A31B;
-	Wed,  4 Nov 2026 22:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00401606A31B
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 23:11:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00401606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SgR2MXI0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19E11F000C1;
-	Wed,  4 Nov 2026 22:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793832269;
-	bh=Q8QJSTYLWOmcirwSrHJZlqljESPHG1DSVnqXXWP28rw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SgR2MXI0Ux0iW6D5ZOIN+Nzk4OX/tfUY3z4dtXQAiuPTa25DRhCNnTE+GggtI/Nv0
-	 Gn1Okq0FaTeMkGyqSGu8T8+++4g2+h+6ZFrBJo02o04sE3ubcnQL7rmew0o0PFpmkw
-	 XCI71UWV6a9KzTOu4G/u+y8V3eK2W67j/p1F5LdsSs26zD0guFtIIpjdX+NNB3t4sD
-	 LlrOrfDX1DBuwmsAF/gW/boirf9OrTb15Ev08kcL+SqD9GSaBDXhTM7D0PfBIUhZH1
-	 3+gXzg45MTSmPvTDKpsGrwEg+Rp6pzDYGtMiUgQTrmSF02afvCGt7j0Irg5vey9TID
-	 3TRE1wWwG8oHg==
-Message-ID: <sashiko-outbox-198243@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 09/21] sched/deadline: Keep departing bandwidth
- across a root domain rebuild
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261104211207.1392343-10-mathieu.desnoyers@efficios.com>
-References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
- <20261104211207.1392343-10-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 22:44:28 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=disztraN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793833864; x=1825369864;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=l/gUE5FJlyuJ6f4R/fMe9Awpb2pYbtwwM4yLHIwUgBE=;
+  b=disztraN+w4KC/s/V43iMbO+e/QjJdX4I6JauEqlWZAs9xKiq3q2caeo
+   KNpbPLg1nnWb+J1qtpgzs2DrtKSeAeiy0vT5RhzrK+j4CvxIsfoyAJ5io
+   kH7xIX+zZQbk4xvbPeBURIuuGxY2rB76YLn6nfzsaBWRYSIlNLwlUQ9L+
+   83DXeVl1MTjFzGXM6y6Wu7YiHV4f0DONGidczPpH1miMxcwV0BfRVXoX3
+   G+uH6qsd4JcPuWpDidaW0CazuhierPFSHSTHsqij5IjPBoaFftWsm/V/d
+   z1hNB2wnSEaQdZZQ0ZYi6MsNgGfCXIOq7c9m2T2QHgtIiolbo0vxyqjut
+   w==;
+X-CSE-ConnectionGUID: xzjgtpu+SYqMiuheEkmw5Q==
+X-CSE-MsgGUID: LvVu5rndTW+VMdX7AWLjXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2600377"
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="2600377"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 15:11:03 -0800
+X-CSE-ConnectionGUID: N7Y568e0RM2ekYGE+I3Y4A==
+X-CSE-MsgGUID: Wurb2z3ST/WHNLS1NKS9Mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="6968292"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 15:11:02 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 15:11:01 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Wed, 4 Nov 2026 15:11:01 -0800
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.18) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 15:11:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tp0F7s3wMctQb+QckCHz1eVttIyDRWUmGRho8/fJDcnckxjxoO7oB7cU27fWjDgpzndrkPeAB6GcezjGX6M+NncFTuIB3vnomEvwG8KjVGtx4361r0tqnWz+tlG0Q3MzerG5iOUetkJZLKvt8w5ZimcAd7yufH4gyiOld1cZtlBSfqY97ZAr0bbd9Qj38RPhuaC1A0E3uhoCwpNgVeSA3MxiwDAWWwLB67dpjYrDTTZ7NN8irIqqEad1HwNCDmWQYypewzD53XXaXb87DdLqnd4YijqRFnSv+SuahaKWeoA5Eiea5DGBXzJIJmQ74oP97vQdu1sYtiieEhAtmZRo/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PXwGsWfbzW2AuTDJWd9zRoeRJzTDU+WGD8TMRSsQDdE=;
+ b=MKM/Qjs3v0jLKw9/jO2gj8A96kF4tFSa61s2BMS9kcZk9cylT81b0KqGN2FJO1jNGwPi0weA7fhhAJb099W1nwgsxMKrpqT5mUrq0wJ2GYSFYTO6Nq4hGKl/0m+BgozYFua9JfawOpWcFldqzIaxTWJmfXJIAGBZyl0f6iycXhO/iA4UuJuJ7vIpHxb3l5EqKAWxG1JUZyBQFG+TY3NgaMDLsGxb+wiZK6qNemwD/r7uwVytnzRvsOafOXp9RLYC34QUNCuqFdvRmoiA4bvNR6rPrU9kpHCycan8SV4FUKFj5SUSWUxTscfyuZH1uZ85grNLh7IsluzifvM/ZwrCog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14)
+ by EAYPR11MB414413.namprd11.prod.outlook.com (2603:10b6:303:2fb::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
+ 23:10:58 +0000
+Received: from DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58]) by DS0PR11MB7381.namprd11.prod.outlook.com
+ ([fe80::4c39:dfe6:d6dc:6f58%6]) with mapi id 15.21.0569.011; Wed, 4 Nov 2026
+ 23:10:58 +0000
+Message-ID: <4b07e441-de15-44f8-a7ff-f67c9c442966@intel.com>
+Date: Wed, 4 Nov 2026 15:10:55 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH iwl-net v2 0/5] ice: fix RTNL vs auxiliary device lock
+ inversion
+To: Petr Oros <poros@redhat.com>, <netdev@vger.kernel.org>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
+	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Dave Ertman
+	<david.m.ertman@intel.com>, Mateusz Palczewski
+	<mateusz.palczewski@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafal
+ Rogalski" <rafalx.rogalski@intel.com>, Shiraz Saleem
+	<shiraz.saleem@intel.com>, Aleksandr Loktionov
+	<aleksandr.loktionov@intel.com>, <intel-wired-lan@lists.osuosl.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
+References: <20261023070258.730168-1-poros@redhat.com>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <20261023070258.730168-1-poros@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0099.namprd04.prod.outlook.com
+ (2603:10b6:303:83::14) To DS0PR11MB7381.namprd11.prod.outlook.com
+ (2603:10b6:8:134::14)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,197 +144,176 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7381:EE_|EAYPR11MB414413:EE_
+X-MS-Office365-Filtering-Correlation-Id: d6516aa0-4348-4b74-de62-08df3ac8e2d9
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|261021121427099003|11063799006|56012099006|261021123027099003|261009223027099003|261028144727099003|261026121527099003|261022105027099003|261022075727099003|261102123227099003|261026140227099003|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: vsL8KyA5cCxjgXWcigtcAfJKKserWiBu/V4EWI7qr6aBUMwIs/vGYFXtciQ1NU2+XhpRBErEDpl5CF2YXRTUpe5QAEwPqrQOCW/L+F0RvofJL4hWF2e3HCOKsy8DAg088v7e2mWJUuNej+R/K2HCT94sZZUSFKAVqvgGSiuWu7o1fPMf1SexMTnQEz0oi4GNQlNEBemgpxt2jy6ca7ieF+7y80iS4gLjBWCSrUxOfF0fw+kMm17Tz45/wfnr1YXByh199Eu371fm8kYZju11nTLNYhaPXJkiuHn4PfTkkGZhOu7WDV7nHNWqB8fLew7lZHJrACUdIT38hE26n5vaL3Fhs7jM+d4o7jntMJTgaVscfwWFfG6896JMPgtCY7vXseXCE2imb4Z1CmGrOvJIr2RT/VEezr/O7V33vMcwyyMEngrZGEADfO7ZBBmvt2BiStO1qjaPoAM5MHkdLYJWl8rcLSnB7SptWYTBuqzjEoQnvMMWz1kbB397HKqcL0ypPlITZjVWKxsUNQFkU5tihbHovuDFpbsuManjXfOCrgl1Y/hENJYVVPgYu76Wp76qRuwTF/uvVbBL/sqtjeAKtk33QXskuUCQiXzhokGC1xZtNYZrQMM/b/1somWfJ1/c
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(261021121427099003)(11063799006)(56012099006)(261021123027099003)(261009223027099003)(261028144727099003)(261026121527099003)(261022105027099003)(261022075727099003)(261102123227099003)(261026140227099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVVCVk5uUlNjMjdhRjV2a3NjcXI3QThjQ3M5Zjg1b2pvY0hFTzlhUW5NSEFx?=
+ =?utf-8?B?Umo3a3dqWDhzbDRxUnlNcWxTdzRzVjdPeFNUdG9MTlFIZGZUSHNBREJQYndX?=
+ =?utf-8?B?dzRXbzVUY3RKN0s5ekluUEVkTllpQnlydndrdlJDYVh0N3krcDFLd0xSdGIw?=
+ =?utf-8?B?V2o2dE9ZM3pRVmFCRjVtbVNvQngvaGUvRVAwdEswcEx1UWlBQnhpcGFpc0Y3?=
+ =?utf-8?B?MGxvYnVNeGFicExFalpKSVAxaS9QOHYvQVh5TXY3ZGUrMVFWZlhHM2VsYStF?=
+ =?utf-8?B?bER3VkRrc25qMXFyNVBaNnJUUGx3T3dPeUFTVk52ZlpvMHZtek13Q0U4WHNq?=
+ =?utf-8?B?T01iWXhhYlh4UC9VVjh5WFNrMm5kWkNDU3l5Q3dwTCtpSmVsRkZJQ2FYdUVp?=
+ =?utf-8?B?elFRRVpmbzA2bEViWlpvSlQ2d2w4MWVoVHpqS3B4c0Q3TVBFeXRZS24zK1NP?=
+ =?utf-8?B?ZHBaVXMrK1RoM1dYckwwS2Y2d3NJdWkzWkhYVGtEUVc0QUtjQnJnc2l4NFMx?=
+ =?utf-8?B?MWE5VUMvb0NJY1lFYVNsK2l0Q1F3YXZ5RENONkJ4V1NCNllhWlF4RGdqUTZn?=
+ =?utf-8?B?aWM5V3NkV0RYcEw0MHNXQy92aEZJSUZZUnlobEp0M09PT0piL1I4LzJFTHk0?=
+ =?utf-8?B?Vkk4b2FsaWk3TGRHVVVHUVIraGlDb1dlbURqUDNrby91Vkp2NG5FVUFDSmRz?=
+ =?utf-8?B?SUFQdDhlMit4MGovV2YxVXYwN1FmUWo5RkVST3JxQmorQzllcUoza2xMREQ5?=
+ =?utf-8?B?eEcwd1JPbWJzdHd5SVk4dEE5QnJOc0RDN3crczl6U1N2ZTNKcUF2WGgvMm5R?=
+ =?utf-8?B?bmRWNFBjVldZLzNPNnRFenY2TlVQMzNXS0xMNGRESVlSSmlHNXQ5S3A4QXdx?=
+ =?utf-8?B?aTRxUlByV054c2pXeU54N0pRSlRGdlJsMkNxR1RHOUlBK01aRDJMTjZMVTJp?=
+ =?utf-8?B?Nk1jdGlIR28yNTJyUk9FRG1lS0dUUkRqNzc3MFZ1N3g2eFJqVWd4K0FiZ0J6?=
+ =?utf-8?B?azVnMlNkYmZ2YTdENzVWc2N1ejRzWjRTRWhPNU9aRkNqUkZZaVhuYWZCSlJm?=
+ =?utf-8?B?cjRjd20xeFNDUldkUHlSUnJ4Rk1WY3Vybk82dkNCV29LaG0vMFVtRTZPazhy?=
+ =?utf-8?B?MngrM1VpR2JrcEFUbnMvVExxS0VubmNDRnRhbEpncGpNN3NNV0Fka3labThu?=
+ =?utf-8?B?NVA1eU1ZcHZPaExjRkYxOEU0emlZcUk5bWw2S0ZaVExXWGVITVl5dTJjVThD?=
+ =?utf-8?B?dXJiNGtaSFBuRktFd3BRNGM1WitNOWluNUZKY2ZpOXUvRS9kMFBwYzVIcU8v?=
+ =?utf-8?B?em05c2RWNTRZdGtVaWxJZmhlWSt5YXN6U01BTDRNSjJQNDJpVVdMQnZEeTgz?=
+ =?utf-8?B?NmFydHNhMjdHNDNFdzBidERNQXpkQi9PSXhUS21McHR1bzRCYVV4U0VYZjAy?=
+ =?utf-8?B?NWNiMGgvNFJNb3JGcDJickdFUHhQN2N4TXhEQmlCUkJNa2hVMkpaa1JYMXpK?=
+ =?utf-8?B?d3ZMUnluMFVlSmlWL3QrendXRFRraTJuTFFCcDEvWVEvZFhNaGMyL2VDSXlI?=
+ =?utf-8?B?SXhPeDdLRE0wVThCWE01a2R4L2QrL09TUDdPNkZENnA1N3JHN1dLZGQwamJP?=
+ =?utf-8?B?SlZtMDJGRWtSaS96bFpPbW5WeTdNb1BxNlhhRko3ekdhckYzMzdZSDkwaE1r?=
+ =?utf-8?B?ZEthbWpkTWVaaGhXdUxhTjNxbFMwa0Y3R1BpdmcxWGI1YXUzNTNxWitIUGpx?=
+ =?utf-8?B?eFNvUmNScEdpTTdYckUxSk1jVDdEOHFTZGxTTkpSV25NcVhkekdneDJSMjBz?=
+ =?utf-8?B?TFdrU09Id1FtdHJIR1hUbkhzK2p6dnowZkk3UERUZFBaUDhvYnR6UkVjcG0v?=
+ =?utf-8?B?blpVTSt6bmt1Um1wZ3pGSWJWbkIzRkF3NTJ4KzdPcUJjWFUydDBXVUFjNGQy?=
+ =?utf-8?B?am1HZm5EVzBUMThXeXFidVh0RXhZUm5EcDB6ZUlQa3V0UGt0ZEx0Y1NZekYx?=
+ =?utf-8?B?TXhTYXpPNTBoOFl1OXpqMXZiZnY2RFozTSt0TU9ZQW9DMlZHU2JGWVBJaVNm?=
+ =?utf-8?B?UWRJaVBIaktSQkR3MC9Fa2syYUtPVEo3Y2ZDNm9KamJBSVR6YTlHUDE5dWw0?=
+ =?utf-8?B?ZCszUGNrWWluczVDQzh2czBNMi8wNkJkdlUvc0M3Uk14QmFkWU92MExObHox?=
+ =?utf-8?B?T2lyM2o5RVE1VTA4L2VSVDk2SS9iUmR4UzV0L0JkeHRyT0cyWEcxczNIVFNU?=
+ =?utf-8?B?TjBrTGJvUCtYUWhTVlZTSkc3WDh1Ukx4aG51U1VUejA5dlh5c0hhSmJ5UWVn?=
+ =?utf-8?B?S3I1V1RNMzdLYzNQYkFKcjlaeHM2UDdCMkRzUXpvMFdmbnhyei9xaitTQWxN?=
+ =?utf-8?Q?u/9xz4ebnXvMZ6ww=3D?=
+X-Exchange-RoutingPolicyChecked: RKjJr9hx62I8Thc9cmuX1EIEMVE/l5q4+8OJcIoQMBGj/j635DgZEJrY56hH3sV8MPnpug0SCFuxH1KbarMmVQaCe+T2UFDVKUPTp7OleMhogMMudHNXR3poqeIH4rkAFI/g1+yay7b2J44Vd1kf3wWEg/A1UdpXGuMtue9tg3iRN7Eca6iFWsC6BxX1Q0inQppApgMSxUGrMhosw6fohOMlxe1Qe+rlpiAn7iRhe+ejHIKIyAkOJ8SyuqzxEUJOWFUy99Ho4ftdxk1tamoOa2cT3N6lzolvzo26imvQUmjPskqZ22GuFEihBCFw87NxnG4l0I66f5heewCWHKdJ1w==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6516aa0-4348-4b74-de62-08df3ac8e2d9
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7381.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 23:10:58.6004
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N7OHgaj1g+QqGIpLM0vEPh/ZNt3/1jx5/ufAYiNW/c6CspTeaffzesK9hv1yHr7eY2k1Mh+DzTHwfLnb39IkJgTGiuLEtPpYDwGvQTSKrNM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR11MB414413
+X-OriginatorOrg: intel.com
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] sched/deadline: departing bandwidth accounting corrupted in switch=
-ed_to_dl() on PI boost
---
+On 10/23/2026 12:02 AM, Petr Oros wrote:
+> ice takes the auxiliary device lock of its RDMA auxiliary device from
+> three places that run with the RTNL lock held. The RDMA auxiliary probe
+> takes the two in the opposite order, because __driver_attach() holds the
+> auxiliary device lock across ib_register_device(), which needs the RTNL
+> lock. The result is a hard deadlock of everything that needs the RTNL
+> lock, so the boot never completes:
+> 
 
-commit 1e8adcf8ed2712137f083c0716509491291e2298
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Sashiko has a couple of "high" complaints that look plausible to me.
+Could you please confirm if you are working on a v3 or respond to the
+reports and explain if any of these following issues are faulty reports
+from the AI?
 
-sched/deadline: Keep departing bandwidth across a root domain rebuild
+> - [High] ice: orphaned channel VSIs and memory leak when ice_setup_tc() fails teardown
+> --
+> - [High] ice: premature AFTER_TC_CHANGE and unlock before ice_dcb_noncontig_cfg()
+> - [High] ice: inconsistent QoS and DCB state on error path in ice_pf_dcb_cfg()
+> - [Medium] ice: unrolled state mutations when ice_pf_dcb_cfg() fails with -EBUSY
+> --
 
-This commit tracks tasks that leave SCHED_DEADLINE or exit before their
-0-lag time on dl_departed_list along with the CPU of their root domain and a
-rebuild generation counter. This preserves their departing bandwidth across
-dl_rebuild_rd_accounting() and ensures inactive_task_timer() removes the
-bandwidth from the original root domain even if the task migrates.
+I've left the series as "new" in the IWL patchwork until I heard one way
+or another.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 624cabdec9652..2729c108b24bc 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+Thanks,
+Jake
 
-[ ... ]
+>   systemd-udevd   state:D
+>     really_probe                  <- holds device_lock(&adev->dev)
+>     icrdma_probe
+>     irdma_ib_register_device
+>     ib_register_device
+>     setup_device
+>     irdma_roce_port_immutable
+>     ib_query_port
+>     irdma_query_port
+>     ib_get_eth_speed              <- blocks on rtnl_lock()
+> 
+>   lldpad          state:D
+>     rtnetlink_rcv_msg             <- holds rtnl_lock()
+>     dcb_doit
+>     dcbnl_ieee_set
+>     ice_dcbnl_setets
+>     ice_pf_dcb_cfg
+>     ice_send_event_to_aux         <- blocks on device_lock(&adev->dev)
+> 
+> Lockdep cannot flag it, because device_initialize() marks dev->mutex
+> with lockdep_set_novalidate_class(). A PREEMPT_RT kernel with
+> CONFIG_DEBUG_RT_MUTEXES reports "rtmutex deadlock detected" instead.
+> 
+> The probe side cannot be changed, so the three ice callers use
+> device_trylock() and refuse the operation with -EBUSY when the driver
+> core holds the lock. Patches 1 and 2 are new in v2 and fix two separate
+> problems on the same sites, the auxiliary device pointer was tested
+> before pf->adev_mutex was taken, and ndo_setup_tc() took pf->adev_mutex
+> before pf->tc_mutex while the dcbnl handlers take them the other way
+> round. Patch 3 keeps the locks across the whole DCB reconfiguration so
+> that BEFORE_TC_CHANGE and AFTER_TC_CHANGE are either both delivered or
+> the request is refused before anything changes, and re-arms the service
+> task events. Patches 4 and 5 turn the remaining two locks into trylocks.
+> 
+> The proper fix is provider-owned registration as in i40e and mlx5, which
+> makes the inversion impossible by construction. That is a net-next change
+> across ice, irdma and iidc_rdma.h, this series is the backportable part.
+> 
+> Tested on an E810-XXV with two PFs, irdma bound to both auxiliary
+> devices, on net tip commit 191aa41548b2d2 ("MAINTAINERS: add Bobby
+> Eshleman as vsock reviewer") with and without this series. A reproducer
+> binds the irdma auxiliary driver while driving one of the three RTNL
+> held callers into the probe window:
+> 
+>                         without the series   with the series
+>   ethtool set_channels  deadlock 10/10       0/10, window entered 300x
+>   ndo_setup_tc mqprio   deadlock             0/10, window entered 50x
+>   dcbnl ets set         deadlock             0/10, window entered 30x
+> 
+> A window entry is a contended device_trylock(), so each one used to
+> close the cycle. 25 reboots on the patched kernel were clean.
+> 
+> Changes since v1:
+> - new patch 1 for the auxiliary device pointer race
+> - new patch 2 for the pf->tc_mutex order in ndo_setup_tc()
+> - patch 3 holds the auxiliary device locks across the whole DCB
+>   reconfiguration and sends AFTER_TC_CHANGE under them instead of
+>   dropping it when the lock is contended, and takes the locks before it
+>   consumes pf->oicr_err_reg in the service task
+> - patch 5 warns instead of netdev_dbg(), the qdisc teardown ignores the
+>   return value
+> 
+> Link to v1:
+> https://lore.kernel.org/all/20261019065301.3983537-1-poros@redhat.com/
+> 
+> Petr Oros (5):
+>   ice: check the auxiliary device pointer under adev_mutex
+>   ice: take tc_mutex before the auxiliary device locks in ndo_setup_tc
+>   ice: avoid RTNL deadlock when notifying the RDMA auxiliary driver
+>   ice: do not block on the aux device lock in ethtool set_channels
+>   ice: do not block on the aux device lock in ndo_setup_tc
+> 
+>  drivers/net/ethernet/intel/ice/ice_dcb_lib.c | 46 ++++++++++++++++---
+>  drivers/net/ethernet/intel/ice/ice_ethtool.c | 26 +++++++----
+>  drivers/net/ethernet/intel/ice/ice_idc.c     | 48 ++++++++++++++++----
+>  drivers/net/ethernet/intel/ice/ice_idc_int.h |  2 +
+>  drivers/net/ethernet/intel/ice/ice_main.c    | 47 +++++++++++++------
+>  5 files changed, 130 insertions(+), 39 deletions(-)
+> 
+> 
+> base-commit: 07bd391eb9572e74f073c49acef327611234f9bb
 
-> @@ -3485,12 +3575,33 @@ void dl_add_task_root_domain(struct task_struct *=
-p)
->  	dl_get_task_effective_cpus(p, msk);
->  	cpu =3D cpumask_first_and(cpu_active_mask, msk);
->  	BUG_ON(cpu >=3D nr_cpu_ids);
-> +
-> +	raw_spin_lock(&dl_departed_lock);
-> +	/*
-> +	 * Counted already by this rebuild: put back by
-> +	 * dl_clear_root_domains() as a departed task, which priority
-> +	 * inheritance boosted into the class since, or its bandwidth
-> +	 * gone since (dl_task_release_bw()), as that of one that died
-> +	 * after the walk found it. One that died since with its 0-lag
-> +	 * time ahead goes back to the root domain of the CPU recorded
-> +	 * (dl_task_depart()), if active.
-> +	 */
-> +	if (p->dl.dl_bw_gen =3D=3D dl_bw_gen)
-> +		goto unlock;
-> +	if (p->dl.dl_departed_cpu >=3D 0) {
-> +		cpu =3D p->dl.dl_departed_cpu;
-> +		if (!cpu_active(cpu))
-> +			goto unlock;
-> +	}
->  	rq =3D cpu_rq(cpu);
->  	dl_b =3D &rq->rd->dl_bw;
-> =20
->  	raw_spin_lock(&dl_b->lock);
->  	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
->  	raw_spin_unlock(&dl_b->lock);
-> +	p->dl.dl_bw_gen =3D dl_bw_gen;
-> +unlock:
-> +	raw_spin_unlock(&dl_departed_lock);
->  	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
->  }
-
-[ ... ]
-
-> @@ -3584,7 +3731,7 @@ static void switched_from_dl(struct rq *rq, struct =
-task_struct *p)
->  			 * or sub_rq_bw (below) will complain.
->  			 *
->  			 * inactive_task_timer() will find !dl_task(p) and
-> -			 * release total_bw via __dl_sub().
-> +			 * release total_bw (dl_task_release_bw()).
->  			 */
->  			sub_running_bw(&p->dl, &rq->dl);
->  		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
-> @@ -3600,12 +3747,7 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  			 * nor for a special one: neither has bandwidth in
->  			 * total_bw.
->  			 */
-> -			unsigned int cpu =3D dl_task_root_domain_cpu(p);
-> -			struct dl_bw *dl_b =3D &cpu_rq(cpu)->rd->dl_bw;
-> -
-> -			raw_spin_lock(&dl_b->lock);
-> -			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
-> -			raw_spin_unlock(&dl_b->lock);
-> +			dl_task_release_bw(p, dl_task_root_domain_cpu(p));
->  			released =3D true;
->  		}
->  		sub_rq_bw(&p->dl, &rq->dl);
-
-[ ... ]
-
-> @@ -3657,6 +3809,16 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  static void switched_to_dl(struct rq *rq, struct task_struct *p)
->  {
->  	cancel_inactive_timer(&p->dl);
-> +	/*
-> +	 * Boosted back into the class before its 0-lag time (a policy change
-> +	 * released that bandwidth in sched_dl_overflow()): the inactive
-> +	 * timer will not remove it, but its leaving the class again. That
-> +	 * forgets the CPU recorded: moved to another root domain meanwhile,
-> +	 * the task then removes the bandwidth from that one, as it did
-> +	 * before departures were recorded.
-> +	 */
-> +	if (p->dl.dl_departed_cpu >=3D 0)
-> +		dl_task_undepart(p);
-
-[ ... ]
-
-> @@ -3924,6 +4078,19 @@ int sched_dl_overflow(struct task_struct *p, int p=
-olicy,
->  	}
->  	raw_spin_unlock(&dl_b->lock);
-> =20
-> +	/*
-> +	 * Back before its 0-lag time, the task still has the bandwidth it
-> +	 * left with, which the new one replaces: removed from the root
-> +	 * domain that keeps it (dl_task_release_bw()). A rebuild cannot
-> +	 * run meanwhile: the caller holds cpuset_mutex.
-> +	 */
-> +	if (!err && dl_policy(policy) && !task_has_dl_policy(p)) {
-> +		lockdep_assert_cpuset_lock_held();
-> +		if (p->dl.dl_departed_cpu >=3D 0)
-> +			dl_task_release_bw(p, -1);
-> +		p->dl.dl_bw_gen =3D dl_bw_gen;
-> +	}
-
-[Severity: High]
-As reported by Sashiko on v1 [1], can priority-inheritance boosting of a
-departed task before its 0-lag time corrupt root-domain total_bw accounting?
-
-When a SCHED_DEADLINE task p switches to a non-deadline policy such as
-SCHED_OTHER before its 0-lag time, switched_from_dl() arms inactive_timer,
-clears p->dl.dl_non_contending, keeps p->dl.dl_runtime and p->dl.dl_bw, and
-calls dl_task_depart() to record the CPU of its original root domain (RD_A)
-and link p onto dl_departed_list. If p holds an rt_mutex and is boosted into
-dl_sched_class via rt_mutex_setprio() before its 0-lag time,
-switched_to_dl() calls cancel_inactive_timer(&p->dl) and
-dl_task_undepart(p), unlinking p from dl_departed_list and resetting
-p->dl.dl_departed_cpu to -1 in this commit.
-
-In this commit, resetting p->dl.dl_departed_cpu to -1 causes
-sched_dl_overflow() to skip dl_task_release_bw() if p is setscheduled back
-to SCHED_DEADLINE while boosted, leaking the old p->dl.dl_bw in RD_A, and
-causes switched_from_dl() on deboost after a migration to RD_B to subtract
-p->dl.dl_bw from RD_B instead of RD_A.
-
-Later commits in the series ("sched/deadline: Record the root domain holding
-a task's bandwidth" and "sched/deadline: Count the bandwidth a boosted task
-is given") replace dl_departed_cpu with dl_bw_cpu (preserving dl_bw_cpu
-across dl_task_undepart()) and update rq->dl.this_bw in __setparam_dl().
-However, even with those later commits applied, don't the following three
-scenarios still corrupt bandwidth accounting when a departed task is
-PI-boosted before its 0-lag time?
-
-1. If p migrates to another cpuset partition / root domain (RD_B) while in
-SCHED_OTHER (!dl_task(p)), cpuset_can_attach() does not reserve or move
-p->dl.dl_bw into RD_B, so p->dl.dl_bw remains in RD_A. If p is then
-PI-boosted in RD_B, switched_to_dl() calls dl_task_undepart(p) and unlinks
-p->dl.dl_departed_node from dl_departed_list. If dl_rebuild_rd_accounting()
-runs while p is PI-boosted, dl_clear_root_domains() does not see p on
-dl_departed_list, and dl_add_task_root_domain(p) sees that p is not on
-dl_departed_list (list_empty(&p->dl.dl_departed_node), or
-p->dl.dl_departed_cpu < 0 here). Doesn't dl_add_task_root_domain(p) then
-ignore the recorded CPU in RD_A and add p->dl.dl_bw to RD_B (via
-dl_get_task_effective_cpus()), dropping p's departing bandwidth from RD_A
-before its 0-lag time and charging RD_B without admission control?
-
-2. Because rt_mutex_setprio() only holds p->pi_lock and rq->__lock (not
-cpuset_mutex or dl_accounting_mutex), can a PI deboost race with a
-concurrent dl_rebuild_rd_accounting()? If p is PI-boosted when
-dl_clear_root_domains() runs, p is not on dl_departed_list, so
-dl_clear_root_domains() clears the root domains without restoring
-p->dl.dl_bw. If rt_mutex_setprio() then deboosts p before
-dl_add_task_root_domain(p) inspects it, switched_from_dl() re-adds p to
-dl_departed_list after dl_clear_root_domains() has already finished, and
-dl_add_task_root_domain(p) sees !dl_task(p) and returns early, dropping p's
-departing bandwidth before its 0-lag time.
-
-3. If p is sleeping (!task_on_rq_queued(p)) after leaving SCHED_DEADLINE
-with inactive_timer armed (so p->dl.dl_non_contending is 0), and a
-SCHED_DEADLINE waiter blocks on an rt_mutex held by p, switched_to_dl()
-cancels inactive_timer and calls dl_task_undepart(p). If that waiter times
-out or is interrupted while p is still sleeping, rt_mutex_setprio() deboosts
-p and calls switched_from_dl(). Since !task_on_rq_queued(p),
-p->dl.dl_non_contending =3D=3D 0, and p->dl.dl_runtime > 0, doesn't
-switched_from_dl() enter the else-if branch and call dl_task_release_bw()
-immediately, releasing p->dl.dl_bw before p's 0-lag time has elapsed?
-
-[1] https://lore.kernel.org/r/9a2c58b84302e5ed3765f773eca3c71c7d5ea7bb.1793=
-804635.git.mathieu.desnoyers@efficios.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104211207.1392=
-343-1-mathieu.desnoyers@efficios.com?part=3D9
