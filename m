@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793830512;
-	b=Chzm1wHSE3SCBTdAllyi6wC5mEx4HHUPJ8y982l3sAlOYUlplJTMx5SS0jKJToakW2LL
-	 eUYCqFqsx8rQ9mVSuAM4Jy0fI97tHw1Y7YtNkD8Hjon81AVyIWBy4IuaggeeSvAFwu+QF
-	 QeMkXeeus5XO04ZPNEspx5SaexTiJynIyB52VmBSYRzKXe0cgFBIQifQT7Q/hraThnNbt
-	 wWWN6xWWZthbRSSopLcOYFk2hgwrJ97acMXUGViTa8Ipr0S1lYDicEe/XferF3MfDDqSn
-	 Gb5QyRSwikVgESyxPpaVOYCGoNparPVA4XQejXVRld8WzUGdB5qmxDMCiwlW00SA9kw==
+	t=1793832269;
+	b=ztstOPMgJ1ozBOg230DrZVL8YzZGQUj2Rx/5Ig43hss1bwEfNQo0VVU1XO+iu0+wlxQv
+	 lx4PRUkg6CNYbPt2p2oQ18SPJBkrwE4qJ76PXcYVvsbeU5IH45DYJ2OAxDarkeF6gHuVT
+	 DWjNMdDGgfNZfUPq7z3MBnOS0rlVAyUv6HdANZu2YeiGoukjSnY35EhA4ARl4G7j1UhST
+	 XEm3y88ZSHVqIap5b1svcHSSOON1KbVdgjfx+Mwri5J9dK0h5csSCedQvCzIUWPryT0Rk
+	 57DdnHM6/WKO0pD37IBl2qbVw+Inu3lQUABqgJE5FObW0Lud/MF4MyaEXxmWHKA65Tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793830512;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793832269;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=3P7gTlrJaFuH0TDPhEdUMNCwq87nzqSEsIEvJ7B0CPI=;
-	b=JlVUEHKYWEk5/7+Ud214mtGEKuR1WtI1DFnTqEUBKtP4jlYZSQgCaJAPLt9LoAjvxKlu
-	 SMmHYd/vpEfZDymoZFKgf2ThW+lPksWkMo1Qrm1u/JNWuj6GckIIfpTiRkIKwn/PB6R4I
-	 55+YKW5nbHUF3fxCNm5P3uukmmdjdw3EwOfvUBja+qeFxDzWRG6YuaE++H/s5qvhpDtaQ
-	 WAcMa8fw7zPHJLURzEpvaBi2BDik36CgneENByybPL/mmPGsZHxfcrkSdk6uUqcBXKdzi
-	 bzNKzsuqPe6jLp6T/+mh6VQLYY+/aJ3PyYi+KUJod8b4GjB796YgjQuSSNi57O7RjDg==
+	bh=Q8QJSTYLWOmcirwSrHJZlqljESPHG1DSVnqXXWP28rw=;
+	b=WxwXTG65tplr5GDT+l0B+529KLpiOUAMplRV44aNmGWIT0ptQZJ2v5ajhO0VofOS92pl
+	 MiQgtBIwTDrG5W9bvLUQS2h+rGjW+BMgeAUjRqyK++Ac85BUIDzraj4DHeFjuP31yYO75
+	 bXtEyIx6H39CCfRNZxSgkG/DY351cHVUIg7EvosMdFVyXVNfFB7tEkw2Ic1CH1JsVv/9I
+	 1h81Q76G4C0Qzu8naFIoFGSd1u4Z8Yq4ZnQXoLVZc+9o5EAFWy9h3L5qqNMLxNweRomVu
+	 ztrjfFst36UjSk9msfzekwEYV5XXz984Hd8ARtrnqNXJH6KXjKLLzaKg8bmDmM/e68w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GV2Z+Fwi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SgR2MXI0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBC8606A851;
-	Wed,  4 Nov 2026 22:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D83606A31B;
+	Wed,  4 Nov 2026 22:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GV2Z+Fwi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435B31F000C1;
-	Wed,  4 Nov 2026 22:15:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SgR2MXI0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19E11F000C1;
+	Wed,  4 Nov 2026 22:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793830511;
-	bh=3P7gTlrJaFuH0TDPhEdUMNCwq87nzqSEsIEvJ7B0CPI=;
+	s=k20260515; t=1793832269;
+	bh=Q8QJSTYLWOmcirwSrHJZlqljESPHG1DSVnqXXWP28rw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GV2Z+FwiOrCOzohORPu8V0RlDDAInoj4XU/F9gJUOlYM4ogLoeSYQdEkNm9+pLYXb
-	 vbH8wvuy1orZYyw8cr07JORWhplQ2GIhGIP18sHOVdBYMi6ipWc/oLcIVge2ONX4QE
-	 yqd6Cb9NesfYDIx2xFR9FxOFTm6b0HpQSHdzierMbsd8AtEb1lTuE45khd5yQ4fslg
-	 YY6fOg+ajpIlk5G5dBbghXCtsdBsYo+dIJloVBmn+mfCu8wNZgAHJYUWCcs9RertZZ
-	 rNzMZ6OjfTvF/eqhnEhYer3JYt0Ax9F98fXsKH+2CzSjAdq91EHdCnrUexjffspMQh
-	 sxg7FZlgUj0xw==
-Message-ID: <sashiko-outbox-198212@kernel.org>
+	b=SgR2MXI0Ux0iW6D5ZOIN+Nzk4OX/tfUY3z4dtXQAiuPTa25DRhCNnTE+GggtI/Nv0
+	 Gn1Okq0FaTeMkGyqSGu8T8+++4g2+h+6ZFrBJo02o04sE3ubcnQL7rmew0o0PFpmkw
+	 XCI71UWV6a9KzTOu4G/u+y8V3eK2W67j/p1F5LdsSs26zD0guFtIIpjdX+NNB3t4sD
+	 LlrOrfDX1DBuwmsAF/gW/boirf9OrTb15Ev08kcL+SqD9GSaBDXhTM7D0PfBIUhZH1
+	 3+gXzg45MTSmPvTDKpsGrwEg+Rp6pzDYGtMiUgQTrmSF02afvCGt7j0Irg5vey9TID
+	 3TRE1wWwG8oHg==
+Message-ID: <sashiko-outbox-198243@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 07/21] sched/deadline: Do not release a departing
- sleeper's bandwidth twice
+Subject: Re: [PATCH v2 09/21] sched/deadline: Keep departing bandwidth
+ across a root domain rebuild
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261104211207.1392343-8-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261104211207.1392343-10-mathieu.desnoyers@efficios.com>
 References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
- <20261104211207.1392343-8-mathieu.desnoyers@efficios.com>
+ <20261104211207.1392343-10-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 22:15:10 +0000
+Date: Wed, 04 Nov 2026 22:44:28 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,177 +63,194 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] sched/deadline: switched_from_dl() leaves stale params after clear=
-ing dl_bw
+- [High] sched/deadline: departing bandwidth accounting corrupted in switch=
+ed_to_dl() on PI boost
 --
 
-commit 3a2d0df92966c3d09add14a543e55863d8af1e1e
+commit 1e8adcf8ed2712137f083c0716509491291e2298
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Do not release a departing sleeper's bandwidth twice
+sched/deadline: Keep departing bandwidth across a root domain rebuild
 
-This commit updates switched_from_dl() to only release total_bw when a
-departing sleeping task has its own deadline parameters and is not a
-special entity, and clears p->dl.dl_bw afterward so that subsequent paths
-do not subtract its bandwidth a second time.
+This commit tracks tasks that leave SCHED_DEADLINE or exit before their
+0-lag time on dl_departed_list along with the CPU of their root domain and a
+rebuild generation counter. This preserves their departing bandwidth across
+dl_rebuild_rd_accounting() and ensures inactive_task_timer() removes the
+bandwidth from the original root domain even if the task migrates.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index b646063a7b0d5..624cabdec9652 100644
+> index 624cabdec9652..2729c108b24bc 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -3573,6 +3573,8 @@ static void switched_from_dl(struct rq *rq, struct =
-task_struct *p)
->  	dec_dl_tasks_cs(p);
-> =20
->  	if (!task_on_rq_queued(p)) {
-> +		bool released =3D false;
+
+[ ... ]
+
+> @@ -3485,12 +3575,33 @@ void dl_add_task_root_domain(struct task_struct *=
+p)
+>  	dl_get_task_effective_cpus(p, msk);
+>  	cpu =3D cpumask_first_and(cpu_active_mask, msk);
+>  	BUG_ON(cpu >=3D nr_cpu_ids);
 > +
->  		if (p->dl.dl_non_contending) {
->  			/*
->  			 * Inactive timer is armed. However, p is leaving
-> @@ -3585,12 +3587,18 @@ static void switched_from_dl(struct rq *rq, struc=
-t task_struct *p)
->  			 * release total_bw via __dl_sub().
+> +	raw_spin_lock(&dl_departed_lock);
+> +	/*
+> +	 * Counted already by this rebuild: put back by
+> +	 * dl_clear_root_domains() as a departed task, which priority
+> +	 * inheritance boosted into the class since, or its bandwidth
+> +	 * gone since (dl_task_release_bw()), as that of one that died
+> +	 * after the walk found it. One that died since with its 0-lag
+> +	 * time ahead goes back to the root domain of the CPU recorded
+> +	 * (dl_task_depart()), if active.
+> +	 */
+> +	if (p->dl.dl_bw_gen =3D=3D dl_bw_gen)
+> +		goto unlock;
+> +	if (p->dl.dl_departed_cpu >=3D 0) {
+> +		cpu =3D p->dl.dl_departed_cpu;
+> +		if (!cpu_active(cpu))
+> +			goto unlock;
+> +	}
+>  	rq =3D cpu_rq(cpu);
+>  	dl_b =3D &rq->rd->dl_bw;
+> =20
+>  	raw_spin_lock(&dl_b->lock);
+>  	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
+>  	raw_spin_unlock(&dl_b->lock);
+> +	p->dl.dl_bw_gen =3D dl_bw_gen;
+> +unlock:
+> +	raw_spin_unlock(&dl_departed_lock);
+>  	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+>  }
+
+[ ... ]
+
+> @@ -3584,7 +3731,7 @@ static void switched_from_dl(struct rq *rq, struct =
+task_struct *p)
+>  			 * or sub_rq_bw (below) will complain.
+>  			 *
+>  			 * inactive_task_timer() will find !dl_task(p) and
+> -			 * release total_bw via __dl_sub().
+> +			 * release total_bw (dl_task_release_bw()).
 >  			 */
 >  			sub_running_bw(&p->dl, &rq->dl);
-> -		} else {
-> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
->  			/*
->  			 * No pending inactive timer: the task never ran as
->  			 * DEADLINE or the timer already fired while still
->  			 * DEADLINE (only dropping running_bw at that time).
->  			 * Nobody else will release total_bw, do it now.
-> +			 *
-> +			 * Not for a task without parameters of its own, one
-> +			 * deboosted from priority inheritance, whose mask may
-> +			 * have no active CPU for dl_task_root_domain_cpu(),
-> +			 * nor for a special one: neither has bandwidth in
-> +			 * total_bw.
->  			 */
->  			unsigned int cpu =3D dl_task_root_domain_cpu(p);
->  			struct dl_bw *dl_b =3D &cpu_rq(cpu)->rd->dl_bw;
-> @@ -3598,8 +3606,29 @@ static void switched_from_dl(struct rq *rq, struct=
+>  		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
+> @@ -3600,12 +3747,7 @@ static void switched_from_dl(struct rq *rq, struct=
  task_struct *p)
->  			raw_spin_lock(&dl_b->lock);
->  			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
->  			raw_spin_unlock(&dl_b->lock);
-> +			released =3D true;
+>  			 * nor for a special one: neither has bandwidth in
+>  			 * total_bw.
+>  			 */
+> -			unsigned int cpu =3D dl_task_root_domain_cpu(p);
+> -			struct dl_bw *dl_b =3D &cpu_rq(cpu)->rd->dl_bw;
+> -
+> -			raw_spin_lock(&dl_b->lock);
+> -			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
+> -			raw_spin_unlock(&dl_b->lock);
+> +			dl_task_release_bw(p, dl_task_root_domain_cpu(p));
+>  			released =3D true;
 >  		}
 >  		sub_rq_bw(&p->dl, &rq->dl);
-> +		/*
-> +		 * Released: its bandwidth is no one's to release again, and
-> +		 * a dl_bw of 0 is what every path that would takes. Kept, it
-> +		 * would make the task one with bandwidth to task_contending()
-> +		 * and task_non_contending() once priority inheritance boosts
-> +		 * it, and a deboost while it sleeps would release it a second
-> +		 * time. So would the inactive timer's handler when it runs
-> +		 * late, dl_non_contending cleared under it by
-> +		 * migrate_task_rq_dl(): it finds !dl_task(p).
-> +		 *
-> +		 * The parameters themselves stay, where
-> +		 * inactive_task_timer() resets them with the bandwidth: the
-> +		 * task may still be the donor of a priority inheritance
-> +		 * boost until rt_mutex_adjust_pi() walks the chain, outside
-> +		 * this runqueue lock, and replenish_dl_entity() of the
-> +		 * boosted owner would never leave its loop over a dl_period
-> +		 * and a dl_runtime of 0.
-> +		 */
-> +		if (released)
-> +			p->dl.dl_bw =3D 0;
+
+[ ... ]
+
+> @@ -3657,6 +3809,16 @@ static void switched_from_dl(struct rq *rq, struct=
+ task_struct *p)
+>  static void switched_to_dl(struct rq *rq, struct task_struct *p)
+>  {
+>  	cancel_inactive_timer(&p->dl);
+> +	/*
+> +	 * Boosted back into the class before its 0-lag time (a policy change
+> +	 * released that bandwidth in sched_dl_overflow()): the inactive
+> +	 * timer will not remove it, but its leaving the class again. That
+> +	 * forgets the CPU recorded: moved to another root domain meanwhile,
+> +	 * the task then removes the bandwidth from that one, as it did
+> +	 * before departures were recorded.
+> +	 */
+> +	if (p->dl.dl_departed_cpu >=3D 0)
+> +		dl_task_undepart(p);
+
+[ ... ]
+
+> @@ -3924,6 +4078,19 @@ int sched_dl_overflow(struct task_struct *p, int p=
+olicy,
+>  	}
+>  	raw_spin_unlock(&dl_b->lock);
+> =20
+> +	/*
+> +	 * Back before its 0-lag time, the task still has the bandwidth it
+> +	 * left with, which the new one replaces: removed from the root
+> +	 * domain that keeps it (dl_task_release_bw()). A rebuild cannot
+> +	 * run meanwhile: the caller holds cpuset_mutex.
+> +	 */
+> +	if (!err && dl_policy(policy) && !task_has_dl_policy(p)) {
+> +		lockdep_assert_cpuset_lock_held();
+> +		if (p->dl.dl_departed_cpu >=3D 0)
+> +			dl_task_release_bw(p, -1);
+> +		p->dl.dl_bw_gen =3D dl_bw_gen;
+> +	}
 
 [Severity: High]
-When switched_from_dl() takes the !p->dl.dl_non_contending branch, there is
-no pending inactive timer to run inactive_task_timer() and call
-__dl_clear_params(&p->dl) later. Does clearing only p->dl.dl_bw here leave
-the departed task permanently carrying stale deadline parameters
-(dl_runtime, dl_deadline, dl_period, dl_density, flags, runtime, and
-deadline) after it switches to another policy such as SCHED_OTHER?
+As reported by Sashiko on v1 [1], can priority-inheritance boosting of a
+departed task before its 0-lag time corrupt root-domain total_bw accounting?
 
-Several paths in kernel/sched/deadline.c check dl_deadline, dl_runtime, or
-flags rather than dl_bw to distinguish a PI-boosted non-deadline task from
-a task with its own deadline reservation:
+When a SCHED_DEADLINE task p switches to a non-deadline policy such as
+SCHED_OTHER before its 0-lag time, switched_from_dl() arms inactive_timer,
+clears p->dl.dl_non_contending, keeps p->dl.dl_runtime and p->dl.dl_bw, and
+calls dl_task_depart() to record the CPU of its original root domain (RD_A)
+and link p onto dl_departed_list. If p holds an rt_mutex and is boosted into
+dl_sched_class via rt_mutex_setprio() before its 0-lag time,
+switched_to_dl() calls cancel_inactive_timer(&p->dl) and
+dl_task_undepart(p), unlinking p from dl_departed_list and resetting
+p->dl.dl_departed_cpu to -1 in this commit.
 
-1. In replenish_dl_entity(), initial replenishment for a PI-boosted task
-checks dl_se->dl_deadline =3D=3D 0:
+In this commit, resetting p->dl.dl_departed_cpu to -1 causes
+sched_dl_overflow() to skip dl_task_release_bw() if p is setscheduled back
+to SCHED_DEADLINE while boosted, leaking the old p->dl.dl_bw in RD_A, and
+causes switched_from_dl() on deboost after a migration to RD_B to subtract
+p->dl.dl_bw from RD_B instead of RD_A.
 
-kernel/sched/deadline.c:replenish_dl_entity() {
-	if (dl_se->dl_deadline =3D=3D 0 ||
-	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
-		dl_se->deadline =3D rq_clock(rq) + pi_of(dl_se)->dl_deadline;
-		dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
-	}
-}
+Later commits in the series ("sched/deadline: Record the root domain holding
+a task's bandwidth" and "sched/deadline: Count the bandwidth a boosted task
+is given") replace dl_departed_cpu with dl_bw_cpu (preserving dl_bw_cpu
+across dl_task_undepart()) and update rq->dl.this_bw in __setparam_dl().
+However, even with those later commits applied, don't the following three
+scenarios still corrupt bandwidth accounting when a departed task is
+PI-boosted before its 0-lag time?
 
-If the departed task is later PI-boosted by a SCHED_DEADLINE waiter while
-holding an rt_mutex, dl_se->dl_deadline is still non-zero. If its stale
-p->dl.runtime is still positive and p->dl.deadline is still in the future,
-replenish_dl_entity() skips both the while (dl_se->runtime <=3D 0) loop and
-the dl_time_before(dl_se->deadline, rq_clock(rq)) check, so the boosted
-task runs with its own stale runtime and deadline instead of inheriting the
-donor's parameters. Conversely, if the task never ran as SCHED_DEADLINE
-(p->dl.deadline =3D=3D 0, p->dl.runtime =3D=3D 0) or its stale deadline is =
-in the
-past, skipping the dl_se->dl_deadline =3D=3D 0 initialization causes the lo=
-op
-to advance from the stale deadline and trigger a false replenishment lag
-warning.
+1. If p migrates to another cpuset partition / root domain (RD_B) while in
+SCHED_OTHER (!dl_task(p)), cpuset_can_attach() does not reserve or move
+p->dl.dl_bw into RD_B, so p->dl.dl_bw remains in RD_A. If p is then
+PI-boosted in RD_B, switched_to_dl() calls dl_task_undepart(p) and unlinks
+p->dl.dl_departed_node from dl_departed_list. If dl_rebuild_rd_accounting()
+runs while p is PI-boosted, dl_clear_root_domains() does not see p on
+dl_departed_list, and dl_add_task_root_domain(p) sees that p is not on
+dl_departed_list (list_empty(&p->dl.dl_departed_node), or
+p->dl.dl_departed_cpu < 0 here). Doesn't dl_add_task_root_domain(p) then
+ignore the recorded CPU in RD_A and add p->dl.dl_bw to RD_B (via
+dl_get_task_effective_cpus()), dropping p's departing bandwidth from RD_A
+before its 0-lag time and charging RD_B without admission control?
 
-2. If the task previously had SCHED_FLAG_RECLAIM set in p->dl.flags,
-retaining p->dl.flags while p->dl.dl_bw =3D=3D 0 causes dl_scaled_delta_exe=
-c()
-to call grub_reclaim() when the task is later PI-boosted:
+2. Because rt_mutex_setprio() only holds p->pi_lock and rq->__lock (not
+cpuset_mutex or dl_accounting_mutex), can a PI deboost race with a
+concurrent dl_rebuild_rd_accounting()? If p is PI-boosted when
+dl_clear_root_domains() runs, p is not on dl_departed_list, so
+dl_clear_root_domains() clears the root domains without restoring
+p->dl.dl_bw. If rt_mutex_setprio() then deboosts p before
+dl_add_task_root_domain(p) inspects it, switched_from_dl() re-adds p to
+dl_departed_list after dl_clear_root_domains() has already finished, and
+dl_add_task_root_domain(p) sees !dl_task(p) and returns early, dropping p's
+departing bandwidth before its 0-lag time.
 
-kernel/sched/deadline.c:grub_reclaim() {
-	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-		u_act =3D dl_se->dl_bw;
-	else
-		u_act =3D rq->dl.max_bw - u_inact - rq->dl.extra_bw;
-}
+3. If p is sleeping (!task_on_rq_queued(p)) after leaving SCHED_DEADLINE
+with inactive_timer armed (so p->dl.dl_non_contending is 0), and a
+SCHED_DEADLINE waiter blocks on an rt_mutex held by p, switched_to_dl()
+cancels inactive_timer and calls dl_task_undepart(p). If that waiter times
+out or is interrupted while p is still sleeping, rt_mutex_setprio() deboosts
+p and calls switched_from_dl(). Since !task_on_rq_queued(p),
+p->dl.dl_non_contending =3D=3D 0, and p->dl.dl_runtime > 0, doesn't
+switched_from_dl() enter the else-if branch and call dl_task_release_bw()
+immediately, releasing p->dl.dl_bw before p's 0-lag time has elapsed?
 
-Whenever u_inact + rq->dl.extra_bw >=3D rq->dl.max_bw, u_act becomes
-dl_se->dl_bw (0), scaling execution time to 0 so the boosted task's runtime
-never depletes. Stale SCHED_FLAG_DL_OVERRUN in p->dl.flags can likewise
-deliver SIGXCPU to the boosted non-deadline task.
-
-3. Both task_non_contending() and task_contending() guard against
-non-deadline boosted tasks by checking dl_se->dl_runtime =3D=3D 0:
-
-kernel/sched/deadline.c:task_non_contending() {
-	if (dl_se->dl_runtime =3D=3D 0)
-		return;
-}
-
-Because p->dl.dl_runtime remains non-zero, blocking while PI-boosted (or
-deboosting while runnable) runs task_non_contending() using the stale
-parameters and sets p->dl.dl_non_contending =3D 1 with inactive_timer armed
-Even though p->dl.dl_bw is 0 at that moment, if the task then re-enters
-SCHED_DEADLINE via sched_setattr() while sleeping and PI-boosted
-(prev_class =3D=3D next_class =3D=3D &dl_sched_class), __setparam_dl() assi=
-gns a
-non-zero p->dl.dl_bw while dl_non_contending is still 1 without having
-added the new bandwidth to rq->dl.running_bw, causing inactive_task_timer()
-or migrate_task_rq_dl() to underflow rq->dl.running_bw.
-
-4. If the departed task wakes up in SCHED_OTHER and later switches back to
-SCHED_DEADLINE while runnable before its old p->dl.deadline passes,
-enqueue_dl_entity() checks dl_time_before(dl_se->deadline, rq_clock(rq)):
-
-kernel/sched/deadline.c:enqueue_dl_entity() {
-	} else if ((flags & ENQUEUE_MOVE) &&
-		   !is_dl_boosted(dl_se) &&
-		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
-		setup_new_dl_entity(dl_se);
-	}
-}
-
-Because the stale p->dl.deadline is still in the future,
-setup_new_dl_entity() is skipped and the task reuses its old unspent
-runtime.
-
-Should switched_from_dl() clear the remaining deadline parameters (or reset
-them once any PI donor relationship is adjusted) instead of leaving them
-populated when no inactive timer is pending?
+[1] https://lore.kernel.org/r/9a2c58b84302e5ed3765f773eca3c71c7d5ea7bb.1793=
+804635.git.mathieu.desnoyers@efficios.com
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104211207.1392=
-343-1-mathieu.desnoyers@efficios.com?part=3D7
+343-1-mathieu.desnoyers@efficios.com?part=3D9
