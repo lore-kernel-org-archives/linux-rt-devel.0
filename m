@@ -1,84 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793805149;
-	b=SaGbJzBUcUw5x/CZhKA9eAsRix/f5mKtDVN7tY3olFUlrutzp6O2IfqXk0q0+cPgDfvg
-	 HvRo/ZiZ38x1AWY606cVht6829yEvUTQ2FNv5lnwDgg3SlTVcpnn1QfqZxlZ9s/88BK7c
-	 aCBq7O+hd+SzKGU2K0OGxIrpMol/nEybyVjGJH7KsgfFWwfVQj0/F4PzX7GQXuyRwK2rD
-	 C1xx1+J/wGFEbDwxiWpfOX9zyAUrozg1UsfTi1JXQ3gowhCbXqlJ5JuIHi32F6/4Vtzoq
-	 3RQloTd3PvHuwpgbhTz0jd+0OcWOJyqk5HwNEoZHUySK5binPoKRAtUkhcbISeUOc7g==
+	t=1793806215;
+	b=JQ2Xh0LtpRTmhqxcHpDL4vJugUALJGGBD2cD7xuziE3461sza0+iTx/PCIVVIcmml8xI
+	 wiYxteQcJerYx0lvSYM7S0YAF3XbHl/xEltDfPjhppePpnv2UAvS7VBojoF8GdFpXNMpy
+	 0ZO0HCYXYZgvVtQAgms7bpBXm+0nrf4TuI5EmMlsz/ao9qFvLQ+GKoYLjS4pf+ZmCSE+Q
+	 QEHfIzH+ySaIrdXuPA0GljCyuCJfS9JaNFZiaI/d6ALEI/s7b8rnxIvSQ1zNTFcG7wCC9
+	 YmB0M1aetFGLriDr6iKaH94ldJVB+uijIjagpMGzl/GYs43zYiDgxqOQOWOiDiaWl4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793805149;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=R/w5ujGIrw6u8hZCPvihsdmDgjiowOcByoqpRDE9Z+Q=;
-	b=j7FU/5YaAksX8BSSLZd5xs83tqGyNeuzWPF9MrmaRV7J9XoFbbFxEjUs3x+ViP+id8yg
-	 9VNGTg+jAVVc9RhURF5nSw4CDhKUyy5hgxFgTnysdroSyci7voxqazDgojUPxL2mDTecI
-	 GhbdT+CvSnahWW3/igBL94f9yRg92DjV1RuExqetaWbZSTvPfgxQQeSgQv1SRQ4bNK7sk
-	 wWpBqj/Zld4o4+OcLWDFnzXjDn9nKpmpLzOMEqooRG6VO/pjErNWrkuPgH0QnN4XZLR+9
-	 /gsVdevdDe641cGUYmUWSsh6czo0Z8fhYm/sU0BFFJ1dccRZvd4krUkYRrkRJC+yKVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806215;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=iSyVaBgGFPBVvVXq9g4cBJYG7aBJRMGkfhjJiniL5fA=;
+	b=Qqc+1Ow0lyBCMRYlr26jJkwsyeCia9TgxjiEreDe/GI0k52uB6KdTvS4G7iEJYMfBYIt
+	 PMx1q7t7+2Fa14sGMJyRGLPF7cbvcLxU+y2m0mRuKgY22wsoAj3F+q/PMmyIrWJiJeoiD
+	 GTpAbBMxG5yWZ1YUfX/voYR6q8ZLVTwb85CdEk6uZiwsNy2HVIP8vJWAAFlLoac97JtJg
+	 1ElAW/EGZpjrLo+WVglUEH09BFAF9gDAwuhdojxef0TusM1JzI7jWY5fllIBE4a0czjhe
+	 uIuko1Mz4n0xAQ3yRtpPwAMiM4Fi5JqCoSDbB6jRGEhHO5/MUEa5oujMeamyY504esQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=MGcKx9rg;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI2gU33w;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71492606A33F
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Nov 2026 15:12:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71492606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05886606A32E;
+	Wed,  4 Nov 2026 15:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=MGcKx9rg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793805140;
-	bh=R/w5ujGIrw6u8hZCPvihsdmDgjiowOcByoqpRDE9Z+Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MGcKx9rgbZidwenDUW4puVcyapqupmgFyxuu15WFNOcd3g9zkF6bx3gzVXpsiBDHG
-	 FILYB3U1HjAIEo4okY2ztz5GlMfxMt3PwG8fpVnGE1xWbMtwhaudIPiZO5tQ9ETZlv
-	 nnizI+ruszfzdAKmVI0ftBg91puXV7vbx5YCb2EuYG9t2aNUTdVrYFsCORjR/Ra1xK
-	 InoIyypCmWiylHiwq4eRoIES6Rdzv26bvKgXIgaR7+LzYTOVO9jxXzJXQ3NFVlS2W+
-	 DEg9GAY6DsDaehurgfEq0Sf8RA8Ybclx/omiGWH1p6f9JWMN4wQ/3eQo6SSTi+W1Sh
-	 s/0REhgAMjCoQ==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jKTSh4CxlzL1P;
-	Wed, 04 Nov 2026 10:12:20 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Juri Lelli <juri.lelli@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Luca Abeni <luca.abeni@santannapisa.it>,
-	Claudio Scordino <claudio@evidence.eu.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH 05/12] sched/deadline: Do not release a departing sleeper's bandwidth twice
-Date: Wed,  4 Nov 2026 10:10:26 -0500
-Message-Id: <21f538f65f013a71920547ac92c76ca8ba544d19.1793804635.git.mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI2gU33w
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2491F00919;
+	Wed,  4 Nov 2026 15:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793806214;
+	bh=iSyVaBgGFPBVvVXq9g4cBJYG7aBJRMGkfhjJiniL5fA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=cI2gU33wJ5JVOFFhp3fYjlKxifJH4U+5XUvivtHn/mn9jBQ8eEAj/Hyr5k4sTNb69
+	 +l/lO8MhJaJgc6JgFAiTc/P4dM5wVzaz7T/M26QWwSr5pjAoHJZkO0FX9VuKyAhVbx
+	 W8xPc4TL6YdU3HN1jlMjWIvYLtGGCuO4EkYKnAgnljx284uYpV1Qm+NHVNYmwRIMTE
+	 W+9+KiffnKtaUasAOIzY/atgZiV5wQwG1qVfvqmyfm0Aa0rVoN/GUtUWvKWehzZMqg
+	 8ZE9ipqjaTci9D4IYbyBXAtk5GDHRlfzCycavznYensxQ94EmAZgxxDGmwCfV23PMn
+	 L3yWE19adOwkA==
+Message-ID: <sashiko-outbox-197505@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 01/12] sched: Reject SCHED_FLAG_KEEP_PARAMS before
+ reserving deadline bandwidth
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <fc36341b93c2e994ccec71a5ab6d5c8e76b3d73c.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
+ <fc36341b93c2e994ccec71a5ab6d5c8e76b3d73c.1793804635.git.mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 15:30:13 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -87,106 +60,130 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Commit 41a7968022ca ("sched/deadline: Fix total_bw leak when switching
-away from SCHED_DEADLINE while !queued") releases the bandwidth of a
-task that leaves SCHED_DEADLINE asleep with no inactive timer pending.
-Three cases release what the root domain no longer holds, or never held:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] sched: bandwidth leak in __sched_setscheduler() under SCHED_FLAG_K=
+EEP_PARAMS
+--
 
- - the task keeps its parameters. inactive_task_timer() resets them
-   once it has released the bandwidth (__dl_clear_params()); left in
-   place, task_contending() and task_non_contending() take the task,
-   now of another policy, for one with bandwidth when priority
-   inheritance boosts it into the deadline class, and a deboost while
-   it sleeps releases that bandwidth from total_bw a second time. The
-   root domain then admits deadline tasks beyond its capacity;
- - a task deboosted from priority inheritance with no parameters of its
-   own, and a special one (SCHED_FLAG_SUGOV), have no bandwidth in
-   total_bw. Releasing 0 changes nothing, and the root domain that
-   dl_task_root_domain_cpu() finds from the task's mask means nothing
-   either: a sleeping task of another policy may have no active CPU in
-   its mask, a CPU it is pinned to having gone offline, until its next
-   wakeup widens it;
- - migrate_task_rq_dl() clears dl_non_contending when it cannot cancel
-   the inactive timer because its handler runs. That handler, once it
-   takes the task's locks, finds it out of SCHED_DEADLINE and releases
-   total_bw itself.
+commit 7875cab1acc5b85b363d87da8587a9ad5e4642f8
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-Release for a task with parameters of its own, not special, and reset
-its parameters afterwards, once sub_rq_bw(), which reads its dl_bw, is
-done: a handler that runs late then finds no bandwidth to release. A
-test of hrtimer_active() would not tell that handler apart: it stays
-true after the handler returns, until the hrtimer code clears its
-running state, and the bandwidth of a task switched out meanwhile would
-never be released.
+sched: Reject SCHED_FLAG_KEEP_PARAMS before reserving deadline bandwidth
 
-The deadline_bw_test selftest, added later in this series, reproduces
-the first case as pi_former_owner_asleep: in a one-CPU partition with
-room, the waiter of its second round is refused as a deadline task,
-total_bw having wrapped. The other two were found by reading.
+This commit moves the sched_dl_overflow() check and sched_reset_on_fork
+update in __sched_setscheduler() after the SCHED_FLAG_KEEP_PARAMS class
+change check so rejected requests do not leak deadline bandwidth.
 
-Fixes: 41a7968022ca ("sched/deadline: Fix total_bw leak when switching away from SCHED_DEADLINE while !queued")
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- kernel/sched/deadline.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index 3fa447aabe7fb..f0b7b2d52614f 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -655,17 +655,6 @@ int __sched_setscheduler(struct task_struct *p,
+>  		goto recheck;
+>  	}
+> =20
+> -	/*
+> -	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
+> -	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
+> -	 * is available.
+> -	 */
+> -	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, a=
+ttr)) {
+> -		retval =3D -EBUSY;
+> -		goto unlock;
+> -	}
+> -
+> -	p->sched_reset_on_fork =3D reset_on_fork;
+>  	oldprio =3D p->prio;
+> =20
+>  	newprio =3D __normal_prio(policy, attr->sched_priority, attr->sched_nic=
+e);
+> @@ -699,6 +688,19 @@ int __sched_setscheduler(struct task_struct *p,
+>  		queue_flags |=3D DEQUEUE_CLASS;
+>  	}
+> =20
+> +	/*
+> +	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
+> +	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
+> +	 * is available. Last of the checks: nothing gives back the
+> +	 * bandwidth it reserves.
+> +	 */
+> +	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, a=
+ttr)) {
+> +		retval =3D -EBUSY;
+> +		goto unlock;
+> +	}
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index d474fbfd9be6..3c57e5f5fc05 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -3567,6 +3567,8 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
- 	dec_dl_tasks_cs(p);
- 
- 	if (!task_on_rq_queued(p)) {
-+		bool released = false;
-+
- 		if (p->dl.dl_non_contending) {
- 			/*
- 			 * Inactive timer is armed. However, p is leaving
-@@ -3579,12 +3581,18 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
- 			 * release total_bw via __dl_sub().
- 			 */
- 			sub_running_bw(&p->dl, &rq->dl);
--		} else {
-+		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
- 			/*
- 			 * No pending inactive timer: the task never ran as
- 			 * DEADLINE or the timer already fired while still
- 			 * DEADLINE (only dropping running_bw at that time).
- 			 * Nobody else will release total_bw, do it now.
-+			 *
-+			 * Not for a task without parameters of its own, one
-+			 * deboosted from priority inheritance, whose mask may
-+			 * have no active CPU for dl_task_root_domain_cpu(),
-+			 * nor for a special one: neither has bandwidth in
-+			 * total_bw.
- 			 */
- 			unsigned int cpu = dl_task_root_domain_cpu(p);
- 			struct dl_bw *dl_b = &cpu_rq(cpu)->rd->dl_bw;
-@@ -3592,8 +3600,20 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
- 			raw_spin_lock(&dl_b->lock);
- 			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
- 			raw_spin_unlock(&dl_b->lock);
-+			released = true;
- 		}
- 		sub_rq_bw(&p->dl, &rq->dl);
-+		/*
-+		 * Released: reset the parameters, as inactive_task_timer()
-+		 * does. Kept, they would make the task one with bandwidth to
-+		 * task_contending() and task_non_contending() once priority
-+		 * inheritance boosts it, and a deboost while it sleeps would
-+		 * release that bandwidth again. So would the inactive timer's
-+		 * handler when it runs late, dl_non_contending cleared under
-+		 * it by migrate_task_rq_dl(): it finds !dl_task(p).
-+		 */
-+		if (released)
-+			__dl_clear_params(&p->dl);
- 	}
- 
- 	/*
--- 
-2.47.3
+[Severity: High]
+Can __sched_setscheduler() in kernel/sched/syscalls.c still leak
+dl_b->total_bw or corrupt rq->dl bandwidth accounting when
+SCHED_FLAG_KEEP_PARAMS is set?
 
+When attr->sched_flags & SCHED_FLAG_KEEP_PARAMS is set, the sched_change
+block skips __setscheduler_params(p, attr):
+
+kernel/sched/syscalls.c:__sched_setscheduler() {
+	...
+	scoped_guard (sched_change, p, queue_flags) {
+
+		if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS)) {
+			__setscheduler_params(p, attr);
+			p->sched_class =3D next_class;
+			p->prio =3D newprio;
+			__setscheduler_dl_pi(newprio, policy, p, scope);
+		}
+		__setscheduler_uclamp(p, attr);
+	...
+}
+
+Because __setscheduler_params() is skipped, neither p->policy nor
+p->dl.dl_bw is updated. However, SCHED_FLAG_KEEP_PARAMS is only rejected
+when prev_class !=3D next_class, and sched_dl_overflow(p, policy, attr) is
+still called even when SCHED_FLAG_KEEP_PARAMS is set.
+
+This allows sched_dl_overflow() to modify deadline bandwidth without
+updating p->dl.dl_bw or p->policy in two paths:
+
+1. If a non-deadline task (e.g. p->policy =3D=3D SCHED_NORMAL, so
+!task_has_dl_policy(p) and p->dl.dl_bw =3D=3D 0) is PI-boosted by a
+SCHED_DEADLINE waiter via rt_mutex_setprio(), p->sched_class is
+&dl_sched_class while p->policy remains SCHED_NORMAL. Calling
+sys_sched_setattr() with sched_policy =3D SCHED_DEADLINE and
+SCHED_FLAG_KEEP_PARAMS populates attr.sched_runtime =3D p->se.slice via
+get_params(). In __sched_setscheduler(), both prev_class and next_class
+are &dl_sched_class, so the prev_class !=3D next_class check is bypassed.
+sched_dl_overflow() then sees dl_policy(policy) && !task_has_dl_policy(p)
+and adds new_bw to dl_b->total_bw via __dl_add(), while the
+SCHED_FLAG_KEEP_PARAMS check skips __setscheduler_params(), leaving
+p->policy as SCHED_NORMAL and p->dl.dl_bw as 0. When p deboosts, new_bw is
+never subtracted from dl_b->total_bw.
+
+2. In SYSCALL_DEFINE3(sched_setattr), get_params(p, &attr, 0) reads p's
+deadline parameters without holding p->pi_lock or rq->__lock:
+
+kernel/sched/syscalls.c:SYSCALL_DEFINE3(sched_setattr) {
+	...
+	if (attr.sched_flags & SCHED_FLAG_KEEP_PARAMS)
+		get_params(p, &attr, 0);
+
+	return sched_setattr(p, &attr);
+}
+
+If a concurrent sched_setattr() updates a SCHED_DEADLINE task's parameters
+before __sched_setscheduler() acquires task_rq_lock(p, &rf), attr holds
+stale parameters where new_bw !=3D p->dl.dl_bw while prev_class =3D=3D
+next_class =3D=3D &dl_sched_class. sched_dl_overflow() then updates
+dl_b->total_bw and calls dl_change_utilization(p, new_bw) to update
+rq->dl.this_bw and rq->dl.running_bw to the stale new_bw, while
+__setscheduler_params() is skipped, leaving p->dl.dl_bw out of sync with
+dl_b->total_bw and rq->dl.
+
+Should __sched_setscheduler() also reject SCHED_FLAG_KEEP_PARAMS when
+policy !=3D p->policy, and skip sched_dl_overflow() when
+SCHED_FLAG_KEEP_PARAMS is set?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793804635.gi=
+t.mathieu.desnoyers@efficios.com?part=3D1
