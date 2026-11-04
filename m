@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793806215;
-	b=JQ2Xh0LtpRTmhqxcHpDL4vJugUALJGGBD2cD7xuziE3461sza0+iTx/PCIVVIcmml8xI
-	 wiYxteQcJerYx0lvSYM7S0YAF3XbHl/xEltDfPjhppePpnv2UAvS7VBojoF8GdFpXNMpy
-	 0ZO0HCYXYZgvVtQAgms7bpBXm+0nrf4TuI5EmMlsz/ao9qFvLQ+GKoYLjS4pf+ZmCSE+Q
-	 QEHfIzH+ySaIrdXuPA0GljCyuCJfS9JaNFZiaI/d6ALEI/s7b8rnxIvSQ1zNTFcG7wCC9
-	 YmB0M1aetFGLriDr6iKaH94ldJVB+uijIjagpMGzl/GYs43zYiDgxqOQOWOiDiaWl4A==
+	t=1793806392;
+	b=ypx8F7q14LuWGQyzanms9/M5Uq4BhReg03iK4F2br3mzNHJH3Ft/QzmxkYjyVJPky5oZ
+	 28gDgE5ANLQuMsaVFRZfJawAJlq/OOtvQ7/OiiXTKxEWv5Ysnb0Bbe23xIFK0e9FuTAFT
+	 0Lrc41UBNI8b+iZkAg+qzmO2myrTsWE5IRMa800QVLrWCmK+fFZ0xu6VaT+5VcTToBq56
+	 Gz4M4bahO89oafkP2OLKqrzzcIRA8Xcbm5/VPsUy/mBxqdkiYJnPAOvK9r3B/t6BMXCMp
+	 l0rlxt6LKXbSV6cmA3jjNs9zv/n/+tyazeuuJ3pmx8DFYkptX6XcghuJ5HPFz2zmE2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793806215;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806392;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=iSyVaBgGFPBVvVXq9g4cBJYG7aBJRMGkfhjJiniL5fA=;
-	b=Qqc+1Ow0lyBCMRYlr26jJkwsyeCia9TgxjiEreDe/GI0k52uB6KdTvS4G7iEJYMfBYIt
-	 PMx1q7t7+2Fa14sGMJyRGLPF7cbvcLxU+y2m0mRuKgY22wsoAj3F+q/PMmyIrWJiJeoiD
-	 GTpAbBMxG5yWZ1YUfX/voYR6q8ZLVTwb85CdEk6uZiwsNy2HVIP8vJWAAFlLoac97JtJg
-	 1ElAW/EGZpjrLo+WVglUEH09BFAF9gDAwuhdojxef0TusM1JzI7jWY5fllIBE4a0czjhe
-	 uIuko1Mz4n0xAQ3yRtpPwAMiM4Fi5JqCoSDbB6jRGEhHO5/MUEa5oujMeamyY504esQ==
+	bh=ijgGCnSqrjIVk6YkV/Tk0OCRls1u+aL1OVhTRnPDVEw=;
+	b=DhJz8oCm8jt2j0RHAob8rtSW3dIq+4SlNRFBUq14RIPNPgK44dhZp0/sXgol8te6rVFR
+	 oAKDDQWhgHbBjME+sD+mLV0y2LbtrLCEqssVcHVxyMgI05Jr8SqUDZLgsXbGpka7rwUsH
+	 mnvk83K6+/DOK/LXOF1K1XRzyKf7tpxYrV+OA1pVkDyboW3ApdYOFAv0vUwwKWtEHX7/A
+	 LAOsHasJVcUT8/Eko+V76BQE+gh7EhYQYDVIECTRWluatCdp+/oUlO6uUp5r1dEUu8gW/
+	 8mSAEGNK49WkKyJjtad2mm3IcGlj1T1HbJBi1BPKqb7gKahFY3XRNPaorij3ypdovRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI2gU33w;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UanPt8Ab;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05886606A32E;
-	Wed,  4 Nov 2026 15:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A503606A31B;
+	Wed,  4 Nov 2026 15:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI2gU33w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2491F00919;
-	Wed,  4 Nov 2026 15:30:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UanPt8Ab
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62461F00A15;
+	Wed,  4 Nov 2026 15:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793806214;
-	bh=iSyVaBgGFPBVvVXq9g4cBJYG7aBJRMGkfhjJiniL5fA=;
+	s=k20260515; t=1793806392;
+	bh=ijgGCnSqrjIVk6YkV/Tk0OCRls1u+aL1OVhTRnPDVEw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cI2gU33wJ5JVOFFhp3fYjlKxifJH4U+5XUvivtHn/mn9jBQ8eEAj/Hyr5k4sTNb69
-	 +l/lO8MhJaJgc6JgFAiTc/P4dM5wVzaz7T/M26QWwSr5pjAoHJZkO0FX9VuKyAhVbx
-	 W8xPc4TL6YdU3HN1jlMjWIvYLtGGCuO4EkYKnAgnljx284uYpV1Qm+NHVNYmwRIMTE
-	 W+9+KiffnKtaUasAOIzY/atgZiV5wQwG1qVfvqmyfm0Aa0rVoN/GUtUWvKWehzZMqg
-	 8ZE9ipqjaTci9D4IYbyBXAtk5GDHRlfzCycavznYensxQ94EmAZgxxDGmwCfV23PMn
-	 L3yWE19adOwkA==
-Message-ID: <sashiko-outbox-197505@kernel.org>
+	b=UanPt8Ab3aWe29Kx9mDWZ326Rw/aPLRuEWwsuAdv9JZhC43Tnn5jJh+ZlYqvkOrb2
+	 5JeVBI5fLe3ioSUGZJ0zPWZ4h81II/x2fLCfjITa0CryrCtgjAnfAzLyEv3zzC5AcG
+	 EfWSQKqWgWOpZLbdk1aZQGSbjOSvfL9Ks1+1Um98P1sSzgRUpCj8R4llYET/MexYfk
+	 v97TOqa2gYSgPqlRoh/d6KMwHtrclOCbiXka50GvrdOkGPPch2pSMIwphqL5Q5Ldrj
+	 GA5km1M+1R4LWW4h/T4TYRuBtLZkutyXneDvAkzpFAkmh43adH+DQ8lU5x5ts84jw9
+	 UnmBsQp2EFqqA==
+Message-ID: <sashiko-outbox-197510@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/12] sched: Reject SCHED_FLAG_KEEP_PARAMS before
- reserving deadline bandwidth
+Subject: Re: [PATCH 05/12] sched/deadline: Do not release a departing
+ sleeper's bandwidth twice
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <fc36341b93c2e994ccec71a5ab6d5c8e76b3d73c.1793804635.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <21f538f65f013a71920547ac92c76ca8ba544d19.1793804635.git.mathieu.desnoyers@efficios.com>
 References: <cover.1793804635.git.mathieu.desnoyers@efficios.com>
- <fc36341b93c2e994ccec71a5ab6d5c8e76b3d73c.1793804635.git.mathieu.desnoyers@efficios.com>
+ <21f538f65f013a71920547ac92c76ca8ba544d19.1793804635.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 15:30:13 +0000
+Date: Wed, 04 Nov 2026 15:33:11 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,127 +63,146 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] sched: bandwidth leak in __sched_setscheduler() under SCHED_FLAG_K=
-EEP_PARAMS
+- [High] sched/deadline: infinite loop in replenish_dl_entity() on PI donor=
+ clear
 --
 
-commit 7875cab1acc5b85b363d87da8587a9ad5e4642f8
+commit 0ea45c3b24aa9d9591791893080fc323c30a9de8
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched: Reject SCHED_FLAG_KEEP_PARAMS before reserving deadline bandwidth
+sched/deadline: Do not release a departing sleeper's bandwidth twice
 
-This commit moves the sched_dl_overflow() check and sched_reset_on_fork
-update in __sched_setscheduler() after the SCHED_FLAG_KEEP_PARAMS class
-change check so rejected requests do not leak deadline bandwidth.
+This commit prevents switched_from_dl() from releasing root domain bandwidth
+for tasks without their own deadline parameters or special sugov entities, =
+and
+clears the deadline parameters after releasing a departing sleeper's bandwi=
+dth
+so it cannot be released a second time.
 
-> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-> index 3fa447aabe7fb..f0b7b2d52614f 100644
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -655,17 +655,6 @@ int __sched_setscheduler(struct task_struct *p,
->  		goto recheck;
->  	}
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index d474fbfd9be6d..3c57e5f5fc056 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -3567,6 +3567,8 @@ static void switched_from_dl(struct rq *rq, struct =
+task_struct *p)
+>  	dec_dl_tasks_cs(p);
 > =20
-> -	/*
-> -	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
-> -	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
-> -	 * is available.
-> -	 */
-> -	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, a=
-ttr)) {
-> -		retval =3D -EBUSY;
-> -		goto unlock;
-> -	}
-> -
-> -	p->sched_reset_on_fork =3D reset_on_fork;
->  	oldprio =3D p->prio;
-> =20
->  	newprio =3D __normal_prio(policy, attr->sched_priority, attr->sched_nic=
-e);
-> @@ -699,6 +688,19 @@ int __sched_setscheduler(struct task_struct *p,
->  		queue_flags |=3D DEQUEUE_CLASS;
->  	}
-> =20
-> +	/*
-> +	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
-> +	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
-> +	 * is available. Last of the checks: nothing gives back the
-> +	 * bandwidth it reserves.
-> +	 */
-> +	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, a=
-ttr)) {
-> +		retval =3D -EBUSY;
-> +		goto unlock;
-> +	}
+>  	if (!task_on_rq_queued(p)) {
+> +		bool released =3D false;
+> +
+>  		if (p->dl.dl_non_contending) {
+>  			/*
+>  			 * Inactive timer is armed. However, p is leaving
+> @@ -3579,12 +3581,18 @@ static void switched_from_dl(struct rq *rq, struc=
+t task_struct *p)
+>  			 * release total_bw via __dl_sub().
+>  			 */
+>  			sub_running_bw(&p->dl, &rq->dl);
+> -		} else {
+> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
+>  			/*
+>  			 * No pending inactive timer: the task never ran as
+>  			 * DEADLINE or the timer already fired while still
+>  			 * DEADLINE (only dropping running_bw at that time).
+>  			 * Nobody else will release total_bw, do it now.
+> +			 *
+> +			 * Not for a task without parameters of its own, one
+> +			 * deboosted from priority inheritance, whose mask may
+> +			 * have no active CPU for dl_task_root_domain_cpu(),
+> +			 * nor for a special one: neither has bandwidth in
+> +			 * total_bw.
+>  			 */
+>  			unsigned int cpu =3D dl_task_root_domain_cpu(p);
+>  			struct dl_bw *dl_b =3D &cpu_rq(cpu)->rd->dl_bw;
+> @@ -3592,8 +3600,20 @@ static void switched_from_dl(struct rq *rq, struct=
+ task_struct *p)
+>  			raw_spin_lock(&dl_b->lock);
+>  			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
+>  			raw_spin_unlock(&dl_b->lock);
+> +			released =3D true;
+>  		}
+>  		sub_rq_bw(&p->dl, &rq->dl);
+> +		/*
+> +		 * Released: reset the parameters, as inactive_task_timer()
+> +		 * does. Kept, they would make the task one with bandwidth to
+> +		 * task_contending() and task_non_contending() once priority
+> +		 * inheritance boosts it, and a deboost while it sleeps would
+> +		 * release that bandwidth again. So would the inactive timer's
+> +		 * handler when it runs late, dl_non_contending cleared under
+> +		 * it by migrate_task_rq_dl(): it finds !dl_task(p).
+> +		 */
+> +		if (released)
+> +			__dl_clear_params(&p->dl);
 
 [Severity: High]
-Can __sched_setscheduler() in kernel/sched/syscalls.c still leak
-dl_b->total_bw or corrupt rq->dl bandwidth accounting when
-SCHED_FLAG_KEEP_PARAMS is set?
+Can calling __dl_clear_params(&p->dl) in switched_from_dl() cause an infini=
+te
+loop in replenish_dl_entity() when p is blocked on an rt_mutex and acting as
+the priority inheritance donor for the lock owner?
 
-When attr->sched_flags & SCHED_FLAG_KEEP_PARAMS is set, the sched_change
-block skips __setscheduler_params(p, attr):
+If a non-deadline owner holds an rt_mutex and a SCHED_DEADLINE task p blocks
+on it as the top waiter, task_blocks_on_rt_mutex() -> rt_mutex_setprio() se=
+ts
+owner->dl.pi_se =3D &p->dl and places the owner into dl_sched_class.
 
-kernel/sched/syscalls.c:__sched_setscheduler() {
-	...
-	scoped_guard (sched_change, p, queue_flags) {
+If p's 0-lag time has already elapsed while p sleeps on the lock (so
+p->dl.dl_non_contending =3D=3D 0) and p is switched to another policy via
+__sched_setscheduler() in kernel/sched/syscalls.c, switched_from_dl() runs
+inside the sched_change guard before rt_mutex_adjust_pi(p) is called:
 
-		if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS)) {
-			__setscheduler_params(p, attr);
-			p->sched_class =3D next_class;
-			p->prio =3D newprio;
-			__setscheduler_dl_pi(newprio, policy, p, scope);
-		}
-		__setscheduler_uclamp(p, attr);
-	...
-}
+    scoped_guard (sched_change, p, queue_flags) {
+        /* sched_change_begin() -> switched_from_dl() */
+        ...
+    }
 
-Because __setscheduler_params() is skipped, neither p->policy nor
-p->dl.dl_bw is updated. However, SCHED_FLAG_KEEP_PARAMS is only rejected
-when prev_class !=3D next_class, and sched_dl_overflow(p, policy, attr) is
-still called even when SCHED_FLAG_KEEP_PARAMS is set.
+    preempt_disable();
+    head =3D splice_balance_callbacks(rq);
+    task_rq_unlock(rq, p, &rf);
 
-This allows sched_dl_overflow() to modify deadline bandwidth without
-updating p->dl.dl_bw or p->policy in two paths:
+    if (pi) {
+        if (cpuset_locked)
+            cpuset_unlock();
+        rt_mutex_adjust_pi(p);
+    }
 
-1. If a non-deadline task (e.g. p->policy =3D=3D SCHED_NORMAL, so
-!task_has_dl_policy(p) and p->dl.dl_bw =3D=3D 0) is PI-boosted by a
-SCHED_DEADLINE waiter via rt_mutex_setprio(), p->sched_class is
-&dl_sched_class while p->policy remains SCHED_NORMAL. Calling
-sys_sched_setattr() with sched_policy =3D SCHED_DEADLINE and
-SCHED_FLAG_KEEP_PARAMS populates attr.sched_runtime =3D p->se.slice via
-get_params(). In __sched_setscheduler(), both prev_class and next_class
-are &dl_sched_class, so the prev_class !=3D next_class check is bypassed.
-sched_dl_overflow() then sees dl_policy(policy) && !task_has_dl_policy(p)
-and adds new_bw to dl_b->total_bw via __dl_add(), while the
-SCHED_FLAG_KEEP_PARAMS check skips __setscheduler_params(), leaving
-p->policy as SCHED_NORMAL and p->dl.dl_bw as 0. When p deboosts, new_bw is
-never subtracted from dl_b->total_bw.
+At that point __dl_clear_params(&p->dl) zeroes p->dl.dl_runtime,
+p->dl.dl_deadline, and p->dl.dl_period while the lock owner still has
+owner->dl.pi_se pointing to &p->dl.
 
-2. In SYSCALL_DEFINE3(sched_setattr), get_params(p, &attr, 0) reads p's
-deadline parameters without holding p->pi_lock or rq->__lock:
+Even once rt_mutex_adjust_pi(p) calls rt_mutex_setprio() in
+kernel/sched/core.c to deboost the owner, sched_change_begin() dequeues and
+updates the owner before resetting owner->dl.pi_se:
 
-kernel/sched/syscalls.c:SYSCALL_DEFINE3(sched_setattr) {
-	...
-	if (attr.sched_flags & SCHED_FLAG_KEEP_PARAMS)
-		get_params(p, &attr, 0);
+    scoped_guard (sched_change, p, queue_flag) {
+        /* sched_change_begin() -> dequeue_task_dl() -> update_curr_dl() */
+        ...
+        } else {
+            if (dl_prio(oldprio))
+                p->dl.pi_se =3D &p->dl;
 
-	return sched_setattr(p, &attr);
-}
+If the boosted owner exhausts its runtime (or yields) either concurrently on
+another CPU before rt_mutex_adjust_pi(p) runs, or during the dequeue in
+rt_mutex_setprio(), update_curr_dl_se() sees is_dl_boosted(&owner->dl) and
+calls:
 
-If a concurrent sched_setattr() updates a SCHED_DEADLINE task's parameters
-before __sched_setscheduler() acquires task_rq_lock(p, &rf), attr holds
-stale parameters where new_bw !=3D p->dl.dl_bw while prev_class =3D=3D
-next_class =3D=3D &dl_sched_class. sched_dl_overflow() then updates
-dl_b->total_bw and calls dl_change_utilization(p, new_bw) to update
-rq->dl.this_bw and rq->dl.running_bw to the stale new_bw, while
-__setscheduler_params() is skipped, leaving p->dl.dl_bw out of sync with
-dl_b->total_bw and rq->dl.
+    enqueue_task_dl(rq, owner, ENQUEUE_REPLENISH)
+      -> enqueue_dl_entity()
+        -> replenish_dl_entity(&owner->dl)
 
-Should __sched_setscheduler() also reject SCHED_FLAG_KEEP_PARAMS when
-policy !=3D p->policy, and skip sched_dl_overflow() when
-SCHED_FLAG_KEEP_PARAMS is set?
+In kernel/sched/deadline.c:replenish_dl_entity(), pi_of(dl_se) still resolv=
+es
+to &p->dl where dl_runtime and dl_period are now 0:
+
+    WARN_ON_ONCE(pi_of(dl_se)->dl_runtime <=3D 0);
+    ...
+    while (dl_se->runtime <=3D 0) {
+        dl_se->deadline +=3D pi_of(dl_se)->dl_period;
+        dl_se->runtime +=3D pi_of(dl_se)->dl_runtime;
+    }
+
+Wouldn't this trigger the warning and spin forever with the runqueue lock
+held and interrupts disabled?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793804635.gi=
-t.mathieu.desnoyers@efficios.com?part=3D1
+t.mathieu.desnoyers@efficios.com?part=3D5
