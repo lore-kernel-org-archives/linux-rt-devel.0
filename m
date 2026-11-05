@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793913217;
-	b=k0hlj+8TY6HD1A+JyB1WGlgdiVef8tpTFZbvVQNUnFNhXWN7v7NDSGFtL9FwWkbzWwic
-	 5axKIPzranaR/Rk+ELjgg0rjPRQSeK2oseIy05ySe7cMdVZ4MI1VOW6rmC1m5JK+orN46
-	 62dJfGTi/hf587FbRrk8vYovfzfbGWrhAWFZtCz/+4yviFrtQZL7hAp+KCkmeX1nP7GbY
-	 DxNlb22zPtV1uPUq1odG3EJSwvS/j2n6mfuq2xezx5ATjLzcgcn17+JA1BmOZET/ocutS
-	 +Q5m5qVSRgaHVHk0xofFEHxMn3Wel9VtGEwAMSZBVaqD9laHPWJniv1PBdpjrw7kKXA==
+	t=1793913429;
+	b=Ox9Y2ZxD8Kt2je4gc3bnzFzyy3Oamg3kdxkpwVfTvTCUvIWJKKIsLOGehdSYsJRPCaHx
+	 jvSuV+qh8fpZgQJEb4IoBxVLN3vqDmHSLosWbXWQcH72mrMuaBxNmCwJ1lnhtZ5F2fyik
+	 bDtvPdR1Xfx3MBQ6P6fOWj1zI1gWtwFC+PKrnWqtUIFJeldrjRp2Ud5PdYeb4B6e1hxf4
+	 R3VgJ5ElP9QM3FDab3XoJQz/Wq6I6APd7tvfZE8IuyDF5HU9ts+YdDwB9yzatXZ/ba+mU
+	 FQNLF0tg3hHS+qw3LCdZndXFHFxtIYsTHxQ2q8OvPJryRa/rAsToc+vKs9GpD158EZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793913217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793913429;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UmHX//7Wohb0Gcd1yh+Uxm9hRlUusQrSBkZoBu31kNw=;
-	b=PfbLYmNBtHmlnkzwbzOzPmE5eNU0lBtPo8mQypBR0cWsb6yp7QRQI6wAe2+NDm4HRlUg
-	 3Rveo9h4CGPmX3e4uvoCYBA23A+yiGp2DRy/4/lrlwDt7JcFYTkFXpjRybMIvv5qbKsti
-	 H0oTNmLUN/eUazdAouxsRLrnM1kSJlh0Cb8kdps4b9SRVpP6FAWvuPDqzeoeQKdwqwOj7
-	 bxNorpqLkbOdU4enil2ObI2oAkqrHp9L3hB32KRj3dAO+A+3SXLfZcl7D40MVdW0QdRxf
-	 gXZSvRzOe5syw7DHV6w7eSnHpFBM8EBWwrSbspHLm/54Iw97hUGwvJqO7Mw0AAxsA4g==
+	bh=/+biNtr+xln0rFjEaWe5bkdhb05tAUnaC2xdWexJ9ZI=;
+	b=cN4kM72wtDcuFxuh5WbdLeuq6QW22D+knv7ccSfsClcDo55d7SEhWWtORQe5dMIS25np
+	 7E0S5pDBPvjskMXgQtxYZgxyU9t3bYgBv0OnqsSr9GA8CszSEYxyg82HjCSnK9S+Pj51y
+	 vcO9NAatOGqxLmfaOjVS+UzLGOnWrFmbo6hrDh+nuJUUJiM64qxdu+LaazcOLc+K8XlCy
+	 ETHG3Ndd6fGV766/bZTarYP95Bn4PofMGEprE361mjVL8uNzSI8brUGAJsAoqJvb4QQms
+	 DS+M5rZD5jMj4ViOLkH/iyPWficOEfUAJWYKbkASx/ef2j7i0uhzlsJqdfRF6szk1Cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RwiEMgzA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUeM7u7I;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7C7606A31B;
-	Thu,  5 Nov 2026 21:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2175B606A326;
+	Thu,  5 Nov 2026 21:17:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RwiEMgzA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A961F0089F;
-	Thu,  5 Nov 2026 21:13:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUeM7u7I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65DA61F0089F;
+	Thu,  5 Nov 2026 21:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793913216;
-	bh=UmHX//7Wohb0Gcd1yh+Uxm9hRlUusQrSBkZoBu31kNw=;
+	s=k20260515; t=1793913428;
+	bh=/+biNtr+xln0rFjEaWe5bkdhb05tAUnaC2xdWexJ9ZI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RwiEMgzADRnOFK3/b+bz9krDkKhY+hMnbmx7HrTivfoBgaUMBQ/XAf+2tNKlWm76J
-	 woz8j1tySZEwNwxFP3r0MBHwSgBXm7/WjAGwhFN2reiPdcwCqSX68KpyNDcoSZL4RA
-	 aeU2VeJXSM9xWb9aI4r6k16AadbBXdOOXx7KS1TGS6yq6yoFy7KEkqEu0Q/K5AeUiy
-	 XYYRW7xfcGPvPlfPfp07Vx15GhBSpxRPN6W1dNddD6iqZ5h6IB0amnzQCx5tArVnPB
-	 iDehLMXG8pb+odLYfleg0uXC60J2Zy6VX63xJj5uREBrAbf8QLU2c5AdZ5BALEm+sl
-	 Ml9tRnPmIaTdQ==
-Message-ID: <sashiko-outbox-200204@kernel.org>
+	b=oUeM7u7IEwa6XiisLVS9iWGEq6gv6cbP9Se+MPbABFNJoYRI4lTmGLySyAJn8aVw9
+	 +WwfjLlIXkqquzvMg3HDSPz0UpcqRmlOP7aT+fejqYDNvFV3l7nScvT60AYoFNfhxX
+	 bDdOGRtK+GuMhpC4jtHl0AKqNhrQBZ6OC1fojxfdmP+gSO+UcMEGty5VMl4Bfazfm5
+	 /m8itDcT23PyKQ6QZ6qwhS+hxA9lJxf8px/Nfq/ISln9Y7U35g6z9s+xqtPYHF8YUk
+	 OzywxZGvLSCSq7BKotboRYYaOty//x9nBejtM9b+ssjUS00X46VKB0Scl4JQ+PFC/d
+	 sIf8iY7wpkjjA==
+Message-ID: <sashiko-outbox-200212@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 20/24] sched/deadline: Count the bandwidth a boosted
- task is given
+Subject: Re: [PATCH v3 24/24] selftests/sched: Add a test of SCHED_DEADLINE
+ bandwidth accounting
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105193359.1450487-21-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261105193359.1450487-25-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
- <20261105193359.1450487-21-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-25-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 21:13:35 +0000
+Date: Thu, 05 Nov 2026 21:17:08 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,108 +61,137 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] sched/deadline: uncounted bandwidth skipped in sched_dl_overflow()
+- [Medium] selftests/sched: death_group() kills two throttled threads and n=
+one running
+- [Medium] selftests/sched: moves() wakes on exact period boundary in move_=
+throttled()
 --
 
-commit 58e85ecec73a900cbca47b57215c8b485328d349
+commit eb8b43e433ced961bc0d97ddf7bd888cfef3b0b9
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Count the bandwidth a boosted task is given
+selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
 
-This commit moves the runqueue bandwidth accounting update from
-sched_dl_overflow() to __setparam_dl() so that tasks boosted into
-SCHED_DEADLINE via priority inheritance have their new bandwidth added to
-rq->dl.this_bw when their parameters are updated. It also charges new_bw wh=
-en
-dl_se->dl_bw_oncpu is not set and skips special SCHED_FLAG_SUGOV requests.
+This commit adds deadline_bw_test, a selftest suite with 46 test cases
+covering SCHED_DEADLINE bandwidth accounting across priority inheritance,
+parameter changes, cpuset moves, task deaths, sched_yield(), runtime
+overruns, bandwidth reclaiming, fair server changes, a randomized mix of
+transitions, and CPU hotplug.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index f772a944a3e53..746bffb03b7cb 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
+tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> new file mode 100644
+> index 0000000000000..898809c2185a8
+> --- /dev/null
+> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
 
 [ ... ]
 
-> @@ -4283,6 +4292,20 @@ int sched_dl_overflow(struct task_struct *p, int p=
-olicy,
->  void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
->  {
->  	struct sched_dl_entity *dl_se =3D &p->dl;
-> +	u64 period =3D attr->sched_period ?: attr->sched_deadline;
+> +static int moves(enum mv_mode mode, const char *name)
+> +{
+> +	int base_p, base_r, after_p, after_r, ret =3D KSFT_PASS;
+> +	pid_t pid;
 > +
-> +	/*
-> +	 * The bandwidth of a special entity is counted on no runqueue, and
-> +	 * the request tells one, the flags of the entity being those of the
-> +	 * parameters it had. The rest have theirs changed here, where their
-> +	 * parameters are:
-> +	 * switched_to_dl() hands it to the runqueue of a task that enters
-> +	 * the class, and a task that priority inheritance boosted into the
-> +	 * class is in it already, so nothing dequeues it and enqueues it
-> +	 * back for that.
-> +	 */
-> +	if (!(attr->sched_flags & SCHED_FLAG_SUGOV))
-> +		dl_change_utilization(p, to_ratio(period, attr->sched_runtime));
+> +	base_p =3D probe(cg_p);
+> +	base_r =3D probe(root);
+> +	mv_state[0] =3D 0;
+> +	mv_state[1] =3D 0;
+> +	pid =3D mover(mode, 30 * NSEC_PER_MSEC);
+> +	if (pid < 0 || child_up(name, mode =3D=3D MV_NON_CONTENDING)) {
+> +		reap(pid);
+> +		return KSFT_FAIL;
+> +	}
+> +	if (mode =3D=3D MV_NON_CONTENDING)
+> +		sleep_ns(NSEC_PER_MSEC);
+> +	else
+> +		sleep_ns(2 * PERIOD);
+> +	if (enter(cg_p, pid) || enter(root, pid)) {
 
-[Severity: High]
-When a sugov kthread is given a reservation of its own via sched_setattr()
-without SCHED_FLAG_SUGOV, or when a deadline task whose bandwidth was dropp=
-ed
-by a root domain rebuild updates its parameters, what happens if the new
-runtime-to-period ratio matches the existing p->dl.dl_bw?
+[Severity: Medium]
+In move_throttled() -> moves(), does sleeping for 2 * PERIOD (200ms) end up
+moving the task while it is running rather than throttled?
 
-For example, sugov_kthread_create() initializes a sugov kthread with
-SCHED_DEADLINE, SCHED_FLAG_SUGOV, sched_runtime =3D 1ms, and sched_period =
-=3D
-10ms. In sched_dl_overflow(), the SCHED_FLAG_SUGOV check returns 0 early,
-leaving p->dl.dl_bw_cpu at -1 and not adding to dl_b->total_bw, while
-__setparam_dl() still sets p->dl.dl_bw to to_ratio(10ms, 1ms).
+In mover() for MV_THROTTLED, the task sets a runtime of 30ms per 100ms
+period (PERIOD), sets *mv_state =3D 1 immediately, and spins. child_up()
+polls mv_state[0] every 1ms and returns roughly 1ms into the task's first
+100ms period.
 
-If sched_setattr() is later called on that kthread without SCHED_FLAG_SUGOV
-and with the same 1:10 ratio, dl_param_changed() returns true because the
-flags changed, and __sched_setscheduler() calls sched_dl_overflow():
+When moves() then sleeps for 2 * PERIOD (200ms), that sleep is an exact
+multiple of the 100ms period. The task exhausts its 30ms runtime at ~30ms,
+is replenished at 100ms, exhausts its runtime at ~130ms, and is replenished
+again at 200ms for the 200ms..230ms window. When sleep_ns(2 * PERIOD)
+returns at ~201ms, enter(cg_p, pid) moves the task right after
+replenishment while it is actively running instead of throttled.
 
-kernel/sched/deadline.c:sched_dl_overflow() {
-	...
-	/* !deadline task may carry old deadline bandwidth */
-	if (new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p))
-		return 0;
+Should moves() wait for the spinner to be throttled (for example using
+wait_spinner(0) like death_killed_throttled() does) before calling enter()?
 
-	counted =3D task_has_dl_policy(p) && p->dl.dl_bw_cpu >=3D 0 &&
-		  p->dl.dl_bw_gen =3D=3D dl_bw_gen;
-	...
-}
+[ ... ]
 
-Because new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p) is checked before
-counted, sched_dl_overflow() returns 0 early without running admission
-control, adding new_bw to dl_b->total_bw, or setting p->dl.dl_bw_cpu.
+> +/* Deadline threads of one process, asleep, throttled and running, kille=
+d at once. */
+> +static void *group_thread(void *arg)
+> +{
+> +	long kind =3D (long)arg;
+> +
+> +	if (set_deadline(0, 10 * NSEC_PER_MSEC, PERIOD)) {
+> +		mv_state[0] =3D -1000;
+> +		return NULL;
+> +	}
+> +	spin_ns(NSEC_PER_MSEC);
+> +	mv_state[0]++;
+> +	if (!kind)
+> +		for (;;)
+> +			pause();
+> +	for (;;)
+> +		;
+> +	return NULL;
+> +}
+> +
+> +static int death_group(void)
+> +{
+> +	pid_t pid;
+> +
+> +	mv_state[0] =3D 0;
+> +	pid =3D fork_child("a group of deadline threads");
+> +	if (pid < 0)
+> +		return KSFT_FAIL;
+> +	if (!pid) {
+> +		pthread_t t;
+> +		long i;
+> +
+> +		for (i =3D 0; i < 3; i++)
+> +			if (pthread_create(&t, NULL, group_thread, (void *)i))
+> +				mv_state[0] =3D -1000;
+> +		for (;;)
+> +			pause();
+> +	}
+> +	if (wait_for(5000, mv_state[0] < 0 || mv_state[0] =3D=3D 3))
+> +		ksft_print_msg("only %d threads of the group started\n", (int)mv_state=
+[0]);
+> +	sleep_ns(PERIOD / 2);
+> +	reap(pid);
 
-__setparam_dl() then adds the bandwidth to rq->dl.this_bw via
-dl_change_utilization() (or on enqueue if queued) and clears SCHED_FLAG_SUG=
-OV
-from p->dl.flags while p->dl.dl_bw_cpu remains -1. If the task later exits =
-or
-leaves SCHED_DEADLINE, dl_task_release_bw() hits:
+[Severity: Medium]
+The comment above group_thread() says this tests killing a group of
+deadline threads that are asleep, throttled, and running at once, but can
+any thread in the group actually be running when reap(pid) sends SIGKILL?
 
-kernel/sched/deadline.c:dl_task_release_bw() {
-	...
-	cpu =3D dl_se->dl_bw_cpu;
-	WARN_ON_ONCE(dl_se->dl_bw && cpu < 0);
-	if (cpu < 0 || dl_se->dl_bw_gen !=3D dl_bw_gen)
-		return;
-	...
-}
+Each group_thread() sets a runtime of 10ms per 100ms period (PERIOD) on
+cg_p's single CPU. Thread 0 spins 1ms and pauses, while threads 1 and 2
+spin endlessly. Once mv_state[0] reaches 3, death_group() sleeps for
+PERIOD / 2 (50ms). On cg_p's single CPU, threads 1 and 2 each consume
+their remaining 9ms of runtime (18ms total) and are both throttled well
+before the 50ms sleep finishes.
 
-The same early return in sched_dl_overflow() also skips restoring root doma=
-in
-bandwidth when a task whose bandwidth was dropped by a root domain rebuild
-(p->dl.dl_bw_gen !=3D dl_bw_gen) changes its deadline or flags while keeping
-new_bw =3D=3D p->dl.dl_bw.
-
-Should the early return in sched_dl_overflow() require counted to be true
-before skipping the root domain update when new_bw =3D=3D p->dl.dl_bw?
+In addition, because death_group() stays inside cg_p as a SCHED_OTHER task
+(unlike kill_case(), which moves the killer to root), it cannot run on
+cg_p's single CPU to call reap(pid) while any deadline thread in cg_p is
+actively running. As a result, reap(pid) always kills one sleeping thread
+and two throttled threads, leaving the running thread case untested.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
-487-1-mathieu.desnoyers@efficios.com?part=3D20
+487-1-mathieu.desnoyers@efficios.com?part=3D24
