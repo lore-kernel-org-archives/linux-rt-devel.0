@@ -1,68 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908183;
-	b=Zhvmye7YqttiHvYUZDtvvWWxtjaklsY7XC+JmRFVZzeoVYtwZZQkN52ineCRUCtHdWLA
-	 fbzv5cHE+Y0Zz0MI2A0isbqGLzZ0dR6zyHfCaJcr6nN1fVAbdmQwo4biHoPkSXGrpJJEC
-	 f2FOPH90D8R4TdbKA9zSA9Mtkz2/DDcwMMv9SYNqyvhY9D1SGAHcrMWNXDym4NZn5vX1n
-	 tNcmuCO7JZSMIG+F/yFvAI5IW6H9ccKwGM1nMAZpGYb6Ny3nBNc5/JS8ZHJEvMqz9k/ze
-	 uUnBs50PdTXW+0j+s4EdDPhvaX7nMQxPJuehCvoJH7gxLTawxpPINPlHFtCJlWNF9Gg==
+	t=1793908323;
+	b=XJ94bdKdc9hnx3YM2eyJdPLxQ8hrX3+FiW+6zfgZ6cotF+qn9IkU+mEUMO4v19tfBagV
+	 fMUkfvoiDqw3pxwOnGMSvdaP8b3meu38uBhwmaJFU80oFxs63Mz3D/vbwsIhESSsd7O9Z
+	 H0AS2qegrn5HcuEOem3iX2E2h+a8ZQl/X7JHPqCQVjAMlAaZOkmgxdogIGD7a31Woc9dn
+	 8L7LuGCJsKflkzBNDvchWoBnHiaPSky/mBuQChLBhOoNQ4du8ESI3gMzTkw5xhst6Y5nm
+	 r5qW64SIkC5WGG0hrnCvYw/ctHL20qdpjieUTtr+R383VfalPmGGXKGbn41zmHvHMnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908183;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=L9s0dPurC/mWcPoEUfzuoBLGDzu/1nrQmyy2MaeW0Tc=;
-	b=fXuWzv0PKm5W1dzkjaDlqmMDB6eBfveitCjLsAaOWtI7szhkjfSJiW0ZuWaGIyNQVnXB
-	 NDBZra34zZ8edbH8tkYiqUGpChg+5NzP84mgc4OiOAL8XojGjsIlBV0GkVfxgO75vjZ1v
-	 M7UEC0F6NyaBYLdNCI0tOoOsDhjaqZ0B1cx1T6IPQ93ADM9eklVY0v1Pku16Pg04IWbvM
-	 sh3y5Hq6rPaeKRGYUV91dqfQWrqoY8nJFPD/4ZCDnOxHAN6y42TcoAE1S2KCxx9h9EI9P
-	 JHRMOq+XJF93u8j6H1twTYrfqgaYMNDtQwDtBpuh0fE4W7H4+VmLGCRFeXrQSluV7Sw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908323;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=E9t5hHnAag1EnA1IvHhWRwDHScTDeDJAqRJADEROHAM=;
+	b=MrbM0KBTcuqRYD+mX1ud7IYl0FjNYS4Veru/TD3iKlixt0H7jkwpktJ24DwreR3PbZ/8
+	 zDS97YaAAxMV4/GdIjTqfu9Nz0ud6eexYkQMSQ0vv5N4hIIhgMSdfoqP66d9E/dJGm4ld
+	 yVLnT4tU3iZyOhb7X/i8sorbXWEluCph9ejtSEW7AosPelxbSwFKSqBk13XSCGHgQIoly
+	 CtuFMTnoDL5ykIouOkLpgGs+fT5C5ze3K7JSTSWe/NT1341OyyFsBWGYCWB5cixoVr5C4
+	 Ijb9GESG/Et0KN+J3l17s5dsvg08oGOF/bbfzbXAOK1fJLAYYfIiFXtL2bmT4Ku6EGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aHTzqIP/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L081DH7a;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ACC6072C68;
-	Thu,  5 Nov 2026 19:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D81606A33E
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:52:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68D81606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aHTzqIP/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308661F008A7;
-	Thu,  5 Nov 2026 19:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793908183;
-	bh=L9s0dPurC/mWcPoEUfzuoBLGDzu/1nrQmyy2MaeW0Tc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=aHTzqIP/OZuqnjwgHNA/Iiv3j91h6cZdeFEJuo2E0xlLpbuDOoJtuWMKJybUiEKu2
-	 zpd8YvFc66ymdFJ8v6tkLaq7axwCFAnY8B1yCLTdyipK2/bQTbYfgmfNTUcbkeDTlu
-	 bgVriNsP1C5ljg+VIb3Yd1B4Ef/ao2WvaIzO57qH6cLZf1Rc0WvaUBVSNUUWyr20mY
-	 sAVecU0wg9I9mPOb8H2tkmMBgOo514WMaLzQQ7v6fa+52dErI2/KQmVm6PLXh0bs1P
-	 urfmorkC/89YV7yXHd45x0e9wlIBM95pgRLMGl1JcwjrVPpAgZWjGUGR5QvwkerPfr
-	 BJIupAnUd5YKA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E64D4CE0B58; Thu,  5 Nov 2026 11:49:42 -0800 (PST)
-Date: Thu, 5 Nov 2026 11:49:42 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
-	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Andrea Righi <arighi@nvidia.com>
-Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
-Message-ID: <dd8977da-411d-44c2-9117-812813089801@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261105165113.82N-rPMG@linutronix.de>
- <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
- <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
- <20261105191654.S8OPV16j@linutronix.de>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L081DH7a
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a68f888a41so2766295e9.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 11:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793908322; x=1794513122; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E9t5hHnAag1EnA1IvHhWRwDHScTDeDJAqRJADEROHAM=;
+        b=L081DH7aT/aiq2I70MG+n3JBbTd4FjwEIWnD9UcBf6PQg504pNtYfCZ8XsIVqdYqTy
+         41nqSWG5wbznRB6T+kVRgawWOmYS50w9aE1Qag+aa8ouTa1P7PvLL9ml7Ov8JmZRJpnf
+         dKDXSG35UGyy8ceoV+eUTbvUA8dao0ZNsHIbMV4Pa778QBjOFd0oHqQl25rFWc1tutaY
+         7YqA0s1sNryVv6R0VnKgS2Ahz4ivmi80K14g5socPFsd+By6QBaW3pNqRQjI9uRz99P7
+         1l07Pdd0mMsMoTZJhHMWP+GSVW57LXJSuikpI9EiyfECbQrtfZ3Nc8EekUNH89zgCQf9
+         trVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793908322; x=1794513122;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E9t5hHnAag1EnA1IvHhWRwDHScTDeDJAqRJADEROHAM=;
+        b=RWj6rtgVe2osTKzu1fOfuVH8LCn7WpfG/uXJPS70xgqRvMI/7jl40xecvDfrRt+TqS
+         G+iAm+nEzrl1JDaTZU5WOnm65nv0q4CnmSOY/t7Crp8RHcGSPP1zAay9ChPOdvmsazPF
+         J7XdnycR80bHN9cCYHqxoPUyTfv4BahcmMilK5bswqpvwTCb8NLqj3K5xW+LyavFBifI
+         ZlFTsEH2IRtuoR/R6tSfp0hBt6dI886nKlJa860XswAVjUpFuAEnaxBTHn+yxWrjWtnu
+         MnobgsCX4xhkRDxr/bRDNWcI63P0G0yCT/PPDIqmj53XzXw4NcEkyznKy4nIeTb/e4HD
+         KfvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxM8Nvdwa0P5WULPoMOyJ8mJVEOf0YQZINZJ/ER0FUD6eWSJTK98x5IwJwuV3bB8c8Mz3aQetMvbcaBqUKXJQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9xOCSC2nCiXxr82f3X9ZML2eM6UEBj71atzkFDeG9QG+FAVrxT
+	o1CDtCW6z6Dm9T+DXoXxWeeU60ERC1q25yM2Q84NHVLl6XbgUJ3HxBry
+X-Gm-Gg: AYBFou2hQPQfRspoaSuJQf2IIbRwZbVGCUpjpHb/ZqxLjLtcP9DsvPjO2hrGIbI9/T9
+	PdZEOhpSFjJO3nEYp/9B+CV5P73qnwlsuoRTj5FS8oZaNr8A6Cg/VlyImJUkvIvDIkagh/4UWdO
+	yxgYjlnJH57vv1BssWtDoYGBK4nP9Wsgj/pACcMGkL1fXJj5+YLEDyUGPk6qraFyLN+yAKAL6Q+
+	ZZljqH6Ivt35sBE4MjssO4iVieuuKG5opMRXDdgrfXTJkB8Hd8WY5om4qdg0PaHOxV+DfsVTJWj
+	AJDzuoeXPv/FQghcnStS99J1qQ6bKhi0cKzf/miNF4A3s42VKNRuRIzkNz3AMLR3EiH3FnDxoCP
+	cIAHKZKw/FnQNn9yFc9ZZWTGJucct4QvK4VMCI9nipuRtvbD5zUiyu9mBBwFXZ0NzExdm28LSRO
+	fH5AWHe4BAAIwljxDBMlSO8ZBiOX3u9lqHgDRQobpXWoXTfFO7LAEZIKsAcKia3azx6ze/mB+2c
+	mit/me96k0sWQmSK6nOQJsU2+7/9pJQ3QrE3b6zNKQ2GZTJxcZGc+SFENLOWIxZL1f0LTcm2y41
+	OUx37qt0EptTZEujfFDN9t9tB/ul2v7CYohc97ttdavt4mbCcQ==
+X-Received: by 2002:a05:600c:6d8f:b0:4b6:2242:d0be with SMTP id 5b1f17b1804b1-4b6d82b2c85mr3060825e9.0.1793908321669;
+        Thu, 05 Nov 2026 11:52:01 -0800 (PST)
+Received: from scheduler.schedules ([85.100.66.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6e1b5d676sm2497515e9.7.2026.11.05.11.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 11:52:01 -0800 (PST)
+Date: Thu, 5 Nov 2026 22:51:57 +0300
+From: Kayra Cizmeci <kayracizmeci@gmail.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: juri.lelli@redhat.com, peterz@infradead.org, mingo@redhat.com, 
+	vincent.guittot@linaro.org, linux-kernel@vger.kernel.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it, mathieu.poirier@linaro.org, 
+	longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org, 
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	parri.andrea@gmail.com, m.szyprowski@samsung.com, weihengqiuu@gmail.com, 
+	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Sashiko <sashiko-bot@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 01/24] sched: Fix cpuset_mutex double unlock in
+ __sched_setscheduler()
+Message-ID: <auzdzi_ZIqmYFV-Z@scheduler.schedules>
+References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-2-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -74,71 +107,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261105191654.S8OPV16j@linutronix.de>
+In-Reply-To: <20261105193359.1450487-2-mathieu.desnoyers@efficios.com>
 
-On Thu, Nov 05, 2026 at 08:16:54PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2026-11-05 18:52:47 [+0000], Joel Fernandes wrote:
-> > 
-> > 
-> > > On Nov 5, 2026, at 1:36 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > 
-> > > ﻿On Thu, Nov 05, 2026 at 05:51:13PM +0100, Sebastian Andrzej Siewior wrote:
-> > >> Commit 450efca7182a5 ("rcutorture: Disable RT throttling for boost
-> > >> tests") added the ability to disable RT throttling while rcutorture was
-> > >> run.
-> > >> 
-> > >> Since v6.12 the DL fair_server takes control of throttling and this
-> > >> interface no longer serves this purpose. That sysctl control still
-> > >> exists but serves a different cause.
-> > >> 
-> > >> There is no in-kernel interface to provide this feature, one needs to
-> > >> echo -1 to each /sys/kernel/debug/sched/fair_server/cpu*/runtime file.
-> > >> 
-> > >> Since sysctl_sched_rt_runtime does not do what it once did, remove it
-> > >> from rcutorture.
-> > >> 
-> > >> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > 
-> > > Thank you, but ouch...  Does this mean that there is no longer any useful
-> > > in-kernel way to test RCU priority boosting?
-> 
-> The DL server is per-CPU so you would need to check each one if
-> throttling is enabled. But RCU priority boosting is independent. If the
-> test requires SCHED_FIFO priorities and disabling throttling to ensure
-> progress we would have to add something assuming userland can't handle
-> this…
+On Thu, Nov 05, 2026 at 02:33:36PM -0500, Mathieu Desnoyers wrote:
+> From: Andrea Parri <parri.andrea@gmail.com>
 
-Just to restate, the current tests run a CPU-bound kthread at real-time
-priority for some tens of seconds (controlled by the test_boost_duration
-module parameter) in order to see if RCU priority boosting correctly
-boosts the readers higher than that priority.  If there is any throttling
-of any of those CPU-bound kthreads in the meantime, we get a false
-negative, that is, RCU priority boosting appears to be working when it
-might not be.
+> Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Link: https://sashiko.dev/#/patchset/20261016062629.2102883-1-sh_def%40163.com
+> Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Waiman Long <longman@redhat.com>
+> Reviewed-by: Kayra Cizmeci <kayracizmeci@gmail.com>
+> Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 
-> > There should be a way to disable DL server. Adding Andreas to check if
-> > there is a way. But I am wondering if the prio boost tests are
-> > working, then is the DL server throttling broken? ;-)
+You gotta add your own SoB, no?
 
-Looking forward to Andreas's info!
 
-Inability to disable throttling would not result in test failure, but
-instead potentially undeserved test success.  ;-)
+Cheers,
 
-> As I wrote in the commit message,
-> | for i in $(find /sys/kernel/debug/sched/fair_server -name runtime); do
-> |         echo 0 > $i; done
-> 
-> would do the job from userland. But we don't have an in-kernel
-> interface (yes, I am bit confused if is 0 or -1, I lean towards 0 now).
-> The server _is_ throttling, this works. I will try check tomorrow how
-> rcutorture behaves. The difference is that throttling is per-CPU and not
-> global so it might not have *that* big of an impact.
-
-In theory, it is possible to extend rcutorture's mkinitrd.sh script to
-create the /sys/kernel/debug directory and to mount debugfs on it, and
-then implementing the above bash for loop in C, but in practice that is
-feeling very hacky at the moment.  :-(
-
-							Thanx, Paul
+Kayra
