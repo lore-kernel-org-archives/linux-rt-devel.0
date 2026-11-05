@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793837894;
-	b=T6omfPI4baeaCVvKUcMWDkWGZ4cIAZbfJj3Wy6sUbECMXt0kH3CxroB/22lA4ossnoP3
-	 z6nn2OBnUyXGnGds5QdGBGbePDlGgiNLG9hbZAGBYXRgCsdVr1wHM6AUw7r9INi+lwnA1
-	 ZZQn20zKWNxpLvzgsO/fFPyZb81MZRl0N/+t5c5pW2VcrzISZFxkcSyFwvv6ofPFiAshk
-	 jPNVtyMGG2XYA4vpcFFisS734xj7qQZhztopdGYriCdxlJqjJBy/jdO2FsdhCzFaNnw9P
-	 j/lYyFUV0JBDIHZipX/vPWhB8WToq7ITrxXYfqhIKsSshZEMMF22ziZAcf1x/WAOtsQ==
+	t=1793838334;
+	b=nMk7+oKiS/aJAjHhRY8uRgdti5LD+wswDM2ju7KsNXzMukL62wXcgOSStNzDbWWuVUk8
+	 ZAJ/iZ/gtUc6+V6glBAruKe/TY8uQYDZ1Qf30CSBj0Y/tl1+mzGbjUI2TJRVY06x97DYr
+	 vDApgh8SxkXsbEGcpNWR0Z0tcH8NjdY3FS/ydeLxvRYp/WW6/nvY4sOn9TaL3lrJBkum5
+	 yA7HsWBBWCBDjV+g2F45juLXmBnYNx+6uztjwqhQYHydVAhGpREyYk/N5a1W6rLJl+qDx
+	 g37pBRwEW8S2L338awvuk+zI/Yyjcpwy7QRlrXO+ZZ0GeV5xnM3WjoMGq9jqGpAxFng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793837894;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793838334;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tcVGlFNKiNvkU2JmAQTx514vxuvuoK0ws39vUVWc+G8=;
-	b=e1wi56M8i7vWF6bRc0K0WP5AL6AMShzs56UUREDNAA0rZy38NKQoWBP+ewTQitSdWVfQ
-	 VklQtRSPRWYFGBbgkbd0vpjBadhSR1y0QWkQ6kGVDFGACrLzE6VwiYa3KFownUl4m5LuP
-	 0UxmOTwPjvjE91Wr8Tfk+d9IQlAs4oNOqnO7Aslutd8EJ422sVc+yjPqunkjYon0VRQWP
-	 C3Vyaz5V7DWYId7B2rIsFcPZnXFZ/pUsl8oEQnAL3j0lDJJB2GAcKQ9LMH75LqUCWxs+e
-	 pd3bEs84EUrpS7Up944x4CuNrXU6CMX0AYkEtUc5mDFRUJ5yTBfUWzyMcQHjTLrOZXA==
+	bh=/ONf8LMPh39a51yT19bDLCqB+BxgwtV1gv/DgxnpC7o=;
+	b=oCEa3BsUN+YMrmYCj9h52MLO8Ay802+1udFUpLktQDNzpwPYI0dAjOtQgdvXNELKkqJi
+	 VQjdUHX8eu0mucd3Iih0YOFHu88ILyHf4FOQgrFZ8taGF4HQsb3zu7K3ceciwimpIWTAB
+	 9Arg0S/iRESZRLn4gXMswVkMVr5dV3QXW7oGP6rhTHklJzp8LFFYp0kiPBo0ZXzFPuOcT
+	 432sHsmTGvq4tCcc2+6nHWmerGHsnXQilkXKQOOOJS9FR8z2eP7V+5M6oEyujOvcTG1Eu
+	 kTse5F37cZwc7g0YemnjylHb1904dqyL3zuOyb2jHgtTdxcWVAnpOprlngo/agwBMsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUsH7AoI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c1SbKH31;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC996606A326;
-	Thu,  5 Nov 2026 00:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF74D606A326;
+	Thu,  5 Nov 2026 00:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUsH7AoI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDA6C1F000C1;
-	Thu,  5 Nov 2026 00:18:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c1SbKH31
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2EF1F000C1;
+	Thu,  5 Nov 2026 00:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793837893;
-	bh=tcVGlFNKiNvkU2JmAQTx514vxuvuoK0ws39vUVWc+G8=;
+	s=k20260515; t=1793838333;
+	bh=/ONf8LMPh39a51yT19bDLCqB+BxgwtV1gv/DgxnpC7o=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aUsH7AoImJ01+fCanW1QEhBv9nWlL+ll/qHyNEn8duaAXyzyK977im6kG8R2kIz+6
-	 51Kqw9XdehqRMzMkboJhJsa1LyPxSjIOxy6CXHlcWeFqBKoCvdOYHfWV1Ws9S/Sh3D
-	 /lKSvxWbbztM2I9s5hM/erTjtivb/auO3Do1PhzjmrohH8ahW3+CyYf+IT8K9hvysd
-	 elGtv/XeEJzFEhlTbXiqG0icFXo+zoD+BCaARQjH2dVZNJEA9KJrzQDuDCX0dH0mkZ
-	 cx0i32pfsxRJc/Rad0B+Jd76QnK7IOZB6txiq1Bk6qZT32KCO4AwSIwi+O1Jbq4G+K
-	 1X00j6/QZ3OQw==
-Message-ID: <sashiko-outbox-198343@kernel.org>
+	b=c1SbKH31TGZRbkfH1Tb66B0+W6n23rioM1Sioo2I1JGCfp4lmzBOSb60nSh21Vft/
+	 W3nXvs6DBSwAcdCSYQxhi+/L5HD0KaE9llqTY9X0hxLYOjP3eHHPx0EvEVlhtPA8ZY
+	 UI3T6LCzp7upLPU8cd662pVH1PCo+qXkau/Xexg0KEFrNoAnQvqAEwrBsKkOUfmKe1
+	 ae/SlzK9cv5meg7I0BYQnP9nbLCQdX7/pzUGD9peVWlyzpiVNPunOwF48iGbHtjCsq
+	 fs6EA356LLFuY4Ji8hhsy6MSWL2zxyzqDjVgEaQ6sBUsSX3ViPKEUR7Fka2nvUjReb
+	 R213ix6x1/t5g==
+Message-ID: <sashiko-outbox-198356@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 18/21] sched/deadline: Credit a rebuild to a CPU that
- can hold the bandwidth
+Subject: Re: [PATCH v2 20/21] sched/deadline: Cancel the replenishment timer
+ with the parameters
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261104211207.1392343-19-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261104211207.1392343-21-mathieu.desnoyers@efficios.com>
 References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
- <20261104211207.1392343-19-mathieu.desnoyers@efficios.com>
+ <20261104211207.1392343-21-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 00:18:12 +0000
+Date: Thu, 05 Nov 2026 00:25:32 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,202 +61,172 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] sched/deadline: offline hk_msk CPUs break dl_get_task_effective_cp=
-us()
-- [High] sched/deadline: stale HK_TYPE_DOMAIN mask in dl_get_task_effective=
-_cpus()
-- [High] sched/deadline: dl_add_task_root_domain() ignores dl_bw_cpu on emp=
-ty msk
+- [Medium] sched/deadline: stale deadline and runtime left by __dl_clear_pa=
+rams()
+- [Medium] sched/deadline: uncancelled dl_timer in switched_from_dl() for s=
+leepers
 --
 
-commit 119330e07c6138cad461765e2b7413e00f7f5e31
+commit 88a7a115f1789bc812516cdb6cea3464930cdccf
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Credit a rebuild to a CPU that can hold the bandwidth
+sched/deadline: Cancel the replenishment timer with the parameters
 
-This commit filters out isolated CPUs from a deadline task's effective CPU
-mask when housekeeping CPUs are present, and skips tasks that have no active
-CPU during a root domain bandwidth accounting rebuild.
+This commit cancels a deadline task's replenishment timer in
+task_non_contending() and inactive_task_timer() when clearing its parameters
+at the 0-lag time after leaving SCHED_DEADLINE. This prevents a task that
+re-enters SCHED_DEADLINE before the old period expires from keeping the
+armed replenishment timer of its previous reservation.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 029ec2ba5a663..c0af06d0f3688 100644
+> index c0af06d0f3688..15d224846ebad 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -3617,6 +3617,16 @@ static void dl_get_task_effective_cpus(struct task=
-_struct *p, struct cpumask *cp
->  	 * hierarchy up to the partition root.
->  	 */
->  	cpuset_cpus_allowed_locked(p, cpus);
-> +	/*
-> +	 * Which the CPUs isolated by isolcpu=3D"domain" are not part of: a
-> +	 * cpuset can include them beside housekeeping CPUs, and without
-> +	 * cpusets the mask is every CPU the task can run on. The first
-> +	 * active CPU of it would then be an isolated one, of the default
-> +	 * root domain, rather than one of the root domain the task's
-> +	 * bandwidth belongs to.
-> +	 */
-> +	if (housekeeping_enabled(HK_TYPE_DOMAIN))
-> +		cpumask_and(cpus, cpus, hk_msk);
->  }
+> @@ -563,6 +563,7 @@ static void task_non_contending(struct sched_dl_entit=
+y *dl_se, bool dl_task)
+>  				if (READ_ONCE(p->__state) =3D=3D TASK_DEAD)
+>  					sub_rq_bw(dl_se, &rq->dl);
+>  				dl_task_release_bw(p);
+> +				cancel_replenish_timer(dl_se);
+>  				__dl_clear_params(dl_se);
+>  			}
+>  		}
 
-[Severity: High]
-Can offline or unpopulated housekeeping CPUs in hk_msk cause
-dl_get_task_effective_cpus() to drop or misattribute the bandwidth of a
-deadline task running in def_root_domain?
+[Severity: Medium]
+When cancel_replenish_timer() and __dl_clear_params() run at the 0-lag time
+in task_non_contending() or inactive_task_timer(), __dl_clear_params()
+clears dl_throttled and dl_yielded along with the static reservation
+parameters, but leaves the dynamic dl_se->deadline and dl_se->runtime from
+the old reservation intact:
 
-In housekeeping_setup() and housekeeping_update(),
-housekeeping_cpumask(HK_TYPE_DOMAIN) is built from cpu_possible_mask minus
-the isolated CPUs, so hk_msk continues to include housekeeping CPUs when
-they are offline or unpopulated:
+kernel/sched/deadline.c:__dl_clear_params() {
+	dl_se->dl_runtime		=3D 0;
+	dl_se->dl_deadline		=3D 0;
+	dl_se->dl_period		=3D 0;
+	dl_se->flags			=3D 0;
+	dl_se->dl_bw			=3D 0;
+	dl_se->dl_density		=3D 0;
 
-kernel/sched/deadline.c:dl_get_task_effective_cpus() {
-	hk_msk =3D housekeeping_cpumask(HK_TYPE_DOMAIN);
-	if (housekeeping_enabled(HK_TYPE_DOMAIN)) {
-		if (!cpumask_intersects(p->cpus_ptr, hk_msk)) {
-			cpumask_andnot(cpus, cpu_active_mask, hk_msk);
-			return;
-		}
-	}
-	cpuset_cpus_allowed_locked(p, cpus);
-	if (housekeeping_enabled(HK_TYPE_DOMAIN))
-		cpumask_and(cpus, cpus, hk_msk);
+	dl_se->dl_throttled		=3D 0;
+	dl_se->dl_yielded		=3D 0;
+	...
 }
 
-For a deadline task running on an active isolated CPU in def_root_domain,
-p->cpus_ptr can still contain offline or unpopulated housekeeping CPUs
-(for example, __sched_setscheduler() requires cpumask_subset(rq->rd->span,
-p->cpus_ptr) where def_root_domain.span contains offline possible CPUs,
-and top_cpuset keeps offline non-subpartition CPUs in p->cpus_ptr).
+For the two cases described in the commit message where the 0-lag time is
+reached before the old period ends, could leaving dl_se->deadline and
+dl_se->runtime set cause problems if the task returns to SCHED_DEADLINE
+before the old deadline or period expires?
 
-Because p->cpus_ptr and hk_msk both contain those offline housekeeping CPUs,
-cpumask_intersects(p->cpus_ptr, hk_msk) evaluates to true even when p has no
-active housekeeping CPU in p->cpus_ptr. Execution then falls through and
-cpumask_and(cpus, cpus, hk_msk) strips all active isolated CPUs from cpus:
+In the first case, a task yields (or leaves with remaining runtime > 0), so
+its 0-lag time is earlier than dl_se->deadline. After the 0-lag time passes
+and releases the old bandwidth and clears dl_throttled and dl_yielded, if
+the task returns to SCHED_DEADLINE before the old dl_se->deadline,
+enqueue_dl_entity() checks whether the deadline has passed on the
+ENQUEUE_MOVE path:
 
-- If cpus contains no active housekeeping CPUs (for example, all
-  housekeeping CPUs in top_cpuset are offline, or p is in a child cpuset cs
-  where guarantee_active_cpus() stops at cs because cs->effective_cpus
-  intersects cpu_active_mask on the active isolated CPU),
-  cpumask_first_and(cpu_active_mask, msk) in dl_add_task_root_domain()
-  returns >=3D nr_cpu_ids and drops the active task's bandwidth from
-  def_root_domain.
-
-- If another housekeeping CPU outside p->cpus_ptr is active in top_cpuset
-  (or with !CONFIG_CPUSETS), stripping the isolated CPUs causes
-  dl_add_task_root_domain() to credit p's bandwidth to that housekeeping
-  root domain instead of def_root_domain. Similarly, a task admitted on an
-  isolated CPU in def_root_domain with an unnarrowed affinity mask has its
-  bandwidth moved to a housekeeping root domain on rebuild while continuing
-  to run in def_root_domain.
-
-- Conversely, if a housekeeping deadline task is preempted on an isolated
-  CPU while in a migrate_disable() section, migrate_disable_switch() narrows
-  p->cpus_ptr to cpumask_of(rq->cpu), so !cpumask_intersects(p->cpus_ptr,
-  hk_msk) evaluates to true and credits its bandwidth to def_root_domain
-  instead of its housekeeping root domain.
-
-[Severity: High]
-Also in dl_get_task_effective_cpus(), does reading HK_TYPE_DOMAIN observe a
-stale mask during cgroup v2 isolated partition transitions?
-
-When a cgroup v2 PRS_ISOLATED partition transitions to PRS_ROOT or
-PRS_MEMBER, or is invalidated during CPU hotplug,
-cpuset_update_sd_hk_unlock() and cpuset_handle_hotplug() invoke
-rebuild_sched_domains_locked() -> partition_sched_domains_locked() ->
-dl_rebuild_rd_accounting() -> dl_add_task_root_domain() ->
-dl_get_task_effective_cpus() before housekeeping_update() updates
-HK_TYPE_DOMAIN:
-
-kernel/cgroup/cpuset.c:cpuset_update_sd_hk_unlock() {
-	if (force_sd_rebuild)
-		rebuild_sched_domains_locked();
-
-	if (update_housekeeping) {
-		update_housekeeping =3D false;
-		cpumask_copy(isolated_hk_cpus, isolated_cpus);
-
-		mutex_unlock(&cpuset_mutex);
-		cpus_read_unlock();
-		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus));
+kernel/sched/deadline.c:enqueue_dl_entity() {
+	...
+	} else if ((flags & ENQUEUE_MOVE) &&
+		   !is_dl_boosted(dl_se) &&
+		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
+		setup_new_dl_entity(dl_se);
 	}
 }
 
-While generate_sched_domains() uses housekeeping_cpumask(HK_TYPE_DOMAIN_BOO=
-T),
-dl_get_task_effective_cpus() queries HK_TYPE_DOMAIN, which still excludes t=
-he
-CPUs transitioning out of PRS_ISOLATED while dl_rebuild_rd_accounting() run=
-s.
+Because the stale dl_se->deadline is still in the future,
+setup_new_dl_entity() is skipped and the task runs with its leftover
+dl_se->runtime and old dl_se->deadline (regaining runtime it forfeited when
+yielding, or exceeding a smaller new dl_runtime after its old bandwidth was
+already released).
 
-If a deadline task in that partition has p->cpus_ptr intersecting the stale
-hk_msk (for example, on an offline CPU), cpumask_and(cpus, cpus, hk_msk)
-clears the newly un-isolated active CPUs from cpus and drops the task's
-bandwidth from the rebuild. If p->cpus_ptr does not intersect the stale
-hk_msk, dl_get_task_effective_cpus() returns cpu_active_mask & ~hk_msk,
-which can pick a lower-numbered isolated CPU in def_root_domain instead of
-the task's new root domain.
+In the second case, a constrained-deadline task overruns slightly and
+reaches its 0-lag time after dl_se->deadline, but before dl_next_period().
+If it switches back to SCHED_DEADLINE as a constrained-deadline task before
+the old period ends, enqueue_dl_entity() runs dl_check_constrained_dl()
+before reaching the ENQUEUE_MOVE check:
 
+kernel/sched/deadline.c:enqueue_dl_entity() {
+	...
+	if (!dl_se->dl_throttled && !dl_is_implicit(dl_se))
+		dl_check_constrained_dl(dl_se);
+	...
+	if (!dl_se->dl_defer && dl_se->dl_throttled && !(flags & ENQUEUE_REPLENISH=
+)) {
+		if (flags & ENQUEUE_WAKEUP)
+			task_contending(dl_se, flags);
+
+		return;
+	}
+}
+
+Seeing dl_se->deadline in the past and rq_clock(rq) before dl_next_period(),
+dl_check_constrained_dl() sets dl_se->dl_throttled =3D 1 and re-arms dl_tim=
+er
+for the old period, causing enqueue_dl_entity() to return early without
+initializing the new reservation.
+
+Should __dl_clear_params() also reset dl_se->deadline and dl_se->runtime?
+
+> @@ -2326,6 +2327,7 @@ static enum hrtimer_restart inactive_task_timer(str=
+uct hrtimer *timer)
+>  		}
 > =20
->  /* The caller should hold cpuset_mutex */
-> @@ -3637,7 +3647,18 @@ void dl_add_task_root_domain(struct task_struct *p)
->  	msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
->  	dl_get_task_effective_cpus(p, msk);
->  	cpu =3D cpumask_first_and(cpu_active_mask, msk);
-> -	BUG_ON(cpu >=3D nr_cpu_ids);
-> +	if (cpu >=3D nr_cpu_ids) {
-> +		/*
-> +		 * No active CPU to count this task's bandwidth: the ones it
-> +		 * may run on all went offline, which the CPUs isolated by
-> +		 * isolcpu=3D"domain" allow, no deadline task of theirs keeping
-> +		 * the last of them online. Leave it out of this rebuild,
-> +		 * where dl_bw_gen keeps its release out as well, until one
-> +		 * has a CPU for it.
-> +		 */
-> +		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
-> +		return;
-> +	}
+>  		dl_task_release_bw(p);
+> +		cancel_replenish_timer(dl_se);
+>  		__dl_clear_params(dl_se);
+> =20
+>  		goto unlock;
 
-[Severity: High]
-Does returning early when cpu >=3D nr_cpu_ids skip tasks whose bandwidth was
-already moved to an active fallback CPU by dl_task_offline_migration(), or
-recorded on an active CPU in p->dl.dl_bw_cpu when departing SCHED_DEADLINE?
+[Severity: Medium]
+What happens if a constrained-deadline task overruns slightly as it blocks,
+reaches its 0-lag time while still sleeping in SCHED_DEADLINE, and only then
+switches out of SCHED_DEADLINE before its replenishment timer fires?
 
-When a deadline task confined to isolated CPUs is throttled while all of its
-isolated CPUs go offline, dl_task_timer() -> dl_task_offline_migration()
-picks an active fallback CPU via cpumask_any(cpu_active_mask), migrates p to
-later_rq->cpu, and records p->dl.dl_bw_cpu =3D later_rq->cpu without modify=
-ing
-p->cpus_ptr:
+When the task blocks in dequeue_task_dl(), update_curr_dl_se() sees the
+runtime overrun, sets dl_se->dl_throttled =3D 1, and starts dl_se->dl_timer
+for dl_next_period(). Then dequeue_dl_entity() calls
+task_non_contending(&p->dl, true).
 
-kernel/sched/deadline.c:dl_task_offline_migration() {
-	scoped_guard (raw_spinlock, &dl_departed_lock) {
-		if (p->dl.dl_bw_gen =3D=3D dl_bw_gen) {
-			...
+If the 0-lag time passes while the task is still asleep and still in
+SCHED_DEADLINE, task_non_contending() or inactive_task_timer() drops
+running_bw and clears dl_non_contending, while dl_throttled remains 1 and
+dl_timer remains armed.
+
+If the sleeping task is then switched to another scheduling class before
+dl_timer fires, switched_from_dl() takes the !task_on_rq_queued(p) &&
+!p->dl.dl_non_contending branch:
+
+kernel/sched/deadline.c:switched_from_dl() {
+	...
+	if (!task_on_rq_queued(p)) {
+		bool released =3D false;
+
+		if (p->dl.dl_non_contending) {
+			sub_running_bw(&p->dl, &rq->dl);
+		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
+			dl_task_release_bw(p);
+			released =3D true;
 		}
-		p->dl.dl_bw_cpu =3D later_rq->cpu;
+		sub_rq_bw(&p->dl, &rq->dl);
+		if (released)
+			p->dl.dl_bw =3D 0;
 	}
-
-	set_task_cpu(p, later_rq->cpu);
 }
 
-Because p->cpus_ptr is still restricted to the offline isolated CPUs,
-dl_get_task_effective_cpus(p, msk) returns an empty mask on rebuild. In
-dl_add_task_root_domain(), cpu =3D cpumask_first_and(cpu_active_mask, msk) =
-is
-then >=3D nr_cpu_ids, and this early return exits before consulting
-p->dl.dl_bw_cpu or crediting later_rq->rd->dl_bw.
+Because neither task_non_contending() nor inactive_task_timer() runs on this
+path, dl_task_release_bw(p) releases the bandwidth while leaving
+p->dl.dl_timer armed and p->dl.dl_throttled set to 1. If the task returns to
+SCHED_DEADLINE before the old dl_timer expires, enqueue_dl_entity() sees
+dl_se->dl_throttled =3D=3D 1 and returns early without enqueuing the task u=
+ntil
+the old period ends.
 
-Similarly, because the cpu >=3D nr_cpu_ids return happens before acquiring
-dl_departed_lock and checking !list_empty(&p->dl.dl_departed_node), a task
-that departed SCHED_DEADLINE with an active CPU recorded in p->dl.dl_bw_cpu
-and then had its affinity restricted to offline isolated CPUs (before dying
-during the rebuild walk or being PI-boosted back into dl_sched_class prior =
-to
-its 0-lag time) will also return early and have its bandwidth omitted from
-the recorded active CPU's root domain.
+Should switched_from_dl() also cancel the replenishment timer and clear the
+throttled state when releasing a sleeping task's bandwidth past its 0-lag
+time?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104211207.1392=
-343-1-mathieu.desnoyers@efficios.com?part=3D18
+343-1-mathieu.desnoyers@efficios.com?part=3D20
