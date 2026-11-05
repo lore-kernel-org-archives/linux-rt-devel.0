@@ -1,96 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793866729;
-	b=aEvnDth+gz/hqZbYtvEpqc8PsPgFqIT3B1kR7aIU1PcbE1whRbJZrUZaHJ5w0WGyD9ga
-	 /wsfVt9OPR8fBqOb+1nAKjMEQnwp+GWOJAG99b4yuxZ0Ripdy4CaqQbRIba2kCSIWLuS2
-	 yFp2N93Uhq6YQhzpsbOiihqGH5CroVQUM6lhmaj4Nts7kjgJwFjK7BNhRih57Qz2MSV2A
-	 8IhVYbcD0cAcIAUIfYtkek3P7f7TysijUhXcBCKjejfOkFv6jkryiW9MM1BUXFK79bYfE
-	 IHy0aY/Y3av//Gx+bdOFAljYln8uwhJFonUFFasV7FrYNZmOLg4OUrJUZFZ/AkUJrVQ==
+	t=1793874010;
+	b=Fm9CCo8kmErofwYO/xjKaxKSz12gYSxu4fyGzUMlZ1x1saDOm7ugxa7afqP/lbjW4t12
+	 nZQ38jCnHC1QQv+O1NKRQzQYiCHHSAKOzfPHUvIClVO3dmQ+0YZ2S+rcYq/KnlfDzAnw6
+	 dWxaKkD1w6C4UuSl5li4uwDMABFzB4jm1B9cxceG9Pfn41x/tIXUpCKdvVkSK5aSxrui1
+	 Xg2DHXnr6JSqsPPvAu5P1u6xZonCJswqva03zVW63o9Dq1tjGJlyNxlyF286jp8D4M6aK
+	 33ewV33kzQ6KnXOfXztchdN6EGjqBjGjGcJYTrg3etQuELVgp2ohlNw4tM8rJ8WojJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793866729;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793874010;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:From:Date:Subject:MIME-Version:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Transfer-Encoding;
-	bh=wMMaHhKFGPel4o9R+b5ZeHtuJGRm5DfNPq77qvI5+Fk=;
-	b=Sy4xUmw9LEpK2acXXt/ROkw6WJiuA+YJKAmGkCpkP0LFE/2bkhviXRop+aKyDgEZ8sMe
-	 6p7O0hydM5/Uop+OpMYJx64pi1fZI4s/UqYDxNi1Pc0lZU7f7pW39i2vpbMQNDFNWbShJ
-	 DWs4K6mmFUZoPtcTO8BbzMxOdI447dBlCx9ajukjvDoYbQzjz9k/zQpJ08QrRcwqypcjp
-	 PoseCb1NKnLoUYdvXZZ83PgFpz9qkj5BjgTIWNoe3GZFNV7e18G1SSxVhoF+0qNMDXiJc
-	 9DeoXwGysKSTsrZ4pU193cyJ4LluxLvorw6hBKKHkmQqPhazju9dqAufYj9hibNUYlQ==
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=jIr+BXQHSHpw8ds71xVo6cb1zGmQevyMjrEckDJRick=;
+	b=DpmUzLgh8pwAQ24zouuK6Ls2RAeVQF96DCd1MYhLlCwMhCRIXh4Bxm9VEWwarNAxsHxM
+	 +PK1AqeuH4i1LhHByq/azUoTtxb2ExWZL6w2O2qPj0+96mBEnBt/c8aROCs2nj3kZBLQN
+	 zdExb3AHZoxAEZTep7E9Gs0TTKYy0QK8bQzjdIRn6VvvBFLzCPeV+RmJCir3FN/dJ68G+
+	 LhrvhKvtoPKdmBhgubDtRW6sUsx38os41C2QLiw2oT089+8k+mloggy3roNX71ZTAKwdr
+	 4WWP0FXPwnsA2cwCCfd+++4NtHCV+D7WW3C3p9dvf9hfrGZfXTn8L+EuUx1DlMWmrXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vi5ZT4Oh;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ma9Ji7BY;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3223C606D802
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 08:18:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3223C606D802
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34D6606D832
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 10:20:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E34D6606D832
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vi5ZT4Oh
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ma9Ji7BY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793866728;
+	s=mimecast20190719; t=1793874009;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wMMaHhKFGPel4o9R+b5ZeHtuJGRm5DfNPq77qvI5+Fk=;
-	b=Vi5ZT4OhWIQX28DgNZlIoZkCJlbekwqVe+TJnNOyHyrEtmqO5BwxB+8HVryn22oq3AyE4K
-	kFtGX1thVFRTDDtqlIBhoCklqBTqx69chkx7PTZD1ycN9gMTJW0N24EEE46rXX+RlNtzG+
-	Ug/FV1fwrRp9j4eK3g3tNbcbHIHKE/Y=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=jIr+BXQHSHpw8ds71xVo6cb1zGmQevyMjrEckDJRick=;
+	b=Ma9Ji7BYDDH3SN6c1h3ZLorHgaPTel0T+5ebwrlUP/U1PSzSmnhYm9Ew3iKW5a2E++9CFR
+	aqLXvwbzR8DmwmhSP7rUzs2iyJC965iCDVcXNYBJNe01R/alZySWSTyYyc57dYf4tS/49t
+	Gi1p/wLaBNQFCRJNY/b3oJiRoU0T8QI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-194-8XKTPm4OOJGqwhRbleD-Jw-1; Thu, 05 Nov 2026 03:18:44 -0500
-X-MC-Unique: 8XKTPm4OOJGqwhRbleD-Jw-1
-X-Mimecast-MFC-AGG-ID: 8XKTPm4OOJGqwhRbleD-Jw_1793866724
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49e6e69d62aso2402395e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 00:18:44 -0800 (PST)
+ us-mta-73-n8PGkDJmP2ObyLto2b3izg-1; Thu, 05 Nov 2026 05:20:05 -0500
+X-MC-Unique: n8PGkDJmP2ObyLto2b3izg-1
+X-Mimecast-MFC-AGG-ID: n8PGkDJmP2ObyLto2b3izg_1793874004
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48c6a1d4034so1482673f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 02:20:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793866723; x=1794471523;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1793874004; x=1794478804;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wMMaHhKFGPel4o9R+b5ZeHtuJGRm5DfNPq77qvI5+Fk=;
-        b=TQUPpNona/m4KAo6Nvv29bRn3KaoVDgxPC+ohzvuf5WMFiIZBBRjtLbPnW05LisNBw
-         NXB6hM58bCZZjCKmiNVrnq1b/Vf62eRSqa/K/tvyS84m69sZKUTJjxtBZG+wLSRH47d1
-         XWVf6XKANz57PUoCvyij+5ATH/K6/nzDVM/AT08vkZZzsvCpzOihQ1GOG8gO/2ZRf3SP
-         kfYCwE2KWUANcIx2KmDXOAIHz7AbPg7JunsUwR2WO/+Ps4nU3pl0fRoYctOIwtzltPIj
-         vzKDTLhcPfAfAQqUplgICBEzigs+Vm3BIhZncJNpIFKHokj8HkHjs/k1BMCMDeKQLxSh
-         K9Tg==
-X-Forwarded-Encrypted: i=1; AKwUvBzVQAwFge489x0QgDFhZNrpt2LW5QrISjSWeI1kXv5gbYEkeUNNvGujJMXO5cP8NtgGEeXlVaErN8AVBXt/sQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/IP+7maeO7MY61gXyYgGExeJCS7pcFQ1u4SFQbodlrAKZt/rGx
-	qijh/IA8Sd4QVf/X92NOhN/nML7zJuDdN1jJaobSu0P6X8ljymWuZBbmKJ4oc85SpWdylJ0RtnM
-	EfVOAxBddA2gIHBcSFIaTsBVAU3XcLkTbh2gKxa/zdhA40XnzPF+nCwe/EaQw2Nd8khgt
-X-Gm-Gg: AYBFou0Jy/YOBPStLAYu7Vj8tbZU/czdzpvzHnvv0R1f3cCQZiuJ0vVZkCZFttj5s70
-	BHNGlVs1wJbr+KuZWPWpvXNLNsAe7fQeicz2KJVqkq/3A2eFymPqDbRGGl5gLdVKxTU4gD+VJTQ
-	cQf/rzkFR8YRNwn2oBCv2arw0dVGU3FU5xNB8GzUaP7TSNlOwINbcZHtxSHch/yu++FCkuSW8Fy
-	lM97IGZGEbkXPt5yxCb60eMeWdF1VZsV74nfV6Fsc2XwRgc/MImEbrqbw3WRzUXuWc3IFa/6JXn
-	Jh2mUrOy6qYzqEQ4WtiuOq7DMVQEb8HsWvwuL6Dc3ZSIyhJ/Rq3dlVtuwEr2defsaM6LBv2atyc
-	tdhd1D57/kiSrd8D2YPJ6u/zg6ySzemlkXB76y1sWprpVeQ+v5PYjznA00JvMU8Pa0WeuicUnVD
-	ixlLZgaejxgcpWpQ==
-X-Received: by 2002:a7b:ce0d:0:b0:4a1:715d:1913 with SMTP id 5b1f17b1804b1-4ac177538c5mr306356095e9.1.1793866723525;
-        Thu, 05 Nov 2026 00:18:43 -0800 (PST)
-X-Received: by 2002:a7b:ce0d:0:b0:4a1:715d:1913 with SMTP id 5b1f17b1804b1-4ac177538c5mr306355815e9.1.1793866723106;
-        Thu, 05 Nov 2026 00:18:43 -0800 (PST)
-Received: from localhost (119.red-83-42-172.dynamicip.rima-tde.net. [83.42.172.119])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b63863d490sm4513405e9.2.2026.11.05.00.18.42
+        bh=jIr+BXQHSHpw8ds71xVo6cb1zGmQevyMjrEckDJRick=;
+        b=UyS6OrxZmXIFo+t6D1T3r2Q/IIGBrhYX38B0ogMqC66+fB/0Fe5xPgr81mWy0+ixt4
+         R3FhydVcSKO355OBWp+Zr5dipRXy2GGSXskCIwK4lVOW0SU0LK6hjODLhmy4pUMdZ6We
+         7kXoKQt8ijI8V+4sUAQWCvDzOp9cIm2YyTteuhX1oYPyOhJucSeIx5I//gKUKug9J2ga
+         OTo/GzSncrOqSLID9jzzlg3Z5fYjTSyh+nhjX3OddRAH0myZshMzRsEUlP/O9HJV1xiM
+         yG3FUJLnQiV/fdZYNpi1jWIfor2THP+jme+7tNfIlRrWJOYI7H4qqV3elNb+Q7CznnTa
+         f9sA==
+X-Forwarded-Encrypted: i=1; AKwUvByWazIDhB2q4sjyxQf3/K573rxYWF+x3zURiNgoA98okr9/1pN/stqAsyv6xiCWusHLbJaFEAMk6Sep6gGovg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+T2g21Tl0Dn5bpYpMTyUWBG4PgAaVojT//21MWF1d7ztdyeUoB
+	fbVgGW/UtfO7Gszj9PleN/N+bLJAa9IdSGw5gyhuWUjQbkoni1aRe4aAUfOLJsxZUw0x7wTdZwP
+	Mi5/igGiUE9C/kTq8YonT1G/soorRoMDez2UKirzBL/pAwZRLjpNUhJU0k478X4TSUGyl
+X-Gm-Gg: AYBFou1T448JTDxreyGMpfPIGPtts2qAuSZodVAaCzVsb8nA3KWMTcxciNLTm9/6/4B
+	ISziMf6u4eG2mpiTQ8tGSrVe03UfQy8Dd9iB5zD9B+vB5IqN4T/oaVca7g6CxByCeCyJyL/b4ub
+	NPPI3//rJDdsKFGitb/7poLpo5gCdDM3woU0CZr8EJLsICd3oKpJ8lZRPh2N3ulLk7T1TeZEVd9
+	RokNet0n+D9hcDU479AK+usqt/CWOvLf+jGfLKNfZRtvFzB9kt09B4z4SS3h7urLcJywnl44eLw
+	Ucn0liK3rtu5HybC2Jbh2BovGXH9hj4I9XdRDuRa1kgPGAWZTmED7J+hz3+FGRxk4LyZUcQf5Q/
+	kYIqbw1W5bMgPxN9ITiY9KPsHGZpkQE+bZA7i8kFj3LF7YXxl/vD+Hlv1dHnb8y2jCWMBGOVFL8
+	07Ig==
+X-Received: by 2002:a05:6000:4027:b0:48d:fbdd:4132 with SMTP id ffacd0b85a97d-48e6e4f540bmr39671577f8f.18.1793874004480;
+        Thu, 05 Nov 2026 02:20:04 -0800 (PST)
+X-Received: by 2002:a05:6000:4027:b0:48d:fbdd:4132 with SMTP id ffacd0b85a97d-48e6e4f540bmr39671524f8f.18.1793874004043;
+        Thu, 05 Nov 2026 02:20:04 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea180ee1sm10646770f8f.4.2026.11.05.02.20.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 00:18:42 -0800 (PST)
-From: Enric Balletbo i Serra <eballetb@redhat.com>
-Date: Thu, 05 Nov 2026 09:18:32 +0100
-Subject: [PATCH v3 1/3] clocksource/drivers/nxp-stm: Fix max_delta overflow
- on 64-bit platforms
+        Thu, 05 Nov 2026 02:20:03 -0800 (PST)
+Date: Thu, 5 Nov 2026 11:20:01 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Luca Abeni <luca.abeni@santannapisa.it>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 03/21] sched/deadline: Do not admit bandwidth for
+ parameters that are kept
+Message-ID: <auxYUb0-GSpZjhd5@jlelli-thinkpadt14gen4.remote.csb>
+References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
+ <20261104211207.1392343-4-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -100,62 +120,42 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <20261105-nxp-stm-fixes-v3-1-8129b912e74b@redhat.com>
-References: <20261105-nxp-stm-fixes-v3-0-8129b912e74b@redhat.com>
-In-Reply-To: <20261105-nxp-stm-fixes-v3-0-8129b912e74b@redhat.com>
-To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rt-devel@lists.linux.dev, 
- Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
- NXP S32 Linux Team <s32@nxp.com>, stable@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Enric Balletbo i Serra <eballetb@redhat.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793866718; l=1276;
- i=eballetb@redhat.com; s=20261026; h=from:subject:message-id;
- bh=3tQAzS65C+p+CwI89Nw27cv/4Q7pCmNGpT6liQLCnCM=;
- b=jaRNvqRfj8/W4VNEnG8r/OzoSDqnNebhjk7Le5MPZPZ/1fZnzaB0e9g3Nb/3xrmRC6O+hw35m
- fCu2NAhD8LSCYKJ4rEV4PM5QL7RRiLqTSmrebz0QAFyprAwC68ZJ6nd
-X-Developer-Key: i=eballetb@redhat.com; a=ed25519;
- pk=5zh6xuAxTiQwglL2NXQFqWuyRPmCE8T5KPXLbNXhnKI=
+In-Reply-To: <20261104211207.1392343-4-mathieu.desnoyers@efficios.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: znNFCntZnWzAreg0sZeL5Jfav_wGGUBqkZwz_eZFD80_1793866724
+X-Mimecast-MFC-PROC-ID: RKD1_UFDPfrZD5xv0P8p716AcSOAkSuJ8vMYeVMQ81s_1793874004
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The NXP STM timer has a 32-bit counter and 32-bit compare registers.
-Using ULONG_MAX as the max_delta parameter for
-clockevents_config_and_register() is incorrect on 64-bit platforms where
-unsigned long is 64 bits, as this exceeds the hardware's capability.
+Hello,
 
-Cap the max_delta to 0x7FFFFFFFU to match the 32-bit compare channel
-width, avoiding potential timer event misses or unexpected delays caused
-by programming an unreachable compare value.
+On 04/11/26 16:11, Mathieu Desnoyers wrote:
+> sys_sched_setattr() fills a SCHED_FLAG_KEEP_PARAMS request in from the
+> task itself (get_params()), with no lock held, and
+> __sched_setscheduler() then skips __setscheduler_params(): the task
+> keeps the parameters it has, and its dl_bw with them.
+> sched_dl_overflow() runs all the same.
+> 
+> A parameter change of the task's own that lands in between leaves the
+> request stale, and dl_param_changed() takes it for a change: total_bw of
+> the root domain, and this_bw and running_bw of its runqueue through
+> dl_change_utilization(), then hold a bandwidth the task does not have,
+> and the release at its 0-lag time, which takes the task's own dl_bw,
+> leaves the difference behind.
+> 
+> There is nothing to admit for parameters that are kept: skip the check.
+> 
+> Found by reading, after the Sashiko AI review of the first posting of
+> this series raised the case the previous patch refuses. Not reproduced:
+> it needs a parameter change of a deadline task to land inside the window
+> of a SCHED_FLAG_KEEP_PARAMS request on the same task.
+> 
+> Fixes: a509a7cd7974 ("sched/uclamp: Extend sched_setattr() to support utilization clamping")
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
 
-Fixes: cec32ac75827 ("clocksource/drivers/nxp-timer: Add the System Timer Module for the s32gx platforms")
-Signed-off-by: Enric Balletbo i Serra <eballetb@redhat.com>
----
- drivers/clocksource/timer-nxp-stm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 
-diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/timer-nxp-stm.c
-index 6fe098a4a33f..ee249fed1b91 100644
---- a/drivers/clocksource/timer-nxp-stm.c
-+++ b/drivers/clocksource/timer-nxp-stm.c
-@@ -346,7 +346,7 @@ static int nxp_stm_clockevent_starting_cpu(unsigned int cpu)
- 	 * minimum ticks = (rate / MICRO) * 2
- 	 */
- 	clockevents_config_and_register(&stm_timer->ced, stm_timer->rate,
--					(stm_timer->rate / MICRO) * 2, ULONG_MAX);
-+					(stm_timer->rate / MICRO) * 2, 0x7FFFFFFFU);
- 
- 	return 0;
- }
-
--- 
-2.56.0
+Thanks,
+Juri
 
