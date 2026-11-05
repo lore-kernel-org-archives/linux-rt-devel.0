@@ -1,88 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907258;
-	b=aqMOEN6XPHzZxIty3jCyzbQTZ1C+Mdobg1uJ+0jiKuqOG3RHomqt6lP2kTfWStOuUtgF
-	 w7bJQJRn2o2tVSpNfZyXOsyUUNwvquI585XfwsVxLPy2tEMouhYZlwhDIa5PD3qK7lldT
-	 OynRxcuNS4fsW4Ufo67S23nKI+qHpQKau9PvN2JDJiK380tqlm37BX3R5pWAIXExZzqpf
-	 5gMFa/ktmiqcfcJAx1QQ/rYRYNI1OlB7Fevlcjo2YW4c5DOweux1CDa4AaA+yRrcFJKrp
-	 EHsVdYFO/gYGc28QPjbPiUovMdCBuidCN2RTn84mRvirZ1VWPmdg1xZbNG6SJw8Mbyw==
+	t=1793908183;
+	b=Zhvmye7YqttiHvYUZDtvvWWxtjaklsY7XC+JmRFVZzeoVYtwZZQkN52ineCRUCtHdWLA
+	 fbzv5cHE+Y0Zz0MI2A0isbqGLzZ0dR6zyHfCaJcr6nN1fVAbdmQwo4biHoPkSXGrpJJEC
+	 f2FOPH90D8R4TdbKA9zSA9Mtkz2/DDcwMMv9SYNqyvhY9D1SGAHcrMWNXDym4NZn5vX1n
+	 tNcmuCO7JZSMIG+F/yFvAI5IW6H9ccKwGM1nMAZpGYb6Ny3nBNc5/JS8ZHJEvMqz9k/ze
+	 uUnBs50PdTXW+0j+s4EdDPhvaX7nMQxPJuehCvoJH7gxLTawxpPINPlHFtCJlWNF9Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907258;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=PXzZs0S60nPwFAawFAM1P7kB6paIaMENZssdjTCs6jE=;
-	b=Ak0wxFYq4hzWitpeP5NDWyEJxRtYbgLlUB52eppmbIqyZmYqfByuKxcpu/byzB4euB77
-	 a0yOJu/KpjH3vg3yJ/dKS1YFe9SPbgzrELlo9n7y1za8uNKaQQgtLY3hI7fI0swpTELyz
-	 8Jv5a/HAQXUAtuFmgnn9s1JbdQ0pr9+syYMcVpjRtHW3C/IIb2E9NzYqAStg4EBR/4HaN
-	 qRq20jGIXmP6p1TzVIxwhk12IHaQ4aHOYaAH9+Yn8rFJ+6kvj1KTpIZy+Y5Ii7LWf0RAD
-	 mBejw77yZ9doerjCckQCVvq5uvKEM+1lfKMsr1lQbuJoA7RdYW3wPcBH/KoLbzUDYgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908183;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=L9s0dPurC/mWcPoEUfzuoBLGDzu/1nrQmyy2MaeW0Tc=;
+	b=fXuWzv0PKm5W1dzkjaDlqmMDB6eBfveitCjLsAaOWtI7szhkjfSJiW0ZuWaGIyNQVnXB
+	 NDBZra34zZ8edbH8tkYiqUGpChg+5NzP84mgc4OiOAL8XojGjsIlBV0GkVfxgO75vjZ1v
+	 M7UEC0F6NyaBYLdNCI0tOoOsDhjaqZ0B1cx1T6IPQ93ADM9eklVY0v1Pku16Pg04IWbvM
+	 sh3y5Hq6rPaeKRGYUV91dqfQWrqoY8nJFPD/4ZCDnOxHAN6y42TcoAE1S2KCxx9h9EI9P
+	 JHRMOq+XJF93u8j6H1twTYrfqgaYMNDtQwDtBpuh0fE4W7H4+VmLGCRFeXrQSluV7Sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ITrkeQwL;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aHTzqIP/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C41E606C891
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C41E606C891
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ACC6072C68;
+	Thu,  5 Nov 2026 19:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ITrkeQwL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793907249;
-	bh=PXzZs0S60nPwFAawFAM1P7kB6paIaMENZssdjTCs6jE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ITrkeQwLf7L41ZRGD0zenSL82pf+tZTHHBp6IbwMtp/Ji3bwfHXPMWRjLfSSoRpOu
-	 0HTSHeEAPABfUrLRo7V/RI6nYJx6rX60NbDAgRdGHcGpXCRHiHPymCHtb70KA3N96E
-	 6EfdyuBknaLfQfH6JyI2Wp7IKB962HoMqeVJsbL5C/EEe5AX0WwZGElzkLTvZ2PFym
-	 jqwFhmac227/e5Z92vgsXgadT3zTmqsIuOjlmXp6l7zHZ/XHdeuGgh/ah/KrgZIA3e
-	 O8ZPftIRMaNv8wdeZXAj+QErRL+ysou+ShLKrgdpEe2Ai6Didc6qb7aqNA/YFk9OIv
-	 O1qqAMbT0S7Gg==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDK59qwzLwb;
-	Thu, 05 Nov 2026 14:34:09 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: juri.lelli@redhat.com,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	vincent.guittot@linaro.org
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	shuah@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	parri.andrea@gmail.com,
-	m.szyprowski@samsung.com,
-	kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com,
-	cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v3 05/24] sched: Take cpuset_mutex for a deadline policy change only with pi
-Date: Thu,  5 Nov 2026 14:33:40 -0500
-Message-Id: <20261105193359.1450487-6-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
-References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aHTzqIP/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308661F008A7;
+	Thu,  5 Nov 2026 19:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793908183;
+	bh=L9s0dPurC/mWcPoEUfzuoBLGDzu/1nrQmyy2MaeW0Tc=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=aHTzqIP/OZuqnjwgHNA/Iiv3j91h6cZdeFEJuo2E0xlLpbuDOoJtuWMKJybUiEKu2
+	 zpd8YvFc66ymdFJ8v6tkLaq7axwCFAnY8B1yCLTdyipK2/bQTbYfgmfNTUcbkeDTlu
+	 bgVriNsP1C5ljg+VIb3Yd1B4Ef/ao2WvaIzO57qH6cLZf1Rc0WvaUBVSNUUWyr20mY
+	 sAVecU0wg9I9mPOb8H2tkmMBgOo514WMaLzQQ7v6fa+52dErI2/KQmVm6PLXh0bs1P
+	 urfmorkC/89YV7yXHd45x0e9wlIBM95pgRLMGl1JcwjrVPpAgZWjGUGR5QvwkerPfr
+	 BJIupAnUd5YKA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E64D4CE0B58; Thu,  5 Nov 2026 11:49:42 -0800 (PST)
+Date: Thu, 5 Nov 2026 11:49:42 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Andrea Righi <arighi@nvidia.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <dd8977da-411d-44c2-9117-812813089801@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <20261105191654.S8OPV16j@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -92,59 +72,73 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261105191654.S8OPV16j@linutronix.de>
 
-__sched_setscheduler() takes cpuset_mutex for a change of or into
-SCHED_DEADLINE, and releases it on success only where pi is set, with
-rt_mutex_adjust_pi(). normalize_rt_tasks(), the one caller with pi
-unset, then takes a mutex under read_lock(&tasklist_lock) for every
-deadline task it finds, and never releases it: sysrq-n on a system with
-a deadline task sleeps in atomic context, and every later change of or
-into SCHED_DEADLINE blocks on cpuset_mutex for good.
+On Thu, Nov 05, 2026 at 08:16:54PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-11-05 18:52:47 [+0000], Joel Fernandes wrote:
+> > 
+> > 
+> > > On Nov 5, 2026, at 1:36 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > 
+> > > ﻿On Thu, Nov 05, 2026 at 05:51:13PM +0100, Sebastian Andrzej Siewior wrote:
+> > >> Commit 450efca7182a5 ("rcutorture: Disable RT throttling for boost
+> > >> tests") added the ability to disable RT throttling while rcutorture was
+> > >> run.
+> > >> 
+> > >> Since v6.12 the DL fair_server takes control of throttling and this
+> > >> interface no longer serves this purpose. That sysctl control still
+> > >> exists but serves a different cause.
+> > >> 
+> > >> There is no in-kernel interface to provide this feature, one needs to
+> > >> echo -1 to each /sys/kernel/debug/sched/fair_server/cpu*/runtime file.
+> > >> 
+> > >> Since sysctl_sched_rt_runtime does not do what it once did, remove it
+> > >> from rcutorture.
+> > >> 
+> > >> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > 
+> > > Thank you, but ouch...  Does this mean that there is no longer any useful
+> > > in-kernel way to test RCU priority boosting?
+> 
+> The DL server is per-CPU so you would need to check each one if
+> throttling is enabled. But RCU priority boosting is independent. If the
+> test requires SCHED_FIFO priorities and disabling throttling to ensure
+> progress we would have to add something assuming userland can't handle
+> this…
 
-Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") made the
-lock depend on the policy where it depended on pi before, and left the
-release where it was. Take it where pi is set, as before:
-normalize_rt_tasks() takes tasks out of the class, which admits no
-bandwidth and needs no stable cpusets.
+Just to restate, the current tests run a CPU-bound kthread at real-time
+priority for some tens of seconds (controlled by the test_boost_duration
+module parameter) in order to see if RCU priority boosting correctly
+boosts the readers higher than that priority.  If there is any throttling
+of any of those CPU-bound kthreads in the meantime, we get a false
+negative, that is, RCU priority boosting appears to be working when it
+might not be.
 
-sysrq-n on v7.4-rc1 with a deadline task, lockdep on, in 8-CPU VMs:
+> > There should be a way to disable DL server. Adding Andreas to check if
+> > there is a way. But I am wondering if the prio boost tests are
+> > working, then is the DL server throttling broken? ;-)
 
-  sysrq: Nice All RT Tasks
-  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
-  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
-  locks held by deadline_switch/4356: 4, last CPU#3:
-   ...
-   #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
+Looking forward to Andreas's info!
 
-and a sched_setattr(SCHED_DEADLINE) after it never returns, in 2 VMs of
-2. The deadline_switch_test selftest added later in this series has the
-case, sysrq_normalize, which passes with this change.
+Inability to disable throttling would not result in test failure, but
+instead potentially undeserved test success.  ;-)
 
-Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- kernel/sched/syscalls.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> As I wrote in the commit message,
+> | for i in $(find /sys/kernel/debug/sched/fair_server -name runtime); do
+> |         echo 0 > $i; done
+> 
+> would do the job from userland. But we don't have an in-kernel
+> interface (yes, I am bit confused if is 0 or -1, I lean towards 0 now).
+> The server _is_ throttling, this works. I will try check tomorrow how
+> rcutorture behaves. The difference is that throttling is per-CPU and not
+> global so it might not have *that* big of an impact.
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index b8c036d03d6f..bffeb4143161 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -554,9 +554,10 @@ int __sched_setscheduler(struct task_struct *p,
- 
- 	/*
- 	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
--	 * information.
-+	 * information. Not where pi is unset: normalize_rt_tasks() takes
-+	 * tasks out of the class under tasklist_lock, which admits none.
- 	 */
--	if (dl_policy(policy) || dl_policy(p->policy)) {
-+	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
- 		cpuset_locked = true;
- 		cpuset_lock();
- 	}
--- 
-2.47.3
+In theory, it is possible to extend rcutorture's mkinitrd.sh script to
+create the /sys/kernel/debug directory and to mount debugfs on it, and
+then implementing the above bash for loop in C, but in practice that is
+feeling very hacky at the moment.  :-(
 
+							Thanx, Paul
