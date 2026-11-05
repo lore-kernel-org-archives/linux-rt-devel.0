@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907257;
-	b=ubnmur0rZE+CCySPhYJdAmkOGqdfBGxg13utY+e5hJ+IMJaADegmZq0CVwfUmNEsTzut
-	 icv9UAE6aVu4w/Eya4BV1WDCQ3+7/2zMmSKE7iTeVm3HyR5x8XIJEFK0S7KM+qP8azZDr
-	 K0lMuRZLE6X/d0OtMgbUvs/Hqo5oFgoQ3COZonEknNe1BNMOFy4jDcWrOsr74ZERNRi6B
-	 NX6J+QskeaXwjg6z2QuKpivMKTLP/IpqoRSn9Mpl6JLrlA+Edrt/2DktLlD/GiuihRkWu
-	 Hzs+R6D6vCuK/0oqwEOt1y8N20zottMX8VfabtHuE025e1ltZOmM6rgYiaAlTM+OvSg==
+	t=1793907258;
+	b=XsJWubpvlTDTz4Uku0gRUDFqij70UiHOtyKNqwhlIKF1DrQiPFBq5QlpQlO8jsY6kYxt
+	 zuaERJMeHkLh+IffVAZR34s//xcJCQLxQRIO0QPKasme7uFP72/Mp8ZbHL4/nBXKumNed
+	 eRoJSv0bVFNbiEdTN51IN7pm8jvlxvQvuyn8aezGgJzh+p27y3f7qbYvfc4hg6m7OZFgn
+	 qo9ciQdxxfUyYc3iCMKu6gqnlxB+vBn2djqXFzmIjw+ZL4Jpf4Y5lJkKDLmVlF0stFa3E
+	 jV3ZZSKkgkmKttBw2V9hisS0QuuAVsCd0n6BnpB0d3R8rC3IomdUXo9mxGt1I9rowpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907257;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907258;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=hcWcaw255+86RvOkQcmXChxCoCdULwFdRdbuZXbjAkY=;
-	b=cum+A2kZo83JxJuseTLkoNxKK16fXBgcif7NMbmvVQeti+xrbhwap1+n7JxvM0a9JXYw
-	 mUVxucZqYR4+Lrfc/o3S7RJYK/mEg8p02qesGqNHTtbfWUMIl415xIBSS7rxWPu+kEAPs
-	 J+6lHTSHrS5vVfJkrfCJ/8r70yJ3AWQWBnlkjW+lb5x8soPibIvIvMfAjRJMW1BrBqC/8
-	 v4+UvqvSCYt2nBRi7k72bqRyzckoG4e/8KDniKGYlkamqNwD0pHcmFoVoDjkr0r8ObzcZ
-	 EFnAICnEssgzqMARJn5gE4bwiOXDUWjKii6/yab45fOecarN52P+e8sCltkTr/VpVKQ==
+	bh=c8+n/+NCH6m2zgdZ+7pBwVY7EPj2sOWeszHDsDG92gI=;
+	b=r46DB4909fNxKX8nMfVx7fFGg0nRk+4ANKbWkWlxMq+oBrdoT+ES0bYYeXKy4zuSzty/
+	 lthnOZyMGIoJQWa/uGPGApYNePh+r4mCPTErwc4cXlaUVFAE14JU9R5t8uH29HB8qqhsr
+	 o53KYp9a6xPzWz6rsB3PMMtBPdwCPhTUFMW2NCgGnsvHf+HwphFdoJVcIRSabYhsyJef7
+	 nJFNks1SE1YxAzWSL3E7Y7yKukf1g8rheaeKdq6nSn//yJOr0kuWZsVems1QiQLT244ip
+	 k6K5xXqRZS7DjfVfkZVvF8nby+SKB9UPoWciAcLAvY937OtlPs8XoLGqB/qXe53nI5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=CCnpu8bE;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=PxbnruTY;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C398606C890
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA21606D827
 	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C398606C890
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DA21606D827
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=CCnpu8bE
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=PxbnruTY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793907249;
-	bh=hcWcaw255+86RvOkQcmXChxCoCdULwFdRdbuZXbjAkY=;
+	s=smtpout1; t=1793907250;
+	bh=c8+n/+NCH6m2zgdZ+7pBwVY7EPj2sOWeszHDsDG92gI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CCnpu8bExKNJ9F/LVsbh6qsr92k68ZGSUGCpgJ30UNmaGRUNXxYTQS0ZbStvxRNsC
-	 qkXI4dcjtOZN7wsZNWOpp6XxlB+Wcg9s7WQBg+srpUMTSO9R4P0R/DrXl97SBQZ/Jp
-	 +5Ppcl0WLS+88r4pQVYrcUUjZKHpNYY4vn0Pdb9sT11OxhCIw6F/iQGRCDqkzFZ16g
-	 rrNZ1DP9lu45aU4DnlEXHDqa9Qihm2jhE7kmYuY/DlocO2yF+PAnyhsu/AhZ0EJGak
-	 LiD4/+Ssed+F4XubM8o9qb1OehjkbAiofvc3DjkP/jCTYQMJ2yqdFrOLTQSwnK3CGM
-	 8hyD2rubCR9Lw==
+	b=PxbnruTYkKCNgbPhv6hICHF1X8jvU8KUeIeHm8hs1esLzqkPof7YqAbden5MADWVU
+	 VNZJra+DecwYpfM5NnxPnqYGszGzdawaI9Bq1rWdWZHcqfs+tKUuWOHPOs4WS2HuYk
+	 rrlsuy2Qru/pUtOaPn0+5DImfKUlV38EDhUk/H3eS0Xd2zm5MkgQ0gXBEq1N18wWHg
+	 UT47fCR6W8dRFZLjen80x14sGzBVcWuISPRX3XrdXNgqD1JNFMurd1F8vgdn7fgo/J
+	 8odd6J2qsqX+LcqO3ACW7k2HmZVv4qmh7FBUbgKBIEzQBq01/zFXXN1vvH+IUGOKiA
+	 WmQ8t3lfcPAkg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDK6GSWzLJq;
-	Thu, 05 Nov 2026 14:34:09 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDL0FwtzLJr;
+	Thu, 05 Nov 2026 14:34:10 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -77,9 +77,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v3 06/24] sched/deadline: Do not lose a throttled task switched out and back
-Date: Thu,  5 Nov 2026 14:33:41 -0500
-Message-Id: <20261105193359.1450487-7-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v3 07/24] sched/deadline: Reset the deadline and the runtime with the parameters
+Date: Thu,  5 Nov 2026 14:33:42 -0500
+Message-Id: <20261105193359.1450487-8-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
@@ -94,91 +94,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A SCHED_DEADLINE task that is throttled, switched to another policy and
-switched back before its 0-lag time can be left throttled with nothing
-to replenish it: runnable, queued as far as the core is concerned, but
-on no dl_rq and with no timer pending. It never runs again, and a fatal
-signal cannot make it run; only another switch out of SCHED_DEADLINE
-requeues it.
+A task that leaves SCHED_DEADLINE keeps its parameters until its 0-lag
+time, so that leaving and coming back gains nothing. __dl_clear_params()
+then resets them, in inactive_task_timer() or in task_non_contending(),
+but leaves the deadline and the runtime of the period the task was in.
 
- 1. the task exhausts its runtime: dl_throttled is set, and the
-    replenishment timer armed for the start of its next period;
- 2. sched_setscheduler() switches it to SCHED_OTHER: switched_from_dl()
-    calls task_non_contending(), which arms the inactive timer for the
-    0-lag time; the parameters are kept until then, so that leaving and
-    reentering SCHED_DEADLINE gains no bandwidth;
- 3. the replenishment timer fires: dl_task_timer() finds a task that is
-    not a deadline task and returns, dl_throttled still set;
- 4. sched_setattr() switches it back before the 0-lag time:
-    switched_to_dl() cancels the inactive timer, and enqueue_dl_entity()
-    leaves a throttled task to its replenishment timer, which has fired
-    already.
+A task that comes back after its 0-lag time, and before that deadline,
+is enqueued on them: enqueue_dl_entity() starts a period anew for a
+task whose deadline passed, setup_new_dl_entity(), and for no other. The
+task spends the runtime of the reservation it gave back before the new
+one begins, and a constrained task whose deadline passed before the end
+of its period is throttled on them instead, dl_check_constrained_dl()
+arming the replenishment timer of the old period. The previous patch
+widens the window to a period for a task that was throttled, moving its
+deadline on where its timer fires outside the class.
 
-The window between the deadline and the 0-lag time is the overrun
-scaled by period/runtime: about 100us for an overrun of 20us at 20%
-bandwidth. The replenishment timer cleared the parameters, dl_throttled
-included, of a task it found out of SCHED_DEADLINE until
-commit 209a0cbda7a0 ("sched/deadline: Improve the tracking of active
-utilization") moved that reset to the inactive timer, at the 0-lag
-time.
+Reset them with the parameters: the next enqueue then starts a period
+from the parameters the task has.
 
-Give the task the replenishment the timer owes it, as the timer already
-does for one that is throttled and not queued: the overrun comes off the
-periods that follow, the deadline moves past it, and dl_throttled and
-dl_yielded are cleared. A return before the 0-lag time then finds an
-entity it can run on, and a return after it finds the parameters reset
-by the inactive timer, as before.
-
-Clearing dl_throttled alone would leave the overrun in the runtime, for
-the new period of the enqueue to forgive, the deadline behind, for
-dl_check_constrained_dl() to throttle the task on again, and a yield of
-that period set, for update_curr_dl_se() to throttle it at once. The
-first version of this patch did, and the Sashiko AI review of the first
-posting of this series pointed the three out.
-
-The selftest added two patches later fails its throttled_round_trip
-case 8 times out of 8, on v7.3 as on v7.4-rc1, and passes it 8 times
-out of 8 with this change.
-It was found by a cgroup selftest under development,
-test_concurrency_deadline, which hung about once in 1350 runs.
+Found by the Sashiko AI review of the second posting of this series.
 
 Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
 Cc: stable@vger.kernel.org
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/deadline.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ kernel/sched/deadline.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 4650bed9cc3f..d376cb493a9f 100644
+index d376cb493a9f..088e84fb9b10 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -1232,10 +1232,23 @@ static enum hrtimer_restart dl_task_timer(struct hrtimer *timer)
+@@ -3969,6 +3969,9 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_bw			= 0;
+ 	dl_se->dl_density		= 0;
  
- 	/*
- 	 * The task might have changed its scheduling policy to something
--	 * different than SCHED_DEADLINE (through switched_from_dl()).
-+	 * different than SCHED_DEADLINE (through switched_from_dl()). It
-+	 * keeps its parameters until its 0-lag time and may come back to
-+	 * SCHED_DEADLINE before then, switched_to_dl() cancelling the
-+	 * inactive timer: give it the replenishment this timer owes it, as
-+	 * the !queued case below does, and leave the enqueue to its return.
-+	 * A throttle left behind would never be lifted; an overrun left in
-+	 * its runtime would be forgiven by the new period its enqueue
-+	 * starts; and a yield left set would throttle it again at once.
- 	 */
--	if (!dl_task(p))
-+	if (!dl_task(p)) {
-+		if (dl_se->dl_throttled && !is_dl_boosted(dl_se)) {
-+			sched_clock_tick();
-+			update_rq_clock(rq);
-+			replenish_dl_entity(dl_se);
-+		}
- 		goto unlock;
-+	}
- 
- 	/*
- 	 * The task might have been boosted by someone else and might be in the
++	dl_se->deadline			= 0;
++	dl_se->runtime			= 0;
++
+ 	dl_se->dl_throttled		= 0;
+ 	dl_se->dl_yielded		= 0;
+ 	dl_se->dl_non_contending	= 0;
 -- 
 2.47.3
 
