@@ -1,65 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793899168;
-	b=CntT4cYbhGAe4TX2GRMertN22caWerO1gDh1W2nammmjq76sKt5zOyK7y9YpuZlEp/pV
-	 rQ0yMml0KG7QGrw46aJ4+1AYUGDiijdrWYjkAygt6I0lMhtzKdQDojNZGyx4qK+V12KJ9
-	 guV05kxtZfxL6tShkWYpAGYem6Zu6xJAlbFyvR3lQkVqR/R8+PUEDDNf4JvsenS68zqj0
-	 bMRuf7Q/BeBBenuHEO9TPc1ioDXvdGdpERJxZzzG4ZJkuiDObw1cYN/6/RRB3ru2jh/rn
-	 rA0mZoTVOKscX/NPJA7gtOczm/Th3OKct/niBU40/ypYDLUYcPKzUmczs41TKHxbhcw==
+	t=1793899757;
+	b=Czj3ymADt7NvTyfNtsuHDu3S7b8//YqrXlkpn3/IntVmddkIZdxq++HJOeZbg7PJ0J81
+	 FnhbapjpjQMD8KVCe8/oJFB+hFfM4q2EyYXIQSUNrQJgLFddvcKvDSGzASsiBmn2qHBmZ
+	 rmXJ4g61982mj/LtxxLbfFRtS+ADhaodRgxSEmMpvUJ0ZbkfqOl1QSE/MJWAryHwPo+WM
+	 yvh5ggw/qWZm6hXghRN93MmVYom60tmaCsy83O4lmhq+UAGABqX4MrtcU8MNfPL/PJe8L
+	 2dEmy/p/E1szVoq1/lYLlo2qpQPh8QuSFKmc75cjvGl6UABp2ppKu1Wf/Nt9/BmsUhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793899168;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jW+ShPCH/HH5xFBtj2AJT4YnP+sykfn5FDocpGx/xxE=;
-	b=gjDTrkSzcg8kzA8nCqXVRv+XftubXaLoP8nFPyCF2P7Xzw/OgtkwFxuWb2qwCK4GG8d9
-	 xyYk5HydBAA/YJCoGQd/1n5dGgScZyb3y7IzfAqSgPc5aKz8hIu1djA0NqMGWaOoTuDj3
-	 SpO5YJM/c4QpcOT+9sTgNFiUjeKLclL4gKSUjsfKVhG63Sd89UK15GrSNZ7bjI5ieS2s3
-	 RhGeOuR4eymhAj9K1jh6xv27aaDY77OtYSgTWmqOs09tWliU8aurmBRpNdW8xrO0lxkHm
-	 JMftYMuVRbTkI0bgKxOIoKxYwQez51fob7X7EfuQGLsJ/kFSw8XbYoXC9ADXSDSIGdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793899757;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=1OnqzRsvitQ4MyI4f27p0X1rJF88pgVycPeFzHfgJT8=;
+	b=YL446GVAqOLIKYUE9GRAIKknWgnw1dtxynWRTqr4m9YE9c9uhDZfxdqo9k2TUyKegKeV
+	 E/pkJtgp1fbeuTO2DTSNCjzwgD5pzfEERm8q1UY7ShJtHIjT2MTDf7GgdnwVaFjKPW4Xj
+	 dqpIPAh4+MephfbKyEo/7Vh9uHquCDWxqfwEaUzKZ3R4oLNH+rucSw/m/QDTvdFoumdbb
+	 ZLIHLzMiTU8HpBfYpFroslK5HQtAMZG7TYTHfJAEDNjz5zLN+jEmSAq6cli3aB8IWVPe4
+	 Jc5Al2k4sxHBJ5bubc9Z/ApV4YxzCPyQ2P4QybpJ/V/A/Nfp7G26jhsA33ePUwZosyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GM3m6oMK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wqq5O9fR;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A87606D80A;
-	Thu,  5 Nov 2026 17:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29E8606D801
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 17:29:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C29E8606D801
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GM3m6oMK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE3E1F00A1C;
-	Thu,  5 Nov 2026 17:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793899168;
-	bh=jW+ShPCH/HH5xFBtj2AJT4YnP+sykfn5FDocpGx/xxE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GM3m6oMKxMCjOMKWhEd+UkKNUZIm1+KHdwaTXxONvKIl0QdPt2OquxFxSmMFg7Hei
-	 vNKPdcU8ZeQTaW0+FnUzLUul7dXM9aOW3GQWYLyaebB0jGJjDDD5p9GysOqpp+EHCh
-	 KFxuvv0iDZbTe4CtD9oCF1Wga1VstmyU0V2dMYpG6k7C2cvUA38Z91HrMh+BmzyrS1
-	 Wi/AA3PNvSy6vUpv4M9S0WOvU3ac1fbnlriGH4IXqp4+P1JZw+RsK9noXJ5H8eULDJ
-	 ycfeqAK4k6UoFEIGM1IbGUL5A729HhLcu3Qf1joTJZzffOJ2zKWyo+9zDDeYnIpSxX
-	 aPt04u6iPUB6w==
-Date: Thu, 5 Nov 2026 07:19:27 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wqq5O9fR
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so20097075e9.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 09:29:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793899755; x=1794504555; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1OnqzRsvitQ4MyI4f27p0X1rJF88pgVycPeFzHfgJT8=;
+        b=Wqq5O9fRTqIecTXgrQyd28oGsy4+mJsBZxUjqZb6D9HJ2XRtFovUR2wBdjkfRYoJ5B
+         l8t5Wj8X0OSOeX4K4zfwScq7LF7ES7FB4uA5bNdP6bm0Jht8eZ1jX+DRpZwXdFiFCIEE
+         miJU0nGWyhlkvWSwH/zsJCyrXQGSUo7SGsSAJQdrlofa34cBtKElPEChbG4vXTsbWNw1
+         5ClK/U82LyE/KkJRILwIaf7WpGZHAr0MMOOlHRwxorM4GtXx/DLnBqC3alH24g5eWlYp
+         UMlUBqE1rTdtrAxjabYoUSIJUdPaxp4qljuEs6+jCankfdqTW3UVUtAWHTGxHsW/ZZr6
+         jQQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793899755; x=1794504555;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1OnqzRsvitQ4MyI4f27p0X1rJF88pgVycPeFzHfgJT8=;
+        b=s918wGYtE+deDBPpSQvOn6m/x/fsZDKzOtYEkdOmFB/QPeKWLzBqqG0noKhGodHpYR
+         vQ1XE2ptafQEsBZ94YZt+EsJWmEYh5uBDz4swDfQsARW2hJs4Z2ZKLWbr8uhJgQWC5lw
+         giFU9UVolCSTLcSSKSY7QvbZgVhX10S4Ghd4T0+AYSxMamATwYEL1Muc7X5s9orMfydt
+         FUCYmqO5n2lzpsauoZ1RUKQ9P2ABmwH1U0OC30N1KduuFhnBuLhOasPQ9DF0v4ggziCs
+         VR2pI4IHESiyEPtpOOBnFdJ10rSb6ijbnfkWmXFHZPkwBS2h+0uJDuyyTA9ecVvEWYK1
+         IkSg==
+X-Forwarded-Encrypted: i=1; AKwUvBwQ7bwWWWjl42JQfEoH2RbKQB7nMgzCGId/yOo5SvUSNCSqtWGTtvQQ0r6cIrQ09+rzujrA/KrdK+hug2i3VA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/lfX2poVkoR0DX20ABSShby7Vqhl+Fnwi5XBaLl2jsW8AjlBwB
+	R3REM80bInK48bxGmoQwHyZx5PULnkpRZTaNUn0Ryqerxt/WY2q5C8bM
+X-Gm-Gg: AYBFou0k7fgloXcn7rVXEI+mnt06EjrsmlOYYCRUMlhq2wtAxsM4mv9MnHgUp/9AUaV
+	/4MBt1zFrqAUOP7D7EScTjFFsXsGsYMm5haYTgAFp2qMBS5ChKLv2dS0Ra+lErdfYAA8zLB6Kiu
+	eigvTu7xMxSE01KYDDWHy0QJAY+7lL9m66PMmwDnUBFSEdKjmuR6iGoYwypE285cUtlxaWoM/UK
+	2AIwtEkdniVVJn2CBhRk19JjA1nhC316w69zwgaUst6+BHgNecEz/1ZzuRdkd4DVGWUrnFwkSEk
+	fWoK3LnIQnIFBl99oU+vfz48S/iN1zc/JNoieBOGF4eTfBYHre3OwBFc7Sh9KSlbFYOR8kB7Cv0
+	Q4nI/ChfFJTYHA59Fy1H0YHrtlUBik1r8qIX2pIB84FgHuAlfBrWn8kIxeMZPtwQHfmFonvMsX5
+	XztHSo4x4zKTXcm3fFYx7E3UbzgwnfsxGbQfdYnvyeFUMMwUIrJteiElm6z+dZX3hBD7jEnltFZ
+	miml6wbGUHc/itEnKfky4rrtExRMLyp0fQWPraeqIuX5eNPpAgG10ZB+H8j4pQZatZ6yT3jLsko
+	7a4Iq5cWFiEApzHQKwPn8Kd0sv/h/l3tdQhB05+wOV6NY7tHwVt+C3F0zb2XVb18KSBy57KFT11
+	7mllzh78=
+X-Received: by 2002:a05:600c:3b29:b0:4a2:167a:c939 with SMTP id 5b1f17b1804b1-4ac17d19aeamr401115205e9.21.1793899755121;
+        Thu, 05 Nov 2026 09:29:15 -0800 (PST)
+Received: from andreayoga.localdomain ([151.43.242.194])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56e2ae72dsm131080675e9.3.2026.11.05.09.29.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 09:29:14 -0800 (PST)
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Andrea Parri <parri.andrea@gmail.com>,
 	Juri Lelli <juri.lelli@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
+	linux-kernel@vger.kernel.org,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
 	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Luca Abeni <luca.abeni@santannapisa.it>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>
-Subject: Re: [PATCH] sched: Remove CONFIG_RT_GROUP_SCHED
-Message-ID: <auy6nyTUuHBlgrV_@slm.duckdns.org>
-References: <20261105164724.yxONBd03@linutronix.de>
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Kayra Cizmeci <kayracizmeci@gmail.com>,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 19/21] sched: Clear cpuset_locked where the policy check retries
+Date: Thu,  5 Nov 2026 18:28:58 +0100
+Message-ID: <20261105172900.38029-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <a63396b0-9b0c-4d4b-9754-f503cdb84098@efficios.com>
+References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com> <20261104211207.1392343-20-mathieu.desnoyers@efficios.com> <20261105164356.28913-1-parri.andrea@gmail.com> <a63396b0-9b0c-4d4b-9754-f503cdb84098@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -69,42 +122,19 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105164724.yxONBd03@linutronix.de>
+Content-Transfer-Encoding: 8bit
 
-Hello, Sebastian.
+On Thu, Nov 05, 2026 at 12:08:50PM -0500, Mathieu Desnoyers wrote:
 
-On Thu, Nov 05, 2026 at 05:47:24PM +0100, Sebastian Andrzej Siewior wrote:
-> The RT_GROUP_SCHED is broken beyond repair and it is to not enable it
-> during compile. If enabled it is recommended to disable it at boot time
-> with the rt_group_sched= option.
-> With it enabled it is not possible to set the policy of a task to
-> SCHED_{FIFO|RR} because its cgroup has no runtime assigned. The runtime
-> can not be assigned with cgroup v2. The root group has however all the
-> runtime assigned meaning the global sysctl runtime parameter
-> (sched_rt_runtime_us) can no be reduced because the new bandwidth will
-> be less than what is current available.
-> It is possible to schedule SCHED_DEADLINE tasks but the admission
-> control is stuck can only be disabled via -1 (same sysctl parameter).
-> 
-> As a result all major distors (Debian, Open Suse, Fedora, Archlinux)
-> have it disabled.
-> 
-> I don't think it is needed to somehow fix RT_GROUP_SCHED. The DL fair
-> server already handles the RT throttling mechanism. There is work on
-> Hierarchical constant bandwidth server (HCBS) which aim to group
-> multiple real-time tasks within one deadline configuration.
-> 
-> Remove CONFIG_RT_GROUP_SCHED.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+[...]
 
-I'm not against it but wonder whether it'd be useful to do it more gradually
-so that people can pipe up if they depend on it. ie. Mark it deprecated and
-put it behind EXPORT for a bit and then BROKEN before actual removal.
+> Thanks for pointing this out! I'll pick the preexisting patch into my
+> series instead for v3 if that's OK. Then maintainers can feel free to
+> pick it up from whatever route they prefer.
 
-Thanks.
+Fine with me, thanks.  Please keep it unchanged, with its tags, and
+ahead of dl_accounting_unlock() if you can, so it still backports
+cleanly.
 
--- 
-tejun
+Thanks,
+  Andrea
