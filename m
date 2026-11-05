@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793844078;
-	b=Ab/CvqPQoJKQY+TfIIbE9fXMchy8tzTl6GA36bqv2f9rnce+v5ugacyFPRJcMmFvHh08
-	 JhXq2JrAAHRCxp+hv51ZiEx7x4bNx3LjFzfAuZKRIG2UDXxmKAsVAAggkwdkq9IYn9kKm
-	 I7MAek+1NR66jaEAqpqGI9+AlpFOe0wa4/yT/LdR26DnftVCzw2IJWkU0W4iAq0zHGL/A
-	 +68ZqURYV4oOhYZEk6aSa2Uzgf6o6LAREq020KpNFK2fZgWwQDnSkZ8MRrTHDl62UxOGw
-	 Oi+1L2o3b37DByuA8En0T+SxrZBFiILmM4tuzIwa8ZPStkBGExioS4VkyaPsf9u2JSw==
+	t=1793844079;
+	b=I4UB3g2jdB7LkkVSyOUBQc9A6IRVFJ9TQjZpFwhsGj0fmcy0RTx8ui4JUECEOgDkYvOQ
+	 lOpDcW1bIEb48x2Ap9RhY9lfG4LdTfdrPUColSJ+hOro53gA6RywIylURa4gOoyAucJVM
+	 M369bSsgJfq082DT/gXGAZ6iQN9a+NjgW+omAdof0P/gbq6r72fs7EQBK/o1Yp4FPusna
+	 M0WA36YUxDyKxAFEXRm0JH+kt+ZNrVogZ6Itt+WhVAZBEkGzfODiJ2ffAw+p9VBjNDtTi
+	 m+8JM0pGYzS6uMUWpv7+Dl9owMSVsNq1N9Gcyq/JIsMN9O2SSqBLk493EaeAoHO+IQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793844078;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793844079;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=5928Fm1r4SKQS+jH4OMcVcprvnhzKwbhu15jXKH4aPQ=;
-	b=42glvD8ktPV2R4qacoM8o5mqYcQnIDSkm1MoOI8L/0ow2N0nX5hFeFoG72x4diJe5/Ed
-	 L0rwy9JCKZt0TJPyf2SfgXmyidFKj22o3ekZkLwr5a9Zn9roo/Jb0ScSeL+cUkXIxIIto
-	 9iYPsjMqm4jst0eYP0DxrDbWBX3OOgZ4xvhs9pCwHeiUncGw2Y8W74OoTMPmvDqAi8vtw
-	 EjW0oiAMwJ9fQ8JlaDo4cVxwnM/PIi6qVPCLFUTrDT0YGwHRUfIGJfLN3FU/KUpo50fGw
-	 J/BMPujc1Ld2sf6K+oXP46q+W/Z7wPRmwgKw9tezLL4C0acDk1dKFQAsGJ5YrEv8SJA==
+	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=MrykgqblsgkTBBhZT90jYeBND9vd1pcgeJZVOE7ReYk=;
+	b=nMx6o1clV6Eu4rSRLqzOLH7XDyfVORJsoWlnW9MMpZ1k5w4XnO3SrMEK/m3rmX2r8wW+
+	 XFdd2w/gUiE1U+OnpnnMyVnB6YzxSMgsBrVHbeDkBK9q6vd9i/dgVwcY5aqw4X/79CJbv
+	 mHY+Hkc/ThKz6yqxGGG/iBnZVRuVUs2iWZqwKjdYLU0/Cd/srpOHWxHMmbAgUcZ3XE+SR
+	 jojc220tw64CNzdu2ec2VqCtOiIULm2RnHPeGdUjQhDbY+Mp4ndAt0eEwbmlkBql8jR3V
+	 TEZRaofQvgzI5YepMLzB7O5yWOYnL0tkTqIQ/zWbTDhUsgu0Or9G0PsEGJ5cLrWsgZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=c+cJAlqC;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=E89PU2Po;
 	arc=none smtp.remote-ip=90.155.92.199
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE68606EEA9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE16606EEA7;
 	Thu,  5 Nov 2026 02:01:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EE68606EEA9
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EE16606EEA7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=c+cJAlqC
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=E89PU2Po
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=5928Fm1r4SKQS+jH4OMcVcprvnhzKwbhu15jXKH4aPQ=; b=c+cJAlqCYvwVUBT4ZnFxngvmEg
-	j06UhJBCENC+EWoZ8uxTBe1BBkm/K3xpWMIPcGenCA3LmH+U9Q/Dg5bWoQ54giJNHszlHgrZ/nmot
-	dhX1Ys8wR7p0RlzClAALbcdELVnNJ+n8ApVB4ktMzDm28gJUocHY6GxrbkEN8ILJRpbL4N90IN/wv
-	KEfe9NuUJTyFIeG5ezpKPKjEKxQNKWJlzfO9vpntoZ27Nlk2dRBasRMfGfzsrAVa0oU66QBYPA3ou
-	HkHH3OBDWOEl+/9HKxOSoRtrVciGSUmi9AVPYqFy0schWzdIpdFTNN1CCTuLrEv1Jf2heYs55ZGDh
-	Yd1RUHlQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=MrykgqblsgkTBBhZT90jYeBND9vd1pcgeJZVOE7ReYk=; b=E89PU2Po5NQYe57K5iPKPyxkd6
+	EIFv08iZkTq/YiSNs1ncnEO5K7DjkjDC3IC3NUTXGYeevXC0fQe4r9thR/oKu5IlQI0WlB9Qya8Te
+	c7HrdPPF7zjoVGaa1EdF2FXEIHGmKdWODQsWFXfDNJTHa9r7nGsIGk7ZzsJEd0OxHB05SGUOKuNY2
+	aO4pJCl+2mJm5TNBhuBw3aGVvpsgp8T6pvG6ZV3zOsLyZd35My2L1XELY+FzEO+30p1n9YNHMqTGp
+	IuqlM18MEWRI7Dxy7omuWMw4q7MP3LDMfJDqlmEq/N1IFs6dMk4FApecH+BxctBp15fmddZD8tWGx
+	BKPpjO/A==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmmo-00000002ROS-24dv;
+	id 1xOmmo-00000002ROP-25S4;
 	Thu, 05 Nov 2026 02:01:08 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xOmmn-0000000AWEJ-0E2y;
-	Thu, 05 Nov 2026 02:01:05 +0000
+	id 1xOmmm-0000000AWDu-3GYz;
+	Thu, 05 Nov 2026 02:01:04 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -66,9 +66,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Kunwu Chan <kunwu.chan@gmail.com>,
 	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v2 20/20] KVM: selftests: Add Xen evtchn vs mmu_notifier race test for HVA caches
-Date: Thu,  5 Nov 2026 02:01:02 +0000
-Message-ID: <20261105020104.2507083-21-dwmw2@infradead.org>
+Subject: [PATCH v2 14/20] KVM: selftests: Add nested VMX APIC cache invalidation test
+Date: Thu,  5 Nov 2026 02:00:56 +0000
+Message-ID: <20261105020104.2507083-15-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261105020104.2507083-1-dwmw2@infradead.org>
 References: <20261105020104.2507083-1-dwmw2@infradead.org>
@@ -81,242 +81,380 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Race a guest EVTCHNOP_send loop against a host thread hammering
-MADV_DONTNEED on the userspace page backing HVA-based shared_info and
-vcpu_info caches. Every madvise zaps the PTE and invalidates both
-gfn_to_pfn_caches; every delivery must refresh through the window
-(hva_to_pfn_retry() retries until the invalidation has finished, then
-faults the page back in) and must succeed. The caches are HVA-based,
-so no memslot semantics excuse a drop: unlike
-xen_evtchn_memslot_race_test, which only pins the no-deadlock claim,
-this test asserts every one of the 20000 sends delivers, and any
-hypercall bounce to userspace fails the test.
+Add a selftest for the nested VMX APIC page caches: an L2 guest
+writes the APIC-access page while a second thread repeatedly
+invalidates the underlying mapping, either with
+madvise(MADV_DONTNEED) (MMU notifier path) or by moving the memslot
+away and back (memslot update path), so the GPA under test is
+repeatedly unbacked and re-latched.
 
-This exercises the pfncache invalidation protocol itself — the
-invalidate_start walk, the reader draining for a cache mid-teardown,
-and the handshake between a refresh publishing a new mapping and a
-concurrent invalidation vetoing it — which is where a lifetime bug
-in the cache would live; on a debug kernel one is expected to
-surface as a splat rather than a dropped event.
+The test asserts that L2 keeps running across the invalidations with
+no guest-visible errors, that at least one invalidation actually ran
+concurrently, and that the access only ever bounces to userspace as
+MMIO in the memslot-move variant (while the slot is moved away the
+GPA is unbacked; madvise never unbacks the GPA, so an MMIO exit
+there means KVM lost the mapping).
 
+Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
+
+[dwmw2: Adapt to selftest API drift since the v4 posting: prepare_vmcs()
+        no longer takes an L2 stack (4c396f19de5d), vm_vaddr_t is now
+        gva_t, and the prepare_eptp()/nested_map*() EPT helpers were
+        replaced by vm_enable_tdp()/tdp_map()/
+        tdp_identity_map_default_memslots().]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Assisted-by: LLM
 ---
  tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../kvm/x86/xen_evtchn_hva_notify_race_test.c | 188 ++++++++++++++++++
- 2 files changed, 189 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/xen_evtchn_hva_notify_race_test.c
+ .../selftests/kvm/x86/vmx_apic_update_test.c  | 323 ++++++++++++++++++
+ 2 files changed, 324 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/vmx_apic_update_test.c
 
 diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index c17408f8d61f..19dc0744f25f 100644
+index 17a4256e9081..dcfe815f4a02 100644
 --- a/tools/testing/selftests/kvm/Makefile.kvm
 +++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -150,6 +150,7 @@ TEST_GEN_PROGS_x86 += x86/debug_regs
- TEST_GEN_PROGS_x86 += x86/tsc_msrs_test
- TEST_GEN_PROGS_x86 += x86/vmx_pmu_caps_test
- TEST_GEN_PROGS_x86 += x86/xen_evtchn_memslot_race_test
-+TEST_GEN_PROGS_x86 += x86/xen_evtchn_hva_notify_race_test
- TEST_GEN_PROGS_x86 += x86/xen_shinfo_test
- TEST_GEN_PROGS_x86 += x86/xen_vmcall_test
- TEST_GEN_PROGS_x86 += x86/sev_dbg_test
-diff --git a/tools/testing/selftests/kvm/x86/xen_evtchn_hva_notify_race_test.c b/tools/testing/selftests/kvm/x86/xen_evtchn_hva_notify_race_test.c
+@@ -161,6 +161,7 @@ TEST_GEN_PROGS_x86 += x86/triple_fault_event_test
+ TEST_GEN_PROGS_x86 += x86/recalc_apic_map_test
+ TEST_GEN_PROGS_x86 += x86/aperfmperf_test
+ TEST_GEN_PROGS_x86 += x86/guest_memfd_conversions_test
++TEST_GEN_PROGS_x86 += x86/vmx_apic_update_test
+ TEST_GEN_PROGS_x86 += access_tracking_perf_test
+ TEST_GEN_PROGS_x86 += coalesced_io_test
+ TEST_GEN_PROGS_x86 += dirty_log_perf_test
+diff --git a/tools/testing/selftests/kvm/x86/vmx_apic_update_test.c b/tools/testing/selftests/kvm/x86/vmx_apic_update_test.c
 new file mode 100644
-index 000000000000..c105435f6357
+index 000000000000..357e10c88cd0
 --- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/xen_evtchn_hva_notify_race_test.c
-@@ -0,0 +1,188 @@
++++ b/tools/testing/selftests/kvm/x86/vmx_apic_update_test.c
+@@ -0,0 +1,323 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * xen_evtchn_hva_notify_race_test
++ * vmx_apic_update_test
 + *
-+ * A guest EVTCHNOP_send loop racing continuous mmu_notifier
-+ * invalidation of the HVA-based shared_info and vcpu_info caches: a
-+ * host thread hammers MADV_DONTNEED on the userspace page backing
-+ * both, zapping the PTE and invalidating the gfn_to_pfn_caches on
-+ * every pass. Delivery must refresh through each invalidation window
-+ * (hva_to_pfn_retry() retries until the notifier has finished, then
-+ * faults the page back in) and must never fail: the caches are
-+ * HVA-based, so no memslot semantics excuse a drop.
++ * Copyright (C) 2025, Amazon.com, Inc. or its affiliates. All Rights Reserved.
 + *
-+ * This is the stress for the pfncache invalidation protocol itself —
-+ * the invalidate_start walk, the GPC_INVALIDATING grace-period
-+ * draining, and the announce/veto handshake between a refresh's
-+ * publish and a concurrent invalidation. Unlike the sibling
-+ * xen_evtchn_memslot_race_test, every send is asserted to succeed;
-+ * any -EFAULT bounce to userspace, or any guest-visible failure, is
-+ * a test failure, and a lifetime bug is expected to show up as a
-+ * crash or splat on a debug kernel.
++ * Test L2 guest APIC access page writes with concurrent MMU
++ * notification and memslot move updates.
 + */
++#include <limits.h>
 +#include <pthread.h>
-+#include <stdatomic.h>
-+#include <sys/mman.h>
-+
 +#include "test_util.h"
 +#include "kvm_util.h"
 +#include "processor.h"
++#include "vmx.h"
 +
-+#include <stdint.h>
++#define VAPIC_GPA	0xc0000000
++#define VAPIC_SLOT	1
 +
-+#define EVTCHN_PORT		15
-+#define TEST_ITERATIONS		5000
 +
-+#define EVTCHNOP_send		4
-+#define __HYPERVISOR_event_channel_op	32
++#define L2_DELAY	(100)
 +
-+#define XEN_HYPERCALL_MSR	0x40000000
-+
-+#define EVTCHNSTAT_ipi		5
-+
-+struct evtchn_send {
-+	uint32_t port;
-+};
-+
-+static void guest_code(void)
++static void l2_guest_code(void)
 +{
-+	struct evtchn_send s = { .port = EVTCHN_PORT };
-+	uint64_t rc;
-+	int i;
++	uint32_t *vapic_addr = (uint32_t *) (VAPIC_GPA + 0x80);
 +
-+	for (i = 0; i < TEST_ITERATIONS; i++) {
-+		rc = __xen_hypercall(__HYPERVISOR_event_channel_op,
-+				     EVTCHNOP_send, &s);
-+		__GUEST_ASSERT(!rc,
-+			       "EVTCHNOP_send failed with %ld on iteration %d",
-+			       (long)rc, i);
-+		GUEST_SYNC(i);
++	/* Unroll the loop to avoid any compiler side effect */
++
++	WRITE_ONCE(*vapic_addr, 1 << 0);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 1);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 2);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 3);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 4);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 5);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 1 << 6);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	WRITE_ONCE(*vapic_addr, 0);
++	udelay(msecs_to_usecs(L2_DELAY));
++
++	/* Exit to L1 */
++	vmcall();
++}
++
++static void l1_guest_code(struct vmx_pages *vmx_pages)
++{
++	uint32_t control, exit_reason;
++
++	prepare_for_vmx_operation(vmx_pages);
++	load_vmcs(vmx_pages);
++	prepare_vmcs(vmx_pages, l2_guest_code);
++
++	/* Enable APIC access */
++	control = vmread(CPU_BASED_VM_EXEC_CONTROL);
++	control |= CPU_BASED_ACTIVATE_SECONDARY_CONTROLS;
++	vmwrite(CPU_BASED_VM_EXEC_CONTROL, control);
++	control = vmread(SECONDARY_VM_EXEC_CONTROL);
++	control |= SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES;
++	vmwrite(SECONDARY_VM_EXEC_CONTROL, control);
++	vmwrite(APIC_ACCESS_ADDR, VAPIC_GPA);
++
++	GUEST_SYNC1(0);
++	vmlaunch();
++again:
++	exit_reason = vmread(VM_EXIT_REASON);
++	if (exit_reason == EXIT_REASON_APIC_ACCESS) {
++		uint64_t guest_rip = vmread(GUEST_RIP);
++		uint64_t instr_len = vmread(VM_EXIT_INSTRUCTION_LEN);
++
++		vmwrite(GUEST_RIP, guest_rip + instr_len);
++		vmresume();
++		goto again;
 +	}
 +
++	GUEST_SYNC1(exit_reason);
++	GUEST_ASSERT(exit_reason == EXIT_REASON_VMCALL);
 +	GUEST_DONE();
 +}
 +
-+static atomic_bool churn_stop;
++static const char *progname;
++static int update_period_ms = L2_DELAY / 4;
 +
-+static void *backing_churn(void *arg)
++struct update_control {
++	pthread_mutex_t mutex;
++	pthread_cond_t start_cond;
++	struct kvm_vm *vm;
++	bool running;
++	bool started;
++	int updates;
++};
++
++static void wait_for_start_signal(struct update_control *ctrl)
 +{
-+	void *backing = arg;
++	pthread_mutex_lock(&ctrl->mutex);
++	while (!ctrl->started)
++		pthread_cond_wait(&ctrl->start_cond, &ctrl->mutex);
 +
-+	while (!atomic_load(&churn_stop))
-+		madvise(backing, PAGE_SIZE, MADV_DONTNEED);
++	pthread_mutex_unlock(&ctrl->mutex);
++	printf("%s: starting update\n", progname);
++}
++
++static bool is_running(struct update_control *ctrl)
++{
++	return READ_ONCE(ctrl->running);
++}
++
++static void set_running(struct update_control *ctrl, bool running)
++{
++	WRITE_ONCE(ctrl->running, running);
++}
++
++static void signal_thread_start(struct update_control *ctrl)
++{
++	pthread_mutex_lock(&ctrl->mutex);
++	if (!ctrl->started) {
++		ctrl->started = true;
++		pthread_cond_signal(&ctrl->start_cond);
++	}
++	pthread_mutex_unlock(&ctrl->mutex);
++}
++
++static void *update_madvise(void *arg)
++{
++	struct update_control *ctrl = arg;
++	void *hva;
++
++	wait_for_start_signal(ctrl);
++
++	hva = addr_gpa2hva(ctrl->vm, VAPIC_GPA);
++	memset(hva, 0x45, ctrl->vm->page_size);
++
++	while (is_running(ctrl)) {
++		usleep(update_period_ms * 1000);
++		madvise(hva, ctrl->vm->page_size, MADV_DONTNEED);
++		ctrl->updates++;
++	}
 +
 +	return NULL;
 +}
 +
-+int main(int argc, char *argv[])
++static void *update_move_memslot(void *arg)
 +{
-+	struct kvm_vcpu *vcpu;
++	struct update_control *ctrl = arg;
++	uint64_t gpa = VAPIC_GPA;
++
++	wait_for_start_signal(ctrl);
++
++	/*
++	 * Alternate the slot between VAPIC_GPA and an alternate address,
++	 * so that the GPA under test is repeatedly unbacked (L2's APIC
++	 * access bounces to userspace as MMIO) and re-backed (KVM must
++	 * re-latch the page). Moving strictly away would change
++	 * vCPU-visible state only once.
++	 */
++	while (is_running(ctrl)) {
++		usleep(update_period_ms * 1000);
++		gpa = (gpa == VAPIC_GPA) ? VAPIC_GPA + 0x10000 : VAPIC_GPA;
++		vm_mem_region_move(ctrl->vm, VAPIC_SLOT, gpa);
++		ctrl->updates++;
++	}
++
++	return NULL;
++}
++
++static void run(void * (*update)(void *), const char *name, bool mmio_ok)
++{
 +	struct kvm_vm *vm;
-+	pthread_t thread;
++	struct kvm_vcpu *vcpu;
++	struct update_control ctrl;
 +	struct ucall uc;
-+	void *backing;
-+	int done = 0;
++	gva_t vmx_pages_gva;
++	pthread_t update_thread;
++	bool done = false;
 +
-+	int xen_caps = kvm_check_cap(KVM_CAP_XEN_HVM);
++	vm = vm_create_with_one_vcpu(&vcpu, l1_guest_code);
 +
-+	TEST_REQUIRE(xen_caps & KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA);
-+	TEST_REQUIRE(xen_caps & KVM_XEN_HVM_CONFIG_EVTCHN_SEND);
++	/* Set up nested EPT */
++	vm_enable_tdp(vm);
 +
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
++	/* Allocate VMX pages */
++	vcpu_alloc_vmx(vm, &vmx_pages_gva);
 +
-+	/*
-+	 * The shared_info page and the vcpu_info within it live in plain
-+	 * anonymous VMM memory, not in any memslot: nothing but the
-+	 * mmu_notifier churn below can perturb the caches.
-+	 */
-+	backing = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
-+		       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	TEST_ASSERT(backing != MAP_FAILED, "mmap of backing page failed");
++	/* Allocate memory and create VAPIC memslot */
++	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, VAPIC_GPA,
++				    VAPIC_SLOT, 1, 0);
 +
-+	struct kvm_xen_hvm_config hvmc = {
-+		.flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
-+			 KVM_XEN_HVM_CONFIG_EVTCHN_SEND,
-+		.msr = XEN_HYPERCALL_MSR,
-+	};
-+	vm_ioctl(vm, KVM_XEN_HVM_CONFIG, &hvmc);
++	/* Allocate guest page table */
++	virt_map(vm, VAPIC_GPA, VAPIC_GPA, 1);
 +
-+	struct kvm_xen_hvm_attr lm = {
-+		.type = KVM_XEN_ATTR_TYPE_LONG_MODE,
-+		.u.long_mode = 1,
-+	};
-+	vm_ioctl(vm, KVM_XEN_HVM_SET_ATTR, &lm);
++	/* Identity-map everything, including the VAPIC page, in the EPT */
++	tdp_identity_map_default_memslots(vm);
++	tdp_map(vm, VAPIC_GPA, VAPIC_GPA, vm->page_size);
 +
-+	struct kvm_xen_hvm_attr ha = {
-+		.type = KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA,
-+		.u.shared_info.hva = (unsigned long)backing,
-+	};
-+	vm_ioctl(vm, KVM_XEN_HVM_SET_ATTR, &ha);
++	vcpu_args_set(vcpu, 1, vmx_pages_gva);
 +
-+	struct kvm_xen_vcpu_attr vi = {
-+		.type = KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA,
-+		.u.hva = (unsigned long)backing + 0x40,
-+	};
-+	vcpu_ioctl(vcpu, KVM_XEN_VCPU_SET_ATTR, &vi);
++	pthread_mutex_init(&ctrl.mutex, NULL);
++	pthread_cond_init(&ctrl.start_cond, NULL);
++	ctrl.vm = vm;
++	ctrl.running = true;
++	ctrl.started = false;
++	ctrl.updates = 0;
 +
-+	/* Loop the port back to this vCPU as an IPI. */
-+	struct kvm_xen_hvm_attr evt = {
-+		.type = KVM_XEN_ATTR_TYPE_EVTCHN,
-+		.u.evtchn.send_port = EVTCHN_PORT,
-+		.u.evtchn.type = EVTCHNSTAT_ipi,
-+		.u.evtchn.flags = 0,
-+		.u.evtchn.deliver.port.port = EVTCHN_PORT,
-+		.u.evtchn.deliver.port.vcpu = vcpu->id,
-+		.u.evtchn.deliver.port.priority = KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL,
-+	};
-+	vm_ioctl(vm, KVM_XEN_HVM_SET_ATTR, &evt);
++	kvm_pthread_create(&update_thread, NULL, update, &ctrl);
 +
-+	kvm_pthread_create(&thread, NULL, backing_churn, backing);
-+
-+	/*
-+	 * Self-guard against a kernel which livelocks a refresh under
-+	 * continuous invalidation. Deliberately no SIGALRM handler, as in
-+	 * xen_evtchn_memslot_race_test: only the default disposition can
-+	 * kill a process whose vCPU thread never returns to userspace.
-+	 * Empirically ~100-170 iterations/sec on a c6a.metal host: nearly
-+	 * every send pays a full refresh (fault the page back in and remap
-+	 * it), so budget generously; the healthy runtime is ~30-50s.
-+	 */
-+	alarm(240);
++	printf("%s: running %s (tsc_khz %lu)\n", progname, name, guest_tsc_khz);
 +
 +	while (!done) {
 +		vcpu_run(vcpu);
 +
-+		/*
-+		 * An HVA-based cache has no memslot to be mid-update:
-+		 * there is no legitimate reason for delivery to fail, so
-+		 * unlike the memslot race test, a hypercall bouncing to
-+		 * userspace is a straight failure.
-+		 */
-+		TEST_ASSERT(vcpu->run->exit_reason != KVM_EXIT_XEN,
-+			    "EVTCHNOP_send bounced to userspace: delivery failed");
-+
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_SYNC:
-+			if (uc.args[1] && !(uc.args[1] % 1000))
-+				pr_info("progress: %lu iterations\n", uc.args[1]);
++		switch (vcpu->run->exit_reason) {
++		case KVM_EXIT_IO:
++			switch (get_ucall(vcpu, &uc)) {
++			case UCALL_SYNC:
++				printf("%s: sync(%ld)\n", progname, uc.args[0]);
++				if (uc.args[0] == 0)
++					signal_thread_start(&ctrl);
++				break;
++			case UCALL_ABORT:
++				REPORT_GUEST_ASSERT(uc);
++				/* NOT REACHED */
++			case UCALL_DONE:
++				done = true;
++				break;
++			default:
++				TEST_ASSERT(false, "Unknown ucall %lu", uc.cmd);
++			}
 +			break;
-+		case UCALL_DONE:
-+			done = 1;
++		case KVM_EXIT_MMIO:
++			/*
++			 * While the slot is moved away, the GPA under test
++			 * is unbacked and the access legitimately bounces
++			 * to userspace as MMIO (until the updater moves it
++			 * back). madvise() never unbacks the GPA, so there
++			 * an MMIO exit means KVM lost the mapping: fail.
++			 */
++			TEST_ASSERT(mmio_ok,
++				    "%s: unexpected APIC MMIO access at 0x%llx",
++				    progname, vcpu->run->mmio.phys_addr);
++			printf
++			    ("%s: APIC MMIO access at 0x%llx (memslot move effect)\n",
++			     progname, vcpu->run->mmio.phys_addr);
 +			break;
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+			/* NOT REACHED */
 +		default:
-+			TEST_FAIL("Unexpected ucall %lu", uc.cmd);
++			TEST_FAIL("%s: Unexpected exit reason: %d (flags 0x%x)",
++				  progname,
++				  vcpu->run->exit_reason, vcpu->run->flags);
 +		}
 +	}
 +
-+	atomic_store(&churn_stop, true);
-+	kvm_pthread_join(thread, NULL);
-+	alarm(0);
++	set_running(&ctrl, false);
++	if (!ctrl.started)
++		signal_thread_start(&ctrl);
++	kvm_pthread_join(update_thread, NULL);
++	printf("%s: completed with %d updates\n", progname, ctrl.updates);
++	TEST_ASSERT(ctrl.updates > 0,
++		    "%s: %s performed no updates; nothing was tested",
++		    progname, name);
 +
++	pthread_mutex_destroy(&ctrl.mutex);
++	pthread_cond_destroy(&ctrl.start_cond);
 +	kvm_vm_free(vm);
++}
++
++int main(int argc, char *argv[])
++{
++	int opt_madvise = 0;
++	int opt_memslot_move = 0;
++
++	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
++	TEST_REQUIRE(kvm_cpu_has_ept());
++
++	if (argc == 1) {
++		opt_madvise = 1;
++		opt_memslot_move = 1;
++	} else {
++		int opt;
++
++		while ((opt = getopt(argc, argv, "amp:")) != -1) {
++			switch (opt) {
++			case 'a':
++				opt_madvise = 1;
++				break;
++			case 'm':
++				opt_memslot_move = 1;
++				break;
++			case 'p':
++				update_period_ms = atoi(optarg);
++				TEST_ASSERT(update_period_ms > 0 &&
++					    update_period_ms < INT_MAX / 1000,
++					    "Update period must be a positive number of milliseconds, not '%s'",
++					    optarg);
++				break;
++			default:
++				exit(1);
++			}
++		}
++	}
++
++	TEST_ASSERT(opt_madvise
++		    || opt_memslot_move, "No update test configured");
++
++	progname = argv[0];
++
++	if (opt_madvise)
++		run(update_madvise, "madvise", false);
++
++	if (opt_memslot_move)
++		run(update_move_memslot, "move memslot", true);
++
 +	return 0;
 +}
 -- 
