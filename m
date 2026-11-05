@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.85
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.106
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793905877;
-	b=ykQ6QIst3QC/Uk+0aKNCuVD1HXWCKpdow3UY6RM8GYAMyGYth+CpaZ6u9R3M4IAKHk3m
-	 bkrxAJ/snnenV9Ntuh3gydsLTgQSDEXIv0LEnBE+p/Un3Y6h1KCp+p8Q/2gWXmfE0xbpD
-	 pYFIeoCbZPs8Ga/cd6+pk26OkFE2e26FX5gaK8/kAras7onHO35OLaUiym37LS9Xbw1sV
-	 JNFo8d7+MCy8Nwn0c5+lg2+K671hlFv5f1AvhiMMAWom7gi+hfwvRgVouNpZ1tVa/fiNO
-	 0wTD9QsC4H9TuzXn59Uc/dsaLOaC68qsh08wMd8ucqLMiLqETqHq7Iry4v8rSQk+ffw==
+	t=1793905887;
+	b=JoQbKMN+dG6A2wACZjkQW7kDCRRNunmG0wGbHrGmzPV4XDe28Yq3MKqx8FBhnrqs3Yb9
+	 wedQKg2iKH1GjFzLAeAJ4FnVnsROyaQbcAWckofPg+4q8ZdgFxmVTVPcriGlUbm08cdfD
+	 cS/KJEVFs163CRRczNPJGrK3ZnG1Z13lrDQ5lU5zPJMUMp5Vg8j2GCaq34KxIuhU+GANc
+	 o0i8zc4yFDva+ALpHcCr7YsAIvRB4tfZEyK+C7DZnMCJmZoXPuuKkUuAa9SBIkiIM1uYV
+	 t2jIHD897j7uU+6poo3LcJaP8jzq+mjzPmnuEQIRpS8iZUe8BGzoEyWt3hakeKbf2Xw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793905877;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793905887;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
 	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
@@ -24,68 +24,68 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=HfNhTXZCVodoFdV6eIXi5mQkV1qDRcqmO5d+4METZmU=;
-	b=eq8r0fa1nYJV9z2IG+7KCtGsiZBJIYPtNVQiYE4PHJ6Bo+9DVyG9mafKNHZQ9yJCxoRv
-	 XsE2pFh83czpVV6DLfRzKtT60uw1N7Cl8cIeLCwrPUqeOWH0VTqnZzwhtK4zc9yslxFlq
-	 j86DSjy+RuRTdrrbGE10L/rZJGohbTrhQ440db7MbOhyNox3ob4kK1883/o7qQ4xbZ18T
-	 /tG5dOm7uUClXGwGEvyS7I8y4HBGA02Tn0hK2ObqMn255sSXnKfvIPZ21et9XJetTlXG5
-	 m1ApSP9Yc/jgjpmxnAJ2nlezAySL2nXrFtMUL00OyG0sKJO3w+3mIT1FW9qj5+aqa4A==
+	bh=nk+4efmjiYcgYse/P/9Rm6OyWsSsxvDo3CokQLJCWPk=;
+	b=q+IGCAFqc59OeZHpb7OduKhluyDLvlAHvnGxVQlT5sOO7COvnWT5XfWicqw1D9SNhaNv
+	 pskILpog2Okb6pqYTgwu/yiVsSRwQxbJdoM/OkGIxS4GLcLm3nI98NVR2H1lAPLJbuXSb
+	 sUOdRXz0V0SwihElXy/fS2bEsVNzL0iFAY2nFZTb2ppNsO4VepMgmqDGcpekuZZFUytXB
+	 +YNtHwIQ/FgVTDy+9Fxza+wu8iZI+KNTc6Xzk3PBr0ZbD2z4sSghyyH0R/PcJS+dh/NAS
+	 FY++k2FRUcKJftOmpQfEYWg04v36+ijQkUE7EykGNFe6wSvZvP4CbyyK/Ul1knjSsKQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=W8CcYnD7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.85
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022085.outbound.protection.outlook.com [40.107.193.85])
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=iVeY7tq0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.106
+Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020106.outbound.protection.outlook.com [52.101.189.106])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723F606A328;
-	Thu,  5 Nov 2026 19:11:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6723F606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42C1606A32C;
+	Thu,  5 Nov 2026 19:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D42C1606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=W8CcYnD7
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=iVeY7tq0
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aEAueT7rbtzMOn7ku5p4OLRGY035woT3rr18GkA6/q1saKsoPCtuQUra5ZtmcXGvdGw9Xg4hFnNZ+kAYKfeK2t2x/8F1Z8UvR0loAxBtVL0NYDC55bDMWmeg3N74edQ2ApOZeSOX+6AZebZaWSarg7MX8exklYK8vxnMyggvU20m3uhjRVkSsHjoccePBmeFpXqq+DcZnR5dB3nQq9gwBA/4nNzCqVUFJSsKOdHSY1H9iEb7jyeOQBrrerNT1aW4JmJapufgpZ9Jw/4rtF8G79JyAabkwX5C5M05NKe+q6cqD+aILk6ObzddXB3sGJo2z7gVmfwHA6wjnwXpMdkCbg==
+ b=c1rQyU+VIb+m24aYXOOR++Aj6BaC0se1ljJOdyfPg5IFwM+GwWicLrcLACFSsrmsQkHsC0cf252PAPKh9CbyyxDibK4iYVYBj7WMSPEAdWxiQex0uKkhGblM5RTeDx5hZVHDeuSS+xeKx4kZdPVxKhrOQuNGJQ6VO/+Zf+dMGBhW5CnpJ9m600tWz2BkPRWsJu33AiJXFFxhp4Ew8GJkQp1STpe5yuXn4A9sFdXiPkYa+81JIR0aUVNwaz7x9oaF4UbKe0fG1FNa7I1Wm/ilOdnO2w9NAEYqCJRMkvQon5JowWSYFM7srAi0usTVjcbhNrIi/plAdXpK3QksdRx+YQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HfNhTXZCVodoFdV6eIXi5mQkV1qDRcqmO5d+4METZmU=;
- b=puN8zpWO3Jn70fstaR5Vc5jecJ74fdf0jShYX4W6qenEim9blORDRv0JwqEn/iBJisvW6231yW0w2c1Oa3FhQtbyB2IdG70a9+VdDeQM/T0FR7gzFJwqerjebpYwMNxT1QqBuC8fhow9NfbY5tGxfhUPAI/q4/GtX9jhy0iQrSss93PV1blT9pOEyEWhc0vjnZlByuhYtSza5K4/5nY658aDmlrDEMO47ADPjwuq4hdH98om51DWT0fJQgkS3i2It0e7ooeS2wWbDy/Hfciy4/fUhJfdiHitabwrDGjIahK3G55rnz80xQVqoKN3rYKrnDeJ4lAP+Go1NsCVK/ZSbg==
+ bh=nk+4efmjiYcgYse/P/9Rm6OyWsSsxvDo3CokQLJCWPk=;
+ b=h8I4V2Y8Oe5zN0ypRll+8NSYI4r4uj8OE/nflYIBvf78QF9RtBilKMbDPdwz3K0ld2ar1/oTqMw6cadjOQrtJETMDSq2y05KK1W0xCHYyOMSAudiRApRTcb+zdIOL+Fjm3Yb3FA2kmlCpODlHIYE7b/DdjSRO1muK05EP/4/b5zGATOevZTkoYtWOsdSDs9BePKh8NaOsyOiIiGGlrFV2HeKKx56Xr3WOBqM6eGdGpczafRqggA5QAvQxSzbKGd07AmlTWEfp8wc9oyaAgDj4nL1xV/wgcDqsPSBIPM9eJs8jMFA8CMUKdUWBEdim66eW0OzI89sLBkRaFC0YwK54g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
  dkim=pass header.d=efficios.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HfNhTXZCVodoFdV6eIXi5mQkV1qDRcqmO5d+4METZmU=;
- b=W8CcYnD7i/amO5hhIDjKzZn8/gNq0n7cFFI/3w5kpHfiu+BEszEsnW08U3MmFk6x4LyHUsCE19iHtjcIUWlN9853JhVcm26D/ElMzjjjSOnHodBuG4rd2JOuf8I+i5dWAKgAp/bH3SsqKR82JLBcaBXBdHMa4UYEn66hLcUC3xfKX28ilQTmDdUJE13+QaDVi/nC5aNK4lXNpXfS675GzIVpEo9Qpe4uLKPtWiOt5RLJvAQnxDD2uu92gyNUNL0usElp9P3acfKo7v3I9JaxLzcY7cim+UcAWwmUmAa9/0h6hPdx95RcGYtSMX//GwRhuA0QNZCoBdjV5pPybMK03Q==
+ bh=nk+4efmjiYcgYse/P/9Rm6OyWsSsxvDo3CokQLJCWPk=;
+ b=iVeY7tq0P6JzdJxSR6+n5AJIzDo4VonZo1R3eJEzo5k7cJlz2jQgA9btuBnAqTBQQc57XFSWuQ1yPyhl/jV088c1MZmDsP8aUaARBrtdFMZaBOTZ5mKZUNerUygdn1oI0tkNwjyCzx7VzuC5F/Svfx5YKHEgvOnBNhAyL+guGIEXA5UBTAAxz5HPmQDD8ZD+0509BmkhuL7ePpTJzCEMnc9x0OQ+wRX92jiQn9xkm48tvIMQYmoBh6JGOmlRGpsHQGHlcAcou47cSscqdgniIgN6+DrakGbzP6Psy0yCLFb0kcRx+Twg3P1x41D7QnHcWIzt9A+2skjz5MjsgKsJRQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=efficios.com;
 Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT3PR01MB179232.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:113::8) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:b01:1d0::10) by YT4PR01MB179656.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:185::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 19:11:15 +0000
+ 2026 19:11:22 +0000
 Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
  ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
  ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
- 19:11:15 +0000
-Message-ID: <34e498f8-cd3d-4709-a0ce-2dc36dd5edfb@efficios.com>
-Date: Thu, 5 Nov 2026 14:11:14 -0500
+ 19:11:22 +0000
+Message-ID: <550d3b35-5780-4726-82df-274b4d39d401@efficios.com>
+Date: Thu, 5 Nov 2026 14:11:21 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/21] sched/deadline: Do not release a departing
- sleeper's bandwidth twice
+Subject: Re: [PATCH v2 15/21] sched/deadline: Record the root domain holding a
+ task's bandwidth
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
  mkoutny@suse.com, linux-kernel@vger.kernel.org
 References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
- <20261104211207.1392343-8-mathieu.desnoyers@efficios.com>
- <sashiko-outbox-198212@kernel.org>
+ <20261104211207.1392343-16-mathieu.desnoyers@efficios.com>
+ <sashiko-outbox-198299@kernel.org>
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-In-Reply-To: <sashiko-outbox-198212@kernel.org>
+In-Reply-To: <sashiko-outbox-198299@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: YQBPR01CA0162.CANPRD01.PROD.OUTLOOK.COM
@@ -101,172 +101,141 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB179232:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fc67b7d-f357-4f83-b6c7-08df3b70903a
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT4PR01MB179656:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5d2671e-89d4-4da4-884f-08df3b70943a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|4143699003|56012099006|261102123227099003|261021123027099003|261026140227099003|261028144727099003|261026121527099003|261022105027099003|261021121427099003|10067099003|22082099003|18002099003|6133799003|3023799007;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|261026121527099003|5023799004|4143699003|56012099006|261022075727099003|261009223027099003|261022105027099003|261102123227099003|261028144727099003|261026140227099003|261021121427099003|10067099003|18002099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	9K6WA0K5SNwxjlfaOWbNBuqi08FF0DTxMZbBogwPajA34HvEDu+qRDfSmwlHx+BemPhJ0j8IxIPGsr1d7t0apJP7c6hi7dosp7CQ1SJOfopyX7M0JUS+HcBbEqhabelKEGpj3xuaHFc3QxrnEY7pLkVnWKwLtnR7qMcEE4CumtimH02CvXD2HYwQxmo6VNnN8toTlJuYpLWdu2G1i+Alhy56s2GyOIi5oqZl9DsOyhWhaeAUndekir1HlkhXM1L+3RKWKBD9F8d9Eptmij1uUdr9roNyllwtZKaQAd4400HRWvpioV1hmfm26NB9eEBTc9GF3jTzDmZV/nd9yoP8H2Vsx01OGUhECDGU/EOJiuR0vLQIwn/o+cgOEQzu2w6ShjPsQjlaT/LRYGqMPv3+1mtqPpZB58AZfCrMt4xFpYxK9zS+9KWzktLBlng9o2+X+R4s4KsAWUtPxuo/mejnT3QK8IaPzr3mtg1elEHwWcW/nE1qKb0AZs2tERlY1G8mHRpzGDdmdHhWpwbUU0Q9vwmHbrNuxXtIi5CJZY9S2LIwYf3O9YiR1cs8sEWHHxKVNcsSTfhGbxldeEqrq0VkjvSfyboB7o6NR0s+UDgIkPA=
+	oH41EPz+3WG8EomOE1qFOLYdq0NLnxDxKMeYtSlG3utPrGv4Ni5M3jF5HpAWJ6Cd+oVG7rMnsaOx5r3hq0+kHzNQT8xN9ewW3bX9zgcFU0rMR8ieNiChb5qbujIX2OHNzn2ocgWgD27Ynr6YuTvjTLZjAwWhXnkjOjdLr0ppjDAtV4n1TuqdUvyKyAFvYkud6tXkN9G/z3kyA5Rjh1sDhookvJJFftVO/8Khy5dwZWtFy92myMFppgvDrTfsN16qy2EsPmlzXu1sDOe336rI5iUnddbJWWYmrXIRszbUCxGqkAiGg1H6Hla+TZX7nupt0888srNzs9sNCvlJKdiP99Tem4u4YQfBe0igveT624ETn396+uPNRQpK5W3gG6AIS9/FxtxxTKCrTTypLaNQf07ME2aVO5AqUnB3rGhSSuLXfq2eMlDLasHwVq/ihySUjwjHg01EicxLyI4Ao5Rve8aEW6gUBtkGv7pBpwFkdw9HgtkmdTQN8JVOvEFyhP0rwQ2pjjurI/WCpUg5bJd8S0Ym7ndaGlM9l5X6I0ngs9e5DLVMLtA6WXbVKh7mXTlncq8guaaOFsrXKCluSkkNi2B+X6hZsEoBd1IGqsvXV4o=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(4143699003)(56012099006)(261102123227099003)(261021123027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261022105027099003)(261021121427099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(261026121527099003)(5023799004)(4143699003)(56012099006)(261022075727099003)(261009223027099003)(261022105027099003)(261102123227099003)(261028144727099003)(261026140227099003)(261021121427099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QnoxT1RWSmVZYnBXenVodGJuY1FKSEFIYlNmK1BmcmVKcURHU0Qyd1kwQlFI?=
- =?utf-8?B?NW5jcDdNN1R3ek15RWxFOTEyclhYSmVSWWVLZ2htWFlwM2FsZG1raHQvbnVB?=
- =?utf-8?B?WUVPVTA1YmJDcUh6ZXlObnFkazdWdHVFdGNMNm5xSHBWbUZKc2d0ZVFwL0Iv?=
- =?utf-8?B?R2R0dEJBd3BnbDJtT3VlL0JEY0R3cXplT3BGYWowdmI1ZjVaWXNIa2R2WWlT?=
- =?utf-8?B?TzNSZEQ5QStoYmxtcE91M3FyNHFWN1JIL1FNeVpFNi9NYkE0U0pWSmtMQTU1?=
- =?utf-8?B?NGhwbGdrUmQ0UCtRY2gyYXpqZVcyZXJDN2x6ek8zaUJuV2lCVGQ5cnYzTnJB?=
- =?utf-8?B?dExtS2JxVmVBYS9PeWc1M2ppSGFOQ3lOclNubzhoVU9TeENWdDk5ck5scWMv?=
- =?utf-8?B?d3E2dUhzVlNpcUNoMTEyeitTNVZmdHF1dHJLdjQ3bmdscFR1Sm12L3Z0bFZ4?=
- =?utf-8?B?SzdLZmRvVmQvTUhySU9UcGE3MGt5djllbTFBQlVPaGpSQUNqcFBJWloxblFG?=
- =?utf-8?B?SnI3MEFpbHlXQ2ZZZTB1SWg2M3c1Ym1kZE1xNTJ0WHlNWEFxQy9ZVWQwUUxP?=
- =?utf-8?B?Y3VmVTZ5Z3hpdEFVQ2E5NUlXMEg2cWlVNGM3SFhPOWsvbUNReW1Cc2loeGlY?=
- =?utf-8?B?R0w3RTNkQWtDUW9wcTg1NjA4OUNDaUZEMzd3Vy8yRktSby91MHdHNU0rNThQ?=
- =?utf-8?B?SFF2K2pKK3NnOXcvbXpjZWorR1BmK0xFeHlJWDlwM3krQnpnZmJjU3ZLdEU4?=
- =?utf-8?B?MXZ3RzZqcTFkOFBmM1BNS3FmUGF4Y3UyaGJBRGhNWFYwV0V0aHlKaTcrcGdW?=
- =?utf-8?B?dkNncEQwSWFNclg2S2hyV1JWYXpQUXVsTWZnbXYwWmhUSk5abit5a1NlTWFu?=
- =?utf-8?B?MnRibzJtR3R4R0hHQlducThkZVlZdnNxejV1RWdiVjB5Vm5PNWt5Zk5wTzJR?=
- =?utf-8?B?VXdoK1FRL0oxck1iMk45bExUcW1HRERuOG1EM2ZuSnRBMWpPWDltemIvUGxz?=
- =?utf-8?B?ZEpZcmpGRE1FU0pOSGdoV3VoTm5uc0ZYT3haMC9Ld0NxaWxod1ZiMjgwSzcv?=
- =?utf-8?B?bW5SUFh3UndZczJrTHhMblBMVFFTWVA2ZnpNM1dZbUxMd1ZIR01pSndOK3VN?=
- =?utf-8?B?QWhQUTE3RE5VeUVUckhncXdyRkw0cUx5UUlZeWpFaEczSEtmeDF6ZjluUXBY?=
- =?utf-8?B?STg0bC9Ta2p5WUcwUHQ4cC9yZ3JHOXJ6UUlaTUlaMlhFV0VEcnY5Mzc1bnZr?=
- =?utf-8?B?enR5WXRtWnZRNldoYWR0b1k1QzZWWkdUa3duZktFZitsd3MvenF6dHhxNFhz?=
- =?utf-8?B?bzZYdWhLQmxiY1BaaXUzK2ZhS1k0dktVYUdZRmFxcjdZMDFWc3VoVUZvTHgx?=
- =?utf-8?B?N1VHZ3BTMlUxaW50TXhJeVZUQ3pIaVlrbFZzSzVwYW9SZFlIYmR4SHNORjNp?=
- =?utf-8?B?N0RRUFJRWjhmdnBvOWNyajJyVm95VGp5Qm1lbXFiVWZ0Wm9lSEJBUUk1eWty?=
- =?utf-8?B?YkJRSnhlNnpSdzI4UERwNWlhQldKdC9aNHNVZVBwQlN5UktHK1JFTm55NHBp?=
- =?utf-8?B?dXVrSHgwZjUyVjdPNGtpNVFvQnBzanB6NlNsQ09wM1ZHN1R6RlZxM3V3Tm9H?=
- =?utf-8?B?b2oyYkREOG9zeW5nVzRDc0FGUlBSSHdXNHZTVXFqZHdTTnYyWVNNd3dPYUpW?=
- =?utf-8?B?UVUxdUZWT3p2Z0ZQTzhNLzlFM0dZYWM3SmxJazlLdkF5eEZJZWtrZTQrUmNO?=
- =?utf-8?B?UmRPL1gyUVdlbDE5THBlVGtoYUtXK3hTb0NYK2tYSXdHeUNFc1l4SkN0cFdq?=
- =?utf-8?B?Ym12YUx3VUR6dWhzeFpmRlVqVS9rVXVsRUNFTkFHME9jckVVTG0vZmNLaUlm?=
- =?utf-8?B?cWZyWm1XbFFtRHY3QkNyemgyM1V0dTg3UlBvYTA5TUh5K01VVi9ERmNxWk8w?=
- =?utf-8?B?anRDQmFlMGZlb1BRQWhWTzNBakRES3dnSUNQS2RIaElFZWpkTWltRUNZaVRl?=
- =?utf-8?B?TWVVSlVLUnZTN09yU1RUVVlKb2wxWkN4STU1Tlp5ZVZDbXhCK09EQVdhUXZN?=
- =?utf-8?B?VGFRUEhJTzExYTMrK01qUFpHZVNpUGNQamt4aVp6bVd3dXQvOEZ3cmlMTnJr?=
- =?utf-8?B?MEZiRHZPTjNsRmpCLzUrMm5oRXFUYXAyeHduMHdISy9zK29rN2dUN0ZKeGEx?=
- =?utf-8?B?NHFqcTNUam5VWWp0bk1kYTQwOVltOG5xMlVFZ2lBUWJZemhiOFJicmdDc2Vl?=
- =?utf-8?B?OUpkWkY0aU8xTWV4bUFvR3RxMVl0bTNBOUNpR1ZuUjFPL09SUytYQU54cjJM?=
- =?utf-8?B?N1pjUGRXZng0QWJmc3VxdWV6eGdUamJJVzZ5Q3VDWmhFck95aEIvMkhnVjRM?=
- =?utf-8?Q?akGu0yBocF60ltCE=3D?=
+	=?utf-8?B?TTErMUpWY2ZQMFRsWEdDOGNNdG4xOTcvdGNZZFgrYVIwNmRERGsyWWx3NE04?=
+ =?utf-8?B?ZWI2RG9mcXdiMVdWRzVSTngwOCtaSy9FYlNDa1RUbDZtWkNOUFlkZzZWQklC?=
+ =?utf-8?B?L3VHcnVuQ1VodUFLZ3Q5MXBOZEZ6M3Z2QUZ6b1p6YWFwZllOczBQN3AvUTl3?=
+ =?utf-8?B?Z3U2SWtwQ1JncXYzbWFjMWcxNzR6UmhDd2pHZjlWRDZEZ3pYeXRHMm83eG8w?=
+ =?utf-8?B?ZC9yWjhBRXU2WnByaS9rYVRXbmd4Nll1ZVNIemJLdEM1cTljSHN3dTRXcDNM?=
+ =?utf-8?B?RGNtd3F0VW5ISnpsK2VrTUxRWllIRFljSzcyRnorN2k4bEN0clRVNVhyK1Vt?=
+ =?utf-8?B?a0QvdWlTVmhBdUlWaENIMTFLV1JFS21uODNpKzJSbGtsWExxb1ozRU1CTUJX?=
+ =?utf-8?B?ckFSZUNBYktZMWhyL0Uxayt1TjVLTWRwTURONTdLL1J0T2c5YzM2Kzl1UEVX?=
+ =?utf-8?B?Nm8zc2tWc2FyU0E0eVhJbkVvUXgyajg3ZUVaTkFvcWtYZDZaZktrbkRLVHRz?=
+ =?utf-8?B?UmI4dEYxOFdvTU1pY2pMYVRCZC9hbmMxeGdxeFNLMy9uL1dNaGNyelFBayt6?=
+ =?utf-8?B?eFZ2bzFmMUU4aUErQlhwVThhbjI2RGYzOVBOWGFhNS9ZUFowaXZVOTF4N3h6?=
+ =?utf-8?B?VWFjYndLaU9FK0NPUmw3VWhsaXZjSm9zYUMyVnBMaklRT3VSUlpvSDdVeHgy?=
+ =?utf-8?B?SVhzeUVKWjRxTUQ5UDA2eWtmRUlLb0JZTEFDVEN5b3RxMXhhWVcxa0hzejRF?=
+ =?utf-8?B?WTgySUx1Q1FYanUzaVRzQ3c2QjB0SU1lTXduR1ZTL3VuaWlyYm81UE9WLzJ4?=
+ =?utf-8?B?NzMvblMvL0tZU2hKbkd5V3VDLzdUbUY2UnNQaHBySERjdU05N2grVkRUcno3?=
+ =?utf-8?B?d0ZFSk1WcUJKRmFmZUN3NmdvV1N0V3JBRUV5S3FoRHYwQ20vdFB5cVdVdFdl?=
+ =?utf-8?B?U05aWTRxbkhGV2Q0VWxFMnlmUGxFNWRyL1NMeFpCdCt6bUI4aHJqd0NzZmNI?=
+ =?utf-8?B?Z3UvdUYwQjJ0Q2JvY3lqSUJQdG95cFZlWWlheVU0K09zSDU1b3Ayb3FsRGhw?=
+ =?utf-8?B?RFBjN2d4bDh2MEg5eHVrVm5Wd3J5cmYrcld2dFdMZzR2cU5QQ0dmR0d2NU91?=
+ =?utf-8?B?ZngwRXFpT2x0RWpmZXdsZjZjdE1Md292TDh2YTB2VjRjMEZxUVUwOWVra01F?=
+ =?utf-8?B?OWxrMTNlWVpQS01LaXo4VGZIY2lURDlQR2ZSLzBvMmlRVjFPcUlqaVd6WkRt?=
+ =?utf-8?B?QTZOeTVMZjFCOHVSMFlZOGZOaWZOaFFVSmFDRGlvM05veHFoSlRLdmNaa3F0?=
+ =?utf-8?B?ek95SGVlL2lSQ0F5RVRGdXZCTXZ0S2N3TlczUVhmVm4rRVpUcDdQdnVvR3pp?=
+ =?utf-8?B?bDlWZkNZd1JWUjVtcFRzdGw3ZnhncXVHSS9KaUNaL2dDZkk1cEJBQmFrWW5Q?=
+ =?utf-8?B?L3l5Q1I1d3Q4cXVvWURja05xOUdMSHlNV2o1ZlVGVDMvWFVnN2Q3TFZkaDVv?=
+ =?utf-8?B?NHJoejVYekY3dUZuOWdIdi9paVJvcG83TzVJczlBQzJiWHo4SnNoeTBLV29W?=
+ =?utf-8?B?NTFaYXhlVXZZdnpreGxId0l1Y1JMUnlCOHM4dlU4bGExbWpudGNaRDdiQWU3?=
+ =?utf-8?B?WjB4NWNvcjErRGNHcGgyYWQzZWJGdGVkSm9hM2lObzlLQWVxelpadXRaMVc0?=
+ =?utf-8?B?OEFnallGWit4S0hYaFJVQTk3dWJuVXY0UEsxLzZKRzhZWmxGTm9pQTcyMkdh?=
+ =?utf-8?B?Y1kyYVFCYmx4K1BRUThQSnFMVXhHK0h0MHpncGlyZTRoNEk4ZzAxYnRST2pr?=
+ =?utf-8?B?OEdRWjVJdFQzVStmNjNoYzlGTWFGOWJCNWR3YnlRa1Zmd25vN1F3VlRMNVVz?=
+ =?utf-8?B?ckZCbzlYbHN2OExHTVBSWXVmaWFmWjVrZ29ZRmw2NlplUDd3bWwrK1VtYU8z?=
+ =?utf-8?B?Q1ZFbzZzd1RNaExKUytpaFBBc1JmL1JqWlhtQTJqQzA1N2Z3MExyeGJ4RG5L?=
+ =?utf-8?B?M3ZlZ1VIb2t2bXRXcGsybEVFeFVzUVhMMXoxRnFKdm9lQ2RIWWpkVXg4UU1J?=
+ =?utf-8?B?cEYxU2gzd0FQUlF6UExqazZ1YWJTWXMvcDFobHFIdkdDWEN6UTJGSkI2UnBp?=
+ =?utf-8?B?S0RTZ2JETWhtL0dVU1l6ekFSV3NYK1gxQmFEUmRNMHh2K293MDUrck5EeHdq?=
+ =?utf-8?B?NnRVcG16UzNnT1E2SG1ZcWlWN25QR2JNSUxibzhhVll0UFhPajBkeG1Pcm5i?=
+ =?utf-8?B?bWJodlgrVkdJMWowZERFditvcktaL3lFWWVWOTBXbXozT0JKYk4yTlF5djBR?=
+ =?utf-8?B?Z2s0Wld2OEdSVzcyS0FBOWFHWVVDN3grUXlvOUUvamJNQXdNcER4M3JaK0VI?=
+ =?utf-8?Q?mdA8sGNzXUS8fCNzrGC0RjvxNiN8/whdbVHia?=
 X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc67b7d-f357-4f83-b6c7-08df3b70903a
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5d2671e-89d4-4da4-884f-08df3b70943a
 X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 19:11:15.2814
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 19:11:21.9808
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hlFTOCr8sSxM6+WiPDvwf6w/nq3yjNV7XCg2ooJPIPEfS2VicSOh/n7LWJDvrYbqXslKBdXO7x2LKvFgs16PTmXcmWQewzma9IXG72AmmEc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB179232
+X-MS-Exchange-CrossTenant-UserPrincipalName: l8hSs9cVR+Wa+Rki8HYiLPgS7wPOBDDgaqa/v2h3VYnzd/IYp7Uzo+UxxseJtYgLfkW1JkF96r2nsJGH9GPLNktnuaShtNZzdJsCnsEDvjo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT4PR01MB179656
 
-On 2026-11-04 17:15, sashiko-bot@kernel.org wrote:
+On 2026-11-04 18:31, sashiko-bot@kernel.org wrote:
 [...]
 > 
 > [Severity: High]
-> When switched_from_dl() takes the !p->dl.dl_non_contending branch, there is
-> no pending inactive timer to run inactive_task_timer() and call
-> __dl_clear_params(&p->dl) later. Does clearing only p->dl.dl_bw here leave
-> the departed task permanently carrying stale deadline parameters
-> (dl_runtime, dl_deadline, dl_period, dl_density, flags, runtime, and
-> deadline) after it switches to another policy such as SCHED_OTHER?
+> Can root domain bandwidth accounting be corrupted during a rebuild when a
+> departed task is boosted into dl_sched_class via priority inheritance before
+> its 0-lag time expires?
 > 
-> Several paths in kernel/sched/deadline.c check dl_deadline, dl_runtime, or
-> flags rather than dl_bw to distinguish a PI-boosted non-deadline task from
-> a task with its own deadline reservation:
+> When a SCHED_DEADLINE task leaves the deadline policy before its 0-lag time,
+> switched_from_dl() arms inactive_timer and calls dl_task_depart(p) to link
+> p->dl.dl_departed_node onto dl_departed_list with p->dl.dl_bw_cpu recording
+> its root domain CPU. If p is then PI-boosted via rt_mutex_setprio() ->
+> switched_to_dl(), dl_task_undepart(p) unlinks p->dl.dl_departed_node while
+> preserving p->dl.dl_bw_cpu.
 > 
-> 1. In replenish_dl_entity(), initial replenishment for a PI-boosted task
-> checks dl_se->dl_deadline == 0:
+> If dl_rebuild_rd_accounting() runs while p is PI-boosted,
+> dl_add_task_root_domain(p) sees list_empty(&p->dl.dl_departed_node) == true:
 > 
-> kernel/sched/deadline.c:replenish_dl_entity() {
-> 	if (dl_se->dl_deadline == 0 ||
-> 	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
-> 		dl_se->deadline = rq_clock(rq) + pi_of(dl_se)->dl_deadline;
-> 		dl_se->runtime = pi_of(dl_se)->dl_runtime;
-> 	}
-> }
+> 1. If p was moved to another cpuset partition while in SCHED_NORMAL (where no
+> deadline admission check ran because !dl_task(p)), dl_add_task_root_domain(p)
+> ignores p->dl.dl_bw_cpu, adds p->dl.dl_bw to the new cpuset's root domain via
+> dl_get_task_effective_cpus(p), and overwrites p->dl.dl_bw_cpu with cpu. Or,
+> if an earlier rebuild had already dropped p's departing bandwidth, this path
+> resurrects p->dl.dl_bw into p's effective cpuset.
 > 
-> If the departed task is later PI-boosted by a SCHED_DEADLINE waiter while
-> holding an rt_mutex, dl_se->dl_deadline is still non-zero. If its stale
-> p->dl.runtime is still positive and p->dl.deadline is still in the future,
-> replenish_dl_entity() skips both the while (dl_se->runtime <= 0) loop and
-> the dl_time_before(dl_se->deadline, rq_clock(rq)) check, so the boosted
-> task runs with its own stale runtime and deadline instead of inheriting the
-> donor's parameters. Conversely, if the task never ran as SCHED_DEADLINE
-> (p->dl.deadline == 0, p->dl.runtime == 0) or its stale deadline is in the
-> past, skipping the dl_se->dl_deadline == 0 initialization causes the loop
-> to advance from the stale deadline and trigger a false replenishment lag
-> warning.
-> 
-> 2. If the task previously had SCHED_FLAG_RECLAIM set in p->dl.flags,
-> retaining p->dl.flags while p->dl.dl_bw == 0 causes dl_scaled_delta_exec()
-> to call grub_reclaim() when the task is later PI-boosted:
-> 
-> kernel/sched/deadline.c:grub_reclaim() {
-> 	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-> 		u_act = dl_se->dl_bw;
-> 	else
-> 		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
-> }
-> 
-> Whenever u_inact + rq->dl.extra_bw >= rq->dl.max_bw, u_act becomes
-> dl_se->dl_bw (0), scaling execution time to 0 so the boosted task's runtime
-> never depletes. Stale SCHED_FLAG_DL_OVERRUN in p->dl.flags can likewise
-> deliver SIGXCPU to the boosted non-deadline task.
-> 
-> 3. Both task_non_contending() and task_contending() guard against
-> non-deadline boosted tasks by checking dl_se->dl_runtime == 0:
-> 
-> kernel/sched/deadline.c:task_non_contending() {
-> 	if (dl_se->dl_runtime == 0)
-> 		return;
-> }
-> 
-> Because p->dl.dl_runtime remains non-zero, blocking while PI-boosted (or
-> deboosting while runnable) runs task_non_contending() using the stale
-> parameters and sets p->dl.dl_non_contending = 1 with inactive_timer armed
-> Even though p->dl.dl_bw is 0 at that moment, if the task then re-enters
-> SCHED_DEADLINE via sched_setattr() while sleeping and PI-boosted
-> (prev_class == next_class == &dl_sched_class), __setparam_dl() assigns a
-> non-zero p->dl.dl_bw while dl_non_contending is still 1 without having
-> added the new bandwidth to rq->dl.running_bw, causing inactive_task_timer()
-> or migrate_task_rq_dl() to underflow rq->dl.running_bw.
-> 
-> 4. If the departed task wakes up in SCHED_OTHER and later switches back to
-> SCHED_DEADLINE while runnable before its old p->dl.deadline passes,
-> enqueue_dl_entity() checks dl_time_before(dl_se->deadline, rq_clock(rq)):
-> 
-> kernel/sched/deadline.c:enqueue_dl_entity() {
-> 	} else if ((flags & ENQUEUE_MOVE) &&
-> 		   !is_dl_boosted(dl_se) &&
-> 		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
-> 		setup_new_dl_entity(dl_se);
-> 	}
-> }
-> 
-> Because the stale p->dl.deadline is still in the future,
-> setup_new_dl_entity() is skipped and the task reuses its old unspent
-> runtime.
-> 
-> Should switched_from_dl() clear the remaining deadline parameters (or reset
-> them once any PI donor relationship is adjusted) instead of leaving them
-> populated when no inactive timer is pending?
+> 2. Because rt_mutex_setprio() only holds p->pi_lock and rq->__lock (not
+> cpuset_mutex or dl_accounting_mutex), p can be PI-boosted when
+> dl_clear_root_domains() runs (so it is not on dl_departed_list and is not
+> restored there) and then deboost via rt_mutex_setprio() -> switched_from_dl()
+> before the task walk reaches p. switched_from_dl() puts p back onto
+> dl_departed_list after dl_clear_root_domains() has already finished, and
+> dl_add_task_root_domain(p) skips p because !dl_task(p) is now true, dropping
+> p's active 0-lag bandwidth completely.
 > 
 
-The baseline keeps them on this path as well, and so does the inactive
-timer path until the 0-lag time. v3 clears the state of the period with
-the bandwidth (throttle, yield, overrun, flags, deadline, runtime), which
-settles (2) and (4); (3) cannot start, the zeroed deadline and runtime
-putting the 0-lag time in the past, so no inactive timer is armed for
-such a task; and __setparam_dl() changes the runqueue's sums on re-entry
-(patch 20 of v3). (1) is a lag warning at the next boost at most. Clearing
-dl_runtime, dl_deadline and dl_period needs the donor window closed first,
-which is a follow-up.
+[ Repeating answer to PATCH v2 09/21, which is also relevant here. ]
+
+A departed task boosted into the class before its 0-lag time is counted
+once, wherever a rebuild runs: the walk finds it in the class and counts
+it in its cpuset's root domain, the record is updated, and the release at
+the deboost reads the record. Where the deboost races the walk, the
+departing bandwidth is dropped for the remaining lag, as it is for a
+departed task whose recorded CPU went inactive; the generation keeps the
+release out, so nothing underflows.
+
+A rebuild that finds a CPU for a task an earlier one dropped counts it again,
+which is the intent: the bandwidth of a departed task is held until its 0-lag
+time.
+
+> 3. For a regular non-deadline task with p->dl.dl_bw == 0 that is PI-boosted
+> during a rebuild, dl_add_task_root_domain(p) unconditionally sets
+> p->dl.dl_bw_cpu = cpu, leaving a non-negative dl_bw_cpu on a task with zero
+> bandwidth after it deboosts.
+> 
+> Should a departed task stay on dl_departed_list across PI boost/deboost until
+> its bandwidth is actually released, and should dl_add_task_root_domain(p) skip
+> tasks with p->dl.dl_bw == 0?
+
+Part 3 is fixed in v3: the walk skips a task with no bandwidth of its own, so a
+boosted task gets no record. A departed task need not stay on the list across a
+boost: the record stays, and the release at the deboost reads it.
+
+> [Severity: Medium]
+> Does updating a task's deadline parameters while it is asleep after moving to
+> a new cpuset partition still use the stale task_cpu(p) root domain in
+> __sched_setscheduler() and sched_dl_overflow()?
+
+The EPERM is the baseline's affinity check of __sched_setscheduler(),
+which compares the span of the runqueue the sleeping task is on with its
+new mask; out of scope here. The uncounted path runs with admission
+control off alone.
 
 Thanks,
 
