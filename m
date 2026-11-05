@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793904960;
-	b=VLBQFN2ravThiUmE2lwDObBY7hpO8a2Cs98pxtSQh9RILsjLd+rcOfiL0w7if7tgEHBf
-	 E7St2QV4LIMJwEIdFMakLzfAfCNhkqz5hqcE2tUqeOpEsHq/UYulySyOu/9p/O+AYFsvA
-	 WJ7iQBoLpTVV6rmNnGQbGgy06xSJeG/h0Yjo6ykYk738JwKuRRTsgLyyerd09rJ/rN6Ts
-	 2lm8cPnVPTwIUKTArLPl40XQuZXY6Jp9sH8+b+9kpX9IpTHBgv0fhGdv3tH4v9QSmwo+5
-	 X1Dydbr5kuWoBLXOTpbs4jgrAbrd8UwuQEjXGvuyfbbjngVsApGL/HhrEdyVsZvoqOQ==
+	t=1793904961;
+	b=EF/BY9HLXzVlREg/WNSWZvliWd64ihYL0je90/XCVDI9g9dOpNtA/X0AUlSthHP7T3xN
+	 9+WPKvBzNSGjbfU+rSS/SdB90/QcXMEklvlEjDvsnQpdQlKZNPhwZO0ZjcZgWPoeEoezz
+	 IrKBGQk6Gp2+hfHTIitsSJFBh2TKIJa+nvRgYbroYKyguKPPW1qG5hmGUQSKysxJgBcIJ
+	 jZmxviFJRAgREoQWQ/ysqNDab2AyAiG/v8tapLZAyuVIwbxkBV/mKV1NMWk64iyzmXpQx
+	 K0BoyTCKV+63v1Y17nJnnEEJzrWYAMJjtb2PUmsO5wPSXaHnF/N4Vs9gZlZoGpKy//w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793904960;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793904961;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=r8+AfGGSzvw+hGNMBk3uLeKXHLvj2EOr91SQHPXuh2g=;
-	b=tgLTvJvtSrQq78ZVU2Y4a1jhzMYn6ntAP8RZTezldp6uRaw1bW5/otzt2eJy1kK6Uwib
-	 h87l2MymYb9HAAudN4xfkpMqUGhgLm0EnwDjemqp91CEEQKMoDdwkD+vxhRdKchzNUzpg
-	 UjclVU7doClTvMLTuUEr3I08Q+5kT8JuxJdQnnzCQTSyceFms7GPxENlkAZFeEWm+8YRC
-	 fV/caPzHYGGUCmpXyBbpUHzviT3p0760vl6uqJxd3Oh4Nwe+ncO/6JZ0EXipIqV+Hxxql
-	 t6vy+0Pc0WORbzePWaaWuZwC4GSvwhIngLcK0lMrfopjf/tdZGsJ+dWXMrispXJj/iQ==
+	bh=RwjIT0DqDPAYZ6NuHVGHzHM6/S203rMIqUTfEYiNenQ=;
+	b=Pq+R8kaKLMLSFczyj6JpNeqBU+ULY9N6KsE9z8KYZPsRxbS5ZuqloryCtFz8yGt1jjUH
+	 EXiq4lcVUGOx82TqXTcjHh4mQFsFTHixbbZQp9GEzo1gna2neFPUhZhJ0Wy7uqyhIOC+O
+	 dLBKTsfzZmjVtXjUgm4mY+s4tYCEjXU26Kg+e607ldP7o/NBzytoj3BFlqRfXlFYryKiW
+	 0Pn7NMXzBVu97ddG61gAS4T3PC0+/DInoe03VJ8/VYNlX1Vea3J/jqgNw75TlDmtE9FZI
+	 33uPD6whk0g7y9mBApPaCG66qoth1S1oh/IP82/5T6Q/dTpxQG3v/Ifx5SpL3+GU4Jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="TP4VM6/4";
-	arc=none smtp.remote-ip=209.85.161.44
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="zIRj/E08";
+	arc=none smtp.remote-ip=209.85.161.49
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E925E6082BF5
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 18:55:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E925E6082BF5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F446083611
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 18:56:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13F446083611
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TP4VM6/4
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-705cb6cedd5so593377eaf.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 10:55:59 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zIRj/E08
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6b1afdf5196so932883eaf.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 10:56:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793904959; x=1794509759; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793904960; x=1794509760; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=r8+AfGGSzvw+hGNMBk3uLeKXHLvj2EOr91SQHPXuh2g=;
-        b=TP4VM6/4Nc/Icr5K78I9ChfFj67CyvBJ3NqkudUwFzgqxE1HZ+xEzPe/5nWf12BLVU
-         QxiPVj/L8SEpUiU07wfQnJ/8+k0+7p1uqYs+cqJCzy7MpJIs7lXCKfgVRn+Vh9XAFeKF
-         qsf/rs1Kn+9aWt5WkYIcyI+sflOAC/vDA2DEEwnX2UVs2yWIC7ClNsuCydBR/Ynie8VF
-         1SF0kF5fLwZgntiRMkshx+32oC7bIvnz/sylaXKJ5vJ9GY5PDykfASQhubHYA0jVe98X
-         290HAvGxGvOukYgCB2EB9JlmDPMO9KKvuG1JDV6wYGTRZ63XRopSK+NoUuzoq+TociVl
-         21GQ==
+        bh=RwjIT0DqDPAYZ6NuHVGHzHM6/S203rMIqUTfEYiNenQ=;
+        b=zIRj/E08pjKn64f3WiWZk5F/KdV1uO7o4wzwaUcaOY9f8oPJRAqrQ+EAusfnTwqcDc
+         wD1xljIdCJc7YnwKD2ATfC0IP7VfHAPM0ybK1QmUad1Bpo1w0TIPe70eMJo2bQeztHIU
+         1Ox+vh6jvjOcDqJAhqcvDaVYLLZK2bXjTJ4VmSm3lpm08OFfpuDHuYtwzqVChVvP9Sgj
+         NgS5kz881bo1wWHx6/+1OGy2OX43KkwwjZOaqn362Pf0SwJSBRjR5yLBIMjtHPkSRShj
+         a3lepH3v+oP395J02uJikvs44Wggp6W/2guYHgN9gJ2DyFnvY5qJYcGDdcrUBqPAVtLX
+         cUqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793904959; x=1794509759;
+        d=1e100.net; s=20260707; t=1793904960; x=1794509760;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r8+AfGGSzvw+hGNMBk3uLeKXHLvj2EOr91SQHPXuh2g=;
-        b=ixFV5zAL7riilB67zH7BjMadEQ2X6LGJzPrvz8FTKoF3HFT2JfHTTCpoV3SutGMdss
-         8V1oOea5K5fiqWTffSM2fwVOsFrpjKUbfhRxrlSDzAore0b63fYt44c3FaeUXAsDrwp3
-         y6Wujf9Sob9JoA1x0yqw8EJDfGIj+y/gJLNQ+GzJoIAZrt5pv/lrqpSHmQBc+Eq2juJ+
-         FoUYGlRnwpnwPR22cSgu7V+Ry3C7GJjjT4es0NJ7evsxHTDXjsJ8IdVpfQzMKdXgAFyT
-         oJYLNRykTDVaNzrLJAtHLPtY6iIcsSa1wQIgjazMrH1GxEmTHzO5H3qO1bRUB/lCMUMt
-         Enog==
-X-Forwarded-Encrypted: i=1; AKwUvBxQnS9lvzdwS1QrooOTHGx8oYmjRAUyNXG8Y+HLRiokSj5qcRXYSNYVWnLtqA8tBM8gubbafqTUTSLRsC1Nfw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9gjYhTslfw0nW73J2kwIDkE8R0PppTNkOLk0FLAg00ckdfBpJP
-	X0WAPshuj0pSjx+Oe0WhhQfX5k25nVcUgx7/0VsYy1T4J3pXt+vGPLj5MCcUPFiX
-X-Gm-Gg: AYBFou1b6qHdjgtB9gO3d1W2Lq0Loi2m4n6orRLot5UKW5SkqP/aDkKR6skE0/3D0f/
-	aV25wJsysV0G1lmc0rqiMzLOvwdAQoectGckwT5NAYHeakJ5c8//HklJ17roI36buuE0u5ZnSZL
-	zgWvrxZH0k5ibBcRWa/Ad1rvqYTqTPdgQXFBm0uXPmfH/n8XBWd5iq4GRoMveDw0uxFqvPGfyjN
-	+6SbRitGXqsJeMZJLnKRVlXhHMNLeErIONFJ4aur5xbVc7kxMiWifKQeEyYu7EYcRga4HMg3w6A
-	0pJs76JKRIWpY74UYWBiqGsqCdxetW3xmSMzdX+OfskjLkanuSBS9Y65wKGz4zOWVQejha/Bhgm
-	ZjJEmlLmaMlfNx+xSn2uC6FqUpJbneCCAySes3lOjaRc4070QHgoRCWFU+aM9ncQHIZOCBsA8ut
-	8tecufcOYtfPnNiZSVDZKriRq5Zw/8upMI736NU51+U8qwn+2sUfNJItoYXRe3Oj8uE1XKU2AX7
-	NhOaNuLp8lH4HxQ3/wwPA2F2djerhwfaOuSo8cXw0H2QRF5SCmKT5UmhTpyQizoTFzf3C5qQCPG
-	vhKmwNRPdSS+uPDBzw2Tei/mRfvQrbYefbUG7byan8LpgsfxBwT0+54E6qVg/qGDJHHRpPa15gJ
-	1kZGAa5vp71jwoKA7Vs/GpuUdAGXS/g7mRWSp3FLJvGWxhivudHI3noa+/UVqP+TtD6tp3ot4Yd
-	iS0I/u1q3tH9Bg+jEEjP7LF8Yz5YDMey6ZO1Q9TllBeYyRyuf/QEiH
-X-Received: by 2002:a05:6820:609:b0:70d:53f5:e5fb with SMTP id 006d021491bc7-716e7374b3cmr330726eaf.2.1793904958904;
-        Thu, 05 Nov 2026 10:55:58 -0800 (PST)
+        bh=RwjIT0DqDPAYZ6NuHVGHzHM6/S203rMIqUTfEYiNenQ=;
+        b=kyjAy8TRTrQ7ii1U22yODZY20XA1Ok+E407lcisKwOOyFeVMtBlDy0sOy6buvlWp/C
+         KCxtzWo0M2znwx/QzJmXprWeiuJCTV3RfbdKbHD989NUv4iPmVFiVJt2tVo5/pReJ1H2
+         E52802zmLqMsmvSXqF1+UNUVjzq9f5o1dIXyfSVVNUPUylEYixwFRiSk3n4dz2AFG4DY
+         VKMjUjts6VrJAc8GOFekXwHqKNoErccBMZzfamcNaaaSFm6bKxvGMvKmX/zjXN+s59X7
+         GEyHyAfQ9mOWRAAVIuco2MAO4chSpM8poUdOmH1e7h4RrtXGgOYGivkXE91mp/+5vG/f
+         8DJQ==
+X-Forwarded-Encrypted: i=1; AKwUvByesMY1yJ84MriTkVX8FCOrgN0dcVuq4ay9imauW7+tHrwvbAhf+wRgU+n8zpPOu1g9NkBMWnjRH1gb9BJSrA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+xlttBgYS6yF4AEASsk0fUMiW8hKw30/TC7V6xwFzrcD80n2TD
+	pPWas0ZJ0DnQVu6EMFH9iKOG2jRF5gQoESWeqr63alO4SBYdOXfFe7eX
+X-Gm-Gg: AYBFou2pemFn5uyzuHMYQ/ikMQ7bcM1+QS9dgw9h+RfIlapBAsFMW4XxWgINjI8iXCX
+	tdRx5HOWahHJWGVnDNKZwqwMt5yvEGhSuUCPI/ZpFkadqlcIs6olH48oleB2NMe8autKAQlXY0W
+	youKhUEaFuhTZ4zCXkbzmLWp8K1j2mXRhBVF5DwQp4T44Uu0txDCPsq749vtYh6cPC9fP8tKFey
+	XNeVKPxLiU6JXmiJi2f42nbeZiFYwZlIxIE1s+WfyGCbHxsdNQNI1gwDCd6a8R4dMev9fg4Jt0r
+	vIhIkboO8QxkmvEs5HLiGCA+q7+UrNIud788zDIXqe+ud3nJZdait3p8q0GtALf9HQKOx4i0dpJ
+	gKj0exM1obfBnr21qoH4lQ7Bweso3sU1Y0dZfu0sJHMtQ4ZwzuCf3QxGaBQ5NlIB+h5R1bGuv7W
+	sMjI2BNdEU5Q1AnPQD8x+TkBpZnhFoq6WHPC3Pd4bRYnvnUjr+o0MClTfnJLFSDiMowh/45TY5l
+	e8Sr/wNw6y4zoOpSv0fVg+/0tlvLNLINFhMyFg9Zn/f04WlPnYovFgVoHA0SXr5OYjt1GndUK9n
+	4fUvkFh9f0gj2ugTMdDeEEdGNwbyB4OiXsYdUn5LZpoqeu4cdBFGmrxXfTfNDAbK4zt2Beri335
+	kIO2X9mo5m4g5psW0V/zrLgiUKW77bPe64i6tP2Ji0Yx62Y7ZfxY2jjz4Bwsoz1hJrxKpj21Jy4
+	dSBL3J+75M0sJ0kwJOT4PGd86O8J+yoECJtoIZChgoiN2ByHHDlO9P
+X-Received: by 2002:a05:6820:160f:b0:70b:9b1f:e8a2 with SMTP id 006d021491bc7-716e73de95bmr322359eaf.3.1793904960035;
+        Thu, 05 Nov 2026 10:56:00 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-716e99465dbsm115897eaf.0.2026.11.05.10.55.57
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-716e99465dbsm115897eaf.0.2026.11.05.10.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 10:55:58 -0800 (PST)
+        Thu, 05 Nov 2026 10:55:59 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Thu, 05 Nov 2026 11:55:33 -0700
-Subject: [PATCH v10 17/26] mtd: rawnand: sunxi: limit buffer transfers to
- the command byte count
+Date: Thu, 05 Nov 2026 11:55:34 -0700
+Subject: [PATCH v10 18/26] mtd: rawnand: sunxi: skip unavailable NAND child
+ nodes
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -96,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-17-dca1f6ed29a8@gmail.com>
+Message-Id: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-18-dca1f6ed29a8@gmail.com>
 References: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com>
 In-Reply-To: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -118,79 +118,35 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
  devicetree@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-The H616 capabilities advertise an 8 KiB SRAM size, but the normal-command
-byte counter still holds only ten bits, with zero encoding 1024 bytes.
-sunxi_nfc_read_buf() and sunxi_nfc_write_buf() use the SRAM size as their
-chunk limit and advance the buffer offset by the requested count. A count
-above 1024 therefore transfers fewer bytes than the helpers account for.
+sunxi_nand_chips_init() scans every child of the controller node,
+including those marked disabled or reserved. Neither the chip setup nor
+the NAND scan path checks availability, so these children are still
+probed and registered. If an unavailable child describes an absent chip,
+its scan failure can also prevent the other chips from being used.
 
-The operation parser already splits data transfers at 1024 bytes, but the
-extra-OOB helpers call the buffer helpers directly. A sufficiently large
-unprotected OOB tail can thus be read or written incompletely while the
-page operation returns success.
+Iterate over available children so unavailable nodes are skipped before
+claiming their chip selects or issuing NAND commands. Keep the scoped
+iterator so node references are released on both normal and error exits.
 
-Limit each buffer transfer to both the SRAM size and the command byte
-count. Share that limit with the operation parser. Existing 1 KiB SRAM
-controllers retain their chunking, and larger buffers are transferred
-using successive commands.
-
-Fixes: 88fd4e4deae8 ("mtd: rawnand: sunxi: Add support for H616 nand controller")
+Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 7c80f52c517d..636a04f49418 100644
+index 636a04f49418..3de9ed6795fe 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -89,6 +89,9 @@
- #define NFC_RAM0_BASE		0x0400
- #define NFC_RAM1_BASE		0x0800
+@@ -2771,7 +2771,7 @@ static int sunxi_nand_chips_init(struct device *dev, struct sunxi_nfc *nfc)
+ 	struct device_node *np = dev->of_node;
+ 	int ret;
  
-+/* Maximum byte count for a normal data-transfer command. */
-+#define NFC_MAX_BYTE_COUNT	1024
-+
- /* define bit use in NFC_CTL */
- #define NFC_EN			BIT(0)
- #define NFC_RESET		BIT(1)
-@@ -690,7 +693,7 @@ static int sunxi_nfc_select_chip(struct nand_chip *nand, unsigned int cs)
- 
- static int sunxi_nfc_buf_chunk_size(struct sunxi_nfc *nfc, int len)
- {
--	return min(len, nfc->caps->sram_size);
-+	return min3(len, nfc->caps->sram_size, NFC_MAX_BYTE_COUNT);
- }
- 
- static int sunxi_nfc_read_buf(struct nand_chip *nand, u8 *buf, int len)
-@@ -2606,11 +2609,11 @@ static const struct nand_op_parser sunxi_nfc_op_parser = NAND_OP_PARSER(
- 			       NAND_OP_PARSER_PAT_ADDR_ELEM(true, 8),
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
- 			       NAND_OP_PARSER_PAT_WAITRDY_ELEM(true),
--			       NAND_OP_PARSER_PAT_DATA_IN_ELEM(true, 1024)),
-+			       NAND_OP_PARSER_PAT_DATA_IN_ELEM(true, NFC_MAX_BYTE_COUNT)),
- 	NAND_OP_PARSER_PATTERN(sunxi_nfc_exec_subop,
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
- 			       NAND_OP_PARSER_PAT_ADDR_ELEM(true, 8),
--			       NAND_OP_PARSER_PAT_DATA_OUT_ELEM(true, 1024),
-+			       NAND_OP_PARSER_PAT_DATA_OUT_ELEM(true, NFC_MAX_BYTE_COUNT),
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
- 			       NAND_OP_PARSER_PAT_WAITRDY_ELEM(true)),
- );
-@@ -2620,11 +2623,11 @@ static const struct nand_op_parser sunxi_nfc_norb_op_parser = NAND_OP_PARSER(
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
- 			       NAND_OP_PARSER_PAT_ADDR_ELEM(true, 8),
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
--			       NAND_OP_PARSER_PAT_DATA_IN_ELEM(true, 1024)),
-+			       NAND_OP_PARSER_PAT_DATA_IN_ELEM(true, NFC_MAX_BYTE_COUNT)),
- 	NAND_OP_PARSER_PATTERN(sunxi_nfc_exec_subop,
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true),
- 			       NAND_OP_PARSER_PAT_ADDR_ELEM(true, 8),
--			       NAND_OP_PARSER_PAT_DATA_OUT_ELEM(true, 1024),
-+			       NAND_OP_PARSER_PAT_DATA_OUT_ELEM(true, NFC_MAX_BYTE_COUNT),
- 			       NAND_OP_PARSER_PAT_CMD_ELEM(true)),
- 	NAND_OP_PARSER_PATTERN(sunxi_nfc_soft_waitrdy,
- 			       NAND_OP_PARSER_PAT_WAITRDY_ELEM(false)),
+-	for_each_child_of_node_scoped(np, nand_np) {
++	for_each_available_child_of_node_scoped(np, nand_np) {
+ 		ret = sunxi_nand_chip_init(dev, nfc, nand_np);
+ 		if (ret) {
+ 			sunxi_nand_chips_cleanup(nfc);
 
 -- 
 2.53.0
