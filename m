@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793883017;
-	b=utBZinz7/SGFUrS70YKWhjoAqPrurUe6dCBs4d09PoHfX8nVZf5L56LOG5uWnDcZhE8s
-	 tXTosJ7EqhwwkAvm4XiH3k2H6iFz8h6LKBL4z4Hek6isv5tRK0Q9xo1loOBiSuT8u3iaa
-	 2nqxSY8KBSdCCJquePOtDXOccLT2xV8mUnZ07gEwRNLfy43Pk3YJmczsi7U1Yg+RWDGHz
-	 oXVeRsZyxT02XE2l+z2i07mMQYyvRoegBlgDlV2WMVNlpiwuZqPMXHBki+AXS80T4qtfE
-	 nQBa0RfhvyCUfbEGo/cHtT1RxlPGfpyx6YicQ806FPWv/PCQnjsPFoumP6/8vz/6rjg==
+	t=1793883018;
+	b=Bltiwh1C9aEg+PX4wHzj7FGUwmJqzCcvhMb/rAZNtyLT+q6WqicnjEsk7ehgJ28KZXWd
+	 dPCRf8+QLFIkLtbXk7+uYAUxB+XcRGnLlVBeZWlQ0UejqWLh5gX6dLeGfStMwM6wHWWJK
+	 Esn/pcVTPsAknU+IH5pm7OeL79a7TgxGws0gGQ7YONNGTvWkDL9ejwyLchMoYe47rhOBl
+	 7KPcCJd72sALrFresFqXQiAW3yZcbvO6EpdPfJjbpHVu8D3rxoqGckoS6Yg2R5JvyzCxO
+	 nc+T/iDzvyFshttR5kjdoyD0dFmqyibVQ0cKWdq0qaLQLDZxaUu2SX6JJ0DwbcDNmuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793883017;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793883018;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=uYX+jNZaRfs+bvHwVK4BRtfPAH5zcuBsc3jlvTfSl60=;
-	b=iyUnTuI7KwUaz4ql/2LVqfTTwfFZKgy/r7xGkRjp0TNhLw9P5OeqrIFzN9M5ePQGRW+H
-	 ffUxdDB5qMxElsUdh9G+R/w+4iwrtGMeuhzQ6t5JYzSrF1tJb6F/n3cdmcSKO/CahhtsG
-	 BOorsLP/8E190nJA7sq7pTrmxtSGKzFHt//qDPPeU9MHYZK+TbrhHsCCSh4ianySkZ3iO
-	 wpg4sBWVy96lMUKSiAZnr99fvu52sUrpt5xgvPvMAcN//zq9UdZv6Bs3PVCFcnftILSuZ
-	 mw2AK7lgDPyHTmtFfFNATAkTPfsIDc/lDxf7a227tkP2j8UYrj386QTkhE/6CfOaUFw==
+	bh=RdyiRLv7e1N7dBqCXNkMCcJEXQWJI7RZIXVTawyjL7E=;
+	b=iapMISe0WNPbGhA44rd8+T2GjuTQ1mat3a2UG1fPoXTmRRo55UE2magzgiGkkez6De8I
+	 NopeI+qJdlNhR3c8Eg3Hsml0rIsHEmIERR5W2V2lPOIbRf5tq80sxeAa4MukrmpmrlDk9
+	 YHlXYpXQyykvKdp48JY1aqdkXHxbmPSN0z6deQTmj7KRtQi9oRmIKMiBHOWvl2G3VkDVY
+	 4EeOnCYGVS0E722q0q1lTc8m8rwDHdPgjAAYx9lmbcuRR/E9Zn/HU7pd3lFvo8A7bMFnf
+	 1ABhMeFlVaXooKT9r2+jVhX72ddm/TJHpiYIFLbQjtcLIZ0pz+ZJ0uPW4iXOcAAAWMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=blockcast.net;
 	spf=pass smtp.mailfrom=blockcast.net;
-	dkim=pass header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=mauP3X5R;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dkim=pass header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=FSrTCwLg;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500C8606D813
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 12:50:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 500C8606D813
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B79606A33E
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 12:50:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84B79606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=blockcast.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blockcast.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=mauP3X5R
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36cad25b8b0so2673187eec.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 04:50:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=FSrTCwLg
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-36a315ed211so727687eec.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 04:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blockcast.net; s=google; t=1793883016; x=1794487816; darn=lists.linux.dev;
+        d=blockcast.net; s=google; t=1793883018; x=1794487818; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=uYX+jNZaRfs+bvHwVK4BRtfPAH5zcuBsc3jlvTfSl60=;
-        b=mauP3X5RSYjQG9G1R0IGGkRFdUJPZpxWoR4ouK02rTPLdTliTVaayXv7I7C9cXjFJR
-         6edNJhp+eGnzeL2II/TMG8PDxkIwujtox1J14tMLuuBtTeN62bBrPmg/IGqCN8jLKuPL
-         wLJxlQ1D5CGNYR98BGTea/AM4U/0zF3XiMH9/FweGbaoQsADvcB+Azi6rtodRo3RIY0D
-         lnwm3Fn5h5mpbqEQa1U1lG43mvH2XJtV48k9W11/dRK1tpM2oMxcaXFtk878x1CO4caK
-         FBVgkc/0ZbbQrqsgUioF/VQ1L5wqyhEaydvu3PG2WHQhHasF28UOPrdlE7pGnAFD6wcF
-         miTQ==
+        bh=RdyiRLv7e1N7dBqCXNkMCcJEXQWJI7RZIXVTawyjL7E=;
+        b=FSrTCwLgrTSpj7iTLIqCufVxJfjbX+zzGBgLMjru0fKYLNozgJ7YPof+664Im1RQX8
+         a2MJlfenn+//0Q/lBkRgLOnbKCH23MTozV9fxzpHMPd6M4eNwU3yjtO9+cj630bVm1iK
+         Iy/7eZYy48otw6YAUZUZjjysWD+NgX6JGT8vmiFoac3tUdmJyvfuGXstZuYJBixQFkWQ
+         MKiCvW3CBFbxzjoLzKmb4iIs92PNBFjao+EHmFozUTTJQuM+6/JSKjmGpWJWA8jpxvRJ
+         zEndEeHMJGcBosjuZQ1g74qlQ6n3Yz5bYnVybNgukGwdoiE5Jqc/63TGAl6vnykGCBEA
+         pjvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793883016; x=1794487816;
+        d=1e100.net; s=20260707; t=1793883018; x=1794487818;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uYX+jNZaRfs+bvHwVK4BRtfPAH5zcuBsc3jlvTfSl60=;
-        b=FBjtX1+h0/RhrDYJfGZQ8J+6Qb692BNqxO2LFOuAss2XqISZlltFZFKpHsob5F2+KA
-         N5k9FncEno1UQIkoGXnkiCHyrSLaWGBg9pGZJ3yxI/0IS+wDqeWVmFccqfCdvIEF1dzC
-         nGok4ObsZq51sc9fhNgdKjT7P27KIZHEdI0acKDg1d/Jr9wWvFh8ryIRj1cR43I53tGR
-         0iSVc/r6FBrJvJTiKc/vFzprOg4hra76dEr4doAxuHp6geDakUfyX6UoyPA8QYXLquiK
-         ePdT5nv+MOSvST08xx27226Hvp+xuymbKs7TE+jqRDhvD2C/9uuAxMu3PkI/jVSGj91y
-         Y4IQ==
-X-Forwarded-Encrypted: i=1; AKwUvBydtD9EeffPfzqE3ZSTMPDVJ2eddZA1Ou8JnQfPLxzrh7y6M7IlK8jZqTOadmqwy/ocpZzWwBrw5xJALH6mlg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+L4qxXjtaBOF/kTwK3hYNvUVTTywle7m1946aekh/d5bTGznVr
-	n4NgLyiOtn5woUQpE8/8MuwUrc4SJlPJuDQr8c/iivtyb4iyyBVG7gK76D6QBx6eCBs=
-X-Gm-Gg: AYBFou0l/WwEdNOXWl0fEUA3iltFFquKV5SHlq9qJXWC+IvRUcGIUzY/CROi7EpniFv
-	yTvGimNEFZfoh5oDkMguuRkUdpPLHQpIBeHhCayITibzoO7bmjGlRE/fa7Jc5DA+VNOIm2ggjuu
-	WJkE4+w7zhdB5F+HhthzZ+AzTYXPvuLQ1bXsGLfcj+m/8rL5adif/HelZ+hIhdDbeKoTIGmJQiz
-	W5CCVBP0adRSnGUGksx0zgtlsq1G2TkVnxDfO6CkSmzeMdNDuiH1jUhwqc8YsM/+Ievx/GGTpnm
-	E8JbuwNMKkwA2xgw8Fk1+rkVTo4Am5ciQ95iv/jZThX+D0Vs92iVVvehBf4N4rt7FI1H00o4Jq0
-	XTZSdm3VsHRfwkxbyXCoXoPMCKcxfORGBYoQKQwSTx504nFcgSnc3a6qG5aBjJ9y+hPja7z/6i4
-	qHx42OXTb9ML/nNSTOJtxbBjciewQog2ZQpAbePPJ1O3qE+3eTJgjQOPhXi/BB/FrMUyjngU7Mw
-	jWbA9VBSV5uHUIEL044bq9mrwUmKVzpywK18qJM8QY69snWon3pDgMOMqrtIxfTGlx+KXAwCZEf
-	OkiiG2o3Avsir1y2mZTqEQszivgZGnYFohIGQudPrP2cKlPqIm3J0EIcDY/FAOr3Uaf4gKg=
-X-Received: by 2002:a05:7300:3b0c:b0:36a:238:1485 with SMTP id 5a478bee46e88-36a4244276cmr39609834eec.37.1793883016164;
-        Thu, 05 Nov 2026 04:50:16 -0800 (PST)
+        bh=RdyiRLv7e1N7dBqCXNkMCcJEXQWJI7RZIXVTawyjL7E=;
+        b=lPYrwjJ/ZXc/YMlMJCKR/epPAQFsj2a8RTUMx/W0IR4r9yeoHCanfs7Qp2rtGqBPB1
+         nRhsuzM7EAcRYtKnuj9PQXSus09ukY9aYbdxmY9yW0codxtJSac5BmDwY1jpBgpkEpYx
+         Fs7d7O2X3SGsPwdgZvOreThMg2lT1Iem0QVg6cGjVGJUYFPD1UfKZjK0L+NKWAgi9dct
+         tFkA7F43JBYmUm9k+ga8alJP0pUZCQAIhrbAc/gwwDiDgXL/7Y7NNO6Am9uTg+b4TNsn
+         QpOLLNs69GiwJi2R3FTakERxCPYVg2cbV4oEgc1WZ6FjkVfRjVsW3k9wGV3zO9b+bAUi
+         bVFg==
+X-Forwarded-Encrypted: i=1; AKwUvBw/e5nK8HFHW3U/6Zh3NrUcsWAY+rOr3fK7GXuTOfF8QJjT/dmaXNkE1HWNPEGusdtBL1/xtJnnCfUHG0NIEA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8CvOeBYA5rSQpxKeq8x44rysB6mxP0/0KkzAmVDnpONOpNZc22
+	wis/Jgel/GAoQWQm0QR9svF6Ys5Qv3KKKa88mPJLZ2HKxBU7gMBMjjfe2zUXzN8IMh8=
+X-Gm-Gg: AYBFou0gMEDbB5DGTKavjclALRqUl/dB/2XSK2K11V51qfvHertNv1Gc2fHlol3sG9I
+	4yYZcLZVHMnZYdscPqMqn9mHHxGRDx39FfgCLt0cIfZswU3yZDQH6rVwntdj4FRoo7/Bd/6nwWW
+	bYWdigZxJ064NSvY/Z40bBefPJbeSiUqo1o4h7ADkCEFtWaL6JYWCD714XtHx296NmpPlLxNGva
+	8uQIpi2ez7yYqnYuMi6BzCsAQ0JpuyNfhkavKFCuDyJ722zc61zkIGaG2BKVCbWD/XUcgsQtThq
+	64ntYRYyU/9i77vJwwbzJuWXwdx0GeQeltBEXwObfd8x4b3VMUIScD3iZoa2clekFcwpY4AzzvB
+	IfrHiasSEpaX0ahhxx3M3PiTXZGohTUiw2iDNw6GJBuF8mJ8SUK+fbt75caeKFKA4GUIIhDSWdN
+	a32cqiIxDl4cZUgWpJADpsM9HJw7LQ7YzSxpcCssxfe7uaB352kZpjK7b+TmnyDYOrJnK0+QArP
+	YrYLzrYgOWUDCZEntKSBYMbpbgIF5VRPltHPq2IxFVDuarkhx/2dVVbZszl3FTsq7ZdZfAXUE5Y
+	BDkJ07FCa2biy0N2y77WHRmtjilLMhuWCf12PjZrAJBFf20g1zR2f2+tcwvWi3/Zli/PTgM=
+X-Received: by 2002:a05:7300:8a99:b0:36d:dcdb:70c5 with SMTP id 5a478bee46e88-36de713aa2cmr3426944eec.20.1793883017458;
+        Thu, 05 Nov 2026 04:50:17 -0800 (PST)
 Received: from devbox.ts.blockcast.net ([2602:f74d:1::32])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca39b8eb3sm22527257eec.27.2026.11.05.04.50.15
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca39b8eb3sm22527257eec.27.2026.11.05.04.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 04:50:15 -0800 (PST)
+        Thu, 05 Nov 2026 04:50:16 -0800 (PST)
 From: Omar Ramadan <omar@blockcast.net>
 To: Taehee Yoo <ap420073@gmail.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -92,9 +92,9 @@ Cc: netdev@vger.kernel.org,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH net v5 2/5] amt: reject a gateway Query or Data from 0.0.0.0 before a relay is learned
-Date: Thu,  5 Nov 2026 12:50:07 +0000
-Message-ID: <20261105125010.1107546-3-omar@blockcast.net>
+Subject: [PATCH net v5 3/5] amt: require an exact IPv4-sized IFLA_AMT_{LOCAL,DISCOVERY}_IP
+Date: Thu,  5 Nov 2026 12:50:08 +0000
+Message-ID: <20261105125010.1107546-4-omar@blockcast.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261105125010.1107546-1-omar@blockcast.net>
 References: <20261105125010.1107546-1-omar@blockcast.net>
@@ -109,62 +109,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A gateway's amt_rcv() admits a Membership Query or Multicast Data message
-when "saddr != remote_ip" is false. remote_ip is 0 before discovery has
-learned a relay (and is reset to 0 by amt_dev_open() and when discovery
-gives up), so a packet whose source is 0.0.0.0 would otherwise pass the
-equality check and could spoof a Query or inject multicast data.
+The netlink policy for IFLA_AMT_LOCAL_IP and IFLA_AMT_DISCOVERY_IP is an
+untyped entry with .len set to the size of an IPv4 address, which netlink
+validation treats as a minimum length only.  Any longer payload passes,
+and nla_get_in_addr() then reads just its first four bytes: an iproute2
+that puts a 16-byte IPv6 literal in one of these IPv4 attributes turns
+"2001:db8::" into 32.1.13.184, and the device is created with an address
+the user never asked for.
 
-Reject both when no relay is learned: a 0 remote_ip must match nothing, so
-guard the check with !remote_ip. A Query is queued before its event worker
-processes it, so the relay address can also change in that window. Recheck
-the packet source against the current remote_ip in the handler and discard
-stale Queries. Discovery is unaffected because Relay Advertisements are
-validated against discovery_ip, not remote_ip.
+Use NLA_POLICY_EXACT_LEN(sizeof(__be32)) for both, so every payload that
+is not exactly four bytes long is refused with a standard extack instead
+of being truncated.  The range check this expands to fails the attribute
+even under the liberal parsing rtnetlink applies to IFLA_INFO_DATA.
+amt_get_size() and amt_fill_info() already emit exactly four bytes for
+these attributes.  IFLA_AMT_REMOTE_IP is only ever reported, never read
+from a request, so it is left unchanged.
 
-Found by code inspection while writing the IPv6 receive path for the
-AMT IPv6 outer transport; not triggered at runtime.
+Triggered while writing a selftest for the AMT IPv6 outer transport:
+an iproute2 without the IPv6 attributes put all 16 bytes of
+"discovery 2001:db8:a::2" into IFLA_AMT_DISCOVERY_IP. On a stock
+kernel the command exited 0 with no error or warning, and the device
+came up as an IPv4 gateway with discovery address 32.1.13.184, the
+first four bytes. There is no oops or trace; the symptom is the
+silently wrong address, which fooled the selftest's capability probe.
 
 Fixes: b9022b53adad ("amt: add control plane of amt interface")
 Assisted-by: LLM
 Signed-off-by: Omar Ramadan <omar@blockcast.net>
 ---
- drivers/net/amt.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/net/amt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/amt.c b/drivers/net/amt.c
-index d8914d811..dacfd5524 100644
+index dacfd5524..68f08f5f6 100644
 --- a/drivers/net/amt.c
 +++ b/drivers/net/amt.c
-@@ -2482,6 +2482,10 @@ static bool amt_membership_query_handler(struct amt_dev *amt,
- 	if (amtmq->reserved || amtmq->version)
- 		return true;
+@@ -3307,9 +3307,9 @@ static const struct nla_policy amt_policy[IFLA_AMT_MAX + 1] = {
+ 	[IFLA_AMT_RELAY_PORT]	= { .type = NLA_U16 },
+ 	[IFLA_AMT_GATEWAY_PORT]	= { .type = NLA_U16 },
+ 	[IFLA_AMT_LINK]		= { .type = NLA_U32 },
+-	[IFLA_AMT_LOCAL_IP]	= { .len = sizeof_field(struct iphdr, daddr) },
++	[IFLA_AMT_LOCAL_IP]	= NLA_POLICY_EXACT_LEN(sizeof(__be32)),
+ 	[IFLA_AMT_REMOTE_IP]	= { .len = sizeof_field(struct iphdr, daddr) },
+-	[IFLA_AMT_DISCOVERY_IP]	= { .len = sizeof_field(struct iphdr, daddr) },
++	[IFLA_AMT_DISCOVERY_IP]	= NLA_POLICY_EXACT_LEN(sizeof(__be32)),
+ 	[IFLA_AMT_MAX_TUNNELS]	= { .type = NLA_U32 },
+ };
  
-+	/* A deferred query may outlive a relay address change. */
-+	if (ip_hdr(skb)->saddr != READ_ONCE(amt->remote_ip))
-+		return true;
-+
- 	if (amtmq->nonce != amt->nonce)
- 		return true;
- 
-@@ -2958,7 +2962,7 @@ static int amt_rcv(struct sock *sk, struct sk_buff *skb)
- 			}
- 			goto out;
- 		case AMT_MSG_MULTICAST_DATA:
--			if (saddr != remote_ip) {
-+			if (!remote_ip || saddr != remote_ip) {
- 				netdev_dbg(amt->dev, "Invalid Relay IP\n");
- 				err = true;
- 				goto drop;
-@@ -2969,7 +2973,7 @@ static int amt_rcv(struct sock *sk, struct sk_buff *skb)
- 			else
- 				goto out;
- 		case AMT_MSG_MEMBERSHIP_QUERY:
--			if (saddr != remote_ip) {
-+			if (!remote_ip || saddr != remote_ip) {
- 				netdev_dbg(amt->dev, "Invalid Relay IP\n");
- 				err = true;
- 				goto drop;
 -- 
 2.47.3
 
