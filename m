@@ -1,64 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793906002;
-	b=HZy8ef0ooOBzf2vTOWYJSLU/YHUpBVvRuOgdd3Nybvw7pc9O0ITeU9HSHEDxApZuMmde
-	 OxnEl+wT7Y4TTCnvVj/nuPZAAd0wuvpkguPXJBkNpswPIeFCSujpP1UL6frJmQyVZRkLB
-	 1ABkQhs0kP52LFtGqDWu+z49b6KX+YELVX+f2DXs5cEQ4aTGiXyF8UC0UpmAF9Z4bFUDL
-	 XB08ASnr1s+bNWuWQFReIEQODLPQJVcFx8dJF6cDx2IipKdxuqDCkhJsUgQ+fOQxyD5ZG
-	 lyuClre7adKWFE6c9TcUIj0hqCvwTzMoS8Oq51Zt38vX1+c3IQwiZhY8004b/LNtH4Q==
+	t=1793906219;
+	b=bnRa5f2WxWhk5JwSTF4RCr/k10VxO53w9rzA9XDhddmAGpKPFmYOlhcHVZhK6Pf5h0Vm
+	 ysxklP3JLDvcV4qmeL6Ny+Z+0gOXk5OUhFsD+Jn+5FoGPHOMWAzc8MniER08h4WhF+fRB
+	 tAVHlxLpYAANISPhnaXZAMGxzcMD4oqVRGsV1OVKtYB4pM+vi+YoCFgJwZS1W+QGsp0Jc
+	 1C7I1scULtrXj2oCXmfEHWNownkq6J7Wu+fi/0UBubGuuzGaYkD+cRHhX6qZSbNBNCdC7
+	 M0Rv3Qmo1l9XFpJFSYfyBtH+UceltBbkblxVYmHBUDEUB5riuD9xmUKImzFbHh382xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906002;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bWoUw0v85zV3qDcWRLloegiWXI8H90sykJZsNR/TAqw=;
-	b=fWz4G9UmphQ3f4VyyvhrwwRpr6sdHHCyZ0J5Ha+g4m13MxcSpJp0QQgRGE2Tq7FnxZ+f
-	 3K51EfMvvmr7eDhylrvZnCajn3aUQ+5tZIqkT92em3xIYu/iaiNPr/EVjM0+6jX4yeBSU
-	 9CBLTuFekYV9GPBjo7+q1jCwJUyMZ8C/nf10hfGlmDXGg9WGceDnebsyGT73yfWWGMecl
-	 HJxWCoB2Kc18e60LMNaOYI3TL9CCn94kNKY1grNITD4zk28zCh48LUUar+kv8IOnoTaIk
-	 H1ebib96WHO3BFShuTXr5DaxYvJMJj4/dbqDGdNRq0leTEmTfNXPtMdptmy03hfTjzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906219;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=/QPRq8NRdoTQFGsCttss1QamdhdZEmRH+UBHc2dmMxI=;
+	b=YSH8X/vAHDLBKISic5opoVtV9EcZiYpf7W+/45Nz3/ctkpgPEii5/IDUBeOtYcIo57Dd
+	 xJOSPqlXVtiG6wya9rhUwcUY6fJ7n1RQYAUSfqasDAEdmqBvMJzlLdg2We80iEdEksbbE
+	 QweHeuGMCqa+TPDZ7IC7IVdWHN5Z8mVRNk2HQppd7vEFEl2rRbFZDhav/Q/gviZleiFyi
+	 wlSx245kDgdMfMqZPIOZFOJJ0sZd2RvJ9AtNl00QriSsMMvkQG+BCZvsWwWq/2m4b/Zl1
+	 MxbwtPCIapdYGbPHCL/7FvSM/jJ9CVWbxKkWnIPK0oDu1r3ED9qpSKWs8RLqQZQfaHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lCgVm33R;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=oVB9n8E3;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="/yFTPmVg";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A20606A31B;
-	Thu,  5 Nov 2026 19:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FC6606A329
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:16:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8FC6606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lCgVm33R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C151F000C1;
-	Thu,  5 Nov 2026 19:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906001;
-	bh=bWoUw0v85zV3qDcWRLloegiWXI8H90sykJZsNR/TAqw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lCgVm33RLYIh8TNpmuCn12/xAde129MgnsOWokB3gB6Rv91jNMzmtOSM257Ty9a7N
-	 2e/SKFKpw1DOZe70ojYG0BZqOUu/bOxnqFqPKtSfGkfEDaakQFFeoQ6C4uiT3eIX+m
-	 FUVnkJnAIULk52NAqho+YjViL9OsMWyVhVU6dKdskJOqEt7fpnQJVTyHjAO2V+nFDA
-	 dhgTSRbkn4RZzfNe+5+HAHoPmopQe0uGJn1ylama7Q1583QpQpqYqTguX4twG4mfvr
-	 dsr9nonV2SFJUqJAgK5Lewr2vtbCbR65T5vRCoLXUS23ND2em+CVCdH+J0b2uAkdZq
-	 FcztQSYXaouUA==
-Message-ID: <sashiko-outbox-199823@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 01/26] mtd: rawnand: sunxi: centralize OOB handling
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>, "Miquel Raynal" <miquel.raynal@bootlin.com>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>
-Cc: "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, "Maxime Ripard" <mripard@kernel.org>, "Richard
- Genoud" <richard.genoud@bootlin.com>, "Boris Brezillon" <bbrezillon@kernel.org>, "Masahiro
- Yamada" <yamada.masahiro@socionext.com>, "Brian Norris" <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-1-dca1f6ed29a8@gmail.com>
-References: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com>
- <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-1-dca1f6ed29a8@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:13:20 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=oVB9n8E3;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=/yFTPmVg
+Date: Thu, 5 Nov 2026 20:16:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793906216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/QPRq8NRdoTQFGsCttss1QamdhdZEmRH+UBHc2dmMxI=;
+	b=oVB9n8E3qldcRTT58qnt8sZrL1ajwomPmBEQ0ja2tbswcXsRN7BxM1VdLagYs6EPoQEiRv
+	FlLf/QYgmJWInW4IDOj0C6RUqh9myaw7DrShZd6CohruwvBX0fEMqxu9Vhr9O4+eTsmgGN
+	qWQinBoEEUJD0CIboPj4vV0tGhwaZwyUc/MCvg19yBs1CuEoNrvH/AhglJhawmBG4GqYc6
+	2xvGZIDyMVcFywC1myxJKVxaFRXnI6BYK2r/0Q/8rSOCr3/Nbjy69iIA8L/ZHs3PdsKHSs
+	OqXXNmnM+/knVwnnjK2ObzU9mIdJfBNAERPEKpSRVml1RVeQ5UXVwBzSufHsHw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793906216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/QPRq8NRdoTQFGsCttss1QamdhdZEmRH+UBHc2dmMxI=;
+	b=/yFTPmVg+cEiCzcRd/5sSrqXlLnNnXKxFstl5QgEP1tBbREFFM5PRLceKPqdlvTa1Fh99w
+	BVQ6p2xBc8IoRgAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: "paulmck@kernel.org" <paulmck@kernel.org>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Andrea Righi <arighi@nvidia.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <20261105191654.S8OPV16j@linutronix.de>
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,115 +83,60 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] mtd: rawnand: sunxi: premature oob_ops selection in sunxi_nand_att=
-ach_chip()
-- [Medium] mtd: rawnand: sunxi: unaddressed maintainer NACK on vendor OOB l=
-ayout ops
---
+On 2026-11-05 18:52:47 [+0000], Joel Fernandes wrote:
+>=20
+>=20
+> > On Nov 5, 2026, at 1:36=E2=80=AFPM, Paul E. McKenney <paulmck@kernel.or=
+g> wrote:
+> >=20
+> > =EF=BB=BFOn Thu, Nov 05, 2026 at 05:51:13PM +0100, Sebastian Andrzej Si=
+ewior wrote:
+> >> Commit 450efca7182a5 ("rcutorture: Disable RT throttling for boost
+> >> tests") added the ability to disable RT throttling while rcutorture was
+> >> run.
+> >>=20
+> >> Since v6.12 the DL fair_server takes control of throttling and this
+> >> interface no longer serves this purpose. That sysctl control still
+> >> exists but serves a different cause.
+> >>=20
+> >> There is no in-kernel interface to provide this feature, one needs to
+> >> echo -1 to each /sys/kernel/debug/sched/fair_server/cpu*/runtime file.
+> >>=20
+> >> Since sysctl_sched_rt_runtime does not do what it once did, remove it
+> >> from rcutorture.
+> >>=20
+> >> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> >=20
+> > Thank you, but ouch...  Does this mean that there is no longer any usef=
+ul
+> > in-kernel way to test RCU priority boosting?
 
-commit 8fda5c99d9befa1771418516828f040de60c5845
-Author: James Hilliard <james.hilliard1@gmail.com>
+The DL server is per-CPU so you would need to check each one if
+throttling is enabled. But RCU priority boosting is independent. If the
+test requires SCHED_FIFO priorities and disabling throttling to ensure
+progress we would have to add something assuming userland can't handle
+this=E2=80=A6
 
-mtd: rawnand: sunxi: centralize OOB handling
+> There should be a way to disable DL server. Adding Andreas to check if
+> there is a way. But I am wondering if the prio boost tests are
+> working, then is the DL server throttling broken? ;-)
 
-This commit centralizes hardware ECC result interpretation, protected OOB
-retrieval, erased-chunk checking, and user-data layout reservation behind
-per-chip sunxi_nfc_oob_ops callbacks for both PIO and DMA paths.
+As I wrote in the commit message,
+| for i in $(find /sys/kernel/debug/sched/fair_server -name runtime); do
+|         echo 0 > $i; done
 
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index f41feebe42571..80006d1a33d68 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-[ ... ]
-> @@ -2066,6 +2096,58 @@ static int sunxi_nfc_maximize_user_data(struct nan=
-d_chip *nand, uint32_t oobsize
-[ ... ]
-> +/*
-> + * Both modes use the same layout and ECC policy. Scrambled transfers al=
-so
-> + * compensate the first two user bytes to keep the on-flash BBM unmodifi=
-ed.
-> + */
-> +static const struct sunxi_nfc_oob_ops sunxi_nfc_plain_oob_ops =3D {
-> +	.min_user_data =3D sunxi_nfc_oob_min_user_data,
-> +	.init_user_data =3D sunxi_nfc_oob_init_user_data,
-> +	.read_batch =3D sunxi_nfc_oob_read_batch,
-> +	.finish_read =3D sunxi_nfc_oob_finish_read,
-> +};
-> +
-> +static const struct sunxi_nfc_oob_ops sunxi_nfc_scrambled_plain_bbm_oob_=
-ops =3D {
-> +	.min_user_data =3D sunxi_nfc_oob_min_user_data,
-> +	.init_user_data =3D sunxi_nfc_oob_init_user_data,
-> +	.transform_bbm =3D sunxi_nfc_randomize_bbm,
-> +	.read_batch =3D sunxi_nfc_oob_read_batch,
-> +	.finish_read =3D sunxi_nfc_oob_finish_read,
-> +};
+would do the job from userland. But we don't have an in-kernel
+interface (yes, I am bit confused if is 0 or -1, I lean towards 0 now).
+The server _is_ throttling, this works. I will try check tomorrow how
+rcutorture behaves. The difference is that throttling is per-CPU and not
+global so it might not have *that* big of an impact.
 
-[Severity: Medium]
-As reported by Miquel Raynal on v6 [1], the series adding support for the
-vendor-specific Allwinner randomized OOB layout was declined due to
-maintainability concerns and kernel policy against vendor-specific NAND
-layouts, with an invitation to submit only the standalone fixes outside of
-the randomized layout support.
+> Thanks
 
-Here, sunxi_nfc_plain_oob_ops and sunxi_nfc_scrambled_plain_bbm_oob_ops use
-identical callbacks for min_user_data, init_user_data, read_batch, and
-finish_read, differing only in transform_bbm. The remaining indirection in
-struct sunxi_nfc_oob_ops is only used by the vendor-specific randomized OOB
-layout patch later in the series.
-
-Could the PIO and DMA ECC read helpers be shared directly and the standalone
-fixes split out without introducing the struct sunxi_nfc_oob_ops vtable?
-
-[ ... ]
-> @@ -2254,6 +2303,9 @@ static int sunxi_nand_attach_chip(struct nand_chip =
-*nand)
->  	if (!ecc->size || !ecc->strength)
->  		return -EINVAL;
-> =20
-> +	sunxi_nand->oob_ops =3D nand->options & NAND_NEED_SCRAMBLING ?
-> +		&sunxi_nfc_scrambled_plain_bbm_oob_ops : &sunxi_nfc_plain_oob_ops;
-
-[Severity: High]
-Does selecting sunxi_nand->oob_ops in sunxi_nand_attach_chip() break bad
-block marker compensation for chips that set NAND_NEED_SCRAMBLING during
-nand_manufacturer_init()?
-
-In nand_scan_with_ids(), nand_attach() runs before nand_scan_tail():
-
-  nand_scan_with_ids()
-    -> nand_scan_ident()
-    -> nand_attach()
-      -> sunxi_nand_attach_chip()
-    -> nand_scan_tail()
-      -> nand_manufacturer_init()
-
-For ONFI-compliant chips where nand_onfi_detect() succeeds in nand_detect()
-and jumps to ident_done without setting NAND_NEED_SCRAMBLING, the flag can
-be set later in nand_manufacturer_init(), such as in
-drivers/mtd/nand/raw/nand_toshiba.c:
-
-  toshiba_nand_init()
-    -> tc58teg5dclta00_init()
-      chip->options |=3D NAND_NEED_SCRAMBLING;
-
-Because sunxi_nand_attach_chip() runs before nand_manufacturer_init(),
-sunxi_nand->oob_ops is latched to sunxi_nfc_plain_oob_ops (where
-transform_bbm is NULL). Later, during page and OOB reads and writes,
-sunxi_nfc_randomizer_config() and sunxi_nfc_randomizer_enable() dynamically
-check nand->options & NAND_NEED_SCRAMBLING and enable hardware scrambling,
-while sunxi_nfc_hw_ecc_get_prot_oob_bytes() and
-sunxi_nfc_hw_ecc_set_prot_oob_bytes() check sunxi_nand->oob_ops->transform_=
-bbm
-and skip calling sunxi_nfc_randomize_bbm().
-
-[1] https://lore.kernel.org/r/871p9v4a1x.fsf@bootlin.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-submit-sun=
-xi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com?part=3D1
+Sebastian
