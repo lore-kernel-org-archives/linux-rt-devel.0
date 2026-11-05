@@ -1,68 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908992;
-	b=fK9602m1/70BxVFa7FVzZI0YWSArcLYrGuXF9esBa/VB0BiRCBQU3lbdIcWZ1kZf68EM
-	 MTh3q5N4M7NMCjy6pjG1+2b6T6fxsSQajk/yfsUkouXhG2nsY394QL85Pp9/pNR0FbK1z
-	 nyYYntZh/M+13t7G32wmkaCoBzFNH+5zczhEkRcoMAUZDERllOMCCAbJLk5m7oMflhd5b
-	 4pNj6Kc7G7yNYukpvkUspzK2L8ZCQoF4GGeUdYiYkNSXEEtSaDe9NAGPJUnertXDcwDl3
-	 wDZIbS8n2AlON8wnLpLwobf7761dHAzlncBV8+/ouUP99Vhs6hvdZ0j6U8A60o6mqwg==
+	t=1793909428;
+	b=BEcrP0iwlUkl4N37Ri3qyRP99k4DPvIhclqsIvqjpGYuojpvW9z/uXGQF0UqwV9Rn1ge
+	 DgJkIytq9qZbMLbsJxW7wpd3xb0FlZdkUkAbg1Do05E2tDOUEGzwqvJo9+zE+6VuOriXy
+	 yWyAvyITzft3GTcwAb4ddzQuhHNPw9shZMZD9VFrgoulWlGhUH/0lWHTkU4tus3GvFHHi
+	 5KnouvHj2FaMg1lzEhAgw9G29T2+5EdQdVj8CVR+FmG7jV5MY1wO6rd2U0EvfcvkDFOG5
+	 cWE4zTIBOCGRNK8MjOe1AyCBF4xEH+jpX+T14SpjrMKtdhxUkdn7OlS7+duYzOaHn+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908992;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=hAMXcsDShigiscpI7Q3JDrAxmDURmvVQLCUjnSrGa7s=;
-	b=zRYI9dO0/+W+LZdUtWrX6a5GfGc8jgrZQTvYpmv9dm1wBJ5mZJIXyUVCo45g0o1hnogQ
-	 i2W62iXrsoJRvlNjqkqv5+6yRb8kRmxcyXriOGrCDffm/KPHBac4aDqhplBBMOZmPlISC
-	 lVLiejiqfQKtse1wT1VpmX4JfEwuHdIKvvK8e498bbj/9KQnoUqyikYF7hsmG2FHDF8Wz
-	 OuVDek51pAVprcUZAgFvGDhVFzIw4vQDIZQiejlRJwoZHXIUS10uLt2apQeteANtDe+vi
-	 OHg/fbcM44/FRq0Mb2QbPvFM7PielGYa79O8gbhhS1S9cDbUw5Eu4vBLXIAfPLQsoYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793909428;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=wUViCC77mXYQ0JKmq5TEV5oH2rgM/Z1kN/WuET4hyj0=;
+	b=Eg3VhENQ/V1cRGjrlwGV9jJAXPX2KgRt8iVQJGwhK+eAAWbOLG0dwoeaJj5aQ4JitgLI
+	 82kGgn2S805Nyo2EsT6v869jcDejN9cPZCiAG1GBJ2uXq3dMft1/QNzrFpJXurOxCj5Ll
+	 X15EroK2l6os3cIC7El95LY+07iMHQuT/VDNdA6NgSDILR5lDnJl0rXf+umZL//tP/cnE
+	 /tiRQc9JYRe/HpQebvMfzr4V/UjCztynUpK+5yP5oS8fls36CgewCqdTbyxhMnb1xXRBr
+	 tX9OSpdB8+amTnZ2yUEv4+1BD3U/+t50wR327AjbdXLOLzlgkpLBjgGFBEH4+Wj9cGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RCyiLreG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NWvVgwMo;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A372606A326;
-	Thu,  5 Nov 2026 20:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1514606A334;
+	Thu,  5 Nov 2026 20:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RCyiLreG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB1B1F0089F;
-	Thu,  5 Nov 2026 20:03:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NWvVgwMo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2368C1F0089F;
+	Thu,  5 Nov 2026 20:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793908992;
-	bh=hAMXcsDShigiscpI7Q3JDrAxmDURmvVQLCUjnSrGa7s=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=RCyiLreG9XH2JBaltlmMLYp0VF0XQv2PJcgVIXKANCwy6+vJZD2kviguo+wXhq+f6
-	 T/nVzQ7WZqNA3CK3PfDUbHtIG9h3I5+3ZrpWEhvr1GrlVfZ3SVYcAIqBpnHhsjVMla
-	 cyNMgbgNPqU6Yzy0FqkPhZBXGIEtlnHf56Vx0/Gh/VEorYVpB57BuIB6www0FHJThD
-	 fZXHskLrb1rEnXv2fBkq4q6zOcu28HSHuKDPXntTJdb/wNIHJwJKp8EKEs+UmA8o1M
-	 qCYUXdLQxoaOgzDVmUFQOwtS147x0JzuYxSPKPKlmODr1kx4MbXCoitFXCWuceYbXD
-	 6DtMDGM9PIHLQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EC8C7CE04A0; Thu,  5 Nov 2026 12:03:11 -0800 (PST)
-Date: Thu, 5 Nov 2026 12:03:11 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Andrea Righi <arighi@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
-Message-ID: <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261105165113.82N-rPMG@linutronix.de>
- <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
- <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
- <auzXjQfYXs_gzx1y@gpd4>
+	s=k20260515; t=1793909427;
+	bh=wUViCC77mXYQ0JKmq5TEV5oH2rgM/Z1kN/WuET4hyj0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NWvVgwMov4I4jUiZ47seWeSGhEo0jtG2KKgVJhP4845UdabjOPhFhIvUubG5/0o7T
+	 HHOmJdTK1+LjFGRVMHArKukKDUaPmys5FUZGJLfLJpDeoJScU5epoLIv9/LD5gDyB9
+	 t+cxzIUtwY9YJHkuIic8omIYrxHbvmUQxFNdN3j6rv1EbzweTnNQSmNmwK48IJNy15
+	 3S8r78+w6FgWA9qryOyZ8hd9ux2yAtjv0KK4mykyNyZPOkp7104CF8Nyh8349KeqAg
+	 WjzwfhmoukY4+A38r+9rTMacx2rr4BqM8IJZ6ib6DXKpwiYxN0vDvyKj+DJRlynE07
+	 FKWr2cM+nUAQA==
+Message-ID: <sashiko-outbox-200077@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 08/24] sched/deadline: Release the bandwidth of a
+ task that leaves the class asleep
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20261105193359.1450487-9-mathieu.desnoyers@efficios.com>
+References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-9-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 20:10:26 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -71,165 +60,251 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <auzXjQfYXs_gzx1y@gpd4>
 
-On Thu, Nov 05, 2026 at 08:22:53PM +0100, Andrea Righi wrote:
-> Hello,
-> 
-> On Thu, Nov 05, 2026 at 06:52:47PM +0000, Joel Fernandes wrote:
-> > 
-> > 
-> > > On Nov 5, 2026, at 1:36 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > 
-> > > ﻿On Thu, Nov 05, 2026 at 05:51:13PM +0100, Sebastian Andrzej Siewior wrote:
-> > >> Commit 450efca7182a5 ("rcutorture: Disable RT throttling for boost
-> > >> tests") added the ability to disable RT throttling while rcutorture was
-> > >> run.
-> > >> 
-> > >> Since v6.12 the DL fair_server takes control of throttling and this
-> > >> interface no longer serves this purpose. That sysctl control still
-> > >> exists but serves a different cause.
-> > >> 
-> > >> There is no in-kernel interface to provide this feature, one needs to
-> > >> echo -1 to each /sys/kernel/debug/sched/fair_server/cpu*/runtime file.
-> > >> 
-> > >> Since sysctl_sched_rt_runtime does not do what it once did, remove it
-> > >> from rcutorture.
-> > >> 
-> > >> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > 
-> > > Thank you, but ouch...  Does this mean that there is no longer any useful
-> > > in-kernel way to test RCU priority boosting?
-> > 
-> > There should be a way to disable DL server. Adding Andreas to check if there is a way. But I am wondering if the prio boost tests are working, then is the DL server throttling broken? ;-)
-> 
-> The existing knob to disable the DL servers is debugfs, writing 0 to
-> each /sys/kernel/debug/sched/fair_server/cpu*/runtime disables the fair
-> server and, with sched_ext, the corresponding knob is in
-> /sys/kernel/debug/sched/fair_server/ext_server/cpu*/runtime.
-> 
-> Small nit: the disable value is 0, not -1 (the handler parses an
-> unsigned).
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] sched/deadline: __dl_clear_state() leaves dl_deadline set, breakin=
+g PI boost
+- [High] sched/deadline: __dl_clear_state() leaves dl_runtime set, breaking=
+ PI deboost
+--
 
-Thank you for the clarification!
+commit 9c0c6a820e95bee2f513ebeba452d798eb3ec73c
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-> For rcutorture, I don't think there's a ready-made kernel interface,
-> maybe we could add a sched helper that performs the same operation as
-> the debugfs knobs?
+sched/deadline: Release the bandwidth of a task that leaves the class asleep
 
-I would very much appreciate that.  ;-)
+This commit releases a task's bandwidth from the root domain's total_bw in
+switched_from_dl() when the task leaves SCHED_DEADLINE while not queued and
+without a pending inactive timer. It also introduces __dl_clear_state() to
+clear the dynamic period state and dl_bw while keeping static parameters in
+place in case the task is still a priority inheritance donor.
 
-> And I think a passing boost test doesn't necessarily mean the DL server
-> is necessarily broken. The server can still give a starved reader enough
-> CPU time to leave its RCU read-side critical section without relying on
-> priority boosting. That can mask a boosting failure, much like the old
-> RT throttling could.
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761f=
+e005b4@redhat.com/
 
-The way that rcutorture deals with this (or attempts to, anyway) is to
-repeatedly run the boost test, with the interval between consecutive
-boost tests controled by the test_boost_interval module parameter.
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 088e84fb9b107..867111a0822e7 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+[ ... ]
+> @@ -3550,15 +3551,62 @@ static void switched_from_dl(struct rq *rq, struc=
+t task_struct *p)
+>  	dec_dl_tasks_cs(p);
+> =20
+>  	if (!task_on_rq_queued(p)) {
+> -		/*
+> -		 * Inactive timer is armed. However, p is leaving DEADLINE and
+> -		 * might migrate away from this rq while continuing to run on
+> -		 * some other class. We need to remove its contribution from
+> -		 * this rq running_bw now, or sub_rq_bw (below) will complain.
+> -		 */
+> -		if (p->dl.dl_non_contending)
+> +		bool released =3D false;
+> +
+> +		if (p->dl.dl_non_contending) {
+> +			/*
+> +			 * Inactive timer is armed. However, p is leaving
+> +			 * DEADLINE and might migrate away from this rq while
+> +			 * continuing to run on some other class. We need to
+> +			 * remove its contribution from this rq running_bw now,
+> +			 * or sub_rq_bw (below) will complain.
+> +			 *
+> +			 * inactive_task_timer() will find !dl_task(p) and
+> +			 * release total_bw via __dl_sub().
+> +			 */
+>  			sub_running_bw(&p->dl, &rq->dl);
+> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
+> +			/*
+> +			 * No pending inactive timer: the task never ran as
+> +			 * DEADLINE or the timer already fired while still
+> +			 * DEADLINE (only dropping running_bw at that time).
+> +			 * Nobody else will release total_bw, do it now.
+> +			 *
+> +			 * Not for a task without parameters of its own, one
+> +			 * deboosted from priority inheritance, nor for a
+> +			 * special one: neither has bandwidth in total_bw.
+> +			 */
+> +			struct dl_bw *dl_b =3D dl_bw_of(task_cpu(p));
+> +
+> +			raw_spin_lock(&dl_b->lock);
+> +			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
+> +			raw_spin_unlock(&dl_b->lock);
+> +			released =3D true;
+> +		}
+>  		sub_rq_bw(&p->dl, &rq->dl);
+> +		/*
+> +		 * Released: its 0-lag time is past, and the state of the
+> +		 * period it was in goes with the bandwidth, as where
+> +		 * inactive_task_timer() resets it. Its bandwidth is no one's
+> +		 * to release again, and a dl_bw of 0 is what every path that
+> +		 * would takes. Kept, it would make the task one with
+> +		 * bandwidth to task_contending() and task_non_contending()
+> +		 * once priority inheritance boosts it, and a deboost while
+> +		 * it sleeps would release it a second time. So would the
+> +		 * inactive timer's handler when it runs late,
+> +		 * dl_non_contending cleared under it by
+> +		 * migrate_task_rq_dl(): it finds !dl_task(p).
+> +		 *
+> +		 * The parameters themselves stay, where
+> +		 * inactive_task_timer() resets them with the bandwidth: the
+> +		 * task may still be the donor of a priority inheritance
+> +		 * boost until rt_mutex_adjust_pi() walks the chain, outside
+> +		 * this runqueue lock, and replenish_dl_entity() of the
+> +		 * boosted owner would never leave its loop over a dl_period
+> +		 * and a dl_runtime of 0.
+> +		 */
+> +		if (released)
+> +			__dl_clear_state(&p->dl);
+>  	}
 
-So my concern is that throttling might happen on at least one CPU during
-each four-second boost test.
+[Severity: High]
+As reported by Sashiko on v2 [1], doesn't leaving p->dl.dl_runtime and
+p->dl.dl_period non-zero in __dl_clear_state() cause task_non_contending()
+to still run with stale parameters if this task is later boosted via
+priority inheritance?
 
-(I gave a longer duration in my earlier message, apologies, the shorter
-test is possible because rcutorture tests for grace periods not completing
-during the test rather than waiting for an RCU CPU stall warning.)
+The comment above notes that clearing dl_bw prevents task_contending() and
+task_non_contending() from treating the task as one with bandwidth once
+priority inheritance boosts it. However, task_non_contending(),
+task_contending(), and switched_from_dl() check dl_se->dl_runtime =3D=3D 0
+rather than dl_se->dl_bw =3D=3D 0:
 
-							Thanx, Paul
+kernel/sched/deadline.c:task_non_contending() {
+	if (dl_se->dl_runtime =3D=3D 0)
+		return;
+	...
+	zerolag_time =3D dl_se->deadline -
+		 div64_long((dl_se->runtime * dl_se->dl_period),
+			dl_se->dl_runtime);
+}
 
-> Thanks,
-> -Andrea
-> 
-> > 
-> > Thanks
-> > 
-> > > 
-> > >                            Thanx, Paul
-> > > 
-> > >> ---
-> > >> kernel/rcu/rcu.h        |  2 --
-> > >> kernel/rcu/rcutorture.c | 35 -----------------------------------
-> > >> 2 files changed, 37 deletions(-)
-> > >> 
-> > >> diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-> > >> index d60444bf3a02d..6d1034e49d411 100644
-> > >> --- a/kernel/rcu/rcu.h
-> > >> +++ b/kernel/rcu/rcu.h
-> > >> @@ -69,8 +69,6 @@
-> > >> /* A complete grace period count */
-> > >> #define RCU_SEQ_GP (RCU_SEQ_STATE_MASK + 1)
-> > >> 
-> > >> -extern int sysctl_sched_rt_runtime;
-> > >> -
-> > >> /*
-> > >>  * Return the counter portion of a sequence number previously returned
-> > >>  * by rcu_seq_snap() or rcu_seq_current().
-> > >> diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
-> > >> index 968343be4e0d1..acab425e72ad5 100644
-> > >> --- a/kernel/rcu/rcutorture.c
-> > >> +++ b/kernel/rcu/rcutorture.c
-> > >> @@ -1333,39 +1333,6 @@ static unsigned long rcutorture_seq_diff(unsigned long new, unsigned long old)
-> > >>    return cur_ops->gp_diff(new, old);
-> > >> }
-> > >> 
-> > >> -/*
-> > >> - * RCU torture priority-boost testing.  Runs one real-time thread per
-> > >> - * CPU for moderate bursts, repeatedly starting grace periods and waiting
-> > >> - * for them to complete.  If a given grace period takes too long, we assume
-> > >> - * that priority inversion has occurred.
-> > >> - */
-> > >> -
-> > >> -static int old_rt_runtime = -1;
-> > >> -
-> > >> -static void rcu_torture_disable_rt_throttle(void)
-> > >> -{
-> > >> -    /*
-> > >> -     * Disable RT throttling so that rcutorture's boost threads don't get
-> > >> -     * throttled. Only possible if rcutorture is built-in otherwise the
-> > >> -     * user should manually do this by setting the sched_rt_period_us and
-> > >> -     * sched_rt_runtime sysctls.
-> > >> -     */
-> > >> -    if (!IS_BUILTIN(CONFIG_RCU_TORTURE_TEST) || old_rt_runtime != -1)
-> > >> -        return;
-> > >> -
-> > >> -    old_rt_runtime = sysctl_sched_rt_runtime;
-> > >> -    sysctl_sched_rt_runtime = -1;
-> > >> -}
-> > >> -
-> > >> -static void rcu_torture_enable_rt_throttle(void)
-> > >> -{
-> > >> -    if (!IS_BUILTIN(CONFIG_RCU_TORTURE_TEST) || old_rt_runtime == -1)
-> > >> -        return;
-> > >> -
-> > >> -    sysctl_sched_rt_runtime = old_rt_runtime;
-> > >> -    old_rt_runtime = -1;
-> > >> -}
-> > >> -
-> > >> static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
-> > >> {
-> > >>    int cpu;
-> > >> @@ -3390,7 +3357,6 @@ static int rcutorture_booster_cleanup(unsigned int cpu)
-> > >>    mutex_lock(&boost_mutex);
-> > >>    t = boost_tasks[cpu];
-> > >>    boost_tasks[cpu] = NULL;
-> > >> -    rcu_torture_enable_rt_throttle();
-> > >>    mutex_unlock(&boost_mutex);
-> > >> 
-> > >>    /* This must be outside of the mutex, otherwise deadlock! */
-> > >> @@ -3428,7 +3394,6 @@ static int rcutorture_booster_init(unsigned int cpu)
-> > >> 
-> > >>    /* Don't allow time recalculation while creating a new task. */
-> > >>    mutex_lock(&boost_mutex);
-> > >> -    rcu_torture_disable_rt_throttle();
-> > >>    VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
-> > >>    boost_tasks[cpu] = kthread_run_on_cpu(rcu_torture_boost, NULL,
-> > >>                          cpu, "rcu_torture_boost_%u");
-> > >> --
-> > >> 2.55.0
-> > >> 
-> 
+When a task p leaves SCHED_DEADLINE while asleep without a pending inactive
+timer, switched_from_dl() calls __dl_clear_state(&p->dl), which zeroes
+p->dl.dl_bw but keeps p->dl.dl_runtime, p->dl.dl_period, p->dl.dl_deadline,
+and p->dl.dl_density at their old values.
+
+If p (now running under e.g. SCHED_NORMAL) is later PI-boosted by a
+SCHED_DEADLINE waiter W, p->dl.runtime and p->dl.deadline are taken from W,
+while p->dl.dl_period and p->dl.dl_runtime remain p's old stale parameters
+(and select_task_rq_dl() -> dl_task_fits_capacity() also checks p's stale
+dl_density).
+
+When p subsequently blocks while boosted (dequeue_dl_entity() ->
+task_non_contending()) or is deboosted while queued (switched_from_dl() ->
+task_non_contending()), task_non_contending() sees dl_se->dl_runtime !=3D 0
+and computes zerolag_time by mixing donor W's runtime and deadline with p's
+stale dl_period and dl_runtime:
+
+1. If W's runtime and p's stale dl_period are both large (up to
+   sysctl_sched_dl_period_max, ~4.19s), the signed s64 multiplication
+   dl_se->runtime * dl_se->dl_period can overflow to a negative value;
+   divided by a small stale dl_runtime, zerolag_time becomes positive by
+   days, arming inactive_timer and pinning p via get_task_struct(p).
+
+2. Even without overflow, whenever W's runtime/deadline ratio is smaller
+   than p's stale dl_runtime/dl_period ratio, zerolag_time >=3D 0 and
+   task_non_contending() arms p->dl.inactive_timer with
+   p->dl.dl_non_contending =3D 1 instead of calling __dl_clear_params(). If=
+ p
+   blocked while boosted and is then deboosted while asleep,
+   switched_from_dl() sees p->dl.dl_non_contending =3D=3D 1 and skips
+   __dl_clear_state(), leaving W's future deadline and remaining runtime on
+   p->dl after deboost. If p then re-enters SCHED_DEADLINE via
+   sched_setattr() with a small runtime reservation before W's deadline
+   passes, switched_to_dl() cancels inactive_timer and enqueue_dl_entity()
+   sees !dl_time_before(dl_se->deadline, rq_clock(rq)), skipping
+   setup_new_dl_entity() and allowing p to run unboosted with W's leftover
+   runtime.
+
+[ ... ]
+> @@ -3960,22 +4008,34 @@ bool __checkparam_dl(const struct sched_attr *att=
+r)
+>  /*
+>   * This function clears the sched_dl_entity static params.
+>   */
+> -static void __dl_clear_params(struct sched_dl_entity *dl_se)
+> +/*
+> + * The bandwidth of @dl_se and the state of the period it is in: what a
+> + * task that left the class past its 0-lag time has no use for. The
+> + * parameters stay, where a boosted owner may still read them.
+> + */
+> +static void __dl_clear_state(struct sched_dl_entity *dl_se)
+>  {
+> -	dl_se->dl_runtime		=3D 0;
+> -	dl_se->dl_deadline		=3D 0;
+> -	dl_se->dl_period		=3D 0;
+>  	dl_se->flags			=3D 0;
+>  	dl_se->dl_bw			=3D 0;
+> -	dl_se->dl_density		=3D 0;
+> =20
+>  	dl_se->deadline			=3D 0;
+>  	dl_se->runtime			=3D 0;
+> =20
+>  	dl_se->dl_throttled		=3D 0;
+>  	dl_se->dl_yielded		=3D 0;
+> -	dl_se->dl_non_contending	=3D 0;
+>  	dl_se->dl_overrun		=3D 0;
+> +}
+
+[Severity: High]
+As reported by Sashiko on v2 [1], what happens in replenish_dl_entity()
+when a task that had __dl_clear_state() called on it is later boosted via
+priority inheritance?
+
+In __dl_clear_state(), dl_se->deadline and dl_se->runtime are cleared to 0,
+while dl_se->dl_deadline is left non-zero. If the task is later running in
+e.g. SCHED_NORMAL while holding a PTHREAD_PRIO_INHERIT rt_mutex and a
+SCHED_DEADLINE waiter w1 blocks on it, rt_mutex_setprio() boosts the owner
+into dl_sched_class with ENQUEUE_REPLENISH, calling:
+
+  enqueue_task_dl()
+    -> enqueue_dl_entity()
+      -> replenish_dl_entity()
+
+In kernel/sched/deadline.c:replenish_dl_entity():
+
+	if (dl_se->dl_deadline =3D=3D 0 ||
+	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
+		dl_se->deadline =3D rq_clock(rq) + pi_of(dl_se)->dl_deadline;
+		dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
+	}
+	...
+	while (dl_se->runtime <=3D 0) {
+		dl_se->deadline +=3D pi_of(dl_se)->dl_period;
+		dl_se->runtime +=3D pi_of(dl_se)->dl_runtime;
+	}
+
+	if (dl_time_before(dl_se->deadline, rq_clock(rq))) {
+		printk_deferred_once("sched: DL replenish lagged too much\n");
+		replenish_dl_new_period(dl_se, rq);
+	}
+
+Because dl_se->dl_deadline is still non-zero, replenish_dl_entity() skips
+the dl_se->dl_deadline =3D=3D 0 initialization branch:
+
+1. On the first boost, the while (dl_se->runtime <=3D 0) loop starts from
+   dl_se->deadline =3D=3D 0 and dl_se->runtime =3D=3D 0 and sets dl_se->dea=
+dline to
+   pi_of(dl_se)->dl_period. When rq_clock(rq) > pi_of(dl_se)->dl_period,
+   dl_time_before() triggers a false "sched: DL replenish lagged too much"
+   warning; when rq_clock(rq) <=3D pi_of(dl_se)->dl_period, dl_time_before()
+   is false and the task is queued with the bogus absolute deadline
+   pi_of(dl_se)->dl_period instead of rq_clock(rq) +
+   pi_of(dl_se)->dl_deadline.
+
+2. If the task is already boosted by deadline waiter w1 (so p->dl.runtime >=
+ 0
+   and p->dl.deadline > rq_clock(rq)) and a second deadline waiter w2 with
+   an earlier deadline blocks on the mutex, rt_mutex_setprio() calls
+   replenish_dl_entity() with ENQUEUE_REPLENISH. Because
+   p->dl.dl_deadline !=3D 0, p->dl.runtime > 0, and p->dl.deadline >
+   rq_clock(rq), replenish_dl_entity() does nothing and leaves the owner
+   scheduled with w1's later deadline instead of adopting w2's earlier
+   deadline.
+
+[1] https://lore.kernel.org/r/sashiko-outbox-198212@kernel.org
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
+487-1-mathieu.desnoyers@efficios.com?part=3D8
