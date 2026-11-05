@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793912757;
-	b=Hu/D0YNEwfpi3svYPaKmIHd0Vmj+rN3UULHnV4pQbKLlwmICWGigzCB8R8pdxf8Iz4hq
-	 k1pwCkFBNpzAfabmmr6l/c/Yl2d5ijc4AViu3cihncKJmBT/+5/fmqSxmwsRnez44W7Dj
-	 J+puIAbx94VJ46SLo/ANZUXLZhscZE3Ihn9y0fWgYKIvecKEaUFeBbnvtG1HZUURlNLZm
-	 o15ptvGqHCzOfq+d2moCAbfoxylejtsP4Z9OSrRNAnbJtcEL0HsfZk44ezOOVXp4t7JWU
-	 Myfn5ByXwedYppXIEPc6CgRbnuDu0kaN5T86bGrtDHxjcFgYRqWRDIgOtnUzFp+NIFA==
+	t=1793913217;
+	b=k0hlj+8TY6HD1A+JyB1WGlgdiVef8tpTFZbvVQNUnFNhXWN7v7NDSGFtL9FwWkbzWwic
+	 5axKIPzranaR/Rk+ELjgg0rjPRQSeK2oseIy05ySe7cMdVZ4MI1VOW6rmC1m5JK+orN46
+	 62dJfGTi/hf587FbRrk8vYovfzfbGWrhAWFZtCz/+4yviFrtQZL7hAp+KCkmeX1nP7GbY
+	 DxNlb22zPtV1uPUq1odG3EJSwvS/j2n6mfuq2xezx5ATjLzcgcn17+JA1BmOZET/ocutS
+	 +Q5m5qVSRgaHVHk0xofFEHxMn3Wel9VtGEwAMSZBVaqD9laHPWJniv1PBdpjrw7kKXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793912757;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793913217;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OcFFapRSHso21RLBFJiqlZa8OweuDMOPbBc8e6K7CPA=;
-	b=TcjUMm+figQqIB6e+2cI7CRoWNIgac0YsIUPzw56D8OrQ+eTMTaA5Lc3FDUvU1ClhqaL
-	 pGzGCi9UWBiPjpV09o1srGEjfmtGo35fCBfIvtks+qdZ+Z6ydzo8Cn91B0unGNvm/sd6D
-	 0rAEbbnfMFkogvTapvUOBz4SPnha3q1fCmw4Y5Uxog5u57xt1qQN+4G3rQ/sLetYVorDe
-	 JCbCWdD+0XEgD2I00cK+346wNyNzgobW114d7s4P9JnF63K7fiekbqbmty+Z+gBWrV2lE
-	 5B8jAKb9r0Ka22YFygBBGmYqPkMwdIFp1D8o9BZfxWi76Mx7kW8zLomY+JnwwZo8McA==
+	bh=UmHX//7Wohb0Gcd1yh+Uxm9hRlUusQrSBkZoBu31kNw=;
+	b=PfbLYmNBtHmlnkzwbzOzPmE5eNU0lBtPo8mQypBR0cWsb6yp7QRQI6wAe2+NDm4HRlUg
+	 3Rveo9h4CGPmX3e4uvoCYBA23A+yiGp2DRy/4/lrlwDt7JcFYTkFXpjRybMIvv5qbKsti
+	 H0oTNmLUN/eUazdAouxsRLrnM1kSJlh0Cb8kdps4b9SRVpP6FAWvuPDqzeoeQKdwqwOj7
+	 bxNorpqLkbOdU4enil2ObI2oAkqrHp9L3hB32KRj3dAO+A+3SXLfZcl7D40MVdW0QdRxf
+	 gXZSvRzOe5syw7DHV6w7eSnHpFBM8EBWwrSbspHLm/54Iw97hUGwvJqO7Mw0AAxsA4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPKjpUnR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RwiEMgzA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE376606A31B;
-	Thu,  5 Nov 2026 21:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7C7606A31B;
+	Thu,  5 Nov 2026 21:13:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPKjpUnR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157B61F008A3;
-	Thu,  5 Nov 2026 21:05:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RwiEMgzA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A961F0089F;
+	Thu,  5 Nov 2026 21:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793912756;
-	bh=OcFFapRSHso21RLBFJiqlZa8OweuDMOPbBc8e6K7CPA=;
+	s=k20260515; t=1793913216;
+	bh=UmHX//7Wohb0Gcd1yh+Uxm9hRlUusQrSBkZoBu31kNw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UPKjpUnRmOphUJBINCGoazM1kWcok3N1pKV8C7W2Qp18a1gJ0z9mPwn/qlEc4cFIN
-	 TWpBCpqXhwgImV+W/uaCHDEwSnDfESwpptJh00vZBg/9cZuS5H1lLYqJpekl9f6cfX
-	 Uegy8fdGegdVXOhnhLfBTYLbQU1PPQzgUyFktpNitwoLpoXTeaW7pZBinU/B4DQ7Wd
-	 7JE6Z6RFqPioOKX3QdpdKtNAmGez2QlIuFqKMiXprO/P9r1sfLy4qDel5unZkKLUeb
-	 9jgklW2BpGORyahtwEO/9BXXbbSXRJxUeCS3QO+WMhjJ9sUfQCinhdvfYkRMX7i5hJ
-	 U5hOTQ0XYsXIw==
-Message-ID: <sashiko-outbox-200183@kernel.org>
+	b=RwiEMgzADRnOFK3/b+bz9krDkKhY+hMnbmx7HrTivfoBgaUMBQ/XAf+2tNKlWm76J
+	 woz8j1tySZEwNwxFP3r0MBHwSgBXm7/WjAGwhFN2reiPdcwCqSX68KpyNDcoSZL4RA
+	 aeU2VeJXSM9xWb9aI4r6k16AadbBXdOOXx7KS1TGS6yq6yoFy7KEkqEu0Q/K5AeUiy
+	 XYYRW7xfcGPvPlfPfp07Vx15GhBSpxRPN6W1dNddD6iqZ5h6IB0amnzQCx5tArVnPB
+	 iDehLMXG8pb+odLYfleg0uXC60J2Zy6VX63xJj5uREBrAbf8QLU2c5AdZ5BALEm+sl
+	 Ml9tRnPmIaTdQ==
+Message-ID: <sashiko-outbox-200204@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 19/24] sched/deadline: Cancel the replenishment timer
- with the parameters
+Subject: Re: [PATCH v3 20/24] sched/deadline: Count the bandwidth a boosted
+ task is given
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105193359.1450487-20-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261105193359.1450487-21-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
- <20261105193359.1450487-20-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-21-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 21:05:55 +0000
+Date: Thu, 05 Nov 2026 21:13:35 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,116 +63,106 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] sched/deadline: premature bw and timer release in switched_from_=
-dl()
+- [High] sched/deadline: uncounted bandwidth skipped in sched_dl_overflow()
 --
 
-commit d600ad50b186384ae85393fc674963e28ed720fb
+commit 58e85ecec73a900cbca47b57215c8b485328d349
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Cancel the replenishment timer with the parameters
+sched/deadline: Count the bandwidth a boosted task is given
 
-This commit cancels the deadline replenishment timer when clearing
-a task's deadline parameters at its 0-lag time in task_non_contending()
-and inactive_task_timer(), and when releasing bandwidth and clearing
-period state for a sleeping task in switched_from_dl().
+This commit moves the runqueue bandwidth accounting update from
+sched_dl_overflow() to __setparam_dl() so that tasks boosted into
+SCHED_DEADLINE via priority inheritance have their new bandwidth added to
+rq->dl.this_bw when their parameters are updated. It also charges new_bw wh=
+en
+dl_se->dl_bw_oncpu is not set and skips special SCHED_FLAG_SUGOV requests.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index bcf7f88b204ad..f772a944a3e53 100644
+> index f772a944a3e53..746bffb03b7cb 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
 
 [ ... ]
 
-> @@ -3920,8 +3922,10 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  		 * boosted owner would never leave its loop over a dl_period
->  		 * and a dl_runtime of 0.
->  		 */
-> -		if (released)
-> +		if (released) {
-> +			cancel_replenish_timer(&p->dl);
->  			__dl_clear_state(&p->dl);
-> +		}
->  	}
+> @@ -4283,6 +4292,20 @@ int sched_dl_overflow(struct task_struct *p, int p=
+olicy,
+>  void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+>  {
+>  	struct sched_dl_entity *dl_se =3D &p->dl;
+> +	u64 period =3D attr->sched_period ?: attr->sched_deadline;
+> +
+> +	/*
+> +	 * The bandwidth of a special entity is counted on no runqueue, and
+> +	 * the request tells one, the flags of the entity being those of the
+> +	 * parameters it had. The rest have theirs changed here, where their
+> +	 * parameters are:
+> +	 * switched_to_dl() hands it to the runqueue of a task that enters
+> +	 * the class, and a task that priority inheritance boosted into the
+> +	 * class is in it already, so nothing dequeues it and enqueues it
+> +	 * back for that.
+> +	 */
+> +	if (!(attr->sched_flags & SCHED_FLAG_SUGOV))
+> +		dl_change_utilization(p, to_ratio(period, attr->sched_runtime));
 
-[Severity: Medium]
-Can this cancel p->dl.dl_timer, clear the period state, and release
-total_bw before the task's 0-lag time has actually passed if the task
-switches back to and from dl_sched_class while asleep?
+[Severity: High]
+When a sugov kthread is given a reservation of its own via sched_setattr()
+without SCHED_FLAG_SUGOV, or when a deadline task whose bandwidth was dropp=
+ed
+by a root domain rebuild updates its parameters, what happens if the new
+runtime-to-period ratio matches the existing p->dl.dl_bw?
 
-1. Suppose a SCHED_DEADLINE task p has an armed replenishment timer
-(p->dl.dl_timer) and a future 0-lag time, and either blocks and then
-switches to SCHED_OTHER, or switches to SCHED_OTHER while throttled and
-then blocks. In switched_from_dl(), task_non_contending() has armed
-p->dl.inactive_timer, and switched_from_dl() clears
-p->dl.dl_non_contending and calls dl_task_depart(p):
+For example, sugov_kthread_create() initializes a sugov kthread with
+SCHED_DEADLINE, SCHED_FLAG_SUGOV, sched_runtime =3D 1ms, and sched_period =
+=3D
+10ms. In sched_dl_overflow(), the SCHED_FLAG_SUGOV check returns 0 early,
+leaving p->dl.dl_bw_cpu at -1 and not adding to dl_b->total_bw, while
+__setparam_dl() still sets p->dl.dl_bw to to_ratio(10ms, 1ms).
 
-kernel/sched/deadline.c:switched_from_dl() {
+If sched_setattr() is later called on that kthread without SCHED_FLAG_SUGOV
+and with the same 1:10 ratio, dl_param_changed() returns true because the
+flags changed, and __sched_setscheduler() calls sched_dl_overflow():
+
+kernel/sched/deadline.c:sched_dl_overflow() {
 	...
-	if (p->dl.dl_non_contending) {
-		p->dl.dl_non_contending =3D 0;
-		dl_task_depart(p);
-	}
+	/* !deadline task may carry old deadline bandwidth */
+	if (new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p))
+		return 0;
+
+	counted =3D task_has_dl_policy(p) && p->dl.dl_bw_cpu >=3D 0 &&
+		  p->dl.dl_bw_gen =3D=3D dl_bw_gen;
+	...
 }
 
-2. While p is still asleep (!task_on_rq_queued(p)) and before its 0-lag
-time passes, p re-enters dl_sched_class (via sched_setattr() or a
-priority inheritance boost in rt_mutex_setprio()). Because p is not
-queued on the rq, enqueue_task_dl() is not called, and switched_to_dl()
-cancels p->dl.inactive_timer without re-arming it:
+Because new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p) is checked before
+counted, sched_dl_overflow() returns 0 early without running admission
+control, adding new_bw to dl_b->total_bw, or setting p->dl.dl_bw_cpu.
 
-kernel/sched/deadline.c:switched_to_dl() {
-	cancel_inactive_timer(&p->dl);
-	dl_task_undepart(p);
-	inc_dl_tasks_cs(p);
+__setparam_dl() then adds the bandwidth to rq->dl.this_bw via
+dl_change_utilization() (or on enqueue if queued) and clears SCHED_FLAG_SUG=
+OV
+from p->dl.flags while p->dl.dl_bw_cpu remains -1. If the task later exits =
+or
+leaves SCHED_DEADLINE, dl_task_release_bw() hits:
 
-	/* If p is not queued we will update its parameters at next wakeup. */
-	if (!task_on_rq_queued(p)) {
-		add_rq_bw(&p->dl, &rq->dl);
-
+kernel/sched/deadline.c:dl_task_release_bw() {
+	...
+	cpu =3D dl_se->dl_bw_cpu;
+	WARN_ON_ONCE(dl_se->dl_bw && cpu < 0);
+	if (cpu < 0 || dl_se->dl_bw_gen !=3D dl_bw_gen)
 		return;
-	}
 	...
 }
 
-At this point, p is asleep in dl_sched_class before its 0-lag time with
-p->dl.dl_non_contending =3D=3D 0 and no inactive_timer armed.
+The same early return in sched_dl_overflow() also skips restoring root doma=
+in
+bandwidth when a task whose bandwidth was dropped by a root domain rebuild
+(p->dl.dl_bw_gen !=3D dl_bw_gen) changes its deadline or flags while keeping
+new_bw =3D=3D p->dl.dl_bw.
 
-3. If p then leaves dl_sched_class again while still asleep (via
-sched_setscheduler() or PI deboost in rt_mutex_setprio()) before its
-0-lag time, switched_from_dl() skips task_non_contending() because
-task_on_rq_queued(p) is false, and enters the !task_on_rq_queued(p)
-branch where p->dl.dl_non_contending is 0:
-
-kernel/sched/deadline.c:switched_from_dl() {
-	if (task_on_rq_queued(p) && p->dl.dl_runtime)
-		task_non_contending(&p->dl, false);
-	...
-	if (!task_on_rq_queued(p)) {
-		bool released =3D false;
-
-		if (p->dl.dl_non_contending) {
-			sub_running_bw(&p->dl, &rq->dl);
-		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
-			dl_task_release_bw(p);
-			released =3D true;
-		}
-		sub_rq_bw(&p->dl, &rq->dl);
-		if (released) {
-			cancel_replenish_timer(&p->dl);
-			__dl_clear_state(&p->dl);
-		}
-	}
-}
-
-Wouldn't switched_from_dl() treat p->dl.dl_non_contending =3D=3D 0 as meani=
-ng
-the 0-lag time has already elapsed, and prematurely release total_bw via
-dl_task_release_bw(p), cancel p->dl.dl_timer, and clear dl_throttled,
-runtime, and deadline via __dl_clear_state(&p->dl) while the task is
-still before its 0-lag time?
+Should the early return in sched_dl_overflow() require counted to be true
+before skipping the root domain update when new_bw =3D=3D p->dl.dl_bw?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
-487-1-mathieu.desnoyers@efficios.com?part=3D19
+487-1-mathieu.desnoyers@efficios.com?part=3D20
