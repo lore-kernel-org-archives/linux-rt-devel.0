@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793910927;
-	b=2raO0/R6BU3MS/v9R2BegO+npslKQGKr2qsC8ZR0vUBJB4yhTof/OYUuI9qKwSAuxxbz
-	 Y7KtCrILoF12U3XcdJ9LRjMMOE/Eb3uiR55MUWhh7S8wdjQGh82K3h5l/Fy6Uszr0okbX
-	 BhvVEWysmbFJGCc4pq3bS63T38QwOfcME/vKNR1hGnHRNwLUXYwnTdZbr8aFNpf9mOWaZ
-	 mm+DyuF8ijLd1zYjhR6RJgLePvqWkfGffq9wcwORCPCdfYf9zlMOnVwGW3ybYre54H3Zp
-	 /k530giKxErJmUrTHR4+0GmSusb9CK5oNqahBa1udxkLjMOgzBq/ZvTRAe1RWIa6m4Q==
+	t=1793910983;
+	b=m/592W/K9vx7r33IVp0+eDu3dYNvH3ckITjU+FjL+oh0K/elJvy7Dnul1FIY6OGg+uUQ
+	 /oGGHHaghlkPHdujgvKNVEM+BaiWcarBgT5DB1OzGVPR6kYk4STyel0QiOeoegqm5baOO
+	 W6o0XMA8C9dyIZErT/ZxBB2PTgx/WChVhrVjzc7NJrPav9tri8vtmPOzWObs8EfmSn9qj
+	 2YW/Yebhxd+Ex+5V+neXCJJxyFLJSXtlOyp+10OxI2Ca1S3Dd0hPgrlj9ffBFmPx7FFML
+	 sXfusYcUuqh8tIEZRIiktCJolmTlHZCije+nKvc8iQdYSP4nu4b8qgq+Tawy3EXMQaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793910927;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910983;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Ek88mUADN7Q+v+B3mP2BWCJjP45ejN496oxJwiHaM+0=;
-	b=jSe8XUQ43vPOY7NgHcCMpG8tzXuPmD0IuWlwAbxkNN0JFsS2kL7yUXSU9ife2lsEgehI
-	 uc12FoquBlh+5x1tsyUSa11mdJ0OIHTBDPB9ULV2R78nccSJev7XBgVRaa6ZKn462PnOL
-	 saK8NdMUxvgGje7rJxdBy2k2AMvVt25M90JyQPuMgABQKPteU+XQNdm/Q3wLpwvoNwCH7
-	 dXbgLynAXPQ7iUfXv/eTBVw2l9InMLrZQAbofFvPTWAefpE+EeQHbw6dL3nJMgf71IRDP
-	 omT9/XRRZzPjC1ff7Uh1PG6Lsl7zPGlreRXzuN15xfCTTO4joYF2N0jAIOgnOvgjfNg==
+	bh=OxsRMgW7YlnXHvuMyY//yl0T5XbcXx9HFcrThYl0C9Q=;
+	b=27hhPUiCpTHwhA+H2KmizKhPmxydLVNtJlYp088F5OeSIHh62umd+YqjXCSsvtbwN26y
+	 ZsSbD0FtqU6klkp9H7LUhr6YAtb5qYllGXKziMgl7wLHPk1ZXNpmaTxlQlckehDIqfGXg
+	 5O+WjB81HfTubXM01KQqrHEz4aZ9t1q11IJ/pGzs6oAJqUzcE7dN3UFe4MoLhUm9N0rth
+	 X7FkmETO/8tFjzpyccO8e0ibi2bRxd3b5Ka9Dj8iygFSzE3QtrkoYLATR6XrIpSyBas4K
+	 PIptYhhK96tT9IkJyzgLgBrrzF7gD9b4WrV/imXf4S/tizs9eumNzG8CwOIgukUDWkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Un3J6mQl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7r0xCcn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6AF606D813;
-	Thu,  5 Nov 2026 20:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAA9606A32F;
+	Thu,  5 Nov 2026 20:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Un3J6mQl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F21A1F008A1;
-	Thu,  5 Nov 2026 20:35:26 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7r0xCcn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 359DD1F0089F;
+	Thu,  5 Nov 2026 20:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793910926;
-	bh=Ek88mUADN7Q+v+B3mP2BWCJjP45ejN496oxJwiHaM+0=;
+	s=k20260515; t=1793910982;
+	bh=OxsRMgW7YlnXHvuMyY//yl0T5XbcXx9HFcrThYl0C9Q=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Un3J6mQleL9hAsn8hJ/Nyfnbr4vzJsTdecUip8PiYQeosWM2NalX7zUWrVRW3Utqh
-	 tMe1VsnFqYg9Pd/f+Df2m3DzV1vm2OZA/pT0HYFcKikAHVZqOK1Pf5aD6dIK7POfDy
-	 c2xD+iEDQ0NWtR5OjJLIx5hWVw+B/XZfBnCKP0i1nZtM1AFqs7UyComr7aqqXj0FP0
-	 EmLwd1WzGHvZ1HgBTAXsVECpCoZKfe700HIB+KbIH65zPWeMswIimFaMHvaginvA7f
-	 8K79PGUtD+dlCk+Qf4wz75ZJIxWLj3r43wBdlZx2wAjdJFqJw2fkNIc+n6LLyF8Hnr
-	 gStj8EQEZPjNQ==
-Message-ID: <sashiko-outbox-200114@kernel.org>
+	b=m7r0xCcnz3TXVtHZX5V4booVfjIemfjSweCgu0+HotvrTXnGA2t+5d2U5iiuBzEOb
+	 UQSSfudAnW2w1iWhnoXZc10n7jUb8qWxRz1hQw0S8P5ZDDfk/+dyoRypx6W5N+Cy+w
+	 xITsA/SOBDyxxJCFlTx2H5DuvFrrHVq51b5sUbOsAvgfAMqfsj0a2GjQIcxRquWxyS
+	 C4gNUz0F0TfM3c14XWHuEJpGevnNPZJf3lwuyrVKwOAeI7+TK7Vqobv3pp2yYPt2Fk
+	 D2Z4HkjgQimuLSTZFz0rCACFFFmc2GLODQB7ZBxSnJ0bcsHlaG/Ufa77Ji9dINY40m
+	 1T3DSCHVkCWBA==
+Message-ID: <sashiko-outbox-200117@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 11/24] sched/deadline: Do not take a waking task's
- bandwidth off a runqueue it left
+Subject: Re: [PATCH v3 16/24] cgroup/cpuset: Wait for an attach before
+ rebuilding the sched domains
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105193359.1450487-12-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261105193359.1450487-17-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
- <20261105193359.1450487-12-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-17-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 20:35:25 +0000
+Date: Thu, 05 Nov 2026 20:36:21 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,111 +63,90 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] sched/deadline: premature bw release and state reset in switched=
-_from_dl()
+- [High] cgroup/cpuset: v1 file writes rebuild sched domains during attach
 --
 
-commit 32169fc2d3492f6357debcf70a3512a72875ebc4
+commit 316ee12eeff2f481c38bdeab56717a9467c1a2eb
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Do not take a waking task's bandwidth off a runqueue it left
+cgroup/cpuset: Wait for an attach before rebuilding the sched domains
 
-This commit adds a dl_bw_oncpu flag to struct sched_dl_entity to track
-whether a task's bandwidth is currently accounted in a runqueue's this_bw.
-This prevents double-charging or underflowing this_bw when a migrating task
-is modified or changes scheduling class while sitting on a target CPU's
-wake_list before being enqueued.
+This commit updates rebuild_sched_domains_cpuslocked() to call
+wait_attach_done_lock() instead of mutex_lock(&cpuset_mutex), preventing
+scheduler domain rebuilds from clearing root domain deadline bandwidth
+reservations while a task attach is in progress.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 37b931fc2faf2..d4cd5b5fb27b7 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-
-[ ... ]
-
-> @@ -2789,6 +2810,11 @@ static void migrate_task_rq_dl(struct task_struct =
-*p, int new_cpu __maybe_unused
->  		 */
->  		cancel_inactive_timer(&p->dl);
->  	}
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index ae0bbe23a6332..e2b6f7a198eed 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -1067,7 +1067,13 @@ void rebuild_sched_domains_locked(void)
+> =20
+>  static void rebuild_sched_domains_cpuslocked(void)
+>  {
+> -	mutex_lock(&cpuset_mutex);
 > +	/*
-> +	 * Until the enqueue on the CPU it wakes on charges it there, this
-> +	 * bandwidth is on no runqueue: the rq of task_cpu() is not the one
-> +	 * it was taken from, which dl_bw_oncpu now says.
+> +	 * An attach in progress has set aside, in the root domain its tasks
+> +	 * move to, the deadline bandwidth it moves once it takes
+> +	 * cpuset_mutex again: the rebuild of the accounting would drop that
+> +	 * reservation, and the move would go through on its strength.
 > +	 */
->  	sub_rq_bw(&p->dl, &rq->dl);
->  	rq_unlock(rq, &rf);
->  }
+> +	wait_attach_done_lock();
+>  	rebuild_sched_domains_locked();
 
-[Severity: Medium]
-When a task blocks before its 0-lag time and then wakes up on another CPU,
-can switching it out of SCHED_DEADLINE while it is still on the target
-CPU's wake_list prematurely release its root-domain bandwidth and reset its
-CBS period state?
+[Severity: High]
+Does this leave cgroup v1 file writes exposed to the same race when
+rebuild_sched_domains_locked() is called directly without going through
+rebuild_sched_domains_cpuslocked()?
 
-When the task blocks, schedule() -> dequeue_task_dl() ->
-dequeue_dl_entity() calls task_non_contending(&p->dl, true), which sets
-p->dl.dl_non_contending =3D 1 and arms p->dl.inactive_timer for the 0-lag
-time.
+The commit message notes that writes to a cpuset's files wait for an
+in-progress attach via wait_attach_done_lock() since commit 75f77a25ec6bb
+("cgroup/cpuset: Prevent race between task attach and cpuset state change").
+However, that commit only added the wait to cpuset_write_resmask() and
+cpuset_partition_write(), leaving cpuset_full_lock() calling
+mutex_lock(&cpuset_mutex) directly:
 
-If the task wakes up on another CPU before that 0-lag time passes,
-try_to_wake_up() -> set_task_cpu() -> migrate_task_rq_dl() subtracts
-running_bw from the old runqueue, clears p->dl.dl_non_contending =3D 0,
-cancels p->dl.inactive_timer, and clears p->dl.dl_bw_oncpu =3D 0 via
-sub_rq_bw():
+kernel/cgroup/cpuset.c:cpuset_full_lock() {
+	mutex_lock(&cpuset_top_mutex);
+	cpus_read_lock();
+	mutex_lock(&cpuset_mutex);
+}
 
-kernel/sched/deadline.c:migrate_task_rq_dl() {
+When CONFIG_CPUSETS_V1 is enabled, writes to cpuset.sched_load_balance and
+cpuset.sched_relax_domain_level go through cgroup_file_write() (which does
+not hold cgroup_mutex) into cpuset_write_u64() and cpuset_write_s64(). Both
+acquire cpuset_mutex via cpuset_full_lock() and invoke
+rebuild_sched_domains_locked() directly via cpuset_update_flag() and
+update_relax_domain_level():
+
+kernel/cgroup/cpuset-v1.c:cpuset_update_flag() {
 	...
-	if (p->dl.dl_non_contending) {
-		update_rq_clock(rq);
-		sub_running_bw(&p->dl, &rq->dl);
-		p->dl.dl_non_contending =3D 0;
-		cancel_inactive_timer(&p->dl);
-	}
-	sub_rq_bw(&p->dl, &rq->dl);
+	if (!cpumask_empty(trialcs->cpus_allowed) && balance_flag_changed)
+		rebuild_sched_domains_locked();
+	...
 }
 
-If try_to_wake_up() queues the task on the target CPU's wake_list via
-ttwu_queue_wakelist(), p->on_rq remains 0 (!task_on_rq_queued(p)) and
-p->dl.dl_bw_oncpu is 0 until sched_ttwu_pending() runs on the target CPU.
-
-If sched_setscheduler() or sched_setattr() switches the task out of
-SCHED_DEADLINE during that window (such as the switch out and back in
-described in the commit message), switched_from_dl() sees
-!task_on_rq_queued(p) and p->dl.dl_non_contending =3D=3D 0:
-
-kernel/sched/deadline.c:switched_from_dl() {
-	if (task_on_rq_queued(p) && p->dl.dl_runtime)
-		task_non_contending(&p->dl, false);
-
-	dec_dl_tasks_cs(p);
-
-	if (!task_on_rq_queued(p)) {
-		bool released =3D false;
-
-		if (p->dl.dl_non_contending) {
-			sub_running_bw(&p->dl, &rq->dl);
-		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
-			dl_task_release_bw(p, task_cpu(p));
-			released =3D true;
-		}
-		sub_rq_bw(&p->dl, &rq->dl);
-		if (released)
-			__dl_clear_state(&p->dl);
+kernel/cgroup/cpuset-v1.c:update_relax_domain_level() {
+	...
+	if (val !=3D cs->relax_domain_level) {
+		cs->relax_domain_level =3D val;
+		if (!cpumask_empty(cs->cpus_allowed) &&
+		    is_sched_load_balance(cs))
+			rebuild_sched_domains_locked();
 	}
+	...
 }
 
-Because migrate_task_rq_dl() already cleared p->dl.dl_non_contending and
-canceled the inactive timer, switched_from_dl() treats the task as if its
-0-lag time has already passed. It immediately releases total_bw via
-dl_task_release_bw() and resets runtime, deadline, dl_throttled, and
-dl_yielded via __dl_clear_state(&p->dl), allowing another task to be
-admitted or the same task to switch back into SCHED_DEADLINE with a fresh
-full budget before its 0-lag time.
+If either file is written between cpuset_can_attach() and cpuset_attach(),
+rebuild_sched_domains_locked() -> partition_sched_domains() ->
+dl_rebuild_rd_accounting() will still run during the attach and wipe out the
+destination root domain's deadline bandwidth reservation, causing
+dl_bw->total_bw to underflow and over-admit deadline tasks.
 
-Should switched_from_dl() also re-evaluate the 0-lag time via
-task_non_contending(&p->dl, false) when !p->dl.dl_bw_oncpu?
+Should cpuset_full_lock() call wait_attach_done_lock() instead of
+mutex_lock(&cpuset_mutex) so that cpuset_write_u64(), cpuset_write_s64(),
+and hk_sd_workfn() also wait for an in-progress attach to complete?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
-487-1-mathieu.desnoyers@efficios.com?part=3D11
+487-1-mathieu.desnoyers@efficios.com?part=3D16
