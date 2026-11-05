@@ -1,70 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793897477;
-	b=iG+sU4rnye8YTWn5XOSHwj2SM81F8sM9N1T2F5ObN3pQC5PA5KlrxYGOpPN6P968F+BI
-	 6dtL1lccyfSEoq3jE/BaPyK4HZZtP6gcJ75w/ee/rPq7FXgoeGAcF1ESfUvFTf8GukUvE
-	 Yj8OF5gKuh3mHsYLPi/8AhmeRFd4vHSfe6cB7jz9oyhVRBoRj/+UbWW5B6LIbG7FubNPp
-	 ISbx6mJS0TeN2ZFpz1lkIkCUMTTs++JRM6QMbaX7nHR3I2rwD6vPGMO5gPMR3jgqx9S0+
-	 HB020GSKXWZnX3UFsYBUKKsdrCiNAwI7OLWtLeoQkv1JTRaomiGP2k5uYmmGofUrSyQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897477;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=dRY4RgE8pVrnvLjUzvGh8641xUK8KLSvtxfM6OHu1ZU=;
-	b=VlMW3+4WHKXoUgAox2KWgoFq63xuV7nIxCkBSjM9V2UgSxXtwguzw++Z9RfobdbA8DAN
-	 GDX6xKjais4xWG1XFqdj1w6+7WZ6YLTpOml3KUyzgO7VJsLntNRGaM109Cj55VnecgqZG
-	 tfNH/HFp0qQdkIimkGTG9Ny98OOc8vgKLbI0QI8gHmtRSpCcnQGQstkDELJbHpprengoK
-	 bvc+D0T6JaCXeTXoB0LjFBKl9F9fs/ztyyeHsgvc9e7t86aqtWxqyLd6GbCCLqtRwis1G
-	 /Y3BPLcmqTsxu5VaUwY7UUCcg1pKiLy+FnTFgbGQl20PnO98fPKLU6ivwa8O3at7atw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=DZpD2FgP;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=bJieYEle;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.113
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793898537;
+	b=iE1mFCozIl5KAZqAYgxPydCmJxjvsihxitICumubOZe2+JpFBol4lscZQgIl4moHm8Wb
+	 xKi24VJGaQUXVaMjw/8socH3iINKz82GKXJImfrFXbzkFdi4+fNzgrUW/LnAzUq0xw9Gw
+	 YrHGvbcX3UqxWHRy2sim47z0OUiUN69oZnYP7n4IHgr9tnnXum3qYWwpZ+avbYrOYqXy7
+	 dMsIv2HAx6WpucrX0GALLlcYY7vS0rm1YuTr+fJ3E0fvXw6H7lTCJRT4BuceUs14zOREV
+	 HTIYZez9aSC43YfW5VfowIZjutAlLGKGYynAwkbynIHN+0pefX8WUfOl+I2honBZEMA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793898537;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=x8/hXsDnxgKObn2Q6O87HYkWJh5oPs3+RGFUERKtet4=;
+	b=2NXoYYnEHzVP5aEr7+dQK6UNyRFDx2vM+/JTilaGq7PLDHW9Vj8n8ik5EwuxXEheUu+f
+	 Ehw/guNl/bA7+CUfKQYx7Ox+on/5qACk7IeK0nU4nrkeCsg8MN9evW6jLKJc3fZfNaIZv
+	 NBxx4k0SC9YqshSQ4YlagEYm5kCcX8kQNkJzTLxA+kDSh87sd/9Rpqw5hcwqfPlgUfy7K
+	 MMkwpN5c+XWvpBytP2hOCvQiPhwj13m7Uk4UT+IPnH7Cvj7bMVQM3QkRqxAUk0sYh6xKT
+	 ucKJ4HM/sqfwqbM/9v7otgcITIqV1CVB9E11jFTYRCPbkp6U6bKHdtc8Xkb7bDcO16A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=aP5PRGoC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.113
+Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022113.outbound.protection.outlook.com [40.107.193.113])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCC8606D807
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 16:51:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACCC8606D807
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E291606A326
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 17:08:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E291606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=DZpD2FgP;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=bJieYEle
-Date: Thu, 5 Nov 2026 17:51:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793897474;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=dRY4RgE8pVrnvLjUzvGh8641xUK8KLSvtxfM6OHu1ZU=;
-	b=DZpD2FgPKlCj0ePyzA+cOucwIMpQP0h4LURA9oKIJhl3x/xp/od/5eO+wXqYL0B49Szr+Q
-	DA8rospYVPvevmV3sBj2LjLJudlsl+PTT5+Bgz/DU9qUifymbdaqmayNncQDXl5u8fWQMd
-	+xCYOAGx6IXPkuKfRJUZM+b3LpSpxlTTKdL1KSe4qOXTXBSwkWE4dBsZsaKz3UQXDLKghR
-	zYYBFYpxoq9+M/tQjBgGlC3h73JRO/7tOU38I/QxX7cBtUvxmbSJ8jazh/YovBkvj+3TMk
-	P4a62JhQNXuUPGD5obvKum7mMwYl24YxEjMCxSVw23cx1V2aXUeWo2YiRUx0vA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793897474;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=dRY4RgE8pVrnvLjUzvGh8641xUK8KLSvtxfM6OHu1ZU=;
-	b=bJieYEleus19EWqjvuenQVna0BV9Aggee5606Vk9jNZciQqmVdGHb05/si9be82YSdVPL5
-	ZXmDKghxN7lDXSCg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: rcu@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>
-Subject: [PATCH] rcutorture: Don't try to disable to RT throttling.
-Message-ID: <20261105165113.82N-rPMG@linutronix.de>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=aP5PRGoC
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FtfokXw7RlB0Kpd3aKaOzliJwWbCW/4DXnc+GFYFF5gAYuMgAPHcY0g/7D+EgvQ8RWdIEU5DGHzaWqy4EZ8jIkUjo0Y/40SF8pV2ZyzrJ222L5LKzprzyEe5NWAIzrJYDW1uw+d1nj4qCh52eVdi/1a0aRKUjdGjkw3sWUi6eWnxCjRqyuKt4AUPFMshHUK9r9PwbQWbJQvnj0KVCnpMTeR+lst8lKLYRn13kc0+lKo7uoG6O4rgBWD/U0T6a7THpd1xyISL2DBfpUj/8sXQQutn6ZA9Q3NWYS1WujqZYzFZNo7NJGQOzvn0+CBOv1C7NOhoz1eMOoo7b5Scsscnrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x8/hXsDnxgKObn2Q6O87HYkWJh5oPs3+RGFUERKtet4=;
+ b=wyzcwWCuKiCqNnJRe6hyiX6vp3nFkNT35xpWpDqZEAuBVxMVrLE8BbLwReejiUciipVnZKi5XiIaYRjYLf/1rq0+7vGO0psrN4Vq+zcgDqbVF+hsBjPQSSCdq6EbUBSBCuYG+LcWN7MCQHTbKsBNqdATOZ4EwG4zVghDDITmKcRFK8LQeZg8WWtygNDmevJ2yAyYS9SfNT1w/GYPC8pV2Fiuf1ETIzSZYd/7bb6tmveainJaT2eksu8U3a9/XIY4XBHoKQZuqDrbKziBt6eHsqm2JxQ/GtH5qTVHEE7d77tLoZOlTxbAVzz0QrPu/4b8w95EiHoZcs782mYOs74adg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x8/hXsDnxgKObn2Q6O87HYkWJh5oPs3+RGFUERKtet4=;
+ b=aP5PRGoCQvrxKaBab+BJJqxT62VSw7por4GSlJq/JtBCMJ1YwiCxOmX3nRBGUEdFLJHsO4MlummlVKUZ48vb9hykLITDSYz59rCAob8hk89mUhSNfD9odxGrE+mzQr6soWKErap3e6Fh9CewiWPLs0aGp7e0pvAiRzGkJmTP9NsC0ZpyK1+EZ6kwoNfMyksn2uUTN7QqRT1d1l3dT1f1Q/zBj0yFix7t5bQuy7/buEO7oy8iCRyg6cxkLLlH23fyI3wDew70AgbIMGvXmKZuJsHT8aT4W/iangoV7KUryp9YDGgEDonKs1yVZC3huGrH4axRSa4sHEMADinxQ5/0dg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT3PR01MB6339.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:67::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
+ 2026 17:08:51 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
+ 17:08:51 +0000
+Message-ID: <a63396b0-9b0c-4d4b-9754-f503cdb84098@efficios.com>
+Date: Thu, 5 Nov 2026 12:08:50 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 19/21] sched: Clear cpuset_locked where the policy
+ check retries
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, linux-kernel@vger.kernel.org,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ Luca Abeni <luca.abeni@santannapisa.it>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>,
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Kayra Cizmeci
+ <kayracizmeci@gmail.com>, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
+ <20261104211207.1392343-20-mathieu.desnoyers@efficios.com>
+ <20261105164356.28913-1-parri.andrea@gmail.com>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <20261105164356.28913-1-parri.andrea@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0173.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::16) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -74,102 +115,105 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB6339:EE_
+X-MS-Office365-Filtering-Correlation-Id: 091c211f-50e5-4b3a-0c19-08df3b5f76ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|10067099003|22082099003|18002099003|4143699003|261028144727099003|261022105027099003|261026140227099003|56012099006|261022075727099003;
+X-Microsoft-Antispam-Message-Info:
+	FJcLt/FoxTijC6aZKcnYhHVF5XpCDggVJZV1izMosi/+n1MTS4N8h5wSSWSkp+GiNJCLf8SzuFYCgHlpMshR/CW2GDrOyQkhPCNAgBA+yHLMRaJ1tcjirtVyWPXr9AWUxgrubTYBPwuURDMZ25XnyChj0NxDyxhAZAn7tBA/ZbSMH/CouQl0DnUr50U8z3L7t6PoNfu4by5+o5lmIj9Oo5V6oiuQulZCKI9KA7Xps1wVnJ+Uplj3ca8x8GlpBa8hOG2pHQXVF9svlSs1xtcbNCVL1DpkWKqQOjKyTVwfYSgPKOKzDPSR9TrEORmW5FdxCDkq2gr0MMGqVkcUEb3vX5wH+K2hkV3NiVX54SVkvUqaabW7YPbkxti8tzW4UNFOU6VcVXJTs6R4gWg6zjou8liAlq5lzFLaB8bolxU7Pl1pY8XQkJkyeksksER5H6zZ3uwEbFudK0YXNtRMO3PT+cv27nyQIj1cUaT+KeEc5358wrfaoDQv0hQhJclKV56SnXunEExGjav0TAu8rFLqI01HyrHCR2pQRF45ARPy1KVzrRKakrPd8eRH9w5o8Mt9AUKj5bi4YR8VzfR4nIK+bhdyKsFiYJUiLTNoj35CG7M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(10067099003)(22082099003)(18002099003)(4143699003)(261028144727099003)(261022105027099003)(261026140227099003)(56012099006)(261022075727099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S0k5UWh3dkNtT0JUcENtOFVxSERxNWVmN3lqV0FjOU0yK1FCdktOTHdycmFm?=
+ =?utf-8?B?U0pNb1ZqSEl1WlRtTnM1WE41YVZYa2dLWWtmRThLdWdzNVBvejZsZDB5bllS?=
+ =?utf-8?B?S3Q4VkR2NnIvVC9CK2UvYVpmV3dEQndzMzNYcnh1OWRnVzY3YWJZQXRDT3JY?=
+ =?utf-8?B?UEg0MnRaQ2dPNW9OL0pGWE9QeFlxUzNZOWIwNTIxcVYzK1R1UTdKTmZubGtp?=
+ =?utf-8?B?R3orRE1pU0ZZVEVMb1hEYXFyNTJZNXpYaFFRd2JNTTZPOUQ1UngzSUdSWEZk?=
+ =?utf-8?B?THltelJubm1kWjVnbVRINDNYMVJEaFovUXJWS01aSHhQbldsdWhUcmRvTXdt?=
+ =?utf-8?B?ajNaakU0MWdTUERoQ01aWnprLzB1dWhXSVZ6UTE5WkhtZnFLVGg4SS9EYmVs?=
+ =?utf-8?B?Z1p6REN4UFRlb3NHUGkzdWtycXZhTlVVekdPMjEzSmUyM1ZsQ0U1azFON2d4?=
+ =?utf-8?B?ZkpFTEQyTFZrZURSVE9CTWNyb2gxekphWXZWQ2kwTDdqZXM5Qkg5RXFnb3V6?=
+ =?utf-8?B?QVBobzd5bWpZamVkYXdhQ2xpbmxTZ3dWcGIxeUlpaVI1TDVqcXhmSzFPRkp3?=
+ =?utf-8?B?clJTSXNwY3lFZnF4RW93MEw4S1BWeDVGQ1lhbThiN01ESW16ZlYyZStpSzEz?=
+ =?utf-8?B?L1NqNnFxUHNId3E1OHQxbTNMNWlEdWJ4dDVhdXRrenB0dHZ4NVhmNHdJUzky?=
+ =?utf-8?B?S1ZxODZmZkp3RE1mZDkyY28yM0lRL1ZWcmVFU0NGa0N0a1lSbWU3TWxkUlJV?=
+ =?utf-8?B?dkExZGFXZmowSm05TVV1d05pbmJvM01uWU9RYTM5MysyUUdUcWJhVEY1RlJa?=
+ =?utf-8?B?RFhYbjRzSDlDZmhXOGhGbk9ybDZaMGY0Nm94OVVibHp1cmdyUmd6SEkrNmJt?=
+ =?utf-8?B?VW9PU0VJT3ExQzgwaUVhMnhLcnNKSTRIK3NDSVV3M0lhZWtnNjlEcks4MmtE?=
+ =?utf-8?B?dTNYeXVaaDNkR0grbFdRZW9BWVIwU3E3L09sUWhBQlpXZzRjWUV0Z1F0K2Iz?=
+ =?utf-8?B?aDlVNUc1MlBGc1c4ME5DRjdkbnNlV1lnYmhuWDY2bnhsbkRVWGI3U0g3WFVF?=
+ =?utf-8?B?dVBIdGcxTVdaUmgzdzdxbmJpcmY3d1FkMFFnaTBRdGxSbVlpc1VoRjFESGwv?=
+ =?utf-8?B?ck43VmQ5ZGRmeVVVNGpPUHZaV1NHRmdvZUhoaDB4cnc0elZnb0xpOGdkQ1Zr?=
+ =?utf-8?B?Rzc3TFVwMFQ1a3NGMVZITTBDRnp4T3RlYzJPWGtTOG95bFU5ZkNiOWxyc0J0?=
+ =?utf-8?B?S2JSdjVCanowdXh2dklHNzRIUkQrdWY3UXlqMmlyRWQ5OVN1S1ozSmlUSXoy?=
+ =?utf-8?B?dmUvM0FrZ2FaelZNTFVSVHNuY2lQVVIyMFBGTy9UUmJndlF2bVlyNFViOVAz?=
+ =?utf-8?B?MG56TEZzbEpjUjRqSndIMW1EcTV0VEtEMWhsN2htaFZFR1hHZ1NHeHNaUjhY?=
+ =?utf-8?B?WnVXRFR4VnhWVS9PT1EvdXpSb29CNnN6SVI4V1VuZVNRNXFnZmdIY2l6SHBY?=
+ =?utf-8?B?WmhabHBXYzg0aU9oeFZVNEo2YXhOTjBXcGhTY0VnZWlSWWlhUVVYaGNlVnRC?=
+ =?utf-8?B?eGV4aFRXT1dwK0xFRVBZWE43dENmcGl5eEF2a1FXc3Q2NUpLVkpYMnhKYVBh?=
+ =?utf-8?B?a1VYenNRYWFBL1hhMDRkeFEvNm9MQ1lGNWY5a2NSRFAxelk1Qllzb0dGTDhF?=
+ =?utf-8?B?WVNjTVVmY0Z2S24yZDVjaFV3cEVBbVhKbjc3RXM3QkhBZkVnWlNRa0pJR2xW?=
+ =?utf-8?B?UWJqSnhzTmlFU1ZPTFcxQ1owZ2pPVi9YTHFVSmFMUWljRm5kOE5XRFRZKzZ1?=
+ =?utf-8?B?ZGdKTndLWVhuRGVCSzk1ZXE0M0xSSElMcFNSdlk1K1pSZXRkNGRUNitqQ2pK?=
+ =?utf-8?B?Um9pTGVqbG1PU2NmR1lLd1NNRlFjK2M5UTVWb2l6SnVwR1NqSFFUN085MWR2?=
+ =?utf-8?B?M1E3dDgwQlBDU05FdUdOcWZWVmJ5V2FFajczamxnOVMyMHBLMWJJdGp0RmM5?=
+ =?utf-8?B?cWdRYmJ2U2tpaG9lZ2laSzJqRmJScE1uRnBlUnRPMGIzd3VMbHNMbGVybXZT?=
+ =?utf-8?B?aWlCcTkwSzgrZVJPZk5USDd4QlV3d3hxbjczRFBWdTFkN3dwTkFYdU85LzJX?=
+ =?utf-8?B?RHp1NXJvejZySzFiZGhyNmdCRHBDdUlLZE5WNytVZjEyRXEzNWhXMFRNMExO?=
+ =?utf-8?B?NjRCaVQ5emZEcmx0MCtTTzE0Z1Jld0FBd09Bc2NlVkNyOGtpSEhpc0puZkpJ?=
+ =?utf-8?B?UjlzS3o1TEV4dnBJQWNwWlk0bXlselNLZWcvZG1pZEVCWUg5MWJqSnNCNGxz?=
+ =?utf-8?B?OFNXSDBZSjRsaExRdGlCQkx6eDAvYzNjc1NNMDdZK25FTWtNWHh4TzVuVXB5?=
+ =?utf-8?Q?5bgxz0KDpZJCKp+ra0LPMeKlR64GzM4ZYiB9W?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 091c211f-50e5-4b3a-0c19-08df3b5f76ff
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 17:08:51.5385
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ye4qYy9c7PfQ2fxWZkvYUw7QE7Fme3TY29QW5xXv1uqxn9Ei4qtjxFSvd8HK4/wMKmvKe05YfOUND05pwp3Z2cmStFM1AZkxzfLuOXC787A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB6339
 
-Commit 450efca7182a5 ("rcutorture: Disable RT throttling for boost
-tests") added the ability to disable RT throttling while rcutorture was
-run.
+On 2026-11-05 11:43, Andrea Parri wrote:
+> On Wed, Nov 04, 2026 at 04:12:05PM -0500, Mathieu Desnoyers wrote:
+>> The retry of the policy check in __sched_setscheduler() drops
+>> cpuset_mutex and leaves cpuset_locked saying it is held:
+> 
+> [...]
+> 
+>> Clear the flag with the lock.
+>>
+>> Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
+>> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> 
+> Hi Mathieu,
+> 
+> This is the same fix as [1], posted on Nov 2 and reviewed by Waiman,
+> Kayra and Juri.  If [1] goes in first, this patch can be dropped when
+> rebasing.
+> 
+> [1] https://lore.kernel.org/20261102134606.242743-1-parri.andrea@gmail.com/
+> 
+> Thanks,
+>    Andrea
 
-Since v6.12 the DL fair_server takes control of throttling and this
-interface no longer serves this purpose. That sysctl control still
-exists but serves a different cause.
+Hi Andrea,
 
-There is no in-kernel interface to provide this feature, one needs to
-echo -1 to each /sys/kernel/debug/sched/fair_server/cpu*/runtime file.
+Thanks for pointing this out! I'll pick the preexisting patch into my
+series instead for v3 if that's OK. Then maintainers can feel free to
+pick it up from whatever route they prefer.
 
-Since sysctl_sched_rt_runtime does not do what it once did, remove it
-from rcutorture.
+Mathieu
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rcu/rcu.h        |  2 --
- kernel/rcu/rcutorture.c | 35 -----------------------------------
- 2 files changed, 37 deletions(-)
 
-diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-index d60444bf3a02d..6d1034e49d411 100644
---- a/kernel/rcu/rcu.h
-+++ b/kernel/rcu/rcu.h
-@@ -69,8 +69,6 @@
- /* A complete grace period count */
- #define RCU_SEQ_GP (RCU_SEQ_STATE_MASK + 1)
- 
--extern int sysctl_sched_rt_runtime;
--
- /*
-  * Return the counter portion of a sequence number previously returned
-  * by rcu_seq_snap() or rcu_seq_current().
-diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
-index 968343be4e0d1..acab425e72ad5 100644
---- a/kernel/rcu/rcutorture.c
-+++ b/kernel/rcu/rcutorture.c
-@@ -1333,39 +1333,6 @@ static unsigned long rcutorture_seq_diff(unsigned long new, unsigned long old)
- 	return cur_ops->gp_diff(new, old);
- }
- 
--/*
-- * RCU torture priority-boost testing.  Runs one real-time thread per
-- * CPU for moderate bursts, repeatedly starting grace periods and waiting
-- * for them to complete.  If a given grace period takes too long, we assume
-- * that priority inversion has occurred.
-- */
--
--static int old_rt_runtime = -1;
--
--static void rcu_torture_disable_rt_throttle(void)
--{
--	/*
--	 * Disable RT throttling so that rcutorture's boost threads don't get
--	 * throttled. Only possible if rcutorture is built-in otherwise the
--	 * user should manually do this by setting the sched_rt_period_us and
--	 * sched_rt_runtime sysctls.
--	 */
--	if (!IS_BUILTIN(CONFIG_RCU_TORTURE_TEST) || old_rt_runtime != -1)
--		return;
--
--	old_rt_runtime = sysctl_sched_rt_runtime;
--	sysctl_sched_rt_runtime = -1;
--}
--
--static void rcu_torture_enable_rt_throttle(void)
--{
--	if (!IS_BUILTIN(CONFIG_RCU_TORTURE_TEST) || old_rt_runtime == -1)
--		return;
--
--	sysctl_sched_rt_runtime = old_rt_runtime;
--	old_rt_runtime = -1;
--}
--
- static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
- {
- 	int cpu;
-@@ -3390,7 +3357,6 @@ static int rcutorture_booster_cleanup(unsigned int cpu)
- 	mutex_lock(&boost_mutex);
- 	t = boost_tasks[cpu];
- 	boost_tasks[cpu] = NULL;
--	rcu_torture_enable_rt_throttle();
- 	mutex_unlock(&boost_mutex);
- 
- 	/* This must be outside of the mutex, otherwise deadlock! */
-@@ -3428,7 +3394,6 @@ static int rcutorture_booster_init(unsigned int cpu)
- 
- 	/* Don't allow time recalculation while creating a new task. */
- 	mutex_lock(&boost_mutex);
--	rcu_torture_disable_rt_throttle();
- 	VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
- 	boost_tasks[cpu] = kthread_run_on_cpu(rcu_torture_boost, NULL,
- 					      cpu, "rcu_torture_boost_%u");
+
 -- 
-2.55.0
-
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
