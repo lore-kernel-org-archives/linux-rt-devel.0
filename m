@@ -1,154 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.58
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793904772;
-	b=tJOwkvkzGiLE+WPZHyWYDNFz5u+gVJsrCvqUomTO9eO0qEBrrZTeK1zBP8UgHPnRCGKV
-	 vJHvGVzEI/8745Az/RNpL1r47xJjQYl6uzOcyYu4Q4D6yL4x4vw7yoMTfL7jhoSDLJ2Le
-	 nx//rEDXcYG/7Gr0JMrjSI3CbiVgP3TQbzw9Vu/V5MzCz75QIfXLvP8qdcBYuP9f8NFu6
-	 YCARp7HQIKdHvfXwUB6OHeZHwuZfv+k4k1LB4oBV8WOYYdgLDEvOWRhqD3AJ2ZmjPzYrw
-	 i1unAm/YPeS6ZQu9pmGn33KcKjTDh5T6A1LU5jum2Ns6KZy13NBEZYOxVmJY2MElTLg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793904772;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=CF0aJjfy/SZBrHQvcz9S3og6DxDNPigE/t6UajttKao=;
-	b=Cdu2hTIlejYv4Gx/LoCQkLMjMk1K2nQ1fv+xFGjgDR5OXv3r82fK7hEemIln6Xx+lS/i
-	 hcKGlsDzRUYrX4LRhT+UgSfoaZgzeuJ3QL96AOeksHvxSzKIzE4RGLPUHjlMsMFy76yId
-	 2l0GXf8R3OK6VSBUbozpUP3SipZt6I7Kuz6pdHHv/84stnebkM5eIGoq1gZSzZ4zpX+6L
-	 2UTcvJ7LpstCZbgz/z2tiQ0nUNGgTiESi1S+TnbhQu+xR+lhV8CF6JJ+kz4OhcAG+Vgt5
-	 xliFfO5J+tVRaIdV1k8/Vye2mtg/oKVyhuSboxjF+amcrmixvn41KAZJGD5dTjEfttA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HsAseuN2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.58
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013058.outbound.protection.outlook.com [40.107.201.58])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793904931;
+	b=D5yrFb8jRCcxYJa2BS0Jrb8qGpGs+1pB3i8fk8cZgbCrhmUQg8NtzFLE7kkS1f4wyXmy
+	 /FSDD/J1nMVJQzHsemzKa5C5zPaMszQ9DZRXeY8K1d6iyw+rycbZUM2kOzI26buQqdsKp
+	 Qgbe4egx81OoCLTI0dw9vyqlZjn0wGR4/ExEwihfCICLJYvdlTPFNkCy8x/++5X1jHNMm
+	 vCmAsFUqp75YASYgcXZmsFZiDKd/chMXQEVpuOWFr5Mln2+2kKuEr0LDaDaEip7ENaQIQ
+	 MfOaZPb5vSGsoB44raTHrVMJWKy7vMTMPL8G9uDxaySI0pxR2B9yX6Ox6cr9aADZmxg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793904931;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=UMvD0QNhuIqJcyOdighp/tGvQpuMow4V22PsckR2fAU=;
+	b=X20OTlZihJJWEoa4kgVTBSgKjFv045c3y4Hpnn9MHtvbdc1r+I+I7YsDvO5qEQX3ja63
+	 cseBjWJFxidWAsavTow9Bqo46jILKThgfelms44ZcrWdpDRGQU7j6XaoLynmhlchYEFBZ
+	 0bJh9bPhQH7Yup05wbWbvqZZO+1GRMJuGB+eARFtfDrXz5habJqk6S1CLfZeqPbwusyBd
+	 3gN+LbuYcC6Vy/UbRj4esMNP++xwaSaUyQY9Bdkmx7gA+cImYXuimWZwCLUsA8HVQTMZZ
+	 14yDC2Gmb/ufEvvK0Uxb+MMbv4RrOnv+7yf13yCjEPX0qBgUKESHXk4CgJOSaaEEd0Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FOctZ3HW;
+	arc=none smtp.remote-ip=209.85.210.48
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6C8606A326
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 18:52:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D6C8606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7950B606A329
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 18:55:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7950B606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HsAseuN2
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oTumVnfklzTI3Y4O5H7VcQfgiaudyjIErHNO1Qdtp82a034XLkDzzbNN3zkr8008hEAfqdFZe9ScEVrXVvugPkvJDHUXe1PCthfkafbDQv5tg0tYEJvz/kaXJ+vXoAu2M11Ylss5kpZLU2k5gjwv7fWUV97aG5qj2tUZFQY7b0EI/gi8tzOTDJjBcFaeFQMSja0w5agg6uE5KjZVNI3KLLfvf5M9J1fKLMlRiRJnwnb5ABzq+3AfB4hXXDtd+Nu0JPDmTn3Q6yGBNjpEQ73jQp/1VVCmYoqhSCwdcaeUYObEfysYa3k+39n1rGV6uv1JVCJ9rqxiPawzEQSwjQmhXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CF0aJjfy/SZBrHQvcz9S3og6DxDNPigE/t6UajttKao=;
- b=N0khFqvy6Ly0wlRb21tKPnJYEXSHqvKRHXn4H7BDsghQ0Ysig8G+1wegIRfJsBNPhsVptzePeWecT8NyI38NoCaiXS8Kxll7p73GOZlJjnvBEt9LHwQv7ly27Uixafdm7eVt5Dnqny/lemRFghecLaAfw+HzREBIvpBPxyrhGAaJJehbf1gvZZIP69rfwvn9ste2gQChwSfNHz4la4Sd7PaB2kJ8t0eZcR806ShRFGSYICSb4jzhHDz00u0yk1O8Z4EQc1BXMMFNOSpNR0+M+TlpoA7t6w1Ht7aBCzpxIgrklFxzlfr8p5IrzDM6r1qp98BQzcbnzOuHgbG4Yu9DHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CF0aJjfy/SZBrHQvcz9S3og6DxDNPigE/t6UajttKao=;
- b=HsAseuN2JATTjzQ6SyuijNW3OOs65wr0wC0IciDWZKXJMi9KjfpQSdzf2bJnKMH7bKwINSxlpxZpRmFP9bZL9GT5R1h3+iaxu5fK3ZT4kUgztr4b4mb9/ZoxuHs8E5wctwvJvecSrp3i4Pyr0zhJgLETw7swan9qCa0wl983pf77J23ODjp7E04/18ZCfQJM6lSF4htosxJz2M8FJkIlvlIH00pS1d6ejQUPPO/cAYJDpvxpQLcJX0Ezo3DIGNm7cGQTA3chJoujh0UKO0pXFThf8lA/bFjGs+wwRQGXl8Zx4OBt9SzsvH0so3zi+n8ZExj+6YuU28nC9t0PlMdKqg==
-Received: from DM4PR12MB7742.namprd12.prod.outlook.com (2603:10b6:8:102::18)
- by LV1PR12MB663552.namprd12.prod.outlook.com (2603:10b6:408:514::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Thu, 5 Nov 2026
- 18:52:48 +0000
-Received: from DM4PR12MB7742.namprd12.prod.outlook.com
- ([fe80::8df:c519:298a:94f6]) by DM4PR12MB7742.namprd12.prod.outlook.com
- ([fe80::8df:c519:298a:94f6%6]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
- 18:52:47 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: "paulmck@kernel.org" <paulmck@kernel.org>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "rcu@vger.kernel.org"
-	<rcu@vger.kernel.org>, "linux-rt-devel@lists.linux.dev"
-	<linux-rt-devel@lists.linux.dev>, Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Josh Triplett
-	<josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, Uladzislau Rezki
-	<urezki@gmail.com>, Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar
-	<mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
-	<juri.lelli@redhat.com>, Andrea Righi <arighi@nvidia.com>
-Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
-Thread-Topic: [PATCH] rcutorture: Don't try to disable to RT throttling.
-Thread-Index: AQHdbUXj+z82MKm/Fkm8XMOYmrp+lrcfzqMAgAAEg4M=
-Date: Thu, 5 Nov 2026 18:52:47 +0000
-Message-ID: <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
-References: <20261105165113.82N-rPMG@linutronix.de>
- <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
-In-Reply-To: <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR12MB7742:EE_|LV1PR12MB663552:EE_
-x-ms-office365-filtering-correlation-id: 29e51bc4-469d-4f33-3855-08df3b6dfbf0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|7416014|1800799024|376014|366016|38070700021|4143699003|56012099006|11063799006|261009221227099003|261021123027099003|261009223027099003|261026121527099003|261028144727099003|261022105027099003|261026140227099003|10067099003|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- /gndm+3+tF8cwjf0z2jNJc/M5iLAXibfwUPVxovtKOUFVlLxliNurI+3ZT73ooqfXGRJrKmaHhVpPi3cW62YpW44UlQ0R1QQQT2vh3eKFcja5NghsbMyFKeOMDmXRxGCteXSXd42KmqQzrjvxxgRDwMXiZzhoGvJ/rheQiIouG5Qoy+ZBZS1uNLlqPa/VgvybvXxmzWGwP8weGLejijPNGYvRduIeATRIR8xG+Xa54OVvwLj83WNJRhTKLNt37FyKJdAKkntC630XCuy/lI32I75otAjayAj2n8FYGZtFfcXYKyKU3iTPW4IjEIUgsUSVc/zQ3WVCgxFBjddwvwQFbgQ/+Su7u7c9+ZkS+ZXM/aVwXGOlltxVRbYfxHWpp4I0JHA3nP1cctF1fbUbCgK8iGoQQ5lNrWf3C6h9Yo60xAFz26y/guAsWpWkg3RY/tk9zIrDIKrPGKKbjGxJ1lAcptS6eD4hPRwxexImkTO32CD/2Uefb/kHYfUjTbkweImttQWCqWt3oQP10D9g8McoJIaRC9u4yO3SS2nmHoKZ/sr5l5h17V6vOG03UbvycPUHPWzvTfid4rRfJ2Pbtr08wzBbHyIakVzBpDQiHkntCAw6t0L+CpGH8TFjXCdES0tzek1FnqEVi6vQe4g6I/SU5YX0tfA6dcEAXBHC8ghCGUKSd45yqYo5MMlu53fn7lHt9s9sm/wpaBNzNn+1PFbzOt7F+VHQCYNkc2x1o+mC2o=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB7742.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(376014)(366016)(38070700021)(4143699003)(56012099006)(11063799006)(261009221227099003)(261021123027099003)(261009223027099003)(261026121527099003)(261028144727099003)(261022105027099003)(261026140227099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YnVVcDlRdDFDVDU5SElIemt2VmEwaU5md0JmVnJhSkdFaFdib0ZlVTVCaUsy?=
- =?utf-8?B?bGJCTTd6UjlWelN2YmkrMGE3RGQwY3pqLzdHaUJ3cHlVZHRVWk9MNnBlWXJE?=
- =?utf-8?B?TjAwSTBobSs5ZnlUZFNmMk5HeElWU1EwTU1zRGVaelRYd2tsM3U5R3RTOEs3?=
- =?utf-8?B?Zm1IdzRPdUtveFV6T3FZdU5JRUlaRTFTVXU4MFhNOVZRYTV3cWNieUlRQkpn?=
- =?utf-8?B?WHBKb09YVEFSUlRacWpDcmpRd2FtZTdxSjJrcnltRUxYdlVXOUNydWI0MjhQ?=
- =?utf-8?B?SzQzZWl5NU9Wc1VuQU42cU1jK2t4M1JCdDhQVnNON0ZmMUxmVDZKbFNhVURU?=
- =?utf-8?B?cUZOTXFJbkVBTFMrQkVTb2hEc3RKMDBoWHkxaXZsV054TVk5OTFUTFVxcFlR?=
- =?utf-8?B?V0cwM1lGNUNuamM5YU81VGN3ZytOc3lNT01wTzhkdGprWU1wMXJZUGhIRHZr?=
- =?utf-8?B?ZHBYTVo3SjRNbENIVHFRWmJEZU1NMTdKdk12a1B2dTkwVHF3SXBOWDRYOU90?=
- =?utf-8?B?bDFqTFRxTDBUN1NQeDVoMForWWFzR3BXVlhjQVJmT0ZWWlNKQkEzUDdvWW4z?=
- =?utf-8?B?Z09uZzFSS2M3b3Rpc21hWDJKWGc4eDhSVEwzcFU4TktXTGI1OXA3NVBUbEcw?=
- =?utf-8?B?YXZSSllPRGFuRXRXYy9iVVA3OW5ZeW1iWkRjUGdUdUFSLzlFS3dYMThycGJh?=
- =?utf-8?B?NzgrYndYMk5aUVBsMk5ZQkJtMHNIWU9ZaGw4Y0svQWo1dm5CdUpRditoZW9E?=
- =?utf-8?B?VEUzTFlBYy9QV3JNY3B3ZmdsUTdWSFpPelBGYlNmQ2U4WHlYYWhGeUxsWHNy?=
- =?utf-8?B?c3JaZFhJRmpFNEFPYmtXMFdNdWhVcHVSSHNJUFdxOVdPZjFHVVptZ3dOSUh4?=
- =?utf-8?B?TEU0YVhBUktCUENlQW5aclVoVmJMMHloOUVEdUZPS0tFNE5waEtXZlpMdzVF?=
- =?utf-8?B?ZDlwVjZ4Q2dmNUpRN2VPbUpZS2dEQnVDZEQxem9TSURSSTJ1U1Ywc3dCOGtu?=
- =?utf-8?B?TGptWXJoQmFhZWtzQnBZWkZIVzkyYXF1Q1pSZEVNYlMyM0dQSjM2NHc0MWU0?=
- =?utf-8?B?UzdBSnNOeTFqL2tKeFllbVhDU2hNUHk2ZUUrT0pnMjRuUFFNd3hHT0lKeFNv?=
- =?utf-8?B?L1JnMlJQenpDdFRvY0RQVk5oUEJ1VHdrUkF2YzRycDhQaVVPWmVBUVFpMlF0?=
- =?utf-8?B?azZvWXpkeTk1c0VVQ2trNTBOaWI1eVZ3K1ZEQlRzR201eGtqTnBINXlaYi9s?=
- =?utf-8?B?bDhNaXR3ZUpOWk1YMmVXTEY1RVlYa1ZaQ3Fnc0JUVnpHYVdNQXlLVXBob2Z3?=
- =?utf-8?B?QzRqNTVuN0ZpZXhCKzFiTmh5cThZZVFzMlRLVEF2YXZZbjdCMyt2bE5ONnVW?=
- =?utf-8?B?VGxpaW03QStuUWQ4Q3VPMUdIZ2t3YzAzUDU4dm5DZ2VwZlpqMWJ4c1lEaHNz?=
- =?utf-8?B?RWY4VUNTV3AyOXp6UmJPSDlnb1UwY0VGTnlZNkk2UGFNS3czaThMTUNNWWRC?=
- =?utf-8?B?ZmVrS3VpczB5YXU4dmlHR0RTOHZBZVVrcUQxbE9QSVhjZEJlVndBL29rWkIv?=
- =?utf-8?B?NmVHVHFjdWZQSmIxSnJhYW81OXRwK3h2Z3lyQWF4ek8xQUxIb1ZBM3ZVemhW?=
- =?utf-8?B?eTl0cTVMRTRFVW1YcHNTcGthVE5DYnVRdXdIYWxrbWpzZUphZUNqUys5SlJ1?=
- =?utf-8?B?NG01V3VBR3cydnVCWDl2eG04Zm5ZWUN0UDRpUmZRYm1adnRpWHpOQjhjcVN2?=
- =?utf-8?B?ZXJwMVBhTjVVRnZmWVpGZnAxU00xMG9LRkFPaS9kNUZGcDBYelhQd2NrQVBV?=
- =?utf-8?B?aGgwamlSdWEzQWYzb2JnZFp6cHYxNkJXQklJcGZBRDIrUHdQNTkwY3BrcEo3?=
- =?utf-8?B?OVoxOGJxUysySTdiczZOLy9HZW9QQ0RVQThKcGNqcW9HWUdnQWlrMU1YZ2t5?=
- =?utf-8?B?VjN4Q1k4R3B5UWg0K3Z5S1VhQVhtWkZLK3JZT3J2dlFFYkVVTHdmUnlxU1lO?=
- =?utf-8?B?L0g0dS9ZV1AvTDh2SjhJNXo2WHZFQUhGNjdRV2pnZXVUSEFpN1VPZGw3bG5s?=
- =?utf-8?B?OG4vKzFqN1BXWHN0TmdDZkRIQzdxYlpDeVBVQlVBQXlHdVY2azhEaEw3WVdW?=
- =?utf-8?B?TzhYMmNHMWdvSnU5NTcwOHo3VExJSGNaRUpzdUJJMER0ZlpiQ0dWRHZQOTAy?=
- =?utf-8?B?R1NoSGYzb0MyVlVrb3E5Y01HS3J1QlYxVXJMZ0EzZllxM0krWnl5dkNFdUlH?=
- =?utf-8?B?RnhGbXpPU2pUbExuNEY2bjZGSXNaYnIwMTcvZDhyOVBOR21NU09FNEZlcDBn?=
- =?utf-8?B?bnpsZFdTcS9pVXhSckFHUmxpa1EwVWpNblRSNHM3cHFISFZrZzFzdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FOctZ3HW
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7f84a55cc06so1520252a34.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 10:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793904929; x=1794509729; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UMvD0QNhuIqJcyOdighp/tGvQpuMow4V22PsckR2fAU=;
+        b=FOctZ3HWmpppD4HiNDQGnYZhh3G3OwKpU1mu4ORBArUV6bdTRLP0t0Pgc5In11ZOVz
+         DjESW2/WMoJvpf7ytbsEdo7cd4gZ8X6MeJU4jRRTTOYwC9Z1ngar638/+J0hhisI5Hze
+         l2PIaG9hV4QJjGvctGxWPkupGS9dRquieI9LgleSXx4llq1BVVnX6F2sOukCtuisqq9J
+         m7d/hM2QcV+jjln/Nn/fzgQdZF5+UvqH4YWaBJVV9CNJB42wcG+oC/oH7ulOkPMdQcvd
+         FeS1HH3I5oY0o6Xa1RzoI/MvKjrfsSYJ9X0HQfxvUvUAHUCXsfn3tZ7NXxesKdHEDMH4
+         B6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793904929; x=1794509729;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UMvD0QNhuIqJcyOdighp/tGvQpuMow4V22PsckR2fAU=;
+        b=IB58v/darKw1WztN5V0jf21S/d8aJWZ9juHf0odN0LKeCxLf5Gue73ELFfVzpRhXoP
+         hmfY+29wx8ChY9Zx6dT7VDPWI4+J5SZBwwAajvHLkyt8QcdHD99KlXNv6rKWHAS8fXLx
+         GEe3tz/ALJjUlUk/OGcsB9hnzLMWAJQSXknsbRvEQqVNKBzkMotoqy9y4qQvYkyCyrKf
+         YR2JoFWs/8PlMJrCT7pkQQdsHyojD2Gc6yrCP8byUtdYYPgDVACf0PhUdZKPkCrV/G3x
+         suz9amBWEhM3lPC9+5ePg5sMAxFBS2c5OOE4PdKArBB5N5qg4SUBNd7iHnLpvxRN2rgR
+         6PwQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxtzw52mZgVtBmdKTWBe86CdyGLoPjGgO4U3XldApYvkMgcdxIDOQpF8IGr/joDZwWNIhBO2T1m0zfIwdGUTw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8PKRneSLW3ucgvYPQmD4LTlEi1F1DYjgTWHjsNWCvzw6wicizF
+	VJkfIjpcexxGgCUHjAw3AXFy80PfkiJ3uTXpxGZo3SemJCM46BUio/BQ
+X-Gm-Gg: AYBFou2lq9dGppR9H+mlDX//N5diYXjHzqSPnVFzxcJgV+7JIYzRFIYqg2lkGUSVU+8
+	8MMPV1Ee23yATlw9ijkGjG2mWKwJFGblKuExSC7kvD6jqLPxL6dXfa13X7qb517+/HHW6IunmhA
+	0jDSSW6jkl/tIe0IPPQyXyqmvu/3XQ1gZ1Up2mp28HmOKJHQ+TAZVMhnHiuWz/WO5luMDKrx6aW
+	BDHM5x9po74hsDB2/SWOH9d3lRiTAEiq27KYj1gJXRgl2+zvGcd5ieQbYTL6EpZZh/J3x9VZzhm
+	8uPBsL6haA4eooEBqMc9//um561F/sVNgGtsW/7D9q3O0coc33hVTP1Ow1vWrxK1sqbmAKqZOEl
+	C4nFjfw1UZ37Uip1bN7n1Z7O71IIbIqWfnB2eJabkweoL3CfOLbKEMbzobB2iOac6BM3agJBbRE
+	K2Cek8k7cFR5hcwxjygEOVpOT5a2mVlcELyr5k4qoOj2HmR4umNJ0hC+u2NJH7RlEhT72FXx8Un
+	y4KAYvCuHBJoyn87QUrfV8r9+YIdiQ0lh1Cg7RYLsL9tdUMi7FH2yToucbMlMDAigGIsz6uDP/R
+	JYJk5DQSzrePXz81jSNS6XA5RiBGBvjhabu/IRyGamGreEmUHSoXCK67p1Cvsx4C/m9e2a3mngd
+	WDyAOsFRekC5zBKelZ3IVa084TxFffdJ+DusWtd0jFq9E2ZwzVwMYzNjskBzU1oWJ9KgeSYLONA
+	zZO4O92zIlJZvCsWwjF7UJuB9J2SJJ0Grxx+Wk8DMOKCUfx1saCkcRNQ==
+X-Received: by 2002:a05:6820:c5ce:20b0:6f7:7a4a:9d7b with SMTP id 006d021491bc7-716e790c1c8mr291036eaf.41.1793904929156;
+        Thu, 05 Nov 2026 10:55:29 -0800 (PST)
+Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-716e99465dbsm115897eaf.0.2026.11.05.10.55.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 10:55:28 -0800 (PST)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH v10 00/26] mtd: rawnand: sunxi: fix transfers and support
+ randomized OOB
+Date: Thu, 05 Nov 2026 11:55:16 -0700
+Message-Id: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -158,89 +94,288 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB7742.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29e51bc4-469d-4f33-3855-08df3b6dfbf0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2026 18:52:47.3711
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 48R/UgM/krMNgtYTjlHjZw9fNFX8C9ohla8A86++FmVQW8HXg/VgFZ56Nrw8ia+til02zdqAqTECZRPXzf5c7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR12MB663552
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5XSzWrDMAwA4FcpPs/D8r932nuMHfyjtB5tMpI0t
+ JS+++wOtpBcUjAYCfFJyL6RAfuMA3nb3UiPUx5y15YA2MuOxINv90hzKgnCGdfMAqPDOZzyWK7
+ 2kmnr20QnbFPX064L9Oiv3XmkE1AUADIBi9FFUrDvHpt8eXT6+PyNi/SFcax6rTjkYez662OUC
+ Wrd003LYVRqYZXwIH1y7/uTz8fX2J1IbTrxf9YxuZnlhQ3AmZGN9NGbJSvmrNvMisJaYWNgwYO
+ SK1bOWOCbWVmX4LUMmJzkfLUENWfFZlYV1iQDwIz2ullNq+fs9t3qwvImMCsbZEbBkjV/LLAnW
+ FNYlUQTtU88+RVr56zazNr6ZMFLa6EJiHbJujlrNrOufjDNZWQOBaKas/f7/QehJgYopwMAAA=
+ =
+X-Change-ID: 20260810-submit-sunxi-nand-vendor-oob-layout-v1-e3114d10cc9c
+To: Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Richard Genoud <richard.genoud@bootlin.com>, 
+ Boris Brezillon <bbrezillon@kernel.org>, 
+ Masahiro Yamada <yamada.masahiro@socionext.com>, 
+ Brian Norris <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ devicetree@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.15.2
 
-DQoNCj4gT24gTm92IDUsIDIwMjYsIGF0IDE6MzbigK9QTSwgUGF1bCBFLiBNY0tlbm5leSA8cGF1
-bG1ja0BrZXJuZWwub3JnPiB3cm90ZToNCj4gDQo+IO+7v09uIFRodSwgTm92IDA1LCAyMDI2IGF0
-IDA1OjUxOjEzUE0gKzAxMDAsIFNlYmFzdGlhbiBBbmRyemVqIFNpZXdpb3Igd3JvdGU6DQo+PiBD
-b21taXQgNDUwZWZjYTcxODJhNSAoInJjdXRvcnR1cmU6IERpc2FibGUgUlQgdGhyb3R0bGluZyBm
-b3IgYm9vc3QNCj4+IHRlc3RzIikgYWRkZWQgdGhlIGFiaWxpdHkgdG8gZGlzYWJsZSBSVCB0aHJv
-dHRsaW5nIHdoaWxlIHJjdXRvcnR1cmUgd2FzDQo+PiBydW4uDQo+PiANCj4+IFNpbmNlIHY2LjEy
-IHRoZSBETCBmYWlyX3NlcnZlciB0YWtlcyBjb250cm9sIG9mIHRocm90dGxpbmcgYW5kIHRoaXMN
-Cj4+IGludGVyZmFjZSBubyBsb25nZXIgc2VydmVzIHRoaXMgcHVycG9zZS4gVGhhdCBzeXNjdGwg
-Y29udHJvbCBzdGlsbA0KPj4gZXhpc3RzIGJ1dCBzZXJ2ZXMgYSBkaWZmZXJlbnQgY2F1c2UuDQo+
-PiANCj4+IFRoZXJlIGlzIG5vIGluLWtlcm5lbCBpbnRlcmZhY2UgdG8gcHJvdmlkZSB0aGlzIGZl
-YXR1cmUsIG9uZSBuZWVkcyB0bw0KPj4gZWNobyAtMSB0byBlYWNoIC9zeXMva2VybmVsL2RlYnVn
-L3NjaGVkL2ZhaXJfc2VydmVyL2NwdSovcnVudGltZSBmaWxlLg0KPj4gDQo+PiBTaW5jZSBzeXNj
-dGxfc2NoZWRfcnRfcnVudGltZSBkb2VzIG5vdCBkbyB3aGF0IGl0IG9uY2UgZGlkLCByZW1vdmUg
-aXQNCj4+IGZyb20gcmN1dG9ydHVyZS4NCj4+IA0KPj4gU2lnbmVkLW9mZi1ieTogU2ViYXN0aWFu
-IEFuZHJ6ZWogU2lld2lvciA8YmlnZWFzeUBsaW51dHJvbml4LmRlPg0KPiANCj4gVGhhbmsgeW91
-LCBidXQgb3VjaC4uLiAgRG9lcyB0aGlzIG1lYW4gdGhhdCB0aGVyZSBpcyBubyBsb25nZXIgYW55
-IHVzZWZ1bA0KPiBpbi1rZXJuZWwgd2F5IHRvIHRlc3QgUkNVIHByaW9yaXR5IGJvb3N0aW5nPw0K
-DQpUaGVyZSBzaG91bGQgYmUgYSB3YXkgdG8gZGlzYWJsZSBETCBzZXJ2ZXIuIEFkZGluZyBBbmRy
-ZWFzIHRvIGNoZWNrIGlmIHRoZXJlIGlzIGEgd2F5LiBCdXQgSSBhbSB3b25kZXJpbmcgaWYgdGhl
-IHByaW8gYm9vc3QgdGVzdHMgYXJlIHdvcmtpbmcsIHRoZW4gaXMgdGhlIERMIHNlcnZlciB0aHJv
-dHRsaW5nIGJyb2tlbj8gOy0pDQoNClRoYW5rcw0KDQo+IA0KPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBUaGFueCwgUGF1bA0KPiANCj4+IC0tLQ0KPj4ga2VybmVsL3JjdS9yY3UuaCAgICAg
-ICAgfCAgMiAtLQ0KPj4ga2VybmVsL3JjdS9yY3V0b3J0dXJlLmMgfCAzNSAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gMiBmaWxlcyBjaGFuZ2VkLCAzNyBkZWxldGlvbnMo
-LSkNCj4+IA0KPj4gZGlmZiAtLWdpdCBhL2tlcm5lbC9yY3UvcmN1LmggYi9rZXJuZWwvcmN1L3Jj
-dS5oDQo+PiBpbmRleCBkNjA0NDRiZjNhMDJkLi42ZDEwMzRlNDlkNDExIDEwMDY0NA0KPj4gLS0t
-IGEva2VybmVsL3JjdS9yY3UuaA0KPj4gKysrIGIva2VybmVsL3JjdS9yY3UuaA0KPj4gQEAgLTY5
-LDggKzY5LDYgQEANCj4+IC8qIEEgY29tcGxldGUgZ3JhY2UgcGVyaW9kIGNvdW50ICovDQo+PiAj
-ZGVmaW5lIFJDVV9TRVFfR1AgKFJDVV9TRVFfU1RBVEVfTUFTSyArIDEpDQo+PiANCj4+IC1leHRl
-cm4gaW50IHN5c2N0bF9zY2hlZF9ydF9ydW50aW1lOw0KPj4gLQ0KPj4gLyoNCj4+ICAqIFJldHVy
-biB0aGUgY291bnRlciBwb3J0aW9uIG9mIGEgc2VxdWVuY2UgbnVtYmVyIHByZXZpb3VzbHkgcmV0
-dXJuZWQNCj4+ICAqIGJ5IHJjdV9zZXFfc25hcCgpIG9yIHJjdV9zZXFfY3VycmVudCgpLg0KPj4g
-ZGlmZiAtLWdpdCBhL2tlcm5lbC9yY3UvcmN1dG9ydHVyZS5jIGIva2VybmVsL3JjdS9yY3V0b3J0
-dXJlLmMNCj4+IGluZGV4IDk2ODM0M2JlNGUwZDEuLmFjYWI0MjVlNzJhZDUgMTAwNjQ0DQo+PiAt
-LS0gYS9rZXJuZWwvcmN1L3JjdXRvcnR1cmUuYw0KPj4gKysrIGIva2VybmVsL3JjdS9yY3V0b3J0
-dXJlLmMNCj4+IEBAIC0xMzMzLDM5ICsxMzMzLDYgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgcmN1
-dG9ydHVyZV9zZXFfZGlmZih1bnNpZ25lZCBsb25nIG5ldywgdW5zaWduZWQgbG9uZyBvbGQpDQo+
-PiAgICByZXR1cm4gY3VyX29wcy0+Z3BfZGlmZihuZXcsIG9sZCk7DQo+PiB9DQo+PiANCj4+IC0v
-Kg0KPj4gLSAqIFJDVSB0b3J0dXJlIHByaW9yaXR5LWJvb3N0IHRlc3RpbmcuICBSdW5zIG9uZSBy
-ZWFsLXRpbWUgdGhyZWFkIHBlcg0KPj4gLSAqIENQVSBmb3IgbW9kZXJhdGUgYnVyc3RzLCByZXBl
-YXRlZGx5IHN0YXJ0aW5nIGdyYWNlIHBlcmlvZHMgYW5kIHdhaXRpbmcNCj4+IC0gKiBmb3IgdGhl
-bSB0byBjb21wbGV0ZS4gIElmIGEgZ2l2ZW4gZ3JhY2UgcGVyaW9kIHRha2VzIHRvbyBsb25nLCB3
-ZSBhc3N1bWUNCj4+IC0gKiB0aGF0IHByaW9yaXR5IGludmVyc2lvbiBoYXMgb2NjdXJyZWQuDQo+
-PiAtICovDQo+PiAtDQo+PiAtc3RhdGljIGludCBvbGRfcnRfcnVudGltZSA9IC0xOw0KPj4gLQ0K
-Pj4gLXN0YXRpYyB2b2lkIHJjdV90b3J0dXJlX2Rpc2FibGVfcnRfdGhyb3R0bGUodm9pZCkNCj4+
-IC17DQo+PiAtICAgIC8qDQo+PiAtICAgICAqIERpc2FibGUgUlQgdGhyb3R0bGluZyBzbyB0aGF0
-IHJjdXRvcnR1cmUncyBib29zdCB0aHJlYWRzIGRvbid0IGdldA0KPj4gLSAgICAgKiB0aHJvdHRs
-ZWQuIE9ubHkgcG9zc2libGUgaWYgcmN1dG9ydHVyZSBpcyBidWlsdC1pbiBvdGhlcndpc2UgdGhl
-DQo+PiAtICAgICAqIHVzZXIgc2hvdWxkIG1hbnVhbGx5IGRvIHRoaXMgYnkgc2V0dGluZyB0aGUg
-c2NoZWRfcnRfcGVyaW9kX3VzIGFuZA0KPj4gLSAgICAgKiBzY2hlZF9ydF9ydW50aW1lIHN5c2N0
-bHMuDQo+PiAtICAgICAqLw0KPj4gLSAgICBpZiAoIUlTX0JVSUxUSU4oQ09ORklHX1JDVV9UT1JU
-VVJFX1RFU1QpIHx8IG9sZF9ydF9ydW50aW1lICE9IC0xKQ0KPj4gLSAgICAgICAgcmV0dXJuOw0K
-Pj4gLQ0KPj4gLSAgICBvbGRfcnRfcnVudGltZSA9IHN5c2N0bF9zY2hlZF9ydF9ydW50aW1lOw0K
-Pj4gLSAgICBzeXNjdGxfc2NoZWRfcnRfcnVudGltZSA9IC0xOw0KPj4gLX0NCj4+IC0NCj4+IC1z
-dGF0aWMgdm9pZCByY3VfdG9ydHVyZV9lbmFibGVfcnRfdGhyb3R0bGUodm9pZCkNCj4+IC17DQo+
-PiAtICAgIGlmICghSVNfQlVJTFRJTihDT05GSUdfUkNVX1RPUlRVUkVfVEVTVCkgfHwgb2xkX3J0
-X3J1bnRpbWUgPT0gLTEpDQo+PiAtICAgICAgICByZXR1cm47DQo+PiAtDQo+PiAtICAgIHN5c2N0
-bF9zY2hlZF9ydF9ydW50aW1lID0gb2xkX3J0X3J1bnRpbWU7DQo+PiAtICAgIG9sZF9ydF9ydW50
-aW1lID0gLTE7DQo+PiAtfQ0KPj4gLQ0KPj4gc3RhdGljIGJvb2wgcmN1X3RvcnR1cmVfYm9vc3Rf
-ZmFpbGVkKHVuc2lnbmVkIGxvbmcgZ3Bfc3RhdGUsIHVuc2lnbmVkIGxvbmcgKnN0YXJ0KQ0KPj4g
-ew0KPj4gICAgaW50IGNwdTsNCj4+IEBAIC0zMzkwLDcgKzMzNTcsNiBAQCBzdGF0aWMgaW50IHJj
-dXRvcnR1cmVfYm9vc3Rlcl9jbGVhbnVwKHVuc2lnbmVkIGludCBjcHUpDQo+PiAgICBtdXRleF9s
-b2NrKCZib29zdF9tdXRleCk7DQo+PiAgICB0ID0gYm9vc3RfdGFza3NbY3B1XTsNCj4+ICAgIGJv
-b3N0X3Rhc2tzW2NwdV0gPSBOVUxMOw0KPj4gLSAgICByY3VfdG9ydHVyZV9lbmFibGVfcnRfdGhy
-b3R0bGUoKTsNCj4+ICAgIG11dGV4X3VubG9jaygmYm9vc3RfbXV0ZXgpOw0KPj4gDQo+PiAgICAv
-KiBUaGlzIG11c3QgYmUgb3V0c2lkZSBvZiB0aGUgbXV0ZXgsIG90aGVyd2lzZSBkZWFkbG9jayEg
-Ki8NCj4+IEBAIC0zNDI4LDcgKzMzOTQsNiBAQCBzdGF0aWMgaW50IHJjdXRvcnR1cmVfYm9vc3Rl
-cl9pbml0KHVuc2lnbmVkIGludCBjcHUpDQo+PiANCj4+ICAgIC8qIERvbid0IGFsbG93IHRpbWUg
-cmVjYWxjdWxhdGlvbiB3aGlsZSBjcmVhdGluZyBhIG5ldyB0YXNrLiAqLw0KPj4gICAgbXV0ZXhf
-bG9jaygmYm9vc3RfbXV0ZXgpOw0KPj4gLSAgICByY3VfdG9ydHVyZV9kaXNhYmxlX3J0X3Rocm90
-dGxlKCk7DQo+PiAgICBWRVJCT1NFX1RPUk9VVF9TVFJJTkcoIkNyZWF0aW5nIHJjdV90b3J0dXJl
-X2Jvb3N0IHRhc2siKTsNCj4+ICAgIGJvb3N0X3Rhc2tzW2NwdV0gPSBrdGhyZWFkX3J1bl9vbl9j
-cHUocmN1X3RvcnR1cmVfYm9vc3QsIE5VTEwsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAg
-Y3B1LCAicmN1X3RvcnR1cmVfYm9vc3RfJXUiKTsNCj4+IC0tDQo+PiAyLjU1LjANCj4+IA0K
+Patches 1-24 address the existing driver independently of the Allwinner
+randomized-OOB format in patches 25-26. Please review and apply that prefix
+regardless of whether the format extension is accepted. Supported geometries
+keep their existing on-flash ECC layout, bad-block-marker representation
+and raw callbacks.
+
+Patches 1-3 prepare the shared paths: centralize OOB handling, share the
+NORMAL-command chunk-size calculation, and remove duplicate chip setup
+immediately before core page commands. The DMA writer retains its early
+setup because it accesses controller registers before program-begin.
+
+Patches 4-21 fix the ECC step limit, logical-step lengths, read and write
+errors, completion reuse, pattern handling, duplicate program confirms,
+small-page read commands, DMA user-data bank limits, split address cycles,
+clock setup errors and direct buffer transfer counts. They also skip
+unavailable NAND children and complete all chip scans before registering
+MTD devices. H616 abort recovery performs the AHB reset before releasing
+the DMA mapping. Unexpected reset errors block further I/O and are returned
+to the caller. Each fix explains its triggering condition independently of
+the format work.
+
+Patches 22-24 then reduce repeated ECC-status reads, extra-OOB column
+changes and user-data length-register accesses. The pattern and transfer
+fixes precede these optimizations so their correctness can be reviewed
+without the caching and fast-path changes.
+
+Here, "user data" means ECC-protected metadata in OOB, not the page's main
+data. PIO reuses hardware slot zero for each logical ECC step; DMA can
+transfer several steps at once. The patches distinguish logical steps,
+hardware slots and packed register offsets, and explain their triggering
+conditions independently of the format work that prompted the review.
+
+The IRQ fix retains timeout-only disable_irq() and explains both the
+forced-threaded PREEMPT_RT race and the unbounded cleanup/no-priority-
+inheritance tradeoff. The small-page fix is limited to read-side
+repositioning within existing geometry restrictions. DMA batching preserves
+the installed OOB layout rather than capping its allocation.
+
+For devices provisioned with the Allwinner normal-page format, support is
+required compatibility with existing flash contents, not a preference for
+another layout. Its bad-block marker is randomized: applying the existing
+plain-marker compensation can make normal OOB reads and bad-block scans
+interpret good blocks as bad. Switching formats is not a transparent
+kernel upgrade.
+
+Patch 25 documents the opt-in binding; patch 26 implements the format
+through separate OOB callbacks and an attach helper. Its geometry,
+page-wide classification and contiguous parity reads stay together.
+Without the property, existing format selection and callbacks are unchanged.
+
+The accompanying TLA+ models and validation material, including their
+assumptions and coverage limits, are available at:
+https://github.com/jameshilliard/linux-h616-nand-tla
+
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+
+Changes in v10:
+- Require resets and reset-names for H616 in a binding patch before the
+  DMA-abort recovery change.
+- Reset the H616 data path after DMA aborts. Require and exercise its
+  exclusive AHB reset at probe and reset before releasing the DMA mapping.
+  Propagate unexpected reset errors and reject further commands after
+  failed recovery.
+- Group shared-path preparation before the existing-driver fixes, followed
+  by register-access optimizations and the opt-in format support.
+- Share buffer command sizing between reads and writes, and use those
+  boundaries when decoding a randomized tail spanning multiple commands.
+  Keep the decoder correction in the format patch.
+- Skip unavailable NAND child nodes before claiming chip selects.
+- Scan all chips before publishing MTD devices, with separate registration
+  bookkeeping for partial scan and registration failures.
+- Limit direct buffer transfers to 1024 bytes per command, independently
+  of the advertised SRAM size, and share the limit with the parser.
+- Send every address cycle in parser-split instructions, using the subop
+  count independently of its start offset.
+- Propagate chip clock setup failures before installing timing registers
+  or issuing commands, and update the cached rate only on success.
+- Carry Sebastian Andrzej Siewior's Reviewed-by for the IRQ lifetime fix.
+- Link to v9: https://patch.msgid.link/20261017-submit-sunxi-nand-vendor-oob-layout-v1-v9-0-b624c09e3ee5@gmail.com
+
+Changes in v9:
+- Add an independent fix rejecting pages that exceed the controller's ECC
+  step limit, as reported by Sashiko. Keep it after the initial refactor and
+  retain the final ECC step size when validating explicit or maximized ECC.
+- Add missing Reported-by and report links for the IRQ lifetime,
+  small-page read and DMA user-data batching fixes.
+- Make the existing PIO and DMA OOB-read branches explicit in the initial
+  refactor, preserving their transfer ordering and error handling.
+- Add a cached pattern-ID accessor with status caching, so the Allwinner
+  format can request pattern IDs without duplicating the shared reader's
+  register-read conditions.
+- Clarify OOB callback indices, buffer and ECC-cache lifetimes, and why
+  an empty pending-event mask completes the IRQ timeout recheck.
+- Explain packed parity placement and byte-based erased-page classification
+  as Allwinner format compatibility rules, distinct from hardware limits.
+- Link to v8: https://patch.msgid.link/20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-0-8ba4881fbee8@gmail.com
+
+Changes in v8:
+- Add a separate fix for the pre-existing zero-pattern overwrite reported
+  by Sashiko. Preserve synthesized data and OOB in the existing-format
+  read path without treating zero chunks as erased.
+- Place the fix after pattern-ID selection and update the later status
+  caching conversion to use the same pattern check. Keep the initial
+  refactor behavior-preserving and the Allwinner format callbacks unchanged.
+- Recheck the remaining command/DMA events after draining a timed-out
+  handler, as suggested by Sebastian Andrzej Siewior. Accept completion
+  during cleanup and balance IRQ disabling even when the recheck succeeds.
+- Link to v7: https://patch.msgid.link/20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com
+
+Changes in v7:
+- Put a behavior-preserving OOB refactor first, the correctness fixes next,
+  register-access optimizations after them, and the binding and Allwinner
+  format last. Keep 16 patches with no external prerequisites.
+- Keep logical-step length, read recovery, IRQ lifetime, write failures,
+  pattern IDs and DMA limits independently reviewable. Correct pattern-ID
+  selection before introducing per-transfer status caching.
+- Update both DMA callers with the protected-OOB helper contract in the
+  logical-step length fix, before the later batching change.
+- Isolate format policy behind its own callbacks and one opt-in attach
+  path. Fold packed H6/H616 geometry and contiguous parity reads into the
+  final patch, leaving existing format callbacks unchanged.
+- Use scrambled_plain_bbm_oob for the existing scrambled profile and
+  allwinner_oob for the firmware profile. Keep shared randomizer helpers
+  generic and name the H6-generation spare predicate after H6.
+- Clarify protected-OOB terminology, logical/hardware indices, transfer
+  failures and the limited small-page read scope. Explain the RT timeout
+  mechanism and disable_irq() tradeoff discussed with Miquel Raynal.
+- Explain installed-format compatibility and that the spare check re-encodes
+  ECC-decoded protected OOB rather than rereading physical bytes.
+- Drop the standalone OOB-helper renaming cleanup and explicit stable Cc
+  trailers; retain Fixes tags and Conor Dooley's binding Acked-by.
+- Rebase onto current MTD nand/next.
+- Link to v6: https://patch.msgid.link/20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com
+
+Changes in v6:
+- retain the bank-sized first DMA batch, but transfer later logical steps
+  individually to avoid PAGE_OP's absolute internally generated main columns
+- keep ECC exception mode enabled for randomized reads on all supported
+  controllers, using the shared physical-pattern classifier
+- classify uniform-pattern steps even when hardware suppresses their ECC
+  errors; skip their correction counters and preserve decoded buffers unless
+  the page-wide zero override or vendor spare predicate accepts the page
+- Link to v5: https://patch.msgid.link/20260913-submit-sunxi-nand-vendor-oob-layout-v1-v5-0-7d711076a6f7@gmail.com
+
+Changes in v5:
+- add a separate small-page command-handling fix: use READ0/READ1/READOOB
+  with the page address for rereads and normal OOB access, and select PIO
+  instead of the large-page DMA sequencer
+- keep physical reread errors visible, preserve the OOB cursor and retain
+  the existing ECC geometry requirements, including rejection of 512+16
+  with controller ECC
+- group the small-page fix and the DMA register-bank fix with the opening
+  fixes, ahead of cleanups, bindings, format support and optimizations
+- make the DMA register-bank fix independent of randomized-OOB support
+  and the later register-access optimizations
+- Link to v4: https://patch.msgid.link/20260912-submit-sunxi-nand-vendor-oob-layout-v1-v4-0-4a64bed94229@gmail.com
+
+Changes in v4:
+- prepend an independent fix for completion reuse and IRQ timeout races:
+  initialize the completion once, finish IRQ register updates before
+  signalling success, and drain timed-out handlers before clearing their
+  interrupt state
+- add a separate fix for aggregate protected-user-data register overflow
+  by splitting DMA transfers into bounded batches, retaining the existing
+  OOB layout, ECC offsets and DMA support
+- distinguish logical page steps from batch-local hardware slots, retain
+  page-wide ECC accounting and avoid retrying partially transferred writes
+- Link to v3: https://patch.msgid.link/20260909-submit-sunxi-nand-vendor-oob-layout-v1-v3-0-838cb0ba1547@gmail.com
+
+Changes in v3:
+- add a prerequisite fix for the logical OOB length used by PIO transfers
+- clarify logical ECC steps versus hardware slots and share protected-OOB
+  register indexing
+- select the controller-specific vendor spare-byte erased-page check from
+  the SoC capabilities, only in randomized-OOB mode and without rereading
+  the main data
+- retain hardware-decoded data and protected OOB on other ECC failures
+  for bad-block and BBT pattern scans (reported by Miquel Raynal)
+- retain a bad marker and ECC failure for all-zero physical pages, and
+  disable the ECC exception for the vendor format
+- share page classification between PIO and DMA, reading complete pages
+  for randomized-format subpage requests
+- propagate OOB read errors and defer randomized-format ECC accounting
+  until those reads have succeeded
+- propagate read/program setup, column-change and buffer-transfer errors,
+  including extra OOB; stop failed writes and disable ECC and randomization
+- discard partial DMA ECC statistics before retrying in PIO, and keep
+  correction counts separate from successful OOB-transfer status
+- select the current hardware step's pattern ID instead of slot zero
+- avoid a second program confirm after an OOB-only write
+- avoid redundant column changes before writing extra OOB bytes
+- reject oversized ECC steps in randomized-OOB mode before the core can
+  fall back to software ECC
+- combine adjacent parity and trailing OOB reads in randomized-OOB mode
+- remove duplicate chip setup immediately before core page commands
+- program each packed DMA user-data length register once per operation,
+  and write PIO slot zero directly without read-modify-write
+- reuse pattern IDs and packed error counters within a DMA read, while
+  refreshing the snapshot after every PIO ECC operation
+- Link to v2: https://patch.msgid.link/20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-0-b12074f4aca7@gmail.com
+
+Changes in v2:
+- rebase on the current MTD nand/next branch
+- retain the merged protected-OOB allocation, BBM reservation and
+  stack-buffer fixes
+- clarify that randomization is part of the normal hardware-ECC page
+  format while MTD_OPS_RAW continues to expose physical bytes
+- explain why a BSP-compatible BBM remains randomized in physical raw data
+- document the decoded bad-block and flash-BBT access paths
+- reject the firmware OOB format with software or disabled ECC
+- document the BSP page-format compatibility contract and the
+  older-controller format audit
+- Link to v1: https://patch.msgid.link/20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-0-463853a14ad9@gmail.com
+
+---
+James Hilliard (26):
+      mtd: rawnand: sunxi: centralize OOB handling
+      mtd: rawnand: sunxi: share the buffer transfer chunk size
+      mtd: rawnand: sunxi: avoid duplicate chip setup before page commands
+      mtd: rawnand: sunxi: reject pages exceeding the ECC step limit
+      mtd: rawnand: sunxi: use the logical step's OOB length in PIO
+      mtd: rawnand: sunxi: propagate page-setup and erased-check errors
+      mtd: rawnand: sunxi: drain interrupts before reusing the completion
+      mtd: rawnand: sunxi: stop failed program operations and disable ECC
+      mtd: rawnand: sunxi: select the pattern ID for the current ECC step
+      mtd: rawnand: sunxi: preserve synthesized zero-pattern data and OOB
+      mtd: rawnand: sunxi: propagate buffer and column transfer errors
+      mtd: rawnand: sunxi: avoid a second program confirm for OOB writes
+      mtd: rawnand: sunxi: use page reads to reposition small-page NAND
+      mtd: rawnand: sunxi: bound DMA batches by the user-data register bank
+      mtd: rawnand: sunxi: send all address cycles in split operations
+      mtd: rawnand: sunxi: propagate chip clock setup errors
+      mtd: rawnand: sunxi: limit buffer transfers to the command byte count
+      mtd: rawnand: sunxi: skip unavailable NAND child nodes
+      mtd: rawnand: sunxi: scan all chips before registering MTD devices
+      dt-bindings: mtd: sunxi: require the H616 AHB reset
+      mtd: rawnand: sunxi: reset the H616 data path after DMA aborts
+      mtd: rawnand: sunxi: reuse ECC status within each transfer
+      mtd: rawnand: sunxi: avoid redundant column changes for extra OOB
+      mtd: rawnand: sunxi: reduce user-data length register accesses
+      dt-bindings: mtd: sunxi: Add randomized OOB flag
+      mtd: rawnand: sunxi: support the Allwinner randomized OOB format
+
+ .../bindings/mtd/allwinner,sun4i-a10-nand.yaml     |   13 +
+ drivers/mtd/nand/raw/sunxi_nand.c                  | 1713 ++++++++++++++------
+ 2 files changed, 1229 insertions(+), 497 deletions(-)
+---
+base-commit: 30daaf3e7897b4a8d9b72e5b0c86dd6e2a4d7d85
+change-id: 20260810-submit-sunxi-nand-vendor-oob-layout-v1-e3114d10cc9c
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
+
