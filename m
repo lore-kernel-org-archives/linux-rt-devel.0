@@ -1,81 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907014;
-	b=b1jleQ9TTg6ikmFjh18UxXSrb7MCz3pCNg6yE/0CzVVhMvnRbhBZyFbL7ad8k/psL044
-	 MyY0AI8aiyQLSlyuQrdfxEw1D5OQwHFPzZSk9krCQ1Z48VYqWbq6SbPXGLdRRLCZun9gr
-	 v8DvYg/snt6To5ZHHbXTUdvqauum07Za6ObJ0CaPRzn3beUpWxNRgPgDu+LJPSOIAqJLv
-	 ievK346KFA9OtDMQuzExIr6UDM8Z0hvWW7S0/5uYX9YZGn8PuIBvS9CIld2LZhdJANduE
-	 wzp9C9w6i01E7leVRdRRLh7xvhm2A41XVMpd5Y7P/JNP0kghQr6+slnLNS7sRfNk1JA==
+	t=1793907256;
+	b=YrGwWuKnaaBf+K8xylvPswxbH2+xoyt5eq4kLELcfO7ucR7FuZYybyK0+siPPPhR7rrz
+	 LOIZcstq/5gjsFsEF7BwZfTYxlF+yU6absimAI6IJKQXhdk0MgdYngFU3gsM1H7fDeqdM
+	 VPw1ygi7i3nLZEO5TU9mD+FDFAKBYO7ANdaS/kEa1w8om5jsGMRLnKdl89IJFuCmDzalL
+	 zInrMJBQ8hlUTP+BHDGooUHUZLLKW915F/byi6d/IcAY7jzePhtY8wWRZPTEUT0pFxmfp
+	 rbiy6Emy84B3hm+cKgIh3Fh56i3/863bHsghqFwT1yj+BRpz+hReWenUUzEYE2wiwng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907014;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=hBiMPC/mSRFQIthZJMHQ6VsuWvW84Hflt7MDyKrRRhE=;
-	b=Dxg39Ze8xTO7WgClbv310nvFL3wvLuIB6Bek3ODs1XoqjqRFtpzlyNGkFeqK0SoVV2dK
-	 q5VkYrnuwly1OmVIj139Uat1eyPTNORkf874plIJuaGjG0MYvSEFiKNWwPvBsj6w3iBhQ
-	 BfW3B6/WU6HxfEXOjNwv/HHqUclgj70fsbHR25aY6DtxnHVadxX0Ke95dRGe3q+dWNMFO
-	 6tVCxartc6lbkZSjaBJyMnpQLtMVonxeWWGdsV3/8frbdTzbKfwWZ8Pp5DKMkdPuLqID+
-	 P8moCNpvUmESg+hsm0z+QO6UmUGBgz+qmmH2czm3Ac0R6VqmWbRm+VTvbqrkF0ipcVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907256;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Dwu+w6nprYKMghj7ImzZruQ8WOAD5f4IrsT3udHNgFA=;
+	b=qITskqn3WlAocV+pas/ROYKgdZQxfFfW05iQ2KVqeosxd3/jMaLFHyMumnuWuxDn6zmJ
+	 aVd1HKOR3ewPJUiiMWVrceGKhyeOpIBk8mNHSmQpiWVZOGOl8A1SkY+TVxuZLazA6rxip
+	 uhK4YQkYA4Ge1UxWbZgujqjjyr72jbLOvfbItqL5lQvq0e8vQN/gidIizV8cscjgRuglx
+	 YnNGcpGTZkSpEtmSyFVf7oXJ93X8raNqb2lg0EilS6zzbQtZq6ZKppL6ajzQdjNewHTyW
+	 2kXzBkG18NSuB3mFpZj/PlfMwifYHr01F2x8dQNy5+xzOuc/xlgu4slEOX9famSpT3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ONzyxZ09;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="q/7HWdtA";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cLOFZRqH;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FE0606A6EF
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:30:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53FE0606A6EF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106FB606A6F9
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 106FB606A6F9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ONzyxZ09;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=q/7HWdtA
-Date: Thu, 5 Nov 2026 20:30:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793907012;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hBiMPC/mSRFQIthZJMHQ6VsuWvW84Hflt7MDyKrRRhE=;
-	b=ONzyxZ09QiqxpgqKgkhY8CcKeGquIrSofRjgsorpQfVlVsIu+2bx4JA9aPix/aklhiwYNI
-	NtrpnYDNDMoc3g79qGlohNhpS7TtZdw8bFDmSDkjDEj58o2dJA43aES2tdctXdDvGueGwN
-	14q4oarYSEWkYznum0vCnKhzyc14yI2Y2LNRwtp/J2Jj7RsDjrVIsundKyVDEKPl6zlcT/
-	uzc1UXtj7/31BZBx/3fZyhizPNl0tANNetAxsiR8JQhvmHCc4g5BCdti2RObgCvgq8db+X
-	9s2wGtXUWd1F17oUB7fg+Ix10AvHZm/FiqjL7JmOt7Q5nz6BJi533VUBQaUgRQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793907012;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hBiMPC/mSRFQIthZJMHQ6VsuWvW84Hflt7MDyKrRRhE=;
-	b=q/7HWdtAJhzMMCC8FYyQrmjg3F9P1Q8m/5sbtDH5MXzrNIYZB76HbsTvd7nfWL9xxJKrM8
-	ueNzLPNDTkTmw/Cg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Tejun Heo <tj@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>
-Subject: Re: [PATCH] sched: Remove CONFIG_RT_GROUP_SCHED
-Message-ID: <20261105193010.tXUDDu2w@linutronix.de>
-References: <20261105164724.yxONBd03@linutronix.de>
- <auy6nyTUuHBlgrV_@slm.duckdns.org>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cLOFZRqH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=smtpout1; t=1793907249;
+	bh=Dwu+w6nprYKMghj7ImzZruQ8WOAD5f4IrsT3udHNgFA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cLOFZRqHGkbRk1JF7270nxuXKvXdMY5v5n1BMxA8s13eHDvOesMKsM+5e5VCPcGAo
+	 rv64FZ6IUjm8cZmopazZbPOj4a8SAXwJXS0T/z9YPzMEcd03atXm/DZdbdF/upFDHa
+	 PcvEMaRbIA4CYh2Uj+LjpT6dlXjiaIXWNPB0TTBlVrcKDpFvs+wHw27Vs77uAJAVBj
+	 hF3nhrWX0VoRQ73+ce91RXVCQAMu3Y/Co78Z6tc8yzeGDt78En7C+w7H/oNYgvYP4f
+	 4P3y+lOOBH2AVtPReva4baH7wCF7Ltk08qgw9u43o2me1sHc6ejhbqWYFaEw3BrSgt
+	 QJWQjz+cQznfw==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDK40jzzLfJ;
+	Thu, 05 Nov 2026 14:34:09 -0500 (EST)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: juri.lelli@redhat.com,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	vincent.guittot@linaro.org
+Cc: linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	parri.andrea@gmail.com,
+	m.szyprowski@samsung.com,
+	kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v3 04/24] sched/deadline: Do not divide by zero active CPUs of a root domain
+Date: Thu,  5 Nov 2026 14:33:39 -0500
+Message-Id: <20261105193359.1450487-5-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -85,37 +92,115 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <auy6nyTUuHBlgrV_@slm.duckdns.org>
+Content-Transfer-Encoding: 8bit
 
-On 2026-11-05 07:19:27 [-1000], Tejun Heo wrote:
-> Hello, Sebastian.
-Hi Tejun,
+__dl_sub() and __dl_add() spread a change of a root domain's total_bw
+over the extra_bw of its active CPUs, dividing it by their number, which
+their callers take from dl_bw_cpus(). That number is 0 for a root domain
+whose CPUs all went offline, such as the default root domain, which
+holds the offline CPUs: the division then traps.
 
-> 
-> I'm not against it but wonder whether it'd be useful to do it more gradually
-> so that people can pipe up if they depend on it. ie. Mark it deprecated and
-> put it behind EXPORT for a bit and then BROKEN before actual removal.
+A debugfs write of a fair server's runtime or period reaches it while
+its CPU goes offline or comes online. From the rebuild of the root
+domains in sched_cpu_deactivate() until the CPU is offline, and from the
+CPU online until sched_cpu_activate(), the CPU sits in the default root
+domain, with no active CPU, and the write is refused only once the CPU
+is offline, since commit 4043f5498416 ("sched/deadline: Reject debugfs
+dl_server writes for offline CPUs"). A write that leaves the server's
+bandwidth as it is passes admission there, __dl_overflow() comparing
+that root domain's capacity, 0, with total_bw less the old bandwidth
+plus the new, 0 as well, and dl_server_apply_params() divides. Any other
+value is refused with EBUSY, higher directly, lower through the unsigned
+subtraction.
 
-I would be surprised if this is actually used especially since it is
-cg-v1 and v2 is the default/ used by everyone (?). 
+Writing a fair server's own runtime back in a loop while its CPU goes
+offline and online oopses on the first round, in 8-CPU VMs of v7.4-rc1:
 
-This depended on !PREEMPT_RT in the RT queue. People asked if this can
-be enabled because it looked useful/ for their use case. I researched
-why it was like this and dropped that restriction. People then asked if
-it is broken on RT because it is now working properly. I have never been
-told _what_ is broken or *why* because nobody came back.
-Later I've been told (there was an attempt to explain it to me, it was
-late in the morning) and if I piece it properly together then, it could
-work in UP environment but on SMP the accounting is wrong and therefore
-the runtime/ preemption is not working as it should.
+  Oops: divide error: 0000 [#1] SMP NOPTI
+  CPU: 6 UID: 0 PID: 110 Comm: dl_server_div0
+  RIP: 0010:dl_server_apply_params+0x335/0x380
+  Call Trace:
+   <TASK>
+   sched_server_write_common.isra.0+0x1c0/0x260
+   full_proxy_write+0x58/0x90
+   vfs_write+0xcb/0x550
+   ksys_write+0x6c/0xe0
+   do_syscall_64+0x109/0x5d0
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-I didn't add this to the commit description because I would classify
-this as hearsay and we do facts here. PeterZ might know more.
-From what I know, people who asked for it either have a different
-solution or eyeball HCBS.
+inactive_task_timer() can reach it too, found by reading: it releases
+the bandwidth of a task that left SCHED_DEADLINE, or died, before its
+0-lag time from the root domain of the CPU the task is on, and that CPU
+may go offline before the timer fires. With admission control off, so
+may sched_setattr() to SCHED_DEADLINE of a task asleep on an offline
+CPU.
 
-> Thanks.
+Refuse the write while the CPU is inactive, as it is refused once
+offline: the server's bandwidth is not counted while the CPU is
+inactive, and the rebuild at its activation counts whatever the server
+has then. With no active CPU there is no extra_bw to update either:
+change total_bw alone, for the paths that have no write to refuse. 20
+rounds of the reproducer leave no warning then, its writes refused with
+EBUSY in the window.
 
-Sebastian
+Fixes: daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl tasks")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+---
+ kernel/sched/deadline.c | 11 +++++++++--
+ kernel/sched/debug.c    |  7 ++++++-
+ 2 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index c0ebdcde5fe5..4650bed9cc3f 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -189,18 +189,25 @@ void __dl_update(struct dl_bw *dl_b, s64 bw)
+ 	}
+ }
+ 
++/*
++ * @cpus is the number of active CPUs of the root domain, whose extra_bw
++ * shares the change: none once they all went offline, and total_bw alone
++ * changes then.
++ */
+ static inline
+ void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+ {
+ 	dl_b->total_bw -= tsk_bw;
+-	__dl_update(dl_b, (s32)tsk_bw / cpus);
++	if (cpus)
++		__dl_update(dl_b, (s32)tsk_bw / cpus);
+ }
+ 
+ static inline
+ void __dl_add(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+ {
+ 	dl_b->total_bw += tsk_bw;
+-	__dl_update(dl_b, -((s32)tsk_bw / cpus));
++	if (cpus)
++		__dl_update(dl_b, -((s32)tsk_bw / cpus));
+ }
+ 
+ static inline bool
+diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+index e6a3b516c703..a4ae092e0a68 100644
+--- a/kernel/sched/debug.c
++++ b/kernel/sched/debug.c
+@@ -410,7 +410,12 @@ static ssize_t sched_server_write_common(struct file *filp, const char __user *u
+ 			return  -EINVAL;
+ 		}
+ 
+-		if (!cpu_online(cpu_of(rq)))
++		/*
++		 * Nor while it is inactive, going offline or coming online: the
++		 * server's bandwidth is not counted in its root domain then,
++		 * which has no active CPU to spread a change over.
++		 */
++		if (!cpu_active(cpu_of(rq)))
+ 			return -EBUSY;
+ 
+ 		update_rq_clock(rq);
+-- 
+2.47.3
+
