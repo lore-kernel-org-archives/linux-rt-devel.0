@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793907260;
-	b=Fd7DLK8MfFgvDFOpbLYai+DYwX0iEgWihotzBu6gfF1L+h18lnPpZC3mdgxnCWigivLq
-	 eSxk77UdV7SAEnGwVQcSiDZ8807uoP8glE9/eH76DRgWuMapa+5jXeotf/GAI96i6DVT6
-	 VUdEQa273y6nfWJU3OJscxSoYaubBfLLeFcToMqRyIvM26GLsGEVLJ2xVt18XjN24FRn+
-	 s814gH6XmCcGIf0OxCdIw7qwBe5AZosA6FjNW8Be+PkfmuWmNrS3GA/5O97qUuyuacnHj
-	 MM3twA8P7ihvlwkl2eT+hdUE5t5yMDsvZG1udbuXcNwQeTtx60LX6jfm+uCu13/EWug==
+	b=p43gaW+qs8FOjPo6q/sVMhgLmwSjTOU5wBxr39Zm5avgspjuJhYQajVlFSalz49wq9qi
+	 BUSM9RUwUku4yiGyFTd4SoIWTi8Jfba+O13D2gYLNccfbUSGzpImyeMnBjfz5GqxJbvOV
+	 mh26+40xWN+LyZdzjPa/OxjHQSoDbktMwNQy5ATHkMJgDSVUXqf7eQ5ab1NdaKXyNNJ9Y
+	 pbTdfbSD6eLbm+Ba0oQsQWWBjPg1mUZ4F/5qiZiZsYfpHzc2WBssrG/KxLiL3Swprnbmp
+	 6L65/S1HxqN7eID3ab8UlQnRdNP9kn4jes4fgJMoPQVoO2N8F8rrIg5Pumho5gBdpjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793907260;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Wg8BcKOUb3VsZQDUyDYOLGsTPKMJi9+yFrx8CvSg+vc=;
-	b=GfhnG8IW70RaCs+gE7ze8cG6Sk7FgYdYJVtQYESLjPP+glAui2tk61zC0/x/pXm0uIfF
-	 yupQywfNeH6WSYxH3z3LrRDKpjq25fIPyP/KHzo91UYQG6NV4zgRp96Xiz9hBwe1Aer1t
-	 oGP9gGidMQm9/DRAjmWhmG+MaRHF5jG9eouo3fjoMMaNHCknzj1ON/kVDwuaSRnEa+u5T
-	 iq+wIWsLpam1pKKWmendGmW2/9KZrVNPnFt6tnVU3u+pwke5v1yVNXP5Nurr7l1ItK6JY
-	 1dGX6EsdtJnVZTBsshqJ+DczaTsC3EtfD5doTIUoujBsk46MJWxQiJgQA4NqShsN72g==
+	bh=Oys8OpIyFnsX2A7OSk0YGCDj8D6p5P2dVPCJpnDXxyM=;
+	b=i4IH8V5vez1VzbuJmNuO7VQEYJx7HE1/ZvnmtCFMT65cO0LIlqhrwCfr1Hp+yBsxM9fH
+	 byCD94wfw8h8ZggV8WPi7CYj17pPs/4/7oGRUKA81rk2MznWYugj4488pd79nJpuRPT+U
+	 XO7sNE7Y/RMc8/lbsYH5FfB7zbx5/icdxKIgqxgYGam5mAnnk5h1s38IlTBYKfon91RHa
+	 /UXP3q5cUySLHDEjtNlpkacWkCtVaTgCyLZDek2iqJ6NU8Ji9jmpwFKTi6w5SgdXUF0+R
+	 ZFrUhWuw+q59pdPEiK510kJUHN/sAScKLXTuDKXTmwS7jWYahNJzk81m0Ycv6sbsOlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=m8+EQlfX;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=uv0C4GWA;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCF560A2602
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01BE60A2613
 	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DCF560A2602
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C01BE60A2613
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=m8+EQlfX
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=uv0C4GWA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1793907252;
-	bh=Wg8BcKOUb3VsZQDUyDYOLGsTPKMJi9+yFrx8CvSg+vc=;
+	bh=Oys8OpIyFnsX2A7OSk0YGCDj8D6p5P2dVPCJpnDXxyM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m8+EQlfXGkim2ngJuiEF+xltXj4Fl53lZsUboDSW5X9U8vj/3K4axUMvMUNBkwIzz
-	 xuHjlHDbM8MrTsKkaTwy8RdO7A+w1nuUIUNouV/eaH/z7OyBV78CDzrStucJuJ2843
-	 WmYjTkRPUqOLMfBbwPz5wd9aqeez20eaXa2JWe9duTr1kzCoJLI9gyEantWPsRk0u+
-	 HDMJEpwZLylS2WaAnLAkdcoUh0m64m4W6VJL9F0awMKhvjyJCEsjcnkrgW5ivP3fD0
-	 eciUgS3kF0E3KaqRrJdihFBU0tZrX5S2LICO7uK44wIZooNY6kixFTxBDkLrPrEDsA
-	 GxS29J2KbmZKg==
+	b=uv0C4GWAA0f20F1pp0vFjj20k+LdyebmVi7F7vU0sh/hwiv3C0w6jh/CDVrcTo2ja
+	 D24NnEKV3A+V1bq1HDRV8ad2k4nfHY3EqBK47DuTL1AZK6XS35EdpW0xHpGs0CXaMJ
+	 jdiHbGm/CBNIFoJNbPEGSpE5PMFCoNyiISObsZg1ataPwHSluPfxbToUPpYXY+080V
+	 cD1c3xwPKKYTaFUnikFUEb49tAEr4nYG37BJQ+YYaOuoCfBtxAPoADlU6nVRG0e1Pe
+	 4Mkhtm2Sp68bs5Ho3WTg0LWD1ojf61hb+idtkb0nawOgqp0q/PXPgacwC4g8EgLvxe
+	 /6xMTxTD0Mgew==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDN3mn2zLwc;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDN4zrhzJrq;
 	Thu, 05 Nov 2026 14:34:12 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -76,9 +76,9 @@ Cc: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v3 22/24] selftests/sched: Add a test of SCHED_DEADLINE policy round trips
-Date: Thu,  5 Nov 2026 14:33:57 -0500
-Message-Id: <20261105193359.1450487-23-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v3 23/24] selftests/sched: Test SCHED_DEADLINE bandwidth across a root domain rebuild
+Date: Thu,  5 Nov 2026 14:33:58 -0500
+Message-Id: <20261105193359.1450487-24-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
@@ -93,114 +93,106 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add deadline_switch_test, with a case for the fix two patches back and
-one for commit 41a7968022ca ("sched/deadline: Fix total_bw leak when
-switching away from SCHED_DEADLINE while !queued"):
+Add deadline_rebuild_test, for the previous patch. In each case a task
+of 400ms every second runs 380ms, then leaves SCHED_DEADLINE, its 0-lag
+time some 570ms ahead; past that time, the one-CPU partition root P must
+admit one task of 600ms every second and refuse a second with EBUSY:
 
- - throttled_round_trip: a task with a runtime of 10ms per 2s period
-   spins, so that each replenishment throttles it again at once. Right
-   after a throttle it is switched to SCHED_OTHER, and back 200us after
-   its deadline: past its replenishment timer, and before its 0-lag
-   time, which the overrun scaled by 200 puts later. It must run again
-   within a period and a half. Three attempts;
- - asleep_round_trip: a task of 9ms every 10ms, running 0.2ms and
-   sleeping 50ms, is switched to SCHED_OTHER and back while it sleeps
-   past its 0-lag time, enough times that a leak of its bandwidth at
-   each round trip fills the root domain: sched_setattr() then fails
-   with EBUSY. Skipped without admission control (sched_rt_runtime_us
-   at -1). A kernel that leaks is left without SCHED_DEADLINE bandwidth
-   until a reboot, so this case runs last.
+ - dies_before_rebuild: the task, in P, exits, and a second partition
+   root is made meanwhile, which rebuilds the accounting of every root
+   domain;
+ - switched_out_before_rebuild: the same, the task switched to
+   SCHED_OTHER and asleep in P;
+ - moved_after_switch_out: the task, outside P, switches to SCHED_OTHER,
+   moves into P and dies there.
 
-A third case, sysrq_normalize, checks that a task can enter
-SCHED_DEADLINE after sysrq-n took one out of it: "sched: Take
-cpuset_mutex for a deadline policy change only with pi" has the
-cpuset_mutex that sysrq-n left locked. It renices every real-time task
-of the system, so it runs only with DEADLINE_TEST_SYSRQ set, and last.
+A kernel that removes the bandwidth from P's root domain when a rebuild
+dropped it, or when P never had it, admits both. Skipped without root,
+the cgroup v2 cpuset controller, deadline admission control (that is,
+with sched_rt_runtime_us at -1) or 3 CPUs.
 
-In 8 VMs of 8 vCPUs each, v7.3 and v7.4-rc1 fail the two round trips;
-with "sched/deadline: Do not lose a throttled task switched out and
-back" and "sched/deadline: Release the bandwidth of a task that leaves
-the class asleep" both pass; every time. sysrq_normalize finds the
-admission blocked on v7.4-rc1, in 2 VMs of 2, and passes with the fix.
-
-The tests of the deadline class get a directory of their own,
-sched/deadline, for those of the other policies to follow, and that
-directory joins the selftest targets.
+In 8 VMs of 8 vCPUs each, three runs in each, v7.4-rc1 fails the three
+cases, and so does it with the patches of this series up to
+"sched/deadline: Keep departing bandwidth across a root domain rebuild"
+excluded; with it, the three pass; every time. v7.3 fails them as well
+(2 VMs, three runs in each).
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- tools/testing/selftests/Makefile              |   1 +
  .../selftests/sched/deadline/.gitignore       |   1 +
- .../testing/selftests/sched/deadline/Makefile |   8 +
- .../sched/deadline/deadline_switch_test.c     | 425 ++++++++++++++++++
- 4 files changed, 435 insertions(+)
- create mode 100644 tools/testing/selftests/sched/deadline/.gitignore
- create mode 100644 tools/testing/selftests/sched/deadline/Makefile
- create mode 100644 tools/testing/selftests/sched/deadline/deadline_switch_test.c
+ .../testing/selftests/sched/deadline/Makefile |   2 +-
+ tools/testing/selftests/sched/deadline/config |   2 +
+ .../sched/deadline/deadline_rebuild_test.c    | 462 ++++++++++++++++++
+ 4 files changed, 466 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/sched/deadline/config
+ create mode 100644 tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 07c3719f8b04..35b0c5e86ba7 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -120,6 +120,7 @@ TARGETS += rlimits
- TARGETS += rseq
- TARGETS += rtc
- TARGETS += rust
-+TARGETS += sched/deadline
- TARGETS += sched_ext
- TARGETS += seccomp
- TARGETS += sgx
 diff --git a/tools/testing/selftests/sched/deadline/.gitignore b/tools/testing/selftests/sched/deadline/.gitignore
-new file mode 100644
-index 000000000000..9f203c455b91
---- /dev/null
+index 9f203c455b91..bf7dd0da81a9 100644
+--- a/tools/testing/selftests/sched/deadline/.gitignore
 +++ b/tools/testing/selftests/sched/deadline/.gitignore
-@@ -0,0 +1 @@
-+deadline_switch_test
+@@ -1 +1,2 @@
+ deadline_switch_test
++deadline_rebuild_test
 diff --git a/tools/testing/selftests/sched/deadline/Makefile b/tools/testing/selftests/sched/deadline/Makefile
-new file mode 100644
-index 000000000000..3f4dc1ec6119
---- /dev/null
+index 3f4dc1ec6119..f3a1d1746d22 100644
+--- a/tools/testing/selftests/sched/deadline/Makefile
 +++ b/tools/testing/selftests/sched/deadline/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0+
-+
-+CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES)
-+LDLIBS += -lpthread
-+
-+TEST_GEN_PROGS := deadline_switch_test
-+
-+include ../../lib.mk
-diff --git a/tools/testing/selftests/sched/deadline/deadline_switch_test.c b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
+@@ -3,6 +3,6 @@
+ CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES)
+ LDLIBS += -lpthread
+ 
+-TEST_GEN_PROGS := deadline_switch_test
++TEST_GEN_PROGS := deadline_switch_test deadline_rebuild_test
+ 
+ include ../../lib.mk
+diff --git a/tools/testing/selftests/sched/deadline/config b/tools/testing/selftests/sched/deadline/config
 new file mode 100644
-index 000000000000..f38c14c51139
+index 000000000000..d5bb793d742b
 --- /dev/null
-+++ b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
-@@ -0,0 +1,425 @@
++++ b/tools/testing/selftests/sched/deadline/config
+@@ -0,0 +1,2 @@
++CONFIG_CGROUPS=y
++CONFIG_CPUSETS=y
+diff --git a/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c b/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
+new file mode 100644
+index 000000000000..ccf462f27dd0
+--- /dev/null
++++ b/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
+@@ -0,0 +1,462 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * A SCHED_DEADLINE task switched to SCHED_OTHER and back:
++ * The bandwidth of a SCHED_DEADLINE task that leaves the policy, or dies,
++ * before its 0-lag time stays allocated in its root domain until the
++ * inactive timer removes it. It must be removed once, from the root
++ * domain that keeps it:
 + *
-+ *  - throttled: switched out after its runtime ran out, and back after
-+ *    its deadline but before its 0-lag time, it must run again, the
-+ *    replenishment it missed while out of SCHED_DEADLINE or not;
-+ *  - asleep past its 0-lag time: its bandwidth must leave the root domain
-+ *    when it leaves SCHED_DEADLINE, or the switch back adds it again and
-+ *    sched_setattr() soon refuses SCHED_DEADLINE with EBUSY.
++ *  - dies: a task of a one-CPU partition root P dies, and a second
++ *    partition root Q is made meanwhile, which rebuilds the accounting
++ *    of every root domain;
++ *  - switched out: the same, the task switched to SCHED_OTHER;
++ *  - moved: a task outside P switched to SCHED_OTHER, then moved into P
++ *    before its 0-lag time.
 + *
-+ * On a kernel that leaks, the second case leaves the root domain without
-+ * bandwidth for new SCHED_DEADLINE tasks until a reboot.
++ * Then P, past the timer, must admit one task of 600ms every second and
++ * refuse a second one (EBUSY). A kernel that removes the bandwidth from
++ * P's root domain when the rebuild dropped it, or when P never held it,
++ * leaves it negative: it admits both.
++ *
++ * Needs root, the cgroup v2 cpuset controller, deadline admission
++ * control and 3 CPUs.
 + */
 +#define _GNU_SOURCE
 +#include <errno.h>
 +#include <fcntl.h>
++#include <limits.h>
 +#include <sched.h>
 +#include <signal.h>
 +#include <stdint.h>
 +#include <stdio.h>
 +#include <stdlib.h>
 +#include <string.h>
-+#include <sys/mman.h>
++#include <sys/stat.h>
 +#include <sys/syscall.h>
 +#include <sys/sysinfo.h>
 +#include <sys/wait.h>
@@ -213,7 +205,6 @@ index 000000000000..f38c14c51139
 +#define SCHED_DEADLINE	6
 +#endif
 +
-+#define NSEC_PER_USEC	1000ULL
 +#define NSEC_PER_MSEC	1000000ULL
 +#define NSEC_PER_SEC	1000000000ULL
 +
@@ -228,14 +219,30 @@ index 000000000000..f38c14c51139
 +	uint64_t sched_period;
 +};
 +
-+/* Written by the child, read by the parent. */
-+struct shared {
-+	uint64_t stamp;		/* last time the child ran */
-+	uint64_t run_start;	/* when it last resumed after a gap */
-+	uint64_t runs;		/* resumptions after a gap */
-+	uint64_t sleeps;	/* sleeps begun */
-+};
++static char root[PATH_MAX], cg_p[PATH_MAX], cg_q[PATH_MAX];
++static int ncpus;
 +
++static int set_deadline(pid_t pid, uint64_t runtime)
++{
++	struct dl_attr attr = {
++		.size = sizeof(attr),
++		.sched_policy = SCHED_DEADLINE,
++		.sched_runtime = runtime,
++		.sched_deadline = NSEC_PER_SEC,
++		.sched_period = NSEC_PER_SEC,
++	};
++
++	return syscall(__NR_sched_setattr, pid, &attr, 0) ? -errno : 0;
++}
++
++static int set_other(pid_t pid)
++{
++	struct sched_param sp = { .sched_priority = 0 };
++
++	return sched_setscheduler(pid, SCHED_OTHER, &sp) ? -errno : 0;
++}
++
++/* These clocks cannot fail: both are always supported, the pointer is valid. */
 +static uint64_t now_ns(void)
 +{
 +	struct timespec ts;
@@ -252,36 +259,6 @@ index 000000000000..f38c14c51139
 +		;
 +}
 +
-+static void sleep_until(uint64_t t)
-+{
-+	struct timespec ts = { .tv_sec = t / NSEC_PER_SEC, .tv_nsec = t % NSEC_PER_SEC };
-+
-+	while (clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL) == EINTR)
-+		;
-+}
-+
-+static int set_deadline(pid_t pid, uint64_t runtime, uint64_t period)
-+{
-+	struct dl_attr attr = {
-+		.size = sizeof(attr),
-+		.sched_policy = SCHED_DEADLINE,
-+		.sched_runtime = runtime,
-+		.sched_deadline = period,
-+		.sched_period = period,
-+	};
-+
-+	return syscall(__NR_sched_setattr, pid, &attr, 0) ? -errno : 0;
-+}
-+
-+static int set_other(pid_t pid)
-+{
-+	struct sched_param sp = { .sched_priority = 0 };
-+
-+	return sched_setscheduler(pid, SCHED_OTHER, &sp) ? -errno : 0;
-+}
-+
-+static struct shared *sh;
-+
 +static void reap(pid_t pid)
 +{
 +	int status;
@@ -290,7 +267,6 @@ index 000000000000..f38c14c51139
 +		return;
 +	if (kill(pid, SIGKILL) && errno != ESRCH)
 +		ksft_print_msg("kill %d: %s\n", pid, strerror(errno));
-+	/* A task lost in SCHED_DEADLINE runs again, and dies, once out of it. */
 +	set_other(pid);			/* gone already: nothing to switch */
 +	while (waitpid(pid, &status, 0) != pid) {
 +		if (errno == EINTR)
@@ -300,280 +276,306 @@ index 000000000000..f38c14c51139
 +	}
 +}
 +
-+/* The child died before the case was done: @status says whether it skips. */
-+static int gone(int status)
++static int write_file(const char *dir, const char *name, const char *val)
 +{
-+	if (WIFEXITED(status) && WEXITSTATUS(status) == KSFT_SKIP) {
-+		ksft_print_msg("SCHED_DEADLINE refused\n");
-+		return KSFT_SKIP;
-+	}
-+	if (WIFSIGNALED(status))
-+		ksft_print_msg("the task died of signal %d\n", WTERMSIG(status));
-+	else
-+		ksft_print_msg("the task exited with %d\n", WEXITSTATUS(status));
-+	return KSFT_FAIL;
++	char path[PATH_MAX];
++	int fd, err = 0;
++	ssize_t n;
++
++	if (snprintf(path, sizeof(path), "%s/%s", dir, name) >= (int)sizeof(path))
++		return -ENAMETOOLONG;
++	fd = open(path, O_WRONLY);
++	if (fd < 0)
++		return -errno;
++	n = write(fd, val, strlen(val));
++	if (n < 0)
++		err = -errno;
++	else if (n != (ssize_t)strlen(val))
++		err = -EIO;
++	if (close(fd) && !err)
++		err = -errno;
++	return err;
 +}
 +
-+/* Spins: runs out of its runtime at once, and is throttled. */
-+static void spinner(void)
++static int read_file(const char *path, char *buf, size_t len)
 +{
-+	uint64_t last = now_ns();
++	int fd = open(path, O_RDONLY);
++	ssize_t n;
 +
-+	for (;;) {
-+		uint64_t t = now_ns();
-+
-+		if (t - last > 2 * NSEC_PER_MSEC) {
-+			__atomic_store_n(&sh->run_start, t, __ATOMIC_RELAXED);
-+			__atomic_fetch_add(&sh->runs, 1, __ATOMIC_RELEASE);
-+		}
-+		__atomic_store_n(&sh->stamp, t, __ATOMIC_RELEASE);
-+		last = t;
-+	}
++	if (fd < 0)
++		return -1;
++	do {
++		n = read(fd, buf, len - 1);
++	} while (n < 0 && errno == EINTR);
++	close(fd);
++	if (n < 0)
++		return -1;
++	buf[n] = 0;
++	return 0;
 +}
 +
-+#define LOST_RUNTIME	(10 * NSEC_PER_MSEC)
-+#define LOST_PERIOD	(2 * NSEC_PER_SEC)
-+#define LOST_MARGIN	(200 * NSEC_PER_USEC)
-+
-+/*
-+ * The window between the deadline and the 0-lag time is the overrun
-+ * scaled by period/runtime: 200 here, so that an overrun of 2us leaves
-+ * 400us. A runtime longer than a tick keeps an overrun caught at the tick
-+ * from carrying past the next replenishment, which comes a period after
-+ * the last. The switch back comes LOST_MARGIN after the deadline, once
-+ * the replenishment timer has fired on a task out of SCHED_DEADLINE.
-+ */
-+static int test_throttled_round_trip(void)
++static int enter(const char *cg, pid_t pid)
 +{
-+	int attempt, ret = KSFT_PASS, err;
-+	pid_t pid;
++	char buf[16];
 +
-+	memset(sh, 0, sizeof(*sh));
-+	pid = fork();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LOST_RUNTIME, LOST_PERIOD))
-+			_exit(KSFT_SKIP);
-+		spinner();
-+	}
-+	for (attempt = 0; attempt < 3 && ret == KSFT_PASS; attempt++) {
-+		uint64_t runs, r, s, t;
++	snprintf(buf, sizeof(buf), "%d", pid);
++	return write_file(cg, "cgroup.procs", buf);
++}
 +
-+		/* A resumption at a replenishment, D, then its throttle. */
-+		runs = __atomic_load_n(&sh->runs, __ATOMIC_ACQUIRE);
-+		t = now_ns();
-+		while (__atomic_load_n(&sh->runs, __ATOMIC_ACQUIRE) == runs) {
-+			if (now_ns() - t > 3 * LOST_PERIOD) {
-+				int status;
++/* A partition root of the one CPU @cpu, or -1. */
++static int make_partition(const char *cg, int cpu)
++{
++	char path[PATH_MAX], buf[32];
 +
-+				if (waitpid(pid, &status, WNOHANG) == pid)
-+					return gone(status);
-+				ksft_print_msg("the task did not resume within 3 periods\n");
-+				reap(pid);
-+				return KSFT_FAIL;
-+			}
-+			sleep_ns(NSEC_PER_MSEC);
-+		}
-+		r = __atomic_load_n(&sh->run_start, __ATOMIC_RELAXED);
-+		do {
-+			s = __atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE);
-+			sleep_ns(2 * NSEC_PER_MSEC);
-+		} while (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) != s);
-+		/* Throttled until D + period: out, and back after that. */
-+		err = set_other(pid);
-+		if (!err) {
-+			sleep_until(r + LOST_PERIOD + LOST_MARGIN);
-+			err = set_deadline(pid, LOST_RUNTIME, LOST_PERIOD);
-+		}
-+		if (err) {
-+			ksft_print_msg("policy switch: %s\n", strerror(-err));
-+			ret = KSFT_FAIL;
-+			break;
++	if (mkdir(cg, 0755) && errno != EEXIST)
++		return -1;
++	snprintf(buf, sizeof(buf), "%d", cpu);
++	if (write_file(cg, "cpuset.cpus", buf) || write_file(cg, "cpuset.cpus.partition", "root"))
++		return -1;
++	snprintf(path, sizeof(path), "%s/cpuset.cpus.partition", cg);
++	if (read_file(path, buf, sizeof(buf)) || strcmp(buf, "root\n"))
++		return -1;
++	return 0;
++}
++
++static void remove_partition(const char *cg)
++{
++	int err = write_file(cg, "cpuset.cpus.partition", "member");
++	uint64_t end;
++
++	if (err && err != -ENOENT)
++		ksft_print_msg("%s back to a member: %s\n", cg, strerror(-err));
++	/* A cgroup whose last task just died takes a moment to empty. */
++	end = now_ns() + NSEC_PER_SEC;
++	while (rmdir(cg)) {
++		if (errno == ENOENT)
++			return;
++		if (errno != EBUSY || now_ns() > end) {
++			ksft_print_msg("rmdir %s: %s\n", cg, strerror(errno));
++			return;
 +		}
 +		sleep_ns(10 * NSEC_PER_MSEC);
-+		s = __atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE);
-+		t = now_ns();
-+		while (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) == s &&
-+		       now_ns() - t < LOST_PERIOD + LOST_PERIOD / 2)
-+			sleep_ns(NSEC_PER_MSEC);
-+		if (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) == s) {
-+			ksft_print_msg("throttled, switched out and back: never ran again\n");
-+			ret = KSFT_FAIL;
-+		}
 +	}
-+	reap(pid);
-+	return ret;
 +}
 +
-+#define LEAK_RUNTIME	(9 * NSEC_PER_MSEC)
-+#define LEAK_PERIOD	(10 * NSEC_PER_MSEC)
-+
-+/* Runs 0.2ms, sleeps 50ms. */
-+static void sleeper(void)
++/* Both clocks are always supported and the pointer is valid: no error. */
++static uint64_t cpu_time_ns(void)
 +{
-+	for (;;) {
-+		uint64_t end = now_ns() + 200 * NSEC_PER_USEC;
++	struct timespec ts;
 +
-+		while (now_ns() < end)
++	clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
++	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
++}
++
++enum depart { DIES, SWITCHED_OUT };
++
++/*
++ * In @cg if given, made SCHED_DEADLINE at 400ms every second, the child
++ * runs 380ms of it, then dies or switches to SCHED_OTHER and sleeps:
++ * its 0-lag time is then some 570ms ahead. The pipe @fd gets a byte once
++ * it is out of the policy; for one that dies, its exit status tells. The
++ * caller keeps the read end alone.
++ */
++static pid_t departing(const char *cg, enum depart how, int fd[2])
++{
++	pid_t pid = fork();
++
++	if (pid < 0)
++		ksft_print_msg("fork: %s\n", strerror(errno));
++	if (!pid) {
++		uint64_t t0;
++
++		close(fd[0]);
++		if (cg && enter(cg, getpid()))
++			_exit(2);
++		if (set_deadline(0, 400 * NSEC_PER_MSEC))
++			_exit(3);
++		t0 = cpu_time_ns();
++		while (cpu_time_ns() - t0 < 380 * NSEC_PER_MSEC)
 +			;
-+		__atomic_fetch_add(&sh->sleeps, 1, __ATOMIC_RELEASE);
-+		sleep_ns(50 * NSEC_PER_MSEC);
-+	}
-+}
-+
-+/*
-+ * 90% of a CPU per round trip: a leak fills the root domain within about
-+ * as many round trips as it has CPUs.
-+ */
-+static int test_asleep_round_trip(void)
-+{
-+	int i, trips = get_nprocs() * 10 / 9 + 3, ret = KSFT_PASS, err;
-+	pid_t pid;
-+	FILE *f;
-+
-+	f = fopen("/proc/sys/kernel/sched_rt_runtime_us", "r");
-+	if (f) {
-+		long rt = 0;
-+
-+		if (fscanf(f, "%ld", &rt) == 1 && rt < 0) {
-+			fclose(f);
-+			ksft_print_msg("no admission control: a leak cannot be seen\n");
-+			return KSFT_SKIP;
-+		}
-+		fclose(f);
-+	}
-+	memset(sh, 0, sizeof(*sh));
-+	pid = fork();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LEAK_RUNTIME, LEAK_PERIOD))
-+			_exit(KSFT_SKIP);
-+		sleeper();
-+	}
-+	for (i = 0; i < trips; i++) {
-+		uint64_t sleeps = __atomic_load_n(&sh->sleeps, __ATOMIC_ACQUIRE);
-+		uint64_t t = now_ns();
-+
-+		while (__atomic_load_n(&sh->sleeps, __ATOMIC_ACQUIRE) == sleeps) {
-+			if (now_ns() - t > NSEC_PER_SEC) {
-+				int status;
-+
-+				if (waitpid(pid, &status, WNOHANG) == pid)
-+					return gone(status);
-+				ksft_print_msg("the task did not run within 1s\n");
-+				reap(pid);
-+				return KSFT_FAIL;
-+			}
-+			sleep_ns(NSEC_PER_MSEC);
-+		}
-+		/* Asleep, well past its 0-lag time. */
-+		sleep_ns(5 * NSEC_PER_MSEC);
-+		err = set_other(pid);
-+		if (!err)
-+			err = set_deadline(pid, LEAK_RUNTIME, LEAK_PERIOD);
-+		if (err) {
-+			ksft_print_msg("switch back refused after %d of %d round trips: %s\n",
-+				       i, trips, strerror(-err));
-+			ret = KSFT_FAIL;
-+			break;
-+		}
-+	}
-+	reap(pid);
-+	return ret;
-+}
-+
-+/*
-+ * sysrq-n takes every task out of the real-time classes, under
-+ * tasklist_lock. A deadline task among them had __sched_setscheduler()
-+ * take cpuset_mutex there, and never release it: no task could enter
-+ * SCHED_DEADLINE again. The case renices every real-time task of the
-+ * system: it runs with DEADLINE_TEST_SYSRQ set, and last.
-+ */
-+static int test_sysrq_normalize(void)
-+{
-+	int fd, status, ret = KSFT_PASS;
-+	pid_t pid, prober;
-+	uint64_t t;
-+
-+	if (!getenv("DEADLINE_TEST_SYSRQ")) {
-+		ksft_print_msg("sysrq-n renices every real-time task: set DEADLINE_TEST_SYSRQ=1\n");
-+		return KSFT_SKIP;
-+	}
-+	fd = open("/proc/sysrq-trigger", O_WRONLY);
-+	if (fd < 0) {
-+		ksft_print_msg("/proc/sysrq-trigger: %s\n", strerror(errno));
-+		return KSFT_SKIP;
-+	}
-+	pid = fork();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		close(fd);
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LOST_RUNTIME, LOST_PERIOD))
-+			_exit(KSFT_SKIP);
++		if (how == DIES)
++			_exit(0);
++		if (set_other(0) || write(fd[1], "x", 1) != 1)
++			_exit(4);
 +		for (;;)
 +			pause();
 +	}
-+	t = now_ns();
-+	while (sched_getscheduler(pid) != SCHED_DEADLINE) {
-+		if (waitpid(pid, &status, WNOHANG) == pid) {
-+			close(fd);
-+			return gone(status);
-+		}
-+		if (now_ns() - t > NSEC_PER_SEC) {
-+			ksft_print_msg("the task did not enter SCHED_DEADLINE within 1s\n");
-+			close(fd);
-+			reap(pid);
-+			return KSFT_FAIL;
-+		}
-+		sleep_ns(NSEC_PER_MSEC);
++	close(fd[1]);
++	fd[1] = -1;
++	return pid;
++}
++
++/* Wait until the child is out of SCHED_DEADLINE, dead or switched out. */
++static int departed(pid_t *pid, enum depart how, int fd)
++{
++	int status;
++	char c;
++
++	if (*pid < 0)
++		return -1;
++	/* No byte: the child failed, and its exit status tells. */
++	if (how == SWITCHED_OUT) {
++		ssize_t n;
++
++		do {
++			n = read(fd, &c, 1);
++		} while (n < 0 && errno == EINTR);
++		if (n == 1)
++			return 0;
 +	}
-+	if (write(fd, "n", 1) != 1) {
-+		ksft_print_msg("sysrq-n: %s\n", strerror(errno));
-+		close(fd);
-+		reap(pid);
-+		return KSFT_SKIP;
-+	}
-+	close(fd);
-+	t = now_ns();
-+	while (sched_getscheduler(pid) != SCHED_OTHER && now_ns() - t < NSEC_PER_SEC)
-+		sleep_ns(NSEC_PER_MSEC);
-+	if (sched_getscheduler(pid) != SCHED_OTHER) {
-+		ksft_print_msg("still SCHED_DEADLINE after sysrq-n\n");
-+		ret = KSFT_FAIL;
-+	}
-+	/* Admission still works: a task enters SCHED_DEADLINE within 5s. */
-+	prober = fork();
-+	if (prober < 0) {
++	if (waitpid(*pid, &status, 0) != *pid)
++		return -1;
++	*pid = -1;
++	return WIFEXITED(status) ? WEXITSTATUS(status) : -1;
++}
++
++/*
++ * A child that enters @cg and sleeps there, or -1. It moves itself, so
++ * that it last ran on a CPU of @cg, and says so once it is there.
++ */
++static pid_t sleeper(const char *cg)
++{
++	int fd[2];
++	pid_t pid;
++	char c;
++
++	if (pipe(fd))
++		return -1;
++	pid = fork();
++	if (pid < 0)
 +		ksft_print_msg("fork: %s\n", strerror(errno));
++	if (!pid) {
++		close(fd[0]);
++		if (enter(cg, getpid()) || write(fd[1], "x", 1) != 1)
++			_exit(1);
++		for (;;)
++			pause();
++	}
++	close(fd[1]);
++	if (pid > 0 && read(fd[0], &c, 1) != 1) {
 +		reap(pid);
-+		return KSFT_FAIL;
++		pid = -1;
 +	}
-+	if (!prober)
-+		_exit(set_deadline(0, LOST_RUNTIME, LOST_PERIOD) ? 1 : 0);
-+	t = now_ns();
-+	while (waitpid(prober, &status, WNOHANG) == 0) {
-+		if (now_ns() - t > 5 * NSEC_PER_SEC) {
-+			ksft_print_msg("SCHED_DEADLINE admission blocked after sysrq-n\n");
-+			reap(pid);
-+			return KSFT_FAIL;	/* the prober is stuck on a mutex: left behind */
-+		}
-+		sleep_ns(NSEC_PER_MSEC);
++	close(fd[0]);
++	return pid;
++}
++
++/* P, past every timer, admits one task of 600ms every second, not two. */
++static int check_p(void)
++{
++	pid_t a = sleeper(cg_p), b = sleeper(cg_p);
++	int ret = KSFT_FAIL, e1, e2;
++
++	if (a < 0 || b < 0) {
++		ksft_print_msg("no task could enter P\n");
++		goto out;
 +	}
-+	if (!WIFEXITED(status) || WEXITSTATUS(status)) {
-+		ksft_print_msg("SCHED_DEADLINE refused after sysrq-n\n");
-+		ret = KSFT_FAIL;
-+	}
-+	reap(pid);
++	e1 = set_deadline(a, 600 * NSEC_PER_MSEC);
++	e2 = set_deadline(b, 600 * NSEC_PER_MSEC);
++	if (e1)
++		ksft_print_msg("a first task refused in P: %s\n", strerror(-e1));
++	else if (!e2)
++		ksft_print_msg("1.2 CPUs of deadline tasks admitted in a partition of one CPU\n");
++	else if (e2 != -EBUSY)
++		ksft_print_msg("the second task refused with %s, not EBUSY\n", strerror(-e2));
++	else
++		ret = KSFT_PASS;
++out:
++	reap(a);
++	reap(b);
 +	return ret;
++}
++
++/* A task of P leaves, and Q is made before its 0-lag time. */
++static int test_rebuild(enum depart how)
++{
++	int ret = KSFT_FAIL, fd[2], err;
++	pid_t pid = -1;
++
++	if (pipe(fd))
++		return KSFT_FAIL;
++	if (make_partition(cg_p, ncpus - 1)) {
++		ksft_print_msg("no partition root on CPU %d\n", ncpus - 1);
++		ret = KSFT_SKIP;
++		goto out;
++	}
++	pid = departing(cg_p, how, fd);
++	err = departed(&pid, how, fd[0]);
++	if (err) {
++		ksft_print_msg("the deadline task failed (%d)\n", err);
++		goto out;
++	}
++	if (make_partition(cg_q, ncpus - 2)) {
++		ksft_print_msg("no partition root on CPU %d\n", ncpus - 2);
++		ret = KSFT_SKIP;
++		goto out;
++	}
++	/* Past the 0-lag time; one switched out sleeps on in P. */
++	sleep_ns(1500 * NSEC_PER_MSEC);
++	ret = check_p();
++out:
++	reap(pid);
++	remove_partition(cg_q);
++	remove_partition(cg_p);
++	close(fd[0]);
++	if (fd[1] >= 0)
++		close(fd[1]);
++	return ret;
++}
++
++/* A task outside P switches out, then moves into P before its 0-lag time. */
++static int test_move(void)
++{
++	int ret = KSFT_FAIL, fd[2], err;
++	pid_t pid = -1;
++
++	if (pipe(fd))
++		return KSFT_FAIL;
++	if (make_partition(cg_p, ncpus - 1)) {
++		ksft_print_msg("no partition root on CPU %d\n", ncpus - 1);
++		ret = KSFT_SKIP;
++		goto out;
++	}
++	pid = departing(NULL, SWITCHED_OUT, fd);
++	err = departed(&pid, SWITCHED_OUT, fd[0]);
++	if (err) {
++		ksft_print_msg("the deadline task failed (%d)\n", err);
++		goto out;
++	}
++	if (enter(cg_p, pid)) {
++		ksft_print_msg("the task cannot move into P\n");
++		goto out;
++	}
++	/* It wakes up, and dies, on P's CPU, before its 0-lag time. */
++	reap(pid);
++	pid = -1;
++	sleep_ns(1500 * NSEC_PER_MSEC);
++	ret = check_p();
++out:
++	reap(pid);
++	remove_partition(cg_p);
++	close(fd[0]);
++	if (fd[1] >= 0)
++		close(fd[1]);
++	return ret;
++}
++
++static int find_cgroup2(void)
++{
++	char line[PATH_MAX + 64], dev[64], dir[PATH_MAX], type[64];
++	FILE *f = fopen("/proc/self/mounts", "r");
++	int found = 0;
++
++	while (f && !found && fgets(line, sizeof(line), f)) {
++		if (sscanf(line, "%63s %4095s %63s", dev, dir, type) == 3 &&
++		    !strcmp(type, "cgroup2")) {
++			snprintf(root, sizeof(root), "%s", dir);
++			found = 1;
++		}
++	}
++	if (f)
++		fclose(f);
++	return found ? 0 : -1;
 +}
 +
 +static void report(const char *name, int ret)
@@ -588,18 +590,36 @@ index 000000000000..f38c14c51139
 +
 +int main(void)
 +{
-+	sh = mmap(NULL, sizeof(*sh), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-+	if (sh == MAP_FAILED)
-+		ksft_exit_fail_msg("mmap: %s\n", strerror(errno));
++	char buf[256], path[PATH_MAX + 32];
++	int added;
++
 +	ksft_print_header();
++	if (geteuid())
++		ksft_exit_skip("needs root\n");
++	ncpus = get_nprocs();
++	if (ncpus < 3)
++		ksft_exit_skip("needs 3 CPUs\n");
++	if (read_file("/proc/sys/kernel/sched_rt_runtime_us", buf, sizeof(buf)) || atol(buf) < 0)
++		ksft_exit_skip("no deadline admission control\n");
++	if (find_cgroup2())
++		ksft_exit_skip("cgroup v2 is not mounted\n");
++	/* The cpuset controller for the root's children while the test runs. */
++	snprintf(path, sizeof(path), "%s/cgroup.subtree_control", root);
++	if (read_file(path, buf, sizeof(buf)))
++		ksft_exit_skip("no cgroup.subtree_control\n");
++	added = !strstr(buf, "cpuset");
++	if (added && write_file(root, "cgroup.subtree_control", "+cpuset"))
++		ksft_exit_skip("no cpuset controller\n");
++	if (snprintf(cg_p, sizeof(cg_p), "%s/deadline_rebuild_p", root) >= (int)sizeof(cg_p) ||
++	    snprintf(cg_q, sizeof(cg_q), "%s/deadline_rebuild_q", root) >= (int)sizeof(cg_q))
++		ksft_exit_skip("cgroup v2 mount path too long\n");
++
 +	ksft_set_plan(3);
-+	/*
-+	 * In this order: the second fills the root domain where it leaks, and
-+	 * the third leaves it without deadline admission where it locks.
-+	 */
-+	report("throttled_round_trip", test_throttled_round_trip());
-+	report("asleep_round_trip", test_asleep_round_trip());
-+	report("sysrq_normalize", test_sysrq_normalize());
++	report("dies_before_rebuild", test_rebuild(DIES));
++	report("switched_out_before_rebuild", test_rebuild(SWITCHED_OUT));
++	report("moved_after_switch_out", test_move());
++	if (added && write_file(root, "cgroup.subtree_control", "-cpuset"))
++		ksft_print_msg("the cpuset controller stays enabled\n");
 +	ksft_finished();
 +}
 -- 
