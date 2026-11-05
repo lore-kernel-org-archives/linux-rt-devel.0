@@ -1,115 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890856;
-	b=HB9cmQrGoxljkCXjTuo/j5vCbeb30afzDhOvqBGuc5uXODCkFPmoM9CCn+THxUMDouFN
-	 iz0fKJpo/aM1iWRLOhmCdhYDpB+SfUqrnxW5n3n4iigiIWbsjd1j2o6RuwGYoco8mFa+W
-	 GzBW30O4x8tVhbDLFv9xq+YgbqmdmG8gde/4wXyDMOoFEwqHJLm6FjbFPZ95Ob7M2ZqRv
-	 O0LQXNsICtoNs6z/7Pvo02UkpMytKafCypkkLt3YqseQC8rcCHEXykC5ARnMNQFuKGHeK
-	 SmNihQ0xWHfcX3CIwbidIFfQfQ1S6r7gkFAr3XPP1LJqZk+DJ+H5ZAvDhUmVdP3vTtw==
+	t=1793897046;
+	b=ff3mN7UmXatVGbFaCPF7mdnccFQJT1sAcw7rIxKV+rRi4ZDzPrKRe1VKNpemXlSG6YBh
+	 amecLxwfZFQH+vn7bKZUuhJeJpVsRyooMP5bfUvwFVBnCnaJhL/NJome+SRWbwA8xG0kl
+	 7bQLxv+YYevoYA2FrQkmACMot4ktXJWG8b8ZMMxS6WYSrwYpLp3eiFGRgv85zhceB1G3r
+	 1Y7Fw+VV+cYzbX+oN8aDeOHmHcmA0nwKJ1ckkdhrsFhJPl9M77Uu4TdDtzQl1eqNd3N45
+	 5987IaTqd1U5BnL9kRVGspc09jlY3/S6rtk2Mm2whnlXqSYcLr2MUtxh23gVUTs2uGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890856;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=leAQgaahqk6ie+8K1Enx+eS2rtZduvQyWhwKq33EErA=;
-	b=ZAMmocB+s0YzRdbBPnBRgBjvGaCGPNaGrQM7e9pMNL0CN+wtcahSekC3oXfxPhSnlokn
-	 rAC9a/ecNVdlAgcPCmz3XyNKJCvh/du32t80e8l1zZATC6tgRlNn5fVKphujH1QAbSJk2
-	 VNvDIl4OQEp6fsSAthubf/CSJq6vBeN9/W3f9Lg7PEoXPLimNXllPLwWXg25MVCtlXDdC
-	 tG8+3Yn5QBQ6beUpCfIUmjCnkz6yG6Xw1Abigt6THHtnCTsPZKecEWhojaes+ESDDyVe8
-	 KzsJVlV9xTO9tTKb3svSJDkn7/tVTGQhNlTeGyaYIhEFhUzGktQ6lnYQHBT7l21Dyhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897046;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Xa99gepi22SogAWQPeAgc0EROoR0OAvZegPBJ3DWXuQ=;
+	b=EtA/OyGEn34hZ2bAEBeNACrVmkS/eeWV0A6y4PiB6mhFa+ZaVjmJDEJAEc90pYTc8r6D
+	 i18lTDhdEN9SpWoYSpyTyjED5EYP3mWu3e3QN5+a7vlaK/N93XRV6/91yf3MV75X2SwUN
+	 RDw2Jj05K+aCkl+4O+sY0/h4T/owPfs+1yiXKGWzV9XfZxMRxlypatDlBkO4Serx0cfbn
+	 vKtJGcLzAQiREO7HrCsFfjR0ylkBxlpvvvDgnGG+P/SH/+Xm3C+ATLXqrihsvjGPuMBfL
+	 77l0P03wflfcH+T1733GIT2+0ygzm0kfZpGPSYx5JlwLKkhIzKS21vRKbot5Tum5sQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cX+4UnMn;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rgXohnzV;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF25606A339
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 15:00:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FF25606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C116606A32F
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 16:44:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C116606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cX+4UnMn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793890854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=leAQgaahqk6ie+8K1Enx+eS2rtZduvQyWhwKq33EErA=;
-	b=cX+4UnMnrVyBAq4AazkUqBaYAkBZ3DjkVbYELumwk1ir4sLK+18et3tVQkDU2roQ9MdUcg
-	+5ur5FvdrhExkbwHCJRh2N77eC9qW3HgrgikyU+1k/LJ1eJTlB2B3utvDKX3YOkTi5U7Uq
-	/0/kBxvB7i7ThN14TNgcB5tum5M3qIo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-kugnP-bROPqRncRGzr6mMw-1; Thu, 05 Nov 2026 10:00:53 -0500
-X-MC-Unique: kugnP-bROPqRncRGzr6mMw-1
-X-Mimecast-MFC-AGG-ID: kugnP-bROPqRncRGzr6mMw_1793890851
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a70b42bab0so11153775e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 07:00:51 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rgXohnzV
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48c4649b35bso1766404f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 08:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793897044; x=1794501844; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Xa99gepi22SogAWQPeAgc0EROoR0OAvZegPBJ3DWXuQ=;
+        b=rgXohnzVDZmKWDgtPxz+lqRsMWzijqktyxzGAAmMGj1KC7dBJql/AXViWM9sEX09Jt
+         0zctHujSqEUdvyDhCbl3CoYD4WHAmYIns0aToiMsUi+jiRaX8i0C3O01cqorLYdxLkT/
+         9jO8ElU+VpvAGDw+7sykw3AKFpNAIHsCJ+HXVersCqyIfBWe9Z/awLH4+Vn5QTkxIbxJ
+         GqZdttUISbDbvRgA1DsUAihFg9J0zhitfeCN4Yvvdup6NuizysqZnbXq+3/DIXVbpkiu
+         wJMsjIacdXLaDZAdZSkiUzpygFXKY4LWeFRuDYYxf0mWQQ7XNiiZn7lQRrwQxrVquYvy
+         AE8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793890851; x=1794495651;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=leAQgaahqk6ie+8K1Enx+eS2rtZduvQyWhwKq33EErA=;
-        b=a6nYdqpLwCNLo96rajqfwsQFN9STZLpFke2qX49ELf6bngJPKZ3Km1qfaiYc1Zm9eq
-         GCaiu9EwN1dHhVFdS75YYWHl5PStjnEcnKa+qoKlG4srkL6XEflo5YHwtZ61UP8MNvP0
-         s85diBIvcjRmLwqbdVd5MXKbarlxkXWO26HrEMaD3nDW6hMyR2TkbCUGf1jPU2vqzyVz
-         he9ue19hVA/ep6LjqhJlTSM6s9D9blr0KoEuf+RBSTdrWFXB3XrEdyTytYOAVPtWD9lE
-         CJyQAvLjhRfjEkNyn+MEoL1F+yTixIaSpd3KXZI8SqI8Z+PBiV7QJJtj4HNdcbCOQBQ3
-         q9uA==
-X-Forwarded-Encrypted: i=1; AKwUvBw63w9x6RWhD70PjZWXjjYCh4zBzYRRcUFLr+5C3U+RSEW4n7jDH7pljXRWKUiwCxJKVLFNy4I/786WYdGv2Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/oqYvn5ow2zFFMhYCDc6sXEEEv1F4J5HphuaKC8OFjeukULmTJ
-	QbBUDy6v7PRCmr2GWnEGnN/qt+OHVHyHwJZClJ/FvWXCbjnIbOKqT+1LAKBR7F8a5EZ7In4GM5G
-	PvqiVykiqT6GKi71qm2GyDhg5NC2l656pJ2PuoTTKv/iZO2uGTmAXXPpjXFM9MzCXaKNf
-X-Gm-Gg: AYBFou0fqEZagB5Uq5XSReGOJazhHsLDepKZuFWow1ztHNJWiFtIaXXynmjhMihabrK
-	D2q6KqcqTC5tv7FhgWLmahY72+LyEG0hn4FB+8CBzkALkIofw7mrEVzUK/ZLVRtFj27uLCfTwVT
-	RZ+68cCd1RV9QFC2kqCua7Zjgi9vgt+99i6dpmNpzrOMV9cvbpRU5P3ZgXa9Zpwe6l/0eo27L99
-	2sZLl+FY/G4p6qaUTUZOF3UKIL+gcn0C3xu6eIedDh1J6ESua95jt2VOu7gTGzbO9W6qWuo0k86
-	bYHXKkzAC0cVXW6Gf7TZ9BCKOqOkV7Tam+gjtte0nu9p1WZYpMsYV/NWEx3M8IoL2OXA+PMUGhQ
-	5b8Lzwosl4HTGiS0xIa1ym7BVTUNCTDAOGUU522uOtmFLE13IDiAXs1hfKRbqug8=
-X-Received: by 2002:a05:600d:82e2:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4b55d7d7a2amr55606855e9.10.1793890850756;
-        Thu, 05 Nov 2026 07:00:50 -0800 (PST)
-X-Received: by 2002:a05:600d:82e2:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4b55d7d7a2amr55605885e9.10.1793890850041;
-        Thu, 05 Nov 2026 07:00:50 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b452eb99b1sm108926575e9.3.2026.11.05.07.00.47
+        d=1e100.net; s=20260707; t=1793897044; x=1794501844;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Xa99gepi22SogAWQPeAgc0EROoR0OAvZegPBJ3DWXuQ=;
+        b=qzqFAHevm7HpgBNDukQes77D0ehVm7iKjwPnROyn9dZsBOG8Hq+W2Z1BsVIGdxCEtN
+         u0C35ckdEGD4o3v97+ZUZH0J5baxc78xOjMpc64kbUU6ZyhWZfDDrJQsjV9SbRD5FHOX
+         6iDR3VLuZ7FQSjBkzZDGVCQCscLAMOcrmt2NXQ7qShZquSLLAnEqmFm4A9FmtYdvmyms
+         uXzbBgg/gjjgKumlxkzrjYlFVZQ8u0jTJJYflOcQ0DdzTDETSurzCfEPgIQC7nlVFnzD
+         mV2uZGhYFOPqMnUcUolhQ8AuzRjK8WD6MEKw3uwmQTGEgsgoIEe5q49vhN+XLzo/VHOw
+         eaDg==
+X-Forwarded-Encrypted: i=1; AKwUvBzdpfOL/fHqivHH/GGx9EBv40ZNLswZkFyPQD/EAMRu5jLJPiLRmZsDYKG7KnJKsAwImrdEFuNWlQGUrx840A==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Ju/1jsUg0l1gElxB6Un9Q7wlD6F/0fUpWxOvTY5UOL0JiNsE4
+	OAXFucpjExEPiY0D2akV3XZoxZQ7KcnWIV+4VRoLKgakJ7daDHmPK9Ez
+X-Gm-Gg: AYBFou1T+PKSGqiK926XSxYxJ3+nb+n/9bYC4tgP4Ts5g3xOc8W7hM2xrHtQsiBmrDE
+	crflmhv6u67j0qP1jzShVrGRVvBESka0gX+GwfDJlTfGsXN6cyF5y+uNnrr+TRrkEujkn3Hee9x
+	z5qDr8IUakNBw0AH6ke+kcZiPCkW/b9Q4QeAXIzwFDIozqsKCv7NI33E9nudyh3rWOV4je0i/Y3
+	VE/yxoDoY9QFcIR3zBLrZN8s8//LXfP59eeCysvnxjSlwO4ZaB+0dYBy6yD+rHKuXsvn6cMy7dd
+	PEtFNui5pA0fDLmGDkgu2KyWH/YISE1X06tgaffzah92Vjfi+xV7i+nc6Damop7NXt+eqMQnosH
+	3YallLrLdDeKKIeOMMI+Lsv0+hYJAbur3IXjNrXBvXrF2HMAJKaUnChLz27Y3LKCA+CYV7AYDJg
+	Pqi+9MG+8EwGP+/NkhOYi5LQ6iz6An7slZu8DRW852M1O4kLAywRUSYgpMKwo7Hv+/2p8IJYG3F
+	qYGapvlNU+ew6BJMfhBG0RYCwu+e51lqviaXx/KshWDPkBsTeSx7a37PjJDPMRXs66rof9+fGYr
+	HId4QmuMB71vxd0vrTO6Rx6Pt2oluPwNehjvDJKZEE3CxYofgVTzsKpwZOWW8HrOrLu2lGPVMto
+	Gk3UxZIgihmaSZ1OHPX1nbTTqWFN/
+X-Received: by 2002:a5d:64c6:0:b0:48e:4e00:b737 with SMTP id ffacd0b85a97d-492775f151amr306112f8f.54.1793897044130;
+        Thu, 05 Nov 2026 08:44:04 -0800 (PST)
+Received: from andreayoga.localdomain ([151.43.242.194])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea18104bsm11441519f8f.6.2026.11.05.08.44.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:00:48 -0800 (PST)
-Date: Thu, 5 Nov 2026 16:00:46 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
+        Thu, 05 Nov 2026 08:44:03 -0800 (PST)
+From: Andrea Parri <parri.andrea@gmail.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+Cc: Andrea Parri <parri.andrea@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
 	Valentin Schneider <vschneid@redhat.com>,
 	K Prateek Nayak <kprateek.nayak@amd.com>,
 	Luca Abeni <luca.abeni@santannapisa.it>,
 	Mathieu Poirier <mathieu.poirier@linaro.org>,
 	Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Ridong Chen <ridong.chen@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
 	Shuah Khan <shuah@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 08/21] selftests/sched: Add a test of SCHED_DEADLINE
- policy round trips
-Message-ID: <auyaHi0W_R_LLXUE@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com>
- <20261104211207.1392343-9-mathieu.desnoyers@efficios.com>
+	Clark Williams <clrkwllms@kernel.org>,
+	Kayra Cizmeci <kayracizmeci@gmail.com>,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 19/21] sched: Clear cpuset_locked where the policy check retries
+Date: Thu,  5 Nov 2026 17:43:55 +0100
+Message-ID: <20261105164356.28913-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261104211207.1392343-20-mathieu.desnoyers@efficios.com>
+References: <20261104211207.1392343-1-mathieu.desnoyers@efficios.com> <20261104211207.1392343-20-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -119,53 +122,26 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261104211207.1392343-9-mathieu.desnoyers@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WfsGM9vhiYyAMFiDWwiHtRA6exHKSSjRhpmB7EyCAnk_1793890851
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On Wed, Nov 04, 2026 at 04:12:05PM -0500, Mathieu Desnoyers wrote:
+> The retry of the policy check in __sched_setscheduler() drops
+> cpuset_mutex and leaves cpuset_locked saying it is held:
 
-On 04/11/26 16:11, Mathieu Desnoyers wrote:
-> Add deadline_switch_test, with a case for the fix two patches back and
-> one for commit 41a7968022ca ("sched/deadline: Fix total_bw leak when
-> switching away from SCHED_DEADLINE while !queued"):
-> 
->  - throttled_round_trip: a task with a runtime of 10ms per 2s period
->    spins, so that each replenishment throttles it again at once. Right
->    after a throttle it is switched to SCHED_OTHER, and back 200us after
->    its deadline: past its replenishment timer, and before its 0-lag
->    time, which the overrun scaled by 200 puts later. It must run again
->    within a period and a half. Three attempts;
->  - asleep_round_trip: a task of 9ms every 10ms, running 0.2ms and
->    sleeping 50ms, is switched to SCHED_OTHER and back while it sleeps
->    past its 0-lag time, enough times that a leak of its bandwidth at
->    each round trip fills the root domain: sched_setattr() then fails
->    with EBUSY. Skipped without admission control (sched_rt_runtime_us
->    at -1). A kernel that leaks is left without SCHED_DEADLINE bandwidth
->    until a reboot, so this case runs last.
-> 
-> In 8 VMs of 8 vCPUs each, v7.3 fails both cases, and v7.4-rc1 with the
-> four deadline fixes of sched/urgent fails the first; with the two
-> previous patches as well both pass; every time.
-> 
+[...]
+
+> Clear the flag with the lock.
+>
+> Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
 > Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
 
-Thanks for the selftests! Very useful.
+Hi Mathieu,
 
-FWIW I did propose some already in the past, but then didn't get time/
-tokens for a follow up:
+This is the same fix as [1], posted on Nov 2 and reviewed by Waiman,
+Kayra and Juri.  If [1] goes in first, this patch can be dropped when
+rebasing.
 
-https://lore.kernel.org/all/20260306-upstream-deadline-kselftests-v1-0-2b23ef74c46a@redhat.com/
-
-We can probably re-start the effort with yours and keep adding as
-needed.
-
-Do we want to have per-policy subdirs under sched?
+[1] https://lore.kernel.org/20261102134606.242743-1-parri.andrea@gmail.com/
 
 Thanks,
-Juri
-
+  Andrea
