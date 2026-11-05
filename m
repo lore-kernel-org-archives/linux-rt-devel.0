@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907260;
-	b=ts7amMYg1NazmpWu1tdtt2V5V1/Ebx7K9DGJizmJXL9ogxzvosEi+Ma78/OSJ2DKRsHV
-	 uit64Rnt27rH7BbLW5xlqLdah8HSrz1Et8ljeE0/sbueVPqRpQ7Sk4kXgIrQaiwjVETNp
-	 F/5cV6ws6wv8TBoS5zE1EULgspJV93AgopNBYf/GsGOs4uoACwkUaIig3PdZopjCh5a1T
-	 PavaNv5Ochx+TV1dt2I3GmlxugGnCocEHzWOWNsJbtlIsknjBgny8Zz1fWugdRlPh1XXI
-	 8a2xAy9X3E37pUgAAGVkGXxvOlx+i64INiy3zNnukKr+/OPJ5Y+S2KgKilp3aPCJkVw==
+	t=1793907258;
+	b=aqMOEN6XPHzZxIty3jCyzbQTZ1C+Mdobg1uJ+0jiKuqOG3RHomqt6lP2kTfWStOuUtgF
+	 w7bJQJRn2o2tVSpNfZyXOsyUUNwvquI585XfwsVxLPy2tEMouhYZlwhDIa5PD3qK7lldT
+	 OynRxcuNS4fsW4Ufo67S23nKI+qHpQKau9PvN2JDJiK380tqlm37BX3R5pWAIXExZzqpf
+	 5gMFa/ktmiqcfcJAx1QQ/rYRYNI1OlB7Fevlcjo2YW4c5DOweux1CDa4AaA+yRrcFJKrp
+	 EHsVdYFO/gYGc28QPjbPiUovMdCBuidCN2RTn84mRvirZ1VWPmdg1xZbNG6SJw8Mbyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907260;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907258;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=KeWVp44tQ8DyNXQ7uuJiQvoSDj7guT6jw16kawQ+gbE=;
-	b=4b1cFxE2v+WBn64Jn+9/WXsDUYieIKuXDqiCOrHHeen9UHbPrCgeTwwq7EcxSf95s/+/
-	 SQEJT2tc4sn1d/8392muP+w+9m/UzvPezO+O69YBf/CNEZCRvmmideWpN2e9C05P47TkK
-	 6m39YY8r8oII4mBtBxvzYCTQz8mMRwBf2iCVhwQYTCvlq0zsVr5EttuaxgkGTfM7f9PwN
-	 Sc7g57uRy+2J2CO1Ai4zjXGY7gmFhZf6zkUI/frxGzyEumsqYtc+00SU6P64p5p61iCIL
-	 YDLoJ3E5iGvT7qoztMWU/8aEh0COTiixs2f7kHEIqCMNRCe8QOwJMDnWdwPi8OG2sRw==
+	bh=PXzZs0S60nPwFAawFAM1P7kB6paIaMENZssdjTCs6jE=;
+	b=Ak0wxFYq4hzWitpeP5NDWyEJxRtYbgLlUB52eppmbIqyZmYqfByuKxcpu/byzB4euB77
+	 a0yOJu/KpjH3vg3yJ/dKS1YFe9SPbgzrELlo9n7y1za8uNKaQQgtLY3hI7fI0swpTELyz
+	 8Jv5a/HAQXUAtuFmgnn9s1JbdQ0pr9+syYMcVpjRtHW3C/IIb2E9NzYqAStg4EBR/4HaN
+	 qRq20jGIXmP6p1TzVIxwhk12IHaQ4aHOYaAH9+Yn8rFJ+6kvj1KTpIZy+Y5Ii7LWf0RAD
+	 mBejw77yZ9doerjCckQCVvq5uvKEM+1lfKMsr1lQbuJoA7RdYW3wPcBH/KoLbzUDYgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=v2lcwzBg;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ITrkeQwL;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49156082BD4
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C49156082BD4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C41E606C891
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:34:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C41E606C891
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=v2lcwzBg
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ITrkeQwL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793907251;
-	bh=KeWVp44tQ8DyNXQ7uuJiQvoSDj7guT6jw16kawQ+gbE=;
+	s=smtpout1; t=1793907249;
+	bh=PXzZs0S60nPwFAawFAM1P7kB6paIaMENZssdjTCs6jE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=v2lcwzBgiFLjMmgOFDbAoeg2vsmq1m3vmWB7OZdn9fIfUCX6QWdz5+B2REhIzLGGa
-	 ZmdvgYwrmk9GoKNo9SAYOzJBIuZkicyQl3++W6R3eCQMKchdSOF9ocwdrBV0WuCM71
-	 95fJ4r7Ty3yqig1sUckDHdLl677+fCzBOGMtM8I8LvdOUEYWTUEcvLgQXdcioUY1Fy
-	 LeJWR+v6DlTGW3ROCxby5R6RK3ZdUVMfopGzUP9Pvef1OVAecyTZEDqyzakI1fvHQL
-	 fUoC/JHqlFsSQj12fbZ0Vl8HKFRWWuwFeQLYnvtly6EAN7h+N91uBXIexMelp7ciab
-	 yt1sXAeqoMTQg==
+	b=ITrkeQwLf7L41ZRGD0zenSL82pf+tZTHHBp6IbwMtp/Ji3bwfHXPMWRjLfSSoRpOu
+	 0HTSHeEAPABfUrLRo7V/RI6nYJx6rX60NbDAgRdGHcGpXCRHiHPymCHtb70KA3N96E
+	 6EfdyuBknaLfQfH6JyI2Wp7IKB962HoMqeVJsbL5C/EEe5AX0WwZGElzkLTvZ2PFym
+	 jqwFhmac227/e5Z92vgsXgadT3zTmqsIuOjlmXp6l7zHZ/XHdeuGgh/ah/KrgZIA3e
+	 O8ZPftIRMaNv8wdeZXAj+QErRL+ysou+ShLKrgdpEe2Ai6Didc6qb7aqNA/YFk9OIv
+	 O1qqAMbT0S7Gg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDM2W48zLYH;
-	Thu, 05 Nov 2026 14:34:11 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLCDK59qwzLwb;
+	Thu, 05 Nov 2026 14:34:09 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -77,9 +77,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v3 15/24] sched/deadline: Move a task's bandwidth only where room was made
-Date: Thu,  5 Nov 2026 14:33:50 -0500
-Message-Id: <20261105193359.1450487-16-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v3 05/24] sched: Take cpuset_mutex for a deadline policy change only with pi
+Date: Thu,  5 Nov 2026 14:33:40 -0500
+Message-Id: <20261105193359.1450487-6-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
@@ -94,155 +94,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-set_cpus_allowed_dl() moves the bandwidth of a deadline task off the
-root domain that counts it whenever the new mask leaves that root
-domain, on the strength of the room cpuset_can_attach() made in the one
-the task moves to, as its comment says. Nothing checks that the room
-was made, and two paths reach it without any:
+__sched_setscheduler() takes cpuset_mutex for a change of or into
+SCHED_DEADLINE, and releases it on success only where pi is set, with
+rt_mutex_adjust_pi(). normalize_rt_tasks(), the one caller with pi
+unset, then takes a mutex under read_lock(&tasklist_lock) for every
+deadline task it finds, and never releases it: sysrq-n on a system with
+a deadline task sleeps in atomic context, and every later change of or
+into SCHED_DEADLINE blocks on cpuset_mutex for good.
 
- - cpuset_can_attach() counts the deadline tasks of the attach it is
-   asked about. A task that becomes one after that has nothing set
-   aside, and the attach moves its bandwidth all the same: the root
-   domain it lands in ends short of what its tasks hold, and underflows
-   when they leave. A task that flips between SCHED_DEADLINE and
-   SCHED_OTHER while it is moved in and out of a one-CPU partition root
-   drives total_bw of that partition to 2^64 - 262144 in 8-CPU VMs of
-   v7.4-rc1, in 2 VMs of 2;
- - sched_setaffinity() of a deadline task takes the same path. With
-   admission control on, a mask that does not cover the task's root
-   domain is refused before this (__sched_setaffinity()), but with
-   sched_rt_runtime_us at -1 nothing refuses it.
+Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") made the
+lock depend on the policy where it depended on pi before, and left the
+release where it was. Take it where pi is set, as before:
+normalize_rt_tasks() takes tasks out of the class, which admits no
+bandwidth and needs no stable cpusets.
 
-Say in the affinity context whether the caller made that room, as
-SCA_DL_BW_RESERVED, and move the bandwidth only then. The bandwidth of a
-task whose move no one made room for stays where it is counted, and the
-next rebuild of the accounting attributes it to the root domain of the
-task's cpuset.
+sysrq-n on v7.4-rc1 with a deadline task, lockdep on, in 8-CPU VMs:
 
-Fixes: 7f51412a415d ("sched/deadline: Fix bandwidth check/update when migrating tasks between exclusive cpusets")
+  sysrq: Nice All RT Tasks
+  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
+  locks held by deadline_switch/4356: 4, last CPU#3:
+   ...
+   #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
+
+and a sched_setattr(SCHED_DEADLINE) after it never returns, in 2 VMs of
+2. The deadline_switch_test selftest added later in this series has the
+case, sysrq_normalize, which passes with this change.
+
+Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
 Cc: stable@vger.kernel.org
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- include/linux/sched.h   |  2 ++
- kernel/cgroup/cpuset.c  | 13 ++++++++++++-
- kernel/sched/core.c     | 14 ++++++++++++++
- kernel/sched/deadline.c | 15 ++++++++++-----
- kernel/sched/sched.h    |  2 ++
- 5 files changed, 40 insertions(+), 6 deletions(-)
+ kernel/sched/syscalls.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index da3a3a4f7246..52b450d212c6 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1960,6 +1960,8 @@ extern void set_cpus_allowed_force(struct task_struct *p, const struct cpumask *
-  * Return: zero if successful, or a negative error code
-  */
- extern int set_cpus_allowed_ptr(struct task_struct *p, const struct cpumask *new_mask);
-+extern int set_cpus_allowed_bw_reserved(struct task_struct *p,
-+					const struct cpumask *new_mask);
- extern int dup_user_cpus_ptr(struct task_struct *dst, struct task_struct *src, int node);
- extern void release_user_cpus_ptr(struct task_struct *p);
- extern int dl_task_check_affinity(struct task_struct *p, const struct cpumask *mask);
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 4159abfbbbb5..5b8f1d9552a6 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -3326,6 +3326,7 @@ static cpumask_var_t cpus_attach;
- 
- static void cpuset_attach_task(struct cpuset *cs, struct task_struct *task)
- {
-+	bool reserved = false;
- 	struct mm_struct *mm;
- 
- 	lockdep_assert_cpuset_lock_held();
-@@ -3335,11 +3336,21 @@ static void cpuset_attach_task(struct cpuset *cs, struct task_struct *task)
- 	else
- 		cpumask_andnot(cpus_attach, task_cpu_possible_mask(task),
- 			       subpartitions_cpus);
-+	/*
-+	 * cpuset_reserve_dl_bw() made room in @cs for the bandwidth of the
-+	 * deadline tasks cpuset_can_attach() counted: say so, so that this
-+	 * task's bandwidth moves there with it.
-+	 */
-+	if (dl_task(task) && dl_task_needs_bw_move(task, cs->effective_cpus))
-+		reserved = true;
- 	/*
- 	 * can_attach beforehand should guarantee that this doesn't
- 	 * fail.  TODO: have a better way to handle failure here
- 	 */
--	WARN_ON_ONCE(set_cpus_allowed_ptr(task, cpus_attach));
-+	if (reserved)
-+		WARN_ON_ONCE(set_cpus_allowed_bw_reserved(task, cpus_attach));
-+	else
-+		WARN_ON_ONCE(set_cpus_allowed_ptr(task, cpus_attach));
- 
- 	if (cpuset_v2() && !attach_ctx.mems_updated)
- 		return;
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 04b62c16fa8c..0ff07258cf0c 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3269,6 +3269,20 @@ int set_cpus_allowed_ptr(struct task_struct *p, const struct cpumask *new_mask)
- }
- EXPORT_SYMBOL_GPL(set_cpus_allowed_ptr);
- 
-+/*
-+ * The same, for a caller that has made room in the root domain of @new_mask
-+ * for the deadline bandwidth of @p: that bandwidth moves there with it.
-+ */
-+int set_cpus_allowed_bw_reserved(struct task_struct *p, const struct cpumask *new_mask)
-+{
-+	struct affinity_context ac = {
-+		.new_mask  = new_mask,
-+		.flags     = SCA_DL_BW_RESERVED,
-+	};
-+
-+	return __set_cpus_allowed_ptr(p, &ac);
-+}
-+
- /*
-  * Change a given task's CPU affinity to the intersection of its current
-  * affinity mask and @subset_mask, writing the resulting mask to @new_mask.
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 6a9b9791ddad..de1f6a39e60c 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -3493,12 +3493,17 @@ static void set_cpus_allowed_dl(struct task_struct *p,
- 	WARN_ON_ONCE(!dl_task(p));
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index b8c036d03d6f..bffeb4143161 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -554,9 +554,10 @@ int __sched_setscheduler(struct task_struct *p,
  
  	/*
--	 * Migrating a SCHED_DEADLINE task between exclusive
--	 * cpusets (different root_domains) entails a bandwidth
--	 * update. We already made space for us in the destination
--	 * domain (see cpuset_can_attach()).
-+	 * Migrating a SCHED_DEADLINE task between exclusive cpusets
-+	 * (different root_domains) entails a bandwidth update, and only
-+	 * where the caller has made room for it: cpuset_attach_task() says
-+	 * so of the tasks cpuset_can_attach() counted, and of no others.
-+	 * The bandwidth of a task whose move no one made room for stays
-+	 * where it is counted, for the next rebuild of the accounting to
-+	 * attribute, rather than leaving the root domain it moves to short
-+	 * of what its tasks hold.
+ 	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
+-	 * information.
++	 * information. Not where pi is unset: normalize_rt_tasks() takes
++	 * tasks out of the class under tasklist_lock, which admits none.
  	 */
--	if (dl_task_needs_bw_move(p, ctx->new_mask)) {
-+	if ((ctx->flags & SCA_DL_BW_RESERVED) &&
-+	    dl_task_needs_bw_move(p, ctx->new_mask)) {
- 		unsigned int src_cpu = dl_task_root_domain_cpu(p);
- 		struct dl_bw *src_dl_b = &cpu_rq(src_cpu)->rd->dl_bw;
- 		unsigned int cpu;
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 6c7c5633524a..25cb4228b203 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2953,6 +2953,8 @@ extern struct task_struct *pick_task_idle(struct rq *rq, struct rq_flags *rf);
- #define SCA_MIGRATE_DISABLE	0x02
- #define SCA_MIGRATE_ENABLE	0x04
- #define SCA_USER		0x08
-+/* The caller made room for @p's deadline bandwidth where the mask points. */
-+#define SCA_DL_BW_RESERVED	0x20
- 
- extern void update_group_capacity(struct sched_domain *sd, int cpu);
- 
+-	if (dl_policy(policy) || dl_policy(p->policy)) {
++	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
+ 		cpuset_locked = true;
+ 		cpuset_lock();
+ 	}
 -- 
 2.47.3
 
