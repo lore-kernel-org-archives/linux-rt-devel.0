@@ -1,99 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793912037;
-	b=c2ceTNy70MYRxu2PFSTA17UFpPmLqwtjXYbEw8dpc6KWy/TXPi+CwWYmRFx36dnfocqo
-	 Qo/iutDzaW6d07jJdQkMHR3ndYHkrCLhdToNxgAmPP9ZrdjR87wp/nOyBtxeO/CvS2aPV
-	 VWTczu7B4FzBe2hOkEXK1SU1raLxFrEMh6moRD5k4AhcAcUd8NOsK3n6ynOhZzl6qWNAZ
-	 f2scHcbunPHLgU6+T0EhGpU/dUYcq4aR5ck3D/iSBhZie12QLp0MAwbibi/L4uAi7hLlr
-	 ywApgSMrn3u+ZhyinbWFqRS4lU1e3kUVX6swPFmJ02MYpb+K7seSNFTjH6GM0789XnQ==
+	t=1793912333;
+	b=fWBwuR5jn1/DbbAut9dC+Fe5SCv24p2HyrBuVX7/PG/v/xwnxahoTr2Zm+0DQ/CY66SJ
+	 kxre/1EjH+Mt3WMvX6Ff9Z+dwErOV1YbN2qNPUkAXbdbJSnX8n9GAa4l49q+/HpxDYa85
+	 +fRKcfjZYZEXePN9NifYCmTUZJ2OoTwCpR5/fYEGxmfk35PJ3WSSwujomdReMjam6TOgc
+	 hEJ4kL/+UeN0Iam2rfXhKzun+jyHns0eQfNog2tMpTrH03AAOvcHEWg50Gfatsh1Z3uBR
+	 CE4zNxBExRUh/+C2mhCd0lWDfjnDn2zaYZLmUuCBCl/mNsDgmQ4pdLVesl9UN9b4kdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793912037;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=3P4RqLHTtI+N7NRPxx7L4oSk93jGkzaKCLskeDcODf0=;
-	b=WWduWR+4aRM8nyvXBjBmJiGmh75yD12itajv+LlwN8qXIXOmJ6l8kpvdIbRZ29d2iAh/
-	 WBjLamiIbD5y4eJhyh5giQGJrbnB1pdqO1XtcLf1H9ACxzi+NWRjd8XQBfXTsAVV1a8Gx
-	 4KdzzxVHeGBTj/f/JK9RhR5JaeCxoFANA3ErqPVJqZY0HMbO+km6SjVmnRjoRr6o8Jorh
-	 J0SxkhooT+xMA/GvK9RrT4toZ2f58PfxwuDcqu67BOtrx7wsmWEM+6YBsJm0M9+Te75E+
-	 Bna50R8voO7gZQIqii46z1SA1xczuih1GGqAgf7SvwJg6W3qum80stB8dhXnHBog+mw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793912333;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=vC43Z356TqJuicgxWCHmaZbSDkPZZGittg+sJHxPzEo=;
+	b=QRhCHVABQIwCAQDdyaeH8+f9xYUihfshHEqaboVtr2Te/za98XOViurAt2+cSql9rJkz
+	 l96zlXmJZyJAD7u0t9tEi3Tb65el4IpVFPOzhrDrsIujUfA3Oc8G3TDQ6IEYpAiBT6FFa
+	 3uay2zaDjqL8l8a2rQPe+FIxZcENoY60fNJQpGE43dyjzNUDl8m1aSa2HGGUOq0MRnyqj
+	 WmJL4PUDa8IkZgBGEgB3W3e97C4oYJFdzcFUjjbwlwnAFyvCKj2AroL1Vf2PMEwjanVQ2
+	 3x/EKa5g60fhbFX/d0PTX0AVNqPXLDUNjRl/q7yLiRCGaJ/t8lhunefbYEjYn3ycEkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KdLsuCYD;
-	arc=none smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPQmbF+9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28702606A329
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 20:53:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28702606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BEC606A328;
+	Thu,  5 Nov 2026 20:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KdLsuCYD
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6ae305e3bd9so3808218a12.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 05 Nov 2026 12:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793912035; x=1794516835; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3P4RqLHTtI+N7NRPxx7L4oSk93jGkzaKCLskeDcODf0=;
-        b=KdLsuCYD9HKqk3tyY9vZrKHYZFZjnu2DlSJAuuGA4GqBfbx+KbJ4AJcVVz0PFJiRcD
-         flkFPW7d3zcxnB50n6VaZCFoFNYrmlp0by/NNcaVMTMz+01xECWuiwAiVAp1zRQr6j9D
-         BB5DIeC94oAl+hgWBLUrK4lXCV2dSo9QKQX+9e01k13MWhPIPjcSiYhRz9K89cxHkeei
-         rN2zf59TNHwCQFyXdl3NDykeQD1Iqrn4GVkqjkHNT/7rT5S7mIMdQ4HhMBHxsW0v+lKo
-         foikJEMMM/tytstBlpDTcyiIFuCRm5cf6oeJzxySgMONiOJ1OxNuk3WkMV4pvn7J4s0O
-         vTNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793912035; x=1794516835;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3P4RqLHTtI+N7NRPxx7L4oSk93jGkzaKCLskeDcODf0=;
-        b=nGGa1dWbEu24a8okO2plg3dk386RTKIeeE8fUfRNCYYJtVDfvResn+G0gVAn9oF86O
-         ElslUBfIzqDBpdOd7xhRCBqpUc2lOmtACSz70KzLqLT6WayXZCs1WXMBVdzvHeaycm++
-         I7TU5adlOBqi97W8SYXGN3Zq+lTgvwX1mXE9LncV5JwrDBDbwNrfCvriH+dqptovr5Cz
-         aCNEuiR4igHrTlam/Iulr7Jsf/in3FKtBFt89YBhc5WKWgl1lBaOCtbcnR0DGallW1x5
-         9jcSnQJrhxX1sDhPZ84NIeDzbKyD2uf8TKT6ZuKuBnFmLrvFJB9CKJ+8itr+QBMWbAfd
-         sa3w==
-X-Forwarded-Encrypted: i=1; AKwUvByj+qIXJhfTFdn+FtvPk/mVEcYFpkOefgZ/y9LE5qBReAHtMrVPDDepkL+tp+T/9Fjq+30buz0BiYSG6tRKuw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z93aBaRy2mj1PNftJyAmo6YJA/jyK3ZINQSyTUTxL1CmbSwf/xk
-	29VjBeldA9ICTqRCtlw0WLbPGQuJrcF+oovOMz0P0/0gL732lWm3E3Uz
-X-Gm-Gg: AYBFou2UYHWP5l7mk4uG1QVf9f+hLT22r9BuZJFZA9eHK42TcCytI7a4JHT6PEsuKdw
-	57ydzEEdAMK8WNsY75yjJelnfpDqzXSnpHGdnRpyKf74hbu5ZxTkJD3n1wF7icwUV1ahvQwf5c3
-	7FX1nZVoxDur/YdCKiorhVMtqACh5Ex8D6nbRvEqTGX96RrzFZ/6oIFQjoA+CdNRwHMYBFqJ2JT
-	SVdjw1T0QX0tWDyEGY7aPBOkgJEchR8sqc+zJpJVol7vdvJnJfpvd4M5z+EcS6aZmPHCStySbvp
-	BBQ1SyPdwVRKm6feAlNv/3NIUIkDU50Vabi23CVSJNZY2ThYtLIdq3s5xHY0TvbjIgAfiHbVgkT
-	7A5KoLwaow8eKHDwb4a+G8wUl/oaVe4YuLlKU3MFVyM6V0NtKZdfcnMq1WZKz5OWQmghmle6tyg
-	TOP8Fe2nawYs2XZVDkcbDtCiPGL0TXQlArakchQ+/0oEQGHMBRqJ84YYJj2SoY9BgKwD8YJt8rw
-	tyFfWcZvMqP71xvGpHQQgEnexE6t6bwoA81SFuwQybx3Iqdz4N4fML4f7rZ666PiU5dCaKEL6uj
-	0TtFLIxVW7B0svYEyRKkG10P1Ao6vk2JboN3uqOWkd/u6v2wqIfX9P92090vq/77n6Iv5bmJzAF
-	NTRC8wMD1s7Vd7bL+AqC0VYf2Z+dgstJTDY+xA2H6ZuxOyaT6HgWBOdDFfOVeH6EC8J5+IyduIN
-	+ucrUVJd6hy/cvaQI6Um2lCopWi3J4O7LprHDFB0DZ3lOFGOIdM7DSpkIG1+bfznSVHmsCR9hAh
-	FgkI6+qcyFfqCY=
-X-Received: by 2002:a05:6402:449b:b0:6b5:e088:eb79 with SMTP id 4fb4d7f45d1cf-6b5e088edd8mr40510a12.14.1793912035306;
-        Thu, 05 Nov 2026 12:53:55 -0800 (PST)
-Received: from mb-HP-ZBook-Power-16-inch-G11-Mobile-Workstation-PC.dynamic.ziggo.nl (2001-1c00-1106-0900-938c-4ed8-a3bb-093f.cable.dynamic.v6.ziggo.nl. [2001:1c00:1106:900:938c:4ed8:a3bb:93f])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b576406e13sm1234072a12.19.2026.11.05.12.53.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:53:54 -0800 (PST)
-From: Mario Behn <mario.behn@gmail.com>
-To: Peter Chen <peter.chen@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Mario Behn <mario.behn@gmail.com>
-Subject: [PATCH] usb: chipidea: udc: give up when the endpoint halt bit is not taken
-Date: Thu,  5 Nov 2026 21:53:42 +0100
-Message-ID: <20261105205343.982465-1-mario.behn@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPQmbF+9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB7B1F0089F;
+	Thu,  5 Nov 2026 20:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793912332;
+	bh=vC43Z356TqJuicgxWCHmaZbSDkPZZGittg+sJHxPzEo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IPQmbF+90bTYLHZFA5HBS9TNtgBhU24zGb5anSfW1d4QSImPRkEjPxss58IqB8Qrg
+	 6AJlQbMNT1Z6Afusr4y8MHRzT0GRDXAwexNWjMcKifEhuGH5XUMnc59PXYt72Byqct
+	 9GzLoqNumZtbyiYzNWstozD3/QjlrrL5n+sKnM/l0FQoU9RbhCMdcPBWKJQasXQpmr
+	 bmHDvt0RJf7x0U3I+2p4pvg2JJG2TwkiufGizXeNsfffaJPvG/eElDjItxyraebvuj
+	 eZhCHdGJN+SM/cEN5buyDAQa8qq8aSrlcPMOcFHg6Fzd8mZVV79/87dATCUficIZGj
+	 vNXhNIdIA90ag==
+Message-ID: <sashiko-outbox-200171@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 18/24] sched/deadline: Credit a rebuild to the CPU
+ recorded with the task's bandwidth
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20261105193359.1450487-19-mathieu.desnoyers@efficios.com>
+References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+ <20261105193359.1450487-19-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 20:58:52 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -102,76 +60,197 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-hw_ep_set_halt() writes the stall bit of an endpoint and loops until it
-reads back. On endpoint 0 the controller clears the stall bit itself when
-a SETUP packet arrives, so when one arrives while the driver stalls the
-endpoint the loop never ends. It runs in the UDC interrupt thread with the
-controller lock held, and the SETUP packet it is waiting out can only be
-consumed by that same thread.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] sched/deadline: stale HK_TYPE_DOMAIN mask used in dl_get_task_effe=
+ctive_cpus()
+- [High] sched/deadline: dl_task_rebuild_cpu() drops cpu from dl_task_offli=
+ne_migration()
+--
 
-Seen on a Zynq-7000 (an ADALM-PLUTO class board, PREEMPT_RT) during the
-host RNDIS initialisation: the gadget stalls the GET_ENCAPSULATED_RESPONSE
-poll that has no answer yet, the stall is refused, the interrupt thread
-spins for a minute, RCU stalls and every other USB operation blocks on the
-lock. With a bounded loop the condition shows on 1 to 3 percent of boots
-and is harmless: the pending SETUP packet is handled next and the host
-repeats its poll.
+commit 8fc0e93077a2156f71e1f02a2a295664e07d7e75
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-Retry for about a millisecond, then warn with the endpoint control and
-setup status registers and return -EBUSY. The callers already report a
-failed stall.
+sched/deadline: Credit a rebuild to the CPU recorded with the task's bandwi=
+dth
 
-A loop timeout for the same hang was proposed in 2021 (usb: chipidea: add
-loop timeout for hw_ep_set_halt(), Jeaho Hwang) and not applied.
+This commit adds dl_task_rebuild_cpu() so that root domain bandwidth
+rebuilds credit a deadline task's bandwidth to its previously recorded
+CPU when active and allowed, falling back to an active housekeeping or
+cpuset-allowed CPU, or skipping the task when no active CPU is available.
 
-Signed-off-by: Mario Behn <mario.behn@gmail.com>
----
- drivers/usb/chipidea/udc.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index a058e0c65eca4..bcf7f88b204ad 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -3607,6 +3607,36 @@ static void dl_get_task_effective_cpus(struct task=
+_struct *p, struct cpumask *cp
+>  	cpuset_cpus_allowed_locked(p, cpus);
+>  }
+> =20
+> +/*
+> + * A CPU of the root domain that a rebuild of the accounting counts @p's
+> + * bandwidth in. The one recorded with it, where it is active and the
+> + * cpuset of @p allows it: that of the root domain that admitted the
+> + * bandwidth, or that the last move put it in, which the cpuset alone do=
+es
+> + * not tell where it holds CPUs of two root domains, housekeeping ones
+> + * beside the ones isolcpus=3D"domain" leaves to the default root domain=
+. The
+> + * record answers as well for a task whose own CPUs went offline, moved =
+to
+> + * an active one by dl_task_offline_migration(). Else the first active C=
+PU
+> + * the cpuset allows, a housekeeping one where it has any; and nr_cpu_ids
+> + * where it allows none, which the isolated CPUs allow, no deadline task
+> + * of theirs keeping the last of them online.
+> + */
+> +static unsigned int dl_task_rebuild_cpu(struct task_struct *p)
+> +{
+> +	struct cpumask *msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+> +	int recorded =3D p->dl.dl_bw_cpu;
+> +	unsigned int cpu;
+> +
+> +	dl_get_task_effective_cpus(p, msk);
+> +	cpumask_and(msk, msk, cpu_active_mask);
+> +	if (recorded >=3D 0 && cpu_active(recorded) &&
+> +	    (cpumask_test_cpu(recorded, msk) || cpumask_empty(msk)))
+> +		return recorded;
 
-diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-index d52f89489893..4f4e6d296de5 100644
---- a/drivers/usb/chipidea/udc.c
-+++ b/drivers/usb/chipidea/udc.c
-@@ -224,20 +224,28 @@ static int hw_ep_prime(struct ci_hdrc *ci, int num, int dir, int is_ctrl)
-  */
- static int hw_ep_set_halt(struct ci_hdrc *ci, int num, int dir, int value)
- {
-+	enum ci_hw_regs reg = OP_ENDPTCTRL + num;
-+	u32 mask_xs = (dir == TX) ? ENDPTCTRL_TXS : ENDPTCTRL_RXS;
-+	u32 mask_xr = (dir == TX) ? ENDPTCTRL_TXR : ENDPTCTRL_RXR;
-+	int retries = 1000;
-+
- 	if (value != 0 && value != 1)
- 		return -EINVAL;
- 
- 	do {
--		enum ci_hw_regs reg = OP_ENDPTCTRL + num;
--		u32 mask_xs = (dir == TX) ? ENDPTCTRL_TXS : ENDPTCTRL_RXS;
--		u32 mask_xr = (dir == TX) ? ENDPTCTRL_TXR : ENDPTCTRL_RXR;
--
- 		/* data toggle - reserved for EP0 but it's in ESS */
- 		hw_write(ci, reg, mask_xs|mask_xr,
- 			  value ? mask_xs : mask_xr);
--	} while (value != hw_ep_get_halt(ci, num, dir));
--
--	return 0;
-+		if (value == hw_ep_get_halt(ci, num, dir))
-+			return 0;
-+		udelay(1);
-+	} while (--retries);
-+
-+	dev_warn_ratelimited(ci->dev,
-+			     "ep%d%s: halt=%d not taken, ENDPTCTRL 0x%08x ENDPTSETUPSTAT 0x%08x\n",
-+			     num, dir == TX ? "in" : "out", value, hw_read(ci, reg, ~0),
-+			     hw_read(ci, OP_ENDPTSETUPSTAT, ~0));
-+	return -EBUSY;
- }
- 
- /**
--- 
-2.53.0
+[Severity: High]
+As reported by Sashiko on v2 [1], does calling dl_get_task_effective_cpus()
+here still observe the lagging HK_TYPE_DOMAIN mask during cpuset partition
+transitions?
 
+In kernel/sched/deadline.c, dl_get_task_effective_cpus() checks
+housekeeping_cpumask(HK_TYPE_DOMAIN):
+
+    hk_msk =3D housekeeping_cpumask(HK_TYPE_DOMAIN);
+    if (housekeeping_enabled(HK_TYPE_DOMAIN)) {
+        if (!cpumask_intersects(p->cpus_ptr, hk_msk)) {
+            cpumask_andnot(cpus, cpu_active_mask, hk_msk);
+            return;
+        }
+    }
+
+Because cpuset_update_sd_hk_unlock() and cpuset_handle_hotplug() invoke
+rebuild_sched_domains_locked() -> dl_rebuild_rd_accounting() before calling
+housekeeping_update(), HK_TYPE_DOMAIN still reflects the pre-transition
+isolated partitions and excludes all CPUs in any PRS_ISOLATED partition.
+
+For example, if an isolated partition on CPUs 2-3 containing a deadline task
+p admitted on CPU 2 (p->dl.dl_bw_cpu =3D=3D 2) is shrunk to CPU 3, CPU 2 re=
+turns
+to top_cpuset's root domain while cpuset_update_tasks_cpumask() updates
+p->cpus_ptr to {3} without SCA_DL_BW_RESERVED. During the rebuild,
+HK_TYPE_DOMAIN still excludes both CPU 2 and CPU 3, so
+dl_get_task_effective_cpus() sets msk to {2, 3}. In dl_task_rebuild_cpu(),
+cpumask_test_cpu(recorded, msk) then succeeds for CPU 2 (and the fallback
+cpumask_first_and(msk, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)) would also
+pick CPU 2), crediting p's bandwidth to top_cpuset's root domain instead of
+def_root_domain.
+
+Similarly, if another CPU (such as CPU 1) is isolated by isolcpus=3Ddomain,1
+or in another isolated partition while an isolated partition on CPU 2
+transitions from PRS_ISOLATED to PRS_ROOT or PRS_MEMBER, HK_TYPE_DOMAIN
+still excludes {1, 2} during the rebuild, so dl_get_task_effective_cpus()
+sets msk to {1, 2} rather than the cpuset's allowed CPUs {2}. Conversely,
+because HK_TYPE_DOMAIN is built from cpu_possible_mask, if a task running on
+boot-isolated CPUs in def_root_domain has offline housekeeping CPUs in
+p->cpus_ptr, cpumask_intersects(p->cpus_ptr, hk_msk) evaluates to true and
+falls through to cpuset_cpus_allowed_locked(), causing dl_task_rebuild_cpu()
+to prefer an active housekeeping CPU over remaining active isolated CPUs in
+def_root_domain when the recorded CPU goes offline.
+
+> +	cpu =3D cpumask_first_and(msk, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT=
+));
+> +	if (cpu < nr_cpu_ids)
+> +		return cpu;
+> +	return cpumask_first(msk);
+> +}
+> +
+>  /* The caller should hold cpuset_mutex */
+>  void dl_add_task_root_domain(struct task_struct *p)
+>  {
+> @@ -3614,7 +3644,6 @@ void dl_add_task_root_domain(struct task_struct *p)
+>  	struct rq *rq;
+>  	struct dl_bw *dl_b;
+>  	unsigned int cpu;
+> -	struct cpumask *msk;
+> =20
+>  	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
+>  	/*
+> @@ -3626,10 +3655,16 @@ void dl_add_task_root_domain(struct task_struct *=
+p)
+>  		return;
+>  	}
+> =20
+> -	msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+> -	dl_get_task_effective_cpus(p, msk);
+> -	cpu =3D cpumask_first_and(cpu_active_mask, msk);
+> -	BUG_ON(cpu >=3D nr_cpu_ids);
+> +	cpu =3D dl_task_rebuild_cpu(p);
+> +	if (cpu >=3D nr_cpu_ids) {
+> +		/*
+> +		 * No active CPU to count this task's bandwidth: leave it out
+> +		 * of this rebuild, where dl_bw_gen keeps its release out as
+> +		 * well, until one has a CPU for it.
+> +		 */
+> +		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+> +		return;
+> +	}
+
+[Severity: High]
+As reported by Sashiko on v2 [2], can a throttled deadline task migrated by
+dl_task_offline_migration() still have its bandwidth credited to the wrong
+root domain or left unaccounted?
+
+When all CPUs in p->cpus_ptr are offline, dl_task_offline_migration() sees
+cpumask_any_and(cpu_active_mask, p->cpus_ptr) >=3D nr_cpu_ids and falls bac=
+k to
+cpumask_any(cpu_active_mask), moving the task and p->dl.dl_bw_cpu to an
+active CPU while p->cpus_ptr still contains only the offline CPUs.
+
+In dl_task_rebuild_cpu(), the check preserving recorded when the task's own
+CPUs are offline tests cpumask_empty(msk), where msk is the result of
+dl_get_task_effective_cpus(p, msk) & cpu_active_mask rather than
+p->cpus_ptr & cpu_active_mask. If other CPUs in msk remain active outside
+p->cpus_ptr (for instance, with isolcpus=3Ddomain,1,2 when p is affined to
+CPU 1 and CPU 1 goes offline while CPU 2 stays online, or when p is pinned
+to one CPU of a multi-CPU cpuset with admission control disabled and moved =
+to
+another partition's CPU), msk is non-empty ({2}) and does not contain the
+fallback CPU recorded by dl_task_offline_migration() (such as CPU 0).
+dl_task_rebuild_cpu() then rejects recorded and credits p's bandwidth to
+CPU 2's root domain while p runs on CPU 0.
+
+Additionally, during CPU deactivation in sched_cpu_deactivate(),
+cpuset_cpu_inactive() runs dl_rebuild_rd_accounting() immediately after
+sched_set_rq_offline(), before a throttled task's hrtimer fires
+dl_task_timer() -> dl_task_offline_migration(). If the deactivated CPU was
+the task's last active CPU in msk, dl_task_rebuild_cpu() returns nr_cpu_ids
+and dl_add_task_root_domain() returns early without updating
+p->dl.dl_bw_gen. When dl_task_timer() subsequently fires and calls
+dl_task_offline_migration():
+
+    scoped_guard (raw_spinlock, &dl_departed_lock) {
+        if (p->dl.dl_bw_gen =3D=3D dl_bw_gen) {
+            ...
+            __dl_add(dl_b, p->dl.dl_bw,
+                     cpumask_weight(later_rq->rd->span));
+            raw_spin_unlock(&dl_b->lock);
+        }
+        p->dl.dl_bw_cpu =3D later_rq->cpu;
+    }
+
+Because p->dl.dl_bw_gen !=3D dl_bw_gen, doesn't dl_task_offline_migration()
+skip adding p->dl.dl_bw to later_rq->rd->dl_bw, leaving the migrated task's
+bandwidth unaccounted until another root domain rebuild occurs?
+
+[1] https://lore.kernel.org/r/sashiko-outbox-198343@kernel.org
+[2] https://lore.kernel.org/r/sashiko-outbox-198343@kernel.org
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
+487-1-mathieu.desnoyers@efficios.com?part=3D18
