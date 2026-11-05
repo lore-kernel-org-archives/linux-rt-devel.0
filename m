@@ -1,57 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793913429;
-	b=Ox9Y2ZxD8Kt2je4gc3bnzFzyy3Oamg3kdxkpwVfTvTCUvIWJKKIsLOGehdSYsJRPCaHx
-	 jvSuV+qh8fpZgQJEb4IoBxVLN3vqDmHSLosWbXWQcH72mrMuaBxNmCwJ1lnhtZ5F2fyik
-	 bDtvPdR1Xfx3MBQ6P6fOWj1zI1gWtwFC+PKrnWqtUIFJeldrjRp2Ud5PdYeb4B6e1hxf4
-	 R3VgJ5ElP9QM3FDab3XoJQz/Wq6I6APd7tvfZE8IuyDF5HU9ts+YdDwB9yzatXZ/ba+mU
-	 FQNLF0tg3hHS+qw3LCdZndXFHFxtIYsTHxQ2q8OvPJryRa/rAsToc+vKs9GpD158EZA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793913429;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=/+biNtr+xln0rFjEaWe5bkdhb05tAUnaC2xdWexJ9ZI=;
-	b=cN4kM72wtDcuFxuh5WbdLeuq6QW22D+knv7ccSfsClcDo55d7SEhWWtORQe5dMIS25np
-	 7E0S5pDBPvjskMXgQtxYZgxyU9t3bYgBv0OnqsSr9GA8CszSEYxyg82HjCSnK9S+Pj51y
-	 vcO9NAatOGqxLmfaOjVS+UzLGOnWrFmbo6hrDh+nuJUUJiM64qxdu+LaazcOLc+K8XlCy
-	 ETHG3Ndd6fGV766/bZTarYP95Bn4PofMGEprE361mjVL8uNzSI8brUGAJsAoqJvb4QQms
-	 DS+M5rZD5jMj4ViOLkH/iyPWficOEfUAJWYKbkASx/ef2j7i0uhzlsJqdfRF6szk1Cg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUeM7u7I;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.102
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793913661;
+	b=gKG5jF57sYFd0RhXyehLMBm1/4dHFU7docCEHLuTmxViIydgUjvi+cTBc9FS0Gs5VNtg
+	 9WE6X7utN3v4L187wMug04FKhwMafzP99XRwqfPQbaTUH38KUT6RN6labxBZ0W4rMVEdy
+	 xmyQL3Th7CI6Zm7wDLo7Y85Yhe1T+agzsWR4qz6izT+m5Ote6NhT1U1SP1stB2Q2PjVZ7
+	 Wsr+9jW6Hm9EK1/uQEN6Clyf8/iZiHiXyLeH14rlpS+vuC4lGiVLacTKSanUSg32AXroD
+	 hxTrSdCFuDm2J+xn6vfTaLBfj20Gc5aD+hS2kgnJrpJbox0m5c7uogbun8ZFqUcGUUQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793913661;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=EpoIeE4Cztinb7cwNKrU/WdBjjEwDfObg9ueQaqvSkY=;
+	b=KWgJ3vcZxDMI6P6usQbFlB/2O4wnEtQTZ2IRpvsQdOgtgxRtoqdSNkQG/H9dRsFa1crC
+	 AEnvGcHOD9TUpg60smpNdMj0jrmBd6x97U8b0jn7V2FS15/dg0ERw3eqHyJ1NbOpBaboK
+	 wUdtd7Fn6g7GvFsUBwWykuIHWT6cGwHwAc3f5Cp3A0BuRX1BEH62/sX/XdhxFal8Q9qUI
+	 8Rj+U7EMy0vu/9+o5Ucx3BRDkdYbtq+cquhS/ng8G4LOjwlv1P4rlNSl34PnWHqjaNOtx
+	 0MSSyqREBnBhx+QDf++ypK7pIn1PXwwDEQ0GCJfOU2UmLyr6O+ryZ7apo8dKvcB1VBQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=s5jnoWXO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.102
+Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022102.outbound.protection.outlook.com [40.107.193.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2175B606A326;
-	Thu,  5 Nov 2026 21:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3095606A329
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Nov 2026 21:21:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3095606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUeM7u7I
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65DA61F0089F;
-	Thu,  5 Nov 2026 21:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793913428;
-	bh=/+biNtr+xln0rFjEaWe5bkdhb05tAUnaC2xdWexJ9ZI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oUeM7u7IEwa6XiisLVS9iWGEq6gv6cbP9Se+MPbABFNJoYRI4lTmGLySyAJn8aVw9
-	 +WwfjLlIXkqquzvMg3HDSPz0UpcqRmlOP7aT+fejqYDNvFV3l7nScvT60AYoFNfhxX
-	 bDdOGRtK+GuMhpC4jtHl0AKqNhrQBZ6OC1fojxfdmP+gSO+UcMEGty5VMl4Bfazfm5
-	 /m8itDcT23PyKQ6QZ6qwhS+hxA9lJxf8px/Nfq/ISln9Y7U35g6z9s+xqtPYHF8YUk
-	 OzywxZGvLSCSq7BKotboRYYaOty//x9nBejtM9b+ssjUS00X46VKB0Scl4JQ+PFC/d
-	 sIf8iY7wpkjjA==
-Message-ID: <sashiko-outbox-200212@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 24/24] selftests/sched: Add a test of SCHED_DEADLINE
- bandwidth accounting
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105193359.1450487-25-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=s5jnoWXO
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VcyOzqGkq3awnWaBeCm4f0bpSpChrnJhODoUdRH3AJQcT85C6ph13QxW1XkeErRH/DWoep/z2BFIy7QnecIKIPbn11ihwNzfaee92kjhj4UtLSUhIJHb72LUiFTDUxJbYNMz9icYUCLpSZboHpxYV+mN7uBfQBkYg3a8qt/INdRCRD5VFfKNcCFD0eR1FEwsjWX/vTo5L7fNT/7biXkOQtMVpzsEukEh6xeYNsu9M0XbWoLBK+ut8VjVCGr9Ao/KqpGqin41W4eeAMAP9loMlzouUD5bHllazV0b/uRatOmbn7y9Cl9IuYuWXUTVeOSwQmo/AUAqxmMI7jIVdxUhAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EpoIeE4Cztinb7cwNKrU/WdBjjEwDfObg9ueQaqvSkY=;
+ b=X9ufUtK6GudJYu161LvIUuYB4BYHOn1GeeePtQTkfCQEH20r9l87gW2qe0npQgqV+mqrV4n7lp/gvWLN9iB4aY6u4ZGC6jpHzfcVvlZl+pf8bGniAL0mRMRIOyC3KFIAlq7eOq5+Bj5ulSZMadh1roQMqelUHAnGN15r5bl62/7w8j8jQhlFeqzUziXMrvavGl9zdpT6MwS6V/+vzJ2hJkFq/JX5//VGUByB9ztNa/vWKI3g8X2PQVPcLaTjwcX0CCZeWbd/l9o3mpOwMuw27ZyQ3PnRUZ8xtoj5VWeqmboCasgTCHC/LbTHVZIllDsMU+pmzwDoLGX47uacZQcwpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EpoIeE4Cztinb7cwNKrU/WdBjjEwDfObg9ueQaqvSkY=;
+ b=s5jnoWXOkkXvcOyoUTQilkDldsYhkR4Pl/GVkxuP+PyZrajrqSMIgYdlsOWxtDBxSc4r1PIdoNsEbnvDFy2B1wlru3MV/cWnb3lMN20D9mfX/ojhIkwfVh7uadjzLHzfCs+95YrKJ7KcHpLy1NAST2I/6qfvG9ALIufmX44b3mI6CqX4XyJ6BsagzgPAIbkKUc0+YSpA/mpUqj9HdufdpHpIp6hm4gq6LaSx6+/U5ylbww9oBuXibU/HujCF0KST0LeRhJNHry2X/oOK7dnlttQjA335vWaZOFmHnV3cKgf6oN/nHvcIDloLtV4Et9YEkFkDA3APoH1D1z3/ILgoPw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT2PR01MB8310.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:b1::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
+ 2026 21:20:56 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
+ 21:20:56 +0000
+Message-ID: <f9576e17-0325-477e-85c8-567771e7b2dd@efficios.com>
+Date: Thu, 5 Nov 2026 16:20:55 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/24] sched/deadline: bandwidth accounting fixes and
+ selftests
+To: juri.lelli@redhat.com, peterz@infradead.org, mingo@redhat.com,
+ vincent.guittot@linaro.org
+Cc: linux-kernel@vger.kernel.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+ mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
+ tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
+ m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
+ cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
 References: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
- <20261105193359.1450487-25-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 21:17:08 +0000
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <20261105193359.1450487-1-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0258.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:68::35) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,138 +105,90 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT2PR01MB8310:EE_
+X-MS-Office365-Filtering-Correlation-Id: f529a6fd-6589-40dc-4941-08df3b82ae26
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|18002099003|22082099003|3023799007|10067099003|261102123227099003|261028144727099003|261026140227099003|56012099006|261022105027099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	LXFjd9AF7t96lybF3rA1brJid7al8lP/OYKmJMLW2aEbdk3+NM1/6yjb3XCB+31T7Xl2XUSPcrbZfMycqqh8dbC5yaL9ZQrC9AoZMlz8Q8ulv4G9+jYI8phrNsC/EqSdU0Jzztl7kIYAyF6L0UhXXydqcKqWaFltzA/iky6uaYbmqWqhVgXRh4c6XjAuOkAU/C7Bbdh+nplvjBOQXfDJe5HvUmwmtx7PaDRNAiCzBlXSw7gikKnBBKWWu0cEuGEtura2NFZuZHJ09Rsq1zPxL1d95TWhTSpkKrWfrWKs/uU2r8+TMngRsy+aU7vECeX48x1k27aXaRIc44ymd+atcUT44ZEEWEgaxdeUzNhYpVK81md5oQnJWV53qyvfeMHrd5CK0+GK9iTvJ1sV1mKeSvrJyKiyO9VM19CKxYKqYiPNaAOzcTqudzz/Ww4I5/RcQBmK/LXsvLoLZl5IZlGkYL6yo9IYE26exDCZhJnbgNGOmKW3sRzIamxQZ1dICHg57gHT7FLJAoWd4Q5+2nxX5JAaxVxTc5Mijs1HdKS4m48h5fIyU58t7qK3bOe/hyHWc6DX9Pa6vViLZepjiUIkXIATrxlFv+l0BLi5FYFyKgU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(18002099003)(22082099003)(3023799007)(10067099003)(261102123227099003)(261028144727099003)(261026140227099003)(56012099006)(261022105027099003)(261021121427099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MDVraVpzbSs3RGZ1VE9LK0J0UFEwdXpncWM1YkFKOC91NGltc0l0djRTR0pV?=
+ =?utf-8?B?TDVpZXlrKytqWmZjMkplYkxwQmxBZ1FkdnlzNFI5VnNXLy9UUlJWY2dmUEJt?=
+ =?utf-8?B?NFJtNk1UN2xWWnRsV29mblZ6dmhtamxuZGZFbHRJS1RwY3hURmt5UUZacUZH?=
+ =?utf-8?B?UnE0ZGNLamZLOVZHY3dXTUNxMEFlR1ZXWDROK3JMc05qQ0t5ZVl1c0QzNFdp?=
+ =?utf-8?B?Q3NVYmI0bWU1Nk1uODlpcENpY09MZTFqbWRMbnhuTmRBRGhSNGVXRXdzcTRN?=
+ =?utf-8?B?bEtkM3loS2Jwdk5qSlRHeFNhUzhOU2o0M3hjMTJjTTdNa1BJNnBhNEwwSXF2?=
+ =?utf-8?B?V3RDakpvbE5BSy9RajE0UzkxWm5xRU5aUTRmY1dGZVpmODE5TDUxQ1Myb2Qx?=
+ =?utf-8?B?WldtOE5SVldpWWN6em81VEVsNE03MzJoM2R3dDZZTWRMeEUySlJBTW4xZXpR?=
+ =?utf-8?B?Q1BXWldqc2NjMnZmbDBMRFBXSXV2QmUySW5mRVM2S1ZJM0FSYWhDam1UQXRP?=
+ =?utf-8?B?Tzg3VGNsYnFNS1BGcE1maC9WM254aUx4bDVORDlqR1NzcUlwc2xjcWZlcSs1?=
+ =?utf-8?B?eml0c3VmYXMrcXFSVFhJbDZpWHZXU0RjR0crNy9FV2Y5ekcwbXFKUEh0N3hZ?=
+ =?utf-8?B?azdJd01QL29lQTZSRGNaTStZZ1ZwaGdYSTk1VitYemNuMWtjbUdObU4wcHMx?=
+ =?utf-8?B?QVdoVlRZNDVVNWU2OWFRTEpiZG1VMW4xQ2JFcnVhcUozZnhDOFlvVnVNc2dT?=
+ =?utf-8?B?L3NZNW1lNnNNb09GVGVJUUxreWZMUVNnWGE4Y1ZjYkFOUFZPMWJNNUlrRFlu?=
+ =?utf-8?B?TVlvTnp5MUU5cVdWbWkwdVJ2dDcyVW1yUVA2WmFjS2h5UUx6UTNtMFN2NjBG?=
+ =?utf-8?B?YTF5TW5BbWZKcktTQU9BZHB0RldCU0VrQ05YTnkzdFJoVFhEaWpPbEFIL2pX?=
+ =?utf-8?B?VWo3R0FCMGlGVUlVSS9Ic1RFN2tmYnpxSjlEaXBNd29QcEM2bm52RFcyVisv?=
+ =?utf-8?B?R3krdy9uN2w0S1VjNktwTVNWb0VnTzZyY0Z2cHp3TGluR0lUK3I2QXhlUmZ2?=
+ =?utf-8?B?SDVqd001cFMwNkdzL1BJYzZPUVpwKy8xdEVxQ3JPQkZ4eWRseitqMDBXQTht?=
+ =?utf-8?B?aDU0ZjYrZTd3WndDYlZ4T1BVSVZHbzhJQnQ0QjNVT0RGd3pmdEtJdDF6OVJj?=
+ =?utf-8?B?Sm9OazlxajBmQUphNjJUZTBrRTkwMnRUZzBHbEdjRUNoR3V0UHdaQmlVUjNj?=
+ =?utf-8?B?aytFaUxoU3hkdURKM2Y2ZTRFYVA3ZWZtWVBjdXJSKy83N0NBcWxwZnh5WGQ2?=
+ =?utf-8?B?UlgzYWw0b245ZmRxZFRYOThIK3pVTWtMbnhOUjIrcVRVNE12TkRwUzZ0Znp6?=
+ =?utf-8?B?QlBRTXZDNnE2RU9nUmRzQVFCZDhBeEY4Y21qZDJQcnE2RmFDbzd3VjRHRERv?=
+ =?utf-8?B?OTAvdUJBTGFOVkgzOTJZMWl0aUhtNEpsNzN3VHFOalZBendseGR6cDlwRmVC?=
+ =?utf-8?B?elc2TmJ5UUNsVVhJMjh3ZmIxb3pjNW1sS09lbEVsdi9EQjBENkFWRW1IZEtk?=
+ =?utf-8?B?QlBvNENZOTR1S1lNWmdHb1FaLys3aXdxcEFuVVdiaWUvSFM1bzNJOTJ5MUF0?=
+ =?utf-8?B?aE9xUW8vdVgxeUMxNUMzbC9hS0ZhU29TVkZTK2RwSjROM0k4OTZoOUxxRHNz?=
+ =?utf-8?B?UlJZUStRSndqRkIvc3B3VjU0aDNGZXpMMXhNY1ZOM0dscDhacXFlMUovYWNU?=
+ =?utf-8?B?bExneFV3ak1ySjBxd2hNTDdjNnVyQnBKVjRYRzRwQnhjUHBUM0V5cEx3K0tn?=
+ =?utf-8?B?NXVENmdYQlExaWdxWC9kSFU3MEtPZFEydGVTMUhscXBUenZQSENsSnNlWDl3?=
+ =?utf-8?B?b0ZFeWZLTzZUS2xTVnZDTStvazI0MGZnaDk3akxaQ1dBTXdWR0NVSEhwWXRy?=
+ =?utf-8?B?dDFqbGVqK3UzMXVuVzlldnQxQjNicjJuVHFJMXBLamltY1haK3k2MzZDa29N?=
+ =?utf-8?B?SWc4bVRUYU5Obk82endSMTBEZ2JUNXdTUmZQd0s3NWhhTXB0RXVNOFI1L25z?=
+ =?utf-8?B?c2orUktvREhKSHBqUTJQYnE0SDRrRTVCOXNpZ1M2bGZQLzFLM0FkYnZSR2Nt?=
+ =?utf-8?B?dll4QnIxcHRMRzZ5UWkzSWlVd2NPNFRXL3RFSlJsRXNMczh0d2d5bUovZFI4?=
+ =?utf-8?B?TVUvUktFTGM0L0RZcGZvMjEzMUFzMHVDZnZJeE9DSnY4QnV5Y0N5dGl2Q3NY?=
+ =?utf-8?B?RURweXczU21qcmZ0ZTJQTWFTeDhjMlpwTjdpSXlxTFloZ21NM285c0dmeE4w?=
+ =?utf-8?B?VTZLZUJjSjB3TGlUWVZibGx2aFZob2tCWHZnQjloclhGTDgwcG9pNng1TUQ5?=
+ =?utf-8?Q?uez0F0FhI/Jmxz4M=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f529a6fd-6589-40dc-4941-08df3b82ae26
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 21:20:56.4516
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7elEfNw/WA/U53KNjDA7Ucprrya7mjKCxh9SEII5uC1M+juqvsQvXfc96H/tgg7I3LYSP1n52UNKKNCFx4UCQGH8XWz1nn6kxIhRDz41Zz0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB8310
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] selftests/sched: death_group() kills two throttled threads and n=
-one running
-- [Medium] selftests/sched: moves() wakes on exact period boundary in move_=
-throttled()
---
+On 2026-11-05 14:33, Mathieu Desnoyers wrote:
+> Hi Ingo, Juri,
+> 
+> Please find in this series twenty fixes to SCHED_DEADLINE bandwidth
+> accounting on v7.4-rc1, followed by the sched_debug output of a
+> runqueue's deadline bandwidth and the three selftests that catch the
+> fixes: twenty-four patches, the fixes first, as you asked, so that
+> stable can take patches 1 to 20 and stop.
+> 
+Sashiko got chatty again. Will fix and respin a v4 in the coming
+days.
 
-commit eb8b43e433ced961bc0d97ddf7bd888cfef3b0b9
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Thanks,
 
-selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
+Mathieu
 
-This commit adds deadline_bw_test, a selftest suite with 46 test cases
-covering SCHED_DEADLINE bandwidth accounting across priority inheritance,
-parameter changes, cpuset moves, task deaths, sched_yield(), runtime
-overruns, bandwidth reclaiming, fair server changes, a randomized mix of
-transitions, and CPU hotplug.
 
-> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
-tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> new file mode 100644
-> index 0000000000000..898809c2185a8
-> --- /dev/null
-> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-
-[ ... ]
-
-> +static int moves(enum mv_mode mode, const char *name)
-> +{
-> +	int base_p, base_r, after_p, after_r, ret =3D KSFT_PASS;
-> +	pid_t pid;
-> +
-> +	base_p =3D probe(cg_p);
-> +	base_r =3D probe(root);
-> +	mv_state[0] =3D 0;
-> +	mv_state[1] =3D 0;
-> +	pid =3D mover(mode, 30 * NSEC_PER_MSEC);
-> +	if (pid < 0 || child_up(name, mode =3D=3D MV_NON_CONTENDING)) {
-> +		reap(pid);
-> +		return KSFT_FAIL;
-> +	}
-> +	if (mode =3D=3D MV_NON_CONTENDING)
-> +		sleep_ns(NSEC_PER_MSEC);
-> +	else
-> +		sleep_ns(2 * PERIOD);
-> +	if (enter(cg_p, pid) || enter(root, pid)) {
-
-[Severity: Medium]
-In move_throttled() -> moves(), does sleeping for 2 * PERIOD (200ms) end up
-moving the task while it is running rather than throttled?
-
-In mover() for MV_THROTTLED, the task sets a runtime of 30ms per 100ms
-period (PERIOD), sets *mv_state =3D 1 immediately, and spins. child_up()
-polls mv_state[0] every 1ms and returns roughly 1ms into the task's first
-100ms period.
-
-When moves() then sleeps for 2 * PERIOD (200ms), that sleep is an exact
-multiple of the 100ms period. The task exhausts its 30ms runtime at ~30ms,
-is replenished at 100ms, exhausts its runtime at ~130ms, and is replenished
-again at 200ms for the 200ms..230ms window. When sleep_ns(2 * PERIOD)
-returns at ~201ms, enter(cg_p, pid) moves the task right after
-replenishment while it is actively running instead of throttled.
-
-Should moves() wait for the spinner to be throttled (for example using
-wait_spinner(0) like death_killed_throttled() does) before calling enter()?
-
-[ ... ]
-
-> +/* Deadline threads of one process, asleep, throttled and running, kille=
-d at once. */
-> +static void *group_thread(void *arg)
-> +{
-> +	long kind =3D (long)arg;
-> +
-> +	if (set_deadline(0, 10 * NSEC_PER_MSEC, PERIOD)) {
-> +		mv_state[0] =3D -1000;
-> +		return NULL;
-> +	}
-> +	spin_ns(NSEC_PER_MSEC);
-> +	mv_state[0]++;
-> +	if (!kind)
-> +		for (;;)
-> +			pause();
-> +	for (;;)
-> +		;
-> +	return NULL;
-> +}
-> +
-> +static int death_group(void)
-> +{
-> +	pid_t pid;
-> +
-> +	mv_state[0] =3D 0;
-> +	pid =3D fork_child("a group of deadline threads");
-> +	if (pid < 0)
-> +		return KSFT_FAIL;
-> +	if (!pid) {
-> +		pthread_t t;
-> +		long i;
-> +
-> +		for (i =3D 0; i < 3; i++)
-> +			if (pthread_create(&t, NULL, group_thread, (void *)i))
-> +				mv_state[0] =3D -1000;
-> +		for (;;)
-> +			pause();
-> +	}
-> +	if (wait_for(5000, mv_state[0] < 0 || mv_state[0] =3D=3D 3))
-> +		ksft_print_msg("only %d threads of the group started\n", (int)mv_state=
-[0]);
-> +	sleep_ns(PERIOD / 2);
-> +	reap(pid);
-
-[Severity: Medium]
-The comment above group_thread() says this tests killing a group of
-deadline threads that are asleep, throttled, and running at once, but can
-any thread in the group actually be running when reap(pid) sends SIGKILL?
-
-Each group_thread() sets a runtime of 10ms per 100ms period (PERIOD) on
-cg_p's single CPU. Thread 0 spins 1ms and pauses, while threads 1 and 2
-spin endlessly. Once mv_state[0] reaches 3, death_group() sleeps for
-PERIOD / 2 (50ms). On cg_p's single CPU, threads 1 and 2 each consume
-their remaining 9ms of runtime (18ms total) and are both throttled well
-before the 50ms sleep finishes.
-
-In addition, because death_group() stays inside cg_p as a SCHED_OTHER task
-(unlike kill_case(), which moves the killer to root), it cannot run on
-cg_p's single CPU to call reap(pid) while any deadline thread in cg_p is
-actively running. As a result, reap(pid) always kills one sleeping thread
-and two throttled threads, leaving the running thread case untested.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105193359.1450=
-487-1-mathieu.desnoyers@efficios.com?part=3D24
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
