@@ -1,57 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969427;
-	b=LfZKX1/CbGrJwk/xzztUhLe0KC5R1/OaknAClcB0Bw0GzE3Bek/QqDVX8awpf4TGSugn
-	 Y6LG3X64PZMZeIfSRW8dyq4QxZcwp42uUiOLNUoXyOEv1Km6Wk3+dGZENX2rvamPeHl3y
-	 d/1IkDw/hN1WIUj1AM1NaKjX3GDrIm4jdBNQ6Nrbv7iIp6qyCDwIwFbaz7V18MThwN5Gp
-	 3hnupOVU9J13SHzwlB0mHiuFQFxKVaFhaClmx6mQDuoA5IXDfxBXh3+gcKv4sDZqgqaze
-	 Mpauu5MgdA3ukMyN7mYofJmctZss2hAtxCE06Eu4RSIcgZtcGWXP9YwOj7On8kjKMlw==
+	t=1793973846;
+	b=zyQEJ7+TnJF6sW4Xm9ebTURb4FFRWzVA45eeEDXHivV9NWqzEPWP89EgJ4bwIi1v44TL
+	 nHzlckLNm0DUmvNf6o617CF+ZuTSs6BaJOf+K7xmEzK8J9MMSm6fUDK5Hi7R+L7u7zHVB
+	 K7QS8LSOSCjjtzIdTAnJuALn6DSBk1Sy721ANZpeuy1Y5q+HuSJeNMoNmVWOhKjjw/Lcv
+	 mVmP3DbB1C5e+fw/7M/S5QhEvG8eG/4X/GdL9XRKZ6G4tgOnFwIL3mg5c61TzQYW/6PU6
+	 oIv8HBRMztMwcA5f5ICfxMbmK2XQ50UKYje9mRXa+ZSTpqpa3aRYYnBFdoYZbcknmYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969427;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=NmfONnVAgnIm9TDYhz5jCtE3KY9ukbde4Xt5kgK1j5E=;
-	b=OS1hJSANgvPQNydOfkkffIX+ndrapyZ4iJ72oXU/590467d/YhmSyNqLqul3gqu0/sn0
-	 Wsj2CP1tP2oDdy5gfgax+7f/gjtI0F2Q54X/0IBZo7cP6U+Hq3S8A/oldeShmO7XXcQKl
-	 MszthYQ4mHFPZnxd99y+ywwaxcRyYocVtQ0NiVqHM2hvuk8As9yDgYI9k358rO0hZkXI6
-	 sm37EUyoHFAXzZ92K9Sg/cVYi5QxBYTxE5qa9L6iib0jjmVud2Ai1NEuT3QmRhDTFs2JT
-	 33hSquxHi09MDLI0RlDQE08F7NCi66qhDua1qzms5+XZC/4m5qU6FSLWEP2WpIXfyWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793973846;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=2POFqhBdX4hWO/hojONQrzEFt0JAY/xmNxctemziCs4=;
+	b=CKp9BXgzVMQiEP1ybgIZ86xILvpXcfGAi5ExnIeRKKjaYG6mCLbGY02ElY5dHQrru3NM
+	 f9W19/Dq8FX3uMnNOYZlYdOI5D6r0Hfeb/EVq0cTzZo+e8muCoJTEHRM7PlvwsJh+Okku
+	 S8lAW1wnHTk+3+QTJ6bSojQxNqjNUtCBhJck4RK2ndMhv6b7fkTIXRcSqgdOhUW9+b85T
+	 wKM+dCPtF1+oEOC9fZcgg7iBFFVBszneeUsaa+Wchy/tbXejI8+x6BNzEn5L3m7A3rKzd
+	 HeHbj0GO9ro7fyK0i2SQqMMVuZQwjLvDcBDhSxWJX72Ebnfh0i4FXtDAyK5CJNhg3Sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="T/SnfQb2";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ddswAkxd;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=J8vrAzlw;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CA0606A326;
-	Fri,  6 Nov 2026 12:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD6B606A32C
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Nov 2026 14:04:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DD6B606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T/SnfQb2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9821F008A1;
-	Fri,  6 Nov 2026 12:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969426;
-	bh=NmfONnVAgnIm9TDYhz5jCtE3KY9ukbde4Xt5kgK1j5E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T/SnfQb2On6cE/syWXCIgtHugDJ2OQctD28zCkBH0yCkLta+BxnfK7Z+MG63vALxj
-	 fQ6gQE/iFV97oOCZG+i6Wag0x3zCWcVMiKqoDksYp3qPEB0DSHAET4EbqfWC2cIPHf
-	 QQvejjV6t+eMqtlZL+ZNzLXt6baxqvIX7NqiXcy+vPOzYBmpRjfj6Bp2wWOFqtVjbA
-	 3NfZXiCnRWoBw+SGrPp3O3QKgv0JNkwFUddy1TE90MeQEyHMHM0rR3Wmoejo5l5Rie
-	 tjsa4XHUzAbJrTVWHWT+Yp1vv1Kj9TuRnOTtDBQ4/BoOQYBQMYFsRpy6LTtiRqfWAG
-	 iQU3Hn38PXV5g==
-Message-ID: <sashiko-outbox-201417@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v5 1/5] amt: fix use-after-free when a Membership
- Update re-arms a freed tunnel
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Omar Ramadan" <omar@blockcast.net>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105125010.1107546-2-omar@blockcast.net>
-References: <20261105125010.1107546-1-omar@blockcast.net>
- <20261105125010.1107546-2-omar@blockcast.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 12:50:25 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ddswAkxd;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=J8vrAzlw
+Date: Fri, 6 Nov 2026 15:04:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793973843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2POFqhBdX4hWO/hojONQrzEFt0JAY/xmNxctemziCs4=;
+	b=ddswAkxdodHlatVr2rgkk+Y0/hiKaDFaVHpxYwUxUGKJul2CAHWe+Nv2W6LjNnQY3sAiOb
+	XJ12aCfRGZ+Ovo4jNq3SzkSy5S2+GU/3EbDGo8fMCxnI2Lat1RMlUHbZLQiEJVIVxX10M3
+	LE4sIYQCHHv6DyPxmzvyApkQ6fxv7xZPbnBiPLWzF58MFsA7EJIHu3ftQtMkliub53psQ2
+	x59G6Xos7UgFcw11V04qin57U50dMT1XLaNp1i5MXSsfVptGcfxSau4zgIOv9F0t7YNxSm
+	+Q9fLWYtFsf11KxDE2Vr00nUXh7cX2zYz00uCxAYMwmAdHjPWHndM67VSh7HQg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793973843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2POFqhBdX4hWO/hojONQrzEFt0JAY/xmNxctemziCs4=;
+	b=J8vrAzlwb8GUXMcIC9A1kycm3NH6aQ31wmBz8kTWJ7dupY3htlibePGzYfFFdcNh7ysUXI
+	6knNgHI+oxoC2eBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <20261106140401.90MH_6qt@linutronix.de>
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,142 +83,77 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] amt: workqueue deadlock in amt_tunnel_expire() and
-  __amt_group_gc_work()
-- [Medium] amt: jiffies underflow in amt_tunnel_expire() when re-arming
-  gc_wq
---
+On 2026-11-05 12:03:11 [-0800], Paul E. McKenney wrote:
+> > For rcutorture, I don't think there's a ready-made kernel interface,
+> > maybe we could add a sched helper that performs the same operation as
+> > the debugfs knobs?
+> 
+> I would very much appreciate that.  ;-)
 
-commit 96e3ef58f0da0bec1417666e7bc125f374740408
-Author: Omar Ramadan <omar@blockcast.net>
+This maybe? Since it is built-in only, there is no need to restore the
+old state, is there?
 
-amt: fix use-after-free when a Membership Update re-arms a freed tunnel
+--- a/kernel/rcu/rcutorture.c
++++ b/kernel/rcu/rcutorture.c
+@@ -1333,6 +1333,8 @@ static unsigned long rcutorture_seq_diff(unsigned long new, unsigned long old)
+ 	return cur_ops->gp_diff(new, old);
+ }
+ 
++void dl_server_fair_disable(unsigned int cpu);
++
+ static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
+ {
+ 	int cpu;
+@@ -3394,6 +3396,8 @@ static int rcutorture_booster_init(unsigned int cpu)
+ 
+ 	/* Don't allow time recalculation while creating a new task. */
+ 	mutex_lock(&boost_mutex);
++	if (IS_BUILTIN(CONFIG_RCU_TORTURE_TEST))
++		dl_server_fair_disable(cpu);
+ 	VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
+ 	boost_tasks[cpu] = kthread_run_on_cpu(rcu_torture_boost, NULL,
+ 					      cpu, "rcu_torture_boost_%u");
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 076a6c2f017bb..45b1251922c4f 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1921,6 +1921,31 @@ int dl_server_apply_params(struct sched_dl_entity *dl_se, u64 runtime, u64 perio
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_RCU_TORTURE_TEST
++/*
++ * The RCU-TORTURE built-in test will disable fair-server to avoid any
++ * throttling while testing RCU-boosting.
++ * If compiled as module then the user needs to disable it manually before
++ * loading the module.
++ */
++void dl_server_fair_disable(unsigned int cpu);
++
++void dl_server_fair_disable(unsigned int cpu)
++{
++	struct rq *rq = cpu_rq(cpu);
++	int retval;
++
++	scoped_guard (rq_lock_irqsave, rq) {
++		struct sched_dl_entity *dl_se = &rq->fair_server;
++
++		update_rq_clock(rq);
++		dl_server_stop(dl_se);
++		retval = dl_server_apply_params(dl_se, 0, dl_se->dl_period, 0);
++	}
++	WARN_ON_ONCE(retval);
++}
++#endif
++
+ /*
+  * Add @dl_se's bw to the root-domain accounting.
+  *
+-- 
+2.55.0
 
-This commit fixes a use-after-free where amt_update_handler() could re-arm
-gc_wq on a tunnel concurrently being freed by amt_tunnel_expire(), by
-tracking tunnel liveness via last_seen and deferring re-arming to
-amt_tunnel_expire(). It also updates tunnel, group, and source teardown to
-mark objects dead under tunnel->lock and defer freeing via RCU and dedicated
-garbage-collection work items.
-
-> diff --git a/drivers/net/amt.c b/drivers/net/amt.c
-> index 81d26ef82cf5c..d8914d811f928 100644
-> --- a/drivers/net/amt.c
-> +++ b/drivers/net/amt.c
-[ ... ]
-> @@ -106,6 +111,42 @@ static void amt_source_gc_work(struct work_struct *w=
-ork)
->  	spin_unlock_bh(&source_gc_lock);
->  }
-> =20
-> +static void __amt_group_gc_work(void)
-> +{
-> +	struct amt_group_node *gnode;
-> +	struct hlist_head gc_list;
-> +	struct hlist_node *t;
-> +
-> +	spin_lock_bh(&group_gc_lock);
-> +	hlist_move_list(&group_gc_list, &gc_list);
-> +	spin_unlock_bh(&group_gc_lock);
-> +
-> +	/* Group deletion queues all of its sources first.  Flush that queue
-> +	 * so they are reclaimed promptly; a source callback cannot reach a
-> +	 * freed group because it resolves snode->gnode under RCU and the
-> +	 * pointer is cleared before the source is queued.  Flush rather than
-> +	 * cancel: source_gc_wq re-arms only itself, so cancelling it here
-> +	 * would stop periodic source GC for good.
-> +	 */
-> +	flush_delayed_work(&source_gc_wq);
-[ ... ]
-> @@ -1342,14 +1415,40 @@ static void amt_tunnel_expire(struct work_struct =
-*work)
->  						      struct amt_tunnel_list,
->  						      gc_wq);
->  	struct amt_dev *amt =3D tunnel->amt;
-> +	unsigned long deadline;
-> =20
->  	spin_lock_bh(&amt->lock);
-> +	/* amt_dev_stop() has taken ownership of the teardown. */
-> +	if (READ_ONCE(tunnel->dead)) {
-> +		spin_unlock_bh(&amt->lock);
-> +		return;
-> +	}
-> +	/* A Membership Update may have refreshed the tunnel after this work
-> +	 * was queued.  Re-arm from last_seen rather than letting
-> +	 * amt_update_handler() re-arm gc_wq: this handler is then the only
-> +	 * context that frees the tunnel on the timeout path; amt_dev_stop()
-> +	 * still owns teardown during device shutdown.
-> +	 */
-> +	deadline =3D READ_ONCE(tunnel->last_seen);
-> +	if (!deadline)
-> +		deadline =3D jiffies;
-> +	else
-> +		deadline +=3D msecs_to_jiffies(amt_gmi(amt)) * 3;
-> +	if (time_before(jiffies, deadline)) {
-> +		mod_delayed_work(amt_wq, &tunnel->gc_wq, deadline - jiffies);
-
-[Severity: Medium]
-Can jiffies advance past deadline between the time_before(jiffies, deadline)
-check and the subtraction in mod_delayed_work() in amt_tunnel_expire()?
-
-Since jiffies is volatile and spin_lock_bh(&amt->lock) only disables softir=
-qs
-while leaving timer interrupts enabled, reading jiffies twice without
-snapshotting it into a local variable allows jiffies to tick past deadline
-between the two reads. If that happens, deadline - jiffies underflows to a
-value near ULONG_MAX, scheduling tunnel->gc_wq far in the future so the
-tunnel is never expired until device teardown.
-
-Would snapshotting unsigned long now =3D jiffies once before computing and
-comparing against deadline avoid this underflow?
-
-> +		spin_unlock_bh(&amt->lock);
-> +		return;
-> +	}
-> +	spin_lock_bh(&tunnel->lock);
-> +	WRITE_ONCE(tunnel->dead, true);
-> +	spin_unlock_bh(&tunnel->lock);
->  	rcu_read_lock();
->  	list_del_rcu(&tunnel->list);
->  	amt->nr_tunnels--;
->  	amt_clear_groups(tunnel);
->  	rcu_read_unlock();
->  	spin_unlock_bh(&amt->lock);
-> +	flush_delayed_work(&group_gc_wq);
-
-[Severity: High]
-Can calling flush_delayed_work(&group_gc_wq) from amt_tunnel_expire() and
-flush_delayed_work(&source_gc_wq) from amt_group_gc_work() ->
-__amt_group_gc_work() deadlock amt_wq?
-
-In amt_init(), amt_wq is created as a single shared unbound workqueue:
-
-    amt_wq =3D alloc_workqueue("amt", WQ_UNBOUND, 0);
-
-which has a finite max_active limit (and per-node active limits) shared by
-tunnel->gc_wq, group_gc_wq, source_gc_wq, gnode->group_timer, and
-snode->source_timer.
-
-Both group_gc_wq and source_gc_wq normally sit on their 30-second periodic
-timers and do not hold an active workqueue slot. When flush_delayed_work()
-runs from a worker already executing on amt_wq, it deletes the timer and ca=
-lls
-__queue_work() to queue the target work item onto amt_wq, then blocks in
-flush_work() -> wait_for_completion() while still holding its own active sl=
-ot
-on amt_wq.
-
-If all active slots on amt_wq are occupied by concurrent amt_tunnel_expire()
-or timer work items (or if pwq->inactive_works is non-empty), the newly
-queued group_gc_wq or source_gc_wq is placed on pwq->inactive_works and
-cannot run until an active work item finishes, while the active workers are
-blocked waiting for that inactive GC work item to complete. This will also
-stall amt_dev_stop() under RTNL when it waits on cancel_delayed_work_sync()
-or flush_delayed_work().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105125010.1107=
-546-1-omar@blockcast.net?part=3D1
