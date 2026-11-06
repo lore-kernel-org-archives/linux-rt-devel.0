@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793956780;
-	b=okjcz2tAZsUyz0i1/HihApKQsW9hDmDrwyzxc+IfwTet/wksguALHqCW8gbhB0xGNQp0
-	 g8kMYHWzY91aRRra4l76PjUE192tPYDI6zcYhdof/jOdnMximAe248JOEBxxUFiOm3fvt
-	 O46HEfK1uCMJKOzFB983MAPW+J8xq4vdZX4PFuXylEU0VsFrxXdZlMfGHofjbLmgOBh6R
-	 yN/dJOpIw9eQdqPgmD3gyYNhBzjDyw+1nJB3i0qEOprRv1xK3SNEK1QHVY9U5X6spCT+9
-	 pv26Jam3XbYVOEqL/N6tx56QboEDyV/Ed0irvFOkIXD7LjXmobU2V8dkXUVNZXd8i9A==
+	t=1793956782;
+	b=irZVjq4lipnHiqGT3sEbwqBUtFZbUy6kox6RWoiUvW4LRWFrMSTSujIIHWN4CRZ979ef
+	 0k1YzwxsKRCFVsHi41Lt4jSsEkj4aUD0dryojMtiN9bj0NmGNxkyVI7Wj+CMFY5BUkvGJ
+	 LOwcDcrKA2WCnEF1Uf0Qo7eQho9exjDaCRfl76kPrVs3lVAp24qcsPViWSijl+IUdrJpq
+	 blltjpLOIhIsZcvij+gAYFEriHBaNwkyA0jISA/cXKPqPGB414dMSG8ncmVMlNqaZa+0J
+	 rv/+20wNk8mDtnapKQ0DO1181eTwXVjXEKih+Iw4/7RZtOF9rqWDloFtaPzxX/8u/4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793956780;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793956782;
 	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=aoDieoIq5VMR4BGBHsSjoa5JYOQH+kmuD64+dqaaiwc=;
-	b=rg0dMRqWV6QC/u7pRcXBSmgATxc/u/IdoC5aeJ1IQ/4eZzVXbJrwlBatsTgzTfgnOUT1
-	 opJKZ+M0TzfO9+Xxy12oNM3zT7/r+motX6TPK5qwQGo8cB/F6UJ2g1FinEJmi1ODb6yOd
-	 CIIHADSOhne+j/2CN6kyhdBCXbNrWj1+KuEHpStirFGGEOxiefi7/wihN31m0PHbPWhZO
-	 EJMVPXtXcLaU2IEkpkZHuf+WadD4TSHfEc9VrS8cUtCBo3Mi5T/lJHHRpF84kfSDzG973
-	 9eL7Gz8Um0HY1ZAIDJhq5MuJK70YrozLEjQIPkk0jhIuM3z4yBgbguUAXufr4TGficQ==
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=r45+Gcr+snvtUL25CtLt2krkdvsiAL17k4Zx806/7uNI/oMwhTY9fEwHFZwHjOjylo5A
+	 yk+lRUiBHEgOCxxE9biSomcNsIfs2Ky+sYhEuWTZSThL19Bw6yW+0jXrLWouRBOU1I9U/
+	 baHj+tQq+j5tp4KOdBrRTbw7PjYccXDovrEExPkGdBqk+s3e/tBLgECqcdhfroRie4uWX
+	 gahQytPXOS6lxBSHHlqIsUwThTBf4Ky9ylHZDDLh5SPnMjJbA13G2Mu6s5J/yfJyg/Xx7
+	 +qAvNZeFObgvd5Y0NNWv9TVbq41/84IGOIgGMYxQerjTkI6Pl7oorzqpoocDKHfRkqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=rFMk6Lov;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="FVMPU6l/";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="nwihVlW/";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="q/s/Kddl";
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E3E606A32E
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Nov 2026 09:19:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48E3E606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581CD606D801
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Nov 2026 09:19:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 581CD606D801
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=rFMk6Lov;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=FVMPU6l/
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=nwihVlW/;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=q/s/Kddl
 From: "Ahmed S. Darwish" <darwi@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793956777;
+	s=2020; t=1793956780;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoDieoIq5VMR4BGBHsSjoa5JYOQH+kmuD64+dqaaiwc=;
-	b=rFMk6LoviYvEcUMrQniZlbUQCnxazvIFXUDWJE86oEUBlyLyIhKG6Vrb+C22yrlT1l6Gfl
-	niy4uI3MUjKdj7X4Izvim2T0Z83/rDkjNBYMbt35Iijpo1FYG22aNPfrZL5ZJfeUfYloTU
-	e0qq+Ltdptr6dv4pp9Z/LyN1G/qxYPx8XXr0Hvek14jLf158bKOCBWD8SrsTm3CXgxsvKW
-	tS7JdnAP0V9U9u5yRpsTmZAUCfVU2tRGlMRHoWmuHBYxtdFwn1J22MEEakp7jg3Uc7fVkX
-	hvnThA71HCOv5+sfyLsLxmO1E0hppQLBlRJkuC71DQON2dFTOVtFOZmpvB0rBg==
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=nwihVlW/1l5NhrdcFtc4jpfdr4MkP+xA6UNNkt+TazwI4wo2zqBFakoxyfEnak7SWlhC25
+	3ZHqvCRzQ4d3oF8Y1KSgNMfWFsUTvR3P120TzfBYprqe6JEpTzzyQ6CORuXCIHh/K7HHUf
+	RneY1bvzGwG/Dti99XCVoxrh0TbabPTzYgBGefv0NhRn7FXz4OHEmn3xf7ko/bKMYj57+q
+	newwJ/ZDo+rJ0bzLdKLO9VaoVQ/W4Nf8NqkzirbYuta0l7z+8QwqZHkit2qDQJCSA0BI/c
+	yr1zIVdxHTrYbAvN4XeQ1BxqZrNNsh4H2gGDoEDVN5ngTIVm7kc+a8sDIUa46A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793956777;
+	s=2020e; t=1793956780;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoDieoIq5VMR4BGBHsSjoa5JYOQH+kmuD64+dqaaiwc=;
-	b=FVMPU6l/VvIZiRo8uL8GqpxoyAOZly8s+iYHzxVw9ors6FlbTymylSOcvvLMWEei1O6X6p
-	ZvWvGBjKmHOMyRAQ==
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=q/s/KddlkzKvqRjG/5+hYcDi2FsDfcjG+vBBU/pXND21KSQaBdNw4WeoUnlSn5lk1j2T9/
+	QPdvHSh17RIMWRDw==
 To: Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -77,9 +77,9 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v1 01/10] kconfig-checker: Add schema for rule files
-Date: Fri,  6 Nov 2026 10:19:13 +0100
-Message-ID: <20261106091922.7560-2-darwi@linutronix.de>
+Subject: [PATCH v1 02/10] kconfig-checker: Introduce PREEMPT_RT configuration rules
+Date: Fri,  6 Nov 2026 10:19:14 +0100
+Message-ID: <20261106091922.7560-3-darwi@linutronix.de>
 In-Reply-To: <20261106091922.7560-1-darwi@linutronix.de>
 References: <20261106091922.7560-1-darwi@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -93,138 +93,193 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kconfig-checker YAML rule files describes which kernel .config symbols
-are expected to be enabled or disabled. Introduce a schema for such files.
+Introduce a kconfig-checker PREEMPT_RT rules file, matching what is at
+Documentation/core-api/real-time/kernel-configuration.rst.
 
-Describe and add rational for each element in the schema as well.
+This will allow the tool to mechanically check the kernel's .config at a
+later step.
 
 Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 ---
- tools/kconfig-checker/schema.yml | 115 +++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
- create mode 100644 tools/kconfig-checker/schema.yml
+ tools/kconfig-checker/rules/preempt_rt.yml | 169 +++++++++++++++++++++
+ 1 file changed, 169 insertions(+)
+ create mode 100644 tools/kconfig-checker/rules/preempt_rt.yml
 
-diff --git a/tools/kconfig-checker/schema.yml b/tools/kconfig-checker/schema.yml
+diff --git a/tools/kconfig-checker/rules/preempt_rt.yml b/tools/kconfig-checker/rules/preempt_rt.yml
 new file mode 100644
-index 000000000000..a7f1b0a78cc7
+index 000000000000..5c1b80adc846
 --- /dev/null
-+++ b/tools/kconfig-checker/schema.yml
-@@ -0,0 +1,115 @@
++++ b/tools/kconfig-checker/rules/preempt_rt.yml
+@@ -0,0 +1,169 @@
++# PREEMPT_RT .config sanitization
++#
 +# SPDX-License-Identifier: GPL-2.0-only
++#
++# List all config options in alphabetic order, per group
++---
 +
-+"$schema": "https://json-schema.org/draft-07/schema"
++docs_url: https://docs.kernel.org/core-api/real-time/kernel-configuration.html
++rules:
++  - name: CONFIG_CPU_FREQ
++    expected: y
++    severity: high
++    docs_hint: config
 +
-+title: Schema for kconfig-checker rule files
-+type: object
-+required: [rules]
-+additionalProperties: false
++  - name: CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
++    expected: y
++    severity: high
++    docs_hint: config
 +
-+properties:
++  - name_pattern: CONFIG_CPU_FREQ_GOV_(CONSERVATIVE|ONDEMAND|POWERSAVE|USERSPACE)
++    expected: n
++    severity: medium
++    docs_hint: non-performance-cpu-frequency-governors
++
++  - name: CONFIG_CPU_FREQ_GOV_SCHEDUTIL
++    expected: n
++    severity: medium
++    docs_hint: non-performance-cpu-frequency-governors
++
++  - name: CONFIG_CPU_IDLE
++    expected: y
++    severity: info
++    docs_hint: config
++
++  - name: CONFIG_DRM
++    expected: n
++    severity: info
++    docs_hint: config
++
++  - name: CONFIG_EFI_DISABLE_RUNTIME
++    expected: y
++    severity: medium
++    docs_hint: config
++
++  - name: CONFIG_NO_HZ
++    expected: n
++    severity: medium
++    docs_hint: config-no-hz-config-no-hz-full
++
++  - name: CONFIG_NO_HZ_FULL
++    expected: n
++    severity: medium
++    docs_hint: config-no-hz-config-no-hz-full
++
++  - name: CONFIG_PREEMPT_RT
++    expected: y
++    severity: fatal
++    docs_hint: config
++
 +  #
-+  # Optional base URL for the documentation page used by rationale
-+  # links.  See `docs_hint`.
++  # Tracing
 +  #
-+  docs_url:
-+    type: string
-+    format: uri
 +
-+  rules:
-+    type: array
-+    minItems: 1
-+    items:
-+      type: object
-+      oneOf:
-+        - required: [name]
-+        - required: [name_pattern]
-+      required: [expected, severity]
-+      additionalProperties: false
++  - name: CONFIG_DYNAMIC_FTRACE
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
 +
-+      properties:
-+        #
-+        # Exact kernel configuration symbol to check.
-+        #
-+        # Example: CONFIG_PREEMPT_RT
-+        #
-+        name:
-+          type: string
-+          pattern: '^CONFIG_[A-Z0-9_]+$'
++  - name: CONFIG_FUNCTION_GRAPH_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
 +
-+        #
-+        # Regex matching one or more kernel configuration symbols.
-+        #
-+        # Example: CONFIG_DEBUG_.*
-+        #
-+        name_pattern:
-+          type: string
-+          format: regex
++  - name: CONFIG_HWLAT_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
 +
-+        #
-+        # Expected value for the matching kernel configuration option.
-+        #
-+        # Values:
-+        #
-+        #   y        option is expected to be enabled (built-in or module).
-+        #   n        option is expected to be disabled or unset.
-+        #   allowed  option is permitted and must not be reported as a violation.
-+        #            This is used to exempt a specific symbol from a broader
-+        #            `name_pattern` rule  with `expected: n`.
-+        #
-+        expected:
-+          type: string
-+          enum: [y, n, allowed]
++  - name: CONFIG_IRQSOFF_TRACER
++    expected: n
++    severity: high
++    docs_hint: config-irqsoff-tracer-and-config-preempt-tracer
 +
-+        #
-+        # Issue severity to report when the configuration rule is not met.
-+        #
-+        # Higher severities should be reserved for rules affecting correctness.
-+        #
-+        severity:
-+          type: string
-+          enum: [fatal, high, medium, low, info]
++  - name: CONFIG_KPROBE_EVENTS
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
 +
-+        #
-+        # Optional documentation anchor for this rule.
-+        #
-+        # The rationale URL is built from `docs_url` plus an HTML fragment
-+        # identifier.
-+        #
-+        # If `docs_hint` is set to `config`, then the HTML fragment id is
-+        # derived from the kernel configuration symbol name:
-+        #
-+        #   CONFIG_DRM  ->  #config-drm
-+        #
-+        # For example, with below docs_url:
-+        #
-+        #   https://docs.kernel.org/core-api/real-time/kernel-configuration.html
-+        #
-+        # and the symbol entry:
-+        #
-+        #   - name: CONFIG_DRM
-+        #     expected: n
-+        #     severity: info
-+        #     docs_hint: config
-+        #
-+        # the rationale URL becomes:
-+        #
-+        #   https://docs.kernel.org/core-api/real-time/kernel-configuration.html#config-drm
-+        #
-+        # If `docs_hint` is any other string, that string is used directly as
-+        # the HTML fragment identifier.
-+        #
-+        docs_hint:
-+          type: string
-+          anyOf:
-+            - const: config
-+            - pattern: '^\S+$'   # URI fragments cannot have spaces
++  - name: CONFIG_PREEMPT_TRACER
++    expected: n
++    severity: high
++    docs_hint: config-irqsoff-tracer-and-config-preempt-tracer
 +
-+        #
-+        # Optional human-readable explanation for the rule.
-+        #
-+        # This text should explain why the option is expected to have the given
-+        # value, and may span multiple lines.
-+        #
-+        rationale:
-+          type: string
++  - name: CONFIG_SCHED_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_TRACING
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_UPROBE_EVENTS
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  #
++  # Debugging
++  #
++
++  - name_pattern: CONFIG_DEBUG_.*
++    expected: n
++    severity: medium
++    docs_hint: kernel-debug-options
++
++  - name: CONFIG_DEBUG_ATOMIC_SLEEP
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_BOOT_PARAMS
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_BUGVERBOSE
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_FS
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_FS_ALLOW_ALL
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_INFO
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_INFO_NONE
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_KERNEL
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_MISC
++    expected: allowed
++    severity: low
++    rationale:
++      A menu option which enables the display of other debug symbols.
++
++  - name: CONFIG_LOCKUP_DETECTOR
++    expected: n
++    severity: high
++    docs_hint: config
++
++  - name: CONFIG_PROVE_LOCKING
++    expected: n
++    severity: high
++    docs_hint: config
++
++  - name_pattern: CONFIG_SLUB_DEBUG.*
++    expected: n
++    severity: high
++    docs_hint: kernel-debug-options
 -- 
 2.56.0
 
