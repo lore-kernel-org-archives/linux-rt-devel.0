@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794043225;
-	b=fBuMYgIfcVet9tXmUgnU5ChoFAHyTZ+4/nCt5KgjqmvfLBhO1aNR4v69l5l2U6GyOZP7
-	 8znLUL7ZyUOMxYDCPBMaJzkZpAAUjBy+tnLOwGcCU7a/WoUSJaXvSjzsoQKHzqch+YQCy
-	 /pYrZtzFhc3l7hm3i9ob8smqw0OQMz94+PMPGXEourBgnpn5sFcGxEyErk3LuJVwU2nCh
-	 Q/Fd7BryBYaGM5ZyJZvTprZU9GSZNS9YcVqanV0H/kZ5v48ieRsWil5jShff9r0ogfzAG
-	 +aIBbjc/GQWpxd1qncO9Z0FEFfS11HruzKrm5mQHcmH1QVEILQDFykwr+oXQ0rJrfKA==
+	t=1794043227;
+	b=t6/H0D72P8fRPSu9/mt+HbgU0RBN3YSY60n+eKBfKB/Ab6fRM+FN+a/TIIb59xD0lEqq
+	 kzb2Z8RulQI+HEeYY2WZG8p6y9AD8jF3h0i5C9t2NXD5vDbf3PsMUk+tQ+tz+RfCYZXXX
+	 +F+3uuv93v3tPjvYYabLz0bScT11mN6+UubLt06hB/3iXTVLjQBoFm+kQF2lI7vlqdtln
+	 0A9YVrHf6goLapputxW0JitMxl5qgFAiVV5r8fV/s8JrH+H4Mh5M3nFp1Hlp7pNB4uAOK
+	 UFcMLaUfsFjrvQ6olxhtZP484UdGVTbQ9n18byYRzLjG+bTq+3mO+0xGV6ZonmR0/VA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794043225;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794043227;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OB7F34qy4xq47WLpMABCG9M/Pj+EQnVaet0E0R5Nom4=;
-	b=pyB2vTe4XDRmH0a1ytDepJXpT5O4gygSwnK/Lu1AAHn8uaBCzwtlesElYG8H4PVevX+c
-	 Nuq0fPPwSbXNqjTkifsCI6+xM/tyDYXqOQMmyE1PgM+UYldY6aVnlXRCVKXkEYViQuogl
-	 vx9fWbyX4zh816xIUmotPi6lBCUTHDcIgQzhvDhbz01hZDkIIpd614emp+hqtvSxESTXg
-	 IjiBQNcjcmXSiPmA+dL4+FIrWNZTdRlKWs0eaRLsbapkuyC+KCOdDQXmiX9jx1ouhoX7c
-	 IP3+N0sqWFhnjWt5dVqCVL20GtDPG1ewVt+l8QK+2L/PcQBp7bqmgM+qTMjkDwLIPmg==
+	bh=wYLMnWH689UA6djhwpK6fNUdplmnjtXsolXkGo2WkLo=;
+	b=fjXNe2yyVoriWeS7EB0Xo35/l7yhNnFLuBEDv482MdOuYPPEoexXtJE7tOESgUfsJ/uU
+	 c7420GZLpCcTWoqyo/Z017ZLelP25KwCtcFQMQU90Hcw1mmShTZ6SDJfj+TXLzmsP5m+V
+	 iGTK9w2X3ipCRoUSqvp+SazvVv8JI/dUhwCbXA4xatDzJie8vFrayBzNX1+WiEQNbHD3h
+	 oUqGI6MpVvUBbiSlI6zkn1gzUSZ8jNOPxEJqNV2OjWg+fMFNIpaNRR+Y8YVrO8vhW6Yn8
+	 6VB9BMUEeZhrKPzK4/DpVOVg9P7r7X3LuIXg4NIon8mgSGqgd99+0OtHu8i65MdNhSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a5Wg7aZd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oxoJzUTn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62581606A326;
-	Sat,  7 Nov 2026 09:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD85A606A330;
+	Sat,  7 Nov 2026 09:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a5Wg7aZd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259F91F0089F;
-	Sat,  7 Nov 2026 09:20:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oxoJzUTn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7891F008A1;
+	Sat,  7 Nov 2026 09:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794043225;
-	bh=OB7F34qy4xq47WLpMABCG9M/Pj+EQnVaet0E0R5Nom4=;
+	s=k20260515; t=1794043226;
+	bh=wYLMnWH689UA6djhwpK6fNUdplmnjtXsolXkGo2WkLo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=a5Wg7aZd6wqB/pu8vGdVq2lkM5V384ccO8bFXrZDEyNTBvv8EyAnjEq6KnXIfTBtD
-	 WmFJ+Uyc/UrT5yKpGHp+aHF2XaXg4LzFGO13zsZ68mhHF30R7LiI051rPvxOa4WrOO
-	 vYORgqSbOr4/0QAVd+USeB7kxW4bLY5gwE9KX789pAjURee7TedJ5KtRZ4RBhwicz0
-	 lf/H0q04cB7/F6wVft4d3MZgGHDXGOUUiQefM9toJsy8Og7mJj62TXQw/uHkT73RKG
-	 HvkgqMyZHJpwVfM35PUeX6bPiTJo5zXKlucjCac+9+e0c/ZFizfPKBOcw4Y30jB5IN
-	 1bGWqr4+P3yZQ==
-Message-ID: <sashiko-outbox-202757@kernel.org>
+	b=oxoJzUTnlGw9SpOqskQ2WT3vXb7ru3KBJWk06L05quyVvDatCIAgIS3CScFYgaZnX
+	 rMByxXcKLQgNiUYzeJgD9oY6sgryR+wz9HyTxFjD5reO6CqqmJNd3WSiVIa2EbKYF2
+	 UDLgg2s8fFCKUXh4RfoE0f1l++v88vvhyTlqQHm9fVlz27dJQxor+8JfkHfoxE9WB1
+	 GNweVwwJ/6TFlpYIVkkNtZ5BbeT9HcGMiHGXWj/7Kfs0db1Otr8P+QomnbUuuGamvj
+	 mw+eEUqcgJpzvy8cDSOJfnxqxDYvi02p7W6wuWQtZrRXBH53SDmm+yhUW8CVoNWiYw
+	 L2B4lBnZ/Uhxw==
+Message-ID: <sashiko-outbox-202758@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 02/10] kconfig-checker: Introduce PREEMPT_RT
- configuration rules
+Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
+ code
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Ahmed S. Darwish" <darwi@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
  Rostedt" <rostedt@goodmis.org>, "Ingo Molnar" <mingo@redhat.com>, "Nathan
@@ -53,12 +53,12 @@ Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Frederic
  Barbosa" <debarbos@redhat.com>, =?utf-8?b?WmJpZ25pZXcgSsSZZHJ6ZWpld3Nr?=
  =?utf-8?b?aS1Tem1law==?= <zbyszek@amutable.com>, "Daan De Meyer" <daan.j.demeyer@gmail.com>, "Luca
  Boccassi" <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261106091922.7560-3-darwi@linutronix.de>
+In-Reply-To: <20261106091922.7560-4-darwi@linutronix.de>
 References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-3-darwi@linutronix.de>
+ <20261106091922.7560-4-darwi@linutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 09:20:23 +0000
+Date: Sat, 07 Nov 2026 09:20:25 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,120 +68,82 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] kconfig-checker: incomplete CONFIG_DEBUG_INFO and
-  CONFIG_DEBUG_FS exemptions
-- [Medium] kconfig-checker: missing CONFIG_NO_HZ_IDLE rule in
-  preempt_rt.yml
-- [Low] kconfig-checker: wrong rationale and exemption for
-  CONFIG_DEBUG_MISC
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] kconfig-checker: duplicate and non-exempted rules in
+  _find_issue_pattern()
 --
 
-commit e938c2a281eebdc8d9e5b3bc80f568d54980b699
+commit 8f6e383a6cf382d507daf59d926387f2a7971370
 Author: Ahmed S. Darwish <darwi@linutronix.de>
 
-kconfig-checker: Introduce PREEMPT_RT configuration rules
+kconfig-checker: Add the configuration checker code
 
-This commit adds a PREEMPT_RT configuration rules file for kconfig-checker
-based on the real-time kernel configuration documentation.
+This commit introduces a Python-based kernel configuration checker that
+validates a .config file against YAML rule profiles and reports issues by
+severity.
 
-> diff --git a/tools/kconfig-checker/rules/preempt_rt.yml b/tools/kconfig-c=
-hecker/rules/preempt_rt.yml
-> new file mode 100644
-> index 0000000000000..5c1b80adc846f
+> diff --git a/tools/kconfig-checker/check.py b/tools/kconfig-checker/check=
+.py
+> new file mode 100755
+> index 0000000000000..476cd13e59eb8
 > --- /dev/null
-> +++ b/tools/kconfig-checker/rules/preempt_rt.yml
-[ ... ]
-> +  - name: CONFIG_NO_HZ
-> +    expected: n
-> +    severity: medium
-> +    docs_hint: config-no-hz-config-no-hz-full
-> +
-> +  - name: CONFIG_NO_HZ_FULL
-> +    expected: n
-> +    severity: medium
-> +    docs_hint: config-no-hz-config-no-hz-full
-
-[Severity: Medium]
-Should this also check CONFIG_NO_HZ_IDLE?
-
-In kernel/time/Kconfig, CONFIG_NO_HZ is only a legacy compatibility symbol
-used as a default hint, while the active "Timer tick handling" choice symbol
-for tickless idle is CONFIG_NO_HZ_IDLE (which selects CONFIG_NO_HZ_COMMON
-without setting CONFIG_NO_HZ).  A .config that selects CONFIG_NO_HZ_IDLE=3Dy
-with CONFIG_NO_HZ unset will pass kconfig-checker without reporting that
-tickless idle is enabled.
+> +++ b/tools/kconfig-checker/check.py
+> @@ -0,0 +1,558 @@
 
 [ ... ]
-> +  #
-> +  # Debugging
-> +  #
-> +
-> +  - name_pattern: CONFIG_DEBUG_.*
-> +    expected: n
-> +    severity: medium
-> +    docs_hint: kernel-debug-options
-[ ... ]
-> +  - name: CONFIG_DEBUG_FS
-> +    expected: allowed
-> +    severity: low
-> +
-> +  - name: CONFIG_DEBUG_FS_ALLOW_ALL
-> +    expected: allowed
-> +    severity: low
-> +
-> +  - name: CONFIG_DEBUG_INFO
-> +    expected: allowed
-> +    severity: low
-> +
-> +  - name: CONFIG_DEBUG_INFO_NONE
-> +    expected: allowed
-> +    severity: low
 
-[Severity: Medium]
-Will any .config with CONFIG_DEBUG_INFO=3Dy or CONFIG_DEBUG_FS_ALLOW_NONE=
-=3Dy
-still fail against the CONFIG_DEBUG_.* pattern rule?
-
-In lib/Kconfig.debug, CONFIG_DEBUG_INFO is a promptless bool selected by the
-mandatory DWARF version choice (such as
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT) and forces a mandatory compressi=
-on
-choice (such as CONFIG_DEBUG_INFO_COMPRESSED_NONE).  Because only the exact
-symbols CONFIG_DEBUG_INFO and CONFIG_DEBUG_INFO_NONE are exempted here
-(whereas Documentation/core-api/real-time/kernel-configuration.rst allows t=
-he
-wildcard CONFIG_DEBUG_INFO*), enabling CONFIG_DEBUG_INFO=3Dy always leaves
-companion CONFIG_DEBUG_INFO_* symbols that trigger medium-severity violatio=
-ns
-under CONFIG_DEBUG_.*.
-
-Similarly, enabling CONFIG_DEBUG_FS=3Dy requires choosing either
-CONFIG_DEBUG_FS_ALLOW_ALL or CONFIG_DEBUG_FS_ALLOW_NONE, so omitting
-CONFIG_DEBUG_FS_ALLOW_NONE flags the more restrictive debugfs access mode as
-a violation.
-
-> +  - name: CONFIG_DEBUG_KERNEL
-> +    expected: allowed
-> +    severity: low
+> +    def _find_issue_pattern(self, pattern_rule: PatternRule) -> Optional=
+[PatternIssue]:
+> +        """Check the .config against a pattern rule. Return found issues=
+, if any."""
+> +        if pattern_rule.expected =3D=3D ExpectedValue.allowed:
+> +            return None
 > +
-> +  - name: CONFIG_DEBUG_MISC
-> +    expected: allowed
-> +    severity: low
-> +    rationale:
-> +      A menu option which enables the display of other debug symbols.
+> +        violation_type =3D 'unset' if pattern_rule.expected =3D=3D Expec=
+tedValue.y else 'set'
+> +        docs_url =3D self.rules.get_docs_url_for(pattern_rule)
+> +
+> +        violating_symbols =3D []
+> +
+> +        for symbol in self.kconfig.get_matching_symbols(pattern_rule.sym=
+bol_regex):
+> +            symbol_value =3D self.kconfig.get_symbol_value(symbol)
+> +
+> +            if pattern_rule.expected =3D=3D ExpectedValue.y and symbol_v=
+alue =3D=3D 'n':
+> +                # Exclude the config symbol if it's explicitly disabled =
+elsewhere
+> +                symbol_rule =3D self.rules.get_symbol_rule(symbol)
+> +                if symbol_rule and symbol_rule.expected =3D=3D ExpectedV=
+alue.n:
+> +                    continue
+> +
+> +                violating_symbols.append(symbol)
+> +
+> +            if pattern_rule.expected =3D=3D ExpectedValue.n and symbol_v=
+alue in ('y', 'm'):
+> +                # Exclude the config symbol if it's explicitly allowed e=
+lsewhere
+> +                symbol_rule =3D self.rules.get_symbol_rule(symbol)
+> +                if symbol_rule and symbol_rule.expected in (ExpectedValu=
+e.y, ExpectedValue.allowed):
+> +                    continue
+> +
+> +                violating_symbols.append(symbol)
 
 [Severity: Low]
-Is this rationale meant for CONFIG_DEBUG_KERNEL rather than
-CONFIG_DEBUG_MISC?
+Should _find_issue_pattern() skip any symbol that has an explicit
+SymbolRule, regardless of symbol_rule.expected?
 
-In lib/Kconfig.debug, CONFIG_DEBUG_KERNEL is the menu option that gates
-other debug options (and is listed as allowed in
-Documentation/core-api/real-time/kernel-configuration.rst), whereas
-CONFIG_DEBUG_MISC enables miscellaneous runtime debug checks in the kernel
-and is not listed as allowed in the documentation.
+Only checking for opposing expected values causes two issues: when
+pattern_rule.expected is ExpectedValue.y, a symbol with a SymbolRule of
+ExpectedValue.allowed is not exempted and is falsely reported as unset, and
+when a SymbolRule has the same expected value as the PatternRule (for
+example, to give a specific symbol its own severity or rationale), the
+violation is reported twice=E2=80=94once by _find_issue_symbol() and once by
+_find_issue_pattern().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106091922.7560=
--1-darwi@linutronix.de?part=3D2
+-1-darwi@linutronix.de?part=3D3
