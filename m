@@ -1,47 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794043231;
-	b=A6zf2Ai1fOtE45oFmK8o5CI92NArlrZIq8CnHNFFVSbA3SuDVt/YnSBfiWYsbCrQuEoo
-	 OTcSIe5Lh+NxbavyQMNPyBOf+WF/5VyCCmmDHZ1D+CIvef0BrEs4mDK8eoePxnuTLuc+s
-	 rLKgNND81iNPnP+qyPV8tGgq46hEBirIZbB73VCkQ1GS/XTB3wSw4ab2PxT1y37xcmZyF
-	 2559jKFlw4h9xgTLI/lc8RjZMtxpdxNfaAadL/ZyS+pF6RyYAEeZAxNTUNcKTTGFvLAnw
-	 FDG4/O05/J//S/DbgdjtJ/2DQAXJLprN7trVYCvuVfgWYdc5eeYdTu9zpGRJ+u9B9Dg==
+	t=1794043232;
+	b=d7CN2YXwk5nMJN7Pu+5IjAfQWEy8rAc/n5fYohcGIAkFNFMD5QdaPmuXmHhxvmdi2rvF
+	 EJzeGi3nI5qc8+1nlsPj+P9DodIHR6wOPK7ZahAmYO8xj+A12wRj3hINpL9RU8fXhyZyC
+	 usO32RXxLAGQKMjd7kcl3+FebB8W845jsG0H9bBXnpgPl47zydegVDGzUeUJPwcRz4fFk
+	 jTHK+EzSwAjjy5LBkJZkqUdq1Ac8fn/DNJDbVAUtyPUs09CivjcE+JTk8bLUZX8Jd05JX
+	 SaOAduwo0n1vZzD8B6nCxyx+RvEph6YQFrV3Y2clZ2YtGlO4jjz9fGGCR7UfYy7rWNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794043231;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794043232;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Mytq27GCvjVtjhZyxy6ZOX8ca1Sa6YxKOVjRkooxOsg=;
-	b=GxmIIvQ4/VYQTNIlSK/4ZE7wjHNOC+tbTizfl87/noWznwBoz32qMTHsrs4QAmg9F/Lq
-	 Ei3SbTuYcEFt6FSqFcaaModu0dvw6XVybvblhSBEfSOg4RbrgQr5pQMq288ynUTaKe7n1
-	 Xe9ieman2koNhfSohjKnuCaTqBtL0064CgB6iqbf1Hisn+XnpomX0Pf8l9q0agtRfjhKW
-	 oEYnnz/gpefvzp834FFlgDYqOWHv7A9JtFVyA1JVR7oJzuZMIGSCj/YBMP3q8xUTOaVKl
-	 4fJXy3OTXtWC7fdGRFtEISMqRqhTsQQJLEweCTb4Alh1jhBBWO4x5QJRHCD5gl+8ocQ==
+	bh=gjCMCiFgwSvFosXqRzXpQPvyNTdQByDJKxuvHT1hhPE=;
+	b=NI47rmdpbZOKfN4xotuWFK3BaQ4I9miz5YxGiokpAoaetxTbRLUDuXdaRyMAdvuhpfdW
+	 lF+R0pwxF8GuMdF37AenIIlAAzWcXJpHhlz/HUxW2SqRpcm+JZkhFd0nhOt/uNB8+nllA
+	 u6NZy7MSlzer/0jdqiLSqkCNG8A7IjphMozpRL7oSXR7TcU/bB/ACxheInfUARntq6OgD
+	 Vd48AmTma2c8BePOG0KyszgBKH8tjJv6DY5sYaDeTVsKKy6/UQ5GHgzyHmOtKCNWXdvRQ
+	 395eCEfo/BFEBCd1gun9g+XJe+HJaw22yng3jce8OgjgvN4kOA6ZoG9/Fsbik+aFjWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JN6QImBD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l3G2D5lx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D30606D80F;
-	Sat,  7 Nov 2026 09:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB84606D81D;
+	Sat,  7 Nov 2026 09:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JN6QImBD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E23691F008A3;
-	Sat,  7 Nov 2026 09:20:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l3G2D5lx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F0C1F008A6;
+	Sat,  7 Nov 2026 09:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794043230;
-	bh=Mytq27GCvjVtjhZyxy6ZOX8ca1Sa6YxKOVjRkooxOsg=;
+	s=k20260515; t=1794043232;
+	bh=gjCMCiFgwSvFosXqRzXpQPvyNTdQByDJKxuvHT1hhPE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JN6QImBDWSeZGNpWe5B/yfe9u26ABED/y06IwG46O7S9iH2LDTCnHO51j3dDBfRyR
-	 iUDu9CKulKiOAGjuX2A497t75uwh/ykFgLybWS0jw/B92apFcId7HXE2D2TB0FKzrx
-	 rOn0cpduK3GyLcMPN+VQIq1lJLROdAoVzEWJttkV9lX/R+K2mmS1zsREcrKmte5DVe
-	 d6Kfe+E/5RQi6dAUs+JpwhIWhbp9grZinG1tRYg6TqSBky2Z70EtxmnSxuDLtjnXpE
-	 evtE9zDTwB4jHI80Sv4yJuVd3InwVjIQSIvzRA7afZvMTxQqE7GYecdyCaowJRkjmW
-	 nRv6nxxxyKt6Q==
-Message-ID: <sashiko-outbox-202762@kernel.org>
+	b=l3G2D5lxa62jCXnBSb+fiXcf50itev0KsrW2DDHWu9kMeETLEAYKrShEpbkcXW3uj
+	 mKkH0FP/6XePyZYrKgHRSinbboUBYREOMusssErO7L2pVsj/UQxea+qLExo+Bz3G11
+	 9cz35rTK/69PmTDQyjoLBcu2H9JVlYohRnQyaDXl0FO/IVwzcSKnO3sCWRPreUucy9
+	 yqFljRLMEt46sZo5zh9bCn+C79U8kGcfoqJOBHx4xa0kj7BLq3wd9MQyVYSJu7/nTg
+	 MHNTZlledHMRoVBWxRj+irNce2ZHDPbJ18NYoa06GXKZj80Kqud4MWdiIz/okNo/mI
+	 ykym9EGo+5vBA==
+Message-ID: <sashiko-outbox-202764@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 07/10] kconfig-checker: Introduce overlays schema
+Subject: Re: [PATCH v1 09/10] Documentation: Describe kconfig-checker
+ overlays
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Ahmed S. Darwish" <darwi@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
  Rostedt" <rostedt@goodmis.org>, "Ingo Molnar" <mingo@redhat.com>, "Nathan
@@ -52,12 +53,12 @@ Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Frederic
  Barbosa" <debarbos@redhat.com>, =?utf-8?b?WmJpZ25pZXcgSsSZZHJ6ZWpld3Nr?=
  =?utf-8?b?aS1Tem1law==?= <zbyszek@amutable.com>, "Daan De Meyer" <daan.j.demeyer@gmail.com>, "Luca
  Boccassi" <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261106091922.7560-8-darwi@linutronix.de>
+In-Reply-To: <20261106091922.7560-10-darwi@linutronix.de>
 References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-8-darwi@linutronix.de>
+ <20261106091922.7560-10-darwi@linutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 09:20:29 +0000
+Date: Sat, 07 Nov 2026 09:20:30 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,42 +68,49 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] kconfig-checker: overlay.yml example uses invalid expected value
-  allow
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] docs: kconfig_checker: missing schemas/ directory in schema file
+  paths
+- [Low] docs: kconfig_checker: empty commit message body
 --
 
-commit a10c99db2994945ab80143ea62fe4f2801513046
+commit a4e08eff4d708d44ce736f88aa1913f31f9a424d
 Author: Ahmed S. Darwish <darwi@linutronix.de>
 
-kconfig-checker: Introduce overlays schema
+> Documentation: Describe kconfig-checker overlays
+>
+> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 
-This commit introduces a JSON schema for kconfig-checker overlay files
-that references base.yml without requiring expected and severity on every
-rule.
+[Severity: Low]
+Could a commit message body be added to describe the new overlay
+documentation and the schema file path updates?
 
-> diff --git a/tools/kconfig-checker/schemas/overlay.yml b/tools/kconfig-ch=
-ecker/schemas/overlay.yml
-> new file mode 100644
-> index 0000000000000..4ac9a364a3441
-> --- /dev/null
-> +++ b/tools/kconfig-checker/schemas/overlay.yml
-> @@ -0,0 +1,28 @@
+> diff --git a/Documentation/tools/kconfig_checker.rst b/Documentation/tool=
+s/kconfig_checker.rst
+> index 73717ac56ea9d..152bc0c634eac 100644
+> --- a/Documentation/tools/kconfig_checker.rst
+> +++ b/Documentation/tools/kconfig_checker.rst
 
 [ ... ]
 
-> +# and a custom-overlay.yml:
-> +#
-> +# rules:
-> +#  - name: CONFIG_DRM
-> +#    expected: allow
+> @@ -47,4 +51,51 @@ The checker's rule files are written in YAML, and are =
+stored in::
+> =20
+>  The schema for these files is fully documented in::
+> =20
+> -   tools/kconfig-checker/schema.yml
+> +   tools/kconfig-checker/base.yml
+> +   tools/kconfig-checker/rules.yml
 
 [Severity: Low]
-Should this example use "expected: allowed" instead of "expected: allow"?
-base.yml restricts expected to y, n, or allowed, so an overlay written
-from this example fails schema validation.
+Are the schema file paths here missing the schemas/ directory component?
+
+Commit "kconfig-checker: Split schema to support component reuse" and
+commit "kconfig-checker: Introduce overlays schema" placed these files
+under tools/kconfig-checker/schemas/ (base.yml, rules.yml, and
+overlay.yml).
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106091922.7560=
--1-darwi@linutronix.de?part=3D7
+-1-darwi@linutronix.de?part=3D9
