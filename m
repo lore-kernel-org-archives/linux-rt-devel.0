@@ -1,65 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794073049;
-	b=MdJM0AoJbwJcbf71zUpwWuWxpE+EuF/WSVlplY1WLjvhDRpyTS6s7lWqUQo8RxiwG+Yr
-	 oY1DZjzllDmHtfNGxhf6cDdFQbqiMItr8zYHteBTgE7wwkvn2vv38XUTNXxCAQ4BDtVdZ
-	 1GJYgIfz2ULdb4MEIr2RqX/12gLw1QLznes10hRFtIDb8d2Xff2e0qpE8ebNVmvZY/aZ+
-	 qdrJa0Sm9CuAVymhKL5FokbFxr4vr00KhXAQnmydTOqT6Y1OeUhOvxOawJFVwypAWcW62
-	 2cqoSz3tEvQuN0+n7/jaSeqqLmgLOEK5AWb8xEWPYlj8I75smRqG4lEYN5W7zjZJpYA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794073049;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Rspamd-Server:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=jA1Z4duQiQzeKq317JC2yso+OfINr1SzmCCDBHpydj0=;
-	b=jvQKW3N0pC3vl/cPao7wqX1Q8Weqc0F5HdpXgkscoyLIq2726zRXCCbQ/OLwsauEphzp
-	 2CGjYrUMwboebbzukPJZrHPDt0t2GqF+oljwiBn5FElKMdX3/4Li0a2Ni4OVo42VnP7r9
-	 PnLa2Z2whulfbxwu3pflVk2jpaXde5AYfE+AJwmo8hfX6W1J91BKn8r4HR2vy3B/FkEz4
-	 lc8QsfwIehTmAkz2HL9jpBVTw1ZdxSUdn76bbeamSZINeJ7ZDq6F+VcC0myQ76ZsjEbRl
-	 pXWP1sCwKXWOcqgXm/wrRphHJ7aQR3qJyMbn0Gx2NdnNBPOlsZeaAtECxB9NImsncmg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=QHJOEINu;
-	arc=none smtp.remote-ip=216.40.44.15
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.124
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794080063;
+	b=zAxHNQAXw4vuYZp2ZgOWCuHKdkj7EEJ6yubYc4R0eQw2tdV+oZhhlU3TR0tpSfGZ8F1o
+	 D6Ju66rA05zyd0ONbDVviD7eZVHQkC35Q+ngENI9DS1c7qMjUkh3YnnRCs/W49K6aRibh
+	 6Eku9ABHa8Hm7kx21AqumwE2D3w7/1+nALjUjKZht//////KFNPQ4hoJmW+2BPGKOmY4c
+	 BZ/dp2Mn1Uf8rs/54ykQMps2cseE//9B+A6rMuCoFUcRHt3488MDF6u/W+fKd/pSEmYvG
+	 P/gpx5k6akpWXr+XlsSWDMGZWA91iQov1zYTv2LQqpDwZs85UkffMBlQyYBx+nl9Ekw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794080063;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=C2mc20T7WfwNWDWve4U8qj0WFgpO5sQP4D0U6/23ozU=;
+	b=nQ0t2l1xD3ZPxincoIl73rV+0qqsbXQY5SftqBxDJqCSeke68ACvHe03LV2X6hs1PTR6
+	 QxflfDDFpX6ohYoUXeshJDtuO0elzm+O1efOhe5nnkdIAV4PKZhDaD2imzblJXIje92Hp
+	 YJe07ZNmfASIzzLYvebUWXkWvtYAy5YhcHg5bsBE63U1nA/xPWuchHj1VFXQSPzLSjsg/
+	 L+BnyT3lGIlX3DvWWmG+DKlM191h4ghUA0ZeOpxSbKQbGTa5Ca9RRM0V7jXa1NNylKWOP
+	 WvXN9yCRmdZlokl7OUfAJvZRoqCzJxv/8jlK2zcy1ZOWZ1bI41lMhN9PYnsMKsPF3+A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.124
+Received: from YT5PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11021124.outbound.protection.outlook.com [40.107.192.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B195606A32C
-	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 17:37:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B195606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=QHJOEINu
-Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 86C801C3AE5;
-	Sat,  7 Nov 2026 17:37:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id 535692002C;
-	Sat,  7 Nov 2026 17:36:58 +0000 (UTC)
-Date: Sat, 7 Nov 2026 12:36:42 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, tglx@kernel.org,
- mingo@redhat.com, linux-kernel@vger.kernel.org, will@kernel.org,
- boqun@kernel.org, longman@redhat.com, bigeasy@linutronix.de,
- clrkwllms@kernel.org, dvhart@infradead.org, dave@stgolabs.net,
- andrealmeid@igalia.com, shuah@kernel.org, juri.lelli@redhat.com,
- linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when
- the waiter is woken
-Message-ID: <20261107123642.149677cf@fedora>
-In-Reply-To: <c77635b1-9c24-459a-b75c-82cbfb67185f@efficios.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6CB606A326
+	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 19:34:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C6CB606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UtEG5bs2VtUQKREWHFXiWH8fYd1VibwyzNtvzLAekxf6YHsyeZR5PerRDDFEif6GVZ7pbjVJmyJRXuXdCFxeD2OrfSiceDnZdp4L4eRODzAfrL6sYMo9NFa+K4VLU90PZyiS4csCkmLuuqWBA+IDDElcBMcbwZWWYitIruWe+evXLk/XhU1vjqmrBxrrFUNH3oUSvcx/JrfKdMf9TvTkjLPmvBccHjCdwXWzBFb7c2lz8FBy27tmrBEyMiz69bz41dqmZ8gFIaqVUARI5v9VyEtYXl5tJyBUAMLf6cY/2dcinxKz2uhv69yU/fr0srjXh7cepvJhnrid1QC7JD7wfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C2mc20T7WfwNWDWve4U8qj0WFgpO5sQP4D0U6/23ozU=;
+ b=rbWfvkB1G7SFmBajjh2zWIyG3Z81yypQbyWazGcf4EQITu6KI3t44ZG2zIsc6IyxfZo24E797bKc2P/fAKg+FfOIMu8KSefspc+GL5UYuwI+uZsTZTXItXvYKnb2sXooVqju/hSP1HH1OZyLKQhaHfhBDXuXE3yTEKpX74TlQsZlFpewMTXRnqhF4oYVSMSFcQ6md9/v0Ydk9tzCBhwRsOihLc2MVx8CMQYe7oGGsj9RIMuyjiIHdResSxEQi4h91q1GJ0D0i7xPGfChfGzhsG8Mxrg36IUFIGDsLaHCeudGVGjMLlpralNuV4NagPAH7R7mBpwWrNAnb9ocsc7gMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C2mc20T7WfwNWDWve4U8qj0WFgpO5sQP4D0U6/23ozU=;
+ b=dVCzEI05fbDsUKrz30m6CqzTCbEHdbQJpUXlTZzOSWn7LPfTa9601oCQRoBX9FHEStYLZD/Fcy8JwhUiGgOS4u65UCL8Vbmay7gYLjwzp+NRrb+z43CZJIkzE1i2AMkODAK+s8+FE3yeSijD+foScFqZ/bYVDQpX2h18P5ortJgGuZBpogmWB2U9N36zMXQoZHXMtVnqgRIaSIbcC8lv/4BtFE7KHOQZckz+r9wzq6tLPTrla0YY0DJcl8pPIVG0YkHbe2KNXtJwokKCQzMjQGY337FuoD0QadjWMPqaWnjmpyJ+PfqOHlj+AB+WFCf/0X7IQoGNo8mlomTZRZm+rw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT5PR01MB842448.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1b6::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Sat, 7 Nov
+ 2026 19:34:14 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.010; Sat, 7 Nov 2026
+ 19:34:14 +0000
+Message-ID: <2a786b46-e935-4269-9bdc-edac43521a80@efficios.com>
+Date: Sat, 7 Nov 2026 14:34:12 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when the
+ waiter is woken
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, tglx@kernel.org, mingo@redhat.com,
+ linux-kernel@vger.kernel.org, will@kernel.org, boqun@kernel.org,
+ longman@redhat.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
+ shuah@kernel.org, juri.lelli@redhat.com, linux-rt-devel@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org
 References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
-	<20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
-	<20261107002927.3cbad7ff@fedora>
-	<20261107104329.GA2668564@noisy.programming.kicks-ass.net>
-	<c77635b1-9c24-459a-b75c-82cbfb67185f@efficios.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+ <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
+ <20261107002927.3cbad7ff@fedora>
+ <20261107104329.GA2668564@noisy.programming.kicks-ass.net>
+ <c77635b1-9c24-459a-b75c-82cbfb67185f@efficios.com>
+ <20261107123642.149677cf@fedora>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <20261107123642.149677cf@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBP288CA0030.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9d::28) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -69,124 +104,149 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 535692002C
-X-Rspamd-Server: rspamout08
-X-Stat-Signature: m44kupjn78amr5iba158yzo71aerdhcm
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX195nEAbX1ye5HLf4TYsMhI2TyWK0f81IaE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=jA1Z4duQiQzeKq317JC2yso+OfINr1SzmCCDBHpydj0=; b=QHJOEINuZLikmXVnkZT2L1ruJL/sFiyj1a7fbmNisUYPM3FED5UQaDWWBORf0uFWwrdV+MSQvl3GNH3g8/YiS2DTRupvspu8y8ro5C+eGzlCZIyVNXhDeXc44nGtcTwk00tHGTLiRum5o/wuaeGIUUQHOStCmkvQsjjCbVzmWuA=
-X-HE-Tag: 1794073018-50227
-X-HE-Meta: U2FsdGVkX1/xkZuEMEbBCRfnErlHYkRLRDuQ4GKd9JI66MgGk/9EtQjOr/4EcRkcQOmN7p7qTwDBZxQqLm4BRwFmhmB9b4FT7qkkG/sM2/a/lPmoftsEN/kGVVCJbP+oMtphFphXzojKGJXDoLj7973AVD34omJ6wjmlwbP7MNKbExqBzs0oifpfMCDA5FVYn1bwahkR2vCtgteuYTycxiab2tDqi1C3jnBKVa3FWckqqUst1nKjCoFXLjeCFbuaIcALKm2/gOo7lB6qmJiGE5+o5wL3iio+Gr9V6QpxtRAQCR0nLXBc00qzgheVeJuVnuguVSM304hz/NPMKas+Vb2qsxx5UeuMKzPJ0tQ0jO7+eAxCRaeVpEa1zm7Nq6bRRB8MX3GIgUJ0MPL1PjHCTqzV34xxNRpvXpf+I1wuKcH8PTU1dokdby+pxg9PhWaszNLnhPaeC4uIiIqTG7UIUQ==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT5PR01MB842448:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8f76e0c-22a3-4c53-6dbc-08df3d061acd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|261026140227099003|4143699003|261022075727099003|56012099006|261022105027099003|261021121427099003|261013131602099003|261021123027099003|261102123227099003|261026121527099003|261028144727099003|18002099003|22082099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	dERBWBNA3TeJ4PA8tr2h9Ich35US2TmeTk6e/K7RfoN5R78FnzoHua/H6lGidtlt7yMkWi82/uTrFIdl4BCMQqP6p/jjTph27FVCqCOSHPtoWQHvSEXrmsSNn+jGRrQlIoHhwqKbul5nN8Q1fAKbLzrzDURaEDMcCav1CQ8Nij3+7hUHn702i/Ps51GXL61rGx3RulxneAYKijWFN7tKalnHd+SECWDp1zkkdeg4Nv6Tcg5633l8O8sFxMtJNb81tJS7CQic+Uyu5VZqpexlk4IesYd+KM/DaH32JElpnKZkx2uA6QnXSVJdJJn+7pvFIRnxHwXjR3JTZqzb7mlGmjZ1VsTlHSy7/QAyiBO6SvmJhK5iKgL64Alk5r/9zyr6royWrBOhyWuIeyE6luxBaZtouSmNSD0yq1Yz018N/r7WTfMLnOfl3y4YODPZK4WkFmNEAVYU3K/hTBQ5Nd4HIikBDoPQ3rhOfoc1/bdXQ428Be7ycAZXQTILb+3dc2gsdR32lG2vV8fRAwWS7fM+loEEqnKkgZANwCD+7F/e6PjBFpBln84p+251MlAt/J2FsZB45/RNpw6udFqUFAtkNL1epDA7nIGdx2ZMMTKawyg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(261026140227099003)(4143699003)(261022075727099003)(56012099006)(261022105027099003)(261021121427099003)(261013131602099003)(261021123027099003)(261102123227099003)(261026121527099003)(261028144727099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M0JjOTd0YnpvY2VtOTJhc3EvcXZINVd2M1RMelJYejRza0ZUWWJXVTB5THc2?=
+ =?utf-8?B?WVdRVHVWMDJackZLdlluaW5ucFUyc1c0d1FmdjlUa3lCQ1NFaGpnVHNyQndK?=
+ =?utf-8?B?d0pXNk54REtnbDFYRWltUkJHTHd2UU5YN1BTNHAzb1ZKVG1ZbTIzSFJSN1lY?=
+ =?utf-8?B?NGJtQ0g0S1hWQWZVRG8zUEdLNjc0WVNvZjNQWVRkRS9FUjF3aW0yREYvcGRl?=
+ =?utf-8?B?UWw3YWg3eWcvWG1GZzIzTU5PeHB6aTFYWlRNZ1h1WXFvUjNZMVZHajZvVUEy?=
+ =?utf-8?B?UjgrdExFY2h4SS95bWFZU2RWVFdwRmU3RVFqcHhMTWZtNDNVNDZDczhoSHMr?=
+ =?utf-8?B?MWNVcWVhTExVYVZlYjJuaVdzaXpydXZFOW1QY1l6QnJ1cXc1cTRnOU9nYjhK?=
+ =?utf-8?B?d1p2UDdkWGsrb3Y3dnQ4NGgyaHdGcHg0SlowaWJsTXpvOG9mbmdTTXFxb0Ji?=
+ =?utf-8?B?emJ0TG5BU2xpckZ4TzloZFFQZTV1RUx1M1RMbUl3YS9aeVlLaE9ZUlRyMzM0?=
+ =?utf-8?B?QnBaVTNVQ3ArMmo1a0oyeUJrMmlHZldTb1BQRVNOZFNva1VKSEdXdVVaUjJn?=
+ =?utf-8?B?V01xRTFJZ2MreWdodEs3aS9HdGZoRnNRS2Q0Yk9IUW1OR0Z5akQ3ZVRYRVFs?=
+ =?utf-8?B?eWJsWjQ4Sm5HKytyM1ljMElCYkJzaXVmcHVDenVLVlY5QlluWUIwdWQ4TVZC?=
+ =?utf-8?B?STEvRWJQcG80bHJ3V1dvUGVLQ0MwdEFFMllRZWZOSGNRMHVrclhiZERIaUJ0?=
+ =?utf-8?B?NnNYQ2FSRTZVU0c0T3Nhc0FzcS93d2xWblRlY0V4d25mK0p5MmtLWUN0Qkcr?=
+ =?utf-8?B?Y1RWeUtnNHE1bUo2MUlIRlkrdEc1QlhmTTVVTGJ0WGFvRFoyd1BCeXVLNjVl?=
+ =?utf-8?B?TzUzdkZzdHh6d0k4WHRLdmhwZGZtb2c4c2taYnl1bE54d2ZqWlF1TVRBU1Qw?=
+ =?utf-8?B?WEJVV1NzaFhMdzZRK1pKYzlOOTJOd2dLUFBFcTZvQ2FMZllHYjFaYVdlY0o1?=
+ =?utf-8?B?MlEvRWpGZmxFRW9makMyOHVOTSs2K2p0S25iMG90NEJSaDEzdU9yeUQxRGhD?=
+ =?utf-8?B?ZXhMZmxGcEJtd0NNR21DS1RaNlNHVEFHc0VZWEFaejhPUTdjQURBTXcxb2dG?=
+ =?utf-8?B?TmhsZDVKQU55WlliZnVEUUxkSDNsNzVhY2kxVytFbVBzT2pkejJHR3YyYzdB?=
+ =?utf-8?B?WlBFL2xQWVBpZUt1R01MdnRIR05WdzBwNHh3bXlheGlJYVREL3lRM25pcUox?=
+ =?utf-8?B?cjJEWlpWRE9wcDFYZ083djN1TmV6aHBTd0JsRnltdEwzK1dLWUFvSC81WFVR?=
+ =?utf-8?B?bWthRkxJL2RmVldjNHF1bmRLU3pXQjhnaWVRalVhbi8yKzJrSUtFVWlrbFlr?=
+ =?utf-8?B?MHp5VzZqclFMbUNqZUlra1JtdG4wdndYWlJ0T0NjTDBNS053L1ZQR1NycGo4?=
+ =?utf-8?B?eHAwTkpCUWc1aW83UlFoZkVjdmhuWG5Bb3Z6S092ZzZUNXdVR3JvcHYxTjlJ?=
+ =?utf-8?B?ZjR6SjVHRUVBTVdxMmJGWmhtS1VtZitqU00vdkpaNUhKbU1WbVIrYUxvZ3gw?=
+ =?utf-8?B?TlNFZnNwQnVsTzNYYkU4bFB6VGVHNElXa2E2U1hDM2gzZUFNWVZkc1hSckVD?=
+ =?utf-8?B?N0NaNDhjSFRnSzJOSEhVSk90NWNkQXFHbGdIRnR1MEkwZ1BqeHRsa1NlOXI2?=
+ =?utf-8?B?SVJ3Vy90UkVySzV4WDRvbkl6Y0lOTTYyVE5aOHVtTU54emRDdTZhRXVZOG1Q?=
+ =?utf-8?B?VGtnVWJ2ckg5eGZqQUZVWXdzZXdyK1Yxd1NIK1BpbmFKL0h2WFZyaVkxNkR5?=
+ =?utf-8?B?amdndnBNVkxpekxDQ3NEdUsraG9VaVFMVE9Ud3Zoc21lczFhL0p2eitTR1M2?=
+ =?utf-8?B?SzZVeFJNRGJpYTZud0JtR0xYY2d1azNjVXI3eE5KakViZ1VhL1ppaitRVHBp?=
+ =?utf-8?B?NzJnTFV2aTRqM3VzOTNRbHBsaU9kbEFLSGE2dTZiTlhPejBpaDdpMzl2NGRy?=
+ =?utf-8?B?Mit3bXVEdWpwTDJGL2NqOXQxcUVZVlo1M2MwZWxHWURiOEtmY2s1OFRwUlBz?=
+ =?utf-8?B?dzAzbHg4UUZHTWpoaDRBcnJTVUc1ODJrQkl3UXJNd0VySnBCMGEyaXNUTzlk?=
+ =?utf-8?B?aktNRzNqMGt0VFg5VWkwS3FvYUlraVVHeWtGVGhUU3JIZVRaUUlQNkNkMTQv?=
+ =?utf-8?B?dUZJTXZ1eXJjdzJkaGZ6dFMzQ2Y3WWJ3T1JZSEV0bndJNlFRZjRqVXFueXA1?=
+ =?utf-8?B?Z3VrbFRrU01mS2FOMkN1R3IvVVQ1MlBwRGRodzJBdUxCWTljUmJXQVY2VHp3?=
+ =?utf-8?B?L09Nbk11NEsxSjR2QzNUV0lqYnlodzUxbk1XVFlKUUlYSGdiYUxNUHVVdndE?=
+ =?utf-8?Q?k/t4KUZn7rvtM2LU=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8f76e0c-22a3-4c53-6dbc-08df3d061acd
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 19:34:14.0052
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aejBqTmOV7M6geACYGPw+sIsRhAF0MCbGy4BrgQ3SLzuuBEwjRA+CSUMKYlEcuaY7ElkimFeR30wZi6U/GlEeo9aGaQJ6wMx6lXwQFNVwCk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT5PR01MB842448
 
-On Sat, 7 Nov 2026 07:29:54 -0500
-Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
-
-> >>
-> >> The above is very verbose. Are you starting to use AI? ;-)  
+On 2026-11-07 12:36, Steven Rostedt wrote:
+[...]
+> Still way too verbose for the fix. It makes it sound more complicated
+> than it is.
 > 
-> I definitely am, as stated in the cover letter. :-)
-
-I skipped that part of the cover letter. The first patch touches my
-code (it has my commit as fixes) so I just jumped straight to that one.
-
+>    locking/rtmutex: Stop spinning on the owner when the waiter is woken
 > 
-> > 
-> > He definitely is. I can't read the above, its word soup. Part of using
-> > AI is making sure the Changelog is actually readable. This is not.  
+>    The top waiter of an rt_mutex sets its sleep state. Then it spins in
+>    rtmutex_spin_on_owner() as long as the owner is running. A wakeup sets
+>    the waiter back to TASK_RUNNING. The spin loop does not check for this.
+>    So a timeout or a signal is only handled when the owner blocks, or when
+>    the waiter has to reschedule.
 > 
-> Feedback on the commit message wording is welcome, I'll try to improve
-> things for next iterations. Is the following easier to parse ? I fed
-> Peter's and my own criticism to Claude and got it to rewrite the entire
-> thing (and keep those learnings for next time):
+>    The rtmutex_spin_on_owner() is just an optimization with the idea that
+>    if the owner is still running on a CPU, it will likely release it soon.
+>    If the owner gets preempted or schedules out on its own, the spinning
+>    will stop and the waiter will sleep. This came from PREEMPT_RT adaptive
+>    spinning for rt_spin_locks that allowed them to behave more like normal
+>    spin locks and speed up PREEMPT_RT performance.
 > 
-> locking/rtmutex: Stop spinning on the owner when the waiter is woken
+>    The problem is that when this was implemented for futex and normal
+>    mutexes it did not account for timeouts or other mechanisms where
+>    the owner releasing the lock wasn't the only way for the spinning
+>    task to exit the mutex acquire. The spinning currently does not
+>    account for anything else but the lock being released or the owner
+>    sleeping.
 > 
-> The top waiter of an rt_mutex sets its sleep state. Then it spins in
-> rtmutex_spin_on_owner() as long as the owner is running. A wakeup sets
-> the waiter back to TASK_RUNNING. The spin loop does not check for this.
-> So a timeout or a signal is only handled when the owner blocks, or when
-> the waiter has to reschedule:
+>    Luckily, when the spinning task needs to exit the mutex lock code, it's
+>    state is set to TASK_RUNNING. By having the spin check the spinning
+>    task's state to see if it switches to running, it can exit the spin
+>    appropriately.
 > 
->    CPU 0 (waiter)                            CPU 1 (owner)
-> 
->                                              pthread_mutex_lock()
->                                                takes the PI futex
->                                              spins in userspace
->    pthread_mutex_timedlock(1ms)
->      futex_lock_pi()
->        rt_mutex_wait_proxy_lock()
->          set_current_state(TASK_INTERRUPTIBLE)
->          rt_mutex_slowlock_block()
->            rtmutex_spin_on_owner()
->              <timeout> hrtimer_wakeup()
->                wake_up_process(waiter)
->                  __state = TASK_RUNNING
->              owner_on_cpu(owner): true
->              need_resched(): false
->              keeps spinning                  still spins in userspace
-> 
-> The owner of a PI futex is a user task. It can run for a long time.
-> With an owner spinning in userspace, a 1ms pthread_mutex_timedlock()
-> returns up to 1.4s late. A signal to the waiter is delayed in the same
-> way.
-> 
-> With PREEMPT_RT, a ww_mutex wound is missed too. Two contexts take two
-> ww_mutexes in opposite order, on two CPUs. They spin on each other for
-> up to a second.
-> 
-> Fix this by also stopping the spin when the waiter is TASK_RUNNING. The
-> slowpath then handles the timeout, the signal or the wound, as it does
-> after schedule().
-> 
-> rtlock waiters are not affected. Only the lock handoff wakes them from
-> TASK_RTLOCK_WAIT.
-> 
-> With this patch, the 1ms timed lock returns after about 1ms. The
-> ww_mutex ABBA resolves in microseconds. PI mutex throughput is
-> unchanged. The futex and ww_mutex selftests added later in this series
-> cover both cases.
+> How about something like the above?
+It drops important information, such as the user visible impact of the
+issue. How about this remix ?
 
-Still way too verbose for the fix. It makes it sound more complicated
-than it is.
+locking/rtmutex: Stop spinning on the owner when the waiter is woken
 
-  locking/rtmutex: Stop spinning on the owner when the waiter is woken  
+The top waiter of an rt_mutex sets its sleep state. Then it spins in
+rtmutex_spin_on_owner() as long as the owner is running. A wakeup sets
+the waiter back to TASK_RUNNING. The spin loop does not check for this.
+So a timeout or a signal is only handled when the owner blocks, or when
+the waiter has to reschedule.
 
-  The top waiter of an rt_mutex sets its sleep state. Then it spins in
-  rtmutex_spin_on_owner() as long as the owner is running. A wakeup sets
-  the waiter back to TASK_RUNNING. The spin loop does not check for this.
-  So a timeout or a signal is only handled when the owner blocks, or when
-  the waiter has to reschedule.
+The spin is an optimization. A running owner will likely release the
+lock soon, so the waiter spins instead of going to sleep. It comes
+from the PREEMPT_RT adaptive spinning for rt_spin_locks. Only the
+lock handoff wakes an rt_spin_lock waiter, so the spin did not need to
+check for other wakeups there. The spin was then extended to all
+rtmutex based locks. Their waiters can also be woken by a timeout, a
+signal or a ww_mutex wound.
 
-  The rtmutex_spin_on_owner() is just an optimization with the idea that
-  if the owner is still running on a CPU, it will likely release it soon.
-  If the owner gets preempted or schedules out on its own, the spinning
-  will stop and the waiter will sleep. This came from PREEMPT_RT adaptive
-  spinning for rt_spin_locks that allowed them to behave more like normal
-  spin locks and speed up PREEMPT_RT performance.
+The owner of a PI futex is a user task. It can run for a long time.
+With an owner spinning in userspace, a 1ms pthread_mutex_timedlock()
+returned up to 1.4s late in testing. A signal to the waiter is delayed
+too.
 
-  The problem is that when this was implemented for futex and normal
-  mutexes it did not account for timeouts or other mechanisms where
-  the owner releasing the lock wasn't the only way for the spinning
-  task to exit the mutex acquire. The spinning currently does not
-  account for anything else but the lock being released or the owner
-  sleeping.
+With PREEMPT_RT, two contexts that take two ww_mutexes in opposite
+order spin on each other. Only something else that needs one of the two
+CPUs stops them. By default, the fair server does it after 950ms, to
+run SCHED_OTHER tasks.
 
-  Luckily, when the spinning task needs to exit the mutex lock code, it's
-  state is set to TASK_RUNNING. By having the spin check the spinning
-  task's state to see if it switches to running, it can exit the spin
-  appropriately.
+Fix this by also stopping the spin when the waiter is TASK_RUNNING. The
+slowpath then handles the wakeup, as it does after schedule().
 
-How about something like the above?
+PI mutex throughput is unchanged. The futex and ww_mutex selftests added
+later in this series test both cases.
 
--- Steve
+Fixes: 992caf7f1724 ("locking/rtmutex: Add adaptive spinwait mechanism")
+Cc: stable@vger.kernel.org
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
+Thanks,
 
-> 
-> Fixes: 992caf7f1724 ("locking/rtmutex: Add adaptive spinwait mechanism")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> 
+Mathieu
 
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
