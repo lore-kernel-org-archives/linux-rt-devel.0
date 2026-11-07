@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794009595;
-	b=3I027sWL7jUh1/zPtPzw5KqKvqoJ0WM/tbck01eMmz2ZPDzIR6GxXBbZIIEIcLQE2oj2
-	 7fekeUwISmDV9yU7xucUVgdXkQbXyebQdRNz/tv31ihEkkXEzY8KpQ7Q7qBfeX3uW4pl7
-	 C/3tWKMBBXn+CSFm5rNHmXYMf1WYLezYTa6j1iwK8JthhW4KQImMO99Z0rDoPqlcitq2c
-	 QWY5FItqkHx9ireyu/tTdpeVDB0AN+Kgldeab/18VSqwv0WJ32KGRw8W7IoXbsF60mK5h
-	 zqmNod4vJFsTkYKRQ1NQt1RVafBSNiYlnh1r8RtPajEGYluLuzN0ZTZ/kIPefZwyWyg==
+	t=1794010306;
+	b=eGCHEm2ZWHmG6MPapZVRWMaCdKhx/gDAToLigap0fZ6nyYLvDFPS9ijxG8B3wcG8APHu
+	 DYm/61jtlcJ4/KTZHJdXHHzLJvViRTj0vH4K3OP8Euh+CuTPknVWYPz7ddqvDxjzWr4Pe
+	 iC3AN095KUu7ukrvtgzJWwMHx16Ol7MSnqVTsblHau/MGkYtu83f1XlRqtmIFZZkI2Ukq
+	 y3zreIvLuj+6+KQvMcQEipBk/2b8ourLzH85Zogj6rpGk7POPEfzkSVLBXB6CMdoAzXhV
+	 jo5YjXLt3OeMMtisUg+BwcWtCvNZCOt6mGeCcdIVuNmEPjy14Ekn/1NrQuSnX/VbgrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794009595;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=PpUPxyvwlx0B8AD5xUC2UMH04Le3Oz1Nx0kRPHSzOzQ=;
-	b=ODlMa5Bki7mVcQM0zvmRJxZBGrtYOqsP53VoB0zO/M5tCA51XVq7UGzWUSN1h9ovZibN
-	 w/VxOMEaJdLrrK48gZ5IcV4ZmqelcW30WphBSeiDG5mzftj6UKBQfembzgjajTe786ldt
-	 IBoCNs7iMGr42icZsnXK5eucnz9FNjOkAa14RWTCtlYIKvMC+zPNAJKfDM/fYViv+sYnw
-	 4pd+/85BAWRZjNVo1kTDP6vHaPPpT6CeabZtR84kNiOezvDNmqkiwaRUnzLQHzZHDpCMz
-	 Uj+SsksPReZkSamzXtpXp4G9/4E1gGmtmzfPHdVcOUQrBS/Q1RjyNP+GIc+YDN8Ladw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794010306;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=O1YwaBYKL60DTpaRiHPM1BWsGMVsXcGSphhmfyChFiw=;
+	b=YqLmkquh473Xvtl8zJvwH4vOUAzVxcxuCS5LB/85kPhJe4FM6phbMcvkYud5YMxnZL1S
+	 e3Cfl5/7e0SJm/NRFU1S6JoTsWUU080LxZQUGeY+sNnTs7mwLHfIouDVco2GJx9WP8J9v
+	 2+ABrpB37cQ7635xO++yqtgGMiKADK3mi6FfpgukeLlpwLimri4L19Xddwpbyc0oDg7vv
+	 M8vCG4ANckVuyLA4WlQzkjpsVqyLd1w3qyrIgmYbRX8xALhhoiHWvQVfLlFkHBX4plU20
+	 g5e5CT1TE5/7K/vgNSnCMbpAaAobGfp8AjibO5/i0Aq7eSQJafpy/+bP9mU3aPfOmZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=F4MsfE+y;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Clpvd24C;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D22606A33D
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Nov 2026 23:59:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26D22606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79386606A326;
+	Sat,  7 Nov 2026 00:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=F4MsfE+y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794009586;
-	bh=PpUPxyvwlx0B8AD5xUC2UMH04Le3Oz1Nx0kRPHSzOzQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F4MsfE+yBYGqu3nnxo9C08LkVVllIM8d2dcv28fP6AYA6veSGbQsil9kL+m7fNQBE
-	 f4nzuhK4vHfVSZaw1RjbvdTD3Igg9uJUKi68TRwkUvhNqT40PZBVz6jwPtC8dlMzxS
-	 5eaetWPLjiZQ6O8315WistOuIohoHLKGWvXc9D5QGlYVBiKcdR9uhCUqSyI/zoce6J
-	 eDX6zsS0u5XiNCC6/dSOatFW0fiGUHAHDiCdWekmNgmiaQN7Fk4xsAWs/cq+jSmz/k
-	 /RUs4lcUe8g+Z0WjixX6iwfox+MxpdMY3UFmEIoT0c/habud4pOEqk6f0Xcdgkjo3K
-	 wXRlhUmK5O+1g==
-Received: from thinkos.internal.efficios.com (unknown [64.58.40.251])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLx4L4HFWzL0Q;
-	Fri, 06 Nov 2026 18:59:46 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: peterz@infradead.org,
-	tglx@kernel.org,
-	mingo@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	will@kernel.org,
-	boqun@kernel.org,
-	longman@redhat.com,
-	rostedt@goodmis.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	dvhart@infradead.org,
-	dave@stgolabs.net,
-	andrealmeid@igalia.com,
-	shuah@kernel.org,
-	juri.lelli@redhat.com,
-	linux-rt-devel@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when the waiter is woken
-Date: Fri,  6 Nov 2026 18:59:27 -0500
-Message-Id: <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Clpvd24C
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFF61F0089F;
+	Sat,  7 Nov 2026 00:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794010306;
+	bh=O1YwaBYKL60DTpaRiHPM1BWsGMVsXcGSphhmfyChFiw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Clpvd24CJwr/f52xsfUXjUubKlUpHQFZqbAVRM4iNf04oRjsk4NBvcWAmEaZR81w7
+	 Usw3POAgFFk04Tkpl7LHqEI2eMR5ANQ8y6dHKUgjJP9qgkhVVW7OxBJ6p1JWO4BRNA
+	 NzulLkK9ETVPVQOQNoUEXg/30AyFVFGLRQtbb6M5LjbgSllZwSDrO0NitUcVSO+AHb
+	 K6F8yM03WCa2kS1uqw3xNlRLAH6/UOUKLQAZUO+b+pDUQCs4lfUCWys/495lLB1Rvi
+	 cixbLAuY+/u/a7vdwY6v34OutczaijoYahkBoaGh+xjdsWLBVtpHQFJNITWTcd7xPy
+	 DePtqQP5QVFgQ==
+Message-ID: <sashiko-outbox-202413@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 5/5] locking/ww_mutex/test: Time an ABBA with both
+ owners running
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20261106235931.1478800-6-mathieu.desnoyers@efficios.com>
 References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
+ <20261106235931.1478800-6-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 00:11:45 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -80,58 +60,94 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The top waiter of an rt_mutex spins while the owner runs,
-rtmutex_spin_on_owner(), and does not stop when it is woken: its timeout
-and a signal find it running, set it TASK_RUNNING, and the spin goes on
-until the owner leaves its CPU or the waiter's own CPU has to
-reschedule. A PI futex owner is a user task that may run as long as it
-likes. On v7.4-rc1, in 8-CPU VMs, behind an owner spinning in userspace,
-a 1ms pthread_mutex_timedlock() returns ETIMEDOUT 126ms to 631ms late on
-average, 1.4s at most, a SIGUSR1 is handled up to 1.9s late, and a
-waiter killed with SIGKILL is reaped 0.5s late on average. With
-PREEMPT_RT the wound of a ww_mutex is missed the same way: two contexts
-in an ABBA on two CPUs at SCHED_FIFO spin on each other, and the older
-one gets its second lock after 96ms on average, 0.95s at most.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] locking/ww_mutex/test: missing stage ordering in
+  test_abba_spin()
+--
 
-Stop spinning once the waiter is woken, where the sleep the spin stands
-in for would end: rt_mutex_slowlock_block() then sees the timeout, the
-signal or the wound, as after schedule(). An rtlock waiter is woken out
-of TASK_RTLOCK_WAIT by the lock handover alone, and spins as before.
+commit a75841edff4ce8ecc91baad12d6e7f770d7d72f7
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-With this patch the 1ms waits end after 1.01ms on average, a signal is
-handled within 0.3ms (1.4ms with PREEMPT_RT), and the ww_mutex ABBA
-resolves in 12us to 33us; a contended PI mutex keeps its throughput.
-The futex_lock_pi_inherit and test-ww_mutex cases added later in this
-series catch both.
+locking/ww_mutex/test: Time an ABBA with both owners running
 
-Fixes: 992caf7f1724 ("locking/rtmutex: Add adaptive spinwait mechanism")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- kernel/locking/rtmutex.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This commit adds a wound-wait test case to test-ww_mutex where two
+SCHED_FIFO threads on separate CPUs create an ABBA contention while both
+owners remain running.
 
-diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
-index 5a9534c715b8..323973be2074 100644
---- a/kernel/locking/rtmutex.c
-+++ b/kernel/locking/rtmutex.c
-@@ -1516,9 +1516,13 @@ static bool rtmutex_spin_on_owner(struct rt_mutex_base *lock,
- 		 *  - current is not longer the top waiter
- 		 *  - current is requested to reschedule (redundant
- 		 *    for CONFIG_PREEMPT_RCU=y)
-+		 *  - current is woken, by its timeout, a signal or
-+		 *    whatever else would end the sleep the spin
-+		 *    stands in for
- 		 *  - the VCPU on which owner runs is preempted
- 		 */
- 		if (!owner_on_cpu(owner) || need_resched() ||
-+		    task_is_running(current) ||
- 		    !data_race(rt_mutex_waiter_is_top_waiter(lock, waiter))) {
- 			res = false;
- 			break;
--- 
-2.47.3
+> diff --git a/kernel/locking/test-ww_mutex.c b/kernel/locking/test-ww_mute=
+x.c
+> index 838d631544ed2..1bf3a91adfec5 100644
+> --- a/kernel/locking/test-ww_mutex.c
+> +++ b/kernel/locking/test-ww_mutex.c
+[ ... ]
+> @@ -279,6 +281,213 @@ static int test_abba(struct ww_class *class, bool t=
+rylock, bool resolve)
+>  	return ret;
+>  }
+> =20
+[ ... ]
+> +static bool abba_spin_until(struct test_abba_spin *s, int stage)
+> +{
+> +	u64 end =3D ktime_get_ns() + 5ULL * NSEC_PER_SEC;
+> +
+> +	while (atomic_read(&s->stage) < stage) {
+> +		if (ktime_get_ns() > end)
+> +			return false;
+> +		cpu_relax();
+> +	}
+> +	return true;
+> +}
+[ ... ]
+> +static int abba_spin_old(void *arg)
+> +{
+> +	struct test_abba_spin *s =3D arg;
+> +	struct ww_acquire_ctx ctx;
+> +	u64 t, end;
+> +	int err =3D -ETIMEDOUT;
+> +
+> +	sched_set_fifo_low(current);
+> +	wait_for_completion(&s->start);
+> +	ww_acquire_init_noinject(&ctx, s->class);
+> +	atomic_set(&s->stage, 1);
+[ ... ]
+> +static int abba_spin_young(void *arg)
+> +{
+> +	struct test_abba_spin *s =3D arg;
+> +	struct ww_acquire_ctx ctx;
+> +	int err =3D -ETIMEDOUT;
+> +
+> +	sched_set_fifo_low(current);
+> +	wait_for_completion(&s->start);
+> +	if (!abba_spin_until(s, 1))
+> +		goto out;
+> +	ww_acquire_init_noinject(&ctx, s->class);
 
+[Severity: Low]
+Can abba_spin_young() obtain a smaller ctx.stamp than abba_spin_old() on
+weakly-ordered architectures?
+
+ww_acquire_init() allocates ctx->stamp with
+atomic_long_inc_return_relaxed(&ww_class->stamp), and s->stage is updated
+and polled with relaxed atomic_set() and atomic_read():
+
+CPU0 (abba_spin_old)              CPU1 (abba_spin_young)
+ww_acquire_init_noinject()
+  atomic_long_inc_return_relaxed(&s->class->stamp) [reordered]
+atomic_set(&s->stage, 1)
+                                  abba_spin_until(s, 1)
+                                    atomic_read(&s->stage) =3D=3D 1
+                                  ww_acquire_init_noinject()
+                                    atomic_long_inc_return_relaxed(...)
+  [stamp increment executes here]  <-- young gets the older stamp
+
+If abba_spin_young() receives the smaller stamp, it wounds
+abba_spin_old() when blocking on s->a_mutex, causing abba_spin_old()'s
+ww_mutex_lock(&s->b_mutex, &ctx) to fail with -EDEADLK.  Using
+atomic_set_release() and atomic_read_acquire() on s->stage would order
+the stamp allocations.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106235931.1478=
+800-1-mathieu.desnoyers@efficios.com?part=3D5
