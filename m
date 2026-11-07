@@ -1,50 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794015900;
-	b=CMBBubUvtde4/Kgg+q43UHzN0fY0gPFu7hY9TC68nLf+UDxrN4I/0AvO1alkBt3+LwYn
-	 AWx0crkUASVwj6OC0E8uwgFBqyNi1cVqXH2TAZ4zQL0kE8M8TJKeMjSRdtEwTSZbZYFoB
-	 yTF4kYoPmIWDfsPXFhqDRiZHBxXdAJ1wjqiLsLYYQhof1Pgju0JAWANduti0ITqN3ZI44
-	 e9TumrNd2Di3lfm5E9s2j7JKPWYxgzKCYY6XAjaJAMkOO5mm+eu1dA6rYcvYjDUApcynu
-	 Lgv/Gjhfz1t7pjsWZNvkEPdMyQ2YhKsszBhUBiwRaFeuGVPywOV+t/BFI1IqxJzkvKQ==
+	b=thSW5KsHSSAWg7sz0YpX4pjouY/Qno82vo53yBg1H24IH3bPXhsJW8L7WAUFcGAfgQ/D
+	 9N/lRWwYopFoSFPmXR4/AZicBiKJX2+5EbdKX6twgQrZUqug59cgy7yWho6T+lWDzHM/Y
+	 aSPLwyHv7woIi3n3xun1sws8/BjNRw6f7YPwwv5yGFVP/3M/3rA4QwZJP38nZGmNWWB4J
+	 rux3qFJa0s3OoYLRXrYznTjfYpKabgMFifkDcbOHmV890relSIVRTNja7M7sy99XIj9xx
+	 FokweNJEuIbQ6V2lBoF2wwcdrZXX22J2O/3LpWHfYa4GZx1vvxkyfuLzHHxdkWwDUWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794015900;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=mI+ziSio1iV38A7zAtI/jCX6dpwTqCt4uTFt5k+KiF4=;
-	b=KVFauj96KZs6g6mysKAfMVYUhWnC36/uqSHsEHaslFi1am8rFK/XXVaCsGz9s80FzKMu
-	 JFHESSSjLp2AIVYJlTyfKWmyv6XSDVC1rTapmCCgM+IEM6Ao9uEHrDsfqpENpQXdqQqm4
-	 TKHe5RytNgU22NTJaZPndtXQg1Pni1uTPqpwRtt7+IoiOh5ZAuEO3cF6eKM+/fvCkyfGU
-	 G5AQKIhnEac0dKuV5BiQQ6VOEhk4iJXPbcQIOncKxiT2s6xHWENOeTTbbsww1l/+6ih8+
-	 8kCtW6bzl1JmU6p7bfaXFWRBlMvvliCOpAql2HWDhLSXwq65+RuoE9YIeAwdwaFKtWg==
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=oJrZ/XR2HiFstwx5GpsmznXLz0IyXlH94OZ3vU0MTyc=;
+	b=bw8qE5U/RrMtN03JfmC3kpSgb/e//joFE8JV6I2S6/pwo0fari2hYQcHv6L367onZ1ui
+	 bvVXwbr3vMxeMFRCxZBMNI90+VgONJO/oGQ7RW6OrC9ncoLxHAcG+1Bol3tSyRaSGMcsv
+	 2IdcacZkC+azI7zAFcs7ppAP3fhM2/FEiljXurLzqZKbNASsF9M/yOAf11LXnvhvkj/TT
+	 CxVPOOJ+rmYLvaT4jxVoxa7PVS4J7jO1wADmglYwZ5QBTc+YunL4d8Kyru9AL3sI0TLc5
+	 aRFPFhMfxkIh0+i8WAB/zGPcRuYxd0t3vaLDNJHJiooBBzt2uKgedCsjqQcyGqjM7Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=tRfUw7n+;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=LiPhHFn6;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC31606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A60606A331
 	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 01:44:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FC31606A326
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8A60606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=tRfUw7n+
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=LiPhHFn6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794015898;
-	bh=mI+ziSio1iV38A7zAtI/jCX6dpwTqCt4uTFt5k+KiF4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tRfUw7n+6XDuf6yylkr3yNF5xAVBBYCEy4JWxiq/69kvdx156SFXl6WbIH65D0GLr
-	 0lpCQ/uKOQCcwm/FSLROIqIrx0YpB4wCR2scAJrRSoI6nX4EJYi8DexWCf5C9/hLhJ
-	 IGp+J0UjHZj08Azedq56y9sDZwzOegxRHCKKiz8CXj/csyTpEObgVYLhky6NkP8hlh
-	 xFYlePjc/adQUDgztGE4PeEgjN13324gPy+EBbSeMgzHo/3Rba1lchwfEAP4opnJ/r
-	 Sdav4bndSSRq3Z3lpy9pqsK67aRX+hj84ImPM0tI4xKBJ09fx1ii1HUVDfPpxO9FAb
-	 BSr2Wj8XyzIew==
+	s=smtpout1; t=1794015899;
+	bh=oJrZ/XR2HiFstwx5GpsmznXLz0IyXlH94OZ3vU0MTyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LiPhHFn6dw9JtPAj6H9uu8m+gE9Y06RoKfCA/ez6YC8YY5YBUElM4Dfxn2cHZhB/N
+	 tH3i5hrUT4IHSQ9vCcQWdfgRWI5EQDa/vwEmJvEePh+EHeTFoA6SM6Fdbpa3iZecne
+	 d1GfsxDBxmnQKw29C4QbbEo2XbeU5IYlPOmLDPzFSdzxTGWhZO0PI++lBxFVNNaTSr
+	 TpMy9HrS0FrQlpW8b4AhHxnjeTDAvEUCJqWgw8rvKSzYs1f6V2KOSq3Sur3JQNBRme
+	 yM392utK9LJkI06IjXdehwZ2b0yXMAFZFOD1xUFTODmL7ozytCo9MEhkwWnpIwY3Ll
+	 h9zh+aPJSgHkQ==
 Received: from thinkos.internal.efficios.com (unknown [64.58.40.251])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLzPk00B9zLZ3;
-	Fri, 06 Nov 2026 20:44:57 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLzPk63vRzLgQ;
+	Fri, 06 Nov 2026 20:44:58 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -77,11 +78,14 @@ Cc: linux-kernel@vger.kernel.org,
 	weihengqiuu@gmail.com,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v4 00/26] sched/deadline: bandwidth accounting fixes and selftests
-Date: Fri,  6 Nov 2026 20:44:25 -0500
-Message-Id: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v4 02/26] sched: Refuse SCHED_FLAG_KEEP_PARAMS that would change the policy or the class
+Date: Fri,  6 Nov 2026 20:44:27 -0500
+Message-Id: <20261107014451.1487825-3-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
+References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -93,238 +97,115 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Ingo, Juri,
+SCHED_FLAG_KEEP_PARAMS keeps the parameters of a task:
+__sched_setscheduler() skips __setscheduler_params(), which is what sets
+p->policy, and the sched_class assignment with it. A request that asks
+for another policy is then carried out by half, and succeeds:
 
-This series fixes twenty-two bugs of SCHED_DEADLINE, most of them in its
-bandwidth accounting, then adds each runqueue's deadline bandwidth to
-sched_debug and three selftests: twenty-six patches on tip sched/urgent,
-the fixes first, as you asked, so that stable can take 1 to 22. Three of
-the bugs take the kernel down (patches 5, 8 and 20), two leave
-cpuset_mutex unusable (1 and 6), and most of the others leave a root
-domain's total_bw or a runqueue's this_bw wrong: the root domain then
-admits deadline tasks beyond its capacity, or refuses every one.
+ - a class change, SCHED_DEADLINE to SCHED_OTHER, sets DEQUEUE_CLASS:
+   sched_change_begin() runs switched_from_dl() on a task that stays in
+   the class, and sched_change_end() switched_to_dl(). A sleeping task
+   has its bandwidth taken off its runqueue there, and taken off again
+   when it does leave: this_bw underflows;
+ - a policy change within the class, SCHED_OTHER to SCHED_BATCH, returns
+   0 and leaves the task where it was;
+ - a task that priority inheritance boosted into the deadline class is
+   of that class already, and a request for SCHED_DEADLINE finds
+   prev_class == next_class: sched_dl_overflow() admits it and adds its
+   bandwidth, which the skipped __setscheduler_params() never gives to
+   the task. It keeps SCHED_NORMAL and a dl_bw of 0, so nothing releases
+   that bandwidth, and total_bw of the root domain holds it for good.
 
-It applies on top of "locking/rtmutex: priority inheritance fixes and
-tests", posted for Peter and Thomas: patch 8 rests on its patch 3. Patch
-1 is Andrea Parri's, reviewed by Waiman, Kayra and Juri, carried here
-because patches 6 and 14 build on it, now with my Signed-off-by; take it
-from whichever route you prefer.
+Refuse a request for another policy or another class, before
+sched_dl_overflow() reserves bandwidth, since nothing gives back what it
+reserves: a refusal after it would leak the runtime that sched_setattr()
+fills in from the task's slice, up to 100ms with a custom one, into
+total_bw. A refused request also leaves sched_reset_on_fork as it was.
 
-Your four fixes, Juri, which Ingo dropped from sched/urgent after the
-first crashed Marek Szyprowski's hotplug test, are patches 16 (1/4,
-without the task's mask, which has no active CPU during hotplug), 10
-(2/4, without its double release, and without your Signed-off-by, which
-is yours to add back), 2 (3/4) and 11 (4/4, extended). Marek found v2
-fixed on the board that crashed.
+A SCHED_OTHER owner of a PTHREAD_PRIO_INHERIT mutex with a slice of
+40ms, boosted by a deadline waiter blocked on it, leaves 0.4 of a CPU
+behind at every such call: total_bw 419424 -> 838854 and there to stay,
+in 8-CPU VMs of v7.4-rc1. With this change the call is refused and
+total_bw is as it was. The selftest added later in this series has the
+case, params_keep_boosted.
 
-The fixes, by patch number
-==========================
+The class change was found by Juri Lelli from a report of Tejun Heo, and
+refused, after the reservation, by his "sched: Reject
+SCHED_FLAG_KEEP_PARAMS when it would change scheduling class", since
+dropped from tip. The policy change and the boosted case were found by
+the Sashiko AI review of the first posting of this series.
 
- 1  a retry in __sched_setscheduler() unlocks a cpuset_mutex it no
-    longer holds (Andrea Parri);
- 2  SCHED_FLAG_KEEP_PARAMS carries out half of a policy or class change,
-    and leaks the bandwidth of a boosted task;
- 3  SCHED_FLAG_KEEP_PARAMS admits stale parameters, read without a lock;
- 4  a task boosted by a deadline waiter cannot leave for another policy
-    (EBUSY);
- 5  a debugfs write to a fair server divides by zero active CPUs while
-    its CPU goes offline or comes online;
- 6  sysrq-n takes cpuset_mutex under tasklist_lock and never releases
-    it;
- 7  a throttled task switched out and back before its 0-lag time never
-    runs again;
- 8  the owner boosted by a deadline waiter that leaves the class loops
-    forever in replenish_dl_entity(), under the runqueue lock;
- 9  a task back in the class runs on the deadline and runtime of the
-    period it left, or of the donor that boosted it;
- 10 a task that leaves the class asleep keeps its bandwidth in total_bw
-    for good;
- 11 SCHED_DEADLINE on a zombie reserves bandwidth nothing releases, and
-    a zombie switched out of the class is taken off its cpuset's count
-    twice;
- 12 a rebuild of the accounting forgets the bandwidth of tasks that left
-    the class, or died, before their 0-lag time, which is then released
-    twice;
- 13 a parameter change while a wakeup is in flight underflows the
-    this_bw of a runqueue that never held the task's bandwidth;
- 14 without cpusets, the first hotplug drops the bandwidth of every
-    deadline task; with them, a drifting count has every rebuild drop a
-    cpuset's tasks;
- 15 a rebuild counts the bandwidth of a task at its last schedule, which
-    nothing releases;
- 16 admission, moves and rebuilds disagree on the root domain that
-    counts a task's bandwidth, and take it from one that never had it;
- 17 a cpuset move takes bandwidth off a root domain with no room made
-    for it: total_bw of a partition reaches 2^64 - 262144;
- 18 a rebuild of the sched domains between cpuset_can_attach() and
-    cpuset_attach() drops the attach's reservation;
- 19 an attach leaves in the destination's total_bw the reservation of a
-    task that left the class, or died, before it;
- 20 a rebuild counts a task on the first active CPU of its cpuset: an
-    isolated one, none at all (BUG()), or not where
-    dl_task_offline_migration() moved it;
- 21 a replenishment timer left armed across a class round trip fires at
-    the period of the reservation the task left;
- 22 sched_setattr(SCHED_DEADLINE) on a boosted task leaves its
-    runqueue's this_bw without the task's bandwidth, and a sugov
-    kthread's own reservation is never admitted.
+Link: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-3-dd761fe005b4@redhat.com/
+Fixes: a509a7cd7974 ("sched/uclamp: Extend sched_setattr() to support utilization clamping")
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+---
+ kernel/sched/syscalls.c | 40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-Patch 23 shows patch 13's bug from userspace; patches 24 to 26 add 55
-cases in tools/testing/selftests/sched/deadline, as Juri suggested.
-Patches 16 to 20 go together: 16 records the root domain that counts a
-task's bandwidth, and 17 to 20 fix the attach and rebuild paths that the
-record exposes. Patch 22 completes patch 13.
-
-Patch 8 touches the rt_mutex code, Peter and Thomas: it records a
-deadline waiter's reservation in its rt_mutex node, which grows struct
-rt_mutex_waiter by 48 bytes, and takes a deadline boost from there; the
-other classes keep the waiter's own priority, as since acd58620e415
-("sched/rtmutex: Refactor rt_mutex_setprio()").
-
-Testing
-=======
-
-The 55 cases pass every time with no kernel warning in 16 QEMU guests,
-lockdep on: 8 of 8 vCPUs, and 2 each of 4 vCPUs, PREEMPT_RT, proxy
-execution off and no CONFIG_CPUSETS. v7.4-rc1 fails 19 of them, which
-patches 24 to 26 list, and three hotplug cases without cpusets. Kernels
-stopped at single patches confirm the claims of patches 10, 12, 18 and
-19. Patch 8 has no selftest: a debug delay or a stress test locks
-v7.4-rc1 up, and the series runs the stress test for 600 seconds; the
-locking API, ww_mutex, locktorture and futex selftests pass, with and
-without PREEMPT_RT.
-
-How this was developed
-======================
-
-These patches, their messages and the tests were written by an LLM
-coding assistant under my direction and review. I am at home with the
-concepts behind SCHED_DEADLINE, but not with its implementation, so I am
-asking those who know this code for a careful reading of the fixes: a
-reproducer that stops failing says that the symptom goes away, not that
-the fix is the one you would have written. The bugs came from flaky
-cgroup selftests of a feature I am developing, from reviewing Juri's
-four fixes, from building deadline_bw_test, from reading the code, and
-from the Sashiko AI reviews of v1 to v3, each finding checked against
-the code first; the patches changed since v3 also went through a local
-Sashiko run before posting.
-
-Changes since v3
-================
-
- - rebased on tip sched/urgent, which took Nickolai Zeldovich's this_bw
-   fix for a dying task; patch 12 keeps its dl_task test;
- - new patches 4 (a boosted task may change its policy) and 8 (a
-   deadline boost from the waiter's rt_mutex node);
- - 1: my Signed-off-by; 5: rq->online instead of cpu_active(); 6:
-   cpuset_mutex decided again under the runqueue lock; 9: the deboost of
-   a task with no parameters resets the donor's deadline and runtime;
- - 10: an inactive timer where the 0-lag time is ahead, and the
-   parameters cleared with the bandwidth; 14: the rebuild walks the task
-   list with cpusets too, without the per-cpuset count, and leaves out
-   tasks with no bandwidth;
- - 16: special and boosted tasks with no bandwidth of their own are not
-   moved; 18: waits in cpuset_full_lock() too; 20: the task's own mask
-   first, and dl_task_offline_migration() counts a task a rebuild left
-   out; 22: checks that the bandwidth is counted before a no-op, and
-   leaves the runqueue alone when it is kept;
- - deadline_bw_test: boosted_owner_policy, deboost_resets_period and
-   deboost_released_resets_period added, three cases fixed to reach the
-   state they are named for, CPUs from the online set, error paths that
-   join their threads;
- - deadline_switch_test: its children die with the test
-   (PR_SET_PDEATHSIG);
- - shorter commit messages.
-
-Not changed: a departed task boosted into the class is counted
-conservatively across a rebuild, never twice, and the EPERM of a
-sleeping task moved to another partition is the baseline's affinity
-check.
-
-Based on tip sched/urgent, 006991aa8997, with "locking/rtmutex: priority
-inheritance fixes and tests" applied first:
-https://lore.kernel.org/lkml/20261106235931.1478800-1-mathieu.desnoyers@efficios.com
-
-v3: https://lore.kernel.org/all/20261105193359.1450487-1-mathieu.desnoyers@efficios.com/
-
-Andrea Parri (1):
-  sched: Fix cpuset_mutex double unlock in __sched_setscheduler()
-
-Juri Lelli (1):
-  sched/deadline: Reject SCHED_DEADLINE on exited tasks
-
-Mathieu Desnoyers (24):
-  sched: Refuse SCHED_FLAG_KEEP_PARAMS that would change the policy or
-    the class
-  sched/deadline: Do not admit bandwidth for parameters that are kept
-  sched: Let a task boosted by a deadline waiter change its policy
-  sched/deadline: Do not divide by zero active CPUs of a root domain
-  sched: Take cpuset_mutex for a deadline policy change only with pi
-  sched/deadline: Do not lose a throttled task switched out and back
-  sched/deadline: Take a deadline boost from the waiter's rt_mutex node
-  sched/deadline: Reset the deadline and the runtime with the parameters
-  sched/deadline: Release the bandwidth of a task that leaves the class
-    asleep
-  sched/deadline: Keep departing bandwidth across a root domain rebuild
-  sched/deadline: Do not take a waking task's bandwidth off a runqueue
-    it left
-  sched/deadline: Rebuild the root domains' accounting from the task
-    list
-  sched/deadline: Leave a dying task out of a rebuild of the accounting
-  sched/deadline: Record the root domain holding a task's bandwidth
-  sched/deadline: Move a task's bandwidth only where room was made
-  cgroup/cpuset: Wait for an attach before rebuilding the sched domains
-  cgroup/cpuset: Give back the bandwidth an attach did not move
-  sched/deadline: Credit a rebuild to the CPU recorded with the task's
-    bandwidth
-  sched/deadline: Cancel the replenishment timer with the parameters
-  sched/deadline: Count the bandwidth a boosted task is given
-  sched/debug: Show the deadline bandwidth of each runqueue
-  selftests/sched: Add a test of SCHED_DEADLINE policy round trips
-  selftests/sched: Test SCHED_DEADLINE bandwidth across a root domain
-    rebuild
-  selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
-
- include/linux/cpuset.h                        |    9 -
- include/linux/sched.h                         |   47 +-
- include/linux/sched/deadline.h                |   38 +-
- include/linux/sched/rt.h                      |   11 -
- kernel/cgroup/cgroup.c                        |    3 -
- kernel/cgroup/cpuset-internal.h               |    8 +-
- kernel/cgroup/cpuset.c                        |  126 +-
- kernel/locking/rtmutex.c                      |   41 +-
- kernel/locking/rtmutex_api.c                  |    2 +-
- kernel/locking/rtmutex_common.h               |    5 +
- kernel/sched/core.c                           |   88 +-
- kernel/sched/deadline.c                       |  799 +++-
- kernel/sched/debug.c                          |   11 +-
- kernel/sched/sched.h                          |   23 +-
- kernel/sched/syscalls.c                       |   87 +-
- kernel/sched/topology.c                       |    9 +
- tools/testing/selftests/Makefile              |    1 +
- .../selftests/sched/deadline/.gitignore       |    3 +
- .../testing/selftests/sched/deadline/Makefile |    8 +
- tools/testing/selftests/sched/deadline/config |    4 +
- .../sched/deadline/deadline_bw_test.c         | 3902 +++++++++++++++++
- .../sched/deadline/deadline_rebuild_test.c    |  462 ++
- .../sched/deadline/deadline_switch_test.c     |  440 ++
- .../testing/selftests/sched/deadline/settings |    1 +
- 24 files changed, 5847 insertions(+), 281 deletions(-)
- create mode 100644 tools/testing/selftests/sched/deadline/.gitignore
- create mode 100644 tools/testing/selftests/sched/deadline/Makefile
- create mode 100644 tools/testing/selftests/sched/deadline/config
- create mode 100644 tools/testing/selftests/sched/deadline/deadline_bw_test.c
- create mode 100644 tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
- create mode 100644 tools/testing/selftests/sched/deadline/deadline_switch_test.c
- create mode 100644 tools/testing/selftests/sched/deadline/settings
-
-
-base-commit: 006991aa89974378ee579416dba87adc22cd60fd
-prerequisite-patch-id: 382feddeb27d226d8711d23036c8ae0c8629c680
-prerequisite-patch-id: 72e83c74aa52fcd32afb2909b071f40c82b0ef10
-prerequisite-patch-id: cfd50da1cef9606aafc687658a1ac79f74969703
-prerequisite-patch-id: 2e79dc888982d901d6e8b3784790ef71037482a9
-prerequisite-patch-id: f7338b3af8aeb24a47d19dff76d7e3180120b9aa
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 2af550f92ac6..6819f0fea3c5 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -647,17 +647,6 @@ int __sched_setscheduler(struct task_struct *p,
+ 		goto recheck;
+ 	}
+ 
+-	/*
+-	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
+-	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
+-	 * is available.
+-	 */
+-	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
+-		retval = -EBUSY;
+-		goto unlock;
+-	}
+-
+-	p->sched_reset_on_fork = reset_on_fork;
+ 	oldprio = p->prio;
+ 
+ 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
+@@ -677,9 +666,38 @@ int __sched_setscheduler(struct task_struct *p,
+ 	prev_class = p->sched_class;
+ 	next_class = __setscheduler_class(policy, newprio);
+ 
++	/*
++	 * SCHED_FLAG_KEEP_PARAMS prevents the policy and the class change
++	 * from actually happening: it skips __setscheduler_params() and the
++	 * sched_class assignment. Reject the contradictory requests that
++	 * ask for either, rather than carry out half of what they ask.
++	 *
++	 * A class change with the policy kept is one of them: the class of a
++	 * policy depends on the priority that priority inheritance leaves,
++	 * and on whether a BPF scheduler is in charge.
++	 */
++	if ((attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
++	    (policy != p->policy || prev_class != next_class)) {
++		retval = -EINVAL;
++		goto unlock;
++	}
++
+ 	if (prev_class != next_class)
+ 		queue_flags |= DEQUEUE_CLASS;
+ 
++	/*
++	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
++	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
++	 * is available. Last of the checks: nothing gives back the
++	 * bandwidth it reserves.
++	 */
++	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
++		retval = -EBUSY;
++		goto unlock;
++	}
++
++	p->sched_reset_on_fork = reset_on_fork;
++
+ 	scx_prepare_setscheduler(p, policy);
+ 
+ 	scoped_guard (sched_change, p, queue_flags) {
 -- 
 2.47.3
 
