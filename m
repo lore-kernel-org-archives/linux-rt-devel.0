@@ -1,57 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794019697;
-	b=Z4e6itJ4C3DflN6fNrV289bPoZCnoE3oqcIEWP9pwrBmbao0t4ltE0MWQaSL7bHPky74
-	 2JyK1OT+UY8X2w4gmwz3o+wX+uw+ItY9Z42UZwcV1h2c8qOuFs4L2zmWZN9rN1/HKhXVT
-	 r6owAubWui9LOPT5zmAmuOceytnvlA4luweg5Hq9YknO/vOyssUEG5f4s2n/kBY+dt//O
-	 zyvuZfT90YnfqCO2myjHnqPXE321mt4JO2HTHWFrJZdjbqgvID7erqQJ/UoLb4p3olUb7
-	 6eQH2zlatL6+ZKJRZvf582tUBIBMvT7OLiyrCJRuxDP2fKS8QomcmY5Lb02KluLzqag==
+	t=1794029390;
+	b=xGNbMuxYHj+Ahn5wBTVV7GPb1yEXcl6PQHRh9LfzfHO8Xqu9/6D5XiYFGNCmLJvwATHP
+	 hHOju6GFZcYiyGzTU1XLB467KAzNdPHsPChrOhgKhudSR/df58Iv45FKG9FbzkzI3639V
+	 C5Rre7obAYWJgq2OSr3H8WgeeJh5D5bW/f4y6bqMw8Yr9h3aHyuPLTGhREj9lAY2JK0gk
+	 awN3J3qjIKuXpBRMshV4mqK2ax7ayIcmQyiWt+LkLm1Njw5JTO1/2xu5XA9dBOrHzF15M
+	 fvohHHpu/9YWw/6ilJ4NSQsaJiVKvn0VcgJFX5xzD9okpq00S0+mZMogXUtkuMUSH5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794019697;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=AAIgwpH/ck9FKfPm3RWaDCqCEhNWIqAAxiu/CXOeZw8=;
-	b=J1y06oLzyHr7Bw4B+BFSsbfXPzWZVW0FeUjPsOUS/8e0tH4b9Bh+EAnFddovWmIRV2tO
-	 L1p44khFxHGAPbnfTn0QZnF62/U2G/UAKZpSG/nbwBX3xzec/ryEoyDv6XyD76Tpy9oXY
-	 fJVEho99n7AgH9e9AI71otBKIAoj7RABnvLGQXD8oRCugIZBeFHlUv+KFgpUQ8vAMTNkG
-	 omdaatOs7Lfwt2nK03MYa4GFqpE0DO4lsdhiOQEnFHze9HrEfVJ3cxm7KLt74GiNWVvgb
-	 mQlYulJamKJ/t80H8k+x1xRCTq7yuz7Y37KEjhNo9dT5sZsa5+gBwcNKUihug5h86ZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794029390;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=mld7kjkRbHaOrbf5kuHU3Y7anGgqjs03ezIpptqfNZ8=;
+	b=IdKoi43uCtuH1crL5LeYtxUCeolmz/W1+3HnQL9Ve8cm4wroTsYbnOLsLuZ/y7HOV4In
+	 gi3Ru1QXfAPODWu3Lh9NOzsTxCps/CVMZglWaJMKnw4CmtRNjYz5qpL+uhdgxjyuv0xXE
+	 F/17KSmsmddJYW1wywnZt1YGzEaGofB8BQo/gllxZauNHfhIF4dwkUC02rb3AgqeztH3b
+	 hRTRzIYIjqeAutdQ8+Dxy6snzcZzKn2imxMtbfBgGcIxo/TiM0gVqcY6EaxSliJ1A/lFX
+	 JFNlKm5r1G1HB6WXoGCSpWpV0kPMJ78raeCoauOs+//pPq7KLygUAw92GTXTBo5Dnng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oIJy15Yg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=Qn9Sm9By;
+	arc=none smtp.remote-ip=216.40.44.11
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A554E606A326;
-	Sat,  7 Nov 2026 02:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE265606D830
+	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 05:29:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE265606D830
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oIJy15Yg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB4591F0089F;
-	Sat,  7 Nov 2026 02:48:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794019696;
-	bh=AAIgwpH/ck9FKfPm3RWaDCqCEhNWIqAAxiu/CXOeZw8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oIJy15YggkrbYsz7vbSYSHLYIrrndeJYFAxF/tYGjT+SBtOH7QVjHQKAQ/A4YhSMM
-	 MZd1NYS67f9OJtZzymdNykiLg/gtCvtSrlvLMBRAW2PzoUgWyjxUbem2UvSSmUqXlG
-	 I6F8866P9fQDrfDqc7cIsFryGX3SUMNrB6DCE60BM0XFkLHhqEkXG91ED3EZer+/Yh
-	 IOvpKqyB65MJ64RENmG4aJhmK92hMaxOy91aO5Fs709w2YX3lXBUpFiTlw+JHEpxqj
-	 X2AlXJUTgCRQdGiSwzh+eXTHBixdOWi2b2o4tPYM9MLdJ89I3mA2zJy755M2mm3Svw
-	 eO4lweULJNDVg==
-Message-ID: <sashiko-outbox-202515@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 20/26] sched/deadline: Credit a rebuild to the CPU
- recorded with the task's bandwidth
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261107014451.1487825-21-mathieu.desnoyers@efficios.com>
-References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
- <20261107014451.1487825-21-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 02:48:11 +0000
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=Qn9Sm9By
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 92ECA160297;
+	Sat,  7 Nov 2026 05:29:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id D5BB820028;
+	Sat,  7 Nov 2026 05:29:29 +0000 (UTC)
+Date: Sat, 7 Nov 2026 00:29:27 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, tglx@kernel.org, mingo@redhat.com,
+ linux-kernel@vger.kernel.org, will@kernel.org, boqun@kernel.org,
+ longman@redhat.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
+ shuah@kernel.org, juri.lelli@redhat.com, linux-rt-devel@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when
+ the waiter is woken
+Message-ID: <20261107002927.3cbad7ff@fedora>
+In-Reply-To: <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
+References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
+	<20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,160 +64,89 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: D5BB820028
+X-Stat-Signature: gfqbz1cxxp9kkah8phjo3oydi9owe8xk
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18lmIEtPfC8g+PJJzjbhI1/k4URfSupTxc=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=mld7kjkRbHaOrbf5kuHU3Y7anGgqjs03ezIpptqfNZ8=; b=Qn9Sm9By+8LQ1gl5vPbqzh1am/KGiw4g9XC4J8hRGZhtBhrgi8a6uAlAKWEHY2GTuz+ecmsb8uFLijexcA4tZ6XoHLX1Vf1yzQuRDeTWvRh5f5Od68/TQxlkcHTzYe0kqvudI8+oFgRozN19sP+ne+bOl55N2xB2jCS4btTW1RA=
+X-HE-Tag: 1794029369-923082
+X-HE-Meta: U2FsdGVkX19jmckBHz2NQ7nIP+uMgyu/7nZb8Opx/+1rtGvWri2KbF8ZAyg6tQe9tq1pvpMN+gEJvU4gM9Uw0hl5zkfVnFXwnuLgXQ1dcEcInCOfY5J48Jhc2JdWWPTk5RPjV6szp0+TTQRGxKpacCSd7vQqSuRyCiZvxybkIlYB7I1NJQqpBpWbRjpn6xnAVDQ0QjbxZrmEm0BhUHs0HlGPGZKIfbzLQL1t+dmFxfQ30QjJYKo3xydd5su4jEqNLBu+UO8hL2dfbcg3SnXzaou92Pl6tnvkFVm3J1Zg0z4TdBH5eKxJyPFC31xrlH9RsgMCNwrogfk5+ye7fsQFLWy2RUEcJk+lg6H3UsTEHurfFJmiZmdjGO6tohwRjHJAVu9MyxsXKtyQxVcGL/tsmTigDbXzkUUs7IgHJXrt/lxhlk/eVntnoRJQvXLLuoEaZIK+F7e3O5ZjymGy76InyQ==
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] sched/deadline: stale dl_bw_cpu used by dl_task_rebuild_cpu()
-  after fallback migration
-- [Medium] sched/deadline: dl_task_rebuild_cpu() disagrees with
-  select_fallback_rq() on isolated CPUs
---
+On Fri,  6 Nov 2026 18:59:27 -0500
+Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
 
-commit 95575db84831c783a0bb061a74c9e5615adce1b2
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> The top waiter of an rt_mutex spins while the owner runs,
+> rtmutex_spin_on_owner(), and does not stop when it is woken: its timeout
+> and a signal find it running, set it TASK_RUNNING, and the spin goes on
+> until the owner leaves its CPU or the waiter's own CPU has to
+> reschedule. A PI futex owner is a user task that may run as long as it
+> likes. On v7.4-rc1, in 8-CPU VMs, behind an owner spinning in userspace,
+> a 1ms pthread_mutex_timedlock() returns ETIMEDOUT 126ms to 631ms late on
+> average, 1.4s at most, a SIGUSR1 is handled up to 1.9s late, and a
+> waiter killed with SIGKILL is reaped 0.5s late on average. With
+> PREEMPT_RT the wound of a ww_mutex is missed the same way: two contexts
+> in an ABBA on two CPUs at SCHED_FIFO spin on each other, and the older
+> one gets its second lock after 96ms on average, 0.95s at most.
+> 
 
-sched/deadline: Credit a rebuild to the CPU recorded with the task's bandwi=
-dth
+The above is very verbose. Are you starting to use AI? ;-)
 
-This commit adds dl_task_rebuild_cpu() so root domain bandwidth rebuilds
-credit each deadline task to the CPU recorded with its bandwidth when active
-and allowed, and updates dl_task_offline_migration() to add bandwidth even
-when a prior rebuild left the task out.
+> Stop spinning once the waiter is woken, where the sleep the spin stands
+> in for would end: rt_mutex_slowlock_block() then sees the timeout, the
+> signal or the wound, as after schedule(). An rtlock waiter is woken out
+> of TASK_RTLOCK_WAIT by the lock handover alone, and spins as before.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index f169cf35e3136..ed951246e3d2d 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+OK, because its state is set to TASK_RUNNING the schedule_rtlock() will
+simply return.
 
-[ ... ]
+> 
+> With this patch the 1ms waits end after 1.01ms on average, a signal is
+> handled within 0.3ms (1.4ms with PREEMPT_RT), and the ww_mutex ABBA
+> resolves in 12us to 33us; a contended PI mutex keeps its throughput.
+> The futex_lock_pi_inherit and test-ww_mutex cases added later in this
+> series catch both.
+> 
+> Fixes: 992caf7f1724 ("locking/rtmutex: Add adaptive spinwait mechanism")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>  kernel/locking/rtmutex.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
+> index 5a9534c715b8..323973be2074 100644
+> --- a/kernel/locking/rtmutex.c
+> +++ b/kernel/locking/rtmutex.c
+> @@ -1516,9 +1516,13 @@ static bool rtmutex_spin_on_owner(struct rt_mutex_base *lock,
+>  		 *  - current is not longer the top waiter
+>  		 *  - current is requested to reschedule (redundant
+>  		 *    for CONFIG_PREEMPT_RCU=y)
+> +		 *  - current is woken, by its timeout, a signal or
+> +		 *    whatever else would end the sleep the spin
+> +		 *    stands in for
+>  		 *  - the VCPU on which owner runs is preempted
+>  		 */
+>  		if (!owner_on_cpu(owner) || need_resched() ||
+> +		    task_is_running(current) ||
 
-> @@ -3656,6 +3662,47 @@ static void dl_get_task_effective_cpus(struct task=
-_struct *p, struct cpumask *cp
->  	cpuset_cpus_allowed_locked(p, cpus);
->  }
-> =20
-> +/*
-> + * A CPU of the root domain that a rebuild of the accounting counts @p's
-> + * bandwidth in. The one recorded with it, where it is active and the
-> + * cpuset of @p allows it: that of the root domain that admitted the
-> + * bandwidth, or that the last move put it in, which the cpuset alone do=
-es
-> + * not tell where it holds CPUs of two root domains, housekeeping ones
-> + * beside the ones isolcpus=3D"domain" leaves to the default root domain=
-. The
-> + * record answers as well for a task whose own CPUs went offline, moved =
-to
-> + * an active one by dl_task_offline_migration(). Else the first active C=
-PU
-> + * the cpuset allows, a housekeeping one where it has any; and nr_cpu_ids
-> + * where it allows none, which the isolated CPUs allow, no deadline task
-> + * of theirs keeping the last of them online.
-> + */
-> +static unsigned int dl_task_rebuild_cpu(struct task_struct *p)
-> +{
-> +	struct cpumask *msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
-> +	int recorded =3D p->dl.dl_bw_cpu;
-> +	unsigned int cpu;
-> +
-> +	/*
-> +	 * The task's own CPUs first: a change of cpusets sets the mask of
-> +	 * each task before the rebuild it makes, where the housekeeping mask
-> +	 * that dl_get_task_effective_cpus() reads lags that change. With
-> +	 * none of them active, the CPU recorded is where
-> +	 * dl_task_offline_migration() moved the task; else its cpuset says.
-> +	 */
-> +	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
-> +	if (cpumask_empty(msk)) {
-> +		if (recorded >=3D 0 && cpu_active(recorded))
-> +			return recorded;
-> +		dl_get_task_effective_cpus(p, msk);
-> +		cpumask_and(msk, msk, cpu_active_mask);
-> +	}
-> +	if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk))
-> +		return recorded;
-> +	cpu =3D cpumask_first_and(msk, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT=
-));
-> +	if (cpu < nr_cpu_ids)
-> +		return cpu;
-> +	return cpumask_first(msk);
-> +}
+So the task enters here with its state non-running, even for
+rt_spin_locks, and you break out of the spin if something woke it up.
+Breaking out of the spin with the state as TASK_RUNNING just makes it
+reanalyze the situation and for rt_spin_locks it will put itself back
+to RTLOCK_WAIT and spin again, if the owner hasn't left the CPU.
 
-[Severity: Medium]
-Can dl_task_rebuild_cpu() credit a task's bandwidth to a different root
-domain than the one select_fallback_rq() places the task on when multiple
-CPUs are isolated with isolcpus=3Ddomain?
+Makes sense.
 
-Suppose CPUs 0 and 1 are housekeeping and CPUs 2 and 3 are isolated in
-def_root_domain, and a sleeping deadline task is pinned to CPU 2 when CPU 2
-goes offline.  Because p->cpus_mask has no active CPU and p->dl.dl_bw_cpu
-(2) is inactive, dl_task_rebuild_cpu() falls back to
-dl_get_task_effective_cpus(), which sees p->cpus_ptr disjoint from hk_msk
-and returns the remaining active isolated CPU 3, so dl_add_task_root_domain=
-()
-credits def_root_domain and sets p->dl.dl_bw_cpu =3D 3.  When the task later
-wakes up, select_fallback_rq() -> cpuset_cpus_allowed_fallback() ->
-set_cpus_allowed_force() widens p->cpus_mask to all possible CPUs {0..3} and
-selects the first active CPU 0 in the housekeeping root domain, while
-p->dl.dl_bw_cpu remains 3 (now in p->cpus_mask) so subsequent rebuilds keep
-the bandwidth in def_root_domain.
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
 
-Conversely, if CPUs 0 and 1 are isolated and CPUs 2 and 3 are housekeeping,
-and a running task pinned to CPU 0 is migrated by balance_push() ->
-select_fallback_rq() when CPU 0 goes offline, select_fallback_rq() widens
-p->cpus_mask to {0..3} and moves the task to the first active CPU 1 in
-def_root_domain.  When dl_task_rebuild_cpu() then runs with recorded =3D 0
-(inactive) and msk =3D {1, 2, 3}, cpumask_first_and(msk,
-housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)) picks housekeeping CPU 2 instead
-of task_cpu(p) (CPU 1), crediting the housekeeping root domain while the
-task runs in def_root_domain.
+-- Steve
 
->  /* From dl_rebuild_rd_accounting(), under the locks it asserts. */
->  void dl_add_task_root_domain(struct task_struct *p)
->  {
-> @@ -3663,7 +3710,6 @@ void dl_add_task_root_domain(struct task_struct *p)
->  	struct rq *rq;
->  	struct dl_bw *dl_b;
->  	unsigned int cpu;
-> -	struct cpumask *msk;
-> =20
->  	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
->  	/*
-> @@ -3677,10 +3723,16 @@ void dl_add_task_root_domain(struct task_struct *=
-p)
->  		return;
->  	}
-> =20
-> -	msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
-> -	dl_get_task_effective_cpus(p, msk);
-> -	cpu =3D cpumask_first_and(cpu_active_mask, msk);
-> -	BUG_ON(cpu >=3D nr_cpu_ids);
-> +	cpu =3D dl_task_rebuild_cpu(p);
-> +	if (cpu >=3D nr_cpu_ids) {
-> +		/*
-> +		 * No active CPU to count this task's bandwidth: leave it out
-> +		 * of this rebuild, where dl_bw_gen keeps its release out as
-> +		 * well, until one has a CPU for it.
-> +		 */
-> +		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
-> +		return;
-> +	}
 
-[Severity: Medium]
-When a task has no active CPU and is left out of the rebuild here, does
-leaving p->dl.dl_bw_cpu untouched cause a later rebuild to credit its
-bandwidth back to the old isolated CPU after fallback migration?
+>  		    !data_race(rt_mutex_waiter_is_top_waiter(lock, waiter))) {
+>  			res = false;
+>  			break;
 
-If a sleeping task confined to isolated CPU 2 is skipped here when CPU 2
-goes offline, p->dl.dl_bw_cpu stays 2.  When the task wakes up while CPU 2
-is still offline, try_to_wake_up() -> select_task_rq() ->
-select_fallback_rq() calls set_cpus_allowed_force() without
-SCA_DL_BW_RESERVED, widening p->cpus_mask to all possible CPUs and moving
-the task to a housekeeping CPU without updating p->dl.dl_bw_cpu.  Once CPU 2
-is brought back online, dl_task_rebuild_cpu() sees recorded =3D=3D 2 set in
-p->cpus_mask & cpu_active_mask and returns CPU 2, crediting the task's
-bandwidth to def_root_domain even though the task was left out of the
-previous generation and is now running in the housekeeping root domain.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107014451.1487=
-825-1-mathieu.desnoyers@efficios.com?part=3D20
