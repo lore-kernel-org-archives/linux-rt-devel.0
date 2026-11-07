@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794018339;
-	b=RpROTcQ7SlAI/riSYdBgSgfgIjKgw30Q8fJqHiVpQCjlzdxdzBqU42hyFooZd+1N3/pZ
-	 dZWzJzBUAX/0J2ukYzMv+115rdbqtQcg+MI7CwJfiffumZ1Ls4IFcrr3ZCz23caj7wDk6
-	 JZYkjvrUtYci7hXXT6pN2EwOaR5Pgnbv00dfIgcDBzN9H0mxWkgsQgR1B+pdOIKHwyQzm
-	 gFctIC32XzUjnMbgzYkq0hTGvNSiwJ8AbfhxRHkgUY3XzwBJtyzbVJw3MZExQvfaWR0Hh
-	 ClwmwZPnySizJ5D/LMSjIXo/cxdeEeaIhfToCAphFtyAn1TRTVkah6qd+dT7/DY9alA==
+	t=1794018359;
+	b=jaQ6ho9KXu2bYgLH3Vx5y/k6nqhRXvI8G1bkWbIHnaAR1heK2exa3nVIgfLbXiyRaxVx
+	 9g8uqWO2+OmgBi7yA6NrIAWOVEvU0MoR8mcE8oQoctB3VVp5Dld9G/clTNDwQo3kJkYve
+	 rKQ+pXR4FIqEneCoawFxs0E1OcLZghVbyG4YR3gyvAIsXKJO3a42gLe2y0BuQANYvHtqD
+	 6wSswUWn2HKiqPq9s6p7DncC1qCm5yEYzvkVNt6M+7yRNntuUoU+5otAHCdQw4ibKO/SV
+	 1yTCYLnOuSctkDqIJrEIkGb8mbfA3/qoPwzAmctOD+aYuQR5ieGJNLi0CUIoVFB/0eA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794018339;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794018359;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dFtFqZomesyElxV8dCwez46ovZ/K2caQbxgvXUnMGRg=;
-	b=fb1R0C3mPGW8wLwtZ9IN3ng8JohM3wqBsUuadk40++t7ZrzKFEv4KwdNmmznVoNGy3NB
-	 x6m5lgOnuvPHAuYjWGHIdvSa4wDeVmvWHUDotrl8afNINNSFzspOlaidW09ghaGLdbSzd
-	 sQnW48TSJuBmVVnns2wAWQRGtxohAK7c+Vw6an3UJkDnJ8y7veCo4yjWL+T5U3vQHzDD4
-	 ILMmNGU+JEhb+FFKBo7knTMEEhz+8W+VmzAsHz8zb/UKOvGqwfIafQy5vmVhSHGVvtHV0
-	 D+Jp3CCUxFKX8yzl1D2aC2qezJo4t79c/TynA2uvAQxYukzvrmEBXdU+vCTWSrkpQ6g==
+	bh=fb9Y0AzB2OClsE5aYetS6PIswhFtifUFzTXe2GEMGsA=;
+	b=vpXR5udrt6OfW5IKLRedSMeA9CnkK8PruUkzK9svKLgeZYH0iroD9z1tR8K2XaQsBJhB
+	 GI7BK5OpEvKWI21hYtfGYxMABHJQ/p3rsu4yP74va26vVIRyPgQFwhmO7TF2L+MjLBPw/
+	 6kMR2DaPvN6YRNc7T81uG3HxR0MY8q9GcI83CaHYgtarxqRlqdAveGRCwpHERLPfOfOQa
+	 FJcY/wsZr7MPpY3j9Bxncjz1LT4dpviN5T4rMZgwhxXOV9a7Q3XfgOjtNw/o/9eHMF9uR
+	 U9mGZhW9lAcSAi/y98b8WVjRvCgeYv+r+40h/DexWZXB/MxMYzZ6JgdGK2EaLsiMqeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W1l1A5Og;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y4N00g+7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E72606A32C;
-	Sat,  7 Nov 2026 02:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7814A606A32C;
+	Sat,  7 Nov 2026 02:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W1l1A5Og
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8951F008A3;
-	Sat,  7 Nov 2026 02:25:38 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y4N00g+7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077C21F0089F;
+	Sat,  7 Nov 2026 02:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794018338;
-	bh=dFtFqZomesyElxV8dCwez46ovZ/K2caQbxgvXUnMGRg=;
+	s=k20260515; t=1794018359;
+	bh=fb9Y0AzB2OClsE5aYetS6PIswhFtifUFzTXe2GEMGsA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=W1l1A5Og+Jz+xQ3dZiQpJ77b+zsWkQJVq/UqAjBU+vY+0gEEp8Fl+wkvcyJjyD8xT
-	 Z78zestgVuJ5JrNSKJ9F5wmdRVyjuscwNDxAhWal1mjzPOkybKr6fns8DwjU8aKQ+e
-	 mmgH8wsNEc17KGutbtfCLHV9S14krJCiEGpVad3pYsQ3vzlxmEqkHW9QyBSgC3BxJp
-	 jRw5ahKK0V/QqaQBl2BjfcCssPNgwYMIJ5Wsz3ShezF9Vhy2JCsodtCbzEZmNPOwtX
-	 Mxy6cLMX1XQGAkD3oVvXrHusWEntqL1XMZQxHoUJPKbgM3M4RW8UfioPG5Dgwf6T5Z
-	 KdsapdlmJrbpg==
-Message-ID: <sashiko-outbox-202507@kernel.org>
+	b=Y4N00g+7ceDd/jzrPDyqF1TDmhMKulmypDvjSV/ISCerHR8diIX3PHK3GlB07EdJz
+	 SsP8ha4DWnMGecIS+Egi3th8+H+V2sAMHBohner1LveF7m0amgJLvmUITw8f17noCj
+	 Y2jXsRsPEni/KkTXYYUa8D0+lrJ9l7CrP9DpalGPce9jfobNaXOHuW23ABiEMiUDUs
+	 Tmk6c7TQFhCNKqrR63wmAKyBa/HnApSlFWTn3EzaiMGr2lE8bhVBDUNxUzi/v+Y8Yi
+	 rBzgKOtoyLlcpJMQiSXGBO82QxrwZ7Z0aTz46Ick8F2d63wwVuQq90Udtcc4pqgMMe
+	 KnaG5WZOJwL/w==
+Message-ID: <sashiko-outbox-202508@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 08/26] sched/deadline: Take a deadline boost from the
- waiter's rt_mutex node
+Subject: Re: [PATCH v4 26/26] selftests/sched: Add a test of SCHED_DEADLINE
+ bandwidth accounting
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261107014451.1487825-9-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261107014451.1487825-27-mathieu.desnoyers@efficios.com>
 References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
- <20261107014451.1487825-9-mathieu.desnoyers@efficios.com>
+ <20261107014451.1487825-27-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 02:25:37 +0000
+Date: Sat, 07 Nov 2026 02:25:58 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,65 +63,143 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: missing reset of dl_boosted in
-  __sched_setscheduler()
+- [Low] selftests/sched: unchecked boosting_waiter() return and boost
+  state
 --
 
-commit 58101a4480d1230ff10b589ddb99ec9388dce3f3
+commit e5ace2481bd0093710ca8b43f5f8c80f64160b52
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Take a deadline boost from the waiter's rt_mutex node
+selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
 
-This commit records a deadline waiter's reservation parameters in its
-rt_mutex_waiter node under pi_lock and copies them into the boosted owner's
-sched_dl_entity so replenishment does not spin if the waiter leaves
-SCHED_DEADLINE before the PI chain walk completes.
+This commit adds deadline_bw_test to test SCHED_DEADLINE bandwidth
+accounting across priority inheritance, parameter changes, cpuset moves,
+task exits, sched_yield(), runtime overruns, bandwidth reclaiming, fair
+server changes, and CPU hotplug.
 
-> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-> index c3f404cddb9e7..89c185f7d4980 100644
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -297,10 +297,10 @@ static inline void __setscheduler_dl_pi(int newprio=
-, int policy,
->  	 */
-> =20
->  	if (dl_prio(newprio) && !dl_policy(policy)) {
-> -		struct task_struct *pi_task =3D rt_mutex_get_top_task(p);
-> +		const struct sched_dl_params *params =3D rt_mutex_top_dl_params(p);
-> =20
-> -		if (pi_task) {
-> -			p->dl.pi_se =3D pi_task->dl.pi_se;
-> +		if (params) {
-> +			dl_boost(&p->dl, params);
->  			scope->flags |=3D ENQUEUE_REPLENISH;
->  		}
->  	}
+> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
+tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> new file mode 100644
+> index 0000000000000..8ede5d5a350e3
+> --- /dev/null
+> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
 
-[Severity: Medium]
-Can __sched_setscheduler() leave p->dl.dl_boosted set when a task boosted by
-a deadline waiter changes its own scheduling policy or parameters?
+[ ... ]
 
-If a task holding an rt_mutex with a deadline waiter switches its own policy
-to SCHED_DEADLINE with an earlier deadline than the waiter's, __setparam_dl=
-()
-updates p->dl.dl_runtime, dl_deadline, and dl_period without clearing
-p->dl.dl_boosted, and __setscheduler_dl_pi() does nothing because
-dl_policy(policy) is true.  The task continues to run on the waiter's
-pi_params and skips setup_new_dl_entity() in enqueue_dl_entity() until unlo=
-ck.
+> +/* A deadline task that blocks on the lock: it boosts its owner. */
+> +static void *boosting_waiter(void *arg)
+> +{
+> +	return (void *)(long)wait_lock_for(300, 1);
+> +}
+> +
+> +/*
+> + * SCHED_FLAG_KEEP_PARAMS with SCHED_DEADLINE on an owner that priority
+> + * inheritance has boosted into the class: the class of the request is t=
+he
+> + * one the owner already has, so a class change is not what it asks for,
+> + * and the policy it asks for is one the kept parameters would not give
+> + * it. It is refused with EINVAL; admitted, it reserves the bandwidth of
+> + * the owner's slice and nothing ever releases it.
+> + */
+> +static int params_keep_boosted(void)
+> +{
+> +	struct dl_attr slice =3D {
+> +		.size =3D sizeof(slice),
+> +		.sched_policy =3D SCHED_OTHER,
+> +		.sched_runtime =3D 40 * NSEC_PER_MSEC,	/* what the request would keep =
+*/
+> +	};
+> +	struct dl_attr keep =3D {
+> +		.size =3D sizeof(keep),
+> +		.sched_policy =3D SCHED_DEADLINE,
+> +		.sched_flags =3D SCHED_FLAG_KEEP_PARAMS,
+> +		.sched_deadline =3D PERIOD,
+> +		.sched_period =3D PERIOD,
+> +	};
+> +	int ret =3D KSFT_PASS, err;
+> +	pthread_t o, w;
+> +
+> +	if (pi_init())
+> +		return KSFT_SKIP;
+> +	if (pthread_create(&o, NULL, sleeping_owner, (void *)0L)) {
+> +		ksft_print_msg("the owner thread could not start\n");
+> +		return KSFT_FAIL;
+> +	}
+> +	if (wait_for(5000, owner_holds) || owner_holds !=3D 2) {
+> +		ksft_print_msg("the owner never took the lock\n");
+> +		join(o);
+> +		return KSFT_FAIL;
+> +	}
+> +	if (syscall(SYS_sched_setattr, owner_tid, &slice, 0)) {
+> +		ksft_print_msg("the owner cannot take a slice of its own: %s\n",
+> +			       strerror(errno));
+> +		ret =3D KSFT_SKIP;
+> +		goto out;
+> +	}
+> +	if (pthread_create(&w, NULL, boosting_waiter, NULL)) {
+> +		ksft_print_msg("the waiter thread could not start\n");
+> +		ret =3D KSFT_FAIL;
+> +		goto out;
+> +	}
+> +	sleep_ns(50 * NSEC_PER_MSEC);		/* it blocks, the owner is boosted */
+> +	err =3D syscall(SYS_sched_setattr, owner_tid, &keep, 0) ? -errno : 0;
+> +	if (err !=3D -EINVAL) {
+> +		ksft_print_msg("KEEP_PARAMS to SCHED_DEADLINE on a boosted owner: %s, =
+not EINVAL\n",
+> +			       err ? strerror(-err) : "accepted");
+> +		ret =3D KSFT_FAIL;
+> +	}
+> +	join(w);
+> +out:
+> +	join(o);
+> +	return ret;
+> +}
+> +
+> +/* Boosted by a deadline waiter, the owner may still change its policy. =
+*/
+> +static int boosted_owner_policy(void)
+> +{
+> +	int ret =3D KSFT_PASS, err;
+> +	pthread_t o, w;
+> +
+> +	if (pi_init())
+> +		return KSFT_SKIP;
+> +	if (pthread_create(&o, NULL, sleeping_owner, (void *)0L)) {
+> +		ksft_print_msg("the owner thread could not start\n");
+> +		return KSFT_FAIL;
+> +	}
+> +	if (wait_for(5000, owner_holds) || owner_holds !=3D 2) {
+> +		ksft_print_msg("the owner never took the lock\n");
+> +		join(o);
+> +		return KSFT_FAIL;
+> +	}
+> +	if (pthread_create(&w, NULL, boosting_waiter, NULL)) {
+> +		ksft_print_msg("the waiter thread could not start\n");
+> +		join(o);
+> +		return KSFT_FAIL;
+> +	}
+> +	sleep_ns(50 * NSEC_PER_MSEC);		/* it blocks, the owner is boosted */
+> +	err =3D set_other(owner_tid);
+> +	if (err) {
+> +		ksft_print_msg("SCHED_OTHER on a boosted owner: %s\n", strerror(-err));
+> +		ret =3D KSFT_FAIL;
+> +	}
+> +	join(w);
+> +	join(o);
+> +	return ret;
+> +}
 
-Similarly, if normalize_rt_tasks() resets a deadline-boosted non-deadline t=
-ask
-to SCHED_NORMAL with pi =3D=3D false, switched_from_dl() skips __dl_clear_p=
-arams()
-because p->dl.dl_runtime is 0, and __setscheduler_dl_pi() does nothing beca=
-use
-!dl_prio(newprio).  When the task later unlocks the rt_mutex,
-rt_mutex_setprio() sees prio =3D=3D p->prio and !dl_prio(prio) and returns =
-at
-out_unlock without clearing p->dl.dl_boosted, leaving is_dl_boosted(&p->dl)
-permanently true if the task later enters SCHED_DEADLINE.
+[Severity: Low]
+Can params_keep_boosted() and boosted_owner_policy() report KSFT_PASS
+even when owner_tid was never PI-boosted?
+
+boosting_waiter() returns the status of wait_lock_for(), which is
+non-zero if set_deadline() or pthread_mutex_timedlock() fails, but join()
+calls pthread_join(t, NULL) and discards that return value.  Neither test
+checks prio_of(owner_tid) =3D=3D DL_TASK_PRIO before calling sched_setattr()
+either, so if wait_lock_for() fails or w is delayed past the 50ms sleep,
+both tests exercise an unboosted SCHED_OTHER owner and still pass.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107014451.1487=
-825-1-mathieu.desnoyers@efficios.com?part=3D8
+825-1-mathieu.desnoyers@efficios.com?part=3D26
