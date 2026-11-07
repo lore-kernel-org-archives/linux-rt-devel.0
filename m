@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794018150;
-	b=AmTnbp6Qyk2wr0+hNnr1ixOV1XlfbpV16YShkw1MYo5g5oEIGxhWflK7FUgcaO6D/ZUb
-	 NKpgUbWVHKbXiqJhKvijmx5bp2/lAFPd0JXj37P8joe1RP0i+YkVoXzZQmttfdKm9I6oG
-	 ZuR/2t1G0mT83SvzLBfPb4K5xyk1KWsqKEC+HU2TGpFKBgXm3/F9Qhy3yt5J5xhZDCzkI
-	 IgQXBlnZZyPgtQlCEdi338OPTNAqrjeRVqKIIx2xm3x93mTr+DJTaphLDyRloal88aVW0
-	 MBTUBmR8P8pFvq05A4iPekexJLl4CJUc7cpKOYMEqu3JdW4dok9b4a5lkrWq4B/steg==
+	t=1794018207;
+	b=z7b65aD50L4OdkY+SR+bhTHZCMn1k1OxJDjvsFNdyKQQ3NK37z5jsRV+s5bQuJ9dBjWf
+	 XtwEYUmUHkSQCKlj/mZ1ozgxj0U+sqWgPJxUbmFPcmfRqueqCWdZpc3Zqn+kNlFONHcUJ
+	 V/BthHdpVNkAvwjF/yLnBfMg313uMzGutKtr7MbnOgOdBwFkKWaLOhuScziS27S5Vl2h6
+	 KlzooefiqTmPNNPwMPyBFyGjmY6RcsqThw6yGsW1pRbc1mCKNa9neR+imkQM2qN8U5xgm
+	 UCx2ELbVQCdrKDFgTxc7pTdhQEtT3Cz0MaDS5H3pBBssf7YdpRzX/eGkMxM3K50R0Yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794018150;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794018207;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gtGVHmv7RhuVkHcOWgsQYd+MT70/un0/NtwvCeY7rt4=;
-	b=HmqI3JfbF3YWShE8OhG3SdWyB8ll4oHxrdzdUfR4/N+O2GuxoFO7CsGkllWL9mYNcMO9
-	 LtfmuHvQ8Civ7YHyG9M5GdzYyU83AA5y6X1O7DTpuNcQGanhOryz4Aot/FZyQ+Ydr+MdV
-	 6BzzxP75aR6YVPL0XmVlqcB1hdhujoC4mcHYLoocGjEQ8aI3K5QlJyhDJvE24Z38XPgl+
-	 U2dQYIUOmnxIdixpS6SEbjCAAHOIKiFjXfGnZ8oo9/p73xVSP2zuPPjH8EA3Q072VETKI
-	 eTZLRoQaqW1Zhecd3BRJj714VRqWYyVVVuZHLyRPqTnZLzt6gE43X18PhR/KBdxIdnw==
+	bh=aGmrldz9V6FjVYaqCEU6CVBsGYkxKhA35/EJPWKIcO0=;
+	b=takx2qhdk8+sRxdFUtujwrcF6QPejGdtINOnJKF3MxoI/a+XwwB1Dxk+EBIjboKuu89+
+	 VBJeuBzZ42PVjOzY9Irvf/80+gvXlY2jPK5cuv0Tw+904jc7PHj2iIBKChykIYDA+PEr6
+	 +yRVyY3sgWIvl7Nx/UY2fDeOmQqFoD0pJJTQsUWXGOXS914TG+LwNSvW5ys4RkwTzsMYY
+	 WSjqEjJFPP4BDt+xfdRozJTpW1HdoYYxKgZgL+njGjRq0CG57RCbcWmt5IpmBCjRnwBfd
+	 7uPRJayeNxb7lQl6+lIRBXrOlWkLMQkI4CtPp/kUXEK2J8+i3MaYzdnAkZLvMD1jEiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mN7XNz6B;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKp6L1JB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABC3606A326;
-	Sat,  7 Nov 2026 02:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069FE606A32C;
+	Sat,  7 Nov 2026 02:23:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mN7XNz6B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741B51F008A1;
-	Sat,  7 Nov 2026 02:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKp6L1JB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896191F008A1;
+	Sat,  7 Nov 2026 02:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794018149;
-	bh=gtGVHmv7RhuVkHcOWgsQYd+MT70/un0/NtwvCeY7rt4=;
+	s=k20260515; t=1794018206;
+	bh=aGmrldz9V6FjVYaqCEU6CVBsGYkxKhA35/EJPWKIcO0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mN7XNz6BO4MKYAu5jG7X5nhgXweIBUDerWpIrQvcMir8Sfedo+o7N2JlrkAcrqVew
-	 gpDXYmBJHOikQWKajamPInKFoaBSEfGvIHPCam0djvFETYVWLPlr9cf2lTl6rDWcA2
-	 PPFh4ie95lFhMSxFC5FjLDXTENNqh3Y0iWX1QXQdMz0tfpVBHJF3zb7FcsaWDQxl4o
-	 EqvZ+W1QThRUn6CIaM09Oe+xmb3d8EEnGXMGH486PeZeSWCmEmtHsUHtCVMtD3ACVz
-	 NuYIG5oLd6rWHdtcS74pSj6wrkAlooRtY110vagLgwtCdLxvlJW2/J4N8xWkuqv37d
-	 kDn2f7bQO4pOA==
-Message-ID: <sashiko-outbox-202500@kernel.org>
+	b=aKp6L1JBjzbohv6PmadQB9ZL/ka18lwUeuYqBQBVuBAHZhFXyLI0OPlAis/O+0JS7
+	 f5bgBkD90g/EXcijs6J7auW7YYB/aalEp2Fhib+76wmsOMqh+XOpGtMCS6x/lJ4A/8
+	 X1fmy9sHF+4aRKh+tt9lH8lnJDn3j3gN2C9HIttPfyGRQWXxNWA/Awn/wKhtLO1aSb
+	 NtooEff4PFrTM2JHa4l+DRb6KITQ8hDrT4wRjT5ejmNA9v9WUy9hf2vTPtk8NzsmKN
+	 tyGJ2EwO5zxgU2G/r5louXo0CG6a2VRxSnzWxAqBke9DUNWMYnRXsHxIyLD/5dD4k4
+	 8IDa0jm4z54yA==
+Message-ID: <sashiko-outbox-202504@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 14/26] sched/deadline: Rebuild the root domains'
- accounting from the task list
+Subject: Re: [PATCH v4 10/26] sched/deadline: Release the bandwidth of a
+ task that leaves the class asleep
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261107014451.1487825-15-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261107014451.1487825-11-mathieu.desnoyers@efficios.com>
 References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
- <20261107014451.1487825-15-mathieu.desnoyers@efficios.com>
+ <20261107014451.1487825-11-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 02:22:29 +0000
+Date: Sat, 07 Nov 2026 02:23:26 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,105 +63,125 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: missing dl_bw_gen check in
-  dl_add_task_root_domain()
+- [Medium] sched/deadline: dl_zero_lag() mixes PI donor state with kept
+  task params
 --
 
-commit e697aca18463b223769b3e38b19e21df9b87aad8
+commit 82ae18ee2c32ac7a69958d0da90b2ae54505ac04
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Rebuild the root domains' accounting from the task list
+sched/deadline: Release the bandwidth of a task that leaves the class asleep
 
-This commit moves dl_rebuild_rd_accounting() into the deadline scheduler
-to walk the task list under tasklist_lock instead of iterating over
-cpusets, and adds dl_accounting_mutex to serialize bandwidth admission
-against rebuilds when CONFIG_CPUSETS is disabled.
+This commit releases or arms the inactive timer for a task's SCHED_DEADLINE
+bandwidth in switched_from_dl() when the task leaves the class while not
+queued, and clears its deadline parameters once the bandwidth is released.
+
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761f=
+e005b4@redhat.com/
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 6b0ec20038573..45a896a4f4615 100644
+> index f389620e6fc9a..cb0cf9c15108f 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-
-[ ... ]
-
-> @@ -3705,13 +3710,71 @@ void dl_clear_root_domain(struct root_domain *rd)
->  		dl_server_add_bw(rd, i);
->  }
-
-[ ... ]
-
-> +void dl_rebuild_rd_accounting(void)
+> @@ -390,6 +390,22 @@ static void dl_change_utilization(struct task_struct=
+ *p, u64 new_bw)
+> =20
+>  static void __dl_clear_params(struct sched_dl_entity *dl_se);
+> =20
+> +/*
+> + * The 0-lag time of @dl_se, relative to the clock of its runqueue: its
+> + * utilization counts until then once it blocks or leaves the class.
+> + */
+> +static s64 dl_zero_lag(struct sched_dl_entity *dl_se)
 > +{
-> +	struct task_struct *g, *p;
+> +	struct rq *rq =3D rq_of_dl_se(dl_se);
 > +
-> +	lockdep_assert_cpus_held();
-> +	lockdep_assert_held(&sched_domains_mutex);
-> +	lockdep_assert_cpuset_lock_held();
-> +	lockdep_assert_dl_accounting_held();
-> +
-> +	dl_clear_root_domains();
-> +
-> +	read_lock(&tasklist_lock);
-> +	for_each_process_thread(g, p) {
-> +		/*
-> +		 * Tested without the task's lock first, to spare the others
-> +		 * the locks: a task enters the class under the locks this
-> +		 * rebuild holds, or by a boost, which brings it no bandwidth
-> +		 * of its own to count.
-> +		 */
-> +		if (dl_task(p))
-> +			dl_add_task_root_domain(p);
-> +	}
-> +	read_unlock(&tasklist_lock);
+> +	/*
+> +	 * Using relative times instead of the absolute "0-lag time"
+> +	 * allows to simplify the code
+> +	 */
+> +	return dl_se->deadline - rq_clock(rq) -
+> +	       div64_long((dl_se->runtime * dl_se->dl_period), dl_se->dl_runtim=
+e);
 > +}
+[ ... ]
+> @@ -3597,15 +3605,69 @@ static void switched_from_dl(struct rq *rq, struc=
+t task_struct *p)
+>  	dec_dl_tasks_cs(p);
+> =20
+>  	if (!task_on_rq_queued(p)) {
+> -		/*
+> -		 * Inactive timer is armed. However, p is leaving DEADLINE and
+> -		 * might migrate away from this rq while continuing to run on
+> -		 * some other class. We need to remove its contribution from
+> -		 * this rq running_bw now, or sub_rq_bw (below) will complain.
+> -		 */
+> -		if (p->dl.dl_non_contending)
+> +		bool released =3D false;
+> +
+> +		if (p->dl.dl_non_contending) {
+> +			/*
+> +			 * Inactive timer is armed. However, p is leaving
+> +			 * DEADLINE and might migrate away from this rq while
+> +			 * continuing to run on some other class. We need to
+> +			 * remove its contribution from this rq running_bw now,
+> +			 * or sub_rq_bw (below) will complain.
+> +			 *
+> +			 * inactive_task_timer() will find !dl_task(p) and
+> +			 * release total_bw via __dl_sub().
+> +			 */
+>  			sub_running_bw(&p->dl, &rq->dl);
+> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl) &&
+> +			   dl_zero_lag(&p->dl) >=3D 0 &&
+> +			   !hrtimer_active(&p->dl.inactive_timer)) {
+> +			/*
+> +			 * No inactive timer armed, the 0-lag time ahead: the
+> +			 * task is in flight to the CPU it wakes on, which
+> +			 * cancelled the timer (migrate_task_rq_dl()), or it
+> +			 * came back to the class asleep, which cancelled it,
+> +			 * and leaves again. Arm the timer, as for a queued
+> +			 * task: its handler releases total_bw at the 0-lag
+> +			 * time, finding the task out of the class. running_bw
+> +			 * is off this runqueue already, or never was on it.
+> +			 */
+> +			task_non_contending(&p->dl, false);
+> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
 
 [Severity: Medium]
-Can dl_add_task_root_domain() resurrect departed bandwidth that an earlier
-rebuild already dropped?
+Can dl_zero_lag(&p->dl) mix a PI donor's dynamic period state with p's own
+unreleased reservation parameters?
 
-Unlike css_task_iter, for_each_process_thread() visits un-reaped
-EXIT_ZOMBIE tasks.  When a SCHED_DEADLINE task on CPU X exits before its
-0-lag time and stays a zombie, it remains dl_task(p) with p->dl.dl_bw > 0
-and p->dl.dl_departed_cpu =3D=3D X on dl_departed_list until its
-inactive_timer fires.
+When a SCHED_DEADLINE task leaves the class before its 0-lag time (or
+changes policy away from SCHED_DEADLINE while already PI-boosted), it keeps
+its static parameters (dl_runtime, dl_deadline, dl_period, dl_bw) until
+0-lag time.  If a SCHED_DEADLINE waiter boosts the task into dl_sched_class
+before inactive_timer fires, switched_to_dl() cancels inactive_timer.
 
-If CPU X goes offline, the first rebuild drops the zombie's bandwidth
-because !cpu_active(X), leaving p->dl.dl_bw_gen behind at generation G.
-If CPU X comes back online before inactive_timer expires, the second
-rebuild (generation G + 2) skips the task in dl_clear_root_domains()
-because dl_se->dl_bw_gen !=3D dl_bw_gen - 1, but then visits it in the
-tasklist walk and calls dl_add_task_root_domain():
+During the boost, replenish_dl_entity() skips initializing the donor's
+period at first because p->dl.dl_deadline is still non-zero:
 
-kernel/sched/deadline.c:dl_add_task_root_domain() {
-	...
-	if (p->dl.dl_bw_gen =3D=3D dl_bw_gen)
-		goto unlock;
-	if (p->dl.dl_departed_cpu >=3D 0) {
-		cpu =3D p->dl.dl_departed_cpu;
-		if (!cpu_active(cpu))
-			goto unlock;
+kernel/sched/deadline.c:replenish_dl_entity() {
+    ...
+	if (dl_se->dl_deadline =3D=3D 0 ||
+	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
+		dl_se->deadline =3D rq_clock(rq) + pi_deadline_of(dl_se);
+		dl_se->runtime =3D pi_runtime_of(dl_se);
 	}
-	rq =3D cpu_rq(cpu);
-	dl_b =3D &rq->rd->dl_bw;
-
-	raw_spin_lock(&dl_b->lock);
-	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
-	raw_spin_unlock(&dl_b->lock);
-	p->dl.dl_bw_gen =3D dl_bw_gen;
-	...
+    ...
 }
 
-Because p->dl.dl_bw_gen =3D=3D dl_bw_gen is false (G !=3D G + 2) and cpu_ac=
-tive(X)
-is now true, dl_add_task_root_domain() adds p->dl.dl_bw back into
-dl_b->total_bw, over-accounting total_bw until inactive_timer expires and
-causing new admissions to fail with -EBUSY or pushing total_bw past the
-root domain capacity if tasks were admitted while CPU X was offline.
-Checking p->dl.dl_bw_gen !=3D dl_bw_gen - 1 when p->dl.dl_departed_cpu >=3D=
- 0
-(matching dl_clear_root_domains()) would avoid re-adding dropped
-bandwidth.
+Once p->dl.deadline and p->dl.runtime are replenished from the donor's
+pi_params (on wakeup via replenish_dl_new_period() or after exhausting the
+old runtime), p->dl.deadline and p->dl.runtime hold the donor's state while
+p->dl.dl_period and p->dl.dl_runtime still hold p's old reservation.  When
+p later blocks or is deboosted in switched_from_dl(), dl_zero_lag(&p->dl)
+combines the donor's deadline and runtime with p's dl_period and
+dl_runtime.  Depending on the donor's parameters, this either releases p's
+dl_bw and clears its parameters before p's true 0-lag time, or sees a
+positive 0-lag time after p's true 0-lag time has already passed, delaying
+the bandwidth release and leaving the donor's deadline and runtime on
+p->dl.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107014451.1487=
-825-1-mathieu.desnoyers@efficios.com?part=3D14
+825-1-mathieu.desnoyers@efficios.com?part=3D10
