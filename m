@@ -1,64 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794043229;
-	b=Nau4T6JCHXLqTGopKA+0S/wFDz2vy7XhTZR5jTADmu+Gplkgy6jddIo+hfyIPqXfcbNK
-	 j430gIsGqZe4b3ICVfEWGZS/YPnCuoj/jskswL0ESM6imE7zyNnCBZfqVNvxRFOzApcKL
-	 rCCIx2vM2HErPQYV1zbbyFcjwfS4XKMkFf+R/orV4A4uoV/o/sglhrelOst5O4mGYdxGu
-	 c4SAZuU/3Tt8wUudNGJeQfjbap1XNcG7ytpDt3MB0eMEH0SHHqpqEOB8Y1buuR5KWcV71
-	 rObOcWmhXOmuXXHa//cWCdH7yOW5SrF55xyH+rvZJpnrbdbOEDJkKw01QZq6xTDuPOw==
+	t=1794048217;
+	b=eUMmA2ZCKKBw4gkJN6CK+tacNMfJz9D2DO7Egx1Tig1Nd/7+7EzpUOBL0iDO7Wn353wl
+	 R5Q+EvfMyQIlI3ktbCFZCG5iGhnX2Bc8fU/VxyOsfcKEL7Jj8j79Z4DlizVwSFYoe9PBV
+	 Fv2VDKQK5ubIfAG9Ab/tQSNz9pbcIfzqjPNz9G6pcLog71O6R6abARSXofkdUlXB2hbNq
+	 m2PmP0oPAqD3lL4woapXvddzXGhf9SjIOGCl68ueZGC+rYZHI4Ol2IjzOtpsfkMorcBtW
+	 Yl7BU15Jm8Wn0g5DPtz8RTbiVyArlgkHunjbbN+tv8DBWqhHxS4ccRsA0s9UvJtGwXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794043229;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fH9ZInNpZ+Ow6HAJ32cdUs+0EKHjb4TvJ+Ry64dX10Q=;
-	b=iftN3G1x7oKSquh+TOWZFFTqJSQQ0ciL4OX8MU2CvWTf7QKiEkPlEscGaujqNgtrFyt1
-	 8iqGu3vNmSQUWEIfnSEWnDk2PnLBUOhmTSYTMlrqktM6kRwvLL4jslvQVS2hBSJFmOu63
-	 SU4gJmKKi36t4mERFu9xxPGfywZwvUe3YsKi+NE48NebeQmT9mRBi9bAAXo6rREOy3s9G
-	 /TlC6rqeqtR8J7/WgNempjaDAPVBWysAcRdAFZbv0NYar732DEAgWFWBKiqzwHQ5vbiNz
-	 Ow1W0Y8ZEDSd0KLFp6bMzWNF+DqTZuA2fNx1/B1Iv+s2V7mV2XfbQi4hS+y1auLm5WA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794048217;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=00YgSuh+6jx0afSBDldxTfJk1blWDnLXe0VtLaUOxXk=;
+	b=tGTE0tuDU1QULm1ovuXFImvl35dIHMOxYQfjFRgcCVd1mLEhf5vHfEOHXkakrymRQWJf
+	 SgvLyJAjnP9rTdXGNKzIeEMQIxNzFDo4Pj3kElq+GKi8PV9dV2mMbf6RYIEt4INddbMG6
+	 oV79KtVDrNxZWiGIVoNIn/MOa1LXqiEjFlv7p5Z+nPZ4FTQ0PZ/PJYZ6CdlDvjLaJuxaF
+	 RmjME8znKVAMlrRdMHNUDS536FqGErMuPj1iIQnrauEdSbFGKv4rXH4qvvC3SRicHaRNO
+	 Sqx3BMkzK42Uz4/OI7gXzeGP2yGPFLDAFUDjyAwDUOvtPRA3okKk3Zf88/7Qjk1saeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5GoGyn3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=WQ4vEdpT;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DBD606A331;
-	Sat,  7 Nov 2026 09:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90950606A330;
+	Sat,  7 Nov 2026 10:43:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90950606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5GoGyn3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CFF1F008A1;
-	Sat,  7 Nov 2026 09:20:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794043229;
-	bh=fH9ZInNpZ+Ow6HAJ32cdUs+0EKHjb4TvJ+Ry64dX10Q=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F5GoGyn3lMJu3cvNGtf5C3shHt9FK1KfyDIqtU3wPBLcZTZ/+UIkOZZsCJbSSajuy
-	 12aPokzfSYEvZV3pnGvAGaTgovNT+j3QV07Ookc2EW/arDBNakzfyF4D73UMgBI62v
-	 5d4MsNYgCDFiWPt3N2H280N8JAFFhVH+DX774G3OwL26jSqzsdpPATUC4BGvfDWJwX
-	 AgMU2VyCm1P6TDFqSToTOj+NPyCUiBkrLQl5eteCXnStcONHdXBrnYTufvGj+CW+mv
-	 3X40eRlyEjEEvlABwg9t8Y2t1+QJz8/lWBDhtroKGl8GyT5JXJCZsED2n2xAF2kkQR
-	 eF1KQB1JYP8VQ==
-Message-ID: <sashiko-outbox-202761@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 06/10] kconfig-checker: Split schema to support
- component reuse
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ahmed S. Darwish" <darwi@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Ingo Molnar" <mingo@redhat.com>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
-Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Frederic
- Weisbecker" <frederic@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "John Ogness" <john.ogness@linutronix.de>, "Derek
- Barbosa" <debarbos@redhat.com>, =?utf-8?b?WmJpZ25pZXcgSsSZZHJ6ZWpld3Nr?=
- =?utf-8?b?aS1Tem1law==?= <zbyszek@amutable.com>, "Daan De Meyer" <daan.j.demeyer@gmail.com>, "Luca
- Boccassi" <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261106091922.7560-7-darwi@linutronix.de>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-7-darwi@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 09:20:28 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=WQ4vEdpT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=00YgSuh+6jx0afSBDldxTfJk1blWDnLXe0VtLaUOxXk=; b=WQ4vEdpTpZXUFp0gPkIKkOjiXH
+	VhxJd/x7V53CLfavcaj/BKuDXIlOYi4f5cqfDTgde17E0rGlk40dJjy/zZ2pcBrbtT+Up9sZ9JM2D
+	U9j5jfgF87PiMz53RVu5GqY+VT0IS7bYVriiRRcWwYxAZLAkclp2nnyuoSV3YuteoBMiY8v5eLu8G
+	SpKd3Av0YjIYGyW1yZgo45Did2Hjp5V1RhD1PC/AupJNJKjFFlUtsN0orQ0gqDpLd3opKLbZbyWgi
+	IKH+AOlK2V80w4EKi+NEpSit9SP1vhwEfi7Blwv+LdrOMbP3ko14dF0jh9zqrB5/Ztt1mD/LHOdKQ
+	cJl17gUA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xPdtS-0000000Gido-3xDF;
+	Sat, 07 Nov 2026 10:43:31 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B8FE4300339; Sat, 07 Nov 2026 11:43:29 +0100 (CET)
+Date: Sat, 7 Nov 2026 11:43:29 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, tglx@kernel.org,
+	mingo@redhat.com, linux-kernel@vger.kernel.org, will@kernel.org,
+	boqun@kernel.org, longman@redhat.com, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, dvhart@infradead.org, dave@stgolabs.net,
+	andrealmeid@igalia.com, shuah@kernel.org, juri.lelli@redhat.com,
+	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when the
+ waiter is woken
+Message-ID: <20261107104329.GA2668564@noisy.programming.kicks-ass.net>
+References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
+ <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
+ <20261107002927.3cbad7ff@fedora>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,87 +73,30 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107002927.3cbad7ff@fedora>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Low] kconfig-checker: stale schema path in
-  Documentation/tools/kconfig_checker.rst
-- [Low] kconfig-checker: missing type: ignore on Draft7Validator import
-- [Low] kconfig-checker: unused Schema.as_dict() method left behind in
-  check.py
---
+On Sat, Nov 07, 2026 at 12:29:27AM -0500, Steven Rostedt wrote:
+> On Fri,  6 Nov 2026 18:59:27 -0500
+> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
+> 
+> > The top waiter of an rt_mutex spins while the owner runs,
+> > rtmutex_spin_on_owner(), and does not stop when it is woken: its timeout
+> > and a signal find it running, set it TASK_RUNNING, and the spin goes on
+> > until the owner leaves its CPU or the waiter's own CPU has to
+> > reschedule. A PI futex owner is a user task that may run as long as it
+> > likes. On v7.4-rc1, in 8-CPU VMs, behind an owner spinning in userspace,
+> > a 1ms pthread_mutex_timedlock() returns ETIMEDOUT 126ms to 631ms late on
+> > average, 1.4s at most, a SIGUSR1 is handled up to 1.9s late, and a
+> > waiter killed with SIGKILL is reaped 0.5s late on average. With
+> > PREEMPT_RT the wound of a ww_mutex is missed the same way: two contexts
+> > in an ABBA on two CPUs at SCHED_FIFO spin on each other, and the older
+> > one gets its second lock after 96ms on average, 0.95s at most.
+> > 
+> 
+> The above is very verbose. Are you starting to use AI? ;-)
 
-commit e95d8c61bd1b396a43ce4115372f7685c287a202
-Author: Ahmed S. Darwish <darwi@linutronix.de>
-
-kconfig-checker: Split schema to support component reuse
-
-This commit moves the common rule schema into schemas/base.yml, adds
-schemas/rules.yml for complete rule files, and updates check.py to resolve
-local file:// schema references using Draft7Validator.
-
-> diff --git a/tools/kconfig-checker/check.py b/tools/kconfig-checker/check=
-.py
-> index ef49c28b9dab6..4f79ec487da79 100755
-> --- a/tools/kconfig-checker/check.py
-> +++ b/tools/kconfig-checker/check.py
-> @@ -80,6 +80,8 @@ except ModuleNotFoundError as e:
->  # Actual script:
->  #
-> =20
-> +from jsonschema import Draft7Validator
-
-[Severity: Low]
-Does this import need a "# type: ignore" comment to match the earlier
-"import jsonschema" statement?  Without it, running "mypy --strict
---no-warn-return-any check.py" as documented in the file header fails with
-a missing-stubs error (or fails on the earlier "# type: ignore" when
-types-jsonschema is installed).
-
-[ ... ]
-
->      def as_dict(self) -> YamlDict:
->          return self.schema
-> @@ -273,7 +308,7 @@ class RulesFile:
-> =20
->      def __init__(self, yaml_f: Path, schema: Schema):
->          self.yaml =3D Helpers.load_yaml(yaml_f)
-> -        Helpers.validate_yaml(self.yaml, schema.as_dict(), yaml_f.name)
-> +        Helpers.validate_yaml(self.yaml, schema.validator, yaml_f.name)
-
-[Severity: Low]
-This isn't a bug, but now that RulesFile.__init__() and
-Helpers.validate_yaml() take schema.validator instead of schema.as_dict(),
-Schema.as_dict() has no remaining callers in this patch or later in the
-series and could be removed.
-
-[ ... ]
-
-> @@ -533,6 +568,7 @@ def parse_args(rules: list[str]) -> argparse.Namespac=
-e:
->  def main() -> None:
->      base_dir =3D Path(__file__).resolve().parent
->      rules_dir =3D base_dir / 'rules'
-> +    schema_dir =3D base_dir / 'schemas'
-> =20
->      rules_l =3D sorted(path.stem for path in rules_dir.glob('*.yml'))
->      args =3D parse_args(rules_l)
-> @@ -544,7 +580,7 @@ def main() -> None:
->      kconfig_f =3D args.config.resolve()
->      kconfig =3D KernelConfig(kconfig_f)
-> =20
-> -    schema_f =3D base_dir / 'schema.yml'
-> +    schema_f =3D schema_dir / 'rules.yml'
-
-[Severity: Low]
-Should Documentation/tools/kconfig_checker.rst also be updated here now
-that tools/kconfig-checker/schema.yml has moved to
-tools/kconfig-checker/schemas/base.yml and
-tools/kconfig-checker/schemas/rules.yml?  Later commit "Documentation:
-Describe kconfig-checker overlays" updates that section to reference
-tools/kconfig-checker/base.yml and tools/kconfig-checker/rules.yml,
-omitting the schemas/ directory component.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106091922.7560=
--1-darwi@linutronix.de?part=3D6
+He definitely is. I can't read the above, its word soup. Part of using
+AI is making sure the Changelog is actually readable. This is not.
