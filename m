@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794071591;
-	b=EAMIzDnxdd6T340jRJIC0JkN/NFCF9yiB1gi+/bSKVxTtDK4/5lGN+Ds27g+TJdC54Ow
-	 wlYGif3MqnSEtBMma+nLfL4rrEskBCSiLs3RU2KAbUKbZ1ijsP+8vau/UiYuVxwLTCMbg
-	 APY6yUqP5BIzA8sWfut411gNix4lnWE43UBbs7JfryUTB4qWus3PHROSUyFZT4vdTy7mx
-	 mse/bWIDe0yEGJEUOhmMggBE9dF5pXG6bpUeswwe5XklVw6Gt/lbKdXOqApreKDmEP4cp
-	 Zv6sBdl3XwdebEUH6gYy/TPXCmInaLo+A+0hj0QousizvYFW3OoMQI44Epl9e1mCHnA==
+	t=1794071594;
+	b=D60h+jSYayXuO/HPaJQB9KFVQx/9y+8w3tsTnu2Mfu0n+PlHiz8TIEPR5mT/hgbuu+IS
+	 jPsr4Y8dIU78KQj8Xzth3j0zu8cW9Cg0Wo25ElAEUClcodSxeRiDWpX6Nfxm9uDjMn8Re
+	 OfkIkF39Xc0AprSRhxdH1qQsy04TO7G1qaNtGxMAgaWLnh8Cmea5bDFeeqbDlnGpzsWd5
+	 hI74TXqqNmE/3vsPKyijaCzRU2RG9KSkgxgZojQP2aW2UcfRfqCAqnfY5P8eVNJlom93D
+	 +2Qs1UALxe9tuSjcUaISXmXKVmDnEYCpxpIE39yeir0DPDUdYzk0DNcGOUSqwG2g+Lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794071591;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794071594;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=mynYKR1ZAkpBPyX1Y39GAIXi0uQVHkLOFJGn8mGHCF8=;
-	b=uQEeLnddJpzYO5nmY+5kKm5gn+5H0x/61nQ+QdzPl5yPxkEAmuZqAcnqiDAZ2bTyUp4r
-	 JWDMPLH34Q2rd3n3PrRIPCV0YOOdTXaspZ7vQmpIpx4c2fGtf+Y6EUQrft66B0joFbTfY
-	 qmLbLdqpuO4aDvlBmQ9EAnM7m9b8ExAJHJQ5z1WVUGxh3KLTExpkcVtTA9HcDYVGSvcvN
-	 t9RKmZ4Ge2OOEuhfNpyhTKtFT25KD5jWbBaWrGN+buEsiUzdI3MhB3RUV+mt0xroEDypv
-	 PpPDuoCWgIabmNfVAZeD1E2VfJLDFicPZ4afzT3u+MAiYwEHwVru6oe0YntSdrF4o1g==
+	bh=vG12dDB2cOlbfaJe777WCUEVPBMgOyFMr8jFTvptykE=;
+	b=sLMXbQKm17A+xbb0zhJ6nRJaDOTEUnT8dFOT/Mf+OPcHQUIb7c8CUW+2lZcfQ9uiHwCk
+	 wJQkgRl3+77uyIMgp9ctn6zQPI6jozglloq+UxA/rCrwXUy4XkLNTpHGRrvxrgMGkq1UK
+	 Zu8BUzDqHOo1CfxMzliDE7PBpGJiiGNKQfL/kXcYws7f6VpbMs93D6BK7g9ARjk5x99Xq
+	 y0YCrp9ZSfRbcjM7JuyguswEFGV/aOTcFJhon0UN4u9gguZBZOaynCHQOuNV/9HH2BZ3l
+	 mXm2D50zTWHN7wtMlzc5sLiRkeAr7gQ2qlvZ6q1HGlB6vdYQX2UNyNp17TaHOdV7dfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="vFWC/jXd";
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cacooL3S;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C989606D831
-	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 17:13:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C989606D831
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76A4606EEAA
+	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 17:13:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D76A4606EEAA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vFWC/jXd
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490585eddfcso1039664f8f.0
-        for <linux-rt-devel@lists.linux.dev>; Sat, 07 Nov 2026 09:13:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cacooL3S
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4922523d1afso921779f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Sat, 07 Nov 2026 09:13:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794071590; x=1794676390; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794071592; x=1794676392; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=mynYKR1ZAkpBPyX1Y39GAIXi0uQVHkLOFJGn8mGHCF8=;
-        b=vFWC/jXd9LCKTHUzi4wpKdAgne8GrmclOUaoNnebkGdsVY/URAtUpMWfLTIgEODXhA
-         4sFYypqlrzr0n/x8nqwqG2oC2D0kQ2w4D7mTXtInNMrla07kssCu9vJ0UaG/xuy2QGtH
-         QJxrg/QXTFCo6a5unMv7hOmbzUdKQGIS3ZQta23W7jDFKb42C9b+zP0vr1igTQLk70rf
-         7h8zEeYupfz/GhNkyunsqc0PxMmXblBkTsQoBh4Xi4FLSIqSexGMMqOw/I/18KjW7Osx
-         zer7Mdz3vk2DhUO13w9ErWnEPifh7L5zaMFDpgVPun3EvzdYOOF3e1NFVNP37vInWRRW
-         oTVw==
+        bh=vG12dDB2cOlbfaJe777WCUEVPBMgOyFMr8jFTvptykE=;
+        b=cacooL3SoqMXGOrhh//Zi4nZKDA3XMZwFn412OZxxrguOKIbgW8/djqIl/ZiueNpDS
+         TzWX2vwcEDF+eFQQDomG+Ff0tY6Mn+/iH365zyG2fHHoSs8MLcqRoQjPom6WeIqDocJa
+         VfyE634q5XEVkmyZN/muKHLuJYuAO/COjx15JbeW5T14HEmc4cX2VJ5QnafabhfV6g0L
+         u1OPvEGr21JcL51Z6LAkxO16nu8xAYjw3fllyjRKWHPPQG68bH5JuHor7GxLsVZBL2PK
+         adwjp/oR/sQMWTJIkSgDBbX+JQd65xTLlWmAwuP6ogqgp5G20PXgDYiKJqz7TjZ4Sjzl
+         gDdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794071590; x=1794676390;
+        d=1e100.net; s=20260707; t=1794071592; x=1794676392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mynYKR1ZAkpBPyX1Y39GAIXi0uQVHkLOFJGn8mGHCF8=;
-        b=0V8rJNR5fY1LarmSKmrEXwQGQGI+MZrkVe5Ajn9NxjlGMsDVZT2S4m7eoF3cv8tnvc
-         NiDG0ERtED15B2HsK/xU1iwjGsOI+R1x53VRFKk4e/U1Je8KYjB0LjgeMPZQhvEapX4o
-         z9I7k25H6OILUOA+6U+QZbGIRUtrBdHhILBTcNXkWy2PL2jeyTZcZ3UZA+PUzjpid3zE
-         t78em3HekH2k4KhUmb8pnzfMQ+fQqkKk7fCf/EQCnoWqUxbsmfxmyI0M7TPKai1eSJrd
-         qzJn8p0E25XOPm60rAU7pqU9SOMxzACSE7b+u8yIZ3AdS57ZfJOEQnlVz4xkhesjqYIc
-         9kMg==
-X-Forwarded-Encrypted: i=1; AL+hErFDgZBWhRYlxu8LPr7a8JVkzbppBI6sXIp5QmVS/wREQMEV7nURm0MYQTsDPiCyFiw3rAs9A5UqUKMMZXMkhw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+BafOEaEUxC55CxRtgFluHe6EIDM9ZG6viJ7d/paGlcDCbTl7L
-	iaSVZWAwes4T9iVHJ4JT9QYn/pZcALDTw2lZccv0j8LHwdnXD0AlP3+FR41Sxf0V1OQ=
-X-Gm-Gg: AYBFou03OzWq+sye4RylaHUQRSse+2tkMn4Dr/bTcD7j/8TBR4b+sC5KaZhqed6uITo
-	z0RFKGmQh2Fzg+V7pJeKIw5+2eiBvV6riNCJdEsIikNYReERHtsvaWlwNN0eWCM4MN09sqqYtdH
-	+S/Vs6WJ8RgFmFzPgFjVch46XekI5RrzorGBAKN972tQwq2MiMxXHPD/IpeZo7sm36dpnT7xN2I
-	+jXiQ3jHEzw8SZbNgNR27T1UzQeHCYgscqV5P4Nsp/QClcEtjJ9e8NjDK4sEuQsA9W4IaoDuZns
-	uL5xHTxHs9TjDfd3aiLCUUe1zGIX3hBC/6dMj0eWxxz8ElH9DnRnPqKTuMvrdu0vhMzJUoJmq/l
-	7UTT2eHgXzj5RbYRCexcLkmuVHqgXfKSCyufNnWC5pFAtMYPCCn7BW1MflxPCmd/k76OZk2aj9S
-	KtfVZuIzb4dgyg+3uhzFq9ubH7P6OeP9RVTorvq/6BIDb01vSP39dPq3/eVdtyDIZn2kl0JB9iP
-	FD/uoGh6UcooVRoyMkiwoZs15ItUzXRwOygDMZIotztPLEAmJCEQalbxJMEY6Cdey+cZq1fvD8M
-	JqZW3jKhi0OS04CiKC76kKb+3ddcW4Dy27EOYqOuMgffZqR36wOriJ/vzbGeH64+Sqh0QGcvVJM
-	X6gsnlqLSZ12HnfMlzAoIfDWXoJDr/NQt0GqB2ZlHOSoCo6kQjbvEsWkg8dPnsDiBY0FLUgNkay
-	a1HWZazfZqah4PKSc/nTvgKFKlUtNhyMM=
-X-Received: by 2002:a05:6000:2689:b0:48b:e50:714e with SMTP id ffacd0b85a97d-493aa8d24d2mr7126885f8f.36.1794071589545;
-        Sat, 07 Nov 2026 09:13:09 -0800 (PST)
+        bh=vG12dDB2cOlbfaJe777WCUEVPBMgOyFMr8jFTvptykE=;
+        b=nwFsebUbsO0HxVbtQbV/bdpB8xRHvifpBO6oSBURPttMCBpkREAGPZKj5sK6kwEOsR
+         TRSv+HQ8RHEuyH0o70ZKPTq5Y3pGvvRRfsx7dh+3WO6LWI7Q3MwfBnk+77cQImDIqoTr
+         /E/KuMOkII10b5vfgC0tf7V/1y3cg6OAr52vPp+wtZE/5rjvFo5mzWDsy64o3iF9FN8U
+         RC873lUTsrPLc3OBjwdJ8Rk0ljL5BknKaLcaku/SGCYEGxV4xbmxCJXuXmG/N82eccWL
+         wtbUzKaJcUcaTVLMaB/mdeBkpHo6EJGCly99pbuIVxzqa5XxeYcRCV6cxpPYXo3BuhCS
+         3nog==
+X-Forwarded-Encrypted: i=1; AL+hErFFOsyYGGAXIZFR7a8azxhDq34XKxQJuKTaBIvhmFSAB0VyBJ9TZyl10MfkxRGZbEKlOqOpmkAtlkJVJLMhDw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+OUFtPbaAtlZETyJQBbldQnAH/0djIXR/F8Qv/46CCAgpHRUQm
+	Xo1DavRPoHOJJQ3wLKYHa82kRypIXoEQuHaByLrBwTUBvSatdcR91ZE7aBtgqkf7Fmw=
+X-Gm-Gg: AYBFou2JX3YYzTtkQ5ayXI4fgn7MH9vb/MyaOfzYKuTEQmja7ZhQBRf6rXTWubaZUVk
+	4XGAPDwi07ra4R4t9JefpLjK1h0n6uBPVu5gvNw4gpfHbCMXbOuilmFCC7vY+ayclHQe3uITI6W
+	03xFEICTTmKYcbJ4r5EtOfMsGBccQrIuJVqRLJL74q8nqVswmt0lc0trCQGnHTEsM19frEM60U5
+	CyCTTmMNALqh5G+fdwr1yI5vKN3iqECqj6ReUtLmnsuWIaTEeuLu/O2bAiULDWiHBBrUCWxhsqS
+	HgtbhTnIqlnS9BzF9oeb4hqopgKUe2Xdo6cDffRHjVIq00v4PGBFoVBSHd5SzfC7+NvgpkiguOw
+	myqDIrYOVV0Yd1aroI0Q4yMrUZr0aXIADVx4smRqSZVzbm4D0UnCjvpM8n8ATPodEIrFu4H3mCz
+	Qcmn8elSeMQ5Cp9/Rz2R8zMv42f9mn3FIiHOIdEm9wtb2pobp29q628Y/SQu0DNtaawG4syDYMT
+	aOZkrczgQDgjwQueBF67UN494mF9DgkveFwVNtwbSkvEFZyp3KI6xu75O17z0X+SHnkjUvutsiY
+	wbn3igw/2GIsDfOH4UzJMmpbtDPi/KoUAJda9SAAsX1B82Zc53w23BYyNKj1zJ3x/Iw5zRgCcQh
+	fWEFBEkiy5ivgUDPqVb+HCAu/4tl0yLTwguTWdm7WcgRSG4MaNy3XudyYXNu/AbqwFRggjpgVGe
+	ziUzkaOtSKJPU+2vIEiraHV7HUJXJw4I4=
+X-Received: by 2002:a05:6000:2dc9:b0:491:8462:20cc with SMTP id ffacd0b85a97d-49277bb1d39mr11173964f8f.37.1794071592005;
+        Sat, 07 Nov 2026 09:13:12 -0800 (PST)
 Received: from localhost.localdomain (dynamic-2a02-3100-b149-1401-90c6-65b4-035d-1e3d.310.pool.telefonica.de. [2a02:3100:b149:1401:90c6:65b4:35d:1e3d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d723222fsm10627105f8f.21.2026.11.07.09.13.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d723222fsm10627105f8f.21.2026.11.07.09.13.09
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 09:13:09 -0800 (PST)
+        Sat, 07 Nov 2026 09:13:11 -0800 (PST)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Gabriele Monaco <gmonaco@redhat.com>
@@ -107,9 +107,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-rt-devel@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 1/9] tracing/irq: Add generic IRQ context boundary tracepoints
-Date: Sat,  7 Nov 2026 18:12:44 +0100
-Message-Id: <20261107171252.25090-2-kmehltretter@gmail.com>
+Subject: [RFC PATCH v2 2/9] tracing/sched: Add IRQ preemption lifecycle tracepoints
+Date: Sat,  7 Nov 2026 18:12:45 +0100
+Message-Id: <20261107171252.25090-3-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261107171252.25090-1-kmehltretter@gmail.com>
 References: <20261107171252.25090-1-kmehltretter@gmail.com>
@@ -124,251 +124,92 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-IRQ action tracepoints describe handlers, not the enclosing interrupt
-context. One hardirq context may run several actions, while synthetic
-dispatch can invoke an action outside hardirq context.
+Tracepoints around __schedule() do not identify the start and end of one
+preempt_schedule_irq() invocation. The calling task may switch out and
+resume on another CPU before the invocation returns.
 
-Add bare tracepoints at the generic hardirq and serving-softirq
-boundaries using DECLARE_TRACE() so they can be hooked by in-kernel
-verifiers and tests without exposing a new user-space tracefs ABI.
-Record hardirq depth and whether serving-softirq state temporarily
-replaces hardirq state during interrupt return.
+Add bare entry and exit tracepoints around the generic helper using
+DECLARE_TRACE() so they are not exported in tracefs. Record the task
+that called preempt_schedule_irq() as the owner in both tracepoints so
+consumers can follow the invocation across switches and migration.
+Sample the preempt count and interrupt state before dispatching
+tracepoint callbacks.
 
-A boundary callback can raise work after the normal pending-work
-decision. Include work raised at softirq entry in the initial pending
-snapshot, and hand work raised at a final boundary to the appropriate
-worker.
-
-The tracepoints cover irq_enter() or irq_enter_rcu() and their matching
-exits. Raw and direct low-level entry users remain outside their scope.
+The tracepoints bracket preempt_schedule_irq() only. They do not cover
+architecture-specific interrupt-return work or establish that the helper
+was reached from a physical interrupt.
 
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- include/trace/events/irq.h | 56 +++++++++++++++++++++++++
- kernel/softirq.c           | 83 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 137 insertions(+), 2 deletions(-)
+ include/trace/events/sched.h | 26 ++++++++++++++++++++++++++
+ kernel/sched/core.c          |  6 ++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/include/trace/events/irq.h b/include/trace/events/irq.h
-index 837c1740d0d07..1b2e05aaf7763 100644
---- a/include/trace/events/irq.h
-+++ b/include/trace/events/irq.h
-@@ -207,6 +207,62 @@ DEFINE_EVENT(tasklet, tasklet_exit,
- 	TP_ARGS(t, func)
- );
+diff --git a/include/trace/events/sched.h b/include/trace/events/sched.h
+index 535860581f159..c7aeaa85d27ef 100644
+--- a/include/trace/events/sched.h
++++ b/include/trace/events/sched.h
+@@ -896,6 +896,32 @@ DECLARE_TRACE(sched_set_need_resched,
+ 	TP_PROTO(struct task_struct *tsk, int cpu, int tif),
+ 	TP_ARGS(tsk, cpu, tif));
  
 +/*
-+ * Following tracepoints are not exported in tracefs and provide hooking
-+ * mechanisms only for testing and debugging purposes.
++ * sched_irq_preempt_entry - begin preempt_schedule_irq() processing
++ * @owner: task whose interrupted execution will resume after scheduling
++ * @pc: preempt count sampled at the call site, before tracing bookkeeping
++ * @irq_off: interrupt state sampled at the same call site
++ *
++ * Emitted after entry assertions and context-tracking setup, with zero
++ * preempt count and local interrupts disabled. Exception-return paths can
++ * also use this scheduler entrypoint.
 + */
++DECLARE_TRACE(sched_irq_preempt_entry,
++	      TP_PROTO(struct task_struct *owner, unsigned long pc, bool irq_off),
++	      TP_ARGS(owner, pc, irq_off));
 +
 +/*
-+ * hardirq_context_entry - generic hardirq state has been established
-+ * @depth: hardirq nesting depth, including the context being entered
++ * sched_irq_preempt_exit - original preempt_schedule_irq() invocation resumes
++ * @owner: task saved by the matching entry, possibly on a different CPU
++ * @pc: preempt count sampled at the call site, before tracing bookkeeping
++ * @irq_off: interrupt state sampled at the same call site
 + *
-+ * This tracepoint is emitted after generic hardirq preempt-count, lockdep,
-+ * timer, and accounting state has been established. It does not describe the
-+ * architecture-specific interval before irq_enter() or irq_enter_rcu().
++ * Emitted with local interrupts disabled before restoring context tracking.
 + */
-+DECLARE_TRACE(hardirq_context_entry,
-+	      TP_PROTO(unsigned int depth),
-+	      TP_ARGS(depth));
++DECLARE_TRACE(sched_irq_preempt_exit,
++	      TP_PROTO(struct task_struct *owner, unsigned long pc, bool irq_off),
++	      TP_ARGS(owner, pc, irq_off));
 +
-+/*
-+ * hardirq_context_exit - generic hardirq state is about to be removed
-+ * @depth: hardirq nesting depth, including the context being exited
-+ *
-+ * This tracepoint is emitted with interrupts disabled near the end of generic
-+ * hardirq exit, after tick-exit work and before hardirq preempt-count state is
-+ * removed. A late-work handoff may run after callbacks return. Hardirq
-+ * accounting ends earlier.
-+ */
-+DECLARE_TRACE(hardirq_context_exit,
-+	      TP_PROTO(unsigned int depth),
-+	      TP_ARGS(depth));
-+
-+/*
-+ * softirq_context_entry - serving-softirq state has been established
-+ * @serving: whether the current task is serving a softirq
-+ * @from_hardirq: whether hardirq state was replaced by serving-softirq state
-+ *
-+ * This tracepoint runs with local interrupts disabled after the serving bit is
-+ * set. On PREEMPT_RT it includes preparation before handle_softirqs(), even
-+ * if the pending-work check finds nothing. It does not mark an individual
-+ * action or the start of CPU-time accounting.
-+ */
-+DECLARE_TRACE(softirq_context_entry,
-+	      TP_PROTO(bool serving, bool from_hardirq),
-+	      TP_ARGS(serving, from_hardirq));
-+
-+/*
-+ * softirq_context_exit - serving-softirq state is about to be removed
-+ * @serving: whether the current task is serving a softirq
-+ * @from_hardirq: whether hardirq state will replace serving-softirq state
-+ *
-+ * This tracepoint runs with local interrupts disabled before the serving bit is
-+ * cleared. On PREEMPT_RT this includes teardown after handle_softirqs().
-+ */
-+DECLARE_TRACE(softirq_context_exit,
-+	      TP_PROTO(bool serving, bool from_hardirq),
-+	      TP_ARGS(serving, from_hardirq));
-+
- #endif /*  _TRACE_IRQ_H */
- 
- /* This part must be outside protection */
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 7fc2200392cdf..0d5fe265e354b 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -178,7 +178,9 @@ bool local_bh_blocked(void)
- 
- void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+ #define DL_OTHER 0
+ #define DL_TASK 1
+ #define DL_SERVER_FAIR 2
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 04b62c16fa8ca..e5c476d27eca7 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -7649,12 +7649,16 @@ EXPORT_SYMBOL_GPL(preempt_schedule_notrace);
+  */
+ asmlinkage __visible void __sched preempt_schedule_irq(void)
  {
-+	unsigned long trace_flags = 0;
- 	unsigned long flags;
-+	bool trace_serving;
- 	int newcnt;
++	struct task_struct *owner = current;
+ 	enum ctx_state prev_state;
  
- 	WARN_ON_ONCE(in_hardirq());
-@@ -200,6 +202,16 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
- 		}
- 	}
+ 	/* Catch callers which need to be fixed */
+ 	BUG_ON(preempt_count() || !irqs_disabled());
  
-+	/*
-+	 * A serving interval starts here, before handle_softirqs(). When its
-+	 * entry is traced, keep IRQs and task switches from observing the bit
-+	 * before the event. Any blocking BH lock was acquired above.
-+	 */
-+	trace_serving = (cnt & SOFTIRQ_OFFSET) &&
-+			trace_softirq_context_entry_tp_enabled();
-+	if (trace_serving)
-+		local_irq_save(trace_flags);
-+
- 	/*
- 	 * Track the per CPU softirq disabled state. On RT this is per CPU
- 	 * state to allow preemption of bottom half disabled sections.
-@@ -233,15 +245,27 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
- 			raw_local_irq_restore(flags);
- 		}
- 	}
-+
-+	if (trace_serving) {
-+		trace_softirq_context_entry_tp(!!in_serving_softirq(), false);
-+		local_irq_restore(trace_flags);
-+	}
- }
- EXPORT_SYMBOL(__local_bh_disable_ip);
+ 	prev_state = exception_enter();
++	/* Sample before tracing bookkeeping can change the observed context. */
++	if (trace_sched_irq_preempt_entry_tp_enabled())
++		trace_sched_irq_preempt_entry_tp(owner, preempt_count(), irqs_disabled());
  
- static void __local_bh_enable(unsigned int cnt, bool unlock)
- {
-+	bool entering = (cnt & SOFTIRQ_OFFSET) && !in_serving_softirq();
-+	bool trace_exiting = (cnt & SOFTIRQ_OFFSET) && !entering &&
-+			     trace_softirq_context_exit_tp_enabled();
- 	unsigned long flags;
- 	bool sirq_en = false;
- 	int newcnt;
+ 	do {
+ 		preempt_disable();
+@@ -7664,6 +7668,8 @@ asmlinkage __visible void __sched preempt_schedule_irq(void)
+ 		sched_preempt_enable_no_resched();
+ 	} while (need_resched());
  
-+	/* Callers already disabled IRQs around the counter and its events. */
-+	if (trace_exiting)
-+		trace_softirq_context_exit_tp(!!in_serving_softirq(), false);
-+
- 	if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
- 		DEBUG_LOCKS_WARN_ON(current->softirq_disable_cnt !=
- 				    this_cpu_read(softirq_ctrl.cnt));
-@@ -276,6 +300,18 @@ static void __local_bh_enable(unsigned int cnt, bool unlock)
- 			WARN_ON_ONCE(current->softirq_disable_cnt < 0);
- 		}
- 	}
-+
-+	/*
-+	 * An exit probe can raise a softirq while serving state still suppresses
-+	 * the normal ksoftirqd wakeup. Hand it off once no outer BH-disable
-+	 * reference remains.
-+	 */
-+	if (trace_exiting && sirq_en && unlikely(local_softirq_pending()))
-+		wakeup_softirqd();
-+
-+	/* local_bh_enable() can turn BH-disabled state into serving state. */
-+	if (entering)
-+		trace_softirq_context_entry_tp(!!in_serving_softirq(), false);
- }
- 
- void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
-@@ -640,11 +676,15 @@ static void handle_softirqs(bool ksirqd)
- 	 */
- 	current->flags &= ~PF_MEMALLOC;
- 
--	pending = local_softirq_pending();
--
- 	from_irq_exit = softirq_handle_begin();
- 	in_hardirq = lockdep_softirq_start();
- 	account_softirq_enter(current);
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+		trace_softirq_context_entry_tp(!!in_serving_softirq(),
-+					       from_irq_exit);
-+
-+	/* Include work raised by the context-entry event. */
-+	pending = local_softirq_pending();
- 
- restart:
- 	/* Reset the pending bitmask before enabling irqs */
-@@ -692,6 +732,14 @@ static void handle_softirqs(bool ksirqd)
- 		wakeup_softirqd();
- 	}
- 
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT) &&
-+	    trace_softirq_context_exit_tp_enabled()) {
-+		trace_softirq_context_exit_tp(!!in_serving_softirq(),
-+					      from_irq_exit);
-+		/* The final pending-work decision above has already completed. */
-+		if (unlikely(local_softirq_pending()))
-+			wakeup_softirqd();
-+	}
- 	account_softirq_exit(current);
- 	lockdep_softirq_end(in_hardirq);
- 	softirq_handle_end(from_irq_exit);
-@@ -722,6 +770,7 @@ void irq_enter_rcu(void)
- 		tick_irq_enter();
- 
- 	account_hardirq_enter(current);
-+	trace_hardirq_context_entry_tp(hardirq_count() >> HARDIRQ_SHIFT);
- }
- 
- /**
-@@ -796,6 +845,36 @@ static inline void __irq_exit_rcu(void)
- 		wake_timersd();
- 
- 	tick_irq_exit();
-+	if (trace_hardirq_context_exit_tp_enabled()) {
-+		bool ksoftirqd_wake_requested = false;
-+		bool timersd_wake_requested = false;
-+
-+		trace_hardirq_context_exit_tp(hardirq_count() >> HARDIRQ_SHIFT);
-+
-+		/* Hand work raised by the final boundary event to its worker. */
-+		if (hardirq_count() == HARDIRQ_OFFSET) {
-+			if (irq_count() == HARDIRQ_OFFSET &&
-+			    unlikely(local_softirq_pending()) &&
-+			    should_wake_ksoftirqd()) {
-+				wakeup_softirqd();
-+				ksoftirqd_wake_requested = true;
-+			}
-+
-+			if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) &&
-+			    force_irqthreads() && local_timers_pending_force_th()) {
-+				wake_timersd();
-+				timersd_wake_requested = true;
-+			}
-+
-+			/* The timersd wakeup can itself raise a softirq. */
-+			if (timersd_wake_requested &&
-+			    !ksoftirqd_wake_requested &&
-+			    irq_count() == HARDIRQ_OFFSET &&
-+			    unlikely(local_softirq_pending()) &&
-+			    should_wake_ksoftirqd())
-+				wakeup_softirqd();
-+		}
-+	}
- 	preempt_count_sub(HARDIRQ_OFFSET);
++	if (trace_sched_irq_preempt_exit_tp_enabled())
++		trace_sched_irq_preempt_exit_tp(owner, preempt_count(), irqs_disabled());
+ 	exception_exit(prev_state);
  }
  
 -- 
