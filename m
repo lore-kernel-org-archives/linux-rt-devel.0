@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794018207;
-	b=z7b65aD50L4OdkY+SR+bhTHZCMn1k1OxJDjvsFNdyKQQ3NK37z5jsRV+s5bQuJ9dBjWf
-	 XtwEYUmUHkSQCKlj/mZ1ozgxj0U+sqWgPJxUbmFPcmfRqueqCWdZpc3Zqn+kNlFONHcUJ
-	 V/BthHdpVNkAvwjF/yLnBfMg313uMzGutKtr7MbnOgOdBwFkKWaLOhuScziS27S5Vl2h6
-	 KlzooefiqTmPNNPwMPyBFyGjmY6RcsqThw6yGsW1pRbc1mCKNa9neR+imkQM2qN8U5xgm
-	 UCx2ELbVQCdrKDFgTxc7pTdhQEtT3Cz0MaDS5H3pBBssf7YdpRzX/eGkMxM3K50R0Yg==
+	t=1794018339;
+	b=RpROTcQ7SlAI/riSYdBgSgfgIjKgw30Q8fJqHiVpQCjlzdxdzBqU42hyFooZd+1N3/pZ
+	 dZWzJzBUAX/0J2ukYzMv+115rdbqtQcg+MI7CwJfiffumZ1Ls4IFcrr3ZCz23caj7wDk6
+	 JZYkjvrUtYci7hXXT6pN2EwOaR5Pgnbv00dfIgcDBzN9H0mxWkgsQgR1B+pdOIKHwyQzm
+	 gFctIC32XzUjnMbgzYkq0hTGvNSiwJ8AbfhxRHkgUY3XzwBJtyzbVJw3MZExQvfaWR0Hh
+	 ClwmwZPnySizJ5D/LMSjIXo/cxdeEeaIhfToCAphFtyAn1TRTVkah6qd+dT7/DY9alA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794018207;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794018339;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aGmrldz9V6FjVYaqCEU6CVBsGYkxKhA35/EJPWKIcO0=;
-	b=takx2qhdk8+sRxdFUtujwrcF6QPejGdtINOnJKF3MxoI/a+XwwB1Dxk+EBIjboKuu89+
-	 VBJeuBzZ42PVjOzY9Irvf/80+gvXlY2jPK5cuv0Tw+904jc7PHj2iIBKChykIYDA+PEr6
-	 +yRVyY3sgWIvl7Nx/UY2fDeOmQqFoD0pJJTQsUWXGOXS914TG+LwNSvW5ys4RkwTzsMYY
-	 WSjqEjJFPP4BDt+xfdRozJTpW1HdoYYxKgZgL+njGjRq0CG57RCbcWmt5IpmBCjRnwBfd
-	 7uPRJayeNxb7lQl6+lIRBXrOlWkLMQkI4CtPp/kUXEK2J8+i3MaYzdnAkZLvMD1jEiA==
+	bh=dFtFqZomesyElxV8dCwez46ovZ/K2caQbxgvXUnMGRg=;
+	b=fb1R0C3mPGW8wLwtZ9IN3ng8JohM3wqBsUuadk40++t7ZrzKFEv4KwdNmmznVoNGy3NB
+	 x6m5lgOnuvPHAuYjWGHIdvSa4wDeVmvWHUDotrl8afNINNSFzspOlaidW09ghaGLdbSzd
+	 sQnW48TSJuBmVVnns2wAWQRGtxohAK7c+Vw6an3UJkDnJ8y7veCo4yjWL+T5U3vQHzDD4
+	 ILMmNGU+JEhb+FFKBo7knTMEEhz+8W+VmzAsHz8zb/UKOvGqwfIafQy5vmVhSHGVvtHV0
+	 D+Jp3CCUxFKX8yzl1D2aC2qezJo4t79c/TynA2uvAQxYukzvrmEBXdU+vCTWSrkpQ6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKp6L1JB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W1l1A5Og;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069FE606A32C;
-	Sat,  7 Nov 2026 02:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E72606A32C;
+	Sat,  7 Nov 2026 02:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKp6L1JB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896191F008A1;
-	Sat,  7 Nov 2026 02:23:26 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W1l1A5Og
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8951F008A3;
+	Sat,  7 Nov 2026 02:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794018206;
-	bh=aGmrldz9V6FjVYaqCEU6CVBsGYkxKhA35/EJPWKIcO0=;
+	s=k20260515; t=1794018338;
+	bh=dFtFqZomesyElxV8dCwez46ovZ/K2caQbxgvXUnMGRg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aKp6L1JBjzbohv6PmadQB9ZL/ka18lwUeuYqBQBVuBAHZhFXyLI0OPlAis/O+0JS7
-	 f5bgBkD90g/EXcijs6J7auW7YYB/aalEp2Fhib+76wmsOMqh+XOpGtMCS6x/lJ4A/8
-	 X1fmy9sHF+4aRKh+tt9lH8lnJDn3j3gN2C9HIttPfyGRQWXxNWA/Awn/wKhtLO1aSb
-	 NtooEff4PFrTM2JHa4l+DRb6KITQ8hDrT4wRjT5ejmNA9v9WUy9hf2vTPtk8NzsmKN
-	 tyGJ2EwO5zxgU2G/r5louXo0CG6a2VRxSnzWxAqBke9DUNWMYnRXsHxIyLD/5dD4k4
-	 8IDa0jm4z54yA==
-Message-ID: <sashiko-outbox-202504@kernel.org>
+	b=W1l1A5Og+Jz+xQ3dZiQpJ77b+zsWkQJVq/UqAjBU+vY+0gEEp8Fl+wkvcyJjyD8xT
+	 Z78zestgVuJ5JrNSKJ9F5wmdRVyjuscwNDxAhWal1mjzPOkybKr6fns8DwjU8aKQ+e
+	 mmgH8wsNEc17KGutbtfCLHV9S14krJCiEGpVad3pYsQ3vzlxmEqkHW9QyBSgC3BxJp
+	 jRw5ahKK0V/QqaQBl2BjfcCssPNgwYMIJ5Wsz3ShezF9Vhy2JCsodtCbzEZmNPOwtX
+	 Mxy6cLMX1XQGAkD3oVvXrHusWEntqL1XMZQxHoUJPKbgM3M4RW8UfioPG5Dgwf6T5Z
+	 KdsapdlmJrbpg==
+Message-ID: <sashiko-outbox-202507@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 10/26] sched/deadline: Release the bandwidth of a
- task that leaves the class asleep
+Subject: Re: [PATCH v4 08/26] sched/deadline: Take a deadline boost from the
+ waiter's rt_mutex node
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261107014451.1487825-11-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261107014451.1487825-9-mathieu.desnoyers@efficios.com>
 References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
- <20261107014451.1487825-11-mathieu.desnoyers@efficios.com>
+ <20261107014451.1487825-9-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 02:23:26 +0000
+Date: Sat, 07 Nov 2026 02:25:37 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,125 +63,65 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: dl_zero_lag() mixes PI donor state with kept
-  task params
+- [Medium] sched/deadline: missing reset of dl_boosted in
+  __sched_setscheduler()
 --
 
-commit 82ae18ee2c32ac7a69958d0da90b2ae54505ac04
+commit 58101a4480d1230ff10b589ddb99ec9388dce3f3
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Release the bandwidth of a task that leaves the class asleep
+sched/deadline: Take a deadline boost from the waiter's rt_mutex node
 
-This commit releases or arms the inactive timer for a task's SCHED_DEADLINE
-bandwidth in switched_from_dl() when the task leaves the class while not
-queued, and clears its deadline parameters once the bandwidth is released.
+This commit records a deadline waiter's reservation parameters in its
+rt_mutex_waiter node under pi_lock and copies them into the boosted owner's
+sched_dl_entity so replenishment does not spin if the waiter leaves
+SCHED_DEADLINE before the PI chain walk completes.
 
-Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761f=
-e005b4@redhat.com/
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index f389620e6fc9a..cb0cf9c15108f 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -390,6 +390,22 @@ static void dl_change_utilization(struct task_struct=
- *p, u64 new_bw)
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index c3f404cddb9e7..89c185f7d4980 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -297,10 +297,10 @@ static inline void __setscheduler_dl_pi(int newprio=
+, int policy,
+>  	 */
 > =20
->  static void __dl_clear_params(struct sched_dl_entity *dl_se);
+>  	if (dl_prio(newprio) && !dl_policy(policy)) {
+> -		struct task_struct *pi_task =3D rt_mutex_get_top_task(p);
+> +		const struct sched_dl_params *params =3D rt_mutex_top_dl_params(p);
 > =20
-> +/*
-> + * The 0-lag time of @dl_se, relative to the clock of its runqueue: its
-> + * utilization counts until then once it blocks or leaves the class.
-> + */
-> +static s64 dl_zero_lag(struct sched_dl_entity *dl_se)
-> +{
-> +	struct rq *rq =3D rq_of_dl_se(dl_se);
-> +
-> +	/*
-> +	 * Using relative times instead of the absolute "0-lag time"
-> +	 * allows to simplify the code
-> +	 */
-> +	return dl_se->deadline - rq_clock(rq) -
-> +	       div64_long((dl_se->runtime * dl_se->dl_period), dl_se->dl_runtim=
-e);
-> +}
-[ ... ]
-> @@ -3597,15 +3605,69 @@ static void switched_from_dl(struct rq *rq, struc=
-t task_struct *p)
->  	dec_dl_tasks_cs(p);
-> =20
->  	if (!task_on_rq_queued(p)) {
-> -		/*
-> -		 * Inactive timer is armed. However, p is leaving DEADLINE and
-> -		 * might migrate away from this rq while continuing to run on
-> -		 * some other class. We need to remove its contribution from
-> -		 * this rq running_bw now, or sub_rq_bw (below) will complain.
-> -		 */
-> -		if (p->dl.dl_non_contending)
-> +		bool released =3D false;
-> +
-> +		if (p->dl.dl_non_contending) {
-> +			/*
-> +			 * Inactive timer is armed. However, p is leaving
-> +			 * DEADLINE and might migrate away from this rq while
-> +			 * continuing to run on some other class. We need to
-> +			 * remove its contribution from this rq running_bw now,
-> +			 * or sub_rq_bw (below) will complain.
-> +			 *
-> +			 * inactive_task_timer() will find !dl_task(p) and
-> +			 * release total_bw via __dl_sub().
-> +			 */
->  			sub_running_bw(&p->dl, &rq->dl);
-> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl) &&
-> +			   dl_zero_lag(&p->dl) >=3D 0 &&
-> +			   !hrtimer_active(&p->dl.inactive_timer)) {
-> +			/*
-> +			 * No inactive timer armed, the 0-lag time ahead: the
-> +			 * task is in flight to the CPU it wakes on, which
-> +			 * cancelled the timer (migrate_task_rq_dl()), or it
-> +			 * came back to the class asleep, which cancelled it,
-> +			 * and leaves again. Arm the timer, as for a queued
-> +			 * task: its handler releases total_bw at the 0-lag
-> +			 * time, finding the task out of the class. running_bw
-> +			 * is off this runqueue already, or never was on it.
-> +			 */
-> +			task_non_contending(&p->dl, false);
-> +		} else if (p->dl.dl_runtime && !dl_entity_is_special(&p->dl)) {
+> -		if (pi_task) {
+> -			p->dl.pi_se =3D pi_task->dl.pi_se;
+> +		if (params) {
+> +			dl_boost(&p->dl, params);
+>  			scope->flags |=3D ENQUEUE_REPLENISH;
+>  		}
+>  	}
 
 [Severity: Medium]
-Can dl_zero_lag(&p->dl) mix a PI donor's dynamic period state with p's own
-unreleased reservation parameters?
+Can __sched_setscheduler() leave p->dl.dl_boosted set when a task boosted by
+a deadline waiter changes its own scheduling policy or parameters?
 
-When a SCHED_DEADLINE task leaves the class before its 0-lag time (or
-changes policy away from SCHED_DEADLINE while already PI-boosted), it keeps
-its static parameters (dl_runtime, dl_deadline, dl_period, dl_bw) until
-0-lag time.  If a SCHED_DEADLINE waiter boosts the task into dl_sched_class
-before inactive_timer fires, switched_to_dl() cancels inactive_timer.
+If a task holding an rt_mutex with a deadline waiter switches its own policy
+to SCHED_DEADLINE with an earlier deadline than the waiter's, __setparam_dl=
+()
+updates p->dl.dl_runtime, dl_deadline, and dl_period without clearing
+p->dl.dl_boosted, and __setscheduler_dl_pi() does nothing because
+dl_policy(policy) is true.  The task continues to run on the waiter's
+pi_params and skips setup_new_dl_entity() in enqueue_dl_entity() until unlo=
+ck.
 
-During the boost, replenish_dl_entity() skips initializing the donor's
-period at first because p->dl.dl_deadline is still non-zero:
-
-kernel/sched/deadline.c:replenish_dl_entity() {
-    ...
-	if (dl_se->dl_deadline =3D=3D 0 ||
-	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
-		dl_se->deadline =3D rq_clock(rq) + pi_deadline_of(dl_se);
-		dl_se->runtime =3D pi_runtime_of(dl_se);
-	}
-    ...
-}
-
-Once p->dl.deadline and p->dl.runtime are replenished from the donor's
-pi_params (on wakeup via replenish_dl_new_period() or after exhausting the
-old runtime), p->dl.deadline and p->dl.runtime hold the donor's state while
-p->dl.dl_period and p->dl.dl_runtime still hold p's old reservation.  When
-p later blocks or is deboosted in switched_from_dl(), dl_zero_lag(&p->dl)
-combines the donor's deadline and runtime with p's dl_period and
-dl_runtime.  Depending on the donor's parameters, this either releases p's
-dl_bw and clears its parameters before p's true 0-lag time, or sees a
-positive 0-lag time after p's true 0-lag time has already passed, delaying
-the bandwidth release and leaving the donor's deadline and runtime on
-p->dl.
+Similarly, if normalize_rt_tasks() resets a deadline-boosted non-deadline t=
+ask
+to SCHED_NORMAL with pi =3D=3D false, switched_from_dl() skips __dl_clear_p=
+arams()
+because p->dl.dl_runtime is 0, and __setscheduler_dl_pi() does nothing beca=
+use
+!dl_prio(newprio).  When the task later unlocks the rt_mutex,
+rt_mutex_setprio() sees prio =3D=3D p->prio and !dl_prio(prio) and returns =
+at
+out_unlock without clearing p->dl.dl_boosted, leaving is_dl_boosted(&p->dl)
+permanently true if the task later enters SCHED_DEADLINE.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107014451.1487=
-825-1-mathieu.desnoyers@efficios.com?part=3D10
+825-1-mathieu.desnoyers@efficios.com?part=3D8
