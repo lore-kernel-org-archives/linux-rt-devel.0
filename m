@@ -1,70 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794048217;
-	b=eUMmA2ZCKKBw4gkJN6CK+tacNMfJz9D2DO7Egx1Tig1Nd/7+7EzpUOBL0iDO7Wn353wl
-	 R5Q+EvfMyQIlI3ktbCFZCG5iGhnX2Bc8fU/VxyOsfcKEL7Jj8j79Z4DlizVwSFYoe9PBV
-	 Fv2VDKQK5ubIfAG9Ab/tQSNz9pbcIfzqjPNz9G6pcLog71O6R6abARSXofkdUlXB2hbNq
-	 m2PmP0oPAqD3lL4woapXvddzXGhf9SjIOGCl68ueZGC+rYZHI4Ol2IjzOtpsfkMorcBtW
-	 Yl7BU15Jm8Wn0g5DPtz8RTbiVyArlgkHunjbbN+tv8DBWqhHxS4ccRsA0s9UvJtGwXQ==
+	t=1794049029;
+	b=vXSiPahPXUuPsK9PgM+P3furhzgxqnlF2oUrWk5oE11IAf3BeaTx+iA2QY/e7nOAD9Qk
+	 yx8+WZVBpOuCEk9YDp3SKMdCMs6gwjVA+8xyp8KtkXchaE2PUxE+YyPLZMeG7jyewre+H
+	 ny90Hp0WGnZawyyByJ6wBpEyjxxOhmJcQPk0UvHctExKQxAmAl7uC8BuR1KKiayoCYd1Q
+	 H90Is/eiy4d2ipDSGKxJu0D1y8K8KD3xyj2XZdlR269Z/xZZXXV2TbuvO8OL68nnamJEN
+	 1F8DNnhOhhCqCAc5as9pHxjKxgbC0eMNWe1rWNL8QcLxXVBJUXwUTYPHRV5szx9t3kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794048217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794049029;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=00YgSuh+6jx0afSBDldxTfJk1blWDnLXe0VtLaUOxXk=;
-	b=tGTE0tuDU1QULm1ovuXFImvl35dIHMOxYQfjFRgcCVd1mLEhf5vHfEOHXkakrymRQWJf
-	 SgvLyJAjnP9rTdXGNKzIeEMQIxNzFDo4Pj3kElq+GKi8PV9dV2mMbf6RYIEt4INddbMG6
-	 oV79KtVDrNxZWiGIVoNIn/MOa1LXqiEjFlv7p5Z+nPZ4FTQ0PZ/PJYZ6CdlDvjLaJuxaF
-	 RmjME8znKVAMlrRdMHNUDS536FqGErMuPj1iIQnrauEdSbFGKv4rXH4qvvC3SRicHaRNO
-	 Sqx3BMkzK42Uz4/OI7gXzeGP2yGPFLDAFUDjyAwDUOvtPRA3okKk3Zf88/7Qjk1saeA==
+	bh=JdwdSsgCSRZo7XC3ucq5IHGTcHkTS0sHmKyRiIdO+98=;
+	b=FyWadQpY8AdWsas6XtMDRHR74QdK7V/DMc8nVPa76QLrGajXnp4DAYQZuddECttugVLD
+	 zzfijqiMn0s5+6VNza+D4+RLdPy8nW9SB5S7+iiqNtORSwKf24W6oftiXczI3dvc33tu8
+	 /ozJehAipVLmLkqzX/EX0l4ptAV0MYp2C5aKd7YqbBKQ+tntdefm7SyZDDw4JiFUgEXX3
+	 KWo+7GRC9PoHCddJO0Yv5C3zsqwjtTnXHqSJ5anywXbS3bGkZEdOG46I9DHeZPyMXZIfr
+	 GvnoXjsZAa6ujvHBEDGwm2NTaJ+8cJ8Ryi7UOX5S6Dde4+HcNa+u0iF89ufrC6qt2yA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=WQ4vEdpT;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=i3orLZz+;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90950606A330;
-	Sat,  7 Nov 2026 10:43:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90950606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA1A606A32C;
+	Sat,  7 Nov 2026 10:57:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFA1A606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=WQ4vEdpT
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=i3orLZz+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=00YgSuh+6jx0afSBDldxTfJk1blWDnLXe0VtLaUOxXk=; b=WQ4vEdpTpZXUFp0gPkIKkOjiXH
-	VhxJd/x7V53CLfavcaj/BKuDXIlOYi4f5cqfDTgde17E0rGlk40dJjy/zZ2pcBrbtT+Up9sZ9JM2D
-	U9j5jfgF87PiMz53RVu5GqY+VT0IS7bYVriiRRcWwYxAZLAkclp2nnyuoSV3YuteoBMiY8v5eLu8G
-	SpKd3Av0YjIYGyW1yZgo45Did2Hjp5V1RhD1PC/AupJNJKjFFlUtsN0orQ0gqDpLd3opKLbZbyWgi
-	IKH+AOlK2V80w4EKi+NEpSit9SP1vhwEfi7Blwv+LdrOMbP3ko14dF0jh9zqrB5/Ztt1mD/LHOdKQ
-	cJl17gUA==;
+	bh=JdwdSsgCSRZo7XC3ucq5IHGTcHkTS0sHmKyRiIdO+98=; b=i3orLZz+oxIMB9zxIuJhvl5HX+
+	qRbdwgGb2ToUtKRkoRdmpfyceggoxLYexALNnOJYjDSohCuWePEW4EIWgSbpeLbIeNKAHvmjjndv/
+	akakHjCExX/uijFm6fwkY8cRAvSnoRbZWxo0u7XmCpTLg30zMhkrIuMGL213fGm7e1GLENCuwq6cH
+	AdHSjikigHShJTKnNhDSAoiloRn36rymX3iKTEhI5ydbqIS6XrUzRyZLRHuSwgCurjZDAzNDlqkDW
+	u1/gU0PzlTGAqB0Qf1FIoGmD/Zx+D46qJWTP+J8MH3SGtGeK7zqRpcZI7GnpijE1xLKOZwHnB8Efr
+	+ZpXg4Dw==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPdtS-0000000Gido-3xDF;
-	Sat, 07 Nov 2026 10:43:31 +0000
+	id 1xPe6a-0000000GtoW-48ZW;
+	Sat, 07 Nov 2026 10:57:05 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B8FE4300339; Sat, 07 Nov 2026 11:43:29 +0100 (CET)
-Date: Sat, 7 Nov 2026 11:43:29 +0100
+	id 8B6CB300339; Sat, 07 Nov 2026 11:57:04 +0100 (CET)
+Date: Sat, 7 Nov 2026 11:57:04 +0100
 From: Peter Zijlstra <peterz@infradead.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, tglx@kernel.org,
-	mingo@redhat.com, linux-kernel@vger.kernel.org, will@kernel.org,
-	boqun@kernel.org, longman@redhat.com, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, dvhart@infradead.org, dave@stgolabs.net,
-	andrealmeid@igalia.com, shuah@kernel.org, juri.lelli@redhat.com,
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: tglx@kernel.org, mingo@redhat.com, linux-kernel@vger.kernel.org,
+	will@kernel.org, boqun@kernel.org, longman@redhat.com,
+	rostedt@goodmis.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
+	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
+	shuah@kernel.org, juri.lelli@redhat.com,
 	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when the
- waiter is woken
-Message-ID: <20261107104329.GA2668564@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH 3/5] locking/rtmutex: Clone a waiter's sort keys as it
+ enters pi_waiters
+Message-ID: <20261107105704.GB2668564@noisy.programming.kicks-ass.net>
 References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
- <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
- <20261107002927.3cbad7ff@fedora>
+ <20261106235931.1478800-4-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -76,27 +75,79 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261107002927.3cbad7ff@fedora>
+In-Reply-To: <20261106235931.1478800-4-mathieu.desnoyers@efficios.com>
 
-On Sat, Nov 07, 2026 at 12:29:27AM -0500, Steven Rostedt wrote:
-> On Fri,  6 Nov 2026 18:59:27 -0500
-> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
-> 
-> > The top waiter of an rt_mutex spins while the owner runs,
-> > rtmutex_spin_on_owner(), and does not stop when it is woken: its timeout
-> > and a signal find it running, set it TASK_RUNNING, and the spin goes on
-> > until the owner leaves its CPU or the waiter's own CPU has to
-> > reschedule. A PI futex owner is a user task that may run as long as it
-> > likes. On v7.4-rc1, in 8-CPU VMs, behind an owner spinning in userspace,
-> > a 1ms pthread_mutex_timedlock() returns ETIMEDOUT 126ms to 631ms late on
-> > average, 1.4s at most, a SIGUSR1 is handled up to 1.9s late, and a
-> > waiter killed with SIGKILL is reaped 0.5s late on average. With
-> > PREEMPT_RT the wound of a ww_mutex is missed the same way: two contexts
-> > in an ABBA on two CPUs at SCHED_FIFO spin on each other, and the older
-> > one gets its second lock after 96ms on average, 0.95s at most.
-> > 
-> 
-> The above is very verbose. Are you starting to use AI? ;-)
+On Fri, Nov 06, 2026 at 06:59:29PM -0500, Mathieu Desnoyers wrote:
 
-He definitely is. I can't read the above, its word soup. Part of using
-AI is making sure the Changelog is actually readable. This is not.
+snip unreadable changelog
+
+> Fixes: f7853c342418 ("locking/rtmutex: Fix task->pi_waiters integrity")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>  kernel/locking/rtmutex.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
+> index 323973be2074..e89f0f0e604b 100644
+> --- a/kernel/locking/rtmutex.c
+> +++ b/kernel/locking/rtmutex.c
+> @@ -512,11 +512,19 @@ static __always_inline bool __pi_waiter_less(struct rb_node *a, const struct rb_
+>  	return rt_waiter_node_less(__node_2_rt_node(a), __node_2_rt_node(b));
+>  }
+>  
+> +/*
+> + * Enqueue @waiter in the pi_waiters of @task, its lock's owner, with the
+> + * sort keys of its lock tree copy, current under the wait_lock held here:
+> + * the chain walk updates the tree copy of a waiter that is not the top
+> + * waiter of its lock, and does not clone it, so a copy cloned before would
+> + * enter @task's pi_waiters with the keys of a priority it no longer has.
+> + */
+
+Oh gawd, Mathieu, can you please tell your AI thing to never write a
+Changelog or comment? This is again unreadable soup.
+
+>  static __always_inline void
+>  rt_mutex_enqueue_pi(struct task_struct *task, struct rt_mutex_waiter *waiter)
+>  {
+>  	lockdep_assert_held(&task->pi_lock);
+>  
+> +	waiter_clone_prio(waiter, task);
+>  	rb_add_cached(&waiter->pi_tree.entry, &task->pi_waiters, __pi_waiter_less);
+>  }
+>  
+> @@ -1005,7 +1013,6 @@ static int __sched rt_mutex_adjust_prio_chain(struct task_struct *task,
+>  		 * and adjust the priority of the owner.
+>  		 */
+>  		rt_mutex_dequeue_pi(task, prerequeue_top_waiter);
+> -		waiter_clone_prio(waiter, task);
+>  		rt_mutex_enqueue_pi(task, waiter);
+>  		rt_mutex_adjust_prio(lock, task);
+>  
+> @@ -1022,7 +1029,6 @@ static int __sched rt_mutex_adjust_prio_chain(struct task_struct *task,
+>  		 */
+>  		rt_mutex_dequeue_pi(task, waiter);
+>  		waiter = rt_mutex_top_waiter(lock);
+> -		waiter_clone_prio(waiter, task);
+>  		rt_mutex_enqueue_pi(task, waiter);
+>  		rt_mutex_adjust_prio(lock, task);
+>  	} else {
+> @@ -1243,7 +1249,6 @@ static int __sched task_blocks_on_rt_mutex(struct rt_mutex_base *lock,
+>  	waiter->task = task;
+>  	waiter->lock = lock;
+>  	waiter_update_prio(waiter, task);
+> -	waiter_clone_prio(waiter, task);
+
+Reverse engineering the problem leads me to think this is the problem
+spot. Because this is the one site that is not immediately followed by
+rt_mutex_enqueue_pi().
+
+I'm thinking there's race due to dropping pi_lock between this copy and
+the subsequent enqueue?
+
+>  
+>  	/* Get the top priority waiter on the lock */
+>  	if (rt_mutex_has_waiters(lock))
+> -- 
+> 2.47.3
+> 
