@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794015902;
-	b=H/LCyDIzKg/WR81Wyj3iOY912iqU5Cbl2HVxxf+8/ETiGrEQ/UtCb2NUNhOS0VWCsPPj
-	 erN+ySu9bHcliVNn5dgm5TTr9zVnI1jwSeuJtOiC3QG900zIpJucNOpup5pfyUNB9dSzH
-	 Ai7c6J8jnJyG36fJP1LO1NH0wprFVB/UqHFZhazBqVSTsl9K+o78qnpnywenjOU2TYicr
-	 bkIzY4gSmrhYj2tsV8XohVQvOn9A7VdNDQv3YCtuhSYqqHuXcPj8Uo9+bIt2zbOPr3Xuw
-	 GiDH5Alz/e0Q0pUq9P1O+Poza6yHAsTaXnP3FmddDGEG8Qtc0rHNZqLaT9/5ZZQwtdQ==
+	t=1794015903;
+	b=v81IYB584nb7AUEe2nHyZxe3KqOd6stItU17VU7sGOX5JyYKvpF0F00/d7s98rMBnDa1
+	 ZZ3XrLg+uedyvjm7FpxgJZjpxCsEZarIChjzN+KOdL3ZgqnamX7ovjBcJ4XdHA0dg/OtK
+	 Ije5EYNke/pQ+TlM8YlmUeWcEra4hTJWF3/tngMGHl2oJ/vDaJWWNP6nt0C0tRyIjMuiw
+	 TSvmOEJ8U5jUStdcXHUk5P3qrpQMIkjJIdAHACd3Y9WVZZKiVbE9oWhy+MdVE5c1GzPrU
+	 PC19+KbRkozp9Kqv3TMoOjjEW6h85PMiSTR1wNGBDabOuz2648qqmOfdBV0mNFHowgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794015902;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794015903;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=spgTF+ZorZrFLxowzHeNt4zJ7sbdfzQLGrzjG6MDAPY=;
-	b=4TSJ7eRAjobgX8uPJzlUDZUAhs6G+31HoTL5v8SMm8WdhUhjVRC65gwH1L9tm5hYohcy
-	 EmN0wBw1CLEvp1qzKfZqc52R8rOIH6plXv0ILX6AlbMZxRj8w4XF1cigrAMURGOmAqcBG
-	 On0ukSRauuHs7GuYYDvT5lMT5PmJjnlj8HRTdDPla7M6/TlhuINtXDZGRuqj33cmQAvrv
-	 9t7kNSzTOE1aHyj+AwX8yAr2LhXW1d3BxAFGtv7pB8tDlfkyZeMsdly3F6AHLUPBe0LIm
-	 zGy5rwAmkSuBLLZytiKK2be1oljHPEeSAT9x0sKl3Uc9VQxbutBWBpGIqywNQ3lqmWw==
+	bh=dZbFr4HtjBuZjWke0zFqxqxv4leAjWoAN7JaAi457w0=;
+	b=vMua+vzYVrVcbNd8hb/3qhCpo5soGzxAQeLYSBqMmjkkYe37DBjavpmR6wBygGcPyXmJ
+	 5UCDnDwJygPOs1mgDyegTzjrp9uGaayLs25V2D48AWlF7zEw58pTqAF/dPYN3QUhAT7EE
+	 Z8lMWDEX+XKYVHeRfeLmiGx/4bC9GA4tPnWaUaPHJFTApd9xwtI+nxsbS+gMa6xQZ/aJq
+	 bg0vIjWWje4EEM18r84kCJiIVbG0DddMH96YSZtl2ySOyUjUx/6tCt93vFm+jcjmF7B40
+	 DO5mwN0dtuWW+4b1ac9VtOOocVH+88FOpLBVvu1gKC1n17p3ZoOmUKb0gd0oXkrx0pQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JLDhFj91;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=VkX4MeZZ;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987E8606D820
-	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 01:45:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 987E8606D820
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7044606D828
+	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 01:45:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7044606D828
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JLDhFj91
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=VkX4MeZZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794015900;
-	bh=spgTF+ZorZrFLxowzHeNt4zJ7sbdfzQLGrzjG6MDAPY=;
+	s=smtpout1; t=1794015902;
+	bh=dZbFr4HtjBuZjWke0zFqxqxv4leAjWoAN7JaAi457w0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JLDhFj91hcsDGS/D2S6KWj3iX6eB66catdblN0/0KO3r1Vz7I6P98aUOmulVcLMuw
-	 Jb9j/FClZ1L84bBlvaf5XYtfl8AHv6wmO4Zf/uqnbtIzJk9xicohgLI5xFZmNfHuaq
-	 aPut0D9A8Akwqpx15/r+R4bMXRAAo2cElCpjLbEe0V8QJtMpYIlTZkgSxndhYh96bj
-	 X1Z5+cbz/Ppshog6+LO7RlsWrpaB34Fp9M6z5wdT2vz/ILpKmRXnEt1vK8qFpyC7S/
-	 5JLt0tdM4HmmGZxeXJDxCCFSEU4Vid8cv+sKbd4d5K3RhuAxIU46ydvpLeFxtzsFgY
-	 jW4LAgw8n2zkA==
+	b=VkX4MeZZ6K+V54VQNgkvoKLgtRKvMyac9aP/k5ZILlDNRPyGMHUWAQYVBJ79W+/em
+	 mk0A2qGh0fSZDkjS7cfImXm0f6ahez6hSt53HRsYkbTPC/YSvCAXjaO8TOOl+mvJyJ
+	 5AY6AUGcwZdEirWdqrggCMGwNmEJQhXlpJCcSA5g9I1zla0sx42lel1RRRLUyp6jkk
+	 Jv4jM6e3KQZNd0sSAylvNce2sD5okmG2uTCjrbUZKnXJchTs7a4oAxEZvrL6sl/Rit
+	 dkQhgb4JZusWKgxHPjwZt4D1tjPF/mu/iX4nZsysYFmhZNerfNkSz+Ej8ISTnYWrsy
+	 NLM5pn/ZsJFPA==
 Received: from thinkos.internal.efficios.com (unknown [64.58.40.251])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLzPm4T2qzLZ6;
-	Fri, 06 Nov 2026 20:45:00 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLzPn6RsCzMR5;
+	Fri, 06 Nov 2026 20:45:01 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v4 06/26] sched: Take cpuset_mutex for a deadline policy change only with pi
-Date: Fri,  6 Nov 2026 20:44:31 -0500
-Message-Id: <20261107014451.1487825-7-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v4 09/26] sched/deadline: Reset the deadline and the runtime with the parameters
+Date: Fri,  6 Nov 2026 20:44:34 -0500
+Message-Id: <20261107014451.1487825-10-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
 References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
@@ -97,82 +97,73 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__sched_setscheduler() takes cpuset_mutex for a change of or into
-SCHED_DEADLINE, and releases it on success only where pi is set, with
-rt_mutex_adjust_pi(). normalize_rt_tasks(), the one caller with pi
-unset, then takes a mutex under read_lock(&tasklist_lock) for every
-deadline task it finds, and never releases it: sysrq-n on a system with
-a deadline task sleeps in atomic context, and every later change of or
-into SCHED_DEADLINE blocks on cpuset_mutex for good.
+A task that leaves SCHED_DEADLINE keeps its parameters until its 0-lag
+time, so that leaving and coming back gains nothing. __dl_clear_params()
+then resets them, in inactive_task_timer() or in task_non_contending(),
+but leaves the deadline and the runtime of the period the task was in.
 
-Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") made the
-lock depend on the policy where it depended on pi before, and left the
-release where it was. Take it where pi is set, as before:
-normalize_rt_tasks() takes tasks out of the class, which admits no
-bandwidth and needs no stable cpusets.
+A task that comes back after its 0-lag time, and before that deadline,
+is enqueued on them: enqueue_dl_entity() starts a period anew for a
+task whose deadline passed, setup_new_dl_entity(), and for no other. The
+task spends the runtime of the reservation it gave back before the new
+one begins, and a constrained task whose deadline passed before the end
+of its period is throttled on them instead, dl_check_constrained_dl()
+arming the replenishment timer of the old period. The previous patch
+widens the window to a period for a task that was throttled, moving its
+deadline on where its timer fires outside the class.
 
-The policy the decision reads is the task's before the runqueue lock, and
-only a caller that gave none has it read again under the lock. Given
-another policy than SCHED_DEADLINE, a change into the class by another
-caller in between makes the call a change out of it without the mutex.
-Decide again under the lock, where the policy is settled: a change out
-of the class needs no mutex, but the decision follows the policy the
-call acts on.
+A task boosted into the class by priority inheritance, with no
+parameters of its own, runs on the donor's deadline and runtime, and
+keeps them after its deboost: switched_from_dl() resets nothing for it,
+and a change into the class before that deadline is enqueued on them as
+well.
 
-sysrq-n on v7.4-rc1 with a deadline task, lockdep on, in 8-CPU VMs:
+Reset them with the parameters, and on the deboost of a task that has
+none: the next enqueue then starts a period from the parameters the
+task has. The deadline_bw_test selftest added later in this series has
+the case, deboost_resets_period.
 
-  sysrq: Nice All RT Tasks
-  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
-  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
-  locks held by deadline_switch/4356: 4, last CPU#3:
-   ...
-   #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
+Found by the Sashiko AI review of the second posting of this series, the
+deboost by that of the third.
 
-and a sched_setattr(SCHED_DEADLINE) after it never returns, in 2 VMs of
-2. The deadline_switch_test selftest added later in this series has the
-case, sysrq_normalize, which passes with this change.
-
-Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
+Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
 Cc: stable@vger.kernel.org
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/syscalls.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ kernel/sched/deadline.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index bdffe5452dc8..c3f404cddb9e 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -554,9 +554,10 @@ int __sched_setscheduler(struct task_struct *p,
- 
- 	/*
- 	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
--	 * information.
-+	 * information. Not where pi is unset: normalize_rt_tasks() takes
-+	 * tasks out of the class under tasklist_lock, which admits none.
- 	 */
--	if (dl_policy(policy) || dl_policy(p->policy)) {
-+	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
- 		cpuset_locked = true;
- 		cpuset_lock();
- 	}
-@@ -647,6 +648,16 @@ int __sched_setscheduler(struct task_struct *p,
- 		goto recheck;
- 	}
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index b8b0076870a6..f389620e6fc9 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -3580,6 +3580,16 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 	if (task_on_rq_queued(p) && p->dl.dl_runtime)
+ 		task_non_contending(&p->dl, false);
  
 +	/*
-+	 * The policy read before this lock decided against cpuset_mutex: a
-+	 * change into the class since makes this one a change out of it.
-+	 * Decide again with the lock held.
++	 * Deboosted from priority inheritance with no parameters of its own:
++	 * the deadline and the runtime are the donor's. A change into the
++	 * class then starts a period from the parameters it is given.
 +	 */
-+	if (pi && !cpuset_locked && task_has_dl_policy(p)) {
-+		task_rq_unlock(rq, p, &rf);
-+		goto recheck;
++	if (!p->dl.dl_runtime) {
++		p->dl.deadline = 0;
++		p->dl.runtime = 0;
 +	}
 +
- 	oldprio = p->prio;
+ 	/*
+ 	 * In case a task is setscheduled out from SCHED_DEADLINE we need to
+ 	 * keep track of that on its cpuset (for correct bandwidth tracking).
+@@ -4006,6 +4016,9 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_bw			= 0;
+ 	dl_se->dl_density		= 0;
  
- 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
++	dl_se->deadline			= 0;
++	dl_se->runtime			= 0;
++
+ 	dl_se->dl_throttled		= 0;
+ 	dl_se->dl_yielded		= 0;
+ 	dl_se->dl_non_contending	= 0;
 -- 
 2.47.3
 
