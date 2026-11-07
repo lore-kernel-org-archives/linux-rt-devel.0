@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794043232;
-	b=d7CN2YXwk5nMJN7Pu+5IjAfQWEy8rAc/n5fYohcGIAkFNFMD5QdaPmuXmHhxvmdi2rvF
-	 EJzeGi3nI5qc8+1nlsPj+P9DodIHR6wOPK7ZahAmYO8xj+A12wRj3hINpL9RU8fXhyZyC
-	 usO32RXxLAGQKMjd7kcl3+FebB8W845jsG0H9bBXnpgPl47zydegVDGzUeUJPwcRz4fFk
-	 jTHK+EzSwAjjy5LBkJZkqUdq1Ac8fn/DNJDbVAUtyPUs09CivjcE+JTk8bLUZX8Jd05JX
-	 SaOAduwo0n1vZzD8B6nCxyx+RvEph6YQFrV3Y2clZ2YtGlO4jjz9fGGCR7UfYy7rWNg==
+	t=1794043229;
+	b=Nau4T6JCHXLqTGopKA+0S/wFDz2vy7XhTZR5jTADmu+Gplkgy6jddIo+hfyIPqXfcbNK
+	 j430gIsGqZe4b3ICVfEWGZS/YPnCuoj/jskswL0ESM6imE7zyNnCBZfqVNvxRFOzApcKL
+	 rCCIx2vM2HErPQYV1zbbyFcjwfS4XKMkFf+R/orV4A4uoV/o/sglhrelOst5O4mGYdxGu
+	 c4SAZuU/3Tt8wUudNGJeQfjbap1XNcG7ytpDt3MB0eMEH0SHHqpqEOB8Y1buuR5KWcV71
+	 rObOcWmhXOmuXXHa//cWCdH7yOW5SrF55xyH+rvZJpnrbdbOEDJkKw01QZq6xTDuPOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794043232;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794043229;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gjCMCiFgwSvFosXqRzXpQPvyNTdQByDJKxuvHT1hhPE=;
-	b=NI47rmdpbZOKfN4xotuWFK3BaQ4I9miz5YxGiokpAoaetxTbRLUDuXdaRyMAdvuhpfdW
-	 lF+R0pwxF8GuMdF37AenIIlAAzWcXJpHhlz/HUxW2SqRpcm+JZkhFd0nhOt/uNB8+nllA
-	 u6NZy7MSlzer/0jdqiLSqkCNG8A7IjphMozpRL7oSXR7TcU/bB/ACxheInfUARntq6OgD
-	 Vd48AmTma2c8BePOG0KyszgBKH8tjJv6DY5sYaDeTVsKKy6/UQ5GHgzyHmOtKCNWXdvRQ
-	 395eCEfo/BFEBCd1gun9g+XJe+HJaw22yng3jce8OgjgvN4kOA6ZoG9/Fsbik+aFjWg==
+	bh=fH9ZInNpZ+Ow6HAJ32cdUs+0EKHjb4TvJ+Ry64dX10Q=;
+	b=iftN3G1x7oKSquh+TOWZFFTqJSQQ0ciL4OX8MU2CvWTf7QKiEkPlEscGaujqNgtrFyt1
+	 8iqGu3vNmSQUWEIfnSEWnDk2PnLBUOhmTSYTMlrqktM6kRwvLL4jslvQVS2hBSJFmOu63
+	 SU4gJmKKi36t4mERFu9xxPGfywZwvUe3YsKi+NE48NebeQmT9mRBi9bAAXo6rREOy3s9G
+	 /TlC6rqeqtR8J7/WgNempjaDAPVBWysAcRdAFZbv0NYar732DEAgWFWBKiqzwHQ5vbiNz
+	 Ow1W0Y8ZEDSd0KLFp6bMzWNF+DqTZuA2fNx1/B1Iv+s2V7mV2XfbQi4hS+y1auLm5WA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l3G2D5lx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5GoGyn3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB84606D81D;
-	Sat,  7 Nov 2026 09:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DBD606A331;
+	Sat,  7 Nov 2026 09:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l3G2D5lx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F0C1F008A6;
-	Sat,  7 Nov 2026 09:20:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5GoGyn3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CFF1F008A1;
+	Sat,  7 Nov 2026 09:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794043232;
-	bh=gjCMCiFgwSvFosXqRzXpQPvyNTdQByDJKxuvHT1hhPE=;
+	s=k20260515; t=1794043229;
+	bh=fH9ZInNpZ+Ow6HAJ32cdUs+0EKHjb4TvJ+Ry64dX10Q=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=l3G2D5lxa62jCXnBSb+fiXcf50itev0KsrW2DDHWu9kMeETLEAYKrShEpbkcXW3uj
-	 mKkH0FP/6XePyZYrKgHRSinbboUBYREOMusssErO7L2pVsj/UQxea+qLExo+Bz3G11
-	 9cz35rTK/69PmTDQyjoLBcu2H9JVlYohRnQyaDXl0FO/IVwzcSKnO3sCWRPreUucy9
-	 yqFljRLMEt46sZo5zh9bCn+C79U8kGcfoqJOBHx4xa0kj7BLq3wd9MQyVYSJu7/nTg
-	 MHNTZlledHMRoVBWxRj+irNce2ZHDPbJ18NYoa06GXKZj80Kqud4MWdiIz/okNo/mI
-	 ykym9EGo+5vBA==
-Message-ID: <sashiko-outbox-202764@kernel.org>
+	b=F5GoGyn3lMJu3cvNGtf5C3shHt9FK1KfyDIqtU3wPBLcZTZ/+UIkOZZsCJbSSajuy
+	 12aPokzfSYEvZV3pnGvAGaTgovNT+j3QV07Ookc2EW/arDBNakzfyF4D73UMgBI62v
+	 5d4MsNYgCDFiWPt3N2H280N8JAFFhVH+DX774G3OwL26jSqzsdpPATUC4BGvfDWJwX
+	 AgMU2VyCm1P6TDFqSToTOj+NPyCUiBkrLQl5eteCXnStcONHdXBrnYTufvGj+CW+mv
+	 3X40eRlyEjEEvlABwg9t8Y2t1+QJz8/lWBDhtroKGl8GyT5JXJCZsED2n2xAF2kkQR
+	 eF1KQB1JYP8VQ==
+Message-ID: <sashiko-outbox-202761@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 09/10] Documentation: Describe kconfig-checker
- overlays
+Subject: Re: [PATCH v1 06/10] kconfig-checker: Split schema to support
+ component reuse
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Ahmed S. Darwish" <darwi@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
  Rostedt" <rostedt@goodmis.org>, "Ingo Molnar" <mingo@redhat.com>, "Nathan
@@ -53,12 +53,12 @@ Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Frederic
  Barbosa" <debarbos@redhat.com>, =?utf-8?b?WmJpZ25pZXcgSsSZZHJ6ZWpld3Nr?=
  =?utf-8?b?aS1Tem1law==?= <zbyszek@amutable.com>, "Daan De Meyer" <daan.j.demeyer@gmail.com>, "Luca
  Boccassi" <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261106091922.7560-10-darwi@linutronix.de>
+In-Reply-To: <20261106091922.7560-7-darwi@linutronix.de>
 References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-10-darwi@linutronix.de>
+ <20261106091922.7560-7-darwi@linutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 09:20:30 +0000
+Date: Sat, 07 Nov 2026 09:20:28 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,49 +68,86 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [Low] docs: kconfig_checker: missing schemas/ directory in schema file
-  paths
-- [Low] docs: kconfig_checker: empty commit message body
+- [Low] kconfig-checker: stale schema path in
+  Documentation/tools/kconfig_checker.rst
+- [Low] kconfig-checker: missing type: ignore on Draft7Validator import
+- [Low] kconfig-checker: unused Schema.as_dict() method left behind in
+  check.py
 --
 
-commit a4e08eff4d708d44ce736f88aa1913f31f9a424d
+commit e95d8c61bd1b396a43ce4115372f7685c287a202
 Author: Ahmed S. Darwish <darwi@linutronix.de>
 
-> Documentation: Describe kconfig-checker overlays
->
-> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+kconfig-checker: Split schema to support component reuse
+
+This commit moves the common rule schema into schemas/base.yml, adds
+schemas/rules.yml for complete rule files, and updates check.py to resolve
+local file:// schema references using Draft7Validator.
+
+> diff --git a/tools/kconfig-checker/check.py b/tools/kconfig-checker/check=
+.py
+> index ef49c28b9dab6..4f79ec487da79 100755
+> --- a/tools/kconfig-checker/check.py
+> +++ b/tools/kconfig-checker/check.py
+> @@ -80,6 +80,8 @@ except ModuleNotFoundError as e:
+>  # Actual script:
+>  #
+> =20
+> +from jsonschema import Draft7Validator
 
 [Severity: Low]
-Could a commit message body be added to describe the new overlay
-documentation and the schema file path updates?
-
-> diff --git a/Documentation/tools/kconfig_checker.rst b/Documentation/tool=
-s/kconfig_checker.rst
-> index 73717ac56ea9d..152bc0c634eac 100644
-> --- a/Documentation/tools/kconfig_checker.rst
-> +++ b/Documentation/tools/kconfig_checker.rst
+Does this import need a "# type: ignore" comment to match the earlier
+"import jsonschema" statement?  Without it, running "mypy --strict
+--no-warn-return-any check.py" as documented in the file header fails with
+a missing-stubs error (or fails on the earlier "# type: ignore" when
+types-jsonschema is installed).
 
 [ ... ]
 
-> @@ -47,4 +51,51 @@ The checker's rule files are written in YAML, and are =
-stored in::
+>      def as_dict(self) -> YamlDict:
+>          return self.schema
+> @@ -273,7 +308,7 @@ class RulesFile:
 > =20
->  The schema for these files is fully documented in::
-> =20
-> -   tools/kconfig-checker/schema.yml
-> +   tools/kconfig-checker/base.yml
-> +   tools/kconfig-checker/rules.yml
+>      def __init__(self, yaml_f: Path, schema: Schema):
+>          self.yaml =3D Helpers.load_yaml(yaml_f)
+> -        Helpers.validate_yaml(self.yaml, schema.as_dict(), yaml_f.name)
+> +        Helpers.validate_yaml(self.yaml, schema.validator, yaml_f.name)
 
 [Severity: Low]
-Are the schema file paths here missing the schemas/ directory component?
+This isn't a bug, but now that RulesFile.__init__() and
+Helpers.validate_yaml() take schema.validator instead of schema.as_dict(),
+Schema.as_dict() has no remaining callers in this patch or later in the
+series and could be removed.
 
-Commit "kconfig-checker: Split schema to support component reuse" and
-commit "kconfig-checker: Introduce overlays schema" placed these files
-under tools/kconfig-checker/schemas/ (base.yml, rules.yml, and
-overlay.yml).
+[ ... ]
+
+> @@ -533,6 +568,7 @@ def parse_args(rules: list[str]) -> argparse.Namespac=
+e:
+>  def main() -> None:
+>      base_dir =3D Path(__file__).resolve().parent
+>      rules_dir =3D base_dir / 'rules'
+> +    schema_dir =3D base_dir / 'schemas'
+> =20
+>      rules_l =3D sorted(path.stem for path in rules_dir.glob('*.yml'))
+>      args =3D parse_args(rules_l)
+> @@ -544,7 +580,7 @@ def main() -> None:
+>      kconfig_f =3D args.config.resolve()
+>      kconfig =3D KernelConfig(kconfig_f)
+> =20
+> -    schema_f =3D base_dir / 'schema.yml'
+> +    schema_f =3D schema_dir / 'rules.yml'
+
+[Severity: Low]
+Should Documentation/tools/kconfig_checker.rst also be updated here now
+that tools/kconfig-checker/schema.yml has moved to
+tools/kconfig-checker/schemas/base.yml and
+tools/kconfig-checker/schemas/rules.yml?  Later commit "Documentation:
+Describe kconfig-checker overlays" updates that section to reference
+tools/kconfig-checker/base.yml and tools/kconfig-checker/rules.yml,
+omitting the schemas/ directory component.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106091922.7560=
--1-darwi@linutronix.de?part=3D9
+-1-darwi@linutronix.de?part=3D6
