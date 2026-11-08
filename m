@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794166222;
-	b=XrC9SFkECZp/BuiFmHqP94KhRuFFsGp4U76IyJgAojpYcqAYe5DY5+qe5W5XkEeBShNi
-	 vhu/YfQ5L1zHTyviKWDDhnhKqmjDE3muShhOJh1L4zvNBCxF5tRxVyjTL1wNBM3+hobN5
-	 X2xEau2wWwMAvQhNNBja/7XlqWzNtmLMqbEP8/qxZFRaX1h1MmrDOmSQ1BeSCtG3sFSh6
-	 VahFcM39aus9vQSLEhk5w559uWIrYsRPpvzR7tB7xqtcemU1I+fwBeMetkZgKCdlV5/yh
-	 x43sCjvULA+mgjlFNgCd6U+rPlwSuiaPgL2/ZfPZSdYyUv9MS82e4jqTWRtN1lHfcmw==
+	t=1794166330;
+	b=u6djcJHm3g3tdQE31cjggEDfR0myApfz4ItDoK3iaXjuOqBGkKRXiFdr7/XhZOSfIdF1
+	 vgwzgEXxbn0RWHkfW4zs867Smb0PlcxVtGUUCU87UDzeC36yBuc//g+xLj9M0k8U/dnQx
+	 +5OHenHWotMjHcGc4A6bxFQjVWaFBVqVvMmWUNTyFM497LZUZXOq3xVP7vVoIz5ItqBDF
+	 NKmzdrhRl4q9tu+MRU7tzbqnzCZxFR2v/mhlv4Q7YxylFXh+Bt9fdoMY0ZKsjjS/GFsKM
+	 H9ADJbq3x/R5Z1wu9Imck8m9M5AS9/d50p3JSof39S5ZncdQIcEwmhAL6kEBd6ejUqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794166222;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794166330;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BMIXgXkKw5+haq+cqmb8pTrJNJ/kBe5kcnJCgdUGsps=;
-	b=eyGO30C9PWRspE1VwUFjYtBhN14kb8NBLCljUuLQhs5C0Tr9y0GjeC7HulDc2Rr0LePa
-	 sHCbwJWck46kP66/GFOfaVdUj1IQtv97Oc0pUvm4o6UZN6Sxbx39l9wBRhHmdSX751GfL
-	 YxbH4rHPBstIpQN5BafpzpJ/JBmpN1b6QizGGP+j02swJeKVtw/NTYhg3uCI3DyDCINC1
-	 818xyvh2XZBBxsXKi8Xg5jpowdGyzObaAUyMomm36jFBXkJPrrA6DdirBoNz0rI36HOyd
-	 UObOhQiYhGsyQqTVg3Qg1DlHVotuYc8zn/Lhtn6PDOkgAhbou8W45MMJOagQXSjZVmg==
+	bh=H0KhdtJ508lIJ8z9fPM7Hp6z8VLh9WO5XJIlqHrGSeQ=;
+	b=mKVmuYi58dzLKuezxsT+tcxAVjZXwT43ngJvtcA6lPaKXz6ZSncpgKOZ2nFcSwE25fio
+	 mG2q+Dty4pR7qSUn4XNe70hx5KHb/N8mCGRN6XA9Gm5xtMIC9tgBhuMgWIByBa3qQ/by+
+	 lQsztPti3OyeofTRRg/tYtF1dtgxBt2wWiZo/th4zKpvCrsuUq4p4FKMOutcTRDYS0L19
+	 7dfnWdSoLEwqLHQP4+PwvKppPBYgLe7xNy1YD8KlJtFfHXNvu2v34ebNRo6UKb99Y1h+Y
+	 9U6OCfnKhIzuFt1eiwk8aQt9DZCUYSRIlpSpo75e9i8/UlOI1qh8zGjvcvAIVjxUmqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ATf084pv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BKdm/aR/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C09606A31C;
-	Sun,  8 Nov 2026 19:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0BB606A323;
+	Sun,  8 Nov 2026 19:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ATf084pv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5A41F0089F;
-	Sun,  8 Nov 2026 19:30:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BKdm/aR/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B031F008A4;
+	Sun,  8 Nov 2026 19:32:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794166221;
-	bh=BMIXgXkKw5+haq+cqmb8pTrJNJ/kBe5kcnJCgdUGsps=;
+	s=k20260515; t=1794166329;
+	bh=H0KhdtJ508lIJ8z9fPM7Hp6z8VLh9WO5XJIlqHrGSeQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ATf084pvtZIm7b3ljgl6rfZsQvidA4i9OuY5eeNTp06fZ/Yd/eJFQvjYoDj2Ptv32
-	 ciHso4FIT7iljgBh8ElUP/lxL2nDWuOU914oPyIuffcfetCWv20IV628u9hJFzUEAl
-	 sqhFDT9rtqrXwEGGfqovr6pvjL+h+R1RzGp779msJpg07FV5ki0B2ls1Vib1ODMV1y
-	 lBDGHKtKPKiXcMDtjRcrgEkfoVGckqkVFFGGbueSxufsf/qRlqCyoToGjMIy677X1a
-	 1chzaNAd+zQYQmHRB1OuD+LrfG3ZnHBP1PH9xiZjZJbcKLd0gT7/oG6lqe6Z64RTrx
-	 dZ2kd+Cre1p+A==
-Message-ID: <sashiko-outbox-203951@kernel.org>
+	b=BKdm/aR/x97UNvlW/q08oNJJpTTrg81mh0jrtANQqOIZ3BToBUeu3ro/0PIMkeOIB
+	 fZTbQo7tQ0u6GZJwOAu//wHwOxje9W+WIf/ZJwWcEyyhIo7noizeuH5F0lbLKTF4hW
+	 k03nmtTCy6bS7cJYEJB7c+QFMsxdzPm8eh7xZ9oL1wSIIhByFZrpLkFaFwW6/QMu1I
+	 UO1MYD/PcSrzETfmBCxGAzUCEcnTDe5PzhHzocDdB+mEYEXLOPWDjFb3g74lxPML6a
+	 QtPhIrJ2LhyBjndXGLCxrt1/B6U1yO5leJFvNUzMnWL4Xn4hChX6pAECdPc+SncLZv
+	 fX7XHAGtIULlg==
+Message-ID: <sashiko-outbox-203956@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 18/29] sched/deadline: Move a task's bandwidth only
- where room was made
+Subject: Re: [PATCH v5 21/29] cgroup/cpuset: Reserve the bandwidth in the
+ root domain a task moves to
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261108185406.1549770-19-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261108185406.1549770-22-mathieu.desnoyers@efficios.com>
 References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-19-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-22-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 19:30:20 +0000
+Date: Sun, 08 Nov 2026 19:32:09 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,84 +61,235 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] sched/deadline: skipped bandwidth move in
-  __set_cpus_allowed_ptr_locked()
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] sched/deadline: __dl_task_bw_move_cpu() skips move on
+  spanning cpumask
+- [Medium] sched/deadline: per-CPU reservation mismatch when task_cpu()
+  changes
+- [Medium] sched/core: equal cpumask early exit skips
+  set_cpus_allowed_dl()
 --
 
-commit e053f633c12ae5159a18a1d6a2e9e44a383c8ab0
+commit 3d21f1cc814c2706665d48f13e93dc3e9c2ac11e
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Move a task's bandwidth only where room was made
+cgroup/cpuset: Reserve the bandwidth in the root domain a task moves to
 
-This commit adds the SCA_DL_BW_RESERVED flag and
-set_cpus_allowed_bw_reserved() so that set_cpus_allowed_dl() only moves a
-deadline task's bandwidth across root domains when the caller has reserved
-space in the destination root domain.
+This commit reserves SCHED_DEADLINE bandwidth per target CPU during cpuset
+attach so that tasks moving into cpusets spanning multiple root domains or
+retaining user affinity have their bandwidth accounted in the root domain
+they actually move to.
 
 > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index bf722f5ff97e5..030106b3d97f4 100644
+> index 3a538b42dcdd4..7df1ee4afb550 100644
 > --- a/kernel/sched/core.c
 > +++ b/kernel/sched/core.c
-> @@ -3272,6 +3272,22 @@ int set_cpus_allowed_ptr(struct task_struct *p, co=
-nst struct cpumask *new_mask)
->  }
->  EXPORT_SYMBOL_GPL(set_cpus_allowed_ptr);
+> @@ -3224,6 +3224,22 @@ static int __set_cpus_allowed_ptr_locked(struct ta=
+sk_struct *p,
+>  		goto out;
+>  	}
 > =20
-> +/*
-> + * Like set_cpus_allowed_ptr(), for a caller that has made room for the
-> + * deadline bandwidth of @p in the root domain of @new_mask. Move that
-> + * bandwidth there with @p. Return 0 on success, or a negative error
-> + * code.
-> + */
-> +int set_cpus_allowed_bw_reserved(struct task_struct *p, const struct cpu=
-mask *new_mask)
-> +{
-> +	struct affinity_context ac =3D {
-> +		.new_mask  =3D new_mask,
-> +		.flags     =3D SCA_DL_BW_RESERVED,
-> +	};
+> +	/*
+> +	 * The caller made room for the deadline bandwidth of @p in the root
+> +	 * domain of ctx->dl_bw_cpu. The new mask can span two root domains:
+> +	 * keep @p in that one. Also wake a sleeping @p up on dest_cpu, since
+> +	 * select_fallback_rq() could pick a CPU of the other one.
+> +	 */
+> +	if ((ctx->flags & SCA_DL_BW_RESERVED) &&
+> +	    cpumask_test_cpu(ctx->dl_bw_cpu, cpu_valid_mask) &&
+> +	    cpumask_test_cpu(ctx->dl_bw_cpu, ctx->new_mask)) {
+> +		if (!cpumask_test_cpu(dest_cpu,
+> +				      cpu_rq(ctx->dl_bw_cpu)->rd->span))
+> +			dest_cpu =3D ctx->dl_bw_cpu;
+> +		if (!task_on_rq_queued(p))
+> +			p->wake_cpu =3D dest_cpu;
+> +	}
 > +
-> +	return __set_cpus_allowed_ptr(p, &ac);
-> +}
+>  	do_set_cpus_allowed(p, ctx);
+> =20
+>  	return affine_move_task(rq, p, rf, dest_cpu, ctx->flags);
 
 [Severity: Medium]
-Can __set_cpus_allowed_ptr_locked() skip set_cpus_allowed_dl() when
-SCA_DL_BW_RESERVED is set and p->cpus_mask already equals ctx->new_mask?
+What happens when set_cpus_allowed_bw_reserved() is called for a task
+whose p->cpus_mask already equals ctx->new_mask, while p->dl.dl_bw_cpu
+still points to another root domain?
+
+Earlier in __set_cpus_allowed_ptr_locked(), the cpumask_equal() check
+returns early before reaching the SCA_DL_BW_RESERVED logic or
+do_set_cpus_allowed():
 
 kernel/sched/core.c:__set_cpus_allowed_ptr_locked() {
-	...
+    ...
 	if (!(ctx->flags & SCA_MIGRATE_ENABLE)) {
 		if (cpumask_equal(&p->cpus_mask, ctx->new_mask)) {
 			if (ctx->flags & SCA_USER)
 				swap(p->user_cpus_ptr, ctx->user_mask);
 			goto out;
 		}
-	...
+    ...
 }
 
-With this patch, an affinity change without SCA_DL_BW_RESERVED (such as
-sched_setaffinity() when sched_rt_runtime_us is -1 on a cpuset spanning
-two root domains) updates p->cpus_mask to CPUs in root domain B while
-leaving p->dl.dl_bw_cpu in root domain A.  If the task is then attached to
-a cpuset in root domain B whose effective affinity mask matches
-p->cpus_mask, cpuset_can_attach() reserves bandwidth in root domain B and
-cpuset_attach_task() calls set_cpus_allowed_bw_reserved(), but
-__set_cpus_allowed_ptr_locked() takes the cpumask_equal() early exit
-without calling do_set_cpus_allowed() -> set_cpus_allowed_dl().
+If an earlier unreserved affinity change (such as sched_setaffinity() to
+isolated CPUs 1-2 while p->dl.dl_bw_cpu is on housekeeping CPU 0) already
+set p->cpus_mask to {1, 2}, attaching the task to a cpuset where
+cpus_attach is {1, 2} reserves bandwidth on CPU 1 in cpuset_can_attach().
+__set_cpus_allowed_ptr_locked() then takes the goto out path without
+calling set_cpus_allowed_dl(), leaving ctx->dl_bw_moved at 0.
+cpuset_free_dl_bw() frees the new reservation on CPU 1 and the task's
+bandwidth remains recorded in the old root domain on CPU 0.
 
-That leaves p->dl.dl_bw counted in source root domain A, keeps
-p->dl.dl_bw_cpu pointing to root domain A, and leaks the destination
-reservation in root domain B.  Later commits in this series ("cgroup/cpuset:
-Give back the bandwidth an attach did not move" and "sched/deadline: Move
-a task's bandwidth when it must leave its CPU") only partially mitigate
-this: if the task was sleeping during the earlier unreserved affinity
-change, p->dl.dl_bw_cpu stays in root domain A, the cpumask_equal() early
-exit still skips set_cpus_allowed_dl() on attach, and cpuset_free_dl_bw()
-refunds root domain B while the sleeping task's bandwidth remains counted
-in root domain A.
+[ ... ]
+
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 0326527dd2d1e..8d9e55bca9439 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -3558,6 +3558,9 @@ static unsigned int dl_task_root_domain_cpu(struct =
+task_struct *p)
+>  	return cpu;
+>  }
+> =20
+> +static int __dl_task_bw_move_cpu(struct task_struct *p,
+> +				 const struct cpumask *new_mask);
+> +
+>  static void set_cpus_allowed_dl(struct task_struct *p,
+>  				struct affinity_context *ctx)
+>  {
+> @@ -3572,14 +3575,17 @@ static void set_cpus_allowed_dl(struct task_struc=
+t *p,
+>  	 * rebuild of the accounting. Moving it without room would leave no
+>  	 * root domain counting it.
+>  	 *
+> +	 * The caller made room in the root domain of ctx->dl_bw_cpu, the CPU
+> +	 * it expects the move to record. Move the bandwidth only if the move
+> +	 * records that CPU. The affinity or the CPU of @p may have changed.
+> +	 *
+>  	 * Report in @ctx the bandwidth moved. The caller read the record
+>  	 * without the runqueue lock, so it must count only what this reports.
+>  	 */
+>  	if ((ctx->flags & SCA_DL_BW_RESERVED) &&
+> -	    dl_task_needs_bw_move(p, ctx->new_mask)) {
+> +	    __dl_task_bw_move_cpu(p, ctx->new_mask) =3D=3D ctx->dl_bw_cpu) {
+>  		unsigned int src_cpu =3D dl_task_root_domain_cpu(p);
+>  		struct dl_bw *src_dl_b =3D &cpu_rq(src_cpu)->rd->dl_bw;
+> -		unsigned int cpu;
+> =20
+>  		/*
+>  		 * We now free resources of the root_domain we are migrating
+> @@ -3593,12 +3599,8 @@ static void set_cpus_allowed_dl(struct task_struct=
+ *p,
+>  			raw_spin_unlock(&src_dl_b->lock);
+>  		}
+> =20
+> -		/*
+> -		 * cpuset_can_attach() made room in the root domain of the new
+> -		 * mask. That root domain counts the bandwidth from now on.
+> -		 */
+> -		cpu =3D cpumask_any_and(ctx->new_mask, cpu_active_mask);
+> -		p->dl.dl_bw_cpu =3D cpu < nr_cpu_ids ? (int)cpu : -1;
+> +		/* Record the CPU the caller made room on. */
+> +		p->dl.dl_bw_cpu =3D ctx->dl_bw_cpu;
+>  		p->dl.dl_bw_gen =3D dl_bw_gen;
+>  		ctx->dl_bw_moved =3D p->dl.dl_bw;
+>  	}
+> @@ -3606,8 +3608,15 @@ static void set_cpus_allowed_dl(struct task_struct=
+ *p,
+>  	set_cpus_allowed_common(p, ctx);
+>  }
+> =20
+> -bool dl_task_needs_bw_move(struct task_struct *p,
+> -			   const struct cpumask *new_mask)
+> +/*
+> + * Return the CPU that a move of @p to the CPUs of @new_mask records with
+> + * its bandwidth. That is the CPU @p is on, if @p can stay there. Else it
+> + * is the first active CPU of @new_mask, a housekeeping one if there is
+> + * one. Return -1 if the bandwidth stays in the root domain that counts
+> + * it. The caller holds the rq lock of @p.
+> + */
+> +static int __dl_task_bw_move_cpu(struct task_struct *p,
+> +				 const struct cpumask *new_mask)
+>  {
+>  	unsigned int cpu;
+> =20
+> @@ -3617,10 +3626,39 @@ bool dl_task_needs_bw_move(struct task_struct *p,
+>  	 * their bandwidth: dl_add_task_root_domain() leaves them out.
+>  	 */
+>  	if (!dl_task(p) || dl_entity_is_special(&p->dl) || !p->dl.dl_bw)
+> -		return false;
+> +		return -1;
+> =20
+>  	cpu =3D dl_task_root_domain_cpu(p);
+> -	return !cpumask_intersects(cpu_rq(cpu)->rd->span, new_mask);
+> +	if (cpumask_intersects(cpu_rq(cpu)->rd->span, new_mask))
+> +		return -1;
+
+[Severity: Medium]
+Can __dl_task_bw_move_cpu() return -1 for a spanning new_mask even when
+the task will be placed onto a CPU in a different root domain?
+
+When cpu_rq(cpu)->rd->span intersects new_mask, __dl_task_bw_move_cpu()
+returns -1 without checking where the task will actually run, and
+cpuset_attach_task() then calls set_cpus_allowed_ptr() without
+SCA_DL_BW_RESERVED.  Because __set_cpus_allowed_ptr_locked() only clamps
+dest_cpu and p->wake_cpu to the bandwidth root domain when
+SCA_DL_BW_RESERVED is set, the task is not kept in cpu_rq(cpu)->rd->span.
+
+For example, with isolcpus=3Ddomain,1,2 (CPUs 1-2 in def_root_domain, CPUs 0
+and 3 in the housekeeping root domain), if a task running on CPU 0 is
+moved to a mask of {1, 2, 3}, cpu_rq(0)->rd->span ({0, 3}) intersects
+{1, 2, 3} at CPU 3, so __dl_task_bw_move_cpu() returns -1.
+__set_cpus_allowed_ptr_locked() can then pick CPU 1 or 2 via
+cpumask_any_and_distribute() (or select_fallback_rq() on wakeup if the
+task was sleeping on CPU 0), moving the task into def_root_domain while
+its bandwidth stays accounted in the housekeeping root domain without
+admission control in def_root_domain.
+
+> +	/*
+> +	 * A task moved asleep is still on a CPU of the root domain it left.
+> +	 * If the new mask holds that CPU, the task wakes up there.
+> +	 */
+> +	cpu =3D task_cpu(p);
+> +	if (cpu_active(cpu) && cpumask_test_cpu(cpu, new_mask))
+> +		return cpu;
+> +	cpu =3D cpumask_first_and_and(new_mask, cpu_active_mask,
+> +				    housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
+> +	if (cpu >=3D nr_cpu_ids)
+> +		cpu =3D cpumask_any_and(new_mask, cpu_active_mask);
+> +	return cpu < nr_cpu_ids ? (int)cpu : -1;
+> +}
+
+[Severity: Medium]
+Can a wakeup or migration between cpuset_can_attach() and
+set_cpus_allowed_dl() cause __dl_task_bw_move_cpu() to return a different
+CPU in the same destination root domain and skip the bandwidth move?
+
+Suppose task p sleeps on CPU 1 in root domain {0, 1, 2, 3} and was earlier
+migrated while asleep into a partition on CPU 4, setting p->wake_cpu =3D 4
+and p->dl.dl_bw_cpu =3D 4 while task_cpu(p) remains 1.  When p is moved back
+to {0, 1, 2, 3}:
+
+CPU0                              CPU1
+cpuset_can_attach()
+  dl_task_bw_move_cpu(p, {0..3})
+    task_cpu(p) =3D=3D 1 -> returns 1
+  reserves bw in cpuset_dl_bw[1]
+                                  try_to_wake_up(p)
+                                    set_task_cpu(p, 4)
+cpuset_attach_task()
+  dl_task_bw_move_cpu(p, {0..3})
+    task_cpu(p) =3D=3D 4
+    cpumask_first_and_and() -> 0
+  cpuset_dl_bw[0].sum is 0
+  set_cpus_allowed_ptr(p, ...)    <-- bw move skipped
+
+Even though CPU 0 and CPU 1 belong to the same destination root domain,
+matching on the exact CPU number misses the reservation in
+cpuset_dl_bw[1] (and the same mismatch can happen between
+cpuset_attach_task() and set_cpus_allowed_dl()).  cpuset_free_dl_bw() then
+frees the reservation on CPU 1 and p's bandwidth remains recorded on CPU 4
+in the source partition's root domain.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108185406.1549=
-770-1-mathieu.desnoyers@efficios.com?part=3D18
+770-1-mathieu.desnoyers@efficios.com?part=3D21
