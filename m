@@ -1,57 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794099006;
-	b=0OfrybqTwSAG/eVc3wnSaXBzGCL0zs4Z9+YnwQxxTPWkRvCirnu1CvOJK6tM4mQWVZCR
-	 SyHWKlFcQoOzJ2oQqT2Hoc4Gvg/Ab8jQdAky9jsGEij7nrNaY3ARXweDSmk7mTU4m+Wd0
-	 EOt9ZlUDyNJqQf0I7QZlH9rUy//cvCGEKNuuTTnB6CiM4fkZven7xwYhkqSbUVQ56SGr7
-	 /mm/wGFMaaYyNvLkh+EXY0/VX2cFEvv13vRi5Cvg4bPY3/mabmR6EI2O0AaCqj6cINr5f
-	 OacjeSb98mGBr0NYthuLNJeQhLxjot/P53SyqSo5i14EL7UwKqybYhGW9UKvA0Vbimg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794099006;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ycBAJ5FrW0Yh7SIfNsCJabTC+sDYF8E9sGOo3X3r0nI=;
-	b=gWL5KDlArsgm8CJLs0rcNQoU6S1+KedDOQE1EBlZB3WID1gdOkOddM2DDkH6LbD2P/A+
-	 zjn8dNaZ5kxwkvw8YbgOjGnTEbaJN17d/rVOvyViUcH1TBaniRv3Q8r7xo1gUXGSjlZeH
-	 LMnQcs4GtcfXuSF0rvd/uqq1NviLCrRF8sKrerp+8ymdjTQKQFk2xU76QZcJEEhg8DPPj
-	 Hneb46MX106jzmuZ1nXljANNZPdGPNNdMIcV1PvkHzihkT77NGx3QysOkf/ZPYPVC6LnM
-	 XlEtcDKUwZ/1wrMiA2MzNU0M+2SfmBxzUcxLxL8QE7OkR6BLB3hxuclhoKm1Nk0X1ZQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hH91j/p8";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.122
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794144233;
+	b=rt/p92V7ZANBpEhA4CCUO1/FO0zH173GzMkKxUTSU0FmyzrHXy2g1FxgfGYfSkiwsufq
+	 /rTK24M73/2zaNsUpZWRuv9Dy4rGrgfw+uNT1e/zdc3927/RZsWti9uKdQqIEAudMOL+l
+	 E5aA/AVrJ2lkAqmHmM9Zp+iGlVXEgicn0N/uOPlFan72rKcYE3IPsZvB3gEfnJlAapeMK
+	 oW+dvQYCDs4eFUQoSw4emeA4HjfRD7FiTCr7BOFcC4PrSGI+4FGfUAO3zXhvDPeNSKkWp
+	 uoRikYy+6zLWVxsFUM11P3YIqe64ZypVCBORyDgtQHLX7dSXKOf+pxGVH7inkF+COXg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794144233;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=p72pDBbr7HHactFR0hZxl1j6wxNTtzgk+oAp0nON7EM=;
+	b=5JY4qI+B0l/50vYi0PzmN2vDxl1Igef8R7ZA0sqrlBlhhsK69FsFab2fMwC+na93Ymt5
+	 5+7nu68pwb+CZsj93npTlvcEejJpPBmeRuDCsDalbFws0HAtKYZtJbjSOSnzRzT1tzsIw
+	 a747cylkn7nEALjHuqP9n8AZG7g8Oap7PIf8V31zp3xUv0vIjm1IjdkOIaQw4Mm+4C1kJ
+	 ZfGL2sHYZFO+XDINX1XK/3NY7Qq8bsEJ/y/UDR5/H0r+WGt0mwLvjpbVEgOcSf+Id1F87
+	 X/CxcoGYvCc9RuOAGBLWpF7M6JEV4Zgu0/fH1TpDmvL2m61mNNlBME5nnmrkZtOdZ5g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=bnfscUaL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.122
+Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020122.outbound.protection.outlook.com [52.101.189.122])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AE6606A326;
-	Sun,  8 Nov 2026 00:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8B4606A321
+	for <linux-rt-devel@lists.linux.dev>; Sun,  8 Nov 2026 13:23:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC8B4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hH91j/p8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 111D01F0089F;
-	Sun,  8 Nov 2026 00:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794099005;
-	bh=ycBAJ5FrW0Yh7SIfNsCJabTC+sDYF8E9sGOo3X3r0nI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hH91j/p8jm9mBLU0t1QKs/LdcrZWQshTeiAqbQNsHa3wndeKtCBa0Z9mbrfSIs6WF
-	 pmgAwLfmgHqtF2hRFa956/5sqtKFxIkv17uFLNNCWPfR9jiTGEVhLInOsYtsMUP4kn
-	 IBKk0SEJSws6zzvV/XM/clY2n11lmferDIeX8b72WvEwoqnCiG9BtEUeH8iLhDx54R
-	 GCD62uT7jQooJlt0qLKJr5OgArPGrtMIk4QaRpjzE/uXXPEPAkfZN17nkCE7gqWpoe
-	 pxSKMB151o5Uk4xvM3pAPA2wVChupXbuCy9H40OJ+4DGIUlwKaTv66ShWkPMsOQbTu
-	 ncml3NaccwVBQ==
-Message-ID: <sashiko-outbox-203503@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v6 3/6] amt: reject a gateway Query or Data from
- 0.0.0.0 before a relay is learned
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Omar Ramadan" <omar@blockcast.net>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261107004935.2627329-4-omar@blockcast.net>
-References: <20261107004935.2627329-1-omar@blockcast.net>
- <20261107004935.2627329-4-omar@blockcast.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 00:50:04 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=bnfscUaL
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WT3Z5EUDHBi2Dq1Gnb7n7r9DVzHsVXhUGYHiVeUitoA+aYiVEpzgfSYR9UMsCdS6HVyquRdVQPkkHDF/5wQGV2r93q2B3UOMx7FPPiYrYFNE39wPYG1xRc4zzsu+SIyc6a1tpr2ALL00TJktUjwvVdd6w44HTBI59azWDdCid+Uo3Ezc80zBqtMiqSmhdw40lsra52bP0cLEn7zy3c6kRCHn0zcbMOv2hQxCO3Zdm0aXiawD7fqs6zpSXJWwxK4ivsaHhNKTaWfWjSK+XnV95dw8xUGFWkh/NZpGymLdpl6c1PQwwFPFsiwqA0qR++fuXs6yvojU8NBAwUrcPur6Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p72pDBbr7HHactFR0hZxl1j6wxNTtzgk+oAp0nON7EM=;
+ b=GfNPQcqIts4/iw0uswhbw8xngwMksw/tCgKNtG6HDEkMVjs0HCnV+Z024dOTRGWgPwWiSmArc7hjiix64372FXQIac6W8DYlQmGGvJ7N0JqSjC0qqeOiEljFMG7L+2T25hD1ZYns3qdTe1ZPI5MEAkHOfh5bS86SxgyLap6ksoT0NSC/OfuAmtJz98T8HcAKDMjFF4YugRW/WE5UR1Va1qt6uaqJboMs7Wk62fMUDRDGCJj3mpKAQ4bX6almlTIeI6JQmFDrw3XdS2fpy3sS7fiN7jymnsb3nUgdQLm7ZEyaIY5uXxCo5EFMNZJ5mbmjecHT0cd8XahPMP3wh2yRFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p72pDBbr7HHactFR0hZxl1j6wxNTtzgk+oAp0nON7EM=;
+ b=bnfscUaLbfLY4jKYiUBq3IZ2wFxvMMaBYWdIaITiw5Ndonivn9Tii4/QCircZi8LZiEUa0iSXjFFSiqlf8gYyTxNO3mf9xc5tYAONfqJy5YjSOOmPG9K4LZ43c+tefcIjmKt/Jgpn/ax3CbTUtezotWSCbzzc4yXosT76j1EI3HBk8N154CgV89SDiDr4qlpfnlelx3sUaScU5oFMEOKIL1i9U4zad1GSEEcwuzotRkQGX7Vj8d2ighx+/VG2LCPU8xW/Mnj1uLuX9Xym54FWgjkfWsCmK6AqzRHPHPceJwkeiyW3653jD36hhs/aQpAmjoRkfrKoIndvKWJZAKOBg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT1PPF794138A02.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b08::552) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Sun, 8 Nov
+ 2026 13:23:48 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.010; Sun, 8 Nov 2026
+ 13:23:48 +0000
+Message-ID: <1a3fff79-6e94-4e55-b262-8970ad2d54f2@efficios.com>
+Date: Sun, 8 Nov 2026 08:23:47 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when the
+ waiter is woken
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, tglx@kernel.org, mingo@redhat.com,
+ linux-kernel@vger.kernel.org, will@kernel.org, boqun@kernel.org,
+ longman@redhat.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
+ shuah@kernel.org, juri.lelli@redhat.com, linux-rt-devel@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
+ <20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
+ <20261107002927.3cbad7ff@fedora>
+ <20261107104329.GA2668564@noisy.programming.kicks-ass.net>
+ <c77635b1-9c24-459a-b75c-82cbfb67185f@efficios.com>
+ <20261107123642.149677cf@fedora>
+ <2a786b46-e935-4269-9bdc-edac43521a80@efficios.com>
+ <20261107171841.06d3ac92@fedora>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <20261107171841.06d3ac92@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQ1P288CA0019.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9e::24) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,52 +108,86 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT1PPF794138A02:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb6a8ccb-939b-4748-7044-08df3d9b85cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|22082099003|18002099003|10067099003|4143699003|261028144727099003|261026121527099003|261022105027099003|56012099006|261026140227099003;
+X-Microsoft-Antispam-Message-Info:
+	2TFJPORNSsUb+9QXFLEunf2EdP8LYGshZuKYCVFxoySPmB2BGQHEMgc9beFlDXGe3gD/EJk248Otsll3XwuA0JWpfLBlYWlK1EXpKTWjSI2qaGRKNL8QqZukWHpqyAtZjU8V4bmA179GAqOtmAzigZy4enZuQHJlVDfKB6TIzq9VZbNWc6HcbQvxM4r2RvKNJr0n9BsWGJxJH/7WJZvBq3CZpF+QV5f8Tt6Ck2MHrzb1gR9JJT8Ahw9kO3Nl0QQMe8RAjg4SwBAd1g2oh5TWQTCabazoxGASPKflgW2TFl0Feck3c7QxL1cDUu+C8UodI9lFXtHNi7JSDXE4aFG4DcmOxghQGKt+N+AfP1jHdozMdczruTe9eoxwjDobXPthVWBlJ5njOboJK8xphU5sexjooEbSCLB1eKi/9uy/d9WqfcU4LuOqlQyNZcDRrAFdm4ey19gYuKTQbow1vTvm/AQQuvLujzN4MlBOtjxiTlu43RUoEPp7CSabMZ5LFgRDWbnPilcAexeUdxRpz5+ftghaO5USljbnrv0tb4YuABDt1/L3QiPsKBH0npDfKJ1/STXUox5PJ/IPUTRUs8L1CcxBo1fOB9aZyQrEgJ4Mut4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(22082099003)(18002099003)(10067099003)(4143699003)(261028144727099003)(261026121527099003)(261022105027099003)(56012099006)(261026140227099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0lqYUU1RnFkeUkwQWRZL09vSGZHZDRMMU9aUTQ0bDVickRtdnA1b3JQRWx6?=
+ =?utf-8?B?L2hKYlNNQ2t4VURhT0NxcVVzTThYY21MdnJtOXZFRUJHZXRhQ1JMRW9FTFly?=
+ =?utf-8?B?ZjZOVnZmMzNRYVozcEdHRUhhZlBReDRJQ1pNVW5OQ1JRV1pKNTVzVTgzUU00?=
+ =?utf-8?B?cyszMy9vWktrZ1gwOVpHbk5nM1hzcnhYeHZYVEZXcHNyZTlHemxxVXZoUmRz?=
+ =?utf-8?B?RkZncEkzN1F0QWRNRlltK0hDUXJxUXlpbVVWbTZFN1NHTVZUc0tHaXdoUDdx?=
+ =?utf-8?B?MlpDTkwrYjNEQjhrYUlmZXZjNldVU1JYUHl2dWpKN1k5MURxZW40bytBUDJk?=
+ =?utf-8?B?bjU1QndxY204dXpLdjhBNlV2RHBaNks4dW9zVTgxeFpOWG56dEhYMm0vNTR5?=
+ =?utf-8?B?N0dJRVo5bTkrWjdsVENGNlprTDlxRHhYaGhNbzkrcGd4L21sOEIrUFRPMWlx?=
+ =?utf-8?B?RGNPT2EzUXB2M29WUzJ1Q2h4SVJDcjhRakdZaWZHTG1HU1BFNHpaMXo5WE52?=
+ =?utf-8?B?OWM4MThRN2FOZEVUMmZaTnQreC9DckU4c1EzK0lxYlZ6N3hIc2ZjUHJsd1Uv?=
+ =?utf-8?B?U1prNTVVZ3gvekw3REM0emkvWHdDOTZ1OE8wWGpCU3NZQkZ4OEs3ZEIyZC9j?=
+ =?utf-8?B?VTVFRjQxWlc5VlB5eUc3aEVaR1pkRTQzSjRVZWVPdnlmZnJadjErVDJaK1ZS?=
+ =?utf-8?B?cW81MGhIelNKaHk1YjBpVmZGejhUMlR2d0d3eGJySVpEZE51eDdZZVF6a3VH?=
+ =?utf-8?B?TDhDZnRUSHdtSWY0bE1xdzVJdW45QUgzOExvbHBoSFhmc0diZnNXeVY2SVpR?=
+ =?utf-8?B?R1Z5Qm1JSldpRXhJUWxPSU4vK0QvMDd3MkNBaHBOcVVZZWhmazVFRUpZajQ3?=
+ =?utf-8?B?WWJqWkFUc0RWT2VOeUdtNFF0Z1M0eWFwSW9iMzQ4TVZsWnE0RVBVQTJPa0Ix?=
+ =?utf-8?B?eDRNQ2ZZaWJUNkZMajJMcGZwSWNuUTdjbGNHa1NwcGZaN1pTVVRhL2Q3Y1Vw?=
+ =?utf-8?B?d1lDVytHdnFSMFhYa1pzLzMzSmVFVzd6RzBCVzM5YU1zNjlEOXJQUFVYMmF1?=
+ =?utf-8?B?aDA0N0JCRnd6TUZoV1VnYW5UYnFtQkVoeXg4OVdpOHQ4TFROcWgvTUxzK0RG?=
+ =?utf-8?B?RFhxTWRjMmxUWFo0SCtlQVh4MFN3aC9selpUSlZDMjRSNnhIakI4QThPbk5H?=
+ =?utf-8?B?dXZ5cWhSWTBYTzRpN3JqcXNMTkYwaGhrZ3FxcHg3UjdicEIyU3Y3TTYxNEV2?=
+ =?utf-8?B?SEJ3ZHJuYlVDam9UZjl2bzJENWN5RjJDT1U4cDk1TG5GKzFKTE5Dckh4UWdT?=
+ =?utf-8?B?WU02My9OQVNDajZhZVVUL1IzcDNOcm96OVVJNW56WmhrdGZYanZzMngzc0gw?=
+ =?utf-8?B?T2llNnZvMisxN09JekRHQkRNeUpON0lKamJ4UHI4djVPc2hBcVlackxiSlh5?=
+ =?utf-8?B?Ykp3aFJKVTVlNmd3d2JpQm1oSjVOVzJ3VkpaZkF1VlZ5UGpMS2E3bXg0TFhC?=
+ =?utf-8?B?YzJzRDZTZEtrWkQ0WGJTOUhFS0V5czhnTndON2I5ak1kYXpzTU8xcFBEUzlS?=
+ =?utf-8?B?T0lTc1NvZWw2QlR5ekdteU9WTzU1RFFtMlFDVVNheThCdHNOQnU4b3I5STht?=
+ =?utf-8?B?MTF0V1NKT3QvQWhVTzNXamtNdDVJZmhteGZKM3BSZFlUUkI0Wk1VRTMxWGxB?=
+ =?utf-8?B?N2RSQlZmdk81cEkyOE1RQWx4czMzMWVoT0JaRW5zQ0N5eVNCK1FuWXFKaVFE?=
+ =?utf-8?B?MXdESysyWWNmZ3BLQXE4Zk03em0zd2hROFN5Yno2K2FJUHc3NFBIQkFqYVZh?=
+ =?utf-8?B?S1QySWVGZFY3amlyUTV3SWRXYjRvNEg0VEpicXQ1ZkZnZ3JnYk8rczVJY0Fz?=
+ =?utf-8?B?anN2bXQrdmQxT2lIS2Rxa3NVNGNmN1JHNFo0U2RxSldDb2tjcVo2UVZnYU13?=
+ =?utf-8?B?ZEx1Z0xDMGVpZk50cGx2cjJZM3kvUmFLYWt3ME04REpHSUZOa3BiZXRYdHpt?=
+ =?utf-8?B?dzg0a2QzeDdHOFNPZkhOUmtxcnMzdk9iYWlwcUc4N1FIeFNkL0lNNFkwQXNl?=
+ =?utf-8?B?aDVDNVZkV0U0eVlUREJCa1pneDY0dURTUXRySTAvcTI2WlAzVW1EWXVraDk2?=
+ =?utf-8?B?dEZvMkNaanRORWtRaURBY1RrRHdYMlNvZHR2OW56cXprL2dNZmdGUC8zL1Fs?=
+ =?utf-8?B?ekVwYklNTFVYTmlLU0lWVWpPT016YVNvaGRnam1SMDVLZlREclJSbTVWeHRu?=
+ =?utf-8?B?Y1VpYkNsdEJFbnJyS0F4NGZHek4wbFlINjRVd05ySENVbnN2enU3eUtXZG12?=
+ =?utf-8?B?NzAwSFR6c1RWak1sWG5sdW9QbXl1RndHcW8vcmNjS1hicFpnMEEwWDVkWVAy?=
+ =?utf-8?Q?DcwWu6YNLpZHFkvY=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb6a8ccb-939b-4748-7044-08df3d9b85cb
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2026 13:23:48.4633
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jvMgX6Ffc3T3VXrrABkVCFfJd4rhe+SDNq6FfQgIPFwz5X5l71dQEppOPtvx3kATRd+YeaU7QWVLEhjpoGcV+07XdcOmuk8cuf8da6hKEkI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT1PPF794138A02
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] amt: wrong Fixes trailer commit in amt_rcv() remote_ip check fix
---
+On 2026-11-07 17:18, Steven Rostedt wrote:
+[...]
+> The last sentence doesn't really make sense. I can figure it out
+> because I know what the slowpath does, but as you see in my version, I
+> go into a little more detail to why it's not an issue to break out of
+> that spin on TASK_RUNNING.
 
-commit 96318be241052a6271835580e7680bbadcc12e44
-Author: Omar Ramadan <omar@blockcast.net>
+Thanks for the feedback! I'll take your suggested wording as is and
+add the two paragraphs about user-visible impact of the issue.
 
-> amt: reject a gateway Query or Data from 0.0.0.0 before a relay is learned
->
-> A gateway's amt_rcv() admits a Membership Query or Multicast Data
-> message when "saddr !=3D remote_ip" is false. remote_ip is 0 before
-> discovery has learned a relay (and is reset to 0 by amt_dev_open(), by
-> amt_dev_stop(), and when the gateway gives up after its Requests go
-> unanswered), so a packet whose source is 0.0.0.0 would otherwise pass
-> the equality check and could spoof a Query or inject multicast data.
-> IPv4 input accepts a 0.0.0.0 source only on a limited broadcast, so the
-> sender has to be on the gateway's link.
->
-> Reject both when no relay is learned: a 0 remote_ip must match nothing, so
-> guard the check with !remote_ip. A Query is queued before its event worker
-> processes it, so the relay address can also change in that window. Recheck
-> the packet source against the current remote_ip in the handler and discard
-> stale Queries. Discovery is unaffected because Relay Advertisements are
-> validated against discovery_ip, not remote_ip.
->
-> Found by code inspection while writing the IPv6 receive path for the
-> AMT IPv6 outer transport; not triggered at runtime.
->
-> Fixes: b9022b53adad ("amt: add control plane of amt interface")
-> Assisted-by: LLM
-> Signed-off-by: Omar Ramadan <omar@blockcast.net>
+Mathieu
 
-[Severity: Low]
-Commit b9022b53adad ("amt: add control plane of amt interface") only added
-the control plane setup; amt_rcv() and amt_membership_query_handler() were
-introduced in cbc21dc1cfe9 ("amt: add data plane of amt interface"), and
-deferred query handling was added in 30e22a6ebca0 ("amt: use workqueue for
-gateway side message handling").  Should the Fixes: tag reference those
-commits instead?
 
-  Fixes: cbc21dc1cfe9 ("amt: add data plane of amt interface")
-  Fixes: 30e22a6ebca0 ("amt: use workqueue for gateway side message handlin=
-g")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107004935.2627=
-329-1-omar@blockcast.net?part=3D3
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
