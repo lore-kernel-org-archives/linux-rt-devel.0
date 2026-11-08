@@ -1,96 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.128
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794150708;
-	b=qdWRmOurjB1Q3BS+T2pDv1YS+KyWeH3DCsT1s/t0Os22D/lLbjt1F7sJoYOEyTVL50My
-	 dv3Fa+zINJeOhaT22GidStyXhoLUsEZENpvgSZBTUYnqxW57AiEVfi2jD2geCX29ddebm
-	 f9COzllQTJ/5PDhYzfovzTRKKWrgc4k9RsqjhEi18kyCtWrzpdlQIRZqnrXQ9LRRcbdsl
-	 Mvy3T7kIY/iseQTM8cLlMUTdCYApzm4f/71Tw1i7i/6p6PNcYPBSk726PumHeOLQBWr27
-	 mI9ZYn6IYYe1WoPsAy66Wrsfp5d5SUXqmpK/TrNNDq/uMrmJsnLt0jHfDYP7+3Xj02w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794150708;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=S3378glPIUpb/Np4ls/UMSQim6gLRzP7jb20yzp7mKo=;
-	b=g2QEu2SY/KkvZkNwSJPHTILgX4xTWYhagduAwKi0ciiaX2+t6duceKix5y3hsKEByTRx
-	 xJD9aPKS4mlWGKrllV8QHNMPYy+oH1rYbRQBBAFmAMzqnmKg+lQm6mpkdXbLwXgcu4aNY
-	 L+/5OzJJxR9UAVGRnLljBnuTE7mFhM8pkOUlsvobPfSdCAWta7GD5IbrZjeiwPA+UkaaQ
-	 VDyuVfND75z4EtWCAG8H+WNhnXKl7t4K5Qg6Dphg0H+24/q4fzAR2pjX8qsC+JfG+1kQW
-	 LTWstzrDRPr1zs3GDJtH+j+a5CvLiWo0OM9hK2MBZIlV3LOOqL9IQscXZfqNkovW3zQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794164058;
+	b=dwNYjM8jVy/XVi7fkPhRSBBngxu3zndeU8E5RJ2t25OdXhS/WSSf68Uc/sP8jdgBNHUt
+	 sKDW2kCf1DUPBXlzuLmxWFiF9cmGp+zPuQXTgTy5Tw93n1cWrdKwJNTlZ9TGS2ejObwMF
+	 4/dBjbU3aBvuo3o+N+FwIrOKuch5vKnPh9L+cEiDRgp2mQ7J546oYRBiEJz2wb4UY2X6/
+	 oEN3UN/MvVuewuzjZG6oiyx4kkzQIxzC72l/bVzmI9jLMlYW9byruUtM9Yi4R2YjZ78H5
+	 OU8FA53PeLGKwRuiHw0Br+nJm9UPwLiQ7dppwB0bFIIQk2GMuEYQN3iCUhzyYI2b9bg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794164058;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=3tBpFQw4GEKcQNeJPyl6iyTPtRnzVPcblQDX8hrd+oQ=;
+	b=4nMHnOZyBl8H9NLjFi0vy+W81DModSA7JdlsY6vDZhnJDOiJ+jSQukoKL5giYTxzI229
+	 85ZIUJH0UuxCY4eWUrjTAzBBQ0Ebq836lE3h8jDE2z/i7PEbtRDHRRj+EFUqiFDfLLNQf
+	 UClVt2uRZJ5UAf29F0fo2FWtS07xXj7ONDXgMPStrYV//xAakSspHEz28axxGVetPVbCQ
+	 9trrfen6X4sy0CT3PpiRZjvjEiTmbgMdcNswBJR4DuAubIkK3j7l656Cooxjccu4gtHKR
+	 +zvu80ZzeBv4mwGIlsIjzzW8hvm4swblJbE7UZh2xRKZqew1gtEA4oxoQYGm+AluV9Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=G6DZTXSm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.128
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022128.outbound.protection.outlook.com [40.107.193.128])
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=j22dGqTV;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCA4606A320;
-	Sun,  8 Nov 2026 15:11:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BCA4606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4DD606A31C
+	for <linux-rt-devel@lists.linux.dev>; Sun,  8 Nov 2026 18:54:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A4DD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=G6DZTXSm
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cR0kqlKldBmd2BYffpPGGc3hhfyrXNpPzxgCqo82skc2oH5QFaOsCIZHgBU/11XYEwRVFyQwrXiPSIfZMjw1jj/WySZifreCRd9Xc/hJUngOPC2PSwzeKWN0Ag6jJMepxiG4F1M/wPJZkyRbef8VGjqkjAVZ/36fMp+n60MUW3WORd7afmg/0Z9Bavhcng/qtfLM8EsQPrsZMR09tbSukx0UjXlscPfqh4MCZ04VFfWgMmn+60c6gu/xIha53wq95EPC0CHKW3tYIrNJtZxuLDGsNzizup8onQsR0+BEXvaNRSL2kr44+dywqsWbdImAgaX51ZBamjMXO5Vn+7QZFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S3378glPIUpb/Np4ls/UMSQim6gLRzP7jb20yzp7mKo=;
- b=fZxXy1+fg4mBi29YjWVdyHgoomtQDWuBkD29/X31PwURGhCVkQEGkmJK/63s5yN+Fi0sx7GKJSQ5EnMT3OfvhC6eJHlXqrNdXAGPnV9b2sL/9R7xcPFhGnT3IHp2J1zgGEr7uKMzY+H0ya7aYnuf9EDPDYay+UpXbiMbZm/TJf82i6Ez/dlBp0/gtnyHh9uBg1jlyb+unYXkMpASXgSUSkICAtP7wTnhMfpuPvR0eI2c3j4FxNAj7jHlqdU+bHab/vggXg5KstkRSfhzoud4AONWH/0Ic95GjJlOsUnbAGAxbdJGN192+NmnO/SXWDyQSx/uNs4bt8MKCpS25r8xug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=j22dGqTV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S3378glPIUpb/Np4ls/UMSQim6gLRzP7jb20yzp7mKo=;
- b=G6DZTXSmIYunFME7kUYCYEconqHkBU8tarsuzBzWahdglorhP/ECGurY11qytvaFM/Sib/yvmPHhXmIe9XUTE1FEB4+lhTp++HonIWzKewM1tBShGV5uah4PeYFDEJWXoIcItemmF7NDO5GHXgkupGNZ2QeqFXhiqkwluxLW7OrWDMAGJ4NSkLOptwiTFf0eUBZTgwy4QgqJ/C7oZ3ASDYyfYj0FFWdmy2OoitAZmIk29Gj5IDmgIr4QkQ7DRZw2GMj/VYT0FEaknTvOnNOP+YZ4iy8O7V9QpRimVBJwZxdVxfZDQ+eczsP6f3Y3FVe1BnAqGNX+/RtSPR2Pb4NWOw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YQ1PR01MB373984.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:cb::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Sun, 8 Nov
- 2026 15:11:46 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.010; Sun, 8 Nov 2026
- 15:11:46 +0000
-Message-ID: <0f916c89-c184-429f-93a1-0f5b28e516b8@efficios.com>
-Date: Sun, 8 Nov 2026 10:11:45 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 26/26] selftests/sched: Add a test of SCHED_DEADLINE
- bandwidth accounting
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
- mkoutny@suse.com, linux-kernel@vger.kernel.org
-References: <20261107014451.1487825-1-mathieu.desnoyers@efficios.com>
- <20261107014451.1487825-27-mathieu.desnoyers@efficios.com>
- <sashiko-outbox-202508@kernel.org>
+	s=smtpout1; t=1794164056;
+	bh=3tBpFQw4GEKcQNeJPyl6iyTPtRnzVPcblQDX8hrd+oQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j22dGqTV4xZeSZH029WYZXfPZS6Qv1gynGeRsw4fZPgV9rRYDm5B6T2GRszWzvYqp
+	 jIrqz8TJQ7CB7bx6qA/k2jt0/duLvyin55lwquQQoPHASdjdbmUTZH4GZ2tiLtNIZI
+	 BiMGpF2qZ30rnOjIMRG13TKFNYupi/7pfi5TqYGCTlyy2cWaM2If5v12dGDV+tko+B
+	 n8NaK4n6mO76M42uKqWhxC/wFuG3xMvWpQMuseHl3r7IRBcdfYy9iPTuarlzn5A0bw
+	 jlJq6RZ0NNdqixwG9mRFJObKsVq6Ky61j40+8EOagy3ue0Luw1T1AJNnl4CR2Urkkb
+	 JlEhR4HLuNXLw==
+Received: from thinkos.internal.efficios.com (unknown [64.58.40.251])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jN2Bw1g2fzMkB;
+	Sun, 08 Nov 2026 13:54:16 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <sashiko-outbox-202508@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0158.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8c::21) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+To: juri.lelli@redhat.com,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	vincent.guittot@linaro.org
+Cc: linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	tglx@kernel.org,
+	will@kernel.org,
+	boqun@kernel.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	parri.andrea@gmail.com,
+	m.szyprowski@samsung.com,
+	kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v5 00/29] sched/deadline: bandwidth accounting fixes and selftests
+Date: Sun,  8 Nov 2026 13:53:37 -0500
+Message-Id: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -100,82 +91,272 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YQ1PR01MB373984:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96a8e97a-3308-4189-3065-08df3daa9ac9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|4143699003|56012099006|261022105027099003|261026140227099003|261028144727099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	63e1zoUl8lmlmXdHXkcRLpeBb99Aat1oVJvUysmPQSOC587Rw4Xgr4Qu+dsV9L9xVDlPCSdiQxnuGvF3wgq1RVX+6Upovd3TlRLTxLr6Ony9HFHXoWbVYwr79WbUxDn9cPKcTFqP+88CzsCd4qsk1enq9XgR7bJkQOzfU+5UC7o4h64nYqPSSPNrFH4cd/P4i/RvIAC5oJz4bHEfteLYEMz412VyaV8/ZCUQFt3uVpmyWwNpICYaekj/cUUmOOCS2p9mSL0doaGkdal1l9Ex3EcLz3+ZTcYqVDRVSzjsSUEw829vsTesYQYmSi81FGjDryLlqpjSBRGp5WT20owG7dvqNsA4NSkDTkqK2uGBzviIf57dyh1VCeUK0caGj0YNJAv2gLN6+XzqTweB66X/Z6xQMNDUZDplgfhZmBRlt1fFrq6+xcHu89+OBLpYLp1gNeJsdhTisAOpYFzU0JqvzzpLZVFQ5ZrnA4JVlEvnoBgNpaA0Pj6eP6dSje66Zq9AxjOSj6E3SdjDhPSZv8LR+V6tgSxfFFXJemBIKXzD1ABYa7HU7xZZLDv9LF++PrDj3HHbQ2oJ+ykaS8Oe+ym+aZFip66Wn4Nxh8Z7rOVob/g=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(4143699003)(56012099006)(261022105027099003)(261026140227099003)(261028144727099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QUpTVzFPYUFWekVrOHFlYkd0UHZhbmFsL3NHajd3TGxOTnZ3UU9DYnVhVzNF?=
- =?utf-8?B?eUt2REI5RTZsNW9HbFZEeTBZRzJpWVpHL2xyVDdoaTNzeSs2alZ6WVBsTlpR?=
- =?utf-8?B?Wmk2NUg4cTQrMXJYVHM1SWZtVVFvZkxaRlZuSldJQnFDYm1mc3EzbkFlUkhV?=
- =?utf-8?B?UDVqS2M2a3ZMdmtWTU9hcWhuNWd3T3I0dTRJN2VoQTQwV2JmelRmTDFxNEdR?=
- =?utf-8?B?ZzVENnJEWWZmUkxtMnR6WVoxRk5SRUFxMDU2ZGlIeTYvdncyc2JQSlhYZVpx?=
- =?utf-8?B?STNBYTdKT21UWlhJeXBNN083eEdzQTBZOXdGQnhjUTQxVXY4RHV0bW1vdm44?=
- =?utf-8?B?M0NhdnJWeElacDJhbk9EY29PMTFMd3dVVlMxY2hqUnAyaGh0MlpUa0R0c3p6?=
- =?utf-8?B?WDhyUnZBek83WWdldGpESHR5aGZWVWcxampxMGFIMEJtY0F3bGpqMlJZSHBl?=
- =?utf-8?B?US9aUlo0WGQ5K1pDUSt1c3Z4Yzh3QUU4MnlMTC9ORWFyNFl2azBITm5wVXFv?=
- =?utf-8?B?dHlWeU9ESFNvZ1Z0QnE4WWlVTWpaSFJ4SlBzSXN4ZXJKVUhyYkdNMVdhSmhO?=
- =?utf-8?B?M0xpOWF4aGNYNHJHOTIwT1QyV05GQnJnNGpjbnB0N2tBY1U3a3pPYnZsZnRZ?=
- =?utf-8?B?UkVlWnBqRUhXbTcwU3RWRE9uVGl2ZnRRczgwTDZFQXYxa3ExQ09hTU9URldU?=
- =?utf-8?B?cjY5ajYrVFRPUGgyMFlld3hoREhuYU5sYU1Ud2thMHBXRUJsQnFqeWJiSlp6?=
- =?utf-8?B?Y1BpWVovenJwbVh5MjNoM1ZOamRXMkorVlFTaVdNc2NNMWhIZ3RzQ0cyU1VH?=
- =?utf-8?B?TzBVRno3Vm4xeFNDTVV4YlFCbzJtMTR0QXFuSE1tWnZ0K0d1UFh5MW9hUEhL?=
- =?utf-8?B?SFI4Yzh3a01sY0M1UFc1ZWFISWpKblFlRlBsdUNhNXNSRWU5dS9rL0F1QUlS?=
- =?utf-8?B?L21nM0x4M29ZcUw0VE9KTThTVVYyMTRNZGFDK3ZQY2pyMEo0dFU4SkVXUy8z?=
- =?utf-8?B?U1UvOUtyUktQVGM4cUNMbE9LRVdBOFFNeWFGdDZJOWpXWFNyYllVZFRIdmdo?=
- =?utf-8?B?a1A0ejdEcVVIRXZ4MlNsM0d6b0xyZ0sxNlA0Y0kxeEZQcmhvT1g4MGhnM2h3?=
- =?utf-8?B?R0Rhd0NqZWhGSUREWXdrZVFid0ZUMWd4VHRKNXl5MzhwdHF2elBDVUN5Nm4v?=
- =?utf-8?B?K2ZjMGtIb1dLbnhra3c0eDRTeWNBVUJjZWJna2JBNzdyLzFzZFd3SHhHbU5a?=
- =?utf-8?B?bmgwTjduWlVXSHRqdEpMaHFOaFpwRWVyTEFFa1hPKzZBZGtpRzNEeDVCb3Vu?=
- =?utf-8?B?N2Q2VWVNcHZtaGRmTjVIVjBZSTQ4REpjeWQyYkpRU3FKWDF0LzNyc0JvTnVm?=
- =?utf-8?B?TzBFTy8zWVlMeFozbHF2ZXB2SEE2MC9TbmVzZVJvcUQvQzBNOURWOVNWdnE3?=
- =?utf-8?B?Mk1FV1I5dzRnb0ZqZVpnU0d4WmMrR0plTUpJellJaTM2MG1GaXpQQlN6SmlY?=
- =?utf-8?B?QUQrSjY0TWE4Z1h0WFdMV3I3TlVLcHhpNGNONFVVbWRKam1LUEdOZnFBUWVS?=
- =?utf-8?B?eUNGWmc5aXY4NExKM1dGUTA0NW1wYXUwelhweE53c04vZVlrS1loK0lTVXlC?=
- =?utf-8?B?YzFNWXRVR2tNSDVmOEdWeTZ1UlR1K1V0VU9aZ0kxNWdzNU5JR0Q4NXZ2a3Iy?=
- =?utf-8?B?TW1YdDBZWHN6SGJ5MUpyV2JYZlRJNkJQZUlDbmNML1hRMzNkL1ltdkJDTE84?=
- =?utf-8?B?NndwdDZrdTh2OW13Z1k5U3h2N1VIeEh1SWFYbklqL2dkTlFPMDQ1MURwSFI3?=
- =?utf-8?B?bnFiZGZpNTFuWE1kRExRbVVVbkVHS25iZUxXZ3Y4UlNML2hMVXVUcWRkRkhR?=
- =?utf-8?B?dEM2aEV2QmRPUDNING5uWFgzSVFud2Y4OGxJTFNDS1U3UTBZMHFNelBKUGNE?=
- =?utf-8?B?WTdoTXc3RjJrdWV6Y3BuZzNaMXFSTkgxam1kOXhHQVByQnNBMWNYR2lvbWQ1?=
- =?utf-8?B?cWNiK1VQTVJWWjVSSGpFUDJraThxWHg3OUgwcHVhVDl4R0NhSXlqM1BvM3B6?=
- =?utf-8?B?ZFJpV29SYVNxNk9SdmdiZlFFcC8wUHlNeW5pVXpsQStJc0VBTXRpWnMxY0VY?=
- =?utf-8?B?NERkQzJSdklsMldYMmJSZXN1UTdrQ2taT09RMk1WRnQ5VWQvd0I0WnA3eUhE?=
- =?utf-8?B?c012Vm1DdVFwd0xMOEtJNTkzNGppcFdTVXUxN29wRldPZisvcnlieXRkTWtG?=
- =?utf-8?B?Z2dKNFYrcTlWYTlNanJrU0YvRTFJdkg5Y2JoMDBKRjhhL2lrck1xd0djSE8y?=
- =?utf-8?B?QUs3SzhKVlB1RjN1aDFTN2RKamlrWmJXajVGelBMUlJkeGRCdG1NcWJ2d0hJ?=
- =?utf-8?Q?buSeLvRMDDpvHME4=3D?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96a8e97a-3308-4189-3065-08df3daa9ac9
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2026 15:11:46.1657
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HTgpnFO+kFmcej6PzblYZwEb0hQEAjn8XhAM6bJ8p+mMGg37+Jgm8Hr93hOmzM0pufKE34FtPfrejTNMWa1hjCcEHH9hg5si4Hj9kp9yqw8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQ1PR01MB373984
+Content-Transfer-Encoding: 8bit
 
-On 2026-11-06 21:25, sashiko-bot@kernel.org wrote:
- > unchecked boosting_waiter() return and boost state
+Hi Ingo, Juri,
 
-Right. In v5 both cases wait until the owner runs at the waiter's
-priority, and fail if the waiter's wait did not time out.
+This series fixes 25 bugs of SCHED_DEADLINE. Most of them are in its
+bandwidth accounting. Then it shows the deadline bandwidth of each
+runqueue in sched_debug, and adds three selftests. The fixes come first,
+as you asked, so that stable can take patches 1 to 25.
 
-Thanks,
+Three of the bugs take the kernel down (patches 5, 8 and 22). Two leave
+cpuset_mutex unusable (1 and 6). Most of the others leave total_bw of a
+root domain, or this_bw of a runqueue, wrong. The root domain then
+admits deadline tasks beyond its capacity, or refuses every one.
 
-Mathieu
+The series applies on top of v2 of "locking/rtmutex: priority
+inheritance fixes and tests", posted for Peter and Thomas. Patch 8 needs
+its patch 3.
 
+Patch 1 is Andrea Parri's, reviewed by Waiman, Kayra and Juri. I carry
+it because patches 6 and 15 build on it. Take it by whichever route you
+prefer.
+
+Juri, Ingo dropped your four fixes from sched/urgent after the first
+one crashed Marek Szyprowski's hotplug test. They are here:
+- 1/4 is patch 16. It does not use the task's mask, which can have no
+  active CPU during hotplug.
+- 2/4 is patch 11, without its double release. It does not carry your
+  Signed-off-by, which is yours to add back.
+- 3/4 is patch 2.
+- 4/4 is patch 12, extended.
+Marek found v2 fixed on the board that crashed.
+
+The fixes
+=========
+
+ 1  Do not unlock cpuset_mutex twice when __sched_setscheduler()
+    retries (Andrea Parri).
+ 2  Refuse SCHED_FLAG_KEEP_PARAMS requests that would change the policy
+    or the class.
+ 3  Skip admission for parameters that SCHED_FLAG_KEEP_PARAMS keeps.
+ 4  Let a task boosted by a deadline waiter change its policy.
+ 5  Do not divide by zero active CPUs of a root domain.
+ 6  Take cpuset_mutex for a deadline policy change only with pi, so
+    that sysrq-n does not leave it locked.
+ 7  Replenish a throttled task switched out and back, so that it runs
+    again.
+ 8  Take a deadline boost from the waiter's rt_mutex node, so that the
+    owner never runs on cleared parameters.
+ 9  Reset the deadline and the runtime with the parameters.
+ 10 Reset the waiter's deadline and runtime at a deboost in the class.
+ 11 Release the bandwidth of a task that leaves the class asleep.
+ 12 Reject SCHED_DEADLINE on exited tasks (Juri Lelli).
+ 13 Keep the bandwidth of departing tasks across a root domain rebuild.
+ 14 Keep this_bw right when a task changes during a remote wakeup.
+ 15 Rebuild the root domains' accounting from the task list.
+ 16 Record the root domain that holds a task's bandwidth.
+ 17 Leave out of a rebuild a dying task that released its bandwidth.
+ 18 Move a task's bandwidth only where an attach made room for it.
+ 19 Wait for an attach before rebuilding the sched domains.
+ 20 Give back the bandwidth an attach did not move.
+ 21 Reserve an attach's bandwidth in the root domain each task moves to.
+ 22 Make a rebuild use the CPU recorded with a task's bandwidth.
+ 23 Move a task's bandwidth when it must leave its CPU.
+ 24 Cancel the replenishment timer with the parameters.
+ 25 Count in this_bw the bandwidth a boosted task is given.
+
+Patches 16 to 23 go together. 16 records the root domain that counts a
+task's bandwidth. 17 to 23 fix the rebuild, attach and migration paths
+that the record exposes. Patch 25 completes patch 14. Patch 26 shows
+this_bw in sched_debug. Patches 27 to 29 add 65 cases in
+tools/testing/selftests/sched/deadline, as Juri suggested.
+
+Peter and Thomas, patch 8 touches the rt_mutex code. It records the
+reservation of a deadline waiter in its rt_mutex node, and takes a
+deadline boost from there. struct rt_mutex_waiter grows by 48 bytes.
+The other classes keep the waiter's own priority, as since commit
+acd58620e415 ("sched/rtmutex: Refactor rt_mutex_setprio()").
+
+Peter, patch 21 also touches __set_cpus_allowed_ptr_locked(). A cpuset
+attach can reserve a deadline task's bandwidth in one root domain. If
+the CPU picked for the task is in the other one, the patch steers the
+task to the reserved CPU.
+
+Testing
+=======
+
+The 65 cases pass wherever they run, with lockdep and no kernel
+warning, in 21 QEMU guests:
+- 8 guests of 8 vCPUs.
+- 2 guests each with 4 vCPUs, PREEMPT_RT, proxy execution off, and no
+  CONFIG_CPUSETS.
+- 5 guests of 5 vCPUs booted with isolcpus=domain,1,2 or
+  isolcpus=domain,0,1, 2 of them with PREEMPT_RT.
+The six isolcpus cases run only in the last group. There, three cases
+that need 4 CPUs that are not isolated skip.
+
+The cases of v4 fail on v7.4-rc1 as patches 27 to 29 list. Each case
+added in v5 fails on the series without its fix. Kernels stopped at
+single patches confirm the claims of patches 11, 13, 19 and 20. The
+series builds at each patch whose code changed in v5.
+
+Patch 8 has no selftest. A debug delay, or a stress test, locks up
+v7.4-rc1. The series runs the stress test for 600 seconds. The locking
+API, ww_mutex, locktorture and futex selftests pass with and without
+PREEMPT_RT.
+
+How this was developed
+======================
+
+An LLM coding assistant wrote these patches, their messages and the
+tests, under my direction and review. I know the concepts behind
+SCHED_DEADLINE, but not its implementation well. So I ask those who
+know this code for a careful reading of the fixes. A reproducer that
+stops failing shows that the symptom goes away. It does not show that
+the fix is the one you would have written.
+
+The bugs came from:
+- flaky cgroup selftests of a feature I am developing;
+- the review of Juri's four fixes;
+- building deadline_bw_test, and reading the code;
+- the Sashiko AI reviews of v1 to v4. Each finding was checked against
+  the code first.
+
+Changes since v4
+================
+
+- New patch 10: a deboost in the class resets the waiter's deadline and
+  runtime when the task holds more runtime than its own.
+- New patch 21: with isolcpus=domain, a cpuset move reserves a task's
+  bandwidth in the root domain the task moves to. Found with the new
+  isolcpus test cases.
+- New patch 23: a task that must leave its CPU takes its bandwidth and
+  its record along.
+- Fixes from the Sashiko review of v4:
+  - 4: sysrq-n drops the boost of a task that leaves the class.
+  - 15: the walk skips a zombie whose bandwidth an earlier rebuild
+    dropped.
+  - 16: a bandwidth of 0 is admitted on the CPU the task is on.
+  - 17: moved after 16. It counts a dead task that has not reached its
+    last schedule.
+  - 22: the rebuild prefers the CPU the task is on.
+- Ten new selftest cases test these fixes. Two cases now check that the
+  owner was boosted.
+- The commit messages and comments are rewritten to read more easily.
+  They use short sentences. They give the design intent of the code
+  being fixed, and the impact, with fewer numbers. Patches 1 and 12
+  are unchanged.
+- The rewrite found details that did not match the code or the test
+  logs, and fixed them. Patch 18 claimed a case that patch 20 fixes.
+  That case moved to the message of patch 20.
+- New subjects for patches 14 and 22.
+- Patch 8 cites the rtmutex patch by its new subject, "locking/rtmutex:
+  Clone the sort keys in rt_mutex_enqueue_pi()".
+- Testing with isolcpus=domain found three upstream problems outside
+  this series. I reported them separately:
+  - An empty sched domain, which leads to a panic at CPU offline:
+    https://lore.kernel.org/all/20261108145744.1532128-1-mathieu.desnoyers@efficios.com/
+  - A WARNING when isolated partitions take every housekeeping CPU:
+    https://lore.kernel.org/all/20261108145754.1532162-1-mathieu.desnoyers@efficios.com/
+  - A false "suspicious RCU usage" report without CONFIG_CPUSETS:
+    https://lore.kernel.org/all/20261108145931.1532447-1-mathieu.desnoyers@efficios.com/
+  For the first two, Waiman answered that cpuset will keep a
+  housekeeping CPU in the top cpuset. Guopeng Zhang's series, under
+  review, does this:
+  https://lore.kernel.org/all/20261105130344.664336-1-guopeng.zhang@linux.dev/
+  For the third, I posted the fix as a patch, with Waiman's Reviewed-by:
+  https://lore.kernel.org/all/20261108185129.1549419-1-mathieu.desnoyers@efficios.com/
+
+Not changed:
+- A departed task that priority inheritance boosts back into the class
+  is counted once across a rebuild. The rebuild counts it where it
+  runs. If the deboost races the rebuild, its bandwidth is dropped
+  until its 0-lag time. Nothing is counted twice.
+- At a deboost, the 0-lag time of a task comes from the deadline and
+  runtime it ran on during the boost, as upstream.
+- The EPERM of a sleeping task moved to another partition is the
+  baseline's affinity check.
+
+Based on tip sched/urgent, 006991aa8997, with v2 of "locking/rtmutex:
+priority inheritance fixes and tests" applied first:
+https://lore.kernel.org/all/20261108141347.1525532-1-mathieu.desnoyers@efficios.com/
+
+v4: https://lore.kernel.org/all/20261107014451.1487825-1-mathieu.desnoyers@efficios.com/
+
+Andrea Parri (1):
+  sched: Fix cpuset_mutex double unlock in __sched_setscheduler()
+
+Juri Lelli (1):
+  sched/deadline: Reject SCHED_DEADLINE on exited tasks
+
+Mathieu Desnoyers (27):
+  sched: Refuse SCHED_FLAG_KEEP_PARAMS that would change the policy or
+    the class
+  sched/deadline: Do not admit bandwidth for parameters that are kept
+  sched: Let a task boosted by a deadline waiter change its policy
+  sched/deadline: Do not divide by zero active CPUs of a root domain
+  sched: Take cpuset_mutex for a deadline policy change only with pi
+  sched/deadline: Do not lose a throttled task switched out and back
+  sched/deadline: Take a deadline boost from the waiter's rt_mutex node
+  sched/deadline: Reset the deadline and the runtime with the parameters
+  sched/deadline: Reset the donor's runtime at a deboost in the class
+  sched/deadline: Release the bandwidth of a task that leaves the class
+    asleep
+  sched/deadline: Keep departing bandwidth across a root domain rebuild
+  sched/deadline: Fix this_bw when a task is changed during a remote
+    wakeup
+  sched/deadline: Rebuild the root domains' accounting from the task
+    list
+  sched/deadline: Record the root domain holding a task's bandwidth
+  sched/deadline: Leave a dying task out of a rebuild of the accounting
+  sched/deadline: Move a task's bandwidth only where room was made
+  cgroup/cpuset: Wait for an attach before rebuilding the sched domains
+  cgroup/cpuset: Give back the bandwidth an attach did not move
+  cgroup/cpuset: Reserve the bandwidth in the root domain a task moves
+    to
+  sched/deadline: Make a rebuild use the CPU recorded with a task's
+    bandwidth
+  sched/deadline: Move a task's bandwidth when it must leave its CPU
+  sched/deadline: Cancel the replenishment timer with the parameters
+  sched/deadline: Count the bandwidth a boosted task is given
+  sched/debug: Show the deadline bandwidth of each runqueue
+  selftests/sched: Add a test of SCHED_DEADLINE policy round trips
+  selftests/sched: Test SCHED_DEADLINE bandwidth across a root domain
+    rebuild
+  selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
+
+ include/linux/cpuset.h                        |    9 -
+ include/linux/sched.h                         |   47 +-
+ include/linux/sched/deadline.h                |   54 +-
+ include/linux/sched/rt.h                      |   11 -
+ kernel/cgroup/cgroup.c                        |    3 -
+ kernel/cgroup/cpuset-internal.h               |   14 -
+ kernel/cgroup/cpuset.c                        |  274 +-
+ kernel/locking/rtmutex.c                      |   34 +-
+ kernel/locking/rtmutex_api.c                  |    2 +-
+ kernel/locking/rtmutex_common.h               |    5 +
+ kernel/sched/core.c                           |  116 +-
+ kernel/sched/deadline.c                       |  940 ++-
+ kernel/sched/debug.c                          |   12 +-
+ kernel/sched/sched.h                          |   26 +-
+ kernel/sched/syscalls.c                       |   95 +-
+ kernel/sched/topology.c                       |    8 +
+ tools/testing/selftests/Makefile              |    1 +
+ .../selftests/sched/deadline/.gitignore       |    3 +
+ .../testing/selftests/sched/deadline/Makefile |    8 +
+ tools/testing/selftests/sched/deadline/config |    5 +
+ .../sched/deadline/deadline_bw_test.c         | 5038 +++++++++++++++++
+ .../sched/deadline/deadline_rebuild_test.c    |  491 ++
+ .../sched/deadline/deadline_switch_test.c     |  721 +++
+ .../testing/selftests/sched/deadline/settings |    1 +
+ 24 files changed, 7563 insertions(+), 355 deletions(-)
+ create mode 100644 tools/testing/selftests/sched/deadline/.gitignore
+ create mode 100644 tools/testing/selftests/sched/deadline/Makefile
+ create mode 100644 tools/testing/selftests/sched/deadline/config
+ create mode 100644 tools/testing/selftests/sched/deadline/deadline_bw_test.c
+ create mode 100644 tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
+ create mode 100644 tools/testing/selftests/sched/deadline/deadline_switch_test.c
+ create mode 100644 tools/testing/selftests/sched/deadline/settings
+
+
+base-commit: 006991aa89974378ee579416dba87adc22cd60fd
+prerequisite-patch-id: 382feddeb27d226d8711d23036c8ae0c8629c680
+prerequisite-patch-id: 72e83c74aa52fcd32afb2909b071f40c82b0ef10
+prerequisite-patch-id: ec1db50b63225bf6d9e37c48e808880c087ed2cd
+prerequisite-patch-id: 97db185c1e6a2dc57035ae5ad36cbed6142a1c59
+prerequisite-patch-id: 891e1ff948178bf81c62424d4af34e46aeee239c
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+2.47.3
+
