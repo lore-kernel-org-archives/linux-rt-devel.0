@@ -1,88 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794164389;
-	b=D2xXeDOsXY2UB9l4wTCreATh4tZHZHxr8G7NshBVUVbHp8HlqVx+MZIw/fZ2l8VPPnku
-	 lfcpWv/R3PjBEu/zX6mjV3sGf2x3rIQjzVPW5gd6XgBeKmlhsBoGVN0jKMoGp2oph4adR
-	 TQmonddbxWQAqnRwH3luQ7kXXARVs90FCGF8/T5S9yJS8NNWLSwZaLuuPVt3Th+uuvJuw
-	 p+umQUBmmsl/TSCR6b8XJXKgSct1+jCQ5oB/khHN51cAWCH5l9hlMEepjd1VYRPeCPiyg
-	 noEozbsuI366eqBODS5NcRk3G8EiiR2HEydhic2MSSonEVCPVXFrQa2UZGRhTGvDalw==
+	t=1794165460;
+	b=sRgsrGFl2425rMIBeGEOsowrhWVEwg/RVB/zvcwhZPjuuu/xH2I5GLTrizJnx3hGyYzt
+	 G7xjq1tnxZIB69K4BlKQ+o3d8G4u0g2iFpZe3aHaYZD8pIWXQK5cGnGvB9LY7Uk1VLO7Q
+	 l2Q8fyq2x9hCgm9+RFE5LG+Ab7yahX8cwqeoj6WwSW00Wu5m6876w64dyt99n2dJ+iVMM
+	 sM8eA4n+Xt0ULJBsy/fbQXEOUm9PrByXiPFrI2KYhHSCTZBlLtGI570nZoMU6dgobXzxG
+	 upMkwiqC/KEjKDQL0pzWhOCHXGENpkEwrvay86XAAhl+AysYTFJftfujIsLfe5FnvPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794164389;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:In-Reply-To:Content-Type;
-	bh=GpAFUlt0XxBY6dBpUlo0gkGGdcjqwC3S9cjFDt6ElxU=;
-	b=M6Vn3gPPJOhQ2pIzNi3nB2E+lJbO9CeiNR9dQbMu1I3gslQT8cWCbRUg38Z7/jC47cId
-	 707SeMB9bL3iigkY4fddXfT2g59zkSqdzoz2ysnAh2H9E4LV/jqFaWidOTkBcHigcGpqR
-	 f4OlEhgwDnS8BOQMq7YO8R3mokflhpKuZV14Ra3IiwD/LyKL34JSt8016A7ZX4f15NMV2
-	 G0pX1rw7HLAhinP1WL8PVXMoOVgSbGgccKpU5drJ3JC+V26DfWBclSecpmt1cw8npqYRX
-	 M2GZEfwRzuueAw3HM30YiAqZ2+H0tU4KsYyFTOoi4nkPfzl5SqNw8fhmihIz32X00rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794165460;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=V2a36xghgUAXwOogjxhzBipfecgnEqN+y26p5P7ES0s=;
+	b=1/3zx8K8KFHMx6Fg8ZVFfCQ2dCgWkABtQW/AvPlksHfqK3nW8h1UZHip7uSFHS/jrAkd
+	 sR482reZiSt+m38qPoG6QWWD/Yiqkn1E3Q8DqPSEP+F29+pVgkF2vhwTbQBCtZEqgW1vj
+	 Df+cGI8XodjuZkUmstW5ZBq6Pkymkr/FOZ03ZisMPIqWqius632nW/lmDIdEtZKzl0Xte
+	 CfDdY926CJ8vAWWSFVVTgMwrVZWYCTn5ggKugWq1U/gf8wBrRVI+xeFZGxRu8UmlcrQdn
+	 M0VLj9KayNE1hGStDY9IWEWVfnMZWaoPygc3O4mmvruM01Z8WVFpzWP6eYxLFGPD0ZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q2r+KU1S;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W9gjbYY3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED315606A32A
-	for <linux-rt-devel@lists.linux.dev>; Sun,  8 Nov 2026 18:59:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED315606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4556D606A31C;
+	Sun,  8 Nov 2026 19:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q2r+KU1S
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so1233495e9.3
-        for <linux-rt-devel@lists.linux.dev>; Sun, 08 Nov 2026 10:59:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794164387; x=1794769187; darn=lists.linux.dev;
-        h=content-type:in-reply-to:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GpAFUlt0XxBY6dBpUlo0gkGGdcjqwC3S9cjFDt6ElxU=;
-        b=Q2r+KU1SCPEwdtQX3yRp+SHRbSAIYzEvloQxWTlfHkUU5wfpkOVcK9qqQNJjPbalPL
-         Ku21SrSk1QvYTmomB2XV0dQrsCiuPAoPU/98sHoW3SYf7CM1j3hpRhU+FonlfzKeJXz4
-         XAKz3Czdw+kXiX5ZvX0hM4npsYAi8Lv5Q8aV2LAv4i4rofq+T7bsgj5F2ycCoSJrPHQu
-         K+3+oWAvNlvX2sAsQMOjBBvX7zXK+QuUDVXnXNLBWeH2cB41CgvlCIvwH7AXw7P7XyB8
-         nUWQum+Xx9meAwZHCzzMTEoUoBhzt+QuVSQIA63dxaOrodedkFo5J1g1rqOmAmhHaPYw
-         0bFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794164387; x=1794769187;
-        h=content-type:in-reply-to:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GpAFUlt0XxBY6dBpUlo0gkGGdcjqwC3S9cjFDt6ElxU=;
-        b=yFKsujin6iSEVlPLvRQo7KBgnxXe9Eq/v6LfXOTlrNl8KHtGYegPOvVv1uaK8g2Zao
-         /4mIn0VVKSNLtvHpfadC/sfBnmKsZB/89Rq749KTXUbYYUOOOInsHHVyGc4GQZigdrY/
-         Nriz3EPWCfglGTpJnydKg0ToWm4w7atZJHW5bJCxIetsbHImaWrY8Zc4tmDnhN/U8pju
-         gsf/7jYrZzEaUsZV7Q980l2zApuwPRFOwh3PdNdaUtcnapxs7zEwgjmERdyZj8nRQIcc
-         2o1L/NJOA83L5beuLMNRb7d3a8aJIb4hgCqfx4I+Atztf6hMfCIfqztQ7iRu0CgD5fsp
-         QifQ==
-X-Forwarded-Encrypted: i=1; AL+hErG2m8LRl3xzaaGZWJ5dT2UC/PtRT5iIEn+ht6U2fUf6ufGfVtUTwA1yfYPJ1nrCVMdhf301gvh/wRM9Cpanuw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/f+X4pZm37I4Qg0ag1CvhZjGRJ3Lj+b5FGfI+AqMhJ+tuUaB32
-	bZZ6e3XbDdZKMRLxlrUCwbtqObgloaqs1dt4+Aq+Inl6MkLscf90KGJ0
-X-Gm-Gg: AYBFou3DOHh7iQuESbJN7wpLj1+C7kS9MQ4Z6vhj64rh4DfLiF9Hz/psRvPEtDIJnDT
-	/rXLRQHEbsQzlexfF6+zgXEb6p2E4YHgAYAQIpFtU4gKFYraOP8gdSy+sG7EpO+mdKH2nFm8+4P
-	/D4lYdTQgmaJU0uoqJ3tbdiMuugcydU4ItDiPn2HCe2/gmUdjjd+3Y+tnslDvbtlxyLZA28mNXq
-	OtwX/8QAr9TArYKzlpKflmDz8kSRW5/rTlfT7P6kzM96HuSRwMhjuigkhOP8RqgZ/15rhaA9FZe
-	o05T7PlS4zZ99qLmMv2FXgivmO7j7LT+z47TSJ0N/Y2zLkQ8ciNmEdSmquTIyp4F1uXdt2iy0op
-	pzss/Ne11YJQPHUDcu06oWy/7po1h9T5RaIGuQt9hdPPcZBhdRdBnFxdtoqAWOL1rNPmK4UvIr+
-	DtlpFvS5PdWLAisum7WEAnfyHIc7bk1Z3SexussqHBvPj5cAf68OBjx8aPYda4gcpcYu7XcUg9O
-	kG9FoGD97WaIpr44LHV536hGEiRL9/0KLsIl/kMawE3IubdguMZ6ispkI5pdTtS/fb6LVe5vS4q
-	90K5FDmw6KtlL36GQrkDDEqUTvheyRUZprCYzu5p8MTt+y9gLxFBubJi7iiLegUTplDTEjwx7N5
-	laXjZlJYzhK96aBUkbs5CvXlAY6KJ7UNZevDPfCXXwA==
-X-Received: by 2002:a05:600c:3ba4:b0:4b2:61e5:b2f4 with SMTP id 5b1f17b1804b1-4b963c65a88mr49152645e9.11.1794164387223;
-        Sun, 08 Nov 2026 10:59:47 -0800 (PST)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b90f11172esm80401145e9.12.2026.11.08.10.59.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Nov 2026 10:59:46 -0800 (PST)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <3dd2bb0d-8486-4630-b496-e92e4ac37c29@gmail.com>
-Date: Sun, 8 Nov 2026 18:59:45 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W9gjbYY3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829381F0089F;
+	Sun,  8 Nov 2026 19:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794165459;
+	bh=V2a36xghgUAXwOogjxhzBipfecgnEqN+y26p5P7ES0s=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=W9gjbYY3Zj36YHz8WbmLrb2AqYwOdUmqBs+DLjBb0FpOSJLGFCjTukhusR86XLkaM
+	 a01BFLYPWf9Om1kjfiU721Mh1oO8iuetTU7eyEmGF60fnJ2tFREqkpUqW4dbhNpcuL
+	 pzfWEPvuK/F5obV5U0LjHhQWvtEgxPS90fANc+hRkii2/g2DxO4efaXcl9fzXo5164
+	 cb3MF/Ao7kEPbHJjTE2+nxIUE474oplvLSsz1u2ml+SyaepwasJfrgaQ5E2bOaTDS9
+	 OGQcz0hRVjeRofBePgLUxabHenKJy3KM7Jk2EsQkpZ4P1O4R1atgkfg4MEu/cMpX9C
+	 a+bt8TQfHSZxg==
+Message-ID: <sashiko-outbox-203929@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 10/29] sched/deadline: Reset the donor's runtime at a
+ deboost in the class
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20261108185406.1549770-11-mathieu.desnoyers@efficios.com>
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-11-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 08 Nov 2026 19:17:38 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -91,153 +60,142 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
-To: "Ahmed S. Darwish" <darwi@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Ingo Molnar <mingo@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-5-darwi@linutronix.de>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20261106091922.7560-5-darwi@linutronix.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3ScbaGCYTbGeYkRt0jz5kpka"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3ScbaGCYTbGeYkRt0jz5kpka
-Content-Type: multipart/mixed; boundary="------------NII28W9PtdHxoeuGqG7HRNpZ";
- protected-headers="v1"; hp="clear"
-Message-ID: <3dd2bb0d-8486-4630-b496-e92e4ac37c29@gmail.com>
-Date: Sun, 8 Nov 2026 18:59:45 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
-To: "Ahmed S. Darwish" <darwi@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Ingo Molnar <mingo@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-5-darwi@linutronix.de>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20261106091922.7560-5-darwi@linutronix.de>
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] sched/deadline: donor runtime and deadline kept in
+  dl_deboost() when <=3D dl_runtime
+- [Medium] sched/deadline: lost PI boost in rt_mutex_setprio() after
+  dl_deboost() resets deadline
+- [Medium] sched/deadline: dl_deboost() leaves deadline =3D=3D 0 when task
+  is not queued
+--
 
---------------NII28W9PtdHxoeuGqG7HRNpZ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+commit cd4afb597a9d73fea8dc312f5eba35ea246cd6ce
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-On 11/6/26 09:19, Ahmed S. Darwish wrote:
-> Add a checkconfig target to validate the current kernel .config against=
- a
-> set of rules.  Select the rules using a mandatory RULES=3D make variabl=
-e.
->=20
-> Example usage:
->=20
->    make RULES=3Dpreempt_rt checkconfig
->=20
-> Use the kconfig-checker to perform all sanity checks.
->=20
-> Document the new target at the 'make help' text.
->=20
-> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
-> ---
->  scripts/kconfig/Makefile | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->=20
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index 5baf1c44ffa2..d67a23730259 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -125,6 +125,26 @@ testconfig: $(obj)/conf
->  	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=3Dno)
->  clean-files +=3D tests/.cache
-> =20
-> +checkconfig :=3D $(PYTHON3) -B $(srctree)/tools/kconfig-checker/check.=
-py
-> +list_checkconfig_rules =3D						\
-> +	echo -n >&2 "Available RULES: ";				\
-> +	$(checkconfig) list-rules >&2;					\
-> +	echo >&2
+sched/deadline: Reset the donor's runtime at a deboost in the class
+
+This commit adds dl_deboost() to reset a deadline task's runtime and
+deadline when a priority inheritance boost ends in the deadline class with
+a remaining runtime larger than the task's own dl_runtime.
+
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index e4d299acb1fc4..bf722f5ff97e5 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -7898,7 +7898,7 @@ void rt_mutex_setprio(struct task_struct *p, struct=
+ task_struct *pi_task)
+>  				dl_boost(&p->dl, &pi->dl);
+>  				scope->flags |=3D ENQUEUE_REPLENISH;
+>  			} else {
+> -				p->dl.dl_boosted =3D 0;
+> +				dl_deboost(&p->dl);
+>  			}
+>  		} else if (rt_prio(prio)) {
+>  			if (dl_prio(oldprio))
+
+[Severity: Medium]
+Can this drop a needed boost when a boosted deadline task transitions from
+an earlier-deadline waiter W1 to a later-deadline waiter W2 whose deadline
+is still earlier than the owner's own unboosted deadline?
+
+rt_mutex_setprio() checks dl_time_before(pi->deadline, p->dl.deadline)
+before calling dl_deboost(), so W2's deadline is compared against W1's
+earlier deadline still stored in p->dl.deadline:
+
+kernel/sched/core.c:rt_mutex_setprio() {
+	if (dl_prio(prio)) {
+		if (!dl_prio(p->normal_prio) ||
+		    (pi_task && dl_prio(pi->prio) &&
+		     (dl_entity_is_special(&pi_task->dl) ||
+		      dl_time_before(pi->deadline, p->dl.deadline)))) {
+			dl_boost(&p->dl, &pi->dl);
+			scope->flags |=3D ENQUEUE_REPLENISH;
+		} else {
+			dl_deboost(&p->dl);
+		}
+}
+
+Because W2's deadline is not before W1's deadline, rt_mutex_setprio()
+calls dl_deboost(&p->dl), which zeroes p->dl.deadline when p->dl.runtime >
+p->dl.dl_runtime.  On enqueue, setup_new_dl_entity() pushes p->dl.deadline
+out to rq_clock(rq) + p->dl.dl_deadline, leaving p running unboosted with
+a deadline later than W2's.
+
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index cc43c5eeae51a..e6c55afcfd011 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -118,6 +118,22 @@ void dl_boost(struct sched_dl_entity *dl_se, const s=
+truct sched_dl_params *param
+>  	dl_se->pi_params =3D *params;
+>  	dl_se->dl_boosted =3D 1;
+>  }
 > +
-> +PHONY +=3D checkconfig
-> +checkconfig:
-> +	$(Q)if [ -z "$(RULES)" ]; then					\
-> +		echo >&2 "Usage: make RULES=3D<profile> checkconfig";	\
-> +		$(list_checkconfig_rules);				\
-> +		exit 2;							\
-> +	fi
-> +	$(Q)if ! $(checkconfig) list-rules | grep -qw "$(RULES)"; then	\
-> +		echo >&2 "Unknown RULES profile =3D $(RULES)";		\
-> +		$(list_checkconfig_rules);				\
-> +		exit 2;							\
-> +	fi
-> +	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)"
-> +
->  # Help text used by make help
->  help:
->  	@echo  'Configuration targets:'
-> @@ -154,6 +174,9 @@ help:
->  	@echo  '                    default value without prompting'
->  	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
->  	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and=
- pytest)'
-> +	@echo  '  checkconfig	  - Check current config against sanity rules s=
-pecified by RULES'
-> +	@echo  '                    Example usage: "make RULES=3Dpreempt_rt c=
-heckconfig"'
-> +	@echo  '                    (requires python3, PyYAML, and jsonschema=
-)'
->  	@echo  ''
->  	@echo  'Configuration topic targets:'
->  	@$(foreach f, $(all-config-fragments), \
-> -- 2.56.0
->=20
+> +/*
+> + * End the boost of @dl_se, a task that stays in the class. Its own
+> + * reservation never gives it a runtime above dl_runtime. A larger runti=
+me
+> + * is what the donor left. In that case, reset the runtime and the
+> + * deadline. The next enqueue then starts a new period. The caller holds
+> + * the rq lock and the pi_lock of the task.
+> + */
+> +void dl_deboost(struct sched_dl_entity *dl_se)
+> +{
+> +	if (dl_se->dl_boosted && dl_se->runtime > (s64)dl_se->dl_runtime) {
+> +		dl_se->deadline =3D 0;
+> +		dl_se->runtime =3D 0;
+> +	}
+> +	dl_se->dl_boosted =3D 0;
+> +}
 
-I think this tool may belong in scripts/ due to the kbuild integration,
-as was mentioned in the past on another tool review:
+[Severity: Medium]
+Does keeping dl_se->runtime and dl_se->deadline when dl_se->runtime <=3D
+(s64)dl_se->dl_runtime still allow the deboosted task to run the donor's
+remaining runtime on top of its own runtime in one period?
 
-https://lore.kernel.org/linux-kbuild/20260428183101.GA3304253@ax162/
+On ENQUEUE_MOVE from rt_mutex_setprio(), enqueue_dl_entity() only calls
+setup_new_dl_entity() if dl_se->deadline is in the past and does not check
+dl_entity_overflow().  If a task (for example, dl_runtime =3D 10ms,
+dl_period =3D 100ms) is deboosted when the donor has <=3D 10ms of runtime l=
+eft
+and an earlier deadline (say 20ms away), dl_deboost() preserves both the
+remaining donor runtime and the donor's deadline.  Once the task consumes
+that remaining runtime and throttles, start_dl_timer() arms the
+replenishment timer at dl_next_period(dl_se):
 
-- Julian Braha
+kernel/sched/deadline.c:dl_next_period() {
+	return dl_se->deadline - dl_se->dl_deadline + dl_se->dl_period;
+}
 
---------------NII28W9PtdHxoeuGqG7HRNpZ--
+For dl_deadline =3D=3D dl_period, that replenishment fires at the donor's
+deadline rather than a full dl_period in the future, giving the task a new
+full dl_runtime immediately and allowing up to nearly 2 * dl_runtime of
+unboosted execution within a single dl_period.
 
---------------3ScbaGCYTbGeYkRt0jz5kpka
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+[Severity: Medium]
+What happens when dl_deboost() zeroes dl_se->deadline on a task that is
+not queued on a runqueue?
 
------BEGIN PGP SIGNATURE-----
+When a boosted deadline task holding lock L1 is blocked on lock L2 and the
+waiter on L1 aborts, rt_mutex_setprio() runs under sched_change, which
+only calls enqueue_task() in sched_change_end() if ctx->queued is true.
+Because the task is blocked on L2, it is not enqueued and p->dl.deadline
+remains 0.  rt_mutex_adjust_prio_chain() then calls waiter_update_prio()
+for the task's waiter on L2, copying task->dl.deadline (0) into
+waiter->tree.deadline.  Since dl_time_before(0, d) is true for any
+positive deadline d < 2^63, the deboosted task sorts ahead of real
+deadline waiters on L2 and falsely boosts L2's owner with deadline 0, while
+also preventing any new deadline waiter on L1 from boosting p while
+p->dl.deadline is 0.
 
-wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavDGoQUDAAAAAAAKCRDElYPCBXNxICr8
-AP9ab7lj4yj0R79XczFEOb9wo5VIMZGC3vGZY5oFqemP3wEA3AwrJodpubXiVsw04hceTbqM6l8E
-RZBUQogdrKCHxwU=
-=wQlh
------END PGP SIGNATURE-----
+In addition, when the task is queued and has a constrained deadline
+(dl_deadline < dl_period), enqueue_dl_entity() calls
+dl_check_constrained_dl(dl_se) on dl_se->deadline =3D=3D 0 before reaching =
+the
+ENQUEUE_MOVE setup_new_dl_entity() call.
 
---------------3ScbaGCYTbGeYkRt0jz5kpka--
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108185406.1549=
+770-1-mathieu.desnoyers@efficios.com?part=3D10
