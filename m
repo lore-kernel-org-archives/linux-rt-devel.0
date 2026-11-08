@@ -1,67 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794089960;
-	b=vq79dOPhn6WWpIppY1TWFfzxexNB8XJ2LUocJBqf+Ghtu8+xozc3fBmms942/lQpK2bo
-	 JKmN4JLLzTadayGjvQkR77TnZ5bQz3Z6doufuiPZq9/i2Lv55qY06Yuglc7OwSyG9Q14u
-	 45VUOZgV5uBMoDiROCme1nuYvfkeKPXmPvoTpNUUfZsUWc0PAL0maSYXXbhpbX4YM/cHt
-	 ct2/WnRQZ0O1i4ZLr+XRa+pIyzV+wuLBoRnTu4+aN/ynTXNtQvpiVVG3MWnPrR51E+U49
-	 q5ol181enqW5PvtVLqDwn/SlgtPtfHJCXnMpnFWpOson+JaBaLbGbLYuo+SNF2sBFkQ==
+	t=1794099006;
+	b=0OfrybqTwSAG/eVc3wnSaXBzGCL0zs4Z9+YnwQxxTPWkRvCirnu1CvOJK6tM4mQWVZCR
+	 SyHWKlFcQoOzJ2oQqT2Hoc4Gvg/Ab8jQdAky9jsGEij7nrNaY3ARXweDSmk7mTU4m+Wd0
+	 EOt9ZlUDyNJqQf0I7QZlH9rUy//cvCGEKNuuTTnB6CiM4fkZven7xwYhkqSbUVQ56SGr7
+	 /mm/wGFMaaYyNvLkh+EXY0/VX2cFEvv13vRi5Cvg4bPY3/mabmR6EI2O0AaCqj6cINr5f
+	 OacjeSb98mGBr0NYthuLNJeQhLxjot/P53SyqSo5i14EL7UwKqybYhGW9UKvA0Vbimg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794089960;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=IrWyd/NUIg/cuTdnip5OZoVktjwrysAxByBJrTRw/Vs=;
-	b=sz9COAYCi6Nt78DKqbQeBStlqlUrFuJGUtHPS1V7Y+nCepN4OO4AiQ9SSXK/F0vRTwo+
-	 m42XHVCoqyHq0WNr7LAruAeWszHOojz46u4ffhbKzpeCOW/O6IkJHN0hVTvPQgRxCXnI8
-	 +rmXOhAYFOtKRwQcyf51e+CI9xAuQMbSgcDZkz6LNY+A82g/+6JBuBcpF4rrMg4rmjQpL
-	 fPqLLwFZw1KMM7ko+PY2Jg7+fUACHO2dH3JJTco8y+2uPZCZKiBLI60kqTSUX4lu9aIB/
-	 0vLUdCjlGGvX16nByx2w4sw49z4XS2NopOPcAH8L9ONABgOoJ66jPo3rgPuXeY+6KdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794099006;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ycBAJ5FrW0Yh7SIfNsCJabTC+sDYF8E9sGOo3X3r0nI=;
+	b=gWL5KDlArsgm8CJLs0rcNQoU6S1+KedDOQE1EBlZB3WID1gdOkOddM2DDkH6LbD2P/A+
+	 zjn8dNaZ5kxwkvw8YbgOjGnTEbaJN17d/rVOvyViUcH1TBaniRv3Q8r7xo1gUXGSjlZeH
+	 LMnQcs4GtcfXuSF0rvd/uqq1NviLCrRF8sKrerp+8ymdjTQKQFk2xU76QZcJEEhg8DPPj
+	 Hneb46MX106jzmuZ1nXljANNZPdGPNNdMIcV1PvkHzihkT77NGx3QysOkf/ZPYPVC6LnM
+	 XlEtcDKUwZ/1wrMiA2MzNU0M+2SfmBxzUcxLxL8QE7OkR6BLB3hxuclhoKm1Nk0X1ZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=a2RvPuSq;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hH91j/p8";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E99606A334
-	for <linux-rt-devel@lists.linux.dev>; Sat,  7 Nov 2026 22:19:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0E99606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AE6606A326;
+	Sun,  8 Nov 2026 00:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=a2RvPuSq
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id A253040455;
-	Sat,  7 Nov 2026 22:19:15 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id 11DB62000F;
-	Sat,  7 Nov 2026 22:18:55 +0000 (UTC)
-Date: Sat, 7 Nov 2026 17:18:41 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, tglx@kernel.org,
- mingo@redhat.com, linux-kernel@vger.kernel.org, will@kernel.org,
- boqun@kernel.org, longman@redhat.com, bigeasy@linutronix.de,
- clrkwllms@kernel.org, dvhart@infradead.org, dave@stgolabs.net,
- andrealmeid@igalia.com, shuah@kernel.org, juri.lelli@redhat.com,
- linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] locking/rtmutex: Stop spinning on the owner when
- the waiter is woken
-Message-ID: <20261107171841.06d3ac92@fedora>
-In-Reply-To: <2a786b46-e935-4269-9bdc-edac43521a80@efficios.com>
-References: <20261106235931.1478800-1-mathieu.desnoyers@efficios.com>
-	<20261106235931.1478800-2-mathieu.desnoyers@efficios.com>
-	<20261107002927.3cbad7ff@fedora>
-	<20261107104329.GA2668564@noisy.programming.kicks-ass.net>
-	<c77635b1-9c24-459a-b75c-82cbfb67185f@efficios.com>
-	<20261107123642.149677cf@fedora>
-	<2a786b46-e935-4269-9bdc-edac43521a80@efficios.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hH91j/p8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 111D01F0089F;
+	Sun,  8 Nov 2026 00:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794099005;
+	bh=ycBAJ5FrW0Yh7SIfNsCJabTC+sDYF8E9sGOo3X3r0nI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=hH91j/p8jm9mBLU0t1QKs/LdcrZWQshTeiAqbQNsHa3wndeKtCBa0Z9mbrfSIs6WF
+	 pmgAwLfmgHqtF2hRFa956/5sqtKFxIkv17uFLNNCWPfR9jiTGEVhLInOsYtsMUP4kn
+	 IBKk0SEJSws6zzvV/XM/clY2n11lmferDIeX8b72WvEwoqnCiG9BtEUeH8iLhDx54R
+	 GCD62uT7jQooJlt0qLKJr5OgArPGrtMIk4QaRpjzE/uXXPEPAkfZN17nkCE7gqWpoe
+	 pxSKMB151o5Uk4xvM3pAPA2wVChupXbuCy9H40OJ+4DGIUlwKaTv66ShWkPMsOQbTu
+	 ncml3NaccwVBQ==
+Message-ID: <sashiko-outbox-203503@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v6 3/6] amt: reject a gateway Query or Data from
+ 0.0.0.0 before a relay is learned
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Omar Ramadan" <omar@blockcast.net>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20261107004935.2627329-4-omar@blockcast.net>
+References: <20261107004935.2627329-1-omar@blockcast.net>
+ <20261107004935.2627329-4-omar@blockcast.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 08 Nov 2026 00:50:04 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,76 +60,52 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 11DB62000F
-X-Stat-Signature: f8dy9hjpsw4m8s5z1mbfync5f847dh4y
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18BEy50Y0R/CGiJv/72oFmfpd2bvmyyf0k=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=IrWyd/NUIg/cuTdnip5OZoVktjwrysAxByBJrTRw/Vs=; b=a2RvPuSqqUgHFxw/HeNHl/RXpo2HWnqn7eATNP1CpuCQEW5TvqcXQbBz5gtWuxZlSjQ2NAI9zuhc3zwxY6sUDHTXrxOpPLYduq83u+5Fr3SWRwJG5HexGVZgq26H/2jqB7z4r8uy+Y/wmtnRRwDJldogONAL/5jTnzAGjmBXmBg=
-X-HE-Tag: 1794089934-72919
-X-HE-Meta: U2FsdGVkX19zj3EcpEfWC0gfish/KiltpyP1399WG2W/6/JxmHM+cHe7dYWt2DCxNxJ0h1ksxTxANJxqJctYp5wxHzt8ftfMjwc7lcTMJY8xc2XOGR56D16ksSoxtoMbI04eB0ZGzKkPnHGfUoMdyx4a59DaM+YJ6+mSmVPQmP09KKdObZxxOQ69iCMovC1naJMFwPWQDIsHwA9hSuvXdGbbsbNZ4Xv5d/vSj9iErSlVHpUy4ez6Wbm1Uj8drO2cWq9YJ8zhUtCkKZGQ+eFALB89orzxDWzKBtyG2hLTldisQbGnytGWgDZoW1+GwCJ0Bjc0eIQ8+SGCw2536hTFFKAKj7jGZ1I8MlcoDMWfcXcL7iLWspj/aHoXW0KfMIrE
 
-On Sat, 7 Nov 2026 14:34:12 -0500
-Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] amt: wrong Fixes trailer commit in amt_rcv() remote_ip check fix
+--
 
-> > 
-> > How about something like the above?  
-> It drops important information, such as the user visible impact of the
-> issue. How about this remix ?
-> 
-> locking/rtmutex: Stop spinning on the owner when the waiter is woken
-> 
-> The top waiter of an rt_mutex sets its sleep state. Then it spins in
-> rtmutex_spin_on_owner() as long as the owner is running. A wakeup sets
-> the waiter back to TASK_RUNNING. The spin loop does not check for this.
-> So a timeout or a signal is only handled when the owner blocks, or when
-> the waiter has to reschedule.
-> 
-> The spin is an optimization. A running owner will likely release the
-> lock soon, so the waiter spins instead of going to sleep. It comes
-> from the PREEMPT_RT adaptive spinning for rt_spin_locks. Only the
-> lock handoff wakes an rt_spin_lock waiter, so the spin did not need to
-> check for other wakeups there. The spin was then extended to all
-> rtmutex based locks. Their waiters can also be woken by a timeout, a
-> signal or a ww_mutex wound.
-> 
-> The owner of a PI futex is a user task. It can run for a long time.
-> With an owner spinning in userspace, a 1ms pthread_mutex_timedlock()
-> returned up to 1.4s late in testing. A signal to the waiter is delayed
-> too.
+commit 96318be241052a6271835580e7680bbadcc12e44
+Author: Omar Ramadan <omar@blockcast.net>
 
-The last sentence seems out of place. Perhaps be more specific?
+> amt: reject a gateway Query or Data from 0.0.0.0 before a relay is learned
+>
+> A gateway's amt_rcv() admits a Membership Query or Multicast Data
+> message when "saddr !=3D remote_ip" is false. remote_ip is 0 before
+> discovery has learned a relay (and is reset to 0 by amt_dev_open(), by
+> amt_dev_stop(), and when the gateway gives up after its Requests go
+> unanswered), so a packet whose source is 0.0.0.0 would otherwise pass
+> the equality check and could spoof a Query or inject multicast data.
+> IPv4 input accepts a 0.0.0.0 source only on a limited broadcast, so the
+> sender has to be on the gateway's link.
+>
+> Reject both when no relay is learned: a 0 remote_ip must match nothing, so
+> guard the check with !remote_ip. A Query is queued before its event worker
+> processes it, so the relay address can also change in that window. Recheck
+> the packet source against the current remote_ip in the handler and discard
+> stale Queries. Discovery is unaffected because Relay Advertisements are
+> validated against discovery_ip, not remote_ip.
+>
+> Found by code inspection while writing the IPv6 receive path for the
+> AMT IPv6 outer transport; not triggered at runtime.
+>
+> Fixes: b9022b53adad ("amt: add control plane of amt interface")
+> Assisted-by: LLM
+> Signed-off-by: Omar Ramadan <omar@blockcast.net>
 
- The timeout signal or any signal to the waiter will not stop it
- from spinning, and the signal will be delayed until it exits the spin.
+[Severity: Low]
+Commit b9022b53adad ("amt: add control plane of amt interface") only added
+the control plane setup; amt_rcv() and amt_membership_query_handler() were
+introduced in cbc21dc1cfe9 ("amt: add data plane of amt interface"), and
+deferred query handling was added in 30e22a6ebca0 ("amt: use workqueue for
+gateway side message handling").  Should the Fixes: tag reference those
+commits instead?
 
-> 
-> With PREEMPT_RT, two contexts that take two ww_mutexes in opposite
-> order spin on each other. Only something else that needs one of the two
-> CPUs stops them. By default, the fair server does it after 950ms, to
-> run SCHED_OTHER tasks.
+  Fixes: cbc21dc1cfe9 ("amt: add data plane of amt interface")
+  Fixes: 30e22a6ebca0 ("amt: use workqueue for gateway side message handlin=
+g")
 
-Yeah, that is a big issue.
-
-> 
-> Fix this by also stopping the spin when the waiter is TASK_RUNNING. The
-> slowpath then handles the wakeup, as it does after schedule().
-
-The last sentence doesn't really make sense. I can figure it out
-because I know what the slowpath does, but as you see in my version, I
-go into a little more detail to why it's not an issue to break out of
-that spin on TASK_RUNNING.
-
-
-> PI mutex throughput is unchanged. The futex and ww_mutex selftests added
-> later in this series test both cases.
-
-I think you can drop the above. I don't see it adding anything for the
-change log. That is more for cover letters.
-
-Thanks,
-
--- Steve
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107004935.2627=
+329-1-omar@blockcast.net?part=3D3
