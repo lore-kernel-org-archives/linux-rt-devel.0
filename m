@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794165924;
-	b=j3/XzzEuG1cZd94ODttF4UlBfITi34dy1tMAk0Wk7SsIdGWaLog+gjWzjFxHKCdyYrx0
-	 IxGRcFA0R4SfBJpDJbvx1xhqKIC3dJ4cETcpePbgBLqxVqB9ZT4A9bho1Tk1xhq8rPEmJ
-	 Km65xcyL7MWYoPs78iqWhLLST6g/NkhL3QSYYtDDoF3KEMxQEh/zPKhyFBOLf9V9NJNad
-	 ZrrsUrpHCtL+OA6/TJPKtU66rfcLyGhwx4NoZGnxRro0jtpj1SmIv3ZychHVx4wpF4mnR
-	 yJuZT9sf50VL8p15Y7OwwDGUf0YMfG23V5h4caokjghTC8YF29bluF6f77S/h6vm3kw==
+	t=1794166222;
+	b=XrC9SFkECZp/BuiFmHqP94KhRuFFsGp4U76IyJgAojpYcqAYe5DY5+qe5W5XkEeBShNi
+	 vhu/YfQ5L1zHTyviKWDDhnhKqmjDE3muShhOJh1L4zvNBCxF5tRxVyjTL1wNBM3+hobN5
+	 X2xEau2wWwMAvQhNNBja/7XlqWzNtmLMqbEP8/qxZFRaX1h1MmrDOmSQ1BeSCtG3sFSh6
+	 VahFcM39aus9vQSLEhk5w559uWIrYsRPpvzR7tB7xqtcemU1I+fwBeMetkZgKCdlV5/yh
+	 x43sCjvULA+mgjlFNgCd6U+rPlwSuiaPgL2/ZfPZSdYyUv9MS82e4jqTWRtN1lHfcmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794165924;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794166222;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Idnvy6UBEdjdA2ebpHOLOhTTrf10eml5JHDqpJWTatE=;
-	b=OqkSamGCOJ8o9WFRivrdYjFp7yPmPMCY7POuOw2VVNgR0wOGYuoFMUYfiwqNYdmRSDQ4
-	 4SR9zOXRZQRlZDq1BTYrrds6JrrIhKmb+jYN0cxqhZCAX2ubztSfyUe/vF3etxoHdpcTU
-	 E0Igks4KJm4I9jW/bNprZN3C0iIEjiSYffqomGoGeZTO3wMZDamliokQooo1Qb/RLOO2n
-	 JRWtDHmxUX3bezAkHOR+Mhg2Prpud0Xw6ENu1stC+T7zo8K+53UN5/mmSECnjIbvomLmB
-	 NVZOaIFBPctGDdHT4y0fMxopnbmwRdALhsxPXG0ommjzxsMlk3EvJ1kI8OUx4voLHUA==
+	bh=BMIXgXkKw5+haq+cqmb8pTrJNJ/kBe5kcnJCgdUGsps=;
+	b=eyGO30C9PWRspE1VwUFjYtBhN14kb8NBLCljUuLQhs5C0Tr9y0GjeC7HulDc2Rr0LePa
+	 sHCbwJWck46kP66/GFOfaVdUj1IQtv97Oc0pUvm4o6UZN6Sxbx39l9wBRhHmdSX751GfL
+	 YxbH4rHPBstIpQN5BafpzpJ/JBmpN1b6QizGGP+j02swJeKVtw/NTYhg3uCI3DyDCINC1
+	 818xyvh2XZBBxsXKi8Xg5jpowdGyzObaAUyMomm36jFBXkJPrrA6DdirBoNz0rI36HOyd
+	 UObOhQiYhGsyQqTVg3Qg1DlHVotuYc8zn/Lhtn6PDOkgAhbou8W45MMJOagQXSjZVmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UaId8wOQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ATf084pv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F19E606A31C;
-	Sun,  8 Nov 2026 19:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C09606A31C;
+	Sun,  8 Nov 2026 19:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UaId8wOQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9771F0089F;
-	Sun,  8 Nov 2026 19:25:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ATf084pv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5A41F0089F;
+	Sun,  8 Nov 2026 19:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794165924;
-	bh=Idnvy6UBEdjdA2ebpHOLOhTTrf10eml5JHDqpJWTatE=;
+	s=k20260515; t=1794166221;
+	bh=BMIXgXkKw5+haq+cqmb8pTrJNJ/kBe5kcnJCgdUGsps=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UaId8wOQaGFBfv4Z9KvrNcr6YLzL4Mo4Qjp0V+s7P1KYmQt+GZzd7p3SwAQVNEGo2
-	 6cMDkBjB/AK07RIAhZ49WEnD5DJJL8OhuaUIYTlrTJoU7M06pV/rOBj5PCfzK+seZK
-	 11bwt3sWMepF29mM2pHEjvXdZB2Dz1DKz/pVqIRTwsAGpiQUpvLqRBEqPJYY3LDxNl
-	 yoYIqye4GnsoBJTfpCOE53Cp2kCIP8+9bUXVqYhKsV4FrrBoYHK27fkZ5iPVhQZc+t
-	 vjvoWSpBMz1X1USyCUD9z+0ErAwQFXlkNMez+AE9gb5jwddOd2ef7XVlfbWQzMHwEl
-	 4HZDIq63cW8jg==
-Message-ID: <sashiko-outbox-203947@kernel.org>
+	b=ATf084pvtZIm7b3ljgl6rfZsQvidA4i9OuY5eeNTp06fZ/Yd/eJFQvjYoDj2Ptv32
+	 ciHso4FIT7iljgBh8ElUP/lxL2nDWuOU914oPyIuffcfetCWv20IV628u9hJFzUEAl
+	 sqhFDT9rtqrXwEGGfqovr6pvjL+h+R1RzGp779msJpg07FV5ki0B2ls1Vib1ODMV1y
+	 lBDGHKtKPKiXcMDtjRcrgEkfoVGckqkVFFGGbueSxufsf/qRlqCyoToGjMIy677X1a
+	 1chzaNAd+zQYQmHRB1OuD+LrfG3ZnHBP1PH9xiZjZJbcKLd0gT7/oG6lqe6Z64RTrx
+	 dZ2kd+Cre1p+A==
+Message-ID: <sashiko-outbox-203951@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 22/29] sched/deadline: Make a rebuild use the CPU
- recorded with a task's bandwidth
+Subject: Re: [PATCH v5 18/29] sched/deadline: Move a task's bandwidth only
+ where room was made
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261108185406.1549770-23-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261108185406.1549770-19-mathieu.desnoyers@efficios.com>
 References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-23-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-19-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 19:25:23 +0000
+Date: Sun, 08 Nov 2026 19:30:20 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,77 +63,82 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: wrong root domain in dl_task_rebuild_cpu() on
-  empty mask
+- [Medium] sched/deadline: skipped bandwidth move in
+  __set_cpus_allowed_ptr_locked()
 --
 
-commit 2d9a77b300d6ae31513d7938853f189f48778450
+commit e053f633c12ae5159a18a1d6a2e9e44a383c8ab0
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Make a rebuild use the CPU recorded with a task's bandwidth
+sched/deadline: Move a task's bandwidth only where room was made
 
-This commit updates deadline root domain accounting rebuilds to select a
-task's root domain from its current CPU, recorded bandwidth CPU, or active
-cpumask, and skips tasks with no active CPU instead of hitting BUG_ON().
+This commit adds the SCA_DL_BW_RESERVED flag and
+set_cpus_allowed_bw_reserved() so that set_cpus_allowed_dl() only moves a
+deadline task's bandwidth across root domains when the caller has reserved
+space in the destination root domain.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 8d9e55bca9439..bc31045e4686f 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-[ ... ]
-> @@ -3720,6 +3726,55 @@ static void dl_get_task_effective_cpus(struct task=
-_struct *p, struct cpumask *cp
-[ ... ]
-> +static unsigned int dl_task_rebuild_cpu(struct task_struct *p)
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index bf722f5ff97e5..030106b3d97f4 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -3272,6 +3272,22 @@ int set_cpus_allowed_ptr(struct task_struct *p, co=
+nst struct cpumask *new_mask)
+>  }
+>  EXPORT_SYMBOL_GPL(set_cpus_allowed_ptr);
+> =20
+> +/*
+> + * Like set_cpus_allowed_ptr(), for a caller that has made room for the
+> + * deadline bandwidth of @p in the root domain of @new_mask. Move that
+> + * bandwidth there with @p. Return 0 on success, or a negative error
+> + * code.
+> + */
+> +int set_cpus_allowed_bw_reserved(struct task_struct *p, const struct cpu=
+mask *new_mask)
 > +{
-> +	struct cpumask *msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
-> +	int recorded =3D p->dl.dl_bw_cpu;
-> +	unsigned int cpu;
+> +	struct affinity_context ac =3D {
+> +		.new_mask  =3D new_mask,
+> +		.flags     =3D SCA_DL_BW_RESERVED,
+> +	};
 > +
-> +	/*
-> +	 * Look at the mask of the task first. A change of the cpusets sets
-> +	 * the mask of each task before its rebuild. The housekeeping mask
-> +	 * that dl_get_task_effective_cpus() reads is updated after it. If no
-> +	 * CPU of the mask is active, take the CPU recorded if it is active:
-> +	 * dl_task_offline_migration() moved the task there. Else ask the
-> +	 * cpuset.
-> +	 */
-> +	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
-> +	cpu =3D task_cpu(p);
-> +	if (cpumask_test_cpu(cpu, msk))
-> +		return cpu;
-> +	if (cpumask_empty(msk)) {
-> +		if (recorded >=3D 0 && cpu_active(recorded))
-> +			return recorded;
-> +		dl_get_task_effective_cpus(p, msk);
-> +		cpumask_and(msk, msk, cpu_active_mask);
-> +	}
-> +	if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk))
-> +		return recorded;
+> +	return __set_cpus_allowed_ptr(p, &ac);
+> +}
 
 [Severity: Medium]
-Can returning recorded whenever cpu_active(recorded) is true on an empty
-msk charge a sleeping task's bandwidth to a stale root domain instead of
-consulting dl_get_task_effective_cpus()?
+Can __set_cpus_allowed_ptr_locked() skip set_cpus_allowed_dl() when
+SCA_DL_BW_RESERVED is set and p->cpus_mask already equals ctx->new_mask?
 
-Suppose a task in top_cpuset with user_cpus_ptr =3D {1} and cpus_mask =3D {=
-1}
-is asleep when CPU 1 goes offline.  Top_cpuset tasks do not have cpus_mask
-reset on hotplug, so the hotplug rebuild sees cpumask_empty(msk), queries
-dl_get_task_effective_cpus(), and records active CPU 0 in p->dl.dl_bw_cpu.
-If a new cpuset partition root is then created on CPU 0 while the task
-stays asleep, cpuset_update_tasks_cpumask() intersects the remaining
-possible CPUs with user_cpus_ptr ({1}), leaving cpus_mask as {1}.  The
-partition rebuild then sees cpumask_empty(msk) and cpu_active(0), and
-returns CPU 0 without calling dl_get_task_effective_cpus(), charging the
-task's bandwidth to the new partition on CPU 0 rather than top_cpuset.
+kernel/sched/core.c:__set_cpus_allowed_ptr_locked() {
+	...
+	if (!(ctx->flags & SCA_MIGRATE_ENABLE)) {
+		if (cpumask_equal(&p->cpus_mask, ctx->new_mask)) {
+			if (ctx->flags & SCA_USER)
+				swap(p->user_cpus_ptr, ctx->user_mask);
+			goto out;
+		}
+	...
+}
 
-Also, because the cpumask_empty(msk) block returns early whenever recorded
-is active, if execution reaches dl_get_task_effective_cpus() and
-cpumask_and(msk, msk, cpu_active_mask), recorded is guaranteed to be
-inactive, so the subsequent cpumask_test_cpu(recorded, msk) check can
-never succeed after that fallback.
+With this patch, an affinity change without SCA_DL_BW_RESERVED (such as
+sched_setaffinity() when sched_rt_runtime_us is -1 on a cpuset spanning
+two root domains) updates p->cpus_mask to CPUs in root domain B while
+leaving p->dl.dl_bw_cpu in root domain A.  If the task is then attached to
+a cpuset in root domain B whose effective affinity mask matches
+p->cpus_mask, cpuset_can_attach() reserves bandwidth in root domain B and
+cpuset_attach_task() calls set_cpus_allowed_bw_reserved(), but
+__set_cpus_allowed_ptr_locked() takes the cpumask_equal() early exit
+without calling do_set_cpus_allowed() -> set_cpus_allowed_dl().
+
+That leaves p->dl.dl_bw counted in source root domain A, keeps
+p->dl.dl_bw_cpu pointing to root domain A, and leaks the destination
+reservation in root domain B.  Later commits in this series ("cgroup/cpuset:
+Give back the bandwidth an attach did not move" and "sched/deadline: Move
+a task's bandwidth when it must leave its CPU") only partially mitigate
+this: if the task was sleeping during the earlier unreserved affinity
+change, p->dl.dl_bw_cpu stays in root domain A, the cpumask_equal() early
+exit still skips set_cpus_allowed_dl() on attach, and cpuset_free_dl_bw()
+refunds root domain B while the sleeping task's bandwidth remains counted
+in root domain A.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108185406.1549=
-770-1-mathieu.desnoyers@efficios.com?part=3D22
+770-1-mathieu.desnoyers@efficios.com?part=3D18
