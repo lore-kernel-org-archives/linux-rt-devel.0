@@ -1,111 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794234614;
-	b=N7FLkBnl3BDNNomzWF7wUvS/1kRjFKfMce2sLs/u8HvJvCp4BwHl//qMhBDlahTEat34
-	 evCwrVaTtaRSjOJyFqO/b+eAwGySClC7ITKJEl9TUWNkIgxWsv2oksC6iLJGIbO88jdlw
-	 98zrtbhk4/VCT27syURu1A5jxzVZFZAJquowgbhjEQSLd3eSNn5k6rvxurWl901D+Ze7y
-	 jCFvjASXLVOfl420MMgIHsSN/SWNzEvQKrEg2vzMdV74cP4OvGfn1UT0sN5yzKaf6tdx8
-	 QdBcaC6pd2wlGqj5cluID6SlMWfbMsfmyo4YIDx6TrDlTBSv9ygsaRjDSUtnQb565Yw==
+	t=1794235758;
+	b=F2X0NsmYrjqh+K6rRS+Ad57eqa4J8CF2EOwdYlW4+nLwXT7tDic1bRolhbChVOvudUtx
+	 MofDWG6RhckkIZC6+UA5R9ASNEN5Px2cpD/s2tZg4MAi1BvcV9qVbH/r5m91RPEDuPLMf
+	 geWrmTdnXCexmAyoDiW+nkk3Q+v7yo+N/DgQXwxHOce1fDh9X1dRr079vHYZmzqmOVnWZ
+	 elY0sUxGbjuGsKRvFH1bimf2fk1ptUVVwniDmyPCM583Q28LXvazMLc2zb0XIF8LsFoOr
+	 f/d4+8KufRscZVH3vOgvhu9olKWeRjna/sraIhPRhUj6IGH1+x6xFVduvnzezOgjg7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794234614;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=I/6OXbgLV4bCZUWKV0/koAsoiTh094pqrHlSP0k4YPc=;
-	b=UuINHtPVmwRr0HR/YdYYC9s7D4aDK0tj9GsTaPGWGVzS+TDG+p07sHZZi4GmKiSE8GqB
-	 vq5FcI7kHjQql4qNM95UfIWk9KUdSlYi2tn/Im2SLMFlMm+MsD8Zapz1Tpm6YM1A48kxH
-	 KcJdTeVh8LjLnsnRqD31sy3hR44pX0Lxqpw4RXmHJnplsSDTzNFuV7QJ3S9D+zWvexoF1
-	 8m4MwC9B1OwYIaP0mHCqKeRx3KcN2RNNi878BHCyJnJF95PkddqX3hrRL1Q9ECmkLWy6U
-	 Gn0VMuC8WiqwUZ2a6fm5UhsjbWsdM5P7gl928zw5Xfz//+sFPzGrnkgozodVP/LAb1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794235758;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=gxpyvkqUvi0Bq8DLGlGvEz5GbXR1dt2OAgTXG+P00aI=;
+	b=tntkPyJMVug8SKSDY/LtU+n5h9vf7pXuWwbk665JecC3bLmUmC7h1k7NexwoLR7gk30E
+	 yFksO0kHVUKPKDyQCXnz0mTgpBG459d/ymX2lij0ytsKnPe+RuV7CS8yRfH+HFlHeHWKz
+	 S+7JGbd0NmI76AVmqX1FAAOOS7oCLdm7w/rvUdNyVC+Rqv0Ns0tPWG0dD47UGQ8BeKMxm
+	 NSV7bw0F6cfl+3QkM7h9xqU9wSzYEyPeFwta59t5SgbVQnK8mbeZFRnXPueTKNe3ZApbv
+	 B3rhqEhzXdGc3yw8Ru5NoP2h6ojUiYZ0GMLgR7zjqV11lAzjf25IUtrhfikoJMUMbcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gjh+K8CB;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FTaIzhqC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B493B606A33A
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 14:30:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B493B606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A70F606A31C;
+	Mon,  9 Nov 2026 14:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gjh+K8CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794234612;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I/6OXbgLV4bCZUWKV0/koAsoiTh094pqrHlSP0k4YPc=;
-	b=Gjh+K8CBtHRplJUjh8Z6lW55vteLw/9Cfmmob4fXONPeuzLIzivkKJlQCRyxcgT++kYVJ0
-	toYWOli8le+po3/VN0OMIXrY7S+DehqUdKu0WZ7mhX3dwwVBcFJcx/yCR4+ErXnkF5plZT
-	MgtzY7PjWYbRK2R2hdvqI7t6u9aa2kA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-326-FmGIszXdP9yN8iQQ0hcT8Q-1; Mon, 09 Nov 2026 09:30:11 -0500
-X-MC-Unique: FmGIszXdP9yN8iQQ0hcT8Q-1
-X-Mimecast-MFC-AGG-ID: FmGIszXdP9yN8iQQ0hcT8Q_1794234610
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a214a5f8a1so9504785e9.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Nov 2026 06:30:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794234610; x=1794839410;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I/6OXbgLV4bCZUWKV0/koAsoiTh094pqrHlSP0k4YPc=;
-        b=JkOlrTKLNEEi7U8M94z9EWliwx3yHnO8UUFORodfR+LQgl15VzmyAD9j/3VXmbow/x
-         9vEgN5hvgNqfpZAbOMzyHUFc1A0Rr0SrO6RBk15VojOXedu38MU6v7gqKhiPAY5dDG5R
-         KnAD/Szf/Lvw2XS2dt9TC21IrZvDN+2ejcvRdwACVl83QIhfK3R8rby7CPuA+dcyiDpk
-         f/pcN7OVChAh83E1hdcE8JUHNdx4L/fZsNIgvBH0RkzsBABwzmJJfsmBLh0Jjaj+Gf4T
-         4olcn3GbgnyLgrLoo9MQQRyGC6ifnK+gF9zFzaIJ6vhSeUC86y9hjTjHpGqWLf4AsKb9
-         HP6w==
-X-Forwarded-Encrypted: i=1; AL+hErEyd5U7LUABi6mVDgPprRzWn1sdzGyzwQfwLuNlNZ94nukCui0ONzTL2IOm3f+PVfc3u3yO+283SQZM2Be2xA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+kS2SRbMEYWe62Jxb+C6P+tbYdBMTiMVu9GJtE2Xw0PupdPVLt
-	TlTF3wwadT445pnu6LgsT0krIB4PtvtXVNdO4PUihBblljNx7alHgNLz1q5UO9I86X/3hnvEIaf
-	ajq1EYNGx62bFomQKCeUUXf7bua4+R38j6pCNbvGxQG57ovJnVEI81WnoNODtvo2roMGz
-X-Gm-Gg: AYBFou3yMvlfxxNWtblcYhmWMcNyPNakRTmrFeicK7aHxSesjPlGoU/SXK/JiWudge3
-	YxqDPUfQvQLG6f+hoJObjpyDV+qsrzKOVuUoCwnjg4y2gHmuvRAlU8qk7XJ5qRr2p/i2buSH4IL
-	yMAV0d312EksuMMvkfox8kDhmEqLrCcIqC8ys6xNmCldayMK520Wj3UCyrO9EAMEjzZq3KaIcNP
-	DdtlSSob8XkeZvbFZV9xaiRS2Ass9g8+ds1yjDyg7VY/ghYcQzxlgW8UCDbe5cXzUkl/LspZCIz
-	qzBVGrOTGbxQtMzw/PYySsHj6+aPCbmMJbn8Dz2vzVbs/XGoq5wFcsr5uwlpVMStF+y8x8ZdTuX
-	wX7KqZgK9c9G4+mJSth8CgJ1zRVSq1R0rh/YeI/BQKXqdD38FeHnwKd8OGojPW2LSjHceWXoyqA
-	65FA==
-X-Received: by 2002:a05:600c:1c09:b0:4a3:5991:719 with SMTP id 5b1f17b1804b1-4b963c858d8mr92853805e9.31.1794234609932;
-        Mon, 09 Nov 2026 06:30:09 -0800 (PST)
-X-Received: by 2002:a05:600c:1c09:b0:4a3:5991:719 with SMTP id 5b1f17b1804b1-4b963c858d8mr92852865e9.31.1794234609470;
-        Mon, 09 Nov 2026 06:30:09 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad610sm553074535e9.3.2026.11.09.06.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 06:30:08 -0800 (PST)
-Date: Mon, 9 Nov 2026 15:30:06 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
-	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 05/29] sched/deadline: Do not divide by zero active
- CPUs of a root domain
-Message-ID: <avHY7oNeuvjsLT4I@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-6-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FTaIzhqC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622251F0089F;
+	Mon,  9 Nov 2026 14:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794235758;
+	bh=gxpyvkqUvi0Bq8DLGlGvEz5GbXR1dt2OAgTXG+P00aI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=FTaIzhqCV3BnBwkrKrrkDWBYl/HVMC7y8ivrIUVLZ0wyly8sD4aM95tPCt94bTOtT
+	 83mywNfjJe7faVHHjMOjfFATxlgA8Tk9Jh/3XIOIcLP69+3ZN1PWauKMaAVaKNJHUw
+	 RwS2Xz06rM5kYTo89gDauq3XOvyP3qBLJS63x8d3V5dtSlCuAXpuhePyEnAD2lUwS9
+	 UssjzZrkdckE+imQcEC2gMljtcyBhLTJ3ob+9qW4Q/ce5QDigWhwDiHmf73jBmYW4o
+	 W/M8JwNJm5FAUDYS/3MjHj5bU5CSB5c22EJ6XvU2bbH7f58c6jt2WpwhqhoMS4AQjA
+	 OTljdz1qsaMHg==
+Subject: Re: [PATCH net v5 1/5] amt: fix use-after-free when a Membership
+ Update re-arms a freed tunnel
+From: netdev-bot+sashiko@kernel.org
+To: omar@blockcast.net
+Cc: ap420073@gmail.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, horms@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ linux-rt-devel@lists.linux.dev
+Date: Mon, 09 Nov 2026 14:49:16 +0000
+Message-ID: <179423575689.994134.7687724928848317687@kernel.org>
+In-Reply-To: <20261105125010.1107546-2-omar@blockcast.net>
+References: <20261105125010.1107546-2-omar@blockcast.net>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -115,124 +65,235 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261108185406.1549770-6-mathieu.desnoyers@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 3Y7C3zaGvZoDQ5Eftmk1Z1JD0G3J16Oj2cZLgMpvCVo_1794234610
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hello,
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-On 08/11/26 13:53, Mathieu Desnoyers wrote:
-> __dl_sub() and __dl_add() divide by their cpus argument. Most callers
-> pass dl_bw_cpus(), the number of active CPUs of a root domain. That
-> number can be 0, and the division then traps.
-> 
-> Commit daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl
-> tasks") added extra_bw, the bandwidth that deadline tasks can reclaim
-> on a runqueue. A change of a root domain's total_bw is shared by the
-> extra_bw of its active CPUs.
-> 
-> During hotplug, a CPU sits in the default root domain, which can then
-> have no active CPU. This lasts from the rebuild in
-> sched_cpu_deactivate() to the offline, and from the online to
-> sched_cpu_activate(). A debugfs write to its fair server's runtime or
-> period divides there. Commit 4043f5498416 ("sched/deadline: Reject
-> debugfs dl_server writes for offline CPUs") refuses the write only once
-> the CPU is offline. A write of the same bandwidth passes admission in
-> the window. In 8-CPU VMs of v7.4-rc1, a loop of such writes oopses at
-> the first offline and online:
-> 
->   Oops: divide error: 0000 [#1] SMP NOPTI
->   RIP: 0010:dl_server_apply_params+0x335/0x380
->   Call Trace:
->    sched_server_write_common.isra.0+0x1c0/0x260
->    full_proxy_write+0x58/0x90
->    vfs_write+0xcb/0x550
-> 
-> By reading, two other paths would divide by zero:
-> - inactive_task_timer(), for a task that left SCHED_DEADLINE or died,
->   if its CPU went offline.
-> - sched_setattr(SCHED_DEADLINE) on a task asleep on an offline CPU,
->   with admission control off.
-> 
-> Fix this in two places:
-> - Refuse the debugfs write while the runqueue is offline. The server's
->   bandwidth is not counted then. rq->online is set under the runqueue
->   lock when the CPU joins a root domain that counts it, after
->   cpu_active() is set.
-> - With no active CPU, have __dl_sub() and __dl_add() change total_bw
->   alone. This covers the other paths.
-> 
-> With this patch, the reproducer survives 20 rounds with no warning.
-> 
-> Fixes: daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl tasks")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
->  kernel/sched/deadline.c | 11 +++++++++--
->  kernel/sched/debug.c    | 10 +++++++++-
->  2 files changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index dfae08625342..b614d5fc1a1a 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -189,18 +189,25 @@ void __dl_update(struct dl_bw *dl_b, s64 bw)
->  	}
+Critical: 0 · High: 2 · Medium: 0 · Low: 2
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [High] amt_tunnel_expire() (drivers/net/amt.c:1412) runs on amt_wq.
+- [High] amt_del_group() (drivers/net/amt.c:293) used to free the group
+  node with kfree_rcu().
+- [Low] amt_tunnel_expire() (drivers/net/amt.c:1432-1440) treats
+  tunnel->last_seen == 0 as 'no authenticated Membership Update seen'…
+- [Low] The subject and opening paragraphs frame this commit as a fix for
+  one race the author calls theoretical: amt_update_handler() re-arming…
+
+--
+
+amt: fix use-after-free when a Membership Update re-arms a freed tunnel
+
+This patch stops amt_update_handler() from re-arming a relay tunnel's
+gc_wq. The Update path now records last_seen, and amt_tunnel_expire()
+uses it to decide whether to re-arm or free the tunnel. It also adds dead
+flags for tunnels, groups and sources, and defers group node freeing to a
+new global group_gc_wq.
+
+> amt: fix use-after-free when a Membership Update re-arms a freed tunnel
+
+[Severity: Low]
+
+The subject and first paragraph describe one race, which the message
+calls theoretical. The diff also fixes several existing lifetime bugs
+that the message never names as bugs:
+
+1) In the old amt_dev_stop(), list_for_each_entry_safe() calls
+list_del_rcu() without amt->lock, before
+cancel_delayed_work_sync(&tunnel->gc_wq). A concurrent
+amt_tunnel_expire() can list_del_rcu() and kfree_rcu() the same tunnel.
+amt_dev_stop() then calls amt_clear_groups() and kfree_rcu() on it
+again: list corruption and a double free. Only an ifdown racing a tunnel
+timeout is needed to hit it.
+
+2) The old amt_destroy_source() reused snode->node for
+hlist_add_head_rcu() onto source_gc_list, while RCU readers could still
+be walking the group's source hash.
+
+3) The old __amt_source_gc_work() freed source nodes without a
+synchronous cancel of source_timer.
+
+4) The old amt_del_group() called kfree_rcu(gnode) after only
+cancel_delayed_work(), while group_timer or source_timer work could
+still be using the node.
+
+The message covers these only with:
+
+    Device stop marks tunnels dead, unlinks them with list_del_rcu(),
+    synchronously cancels their work, and frees them after lockless
+    readers have passed.
+
+and:
+
+    Review of v3 and v4 raised the races in the group and source timer
+    work.
+
+Could the commit message describe each of these failures? Alternatively,
+could they be split into separate patches, each with its own Fixes tag,
+to make stable backport selection and bisection easier?
+
+> diff --git a/drivers/net/amt.c b/drivers/net/amt.c
+> index 81d26ef82cf5c..d8914d811f928 100644
+> --- a/drivers/net/amt.c
+> +++ b/drivers/net/amt.c
+
+[ ... ]
+
+> @@ -266,10 +316,10 @@ static void amt_del_group(struct amt_dev *amt, struct amt_group_node *gnode)
+>  		hlist_for_each_entry_safe(snode, t, &gnode->sources[i], node)
+>  			amt_destroy_source(snode);
+>  
+> -	/* tunnel->lock was acquired outside of amt_del_group()
+> -	 * But rcu_read_lock() was acquired too so It's safe.
+> -	 */
+> -	kfree_rcu(gnode, rcu);
+> +	WRITE_ONCE(gnode->tunnel_list, NULL);
+> +	spin_lock_bh(&group_gc_lock);
+> +	hlist_add_head(&gnode->gc_node, &group_gc_list);
+> +	spin_unlock_bh(&group_gc_lock);
 >  }
+
+[Severity: High]
+
+Before this patch the group node was freed one RCU grace period after
+deletion. It now waits on the global group_gc_list, which is drained only
+every AMT_GC_INTERVAL (30 seconds), on tunnel expiry, or on device stop.
+
+amt_del_group() has already decremented tunnel->nr_groups by this point,
+and amt_add_group() only checks:
+
+    if (tunnel->nr_groups >= amt->max_groups)
+        return ERR_PTR(-ENOSPC);
+
+What limits the number of deleted group nodes waiting on group_gc_list?
+
+Each node is kzalloc(sizeof(*gnode) + AMT_HSIZE * sizeof(struct
+hlist_head), GFP_ATOMIC). That is about 2.2KB, so it lands in kmalloc-4k.
+
+A remote gateway with a valid response MAC can alternate IGMPv2 Report
+and Leave (or MLDv1 Report and Done) inside Membership Updates:
+
+amt_update_handler()
+  amt_igmp_report_handler()
+    amt_igmpv2_report_handler() -> amt_add_group()
+    amt_igmpv2_leave_handler() -> amt_del_group()
+
+Could this pin about 4KB per Report/Leave pair for up to 30 seconds? At
+20k pps, for example, that is around 1.2GB, and pinned memory grows with
+the packet rate.
+
+When the GC finally runs, __amt_group_gc_work() walks the whole spliced
+list with no cond_resched():
+
+    hlist_for_each_entry_safe(gnode, t, &gc_list, gc_node) {
+        cancel_delayed_work_sync(&gnode->group_timer);
+        hlist_del_init(&gnode->gc_node);
+        kfree_rcu(gnode, rcu);
+    }
+
+amt_tunnel_expire() and amt_dev_stop() (under RTNL) both wait behind
+this list via flush_delayed_work(&group_gc_wq).
+
+The deferral is still there at the end of the series.
+
+[ ... ]
+
+> @@ -1342,14 +1415,40 @@ static void amt_tunnel_expire(struct work_struct *work)
+>  						      struct amt_tunnel_list,
+>  						      gc_wq);
+>  	struct amt_dev *amt = tunnel->amt;
+> +	unsigned long deadline;
 >  
-> +/*
-> + * Spread a change of total_bw over the extra_bw of the active CPUs of the
-> + * root domain. @cpus is their number. With no active CPU, as can happen
-> + * during CPU hotplug, change total_bw alone.
-> + */
->  static inline
->  void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
->  {
->  	dl_b->total_bw -= tsk_bw;
-> -	__dl_update(dl_b, (s32)tsk_bw / cpus);
-> +	if (cpus)
-> +		__dl_update(dl_b, (s32)tsk_bw / cpus);
+>  	spin_lock_bh(&amt->lock);
+
+[ ... ]
+
+> +	deadline = READ_ONCE(tunnel->last_seen);
+> +	if (!deadline)
+> +		deadline = jiffies;
+> +	else
+> +		deadline += msecs_to_jiffies(amt_gmi(amt)) * 3;
+> +	if (time_before(jiffies, deadline)) {
+> +		mod_delayed_work(amt_wq, &tunnel->gc_wq, deadline - jiffies);
+> +		spin_unlock_bh(&amt->lock);
+> +		return;
+> +	}
+
+[Severity: Low]
+
+Is 0 safe to use here as the "never refreshed" value for last_seen?
+amt_update_handler() stores the raw value:
+
+    WRITE_ONCE(tunnel->last_seen, jiffies);
+
+and jiffies can be 0. On 32-bit kernels INITIAL_JIFFIES is
+(unsigned long)(unsigned int)(-300*HZ). So jiffies is 0 about 5 minutes
+after boot, and again every 2^32 ticks.
+
+Suppose a tunnel's last authenticated Update arrives in that tick and no
+other Update follows. The next gc_wq run would then set deadline =
+jiffies and free a live tunnel up to 3 * GMI early, tearing down its
+group and source state.
+
+Storing jiffies | 1, or using a separate flag, would avoid the collision.
+
+The check is unchanged at the end of the series, where
+amt_tunnel_get_or_create() also sets last_seen = jiffies.
+
+> +	spin_lock_bh(&tunnel->lock);
+> +	WRITE_ONCE(tunnel->dead, true);
+> +	spin_unlock_bh(&tunnel->lock);
+>  	rcu_read_lock();
+>  	list_del_rcu(&tunnel->list);
+>  	amt->nr_tunnels--;
+>  	amt_clear_groups(tunnel);
+>  	rcu_read_unlock();
+>  	spin_unlock_bh(&amt->lock);
+> +	flush_delayed_work(&group_gc_wq);
+>  	kfree_rcu(tunnel, rcu);
 >  }
->  
->  static inline
->  void __dl_add(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
->  {
->  	dl_b->total_bw += tsk_bw;
-> -	__dl_update(dl_b, -((s32)tsk_bw / cpus));
-> +	if (cpus)
-> +		__dl_update(dl_b, -((s32)tsk_bw / cpus));
->  }
->  
->  static inline bool
-> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-> index e6a3b516c703..e0d6cd3bd607 100644
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -410,7 +410,15 @@ static ssize_t sched_server_write_common(struct file *filp, const char __user *u
->  			return  -EINVAL;
->  		}
->  
-> -		if (!cpu_online(cpu_of(rq)))
-> +		/*
-> +		 * Refuse the write while the runqueue is offline. This
-> +		 * includes the windows where the CPU goes offline or comes
-> +		 * online. The root domain then does not count the server's
-> +		 * bandwidth, and may have no active CPU. rq->online is set
-> +		 * under this lock when the CPU joins a root domain that
-> +		 * counts it. cpu_active() is set before that.
-> +		 */
-> +		if (!rq->online)
->  			return -EBUSY;
 
-This 2nd hunk complements and tightens 4043f54984161 ("sched/deadline:
-Reject debugfs dl_server writes for offline CPUs") which has Fixes:
-d741f297bcea ("sched/fair: Fair server interface"). Do we need both
-fixes (if that is allowed) or maybe we need to split this change in two
-(as this second part won't apply to old kernels w/o dl-servers)?
+[Severity: High]
 
-Thanks,
-Juri
+Can this flush deadlock amt_wq? amt_tunnel_expire() runs on amt_wq, and
+so do group_gc_wq and source_gc_wq. That gives a chain of three
+interdependent work items on one workqueue:
 
+amt_tunnel_expire()
+  flush_delayed_work(&group_gc_wq)
+    __amt_group_gc_work()
+      flush_delayed_work(&source_gc_wq)
+
+amt_init() creates the workqueue with:
+
+    amt_wq = alloc_workqueue("amt", WQ_UNBOUND, 0);
+
+so it has no rescuer. wq_update_node_max_active() splits the default
+max_active across NUMA nodes: about 1024 on a single node box, about 128
+per node on an 8-node box. The workqueue code documents that an unbound
+workqueue is only guaranteed to process min_active (WQ_DFL_MIN_ACTIVE, 8)
+interdependent work items.
+
+Each amt_tunnel_expire() sleeping in flush_work() keeps its active slot.
+Gateways can create tunnels remotely, and gc_wq timeouts of several
+minutes fall into coarse timer wheel buckets. Enough expiries could then
+run together to fill the node's active limit before group_gc_wq is
+activated. Would group_gc_wq (or source_gc_wq one level down) then stay
+inactive, with every blocked expire waiting forever?
+
+amt_wq is shared by all AMT devices, so this would also stall event_wq,
+the group and source timers, and secret_wq for all of them.
+
+amt_dev_stop() calls flush_delayed_work(&group_gc_wq) with RTNL held, so
+a later ifdown would hang while holding RTNL.
+
+The commit message says lifetime "does not rest on the flush". Are these
+flushes needed? They are still there at the end of the series.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105125010.1107546-1-omar%40blockcast.net
