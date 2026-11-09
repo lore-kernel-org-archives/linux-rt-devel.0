@@ -1,90 +1,91 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794236797;
-	b=v8Fq/fHiJIfL1Gd18P/iufK2YGXIhM3A0OQebe8HuZlK2fm4UKbjQaBMLm5PzpSilXiX
-	 JxHSPCPEIvCyb9LG8jfbcvEGV0+93GFu4MA16R+OClMFmyg9t1IzhdJz7vls0HopLPZLa
-	 nr8yrMGF5tQm20n1l654L3hNprGn8TGUQ2UAoKE+VZvI1HIqx8fI4gE5VtaVMTW4MsF7w
-	 dSQFQEvBKNJwaMdMwjTQALiX/Xbl8dxZyWQld3wiNAZuEhxrDxqVgc5b3J4/mnsVijrW9
-	 dYLwQ6vivGbfqXlG7AdUCShJTHGgnJH2AMC/pgEI1Vrl6t900FE0A0F4kv1SeAHbe9Q==
+	t=1794236960;
+	b=RLAm3e9v+ODdsjCQScHOyhnGjvObeRLITfAG9fAwChI75+iTkRSkHg2u0C/TYeFSwNQQ
+	 80/OmjQXccaEwSSoa1LPmxCDERvw2S5UOcmfFrcMKoUKf5A1d41ywxwMdrecjrAa1xS1v
+	 Dv9R0GO6dRvCRXXTu7Nfh+UkqztFHFFV5bSbVl/flAnQcx+BuUb7oafU/HU7ulRZp/sAF
+	 ivbqLK3KzVoX033DrF4Q2i8gLdZvJOVyuLqAF8KxxeTW/KGe/ygSI7E6J33wDRX8ud8m/
+	 FOjyA93q3TpKfh1iFWqGrXBI0Sv9LhHCscCm4472Tews1OIxtSMvuk8k7NJugc4IDTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794236797;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794236960;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
 	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
 	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=BKWvO8qzTjmjevKuD/TnU304VnpW4id+UFVdK+d/vMA=;
-	b=DSG0WtWjWvet7ZAGxf7TN1PpIUZzwi20sBtTtOsYFIzAO+3nJ+J5lQwcoWJE2E+5rxFg
-	 gJ/aT7dVD7+WSod3QyaB8Lk9w9Uyjw5/okg8mf3R1zOcTb5n4AC7Iq0fgX1CPGdJW/vKU
-	 hrk372I7GfkXNK4x1ikS1iE+QqaP0nxra6Bhvo5VOiHbW3w3LUuYF+G+eRNmBlzbg15P3
-	 UIfewOmNwfuLT7795i+Z/1WmHqA+t7YQElGEtv2zN1vCBXKTnU3jbUXSYiFGcN+WpRUXJ
-	 bGhd+6KUKN4VCm8AW6MO4/XEXAje60B+FtAZAsXLLFSgid8FrQRHCQ2WvwvvxAXmQ2A==
+	bh=ehk/Gi0k4ynJUIsecQ39iaSJWX96HxZZqDpEX10WpqA=;
+	b=FOHlGcVpJu4k0jp5F0TTJJC2MuhZV09UrhStNXBcm8hCYoPoZ3HSL/OS+bGJMszHOxel
+	 08f2axCDeiTKg9Aapr/8H04hq/G9DhOdBuCUFZNauHKfYzZYqGjkd9RqmbFHO+f3C2GZ5
+	 KVUdzbK5hkHoghpSCw9uSD7SA1YHo1AOux3H9Y4E6JatYze6L8kKmLcld2vBq1079tki8
+	 LgJSdnXEM7B0Ecr/0BUYVYNRYArCch6uJHgLtwds8V9z3Ah+ZKMIuHQHMvw4MJl2LS1Yn
+	 nDv1RkBgd7SLXKPkpAuQnfNmU8ICfbg6Ul/5mKL4LQrsVhxFhf+a3FvMJnz8Ufg9iuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CZtTOxdY;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RHiGBPfq;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B49606A321
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 15:06:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42B49606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0949C606A323
+	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 15:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0949C606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CZtTOxdY
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RHiGBPfq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794236795;
+	s=mimecast20190719; t=1794236959;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BKWvO8qzTjmjevKuD/TnU304VnpW4id+UFVdK+d/vMA=;
-	b=CZtTOxdYiOV06/b4G9u/MJS1T/tHIenPkm4Tye5dseKzbgTce6+wQKECgWb4H0RmG347ZN
-	0+QZIRkyslHJemUDm5tbRxNnzXPa9YjyNCYwV7uXxk9BjPd5ifS4Sh4NC0m44RUcyzVk9V
-	LirEs6UCZcoV6J7nX0TDqAU3dhTjrE8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ehk/Gi0k4ynJUIsecQ39iaSJWX96HxZZqDpEX10WpqA=;
+	b=RHiGBPfqVCTnQ9e1eazGQbFKWX3nA2oksD9mrf1L+4kJ7PgZGVUWACaLWMWt1i3dPA6NQ4
+	UcoedXlIhrDNV59lL5Z7uz1kUdC5p2nBpKbs101Q9yHA3zsckfzUOH8fgviFm+YVDEFK0i
+	8eeLVrHhEiaXmVkbzUIR4R3/NnjVBLg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-135-szmDLAJWPMab9OMYGxL_yA-1; Mon, 09 Nov 2026 10:06:33 -0500
-X-MC-Unique: szmDLAJWPMab9OMYGxL_yA-1
-X-Mimecast-MFC-AGG-ID: szmDLAJWPMab9OMYGxL_yA_1794236793
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48e1d839ddaso671602f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Nov 2026 07:06:33 -0800 (PST)
+ us-mta-93-pupfyRQ9O3W4pPJidZGVoQ-1; Mon, 09 Nov 2026 10:09:17 -0500
+X-MC-Unique: pupfyRQ9O3W4pPJidZGVoQ-1
+X-Mimecast-MFC-AGG-ID: pupfyRQ9O3W4pPJidZGVoQ_1794236956
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a1fdde384cso5805415e9.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Nov 2026 07:09:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794236793; x=1794841593;
+        d=1e100.net; s=20260707; t=1794236956; x=1794841756;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BKWvO8qzTjmjevKuD/TnU304VnpW4id+UFVdK+d/vMA=;
-        b=iC6hptslA1oFIw833bnvuwNrY09XYY1KLi4QYauUeQP2botBXbxUZnQ7OWnOAgNYOa
-         8GWcgrPoVqNgOC1UxQplfymnvVsZt7hQdbWLT7/5l8c061/xRf1NDm/Y0dyS3KH2nGZG
-         zqP/rIRt99eZVj545A1+4WqVNzVJ1hF7iptFRVmo7QLLwhi5eBwRbQ7kGj429nMOL1cq
-         YON3MBXIuL5NzYcrobhQSN9YqgLeADijWx9fjcJ/aqiej6ysuIoFzcFXljVHO2GthTGH
-         DhmHwS64BtW0PZ7mnijoXfH7qHcJQbnPdUQXPs2/OuvLHD4Y/6fbDAP8c54jB7qNxYJ1
-         bO9g==
-X-Forwarded-Encrypted: i=1; AL+hErHD8Y/hI61fvtdDi4WbILhJDWnU6lOtTEhkzHB0e4MYKm3UDCiI5IawUSA0vzQUi2yLneY48q/hCnCA3p0fUg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8ggmt3AdRCLcfGbGKrQ37kitWFpGGfVXomEuP1A1vxzRR4Q8gj
-	400UX8jncGmL+KK2Ny0I9zidg4ZOxD1lFIffuuJOR/OtOxVlu+GyIfrTaR4e6A4bp/5Xun6EaEU
-	lK+79LUp4yVIsVAghwCjLBr6OECn/AWBwyOPCq2kFZ9xtpRVzTLywYcaBFQejggVqEYnk
-X-Gm-Gg: AYBFou0fu/KfQFSRCPGvGuhvh2yUEKDcwcRnbqDeRPPd5ViLlTdTDrrTb3UQt5+PM86
-	qYc6x9s57lTSbD01jFLvZxzSBgus1sWVU28FnFZDjhZE48OX9RlQ8pzSRUhE2WTyq+1K9rLNjXZ
-	nMkf/MaJT4BGv2Xn3MiHRp9IfqUBcn7KvYyx7dRQ7nWvRJQIxRyOybV6peVk+W/RuYkom3e9nBq
-	2M9CQuMZY45iO3KyNywMrcgy6+kXT9kgmigYgUftMVCC0w3rxE8eZ4Y3/cZ34fpUEA5XDu4rNR4
-	SexDfQHS94i4aWSnjvO43uHytfmUhHLkznjYMsa/KIakD2j+DvYkzTImikCmIZy4pzeVO4316rj
-	GCXiKVoORvA+6o2W4QtX8GIvApbUNKE+yljhn9mr7nF3eMunjt38aXOpNjCafXLk=
-X-Received: by 2002:a05:6000:2212:b0:48e:5071:420 with SMTP id ffacd0b85a97d-49586743510mr7911108f8f.2.1794236792621;
-        Mon, 09 Nov 2026 07:06:32 -0800 (PST)
-X-Received: by 2002:a05:6000:2212:b0:48e:5071:420 with SMTP id ffacd0b85a97d-49586743510mr7911029f8f.2.1794236792118;
-        Mon, 09 Nov 2026 07:06:32 -0800 (PST)
+        bh=ehk/Gi0k4ynJUIsecQ39iaSJWX96HxZZqDpEX10WpqA=;
+        b=frbaxUPM1wSuid8H5wvAsH5n7ttfhQOkhZDYLkbUjwufyFRC66Sq3YBcQh8nwyH72m
+         oRa/ED6lPge9r8WPHkNaDETeeuvwdIRG3IE8KiZlExQxaqPcPlts29DtPRFGvM9Xajq5
+         QkuaQnUBQfX2JlpOyEarIAevcyUuAFsYX2c7lrenX8vLoaycid8UUveYXCdFky4aYm/Z
+         +iBUn4Xu21NP62YAEjE0uujvhCvjOYkz2Ui75eQoOQNZzJYAppU590O/FWEryag/fr6v
+         pOjDd5Xlr7p3YDISVsREftsFjZrr3Mu9LxWAbbf7ZIXrLNJNOikuwDcJd+MheEzNeUGS
+         yfZQ==
+X-Forwarded-Encrypted: i=1; AL+hErEV03yzAvQ3nbq0T0ds6sIb36etNu6weJhEFZtY3e9SpLsrNpSktmIA2ttiS6qtpZb9fA/OA7OuMv+JtketNw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z94F4fPUnO/Lhc51OGqtk4axKYF/d2o5/5sV75VIBQHScY7dZc+
+	Ec1MVoR47pmSKGZh8Klr+O8ri4mCRuT8PZJGxHZSwOyiUHLiAnuI0wptzoxPa5+R/O+mqbquR9i
+	dUr70tpobQzJ5anoxOUjdryPwG1kcKRs9FJLpx8AvrMP9ih00KuwqgqQzcBRGoReKtydm
+X-Gm-Gg: AYBFou1fYeGdqTswd5e2Mk+aLMtoOS8mJDS3b5ILHyMyFsgsCP/PeZIJvLRnVCk2DDy
+	5T8YscVXqqtu3uoWfTulQBBwP2CGXleIDl8W0Xn2tis4YqBh6J7LXmLWN2FNde3t4f6MjOOnuGg
+	6eBYTipj4YAboG5HRPvMu0KJK5H3+bxAJCY9La5U01DytmWG67Rtf8p5oD/N0bj0WFGq78EyDH/
+	qrLx9hlBo5pZPcInAtrT5FMJbnDIkYM9TNS3YCXJ1pbIECvf1RBo0F9AIRyVvjkv/d4qEzy4jiX
+	7lgthDXvr9c4ArqmqyPO2PGjNP4/I9LJECBBhB0ck0vMgIolJRYRuBqYRO0ur5lNOZzeAZ+unxB
+	0D/51XWwgugNnuSIolir4cqWrl+/wcm54HXMTPe/HJQ0qCNNHl9i49zK4Tf/cvLysZNKWwKJxkS
+	0gmA==
+X-Received: by 2002:a05:600d:82ea:b0:4a7:7f3f:6f8e with SMTP id 5b1f17b1804b1-4b943f76d81mr96595555e9.0.1794236956048;
+        Mon, 09 Nov 2026 07:09:16 -0800 (PST)
+X-Received: by 2002:a05:600d:82ea:b0:4a7:7f3f:6f8e with SMTP id 5b1f17b1804b1-4b943f76d81mr96594555e9.0.1794236955393;
+        Mon, 09 Nov 2026 07:09:15 -0800 (PST)
 Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4959783fd04sm10850687f8f.47.2026.11.09.07.06.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad4d1sm255269375e9.5.2026.11.09.07.09.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 07:06:30 -0800 (PST)
-Date: Mon, 9 Nov 2026 16:06:28 +0100
+        Mon, 09 Nov 2026 07:09:14 -0800 (PST)
+Date: Mon, 9 Nov 2026 16:09:12 +0100
 From: Juri Lelli <juri.lelli@redhat.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
@@ -100,11 +101,13 @@ Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
 	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v5 06/29] sched: Take cpuset_mutex for a deadline policy
- change only with pi
-Message-ID: <avHhdDqeMpe7wAay@jlelli-thinkpadt14gen4.remote.csb>
+Subject: Re: [PATCH v5 05/29] sched/deadline: Do not divide by zero active
+ CPUs of a root domain
+Message-ID: <avHiGH_4WBizEaBJ@jlelli-thinkpadt14gen4.remote.csb>
 References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-7-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-6-mathieu.desnoyers@efficios.com>
+ <avHY7oNeuvjsLT4I@jlelli-thinkpadt14gen4.remote.csb>
+ <3e6677a8-b972-4081-a080-e925fe1df3b0@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -114,124 +117,32 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261108185406.1549770-7-mathieu.desnoyers@efficios.com>
+In-Reply-To: <3e6677a8-b972-4081-a080-e925fe1df3b0@efficios.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GG8b8mZjnUfIkdSwLgZp3yg2QMDCkWrATP6Hv6CtT94_1794236793
+X-Mimecast-MFC-PROC-ID: ixxEFYBGNuypLFnaPJ_n7XRash-9L2JWoP8Sc4sT7uQ_1794236956
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hello,
-
-On 08/11/26 13:53, Mathieu Desnoyers wrote:
-> __sched_setscheduler() takes cpuset_mutex for a change that involves
-> SCHED_DEADLINE. On success, it releases it only when pi is set.
-> normalize_rt_tasks(), for sysrq-n, is the one caller with pi unset. It
-> runs under read_lock(&tasklist_lock). So sysrq-n takes the mutex in
-> atomic context for a deadline task, and never releases it. Every later
-> change that involves SCHED_DEADLINE then blocks forever.
+On 09/11/26 09:57, Mathieu Desnoyers wrote:
+> On 2026-11-09 09:30, Juri Lelli wrote:
+> [...]
+> > This 2nd hunk complements and tightens 4043f54984161 ("sched/deadline:
+> > Reject debugfs dl_server writes for offline CPUs") which has Fixes:
+> > d741f297bcea ("sched/fair: Fair server interface"). Do we need both
+> > fixes (if that is allowed) or maybe we need to split this change in two
+> > (as this second part won't apply to old kernels w/o dl-servers)?
 > 
-> Commit 710da3c8ea7d ("sched/core: Prevent race condition between cpuset
-> and __sched_setscheduler()") took the cpuset lock only when pi is set.
-> normalize_rt_tasks() cannot take it under tasklist_lock. Its changelog
-> accepts this: after sysrq-n, the deadline guarantees are gone anyway.
-> Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") then took
-> the mutex only for deadline tasks. It replaced the pi test by a policy
-> test, and left the release under pi.
+> Good point. I will split it in two in the next version:
 > 
-> Fix this by taking the mutex for a deadline change only when pi is
-> set.
-> 
-> The policy test reads p->policy before the runqueue lock. It is checked
-> again under the lock only when the caller gave no policy. Otherwise,
-> the task can enter SCHED_DEADLINE in between. The call then takes it
-> out of the class without the mutex. A rebuild of the root domain
-> accounting could run at the same time. So check again under the
-> runqueue lock, and retry with the mutex.
-> 
-> sysrq-n on v7.4-rc1, with a deadline task and lockdep on:
-> 
->   sysrq: Nice All RT Tasks
->   BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
->   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
->   locks held by deadline_switch/4356: 4, last CPU#3:
->    ...
->    #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
-> 
-> A sched_setattr(SCHED_DEADLINE) after it never returned, in 2 VMs of 2.
-> The sysrq_normalize case of deadline_switch_test, added later in this
-> series, tests this with DEADLINE_TEST_SYSRQ=1. It passes with this
-> series.
-> 
-> Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
+> - __dl_sub() and __dl_add() skip the division when the root domain has
+>   no active CPU. Fixes: daec57983670. This alone removes the divide
+>   error, on the debugfs path too.
+> - The debugfs write is refused while the runqueue is offline. Fixes:
+>   4043f5498416, which it completes for the hotplug windows. It only
+>   applies where that commit is.
 
-The change in itself makes sense to me.
-
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
-
-I only have cosmetic/minor comments below.
-
->  kernel/sched/syscalls.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-> index 56ce2352e89e..0bc778c12af4 100644
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -561,9 +561,11 @@ int __sched_setscheduler(struct task_struct *p,
->  
->  	/*
->  	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
-> -	 * information.
-> +	 * information. Do not take cpuset_mutex when pi is unset: the
-> +	 * caller is normalize_rt_tasks(), which holds tasklist_lock and
-> +	 * cannot sleep.
->  	 */
-> -	if (dl_policy(policy) || dl_policy(p->policy)) {
-> +	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
->  		cpuset_locked = true;
->  		cpuset_lock();
->  	}
-> @@ -654,6 +656,15 @@ int __sched_setscheduler(struct task_struct *p,
->  		goto recheck;
->  	}
->  
-> +	/*
-> +	 * The task entered SCHED_DEADLINE after the unlocked read of its
-> +	 * policy above, so cpuset_mutex was not taken. Retry with it.
-> +	 */
-> +	if (pi && !cpuset_locked && task_has_dl_policy(p)) {
-> +		task_rq_unlock(rq, p, &rf);
-> +		goto recheck;
-> +	}
-> +
-
-For a cursory read this check and the one above look similar. Can we
-maybe have more descriptive comments for them, e.g., for the first
-
- /*
-  * The caller gave no policy (SETPARAM_POLICY): the request was
-  * derived from an unlocked read of p->policy above. If the task
-  * changed policy since, re-derive the request from scratch, and
-  * release cpuset_mutex: the re-derived request re-decides whether
-  * it is needed.
-  */
-
-and, for the second, that this patch adds
-
- /*
-  * The caller gave an explicit policy, so the request needs no
-  * re-derivation (oldpolicy is -1 above). But the decision to
-  * take cpuset_mutex used the same unlocked read: the task
-  * entered SCHED_DEADLINE since, and the change below would take
-  * it out of the class. Retry to take the mutex.
-  */
-
-Also, maybe add an unlikely() to the second check as well?
-
-Thanks,
-Juri
+Hummm, I'm not sure we can say it fixes 4043f5498416, which was a
+correct, but only incomplete, fix for d741f297bcea (which the second
+hunk fixes properly).
 
