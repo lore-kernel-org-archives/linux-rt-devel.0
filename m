@@ -1,66 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794169344;
-	b=3XR/YT4FR8Gs1LBLQLkqUcArcCzDIAMpoTAln3kYkwIDRrYRFWQuFI3RFP5jyQEBnc6L
-	 B3lwdo8tJzEl/+J0q2h81Ok1mEVAQV12PKYIIzbqTNSc5D6ySvO9C1Rfjy5i0Ex+JzxFb
-	 7RokzcmbNCX8ek9sIPmYwM0pdLRM1nC0s4lhQuSXmkM16AVGxJczK2mcktB5LFgmjRhGY
-	 iA522UyC7xkIifWjSjjUPM2r9vhsHJSrW8rrDtrmyGTrvLt2wCKGtRS1fTGTZeLboCYKN
-	 Q5vNDNeAU95p/NajLKR+XY/kLq6KrGT3kY0Wwdwm6uYOHwvxtmgnFSWg+emm4vfVLbA==
+	t=1794184672;
+	b=o07leMRTHCjhxXtyoAhbvasnpfkUM6bf+w9XpLDn39i8YYeJ7GeiFFDan/0zBCmEHon0
+	 tDCaJi/sbGOpTs2D8Kp4wMS7FbQXEV/XzIhBON95HADlDrdt/hTbaHcLiqp6P/pIx5NkU
+	 HR8XRJ0slPMSCVzLFHgaOUDvbWSiGuOAH3WHERW2Pc0cYn0eDu/uI6M3WTB0xBaKmG9vN
+	 10bEdtF08exmDTdsYs1vpWcS27/1scqu8laDHlx3UHnYsestc0yIPoDaajH9A3qyYrmys
+	 i2OIhB5YNTGzvJh5lsvaVLlZhgzNztAObLolx2i7Iw99TLnpG5WklFIGv6gzRDGqsSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794169344;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ClT4OkKbeUzu4ym5icWWj8grU8fCfsMlggCJDN6YVpk=;
-	b=GAT+3rAiGmSZ5Qs9vW/br4uo/WznYFWC5S3HFOVgWVofwS2FQYjzsvcLD+RpFCRZHcjY
-	 LLdNFdOoMF7W9ewTmqavwwaMh9UvoxGYiBVIgnA7oPv1iYWMBgdz3LRXZ8ZIJhYNJQWX7
-	 PWBFSDqfVLoHrvpUC0N48jGyTCNEYUPhBwoRuUXupR3ImLGRExDm2GqkxEsa2bgDjAQ6a
-	 neUYd1zIjcbDB35RO7/UjGfvRCbbTKsMPF3cutUbzIrziJxIg4QDyb8S5gTRf9yYcawCb
-	 Bq7zewSjsp2/JG9nJ96U8xwA9xh6V7HBcOco9WALzDkNBoBn6k8ZMHxkmA0DemlictQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794184672;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=pkifUF5nmIlWMW61S5hyAbdugpxrunbU+LdL82e6qFY=;
+	b=cuj8iK6HWeiKfTW/Dd8QfFNXqAaBqpnCIJTaQZkDwwVxE+16C//iGSNnJ+SIe7ZGMyrj
+	 U/doLcb+QdH1SW40Ai9RjEd4UQmdbFjzoBsq7Zs2o6z/P6CSL1FgS9UhU/RT9KgiIVpu1
+	 GJRKNPNSurfQ4wL+swRd8g5T56z9ZFa6zeORVEf/341sg2mPbngiuMeYTF0flKPTZC3gr
+	 gybaXb51OehPR1S956wlxq2NHWg7S2Qst7xYF1CUuN7DEVPfo1wp5GydeAN/FxAdJMza7
+	 XGCFfJCW2fWTfLgqdYrKNRfnhBDpNUSBjPfb9bTYQBtpqqZ1cqlgSJVt2A4P9KW5Xaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=afJdlujg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FfDdYF/0";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8F060A2637;
-	Sun,  8 Nov 2026 20:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7AD606A31C;
+	Mon,  9 Nov 2026 00:37:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=afJdlujg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A591F008BF;
-	Sun,  8 Nov 2026 20:22:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FfDdYF/0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117DB1F0089F;
+	Mon,  9 Nov 2026 00:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794169344;
-	bh=ClT4OkKbeUzu4ym5icWWj8grU8fCfsMlggCJDN6YVpk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=afJdlujgQOI93tQLR9qTAPYX1ULvLFUMk/6HymDt6JF/0Fgy+JX51O9Imwlbn6pTK
-	 PegT2nos6QaoHaDi5/VUAaTH1XAlEintVNwZ6RTmd3v4Do63HQS3sJxIGgqAD6rryo
-	 fa6M7Nt4Lyf6bMM+D2FlRkIcmkk2jOmOC1rDJsNziAZ98AoWkA4jK2TvkF4tF4hFFr
-	 Lf/xZswapNDmco/KEBP36J5eAKTHz7A2qWhj1RVd5pB+WDKoxxkKuTSeCbD3pE8tZk
-	 qqUbh6JARZpkHNhcBNzD7cGJVYc6Y9zQvSdmCGzIxkjsMbwadlrk1DBOaZxOF9sZYn
-	 QfCuyVSM5WQcA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	s=k20260515; t=1794184672;
+	bh=pkifUF5nmIlWMW61S5hyAbdugpxrunbU+LdL82e6qFY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FfDdYF/0TBH4GR87LnK10ldiEPEHS/xeBrE4wzL5tx1pgzc19MLIFiSNbuIBySU0H
+	 NhhonWR9hGQacK7d3MB82L4UrZUQiU41+GrW3IpXwPEFRnUb4VQoLN0gywZvDFtUDt
+	 FFs1trFnLv+Gob6r+D1+ZWYqxnha7T6Qlwq9KmOTSq4NiMcHkWBHBfgFH9g+JDGvfn
+	 VQtthQXroIfFT8DpMJMAI6bn/elcIhhpavr7Kjg40UrLta6s7So2TDWDqYkfkCrl4b
+	 tQ5SKIMmwSO+UsIHw1So9cDsMUgAPdpTv381LyUi8equdvVs2Z2Ea0rOudiR8tICEn
+	 XYCWzkWTeIkSg==
+Date: Sun, 8 Nov 2026 19:37:45 -0500
+From: Nathan Chancellor <nathan@kernel.org>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: "Ahmed S. Darwish" <darwi@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Ilia Lin <ilialin@codeaurora.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: (subset) [PATCH 0/3] soc: qcom: several fixes for SAW handling
-Date: Sun,  8 Nov 2026 14:19:34 -0600
-Message-ID: <179416929434.628393.10612241359461414562.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261019-fix-qcom-saw-v1-0-9c7ba3fc2493@oss.qualcomm.com>
-References: <20261019-fix-qcom-saw-v1-0-9c7ba3fc2493@oss.qualcomm.com>
+	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arighi@nvidia.com
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <20261109003745.GA3429615@ax162>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,22 +72,34 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
 
+On Sun, Nov 08, 2026 at 06:59:26PM +0000, Julian Braha wrote:
+> I think the name will cause confusion.
+> 
+> We already have some "kconfig checkers" in-tree, like
+> scripts/kconfig-sym-check.pl
+> 
+> But actually, your tool is quite unrelated, because that one checks
+> 'Kconfig' source files, while yours checks the user's '.config' file.
+> 
+> This has already caused some confusion in the past, for example in this
+> thread [2], someone misunderstood which one 'kconfig-sym-check'
+> actually checks.
+> 
+> In addition to .config vs Kconfig, the name is similar to
+> 'kconfig-sym-check', but is not as descriptive about *what kind* of
+> checks it performs.
 
-On Mon, 19 Oct 2026 17:39:18 +0300, Dmitry Baryshkov wrote:
-> The Qualcomm MSM8996 / MSM8998 / SDM660 platforms use SPM / SAW core to
-> handle lower-power modes and to program core voltage regulators. Apply
-> several small fixes to drivers for that core.
+Yeah, I had similar thoughts when this initially appeared in my inbox.
+As you mentioned in your email, this is basically a policy checker (“we
+need these configuration options enabled or disabled to meet our
+requirements”), so maybe config-policy-checker or something like that
+would be clearer?
 
-Applied, thanks!
-
-[1/3] soc: qcom: spm: fix the SDM660 silver L2 AVS control value
-      commit: 2fe8c4fa0ae7787e81d3737854ae4ae2c892bd95
-[2/3] soc: qcom: spm: don't clobber the SAW control registers
-      commit: 25e50bd0fcfb3a53fd505460d87bf67c21da176e
-
-Best regards,
 -- 
-Bjorn Andersson <andersson@kernel.org>
+Cheers,
+Nathan
