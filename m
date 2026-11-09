@@ -1,105 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.128
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794237768;
-	b=MahLi1vzH0ascdSjo8IqLeCC1gFuGgUTkiel9kV5Cq+7jRYCx2/pyhD1lulPdIMp6pz0
-	 vV7TUafT9imxxKV4UMEFn6NiX7ARarSSYtDifCtmKwA2AqS3ElgnENsYrJkHlbfzBK0gL
-	 px7ltJD598LZkxeJ2xhM9drNELWHUo3eixMXHcnFXyMyvkzjJq3OlULREK9xcSjgMTnB0
-	 SJv0Du0OE5vEySH8gNtB43mhyW+F7g6EFYk7y6pp1dTBr+8t3jyL6sChewH0lif8UWY/2
-	 tHT/o8ndtF8D6nHv6hVNDcqmt3BqCraR99Pi9hyTMUY9j9jjxASbfZmvRzfwpRFLXyg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794237768;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=G1yoewr/9CPx/JGAMturxtdo98+WrvpEr7/CI6dVWkY=;
-	b=Ya6LVxiXWhjRk+XoTp4q7QulgNTpUwZ6BReM8TnH48fKdfAyMohbPAfRSozSZ0QcMngt
-	 YoAaiiw04BzZqiJn4DFy7PyeMBp/n7ItohYs0RNDEx8N8fiyzf25wGuhtY6N3xYupKLv7
-	 2ddC/ygkOZccwsQb0SNJ8JNxwM3QFzY+Rw5K+zgGdwZUAX6m3/JI2pwwq1a4cOu5RSYBT
-	 2/PVB18yG35Ulls9QGghQAvoqXiKdqTsPJAhFObnCM1zPsMDRzimWVky1CcwL3QMJiT69
-	 WD6VqTsoq/nFMDjYNVnJm6F1RAs90PyKlAYMOkZuSAV798RsyHdzmIXbTkBZkbmbi4g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=VmMc1tlB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.128
-Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020128.outbound.protection.outlook.com [52.101.189.128])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794239397;
+	b=2q5BUlzBLhpVxOKGuxHbvzb4UYCrpAExwyNbZ81atztrUdgyRPHfb6G/l4q48ND64kfc
+	 2pUKXlIC4rSiEZpHBbsL1cqdrnM/tWSJOjcqCpGj9pRulETPaM2YCFucBe3npw4ZEFmIe
+	 HsdDSWb8FueVAxdcsTPgL39Yg4Gx9k/E7OWbhKYxNFGwih+yqUsAxpXhVKkAw1CRMcxbL
+	 rWbxbntghmXdWHXhyF0q+7h0S46uCptV1Z2p6ORp5y2K0K1F/xShlzqCPzvjSkmz2Bs6X
+	 eYb3Co+9/zIMpgjn+fM5NycNaaAON2+hpEAbGPSnyT9XtiPa9wElTYN8yJrlR4Xo3sQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239397;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=fzoqxKLaBDRZoQJ0AXTUnKYnidJqAGP4Dy7AtaGjvCo=;
+	b=2A+aZgVKvxzP8h8Cn7rXGhCT8UoQjMcHBJGvfosRgxc1uUGg3R6KVMHq9Z9sSu0tlZqk
+	 +uLoRBr7d3BX+3jjBLcbkU/GrXyRHMjF33Omqn0F0QCSKIGKSI26MnyQy8IuLQ1sNDAFN
+	 0fkfLCE1ZTLb+K7Fsp1D2PoyCIET2H3WwiyEmI0+gCJjC+yrHOJBuQBSPnGM8YDllQJVl
+	 Es1u9hdIdgdOENV9nvIP9jNEo1dfdGwqPsM9RucHMrfmfkFoPDB6rpqJwzHe/BgzOp06S
+	 iM74En6lSiczDF6UTG1JlWEYaLM38WnOzCUdB6w7lN7mXs93bNZpj4gZAx0YZqrvYeQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="xo/2tJZh";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=2pLz5F40;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AD8606A31C
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 15:22:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76AD8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ED6606A325
+	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 15:49:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12ED6606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=VmMc1tlB
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HTeQldQ7KXVFuPiwfW2r5hU0ClhXdN/4gyv6QgJo980+ddYvp3mhyDJk1jV7LFpMJYlHG5zVBqamZq7pU6OSG6zq1aF8pu+AFimhLz0amPrVoXznhoYgAWwmMg61c8n+/alRH7psBWhtjstj+HvMOuwnTs7Wn7JutrR3F9ciRW6cXGu5Ca0dgOuX1eE4Habj4t3t+zLqclfaDdp8RN3QTr9MuEMpQzv1JP0vsCbbK8YmkTF7VU2h+nOS9wwd4tuKk1D2dsrvBxGxE/cQoTezq9+sJpyJOm08fLdAt9xFnOis2ywmMxif6WS94L3c+Red+lh9tV+JdjPfboKgG6kzHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G1yoewr/9CPx/JGAMturxtdo98+WrvpEr7/CI6dVWkY=;
- b=XDmPahZ+5AgK4RDi3JuJlQWLMR/dSCpo0YNTx8Omffchq2yn/uK6QMI6uV0MeC89tJGFRgCRESgAAJC+WdH6TEcLoQ3IAgIx0mXQSiChoj3KJMs19m4VFNfWGw3v44j38ppf6QEBNE5aS4/PJk4/F15bY0k74kkCcWH4vZoZjIjjFVmRM20q/PG7aYUUwPJIJL4EL5syNgdfMTn1gdtnB+vp6LLNibcUPliamm/SmM4hW7E4frjhR83Yuq77MPOVSpiv1ZFwepr0uJVhRviY6Qrkk9ERIBgoXgnajJMVbL8p+cEvd9l839hOKje6ZAzZ9Emp33g/I13pyecfg0AF6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G1yoewr/9CPx/JGAMturxtdo98+WrvpEr7/CI6dVWkY=;
- b=VmMc1tlBax0RPk/5JbmdfkW8U4jpEoX3y5A0Rb3icLbT1TdpY76yUrjJpJf7GznVkW9hlzSXCEVBVkiD5XwHsl0xBTeYnxg0vU7TBgNZAby5myoEhbMdcr+aRk8YfhomA1q9yY/x6BcoZtTKm28BF+D+N/yZmgu1YqBq+hILRIE+J+yjNvgoX5ljxNuIbWYP3+OFN27j0PiMnP61FUiiTqgLW9GaYJYMrfw1odruQzAu5UDPvZLyclnh5nMsxDRQcq/2RJXX13BbAMRz00xsOx9xjfAzwurorWNGCs/q4EmiDChRXxT83bFrgMLx3JyzvIzdtVVD2TVrwwudsNc5Qw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT3PR01MB9330.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:a3::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 15:22:42 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.012; Mon, 9 Nov 2026
- 15:22:42 +0000
-Message-ID: <981331fa-6b0b-4e0a-b20c-770db2706f0d@efficios.com>
-Date: Mon, 9 Nov 2026 10:22:41 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/29] sched: Take cpuset_mutex for a deadline policy
- change only with pi
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
- linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
- boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
- tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-7-mathieu.desnoyers@efficios.com>
- <avHhdDqeMpe7wAay@jlelli-thinkpadt14gen4.remote.csb>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <avHhdDqeMpe7wAay@jlelli-thinkpadt14gen4.remote.csb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0085.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:84::13) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=xo/2tJZh;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=2pLz5F40
+Date: Mon, 9 Nov 2026 16:49:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794239394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fzoqxKLaBDRZoQJ0AXTUnKYnidJqAGP4Dy7AtaGjvCo=;
+	b=xo/2tJZhqcNf7D4jyoWB/UQoVzCqQpuMa9Nlb2Pf2bU9MssqSyUsBI1MUiCqHURvByjmhp
+	bA8PtHmi9RkL1utLq/aapRcP7eynGBpNulFDrHBQha06ZfgtKmai4ZC3i0OgQS906oSN75
+	tCUMFbdKa6nzBNWjvgOxYsLU/BS68Plf2oPQaErGyi6x9DJdbyDCP7A3q9Gf0sWDrLY9+F
+	xAWD/vA1pzETluwtHicgrqT24HT4+Qk/Cv1o57VNoblcfUvZxn3EocD/VPHSGS3Qrztznx
+	FvStGzR6dmDCR/MOJi0V3mzMuJN9U47BbKL6cKvu7r3apLdBtPNmh11L/5m8wQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794239394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fzoqxKLaBDRZoQJ0AXTUnKYnidJqAGP4Dy7AtaGjvCo=;
+	b=2pLz5F40pYHuIAoIKssXj3vv630LtYU0veP+T64OOa9utBSVrrIpd11WHox1P+bXcKWnfP
+	wMWl74JHE8guctDg==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arighi@nvidia.com
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <avHroNa1vcxmCIOs@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -109,81 +87,100 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB9330:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b6994f2-9b6c-4202-69fb-08df3e754c75
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|22082099003|18002099003|10067099003|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	/Pxa/1ROrn9sR/jtnGcp+kxCvOE6QyN6kJirWmQUEv8BuQ7u7b+lDVPQsdZiwqE8TUkXvN/z43u9KAwI1cHAhMeV2fbItdxqE/4gg+B7mJ32Lh6nwy48XU7w0/VcKZkiIpfyivRmVJUDARQ9Cy7ziv1FTB3mRs32KVlEwweXAUVrT5gMeWU7DSf2Z2cJigvxi/+LNDk8PthVtP2SVF95VfF3k6vK5gYwQO5Q35KpyMh3oEEn1R/vo+TD8T8xxHDxahUCxApUx95NQwl50TS5kTHVoMaGZjPf0ITcJpirGpkTa06mvkyUHHBSapUKMXYWh7wpw/k2IASKuDfYugZxna6btWm/ZGDGaiQWlPtkyFuo6NSp+7YNEubkghdDSUyLfo1nOhYdoaDAaWXuE5ruAxJHfP/zRcCpbvqG4BvoU9n8r/AhPBdONtPoOvyuCQ0DtXOw9RhtSvZjThAyJHKESVJXk1z7lKXDsMDz9QAObGNxVW+du0236vHIxonKB/+4VqsILKCBLfTXsWuii78ZK0EXqJOIFyfs5aJ2UsqrFLUUZl1hcJWhexZlAU39SelOYj4Jg0XtZDv4hyNnaysITpJar8XFZtZx6MTng/Oe7jQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(22082099003)(18002099003)(10067099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OW5sT2lMeEM0NlVGcks5SnBrTzBBV0ZhQ0p5TnlxdmYvR2JHOTZBN1R5elVw?=
- =?utf-8?B?c2xOSTFJWUpKR3BPMEVwTzZ0anJick45eTJ0VGE2MGg4VmQvakIraGt5eVlr?=
- =?utf-8?B?OVUxUyswN0pvYVBlMGtacXo1SjZRaFptQmZyUzNxSldSWnk0VDhVNmwvWmdy?=
- =?utf-8?B?SktuSjhsTnJ1RFpPdFVlN20yUU5YdG9nbTI0UmFJMXliNFQ1V1kvdHo2bHBl?=
- =?utf-8?B?UGdXZFdOU2R3UFl0UWtVZGpZVHIxQXpDSWd5MHArNHNDU1RiaFNqbnZFVXVs?=
- =?utf-8?B?YkJzRmI1SE9HRzNibHlaTElpSENIQ1NUdHVjeU5kTlN1ZXd2WXRQZ3ZWYXZl?=
- =?utf-8?B?akxKWlJJUmdCdkxlYUk0S1VyNjdwR282eVRYQm01MWVvanpBK0p1SGR2YXdY?=
- =?utf-8?B?Q2VxalJmcXRxbWtsdk9NY2NOU0h0Sjc5OVdDbjIzbGlYTEVwaytqajRvOFRw?=
- =?utf-8?B?MEpmalBtaHA1b3FYZ1VPcFNQR3QxdmJHUjlzVnBROWZ0TUEvcEMrUG5CY3Z5?=
- =?utf-8?B?SzI0L25DckU3djl4WGhqdXFjL0RwNm5rMjhNam42NzdFT0NMbUwrdFNhVCtK?=
- =?utf-8?B?N2ZkSE5FOUFpbnh2ZmIzbGkrQjZkRGdjcEU0YlM4VGRUaWxyUDRxSSsvbTR4?=
- =?utf-8?B?U2pJRDNYTDE1MjJRd1VvKzQ0K0ZTK0lCbEtwLzBEbSswL25EdXg2WENQN1Zr?=
- =?utf-8?B?RVZ5NFc5bExZNGtQSi8yVnRKQ1Y0U2N1Rm5COHk5ak9MdGphdGJWbmVPVWp6?=
- =?utf-8?B?SGxDaEx4c1Zmd2t6U2daRTY3TjUrYWJsMVV4WTJqS0dlWkhRbHB4SHh0Y3hX?=
- =?utf-8?B?TzZobU9UWXE0bTBPRGNPVlk1a3YwcE1VMHk4YWtDOFJJaGQyVW04UmQ1a3k0?=
- =?utf-8?B?amVWcHdnN2k0dGNqN3pmU0lXWFprb0FwY0ZuTDByTzlkU3A5VS9IdWxSN3Jn?=
- =?utf-8?B?TXR0am9QZ3grNTJ5QkpmZHNyOUR1bysyN2pIZ3RzMnl6cDI2T0wyRm1yL3Ry?=
- =?utf-8?B?Y3F1d3hvK0JWR2J1LzNPL0grLzNQQ1oyeXVMd1Z0U2FLUndtYXZxVGYrYXRN?=
- =?utf-8?B?WllFLzIzUmpWazVtVGJydXd2SnYrUlh6N2dVMG4rbHNubERjYkZPZUFQVEFL?=
- =?utf-8?B?OTRsc2t4OEEvUnFuTlJWYjlndjY0c3BSR1pJTG45cmhWd1hHa05uc1BlUlBm?=
- =?utf-8?B?eHFucldCeTdGS1F6dndnVTRiTyt0SElLMVBzYlhpbFNyN3JwSlJOejNzc01z?=
- =?utf-8?B?WUZENExpWW54ZEp3L2JodmVSM1dobDV4eWlGUXFOSjJVN040c2xUbFFmaFBj?=
- =?utf-8?B?dlZ2SEdzMTBmK0FYUEQwSmlMSmFHMTdoZHhiNWh0VkhDMmtvaU1aaU4zdDZk?=
- =?utf-8?B?c1R0bUZ0K28zcHFiSUZJUVQ0bjNJbEFWSVcvL1JMY0psdWZObm5lMlg0WmFN?=
- =?utf-8?B?a2FaK3JUb05iQ3RVYlNVOFQ3d3VIY3dGR1pjN1FjRWY2M2pJc3A0NjBJczBw?=
- =?utf-8?B?WFp6ZHI0VlNUSmVUZkFMSHVEaERsV0VpL2ZkdlUycndWWklSQmVSbTVlQmNv?=
- =?utf-8?B?VVRBMUdoY0RZYTlwZmFDem5lcXB2MmJrc3JlV1Y5ZitWR2pCenBDTi9JN3hw?=
- =?utf-8?B?bGFCaUVUanhTZFFGODJRR2E5UmFFTTlKT1kyQU81ejk5MGg1SGI0eEN5b2FV?=
- =?utf-8?B?dTMvS2ZxaGpkQXl0ZnRtcFBSUEFrM05DVkozb0djYXRkQU83dXA2U0hGMW5I?=
- =?utf-8?B?MEV5ZWhsa1RJRGFhT0E0RmFqMm1vaGhJeTVTUW5Hd1lscTQ3K3RkYkI2cmFx?=
- =?utf-8?B?djROUTQ5WWNQZ2pJdlZaekxvTnBkRHk4L215SEFoNTFzazdwaUJBb1JDUkU4?=
- =?utf-8?B?TWlWK1d2MEZJWGlYc3ZxSnE1dVhtL0R5NWVVZGMyLzVJalhWbkNuTDZtS1Ir?=
- =?utf-8?B?ckNQVzRSL0oxWktOTWFvSFMvM3dSV3RRamg3M2FFZjZXLzMxTEdFQ1Bac3RY?=
- =?utf-8?B?K1ZiNHVXbGZncDRzcFVWcVMrVll2ekNMamlsM3BKdndXTUFXaHpWM2tPSUZC?=
- =?utf-8?B?VitIbmFwRzN6bEM3Y0NRSThqNmVkRGZBZWh5QVUvcVJtUUhhMGE2cVowVTI2?=
- =?utf-8?B?c050b05nOXYyKzBXSFN1eFhrdCthVGhBYWhZWmlZWXh5VG1BOVUvZjIvLzJm?=
- =?utf-8?B?L3FHSmpZNXdYSjNINkVEMUZ4d3h1KzEzdFd5YzF3Zi9va096bW0xbmlJTDlo?=
- =?utf-8?B?RUhiMVB3alNRUGtscGordThvd0lvN0RBYW5JMFNHRjFZMVExOXdGeUtVL3g5?=
- =?utf-8?B?eEk4VmlWQTBEK1F1Q20rL0FmcjFJZ3gyNmdMTFJtMkNzdU1uRjFsVVF1bDJR?=
- =?utf-8?Q?ofro1+sdfUuW+T3A=3D?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b6994f2-9b6c-4202-69fb-08df3e754c75
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 15:22:42.5666
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WlhZAEPPsWZbrY7lFLWrJOPl7I7tNdBf9fY9yQPHcP6dvQ32HMGKDBvRZKuMZLLFNjG/rVwssjeeAhyhjB2MxxNYBpytaBV8XJDeduExncU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB9330
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
 
-On 2026-11-09 10:06, Juri Lelli wrote:
-[...]
- > Also, maybe add an unlikely() to the second check as well?
+Hi Julian,
 
-Thanks for the review! I will take both comments as you wrote them,
-and add unlikely() to the second check, in the next version.
+On Sun, 08 Nov 2026, Julian Braha wrote:
+>
+> Cool tool :)
+>
 
-Mathieu
+Thanks!
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+> >
+> > If no ruleset is specified, the target prints the available rulesets:
+> >
+> >     $ make checkconfig
+> >       Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig
+> >       Available RULES: preempt_rt
+> >
+> > The overlay mechanism allows distributions, CI systems, and Board Support
+>
+> On the topic of distributions, this seems *a lot* like Canonical's
+> Annotations [1], albeit yours uses YAML and supports matching option
+> names with regex.
+
+The difference is not only in the implementation details. Please see below.
+
+> As you say about PREEMPT_RT configuration not being
+> "one-size-fits-all", similarly there are 100+ Ubuntu kernels that need
+> to adhere to a configuration "policy".
+>
+> So this seems to be a real problem that others are having.
+>
+
+Kernel configuration is definitely getting trickier.  That's why I've
+contributed the PREEMPT_RT kernel configuration guide earlier:
+
+   https://docs.kernel.org/core-api/real-time/kernel-configuration.html
+
+Regarding the Canonical tool, it's the first time I see it.  From that
+announce e-mail, it seems that they're using it for generating a .config:
+
+   Starting with 22.04 (Jammy Jellyfish), Ubuntu kernels are now using
+   only annotations to /generate/ their corresponding .config.
+
+   ...
+
+   $ ./debian/scripts/misc/annotations --arch amd64 --flavour generic > .config
+
+Yocto also provides a very light concept of .config generation:
+
+   https://docs.yoctoproject.org/kernel-dev/common.html#creating-configuration-fragments
+
+But this tool does not conern itself with generation.  That is, Canonical
+can use this tool to validate that they've generated the right thing! ;-)
+
+> > For example:
+> >
+> >     $ ./tools/kconfig-checker/check.py check	\
+> >           -c path/to/.config			\
+> >           -r preempt_rt				\
+> >           -o path/to/overlay.yml
+> >
+> > or:
+> >
+> >     $ make RULES=preempt_rt OVERLAY=path/to/overlay.yml checkconfig
+> >
+>
+> I think the name will cause confusion.
+>
+> We already have some "kconfig checkers" in-tree, like
+> scripts/kconfig-sym-check.pl
+>
+> But actually, your tool is quite unrelated, because that one checks
+> 'Kconfig' source files, while yours checks the user's '.config' file.
+>
+> This has already caused some confusion in the past, for example in this
+> thread [2], someone misunderstood which one 'kconfig-sym-check'
+> actually checks.
+>
+
+Haha, good point :)
+
+> In addition to .config vs Kconfig, the name is similar to
+> 'kconfig-sym-check', but is not as descriptive about *what kind* of
+> checks it performs.
+
+Maybe "kconfig-audit" would be a good name?
+
+It makes it clear that it "audits" a .config against a certain policy.
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
