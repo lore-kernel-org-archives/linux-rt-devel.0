@@ -1,105 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.137
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794230209;
-	b=GbGg/7IN+FN6Pc4yuSy9pwDaVTpMY/45pbFvflLrBMMuelDDQJ5DZck2XPjFaQCTpze3
-	 VJ+RgsL7Ioz2OcW5L20k2uxBUm//JMM4ecpwBtpB4YdBx2e5aIrsiAvQRNuzJAKCfPYqb
-	 s5LskktfcaJwhiaqXaOGwuiuGuUT/o1Qrol6kHRcbfc0j2TqrxmHBvgwLa4ek1NO15xqk
-	 38XE8ZY3CQAQ6aYU7bDHM3/mc0lyzbl8aWCAuavFOZpkEpoGE++vqZcn5UbaXMjbyJat3
-	 n9d1TpMxH161NL8R4yvfAo6j2SY5Cym1hI/MdW57iMz/H1QZIYrAlT29gdDpjH5PRqw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794230209;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=DynErxUbBsxpuEok4boDYuthCXDhDunU0h507qNMZNY=;
-	b=Si7Rf5S3B7CrMPs2Ea0yHyBtH3c4WGxphhRqPfHTAEwPbBS7IiAmrfFQP2oLsss5FxSv
-	 ALw2VPRUCrG+oHOuX1P/NVOYZIGBBs0iNAwbDxwk7cE1d5K/l4mTxtVA5P7bAojnU5v41
-	 EoVXEBzaw4piUAQCQc62Ffzoz/DNQJpbXO5HEbf9P+n0/B6W1eVOaACp62Q/P2MHvL0zx
-	 auBV57GFaCdERLQbAuEacbSD7wm1/r9ib6EdH54IJ8CwcoFWcEhldCqsgb8/fR565KO2s
-	 CnoH/k6hpEJfUMmjWPYoqIVvVDOBgprsWv/4Kx45/g4CKQVplrC42PFcFdNqfHjn6tw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=j3krXVp6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.137
-Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020137.outbound.protection.outlook.com [52.101.189.137])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794230334;
+	b=ba/g3BuESukZMeanQ0NeJZ00fy6aM7flaV8JjpClrQL5UHx9Eel5KkJGs+GwC9Nc+PeZ
+	 z831QC+EmlNVjTZ8u/o9bN94UnuSmap6TYG5uyyQoLfRdIefwz4Arkclf0sZBPf4RRj57
+	 JfYKh8xhDTaFFNNcNc6n1BLfhXDlgUXLAZY6+WG0kh1dqTDq/k+XGAhzT+p+8uMnJPKM3
+	 ugkSxcx/M0oF2PcEXHbFVnTC7vzjHO7Y0IRLiNQ2QfnQUg4YeWCUzoTbv2s+rQwdU/o61
+	 6ROjDkRery62O+4+iErU00HNF0+x2FpWdAItVV2xR5uf+WKDB/yVStPKhvB59NqtE/Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794230334;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=tMXHe7LOEpQwsow8Uy2YcO83thnpHcV55BkTpvZf2y4=;
+	b=iZmVK4WU21yx0Xy45a76puDnL3uGAwbliTjSnYoCkGlvuAqfCBVuA//BhTmYg6cUb/ne
+	 rPQ18qifN6l0wHBV7VaMjFAY0aybh9BOjHvl9xsL2cXbFLA9fNml+NT7sL1XQf/G1sFuI
+	 CrMTc1GdVvzxUT7i5E+njrez7hRwr71WZw3RH96J8go1RW0paC8/58WsqgYtF+F4B3EtH
+	 X9GY4XL8KtumXI1zxyiqQt123M84bDQdWl0q9d0Agrrxt1UCe+nXlInB4msTiVJGYl8Ge
+	 cR7UbHA5tgUC57TXxx0OVmOINQVIC9e2+UY0cYAOQn8sNafhf6CyjrHQoyEprcTXURw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="zZliaNK/";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6EHalkND;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A036E606A322
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 13:16:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A036E606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540BF606A338
+	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Nov 2026 13:18:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 540BF606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=j3krXVp6
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PhcEKmGYjodJcRrL//17775TCV0+KBMZ67vHVSzwiikQJ9gfYqn5+1jpZOrnBjIFPfXiaulW3OMR1oyNiyDeTj9uUjPkIe4FQxSVGRA6Nqk9Q0LY8VnLUjfSxaI4sqau1wuI2H3AAEWc8gUqC+dMIxXzoOazYcHXBAlylLBf3PoWrgMhVXdwczc4IpU631bijziwLu680tCp7Jv+Ai/DeD4emWicuZHxpcNFKifWYKJKDS55zHG/24vHLV2foD/Qxxihe6rDYGQNDamfzM3xMTBbJr5Tr/IuHjZRh9Rnhvgzabft5XeM/kR8Rt6sGqUj7bkwYZCyreWyGj/ISDNa8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DynErxUbBsxpuEok4boDYuthCXDhDunU0h507qNMZNY=;
- b=t11sKPWKDmuYXojh8QG6x7+TnRtPKhG9qf3BYHlT1AlEuPmNn3IzmOYZ/G+cwP/BpLmnufXyrTB7dlG0hTay9Z3PzB5IZ8YV0e+AF7cMCDkodkHQHfkHO0QErTfjvFl3bmzoS3+KpMh/qKuzJm66P+m3RD6vI7lFWfYs8RnTcnIknkc4KZ/Ds2xh95X7YyuSXXQl4qPo4gwt2uw065uidQDWUUkpOLRt5eRmolNCHsgcgta+wUjKgObefRLr7EJXzCXtsGxHDyoULQtkIp0yaGAOT8YuKvU6V9fB6epd9t76ltvowSjykN6PYD8c+5HCAE4nf48YJs7RSrlrRfjm4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DynErxUbBsxpuEok4boDYuthCXDhDunU0h507qNMZNY=;
- b=j3krXVp6x7jiuhs8FNbGi3rDZIECqgiW5X5l7a5z3V70/nD7I+Hss5DVwJY/+KeoQ6r0o9oN1jIYe9gGoMkWVumPR2Vzn2EG37uJ4duQnwO10QtR2SYF8OZ/khAFGRXPluES13iM4uxP77mWqnpgQDysjrF8X/WVTwPQW5yDzylAJIG01Y2Tr1AgF9Hu0DTTgEamDS4AB5ZcFDP5dD1Ovg8MhR1yK9Dpce69OyaW3XJFrVOp+1VLyRycCSpA6FRH1cN5Gb5nOWoecL/nImc8coZBjnDXTD8Omp0a0hxjyJHkdPXHaVEW9W7xjr3o+s12paqqLL5Noan3FkhrNQtRGg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT4PR01MB11683.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:159::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 13:16:44 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0592.012; Mon, 9 Nov 2026
- 13:16:44 +0000
-Message-ID: <7546267d-8b07-4387-b673-f466ad7754ba@efficios.com>
-Date: Mon, 9 Nov 2026 08:16:42 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/29] sched/deadline: Do not admit bandwidth for
- parameters that are kept
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
- linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
- boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
- tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-4-mathieu.desnoyers@efficios.com>
- <avG_pJmgQr3V-PXZ@jlelli-thinkpadt14gen4.remote.csb>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <avG_pJmgQr3V-PXZ@jlelli-thinkpadt14gen4.remote.csb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0197.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:67::34) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=zZliaNK/;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6EHalkND
+Date: Mon, 9 Nov 2026 14:18:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794230331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tMXHe7LOEpQwsow8Uy2YcO83thnpHcV55BkTpvZf2y4=;
+	b=zZliaNK/fyFYpmhiHJpfrBmH7+jesJiapHjRMSvmu+ji6oo6e3NVekzFNZWcxWP4ROwxeR
+	5rIXNxLWlHPC7ZUpj1qctZX32sVB2mXjKkfUV9YzJWFiBc1WHRCC9DF9rDeWK+XoH2AtN1
+	9IOkSXESFFjAUqZ4Qfv2NZIa5YteCOSb/hEwn9QNyMLpJK0ZhY1Xr5pP2tgCyp3z2aUTwj
+	H7a0rCdx0YwPeK5t9Pa7dwOFdMSakXlHvZEcfmPNGBQAHbU6eDT95eCVHtacRNnmdMfXQE
+	mqn3LriZ30H2kUQCRsCBou06q0pgOywDVzNmtFuNcROFjmXa85Mi4ODqtKQtlA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794230331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tMXHe7LOEpQwsow8Uy2YcO83thnpHcV55BkTpvZf2y4=;
+	b=6EHalkNDoeS3bse8s75evKp7TN2+D6q/akhi/zJZefHHgXJx7R4ozf4qfdVR/P+yfaCZaA
+	8Y9D1X/YOGk1qBBA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Julian Braha <julianbraha@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
+Message-ID: <avHIOS9NHwCCMITd@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-5-darwi@linutronix.de>
+ <3dd2bb0d-8486-4630-b496-e92e4ac37c29@gmail.com>
+ <20261109003909.GB3429615@ax162>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -109,114 +88,46 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT4PR01MB11683:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53985059-7ed2-42a5-65e7-08df3e63b375
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|5023799004|4143699003|56012099006|261021121427099003|261021123027099003|261022105027099003|261022075727099003|261026121527099003|261026140227099003|261028144727099003|261102123227099003|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	emCR4Kglc01h3GSf31YmkammGnY/5dVhabs3JKEZ0ddbkC7b0NxRvjFNCBpo91Aq2fzfcPT5M04A75kNlCIJZkENax9+aWJD+/kP6W3p5iL4p5+E1/4XCj4fCyh0+kWiRlr55tbJcZF5ACIjMWt7zsyN8QcqtHD0hSflbeFZlSq0nItFg4PO92i3pgrFIrPYNgoQf+WvoVi6Ai1+3vxse0eOb45Mn+FXUxUDeboKlzIUr+d2wNDIbFMuiHMJZVsXeRsepKcSOo86MUT2Zb6eO5+HR7pO43Z8+OhKxyZKBkb1zt/elH/9WaUSM63GOPagJPZXQ7AR8ruNt+X4EQvRTIhiDczwcatElv75KEDjQNCNT68P9R04JZQKJaksrRayprXPo4xikalwU+I/YQhlaYk3LxsLE8mLSlD6keFC4EPdrxGW1t25xSZMf5roKFdDgFtUrvMaqqUph8b1wZflC4K3/lPDk4C/C7IZDwtuBR/fbEhhCMQIAKpK3r0lCegxX3WcMKEAxzPuysjdHIKH4vqlezEhvqaILNKEV9rV7I0EW5O7ubtEykNokqjZBRZ4COPp9NY3w1MK5z6UdOIIwnn3o7uqcqc6pCDXzcEGCuw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(5023799004)(4143699003)(56012099006)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003)(261026121527099003)(261026140227099003)(261028144727099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a3dCc2M4OTk4TCtPTUxNNytyVFh4c3V5ekRLU1BJRXFtZzBLZnBXeUp6aEV5?=
- =?utf-8?B?ZGlMVVRNVDlZQU1CNnVqYzRraVNaMmZ0UXp2SFdSczRKNjNVMVp6ZmVHdVgr?=
- =?utf-8?B?MXpQcnQzYjFydVhwaUh4T3VMRlZScC9xU05TemVuOWtEdHNYYmRWM2RITVRk?=
- =?utf-8?B?R2IyMm1mZ09jVndCRFB4OVNML0w4cW1rSEdXY09ldXhrcStrd0R4eTFaSWJW?=
- =?utf-8?B?T1kzVHd1aFU5TVdyK3ZTN2pHbHZHeDUrRitabk5HSmx4K1Zra04vbDNCWWZC?=
- =?utf-8?B?TGZ4eWlZVGI0eU0vRWFNd1FDRGdtZG15OFF5MVN0YStjYnVDMHdlQlFqcjlk?=
- =?utf-8?B?UCtJelhPSlZQL2M3ZllPS2c1MlZIczNXYnBtcGsrT0N3L1k0dTNtVGJrc3pD?=
- =?utf-8?B?YVkvaUg4RTQxckUzWmQ5M1RRcWZJUVV6eThyeTl1NGlNSWdNVDVIYzNjWFh5?=
- =?utf-8?B?MHlrMmhSUW1ickNnUEpVTkNtTWdueEF4a3pteG93b0VyL3pQZG1CbUszTC9E?=
- =?utf-8?B?bWx5SXdiaFRXdmFCL1pNNWdUYmNyaWVzVTZ5R1hKZ1BjNUI2SU9pMzJDVVM2?=
- =?utf-8?B?Z1p1ejF5elk0OFlUNnRRL2F3WTFFcENRWVNPMzZCVFN0RmhjYkVVMHlwbjVu?=
- =?utf-8?B?ajM3ZDZYOG1ySktPc2VZZ0taSndrY2JxdzFvNzE5YVNhalFPdTFxdUtUU3Yr?=
- =?utf-8?B?aWJ5MFUxRVBkKzhHb0R4UEhnU1VZdWtiWlhLVFE1RSsxekJIZmpsVTNiZ2Nq?=
- =?utf-8?B?aE12eGErOTZEb0ZlZ0VwMkNzQU54YTgzaTl6VUgyTmdnRnVNWlBtUWYraEFD?=
- =?utf-8?B?dDBTQVBYc1gvdXNtekt5YU02OTU0QnNkR3dnYWowQjJraXZ0NG9qS2xMOXZ3?=
- =?utf-8?B?ZVpiUi9xSXhGNWVBVGJXUzJQb3pmK2lMeTVoUlNqSlllOVp3WHhKSE9JMU1u?=
- =?utf-8?B?RkVjYkR5RWpKcTBBK1o1K2hGMWdDQUZORHZ6cm4rclRsUWdnTzRyTGMrVEFu?=
- =?utf-8?B?YVhzRXVwcGpGa2dYbmx3b0tuNjV4ZkJrQmxOc0ljYlBMVkhVZlUycnpFUkdz?=
- =?utf-8?B?Y0pQbExMQ1ZSdjFjVTFjWXFtZEFRY0gzclBvaEZod1JuUUJUZEFuRjRoZHVW?=
- =?utf-8?B?WWIwc3hPZTJpWHR1WjYrVVU3WHJLeDYyWVdSWExuc09PYUhHRGdudnd3Rmtl?=
- =?utf-8?B?ZHYxQy9aSXFhTm9ZbjlSbnBXbDYwZFN3SURxY2tBaUJVNm5QK2JFaEhERWdU?=
- =?utf-8?B?dUIzMlNlNjJhbjdjeDZlc2xvMFJNb0dERUM5QjVFTUFLbkpCTHF4alhRN1k0?=
- =?utf-8?B?bzBnLy8zanE4QzRNcEZGNkVVR2pLc004UTNOdkVFbjZ4MWUycHdLZnIyb1Yr?=
- =?utf-8?B?K2N6UmVrYzU1RCtIRVlVS0VYdlpOVXNvRW1ZNnVjc3RGQ29kOUJJcmpZa2to?=
- =?utf-8?B?QzJWQjdQdXp0YkVGVDVGRUt6VmZYM09YL2pISlZuVXVVSVlKci83VnZ0Z3RT?=
- =?utf-8?B?Vk9yOEU0ejNsUG81b2tSWUNkOEt0YlRVWko3Q3RTa2czZFJxaW9iRldZQ0Ja?=
- =?utf-8?B?YkJPZkJCZDMvNUlaUDR0dEdJWXV2WUdkTmpyZ20zYnpNcHlGWVNQR0hIZzhC?=
- =?utf-8?B?TWRFMGhJdXYzU3I2Tm11OUVJTHNGcVM3b1BxQk9kV2U2UjdMek5aaTl2Y2Fl?=
- =?utf-8?B?TlVZNy9IWmlNSS8xcWVEK1dOZ294cE8rY2U5Y21JUXQ5ZFJhL0sxSGUybUpP?=
- =?utf-8?B?cGRGMXpraUR3b1dLWjUzbWxGZXVpbm5Oc3d0Q1VWN1h4bXp5YTlta3dxTjll?=
- =?utf-8?B?N1VMWllwcUN4YVRwcDBQckhHa0M0UEhlOVoxck5CQU9GRUh3Y0xuSC9XdWFq?=
- =?utf-8?B?SnhUMXV6eWVpdjlBU2RZWHc0SzVrM1k4VTJDS1NqRzdjVXY1S0gwbzdlMnZm?=
- =?utf-8?B?b0FYUkNMaU1TYksxSnRqV0gydnU0TGNPa1MzN0ZLZlVDVzZjQjFPK0RmbGpL?=
- =?utf-8?B?N3A0NXk4SWpZc3I3R0drTFJqdEtJYW1XMXlET1B5U3NOZjdCUHFXNTFjWFNP?=
- =?utf-8?B?UzRJSGg0eGs5OG1UYlhJekg5djI2cW9kQXEwVStTb0VqZjRVRlQwalZyclVo?=
- =?utf-8?B?RmV0TEhDVUJMZ2lXSzRsTzUreVVmemZ5eE01WENhMU1pb0E2aFcyUmlMdVdO?=
- =?utf-8?B?UkkrV3JwVE14TFVHWVhCLzZSNUloNlh5R0h3c0RnZ0lTbmNoaTZOVHJtcGx5?=
- =?utf-8?B?eEhCazJBZUVUMDE4aDJBOUVYb2dJQkZHOGQ5MG00WGZRNUtMOCsya0QyYm1T?=
- =?utf-8?B?YllFajVwM1QwZVl2WWhKR3Naa0o5Q2llSXpxVDUvUWVFNnhqVldJaG1TWnlo?=
- =?utf-8?Q?cB6+r9WYRTWF2rQbU/gePRRl5wtqYn88jV9t+?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53985059-7ed2-42a5-65e7-08df3e63b375
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:16:44.4493
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JDvJjnS3un4aCuY6WDjSK85ZdQMqRtpCA0TiCHZ2udARupzZartcVhyZDX7N5JuN/ndMvD9/rhS+vN4h1cIomNnUvzy0YmnzgF8rxb7IIBo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT4PR01MB11683
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109003909.GB3429615@ax162>
 
-On 2026-11-09 07:42, Juri Lelli wrote:
-[...]
-> 
->>   kernel/sched/syscalls.c | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
->> index 0e8b5c7324f6..894f93a80d5d 100644
->> --- a/kernel/sched/syscalls.c
->> +++ b/kernel/sched/syscalls.c
->> @@ -690,8 +690,13 @@ int __sched_setscheduler(struct task_struct *p,
->>   	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
->>   	 * is available. Keep this check last. If a later check failed,
->>   	 * nothing would give back the bandwidth it reserves.
->> +	 *
->> +	 * With SCHED_FLAG_KEEP_PARAMS, the task keeps its parameters, so
->> +	 * there is nothing to admit. The parameters in attr may also be
->> +	 * stale: sys_sched_setattr() read them from the task without a lock.
-> 
-> However I had to wonder what usecase would still make sense for a
-> KEEP_PARAMS call on a SCHED_DEADLINE task, I would say a !DL params
-> change (UCLAMP for example) for a (at the moment) DEADLINE task that
-> might become !DEADLINE in the future? Maybe we could add this to the
-> comment.
+On Sun, 08 Nov 2026, Nathan Chancellor wrote:
+>
+> On Sun, Nov 08, 2026 at 06:59:45PM +0000, Julian Braha wrote:
+> >
+> > I think this tool may belong in scripts/ due to the kbuild integration,
+> > as was mentioned in the past on another tool review:
+> >
+> > https://lore.kernel.org/linux-kbuild/20260428183101.GA3304253@ax162/
+>
+> Yeah, while I would prefer for the script to live in scripts/ due to
+> being called from Kbuild, I am not sure if the rules/schemas belong
+> there?
+>
+> It might be better to keep everything in tools/ for that reason,
+> especially if this may be called externally, but I am open to other
+> thoughts.
+>
 
-Yes, that is the case I see too. The deadline class does not set
-uclamp_enabled, but __setscheduler_uclamp() stores the clamps for any
-class. I will extend the comment in the next version:
+I would prefer to keep it under tools/ as well.  Because of the PREEMPT_RT
+policy, and the possible extra policies from ELISA, etc.
 
-          * With SCHED_FLAG_KEEP_PARAMS, the task keeps its parameters, so
-          * there is nothing to admit. Such a call changes other attributes,
-          * such as the utilization clamps. A deadline task does not use its
-          * clamps, but keeps them for when it leaves the class. The
-          * parameters in attr may also be stale: sys_sched_setattr() read
-          * them from the task without a lock.
+This is why one of the development rules at the top of the Python script,
+at patch 03/10, is:
 
-Thanks for the review!
+  The tool must not depend on being run inside the kernel source tree.
+  This simplifies invocation, testing and possible future packaging.
 
-Mathieu
+So, upon (hopefully) including this tool mainline, I'd send a patch to the
+Debian kernel team to create a separate Debian package from the kernel
+sources for it.  That is, exactly like what they're now doing with perf.
 
+(v2 of this series will add versioning support to the schemas; thus making
+ the tool's support for packaging stronger as well.)
 
+Thanks!
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+--
+Ahmed S. Darwish
+Linutronix GmbH
