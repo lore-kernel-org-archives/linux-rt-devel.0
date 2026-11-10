@@ -1,101 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794298047;
-	b=nNSwc/jRnWIxPfvwn+S811a5IYGegPAiYlChM9bbZSBfwSrf4X2rrM3mhawjBxLcZ7oN
-	 0crZvmKof2QKEBeGOxd5TZojR8/bhbuTgL7OMIiJhhCy0tMNURZTQmNSC/m86ELzWgI8Z
-	 Zp/TQjT3iMzGWP4eZN4wwSWijKpG+UO8GO2H6MEgM2eUwWz7zPgVlBn6bxQD3/ygsk9jB
-	 RVQStkfxe0sCumzgLagrrGq4bjcuYhq6xXMmXbDcBczILvAADcUqLiYh/SkDzUB5uCgAl
-	 jcuS/q+7t4F4D6vxcj1L/8JXB3RWgjVC0+cl/FEubrAwj64YlMBfqjqvmRm/hmbCoeA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794298047;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
-	b=mzs9PcFLvO8KK0zFJ0RtbBwPN2PRGf8YT1WfPlT8gCO/o0i4PyBpbpqAb6e+unFMvcBI
-	 5SIRFSC9AGfYbYykjrOwt9jA34sbN1yUScUVW0EQLalGkLtKpbw7/SQavVP21cfGAM4VB
-	 2NJdDT5L1scX2M9euXbMR6Fx5xs4HDyEEZcPhxae7Tm4hukGigrWZwGjajsQG7Y1W0fre
-	 2iC32iJfJBFsHKbGdB8zja7L92SR9syrR5MQaEAl1yZOL9fVmP0n2G2jq09ukoMGBqosU
-	 tT0EuaZKM214LEM+Docd2pTMuwJcnTnjOjYOpywOCjdZgG5FOmRqe8MnrYltamABS7A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=brainfault.org;
-	spf=none smtp.mailfrom=brainfault.org;
-	dkim=pass header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b=k+pNwPnH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794298187;
+	b=Z52KJkrXaKLecOUx163e/3YAAJSs6mDEeAySUnkH2g86/7Mz5zFiVfwB2VuYXjmp+0hY
+	 Ilm95kYh44zTBSt5lxWVrybO8z8uvfy36q6bTQu0UH7plssecV0f2yK8HYE+SQhgUD/80
+	 DB8w7p/La22gD0SvRJW7qlhnOuGmhIrc1anWyT9fabOpuAd1OufvvK8mtInW2mirRIVRC
+	 1UY7IqgeWOswtyJtUK91LyDZnVFTJXRfWehej/icpQqNxyajOBoepE8vy/VyplV49RxPt
+	 xzt6q9esAhE+idOBASoMg0sNAXmWOfUwWNFXuBIcqJ7z/EpRiCyQIjFMQlPAAq/IsxA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794298187;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=c2qCJTJTcCHZf6cE2IYQnsWT3X7zyuhCPskU0MKXrgQ=;
+	b=z47swEPWVLkA6qJqm1y0H0/JP2b4cGsCbKvUuF1y6LyyVY+pdWQ068Nt0zjJDvUU8T82
+	 KE5WXEp/u5CRlAAz42Cs4qSxObcy+W2wFfAyClxqeVeLq/Rg7ax1lImBIniGcUxrxvnG+
+	 bzSJc2mu2G1wCN1oCtX90Ep2Vrn9MqvcDij0nNC2MjNDUyvdVa3lVmayoHpMwdstQajEn
+	 h8TOOeIfmI51eEPmvq9/T7p6WIIDwUsf1slahWbJR4qyXlPkQ/QJt0tanNh65OVPPNs2y
+	 tjno6pIlgeDZREXlaWkVeIJbdd1sR9ZkKVgAxhjklgC3p83shTrruzHALsms09STOWw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=1sx+DThx;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=hUC1VwOV;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D23C606A31C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 08:07:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D23C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B513160A2609
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 08:09:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B513160A2609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b=k+pNwPnH
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490a0e72588so880164f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 00:07:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794298046; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IhmjrO0YOdotp9o5Qy0H1glrzNxazLLCWo/vgae4/UHuTgsIJcFGNxd/eWYG6FaxeM
-         6Ox+3Nt2HqFabuA6PuBWj9WcOMYQusZCMKughT2YUZb49EpDYQjQMJFqatLmISFsTFJp
-         p0SohejCAQAKWrka6oSswd8iCtmukyttRzv4ybv+uSAW+LgAZMeH3DT1CkTyeIs9CfC1
-         1COIjS/zjmeb/LmULWwjLQqW1WdErc/mCva9Xw7p2ExtBzjje7qAQKaAi8akWzA6gsIB
-         QRxD6GxyzRP44TiqYkFbb80sitrZOh89/s8XKUZZuWqIYH4iH7aDbssku168+5PvTmVb
-         igdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
-        fh=3tqu8Bxa6OTSnqBKIujys3PmFA5JzcSyPOUh0Zeg8og=;
-        b=VbNWdVwnleDVSiH3ghwJx5RYP+ygIp8pBHAyZuyV6RLk/BrVfOmi7P2QtSP6bwzCoh
-         BS1jgBHYz1/9e/gPzj1Spn0/O11FMkZ0ucHmkP7dzu6lXI/CmGciqjLJs39LivxkA6FJ
-         MKq5a+ZxFtmrdmzHQgg648vO9R3mr++8spngby0XSAeB0CE1xTeI6OloZ+QVEjRhISG1
-         X8k+akFLhq/TZEBopHESS5jCTuu9SQgduN1gow2HE9ZuNFF3VbhX5nO7+lns9XeD/XxP
-         bcHc3jEoPKc8jwtOfvnCBEGqCnaWs6NQwkZZw1D/ht+sgNXP2flNn3gYvTgk2005Cks/
-         EWuw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault.org; s=google; t=1794298046; x=1794902846; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
-        b=k+pNwPnHRQ/LMFqUE9HBi7TKG7pY/+sTwtvkUSgRKcfqq79uObmMVdDQUtbpDDEAPy
-         EO+kGorqAw6D/2M2IH2axyRWTriIOGg37SChvHYDO1DJxmrYlt83obGgaoUK1HiKGKel
-         IlwMUEcaQNSAzJUPT/pvilKFjc4N951ookc3ZsUx5SCpbg8dKCZUzMdsRuc88VfJpc3y
-         TFgJS3rqoTkKvEHdgkLgE8psHRTuH5hnK259OFvUeKobV9a7bvNQ35m0HLuFxS7FN6SU
-         LVo/UKkFeQVgFHRhokp1eAka4I6EdS6Qp2RRej9bStp8R7L0ZEsXtIHalHYTBm5bIJ+U
-         JQCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794298046; x=1794902846;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
-        b=dsWtpVbbYeAZvuBf0V5duwuJZi2J3UssgPJsX7Q5Ne3taAfhjUNZWU+Y2xyUg5cPVG
-         V0VgkkPdEyKJX/z840X5/w/s3tqlEdckcyMlmY81wfArXapWgUIoYQJehrQYodK4NH0t
-         ay+SexqBEIWruwBD5EfKUHhFbxcsVeDaFJV+ESFSlU8Zdmw9MgBfy7dQe0XhRwsnirZu
-         k4RlITNe8hwdzspVuJncqQTh2OnjWcp411a6JlVcD+LBfryFQ6t8g888jr/svEAt2zPV
-         5w3eNYaKRbca75GR6RnwoD3fDGAtHkUtsQ8nfrBRK4+Bgyp8ElH6sgifjGR1ZJkqrtr/
-         yBfQ==
-X-Forwarded-Encrypted: i=1; AL+hErHOXSxVFG+bFyaK8OdiTtz8S23iWJYVQ/4CEtldPyzKKOxmoxeeZL+ccLEFjcmayD0b+eU8W6dvKonXZC8Hww==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/l9EVPWaVI1Y+IC7iVoZDjoUTfKDtc8jeR3bJt7JdmcK5DjpEE
-	iNplVxVRgBxtBR2ges9kgLeAvh+pDAnYXedN0pP/Spzjq9vtoQP2eb7IFD1TcfyVpNiNauu8gKl
-	hB3oyVu87uiy+elMNejXWF2gQRFSNQpoEzN1KfPTvnQ==
-X-Gm-Gg: AYBFou2Qo39gqa9cQaSO/aR+JL5dWOA2i83GhNwaDc0jqr6mceVhjyBmC9MKDeG4BmI
-	2Fvs1RR8I7Z4VXOxecaFaffwVqrJJBK11BLsoXRlNRJbJNvEkELJHR95FBR/b4euh1EM/BjuWkP
-	YZN6mzSh9ay0hx4Lv7q9ILD9B5US48Dbw/kSScHW7ahchoVdIGkIqSx8nhi3pC8GjQOZlwt1jxc
-	NRt9WepDk7TM8H5IpPH3uqNR6+Keotnw5AFZ6ObbLPWImg21A84jo3JBWwtCplErbwdecVfmqPV
-	mhPYfWBTuCDYGuU08Q8QPIymMeVPJG2yAHlSkjmazRKEtS/1LWXMDiLV5OfAsPtlaLMvQFbuVHB
-	Zie5bXgIIReywkLCZjnLKDyPdPspFB97uuffSCSJfb71dE7RbyDoOvDWh04ZeN0PwlOV31zYWvg
-	qgrB9MBa+RYvK7XaOYxa/jFYtq5mDohcxWxrtrByLnBUeUBJ6V9uk9iTE=
-X-Received: by 2002:a05:6000:290d:b0:48c:7386:af18 with SMTP id
- ffacd0b85a97d-4982b28aa0cmr3447294f8f.8.1794298045549; Tue, 10 Nov 2026
- 00:07:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=1sx+DThx;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=hUC1VwOV
+Date: Tue, 10 Nov 2026 09:09:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794298184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2qCJTJTcCHZf6cE2IYQnsWT3X7zyuhCPskU0MKXrgQ=;
+	b=1sx+DThxqL79EQec3hFn2UEJuvkhE/i25n/sqP34XBQc2cW+VT4bKVEimdWj2OBSf9Aoke
+	nkVzbIQ+3ZCzJYx18mKTdPglB76ey0BgDq+BqVsuuJFiYeSAb04PsE1K5dtZtwIjfxJPzw
+	NDcz3XsgWcKuAoFqoHVORbpysHDIHONU6Ae1BX9CSWYRgHbVmUf+8xSuf1+WooT3nOlln6
+	QTp3KLGZkkb1jD5DPV4i/QF6uXHBnNRwSnHIHhFg/uccf3eUjOsliwZvmgbm+RuQ6TaKFI
+	XYkznZG2hOX1dT3pY0key68u0yYqVqmySYYqGh7V2o/VkZGkzRT1p4hO8x+S7A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794298184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2qCJTJTcCHZf6cE2IYQnsWT3X7zyuhCPskU0MKXrgQ=;
+	b=hUC1VwOVpgnVuakNt27Tlt3/xte7tzjqV1T0Zgtj9roF+p5Ffy9zMXqLh3luL9iCOFrJW8
+	P50CiMbLnEN278Cw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <20261110080942.QxKXirzI@linutronix.de>
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
+ <20261106140401.90MH_6qt@linutronix.de>
+ <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -105,94 +86,63 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261020-aplic-async-probe-v5-0-c4861c2aafca@mobileye.com> <20261020-aplic-async-probe-v5-2-c4861c2aafca@mobileye.com>
-In-Reply-To: <20261020-aplic-async-probe-v5-2-c4861c2aafca@mobileye.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 10 Nov 2026 13:37:14 +0530
-X-Gm-Features: AclHuK-vBDH2XlztsVwt_XXQdD8zuFsijRvxMQGcBNFnVvFsuvB6NPhtCgNa4gw
-Message-ID: <CAAhSdy2kxydOk9wPdBtVHCTN2uDrpFbQ0WGUXHz0AUvUWAncpg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] irqchip/riscv-aplic: force synchronous probing
-To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Jessica Liu <liu.xuemei1@zte.com.cn>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
 
-On Tue, Oct 20, 2026 at 9:09=E2=80=AFPM Vladimir Kondratiev
-<vladimir.kondratiev@mobileye.com> wrote:
->
-> The APLIC driver leaves probe_type unset, so it follows
-> PROBE_DEFAULT_STRATEGY and is probed asynchronously when the command line
-> requests it (driver_async_probe=3D). The probe of an APLIC instance updat=
-es
-> state shared by all instances without any locking:
->
-> - the check-then-set of aplic_syscore_registered; two instances can both
->   observe it as false and both call register_syscore(), inserting the sam=
-e
->   list node twice and tripping CHECK_DATA_CORRUPTION ("list_add double
->   add") in __list_add_valid_or_report();
-> - the global aplics list, modified by aplic_pm_add()/aplic_pm_remove();
-> - aplic_direct_parent_irq, where more than one instance can pass the chec=
-k
->   and register its own CPU hotplug state;
->
-> Interrupt controllers are required early and have no benefit from
-> parallel probing, so rather than adding locks around each of them mark th=
-e
-> driver PROBE_FORCE_SYNCHRONOUS. Probes then run one after another from
-> driver registration, and deferred probe retries are serialized by the
-> single deferred probe work item, so the shared state is never accessed
-> concurrently. Probing is also blocked across suspend, so it cannot overla=
-p
-> with the syscore callbacks either.
->
-> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-> ---
->  drivers/irqchip/irq-riscv-aplic-main.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/irqchip/irq-riscv-aplic-main.c b/drivers/irqchip/irq=
--riscv-aplic-main.c
-> index 5369078f3d00..3c10dbf3b492 100644
-> --- a/drivers/irqchip/irq-riscv-aplic-main.c
-> +++ b/drivers/irqchip/irq-riscv-aplic-main.c
-> @@ -118,7 +118,8 @@ static struct syscore aplic_syscore =3D {
->
->  /*
->   * Not __ro_after_init: probe can be deferred (e.g. MSI mode waiting for=
- the
-> - * IMSIC) and complete after the init memory is made read-only.
-> + * IMSIC) and complete after the init memory is made read-only. Probing =
-is
-> + * synchronous (see aplic_driver), so no further serialization is needed=
-.
->   */
->  static bool aplic_syscore_registered;
->
-> @@ -413,6 +414,12 @@ static struct platform_driver aplic_driver =3D {
->                 .name           =3D "riscv-aplic",
->                 .of_match_table =3D aplic_match,
->                 .acpi_match_table =3D ACPI_PTR(aplic_acpi_match),
-> +               /*
-> +                * Probes of multiple APLIC instances share global state =
-(the
-> +                * syscore registration and the parent interrupt of the
-> +                * direct mode) and must not run concurrently.
-> +                */
-> +               .probe_type     =3D PROBE_FORCE_SYNCHRONOUS,
+On 2026-11-09 16:45:47 [-0800], Paul E. McKenney wrote:
+> On Fri, Nov 06, 2026 at 03:04:01PM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2026-11-05 12:03:11 [-0800], Paul E. McKenney wrote:
+> > > > For rcutorture, I don't think there's a ready-made kernel interface,
+> > > > maybe we could add a sched helper that performs the same operation as
+> > > > the debugfs knobs?
+> > > 
+> > > I would very much appreciate that.  ;-)
+> > 
+> > This maybe? Since it is built-in only, there is no need to restore the
+> > old state, is there?
+> 
+> Hearing no objections, I will start testing this.  I am applying both of
+> your patches from this email thread, but please let me know if something
+> else would work better.
 
-Making the whole driver synchronously probe is a conservative work-around.
+I have kept the first one and added a proper body for the second. I
+intend to repost it later today if nothing goes wrong.
 
-Your original direction was good. How about the following:
-1) Convert aplic_syscore_registered as atomic variable
-2) Add another atomic variable aplic_direct_parent_irq_count and use
-"if (!atomic_inc_return(&aplic_direct_parent_irq_count) && domain) {"
-in aplic_direct_setup().
+> I would expect that this command would result in rcutorture complaining
+> about priority-boost failures because SRCU does not support priority
+> boosting.
+> 
+> tools/testing/selftests/rcutorture/bin/kvm.sh --allcpus --duration 15 --configs SRCU-P --bootargs "rcutorture.test_boost=2" --trust-make
+> 
+> But please correct me if I missed a turn in here somewhere.
 
-Regards,
-Anup
+SRCU doesn't do boosting so yes.
+I just stared at rcu_torture_boost() and I probably miss bits. I would
+expect this thread to run at SCHED_OTHER and then run at 100% for a
+period of time within a RCU-read section. Once the RCU machinery decides
+to start a GP and force a quiescent state it would instruct rcub/ to
+boost the tasks which stayed in their RCU read section (I *think* to be
+in RCU-section is enough because the idea was once to get task back on
+CPU which were scheduled out while in their RCU read section).
+Once this happens, the task should be with SCHED_FIFO priority and could
+leave the RCU section, un-boosting itself and passing the test.
+I don't see RCU-read locks but this might be done differently. I see
+multiple sched_set_fifo_low(current) but this shouldn't change. (Your
+priority shouldn't change (becomes lower) if your higher priority is
+due to priority-boosting.)
+
+Your rcu_torture_boost() runs at FIFO-1. So if it does what I described
+but at FIFO-1 and rcub runs at FIFO-2 then it should still work.
+Throttling should just make it go slower.
+
+> And yes, in the built-in case we normally don't care about restoring
+> state.  The usual situation is that the system (usually a guest OS)
+> is brought down at the end of the test anyway, in contrast to running
+> rcutorture non-builtin, that is, using modprobe and rmmod.
+
+this makes things easier.
+
+> 							Thanx, Paul
+
+Sebastian
