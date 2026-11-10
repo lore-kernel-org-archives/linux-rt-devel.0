@@ -1,84 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794344513;
-	b=2dgnONkj5mEoUnRLVx2KG21pgkDLVvySp5eDQH9L8UVKFZwMwg1iQD2QwLqBdMc4NkEV
-	 YQ1Hzs8ey+Nrv8yHy4oUjime+SOTl4E3Ca3e3TzTdQmY+7Js8uWi2WYexYSvM7DZfAA2R
-	 /AJSJtFz9bLf/osRxCdovi1CL7r3QjhiaSGgywuHuN2ULrG8IFk3LeF5VoJuLgn7UGjth
-	 XGlb41CDIxLL6wDugWUPq619QNWmUSj9tzESE1xSG55cInCFIV79kO7rwCsEo4tZFrYIP
-	 +UQAc+Lph+GxOhe6BZTfK8GgqPvYqc6/f2AjDIS0DhTJi8obsLN7th+ZFWOncHC0hqw==
+	t=1794344522;
+	b=SIbG8Me/rBpdigsliYwVPleYZ8o5PBArO3XMTJsVeASd/QxwRwEfX52pORKg2HaoHZeZ
+	 TYL59n47e5gzYjTCi27PhrqJlUydUO5SgX+/0eVfUu7gRZNG0lFKPw7QaFqny6my0l0c9
+	 GJ7EIPbBlnDxxW9k9VOfWilv+PJ1wHQK8vRVDCQVhudNu/NE85hvyDTt5+sQ6JbKIpXJI
+	 j9DC7AR497TUJeq8qIucwnoFjrKDV6/fg5Rx/gpljTnH2ceivqd2g8D8McL9gQZ0PJL7p
+	 mXqfOA+TmxJTnXAN8dMZwa/ACDcncWCUWsPUUi3XfwjEhvrR8pZr1XB7rl76NtLKp8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794344513;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794344522;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=M7R8N2eXWD6+EHKfny1HAblM/aky2ALTwQRlCwbdbPY=;
-	b=ROW0KDaFHK2iPeM78xk0w80Thhi3ajZgWudBlii+dfyY3swN1sS5vy+HeNvMgbhiPkpJ
-	 791BL0AY8XV6ok9arUVsBXYboTCJbQMShRR224Haml17/1pkCHVAp+kZBVDsVhfA83PYq
-	 HCQp5cPjoHyKDGAXJfScMgDdyWCPH9eVGgEGygRA1kdtKZEiqJe2bKzY7IUtWE4BiuJWV
-	 GL0OBx2U7CCjFRjr5Fss0YNB5yppXSC7AgJVSnaXgjt4CpT6UaHhZtH5/P6YKWC8KtLBH
-	 mLqsDPgk9fQ4Q194rm74PxjloraEzew0+2vLqk06EM1ayGQ9x0OzRY3Pgt/LMYRq/7g==
+	bh=dy9zjtNbr6qe/+euwDS4ARapr6gYv28sKl4aRiD8Pk8=;
+	b=ns1S1foEpevH3k+fQrbLLBM1t0d9iAqafhsPywL4Ya8Y6DtMxYSSOdYRiXlylL34iErQ
+	 cKjku2uUCVZwgkLJj2Fi15YU8WdRtf9qthdliu9JHaZV171uCNl8jp9VB10fKoiagGA2c
+	 Orq+pnJ0K1uSuygwHxteh1GlIM9LPOUv0noULPzzgmoJt01G6KWrfPDGRcKuCEZacHbdX
+	 uEYCfCyP0MEmpyhmPP4WFST3Bh8W+Lzy+ZBrZ+2NuCS/p6V/X9C2OzvsZJO9TPgJfxpcK
+	 gs91mIgzJP2VUvVepHCMMFUE3EUE0W2ZQjuelJXxilSfMG9vhXMtbQ0o9neYZL4CEbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=blockcast.net;
 	spf=pass smtp.mailfrom=blockcast.net;
-	dkim=pass header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=bqTaby4u;
-	arc=none smtp.remote-ip=74.125.82.53
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	dkim=pass header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=vWUX7cAd;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C3B606A326
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 21:01:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8C3B606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B895606A321
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 21:02:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B895606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=blockcast.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blockcast.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=bqTaby4u
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1438d9363fbso1465588c88.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 13:01:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=blockcast.net header.i=@blockcast.net header.a=rsa-sha256 header.s=google header.b=vWUX7cAd
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36f8cdd30beso3887754eec.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 13:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blockcast.net; s=google; t=1794344512; x=1794949312; darn=lists.linux.dev;
+        d=blockcast.net; s=google; t=1794344521; x=1794949321; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=M7R8N2eXWD6+EHKfny1HAblM/aky2ALTwQRlCwbdbPY=;
-        b=bqTaby4ultilXegOzVNOg1/ns5D4vwgH2dKonibnNzjQqBiI8DO6siaOQY6MHku4Z8
-         l4uxW+SOL2YnbsiuzkVFlvIE0P+ZN7+pY/eki3mNlmjrpO+7SsDCUneaB8sNoxXF1hN8
-         XAfG38BBDnkTLKbH8Ht0icGng3rWOKag637kFASiphCmpVgS/JSrKCxzARO5YuMPHaX5
-         GsuLGVDRvNQKWmXN8HqT+RPONHk2fRfDbz3A7tVC2G4jeddsKlLq/fNMic4mh9pSujZx
-         ZHZkSBUGpihfHvg8jrFkypdOIlyzmByxPAfOoCy1Qu4tYUNzzU0xcsmTjvbcTw4T3WgC
-         6SlQ==
+        bh=dy9zjtNbr6qe/+euwDS4ARapr6gYv28sKl4aRiD8Pk8=;
+        b=vWUX7cAdSbn7QpO4VKJ+fHYD7ypMnpcG4AyzzKQ5gnsU/tistrWG/7BZSlqPt05nZR
+         eatuLfX72i5q8DEo6yDk1wBjuqBLiTAxw0lQltXVqa4zDJFmfejAU8h+KrSU2tCTBpXM
+         g5SO9jH0dGjxDeTlY+fh25WoEZte/7oQwXf9gdEBxHGM5BjqpKuVvhuy+blPZrPPCz5P
+         Ot62ZuaFW/USVlvMawIXzoEt73WAQgwzhcbjE2yH2zOaLR/Zcp3ka98u7IyW+BGQWh0v
+         IjofhXzITAl/CahIoblDfAHIMN4Uhj1GsDcf28Zs15pvfyZ3hd8ElEWyOj6D2H3vkdgO
+         Rqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794344512; x=1794949312;
+        d=1e100.net; s=20260707; t=1794344521; x=1794949321;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M7R8N2eXWD6+EHKfny1HAblM/aky2ALTwQRlCwbdbPY=;
-        b=Gl2pXy60DpMvu2ouPde7CQh3Bn8ZNnaes5lUdiIwJFa5pxadYFcVbxCEorWoDnYKwX
-         LF5U0ltYX6zHFdGGhik7YYDpyOjoHs58IdA4Gy4VVICZt0JoeY8aHzMLg7H02hwub8Wi
-         d7Dw+vJJ/aTM7hg+fWdFx5zRrdK9aaQzJw7pvNMXfDXi32n/u5JydpEy0vuMKu1Ki2pU
-         5RvclcWx1vJAtI1WSo88IGjZA/a2uDBbkHsLPmUq9SaQhvrx44kpZgP+L1ANFuWu5xwW
-         GlOs/2JvjnWZIiz9da/ysgdugqKfvLgPyjMooHX8NP8Ug+iqfqclGd7vp7tpW9KgiV0z
-         IKoQ==
-X-Forwarded-Encrypted: i=1; AL+hErHMXbjEqVKEgNFo1hRFzYfwTUQ2NqYJRgOpgTMQN0UmRx4Fkkzrbf5bvocgvtQI3skJaBR8/aRHSfUHYCmOWg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/LmWVCdq7knbZqfLB/WSS76i3djWkEonP4P1TWsAHUa0fvpcMN
-	nOWcdsU9iZ3+gnq5xl34/ZV/MN028MaqZXpV7O98jTrIHdyhCBhXYwNL13YIsLX4yuA=
-X-Gm-Gg: AYBFou2BFJZmhf1gpKm0q2kSMDZV+TRUzR23cBzy18W0PYJJ/pzUBQc4xLPITDzl39p
-	cJYs3Ukow6L2ZZ2iGcRHDZ/xW+zihqjQFYH5WUmZkj8SUadbn1eblIODswcuLpbz1GGruJPQvb+
-	o5BLtC9xNBtiFgRrCbN+Z1WVme8A2HGcu96hSNhMRexFfdvwCDkGQBhRVONphjelKjDnKdeHhOD
-	DHYagt3OI0lnQm87n4HECo4qs2VvVk0m0C/8cM6Q2pG6V0hZ7UsFQ3S3JaX3C72Qk8j4ODd62i1
-	JMiDPrg/el0veYZLZHi2IG/n4isz8EAY5lmv9DxWFbZjFM9UmvfsCh6Rq1fN5LUixECDtkMMLOa
-	OKaPN4zqzE28xJOQeJM5WP5B3fSGL9e+8OavTGB5vMTv0SeAMJaugRJQwpHUWym2v/dH6tDj5KU
-	PCD58KsZIMD+p3EXLLAqxlSsRdZGi5iGQg7UNYqbemD1UT7kJovKM1gRgPpeg747FcxbisPdxC6
-	VmW0yiT/bzsqnzYjlTR2ZUn0xg5780003w/xAKZvdvAGIJJuYfNMp+BHur8ohn7VAk8CqN3StEr
-	lTbzorK08vho3N6nIsJrCGpY+HXkN2tRt5osALSRgAjiMUcHlgdc6kdTdLYml9NJkjsZBe+xPMe
-	t/2vL7Cfm/hG4PyRF
-X-Received: by 2002:a05:701b:4516:20b0:14b:1ef8:698d with SMTP id a92af1059eb24-1b3c036c2c0mr73201c88.15.1794344511472;
-        Tue, 10 Nov 2026 13:01:51 -0800 (PST)
+        bh=dy9zjtNbr6qe/+euwDS4ARapr6gYv28sKl4aRiD8Pk8=;
+        b=xz5vr4fUhz2i8BrjpGkHA0CvRhMvdJAm6V3SCa4asZblQzzdF1yN5RQuTGgdwtJ5zi
+         XtrBzbPYUb4mtmlyI5R0lhJwqmaxYJHT/F/yd1ykEcIFU1uHhdFSc7IMLDSY5m6ByagD
+         65MNyqLfw0yblXpyDHjrxIS+dAOtQ4dgDM42tsAsUw+33rPux6fFFD/sX4w3iBpU7Gaq
+         vXY8nLbrInLeEXGcpSjzhk0D+wajKuo3zWLuMjhbBuRbs6KZqyB5mH9QF8rCjmMbFEnV
+         bhDY7KrTQovh0+jteJDIgxHJdLywFUdWF7j8YnBgI2022918POZ66hFQ6GYuBFQw+3xJ
+         c8tg==
+X-Forwarded-Encrypted: i=1; AL+hErEJULzipHDgjtoyPC2SyXNB3lNEgEu4t9WC6keG4AVxiiLXDrR8bY26ffiriXJpeme7oBKX5uqKPgRCMbW5jQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9eXjZ9RtLboSLHLJgfk/EC4kvWbh7dFFiAq8rOsDCiqjdZfNQ0
+	DPYKTIS3OHAhlnA99/4XuB6laz9gtOPKWv2bMcSH/X2Qy5tL7lHWQ8/lVlwNJmt9kDs=
+X-Gm-Gg: AYBFou3BYqGspKeteTsUrvcfIKmhoq4ILUQFZ5vRF9bV3bjmDaL7+RCBR8z5ajz1PP7
+	Lf+KtB7co61GrerhzK4LxPkY4gjYYIXOY2cD7+g/4osMyFmHpDmifl4+wGQZz6ovAoBec0+rYge
+	u0wzNd736w9+liwAZTjg0B3vpcckJY91c77gZKMDyuaSOczBR+GK7trnJGWZoY9Hj60KIjraRlI
+	tDlvFK2vCsHuEZVwXlY3Y6wAhxVmAj86ni0SacR5RecK1rTFgPAi3XL0Mu884U3gDZXzmx0sfn6
+	tNnKN78DTJCBv85sq07otRPROVF1DYZWz91+dY6LfB7P3q1fy8ir/t1uFlVUYPzEXKp3m4e1SVS
+	WA7aNcDkmwpNLb/RcAxIFyGsXYg21gFQ0la/zUHjdFvF1vX8ojOSt5cutb9IIaHpvCS924s8OVY
+	WHvX5etoISimB2RNk1ShRNFSAPJxhVtHypEjhf6Lv22hw4vyNMVHApqLR2hcwu8L4swmeSDODVS
+	tToqH6hJDhYdt8xWfErjzQZVK4BZRPqlerccLu4SHss3n0VzL2S5xlCOvjzG20lhYF1zPLRwh1h
+	kgGo1nK1VUhpiRVtb+1NVM8MYJda7+edDjYNJtJbMp48J5uhyA6J5l1GSZr4p5yhj5Rhdtk=
+X-Received: by 2002:a05:693c:414c:20b0:376:703c:8819 with SMTP id 5a478bee46e88-37687211c61mr720145eec.38.1794344521014;
+        Tue, 10 Nov 2026 13:02:01 -0800 (PST)
 Received: from devbox.ts.blockcast.net ([2602:f74d:1::32])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4efc2sm8017033c88.15.2026.11.10.13.01.49
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520512b6asm8770814eec.10.2026.11.10.13.01.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 13:01:50 -0800 (PST)
+        Tue, 10 Nov 2026 13:02:00 -0800 (PST)
 From: Omar Ramadan <omar@blockcast.net>
 To: netdev-bot+sashiko@kernel.org
 Cc: ap420073@gmail.com,
@@ -94,12 +93,12 @@ Cc: ap420073@gmail.com,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net v5 1/5] amt: fix use-after-free when a Membership Update re-arms a freed tunnel
-Date: Tue, 10 Nov 2026 21:01:46 +0000
-Message-ID: <20261110210147.100396-1-omar@blockcast.net>
+Subject: Re: [PATCH net v5 5/5] amt: harden relay authentication and teardown
+Date: Tue, 10 Nov 2026 21:01:51 +0000
+Message-ID: <20261110210158.103856-1-omar@blockcast.net>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <179423575689.994134.7687724928848317687@kernel.org>
-References: <20261105125010.1107546-2-omar@blockcast.net> <179423575689.994134.7687724928848317687@kernel.org>
+In-Reply-To: <179423576119.994134.11181391213411379311@kernel.org>
+References: <20261105125010.1107546-6-omar@blockcast.net> <179423576119.994134.11181391213411379311@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -111,71 +110,83 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, 09 Nov 2026 14:49:16 +0000, netdev-bot+sashiko@kernel.org wrote:
-> - [High] amt_tunnel_expire() (drivers/net/amt.c:1412) runs on amt_wq.
-> - [High] amt_del_group() (drivers/net/amt.c:293) used to free the group
->   node with kfree_rcu().
+On Mon, 09 Nov 2026 14:49:21 +0000, netdev-bot+sashiko@kernel.org wrote:
+> - [Medium] The patch makes several security-relevant behaviour changes
+>   that the changelog does not state.
+> - [Medium] AMT_MAX_TUNNELS_PER_SRC is fixed at 16, but the global table
+>   size amt->max_tunnels can be set by the administrator.
 
-v6 has superseded this posting; this patch is v6 2/6:
-https://lore.kernel.org/netdev/20261107004935.2627329-3-omar@blockcast.net/
+v6 has superseded this posting; this patch is v6 6/6, "amt: create
+relay tunnels only from authenticated Updates":
+https://lore.kernel.org/netdev/20261107004935.2627329-7-omar@blockcast.net/
 
-Answers below are against v6 and the v7 I am about to post.
+Both Medium findings are real, and v6 does not address them. The v7 I am
+about to post does.
 
-> Can this flush deadlock amt_wq? amt_tunnel_expire() runs on amt_wq, and
-> so do group_gc_wq and source_gc_wq.
+> Should the changelog describe a few more behaviour changes?
 
-Fixed in v6, and v7 keeps it. Both flushes are gone:
-amt_tunnel_expire() and amt_dev_stop() call __amt_group_gc_work()
-directly, and the group GC calls __amt_source_gc_work() directly
-instead of flushing source_gc_wq. The cancel_delayed_work_sync() calls
-left in the GC queue nothing: each takes a pending timer work off its
-timer or queue, or waits for a running one on a barrier that
-max_active does not count.
+Yes. v7's changelog states all three:
 
-> What limits the number of deleted group nodes waiting on group_gc_list?
+- Key seeding: b9022b53adad seeded the secret after amt_socket_create(),
+  when there was no receive path yet, and cbc21dc1cfe9 added amt_rcv()
+  and the per-tunnel copy of the key without moving it. Since then a
+  Request arriving during amt_dev_open() could get a tunnel whose MAC
+  used an all-zero key (first open) or the previous key, for the
+  tunnel's whole life. The existing Fixes: cbc21dc1cfe9 covers it.
 
-Nothing, and v6 still has this. max_groups bounds live groups, not
-parked ones, and before this series a deleted group went to
-kfree_rcu(), so the series introduces the regression.
+- Expiry: a MAC is now accepted for 180 to 240 seconds after the Query
+  that carried it (60 second rotation, four generations kept). RFC 7450
+  5.2.3.5.4 has the gateway start a query timer it SHOULD compute from
+  QQIC (125 seconds here), and 5.2.3.5.5 has it send a new Request when
+  that fires; the in-tree gateway re-Requests every two seconds while
+  its Requests are answered. A gateway that never re-Requests worked
+  indefinitely before and now has its Updates dropped as Invalid MAC.
+  So is the first Update after a new join from a gateway that, as
+  5.2.3.5.4 also allows, runs a longer timer while it has no
+  subscriptions: it is dropped until that gateway's next Request.
 
-v7 counts the nodes parked on both GC lists, under the one lock that
-now protects both, and queues the drain of both lists at once when the
-count reaches AMT_GC_KICK (2048). A parked group keeps its 256 source
-hash heads, so it is a kmalloc-4k object, and 2048 of them is about
-8 MiB; the kick keeps the backlog near that instead of letting it grow
-for up to 30 seconds. A periodic drain that ends with that many parked
-again re-arms at 0 rather than after the interval.
+- Replay: any (nonce, MAC) pair minted for the address and port within
+  that window is accepted, not only the latest Request's. The MAC never
+  covered the encapsulated report, so this changes only how long a pair
+  seen by an on-path observer stays usable; off-path senders still
+  cannot produce one.
 
-> When the GC finally runs, __amt_group_gc_work() walks the whole spliced
-> list with no cond_resched():
+> Could the cap be derived from max_tunnels instead, for example
+> min(16, max(1, max_tunnels / 8)), which needs no uAPI?
 
-v7 adds cond_resched() after each node in both drains. They run only in
-process context, with no spinlock or RCU read-side section held. The
-kick also bounds what amt_dev_stop() frees in its drain under RTNL.
+Yes, v7 does exactly that, at both the Request and the Update sites:
 
-> Is 0 safe to use here as the "never refreshed" value for last_seen?
+	static u32 amt_max_tunnels_per_src(const struct amt_dev *amt)
+	{
+		return clamp_t(u32, amt->max_tunnels / 8, 1,
+			       AMT_MAX_TUNNELS_PER_SRC);
+	}
 
-Fixed in v6: 2/6 stores "jiffies ?: 1", and 6/6, where every tunnel is
-stamped at creation, drops the special case.
+That is 16 at the default 128 slots and 2 at 16. Below 16 slots it is
+1, so there only one endpoint per address gets a tunnel. A configurable
+limit stays net-next material.
 
-> Could the commit message describe each of these failures? Alternatively,
-> could they be split into separate patches, each with its own Fixes tag,
+> Is "teardown" accurate in the subject?
 
-v7 keeps one patch, since the tunnel and node fixes share the same
-helpers and the same tunnel->lock rules, but its message now names each
-failure: (1) as the amt_dev_stop()/amt_tunnel_expire() double
-list_del_rcu() and free, (3) and (4) as frees after only
-cancel_delayed_work(), and two more races in the timer work: parent
-pointers read before tunnel->lock or RCU, and a second destroy or
-delete after waiting on tunnel->lock. It carries both tags:
+Fixed in v6: the subject is above, and the amt.h comment churn is gone.
+The netif_running() recheck under amt->lock in
+amt_tunnel_get_or_create() was still undocumented in v6; v7's changelog
+explains it: dev_close() clears the running state before amt_dev_stop()
+drains the list under amt->lock, so an Update still being received
+cannot link a tunnel after the drain.
 
-Fixes: cbc21dc1cfe9 ("amt: add data plane of amt interface")
-Fixes: bc54e49c140b ("amt: add multicast(IGMP) report message handler")
+> Do these two comments hold on the renewal path?
 
-Both went into v5.16, so stable reach is unchanged.
+Fixed in v6. The comments now describe what the code enforces ("no
+tunnel state is created or changed", "No per-source state is read or
+created"), which holds on the renewal path too.
 
-On (2): every walker of a group's source hash, the report handlers and
-amt_group_work(), holds tunnel->lock, as does every caller of
-amt_destroy_source(), so I don't find a reader that can follow
-snode->node onto the GC list. v7 still gives sources and groups a
-gc_node of their own, and says it is hardening.
+> Does this need amt->lock?
+
+No, but v7 keeps it. The full check is advisory, since
+amt_tunnel_get_or_create() repeats it under the lock, and the lock is
+held only for an O(1) snapshot, so a lockless read here would save a
+lock round trip per Request. That is an optimization rather than a fix,
+so I'm leaving it for net-next. v6 already reworded the comment so it
+no longer claims more than that ("a Request holds amt->lock only for
+this O(1) snapshot"), and v7 keeps it.
