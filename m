@@ -1,101 +1,101 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794296399;
-	b=bZrP4Qy7Sj4F3xWfLRMKRQhSX2islvHg5z7tKubq56lowMmEVVGXaT3q1DnHQet1I1WM
-	 KRDWoXEDlvwUPrZxGAx/6j9GYDTiRqXlhnJhmhdkIL9+EVoOsuMpDK05VqVJv7e4l8Wto
-	 ly3rFvkjtCsIw+XUgArm/riWLblcKOg348grhlAhn+reIsjm+3B3aaksuiT5UkP8xdx96
-	 GDFSJFFs+Mw6eb+QyTC4dDrtj4r9lTepi8w88rbUdA0Fcwwuboyl+tfa1uMaRZNJsVMt2
-	 UxsENN5fblLMu/e/HdRMqtJrbJhIGH/5R6v8XGcPaEptcRQMpKYY6wRI/PQTrkmVskQ==
+	t=1794298047;
+	b=nNSwc/jRnWIxPfvwn+S811a5IYGegPAiYlChM9bbZSBfwSrf4X2rrM3mhawjBxLcZ7oN
+	 0crZvmKof2QKEBeGOxd5TZojR8/bhbuTgL7OMIiJhhCy0tMNURZTQmNSC/m86ELzWgI8Z
+	 Zp/TQjT3iMzGWP4eZN4wwSWijKpG+UO8GO2H6MEgM2eUwWz7zPgVlBn6bxQD3/ygsk9jB
+	 RVQStkfxe0sCumzgLagrrGq4bjcuYhq6xXMmXbDcBczILvAADcUqLiYh/SkDzUB5uCgAl
+	 jcuS/q+7t4F4D6vxcj1L/8JXB3RWgjVC0+cl/FEubrAwj64YlMBfqjqvmRm/hmbCoeA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296399;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794298047;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ERnrn3wThP1DJNLbDKWT7d2OEC6GO11+OEarircH9n0=;
-	b=IgcRtYY+T1mQkLUxIT+y9K9sXeJ+LcRAWla8ejG5y1bkezJNpM2KE44ydVGKydcOG8Ya
-	 WRfGx+17t0fzL5qVjIEjgpf+gLH9nkfGZx1TIZehJsBvbVpLFFlblDjs2jZ95LIjrx0rM
-	 fx5Iiyf5CgrTRsEd+vIm+RfDPlyO1M7qNFIuThlMrZWjtBzLyfkKys6kP7AR2YxyUE2QS
-	 MI67NT8KfGQHAbBezQCEeWqZCSyjt2LlfNCr6wlMu8sfQGpU+qCVjbJIPmdTG6LkGd8RV
-	 RpIANcAFYpn7Ps0yfArfaeoj25Xbz/bgBniCydq3Vry0nBsgKrZMaviaVi61S+J57Jw==
+	bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
+	b=mzs9PcFLvO8KK0zFJ0RtbBwPN2PRGf8YT1WfPlT8gCO/o0i4PyBpbpqAb6e+unFMvcBI
+	 5SIRFSC9AGfYbYykjrOwt9jA34sbN1yUScUVW0EQLalGkLtKpbw7/SQavVP21cfGAM4VB
+	 2NJdDT5L1scX2M9euXbMR6Fx5xs4HDyEEZcPhxae7Tm4hukGigrWZwGjajsQG7Y1W0fre
+	 2iC32iJfJBFsHKbGdB8zja7L92SR9syrR5MQaEAl1yZOL9fVmP0n2G2jq09ukoMGBqosU
+	 tT0EuaZKM214LEM+Docd2pTMuwJcnTnjOjYOpywOCjdZgG5FOmRqe8MnrYltamABS7A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=brainfault.org;
 	spf=none smtp.mailfrom=brainfault.org;
-	dkim=pass header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b="QON3/W5O";
+	dkim=pass header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b=k+pNwPnH;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7E6606A31C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 07:39:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A7E6606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D23C606A31C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 08:07:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D23C606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b=QON3/W5O
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-49318428d98so856514f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Nov 2026 23:39:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794296397; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=brainfault.org header.i=@brainfault.org header.a=rsa-sha256 header.s=google header.b=k+pNwPnH
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490a0e72588so880164f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 00:07:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794298046; cv=none;
         d=google.com; s=arc-20260327;
-        b=cMOQz+ZqPktnXyEeF19i4UjP0R4ZwD5bz1NHRNT1LbSIhpnKK/UsXwdbovzW/c/1Q0
-         dDQkhRm1vofjbGLuQL6ru31gv1jHUzzn4xN4KPQ1HGq9jIF2g4D2sLBXqFM8VAJXyaME
-         Wn0BUrl3g6YfhP7x/KMm+K5pt3M1q4HrkW8l9q3NojtoQHFav8O0tCNW9wlYsFQcmmMM
-         M4rkTe+3pXqNAYCPZ/7U4u2PSaQblipt9/ChVOCjsZHszTM+xyq9dsCj4zGVeK8k7HgB
-         rVA4+HuKQDdK/bkrO33PFcisndXY+EhQYVy96by1oXNrb2D3He8sxX8jt/s8kO/QrFCO
-         w+/Q==
+        b=IhmjrO0YOdotp9o5Qy0H1glrzNxazLLCWo/vgae4/UHuTgsIJcFGNxd/eWYG6FaxeM
+         6Ox+3Nt2HqFabuA6PuBWj9WcOMYQusZCMKughT2YUZb49EpDYQjQMJFqatLmISFsTFJp
+         p0SohejCAQAKWrka6oSswd8iCtmukyttRzv4ybv+uSAW+LgAZMeH3DT1CkTyeIs9CfC1
+         1COIjS/zjmeb/LmULWwjLQqW1WdErc/mCva9Xw7p2ExtBzjje7qAQKaAi8akWzA6gsIB
+         QRxD6GxyzRP44TiqYkFbb80sitrZOh89/s8XKUZZuWqIYH4iH7aDbssku168+5PvTmVb
+         igdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ERnrn3wThP1DJNLbDKWT7d2OEC6GO11+OEarircH9n0=;
-        fh=If1+n8Wc2kZlP+8LljdLKQ52hr7QtO86/Gacc3B6ISU=;
-        b=LQD9RHTOelPzTlbBBl4A0KOsjCa+AgtlPDWKIoMaq5pOUv8LOFk489Jf+F0FwS3oG9
-         WkAmrK4uhRgvuLtKqf3F9aj9fBtfBNE/wYVl7axPC4pqUEkyCXfJqILIQaN6jgOHe1um
-         0rEOP1noemfSkO57rbNlFBwhu/Il1hEhtotv4f1zTtUBWa5vYoaI5SJr7s+RGuSfM4jB
-         uToxVP2OjVxVkTApxWTtQjmdZb+Y/oeyF4whZmtEO5yTbmp+qUukm1aiXZIJtEAmcZ8A
-         uCNale0dSlJraytBXFe4FnjSzdu9RTPYfiYKzKkPrtkp5t4PW5ppMue9w5p6fJin5KpV
-         cxcQ==;
+        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
+        fh=3tqu8Bxa6OTSnqBKIujys3PmFA5JzcSyPOUh0Zeg8og=;
+        b=VbNWdVwnleDVSiH3ghwJx5RYP+ygIp8pBHAyZuyV6RLk/BrVfOmi7P2QtSP6bwzCoh
+         BS1jgBHYz1/9e/gPzj1Spn0/O11FMkZ0ucHmkP7dzu6lXI/CmGciqjLJs39LivxkA6FJ
+         MKq5a+ZxFtmrdmzHQgg648vO9R3mr++8spngby0XSAeB0CE1xTeI6OloZ+QVEjRhISG1
+         X8k+akFLhq/TZEBopHESS5jCTuu9SQgduN1gow2HE9ZuNFF3VbhX5nO7+lns9XeD/XxP
+         bcHc3jEoPKc8jwtOfvnCBEGqCnaWs6NQwkZZw1D/ht+sgNXP2flNn3gYvTgk2005Cks/
+         EWuw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault.org; s=google; t=1794296397; x=1794901197; darn=lists.linux.dev;
+        d=brainfault.org; s=google; t=1794298046; x=1794902846; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ERnrn3wThP1DJNLbDKWT7d2OEC6GO11+OEarircH9n0=;
-        b=QON3/W5OOZYNdLljCvBH0SIfjo5coTXc+3BfMp7SdB2njqSRx1El+kAnwR77wJP0Zh
-         HStARy2PE+LoDvTnmDloBcalit2ewUk6aSepSklrHslhF5WyezrLtrUGwCTGIEt5OLm3
-         I4yh20vXwxX1M7oA6p8RBTpem+qvsgbJAslfo7pLmmsjXAela7PbiKc9NMOpg0DbbXR7
-         jXZE7p7lhrgMj98RlH50I8sl7ZAlZCdxa2dvJ99H9fXALd1ZBpbB3l/5mJif79fmtWqw
-         pODaZWPQ3GmThgJsGg2TgiKUk3qBRgM2gUf2MHr1wm4KJGGB9lwd+3d3a5fUW/Enk1U/
-         CQvQ==
+        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
+        b=k+pNwPnHRQ/LMFqUE9HBi7TKG7pY/+sTwtvkUSgRKcfqq79uObmMVdDQUtbpDDEAPy
+         EO+kGorqAw6D/2M2IH2axyRWTriIOGg37SChvHYDO1DJxmrYlt83obGgaoUK1HiKGKel
+         IlwMUEcaQNSAzJUPT/pvilKFjc4N951ookc3ZsUx5SCpbg8dKCZUzMdsRuc88VfJpc3y
+         TFgJS3rqoTkKvEHdgkLgE8psHRTuH5hnK259OFvUeKobV9a7bvNQ35m0HLuFxS7FN6SU
+         LVo/UKkFeQVgFHRhokp1eAka4I6EdS6Qp2RRej9bStp8R7L0ZEsXtIHalHYTBm5bIJ+U
+         JQCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794296397; x=1794901197;
+        d=1e100.net; s=20260707; t=1794298046; x=1794902846;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ERnrn3wThP1DJNLbDKWT7d2OEC6GO11+OEarircH9n0=;
-        b=tal4nVTGacgJ9TO4pTeOwEeEm5UguSHQIzgeZYqr6cTNXne5I7MaqlFuxpeaV72p6B
-         WENk4zKG0cgHPvHWdw+NQS3pilBi1afOhrtZ5QEUx9ofACtbMZDYt/qKIfN5268DjlgH
-         4cwULA0zar8+ZuWRc+gxQurdn4bvbcc3ChYNeQx6HjmZeQBlmYVRNzU/n2tFzBRzf89F
-         1edYSqQ5V2h1j+GEHb9kClBKbFk8KVXdaoXIF6eOLAdC/W/NZaXoNMhzc+pmqmT01Jqd
-         3dlfiDlr+Gel5G5MzcMKzCJuoP4hDQ0oDDY8Qo9x7MB8tYuS2uEdoeWyDA8XXWchp6Jx
-         5QFg==
-X-Forwarded-Encrypted: i=1; AL+hErGX5JSy3dBaLZ5vTbI7PLaxpGo4IvXwaO2cAEYxuEOqalskE3zT1uRCxPIG2iDOXHfg5gtNHwHRatBuFEtUgA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/8nYTZgctoGZmmT3XGmnzcmFt0bm/FYhmYwLq4hbnIABwoBKQo
-	QANmVnkJCx0PgZwOgDatbTjgVM4YZ8o1LSc/UsEjSP5OvXcQ+x+4hU2QbU3hShrL8MLB42PSw1a
-	I0g+39uXdNDSq8pgAqbaafwZqcLkRBJ9N67auXMJaUg==
-X-Gm-Gg: AYBFou1dIj4q28/+dead4PDUrjllvkYiGitz9j0us4RnLYT9WRpKM9zEKYXAqqckQ3b
-	ZvVAv2ziNLMPHTM1aqZckBKcIrUQQvQ8J8zl7+AF2Cr31mIiWOH2LUdUAGZ3Ko3XWjcOKl/DwQf
-	sZBPLYhMbc9RQ5qcu4NkYa1WaRRorPTcNUmx9Ah6nkuA30eSQRvr/oj42r32BufVDlfjiXLnfhn
-	LN6L0+PaYwU6lCxzvqowKr7RldPggK78eObRwr+FGDZvTXhLu728u5/LaHOqz/c9LX8q2MJtyrD
-	91X6jl2SnoCzg6Uln0owVgtIBnyMgTLpnjzslAFfrnZ1slBed7mcQoYYturitdfndq7IcE1uQK7
-	HmRxeNThLv37tHRMuBvw+DpSG/yNPIWK0nDYvNaN84mRpoYHPx4aw2S2oujCrg/cHtpkODqgSSR
-	7otucvH5ULmQoIghCiqEf/BKbpSOGUgsyaZEvHLnASRUBRvmo6BayK0Tc=
-X-Received: by 2002:a05:6000:3c5:b0:48e:e98:8b64 with SMTP id
- ffacd0b85a97d-4982e82c23fmr2760008f8f.19.1794296396722; Mon, 09 Nov 2026
- 23:39:56 -0800 (PST)
+        bh=zKy/gJ2Q4OqB/ldZ+D1suUF3Ao+MCf7ZUxfe/sFiu9Y=;
+        b=dsWtpVbbYeAZvuBf0V5duwuJZi2J3UssgPJsX7Q5Ne3taAfhjUNZWU+Y2xyUg5cPVG
+         V0VgkkPdEyKJX/z840X5/w/s3tqlEdckcyMlmY81wfArXapWgUIoYQJehrQYodK4NH0t
+         ay+SexqBEIWruwBD5EfKUHhFbxcsVeDaFJV+ESFSlU8Zdmw9MgBfy7dQe0XhRwsnirZu
+         k4RlITNe8hwdzspVuJncqQTh2OnjWcp411a6JlVcD+LBfryFQ6t8g888jr/svEAt2zPV
+         5w3eNYaKRbca75GR6RnwoD3fDGAtHkUtsQ8nfrBRK4+Bgyp8ElH6sgifjGR1ZJkqrtr/
+         yBfQ==
+X-Forwarded-Encrypted: i=1; AL+hErHOXSxVFG+bFyaK8OdiTtz8S23iWJYVQ/4CEtldPyzKKOxmoxeeZL+ccLEFjcmayD0b+eU8W6dvKonXZC8Hww==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/l9EVPWaVI1Y+IC7iVoZDjoUTfKDtc8jeR3bJt7JdmcK5DjpEE
+	iNplVxVRgBxtBR2ges9kgLeAvh+pDAnYXedN0pP/Spzjq9vtoQP2eb7IFD1TcfyVpNiNauu8gKl
+	hB3oyVu87uiy+elMNejXWF2gQRFSNQpoEzN1KfPTvnQ==
+X-Gm-Gg: AYBFou2Qo39gqa9cQaSO/aR+JL5dWOA2i83GhNwaDc0jqr6mceVhjyBmC9MKDeG4BmI
+	2Fvs1RR8I7Z4VXOxecaFaffwVqrJJBK11BLsoXRlNRJbJNvEkELJHR95FBR/b4euh1EM/BjuWkP
+	YZN6mzSh9ay0hx4Lv7q9ILD9B5US48Dbw/kSScHW7ahchoVdIGkIqSx8nhi3pC8GjQOZlwt1jxc
+	NRt9WepDk7TM8H5IpPH3uqNR6+Keotnw5AFZ6ObbLPWImg21A84jo3JBWwtCplErbwdecVfmqPV
+	mhPYfWBTuCDYGuU08Q8QPIymMeVPJG2yAHlSkjmazRKEtS/1LWXMDiLV5OfAsPtlaLMvQFbuVHB
+	Zie5bXgIIReywkLCZjnLKDyPdPspFB97uuffSCSJfb71dE7RbyDoOvDWh04ZeN0PwlOV31zYWvg
+	qgrB9MBa+RYvK7XaOYxa/jFYtq5mDohcxWxrtrByLnBUeUBJ6V9uk9iTE=
+X-Received: by 2002:a05:6000:290d:b0:48c:7386:af18 with SMTP id
+ ffacd0b85a97d-4982b28aa0cmr3447294f8f.8.1794298045549; Tue, 10 Nov 2026
+ 00:07:25 -0800 (PST)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -105,77 +105,94 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103-imsic-remote-sync-irqwork-v1-1-8b5c951fc62a@linux.dev>
- <CAAhSdy26R41W6OsTpEjMCf6iQXrtn4WrzziuGg+S9pHOHtM--A@mail.gmail.com>
- <DMM1ZNXOFC8Q.HXUWNWMD6LKE@linux.dev> <DMRCPRZVNPGZ.3HTEULWLQ76YL@linux.dev>
-In-Reply-To: <DMRCPRZVNPGZ.3HTEULWLQ76YL@linux.dev>
+References: <20261020-aplic-async-probe-v5-0-c4861c2aafca@mobileye.com> <20261020-aplic-async-probe-v5-2-c4861c2aafca@mobileye.com>
+In-Reply-To: <20261020-aplic-async-probe-v5-2-c4861c2aafca@mobileye.com>
 From: Anup Patel <anup@brainfault.org>
-Date: Tue, 10 Nov 2026 13:09:44 +0530
-X-Gm-Features: AclHuK-Jx-abf7O_I5yc8hPnEgpzrmNOfkNJbf5mYeWeUvlFuYAELASCvt4ok7g
-Message-ID: <CAAhSdy2B=THE=m0eLG=S3XiufV=j5amnnkH1b8ydDMOmHtuZZQ@mail.gmail.com>
-Subject: Re: [PATCH] irqchip/riscv-imsic: Synchronize remote state with IRQ work
-To: Troy Mitchell <troy.mitchell@linux.dev>
+Date: Tue, 10 Nov 2026 13:37:14 +0530
+X-Gm-Features: AclHuK-vBDH2XlztsVwt_XXQdD8zuFsijRvxMQGcBNFnVvFsuvB6NPhtCgNa4gw
+Message-ID: <CAAhSdy2kxydOk9wPdBtVHCTN2uDrpFbQ0WGUXHz0AUvUWAncpg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] irqchip/riscv-aplic: force synchronous probing
+To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 Cc: Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Paul Walmsley <pjw@kernel.org>, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
 	Alexandre Ghiti <alex@ghiti.fr>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
 	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Anup Patel <apatel@ventanamicro.com>, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rt-devel@lists.linux.dev
+	Jessica Liu <liu.xuemei1@zte.com.cn>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2026 at 12:57=E2=80=AFPM Troy Mitchell <troy.mitchell@linux=
-.dev> wrote:
+On Tue, Oct 20, 2026 at 9:09=E2=80=AFPM Vladimir Kondratiev
+<vladimir.kondratiev@mobileye.com> wrote:
 >
-> On Wed Nov 4, 2026 at 9:59 AM +08, Troy Mitchell wrote:
-> > On Tue Nov 3, 2026 at 11:52 PM +08, Anup Patel wrote:
-> > > On Tue, Nov 3, 2026 at 1:34 PM Troy Mitchell <troy.mitchell@linux.dev=
-> wrote:
-> > > >
-> > > > Remote IMSIC state updates are deferred to a timer on the target CP=
-U.
-> > > > If that CPU has stopped its local clockevent and is waiting for a
-> > > > broadcast interrupt, enabling the broadcast IRQ can depend on deliv=
-ery
-> > > > of that same interrupt. This can stall timer delivery when the broa=
-dcast
-> > > > IRQ is unmasked or moved to another CPU, including during CPU hotpl=
-ug.
-> > > >
-> > > > Queue hard IRQ work to synchronize remote state independently of ti=
-mer
-> > > > delivery. Keep synchronous updates on the local CPU and the timer r=
-etry
-> > > > for an unfinished vector move. Hard IRQ work also avoids depending =
-on a
-> > > > schedulable worker when PREEMPT_RT is enabled.
-> > >
-> > > Using timer retry for local CPU and IRQ work queue for remote CPUs lo=
-oks
-> > > strange. Why not use IRQ work queue even for local CPU ??
-> > On the local CPU the sync runs synchronously, so there is nothing to
-> > queue. The timer only retries an unfinished move, and by then the new
-> > vector is already enabled, so it cannot stall on the broadcast IRQ.
-> > Requeueing IRQ work from its own handler would just keep self-IPIing
-> > until the old CPU catches up.
-> >
-> > I'll add more comments and modify the commit body.
-> That was not the whole story. The retry cannot stall, but it can be
-> late. The local CPU is usually the one entering idle and taking the
-> broadcast IRQ, and the timer it arms on itself there is not programmed
-> because its tick is already stopped. Nothing tells it when the old CPU
-> is done, so the move only completes on its next interrupt. On K3 with
-> deep idle I see move windows of up to 0.5s.
+> The APLIC driver leaves probe_type unset, so it follows
+> PROBE_DEFAULT_STRATEGY and is probed asynchronously when the command line
+> requests it (driver_async_probe=3D). The probe of an APLIC instance updat=
+es
+> state shared by all instances without any locking:
 >
-> So you are right that the timer should go, just not by requeueing on
-> the local CPU. In v2 the old CPU will queue the IRQ work on the new CPU
-> once it has released the old vector, and the retry timer will be
-> removed. Move windows drop to about 100us. This will be a separate
-> patch on top of this one.
+> - the check-then-set of aplic_syscore_registered; two instances can both
+>   observe it as false and both call register_syscore(), inserting the sam=
+e
+>   list node twice and tripping CHECK_DATA_CORRUPTION ("list_add double
+>   add") in __list_add_valid_or_report();
+> - the global aplics list, modified by aplic_pm_add()/aplic_pm_remove();
+> - aplic_direct_parent_irq, where more than one instance can pass the chec=
+k
+>   and register its own CPU hotplug state;
 >
+> Interrupt controllers are required early and have no benefit from
+> parallel probing, so rather than adding locks around each of them mark th=
+e
+> driver PROBE_FORCE_SYNCHRONOUS. Probes then run one after another from
+> driver registration, and deferred probe retries are serialized by the
+> single deferred probe work item, so the shared state is never accessed
+> concurrently. Probing is also blocked across suspend, so it cannot overla=
+p
+> with the syscore callbacks either.
+>
+> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+> ---
+>  drivers/irqchip/irq-riscv-aplic-main.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/irqchip/irq-riscv-aplic-main.c b/drivers/irqchip/irq=
+-riscv-aplic-main.c
+> index 5369078f3d00..3c10dbf3b492 100644
+> --- a/drivers/irqchip/irq-riscv-aplic-main.c
+> +++ b/drivers/irqchip/irq-riscv-aplic-main.c
+> @@ -118,7 +118,8 @@ static struct syscore aplic_syscore =3D {
+>
+>  /*
+>   * Not __ro_after_init: probe can be deferred (e.g. MSI mode waiting for=
+ the
+> - * IMSIC) and complete after the init memory is made read-only.
+> + * IMSIC) and complete after the init memory is made read-only. Probing =
+is
+> + * synchronous (see aplic_driver), so no further serialization is needed=
+.
+>   */
+>  static bool aplic_syscore_registered;
+>
+> @@ -413,6 +414,12 @@ static struct platform_driver aplic_driver =3D {
+>                 .name           =3D "riscv-aplic",
+>                 .of_match_table =3D aplic_match,
+>                 .acpi_match_table =3D ACPI_PTR(aplic_acpi_match),
+> +               /*
+> +                * Probes of multiple APLIC instances share global state =
+(the
+> +                * syscore registration and the parent interrupt of the
+> +                * direct mode) and must not run concurrently.
+> +                */
+> +               .probe_type     =3D PROBE_FORCE_SYNCHRONOUS,
 
-Sounds good.
+Making the whole driver synchronously probe is a conservative work-around.
+
+Your original direction was good. How about the following:
+1) Convert aplic_syscore_registered as atomic variable
+2) Add another atomic variable aplic_direct_parent_irq_count and use
+"if (!atomic_inc_return(&aplic_direct_parent_irq_count) && domain) {"
+in aplic_direct_setup().
 
 Regards,
 Anup
