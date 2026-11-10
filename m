@@ -1,88 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794334739;
-	b=n3JoMAWWJoUIs1sn/tYCdmhHtHApwnCOpzNwPKinCt0KgAyERDrV593om8RhbqpwnRCH
-	 8yQ72GZzZL5LglOcxRErdQVE7rOCrYxCaYI3x82oEBuQvxhPsnWmqmzrKxYyelEBkBg5e
-	 McbDogtXEI2Fsvh4YTiv6anxoQxHeCOVTNEm0u1Iked/TnrXSkO/TLi9/DK5og3kW5gkL
-	 uDRu5VgoCEljls+XNhz1OSvMGgSWYQu6PEOTR64cK92+00BUZNmuTaw5CiQS+JX9hG38w
-	 fsfzsLW6cHlBsoymG8+j+79D1tZ+TLbxum4wAtCuYqJ0risM6wL7+Uvz+TjybsYnZvw==
+	t=1794336512;
+	b=zTy5CYqB7keOeLjFzfZW6TnTNfwS3d45E+w1MAyV5ixozM2BYPaezx2jRS+nryuXk5va
+	 S2MiovlzzQBPJOh3KC0WG/+un9OGa53qeCsdULvRVVoNK3fwcMpjkHOGUXF1Go7sEjY8a
+	 FbFNs0mF5lt4FEsBu5mnf4tR2VMzoP37zb/xsCCAGDcBElEazQNNMqhAGq6eMXAOzmh08
+	 5YkX/DCf+oz9pJb79Bceq+GWwW9pAiLeHMdcBqePpO4hhOGyJtA27W6oG0PHeC516kQ0m
+	 tV5YjBy/Q2pudGeeOMEUT0vWKhbwSheCTNS7pEgmd02fwCatSl0hSuxafAC2l9ZTehg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794334739;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
-	 References:Content-Language:In-Reply-To:Content-Type;
-	bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-	b=W3exhJ7uZHWMtthfqCHI+kZVHPV/I6lX2QWPT1LsYVB92F6Gm7uAZqDeiaKb5KiDeGsc
-	 BqFA5IlNDto0KwFGKL8AT7mvB+uG8raSALGdeOKGQjq7yWr/mkEwb4nACDKmDRvekfgRD
-	 fgB7Pb05n3FfFVSEnhZzEHFnphjUzSdbXuwmeJBqFBGxpq+QNweeKKHI/eXwWl3lpDYEy
-	 fl8WFWk2Jbx0Odrevyg1tUt4shxpYfVtZXC4/Njlnajlm45k06gtMbE0T/hKA7wGc7fwZ
-	 05fQ8H5/KnFNu8FygJQnoBtn9oNkeptsShsbU3glFKsUitle/ZstW6125xhgMQS805A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794336512;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=bCemIeKvHjQDH1MHT65rkJ+916M7KPAv7Dui2YnOhxQ=;
+	b=Q7LKD0Jhz5siu0bixxbwp+sCw744GBDYDJbLaq9hme/Ly6ocIKt2ddXjqKsh0QOklLWk
+	 x2B+5sAzGORExGRHHGTwyCnpunqBVWGTQ3XtheV6g7UIL6l6T5PivayHt4KBVfzob7k2b
+	 LMc5AKDjL6f0WHc5XnuSfM+jbCy+Q8NWErkYt99Pabxi9CcwbRtR7SK1Aa9e11EZL+LoP
+	 4b7GG5W27HT9/Ddx2LTJjSntt/C0JqaFoMExpEVxK6ZxmJE4be5cu2t67JPunuWplv9Dn
+	 7E8vYTHCyrQfKqt4WGUbkNJekIxJUb0ujVdM/JM3X5+m4GsAlVjuNLaHO9WK7XG6W8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OJrloqRj;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="eiy3OA/S";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF41606A33E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 18:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAF41606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD01A606A327;
+	Tue, 10 Nov 2026 18:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OJrloqRj
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so15542685e9.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 10:18:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794334737; x=1794939537; darn=lists.linux.dev;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-        b=OJrloqRj2hT/gNN8SNFWxHLEG5ljGuGLzjPIbDJKy/8U/nAr2UB73HNR6xfjfdY1OU
-         bkZfr/McFzHVlzXMy2C6lE1H65H6Nsmymgb5z9pDj8CQXht8Cbt2+T/m8yfqeQMbK1iD
-         intBpncrh8ki64XkqV/kuM3erxhGFWzQxmDMQXGIV6rTG/vS6OE9i2yEGB1KxrCFBy4Q
-         sj8xrcraUxhkH32MwK3TnWx+2du8GKLFeCmHD5qi0IWo4FeIhEK15sVrHrt4Hb8UImY8
-         2ih7Ps4GlnumdK1N2pyi9pj5/uc811j8bE5z4XFAYnqluSpPWO42aXV/T6eeZ0oVbBAg
-         F+Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794334737; x=1794939537;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-        b=TDfkI3Kdo0YGr16DoSYX7rAMlHbmZ+i5r2ArrsIp72tNdc/spuXHSfjN56f4vzL9zU
-         eADndBVq4ATqRhUrqV7a4PH98ObECjwkZox16ZaSekkThhb47KmfVHDR/Xm7TbabFt9M
-         CMG9yuFoUv2N56fHXY26l3ItJxbdTKRAFoC1F5SARjGNMI+Cv28VbUfDeLWrTw3xlacf
-         /gn7rhXaOupb92wy3HDhXNP4PhFbfeXAw4QCDjPcM/xh7LglbX3MP28uB6abqYlIn0X7
-         4nV/cL7V64qIASLTc6+b6CAGDWo3OcOlJYkwu0c1YiGRx1I2Gex2yx2smTWpzxJ0MHOE
-         gqQA==
-X-Forwarded-Encrypted: i=1; AL+hErEsyhXO/Z7Wr92+7BLwO7DQp5qQZYYQJdYzkvQRtgst3Inq1DA7qfYG5H6FjqftQZpsiZWteSm5R+f1WiQdgw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/vb4TGRShNB0gF9ipuqEZ5cYsNqcOEVjCgXIZ86Mc+gxGjMa70
-	iVYb15QXcMhrTKMbnaIoXz+Ehh0d1+LFMvKMvLIXJdIxsJN2Ar4CT+nU
-X-Gm-Gg: AYBFou0KnrLPI21v6agFO47hwOurQmXfvERjPCSAzpW0Jk5htMSd8KbePyH5G0yHSaG
-	mPQ6OXNgTzIG+gVKLS+sg52o/NEeCdzHXJGj6024bGlWQQgkZgzlS+WWjvLM39sH1bfPTbkYjAG
-	RMu1Og8GcgdrG3ekeKJTzkazvSzduzon+2gtMQTGCLI48yIoQEV4yGb+c40XpV8XqBs++Naygro
-	L9VoDqRTwJSKSdYb7KlC2JTR7xImG9TIgX1tLFtkG6hsIkSQv96XMFb1j67p1qnSwfrp/jLSbro
-	VuLj0QCjTNUYhpQEGcj1vc9FlRjiPlUvN3GsT9Gb+iGADmf8GwKsmR7Xc34TFpPrERfFZEQz11J
-	IotpnPFgAJZfH0scm8jUumBeILH4yM456Rd5Vdm6GL8el3O36Gas3iJgfdD4cb4JqUjjk5UqTuN
-	DhmF+krQDPiXAeR1XRFVUIkBVxfdRophjjb7TSZXMpWSseWvFUfeOhLs70v2WML3BbRv+dLsBdI
-	NXgKi5EEMw3k3WgJHq5QMVM9bblzGcIlfSdDuKlFjVqBQ2ecphQ2KLJJTCtwW3fITlRzBa8EyCE
-	LcAivwrCKhI+/sIXPVM9wJGBHkU19e/wG0sD2mbJI6lBWfGHfxEont0gu6Qq2TFTNavZByi52NK
-	3zNyaZiMsGASQuQKJDNnyvoRcX/ky/Ruw5W5qSbCE568=
-X-Received: by 2002:a05:600c:34c7:b0:4a3:5a98:c279 with SMTP id 5b1f17b1804b1-4ba0233a41emr53483145e9.8.1794334736887;
-        Tue, 10 Nov 2026 10:18:56 -0800 (PST)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01fe63e6sm121456885e9.7.2026.11.10.10.18.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 10:18:56 -0800 (PST)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
-Date: Tue, 10 Nov 2026 18:18:54 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eiy3OA/S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923181F0089F;
+	Tue, 10 Nov 2026 18:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794336511;
+	bh=bCemIeKvHjQDH1MHT65rkJ+916M7KPAv7Dui2YnOhxQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=eiy3OA/S89ESrHaXhC7LI4eeQYA9e0zr6+Fv/6JLcF5NaXFz+bnYGEzcAsdbgXHVq
+	 Zd0/HOKxMZhL12oxxfugizrDgTpJdDi43ZN1v8mc7Z9z6OJ1WKDcVz4FZhj2onMNl1
+	 pw68dGW6rriy3Y2aatjJZeOrBM4FDgERH28HDYL7vFpjnSpyzQkekIyy745gGmZvDH
+	 5xRdsrh94WdLmnGr0TlEGtKuJEk/+C9yuWGT8vM0WpTq0TedfDSHHS8Ip1i/FlHsMV
+	 gfL8TVMtuBlGkeULoHhEHOR5N7EvO1WAr09N+7CuCtRVPE+BEMIdsvyDIAizOcroak
+	 EgvCUg9bBgKWA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 35029CE0AD8; Tue, 10 Nov 2026 10:48:31 -0800 (PST)
+Date: Tue, 10 Nov 2026 10:48:31 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
+ <20261106140401.90MH_6qt@linutronix.de>
+ <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
+ <20261110080942.QxKXirzI@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -92,150 +76,112 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com> <avHroNa1vcxmCIOs@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHroNa1vcxmCIOs@lx-t490>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mHZpGD8kyHvacYrtSD2O5A48"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110080942.QxKXirzI@linutronix.de>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mHZpGD8kyHvacYrtSD2O5A48
-Content-Type: multipart/mixed; boundary="------------ULacv4ysiB0EGOGi4fngWV05";
- protected-headers="v1"; hp="clear"
-Message-ID: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
-Date: Tue, 10 Nov 2026 18:18:54 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com> <avHroNa1vcxmCIOs@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHroNa1vcxmCIOs@lx-t490>
+On Tue, Nov 10, 2026 at 09:09:42AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-11-09 16:45:47 [-0800], Paul E. McKenney wrote:
+> > On Fri, Nov 06, 2026 at 03:04:01PM +0100, Sebastian Andrzej Siewior wrote:
+> > > On 2026-11-05 12:03:11 [-0800], Paul E. McKenney wrote:
+> > > > > For rcutorture, I don't think there's a ready-made kernel interface,
+> > > > > maybe we could add a sched helper that performs the same operation as
+> > > > > the debugfs knobs?
+> > > > 
+> > > > I would very much appreciate that.  ;-)
+> > > 
+> > > This maybe? Since it is built-in only, there is no need to restore the
+> > > old state, is there?
+> > 
+> > Hearing no objections, I will start testing this.  I am applying both of
+> > your patches from this email thread, but please let me know if something
+> > else would work better.
+> 
+> I have kept the first one and added a proper body for the second. I
+> intend to repost it later today if nothing goes wrong.
+> 
+> > I would expect that this command would result in rcutorture complaining
+> > about priority-boost failures because SRCU does not support priority
+> > boosting.
+> > 
+> > tools/testing/selftests/rcutorture/bin/kvm.sh --allcpus --duration 15 --configs SRCU-P --bootargs "rcutorture.test_boost=2" --trust-make
+> > 
+> > But please correct me if I missed a turn in here somewhere.
+> 
+> SRCU doesn't do boosting so yes.
+> I just stared at rcu_torture_boost() and I probably miss bits. I would
+> expect this thread to run at SCHED_OTHER and then run at 100% for a
+> period of time within a RCU-read section. Once the RCU machinery decides
+> to start a GP and force a quiescent state it would instruct rcub/ to
+> boost the tasks which stayed in their RCU read section (I *think* to be
+> in RCU-section is enough because the idea was once to get task back on
+> CPU which were scheduled out while in their RCU read section).
+> Once this happens, the task should be with SCHED_FIFO priority and could
+> leave the RCU section, un-boosting itself and passing the test.
+> I don't see RCU-read locks but this might be done differently. I see
+> multiple sched_set_fifo_low(current) but this shouldn't change. (Your
+> priority shouldn't change (becomes lower) if your higher priority is
+> due to priority-boosting.)
+> 
+> Your rcu_torture_boost() runs at FIFO-1. So if it does what I described
+> but at FIFO-1 and rcub runs at FIFO-2 then it should still work.
+> Throttling should just make it go slower.
 
---------------ULacv4ysiB0EGOGi4fngWV05
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Unfortunately, my overnight run of TREE03, which does do RCU priority
+boosting and has for some years, fails with the splat shown at the end
+of this email.  Things go rapidly downhill from there.
 
-On 11/9/26 15:49, Ahmed S. Darwish wrote:
-> Hi Julian,
->=20
-> On Sun, 08 Nov 2026, Julian Braha wrote:
->> Cool tool =F0=9F=99=82
->>
-> Thanks!
->=20
->>> If no ruleset is specified, the target prints the available rulesets:=
+For reference, I used this command on a 16-hardware-thread x86
+laptop:
 
->>>
->>>     $ make checkconfig
->>>       Usage: make RULES=3D<profile> [OVERLAY=3D<overlay>] checkconfig=
+tools/testing/selftests/rcutorture/bin/kvm.sh --allcpus --duration 9h --configs TREE03 --bootargs "rcutorture.test_boost=2" --trust-make
 
->>>       Available RULES: preempt_rt
->>>
->>> The overlay mechanism allows distributions, CI systems, and Board Sup=
-port
->> On the topic of distributions, this seems *a lot* like Canonical's
->> Annotations [1], albeit yours uses YAML and supports matching option
->> names with regex.
-> The difference is not only in the implementation details. Please see be=
-low.
->=20
->> As you say about PREEMPT_RT configuration not being
->> "one-size-fits-all", similarly there are 100+ Ubuntu kernels that need=
+The "rcutorture.test_boost=2" is redundant but I was lazy.
 
->> to adhere to a configuration "policy".
->>
->> So this seems to be a real problem that others are having.
->>
-> Kernel configuration is definitely getting trickier.  That's why I've
-> contributed the PREEMPT_RT kernel configuration guide earlier:
->=20
->    https://docs.kernel.org/core-api/real-time/kernel-configuration.html=
+> > And yes, in the built-in case we normally don't care about restoring
+> > state.  The usual situation is that the system (usually a guest OS)
+> > is brought down at the end of the test anyway, in contrast to running
+> > rcutorture non-builtin, that is, using modprobe and rmmod.
+> 
+> this makes things easier.
 
->=20
-> Regarding the Canonical tool, it's the first time I see it.  From that
-> announce e-mail, it seems that they're using it for generating a .confi=
-g:
->=20
->    Starting with 22.04 (Jammy Jellyfish), Ubuntu kernels are now using
->    only annotations to /generate/ their corresponding .config.
->=20
->    ...
->=20
->    $ ./debian/scripts/misc/annotations --arch amd64 --flavour generic >=
- .config
->=20
-> Yocto also provides a very light concept of .config generation:
->=20
->    https://docs.yoctoproject.org/kernel-dev/common.html#creating-
-> configuration-fragments
->=20
-> But this tool does not conern itself with generation.  That is, Canonic=
-al
-> can use this tool to validate that they've generated the right thing! =F0=
-=9F=98=89
+Don't worry, it won't happen again.  ;-)
 
-Yeah, Annotations also supports generation with --export.
+							Thanx, Paul
 
-But it does support validating a config with a policy using --check [1]
+> Sebastian
 
-Anyway, the point was to provide context for the maintainers that this
-problem is bigger than PREEMPT_RT. I want to see this functionality /
-your tool in upstream.
+------------------------------------------------------------------------
 
-[1]
-https://git.launchpad.net/~arighi/+git/annotations-tools/tree/kconfig/run=
-=2Epy?h=3Dmain#n117
-
-- Julian Braha
-
---------------ULacv4ysiB0EGOGi4fngWV05--
-
---------------mHZpGD8kyHvacYrtSD2O5A48
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavNgDgUDAAAAAAAKCRDElYPCBXNxICmt
-AQCnoePBJmblDtx791LwMw6vMN74dOGbn1riSxrX5t4lFwEA9U+EgthEgVL036QIb6Xcl3PkwtNL
-NnsnRTbgzz+lNAI=
-=mw7w
------END PGP SIGNATURE-----
-
---------------mHZpGD8kyHvacYrtSD2O5A48--
+[   35.163107] Oops: divide error: 0000 [#1] SMP PTI
+[   35.164020] CPU: 12 UID: 0 PID: 111 Comm: cpuhp/12 Not tainted 7.4.0-rc1-00055-g667ceeb1c083 #35 PREEMPT(full) 
+[   35.165977] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
+[   35.167589] RIP: 0010:dl_server_apply_params+0x2fa/0x470
+[   35.168677] Code: 00 c1 e0 0a 4c 63 f8 e9 67 fe ff ff 48 8b 43 30 4c 8b 45 50 48 8b 35 55 c9 be 01 48 8b 7d 18 49 29 c0 99 48 21 f7 4c 89 45 50 <f7> 7c 24 2c 81 e7 ff ff 00 00 75 1e 4c 03 04 24 4c 89 45 50 48 8b
+[   35.172289] RSP: 0000:ffffa7fd80427d90 EFLAGS: 00010046
+[   35.173300] RAX: 0000000000000000 RBX: ffff88c71f52b3a0 RCX: 0000000000000000
+[   35.174762] RDX: 0000000000000000 RSI: 000000000000afdd RDI: 0000000000000000
+[   35.176165] RBP: ffffffff8840c5c0 R08: 0000000000000000 R09: 0000000000000001
+[   35.177664] R10: 0000000000000000 R11: 0000000000000000 R12: 00000000fffffff0
+[   35.179115] R13: 000000003b9aca00 R14: 000000000000000c R15: 0000000000000000
+[   35.180663] FS:  0000000000000000(0000) GS:ffff88c797138000(0000) knlGS:0000000000000000
+[   35.182408] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   35.183625] CR2: 0000000000000000 CR3: 0000000009430000 CR4: 00000000000006f0
+[   35.185179] Call Trace:
+[   35.185741]  <TASK>
+[   35.186131]  dl_server_fair_disable+0x67/0xa0
+[   35.186972]  ? __pfx_rcutorture_booster_init+0x10/0x10
+[   35.187993]  rcutorture_booster_init+0x9c/0x1c0
+[   35.188828]  cpuhp_invoke_callback+0x2d8/0x480
+[   35.189656]  ? __pfx_io_wq_cpu_online+0x10/0x10
+[   35.190578]  cpuhp_thread_fun+0x89/0x140
+[   35.191415]  smpboot_thread_fn+0xa1/0x260
+[   35.192164]  ? __pfx_smpboot_thread_fn+0x10/0x10
+[   35.192968]  kthread+0xe7/0x120
+[   35.193542]  ? __pfx_kthread+0x10/0x10
+[   35.194218]  ret_from_fork+0x1bd/0x220
+[   35.194901]  ? __pfx_kthread+0x10/0x10
+[   35.195623]  ret_from_fork_asm+0x1a/0x30
+[   35.196304]  </TASK>
+[   35.196730] Modules linked in:
+[   35.197286] ---[ end trace 0000000000000000 ]---
