@@ -1,76 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.199
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794341994;
-	b=HB67mbQzenZnC2zHy9jBkJpPe1m7AFBvzBR5Rb4nz3aGbQdtlBHFoi8yTWIzfzhrPLUR
-	 r3eXTmFDsiEag4kVblnnCn1l5DC7Xl3ZAfYvLX5655Q6i18cfCM669QWucpCbHzJzcR5c
-	 ws43xIzikOPD1rH+D6kmh/X+wA4gZBuo5yqhlgP3saC/gpEjFryqS2IbtfpUJwwpSG0BP
-	 rwDytLxSf5sGpxgorYZGP+0IO9soc1nfNglOioxhex8cFfWNJCDP1vnRYrWieSWU/RAWn
-	 eeuay+ImNxLuspsT9Y9/MX8U8WuJSVOVuIbA2/pgTVbM3o7eJffFi8u6aok9IHusGXQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794341994;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
-	b=5o7usFW0qdRHL2pgYqhyQevTEj1WJfb8zKY1stDC5uZfzUdSHgXLArTUN4tsDZ9m8ehu
-	 AWI3cwxU2A/v0Q/PexExHwnG1qrVoe7wYMFDiU4mKKq9DZ5Q0h6TeGRkcVIK6PE/ZeTOH
-	 dt+rdBpwWjT/rwS3p7Oivvsaaymhu4QM+aC5hMOECUVqEP43oKmaMZObpRt2HHr0u5Rdr
-	 5+ckIXSy3qOrv9hocloCEJUFVjPLldstvKpdscFwDI8Y2zdgOGRqrt24SEUI6JJQktcl3
-	 NPQIlJJvh+bh6lRzEJebU4pnu8TcNj6aA6Ug+MtQ1BUUq8xm9583K0Vf4ebQyqTgufQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EOxxigw8;
-	arc=none smtp.remote-ip=209.85.215.199
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.114
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794342369;
+	b=qEn/sw/zcpNiBDJdAIEU6TTgdNmHCo5eF82V5W0bl4drkX5kCqPP7F5aOUyHWY5OHOJv
+	 pDFGyjLvNUZH1ENuMdN6Wfy+bTsF4yQL/NN6QC4d4YOqdA1BPHd2iTo6vPbsnjbBBHFXl
+	 r6d2vAXSvKyug8Fe3UIIVw9es//XfpBeO/xCimXW0wr5TdMSNgK0SUNZhikGSjt9cr857
+	 f5ECFGaTaiL3du7YpvGb+3GWVDg1H9jbrx1luAQ5QY3OZXhTTN1nQOMZ4SgGRj8ZrAtDy
+	 KFZJJqlWdwrddDBuEEO/2GbjJDVwJD5TZlGOsyiOZupxVkbQSvORs6zwVY/u6gYuSDA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794342369;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=8nATj7DD7boPPt0Vr2MrZquWqAyKgLnPyA+UkdTsKJ8=;
+	b=FZGlUwq6W12HHPF0M/gSS3M0zXkUnoQSYdTAsZaTEmH3iKLC4kkdpJ2F0Sos9BduMhwE
+	 3Paivaha8IbAxzl9tX9lmtkPTcIbTDd2nNsv8n/d4b2VB3Lc3fJr+jZkSKmrKYkX20vdG
+	 LQbf3zTdVIqWzcF0UhyZkFkFfnGes8Gkc/HTMc0ehkHSO494QijcMAh0Aucd5M+KMxCl0
+	 xyikqkRPQ7MnY7fHe9vflTi3u5b9FUYCfObUhnbgPdwTnXW145zY2WWDGzcZFBGs9vBvm
+	 4aEVOR51/z33cR62z2sE5akqzLB6wMWl9Wv3qJMtZCw2B1vk+83JAo09bfF8bU79clA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=XjU42KqQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.114
+Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020114.outbound.protection.outlook.com [52.101.189.114])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A51D606A31C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 20:19:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A51D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851A5606A331
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 20:26:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 851A5606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EOxxigw8
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cdd77f53db5so1275211a12.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 12:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794341994; x=1794946794; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
-        b=EOxxigw8jCDPoaYicc3KBFn3psS0r8alYoNCj/NqZCCVteRlMMEQWW8efu7cJiKqM+
-         n6oa5rSG3JOkzRtz28bZbDvU/jS/LJnUyZro0aI8JfH547ohaPCn+bDLLnmKL/dYRpye
-         /hlAvYoxlfsNukWcgMndNvyv/D9dJHO+TxObfgrBEnJsPLG7hAscDYpMNLU343Gu+ZWu
-         mIMBH9pkFX3FMPdP3BFvTBUunPHxZLhq+n8LmYkEwup0HQQJl3ayZU/JJm309zd9mz6M
-         X+wr4OuZRhYZ9yFRa9/hZUNcqPCXhouF54XEV6PDAqJ0vzkdOeSlywhvxztoYevZI5Ku
-         sXUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794341994; x=1794946794;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
-        b=q8p00giLJbeapLU7EJFpsXNRDScCEfNc0Fguy4GUZRVjmmBt2PwRP9sbb25UShjKl1
-         O7FdeB32F6PiGh7v7ieO6BSOJYLqfRgNUyA7PHhi4CU5GWANEVFEwS91C2kBrtCMW3Au
-         COY9HHGjRKUrIbzNjD58H9JrGN5ut1Kora0ONTIm41KLddjfNWfHK4q0Xl70TB8TS23c
-         MHMXU0hq9U+3qoQVJJsjFKO8dlCRj3b65AqSHjuDQjjTvfuiOcBiEMxhVy7OqlpoCt25
-         yztawhlxoP5sFlOH5IVoomJM3nocoGrN8HUT47g6DZnWRcdoxMjYVvPD7zrkVilLsV3C
-         4/ig==
-X-Forwarded-Encrypted: i=1; AL+hErE4Sa076+/vWiU/ABeD1Qz7bSYNU6oXEIypkDwEpJa3b3cub94UfolKLtBTcyho6kiVKiZ/jUR2vgUBNwA4PA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/8CLqMVbUM5RyeeOizAi3dGn9KkhKte7CGlrGsGFwcZRH7k9nK
-	SX287gqlx4e8CyOQsULYNlCML3UUR8Rjg4iwHQaKL+zt1sVZTNsBwEy9VkeQzzwgeSzrPgxOH5u
-	gwHrVwQ==
-X-Received: from pghf7.prod.google.com ([2002:a63:e307:0:b0:cd7:f985:396d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:1446:b0:3e2:a849:64c5
- with SMTP id adf61e73a8af0-3f2fc99f9aamr241125637.19.1794341993521; Tue, 10
- Nov 2026 12:19:53 -0800 (PST)
-Date: Tue, 10 Nov 2026 12:19:52 -0800
-In-Reply-To: <20261105020104.2507083-7-dwmw2@infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=XjU42KqQ
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PdvKLWPv44zAi1MadX7Tygo6ynqhUwd+nW0vmO+hmAKa8VZ/22MVH5QMILtYR/+o2ifH8Ntgq+HC7vqTnSW6T6TpHDFcQodQgjFfJOnUFqElCWVqQ1G0tejrhFpO4ceI3W2CERyYhkUfREM/1kpCWSTs2tUhHykS8r0lpl/XaOpnyY9maFrlKdBmNcTE9oG7aVw3YVj2rtARsx+2u66hzJaqCAv9ZTU+D1Gxss+NUxzmuJf5vXxY3QLFIEKd6MC9WakQFsFzbxrC6h0tqoWTIf8HK+BklRIyrRjfCGwP4tsYsa77aJ5y90KLmmxp/EWTuAQ4vM3gpZCJQ7p5VbbuUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8nATj7DD7boPPt0Vr2MrZquWqAyKgLnPyA+UkdTsKJ8=;
+ b=ndDDmkNUlQRj8W/gQN96ek8EcEd5mixwueeu0Q9D215cJdpemSJWO2AkSQEp26TIOLUP4QyLzD+cV5R75AUJq5csr1wKGnx3A5VgerePXlKQyVJavC3wdb8WrhcgKXoH4nkWova+PImkuUWjGO8BETYX/v/DOpJeLJqC/nhsC97OHA2hzaTZO2d1xwHgJh+yHJRflh4N2qBjvp/IPJ5Te4MVLCX5zbemhhQ2IQmLpPz6MVHTYo+NcEvT6EfcSvekZ/FXp3mNPmPWLPmIMYn8hIYKsq2d2SaCT+22F0/0yHOkYoACLt26/rm5YV4Aw8Mjk1dVqFqatyyMEH5gMdJFEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8nATj7DD7boPPt0Vr2MrZquWqAyKgLnPyA+UkdTsKJ8=;
+ b=XjU42KqQXdUp/QM/czJ1/XFXm2kN1PhUfy+KGKfo0miT3K2CeSWKc1oVGdi3hea2taUh3TgenTJX255h8JFxnVyPnRfTr/IA+mBCnS6wVdcFHxWQfgaCgS65SR7xRWG166oLBRY2zoeqiTc4fU8lcKrNFgaXzkm+WEZeUR9UXHx4yurwdLUGIIKWXSlhhPn4SKgZiOEFb4U8oc3NxED3dsbwl4rCDMINHFLTOITvmrfrsZc5p0ZcCElW/cwWIUGcK9Ed8QkqtsiHlEVSPoSl0JYuoKaX0oxPjSwSeBJ9ym2YdYbzgFO/nsSomGNZSc0tZSJitjUpMmizMzSZW1LJ8A==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT3PR01MB8675.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:7a::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
+ 2026 20:26:04 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
+ 20:26:04 +0000
+Message-ID: <aa698c24-873b-4fcf-bbf4-44e204c10cee@efficios.com>
+Date: Tue, 10 Nov 2026 15:26:03 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/29] sched/deadline: Release the bandwidth of a task
+ that leaves the class asleep
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+ linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+ boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+ mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
+ tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
+ m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
+ cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-12-mathieu.desnoyers@efficios.com>
+ <avN0wpOY2zoRnK8q@jlelli-thinkpadt14gen4.remote.csb>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <avN0wpOY2zoRnK8q@jlelli-thinkpadt14gen4.remote.csb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0040.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::26) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -79,89 +108,107 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <20261105020104.2507083-1-dwmw2@infradead.org> <20261105020104.2507083-7-dwmw2@infradead.org>
-Message-ID: <avN8aJIHiX4xyTNO@seanjc-mac.roam.internal>
-Subject: Re: [PATCH v2 06/20] KVM: x86: Request the guest TLB flush from record_steal_time()
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, rcu@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>, 
-	Paul Durrant <paul@xen.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, Fred Griffoul <fgriffo@amazon.co.uk>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, 
-	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com, 
-	David Woodhouse <dwmw@amazon.co.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB8675:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4fbb5742-475a-4b4a-0cd2-08df3f68d801
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|23010399003|376014|56012099006|4143699003|18002099003|22082099003|3023799007|10067099003|261026121527099003|261026140227099003|261022105027099003|261028144727099003;
+X-Microsoft-Antispam-Message-Info:
+	6PqjMNtxrwW5MaByLfmqnas9Mgy4mJ2NK2X4thmAwhpjxMfFcdFvY+hEJiWXVWPqblV+XGIdWM/616WhtUbNuy9wc1x9d/IAjszyZ3/WgZgnz8/GoU/9L6HMphhSI3ypJVz85+quwGdG2q2AU0CGWJQoicnQ4BKojGlGveEg3PD416oMzBDssq5DsLK+xnebXI2dH7lEY7q9O0zZAlL+qiZtr/sFRNtqIvYUnOIXcZG26QOQHF1Yip/2cztLM2XisxVitHBN0tQjigpxiQWkEcQ/WYWW1Qg3Yif/XzoeEanb/DPRlJm57Om310regB215ZjNpYzXl30ufYWjP0Oggtwza78lf6pZ1Dqc+theIWp0TEwPVPmxhAPCo3LFvuacNnIRSOEqphURFuVVMMiOo0QchvpmIg6ylm0pQlxx9x+hzOIlJ8B7JwRz0Dx4hH0059VolSQ2wMBi3NHt93JO/iEgmFjudAU8thIfuLSiEy/iPy2KZ6dZ9OxZxXb+g9Hw6NCLzEEIpcDbwlRFW0gUay+qhU4HW7gEriBYS3IApGc5Ih1rWIpcHh63jcz1NzsW6Q5ubxBMRH9eB0pfZ+HTjX24VzT8I5su6haxz4bLuqI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(23010399003)(376014)(56012099006)(4143699003)(18002099003)(22082099003)(3023799007)(10067099003)(261026121527099003)(261026140227099003)(261022105027099003)(261028144727099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UFhqVGROYms0Y3JucEpRMFptYVVDbGFicVNERXZzQlJwbnJQQ25XUFgwTDB2?=
+ =?utf-8?B?YjZFd3RaYXRBenJXR3QyZXJHamduQXhrcGJ4djJvMGNhdmR4YXdadGhheGVE?=
+ =?utf-8?B?S1B1OXl1U3ZLdG11NEIwTG1VekVDd2JUbXNIaW1sT084K3RPa3Rmd0RnN09R?=
+ =?utf-8?B?ZnlScTlYaFRZQk9QR3laUXVRWG5TaTVNRVozM0I5ellzalM2VHBmWGhrc1JE?=
+ =?utf-8?B?N3NETEszQ2wxQjVtQUhaaVNYUjVNYWZuanZIS3B4RFZIV1RWdlVJZHFLVEwy?=
+ =?utf-8?B?Mlo4eTc0OFVQUGZOVUkvbkptMmdMQktYS3dsUHNLdTROZFlGUUZ1b0lKZE4v?=
+ =?utf-8?B?eENFSEJ0bUtNWkVrRUNoUmkxY0l6SHl6UEhDbXNDM3NjbGpyNDlTR0tqN0V4?=
+ =?utf-8?B?cUVZRXBRdTFBdjdYeFZWYm80bldXakF3T2FDSjVRWEZ0UXdSR1l3MFIrM1Fz?=
+ =?utf-8?B?dXZLNytTSnVCNFZNdy8rMnR3LzRlZForMFpqakNudERzR3BvSjhGQ3RiaGJr?=
+ =?utf-8?B?a3VDYmx5akxPc3ZJRjVCQ2NmTFo5UWJyTnJ5N3U5Y01rSk10N1NZc3E1UUtC?=
+ =?utf-8?B?Tmk2RUdoTEZxdHdlaHhRTjB3YVgyOHlZV3kvaXJMRCtsMnA0bi9BM3VnZVpj?=
+ =?utf-8?B?SWRTR01xSldxOXc5am5RZXo0RlN4SWlpTXg5emZCNXpRcklRaG0vQ2h0TE9v?=
+ =?utf-8?B?Mm9iRFVueU9NRmM2d3BiZjR0OVpuSXVYN3RyTnZzNjRRU1JudURwRWY3WFZ3?=
+ =?utf-8?B?UmRWc0tIbkcxd1dmTmJmekpkNlJVOFI2VEt4WmlYT1lIQklaUkdCcG0wWkJM?=
+ =?utf-8?B?VjBGNmQ5NjJSMzVNd0l6ZzhaTFVsWkMyQjdVMHNvWHdwV21QRytPK1RWTUt5?=
+ =?utf-8?B?QzBwTmVDTWlzWU5kL3ZIWktnbVgzaHFwUUFaN0VCNXpjTTJxVGEzS3J2RCs4?=
+ =?utf-8?B?RkFoam5XL3Z6Zkx3WGs3cnFBdDhocXUwMHZ5d0ZubkVEdnZ4TGVWa1RyaFdI?=
+ =?utf-8?B?MXowYUtPa25DRzZuOUVFNTVBbFNSMnNQczJReS9MMElmYjdXWFA0cjNNSXNo?=
+ =?utf-8?B?WlJTSm1HVzVCUVk3UVIrWVVZTXZtc0JUVGlHRHRWQmlnM3NublE3aTQxb05q?=
+ =?utf-8?B?UHd0c3ZLUXJVQ3FVeGYwZmJKM2I2RFY1QXVZVzBNZlpER3Q5NHNxY1BVaDRj?=
+ =?utf-8?B?a1ArZXpLbDE0MkdMeDliZTNaN0tsM2pkZ2s5QWJwb0M3Tyt5WGprejdmQXVQ?=
+ =?utf-8?B?VVhTKzlFakpXd2htZE9sRFU0YXZNZ0NsOUhaWGxYb0hUOUZLaFJ5V3FZS3JN?=
+ =?utf-8?B?ZzVmVTI1U2NEYzJMQVdYeW9HYzBKOHBodGVBeGljNFRtTWNWay9PZjhqeFZX?=
+ =?utf-8?B?TW5UbllSUWFoMVdBVlNMaTJHMmlKVG1qM2thSjRqM1VEMTAwVDRoUnVTQmZJ?=
+ =?utf-8?B?dWdheFgrS1NvaU9aVGcwL0MzY2txdURuNnBJVjJsQlI5U3pJbXdhVm1HRVI3?=
+ =?utf-8?B?UEorckk3NmZHMjVRclY4TlNPTFh5aUdJS016aFF5czhmTFZ1ZnhJK0JXSXlI?=
+ =?utf-8?B?dHJGdmxBeXdSeS9vbFp6bGJlaGRNcXRUR1R6SGZHYy9yUWRLVCtiWExkc284?=
+ =?utf-8?B?R0haaEg2a1A0NkN0bE1JV0ZraXN4T3pYS0tuRlJ1QVVRV0ZNK3krRk1USHQx?=
+ =?utf-8?B?VWpMUUV0a1RaUGVnVG9yb2IrTlN1MER4eFVGUTNYd1BWVzJYcW12RTcxRjlz?=
+ =?utf-8?B?bFJVY0h1aDErcERsK3A4eHk3ODVQU2llc1RMTHFRVENrMWFLbktMZ2Uwd045?=
+ =?utf-8?B?U0MvaHBFeUJ1dGF5NloxUmJqS0kwSVJMVE94anRXRk5LY3p3elM4RHdNNnQz?=
+ =?utf-8?B?V3FObjF5MWZLY2dicktqSG55QjVGRDVqdGZGSU1UUElNK0NLSW4rSzhSVlA4?=
+ =?utf-8?B?QWpIekNHVE1FeWU3cWN1SnBqV0dOckNPYzFVdnhpRWt5WTJRcFpvakw1OHl0?=
+ =?utf-8?B?dGIvMDFVZDFja29nWjcxUmxtTHlHWE5KNE0zbXMzOStGRnRrTkJtbjJBazRZ?=
+ =?utf-8?B?TEM3cXFMSXQ5L3AzZU1EN1pULzdmY2tyVjhPdjBQUGxHWWdOb2h6dEZFekZt?=
+ =?utf-8?B?ampUODhJbnl0SEFUZCttSk5JdE1iajFhczJiMzlIZkhuVjNhNHdWYTZYaTIx?=
+ =?utf-8?B?aENqMDlJdXllQjQ4d3BGWGVPNVVSd3NKeXlpQncwM0YyYlh0UmZBRWhZQnhF?=
+ =?utf-8?B?M3A1VHlkZ1M5T3QzWm82V0poUTNhMjFoVXlZb0NWVS9vN2lXVHkwU2c0TkJy?=
+ =?utf-8?B?OFgwYWxQNFdacGR4WFk3djZ5VlhPdG9KZ2x5MlArc2pjbGF2bkhSWmZLa2Iw?=
+ =?utf-8?Q?jDGSN/H83unH7e71R3Mp9AIh3TslV7N/aYB+q?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fbb5742-475a-4b4a-0cd2-08df3f68d801
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 20:26:04.3786
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +BeT3kAIZQ5VthLk4xfNq4lx1gpkFRELcxF2fJ3vkI2WVj1Okg1srjJcDq5SFegQvwEAfyiqgZ65p5FTZTEILP7SGFlSL0IMfmNPzxnpFx4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB8675
 
-On Thu, Nov 05, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
->=20
-> record_steal_time() performs a TLB flush on the guest's behalf when the
-> guest sets KVM_VCPU_FLUSH_TLB. With shadow paging,
-> kvm_vcpu_flush_tlb_guest() ends up in mmu_sync_children(), which can
-> reschedule via cond_resched_rwlock_write(). That is why the flush
-> currently sits between a user_access_end() and a fresh
-> user_access_begin(): it cannot be done while the guest page is mapped
-> for access.
->=20
-> Raise KVM_REQ_TLB_FLUSH_GUEST instead of flushing inline, and move the
-> processing of KVM_REQ_STEAL_UPDATE ahead of where the TLB flush requests
-> are serviced in vcpu_enter_guest() so that the flush still happens before
-> the vCPU enters the guest. There is no requirement for it to complete any
-> earlier than that.
->=20
-> kvm_make_request() on the vCPU which is running is nothing more than a
-> barrier and a set_bit(), so unlike the flush itself it can be done from
-> any context =E2=80=94 which lets the surrounding access be simplified lat=
-er.
->=20
-> Note that the xchg() must stay where it is: it atomically consumes any
-> KVM_VCPU_FLUSH_TLB which the guest has set, as required by commit
-> b043138246a4 ("x86/KVM: Make sure KVM_VCPU_FLUSH_TLB flag is not missed")=
-.
->=20
-> Reported-by: Sashiko AI review <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/all/20260530061932.7849D1F00893@smtp.kern=
-el.org
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->  arch/x86/kvm/x86.c | 26 +++++++++++++++++++++++---
->  1 file changed, 23 insertions(+), 3 deletions(-)
->=20
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 6a1f0404f029..3c26c0eb9865 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -2117,8 +2117,22 @@ static void record_steal_time(struct kvm_vcpu *vcp=
-u)
-> =20
->  		trace_kvm_pv_tlb_flush(vcpu->vcpu_id,
->  				       st_preempted & KVM_VCPU_FLUSH_TLB);
-> +		/*
-> +		 * Request the flush instead of performing it inline. With
-> +		 * shadow paging kvm_vcpu_flush_tlb_guest() can reschedule
-> +		 * (via mmu_sync_children()), so it could not be called while
-> +		 * the user access above was open. Requesting is just a bit
-> +		 * set on the running vCPU, and the request is serviced
-> +		 * before the vCPU enters the guest; nothing requires the
-> +		 * flush to have completed any earlier than that.
+On 2026-11-10 14:47, Juri Lelli wrote:
+[...]
+> The fix looks right, but I wondered if we can condense a bit the above
+> if-else tree. It's essantially doing what task_non_contending() does
+> already (special and non-DL tasks checks included)?
+>
+> What about something like
+>
+>      if (!task_on_rq_queued(p)) {
+>          if (p->dl.dl_non_contending)
+>            sub_running_bw(&p->dl, &rq->dl);
+>          sub_rq_bw(&p->dl, &rq->dl);
+>
+>          if (!p->dl.dl_non_contending)
+>            task_non_contending(&p->dl, false);
+>     }
+>
+> I ran the same collapse on top of the series and it passed the selftests
+> with LOCKDEP w/o warnings.
 
-Argh, I completely forgot about this.  It throws a big wrench in my plans t=
-o fix
-a mishandled TLB flush without using a deferred mechanism[1].  I really don=
-'t like
-having to re-introduce deferred flags, but the diff is a lot smaller[2].  O=
-n the
-other hand, I still don't like the idea of delaying the MMU sync until the =
-nested
-VM-Exit.
+Good idea, thanks. I checked it against the series, at this patch and
+at its end. task_non_contending() makes the same checks, and its two
+paths are the two branches I open-coded. Your order also matters:
+sub_rq_bw() must come before the clear of the parameters, which sets
+dl_bw to 0.
 
-I think I'll see how gross it is to do something like add a KVM_REQ_PV_TLB_=
-FLUSH.
+v6 will take your version. Four later patches of the series change that
+branch too. In v6, they will change task_non_contending() only.
 
-[1] https://lore.kernel.org/all/au0R41xbEJ_9W_9z@google.com
-[2] https://lore.kernel.org/all/auDkX94UTjrLNmqp@google.com
+Thanks,
+
+Mathieu
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
