@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794341695;
-	b=uOcFQp3pAV6vtihKNUGvYZwN5dwOmjAFc8ZEa7XM7scmJ3PMmJ/Hq8Wq6cnlg2Ibaul0
-	 pIWRZZUlEhkw941ULTV0NZuR5ihBL2cJLryrTam4GCW9x9gL+YmFFVDTLySwqA8dVhvHA
-	 jvpoBel8zu+3NwyG694ZnqhmCvGL4FltMgkDyrNjHJVfNnnLrxHKGt+l1/lh4Mv+LvbN6
-	 vVAhNZpSKJdHbM0MyfclC54QxsDNflhWkXPzwY/RJLLxaGxYlwm7xrnvJOEtEgIZ7b78Q
-	 AoGzSNWgTSSL0c8k9dWD7eBz7eOLke1FUsNYY4wOwbHBKMw6a9icXix9l6mrY51tMxg==
+	t=1794341994;
+	b=HB67mbQzenZnC2zHy9jBkJpPe1m7AFBvzBR5Rb4nz3aGbQdtlBHFoi8yTWIzfzhrPLUR
+	 r3eXTmFDsiEag4kVblnnCn1l5DC7Xl3ZAfYvLX5655Q6i18cfCM669QWucpCbHzJzcR5c
+	 ws43xIzikOPD1rH+D6kmh/X+wA4gZBuo5yqhlgP3saC/gpEjFryqS2IbtfpUJwwpSG0BP
+	 rwDytLxSf5sGpxgorYZGP+0IO9soc1nfNglOioxhex8cFfWNJCDP1vnRYrWieSWU/RAWn
+	 eeuay+ImNxLuspsT9Y9/MX8U8WuJSVOVuIbA2/pgTVbM3o7eJffFi8u6aok9IHusGXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794341695;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794341994;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=14T1p32+VtvUlhSErH4xscJ3EXnpusJwKW/S5Km45yo=;
-	b=a7OyVs+1nRA82MB+rYCG6VeWxUbU7dOi1ZCRLpRBd0U7EnA+DbfCDcnlYhRJHdMN/44c
-	 wSkKzHrJgeRcV8bRUsJx16YOnUfPnfy/H9JFOi11QAak/F7ngKbUtjo7hdl/teRtAmKnt
-	 00nid9FUdvZsdSyzPdmlIi8UyfculWBCAdNtpK+wJvSulBlfZKR3ndYWn7jH5hZcdlGIs
-	 wx3yjzpZlKSX4slqChJTTW/OqTgYr6/nLQHBrG1hxOZIBq4SjG9DGpBPYWpx2+e/PGwTQ
-	 KKGMiWDi5g3wKAboIh+1FRraywor+9Z0I1j6r+yivxjedPwFZsy/AfQRTc1kxcCJLEw==
+	bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
+	b=5o7usFW0qdRHL2pgYqhyQevTEj1WJfb8zKY1stDC5uZfzUdSHgXLArTUN4tsDZ9m8ehu
+	 AWI3cwxU2A/v0Q/PexExHwnG1qrVoe7wYMFDiU4mKKq9DZ5Q0h6TeGRkcVIK6PE/ZeTOH
+	 dt+rdBpwWjT/rwS3p7Oivvsaaymhu4QM+aC5hMOECUVqEP43oKmaMZObpRt2HHr0u5Rdr
+	 5+ckIXSy3qOrv9hocloCEJUFVjPLldstvKpdscFwDI8Y2zdgOGRqrt24SEUI6JJQktcl3
+	 NPQIlJJvh+bh6lRzEJebU4pnu8TcNj6aA6Ug+MtQ1BUUq8xm9583K0Vf4ebQyqTgufQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=I8VlnlWa;
-	arc=none smtp.remote-ip=209.85.215.197
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EOxxigw8;
+	arc=none smtp.remote-ip=209.85.215.199
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE45606A327
-	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 20:14:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAE45606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A51D606A31C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 20:19:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A51D606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=I8VlnlWa
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cdb869327e7so2078604a12.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 12:14:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EOxxigw8
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cdd77f53db5so1275211a12.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 12:19:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794341694; x=1794946494; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1794341994; x=1794946794; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=14T1p32+VtvUlhSErH4xscJ3EXnpusJwKW/S5Km45yo=;
-        b=I8VlnlWa6hkYWZwnzjuXL08dXGxZPzPwCqiQs3TY1YT6QQFUEtMZgk//exqoEnjHh3
-         R9zarfzt+X1BmIEKTE/CKLmyK7uPMA63nZ+w8nXbdZTnt3ue/Ns9sM9Yw1yZrmzbvH8e
-         6bt1BYpSMfS/ocsAxIURc8kqeaQutl4OFJQ77Q5kHkNur5PhsEaGMWTNXKm6/C1BmViK
-         Puw6uxjU+tH1+pknfp6CIbolxJKzDD47rK7UlDOxeSS0a+6hYc3TFio8aUXGFfydjSld
-         r8j98rf7P46cp3/2+YRX8Oik0uHa8YjPR5tXtR5kx8rXTg5j6YVhTHE4DSA3jOOf2yrX
-         cefQ==
+        bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
+        b=EOxxigw8jCDPoaYicc3KBFn3psS0r8alYoNCj/NqZCCVteRlMMEQWW8efu7cJiKqM+
+         n6oa5rSG3JOkzRtz28bZbDvU/jS/LJnUyZro0aI8JfH547ohaPCn+bDLLnmKL/dYRpye
+         /hlAvYoxlfsNukWcgMndNvyv/D9dJHO+TxObfgrBEnJsPLG7hAscDYpMNLU343Gu+ZWu
+         mIMBH9pkFX3FMPdP3BFvTBUunPHxZLhq+n8LmYkEwup0HQQJl3ayZU/JJm309zd9mz6M
+         X+wr4OuZRhYZ9yFRa9/hZUNcqPCXhouF54XEV6PDAqJ0vzkdOeSlywhvxztoYevZI5Ku
+         sXUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794341694; x=1794946494;
+        d=1e100.net; s=20260707; t=1794341994; x=1794946794;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=14T1p32+VtvUlhSErH4xscJ3EXnpusJwKW/S5Km45yo=;
-        b=JML62rsSqL0vcweVMqHKzdtl2gWMm7+cBeizWNuqPSuOo5AfIe6hJ+Xmvg3Nb6qVja
-         TQfKQ3eC+5k/oo/TVtCZnw4sTE7TkRPzyWryedBJkktOyz2m2EjU3AF4x6M7PRmG75yn
-         iB41jJWX3OEl4GVWgH0zIkbkJbMlbS1j9F8sDZlbjYkURO8eHMOB3517mTz6lqIP0t24
-         Fkbe1mPCJv5DBeD1ku4PhdtooSDdNM+ttPRBFeZNscSgMkrqvU7l2LiCWaT8ElnbGMG9
-         l32i7ADgW0koA/VReletRlw0n6aV05Gzv7FkPuDvytFJGr5DiIbDXRxAciFaYZ82+sQr
-         uIaw==
-X-Forwarded-Encrypted: i=1; AL+hErGhX+c4GxhEyfxoy8Abvhg1WMQG6L7+MtMOnUm3Ta99eV70BP6NBVVdRZbYhyjF89+UWcdwVzbddlxDVpen/Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9KflouOebkP3Bc+EAVd0Vdbl39Aecd9LrFCQq6y9josBlfU2MB
-	tkesY3cvP3NvmeOmkz9BzIlq8H0IOZzDhupSjiq59+K0TfGc48uKwpSgovLSp6uQZRBOzMcj4Ve
-	FQ1q0Ww==
-X-Received: from plim16.prod.google.com ([2002:a17:903:3b50:b0:2e3:bd2:38ec])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:904:b0:2e9:4048:3031
- with SMTP id d9443c01a7336-2edd7a1102dmr2284595ad.39.1794341693808; Tue, 10
- Nov 2026 12:14:53 -0800 (PST)
-Date: Tue, 10 Nov 2026 12:14:53 -0800
-In-Reply-To: <cd458ee9a0c2405349cd2aaecb180f0b2e757aa3.camel@infradead.org>
+        bh=sA+c0y1gtg/3n5Y+gL1JpZOKDFrA6DPjieeMuAQE0Nw=;
+        b=q8p00giLJbeapLU7EJFpsXNRDScCEfNc0Fguy4GUZRVjmmBt2PwRP9sbb25UShjKl1
+         O7FdeB32F6PiGh7v7ieO6BSOJYLqfRgNUyA7PHhi4CU5GWANEVFEwS91C2kBrtCMW3Au
+         COY9HHGjRKUrIbzNjD58H9JrGN5ut1Kora0ONTIm41KLddjfNWfHK4q0Xl70TB8TS23c
+         MHMXU0hq9U+3qoQVJJsjFKO8dlCRj3b65AqSHjuDQjjTvfuiOcBiEMxhVy7OqlpoCt25
+         yztawhlxoP5sFlOH5IVoomJM3nocoGrN8HUT47g6DZnWRcdoxMjYVvPD7zrkVilLsV3C
+         4/ig==
+X-Forwarded-Encrypted: i=1; AL+hErE4Sa076+/vWiU/ABeD1Qz7bSYNU6oXEIypkDwEpJa3b3cub94UfolKLtBTcyho6kiVKiZ/jUR2vgUBNwA4PA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/8CLqMVbUM5RyeeOizAi3dGn9KkhKte7CGlrGsGFwcZRH7k9nK
+	SX287gqlx4e8CyOQsULYNlCML3UUR8Rjg4iwHQaKL+zt1sVZTNsBwEy9VkeQzzwgeSzrPgxOH5u
+	gwHrVwQ==
+X-Received: from pghf7.prod.google.com ([2002:a63:e307:0:b0:cd7:f985:396d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:1446:b0:3e2:a849:64c5
+ with SMTP id adf61e73a8af0-3f2fc99f9aamr241125637.19.1794341993521; Tue, 10
+ Nov 2026 12:19:53 -0800 (PST)
+Date: Tue, 10 Nov 2026 12:19:52 -0800
+In-Reply-To: <20261105020104.2507083-7-dwmw2@infradead.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -80,10 +80,9 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
-References: <20261105020104.2507083-1-dwmw2@infradead.org> <cd458ee9a0c2405349cd2aaecb180f0b2e757aa3.camel@infradead.org>
-Message-ID: <avN7PfMdfZcYl7Gt@seanjc-mac.roam.internal>
-Subject: Re: [PATCH v2 00/20] KVM: Use atomic SRCU for gfn-to-pfn cache,
- reinstate guest mode for x86 nesting
+References: <20261105020104.2507083-1-dwmw2@infradead.org> <20261105020104.2507083-7-dwmw2@infradead.org>
+Message-ID: <avN8aJIHiX4xyTNO@seanjc-mac.roam.internal>
+Subject: Re: [PATCH v2 06/20] KVM: x86: Request the guest TLB flush from record_steal_time()
 From: Sean Christopherson <seanjc@google.com>
 To: David Woodhouse <dwmw2@infradead.org>
 Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -92,54 +91,77 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Paul Durrant <paul@xen.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, Fred Griffoul <fgriffo@amazon.co.uk>, 
 	"Paul E . McKenney" <paulmck@kernel.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
 	Kunwu Chan <kunwu.chan@gmail.com>, 
-	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
+	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com, 
+	David Woodhouse <dwmw@amazon.co.uk>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2026, David Woodhouse wrote:
-> On Thu, 2026-11-05 at 02:00 +0000, David Woodhouse wrote:
-> > From: David Woodhouse <dwmw@amazon.co.uk>
-> >=20
-> > Based on v7.4-rc1 (kvm/next doesn't have the atomic SRCU flavour yet),
-> > this series:
-> >=20
-> > =C2=A0=E2=80=A2 Converts the GPC to use atomic SRCU, ditching the rwloc=
-k which was a
-> > =C2=A0=C2=A0 scaling and latency problem, and which PREEMPT_RT hated be=
-cause it
-> > =C2=A0=C2=A0 turned the rwlock into a sleeping lock=C2=B9.
-> >=20
-> > =C2=A0=E2=80=A2 Fixes the pre-existing bugs which torture-testing that =
-conversion
-> > =C2=A0=C2=A0 shook out: a guest-reachable dirty ring overflow from the =
-hypercall
-> > =C2=A0=C2=A0 page write (128 pushes of the same gfn against 64 reserved=
- entries,
-> > =C2=A0=C2=A0 without PML), and a lost TLB flush request in record_steal=
-_time().
-> >=20
-> > =C2=A0=E2=80=A2 Adds KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE, for V=
-MMs which
-> > =C2=A0=C2=A0 intercept the guest's MSR write and need to replay it from=
- host
-> > =C2=A0=C2=A0 context=C2=B2.
-> >=20
-> > =C2=A0=E2=80=A2 Cleans up the intentional lack of dirty-tracking of Xen=
- shinfo and
-> > =C2=A0=C2=A0 vcpu_info pages (Sean).
-> >=20
-> > =C2=A0=E2=80=A2 Converts steal-time / preempted status to use gfn_to_pf=
-n_cache.
-> > =C2=A0=C2=A0 (Carsten)
-> >=20
+On Thu, Nov 05, 2026, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 >=20
-> I love it when sashiko-bot finds things which my own local runs don't.
-> I'm still iterating on the latter part of the series; I think it
-> probably makes sense to merge the first half (patches 1-9 above), and
-> the nested parts (below) can come later.
+> record_steal_time() performs a TLB flush on the guest's behalf when the
+> guest sets KVM_VCPU_FLUSH_TLB. With shadow paging,
+> kvm_vcpu_flush_tlb_guest() ends up in mmu_sync_children(), which can
+> reschedule via cond_resched_rwlock_write(). That is why the flush
+> currently sits between a user_access_end() and a fresh
+> user_access_begin(): it cannot be done while the guest page is mapped
+> for access.
 >=20
-> Sean, what do you think?
+> Raise KVM_REQ_TLB_FLUSH_GUEST instead of flushing inline, and move the
+> processing of KVM_REQ_STEAL_UPDATE ahead of where the TLB flush requests
+> are serviced in vcpu_enter_guest() so that the flush still happens before
+> the vCPU enters the guest. There is no requirement for it to complete any
+> earlier than that.
+>=20
+> kvm_make_request() on the vCPU which is running is nothing more than a
+> barrier and a set_bit(), so unlike the flush itself it can be done from
+> any context =E2=80=94 which lets the surrounding access be simplified lat=
+er.
+>=20
+> Note that the xchg() must stay where it is: it atomically consumes any
+> KVM_VCPU_FLUSH_TLB which the guest has set, as required by commit
+> b043138246a4 ("x86/KVM: Make sure KVM_VCPU_FLUSH_TLB flag is not missed")=
+.
+>=20
+> Reported-by: Sashiko AI review <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/all/20260530061932.7849D1F00893@smtp.kern=
+el.org
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  arch/x86/kvm/x86.c | 26 +++++++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 6a1f0404f029..3c26c0eb9865 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -2117,8 +2117,22 @@ static void record_steal_time(struct kvm_vcpu *vcp=
+u)
+> =20
+>  		trace_kvm_pv_tlb_flush(vcpu->vcpu_id,
+>  				       st_preempted & KVM_VCPU_FLUSH_TLB);
+> +		/*
+> +		 * Request the flush instead of performing it inline. With
+> +		 * shadow paging kvm_vcpu_flush_tlb_guest() can reschedule
+> +		 * (via mmu_sync_children()), so it could not be called while
+> +		 * the user access above was open. Requesting is just a bit
+> +		 * set on the running vCPU, and the request is serviced
+> +		 * before the vCPU enters the guest; nothing requires the
+> +		 * flush to have completed any earlier than that.
 
-Ya, I'm definitely in favor of that.  Even if Sashiko didn't find anything,=
- I
-think I'd want to grab the GUEST_USES_PFN stuff separately.
+Argh, I completely forgot about this.  It throws a big wrench in my plans t=
+o fix
+a mishandled TLB flush without using a deferred mechanism[1].  I really don=
+'t like
+having to re-introduce deferred flags, but the diff is a lot smaller[2].  O=
+n the
+other hand, I still don't like the idea of delaying the MMU sync until the =
+nested
+VM-Exit.
+
+I think I'll see how gross it is to do something like add a KVM_REQ_PV_TLB_=
+FLUSH.
+
+[1] https://lore.kernel.org/all/au0R41xbEJ_9W_9z@google.com
+[2] https://lore.kernel.org/all/auDkX94UTjrLNmqp@google.com
