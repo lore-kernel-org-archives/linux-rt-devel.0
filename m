@@ -1,105 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.93
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794411324;
-	b=d6oSbUUHP4AuR1srLd1j6sxI4Mt6Wxj3fs46SymYByxAHNIWD/bBxgyX4ceYgb+MwjTp
-	 Z0fpwX4arEQap2jT2hGVLCYy+1LsB19JsiDCS6pgqX2nR1YoBwe3lL66B5mhJ2OTJzIuI
-	 kclD76J6w1erXlY5tkAf+I2/7uu5bH8r79IvaAmRfIGSFBdOHumdZhBFF6ACMTtwIcr1f
-	 62Cx4oXPO+wtlehsQkWQZUYlI61ub9mnS2PXunLrQsz6jDX+BxZ9TOXyoRt5STNP51EKs
-	 OyfVwJxsbZnzWU+0uNo/lsJHzvzU9/pJ3fQo8cx+ANpR3jTQfdScBDHxLSLPJv7kbUw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794411324;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=oCY7BZnYiToD6/ATqromLaznfVaKf+BX/Aui8Rih9MU=;
-	b=foQN71mpl3mLj1gNK3FrvxROpBwZhLBLDUlMrLtCn5UuEBsVYen9cQi76Rf+3/25Buxq
-	 t2rkYLgbRR64Q62wDpX9kEFmPg3HgqwF/CUDb3eZBGqY0txSR+uNzi7r6+eOmDGf8Wkh/
-	 ugUUIdM+BoQHKRqQi3gw0jAZTJxftOkISZHdgzDCrulKILFkG0/1IaX1sKmW3659hpLCr
-	 NnppiAZdcrhPhieNT8iUjt7xQjqCQdsKMrWn7jxc71g0WO6qwFGf2tS137+SBzFaIF9+u
-	 GeI1EMdAy7LfzLKXu+glUxITbHCu8MBwzgO8EkUmpXdmdlvbQPjhfD9lq4Yu0w+9ygg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b="NKUmCoa/";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.93
-Received: from YT5PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11021093.outbound.protection.outlook.com [40.107.192.93])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794411805;
+	b=amcg/+UU6/9NLwdLTIqebdB+jWfpDsiq5HNOXJEUrlHad8Mi3ZerypF9nod7SmWBfX4J
+	 DXNHcsiOnNwmbSMDOSptx1GP3GuhEysl0ijxFAKQDJ7jMuJJkx23OlJny3a+7y2XXEGPe
+	 xKFmABLaeyllFKcErodsPtRKGYArSTtHqwPPNZf2Rq+dPn0AeNta4xLbKhb63/sa+M1Pt
+	 BZQIWBqYzdUL2pt6TMWeYNpe9BSE8Wn6Zc+X8Fhtqg1PR2xu+bUNqk0rQW2zbrLn6grME
+	 0pxbQSytmLLHqNT6LLqOd/OBAi/beV0/klOxb+Q8+jtZPJbxMRzyemaWbkm/2nsTdnA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794411805;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=+j+CUhgCY4xVSkjxHmOnbjeGHM1DsYRgRzd/ZrPTp+E=;
+	b=RLceUrGtQ8PUdmPw0xM/qqvvu6bzP4ebLXPM19Bj4sgn60zVKJ2BUSB8LD2NT/eBENzq
+	 LfMulIQVHSaBLmwRfJTsghHTjTOtRz4UCXFPaxUk7UKQ7hu3OsavurGTV7yfX8U2pdYmg
+	 kO23ug+wlbD8Mq9EJG0OTESgIxgViEA9kT5fUoL9u95vEq3Z3CpueW5ewc6Df2/OZUv2f
+	 z0TXxbDSQC1HPgzEqRw4bY1WGibTPsotUiaJkktOhe3IsxbcDk1Dysu03rrDDwWr5xRpP
+	 WRyHZVXWz/i/1nBHWgLxLk8StrYATCkGqzlFnELbj28rScd7MoXXysyktxP+j1/0eOw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=rhdaXThs;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=jxOp4G9I;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0005A606A326
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 15:35:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0005A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16BF606A326
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 15:43:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A16BF606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=NKUmCoa/
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yxZoyLAJu5+510jqxNE4liAuEbL3/WIQaUPB1g68wkdzV0WqxTuRl0i8b8BRugfdgjTyUaulce43uAVcMVbR9swd6iXiGo2lUw/swUnP8+/FOg5uN10EglZv0PbreZwMZlMt/blydzhVo5Vu/9qWQYdv3Y/F0YntJFO3CJJIalyULphMULk/0Wl7CpKsYxIReS0e4REGZy8QB7/Ky9xAHi/VHDK8ILwrPzoWFyi5kW+5Natz/CGKQW8tZhTuIFvGXzmUCSnbXwS9ZW+1UrBme6Jg3ZApn/HepoY7B/sQmvz8iOsFkQ6ytWoest4IukzyRPSRw8IdAuR1CjYxX5KN2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oCY7BZnYiToD6/ATqromLaznfVaKf+BX/Aui8Rih9MU=;
- b=cx28mr81yjN7KoFPQW0aavWH7VMGIF3rV1DC0tzqECSydxyhS2q/HHDO0ClFuDrE5ikuT4QwmlJWnGO1EZLvfYiY0LSc0rxaltcN6sgn71FMJon2vHRg0slxEgWaGzbC8NZmSC6PvtkuQSOZ2IFSMNxHuMJ48riZWcFzZvaarwWYufWLIoVAb+0E52qb8qIediIOB+ShSidTOWnVrxClr/s/+2SO4zbg1oPWSwVtX70OxkwGhWhKkg8LFgoalK2DCKTuS+qcd4LeQHrcT9R5QRuACIsX8M9LmvDS1L3TGSjzmr/zkZ+z4Nq7UMSM2xFvIL/bHHCNArMjd6+sKJIMgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oCY7BZnYiToD6/ATqromLaznfVaKf+BX/Aui8Rih9MU=;
- b=NKUmCoa/qw6T9Gusja1tAmjKY9xb0m5fS45IW5yrsGW92ZzgJD1qlnct57HipzlaBUCa6FNrz9EW2/YX6HHUWGvc66CAp06UD+M+SsZrprP1XTIt5KiFd7vG0q2FD2xJJB0jjojHkW9bQAWbuCbHmiJgSEqovfWwmfbQjfnL1BYej4ZOR17DjTj+EN7l2wxOOYKX8wSYuwVxsyJzQzirZmP1gbigMd9HKnIBGHJ8uBJI9GN4oghTL9Qo/57rCfAQMxT/suzFf/JaHbeNQY582U2Is4Ih17gDy7gxg1rMvDMq8aNW9L+7XGAgf2TRfusEHVJPoJao7kxQksoKFNruxA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YQ1PR01MB976392.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:113::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Wed, 11 Nov
- 2026 15:35:20 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.008; Wed, 11 Nov 2026
- 15:35:19 +0000
-Message-ID: <c3e7054a-486c-4e5a-a646-eee42e815ce4@efficios.com>
-Date: Wed, 11 Nov 2026 10:35:17 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 13/29] sched/deadline: Keep departing bandwidth across
- a root domain rebuild
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
- linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
- boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
- tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-14-mathieu.desnoyers@efficios.com>
- <avRmoK08LoIeySBL@jlelli-thinkpadt14gen4.remote.csb>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <avRmoK08LoIeySBL@jlelli-thinkpadt14gen4.remote.csb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0137.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::10) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=rhdaXThs;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=jxOp4G9I
+Date: Wed, 11 Nov 2026 16:43:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794411801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+j+CUhgCY4xVSkjxHmOnbjeGHM1DsYRgRzd/ZrPTp+E=;
+	b=rhdaXThsY1z07Ytux32DNUIaZx3lRjGdsI8Ci1Zyf/r/g2jGVBgASBniRxm1S2vYo8+7VU
+	IQqPmCQQEBafv6/mzIAHKPzRSd8Gg9R9+dKiZ1Aug6q1JCX7BCmP6va18QuCY6H0yJyyGB
+	TR4yalWSD86Gg2Ct7ZczFsYhZfvDPPuA3aZicxZ24yKCTw1XgqjkBXkh1BN6p3XGwiHFBo
+	uml3ABoBPg7vfDC3Y6FuQAGi3l7akswmG+Y1fRK3BVLU92ZnN5emPOZF6epbakm/cVJvmq
+	pbhJ010IP4XCw0x2aclzYyqRZ3bTz9T8tOL6axYwUOz2ju4k8Gm/zgfMT1aVPQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794411801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+j+CUhgCY4xVSkjxHmOnbjeGHM1DsYRgRzd/ZrPTp+E=;
+	b=jxOp4G9IrHaQ9pJDscQDmwS61IKJaYEZbIEzPlEU8AQ+C+FMcHrfSHKvJ0ckBn71/vlkl5
+	D8xa9rDm/0/ChsCw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <20261111154319.2Iu5wbqr@linutronix.de>
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
+ <20261106140401.90MH_6qt@linutronix.de>
+ <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
+ <20261110080942.QxKXirzI@linutronix.de>
+ <e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -109,156 +88,36 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YQ1PR01MB976392:EE_
-X-MS-Office365-Filtering-Correlation-Id: e65dbb6e-a769-4a6e-ae45-08df40096493
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|261028144727099003|261026140227099003|261026121527099003|261102123227099003|261021121427099003|261022105027099003|4143699003|56012099006|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	AQ70+EqQO8kOUE+CB5M/f8BwPrDA5mcejtI3uS/h4J1kXjWrTqb3S9JNBIsVkzgisA3ER6veZ7viyVRX1+LvUoJzZ7XZpirRR5r70SN+hXTJp/sntqpptXuyChuxmJCB2JoStTF+1xWhLyscWrUr2fWcbKO6axAbplZX6FxQKs50PgsyTiJHIWsjnddI06EpwojbwY/W8spXX1vLJPdIECldVFPPuA7XBF7wYZj8mnJEshBXwaC5c9coJ5ymachyYawXEL3a+t6BtXoOuLD0N33rGLHjlgpNqNeoTIH0rURlReulgpawf/EybrKfonoOk1yda8Ct/oSFV0obd1wbTQ+9x44T0+Ibe+oDBuUi/JLia8tnUiueqHVt88gyuu2/lokjJi8ebhO+j7F5cakqn+2TWuvfWfmBdo4MrT5XVlk9M2UYhbkCQYt1cL9W6uIoKZ4x18upHIlxRD+nH6yiHOWelD+FBMBeIDt+XCL2xHkFG7OgBOqn9CymF+0z8ooTMqHDzNQwMuMFTLoyJ+hZpvT3Hy/fVRd7tt8lmioqvbY5GU0wi+3ugHeOHaLmMcYZQvJhu5GVl2paWtn6lLwvTKYuQ17iCtjWtL8xKQrtsZQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(261028144727099003)(261026140227099003)(261026121527099003)(261102123227099003)(261021121427099003)(261022105027099003)(4143699003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QWc5ZHZyRS9rK2JYakRsRm1jN3B6VSt1dFpUWUlkb1BHWGF0MVpMdnZwZXBz?=
- =?utf-8?B?aWhtaEk0bElkNi8vcDlsMmwwSER2azlnNkNjVTBJaTZMWkExRm9IWEtiRktn?=
- =?utf-8?B?dm9EVlBqU3U0c0ltWkVuck9QQUQ5czJDejIxYi9oWVlQdW9ZM29YeVdiSWJk?=
- =?utf-8?B?SXJNYUJzbHRaRDM5VjdKSS93eTlQZWdnZExYVEtiNkF1R00zUzBhckc4NzRV?=
- =?utf-8?B?d0djMHBhcTBpMmhGeXI5WW9SanBXdXhkWUQwTDZPTi9BVWdsWjZBM0p6V1pB?=
- =?utf-8?B?TjVVbk0yRk9GWkdnd3M0UHRSdlljZDA3M0FidXhienRkV1lpN1FvZHRFNFpy?=
- =?utf-8?B?QXAxWkQrTERLeENMWS9jb0dtT0J4TnJCUmJKZG8wWk9iay85WGQwSk1WanFM?=
- =?utf-8?B?djBZZXNORGhGdU9Bclh3eWtVcTh4KzRZV1V5OG9PMExmYzNmK2NrWU1vQzgv?=
- =?utf-8?B?VGZyUytYVEk0SUluZjBWaHo5S0hmZklQdlFWK3ptNU9iSGZnc0huaWVMOW44?=
- =?utf-8?B?U1l2L2h4eDhBaVRLMmgrWEFVZmZOOVR3alJRQ2VmYXJWK2xGRUk0SDVYOFVK?=
- =?utf-8?B?VFVBMnR4ZnBhajFnSU9lbUNQbnBXN1Fpc0RrYzM3SjdwcU9jbDBMa1haRTRm?=
- =?utf-8?B?YjQvQUZXTzlKZFBxam1TL25mUGxUQnYydWRVK0V1ejlzbFMzck5UaE5tWHBB?=
- =?utf-8?B?VGV3Zm5aZk9kY21Fdk4vY0xJVStKVk9yNmMrMUJOeW5nYmt6YkJmd1RsSVhQ?=
- =?utf-8?B?NTNRVnJ4VWg1eFVvb0ROcWpwNlVXdWJ4NlVIMERpejhOOTMzZUhFdG5Rb21h?=
- =?utf-8?B?NlArVkdHRXFJd0JZRXR0cFhtK1UyTVBCcWNWWVlrQ1cwd2xBNVErcjFEc0oy?=
- =?utf-8?B?djhCQjk5NTIyTFBmbnRJUVhmL2FoMEsyakVCSzFmMVdKMzJFUE5LS0dwaGVE?=
- =?utf-8?B?RDljOUpOa0NHWlNxb0pJTzFDVENDbWt2dHFwTmMwYXowNkk1TklsbXhXalB3?=
- =?utf-8?B?VkJXbHppYUZtK3Nlc29WczhmNlFsZk1lMFhHdHhRc1d6eFc0MDcxRncvMDRV?=
- =?utf-8?B?UURMQUJBZlhqcTRCVTd6K1hURGRTdG1ERCtGMUFRYjFSUGZUbjZTbXRNYzd4?=
- =?utf-8?B?eE1laTUyOVQySCtDLzZWa3FVVHlSejBjV3F2cVp2RTlKTzJWcEVEclVWSGtD?=
- =?utf-8?B?NEJyZkk3MnlPSC9aeXBnZFFvNEtqM25oa1RrQng4SzdaKzJLaE4ybStHY3JM?=
- =?utf-8?B?a01iZDM3dkg0aTNXR2grL2VVU21pN2xzRWNOTHp2TDFxM01yejJpblNwSDhp?=
- =?utf-8?B?MEpEaDVJbG5TV0FwR3JTcmlsMStCMzBDVTZwSXB4bDlsZnZCdFNpaUlvSVZN?=
- =?utf-8?B?T3hYc04rV1Y3NkFtVzc5UDZVemdUNHYwWVlDU0NWTXNzOVdpaC9YOVMrQnpm?=
- =?utf-8?B?TTFvd20rR3BrYldHTzdkL1BtdVJXalRvcGpxaDZJRWdXK2xreW4xSjZJc1A3?=
- =?utf-8?B?WTZRaVIwdDRXRTBweGl2dlRRb0N4QldMQWNhMUdsakVKa2NkVmVPSWU1MDBX?=
- =?utf-8?B?bUFEOGY2OGdCb2p6SDZZL0tUTUkvSG9WSXFiT0RVc3pLTWc1Z3ZpaW5UWGVq?=
- =?utf-8?B?eWEzTjNxVHYxMzdKZjN2WjczZTlnT25wK05XL1pMcVF6OXBTdVRPWjJ1TWd4?=
- =?utf-8?B?aUlFTk83MVNWVkNKeVpmU0pYa3l6U08xRG81Nm9RWDNCbkhtTTBVZ3Bhc1hF?=
- =?utf-8?B?b0ZCcVZmRURNWVhBUVJxZ2lLYkRkazhuclBjblpVaUhweFdRYXBwOUV2dTly?=
- =?utf-8?B?dEtqL2tBb2Jxd29uRXg5TnJlTXYreEJ1aTJZWWtibGo2T3FoMkdld2hsVVVo?=
- =?utf-8?B?WW9kaDh6K014MWRwZ2w1azJ5eGhkTTZIWlREelR5VjhEU2hHR3B1Vm9melNj?=
- =?utf-8?B?VFhRZWMwYnI1TVkrU3VtaCsxcGFUWkR2bEVJSVVWMXp6bUNVU1QrbFYxRUdM?=
- =?utf-8?B?d2hYckNxVXZNM3ZKcHdwTUViUVgrWWFWU2xyS01wbml4VnRHK2l4RUp2Ykly?=
- =?utf-8?B?RHBycGkxZzc5YktLUHJWbStXYms0NkhrdkhYdHY4b0s1VHFFZUhmK1VNdUx6?=
- =?utf-8?B?QWdwbFhQRTVSNGMrVGl1NmNWMk5TUkI3aGhCdEFrMDRwcUdpcXpWbXdseVov?=
- =?utf-8?B?UkdtQ2VjMDlZNzZqQkFXSjZURDJ4RWF1b05zdnFNc3JHdzVXQm1ldlBKZkpQ?=
- =?utf-8?B?Z0JDaEdTMG4vN0JJZU9Ka1N3dXVkZnZpV1QxK1ZGQlVOT2NRa2lQcXRpaFI4?=
- =?utf-8?B?U1lrSWRaY0NURmFzNmQ1R1RYNG9reEIrTktjV3VEUVBsU2pDaUdHZXhuSWhI?=
- =?utf-8?Q?UPRx+YPNpYjm5nhc0Kssw53Bs5Gckq4Q/b/4k?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e65dbb6e-a769-4a6e-ae45-08df40096493
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 15:35:19.7219
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 50CnFNJkYN2fnyHEJiiAuvQlUDbz0q300T90YPSc4UoZAmN2pi1IOSL07awQlLhVbw3Huv/Vgl9rQhdz9mMfbssnFE+TaD4IeJBpTn+r65I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQ1PR01MB976392
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop>
 
-On 2026-11-11 07:59, Juri Lelli wrote:
-Hi Juri,
+On 2026-11-10 10:48:31 [-0800], Paul E. McKenney wrote:
+> Unfortunately, my overnight run of TREE03, which does do RCU priority
+> boosting and has for some years, fails with the splat shown at the end
+> of this email.  Things go rapidly downhill from there.
+> 
+> For reference, I used this command on a 16-hardware-thread x86
+> laptop:
+> 
+> tools/testing/selftests/rcutorture/bin/kvm.sh --allcpus --duration 9h --configs TREE03 --bootargs "rcutorture.test_boost=2" --trust-make
+> 
+> The "rcutorture.test_boost=2" is redundant but I was lazy.
 
-> It took me a bit of staring to (hopefully) understand better how
-> dl_bw_gen works, maybe the following can help others?
+I identified the issue. The hotplug notifier runs too early. This is
+only an issue if the CPU goes up because during "init" the notifier is
+run while CPU is marked active.
+I remember you have a test where the VM/system has X CPUs but you boot
+with maxcpus=Y where Y < X. In that case the throttler is only disabled
+on the Y CPUs. If the remaining CPUs are then enabled at runtime then
+the fair_server remains enabled/ can't be disabled from the hotplug
+notifier.
 
-It does, thanks. v6 takes your comment as is. I only changed the name
-of the function that increments the count: it is
-dl_clear_root_domains().
+>> this makes things easier.
+>
+>Don't worry, it won't happen again.  ;-)
 
-> Maybe additional info can again help (before the above)?
+However. I could make sure that the fair_server is not enabled on init
+if the rcu_throttler is built-in. This would make it easier again.
 
-Taken as well.
-
-> Can something like the following happen? And do we actually have a test
-> for it?
-
-Yes, it happens at this patch, and there was no test.
-
-dl_task_undepart() forgets the CPU recorded. The end of the boost then
-takes X from rd(B). In my run the deboost armed the timer again, and
-the timer took X from rd(B) at the 0-lag time. total_bw of rd(B) went
-negative, and rd(A) kept X.
-
-The end of the series hides it. Patch 16 replaces dl_departed_cpu with
-dl_bw_cpu, and the record survives the boost. So only a kernel stopped
-between patches 13 and 15 shows it.
-
-Planned for v6:
-- This patch keeps the CPU recorded when a boost takes the task off the
-   list. The series then bisects.
-- deadline_bw_test gets a case for your scenario, pi_departed_moved.
-   It fails on v5 at this patch, and passes on v6 at this patch and at
-   the end.
-
-> Wouldn't it be better to move to a single list of accounted tasks
-> (current and departed alike), keyed by their recorded home CPU, which
-> turns the rebuild from a reconstruction into a re-partition? The
-> dl_bw_gen machinery and the cpuset walk would both go away.
-
-I tried it. It works, and the code gets simpler. But it costs
-interrupt latency, so I left it out of v6.
-
-What I tried:
-- Every task whose bandwidth is accounted is on one list. It joins at
-   admission and leaves at the release. A departed task is marked.
-- A rebuild clears the root domains and counts the list again under one
-   lock. A release or a move sees the accounting before or after it.
-- dl_bw_gen goes away, with the walk of the task list (which replaced
-   the cpuset walk in patch 15) and dl_add_task_root_domain().
-
-The 75 selftest cases pass with it. One point differs from your
-description. The rebuild is not a pure re-partition by the recorded
-CPU. A cpuset change sets the masks of the tasks, then rebuilds. A
-sleeping task must then be counted where its new mask puts it. So the
-rebuild still picks the CPU of a deadline task from its mask, as patch
-22 does.
-
-The problem is the lock. A release takes it under the rq lock, so it is
-a raw spinlock taken with interrupts disabled. The rebuild has to hold
-it from the clear to the last task. Otherwise a release sees a
-half-rebuilt accounting, and needs dl_bw_gen again.
-
-Measured in a 64-vCPU guest with sleeping deadline tasks:
-
-   tasks    today: rebuild, longest irqs-off    single list, all irqs-off
-   1000     0.75ms, under 0.1ms                 0.12ms (0.19ms worst)
-   10000    7.4ms, under 0.1ms (0.3ms once)     0.9ms (1.2ms worst)
-
-The rebuild itself is 8 times shorter. That comes from updating the
-extra_bw of the CPUs once per root domain, not once per task. But the
-longest section with interrupts disabled grows with the number of
-deadline tasks. I do not think that is a step forward for a real-time
-class.
-
-The patch is on a branch. I can post it as an RFC after this series if
-you want to look at it. A walk that drops the lock every N tasks would
-bound the latency, but it needs a per-task marker again.
-
-Thanks,
-
-Mathieu
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+Sebastian
