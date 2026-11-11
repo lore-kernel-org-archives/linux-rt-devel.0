@@ -1,77 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794413960;
-	b=SX034NmBxjemyAesHRk6gs/WBix6iOqpErqBixxNmmSPXs0SPvSxAvgMK87IH/sQNblE
-	 L0AAiRB5iTy1ltBpecSO+WxPrFWCwcwNbIEyzF78rS1oItya4kqUJXWYNqt8KnFGI0/Ig
-	 VuSnYAuVidh/mNT8ltefo4/RKaAmiLExHIQ93bcKLtI22Akl6Zj231KRaXlJE62lI3a+i
-	 et1IB/D/o9v8bx+DIhD+BgJDjUX7MFbyRKs0JRMpHjcNdW5tIqYYHehzyzXO+vxBWqf4R
-	 Uxe2OHSNWB60sOxniWvk9ISfxooj0TIDiHy0Eo11tl4DWCigMN3YZm14Vg19O6cf6oA==
+	t=1794418238;
+	b=IZgKg27ou7b2IGEEhWcImYnal9wBzptodvuJRIxgzzQ4M1bdcYIQ8txuCSVhPnorGQtd
+	 d8gH5tXU0IcQJfNwHo0d1xnsQ/f1EV4VVpfYHoGsBFen1dAW2vTTqgZK297Y0K4Tbuu8n
+	 S1JrASzajcTW8EQu2+kJtaU2iSbRIw1mMA7d7z+1BIXbEEWuSQiYRvujCdAx3pKt6Cgfl
+	 FwWoCr/N/whmXLKmSuSxtdV9EgJuBqvuU83GYWHiEBQXHTj5mW8bnR/O6o88zGjGjz1PT
+	 pv4kDWQfGL0d++pnIEu+rHUGWyvgVXdpqHTaN+mGxb40fhYgKNdPrAEPUNGkMviIBgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794413960;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=3Tr7kJyMgrxILW6bmy4HJBMvh/+CUoCrlh1UXHmeUfg=;
-	b=2q01niUkEDmujMK0DQJJsThu9t7ddswwi6UENQsX77CIazon2j9+ppR4qJhIqqS0suab
-	 nA9rBVRhUjqsT4GJecPl5eJ+WRzWY54JX5UGYdKASEE9IAZ2bUWgXQmi2O84EfY3QF4Q4
-	 O9rqISjv1Dy38LCQUspsQ6FRAxppKvnt82s6In1Mw8udq8iT6Gf66KAv99uw/YtrqT8fW
-	 9mlYSDUjTkxCmnyKFid8rWw7mfrzLmWfQY5UAWAHi4JNoMvIXsPIjCoim64Pnajhz5DBK
-	 IQEzcZ/jb6rSD1HvwQkNkA8mjdPRetayijPrTHtGvLMzPjddwO0mUoHaHIsiBjhlrqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794418238;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=8pteISZo4JGnjEYYdv5X/rO0NwT3i1wKYr/LELsdGIE=;
+	b=s3THXoIAJs/0SX5OWYiNUqYYspk7cl865JyPn79MmP+YNpCGrQFaP7uJHWsPDV24KUZK
+	 SS0hDJELMk4LR4VGmB4hMqqg0JmwVaPXpyks7iZFK4hJi1fVR/9v+56IHZfGduEvPzEm0
+	 9ZHJym+0v79EdwtiBmlmkyIyziAQhHolQRxr2LVYLF6ciNkmOMaFgQ/fjhkazl8/gDuYO
+	 Hgnqje72YD1gSKdGYKalN+YbbI+qSJOsn5/QjKrzW6Pmk56fzXi+cdwszk7kuCChqIdF6
+	 gefL+2zOAWcxL98ELAy9wLh2412eK3vWTL5Sfl8G2EAvJVp58cNwJ+/OQBRaj0WatVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=JCvYPm5I;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jHGW0Gp7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40175606A32D;
-	Wed, 11 Nov 2026 16:19:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40175606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80249606A31C;
+	Wed, 11 Nov 2026 17:30:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=JCvYPm5I
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3Tr7kJyMgrxILW6bmy4HJBMvh/+CUoCrlh1UXHmeUfg=; b=JCvYPm5Is+991YuywRlzjEMNp1
-	S7xApyjWkrIWpO1oeaL8ktGurfYFlNjlkCO5QDII88oChRyKxzldRJdHvNh12Qc9AqcRnnTbfHGgi
-	m24D8VAzk2xKVIS6fw5o+v0JyHDFmq1xcpGCCBrxJb/8xYuWZMHFFVQYsq7++pn3jgfUQgXXxRzch
-	9z4ADnYmpKTG72LwmxGF3ubyCFpL4b2Bw6SoxxtCFFZqjGjzvQLkdiEurQL6UszAOmvSbqcHjpFEp
-	ZQ6NLGlEPWFuQUKKypZ/upo4qvHU052VKpB4y13ADLWF5cwZm2yeau3pKtixdT09vC++p/dFkG29U
-	Ia7lrXtA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRB2X-00000009KMT-3SmB;
-	Wed, 11 Nov 2026 16:19:14 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3D91130031E; Wed, 11 Nov 2026 17:19:12 +0100 (CET)
-Date: Wed, 11 Nov 2026 17:19:12 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>, mingo@redhat.com,
-	vincent.guittot@linaro.org, linux-kernel@vger.kernel.org,
-	tglx@kernel.org, will@kernel.org, boqun@kernel.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it, mathieu.poirier@linaro.org,
-	longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
-	bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 13/29] sched/deadline: Keep departing bandwidth across
- a root domain rebuild
-Message-ID: <20261111161912.GP1779021@noisy.programming.kicks-ass.net>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-14-mathieu.desnoyers@efficios.com>
- <avRmoK08LoIeySBL@jlelli-thinkpadt14gen4.remote.csb>
- <c3e7054a-486c-4e5a-a646-eee42e815ce4@efficios.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jHGW0Gp7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226971F00A05;
+	Wed, 11 Nov 2026 17:30:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794418238;
+	bh=8pteISZo4JGnjEYYdv5X/rO0NwT3i1wKYr/LELsdGIE=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=jHGW0Gp7FwCUKCnNuQ1C2BG/P3iuwP9SasaZCl1IzO/H/s20mRXtEtN74YxBwzaGc
+	 CsWff9u7suZPOX5CM1D18TDvD9XbpH3UnCwch17MZ/lVkpLvfAL25LCpA5oQscfd5O
+	 QHLvCNwJWg1J0RpP5azpsUZZDo1+p06I/g7Z7pas5PEZuAnmPskMrx0rfffvDgDOfS
+	 Z9o2075EajDu7gA3u3OxEtdZGv3jDlsxf2/IKSWhFHwxSCmPjSfH4oKAXmppgai+Cl
+	 ISBkqyR8fZPV0/O6n5em0Zc1uZQLca0G/HJh9z3h9KsyQQnbfJt2Xu21SkeFuDLJ9O
+	 /6HEVX6i3rSjQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id DA5ADCE0840; Wed, 11 Nov 2026 09:30:37 -0800 (PST)
+Date: Wed, 11 Nov 2026 09:30:37 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <3e7f1b45-7163-4abd-b686-a17f137ecab9@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20261105165113.82N-rPMG@linutronix.de>
+ <2fbdb03e-1af8-489c-819a-7e3c7b0ed1be@paulmck-laptop>
+ <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
+ <20261106140401.90MH_6qt@linutronix.de>
+ <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
+ <20261110080942.QxKXirzI@linutronix.de>
+ <e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop>
+ <20261111154319.2Iu5wbqr@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -83,20 +80,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c3e7054a-486c-4e5a-a646-eee42e815ce4@efficios.com>
+In-Reply-To: <20261111154319.2Iu5wbqr@linutronix.de>
 
-On Wed, Nov 11, 2026 at 10:35:17AM -0500, Mathieu Desnoyers wrote:
-
-> Measured in a 64-vCPU guest with sleeping deadline tasks:
+On Wed, Nov 11, 2026 at 04:43:19PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-11-10 10:48:31 [-0800], Paul E. McKenney wrote:
+> > Unfortunately, my overnight run of TREE03, which does do RCU priority
+> > boosting and has for some years, fails with the splat shown at the end
+> > of this email.  Things go rapidly downhill from there.
+> > 
+> > For reference, I used this command on a 16-hardware-thread x86
+> > laptop:
+> > 
+> > tools/testing/selftests/rcutorture/bin/kvm.sh --allcpus --duration 9h --configs TREE03 --bootargs "rcutorture.test_boost=2" --trust-make
+> > 
+> > The "rcutorture.test_boost=2" is redundant but I was lazy.
 > 
->   tasks    today: rebuild, longest irqs-off    single list, all irqs-off
->   1000     0.75ms, under 0.1ms                 0.12ms (0.19ms worst)
->   10000    7.4ms, under 0.1ms (0.3ms once)     0.9ms (1.2ms worst)
-> 
-> The rebuild itself is 8 times shorter. That comes from updating the
-> extra_bw of the CPUs once per root domain, not once per task. But the
-> longest section with interrupts disabled grows with the number of
-> deadline tasks. I do not think that is a step forward for a real-time
-> class.
+> I identified the issue. The hotplug notifier runs too early. This is
+> only an issue if the CPU goes up because during "init" the notifier is
+> run while CPU is marked active.
 
-This is domain rebuild? Do we really care about performance there?
+I hesitate to disable CPU hotplug during RCU priority boosting...  Yes,
+one could argue that real-time workloads shouldn't be doing CPU hotplug.
+Except that others seem to be working towards making CPU hotplug more
+friendly to real-time situations.
+
+But what fix did you have in mind?
+
+> I remember you have a test where the VM/system has X CPUs but you boot
+> with maxcpus=Y where Y < X. In that case the throttler is only disabled
+> on the Y CPUs. If the remaining CPUs are then enabled at runtime then
+> the fair_server remains enabled/ can't be disabled from the hotplug
+> notifier.
+
+That is TREE01, and you are right, that might be even more challenging
+than the TREE03 scenario called out earlier.
+
+I am OK disabling rcutorture testing of RCU priority boosting on TREE01.
+In fact, there is already a commit headed towards the v7.4 merge window
+that does just that:
+
+1e924ea92887 ("rcutorture: Disable RCU priority boost testing on non-TREE03 scenarios")
+
+> >> this makes things easier.
+> >
+> >Don't worry, it won't happen again.  ;-)
+> 
+> However. I could make sure that the fair_server is not enabled on init
+> if the rcu_throttler is built-in. This would make it easier again.
+
+At this point, anything that would work and be reasonably robust against
+future scheduler changes would be very welcome!  ;-)
+
+							Thanx, Paul
