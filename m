@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.19
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.10
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794388774;
-	b=ARBH2zP+9I1QeMmkY2zg8Wm0B/ByW4LFCHFXtzlBIOaaI8ByEK70Zb4DKXytiblHHfnA
-	 5SUyXgY7Wgzq47UCAzFKzGlPxOZXkan+4vQjHDApqZUVO7ipBzV071rxRM73vG7joevYr
-	 Ys/CSQ9oHVY4Cme8+Pcbol70k3/8YMd/ZjChvHX1ewJjmTMnS9vsC9p2TCP247uuphc1n
-	 TGsEHMgn8m3Xae5vPlnkMTqKm4jj/PPCzRUOaQppzs5DD3co4ZPuoQUZ1POYyCV7VhmbF
-	 i2Un2Ot4TQhhCMK5pf6nHZiXt5Soo07lhdgt8/zQ3BvvcpF/pV5T4jWK00Ty/1EJuKw==
+	t=1794391262;
+	b=g2Cq6vbl/PizAkK8FCd/mt0fLMW3XPAhW4+/ONiGluqR32VSxeuZskRVfImvfZ6UJ0sL
+	 DU3ygnmyW2z1buvym+QjCjiCpto0vwxMLv17nGyO+gOuwuBUi6MYPzi5cjDqqZWXLo3fR
+	 +gkb4D0NXpcwk2Kcwn6OFcTLXV/XDxOWpnO0oNrTD70F/yAwft8MVcKrcVBu1kHNrh037
+	 /4AlH0jvkU8H0z1Ts4XxMxlPogoFcIbQmbKA9hjvfgj0O0u47R12Gv31ANsZNpNIZA5ey
+	 vj1tMVrWiAonOYxYMfUkjjZaIhk+iqc6U+XKDvkTDSLj1S+6S8oohyEES/BoRWNt+7g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794388774;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794391262;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
@@ -25,57 +25,57 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=kVNJULxs6r3wqWmUXVfAcTTx8q2Yb2G92B+sVNZQPg8=;
-	b=NpKwN3+Tx3Cg5esq5Tl+JmCFAhvklFtQg4+KsZEqrVPQ08fBbv7pCbygL75TGb7epgbu
-	 JXtcxheOnG+2PxxBdUPRnq6v/q7UQDdgBegIyA906efFC+UVChbMK8U7fB2QgM1OePZH+
-	 e0g8hCiL3cOT++ERhyyESQqO0yIS4rqbYETHe1fBzFxrkP2NLfC5vPMUYkUvMXI5eX2hQ
-	 l6ligHOWNIoUq+y7VF2eBSG/ZFhoEVUz7koy/MvKr3hclZEPQNwU7lLDFUq8Ge9c7TZJ5
-	 5wU9LTtIg5j2Z27TOv+mB91aVS+CQlw7DbtkKvfAexD3gzr82VIJGAzQMt6/+o0MbYw==
+	bh=4AHWSkS2lFACueb9zLscVLtkIk/hPUbbpFvzGBkQPgg=;
+	b=AfjabWBQyq2PQadgRu8AXsCpzXvgz7WnwK0AbIR5prmRvnHUUUPoO6X8L+G7BrBy//ux
+	 Gvx2h3ls5XmOLWFB8tVeoMKLGe5zaZ5Nf2/gcOcbsuzTq8tlmdm31zJ3Vpq4hfZ17Mceu
+	 Cp5osG6tA5HePzYEeYODLbK0Bf3FqoEtX7DLnr41HXCLFxS0VZc8a1WnLAl3moa/ADKAJ
+	 RQHd2RwDqjF0yLymj5mcKnqoZpO5yIJ6fSDu8bahnYPXg1G7RYhJNzy4pdsGytFVrqqsB
+	 9Jt31GxKotaQkecOO8bup9QKCNzL6aT0zYUsA+MhTpuVMfL+y8ecGks5Xiz8bBF2CrA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kC1HVz1S;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.19
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012019.outbound.protection.outlook.com [40.107.200.19])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=C6iIPJ+P;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.10
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011010.outbound.protection.outlook.com [52.101.52.10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A6D606A31C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 09:19:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7A6D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FA760A2637
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 10:00:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86FA760A2637
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kC1HVz1S
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=C6iIPJ+P
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OtGYXxnXajaHflSfsSJZRQkjUXKFzNLDEn2vN/2RtwrxBir70DE7huyVUQY+e5BPe7Kr1ulNakTmUWBL1U47ymSCqa/wlLFmgTMbNzNwzjSWJ28wjEcqKrsTHLrg33Pcv/6gNPHirOHqdGyU31Kx/H9wM/L138hJOVkVHQPOGU5EDMx5wthAfy1UTalklv7i3DjKrAtVZXvTPYvHcn28aE8IOk0tI5J5ubCEHmPdndF5dJp6iJrHGvnT9aqIK7QCuR3hbLBxMOVV21e3yNrFfavyfDCflU0xfHt/GNuhtOcRqlYVRDDob/a/gb55hOndQd7bLkjxRJRyovjj/JGjhg==
+ b=v00eMOjVJNo4XIAkQ2JglFUr21RjOEOgsJmIBYzxGP/lnczVpaCLqFMmbVrIUij9BNUn2q0ROmU61pKgmYeAPGPBXlYD23Yb+ZEyzjAcAe2oBZn4Z609pWD58VbOFwe+Y5X/hukYOCkCx8AQCBeASjPkqcsuwoopLvBy0NcuAlCuObAiPcv75Gf6KrgV34St/yPXEZiYafJU4JzVznVMDqYVh0hpRVKXL1ZRzdEQNZKVIDpzyWhbAY58tZDURp6xsDibk5XG4AhrvZWnFf+CI0El5+C3b2gvx81SOji0v0xUwlZWuQTIaVlMCITc5qYShv9VvY2CMlvPhHpCOlqLug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kVNJULxs6r3wqWmUXVfAcTTx8q2Yb2G92B+sVNZQPg8=;
- b=v6PWL/pt5B2oWV5/BkeNQR3s97McBFDJwF+nCy0TE+3OoWLJ31Um3ZDzNvynFzhNHOxct3VrvLGmXtkZSAVxSYvhKQIj3b+I3D6TbmQZi9h4AS4j4KJW3Im3GtPJtW78ox916vaMml5ehibK7rUadtthmvGKjPnCZoBt9oTK3ntW8VeBAvf96d1obQCdx2a4U+LC6k1WnzTLCv6V/jYNpcEag7FQ6OxyMBZb4IUqzABVjdLARtRxzi989qMtoATpQrB7CoPEA2smro4uST4z7yVM6eKxdcT2A4bSiR2wSync9MuHQyBjUeBGXRUWfYtiPCMelKsUWLWFu6OdC0NNRQ==
+ bh=4AHWSkS2lFACueb9zLscVLtkIk/hPUbbpFvzGBkQPgg=;
+ b=mlEKzLeZbYD6o9XY6ndHB4LN/+TzjK2RPNe4rzfeRSglM5PA5Q56uhBHCfLJAqjDO3VUusViPRAht8QviPwDI6Pu5hAJZcIDyob+1TYHo5rXDqkAObRU1SVkKY5NuClAG4XDgD6b0VXrBNr/ApGR26qCQl1ywCnOhLQKfVc819deJLUPMN9COafiAduPqn0I+9sLx0TgWnz5mfPNlqVOmgO9CONR22aX/IEL2FjGnHOkEespmW3oRwlH2lFdqXhfXFRtyfCjfRMUqalnc3usU8/2dKjteMdRN3LphST4Te9QzeYeWD0v8PUnRPxIOgmgMpS+9sVwgC7rk00skhuNvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kVNJULxs6r3wqWmUXVfAcTTx8q2Yb2G92B+sVNZQPg8=;
- b=kC1HVz1SWzhm129DBvorNSzuz3NI4XjuMA6vB67t747phFsOWxKCAL3PUnv5iVLRvq7G/xyoMA6/QoW1HRNkBHNW00L/RPKC3WSBrjQxd+v1ZoqG5ds2t2nEdBRmOgzp8ISPNChlfNBMxqOgUwMhrezTnIQihQtrL/pSpSGIJDY=
+ bh=4AHWSkS2lFACueb9zLscVLtkIk/hPUbbpFvzGBkQPgg=;
+ b=C6iIPJ+PD06z3btHA5soFoajFVmxqYI/aixoTfG6Q+cMiku2xj93EaAuAfXgMWQt9i+v7eJsl9mD8vuKaBnuk49uXuT57WeT/NmlpiA5STyPoVFimjEDzzttpiCbSI3dvL3D4+/dO0i8bKLvyZFBaHbnBYd6Mu/NyQeLpOlgirc=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from SN7PR12MB8147.namprd12.prod.outlook.com (2603:10b6:806:32e::5)
- by DM6PR12MB4338.namprd12.prod.outlook.com (2603:10b6:5:2a2::21) with
+ by DS7PR12MB6143.namprd12.prod.outlook.com (2603:10b6:8:99::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Wed, 11 Nov
- 2026 09:17:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Wed, 11 Nov
+ 2026 10:00:51 +0000
 Received: from SN7PR12MB8147.namprd12.prod.outlook.com
  ([fe80::3923:c1a4:778b:56f2]) by SN7PR12MB8147.namprd12.prod.outlook.com
  ([fe80::3923:c1a4:778b:56f2%3]) with mapi id 15.21.0615.008; Wed, 11 Nov 2026
- 09:17:20 +0000
-Message-ID: <902079b6-c634-4f29-972e-1cba65d372bb@amd.com>
-Date: Wed, 11 Nov 2026 14:47:10 +0530
+ 10:00:51 +0000
+Message-ID: <0193d8c8-5902-41fc-8469-1f9617a0098f@amd.com>
+Date: Wed, 11 Nov 2026 15:30:41 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 6/8] net: xilinx: tsn: add the endpoint RX
+Subject: Re: [PATCH net-next v3 7/8] net: xilinx: tsn: add the endpoint TX
  data path
 To: netdev-bot+sashiko@kernel.org, srinivas.neeli@amd.com
 Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -85,15 +85,15 @@ Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  edumazet@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rt-devel@lists.linux.dev, neelisrinivas18@gmail.com, git@amd.com
-References: <20261016-patches_v2_external-v3-6-e33d3960ca1e@amd.com>
- <179249750068.3135.14908716798460807295@kernel.org>
+References: <20261016-patches_v2_external-v3-7-e33d3960ca1e@amd.com>
+ <179249750260.3135.7334440284014386144@kernel.org>
 Content-Language: en-US
 From: "Neeli, Srinivas" <srneeli@amd.com>
-In-Reply-To: <179249750068.3135.14908716798460807295@kernel.org>
+In-Reply-To: <179249750260.3135.7334440284014386144@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0066.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b3::11) To SN7PR12MB8147.namprd12.prod.outlook.com
+X-ClientProxiedBy: MA5PR01CA0140.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b9::9) To SN7PR12MB8147.namprd12.prod.outlook.com
  (2603:10b6:806:32e::5)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -105,69 +105,69 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8147:EE_|DM6PR12MB4338:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47b9b0ca-7c52-4559-0dbd-08df3fd496c2
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8147:EE_|DS7PR12MB6143:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c44a99e-61e5-4eab-f4ba-08df3fdaaadb
 X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|10067099003|11063799006|5023799004|4143699003|56012099006|261022105027099003|261021123027099003|261021121427099003|261026121527099003|261026140227099003|261028144727099003|261102123227099003|261009223027099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|18002099003|22082099003|6133799003|10067099003|5023799004|11063799006|261102123227099003|4143699003|261026121527099003|261021121427099003|261022075727099003|261021123027099003|261022105027099003|261026140227099003|56012099006|261009223027099003|261028144727099003;
 X-Microsoft-Antispam-Message-Info:
-	yM3o9CArHbzAfQnvfLXOnYwuj9sbHCaxI/xWlpXczRRUTGii9oO+R3M30vAnX678/NNzCQF26AYfvYzHOhkX6JZQjtRo4OTKfYiPDiBFGM55SNmz27mE8bylnLS/UCmaK2shKjX6hD4Ld7JQnXC5esnADR98bhFJ0oHobgU2BYFK8ViTYBmNLe4tYnEP1zMCg7cE9pKBFRlnPe0oRW+l/JWGOotaFQO4q8o7x/PPPBFiDgg/FVz8O6uOn4wAvn4LcT/hApsQlsbhtPQ+UbkxWy9dAnJaOUuhor7fhAa/xRdjBq40wOkwOY6k0QmVD8uHdjdY1sZLeLeByRBQLSZDnfnFhwu1AX5i28FjStWyxIfjXvrzTXHMpcsTgCJr7RTcVzwvrOPrwxPGzWnQY3leAot0SEGWJGbfAOj/aH84PeJ6BuuEF6LU4VsYblZnTDBbdaRLK0qpoV5LS0rR8amY9XydfzKaOYyOIQb44asVZo7OITeJbiItD9tNzMJyIFYtiaEVwXCCl6n0T4UBTcrs9eGJsLJJ8WduWaNTpmsL032P6lfCQmEmPOpPvVteFLpZ8XITKmFrwghxH4xFxX7lrKPOWHWbw4Fc0ymfp1p99osg3TWfswJ5L20T9lyBFZ+JH0+J4kV/WcjgAPiCf79/5I7+cjMVpOxWyXr4BglLoCo=
+	gTj45a89x1xtJdsmgSjLZZTWB02qzPWVxYiFHVEO07IROX4sgiQ+2U+uczeDLxu4CPe96HJQ0XD4wbDoDoEoR2lWD2Y55W7zXAMDwNDVXrGHaykCGznTVlLuU1Ju7f8Xp+Ohb11vjMjHWdwWxxh+gong9CRLnTO5MQ5kdfEOaIj/d5wgxRFXpxeVns1vgPKOiDAfCQIXYkxlfPR+W5s22/c7BhiAB/06ZzuMr5nynBpUtCzmZcEJYKtHH/WoCMLftY+/bpNghpWLQ8mqW2SEFE/WwrxIugbvMvYOXscMdIZJcHJITeOJGmJpvAYeKCa4ta4grLjHZuTDyNmrCkNI/tyoehWqOaJuekSA+J3wwwhulYx3mJZ58nWSBv1yqBpuITO1yQQgF68GuSpluNHNhsh9b4SiewJ+VZXPxJh8GBXTWZcMV2D17SaQswwkAOSq6SCTOxyzHNbzxh8nTeh1Qt3i0OWanyg53xEol+AESCB1nRwF8PGxflyiEAOtLR3x711Xq2IB4hEyZM/eSClCXJ3mPgFkV2ggPhCdNi2No7e+X03LUeCKdlRwYnRVceOZuq/weqFv0zJyTtF9GX95jwadoqaCYN5WUoUutRZ1On2PXfpOJhf3KBOsCvWzPO9/7sryFT48DpQSWnLB1LnzAFfD9e8zG+o8SQ1Erk1uRUw=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(10067099003)(11063799006)(5023799004)(4143699003)(56012099006)(261022105027099003)(261021123027099003)(261021121427099003)(261026121527099003)(261026140227099003)(261028144727099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(18002099003)(22082099003)(6133799003)(10067099003)(5023799004)(11063799006)(261102123227099003)(4143699003)(261026121527099003)(261021121427099003)(261022075727099003)(261021123027099003)(261022105027099003)(261026140227099003)(56012099006)(261009223027099003)(261028144727099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WGhsMDhpeWNldUU3SUtpdWJCQ1NWQzI1bEl3Y214RjlpeEFmRUYrWkFSenE4?=
- =?utf-8?B?V1M3Y0VJRWZpck1SeSs5QW0rRUUydXR4QTRvd3pOb0k3VmlNMDVEYjNhbGps?=
- =?utf-8?B?SDhoTFJndk8wNG1PeEF3aGVVbmo4R21EcUoyTFlBNGdJMGhjZVNDSmdGdW1W?=
- =?utf-8?B?QmJXaEZWZWJIc0lTVkZwZ0ZDd051aU1PMkh4U2hKYXphRFlYV0J6L0hKdUY3?=
- =?utf-8?B?WW5MSDU1NU1vT3dvdWk3Zk9VNlhyc0syYW9FSnpjR3drQldmQ3BiSjV0RThF?=
- =?utf-8?B?azBLemtTb1laQWdqTTd4SnBjK3hyT1NJNUNDUFVML2lFZkN6dUdKMEM2blRC?=
- =?utf-8?B?eWJUeFZxZDREV2p2d3VoTUt6S1FkcGRQOXV4OXRzdmtydVVpdXRkbXdlVlBh?=
- =?utf-8?B?aFV4WnYyd3o1VS9sRkVPcW1acStkUGhld3ZnZ1hteTYrUWNVVWF6SmdKMXdF?=
- =?utf-8?B?bEZncEVOYzJoUzE4R1RRaU9pczFUYkdFbGpVemRZM0RiWFNRK1hLSkp0NXVN?=
- =?utf-8?B?YkhDQVdobC9QRHJwQThEVUZMc05oLzdrK2drNTUzQ21QREw3R1pDTVMzLzk1?=
- =?utf-8?B?djV1aUFhTEFxOFdXYUN1dTl4c0NzQWQwWVVBNzVvMVpWL3hldExpaHNybFZq?=
- =?utf-8?B?Z1VMZVB1OHpRYXF1Q1cxeGFKVGc1SVdCbklTZzZnM1BpOCtDaFp1dE1BdWlK?=
- =?utf-8?B?MkVsRy9wWWY0Uk5ucVYzSWQ4WXJDNjhZNTVMbmNCUXpxd2gxNTdZZ3VaWG45?=
- =?utf-8?B?eXAyZU8xTlVCQnJLZEVBcS9tNkdEODJLUFk2aGJYbDJoV3IxSGtVd2VpblpD?=
- =?utf-8?B?bC9vbmY1clFUN0VxcVZueWRsYVVPalRSRGUrNFM3VENzeEgwQ1F5YjZxUXJX?=
- =?utf-8?B?aWZydHhYTC9KbklsSHg0b2poS0lLWndyd0kwMzJuTFN5WXNINXpzMjhSbHVL?=
- =?utf-8?B?Ry83Y2I3Q2lMd28zT2VuQ3p0ODZDZldxRjZjZEFwU0RXTlF0aVNvcjMzR21q?=
- =?utf-8?B?MDd3OVN2UmNWNzZzamlVdnRQNk4zQTBSMlZNOUgrZ1VtQVRHSWhUR1NNbWFV?=
- =?utf-8?B?SVcyZ0ZjTXNSeFVyRkpFMzM4NUhyRWtQd2lsdFpqa09uMWhSTlNxRnZGMHlO?=
- =?utf-8?B?YkRQMlRLMWtjSkZNSTlBMzBXS0E0UTA3enhoQitOazhvdXZFUXhVZG9seUlW?=
- =?utf-8?B?Y1pON2Rla3VOcHN6MmJDbS9Cekh4T3FiNXhOdHVuZjJMdzVEUHlzUytYeTcx?=
- =?utf-8?B?eXI0OTdnNERxK2ZFY2NvSnhiYWJPT1BPQjYwZERUb0lsSkFITkp0UWgxNDE0?=
- =?utf-8?B?RnNIOTVJSERMTG9FQ3orbG5tNmp1M3VWVURvci9mWFVlcFJOZWFQb2hEMVE2?=
- =?utf-8?B?d2ZBdWJ4VjlXTHVDSDByYnM1YUliMFdwVDBXMFdjQUZtTWxEOE9aOHhDNTBU?=
- =?utf-8?B?TTBYb2xyOTF2QVR5Z3BLbFNuMFNrSk45ZjlIaHBYaDNuQ25rRmVhT2JRQ045?=
- =?utf-8?B?dW1LV1BnSFZNME1zRTgvejdsOHVJZjZ4YXMydzExZ0VQMkJpMzFpY041RGcy?=
- =?utf-8?B?UUtXLzNHTzlzckh6cC95U1ZodkhMVXpNWG41d2VXRkZ0TVJ2a0xKMjgyRFpy?=
- =?utf-8?B?azhvNkt3WVgvdS9uOWhjVXBmUVBjaU9GS1BXd09Da09ReEhyZzB0ZEFSWldQ?=
- =?utf-8?B?YWlFM0IrZDNLK0IrcytwaytuWUV1THhuUVQ2SWs3NFhNTjMwRXJlblAvQlli?=
- =?utf-8?B?eEtYcVJDREhrRHRQbjRidCtKV2JVWkpBcmkvc0ZFQ3NkMlIzWERyanA1dmJ1?=
- =?utf-8?B?WjJKY1d1emdyRzVNV1pUVzRuTWFQdGxuOUhwMzdZRTJWMCtUZWd1cG01NGgz?=
- =?utf-8?B?ZktpWktYc0xyR1dhUXFEMDIybEhIaDhSWWRaRVJtQXFYcmw0TFk4MWJNWU04?=
- =?utf-8?B?U1JIODdTa2JHMkpiSzEzaE1WVVRZalJwVXc5V01sUW5NQzJkbEp1QXppZVBv?=
- =?utf-8?B?RzVRbzJkTU5vS2JNQVZGc1FHY2hVT2pDbE95ZUhMaFhqbytQSnJlNGttWmpU?=
- =?utf-8?B?NTBQMTMrWmUwbHJCZjF4U1NNM3RLVEFSa1RIS1BKVStFRTVXN1RSSTN5eGtB?=
- =?utf-8?B?RjBxS1VoUXJndVRGRm1uSS9lSWVaQkxncVBPaHBuOTZvMW1rTEZJeExTTG5D?=
- =?utf-8?B?WG5HYlVWSCs5MWNwRk9raC9kc2tVNDloSU5mdzl1ZXNmSi80SW92RWRtMlha?=
- =?utf-8?B?Z21FcUtXNWhpV2VzV3BveGhiZXI5bDF5T2JXa1VRZDE3WEpINkZISW9IT21O?=
- =?utf-8?Q?ZtgPhIMND1d2T4c1g8?=
+	=?utf-8?B?K2wxWHlpYVBYVWNXOHpnNlNDd0IwWFVnbGM4b210bHFOTDJVR3ZnN2dMMGJ2?=
+ =?utf-8?B?WjM3VEN2Rm92U3lRZUdoLzBSOEpHaDJ3SGRENllwazMwZ21jTW81Z2s2aTZB?=
+ =?utf-8?B?OERzVS9TT3N1V0p5U2hXOG4rTDFHWllTK1NvaFFaMlFaS2UxeElNRjJPaUF3?=
+ =?utf-8?B?UEJ1TXM4RXdhdHNzSDRVeE5sU09qUkdNM2psQ1puUldPODd4b0V1Y3lnU09C?=
+ =?utf-8?B?UVViNXBPNG5DV1lLTkFkRVFuaWdqeStubDNSZVJBcHBMYkVVME5VbE1HV3Nr?=
+ =?utf-8?B?dk9yUDZLbVFTSWUrYjVyaGJjOXVyTE5LbTc5T05JUU1WNGdrNVY1YUNNLzlm?=
+ =?utf-8?B?VkxtU2w2c1c5cVVSRmo5U0ZrNzNCL0RLZVUvMWRMUlcrMzkxRkxuT0tUa1hR?=
+ =?utf-8?B?Mjk5RU9mT3FxMk9DRU1obHlpVzd1YnpTUFl5S3JoQmNlaU1VQUtjRThpMjln?=
+ =?utf-8?B?M2RsbXRsUXkrcjlxYkJWb1ZyMzBDWE9yUXFydTVsb01TNjBVdi9VL2c0Skg1?=
+ =?utf-8?B?d3lTd0ZraGNuMi9IWEwvMktXT0lPRUUzalhEV0xHSjBCc0tsQjZTditMZDRV?=
+ =?utf-8?B?YXk0TCtiQmhjbmlud3c1WEpqbVFEQlZNVHNScFlKUmdycWlPVStFU3gyVlBm?=
+ =?utf-8?B?SnJpLzBZUmFGTnluQkpEdEVlZU1VbVJNZ1dBLzBDRE1iY2xhMUpVWW42RDJM?=
+ =?utf-8?B?SmsvQzQ1bUJOSmFDMXlZb0xvU1ltUGRHZUpqaGNKMUZoeERHeG9MK0UwTE1u?=
+ =?utf-8?B?dkVKQUVKckw3ZEt2V2V2cy9hTWlVUnZBUTVoZ1VRR2RkblVvaUpEcVU2eXRY?=
+ =?utf-8?B?MjRlbUg5V3o5a1YvVVFjdWhidWgxenZzWXBpdlZVbXpaK1VtZEJBK2JvZWZ1?=
+ =?utf-8?B?N3JoSDIyNUNaQ3d1RWV0cm9WUE11dUhFc2RDU0xmcnp4dDlsOUxkc0VKMGwy?=
+ =?utf-8?B?V0lYNFdaTjErSE92S2hxZ0dsdGxmSTRLZjlRZVN3R2RkVUhmVEF6a0RZR3VH?=
+ =?utf-8?B?QWRtWmRwN25vSzYwSm0rZGZDc3l3NFdHbHlUVWticUZFNlZaUFNpcDVrUXFN?=
+ =?utf-8?B?eVJSbEhFQWcrbnRFRnVNQlE2RHUvenNtYStQSnlwWEFwTEtuUWlONHJkZjVj?=
+ =?utf-8?B?d1BNczNnbWk0dGNhbnJuWnpQZ3FIUVlRZmtBL3VjSFc5NVkvV01PbFR3Rk1Z?=
+ =?utf-8?B?eTlIK2pFcmc0TndSQXFkdG1XYnROVmlnYjA4TElaRUNWME1adXh1c1dPaGpB?=
+ =?utf-8?B?SGUvRGtrK3ZWOG5ZUmFoWHFhTWdTTklVY1JsdHhnTXloUDNEMnhzeHhQOEJB?=
+ =?utf-8?B?Z0p5L1E4elo4VzArWEJpdnpjZGgrdXdMSk53bU1sYnh3d1BOeFNHUjVVdFVP?=
+ =?utf-8?B?TWJ0QTl4Wkw4OE9CVjBmQ2tKNGk1OTRtZ1JoSGNYemRnQzgzQXVDL25uZHhB?=
+ =?utf-8?B?emdIWGk4T1JNb1F5ZTl3WUlweHN3TFZjSnVCbEMvMEY2a3VEUlBWOE1TWHVW?=
+ =?utf-8?B?OFRuNFNJZ2xPbytLaXFoNUhXWWE2OGdLK0l6YlBzam9UUUN3ZGg0WEp0ZVVn?=
+ =?utf-8?B?RFJCV214S29lQXp2cSt0Y1NQMjlDbkVPM2VmQnJhQVBoaWp2VXR3YUtrckk5?=
+ =?utf-8?B?czdBSURUYWlDVS9TWDN5bDRRL2l6bE1JMVVqYWM1MXZoVjFSYmJGM2kxQkZB?=
+ =?utf-8?B?WUtzOXdieCs5Ym5sSlExdlZXajhXK01kdEhTdm5wNWN5UXYwWnBBTmw2U3Jj?=
+ =?utf-8?B?WjYzVytJOFBDbHFhM3p3MS83OHNkK3RjRXpXeWI4TXlua3V1bXQxQUFPV0po?=
+ =?utf-8?B?MEVQL2ZJN3pkU29LdkRYSEFYMkRZMWxrdmRtdHA1MTkxQWpjSVFOaktuNjBD?=
+ =?utf-8?B?bEVFV0R4V3BkalRDU0xKaU1tUGFPTFRNdDlJN2FvdmRvbkRzbTltekVaMVZI?=
+ =?utf-8?B?NEl0MnFPekNzakxhSkdNaXlRcHVuUm9ZeFRORU80ZU5xTTVFbFhRNXhZeC9i?=
+ =?utf-8?B?MTYzUkJxZzU3U2dxNURNK0x1TzNpMUZqTGNRL3JVdjNTU0FveGhSUy9EaDUw?=
+ =?utf-8?B?RHA4c2IyZkhXZEVkWlJyUkg5Q0dhMzBsZXI5dWZqV3hJU0xBd2p5V2JRT1Y0?=
+ =?utf-8?B?NHRFVFF2ZVU3SzN2SHFkb3c1RlZ4QTV0ZUg1blFhalRTS1MxdW9yK2VXR2Na?=
+ =?utf-8?B?VDRhcWppaGRpb3VXSFZXa1pHVC9vdXhNakJuSVVHZEtsVjVxQjBCZVl3M0hX?=
+ =?utf-8?B?bWEyaDVub3gwVlFOemk2MmpYMWprSmQ5REg5Ykx6TXZ3VU5nVjJCQ1dUUE1Q?=
+ =?utf-8?Q?1lU1WizCOZ1mOCFfqe?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47b9b0ca-7c52-4559-0dbd-08df3fd496c2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c44a99e-61e5-4eab-f4ba-08df3fdaaadb
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8147.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 09:17:20.6313
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 10:00:51.5380
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vHLEhe1VTW4Z6nV51ZNpRMye8H5JYpZKBmU0seO5C6lq3Pw/wfN/ad3bvn7jysGt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4338
+X-MS-Exchange-CrossTenant-UserPrincipalName: EOvcZSjUS8K4UA9558b0YjhpIH+TpoNOXyumLsjADGEvhLru41mHPBrg8ZhPb3Xb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6143
 
 Hi,
 
@@ -183,288 +183,281 @@ On 10/20/2026 5:28 PM, netdev-bot+sashiko@kernel.org wrote:
 > know by including "pw-bot: cr" as a separate line at the end of your reply
 > (one such reply per series is enough).
 >
-> - [Critical] RX buffers are freed and unmapped while the MCDMA engine
->    still owns them, so incoming DMA lands in freed memory.
-> - [High] The RX path cannot deliver any frame on the in-tree Xilinx AXI
->    MCDMA provider.
-> - [Medium] After an MCDMA RX channel error, RX on that queue stops
->    permanently while the interface stays up.
-> - [Medium] A partially armed RX batch can hold received frames for an
->    unbounded time under sparse traffic.
-> - [Low] ep_rx_refill() decides whether 'at least one descriptor is armed'
->    by testing ring_head != READ_ONCE(ring_tail) after…
+> - [Critical] Use-after-free in ep_start_xmit()
+>    (drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c).
+> - [High] Shutdown race: the closing flag does not stop a TX completion
+>    that is already running from waking a queue after ep_stop() has called…
+> - [Medium] The TX path cannot recover from an MCDMA channel error.
+> - [Medium] TX flow control counts frames, but the DMA engine runs out of
+>    segments.
+> - [Low] The patch now produces software TX timestamps (skb_tx_timestamp()
+>    in ep_start_xmit), but ep_ethtool_ops (line 515) only has .get_drvinfo…
 >
 > --
 >
-> net: xilinx: tsn: add the endpoint RX data path
+> net: xilinx: tsn: add the endpoint TX data path
 >
-> This commit posts RX buffers to every MCDMA RX channel on open. It reaps
-> them from the dmaengine completion callback and passes MAC1/MAC2 frames up
-> the stack with __netif_rx(). Refill runs from the completion callback, with
-> a retry timer for a drained ring and a closing flag plus a per-channel lock
-> to serialise refill against teardown.
+> This adds the transmit path to the Xilinx TSN endpoint driver. Each frame
+> is mapped into a scatterlist and submitted to the DMA channel in
+> tx_chans[] for the frame's logical queue. The queue is stopped when the
+> ring fills and woken from the DMA completion callback.
 >
 >> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
->> index ab3d6d8cb9440..0a13e04d40575 100644
+>> index 0a13e04d40575..bd8cd504cefb4 100644
 >> --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 >> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
 > [ ... ]
 >
->> @@ -112,6 +135,181 @@ ep_get_desc(struct xlnx_tsn_ep_dma_chan *xchan, int idx)
+>> @@ -310,8 +314,150 @@ static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
+>>   	ep_rx_refill(xchan, true);
+>>   }
+>>   
+>> +static void ep_dma_tx_cb(void *data, const struct dmaengine_result *result)
+>> +{
 > [ ... ]
 >
->> +static bool ep_rx_refill(struct xlnx_tsn_ep_dma_chan *xchan, bool arm_timer)
->> +{
->> +	int avail, i;
+>> +	ndev = skb->dev;
+>> +	txq = netdev_get_tx_queue(ndev, skb_get_queue_mapping(skb));
+>> +	len = skb->len;
 >> +
->> +	scoped_guard(spinlock_bh, &xchan->rx_lock) {
->> +		if (READ_ONCE(xchan->ep->closing))
->> +			return false;
->> +
->> +		avail = CIRC_SPACE(xchan->ring_head, READ_ONCE(xchan->ring_tail),
->> +				   xchan->ring_size);
->> +		for (i = 0; i < avail; i++) {
->> +			if (ep_rx_submit_desc(xchan))
->> +				break;
->> +		}
->> +		dma_async_issue_pending(xchan->chan);
-> [Severity: Critical]
-> Can this give RX buffers back to the allocator while the MCDMA engine still
-> owns them?
->
-> On open, this loop posts CIRC_SPACE(0, 0, 128) = 127 descriptors in one
-> batch. xilinx_mcdma_start_transfer() only reprograms the IRQ coalescing
-> threshold when the batch is small enough:
->
-> drivers/dma/xilinx/xilinx_dma.c:xilinx_mcdma_start_transfer() {
->      ...
-> 	if (chan->desc_pendingcount <= XILINX_MCDMA_COALESCE_MAX) {
-> 		reg &= ~XILINX_MCDMA_COALESCE_MASK;
-> 		reg |= chan->desc_pendingcount <<
-> 			XILINX_MCDMA_COALESCE_SHIFT;
-> 	}
->      ...
-> }
->
-> XILINX_MCDMA_COALESCE_MAX is 24. With 127 pending, the threshold keeps its
-> previous or reset value, which is well below 127.
->
-> When the first IOC fires, xilinx_mcdma_irq_handler() calls
-> xilinx_dma_complete_descriptor(). That function only checks per-BD
-> completion for AXIDMA:
->
-> drivers/dma/xilinx/xilinx_dma.c:xilinx_dma_complete_descriptor() {
->      ...
-> 	list_for_each_entry_safe(desc, next, &chan->active_list, node) {
-> 		if (chan->xdev->dma_config->dmatype == XDMA_TYPE_AXIDMA) {
-> 			...
-> 			if (!(seg->hw.status & XILINX_DMA_BD_COMP_MASK) && chan->has_sg)
-> 				break;
-> 		}
-> 		...
-> 		list_add_tail(&desc->node, &chan->done_list);
-> 	}
-> }
->
-> For MCDMA, every active descriptor goes to done_list, and the tasklet runs
-> ep_dma_rx_cb() for each of them. For every BD the hardware has not filled
-> yet, ep_dma_rx_cb() unconditionally calls dma_unmap_single() and then frees
-> the skb.
->
-> The S2MM engine's CURDESC..TAILDESC chain still points at those BDs and
-> buffer addresses. Would the next received frames then be written into
-> freed skb memory?
->
-> The descriptor segments are also recycled, and the next refill rewrites
-> them while the engine is running. active_list is empty by then, so
-> xilinx_mcdma_start_transfer() also rewrites CDESC on a channel that already
-> has RUNSTOP set:
->
-> 	if (chan->has_sg && list_empty(&chan->active_list))
-> 		xilinx_write(chan, XILINX_MCDMA_CHAN_CDESC_OFFSET(chan->tdest),
-> 			     head_desc->async_tx.phys);
->
-> The same thing looks possible in steady state, whenever a small refill
-> sets the threshold to 1 while other descriptors are still active.
->
-> The commit message says dmaengine "delivers one descriptor per callback".
-> That assumes per-BD completion, and this provider doesn't appear to
-> provide it for MCDMA.
->
+>> +	if (unlikely(result->result != DMA_TRANS_NOERROR)) {
+>> +		DEV_STATS_INC(ndev, tx_errors);
+>> +		dev_kfree_skb_any(skb);
 > [Severity: Medium]
-> Could a partially armed batch hold received frames for an unbounded time
-> when traffic is sparse?
-I agree with this scenario. We will address it in a separate MCDMA
-dmaengine series by adding IRQ delay support and processing completed
-descriptors on delay interrupts as well as IOC interrupts, while
-retaining the per BD completion check.
->
-> This loop can post between 2 and 24 descriptors in one call. That happens
-> if dev_alloc_skb() fails partway through, or if a callback refills several
-> slots at once. xilinx_mcdma_start_transfer() then sets the coalescing
-> threshold to that count, and no IOC is raised until that many frames have
-> arrived.
->
-> xilinx_mcdma_irq_handler() only logs the delay interrupt and reaps nothing:
->
-> 	if (status & XILINX_MCDMA_IRQ_DELAY_MASK) {
-> 		...
-> 		dev_dbg(chan->dev, "Inter-packet latency too long\n");
-> 	}
->
-> No delay timer appears to be programmed for MCDMA. ep_rx_refill() returns
-> true because the ring is non-empty, so the refill timer isn't armed either.
->
-> Would low-rate traffic such as ARP, PTP or control frames sit in host
-> memory until enough further frames arrive, or indefinitely if traffic
-> stops?
->
->> +
->> +		if (xchan->ring_head != READ_ONCE(xchan->ring_tail))
->> +			return true;
-> [Severity: Medium]
-> What recovers this RX queue after an MCDMA channel error?
->
-> On XILINX_MCDMA_IRQ_ERR_MASK, xilinx_mcdma_irq_handler() sets
-> chan->err = true. An error-only interrupt completes no descriptor, because
-> completion only happens under XILINX_MCDMA_IRQ_IOC_MASK. So no
-> ep_dma_rx_cb() runs, and xilinx_mcdma_start_transfer() returns early while
-> chan->err is set.
->
-> The outstanding descriptors keep ring_head != ring_tail here. The refill
-> timer is never armed and nothing new is submitted. The only automatic
-> reset is in xilinx_dma_tx_submit():
->
-> 	if (chan->err) {
-> 		...
-> 		err = xilinx_dma_chan_reset(chan);
->
-> That reset needs a new submit, and none ever happens.
->
-> Does the queue then stay halted until ifdown/ifup, with the interface up
-> and no driver-level counter showing the problem?
-I agree that the error only interrupt path can leave RX halted
-without invoking an endpoint callback. IRQ delay support alone
-does not resolve this issue. We will address the error notification
-and recovery path separately in the MCDMA dmaengine series, taking
-into account that an MCDMA reset affects the whole core.
+> How does the TX path recover if the MCDMA channel reports an error?
+   I agree with the scenario. The MCDMA provider sets chan->err on an
+   error interrupt but does not report it to the client, and it resets
+   the channel only on a new submission. If the TX queue is stopped when
+   the error arrives, nothing triggers that reset and TX stays stalled.
 
-Both issues will be addressed in the separate provider series,
-rather than in this endpoint series.
+   As in my reply on patch 6, we will address MCDMA error notification
+   and recovery in a separate MCDMA dmaengine series. Since an MCDMA reset
+   affects the whole core, recovery has to cover both the TX and RX
+   channels, so it is not handled as a TX-only change in this series
+
+>
+> In drivers/dma/xilinx/xilinx_dma.c, xilinx_mcdma_irq_handler() sets
+> chan->err on an error. After that, xilinx_mcdma_start_transfer() stops
+> handing BDs to the hardware:
+>
+> xilinx_mcdma_start_transfer() {
+>      ...
+> 	if (chan->err)
+> 		return;
+>      ...
+> }
+>
+> The flag is only cleared by xilinx_dma_chan_reset(). That runs from
+> xilinx_dma_tx_submit() on the next submit, or from terminate.
+>
+> Suppose the error arrives while the TX queue is stopped, either by
+> netif_txq_maybe_stop() or by BQL through netdev_tx_sent_queue(). Then
+> ep_start_xmit() is never called again. No reset happens, ring_tail never
+> advances and __netif_txq_completed_wake() never runs. The queue stays
+> stopped until ifdown/ifup.
+>
+> ep_netdev_ops has no .ndo_tx_timeout either. So the watchdog never
+> terminates the channel or resets ring_head/ring_tail and the BQL state.
+>
+> A related point: xilinx_dma_complete_descriptor() checks per-BD
+> completion only for XDMA_TYPE_AXIDMA. Can descriptors abandoned across a
+> submit-triggered reset later complete here as DMA_TRANS_NOERROR and be
+> counted as tx_packets?
+>
+> This looks unchanged at the end of the series.
+>
+>> +	} else {
+>> +		DEV_STATS_INC(ndev, tx_packets);
+>> +		DEV_STATS_ADD(ndev, tx_bytes, len);
+>> +		dev_consume_skb_any(skb);
+>> +	}
+>> +
+>> +	__netif_txq_completed_wake(txq, 1, len,
+>> +				   CIRC_SPACE(READ_ONCE(xchan->ring_head),
+>> +					      READ_ONCE(xchan->ring_tail),
+>> +					      xchan->ring_size), 2,
+>> +				   READ_ONCE(xchan->ep->closing));
+> [Severity: High]
+> Does the closing flag really prevent a wake after ep_stop() has disabled
+> the queues?
+>
+> __netif_txq_completed_wake() checks netif_tx_queue_stopped(txq), then
+> checks !closing, then calls netif_tx_wake_queue(). None of these steps
+> is serialised against ep_stop():
+>
+> CPU A (TX completion)               CPU B (ep_stop)
+> __netif_txq_completed_wake()
+>    queue stopped, closing == false
+>                                      WRITE_ONCE(ep->closing, true);
+>                                      netif_tx_disable(ndev);
+>    netif_tx_wake_queue(txq)
+>                                      ep_exit_dmaengine(ep);
+>                                        frees TX channels
+>                                        ep->tx_chans = NULL
+>
+> netif_tx_disable() takes and drops each txq lock, then returns. It does
+> not wait for a completion that has already passed the closing check.
+>
+> The qdisc path is covered by dev_deactivate_many(). generic_xdp_tx() is
+> not: it only checks netif_xmit_frozen_or_drv_stopped(txq) under
+> HARD_TX_LOCK.
+>
+> It can be reached through xdp_do_generic_redirect(). xdp_ok_fwd_dev()
+> checks only IFF_UP, which is cleared after ndo_stop returns. It can also
+> be reached through generic XDP_TX on this device's own RX, whose
+> channels are freed after the TX channels.
+>
+> Could ep_start_xmit() then dereference a NULL ep->tx_chans or a freed
+> xchan on the re-woken queue?
+>
+> The v3 changelog says the patch will "Skip the queue wake in the
+> completion callback while closing". A lockless flag test doesn't seem
+> to give that guarantee. This also looks unchanged at the end of the
+> series.
+>
+>> +}
+>> +
+>>   static netdev_tx_t ep_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+>>   {
+> [ ... ]
+>
+>> +	nents = dma_map_sg(xchan->dma_dev, skbuf_dma->sgl, sg_len, DMA_TO_DEVICE);
+>> +	if (!nents)
+>> +		goto err_drop_skb;
+>> +
+>> +	dma_tx_desc = dmaengine_prep_slave_sg(xchan->chan, skbuf_dma->sgl,
+>> +					      nents, DMA_MEM_TO_DEV,
+>> +					      DMA_PREP_INTERRUPT);
+>> +	if (!dma_tx_desc)
+>> +		goto err_unmap_sg;
+> [Severity: Medium]
+> Can this path drop frames under load once the DMA segment pool runs out?
+  I agree the TX ring counts frames while the provider's per-channel
+  segment pool (XILINX_DMA_NUM_DESCS, 512) counts scatterlist entries, so
+  in theory the pool can be exhausted first.
+
+  In practice this needs the up to 62 in-flight frames to average more
+  than 8 scatterlist entries each, while typical frames at the endpoint
+  MTU use one to three. If it does happen, prep fails and the frame is
+  dropped and counted in tx_dropped. The queue does not stall, no buffer
+  is leaked, and transmission continues as completions return segments.
+
+  Since this needs unusually fragmented traffic and the only effect is a
+  counted drop, I would prefer to keep the current behavior for now.
 
 Thanks
 Srinivas Neeli
+> With ndev->features = NETIF_F_SG, one skb can need up to
+> MAX_SKB_FRAGS + 1 scatterlist entries. xilinx_mcdma_prep_slave_sg()
+> takes at least one segment per entry. The segments come from a fixed
+> per-channel pool of XILINX_DMA_NUM_DESCS (512):
 >
->> +
->> +		if (arm_timer)
->> +			mod_timer(&xchan->rx_refill_timer,
->> +				  jiffies + EP_RX_REFILL_RETRY);
->> +	}
->> +
->> +	return false;
->> +}
-> [ ... ]
->
->> +static void ep_dma_rx_cb(void *data, const struct dmaengine_result *result)
->> +{
-> [ ... ]
->
->> +	metadata = dmaengine_desc_get_metadata_ptr(skbuf_dma->desc,
->> +						   &meta_len,
->> +						   &meta_max_len);
->> +	if (IS_ERR_OR_NULL(metadata)) {
->> +		if (net_ratelimit())
->> +			dev_warn(ep->dev, "Failed to get RX metadata pointer\n");
->> +
->> +		dev_kfree_skb_any(skb);
->> +		DEV_STATS_INC(ndev, rx_dropped);
->> +		DEV_STATS_INC(ndev, rx_errors);
->> +		goto submit_new;
->> +	}
->> +
->> +	/* MCDMA metadata: [0] = status, [1] = sideband (TID/TDEST/TUSER), [2..] = app */
->> +	tuser = metadata[1] & TSN_TUSER_MASK;
-> [Severity: High]
-> Can any frame reach __netif_rx() with the in-tree MCDMA provider?
->
-> For XDMA_TYPE_AXIMCDMA, xilinx_dma_probe() installs
-> xilinx_mcdma_prep_slave_sg(), and that function never sets
-> async_tx.metadata_ops. DESC_METADATA_ENGINE is only set when
-> has_axistream_connected is true, and that flag is only read for AXIDMA:
->
-> drivers/dma/xilinx/xilinx_dma.c:xilinx_dma_probe() {
+> xilinx_mcdma_prep_slave_sg() {
 >      ...
-> 	if (xdev->dma_config->dmatype == XDMA_TYPE_AXIDMA) {
-> 		xdev->has_axistream_connected =
-> 			of_property_read_bool(node, "xlnx,axistream-connected");
-> 	}
->      ...
-> 	if (xdev->has_axistream_connected)
-> 		xdev->common.desc_metadata_modes = DESC_METADATA_ENGINE;
+> 			segment = xilinx_aximcdma_alloc_tx_segment(chan);
+> 			if (!segment)
+> 				goto error;
 >      ...
 > }
 >
-> So dmaengine_desc_get_metadata_ptr() looks like it always returns an
-> ERR_PTR for these descriptors. The error comes either from
-> desc_check_and_set_metadata_mode() or from the NULL metadata_ops check.
+> The driver ring holds TX_BD_NUM_DEFAULT (64) frames. The stop/wake
+> thresholds of 2 count only frame slots.
 >
-> If so, every DMA_TRANS_NOERROR completion is dropped here with "Failed to
-> get RX metadata pointer". ndo_open still succeeds, so the interface comes
-> up with RX dead.
+> Suppose in-flight frames average more than 8 segments each, for example
+> MSG_ZEROCOPY with many small frags. The pool then empties while
+> CIRC_SPACE() still reports room. prep returns NULL and the frame is
+> counted as tx_dropped, instead of the queue being stopped.
 >
-> Wiring up the existing hook wouldn't fix this on its own.
-> xilinx_dma_get_metadata_ptr() casts to the AXIDMA segment type and returns
-> the app words, which start at BD offset 0x20:
+> This looks unchanged at the end of the series.
 >
-> 	seg = list_first_entry(&desc->segments,
-> 			       struct xilinx_axidma_tx_segment, node);
-> 	return seg->hw.app;
+>> +
+>> +	skbuf_dma->skb = skb;
+>> +	skbuf_dma->sg_len = sg_len;
+>> +	dma_tx_desc->callback_param = xchan;
+>> +	dma_tx_desc->callback_result = ep_dma_tx_cb;
+>> +
+>> +	spin_lock_bh(&xchan->tx_lock);
+>> +	cookie = dmaengine_submit(dma_tx_desc);
+>> +	if (dma_submit_error(cookie)) {
+>> +		spin_unlock_bh(&xchan->tx_lock);
+>> +		skbuf_dma->skb = NULL;
+>> +		goto err_unmap_sg;
+>> +	}
+>> +	WRITE_ONCE(xchan->ring_head, xchan->ring_head + 1);
+>> +	netdev_tx_sent_queue(txq, skb->len);
+>> +	netif_txq_maybe_stop(txq,
+>> +			     CIRC_SPACE(xchan->ring_head,
+>> +					READ_ONCE(xchan->ring_tail),
+>> +					xchan->ring_size),
+>> +			     2, 2);
+>> +	spin_unlock_bh(&xchan->tx_lock);
+>> +
+>> +	skb_tx_timestamp(skb);
+>> +	dma_async_issue_pending(xchan->chan);
+> [Severity: Critical]
+> Can the skb already be freed when skb_tx_timestamp() runs here?
 >
-> In struct xilinx_aximcdma_desc_hw, status is at 0x18 and sideband_status
-> (TID/TDEST/TUSER) is at 0x1C. The "[0] = status, [1] = sideband" layout
-> assumed here doesn't match any get_ptr in the tree. metadata[1] would be
-> an app word, and the TUSER port_id filter would act on unrelated bits.
+> Once dmaengine_submit() has returned and tx_lock is dropped,
+> ep_dma_tx_cb() can take skbuf_dma->skb and free it with
+> dev_kfree_skb_any() or dev_consume_skb_any().
 >
-> metadata[1] is also read without checking meta_len.
+> This ordering seems to assume the transfer can't start before
+> dma_async_issue_pending(). However, the Xilinx MCDMA provider starts
+> pending descriptors from its IRQ handler when an earlier transfer
+> finishes:
 >
-> No patch in the series touches drivers/dma/. The same code is still there
-> at the end of the series, in "net: xilinx: tsn: deliver endpoint RX frames
-> to DSA user ports".
+> xilinx_mcdma_irq_handler() {
+>      ...
+> 		if (list_empty(&chan->active_list)) {
+> 			chan->idle = true;
+> 			chan->start_transfer(chan);
+> 		}
+>      ...
+> }
+>
+> xilinx_mcdma_start_transfer() then moves the whole pending list onto the
+> hardware:
+>
+> 	list_splice_tail_init(&chan->pending_list, &chan->active_list);
+>
+> So with an earlier frame in flight on the same channel:
+>
+> CPU A (ep_start_xmit)               CPU B
+> dmaengine_submit(frame B)
+> spin_unlock_bh(&xchan->tx_lock)
+>    <delayed by irq/preemption>
+>                                      IRQ for earlier frame
+>                                        start_transfer() starts frame B
+>                                      frame B completes
+>                                      ep_dma_tx_cb() frees frame B
+> skb_tx_timestamp(frame B)
+>
+> skb_tx_timestamp() reads skb->sk, skb->dev and skb_shinfo()->tx_flags.
+> With SOF_TIMESTAMPING_TX_SOFTWARE or a PHY timestamper, it also clones
+> the skb or queues it to the socket error queue.
+>
+> The skb_tx_timestamp() kernel-doc says it must be called "before TX
+> completion of this packet can trigger. Otherwise the packet could
+> potentially already be freed." The v3 note says the call was placed "at
+> the hardware handoff", but here it runs after the handoff.
+>
+> Would moving skb_tx_timestamp() before dmaengine_submit() avoid this?
+> The later patches in the series don't touch the TX path, so this is
+> still present at the end of the series.
+>
+> [Severity: Low]
+> The driver now generates software TX timestamps. Should ep_ethtool_ops
+> also get a .get_ts_info, such as ethtool_op_get_ts_info()?
+>
+> ep_ethtool_ops only has .get_drvinfo. The default in
+> __ethtool_get_ts_info() reports only SOF_TIMESTAMPING_RX_SOFTWARE |
+> SOF_TIMESTAMPING_SOFTWARE. ethtool_op_get_ts_info() is what adds
+> SOF_TIMESTAMPING_TX_SOFTWARE.
+>
+> As a result, ethtool -T won't list software-transmit for this device.
+> Tools such as linuxptp, which check TSINFO first, will treat it as
+> unsupported.
 >
 > [ ... ]
->
->> @@ -305,9 +523,19 @@ static int ep_init_dmaengine(struct xlnx_tsn_ep *ep)
->>   		rx_allocated++;
->>   	}
->>   
->> +	for (i = 0; i < ep->num_rx_queues; i++) {
->> +		if (!ep_rx_refill(ep->rx_chans[i], false)) {
->> +			dev_err(ep->dev, "RX channel %d: no descriptors armed\n",
->> +				i);
->> +			ret = -ENOMEM;
->> +			goto err_free_chans;
->> +		}
->> +	}
-> [Severity: Low]
-> Can ep_rx_refill() return false here even though a descriptor was armed?
->
-> ep_rx_refill() decides success by testing ring_head !=
-> READ_ONCE(ring_tail) after dma_async_issue_pending(). ep_dma_rx_cb()
-> advances ring_tail outside rx_lock, before it calls ep_rx_refill() and
-> blocks on the lock:
->
-> 	WRITE_ONCE(xchan->ring_tail, xchan->ring_tail + 1);
->
-> The callback runs in the provider tasklet, possibly on another CPU, and
-> spin_lock_bh() only blocks BH locally.
->
-> Suppose only one slot gets armed, because dev_alloc_skb() (GFP_ATOMIC) or
-> prep fails on the second slot. If that frame completes before the
-> head/tail test, head == tail and ep_rx_refill() returns false. ndo_open
-> then fails with -ENOMEM and "no descriptors armed", even though the frame
-> has already gone up through __netif_rx().
->
-> Teardown after that failure looks safe. closing is set before
-> ep_free_dma_chan() takes the lock and shuts down the timer.
 >
 
