@@ -1,86 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794379332;
-	b=GisXD4OtKwM9IoRJFXnVOOKf7NVcjanKSYr1e3zzQAPWIwK1WpUSbiQP2DjqUNwm9Fhe
-	 wF0RlL0wT1jP9uWqIsf5BfFjLazLKqbQIBEGJmuP4yfiwNPbcuP+Kvg97pW8jn4eVK+ud
-	 kNJJO1W1LuJb6Lkp8NbgZAxPQN2Hfm/PcdBxF20qNMGkoshlgsaEXPRUJGnIzjFRuo2EN
-	 kRSUQdXWRU8WhWDsD+Awly8jEv/KCzjsf9EeaSzXrmSIBayxgan4XCg71EFwp04tZc1l+
-	 Q+q+Detg8HtdOGXhpl1C5mU6Dg7mmvjvdoWwJpsR2u18evOPjKfGGG6/DZuwWIgGUHQ==
+	t=1794380113;
+	b=wdaaLvD3EzhwEmijNrVfOOKEO0IQV+A+CF9WxkyUnYa2t6NGUSFtZUkVKbflu4J6Cgfc
+	 fc6Vjyw3lkx6pbVxwpdwtBU4/mPSFolPuAbQd6gPHcr0WvaZycTpTv8JWrSwTMyACbATf
+	 5AkIXmh4tEoPrKerhxtPWldKIU2MDIMbVVBv8ojmmyFOplZx/9KFTveGtvwndUG2w55SC
+	 u3aNxVzP/bwlWFNhJhASiQKaxs6Im2rQAOQxbUNfrmxYHBieGgKJqDoporq61gcM9VThn
+	 TVnBzvkT3sWx6Y5Yw+qvZJPSrIurTpnEZdk5SRdRbeLaTJCbardRml2RZ3pv7myS07A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794379332;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=BqfUoDsUtJ55CvSWG39o66A+cikDrDRqEoXCzLkhX/E=;
-	b=zBEuFb/PpN5J1Hh6897G34jNEQoTekhvc5DGRnc5XdZR2n9qZVpeE/bEpyjcmap5MJz/
-	 +uU/kx/4gaDSQo6EWDVk0aPcL0owxJHEiXf4nZVlqS+zOnfPgmyLsmLfQT4iGaLs3P1r/
-	 6UhD/4p62S/1w+KvEoS4aNqKAabZGucvweYZR6RRBF7MmyHWmQInUoz+H/xFg9KfFeXzW
-	 4OZY47GeeD8sdB0oJpbuTCRw/+apYTLFrK0+YRI5PiTEfOE1eVWmn8OBeTbKK46I2xvoo
-	 dMQRxZ3diyr04b9T74L8vGKuBEES8oEps39UbSmwwEyZ7U4dPhQ0C0poMiJUEMRPSOg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794380113;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=yk7uCCWqva6Cz5l1wMiNcrGG28MVu58wttnXuq3Zst4=;
+	b=mSup5AiYMrXMfuQA3olJKMiDo4kTpoz49FC62YqkXHryuCPHyM11n7vmhs1m1cTrxtiB
+	 Xo2iH950+hz8Quka0gAwSmC3csdrJOaazi3g6AYU4Cp9yM01eOYE+AMvJmVvBQWqHFwvr
+	 fssOxYvByRLXYh+c9o+AgaF086b/vP/SQi1LaIYC2K+2em+8rL/9Z+l+CCl2uzVJ885XR
+	 tPxoAuaTaXqE3o01OBPm8d8tNE/24RfHxx5yc7ApFPCGLuDq/7EaYRyXxMHdykEyKFE6+
+	 mFXCEtdNgVeFHtBMpClEo67YKnPqC04Btzzt+LqfZh0gxVsXn3gNl5lEIu2O7nxoKww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NyQk0TRk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Q8ytxZJl;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7B760A2607;
-	Wed, 11 Nov 2026 06:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E6606A321
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 06:55:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F1E6606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NyQk0TRk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6138B1F00A0A;
-	Wed, 11 Nov 2026 06:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794379332;
-	bh=BqfUoDsUtJ55CvSWG39o66A+cikDrDRqEoXCzLkhX/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NyQk0TRkenFuaqwPAWagIphVBTiAsW2u5+fvVLCiAuFUzNGApWcgXnNqcphrXL9MG
-	 5PoxztFckKqVa2SYUm9QU6fRxI6lwTg+7Bz4pqEY+l+CJl7TrGJtFblPpmAWzUen0Y
-	 V8VUo/K1gFtD35waZ3gCfKv/eB83lR/R6WYDoDhoonlWw8xgMs217hN2YQUwkbqsDi
-	 K/aWZ+cKn8Eqb+Oi5frhHoMYh+qFp7yKQfMLo52/9H3x+fATkjJavQHgRCc20Zpq0x
-	 nV8Akp4XZqCZ9aBWbyB+twTjtkTsKLO9HxmPPRpOeIhbGBfBLkgIrEr6AEU7dnHth1
-	 0JsWUi+GuiGEg==
-Date: Wed, 11 Nov 2026 07:38:57 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 10/10] kconfig: Introduce OVERLAY= for make checkconfig
-Message-ID: <avQNgXSWhODyc5Fc@derry.ads.avm.de>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-11-darwi@linutronix.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Q8ytxZJl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794380111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yk7uCCWqva6Cz5l1wMiNcrGG28MVu58wttnXuq3Zst4=;
+	b=Q8ytxZJliyqx8KAEE2UjXU77OB1fQ2bn4K+A3H/cyLxscxslyCOgRauNIYUZGQUN5nPCcG
+	FQs/uKXQVjt9oa42NFXtbza+DJTi0eRdcMdGJUCoUPtwYgLhAsbx5//Pn/MaaxjhsuuAax
+	b+SW2oVBqMPUuiy3f2dpBxDgyCWjTzU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-639-nOjyqXQ9PmOPyEMXSUfUsQ-1; Wed, 11 Nov 2026 01:55:09 -0500
+X-MC-Unique: nOjyqXQ9PmOPyEMXSUfUsQ-1
+X-Mimecast-MFC-AGG-ID: nOjyqXQ9PmOPyEMXSUfUsQ_1794380108
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4ba078f26f4so7071055e9.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Nov 2026 22:55:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794380108; x=1794984908;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yk7uCCWqva6Cz5l1wMiNcrGG28MVu58wttnXuq3Zst4=;
+        b=UVWkZCo2CViDPEteD7BTWCeWUws6hmXFeSV4u+VT7diD2gRpWhyW4Oo6xbNpIK35KA
+         Wkb8T0L39am/Dv9wTX13vTG0QuKobiVJeoBud48pzfGvcW8UR+xi3y4bTTzYyY83wMw+
+         nGvQgBwSCNxnuCTd/G2ymmo3VC5QFOrsu7OhvKPQs7WGR2h/mfWO7+ePbzUyNHY1xRD+
+         kYZfIvvHOmkX4qCFKm38wITdDdwmbnFL2uvIJvtBd6EHbbGfghCPlKEM5VjRc6Ea3bOg
+         FRDwFqFoXjju6uzQoPCrDOixpA5JAYywav/xE/SXl0z11FlCLomF4Ko4ZWcR2wqr3lH1
+         IBXA==
+X-Forwarded-Encrypted: i=1; AL+hErEsKJGaTC7XG0lkKJrRaI2OvPm1jyIYa9OM/WRQoBKy0zk5aL4RmJHR8vZI7A60trfqvEUQwNn21EglDywvGQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z90bxtt9bBszW8yzSXGMmUbh5tVyVwGMYCz64j/Yg8cpwbp2edd
+	WigVZ73ZjxgEwEjryciDhA5/HI0PLWxGgEv/ylYNLiXGZHO9OJ4OIhbwebM4CnduqWtXVOCnZJW
+	wrL+qNeV47hySwdDvC1K/fUhcVTUkyjbsnrXAehxIpevORAFDxvq2p+trj8rfX3ZvRwg5
+X-Gm-Gg: AYBFou3UWQpwlKh7dy/3ntJt1aXuOBeEWJeH/f6wNnWcwTdS2Q6qRQsLkfkv3i23Mi+
+	c/QUasRHgrYSrqu+eSXrrO1zTeM2D+fb8p95vuB68fzI/7dqwC+2QrxVOKqdWE7FDL7Tk+tD2iJ
+	5AEhw0jPm4cJTfUbxoC2jVdEr+pT42kQXh7B1aGYbG/vAzh1i+eks0IfRF792chHAZRN1GVlqqS
+	lgGjYTs4MH2CjG/+0EOFA5D0WSpKYzlHS0lv31eZkLPg1evpb0CkVJUC/VIok1qMh30reWXk+ao
+	ksxbYru2s55dhriJqDm5Rk97z/jfiXQuHjX1rq3UMCbjZfJe5xUiksst8CculueAbp2PuclAl6s
+	R457m4dJVKfCasa6tOyLdPz7Oh2aNjUqLzGsAXIZydakJvv7z1kbkANT3NvSYX6L02lOUrDkWYE
+	e1jAM=
+X-Received: by 2002:a05:600c:4f55:b0:4a7:8fe8:130c with SMTP id 5b1f17b1804b1-4ba0938197dmr25954985e9.28.1794380108595;
+        Tue, 10 Nov 2026 22:55:08 -0800 (PST)
+X-Received: by 2002:a05:600c:4f55:b0:4a7:8fe8:130c with SMTP id 5b1f17b1804b1-4ba0938197dmr25954715e9.28.1794380108281;
+        Tue, 10 Nov 2026 22:55:08 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba09517bc7sm24307235e9.3.2026.11.10.22.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 22:55:07 -0800 (PST)
+Date: Wed, 11 Nov 2026 07:55:05 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, parri.andrea@gmail.com,
+	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 12/29] sched/deadline: Reject SCHED_DEADLINE on exited
+ tasks
+Message-ID: <avQRSdb-dRzzsmc4@jlelli-thinkpadt14gen4.remote.csb>
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-13-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -90,89 +115,49 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+In-Reply-To: <20261108185406.1549770-13-mathieu.desnoyers@efficios.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: O1NkB4qhL_DN38khEQu1_sIiwNKvpjzWDdhHbXPjwjo_1794380108
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261106091922.7560-11-darwi@linutronix.de>
 
-On Fri, Nov 06, 2026 at 10:19:22AM +0100, Ahmed S. Darwish wrote:
-> For the kconfig checkconfig target, allow passing a rules overlay file
-> through an OVERLAY= parameter.  This is mostly intended for distribution
-> kernel packaging scripts, CI systems, and board support packages.
+Hello,
+
+On 08/11/26 13:53, Mathieu Desnoyers wrote:
+> From: Juri Lelli <juri.lelli@redhat.com>
 > 
-> Document this parameter at the kernel's administration guide.
+> sched_setattr(SCHED_DEADLINE) on a zombie task succeeds and charges
+> total_bw via sched_dl_overflow(), but the task has already done its
+> final schedule() and will never run again. Nothing releases the reserved
+> bandwidth. Repeating this fills total_bw to the admission cap, after
+> which sched_setattr(SCHED_DEADLINE) and CPU offline fail with -EBUSY.
 > 
-> Note, the detailed overlay semantics are already explained at
-> Documentation/tools/kconfig_checker.rst
+> Reject sched_setattr(SCHED_DEADLINE) on exited tasks with -ESRCH.
 > 
-> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+> A task of the class that exited, switched to another policy, runs
+> switched_from_dl(), which decrements the count of deadline tasks of its
+> cpuset that cgroup_task_dead() decremented already: at 0 with a deadline
+> task left in it, the cpuset is skipped by the next rebuild of the root
+> domains' accounting, and that task's bandwidth with it. Reject that as
+> well. The deadline_bw_test selftest added later in this series has the
+> case, death_zombie_switched: on v7.4-rc1 the switch is accepted, and
+> the one-CPU partition root the zombie ran in admits 9 tasks of 10% after
+> a rebuild, with a task of 30% still in it, where 6 are due.
+> 
+> Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
+> Reported-by: Weiheng Qiu <weihengqiuu@gmail.com>
+> Closes: https://lore.kernel.org/all/3f6e6c87-645b-45fd-8fc6-8da5bc5b82d8@gmail.com/
+> Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-4-dd761fe005b4@redhat.com/
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+> [mathieu: reject a task of the class leaving it too, found by the
+>  Sashiko AI review of the patch]
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 > ---
->  Documentation/admin-guide/README.rst | 7 ++++++-
->  scripts/kconfig/Makefile             | 6 ++++--
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index 77ffe4dcb85b..b62689bcda6b 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -263,7 +263,7 @@ The kconfig build system can validate the generated kernel ``.config``
->  against a selected rules profile. Running ``make checkconfig`` prints
->  usage information and the available profiles::
->  
-> -  Usage: make RULES=<profile> checkconfig
-> +  Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig
->    Available RULES: preempt_rt
->  
->  For example, to validate the current configuration against the PREEMPT_RT
-> @@ -278,6 +278,11 @@ selected rules profile. Each diagnostic includes a severity, such as
->  Apply the reported changes as needed and run ``make checkconfig`` again,
->  against the same rules, until no relevant diagnostics remain.
->  
-> +The ``OVERLAY=`` parameter specifies an overlay file whose rules overrides
-> +the built-in mainline profile selected by ``RULES=``. It is intended for
-> +distributions kernel packaging scripts, CI systems, and board support
-> +packages.
-> +
->  For more information, see Documentation/tools/kconfig_checker.rst
->  
->  Compiling the kernel
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index d67a23730259..faaa8c16ab03 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -126,6 +126,8 @@ testconfig: $(obj)/conf
->  clean-files += tests/.cache
->  
->  checkconfig := $(PYTHON3) -B $(srctree)/tools/kconfig-checker/check.py
-> +checkconfig_overlay = $(if $(OVERLAY),-o "$(OVERLAY)")
-> +
->  list_checkconfig_rules =						\
->  	echo -n >&2 "Available RULES: ";				\
->  	$(checkconfig) list-rules >&2;					\
-> @@ -134,7 +136,7 @@ list_checkconfig_rules =						\
->  PHONY += checkconfig
->  checkconfig:
->  	$(Q)if [ -z "$(RULES)" ]; then					\
-> -		echo >&2 "Usage: make RULES=<profile> checkconfig";	\
-> +		echo >&2 "Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig"; \
->  		$(list_checkconfig_rules);				\
->  		exit 2;							\
->  	fi
-> @@ -143,7 +145,7 @@ checkconfig:
->  		$(list_checkconfig_rules);				\
->  		exit 2;							\
->  	fi
-> -	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)"
-> +	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(checkconfig_overlay)
 
-Please add the optional overlay arguments right here:
+Looks good to me, thanks!
 
-	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(addprefix -o , "$(OVERLAY)")
+Best,
+Juri
 
-<bike-shedding>
-... or let kconfig-policy-checker read the 'OVERLAY' environment
-variable itself.
-</bike-shedding>
-
-
--- 
-Nicolas
