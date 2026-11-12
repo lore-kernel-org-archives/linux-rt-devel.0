@@ -1,107 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.116
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794424785;
-	b=1BsOF55bWtyEL7ZYBswy6OQtZ2iHvmYYMsbYm7JbVX1wWrfK+uLaDNT1uNqlNR7y+oze
-	 rM3/kMdbjI9LdMjHWz88pba/lhMA/Ow1ilTLQerfaBk8QpzHT2NZU2D6Uf3/Zs62UaEEV
-	 Xw6lTwUZHdIVOVeN5ZUeaQGHKA8sn1egVzX757sgbcO590eQFPgHQTH6CDknBQ8dGKmdD
-	 16/EkvfBWaQOM2QC8j7jHg3DrQpuiLVv2hgusj3kJzQIoSdiw7PYiM7crYscG1afzeYCG
-	 iuZEcRinSbfBafTAz4XkdBGNGuD/zE1fh+L6g6sYWi+MX86rUH0xpLqOBUipaZZXFgQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794424785;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ho9Rf2XD48MaQYjFb6vO0dY8OM1AY6Zil4Pvi3jrxeo=;
-	b=Od4nNKEXSYp5Wo/NFiL8tgjZQcPJZuInJmG5gpkwfbDhfjTQbRduVOUgUzJOsPWoqvt8
-	 YenkMrezfCaTFnfK9ZfomvGtzv6mE7j7NhEqDoJ8XsGhAIIeHcPzTNqc0p2Qm2gON3Jx1
-	 WPj0SKW5qa/B4WzssPebDNhBfDrFxtSTB/wuVs/M5yuz9Dua/ofyRArVgE89eyUu+wiSR
-	 DOnhSl+GUSTixKC5QvUpPBDFRBevfsygghH18DYetEvaMIQ7Zi7GzFdW9hvgIMmddzMgV
-	 JKaQAxinzXryQN60aM1DlzwnYXyF1Ydp6ltSNP0v03sjtUGnueUac4e5K0MFnpBt37w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=SAVA7k+O;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.192.116
-Received: from YT5PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11021116.outbound.protection.outlook.com [40.107.192.116])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794452342;
+	b=pQbL0+QEdVyIFcjBlB4u/Evi916K5qv0TuAyHeBYT+8e+8j+uX186QvcQnH3TfO5KYRR
+	 KEm2R+eCDQyLTnsYNbUz8+9pSqT+WErQ0Uk57rkoVVRxysjQveCuGh2jgzoYXJS/jmZxG
+	 Q9iNrYduz3gzdudt4Mp4cBZoylhICy36EutA0e04tLO9vagTJUim4c/EDTHZB26zYwo0l
+	 MiXyS0ymiHMxUu69EDHBGH9iIJoH60rMGKpJ7n+6MsqGuSRhUb4lD6TPGZB3qUaiGXFvE
+	 v8m/fXSXjVTrAZMw9uhdB+EM4c3u66IjkQEW0aQE/17OEpuEOVzbCiq5LyQG3Qx/TQw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794452342;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=OvSQxUXvoz37Xllfghfy1IjhVE1RB1eaqEabCAt8sVA=;
+	b=dlnLmJGSj6C/k7TGjWNN+NcLALE2CrIh6o/D2BILWQ+lNRFP2DZu4QhWaZuqt+LOeJ5m
+	 oAFe/2PU9vj/lSI4WObN1crmOIUyKiOiAXs11NoYhcyzkpHH28bA8vi/Epux5xTeTa37z
+	 QcGDcxpXtoNLZVDfq7RX2dbq4FoAu3lFW+jIe245iVrG5sjuxojNj5hibBnah10mdQalO
+	 OkHSOKqsVQS2oXVm/rF/EThw5k6KVqtuQuTEcqsDRATFZW7uFLDHEgWrBi3eySDOAFh3M
+	 AqcfqMgrqsf8d8EdkX/WjB/lEARm/mJFyrkUzt6HI22J0tT/xt4IDRoOW0nVk4iJCFQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Fs/8clVc";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27543606A331
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 19:19:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27543606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D674F606A31C;
+	Thu, 12 Nov 2026 02:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=SAVA7k+O
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k7w+c31IdFJp7wDkP7w/+kxl47gA5JmeTm/YJxQJn0c5EJwDNs1cdwCKbFtU+fwy4BvwHEn+p9+R+W2kLjRDSxbV0R7TvyXEUQzeyWd44oti1Rv3xpCSyAJwMwRptzPy9qUTxGOgDv+HhiHbbhMMji25ePO4XtUXMyGxXA3HIoOzC7eMcHMQP542ZxhQ9kSZ2B3t+AyU5S2hS0vdny2/kAmYrkKDFHlhtguutJAL2ZFxorNehrhNIxIy8gmjnrga1d4tFQmzy4rixoQp3t/nBLs8aufJS53bNnyw1Z+imMMXay0o95q4UU9CF4x6lbOjaw3CYtQKZaHrjwRzFFrVBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ho9Rf2XD48MaQYjFb6vO0dY8OM1AY6Zil4Pvi3jrxeo=;
- b=swuVLXLGT9n8Vvd46N0WZVSSlHBhFalPhecUYdh6rTq5d4GoOzsFNTtJK6XsBic/CYDSlvYyd2nieB2RkTG5X1svsWpX+q7hWLU0zM/MZQUNUdo1v2s9EIec0deHuxE9bGSVVyEJZ0BJDZ0NHPqSwF+OZsVxC8Bqn7KmNHKfGGjROF0wPSC/dDVpycdqJZnV0zohXShsJGX0uem5qh00fbeBgD2yT2GLjxymvGhq6szs4HHr+pS2WCy9q/FeoVRxRMGR9KkbtyC2ARvkyIDRnG+V2jqcKq370mbPn1OybnaeA/xu8Hr1tMOwcT/6sL0nwh70LDewXngch4RvwmBJbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ho9Rf2XD48MaQYjFb6vO0dY8OM1AY6Zil4Pvi3jrxeo=;
- b=SAVA7k+Ozg8LdS4DHvOt/8wOUXVF7CWTganDQ5MJqdy3TAWalwHNgep2nYp54QW2uSU6bNKmx0Nf1FBXZ40MQS3fDMHP7IfGFvNUPHWsfOrw6MVgeS4A1hmgjDQDksoLqAEEddxDGQLUvliFwrzCDvtvR4uPYfrqAo0iQ3MhdNJL6Buj1s4xojFZiPCIsru+XPAVaujj6ZlBIqZa7CwQa+XKBHcQ62JtuKLsC3f/I3dLHWOSDVuGzC+jivXIkDCDxdd4mai9ubM9A2LPLB4foCY+m7+xiPsM7mVJAt/N9imqsrCVrgpxjT3KwwVgLRtIQsPFqXxDBIFvdH0XrF5Sgg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT2PR01MB6160.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:4e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Wed, 11 Nov
- 2026 19:19:36 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.008; Wed, 11 Nov 2026
- 19:19:36 +0000
-Message-ID: <83b2244c-f68a-4af3-9c8f-0fabb4eacbb4@efficios.com>
-Date: Wed, 11 Nov 2026 14:19:35 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 13/29] sched/deadline: Keep departing bandwidth across
- a root domain rebuild
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>, mingo@redhat.com,
- vincent.guittot@linaro.org, linux-kernel@vger.kernel.org, tglx@kernel.org,
- will@kernel.org, boqun@kernel.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
- tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-14-mathieu.desnoyers@efficios.com>
- <avRmoK08LoIeySBL@jlelli-thinkpadt14gen4.remote.csb>
- <c3e7054a-486c-4e5a-a646-eee42e815ce4@efficios.com>
- <20261111161912.GP1779021@noisy.programming.kicks-ass.net>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <20261111161912.GP1779021@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0056.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::17) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fs/8clVc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0693E1F00A05;
+	Thu, 12 Nov 2026 02:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794452342;
+	bh=OvSQxUXvoz37Xllfghfy1IjhVE1RB1eaqEabCAt8sVA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Fs/8clVcZqko7ldeGcwJNDFqDWofg9kjfst0zEzNw0qXziPS9DSkBeMnMrIra48A7
+	 bK9BAO89OCoi1jCBNnKxpb16dRwn/0d05p4yKedW00icfBykV/PH1OKNPj6ok7yINY
+	 5HWfz5+Fp5gXiyfC4gdsLXugDwZnkGzmW+nsJbaKA3r/GqZr10XckE7tWV44DOGac1
+	 3cMwuyybZeSi7x1YuMDdO8f37TtCpGSaGYrHms2mnf8E1d5wJW/4+sVDFDT7F/e9jv
+	 +IivaL44c5QcQEtg4E1xXI0DStis4br1wuq2/qXDMG9jFh37C20VXlzwdLjavQbqrx
+	 LfTK9QcWxJD0Q==
+Subject: Re: [PATCH v4] libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
+From: netdev-bot+sashiko@kernel.org
+To: haoranwangsec@gmail.com
+Cc: david.laight.linux@gmail.com, bigeasy@linutronix.de,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, rostedt@goodmis.org
+Date: Thu, 12 Nov 2026 02:59:01 +0000
+Message-ID: <179445234141.2199510.13802580450865869960@kernel.org>
+In-Reply-To: <20261110165742.1204-1-haoranwangsec@gmail.com>
+References: <20261110165742.1204-1-haoranwangsec@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -111,110 +63,139 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT2PR01MB6160:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e9399d6-b821-4d2c-e465-08df4028b972
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|22082099003|18002099003|3023799007|4143699003|10067099003|56012099006|261028144727099003|261022105027099003|261026121527099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info:
-	cwljkFthZUZMynTsDn/U2S2zxN/71OZ1N8OBResjFdqycatFWakqOAGRgiGyWQ2dmQLHxrmSisnvOID3J1dv6PTMOk/sJVRUhdKBgjp/YL2ZEy0sy0EOGw93Vjw8lmGUw2qHYjDW/9VE8+YFoj0901ErWGKIe8KXiP/BrtfIH/WXEBcOx+VGvNoeATLVBoQ5Js8MtweLfWVbzvefUohP6I5rOx+eUzyHi54dStiPiK1uTMx8uKmW/NKXD0+3mFWuKY6JHLOEPXf4s3hPmJgqrxk54pR8kV2eh4HyFVHZ9gLscksFGDl/3wvJUt4BS1a+J+NJ2AHPO4eop8fEf5gY14Xn8YmJJ1gDFTrcjX6t8DigsxxYd/VESqHLlqsarUOLtgq7pKno67fT5g12V4j0+yJR+i+6T6/V+/fGQgjooK0DiB+JqeNUA9Z3Kf+3R8D0Q2XDTWXpTmecrTLFQqjSAc7WOI13alfYGQDwt2z64QJfru+rPud3v85YlSTNfGeIoumGoi085TChOJFP27M+trMgEfcvF4LO+R3nGRqDmHtS2iXWjosqCVq7UTr+DqX/M6k7SRd/tmA8jv8vePU8/RjZCloq7KSZzoMAZ7PruZg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(22082099003)(18002099003)(3023799007)(4143699003)(10067099003)(56012099006)(261028144727099003)(261022105027099003)(261026121527099003)(261026140227099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YzlIMnQwVEFJSnc1LzRQSnN2SEljV0pwdGJ2TXE5K2JhNk10eWpnY1JiWHBJ?=
- =?utf-8?B?bzVaK0d1LzNIWWROd093Z2t3WUs5V29yWEplRVU0ZVBWYXEyeTNWejJ5dFgr?=
- =?utf-8?B?cXZnU3NTQ3kxSkVRT0thZzJHb0pVWmhYaFRZdmZMSm9XYnFab280bVFMa21W?=
- =?utf-8?B?K0VoTG1rVW1CNkhRR0R0YzBiQ1F5dGY3OU9Ma2lmWENZRnBJU3hKS0k2bklp?=
- =?utf-8?B?ZGxTYmRMbDVHVGE1V2pmMGFCRlNLQVlldXdMc29ZTUU2bXExdHcxajVwWmw1?=
- =?utf-8?B?SjRibGlWNDNFcGpFa25lTUxoVU1UcExVQmdYY0ZGN2VlWThrUUpNeWZIOUVI?=
- =?utf-8?B?RnJpaXFTTVFUbVlqYzhkMko3YXBSVUR2L1VET0dHYVFiWXkvN1BQckRjQjRQ?=
- =?utf-8?B?bldob20yZzhlSFlBNkl4Z0RiWW5Nbm9nMzhXYTNoN01KcFIxa1hxOGRDb2JL?=
- =?utf-8?B?UlhGbldtTmtiUGFXc2J3UGJBTGZ3VlNJNFVTUG8rWTBQRzNOQmMyWG9HQkI4?=
- =?utf-8?B?YTRCcmhPRlBvdkx5SHVucmJEaHBGQ21abjFHM2dpZk5wWHFYYUVTN3Rrbnlv?=
- =?utf-8?B?QXJ3M1NWN0hFR0crbzhsdzFRbWVRcysvZlpYNHNucGUyWnZkNlVad21NLytJ?=
- =?utf-8?B?enpxTUVUaERhbnhKVFRNL0xtek4vR0EzNDNPNFdtTXlpb0hXTlYxdTNHTVVO?=
- =?utf-8?B?N0pwNGFCSml5L2RwY2k5UzNIYWVsVG1yRGg5eXdUTjUxTkg5dlpEdExuYzVs?=
- =?utf-8?B?SzhXQWNSTVRuWkV2azRKZ0dNeGlUMWlxOXFFM2RJNzNmREh4SEgxNFJkQm5L?=
- =?utf-8?B?WHhlV0FlcHcwcUltaXdKWUtmSW0zbDZ2dlJ4bEJnVUpMOGdOSm95c3p4R3B2?=
- =?utf-8?B?REhqK2JUcHlPNXBjQmhJKzBIckI3QVB1STdITkxTSGZKc0QrLyttaWlnSzAy?=
- =?utf-8?B?QTJQZFdkRG02akNmZElISXl6WGU5bXlhaUpEM09TSUNmOFNNTjgzYVZnL1pN?=
- =?utf-8?B?WmZUeFVFWGtFZTFaaFlxaWpOTWppRGNOSlkxREU1ZmpVd3REdk1KMlJZRDZk?=
- =?utf-8?B?S2ZKUGt0Z2tvNy9XcmpVRjBNSXpLemgyTFdiL2xsVTVBZHhHbG9GL2tCMS9V?=
- =?utf-8?B?cmpPaE1KZmJ1MnZYSlJ1UFBpSlAvWkM3b0JTMVZDQmp5dDhWMTFiVFVtYk1Q?=
- =?utf-8?B?bUpXOElzQURLNTF4TGowTzVKdldMcFFhOG1JYXhzcFBqQTc3REQwV0JDYUph?=
- =?utf-8?B?RTNucnRqY1FEUGEyOFdpazJ0Rm1EaXpSMVluMGR6NnpxbVB6aDVNSDJQUzhy?=
- =?utf-8?B?NHZPK1cwdWdHRTFOUGFMYll0TzhnOEo0UUcyUTh1WVdvTHpPZGVtQ21aME52?=
- =?utf-8?B?dEZJVG9OZENkZXBXNFhxYkM3S3RodGZQNTZMSm1kSHZySEhpdXIzN3BHQ29T?=
- =?utf-8?B?NDNvMWtWUktkQnJpaDNUaDRhdnlOUkk5ZTR0V0UwTEZuVzAwTmZrZVdMc0ll?=
- =?utf-8?B?YWxZUjJ4ZyswUU83Z1EwSHhwSWpWVjVnbHI0UjBXUHplVEtPTk5Od2hzK09a?=
- =?utf-8?B?aFpTM2kyTHNmK2s5WWN3ZitrN29qaUdtTEFsL09tU3pUTkY1UEljbktPOVF5?=
- =?utf-8?B?N0JNZjhTUERqNHBMREZJcDdZL293aWNHemlpTEl4RUwwa0w0OVpTelFpdVJv?=
- =?utf-8?B?amR4emd1Q1BaWVNuSkxzZWQxS2VRUndkTUZ5WlJxNTIrRFB1aFVpMmltci9B?=
- =?utf-8?B?L3lqeGpmQnVPWFlRNHc4a3ROQ2VrRWRGYkRHZHc0TXN0WE84RllTaUlOa2lZ?=
- =?utf-8?B?RlJyeEFTQnJYOXZaZ1ZMdVlZWnRlZ0ljekd4ZmEyTXZiRFBiZWhvcEpma0xu?=
- =?utf-8?B?M3E3UDJscjk1d3JYVnhFczdkUHduZ1A1SFJRZ0NYZkJEa2VqOFExM1ZFTFM1?=
- =?utf-8?B?MHFDeWNwUVkzTUZUdEorUnVGdHlOTUwxQVVnR1VqOGpJOWJ1V1BwTERvLys2?=
- =?utf-8?B?MUhWUitRZHNHaENSSFBEZ1ozR0kzbWNwTngxWlAyY0I2OVdaYjNLdzRyN3pp?=
- =?utf-8?B?UkQ5bCt0RCthQmNPamZmM3dTbkZnOEg1WUZiM0gvZmlGR0p1cU1aUFB3M0ND?=
- =?utf-8?B?aituL2toNDVtaVlEUG5LU0dhS1hUeW1HU2tYR3FKZitXUGEyU2hUeHBucHFN?=
- =?utf-8?B?UUxjRHY1blRpZFBiMzJiZlBTR1Y1TzdRdmEzMGtWVTJZNGhlL2lzelhxVWww?=
- =?utf-8?B?Zk5sN2JySU9acFVDRnJrelI3QkR5ZExpY09Cdi9MSmhCSzZ3Q2VuNnJMejBh?=
- =?utf-8?B?WU1mcXFZTmRlSkZGS3JORW1qM2loajdML0VoTCs3WkNMOU5yR2VrMXBIeWJj?=
- =?utf-8?Q?/BdlklObdgiS81NRzph4+TWv/CCpvq5QA8cPj?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e9399d6-b821-4d2c-e465-08df4028b972
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 19:19:36.4814
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 92ZqqcCQW0BTIYkGJXyGKZ7gKhv3dsgAUj9rtpcEilOLB3RKJwHfrQMtUpw7ZtNvk1EJUCJPGuLkpKpSTveLMOVbzzUQh5fgNgu+foU/okY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB6160
 
-On 2026-11-11 11:19, Peter Zijlstra wrote:
-> On Wed, Nov 11, 2026 at 10:35:17AM -0500, Mathieu Desnoyers wrote:
-> 
->> Measured in a 64-vCPU guest with sleeping deadline tasks:
->>
->>    tasks    today: rebuild, longest irqs-off    single list, all irqs-off
->>    1000     0.75ms, under 0.1ms                 0.12ms (0.19ms worst)
->>    10000    7.4ms, under 0.1ms (0.3ms once)     0.9ms (1.2ms worst)
->>
->> The rebuild itself is 8 times shorter. That comes from updating the
->> extra_bw of the CPUs once per root domain, not once per task. But the
->> longest section with interrupts disabled grows with the number of
->> deadline tasks. I do not think that is a step forward for a real-time
->> class.
-> 
-> This is domain rebuild? Do we really care about performance there?
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-My worry is not performance, but rather the contribution of this
-"iteration on all tasks" on the irqoff latency of the system, which
-is relevant for RT.
+Critical: 0 · High: 1 · Medium: 0 · Low: 1
 
-What I don't know:
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-1) is 10k deadline tasks something that we should consider as realistic
-    for sched deadline, or it's way beyond practical scale ?
+- [High] The allocation and free paths no longer agree on how a per-CPU
+  pool index is encoded.
+- [Low] The commit fixes a user-visible PREEMPT_RT bug: `spin_lock_bh()`,
+  which is a sleeping rt_mutex-based lock on RT, is taken inside a…
 
-2) is a irqoff latency of 1.2ms (rather than 0.3ms) something which is
-    relevant in terms of irq off latency on a preempt rt kernel, or is it
-    in the noise ?
+--
 
-3) are those domain rebuild expected to happen with a live RT workload,
-    or are those operations expected to never happen on a RT system under
-    real-time constraints ?
+libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
 
-Thanks,
+This patch replaces the get_cpu()/per_cpu_ptr()/put_cpu() sequence in
+ppm_get_cpu_entries() with raw_cpu_ptr(). As a result, spin_lock_bh() is
+no longer taken with preemption disabled on PREEMPT_RT. It also stores a
+base index in each per-CPU pool in ppm_alloc_cpu_pool(), and builds the
+global ppod index from pool->base instead of cpu * pool_index_max.
 
-Mathieu
+> diff --git a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> index 2e3973a32d9d1..708013623c2f7 100644
+> --- a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> +++ b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
+> @@ -119,16 +119,13 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm, unsigned int count,
+>  			       unsigned long caller_data)
+>  {
+>  	struct cxgbi_ppm_pool *pool;
+> -	unsigned int cpu;
+>  	int i;
+>  
+>  	if (!ppm->pool)
+>  		return -EINVAL;
+>  
+> -	cpu = get_cpu();
+> -	pool = per_cpu_ptr(ppm->pool, cpu);
+> +	pool = raw_cpu_ptr(ppm->pool);
+>  	spin_lock_bh(&pool->lock);
+> -	put_cpu();
+
+[Severity: Low]
+Should this patch have a Fixes: tag? The get_cpu(); per_cpu_ptr();
+spin_lock_bh(); put_cpu(); sequence appears to come from:
+
+Fixes: 47da7e62b391 ("cxgb4: add iSCSI DDP page pod manager")
+
+Commit a248384e6420 later moved it into libcxgb_ppm.c. Without the tag,
+it is harder for stable maintainers to tell which trees need this fix.
+
+[ ... ]
+
+> @@ -144,11 +141,12 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm, unsigned int count,
+>  
+>  	spin_unlock_bh(&pool->lock);
+>  
+> -	pr_debug("%s: cpu %u, idx %d + %d (%d), next %u.\n",
+> -		 __func__, cpu, i, count, i + cpu * ppm->pool_index_max,
+> -		pool->next);
+> +	pr_debug("%s: cpu %u, pool cpu %u, idx %d + %d (%d), next %u.\n",
+> +		 __func__, raw_smp_processor_id(),
+> +		 pool->base / ppm->pool_index_max, i, count, i + pool->base,
+> +		 pool->next);
+>  
+> -	i += cpu * ppm->pool_index_max;
+> +	i += pool->base;
+>  	ppm_mark_entries(ppm, i, count, caller_data);
+>  
+>  	return i;
+> @@ -375,6 +373,7 @@ ppm_alloc_cpu_pool(unsigned int *total, unsigned int *pcpu_ppmax)
+>  
+>  		memset(ppool, 0, alloc_sz);
+>  		spin_lock_init(&ppool->lock);
+> +		ppool->base = count;
+>  		count += ppmax;
+>  	}
+
+[Severity: High]
+Do the alloc and free paths still agree on the index encoding when
+cpu_possible_mask has holes?
+
+for_each_possible_cpu() sets base from the pool's position in the
+possible mask (0, ppmax, 2 * ppmax, ...), not from cpu * ppmax.
+ppm_get_cpu_entries() now returns i + pool->base. ppm_unmark_entries()
+was not changed, and it still decodes the index as a cpu id:
+
+drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_unmark_entries() {
+    ...
+		cpu = i / ppm->pool_index_max;
+		i %= ppm->pool_index_max;
+
+		pool = per_cpu_ptr(ppm->pool, cpu);
+		spin_lock_bh(&pool->lock);
+		bitmap_clear(pool->bmap, i, count);
+    ...
+}
+
+Take a possible mask of {0,2}. CPU 2's pool gets base = 1 * ppmax, and
+the release path through cxgbi_ppm_ppod_release()->ppm_unmark_entries()
+computes cpu = 1. CPU 1 is not possible. setup_per_cpu_areas() in
+mm/percpu.c only fills __per_cpu_offset[] for possible CPUs, so
+per_cpu_ptr(ppm->pool, 1) does not point into this allocation.
+
+Can spin_lock_bh(), bitmap_clear() and the pool->next store then write to
+unrelated kernel memory?
+
+Now take a possible mask of {0,2,3}. Entries from CPU 3's pool
+(position 2) would be released into CPU 2's real pool.
+
+Could that clear bits that CPU 2 has already handed out? If so, the same
+page-pod index could be given to a second DDP tag while the first is
+still in use, and CPU 3's bits would never be cleared.
+
+The commit message says:
+
+  the free path ppm_unmark_entries() derives the owning pool from the
+  index instead of from the running CPU, so any thread can service any
+  shard.
+
+That only holds while pool->base / pool_index_max equals the cpu id. The
+new "pool cpu" label in pr_debug() makes the same assumption. The 2-CPU
+stress test runs with a contiguous mask, so it would not reach this case.
+
+The old cpu * ppmax encoding was also wrong on sparse masks, because it
+could run past pool_rsvd into the general pool. Would it work to either
+update ppm_unmark_entries() to map the index back to the pool in the
+same way, or keep base = cpu * ppmax and size pool_rsvd from nr_cpu_ids?
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110165742.1204-1-haoranwangsec%40gmail.com
