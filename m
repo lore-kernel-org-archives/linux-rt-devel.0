@@ -1,59 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794452342;
-	b=pQbL0+QEdVyIFcjBlB4u/Evi916K5qv0TuAyHeBYT+8e+8j+uX186QvcQnH3TfO5KYRR
-	 KEm2R+eCDQyLTnsYNbUz8+9pSqT+WErQ0Uk57rkoVVRxysjQveCuGh2jgzoYXJS/jmZxG
-	 Q9iNrYduz3gzdudt4Mp4cBZoylhICy36EutA0e04tLO9vagTJUim4c/EDTHZB26zYwo0l
-	 MiXyS0ymiHMxUu69EDHBGH9iIJoH60rMGKpJ7n+6MsqGuSRhUb4lD6TPGZB3qUaiGXFvE
-	 v8m/fXSXjVTrAZMw9uhdB+EM4c3u66IjkQEW0aQE/17OEpuEOVzbCiq5LyQG3Qx/TQw==
+	t=1794465661;
+	b=k6kd+ptXu7zSa9Z7wwjwE14FvC+A97tsY8+A8vwqeaEMKHbj/y4Vi6fX1mAohHRPi78H
+	 1dxV/yHJl9b8ELI9HfPwVkwTTyf+N4FBhR741YtOiLPAaV37bMIWe3anUzXVOBHpQsBjo
+	 WYBn/ChPZc/hjB0KDNlu176EZv91rRn3OWEyKW+IGLBuCGgGjUUYsvW+ux39FNLk4DA6b
+	 Vhyvv8eBTh9G5Xs8VTzi5/PaEFQHILC7/GCA7isAoXwWGrlajwm9qazt8PjVZ3pnf+A8G
+	 oAvY1JvZppn/S6zQ0OqmCFYk7moJS8EJVAENVN4wauTpd6BCQtRmolnv5QERK+oRaGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794452342;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=OvSQxUXvoz37Xllfghfy1IjhVE1RB1eaqEabCAt8sVA=;
-	b=dlnLmJGSj6C/k7TGjWNN+NcLALE2CrIh6o/D2BILWQ+lNRFP2DZu4QhWaZuqt+LOeJ5m
-	 oAFe/2PU9vj/lSI4WObN1crmOIUyKiOiAXs11NoYhcyzkpHH28bA8vi/Epux5xTeTa37z
-	 QcGDcxpXtoNLZVDfq7RX2dbq4FoAu3lFW+jIe245iVrG5sjuxojNj5hibBnah10mdQalO
-	 OkHSOKqsVQS2oXVm/rF/EThw5k6KVqtuQuTEcqsDRATFZW7uFLDHEgWrBi3eySDOAFh3M
-	 AqcfqMgrqsf8d8EdkX/WjB/lEARm/mJFyrkUzt6HI22J0tT/xt4IDRoOW0nVk4iJCFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794465661;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=8vDJ3Ou7xzCxze/52XPwkTIU2JyVZ1LI+BGZWXtekYc=;
+	b=12j358l2gxuIRSAzT0SmUXlYLiCHjoXu/CKQ9G5fOs6V4xk+p+ckEPSRuLdh+fRLfDax
+	 t+t84z/3UMtcbGFRwbPDe1/AdIFaUsRqfBrOASPprv8UIYjotVWhbhV/NJvSNt6C2auDo
+	 I8QpINEa7T861K/XPo3C/pBdeZFR7zVO+27OeexyzoBTLYigzYv4c/rygWe4gLG86zXKH
+	 vPSZWXCV9FPvsI7cMLuGdV9mB2PrVCwvWPRrxBITM+fNMqFAmfmBS2nvk0vJ4ny8906WP
+	 YJFLQaidKDuyDo4XN0N7j+LaRBugSqMidZ47qY+8iSRP/QmLWe3W+9fQzmizv+ozM9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Fs/8clVc";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iWQUHDNs;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D674F606A31C;
-	Thu, 12 Nov 2026 02:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64180606A337
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 06:41:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64180606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fs/8clVc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0693E1F00A05;
-	Thu, 12 Nov 2026 02:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794452342;
-	bh=OvSQxUXvoz37Xllfghfy1IjhVE1RB1eaqEabCAt8sVA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Fs/8clVcZqko7ldeGcwJNDFqDWofg9kjfst0zEzNw0qXziPS9DSkBeMnMrIra48A7
-	 bK9BAO89OCoi1jCBNnKxpb16dRwn/0d05p4yKedW00icfBykV/PH1OKNPj6ok7yINY
-	 5HWfz5+Fp5gXiyfC4gdsLXugDwZnkGzmW+nsJbaKA3r/GqZr10XckE7tWV44DOGac1
-	 3cMwuyybZeSi7x1YuMDdO8f37TtCpGSaGYrHms2mnf8E1d5wJW/4+sVDFDT7F/e9jv
-	 +IivaL44c5QcQEtg4E1xXI0DStis4br1wuq2/qXDMG9jFh37C20VXlzwdLjavQbqrx
-	 LfTK9QcWxJD0Q==
-Subject: Re: [PATCH v4] libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
-From: netdev-bot+sashiko@kernel.org
-To: haoranwangsec@gmail.com
-Cc: david.laight.linux@gmail.com, bigeasy@linutronix.de,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, rostedt@goodmis.org
-Date: Thu, 12 Nov 2026 02:59:01 +0000
-Message-ID: <179445234141.2199510.13802580450865869960@kernel.org>
-In-Reply-To: <20261110165742.1204-1-haoranwangsec@gmail.com>
-References: <20261110165742.1204-1-haoranwangsec@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iWQUHDNs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794465660;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8vDJ3Ou7xzCxze/52XPwkTIU2JyVZ1LI+BGZWXtekYc=;
+	b=iWQUHDNsHjhFt0wxMvcxPT2ry7uY/TE1npdBYyZDpjL6AuBM7EbQtptdCwtNFlJ7xE/5/i
+	ljdxDvYgL8fkUdSQfZrg6oormDgK1Fon6rMQl1J6+RM4DPh0zcwJrddh1uCgUxo8GsPAGf
+	wDkgDDG3npnhmJhjv92CfRPr5kLtZKI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-27-l4mSRXVkNK6PSrwH5QqwwQ-1; Thu, 12 Nov 2026 01:40:57 -0500
+X-MC-Unique: l4mSRXVkNK6PSrwH5QqwwQ-1
+X-Mimecast-MFC-AGG-ID: l4mSRXVkNK6PSrwH5QqwwQ_1794465656
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48e0461e040so2988678f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Nov 2026 22:40:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794465656; x=1795070456;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8vDJ3Ou7xzCxze/52XPwkTIU2JyVZ1LI+BGZWXtekYc=;
+        b=rHYKJvt9bsCM9DXpgzcSpvojfbIDeX19lCrtAPJXNqzUGMaFXAqiPUyT/tYadQXVQC
+         CVw79ZiJ2qRm8do1gHUy0J0KM/4fFb5p0ipI4hLh70O+P4PBctL1n+OxrymXY3IGfsLx
+         gGaslj4GhJWZawJAnlUxTxL+XS6O9NOtTfUY7iTCnl6p3ac/z31kNdPtie1Ki7DEASIi
+         Rwm48PWCN1I8aZmAX+kNGPHa15/CIQCj3CpmVszPb4uqyKwMYuAYc8KMYYOKHsLk0lyi
+         c6R+n6bqHy2EM8eBaimGa/VnfL5LVaLGhEsMHLrm/ISiT+qrNg5jjS9bqZWJ6Rmke/Uq
+         yKfg==
+X-Forwarded-Encrypted: i=1; AL+hErF6bApI6/x8uPoENHy2eRuMRJroQvabGgJzfZdQNgJSqUnTeMr5xHxA4FBq9ULcZMToddEeJcxqWBRtR0lSPg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8m34EDgdb4cgmHh68VITY73d+VSTfwPJl4dVP6ejmvm4i+tju3
+	q2cXrVuL0Yzu75H5n7YkUVxtM8oy+wCNO3sI68tQahB+4HlQJlAJKxXfjfOliXI3ZV/pIUGDf+5
+	/jPvu1hfhSgVtfNMwz/JlsVHBaT3yLz1ggvokGixULASrgbQgi0rtbPeKv1r6LT0opn7j
+X-Gm-Gg: AYBFou1sxS9zGAyAVv1lLwMIJ4n5hNBhaYtG6ylJ27k9a3FNqO8y4UWNnROpU97rWIV
+	7dkyXEx6twj0SA64jPMIuFNncHI/FQeE6wFUEMjz9qY7D/J2V4OY858czunOpUe0qkxjATQhnnK
+	pyDW7XYGJ8XTVVrnW1zOkM7ngs2kDPbKHMvzN9V7l4IVxcTJabBXiFFGWxCDpBasqygPf4unUKK
+	OnTAKBPDwkmAwyPlSCS+V4qLdRetAEFZr47UZUCsABZ914ZlaWQnHXyoup7OCTYWuelILx/pV+t
+	gDq+le8cKryPlmZMx+rAp3fMj4RkAKJLP5zSgsddfxjdKq/CFFtoHcHGgXZQOWKGTJlrviWIYHI
+	7JEC8l8eEsN+9Z4giVaYOgMKV5QZuA/WuESeD7ZdKsyJ3Um/tUzeCuBqXA1Pdg0jXgdNKRrJiMY
+	a0vec=
+X-Received: by 2002:a5d:6f16:0:b0:491:6b1b:7f25 with SMTP id ffacd0b85a97d-499c792ec97mr7218176f8f.45.1794465656002;
+        Wed, 11 Nov 2026 22:40:56 -0800 (PST)
+X-Received: by 2002:a5d:6f16:0:b0:491:6b1b:7f25 with SMTP id ffacd0b85a97d-499c792ec97mr7218131f8f.45.1794465655658;
+        Wed, 11 Nov 2026 22:40:55 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49835d2bf91sm15226028f8f.23.2026.11.11.22.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 22:40:54 -0800 (PST)
+Date: Thu, 12 Nov 2026 07:40:52 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, parri.andrea@gmail.com,
+	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 17/29] sched/deadline: Leave a dying task out of a
+ rebuild of the accounting
+Message-ID: <avVfdI8NRaLN0ZHH@jlelli-thinkpadt14gen4.remote.csb>
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-18-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,139 +115,76 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+In-Reply-To: <20261108185406.1549770-18-mathieu.desnoyers@efficios.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 7-6mAz7g5pPxdkygDBpOhioFg2SYz_YegLM0l4BaB4Q_1794465656
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+Hello,
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 1
+On 08/11/26 13:53, Mathieu Desnoyers wrote:
+> A rebuild of the root domains' accounting takes the pi_lock of each
+> deadline task, not its rq lock. A dying task past its 0-lag time
+> releases its bandwidth at its last schedule. It holds its rq lock there,
+> not its pi_lock. Then it clears dl_bw. The rebuild can find the task
+> between the two steps.
+> 
+> In this diagram, T is a deadline task that exits on CPU 0 past its 0-lag
+> time. bw is its dl_bw. CPU 1 rebuilds the accounting:
+> 
+>   CPU 0 (T)                                  CPU 1 (rebuild)
+> 
+>   do_task_dead(): TASK_DEAD, under pi_lock
+>   __schedule(): T's rq lock taken
+>     task_non_contending(T)
+>       dl_task_release_bw(T)
+>         total_bw -= bw
+>         dl_bw_gen recorded
+>         record cleared
+>                                              dl_rebuild_rd_accounting()
+>                                                dl_clear_root_domains()
+>                                                  dl_bw_gen++
+>                                                  total_bw reset
+>                                                dl_add_task_root_domain(T)
+>                                                  T's pi_lock taken
+>                                                  dl_bw != 0, dl_bw_gen old
+>                                                  total_bw += bw
+>       __dl_clear_params(T): dl_bw = 0
+> 
+> dl_bw_gen does not help, since the release came before the rebuild. The
+> rebuild would count a bandwidth that nothing releases again. The root
+> domain would then refuse deadline tasks it has room for, until the next
+> rebuild.
+> 
+> Fix this with the record of the bandwidth, dl_bw_cpu. The release
+> clears it under dl_departed_lock, which the walk holds. So leave out a
+> dead task with no record. A dead task with a record has not reached its
+> last schedule. The walk counts it as a live task. That schedule then
+> releases the bandwidth, or puts the task on the departed list. A dead
+> task on the departed list keeps its bandwidth until its timer, and the
+> rebuild counts it as before.
+> 
+> The Sashiko AI review of v2 of this series found this window. Its review
+> of v4 found a gap in the first version of this fix. That version also
+> left out a task between TASK_DEAD and its last schedule, with its 0-lag
+> time ahead.
+> 
+> Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+It's kind of minor, but I'm not sure the above Fixes is right. This
+patch alone can't be applied to fix the referenced commit, it needs the
+(at least 2?) preceeding patches.
 
-- [High] The allocation and free paths no longer agree on how a per-CPU
-  pool index is encoded.
-- [Low] The commit fixes a user-visible PREEMPT_RT bug: `spin_lock_bh()`,
-  which is a sleeping rt_mutex-based lock on RT, is taken inside a…
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
 
---
+Other than that,
 
-libcxgb: use raw_cpu_ptr() in ppm_get_cpu_entries()
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 
-This patch replaces the get_cpu()/per_cpu_ptr()/put_cpu() sequence in
-ppm_get_cpu_entries() with raw_cpu_ptr(). As a result, spin_lock_bh() is
-no longer taken with preemption disabled on PREEMPT_RT. It also stores a
-base index in each per-CPU pool in ppm_alloc_cpu_pool(), and builds the
-global ppod index from pool->base instead of cpu * pool_index_max.
+Thanks,
+Juri
 
-> diff --git a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> index 2e3973a32d9d1..708013623c2f7 100644
-> --- a/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> +++ b/drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c
-> @@ -119,16 +119,13 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm, unsigned int count,
->  			       unsigned long caller_data)
->  {
->  	struct cxgbi_ppm_pool *pool;
-> -	unsigned int cpu;
->  	int i;
->  
->  	if (!ppm->pool)
->  		return -EINVAL;
->  
-> -	cpu = get_cpu();
-> -	pool = per_cpu_ptr(ppm->pool, cpu);
-> +	pool = raw_cpu_ptr(ppm->pool);
->  	spin_lock_bh(&pool->lock);
-> -	put_cpu();
-
-[Severity: Low]
-Should this patch have a Fixes: tag? The get_cpu(); per_cpu_ptr();
-spin_lock_bh(); put_cpu(); sequence appears to come from:
-
-Fixes: 47da7e62b391 ("cxgb4: add iSCSI DDP page pod manager")
-
-Commit a248384e6420 later moved it into libcxgb_ppm.c. Without the tag,
-it is harder for stable maintainers to tell which trees need this fix.
-
-[ ... ]
-
-> @@ -144,11 +141,12 @@ static int ppm_get_cpu_entries(struct cxgbi_ppm *ppm, unsigned int count,
->  
->  	spin_unlock_bh(&pool->lock);
->  
-> -	pr_debug("%s: cpu %u, idx %d + %d (%d), next %u.\n",
-> -		 __func__, cpu, i, count, i + cpu * ppm->pool_index_max,
-> -		pool->next);
-> +	pr_debug("%s: cpu %u, pool cpu %u, idx %d + %d (%d), next %u.\n",
-> +		 __func__, raw_smp_processor_id(),
-> +		 pool->base / ppm->pool_index_max, i, count, i + pool->base,
-> +		 pool->next);
->  
-> -	i += cpu * ppm->pool_index_max;
-> +	i += pool->base;
->  	ppm_mark_entries(ppm, i, count, caller_data);
->  
->  	return i;
-> @@ -375,6 +373,7 @@ ppm_alloc_cpu_pool(unsigned int *total, unsigned int *pcpu_ppmax)
->  
->  		memset(ppool, 0, alloc_sz);
->  		spin_lock_init(&ppool->lock);
-> +		ppool->base = count;
->  		count += ppmax;
->  	}
-
-[Severity: High]
-Do the alloc and free paths still agree on the index encoding when
-cpu_possible_mask has holes?
-
-for_each_possible_cpu() sets base from the pool's position in the
-possible mask (0, ppmax, 2 * ppmax, ...), not from cpu * ppmax.
-ppm_get_cpu_entries() now returns i + pool->base. ppm_unmark_entries()
-was not changed, and it still decodes the index as a cpu id:
-
-drivers/net/ethernet/chelsio/libcxgb/libcxgb_ppm.c:ppm_unmark_entries() {
-    ...
-		cpu = i / ppm->pool_index_max;
-		i %= ppm->pool_index_max;
-
-		pool = per_cpu_ptr(ppm->pool, cpu);
-		spin_lock_bh(&pool->lock);
-		bitmap_clear(pool->bmap, i, count);
-    ...
-}
-
-Take a possible mask of {0,2}. CPU 2's pool gets base = 1 * ppmax, and
-the release path through cxgbi_ppm_ppod_release()->ppm_unmark_entries()
-computes cpu = 1. CPU 1 is not possible. setup_per_cpu_areas() in
-mm/percpu.c only fills __per_cpu_offset[] for possible CPUs, so
-per_cpu_ptr(ppm->pool, 1) does not point into this allocation.
-
-Can spin_lock_bh(), bitmap_clear() and the pool->next store then write to
-unrelated kernel memory?
-
-Now take a possible mask of {0,2,3}. Entries from CPU 3's pool
-(position 2) would be released into CPU 2's real pool.
-
-Could that clear bits that CPU 2 has already handed out? If so, the same
-page-pod index could be given to a second DDP tag while the first is
-still in use, and CPU 3's bits would never be cleared.
-
-The commit message says:
-
-  the free path ppm_unmark_entries() derives the owning pool from the
-  index instead of from the running CPU, so any thread can service any
-  shard.
-
-That only holds while pool->base / pool_index_max equals the cpu id. The
-new "pool cpu" label in pr_debug() makes the same assumption. The 2-CPU
-stress test runs with a contiguous mask, so it would not reach this case.
-
-The old cpu * ppmax encoding was also wrong on sparse masks, because it
-could run past pool_rsvd into the general pool. Would it work to either
-update ppm_unmark_entries() to map the index back to the pool in the
-same way, or keep base = cpu * ppmax and size pool_rsvd from nr_cpu_ids?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110165742.1204-1-haoranwangsec%40gmail.com
