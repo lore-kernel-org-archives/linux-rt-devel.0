@@ -1,57 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.22
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794488534;
-	b=EG2kxYmtcP+TCR0sR84H5jbYMa/WWFnbvJaSdOwaLb6v3/maXr04C7cPdIWGJefcMCgh
-	 etiWG9uJ5RXq6d2wcYsXRE8mLzNmWWoJIoBYdcb5jOYTimHroFtOniiXMMY7obHLwgFhX
-	 L1v2XYRAkC6XCvtpPdU015btVtX+9PuXxe/PJtWtaNDS90vZOV47O8FiTPJOgy56BGQhX
-	 BHcKbMVpTwjpCpkr/tbcBRAPyTWA7IYvR2SVYxBI/sDaQTqJm8Mc1dPu0v1BVu4ZD/7MS
-	 L6eW52hVmHsudRizT6sP7H4yEvBOto83Q6hvPwNYBFiXBGXKrNKxClfKDlz+NUmGECQ==
+	t=1794491940;
+	b=JzGESDPP+QrnYv2VuEB2sX6Wy7ONHfBNxPUAC/kAK4vAYuVlLxsv5RlQlWNgBRwKpdYt
+	 Mx9IXyV7gScwwOpsGS4E/DXGiQSwFMeO9xHxDFrBRJ/vz0Y+BDJdsSwInr0j3hPOmj4q1
+	 7ZZf8VNe74yc7htuEutqJNUkAUOIrunoXFjJTW5nlZMmdgFjW268VVgphcreOYRzRnSHp
+	 sqWQwwV8DK5xzoaMkO5ZOo49L/evAbWEMY47vDch73ThLCJBoLWGMK/VScHScyco3NfMH
+	 54+Hn8g+s2IHDxYoxkxR+YDfidRlpHgmtfuoM/M0E8RxgZ4Ag7100btcAqZP71/gLbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794488534;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=KYusxYP1bJCA82Agudj5Yk62dkc+vZ4npVPLPLyCVJY=;
-	b=vNAoe8wt9ge5W75ZrgWDf/1uGH8vmgSUwyjP9jrraqhzXbL0xXauW4AJMhyJdzMpGM6T
-	 CuAQ+J6SRDqIG3/eMYZVLjR3fnG00mPH+m6dG31TbI8diANtUGaZVMsX4RGoq9msLPl2n
-	 x0XWPyjPUdLnoOPKRd1ZAMKEC1oeLFoF/Yrant2CDyz8GPXfzbGiVj9Rx3YtIGdJFoB4b
-	 7Go7Iu3q6orcM2RVO28sfkkOmAS76Ez0P2D9zx43EdA4Xmi5yDQmsR7TLz62+7Z3mrsDU
-	 bLNHhVrvWzNliU15m5bY8RmyWQT2JPPWE+e6jqc5rM+2fL9zvjANZp7cCx3AUrPN0Yw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491940;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Mime-Version:Content-Type:Date:
+	 Message-Id:From:To:Cc:Subject:In-Reply-To:References:
+	 Content-Transfer-Encoding;
+	bh=zV+nK/AlTUTdbSetbUQ+U98EtEMkeemH/yNGT5K9skQ=;
+	b=uWBxFagpdgk40e5aywWf1tbyw94N/M7uZmAgq6+xsdxX/xjKRU6SUpLi7I39Pl31NZ1/
+	 5JoVIREQZfpkI8lCpLbEFWOIP0+O8NqGSZdSAkwYCFx3c9wN74W46eUB9JVSCaFeYalNj
+	 C57ya8a21RKo2wuY5Vguya0WDBqWpQeC90/zIYvZfN4xzyMOkIvQH2lxAkTHuZs0P0ZpP
+	 47Psg3DdiYrsKvcPCQ/CkzHPuiXpNURti37I9O0hTYej4zVlNnV4PSn4RMdyZmBXGdOQr
+	 PE4grZ/nmNThjnQr1ixVetLiDGsxtnr/B8bkmvnPD6NHboJKnLrDYotlRDqpnzKkP3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SMs4/KN/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dZTpG39k;
+	arc=none smtp.remote-ip=91.218.175.22
+Received: from mta0.migadu.com (out-22.mta0.migadu.com [91.218.175.22])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972FF606A321;
-	Thu, 12 Nov 2026 13:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC78606A321
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 13:58:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAC78606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SMs4/KN/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE401F00A05;
-	Thu, 12 Nov 2026 13:02:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794488534;
-	bh=KYusxYP1bJCA82Agudj5Yk62dkc+vZ4npVPLPLyCVJY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SMs4/KN/eiCn7BHQ63CG/6s/8VCH/u+KLjduSqHZr1LtaiAeMJYqyN5m8Ui6TQN4h
-	 MnhnFbOJGaxTcpwznRharfRlE7U1tbPixQX90oUpd133QX+39cAYaZMZWrAWqgN15x
-	 /Yi8M2nFEbWVSEtYaI2EZPSe3nvlTW9x1zh1TRpfhAnxb3u9RSnCxw7T/ftmssXKui
-	 B9yRenIPrjVreQm2iy9T7LGIojP0KoN+2g+Ap86VM4v5zVLLFyS/s/3X/e/jfRUBD2
-	 y3uIl6Co9ZYPpn1zKy1NO7xnQrrtJ4jEXJ1iF+0C0IRR6AYm2gtgEj4Vop0jp83vtH
-	 16vRycYrOaLBg==
-Message-ID: <sashiko-outbox-211133@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 5/6] perf: add MIPS Coherence Manager 3 (CM3) PMU
- driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vladimir Kondratiev" <vladimir.kondratiev@mobileye.com>
-Cc: linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-perf-users@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261112-i6500-cm3-pmu-v2-5-cd2569571819@mobileye.com>
-References: <20261112-i6500-cm3-pmu-v2-0-cd2569571819@mobileye.com>
- <20261112-i6500-cm3-pmu-v2-5-cd2569571819@mobileye.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 13:02:13 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dZTpG39k
+X-Envelope-To: linux-rt-devel@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=bb3AFCzgVIDc1qwR2keW7mWoaFQLbnEJBXV9iSdukp8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794491937; v=1; x=1795096737;
+ b=dZTpG39kP94h9wkkuUPQIK6ymqIkc/xyQ2lfamSOf2XGF4cDtlATlfHoJwx2V/jRSLBZTQOF
+ c89ICT/gw7pnGQ8LQTFJuP4yQM0E+bE1WuXAiealD9HZpNdsWgyK4UbOnIgIj8DBoyuIJNt4hea
+ +EDCH8iQqVCIfn4fmY0ZoBCs=
+X-Envelope-To: linux-rt-devel@lists.linux.dev
+Received: by mta10.migadu.com with ESMTPS id ede3f35cb65e7420;
+	Thu, 12 Nov 2026 13:58:56 +0000
+X-Mizu-Trace-ID: ede3f35cb65e7420
+X-Migadu-Flow: FLOW_OUT
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,116 +55,65 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Thu, 12 Nov 2026 13:58:52 +0000
+Message-Id: <DMTAAT48IDFT.21XSI5A57I5C2@linux.dev>
+From: "Troy Mitchell" <troy.mitchell@linux.dev>
+To: <sashiko-bot@kernel.org>
+Cc: "Troy Mitchell" <troy.mitchell@linux.dev>,
+ <linux-rt-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] irqchip/riscv-imsic: Complete vector moves
+ without a timer
+In-Reply-To: <sashiko-outbox-210743@kernel.org>
+References: <20261112-imsic-remote-sync-irqwork-v2-0-680f65b24ff6@linux.dev> <20261112-imsic-remote-sync-irqwork-v2-2-680f65b24ff6@linux.dev> <sashiko-outbox-210743@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] perf: mips_cm3_pmu: counter overflow double-counting in
-  cm3_pmu_update()
-- [Low] perf: mips_cm3_pmu: broken !MIPS_CPS / !SMP configuration
---
+--a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-commit 272d1a9241643c479b7f4cabbd1c40edccbe1b16
-Author: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+On Thu, 12 Nov 2026 08:35:16 +0000, sashiko-bot@kernel.org wrote:
+> This fixes a bug in the two-step vector move synchronization and local
+> retry timer.  Should it include a Fixes tag?
 
-perf: add MIPS Coherence Manager 3 (CM3) PMU driver
+Yes, will add.
 
-This commit adds an uncore PMU driver and documentation for the MIPS
-Coherence Manager 3 (CM3) performance and cycle counters.
+[...]
 
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 245e7bb763b99..2dbed2fc7b030 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -75,6 +75,18 @@ config ARM_XSCALE_PMU
->  	depends on ARM_PMU && CPU_XSCALE
->  	def_bool y
-> =20
-> +config MIPS_CM3_PMU
-> +	tristate "MIPS Coherence Manager 3 (CM3) PMU"
-> +	depends on MIPS_CM
+> Does calling imsic_remote_kick(mvec->cpu) here wake the destination CPU
+> out of cpuidle right after it takes over the broadcast timer?
+Yes, by design. Only the new CPU clears move_prev, so it has to run
+once after the old CPU is done. The retry timer did the same a jiffy
+later.
 
-[Severity: Low]
-Should MIPS_CM3_PMU depend on MIPS_CPS rather than MIPS_CM?
+> Until CPU1 re-enables IRQs and services the IPI,
+> new_vec->move_prev remains non-NULL, so if a third CPU enters
+> tick_broadcast_enter() with an earlier expiry during that window,
+> imsic_irq_set_affinity() still sees imsic_vector_get_move() !=3D NULL and
+> returns -EBUSY.
+The pending IPI ends idle at once, so the window is the idle exit
+latency. The broadcast IRQ then stays on CPU1, whose handler still
+wakes the third CPU in time.
 
-MIPS_GIC selects MIPS_CM even when CONFIG_MIPS_CPS=3Dn and CONFIG_SMP=3Dn.
-On a !CONFIG_SMP build, irq_set_affinity() is a stub returning -EINVAL, so
-cm3_pmu_online_cpu() unconditionally triggers WARN_ON() when an overflow
-IRQ is present; without CONFIG_MIPS_CPS, cps_smp_setup() also never
-populates the cluster ID in cpu_data[].globalnumber.
-
-> diff --git a/drivers/perf/mips_cm3_pmu.c b/drivers/perf/mips_cm3_pmu.c
-> new file mode 100644
-> index 0000000000000..6d53535473b96
-> --- /dev/null
-> +++ b/drivers/perf/mips_cm3_pmu.c
-[ ... ]
-> +static void cm3_pmu_update(struct perf_event *event)
-> +{
-> +	struct cm3_pmu *cm3_pmu =3D to_cm3_pmu(event->pmu);
-> +	struct hw_perf_event *hwc =3D &event->hw;
-> +	u32 ov_bit =3D cm3_pmu_overflow_bit(hwc->idx);
-> +	u64 delta, prev, new;
-> +	bool overflowed =3D false;
-> +
-> +	/* Counts were harvested when the cluster went down, nothing since */
-> +	if (READ_ONCE(cm3_pmu->paused))
-> +		return;
-> +
-> +	/*
-> +	 * When polling, the counter cannot wrap twice between two reads and
-> +	 * the 32-bit difference tells the whole story. With the overflow
-> +	 * interrupt the counter is only read on demand and may have made a
-> +	 * full turn since the last read, which the overflow status tells.
-> +	 * It is read and cleared before the counter so that a wrap seen
-> +	 * here is also reflected in the counter value; a wrap happening in
-> +	 * between is accounted by the next update, which the interrupt it
-> +	 * raises makes sure happens. In interrupt mode every access to the
-> +	 * event runs on cm3_pmu->on_cpu with interrupts disabled, so the
-> +	 * status and the counter are read consistently.
-> +	 */
-> +	if (cm3_pmu->irq > 0) {
-> +		overflowed =3D CM3_PMU_READ(cm3_pmu, pc_ov) & ov_bit;
-> +		if (overflowed)
-> +			CM3_PMU_WRITE(cm3_pmu, pc_ov, ov_bit);
-> +	}
-> +
-> +	do {
-> +		prev =3D local64_read(&hwc->prev_count);
-> +		new =3D cm3_pmu_read_counter(cm3_pmu, hwc->idx);
-> +	} while (local64_cmpxchg(&hwc->prev_count, prev, new) !=3D prev);
-> +
-> +	/*
-> +	 * If the counter wrapped and now shows a value not below the
-> +	 * previous one, it made a full turn on top of the 32-bit difference.
-> +	 */
-> +	delta =3D (new - prev) & CM3_PMU_COUNTER_MASK;
-> +	if (overflowed && new >=3D prev)
-> +		delta +=3D CM3_PMU_COUNTER_MASK + 1;
-> +
-> +	local64_add(delta, &event->count);
-> +}
-
-[Severity: Medium]
-Can cm3_pmu_update() double-count a counter wrap in interrupt mode and
-inflate event->count by 2^32?
-
-If hwc->prev_count holds a non-zero value prev and the counter wraps to a
-small value (new < prev) between reading pc_ov and reading the counter,
-the first cm3_pmu_update() sees overflowed =3D=3D false, updates prev_count=
- to
-new, and already accounts for the wrap in (new - prev) &
-CM3_PMU_COUNTER_MASK while leaving ov_bit set in pc_ov.  When the pending
-overflow interrupt then runs cm3_pmu_update(), it sees overflowed =3D=3D tr=
-ue
-with the counter >=3D the new prev_count and adds CM3_PMU_COUNTER_MASK + 1 a
-second time.
-
-Similarly, because the hardware sets ov_bit when the counter reaches
-0xffffffff rather than when it wraps to 0, handling the interrupt or
-reading the event while the counter is still at 0xffffffff satisfies
-overflowed && new >=3D prev, adding 2^32 before the wrap to 0 adds 1 on the
-next update.
+> kicking new_vec->cpu twice.
+irq_work_queue_on() skips a work that is still pending, so this costs
+at most one extra IPI.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112-i6500-cm3-=
-pmu-v2-0-cd2569571819@mobileye.com?part=3D5
+Troy Mitchell
+
+--a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iI4EABYKADYWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCavXGHBgcdHJveS5taXRj
+aGVsbEBsaW51eC5kZXYACgkQmAnvgPkzNC/AbAEAjXWRzqNk9SgbDmMiW2BNh3E3
+7Lt7TyjEWGsoa3ghCmMBAKHRbKnqmPoOWPk+T7lRENaY6alk0kEd+STaO8MvYw0E
+=p/bY
+-----END PGP SIGNATURE-----
+
+--a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8--
