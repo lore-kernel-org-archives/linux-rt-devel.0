@@ -1,84 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794498799;
-	b=x85uaWkUcCXoC8eZL9bIl1ucwUdAv0L7Jtg17tHF3L1K9i/rwh4Bqao7LIzJb2F8pxHM
-	 qUGN/PLlUdepY7CHWP88bPdTeTghb/Zvo8wCz2rFxeKoXHzoCqEYTpuxTC2/RSq6vH+KI
-	 zmVi6BUp9G7rUNZ1oDpIDHH5/DAQSi911kBh7MC1LaOBu+XZ0qztA7w3a+Hwt12nAZXbH
-	 3Mw3Lz6OOX/zLA3lmDvZj8GJxQ1ZNE5xBcAkfpupY0wkDHl/V5pr037r2pbnKSpIWyeuU
-	 tpbfpN2u6i3/YTinZ4yElNgxJ4NwqsmLEaOsUqGFvPDbb8GUYMKAb3mkl4hqDlZg4kQ==
+	t=1794504845;
+	b=SsAGFs8sTAWyC2S6c71Y9AVs0M6UXcHcERbUefAG5BvPU4hvk+/a8Ape5lQSx6YpaIoc
+	 Hxur0Zk4FJpSHMged7mE2aAvImmXjPUOK+BtdKB+UyyeRsOxd2UI/f1GkvP6y6Pae4oW/
+	 Su4Q+ukAtt6WdzsI7fJh77GYp6IX/XV9MxWNSZy68abc9mg7K7GJHhmum+8U1mQCF5Ziu
+	 zzLsk5p6QhRBDzrADxxDoQVuapzS+JnboH3crz1FTNA0f7/4HdxCYCyDa2XQIYfWQp60/
+	 xfumR4JQQT33k14LKWefFEVhMapxFr9TwguEPx4BH9J84yFauc9vmkth1fzovjlpK4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794498799;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
-	b=eAWyn7LikTrJZsApMuiPLOQtBtTcrWiQ+Qbe5/H02eqwjV89FRBbt3Skyl9mk2RTRUdq
-	 mlxrWT3yZ37GP/bDOKx5jorzJioKste6qANKDI5OXZT/v5fUSBS4Ia37l5rlutLLrsoLv
-	 hOnpCLe6xdA1qhIOAtuE9jO88xAoADZZlLMecDwciq9beXW1T02zQeTy1HPp17tcRgYFY
-	 g+PrdSThb/u+ideuzqxYnxJDbCscF93lLQGhh6erUDmuN8YWfB19zoFu2AsqFz01XjfUp
-	 aPWORyEAggzE3f4hRVWearkCCgqI78ueYm9BNyqNTGMjsK3AH8T7LJb23u88OMWzKPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794504845;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=+EaSSdk0bGKa5Hs2krGTl9pB9GbzsEWorWUGyfUVJkw=;
+	b=Q5HvG626zwl4iN5H5bPhuG43oFRX//BeMi3Xgq0CpICIICQ5POIvGN7ZiQ2i51+rPVTQ
+	 CXR3CRtVLZBUQ2KmKxJ36/wZvjSd+cIl0CiZasGRmaV54uPWMqrWfrTQgL6EBdWtdqjqv
+	 rmLJ0hWnuOw+VZ1htVKnGj/HudWH9Gi0EHl/tFHPwJW/rHNRsRr3h4YU45Q8R/4dVc3M1
+	 W0yLxOCc5eUzLdxvVyJaRbHXaGLsjP/DiK36jU7nlt27i11USNnvkFX2/PVUPWObZX3Ys
+	 WSoWNJ668gqf95Skx8BF6mrBjCpq4Q/hkjvfmkoDLZLyrqZlOJvGt5B3BB1tAJlT5pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=wixbtCzT;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="EPiN0gr/";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fnpBvjBm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29818606A338;
-	Thu, 12 Nov 2026 15:53:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29818606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CF8606A889;
+	Thu, 12 Nov 2026 17:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=wixbtCzT;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=EPiN0gr/
-Date: Thu, 12 Nov 2026 16:53:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794498797;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
-	b=wixbtCzT/zD161L+fADU+VHbeRMZthwXbLkiVMNah81RqVCw2wzAKwfpzzus6M/7kO0RAp
-	/tWy9x4NrY0pRp4v+UxF9R4CZcEJ1OXdOgYYMNZc8RdkS5XFzNFYU6XWBtq0VhbMtKwvT6
-	ah0TtMHGjxhjhNzAzrvkAIcG8El7w5eo0q04tdbA15qtVahuX6mKZEm1hVT+aeSmb9oK5q
-	0TNrNfMn3ai8m8LFrGgn8++TQ2Q+RTL79AZXBy95trZjGvpTWrJJ6d79JttJTyJr4MOUBs
-	DfIJK2huLxIdJstif3P3/DMh7W7QhRUuj+WfkyycYWN1+YIQuM0NcZlyrA4gsg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794498797;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
-	b=EPiN0gr/Zgzia99J1JDPUJoaPrfPvrXsBek11pT6qFUTeLfD1Cv8Kef56XEAkhQ/Hhmgr1
-	nt+9Cz4rCi37O7Cw==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: sashiko-reviews@lists.linux.dev
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
-Message-ID: <avXg6yuLW0GwFiYr@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-5-darwi@linutronix.de>
- <sashiko-outbox-202759@kernel.org>
- <avIn71Md3LtNaYje@lx-t490>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fnpBvjBm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12711F000C4;
+	Thu, 12 Nov 2026 17:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794504845;
+	bh=+EaSSdk0bGKa5Hs2krGTl9pB9GbzsEWorWUGyfUVJkw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=fnpBvjBm2TEDCsZOBWOXfQLw4GZWjh4srWsyeXI8IkmPhNtVjdZvLsiJ3tpajytL6
+	 siIK5s+yV2RNPPqAcwlRq6ST6mK5Bu2DiuTUVxxO7lR0WfrY2uNeHLBFTgk2g0stt8
+	 IlIRZk3sIVKugmA1XvEJl2zX8bKFImAA5GyicxUjfLwJC9L55gmFo2cu6HJYNp3MHE
+	 /PNM91mH5nDtY0ByceI+ViFKaG5J30Tq5RiDANw+FWhPpPrCSl2fy8R1RQjIU3Y0pE
+	 RME9PuZyUNG8pmPMbx23lamup/fgtPgaY59zhlhGSx0U6nycmSpEsUeyEkxnh3gQiE
+	 cMhUPZTLJCzqA==
+Date: Thu, 12 Nov 2026 09:34:04 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jingxuan Xie <jingxuanxie@deeproute.ai>
+Cc: netdev@vger.kernel.org, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?6Z+p5bCR6Ziz?=
+ <shaoyanghan@deeproute.ai>, "David S . Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net v4] af_packet: avoid waiting for TPACKET_V3 copies
+ at retirement
+Message-ID: <20261112093404.40b823e3@kernel.org>
+In-Reply-To: <20261110072221.24701-1-jingxuanxie@deeproute.ai>
+References: <20261110072221.24701-1-jingxuanxie@deeproute.ai>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -88,30 +65,13 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avIn71Md3LtNaYje@lx-t490>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 09 Nov 2026, Ahmed S. Darwish wrote:
->
-> On Sat, 07 Nov 2026, sashiko-bot@kernel.org wrote:
->
-> >
-> > In addition, grep -qw treats $(RULES) as a regular expression with word
-> > boundaries against the comma-separated output of list-rules rather than
-> > matching an exact profile name.
-> >
->
-> That's good catch; will fix.
->
+On Tue, 10 Nov 2026 07:22:21 +0000 Jingxuan Xie wrote:
+> Subject: [PATCH net v4] af_packet: avoid waiting for TPACKET_V3 copies at retirement
 
-I've just verified that 'grep -w' considers ',' as a valid word separator:
-
-    $ echo 'word1,preempt_rt,word2' | grep -qw preempt_rt
-    $ echo $?
-    0
-
-So, Sashiko, this is also a non-issue.
-
-Thanks,
-Ahmed
+This patch does not seem to apply any more?
+Could you rebase on latest net/main and repost?
+-- 
+pw-bot: cr
