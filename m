@@ -1,52 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794491940;
-	b=JzGESDPP+QrnYv2VuEB2sX6Wy7ONHfBNxPUAC/kAK4vAYuVlLxsv5RlQlWNgBRwKpdYt
-	 Mx9IXyV7gScwwOpsGS4E/DXGiQSwFMeO9xHxDFrBRJ/vz0Y+BDJdsSwInr0j3hPOmj4q1
-	 7ZZf8VNe74yc7htuEutqJNUkAUOIrunoXFjJTW5nlZMmdgFjW268VVgphcreOYRzRnSHp
-	 sqWQwwV8DK5xzoaMkO5ZOo49L/evAbWEMY47vDch73ThLCJBoLWGMK/VScHScyco3NfMH
-	 54+Hn8g+s2IHDxYoxkxR+YDfidRlpHgmtfuoM/M0E8RxgZ4Ag7100btcAqZP71/gLbA==
+	t=1794498799;
+	b=x85uaWkUcCXoC8eZL9bIl1ucwUdAv0L7Jtg17tHF3L1K9i/rwh4Bqao7LIzJb2F8pxHM
+	 qUGN/PLlUdepY7CHWP88bPdTeTghb/Zvo8wCz2rFxeKoXHzoCqEYTpuxTC2/RSq6vH+KI
+	 zmVi6BUp9G7rUNZ1oDpIDHH5/DAQSi911kBh7MC1LaOBu+XZ0qztA7w3a+Hwt12nAZXbH
+	 3Mw3Lz6OOX/zLA3lmDvZj8GJxQ1ZNE5xBcAkfpupY0wkDHl/V5pr037r2pbnKSpIWyeuU
+	 tpbfpN2u6i3/YTinZ4yElNgxJ4NwqsmLEaOsUqGFvPDbb8GUYMKAb3mkl4hqDlZg4kQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794491940;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Mime-Version:Content-Type:Date:
-	 Message-Id:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Transfer-Encoding;
-	bh=zV+nK/AlTUTdbSetbUQ+U98EtEMkeemH/yNGT5K9skQ=;
-	b=uWBxFagpdgk40e5aywWf1tbyw94N/M7uZmAgq6+xsdxX/xjKRU6SUpLi7I39Pl31NZ1/
-	 5JoVIREQZfpkI8lCpLbEFWOIP0+O8NqGSZdSAkwYCFx3c9wN74W46eUB9JVSCaFeYalNj
-	 C57ya8a21RKo2wuY5Vguya0WDBqWpQeC90/zIYvZfN4xzyMOkIvQH2lxAkTHuZs0P0ZpP
-	 47Psg3DdiYrsKvcPCQ/CkzHPuiXpNURti37I9O0hTYej4zVlNnV4PSn4RMdyZmBXGdOQr
-	 PE4grZ/nmNThjnQr1ixVetLiDGsxtnr/B8bkmvnPD6NHboJKnLrDYotlRDqpnzKkP3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794498799;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
+	b=eAWyn7LikTrJZsApMuiPLOQtBtTcrWiQ+Qbe5/H02eqwjV89FRBbt3Skyl9mk2RTRUdq
+	 mlxrWT3yZ37GP/bDOKx5jorzJioKste6qANKDI5OXZT/v5fUSBS4Ia37l5rlutLLrsoLv
+	 hOnpCLe6xdA1qhIOAtuE9jO88xAoADZZlLMecDwciq9beXW1T02zQeTy1HPp17tcRgYFY
+	 g+PrdSThb/u+ideuzqxYnxJDbCscF93lLQGhh6erUDmuN8YWfB19zoFu2AsqFz01XjfUp
+	 aPWORyEAggzE3f4hRVWearkCCgqI78ueYm9BNyqNTGMjsK3AH8T7LJb23u88OMWzKPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dZTpG39k;
-	arc=none smtp.remote-ip=91.218.175.22
-Received: from mta0.migadu.com (out-22.mta0.migadu.com [91.218.175.22])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=wixbtCzT;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="EPiN0gr/";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC78606A321
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 13:58:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAC78606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29818606A338;
+	Thu, 12 Nov 2026 15:53:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29818606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dZTpG39k
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=bb3AFCzgVIDc1qwR2keW7mWoaFQLbnEJBXV9iSdukp8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794491937; v=1; x=1795096737;
- b=dZTpG39kP94h9wkkuUPQIK6ymqIkc/xyQ2lfamSOf2XGF4cDtlATlfHoJwx2V/jRSLBZTQOF
- c89ICT/gw7pnGQ8LQTFJuP4yQM0E+bE1WuXAiealD9HZpNdsWgyK4UbOnIgIj8DBoyuIJNt4hea
- +EDCH8iQqVCIfn4fmY0ZoBCs=
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by mta10.migadu.com with ESMTPS id ede3f35cb65e7420;
-	Thu, 12 Nov 2026 13:58:56 +0000
-X-Mizu-Trace-ID: ede3f35cb65e7420
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=wixbtCzT;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=EPiN0gr/
+Date: Thu, 12 Nov 2026 16:53:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794498797;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
+	b=wixbtCzT/zD161L+fADU+VHbeRMZthwXbLkiVMNah81RqVCw2wzAKwfpzzus6M/7kO0RAp
+	/tWy9x4NrY0pRp4v+UxF9R4CZcEJ1OXdOgYYMNZc8RdkS5XFzNFYU6XWBtq0VhbMtKwvT6
+	ah0TtMHGjxhjhNzAzrvkAIcG8El7w5eo0q04tdbA15qtVahuX6mKZEm1hVT+aeSmb9oK5q
+	0TNrNfMn3ai8m8LFrGgn8++TQ2Q+RTL79AZXBy95trZjGvpTWrJJ6d79JttJTyJr4MOUBs
+	DfIJK2huLxIdJstif3P3/DMh7W7QhRUuj+WfkyycYWN1+YIQuM0NcZlyrA4gsg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794498797;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UFtl5GLe9nZn9BitOJaL1QWLScfaFrXmqzl4iAP7tmo=;
+	b=EPiN0gr/Zgzia99J1JDPUJoaPrfPvrXsBek11pT6qFUTeLfD1Cv8Kef56XEAkhQ/Hhmgr1
+	nt+9Cz4rCi37O7Cw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: sashiko-reviews@lists.linux.dev
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
+Message-ID: <avXg6yuLW0GwFiYr@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-5-darwi@linutronix.de>
+ <sashiko-outbox-202759@kernel.org>
+ <avIn71Md3LtNaYje@lx-t490>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -55,65 +87,31 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 12 Nov 2026 13:58:52 +0000
-Message-Id: <DMTAAT48IDFT.21XSI5A57I5C2@linux.dev>
-From: "Troy Mitchell" <troy.mitchell@linux.dev>
-To: <sashiko-bot@kernel.org>
-Cc: "Troy Mitchell" <troy.mitchell@linux.dev>,
- <linux-rt-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] irqchip/riscv-imsic: Complete vector moves
- without a timer
-In-Reply-To: <sashiko-outbox-210743@kernel.org>
-References: <20261112-imsic-remote-sync-irqwork-v2-0-680f65b24ff6@linux.dev> <20261112-imsic-remote-sync-irqwork-v2-2-680f65b24ff6@linux.dev> <sashiko-outbox-210743@kernel.org>
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avIn71Md3LtNaYje@lx-t490>
 
---a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Mon, 09 Nov 2026, Ahmed S. Darwish wrote:
+>
+> On Sat, 07 Nov 2026, sashiko-bot@kernel.org wrote:
+>
+> >
+> > In addition, grep -qw treats $(RULES) as a regular expression with word
+> > boundaries against the comma-separated output of list-rules rather than
+> > matching an exact profile name.
+> >
+>
+> That's good catch; will fix.
+>
 
-On Thu, 12 Nov 2026 08:35:16 +0000, sashiko-bot@kernel.org wrote:
-> This fixes a bug in the two-step vector move synchronization and local
-> retry timer.  Should it include a Fixes tag?
+I've just verified that 'grep -w' considers ',' as a valid word separator:
 
-Yes, will add.
+    $ echo 'word1,preempt_rt,word2' | grep -qw preempt_rt
+    $ echo $?
+    0
 
-[...]
+So, Sashiko, this is also a non-issue.
 
-> Does calling imsic_remote_kick(mvec->cpu) here wake the destination CPU
-> out of cpuidle right after it takes over the broadcast timer?
-Yes, by design. Only the new CPU clears move_prev, so it has to run
-once after the old CPU is done. The retry timer did the same a jiffy
-later.
-
-> Until CPU1 re-enables IRQs and services the IPI,
-> new_vec->move_prev remains non-NULL, so if a third CPU enters
-> tick_broadcast_enter() with an earlier expiry during that window,
-> imsic_irq_set_affinity() still sees imsic_vector_get_move() !=3D NULL and
-> returns -EBUSY.
-The pending IPI ends idle at once, so the window is the idle exit
-latency. The broadcast IRQ then stays on CPU1, whose handler still
-wakes the third CPU in time.
-
-> kicking new_vec->cpu twice.
-irq_work_queue_on() skips a work that is still pending, so this costs
-at most one extra IPI.
-
---=20
-Troy Mitchell
-
---a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iI4EABYKADYWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCavXGHBgcdHJveS5taXRj
-aGVsbEBsaW51eC5kZXYACgkQmAnvgPkzNC/AbAEAjXWRzqNk9SgbDmMiW2BNh3E3
-7Lt7TyjEWGsoa3ghCmMBAKHRbKnqmPoOWPk+T7lRENaY6alk0kEd+STaO8MvYw0E
-=p/bY
------END PGP SIGNATURE-----
-
---a9af0bf4469639ffd39239db22e9ea1ba44d1ee2f09a947b7c85873e16e8--
+Thanks,
+Ahmed
