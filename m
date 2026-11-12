@@ -1,54 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=49.12.199.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794518638;
-	b=bppQ3o+6Sq5ikcwvQ8HP1H97nHIYG86KkHGhZMN5JNrtCDZzYBF6AcmutnO2eyCpaMZT
-	 Fg8lJRY8W/r7x/Zn+lE22FxV/4Ff6BnrTIzyyiPDq6aHbPlrQNSftRDXX1DDjvbyCrjq+
-	 PrRc1h1tRfmHoWvnZS/Kuh4RrIiCCz1uiJ7hjtBmwhlQTMqqNZp3YVY3z+PB6GNYqzFlF
-	 moK5KPdr2KHCEiFVfS5V68p8F92xe0Rf6rPJAdFhX2xNMknkeBSS8R1icFZmIG1Ofx2bH
-	 nsfFXMdZF/GXiX9SMljO28V7KUwD8EH/jdNMmXlGqgCDL9aPHhhvC19/ni2TVa4fIkQ==
+	t=1794519087;
+	b=Ub2eDI87PCkn0/FSktGNXfcoA0gi8w3cvclo/4Mxu8lBFqmgUTt6spjrcNcui4mRMPoe
+	 Q6KeOJ3clMDLsuec8/RsQ53vTS8YV8y4pKRJ4vqwxlsFigP7ZP2wUHfsGXgCaM3SP495h
+	 8BqLdH8x69HGeUuu3fPXYp6MC3aEaVJUR+Aa864MGlQwoxTurCKaFA7PMeI4UZZfyF8f2
+	 st1kx1a7LMa15b2+cfrMEePxugRpOJ+2+BZ+H2jDItGatDTIBkeB4ywW9Smpe6HcMN8T4
+	 DpgHLtm7NlAQpYan5DeogLECQ9+yfX4hiB4f139eH3lvESIs/41SRDalMcgRmM1EFOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794518638;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=VKqu1LDK1DyR5uT5qK1U0I5HptGHmXgz5DOcJEJsV4c=;
-	b=QJzVZXWQZeiqQYTQ1YLDOLaqqMD4sFcEEbRLHUL5U5mIVpEEvcK93XUcy4NrJf8nFtEL
-	 zLAPq8HiFxrjQmsy8i4znjezH+KSEafRPTQkkIXU7v44+oL6k0q0M+Rvdt1MCbBqkNunQ
-	 6RWsNc3w1S/YyNOeOVJ6kyuckWyVz4zIL1IYfszmgHR+Mb/MAUFMciXKJvfLtpjpIIkDt
-	 BNpkfBfwl8y6NBMuimjO3Xz5o0443CB0Z9Kscs/k7cDUH8HhsAExE2BB3d3DbSksKm9IO
-	 bim7ECuaZ3fUCr4SVgoKZg7gYc0EJXoWaJRO/F9brl9JL7IGILI+5gQvcwjjmVRGi4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794519087;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=X2jGY2B55gs19JO82DR2MUd+5P11FRdNArkeVNyYS8c=;
+	b=XUG/K+/O3ywISrvMkpHEX6s/FbtScgPOlVdml+JnmtMG9HiPDGvcxGEan3XMSBZBqbZz
+	 vpOH6n/oz++buGBTDfRIrmVT70RQyuBzEWEXT2Ii7s0H6d3XOlF9URCl4kNhtInu+TxF5
+	 X9/Ev9jE40zpKrzYz30TLRXOhzUr6KuNjGZkOPz0IOuD8Fzdidnlgda+OFgj/RFXTONk6
+	 /AveKKEv1GavjMgGyTEAB8Nd35iKVR+01ztAGgeIJAl9nnmve1cCrsdYuNDswE/N+/Jn5
+	 N00N2a7/9YjlBrPgwtGRKv54vilfLDKDQEcTF6FlONu8AWTptWkgk1riAFTER433pxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=monom.org;
-	spf=pass smtp.mailfrom=monom.org;
-	dkim=pass header.d=monom.org header.i=@monom.org header.a=ed25519-sha256 header.s=v1-ed25519-20260726 header.b=vhNUORO0;
-	dkim=pass header.d=monom.org header.i=@monom.org header.a=rsa-sha256 header.s=v1-rsa-20260726 header.b=eni4VG+e;
-	arc=none smtp.remote-ip=49.12.199.46
-Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="2/YZSWWC";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=FBXaMFav;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EAD606A8A5
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 21:23:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78EAD606A8A5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=monom.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC844606A321
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 21:31:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC844606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass header.d=monom.org header.i=@monom.org header.a=ed25519-sha256 header.s=v1-ed25519-20260726 header.b=vhNUORO0;
-	dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.a=rsa-sha256 header.s=v1-rsa-20260726 header.b=eni4VG+e
-DKIM-Signature: v=1; a=ed25519-sha256; s=v1-ed25519-20260726; d=monom.org; c=relaxed/relaxed; r=y;
-	h=To:Message-Id:Subject:Date:From; t=1794518602; bh=VKqu1LDK1DyR5uT5qK1U0I5
-	HptGHmXgz5DOcJEJsV4c=; b=vhNUORO0VzoDrhJq2z0XXAnKs4rZm4bO/q6oM9ks2V+4SJrjx9
-	K5V3rjLL6BWeRvyVnsiVo/Cbs3HMYgah5SAQ==;
-DKIM-Signature: v=1; a=rsa-sha256; s=v1-rsa-20260726; d=monom.org; c=relaxed/relaxed; r=y;
-	h=To:Message-Id:Subject:Date:From; t=1794518602; bh=VKqu1LDK1DyR5uT5qK1U0I5
-	HptGHmXgz5DOcJEJsV4c=; b=eni4VG+ekc1f46wbH9+Od+xPcfswVlAdKqb/c7hSFz6JALxYSB
-	HOVhbr8sU3ABn4/+hJV7mBlZoqY6e4n2mUp24QMqo0OKxKtL1s+4kQn5Hs6gbfN2I2wPGGRh8Dj
-	T3O5M8gEPPvSHSpMVrcv/L/Np1BGysH70fmtt9D+WFczUxL/mowvN+CMhWmyBiwoF1enc6nNSNX
-	qgXEEZXajJVxrPlPvY4kEOLYKvacwByk+C7KiSrY6jNx7rwH2h0Th6pIK/cc16cMY3KdW4t2KhV
-	TTbKxyyyKmjSsBJavhl9D0oYhV2dgGhaeiqykl+rSmClJ809akB3f9Efz7mBhbu48Nw==;
-From: Daniel Wagner <wagi@monom.org>
-Date: Thu, 12 Nov 2026 22:23:18 +0100
-Subject: [PATCH] rtla/timerlat: Lock the memory of the user-space threads
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2/YZSWWC;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=FBXaMFav
+Date: Thu, 12 Nov 2026 22:31:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794519084;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X2jGY2B55gs19JO82DR2MUd+5P11FRdNArkeVNyYS8c=;
+	b=2/YZSWWCqCt8qr14vyLr3SZV8YOVeSocinAbKb3MikFgyOuiWqh/RGtzFz4zyHLaZd/QkR
+	ZO/i6rkudZyMY3jnBRsIsZs7K1TtJ2CD67PjyC9SyYwlrrlrldoxH6iIoT2Voh3NH0FmH0
+	ZrsZULTn//L6Wh7X0Afi4W9tJqXmQLlxrl7BvFZYYVGQxrwamEYHAsVPwwREbie9ENUWLi
+	M7M0X+6NmonRwv27geXvB5++i3WXkixEn/imRQSGiNXf9csKrAjJoyCdSBaSf6OP+n5KFT
+	/BVitZJfRyvh+mEqPxVyS+BS++n0GTUXg9T/UT4VpX7BRHf3mp0jqqewkvfvIA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794519084;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X2jGY2B55gs19JO82DR2MUd+5P11FRdNArkeVNyYS8c=;
+	b=FBXaMFavNoJpkNUsEcQRm8+tXyYatEmjsRZvVY7dPp1fm5G00WJiw1fETJ1K8heOwEbAu6
+	TM0l7PuvUySgD4Bw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 10/10] kconfig: Introduce OVERLAY= for make checkconfig
+Message-ID: <avYwKuCrHOHV_gOw@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-11-darwi@linutronix.de>
+ <avQNgXSWhODyc5Fc@derry.ads.avm.de>
+ <avWmzbh3rp7TawCn@lx-t490>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -58,77 +88,51 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-rtla-mlock-v1-1-418986711b20@monom.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrDUxI0hcRSyqBuM/LSIRd1csv
- 8V7Fzi2wg7y4ALLhzhZZg8MAzCdnltWUnsDRZQiIim7jVpN42IGRTrJqMEoiWMGH6yWGzm/WVH
- +dnvVs9neA9z3A5GEOSVuAAAA
-X-Change-ID: 20261112-rtla-mlock-2a572f10533e
-To: Steven Rostedt <rostedt@goodmis.org>, Tomas Glozar <tglozar@redhat.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>
-Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- Daniel Wagner <wagi@monom.org>
-X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avWmzbh3rp7TawCn@lx-t490>
 
-With -u, the latency timerlat reports runs until the measuring thread
-is back in user space. Nothing keeps that thread's memory resident,
-so under memory pressure the kernel reclaims its code, stack and libc
-pages, and the page faults on the way back to user space count as
-latency.
+Hi Nicolas,
 
-On a Raspberry Pi 3 (PREEMPT_RT 6.12) under stress-ng --class memory,
-timerlat reported up to 40 ms for the user-space threads, which took
-283 major faults, while the kernel threads' latency stayed below
-1 ms. cyclictest under the same load: 133 ms without -m (mlockall),
-0.9 ms with it.
+On Thu, 12 Nov 2026, Ahmed S. Darwish wrote:
+>
+> On Wed, 11 Nov 2026, Nicolas Schier wrote:
+> >
+> > Please add the optional overlay arguments right here:
+> >
+> > 	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(addprefix -o , "$(OVERLAY)")
+> >
+>
+> Sure, will do.
+>
 
-With this change timerlat reports 0.9 ms for the user-space threads
-under the same load, and they take no major faults.
+I've just tried the suggested addprefix function:
 
-Lock the user-space threads' memory before they start measuring, as
-cyclictest -m does.
+    $ make V=1 RULES=preempt_rt checkconfig
+    ...
+    python3 -B ./tools/kconfig-check/check.py check -c ".config" -p "preempt_rt" -o ""
 
-Signed-off-by: Daniel Wagner <wagi@monom.org>
----
- tools/tracing/rtla/src/timerlat_u.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Notice the breakage due to -o "".
 
-diff --git a/tools/tracing/rtla/src/timerlat_u.c b/tools/tracing/rtla/src/timerlat_u.c
-index c80edaf07b00..42aaf1d7f216 100644
---- a/tools/tracing/rtla/src/timerlat_u.c
-+++ b/tools/tracing/rtla/src/timerlat_u.c
-@@ -15,6 +15,7 @@
- #include <pthread.h>
- #include <sys/wait.h>
- #include <sys/prctl.h>
-+#include <sys/mman.h>
- 
- #include "common.h"
- #include "timerlat_u.h"
-@@ -69,6 +70,15 @@ static int timerlat_u_main(int cpu, struct timerlat_u_params *params)
- 		}
- 	}
- 
-+	/*
-+	 * Keep the measuring process in memory: the latency it reports
-+	 * runs until it is back in user space, and a page fault on the way
-+	 * (its code, stack or libc pages reclaimed under memory pressure)
-+	 * would count as latency. cyclictest does the same with -m.
-+	 */
-+	if (mlockall(MCL_CURRENT | MCL_FUTURE))
-+		err_msg("Could not lock timerlat u memory: %s\n", strerror(errno));
-+
- 	/*
- 	 * This is the tool's loop. If you want to use as base for your own tool...
- 	 * go ahead.
+Unquoting OVERLAY will make it work:
 
----
-base-commit: ee83899302a0457a3ba47464a13e8682bd7ba27d
-change-id: 20261112-rtla-mlock-2a572f10533e
+    $(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(addprefix -o , $(OVERLAY))
 
-Best regards,
---  
-Daniel Wagner <wagi@monom.org>
+But it breaks the consistent pattern of quoting all passed variables.
 
+So, can we keep it as it was originally done?
+
+Namely:
+
+    checkconfig_overlay = $(if $(OVERLAY),-o "$(OVERLAY)")
+    ...
+
+    checkconfig:
+	...
+	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(checkconfig_overlay)
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
