@@ -1,61 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.54.77.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794486566;
-	b=KtpI7inM2dl56/J45lwGU167pzlKp/jEJuoBP+XGsbQ+rvHuCIAhH5QGpRrH1YhyNL94
-	 DJOHHvjCu83m8VcT7Hsb9tuz8vgLcBzD4VtsuMJXgjUbn1exSwAjRPgV+UqXFQLQjSXiV
-	 8IYrif4Ydyr/+9ph9gFH662LZWnN1Mm2Iz3WDAyHxU3UIKrhhyF2exAXM3UfEStX2uDel
-	 6ThJ0UAtJI+TjgmlrqfVV0mZrqcVm8MqOFGE+EHsZQHsypwqFqP8/JqVGtlEWKzhNlJR6
-	 N+GeY1zhTp+VkEriHQMtZLkYUDOYn28VQCfLnElTaAzYf2PZGoGBYNH2AWAUtkIMtdA==
+	t=1794487006;
+	b=uY81XL+Jry1bg4nDtPupZts/BjR/SAbkb1p86skiqDnaEdeIK5acNt7p9cfmjZ7A0Q8T
+	 A2fD+/EfLooJ53k14HYBL8qN8YSxS1gMxiZcgvN6dL2YKebIeEdT121tqzihG3vI10a68
+	 J2qd5IYkuYvHclfBlGNCFIAZjea8b7Xs2DJ2qjnb7fH7pXmzH4toQnaTXJJAjZHu/EBKA
+	 ppQp/SUarvI3Qm9Jf3M86k4oWN4a1sf4z2fJdDg6+q/B1g5y91A3CKDR1ihAtzUfOp6MH
+	 H9G36fITXSlFJlP8XjDj1MUfF3GGvdBXTgPafN8ookq6f5iSZMwW0ZtwsonJdG9xnFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794486566;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:Received:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer;
-	bh=E3uK4ToIL2mUz3Svln8sWa7foOIYRKuRK6T5m3vJSVY=;
-	b=ZDGoymc56CDtOTmVbT1s5pSEMcgfVy/ReVDMgp+IPgtInPlISUXoNFyxXfz8azrBaz0g
-	 Cdi7K5UHeggj/69kL2dnuKtY2uXcJN32xWX09uqth33BaWlzgwmSHGkYAmH5/LKE/QmVl
-	 DmpN3GbY9FH6x6j8QnmSgbthrZCgS5N1eqaSHL0o06do9++kWh98zcCWSU4lwsBSICank
-	 pxWGMer3LMY8bo7SnOimMszyBM3Biy2N3PnqSFG7QYRTsKzP58c+Ox1QW5go7EEmPvV+0
-	 9qIlnnEnVRNEQjGhMb7BpNhuaVy9RBp0e0VG3MRL8lXMkeJQw+w6H+DddZdjVhSeZyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794487006;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=J4ynqIBSfVzw+rEpy/cObYYx4ZAAJOboAFNeWh8nIQM=;
+	b=Axi+o4+0diFdNLRLuP72R6WF7yn9Pk061LesApuc5gaXDvT5lPCCC9Gn2A0rJEYWxomU
+	 00Jz3bJCTqGjjlKoBWEYp0UQyovqsWHcQ9OreB1E9fsnPqt9zirsC6IudD3ETIwocyInT
+	 13bGceenau4NNnCIgnt0LH94xs4LzqWWBnLGHiw4wuAg4TM0ZkLXaSeG100iLmtQPhtXu
+	 AzzeWSkECFj0teFoUb1DquQ43e3p0X1SRknsaCoTvEqvHj95QTnN9b5jgDqEL9xOvErm9
+	 /5RSeuRx+GP4A1lH+xPjwNq53lb1otuL7Djq++z5+oJWoDrghHEsOixC5pDfwifO3Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mobileye.com;
-	spf=pass smtp.mailfrom=mobileye.com;
-	arc=none smtp.remote-ip=207.54.77.171
-Received: from esa4.hc555-34.eu.iphmx.com (esa4.hc555-34.eu.iphmx.com [207.54.77.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14EB660A2611
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 12:29:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14EB660A2611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
-  t=1794486566; x=1826022566;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=CVPab+eqiu3Puch8ckhPaA7dUxIgv7j+PTZCvvIA2cs=;
-  b=jnM9Yh6fM4NlvD+BQRXrrm2z3lWdPyqPeTGi9Y7DGOhYxaOqjsroCCwI
-   il0+eNrm+aPXI3UxG6urEwKv2cMX4IYgWkyNyxRhxaHQPRFyNYeJ9c6Cg
-   64AOokeq+Zs0TK+4tDzusP8HvefZwRyaMqt7NtTrHuHKaZX4NuQPu7BJL
-   NLWy/zNzBwgEl3Dwha9RwFH26M7l4U9gk+JuGBQbU4RzTSYIgRN8Db323
-   1RYbNnSaMA4bWyjI9R5gPtmltq1YgFQMUZDlhoLjdNLmtlY1slIwzTzs+
-   hvAJZtM+KgNDAVOFcHM2ZSHHyq9XKmqjw415qmI1awNeH/Xzu4kVs2vZe
-   Q==;
-X-CSE-ConnectionGUID: uQJ4eUr7Qim+j+ANDx/u1w==
-X-CSE-MsgGUID: R6rfT2+pSEWZjMjI1QTOwQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces01_data.me-corp.lan) ([146.255.191.134])
-  by esa4.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:29:24 +0200
-X-CSE-ConnectionGUID: zrfLJ32aT/e9A3NIpkHx5Q==
-X-CSE-MsgGUID: eQ1Chy+aQ7SpgWhbo53KEQ==
-Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
-  by ces01_data.me-corp.lan with SMTP; 12 Nov 2026 14:37:36 +0200
-Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Thu, 12 Nov 2026 14:29:22 +0200
-From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Date: Thu, 12 Nov 2026 14:29:03 +0200
-Subject: [PATCH v2 6/6] MIPS: eyeq6_defconfig: enable the CM3 PMU
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=elrslbwu;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=+TrMSOnp;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79DE606A33A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Nov 2026 12:36:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B79DE606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=elrslbwu;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=+TrMSOnp
+Date: Thu, 12 Nov 2026 13:36:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794487003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J4ynqIBSfVzw+rEpy/cObYYx4ZAAJOboAFNeWh8nIQM=;
+	b=elrslbwuU38g9YXSXdn+gxraSJVQS06AFc4PCzYOi8FgK16zj0CIlI7H/wwXw9Hq3EgNuH
+	2i2cKH1zeBWPqm84SsrHd8UECMMfaIXjReWc8NJmjkVauf0YwPjvee6IV800efkReP1oO6
+	CAguI1PbmtzSP+j4zJEUnuhbIqTver7uiXUxxjlbzjvtYV42UBDwUadEFxK/WmNpnPkMNZ
+	a0OJwjLc8QL0bQ/r5M+pLI2QRLT6Yhf3FGdRbOqTpGHZEYK8yK8os07Vlqt4yf9kznSjwh
+	8Ki2QTx6iEhzcTyPztqTuFngAveN3RrkNTdHi7vwnlFFaif0kGB1peGx7O8Ayg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794487003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J4ynqIBSfVzw+rEpy/cObYYx4ZAAJOboAFNeWh8nIQM=;
+	b=+TrMSOnpqyRE1l2mBcpBINr+40Dc+KUcbbqYkobiGjraQQTEE8HBvtGoBcjL+SREyQWJgb
+	DED1kAF/XbA3kQCQ==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Julian Braha <julianbraha@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <avWy2r1BcDatzwo1@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <avQNdicGzL3De556@derry.ads.avm.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -65,60 +87,48 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-i6500-cm3-pmu-v2-6-cd2569571819@mobileye.com>
-References: <20261112-i6500-cm3-pmu-v2-0-cd2569571819@mobileye.com>
-In-Reply-To: <20261112-i6500-cm3-pmu-v2-0-cd2569571819@mobileye.com>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Fu Chao-Ying <chao-ying.fu@globalfoundries.com>
-Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org
-X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avQNdicGzL3De556@derry.ads.avm.de>
 
-Enable perf events and build the Coherence Manager 3 PMU driver as a
-module.
+Hi Nicolas,
 
-Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
----
- arch/mips/configs/eyeq6_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+On Wed, 11 Nov 2026, Nicolas Schier wrote:
+>
+> Thanks!  I know some people who are definitly interested in such a
+> config policy checker.
+>
 
-diff --git a/arch/mips/configs/eyeq6_defconfig b/arch/mips/configs/eyeq6_defconfig
-index 0a00a201937b..2d06d9ed6526 100644
---- a/arch/mips/configs/eyeq6_defconfig
-+++ b/arch/mips/configs/eyeq6_defconfig
-@@ -19,6 +19,7 @@ CONFIG_USER_NS=y
- CONFIG_SCHED_AUTOGROUP=y
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_EXPERT=y
-+CONFIG_PERF_EVENTS=y
- CONFIG_EYEQ=y
- CONFIG_MACH_EYEQ6H=y
- CONFIG_MIPS_CPS=y
-@@ -86,6 +87,7 @@ CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_SDHCI_CADENCE=y
- # CONFIG_IOMMU_SUPPORT is not set
- CONFIG_RESET_CONTROLLER=y
-+CONFIG_MIPS_CM3_PMU=m
- # CONFIG_NVMEM is not set
- CONFIG_EXT4_FS=y
- CONFIG_EXT4_FS_POSIX_ACL=y
+Great, thanks!
 
--- 
-2.43.0
+I hope this leads to more mainline kernel configuration policies as well.
 
+On the user-space side, it's one of the reasons I'm versioning the schema
+in v2.  This way, projects like systemd can ship their own kernel policy
+file, and that policy will be guaranteed to work with all future versions
+of this tool.
+
+So it's all mainline-first; both kernel upstream and userspace downstream.
+
+> Please prepare a new MAINTAINERS entry in a respin.
+
+Sure.
+
+Beside a separate entry for the checker itself, I'll also add:
+
+    F: tools/kconfig-audit/policies/preempt_rt.yml
+
+to the 'Real-time Linux (PREEMPT_RT)' entry.
+
+> Are you planning to maintain it after inclusion?
+
+Yes, I'll be happy to maintain it.
+
+Would it be OK if one or two people from the Kconfig side also step-up as
+reviewrs?  Julian? Nicolas? Nathan?
+
+Thanks,
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
