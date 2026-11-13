@@ -1,105 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.139
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794586571;
-	b=Su+eQXbmW+OzAhB/TtDQEjDq/PZqPpmlJ+RXSKNmGkur/r1YNpU+3k8E8WfkSl8JnqXz
-	 VXrE+nK8X8E1X7nWkcIdSZlIj7SMhrfT51W7nHO9AFDNuoLdtB3hEpQrrH5EZVG6lEYlQ
-	 FkiuFSLykwpJudkq6OO62Cfo7gU7H2YTZErraCDBJGG2/QcQLGifIGiwLvTMizyhMOJl/
-	 2MjEQpzcF3KcFuRSXE651r/qsVQ6Sj310eRG7okmNP0wu6OCxoyKMVNun7YIUeEn8VUdX
-	 DD6mXQI3SEbpfwggHhV9xp2t27jIPnFYKgvto4WSQyy3n22NuIbNoWwC6nfuX9mH5pA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586571;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=3N2WmhG8KxSrZt0Iba4WEygFxOvKmnHFAdgM0m8IUoY=;
-	b=DWAPE8wx3u+zCMqGBFaYlFcMBdewusL33jf4xLntjn/XVf4cvX1pJn51VXxGZlI3unhI
-	 ywiwMjAEb3Pcqirpz5ojembQPUYKx3ZVv41+TG6KCYoTJ92OsRE1H4HQV91cHlV8TSiZT
-	 0OBt7rVir9iXoci+pecs9ZL3cCMuHK7PSI+tDjWaU13IXBrtZJZtkRW8l8cHsy2Z6hZum
-	 ndp6SEYmHEEdLVR9eVaMqadno1cxjutdZoAyT1FJomya92PKyzGC5VnAVOOyPOkWdwE1w
-	 ZSm8OqstycsNmCzBoDVcK8akWBsSE7DwIJQSmxvArsSX5xA/qCwPcKDXR4VdQFD8ZLw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b="L/ER6hfl";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.139
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022139.outbound.protection.outlook.com [40.107.193.139])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794586660;
+	b=UAR+NC9HjL8Dv4Vl1CNpt6CG4oSmmiIyBef85oDt8eQQUnK2tsySqq/2Uh55cZVulV9k
+	 Os5X/MCd7wFLXfVaeKp70n/V6YRSn81jHXMTqc9g8SjG43EWWu1XJJ4z8cAzn6rPhmR9D
+	 79/B2I+QgI7iSiubWpqteFoFDaZJF1yvqu1gf7qEP0gMyOW+iZUND2llJRaKUZFcA/YEs
+	 OorK3PQ8SfNYbwa9NGL0a50oy/2gy9AKdo7fEH4jPbOXp6zW0L/aHd/0gSXq3gjRBdxiH
+	 +pkH6KO5cwQ427D5reUzXhuHKgV3Om/h2LbXeZ7mh0ZKsOwcezK4fyJ3q+vEPKoZM6w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586660;
+	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
+	b=QLrA+JCPliu2M3UqM0IB0Qob9YuRGjq50VpdvmjuVj5fRDWIIpeATeW+oOozwf/K+mWj
+	 EEmmgRUXPTvlTqkJzlMqLCsquLCLF0raZAQMT06ad2jIRrgI01rRDdkR+JlzurOawz4Ob
+	 GZdLoi+ziVhx3qArwTcA9AKeR7OhYunW5xpN3gOvIf2LkZ+/ITDdavcqPvQhyhm0QlJbr
+	 oxqL5Z01S2KVr+A8P4Vy8AkQuBilP7uKoQhYHa78o65sskUS0PFIy0/eOP/68QQPtvO2t
+	 rktoE70bmGyTl/63PurYYN7zgBLYsrvQUp+nGyQMY+V080/mkBbHJCK5X957H1ZePnw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2re49ded;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=joVtIRfd;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4FD606A33E
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:16:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB4FD606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A08606B2C9
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:17:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51A08606B2C9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=L/ER6hfl
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UJZcgwv8DUeypCP0GDMA5WmvArYUHgdL+DXxaxwbZ23WGhXgae0PkyP0LaQQjkF9mByyIvm5OT1c0VFzl6ABHaqtkEylSzoj5w31Ikw2GLlIWqegra7hv4Z9+JSU/eKMeiCpixsPiUMeDOn4RYxz6IPwI4CWI042kNGH/MD1C65giX6ssMjJfr20DBcFPXo5gd54b1W4PO03aqg9bXvogUUa1W9dOWVqrd5CL+sc5FDz3Aux+zIh35ZolDvs6L9QNFGpjkiyHEiChCmiWQ214UCgrJRC2tx1igoHX8mtYeSYZ5qvdhJmdvvUAMMWzUrdm7jThAjHdVE1pjybiBSwcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3N2WmhG8KxSrZt0Iba4WEygFxOvKmnHFAdgM0m8IUoY=;
- b=wBrQF8VD4Uze1iSvMzluB4fJZanPqyszl4BBuZnENJK0P21ZxuABlbAai756+NyAPQglI0gDcHo7euoBt92DAs4DcvD1Oh61Amuf91lHIdUgTrrnpMYiSMwLz56T45NETEB1V7MwWSJKnyqHsyNjnSBx2un3aOG3NFBR6zg8mmKGvgv4j9x9TimwWysc53Lbsmzgooosg24a+MW14Kbi/4FYSayL165xaYLB++kKw76/z8HT4S6o5bBZ2MpWpog9nUrEOyl0dIKVTVdOYIWl1xKUhN1SkIpFSIGcl7iJRaJM2pXvFFtgwu4UfEpgVG4q8xNz2DDE22l/2QuefxZd1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3N2WmhG8KxSrZt0Iba4WEygFxOvKmnHFAdgM0m8IUoY=;
- b=L/ER6hfl6AI00wL8Tuc1QPub5afAkS+kwByePrqcmzQWdDO3Dt0Cd+EvyTEvoA7YhocGbEsyO6WAYLSEWu++sm9z5QvjXpEyYhk3ARI3ljlGupAfmPR2vDGVfFaRC8HtVtsSLngNEBdkmYnsdVE3iV83J693cLIPhs62/cYo68N1C2r9ajWwkmMY1A4FvCwDkWBjuV8+tELBsUdNi+8LLku0qQEwJJNydnavajOaZqRRG4s1Fb92LM6tIsPlWOBhorxLmNeP/mP0Yzd0ElpUMzMto7soPfk26rJix4zUNVyP14wLUMHmHpRHzBRHFqhCBeANZTWiJElKHAAdobOg5g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by TO1PPF90822B598.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b08::66a) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Fri, 13 Nov
- 2026 16:16:02 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.008; Fri, 13 Nov 2026
- 16:16:01 +0000
-Message-ID: <eb08fd7e-38de-4888-a112-f4ae5b100441@efficios.com>
-Date: Fri, 13 Nov 2026 11:16:00 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 19/29] cgroup/cpuset: Wait for an attach before
- rebuilding the sched domains
-To: Waiman Long <longman@redhat.com>, juri.lelli@redhat.com,
- peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org
-Cc: linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
- boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, ridong.chen@linux.dev, tj@kernel.org,
- hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-20-mathieu.desnoyers@efficios.com>
- <4cdb4452-f11f-4e56-b03a-6d751dcfb62b@redhat.com>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <4cdb4452-f11f-4e56-b03a-6d751dcfb62b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0323.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10a::29) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2re49ded;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=joVtIRfd
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794586657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
+	b=2re49ded+Le750cmPbDqpI3zJEZ/u0Oc7eONWJd3Qs/wtWtK95vs/WF8CGMR/eXxk4XVxy
+	vBmdimlh5qDREKfn+ZDsJcpUO5asyP0EFbiPqTymVB/ifkj8SLDM1tYEqdyn49+lT9njUx
+	Cvyca1ho1k17KvAYgKwuiWa7RJt6so0FJNZxljAqhQtYLRoa0v9k7L5mQEKI21ignQ9SLY
+	RiFFLObI/YzTSciLd3SyhqndDhv/JlsPfP2xpcoJ/NoKebE6MuCZlYk9GLE66fIpEx0raR
+	KAC8L6eMZDsH+XVVxed0tiUc9WoZXOhH4UcRiwp60bypCM/93MOcs0KzEzhqGg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794586657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
+	b=joVtIRfdyNUPxYkkHCdBB1CAhkPjdGqwiluEKQIbr3TaCE7+KYxzMSj6Rw5thx1FJyuZzU
+	Tczgj9z1Yp0y12DQ==
+To: Tomas Glozar <tglozar@redhat.com>
+Cc: Daniel Wagner <wagi@monom.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] rtla/timerlat: Lock the memory of the user-space
+ threads
+In-Reply-To: <CAP4=nvTswKUTSJiFRJK7KXAvc3JMLDCgXW=mSV6BO3mMucyWnA@mail.gmail.com>
+References: <20261113-rtla-mlock-v2-1-14382f140da0@monom.org>
+ <87o6bswzj9.fsf@jogness.linutronix.de>
+ <CAP4=nvTswKUTSJiFRJK7KXAvc3JMLDCgXW=mSV6BO3mMucyWnA@mail.gmail.com>
+Date: Fri, 13 Nov 2026 17:23:37 +0106
+Message-ID: <87ld6wwvry.fsf@jogness.linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -109,121 +76,29 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|TO1PPF90822B598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83b2174c-aca2-4d95-75df-08df41a168fa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|7416014|261102123227099003|10067099003|4143699003|261021121427099003|261022075727099003|261022105027099003|261028144727099003|261009223027099003|56012099006|261026140227099003|261026121527099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	piRMEBUDkHkfz91R1PXrs4B+ByNnPWElsdyPv3OiurQjpmOb7GZ/FN3VWZE8KQYpHyW7IMJNncaWegQ0e48d6NA/XRKeeQL39IxBR5GiNl6AYhamOgG3rHir1b5Zbn8OMqWk8tB++Ymote50S6gGVImMMinHcMBSrexQBNOGzD14QnC3CaX8e3+XDrRdRLsyHuzKr3mlAVpHOwUDCZh4PUj66ca+F+ZIFdWioT2HMYZKEh9rRFXd0pjoNXUgvtHiSei6H+mXt8usIieKD17I5Ub5A5Ph4M3vy40fKgyDfzLQq1Up+naI0VuZzZlzBFmbLno2ikl0HyV8NI/E49mq+c4/PEcmoxECOaCnSgfi4DPymfMarwI/ijfCCXD2Sd9Fze22OdUGFS2RZDUTLJqiDCHOiSUe0h+2SXEVmWEvTvSJxIL1qli9xcLKqjtkI8GZp8iJyE5sktevxNlaU+ro88f0wTKr8AUmJsaBkSheu2wUYLJ7rzh+zV5wiFI6pxILAcLnHZaVdrO6I8jJdN9T2NrEfPfaLdY29KfgnPuPpicswDUIy65F4IWGZFWpvrYSYMd4JwiFAIQW4/3Cpmzo/PAgSpJXm8J7wT79YalcmjQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(7416014)(261102123227099003)(10067099003)(4143699003)(261021121427099003)(261022075727099003)(261022105027099003)(261028144727099003)(261009223027099003)(56012099006)(261026140227099003)(261026121527099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R1drRmw5anlUY0M5RzcvV2RMU1lNSUxPWDRTWENiajVwSTNHUFVMQ1N5MVhh?=
- =?utf-8?B?UTM3L1pXN1pYYjhRUEJvZ3BhdGNnQjFPditUYnJqK2VlQ1pUK3Irelh1cU9V?=
- =?utf-8?B?d0lsQlpnbjVwNW5lSkkrT2FpRURGYlptVUVEMTR0eFp5VU5oU0hXWEVkTTB6?=
- =?utf-8?B?eWk2VWhXYit2M3R5RW0zZndVZldpR2t4OFVMM3JpZUh2UmRLT3VwR3BDbDFh?=
- =?utf-8?B?aVdCRnpZdUdPYXZkd3JINjFaM3NrWmxQQnIyQ0lTYjVHcUtDK0d3MDZLV3FO?=
- =?utf-8?B?ZVZmbllDS3pEUmljZ2M1VWo4WXJ6Rkg4WmhjTWpTTWhPY3pDelJ4cloxT1N2?=
- =?utf-8?B?VVhhVGFtM2dsMjEzZ1p0ckNnNktDQXNteVNmNGZSVXY3Q0hNSXhFV1ZEazhN?=
- =?utf-8?B?Ym1oendoU0JCMk1GL0xxWmllZmk5M2owdlJUTmQySlRUTklQd3dVbmVOTkpB?=
- =?utf-8?B?V1c2NW5Jc0ZtVGdCVmEya1dWVG1ibTFodGhPUExyV3Fma1RBaElLU1p3Q09m?=
- =?utf-8?B?OUpPL29KQ3Zpd1VUYlBsZUJlN09nV2dneWJoWFA1MXVDNVdteHB6VWhhbVdL?=
- =?utf-8?B?SEQrV2xhWkZCbkZ4WDhRVllZelMrZS9veDZZWFlGcUVYQm5YSzd5bmxYc1RE?=
- =?utf-8?B?WVpOejZOaEZhWDFYcElocEVnZjBRYVJxakJUY2VqSURyaURYUGxHUTZabXhC?=
- =?utf-8?B?QmpjRURQN3dJaUp3RmVibjBPdnRDR09welBHV2NsbFM1MUJtZjFVaFUyVHJk?=
- =?utf-8?B?VFRQVWdTM3F5NDJiaUkvSW5hSWdlQlY0blRBY29TbXM0eVpJNHNsd2VQdFlI?=
- =?utf-8?B?MHd1YkJoeU9EVE1zNkY2ZEh3NTAwNjRITkhhRFFHdDlDRTlWbklKY090MzdF?=
- =?utf-8?B?N25DTURLYk53UTZJRElLUHhxZzlaNTBjTEorZnh6UUxpejYxOHBVWTFZa0lG?=
- =?utf-8?B?ei95VW5lN1ZUbjEyNXZMVGJKVTl1UUE0RUcrTm5iZ2JJeTRsQXlXdkQ1Mk1x?=
- =?utf-8?B?aGNOMVFlQmxUSXNqczcxcDJqWHltZVlWUkFpQUY0ZXZDaHZ6dG9zSjcvcWZD?=
- =?utf-8?B?Vlh0Q29mKzlWc3VObWkyZ29KZWt3bG5jS1RJQnpIdVN4Yk1Sd29QVWJvR201?=
- =?utf-8?B?Z3pPelg5NFVaZytNY1hjM1N4RTR2UitPNjhveXIrZDJwbi83MUliRkR4aWdn?=
- =?utf-8?B?cVVsREV3UnYvSTd2b0plejR4YjExV2dScXUyVU9jZkxhamdib2tzU0d5MkFX?=
- =?utf-8?B?ZnhVQzNVcFoxZjdVS0JnOXljeFRzZyswQjBqK2Q5cGxiRmJqTHN4emRPWmxv?=
- =?utf-8?B?cDRwUkQxaHFqQ3hydmRnSFBmalZqWVVhd3dPTUtnWm5YeGhacjgzaW5qd0Jw?=
- =?utf-8?B?aXd2M09SVkJCWGlFSXNVS2hjYVhtRml4elY2dUhoSDFnYTVJbytwbXU0VnA5?=
- =?utf-8?B?OTlUM2RrTHdkb1ZYVkdBUjE5RThkRzlSQzl5Nk4xTEJsYmhhV3R1d2l0UHNF?=
- =?utf-8?B?ZVJnbGhDM0xLQUgyQkU1bzJ4OVU1TC8vWlVFUDdvL2dmZENxRk8zMndFZkIx?=
- =?utf-8?B?TlRpQkZTM1BXL2VORDJBMzh2T0l5Mm5tdHFDN2tEY1VkelA1UklyN29wRUI4?=
- =?utf-8?B?bTJ3blh0UjNRczNlNitNM1MvcEJyMEhERnZnU1FnekFpc1JXTHRkWldqKzZM?=
- =?utf-8?B?Mk1Ia0RsZzN4MUFHdEpxeEhqOTdGZnR3Vlc1cm43ajVoeVB4cDVZUTJTQlJk?=
- =?utf-8?B?RjVZaDRhT3QxaktRMGMrZ0JPWGNhVWpKQjJnMWI4YnVHSnB6S0l2MGhIclRl?=
- =?utf-8?B?NWhFUUszcUVHK0ltSU4xMS96NURkVkVHN2dqTGljckRrTnFrN2hUa1hBa3VC?=
- =?utf-8?B?MWU4a04wektWMmlUSXF3aGZ5akxVNExseFQ2bzVoK1k1OWhkTS9GOXIwc0lp?=
- =?utf-8?B?cVFjeWJSSURBZ3VQWmJ2MFY3eHk4bkRQWjYyK3V3cldUc0FqNkVuMGc2RXR3?=
- =?utf-8?B?VTRHY05CaWNBZlNFb2d0dXFybGVKdUZtYnNUQnUrc212NGhlZXRUUzV3UFp5?=
- =?utf-8?B?VWFGQmN1Y2hrSndtbnJLY3B5NWt0LzE4SnVyc29kamprVk5sVzUrZlFrNjJs?=
- =?utf-8?B?dml3dnFISDd5eng1Y3hxeEJHRkpkMzdRK1oxYlBKMHpaNjIxR3FHZ1BhQXEz?=
- =?utf-8?B?dnpuV2lMdmxweUNnL3F6bjJIS29HblhzeWhPOXovTHFRZkkzQVFDVlBVZEVr?=
- =?utf-8?B?SFNSSEJaRnlhQ2UyK256Nm1aNlJYYmNOOXEzbEU5LzVXTnI2bEhoU0MyRWxD?=
- =?utf-8?B?S2pqdHEzRFBGRndROFpnY0RqOFVHVE9xMlRCNEhpV2JRczRzSVBkdkVidkZ0?=
- =?utf-8?Q?nh/NTIkYTP8eE7VYXmnFdNgkuArBOqtb5CD6s?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83b2174c-aca2-4d95-75df-08df41a168fa
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2026 16:16:01.7480
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WAhIKTHmABvYy6HHkgnr8cGbzlbGKevSnedsaIn+RHOZGve7flLFPJaFNM6xIJcuwGHwpFRB1VaQMPWUzklxQxDJrtkxXH90QkiWHcpv0Ak=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TO1PPF90822B598
+Content-Type: text/plain
 
-Hi Waiman,
+On 2026-11-13, Tomas Glozar <tglozar@redhat.com> wrote:
+> The only other activities the user thread performs with RT priority on
+> before entering the timerlat interface read loop are setting the
+> cgroup and opening the timerlat interface file descriptor. I agree
+> that ideally, setting the priority should be done just before the
+> loop.
 
-> I agree that rebuild_sched_domains() should wait for an in-progress
-> attach operation. The change to cpuset_full_lock(), however, is not
-> really necessary. This cpuset_full_lock() is now mainly used for
-> operations like cpuset_css_online() that are initiated from the cgroup
-> side where cgroup_mutex should have been held. IOW, an attach operation
-> which requires holding cgroup_mutex cannot happen in parallel. The only
-> exception is hk_sd_workfn() which is a work item for updating the
-> housekeeping cpumasks from hotplug which has no dependency on an attach
-> operation.
+If you say it is ideal to do X, then why not do X? Real-time tasks
+(especially running at rtprio 95!) need to respect other real-time tasks
+on the system. Developers new to RT might see this code and copy it. The
+code even has a comment:
 
-I agree for cpuset_css_online(), cpuset_css_offline() and
-cpuset_css_killed(). They hold cgroup_mutex, so they never wait there.
+"If you want to use as base for your own tool... go ahead."
 
- From reading, three other callers of cpuset_full_lock() can rebuild the
-sched domains without cgroup_mutex:
+For me there are two issues here:
 
-- cpuset_write_u64(), for the cgroup v1 file sched_load_balance. It
-   calls cpuset_update_flag(), which calls
-   rebuild_sched_domains_locked() when the flag changes.
-- cpuset_write_s64(), for the cgroup v1 file sched_relax_domain_level.
-   update_relax_domain_level() calls rebuild_sched_domains_locked().
-- hk_sd_workfn(). cpuset_update_sd_hk_unlock() calls
-   rebuild_sched_domains_locked() when force_sd_rebuild is set.
+1. RT latency measurement tooling needs to be a little intrusive to a
+system as practical. Otherwise it may not be possible for developers to
+use the tooling on their real environment.
 
-The two write handlers are called from cgroup_file_write(), which does
-not take cgroup_mutex. The work item does not take it either.
+2. Official RT tooling should set the example of how to program for RT
+Linux correctly.
 
-The dependency on the attach is in the rebuild, not in what these
-callers change. rebuild_sched_domains_locked() ends in
-dl_rebuild_rd_accounting(). That clears total_bw of every root domain
-and counts the deadline tasks again, each where it is now. A
-reservation that cpuset_can_attach() made for a task that has not moved
-yet is lost. That is the diagram of the changelog, with one of these
-three in the place of thread B.
-
-I did not reproduce it through these three callers. The test of this
-patch goes through sched_rt_runtime_us, and my test kernels have no
-cgroup v1 cpuset.
-
-If you prefer cpuset_full_lock() unchanged, I can make these three
-callers wait instead, and leave the css callbacks alone. Tell me which
-you prefer.
-
-Thanks,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+John
