@@ -1,112 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794582268;
-	b=fmUxcbPFdQKTUTy0pKOaTlKJiNsKkspQ0OwJm7ZR19jm4C3kWXmKXb8s7ObrxI3kzLF9
-	 aPugjWEASEMTmzqvtoiX14BU4iOiWBtDtKKJ+FVtzGvPF/gJ3tZHrE72x0UjbfzMhHc6m
-	 UXL8onzMkPh+b7W0q1pfz5efCpSORr0dc/m9TpK/l2hJk2cFzXCSxcmpP7UDOTdY1XIez
-	 JOh0HXZsRuoYGGrJkbUzGZtVV2TchbsKxMTDzO2mHfjCvjO5FWBk1UniEyPlin3oIneCn
-	 UUhZ68eLedYIqG6LW4oeSITBRBeOh1DlJyZNRSowarO9NwpiaKhNZF5GY/SPa/sh99A==
+	t=1794582301;
+	b=zxf2x9H+9eh9/4KPv67gt+jySw0+fj2Gl9I0kpFdjjDIyFUkULNiMucLpyYkU9Makmtx
+	 +aPXEdi3scuHdn0JAw/xQgBRSYVm3PyOq03sKSjOClxtSDYVjNX1/izGhTcfWAd3XB9pJ
+	 pLhiZSNymgQ25pJOsRSgsfKnJlfUVR4jMyzWWZU8ZLVOgZFfzDYrc5XDFDKoDqwe7MRZ0
+	 Y8A4ojgWSIMtpEcsaREPi9I85I3fMULVKL9hj7CMYoWcsTjHpbKoQWVn7YxEdkxvXlCuS
+	 uFhJz/jBrEtspYZuDw5BVUphAjYqr9zllYry5BjU7bjtdm0Av/7BU4VlUXZtiVvMarw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794582268;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=VBm4qF0y5CrLsLbvNlcB/jDiXe3RpYSa+rFP+kdVVgQ=;
-	b=WElrVafD3JmUbnvcLLTpff0WNr6oXVump0VoPS9xuf5pW4q5W01Oi5F2kwe0xwX5A/Qt
-	 p6rYqw7JbYaj1HmATCw9rt3jbHXzx4s4wF5U7dB6Llaz369VQUpkGWG1xeEDPccOqvM0M
-	 YE9I+kPFlBorltUom7pAdh5bUxntXut5kXTKoPDtt3hP+9QmsR67V4cSSkzssgAADFuch
-	 sDfjFOmKHebEjwxjJ7xkCCSs1ztwKb9laJN0b0YtLlgguAGIcBmYkP9VSEO7/bkvFEmDB
-	 +kSoceBaYtt70Ei2x7g67qo88uc0DKqGHX9W/bvzL0sTpqfb4Axd/eosI0PZ8vFd8+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794582301;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=KemPF4UyXFCnRn0FFZM6lfFKM0OQmZfUuPBKXbcJpj4=;
+	b=3PB9zX0GwP4RCbKow6fzNSeNf3lECmtHFqPIcKLmg7nSk24m5zwICt+pwKCuuMTaaoBx
+	 tb9W5fEIOcDe8CvEnDXS8sVKb8kmO9NC3Ks+8vIiO4yRs8gqnbuwbDxfoAHOx3SM3pYmH
+	 tP7maqB33SKbx7dku1RvqLlcnsboqHwtSh8HJEZV9CUccc5tOv9JRsDgD0+epH/A30EG6
+	 NFigjjYs0JVBGoO5GAzKPXBchu1VrH4ypUcwlR9mrsDURA7Z5X/twKRKCoMf+q08uXj6y
+	 c97VbynTKxJzHlfuNNw65GMMwmNBavFV60MNQTmu9j+yvu8MAKPDVfc+fU4U+OhiQIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KLX4lNgu;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yXvbpsmY;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87386606A33B
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:04:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87386606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690CC606A88B
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:05:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 690CC606A88B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KLX4lNgu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794582266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VBm4qF0y5CrLsLbvNlcB/jDiXe3RpYSa+rFP+kdVVgQ=;
-	b=KLX4lNgujzpcMIQL7Nldo0j+S2mUCQ2SMEwgptTSlos4w41Eecs1hiwkPKCeJBoh4Smm99
-	Q0d4mNrk1IdzUywpli0YZXJ2nJk03ed5PtYIupbrSNZLLowUUZeV7Zq46ZalfVBn53TQtQ
-	Y9Ilz+24ykLOvlTJl+jfkK4T7eJsxmY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-pA4m4aYIMpy6DnchcVLk2w-1; Fri, 13 Nov 2026 10:04:22 -0500
-X-MC-Unique: pA4m4aYIMpy6DnchcVLk2w-1
-X-Mimecast-MFC-AGG-ID: pA4m4aYIMpy6DnchcVLk2w_1794582261
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-492b5408dedso553870f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 07:04:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yXvbpsmY
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490a0e72588so460155f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 07:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794582300; x=1795187100; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KemPF4UyXFCnRn0FFZM6lfFKM0OQmZfUuPBKXbcJpj4=;
+        b=yXvbpsmY2M9Qiz67KU7x4Gemm9BspdDnwGIHyB1PHwSCn9D6TCjYwaFg2qlt0K08GW
+         iA1tfEozTNqATXO+um5yGUnQmb9av1qRwAvoVI7nGUvx1bC93jv9GbOOynuinmyfkKpF
+         jIMyYMmqVjb2bx7FhJnCWzfm95r4OaT2NnFYF+67No0ba25pjBtMmHno8n0UlE/BpDgT
+         eAMYlRuy1VC6kb+MWm1SoLSQujrUaIlGjso8MhpNVlAljOQPm7Gi7x3xqrdxMqEEPQym
+         NjAqzRkYGFBM6+qjQ5VAj58IaSe1vzJj+XKae7Bz0h2n8h2YMleOS8vt73OIFwhKWiQ7
+         P+cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794582261; x=1795187061;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VBm4qF0y5CrLsLbvNlcB/jDiXe3RpYSa+rFP+kdVVgQ=;
-        b=h43tfZ5mmIrNp2Sz7RYOudhRBTx8BPkItvJgBR4cJ4LJ/rj5ICb1WPDmaBb+dEMdkq
-         Bimh8grSBiYNcrdCaAsIHfPefN686AcI7dlR5LxkoqJEioWbRBVeSqWqmbg0F6WR4JRf
-         YPNNWkzMbayiq1uG7a88eyNZ/EgEQ/3uQCOjp3rpgrowm7soQjDlzzrEToC00h/N/mhn
-         hWX6fcOaFEdQw1ZXpI8tRhd65LQU5Ud5I0Qy7stQE8GjeXAPhj6fhNQ1OJiZEUNtC7Nx
-         SSipjBd6uDWy7rk05dTrtF4XVWNC/+DsTfbq3DZi1jEV2vJmBFRH/1tQUTsDKNUMZWvp
-         7IIg==
-X-Forwarded-Encrypted: i=1; AL+hErESswFxg9csUPeU8TOzpBZvLTs2VZjzxtXnnNaoBgd+6CBmIhROaqZ7I+njFYkQlmdBqlmJBCJRenAt03kn5Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8IInpuI+CGfrPPxhWxJQ5beeQz8O0U9lJ4wZWAb5+e18D6v+ZB
-	E0TdR/5rOf7zpmRFYbEU+Zr8CoXgHClQwuECTCy3ZvWOgZvifhVb+sq/pe3E0lzXHS/+inn97kY
-	1jZnF3YjSAvjp3uU52xu2hvWyuPawzqq46F1Wux363/jBvprl8PvafF8GGqO58ownVQ7f
-X-Gm-Gg: AYBFou3Rcja7MhTTbH6x5f1NYhMQyITU4k65+cgU3aHsNHx5plSWU+sAZfrtyEq1cH0
-	thAdfUzwXy4SI/x2C1/bv05oipwymmYWv+09qw3TlxwgZqTxEzIIBsEDF7iNX3qI2RWq4z3C1I1
-	8kGqcLBgF8Kdgeg/kJyflzlnNAX2utNIA19T8MraMOYK3MC4+MCcxmqBxKGdS6E3RcnyhUrojs8
-	RjzTCGymScI8K80x8rX4vJuB50vltkppIO4wHQjCdAMLOPym9M1fi3BV5a/+JoO7R7THWJtRHBP
-	Z3PfkJfdEjuKdGIB2AG9sVV92F7zvsKClc82fPVWrqtH+uBAVYC1AvLYzuVCsaCbd3pvlHHwH4X
-	1rU5qL+r+7Z3Fahr5/lRE/4/X2Ukp/YUnH6jIgZrLfOsoAlihC9+k8r0tMtCrfzNMrwmY5wNBas
-	zk2y4=
-X-Received: by 2002:a05:600c:a44:b0:4a2:a6e:80f5 with SMTP id 5b1f17b1804b1-4bb55a45045mr59742635e9.11.1794582260655;
-        Fri, 13 Nov 2026 07:04:20 -0800 (PST)
-X-Received: by 2002:a05:600c:a44:b0:4a2:a6e:80f5 with SMTP id 5b1f17b1804b1-4bb55a45045mr59741585e9.11.1794582260021;
-        Fri, 13 Nov 2026 07:04:20 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55af2901sm65285595e9.13.2026.11.13.07.04.16
+        d=1e100.net; s=20260707; t=1794582300; x=1795187100;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KemPF4UyXFCnRn0FFZM6lfFKM0OQmZfUuPBKXbcJpj4=;
+        b=g+Je9oeFnQ8fdllyOh5nUXKkU+iNyWas7/V7qXXwrOkm3CB4592CrsSKMJdIhRaeFy
+         lu9pD0p6keg1G6DBZMPejRR7DXAKI+HczDeQyVVCWA5l3nQeuuubmCuZR7pBHIfKGdTq
+         t5iiTvkjDCgsA8GQnrbDK3kTUC+MVDDW1Y20+qtWfOWeoGDiyC5xHatTrucKC9VnixEP
+         KVWmAtEh0rw9lB9/j/0CmMGz9ARx26e8YncKJBzePVbNTM9T5eHpocX5SmjKcEq52bjQ
+         plxtJuwoiniyBji1b7K5F/Vz+vAjGhU21wzttW54ye9K1VYiTTKpCqetbsWueMYlMmyO
+         bKRA==
+X-Forwarded-Encrypted: i=1; AL+hErHD0suJgP8AGzqkp5sVUI2yuWEc5ED2Wo/bWAA9fzopp7woK/++80E1/Upo1iVtIuNofxKcuZ9FWDvrfgO8LA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/oUowKPFSwzBsfB8BBwZ6HK4RcU491kUymUdqxplan4a5lyvd1
+	PQIxHofHrLpk1YXcXc3xmRPYY9fRvUJ2RyTc21BVBPSSQG5BJfZoQqaI
+X-Gm-Gg: AYBFou2B2ZunHpNiPy9yi5Sl3CtaevuVH9IeKDlgh9qRMti3pD/J9WsoroEkUfFQ15V
+	hrZ7K36yoqGfieb6q7KmJLP+TgH9G2LAdWULniNB1aAVPn9zGFPURv67a+g6E6ZgreQvuA08mmw
+	X3YshRBgbqEpTkJFmIiqB/tRej48Iypb+xl8O/t63vIi5M3jCOcg357QPL8VaErBBU1E/fc+dlJ
+	FpR/JLU22Icw9/1mWoyhyG492jeVj0i8tD5CbZLHMHglSd/Y0f5sI7281+ec+tMUUZaMWYl49u6
+	hBCD8hMYKGn6s9xRbMoIsCU1xgOM6sWBxBjJLNwdnX+35w7UyylQ+ci9XDRQsMDHioH6cDpjDSs
+	NXxhNK1IQuFuA2t6uGPixa/+VH/1fXVNur/ldyRqdx7KtpPkgGop5CNOqP6hUf6g02Y5BX1dk4D
+	CBd7zx1/8Xl4XCRb2p/FF53YFll39vduA/I7c7cpkaCZBsnr69Bm7AA0yaxTLliLdgHvpHqVOFu
+	yqnsYjhAFwB2prwvPeBgsqJl08v6JHBvGXRbPsicGnUaRY4g94OkangmOW7pCKw53o/RQc2CiWH
+	7eKa6bgwA8rDZvK6bs5FO9ZvxfMXpgf31UAoTf8Ae/ntFkJPPx/xjtXJtAOrjkFsLi6DbN9bY1p
+	9OQ==
+X-Received: by 2002:a05:6000:2486:b0:493:5d67:499 with SMTP id ffacd0b85a97d-49c712ac9edmr5552285f8f.14.1794582299355;
+        Fri, 13 Nov 2026 07:04:59 -0800 (PST)
+Received: from andreayoga.wind3.hub ([31.189.56.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f1c1797sm6390874f8f.11.2026.11.13.07.04.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:04:17 -0800 (PST)
-Date: Fri, 13 Nov 2026 16:04:14 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
+        Fri, 13 Nov 2026 07:04:58 -0800 (PST)
+From: Andrea Parri <parri.andrea@gmail.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
-	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v5 26/29] sched/debug: Show the deadline bandwidth of
- each runqueue
-Message-ID: <avcm7pyPqMx_r5Pl@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-27-mathieu.desnoyers@efficios.com>
- <avWWlEGGqVPYkuZw@jlelli-thinkpadt14gen4.remote.csb>
- <bcf6f03a-d596-4afc-9d3f-54219935bc2c@efficios.com>
+Cc: Andrea Parri <parri.andrea@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org,
+	tglx@kernel.org,
+	will@kernel.org,
+	boqun@kernel.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	m.szyprowski@samsung.com,
+	kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v5 18/29] sched/deadline: Move a task's bandwidth only where room was made
+Date: Fri, 13 Nov 2026 16:04:36 +0100
+Message-ID: <20261113150438.9119-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <d58e067d-05ae-4e4d-9d34-b0ac2741b211@efficios.com>
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com> <20261108185406.1549770-19-mathieu.desnoyers@efficios.com> <avVk0UU8IRGoo77v@jlelli-thinkpadt14gen4.remote.csb> <d58e067d-05ae-4e4d-9d34-b0ac2741b211@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -116,30 +127,33 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <bcf6f03a-d596-4afc-9d3f-54219935bc2c@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qcsZ8Y_jb0-rvOlNODhHA2Dc71vaF3eXy6mZVJ0L1Sc_1794582261
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 13/11/26 08:36, Mathieu Desnoyers wrote:
+On Fri, Nov 13, 2026 at 08:35:03AM -0500, Mathieu Desnoyers wrote:
 > Hi Juri,
-> 
-> > OK, but we will still not printing additional useful information like
-> > extra_bw, etc. Not sure if you are aware of tools/sched/dl_bw_dump.py
-> > drgn script; maybe that is already useful for the needed additional
-> > debugging information?
-> 
-> I did not know that script, thanks. It shows more than this patch does.
-> 
-> The two lines are there for the selftests. params_waking and random_mix
-> of deadline_bw_test read running_bw and this_bw of each CPU from
-> /sys/kernel/debug/sched/debug. A selftest cannot rely on drgn and on
-> the debug information of the running kernel.
-> 
-> So I would keep the patch as it is. I would not add extra_bw: no test
-> reads it, and your script has it.
+>
+> > > +/* The caller made room for the deadline bandwidth in the new root domain. */
+> > > +#define SCA_DL_BW_RESERVED 0x20
+> >
+> > Why not 0x10?
+>
+> No reason. 0x10 is free. The planned next version uses it.
 
-Works for me, thanks.
+Hi Mathieu,
 
+A heads-up, since both are under review: [1] adds SCA_DL_CHECK as
+0x10, so if your next version also takes 0x10 and both get merged,
+the result would build with the two flags silently sharing a bit.
+
+Your plan in [2] to change the affinity check and the early exit also
+overlaps [1], which moves dl_task_check_affinity() into
+__set_cpus_allowed_ptr_locked(), right above that early exit.
+
+I'm happy to rebase [1] on your series, or the other way around,
+whichever is easier.
+
+[1] https://lore.kernel.org/20261105164856.29698-1-parri.andrea@gmail.com/
+[2] https://lore.kernel.org/94d8d7af-b04f-4c59-ae3b-e693d4457a65@efficios.com/
+
+Thanks,
+  Andrea
