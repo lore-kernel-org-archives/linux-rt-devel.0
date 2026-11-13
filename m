@@ -1,72 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586660;
-	b=UAR+NC9HjL8Dv4Vl1CNpt6CG4oSmmiIyBef85oDt8eQQUnK2tsySqq/2Uh55cZVulV9k
-	 Os5X/MCd7wFLXfVaeKp70n/V6YRSn81jHXMTqc9g8SjG43EWWu1XJJ4z8cAzn6rPhmR9D
-	 79/B2I+QgI7iSiubWpqteFoFDaZJF1yvqu1gf7qEP0gMyOW+iZUND2llJRaKUZFcA/YEs
-	 OorK3PQ8SfNYbwa9NGL0a50oy/2gy9AKdo7fEH4jPbOXp6zW0L/aHd/0gSXq3gjRBdxiH
-	 +pkH6KO5cwQ427D5reUzXhuHKgV3Om/h2LbXeZ7mh0ZKsOwcezK4fyJ3q+vEPKoZM6w==
+	t=1794586824;
+	b=T6fhHZcABbg8xyN7WHRyJhZCNf4lwjeNld08mgENab3KfDNXrQucse+t4X3AcFnEeQVJ
+	 Z4B4AgiM6LOjTBctoGYNV3rDxm/3u7IDa/apyrr6c/RPostCoUSY7Ml7QSOkJreQAQUI+
+	 072fwxXryHYBbuLDLx/uGrwvl6mx/XiZyHD5HQib09IBk72SMCd65p/IB5C34TszNyy54
+	 3nxL+LpTLS54aATtSqxVAa/iRQo9XZcB/59/8Qr1AtLPVkOaDwQeY/0uYlcxE6AHA8RGY
+	 vJ+GNVLwZPr8Xj7WhD7zK0Fs8Nw4TEFdrBuRm4V+BDRMqJHnjnx6VguWdvlgiFUnJbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586660;
-	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
-	b=QLrA+JCPliu2M3UqM0IB0Qob9YuRGjq50VpdvmjuVj5fRDWIIpeATeW+oOozwf/K+mWj
-	 EEmmgRUXPTvlTqkJzlMqLCsquLCLF0raZAQMT06ad2jIRrgI01rRDdkR+JlzurOawz4Ob
-	 GZdLoi+ziVhx3qArwTcA9AKeR7OhYunW5xpN3gOvIf2LkZ+/ITDdavcqPvQhyhm0QlJbr
-	 oxqL5Z01S2KVr+A8P4Vy8AkQuBilP7uKoQhYHa78o65sskUS0PFIy0/eOP/68QQPtvO2t
-	 rktoE70bmGyTl/63PurYYN7zgBLYsrvQUp+nGyQMY+V080/mkBbHJCK5X957H1ZePnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586824;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Transfer-Encoding:content-type;
+	bh=9mKuKJKQdz797u5WZKCno/OeV4zsZ4Me4LaLtgDigC8=;
+	b=Eh/0TrZTussoGU8+m/JvsLDTTgFTfL+QTtmsiiRyRDD+HtxYlRHhOlC1d2D4rLJJsGsT
+	 Cz8nqn+64JP1iKwszANUIWOet4qU9iijHdrjKIiQZYc832+24ZyZCqwknNIBmlldIkKdS
+	 z10LHXiKC/5fErtcSoFilbgcxqKaKjplT26viIUihmAi3tsCWVLPbqIoEmfHoFYc2vmVP
+	 YZ/mjW5pGqPOZXX26Rmn0erkdh160wrF5wlsZjC2t9058Rfmj2ByA08WxaSCA22E8PlWS
+	 aEPMjveXQuFaPF5e8xnsMPMBl6E7XuR57mqD3K9ZPjSJ9z7Oe48Uy77jRDAKx7h3FEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2re49ded;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=joVtIRfd;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FLEfR8Yu;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A08606B2C9
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:17:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51A08606B2C9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323A9606A880
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:20:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 323A9606A880
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2re49ded;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=joVtIRfd
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794586657;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FLEfR8Yu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794586823;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
-	b=2re49ded+Le750cmPbDqpI3zJEZ/u0Oc7eONWJd3Qs/wtWtK95vs/WF8CGMR/eXxk4XVxy
-	vBmdimlh5qDREKfn+ZDsJcpUO5asyP0EFbiPqTymVB/ifkj8SLDM1tYEqdyn49+lT9njUx
-	Cvyca1ho1k17KvAYgKwuiWa7RJt6so0FJNZxljAqhQtYLRoa0v9k7L5mQEKI21ignQ9SLY
-	RiFFLObI/YzTSciLd3SyhqndDhv/JlsPfP2xpcoJ/NoKebE6MuCZlYk9GLE66fIpEx0raR
-	KAC8L6eMZDsH+XVVxed0tiUc9WoZXOhH4UcRiwp60bypCM/93MOcs0KzEzhqGg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794586657;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YmKdqa9PN50e2UkKt3EfBiqD0YdHB3OU7Jqo14mmKwc=;
-	b=joVtIRfdyNUPxYkkHCdBB1CAhkPjdGqwiluEKQIbr3TaCE7+KYxzMSj6Rw5thx1FJyuZzU
-	Tczgj9z1Yp0y12DQ==
-To: Tomas Glozar <tglozar@redhat.com>
-Cc: Daniel Wagner <wagi@monom.org>, Steven Rostedt <rostedt@goodmis.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] rtla/timerlat: Lock the memory of the user-space
- threads
-In-Reply-To: <CAP4=nvTswKUTSJiFRJK7KXAvc3JMLDCgXW=mSV6BO3mMucyWnA@mail.gmail.com>
-References: <20261113-rtla-mlock-v2-1-14382f140da0@monom.org>
- <87o6bswzj9.fsf@jogness.linutronix.de>
- <CAP4=nvTswKUTSJiFRJK7KXAvc3JMLDCgXW=mSV6BO3mMucyWnA@mail.gmail.com>
-Date: Fri, 13 Nov 2026 17:23:37 +0106
-Message-ID: <87ld6wwvry.fsf@jogness.linutronix.de>
+	bh=9mKuKJKQdz797u5WZKCno/OeV4zsZ4Me4LaLtgDigC8=;
+	b=FLEfR8Yu11VH8O+2h5ShWwmesxFh51chc1YdI34UPzuY1MWsCO6x0jet2i01YxrAXcfZSy
+	5joBO3whsmxQHHMmN3rNUg6w8NY/mq/LoxTRE77olaXOTp7fJVeY/nXH6pW+ZWNT4NClmA
+	Pck/yAJgJ6GPObxs/7BxdFmtUeqT/E0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-172-cXpBP3OMPDG0KRhS9CjTbA-1; Fri,
+ 13 Nov 2026 11:20:18 -0500
+X-MC-Unique: cXpBP3OMPDG0KRhS9CjTbA-1
+X-Mimecast-MFC-AGG-ID: cXpBP3OMPDG0KRhS9CjTbA_1794586815
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 75FC71955EA0;
+	Fri, 13 Nov 2026 16:20:15 +0000 (UTC)
+Received: from poros-thinkpadp16vgen1.tpbc.com (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA2F51800495;
+	Fri, 13 Nov 2026 16:20:09 +0000 (UTC)
+From: Petr Oros <poros@redhat.com>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Petr Oros <poros@redhat.com>,
+	netdev@vger.kernel.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Mateusz Palczewski <mateusz.palczewski@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Rafal Rogalski <rafalx.rogalski@intel.com>,
+	Shiraz Saleem <shiraz.saleem@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	intel-wired-lan@lists.osuosl.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH iwl-net v2 0/5] ice: fix RTNL vs auxiliary device lock inversion
+Date: Fri, 13 Nov 2026 17:20:06 +0100
+Message-ID: <20261113162006.1236497-1-poros@redhat.com>
+In-Reply-To: <4b07e441-de15-44f8-a7ff-f67c9c442966@intel.com>
+References: <20261023070258.730168-1-poros@redhat.com> <4b07e441-de15-44f8-a7ff-f67c9c442966@intel.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -76,29 +98,21 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: WEt1iow6SwxllLE8_e6_Qn4vm61gfXtlAwj9zQ9yi50_1794586815
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2026-11-13, Tomas Glozar <tglozar@redhat.com> wrote:
-> The only other activities the user thread performs with RT priority on
-> before entering the timerlat interface read loop are setting the
-> cgroup and opening the timerlat interface file descriptor. I agree
-> that ideally, setting the priority should be done just before the
-> loop.
+On 11/4/2026 3:10 PM, Jacob Keller wrote:
+> Sashiko has a couple of "high" complaints that look plausible to me.
+> Could you please confirm if you are working on a v3 or respond to the
+> reports and explain if any of these following issues are faulty reports
+> from the AI?
 
-If you say it is ideal to do X, then why not do X? Real-time tasks
-(especially running at rtprio 95!) need to respect other real-time tasks
-on the system. Developers new to RT might see this code and copy it. The
-code even has a comment:
+v3 is out, rebased on Przemek's series in dev-queue. It fixes the
+AFTER_TC_CHANGE report. The -EBUSY and mqprio teardown ones predate
+the series, v3 only adds a warning for the latter.
 
-"If you want to use as base for your own tool... go ahead."
+Petr
 
-For me there are two issues here:
-
-1. RT latency measurement tooling needs to be a little intrusive to a
-system as practical. Otherwise it may not be possible for developers to
-use the tooling on their real environment.
-
-2. Official RT tooling should set the example of how to program for RT
-Linux correctly.
-
-John
