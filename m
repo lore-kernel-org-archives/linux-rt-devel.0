@@ -1,68 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794591221;
-	b=VVXinHrU59g9CIyR+302t+dUqQb2ieO52YSgLxMg1rclefTTDrm8hnJ7TckNeugnxUlx
-	 76v5iJvAgnXGXSdkL0PCefQ9qfPo/qYucun1v70eZzreUL3y22GblVAyGymE4bVrpsVPt
-	 mSJPk5WrhOKLe+VThy8Gw8UemFXvJjIew7NZOW4A8nfXe5/qvJo5iVMI2tSDMqpHcx2SB
-	 R9XdtGrFid9hx1AmtlRNnEOWIamfY1y/ZG9qqCZ+beoNNRdNh2wP59Ic2nS1oZuqhbrQn
-	 rFc/9U3fVpBNHyfyGlDioqjH4LT/9FkV7c5EXmyhNR7I0MCXVK3LnB1VyJ/5a6Ihf9g==
+	t=1794596384;
+	b=ILYiUm5VUC/MtIpvo9oRcD19yTZY/53pY6tURqKZMPYUddf5YPtQSNpwIDDaTc4FfrvY
+	 re7HhCh4fZ3OKcrhGtazc6px6rz1p6fLMzeTsjj6yBYLeYwNhS1plc0fdsX0hN92mc+vQ
+	 +ZENhoHo0L/BFk3NaVHTUPGvoMpcn6ftkiwPx7Fay841YcPXJAxI6HDNp0as76kHhlTr9
+	 5fUaDr9iedeDj51amoEgEUpn+vpjGSBMr34tRkZl8ytXzSVoFf491wKzKN+E6NrzFZp92
+	 hJGEeT1Bz+kavSeHqsjtkJGrk8wVYoJWo4y5EC81ueYAcQB1lZ+hzW05ozT1EfA2TXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794591221;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:X-Scanned-By:
-	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:Content-Language:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=b8xUdlTrVJr8iWSKlRDFOvStv40KWS4yRp1fHWJ2LrY=;
-	b=uBWedh7rPrvJHqNFM1DlaJJpiHzb/QKww1WuneH224DCJsCMTmC5a4KrpW+HHkXvYg7X
-	 5AApDE8y1dKsq4tcR9CZRjODUwrHdOpOo5IEykjlLJx7LtIviAgMrlWtNs5R9nQXr+q6z
-	 vpCayoJK2BLfiMjsehsuNkvTGVESb+aGxqPK+/+XROQkuPWj2rom6jN9HJAASidjZs391
-	 85i4OJZgCqCBAOO7eLN4QGE5T6pKypkAgLX7QI3SmWowJQ72kW2esSNs6jfiC15I8Nka3
-	 MJFvvjbfOKtp8RGnNun63QTeIPjPCciYPLxGtR4uJdBuxyk7JiAavDrJX1Fsk0/Wc0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794596384;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=dui1W7jk+v6MWpOHawIjDQi5dY/oJUeQXewkO5tAW9o=;
+	b=rDP/haek00xhTsnkUbDyIZiF91wJRrz3UBev4yWUj/Fxal+cfbaEWGYOgBLnjtMey/pg
+	 Kfn99QOwg9b419npP0sJICmfA7efLIoDRsjU8cOZ9TwA6AUDeh9gKW5WcRfxMGlITGTGi
+	 yLq2KYifesvF1R77U228NUTduAbLM7bdfeaoLlTd3tsg0OAnAkcoxpBgkgg/FtYsnTq2X
+	 QZfGGW0x46CiTS0CpKd7zUlFQWOf6JGuwB7OrEwGrfx1tazj/W1XEXzTVRVtsAq7d8Am8
+	 IAYXgyaAXUCe4rqp7XZEebyR2XEjQa3J8XITo/+q9/gb6vZ3+Yuz3bA8IScrTA200KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CFVKWxIk;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KUuVOs//";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721E8607587F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 17:33:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 721E8607587F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0DC606A896;
+	Fri, 13 Nov 2026 18:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CFVKWxIk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794591219;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b8xUdlTrVJr8iWSKlRDFOvStv40KWS4yRp1fHWJ2LrY=;
-	b=CFVKWxIk/AcQqCcM2rQZaoAqInwIVOmvFp7KtNF7zWKCu+M08eQv9yXA2vpke69gOouqhD
-	d26FW9Vv5gRDG+lLl+oGAiJfKzxrKmFawJ3XXATd9uUgyPqQuPAifq/kFGF+82Hre9K4mu
-	fT8JF2nLki+hEEzOkU9LxJSwd76WC3o=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-414-rMtnh44bMoyNRQ_zKEvztQ-1; Fri,
- 13 Nov 2026 12:33:32 -0500
-X-MC-Unique: rMtnh44bMoyNRQ_zKEvztQ-1
-X-Mimecast-MFC-AGG-ID: rMtnh44bMoyNRQ_zKEvztQ_1794591209
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1FCCD1800349;
-	Fri, 13 Nov 2026 17:33:28 +0000 (UTC)
-Received: from [100.91.18.181] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DCCCE1800559;
-	Fri, 13 Nov 2026 17:33:22 +0000 (UTC)
-Message-ID: <638e3138-1dfe-42a0-97bf-2acb32970fa3@redhat.com>
-Date: Fri, 13 Nov 2026 12:33:21 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KUuVOs//
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA6A31F000C4;
+	Fri, 13 Nov 2026 18:59:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794596383;
+	bh=dui1W7jk+v6MWpOHawIjDQi5dY/oJUeQXewkO5tAW9o=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=KUuVOs//0rZ7FQWLItFJ2fh7oZ89jOKKvECSOTk2JuBLE68NLyqv1d+//Ub96airj
+	 gQyFMVP4EKEu9TBAEdXqf6dXdByYPoFMr8KeGp0MGpL/gRKfeU2u7CZTQxPHBsZ79b
+	 +u0nuBGE7fHI1Zk0EG9QYoiJsxHHdFsz/mOTk54/4wElKB7lhm2uKsFRyvSAo+DIyB
+	 TrSnnkTg9NQDlgy2Y3QUClABuAoBySwrCA3tk/0s5M6iYJ+ikYI8xfk0Izr+LIQsnU
+	 LYdrgRvZnGyMZ5cWGPvALPmQYior27ElXEFxuc393KvmFRTMmBZdbalH04t9WDwLdc
+	 1BDjBc0RCEBOQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 9C8DFCE0B59; Fri, 13 Nov 2026 10:59:43 -0800 (PST)
+Date: Fri, 13 Nov 2026 10:59:43 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Andrea Righi <arighi@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH] rcutorture: Don't try to disable to RT throttling.
+Message-ID: <db990dbe-e76d-494c-be87-6759f097adb0@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <5970553A-3833-43F1-A013-21757664FB8F@nvidia.com>
+ <auzXjQfYXs_gzx1y@gpd4>
+ <c81d8243-c130-44d8-bef6-e678ecb088ac@paulmck-laptop>
+ <20261106140401.90MH_6qt@linutronix.de>
+ <5f5ffa5b-9fa5-4359-87fc-7558f37ff0eb@paulmck-laptop>
+ <20261110080942.QxKXirzI@linutronix.de>
+ <e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop>
+ <20261111154319.2Iu5wbqr@linutronix.de>
+ <3e7f1b45-7163-4abd-b686-a17f137ecab9@paulmck-laptop>
+ <20261113153737.cXtBKIEl@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -72,114 +78,27 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 18/29] sched/deadline: Move a task's bandwidth only
- where room was made
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: juri.lelli@redhat.com, peterz@infradead.org, mingo@redhat.com,
- vincent.guittot@linaro.org, linux-kernel@vger.kernel.org, tglx@kernel.org,
- will@kernel.org, boqun@kernel.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
- mathieu.poirier@linaro.org, ridong.chen@linux.dev, tj@kernel.org,
- hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
- m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-19-mathieu.desnoyers@efficios.com>
- <bcb60245-abfb-4e3a-aa4e-f134ed310381@redhat.com>
- <20261113135110.160083-1-mathieu.desnoyers@efficios.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20261113135110.160083-1-mathieu.desnoyers@efficios.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: USr8g11bgWizf6R89eQE_4dX25G8hcxkOZjYA9me3yg_1794591209
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113153737.cXtBKIEl@linutronix.de>
 
-On 11/13/26 8:51 AM, Mathieu Desnoyers wrote:
-> Hi Waiman,
->
-> On 2026-11-12 23:37, Waiman Long wrote:
->> For cpuset v2, it is not possible for a cpuset to span two root domains.
->> I believe it is not possible for v1 too, though I am not 100% sure.
->> Please let me know if you are aware of a way to do that.
-> It happens with isolcpus="domain". The CPUs it isolates stay in the
-> effective CPUs of the top cpuset, and of any cpuset that is not a
-> partition root. They are in the default root domain. The other CPUs
-> are in another root domain.
->
-> The message should have named isolcpus. The planned next version does.
-Right, top_cpuset is the exception here. Boot isolated CPUs are not 
-allowed in a root partition. They are only allowed in isolated 
-partitions. So root partition other than the top one cannot span more 
-than one root domain.
->
-> This is on tip sched/urgent (v7.4-rc1 based), in a 5-CPU guest booted
-> with isolcpus=domain,1,2. A is a plain cgroup v2 cpuset:
->
->    # cat /sys/devices/system/cpu/isolated
->    1-2
->    # echo 0-4 > A/cpuset.cpus
->    # cat A/cpuset.cpus.effective
->    0-4
->    # cat A/cpuset.cpus.partition
->    member
->
-> Two tasks in A call sched_setattr(SCHED_DEADLINE). Task 95 is pinned to
-> CPUs 0,3,4 and asks for 10%. Task 98 is pinned to CPUs 1,2 and asks for
-> 20%. Both are admitted. /sys/kernel/debug/sched/debug gives total_bw of
-> the root domain of each CPU. "Before" is the fair servers alone:
->
->    CPU     before    with the two tasks
->    0,3,4   157284    262141   (+10%)
->    1,2     104856    314571   (+20%)
->
-> So the two tasks are in the same cpuset and are counted in two root
-> domains. Then task 95 is given CPU 1 alone:
->
->    # taskset -p 2 95
->    taskset: can't set pid 95's affinity: Device or resource busy
->    # echo -1 > /proc/sys/kernel/sched_rt_runtime_us
->    # taskset -p 2 95
->    pid 95's new affinity mask: 2
->
-> After that, total_bw is 157284 for CPUs 0,3,4 and still 314571 for
-> CPUs 1,2. The 10% of task 95 is counted nowhere. That is the case the
-> patch fixes.
->
-> I did not test cgroup v1.
->
-> The planned next version has a new cpuset patch for the same
-> configuration. A deadline task in such a cpuset can also change root
-> domain when its cpuset loses CPUs. The patch refuses that:
-> - a write to cpuset.cpus fails with EBUSY if it leaves a deadline task
->    no CPU in the root domain that counts it;
-> - cpuset makes a partition root invalid if it would do the same.
+On Fri, Nov 13, 2026 at 04:37:37PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-11-11 09:30:37 [-0800], Paul E. McKenney wrote:
+> > I hesitate to disable CPU hotplug during RCU priority boosting...  Yes,
+> > one could argue that real-time workloads shouldn't be doing CPU hotplug.
+> > Except that others seem to be working towards making CPU hotplug more
+> > friendly to real-time situations.
+> > 
+> > But what fix did you have in mind?
+> 
+> I was thinking about skipping sched_init_dl_servers() in the built-in
+> case. But now that Joel started to reworking the test, it looks like a
+> better solution.
 
-We already have pending cpuset patch that will disallow taking the last 
-housekeeping CPU from the top_cpuset partition.  The partition will be 
-disabled in that patch if users attempt to do so. So it is effectively 
-changing the root domain to that of the parent cpuset.
+Thank you both for your work towards making the scheduler more able to
+handle this sort of thing and for your support of Joel's approach.
 
-As said above, a partition below the top_cpuset cannot span more than 
-one root domain. Are you referring to the case that shrinking the cpuset 
-CPU count to reduce the total DL bandwidth will fail with EBUSY when it 
-is less than what the existing DL tasks require?
+You know, RCU priority boosting seemed *so* simple when I first started
+working on it!  ;-)
 
-Thanks,
-Longman
->
-> My reply to Juri on patch 20 describes it with two related patches:
-> https://lore.kernel.org/all/e21aaf40-b929-444c-b707-3200e21d7301@efficios.com/
->
-> I would like your opinion on these two refusals before I post the
-> patch.
->
-> Thanks,
->
-> Mathieu
-
+							Thanx, Paul
