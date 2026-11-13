@@ -1,94 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586824;
-	b=T6fhHZcABbg8xyN7WHRyJhZCNf4lwjeNld08mgENab3KfDNXrQucse+t4X3AcFnEeQVJ
-	 Z4B4AgiM6LOjTBctoGYNV3rDxm/3u7IDa/apyrr6c/RPostCoUSY7Ml7QSOkJreQAQUI+
-	 072fwxXryHYBbuLDLx/uGrwvl6mx/XiZyHD5HQib09IBk72SMCd65p/IB5C34TszNyy54
-	 3nxL+LpTLS54aATtSqxVAa/iRQo9XZcB/59/8Qr1AtLPVkOaDwQeY/0uYlcxE6AHA8RGY
-	 vJ+GNVLwZPr8Xj7WhD7zK0Fs8Nw4TEFdrBuRm4V+BDRMqJHnjnx6VguWdvlgiFUnJbw==
+	t=1794589044;
+	b=Bc9LhiQseWTGeB250z9oCv5XenLdt8N4fVi4ywMWQckUvSTDpTxpY21bRCtYNbsOYVhu
+	 sCHnEH3ucGnQUIa7jNUtJ6WJWaht1mKTlJOYfa3wVBeJAM7T/AF0tkkeObZB/fIEhNKnJ
+	 fmuzg88ME/piZatKbkU+P73dORcDorEhkGIqs1VxgAgu5VlItujVEJinD3q1QaKlvo8oD
+	 5eHjvdCQr6Iiz6SNCwNbdYii2CXCPxSxUvEjnkq1BXrJyCb8Rs2TUuv57KuWUfXkHpVS8
+	 wzTor/6R1Va+wq3+LyteQMSgscdxmdii8XXxAmVqOLEy3tlCosurgmJuRbaycX8LGgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586824;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794589044;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
-	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Transfer-Encoding:content-type;
-	bh=9mKuKJKQdz797u5WZKCno/OeV4zsZ4Me4LaLtgDigC8=;
-	b=Eh/0TrZTussoGU8+m/JvsLDTTgFTfL+QTtmsiiRyRDD+HtxYlRHhOlC1d2D4rLJJsGsT
-	 Cz8nqn+64JP1iKwszANUIWOet4qU9iijHdrjKIiQZYc832+24ZyZCqwknNIBmlldIkKdS
-	 z10LHXiKC/5fErtcSoFilbgcxqKaKjplT26viIUihmAi3tsCWVLPbqIoEmfHoFYc2vmVP
-	 YZ/mjW5pGqPOZXX26Rmn0erkdh160wrF5wlsZjC2t9058Rfmj2ByA08WxaSCA22E8PlWS
-	 aEPMjveXQuFaPF5e8xnsMPMBl6E7XuR57mqD3K9ZPjSJ9z7Oe48Uy77jRDAKx7h3FEQ==
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=t7R90zeBhuCAPBYRWGVInzQKZ8XGZNdOKwhHfCCRUDk=;
+	b=R/rFZf5Z8vyT5wvFyIiYA8eb0rkcg7jREbOTTHczivNQVKBOg84gXrqJuxAofCZ3mnGA
+	 fCLr9WTzZsRUvTdaRxMcV6zY0HsQhGSYcBTfnpyuHqmY7kPMbn57FGW6l1mO+5pYwrIH+
+	 ZxNJZJfjmmg/EOaarVTW35g0awthkBFGivCvRYs1SUPAzGiPV2o/aao3wX3yCCuty9efQ
+	 V4E5D0Yuo4/nHVh5Cwtn4HJOKHyPkA27MFJoyaR+gpGOO4vNb15RNdF73XSWeNX2bg3Df
+	 SEFAOnpXrPCWKUzcXCFlcOxC/eG8dL8DjyqL+L/HC0NPXdqVeV3Ma/NGy3fgwRlKkxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FLEfR8Yu;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=MF3zm1Je;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323A9606A880
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:20:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 323A9606A880
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEEE606A337
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 16:57:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACEEE606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FLEfR8Yu
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=MF3zm1Je
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794586823;
+	s=mimecast20190719; t=1794589042;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9mKuKJKQdz797u5WZKCno/OeV4zsZ4Me4LaLtgDigC8=;
-	b=FLEfR8Yu11VH8O+2h5ShWwmesxFh51chc1YdI34UPzuY1MWsCO6x0jet2i01YxrAXcfZSy
-	5joBO3whsmxQHHMmN3rNUg6w8NY/mq/LoxTRE77olaXOTp7fJVeY/nXH6pW+ZWNT4NClmA
-	Pck/yAJgJ6GPObxs/7BxdFmtUeqT/E0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-172-cXpBP3OMPDG0KRhS9CjTbA-1; Fri,
- 13 Nov 2026 11:20:18 -0500
-X-MC-Unique: cXpBP3OMPDG0KRhS9CjTbA-1
-X-Mimecast-MFC-AGG-ID: cXpBP3OMPDG0KRhS9CjTbA_1794586815
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 75FC71955EA0;
-	Fri, 13 Nov 2026 16:20:15 +0000 (UTC)
-Received: from poros-thinkpadp16vgen1.tpbc.com (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA2F51800495;
-	Fri, 13 Nov 2026 16:20:09 +0000 (UTC)
-From: Petr Oros <poros@redhat.com>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Petr Oros <poros@redhat.com>,
-	netdev@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Mateusz Palczewski <mateusz.palczewski@intel.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Rafal Rogalski <rafalx.rogalski@intel.com>,
-	Shiraz Saleem <shiraz.saleem@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH iwl-net v2 0/5] ice: fix RTNL vs auxiliary device lock inversion
-Date: Fri, 13 Nov 2026 17:20:06 +0100
-Message-ID: <20261113162006.1236497-1-poros@redhat.com>
-In-Reply-To: <4b07e441-de15-44f8-a7ff-f67c9c442966@intel.com>
-References: <20261023070258.730168-1-poros@redhat.com> <4b07e441-de15-44f8-a7ff-f67c9c442966@intel.com>
+	bh=t7R90zeBhuCAPBYRWGVInzQKZ8XGZNdOKwhHfCCRUDk=;
+	b=MF3zm1JeiL5WZQ9A1terY6B/MuTQJMZnTn8mF1WR048ahPKE42s9Gn1jts4fs1imaTW9tY
+	jxGOk5dUXc8DzDE1s8luwNroMgmVagJ/YgFMtFYUmt9f3t0v72IOdSlm83g6gBBhsIQ6jQ
+	Q3HtHUC01cmhXmlPlA9roJG5TnDIyBE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-75-iLr4Ew3yPx-IylN1S-KSDw-1; Fri, 13 Nov 2026 11:57:21 -0500
+X-MC-Unique: iLr4Ew3yPx-IylN1S-KSDw-1
+X-Mimecast-MFC-AGG-ID: iLr4Ew3yPx-IylN1S-KSDw_1794589040
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-49034831bb3so725873f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 08:57:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794589040; x=1795193840;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t7R90zeBhuCAPBYRWGVInzQKZ8XGZNdOKwhHfCCRUDk=;
+        b=G88q3RipbS1OIcvd4XIRcLysQ+zsiwPw1JnDFDQqDP4hhIoVhsjQKZ9RxzNoyndFtI
+         QKtCm7ygJbCvrtrVbL6WKLIpPY9yfJCDMqk5v1mm+sV/Ud/Qz/rpVuTwhIbbHE5IauYv
+         yrNgS2z6/OYXszYI2psp7ylysteMIASd7tJU5muHL6bLa4WNHBjGKjgJabIiv55NhvPe
+         8PICP3KWtXhjMQhO3tXdzV0Fpz6Kk0MsQEODFs96XwBy6ZGMTMy0MfSCO5ml7EWsD1nY
+         7RQtcJIfbS6KUF+RUmGhxXq8Kk+t9DMpbOrwlQjJsEmz5PnAKGWMtB58Rk6kcCIqCOGl
+         53ug==
+X-Forwarded-Encrypted: i=1; AL+hErFBzQtN3s6mcDtvT8o5kw9PVUvzzjOZNC6so00fhi3zDu1jGfGi49+6gCGn4gdmXH4MzhuqJRDnw/DbenFPFw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/CprCn1/jym3BXeaIuoQIRehlXV9hyiGdj2rxAJXj4k0zdOCzw
+	xKYvbUEuBwDjAPDAjrO+Fln+bKCbcxiUTiZlH4/GtCM60M6yKqrt5c07/CbypnFyjUXKKXmjeI/
+	Fbmbz/mAd2BmZTbvmdxrRE1U/XDwxik8bJdE2PedeNAQtH5Avwnt9UFaIAK2aXQ1URpeI
+X-Gm-Gg: AYBFou1Zm0ESGxIY7GG4/+hzzQp+xUOUiWSM4pEnTGh6Zu7yqs0+/wlF4/EvPwEE0dB
+	VUX06IKZrsCyP7A4w2Du6y69dmf09mYmHH8lK7iw5sYAmiaQOXOr+3s7k9hjv5VZijILOeR+wem
+	QIL+L1AbDMqy+tpyeVXHMIyLtTgUCRbwUV9nipz8CSIfFL+clCCopl7hrGit7Gr2M2rDjHcfnou
+	AgFaaHwAjUz7yTBsBFxQwUMS/yJBjtqbb0FRiPWaGC88v2+0Fk5btmq7m0bjDPqx+ADfBCzC/jC
+	r/euPqzC+mtNOPv9Mo9HUbtx8BN5R+nfoiSAAwzcvGBmXzI9BsuLlijnFK49Kw98E/DBntODrpe
+	SOEQ0PrWs+1uIRRYrtGowJecVCVE1nrl6Ntex37kTI5gqgXaPJVgSAqs/F9wfoKEQNZYEZkFa1e
+	4JPQ8=
+X-Received: by 2002:a05:6000:4804:b0:49d:57b6:55eb with SMTP id ffacd0b85a97d-49d57b65632mr3158286f8f.17.1794589040090;
+        Fri, 13 Nov 2026 08:57:20 -0800 (PST)
+X-Received: by 2002:a05:6000:4804:b0:49d:57b6:55eb with SMTP id ffacd0b85a97d-49d57b65632mr3158249f8f.17.1794589039729;
+        Fri, 13 Nov 2026 08:57:19 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c604ee47dsm5790370f8f.38.2026.11.13.08.57.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 08:57:17 -0800 (PST)
+Date: Fri, 13 Nov 2026 17:57:14 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, parri.andrea@gmail.com,
+	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 20/29] cgroup/cpuset: Give back the bandwidth an
+ attach did not move
+Message-ID: <avdBakhOOFb_j6y3@jlelli-thinkpadt14gen4.remote.csb>
+References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
+ <20261108185406.1549770-21-mathieu.desnoyers@efficios.com>
+ <avWEta7b9X4K6hF7@jlelli-thinkpadt14gen4.remote.csb>
+ <e21aaf40-b929-444c-b707-3200e21d7301@efficios.com>
+ <avczaaXEh_xUhxpa@jlelli-thinkpadt14gen4.remote.csb>
+ <3b2419e4-3874-4ccd-8af1-3ca76df20717@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -98,21 +119,51 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: WEt1iow6SwxllLE8_e6_Qn4vm61gfXtlAwj9zQ9yi50_1794586815
+In-Reply-To: <3b2419e4-3874-4ccd-8af1-3ca76df20717@efficios.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: uQZhX9d2CuRYl9xXXfgMGgmxgeI5iYcBh18VnlDpFTA_1794589040
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/4/2026 3:10 PM, Jacob Keller wrote:
-> Sashiko has a couple of "high" complaints that look plausible to me.
-> Could you please confirm if you are working on a v3 or respond to the
-> reports and explain if any of these following issues are faulty reports
-> from the AI?
+On 13/11/26 11:14, Mathieu Desnoyers wrote:
+> Hi Juri,
+> 
+> > I believe we already have (maybe broken in-kernel) EBUSY on trying to
+> > hotplug last cpu with bw standing?
+> 
+> Yes, in dl_bw_manage(), for dl_bw_req_deactivate. It refuses a CPU
+> offline in two cases:
+> - the CPU is the last one of its root domain, and that root domain
+>   counts deadline bandwidth;
+> - the CPUs that remain lack the capacity for that bandwidth.
+> 
+> Both look at the root domain as a whole. The planned next version
+> leaves that check as it is.
+> 
+> The new refusal looks at each task. The root domain keeps other CPUs,
+> but none that the task is allowed on.
+> 
+> The case hotplug_last_refused of deadline_bw_test shows it, in a guest
+> booted with isolcpus="domain". I1 and I2 are isolated CPUs, in the
+> default root domain. H and K are housekeeping CPUs, in another root
+> domain. B is a cpuset of I1, I2 and H, and is not a partition root. T
+> is a deadline task, counted in the root domain of H and K. Without the
 
-v3 is out, rebased on Przemek's series in dev-queue. It fixes the
-AFTER_TC_CHANGE report. The -EBUSY and mqprio teardown ones predate
-the series, v3 only adds a warning for the latter.
+Oh, wow. So, this is indeed possible today, but of course completely
+broken from a theory/AC point of view. Urgh. :)
 
-Petr
+IIUC, what you propose for v6 makes sense, in that at least it should
+close holes we have today. We will then need find time in the future to
+address what dl_bw_capacity() already points out:
+
+ * XXX Fix: If 'rq->rd == def_root_domain' perform AC against capacity
+ * of the CPU the task is running on rather rd's \Sum CPU capacity.
+
+In the example above T should be restricted (and its bw accounted for)
+to either I1, I2 or (H,K). It shouldn't be possible to admit it in a
+cpuset spanning both isolated and housekeeping cpus like B.
+
+Thanks,
+Juri
 
