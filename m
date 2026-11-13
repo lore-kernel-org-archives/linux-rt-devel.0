@@ -1,113 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794582405;
-	b=yxgU8IGnZskhBJIUGYFFdCWdhiKdrDUFvBF4dx3HRcPU65wt6v9wuHrgJIO80Xmund9l
-	 bjQYknFn+P/MsXrFDc10U1niQMuNil8gdjVRu2I1bFRMk91h+M6gltj9PurubbwnFTm7z
-	 HN/5wl/zmJegP0yFDtYHPbvTd0THA7+L9Wt7bD2aZmxjfOF7IvQT9ybnIUYkn4OQQUPr3
-	 vSMjZ/2IksFcCITJNE4xZrDmaWfER+K2oOhlJS4cc02UVhNE5KVq0SRJ0juY0a06gXkMx
-	 ZPN6eEouH5CzgiaiqZuaXLgHMLRHZUj1Ds9aR/azSIAB4qNRDRVSYZwS2fcYIPoPgfg==
+	t=1794582681;
+	b=nS9pziTBiy3f+cydMDVgxQwjZXyF3aWNM6NDcWEJELJAbxVr2Z64HK/yXSt4Z4E9psMM
+	 V69Ubbd7hk3BNN5oMGyg6o2ZUblFME2TiX2KXhqNVXeLffTEDoFasbjOBv4IpZv2cUJsm
+	 u8J3ae0kFQdCLKyMOJuip8F7Pj8VIbXuepVc0orM/FOxfx11SSd2HFNOq4xC4T++6q0/a
+	 ZIvy63nIJ4H+UBnE0UbA99IzB8JfBBQCc2IZnWymzsadwkpFTbfMvK9O1IjQegpr0VAyV
+	 9yaLmF4oTdM0O1VS+8dBOLzIYStwIppymWoWmXuvOy0+1eera2uEx1ljaWS3XqbiK6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794582405;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=2Tp6iQjkfangii/DKRnGc80WH6QKMSA/4QcC/JVtYtI=;
-	b=CDF7PW1IGlXtdQce9gOj1AylQO64LD4xwTt5cYDx3lOKzA+AYMQlZ7mjKn9J2fPXGSeZ
-	 WNKXUEBwJY4NiK4N9IlqQjPVmsMVBkFydOmQkKmeV7MkvGps4LJKLnz0FhOyiLohTB3tJ
-	 ssoLkYusUke4LGJVUtCb2MFXazc0lk2l8ZJeKJNxFdHbBi0AkLs1VhNmcREg1yN1FMZUc
-	 OuQdTY5UX3EQCZ9W75Qc/dk2O/ic1C/r86+dkDZpws3fklX7gZJrasHBRkmO/w/KYriwt
-	 PJTGH2L1JaT1aPT5LCWT/jdA7YQeujHGQn3InrO4CjqqUmK1sdU5iAETMTV03OTTTvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794582681;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=anu/2F6mroicCWt3l+8C2jxZSamPe+b0q+OPEpgFtcQ=;
+	b=JsyT+TrgnL4v35zvM91QggLynSLh6J/QqyVpVA+1Q5+kC1alMN5VZ7VrMgzZM7eEpWOi
+	 mj911LG6MeSHcbJt5G2D90XBdifDtJMDLN8eOSYYgRVgT7j9qPxw+hUhMYeHBZamOf8Pu
+	 ElqRkkp/xBZdghKT7cGjA6wFno+Xwr2RmnrBCSJZN3EK7S3okZo9yECO45eVIXLmNqtOG
+	 P6ojUTJC4c+DSrzuqKXFY6aDNxppZHmxtOlItcyLZ7sR1N2FAiYcWvcAhPzq7dQsT4tdw
+	 yijnDs8rXbkF3zi6RRe49s1H2aN/A7Az38YfRjRkJIx4V2ILzyPKNJlTS6ZvgL7UqGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TciBMSmE;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="k9QSuc/N";
+	arc=none smtp.remote-ip=209.85.221.180
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E864460A6F71
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:06:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E864460A6F71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4425F606A331
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:11:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4425F606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TciBMSmE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794582404;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Tp6iQjkfangii/DKRnGc80WH6QKMSA/4QcC/JVtYtI=;
-	b=TciBMSmE/FFXG9MYsN+ix7zwV6Y6/GUs5mmtdk4MHuNf8la8FlUCTpWUPSiAEpOvvbOcOe
-	XjOsiRDLwQu3u7vdeSK/7pE6jiIQjWE4OjHh5/Yv9KTgGj/jTqW1e4pG2TfE86saEgepzz
-	FBPEkedIRBc4UF6w6Twyl8zXqj5XgQs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-kj5R7q8vP1GelUnvSKlW4w-1; Fri, 13 Nov 2026 10:06:42 -0500
-X-MC-Unique: kj5R7q8vP1GelUnvSKlW4w-1
-X-Mimecast-MFC-AGG-ID: kj5R7q8vP1GelUnvSKlW4w_1794582401
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a35db2d6b3so6208735e9.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 07:06:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k9QSuc/N
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5eac01ff101so393203e0c.2
+        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 07:11:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794582680; x=1795187480; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=anu/2F6mroicCWt3l+8C2jxZSamPe+b0q+OPEpgFtcQ=;
+        b=k9QSuc/NPKf8baf/xcBDQrZcxhV35DQIvLevK6Sljk+iWh5UE0jUA8YREpJAQs9Bej
+         cM2B8DygF4DEXH+1TmvH1lQxDR4D5G16oNAfNfhEjroV8+iY/a3Kcwe/xoeN56yEA0EQ
+         FLV71R6E00HcEZHIF9E4DNCCgGa+6Hjnj1pXcGmeRoRELGhu1TS79sOtal+5YC2iV0fB
+         9S00nkNGzedgCrcTl4RlYjrHyiGpidkEjnyeuZ9G4sZ27UYWAF9KFa5X1xTwTaK3ET0z
+         4Vx6Mb62gZk6OEwlpaP/0+4Chmj8NBulSnhlQmbfJCWmg7RqO/A0QhOYk/Pm0h3XzcG7
+         FrBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794582401; x=1795187201;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794582680; x=1795187480;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2Tp6iQjkfangii/DKRnGc80WH6QKMSA/4QcC/JVtYtI=;
-        b=q2MS5EDWRK61yAQb1vl8BN/aZOMj+WFTHIU3RJWsgmPL/2HoPLozGp1rPU89pl7nEa
-         DzYP197W7emAkTYiBIBf6Jv/OPjMp6kjFtUzMCmpc+VPm3CGsPW69vxqStWgSEuEtKsa
-         xdhkRUVe168zRYAdOIMvaAtBMC7wN8O1oUXXNcKk/apcBFUeP9sIlyoc0zJ1j8fLMx/7
-         LwXND8FioBrb8t3QeNvA/5Qz5bHbn+NUg92zhhnUlM44lhWLGFIut+IzXedCCr8Lj8H4
-         jZU9wNerUeyy6FakqXmzfocGy198+HUUJ2HGRn6TyJr/XabHBViriH0WFq6Z/we6JjiQ
-         FwWg==
-X-Forwarded-Encrypted: i=1; AL+hErGIdLJ3FrUt9q/PpUF23IA5nEMoz8XdZd/SZJPf5K0jll5NBpVlQ8rXhMIc6LPCnkXTV3euxzsf8hNQYmkNhA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+3Ea6AAjsfLSDAnNPlRAihf8wpdYVxKhQc0e6ZbJzFRi2i8xpx
-	iUW4golXvuLedYb6krgOqkTx3dCyvTL7wDX51N5CzpJ5E0vdAAxYtMW+Iu3HKnEEJAbPVCj3dUO
-	We1/Xo7a2RkgAOHrd9auSTIi29k2mpnaQmYCCDDXEQu87pc9TVNkFvlDtviAtNi++ZHhv
-X-Gm-Gg: AYBFou2agnWXrzwcQHh2OioBPrEQhL1SNxb7F5+iBzmGeHcUz7EsL6bwPhoa0PCP2Y6
-	IhWwPLATXsTnnLutVRiqkmJywiA9Bd5NRfAwWaJyeVrpg4SILmk/Fnz1euOFm/lQDr/4CYJ9aCH
-	Q2B41uSLel/+1IXrQXl/WYKWbzoEacbbXe5NAB3mlglFyJq4XR2h1UZuuZO3MmIiuYZ/+i+sIfv
-	lmSufdiSdTaYr+Ay+unaxdz2/Wr4jjt1dAd+E89IkdhmlFW44MfRc2OBZ5WA48gJ9x38ZhlPnIR
-	7XH0g01KmSAyOrxE/h5wUmtyqXMTr1JX9sMdTFfF2LdWJmPbRjwUM70ba2bqhynVIMg51l/p5AN
-	ni+8dqks18cx1jSgdoUxJjqRWuqd/pOpS9KACgX3+3R7RdW+juZcbgcphi0BLxg8Dq1jg+x2fm5
-	oRL18=
-X-Received: by 2002:a05:600c:a30e:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4bb55a5d63fmr51094435e9.11.1794582401481;
-        Fri, 13 Nov 2026 07:06:41 -0800 (PST)
-X-Received: by 2002:a05:600c:a30e:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4bb55a5d63fmr51093885e9.11.1794582401031;
-        Fri, 13 Nov 2026 07:06:41 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5d2872edsm20774755e9.12.2026.11.13.07.06.38
+        bh=anu/2F6mroicCWt3l+8C2jxZSamPe+b0q+OPEpgFtcQ=;
+        b=F7v1LrWkRaqWUA/UXr+vYrChzOmlrP6EuErsRKir3ABbU7ZUt0Dj2FlJx+VVdZNPxI
+         zx+WM1bZtX1uy0dYp5i3L+CwdGE0TmJe6m8GkkHDZBmCsIW8Ht4fx2QN3t00vAeB93c2
+         Xj8XYs87BshHR6CQ0ag+/ZSH13uqIGO6vaFDja7lFryxbRz7uFN/AGIrLJhiKgolOYf9
+         y9TN14xqtMEV4UQPzU1WdnhrYWHnJkn5F72mZ5NYY7qfmRanJyNMmcfgUxqqEdPXJL3V
+         DVEhMy9U8mnKW8CxfnUBrR1NS00nUKtTsJ0oS3oVRmzs+BMTeF4qfWxCq3TB3yTjCBZt
+         ZWuA==
+X-Forwarded-Encrypted: i=1; AL+hErFlnUpVDmesqBrPRZ9hXr6bFyt8MQOIDJ9aFxZCtFH9SNRUAqK93egNn740sFlSomb430gdsqCM4u0je4Z4mg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+YIUAMVaXjahqx5rHZrxqx70MZ45vzv6mA9HENcaggWhkxJ5DX
+	DzxJKBHG68R8foidsyHqjtKy2Y+Z03HX07xEZ8huE3HQstPmU58JOqe8
+X-Gm-Gg: AYBFou3EPCruZX4euB16iDGWyFK2kxpKhDfmFT0bnjRPcnGMNVNrwbIpVqWPEBOKVfE
+	A/OpRzDxGWt/wz+GffnlUx27Q0ErmYNpfOh+W2H5CGwA2g4LWq+Nhdn4d8uqb071r9uuHRGipJp
+	p/JesDB0HBkcJld0ENVKFMshjn0GMXQ7SQWzbiR6MZfw1DWx4vIJ9cXNrMWrminBt9YEh+XV5u2
+	H/Sz2n3KbVCTsnDWL5te/o6OqI7J/XP8JByX9gKTOS9yv7MTd8SOaAj8Nl5PQcg/gKGfOd4OIiI
+	fJjmQl1W70SwHB/Y2zqbcWIEnrlO+Yscq0LH3+/UmQsKFHMoOMh8UXT/yAtM14hO5cEF11pl+JE
+	EcyItaI4b6SG2YYVRpuDKCF0UrZkkH91QuEwUV+j8FXy6myq2qAafmQ9GVB0qEvybQgASsa8jyj
+	mzlxwpJss4JGrkIKOhpQ79hn7iGiqyg+eYno7zXiEYjqRoETdnApif/wH0ViPneb9D4TcNYblWw
+	rz5oT62DUKUu2UPZJie+jzYWD6SIdKIn4lgUNIqPuFzoSsSV9P39A7Z8eEeIVpq1tm6av2uTrQf
+	j5QXdVBvouPG4mIu/2wtDN/pZ6qV/E42TOjeCTzy/TzE3oxmyhMvn4gmLzExJ0i7cB3WUFU8Vin
+	dBWItxAaDMHZlsEyWwViHV0D7jPJaTWdIrGE2fzOiq1FBsfRXTzutAKSzCvp9zSk+ROMqriGoS2
+	refbxW6c/2
+X-Received: by 2002:a05:6122:1816:b0:5c9:a60b:e5c0 with SMTP id 71dfb90a1353d-5ee34aaf4ffmr865841e0c.16.1794582679986;
+        Fri, 13 Nov 2026 07:11:19 -0800 (PST)
+Received: from gmail.com (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee34e32f83sm1472842e0c.6.2026.11.13.07.11.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:06:39 -0800 (PST)
-Date: Fri, 13 Nov 2026 16:06:37 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
-	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 16/29] sched/deadline: Record the root domain holding
- a task's bandwidth
-Message-ID: <avcnfTqZzNGLlbHk@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-17-mathieu.desnoyers@efficios.com>
- <avSPoSnNATnwZ8cS@jlelli-thinkpadt14gen4.remote.csb>
- <7459ff0d-d8e1-4fe4-b2de-4b4f06be9bb9@efficios.com>
+        Fri, 13 Nov 2026 07:11:19 -0800 (PST)
+Date: Fri, 13 Nov 2026 10:11:18 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jingxuan Xie <jingxuanxie@deeproute.ai>, 
+ netdev@vger.kernel.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ =?UTF-8?B?6Z+p5bCR6Ziz?= <shaoyanghan@deeproute.ai>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ John Ogness <john.ogness@linutronix.de>, 
+ linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev
+Message-ID: <willemdebruijn.kernel.3a16e755c0d38@gmail.com>
+In-Reply-To: <20261113023809.24730-1-jingxuanxie@deeproute.ai>
+References: <20261113023809.24730-1-jingxuanxie@deeproute.ai>
+Subject: Re: [PATCH net v5] af_packet: avoid waiting for TPACKET_V3 copies at
+ retirement
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -117,54 +112,53 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <7459ff0d-d8e1-4fe4-b2de-4b4f06be9bb9@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PMbwVpPu3uXT6Y62gi3NOw5Hi01BTtnxd07JcISmMxg_1794582401
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On 13/11/26 08:33, Mathieu Desnoyers wrote:
-> Hi Juri,
+Jingxuan Xie wrote:
+> TPACKET_V3 retires a full or expired block while holding
+> sk_receive_queue.lock. prb_retire_current_block() takes
+> blk_fill_in_prog_lock for write to wait for in-flight skb_copy_bits()
+> before publishing the block.
 > 
-> > > +           if (p->dl.dl_bw_gen == dl_bw_gen) {
-> > 
-> > So, this is not guarded by dl_departed_lock, but then this gets fixed in
-> > later patches?
+> On PREEMPT_RT a read lock can be held by a task that has been
+> preempted or is running on another CPU. The packet path or the
+> retirement timer then blocks on the write lock while holding
+> sk_receive_queue.lock, and the receive path resumes only after the
+> copy completes. This was observed as a receive stall of hundreds of
+> milliseconds in a PREEMPT_RT deployment; manual inspection found the
+> same unconditional write_lock() in both the full-block and the timer
+> retirement paths.
 > 
-> Yes, but only as a side effect, and the patch should not rely on it.
+> Try to take the write lock without blocking on PREEMPT_RT. If a copy
+> is still in progress, leave the current block and its metadata
+> untouched:
 > 
-> dl_bw_gen changes in a rebuild, which holds cpuset_mutex. From patch 18
-> on, set_cpus_allowed_dl() reaches this test only from cpuset_attach(),
-> which holds cpuset_mutex too. At this patch, from reading, other
-> callers still reach it without cpuset_mutex: select_fallback_rq(), and
-> sched_setaffinity() with admission control off. A rebuild can then
-> change dl_bw_gen between the test and the __dl_sub().
+> - the retirement timer re-arms itself and retries after the configured
+>   interval;
 > 
-> The planned next version takes dl_departed_lock around the test and the
-> update of the record, from this patch on.
+> - packet allocation returns NULL, so tpacket_rcv() drops this capture
+>   record and accounts it in tp_drops, while the original packet remains
+>   in the network stack;
 > 
-> > > +    * enters the class. A runtime below about a millionth of the period
-> > > +    * gives a bandwidth of 0. It counts for nothing, and no move updates
-> > 
-> > Ah right, quite cryptic corner case buried in this comment. :)
-> > 
-> > This is the 1024ns/2s of the test. Which indeed gets dl_bw 0. Don't
-> > think it's a huge deal from a theory/practice pov as to actually make an
-> > impact we probably need quite a lot of these admitted (fork bomb style).
-> > But it's still weird :P. Not sure if we want to impose a min of 1 dl_bw
-> > for these. If it actually complicates the accounting (for no good
-> > returns) or not.
+> - a later packet can retire the block once the copier has finished.
 > 
-> I agree that it is odd. I left it as it is upstream. The accounting
-> needs no special case for it beyond this comment: a bandwidth of 0 is
-> added and removed like any other. The case move_zero_bw of
-> deadline_bw_test covers it.
+> Do not dispatch the next block while the current block is still open.
+> The existing lock order and completion ordering are preserved, and no
+> new state or worker is introduced. The trade-off is a higher capture
+> drop rate while a copy is in progress; original traffic is unaffected.
 > 
-> A minimum of 1 would change what sched_setattr() admits, by one
-> millionth of a CPU for each such task. I would rather not do that in a
-> series of fixes. I can send it as a separate patch afterwards if you
-> want it.
+> Non-PREEMPT_RT kernels keep the unconditional write_lock(): there
+> read_lock() disables preemption, so the writer only waits for the copy
+> to finish, not for a scheduled-out task to run again.
+> 
+> The stall was reproduced on QEMU arm64 SMP PREEMPT_RT by delaying a
+> copier after frame reservation: without this change the next sender
+> blocks until the copier is released, with this change only that
+> capture record is dropped.
+> 
+> Fixes: 632ca50f2cbd ("af_packet: TPACKET_V3: replace busy-wait loop")
+> Signed-off-by: Jingxuan Xie <jingxuanxie@deeproute.ai>
 
-Makes sense, thanks.
-
+Reviewed-by: Willem de Bruijn <willemb@google.com>
