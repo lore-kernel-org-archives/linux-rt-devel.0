@@ -1,86 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=68.232.153.233
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583271;
-	b=E9x6pGnnAGAXnJtjk4nA5MukeKC/+rz9h6gP9jIOr7KxQLhaKMI+sAyVZe7U6PIlHt8m
-	 F7+C9ys7PcivcKqAtM/JpSu2PkLLuDd0rLIgpFt/zLT3ddB4j6h7meZEZHQf+E7V8RD9h
-	 XD2rWLfIvtAMsvO65OgTXhHSpG+Wo9sXOZwVT8GKGsv96V5pPwPTWben0em/uJYczDDKm
-	 Yr9fHclBozMSuGU1HdyJRMEbeafgd6h9kzTqjE7t41BtsO99wvosNn6WrQlM51FlXuX4f
-	 NcBunRLTekF29Ri2QF1xkLlJUYZyQboM1XFUp1qozc9NCVqdlBQR8gBXYLvmE3Q8wPQ==
+	t=1794583363;
+	b=CAwriI3a62R/HtPjXgOP5/ZgNTfdSbdPkLhqFGeQo8jTA6SslSvzJTJtQDJETDfBtyrK
+	 dirhQlqZIC20Qr+brKtSzvTp6N6mxW3Bv2EEW+iIZFqZTpnTCZXxuoWJlqmqbWCI3+CZq
+	 vMcNFwBjvDSNFT7tdBJwOfk76LZ+/TWJjKPUrlgRYZ7lSdGDG2Vo5hHM2MSxX9Q1WM2Br
+	 rMClAg2RPN9ZCnjCwi7lgC0c5NCZugUc1EN4IzAI/pnUIPliNwNGscTN8byHcx8cote4Y
+	 TXvcAEhBI79eSmVZmAN4vocoItFLuhtyMZgziRlVBY10GBZN1suMpcf9CaLzys9HvCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583271;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=OjIDt+f/7+dWlNv53r9qvEutgjmi1ked15ytPMp8nBU=;
-	b=rYv1SooK+JWRyRH3JohG67B4DGRzrdJ/oCtbd4teM6p2DQR+5RW2ojKEjnPg9u3L6QCO
-	 l+PIZuZxVZ36uUP+JtdFjzRfAIqMJ6IADv3kHv5Db0Dt9EzZhq+fBaCeZki6lG9vLl+4G
-	 4mpJdGBVhYERbox86UFuH+54Sa0ZCLeFJU/dbSxiuf1saYRqDWZXZM5X2Xv0Ga1yl4RmF
-	 RJAc6akiY7LuChnNaEy9+z49gwyuF3uXQCZmuEOMl0KzAJOK3vN9eGN9dpr/r4+BHk4Eu
-	 d7qfnBNug2lFJ/kyNH1Ykqf//d29WY40BG8VMfC/AveaZXRCuSd3xOKsCmvxLeeAVVg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583363;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-Amp-Result:Received:Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-ID:X-B4-Tracking:To:CC:X-Mailer;
+	bh=JcR0yzIY7Avjw5dM5OpUaEfboB1lvkpzLohI8a5q8T4=;
+	b=x1dbCUomFeCZBTZw7h1Rfu+TqwBVqDYee+uEkCXqPrzdeaHUXW2Xcv9PcCo4AQIQTvd1
+	 rG536FCX/CPt2wAYLslAKutjw1F7iDJjFrS3ZdWUJiG8ExoGAFm4F4lhjzC3qZRBsLG3j
+	 xD00v0CbYJ3R9m4Ed1gjrhuC8cHLhzBKT9cj8iappteeu3vrbprQI62V3ecBRSsFoe5Vz
+	 xV2Sz8QmG4MWw+q7zmmraDqa6FshK2su6OdeOT8cQj0wee7qatGAu6/eIVjTNHJJvVkcT
+	 DxZkfo/0lsrFa7a8IfpXmk7h8Uyq/yGDsGtws7Xs5x5ougeczZ/2c098suvYlLTURiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=debian.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.224.41
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=microchip.com;
+	spf=pass smtp.mailfrom=microchip.com;
+	dkim=pass header.d=microchip.com header.i=@microchip.com header.a=rsa-sha256 header.s=mchp header.b=PO3b7Ysn;
+	arc=none smtp.remote-ip=68.232.153.233
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E773606A32E
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:21:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E773606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67bee1f693bso888631d50.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 07:21:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794583270; x=1795188070;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OjIDt+f/7+dWlNv53r9qvEutgjmi1ked15ytPMp8nBU=;
-        b=hlx2vKXwVd0c8BAE4FHvKRT6RHyyQnXELPKGyqaS6ACMk7pyMaUFl83f//iVM10jMg
-         ExCGH0FM0GVh7CPNW5Biiv/eN0mbMGPTScofnhWDUFQgQ9iCKzQ8BYIU+Bjh2GeWGksx
-         FSziyiqozPHAwptQHe2gHQFK7oj8Nqzmml9d9p72O8RVsCfQhEpojXiU4Zi97mA+KvG8
-         My9vcLE0z1c3MKLncSUC+dzryjuVfcu9ipkpKfOR7CleVBVkZUblHbU9rXyBYvfcsO6X
-         Bo7kJCMediEd48kOyU8sK4SohF2q6l8h90rI8X6z6Eq1RcFRPt87OZS/96qCpaWgImXs
-         DfYw==
-X-Forwarded-Encrypted: i=1; AL+hErHuXtloIlotvHvHcxmpmeiQysx0c9GPlykaEi8D+548XNoT2HtIWiX2L96g9F9mF+qgy1E0dlIxtC15nddTZg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8QPdxNSChXF9XcDJzsMVLjky2a00kD32otiB1ONz2SERoz88ek
-	DM+Y8Yoys7O+rg3ihFwLreQmQem+4BGYBkIsw7uqK1brKIuQ88Zxgm13
-X-Gm-Gg: AYBFou0+GK5EIM01dJdPNmbKGfwgtcb514u26BKYsmQ0FNrTR3S8ACkllCkZKJ/+w89
-	K51SOeEQHgk0OTv/6VOIaz71YXzfKfbHIDf8yxVVAfRZlFlVgIS83pRavoTwhpac1wbW52UBFZW
-	fmhKUD3ZwO05Ewf8NerZGe0OweugP/yusO1SnPUKEaNm+U/uzjq0Pm9gix7k2BCmS0ER3tKDM4N
-	WatZlQSOcxYXUDkiZ6OqpoSZ3d+YUuI/YNFt9VIgF10O6d8G6WgT/zNo6ZBEtlv67k52tna3wwB
-	jn7WecAz5YU/W3v9YVEPX+yQ4c1j/Xts3SjzTPhSrkKts2ggAzUzMITyTxqJPAhYkn9jlQv9I4o
-	1/jxmSrpf7NWfDdDsvBz7Vl/USWcBDTrEXFUoH41Pn9QhuAGPvknGSEjig6RE7dGVRTqWCWpPPe
-	3CEZvGov96gplKjxXc0m5F1vg5QuLnViOh4OXqp2Zvvctyocvv8NC0KCOA18bWKHQzZEPX4EsEu
-	WpSNioZWGOwclJTnMVv09iCQWymoSpGnAed0REwot53onDltSQ9yymqjbpNO9jJB/zlITa5q5qq
-	gSCO3ERtvktcfEOSbxSz
-X-Received: by 2002:a05:690e:4503:10b0:67c:2b34:319c with SMTP id 956f58d0204a3-67d897f540dmr1252728d50.78.1794583270342;
-        Fri, 13 Nov 2026 07:21:10 -0800 (PST)
-Received: from gmail.com ([2a03:2880:24ff:4e::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67d8a629a2dsm2307745d50.21.2026.11.13.07.21.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:21:07 -0800 (PST)
-Date: Fri, 13 Nov 2026 07:21:06 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, netdev@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Stephen Hemminger <stephen@networkplumber.org>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net v2 1/2] netpoll: use a raw lock for the deferred
- transmit queue
-Message-ID: <avcqBLwy_TB0w6PF@gmail.com>
-References: <20260928064239.32456-1-kmehltretter@gmail.com>
- <20260930192103.62973-2-kmehltretter@gmail.com>
- <20261001074819.gQ3w8q6P@linutronix.de>
- <ar7sTVun7mF-4nl6@gmail.com>
- <20261009155225.6Uy7b0wd@linutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1929D606A323
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 15:22:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1929D606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=microchip.com header.i=@microchip.com header.a=rsa-sha256 header.s=mchp header.b=PO3b7Ysn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1794583370; x=1826119370;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=yK1v7SYypYtxMYlBOK+reDEg6ri+YCAaPK6wJTbMxnU=;
+  b=PO3b7YsnpUaWtPrddnI4l1v7YEXGWzILOvMNDWJ5IyJkeMYJABgfNaEm
+   fxmGz4XPH+hYozJbvXiX/syxbDZclqHP4BgfT3zs4YfEBaFqr8h8f5XH7
+   Kk7JNvuLqiYeYzqFDNTq68+6eBAUpa8ztwisOB3J19NwmhVndmi0q80RO
+   N17g9ietCZtLwewa3CdJfKwYooTe4+sqARqCwomF4Iufr6gCETdPK1yEj
+   1a7sXHNWu3wzMEqBkEU9sbWstr5MYiscqKSR7iVeiYuvSOKkczbU20uS+
+   X0K7zRsi6rma8sAaXy99kWqcc0lY+4A12aK2FABuH0eASn7hLvCQ0qu0o
+   Q==;
+X-CSE-ConnectionGUID: vLFyY87STx+IHUXMC/WZyg==
+X-CSE-MsgGUID: qsDzMb4CTFqyVRSfxDtNtw==
+X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
+   d="scan'208";a="297886620"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Nov 2026 08:21:01 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Fri, 13 Nov 2026 08:20:42 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58 via Frontend
+ Transport; Fri, 13 Nov 2026 08:20:40 -0700
+From: =?utf-8?q?Jens_Emil_Schulz_=C3=98stergaard?=
+	<jensemil.schulzostergaard@microchip.com>
+Date: Fri, 13 Nov 2026 16:20:32 +0100
+Subject: [PATCH v2] spi: atmel: poll short PIO transfers
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -90,41 +75,236 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261009155225.6Uy7b0wd@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <20261113-spi-atmel-poll-short-pio-transfers-v2-1-f280762685e2@microchip.com>
+X-B4-Tracking: v=1; b=H4sIAL8q92oC/5WNQQ6CMBAAv0L27BpaDQFP/sNwoEuxmwBtdhuiI
+ fzd6g88zhxmdlAv7BVu1Q7iN1aOawF7qoDCsD498lgYbG0bY4xFTYxDXvyMKc4zaoiSMXHELMO
+ qkxdFN7YTuY5M5xyUUBI/8es3efSFA2uO8v49N/O1f+U3gwbttSaitmmJLveFSSIFTmeKC/THc
+ XwAxBWKrtgAAAA=
+To: Ryan Wanner <ryan.wanner@microchip.com>, Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+CC: <linux-spi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+	=?utf-8?q?Jens_Emil_Schulz_=C3=98stergaard?=
+	<jensemil.schulzostergaard@microchip.com>
+X-Mailer: b4 0.15-dev
 
-Hello Sebastian,
+Every PIO transfer enables the controller interrupt and sleeps in
+wait_for_completion_timeout() until the interrupt handler has drained the
+receive data. For a transfer of a few bytes, the interrupt, the
+completion and the two context switches take several times longer than
+the transfer on the wire. Devices that do their register IO over SPI,
+such as SPI attached Ethernet switches, issue one message of a few short
+transfers per register access, so this overhead dominates their register
+access time.
 
-On Fri, Oct 09, 2026 at 05:52:25PM +0200, Sebastian Andrzej Siewior wrote:
-> I would suggest to untangle that local-irq-disable assumption. Then we
-> end up with the ::write_atomic callback on PREEMPT_RT which will raise
-> warnings. But those will appear only on panic() and as the last console
-> due to CON_NBCON_ATOMIC_UNSAFE so everything will go according to the
-> plan.
-> On !RT the whole __netpoll_send_skb() will be with disabled interrupts
-> due to the console lock. On RT it won't and I don't know if anything
-> down the call chain assumes that.
+Busy-wait on the status register instead of enabling the interrupt when
+the transfer is estimated to take less than 30 us, which is the limit
+spi-bcm2835, spi-imx and spi-stm32 use. The estimate uses the effective
+clock rate and the word delay.
 
-Thanks for the patch, On PREEMPT_RT, the send path is clean.
-all the selftest I have are passing fine, without a single splat, while
-the unpatched kernel produces about a dozen over the same tests. 
+An earlier interrupt driven transfer, for example one that timed out,
+can leave the receive and overrun interrupts enabled. Such an interrupt
+can be delivered while a poll is in progress, and with PREEMPT_RT its
+threaded handler can run at any later time.
 
-On !RT, the first message triggers, but it doesn't seem a big deal.
+Set the poll flag and mask these interrupts under the controller lock
+before a polled transfer is started. Take the lock in the interrupt
+handler before it reads the status register, and return without touching
+the controller while the poll flag is set, so that the handler cannot
+consume the status we are polling for.
 
-  WARNING: kernel/softirq.c:453 at __local_bh_enable_ip+0x118/0x120, CPU#4: pr/netcons_netc/307
-  ...
-  Call trace:
-   __local_bh_enable_ip+0x118/0x120 (P)
-   netpoll_send_skb+0x1a8/0x364
-   send_udp+0x348/0x4a8
-   netconsole_write+0x16c/0x628
-   nbcon_emit_next_record+0x150/0x3cc
-   nbcon_emit_one+0x74/0x158
-   nbcon_kthread_func+0x18c/0x258
-   kthread+0x108/0x134
+Signed-off-by: Jens Emil Schulz Østergaard <jensemil.schulzostergaard@microchip.com>
+---
+Changes in v2:
+- Drop the polling_limit_us module parameter, poll below a fixed 30 us
+- Set the poll flag and mask the interrupts under the lock, and let the
+  interrupt handler take the lock and return while a poll is in progress
+- Drop the remaining-bytes check in the poll, the interrupt handler no
+  longer runs while a poll is in progress
+- Link to v1: https://lore.kernel.org/r/20261112-spi-atmel-poll-short-pio-transfers-v1-1-240ccc868cc3@microchip.com
+---
+ drivers/spi/spi-atmel.c | 85 +++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 79 insertions(+), 6 deletions(-)
 
-Anyway, is this patch something you are planning to send officially?
+diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
+index ffc1292b08c1..ea89a75850b6 100644
+--- a/drivers/spi/spi-atmel.c
++++ b/drivers/spi/spi-atmel.c
+@@ -234,6 +234,8 @@
+  */
+ #define DMA_MIN_BYTES	16
+ 
++#define POLL_LIMIT_US	30
++
+ #define AUTOSUSPEND_TIMEOUT	2000
+ 
+ struct atmel_spi_caps {
+@@ -274,6 +276,7 @@ struct atmel_spi {
+ 
+ 	bool			use_dma;
+ 	bool			use_pdc;
++	bool			poll;
+ 
+ 	bool			keep_cs;
+ 
+@@ -706,7 +709,8 @@ static void atmel_spi_next_xfer_single(struct spi_controller *host,
+ 		xfer->bits_per_word);
+ 
+ 	/* Enable relevant interrupts */
+-	spi_writel(as, IER, SPI_BIT(RDRF) | SPI_BIT(OVRES));
++	if (!as->poll)
++		spi_writel(as, IER, SPI_BIT(RDRF) | SPI_BIT(OVRES));
+ }
+ 
+ /*
+@@ -776,7 +780,8 @@ static void atmel_spi_next_xfer_fifo(struct spi_controller *host,
+ 	 * Enable RX FIFO Threshold Flag interrupt to be notified about
+ 	 * transfer completion.
+ 	 */
+-	spi_writel(as, IER, SPI_BIT(RXFTHF) | SPI_BIT(OVRES));
++	if (!as->poll)
++		spi_writel(as, IER, SPI_BIT(RXFTHF) | SPI_BIT(OVRES));
+ }
+ 
+ /*
+@@ -1151,6 +1156,13 @@ atmel_spi_pio_interrupt(int irq, void *dev_id)
+ 	struct spi_transfer	*xfer;
+ 	int			ret = IRQ_NONE;
+ 
++	atmel_spi_lock(as);
++
++	if (as->poll) {
++		atmel_spi_unlock(as);
++		return IRQ_NONE;
++	}
++
+ 	imr = spi_readl(as, IMR);
+ 	status = spi_readl(as, SR);
+ 	pending = status & imr;
+@@ -1178,8 +1190,6 @@ atmel_spi_pio_interrupt(int irq, void *dev_id)
+ 		complete(&as->xfer_completion);
+ 
+ 	} else if (pending & (SPI_BIT(RDRF) | SPI_BIT(RXFTHF))) {
+-		atmel_spi_lock(as);
+-
+ 		if (as->current_remaining_bytes) {
+ 			ret = IRQ_HANDLED;
+ 			xfer = as->current_transfer;
+@@ -1189,14 +1199,14 @@ atmel_spi_pio_interrupt(int irq, void *dev_id)
+ 
+ 			complete(&as->xfer_completion);
+ 		}
+-
+-		atmel_spi_unlock(as);
+ 	} else {
+ 		WARN_ONCE(pending, "IRQ not handled, pending = %x\n", pending);
+ 		ret = IRQ_HANDLED;
+ 		spi_writel(as, IDR, pending);
+ 	}
+ 
++	atmel_spi_unlock(as);
++
+ 	return ret;
+ }
+ 
+@@ -1375,6 +1385,56 @@ static void atmel_spi_set_cs(struct spi_device *spi, bool enable)
+ 
+ }
+ 
++static bool atmel_spi_use_poll(struct atmel_spi *as,
++			       struct spi_transfer *xfer)
++{
++	u32 hz = xfer->effective_speed_hz ?: xfer->speed_hz;
++	int word_delay_ns;
++	u32 words;
++	u64 us;
++
++	if (as->use_pdc || atmel_spi_use_dma(as, xfer) || !hz)
++		return false;
++
++	us = div_u64((u64)xfer->len * BITS_PER_BYTE * USEC_PER_SEC, hz);
++
++	word_delay_ns = spi_delay_to_ns(&xfer->word_delay, xfer);
++	if (word_delay_ns > 0) {
++		words = xfer->len / DIV_ROUND_UP(xfer->bits_per_word,
++						 BITS_PER_BYTE);
++		us += div_u64((u64)words * word_delay_ns, NSEC_PER_USEC);
++	}
++
++	return us < POLL_LIMIT_US;
++}
++
++static int atmel_spi_poll_xfer(struct atmel_spi *as,
++			       struct spi_transfer *xfer)
++{
++	u32 done = as->fifo_size ? SPI_BIT(RXFTHF) : SPI_BIT(RDRF);
++	u32 status;
++	int ret;
++
++	ret = readl_poll_timeout(as->regs + SPI_SR, status,
++				 status & (done | SPI_BIT(OVRES)),
++				 0, POLL_LIMIT_US * 10);
++	if (ret) {
++		dev_err(&as->pdev->dev, "spi transfer timeout\n");
++		return -EIO;
++	}
++
++	if (status & SPI_BIT(OVRES)) {
++		dev_warn(&as->pdev->dev, "overrun\n");
++		return -EIO;
++	}
++
++	atmel_spi_lock(as);
++	atmel_spi_pump_pio_data(as, xfer);
++	atmel_spi_unlock(as);
++
++	return 0;
++}
++
+ static int atmel_spi_one_transfer(struct spi_controller *host,
+ 					struct spi_device *spi,
+ 					struct spi_transfer *xfer)
+@@ -1409,9 +1469,15 @@ static int atmel_spi_one_transfer(struct spi_controller *host,
+ 
+ 	atmel_spi_set_xfer_speed(as, spi, xfer);
+ 
++	atmel_spi_lock(as);
+ 	as->done_status = 0;
+ 	as->current_transfer = xfer;
+ 	as->current_remaining_bytes = xfer->len;
++	as->poll = atmel_spi_use_poll(as, xfer);
++	if (as->poll)
++		spi_writel(as, IDR, (as->fifo_size ? SPI_BIT(RXFTHF) :
++				     SPI_BIT(RDRF)) | SPI_BIT(OVRES));
++	atmel_spi_unlock(as);
+ 	while (as->current_remaining_bytes) {
+ 		reinit_completion(&as->xfer_completion);
+ 
+@@ -1437,6 +1503,13 @@ static int atmel_spi_one_transfer(struct spi_controller *host,
+ 			atmel_spi_lock(as);
+ 			atmel_spi_next_xfer_pio(host, xfer);
+ 			atmel_spi_unlock(as);
++
++			if (as->poll) {
++				as->done_status = atmel_spi_poll_xfer(as, xfer);
++				if (as->done_status)
++					break;
++				continue;
++			}
+ 		}
+ 
+ 		dma_timeout = msecs_to_jiffies(spi_controller_xfer_timeout(host, xfer));
 
-Thanks,
---breno
+---
+base-commit: 2bc7eb398cd0f89fd2331d5a1a8fe7ed17addd35
+change-id: 20261112-spi-atmel-poll-short-pio-transfers-bd8fcb9c19bb
+
+Best regards,
+-- 
+Jens Emil Schulz Østergaard <jensemil.schulzostergaard@microchip.com>
+
