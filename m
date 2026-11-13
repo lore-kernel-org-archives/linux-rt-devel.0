@@ -1,89 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=49.12.199.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794577875;
-	b=cIg9kIg5bmx+kV/On0OvWKxHI83e8dzDdstDPZMAlsbpfzl3CJ+WNLkuigm470Z44LCk
-	 PWDsLRKVntKyGdXMHUFG3TB6DbIckWONHuRyOgJmlBnINXtEEqRA0whiHBJwLQukJRrSu
-	 meF63bnpx/msWUHQw07Qvm6s8PbAh+WgGc0x5cO5y0PaBzp52AP1iAQvqpX3Qa4xjGLAe
-	 qbRl2NahZpAlTshVr4u6l4af29hmsKOGim1/OyYI59C7shRF2YYkCpbtExd7jry0goLIi
-	 atdGlNNIaTam+1dMsgAGXnN+dvndHxq/BPOra2vnLqhRGAT/eCyIKpgraLc3MOpsMDw==
+	t=1794578644;
+	b=ZU1kN8rPZCp91cjI74Cs8Mr77o4OHtHryyRzKtPGmmdnma1aCUParpgtN9Zj82BxWW0t
+	 wA2mKvPqLXLnw+PFkg7hKqMEwiFjb4G+ksmeC+Lmqb0MFm0/ZnxlhdNMMP04F/NrTGl7Q
+	 ZNSc7i66+nYG4fHDNe4aX5edhXc0vjUZ7BsncdBju0Eq77QSfTjGNB3p8DP/RqgRYJrxE
+	 SQksCjb6eLnA6muNXLex9THBPtB5PRdugXdvZvFqU0NiBVqnB/I924RsOG0aJKPS1G21M
+	 9lqY9z3OJFz78PJRieVYzhAc4M2CxZ8FRM01t8djWoyy+6K2PyI7azKaV3z/HznB5HQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794577875;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=0uudVa8z72PwtwfzxLux5kJ3sUVKvJn/6ULtjmYSFoQ=;
-	b=PLVAa4sM+ufC4M+mLw/pwNh5GWn/+qBeYki6creerb5SzCTxNx5lKcQOvtLVhI/MpqcY
-	 cSVRuVGHQuA9LLAX3TN8/2UCEFmlA9rZXzUKnyNVIjxcmXbFZ1LyyvOz/zSJm9Bq7YUZ2
-	 s3+8vfIe9ngop10Qn64Gbygtv8EpjRSYuDVLI5HZbqA842RP3xniGnOuyGeUqA9tR+f+u
-	 EOcyzHaaXQH4T6vzcacOxFzCRDi+wfGvqPu7zr9G0eR5rt+a7Xp3mGAl1uFBMx+P/6XDS
-	 4C/4btJRoJC80VZIFPK6NWzhb/z0rFOwVSEgHYxohrAvkWUniU3Jwd6zsk8Sqj63+7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794578644;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=muqCZtCnODx5xWlYCZnvE31S5sIwWXI83ApgORpaH/4=;
+	b=E8HXVn42By4doCMKaCZJ4I6kROgHM+lhwgqbUdqkdK8XsMGo0ORTgUAq9PKSwzlXkxe0
+	 BIqFrvQ8P6JGepJkEiq7V9bjgSBOdcgNw7WBU9aKEvi3E2JjtcOtJUv0LaCZLkpvBjD0e
+	 8ZgO30SX1hy1rHxe2YunMl1r45XO6blpc/vcjVgupv0pn/md+z5OciRr6u/rbN1qpGrW5
+	 3RDe6GRY1Ya7acj7TBkAHc0O9Ka8rbfhJ86mefUacMgOOuoYxVqrm1L2lcIJEqagBjBHk
+	 WY9UM/uQTmJi4otNpIzJC72tSGQ3Ub2q3jBMbXyau4sB10KDdkhgz+8dCVMo+g2kd7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=sZSubH3t;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dmarc=pass header.from=monom.org;
+	spf=pass smtp.mailfrom=monom.org;
+	dkim=pass header.d=monom.org header.i=@monom.org header.a=ed25519-sha256 header.s=v1-ed25519-20260726 header.b=+rkgeThX;
+	dkim=pass header.d=monom.org header.i=@monom.org header.a=rsa-sha256 header.s=v1-rsa-20260726 header.b=RiuYxJL+;
+	arc=none smtp.remote-ip=49.12.199.46
+Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DFD606B1A4
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 13:51:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01DFD606B1A4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2178606A32E
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Nov 2026 14:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2178606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=monom.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=sZSubH3t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794577873;
-	bh=0uudVa8z72PwtwfzxLux5kJ3sUVKvJn/6ULtjmYSFoQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sZSubH3tjT/GPjjeCdOxx/4cAgGsCuWEr6VACo4J2PTl8cRs5IpBTlKtUeO8AylmD
-	 HxCjGdd7QZ5smjr12rihK+BJyiAzlixZDSllUgXVr4MHyyLW7PcQ9Wnpi7XkFIslFE
-	 rcuy+edXu9wYLvwf5/dIzqnXRt2MfU7UGg9/grL4Ak3diKTNTIOZDHXbfWohcyo5w7
-	 qztzm/74PzPKzqfD/FXvvQDUrATZGQ/+1ucflwQcEvss6bM5+lRWCP/0YO5Y3yZ2S0
-	 nH+p6zs7xK1urRLQWxFQ5Dfym4sSzAwDiXFnovryLmzb4K5dQpokPnGVIeCT4c+dlx
-	 dxtfHsmfgGuvA==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jQzDx5zJWzPQg;
-	Fri, 13 Nov 2026 08:51:13 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: longman@redhat.com
-Cc: juri.lelli@redhat.com,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	vincent.guittot@linaro.org,
-	linux-kernel@vger.kernel.org,
-	tglx@kernel.org,
-	will@kernel.org,
-	boqun@kernel.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	shuah@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	parri.andrea@gmail.com,
-	m.szyprowski@samsung.com,
-	kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com,
-	cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v5 18/29] sched/deadline: Move a task's bandwidth only where room was made
-Date: Fri, 13 Nov 2026 08:51:10 -0500
-Message-Id: <20261113135110.160083-1-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <bcb60245-abfb-4e3a-aa4e-f134ed310381@redhat.com>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com> <20261108185406.1549770-19-mathieu.desnoyers@efficios.com> <bcb60245-abfb-4e3a-aa4e-f134ed310381@redhat.com>
+	dkim=pass header.d=monom.org header.i=@monom.org header.a=ed25519-sha256 header.s=v1-ed25519-20260726 header.b=+rkgeThX;
+	dkim=pass (2048-bit key, unprotected) header.d=monom.org header.i=@monom.org header.a=rsa-sha256 header.s=v1-rsa-20260726 header.b=RiuYxJL+
+DKIM-Signature: v=1; a=ed25519-sha256; s=v1-ed25519-20260726; d=monom.org; c=relaxed/relaxed; r=y;
+	h=To:Message-Id:Subject:Date:From; t=1794578633; bh=muqCZtCnODx5xWlYCZnvE31
+	S5sIwWXI83ApgORpaH/4=; b=+rkgeThXaAz2kLQzPJ8WQNCG4x5vgf6u+qE+NaSVb+VD6twIM5
+	+Ca4WG7iL/16ShVRMIJBNiuIZEZbs0b6sWBg==;
+DKIM-Signature: v=1; a=rsa-sha256; s=v1-rsa-20260726; d=monom.org; c=relaxed/relaxed; r=y;
+	h=To:Message-Id:Subject:Date:From; t=1794578633; bh=muqCZtCnODx5xWlYCZnvE31
+	S5sIwWXI83ApgORpaH/4=; b=RiuYxJL+OSOJ8NfFm37Je3NAvoyEx5tquNTpNknWcxT4F4rHKL
+	3Zjv4H2LL3VwFJoHoseLLAUtMpAFOYV5VEe2+gX7pfLFVzc6DT0jEXcnxmM4XCQ9IDK1TLxAOEe
+	JiB9L6ZcQhxotCAxNqd16dcHaVo1BetGlfQHLsGdnqcs44YYV2Nwe+HOlTp3wabVfR1RuLU4wJE
+	n/lGrK/0d/rKCsc2lmnQi+VeaL71+YH1MdwV4iGN3I46y2EcE6MEDlwSjndgMvIIrzzqOKRbADI
+	zq/cvAsMaN1Bp9lPuuBRn2N4fVF/b4ifucF2ssGIs5UWiMijNiML31xvwdVz4/yOztA==;
+From: Daniel Wagner <wagi@monom.org>
+Date: Fri, 13 Nov 2026 15:03:50 +0100
+Subject: [PATCH v2] rtla/timerlat: Lock the memory of the user-space
+ threads
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -93,70 +59,82 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261113-rtla-mlock-v2-1-14382f140da0@monom.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Nyw6CMBBFf4XM2prOIA9Z+R+GRcEBqpSaFhsN4
+ d8tuHV5knPPXcCz0+yhShZwHLTXdopAhwTaQU09C32LDCQpR0QSbh6VMKNtH4JUVlCHMktThjh
+ 4Ou70e49d6x/7V3Pndt4KmzFoP1v32d8Cbt7fcECB4oTlucwLxIbkxdjJmqN1PdTrun4BiIXVN
+ 7YAAAA=
+X-Change-ID: 20261112-rtla-mlock-2a572f10533e
+To: Steven Rostedt <rostedt@goodmis.org>, Tomas Glozar <tglozar@redhat.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, 
+ John Ogness <john.ogness@linutronix.de>
+Cc: linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ Daniel Wagner <wagi@monom.org>
+X-Mailer: b4 0.16.0
 
-Hi Waiman,
+With -u, the latency timerlat reports runs until the measuring thread
+is back in user space. Nothing keeps that thread's memory resident,
+so under memory pressure the kernel reclaims its code, stack and libc
+pages, and the page faults on the way back to user space count as
+latency.
 
-On 2026-11-12 23:37, Waiman Long wrote:
-> For cpuset v2, it is not possible for a cpuset to span two root domains.
-> I believe it is not possible for v1 too, though I am not 100% sure.
-> Please let me know if you are aware of a way to do that.
+On a Raspberry Pi 3 (PREEMPT_RT 6.12) under stress-ng --class memory,
+timerlat reported up to 40 ms for the user-space threads, which took
+283 major faults, while the kernel threads' latency stayed below
+1 ms. cyclictest under the same load: 133 ms without -m (mlockall),
+0.9 ms with it.
 
-It happens with isolcpus="domain". The CPUs it isolates stay in the
-effective CPUs of the top cpuset, and of any cpuset that is not a
-partition root. They are in the default root domain. The other CPUs
-are in another root domain.
+With this change timerlat reports 0.9 ms for the user-space threads
+under the same load, and they take no major faults.
 
-The message should have named isolcpus. The planned next version does.
+Lock the user-space threads' memory before they start measuring, as
+cyclictest -m does.
 
-This is on tip sched/urgent (v7.4-rc1 based), in a 5-CPU guest booted
-with isolcpus=domain,1,2. A is a plain cgroup v2 cpuset:
+Signed-off-by: Daniel Wagner <wagi@monom.org>
+---
+Changes in v2:
+- Shorted comment.
+- Moved the mlock up before the sched switch as suggested by John
+- Link to v1: https://patch.msgid.link/20261112-rtla-mlock-v1-1-418986711b20@monom.org
+---
+ tools/tracing/rtla/src/timerlat_u.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-  # cat /sys/devices/system/cpu/isolated
-  1-2
-  # echo 0-4 > A/cpuset.cpus
-  # cat A/cpuset.cpus.effective
-  0-4
-  # cat A/cpuset.cpus.partition
-  member
+diff --git a/tools/tracing/rtla/src/timerlat_u.c b/tools/tracing/rtla/src/timerlat_u.c
+index c80edaf07b00..5e7a23fb9fc3 100644
+--- a/tools/tracing/rtla/src/timerlat_u.c
++++ b/tools/tracing/rtla/src/timerlat_u.c
+@@ -15,6 +15,7 @@
+ #include <pthread.h>
+ #include <sys/wait.h>
+ #include <sys/prctl.h>
++#include <sys/mman.h>
+ 
+ #include "common.h"
+ #include "timerlat_u.h"
+@@ -37,6 +38,13 @@ static int timerlat_u_main(int cpu, struct timerlat_u_params *params)
+ 	cpu_set_t set;
+ 	int retval;
+ 
++	/*
++	 * Fault in and lock all memory before switching to a real-time
++	 * priority, so that page faults don't show up as latency.
++	 */
++	if (mlockall(MCL_CURRENT | MCL_FUTURE))
++		err_msg("Could not lock timerlat u memory: %s\n", strerror(errno));
++
+ 	/*
+ 	 * This all is only setting up the tool.
+ 	 */
 
-Two tasks in A call sched_setattr(SCHED_DEADLINE). Task 95 is pinned to
-CPUs 0,3,4 and asks for 10%. Task 98 is pinned to CPUs 1,2 and asks for
-20%. Both are admitted. /sys/kernel/debug/sched/debug gives total_bw of
-the root domain of each CPU. "Before" is the fair servers alone:
+---
+base-commit: ee83899302a0457a3ba47464a13e8682bd7ba27d
+change-id: 20261112-rtla-mlock-2a572f10533e
 
-  CPU     before    with the two tasks
-  0,3,4   157284    262141   (+10%)
-  1,2     104856    314571   (+20%)
+Best regards,
+--  
+Daniel Wagner <wagi@monom.org>
 
-So the two tasks are in the same cpuset and are counted in two root
-domains. Then task 95 is given CPU 1 alone:
-
-  # taskset -p 2 95
-  taskset: can't set pid 95's affinity: Device or resource busy
-  # echo -1 > /proc/sys/kernel/sched_rt_runtime_us
-  # taskset -p 2 95
-  pid 95's new affinity mask: 2
-
-After that, total_bw is 157284 for CPUs 0,3,4 and still 314571 for
-CPUs 1,2. The 10% of task 95 is counted nowhere. That is the case the
-patch fixes.
-
-I did not test cgroup v1.
-
-The planned next version has a new cpuset patch for the same
-configuration. A deadline task in such a cpuset can also change root
-domain when its cpuset loses CPUs. The patch refuses that:
-- a write to cpuset.cpus fails with EBUSY if it leaves a deadline task
-  no CPU in the root domain that counts it;
-- cpuset makes a partition root invalid if it would do the same.
-
-My reply to Juri on patch 20 describes it with two related patches:
-https://lore.kernel.org/all/e21aaf40-b929-444c-b707-3200e21d7301@efficios.com/
-
-I would like your opinion on these two refusals before I post the
-patch.
-
-Thanks,
-
-Mathieu
