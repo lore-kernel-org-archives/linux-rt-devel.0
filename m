@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794755427;
-	b=Odc/3vNT6nK5ti9KyoOECVab50HlQUDAaHsJjycVRQUGry4ahruZxpTMctcf/6xcwL4L
-	 VbYKvijnCQzyorJ9A+fo8wjhR6eMdx/zJm3NC1SCuYYb9kvkvDFo2LniUzxfcC1hPA9Rf
-	 /kmKbcrnE/iCQInMbHJODZhgscIBfePm3QZ3TIong9aQYIvE5Icrd77YZ5HkdyQtXW7hL
-	 YPedtNykekcFQgmjwtoGR3qROohH2njxdIqbIKYvdL4DGitX9uxdOEt1irW4nDka7EpNE
-	 XP2B1edSj2rXGP7+BOgD+rBeVXrZ5r3gsEhJEX8PJdm8mjxvRJWOnCYZ+xAtJ2xpbrg==
+	t=1794755431;
+	b=vZDkMvhO36JTRQeb5oim6QQNyaTFlrw1mWxxC80cW19GdSRymFxKBjTcQbDz+9iJkE/g
+	 QmkSAS82zoZd24fLeMKrI0DtEYSlUAsO+/Y6GnnhKHnUHtufS4OKKvXjk7Awk4KH/L/ni
+	 yYAryIF/62wI6GUUPvZ1m2EYAvnJDbIhbwR43O09luGArk3kqvJBxfyBpByiPWO6FFTCl
+	 YtJxnGelkv8hsyicpsWOEVuLQmwCslYBbICE3G3Z0JSQuje36v7dMJTQUCjWLJJnqEFML
+	 LL5f7/wnIxhahmFYHILRA4FTv1YZ2+ZmuEdXcAR9UEpv0axUXQuQ9Ls/7R2E8o/c0TA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794755427;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794755431;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=J2a5kJ1HnqMnnGqSgfzuFucPTLau+/T7+blaKIr3qVE=;
-	b=KgKNNj5I2yKRjrU5iV5NrdRix0KbBXSm8o9+QlHRUv7wniplmxolvYGXS97mOqUi37nP
-	 zA9oEhwb29EL81tfUKEATSLjo6Lnf5ZP+I2xSCGDbGJCdIx9HmXq8EvpPeSL0KYoSxj+I
-	 ujpPNArBdfJcExXTdh9MjYD3xiUcguOZFoXZ7uTicSTOWsusmxVPJpO19LCcp5hjc7awA
-	 S+ZyJH18lIOWa5vSmVRysZnfsBFpkeAdRCBfOPwl7n3OXRrdLrG3sEUN7WkX5EKBEroQs
-	 CkNr4AGKCYqfW3f1PicxKf9o/on9wEKn90oTGBxdOKMnXskzrjNRY27sWLXBxd78QWA==
+	bh=1mnep0cJK8UxwJlHhyxURDjkwq1Z3ct/fIg2aInzknE=;
+	b=xs5ICt/vzmuWbyeKCOs6CFoiCX03Q9Lomt7K9smQU7PfuuMWeLQsITPU8O2XEyvZr+PY
+	 7SJALigqLp29A1YFRtiQ3Aszp7dffXu7KIT9Cup4lhuzGpqX/h7naIcpl6jEbOxxvQUZo
+	 A0WLNkZGcdFSCMX7OfT8zOOhWWy9AiCw4Gf/h59xWiBaYco3FsLEHXRlk/bKqV766MlOa
+	 YvtuCS2MFQDT+vjhh6g67WKey1JdLffaeyeKpTtGr6qEGpxJOTZzmb0emGV6Zz4cnYNma
+	 iZPetECWmVtlpc13Pae3R6tRvcCZsyOhh2Bmu3U19smkq216DRa1bXDTx6P9qT+5hLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kAUTRrsI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FtUdBuuH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D579606A323;
-	Sun, 15 Nov 2026 15:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC92606A31D;
+	Sun, 15 Nov 2026 15:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kAUTRrsI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8099E1F000C5;
-	Sun, 15 Nov 2026 15:10:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FtUdBuuH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BCC01F000C5;
+	Sun, 15 Nov 2026 15:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794755426;
-	bh=J2a5kJ1HnqMnnGqSgfzuFucPTLau+/T7+blaKIr3qVE=;
+	s=k20260515; t=1794755430;
+	bh=1mnep0cJK8UxwJlHhyxURDjkwq1Z3ct/fIg2aInzknE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kAUTRrsI5AVKr7aA5OHDZO+Hd92lf/KbZz07Af1lmBv1d0owwSModzgUEhSZ8Jj6c
-	 7YZV5bWsVratJSD38MMLTI4GlF2fggwYiXgubkWPXu69/OzBYRKk/KU66yGGL9BOKD
-	 Xi/5WJpQMDHj4Gm29zvoLdooGXxu/usbW5pHBJD1xn/a9Fhbar4xXvrlcHPwYjZzp/
-	 5lbBoI973ZFbwReQ5BIa9K4Y8bnglwUoLffKskd6J9j7sd+ZRo7i7VhLPXwknVOm5w
-	 4tcpJcaq1q3skOsegZbjTj8EANHqExhhtVim6salK6nPgWlBLUPOR/FnVIJazLeNTd
-	 pfcJ/AwCHlUCQ==
+	b=FtUdBuuHaa92Dz+pXSozP1VKcdWVFJiIYFyztiRtavfFJ2jgDLXPs+06U44Uii4Z3
+	 Yoexr4DgKvxF2v++kXQcOG1ui1QT1o96vNrUKWOBLk6+AVmVZsyzm+PEJeu0yXgjkA
+	 4Xno4rFqAonBHNjGCAQMVXMqEF6jUUCvK2sHhIAIn/ePzSFwNvezvCqKlI0779pF6l
+	 HiWMgAxOyi5L6cyucPkN8Gvbe0WqaRO0BuTX6wsIz6zWzEcGc5cDO5UUQQ374ycfy6
+	 ZdbNcief/YMoIIyTR+dtFBDa6JscZ2ip5pc46TUb9gzvT8AwhrrhR/QFQ/58QKfkmn
+	 pJYmLrPO18ABQ==
 From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Sun, 15 Nov 2026 15:09:38 +0000
-Subject: [PATCH for-next v3 4/7] mm/slab: fix a deadlock in
- memcg_alloc_abort_single()
+Date: Sun, 15 Nov 2026 15:09:39 +0000
+Subject: [PATCH for-next v3 5/7] mm/slab: serialize deferred_work_barrier()
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261115-kmalloc-nolock-fixes-v3-4-9034dd4ecaab@kernel.org>
+Message-Id: <20261115-kmalloc-nolock-fixes-v3-5-9034dd4ecaab@kernel.org>
 References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
 In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
 To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
@@ -72,102 +71,52 @@ Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
  Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.16.0
 
-When kmalloc_nolock() successfully grabs a slab object but memcg aborts
-the allocation, the object is freed via __slab_free(). Calling
-__slab_free() in unknown context is not allowed and can lead to a
-deadlock.
+irq_work_sync() uses rcuwait instead of busy waiting in two cases:
 
-Free the object via defer_free() when spinning is not allowed.
+  1. The kernel is using PREEMPT_RT and the irq work does not run in a
+     hardirq context.
 
-While at it, try freeing the object to the percpu sheaves first in both
-contexts, as kmem_cache_free_bulk() already does for bulk allocations.
-This also avoids queueing an irq_work for every failed charge when
-spinning is not allowed.
+  2. The architecture cannot send inter-processor interrupts to make
+     busy waiting reasonably short.
+
+However, rcuwait.h says:
+> The caller is responsible for locking around rcuwait_wait_event(),
+> and [prepare_to/finish]_rcuwait() such that writes to @task are
+> properly serialized.
+
+Since deferred_work_barrier() calls irq_work_sync() without any locks,
+it can potentially cause a hang as writes to @task are not serialized.
+
+Fix this by serializing deferred_work_barrier() with a dedicated mutex.
+We cannot reuse slab_mutex because e.g.) some users of
+kvfree_rcu_barrier() are outside mm/.
 
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260610-slab_alloc_flags-v2-0-7190909db118%40kernel.org?part=9
+Closes: https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org?part=5
 Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 ---
- mm/slab.h |  8 ++++++++
- mm/slub.c | 22 +++++++++++++++++-----
- 2 files changed, 25 insertions(+), 5 deletions(-)
+ mm/slub.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/mm/slab.h b/mm/slab.h
-index 15b0d98ae1d4..fb80a72ad952 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -37,6 +37,14 @@ static inline unsigned int to_alloc_flags(unsigned int free_flags)
- 		return SLAB_ALLOC_DEFAULT;
- }
- 
-+static inline unsigned int to_free_flags(unsigned int alloc_flags)
-+{
-+	if (alloc_flags & SLAB_ALLOC_NOLOCK)
-+		return SLAB_FREE_NOLOCK;
-+	else
-+		return SLAB_FREE_DEFAULT;
-+}
-+
- static inline bool alloc_flags_allow_spinning(const unsigned int alloc_flags)
- {
- 	return !(alloc_flags & SLAB_ALLOC_NOLOCK);
 diff --git a/mm/slub.c b/mm/slub.c
-index 7c0adc104988..8252c0b681cc 100644
+index 8252c0b681cc..aec9fb6e2235 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -2531,7 +2531,8 @@ static inline void slab_obj_ext_has_codetag_init(void)
- 
- #ifdef CONFIG_MEMCG
- 
--static void memcg_alloc_abort_single(struct kmem_cache *s, void *object);
-+static void memcg_alloc_abort_single(struct kmem_cache *s, void *object,
-+				     unsigned int alloc_flags);
- 
- static __fastpath_inline
- bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
-@@ -2549,7 +2550,7 @@ bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
- 		return true;
- 
- 	if (likely(size == 1)) {
--		memcg_alloc_abort_single(s, *p);
-+		memcg_alloc_abort_single(s, *p, ac->alloc_flags);
- 		*p = NULL;
- 	} else {
- 		kmem_cache_free_bulk(s, size, p);
-@@ -6647,18 +6648,29 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
- #ifdef CONFIG_MEMCG
- /* Do not inline the rare memcg charging failed path into the allocation path */
- static noinline
--void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
-+void memcg_alloc_abort_single(struct kmem_cache *s, void *object,
-+			      unsigned int alloc_flags)
+@@ -6617,8 +6617,12 @@ void defer_kfree_rcu(struct kvfree_rcu_head *head)
+ /* Must be called before flush_rcu_sheaves_on_cache() */
+ void deferred_work_barrier(void)
  {
- 	struct slab *slab = virt_to_slab(object);
--	unsigned int free_flags = SLAB_FREE_DEFAULT;
-+	bool allow_spin = alloc_flags_allow_spinning(alloc_flags);
-+	unsigned int free_flags = to_free_flags(alloc_flags);
++	static DEFINE_MUTEX(barrier_mutex);
+ 	int cpu;
  
- 	if (slab_want_init_on_free(s))
- 		free_flags |= SLAB_FREE_INIT;
- 
- 	alloc_tagging_slab_free_hook(s, slab, &object, 1);
- 
--	if (likely(slab_free_hook(s, object, free_flags)))
-+	if (unlikely(!slab_free_hook(s, object, free_flags)))
-+		return;
++	/* irq_work_sync() may use rcuwait that requires serialization */
++	guard(mutex)(&barrier_mutex);
 +
-+	if (likely(can_free_to_pcs(slab)) &&
-+	    likely(free_to_pcs(s, object, allow_spin)))
-+		return;
-+
-+	if (likely(allow_spin))
- 		__slab_free(s, slab, object, object, 1, _RET_IP_);
-+	else
-+		defer_free(s, object);
+ 	for_each_possible_cpu(cpu)
+ 		irq_work_sync(&per_cpu_ptr(&deferred_percpu_work, cpu)->work);
  }
- #endif
- 
 
 -- 
 2.54.0
