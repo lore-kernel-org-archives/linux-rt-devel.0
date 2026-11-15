@@ -1,61 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794722860;
-	b=2oR8Xr8TnQC+ZGWeJkNirUwosQMaZklYZnijR3p2cBXDDMxaWvjzOL1u8FdXK68D0IGJ
-	 Vw10+wIuLmubAyh7wIagvlIYlK2Tl1HL8RsbztMTZ4/OQeyJwDxlyqLRfHRdIXciOlQhz
-	 iPAiWhF3rugUV7i1Gn9y6jtwZJ4ApHl2UUVIaZZz+eEN8Pr+DBP76tLOqvG8gJHpAHUNm
-	 rcOYaLmOR7vcQnG1rDpy11QILTuzdPYX7SYD6uF44zSeOssdZ7J7FYcumRw3kBTvy3m/r
-	 Q1uk53hAjutKcMx0dCdeUJ1ZGIBznQ3sOotZ3m5qSPK/8y/lpwWW+XoIXV+rPOpXSFg==
+	t=1794755409;
+	b=vhvMwskds6oj7z+CC9og5pNxsp0/Ad/UKFhIGn5KVCJi9eqvFfvxFe7x/9L4JnXsloIQ
+	 2LHqueNcPFP/bVUOq8MMKkg3lkdNo4YNJnRriVKdQBlQYPOnrF4wTsvzHiHoG4btTbwL0
+	 /5k4n9wYgiATWmCLGvyw9GUmEOGNAqqLHMbrfIy+lNuYvPqIbLaVoYk5pnbV175pFRFyV
+	 0MP22MQt0t328sTKg0fEGnDPAKAsH493awIjYpyz6zyTFatKB8Ax+LsXVCINyVngv48v3
+	 JZrLyQbMdwtp/gsDB3NnFKLSRc4fovGf1Ov7cITt8YMQh+EoI4jzMvZ1XlEuBUSsjOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794722860;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=pD21cF0F7petF8iJUG6KKrG1msB1EH88t0HH2frnez0=;
-	b=uy8zmxaglzsm59aGK4+rmhjnAUUWM/nbwOmYBtTjAg/XCcUEFxLHepYkwtpkcmhrnDCg
-	 F6Ap9b7vFAAXIgoUdyfSB1QJcoqE5PrUIbXQgZi+yeAtnBXxJM9f2QYNkc4fj1Yn9k4JL
-	 zKcAMdCoJQHKa7c0TNPBFxqVcDkREcF94wVX4VacTFGLAsN5MrmglRspkMVejvc1NuqWt
-	 R2tO7sZ3Tgn9S40nbLVbFlJJWaO+/+McJ0qLkeH8yrnfnZsOpzhOSK7iPUp2RW4iqZrOq
-	 YPRPDSJeIf7bkBysMLK9qkL+09RnlW3EQCURHU4xQA+G0q6iuB/xYp4s/Fp0C3myHQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794755409;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer;
+	bh=TEWHh130R00cWzrxjI9RLEu/jO2W72gxEB0EEQ477+k=;
+	b=f413v2llTw0zdaGHj41ekJvWeNvFz+f3OLOqeeFVgOyw4MFwfgksv7O0GQipFatPszBq
+	 g4tEVQUZGvcXXHTHRaprVPLAqCcrUh3NMf1twNrIRQnA67Ipjcjt2P5/rm7YXWwE5YNbi
+	 qBJ/pKxKddvAiRGfGn+Y5iMDip/BDnbAu7KYSuZ/y8sxlNGyFaqGDlLi5IuAAP8pXgvra
+	 bgmi6PLvBjN9SriJw7VW1G33OrGkBROCci2bjmb9qB+TqHjGArsVWRYtf0FKvXtobZ9mG
+	 OuR9SALB9cqlg4FEHjqveJBn0LHYItNd1Wj8ufn4wU2/Osf7N1B91muPZ8Bjra8tSxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D5DXEIp4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aKItX/9j";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825EB606A33A;
-	Sun, 15 Nov 2026 06:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B18606A31E;
+	Sun, 15 Nov 2026 15:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D5DXEIp4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D7491F000C5;
-	Sun, 15 Nov 2026 06:07:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKItX/9j
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA8C1F000C4;
+	Sun, 15 Nov 2026 15:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794722860;
-	bh=pD21cF0F7petF8iJUG6KKrG1msB1EH88t0HH2frnez0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=D5DXEIp4EowRnZ4YvbjbQWJ2d5YtgJsL+vWmj49GKfzeugpQKCFZTauILzepfa7KR
-	 tQhffYvKYBA6NowYcY5Q3pBvhU5QcQ7wZT/NQnJ7bDhsDTPUHU74ERGpyqcRZyAbtO
-	 0de023lBugMB4/TLJpEb6M9H21p0fhcO+OJoZfa/mXiet/YR4eSnnKYcvimZlT/hkc
-	 qksENrwAZAGeAkFVC1QM5AlVid6+mjI1yl5JlfoZawr+bjSQgi/QfHpj+bG4Eqd0Xk
-	 rZpIQNTCuu3upE8f0uy/dxdO0cC35o9bHR07MFz4S2enZ9/BWAgvjZfvS2UWU7tyCP
-	 liU50FScrYncw==
-Subject: Re: [PATCH net v7 6/6] amt: create relay tunnels only from
- authenticated Updates
-From: netdev-bot+sashiko@kernel.org
-To: omar@blockcast.net
-Cc: ap420073@gmail.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, horms@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- linux-rt-devel@lists.linux.dev, kuniyu@google.com
-Date: Sun, 15 Nov 2026 06:07:39 +0000
-Message-ID: <179472285922.2199510.7147009024477916910@kernel.org>
-In-Reply-To: <20261110210538.217936-7-omar@blockcast.net>
-References: <20261110210538.217936-7-omar@blockcast.net>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1794755408;
+	bh=TEWHh130R00cWzrxjI9RLEu/jO2W72gxEB0EEQ477+k=;
+	h=From:Subject:Date:To:Cc;
+	b=aKItX/9j+oVOU25ty1qIp8xqlkd6ee+UQZ/Hbo8gOignltDgBFfX+79NazSakEtlI
+	 UqTDY2DS6PduyUCmZxJCcfWchi4Jv6L+HhN78+jpAg0UJsQkqWeLk3Q3PFHS7rn1mw
+	 +J6OGK1IWx0joXcH/Cm2DLslBex/W8Nfez8RvaMp6Q7z56cFOvZ0fIsaDNDq0m+S2Y
+	 /SzwDZ105uTbgoU7SnKw3pdwpF+G/xAU6dINP3YYyITYbFIiACIvgTr3jFCtStiDPD
+	 Ndvb9m4F4mAvLJ539KxbojNq8GAn4wO0BDv0JI9B+sYxPGsccB6hHq6N4c86dvPXTj
+	 vjUk+44fTSmQQ==
+From: "Harry Yoo (Meta)" <harry@kernel.org>
+Subject: [PATCH for-next v3 0/7] memcg,slab: kmalloc_nolock() fixes
+Date: Sun, 15 Nov 2026 15:09:34 +0000
+Message-Id: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -65,133 +53,118 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC/L+WoC/22OzQ6CMBCEX4Xs2TX9wVY8+R6GA9YFKtCaFgmG8
+ O4WvHqZZDL7zewCkYKlCJdsgUCTjda7ZOQhA9NWriG0j+RBMKGYEjl2Q9X33qDzSTus7UwRTaG
+ VPklx1lpCQl+B9iCRN6h9QEfzCOUvie/7k8y4tW63rY2jD5/9g0nsxDbGOZP/xyaBDHnBlTY15
+ VoX146Co/7oQwPluq5f18yaCdUAAAA=
+X-Change-ID: 20260624-kmalloc-nolock-fixes-c97675328773
+To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Harry Yoo <harry@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ Sashiko <sashiko-bot@kernel.org>
+X-Mailer: b4 0.16.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+This patchset fixes three kmalloc_nolock() bugs.
 
-Low priority / nit picks for your consideration:
+1. obj_cgroup_put() takes spinlocks in the release path when it drops
+   the last reference, but it can be called from any context.
 
-- [Low] In drivers/net/amt.c, amt_request_handler() now drops a Request
-  without any reply when the relay cannot admit a new endpoint.
-- [Low] The comment above test_query_egress() in
-  tools/testing/selftests/net/amt.sh (lines 256-259) still says: "The…
+2. A spinlock may be taken in the following path and may lead
+   to deadlock:
 
---
+   kmalloc_nolock()
+   -> slab_post_alloc_hook()
+   -> memcg_slab_post_alloc_hook()
+   -> memcg_alloc_abort_single().
 
-amt: create relay tunnels only from authenticated Updates
+3. irq_work_sync() is called without synchronization for rcuwait
+   (on PREEMPT_RT or some architectures), potentially causing a
+   hang.
 
-The relay no longer creates tunnel state from unauthenticated Requests.
-Instead, the Query MAC is derived from the source address, port, nonce and
-one of four rotating secret generations. Tunnels are created or refreshed
-only after the Membership Update's MAC and encapsulated IGMP/MLD message
-are verified, with global and per-source limits.
+Bug 1 was reported by lockdep, and bugs 2 [1] and 3 [2] were
+reported by Sashiko.
 
-> diff --git a/drivers/net/amt.c b/drivers/net/amt.c
-> index de5b7dbe3a20d..8014798b33167 100644
-> --- a/drivers/net/amt.c
-> +++ b/drivers/net/amt.c
+This series fixes the bugs by:
+- 1. Deferring obj_cgroup_release() to an irq work.
+- 2. Making slab_free_hook() and memcg_alloc_abort_single() respect
+     SLAB_*_NOLOCK
+- 3. Serializing irq_work_sync() with a mutex
 
-[ ... ]
+Patch 1, 4, 5 are bugfixes and others are refactoring and cleanup
+patches.
 
-> @@ -2888,59 +3059,45 @@ static bool amt_request_handler(struct amt_dev *amt, struct sk_buff *skb)
->  	if (amtrh->reserved1 || amtrh->reserved2 || amtrh->version)
->  		return true;
->  
-> -	list_for_each_entry_rcu(tunnel, &amt->tunnel_list, list)
-> -		if (tunnel->ip4 == iph->saddr)
-> -			goto send;
-> -
-> -	spin_lock_bh(&amt->lock);
-> -	if (amt->nr_tunnels >= amt->max_tunnels) {
-> -		spin_unlock_bh(&amt->lock);
-> -		icmp_ndo_send(skb, ICMP_DEST_UNREACH, ICMP_HOST_UNREACH, 0);
-> -		return true;
-> -	}
+Changes in v3
+=============
 
-[ ... ]
+- Rebased onto the latest slab/for-next.
 
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(tunnel, &amt->tunnel_list, list) {
-> +		if (tunnel->ip4 != iph->saddr || READ_ONCE(tunnel->dead))
-> +			continue;
-> +		per_src++;
-> +		if (tunnel->source_port == udph->source)
-> +			have = true;
-> +	}
-> +	rcu_read_unlock();
->  
-> -	if (!netif_running(amt->dev) || !netif_running(amt->stream_dev))
-> +	/* Withhold the Query when a new endpoint cannot get a tunnel. */
-> +	if (!have && (full || per_src >= amt_max_tunnels_per_src(amt)))
->  		return true;
->  
+- New patches and changes to existing patches were written and
+  verified with AI assistance and carefully reviewed by Harry Yoo.
 
-[Severity: Low]
-amt_request_handler() now drops the Request with no reply in two cases:
-the table is full, or the source address already holds
-amt_max_tunnels_per_src() live tunnels. Before this patch, a full table
-got an ICMP Host Unreachable through icmp_ndo_send(). The new per-source
-cap case is also silent, and gateways that share a NAT address can hit it.
+- Patch 1: added Vlastimil's Reviewed-by (thanks!).
 
-The commit message only compares silence with ICMP. RFC 7450 also defines
-an in-band signal for this situation: the Limit (L) flag in the Membership
-Query. amt_send_membership_query() still hard-codes it to zero:
+- Patch 2 (new): pass free_flags to slab_free_hook() instead of adding
+  a third bool, as suggested by Vlastimil.
 
-	amtmq->l	= 0;
+- Patch 3 (patch 2 in v2):
+  - Now handles SLAB_FREE_NOLOCK in free_flags, so callers no longer
+    need the allow_spin local variables.
+  - Updated the subject accordingly.
+  - Addressed v2 review comments from Vlastimil (thanks!):
+    - dropped the memcg_alloc_abort_single() functional change from
+      the changelog, as it does not change until patch 4.
 
-Could the relay answer with an L=1 Query here instead of dropping the
-Request? The relay already sends full Queries to unauthenticated sources
-on its normal path. So the reason given for staying silent ("a source
-address nothing has authenticated yet") doesn't seem to rule out an L=1
-Query.
+- Patch 4 (patch 4 in v2):
+  - Try freeing the object to the percpu sheaves first in both
+    contexts, as suggested by Alexei and Vlastimil. Dropped Vlastimil's
+    Reviewed-by accordingly.
+  - memcg_alloc_abort_single() now takes alloc_flags instead of a bool
+    allow_spin, and converts them with a new to_free_flags() helper.
 
-With no signal at all, a gateway that is refused can't tell a capacity
-refusal from packet loss. It keeps retrying Requests with backoff instead
-of moving to another relay.
+- Patch 5 (patch 5 in v2): added Vlastimil's Acked-by.
 
-The in-tree gateway's timing changes too. amt_err_lookup() used to react
-to the ICMP for a Request by retrying immediately:
+- Patch 6 (new): Make free_to_pcs() call can_free_to_pcs() and take
+  free_flags instead of allow_spin.
 
-	case AMT_MSG_REQUEST:
-	case AMT_MSG_MEMBERSHIP_UPDATE:
-		if (READ_ONCE(amt->status) >= AMT_STATUS_RECEIVED_ADVERTISEMENT)
-			mod_delayed_work(amt_wq, &amt->req_wq, 0);
+- Patch 7 (patch 3 in v2): moved to the end of the series, after the
+  fixes. Reworded the comment.
 
-That reached the AMT_MAX_REQ_COUNT reset to discovery quickly. Now the
-gateway waits out the exponential backoff in amt_event_send_request()
-before it falls back to discovery.
+- Link to v2: https://lore.kernel.org/20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org
 
-The in-tree amt_membership_query_handler() ignores amtmq->l. Setting L
-would therefore only help third-party gateways unless the gateway side is
-also updated.
+[1] https://sashiko.dev/#/patchset/20260610-slab_alloc_flags-v2-0-7190909db118%40kernel.org?part=9
+[2] https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org?part=5
 
-> +	mac = siphash_3u32((__force u32)iph->saddr,
-> +			   (__force u32)udph->source,
-> +			   (__force u32)amtrh->nonce,
-> +			   &key) >> 16;
->  	if (!amtrh->p)
-> -		amt_send_igmp_gq(amt, tunnel);
-> +		amt_send_igmp_gq(amt, iph->saddr, udph->source, amtrh->nonce,
-> +				 mac);
->  	else
-> -		amt_send_mld_gq(amt, tunnel);
-> +		amt_send_mld_gq(amt, iph->saddr, udph->source, amtrh->nonce,
-> +				mac);
+---
+Harry Yoo (Meta) (7):
+      mm/memcontrol: defer obj_cgroup_release() to irq_work
+      mm/slab: pass free_flags to slab_free_hook()
+      mm/slab: handle SLAB_FREE_NOLOCK in slab_free_hook() instead of open coding
+      mm/slab: fix a deadlock in memcg_alloc_abort_single()
+      mm/slab: serialize deferred_work_barrier()
+      mm/slab: refactor free_to_pcs()
+      mm/slab: call debug_locks and KCSAN checks in kfree_nolock()
 
-[Severity: Low]
-This isn't a bug, but the comment above test_query_egress() in
-tools/testing/selftests/net/amt.sh is now out of date:
+ include/linux/memcontrol.h |   2 +
+ mm/memcontrol.c            |  27 ++++-
+ mm/slab.h                  |  14 ++-
+ mm/slub.c                  | 247 ++++++++++++++++++++++++++-------------------
+ 4 files changed, 180 insertions(+), 110 deletions(-)
+---
+base-commit: a7cdd0af963a420fc0e6f20b7c8bc8d4784098db
+change-id: 20260624-kmalloc-nolock-fixes-c97675328773
 
-# The relay sends its General Queries straight from the receive path, in
-# the same context that found the tunnel. A query queued on the amt device
-# instead could outlive the tunnel it was built for.
+Best regards,
+--  
+Cheers,
+Harry / Hyeonggon
 
-After this patch, amt_request_handler() neither looks up nor creates a
-tunnel for the Query. The daddr, dport, nonce and mac values are passed
-by value, and struct amt_tunnel_list no longer has nonce, key or mac
-fields. The check the test makes still holds, but should the comment be
-updated to match?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110210538.217936-1-omar%40blockcast.net
