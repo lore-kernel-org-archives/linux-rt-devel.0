@@ -1,57 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858998;
-	b=pmAIBwHX7iH4JIU7VOOtYMqEr848m1TJglq+8wGOWeCSBlII5fxVIQhaeU/s0lBeHNEp
-	 Q1K7P73pFODhmNTrlEdHVSr+bLwxNF6YtEbtBHFy6RJtWngdlpGltgCtMCfuVASjWRSxh
-	 0xRaRqPyGlxrLiWMUG7RLVneMZqRfuidxrEKkJHObaaY9uqp9nkpHQUyNPmLzlP2MzU/r
-	 BP8d0934/cRQrFO8YqQRC1QsC9wuNKpja/0jRMGJPxMQUEGVrQWxBwAFSuxdKOSu0yaHQ
-	 hxjWvqz5qDKYHaejx6sSB8czHo5D5g6RqbOoozEm99aIAj24IcUSNVgT+7xOFLJ560Q==
+	t=1794859215;
+	b=gIyo1DtXq6jM1aMDdnMl6im7mSfnUEnO/dZbTIsYUJfJheU1ErhcGVfb2ZGI+R3lEEBt
+	 ldNI5YfjOJccvhZbtaN9BlQEOCO+KU9jXCLU1oGuruyinLu0kpq0YstObzFDZGbVTLfBB
+	 jKoQoZcMe/UiG8OWNa8H8ZbcpfmQtqz6gAXjY2AaIoCjQ3G6t5sPa5O7E40gQCoCULo7P
+	 fjGfLBlDv385ff7gnl+z+H5WFPd1ks6qrz2V4y/ooiFi7mN+ew/I2+M0p7aM4HEL3SAPF
+	 cl8CEm+bhrWAIQ8lfmrYd6SxUJcFYG7GzIjWlR2uLbF1ucvn0wtjrJsRubgt346o/sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858998;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=yYuKJFpeOOUiRlcbNdqkTa4zbZgovEnL4C4jJYmyByo=;
-	b=N6kIXaO67YkVqFPXyVd3lQjBWSb3+Z0cqL9EFgvL0NQoc2ttPDHDuxDNJ5JlMbmJK34m
-	 DEAGUo22Wwx497g48MHj6b7A/ryaGWEH1vbBGXGEGRDFa0K5P2AqXcGu684ypjJMIBBba
-	 GzmO1P4JWOKjXSBis6Z54pghJQkydeg4Wgvu8ffsSPV3YI1hstgMIge6JroNSA+JvvuS+
-	 NFTuNAVmFABfJ+IOEWrWEXIwaoW5ShEW+Mjr1J9v34U+Ya7H0/Bi5i9JQEUtQvuGmmSuf
-	 3DjakeR39FjZX/piNq23Fb5jWVtYe2K8uNMdCAcz0y+uYKqD4MO1QkAKUbwp78JSR9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794859215;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=fgYoS8Jg+X3AS3gIOJEgllVRt0eGZvLJAbdMyeSaVoE=;
+	b=IkKrB/JZmhhr9rUBiQU2dCXzr1xvCaD64avr4g5EyN763MhkraH86ZRoC/2/ydYlhVvj
+	 a/tDDiMux9Wv4nVJxsUIp+lwDDNuoBZKiqZvtmhB+uc0VMkLZif8xBadRrSflb6PAt8RU
+	 JbNCq1zEC9H4wKtWoqLdeyz4GQErZ1P8aw6Mt8ZBbU8VKZ6NddNO/3vXwvvEhurdGIgVB
+	 rdVOiK+qBBHFFO542oUQ9DvTIuKnRY91uhqpAn9pw03aWH0XjUacXx0JpAz/E7nQaJBAB
+	 FXa0yanL/ZD30PFSLN+Xq4hOrSXuvYhJ2PfmjBAPm9oiVeRJrbsYt0kdui0JCvyq/uQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lxorfpif;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=AlDI2Nz8;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD91606A31C;
-	Mon, 16 Nov 2026 19:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357B6606A332
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 20:00:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 357B6606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lxorfpif
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B351F000C4;
-	Mon, 16 Nov 2026 19:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794858997;
-	bh=yYuKJFpeOOUiRlcbNdqkTa4zbZgovEnL4C4jJYmyByo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LxorfpiffHEPN+ubuF4E7+AUjQL37EeodzC6ntwfs4G/wWQYneZ6fevziae8iFk6i
-	 NWLgto+vGSH2E+T0YigXRESx7Tsh8lTGTKtD+dBJc5K78kyfFKINEzcZLiQWGOX1f8
-	 4uHP1j9zM3TdXVFym3DuVoVouyRUuJBN0qWITMlKiY9DwN8lChHZjgeNw/NF/mkMEs
-	 bVo3e3piBmW9GcH9wbrWlhdpk1zPguitn4EWTekY+dfBDCUyRFo5jpdJbJ0/DhZ4Cd
-	 pe1Hla9Rrr9mqweu52p1+4j3AhJPNLa+e9TqGLL6vkB/egfl81gZAuy9vV0bup3pCX
-	 fD70TuUyA3BSg==
-Message-ID: <sashiko-outbox-217626@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 23/37] cgroup/cpuset: Reserve the bandwidth in the
- root domain a task moves to
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116190549.230119-24-mathieu.desnoyers@efficios.com>
-References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
- <20261116190549.230119-24-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 19:56:36 +0000
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=AlDI2Nz8
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso15495085e9.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 12:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1794859212; x=1795464012; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fgYoS8Jg+X3AS3gIOJEgllVRt0eGZvLJAbdMyeSaVoE=;
+        b=AlDI2Nz86t8DRBwPaqXVa3foveebjbMOzqfKuhRyZRxkP8cU7G25A7Bxz8h2q/OB/R
+         6l32r5r0I00P4x+qBm9CasJ01HzuaoElLiQuHmPD/bQ9hr9HO+wj/GQmO1g7C/zmD2QO
+         gAEPHUNaMWkEXW/Zjs1cA4vp+Lbljgg4vs6ax0aCNov2y1QreGiq/xNLG784aHPO3npc
+         wmG1MOPDgT3YHVpskefQOd2JJSS6WY453Mw0q7STE2FPlTj+UcidrPztU3Cimw/kmQEr
+         evqEB36MxYC0G4OF6OxrAEgKeb5EzynlfOmfL3hIeG6OhT4NwqpN56A2n4Mv2mABsXJ+
+         1nfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794859212; x=1795464012;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fgYoS8Jg+X3AS3gIOJEgllVRt0eGZvLJAbdMyeSaVoE=;
+        b=v0Fuo+jvOjPwVxwFZcNCMjBoYzgIJ6xJpXNl45KSox1Isb33ypUMzeatLpp6SKbeyz
+         6IfYBt++aAa8RHc56TA1kUwAnzt6eeepFb5Bxg94kEpUeb/fNe1CIMxSwA7XGm+94ysY
+         tJpwzXvh+XhYmRXkF6R5XE1lMsJpAvEo4PHWFQA4igpmcX97S9PjDW5NdPWSg5P0z6Mz
+         DkDIphS88dFHEXCUYUREZK20ieETTaWbYpCHsA2g42v0OQTmsVmG8yXlLko5XmQHzfTM
+         U4v0zO/aXF7s/IaNvOanpLz0dRe82Xh3me+ksferOATGbT8MO2Cj3/iNxMDuWQVJVw9t
+         ac5w==
+X-Forwarded-Encrypted: i=1; AL+hErFwkoXEp+MSrhEV1SmxTo3rbNlk5BnbtmPglvYEnVmeKUbI3uZMyuBvDmDD9qn+Rbbl3u7ogHEDsCV2o9poMQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z//0iMyL+xuFiNeUc4Fxa1kYWUe95HChtYtk91uVh9E0V7db25i
+	lAeNmADfdE3ECtExu8TlpkO25TSm5HFyhiQuOaUDqmUhMBVZIL23+8wQNx1vX3z01Yc=
+X-Gm-Gg: AYBFou1qbrlQZ90d/pWTN3HmhU3lByDm9crW4oDv1I/6mDh27i/h3rrpin8C4M84QGP
+	u70g+78kDkIASZmyvsErKLoGj2EbT9/CCl2ZUJX4QTUB/Y5QJx92cwSD3Lu0LyGT9kZN6ur9DOz
+	Vaaw6dxnuBjuHG+GAdqj05i3JXfcL/AAps//FEST/I0eiCl9uzaic33utWVh9KUyfxsartS3MQD
+	0XYUsgyk7K1dCV2Lcgw0AWlkGSPQ2PmQN3CsrimqFp8d0RO5KWVO+HDy9xv3CQjNf3bW3eTMI9O
+	iV6oUVTqlD0Thg18j4uXkYMKXbBnom9tkHtyIqa/9HWx8bkMQIpxHAhN9CL92AuUyxdpcndt/GZ
+	idSvTNFwlKlVa6TAIieSwRtGuiKS19vH8j9eMFGKauWabYzEeQNGG38Be/Pazw7WSGBdejePkbp
+	50RLzXB/n3fjZ31AaiMEWlM9lj0BicPPRhN6bOR07HlJKMdaUtfHUweBr/WAkvDv0QBuZL8F4zt
+	LQtDLiWZbq38NQ7tAMmeLFEmN3JH7K+4t91TqceznxwOhz7ecXuW4whiOpUsAlGdvgDjdfkwLQa
+	PKoodzSEs6KqvK87/Nwkj3Fq/HGKPa4=
+X-Received: by 2002:a05:600c:8709:b0:4bb:73ad:c1f0 with SMTP id 5b1f17b1804b1-4bb73ade318mr72004685e9.23.1794859211890;
+        Mon, 16 Nov 2026 12:00:11 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78386902sm14032225e9.1.2026.11.16.12.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 12:00:11 -0800 (PST)
+Date: Mon, 16 Nov 2026 21:00:07 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: john.ogness@linutronix.de, rostedt@goodmis.org,
+	senozhatsky@chromium.org, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, kprateek.nayak@amd.com,
+	akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org,
+	pasha.tatashin@soleen.com, pratyush@kernel.org,
+	ruirui.yang@linux.dev, david@kernel.org, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, surenb@google.com,
+	mhocko@suse.com, kees@kernel.org, anna-maria@linutronix.de,
+	frederic@kernel.org, tglx@kernel.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, brendan.jackman@linux.dev,
+	hannes@cmpxchg.org, ziy@nvidia.com, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, linux-kernel@vger.kernel.org,
+	kexec@lists.infradead.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [RFC PATCH v2 4/5] printk, tracing: Support console flush
+ suppression and tail pinning
+Message-ID: <avtgx3WkeDvn7zoK@pathway.suse.cz>
+References: <20261103024453.922373-1-atomlin@atomlin.com>
+ <20261103024453.922373-5-atomlin@atomlin.com>
+ <avs4igB_mEc9U-Yw@pathway.suse.cz>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,159 +112,115 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avs4igB_mEc9U-Yw@pathway.suse.cz>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] sched/deadline: unmasked offline CPUs in
-  __dl_task_bw_move_cpu() span check
-- [Medium] cgroup/cpuset: stale dl_bw_resv_cpu left when cpuset_attach()
-  skips task loop
---
+On Mon 2026-11-16 18:08:31, Petr Mladek wrote:
+> On Mon 2026-11-02 21:44:52, Aaron Tomlin wrote:
+> >     2.  Ring buffer tail pinning
+> > 
+> >         Provide printk_mark_panic_start(), printk_clear_panic_start(),
+> >         printk_freeze_tail(bool), and printk_is_tail_full(). Recording
+> >         the next reserved sequence number at the start of a crash (or
+> >         clamping to prb_first_valid_seq(prb) if the crash output itself
+> >         already wrapped the buffer) allows data_make_reusable() and
+> >         desc_push_tail() to continue recycling older pre-crash records
+> >         while refusing to advance the tail past the pinned crash
+> >         sequence number. Once the watermark is reached, prb_reserve(),
+> >         prb_reserve_in_last(), and ftrace_dump_one() finalize the last
+> >         record and stop reserving descriptors or consuming trace entries
+> >         so the primary crash context and remaining trace buffer remain
+> >         intact.
+> > 
+> > --- a/kernel/printk/printk_ringbuffer.c
+> > +++ b/kernel/printk/printk_ringbuffer.c
+> > @@ -377,6 +377,90 @@ static struct prb_data_block *to_block(struct prb_data_ring *data_ring,
+> >  	return (void *)&data_ring->data[DATA_INDEX(data_ring, begin_lpos)];
+> >  }
+> >  
+> > +static atomic64_t printk_panic_seq = ATOMIC64_INIT(U64_MAX);
+> > +static bool printk_tail_frozen;
+> > +static bool printk_tail_full;
+> > +
+> > +/**
+> > + * printk_mark_panic_start - record the ring buffer sequence at crash start
+> > + *
+> > + * Pin the next reserved sequence number at the beginning of a top-level Oops,
+> > + * fatal warning, or panic so subsequent tail freezing can recycle older
+> > + * pre-crash records without overwriting the primary crash output.
+> >
+> > + * Context: Any context.
+> > + * Return: true if this call newly pinned the crash start sequence from
+> > + *         U64_MAX, false if a crash start sequence was already active.
+> > + */
+> > +bool printk_mark_panic_start(void)
+> > +{
+> > +	s64 panic_seq = atomic64_read(&printk_panic_seq);
+> > +	u64 first_seq, next_seq;
+> > +	bool pinned;
+> > +
+> > +	do {
+> > +		first_seq = prb_first_valid_seq(prb);
+> > +		if ((u64)panic_seq == U64_MAX) {
+> > +			next_seq = prb_next_reserve_seq(prb);
+> > +			pinned = true;
+> > +		} else if ((u64)panic_seq < first_seq) {
+> > +			next_seq = first_seq;
+> > +			pinned = false;
+> 
+> What scenario does this handle, please?
+> Why do we need to move the "pin" when there are concurrent callers?
+> What happens when the original caller clears the pin and
+> the other racy caller continues with panic()?
+> 
+> > +		} else {
+> > +			return false;
+> > +		}
+> 
+> 
+> 
+> 
+> > +	} while (!atomic64_try_cmpxchg(&printk_panic_seq, &panic_seq, next_seq));
+> 
+> Are the atomic64 operations safe in NMI? I would expect that they use
+> some locking.
 
-commit 1fc4cfdda6a5d5f5e22bff0342024fd03d578a7c
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To make it clear. I think that it is not safe on 32-bit system.
+This is why we used 32-bit lpos values internally in the ring buffer.
+Also we use struct latched_seq for "clear_seq" in the printk code.
 
-cgroup/cpuset: Reserve the bandwidth in the root domain a task moves to
+> I am afraid that we might need another approach.
+> 
+> IMHO, it would be much easier when the caller knows whether it will
+> panic() or not. And the panicing caller would just freeze buffer so
+> that the next_seq will always stay there.
 
-This commit reserves and moves a deadline task's bandwidth using the
-specific destination CPU recorded in task->dl.dl_bw_resv_cpu during
-cpuset_can_attach(), keeping per-CPU reservation sums in cpuset_dl_bw so
-that attaches to cpusets spanning multiple root domains account bandwidth
-in the root domain where the task actually runs.
+I know that your proposed design make the new API easier for use.
+You just remember next_seq at the beginning of a potential panic()
+message. And you freeze the buffer when you realized that it really
+ended in panic(), ...
 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 2f39c3d12550e..0d55f092d9cbb 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-[ ... ]
-> @@ -3236,15 +3258,20 @@ static int cpuset_can_attach(struct cgroup_taskse=
-t *tset)
->  				goto out_unlock;
->  		}
-> =20
-> -		if (dl_task(task)) {
-> -			/*
-> -			 * Count all migrating DL tasks for cpuset task accounting.
-> -			 * Only tasks that need a root-domain bandwidth move
-> -			 * contribute to sum_migrate_dl_bw.
-> -			 */
-> -			cs->nr_migrate_dl_tasks++;
-> -			if (dl_task_needs_bw_move(task, cs->effective_cpus))
-> -				cs->sum_migrate_dl_bw +=3D task->dl.dl_bw;
-> +		if (!dl_task(task))
-> +			continue;
-> +		/*
-> +		 * Sum the bandwidth of the deadline tasks that move to another
-> +		 * root domain, per CPU that the move records. That CPU depends
-> +		 * on the CPUs the task gets. A cpuset can span more than one
-> +		 * root domain, and the affinity of a task can keep it in any
-> +		 * of them.
-> +		 */
-> +		cpuset_attach_cpus(cs, task, cpus_attach);
-> +		cpu =3D dl_task_bw_reserve_cpu(task, cpus_attach);
-> +		if (cpu >=3D 0) {
-> +			per_cpu_ptr(&cpuset_dl_bw, cpu)->sum +=3D task->dl.dl_bw;
-> +			cpumask_set_cpu(cpu, dl_attach_cpus);
->  		}
->  	}
-[ ... ]
-> @@ -3407,8 +3446,9 @@ static void cpuset_attach(struct cgroup_taskset *ts=
-et)
->  		schedule_flush_migrate_mm();
->  	cs->old_mems_allowed =3D attach_ctx.nodemask_to;
->  out:
-> -	clear_attach_data(&src_cs_head, false);
-> -	clear_attach_data(&dst_cs_head, false);
-> +	clear_attach_data(&src_cs_head);
-> +	clear_attach_data(&dst_cs_head);
-> +	cpuset_free_dl_bw();
->  	dec_attach_in_progress_locked();
-> =20
->  	mutex_unlock(&cpuset_mutex);
+But the proposed changes in the printk_ringbuffer code look complicated.
+They are not easy to review, definitely.
 
-[Severity: Medium]
-Does cpuset_attach() leave a stale task->dl.dl_bw_resv_cpu behind when it
-takes the !attach_ctx.cpus_updated && !attach_ctx.mems_updated fast path?
+I feel that there must be an easier solution. For example,
+desc_push_tail() reads the state of the tail_id descriptor
+including the @seq number. It should be enough to compare it
+with the pinned sequence number and return failure when
+it is greater or equal.
 
-In cpuset_can_attach(), dl_task_bw_reserve_cpu() runs whenever oldcs !=3D c=
-s,
-even if oldcs and cs have identical effective_cpus and effective_mems (for
-example, when enabling +cpuset in cgroup.subtree_control or moving a task
-between v2 cgroups with the same effective masks).  If the task's bandwidth
-is currently counted in another root domain, dl_task_bw_reserve_cpu() sets
-task->dl.dl_bw_resv_cpu =3D cpu.  In cpuset_attach(), the fast path:
+One more variable might be set when the pinned sequence is reached.
+And prb_reserve() might then always fail at the very beginning
+when we could not make any more space reusable.
 
-kernel/cgroup/cpuset.c:cpuset_attach() {
-    ...
-	if (cpuset_v2() && !attach_ctx.cpus_updated && !attach_ctx.mems_updated) {
-		llist_for_each_entry(cs, dst_cs_head.first, attach_node)
-			cs->old_mems_allowed =3D attach_ctx.nodemask_to;
-		goto out;
-	}
-    ...
-}
+I am not sure why you touched so many other locations. I guess that
+you wanted to allow saving short strings when they would fit
+into the remaining free space. But I think that it is not worth
+the complexity. This feature should be used with a big log buffer
+so using few more bytes is negligible. And it might even be misleading
+when we store some random short string later.
 
-jumps past cpuset_attach_task() to out:, where cpuset_free_dl_bw() releases
-the reservation in cpuset_dl_bw, but dl_task_bw_unreserve() is never called
-on the tasks in tset.
-
-If that task is later part of a v2 threaded subtree attach where oldcs =3D=
-=3D cs
-for this thread while another thread in the taskset has oldcs !=3D cs and
-cpus_updated =3D=3D true, cpuset_can_attach() skips this task, and
-cpuset_attach_task() consumes the stale dl_bw_resv_cpu.  That moves the
-task's bandwidth without a destination reservation and adds moved to
-per_cpu(cpuset_dl_bw, cpu).moved, corrupting the root domain accounting and
-underflowing b->sum - b->moved in cpuset_free_dl_bw().
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 5503820c5b26c..b43106a590256 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-[ ... ]
-> @@ -3657,10 +3676,64 @@ bool dl_task_needs_bw_move(struct task_struct *p,
->  	 * their bandwidth: dl_add_task_root_domain() leaves them out.
->  	 */
->  	if (!dl_task(p) || dl_entity_is_special(&p->dl) || !p->dl.dl_bw)
-> -		return false;
-> +		return -1;
-> =20
->  	cpu =3D dl_task_root_domain_cpu(p);
-> -	return !cpumask_intersects(cpu_rq(cpu)->rd->span, new_mask);
-> +	if (cpumask_intersects(cpu_rq(cpu)->rd->span, new_mask))
-> +		return -1;
-> +	/*
-> +	 * A task moved asleep is still on a CPU of the root domain it left.
-> +	 * If the new mask holds that CPU, the task wakes up there.
-> +	 */
-> +	cpu =3D task_cpu(p);
-> +	if (cpu_active(cpu) && cpumask_test_cpu(cpu, new_mask))
-> +		return cpu;
-> +	cpu =3D cpumask_first_and_and(new_mask, cpu_active_mask,
-> +				    housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
-> +	if (cpu >=3D nr_cpu_ids)
-> +		cpu =3D cpumask_any_and(new_mask, cpu_active_mask);
-> +	return cpu < nr_cpu_ids ? (int)cpu : -1;
-> +}
-
-[Severity: High]
-Can offline CPUs in def_root_domain.span cause __dl_task_bw_move_cpu() to
-falsely return -1 when attaching a task to top_cpuset?
-
-Every offline possible CPU is attached to def_root_domain (in sched_init()
-and detach_destroy_domains()), as are CPUs isolated via isolcpus=3Ddomain or
-isolated cpuset partitions.  When a task is attached to top_cpuset,
-cpuset_attach_cpus() sets new_mask to task_cpu_possible_mask(task) &
-~subpartitions_cpus, which includes all offline possible CPUs.
-
-Because cpumask_intersects(cpu_rq(cpu)->rd->span, new_mask) does not mask
-against cpu_active_mask, any system with an offline CPU in
-cpu_possible_mask will see def_root_domain.span intersect new_mask on that
-offline CPU (unless filtered out by p->user_cpus_ptr).  Moving a deadline
-task whose bandwidth is in def_root_domain back to top_cpuset will then
-return -1 here, skipping both the destination reservation and the bandwidth
-move out of def_root_domain.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116190549.2301=
-19-1-mathieu.desnoyers@efficios.com?part=3D23
+Best Regards,
+Petr
