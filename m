@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858134;
-	b=dp91L2c433E127Bx0k5uf2oMum9zClCGANmOA1txMCsuQqmRSNCYXnamFAdZ8lHOWUJh
-	 lUEvkEepCm+jX4u+PaLr7gLmkLnpM6cRV6tPdmib8ECgwOuDl4o44StaxFj9kzBR1stt/
-	 3R4Ot1uq3u9fg0JKa51CkSq16Cu1NCPrOCaMBxSAm/4TrLQ2csEcNTj/db/htAHsoKmOa
-	 jEKE9nZftt0ENLJIjzYCoj3l3s+JQ4l3YrOlAonHZGtnSGUUyV0aHV2WCiIjXpvTQEeqa
-	 LmomaDYrQiBaoz+96NcLuTmkBcM6CYnBGWohpuWAUBRxlYBLh8Q3fe4SMy/+xtuXVwA==
+	t=1794858299;
+	b=gAKUt/55TBn1RmiziVOofbSFvcP4HjKor6WAZ8JLV9RXLccVOQHbAFMjdjepCV40T85m
+	 sKRd1YaLjLmDi3sSPxn6ol1tYDYAHUVqd93hjVTAcIW4UtveOGQqJMziS/EHsCY17GvAV
+	 hZa3MFXSLEZeD2P+NLENFT0K8RsK18Q+WsOig1fBhgezgrXtjcgEV/pf3wjKWW08zooiN
+	 0am4KwXyn/To/iqCqItm1L41NkaeDDRiBM1DkCJ0SERqWJGeuVuFZLX6y8Bdc12dHdTcO
+	 vo6JSsKPPXICR553aTL7JK4yCe7Xd8ZHexFj7C3DCCvtgYoE0VXwJ/K49oo9XsxvmgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858134;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858299;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rNb9bQsdhMwrhJ/otfhzVlcn4OiqAMy/G1sex/r4c0M=;
-	b=4DU4NHLCZB5ExY3ynTqEVMGjy0HyxI8nUaWP1A5qFY/3O3/nWjgeYaPWCdlqaOioCumn
-	 tsDvAODerOEkVMgBBw1vq1Qz/Z6lorp/cP4FqyHvoCcDOyozFSFPSsAluaB/cROOmDjid
-	 N+pPgVZroBSBTWlU2ecbcIGSd1LP9a5rlx17cI/GF3NF1ifOzKOuy5h4S3aTK7o2P+1MG
-	 IhssCrtZ5FJkK6u9WKVnVxR72dAtTm8Lu0YkbB9MLmSjfnIYsEwNf/pPNzf+7/VC+9yog
-	 49y1+0pk6Z9IIzfdPIoSqQTOpclqxQXIhBFtJX/UU7lkgCEj8gygfC7v6pEjU5QQEuQ==
+	bh=o1fO/TN0TawiIXOevv4jOj6AmBk+euCS4j5XlM/jT3s=;
+	b=tycWEYdc9eKRPqevEzlQBmfDz1W/LKGi7gmQ2FWb3I1CrUlzIuFYheiTNNN2nPFb5fiM
+	 jhtlMjHMmRW22ATnbkAIFxiCBHGnTna8T8UPs1VKNd+fS+j5whxLmaTTw9C/KYGcgZyyM
+	 iQQV139RvguYB9CknCsmLenYzHo3WmA/khHSWVB+6YpnYMi0/HHd2GBa+Giv47KVJYuQN
+	 nSyMK1pXuwST3QFCAPnPjvH5B1o1BX56R0oi9bH7O8Dy9ZwvjUSDZdVVnyZVzfWa6jzC/
+	 mxLjS2Blshf+BGz8sQ6aBGuBkjQtj+DdecHK8SIH9HD8HJMSqosMMj3+wyaBaNzCBHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S7HJtAW+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eae4RWYU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E305606A322;
-	Mon, 16 Nov 2026 19:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B10606A89C;
+	Mon, 16 Nov 2026 19:44:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S7HJtAW+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A68841F000C4;
-	Mon, 16 Nov 2026 19:42:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eae4RWYU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EFD1F000CA;
+	Mon, 16 Nov 2026 19:44:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794858134;
-	bh=rNb9bQsdhMwrhJ/otfhzVlcn4OiqAMy/G1sex/r4c0M=;
+	s=k20260515; t=1794858298;
+	bh=o1fO/TN0TawiIXOevv4jOj6AmBk+euCS4j5XlM/jT3s=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=S7HJtAW+1XpF3e2apNCGWZCxhK6+FP0EdXd07FMlMeeeFCZFHDF3seMrwELFtBtyI
-	 pgBm08jgs3CnbJQoZXQObUhZw5Bolrp+PS2VDwHZiuqidMPQMiBMi5K4hoApN0VWsg
-	 4dl9N4DPEyytONJs0Wv0iszVaiFPxtliLTa0/AvBphpotnrd53OWCti8o11Cwwf7VJ
-	 xtUy4SukEgl5PbGoRKtZq9CzmM2zgGd+GLJndHU1FRfWVCE+yESxJ0qNftBWTMam/P
-	 iRaloDpx1ynsHPiDPUd5XDJxyDBL3aqAj9C5bEjZ2KVPjIgO1I+NzHO90GJtjGWYo7
-	 p1T3WSEJHcH5w==
-Message-ID: <sashiko-outbox-217594@kernel.org>
+	b=eae4RWYU4y8OCV3ZDEIz12Qw2yz5VYSqyQItQlzGJURLmZ0X4mDnwH6iae9+N6LCk
+	 a9pNyCa2zkG/rIFCNQj3t9F39fj9Uz8k+847bafQqTzAU5VP4XwipqNWyWPQzdofM/
+	 3qT9L5lcD9S+jk4zcXKz6R7rskbjP9FSOFAwgcqtKdmyVdT5UOq1zYSejA5EjO8Zo7
+	 xw7O7ZgG4b3rraAfnrC/ImDmxcEhBFldI5djWj30uIXfsY2mjKUdWn9phuyOXt6ltb
+	 GQsbvGGH+NumVCbla9K0zhZINbigpRSYJGwTTFOGUGXHfZfDknJiFf55C//amKws+Q
+	 lb4drpxVsfYeQ==
+Message-ID: <sashiko-outbox-217599@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 08/37] sched/deadline: Do not replenish a boost from
- cleared parameters
+Subject: Re: [PATCH v6 16/37] sched/deadline: Record the root domain holding
+ a task's bandwidth
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116190549.230119-9-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261116190549.230119-17-mathieu.desnoyers@efficios.com>
 References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
- <20261116190549.230119-9-mathieu.desnoyers@efficios.com>
+ <20261116190549.230119-17-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 19:42:13 +0000
+Date: Mon, 16 Nov 2026 19:44:58 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,138 +61,118 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] sched/deadline: torn donor parameter reads in
-  replenish_dl_entity()
-- [Medium] sched/deadline: unreset negative runtime in
-  replenish_dl_entity()
-- [Medium] sched/deadline: zero deadline in replenish_dl_entity() on
-  initial boost
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] sched/deadline: __sched_setscheduler() checks task_rq(p) root
+  domain
 --
 
-commit f55f8a9d26011d4eb967a7bc04c3939d81815727
+commit 685fb9b4f51b7675ac0c8a518174590afd51eb14
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Do not replenish a boost from cleared parameters
+sched/deadline: Record the root domain holding a task's bandwidth
 
-This commit avoids an infinite loop in replenish_dl_entity() when a
-boosted entity's donor has left SCHED_DEADLINE and had its parameters
-cleared before the priority inheritance chain walk deboosts the owner.
+This commit records in dl_bw_cpu a CPU of the root domain that accounts for
+a deadline task's bandwidth, and updates bandwidth moves, releases,
+parameter changes, and affinity checks to consult that recorded root domain
+instead of task_rq(p)->rd.
 
-Link: https://lore.kernel.org/all/avL8oOtjKqVNR7-l@jlelli-thinkpadt14gen4.r=
-emote.csb/
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-1-dd761f=
+e005b4@redhat.com/
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index e4d7cbf4861de..c4ea510599415 100644
+> index ccd6426811b9e..44db625bffc32 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -807,8 +807,26 @@ static void replenish_dl_entity(struct sched_dl_enti=
-ty *dl_se)
->  {
->  	struct dl_rq *dl_rq =3D dl_rq_of_se(dl_se);
->  	struct rq *rq =3D rq_of_dl_rq(dl_rq);
-> +	struct sched_dl_entity *pi_se =3D pi_of(dl_se);
-> +	u64 runtime =3D READ_ONCE(pi_se->dl_runtime);
-> +	u64 deadline =3D READ_ONCE(pi_se->dl_deadline);
-> +	u64 period =3D READ_ONCE(pi_se->dl_period);
-
-[Severity: Medium]
-Can replenish_dl_entity() observe a non-zero runtime alongside a zeroed
-deadline or period when racing with __dl_clear_params()?
-
-__dl_clear_params() zeroes dl_runtime, dl_deadline and dl_period in that
-same order under the donor's rq lock without ordering barriers:
-
-CPU0 (boosted owner)              CPU1 (donor)
-replenish_dl_entity()
-  runtime =3D READ_ONCE(pi_se->dl_runtime)
-                                  inactive_task_timer()
-                                    __dl_clear_params()
-                                      dl_se->dl_runtime =3D 0
-                                      dl_se->dl_deadline =3D 0
-                                      dl_se->dl_period =3D 0
-  deadline =3D READ_ONCE(pi_se->dl_deadline)  <-- reads 0
-  period =3D READ_ONCE(pi_se->dl_period)      <-- reads 0
-
-Because only !runtime is checked below, replenish_dl_entity() proceeds
-with runtime > 0 and deadline =3D=3D 0 or period =3D=3D 0.  A boosted non-d=
-eadline
-task gets dl_se->deadline set to rq_clock(rq) + 0, while a boosted
-SCHED_DEADLINE task has runtime added in the while (dl_se->runtime <=3D 0)
-loop without advancing dl_se->deadline.  If dl_se->deadline is then in the
-past, the lag check emits a false "sched: DL replenish lagged too much"
-warning and calls replenish_dl_new_period(), which re-reads
-pi_of(dl_se)->dl_deadline and pi_of(dl_se)->dl_runtime directly and sets
-dl_se->runtime to 0.
-
-> -	WARN_ON_ONCE(pi_of(dl_se)->dl_runtime <=3D 0);
+[ ... ]
+> @@ -4193,6 +4260,23 @@ int sched_dl_overflow(struct task_struct *p, int p=
+olicy,
+>  	if (new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p))
+>  		return 0;
+> =20
 > +	/*
-> +	 * A boosted entity runs on the parameters of its donor, the top
-> +	 * waiter of an rt_mutex. The donor can leave the class and have them
-> +	 * cleared before the chain walk deboosts this entity. They are
-> +	 * cleared under the donor's rq lock, which can be another one. So
-> +	 * read each of them once. Refilling from a runtime of 0 would loop
-> +	 * forever. Leave the entity runnable instead: the walk deboosts it,
-> +	 * or its task releases the lock.
+> +	 * Change the bandwidth of a deadline task where it is counted: in
+> +	 * the root domain of the CPU recorded with it. A task moved asleep
+> +	 * has not run there yet, so the CPU it is on can be elsewhere. No
+> +	 * bandwidth is counted if a rebuild dropped it, or if the task
+> +	 * enters the class. A runtime below about a millionth of the period
+> +	 * gives a bandwidth of 0. It counts for nothing, and no move updates
+> +	 * its record. In these three cases, the root domain of the CPU the
+> +	 * task is on takes the new bandwidth. The caller holds cpuset_mutex,
+> +	 * or dl_accounting_mutex without cpusets, so no rebuild runs
+> +	 * meanwhile.
 > +	 */
-> +	if (unlikely(!runtime)) {
-> +		WARN_ON_ONCE(!is_dl_boosted(dl_se));
-> +		dl_se->dl_yielded =3D 0;
-> +		dl_se->dl_throttled =3D 0;
-> +		return;
-> +	}
+> +	counted =3D task_has_dl_policy(p) && p->dl.dl_bw_cpu >=3D 0 &&
+> +		  p->dl.dl_bw_gen =3D=3D dl_bw_gen;
+> +	cpu =3D counted && p->dl.dl_bw ? p->dl.dl_bw_cpu : task_cpu(p);
+> +	dl_b =3D dl_bw_of(cpu);
+[ ... ]
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index 4c013caa24713..306cd8d32173b 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -1185,6 +1185,8 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct s=
+ched_attr __user *, uattr,
+> =20
+>  int dl_task_check_affinity(struct task_struct *p, const struct cpumask *=
+mask)
+>  {
+> +	unsigned int cpu;
+> +
+>  	/*
+>  	 * If the task isn't a deadline task or admission control is
+>  	 * disabled then we don't care about affinity changes.
+> @@ -1204,9 +1206,16 @@ int dl_task_check_affinity(struct task_struct *p, =
+const struct cpumask *mask)
+>  	 * if admission test is enabled, we only admit -deadline
+>  	 * tasks allowed to run on all the CPUs in the task's
+>  	 * root_domain.
+> +	 *
+> +	 * That is the root domain that counts the bandwidth of the task:
+> +	 * the one of the CPU recorded with it. A task moved asleep to
+> +	 * another cpuset is still on a CPU of the root domain it left. A
+> +	 * bandwidth of 0 is counted nowhere, and no move updates its
+> +	 * record: use the CPU the task is on.
+>  	 */
+> +	cpu =3D READ_ONCE(p->dl.dl_bw) ? dl_task_root_domain_cpu(p) : task_cpu(=
+p);
+>  	guard(rcu)();
+> -	if (!cpumask_subset(task_rq(p)->rd->span, mask))
+> +	if (!cpumask_subset(cpu_rq(cpu)->rd->span, mask))
+>  		return -EBUSY;
+> =20
+>  	return 0;
 
 [Severity: Medium]
-Does returning here without resetting dl_se->runtime leave the entity with
-an accumulating negative runtime?
+Should __sched_setscheduler() also check the root domain of the recorded
+dl_bw_cpu instead of rq->rd?
 
-When a boosted task exhausts its runtime after the donor's parameters are
-cleared, dl_se->runtime remains <=3D 0 across this early return.  Every
-subsequent tick in update_curr_dl_se() subtracts delta_exec from
-dl_se->runtime, sees dl_runtime_exceeded(dl_se), sets dl_se->dl_overrun
-(sending repeated SIGXCPU signals if SCHED_FLAG_DL_OVERRUN is enabled),
-and re-enters enqueue_task_dl() -> replenish_dl_entity().
+While sched_dl_overflow() and dl_task_check_affinity() are updated to look
+up the root domain via dl_bw_cpu for a task moved while asleep,
+__sched_setscheduler() still checks rq =3D task_rq(p) before calling
+sched_dl_overflow():
 
-With the follow-up commit "sched/deadline: Reset the donor's runtime at a
-deboost in the class", this return also happens before
-dl_note_donor_refill(dl_se).  If a SCHED_DEADLINE owner had not been
-refilled from the donor before the donor's parameters were cleared,
-dl_donor_refill stays 0 and dl_deboost() does not reset dl_se->runtime;
-when dl_se->deadline is still in the future at deboost, the negative
-runtime is charged against the owner's own periods on its next replenish,
-or pushes zerolag_time past dl_se->deadline in task_non_contending() if
-the owner blocks first.
+kernel/sched/syscalls.c:__sched_setscheduler() {
+	...
+		if (dl_bandwidth_enabled() && dl_policy(policy) &&
+				!(attr->sched_flags & SCHED_FLAG_SUGOV)) {
+			cpumask_t *span =3D rq->rd->span;
 
-[Severity: Medium]
-Can this early return also leave dl_se->deadline at 0 when a runnable
-non-deadline task is first boosted into SCHED_DEADLINE?
-
-When rt_mutex_setprio() boosts a runnable non-deadline task whose
-dl_se->deadline is 0, it sets ENQUEUE_REPLENISH and calls
-enqueue_task_dl() -> enqueue_dl_entity() -> replenish_dl_entity().  If the
-donor's parameters were already cleared (for example after
-normalize_rt_tasks(), or before a multi-hop PI chain walk finishes
-deboosting an intermediate lock owner), replenish_dl_entity() returns here
-before the dl_se->dl_deadline =3D=3D 0 branch initializes dl_se->deadline.
-
-__enqueue_dl_entity() then calls inc_dl_deadline() with deadline =3D=3D 0:
-
-kernel/sched/deadline.c:inc_dl_deadline() {
-	if (dl_rq->earliest_dl.curr =3D=3D 0 ||
-	    dl_time_before(deadline, dl_rq->earliest_dl.curr)) {
-		if (dl_rq->earliest_dl.curr =3D=3D 0)
-			cpupri_set(&rq->rd->cpupri, rq->cpu, CPUPRI_HIGHER);
-		dl_rq->earliest_dl.curr =3D deadline;
-		cpudl_set(&rq->rd->cpudl, rq->cpu, deadline);
-	}
+			if (!cpumask_subset(span, &p->cpus_mask) ||
+			    rq->rd->dl_bw.bw =3D=3D 0) {
+				retval =3D -EPERM;
+				goto unlock;
+			}
+		}
+	...
 }
 
-Because dl_rq->earliest_dl.curr =3D=3D 0 is the sentinel for an empty dl_rq,
-enqueuing a subsequent deadline task with a later deadline overwrites
-dl_rq->earliest_dl.curr and cpudl, hiding earlier deadlines on this rq
-from cross-CPU deadline balancing.
+When a sleeping SCHED_DEADLINE task is moved to another exclusive cpuset,
+p->cpus_mask is updated to the destination cpuset while task_rq(p) stays in
+the old root domain.  Because the old rq->rd->span is disjoint from
+p->cpus_mask, sched_setattr() fails here with -EPERM before reaching
+sched_dl_overflow().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116190549.2301=
-19-1-mathieu.desnoyers@efficios.com?part=3D8
+19-1-mathieu.desnoyers@efficios.com?part=3D16
