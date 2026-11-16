@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858568;
-	b=Iys0lLICrivgFGVaqKP7/tJ/gxOk4UuZIvTkbuOVRhngTcsds3B10CLF3Iu5PBhhsKlr
-	 NnVhKhiqw5ggenoL66HbGMy/i/tjYTugd5jcf6abUNN7Z5y77sB0rbCLsW5W5Wi63GDhY
-	 r7AfmaRL9Hw+dOkiIAVY51hNvDrJXnl2kqomKhDIf42w3pj2hOBxukwXOwAsy0WT5Cq3Q
-	 dmcvFwaroAQYLD26wLVGxa3nNJm9cqT2BBj/gpJnkvD4qCpY9Vmb3dkpYT+SS4eYM5dh6
-	 5iGENhqd3Vb1z+UYkWeVaU2XzCm1bAb/5WrELKbXQw3HWlZm8WCRU89MfiXXr9KeTDQ==
+	t=1794858614;
+	b=o/hsNbBN6bcS4GkILv40w5VmM1yx9s5K7cxfp4iQ1/rM2Fcd8F3F/Vxe+PuStNj3QhQt
+	 h3vdY8OfG/yRIcb1qOCZivn74m3sodMDFE+qGnVUKzM3XLedNivDuscfjA8vyxXhGEaOm
+	 n8nq/R8t/MRqUBMrl6q5K2puCxZg6uUdkKcyWzLb9bil+WosOLlBV8y5gQtP3hcWxsbQi
+	 SOGYBMiy2hCjrOhwzZjF6aTY0cSFQjkcFdEyu30nznF0IkVRPEf0WctH821cCS9QfvSDi
+	 IqwhT7bCdTGiltAbTQCvM4fEN74NGEo769Qsi+yHZlcLrDPMPpJgsWL4SLj1+33LHPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858568;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858614;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=N7V/LQp4s4UHS59ZWmF/9tR9RD0NtNJ6Gyly7akEEoA=;
-	b=eCepUYo0ztLX1l1Eq8JKN2Z2q5U+MqKn9mdWiK3phRMqsKDDOPEUTUEmuNu4qSOFdI8v
-	 QMClb2SOgk7ZjOwRR1V7CQ6dXmqx0roMbRh60HHd71F5D3iznKQOPbEoYvwEDNRVRK2Xd
-	 05el60dBPgCezFfHJ7NlUQCMUVpdXVxE6PclV2RERMuaIv6OqW2YNZ8WjFxoiD50TpwkL
-	 iuWELahqRMeSlUr4lmKRixV7oS2nXpZDk48JN/cI3zA1ZEFfv0fY3h+TQGRIZaYKq7jaV
-	 ncyiNF4FJ2xRNxlQihSxDjh6XA4hKT8hG/eP4JNwBh8Y9SEvpXthAusHIhDHvUIiOag==
+	bh=IIvFx80GjTB9EGYhrWhLVrexyzalzFYFMysPWbOV+sc=;
+	b=I2SJfO2CcpxJYygX7i07V7S2Dhn6dnd78sOYcPAb6X7ICusIpFg7gs/BBLedMnt4Mx2T
+	 Xyq4T8/2hwTPqZOD3HG1K2QU37XFmuXRJKEEzRmcosAQa8O48Xghj7Fv8lBXlCgyDMHpR
+	 1V82NnGtpdlAGnzWnSYDIXLpUroE9CSZFbgYL40rZr2D41MqB8JmDu6EGFQaD15rKeXBr
+	 sNglgEHGk5IVERTrFSdBoZx9FwA7LX6BNnypTQDlgWn9r8paBy7YhmraBqdzbfxZFYgS/
+	 r2uzYUvmMv9qcLRwrXoLrM6oe9/OnJdlDHRa+BsyQsFMTT8apyltmHNLKg3pLLePmdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lgzr+t66;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="R5U37/PQ";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E0A606A322;
-	Mon, 16 Nov 2026 19:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA7D606A329;
+	Mon, 16 Nov 2026 19:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lgzr+t66
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45A861F000C4;
-	Mon, 16 Nov 2026 19:49:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R5U37/PQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3519C1F000C7;
+	Mon, 16 Nov 2026 19:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794858567;
-	bh=N7V/LQp4s4UHS59ZWmF/9tR9RD0NtNJ6Gyly7akEEoA=;
+	s=k20260515; t=1794858613;
+	bh=IIvFx80GjTB9EGYhrWhLVrexyzalzFYFMysPWbOV+sc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Lgzr+t66Asp7CgWJkhJKR3Hsu0CRQYeaej+KBh8FpIAclnsWe352tFdLHsbVox7AU
-	 xPiLGDLw8FSI+ri3HgmU+R78M70DE2qq/UAEwg+/CyVi9AsXsMV4Z2ZmkMBxHSxLyx
-	 Au6ydOaefAKf2GyCa9/NGsQpKyJ4aG/ZONs1qtQVVVs7BSBuF09xUKGkA2aqv5kLeP
-	 Q8CQZ+eqdL9yXnpB01Cxl22a0jKQNSLZZ2yV1H/nEJGf/Dw9kGE+Nyf5pa/Wl7kvUd
-	 LSYkj5PQ7Hs58yqNWnaWsPN9NZLLcicpG/FrO3aXmuSp7Bjmn6DlyNJ5qksK/SWNR0
-	 6N5O+CvI+/Uxw==
-Message-ID: <sashiko-outbox-217617@kernel.org>
+	b=R5U37/PQW8PaVqe7TNoKWnmH1a4YAkPlXHHXbiIQBxt7qqOvF+Hs+NWq1pyB9kiQ3
+	 KWrP0cbISNKbvddq9EvvTfsYcLP+lGF/H7ajxFlZgMrhkX39k9f858O/UfDv9HDiDz
+	 Vfrq2Oy6kS0i0ps9tj3YFrwSU2i/bOciLGtYuPW0PwrgyheyBVlF+2JDtNKtCfDBdX
+	 4V9zqLlQZMXnTsmsYrJz5ITUZvzAEuJalcoS+Nre/BHP0CW5BOTnBXlb30qpRp8+5V
+	 55Mw6zq5eX0S7OGLK+icnp+zOXDqTIKlXQXiwXdUhAvSfYwIitSuNJ7M7ePOw34/XT
+	 77YFqeg8p7HYg==
+Message-ID: <sashiko-outbox-217620@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 37/37] selftests/sched: Add a test of SCHED_DEADLINE
- bandwidth accounting
+Subject: Re: [PATCH v6 26/37] sched/deadline: Keep a task in the root domain
+ that counts its bandwidth
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116190549.230119-38-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261116190549.230119-27-mathieu.desnoyers@efficios.com>
 References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
- <20261116190549.230119-38-mathieu.desnoyers@efficios.com>
+ <20261116190549.230119-27-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 19:49:26 +0000
+Date: Mon, 16 Nov 2026 19:50:12 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,93 +61,175 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] selftests/sched: unconditional cpu_up() and hotplug check in
-  fallback_case()
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] sched/deadline: dl_task_offline_migration() bypasses
+  dl_task_bw_span()
+- [Medium] sched/deadline: dl_task_bw_span() returns NULL for
+  deactivating dl_bw_cpu
+- [Low] sched/deadline: dead branch and fallback order in
+  dl_task_rebuild_cpu()
 --
 
-commit a082e176a7ad72cb248a92c19ae446e62c656620
+commit a54933b747047e1dd4434be5e5299159be0de9fe
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
+sched/deadline: Keep a task in the root domain that counts its bandwidth
 
-This commit adds deadline_bw_test to test SCHED_DEADLINE bandwidth
-accounting across priority inheritance, parameter changes, cpuset moves,
-deaths, yields, runtime overruns, reclaiming, fair servers, and CPU
-hotplug.
+This commit adds dl_task_bw_span() and updates CPU selection paths and
+dl_task_rebuild_cpu() to prefer CPUs in the root domain that counts a
+deadline task's bandwidth.
 
-Link: https://github.com/jlelli/sched-deadline-tests
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 35f40185953a3..5294546786f12 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -864,13 +864,19 @@ static struct rq *dl_task_offline_migration(struct =
+rq *rq, struct task_struct *p
+> =20
+>  	later_rq =3D find_lock_later_rq(p, rq);
+>  	if (!later_rq) {
+> +		const struct cpumask *span =3D dl_task_bw_span(p);
+>  		int cpu;
+> =20
+>  		/*
+>  		 * If we cannot preempt any rq, fall back to pick any
+> -		 * online CPU:
+> +		 * online CPU. Try the root domain that counts @p first.
+>  		 */
+> -		cpu =3D cpumask_any_and(cpu_active_mask, p->cpus_ptr);
+> +		cpu =3D nr_cpu_ids;
+> +		if (span)
+> +			cpu =3D cpumask_first_and_and(cpu_active_mask,
+> +						    p->cpus_ptr, span);
+> +		if (cpu >=3D nr_cpu_ids)
+> +			cpu =3D cpumask_any_and(cpu_active_mask, p->cpus_ptr);
 
-> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
-tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> new file mode 100644
-> index 0000000000000..19c61a3a95296
-> --- /dev/null
-> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+[Severity: Medium]
+Can find_lock_later_rq(p, rq) bypass the dl_task_bw_span(p) check and
+migrate p onto an isolated CPU in def_root_domain?
+
+When a housekeeping CPU goes offline, detach_destroy_domains() attaches
+its runqueue to def_root_domain while dl_rebuild_rd_accounting() moves a
+throttled task's bandwidth to the new housekeeping root domain.  When
+dl_task_timer() later fires on that offline CPU and calls
+dl_task_offline_migration(), find_later_rq() searches
+task_rq(p)->rd->cpudl, which is def_root_domain.cpudl:
+
+kernel/sched/deadline.c:find_later_rq() {
+    ...
+	if (!cpudl_find(&task_rq(task)->rd->cpudl, task, later_mask))
+		return -1;
+    ...
+}
+
+With isolcpus=3Ddomain, isolated CPUs also belong to def_root_domain.  If
+p->cpus_mask includes an isolated CPU that is free or running a later
+deadline in def_root_domain.cpudl, find_lock_later_rq() returns that
+isolated CPU's runqueue and skips the !later_rq fallback entirely,
+moving p and its bandwidth into def_root_domain without admission
+control.
 
 [ ... ]
 
-> +static int fallback_case(enum fb_mode mode)
+> @@ -3669,6 +3690,29 @@ static unsigned int dl_task_root_domain_cpu(struct=
+ task_struct *p)
+>  	return cpu;
+>  }
+> =20
+> +/*
+> + * Return the CPUs of the root domain that counts the bandwidth of @p, or
+> + * NULL if none does. The mask of @p can hold CPUs of another root domai=
+n,
+> + * with isolcpus=3D"domain". Where a CPU is picked for @p, a CPU of this
+> + * root domain comes first: no other root domain admitted @p.
+> + *
+> + * The caller holds the pi_lock or the rq lock of @p. With interrupts
+> + * off, the root domain is not freed.
+> + */
+> +const struct cpumask *dl_task_bw_span(struct task_struct *p)
 > +{
-> +	int in_b =3D mode =3D=3D FB_LAST_H || mode =3D=3D FB_PART_H || mode =3D=
-=3D FB_STAY_K;
-> +	int off_cpu;
-> +	int on_h =3D mode =3D=3D FB_ON_H || mode =3D=3D FB_MASK_H || in_b;
-> +	int no_offline =3D mode =3D=3D FB_MASK_H || mode =3D=3D FB_LAST_H || mo=
-de =3D=3D FB_PART_H;
-> +	char cg_q[PATH_MAX];
-> +	int on_i1 =3D mode =3D=3D FB_ON_I1;
-> +	char cg_b[PATH_MAX], cg_c[PATH_MAX], path[PATH_MAX + 32], buf[256], one=
-[16];
-> +	long long def0, hk0, def_off =3D 0, hk_off =3D 0, def_ref, hk_ref, def,=
- hk, bw;
-> +	int fd[2], ret =3D KSFT_SKIP, added =3D 0, made =3D 0, w, at, err;
-> +	pid_t pid =3D -1;
+> +	int cpu;
 > +
-> +	if (!root[0] || fallback_cpus(!no_offline)) {
-> +		ksft_print_msg("needs isolcpus=3Ddomain: 2 isolated, 2 housekeeping CP=
-Us%s\n",
-> +			       no_offline ? "" : ", CPU hotplug");
-> +		return KSFT_SKIP;
-> +	}
-> +	off_cpu =3D mode =3D=3D FB_STAY_K ? fb_h : fb_i1;
-> +	if ((mode =3D=3D FB_LAST_H || mode =3D=3D FB_STAY_K) && !cpu_hotpluggab=
-le(fb_h)) {
-> +		ksft_print_msg("CPU %d cannot go offline\n", fb_h);
-> +		return KSFT_SKIP;
-> +	}
+> +	if (!task_has_dl_policy(p) || dl_entity_is_special(&p->dl) ||
+> +	    !p->dl.dl_bw)
+> +		return NULL;
+> +	cpu =3D READ_ONCE(p->dl.dl_bw_cpu);
+> +	if (cpu < 0 || !cpu_active(cpu) ||
+> +	    READ_ONCE(p->dl.dl_bw_gen) !=3D READ_ONCE(dl_bw_gen))
+> +		return NULL;
+> +	return cpu_rq(cpu)->rd->span;
+> +}
 
-[ ... ]
+[Severity: Medium]
+Does rejecting !cpu_active(cpu) here cause dl_task_bw_span() to return
+NULL while a CPU is being deactivated?
 
-> +	reap(pid);
-> +	pid =3D -1;
-> +	sleep_ns(3 * PERIOD);
-> +	def =3D total_bw_of(fb_i2);
-> +	hk =3D total_bw_of(fb_k);
-> +	if (def !=3D def_ref || hk !=3D hk_ref) {
-> +		ksft_print_msg("task gone: total_bw %lld, %lld, not %lld, %lld\n",
-> +			       def, hk, def_ref, hk_ref);
-> +		ret =3D KSFT_FAIL;
+In sched_cpu_deactivate(cpu), set_cpu_active(cpu, false) runs before
+balance_push_set(), synchronize_rcu(), and cpuset_cpu_inactive(), and
+cpuset_handle_hotplug() also calls cpuset_hotplug_update_tasks() before
+rebuild_sched_domains_cpuslocked() runs dl_rebuild_rd_accounting().
+Throughout that window, cpu_rq(cpu)->rd still points to the root domain
+that counts p's bandwidth, but any task whose p->dl.dl_bw_cpu is the
+outgoing CPU gets dl_task_bw_span(p) =3D=3D NULL.  Tasks pushed by
+balance_push, updated by cpuset_hotplug_update_tasks(), or woken during
+deactivation can then be placed on an isolated CPU in def_root_domain
+and move their bandwidth there without admission control.
+
+> @@ -3903,6 +3947,27 @@ static unsigned int dl_task_rebuild_cpu(struct tas=
+k_struct *p)
+>  	 */
+>  	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
+>  	cpu =3D task_cpu(p);
+> +	/*
+> +	 * Keep the bandwidth where it was counted: with the housekeeping
+> +	 * CPUs, or with the CPUs that isolcpus=3D"domain" isolates. The root
+> +	 * domains are new, and the CPU recorded can be offline. So prefer a
+> +	 * CPU of the mask of the same kind as the CPU recorded: housekeeping
+> +	 * or not.
+> +	 */
+> +	if (recorded >=3D 0) {
+> +		const struct cpumask *hk =3D housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT);
+> +		bool rec_hk =3D cpumask_test_cpu(recorded, hk);
+> +		unsigned int same;
+> +
+> +		if (cpumask_test_cpu(cpu, msk) && cpumask_test_cpu(cpu, hk) =3D=3D rec=
+_hk)
+> +			return cpu;
+> +		if (cpumask_test_cpu(recorded, msk))
+> +			return recorded;
+> +		for_each_cpu(same, msk) {
+> +			if (cpumask_test_cpu(same, hk) =3D=3D rec_hk)
+> +				return same;
+> +		}
 > +	}
-> +out_up:
-> +	reap(pid);
-> +	cpu_up(off_cpu);
-> +	pid =3D -1;
+>  	if (cpumask_test_cpu(cpu, msk))
+>  		return cpu;
+>  	if (cpumask_empty(msk)) {
 
 [Severity: Low]
-Should cpu_up(off_cpu) at out_up be guarded by !no_offline?
+Because the new (recorded >=3D 0) block returns recorded whenever
+cpumask_test_cpu(recorded, msk) is true, the existing else-if branch
+right below this hunk is now unreachable:
 
-For FB_MASK_H, FB_LAST_H, and FB_PART_H, off_cpu is never taken offline
-(and mask_out_refused and partition_takes_refused have no_hp =3D 1), so
-falling through to out_up attempts to write to the sysfs online file of
-fb_i1 and logs an error when fb_i1 is not hotpluggable.
+kernel/sched/deadline.c:dl_task_rebuild_cpu() {
+    ...
+	if (cpumask_empty(msk)) {
+		if (recorded >=3D 0 && cpu_active(recorded))
+			return recorded;
+		dl_get_task_effective_cpus(p, msk);
+		cpumask_and(msk, msk, cpu_active_mask);
+	} else if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk)) {
+		return recorded;
+	}
+    ...
+}
 
-Also, for FB_STAY_K, off_cpu is fb_h rather than fb_i1, but passing
-!no_offline to fallback_cpus() requires an isolated CPU to be
-hotpluggable and skips hotplug_keeps_root_domain if neither isolated CPU
-supports hotplug.
+Also, when cpumask_empty(msk) is true and recorded is inactive,
+dl_get_task_effective_cpus(p, msk) refills msk after the kind-matching
+loop has already run, so the fallback at the end of the function will
+pick a housekeeping CPU even when recorded was an isolated CPU.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116190549.2301=
-19-1-mathieu.desnoyers@efficios.com?part=3D37
+19-1-mathieu.desnoyers@efficios.com?part=3D26
