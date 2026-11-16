@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794855969;
-	b=sfXtS2sfdQnlUIc/Xull/JP5+1Mh5oimHYJfFNguichwj2L+8zTl5WWmoiT1kzZOcN/2
-	 gl/ai+5a92R6F4sirKWM4tXN9F20WiXipC4zLytSrH39yj30NmHzvHT66TUET3MgRgN2Y
-	 qiRU21r0VhGttx/K4Xwq6SucuFR6NaBuXWM/ySomNgo4wqiUXQKMNKOxv7KkH+O3pNvx8
-	 zCyzBl+l/c5bARqP0i5gHAcCh4W2FyhyrfqJNF9kE58d55SRX7a/e6jlnVzLqNIlokQkj
-	 4IAqyAtHjN5ZuEFVVzoX9xCjvkHYht5VoOxktoAHvwmyOKjYHQvAmq7Ps3cZhAR87UA==
+	b=NuJGh3RzFMZCQhyfMg/4g4BN5lF8FHI5T3jIF80psq3cNd1ANzjG9MaMGAC9bmHquR8T
+	 F4ZBHrKaA54Dj80tGZkOZ+TCl55YyU6748xCu78IK32SRCKaZYFQgXyndaLZ7ogvontLf
+	 msfGC2s8iD0QmTTxIUqBBopgWVM9Qc2V9e9ipB2Bz+vwOGbPp/IpOqcWDkx79SiiCAGDT
+	 E/i0nUJheUSRMQcXgu0fDVcmkqgjisp+tiDma7geZxpRKEwzJyuVPUDHOXxr6ZvzwZjf/
+	 1n9c+sPG4PLMSEDMZQzKUELxTB6Ap3g5ZLlLmNHI18INb1zp6DBc0Ig2oJQox3IW7/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794855969;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=5GdNYKHtbggdeH/PSiTG08XEZjI27VRLEXKyaaPcMCk=;
-	b=5YfN6Z8OyEY2GiyLxHpAMmnSTHquVsGxBbWtfZ+OUUIX92hMDahpqCBMIorUnMcL4iri
-	 G/KtiG+BBJRQ8hGmnllvfAPIByqzNDmp6z5HdO0I/TuaQdZpWqASyK1lopnBazvRfxibB
-	 KoodgDcsciRbs9he/7TUUr/0qMPIQR2uf+HoP5I5iJHHWQD6OmDm00j6wg4ipgu527DJ/
-	 GHrEhaFd2E7l9DExh1SJh287q2JJ9tgRah7/sw5KUJB5jAPkv4a+Ddir3YUG910B3fz6p
-	 BSqoMK9AXq1aCWSYazcE4QqdzdpnErbrpCvCc9pPMKpO3OjuJYZNLG5/KO+Td/JhH+w==
+	bh=uPvzHKbCYsmnpAcj4LIasyOK0nOREWo/Tw63aL3+pxk=;
+	b=kh7mQIRxAFfuCc7Ml1IRvPDFBk2W27SD2JoiaIL1+oBaRwU/WDO6Dsk1l8TpY7UQvyFH
+	 oARFrVZ0Qh7bJH5tIauS3WUwUjXcp0ZHvKLO/CDTOU0z1m3DzE7oCDx6qtg8Ga6RPjIGY
+	 FGRKgmaECnIb6//vlP5Zx4H8JPeTGjUt5apLyVDXHjllVs4rhnqvEmTzqamVGXGfDNlhY
+	 LAr/bSoUr6YXgR01pdBeM+jSnmuESGxHUn+exDE10ogmjOstrxuNejWy/NX+G132JIwqV
+	 x+sY+bjIigQzGi/HdeyTqz7cLAzDXeS6Tx83dZSe7iIzzfbCp5EBGn7y5EJIaKjX65A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=SHobBh0I;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JVnypFgx;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCF260A2627
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 19:06:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFCF260A2627
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAA660A5BDE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 19:06:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EAA660A5BDE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=SHobBh0I
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JVnypFgx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794855956;
-	bh=5GdNYKHtbggdeH/PSiTG08XEZjI27VRLEXKyaaPcMCk=;
+	s=smtpout1; t=1794855959;
+	bh=uPvzHKbCYsmnpAcj4LIasyOK0nOREWo/Tw63aL3+pxk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SHobBh0INsRbR5cAac3VNIyYKUTw9UEcv6paJn6hQrMEZ/4QzCScuDFjzGWrprrqk
-	 3PumitAJKXWYmGsftUDXewTOMF9RYNM3gkZcO58BguscqqWEFzOBDCL9nrF/H2tgpd
-	 DIgd/W/UF4NYEJcrmnh1mF+hfBBlJeCwLEB6xjRFKYxM5DuN5HVcnS2vKTPydnDE2j
-	 Joxej7lvxoB8LYpPHoWmYH2uqU0pkd/2GJTAisRH6xci1JJ40MKhw6t1jCzlBdSUCW
-	 wMOCrotPNQTN1cNwVfZvhzd3jGUzqjtTsxEbeIumaNiKvasWIxj6p59GrO1VtGzViS
-	 yEGFdAQyJyOpg==
+	b=JVnypFgxOGT+/IkdnLSZxlF6xglO0ZAoA/Is2YGQ/5JFABauHDh9iI5Ud2wbwdde5
+	 e9rasNTg785MtDzgezPLIShZ990vNgUdHy6ODePNEOtN+UOB6n4/fk1V8wSVL1/3yy
+	 alxZwJC0lThXaR+us2VCvPNvAzmCkhZttYJ9FF01ZYvgDHUq3Yum9hqsIrYmA/WiZe
+	 LzcdDglU7XfDqNHFP70DLCWO7em7vlU5dqPVLNsHW/TpgcvYN1KbEwj3oXmOKSd3uf
+	 u3oyPQsx08TqVQjzV69sX5cvM/9aaystP2RpXjZ+RIEJqOYoBScRBcmLM+z9+qVJ5e
+	 VVPV6YHNm4R2w==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jSy4h5nrhzR7L;
-	Mon, 16 Nov 2026 14:05:56 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jSy4l3HZrzQtk;
+	Mon, 16 Nov 2026 14:05:59 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v6 17/37] sched/deadline: Leave a dying task out of a rebuild of the accounting
-Date: Mon, 16 Nov 2026 14:05:29 -0500
-Message-Id: <20261116190549.230119-18-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v6 31/37] sched/deadline: Start a period for a task that enters the class blocked
+Date: Mon, 16 Nov 2026 14:05:43 -0500
+Message-Id: <20261116190549.230119-32-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
 References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
@@ -97,88 +97,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A rebuild of the root domains' accounting takes the pi_lock of each
-deadline task, not its rq lock. A dying task past its 0-lag time
-releases its bandwidth at its last schedule. It holds its rq lock there,
-not its pi_lock. Then it clears dl_bw. The rebuild can find the task
-between the two steps.
+Commit fb00aca47440 ("rtmutex: Turn the plist into an rb-tree") sorts
+the waiters of an rt_mutex by priority. For deadline tasks, "the one
+with the earliest deadline wins". A waiter takes the deadline of its
+task.
 
-In this diagram, T is a deadline task that exits on CPU 0 past its 0-lag
-time. bw is its dl_bw. CPU 1 rebuilds the accounting:
+A task can enter the class while it waits on an rt_mutex.
+sched_setattr() can make it SCHED_DEADLINE. A priority inheritance
+boost can also put it in the class, if it owns another rt_mutex.
+switched_to_dl() leaves a task that is not queued to its wakeup. But
+the chain walk reads the deadline first, and copies it into the waiter.
+A task new to the class has a deadline of 0.
 
-  CPU 0 (T)                                  CPU 1 (rebuild)
+So the waiter goes before every other deadline waiter. It takes the
+rt_mutex first, whatever their deadlines. Those waiters can then miss
+their deadlines. It also boosts a deadline owner whose own deadline is
+earlier.
 
-  do_task_dead(): TASK_DEAD, under pi_lock
-  __schedule(): T's rq lock taken
-    task_non_contending(T)
-      dl_task_release_bw(T)
-        total_bw -= bw
-        dl_bw_gen recorded
-        record cleared
-                                             dl_rebuild_rd_accounting()
-                                               dl_clear_root_domains()
-                                                 dl_bw_gen++
-                                                 total_bw reset
-                                               dl_add_task_root_domain(T)
-                                                 T's pi_lock taken
-                                                 dl_bw != 0, dl_bw_gen old
-                                                 total_bw += bw
-      __dl_clear_params(T): dl_bw = 0
+Fix this by starting a new period in switched_to_dl() for a task that
+waits on an rt_mutex, if its deadline has passed. The period uses the
+reservation the task runs on: its own, or the copy a boost made. This
+is what setup_new_dl_entity() does at an enqueue. At the wakeup,
+update_dl_entity() then checks that period as for any wakeup.
 
-dl_bw_gen does not help, since the release came before the rebuild. The
-rebuild would count a bandwidth that nothing releases again. The root
-domain would then refuse deadline tasks it has room for, until the next
-rebuild.
+The setattr_blocked_keeps_order and boost_blocked_keeps_order cases of
+deadline_bw_test, added later in this series, test this. Both fail on
+v7.4-rc1 and on the series without this patch. The triage of the Sashiko
+AI review of the fifth posting found the bug.
 
-Fix this with the record of the bandwidth, dl_bw_cpu. The release
-clears it under dl_departed_lock, which the walk holds. So leave out a
-dead task with no record. A dead task with a record has not reached its
-last schedule. The walk counts it as a live task. That schedule then
-releases the bandwidth, or puts the task on the departed list. A dead
-task on the departed list keeps its bandwidth until its timer, and the
-rebuild counts it as before.
-
-The Sashiko AI review of v2 of this series found this window. Its review
-of v4 found a gap in the first version of this fix. That version also
-left out a task between TASK_DEAD and its last schedule, with its 0-lag
-time ahead.
-
-This patch completes "sched/deadline: Rebuild the root domains'
-accounting from the task list". The walk of that patch finds exiting
-tasks, which the cpuset iterator skipped. The fix needs the record
-that "sched/deadline: Record the root domain holding a task's
-bandwidth" adds. The three go to stable together.
-
-Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
+Fixes: fb00aca47440 ("rtmutex: Turn the plist into an rb-tree")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/deadline.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ kernel/sched/deadline.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 44db625bffc3..75fc9314da67 100644
+index 69a338c1526d..ffa8b946e804 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -3767,6 +3767,17 @@ void dl_add_task_root_domain(struct task_struct *p)
- 		if (recorded < 0 || !cpu_active(recorded))
- 			goto unlock;
- 		cpu = recorded;
-+	} else if (READ_ONCE(p->__state) == TASK_DEAD && p->dl.dl_bw_cpu < 0) {
-+		/*
-+		 * Count nothing for a dead task with no record. Its last
-+		 * schedule released the bandwidth under its rq lock, and has
-+		 * not cleared dl_bw yet. The release clears the record under
-+		 * dl_departed_lock, which this walk holds. A dead task with a
-+		 * record has not reached its last schedule. Count it as a
-+		 * live task. That schedule then releases what the walk
-+		 * counted, or puts the task on the departed list.
-+		 */
-+		goto unlock;
+@@ -125,6 +125,12 @@ void dl_deboost(struct sched_dl_entity *dl_se)
  	}
- 	rq = cpu_rq(cpu);
- 	dl_b = &rq->rd->dl_bw;
+ 	dl_drop_boost(dl_se);
+ }
++
++/* Return true if @p waits on an rt_mutex. The caller holds its pi_lock. */
++static inline bool dl_task_pi_blocked(struct task_struct *p)
++{
++	return p->pi_blocked_on;
++}
+ #else /* !CONFIG_RT_MUTEXES: */
+ static inline struct sched_dl_entity *pi_of(struct sched_dl_entity *dl_se)
+ {
+@@ -135,6 +141,11 @@ static inline bool is_dl_boosted(struct sched_dl_entity *dl_se)
+ {
+ 	return false;
+ }
++
++static inline bool dl_task_pi_blocked(struct task_struct *p)
++{
++	return false;
++}
+ #endif /* !CONFIG_RT_MUTEXES */
+ 
+ static inline u8 dl_get_type(struct sched_dl_entity *dl_se, struct rq *rq)
+@@ -4352,6 +4363,17 @@ static void switched_to_dl(struct rq *rq, struct task_struct *p)
+ 	if (!task_on_rq_queued(p)) {
+ 		add_rq_bw(&p->dl, &rq->dl);
+ 
++		/*
++		 * A task that waits on an rt_mutex cannot wait for its wakeup.
++		 * The chain walk sorts its waiter by its deadline first. A task
++		 * new to the class has a deadline of 0, which goes before every
++		 * real one. Start a new period now, as setup_new_dl_entity()
++		 * does at an enqueue.
++		 */
++		if (dl_task_pi_blocked(p) && !p->dl.dl_throttled &&
++		    dl_time_before(p->dl.deadline, rq_clock(rq)))
++			replenish_dl_new_period(&p->dl, rq);
++
+ 		return;
+ 	}
+ 
 -- 
 2.47.3
 
