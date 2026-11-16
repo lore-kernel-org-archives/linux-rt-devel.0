@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794855969;
-	b=oNhA/SxrmQ72EZcnoPYMRmBTbi2Zr9z0jkEhtmLnJ72BlzFoz6cPfWr/TbCvXRu0vZpI
-	 /OhSUiWu42Xkxmy3hKJP3Gy3bHhxAIToLKRVRQiuyfZbHUPLnZjT+xyDCzfIvDchZU1En
-	 EpJBSAKI8cIfDepYGvl988fYuckVi8j9su1kLzBCgp94JXcSV2TgDpSPiXmARFHGAalCp
-	 i9YGVJqTS0QB/ToC5tVbaDQLxaG8lEjhbRg0eMbSCAyg9eIja3Ukgr7+mgnxKRrbmyrqN
-	 4snZfpuPMXdxVqU+Sm+5vYpXADJfLQhUXZ8XMId8PBXGSP/yohlhUgDnN3gJXcqlRoQ==
+	b=0khw301tVtKwfjoqXPlIpru241xqQU3ceiG1UPewOvryDA3owqrRYaG/LXPo5/ebLNue
+	 81K3ZuFLZ4ZNa1oimVoW2G91YHd1+IP/6xO1F6/wkgjxsCcoa31bA+yMneZZN/ZzAfvi/
+	 oRGzt80MwfgttlR1/3trSNZ868AatqmVfQYyuPVhAsv7WetuSwIhV6avBlqKRJBqpnuUA
+	 1X/Id53/hAi3JL/1WJ6AF6iaaG242WAZmir+9fwo7QFgjktt14nns84zdpfsZC7qeva7h
+	 JPWZX5NEc9gmkwrpCx8aY3e5o3kLr8QJtvOBUueYQgv5S9nM7ELKW0C1DgkKvs3eI3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794855969;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=CewvABXbciGJVQcqqR61AyfK9UpxpPEaIIe1bjYIC08=;
-	b=XPYbeqmzIoqpAmuPoaptngXKiks+U3OxhW3eqZ3C//yK9bQA6NMQuppZi3ah443Ccy+v
-	 fKpLRmDQVfdz7T+vh86di9tikqNK6ZV7foqaXYU03Dz6KbYlmiccMo3Pya9g0CMzhxSId
-	 Ov4mjd/StbnZE7RdA/f/3KX302/gfoiHvAJ+g6QAdWriYp4vSoPM0nSmaq8gLME+F04Og
-	 o/bLaaPwf5wiYYDJKCO0ZEHTEGZz1Sr6xS0Jv+hyjJ0JYMTJFX2roff0q6Dpka9APohsy
-	 8Z20AkpraC0vrJ5DWH3uAObpIOhCSog/uAuBHzt/z3AlJJKUidUVUvYzDjOC8r4dQPQ==
+	bh=2n4jk7PlrVEcpgEOJM3cxrAKyJBj1rAGByXWYUVprcA=;
+	b=aGI4T0qqumwCHiXQO7bexG/jHMQOLa+2eYNXBCD4UmEDfMUL4iUbn5gyZu+VCQUkxdXA
+	 oM8MBzRPTwWVBVJnv4WNDLe8VjxmFbH2EOozOITRqDvlzGLI6fWHOr9h15M27Gjo99cTQ
+	 /SUmlBhO/K/I1FI0uU82d+y9DqiyWqqaKyriy2uTSrStZxrM+KYBWfREAZ1Ilp5iPxCIB
+	 XyXosZFHseJiuZ7cNiGQZ845llSd+ZVl9rDBzeI7H4Q4hcmmlN4o5YByVh6jXS+CLvCyx
+	 iOciL+iDU8Vd0JtKRmdi1b1LF7puVUnVUqhdiW7yGgci1V50sGgfPh0LLzUVhMYwsjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=kfej3n2j;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="m/jOSW+5";
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADC160A5BD5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00A660A5BE6
 	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 19:06:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ADC160A5BD5
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A00A660A5BE6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=kfej3n2j
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=m/jOSW+5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1794855959;
-	bh=CewvABXbciGJVQcqqR61AyfK9UpxpPEaIIe1bjYIC08=;
+	bh=2n4jk7PlrVEcpgEOJM3cxrAKyJBj1rAGByXWYUVprcA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kfej3n2ju94tSynC8ZtXH497MYUFfOpTSNuK73gRyniZKI5oAKQ16xO3Nw1ilqUMt
-	 QasfHsQjXW6jzYAwhWPZ7OimhB+PZFjum7T/Yl6Bd1smaSc2dRV/5J3511CMeDmFyk
-	 NRO6rfSt7ZiTRSHnbW3RSYO8JfivdK37jWZ14tE4WOmzy0c3OQqiM47CpM1UbHFtid
-	 pOtTkTcHF1aKxcK5b+mEadyB2qEqyH/mHQggOGMr8kbLlf7A0qZzropO/Ivr5cdYJR
-	 T5uRL/VVmmgkJGmi7d6IzpCl2qNYGMBBGKt2D2Z2nOYdmi1W9j3PfY0TPZepeltlhT
-	 LUmxtq8AKHcaw==
+	b=m/jOSW+54viZoK6GFpFiYcOnidA90+EdoubGYJ0JDn753Q7F60o10wMHrDldcpAJY
+	 Si9oVb8XWI4PomtTTqZe/tlbl295I1kEfmDgOYKTdnJ9GyQl3YH9zzbh7vtAg1lsLa
+	 vZUDAKyEgKnVXdu7eO4IkvkyMIrzCDajRREkaMU4evTSvmsOXTAGFz0ii7knpIwRZP
+	 HTT4LtBC6tawGBQseHHKAQyG1vxPbJR2N/m76lDgtwhTGfEQi42HoiHKsK4+qXpKiK
+	 ANIXBKOen/7csIaMMzQ+PGHAgsdPFMbNsM1qdDyyS+2qziwy6Xk8+qwGrgdzgWPjvk
+	 uuSKOL4TTzqwg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jSy4l4YhRzQtl;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jSy4l5xrtzRM8;
 	Mon, 16 Nov 2026 14:05:59 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v6 32/37] sched/deadline: Check the runtime of a task that comes back runnable
-Date: Mon, 16 Nov 2026 14:05:44 -0500
-Message-Id: <20261116190549.230119-33-mathieu.desnoyers@efficios.com>
+Subject: [PATCH v6 33/37] sched/deadline: Check the runtime of a task whose parameters change
+Date: Mon, 16 Nov 2026 14:05:45 -0500
+Message-Id: <20261116190549.230119-34-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
 References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
@@ -97,59 +97,121 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit a649f237db18 ("sched,dl: Fix sched class hopping CBS hole")
-keeps the runtime and the deadline of a task that leaves
-SCHED_DEADLINE. A task that comes back before its deadline goes on with
-them. So leaving the class and coming back gives no new runtime.
+Commit 40767b0dc768 ("sched/deadline: Fix deadline parameter
+modification handling") lets new parameters take effect at the next
+period. So sched_setattr() cannot give a task a fresh runtime.
 
-But the task can come back with new parameters. If it is asleep, its
-wakeup checks the runtime left against them, with dl_entity_overflow().
-If it is runnable, enqueue_dl_entity() starts a new period only if the
-deadline has passed. The runtime left is not checked.
+But admission control counts the new bandwidth at once. When a task
+shrinks its reservation, the runtime left from the old one is not
+checked against the new one. A comment in sched_dl_overflow() names
+the gap: the old bandwidth should stay counted until the 0-lag time.
 
-So a task can come back with a smaller runtime, and still run on the
-old one. Admission control counts only the new one. Juri Lelli found
-this case. On v7.4-rc1, a task of 50ms every 100ms came back through
-SCHED_OTHER with 10ms every 100ms. It ran 39ms of the next 100ms.
+So a running task can shrink its reservation, and still run on the old
+one. Other tasks can meanwhile be admitted into the bandwidth it gave
+back. On v7.4-rc1, a task of 50ms every 100ms changed to 10ms every
+100ms. It ran 39ms of the next 100ms.
 
-Fix this by applying the wakeup rule to a task that enters the class
-runnable, with update_dl_entity(). It starts a new period, or reduces
-the runtime of a constrained task, if the runtime left does not fit the
-new parameters. The task gets no more than a wakeup would give it.
+Fix this by applying the wakeup rule after a change of parameters, as
+the previous patch does for a task that enters the class.
+__setparam_dl() marks a change of the runtime, the deadline or the
+period. The next enqueue then calls update_dl_entity(). It starts a new
+period, or reduces the runtime of a constrained task, if the runtime
+left does not fit. The task gets no more than a wakeup would give it.
+A larger reservation still takes effect at the next period.
 
-The return_running_new_params case of deadline_bw_test, added later in
+The enqueue flags cannot tell a change of parameters: a cgroup move
+also uses ENQUEUE_MOVE. Without the mark, a task that waited behind
+others could fail the check, and get a later deadline for no reason.
+
+The change_running_new_params case of deadline_bw_test, added later in
 this series, tests this. It fails on v7.4-rc1 and passes with this
-patch. The return_asleep_new_params case tests the wakeup, and passes
-on both.
+patch.
 
-Fixes: a649f237db18 ("sched,dl: Fix sched class hopping CBS hole")
-Reported-by: Juri Lelli <juri.lelli@redhat.com>
-Closes: https://lore.kernel.org/all/avHvPjz4dL0zNyGb@jlelli-thinkpadt14gen4.remote.csb/
+Fixes: 40767b0dc768 ("sched/deadline: Fix deadline parameter modification handling")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/deadline.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/linux/sched.h   |  5 +++++
+ kernel/sched/deadline.c | 20 +++++++++++++++-----
+ 2 files changed, 20 insertions(+), 5 deletions(-)
 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 2f2f59402f09..f40abe5b9ace 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -715,6 +715,10 @@ struct sched_dl_entity {
+ 	 * @dl_bw_oncpu tells if the this_bw of a runqueue counts the task's
+ 	 * @dl_bw: add_rq_bw() and sub_rq_bw() set and clear it, under that
+ 	 * runqueue's lock. Not for servers, which keep @dl_bw_attached.
++	 *
++	 * @dl_new_params tells if sched_setattr() changed the runtime, the
++	 * deadline or the period. The next enqueue checks the runtime left
++	 * against them, and clears it.
+ 	 */
+ 	unsigned int			dl_throttled      : 1;
+ 	unsigned int			dl_yielded        : 1;
+@@ -729,6 +733,7 @@ struct sched_dl_entity {
+ 	unsigned int			dl_defer_idle     : 1;
+ 	unsigned int			dl_bw_attached    : 1;
+ 	unsigned int			dl_bw_oncpu       : 1;
++	unsigned int			dl_new_params     : 1;
+ 
+ 	/*
+ 	 * Bandwidth enforcement timer. Each -deadline task has its
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index ffa8b946e804..b47c13c8714d 100644
+index b47c13c8714d..3b62ee43c209 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -2723,6 +2723,14 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
+@@ -2674,7 +2674,10 @@ static void __dequeue_dl_entity(struct sched_dl_entity *dl_se)
+ static void
+ enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
+ {
++	bool new_params = dl_se->dl_new_params;
++
+ 	WARN_ON_ONCE(on_dl_rq(dl_se));
++	dl_se->dl_new_params = 0;
+ 
+ 	update_stats_enqueue_dl(dl_rq_of_se(dl_se), dl_se, flags);
+ 
+@@ -2723,12 +2726,13 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
  		update_dl_entity(dl_se);
  	} else if (flags & ENQUEUE_REPLENISH) {
  		replenish_dl_entity(dl_se);
-+	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
-+		/*
-+		 * The task enters the class runnable. It may come back before
-+		 * its deadline, with the runtime left from older parameters.
-+		 * Check that runtime against the new parameters, as a wakeup
-+		 * does.
-+		 */
-+		update_dl_entity(dl_se);
+-	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
++	} else if (((flags & ENQUEUE_CLASS) || new_params) &&
++		   !is_dl_boosted(dl_se)) {
+ 		/*
+-		 * The task enters the class runnable. It may come back before
+-		 * its deadline, with the runtime left from older parameters.
+-		 * Check that runtime against the new parameters, as a wakeup
+-		 * does.
++		 * The task enters the class, or its parameters change, while
++		 * it is runnable. It may have runtime left from older
++		 * parameters. Check that runtime against the new parameters,
++		 * as a wakeup does.
+ 		 */
+ 		update_dl_entity(dl_se);
  	} else if ((flags & ENQUEUE_MOVE) &&
- 		   !is_dl_boosted(dl_se) &&
- 		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
+@@ -4696,6 +4700,11 @@ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+ 	u64 period = attr->sched_period ?: attr->sched_deadline;
+ 	bool held;
+ 
++	if (attr->sched_runtime != dl_se->dl_runtime ||
++	    attr->sched_deadline != dl_se->dl_deadline ||
++	    period != dl_se->dl_period)
++		dl_se->dl_new_params = 1;
++
+ 	/*
+ 	 * Change the bandwidth that the runqueue counts here, with the
+ 	 * parameters. A task that priority inheritance boosted into the
+@@ -4828,6 +4837,7 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_defer_running		= 0;
+ 	dl_se->dl_defer_armed		= 0;
+ 	dl_se->dl_bw_oncpu		= 0;
++	dl_se->dl_new_params		= 0;
+ 
+ #ifdef CONFIG_RT_MUTEXES
+ 	dl_se->pi_se			= dl_se;
 -- 
 2.47.3
 
