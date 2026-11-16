@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794859472;
-	b=Uf8mIT7xjg+abC3f1mHVbh3UV3ALioUm/zWsHfTrLM4MP3uVXeBP+kO+UHpQolP5Rblw
-	 cAPY5wTGSYrxxBXNj52z+PxZjzis+1Y9eWKqJt8RCSjBxFBZDfouwkC63JeTxovQWyulh
-	 U4g4BlefNt5jRqXzbHwOJar+D4a8MqpIODT4NvIQB/W4Vzvu4+EKC/RpwahQY4gHmzI56
-	 aDqokITTVE17HGSfStPdF0kPnpla9dtxhp7k0zob4sArBBCcsoaYirlrtuS1fmunfwZCJ
-	 Px6BjMbXAttxmbB4TTgnfnGRpCMAdCG/vks+vLGXYDRCUTImFKPPhHJ5ahNz2Ub6DEA==
+	t=1794859731;
+	b=dVZsJBvyURkXgv8oAtM/CJ2cAnwrhDJZPgT4K2LARI9UMi7YlbyTJQZ2itdta81cppKl
+	 wqOka3ecRkKsI906Y8/YloYf+I2de22UQxggwl/IfIG0K6CcwV6olfMsLnAJAOVs8/VhR
+	 X9x5UVgaPBCUUbbS/ZEx8W7uyhZTT7R+czBLCdijVIfYmRd7VCZt96015xtx6R/No1hVj
+	 hQaM8ERqz1vj4cJ7sc9zxsjF5t2ZskODu2b+2OLFYmE6k0zxjUX/NhtClNfWmWgEYJgqZ
+	 JQcG296cspswP79AD9axaKTiiY5GkG4zbo+0teBHiMLzzxcp/nbX6CuhN9bts1SVU1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794859472;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794859731;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mZreKafCH7rPi/FRPVyNHa4l78htzwWreiZqSG6TLS4=;
-	b=tquT3gkIgm+l5VwXabQX7Pl+lcpHBcd5R8qU8DJd3Q+Cga0d0G7oofplRNMu17W0OCrn
-	 kN5MOVOGDAA8prwv1hxp6zUElqiouXMdB4WYO4nfZX+QMFF8igeMlhxo7ofbobgMvJJjn
-	 qBV+w2T/Ml3lduC1wIN9eWhTzLMIjKParGc90DijA0uQZWr7mBd4QD9bx00JXb/0hT21a
-	 ssBgO/hFRJYqXf3MECexE9/IXTOVgoZtxkfZQt2Z76dFUAKRBr/BA1DEsaSQ3sbYEbGrM
-	 3RY1uCf11cKpIenyXWHhyPQ92DOw6LP4eaYsqOs9L9Idh7koH2TuTdYbqMsUlacL+QQ==
+	bh=8JuflPW44YRux+IBxd0uF+mKUDFKcO3peiQaN1S90XQ=;
+	b=UA5Bafsz7YLLu7IFzWVAwWDnlYr7H1alVsCEIDkL296EIoVfq2dzLdPZnN4R92Wz7NVe
+	 S+5jY7TsWNJT/QfW+BD4Sv4VQ32izCFtwAQLRFX0QHl3ALXHUYtu1P4/4JIwl3QM7cmJn
+	 chGY5yTrHKQ+5htJ03Gk3Ivy2rYgTdOhwzAPDvXcqIXNnya5VFcK09oRrgvBfvaGI2ZcR
+	 N6QPstL3kPFD4G20EJEJ2hGykcpPukXQvH7hABgrRSHS80St6wCIjo9KGrGHBAJq6U42J
+	 6n8d/I+uidbdYL18AhCZmKIXTa18exrIV7UWJ46Jm1tjcThSKBUMG4lAbb864FKTPsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HbZyNsr0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MYBFFZRH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EAD60A3803;
-	Mon, 16 Nov 2026 20:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED052606A31C;
+	Mon, 16 Nov 2026 20:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HbZyNsr0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26FB1F00AE3;
-	Mon, 16 Nov 2026 20:04:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MYBFFZRH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353CF1F000C4;
+	Mon, 16 Nov 2026 20:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794859472;
-	bh=mZreKafCH7rPi/FRPVyNHa4l78htzwWreiZqSG6TLS4=;
+	s=k20260515; t=1794859730;
+	bh=8JuflPW44YRux+IBxd0uF+mKUDFKcO3peiQaN1S90XQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HbZyNsr0n7Y5KyOYkuWUgGLPui0UAivauo+U8/LdW/alput/uusjy7FmP5zV6KAnG
-	 GafNaVUrZTpRrF0BLdrmQHRAzWNGB7JFXl0Ge2DpUc17Lh8ZkxTG4zuYdjEmMlt+r4
-	 UKBCMSPBGYXiDsNc6ZJZKcF72HawmPRyyEHY/x9AAtY3gXs0DNouOWJjMjPCFI+Kiq
-	 UPUA7mQUpE/CteJJ5vXkSvTnSaZuKnwHH7XLSBTcIa+xJXJtJ8Pdp/FMxsrRlaYZ7p
-	 HQQHWTXrs4ZdIo4mK/TDOFlRe1rmHX+XRbCZ5gX8giQM+SVgnoBgdLMkZTXlGse8r1
-	 cg82fRIa6sJiA==
-Message-ID: <sashiko-outbox-217632@kernel.org>
+	b=MYBFFZRH2N8sJX4t46JGns/9dl6eYiC7CbotgVEdzVh39zxRHrzV7EZLhM6tBxNek
+	 naRToMtDol8Z2BuYled7vE74CDUlOVuFVuIzhDWmxicE+RlY7//iG2s0YhmCvRDsrc
+	 ltgbzpm6mC0C9d/of6MaL8+rdo6Neq3vgR88fo2OaHqnDZ3YUXcUic9Quw66kBx1jY
+	 b5nJls7B60MuU1UXpMrFkrngpvMNR9d5rwxNquJ3aLSeQChUefnQNthWd/CrFbO/w6
+	 FV+exhRcaT+gmnixbr7ArLQguldlXXxaUvw8pAl7TrRJUAM0pYjkcS2XJfiQWh2CQG
+	 GaIZeOLV+VAFQ==
+Message-ID: <sashiko-outbox-217635@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 33/37] sched/deadline: Check the runtime of a task
- whose parameters change
+Subject: Re: [PATCH v6 32/37] sched/deadline: Check the runtime of a task
+ that comes back runnable
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116190549.230119-34-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20261116190549.230119-33-mathieu.desnoyers@efficios.com>
 References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
- <20261116190549.230119-34-mathieu.desnoyers@efficios.com>
+ <20261116190549.230119-33-mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 20:04:31 +0000
+Date: Mon, 16 Nov 2026 20:08:49 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,102 +61,77 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] sched/deadline: dl_new_params cleared while boosted in
-  enqueue_dl_entity()
-- [Medium] sched/deadline: unchecked laxity in update_dl_entity() on
-  dl_deadline shrink
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] sched/deadline: missed update_dl_entity() when setattr runs
+  while PI-boosted
 --
 
-commit b62a12a066a3a8cec83cd122301c3f7fcc56bd77
+commit d9e5d198497bbfbacaaacba33587790f1f7b2f0f
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Check the runtime of a task whose parameters change
+sched/deadline: Check the runtime of a task that comes back runnable
 
-This commit adds a dl_new_params flag to struct sched_dl_entity so that
-when sched_setattr() modifies a deadline task's runtime, deadline, or
-period, the next enqueue checks the remaining runtime against the new
-parameters via update_dl_entity().
+This commit calls update_dl_entity() when a runnable unboosted task enters
+SCHED_DEADLINE so its remaining runtime is checked against its new
+scheduling parameters.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index b47c13c8714d9..3b62ee43c2099 100644
+> index ffa8b946e8047..b47c13c8714d9 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -2674,7 +2674,10 @@ static void __dequeue_dl_entity(struct sched_dl_en=
-tity *dl_se)
->  static void
->  enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
->  {
-> +	bool new_params =3D dl_se->dl_new_params;
-> +
->  	WARN_ON_ONCE(on_dl_rq(dl_se));
-> +	dl_se->dl_new_params =3D 0;
-
-[Severity: Medium]
-Does clearing dl_se->dl_new_params unconditionally here lose the mark if
-the task is priority-inheritance boosted when sched_setattr() shrinks its
-reservation?
-
-When is_dl_boosted(dl_se) is true, the new_params branch below is skipped
-(or on a wakeup while boosted, update_dl_entity() checks against
-pi_of(dl_se) rather than the task's own parameters).  If the boost took no
-donor refill (dl_donor_refill =3D=3D 0), dl_deboost() later leaves
-dl_se->runtime and dl_se->deadline intact, and the subsequent enqueue sees
-dl_se->dl_new_params =3D=3D 0 and lets the task run on its old larger runti=
-me
-after admission control already released the bandwidth difference.
-
->  	update_stats_enqueue_dl(dl_rq_of_se(dl_se), dl_se, flags);
-> =20
-> @@ -2723,12 +2726,13 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, =
-int flags)
+> @@ -2723,6 +2723,14 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, i=
+nt flags)
 >  		update_dl_entity(dl_se);
 >  	} else if (flags & ENQUEUE_REPLENISH) {
 >  		replenish_dl_entity(dl_se);
-> -	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
-> +	} else if (((flags & ENQUEUE_CLASS) || new_params) &&
-> +		   !is_dl_boosted(dl_se)) {
->  		/*
-> -		 * The task enters the class runnable. It may come back before
-> -		 * its deadline, with the runtime left from older parameters.
-> -		 * Check that runtime against the new parameters, as a wakeup
-> -		 * does.
-> +		 * The task enters the class, or its parameters change, while
-> +		 * it is runnable. It may have runtime left from older
-> +		 * parameters. Check that runtime against the new parameters,
-> +		 * as a wakeup does.
->  		 */
->  		update_dl_entity(dl_se);
+> +	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
+> +		/*
+> +		 * The task enters the class runnable. It may come back before
+> +		 * its deadline, with the runtime left from older parameters.
+> +		 * Check that runtime against the new parameters, as a wakeup
+> +		 * does.
+> +		 */
+> +		update_dl_entity(dl_se);
+>  	} else if ((flags & ENQUEUE_MOVE) &&
+>  		   !is_dl_boosted(dl_se) &&
+>  		   dl_time_before(dl_se->deadline, rq_clock(rq_of_dl_se(dl_se)))) {
 
 [Severity: Medium]
-Can update_dl_entity() leave or set dl_se->runtime above the new
-dl_se->dl_runtime when sched_setattr() shrinks dl_deadline to a
-constrained reservation while dl_se->deadline - rq_clock(rq) still exceeds
-the new dl_deadline?
+Can a runnable task bypass update_dl_entity() when returning to
+SCHED_DEADLINE with smaller runtime if it is PI-boosted at the time of
+sched_setattr()?
 
-Both dl_entity_overflow() and update_dl_revised_wakeup() assume that
-laxity =3D dl_se->deadline - rq_clock(rq) is at most dl_se->dl_deadline:
+If a SCHED_DEADLINE task switches to SCHED_OTHER before its 0-lag time and
+is then PI-boosted back into dl_sched_class by an rt_mutex waiter,
+replenish_dl_entity() sees non-zero dl_se->dl_deadline and positive
+dl_se->runtime, so dl_se->dl_donor_refill stays 0.
 
-kernel/sched/deadline.c:update_dl_revised_wakeup() {
-	u64 laxity =3D dl_se->deadline - rq_clock(rq);
+When sched_setattr() then returns the task to SCHED_DEADLINE with a
+smaller runtime while still boosted, __sched_setscheduler() sees
+prev_class =3D=3D next_class =3D=3D &dl_sched_class (so ENQUEUE_CLASS is no=
+t set)
+and is_dl_boosted(dl_se) is true, skipping update_dl_entity().  Even with
+commit "sched/deadline: Check the runtime of a task whose parameters
+change", enqueue_dl_entity() clears dl_se->dl_new_params unconditionally
+at the top while skipping the check because is_dl_boosted(dl_se) is true.
 
-	WARN_ON(dl_time_before(dl_se->deadline, rq_clock(rq)));
+When the task later unlocks the rt_mutex, dl_deboost() sees
+dl_donor_refill =3D=3D 0 and leaves the old larger dl_se->runtime intact:
 
-	dl_se->runtime =3D (dl_se->dl_density * laxity) >> BW_SHIFT;
+kernel/sched/deadline.c:dl_deboost() {
+	if (dl_se->dl_donor_refill) {
+		dl_se->deadline =3D rq_clock(rq) + dl_se->dl_deadline;
+		dl_se->runtime =3D dl_se->dl_runtime;
+	}
+	dl_drop_boost(dl_se);
 }
 
-For example, if a task running at 50ms/100ms/100ms has runtime =3D 30ms and
-laxity =3D 80ms when changed to 10ms/20ms/100ms (density 50%),
-dl_entity_overflow() sees 30ms / 80ms <=3D 10ms / 20ms and leaves runtime at
-30ms; if changed instead at runtime =3D 49ms and laxity =3D 99ms to
-8ms/20ms/100ms (density 40%), update_dl_revised_wakeup() sets
-dl_se->runtime to 39.6ms against an 8ms budget.  Besides letting the task
-overrun the bandwidth it just gave back in sched_dl_overflow(), blocking
-with dl_se->runtime > dl_se->dl_runtime makes task_non_contending()
-compute a negative zerolag_time and drop running_bw or total_bw
-immediately.
+Because the subsequent enqueue only passes ENQUEUE_MOVE with a future
+deadline, update_dl_entity() is never called, and the task runs on its old
+larger runtime while admission control only accounts for the new smaller
+bandwidth.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116190549.2301=
-19-1-mathieu.desnoyers@efficios.com?part=3D33
+19-1-mathieu.desnoyers@efficios.com?part=3D32
