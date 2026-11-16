@@ -1,58 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794816439;
-	b=Q6qTmHLQGgvGoJ5PqAaXS8szM0IZ/m2NnL/Rj1FHEA6MYtn4dwMx5CcUVhbTyd92DYYm
-	 ZamvsWE3FQnBuhy2gbiYzQsjyjxFBOCaI2qgpyM6oydyqzE0rbVr6LwvCheo8RyErweWM
-	 X2mcbHAqgVEVTilIbLxNFB1MGOEhppPdtZriJRfybdM1KAp1gT8EZkSAHAiN6xa9Q9E06
-	 SYZx2stPXUR5Jhwx//TwBxVaw88SZx/v7trd2/Tf5cwcNYQZG1/MX2+MrwCEKZ5UrJmW6
-	 PLNZZGcMCoLwUK6/QjQ+55uUN1q6bpNXnHURD5/tL7rD1F73rgxj9CTTCcBOApSPC4w==
+	t=1794817598;
+	b=S1DzDsWZE8JJTGMLeM/2WXmU1YHZYRVEbrcXp9qFaiIxepYsBdzuLE8GB1IGYnUaW1GF
+	 pzfb2xAE/WsZIW1L7Ndu0ElJOEx3kNu1rKsNsSHAu8jWWJ4HwQcyUwdXgCJFkhW8eLSOt
+	 ZNkOi6p0O5R8TuZ13yG2ZGe2LJzWATMIpFyvMDRcCNSn8/9wHU2m9g258mlE8COdmxFbC
+	 XJkSNDqMfISmEG6/h7gkgIIh/k4u6Fkh6r64TdfKdt72dDnT0OmknrZTKmdg+peptZnLX
+	 Jj8XvOqbbfDFOWiYIy1scnvhiBvzQcaKxBqjkB6pJ9NmZwbe6AIhX+qMovkwBD3NgNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794816439;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817598;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2gmpRxb8gQ1bNObRSr0Uai6JC9BUASRtSm25oFPH37k=;
-	b=jRYPXKFMgg1o7yCVzr/O3ydiyMmw9TGPwzJvb+PGdefznzchnUk7fmCdFx8K8XcaF+X2
-	 66TmyVcu+fc199GCe0w0+r2IEIAbjMLAsWyos4jyn4bhXDCm0SGX0jMIiaZctAIdfrNFV
-	 OCK0fVRIrf3Bf/se1OedcD1jUT6oHZT3pJijqzudsVP+zR6yS/jnUJ4cCDca5HQSP1g6J
-	 oNAQhZshbFLt0fj7Xlpnz9G9S4Jam+sq9ed4ew6gCEegK6A4ZktiG4vb9vyjPKIuROVvz
-	 2iOHqn1Uf79shIzEEKXL9TEotRqGq/rtJdE0/Q6HDbO+Hy+pgYMNqthpu1HB4CPPabQ==
+	bh=R9PifZRQnewXQetRO7yz7EFCcVTd91hjaN9ZPi5pB7w=;
+	b=3SN7mwW/8kxyDEs5zdpr8AZuA1K+3RxmcygwAJ0K1qoSMheSRoMPaWRFry7WnYDPzNrg
+	 6S/P6ty/d6iCwRkO739IIgNx/JgilN8whTHQtWAdCs8GpwDxi7PKyJUnO/3LCwY9FmA3J
+	 VmeUqlYs/1zWInzCpyyRzJIwr3KPZa7fcPy5QqjTvwkvQQIcnSteyCKl6Lwh71b+HNo3b
+	 vY8UOv50+HbUIHdWDlaOHVuDpPJImPgofAXWATVzweDaxyUnhhIbZXVtxRZ/3qZjG1AHs
+	 j8PtIyHkVreCSKT5XG+vAeMxQ0+QngaadrWHnl9myjL0nsz+UkdLV2XPDSVm2VLwNvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DRtA3bpX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jDBeVwic;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6F1606A31C;
-	Mon, 16 Nov 2026 08:07:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1CE606A31C;
+	Mon, 16 Nov 2026 08:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DRtA3bpX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A90C1F000C4;
-	Mon, 16 Nov 2026 08:07:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jDBeVwic
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755871F000C4;
+	Mon, 16 Nov 2026 08:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794816438;
-	bh=2gmpRxb8gQ1bNObRSr0Uai6JC9BUASRtSm25oFPH37k=;
+	s=k20260515; t=1794817598;
+	bh=R9PifZRQnewXQetRO7yz7EFCcVTd91hjaN9ZPi5pB7w=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DRtA3bpX/eUT/rX2maLdKgu3dE/wvhdhrc5ezjzyJWpU61ECINB0UPCRRK9wBn44X
-	 YWMlEJJ8ER4OUiz1kpKAjJCbh0zSRvT3NBF1RgfaeGqJbGQQ7ZZ/ok0jSoTKJd3i83
-	 Bt320IYx5iALR0969RGlmdIVcCGD9bhRMz+0x3BSgRjrhDEsUmdlfRC9l8sAqZPQ9n
-	 uNw8c56ogQtJyTcMTJsKXcmSSyZq/pwKUklAt+8hph8RTsfvGQKokbCgnLkZ/jgV7w
-	 5OJqxKUU1HMwofBEfS0XW0RfCxDejuFllPUv5l5kmVBjNFIx9yYNFIYfZcBlRKQQPz
-	 x2lvrfBSGsY7g==
-Message-ID: <sashiko-outbox-216506@kernel.org>
+	b=jDBeVwicMuOouy5ioYurQ4R5Y2QnBqb9DOjlKiwZPRdqG8DP2WVwJZSPxTxjy/Kmx
+	 cixn5t6S9wWvB1YplL2GH5QU9DNaezWKC9lL+BJGNhoQZHeRTyoTFJdaO+7WcDTvCh
+	 A69CXN3296JoUkc8yn8+DWeE1iizxgH9bFU0/AYGoOh/DBApqb+X9aIn2U10SNYrE0
+	 b6/kz7Y1SWcq1RQiAHJVt03vXSMpI/rln5HnW0W1wUAPssi1BbLra6w0oW8ccD1b85
+	 dhEOop4CqS8A0yU+y5UDOnLTXx49RMQ4DnJYTEgp/E6UKYK4J6KTF+A/eZqFXxvKJ6
+	 J85or3aD43mBw==
+Message-ID: <sashiko-outbox-216530@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] KVM: arm64: gic-v5: Don't move the vPE doorbell
- from kvm_sched_out()
+Subject: Re: [PATCH for-next v3 3/7] mm/slab: handle SLAB_FREE_NOLOCK in
+ slab_free_hook() instead of open coding
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jia He" <justin.he@arm.com>
-Cc: kvmarm@lists.linux.dev, linux-rt-devel@lists.linux.dev, "Oliver Upton" <oupton@kernel.org>, "Marc
- Zyngier" <maz@kernel.org>, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116071304.2037895-3-justin.he@arm.com>
-References: <20261116071304.2037895-1-justin.he@arm.com>
- <20261116071304.2037895-3-justin.he@arm.com>
+To: =?utf-8?b?SGFycnkgWW9vIChNZXRhKQ==?= <harry@kernel.org>, "Johannes
+ Weiner" <hannes@cmpxchg.org>, "Michal Hocko" <mhocko@kernel.org>, "Roman
+ Gushchin" <roman.gushchin@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>, "Muchun
+ Song" <muchun.song@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>, "Alexei
+ Starovoitov" <ast@kernel.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Hao
+ Li" <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David
+ Rientjes" <rientjes@google.com>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark
+ Williams" <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>
+Cc: kernel-team@meta.com, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, tj@kernel.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
+References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
+ <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 08:07:18 +0000
+Date: Mon, 16 Nov 2026 08:26:37 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -64,79 +70,75 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] KVM: arm64: gic-v5: vgic_v5_load() in WFI disarms doorbells
-  and loses wakeups
+- [Low] mm/slab: kfree_nolock() leaves KASAN free_meta in init_on_free
+  objects
 --
 
-commit 36844cdbda4df2b177b6c013c2074287d75ff5f3
-Author: Jia He <justin.he@arm.com>
+commit f5f03c7c446bcbe50fa191f0cf60accc8ad01ac9
+Author: Harry Yoo (Meta) <harry@kernel.org>
 
-KVM: arm64: gic-v5: Don't move the vPE doorbell from kvm_sched_out()
+mm/slab: handle SLAB_FREE_NOLOCK in slab_free_hook() instead of open coding
 
-This commit skips calling irq_set_affinity() in vgic_v5_put() when
-vcpu->scheduled_out is set, avoiding acquiring irq_desc and pi_lock under t=
-he
-runqueue lock during kvm_sched_out().
+This commit moves SLAB_FREE_NOLOCK handling into slab_free_hook() and repla=
+ces
+the open-coded free hooks in kfree_nolock() with a call to slab_free_hook(),
+enabling SLAB_FREE_INIT when slab_want_init_on_free() is true.
 
-> diff --git a/arch/arm64/kvm/vgic/vgic-v5.c b/arch/arm64/kvm/vgic/vgic-v5.c
-> index 91810fbd99afa..5824b00bb50df 100644
-> --- a/arch/arm64/kvm/vgic/vgic-v5.c
-> +++ b/arch/arm64/kvm/vgic/vgic-v5.c
-> @@ -1248,8 +1248,14 @@ void vgic_v5_put(struct kvm_vcpu *vcpu)
->  			 * Make the doorbell affine to this CPU, if it isn't
->  			 * already. Actively check the cpumask first as it is
->  			 * cheaper than changing the affinity every time.
-> +			 *
-> +			 * Don't do it from kvm_sched_out(), which holds the
-> +			 * runqueue lock: irq_set_affinity() takes the
-> +			 * doorbell's irq_desc lock and may wake its irq
-> +			 * thread. The doorbell works from any CPU, and the
-> +			 * next WFI entry moves it.
->  			 */
-> -			if (!cpumask_test_cpu(cpu, aff)) {
-> +			if (!vcpu->scheduled_out && !cpumask_test_cpu(cpu, aff)) {
->  				int ret;
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 761dc2affea27..7c0adc1049880 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+[ ... ]
+> @@ -2775,8 +2790,11 @@ bool slab_free_hook(struct kmem_cache *s, void *x,=
+ unsigned int free_flags)
+>  		set_orig_size(s, x, orig_size);
 > =20
->  				ret =3D irq_set_affinity(db_irq, cpumask_of(cpu));
+>  	}
+> -	/* KASAN might put x into memory quarantine, delaying its reuse. */
+> -	return !kasan_slab_free(s, x, init, still_accessible, false);
+> +	/*
+> +	 * KASAN might put x into memory quarantine, delaying its reuse.
+> +	 * Skip quarantine when spinning is not allowed as it uses a spinlock.
+> +	 */
+> +	return !kasan_slab_free(s, x, init, still_accessible, !allow_spin);
+>  }
+[ ... ]
+> @@ -6949,33 +6968,12 @@ void kfree_nolock(const void *object)
+> =20
+>  	memcg_slab_free_hook(s, slab, &x, 1);
+>  	alloc_tagging_slab_free_hook(s, slab, &x, 1);
+[ ... ]
+> +
+> +	if (slab_want_init_on_free(s))
+> +		free_flags |=3D SLAB_FREE_INIT;
+> +
+> +	if (unlikely(!slab_free_hook(s, x, free_flags)))
+>  		return;
 
-[Severity: Medium]
-Should vgic_v5_load() bail out when IN_WFI is set instead of only skipping
-irq_set_affinity() here?
+[Severity: Low]
+When CONFIG_KASAN_GENERIC and init_on_free are enabled, does kfree_nolock()
+leave non-zero KASAN free_meta in the object after slab_free_hook() zeroes =
+it?
 
-Because vgic_v5_load() does not check vcpu_get_flag(vcpu, IN_WFI), any
-kvm_sched_in() while the vCPU is halting in kvm_vcpu_halt() calls
-__vgic_v5_make_resident(), setting gicv5_vpe.resident =3D true and clearing
-ICH_CONTEXTR_EL2_DB in hardware.
+After slab_free_hook() zeroes the object for SLAB_FREE_INIT, it calls
+kasan_slab_free() with no_quarantine set to true (!allow_spin):
 
-If the vPE doorbell fires while blocked in kvm_vcpu_block(), db_handler()
-sets gicv5_vpe.db_fired =3D true and wakes the vCPU thread. When the thread
-schedules in, vgic_v5_load() makes the vPE resident before schedule() retur=
-ns
-to the loop in kvm_vcpu_block(). If the vCPU thread is preempted again befo=
-re
-kvm_vcpu_check_block() consumes db_fired, kvm_sched_out() -> vgic_v5_put()
-still calls __vgic_v5_make_non_resident():
+mm/kasan/common.c:__kasan_slab_free() {
+    ...
+	poison_slab_object(cache, object, init);
 
-arch/arm64/kvm/hyp/vgic-v5-sr.c:__vgic_v5_make_non_resident() {
-	...
-	WRITE_ONCE(cpu_if->gicv5_vpe.db_fired, false);
-	cpu_if->gicv5_vpe.resident =3D false;
+	if (no_quarantine)
+		return false;
+    ...
 }
 
-When the thread schedules back in, kvm_vcpu_check_block() ->
-kvm_vgic_vcpu_pending_irq() sees db_fired =3D=3D false and goes back to sle=
-ep in
-schedule(), losing the wakeup.
-
-Making the vPE resident on schedule-in during halt-polling also disarms the
-hardware doorbell for the rest of the poll window, so newly pending SPIs and
-LPIs do not set db_fired, and a subsequent kvm_sched_out() still runs the E=
-L2
-residency hypercalls and vgic_v5_sync_ppi_priorities() under the runqueue
-lock. Returning early from vgic_v5_load() when IN_WFI is set keeps
-gicv5_vpe.resident false throughout kvm_vcpu_halt(), so kvm_sched_out()
-returns immediately in vgic_v5_put().
+In Generic KASAN, poison_slab_object() -> kasan_save_free_info() writes
+struct kasan_free_meta at offset 0 of the object when free_meta_offset =3D=
+=3D 0.
+Normal frees clear this in-object metadata upon quarantine eviction in
+qlink_free(), but returning early for no_quarantine skips quarantine and
+never zeroes free_meta before the object is reused.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116071304.2037=
-895-1-justin.he@arm.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-kmalloc-no=
+lock-fixes-v3-0-9034dd4ecaab@kernel.org?part=3D3
