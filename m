@@ -1,72 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794814893;
-	b=pOFy0LB5DZcbH5TFb4DtjRke72pcaX+A1lGiVCoTCBKeYbBQnDJUXxLJEvaTEYUDbyjM
-	 vybYlp+EioQcOA/75w4OBpOaOdPRuYQ86FPJsrCOG4cyIrKGvrPn3syd00Pl7a8XG+UGm
-	 R9SF+85c9789LZd7gOc6Ui0W3I7oBVeJggJZLXAPUf/Bw6MhBC5K/IDNwkkqdPEsRO2md
-	 o8X42L9y0gCdmtxxjLDr01bPu5HMkcKSTmufZ/N2JTpF/7Z1hsJUgaW4JvqIs3kscrpE7
-	 H417aaRIXvgzMsCRXkPwjkU2fm3G6kb7Ic1kZmN9+0q9CV0KObs00YLXO2zICSrk2lw==
+	t=1794816439;
+	b=Q6qTmHLQGgvGoJ5PqAaXS8szM0IZ/m2NnL/Rj1FHEA6MYtn4dwMx5CcUVhbTyd92DYYm
+	 ZamvsWE3FQnBuhy2gbiYzQsjyjxFBOCaI2qgpyM6oydyqzE0rbVr6LwvCheo8RyErweWM
+	 X2mcbHAqgVEVTilIbLxNFB1MGOEhppPdtZriJRfybdM1KAp1gT8EZkSAHAiN6xa9Q9E06
+	 SYZx2stPXUR5Jhwx//TwBxVaw88SZx/v7trd2/Tf5cwcNYQZG1/MX2+MrwCEKZ5UrJmW6
+	 PLNZZGcMCoLwUK6/QjQ+55uUN1q6bpNXnHURD5/tL7rD1F73rgxj9CTTCcBOApSPC4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794814893;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=MN2Q31ZBwTxSB7BpF4qizypCnzz2jwe96k4GDB7Z73E=;
-	b=XvBpAkZ4mxPyoTKT4PchkFwzbl8B3sUaRPEz7V/X6qpgCyz+e8QQmmjMYA5l5LY++IIl
-	 W6Y+9TffdNz5UgSdfwQCVAQ5DX4Jdxz63+YhMz5QoI1DP8+K7DVnXyo8DKguLRaq5Js0I
-	 2++8Gtdl/q+tZCC1ajLqd4y8MsGGjSF1dt8tlJ3qMTxjDxHIOBwEZiFX69C1aORSoeIQE
-	 yGyvNXSLbTW2r5tZWwyhUVG2aGf1Y8YUP1G6Md3IEsHclQLFONfW66c/IMonfTEhs36s4
-	 ymw8YdAWTppXJByqJNgIrddtJAwPyXwYYwZ2rKRVvTAto9+RsxmxmuNDirOKg7v7OHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794816439;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=2gmpRxb8gQ1bNObRSr0Uai6JC9BUASRtSm25oFPH37k=;
+	b=jRYPXKFMgg1o7yCVzr/O3ydiyMmw9TGPwzJvb+PGdefznzchnUk7fmCdFx8K8XcaF+X2
+	 66TmyVcu+fc199GCe0w0+r2IEIAbjMLAsWyos4jyn4bhXDCm0SGX0jMIiaZctAIdfrNFV
+	 OCK0fVRIrf3Bf/se1OedcD1jUT6oHZT3pJijqzudsVP+zR6yS/jnUJ4cCDca5HQSP1g6J
+	 oNAQhZshbFLt0fj7Xlpnz9G9S4Jam+sq9ed4ew6gCEegK6A4ZktiG4vb9vyjPKIuROVvz
+	 2iOHqn1Uf79shIzEEKXL9TEotRqGq/rtJdE0/Q6HDbO+Hy+pgYMNqthpu1HB4CPPabQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=kS4RN9rx;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=kcKJjymV;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DRtA3bpX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1F9606A898
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 07:41:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B1F9606A898
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6F1606A31C;
+	Mon, 16 Nov 2026 08:07:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=kS4RN9rx;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=kcKJjymV
-Date: Mon, 16 Nov 2026 08:41:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794814889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MN2Q31ZBwTxSB7BpF4qizypCnzz2jwe96k4GDB7Z73E=;
-	b=kS4RN9rxPU1n/+1+WYs3PmL7nb2luyx0bowGdZidk0jDvrwPGU9Fbq6sSJmURyKd7AXhgl
-	4OMIMNdBQeYOYugHShQeeyHeNIWH8+EhAD+n5qfWLJxbTAKoNGA9hx9ZC45ZW+AkGqwnUb
-	Z+qz3oLMyv9U6HBDY1NO7gV6rqa73f9U5ozrsCJF9R9vEX0zH1l6nBgW6FrwTQ+cCmd7gr
-	cQQ841xNaxiLKkvvfFzdw2Qc6MqqZNwRECD5lQumWDhuJV6P73ays/9O5Di0laWcyn+YDe
-	p19I7UhOSwn8wWGNStkJ3kETzi5ejZKaODskvXhiGawMMykM5V+k6QmtMhgF+Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794814889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MN2Q31ZBwTxSB7BpF4qizypCnzz2jwe96k4GDB7Z73E=;
-	b=kcKJjymVOTjCBVCTSqcHyrzaE9NKNAMZpRzmwj/98K3Rti1Z/0+ogVk6PbKUE6yyvFiT5p
-	Nbxc51YOwsHHNuCw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jiebin Sun <jiebin.sun@intel.com>, dennis@kernel.org, tj@kernel.org,
-	cl@gentwo.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	clrkwllms@kernel.org, rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev, tim.c.chen@linux.intel.com,
-	tianyou.li@intel.com, wangyang.guo@intel.com
-Subject: Re: [PATCH] lib/percpu_counter: allow concurrent sums with an rwlock
-Message-ID: <20261116074127.XigdFZzW@linutronix.de>
-References: <20261116015655.2744577-1-jiebin.sun@intel.com>
- <20261115191636.f18859e4dd5f58b9a33e7814@linux-foundation.org>
- <20261115194404.a8d751a7c17904c756b16b61@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DRtA3bpX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A90C1F000C4;
+	Mon, 16 Nov 2026 08:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794816438;
+	bh=2gmpRxb8gQ1bNObRSr0Uai6JC9BUASRtSm25oFPH37k=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DRtA3bpX/eUT/rX2maLdKgu3dE/wvhdhrc5ezjzyJWpU61ECINB0UPCRRK9wBn44X
+	 YWMlEJJ8ER4OUiz1kpKAjJCbh0zSRvT3NBF1RgfaeGqJbGQQ7ZZ/ok0jSoTKJd3i83
+	 Bt320IYx5iALR0969RGlmdIVcCGD9bhRMz+0x3BSgRjrhDEsUmdlfRC9l8sAqZPQ9n
+	 uNw8c56ogQtJyTcMTJsKXcmSSyZq/pwKUklAt+8hph8RTsfvGQKokbCgnLkZ/jgV7w
+	 5OJqxKUU1HMwofBEfS0XW0RfCxDejuFllPUv5l5kmVBjNFIx9yYNFIYfZcBlRKQQPz
+	 x2lvrfBSGsY7g==
+Message-ID: <sashiko-outbox-216506@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] KVM: arm64: gic-v5: Don't move the vPE doorbell
+ from kvm_sched_out()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jia He" <justin.he@arm.com>
+Cc: kvmarm@lists.linux.dev, linux-rt-devel@lists.linux.dev, "Oliver Upton" <oupton@kernel.org>, "Marc
+ Zyngier" <maz@kernel.org>, linux-kernel@vger.kernel.org
+In-Reply-To: <20261116071304.2037895-3-justin.he@arm.com>
+References: <20261116071304.2037895-1-justin.he@arm.com>
+ <20261116071304.2037895-3-justin.he@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 08:07:18 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -75,30 +61,82 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261115194404.a8d751a7c17904c756b16b61@linux-foundation.org>
 
-On 2026-11-15 19:44:04 [-0800], Andrew Morton wrote:
-> Modern rwlock_t does implement queuing, so the writer will get in
-> there eventually.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] KVM: arm64: gic-v5: vgic_v5_load() in WFI disarms doorbells
+  and loses wakeups
+--
 
-On the queued-rwlock implementation, if a writer blocks on the lock then
-the readers will wait until the writer is done unless the reader is from
-interrupt.
+commit 36844cdbda4df2b177b6c013c2074287d75ff5f3
+Author: Jia He <justin.he@arm.com>
 
-There is also seqcount_t where the reader would be fine as long as there
-has been no writer during the read and plenty of readers don't block
-each other. It might take a while if the writer performs multiple
-updates and the reader can't query all CPUs in time.
-So it is not easy.
+KVM: arm64: gic-v5: Don't move the vPE doorbell from kvm_sched_out()
 
->                    But nothing is simple any more - there are
-> complications with rwlocks on PREEMPT_RT and with interrupt-time reads
-> (do we even do that?).
+This commit skips calling irq_set_affinity() in vgic_v5_put() when
+vcpu->scheduled_out is set, avoiding acquiring irq_desc and pi_lock under t=
+he
+runqueue lock during kvm_sched_out().
 
-There are a few users from preempt/irq disabled section on PREEMPT_RT
-which mandate something like raw_spinlock_t. The rwlock_t will break.
+> diff --git a/arch/arm64/kvm/vgic/vgic-v5.c b/arch/arm64/kvm/vgic/vgic-v5.c
+> index 91810fbd99afa..5824b00bb50df 100644
+> --- a/arch/arm64/kvm/vgic/vgic-v5.c
+> +++ b/arch/arm64/kvm/vgic/vgic-v5.c
+> @@ -1248,8 +1248,14 @@ void vgic_v5_put(struct kvm_vcpu *vcpu)
+>  			 * Make the doorbell affine to this CPU, if it isn't
+>  			 * already. Actively check the cpumask first as it is
+>  			 * cheaper than changing the affinity every time.
+> +			 *
+> +			 * Don't do it from kvm_sched_out(), which holds the
+> +			 * runqueue lock: irq_set_affinity() takes the
+> +			 * doorbell's irq_desc lock and may wake its irq
+> +			 * thread. The doorbell works from any CPU, and the
+> +			 * next WFI entry moves it.
+>  			 */
+> -			if (!cpumask_test_cpu(cpu, aff)) {
+> +			if (!vcpu->scheduled_out && !cpumask_test_cpu(cpu, aff)) {
+>  				int ret;
+> =20
+>  				ret =3D irq_set_affinity(db_irq, cpumask_of(cpu));
 
-Sebastian
+[Severity: Medium]
+Should vgic_v5_load() bail out when IN_WFI is set instead of only skipping
+irq_set_affinity() here?
+
+Because vgic_v5_load() does not check vcpu_get_flag(vcpu, IN_WFI), any
+kvm_sched_in() while the vCPU is halting in kvm_vcpu_halt() calls
+__vgic_v5_make_resident(), setting gicv5_vpe.resident =3D true and clearing
+ICH_CONTEXTR_EL2_DB in hardware.
+
+If the vPE doorbell fires while blocked in kvm_vcpu_block(), db_handler()
+sets gicv5_vpe.db_fired =3D true and wakes the vCPU thread. When the thread
+schedules in, vgic_v5_load() makes the vPE resident before schedule() retur=
+ns
+to the loop in kvm_vcpu_block(). If the vCPU thread is preempted again befo=
+re
+kvm_vcpu_check_block() consumes db_fired, kvm_sched_out() -> vgic_v5_put()
+still calls __vgic_v5_make_non_resident():
+
+arch/arm64/kvm/hyp/vgic-v5-sr.c:__vgic_v5_make_non_resident() {
+	...
+	WRITE_ONCE(cpu_if->gicv5_vpe.db_fired, false);
+	cpu_if->gicv5_vpe.resident =3D false;
+}
+
+When the thread schedules back in, kvm_vcpu_check_block() ->
+kvm_vgic_vcpu_pending_irq() sees db_fired =3D=3D false and goes back to sle=
+ep in
+schedule(), losing the wakeup.
+
+Making the vPE resident on schedule-in during halt-polling also disarms the
+hardware doorbell for the rest of the poll window, so newly pending SPIs and
+LPIs do not set db_fired, and a subsequent kvm_sched_out() still runs the E=
+L2
+residency hypercalls and vgic_v5_sync_ppi_priorities() under the runqueue
+lock. Returning early from vgic_v5_load() when IN_WFI is set keeps
+gicv5_vpe.resident false throughout kvm_vcpu_halt(), so kvm_sched_out()
+returns immediately in vgic_v5_put().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116071304.2037=
+895-1-justin.he@arm.com?part=3D2
