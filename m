@@ -1,67 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794813214;
-	b=fZf9A/TSewAbqWqn9kHqM609xYDdKOobLpf12vQpbxRLt6oIJD4wiaorh9eUnTYJ64nT
-	 G9g03MfoZLhxwKFrr8+D5ioocgs8gUGUpX6xaMzE2PAKrcwkQyr8S6I4yXeO7bT7LdV/K
-	 N1WGM/CVxpEBrflN9F0rCbR9L3D1FLssj1j2lHXoj8phH9d/ROISOaXqXIn+PfD+j6Wwc
-	 kx4QKpIw0sRF71zHujh/MphrIpTkuy71a+Ej1t/5HfY1ZIkvJy6K41lYBA0H2HYsjAKY0
-	 xvPqO/o9ngEUpaW3xpQdX7fIVPnjyWZ3MKK3gR7mGZYCTH+zyJ/q2kcYV4aCFureLBA==
+	t=1794814216;
+	b=L94JWXCQNjfgLXc1tDjnaLWOTHprN623zEBr4MBet/xofd/vhwWASI/ZySCXuclUkT43
+	 DUfC9CqDRZwWbmTSAJ9BvUQ8l+4dhGOAoa9L4eBdgajKpLYkxoY696W5atYFn793Hf0b7
+	 KDo/ginuYVJjUDy+ZH+deXGPqE1sbz3D+VLpoy0OD36rknLatfXlz5Ef4PeO+WXTlWD6G
+	 yHz4/2/LV4Sd2/J/hnu28jir6MO/B6xmROQO26ZMpL/4YlLQ084U+rovtJw54wPpahb2/
+	 flvuxO0Hcr4HsvSg53p9K5QGZ6TF4StRqARsJUpWKVR/OwQFiLCypxuEHzPH3Awg3DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794813214;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=VpUJNN9+a/GlMSqz88huValOHytFq94955DZY1zfLec=;
-	b=QzEFTayWeXUuZIGW7XdGmR0H+nVgg5k0LZ0M2J+/J9iUFYy89JWrch3sIyQaSVblwU23
-	 S5gjh0yungyE+go7mGJDGZBUk8H3BMmIa/54gV/cxZxUwXpxtB5yq3TdoS510Z4ve3Ql0
-	 17m+1I1ZA5bSw2wC+IZPh4bGNM6x+XdwR/IRerFeUwGgvl++YPuavi6wVqnzqK/i3a/Up
-	 0R9DNosy+p/vt3UnF2IsqexUfClhmFZBmkIs92bUqREsVVlEGbqwFpKGmphZdzQAJU96Z
-	 EgRdTS/xsQ/Xe/jjS3E20x2mFWzZYaBEc0LUYOCrg7FLOG73/MwWQ+bSQRi+y/CHRXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794814216;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=nk2Mh+zI/TT/jjegJO9qYSlN1QKbBbjeWZjZ6ygv24I=;
+	b=kx00L0cQZUiydWd91coCKxB/rJC7ZgJjLI6YnncDwPYDpxgQPDzDFp2U3Nc27nRqayDz
+	 TjaBSmv99ErFE06G2pkkITMvm98W5Kr8hqvGZDB00+ZD5KB73Juy8dwIGsXQi3DbTw0o7
+	 o3ER+3TjqKMRiE6XbPhM5UB16tBBvT8voylAC008D7/ojfe5oDFNTDroo5MpfuOi0fO7U
+	 wvyxMz0M6Vc+LDchssCHJ7Czw+Px2nNDIsUtJCH+yUgNwb3nFox0bMezq2ziQZmKaBKvb
+	 FbQZfn6Dy87gQenXg3Hd2RJJGKxgRQA4q/QW1pCprfCRIz9q+nvlxVrE50XYjURfgaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=al9ga3TH;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9599606A329;
-	Mon, 16 Nov 2026 07:13:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9599606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=JkCiI8ip;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lTj5aVeu;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3815606A32F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 07:30:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3815606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=al9ga3TH
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6660C1A25;
-	Sun, 15 Nov 2026 23:13:30 -0800 (PST)
-Received: from entos-yitian-01.Arm.com (unknown [10.168.196.233])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 90D783F673;
-	Sun, 15 Nov 2026 23:13:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794813213; bh=aOEovc4UUb37VOtU6pV8CsO4jvExxScmZMPfHabsAvE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=al9ga3THmbqwes3lXSjI8QJHGWLTdacCLfEPjYv22PEW5d5lsXC7HYjpD/UIkzjg2
-	 7Lq4siwviQLqmIcB0U3kxmcks+Q6x57tnNTsU7HNtnVZVMd3c53XjreEzhI923kFgt
-	 doDB6nQ0fuZaon/Ve1Kln6Pk+MalGWEi8Eegynf8=
-From: Jia He <justin.he@arm.com>
-To: maz@kernel.org,
-	oupton@kernel.org
-Cc: fuad.tabba@linux.dev,
-	joey.gouly@arm.com,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	yuzenghui@huawei.com,
-	bigeasy@linutronix.de,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Jia He <justin.he@arm.com>
-Subject: [PATCH 2/2] KVM: arm64: gic-v5: Don't move the vPE doorbell from kvm_sched_out()
-Date: Mon, 16 Nov 2026 07:13:04 +0000
-Message-Id: <20261116071304.2037895-3-justin.he@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261116071304.2037895-1-justin.he@arm.com>
-References: <20261116071304.2037895-1-justin.he@arm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=JkCiI8ip;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lTj5aVeu
+Date: Mon, 16 Nov 2026 08:30:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794814210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk2Mh+zI/TT/jjegJO9qYSlN1QKbBbjeWZjZ6ygv24I=;
+	b=JkCiI8ipGs6D6X54MmmtBVhszwJGHWiTFC84HeS/VV8C/PgiPBHK5t7BPpaxFTeg3R1x0n
+	9yn9xn8UMkVMDUfuAJJG8OGdcLkN/uYDRZFKLu16Z9GNr4a6/yFZrkl0tYc4K9rYgle2ex
+	vsp+Gt3SARQ0UmE8nGemRa8ZQclcIHvSEbw1aQ+uqKOCP5ifFNuA3EXpW0HekIXkHQIG6H
+	2YkNalcDW36KJFi54qN6UyLhXQF2tRjCw3AAqH7Ku9tc+w7U1OdXnF12LxsPKw6UEO9RHj
+	g79eof3+Ej81SkfwshOZgZTVrV3aIvfehIJC41965sbXn0mP2uPi+LJ8auIaKw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794814210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk2Mh+zI/TT/jjegJO9qYSlN1QKbBbjeWZjZ6ygv24I=;
+	b=lTj5aVeuk5Ex7GPn7C4kR6cw3R3/I5G9oHbZoa/gyGd9on3kFZgrEiNwkyco9iphji7HM0
+	HxmJV3H6q6qQPYDQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jiebin Sun <jiebin.sun@intel.com>
+Cc: akpm@linux-foundation.org, dennis@kernel.org, tj@kernel.org,
+	cl@gentwo.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	clrkwllms@kernel.org, rostedt@goodmis.org,
+	linux-rt-devel@lists.linux.dev, tim.c.chen@linux.intel.com,
+	tianyou.li@intel.com, wangyang.guo@intel.com
+Subject: Re: [PATCH] lib/percpu_counter: allow concurrent sums with an rwlock
+Message-ID: <20261116073008.PvlRj7Tl@linutronix.de>
+References: <20261116015655.2744577-1-jiebin.sun@intel.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -71,71 +74,44 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261116015655.2744577-1-jiebin.sun@intel.com>
 
-vgic_v5_put() makes the vPE doorbell affine to the current CPU when the
-vcpu enters WFI. This is meant for the explicit put from kvm_vcpu_wfi(),
-but the same code also runs from kvm_sched_out() whenever the vPE is
-resident with IN_WFI set.
+On 2026-11-16 09:56:55 [+0800], Jiebin Sun wrote:
+> __percpu_counter_sum() holds a raw spinlock while reading the global
+> count and per-CPU deltas, serializing concurrent sums of the same
+> counter. Since a sum changes neither the global count nor the per-CPU
+> deltas, use rwlock_t on !PREEMPT_RT to allow concurrent sums with a
+> read lock. Global updates take the write lock. The per-CPU fast path
+> remains lockless, so sums keep their existing snapshot semantics.
+> 
+> stress-ng dentry reaches this path through ext4_statfs():
+> 
+>   statfs -> ext4_statfs -> __percpu_counter_sum
+>          -> native_queued_spin_lock_slowpath
+> 
+> Keep the raw spinlock on PREEMPT_RT, where rwlock_t can sleep.
+> Global counter updates can run in atomic context and must not sleep.
+> 
+> stress-ng dentry test average throughput change:
+> 
+>   +------------------------+------------+--------------------+
+>   | Case                   | Unit       | Average change (%) |
+>   +------------------------+------------+--------------------+
+>   | Dentry, 64 workers     | bogo ops/s |             +47.34 |
+>   +------------------------+------------+--------------------+
+> 
+> Dentry ran on ext4 with 64 workers pinned to physical CPUs:
+> 
+>   stress-ng --dentry 64 --dentries 4096 --timeout 20s
+> 
+> Suggested-by: Tim Chen <tim.c.chen@linux.intel.com>
+> Reviewed-by: Tianyou Li <tianyou.li@intel.com>
+> Reviewed-by: Wangyang Guo <wangyang.guo@intel.com>
+> Signed-off-by: Jiebin Sun <jiebin.sun@intel.com>
 
-That happens when the vcpu thread is scheduled back in while halting:
-unlike vgic_v4_load(), vgic_v5_load() does not bail out on IN_WFI and
-makes the vPE resident again, so the next sched-out, from
-kvm_vcpu_block() or from a preemption during halt polling, goes through
-vgic_v5_put() with IN_WFI still set. If the thread moved to another
-CPU in between, irq_set_affinity() is called with the runqueue lock
-held:
+It looks okay from RT point of view. Is this limited to this benchmark
+or is there a real workload behind this?
 
-  irq_set_affinity+0x38/0x88
-  vgic_v5_put+0xf0/0x2b8
-  kvm_vgic_put+0x64/0xb0
-  vhe_vcpu_put+0x40/0xa0
-  kvm_arch_vcpu_put+0x28/0x98
-  kvm_sched_out+0x4c/0x70
-  prepare_task_switch+0x1b0/0x388
-  __schedule+0x234/0x958
-  schedule+0x58/0x138
-  kvm_vcpu_block+0x88/0x130
-  kvm_vcpu_halt+0x120/0x468
-  kvm_vcpu_wfi+0x80/0x190
-
-irq_set_affinity() takes the doorbell's irq_desc lock and, when the
-doorbell is force-threaded (threadirqs, PREEMPT_RT), wakes its irq
-thread:
-
-  &rq->__lock --> &irq_desc_lock_class --> &p->pi_lock --> &rq->__lock
-
-Moving the doorbell is only an optimisation: the doorbell handler kicks
-the vcpu from any CPU, and the next WFI entry moves it again. Skip it
-when vcpu->scheduled_out is set, which kvm_vcpu_put_hw_mmu() also uses
-to tell a sched-out from an explicit put.
-
-Fixes: 2111261ac1c8 ("KVM: arm64: gic-v5: Request doorbells when VPEs enter WFI")
-Signed-off-by: Jia He <justin.he@arm.com>
----
- arch/arm64/kvm/vgic/vgic-v5.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/kvm/vgic/vgic-v5.c b/arch/arm64/kvm/vgic/vgic-v5.c
-index 91810fbd99af..5824b00bb50d 100644
---- a/arch/arm64/kvm/vgic/vgic-v5.c
-+++ b/arch/arm64/kvm/vgic/vgic-v5.c
-@@ -1248,8 +1248,14 @@ void vgic_v5_put(struct kvm_vcpu *vcpu)
- 			 * Make the doorbell affine to this CPU, if it isn't
- 			 * already. Actively check the cpumask first as it is
- 			 * cheaper than changing the affinity every time.
-+			 *
-+			 * Don't do it from kvm_sched_out(), which holds the
-+			 * runqueue lock: irq_set_affinity() takes the
-+			 * doorbell's irq_desc lock and may wake its irq
-+			 * thread. The doorbell works from any CPU, and the
-+			 * next WFI entry moves it.
- 			 */
--			if (!cpumask_test_cpu(cpu, aff)) {
-+			if (!vcpu->scheduled_out && !cpumask_test_cpu(cpu, aff)) {
- 				int ret;
- 
- 				ret = irq_set_affinity(db_irq, cpumask_of(cpu));
--- 
-2.34.1
-
+Sebastian
