@@ -1,64 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.104.111.113
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817598;
-	b=S1DzDsWZE8JJTGMLeM/2WXmU1YHZYRVEbrcXp9qFaiIxepYsBdzuLE8GB1IGYnUaW1GF
-	 pzfb2xAE/WsZIW1L7Ndu0ElJOEx3kNu1rKsNsSHAu8jWWJ4HwQcyUwdXgCJFkhW8eLSOt
-	 ZNkOi6p0O5R8TuZ13yG2ZGe2LJzWATMIpFyvMDRcCNSn8/9wHU2m9g258mlE8COdmxFbC
-	 XJkSNDqMfISmEG6/h7gkgIIh/k4u6Fkh6r64TdfKdt72dDnT0OmknrZTKmdg+peptZnLX
-	 Jj8XvOqbbfDFOWiYIy1scnvhiBvzQcaKxBqjkB6pJ9NmZwbe6AIhX+qMovkwBD3NgNQ==
+	t=1794821037;
+	b=EHoBhEcVJpsTnlvYtKlW3eHha+d4lMQHr/xN7PE/gkMsbxuoh5z74j7yaH0HCOyDerVX
+	 4eJafSIDegNXkl9QCiNikOBf7JTk7vv9KOFgrDhEPbYWuoW4h5/YqhvVLsJah4cxeva+a
+	 zTSVC3ovknUGgTsOPI0mxcKz7/peqmnMM6vGV9vM7wNn5ltyL/GFeeT2mifYLWfh5IrAT
+	 FqmBGetXRjF9TGBBHzshDTjQ/h6eUxgajMP9cvQXPDhGExS/Zo0Rfe7mvt23qvioEiA2d
+	 cAJIazfaWGJQ2d1wac9VMiv/VFXZjk+I+FirePjM4K2p8WSnmwrtRli0w5vBCKjhafg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817598;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=R9PifZRQnewXQetRO7yz7EFCcVTd91hjaN9ZPi5pB7w=;
-	b=3SN7mwW/8kxyDEs5zdpr8AZuA1K+3RxmcygwAJ0K1qoSMheSRoMPaWRFry7WnYDPzNrg
-	 6S/P6ty/d6iCwRkO739IIgNx/JgilN8whTHQtWAdCs8GpwDxi7PKyJUnO/3LCwY9FmA3J
-	 VmeUqlYs/1zWInzCpyyRzJIwr3KPZa7fcPy5QqjTvwkvQQIcnSteyCKl6Lwh71b+HNo3b
-	 vY8UOv50+HbUIHdWDlaOHVuDpPJImPgofAXWATVzweDaxyUnhhIbZXVtxRZ/3qZjG1AHs
-	 j8PtIyHkVreCSKT5XG+vAeMxQ0+QngaadrWHnl9myjL0nsz+UkdLV2XPDSVm2VLwNvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821037;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=pqwida33/VM75iN3zlR3VtqccdamTS/EN4HBvOYXc7k=;
+	b=BKCjFFi8zmhYvbJLW5OJaI/USdZSusdksw51KTA1iScajwlX+jAjqujNmPZGjfx7vNl2
+	 hAwoZ54E2ewjqCDL6kwlwBSzeo/3jWbcjMsKS6vM+JIMiAOxbch193dqeJtxYQLoXqxYk
+	 smPHkLLAa0cHrjRdjr78pihB29F4VkhMILJB4U6G4uuTTBUXf7UDrz3skuxD5RBEdDL/t
+	 49mTAik62a4/4abbd895s3oMlLDVEyZmqffnbcJDhA1njXRMan+gZj/amrxfzkw63hH+P
+	 cPqxRv8sZaJfDSxgnRZ2OFQ/+pPQJtRpt18eB+DepESu2AUQWZkpChv+T0/+iqo4NuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jDBeVwic;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=toradex.com;
+	spf=pass smtp.mailfrom=toradex.com;
+	dkim=pass header.d=toradex.com header.i=@toradex.com header.a=rsa-sha256 header.s=toradex-com header.b=Y4SxtFLW;
+	arc=none smtp.remote-ip=194.104.111.113
+Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.111.113])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1CE606A31C;
-	Mon, 16 Nov 2026 08:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0273606A331
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 09:23:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0273606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toradex.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jDBeVwic
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755871F000C4;
-	Mon, 16 Nov 2026 08:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794817598;
-	bh=R9PifZRQnewXQetRO7yz7EFCcVTd91hjaN9ZPi5pB7w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jDBeVwicMuOouy5ioYurQ4R5Y2QnBqb9DOjlKiwZPRdqG8DP2WVwJZSPxTxjy/Kmx
-	 cixn5t6S9wWvB1YplL2GH5QU9DNaezWKC9lL+BJGNhoQZHeRTyoTFJdaO+7WcDTvCh
-	 A69CXN3296JoUkc8yn8+DWeE1iizxgH9bFU0/AYGoOh/DBApqb+X9aIn2U10SNYrE0
-	 b6/kz7Y1SWcq1RQiAHJVt03vXSMpI/rln5HnW0W1wUAPssi1BbLra6w0oW8ccD1b85
-	 dhEOop4CqS8A0yU+y5UDOnLTXx49RMQ4DnJYTEgp/E6UKYK4J6KTF+A/eZqFXxvKJ6
-	 J85or3aD43mBw==
-Message-ID: <sashiko-outbox-216530@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH for-next v3 3/7] mm/slab: handle SLAB_FREE_NOLOCK in
- slab_free_hook() instead of open coding
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SGFycnkgWW9vIChNZXRhKQ==?= <harry@kernel.org>, "Johannes
- Weiner" <hannes@cmpxchg.org>, "Michal Hocko" <mhocko@kernel.org>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>, "Muchun
- Song" <muchun.song@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>, "Alexei
- Starovoitov" <ast@kernel.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Hao
- Li" <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David
- Rientjes" <rientjes@google.com>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark
- Williams" <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>
-Cc: kernel-team@meta.com, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, tj@kernel.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
-References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
- <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 08:26:37 +0000
+	dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.a=rsa-sha256 header.s=toradex-com header.b=Y4SxtFLW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
+	t=1794821029;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pqwida33/VM75iN3zlR3VtqccdamTS/EN4HBvOYXc7k=;
+	b=Y4SxtFLWVy7ml1ixjtvfP/yK6hcGNoD2+3MhYjaoWtGC6g0Ifye5iAOnaJP5t+XRVDngYo
+	40S0qiyfCRuPdb68/unzd3tMcWQglBqB1dDwI4kOUzBM7WTrpKzov5bqA/A4LMRpK6Rzb4
+	yfDRmEqmSYU6C459X3wTL2k3OE68xXs=
+Received: from GVAP278CU002.outbound.protection.outlook.com
+ (mail-switzerlandwestazon11020129.outbound.protection.outlook.com
+ [52.101.188.129]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ de-mta-84-zzTGyk_cO6CjZVK1R-1YQg-1; Mon, 16 Nov 2026 09:23:46 +0000
+X-MC-Unique: zzTGyk_cO6CjZVK1R-1YQg-1
+X-Mimecast-MFC-AGG-ID: zzTGyk_cO6CjZVK1R-1YQg_1794821026
+Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:2e::8) by
+ ZR4P278MB1772.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:b2::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.14; Mon, 16 Nov 2026 09:23:44 +0000
+Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::88:6821:13f5:a5b2]) by ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::88:6821:13f5:a5b2%3]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
+ 09:23:44 +0000
+Date: Mon, 16 Nov 2026 10:23:41 +0100
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Peng Fan <peng.fan@nxp.com>
+Cc: linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid
+ kworker in imx's remoteproc
+Message-ID: <avrLnVFtgobyTwN1@francesco-nb>
+References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+In-Reply-To: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+X-ClientProxiedBy: AS4PR09CA0005.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5e0::11) To ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:2e::8)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,78 +104,105 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZRAP278MB0495:EE_|ZR4P278MB1772:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2ccb7ab-0621-4583-6cca-08df43c34f64
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|18002099003|22082099003|6133799003|5023799004|56012099006|10067099003|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261021123027099003|261022105027099003|261021121427099003|261022075727099003
+X-Microsoft-Antispam-Message-Info: AKHdyGHlS37rlJARDybQJB+TGI7jpV+9b+VeVCLrKcLLdtEjI6dD4x8VuJNFbcNI3sjGRWh2kszIq6o9W9nV6b3JOrn0KfaXrrA5aVNWAFROMxIJO1S1hZ9MWm5B1hBzRi+pdaH1wxmcQy6URGLsBpK5TJnNHEKbU+wWefw2mlJbJFb5O22/uFvhghGVVj6pBVLFZO99xv5u5hfXeeS50RmwVgCEAXG6YwmHn0Hvx4IDVJyQgL1dTJRIQLKfE7z/+l1oCyaFvJoUUVk0mpWUlK7JbyX3I8noyS72BgJ2HRaJj3wsLM9tjr6AU9+5nc4PEnibsOQ6lwUXHhUQTgnKM5Wa7Y+5QRFj40a5sLfYyKq6CqNSud8eUs1KH2C3iRNisJIcsa+7jjTK18a1oiGdweJH4iD6QNe0tKBlV67veYtezkL63jTRqm26ncTRUCUBB7VOPvxZ26pmObBYaGh+tcMXO/DS5/Y3Z9Q8S2PjWs15r+mKHId0n0+IMeQyogaNNc8h9i0kAFng/WoFmRsBVJFzBaRXfEYP4xiauA4QgUMC128nAMuEvMrV2owQmyRj0F/pxSkP/MZJfPyqkIJNXHD93+E//0B5xchQz+uu/a09zE4wNn5k+gX3lOQCSBDzyniHleXqU3aYuGRvuxwgDHBzYHQ/LLsD2nVJEspYam4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(18002099003)(22082099003)(6133799003)(5023799004)(56012099006)(10067099003)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021123027099003)(261022105027099003)(261021121427099003)(261022075727099003);DIR:OUT;SFP:1102
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eG/fLyMCylugFeQK+B/S5j3Hxu1Qg2wagp6ZtBZn6rhaHXWcoXZ6GveS80il?=
+ =?us-ascii?Q?gnz30QXsXgcU7gzQ0wJ/HtcO6mDc8/xFFf6AVXeMjnAs1aK5IWy023p2i+Ik?=
+ =?us-ascii?Q?tdZf5WeaBxzaf1HG/hwgIPajl396HpKojl2v1oY9EnA2hUZxpu05k2hXUPRK?=
+ =?us-ascii?Q?z5DuVyHFoMge54Not/89ZOTpKf63oYpTM/IzkIDvGJPT81MDMs2v55UnrEDV?=
+ =?us-ascii?Q?pPymzr1lPZ+/jkM5LRykjKmv8q/uTcE5dYx6KR0QhdZNS3/DRyN3nkdyYY+7?=
+ =?us-ascii?Q?AriG5aRcqWXpiaUqeWqCc6wBOhRnjQDRI0Er9hn+XlpSgLcoWgw6mRqqGX8o?=
+ =?us-ascii?Q?fvt44QEoOF9W7GQRd4YwAV2IIqMBK6jVGO2Bb9StkqKKn5sIoJOrQ/3j6WZi?=
+ =?us-ascii?Q?FNFIouW2Jy7h9vh6gipPToIvGB2V+4//dz7LxzdSy9I6XzYpwhSh791cxMzy?=
+ =?us-ascii?Q?YiRaBp2EVnXs7b8v+taFn9rll/d7KEKtEfJTcvxfOaB2L/9XRUMyD0ON+/TC?=
+ =?us-ascii?Q?h8hfA/8d1i/jVgbfxksm6v5BtO68cwQY8r2fBd+cNPfVdhJIBpyWJJpeM27A?=
+ =?us-ascii?Q?m8tkS+BIUQlLXcwjWomEyWgEduS0rUOR6hSR9qKtIbZ6J5YK/zgKqR+WhDwJ?=
+ =?us-ascii?Q?Vis7wbiOilf5JNHfzPA3IeU/nFABEB26owl/dz357hw7eZdXyCErV/mupJGd?=
+ =?us-ascii?Q?qtt6NSChFPOpXbcJfWxjWz+d4w8GyjF2p9W59NOb1MNMrCjkJHEkYFv+0zvy?=
+ =?us-ascii?Q?VPtPtYD+EDxBIv1hlH45W4jZy8BiDbdkDTh2U9bbjVRL+4zx5bwHJMEIrqT1?=
+ =?us-ascii?Q?+79sdnqStMkbXDIK2OjsLvXwMBNcgIRXIRm+Z8LGzR0Tkg82aS4SIjLc4MNR?=
+ =?us-ascii?Q?1kSWW42+uJD/i9i2sMA6viSd5mOaPVup/NkrwsPjEOcSBHWswLaGznrkCabD?=
+ =?us-ascii?Q?BYpoYXSeXr8hztfOWQrkOK+JSLbiWuN5h1eHmCpnRoaEbpeFlSDrGLIdbX/9?=
+ =?us-ascii?Q?A8oxpffVE6J4DJYZO//xLShrQHC9k8ImKONQR3BbPyq18+p4YORCsqVwcRlq?=
+ =?us-ascii?Q?ViQxbFxDSUSKHPhe7ZxQ6245mw/M/pE8NC8bsLCGu3zmAjTgKY+gGELfRAx5?=
+ =?us-ascii?Q?vb8M6oaiqLZix6RzXu67h7Bb8HA6gL60KLjv3/XioFnsNlBNcGthOMzJc+4Q?=
+ =?us-ascii?Q?Q0C3YzgiBewtsouMvOdEr9qyNGXhOkFhP94CtP1G92a1ItunrkY8/bH8HK7g?=
+ =?us-ascii?Q?DNCKohqTXZED9ippDeof/xWWWQpCcDfAlWLWXHIreL9ec71r/IK+CICHIw/q?=
+ =?us-ascii?Q?REagssAQZsLM+nqQvFzW5sALQFLlG32EocU+/TefTzmf3oOa8PW0CjRuSMXB?=
+ =?us-ascii?Q?W3v5x8+O2KU/1+/HuQhJs6ru6mnw/+d2fdbFZr5SA39/lAxD8dfXjXJdbhw9?=
+ =?us-ascii?Q?6tOAaYLfuQwQl84zpxOW1WA33YkoB6EXvYuZeFCOkfSqESaTO+c5Y2WQr1F0?=
+ =?us-ascii?Q?cpWkZbv7W/QR0IZlDey5PVOy+VpCBsC3zJ/EUFS4/+787n5L+5169rk5LUHS?=
+ =?us-ascii?Q?t1jxaCqO5o5CvI6UopeTDXiuWmSWBI2eXL18I92Fi+X7HOICfiilhn5+ECK+?=
+ =?us-ascii?Q?IEWuZCZ6AyHRiVB8TPPTFU6zfuJ0eFdwwbIwKAFgO/qd8iEsNaQF6zEUbqyX?=
+ =?us-ascii?Q?ybQ/tWsMPHVOjEprDWlaRH23kmyxv1ScwOVRITM07JVMiq0r0uMH9+ki+Wjl?=
+ =?us-ascii?Q?/PhPJXKREhyayxZTcp6wQCdhlC2103Q=3D?=
+X-Exchange-RoutingPolicyChecked: cnYw4asfbWvVLu9Y+XO+kq+kMJSXWxBb8puuI2/k54EHznQ9R/Lm4R/dAd+THvIbGAmL3wrc3WPL60L37HkKWjVUaywiTn88kOsu5a+X2xxKkJaQdk9+16Lv8JjyMDIpvm0VkKeRjV+EshMz7gUR25dQyQ89tPCYhQIXEVCsXIiMIPzF5HPEAj/dqI4lT1Kf5koR7f221abr6Hmph7aYeeVtE1aphGJ5s5OfqYdK8YRkX5gOPbF7BnkNLy2pc62UnDHw0zisBPOS8eBUbp+MR+UZFN3THVqgo/HoZOTopIuYURlfjcugeqex3yjsRySGNnSfID2vW7Mee2yENnuVug==
+X-OriginatorOrg: toradex.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2ccb7ab-0621-4583-6cca-08df43c34f64
+X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 09:23:44.1927
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rVNf2mGvGyp4bQwnK+Eirwmp0CLKTZsi4NTlHVbuIR3BnEBi57hp8tRDjxhjY51+gjZQr/M2Ue0tYp1omsG5cVFBh6VI91o/4fD9M81h6p8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR4P278MB1772
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: k3HACyhiaxUQCmWZdCfL_JMYAW6nBi6vFXnMP2JV_g4_1794821026
+X-Mimecast-Originator: toradex.com
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] mm/slab: kfree_nolock() leaves KASAN free_meta in init_on_free
-  objects
---
+Hello Sebastian, Peng
 
-commit f5f03c7c446bcbe50fa191f0cf60accc8ad01ac9
-Author: Harry Yoo (Meta) <harry@kernel.org>
+On Wed, Jun 17, 2026 at 08:55:25AM +0200, Sebastian Andrzej Siewior wrote:
+> The imx's remoteproc driver uses a kworker from its mailbox callback to
+> complete the request. The reason is that the imx mailbox driver invokes
+> the callback from its interrupt handler and the remoteproc callback (at
+> least the rpmsg-tty) requires a preemptible context.
+>=20
+> This works but is problematic in a PREEMPT_RT environment where the
+> latency of the invocation is important. By scheduling a kworker the
+> high task priority from the threaded handler is lost and the kworker
+> competes for CPU ressources with every SCHED_OTHER task in the system.
+> This can lead to long delays on a busy system with other RT threads
+> which are less important than the completion of this request.
+>=20
+> Looking over other mailbox driver, like the arm_mhu for instance, they
+> use a threaded interrupt handler to invoke the callback. This avoids the
+> kworker detour.
+>=20
+> The here suggested change utilises a threaded interrupt to invoke the
+> callback. The primary handler mask the interrupt source so that the
+> handler can run without getting interrupted by the interrupt again.
+> Doing so avoids marking the interrupt IRQF_ONESHOT so that in a
+> shared-interrupt environment the other interrupt can still fire while
+> the first is masked.
+>=20
+> The first four patches are result of the sashiko review. Does not look
+> critical.
+>=20
+> This change was tested on a im93 board with rpmsg-tty driver.
 
-mm/slab: handle SLAB_FREE_NOLOCK in slab_free_hook() instead of open coding
+Our CI shows a ~10-15% eMMC sequential read throughput drop on i.MX8QXP
+and i.MX8DX (Colibri iMX8X, Cortex-A35), starting with v7.2-rc1 and
+still present in v7.4-rc3 (hdparm --direct -t: ~129 MB/s -> 105-120
+MB/s on i.MX8DX). i.MX8QM, i.MX8M and i.MX9 are not affected.
 
-This commit moves SLAB_FREE_NOLOCK handling into slab_free_hook() and repla=
-ces
-the open-coded free hooks in kfree_nolock() with a call to slab_free_hook(),
-enabling SLAB_FREE_INIT when slab_want_init_on_free() is true.
+5d1c0000.mailbox interrupt count before the test went from ~8k on v6.18
+to 60k+ on v7.3/v7.4.
 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 761dc2affea27..7c0adc1049880 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-[ ... ]
-> @@ -2775,8 +2790,11 @@ bool slab_free_hook(struct kmem_cache *s, void *x,=
- unsigned int free_flags)
->  		set_orig_size(s, x, orig_size);
-> =20
->  	}
-> -	/* KASAN might put x into memory quarantine, delaying its reuse. */
-> -	return !kasan_slab_free(s, x, init, still_accessible, false);
-> +	/*
-> +	 * KASAN might put x into memory quarantine, delaying its reuse.
-> +	 * Skip quarantine when spinning is not allowed as it uses a spinlock.
-> +	 */
-> +	return !kasan_slab_free(s, x, init, still_accessible, !allow_spin);
->  }
-[ ... ]
-> @@ -6949,33 +6968,12 @@ void kfree_nolock(const void *object)
-> =20
->  	memcg_slab_free_hook(s, slab, &x, 1);
->  	alloc_tagging_slab_free_hook(s, slab, &x, 1);
-[ ... ]
-> +
-> +	if (slab_want_init_on_free(s))
-> +		free_flags |=3D SLAB_FREE_INIT;
-> +
-> +	if (unlikely(!slab_free_hook(s, x, free_flags)))
->  		return;
+Peng: any idea/suggestion? Does it makes any sense to you?
 
-[Severity: Low]
-When CONFIG_KASAN_GENERIC and init_on_free are enabled, does kfree_nolock()
-leave non-zero KASAN free_meta in the object after slab_free_hook() zeroes =
-it?
+Francesco
 
-After slab_free_hook() zeroes the object for SLAB_FREE_INIT, it calls
-kasan_slab_free() with no_quarantine set to true (!allow_spin):
-
-mm/kasan/common.c:__kasan_slab_free() {
-    ...
-	poison_slab_object(cache, object, init);
-
-	if (no_quarantine)
-		return false;
-    ...
-}
-
-In Generic KASAN, poison_slab_object() -> kasan_save_free_info() writes
-struct kasan_free_meta at offset 0 of the object when free_meta_offset =3D=
-=3D 0.
-Normal frees clear this in-object metadata upon quarantine eviction in
-qlink_free(), but returning early for no_quarantine skips quarantine and
-never zeroes free_meta before the object is reused.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-kmalloc-no=
-lock-fixes-v3-0-9034dd4ecaab@kernel.org?part=3D3
