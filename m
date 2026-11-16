@@ -1,115 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824484;
-	b=5WiOWbZtrcX/9boAS9oHF9MEyRS5vJFV08JnFqr8AFQ6R1Z3PCHuE1cRGlANL7DxCxL8
-	 C4bHLurpm3QMbLag7Iu9GanlgM00tnhA3ALgtkAYVMC2bgw34BZUlv1byJaiiI/g5IZud
-	 v8iV/YTfa1cz+9FMpI+eXtF2oZgDZjGE5nyiB4XmIujpcnkxHb9rjpmaqCpzrA7H0tpg+
-	 0zxIxqaiHeJj9N/pDIcQPE6rgmYPufAXo0ccKE5Byh2LK44L+biqK8FT/bMXtbY7YSUoU
-	 QqsjlpMeXLr5yuqhUJR+CPWF/yLncz223Bnf5BJT4ZVs0PT+yBwpdu0mkxSLG2zViRw==
+	t=1794824614;
+	b=HqtWt6xYIXCadKSNbruOoHQDId0xJ/4R0FR+Mx3lqTO0TIgddzByOf+T8WFqQe5lxBfD
+	 +ChYwrOf0aXf2IfHPgJpKA3Bs0xeGz3DL/SqlEFSAIZnRwgGdOr2WgSZ+ruFFaerQ58YR
+	 ymTSQi8ZhUZJpGFCJJWU7nRKPvIHQI8aEVYID9h1c3qZpeJcHnfo/P1Ys83zKACIM7Yq/
+	 l3chtd65UPWfH5NAjjeX6z+inSUk5ly2vHNbn+KA8ECtCUI2yYQ6KrRqBGuX5nMXEHynm
+	 WmOLj4+pBI+bn6TnV8PHjgrPyW7F2tExjR3++eMS3+EE+4HYv19MlrGLpumiEU0L6jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824484;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=TtB6NVTta0tvsTqH3AzztjW+y0F8Qfmd7U44QxV+Lc4=;
-	b=pPs5ejVuZpOAaDSeFXU6KsuNkDTjVnw/Rv22XGDao8nXPYGvQQGzj/wcBBciiGD4axeg
-	 Q0IrPl4R6Iqh/4JusolX0Q0tCT+zeK14xmGlwzAiiSqTN/XrZYLVsdVYfKoXqtk8yjG2z
-	 WiB/0ozv6GXDGXaGdYwrarHnvhSyw1FExHzmqdEjWkPHLaFjLzXvWkg43gqKfyLaLnOwy
-	 hvPAFrVsShQK+fkrSQLn+wi/7iVF9mrNVgzYgx2DdM9vZbjfL9467LZerZGfHGkOtT0/4
-	 7y4pjJbJUjeBtKa4YZdLWPI9Af1EJyn9H6KML55nnNX+Yu0JBjrCt5KI6Urj+/9E6MA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824614;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=fkaip4qS14ylqt9Rs2BIygOmzT+9Aj/KKz7KnKpQBFI=;
+	b=X88Ql5AlCkxA8Yf4ovzmtBDvfAMDdk9woSfuBUClZFSAUuYxBru5oKbNmjshWT0F/kD/
+	 97IOLFyCX3NVJ4WMq7dysd8ELuzLYjSEK7VzLQF+aBHsguCldNpYtzkfF/VvstKSwcZI/
+	 sbzPyZ8YYyvDFe6GSALSjUxdf0poTi8Znsi7auRruI4XKAd1CyvP47s7FGolktb5YJsHi
+	 jYzJBYRgmRfiJbF1YPgCLQQLbwOH3rA5aOz6XxsmnqyZ6i+hFT+b35kZbDSabs4+bHKih
+	 1jgUxxMTCLsM16MN1seNPBu7abwGtA/vrRKlTTDOTT6870f6vXfPMq69Wyji5UXeqGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="BtlfG/ib";
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Y3ECxk1X;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lh87NrjJ;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA11606A33D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 10:21:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CA11606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F038606A332;
+	Mon, 16 Nov 2026 10:23:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F038606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BtlfG/ib
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794824483;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Y3ECxk1X;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lh87NrjJ
+Date: Mon, 16 Nov 2026 11:23:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794824612;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TtB6NVTta0tvsTqH3AzztjW+y0F8Qfmd7U44QxV+Lc4=;
-	b=BtlfG/ibnUDXfglnm2wYfFWn9PbRAFkNmSFKe2ORa6hecuVghenvFD5ru88vVg2IqrQI/s
-	QLKdf3+AZrYm8U9OsuuFTzczQMjgH1wGCR9aCfdqJfWERJ6pKmBAauvxj5kx+kgrj0l4QQ
-	7xZRSvVVUXx2Q1AdejTT+ezdWmHpiNk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-m4z9eUV2P_it5f-jKh2LMg-1; Mon, 16 Nov 2026 05:21:20 -0500
-X-MC-Unique: m4z9eUV2P_it5f-jKh2LMg-1
-X-Mimecast-MFC-AGG-ID: m4z9eUV2P_it5f-jKh2LMg_1794824479
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-49337a224a8so2089408f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 16 Nov 2026 02:21:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794824479; x=1795429279;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TtB6NVTta0tvsTqH3AzztjW+y0F8Qfmd7U44QxV+Lc4=;
-        b=AoF68imQbPMDYmFxmOM21gzYULYahFtDTcKEBjMiOJzX1f1Ek1KNO2tbJKPbgyijWU
-         XVFsWGzUaEUoYCjX8mBuZUDK9NLQT3x2ETtkiZTgM5L1Gel9qYLdctXUyBKxdN6PfnUJ
-         qnLbQd+ESIdMojZQM6vwSdVYajdiJCjOPlFtmd/LLSge0M37CqK7gnkFzd7wj9DaEee4
-         KdVqAe/p+MepLNlBnyc/EeA4lYXFoy2Y8/JGPDWe64WW6pUoO70YRIuLaJ3qkiM6dHn6
-         k/gM3i5oOH78uiXHRqUH/57NwDomqA8pSrRiueTmntXT8Yr1c37lKYH7ijxTzH4MNA4R
-         QnrQ==
-X-Forwarded-Encrypted: i=1; AL+hErHuTpWwaHZv0MSkBY16HPWGDwGmCwbUfTB1qawcZDGxbxdrTafxbOYYrJhstTcqx66x7OMdMs/bwGd59vBEgg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/pyHJuk2e0E4ILzhL/eUpu9eR21ten1uoTWYhBPLnaFMAKJDJc
-	R+zf6wDT4B5d+sSOECzr3eJAGC1xhaIlHMRcuTojnL32WJ/Dxz6aRLDov8i/q7+9yZ4u8SsbtzN
-	cOyTgMz3A5w+8BN6GBbjitP6nd2R/oTfPT+u/BZEMZJ+GCJUJI8sIw/N6a8fLIz68mVcP
-X-Gm-Gg: AZFdTZc+e0oXQrs1BMa4KHvsPAuEfPoHv5aea7TGxomvaPw6bJOc8ZwPwNz7esfDE3p
-	ySB/qp6vUj+INYzUG61vwze4PyxtNia5doMQlcGc4CLH2lCGaxiOKJlxazggIoP5b+jbl0MkzuF
-	7j1nKnJV7a1sxrUNKy70VNYo8GMeN6Obs6IQy1DaEyoPmeKqwghBCvMG7193HVsb8yVSmGu4aKM
-	WERpFGUMSFKIz2WRWaHAXglbr5YPBNGhnJn4NbFW+G3jk/RrxzahSsq8w7ywN5Jvm1WhhZIpHXo
-	+4zhviNOy/Gtn3lkyo6GK338q5Wm0ldmsXc1tlUxWn0KefV+UAK0xqmcW5i2EAX5oEzKhSr2oPf
-	s7xUHxABIfbpKBqp76msffgPB9AgC/jKsYa3RwFHMYSVoc4c8mSqNKRJLEiSccwmlbsdGvYR6W8
-	jL0VE=
-X-Received: by 2002:a05:6000:3108:b0:48d:f9dd:e3de with SMTP id ffacd0b85a97d-49c7353c415mr20874701f8f.45.1794824478793;
-        Mon, 16 Nov 2026 02:21:18 -0800 (PST)
-X-Received: by 2002:a05:6000:3108:b0:48d:f9dd:e3de with SMTP id ffacd0b85a97d-49c7353c415mr20874640f8f.45.1794824478326;
-        Mon, 16 Nov 2026 02:21:18 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60116323sm20991495f8f.32.2026.11.16.02.21.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 02:21:16 -0800 (PST)
-Date: Mon, 16 Nov 2026 11:21:12 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-	vincent.guittot@linaro.org, linux-kernel@vger.kernel.org,
-	tglx@kernel.org, will@kernel.org, boqun@kernel.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it, mathieu.poirier@linaro.org,
-	longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
-	bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 13/29] sched/deadline: Keep departing bandwidth across
- a root domain rebuild
-Message-ID: <avrZGPNdCwZMd3B4@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261108185406.1549770-1-mathieu.desnoyers@efficios.com>
- <20261108185406.1549770-14-mathieu.desnoyers@efficios.com>
- <avRmoK08LoIeySBL@jlelli-thinkpadt14gen4.remote.csb>
- <c3e7054a-486c-4e5a-a646-eee42e815ce4@efficios.com>
- <20261111161912.GP1779021@noisy.programming.kicks-ass.net>
- <83b2244c-f68a-4af3-9c8f-0fabb4eacbb4@efficios.com>
+	bh=fkaip4qS14ylqt9Rs2BIygOmzT+9Aj/KKz7KnKpQBFI=;
+	b=Y3ECxk1X0lq2PhiIOrgb5SeiDxNyMSKFDPbrm8MoNGCUez1qQcDXzbQAEz2yIS6+Ds7/MU
+	flFSYoRRn4Puqvjvy8Cpu/4dQxUpvhbJESOfOGI1wAio/Fg2OFoA//DFq9cC/p0jU5e+dA
+	jSIgizVmlEqlL2Qg1nuz2JnwWEnN2dvU3MNn835XSqtnH4ZZK+nw8Qzd93kHY8NfF6ljQy
+	ztD2NCb0DA/UQYzuNqKMOahr4R1PsataEYElrS6YnIh1N9HF98khKkCwA4ksycZpT53j6X
+	TtkS8uxkkTymJn+Us4IOh6g/0DjEotAezGczG4MbngbMoe96+Z6BsqJfSctLUQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794824612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fkaip4qS14ylqt9Rs2BIygOmzT+9Aj/KKz7KnKpQBFI=;
+	b=lh87NrjJ//Joe7OcB/t175TNDdjSwJpL1xTn7bJKTPko0Wc/RduqOIc/UERvkPBE4kH06f
+	vw+qaamOybnJI/Bw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: Peng Fan <peng.fan@nxp.com>, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid
+ kworker in imx's remoteproc
+Message-ID: <20261116102331.K8Sc86V9@linutronix.de>
+References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+ <avrLnVFtgobyTwN1@francesco-nb>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -119,80 +82,29 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <83b2244c-f68a-4af3-9c8f-0fabb4eacbb4@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cie05XEjsol4L5qu3-yOn1A4C-g4sDhk_XzG5zEd6Zo_1794824479
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <avrLnVFtgobyTwN1@francesco-nb>
 
-On 11/11/26 14:19, Mathieu Desnoyers wrote:
-> On 2026-11-11 11:19, Peter Zijlstra wrote:
-> > On Wed, Nov 11, 2026 at 10:35:17AM -0500, Mathieu Desnoyers wrote:
-> > 
-> > > Measured in a 64-vCPU guest with sleeping deadline tasks:
-> > > 
-> > >    tasks    today: rebuild, longest irqs-off    single list, all irqs-off
-> > >    1000     0.75ms, under 0.1ms                 0.12ms (0.19ms worst)
-> > >    10000    7.4ms, under 0.1ms (0.3ms once)     0.9ms (1.2ms worst)
-> > > 
-> > > The rebuild itself is 8 times shorter. That comes from updating the
-> > > extra_bw of the CPUs once per root domain, not once per task. But the
-> > > longest section with interrupts disabled grows with the number of
-> > > deadline tasks. I do not think that is a step forward for a real-time
-> > > class.
-> > 
-> > This is domain rebuild? Do we really care about performance there?
+On 2026-11-16 10:23:41 [+0100], Francesco Dolcini wrote:
+> Hello Sebastian, Peng
+Hi,
+
+> Our CI shows a ~10-15% eMMC sequential read throughput drop on i.MX8QXP
+> and i.MX8DX (Colibri iMX8X, Cortex-A35), starting with v7.2-rc1 and
+> still present in v7.4-rc3 (hdparm --direct -t: ~129 MB/s -> 105-120
+> MB/s on i.MX8DX). i.MX8QM, i.MX8M and i.MX9 are not affected.
 > 
-> My worry is not performance, but rather the contribution of this
-> "iteration on all tasks" on the irqoff latency of the system, which
-> is relevant for RT.
-
-My take, of course let's have Peter keep me honest here. :)
-
-> What I don't know:
+> 5d1c0000.mailbox interrupt count before the test went from ~8k on v6.18
+> to 60k+ on v7.3/v7.4.
 > 
-> 1) is 10k deadline tasks something that we should consider as realistic
->    for sched deadline, or it's way beyond practical scale ?
+> Peng: any idea/suggestion? Does it makes any sense to you?
 
-It doesn't seem a very realistic scale to me. Yes, I've used this kind
-of numbers in the (far!) past when running experiments with DEADLINE,
-but I can't think of a real workload reaching these numbers.
+Can you pin point it to a patch in this series? My guess is that
+something with the masking/ unmasking went wrong. The increase might be
+result of the interrupt keeping firing while the threaded interrupt did
+not have a chance to run.
 
-> 2) is a irqoff latency of 1.2ms (rather than 0.3ms) something which is
->    relevant in terms of irq off latency on a preempt rt kernel, or is it
->    in the noise ?
+> Francesco
 
-Very relevant I'd say, but 0.3ms, unfortunately, very relevant already.
-
-> 3) are those domain rebuild expected to happen with a live RT workload,
->    or are those operations expected to never happen on a RT system under
->    real-time constraints ?
-
-In small systems, single workload with few housekeeping CPUs, I would
-expect the setup to happen only once before the workload is started. So
-no worries here. But we seem to have people interested in consolidating
-multiple workloads on big machine by, say, using containers. So, in this
-case there are several exclusive root domains each running its own RT
-workload. It would be undesirable (to say the least :) that a
-reconfiguration of one (or a subset) of such domains could potentially
-introduce latencies on all the others.
-
-All that said, I now wonder a couple of things (which can be addressed
-separately as an RFC if also Peter agrees we don't need to tackle this
-right away):
-
-- The 8x from updating extra_bw once per root domain instead of once per
-  task does not look like it needs the big lock? Maybe it's a nice
-  improvement we could have on the current scheme as well?
-
-- The deeper issue the scenario above exposes is scope, not lock
-  granularity. I wonder if a rebuild really needs to re-count root
-  domains whose span and membership did not change. Maybe some kind of
-  re-walk of only the domains that actually moved CPUs would shrink the
-  scope making reconfiguring one partition a non-event for the others?
-  Again, we can think about/tackle this separately if it makes sense.
-
-Thanks!
-Juri
-
+Sebastian
