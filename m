@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794924679;
-	b=i4UkKZyYbp3WittmbA9Dxs2YDhLEJ2jg+lGWJfU/kiPRto+htm5iIouR4V3qnyihhUF2
-	 fvvEIy7ruEi6wdrY1MszJbHRARL9udJFsISvgjN5Yl4EXw57n3tFwsPulI13fIkS6H/mr
-	 w6unRiA4dX0rn6nmK9fuEUgoeLXKRTjvl5uw5tja/PsFhO9lJS36P2GecizdNTcnxvMHH
-	 X0BMWtIFgeadeD8AbE/7Fm09m019j3FLWeWiuKOJuI6WVGQxwAUXVscDTnkWsaHAUwmSQ
-	 Vts+udDz+ZAc6Bg2o/J1baFmPVyZnWJbmap0BOYt/N3CUS11k5WoK5z4i5SmnnTHGPw==
+	b=l1DrzkOwe+oN0vzVK0U32v9GZk3HZBuK3bUlvOP2WjRGD8XW8Qk5iqFlQpRomtGNEYzk
+	 FIG1vYbubGjDlh/mzpppZXjV+5C+aV8ls+iDc0Aem1OVK8qyehrBxbiAab9qKDFZc+NK/
+	 F4GSNbufJB8w2IA9ebJ+86rF3dyShyDRM9iwgyTxn6U/KrCyaWZbnKZC6mdG0Gt9KPgvB
+	 SQtDqeybldE7w+VQbG51gesNXGWd4qIVivk21CYpUScxvj9Bl0dMFa/nZiuHONu4yBuRD
+	 /+B1FvkXIVNchc7Uf/ZoRYQhKAc23VEcwpmfJqwZisg5T0h/JpQlCUNoVw/F5ijHwng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794924679;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=9p94hJD2vP0zDldchA7bxwpBsXvy/6CynoDvMnhZnkE=;
-	b=xeMn75anorFebo7twp/c0vuAvLwX7FFgQLOWatsKvMd54CzfIcz/Mo0LaSnH5DVR/tyZ
-	 D4Pc2xYm+HDvgxzxWzKX1FzyBgFge5yySSGG4YU9mdqUwm+ZP7FE1kI4v3ajM1v2JT2Ma
-	 CiVJZvJPZD4iB6OJkLgQy99FV45QQpnJ7luNC/TJaF1SeIf5RQDHkc/OOIhQJN/e8Sa6Y
-	 LEm/Sg5qileCC/YMuLdsavCZTY4LlrhDCfup11Rds1pch3QfHiu6YI2voyl1luSqcQQZI
-	 uY16VCNpu8mpZYQ5c0bknkfIyzQPh2HQ2wrfLmKEcQ4T2KZg+RIYC83gVK54J6Dxqdg==
+	bh=FP9MD/yXiHXDDJZaRzb/OHA792mH9cWBCRiBUHF3JYM=;
+	b=YvGvWXvBWkY/WZr8XGX7pRHKcfutmER1dX3ds0nukHcGwN932sTeNcJHeKjfumrIsdUA
+	 W3rBpQ7uu3yjX9lpAtdGutFmEalBhvSK23jDPXtgucPVFQQ7Wj0cetCLE0xUbOzci1/IT
+	 B1jT5znWRPg3qeNdbNXp/vNEEnAaGCuiaeokhDBeRVFd146t91IxaucEfn8yPlU2rcZkU
+	 GxKBWAvq5vBJ2QHcPxAICq5iov+voFI8TlctCv5MwFWuH8mULLwFmR4ZNekacqieqxOJW
+	 JiaJxouNyu5K47TrmyjYTI8MrkQOyltLHWK8X53610BkbADdnoMrduFDqlfe8EjJciw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U8mDQt4B;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Jy+DXPhd;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE654606BD86
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE654606BD86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55094606E331
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55094606E331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U8mDQt4B
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Jy+DXPhd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794924668;
-	bh=9p94hJD2vP0zDldchA7bxwpBsXvy/6CynoDvMnhZnkE=;
+	s=smtpout1; t=1794924670;
+	bh=FP9MD/yXiHXDDJZaRzb/OHA792mH9cWBCRiBUHF3JYM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U8mDQt4BlODQO6pkeMr6NR5xlohd9ptKPEfrkt2B98QA0pCmM7fqXD9ENLKBBfzJJ
-	 eN9IqU8w9NMzPOO2tTBEzAWNOvEqoJmC7NeZR67mB573nAfQAnGkTQBFjRSVp+5ld+
-	 /ARLJxkWxsQgKOL+GhnB4ahmxMIbOwMzlhF2EJ0Jy4xk2LTIZr8Dcmv5ekdPUw9XKV
-	 +vsJkPFIbSKziVciMjrMKIVL9a5f1GZFSqhph05rQ89z4Q0o23B7Lco6x0bi36cW7j
-	 iAIx+EpmwILwtWu6UzOQ5tyaKNKHTale4W/yvXvCCswJmi7g2kausQcvbh43VD8583
-	 s4bbpRRAwUp6g==
+	b=Jy+DXPhdrAO3XwCqdWXJkz6lOwhuvguvDnNfI+hf38X8XDoMh2UDi96xjgOdc4NBX
+	 OVB8RdTvNQF66Zrtq4giBBzq/7ubMXoR2pTPrKiZr27/O1QlVKBHjoAjdu5UtwFcF+
+	 R/xgX8K1uLUMXeOYbs4U9SpwrtO+Kpp64zXFnrv2NEG0NsLmhf0lmrp+096HJnqRaJ
+	 72fFjBOJyqa1fLc+OMC7r3kf45stwF4nd7OZRySMPHmfGS/zuoApoIpf0xrqiD4q2w
+	 KMxJy/hEOjyKLTaHU11pFGBsu2bDPpirDlA9FB9WiHYxzVejRuf/0+9ga1IAgaLQCh
+	 3PcXpXQs4Y5Zg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV42VsXzRZR;
-	Tue, 17 Nov 2026 09:11:08 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV6421yzRHS;
+	Tue, 17 Nov 2026 09:11:10 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v7 22/40] cgroup/cpuset: Wait for an attach before rebuilding the sched domains
-Date: Tue, 17 Nov 2026 09:10:43 -0500
-Message-Id: <b09e7af5f4bae1fa4b7386d0808b1b536af44553.1794922146.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v7 34/40] sched/deadline: Cap the runtime left of a constrained task at dl_runtime
+Date: Tue, 17 Nov 2026 09:10:55 -0500
+Message-Id: <a26053a5f8ceae9f5b3e5e587d3f73efdba12762.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
@@ -97,118 +97,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cpuset_can_attach() reserves the bandwidth of the deadline tasks it
-moves in the destination root domain. cpuset_attach() moves their
-bandwidth later, on the strength of that reservation.
+sched_setattr() can change the parameters of a SCHED_DEADLINE task. The
+task keeps its runtime and its absolute deadline: the new parameters
+take effect at the next period. At the next wakeup, update_dl_entity()
+checks the runtime left against the new parameters.
 
-Commit 75f7a25ec6bb ("cgroup/cpuset: Prevent race between task attach
-and cpuset state change") lets cpuset_attach() rely on what
-cpuset_can_attach() set up. The writes of cpus, mems and cpus.partition
-wait for an attach in progress, in wait_attach_done_lock(). CPU hotplug
-cannot run in between either: it takes cpus_write_lock, and the attach
-holds cpus_read_lock throughout.
+For a constrained task, that check uses the density, dl_runtime /
+dl_deadline. Commit 2317d5f1c349 ("sched/deadline: Use deadline instead
+of period when calculating overflow") made dl_entity_overflow() compare
+with it: "We care about if the runtime can make its deadline, not its
+period." Commit 3effcb4247e7 ("sched/deadline: Use the revised wakeup
+rule for suspending constrained dl tasks") then cut the runtime of a
+constrained task that overflows to density * laxity. Both bound the
+runtime by dl_runtime only while the deadline is at most dl_deadline
+ahead.
 
-But a rebuild of the sched domains does not wait. A write of
-sched_rt_runtime_us and the energy model rebuild them through
-rebuild_sched_domains(). The cgroup v1 writes of sched_load_balance and
-sched_relax_domain_level, and hk_sd_workfn(), use cpuset_full_lock().
+A change to a shorter dl_deadline breaks that. The old deadline can be
+farther ahead. The check then keeps more runtime than the new
+dl_runtime, or computes more. For example, take a task of 50ms every
+100ms with 49ms left. Changed to 8ms in 20ms every 100ms, it would wake
+with 39.6ms. It would then run far more than its new runtime in this
+period. Admission control already counts the new, smaller bandwidth. So
+other deadline tasks could miss their deadlines.
 
-In this example, a rebuild drops the reservation. T is a deadline task
-asleep in root domain R. Thread A moves T to a partition root P, which
-has a root domain of its own. Thread B writes sched_rt_runtime_us:
+An implicit task is not affected. Its check compares with its
+bandwidth, which bounds the runtime for any deadline.
 
-  A                                      B
+Fix this by keeping no more than dl_runtime before the check, for a
+constrained task. A boosted task runs on the parameters of its donor,
+and is left alone. The runtime is signed and can be negative there, so
+compare it as signed.
 
-  cpuset_can_attach()
-    takes cpuset_mutex
-    cpuset_reserve_dl_bw()
-      P's total_bw += T's bandwidth
-    drops cpuset_mutex
-                                         rebuild_sched_domains()
-                                           takes cpuset_mutex
-                                           dl_rebuild_rd_accounting()
-                                             clears R's and P's total_bw
-                                             counts T in R (not moved yet)
-                                           drops cpuset_mutex
-  cpuset_attach()
-    takes cpuset_mutex
-    cpuset_attach_task(T)
-      set_cpus_allowed_dl(T)
-        R's total_bw -= T's bandwidth
-        records a CPU of P
+The cases change_constrained_new_params and wake_constrained_new_params
+of deadline_bw_test, added later in this series, test this. The first
+changes a running task, the second a sleeping one. Both fail without
+this patch.
 
-P now lacks the bandwidth of T, and admits deadline tasks beyond its
-capacity. When T leaves P, P's total_bw underflows. In testing, the
-race left a destination admitting 3 tasks of 10% too many, or P
-admitting no task at all.
+The Sashiko AI review of the sixth posting of this series found this.
 
-Fix this by waiting for an attach in progress in
-rebuild_sched_domains_cpuslocked() and in cpuset_full_lock(). The
-latter then takes its locks in the order of the writes of cpus and
-cpus.partition. A rebuild from CPU hotplug finds no attach in progress.
-The online, offline and kill of a cpuset never wait: they hold
-cgroup_mutex, which the attach holds throughout.
-
-The move_vs_rebuild case of deadline_bw_test, added later in this
-series, tests this race. Without this patch, it fails in 5 of 8 VMs with
-8 CPUs. With it, the case passes in 8 of 8. The next patch needs this
-wait too: without it, it would give back a reservation that a rebuild
-dropped already.
-
-Found by the Sashiko AI reviews of v2 (the race) and v3 (the cgroup v1
-writes) of this series.
-
-Fixes: 2ef269ef1ac0 ("cgroup/cpuset: Free DL BW in case can_attach() fails")
+Fixes: 2317d5f1c349 ("sched/deadline: Use deadline instead of period when calculating overflow")
+Fixes: 3effcb4247e7 ("sched/deadline: Use the revised wakeup rule for suspending constrained dl tasks")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/cgroup/cpuset.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ kernel/sched/deadline.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 194a438e25c3..51b6be460794 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -296,17 +296,20 @@ void lockdep_assert_cpuset_lock_held(void)
- 	lockdep_assert_held(&cpuset_mutex);
- }
- 
-+static void wait_attach_done_lock(void) __acquires(&cpuset_mutex);
-+
- /**
-  * cpuset_full_lock - Acquire full protection for cpuset modification
-  *
-  * Takes both CPU hotplug read lock (cpus_read_lock()) and cpuset mutex
-- * to safely modify cpuset data.
-+ * to safely modify cpuset data. Waits for an attach in progress before
-+ * it takes cpuset mutex.
-  */
- void cpuset_full_lock(void)
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 90b17969554b..1a07f4109cc5 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1389,6 +1389,25 @@ static void update_dl_entity(struct sched_dl_entity *dl_se)
  {
- 	mutex_lock(&cpuset_top_mutex);
- 	cpus_read_lock();
--	mutex_lock(&cpuset_mutex);
-+	wait_attach_done_lock();
- }
+ 	struct rq *rq = rq_of_dl_se(dl_se);
  
- void cpuset_full_unlock(void)
-@@ -1005,7 +1008,14 @@ void rebuild_sched_domains_locked(void)
- 
- static void rebuild_sched_domains_cpuslocked(void)
- {
--	mutex_lock(&cpuset_mutex);
 +	/*
-+	 * Wait for an attach in progress. cpuset_can_attach() has reserved
-+	 * the deadline bandwidth of the moving tasks in their new root
-+	 * domain, and cpuset_attach() moves it on the strength of that
-+	 * reservation. A rebuild of the accounting in between would drop
-+	 * the reservation.
++	 * The checks below compare the runtime left with the density,
++	 * dl_runtime / dl_deadline. That bounds the runtime by dl_runtime
++	 * only while the deadline is at most dl_deadline ahead. After a
++	 * change to a shorter dl_deadline, the deadline can be farther
++	 * ahead, and the runtime left larger than dl_runtime. A constrained
++	 * task would then run more than dl_runtime in a period. Keep no
++	 * more than dl_runtime.
++	 *
++	 * An implicit task is checked against its bandwidth, which holds
++	 * for any deadline. A boosted task runs on the parameters of its
++	 * donor. Leave both alone.
++	 *
++	 * The runtime is signed, and can be negative here.
 +	 */
-+	wait_attach_done_lock();
- 	rebuild_sched_domains_locked();
- 	mutex_unlock(&cpuset_mutex);
- }
++	if (!dl_is_implicit(dl_se) && !is_dl_boosted(dl_se) &&
++	    dl_se->runtime > (s64)dl_se->dl_runtime)
++		dl_se->runtime = dl_se->dl_runtime;
++
+ 	if (dl_time_before(dl_se->deadline, rq_clock(rq)) ||
+ 	    dl_entity_overflow(dl_se, rq_clock(rq))) {
+ 
 -- 
 2.47.3
 
