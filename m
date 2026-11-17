@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924673;
-	b=tQF/A1zIxIraM3BGzjpBtv3YecARUfvCGX5eMbRO890xL7eYOWN2gqGhjLdp5pzsAwLt
-	 7u+84VVbKrb63PyGlXzn5SMsz6BkzNhj9UKa+jNEVTpAa4eNYW/7rJln0HafTGPfZP3iD
-	 AC6mLPnFtDO2CyhtmarQ2s5Klq+E+eYuEXbY1s/ftYz8/sGUBOG3NzGgejaA2uhrdYWnh
-	 meweqQ63nv5IC825hzDtRQIWuMcH6gueCry3Ant3NGryFrwqmXxqQAJPpL+T/w6uY4jb7
-	 2LDLlq+W+yREEkC6s0N9IYYwsoi8pDkczFmVRUVGrihJw4Jp1Dret+TQoHUB9CLkg9w==
+	t=1794924674;
+	b=BN2468X5QSV6sQi7n68kF/fzoZt5l45q3MGswZJC2zLcWvVw8BQ0A6zZN1BpWvUwAF1o
+	 UQoDIPp1VcDmeJl0cxm9i0l+NfCXNokx+PcyZSOqERueMTw9njGGoFIlGv0aTOA2jfY4T
+	 ld8+jo7Q6/Y4eal9vw8wEWuMMpe94OAfeMuqobKXd+HkAQEheQiX4OEpyF2M9aXuqY9w8
+	 Chgf0ZgsysQ8LYBVzqjsOMcVLY9ANuLwWUZmWAPyUpjcALLVgu0jMdYY5yS1haPZD7K15
+	 6OAJOhos/k7a5qH1pgqbXUF3bhU7ju1JCrsv2YJEsOXQkCYv4zwKBbA1nmCDgG6U0LQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924673;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924674;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=4wCddsQmKRg8jkXOvnUL7ZbEG/CVweneCikWsFnbL+c=;
-	b=k9by4ruXHYvJXLyYz6KzEYEW7vW5ionTqh6QC3DJjmz853oxIteFsx085137qzLvKBSp
-	 QBA/J08ZFocmoX4PpVk+k+3PvvuailWxIIvUjZhHBV9acU5Z+fv+d8lryBb5KtEa2nUfs
-	 NLVxK544LLig/3jQ2UwDeSmekMEhprTne7MZ7uxzwABYxLRrw5s2ZpPIuNcvn/wehQPKt
-	 bKsvBtUk+l8Yes3Imb2I6ZXsP1kcqaITJl4aOy9yDPFsbvJmdUGGUCHG3tydCfdYBTBd7
-	 GP6/v/XLqUfXT7szmaF3ZEidhN/AQIgIbZbNIfo5+mRhRKzWzIx3gS4ctSdhqHi9COw==
+	bh=O5H9pZY7Q0EmKk/qr6MbxksyVpf2IMb1LVbGM2g9LGs=;
+	b=Pw/m0J2Wc3XfGP0uJb6qF9K4gKjhMFtTpUvU0glacavIiMobpnwF9CTteACy581cBVb0
+	 QA69c//2BR7bsxqleXOR6N94u4ijqLLckmuk468nDOfZm+nosjvLuVl2B7I4ZpmqQ/792
+	 /VNQlyN/yTvgCnc4QbKgqATf+e83NcjDBq9UvHOD5qE96aYomhb46nvHDBN3TC6PEHBCG
+	 FnEjzyXDRR9cbDStP1MFDzoeGGMf2vUNfKW/SlwgHppiY8YQyttZvM42RD/Zb9Hpr7Z1L
+	 ESx/DgL+ZlAkQ/LTKiFft4hJmlIq3jEAetCQz0TyKjy/60rZoJQv1Bg7v20b9uql3dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=GXf+LdiI;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=hqvFcRdH;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE2360A3806
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AE2360A3806
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481D4606A89C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 481D4606A89C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=GXf+LdiI
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=hqvFcRdH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794924666;
-	bh=4wCddsQmKRg8jkXOvnUL7ZbEG/CVweneCikWsFnbL+c=;
+	s=smtpout1; t=1794924664;
+	bh=O5H9pZY7Q0EmKk/qr6MbxksyVpf2IMb1LVbGM2g9LGs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GXf+LdiIYslCKS792pMHbb4/k6mty6Q+Ou3NKLnsQUC7mgOHXpdGQs6b09bmObbJQ
-	 3aaQNrQdeBc4vmpAzMI11VmVbVOLZgFqaEjrFi0yUL/SjqNwqrBkqj9k2hijqQdMt/
-	 KEwcPzI/ctlYGFMjk/8ceSI+QPdfGAXCRpufFR0qQsW0SMIdK54GKgsok8zxxx9hBK
-	 bRsHsZzhsuJL5EGupsglnnSp97LjqkjkhAdiYuBHjPXKUJ8OyL+CS2evBJwbLnsCU9
-	 F4mi/Hjfc84ZW4PBTOHJFhSbYXr0FSUEkRWzzRGBRMk+exkCjFkYCm6dxhuaLTyLQu
-	 xdwU0LFRf37Gg==
+	b=hqvFcRdHclh9H1T62yxo15z2z9mwRHnsCoZIAvZmFOSLeAJOF45FwmLfW2d108Njo
+	 cgMS3O87/7AtlCWDgvBBWOsgWXTVWIkLnIKMBxoMA8P7dRch7uqE6DBphaC9PI9nnL
+	 xkr6Hv8UIJPNvVHDsH2NAO0dJ/l/W+y7CxvLeF6c18HKSWglxkX0ZU7M4aPErHz1sZ
+	 SytYuxghmytzG40x342LW99zUnQw2ZmlHjiVK5gPJyjNrNu5Spe+gHse7A2qL6Dp5i
+	 6lkxI5XSXxa1iCLlLbb+g/gGChjsTzWEFpiIEcIW2eClHj/sXaSXkpMdhypTJvyYL7
+	 8Mnwy86XPUV4Q==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV23R6RzRBR;
-	Tue, 17 Nov 2026 09:11:06 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV01vWwzRkT;
+	Tue, 17 Nov 2026 09:11:04 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v7 12/40] sched/deadline: Replenish a throttled task boosted while asleep
-Date: Tue, 17 Nov 2026 09:10:33 -0500
-Message-Id: <7bb821fa298ce41c9f6e49b5b6f5e462b41db8d5.1794922146.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v7 01/40] sched: Refuse SCHED_FLAG_KEEP_PARAMS that would change the policy or the class
+Date: Tue, 17 Nov 2026 09:10:22 -0500
+Message-Id: <94150f1808cf4ed0579165c39c23fff83440336a.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
@@ -97,81 +97,112 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A deadline task can be throttled as it blocks, with an rt_mutex held.
-Its replenishment timer is then armed. A deadline waiter can boost the
-task while it sleeps.
+A sched_setattr() request with SCHED_FLAG_KEEP_PARAMS can ask for
+another policy. __sched_setscheduler() then applies only half of the
+change, and returns 0:
+- SCHED_OTHER to SCHED_BATCH leaves the policy as it was.
+- SCHED_DEADLINE to SCHED_OTHER sets DEQUEUE_CLASS. switched_from_dl()
+  then runs on a task that stays in the class. It would release
+  bandwidth the task still uses.
+- SCHED_DEADLINE on a task of another policy reserves bandwidth in
+  sched_dl_overflow(). The task keeps its policy and a dl_bw of 0, so
+  nothing releases that bandwidth. For a task boosted into the deadline
+  class, it is not even a class change.
 
-Commit feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads
-while enqueuing") lets a boost override the throttle. enqueue_task_dl()
-lifts the throttle of a boosted task, and dl_task_timer() ignores a
-boosted task. This covers a task that is enqueued while boosted. But a
-boost of a sleeping task does not enqueue it.
+SCHED_FLAG_KEEP_PARAMS came with utilization clamping. With
+SCHED_FLAG_KEEP_POLICY, it lets sched_setattr() change only the clamps
+of a task. So __sched_setscheduler() skips __setscheduler_params(),
+which sets p->policy, and the sched_class assignment. Nothing checks
+that the request keeps the policy.
 
-T is a SCHED_DEADLINE task that holds the rt_mutex L. W is a
-SCHED_DEADLINE task with an earlier deadline:
+In testing on v7.4-rc2, a deadline waiter boosted a SCHED_OTHER mutex
+owner with a 40ms slice. One such call on the owner left 0.4 CPU in
+total_bw, until the next rebuild of the root domains.
 
-  T                                  W                              T's timer
+Fix this by refusing a request for another policy or class with
+EINVAL. Move sched_dl_overflow() after it, as the last check. Nothing
+gives back the bandwidth it reserves. A refused request also leaves
+sched_reset_on_fork alone.
 
-  uses up its runtime, sleeps
-    dl_throttled = 1
-    start_dl_timer()
-                                     pthread_mutex_timedlock(L)
-                                       rt_mutex_setprio(T, W)
-                                       T sleeps: no enqueue
-                                                                    dl_task_timer()
-                                                                      T is boosted: returns
-                                     times out
-                                       rt_mutex_setprio(T, NULL)
-  wakes up
-    enqueue_dl_entity()
-      dl_throttled: waits for the timer
+With this patch, that call is refused and total_bw does not change. The
+params_keep_boosted case of deadline_bw_test, added later in this
+series, tests it.
 
-The timer has already fired. T would never run again, not even to die
-of SIGKILL. Every later waiter on L would hang too. This was found by
-reading.
+Juri Lelli found the class change, from a report by Tejun Heo. The
+Sashiko AI review of the first posting of this series found the policy
+change and the boosted case.
 
-Fix this by returning early in dl_task_timer() only for a boosted task
-that is queued. A boosted task that sleeps then takes the existing path
-for a throttled task that is not queued: it is replenished.
-
-The refill reads the parameters of the donor, from the timer. So this
-relies on two earlier patches. "sched/deadline: Do not replenish a boost
-from cleared parameters" keeps the refill from looping on cleared
-parameters. "rtmutex: Continue the chain walk when a waiter's deadline
-donor changes" keeps the donor pointer from going stale. After a deboost in
-the class, "sched/deadline: Reset the donor's runtime at a deboost in
-the class" starts a period of the task's own reservation.
-
-The Sashiko AI review of the sixth posting of this series found this.
-
-Fixes: feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads while enqueuing")
+Fixes: a509a7cd7974 ("sched/uclamp: Extend sched_setattr() to support utilization clamping")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-3-dd761fe005b4@redhat.com/
 ---
- kernel/sched/deadline.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ kernel/sched/syscalls.c | 40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 989e7e7d3f8f..2b5a2a43addf 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -1319,10 +1319,13 @@ static enum hrtimer_restart dl_task_timer(struct hrtimer *timer)
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 0ec401af80d1..89b0d5787f45 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -647,17 +647,6 @@ int __sched_setscheduler(struct task_struct *p,
+ 		goto recheck;
  	}
  
- 	/*
--	 * The task might have been boosted by someone else and might be in the
--	 * boosting/deboosting path, its not throttled.
-+	 * A boost overrides the throttle. enqueue_task_dl() lifts it when the
-+	 * boost enqueues the task, or when the task wakes up boosted. So a
-+	 * queued task needs nothing here. A boost of a sleeping task does not
-+	 * enqueue it, and it can end before the wakeup. Nothing would lift the
-+	 * throttle then. So let a sleeping task reach the !queued case below.
- 	 */
--	if (is_dl_boosted(dl_se))
-+	if (is_dl_boosted(dl_se) && task_on_rq_queued(p))
- 		goto unlock;
+-	/*
+-	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
+-	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
+-	 * is available.
+-	 */
+-	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
+-		retval = -EBUSY;
+-		goto unlock;
+-	}
+-
+-	p->sched_reset_on_fork = reset_on_fork;
+ 	oldprio = p->prio;
  
- 	/*
+ 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
+@@ -677,9 +666,38 @@ int __sched_setscheduler(struct task_struct *p,
+ 	prev_class = p->sched_class;
+ 	next_class = __setscheduler_class(policy, newprio);
+ 
++	/*
++	 * With SCHED_FLAG_KEEP_PARAMS, the change below skips
++	 * __setscheduler_params() and the sched_class assignment. The
++	 * policy and the class stay as they are. Refuse a request for
++	 * another policy or class, rather than carry out half of it.
++	 *
++	 * The class depends on the priority, which priority inheritance
++	 * can raise. It also depends on whether a BPF scheduler is in
++	 * charge. So test the class too, not only the policy.
++	 */
++	if ((attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
++	    (policy != p->policy || prev_class != next_class)) {
++		retval = -EINVAL;
++		goto unlock;
++	}
++
+ 	if (prev_class != next_class)
+ 		queue_flags |= DEQUEUE_CLASS;
+ 
++	/*
++	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
++	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
++	 * is available. Keep this check last. If a later check failed,
++	 * nothing would give back the bandwidth it reserves.
++	 */
++	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
++		retval = -EBUSY;
++		goto unlock;
++	}
++
++	p->sched_reset_on_fork = reset_on_fork;
++
+ 	scx_prepare_setscheduler(p, policy);
+ 
+ 	scoped_guard (sched_change, p, queue_flags) {
 -- 
 2.47.3
 
