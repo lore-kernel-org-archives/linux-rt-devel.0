@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927356;
-	b=f0tGwLzdbOJv/rnJbIxjHSvVsRNe2fYxuO0bYgZbLnThN2d4P3ycCjBMJAVyB3P6+fzn
-	 Tb++zced69sFj+qiUfaIq2ByvC8YbHlbTSnxuEkwfqZSBTM6tIxjUh46znB4+r/jfI+z3
-	 c9h51LNY+xH+wSQBaslAy8J/jmISoFEhXyznoVEbq+cvNZTOwSUxKDKjGEZ37ShcZAIRX
-	 vbIL57eU4iEuNseyfGtYdn6quLEgHTSeknNXUdVAP8wamXVsaG2bSxtONrMWE0OF5PJ0P
-	 Cq0hO80Y8XLZs4Sg8Y2AbdRc8w37JH/g2IrEtlvMwpCebbvLb4pgrEpRxv7HCmN+XOw==
+	t=1794928487;
+	b=WkSdmKerecQHFe2b3f8mkx4kf5bKi5Ov3Nt4saGLJFz9J97IIeyh7AuxcxSrUvPWa5UI
+	 gJ0Ltn5H+u8w9BMp88+sWjWagL1OTafVTxsLaj9vT1Q78xZkYHcQx/WYdG+B2VHcqF1Gl
+	 M2ZWoPJYK1mFsVWuejujXlmO/mUXWSBIBCjeHSvlHh00Ke6JeXjTNpg7czJcplJv9AU8S
+	 N9HaY0x8hsFLGqwSFqo5DNvkPsmpCoXA9UPuvz5wUiy00vSXjjcdzJs/tW26WS+0cB6Nb
+	 uciDOxVeXbhBubsRNXXxlSXh2SIu+NdA5LLI8oA86/pOv04OcK2mtL5XERqBg1GMmJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927356;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794928487;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=R7zSTKJyVnWXJ5mA4BmMybYOxeqNTovMSx8ktxRALb4=;
-	b=5plwdq+g3tE259GoR/kXWRxCt9lxYmgXasgsaJInFW8FVd0Nwv6aOoS8vnRiMBg/kfxE
-	 McQcqNl9nlRvTqpQNMZJiVBMPwWwTgDPk0EEjOJavgcRPTK3wXVIYv5+SHe6KJfZkWPo7
-	 u5CVdsWyG7oavsBU8gDHL/1R2tKLxTWhCCb5mrcdvwz0a9G9Ue7dHE+wJQXDz6mYE0x5i
-	 d2artQ5txHVYyKJPnjSiDX+pS5MQqssge/SRSZIAA20r3kfwrRlnNKozMVNy1cN4XT8YX
-	 PKf5+FCfDtifQobyixyx/pERbww+scZwOgnJjv+cQ5WoNNoJteg0RJ/MRHTk6glAeEA==
+	bh=FlqNaTQ1KSYXtEicQmukvAIbCh1ZGMk91UvUei3msgo=;
+	b=lzdHms/w+9UxvEFYwv2jq0WCgsgPpwpUObxh4s687FA+YzmqJjO7Y5nIMh/aZdUQucGU
+	 BH8er6IUThNsDZP1mRKfFMSJXAOm01HjfhaTxeiFSL0IYNfOtRxJdgQfjIfrku4UgnVGM
+	 zep768uxOBmBQ6DRM0QWzqIKJ/kx9Bv8CSURRMEN7Pd41gRxh01y7E59kzG05BDR9GsBw
+	 X/FtuHnKcSiU0NfymMjsTsEAUyUhYcb7l/z1MmV28nbyrsow6hsw67r7VByfp9aEErAot
+	 udGYoilNffjyeCuGFcSY7wZfwUhRopFvJ8kK2GQNbaX8Z2794gS2MsrMdJ8Kws8QNyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nMDNH0e2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XfgVPEJY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8813A606D7C7;
-	Tue, 17 Nov 2026 14:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E2B606A31C;
+	Tue, 17 Nov 2026 15:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nMDNH0e2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6011F000C5;
-	Tue, 17 Nov 2026 14:55:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XfgVPEJY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77E071F000C5;
+	Tue, 17 Nov 2026 15:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794927356;
-	bh=R7zSTKJyVnWXJ5mA4BmMybYOxeqNTovMSx8ktxRALb4=;
+	s=k20260515; t=1794928486;
+	bh=FlqNaTQ1KSYXtEicQmukvAIbCh1ZGMk91UvUei3msgo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nMDNH0e235OzQ/Ktw1SPJJS/Njumdc/A8VtpKU4J86qNjSnbf7kvFAX/qGL1VdU9H
-	 OxW5LGP45CMaC3wCjWd8PDHbjE1zvoupck5/mLUmmTP8R5x4uMo+1leXmpfJjT1pkh
-	 X6jpf0pDBBY9wO1pMMzixl5VI2v3aqwGAVT6ctdQyXM8IdMJdy7h7Ew4+xnqUYyH0x
-	 Vvuflewpqm3m9j0Xcbs2ovYm5MhOeq4UoQmACnGHCS322t5OUA2g+j8jrGqqAPBikQ
-	 QACNU8180d3DQ/whGDK3tmu2tBv/GCTSbBr1c+efrn2an7GwWaa6v4B5dT2YK5OVc0
-	 rkQgm+IKr24gw==
-Message-ID: <sashiko-outbox-219003@kernel.org>
+	b=XfgVPEJY04fEMFmXFk+QMQel56ssvYReJAs0ShT5v7Jq5IWhFLJKSKDQAxUn1CVIW
+	 URxH4sY7Pq4RECmhKwXOlbUuulbUbLgeMl0PZOgonmVhpWSV8RZINs9PAo2mT51Zrz
+	 pnz2yjlRUNHBaEYo4fK/oOowpw0+3ih/s2TJtlClTTGZpWD/9BWgyN+g6MSzuy+gvE
+	 q8TfIeaicDFLB4GAN6KsX2YsvBym/BkzG96zsSrJVyYP3bvagoGh/YZbPwOBgysoaT
+	 NFa2jZiZk06j/f+FLWEUzojSCsix/Fe3cJ5W/IPqW1HmLfzDmjXK8FiY05YjXPF5oF
+	 GpnblAUE1uVPg==
+Message-ID: <sashiko-outbox-219040@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 10/40] sched/deadline: Reset the deadline and the
- runtime with the parameters
+Subject: Re: [PATCH v7 18/40] sched/deadline: Record the root domain holding
+ a task's bandwidth
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <2931e871568442196444a57d784b64c04f57f968.1794922146.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <81044090393551a0c264a8f3a7d1c3c22321c395.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
- <2931e871568442196444a57d784b64c04f57f968.1794922146.git.mathieu.desnoyers@efficios.com>
+ <81044090393551a0c264a8f3a7d1c3c22321c395.1794922146.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 14:55:55 +0000
+Date: Tue, 17 Nov 2026 15:14:46 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,66 +63,114 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: donor runtime kept in switched_from_dl() when
-  dl_runtime !=3D 0
+- [Medium] sched/deadline: __sched_setscheduler() checks task_rq(p) root
+  domain
 --
 
-commit c6cd5264704d8a0de90183dbd3576cbeaa15e19c
+commit 889f3e0f3403117f479bd558c00411593ac35a7e
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Reset the deadline and the runtime with the parameters
+sched/deadline: Record the root domain holding a task's bandwidth
 
-This commit resets a deadline entity's dynamic deadline and runtime in
-__dl_clear_params() and in switched_from_dl() when a boosted task with no
-parameters of its own leaves SCHED_DEADLINE, so that its next entry into
-the class starts a new period.
+This commit replaces dl_departed_cpu with dl_bw_cpu in struct sched_dl_enti=
+ty
+to record a CPU of the root domain that accounts for a deadline task's
+bandwidth across admissions, moves, rebuilds, and releases.
+
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-1-dd761f=
+e005b4@redhat.com/
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 71b1c155c2424..d6d2657dcddd6 100644
+> index 8e8c62c574d55..01fbbd02cf8d0 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -3569,6 +3569,16 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  	if (task_on_rq_queued(p) && p->dl.dl_runtime)
->  		task_non_contending(&p->dl, false);
+[ ... ]
+> @@ -4213,6 +4280,23 @@ int sched_dl_overflow(struct task_struct *p, int p=
+olicy,
+>  	if (new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p))
+>  		return 0;
 > =20
 > +	/*
-> +	 * A task with no parameters of its own was boosted into the class.
-> +	 * Its deadline and runtime are the donor's. Reset them, so that its
-> +	 * next entry into the class starts a new period.
+> +	 * Change the bandwidth of a deadline task where it is counted: in
+> +	 * the root domain of the CPU recorded with it. A task moved asleep
+> +	 * has not run there yet, so the CPU it is on can be elsewhere. No
+> +	 * bandwidth is counted if a rebuild dropped it, or if the task
+> +	 * enters the class. A runtime below about a millionth of the period
+> +	 * gives a bandwidth of 0. It counts for nothing, and no move updates
+> +	 * its record. In these three cases, the root domain of the CPU the
+> +	 * task is on takes the new bandwidth. The caller holds cpuset_mutex,
+> +	 * or dl_accounting_mutex without cpusets, so no rebuild runs
+> +	 * meanwhile.
 > +	 */
-> +	if (!p->dl.dl_runtime) {
-> +		p->dl.deadline =3D 0;
-> +		p->dl.runtime =3D 0;
-> +	}
+> +	counted =3D task_has_dl_policy(p) && p->dl.dl_bw_cpu >=3D 0 &&
+> +		  p->dl.dl_bw_gen =3D=3D dl_bw_gen;
+> +	cpu =3D counted && p->dl.dl_bw ? p->dl.dl_bw_cpu : task_cpu(p);
+> +	dl_b =3D dl_bw_of(cpu);
+[ ... ]
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index 4c013caa24713..306cd8d32173b 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -1185,6 +1185,8 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct s=
+ched_attr __user *, uattr,
+> =20
+>  int dl_task_check_affinity(struct task_struct *p, const struct cpumask *=
+mask)
+>  {
+> +	unsigned int cpu;
+> +
+>  	/*
+>  	 * If the task isn't a deadline task or admission control is
+>  	 * disabled then we don't care about affinity changes.
+> @@ -1204,9 +1206,16 @@ int dl_task_check_affinity(struct task_struct *p, =
+const struct cpumask *mask)
+>  	 * if admission test is enabled, we only admit -deadline
+>  	 * tasks allowed to run on all the CPUs in the task's
+>  	 * root_domain.
+> +	 *
+> +	 * That is the root domain that counts the bandwidth of the task:
+> +	 * the one of the CPU recorded with it. A task moved asleep to
+> +	 * another cpuset is still on a CPU of the root domain it left. A
+> +	 * bandwidth of 0 is counted nowhere, and no move updates its
+> +	 * record: use the CPU the task is on.
+>  	 */
+> +	cpu =3D READ_ONCE(p->dl.dl_bw) ? dl_task_root_domain_cpu(p) : task_cpu(=
+p);
+>  	guard(rcu)();
+> -	if (!cpumask_subset(task_rq(p)->rd->span, mask))
+> +	if (!cpumask_subset(cpu_rq(cpu)->rd->span, mask))
+>  		return -EBUSY;
+> =20
+>  	return 0;
 
 [Severity: Medium]
-Can a task deboosting via switched_from_dl() still retain a donor's
-deadline and runtime when p->dl.dl_runtime is non-zero?
+Should __sched_setscheduler() also use the root domain recorded in
+p->dl.dl_bw_cpu rather than rq->rd when validating a deadline task's
+root domain span and dl_bw.bw?
 
-If a SCHED_DEADLINE task holding an rt_mutex contended by a deadline
-waiter changes policy to SCHED_OTHER, __setscheduler_dl_pi() keeps it
-boosted in dl_sched_class with its non-zero p->dl.dl_runtime while setting
-p->dl.pi_se to the donor.  When its runtime is replenished while boosted,
-replenish_dl_new_period() refills p->dl.deadline and p->dl.runtime from
-the donor's reservation.
+kernel/sched/syscalls.c:__sched_setscheduler() {
+	...
+		if (dl_bandwidth_enabled() && dl_policy(policy) &&
+				!(attr->sched_flags & SCHED_FLAG_SUGOV)) {
+			cpumask_t *span =3D rq->rd->span;
 
-At unlock, rt_mutex_setprio() invokes switched_from_dl() before calling
-dl_drop_boost(&p->dl).  Because p->dl.dl_runtime is non-zero,
-switched_from_dl() skips resetting p->dl.deadline and p->dl.runtime, and
-task_non_contending() computes zerolag_time by mixing the donor's dynamic
-deadline and runtime with p's static dl_period and dl_runtime.  If the
-donor's runtime makes zerolag_time negative, task_non_contending() clears
-p's bandwidth and parameters before its true 0-lag time; otherwise, p
-keeps the donor's runtime and can consume it on top of its own reservation
-if it re-enters SCHED_DEADLINE before the inactive timer fires.
+			if (!cpumask_subset(span, &p->cpus_mask) ||
+			    rq->rd->dl_bw.bw =3D=3D 0) {
+				retval =3D -EPERM;
+				goto unlock;
+			}
+		}
+	...
+}
 
-Commits "sched/deadline: Reset the donor's runtime at a deboost in the
-class" and "sched/deadline: Check the runtime of a task whose parameters
-change" later in this series handle deboosts that stay in dl_sched_class,
-but do not cover leaving dl_sched_class via switched_from_dl() with
-non-zero p->dl.dl_runtime.
+When a sleeping SCHED_DEADLINE task is moved to another exclusive cpuset
+partition (or its CPU goes offline into the default root domain),
+p->cpus_mask and p->dl.dl_bw_cpu reflect the root domain holding its
+bandwidth, while rq (task_rq(p)) remains in the old root domain. Because
+rq->rd->span is not a subset of p->cpus_mask, __sched_setscheduler()
+rejects sched_setattr() parameter updates on that task with -EPERM before
+reaching the moved-sleeper handling in sched_dl_overflow().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794922146.gi=
-t.mathieu.desnoyers@efficios.com?part=3D10
+t.mathieu.desnoyers@efficios.com?part=3D18
