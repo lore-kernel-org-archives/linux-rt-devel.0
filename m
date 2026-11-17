@@ -1,90 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924686;
-	b=Xd23nTcm+9uH3BDdGZNHmhf6kSYMo/tn2C0JWZ7iBzDzw7zozaVVg720Vu6lHQlgNG7P
-	 LPLxl+GWYPnvWeO8PfPK4bNybKHOhw83Yr3BiMnLs1xPPx/rtWawjds4+H8SxjbZSp6ZR
-	 mMP94Do5Lu66AxUrXTyFTyp6KWxnYxx9zVmGn5YBInwl+FnJuCFMciYh/dkZ5eZHQVOzI
-	 2UEvJsq0XojsJg0uSXWGy3P1oW7fMrq0V2NybumgzQdz1ofeMmvhSYVcPei+bfsUxe4TK
-	 c53d9KoaC4C6m+7hvOdKqjoMZZbhwsvYIiJgQhN0OEOz+fnCe2UHNAgtK5gz7SPTluw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924686;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ceIqaYCKbEtRnqmYM8eZLPSRORh9rCUo+qIHA225oAI=;
-	b=J9iLZdzfxywb5iLiktYU73MqIX/KwK8PxBHHSOwaEcDO6Mz1kpzM322bcUYHyyB1wBUm
-	 kkoxNZgiYR9ZOSX15OpEKKVXVM/OKM3wKnIlIGo0BY5+3Fpn2PKjZjhZhM4ODhtfJFd+4
-	 dh7EwR0qHr/VNtK8LYXKtulOfZhTlRNjpnHMSIlhuAMaYsDAroIf6bBPc510+5oztu7mi
-	 FzE+zSeow41vgCYwaN0lgBR71PVrLioO47AYOCq6E7sDVOpG/3JYOugvktbiMq0sYatWj
-	 UqcNtJ2dFya5E7fL2wDcQ5mCOYH5LqtFKD6S3oS1Mxx9SMjYKaBafm6q8GWSFtKgNKQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.139
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794924893;
+	b=GJ24DXvERjdzzPFJgpTHajghE+FPK9gWdyewTzkf6HtfGr4WZNjvkSABt1ryhDU0fGQM
+	 TVVX9ozR63dBeL89pj+XF5JmJBRd94HODO1bqqdqbH/itJWFgAjeR2OoGSF9pzM0UahAH
+	 dLFIMfaTtq5m+FW8NCTtO8PwJ5C4J2XBzdHxWKdQOPJ8aekysHkqp9Mld/d0yu/3Z0mzw
+	 PoQj38d/bk7hIZR4YHgZI3KXTgUyuc/FsHGW0ydqvIkY32PGv7D+Bs9SYumJKoGU8oQD0
+	 I72p2eVobD08LWBP4/R1Lz7o6zWl4NJ589Z/Fl8zYaIhAHfjKBzvs4U6E9lxX0ollNA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924893;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=coCo/Ks2kyomQqsIYg3JBdDbAix8IQoBtR/0WzCHQII=;
+	b=q9e+HINXRy61NV1X7X7z063XjfFKWoR7pLtuPT/gJSGVgZuib7k6T4wqqr1G58uIVOO6
+	 QZGOKZXSFOuDPPjwV0RtwXmYNNvYdsP2cxjSMPHZ6ARP/qR4Xf2g7Gh3u6cuU3OM3rSbJ
+	 BCKFFZHQGj1XcoymEvgVnLFmGEQTITfZFY+NJLcIVlxgfFsMcCR+SF3CWfLSRwkomJN/F
+	 lH5yyEL9+uzLJUOqyUZ/pj8MPPQwOHHqSFSsztQm6Jv5q3t/qGolJlh7MNO+T/sNmx6Oz
+	 qkyqq7u6AVQiIsGK14Pevwj6nsO6Z0xWd+JeFkd/wndxDZ3P+76Uxdm/EaLfKMwIf5w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=KsCU2uZq;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=eBMvu6UR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.139
+Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022139.outbound.protection.outlook.com [40.107.193.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824C6606FCDF
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 824C6606FCDF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12988606BD9E;
+	Tue, 17 Nov 2026 14:14:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12988606BD9E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=KsCU2uZq
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=eBMvu6UR
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ook/sq9owU5Bw6MkC9n5hMtEhVfz/eutDRm1DR0yF0JSu/+4SyJL23g2nyA/GyGHlqkOclvs4zKB2acahCKzU//5XHam2r/37e9Es15HpScR9cVP9vgihQs55aDv5voWxW8KKjkMlfL0ME0qrGHHtbmzzCqL7VbBWDsNjJLyL9lnodwVtjviekTpmxumzCSY0F8HV3b754eVK9ivs3U7u74/k8f/p0O8zOg5/oNA6IRHVOMLhV0qPUMASqYnQ/85+MUcy3Zu17grJrC8ptaqmtQNPqtRkKb8lZTJuIZtiYe1xoXHcWxFamssqayPc8nmlWmRPKXQDFdRN3Gxa/4OtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=coCo/Ks2kyomQqsIYg3JBdDbAix8IQoBtR/0WzCHQII=;
+ b=L2ErK+28CXPd1GB/biwM+lSHLNdAAg5se7dzWUo2/7ML93BughHp9Q7gUCucvXgo3GpsYkTwcnLDNEZhGrg7p5Xda5f8XG1XRsl3KokYjmt7Rfzu5hzqEgYtVo9St/hDX2ofZZWr6n7jnS3udF4SUU3vmObJcCN8+DfAqRIWRZj2VjRBF0rvwCi3UZ3bVU93JljqL0cWfqaAKKketYHjSsVHFUiL2z5OmQS2EUl9FadksxUoQjjM3Zv6P2SMnrlExwyZP3wg+MQrQOm0qui+mhfgoqDWutZzp5+xYPVUHnQctJfMSs7R0XwER3NZpvj22pnXogXPymOzUkxNBthjag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794924671;
-	bh=ceIqaYCKbEtRnqmYM8eZLPSRORh9rCUo+qIHA225oAI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KsCU2uZqGth1zZDm3nkeo4n8I9CQ5u6RpVe2zM9tgkLVbDDTSovHAHDvR6wWlpRmE
-	 ao69VYgD7pHU12uU5onNVTifJwW/czRSSgtGJyCWKon0AIP6g8LTMaTWQHrXM4+pKk
-	 aUSYrwj0b0SVvNPfF0pHi7FPEB+S7x/Ny6zsLuJ9RCDa3+qQaAXejYEqg3pCOymnXT
-	 OrvmLMcgyix2pwR1dgEKocY8AEWtfP5xCN1iT/JzGsphoyMJYQwWx09u5i841Yt/gf
-	 C36cPOQn3GBcAUHgPkdLO1xZRQMcX9kJHdWu0CNfoxMdQk2SLSOoDU7jlBJSKrytu+
-	 dxgjWXsA2QHxQ==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV721FzzRgt;
-	Tue, 17 Nov 2026 09:11:11 -0500 (EST)
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=coCo/Ks2kyomQqsIYg3JBdDbAix8IQoBtR/0WzCHQII=;
+ b=eBMvu6URcuqordMVl3XtEsa4DOo1+vHC5EQ9IpZ4yaIp5iGbHVi/wJ7DsghNUR/SEKGz9yL0DUMZOki5SjzAylUjIBtT0OU6GBChVn6UvtW0/07wJ6Asq0C9wbg3SC43/TIIMT6EE2mQEvjICMim0qKT/79oVek/U7YMwccXT9bfm9zkCCnpq5oKqf/zEdxNvOEvvq0MsX/bdKpvLc8Ffzr3OIMEaNqbHOcHBN9+YMl1CNeFttL2D/gX5LpklTYd2ERZyufqPTQ872Y0FDY8xl7GYqjjjM14FQoaBfMwwEXEYzS8svHk+Nggt+PmTdMA+sFX4AJDu9XMmVRHXfK+bQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT2PR01MB9777.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:de::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
+ 2026 14:14:49 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
+ 14:14:49 +0000
+Message-ID: <b975f96b-4811-4033-ab73-e819de1f4f7e@efficios.com>
+Date: Tue, 17 Nov 2026 09:14:47 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 05/37] sched/deadline: Refuse dl_server debugfs writes
+ while the rq is offline
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+ mkoutny@suse.com, linux-kernel@vger.kernel.org
+References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
+ <20261116190549.230119-6-mathieu.desnoyers@efficios.com>
+ <sashiko-outbox-217565@kernel.org>
+Content-Language: en-US
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: juri.lelli@redhat.com,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	vincent.guittot@linaro.org
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	tglx@kernel.org,
-	will@kernel.org,
-	boqun@kernel.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	shuah@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	parri.andrea@gmail.com,
-	m.szyprowski@samsung.com,
-	kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com,
-	cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v7 38/40] selftests/sched: Add a test of SCHED_DEADLINE policy round trips
-Date: Tue, 17 Nov 2026 09:10:59 -0500
-Message-Id: <eb355ec19fcfcffd3e7f8dbd79dff377581a7a87.1794922146.git.mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
-References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <sashiko-outbox-217565@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0001.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:85::24) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -94,1212 +100,101 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT2PR01MB9777:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9630c287-730e-403e-5081-08df44b523b0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|18002099003|22082099003|56012099006|4143699003|261028144727099003|10067099003|261026140227099003|261026121527099003|261022075727099003|261022105027099003;
+X-Microsoft-Antispam-Message-Info:
+	c16oloGhMYoQ3mWQWoFjawFbABRMBiwddZ924PgyAQqowylaK0m+rmb/xjErZyiFq+XjTJY06YN+gcR1kiEjYIQ4hTJu6frZMrxD0juyw+l/PepXy5zYAtg/cxqaE9O3eTOGbOFwJpgnsk3ONcXAtlyFb2ssP1NKOkCC6r7LpyY/VJZ3KYO+9WhsMhjEeN5NU8xbtw1jP0PIOYnpaSsYe/jXR2tvewl+hscsnkjgdQXUY/rx+lp5bLyATNEh8eL8ZQHakB1HKpbj4Ft6VxUpojZUsAyKurKqOdZrWj5qASIMgzYt2xXhIpJYW7CEgxzRVrDMaOquZf0yP+cz8LQC8jlLDmR7e3RH/XC69te8VgJ/+u/37ynCzNjKu9TWUvOXm68y4iuLYFF2pI0u/EjmfMalRgLUYf/tVKyRhKnSAMssxAvcNb932XawrPJUJatsUUxgQFTFBO1355gvfsVaQGx1sDBgfPtPrPsj2gBW6xF0eu7EsoraT6WvaCaIutx6ULASowTW8DYtu8uWE3WLlk6PMB7HdZKPpvqu8thGRLQALm4LVBFjL9kmMerLs4LuK8UraSkYxhtQpszKNQcoJgUsFOymi0+ITq9o+ZYVMJM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(18002099003)(22082099003)(56012099006)(4143699003)(261028144727099003)(10067099003)(261026140227099003)(261026121527099003)(261022075727099003)(261022105027099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q1ZuK3VPaEFmMDhGRkNrMkpHVFovUlFiS2N4NUJPdTlyNkxWM0dLanhoZjhy?=
+ =?utf-8?B?NC9uYVJGdjgzUlViYXRkTktZcUJVT20yNFNPSGxHUUxHV1Z1d1RraTdFRks5?=
+ =?utf-8?B?bFFBZHlrSUZyYWpJVjhzQzQ1dVh1bWpUSGt2Z2tQOEdndURxZE5GU25Mem01?=
+ =?utf-8?B?ZmUxWFNnUU50aEt1b0oyL3d0ZXkzV0tScnZ0Z2pwUk9idnFSQzZ4eVdwTnVr?=
+ =?utf-8?B?elN1NmZmWXNFZ2IwZXhUWWhENG5jTEZBTEd2WlRkRERPN0FBSXA4amtyQUlN?=
+ =?utf-8?B?VUNkQVpXUzBPSFZhY05wWDNqc0l1M2ZwNUo5eEMxU3YvYlFzUFNlbnJJR0Vl?=
+ =?utf-8?B?cGhqSk9MNGZ4UmQrbGRYN1BudUJrTk40VUFYNXhqN3RlZlB6WW90azBPUVFI?=
+ =?utf-8?B?eDlLY2V4WjZJUUwvRU9ERGtlMk5uZEhQUzNBMlJlaGpwRVpINkFLcTdYcGZ3?=
+ =?utf-8?B?czVmLzcvc1UrbDdSSlRXY3FUekl0bnZjWTBJejFsMFhhWnQ5T05pbFJzSW5r?=
+ =?utf-8?B?MDFMSUZOdlRTYTBmQzNwZ0xMNThpZ2MrY1V6RVJjek9ycUxvVXluWHZ0Y1F6?=
+ =?utf-8?B?NXk2dWVCZnpOTVFzN2R0YXp4TVI3SnVSN2haTVdoYVJscjNVaUVoZ2dPdHVn?=
+ =?utf-8?B?VXFFWGRYRk5IVFAzd0Nzc1dQWnRSY1lEYmhuaWZmZzlXblZXd2VQREhnYzJ6?=
+ =?utf-8?B?ZEUrTWN3TDZhODUydkVIdUN3ZlJJcFdlRkoyZnpDWHhNSWJrdis2QWFpUEgy?=
+ =?utf-8?B?Y2xmR2p2ZDdQZnM5M05hd2s4YkU3VFBHbUdkbmlOOGR4eUloak1LMEx5M3Vs?=
+ =?utf-8?B?NUx1R3RvK2VVZUM4VXMwMXVUYnV4QlA2QjN6emhGWFVkbG9MY0ZucVgvK3Ir?=
+ =?utf-8?B?U3dJTkRhMDdjNkdieEtTVkJXRExaWEp0S0lmOCsvWFJabXFWSWZFb3l1K1lS?=
+ =?utf-8?B?L1NRcm1WdTRjSDVRSFpqczdYTjY3TVMrK2V0Unl4azZaM3F6dm1IRkJTY0FJ?=
+ =?utf-8?B?VGhLa05TL0phaVFxbklrU21uTDQrVHppdkU1QVhsMWNtR0F2dlBmb3R6TTlK?=
+ =?utf-8?B?dXJJUExSSVdqaDcvR3JEaUFOSXBNUUx4MGV3VTZyRmo3UkV2RmhJZmNnUld1?=
+ =?utf-8?B?c0l0RDg1YVFYbVdUUU1QTVFSaUErV09pc2JjcCtyb1haZmZtQm82WUdacmZO?=
+ =?utf-8?B?VTZ3T2lxL2grM2JIa1EzNjRidUo0bExhRjc0WE9WWWVTRGVKZTRNc1J1b2d2?=
+ =?utf-8?B?QlV0Tk5lQkpudlpHMDdtNlRpbDR2Y0ZuU2dsMVZubmN6ZnY5bUR6Nkx5MFRT?=
+ =?utf-8?B?Rml6OFRaN29LK25QbFo0RGRJUjlETGYwNFZVV3FHWU5tSzhMVzZWOU11b21N?=
+ =?utf-8?B?c0VCL2pnTFZTUEJqNjVzWXB0NmhhVEs2V2RZY1ZYcHFHQU16RVNTWC9hcXB5?=
+ =?utf-8?B?ZEhsU0VTdEY0UzJDOHRhb3ZEOWtQMG8zVFNLTFRHY0Rkd2RkNDFveHlJV3dK?=
+ =?utf-8?B?dHV2WFl0WUl2OU5DQzJXT09PWG9ZRHhpN2ExOEtwOHBtTkhnbnB2UW5DQzZ6?=
+ =?utf-8?B?U2FPSWlmZ2ZyNjAyN3hqT1pYeHpsV1FvR0dpNVcyWG5wRDdhMWgzYjlYbkIx?=
+ =?utf-8?B?SmRqaGNGcmhRblFnVXdRUU1kR1hIa3hDVXhRTnVrMitNNElxRC9DLzFtd2pa?=
+ =?utf-8?B?Mk03RE9LZHdualovbnpobE84VXN1TTBycHVyajVwSUc1bXMyek4vVlV4WVFq?=
+ =?utf-8?B?Q3VCNG1wazZHVi9FZ0lQWU41a1lpaXVFWEVpcG5lNkhBOGRpaWMwQlJETDU1?=
+ =?utf-8?B?Q0xqdDFTUHN4QllNZHdZZDVsZnZNYmE1c29CcEVJck5QYzdYb0RlRnF5eGkr?=
+ =?utf-8?B?OVZ6M1ZuLzRSYW5hOVhrNThZRHErOEpLdU80b1d0YytkR0FhRVVRUGZZOWRy?=
+ =?utf-8?B?ZHYwRXpRN2U3UHpVUy9lTE5MeTZlZGppSnJpbkQ4QlRkejUrd2tXOEd4WU5D?=
+ =?utf-8?B?VkdGOXVKZmZJZk5IT3NDQ0N6WWdwZHBqM056cXJFakFYRjQ2RUpWdTdqeUNs?=
+ =?utf-8?B?UytYZlh0UjJ3bVdHWW1GOTJSMnp5MzBDNmhXWXkyQ2dzazNwV0lnZUpqUlQz?=
+ =?utf-8?B?V2ZkYi90dUM5THlWYXRMNC9Nbm54QWpHYVhxaWxZT252aS96UlhoOERtS3A3?=
+ =?utf-8?B?SHU4UmY2OXdZR0dkTXpHUmdXZ2Y2d0Fzb2txclFDYVlDc1NuMHpsdGxuQXFV?=
+ =?utf-8?B?cmtQYkRJUU5Ma3BUOUlCZnMyOHdKajhObFNJYzlzWmd5NzFZcElRSkt5Q2lW?=
+ =?utf-8?B?ekdMenZWRVhRSngvc3lBc2ZmME9VbmJVZ0xnSTNPbzlweHJ0YUdtUVZaNGkv?=
+ =?utf-8?Q?c9SsRQh9SjwEerks=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9630c287-730e-403e-5081-08df44b523b0
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 14:14:48.9425
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bW5mZZ0E/3+dhH3pcL46uawBGt8Qni92SFEs07X5PgnsN0SLQHii5bYL3J/Ke+DttO6j/tRuwWOBdW4xPafZg9jfPy/ne6HyO4TQedndv5E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB9777
 
-No selftest runs a SCHED_DEADLINE task.
+> Can a debugfs write still slip through during sched_cpu_deactivate() after
+> cpu_active(cpu) is cleared?
 
-Add deadline_switch_test, with five cases:
-- throttled_round_trip: a task of 10ms every 2s spins, so it is
-  throttled in every period. Right after a throttle, the test switches
-  it to SCHED_OTHER. The test switches it back 200us after its
-  deadline, between its replenishment timer and its 0-lag time. It must
-  then run again.
-- asleep_round_trip: a task of 9ms every 10ms runs 0.2ms, then sleeps
-  50ms. While it sleeps past its 0-lag time, the test switches it to
-  SCHED_OTHER and back. A leak at each round trip fills the root
-  domain, and the switch back fails with EBUSY.
-- sysrq_normalize: sysrq-n takes a deadline task out of the class.
-  Another task must then still enter SCHED_DEADLINE.
-- sysrq_boosted_owner: sysrq-n takes a SCHED_OTHER task out of the
-  deadline class while a deadline waiter boosts it. After the unlock,
-  the task enters SCHED_DEADLINE at 10ms every 100ms. It must not run
-  more than its runtime in its first period.
-- sysrq_running_owner: a SCHED_OTHER task spins alone on a CPU, with a
-  lock held. A deadline waiter of 100us every 1ms boosts it. The test
-  starts 2048 sleeping SCHED_FIFO threads, then fires sysrq-n. Every
-  thread must end, and the owner must no longer be boosted.
+Yes, it can pass in that window. It leaves no wrong state, though.
 
-The cases need CAP_SYS_NICE, and skip without it. asleep_round_trip
-also skips without admission control, when sched_rt_runtime_us is -1.
-sysrq-n changes the policy of every real-time user task. So the three
-sysrq cases run only with DEADLINE_TEST_SYSRQ set. They also need root
-and CONFIG_MAGIC_SYSRQ. The two owner cases run only if
-sysrq_normalize passed.
+> if other active CPUs remain, __dl_overflow() checks N servers against
+> N - 1 CPUs' capacity and __dl_sub() / __dl_add() miscalculate extra_bw
+> across N - 1 CPUs.
 
-On a kernel with the bugs, asleep_round_trip and sysrq_normalize keep
-new tasks out of SCHED_DEADLINE. So they run last, followed only by
-the two owner cases.
+The test against the N - 1 CPUs that remain is the safe side.
+dl_bw_deactivate() just made the same test. __dl_update() spreads
+extra_bw over the active CPUs only, so the divisor matches the CPUs it
+updates. With no active CPU left, any bandwidth above 0 is refused.
 
-On v7.4-rc2, in 8-CPU VMs, three of the five cases fail:
-- throttled_round_trip. "sched/deadline: Do not lose a throttled task
-  switched out and back" fixes it.
-- asleep_round_trip. "sched/deadline: Release the bandwidth of a task
-  that leaves the class asleep" fixes it.
-- sysrq_normalize. "sched: Take cpuset_mutex for a deadline policy
-  change only with pi" fixes it.
+The rebuild at the end of sched_cpu_deactivate() then resets total_bw
+and extra_bw. So the write lasts until the end of the same call.
 
-sysrq_boosted_owner tests "sched: Let a task boosted by a deadline
-waiter change its policy". Without the sysrq-n part of that fix, the
-owner ran 99-100ms of its first period, in 4 runs of 4. With it, it ran
-10-11ms.
+> dl_server_start() also re-enqueues the server on the
+> deactivating runqueue after balance_push_set(cpu, true).
 
-sysrq_running_owner tests "sched/deadline: Do not replenish a boost
-from cleared parameters". With the early return of that fix disabled,
-the guest locked up in 3 runs of 3.
+The rq is still online there. Any fair enqueue on that CPU starts the
+server in the same window.
 
-With the whole series, the four cases pass, with and without
-PREEMPT_RT.
+So the planned next version keeps the rq->online test as it is.
 
-The test goes in a new selftest target, sched/deadline.
+Thanks,
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- tools/testing/selftests/Makefile              |    1 +
- .../selftests/sched/deadline/.gitignore       |    1 +
- .../testing/selftests/sched/deadline/Makefile |    8 +
- tools/testing/selftests/sched/deadline/config |    1 +
- .../sched/deadline/deadline_switch_test.c     | 1089 +++++++++++++++++
- 5 files changed, 1100 insertions(+)
- create mode 100644 tools/testing/selftests/sched/deadline/.gitignore
- create mode 100644 tools/testing/selftests/sched/deadline/Makefile
- create mode 100644 tools/testing/selftests/sched/deadline/config
- create mode 100644 tools/testing/selftests/sched/deadline/deadline_switch_test.c
+Mathieu
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 07c3719f8b04..35b0c5e86ba7 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -120,6 +120,7 @@ TARGETS += rlimits
- TARGETS += rseq
- TARGETS += rtc
- TARGETS += rust
-+TARGETS += sched/deadline
- TARGETS += sched_ext
- TARGETS += seccomp
- TARGETS += sgx
-diff --git a/tools/testing/selftests/sched/deadline/.gitignore b/tools/testing/selftests/sched/deadline/.gitignore
-new file mode 100644
-index 000000000000..9f203c455b91
---- /dev/null
-+++ b/tools/testing/selftests/sched/deadline/.gitignore
-@@ -0,0 +1 @@
-+deadline_switch_test
-diff --git a/tools/testing/selftests/sched/deadline/Makefile b/tools/testing/selftests/sched/deadline/Makefile
-new file mode 100644
-index 000000000000..3f4dc1ec6119
---- /dev/null
-+++ b/tools/testing/selftests/sched/deadline/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0+
-+
-+CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES)
-+LDLIBS += -lpthread
-+
-+TEST_GEN_PROGS := deadline_switch_test
-+
-+include ../../lib.mk
-diff --git a/tools/testing/selftests/sched/deadline/config b/tools/testing/selftests/sched/deadline/config
-new file mode 100644
-index 000000000000..3a3a7285a708
---- /dev/null
-+++ b/tools/testing/selftests/sched/deadline/config
-@@ -0,0 +1 @@
-+CONFIG_MAGIC_SYSRQ=y
-diff --git a/tools/testing/selftests/sched/deadline/deadline_switch_test.c b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
-new file mode 100644
-index 000000000000..daf10f81cb96
---- /dev/null
-+++ b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
-@@ -0,0 +1,1089 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test SCHED_DEADLINE tasks that switch to SCHED_OTHER and back:
-+ *
-+ * - throttled_round_trip: the test switches a throttled task to
-+ *   SCHED_OTHER. The task's replenishment timer fires while it is out of
-+ *   SCHED_DEADLINE. The test switches it back after its deadline, before
-+ *   its 0-lag time. The task must run again.
-+ * - asleep_round_trip: a task is switched out and back while it sleeps
-+ *   past its 0-lag time. Its bandwidth must leave the root domain when it
-+ *   leaves SCHED_DEADLINE. Otherwise each switch back adds it again, and
-+ *   sched_setattr() soon fails with EBUSY.
-+ * - sysrq_normalize: sysrq-n takes a deadline task out of the class.
-+ *   Another task must then still enter SCHED_DEADLINE.
-+ * - sysrq_boosted_owner: a deadline waiter boosts a sleeping SCHED_OTHER
-+ *   owner into the deadline class. sysrq-n must end the boost. When the
-+ *   owner later calls sched_setattr() to enter SCHED_DEADLINE, it must be
-+ *   throttled at its own runtime.
-+ * - sysrq_running_owner: a deadline waiter boosts a running SCHED_OTHER
-+ *   owner. sysrq-n clears the waiter's parameters before it ends the
-+ *   boost. The owner must keep running until then.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <pthread.h>
-+#include <sched.h>
-+#include <semaphore.h>
-+#include <signal.h>
-+#include <stdatomic.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/prctl.h>
-+#include <sys/syscall.h>
-+#include <sys/sysinfo.h>
-+#include <sys/wait.h>
-+#include <time.h>
-+#include <unistd.h>
-+
-+#include "../../kselftest.h"
-+
-+#ifndef SCHED_DEADLINE
-+#define SCHED_DEADLINE	6
-+#endif
-+
-+#define NSEC_PER_USEC	1000ULL
-+#define NSEC_PER_MSEC	1000000ULL
-+#define NSEC_PER_SEC	1000000000ULL
-+
-+struct dl_attr {
-+	uint32_t size;
-+	uint32_t sched_policy;
-+	uint64_t sched_flags;
-+	int32_t sched_nice;
-+	uint32_t sched_priority;
-+	uint64_t sched_runtime;
-+	uint64_t sched_deadline;
-+	uint64_t sched_period;
-+};
-+
-+/* Written by the child, read by the parent. */
-+struct shared {
-+	uint64_t stamp;		/* last time the child ran */
-+	uint64_t run_start;	/* when it last resumed after a throttle */
-+	uint64_t runs;		/* resumptions after a throttle */
-+	uint64_t sleeps;	/* sleeps begun */
-+};
-+
-+static uint64_t now_ns(void)
-+{
-+	struct timespec ts;
-+
-+	clock_gettime(CLOCK_MONOTONIC, &ts);
-+	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
-+}
-+
-+static void sleep_ns(uint64_t ns)
-+{
-+	struct timespec ts = { .tv_sec = ns / NSEC_PER_SEC, .tv_nsec = ns % NSEC_PER_SEC };
-+
-+	while (nanosleep(&ts, &ts) && errno == EINTR)
-+		;
-+}
-+
-+static void sleep_until(uint64_t t)
-+{
-+	struct timespec ts = { .tv_sec = t / NSEC_PER_SEC, .tv_nsec = t % NSEC_PER_SEC };
-+
-+	while (clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL) == EINTR)
-+		;
-+}
-+
-+static int set_deadline(pid_t pid, uint64_t runtime, uint64_t period)
-+{
-+	struct dl_attr attr = {
-+		.size = sizeof(attr),
-+		.sched_policy = SCHED_DEADLINE,
-+		.sched_runtime = runtime,
-+		.sched_deadline = period,
-+		.sched_period = period,
-+	};
-+
-+	return syscall(__NR_sched_setattr, pid, &attr, 0) ? -errno : 0;
-+}
-+
-+static int set_other(pid_t pid)
-+{
-+	struct sched_param sp = { .sched_priority = 0 };
-+
-+	return sched_setscheduler(pid, SCHED_OTHER, &sp) ? -errno : 0;
-+}
-+
-+static struct shared *sh;
-+
-+/*
-+ * Fork a child that is killed when the test dies, so that it cannot keep
-+ * its bandwidth. Return what fork() returns.
-+ */
-+static pid_t fork_child(void)
-+{
-+	pid_t parent = getpid();
-+	pid_t pid = fork();
-+
-+	if (!pid && (prctl(PR_SET_PDEATHSIG, SIGKILL) || getppid() != parent))
-+		_exit(KSFT_FAIL);
-+	return pid;
-+}
-+
-+static void reap(pid_t pid)
-+{
-+	int status;
-+
-+	if (pid <= 0)
-+		return;
-+	if (kill(pid, SIGKILL) && errno != ESRCH)
-+		ksft_print_msg("kill %d: %s\n", pid, strerror(errno));
-+	/*
-+	 * A deadline task left throttled for good never runs, even to die.
-+	 * Switched to SCHED_OTHER, it runs and dies. Ignore the result: the
-+	 * task may be dead already.
-+	 */
-+	set_other(pid);
-+	while (waitpid(pid, &status, 0) != pid) {
-+		if (errno == EINTR)
-+			continue;
-+		ksft_print_msg("waitpid %d: %s\n", pid, strerror(errno));
-+		break;
-+	}
-+}
-+
-+/*
-+ * Report a child that died before the end of its case. Return KSFT_SKIP
-+ * if it could not enter SCHED_DEADLINE, and KSFT_FAIL otherwise.
-+ */
-+static int gone(int status)
-+{
-+	if (WIFEXITED(status) && WEXITSTATUS(status) == KSFT_SKIP) {
-+		ksft_print_msg("SCHED_DEADLINE refused\n");
-+		return KSFT_SKIP;
-+	}
-+	if (WIFSIGNALED(status))
-+		ksft_print_msg("the task died of signal %d\n", WTERMSIG(status));
-+	else
-+		ksft_print_msg("the task exited with %d\n", WEXITSTATUS(status));
-+	return KSFT_FAIL;
-+}
-+
-+/*
-+ * Spin, so that the task uses up its runtime and is throttled in every
-+ * period. Record in sh when it runs, and when it resumes after a
-+ * throttle. A throttle stops the task for most of its 2s period. A gap
-+ * of 1s or less, such as a preemption, is not a throttle.
-+ */
-+static void spinner(void)
-+{
-+	uint64_t last = now_ns();
-+
-+	for (;;) {
-+		uint64_t t = now_ns();
-+
-+		if (t - last > NSEC_PER_SEC) {
-+			__atomic_store_n(&sh->run_start, t, __ATOMIC_RELAXED);
-+			__atomic_fetch_add(&sh->runs, 1, __ATOMIC_RELEASE);
-+		}
-+		__atomic_store_n(&sh->stamp, t, __ATOMIC_RELEASE);
-+		last = t;
-+	}
-+}
-+
-+/*
-+ * Return the runtime @pid has left, from dl.runtime in /proc/<pid>/sched.
-+ * It is below zero for a throttled task: the task overran by that much.
-+ * Return 1 if it cannot be read.
-+ */
-+static long long dl_runtime_left(pid_t pid)
-+{
-+	char path[64], line[256];
-+	long long left = 1;
-+	FILE *f;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/sched", pid);
-+	f = fopen(path, "r");
-+	if (!f)
-+		return 1;
-+	while (fgets(line, sizeof(line), f)) {
-+		char *val = strchr(line, ':');
-+
-+		if (!strncmp(line, "dl.runtime", 10) && val) {
-+			left = atoll(val + 1);
-+			break;
-+		}
-+	}
-+	fclose(f);
-+	return left;
-+}
-+
-+#define LOST_RUNTIME	(10 * NSEC_PER_MSEC)
-+#define LOST_PERIOD	(2 * NSEC_PER_SEC)
-+#define LOST_MARGIN	(200 * NSEC_PER_USEC)
-+
-+/*
-+ * The child is a deadline task of 10ms every 2s, and spins. Three times,
-+ * the parent does this:
-+ * - Wait until the child resumes at a replenishment, at time r, and is
-+ *   throttled again.
-+ * - Switch it to SCHED_OTHER.
-+ * - Sleep until r + LOST_PERIOD + LOST_MARGIN. r + LOST_PERIOD is the
-+ *   child's deadline. Its replenishment timer fires there, on a task out
-+ *   of SCHED_DEADLINE.
-+ * - Switch it back to SCHED_DEADLINE.
-+ * - Check that it runs again within 1.5 periods.
-+ *
-+ * The switch back must come before the 0-lag time. The 0-lag time is after
-+ * the deadline by the overrun times period/runtime, which is 200 here.
-+ * The overrun is how far the task ran past its runtime before the kernel
-+ * throttled it. The parent reads it from /proc. A round whose switch back
-+ * comes after the 0-lag time tests nothing, and does not count. The check
-+ * keeps half of LOST_MARGIN as a margin. The case is skipped if no round
-+ * counts. If the overrun cannot be read, every round counts.
-+ */
-+static int test_throttled_round_trip(void)
-+{
-+	int attempt, ret = KSFT_PASS, err, counted = 0;
-+	pid_t pid;
-+
-+	memset(sh, 0, sizeof(*sh));
-+	pid = fork_child();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LOST_RUNTIME, LOST_PERIOD))
-+			_exit(KSFT_SKIP);
-+		spinner();
-+	}
-+	for (attempt = 0; attempt < 3 && ret == KSFT_PASS; attempt++) {
-+		uint64_t runs, r, s, t;
-+		long long left;
-+
-+		/*
-+		 * Wait until the task resumes at a replenishment, at time r.
-+		 * Then wait until it stops running: it is throttled.
-+		 */
-+		runs = __atomic_load_n(&sh->runs, __ATOMIC_ACQUIRE);
-+		t = now_ns();
-+		while (__atomic_load_n(&sh->runs, __ATOMIC_ACQUIRE) == runs) {
-+			if (now_ns() - t > 3 * LOST_PERIOD) {
-+				int status;
-+
-+				if (waitpid(pid, &status, WNOHANG) == pid)
-+					return gone(status);
-+				ksft_print_msg("the task did not resume within 3 periods\n");
-+				reap(pid);
-+				return KSFT_FAIL;
-+			}
-+			sleep_ns(NSEC_PER_MSEC);
-+		}
-+		r = __atomic_load_n(&sh->run_start, __ATOMIC_RELAXED);
-+		do {
-+			s = __atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE);
-+			sleep_ns(2 * NSEC_PER_MSEC);
-+		} while (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) != s);
-+		/*
-+		 * The task is throttled until r + LOST_PERIOD. Switch it out
-+		 * now, and back LOST_MARGIN after that.
-+		 */
-+		left = dl_runtime_left(pid);
-+		err = set_other(pid);
-+		if (!err) {
-+			sleep_until(r + LOST_PERIOD + LOST_MARGIN);
-+			err = set_deadline(pid, LOST_RUNTIME, LOST_PERIOD);
-+			t = now_ns();
-+		}
-+		if (err) {
-+			ksft_print_msg("policy switch: %s\n", strerror(-err));
-+			ret = KSFT_FAIL;
-+			break;
-+		}
-+		/* The deadline is at most r + LOST_PERIOD: r is read after it. */
-+		if (left > 0 ||
-+		    t + LOST_MARGIN / 2 <
-+		    r + LOST_PERIOD + (uint64_t)-left * (LOST_PERIOD / LOST_RUNTIME))
-+			counted++;
-+		else
-+			ksft_print_msg("an overrun of %lld ns: switched back after the 0-lag time\n",
-+				       -left);
-+		sleep_ns(10 * NSEC_PER_MSEC);
-+		s = __atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE);
-+		t = now_ns();
-+		while (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) == s &&
-+		       now_ns() - t < LOST_PERIOD + LOST_PERIOD / 2)
-+			sleep_ns(NSEC_PER_MSEC);
-+		if (__atomic_load_n(&sh->stamp, __ATOMIC_ACQUIRE) == s) {
-+			ksft_print_msg("throttled, switched out and back: never ran again\n");
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	reap(pid);
-+	if (ret == KSFT_PASS && !counted)
-+		ret = KSFT_SKIP;
-+	return ret;
-+}
-+
-+#define LEAK_RUNTIME	(9 * NSEC_PER_MSEC)
-+#define LEAK_PERIOD	(10 * NSEC_PER_MSEC)
-+
-+/* Run 0.2ms, then sleep 50ms, forever. Count the sleeps in sh. */
-+static void sleeper(void)
-+{
-+	for (;;) {
-+		uint64_t end = now_ns() + 200 * NSEC_PER_USEC;
-+
-+		while (now_ns() < end)
-+			;
-+		__atomic_fetch_add(&sh->sleeps, 1, __ATOMIC_RELEASE);
-+		sleep_ns(50 * NSEC_PER_MSEC);
-+	}
-+}
-+
-+/*
-+ * Switch a sleeping task out of SCHED_DEADLINE and back, over and over.
-+ * The task has 90% of a CPU. If each round trip leaks it, the root domain
-+ * is full after about as many round trips as it has CPUs.
-+ */
-+static int test_asleep_round_trip(void)
-+{
-+	int i, trips = get_nprocs() * 10 / 9 + 3, ret = KSFT_PASS, err;
-+	pid_t pid;
-+	FILE *f;
-+
-+	f = fopen("/proc/sys/kernel/sched_rt_runtime_us", "r");
-+	if (f) {
-+		long rt = 0;
-+
-+		if (fscanf(f, "%ld", &rt) == 1 && rt < 0) {
-+			fclose(f);
-+			ksft_print_msg("no admission control: a leak cannot be seen\n");
-+			return KSFT_SKIP;
-+		}
-+		fclose(f);
-+	}
-+	memset(sh, 0, sizeof(*sh));
-+	pid = fork_child();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LEAK_RUNTIME, LEAK_PERIOD))
-+			_exit(KSFT_SKIP);
-+		sleeper();
-+	}
-+	for (i = 0; i < trips; i++) {
-+		uint64_t sleeps = __atomic_load_n(&sh->sleeps, __ATOMIC_ACQUIRE);
-+		uint64_t t = now_ns();
-+
-+		while (__atomic_load_n(&sh->sleeps, __ATOMIC_ACQUIRE) == sleeps) {
-+			if (now_ns() - t > NSEC_PER_SEC) {
-+				int status;
-+
-+				if (waitpid(pid, &status, WNOHANG) == pid)
-+					return gone(status);
-+				ksft_print_msg("the task did not run within 1s\n");
-+				reap(pid);
-+				return KSFT_FAIL;
-+			}
-+			sleep_ns(NSEC_PER_MSEC);
-+		}
-+		/*
-+		 * Wait 5ms. The task is still asleep, and past its 0-lag
-+		 * time.
-+		 */
-+		sleep_ns(5 * NSEC_PER_MSEC);
-+		err = set_other(pid);
-+		if (!err)
-+			err = set_deadline(pid, LEAK_RUNTIME, LEAK_PERIOD);
-+		if (err) {
-+			ksft_print_msg("switch back refused after %d of %d round trips: %s\n",
-+				       i, trips, strerror(-err));
-+			ret = KSFT_FAIL;
-+			break;
-+		}
-+	}
-+	reap(pid);
-+	return ret;
-+}
-+
-+/*
-+ * Take a deadline task out of the class with sysrq-n. Then check that
-+ * another task can still enter SCHED_DEADLINE.
-+ *
-+ * sysrq-n calls __sched_setscheduler() on every real-time and deadline
-+ * user task, under tasklist_lock, to make it SCHED_OTHER. On a kernel
-+ * with the bug, that call takes cpuset_mutex for a deadline task and
-+ * never releases it. No task can enter SCHED_DEADLINE after that.
-+ *
-+ * sysrq-n changes the whole system. So the sysrq cases run last, and only
-+ * with DEADLINE_TEST_SYSRQ set.
-+ */
-+static int test_sysrq_normalize(void)
-+{
-+	int fd, status, ret = KSFT_PASS;
-+	pid_t pid, prober, w;
-+	uint64_t t;
-+
-+	if (!getenv("DEADLINE_TEST_SYSRQ")) {
-+		ksft_print_msg("sysrq-n renices every real-time task: set DEADLINE_TEST_SYSRQ=1\n");
-+		return KSFT_SKIP;
-+	}
-+	fd = open("/proc/sysrq-trigger", O_WRONLY);
-+	if (fd < 0) {
-+		ksft_print_msg("/proc/sysrq-trigger: %s\n", strerror(errno));
-+		return KSFT_SKIP;
-+	}
-+	pid = fork_child();
-+	if (pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		close(fd);
-+		return KSFT_FAIL;
-+	}
-+	if (!pid) {
-+		if (set_deadline(0, LOST_RUNTIME, LOST_PERIOD))
-+			_exit(KSFT_SKIP);
-+		for (;;)
-+			pause();
-+	}
-+	t = now_ns();
-+	while (sched_getscheduler(pid) != SCHED_DEADLINE) {
-+		if (waitpid(pid, &status, WNOHANG) == pid) {
-+			close(fd);
-+			return gone(status);
-+		}
-+		if (now_ns() - t > NSEC_PER_SEC) {
-+			ksft_print_msg("the task did not enter SCHED_DEADLINE within 1s\n");
-+			close(fd);
-+			reap(pid);
-+			return KSFT_FAIL;
-+		}
-+		sleep_ns(NSEC_PER_MSEC);
-+	}
-+	if (write(fd, "n", 1) != 1) {
-+		ksft_print_msg("sysrq-n: %s\n", strerror(errno));
-+		close(fd);
-+		reap(pid);
-+		return KSFT_SKIP;
-+	}
-+	close(fd);
-+	t = now_ns();
-+	while (sched_getscheduler(pid) != SCHED_OTHER && now_ns() - t < NSEC_PER_SEC)
-+		sleep_ns(NSEC_PER_MSEC);
-+	if (sched_getscheduler(pid) != SCHED_OTHER) {
-+		ksft_print_msg("still SCHED_DEADLINE after sysrq-n\n");
-+		ret = KSFT_FAIL;
-+	}
-+	/* A new task must still enter SCHED_DEADLINE within 5s. */
-+	prober = fork_child();
-+	if (prober < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		reap(pid);
-+		return KSFT_FAIL;
-+	}
-+	if (!prober)
-+		_exit(set_deadline(0, LOST_RUNTIME, LOST_PERIOD) ? 1 : 0);
-+	t = now_ns();
-+	while ((w = waitpid(prober, &status, WNOHANG)) == 0) {
-+		if (now_ns() - t > 5 * NSEC_PER_SEC) {
-+			ksft_print_msg("SCHED_DEADLINE admission blocked after sysrq-n\n");
-+			reap(pid);
-+			/*
-+			 * The prober is blocked on a mutex. Do not wait for
-+			 * it.
-+			 */
-+			return KSFT_FAIL;
-+		}
-+		sleep_ns(NSEC_PER_MSEC);
-+	}
-+	if (w != prober) {
-+		ksft_print_msg("waitpid %d: %s\n", prober, strerror(errno));
-+		ret = KSFT_FAIL;
-+	} else if (!WIFEXITED(status) || WEXITSTATUS(status)) {
-+		ksft_print_msg("SCHED_DEADLINE refused after sysrq-n\n");
-+		ret = KSFT_FAIL;
-+	}
-+	reap(pid);
-+	return ret;
-+}
-+
-+/* The priority /proc shows for a deadline task, or a task boosted by one. */
-+#define DL_TASK_PRIO	(-101)
-+
-+static pthread_mutex_t pi_lock;
-+static sem_t owner_locked, owner_go;
-+static pid_t owner_tid;
-+static int owner_ms;		/* the owner's CPU time in its first period */
-+
-+static uint64_t thread_time_ns(void)
-+{
-+	struct timespec ts;
-+
-+	clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
-+	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
-+}
-+
-+/*
-+ * Wait on @s for at most @ms, retrying on signals. Return 0, or -1 on a
-+ * timeout or an error.
-+ */
-+static int sem_wait_for(sem_t *s, int ms)
-+{
-+	struct timespec ts;
-+
-+	clock_gettime(CLOCK_REALTIME, &ts);
-+	ts.tv_nsec += (long)(ms % 1000) * 1000000L;
-+	ts.tv_sec += ms / 1000 + ts.tv_nsec / 1000000000L;
-+	ts.tv_nsec %= 1000000000L;
-+	while (sem_timedwait(s, &ts)) {
-+		if (errno != EINTR)
-+			return -1;
-+	}
-+	return 0;
-+}
-+
-+/* Return the priority @tid runs at, from /proc, or 0. */
-+static int prio_of(pid_t tid)
-+{
-+	char path[64], buf[1024], *p;
-+	ssize_t n;
-+	int fd, i;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/stat", tid);
-+	fd = open(path, O_RDONLY);
-+	if (fd < 0)
-+		return 0;
-+	n = read(fd, buf, sizeof(buf) - 1);
-+	close(fd);
-+	if (n <= 0)
-+		return 0;
-+	buf[n] = 0;
-+	/* The priority is field 18, the 16th after the command name. */
-+	p = strrchr(buf, ')');
-+	for (i = 0; p && i < 16; i++)
-+		p = strchr(p + 1, ' ');
-+	return p ? atoi(p + 1) : 0;
-+}
-+
-+/* Join @t. Return -1 if the join fails or @t returned an error. */
-+static int join(pthread_t t)
-+{
-+	void *res;
-+	int err = pthread_join(t, &res);
-+
-+	if (err)
-+		ksft_print_msg("pthread_join: %s\n", strerror(err));
-+	return err || res ? -1 : 0;
-+}
-+
-+/*
-+ * Run as the owner thread. Take pi_lock, post owner_locked, and sleep on
-+ * owner_go while holding the lock. A deadline waiter boosts the owner
-+ * during that sleep. Then drop the lock, become a deadline task of 10ms
-+ * every 100ms, and spin for 100ms. Store the CPU time used, in ms, in
-+ * owner_ms. Return NULL, or 1 on an error.
-+ */
-+static void *sleeping_owner(void *arg)
-+{
-+	uint64_t t0, cpu0;
-+	int err;
-+
-+	owner_tid = syscall(SYS_gettid);
-+	err = pthread_mutex_lock(&pi_lock);
-+	if (err) {
-+		ksft_print_msg("the owner cannot take the lock: %s\n", strerror(err));
-+		return (void *)1;
-+	}
-+	sem_post(&owner_locked);
-+	while (sem_wait(&owner_go) && errno == EINTR)
-+		;
-+	err = pthread_mutex_unlock(&pi_lock);
-+	if (err) {
-+		ksft_print_msg("the owner cannot unlock: %s\n", strerror(err));
-+		return (void *)1;
-+	}
-+	err = set_deadline(0, 10 * NSEC_PER_MSEC, 100 * NSEC_PER_MSEC);
-+	if (err) {
-+		ksft_print_msg("the owner refused as a deadline task: %s\n", strerror(-err));
-+		return (void *)1;
-+	}
-+	t0 = now_ns();
-+	cpu0 = thread_time_ns();
-+	while (now_ns() - t0 < 100 * NSEC_PER_MSEC)
-+		;
-+	owner_ms = (thread_time_ns() - cpu0) / NSEC_PER_MSEC;
-+	set_other(0);
-+	return NULL;
-+}
-+
-+/*
-+ * The waiter thread: become a deadline task of 5ms every 50ms, and wait
-+ * up to 300ms for pi_lock. The owner holds the lock all along. Return
-+ * NULL if the wait timed out, or 1.
-+ */
-+static void *boosting_waiter(void *arg)
-+{
-+	struct timespec ts;
-+	int err;
-+
-+	err = set_deadline(0, 5 * NSEC_PER_MSEC, 50 * NSEC_PER_MSEC);
-+	if (err) {
-+		ksft_print_msg("the waiter refused as a deadline task: %s\n", strerror(-err));
-+		return (void *)1;
-+	}
-+	clock_gettime(CLOCK_REALTIME, &ts);
-+	ts.tv_nsec += 300 * 1000000L;
-+	ts.tv_sec += ts.tv_nsec / 1000000000L;
-+	ts.tv_nsec %= 1000000000L;
-+	err = pthread_mutex_timedlock(&pi_lock, &ts);
-+	if (!err)
-+		pthread_mutex_unlock(&pi_lock);
-+	set_other(0);			/* sysrq-n may have done it */
-+	if (err != ETIMEDOUT) {
-+		ksft_print_msg("the waiter of the lock: %s, not a timeout\n",
-+			       err ? strerror(err) : "got it");
-+		return (void *)1;
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * Check that sysrq-n ends the boost of a SCHED_OTHER lock owner.
-+ *
-+ * M is the main thread, O the owner, W the waiter. All three start as
-+ * SCHED_OTHER. pi_lock is a priority inheritance mutex.
-+ *
-+ *   M                           O                          W
-+ *   start O
-+ *                               lock pi_lock
-+ *                               post owner_locked
-+ *                               sleep on owner_go
-+ *   start W
-+ *                                                          sched_setattr():
-+ *                                                            deadline,
-+ *                                                            5ms every 50ms
-+ *                                                          timedlock pi_lock,
-+ *                                                            300ms: boosts O
-+ *   see O at deadline priority
-+ *   write "n" to sysrq-trigger:
-+ *     O and W leave the class
-+ *                                                          timedlock times out:
-+ *                                                            deboosts O
-+ *   join W
-+ *   post owner_go
-+ *                               unlock pi_lock
-+ *                               sched_setattr(): deadline,
-+ *                                 10ms every 100ms
-+ *                               spin 100ms, measure
-+ *                                 CPU time
-+ *   join O
-+ *
-+ * sysrq-n takes O out of the deadline class without a chain walk. The
-+ * boost must end there. On a kernel with the bug it does not, and the
-+ * deboost at W's timeout sees no change of priority, so it leaves the
-+ * boost too. O would then enter SCHED_DEADLINE as a boosted task, and
-+ * never be throttled. O must get about 10ms of CPU time in its 100ms. The
-+ * case fails above 20ms.
-+ *
-+ * O sleeps while it is boosted, on purpose. A boosted task runs on its
-+ * waiter's parameters. sysrq-n takes W out of the class too, and W's
-+ * parameters can then be cleared. On a kernel that refills the runtime
-+ * from cleared parameters, a running O would loop in
-+ * replenish_dl_entity().
-+ *
-+ * Run the case only if sysrq_normalize passed. @normalized is its result.
-+ * Otherwise sysrq-n may leave cpuset_mutex held, and O would block in
-+ * sched_setattr().
-+ */
-+static int test_sysrq_boosted_owner(int normalized)
-+{
-+	int fd, err, ret = KSFT_PASS;
-+	pthread_mutexattr_t a;
-+	pthread_t o, w;
-+	uint64_t t;
-+
-+	if (!getenv("DEADLINE_TEST_SYSRQ")) {
-+		ksft_print_msg("sysrq-n renices every real-time task: set DEADLINE_TEST_SYSRQ=1\n");
-+		return KSFT_SKIP;
-+	}
-+	if (normalized != KSFT_PASS) {
-+		ksft_print_msg("sysrq_normalize did not pass: sched_setattr() may block\n");
-+		return KSFT_SKIP;
-+	}
-+	fd = open("/proc/sysrq-trigger", O_WRONLY);
-+	if (fd < 0) {
-+		ksft_print_msg("/proc/sysrq-trigger: %s\n", strerror(errno));
-+		return KSFT_SKIP;
-+	}
-+	err = pthread_mutexattr_init(&a);
-+	if (!err) {
-+		err = pthread_mutexattr_setprotocol(&a, PTHREAD_PRIO_INHERIT);
-+		if (!err)
-+			err = pthread_mutex_init(&pi_lock, &a);
-+		pthread_mutexattr_destroy(&a);
-+	}
-+	if (err) {
-+		ksft_print_msg("no priority inheritance mutex: %s\n", strerror(err));
-+		close(fd);
-+		return KSFT_SKIP;
-+	}
-+	if (sem_init(&owner_locked, 0, 0) || sem_init(&owner_go, 0, 0)) {
-+		ksft_print_msg("sem_init: %s\n", strerror(errno));
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	owner_ms = -1;
-+	if (pthread_create(&o, NULL, sleeping_owner, NULL)) {
-+		ksft_print_msg("the owner thread could not start\n");
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	if (sem_wait_for(&owner_locked, 5000)) {
-+		ksft_print_msg("the owner never took the lock\n");
-+		sem_post(&owner_go);	/* in case it gets there late */
-+		join(o);
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	if (pthread_create(&w, NULL, boosting_waiter, NULL)) {
-+		ksft_print_msg("the waiter thread could not start\n");
-+		ret = KSFT_FAIL;
-+		goto unlock;
-+	}
-+	t = now_ns();
-+	while (prio_of(owner_tid) != DL_TASK_PRIO && now_ns() - t < 200 * NSEC_PER_MSEC)
-+		sleep_ns(NSEC_PER_MSEC);
-+	if (prio_of(owner_tid) != DL_TASK_PRIO) {
-+		ksft_print_msg("the waiter never boosted the owner\n");
-+		ret = KSFT_FAIL;
-+	} else if (write(fd, "n", 1) != 1) {
-+		ksft_print_msg("sysrq-n: %s\n", strerror(errno));
-+		ret = KSFT_SKIP;
-+	}
-+	if (join(w))
-+		ret = KSFT_FAIL;	/* the waiter said why */
-+unlock:
-+	sem_post(&owner_go);
-+	if (join(o)) {
-+		ret = KSFT_FAIL;	/* the owner said why */
-+	} else if (ret == KSFT_PASS && owner_ms > 20) {
-+		ksft_print_msg("the owner ran %d ms of its first 100: the boost outlived sysrq-n\n",
-+			       owner_ms);
-+		ret = KSFT_FAIL;
-+	}
-+out:
-+	close(fd);
-+	pthread_mutex_destroy(&pi_lock);
-+	return ret;
-+}
-+
-+#define FILLERS		2048
-+#define FILLER_STACK	(64 * 1024)
-+
-+static atomic_int running_stop;
-+static sem_t filler_ready, waiter_go;
-+static int filler_pipe[2];
-+static int running_cpu;
-+
-+/*
-+ * Run as a filler thread: become SCHED_FIFO, and sleep until the write end
-+ * of filler_pipe is closed. Return NULL, or 1 on an error.
-+ */
-+static void *filler(void *arg)
-+{
-+	struct sched_param sp = { .sched_priority = 1 };
-+	int err = sched_setscheduler(0, SCHED_FIFO, &sp) ? errno : 0;
-+	char c;
-+
-+	sem_post(&filler_ready);
-+	if (err)
-+		return (void *)1;
-+	while (read(filler_pipe[0], &c, 1) < 0 && errno == EINTR)
-+		;
-+	return NULL;
-+}
-+
-+/*
-+ * Run as the owner thread O of sysrq_running_owner, on running_cpu only.
-+ * Take pi_lock and post owner_locked. Spin until running_stop is set, or
-+ * for 5s. Then unlock. Return NULL, or 1 on an error.
-+ */
-+static void *running_owner(void *arg)
-+{
-+	uint64_t t0;
-+	cpu_set_t one;
-+	int err;
-+
-+	owner_tid = syscall(SYS_gettid);
-+	CPU_ZERO(&one);
-+	CPU_SET(running_cpu, &one);
-+	if (sched_setaffinity(0, sizeof(one), &one)) {
-+		ksft_print_msg("the owner cannot run on CPU %d: %s\n", running_cpu,
-+			       strerror(errno));
-+		sem_post(&owner_locked);
-+		return (void *)1;
-+	}
-+	err = pthread_mutex_lock(&pi_lock);
-+	if (err) {
-+		ksft_print_msg("the owner cannot take the lock: %s\n", strerror(err));
-+		sem_post(&owner_locked);
-+		return (void *)1;
-+	}
-+	sem_post(&owner_locked);
-+	t0 = now_ns();
-+	while (!atomic_load(&running_stop) && now_ns() - t0 < 5 * NSEC_PER_SEC)
-+		;
-+	err = pthread_mutex_unlock(&pi_lock);
-+	if (err) {
-+		ksft_print_msg("the owner cannot unlock: %s\n", strerror(err));
-+		return (void *)1;
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * Run as the waiter thread W of sysrq_running_owner. Wait for waiter_go.
-+ * Then become a deadline task of 100us every 1ms, and wait for pi_lock.
-+ * Return NULL once it got the lock, or 1.
-+ */
-+static void *running_waiter(void *arg)
-+{
-+	int err;
-+
-+	while (sem_wait(&waiter_go) && errno == EINTR)
-+		;
-+	err = set_deadline(0, 100 * NSEC_PER_USEC, NSEC_PER_MSEC);
-+	if (err) {
-+		ksft_print_msg("the waiter refused as a deadline task: %s\n", strerror(-err));
-+		return (void *)1;
-+	}
-+	err = pthread_mutex_lock(&pi_lock);
-+	if (!err)
-+		pthread_mutex_unlock(&pi_lock);
-+	set_other(0);			/* sysrq-n did it already */
-+	if (err) {
-+		ksft_print_msg("the waiter cannot take the lock: %s\n", strerror(err));
-+		return (void *)1;
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * Check that a boosted owner that runs survives the clearing of its
-+ * donor's parameters.
-+ *
-+ * M is the main thread, O the owner, W the waiter. pi_lock is a priority
-+ * inheritance mutex. O runs alone on the last CPU. M and the fillers run
-+ * on the other CPUs. The fillers are 2048 sleeping SCHED_FIFO threads,
-+ * created after W and before O.
-+ *
-+ *   M                           O                          W
-+ *   start W, the fillers, O
-+ *                               lock pi_lock
-+ *                               post owner_locked
-+ *                               spin
-+ *   post waiter_go
-+ *                                                          sched_setattr():
-+ *                                                            deadline,
-+ *                                                            100us every 1ms
-+ *                                                          lock pi_lock:
-+ *                                                            boosts O
-+ *                               runs on W's runtime,
-+ *                                 refilled as it runs out
-+ *   see O at deadline priority
-+ *   sleep 20ms
-+ *   write "n" to sysrq-trigger:
-+ *     W leaves the class.
-+ *     Its parameters are
-+ *     cleared.
-+ *     Then the fillers leave
-+ *     their class, one by one.
-+ *                               refills from W's cleared
-+ *                                 parameters
-+ *     Then O leaves the class.
-+ *   see O not boosted
-+ *   set running_stop
-+ *                               unlock pi_lock
-+ *                                                          take pi_lock, unlock
-+ *   join O and W
-+ *   end the fillers
-+ *
-+ * sysrq-n changes the tasks in the order of the task list, with no chain
-+ * walk. The fillers keep O boosted from cleared parameters for a few ms.
-+ * O refills its runtime in that time. On a kernel with the bug, that
-+ * refill loops forever with O's rq lock held. sysrq-n then waits forever
-+ * for that lock. The case passes if every thread ends.
-+ *
-+ * Run the case only if sysrq_normalize passed. @normalized is its result.
-+ */
-+static int test_sysrq_running_owner(int normalized)
-+{
-+	int fd, err, i, started = 0, ret = KSFT_PASS;
-+	pthread_t o, w, *fill = NULL;
-+	cpu_set_t old, others;
-+	pthread_mutexattr_t a;
-+	pthread_attr_t fa;
-+	uint64_t t;
-+
-+	if (!getenv("DEADLINE_TEST_SYSRQ")) {
-+		ksft_print_msg("sysrq-n renices every real-time task: set DEADLINE_TEST_SYSRQ=1\n");
-+		return KSFT_SKIP;
-+	}
-+	if (normalized != KSFT_PASS) {
-+		ksft_print_msg("sysrq_normalize did not pass: sched_setattr() may block\n");
-+		return KSFT_SKIP;
-+	}
-+	if (get_nprocs() < 2 || sched_getaffinity(0, sizeof(old), &old)) {
-+		ksft_print_msg("needs 2 CPUs\n");
-+		return KSFT_SKIP;
-+	}
-+	for (running_cpu = CPU_SETSIZE - 1; running_cpu >= 0; running_cpu--)
-+		if (CPU_ISSET(running_cpu, &old))
-+			break;
-+	others = old;
-+	CPU_CLR(running_cpu, &others);
-+	if (!CPU_COUNT(&others)) {
-+		ksft_print_msg("needs 2 CPUs\n");
-+		return KSFT_SKIP;
-+	}
-+	fd = open("/proc/sysrq-trigger", O_WRONLY);
-+	if (fd < 0) {
-+		ksft_print_msg("/proc/sysrq-trigger: %s\n", strerror(errno));
-+		return KSFT_SKIP;
-+	}
-+	err = pthread_mutexattr_init(&a);
-+	if (!err) {
-+		err = pthread_mutexattr_setprotocol(&a, PTHREAD_PRIO_INHERIT);
-+		if (!err)
-+			err = pthread_mutex_init(&pi_lock, &a);
-+		pthread_mutexattr_destroy(&a);
-+	}
-+	if (err) {
-+		ksft_print_msg("no priority inheritance mutex: %s\n", strerror(err));
-+		close(fd);
-+		return KSFT_SKIP;
-+	}
-+	fill = calloc(FILLERS, sizeof(*fill));
-+	if (!fill || pipe(filler_pipe) || sem_init(&owner_locked, 0, 0) ||
-+	    sem_init(&filler_ready, 0, 0) || sem_init(&waiter_go, 0, 0) ||
-+	    pthread_attr_init(&fa) || pthread_attr_setstacksize(&fa, FILLER_STACK)) {
-+		ksft_print_msg("setup: %s\n", strerror(errno));
-+		free(fill);
-+		close(fd);
-+		pthread_mutex_destroy(&pi_lock);
-+		return KSFT_FAIL;
-+	}
-+	running_stop = 0;
-+	/* W, then the fillers, then O: the order of the task list */
-+	if (pthread_create(&w, NULL, running_waiter, NULL)) {
-+		ksft_print_msg("the waiter thread could not start\n");
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	/*
-+	 * Keep M and the fillers off O's CPU. W keeps every CPU: a deadline
-+	 * task must be allowed on its whole root domain.
-+	 */
-+	if (sched_setaffinity(0, sizeof(others), &others)) {
-+		ksft_print_msg("sched_setaffinity: %s\n", strerror(errno));
-+		sem_post(&waiter_go);
-+		ret = KSFT_FAIL;
-+		goto join_w;
-+	}
-+	for (started = 0; started < FILLERS; started++) {
-+		if (pthread_create(&fill[started], &fa, filler, NULL)) {
-+			ksft_print_msg("filler %d could not start\n", started);
-+			ret = KSFT_FAIL;
-+			break;
-+		}
-+	}
-+	for (i = 0; i < started; i++)
-+		if (sem_wait_for(&filler_ready, 5000))
-+			ret = KSFT_FAIL;
-+	if (ret != KSFT_PASS) {
-+		sem_post(&waiter_go);
-+		goto join_w;
-+	}
-+	if (pthread_create(&o, NULL, running_owner, NULL)) {
-+		ksft_print_msg("the owner thread could not start\n");
-+		sem_post(&waiter_go);
-+		ret = KSFT_FAIL;
-+		goto join_w;
-+	}
-+	if (sem_wait_for(&owner_locked, 5000)) {
-+		ksft_print_msg("the owner never took the lock\n");
-+		ret = KSFT_FAIL;
-+	}
-+	sem_post(&waiter_go);
-+	t = now_ns();
-+	while (ret == KSFT_PASS && prio_of(owner_tid) != DL_TASK_PRIO &&
-+	       now_ns() - t < 200 * NSEC_PER_MSEC)
-+		sleep_ns(NSEC_PER_MSEC);
-+	if (ret == KSFT_PASS && prio_of(owner_tid) != DL_TASK_PRIO) {
-+		ksft_print_msg("the waiter never boosted the owner\n");
-+		ret = KSFT_FAIL;
-+	}
-+	if (ret == KSFT_PASS) {
-+		sleep_ns(20 * NSEC_PER_MSEC);
-+		if (write(fd, "n", 1) != 1) {
-+			ksft_print_msg("sysrq-n: %s\n", strerror(errno));
-+			ret = KSFT_SKIP;
-+		} else if (prio_of(owner_tid) == DL_TASK_PRIO) {
-+			ksft_print_msg("the owner is still boosted after sysrq-n\n");
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	running_stop = 1;
-+	if (join(o))
-+		ret = KSFT_FAIL;	/* the owner said why */
-+join_w:
-+	if (join(w))
-+		ret = KSFT_FAIL;	/* the waiter said why */
-+out:
-+	close(filler_pipe[1]);
-+	for (i = 0; i < started; i++)
-+		if (join(fill[i]))
-+			ret = KSFT_FAIL;
-+	close(filler_pipe[0]);
-+	sched_setaffinity(0, sizeof(old), &old);
-+	pthread_attr_destroy(&fa);
-+	free(fill);
-+	close(fd);
-+	pthread_mutex_destroy(&pi_lock);
-+	return ret;
-+}
-+
-+static void report(const char *name, int ret)
-+{
-+	if (ret == KSFT_PASS)
-+		ksft_test_result_pass("%s\n", name);
-+	else if (ret == KSFT_SKIP)
-+		ksft_test_result_skip("%s\n", name);
-+	else
-+		ksft_test_result_fail("%s\n", name);
-+}
-+
-+int main(void)
-+{
-+	int ret;
-+
-+	sh = mmap(NULL, sizeof(*sh), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-+	if (sh == MAP_FAILED)
-+		ksft_exit_fail_msg("mmap: %s\n", strerror(errno));
-+	ksft_print_header();
-+	ksft_set_plan(5);
-+	/*
-+	 * Keep this order. On a kernel with the bugs, asleep_round_trip fills
-+	 * the root domain, and sysrq_normalize blocks every later admission.
-+	 * So sysrq_boosted_owner runs only if sysrq_normalize passed.
-+	 */
-+	report("throttled_round_trip", test_throttled_round_trip());
-+	report("asleep_round_trip", test_asleep_round_trip());
-+	ret = test_sysrq_normalize();
-+	report("sysrq_normalize", ret);
-+	report("sysrq_boosted_owner", test_sysrq_boosted_owner(ret));
-+	report("sysrq_running_owner", test_sysrq_running_owner(ret));
-+	ksft_finished();
-+}
 -- 
-2.47.3
-
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
