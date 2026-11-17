@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924672;
-	b=2uGEz7DDSRnc0CYbVriEWLw499vHm42pWMN7UDFJSQsiH0Ejv8wOERuVmh1M2CgHdcAl
-	 KasUCW1OwSFQdDBe84XCsSzpsODR38mfG/lTppDxB1ek7JFyDlRhynqRXr4ijWN3YQrAi
-	 LKKjd1Vyr8Zfh46auIoEGlXybhfQEUtnOAP/arTGQsfKYIpT2FEtGjfwn9ExPBXf4PSI6
-	 JubBa4DFS+0Md5vyZa7qq4luUORphCGo99Z0nuRbNlbVtBEQEns6ciWdkJ33XM9UaNscy
-	 wW6Joj7/lknV8z5Q5QRUJKqTEUIt8AFW7VdJw3jKpqeRbKDLDE5YWak6f0KuOUJMZow==
+	t=1794924673;
+	b=tQF/A1zIxIraM3BGzjpBtv3YecARUfvCGX5eMbRO890xL7eYOWN2gqGhjLdp5pzsAwLt
+	 7u+84VVbKrb63PyGlXzn5SMsz6BkzNhj9UKa+jNEVTpAa4eNYW/7rJln0HafTGPfZP3iD
+	 AC6mLPnFtDO2CyhtmarQ2s5Klq+E+eYuEXbY1s/ftYz8/sGUBOG3NzGgejaA2uhrdYWnh
+	 meweqQ63nv5IC825hzDtRQIWuMcH6gueCry3Ant3NGryFrwqmXxqQAJPpL+T/w6uY4jb7
+	 2LDLlq+W+yREEkC6s0N9IYYwsoi8pDkczFmVRUVGrihJw4Jp1Dret+TQoHUB9CLkg9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924672;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924673;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=hQMUfAMOJbsO4pkrAPJ2n1M6SsNe4VVTXHqYbtMPO/8=;
-	b=5nNr2sYjCK6gXSuCXHxr0IH0XAMbZkz9qKmuutoxXZJmKHu+2KEUIHb+aV9+1f/nh02t
-	 nU5UJpv4eTrEwOx3SVBtkZjWEUEYtNou3kFM4VbLtmQ3qLJm0r9mZ6js4a5HOLDUEPj3i
-	 gvAGpSJhHSUO6auflW52PwC4JmbP9Lz3zmOlCBvAjOXNaNBChzjbSFx0I4re0eChUEnt0
-	 ogPqmeYQrQxCoejdu9S6jgUU2pRrDWw9fdAOfXE02AvnP+pes6eKriEik3st6d9AlK6Hc
-	 gZCQMzxJ6sVbAX1VMPwAGQSyNtZ/6aLuhkGC8AuK5oPMvhVuow5CvSLpUUmyv83PoWQ==
+	bh=4wCddsQmKRg8jkXOvnUL7ZbEG/CVweneCikWsFnbL+c=;
+	b=k9by4ruXHYvJXLyYz6KzEYEW7vW5ionTqh6QC3DJjmz853oxIteFsx085137qzLvKBSp
+	 QBA/J08ZFocmoX4PpVk+k+3PvvuailWxIIvUjZhHBV9acU5Z+fv+d8lryBb5KtEa2nUfs
+	 NLVxK544LLig/3jQ2UwDeSmekMEhprTne7MZ7uxzwABYxLRrw5s2ZpPIuNcvn/wehQPKt
+	 bKsvBtUk+l8Yes3Imb2I6ZXsP1kcqaITJl4aOy9yDPFsbvJmdUGGUCHG3tydCfdYBTBd7
+	 GP6/v/XLqUfXT7szmaF3ZEidhN/AQIgIbZbNIfo5+mRhRKzWzIx3gS4ctSdhqHi9COw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=iqmTBG1d;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=GXf+LdiI;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9215C60A261C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9215C60A261C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE2360A3806
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AE2360A3806
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=iqmTBG1d
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=GXf+LdiI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794924665;
-	bh=hQMUfAMOJbsO4pkrAPJ2n1M6SsNe4VVTXHqYbtMPO/8=;
+	s=smtpout1; t=1794924666;
+	bh=4wCddsQmKRg8jkXOvnUL7ZbEG/CVweneCikWsFnbL+c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iqmTBG1dg1J2kFEmOFBajMqV1NY/xuJHiD/gHHi1iut4rgByFuu5EZii93gvSqZf3
-	 snQ0zDvKhLX6NXsLQ7d9ZnCmXl2jNMEk5YnYtZYNU85/aP1kah6XJ5icwSzz6cE3aW
-	 flN4h1cnORnoyUzA40Vkhz0Ok4ZUpWX5DDYP72RDJym1PH1qEKkYuPYePP5Kl7OlS2
-	 Gp5SKQGUgGhl6mR+91alhIvu4Tvn21iWlyksTsKwsTFzTCXDgN17o43sxL0xwjP870
-	 WJt4VAITFyvr3bK75br1DTRKGRPaJtumbteUj+Mjbcml26xLwx0hqWs2KXiUkiP8Xs
-	 f9n/LnSwlKL+w==
+	b=GXf+LdiIYslCKS792pMHbb4/k6mty6Q+Ou3NKLnsQUC7mgOHXpdGQs6b09bmObbJQ
+	 3aaQNrQdeBc4vmpAzMI11VmVbVOLZgFqaEjrFi0yUL/SjqNwqrBkqj9k2hijqQdMt/
+	 KEwcPzI/ctlYGFMjk/8ceSI+QPdfGAXCRpufFR0qQsW0SMIdK54GKgsok8zxxx9hBK
+	 bRsHsZzhsuJL5EGupsglnnSp97LjqkjkhAdiYuBHjPXKUJ8OyL+CS2evBJwbLnsCU9
+	 F4mi/Hjfc84ZW4PBTOHJFhSbYXr0FSUEkRWzzRGBRMk+exkCjFkYCm6dxhuaLTyLQu
+	 xdwU0LFRf37Gg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV14knSzR8H;
-	Tue, 17 Nov 2026 09:11:05 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV23R6RzRBR;
+	Tue, 17 Nov 2026 09:11:06 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v7 08/40] sched/deadline: Do not replenish a boost from cleared parameters
-Date: Tue, 17 Nov 2026 09:10:29 -0500
-Message-Id: <cefacab5f1c0e7617f17e050af4ef5f6db01700a.1794922146.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v7 12/40] sched/deadline: Replenish a throttled task boosted while asleep
+Date: Tue, 17 Nov 2026 09:10:33 -0500
+Message-Id: <7bb821fa298ce41c9f6e49b5b6f5e462b41db8d5.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
@@ -97,143 +97,79 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a SCHED_DEADLINE waiter boosts the owner of an rt_mutex, the owner
-runs on the waiter's parameters, through dl.pi_se. Commit 2d3d891d3344
-("sched/deadline: Add SCHED_DEADLINE inheritance logic") calls this a
-temporary solution. The owner is never throttled. When its runtime runs
-out, replenish_dl_entity() refills it at once from the waiter's
-dl_runtime.
+A deadline task can be throttled as it blocks, with an rt_mutex held.
+Its replenishment timer is then armed. A deadline waiter can boost the
+task while it sleeps.
 
-The waiter can leave SCHED_DEADLINE before the chain walk deboosts the
-owner. Its parameters can be cleared in between, at its 0-lag time.
-replenish_dl_entity() then loops forever on a dl_runtime of 0. It
-holds the rq lock with interrupts off, so the owner's CPU locks up.
+Commit feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads
+while enqueuing") lets a boost override the throttle. enqueue_task_dl()
+lifts the throttle of a boosted task, and dl_task_timer() ignores a
+boosted task. This covers a task that is enqueued while boosted. But a
+boost of a sleeping task does not enqueue it.
 
-O is a SCHED_OTHER task that holds the rt_mutex L. W is a SCHED_DEADLINE
-task. T is any other task:
+T is a SCHED_DEADLINE task that holds the rt_mutex L. W is a
+SCHED_DEADLINE task with an earlier deadline:
 
-  CPU 0 (O)                         CPU 1 (W)                     CPU 2 (T)
+  T                                  W                              T's timer
 
-  locks L
-                                    blocks on L
-                                      rt_mutex_setprio(O, W)
-                                        O->dl.pi_se = &W->dl
-                                    sleeps
-                                      task_non_contending()
-                                        arms W's inactive timer
-                                                                  sched_setscheduler(W)
-                                                                    W leaves SCHED_DEADLINE
-                                                                    task_rq_unlock(W)
-                                    <W's inactive timer>
-                                    inactive_task_timer()
-                                      __dl_clear_params()
-                                        W->dl.dl_runtime = 0
-  <tick>
-  update_curr_dl_se()
-    enqueue_task_dl()
-      replenish_dl_entity()
-        runtime += W->dl.dl_runtime
-        loops forever
-                                                                    rt_mutex_adjust_pi(W)
-                                                                      rt_mutex_setprio(O, W)
-                                                                        spins on O's rq lock
+  uses up its runtime, sleeps
+    dl_throttled = 1
+    start_dl_timer()
+                                     pthread_mutex_timedlock(L)
+                                       rt_mutex_setprio(T, W)
+                                       T sleeps: no enqueue
+                                                                    dl_task_timer()
+                                                                      T is boosted: returns
+                                     times out
+                                       rt_mutex_setprio(T, NULL)
+  wakes up
+    enqueue_dl_entity()
+      dl_throttled: waits for the timer
 
-Fix this by reading the inherited runtime, deadline and period once, and
-by not refilling from cleared ones. They are cleared under the waiter's
-rq lock, not the owner's. So test all three. The owner stays runnable.
-It gets no runtime. A negative runtime is reset to 0: the owner's own
-reservation does not pay for the boost. An owner with no parameters of
-its own gets a deadline of now. A deadline of 0 would mark its dl_rq as
-empty. The wakeup of a boosted task already gives that deadline when its
-donor is cleared. The owner runs until the chain walk deboosts it, or
-until it releases the lock. That also covers sysrq-n:
-normalize_rt_tasks() changes the waiter without a chain walk. The
-warning stays for an entity that is not boosted.
+The timer has already fired. T would never run again, not even to die
+of SIGKILL. Every later waiter on L would hang too. This was found by
+reading.
 
-The reset bounds the overrun. But a runtime of 0 still counts as
-exceeded. So until the deboost, update_curr_dl_se() still requeues the
-owner at each update. An owner with SCHED_FLAG_DL_OVERRUN still gets
-SIGXCPU.
+Fix this by returning early in dl_task_timer() only for a boosted task
+that is queued. A boosted task that sleeps then takes the existing path
+for a throttled task that is not queued: it is replenished.
 
-With a 300ms debug delay before rt_mutex_adjust_pi(), v7.4-rc2 locks
-up in 8-CPU VMs. A kernel with this patch does not.
+The refill reads the parameters of the donor, from the timer. So this
+relies on two earlier patches. "sched/deadline: Do not replenish a boost
+from cleared parameters" keeps the refill from looping on cleared
+parameters. "rtmutex: Continue the chain walk when a waiter's deadline
+donor changes" keeps the donor pointer from going stale. After a deboost in
+the class, "sched/deadline: Reset the donor's runtime at a deboost in
+the class" starts a period of the task's own reservation.
 
-The Sashiko AI review of the third posting found the lockup. Juri Lelli
-suggested this fix in place of a larger one.
+The Sashiko AI review of the sixth posting of this series found this.
 
-Fixes: a5e7be3b28a2 ("sched/deadline: Clear dl_entity params when setscheduling to different class")
-Suggested-by: Juri Lelli <juri.lelli@redhat.com>
+Fixes: feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads while enqueuing")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/avL8oOtjKqVNR7-l@jlelli-thinkpadt14gen4.remote.csb/
 ---
- kernel/sched/deadline.c | 40 +++++++++++++++++++++++++++++++++++-----
- 1 file changed, 35 insertions(+), 5 deletions(-)
+ kernel/sched/deadline.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index e4d7cbf4861d..71b1c155c242 100644
+index 989e7e7d3f8f..2b5a2a43addf 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -807,8 +807,38 @@ static void replenish_dl_entity(struct sched_dl_entity *dl_se)
- {
- 	struct dl_rq *dl_rq = dl_rq_of_se(dl_se);
- 	struct rq *rq = rq_of_dl_rq(dl_rq);
-+	struct sched_dl_entity *pi_se = pi_of(dl_se);
-+	u64 runtime = READ_ONCE(pi_se->dl_runtime);
-+	u64 deadline = READ_ONCE(pi_se->dl_deadline);
-+	u64 period = READ_ONCE(pi_se->dl_period);
- 
--	WARN_ON_ONCE(pi_of(dl_se)->dl_runtime <= 0);
-+	/*
-+	 * A boosted entity runs on the parameters of its donor, the top
-+	 * waiter of an rt_mutex. The donor can leave the class and have them
-+	 * cleared before the chain walk deboosts this entity. They are
-+	 * cleared under the donor's rq lock, which can be another one. So
-+	 * read each of them once, and check all three. Refilling from a
-+	 * runtime of 0 would loop forever. Leave the entity runnable
-+	 * instead: the walk deboosts it, or its task releases the lock.
-+	 *
-+	 * Add no runtime. Do not keep a negative one: the overrun comes
-+	 * from the boost, and the entity's own reservation does not pay for
-+	 * it. A task with no parameters of its own gets a deadline of now,
-+	 * as a donor's relative deadline of 0 would give. A deadline of 0
-+	 * means an empty dl_rq to inc_dl_deadline().
-+	 */
-+	if (unlikely(!runtime || !deadline || !period)) {
-+		WARN_ON_ONCE(!is_dl_boosted(dl_se));
-+		if (!dl_se->dl_deadline) {
-+			dl_se->deadline = rq_clock(rq);
-+			dl_se->runtime = 0;
-+		}
-+		if (dl_se->runtime < 0 || dl_se->dl_yielded)
-+			dl_se->runtime = 0;
-+		dl_se->dl_yielded = 0;
-+		dl_se->dl_throttled = 0;
-+		return;
-+	}
+@@ -1319,10 +1319,13 @@ static enum hrtimer_restart dl_task_timer(struct hrtimer *timer)
+ 	}
  
  	/*
- 	 * This could be the case for a !-dl task that is boosted.
-@@ -822,8 +852,8 @@ static void replenish_dl_entity(struct sched_dl_entity *dl_se)
+-	 * The task might have been boosted by someone else and might be in the
+-	 * boosting/deboosting path, its not throttled.
++	 * A boost overrides the throttle. enqueue_task_dl() lifts it when the
++	 * boost enqueues the task, or when the task wakes up boosted. So a
++	 * queued task needs nothing here. A boost of a sleeping task does not
++	 * enqueue it, and it can end before the wakeup. Nothing would lift the
++	 * throttle then. So let a sleeping task reach the !queued case below.
  	 */
- 	if (dl_se->dl_deadline == 0 ||
- 	    (dl_se->dl_defer_armed && dl_entity_overflow(dl_se, rq_clock(rq)))) {
--		dl_se->deadline = rq_clock(rq) + pi_of(dl_se)->dl_deadline;
--		dl_se->runtime = pi_of(dl_se)->dl_runtime;
-+		dl_se->deadline = rq_clock(rq) + deadline;
-+		dl_se->runtime = runtime;
- 	}
- 
- 	if (dl_se->dl_yielded && dl_se->runtime > 0)
-@@ -836,8 +866,8 @@ static void replenish_dl_entity(struct sched_dl_entity *dl_se)
- 	 * arbitrary large.
- 	 */
- 	while (dl_se->runtime <= 0) {
--		dl_se->deadline += pi_of(dl_se)->dl_period;
--		dl_se->runtime += pi_of(dl_se)->dl_runtime;
-+		dl_se->deadline += period;
-+		dl_se->runtime += runtime;
- 	}
+-	if (is_dl_boosted(dl_se))
++	if (is_dl_boosted(dl_se) && task_on_rq_queued(p))
+ 		goto unlock;
  
  	/*
 -- 
