@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794921285;
-	b=mzRqgTqmGmjaDQufVhmNZOEvaJp1UAQigY15R7ebD1jd0qagjn/RtbWkht0FeSD9/uI3
-	 BT8n76JpQtt1YGDsgtPNAOtOsUeN8HwKVpU3lHEk6LH1l33NQ9Q9G85KVI8rPcB87WhCt
-	 aHFcm3cskVp0O2v06C4nFahdoEmCtKMDAeD/pKhcM7RUAt/YrsdqarfdTH+RRvsifX0pJ
-	 rIpMiFtLS+GgG/BjqIH56Hx9EUlrexK7D9N812Oej/pqalEi19X/CjWxRLJx9MOE+SRyH
-	 aq2PODMilKbOXOtypiTwfpKZdV7N8+ofyb7Sa4GlCFcrrkAqfflQH7vSPajEkebRqDA==
+	t=1794921287;
+	b=btGZTOh0dFzq8hCDh9hy0j2q8rRVXvGjn3oxoYJowF0yM8DtzAnqKQMLQe4mCprcssMS
+	 z1KiSaT+OJlnY8XgjaC1HlITOJVibsTJ10HcQ/1j5zvFsBDFtR8XUns6xUFk+6zZRurri
+	 jvZ5TznJvb+z2KppjKXvBcwlKlrJ5G4ng9g+h0cgU4hZlIRLFaWUlXPjOsKMbYQuq8zGP
+	 +Gl4eHEA+3Jdat6rk9N+YRoYEufHSiP4F7RLM41CzigmJGTIcbgFWwEKr8xPjy+euE9ez
+	 qMpEfGlEZ8GjfJkvo2BCGFPYazs13rkEllw070G8JTL4GITjRKx+XTEF5g8xUMpLAag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921285;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921287;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=WiJQPmwMj9lPV0x+js9zTselq+a+J+B7UkEyyQHkr5U=;
-	b=YbTqYweqac4KNZ7JM+7Kr5r+6BHAcO66QvhaWHSPKwXdODrTujFwJ7Rmy2HtyoJFrqUM
-	 egHulYKfax/+Q/c3i0Ly0UNtw0RQi9jonV6o+DoBwpUNXTks3oBaxDmpduKxrXaqoym1y
-	 Puy9ydpyoUCv/U49zyvZ2Hwj0JCp8n/pfzzRHsLKE8oQFTOLjRqirzvq3yXZvmY/pDH4i
-	 uj7vqHlenijLr9iDOCzDCkZOFVR1nO+M7F4bLH7RVx5nKstsiIfej7t6Dje95dcu7EMWW
-	 +WUKXVEF12Ka21Uzuc7OMcxLFsoQsKGlWXl3zvkEQAkU4GtkCfKa6fHOMui6qTtYavg==
+	bh=0qKcuyhzLFuBHbczAbqx5crwyCe5DTKBouONLeSXJ7A=;
+	b=pm9fcD6MomQ+XwbT+q2mEoDslmzagvHjuqOMDg+fLy+NMQgt5E4KD73ZlnyxyHjV204V
+	 o89lIsWloTr7kmE2tWwpt+hpDWj8C4uz+QvDsscxEgd/c4UbC53IqYHNUhiC3+XI7uVLx
+	 zx/pQWxwf/gHlemMS7iJJWxqpk/3kgjJBbOBDXDTTTxavc3cj6ck38jZl5MbFSJ1zqMuP
+	 FceJGnABVjsZiIjidosROpWW4V6imd2U9Sv1yKD+4GKSWkjva62S05RA/J+20AdoDvM6R
+	 pWlEvRQtr1JMle6JQt3KSPBx3ah99QqlrL6K5ugeVWZXj7hBlIAtEWB5UuzPXSJh+Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtzrMrcc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G64rw3CY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E7A606A33D;
-	Tue, 17 Nov 2026 13:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D24606A8BA;
+	Tue, 17 Nov 2026 13:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtzrMrcc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906F51F000C8;
-	Tue, 17 Nov 2026 13:14:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G64rw3CY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E991F000C9;
+	Tue, 17 Nov 2026 13:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794921284;
-	bh=WiJQPmwMj9lPV0x+js9zTselq+a+J+B7UkEyyQHkr5U=;
+	s=k20260515; t=1794921286;
+	bh=0qKcuyhzLFuBHbczAbqx5crwyCe5DTKBouONLeSXJ7A=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=gtzrMrccC3oQfOVm3dUCPrbxSJru3b8t5gKFG3Q62WvalqHWbPGKbIORD1j1eXmTg
-	 RGIIul8hSN3N+PTaPXmylurfOTThxtKYHIZ0+sBTrcre1ZCAnQYbKndfXhoo72G+y9
-	 04nre5WdJW//RNqBJDKc9Krc3lz5nr54I/VQ8J+XRxoJMmEjNd42Wr2ZEruXDwx+Md
-	 vXQdDYnqQhQ0LkAXijMYf8TpudTTfbCiMWgM+vD6qfRtUkmMgYEzxPWJqVKYGD3/J8
-	 VZvAxMG2WXjuWaqqoBJd9Qumw5zlJulMjMU10lf974d5g1y8ykfuivgpB1MLeDu3vH
-	 M33rQ5//fC8YQ==
-Subject:
- Re: [PATCH net-next v4 2/8] net: xilinx: tsn: add TSN endpoint wrapper driver
+	b=G64rw3CYHmgxRV/7GES39h1YULxbfVBT+cug1THdGAri/RqGKaMXNzkikasyR7m7O
+	 c7YS74i8mNWKuefEWuDB5xLPkDpyCWy321NqP7jfxtknrk8xl6sOq37Ipub/fE6EaL
+	 L3hOeyVbZt8N9E48dqn6qcFUEA/ccSwXT+MVKtIOFN6VmMSIt+AQ5h52ueJyQng8EK
+	 /5lPSC8APo+at6ba3BJOUVelxnSSpbUda5mHJgXHy+j5avTqXyNkFUMKxQ7XFYRcsI
+	 tVVwf4jvnuo3uMDIO/x5uqHpCU2rLUoGF3py7u1FAbVXjXYZV1+ZTOjo0Xo4hBCbS8
+	 fVqdWv/zaS7pQ==
+Subject: Re: [PATCH net-next v4 4/8] net: xilinx: tsn: parse endpoint DMA
+ channel configuration
 From: netdev-bot+sashiko@kernel.org
 To: srinivas.neeli@amd.com
 Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -51,10 +51,10 @@ Cc: nagadheeraj.rottela@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  edumazet@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rt-devel@lists.linux.dev, git@amd.com, neelisrinivas18@gmail.com
-Date: Tue, 17 Nov 2026 13:14:43 +0000
-Message-ID: <179492128316.3136.9240121203954125694@kernel.org>
-In-Reply-To: <20261113-patches_v2_external-v4-2-56bb26f042a4@amd.com>
-References: <20261113-patches_v2_external-v4-2-56bb26f042a4@amd.com>
+Date: Tue, 17 Nov 2026 13:14:44 +0000
+Message-ID: <179492128482.3136.14229628808606591959@kernel.org>
+In-Reply-To: <20261113-patches_v2_external-v4-4-56bb26f042a4@amd.com>
+References: <20261113-patches_v2_external-v4-4-56bb26f042a4@amd.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -74,141 +74,85 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] net: xilinx: tsn: use devm_clk_bulk_get_enable() in
-  tsn_ip_probe()
+- [Low] The driver requires the number of tx_chanN entries in "dma-names"
+  to equal "xlnx,num-priorities", but the DT binding does not encode or…
 
 --
 
-> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
-> --- /dev/null
-> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_main.c
-> @@ -0,0 +1,104 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + * Time Sensitive Networking (TSN) Ethernet MAC wrapper driver.
-> + *
-> + * Copyright (C) 2026 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/device.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +
-> +#define TSN_NUM_CLOCKS		6
-> +
-> +/**
-> + * struct xlnx_tsn_ip - wrapper-private IP state
-> + * @clks: bulk-managed IP clocks
-> + */
-> +struct xlnx_tsn_ip {
-> +	struct clk_bulk_data clks[TSN_NUM_CLOCKS];
-> +};
-> +
-> +static const char * const tsn_clk_names[TSN_NUM_CLOCKS] = {
-> +	"gtx",
-> +	"gtx90",
-> +	"host_rxfifo",
-> +	"host_txfifo",
-> +	"ref",
-> +	"s_axi",
-> +};
-> +
-> +static void tsn_clk_bulk_disable(void *data)
-> +{
-> +	struct xlnx_tsn_ip *w = data;
-> +
-> +	clk_bulk_disable_unprepare(TSN_NUM_CLOCKS, w->clks);
-> +}
-> +
-> +static int tsn_ip_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct xlnx_tsn_ip *w;
-> +	int ret;
-> +
-> +	w = devm_kzalloc(dev, sizeof(*w), GFP_KERNEL);
-> +	if (!w)
-> +		return -ENOMEM;
-> +
-> +	for (int i = 0; i < TSN_NUM_CLOCKS; i++)
-> +		w->clks[i].id = tsn_clk_names[i];
-> +
-> +	ret = devm_clk_bulk_get(dev, TSN_NUM_CLOCKS, w->clks);
+net: xilinx: tsn: parse endpoint DMA channel configuration
+
+This patch counts the tx_chanN and rx_chanN entries in dma-names and
+allocates the conduit netdev with that many TX and RX queues. It parses
+the tx-queues-config child node to map each logical TX queue to a TX DMA
+channel. Probe also requires the TX channel count to equal
+xlnx,num-priorities on the parent IP node.
+
+> diff --git a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+> index b6458bb0ba0fd..9458db38255d4 100644
+> --- a/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+> +++ b/drivers/net/ethernet/xilinx/tsn/xilinx_tsn_ep.c
+
+[ ... ]
+
+> @@ -69,15 +88,180 @@ static const struct ethtool_ops ep_ethtool_ops = {
+
+[ ... ]
+
+>  static int xlnx_tsn_ep_probe(struct platform_device *pdev)
+>  {
+
+[ ... ]
+
+> +	ret = of_property_read_u32(ip_np, "xlnx,num-priorities", &num_prio);
+> +	of_node_put(ip_np);
 > +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to get clocks\n");
+> +		return dev_err_probe(dev, ret, "missing xlnx,num-priorities\n");
 > +
-> +	ret = clk_bulk_prepare_enable(TSN_NUM_CLOCKS, w->clks);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to enable clocks\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, tsn_clk_bulk_disable, w);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_of_platform_populate(dev);
-> +}
-> +
-> +static const struct of_device_id tsn_of_match[] = {
-> +	{ .compatible = "xlnx,tsn-endpoint-ethernet-mac-3.0" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, tsn_of_match);
-> +
-> +static struct platform_driver tsn_driver = {
-> +	.probe = tsn_ip_probe,
-> +	.driver = {
-> +		.name = "xilinx-tsn",
-> +		.of_match_table = tsn_of_match,
-> +	},
-> +};
-> +
-> +static struct platform_driver * const tsn_drivers[] = {
-> +	&tsn_driver,
-> +};
-> +
-> +static int __init xlnx_tsn_init(void)
-> +{
-> +	return platform_register_drivers(tsn_drivers, ARRAY_SIZE(tsn_drivers));
-> +}
-> +module_init(xlnx_tsn_init);
-> +
-> +static void __exit xlnx_tsn_exit(void)
-> +{
-> +	platform_unregister_drivers(tsn_drivers, ARRAY_SIZE(tsn_drivers));
-> +}
-> +module_exit(xlnx_tsn_exit);
-> +
-> +MODULE_AUTHOR("Srinivas Neeli <srinivas.neeli@amd.com>");
-> +MODULE_DESCRIPTION("AMD/Xilinx TSN Endpoint Ethernet MAC wrapper driver");
-> +MODULE_LICENSE("GPL");
->
+> +	if (num_prio < TSN_MIN_PRIORITIES || num_prio > TSN_MAX_TX_QUEUE)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "invalid xlnx,num-priorities %u\n",
+> +				     num_prio);
+>  
+> -	ndev = alloc_etherdev(sizeof(*ep));
+> +	if (num_tx_dma_channels != num_prio)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "TX channel count %u must equal num-priorities %u\n",
+> +				     num_tx_dma_channels, num_prio);
 
 [Severity: Low]
-This open-codes what devm_clk_bulk_get_enable() already provides.
-That helper in drivers/clk/clk-devres.c gets the bulk clocks, prepares
-and enables them, and registers a devres release that disables,
-unprepares and puts them on probe failure or unbind.
 
-That means three steps can collapse into a single
-devm_clk_bulk_get_enable(dev, TSN_NUM_CLOCKS, w->clks) call followed
-by one dev_err_probe():
+Is this equality check stricter than what the binding in
+xlnx,tsn-endpoint-ethernet-mac.yaml allows?
 
-  - devm_clk_bulk_get()
-  - clk_bulk_prepare_enable()
-  - devm_add_action_or_reset()
+The binding says the following and nothing more:
 
-The tsn_clk_bulk_disable() callback can then be dropped entirely.
+  - each dma-names item matches "^(tx|rx)_chan[0-7]$"
+  - there are 2..16 items, with at least one TX and one RX entry
+  - each queueN under tx-queues-config maps to a distinct TX channel
+    listed in dma-names
 
-The current code is not functionally wrong. It is just extra
-boilerplate in tsn_ip_probe() that the clk framework already
-handles. Is there a reason the get and enable steps need to stay
-split here, e.g. something planned between them in a later patch?
+Taken together, these rules only require the TX channel count to be at
+least xlnx,num-priorities. They don't require it to be equal.
+
+For example, this DT looks valid against the schema:
+
+    xlnx,num-priorities = <2>;
+    ...
+        dma-names = "tx_chan0", "tx_chan1", "tx_chan2", "rx_chan0";
+        tx-queues-config {
+            queue0 { xlnx,dma-channel-num = <0>; };
+            queue1 { xlnx,dma-channel-num = <1>; };
+        };
+
+But xlnx_tsn_ep_probe()->ep_count_dma_channels() counts three TX
+channels, and probe then fails with:
+
+    TX channel count 3 must equal num-priorities 2
+
+The commit message says equality is the intended rule. Should the binding
+state or enforce that in the xlnx,num-priorities or dma-names
+descriptions? Or should the driver accept extra TX channels that no queue
+uses?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-patches_v2_external-v4-0-56bb26f042a4%40amd.com
