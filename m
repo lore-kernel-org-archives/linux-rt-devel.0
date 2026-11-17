@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794926336;
-	b=5B76n8kVJelf6m/Oh+YB9Y0dFryCgrO2O0w1Rh6/rzz0/oGiwscvm5aRcw3q5TNVzAaY
-	 eGkjgKUMAC8160HZ36vul6tI32IohBBSgA8H1v65b8e+/jIrnj2Ws7VeuLcgv9r444L4u
-	 kmAynU+1UGaASSH6VIPAkQAC9DfSRWqxhQ8hol0ZuHTma/IUj8x9Lyn/whU0JpQF1TGgx
-	 xHkU7zOc+va70sCWOSNR+61kTXnyDkAtUnLkPPUvZzWAxXXEdyBYxh85lm7xlajmsCxCJ
-	 TxVGUUo7SlxalaJpMMBk2/dfhQhdG3C4aIk0oiar8V8pjsQ1Z3oqOZtJbCBC49k58hg==
+	t=1794927048;
+	b=GbH1fPsq/mHKvjPo9Jc0kWZplqdN8EYWkU+aBXjuVuXhhNCZjx5X3+nQDnlmY7JdXJEL
+	 p5q8MCWWmGpjT2gQ1iZf+RcKsuSG94UoLv2Us26oaMWtPR5AvxTss+xM13YvGrqia9KGi
+	 ePMFRa6ED704spDtzBhaZsLVX8zi1lm5vQC7bHU7WTuOQ4oEQW3zLcro7vZ5RR50hzH0s
+	 KQ/ZidWTMWjxj6WIIqicPtwowm749s2uBPQ+lXpP6S2fzzMLYn0cF1T5WAbN7gKkYp+TT
+	 RwIMz/axpD0xZlsffFBzPBHFj4aC0ppgDU5UKu9+ruWbj8bAOdv3RxH1b1EySPk5J/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794926336;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794927048;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=k/sW3tiPcVrf/T4i4ERuM8p7jvmYD29N3k/zmSIkPcM=;
-	b=eo/kchAb1ec7S7HRfLgq8dw4n4PGux/fLT7UgRtcB4289SunyFzxtBAGKWFd8FfIhExW
-	 4oiKklqrNqT2ABJ4AsdmwabigY8R2P1RZIyuPaPjtEX/O9r6ou+64Kws4aWDVVz+27A5n
-	 Yi7yb+cjZBapsSktM2slykrqd40rFQuyyKruZkhycKymQzX053QaO4+PHhobKXFVBqOSW
-	 3rQ81ANqX3e5gLFtwUPOVuKiyW+8JS5H4ipfvumJ8ipNt4kFi5e3qrFpZx+uSTITLFdMb
-	 CRWK3XMMxNdjr3ok9LYIAaQU7UfYtlD8SF6dmR/zQJvZCFEEXJieu3cFdJQwjzAVq2w==
+	bh=39owESljnRbXAYAVd0yLP4cFyCePXzA2/ghuswqngSQ=;
+	b=fabcK64N3K6fuosMxRFSxO1PM1Hzpm8GmXDjZphX+gZ8Qi8wv9w1LUZeqDS6YzXImqC8
+	 u9ue3mNfht7q38wEY4VdOTpvkFkaiJ1pHZ82kCd0tL6JTGlfv77ObUF5fnYaDHc+1eo+x
+	 HCKsma37qIK5nN1SEp2yZqFhCVBuRqh2udbJm/g1+PPlNwPDRErZz6hJuex/YkL3FMhyM
+	 Sf+PAgaIvdLHwiSxswH7B4GlygimfxpEPmEUAZOIo62c6uRbS+LHIz4nzukBoH0eqHGFR
+	 EoSIg6dhb15Br43BfwYvQWNkNj3jXe+a3rFazJQAB5aWXWqz8sAcT0hzyVnhQU+Y6wQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="diKclFZ/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jfvhI0qL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C944606A33F;
-	Tue, 17 Nov 2026 14:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4834606A31C;
+	Tue, 17 Nov 2026 14:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=diKclFZ/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FA81F000C4;
-	Tue, 17 Nov 2026 14:38:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jfvhI0qL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5D31F000C4;
+	Tue, 17 Nov 2026 14:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794926336;
-	bh=k/sW3tiPcVrf/T4i4ERuM8p7jvmYD29N3k/zmSIkPcM=;
+	s=k20260515; t=1794927048;
+	bh=39owESljnRbXAYAVd0yLP4cFyCePXzA2/ghuswqngSQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=diKclFZ/hy+w2qn0p4JZUmXbCoD8LZX08yirLm8aDAc7RhD4JRz9uaWnHTyrvgCeR
-	 pYb4KqrjuOPSPMNFoLu0oTWsQyXbdZ6NnIyUgCysPvcwGgjyx0fFkO3/EAnzVsdv4f
-	 qiL3Yp+49VnRLqk45CpFhiYGAMzP8OQEEf/eWrmz6kImuVB43UWD9qQ9SrAfeLz6Hz
-	 /EhsFRz7olPH8x7HDjgnOqFx5Wu8bOaTfk+sJocPACnbv4MzSqJbBIS1MuVQwWOOD2
-	 JXWJt/+DpGJh0elSMYpBAHf5ZI0kMrF41Z0cbDVv3V3aHa+fRkcUXkxw4d4M2XpAuU
-	 5/NSTTJ/qAt3Q==
-Message-ID: <sashiko-outbox-218977@kernel.org>
+	b=jfvhI0qLknjhPKqKSC1LxhVM4jFiB6L2N4ko8BYOFj+zJoBsuAq1ouM3vTePzepgE
+	 C9ZfQ8tirAweymva8a0x/Dh7cQwKp3qqrm6HB97KFMQ6bLDzpcN88fvmvoCRglux0b
+	 aHVNikQHvYI8OHqRSv/ezH8ibnIVGppWcLVeRU2UmOhOLBt/SlaOyPqmFatqk0iuMY
+	 TQG1Xhiya+Q6T69G0lxp0n50Wgwjk1x7OKCC4E7QSIybdEt6O2WNxn2ZVeepV0sgKS
+	 Mx26q49U8e4u4HLEUSvfNPX1FWOyKnkpfx7drSZmfYH9AsxsNhD81P0BLPUp2OnfnT
+	 d8TJsdQYhCMOw==
+Message-ID: <sashiko-outbox-218990@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 05/40] sched/deadline: Refuse dl_server debugfs
- writes while the rq is offline
+Subject: Re: [PATCH v7 09/40] rtmutex: Continue the chain walk when a
+ waiter's deadline donor changes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <2bee6a143319301f082855a15274f0563e99b8a5.1794922146.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <c8b228501d8981454f63843b394019fefd4002f3.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
- <2bee6a143319301f082855a15274f0563e99b8a5.1794922146.git.mathieu.desnoyers@efficios.com>
+ <c8b228501d8981454f63843b394019fefd4002f3.1794922146.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 14:38:55 +0000
+Date: Tue, 17 Nov 2026 14:50:47 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,77 +63,77 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/debug: sched_server_write_common() misses CPU
-  deactivation window
+- [High] rtmutex: premature chain walk stop in
+  rt_mutex_adjust_prio_chain()
 --
 
-commit 6c51bc6b398f0bfbd0028d2f5672f277e0ab2db8
+commit 9c99e3811a419d96fcdd59dd7a4617c1edc67678
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Refuse dl_server debugfs writes while the rq is offline
+rtmutex: Continue the chain walk when a waiter's deadline donor changes
 
-This commit replaces the cpu_online() check in sched_server_write_common()
-with an !rq->online check to reject dl_server debugfs writes while a
-runqueue is offline during CPU hotplug transitions.
+This commit records the task's deadline donor in struct rt_mutex_waiter
+and checks it in rt_waiter_up_to_date() so that priority inheritance chain
+walks continue when a blocked task's deadline donor changes without
+changing its sort keys.
 
-> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-> index e6a3b516c703b..e0d6cd3bd607d 100644
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -410,7 +410,15 @@ static ssize_t sched_server_write_common(struct file=
- *filp, const char __user *u
->  			return  -EINVAL;
->  		}
+> diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
+> index 5a9534c715b84..c78dfe9c93fc5 100644
+> --- a/kernel/locking/rtmutex.c
+> +++ b/kernel/locking/rtmutex.c
+
+[ ... ]
+
+> @@ -824,12 +841,13 @@ static int __sched rt_mutex_adjust_prio_chain(struc=
+t task_struct *task,
 > =20
-> -		if (!cpu_online(cpu_of(rq)))
-> +		/*
-> +		 * Refuse the write while the runqueue is offline. This
-> +		 * includes the windows where the CPU goes offline or comes
-> +		 * online. The root domain then does not count the server's
-> +		 * bandwidth, and may have no active CPU. rq->online is set
-> +		 * under this lock when the CPU joins a root domain that
-> +		 * counts it. cpu_active() is set before that.
-> +		 */
-> +		if (!rq->online)
->  			return -EBUSY;
-> =20
->  		update_rq_clock(rq);
+>  	/*
+>  	 * If the waiter priority is the same as the task priority
+> -	 * then there is no further priority adjustment necessary.  If
+> +	 * then there is no further priority adjustment necessary. The
+> +	 * task must also pass on the same deadline donor.  If
+>  	 * deadlock detection is off, we stop the chain walk. If its
+>  	 * enabled we continue, but stop the requeueing in the chain
+>  	 * walk.
+>  	 */
+> -	if (rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task))) {
+> +	if (rt_waiter_up_to_date(waiter, task)) {
+>  		if (!detect_deadlock)
+>  			goto out_unlock_pi;
+>  		else
 
-[Severity: Medium]
-Does checking only !rq->online still leave a window during CPU
-deactivation where cpu_active(cpu) is already false while rq->online is
-still set?
+[Severity: High]
+Can rt_mutex_adjust_prio_chain() still stop one lock too early at the
+preceding top_waiter !=3D task_top_pi_waiter(task) check when a task holds
+two locks and its top PI waiter switches from one lock to the other?
 
-In sched_cpu_deactivate(), set_cpu_active(cpu, false) clears the CPU from
-cpu_active_mask before synchronize_rcu(), and sched_set_rq_offline() sets
-rq->online =3D 0 only after synchronize_rcu() completes:
+Consider the commit message setup where O (SCHED_OTHER) holds L2, M
+(SCHED_OTHER) holds L1 and L1' and blocks on L2, W (SCHED_DEADLINE,
+earlier deadline) blocks on L1', and Z (SCHED_DEADLINE, later deadline)
+blocks on L1, so both M and O have dl.pi_se =3D &W->dl.  If W switches to
+SCHED_OTHER via sched_setscheduler() -> rt_mutex_adjust_pi(W), the first
+iteration of rt_mutex_adjust_prio_chain() demotes W's waiter on L1' in
+M->pi_waiters, making Z's waiter on L1 the new task_top_pi_waiter(M) and
+updating M->dl.pi_se =3D &Z->dl, while step [12] records L1's top waiter:
 
-CPU0                              CPU1
-sched_cpu_deactivate(cpu)
-  set_cpu_active(cpu, false)
-  synchronize_rcu()
-                                  sched_server_write_common()
-                                    guard(rq_lock_irqsave)(rq)
-                                    if (!rq->online)  // still 1
-                                    dl_server_apply_params()
-                                      cpus =3D dl_bw_cpus(cpu);
-                                    dl_server_start()
-  sched_set_rq_offline(rq, cpu)
-    rq->online =3D 0
+kernel/locking/rtmutex.c:rt_mutex_adjust_prio_chain() {
+    ...
+	if (top_waiter) {
+		if (!task_has_pi_waiters(task))
+			goto out_unlock_pi;
+		if (top_waiter !=3D task_top_pi_waiter(task)) {
+			if (!detect_deadlock)
+				goto out_unlock_pi;
+    ...
+	top_waiter =3D rt_mutex_top_waiter(lock);
+}
 
-Because dl_bw_cpus(cpu) and dl_bw_capacity(cpu) intersect rq->rd->span
-with cpu_active_mask, they already exclude the deactivating CPU before
-cpuset_cpu_inactive() rebuilds the root domain. If the CPU was the only
-active CPU in its root domain (for example, a single-CPU cpuset
-partition), dl_bw_cpus(cpu) is 0 while rq->online is still 1. Even when
-N - 1 active CPUs remain in the root domain, dl_b->total_bw still counts
-all N servers while __dl_overflow(), __dl_sub(), and __dl_add() account
-against N - 1 CPUs, and dl_server_start() re-enqueues the server on the
-deactivating runqueue after balance_push_set(cpu, true).
-
-Checking (!rq->online || !cpu_active(cpu_of(rq))) under rq_lock_irqsave
-would close both the activation and deactivation windows.
+On the next iteration at M, top_waiter is still W's waiter on L1' while
+task_top_pi_waiter(M) is Z's waiter on L1, so the walk exits at
+goto out_unlock_pi before reaching rt_waiter_up_to_date(waiter, task).
+O->dl.pi_se remains &W->dl, and once W unblocks and exits, O's next
+replenish_dl_entity() reads W's freed task_struct (use-after-free).
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794922146.gi=
-t.mathieu.desnoyers@efficios.com?part=3D5
+t.mathieu.desnoyers@efficios.com?part=3D9
