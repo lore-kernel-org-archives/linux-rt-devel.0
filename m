@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794929478;
-	b=Hsuxprcwjs+pHiC7kXetkKaKEjKl3BU1nIhS0fhS90E6WoY9rmhluQZHyll2Mo/Io+Ox
-	 M9TBdxNZDuc3fkxUjdKbHus7HUUVNXW1FKJCCu28HxsqWXC50lsnzxGvlxO4HWk+6Dzr/
-	 OMsPMe8Avxo+e8/xhmlMT9t6i8hBjyY4cDSrInQpxct+MM1YspqelB6N17OTRhlNGeTTW
-	 HQza/+t2NkuHXzFK/wNkIfAZGe2u6UhZZotv7sQqJUhASA3DejQKD/qr3t/XSZFbfKbj1
-	 aMSkRlBWkZT+onRYrFokO7No/Oz8sekTW5PIeOCnM1Inch/HyVXPmU9vW/DhjngOV5Q==
+	t=1794929580;
+	b=XLmzgl0QeiT6X3G9bgeoy8uJL4r9LmdhxeYkJ2xbzwdSKs989ycYIfwUeRXcWAJoDZcI
+	 IJb3pckG5+BLPpRHYSTRKN/l4hXcYcRKHxER5R+9Zw6kwwUDZfiZaLr+ZPU2iO/5VMtKK
+	 LpZ6R1J1zhBT3sUmWSlqR7ad0qMK0j6lIdI1A1EhXUdPOw/g0RlTi3r7ev+hI7x/lUxmJ
+	 dihD91E4i0de9u1wTSb4LLoLuoh20IcIfnMo6GlHl1Az0gge3cyrDttOD+vh4nJ7gyyO0
+	 8Qm6+s5tF31zMg4vwb8DQH2v79r6qABltNt8EG1WUZFhibdw67oENKocjTd7IpSvM2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794929478;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794929580;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=PKL4BRMLIT1oHfd2ndtnhBtH2V+B8G3agIEqqwCdQbs=;
-	b=mqPIShAwK15eQif3lhzv9/RnPHGA/v8LBCvEzZLf7GFL3GtCbDVsrS2Y2qDhTyheGI/9
-	 qEuWH9KnA7cX+f9LUL4pO+Ta/0VM+rUFNN/FH3EPsSiq8vTMcvtC8zIna0FZPpGSmTlJt
-	 55oEJuJNJyqeAvEG/WbVS+7p+K94A2F9kuWygCMeLPrwEtU9s+CLjySHliy2gPap6gLC3
-	 be5kgo5B9YQAfES10nzlfyZawHJEFhL7dgpZhnLAkZ2OzeyJkNw93vPTxqOUiZmWQH9uF
-	 SK4udhDDh2KK1bkBYJm9mVF0tESiHWKdwKJc4YkkJtQyJMEzpU/w0oB8tILzLcCOEaA==
+	bh=2bfoJIlIIy5iLnYZGk3og+FlJiJ+PUUh9sRXWFXZJMo=;
+	b=NmFnm62KAOVfmx4QsbUp6bW84dYCZTWu71lRez2GeotjgKOihE/c2zZX2GRzdV1gRjEw
+	 JbdNAKgtlKqdXYCExOg5Kbybnn2dlYdQsLlLZ5c6YJGjflyEf2zxxjKP7g9mP6P32dDMK
+	 M88GTMi75Oo+zYswgYGH1UzQ3OJNvVEiOlvoK1zGyTQGbwMmyVu2KWO03oN0/rEKu1ryQ
+	 a/KDQ4nToK51sKmDoxOMtynG31HFuPtLVHflkAwZYWR86txk/SqYWH7OeKmtLUDl1Upyj
+	 8PJoJ8CfvytPGA4JEy1p1Is/oX2SuIj7Bk9eXx0aaBXrxWNGP8KqkxMuf8wSVuWSykg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb4Zqmun;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ico5QK7A;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C321606A31C;
-	Tue, 17 Nov 2026 15:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFF1606A31C;
+	Tue, 17 Nov 2026 15:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb4Zqmun
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D48B91F000C4;
-	Tue, 17 Nov 2026 15:31:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ico5QK7A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0EC51F000C5;
+	Tue, 17 Nov 2026 15:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794929478;
-	bh=PKL4BRMLIT1oHfd2ndtnhBtH2V+B8G3agIEqqwCdQbs=;
+	s=k20260515; t=1794929580;
+	bh=2bfoJIlIIy5iLnYZGk3og+FlJiJ+PUUh9sRXWFXZJMo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lb4ZqmunJK2+v72NmsYfb5eNrDr7boYx136hYrQMwuaNlgfQx8wdH2uVxbEzS5h1/
-	 6rbawUxjgWpugFRHXYmAl7clPGzwj/alPa6dX559vxS7jylz/6NKP8A9oVgpDH+rxr
-	 EDuAokXAe1VuSKM8id7c8DmKCUSapEV8SIyCiPS6JCvcZwIc8l4uVrU+GFzKuUKSOc
-	 17Ug/yyzD0X+vmYXWlP2H9vBi9Pz1mqgR+gYuUkrvaTGHkOY0n0DPqPi34S31lF2Ov
-	 uOK642REd+CL4pvuM5zYme4DxwLAdp7XP+6RQ8+1MSD50vyQ2YUiZAM5zPmAHqSOoR
-	 q3KaErre1RU6Q==
-Message-ID: <sashiko-outbox-219082@kernel.org>
+	b=Ico5QK7A4Y/8HHnaQqUz/7H+nVG5hyFFhJuhpxsnqAIKCKB6PFYf8CK/PAbuMUfVp
+	 1oaJGOyoo37AYKfHda7pCXUQRx8nMUg2+AESubOJvXRIyTLsqiYl5Pu3KcQbXxlqnb
+	 u/+l7Q1t4FyjwUHNmhYznsYg9il8UVcortwAoYmVE7ixX8T0EAD5WJTbH+34H5xqiF
+	 8cEnlag4WCzYIMgk6c3OBg8tKr16X0LXWKixxGITPVtLjTx8CQObRi401HANWzoks4
+	 iUG6AwWFgZCqKhNFAFA8+dJB7Ns1wbsSPV6ukNOezLHIBt7oEDJ3IVFSdhm3cxs3/q
+	 YEQ6/WHWTZQNw==
+Message-ID: <sashiko-outbox-219085@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 26/40] sched/deadline: Make a rebuild count a task in
- the root domain it runs in
+Subject: Re: [PATCH v7 28/40] sched/deadline: Keep a task in the root domain
+ that counts its bandwidth
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <d956394fd7c5d85d9cd92489b0abf5c709c4545d.1794922146.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <2c1a48adf25ac3528a1f88632bda53826db5399e.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
- <d956394fd7c5d85d9cd92489b0abf5c709c4545d.1794922146.git.mathieu.desnoyers@efficios.com>
+ <2c1a48adf25ac3528a1f88632bda53826db5399e.1794922146.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 15:31:17 +0000
+Date: Tue, 17 Nov 2026 15:32:59 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,143 +61,208 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [Medium] sched/deadline: dl_task_rebuild_cpu() uses recorded CPU
-  outside task cpuset
-- [Medium] sched/deadline: dl_task_rebuild_cpu() fallback reads stale
-  HK_TYPE_DOMAIN
+- [Medium] sched/deadline: missing wake_cpu update in
+  __set_cpus_allowed_ptr_locked()
+- [Medium] sched/deadline: wrong root domain in
+  dl_task_offline_migration() on rebuild
+- [Medium] sched/deadline: missing READ_ONCE() on dl_bw_cpu in
+  dl_task_rebuild_cpu()
 --
 
-commit 5f53c9545c6d42e90c32f229213e080ced9acb3f
+commit fecf231094845bbb7da45c72106b5c90fffb123d
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Make a rebuild count a task in the root domain it runs in
+sched/deadline: Keep a task in the root domain that counts its bandwidth
 
-This commit introduces dl_task_rebuild_cpu() to select an active CPU in
-the root domain where a deadline task runs during root domain bandwidth
-rebuilds, and leaves out tasks with no active CPU until offline migration
-or a later rebuild places them.
+This commit adds dl_task_bw_span() and updates CPU selection paths for
+SCHED_DEADLINE tasks to prefer CPUs in the root domain that accounts for
+the task's bandwidth.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index a9b8bd019d4ba..9ff79141c6306 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index e9f80407f75be..dc270a23179d5 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -3264,6 +3264,23 @@ static int __set_cpus_allowed_ptr_locked(struct ta=
+sk_struct *p,
+>  			dest_cpu =3D ctx->dl_bw_cpu;
+>  		if (!task_on_rq_queued(p))
+>  			p->wake_cpu =3D dest_cpu;
+> +	} else {
+> +		const struct cpumask *span =3D dl_task_bw_span(p);
+> +		unsigned int cpu =3D nr_cpu_ids;
+> +
+> +		/*
+> +		 * No room was made for @p in another root domain. Keep @p
+> +		 * in the root domain that counts its bandwidth, if the new
+> +		 * mask holds one of its CPUs.
+> +		 */
+> +		if (span && !cpumask_test_cpu(dest_cpu, span))
+> +			cpu =3D cpumask_first_and_and(cpu_valid_mask,
+> +						    ctx->new_mask, span);
+> +		if (cpu < nr_cpu_ids) {
+> +			dest_cpu =3D cpu;
+> +			if (!task_on_rq_queued(p))
+> +				p->wake_cpu =3D dest_cpu;
+> +		}
+>  	}
+
+[Severity: Medium]
+Does this leave p->wake_cpu stale when cpumask_any_and_distribute()
+already picked a dest_cpu inside span?
+
+When cpumask_test_cpu(dest_cpu, span) is true, cpu stays at nr_cpu_ids and
+p->wake_cpu is not updated for a sleeping task.  Because affine_move_task()
+does not move sleeping tasks, p->wake_cpu remains on the old CPU (such as
+an offlining housekeeping CPU during cpuset_hotplug_update_tasks()).  If p
+then wakes up during the subsequent sched domain rebuild while
+dl_task_bw_span(p) returns NULL, select_task_rq() and select_fallback_rq()
+can place p on an isolated CPU in def_root_domain and move its bandwidth
+without admission control.
+
+Updating p->wake_cpu whenever span is non-NULL and dest_cpu is in span
+(and !task_on_rq_queued(p)) would avoid this.
 
 [ ... ]
 
-> @@ -3820,6 +3826,60 @@ static void dl_get_task_effective_cpus(struct task=
-_struct *p, struct cpumask *cp
->  	cpuset_cpus_allowed_locked(p, cpus);
->  }
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 6c6a4d9cd0548..e5f77d3c5fa03 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+[ ... ]
+> @@ -901,18 +903,36 @@ static struct rq *find_lock_later_rq(struct task_st=
+ruct *task, struct rq *rq);
 > =20
-> +/*
-> + * Return a CPU of the root domain where a rebuild of the accounting sho=
-uld
-> + * count the bandwidth of @p, or nr_cpu_ids if there is none.
-> + *
-> + * Prefer the CPU @p is on, if it is active and in the mask of @p. The
-> + * task runs, or wakes up, in the root domain of that CPU. A mask can ho=
-ld
-> + * CPUs of two root domains: housekeeping CPUs and CPUs isolated by
-> + * isolcpus=3D"domain". When every CPU of a mask goes offline,
-> + * select_fallback_rq() can widen it to both. It moves no bandwidth.
-> + * Prefer that CPU also if @p is queued there, out of its mask, and the
-> + * CPU is the one recorded. Without admission control,
-> + * dl_task_offline_migration() can put a throttled task and its bandwidth
-> + * on any active CPU. The task runs there until it blocks.
-> + *
-> + * Else prefer the CPU recorded with the bandwidth, if it is active and =
-in
-> + * the mask. It is in the root domain that admitted the bandwidth, or th=
-at
-> + * its last move put it in. A task moved asleep is still on a CPU of the
-> + * root domain it left, out of its mask. Else take the first active CPU =
-of
-> + * the mask, a housekeeping one if there is one. A task on isolated CPUs
-> + * that all went offline can have no active CPU at all.
-> + */
-> +static unsigned int dl_task_rebuild_cpu(struct task_struct *p)
-> +{
-> +	struct cpumask *msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
-> +	int recorded =3D p->dl.dl_bw_cpu;
-> +	unsigned int cpu;
-> +
+>  static struct rq *dl_task_offline_migration(struct rq *rq, struct task_s=
+truct *p)
+>  {
+> +	const struct cpumask *span;
+>  	struct rq *later_rq =3D NULL;
+>  	struct dl_bw *dl_b;
+> =20
+>  	later_rq =3D find_lock_later_rq(p, rq);
 > +	/*
-> +	 * Look at the mask of the task first. A change of the cpusets sets
-> +	 * the mask of each task before its rebuild. The housekeeping mask
-> +	 * that dl_get_task_effective_cpus() reads is updated after it. If no
-> +	 * CPU of the mask is active, take the CPU recorded if it is active.
-> +	 * dl_task_offline_migration() moved the task there, or an earlier
-> +	 * rebuild counted it there. Else ask the cpuset.
+> +	 * find_lock_later_rq() looks in the root domain of @rq. Once @rq is
+> +	 * offline, a rebuild attaches it to def_root_domain. That root domain
+> +	 * may not count @p. Do not take @p out of the root domain that counts
+> +	 * it while @p has an active CPU there.
 > +	 */
-> +	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
-> +	cpu =3D task_cpu(p);
-> +	if (cpumask_test_cpu(cpu, msk) ||
-> +	    (cpu =3D=3D recorded && cpu_active(cpu) && task_on_rq_queued(p)))
-> +		return cpu;
-> +	if (cpumask_empty(msk)) {
-> +		if (recorded >=3D 0 && cpu_active(recorded))
-> +			return recorded;
-
-[Severity: Medium]
-Can returning recorded here without checking the task's cpuset charge the
-bandwidth to a newly created partition that no longer contains the task?
-
-Suppose a sleeping task in top_cpuset has user_cpus_ptr restricted via
-sched_setaffinity() to CPUs 0 and 1, and both go offline while CPUs 2 and
-3 remain online.  The hotplug rebuild sees an empty msk, falls back to
-dl_get_task_effective_cpus(), and records CPU 2 in p->dl.dl_bw_cpu.
-
-If CPU 2 is then moved into a new cpuset partition root,
-cpuset_update_tasks_cpumask() updates top_cpuset tasks with
-possible_mask & ~subpartitions_cpus.  Because __set_cpus_allowed_ptr()
-intersects that mask with p->user_cpus_ptr ({0, 1}), p->cpus_mask stays
-{0, 1} and msk remains empty.  This check then sees CPU 2 is still active
-and returns it, counting the top_cpuset task's bandwidth in the new
-partition on CPU 2 instead of top_cpuset on CPU 3.
-
-> +		dl_get_task_effective_cpus(p, msk);
-> +		cpumask_and(msk, msk, cpu_active_mask);
-> +	} else if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk)) {
-> +		return recorded;
+> +	span =3D dl_task_bw_span(p);
+> +	if (later_rq && span && !cpumask_test_cpu(later_rq->cpu, span) &&
+> +	    cpumask_first_and_and(cpu_active_mask, p->cpus_ptr, span) < nr_cpu_=
+ids) {
+> +		double_unlock_balance(rq, later_rq);
+> +		later_rq =3D NULL;
 > +	}
-> +	cpu =3D cpumask_first_and(msk, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT=
-));
-> +	if (cpu < nr_cpu_ids)
-> +		return cpu;
-> +	return cpumask_first(msk);
-> +}
+>  	if (!later_rq) {
+>  		int cpu;
+> =20
+>  		/*
+>  		 * If we cannot preempt any rq, fall back to pick any
+> -		 * online CPU:
+> +		 * online CPU. Try the root domain that counts @p first.
+>  		 */
+> -		cpu =3D cpumask_any_and(cpu_active_mask, p->cpus_ptr);
+> +		cpu =3D nr_cpu_ids;
+> +		if (span)
+> +			cpu =3D cpumask_first_and_and(cpu_active_mask,
+> +						    p->cpus_ptr, span);
+> +		if (cpu >=3D nr_cpu_ids)
+> +			cpu =3D cpumask_any_and(cpu_active_mask, p->cpus_ptr);
 
 [Severity: Medium]
-Does calling dl_get_task_effective_cpus() here read a stale
-HK_TYPE_DOMAIN mask during cpuset partition transitions?
+Can dl_task_offline_migration() still move a throttled task and its
+bandwidth into def_root_domain when dl_task_timer() fires during a sched
+domain rebuild?
 
-dl_get_task_effective_cpus() checks housekeeping_cpumask(HK_TYPE_DOMAIN):
+CPU0                                     CPU1 (<hardirq>)
+sched_cpu_deactivate(H)
+  sched_set_rq_offline(rq_H)
+  cpuset_cpu_inactive(H)
+    partition_sched_domains_locked()
+      dl_bw_rebuild_begin()
+      detach_destroy_domains()
+        cpu_attach_domain(def_rd, H)
+                                         dl_task_timer(p)
+                                           dl_task_offline_migration(rq_H, =
+p)
+                                             find_lock_later_rq() -> iso_rq
+                                             dl_task_bw_span(p) -> NULL
+                                             p->dl.dl_bw_cpu =3D iso_rq->cpu
+      dl_rebuild_rd_accounting()
+        dl_add_task_root_domain(p)
+          dl_task_rebuild_cpu(p) -> iso_rq->cpu
 
-kernel/sched/deadline.c:dl_get_task_effective_cpus() {
-	hk_msk =3D housekeeping_cpumask(HK_TYPE_DOMAIN);
-	if (housekeeping_enabled(HK_TYPE_DOMAIN)) {
-		if (!cpumask_intersects(p->cpus_ptr, hk_msk)) {
-			cpumask_andnot(cpus, cpu_active_mask, hk_msk);
-			return;
-		}
-	}
-}
+While dl_bw_rebuild_seq is odd, rq_H is already attached to
+def_root_domain, so find_lock_later_rq() searches def_root_domain (or
+cpumask_any_and() picks the first active CPU in p->cpus_ptr, which can be
+an isolated CPU).  Because dl_task_bw_span(p) returns NULL during the
+rebuild, the check above does not reject the isolated later_rq.
 
-HK_TYPE_DOMAIN excludes both boot-time isolcpus=3Ddomain CPUs and runtime
-isolated cpuset partitions, and cpuset_update_sd_hk_unlock() rebuilds
-root domain accounting before housekeeping_update() refreshes
-HK_TYPE_DOMAIN.  If a task is confined to an offline isolcpus=3Ddomain CPU
-(so msk is empty and recorded is inactive) when a runtime isolated
-partition on another CPU transitions to root or member,
-cpu_active_mask & ~hk_msk still includes that partition's CPU.
-dl_add_task_root_domain() will then charge the task's bandwidth to that
-root domain and record the CPU in p->dl.dl_bw_cpu.
+Unlike migrate_task_rq_dl() and task_woken_dl(), which skip moving
+bandwidth while dl_bw_rebuilding() is true, dl_task_offline_migration()
+then unconditionally subtracts p->dl.dl_bw from src_rq->rd->dl_bw (which
+can underflow total_bw before dl_clear_root_domains() runs), adds it to
+def_root_domain, and overwrites p->dl.dl_bw_cpu with the isolated CPU.
+Both the rebuild and later wakeups then treat def_root_domain as the root
+domain that counts p.
 
-Should dl_get_task_effective_cpus() use HK_TYPE_DOMAIN_BOOT to match
-dl_task_rebuild_cpu()?
+[ ... ]
+
+> @@ -3987,17 +4075,37 @@ static unsigned int dl_task_rebuild_cpu(struct ta=
+sk_struct *p)
+>  	 */
+>  	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
+>  	cpu =3D task_cpu(p);
+> -	if (cpumask_test_cpu(cpu, msk) ||
+> -	    (cpu =3D=3D recorded && cpu_active(cpu) && task_on_rq_queued(p)))
+> +	if (cpu =3D=3D recorded && cpu_active(cpu) && task_on_rq_queued(p))
+>  		return cpu;
+>  	if (cpumask_empty(msk)) {
+>  		if (recorded >=3D 0 && cpu_active(recorded))
+>  			return recorded;
+>  		dl_get_task_effective_cpus(p, msk);
+>  		cpumask_and(msk, msk, cpu_active_mask);
+> -	} else if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk)) {
+> -		return recorded;
+>  	}
+> +	/*
+> +	 * Keep the bandwidth where it was counted: with the housekeeping
+> +	 * CPUs, or with the CPUs that isolcpus=3D"domain" isolates. The root
+> +	 * domains are new, and the CPU recorded can be offline. So prefer a
+> +	 * CPU of the mask of the same kind as the CPU recorded: housekeeping
+> +	 * or not.
+> +	 */
+> +	if (recorded >=3D 0) {
+> +		const struct cpumask *hk =3D housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT);
+> +		bool rec_hk =3D cpumask_test_cpu(recorded, hk);
+> +		unsigned int same;
+> +
+> +		if (cpumask_test_cpu(cpu, msk) && cpumask_test_cpu(cpu, hk) =3D=3D rec=
+_hk)
+> +			return cpu;
+> +		if (cpumask_test_cpu(recorded, msk))
+> +			return recorded;
+> +		for_each_cpu(same, msk) {
+> +			if (cpumask_test_cpu(same, hk) =3D=3D rec_hk)
+> +				return same;
+> +		}
+> +	}
+
+[Severity: Medium]
+Should p->dl.dl_bw_cpu be read with READ_ONCE() when initializing recorded
+in dl_task_rebuild_cpu()?
+
+dl_add_task_root_domain() calls dl_task_rebuild_cpu(p) while holding only
+p->pi_lock, before acquiring dl_departed_lock.  Concurrently, a dying
+deadline task in its final __schedule() holds rq->lock and
+dl_departed_lock (not p->pi_lock) and can write p->dl.dl_bw_cpu =3D -1 via
+task_non_contending() -> dl_task_release_bw().  Because recorded is loaded
+with a plain read and used after calling housekeeping_cpumask(), the
+compiler is free to reload p->dl.dl_bw_cpu after the recorded >=3D 0 check
+and pass -1 to cpumask_test_cpu().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794922146.gi=
-t.mathieu.desnoyers@efficios.com?part=3D26
+t.mathieu.desnoyers@efficios.com?part=3D28
