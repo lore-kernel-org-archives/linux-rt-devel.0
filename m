@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794924679;
-	b=Ek2PCKufSfMcr4P7Yk9Z6Bwq0/OqUk3l3nQTcZguEZVWEUXsDy+Qm0I2M6ZGUxB6lXnh
-	 XpMm2tFUe6zhLBRrVNGxrwBUlwCYO7LLhkbPxBGx5RY2II9oHN+cMCNC7kKNPv58RJed0
-	 cp+6bj76OGU+7QT5KDuLzj26VAB73MftVm8RPu2UKzWRgEVrkQGU9x4phdONFteGt2psl
-	 aHkdMcmUhCgBOPJEaobT8i18HxpN/P6M2FPBX+twZ77aTksZngMJsgEvEvy5vXqlpY6Jr
-	 IAWrrzMxz0qKGhsj3TyIZN+Hsm8euTylSXT2DkV4v+cnZt3cQ24RG5f+vXFm2ZtKENw==
+	b=i4UkKZyYbp3WittmbA9Dxs2YDhLEJ2jg+lGWJfU/kiPRto+htm5iIouR4V3qnyihhUF2
+	 fvvEIy7ruEi6wdrY1MszJbHRARL9udJFsISvgjN5Yl4EXw57n3tFwsPulI13fIkS6H/mr
+	 w6unRiA4dX0rn6nmK9fuEUgoeLXKRTjvl5uw5tja/PsFhO9lJS36P2GecizdNTcnxvMHH
+	 X0BMWtIFgeadeD8AbE/7Fm09m019j3FLWeWiuKOJuI6WVGQxwAUXVscDTnkWsaHAUwmSQ
+	 Vts+udDz+ZAc6Bg2o/J1baFmPVyZnWJbmap0BOYt/N3CUS11k5WoK5z4i5SmnnTHGPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794924679;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=TE9KTC4I4HeG24/PVEAuNdOqy/7M8P1QnbwhJtkj6X4=;
-	b=iL1JniKfN9mbwXfbMwd5Keph+RupTXc6htXKNMNvj29JixRK0T4t5AgD4TnLV82J4y/6
-	 zDbu2GbnBeRDki07QbTF0v3xuaSKQrOJmdg0n7tsegNOaOdUarKPNGFdbCa3YkV0G3Rar
-	 jWkMgc6+xte9LgOoP5WVmbuZ4JxM8ON3bHFhSGGJlHHXecIESiIq25N1LMIQSTwKVr1zx
-	 sUCBCColvz17Fx745+TCEA6xly5WP0vmPcC+tFY0kHFDLUPkwwtm7rvOcFrFomYruvwqY
-	 6kohAj8wYvthndtg/1P8F3u+fGblsx4YrXYawoxLtnduK8nmX2692mafYq2eHRASl2g==
+	bh=9p94hJD2vP0zDldchA7bxwpBsXvy/6CynoDvMnhZnkE=;
+	b=xeMn75anorFebo7twp/c0vuAvLwX7FFgQLOWatsKvMd54CzfIcz/Mo0LaSnH5DVR/tyZ
+	 D4Pc2xYm+HDvgxzxWzKX1FzyBgFge5yySSGG4YU9mdqUwm+ZP7FE1kI4v3ajM1v2JT2Ma
+	 CiVJZvJPZD4iB6OJkLgQy99FV45QQpnJ7luNC/TJaF1SeIf5RQDHkc/OOIhQJN/e8Sa6Y
+	 LEm/Sg5qileCC/YMuLdsavCZTY4LlrhDCfup11Rds1pch3QfHiu6YI2voyl1luSqcQQZI
+	 uY16VCNpu8mpZYQ5c0bknkfIyzQPh2HQ2wrfLmKEcQ4T2KZg+RIYC83gVK54J6Dxqdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=urf2I6b1;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U8mDQt4B;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F15606E32D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3F15606E32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE654606BD86
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:11:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE654606BD86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=urf2I6b1
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U8mDQt4B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794924670;
-	bh=TE9KTC4I4HeG24/PVEAuNdOqy/7M8P1QnbwhJtkj6X4=;
+	s=smtpout1; t=1794924668;
+	bh=9p94hJD2vP0zDldchA7bxwpBsXvy/6CynoDvMnhZnkE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=urf2I6b1bR+IUwBunMAk9gaPXSsCVazTI1G2C+E+9u5W8JFXiApxwZ8NNvYzz0fJz
-	 2oEdsczCokgqVsReEUNwJrBnn+bnRSlMCO+jr6wviiJgk1qWP0+FT/qm3Um0sdYqL8
-	 tm4w2+hOWkN2yls5jwQFHehuP8MgUKwXCIkLpZ7/BbKoUbzI6m44kVlSdjlIjpUzHT
-	 Fhd/zELNMLRJtv/vP63PiUMBcGoSff2q3kxF9neAAHg3dwZct8v2x3hrRNno1i8BZc
-	 2z8vJalBY/Lo8LBIpUiOl+TKmaTDdx5NHU1KQc7pnniiVZUccZ78Om9Nk6ROCyDqup
-	 fQHpeQV0I9ymQ==
+	b=U8mDQt4BlODQO6pkeMr6NR5xlohd9ptKPEfrkt2B98QA0pCmM7fqXD9ENLKBBfzJJ
+	 eN9IqU8w9NMzPOO2tTBEzAWNOvEqoJmC7NeZR67mB573nAfQAnGkTQBFjRSVp+5ld+
+	 /ARLJxkWxsQgKOL+GhnB4ahmxMIbOwMzlhF2EJ0Jy4xk2LTIZr8Dcmv5ekdPUw9XKV
+	 +vsJkPFIbSKziVciMjrMKIVL9a5f1GZFSqhph05rQ89z4Q0o23B7Lco6x0bi36cW7j
+	 iAIx+EpmwILwtWu6UzOQ5tyaKNKHTale4W/yvXvCCswJmi7g2kausQcvbh43VD8583
+	 s4bbpRRAwUp6g==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV62lfWzRgr;
-	Tue, 17 Nov 2026 09:11:10 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTRV42VsXzRZR;
+	Tue, 17 Nov 2026 09:11:08 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v7 33/40] sched/deadline: Start a period for a task that enters the class blocked
-Date: Tue, 17 Nov 2026 09:10:54 -0500
-Message-Id: <263b8e16915845e823712fd5feefa7b79205f7d1.1794922146.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v7 22/40] cgroup/cpuset: Wait for an attach before rebuilding the sched domains
+Date: Tue, 17 Nov 2026 09:10:43 -0500
+Message-Id: <b09e7af5f4bae1fa4b7386d0808b1b536af44553.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
@@ -97,146 +97,118 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit fb00aca47440 ("rtmutex: Turn the plist into an rb-tree") sorts
-the waiters of an rt_mutex by priority. For deadline tasks, "the one
-with the earliest deadline wins". A waiter takes the deadline of its
-task.
+cpuset_can_attach() reserves the bandwidth of the deadline tasks it
+moves in the destination root domain. cpuset_attach() moves their
+bandwidth later, on the strength of that reservation.
 
-A task can enter the class while it waits on an rt_mutex.
-sched_setattr() can make it SCHED_DEADLINE. A priority inheritance
-boost can also put it in the class, if it owns another rt_mutex.
-switched_to_dl() leaves a task that is not queued to its wakeup. But
-the chain walk reads the deadline first, and copies it into the waiter.
-A task new to the class has a deadline of 0.
+Commit 75f7a25ec6bb ("cgroup/cpuset: Prevent race between task attach
+and cpuset state change") lets cpuset_attach() rely on what
+cpuset_can_attach() set up. The writes of cpus, mems and cpus.partition
+wait for an attach in progress, in wait_attach_done_lock(). CPU hotplug
+cannot run in between either: it takes cpus_write_lock, and the attach
+holds cpus_read_lock throughout.
 
-So the waiter goes before every other deadline waiter. It takes the
-rt_mutex first, whatever their deadlines. Those waiters can then miss
-their deadlines. It also boosts a deadline owner whose own deadline is
-earlier.
+But a rebuild of the sched domains does not wait. A write of
+sched_rt_runtime_us and the energy model rebuild them through
+rebuild_sched_domains(). The cgroup v1 writes of sched_load_balance and
+sched_relax_domain_level, and hk_sd_workfn(), use cpuset_full_lock().
 
-Fix this by starting a new period in switched_to_dl() for a task that
-waits on an rt_mutex, if its deadline has passed. The period uses the
-reservation the task runs on: its own, or the copy a boost made. This
-is what setup_new_dl_entity() does at an enqueue. At the wakeup,
-update_dl_entity() then checks that period as for any wakeup.
+In this example, a rebuild drops the reservation. T is a deadline task
+asleep in root domain R. Thread A moves T to a partition root P, which
+has a root domain of its own. Thread B writes sched_rt_runtime_us:
 
-A new donor of a task with no parameters of its own needs the same. For
-a queued task, the enqueue of the boost starts a period from the new
-donor. For a blocked task, dl_boost_blocked() starts it at the boost.
+  A                                      B
 
-The setattr_blocked_keeps_order and boost_blocked_keeps_order cases of
-deadline_bw_test, added later in this series, test this. Both fail on
-v7.4-rc2 and on the series without this patch. The triage of the Sashiko
-AI review of the fifth posting found the bug.
+  cpuset_can_attach()
+    takes cpuset_mutex
+    cpuset_reserve_dl_bw()
+      P's total_bw += T's bandwidth
+    drops cpuset_mutex
+                                         rebuild_sched_domains()
+                                           takes cpuset_mutex
+                                           dl_rebuild_rd_accounting()
+                                             clears R's and P's total_bw
+                                             counts T in R (not moved yet)
+                                           drops cpuset_mutex
+  cpuset_attach()
+    takes cpuset_mutex
+    cpuset_attach_task(T)
+      set_cpus_allowed_dl(T)
+        R's total_bw -= T's bandwidth
+        records a CPU of P
 
-Fixes: fb00aca47440 ("rtmutex: Turn the plist into an rb-tree")
+P now lacks the bandwidth of T, and admits deadline tasks beyond its
+capacity. When T leaves P, P's total_bw underflows. In testing, the
+race left a destination admitting 3 tasks of 10% too many, or P
+admitting no task at all.
+
+Fix this by waiting for an attach in progress in
+rebuild_sched_domains_cpuslocked() and in cpuset_full_lock(). The
+latter then takes its locks in the order of the writes of cpus and
+cpus.partition. A rebuild from CPU hotplug finds no attach in progress.
+The online, offline and kill of a cpuset never wait: they hold
+cgroup_mutex, which the attach holds throughout.
+
+The move_vs_rebuild case of deadline_bw_test, added later in this
+series, tests this race. Without this patch, it fails in 5 of 8 VMs with
+8 CPUs. With it, the case passes in 8 of 8. The next patch needs this
+wait too: without it, it would give back a reservation that a rebuild
+dropped already.
+
+Found by the Sashiko AI reviews of v2 (the race) and v3 (the cgroup v1
+writes) of this series.
+
+Fixes: 2ef269ef1ac0 ("cgroup/cpuset: Free DL BW in case can_attach() fails")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/core.c     |  2 ++
- kernel/sched/deadline.c | 42 +++++++++++++++++++++++++++++++++++++++++
- kernel/sched/sched.h    |  1 +
- 3 files changed, 45 insertions(+)
+ kernel/cgroup/cpuset.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index dc270a23179d..2d3409a1a12a 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -7939,6 +7939,8 @@ void rt_mutex_setprio(struct task_struct *p, struct task_struct *pi_task)
- 			     dl_entity_preempt(&pi_task->dl, &p->dl))) {
- 				p->dl.pi_se = pi_task->dl.pi_se;
- 				scope->flags |= ENQUEUE_REPLENISH;
-+				if (!scope->queued)
-+					dl_boost_blocked(p);
- 			} else {
- 				dl_deboost(&p->dl);
- 				/*
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 0b3005948313..90b17969554b 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -125,6 +125,12 @@ void dl_deboost(struct sched_dl_entity *dl_se)
- 	}
- 	dl_drop_boost(dl_se);
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 194a438e25c3..51b6be460794 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -296,17 +296,20 @@ void lockdep_assert_cpuset_lock_held(void)
+ 	lockdep_assert_held(&cpuset_mutex);
  }
+ 
++static void wait_attach_done_lock(void) __acquires(&cpuset_mutex);
 +
-+/* Return true if @p waits on an rt_mutex. The caller holds its pi_lock. */
-+static inline bool dl_task_pi_blocked(struct task_struct *p)
-+{
-+	return p->pi_blocked_on;
-+}
- #else /* !CONFIG_RT_MUTEXES: */
- static inline struct sched_dl_entity *pi_of(struct sched_dl_entity *dl_se)
+ /**
+  * cpuset_full_lock - Acquire full protection for cpuset modification
+  *
+  * Takes both CPU hotplug read lock (cpus_read_lock()) and cpuset mutex
+- * to safely modify cpuset data.
++ * to safely modify cpuset data. Waits for an attach in progress before
++ * it takes cpuset mutex.
+  */
+ void cpuset_full_lock(void)
  {
-@@ -139,6 +145,11 @@ static inline bool is_dl_boosted(struct sched_dl_entity *dl_se)
+ 	mutex_lock(&cpuset_top_mutex);
+ 	cpus_read_lock();
+-	mutex_lock(&cpuset_mutex);
++	wait_attach_done_lock();
+ }
+ 
+ void cpuset_full_unlock(void)
+@@ -1005,7 +1008,14 @@ void rebuild_sched_domains_locked(void)
+ 
+ static void rebuild_sched_domains_cpuslocked(void)
  {
- 	return false;
+-	mutex_lock(&cpuset_mutex);
++	/*
++	 * Wait for an attach in progress. cpuset_can_attach() has reserved
++	 * the deadline bandwidth of the moving tasks in their new root
++	 * domain, and cpuset_attach() moves it on the strength of that
++	 * reservation. A rebuild of the accounting in between would drop
++	 * the reservation.
++	 */
++	wait_attach_done_lock();
+ 	rebuild_sched_domains_locked();
+ 	mutex_unlock(&cpuset_mutex);
  }
-+
-+static inline bool dl_task_pi_blocked(struct task_struct *p)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_RT_MUTEXES */
- 
- static inline u8 dl_get_type(struct sched_dl_entity *dl_se, struct rq *rq)
-@@ -1048,6 +1059,26 @@ static inline void replenish_dl_new_period(struct sched_dl_entity *dl_se,
- 	trace_sched_dl_replenish_tp(dl_se, cpu_of(rq), dl_get_type(dl_se, rq));
- }
- 
-+#ifdef CONFIG_RT_MUTEXES
-+/*
-+ * Start a period from the new donor of @p, if @p has no reservation of its
-+ * own and waits on an rt_mutex. The enqueue does this for a queued task, in
-+ * replenish_dl_entity(). A blocked task is not enqueued, but the chain walk
-+ * copies its deadline into its waiter.
-+ *
-+ * The caller holds the rq lock and the pi_lock of @p, and has updated the
-+ * rq clock.
-+ */
-+void dl_boost_blocked(struct task_struct *p)
-+{
-+	struct sched_dl_entity *dl_se = &p->dl;
-+
-+	if (!dl_se->dl_deadline && !dl_se->dl_throttled &&
-+	    dl_task_pi_blocked(p))
-+		replenish_dl_new_period(dl_se, task_rq(p));
-+}
-+#endif
-+
- /*
-  * We are being explicitly informed that a new instance is starting,
-  * and this means that:
-@@ -4483,6 +4514,17 @@ static void switched_to_dl(struct rq *rq, struct task_struct *p)
- 	if (!task_on_rq_queued(p)) {
- 		add_rq_bw(&p->dl, &rq->dl);
- 
-+		/*
-+		 * A task that waits on an rt_mutex cannot wait for its wakeup.
-+		 * The chain walk sorts its waiter by its deadline first. A task
-+		 * new to the class has a deadline of 0, which goes before every
-+		 * real one. Start a new period now, as setup_new_dl_entity()
-+		 * does at an enqueue.
-+		 */
-+		if (dl_task_pi_blocked(p) && !p->dl.dl_throttled &&
-+		    dl_time_before(p->dl.deadline, rq_clock(rq)))
-+			replenish_dl_new_period(&p->dl, rq);
-+
- 		return;
- 	}
- 
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index f80ea5541b3f..717ced2bb487 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -358,6 +358,7 @@ extern int  sched_dl_overflow(struct task_struct *p, int policy, const struct sc
- extern void __setparam_dl(struct task_struct *p, const struct sched_attr *attr);
- #ifdef CONFIG_RT_MUTEXES
- extern void dl_deboost(struct sched_dl_entity *dl_se);
-+extern void dl_boost_blocked(struct task_struct *p);
- 
- /* End the boost of @dl_se. The caller holds the rq lock of its task. */
- static inline void dl_drop_boost(struct sched_dl_entity *dl_se)
 -- 
 2.47.3
 
