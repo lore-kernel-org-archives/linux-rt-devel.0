@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794930062;
-	b=wHhGesdofnyu68YE79fpRUfnYQ+5RgZryXwjgE2YHEF1JR+Z3j913AKnsbtEdwjFXeSe
-	 IUbl215XWZFKUiOO8pO464F8iUfO7+VBgRAaJR26/zyBpspw8CVZ1nnUJgPKpm5EfxZAR
-	 5527qf8ydgzqy+rZ10uGTG2Z/tqhfeInQbge1CO/98wtOYhh+0FlSJpHGZ7FBJceD6yBb
-	 sJc2K9yZWgJ78Zokcg/Fas0UJ+wukAm4hhOrPdvqZGFhNBSuSVgchvc1mauiArrwwW1b8
-	 LSzKPrTi9e1ti6dInbr5rDmUM3On0g1k8+ixaGGdrEGK1vZQoFr6YuWi5uVX7LiLIsg==
+	t=1794930303;
+	b=PQ+VtzG8lNj7PqIgZoUMFKO5tES6hZYS+Td27nQ+i+CBFX/3iMwAaNGM0Wd+ZXmnl1Sv
+	 IgttzsZ3cjn2yi0oTWbBqBqjPhUIpf0OtMw1hzMyLtgk0nmJrvNWvYWIW1o9cjzH1KeLC
+	 XlkYYbQzeGvZ0k2Cb4rrMJyN180kpoevGmDR6+d3CJXLriu1hO/ozCnYeB3HD7z8m0eD0
+	 QCPB6F3EghGBP3KZfFx2ssH++1Fgr3OrIp/mpIjhhXV0XjDbsdhUUCAZm/UANDxoJtLzA
+	 8MftD/8YqugBT07EzVCpSNohuN3e3DUHzd/mEMVEHEDV1IIVwuQKkNs4A45GlZovUcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794930062;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794930303;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=wlJNvrjZWiuaRuGyrOQWgPk5txP+yFZUmFtsnOTUjgQ=;
-	b=my3ICv4cnUSzK8zWPANr6fEPuBrc8gl4EtWbagmbZVDcs4Bovf2EQ/elyPYh9c97ZYJW
-	 /nboCPw7+h8rh5qzzQ9u4zEoOZ+ePXtUrGk0LbC76WuQvhzLwNG1e1P2SNp6GQV1z/7Rq
-	 qP109WXaNBpy+8YQIvzlZ5EPZeqoVEXtsx69zOqwsjR7+w+kZe9u5o43itNajLUK8B4R6
-	 cQHVp3cAlA4xO2Pz3U7f2Kxi0UUCbXzaVu2OeddHWbEWe1xqHMS0ZKJOi8vYXewxGYK+z
-	 H2dT9JbUIl1wiiaCQ83g96zsqry4d0eRkZGp97rrdgMxA5JcwMlu5TJyAwzA4RtDAEw==
+	bh=LD1nG13DDJvwSRgDgWdYj3ZDMv2tVel7Etfk2lB4uV4=;
+	b=lBPLBv19gTwFqMrT8tfqPjaI6ozCbN4TTmQznWMHt39XpZnjTAUHeei6Ek6wOzFBrfRV
+	 sUtgkhAUyGwOibubX4rQZAwaPgKGd324ArtWwZoyK4CrROjmS+uEZ+mCP0qtW27SI0iJ3
+	 Id32ZMeDoEz5r/tn4LcyUVqsYHPnKy/g3K/HmoMhKFiV4b5JD2VD4B+HhMdTC8/IMDkIF
+	 v7ZvyQBEn1norZR6FKK/VPPbv9B/idmOIJi+kqhZzbPmcbh01SwsLrmOhIK3+JamGW6AB
+	 h9Xo1TANbZgHLg1wDNag7cegfdRf3IKXqZGA4D1ju49Avo0tPUFagV3X42x4sIMrsxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgLpbGp+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3jLobrz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5268F606A31C;
-	Tue, 17 Nov 2026 15:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81A0606A330;
+	Tue, 17 Nov 2026 15:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgLpbGp+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4AC1F000C4;
-	Tue, 17 Nov 2026 15:41:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3jLobrz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC391F000C4;
+	Tue, 17 Nov 2026 15:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794930062;
-	bh=wlJNvrjZWiuaRuGyrOQWgPk5txP+yFZUmFtsnOTUjgQ=;
+	s=k20260515; t=1794930303;
+	bh=LD1nG13DDJvwSRgDgWdYj3ZDMv2tVel7Etfk2lB4uV4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZgLpbGp+c5WVEELtIYUoS+tOid1hUm4YRBQhPZvUm1yf8AA2/EzhXvZr4SjgvJ5t3
-	 +3IlHb757hBp4BZRk0ZxOMN0yGIwFyLmf8cmlqdCepnwRbVPxVIXLCSPVCmv9OreIj
-	 KcyzU6p/jwUGy4SpOckZKp2o0wJ/5Cr1G23oOsqfhr2Hwgoy7nQcTGbY/bZz7h5W/l
-	 9BVmTcUuwbgeutwlOeohk7ySkS5euHKsUG7YtICXxeF9KPv9Q1IYyn+zRKfTQVwZzY
-	 f3YMk8bON4uORYo1OvrncG4BH7QivcWQ9hIriKBQDjyBLnD+b6SqRrNLnTlLf6WEnw
-	 FVV6XYW2dtcsg==
-Message-ID: <sashiko-outbox-219096@kernel.org>
+	b=U3jLobrzjX4hepsYTUdMuQ5C2G7Q58YX2XTWtLICrHS0o1FyFybJL2u6jw39Y7+cl
+	 JdCjLvxpe1xD/LoTfqdBacN7kYD6rdb5Z087h04Q8nI3ZqDjnOWbP9aFftiYOeG/Gb
+	 En9LpmNurb0MyHUWKDVvckL7t9z+NSEqHV0DS8YDSOqmsz0VKp38U+OD02gUMdG82q
+	 UeeE5MGX2FyX48v1O/9j/cBWe/clXeayb7VqZiVEPuYkkaDXeAI3diJfM7bcSmNc7R
+	 V87ouWLekDLZaAvSB5HDCYcbFyBdnWZ64ZpvY5J8MIu7RWP+sl5qD3OQdsY/hXHPAM
+	 liVni5I2tysFw==
+Message-ID: <sashiko-outbox-219102@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 29/40] sched/deadline: Keep the last CPU a task has
- in its root domain
+Subject: Re: [PATCH v7 36/40] sched/deadline: Check the runtime of a task
+ whose parameters change
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <a075dad17300a5b31dc3d99bef81fb9dadd6cbcd.1794922146.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <a7e0d6e42bb46c9304699dbfc63dd24efe842ead.1794922146.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
- <a075dad17300a5b31dc3d99bef81fb9dadd6cbcd.1794922146.git.mathieu.desnoyers@efficios.com>
+ <a7e0d6e42bb46c9304699dbfc63dd24efe842ead.1794922146.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 15:41:01 +0000
+Date: Tue, 17 Nov 2026 15:45:02 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,101 +61,163 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [Medium] cgroup/cpuset: missing descendant cpus_allowed filter in
-  cpuset_cpus_allowed_without()
-- [Medium] cgroup/cpuset: filter by task_cpu_possible_mask() in
-  cpuset_cpus_allowed_without()
+- [Medium] sched/deadline: boosted task with !dl_donor_refill runs on
+  old runtime
+- [Medium] sched/deadline: dl_new_params deferred past dl_deboost()
+  breaks PI re-boost
+- [Medium] sched/deadline: update_dl_entity() on dl_new_params mixes old
+  and new params
 --
 
-commit 119af82ab355761f9fade868df0ef32c60b9344b
+commit 707d1303811b0425863d63e123b53368955b72a6
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Keep the last CPU a task has in its root domain
+sched/deadline: Check the runtime of a task whose parameters change
 
-This commit refuses to take a CPU offline with -EBUSY when doing so would
-leave a SCHED_DEADLINE task with runnable CPUs only outside the root
-domain that accounts for its bandwidth.
+This commit adds a dl_new_params flag to struct sched_dl_entity so that
+when sched_setattr() modifies a deadline task's runtime, deadline, or
+period, the next non-boosted enqueue calls update_dl_entity() to check the
+remaining runtime against the new parameters.
 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 7bdb9e21a7edb..3ccd61a37d302 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -4312,6 +4312,32 @@ void cpuset_cpus_allowed(struct task_struct *tsk, =
-struct cpumask *pmask)
->  	spin_unlock_irqrestore(&callback_lock, flags);
->  }
-> =20
-> +/*
-> + * Set @pmask to the active CPUs that the cpuset of @tsk gives it once @=
-cpu
-> + * is offline: those of the nearest ancestor that keeps one. Leave it em=
-pty
-> + * if there is none. As cpuset_update_tasks_cpumask() does, keep the CPUs
-> + * possible for @tsk. As __set_cpus_allowed_ptr() does, keep those of the
-> + * affinity the user set, if one is left. The caller holds the CPU hotpl=
-ug
-> + * lock for writing, which keeps the cpusets and their tasks as they are.
-> + * It holds the pi_lock of @tsk, which keeps its user affinity.
-> + */
-> +void cpuset_cpus_allowed_without(struct task_struct *tsk, int cpu,
-> +				 struct cpumask *pmask)
-> +{
-> +	struct cpuset *cs;
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index b650c37ae5615..f1d259df8f2a0 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -2785,7 +2785,16 @@ static void __dequeue_dl_entity(struct sched_dl_en=
+tity *dl_se)
+>  static void
+>  enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
+>  {
+> +	bool new_params =3D dl_se->dl_new_params;
 > +
-> +	guard(rcu)();
-> +	for (cs =3D task_cs(tsk); cs; cs =3D parent_cs(cs)) {
-> +		cpumask_and(pmask, cs->effective_cpus, cpu_active_mask);
-> +		cpumask_clear_cpu(cpu, pmask);
-> +		if (!cpumask_empty(pmask))
-> +			break;
-> +	}
+>  	WARN_ON_ONCE(on_dl_rq(dl_se));
+> +	/*
+> +	 * A boosted task runs on the parameters of its donor. Keep the mark
+> +	 * until an enqueue checks the runtime against its own: the one at
+> +	 * the deboost, or at a wakeup.
+> +	 */
+> +	if (!is_dl_boosted(dl_se))
+> +		dl_se->dl_new_params =3D 0;
 
 [Severity: Medium]
-Does cpuset_cpus_allowed_without() return an overly wide mask when it
-walks past an intermediate ancestor to find remaining active CPUs?
+Can a boosted SCHED_DEADLINE task with !dl_se->dl_donor_refill keep
+running on its old reservation's remaining runtime after sched_setattr()
+shrinks its parameters?
 
-During cgroup v2 hotplug, compute_effective_cpumask() propagates
-effective_cpus top-down, intersecting each descendant's configured
-cpus_allowed with its parent's new effective_cpus and only inheriting the
-parent's mask when that intersection is empty:
+When a SCHED_DEADLINE task with dl_se->runtime > 0 is boosted by an
+earlier-deadline waiter, replenish_dl_entity() does not refill it from the
+donor and leaves dl_se->dl_donor_refill at 0:
 
-kernel/cgroup/cpuset.c:compute_effective_cpumask() {
-	has_cpus =3D cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpu=
-s);
-	if (!has_cpus && is_in_v2_mode())
-		cpumask_copy(new_cpus, parent->effective_cpus);
+kernel/sched/deadline.c:replenish_dl_entity() {
+    ...
+	if (dl_se->runtime <=3D 0)
+		dl_note_donor_refill(dl_se);
+
+	while (dl_se->runtime <=3D 0) {
+		dl_se->deadline +=3D period;
+		dl_se->runtime +=3D runtime;
+	}
+    ...
 }
 
-Consider a system with isolcpus=3Ddomain,0 and housekeeping CPUs 1-2, where
-parent P has cpus_allowed =3D {1} and child C has cpus_allowed =3D {0, 1}
-(giving C effective_cpus =3D {1}).  When CPU 1 is taken offline, walking up
-from C skips P (which becomes empty) and returns top_cpuset's remaining
-active CPUs {0, 2}.  dl_task_leaves_span() sees CPU 2 in the housekeeping
-root domain span {1, 2} and allows the offline.  However, once P inherits
-{0, 2} from top_cpuset, C computes cpus_allowed & P->effective_cpus =3D
-{0, 1} & {0, 2} =3D {0}, moving the deadline task and its bandwidth onto
-isolated CPU 0 in def_root_domain without admission control.
+Because the task is still consuming its own remaining runtime rather than
+the donor's, deferring dl_new_params whenever is_dl_boosted(dl_se) is true
+lets the task consume the old larger runtime while holding the lock, even
+though sched_dl_overflow() has already released the old bandwidth in the
+root domain for other deadline tasks to use.
 
-> +	cpumask_and(pmask, pmask, task_cpu_possible_mask(tsk));
+> @@ -2834,12 +2843,13 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, =
+int flags)
+>  		update_dl_entity(dl_se);
+>  	} else if (flags & ENQUEUE_REPLENISH) {
+>  		replenish_dl_entity(dl_se);
+> -	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
+> +	} else if (((flags & ENQUEUE_CLASS) || new_params) &&
+> +		   !is_dl_boosted(dl_se)) {
+>  		/*
+> -		 * The task enters the class runnable. It may come back before
+> -		 * its deadline, with the runtime left from older parameters.
+> -		 * Check that runtime against the new parameters, as a wakeup
+> -		 * does.
+> +		 * The task enters the class, or its parameters change, while
+> +		 * it is runnable. It may have runtime left from older
+> +		 * parameters. Check that runtime against the new parameters,
+> +		 * as a wakeup does.
+>  		 */
+>  		update_dl_entity(dl_se);
+>  	} else if ((flags & ENQUEUE_MOVE) &&
 
 [Severity: Medium]
-Can intersecting pmask with task_cpu_possible_mask(tsk) after the
-ancestor loop leave pmask empty when an ancestor has possible CPUs for
-tsk?
+When a boosted task with dl_new_params set and !dl_se->dl_donor_refill is
+deboosted in rt_mutex_setprio(), does deferring update_dl_entity() until
+enqueue_dl_entity() miss the post-deboost re-boost check?
 
-On asymmetric arm64 systems where a 32-bit deadline task can only run on
-a subset of CPUs, task_cs(tsk)->effective_cpus may retain active
-64-bit-only CPUs after the outgoing 32-bit CPU is cleared.  The loop then
-stops at task_cs(tsk), and intersecting with task_cpu_possible_mask(tsk)
-afterward produces an empty pmask.  dl_task_leaves_span() treats an empty
-msk as false and allows the last 32-bit CPU in the task's root domain to
-go offline, after which guarantee_active_cpus() (which filters by
-task_cpu_possible_mask(tsk) before testing each ancestor) walks up to an
-ancestor with a 32-bit CPU in another root domain and moves the task's
-bandwidth there without admission control.
+In rt_mutex_setprio(), dl_deboost(&p->dl) only updates p->dl.deadline when
+dl_se->dl_donor_refill is set, and immediately checks whether the task
+must be boosted again by the remaining top waiter:
+
+kernel/sched/core.c:rt_mutex_setprio() {
+    ...
+				dl_deboost(&p->dl);
+				/*
+				 * dl_deboost() can start a new period. Its
+				 * deadline can then be after the top waiter's.
+				 * Boost the task again then.
+				 */
+				if (pi_task && dl_prio(pi_task->prio) &&
+				    dl_entity_preempt(&pi_task->dl, &p->dl)) {
+					p->dl.pi_se =3D pi_task->dl.pi_se;
+					scope->flags |=3D ENQUEUE_REPLENISH;
+				}
+    ...
+}
+
+Because update_dl_entity() only runs later in sched_change_end() ->
+enqueue_task_dl() -> enqueue_dl_entity(), dl_entity_preempt() compares
+pi_task->dl against p->dl.deadline before update_dl_entity() advances
+p->dl.deadline to a new period, leaving p unboosted with a deadline later
+than its top waiter.  If p is blocked on another rt_mutex (!scope->queued)
+when deboosted, enqueue_dl_entity() does not run at all, so the priority
+inheritance chain walk propagates p's stale deadline.
+
+[Severity: Medium]
+Can calling update_dl_entity() on dl_new_params mix the previous period's
+dynamic state with the newly written static parameters when switching
+between constrained and implicit deadlines?
+
+If a running task started its current period with a constrained deadline
+(dl_deadline < dl_period) and calls sched_setattr() to switch to an
+implicit deadline (dl_deadline =3D=3D dl_period), __setparam_dl() overwrites
+dl_se->dl_deadline and dl_se->dl_period before enqueue_dl_entity() runs.
+When dl_entity_overflow() then triggers in update_dl_entity(),
+!dl_is_implicit(dl_se) is now false:
+
+kernel/sched/deadline.c:update_dl_entity() {
+    ...
+		if (unlikely((!dl_is_implicit(dl_se) ||
+			      (dl_se->dl_defer && dl_se->dl_defer_running)) &&
+			     !dl_time_before(dl_se->deadline, rq_clock(rq)) &&
+			     !is_dl_boosted(dl_se))) {
+			update_dl_revised_wakeup(dl_se, rq);
+			return;
+		}
+
+		dl_se->dl_defer_running =3D 0;
+		replenish_dl_new_period(dl_se, rq);
+    ...
+}
+
+Instead of capping the runtime via update_dl_revised_wakeup(),
+update_dl_entity() calls replenish_dl_new_period() and grants a full fresh
+runtime before the constrained reservation's period or 0-lag time has
+elapsed.  Conversely, if a runnable task whose old deadline has already
+passed switches to a constrained deadline, dl_check_constrained_dl() at
+the top of enqueue_dl_entity() computes dl_next_period() from the old
+dl_se->deadline and the new dl_deadline/dl_period, throttles the task, and
+returns before update_dl_entity() can start a new period.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794922146.gi=
-t.mathieu.desnoyers@efficios.com?part=3D29
+t.mathieu.desnoyers@efficios.com?part=3D36
