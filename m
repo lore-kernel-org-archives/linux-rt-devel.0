@@ -1,57 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794859959;
-	b=gpzrJ8V9IgYjLQebvHxPIrcWK6a7VPEsJHSUQMrcJwkchq+hbP9NJXIS3m7uyb6LHdHB
-	 hcikIOlSym//ApeTjHWFUG+Hb0yHsGH4PVIX5/ReDYA0RHF9vKmKFtIPFuIvfWOEdwerZ
-	 YWytdbnJymahKAXcBHLDYklz8k9ZAYNPPqaLZnUaw9sUqkbERNFDAy1FeFgQW8xgG0Cj+
-	 mDbsMufKGmD8+uyYv4b+mtRn5eXwjsy4n5xXElVtCam2pRaGwtMvsm1YyLLa0bMcpzY3l
-	 oJQ6Cz2rq1nlLlq/GiHUrVIit4QWFh8kgJDTr99l5hoE/SK5Xy3EWxgkX9w73pLjmIQ==
+	t=1794917710;
+	b=128rNNhnqxWmcZ7RAdtna15kdrgblodKzn6gNoUOYGQ2QPo2SoFAwJURfvtGX04lziTt
+	 nr3Z83atb2zCVG3G1J26/piYsehXLJC58h8ztWMUj6XAY9lcxebJmx87UgvY3UkDLRHbg
+	 HTjDE4YeAGRO8Lz8G7FPG6lTUdZ0cGqEs6sXe4jI7adKjhVs48j2LYuC4wD2/3aXUsAaC
+	 iU0tX6Y1qJhCBrJ96UNhFpTfR5u6IB+SWP5vA29TmRQc6XHqEyySVrrLHeu54YODixypQ
+	 DG5i5CXTbhWNaqcRC3kiIwi9yXvYwwaemXkI5mBc0faVJJAqla3XCF2f9SwgoOjonuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794859959;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n3p23qamEPSVCku/oD2M/mowxIfwSLWupYtuZmpll5M=;
-	b=o5GRsOgiXn1KmKdOHVWBruwi91JFpRUn2/CLBHtIRCxjt610X64GPALIv5pm1IKDobqI
-	 3z2o/8Zpgmu5zrMruvY/UmEbGjkuXtFDWO2H+cS7VjdeTheXVGbTHKDxjq8vJ/U2DKmsC
-	 gCu5UcZ8p71oDfDYot6Jq3pLHCOPgbmpnE8yxNqkIQhkOzsu98lgiij8ZcJfeUInIE0cN
-	 tjMIiGqT2KKH/fRS4NZ2E+Wpn4n2hKETkv6GLSld0/DejS1m+gTI2pBe5hgdmJLVsb3vE
-	 OwQBbC+ZY6Jdo6ftZ9tccKUVKMB2ZzSN2ydsua2Sy3JVfnOz5L01pLIQCLZsNiGPzsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794917710;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=AlU8foR46Ew+9sYrPUg6ytc9IM26mwN502htmU9Qc8o=;
+	b=og0ceHdxv5hT5wQeHkQLITt+WcjNikS7D6HF98LB2916lGbO6e1HQQbi+c2s1+Hhr70u
+	 bagsiu6ZOFbV33Io/Q9plQk96lHPrmlzGLiB+HMPg1eV7I1Qlentas/fCrGZLiyZ2DiJj
+	 dkHmyjyALnqa2PzZ7Jbp5wMKEA/rTSddBcHKpPyyWFXI7PISVbQV5ISxKwmD3m0Hy6hdz
+	 DUZwbZSYXQgebDeFhj7mGfOsEfb/8HbRhGZnRbeyY+4tmELlJwfKJMmNWuLRYWeK1Sb46
+	 cMNMRIerfUA4zlAygVNkJBKmUHB8sOMSqsTYFvomJhPgvqYXX0U4FXOd41IWJx/LMHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bR9C4XtD;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=NR3epSKT;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AD6606A887;
-	Mon, 16 Nov 2026 20:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C145D606A32C;
+	Tue, 17 Nov 2026 12:15:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C145D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bR9C4XtD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C681F000C4;
-	Mon, 16 Nov 2026 20:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794859959;
-	bh=n3p23qamEPSVCku/oD2M/mowxIfwSLWupYtuZmpll5M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bR9C4XtDF/k0L5w/U5uQo6eXX7kanrYrxFdZawrLfoHk7xnDVdh1qDn0iUSJkBSsJ
-	 Oqp6463VWr+a24SukPwK+XAwrvY2NkFTncDZAdYxpfdw3UcLC78BvYbr0cJ/UjqZrG
-	 wrt9MknJJfV5cXCi6ZtB9oTTRP/T7apZ375/+nS6faqyXb/Riiav3m266dnwIepI8z
-	 S7FCRaXNFbgoIyJd+HTmq6FWviD8OZ1HlQjwohbia/RwF1cZ74vbevI+m5CSab7PXB
-	 gOuxyh51SCc9wGRZvMDofplgzTg9AA6rNbXLoeiE5PWXGrBkKSkG0xeBqD1OjjgfUV
-	 LHwdvvywZjo2w==
-Message-ID: <sashiko-outbox-217639@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 31/37] sched/deadline: Start a period for a task that
- enters the class blocked
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261116190549.230119-32-mathieu.desnoyers@efficios.com>
-References: <20261116190549.230119-1-mathieu.desnoyers@efficios.com>
- <20261116190549.230119-32-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 20:12:38 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=NR3epSKT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AlU8foR46Ew+9sYrPUg6ytc9IM26mwN502htmU9Qc8o=; b=NR3epSKTlJPk5JbUxeBAi/Wvd1
+	Z5uI42Qqir0JDd5nHLRneNBfXPk3CAUeAzBIFBduA86QDEQ8AI3AZTnsxxF+bgYH7NAyW3sG5mqQe
+	szMJdj6qH7ZA6BMH3iPiXwfgmtRULmo8yR4O1O7xM+ynx4LYbnNQrTuUnPJkSgNoSePfKEI+yLwJM
+	9g/C+uxcwCNldwM7NKOMSQjCL5+/1ctdQgus0ajQq6FKKujZiPqly87C5T/QdA+CItqrq+BLAwtX8
+	tBuzHXTGqmqaiiSzk9eOo809xzO3NBfyji1lmCjQ9b3MGn2VeChb6niAvcgjcjtG6+7qTPgwe7NWX
+	IhjZZueg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <ema@debian.org>)
+	id 1xTI5Y-000WV3-1m;
+	Tue, 17 Nov 2026 12:15:04 +0000
+Date: Tue, 17 Nov 2026 13:15:02 +0100
+From: Emanuele Rocca <ema@debian.org>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 02/10] kconfig-checker: Introduce PREEMPT_RT
+ configuration rules
+Message-ID: <avxFRmhBrlKLtQ97@ariel.home>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-3-darwi@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,102 +82,43 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106091922.7560-3-darwi@linutronix.de>
+X-Debian-User: ema
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] sched/deadline: unstarted period in switched_to_dl() when
-  !pi_blocked_on
-- [Medium] sched/deadline: switched_to_dl() skips period reset on
-  boosted pre-0-lag task
-- [Medium] sched/deadline: stale deadline on rt_mutex waiter when donor
-  or policy changes
---
+Hi Ahmed,
 
-commit 97588bc2bebff0e4575bb7d4c8f530868b8856a3
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+thanks for this useful tool!
 
-sched/deadline: Start a period for a task that enters the class blocked
+On 2026-11-06 10:19, Ahmed S. Darwish wrote:
+> +  - name: CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+> +    expected: y
+> +    severity: high
+> +    docs_hint: config
 
-This commit starts a new period in switched_to_dl() when a task blocked on
-an rt_mutex enters dl_sched_class with an expired deadline so that the
-rt_mutex waiter tree does not sort it with a deadline of 0.
+The docs mention the following for CPU_FREQ_DEFAULT_GOV_PERFORMANCE:
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 69a338c1526d0..ffa8b946e8047 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+| This is not an absolute rule. Some setups might prefer to clock the
+| CPU to lower speeds due to thermal packaging or other requirements. The
+| key is that the CPU frequency remains constant once set.
 
-[ ... ]
+Yet having the rule "severity: high" will presumably make
+kconfig-checker require CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y in order for
+validation to pass?
 
-> @@ -4352,6 +4363,17 @@ static void switched_to_dl(struct rq *rq, struct t=
-ask_struct *p)
->  	if (!task_on_rq_queued(p)) {
->  		add_rq_bw(&p->dl, &rq->dl);
-> =20
-> +		/*
-> +		 * A task that waits on an rt_mutex cannot wait for its wakeup.
-> +		 * The chain walk sorts its waiter by its deadline first. A task
-> +		 * new to the class has a deadline of 0, which goes before every
-> +		 * real one. Start a new period now, as setup_new_dl_entity()
-> +		 * does at an enqueue.
-> +		 */
-> +		if (dl_task_pi_blocked(p) && !p->dl.dl_throttled &&
-> +		    dl_time_before(p->dl.deadline, rq_clock(rq)))
-> +			replenish_dl_new_period(&p->dl, rq);
+> +  - name_pattern: CONFIG_CPU_FREQ_GOV_(CONSERVATIVE|ONDEMAND|POWERSAVE|USERSPACE)
+> +    expected: n
+> +    severity: medium
+> +    docs_hint: non-performance-cpu-frequency-governors
 
-[Severity: Medium]
-Does gating replenish_dl_new_period() on dl_task_pi_blocked(p) leave
-p->dl.deadline at 0 when a sleeping task participates in rt_mutex priority
-inheritance before waking up?
+Similarly, by reading your docs, it seems to me that the worst choice
+for RT workloads is ONDEMAND.
 
-While a task sleeps in futex_wait_requeue_pi() on a non-PI futex,
-p->pi_blocked_on is NULL.  If sched_setattr() or a PI boost moves p into
-dl_sched_class there, switched_to_dl() leaves p->dl.deadline at 0, and a
-later FUTEX_CMP_REQUEUE_PI calls rt_mutex_start_proxy_lock() ->
-task_blocks_on_rt_mutex() without waking p, queuing its waiter ahead of all
-deadline waiters with deadline 0.  Likewise, if a task holding an rt_mutex
-is switched to SCHED_DEADLINE while sleeping on a non-rt_mutex wait,
-p->dl.deadline stays 0 and rt_mutex_setprio() fails to boost p when a
-deadline waiter with an earlier deadline blocks on that rt_mutex
-(dl_entity_preempt(&pi_task->dl, &p->dl) is false against 0).
+| The ONDEMAND governor should not be enabled on a real-time system. Its
+| frequency changes depend on workload behavior and can significantly harm
+| determinism.
 
-[Severity: Medium]
-What happens when a task that left SCHED_DEADLINE before its 0-lag time is
-PI-boosted back into dl_sched_class while blocked on an rt_mutex?
-
-switched_from_dl() preserves p->dl.deadline and p->dl.dl_throttled until
-inactive_timer fires.  If p then blocks on an rt_mutex while holding
-another and is boosted back into dl_sched_class, enqueue_task_dl() is not
-called because p is not queued, and switched_to_dl() checks
-!p->dl.dl_throttled && dl_time_before(p->dl.deadline, rq_clock(rq)) without
-checking is_dl_boosted(&p->dl).
-
-If p->dl.dl_throttled is still set, switched_to_dl() skips
-replenish_dl_new_period() and leaves p throttled with its expired deadline;
-if p->dl.dl_timer then fires while p is boosted, dl_task_timer() bails out
-on is_dl_boosted(dl_se) without clearing dl_throttled, which prevents
-enqueue_dl_entity() from queuing p after deboost.  Even when p is not
-throttled, if its old pre-0-lag p->dl.deadline is still in the future,
-switched_to_dl() skips replenish_dl_new_period() and the chain walk sorts p
-using its abandoned reservation's deadline instead of the donor's.
-
-[Severity: Medium]
-Does starting a period in switched_to_dl() leave p->dl.deadline stale if the
-top PI donor on a blocked task changes while it remains in dl_sched_class?
-
-If a non-deadline task p owns rt_mutex M1 and blocks on rt_mutex M2, an
-initial deadline waiter W1 on M1 moves p into dl_sched_class and
-switched_to_dl() sets p->dl.deadline from W1.  If a second deadline waiter
-W2 with a much earlier deadline then blocks on M1, rt_mutex_setprio(p, W2)
-keeps prev_class =3D=3D next_class =3D=3D &dl_sched_class and sets p->dl.pi=
-_se =3D
-W2->dl.pi_se with ENQUEUE_REPLENISH.  Because p is not queued,
-sched_change_end() calls prio_changed_dl() instead of enqueue_task_dl() or
-switched_to_dl(), leaving p->dl.deadline at W1's later deadline.
-rt_mutex_adjust_prio_chain() then sees an unchanged waiter deadline and
-stops the chain walk on M2, and when p later wakes up, update_dl_entity()
-keeps W1's future deadline if dl_entity_overflow() is not triggered.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116190549.2301=
-19-1-mathieu.desnoyers@efficios.com?part=3D31
+Shouldn't the severity for the CPU_FREQ_GOV_ONDEMAND rule be higher,
+then?
