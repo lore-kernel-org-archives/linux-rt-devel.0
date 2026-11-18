@@ -1,78 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795012811;
-	b=Kg7YFsOQXL/+wnY3hrH6lF7HjRDgtevIfEaXJgTUbyjHyEDAoXvs4umAtXuUnSAX0c4C
-	 AFeChp/T4H9jI7nGAo9o+E9Mp9G5kS2m+LCjy3hKwKQxVvi/vCpnm9nDxJPH2ekGUSrKd
-	 LMtFNSHQvTtGvjooPAM+BWeUeycQuAOJ5e9tJQmpWjYDSm4bBmR9SfLGw3SAZ31Nr6TcZ
-	 bspiuyYP3f8CV2D6OQAnON7Ua5yOg4RvKLb2U9hes0pI8WBjplU3TZJ9D8d2A1oJ0VD8j
-	 C4goJVWLqxJx0QtLa2IvtqhzBK1Itrax3pgD7k8pri9omibQb3Cj9pnDcHj70zJ0veQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795012811;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
-	b=1TeTb0L2cFiLYnfMhMH0UKH6VRarw/p3lMLy9ANssw1YZAxMV3Zay6NyAPSFjViRI9M2
-	 n7S8gtMzThkv6WjSs1vGOGTm6OX5Q9vYBvTgbwhQTOdO7JZEk+sorZampZDYK3/gTTBrl
-	 nQCtdAg86d5sFwxrikKgodGFYO+CLugELOjSTf3w42ZZexAQOa3LX3nf9tIB/m3yP5n6R
-	 Qloavq3/Rgb9wcQCemIztmymr4qZXaoWM/9smjAL9h2OWib2DBz3Enro1BO+XkabIesrz
-	 svW5xbSH9tZIZMnzR898uBpOnHIT6OZVAKWA1HWoQpTXo3CJNmkHuiVMHrCrzF+KkwQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Hxw+3jK2;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="z9dCV9/L";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.130
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795013549;
+	b=v2MVkXx1IoPicHH48xW0vrbI1HDvUFoQAghDJOFnmqNozZzXsKLY67Bt4ATWOmyLDGro
+	 QgK4JAxENaV94hJ3PpIgKTNdFtvtriiSnWWvz/j2lOXTwFO234WZOZxY7NjUK+ahYqTKb
+	 QHoPxjfzjKOM7mjf6pXgjxEknGo4VkR50x6vlAoD8YB1WiKEWRUPF9Ei1Gg9ByAwPH59I
+	 BSdLyeXjEweRFJVi+R20NBeDHT0X8ejsRCyUOCGP5jAPpLkM9QuQflHcuWl+sVpG/NN5g
+	 jctGsQj7cqLXK0n2wVaL3YUdmXgqw+sGkunVKskaMzU6VgJNK0/soI/FsuB5UZU58eg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013549;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=Nq5o9yhkYtuH+ZXDc69/fViNewBFXpBRSbbR1U7zUpI=;
+	b=iWpIcTfsjBK+4tH3f0G06nmeC2SHZQv9Lm2ycFDMv80h6zn1WYlJaIHrkeDY5fRjR2XR
+	 xOcWaxcc3FWXSYTsaDugQsQJOHxDjNpFOUKW0I5bu1cQoigDvgVQZqjQkHT9uQQNX0JXO
+	 MZplDpV/fsmDwScXkJm7FM5/3Wk2Z4cQ+OO1AtdeliOJevwAIsUkHAac8tWthmXy6Nnxt
+	 GhP/JxtdW+d0ngWh57fIWbJCVeVl5kYAJQrNqOuosvdKTMCCKo8K0Vv0Zs/ui6EtQVV3+
+	 0nEI0rGUnxGZgA+kktS9jYJL/bgzWoZPzyaLlOUrHKx7ohOyvKK/6atVCByRQwzW7xQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=WnDz1sCM;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.130
+Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022130.outbound.protection.outlook.com [40.107.193.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6F606A320
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:40:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EF6F606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E955606A333
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:52:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E955606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Hxw+3jK2;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z9dCV9/L
-Date: Wed, 18 Nov 2026 15:40:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795012808;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
-	b=Hxw+3jK2/k2u2O3CKhECYZkMY5C1OWMxtlf2QBhY6TDkaiBTw/BnRslwUxpFzhIB1rghqZ
-	WdaV6Uf9hkBrTfUT6WGqE/dBgr6kYlg4JiQP/B1PwvwdMba0KkcIEoHm5rrzqbp0upS/eJ
-	wxNqxqAtwuzD+FH1xcFk95zTAayGVcrWLldXfqqCGz07hyzl5zHbb71alV63C603+tIDux
-	t27jM1+cUPvsucTEGHEm547VFvbiztOoR5XieLR8tztrq0JROaNCEKxU3mg+K86jSgLfSi
-	Mt/4YpWDMf9kA1gtBLw/JIxE5vhCS+QFkEWYwcSpDshD1JdfsrhcI5UwN0IxsA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795012808;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
-	b=z9dCV9/LLwfZ/WJUCNkWRDcS94wXIj2YymCvzLINZIqZYOT8lnxmLGaPjBAiDrErtDdc5i
-	TDvDcearZiD+nhDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: peterz@infradead.org, tglx@kernel.org, mingo@redhat.com,
-	linux-kernel@vger.kernel.org, will@kernel.org, boqun@kernel.org,
-	longman@redhat.com, rostedt@goodmis.org, clrkwllms@kernel.org,
-	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
-	shuah@kernel.org, juri.lelli@redhat.com,
-	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] locking/rtmutex: Initialize the ww_mutex context
- of a waiter
-Message-ID: <20261118144006.ms1fvDv1@linutronix.de>
-References: <20261108141347.1525532-1-mathieu.desnoyers@efficios.com>
- <20261108141347.1525532-3-mathieu.desnoyers@efficios.com>
- <20261116135857.5t9HGji5@linutronix.de>
- <de727dc6-cd11-4a7e-a853-aecd895685a9@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=WnDz1sCM
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uPmkJTL1NCGg76pAIUrFL3pmeyKcTzPdK9CyU8dXxSEWKzez7ysOfULYpsYqOoUs2KUuYhcA6pq4WBMr+BmdPGQ3OuwZnzjV9Nwyiwz01XI+VEUzQhVw+0JKSpoqP2OLd2wPcIVsCW1PKN35VEXEQ7h33Thuoywk8saHR5LfeZ4AqMCn9znItVnLMuZNwM6f92c6XIkHfo3m4RHg5LevToVZ4KQxyfJc9ICvcDc7uiYRcUIjzuyTc6/XXiygiW1qCmGY7rA55MiwgqQgPc3+MgzF/KT42crJU80BDOefmRITsOLmX6J6/rWYtmrPl60IXSaEpxhzwIz1RFKKhLOrGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nq5o9yhkYtuH+ZXDc69/fViNewBFXpBRSbbR1U7zUpI=;
+ b=gJLzTJtfMx8ZmtL9PSXAvWzhVEBr8F2O8cfsDuV+fSaxo9dBnOLDW/maH7tD/VVcu+ABlUBDZaYa2Itu6Uw8r3iyBEfI3wlVZLGNQGbVTUrjDnQU+jW1hqURWgKWHfKQH5obmzeiVQtcRh+hLbjfHTe4ivruifML3Jc/+ADqsjdFSwGO+cfHk1PE7UBMKo3N0byJqkvcGHFEhdouXmyLWcg+NaOhRXh2vT2IT4NEAHqgDXl9DTyZAEuU4oiugoCQ7Om4whdFnWIJIhlsC/OzS6TB4QHU3t3NsPQDDEn4otcHyelHpVmDDZY2pEIf/t9uqP4I0tyBO8Ask4QwtjxmJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nq5o9yhkYtuH+ZXDc69/fViNewBFXpBRSbbR1U7zUpI=;
+ b=WnDz1sCM6HUcYzV8QNrKtcKa93WZFGKP2ItTpTkICALORfMLfGJ2nGB1Tmoxi80JRIGv+QJOEyz5RsuCtF64w4p3UHRQBGuMePKG9m5wIeywcmHiMMrsP1Rd3Xy64yvhh8oqH16sqHk1Zz7365Qvs17lHuyvaYTTpEamnRoLBGxofqBuclhMIIKbqesMm1k1xH9epAAh9i/FL5kDJ15v/8slWeJCyVmApj5zr+jHVw966mAAouhI3Ytpf0nNYFAF9NERbDzVHf1rVGBrUN9O6tCFT7iN/DTH6AN3VALa773iiK6X58M09iLeqfm56oWupisUF/VL8yS9n/8/TZD4xg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT2PR01MB8487.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:b6::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 14:52:24 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 14:52:23 +0000
+Message-ID: <f6919908-b943-44a9-a71a-35d5a85d54c7@efficios.com>
+Date: Wed, 18 Nov 2026 09:52:22 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 08/40] sched/deadline: Do not replenish a boost from
+ cleared parameters
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+ linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+ boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+ mathieu.poirier@linaro.org, longman@redhat.com, ridong.chen@linux.dev,
+ tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, shuah@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, parri.andrea@gmail.com,
+ m.szyprowski@samsung.com, kayracizmeci@gmail.com, weihengqiuu@gmail.com,
+ cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org
+References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
+ <cefacab5f1c0e7617f17e050af4ef5f6db01700a.1794922146.git.mathieu.desnoyers@efficios.com>
+ <av2k8JlLvUcBBOhn@jlelli-thinkpadt14gen4.remote.csb>
+ <ddd215ff-d6de-4dea-b12a-80948a9b5ea6@efficios.com>
+ <av2295tJMdwRp3wK@jlelli-thinkpadt14gen4.remote.csb>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <av2295tJMdwRp3wK@jlelli-thinkpadt14gen4.remote.csb>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0149.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:7e::13) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -82,128 +111,88 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <de727dc6-cd11-4a7e-a853-aecd895685a9@efficios.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT2PR01MB8487:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1fa2958-050d-455a-a29f-08df45838e19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|22082099003|18002099003|261009223027099003|4143699003|56012099006|261026121527099003|261028144727099003|261026140227099003|261022105027099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	ODccdgiX3mhxduAm90yuGwsI+4vv06dvbOQCS+ZYv0hgG1DpxuTZZYqFEaekYW9x98U8d0KqG8eFQAUYF9aXjYv9puS5EG6nVXNEPGcNoz+B4vuFOLlup2GlKXncwYb2XZPOJ330NguQF9sdeNLxVXYqFVodSC9lJUD7IEPEvJk7XLpeTvz7hX19mDUqO/+JtjNaEd1pcHVnptB/X7SY2pRvmPxCywF+mF0f1hqsvvA20NSDdoMztU0rKi2Lth9X6UXlglFKQWyrh5VF0ioe2k12aQaoZ26p4s1fjAUQLzj0MQ+m7O+Y6dR1R4sLCNUpJRZN8o2jWd+FPU7wIcA+ydVvMHVfrgauE10GSNH96IL14T6+Gwh/q4BNaRNhwIC4E01BniOmUousjJ/qmq6SGbatiOuHTloUQqbPJu/Ye7HQACGxJVktg2zwYnm/BAIFIjeOdSJsfQkfEitZubp7/tRqLm3alPBzv+mh0vMkZY8KDLhI5AECfQ04fHEsVZzidpycZGBTGGm1TbTQ2exkKweSDtMueiE+VoHYlqjqjulSCUaBQJSAPKk1MbufBKG11XEAQW8LHCYTVPBIV6PfxowMfS/lOg9vrq4zwPWQEEM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(22082099003)(18002099003)(261009223027099003)(4143699003)(56012099006)(261026121527099003)(261028144727099003)(261026140227099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TmhMTm1rMWVoT0dXOFJJZnZIUU1MbFdmZnFBakNmc0tzY251UXRKV0VmM2o3?=
+ =?utf-8?B?U0pCV3pOMHJKQjBZMzBjcDd0TXVhV3hBSnFKZjU3cEwyd3Q0SVpuNXd3MXVC?=
+ =?utf-8?B?VVdoUnBHQkd6cmYvZkdVaDFocDRTNy9lb1B2dVB1cWJJNXprZlBqSHhua0Ez?=
+ =?utf-8?B?WmpZa3AzVEEwUXBJa2VMYjUra01taHBKZ2x5elRYMUFNMG1WTnozemNtLzVG?=
+ =?utf-8?B?SUU4Y3VyUk1LOWMxUTJFNWowRXV2S2dmbUorQnNNTEUrZU45YjhZdTUybk1q?=
+ =?utf-8?B?NFdjTkNsTEFmN2dyZkNMR0NvbkZZQlVldXo4NlhxWHJONmFJd1pLMVA1dkxm?=
+ =?utf-8?B?YlJYOVdOQ1k4SHFaZ256LzJXb1dnTUFJcUhvcHJaN094alYyVFJ6emprUTda?=
+ =?utf-8?B?TGF4RkFsak1kREhjMFM4dXRBUWgzOUZ3bUlORlRaT2FWWlgwZXdkdjVsckx2?=
+ =?utf-8?B?eklDOVgzMDh2ZURKK2xtUFNoMGpMVHJEMkhkbCtIb0JZZ1FNU2htV0xqelFR?=
+ =?utf-8?B?Tmw1TzkvSHQ3eEJCc2s1SG1TNHJwc1dyQXA5Qk9rZGllZUxxMTNwZWgybStB?=
+ =?utf-8?B?N2xRalhDQ1RUZ1NMcjJLYWNaQjAxaGNXdllMRG16Qk91d2NrWklKV2xaYk5R?=
+ =?utf-8?B?Q280U2VMR1VxRWt6anAwS3JLQUN1dCt1WHc4akFvRmlKejFSRllkT1R6UTdL?=
+ =?utf-8?B?NFRKYkdYMDl4cVNMUjVQMHB4Ni9PS2hEd1J2bEEwR0F4K2JvbVJwbXU0SHRN?=
+ =?utf-8?B?T1piNkx2cEFvWC9rTkdkbDB5UnMwZnZ6cElFVklicnRrUFhoUndOWWhmSHZW?=
+ =?utf-8?B?WnBZWnpxejAyLzY2MzVBeUUrZm5nZWlqSFY2YlpBR3ZlWDJRV1QycW93UWZR?=
+ =?utf-8?B?N1h2WUZZb24vbzB5Ryt2aGJNTExjTVlCMHV5dG1rMFBIeHJ6TVhHQUd6aVVP?=
+ =?utf-8?B?M3NZb2ZNUk53bm1hOFlXRUdIYUdjbGhOc1U3YlBoRHg1aTZRYzFKSm1QTExE?=
+ =?utf-8?B?QlFYSU1sOTc4RXkvNkQwbS9WNW5zbGZnQnNLaDhFZUIrcnhIT0dpczJHWGNr?=
+ =?utf-8?B?S05MUE12WWRXWi9MeVFoMlAyRUFPV2Z5b2hMRWRoQUpUV2pHSjFWTk1OOWFp?=
+ =?utf-8?B?Y3cvSlZIcno0a2pBdzlMakdYaG02VGxQcFZYNWsxdXVORCsxNTBiUXBZd2xO?=
+ =?utf-8?B?MGduTFFuODg5VzR2NTlRaE1mVmRJRm1PUS9qeW1aSFZQdHRSajRrMnRJT0Rx?=
+ =?utf-8?B?SC9vTGd0QktSbmd2czM3eEFQRHZxOFhRNXRsN2hJVVcvUU1yNys0Zk1mTjF0?=
+ =?utf-8?B?WFR2ZWVpTEw2a3NhSXF1cXhBY0xKTWNhUlpLUUtQYk5WU201R0pRdW85ZzIv?=
+ =?utf-8?B?Wit5TDFXc2Rtekg0UmlGYXFCajhVNTRlOTZJdEVuMjdJcE1OdUU2aHhRaFpl?=
+ =?utf-8?B?WHNzL2xxa0FxNGxpUkJCakVVRHd2cmxEUDVncnJlTDJ3aDhtNEluRURVQ2Jw?=
+ =?utf-8?B?L0xIMHQvU3hSVkVISkVHbHordHRzYm11L3BGOVRGY096QWNmZXcxNUdqNDBS?=
+ =?utf-8?B?UGYySEk1Y0d4dk9MRnA3aEVkQy84aWwyVFk3QWh1RU5DNThNOVg3Z24zV1dY?=
+ =?utf-8?B?SmJoSEUvZ00vWUFSNnFudG13NmlFYXAyN3EwS1hSVHFiRHZDNFdRdmI3RHdp?=
+ =?utf-8?B?UTcxelJodUprSFlVT1VJVHFGdmdtbmZ4WXFzdjJVMWhraDkxSTQ4ZDFYRUNN?=
+ =?utf-8?B?cmhlNGFoSzAyUUNCTHdYL2RYeWZERWNkWVdManRTMGxKblBKczFVUndVZ2RJ?=
+ =?utf-8?B?MzB0WkxCTG5VWlJOWjhoSXBURkhSWitoWUlYbWtlZVdUd3lrWTZyNjU5M2RN?=
+ =?utf-8?B?SzduWlBSZUdmb240dmxNWDJaZTBvL2RoMnVldVlqa0lXUVJ5SWZTWjg1aElF?=
+ =?utf-8?B?bUhHQTdEVnFwTzRFWTZpQ0dEc3k5V0FJdjlYQjhsbzFSNUN4cnVBTmg5SWxH?=
+ =?utf-8?B?UFJBNktzKzBJajZwdVkvVm5RUU5WRTJFRUU4STVJMTdwemRnak1mYjBXVVlz?=
+ =?utf-8?B?UWhpRnBJK3pySE0rYUZtUVRLamlFVXV2MTB3WkN2dkFJazRXSDc5c3hUeU9K?=
+ =?utf-8?B?bUYyZTBOMCtZWUNWZjdTZ1puSVYxRHJNNElhZXpwbkFQbXJSSTJsVUsrTk1h?=
+ =?utf-8?B?Q3plUUZ5dU5jSmZCemF1bE5ueDNZd09xb0MzY2xCSEhEaVdhVFRSc2NqUUNG?=
+ =?utf-8?B?YmJ3RFBOVDNRSFJiSnprR1F1cU9UWjY1TkduNzZSbHBjWWlrcldUTTdzOU9Y?=
+ =?utf-8?B?YnR4M25ieUxJSTNSUUdETThLck41b1NQSGpyanUyNVJ5WTZReGl3dWc4cjUz?=
+ =?utf-8?Q?yndiduiSK5/sH7SifPbL9vugRwdx1aE+8PaZp?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1fa2958-050d-455a-a29f-08df45838e19
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 14:52:23.7951
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LvCPkxGN4RNczm6w0xV9Gl1FDYmsrZyO0Kp8kPAUW7+e8Fg7O8t1HENOJSYiYTFcoOlBnm1cHWhkN9oZWUbE6mGWqJ7K1V5okzf3SQeh/2o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB8487
 
-On 2026-11-16 13:37:09 [-0500], Mathieu Desnoyers wrote:
-> Hi Sebastian,
-Hi Mathieu,
+On 18/11/26 15:32, Juri Lelli wrote:
+> Hummm, now that you say it, crediting Sashiko for findings might be
+> worthwhile (for usefulness statistics etc), though.
 
-> > I *think* this is unrelated because the futex caller shouldn't end up
-> > here. The __rt_mutex_slowlock() -> rt_mutex_handle_deadlock() should be
-> > different for the futex and ww_mutex case.
->=20
-> The futex caller does not go through __rt_mutex_slowlock(). It gets to
-> the chain walk through the proxy lock:
->=20
->   futex_lock_pi()
->     rt_mutex_init_waiter(&rt_waiter)
->     __rt_mutex_start_proxy_lock()
->       task_blocks_on_rt_mutex(..., RT_MUTEX_FULL_CHAINWALK)
->         rt_mutex_adjust_prio_chain()
->=20
-> rt_mutex_adjust_prio_chain() reads waiter->ww_ctx in two places:
->=20
-> 	if (IS_ENABLED(CONFIG_PREEMPT_RT) && waiter->ww_ctx && detect_deadlock)
-> 		detect_deadlock =3D false;
-> 	[...]
-> 		if (IS_ENABLED(CONFIG_PREEMPT_RT) && orig_waiter && orig_waiter->ww_ctx)
-> 			ret =3D 0;
->=20
-> Both tests are under IS_ENABLED(CONFIG_PREEMPT_RT), not under
-> build_ww_mutex(). So the futex build of the chain walk has them too.
+Agreed. Documentation/process/generated-content.rst also asks for it:
+"if a tool was used to find a problem addressed by a change, that
+should be noted in the changelog". The next version keeps the credit,
+without the number of the posting. For this patch:
 
-Yes, this part. I realised this later=E2=80=A6
+  The Sashiko AI review of this series found the lockup.
 
-> > Is this really the case?
-> > You have a lock chain where the ww_mutex and a regular rtmutex interact?
->=20
-> No ww_mutex is needed. Two PI futexes are enough. Both waiters come from
-> rt_mutex_init_waiter() in futex_lock_pi(), so both hold the 0x11 poison
-> in ww_ctx with CONFIG_DEBUG_RT_MUTEXES. The chain walk takes them for
-> ww_mutex waiters.
->=20
-> The deadlock case of futex_lock_pi_inherit (patch 4) is that ABBA. With
-> PREEMPT_RT and CONFIG_DEBUG_RT_MUTEXES, it fails without this patch: the
-> second FUTEX_LOCK_PI blocks. It passes with it.
+Thanks,
 
-right. That is an issue.
+Mathieu
 
-> > I would argue that the full-chainwalk depends now
-> > on a random stack value _and_ __waiter_less() might access the random
-> > value if ww_mutex is enqueued and a regular mutex exists in the lock
-> > chain.
->=20
-> Yes, those are the two effects. I reproduced the first one only. The
-> second one is from reading the code, which is why the changelog says
-> "would dereference".
 
-The deference _shouldn't_ happen because those two a different. However,
-we could have a mix of those two and which point it becomes relevant.
-
-> You are right that the changelog is confusing. It starts with the futex
-> symptom, and only then says where the value is read. In the planned next
-> version, I would put the mechanism first, with the call path above. Does
-> this read better?
->=20
->     rt_mutex_init_waiter() does not set waiter->ww_ctx. Only
- rt_mutex_waiter::ww_ctx please
-
->     __rt_mutex_slowlock_locked() sets it. So the waiters of PI futexes
->     and rtlocks keep the 0x11 poison of CONFIG_DEBUG_RT_MUTEXES. Without
-
-or random garbage which.
-
->     that option, they keep what was on the stack, unless the compiler
->     zeroes it.
->=20
->     With PREEMPT_RT, ww_mutexes are built on rtmutexes. They can create
->     a cycle in the lock graph legitimately, and the wound/die logic
->     resolves it. So rt_mutex_adjust_prio_chain() turns deadlock
->     detection off when it finds a waiter with a ww_ctx. It also drops
->     the -EDEADLK of a walk that started from such a waiter. Both tests
->     are under IS_ENABLED(CONFIG_PREEMPT_RT), so every build of the chain
->     walk has them.
-
-I would strip that paragraph because *I* think it is more important to
-mention the FUTEX case which no longer does proper chainwalk regardless
-of PREEMPT_RT. Yes, ww_mutex has=20
-
->     FUTEX_LOCK_PI gets there with no ww_mutex in the chain:
->=20
->       futex_lock_pi()
->         rt_mutex_init_waiter()
->         __rt_mutex_start_proxy_lock()
->           task_blocks_on_rt_mutex()
->             rt_mutex_adjust_prio_chain()
->=20
->     The chain walk takes its waiters for ww_mutex waiters. With
->     PREEMPT_RT and CONFIG_DEBUG_RT_MUTEXES, FUTEX_LOCK_PI then reports
->     no deadlock. Two threads that each block on a PI futex the other
->     holds sleep forever. Without PREEMPT_RT, the second one gets
->     EDEADLK. FUTEX_LOCK_PI also blocks on a chain deeper than
->     max_lock_depth, instead of returning EDEADLK.
->=20
->     The ww_mutex build of the chain walk can also requeue such waiters.
->     On two of them with equal priority, __waiter_less() would
->     dereference the poison.
-
-The futex code for PI_LOCK performs a RT_MUTEX_FULL_CHAINWALK during
-locking. rt_mutex_adjust_prio_chain() then wrongly assumes that it is a
-ww_mutex (due to random garbage in rt_mutex_waiter::ww_ctx) and does not
-report a deadlock but expects the caller to handle it.
-
->     Fix this by clearing waiter->ww_ctx in rt_mutex_init_waiter().
-rt_mutex_waiter::ww_ctx
-
-This, Fixes: and=20
-
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-> Thanks,
->=20
-> Mathieu
-
-Sebastian
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
