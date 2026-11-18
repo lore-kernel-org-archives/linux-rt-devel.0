@@ -1,47 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015308;
-	b=G4h48mu02/ty+k5THFRJ326BTu0jTIDq7ls+vIL682SHMAoGbMnbYevU2MOCP386TVA4
-	 fKBXOz1C3cJI1uNO+Fg6xlFkb6kUpEfU/QhKo9PsfqG4KFGJeKZ7YMBjpcZoLrvHd+2UN
-	 5Xra5FfZSaTHf9avajNP0Gx+G5YIWD6rVkbJUFDwrUuYuQC9e5zUj4/0IVvzE4knymIHG
-	 c/PyhejtKZ2OK1NASbOdzGQnYn3eYn2fVbqkb1M5vMcevy+WwBi3ozdDi+ywhL6J4n2yE
-	 9gOLXxm6UvSMs6BEn6WOuF7hufuBsSX1/3IKN0+QKs1PSrs5ExrE0FbZwFDNis2hvbg==
+	t=1795016029;
+	b=XJXWQo29S4SyfUQBcFQC1DrwPSN9KCM/2R0mh/P2MNmUDmjXF032+BWhRQHpN2iu1e6F
+	 kuSuFDTExdjSPPlJWm2Hz8TBWbr1s2aGQspX+f4cwyKrBhHIqTebXH/T73vhZZGZLLoE2
+	 ajvgGxhGd8BjmBTz4efqb0idl+3dzGo6ezOx3C3K+uLjWPGvjfjI5nOpQCWmkmYkdXpoV
+	 JWY2aL5QPeW8k2ZvNM8I36m5LLMdigF1hVQUwwdKnGuzJltjC4drQxfeTm8n/CIppkkCI
+	 lsUf+HI1LE7I8ggJKuqVksKYkGaML4FusPTSLKCM/99TiYWSK1IC0ymAlHL/awmGtRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015308;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=pusLzVCwTtItlUsOXlNfTNFkn5iND1btK/l3K/MI9q0=;
-	b=fLUzjRQsA5t6OE3yYb3npjP7DrJd861VDN1aq7sTxg6g9Hg1VVJiRAfyOCgZSLeiqSso
-	 kafHKyFWKab2hSdAw6TmQglm7Y788efOVBUBv1p8hsknnmjqWLWgTtGQ+i3c61vfyjRq1
-	 4aRDDftdMl8XNueVYkwHfIV9aPwDi7FkofRuwGcFuhQgn93OgDxssPeKRTss1iUDiLmUg
-	 lLmUVL5BtfuPk9Zhnp/sEzW3mtNzJQuj0Ut6bOBEy/PfHUVfUbIDXdlkv7z6UsuhBxv3N
-	 El6ybMUWP3X1Gd7YM8XeCIWAnt6m8qDU7ppwgOFSrAE1Sj0aCIpph2qmGaQGDxSuIMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016029;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=x85cpobaf638Fe9w3ZW1Zro4FQs+4uIPwl9i5atMIvg=;
+	b=Th2S0jc+/BUfvGCKuCSZIKTm4KlD95Qdkyak7DxnMP0s/VpG+NhUEMvRErDejZlvwhZl
+	 Z5oX74tiQ1nVKG7Kc0c1qHVq3wt7FVu7dUauiuklThmkBYSlWL/n/O9ym1Zm85piIBcC3
+	 eeljXiUug1iVT7xXcow417O+OJOp5sM84Ww3Sg/ORZ1ahrJ3HA9hg9futi1raDoRVwmrJ
+	 Yydhs0oXOOOWRWxX7WoBaQZrqiObvWC0LJJoblvc0Ey2d+aflCqNFIXVqQGHzAgbJPt9Q
+	 cYYGudKSV+pO6ikVnyOg9T86kjd4IeVsfS7WPyEwPdySdgJtZmqFvtQeDzKpG6nmy/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mhxdXmPN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jR6z1g3P;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF192606A320;
-	Wed, 18 Nov 2026 15:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5319606A320
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 15:33:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5319606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mhxdXmPN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB4F1F000C5;
-	Wed, 18 Nov 2026 15:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795015308;
-	bh=pusLzVCwTtItlUsOXlNfTNFkn5iND1btK/l3K/MI9q0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mhxdXmPND91KvmwYa/00zWlHUeWe3eBJp1Uu+QAWUmmmsmOrW2QdnqCcMvEehsGWV
-	 5joEKI5gJKMnsktMlasDA95qgr5UDSHclNy88PTvDWlHIIw+4cuRZpAaQEtUARrPQo
-	 6RZQXjBIBWTO9xa0qk5clO3PyG2roHVVgYyFQJ4gFpZ81bTiYyylkCM008yiwEn8gG
-	 A7Gvy0G8eeJkFAze80YQkDtA1+5dWx31WJ6Oho5yzD05WrL1rPKlhuCTfVkLA3YYrw
-	 m+CnHCkPxsXGbRXiTYy9VxVzS0Y5y20tmQnvBbMX2DM8XUjJ5uJ1Ck6f702udsOaCo
-	 H5MWacwHRIitw==
-Message-ID: <02a849b7-b8b2-4da2-8835-da29e0138267@kernel.org>
-Date: Wed, 18 Nov 2026 16:21:43 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jR6z1g3P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795016027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x85cpobaf638Fe9w3ZW1Zro4FQs+4uIPwl9i5atMIvg=;
+	b=jR6z1g3Pl7lB3lx1bZU2sMEsJNeB1Mo+CQpkJWPAsp0mZW5yKHYm9fUSmXX+NOEZWfR4ER
+	PoLpZhj8R3xvge+Wtx8rZKdwH2SfjrO55XyAoN6EZVlwxa700OIqbl2Ku9TW3XirmCfgoa
+	zIcntlHifRgpgVxu3icb79bMwqdMNhs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-246-04-ORCPoORmEo2-6HDvBMg-1; Wed, 18 Nov 2026 10:33:45 -0500
+X-MC-Unique: 04-ORCPoORmEo2-6HDvBMg-1
+X-Mimecast-MFC-AGG-ID: 04-ORCPoORmEo2-6HDvBMg_1795016024
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49febef74e3so14438885e9.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 07:33:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795016024; x=1795620824;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x85cpobaf638Fe9w3ZW1Zro4FQs+4uIPwl9i5atMIvg=;
+        b=kxQRaYCKW+xNaTbyl5TmJBmO2btmZHmA2mvNnxN/LJdB7jv3LnR8zbdkJhXwcF2kr+
+         oe6EZH6YF9OGzcWxj7vJsrrFY6cTxTH06PM1b4cKiUdegPbNP740rEDbAznOmUKk+ft/
+         53AybyTXNK/cm87ZyYRLTNoNBkv7WJ84r6mYUTt/C3WIrtN3pbYptK02nyF8JZ85wiZP
+         jDHvUF2cuSUMppeA9ZHPjhyt7fAp6GBOLT+kqC9t2YfFmFCYA4g+R7pYNh1NoghtRJXq
+         QWzzCNH8biMYD1DEwOBvEuu/vFgamN0RrcdNOovckIfCLh8ofDXPERw5okF7LK8erlRa
+         dDsQ==
+X-Forwarded-Encrypted: i=1; AL+hErF9NCicCy4ILLBaoZFz1sdDZlw254gdd4JBQZRuWEv1KXfjmgCXXz+YhrcR9aYvWWev4f5oDRbr9k0keWJCUg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8GuzCCxjxS8irY67wTejP9Zmzb+Ujbg5WxrFw8vha/3pQ9umQe
+	vLFy6iLxMScWIM4oqv7nSxU4muFsKj6vMhOY13v7cy6p7a1SzT9/RDvRU46jrcNqMBmKrPeGg7h
+	go7adYaBe85P/4zXt9q/vyhribbOLvSfjfTw3Gdp7d9lx70+7zs/GKtZ/6akCbdrmlqwP
+X-Gm-Gg: AYBFou1N2IS7egX8y2ttDPR1oS8IwTVozPdOJ0TP4yA5JhnUBye2OEDJowSNtFcriEf
+	fptmujqeKllIUtq8E14sfo7OVkFiJvMTPOAi8wom3L9Vle/BTr3Wxq5c0bYik19bcf6759KltrH
+	ckb2LN81nRFrBzFAHD0GDU+/BtmkxzZZZJ4+OQ8GDuj4cJK3pIus8h1PwQPlKgMEkrKncOomS0b
+	rVR0vgNFItUSX7zeZ+5G2TwM+XJhsSRdIh8tVGB0SpDCrk1AzurOxYGMNCagPecHqL+/iPr4meQ
+	KVlZhVZA9BQcevihv810H+WO4zSDN0J+NN3N5hB/bXRwAWO1fXmkL5OhoYPfDRW9YVCH6WgKvcR
+	o3Uiq++rXZ0F6H3giPoEnWboYHAqXTw6quKDT0rSRr+etHNKXplBEd2HpoW1uF6gW6ACd3WOTZb
+	bOhhA=
+X-Received: by 2002:a05:600c:37c3:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4bb7d6cd4ffmr53090025e9.2.1795016024091;
+        Wed, 18 Nov 2026 07:33:44 -0800 (PST)
+X-Received: by 2002:a05:600c:37c3:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4bb7d6cd4ffmr53089605e9.2.1795016023651;
+        Wed, 18 Nov 2026 07:33:43 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7e50e992sm37379485e9.0.2026.11.18.07.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 07:33:43 -0800 (PST)
+Date: Wed, 18 Nov 2026 16:33:40 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, parri.andrea@gmail.com,
+	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v7 13/40] sched/deadline: Release the bandwidth of a task
+ that leaves the class asleep
+Message-ID: <av3FVDh4PX-5gWSW@jlelli-thinkpadt14gen4.remote.csb>
+References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
+ <a809425266acca7cfadd2e8187a7b5a815ba32cb.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,80 +115,75 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 2/7] mm/slab: pass free_flags to
- slab_free_hook()
-Content-Language: en-US
-To: "Harry Yoo (Meta)" <harry@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
- <20261115-kmalloc-nolock-fixes-v3-2-9034dd4ecaab@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-2-9034dd4ecaab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <a809425266acca7cfadd2e8187a7b5a815ba32cb.1794922146.git.mathieu.desnoyers@efficios.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: J6M8eChqqVSuULGjOBCcZvCSJghmsR6Jx_AzXRNJcFY_1795016024
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/15/26 16:09, Harry Yoo (Meta) wrote:
-> slab_free_hook() takes two bools, init and after_rcu_delay, and a later
-> patch needs to tell it whether spinning is allowed.
-> 
-> Instead of adding a third bool, make it take free_flags. Add
-> SLAB_FREE_INIT and SLAB_FREE_AFTER_RCU_DELAY, and convert the callers.
-> 
-> No functional change intended.
-> 
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Link: https://lore.kernel.org/f31885cd-57c2-428d-9760-a76a0137f989@kernel.org
-> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+Hello,
 
-LGTM.
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+On 17/11/26 09:10, Mathieu Desnoyers wrote:
+> A task that leaves SCHED_DEADLINE while it is not queued can keep its
+> bandwidth in total_bw until the next rebuild of the root domains.
+> Repeated, this fills total_bw up to the admission limit. Then
+> sched_setattr(SCHED_DEADLINE) and CPU offlining fail with EBUSY.
+> 
+> A task that leaves the class keeps its bandwidth until its 0-lag time.
+> Releasing it earlier would allow temporary overloads. For a queued task,
+> switched_from_dl() calls task_non_contending(). It releases the
+> bandwidth if the 0-lag time is past. Otherwise it arms the inactive
+> timer, which releases it then. For a task that is not queued,
+> switched_from_dl() relies on the timer armed when the task blocked.
+> 
+> But the timer is not always pending when the task leaves the class:
+> - The task blocked after its 0-lag time. The timer was not armed.
+> - The timer fired while the task was still in the class. It only
+>   removed running_bw.
+> - The task was woken up on another CPU and is not enqueued there yet.
+>   The wakeup cancelled the timer.
+> - The task came back to the class asleep. switched_to_dl() cancelled
+>   the timer.
+> 
+> Then nothing releases total_bw.
+> 
+> Fix this in switched_from_dl(). For a task that is not queued and has
+> no timer pending, call task_non_contending(), as for a queued task. It
+> arms the timer if the 0-lag time is ahead. Otherwise it releases the
+> bandwidth now and clears the parameters, as inactive_task_timer() does.
+> 
+> Clearing the parameters keeps later paths from releasing the bandwidth
+> again:
+> - A timer handler that already started finds a dl_bw of 0.
+> - The deboost of a later priority inheritance boost finds no
+>   parameters.
+> 
+> An owner that the task boosts as a waiter can find the parameters
+> cleared too. "sched/deadline: Do not replenish a boost from cleared
+> parameters" handles this, so a backport needs it first. Without it, the
+> owner's CPU can lock up as soon as the waiter leaves the class.
+> 
+> Juri Lelli's first fix, since dropped from tip, released the bandwidth
+> here without clearing dl_bw. The bandwidth of a boosted task was then
+> released twice.
+> 
+> Juri Lelli suggested the call to task_non_contending() in review.
+> 
+> The Sashiko AI review of the third posting found the two cases with the
+> 0-lag time ahead. deadline_bw_test, added later in this series, tests
+> this in pi_former_owner_asleep and deboost_released_resets_period.
+> 
+> Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
+> Reported-by: Tejun Heo <tj@kernel.org>
+> Closes: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: stable@vger.kernel.org
+> Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761fe005b4@redhat.com/
+> ---
+
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+
+Thanks,
+Juri
 
