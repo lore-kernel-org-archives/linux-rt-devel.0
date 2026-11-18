@@ -1,113 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795012351;
-	b=i5pmKdmTEp+haw/7SFg4TENMcpxl8EFZlv0GyBs/WEXxpNlcc4HiJ8U0fJQHDq48ZjmT
-	 ZOmvR42tshyzm4jL/Dg3FmGzBafZhdGvKoFNoOAEkEOBJgDRSvZ7qUdUic8iAHkLCFpOn
-	 k9q/9L+j0fQZeGBBwkJ3J7bPv6cBmcAFgYB3frpxdDc+Dx26YIo7mFswwPZo0RhNcXzgo
-	 xfOWbR0+rIQRugaRpNBYDpAMjtLROJ59sIkq0zrb25NZoX+hNt1tRnKMbUJw8XZTWon2S
-	 i7pEcYvt7b+Ghf+h7aUgdzjxGEQlz/i/ReZ0s/5zgmB0231IVJIgARQuFHT475jkyqg==
+	t=1795012811;
+	b=Kg7YFsOQXL/+wnY3hrH6lF7HjRDgtevIfEaXJgTUbyjHyEDAoXvs4umAtXuUnSAX0c4C
+	 AFeChp/T4H9jI7nGAo9o+E9Mp9G5kS2m+LCjy3hKwKQxVvi/vCpnm9nDxJPH2ekGUSrKd
+	 LMtFNSHQvTtGvjooPAM+BWeUeycQuAOJ5e9tJQmpWjYDSm4bBmR9SfLGw3SAZ31Nr6TcZ
+	 bspiuyYP3f8CV2D6OQAnON7Ua5yOg4RvKLb2U9hes0pI8WBjplU3TZJ9D8d2A1oJ0VD8j
+	 C4goJVWLqxJx0QtLa2IvtqhzBK1Itrax3pgD7k8pri9omibQb3Cj9pnDcHj70zJ0veQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795012351;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Type:Content-Disposition;
-	bh=IYa7d2S4FNA7B3qml35ZrjkyJZWT7YLdzwOJhQFTPJw=;
-	b=jbfC8HRvzS1XawkgFGseKo+bPzv3mkkYXBsyueuCCSMm+zcHicnjWixI0tkAW2wVL9BP
-	 J2pF29R7oEkEx6Tvgf7XfR59RdGs4T2EPxXOmLUW0i4aCqqMLepD+KIRptYLxMghjCRBT
-	 jCQaiZtaWKq79BiyXIsS7FjTZJdt3PVjjcHdUCP+tDRIhKuonS7blUQvv+WNVraAoIrMG
-	 KPUu7s7bbJUKV9v5a4R9iGshBY5X3G9A+zluWN5I9VnLvhDnFI7RXfUx+N/qTfhoRnUCM
-	 w1q64F5Alm4/ExmjR0K1MyX8+aZ/Qhc+JSyuS/Q3DbaNFwrXCyrOwmfj2PRhKdYs3Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795012811;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
+	b=1TeTb0L2cFiLYnfMhMH0UKH6VRarw/p3lMLy9ANssw1YZAxMV3Zay6NyAPSFjViRI9M2
+	 n7S8gtMzThkv6WjSs1vGOGTm6OX5Q9vYBvTgbwhQTOdO7JZEk+sorZampZDYK3/gTTBrl
+	 nQCtdAg86d5sFwxrikKgodGFYO+CLugELOjSTf3w42ZZexAQOa3LX3nf9tIB/m3yP5n6R
+	 Qloavq3/Rgb9wcQCemIztmymr4qZXaoWM/9smjAL9h2OWib2DBz3Enro1BO+XkabIesrz
+	 svW5xbSH9tZIZMnzR898uBpOnHIT6OZVAKWA1HWoQpTXo3CJNmkHuiVMHrCrzF+KkwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=VaD+Xsu3;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Hxw+3jK2;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="z9dCV9/L";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4537F606A32A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:32:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4537F606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6F606A320
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:40:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EF6F606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=VaD+Xsu3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795012350;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Hxw+3jK2;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z9dCV9/L
+Date: Wed, 18 Nov 2026 15:40:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795012808;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IYa7d2S4FNA7B3qml35ZrjkyJZWT7YLdzwOJhQFTPJw=;
-	b=VaD+Xsu34vU64AKsQ/3FGGJHuzhiLtHQnsCNzlppRoorGh002QJMjXaBegLUGUzUg342Rn
-	7KbJ1wjiA/xJYjp9bHq0MqJVJE03JkHdQSHgXQGR1E71KypjsuAwJpoxDG3ik86HAreqp+
-	tfbGFOYrFM8UrxhgmYKz9aDlCmcul8M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-CaUkYpQNMyqkhBS_qLrSzg-1; Wed, 18 Nov 2026 09:32:28 -0500
-X-MC-Unique: CaUkYpQNMyqkhBS_qLrSzg-1
-X-Mimecast-MFC-AGG-ID: CaUkYpQNMyqkhBS_qLrSzg_1795012347
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a70b42bab0so8405055e9.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 06:32:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795012347; x=1795617147;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IYa7d2S4FNA7B3qml35ZrjkyJZWT7YLdzwOJhQFTPJw=;
-        b=rFeFZXVJcsEbjaIJ/HIfJARYPH27ICc4lN4pM7/5S2QiQ8ZD3xpvs4NZ6jipm65uPE
-         IXkeNGl5FlTxRYPErOaLRy/zHze05VI7FxMoG4DmR8fZMvVnGm3mQhujvHKSgmfnlEYi
-         wLJAZFXObwqjsCs/nhww/917BC2seNG5MpOXli9463Flf9PAKrHPuvxVEoj6OqtKaGpM
-         TPrrkzzwcPUxO9nOlqxLTpB2ac8pl+CI6zpLAIAKGaFNmpz4xtr/lxa7rON9m/rq0ilM
-         Zezxhq679zlDlS+rGpB9kCRaTIErEnP3gV5ZajvDMgAaqPtuLNNfZcDRbi1HlYYuZPpL
-         xEvQ==
-X-Forwarded-Encrypted: i=1; AL+hErHaPuAiTh/0WGb762kUDu0BW/cPBOCW0MfOi+ceVxp8zqHwDty6Fe6Ye8oMtydfDZIM9H+rLmbNo+1iEmYl/w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/GeMbjbLMDIonBuh4o5uUxplIyhPEKxh2gYgaJqjGKWoEKgW3+
-	DyjqIPyXhEpucEIDKdVS5H8l9j9wxzE8kyIggHBN3n4CKBp7tPpqMAb3t/loni1zPUtILEXEcbC
-	TYmddi7y8zjFXZsb25dlKMBzrUGDLpYX1k5gTpr31JQl/JyG/qMOS6JgnEf3yMvvaBFwt
-X-Gm-Gg: AYBFou04Xq2+Gvzk4duBSjii7MAekJggJhWz2ekY4ZHFPZMWGoMttCEcVCNGexhS6GT
-	cp7Zl3TVFeNdKj7jnSIMYCzj2bxQKOx2NYI5nzPLolSg3vUez3BrTBDAok2Ms/g71Eo0+uE+fCq
-	AyKK2KuCxjFGSx1UZPBC6HVlh+5Ke3uPSYLn8dNGLlZ0J9zex+iXw3agRnHbmqLOBuUMbZuMB67
-	vtB8yeKTLumJXhuxA3tQAGZJsafH+3IvX82Utngf6ubd7q+01qFjjLG8Q9f15WiE2P4ohyx8LT0
-	O3yCvcJblebHUx3nZL19un28pZ5e+kt+LQh9ffkDqQM+iG25+NvIU6b7884sUEnnGFJ6Cez7+AH
-	hh0U2R29rRere15GLzHhoA0tngQtO2Fd/3VCUQoRD9+bMeXK1ixr2yDeKGza+Ce0Ll2sL2D1LDR
-	j/nJY=
-X-Received: by 2002:a05:600c:6290:b0:4bb:6a78:7c42 with SMTP id 5b1f17b1804b1-4bb7d6cd48cmr55544975e9.1.1795012346874;
-        Wed, 18 Nov 2026 06:32:26 -0800 (PST)
-X-Received: by 2002:a05:600c:6290:b0:4bb:6a78:7c42 with SMTP id 5b1f17b1804b1-4bb7d6cd48cmr55544025e9.1.1795012346150;
-        Wed, 18 Nov 2026 06:32:26 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2aad96sm58360485e9.6.2026.11.18.06.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:32:25 -0800 (PST)
-Date: Wed, 18 Nov 2026 15:32:23 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
+	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
+	b=Hxw+3jK2/k2u2O3CKhECYZkMY5C1OWMxtlf2QBhY6TDkaiBTw/BnRslwUxpFzhIB1rghqZ
+	WdaV6Uf9hkBrTfUT6WGqE/dBgr6kYlg4JiQP/B1PwvwdMba0KkcIEoHm5rrzqbp0upS/eJ
+	wxNqxqAtwuzD+FH1xcFk95zTAayGVcrWLldXfqqCGz07hyzl5zHbb71alV63C603+tIDux
+	t27jM1+cUPvsucTEGHEm547VFvbiztOoR5XieLR8tztrq0JROaNCEKxU3mg+K86jSgLfSi
+	Mt/4YpWDMf9kA1gtBLw/JIxE5vhCS+QFkEWYwcSpDshD1JdfsrhcI5UwN0IxsA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795012808;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o9zNTrCs5ck/1o3RCSKW2VT8r4JHp1JK8lZkVLfXYGM=;
+	b=z9dCV9/LLwfZ/WJUCNkWRDcS94wXIj2YymCvzLINZIqZYOT8lnxmLGaPjBAiDrErtDdc5i
+	TDvDcearZiD+nhDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
-	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, parri.andrea@gmail.com,
-	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+Cc: peterz@infradead.org, tglx@kernel.org, mingo@redhat.com,
+	linux-kernel@vger.kernel.org, will@kernel.org, boqun@kernel.org,
+	longman@redhat.com, rostedt@goodmis.org, clrkwllms@kernel.org,
+	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
+	shuah@kernel.org, juri.lelli@redhat.com,
+	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v7 08/40] sched/deadline: Do not replenish a boost from
- cleared parameters
-Message-ID: <av2295tJMdwRp3wK@jlelli-thinkpadt14gen4.remote.csb>
-References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
- <cefacab5f1c0e7617f17e050af4ef5f6db01700a.1794922146.git.mathieu.desnoyers@efficios.com>
- <av2k8JlLvUcBBOhn@jlelli-thinkpadt14gen4.remote.csb>
- <ddd215ff-d6de-4dea-b12a-80948a9b5ea6@efficios.com>
+Subject: Re: [PATCH v2 2/5] locking/rtmutex: Initialize the ww_mutex context
+ of a waiter
+Message-ID: <20261118144006.ms1fvDv1@linutronix.de>
+References: <20261108141347.1525532-1-mathieu.desnoyers@efficios.com>
+ <20261108141347.1525532-3-mathieu.desnoyers@efficios.com>
+ <20261116135857.5t9HGji5@linutronix.de>
+ <de727dc6-cd11-4a7e-a853-aecd895685a9@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -117,27 +82,128 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <ddd215ff-d6de-4dea-b12a-80948a9b5ea6@efficios.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MdpDxCCsQBjAC_w3oT6TG4Rd6Ou9EsSWCACgRz0ts74_1795012347
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <de727dc6-cd11-4a7e-a853-aecd895685a9@efficios.com>
 
-On 18/11/26 08:44, Mathieu Desnoyers wrote:
-> On 18/11/26 14:15, Juri Lelli wrote:
-> > The above paragraph is a bit hard to decipher. :)
-> >
-> > Maybe something like the below?
-> 
-> Yes, thanks. The next version takes your text as is.
-> 
-> > Also for other changelogs, I am not sure this kind of info adds much, as
-> > I fear it will be hard to track down in history anyway.
-> 
-> Agreed. The next version drops the sentences that name the review that
-> found a bug, in all the changelogs. The credits to people stay.
+On 2026-11-16 13:37:09 [-0500], Mathieu Desnoyers wrote:
+> Hi Sebastian,
+Hi Mathieu,
 
-Hummm, now that you say it, crediting Sashiko for findings might be
-worthwhile (for usefulness statistics etc), though.
+> > I *think* this is unrelated because the futex caller shouldn't end up
+> > here. The __rt_mutex_slowlock() -> rt_mutex_handle_deadlock() should be
+> > different for the futex and ww_mutex case.
+>=20
+> The futex caller does not go through __rt_mutex_slowlock(). It gets to
+> the chain walk through the proxy lock:
+>=20
+>   futex_lock_pi()
+>     rt_mutex_init_waiter(&rt_waiter)
+>     __rt_mutex_start_proxy_lock()
+>       task_blocks_on_rt_mutex(..., RT_MUTEX_FULL_CHAINWALK)
+>         rt_mutex_adjust_prio_chain()
+>=20
+> rt_mutex_adjust_prio_chain() reads waiter->ww_ctx in two places:
+>=20
+> 	if (IS_ENABLED(CONFIG_PREEMPT_RT) && waiter->ww_ctx && detect_deadlock)
+> 		detect_deadlock =3D false;
+> 	[...]
+> 		if (IS_ENABLED(CONFIG_PREEMPT_RT) && orig_waiter && orig_waiter->ww_ctx)
+> 			ret =3D 0;
+>=20
+> Both tests are under IS_ENABLED(CONFIG_PREEMPT_RT), not under
+> build_ww_mutex(). So the futex build of the chain walk has them too.
 
+Yes, this part. I realised this later=E2=80=A6
+
+> > Is this really the case?
+> > You have a lock chain where the ww_mutex and a regular rtmutex interact?
+>=20
+> No ww_mutex is needed. Two PI futexes are enough. Both waiters come from
+> rt_mutex_init_waiter() in futex_lock_pi(), so both hold the 0x11 poison
+> in ww_ctx with CONFIG_DEBUG_RT_MUTEXES. The chain walk takes them for
+> ww_mutex waiters.
+>=20
+> The deadlock case of futex_lock_pi_inherit (patch 4) is that ABBA. With
+> PREEMPT_RT and CONFIG_DEBUG_RT_MUTEXES, it fails without this patch: the
+> second FUTEX_LOCK_PI blocks. It passes with it.
+
+right. That is an issue.
+
+> > I would argue that the full-chainwalk depends now
+> > on a random stack value _and_ __waiter_less() might access the random
+> > value if ww_mutex is enqueued and a regular mutex exists in the lock
+> > chain.
+>=20
+> Yes, those are the two effects. I reproduced the first one only. The
+> second one is from reading the code, which is why the changelog says
+> "would dereference".
+
+The deference _shouldn't_ happen because those two a different. However,
+we could have a mix of those two and which point it becomes relevant.
+
+> You are right that the changelog is confusing. It starts with the futex
+> symptom, and only then says where the value is read. In the planned next
+> version, I would put the mechanism first, with the call path above. Does
+> this read better?
+>=20
+>     rt_mutex_init_waiter() does not set waiter->ww_ctx. Only
+ rt_mutex_waiter::ww_ctx please
+
+>     __rt_mutex_slowlock_locked() sets it. So the waiters of PI futexes
+>     and rtlocks keep the 0x11 poison of CONFIG_DEBUG_RT_MUTEXES. Without
+
+or random garbage which.
+
+>     that option, they keep what was on the stack, unless the compiler
+>     zeroes it.
+>=20
+>     With PREEMPT_RT, ww_mutexes are built on rtmutexes. They can create
+>     a cycle in the lock graph legitimately, and the wound/die logic
+>     resolves it. So rt_mutex_adjust_prio_chain() turns deadlock
+>     detection off when it finds a waiter with a ww_ctx. It also drops
+>     the -EDEADLK of a walk that started from such a waiter. Both tests
+>     are under IS_ENABLED(CONFIG_PREEMPT_RT), so every build of the chain
+>     walk has them.
+
+I would strip that paragraph because *I* think it is more important to
+mention the FUTEX case which no longer does proper chainwalk regardless
+of PREEMPT_RT. Yes, ww_mutex has=20
+
+>     FUTEX_LOCK_PI gets there with no ww_mutex in the chain:
+>=20
+>       futex_lock_pi()
+>         rt_mutex_init_waiter()
+>         __rt_mutex_start_proxy_lock()
+>           task_blocks_on_rt_mutex()
+>             rt_mutex_adjust_prio_chain()
+>=20
+>     The chain walk takes its waiters for ww_mutex waiters. With
+>     PREEMPT_RT and CONFIG_DEBUG_RT_MUTEXES, FUTEX_LOCK_PI then reports
+>     no deadlock. Two threads that each block on a PI futex the other
+>     holds sleep forever. Without PREEMPT_RT, the second one gets
+>     EDEADLK. FUTEX_LOCK_PI also blocks on a chain deeper than
+>     max_lock_depth, instead of returning EDEADLK.
+>=20
+>     The ww_mutex build of the chain walk can also requeue such waiters.
+>     On two of them with equal priority, __waiter_less() would
+>     dereference the poison.
+
+The futex code for PI_LOCK performs a RT_MUTEX_FULL_CHAINWALK during
+locking. rt_mutex_adjust_prio_chain() then wrongly assumes that it is a
+ww_mutex (due to random garbage in rt_mutex_waiter::ww_ctx) and does not
+report a deadlock but expects the caller to handle it.
+
+>     Fix this by clearing waiter->ww_ctx in rt_mutex_init_waiter().
+rt_mutex_waiter::ww_ctx
+
+This, Fixes: and=20
+
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+> Thanks,
+>=20
+> Mathieu
+
+Sebastian
