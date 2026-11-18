@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795037117;
-	b=MMsSigZbG4zAk0OUzz9Qr9tlJkKr6ifUxa2V6yJpAAM+Sumf9yE/XUEar/7O4+Vu1IoW
-	 x1pUbDaHZmor8aCnHW2bMJ3Icl6/ZvSSe4kpbxvJONXhh02opxQtfwNgsEWyKLlpYW2fj
-	 ycbXMt003pg3wuC5/BF8sAdEQMhtP4VgsIA5ba15BFBbX2BvmPziJFJgXkZNTkEZoevwZ
-	 G3LMkHd/YIv0i+bTBmjpdPXP2OKyYMCi2pbzmwH/mbMrdYm5nHDyFKCftk9lf35tqOev2
-	 0j9L1ZnvPGEn1/9XUevGgOFAiK+JVHHO4HyfoEbvhlS63HyRDjoiDwp+HhUr4EcBJFw==
+	b=1d0/fIJTT8RFj2VIG6Zj9FtUATEjD2PnhSV7Drf6QhUzrc7XQNix3Ak66rH8ITwfkMhz
+	 j6EL6+cKD8yHIFjlq0kR6Nh/3cg9ys37ggQUYY0gtYyojL7IoGvTZw8A8cGfw2WK6npFx
+	 8qzWsOIhUdwexoZX/XRjGgv3naRnYfl9W2XDgqgy1x+dZCQyggq2JRvMxRkldM9iHg79p
+	 PEkvYL9vBBLeh7H50cNArDAqvBxwc+/fQg8/C1wdVN5Nylt3Z9fuXnSZAX2RTRKlHjOa9
+	 nKB3bFRnaJ96K7eMFUNzRi0Xgj62W5yrVVqH9bYXOWme4K8giMeKgUD4NMkbs1P4cVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795037117;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=/0vNi3WzQ0meDFvL7gP2Mj945lYjPQyLZhg0rrA4/Ew=;
-	b=XRlA9TPB/e6L83syadADXJur1W3lvzDHAyYfnH1KPgobayIKGRNNXtJ1tz1ZCF/UTKxc
-	 I9H5JoTEbbOk2folmwyLHjEIbDjrzTyp4OwCyYk3rIkR4IhTGZiG8jkIG4UQdXqNrthNj
-	 DNozvjS12mAelghZLnZfs7z0MhefqafLzGEkBUdSfplEqCTvPmDUjy1zWo64Y5KGsuEkr
-	 mXPdWuDLFAierwPdG80XvwbMGqjM48HcZxXF3bL+BGcEg60HPWp11Y5cnL3+pkWo99Xfy
-	 oYM7Pl4+ob3eClM8YFF75HPIqRgQ2vpOma2JaFRrFNEYgWF8/yHKCic9RhrErkFW6Qw==
+	bh=VF8D/NpkOVfXwYS7vocB3YSAlBjCCPP6hp45RuIin7I=;
+	b=ftSu3HLygOgK7mnJPgB9nxgSFveScsIOu8rFR5bPGj9jyuoseVqwGAOvP2m3b9OIUqRT
+	 AECyK0crmradrEDI/28UMX7r49zZOO3nU1LdrbmqkIaM58Jz4/gmjrD8VU/eWh5b3mucJ
+	 phZTxXp3cR/KWmO0IblHLYGb1FGNwxok2vOGuokm/w+3fwmr68cc9uHXPjtdwBsvsDlLp
+	 qU9vNormosBELLbN51S/BYYAwnwG/aNo3XLvjWo8YXG/7qXW1jv95sfWtqjI9uQ0dMjOq
+	 Ur3gW84ISjRPeO1gPjTahguqCIKqFeBkdXSbjAyiKYBF7jQCvzRFhlGAUOIKthUsQfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=FAoKPi9h;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qJa2sKeg;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AB1606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BDE606A333
 	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 21:25:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9AB1606A330
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9BDE606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=FAoKPi9h
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qJa2sKeg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795037115;
-	bh=/0vNi3WzQ0meDFvL7gP2Mj945lYjPQyLZhg0rrA4/Ew=;
+	bh=VF8D/NpkOVfXwYS7vocB3YSAlBjCCPP6hp45RuIin7I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FAoKPi9hKgEnAcvfe6uwXihMHOYGbYKSr/s27OhfWzazRhni2+I9G3EKEEQZ74WJY
-	 ts1NDpqfep7bkgZpi5T1XawZop+xLbpdXFlvdgFP0tzD+q0MO+cSlQsfoyvSPmMOe0
-	 i5M9Qxw71Ag+yhnJ3HEu+pSm/rNHc5iGlyBagAuZn4uDhbIrJSEgRu+epeHT2rXzmF
-	 wawoD8i4ZCy4BQmfE7ehMG6lFJEj+oT7R2OrxpNudcLHEVe0ElL29JWk9mWd7Cqev2
-	 OAdTdf0E7WQp2VuAWiVCIiDlnJMiiOc/hEK8Z7LLFcjfqUCW4dP19cU2u4PVljvb8H
-	 ff5J6SVgmCkzg==
+	b=qJa2sKegXf9S3s98sfRIPTTRCglhdd3Ii/c4RhWMQmlIdRsCrEnCsQpgdm4xlISnv
+	 G1GVZXxn3sbyywpIXfJM/HlrkX8v3r+3KvSrkCsX3yiDhdSpMpbF86jYbA/OSWMft6
+	 HAUTamM3iL+F2Y1Vf/5jgA6VGy4GKihKenC/62hY3SmsC4diVi00qdvxTcdiC3H6JT
+	 NhZHBvM8g/B54f/DMQj2tkyRpGGcPXrVaqhae2IMl6nW5Mt3Z2dadvkzUuLDdIM3bD
+	 Wk9x0L48zbs8TC01z99GUg0vtTcN2IVQyxAwHe3tKe4MtI+EPaA2H1G7mrfto7gY5q
+	 w+LbTXNxlcT2Q==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVF4W4lQszSNv;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVF4W65BPzSNw;
 	Wed, 18 Nov 2026 16:25:15 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v2 01/16] sched: Refuse SCHED_FLAG_KEEP_PARAMS that would change the policy or the class
-Date: Wed, 18 Nov 2026 16:24:57 -0500
-Message-Id: <ba41e54ddc52f13b1889c204220882fb79e9099d.1795037078.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v2 02/16] sched/deadline: Do not admit bandwidth for parameters that are kept
+Date: Wed, 18 Nov 2026 16:24:58 -0500
+Message-Id: <ab5b150fe61d5db767aa98f1b1255661ad5de333.1795037078.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795037078.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795037078.git.mathieu.desnoyers@efficios.com>
@@ -97,112 +97,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A sched_setattr() request with SCHED_FLAG_KEEP_PARAMS can ask for
-another policy. __sched_setscheduler() then applies only half of the
-change, and returns 0:
-- SCHED_OTHER to SCHED_BATCH leaves the policy as it was.
-- SCHED_DEADLINE to SCHED_OTHER sets DEQUEUE_CLASS. switched_from_dl()
-  then runs on a task that stays in the class. It would release
-  bandwidth the task still uses.
-- SCHED_DEADLINE on a task of another policy reserves bandwidth in
-  sched_dl_overflow(). The task keeps its policy and a dl_bw of 0, so
-  nothing releases that bandwidth. For a task boosted into the deadline
-  class, it is not even a class change.
+__sched_setscheduler() runs the deadline admission test on a request
+with SCHED_FLAG_KEEP_PARAMS. But the task keeps its parameters: the
+call skips __setscheduler_params().
 
-SCHED_FLAG_KEEP_PARAMS came with utilization clamping. With
-SCHED_FLAG_KEEP_POLICY, it lets sched_setattr() change only the clamps
-of a task. So __sched_setscheduler() skips __setscheduler_params(),
-which sets p->policy, and the sched_class assignment. Nothing checks
-that the request keeps the policy.
+Commit f4dddf90d58d ("sched: Skip priority checks with
+SCHED_FLAG_KEEP_PARAMS") made sys_sched_setattr() copy the task's own
+parameters into such a request. Then the priority checks pass.
+get_params() copies them without a lock.
 
-In testing on v7.4-rc2, a deadline waiter boosted a SCHED_OTHER mutex
-owner with a 40ms slice. One such call on the owner left 0.4 CPU in
-total_bw, until the next rebuild of the root domains.
+Another call can change the task's parameters before
+__sched_setscheduler() takes the runqueue lock. The request is then
+stale, and dl_param_changed() takes it for a change. sched_dl_overflow()
+would put the stale bandwidth in place of the task's own in total_bw,
+and in this_bw for a sleeping task. But the task keeps its own dl_bw.
+Its release at the 0-lag time takes that dl_bw, and the difference
+stays behind.
 
-Fix this by refusing a request for another policy or class with
-EINVAL. Move sched_dl_overflow() after it, as the last check. Nothing
-gives back the bandwidth it reserves. A refused request also leaves
-sched_reset_on_fork alone.
+Fix this by skipping sched_dl_overflow() for SCHED_FLAG_KEEP_PARAMS.
+There is nothing to admit for parameters that are kept.
 
-With this patch, that call is refused and total_bw does not change. The
-params_keep_boosted case of deadline_bw_test, added later in this
-series, tests it.
-
-Juri Lelli found the class change, from a report by Tejun Heo. The
-Sashiko AI review of this series found the policy change and the boosted
-case.
+Found by reading, after the Sashiko AI review of this series raised the
+boosted case of the previous patch. Not reproduced: the parameter change
+must land inside that window.
 
 Fixes: a509a7cd7974 ("sched/uclamp: Extend sched_setattr() to support utilization clamping")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
-Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-3-dd761fe005b4@redhat.com/
 ---
- kernel/sched/syscalls.c | 40 +++++++++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ kernel/sched/syscalls.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 0ec401af80d1..89b0d5787f45 100644
+index 89b0d5787f45..6f8ce5fd94a1 100644
 --- a/kernel/sched/syscalls.c
 +++ b/kernel/sched/syscalls.c
-@@ -647,17 +647,6 @@ int __sched_setscheduler(struct task_struct *p,
- 		goto recheck;
- 	}
- 
--	/*
--	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
--	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
--	 * is available.
--	 */
--	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
--		retval = -EBUSY;
--		goto unlock;
--	}
--
--	p->sched_reset_on_fork = reset_on_fork;
- 	oldprio = p->prio;
- 
- 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
-@@ -677,9 +666,38 @@ int __sched_setscheduler(struct task_struct *p,
- 	prev_class = p->sched_class;
- 	next_class = __setscheduler_class(policy, newprio);
- 
-+	/*
-+	 * With SCHED_FLAG_KEEP_PARAMS, the change below skips
-+	 * __setscheduler_params() and the sched_class assignment. The
-+	 * policy and the class stay as they are. Refuse a request for
-+	 * another policy or class, rather than carry out half of it.
+@@ -690,8 +690,16 @@ int __sched_setscheduler(struct task_struct *p,
+ 	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
+ 	 * is available. Keep this check last. If a later check failed,
+ 	 * nothing would give back the bandwidth it reserves.
 +	 *
-+	 * The class depends on the priority, which priority inheritance
-+	 * can raise. It also depends on whether a BPF scheduler is in
-+	 * charge. So test the class too, not only the policy.
-+	 */
-+	if ((attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
-+	    (policy != p->policy || prev_class != next_class)) {
-+		retval = -EINVAL;
-+		goto unlock;
-+	}
-+
- 	if (prev_class != next_class)
- 		queue_flags |= DEQUEUE_CLASS;
- 
-+	/*
-+	 * If setscheduling to SCHED_DEADLINE (or changing the parameters
-+	 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
-+	 * is available. Keep this check last. If a later check failed,
-+	 * nothing would give back the bandwidth it reserves.
-+	 */
-+	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
-+		retval = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	p->sched_reset_on_fork = reset_on_fork;
-+
- 	scx_prepare_setscheduler(p, policy);
- 
- 	scoped_guard (sched_change, p, queue_flags) {
++	 * With SCHED_FLAG_KEEP_PARAMS, the task keeps its parameters, so
++	 * there is nothing to admit. Such a call changes other attributes,
++	 * such as the utilization clamps. A deadline task does not use its
++	 * clamps, but keeps them for when it leaves the class. The
++	 * parameters in attr may also be stale: sys_sched_setattr() read
++	 * them from the task without a lock.
+ 	 */
+-	if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
++	if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
++	    (dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
+ 		retval = -EBUSY;
+ 		goto unlock;
+ 	}
 -- 
 2.47.3
 
