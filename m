@@ -1,99 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794989809;
-	b=TKKxX4exygK+uCvDjE85RM4ZvUeSCLxRisfkKd0bebX0/KUaQH/rpt2QEeKOV7TyMhgH
-	 xn5+dhuNz6RyC3+IxfPMdbYgsvhk9ISH3W2p1wvlMf0vTJNnLKuMh41T3kkL0XvmFv8OA
-	 JpXqekiEsHNeGSu2JS66m+GKGZw6Y1x0OXAYozkCXinlB7B1L9TR+gHM61IbhMTLSxuQA
-	 u+vvk4vdF+1YovQhHvqPjWNV6rNa8uohnLO+OK7xiQSONIwK8akn5iNh6IuqP91FedAGw
-	 ptQjrKfL6LNm5pM1AS0g+T6pY74Ov3OozPPn0EETNGghx8s/yLdw/dn0TLhPrCWEuLQ==
+	t=1794996739;
+	b=pwHokktOZ7yfyvsjmixCVHKpJc5ZrrTckzr8S2qc2bZ2ewUm1VMnLbSm7UZDRr6cfab6
+	 Ic+87pVSSaO7+VcT9LN3OvJTcIbnUDfaWim6viQK6dzU1VlKTZ9cuO0qN6qkWGE1RE3JV
+	 bki0q/C5J/wNPH7cmobhqZibdZfLPxRdFm0aogAcOnvpiZ5PwiTi7wLun+5K3+mMWZK/4
+	 9BNdZS1IhaWxaUGFp3V1QLiuKUE13uBuadAVnzGBbMXZaCJ5lMNoUt9H1/byZ3stenXF9
+	 IfBXYhaLdI9i8PfArPfgRSj4ri6SNL7MH/Z2JNbkusa759rNspEwgzq8j9ypFid3T4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794989809;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=n/X/ib+QXW0aM8E5khBCUAfePu160JSALCSJ/A5VZrw=;
-	b=g5pZW+LPER3/+ptRwl6oLpnp/eKpjRBXNM8rXx7ij+vW5fhFn8O2Ic42ZK1yd9sGpAJZ
-	 GNImQSz8t8XjJrax6UuZ1wm0tgWcXZupzQK7a/sxL+39B0gfIRVw2r3lulJbkHphNc+gK
-	 v58Kll7Gi8t0nD6T1e4Zz9864JQqanpIsMEVLpqrEzEYPve/JUAu1ABsKzrDhOu9IDIB6
-	 gV4TbZ72Fok5/XRvQB0LwOjc4khvT1BKPBXuvb48+CMIsgYkAvhL5iYVmvA2I59Alz+Tc
-	 JR/NzzdDinCBFzoRtIRhhuzgsKNJw4MOEHakv0nHBO+W+u9jmEGCniJUzVbyu2uIvig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794996739;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=wOvZstlG0NBbv/dzQM6xwLtQ/0sPGNaMMnmH8lqZPgo=;
+	b=EpInguwWjVPlpMbCMUeWX46+owsMgQgTaOPlE6Wu//GTs1Tx0pjGvTFls4WlTI5TDLe8
+	 1iaFxK5AM+fz3dwirlJ2PXVmUF3nIRRV3h9i6DIPjuGaq0Im9AHVB2/FGwIzhqQzVzUAg
+	 vSDJSAxSOHtlpxLFSMuc6mHQ6OpeiGoggf/rwEPZYfvFFnVXjUsZDzZuQlffvO1mKlZt/
+	 RyZtO8h4nYvJG9nyl8Pnl5GZ8DJpE2qGZEhU2ZQtZGRzjKgu6lAuKNa61Nrq7asfX3Orr
+	 0kAJ/rq7EupIx/4gJUBD1S8psSGe8gNy0EB+mS1/9puBVPimaiSHjgnViXNmUS8YJUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fawocRW5;
-	arc=none smtp.remote-ip=209.85.210.171
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G7ViuwWa;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918CF606A8A2
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 08:16:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 918CF606A8A2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F44C606A884
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 10:12:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F44C606A884
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fawocRW5
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8b58d6f67a5so396599b3a.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 00:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794989809; x=1795594609; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=n/X/ib+QXW0aM8E5khBCUAfePu160JSALCSJ/A5VZrw=;
-        b=fawocRW5wzdWKgKVD/dpmTTNychhddzao4DwePjMAVZDmVvlQWSd515/fXfVQv3i9M
-         6U0M1aPKGsEZ98eRDMlB6OvqILWq4enn1DFCTGVI+Fzb1JmsXgAMgLh+7bncZBPtnRuU
-         U0q+z1yv7Ue8P/eiyuoPX7HrPfST0iGwQLhBaL8RfUi7Y8w5D5JezkXPw4LkJJHeCcLX
-         C2JQjyoN/c2/UIwvdEoH/rfnAAF7oAzGej6/aCLH9oR5FeiYXepuBp3pvNnKvkn9B/26
-         cub9USHoombayNOzb4kAIP8GSpjDGVVcf1oC3YkuC+9hLv+r/5ckjdTne0Izux5NYc1+
-         FALg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794989809; x=1795594609;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=n/X/ib+QXW0aM8E5khBCUAfePu160JSALCSJ/A5VZrw=;
-        b=dHxig6uV2MWystLjXC7tk6QNr2k6fvSQAjE66AzA5FZB99YaQbEBPOK9P1tK+GDDXB
-         +kYeNw/ZrGpohYFX+VLIjW8kw8u+9zAc1JLIJBz8bus9H76WZNHXQoMWfvyAnA78VLrA
-         uAjeUOfhNnWk2/45pLUG6Yna2DQBDrzp8XPSgVaKa1OcyH14OwXpsfMbYQxd4yopXDVQ
-         P2KE292tU7+Jfyti+3pVAhPyx0Ej3V++uoF3lPhQPnDJqbp7lGu5HeY0sndHy+c1FJGt
-         HIm+lv+ZrOhrAgRYXk07dU3sLY9VSpz5d7345Mg5BCGVMrCDkW7karzP9ilHM3zTMWUX
-         9uqA==
-X-Forwarded-Encrypted: i=1; AL+hErEGvEeL/phqAozXQRItvgNSs2o61aazWOG0C5+Q8fsceo2Dvt69aFxea6zvcGW37h6tffvppuCsVUO4qTYL9g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9QyMWs5dCOZGm9e3hLOP13VLLbPB6sCDAXePeittAsFbaKAmUQ
-	QOKw7al1tNwTnqgrNigovtm8n1tq63RBMtcuoz9lQgR9popPBrtYvbYORvVTDA==
-X-Gm-Gg: AYBFou24BTN3K9vyy/frqJLrXC9dwhW7yq4kD0fXkuacU8XqyzBdt9od44PTNrwUNwu
-	/m7IhI/6q+Jp68Z/XQrLo9h/zAz02QNCU7MlsKy2K0IfWXeld3MnzCh6Uh/NaGnsQ/SIcAXpCT2
-	YVFEsEhUFv45dXcI69U0HKKTHpeCxouOX5K3VB5XcM9Xr+7PfN2DNzk8XngkkYySa04HwZ9aEXm
-	RxnIGqklrPcFDTQLR6XTs9grnil3qId2LthftvbvDmhG7mi11X2shyr9KBtx0bLD+TW0lSfr5Zo
-	nAoeA6d0c+SZ9C557ALhlE/eJH47jXw9mZ29kOb5dgKz4tJVyIwGxcF9RIsCzRoK+Y8MfvwnyKh
-	GOL25HsxLxTExBmd98IYeNu9kD8XvPn90/VzD2VcMMeerc77KKJ6Uee/85tCIP+Ukyg6b6CjUMM
-	Ea4yd1X+UaowEdX5qb7wQSXJ9UkedB922HERHVYWSJ2r1nI6paM0q3MKto+lkwG92fi9ibSm5my
-	MkS0PFCYgY5LTU6rA0S7Bxtb9N78V3mkE69t84rfKrXE0p0ebUnKVJVqCB1a9WxdZsR9IcGtqnT
-	DWR70UrXNKaDBQj771mDnAjiLUq281GlhsBxua8RwMoYdpOOFmorKQ2/tN5ekZPBtjdF/9A=
-X-Received: by 2002:a05:6a21:7a8b:b0:3de:4516:27c9 with SMTP id adf61e73a8af0-3fe988f72afmr1918544637.64.1794989808851;
-        Wed, 18 Nov 2026 00:16:48 -0800 (PST)
-Received: from hcdev-d520mt2.. (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c5cad8cefbsm764401b3a.31.2026.11.18.00.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 00:16:48 -0800 (PST)
-From: a0282524688@gmail.com
-To: lee@kernel.org,
-	Ming Yu <tmyu0@nuvoton.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org,
-	Ming Yu <a0282524688@gmail.com>,
-	mfd@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v10 05/13] mfd: nct6694: Drop the unused IRQ enable mask
-Date: Wed, 18 Nov 2026 16:16:16 +0800
-Message-Id: <20261118081625.2399247-6-a0282524688@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261118081625.2399247-1-a0282524688@gmail.com>
-References: <20261118081625.2399247-1-a0282524688@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G7ViuwWa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794996739; x=1826532739;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FF5B0ph4nYkrwjb1C6748DuKV0yiQO0WYfTjj9OFyQw=;
+  b=G7ViuwWajQav9rOyEN7Dz3bgI7Q1V4bXUGSxQed/cSOx6vzau3ugq1md
+   qd7W6s7PBQjHJHLWH9NZdoNuJh7FePxxnOQMn564PKfVLLxl2jeYU5V8e
+   0/sAsfeGYZZ47cetnihH40P+TiwpMJ0Q+Jy1bpRQPh1SQPbW9tABCZV6J
+   3iWol6PLgYYD9gz0d/9nSFSNLyFlZTEvFGGX+ciJ4IOGF4K6XDo/HyUCt
+   vHZmsv5f+6zjXYUEvYB7ZzQvJhGbZXHATjAVb4sahnJ8pjoSFXvmkPYQt
+   zUVWoL7tQcZFYVWazzBBdpoQA1Ifv0KbeBznaJZdqztkmqY9+W6ybInjN
+   g==;
+X-CSE-ConnectionGUID: Wpxcy7K2Q0S8+Bw87IXlNQ==
+X-CSE-MsgGUID: TitLnBNrSw2+n7ivlz6O8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3682651"
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="3682651"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:12:18 -0800
+X-CSE-ConnectionGUID: D/5dg/T/T7egAVJfdbIJDg==
+X-CSE-MsgGUID: 7vyP09MJSo22wc5qpMf9JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="10052164"
+Received: from linux-pnp-gnr-1.sh.intel.com ([10.239.83.186])
+  by orviesa007.jf.intel.com with ESMTP; 18 Nov 2026 02:12:15 -0800
+From: Jiebin Sun <jiebin.sun@intel.com>
+To: akpm@linux-foundation.org,
+	bigeasy@linutronix.de
+Cc: dennis@kernel.org,
+	tj@kernel.org,
+	cl@gentwo.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	linux-rt-devel@lists.linux.dev,
+	tim.c.chen@linux.intel.com,
+	tianyou.li@intel.com,
+	wangyang.guo@intel.com,
+	jiebin.sun@intel.com
+Subject: Re: [PATCH] lib/percpu_counter: allow concurrent sums with an rwlock
+Date: Wed, 18 Nov 2026 18:16:46 +0800
+Message-ID: <20261118101646.3192636-1-jiebin.sun@intel.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261115191636.f18859e4dd5f58b9a33e7814@linux-foundation.org>
+References: <20261115191636.f18859e4dd5f58b9a33e7814@linux-foundation.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -105,103 +93,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ming Yu <a0282524688@gmail.com>
+Hi Andrew and Sebastian,
 
-The .irq_enable and .irq_disable callbacks only update the irq_enable
-bitmask under irq_lock, which is a spinlock_t. Nothing ever reads that
-bitmask, so the callbacks do not mask anything. They also take irq_lock
-while the IRQ core holds desc->lock, a raw spinlock. On PREEMPT_RT this
-is an invalid wait context.
+Thanks for the comments and the RT review.
 
-Remove both callbacks, along with irq_enable and irq_lock, and keep
-IRQCHIP_SKIP_SET_WAKE. Without .irq_disable, the IRQ core falls back to
-lazy disable, and handle_simple_irq() keeps a disabled interrupt pending
-instead of calling its handler. The behaviour is therefore unchanged.
+I'll replace the macros with static inline helpers, add the RT comment,
+and clarify the practical callers, including percpu_counter_sum_positive(),
+in v2.
 
-Fixes: 51dad33ede63 ("mfd: Add core driver for Nuvoton NCT6694")
-Signed-off-by: Ming Yu <a0282524688@gmail.com>
----
-Changes in v10:
-- New patch. Drop the .irq_enable/.irq_disable callbacks, which only
-  update a bitmask that is never read and take a spinlock_t while the
-  IRQ core holds the raw desc->lock (reported by Sashiko on v9 06/12
-  and 09/12).
+Interrupt readers can bypass a WAITING writer and delay it if they keep
+overlapping. I'm considering the impact this could have on counter
+updates. If this needs addressing, we might take the write lock in
+__percpu_counter_sum() when called from interrupt context, while keeping
+the read lock for ordinary sums.
 
- drivers/mfd/nct6694.c       | 25 -------------------------
- include/linux/mfd/nct6694.h |  2 --
- 2 files changed, 27 deletions(-)
+I also tested buffered writes with fio.
 
-diff --git a/drivers/mfd/nct6694.c b/drivers/mfd/nct6694.c
-index 6b8b951f0166..27e9effd68a7 100644
---- a/drivers/mfd/nct6694.c
-+++ b/drivers/mfd/nct6694.c
-@@ -19,7 +19,6 @@
- #include <linux/mfd/nct6694.h>
- #include <linux/module.h>
- #include <linux/slab.h>
--#include <linux/spinlock.h>
- #include <linux/usb.h>
- 
- static const struct mfd_cell nct6694_devs[] = {
-@@ -250,31 +249,9 @@ static void usb_int_callback(struct urb *urb)
- 		dev_warn(nct6694->dev, "Failed to resubmit urb, status %pe",  ERR_PTR(ret));
- }
- 
--static void nct6694_irq_enable(struct irq_data *data)
--{
--	struct nct6694 *nct6694 = irq_data_get_irq_chip_data(data);
--	irq_hw_number_t hwirq = irqd_to_hwirq(data);
--
--	guard(spinlock_irqsave)(&nct6694->irq_lock);
--
--	nct6694->irq_enable |= BIT(hwirq);
--}
--
--static void nct6694_irq_disable(struct irq_data *data)
--{
--	struct nct6694 *nct6694 = irq_data_get_irq_chip_data(data);
--	irq_hw_number_t hwirq = irqd_to_hwirq(data);
--
--	guard(spinlock_irqsave)(&nct6694->irq_lock);
--
--	nct6694->irq_enable &= ~BIT(hwirq);
--}
--
- static const struct irq_chip nct6694_irq_chip = {
- 	.name = "nct6694-irq",
- 	.flags = IRQCHIP_SKIP_SET_WAKE,
--	.irq_enable = nct6694_irq_enable,
--	.irq_disable = nct6694_irq_disable,
- };
- 
- static int nct6694_irq_domain_map(struct irq_domain *d, unsigned int irq, irq_hw_number_t hw)
-@@ -356,8 +333,6 @@ static int nct6694_usb_probe(struct usb_interface *iface,
- 	ida_init(&nct6694->canfd_ida);
- 	ida_init(&nct6694->wdt_ida);
- 
--	spin_lock_init(&nct6694->irq_lock);
--
- 	ret = devm_mutex_init(dev, &nct6694->access_lock);
- 	if (ret)
- 		goto err_ida;
-diff --git a/include/linux/mfd/nct6694.h b/include/linux/mfd/nct6694.h
-index 69e4652cf16c..2022b8fcc096 100644
---- a/include/linux/mfd/nct6694.h
-+++ b/include/linux/mfd/nct6694.h
-@@ -91,13 +91,11 @@ struct nct6694 {
- 	struct ida wdt_ida;
- 	struct irq_domain *domain;
- 	struct mutex access_lock;
--	spinlock_t irq_lock;
- 	struct urb *int_in_urb;
- 	struct usb_device *udev;
- 	union nct6694_usb_msg *usb_msg;
- 	void *data_buf;
- 	__le32 *int_buffer;
--	unsigned int irq_enable;
- };
- 
- int nct6694_read_msg(struct nct6694 *nct6694, const struct nct6694_cmd_header *cmd_hd, void *buf);
--- 
-2.34.1
+Fio (64 jobs, 3 iterations, 60s each):
 
+  +------+------------+-----------------+---------+
+  | Test | Throughput | CPU utilization | Cycles  |
+  +------+------------+-----------------+---------+
+  | Fio  |     +6.91% |         -40.41% | -40.80% |
+  +------+------------+-----------------+---------+
+
+Test configuration: ext4, 32 GiB cgroup memory limit.
+
+Commands:
+
+  sysctl -w vm.dirty_bytes=67108864 \
+             vm.dirty_background_bytes=33554432
+
+  fio --name=buffered-write --directory="$TEST_DIR" \
+      --ioengine=sync --rw=write --bs=64k --size=256m --numjobs=64 \
+      --direct=0 --fallocate=none --time_based=1 --runtime=60 \
+      --cpus_allowed=0-31,86-117 --cpus_allowed_policy=split \
+      --group_reporting --output-format=json
+
+Thanks,
+Jiebin
