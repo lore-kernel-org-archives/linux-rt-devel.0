@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795032413;
-	b=dhw+y1c3t7L6RelWTDIv6bSBci7n6t5yNy0bGkp+mb8XH71Vi7oGTfvKja9Ea6BeZ2Re
-	 66n10uMDUriP6wEIdlmAczq6Lr7FeHBrbvDbNMah9Jnt50vet2NlSkCJG+tMLMxCuaEci
-	 v89lyQpxVs8nQhXtJOrDNVAxioLCWUxqwtv8je0KvXum/ZTUjP4NABzM+UQSY6iqO3n7P
-	 48AxmCsFwf0OBwMcFAYO2uSR171uvX9A60crpcU1BsJq6VtfHu2TiPT7vfAG21zvTzO83
-	 ZmhJgeBidZxIrXIrTClcYywVFNxynw4p2bLvoP/H1vp1lDqT2LQoRZVPnq3VqpT/rOQ==
+	b=G5ZpfuIH8O/5UWahL90Qv4n5Ozi48Iza+nG5qRNg/VvGfhs2nZuctPkck9cgmFdhE3pu
+	 0r9IB2ZNBL6VJ2qiGp948FwSbCYhOPk2QHfUtYC4bnClg4YiW4UQP5wCJNUBU0CflyMoD
+	 cBDNV0XjzBIxvBWqbsSWEEteBRNcaZKjdsL1d/5AfsvmeKZYBjmUz2XxUka8vafitssQj
+	 npjrufKEncgVpsN0y9f46nHZyoHRztx8t57Ku5bPVU3W2/Z3iSvAx5mjeBZy4Kq29mWLU
+	 5+asG/iSQ0H7RBd1cze72aqE0uB3o3eWAB8Vc+3LBFXTcjmlCf3yVM+B/aSRVzfuYeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795032413;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=6c2WfmmuO5OP5xCe2CrO1/Z/FsV4bpBjjt1tFRNTMew=;
-	b=gFWoE1CFSeKGZm3blMXaLC+d5H7nDymeadfSE8PtzPQlceF1JfH2xG1+JMw/hG/Y5DPf
-	 aiqsqyb78W85b7cGP8ToL3ijOMeiMXXXq7i0W8RGLarekAXzl4ikRSW+oLIsarB8hOGJQ
-	 /0PK5pOHOcE88Y8BLjBDWWghs4dqBOfOUh/HF2Z2w8LdieXrpU5fr2b7oRSdZjhP5IR4d
-	 FOIckwnYEQ7vY8ShTFthZUKlJxTrvFpAkiiZ0IT4AnM7sREiJ2pcaOYgqAsgV7/HnQga5
-	 cKIHgrxhVKhc3w18O0aze/XPffJjAYGO8EhuDmb9ctRpHaA6CeWyoVnWyYavzam1MhQ==
+	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
+	b=aYCfsJrfYmBCcSAsUIx4EsuGgiQZ0qaFFE2MwX+EJHNpXSkS/bKEIcHbJdWwZcqAfqCO
+	 84udmDybO8KuNDRBMWp1GmnCN/pFdi2fI1+xTzBZW6d3331ZS1Nn8Z2uIK9rLwy/dNn+5
+	 9Rr2QjYdkM/e4jRqbf2Qmw9l1liERW7TXnkFYcX4DO7yERE5f0FXXZJRA/JVH/Le00CCB
+	 u0VrtbZIfoB31KOhI+/sjvZ6qWpua2w8Xax1YR9ulNdhBwvIlkre8+jAhS7TKcs0ySU9G
+	 0C7v6MLbsHaksDY7nnCSirS78X+JVFHGPxvbxg3lymdWDgV2pk9zyU+Rt7sZ1/cfLBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=NJIARl8O;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Dz1xEwdE;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F79760A3827
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578EA60A381C
 	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 20:06:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F79760A3827
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 578EA60A381C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=NJIARl8O
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Dz1xEwdE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795032406;
-	bh=6c2WfmmuO5OP5xCe2CrO1/Z/FsV4bpBjjt1tFRNTMew=;
+	s=smtpout1; t=1795032405;
+	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NJIARl8OD2eibOjqLlwf1B7aPpPPxER49yLVp43jfUKa9763yyrqJBVUNSfAabddv
-	 RREIh4N7N/OQnz7fp2Fetjf0DTAdPRDOp5zI6QWsy/SvqDMBqupNTsHm3rYPMrOV9i
-	 vC7ui8n5wQzk61fgBBU+fT0et5dJuRS+rbC548ao+bXOIP53nixWVL1o+HOdQ55qNp
-	 9PsNc/x5XNPIeHr+6RdyTiCrteZ7+Fhutl+HFxBr9tu63/Nt40dT/AiR4oImUwKOVt
-	 UcsrB+Qd8Hfq7dQxM/3FV1f4jTZAC0d54T36NqjiNxWH1pkWTcj0re3DTxvkgJ6rkM
-	 oSntgWuzwUucA==
+	b=Dz1xEwdEGPu5BKm87rISbIOB0UeuA5dCYW/Xe7hefx3HxojAZJVcOnHagDKZmbuiP
+	 3uLYj8HJczStJkkk82f11enmL3ALgNYZ0geklKuYbe29u1oCaS8UcE2Y0D82FaWVRD
+	 wjzfKjZG9LFD1GG9FWj4gKSmpv8Dt/jQt4oM4WffXpFiVhG+ldOugnDtIwolWajX9r
+	 OYREJhH5yfyylNJ1xfDgjieGu6NDdi2rNw0DL4g8C4Fyb6TvNjNE+G9o6Y7Qac+D/7
+	 TuehWbyBdcfGYz9FIVxnApoz+w6k6dXwYRIA5nJHgBtkmWWJVm2eJVxoUKyEWOlWch
+	 EGxmsGWG5QxOA==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVCKy12vvzRXX;
-	Wed, 18 Nov 2026 15:06:46 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVCKx49shzRpg;
+	Wed, 18 Nov 2026 15:06:45 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -78,10 +78,11 @@ Cc: linux-kernel@vger.kernel.org,
 	weihengqiuu@gmail.com,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH 14/16] sched/debug: Show the deadline bandwidth of each runqueue
-Date: Wed, 18 Nov 2026 15:06:39 -0500
-Message-Id: <e5539bf182028d7a1f13c579dc5edd4bf364048e.1795031605.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH 11/16] sched/deadline: Reject SCHED_DEADLINE on exited tasks
+Date: Wed, 18 Nov 2026 15:06:36 -0500
+Message-Id: <3f5d0beb852a58150b446567b50d35098b8c9380.1795031605.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795031605.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795031605.git.mathieu.desnoyers@efficios.com>
@@ -96,40 +97,63 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For each CPU, sched_debug prints the deadline bandwidth of its root
-domain. It does not print the two sums of its runqueue. this_bw is the
-bandwidth of the deadline tasks assigned to the CPU. running_bw is the
-part of it that belongs to active tasks.
+From: Juri Lelli <juri.lelli@redhat.com>
 
-GRUB reclaiming depends on both sums. grub_reclaim() takes this_bw -
-running_bw as the inactive bandwidth of the CPU. The more inactive
-bandwidth, the slower a reclaiming task uses up its runtime.
+sched_setattr(SCHED_DEADLINE) on a zombie task succeeds and charges
+total_bw via sched_dl_overflow(), but the task has already done its
+final schedule() and will never run again. Nothing releases the reserved
+bandwidth. Repeating this fills total_bw to the admission cap, after
+which sched_setattr(SCHED_DEADLINE) and CPU offline fail with -EBUSY.
 
-The kernel warns when a sum wraps around, and when running_bw exceeds
-this_bw. Bandwidth left behind in this_bw triggers no warning.
+Reject sched_setattr(SCHED_DEADLINE) on exited tasks with -ESRCH.
 
-Print both sums. The deadline_bw_test selftest added later in this
-series reads this_bw in its params_waking case. It checks that this_bw
-is back to its first value once the tasks of the case are gone.
+A task of the class that exited, switched to another policy, runs
+switched_from_dl(), which decrements the count of deadline tasks of its
+cpuset that cgroup_task_dead() decremented already: at 0 with a deadline
+task left in it, the cpuset is skipped by the next rebuild of the root
+domains' accounting, and that task's bandwidth with it. Reject that as
+well. The deadline_bw_test selftest added later in this series has the
+case, death_zombie_switched: on v7.4-rc1 the switch is accepted, and
+the one-CPU partition root the zombie ran in admits 9 tasks of 10% after
+a rebuild, with a task of 30% still in it, where 6 are due.
 
+Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
+Reported-by: Weiheng Qiu <weihengqiuu@gmail.com>
+Closes: https://lore.kernel.org/all/3f6e6c87-645b-45fd-8fc6-8da5bc5b82d8@gmail.com/
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-4-dd761fe005b4@redhat.com/
+Cc: stable@vger.kernel.org
+Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+[mathieu: reject a task of the class leaving it too, found by the
+ Sashiko AI review of the patch]
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/debug.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/sched/syscalls.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index ddb382df454b..2c373adf3196 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1175,6 +1175,8 @@ void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq)
- 	SEQ_printf(m, "  .%-30s: %lu\n", #x, (unsigned long)(dl_rq->x))
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 9b04e77297ae..b87b878be63f 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -592,6 +592,19 @@ int __sched_setscheduler(struct task_struct *p,
+ 	if (retval)
+ 		goto unlock;
  
- 	PU(dl_nr_running);
-+	PU(running_bw);
-+	PU(this_bw);
- 	dl_bw = &cpu_rq(cpu)->rd->dl_bw;
- 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->bw", dl_bw->bw);
- 	SEQ_printf(m, "  .%-30s: %lld\n", "dl_bw->total_bw", dl_bw->total_bw);
++	/*
++	 * Reject SCHED_DEADLINE on exited tasks. A zombie will never be
++	 * scheduled again, so sched_dl_overflow() would charge total_bw
++	 * that nothing will ever release. And reject a change of policy of
++	 * one in the class: cgroup_task_dead() took it off the count of
++	 * deadline tasks of its cpuset, which switched_from_dl() would
++	 * decrement a second time.
++	 */
++	if ((dl_policy(policy) || dl_task(p)) && p->exit_state) {
++		retval = -ESRCH;
++		goto unlock;
++	}
++
+ 	/*
+ 	 * If not changing anything there's no need to proceed further,
+ 	 * but store a possible modification of reset_on_fork.
 -- 
 2.47.3
 
