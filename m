@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795032412;
-	b=c+KAUN/4OIiA1bmcO88fnSEqXsSimHJQY4OSVAMg7KSo4wa9KVpKSXdF9bG11p6tdBPa
-	 odDcqO+INIDjZdxgPke4Lerwp3qBMrwUU2MyRKgsKU8ymNeYZKtZrcyNZi/XBHJRqjKTz
-	 AtW7QcNS6WNeUj9kWXWikjujKGXZYt8N2KXSSg9TleA5NyIKdPXcXwFwQDnbMPh+NVvit
-	 TuG1ftSAeR+qo5Yuvw/j4hC7tix+2DTtZ7VhbgLJA2BIDxiRxorJVl72kiofS24x7iYEj
-	 LVuKUY5OH4zAfi+8mD3W88Dl8D2xV2W8C9TOCn3JO3/hQ21rxdXfVg268neC+qOL7qw==
+	b=Tt8Qi+83yKwTfKsf2Ymyl0LTyRhNjefI/1E+9Nrb2HtmVwM+LN0dmNUreq67a5IwJOGo
+	 DqIAF/5VM2GXd6e8umGnGZO1iV73IAzCeLe2VjdOvwH5hYZ6KWxAHd40KlImVDTr2ZtJ7
+	 0+kLbuWn/nEhPl2Gjy9sw0LmbGwdq7BnJN9DX4BaJQcFJdim41Nm15L6x4aaoIDuxu1Xa
+	 KXRLhKf5Qz0rZvsVPRjbUAERjsEO1Ma/hDo0VZ2/Fc2vjEUphz2BKNiYinZQVZfubUiwE
+	 O9rLCacL2eRvH+Ddbf+453kNQMDoq4k9yQQGlXO3/aNEiI3OQzWt2WbDfrheA89kwnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795032412;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=BhOtU90QChI4MV+CFuZYuouzsBkSjlKgdR13L9qHB5s=;
-	b=GtRAw+KHeJEhbprmpt3UliPAl1gxXrevBioVuAf1W0NSzPUWzWIHT65lwUsy2QZ7RyFW
-	 RgvmlRI7c9wehUvfMp4Mh6ubHXLHdk8zI30geXmGXIxky+9l+fi4/sPSDbee/5Yfiso0m
-	 GU3E/Sw/iU6FI/v1QjC2SjkPd1WgHefOdKwjeiJJLYUaaS5oYpvFbE8nbsVVqtchnIC4d
-	 dt53itn0LtMiERNF13JNOg2ZzPf1EFnGvMNCvu4bb/VVBSVL1kk+YSgWaX5jidwA/mwYM
-	 BFOooKiC1yv5JFgNerTxAoG/+XjXM00x3rRut4/dnd1FD5u5oiq0Cq1trlwX2uOsKiw==
+	bh=dH+Qy0VqTTtvIXebKmx2Zo7LzHbz/iWPH6FpOkNy6PM=;
+	b=xj7jhgvwVwluah1AV/L4oRvDQfKxdvUItEW1Fqy5+mrJFLOasnrQR5Kmr3e858hCgHDf
+	 2vBz4SeO0FSXjfEfwwkqGLb3s7ApV4ssHyFUWKOafurkR5gyLvkiS2+5ynPrC+7EB/ZbP
+	 D/RdMv1j0jad7+xZwW8xL4sVPAnj0hfmdNuve8ZuAPPqRu4mC2xT4Tt4CZWJL2U7JpaqO
+	 ZV2PaowUNAhgmzJBidDhNSKY0S1W6ecHTYv8ZT9o7szbAgU5BzGGOFn9Pl2qi/D7jJTec
+	 4Ijxl00X913tCuTN6HVEfy7ammkeR+Urv24xBjOi7CdcpAg9o5TjK8YDKCNZARSFMpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mPEe7Fvd;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=K0bVyGeE;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D38606A33F
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 20:06:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1D38606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AA360A381D
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 20:06:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57AA360A381D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mPEe7Fvd
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=K0bVyGeE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795032404;
-	bh=BhOtU90QChI4MV+CFuZYuouzsBkSjlKgdR13L9qHB5s=;
+	s=smtpout1; t=1795032405;
+	bh=dH+Qy0VqTTtvIXebKmx2Zo7LzHbz/iWPH6FpOkNy6PM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mPEe7Fvdhghbglb96cJSgOcVgOi3IiKQVvJXXN9L5nXNAlJ1jUQg8Z9/C5E1qMbqt
-	 AZBcCC9VFD4JJN57zjGcmuGKgbA/4U8G3xMB8R8frCkJ4Wajo2NSXq6vg3Wwls6ecA
-	 HQqQbsmRE1j0wlx+WRRjN9VBRormrmLt/KTIeVpyI0vgPrj67oaPlLSrcTIDe1hZDc
-	 9q/RivPBv+wNI2c5w4jasHVxuZTFbnU5A4sqUomwzQING2+8cDaQnyo9Zo7znZ72VF
-	 o7Zy9J4iutwBrKrJU7w0HXrQoWqielbN+QGfpNeDurDgumYyQqCfN7vAJYCh7YP0m0
-	 Lon6X34Q6Aa5A==
+	b=K0bVyGeEIYJlr/Cr2S7i/adSW1q3CXQVs8/SGCMolNpAhUjvaDre3dDHKo1cU53WX
+	 DWvIQ20jXYhTpN51KCQNRy1XamuF1i5Ibh16/xLgkNoWzoGFPwhgvhDipm+6b1CAwT
+	 jof1rEEZctPubdwFlqacn0a7Cbhy85WJsjwOZ4wUKBQL0IsyaM2G/I0TzV6MSwnaqp
+	 NHnNDxbvjuJqBvr7/9oZrgNg8tI+1areaIAvYIEIoFz7d7IofrfFmznbhgHS6Uey2w
+	 AO8w5OrjT6K4ayTX6/l9UJoRUyUV3pxCzrvYgXtwwID1fyyDCmAcvgpnHHLBpFlCob
+	 nJSQRlt/2NuaQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVCKw4bTKzSNr;
-	Wed, 18 Nov 2026 15:06:44 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVCKx2tcCzRJb;
+	Wed, 18 Nov 2026 15:06:45 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH 06/16] sched: Take cpuset_mutex for a deadline policy change only with pi
-Date: Wed, 18 Nov 2026 15:06:31 -0500
-Message-Id: <9194486f15bb0cb36b51e4525f471d1150c0d58b.1795031605.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH 10/16] sched/deadline: Release the bandwidth of a task that leaves the class asleep
+Date: Wed, 18 Nov 2026 15:06:35 -0500
+Message-Id: <413baa5f50669ae464f504dbafeb504dd9b6ef6c.1795031605.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795031605.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795031605.git.mathieu.desnoyers@efficios.com>
@@ -97,105 +97,85 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__sched_setscheduler() takes cpuset_mutex for a change that involves
-SCHED_DEADLINE. On success, it releases it only when pi is set.
-normalize_rt_tasks(), for sysrq-n, is the one caller with pi unset. It
-runs under read_lock(&tasklist_lock). So sysrq-n takes the mutex in
-atomic context for a deadline task, and never releases it. Every later
-change that involves SCHED_DEADLINE then blocks forever.
+A task that leaves SCHED_DEADLINE while it is not queued can keep its
+bandwidth in total_bw until the next rebuild of the root domains.
+Repeated, this fills total_bw up to the admission limit. Then
+sched_setattr(SCHED_DEADLINE) and CPU offlining fail with EBUSY.
 
-Commit 710da3c8ea7d ("sched/core: Prevent race condition between cpuset
-and __sched_setscheduler()") took the cpuset lock only when pi is set.
-normalize_rt_tasks() cannot take it under tasklist_lock. Its changelog
-accepts this: after sysrq-n, the deadline guarantees are gone anyway.
-Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") then took
-the mutex only for deadline tasks. It replaced the pi test by a policy
-test, and left the release under pi.
+A task that leaves the class keeps its bandwidth until its 0-lag time.
+Releasing it earlier would allow temporary overloads. For a queued task,
+switched_from_dl() calls task_non_contending(). It releases the
+bandwidth if the 0-lag time is past. Otherwise it arms the inactive
+timer, which releases it then. For a task that is not queued,
+switched_from_dl() relies on the timer armed when the task blocked.
 
-Fix this by taking the mutex for a deadline change only when pi is
-set.
+But the timer is not always pending when the task leaves the class:
+- The task blocked after its 0-lag time. The timer was not armed.
+- The timer fired while the task was still in the class. It only
+  removed running_bw.
+- The task was woken up on another CPU and is not enqueued there yet.
+  The wakeup cancelled the timer.
+- The task came back to the class asleep. switched_to_dl() cancelled
+  the timer.
 
-The policy test reads p->policy before the runqueue lock. It is checked
-again under the lock only when the caller gave no policy. Otherwise,
-the task can enter SCHED_DEADLINE in between. The call then takes it
-out of the class without the mutex. A rebuild of the root domain
-accounting could run at the same time. So check again under the
-runqueue lock, and retry with the mutex.
+Then nothing releases total_bw.
 
-sysrq-n on v7.4-rc2, with a deadline task and lockdep on:
+Fix this in switched_from_dl(). For a task that is not queued and has
+no timer pending, call task_non_contending(), as for a queued task. It
+arms the timer if the 0-lag time is ahead. Otherwise it releases the
+bandwidth now and clears the parameters, as inactive_task_timer() does.
 
-  sysrq: Nice All RT Tasks
-  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
-  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
-  locks held by deadline_switch/4356: 4, on CPU#3:
-   ...
-   #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
+Clearing the parameters keeps later paths from releasing the bandwidth
+again:
+- A timer handler that already started finds a dl_bw of 0.
+- The deboost of a later priority inheritance boost finds no
+  parameters.
 
-A sched_setattr(SCHED_DEADLINE) after it never returned, in 8 VMs of 8.
-The sysrq_normalize case of deadline_switch_test, added later in this
-series, tests this with DEADLINE_TEST_SYSRQ=1. It passes with this
-series.
+An owner that the task boosts as a waiter can find the parameters
+cleared too. "sched/deadline: Do not replenish a boost from cleared
+parameters" handles this, so a backport needs it first. Without it, the
+owner's CPU can lock up as soon as the waiter leaves the class.
 
-Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
+Juri Lelli's first fix, since dropped from tip, released the bandwidth
+here without clearing dl_bw. The bandwidth of a boosted task was then
+released twice.
+
+Juri Lelli suggested the call to task_non_contending() in review.
+
+The Sashiko AI review of this series found the two cases with the 0-lag
+time ahead. deadline_switch_test, added later in this series, tests
+the release in asleep_round_trip.
+
+Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
+Reported-by: Tejun Heo <tj@kernel.org>
+Closes: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761fe005b4@redhat.com/
 ---
- kernel/sched/syscalls.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ kernel/sched/deadline.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index cb115aa9b0b3..9b04e77297ae 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -561,9 +561,11 @@ int __sched_setscheduler(struct task_struct *p,
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index d6d2657dcddd..f0e03f97fd82 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -3595,6 +3595,14 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 		if (p->dl.dl_non_contending)
+ 			sub_running_bw(&p->dl, &rq->dl);
+ 		sub_rq_bw(&p->dl, &rq->dl);
++		/*
++		 * Without an armed timer, nothing releases total_bw. Do as for
++		 * a queued task: arm the timer if the 0-lag time is ahead, or
++		 * release the bandwidth and clear the parameters now. Call
++		 * task_non_contending() after sub_rq_bw(), which needs dl_bw.
++		 */
++		if (!p->dl.dl_non_contending)
++			task_non_contending(&p->dl, false);
+ 	}
  
  	/*
- 	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
--	 * information.
-+	 * information. Do not take cpuset_mutex when pi is unset: the
-+	 * caller is normalize_rt_tasks(), which holds tasklist_lock and
-+	 * cannot sleep.
- 	 */
--	if (dl_policy(policy) || dl_policy(p->policy)) {
-+	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
- 		cpuset_locked = true;
- 		cpuset_lock();
- 	}
-@@ -643,7 +645,13 @@ int __sched_setscheduler(struct task_struct *p,
- 		}
- 	}
- 
--	/* Re-check policy now with rq lock held: */
-+	/*
-+	 * The caller gave no policy (SETPARAM_POLICY): the request was
-+	 * derived from an unlocked read of p->policy above. If the task
-+	 * changed policy since, re-derive the request from scratch, and
-+	 * release cpuset_mutex: the re-derived request re-decides whether
-+	 * it is needed.
-+	 */
- 	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
- 		policy = oldpolicy = -1;
- 		task_rq_unlock(rq, p, &rf);
-@@ -654,6 +662,18 @@ int __sched_setscheduler(struct task_struct *p,
- 		goto recheck;
- 	}
- 
-+	/*
-+	 * The caller gave an explicit policy, so the request needs no
-+	 * re-derivation (oldpolicy is -1 above). But the decision to
-+	 * take cpuset_mutex used the same unlocked read: the task
-+	 * entered SCHED_DEADLINE since, and the change below would take
-+	 * it out of the class. Retry to take the mutex.
-+	 */
-+	if (unlikely(pi && !cpuset_locked && task_has_dl_policy(p))) {
-+		task_rq_unlock(rq, p, &rf);
-+		goto recheck;
-+	}
-+
- 	oldprio = p->prio;
- 
- 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
 -- 
 2.47.3
 
