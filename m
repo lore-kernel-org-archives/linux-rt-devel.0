@@ -1,62 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795027773;
-	b=3SbDv/QZ+D1P0ooH9wYRTHiVXtHZN3LYzbi8sARmKrTJmr87Lz9AMcBu9aigiE2ZQ5yY
-	 grX9qYPBoS7BMYi42I5tyj1mpZgeO2PjW0IAZ2E18UztcRUy3R9id3mBpKK9csU/GhKCb
-	 IJPdphYFBtYBN2goSce36XfpEImiGjYsQgJ/P9BcTdaUQf++DbQq8/igUsYwAy2eA4g/x
-	 v1b39FegwMDbeq1jyIRl0EyPVVv50CD+xDoPuV7Kc9yXZY3P+3Xti97NTAl/U9+VOByFR
-	 fZ5Tfq+twAuMa4MordqKYGU2ZgXVpkJi6UGoCyJS9qjsP3aLN7Idub464vSXmWaJZSA==
+	t=1795027913;
+	b=PgcB9nnT31AM9PAQOqCm28EzzyeSYf+b++2T2fazA6XP4gKzCi8TIqL/gWB6ZSTXlRXC
+	 6vx6rZRwqxIKwkCkbU7CKnz3vItZjY6ZgTzHl+8iMwUQegg+gJAMQCixUKa3HBNVT1c/S
+	 QgAJ6rrOgFLanfr9VVuBvsbpH2HDXqM3XIRikIxPaL/PdXyjageBDn3QArrVlfS9BLlnS
+	 H5rhLB+iWWHCsCqHitVCqW2SlS3YOVZJFV13qbC0i4RHwcZcABezA6bmHcXwV777cA1C/
+	 WAaUih1EN+P0a7VD+NY7P17vN7aF8tUAXpd3fm6tXuEcNZHhfuIWkr/iQ4+ja0IVXqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795027773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795027913;
 	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=ySe4sgGyNO3dIkG0Xzd/JOiIpbog2yvKCpf8ED6IGp0=;
-	b=2sLH/j0D8u03Itzww7HYDcdTivOYjokdoGvRG89k6LFRDPU4ZNYbrkcxjPZ8kpQ0at1P
-	 Rm78TZHYi5Ol+T3YHhtbLlgBc0aBgJZcw+iqUxrbuHz1rzunlJQgLvDola8KhQgXHg2l+
-	 CPVB4ZdMWvs1s8LWK2BcXESMLvahfcJCTqBTvoVUCj6U62EaeFdJPFsZuUKpEPDhjGoZp
-	 cGnNQ4k4YS0Urv/x+rl7iD3SF/m+0PM1fXAeLssBWkqk9NoW9GQtw6jadf3QiuBBP/gnX
-	 cLPpDlk3jZBSL43oQeUajRp+DMegUmyqHTGpx6f0Rb+azo9tWOROcZxEO1TLkTdXruw==
+	 In-Reply-To;
+	bh=7r/uBMtDqbIiez9GoW6cYv6uWC8IZHkqEq27b9GWd48=;
+	b=jnhkEzzW05GcMJJl0q+nhzXy8nPFtVViluuH8e4h+i9eejzaUG5Nto8SDJo07gIk/SM5
+	 TkdZrPxA0eOJyr48PN/koOt39DdfvlyQwKc+0+EaYEotsJdE4Uqqqh6UnCVhyPuhd+p2O
+	 /9MqBHQsiJnECvihukKwmttnt9hjRmoS+GtbAZeWE63so2Nd79Z8BplclE5W4pwZOPNxE
+	 Biw+YODenNHfyVm1R+I2seK9THbg1j2pdG3P3rWI58elgZzT6aefP/2XD2WEBk3Ok/kpF
+	 od4O/d3ecEBKHdZ8ytH9scKjoLZPyKJ5hNS8VBw9te5ZlS7eSlZPB1n+bOyPY/NtXTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=pOv2r3lJ;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=kDyAN+KB;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2RU5uVqF;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=KyuNyxSj;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F0606A332
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 18:49:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B34F0606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CF606A31C
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 18:51:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E5CF606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=pOv2r3lJ;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=kDyAN+KB
-Date: Wed, 18 Nov 2026 19:49:29 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=2RU5uVqF;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=KyuNyxSj
+Date: Wed, 18 Nov 2026 19:51:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795027770;
+	s=2020; t=1795027911;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ySe4sgGyNO3dIkG0Xzd/JOiIpbog2yvKCpf8ED6IGp0=;
-	b=pOv2r3lJWjBQpXSJMgdtnxD9rKomrHcZOKxLP+gutke5QXmPo6yqRT/Gzx3bWtFVDgBo0q
-	tRgKV7eEqW4uZCP3dA1jcXJVffIKEF7PGExoA6K76sYXjrKVplIMfmtAonYXg33qK0y9r9
-	EmLujodKbHyco+5tJQSS2PDtMz00cBocQbcMTjDXFCgQGVlboSJfnn4Y9ryHZzB6wCxj/c
-	4UqgLFpQa3Ndwh7u9QtSvkJ9ltxDku00DXDeVZ/PwgN0nuEPb26xUjt96178uvh/CJWrfc
-	iItIs6fT66vre1sfWZVAcGXH5u9lzx3IznlbQXvC0b1p7nm/Vm/i+08X7gy8Ww==
+	bh=7r/uBMtDqbIiez9GoW6cYv6uWC8IZHkqEq27b9GWd48=;
+	b=2RU5uVqFIoOcYBIuu5FzLeZm4jsbablm0hI6vBLqVKkE+t/H2MyqhbMaMR2PndJTE/aUem
+	VHULrJ2Oi05Ld5cpNiU9InhF4vjDQGSJ690omV224tEOb6J0YH6hPlBYxtTOXoOK+ur8Gu
+	QJbO5uBST6MsWBuBe1aagO5n9FXScXVlciDPXxN03nku1zA8beq6uXbW/EaKff+tbfNW17
+	glFcYsSbmDTESwrioWz4qaBO9M/oJpV1UBY+TrFpP6TygG4VbGrfbyFMuyy/HL0WdjCoHG
+	qOnG23Lrx+4w0qgVjQIOMuWMJoC/JaZ4M8FRfF52slHZm4Sqjp2RqsOhL1F6fA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795027770;
+	s=2020e; t=1795027911;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ySe4sgGyNO3dIkG0Xzd/JOiIpbog2yvKCpf8ED6IGp0=;
-	b=kDyAN+KB2VwWOnw/THAMai0mNSZwppMlcDqQ+cUKQF5IvjoPLmdj3AoOqt8xhCYIwyemW5
-	E6I2URpe/0CoYZCA==
+	bh=7r/uBMtDqbIiez9GoW6cYv6uWC8IZHkqEq27b9GWd48=;
+	b=KyuNyxSjVooS0IRzd8hhn0GsDj/vn33Jl75FyYQgzq6P7APeAp8C365+D10R4taBEmalQt
+	aPDusTuQ6CFwBYCw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: peterz@infradead.org, tglx@kernel.org, mingo@redhat.com,
@@ -66,15 +64,15 @@ Cc: peterz@infradead.org, tglx@kernel.org, mingo@redhat.com,
 	shuah@kernel.org, juri.lelli@redhat.com,
 	linux-rt-devel@lists.linux.dev, linux-kselftest@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] locking/rtmutex: Initialize the ww_mutex context
- of a waiter
-Message-ID: <20261118184929.0NSA7-Kr@linutronix.de>
+Subject: Re: [PATCH v2 1/5] locking/rtmutex: Stop spinning on the owner when
+ the waiter is woken
+Message-ID: <20261118185149.SNIpxf_4@linutronix.de>
 References: <20261108141347.1525532-1-mathieu.desnoyers@efficios.com>
- <20261108141347.1525532-3-mathieu.desnoyers@efficios.com>
- <20261116135857.5t9HGji5@linutronix.de>
- <de727dc6-cd11-4a7e-a853-aecd895685a9@efficios.com>
- <20261118144006.ms1fvDv1@linutronix.de>
- <56ded99b-9390-46c1-9466-0be0cbb9ee95@efficios.com>
+ <20261108141347.1525532-2-mathieu.desnoyers@efficios.com>
+ <20261116120626.JVHxeSTu@linutronix.de>
+ <83330898-b6de-469c-ac20-7367c1eb4f0e@efficios.com>
+ <20261118141912.GnOg6YYM@linutronix.de>
+ <8ba74adb-b8c4-4109-b20c-7094012d4853@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -86,33 +84,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <56ded99b-9390-46c1-9466-0be0cbb9ee95@efficios.com>
+In-Reply-To: <8ba74adb-b8c4-4109-b20c-7094012d4853@efficios.com>
 
-On 2026-11-18 12:28:54 [-0500], Mathieu Desnoyers wrote:
+On 2026-11-18 12:27:45 [-0500], Mathieu Desnoyers wrote:
 > Hi Sebastian,
 Hi Mathieu,
 
-> > I would strip that paragraph because *I* think it is more important to
-> > mention the FUTEX case which no longer does proper chainwalk regardless
-> > of PREEMPT_RT.
->=20
-> One point. The two tests of ww_ctx in rt_mutex_adjust_prio_chain() are
-> under IS_ENABLED(CONFIG_PREEMPT_RT). Without PREEMPT_RT,
-> futex_lock_pi_inherit gets EDEADLK in both cases, with or without this
-> patch. So I kept the PREEMPT_RT condition in the message. Did you have
-> another path in mind?
+> > > I kept the check for TASK_UNINTERRUPTIBLE on the rt_mutex side. A
+> > > ww_mutex wound also wakes an uninterruptible waiter, and the ABBA case
+> > > of patch 5 needs the spin to stop there.
+> >
+> > Not sure what is related to. I don't see this in this patch.
+> > TASK_UNINTERRUPTIBLE vs TASK_INTERRUPTIBLE would make a difference for
+> > signals here.
+> 
+> Sorry, that was unclear. The patch tests no state. You had suggested
+> to limit the check to !TASK_UNINTERRUPTIBLE. I did not do that. A
+> ww_mutex waiter sleeps in TASK_UNINTERRUPTIBLE, and the wound wakes it.
+> That is the ABBA case of patch 5. So the spin must stop for an
+> uninterruptible waiter too.
 
-Indeed. This supposed to be simple code=E2=80=A6
-
-> With your changes, the message reads:
->=20
-=E2=80=A6
-
-Good, works for me.
-
-> Thanks!
->=20
-> Mathieu
+Ah okay, that makes sense. Sorry for the confusion then :).
 
 Sebastian
