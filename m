@@ -1,87 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794996739;
-	b=pwHokktOZ7yfyvsjmixCVHKpJc5ZrrTckzr8S2qc2bZ2ewUm1VMnLbSm7UZDRr6cfab6
-	 Ic+87pVSSaO7+VcT9LN3OvJTcIbnUDfaWim6viQK6dzU1VlKTZ9cuO0qN6qkWGE1RE3JV
-	 bki0q/C5J/wNPH7cmobhqZibdZfLPxRdFm0aogAcOnvpiZ5PwiTi7wLun+5K3+mMWZK/4
-	 9BNdZS1IhaWxaUGFp3V1QLiuKUE13uBuadAVnzGBbMXZaCJ5lMNoUt9H1/byZ3stenXF9
-	 IfBXYhaLdI9i8PfArPfgRSj4ri6SNL7MH/Z2JNbkusa759rNspEwgzq8j9ypFid3T4Q==
+	t=1795000850;
+	b=hW3V1ZA9MqNKbyebq8c5Mh2fJ9x11SEBqyetVtS4WDHKqJqcHRcZV4R5FjqNjKd8vLul
+	 EmTNnB00nkuvY/p04J5FcET5HyGxrzv9fH7MxMi8JVNarSsuyzg/MBtTloqlPSsuNJpyL
+	 hHzKJzTrwbyusweoJS0xRrNlzBUbSwz6akMb5sElhyI8n9kmRhEHuGinnf7pV6rkMUi2v
+	 XNpecf+VLn1zobXQEY86Cs3UHGz8bzph3/leNu8rQ4HMlqGvGXn+iGpbymXAZvGm0YaRi
+	 knJqYXLx2xk5e2Wet1GXh/al9YLZTYW9QbPwY6RTpUVW1hZBRm5ZfrEnXVsPNMX672Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794996739;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=wOvZstlG0NBbv/dzQM6xwLtQ/0sPGNaMMnmH8lqZPgo=;
-	b=EpInguwWjVPlpMbCMUeWX46+owsMgQgTaOPlE6Wu//GTs1Tx0pjGvTFls4WlTI5TDLe8
-	 1iaFxK5AM+fz3dwirlJ2PXVmUF3nIRRV3h9i6DIPjuGaq0Im9AHVB2/FGwIzhqQzVzUAg
-	 vSDJSAxSOHtlpxLFSMuc6mHQ6OpeiGoggf/rwEPZYfvFFnVXjUsZDzZuQlffvO1mKlZt/
-	 RyZtO8h4nYvJG9nyl8Pnl5GZ8DJpE2qGZEhU2ZQtZGRzjKgu6lAuKNa61Nrq7asfX3Orr
-	 0kAJ/rq7EupIx/4gJUBD1S8psSGe8gNy0EB+mS1/9puBVPimaiSHjgnViXNmUS8YJUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795000850;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Type:Content-Disposition;
+	bh=UYZeLko8ARh+TMZJ/jcaVMaBZpqH4WAJB7a5zPUzakg=;
+	b=1fgwV36/pT2KBAoY+Hfps+E6y17hKTSfTKMN6mRG9tVdMK1eI3r44StpAyMMl2obCZMe
+	 sj6DeT+v7P6KWbtqOZ4TweRIGTP+cEwca6HL+J7+EwacpccnBskmKjRYCcoC11zJKEZNd
+	 LUI0XHi1AOb6qKkACBYKoyM8I6+O/Sat6pHIr+NQEyQzUPct417txiTPPyZ1OIm0k9rix
+	 Ll4u6mwkAfHlPtswjf7yqGfGPcjUcag5BMpWI+6nnEbRloEKlTPztvAaX9w2avIX5kWPC
+	 d95NpfqegBqAdKlHOBpTS9GJPu/5wodq6gAP11R36/NTWupXdKMscJaAriZLAKm6DVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G7ViuwWa;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iORFFgFd;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F44C606A884
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 10:12:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F44C606A884
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4480E606A31C
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 11:20:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4480E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G7ViuwWa
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794996739; x=1826532739;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FF5B0ph4nYkrwjb1C6748DuKV0yiQO0WYfTjj9OFyQw=;
-  b=G7ViuwWajQav9rOyEN7Dz3bgI7Q1V4bXUGSxQed/cSOx6vzau3ugq1md
-   qd7W6s7PBQjHJHLWH9NZdoNuJh7FePxxnOQMn564PKfVLLxl2jeYU5V8e
-   0/sAsfeGYZZ47cetnihH40P+TiwpMJ0Q+Jy1bpRQPh1SQPbW9tABCZV6J
-   3iWol6PLgYYD9gz0d/9nSFSNLyFlZTEvFGGX+ciJ4IOGF4K6XDo/HyUCt
-   vHZmsv5f+6zjXYUEvYB7ZzQvJhGbZXHATjAVb4sahnJ8pjoSFXvmkPYQt
-   zUVWoL7tQcZFYVWazzBBdpoQA1Ifv0KbeBznaJZdqztkmqY9+W6ybInjN
-   g==;
-X-CSE-ConnectionGUID: Wpxcy7K2Q0S8+Bw87IXlNQ==
-X-CSE-MsgGUID: TitLnBNrSw2+n7ivlz6O8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3682651"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3682651"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:12:18 -0800
-X-CSE-ConnectionGUID: D/5dg/T/T7egAVJfdbIJDg==
-X-CSE-MsgGUID: 7vyP09MJSo22wc5qpMf9JA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10052164"
-Received: from linux-pnp-gnr-1.sh.intel.com ([10.239.83.186])
-  by orviesa007.jf.intel.com with ESMTP; 18 Nov 2026 02:12:15 -0800
-From: Jiebin Sun <jiebin.sun@intel.com>
-To: akpm@linux-foundation.org,
-	bigeasy@linutronix.de
-Cc: dennis@kernel.org,
-	tj@kernel.org,
-	cl@gentwo.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev,
-	tim.c.chen@linux.intel.com,
-	tianyou.li@intel.com,
-	wangyang.guo@intel.com,
-	jiebin.sun@intel.com
-Subject: Re: [PATCH] lib/percpu_counter: allow concurrent sums with an rwlock
-Date: Wed, 18 Nov 2026 18:16:46 +0800
-Message-ID: <20261118101646.3192636-1-jiebin.sun@intel.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261115191636.f18859e4dd5f58b9a33e7814@linux-foundation.org>
-References: <20261115191636.f18859e4dd5f58b9a33e7814@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iORFFgFd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795000848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UYZeLko8ARh+TMZJ/jcaVMaBZpqH4WAJB7a5zPUzakg=;
+	b=iORFFgFd322gO9ZgYGy1IvDR74Gf36yEqNGJxd4+VfnSq0mZFQdnH9+yCpx8U86A6I9LPH
+	JpHIUxeOoDT7gA1XSbyb7LQOPjXqz0u8A7H94AuXpi5sYcdLE1YWMFt8IGbXONS1johxXg
+	eE2ofvemC7h+RRHZ5H5HchRrYgU04No=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-223-kDVpC1XoPtmwQ6mIH2yEEQ-1; Wed, 18 Nov 2026 06:20:47 -0500
+X-MC-Unique: kDVpC1XoPtmwQ6mIH2yEEQ-1
+X-Mimecast-MFC-AGG-ID: kDVpC1XoPtmwQ6mIH2yEEQ_1795000846
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4bb680f0ac4so5384775e9.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Nov 2026 03:20:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795000846; x=1795605646;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UYZeLko8ARh+TMZJ/jcaVMaBZpqH4WAJB7a5zPUzakg=;
+        b=RlmnVokqcjTZoVA2oBx3mwmuDkEXoPyMIbweTOnn1isegAXrX7rQR100rHkxSXw7KH
+         avjP7oYtVknRTNVRf4RfUCNp9eJGL2sTff8LNJNMzT/ES9sZJV23lQmNlFF4ZVMkd5So
+         MmpHTOL/l9lLAfLUDLMmygNJuwPOdn8HWGF7iNMiloQE/ltlrhwTyO4rv20Ob7SkDz89
+         bbtpDIlQMpZzGK/UyU1RPKqCJwAFjpkaE4ttRorOpOaAzXgAbUFh71gV3LzjeI5sTBPJ
+         N078i8j4nwrrCxV4qOQTreaRQy0swxV168FAUvr3VCzoiUhZ1Ui7/ab9L5CyOk6EweJM
+         qvdg==
+X-Forwarded-Encrypted: i=1; AL+hErEIXQI1q1EyM8VeyD25LJHEstPiVOMZOzb4hePFTaN5briAkEsZM/aLbJJqD9oHfnn9QlVwyxwdGk1v+MGefg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Ni2p06TYwOPfQHQ0sNeebtIlqJNKqJ+W4Qo4577o/uG7/c5s7
+	YUPd+W9KBPms25Ar0dSZOdyD1aAofNTZUUuUjl2NeWgRwVM/0S/8mugi6oFrk2bsFTynqIoqmny
+	Im0/Xayr4PGuJtjllYppoB+ahXM5buMounsaihyhAHda5pOyI1HmB7VOvkbzQYpFB8fa8
+X-Gm-Gg: AYBFou0zqlMjCEGN3DkGtJc2mmGIzm+eXgWBnD04mAGdwUqTcVJxT8UDGzzU61MOfMj
+	0TJGnzpMyO05TKnc/Ar4RpXu5A7JCWOkawa7uzlOiLSwEP3FJVMYDZc9uFLDQ12HXSM03o7nlmu
+	YUZ6LJcUnix2MscCRyXBkyJsQYQj0v4VEDPPlwxHCPwmYKKSIVSlj8j4SkWNzkQYcPRWtxSnUad
+	qMc0TwLycPYkmlxGHALZ+8fPGr1yYgpw0wDSl4hGKXd0ZZs6Tq9UcmXTZUT9c2EvfaVCmbP2UQ7
+	O4m0jcFJ+goYQD5mablrnxIU6Ic+tPe6/wADHJHUW5GhUn3E0H20U4Cu4QOskbz3tBp4GIc+NfF
+	ipz3ZArVDRYfcGn0N+oO4DFDLEuJP1iNOV4H0wflzSXkpT0GG5Q++pGcetx+33bBcEwRlSs4+uQ
+	o5hoA=
+X-Received: by 2002:a05:600c:8b02:b0:4bb:6752:8400 with SMTP id 5b1f17b1804b1-4bb7da1b48dmr39551775e9.17.1795000845945;
+        Wed, 18 Nov 2026 03:20:45 -0800 (PST)
+X-Received: by 2002:a05:600c:8b02:b0:4bb:6752:8400 with SMTP id 5b1f17b1804b1-4bb7da1b48dmr39551335e9.17.1795000845561;
+        Wed, 18 Nov 2026 03:20:45 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78418853sm195748985e9.8.2026.11.18.03.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 03:20:44 -0800 (PST)
+Date: Wed, 18 Nov 2026 12:20:41 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+	linux-kernel@vger.kernel.org, tglx@kernel.org, will@kernel.org,
+	boqun@kernel.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	kprateek.nayak@amd.com, luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, shuah@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, parri.andrea@gmail.com,
+	m.szyprowski@samsung.com, kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com, cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v7 04/40] sched/deadline: Do not divide by zero active
+ CPUs of a root domain
+Message-ID: <av2KCeKAnXAi6saN@jlelli-thinkpadt14gen4.remote.csb>
+References: <cover.1794922146.git.mathieu.desnoyers@efficios.com>
+ <31f723a7dab4d58045cc60fac0fea09ea1841c7b.1794922146.git.mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -91,44 +115,58 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <31f723a7dab4d58045cc60fac0fea09ea1841c7b.1794922146.git.mathieu.desnoyers@efficios.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dqQvIQGRdBX5XzNTvTX5X5GFsa3hVx8C5B0zIIZT5rY_1795000846
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Andrew and Sebastian,
+Hello,
 
-Thanks for the comments and the RT review.
+On 17/11/26 09:10, Mathieu Desnoyers wrote:
+> __dl_sub() and __dl_add() divide by their cpus argument. Most callers
+> pass dl_bw_cpus(), the number of active CPUs of a root domain. That
+> number can be 0, and the division then traps.
+> 
+> Commit daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl
+> tasks") added extra_bw, the bandwidth that deadline tasks can reclaim
+> on a runqueue. A change of a root domain's total_bw is spread over the
+> extra_bw of its active CPUs.
+> 
+> During hotplug, a CPU sits in the default root domain, which can then
+> have no active CPU. This lasts from the rebuild in
+> sched_cpu_deactivate() to the offline, and from the online to
+> sched_cpu_activate(). A debugfs write to the runtime or period of its
+> fair or ext server divides there. A write of the current value passes
+> admission in the window. In 8-CPU VMs of v7.4-rc2, a loop of such writes
+> oopses at the first offline and online:
+> 
+>   Oops: divide error: 0000 [#1] SMP NOPTI
+>   RIP: 0010:dl_server_apply_params+0x335/0x380
+>   Call Trace:
+>    sched_server_write_common.isra.0+0x1c0/0x260
+>    full_proxy_write+0x58/0x90
+>    vfs_write+0xcb/0x550
+> 
+> By reading, two other paths would divide by zero:
+> - inactive_task_timer(), for a task that left SCHED_DEADLINE or died,
+>   if its CPU went offline.
+> - sched_setattr(SCHED_DEADLINE) on a task asleep on an offline CPU,
+>   with admission control off.
+> 
+> Fix this by changing total_bw alone when the root domain has no active
+> CPU.
+> 
+> With this patch, the reproducer survives 20 rounds with no warning.
+> 
+> Fixes: daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl tasks")
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: stable@vger.kernel.org
+> ---
 
-I'll replace the macros with static inline helpers, add the RT comment,
-and clarify the practical callers, including percpu_counter_sum_positive(),
-in v2.
-
-Interrupt readers can bypass a WAITING writer and delay it if they keep
-overlapping. I'm considering the impact this could have on counter
-updates. If this needs addressing, we might take the write lock in
-__percpu_counter_sum() when called from interrupt context, while keeping
-the read lock for ordinary sums.
-
-I also tested buffered writes with fio.
-
-Fio (64 jobs, 3 iterations, 60s each):
-
-  +------+------------+-----------------+---------+
-  | Test | Throughput | CPU utilization | Cycles  |
-  +------+------------+-----------------+---------+
-  | Fio  |     +6.91% |         -40.41% | -40.80% |
-  +------+------------+-----------------+---------+
-
-Test configuration: ext4, 32 GiB cgroup memory limit.
-
-Commands:
-
-  sysctl -w vm.dirty_bytes=67108864 \
-             vm.dirty_background_bytes=33554432
-
-  fio --name=buffered-write --directory="$TEST_DIR" \
-      --ioengine=sync --rw=write --bs=64k --size=256m --numjobs=64 \
-      --direct=0 --fallocate=none --time_based=1 --runtime=60 \
-      --cpus_allowed=0-31,86-117 --cpus_allowed_policy=split \
-      --group_reporting --output-format=json
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 
 Thanks,
-Jiebin
+Juri
+
