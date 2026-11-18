@@ -1,47 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795021108;
-	b=EpIixkFFwnvCakXXFaZ4jDGFttMbsWkIJB41IrZm0OmaNjYQuCv6x5vQvlJQsKpQxv2y
-	 SKNSjffWryttzWfvu1BF57wlz6Fv8t5nTUEWIV9p9/2oesC6iM3GtmD+0IMqu8CIxdMUw
-	 l070aOfGZ1hMTC1NIJSa5rxHRp64xSeBwi2dMsrKYTlO+V+y+HWOFOQFTdY9deriVpK1v
-	 wWe5Z9tMASQqrgXYlupPSO7sYsmiu1U1vpTmPdHBLT4QwcA4AOVjJzPkLQk41x/Ncxb1J
-	 +v1P7hyZMxUjscqbs1y+52cKSRO9dJvDrnqtbSXuX2kKeXX2ut7gGQfL0eKyg2BkxdA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795021108;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=TSwhsJSNjnAtKDkFULTFwFmDhe+Yv9c61DRAS88DMuI=;
-	b=Uo1Lx9usheRejLxm9FCvTBnITsZil8ygMOjdztG4ioXHXWYmyau/GSOzlNfID+3YN835
-	 xZcVKQVYwWFtrEh5OWVWP9yWuLWOyajsSBdXm6pOJh2wDuCXjUSPbE48ohpvnHur5kqAB
-	 JQlNpEuDjkKydqDEiQfA0u4VySrmrpPQNo547JMMlt4/QYvuBW4Rcodikvn8ItzRpWI+I
-	 sik5UC8vDLb3j60M9KjLZQrYUGOkafXYnHFfVSFt14lgptm4SXOGED1dNrLTKxh4o9Wd8
-	 5xQm56SB6jw+UM4+X/pBTa36mVvaplj9NCJbX1or3nJru+i6G53J9SPxtLhU6hnHIyg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oFZKfKQl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795022510;
+	b=2nxDits6raFmKYMIMvALj+3bZskiy+qcVPGFMu2K7u10p6e0E0Ho7bagV6T+qjcK37ue
+	 mQzOFc5SWNNOlGSwfA9aDtliROZc9pYwDNf2s99sqR3J2FXIkN5zJGq3x0z3oylIyvWqt
+	 AfwFkxGKnkWJxK2Vg4xHtSnAOsZ4ijNBhIjkmfrTNh7eAsPdXTsjuX5Xf4d51sC5PjDSr
+	 x/BLDT1jFfJG463f6VkPDZ8jxj1675OOKJ8QGjTwGtJ8RfrNLrVu/Naed7ysXeJINkDts
+	 DtTcfuzF01BAO3SDzM2+4Rtnr1TRgX7ndKOSnMgoQrIVfuFem4V90vPxA0BLiVFmUhw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795022510;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=tOGfQ6cQ1En7nNkUe4qRk1JWp9mxMtsaCoiquidtyAw=;
+	b=gxyWuDp9mZ+mOH9OQSckTqI1AvYRykyH9KG5rj1FtDB1sxqEJXWu2prNsxjn9iWYstwx
+	 cuJ1DhiNjHz5s7gNN5PVBPkiqyhaqwiavGK0okCJ4yu+InYE0qTkVzSMtSDApmgMmaZd4
+	 zaKAVwEq6u0RbhjwayHmbLCmwwZ+CM2HH1WUnqDLO2h237weNaiSuPRTbKH/hejVNpkeH
+	 /5MzhPb46oGLKkIJSfEYniNoRxsSXYFcKowYmnpKc8icVKC+jZxexZceGlC26McSn7R1L
+	 uEdATgUM8kX6kkrQ84LdrJuX5AHpvWBbgAzgjieJ+rb+rschZC2G1E08zY5cnKptz4w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	dkim=pass header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=UqTqCcqQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.11
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010011.outbound.protection.outlook.com [52.101.69.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB430606A31C;
-	Wed, 18 Nov 2026 16:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537AF606A330;
+	Wed, 18 Nov 2026 17:21:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 537AF606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oFZKfKQl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03CE41F000C4;
-	Wed, 18 Nov 2026 16:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795021108;
-	bh=TSwhsJSNjnAtKDkFULTFwFmDhe+Yv9c61DRAS88DMuI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oFZKfKQleOycQXAfqulsKeEapGKLGTey4/+kx9d5tDssB9lQtl8VnoLZYSunOwlFN
-	 yKTCvk4zRFgTjUPQtxiIAiludCEsBREbUVdLyrkMoTWvXDqBRn/asPIuirMZXZl3jg
-	 V7We/Q3VL0z5Iatc+kK4+7AuY9XnH2pS7xtJGdkWR6gcH3PRpi3AVuaY/lyNfDvjKX
-	 wIpP3KgUpJqvlEudYzswYxye/f89Gnb/iGdIntHyaxOQLsqQoAUwM8zqxg2nBWxZJB
-	 5vw9Z1rm/vWb0ymAND4jHc2hyhlWiEJ/pZRBorFcNVImYcIJQSHOixwPifNyZNn6Dk
-	 hNxPvcK2Rfx7Q==
-Message-ID: <2650b0d0-49a9-450c-af6a-df1aa129c3b7@kernel.org>
-Date: Wed, 18 Nov 2026 17:58:23 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=UqTqCcqQ
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RFMe4eNXSIIECR+3JJ/8vWCBeBvipuL6/lEqN+iUGad4wzvfXrlTSZmBH6NSeolFHhnP2u0O13tETPm0UtFkBcmcMujVq23IoJfNXCwYIk4lCnA+a7kUEq1IW7PR9uKedT2bDLJDpIbpaPXBDGgDh6zLpUYhafKyRzU0EGFy52q43yZIHz+0VLcBwvNFkBWKfGQ1r/NkGXi3OxueMc0Q+FKC1tKkdSqgidSFVJOZutcBs2gtTA39o13j5CK6F4pTy5mP91wdC6G5kYT57q8OGjfsZkNwnq8ICXpmOgscYY3VSK19SJ/sjdHze0djhm11T1KDofiOf93ov47zVg6F7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tOGfQ6cQ1En7nNkUe4qRk1JWp9mxMtsaCoiquidtyAw=;
+ b=lhn04WTLJBSxzMTdZyAuy1F94Lz5jXOUrr9uknSOdDs17JH/m92f1wO/f7D11mSFOx4nHq20tH2owgNuJpJsrJMcEP9JqwlSkdwXStu4+cp9VH1g/DSGMUi8Rh6M/PFC6sNp42jKhWYdsR4Y9saTF1oKotkfkMVPymcK5JaZGEDgdkgzUis/L8jY4zX1UxCbkeLknRCs8RoWmKofNX1kfVJhAhNbrodv79vXej4rxkrL9TJNDcfwpsWvZe28dSVvUA7zfL/NlWkG7CXxd8ota7FRyzRocrm2pLur9ce97FuEZhQAXs6Tf+yQWeCx/rJcUO64XeDzxSpcaSQ+25BiyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mobileye.com; dmarc=pass action=none header.from=mobileye.com;
+ dkim=pass header.d=mobileye.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mobileye.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tOGfQ6cQ1En7nNkUe4qRk1JWp9mxMtsaCoiquidtyAw=;
+ b=UqTqCcqQWSF+mnkhYf6245frqgD8XlK+0erv85qaN7JNL4yA6fZnz+cDbYIZfmf/0+MSKufQTp3lbj/TqLXFRLDrKf/t9U7koIBfteLlptjSlDL5ycPSyD4rEoobZfpcbsf3H2Z/56vN8DkXg9wbdY8KLUBAZ6RWEpQ1yNZYeXo=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mobileye.com;
+Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
+ (2603:10a6:910:e0::22) by VI3PR09MB012160.eurprd09.prod.outlook.com
+ (2603:10a6:800:37d::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 17:21:44 +0000
+Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
+ ([fe80::9006:1164:b51f:23a2]) by ZR6PR09MB889505.eurprd09.prod.outlook.com
+ ([fe80::9006:1164:b51f:23a2%4]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 17:21:44 +0000
+Message-ID: <962f81ac-2a4f-4b15-9f73-2065ed513af4@mobileye.com>
+Date: Wed, 18 Nov 2026 19:21:41 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/6] perf: add MIPS Coherence Manager 3 (CM3) PMU
+ driver
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261112-i6500-cm3-pmu-v2-0-cd2569571819@mobileye.com>
+ <20261112-i6500-cm3-pmu-v2-5-cd2569571819@mobileye.com>
+ <sashiko-outbox-211133@kernel.org>
+Content-Language: en-US
+From: Vladimir Kondratiev <Vladimir.Kondratiev@mobileye.com>
+In-Reply-To: <sashiko-outbox-211133@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TLZP290CA0009.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:9::18) To ZR6PR09MB889505.eurprd09.prod.outlook.com
+ (2603:10a6:910:e0::22)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,140 +101,112 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 7/7] mm/slab: call debug_locks and KCSAN
- checks in kfree_nolock()
-Content-Language: en-US
-To: "Harry Yoo (Meta)" <harry@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
- <20261115-kmalloc-nolock-fixes-v3-7-9034dd4ecaab@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-7-9034dd4ecaab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZR6PR09MB889505:EE_|VI3PR09MB012160:EE_
+X-MS-Office365-Filtering-Correlation-Id: 501d3b5a-a887-4203-1d74-08df45986b01
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|6133799003|22082099003|18002099003|261009223027099003|4143699003|56012099006|11063799006|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261021121427099003|261022105027099003|261022075727099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	5EMB0loDHCf7uyYeEV7o+wz+OmJalBJojyPaVW3KIdRTHVD8kTrrJpKBCrrmbpjyDUhqHJEcmnlFbCPVeQlMbbhuZgntJPwu+OZj7Rah25FMAyHXvPqNhU0UeoCKcqswe0j/ytu6ku351yOStUqVMWMmh7c9gWzPJsDWNkwrjXUqsT5ppgrI+JTTMgavwFLs44sIguXXnJoVYcSg73Jjrg0Kt5sI77reDpkWrSEfH0xACRrmckcyLXzffUlU1301YH4WGZBMuuWDx+QZHrjUjEsKzvmRwTu9BzrATCdVvQA/z4ZBaEEbzneYdXxEGRx0pQpP10AcZ25lZTb9EIXUCZeXNb/X1uFgE0tKStU8jztt8Y61G3y9Noa2k/etBeMzk1wZlAdaQB/2H06qpoFUicZaSjw80ibROkgoqrVhl/emW7rKrpwOCvwtgK2n2COhOoQ+fxXFuqOWuAbX/BXajSbBcO/3Ymw3NGmiLjX+sGXwHocitj92mrLlEEu9jFI7/E/Ji7ncHZ90wU4YUD8BZdRzB7zUQVVgPbL2//bLSNqEQ/wkboB+WR0kdvJG+uwGMcVZly809jt0xHTMVTUCIOyLJSm/+J3db1HxJqGwE9cGETIYg31mE3p15NXuk/0SEz/syHZcrMLuWFROVxOxGDpC/ugLT86hNKyCdfddHIQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR6PR09MB889505.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(261009223027099003)(4143699003)(56012099006)(11063799006)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261021121427099003)(261022105027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VUViNkVVWkdRaCtLZEZHSDhtdUVzTHc0SFY2ZkJ4Y09rTnB6Rk1qZzRYTk1m?=
+ =?utf-8?B?c2ttTDlhaC8vSFBXMTFNbmdTY3U0bU13blJkK1VTeHowZWo4SW13enBuV1Ni?=
+ =?utf-8?B?OHdQM1ZIY08yZllLN0NWTmdWbS8zbHVrMzcxeStVR1BkTkpCYWlCcENDT1Zz?=
+ =?utf-8?B?QXNqM0hLeWZ0Q1hEN3hTMmdURjBEWDQwRUtvaTlKMWdlWGlkeEdqZ2QrQ1hZ?=
+ =?utf-8?B?ZnV4RXZ4SUlINDRvQTN1UzV2ZjRRakpXYUIzem1DNjREbklZemNURGFlREVQ?=
+ =?utf-8?B?Y1psVzVsK1RxdU9IMmxxQURYZVQzdjVvZFY4YWQzWWJEcmttd3BBWkUxNnpm?=
+ =?utf-8?B?aVFhMjNxTmJSb0E2WXlGZEgrbi81UDgwbG1yNkdLRDB2OTdiQW0zWWJJd25v?=
+ =?utf-8?B?Q0ZBMW1GWlliMlcrVTk5Rys3ZGpQcDRsZVdkUTdmMHcvSnJ4bFYzRFR4dmNU?=
+ =?utf-8?B?dkNBZVlpSzdXZHBsY3labk1WeXFJM3hkQ0xSVXZIb1ZyWjJtYWJFM3ExUlRM?=
+ =?utf-8?B?NXo1ajVLS28zZVhxMFltUjNXbTRkUVVvZkF0QXE4U3kwNGpIdHVDRTlxSUNP?=
+ =?utf-8?B?UVZQWnBuaFo4RENlUXJ4em5BS1Noa3htbW1jUDlXU0tqc2lmSWRQcFJydnRy?=
+ =?utf-8?B?OS94Vmk2QjFtNllHZkJTY0hZU3JZZmcvKzRhZ0dsU0VTRTVvZFVLeGJsR1JD?=
+ =?utf-8?B?M0FQSFVhNTNpelh4S2ZlbFJScGRmM2dpOCtudnRXQW16dVE0RXUrM2RYRlhT?=
+ =?utf-8?B?bks4MmplRUtEMWh3bExON3M4MW43eXplNjZHc1p4cHhvaWVSc0U5c1NKbmIx?=
+ =?utf-8?B?MHVvTkNlT3lDN004dFA5dTV6ekxWZ3dGWmdheFlVM0R3L2ZZdVBGWVRNMnIw?=
+ =?utf-8?B?Y1Yxanh2bVBCN2JmaGxsQk5KeS9KSWVsWHJRbXkvZzJQc1k4TlV0bEN0NktE?=
+ =?utf-8?B?eFpnclpraGtDVGNPZlhPV3N6cERyaTlNdWxoT2ZrbnlkdzkwZkpib1JkTlNW?=
+ =?utf-8?B?Vit1UkdiVUxvUnJqMWt2QUZaOVVvRHRmLzl1M0NqUFV3N1EydGd6TU0vOEJ1?=
+ =?utf-8?B?M2Y3Qnk3QytKOGxtcEhkR0NZcE8xRFdtRUM3NmhTZ2V6b3N4WG90UHIyVTRX?=
+ =?utf-8?B?NGpXcUM4UUVqa1kydWZJR09IQjhVdmg3YkZMNXJpVmhKWG9oU0Izc25LTkNU?=
+ =?utf-8?B?QkVDdmlTQ0hFTExNbHl6SHNrdTJvUW5TT0NvWDBid3pnK2RXdVJURkJsYlkr?=
+ =?utf-8?B?UEc1YVpnR3NxOHdJUlQ1NGRTazVRcUJmbkRXdnRlaHVrRVlYcE4vcDQzV1Q1?=
+ =?utf-8?B?bTdZTnF4d2FoZ0FrVS9ldkZ2MEhpRHRiVkNZK2lvYUYrcjdUekZ1QUh5RUh2?=
+ =?utf-8?B?QUNNaVphdWNicXlmYjZRQkpPaFVtZFV1Q0dVaGNEZXZmMGI1bGwwNzBiMnpx?=
+ =?utf-8?B?SFFRM1BwQzArV3pCMUh4a2taMnFSQVZxZHlkMncyeG5oSUh3cGlRQzhrUUU4?=
+ =?utf-8?B?b2JkbWhsaWo3Qm0xM29mdC9Sc0FQa1VMRXRybDZ1MUttRXFDcTllWE5icVc2?=
+ =?utf-8?B?ejEvOHVEYTlQM3F0WDhUQ092NEM1blA2cWhIdXB0WVhvOTFnSGswdFkzWFZE?=
+ =?utf-8?B?dzRETzRzcTgvSUVoMUQxQlE4VE5iYTQxTlo2Y3pnbUo1VG8rVS9WK3hMNTRw?=
+ =?utf-8?B?NFp4WDY1a1N0ZHVmakxIQ2w4SjEwdHRGNE9jMGU1Q3VQTWRGK0ZMQUMzWCsz?=
+ =?utf-8?B?WHpwaFFGQ0JlRTI1TnBIK1BMY0ZhRVgySFRDRkUzMTM0KzNvZjZ4SElOWU43?=
+ =?utf-8?B?dnhuaW1IMnVybVVwaWtRTVE0UkRYQlA0WkdqVjRQWjJyMXRJek5KQVJwSDVx?=
+ =?utf-8?B?SHZBY2RPR05HQ1libWxjaFJSK2k1MkRHQnhnYnhweE9pUDlxVURMQW44L1Ez?=
+ =?utf-8?B?bllqUHRKdU9TWVNWcEs1Ly9HYmNuSm54NmxNMkVqemJNRGhjdGZxTjVBL3g4?=
+ =?utf-8?B?U3p1bW9kTmdWWlAxVDRjQWk0WkZFZ0NaM0hsSzl3ZmxCMVZwdFlVdEhSdXBj?=
+ =?utf-8?B?N09ZbzJrYUsrUkZvSWlBZnMraU5qZ3J2U0I2ek9TMjRVT3pvNVZhcUtMNWxQ?=
+ =?utf-8?B?Z1FDV0VmZnBtWURxaU9EbVFGcmpnUlRMdUJqcWE1cm5tV3B1ZXp1RjhxVko5?=
+ =?utf-8?B?dmdURkY0U3FKQ0JJSXZSUytKTTlIZVorL0NZUi90cnZOend5N3FjUTdUeisz?=
+ =?utf-8?B?YUQ4dlMvdHlUNGkxNEdtd0pleDdBejlJVGw1TXFpWGZWS0hENHd4MkswVHV3?=
+ =?utf-8?B?QVUrS25WbnNaZ0RMVGFtQzBlN0FscjMwL01tMWhBdmU2Zi81czRvZz09?=
+X-OriginatorOrg: mobileye.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 501d3b5a-a887-4203-1d74-08df45986b01
+X-MS-Exchange-CrossTenant-AuthSource: ZR6PR09MB889505.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 17:21:44.3710
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f85ba13-6953-46a6-9c5b-7599fd80e9aa
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0jbp5EsXyQNxdyzXG+K2NghF98g5szME+1JyvMcOerI+RkvzDGB5jgrWNaGrzLN3VkggF4+DaaUFsnex3ppkPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI3PR09MB012160
 
-On 11/15/26 16:09, Harry Yoo (Meta) wrote:
-> kfree_nolock() skips free hooks that may acquire spinlocks because it
-> can be called from any context. debug_check_no_locks_freed() and
-> __kcsan_check_access() are skipped as well.
+On 11/12/26 15:02, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] perf: mips_cm3_pmu: counter overflow double-counting in
+>   cm3_pmu_update()
+> - [Low] perf: mips_cm3_pmu: broken !MIPS_CPS / !SMP configuration
+> --
 > 
-> However, they acquire a spinlock only when they report a bug.
-> debug_check_no_locks_freed() disables interrupts and walks
-> current->held_locks, and reaches printk only when a held lock is inside
-> the freed object. KCSAN takes report_lock only when it observes a race.
+> commit 272d1a9241643c479b7f4cabbd1c40edccbe1b16
+> Author: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 > 
-> Just like KASAN, take the risk of potential deadlock for bug reporting.
-> Call debug_check_no_locks_freed() and __kcsan_check_access() regardless
-> of allow_spin.
+> perf: add MIPS Coherence Manager 3 (CM3) PMU driver
 > 
-> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+> This commit adds an uncore PMU driver and documentation for the MIPS
+> Coherence Manager 3 (CM3) performance and cycle counters.
+> 
+>> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+>> index 245e7bb763b99..2dbed2fc7b030 100644
+>> --- a/drivers/perf/Kconfig
+>> +++ b/drivers/perf/Kconfig
+>> @@ -75,6 +75,18 @@ config ARM_XSCALE_PMU
+>>  	depends on ARM_PMU && CPU_XSCALE
+>>  	def_bool y
+>>  
+>> +config MIPS_CM3_PMU
+>> +	tristate "MIPS Coherence Manager 3 (CM3) PMU"
+>> +	depends on MIPS_CM
+> [Severity: Low]
+> Should MIPS_CM3_PMU depend on MIPS_CPS rather than MIPS_CM?
+> 
+> MIPS_GIC selects MIPS_CM even when CONFIG_MIPS_CPS=n and CONFIG_SMP=n.
+> On a !CONFIG_SMP build, irq_set_affinity() is a stub returning -EINVAL, so
+> cm3_pmu_online_cpu() unconditionally triggers WARN_ON() when an overflow
+> IRQ is present; without CONFIG_MIPS_CPS, cps_smp_setup() also never
+> populates the cluster ID in cpu_data[].globalnumber.
 
-Seems fair.
+This is a false negative. On a !CONFIG_SMP build:
 
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+- cm3_pmu_online_cpu() is a CPU hotplug handler, it won't be called on
+the !CONFIG_SMP build.
 
-> ---
->  mm/slub.c | 25 ++++++++++++-------------
->  1 file changed, 12 insertions(+), 13 deletions(-)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index fd3de3bee1de..fad19ec6af4b 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2708,19 +2708,25 @@ bool slab_free_hook(struct kmem_cache *s, void *x, unsigned int free_flags)
->  
->  	kmsan_slab_free(s, x);
->  
-> +	/*
-> +	 * debug_locks, KCSAN, KASAN may acquire a spinlock to report a bug,
-> +	 * but otherwise cannot deadlock. Take the risk of deadlock for
-> +	 * reporting.
-> +	 */
-> +	debug_check_no_locks_freed(x, s->object_size);
-> +
-> +	/* Use KCSAN to help debug racy use-after-free. */
-> +	if (!still_accessible)
-> +		__kcsan_check_access(x, s->object_size,
-> +				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
-> +
->  	/* Hooks that acquire locks or kmalloc_nolock() skips alloc hook counterpart */
->  	if (likely(allow_spin)) {
->  		kmemleak_free_recursive(x, s->flags);
-> -		debug_check_no_locks_freed(x, s->object_size);
->  
->  		if (!(s->flags & SLAB_DEBUG_OBJECTS))
->  			debug_check_no_obj_freed(x, s->object_size);
->  
-> -		/* Use KCSAN to help debug racy use-after-free. */
-> -		if (!still_accessible)
-> -			__kcsan_check_access(x, s->object_size,
-> -					     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
-> -
->  		if (kfence_free(x))
->  			return false;
->  	}
-> @@ -2728,13 +2734,6 @@ bool slab_free_hook(struct kmem_cache *s, void *x, unsigned int free_flags)
->  	/*
->  	 * Give KASAN a chance to notice an invalid free operation before we
->  	 * modify the object.
-> -	 *
-> -	 * If KASAN finds a bug it will do kasan_report_invalid_free() which
-> -	 * will call raw_spin_lock_irqsave() which is technically unsafe from
-> -	 * NMI, but take chance and report kernel bug. The sequence of
-> -	 * kasan_report_invalid_free() -> raw_spin_lock_irqsave() -> NMI
-> -	 * -> kfree_nolock() -> kasan_report_invalid_free() on the same CPU
-> -	 *  is double buggy and deserves to deadlock.
->  	 */
->  	if (kasan_slab_pre_free(s, x))
->  		return false;
-> 
+- cpu_data[].globalnumber will stay 0, so cpu_cluster() will return 0,
+and it is true
 
+Thanks, Vladimir
