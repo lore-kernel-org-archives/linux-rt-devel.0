@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795035887;
-	b=viOpCLKuQqHy81QXCrn5O7FvpilzlCOygC4WdyXF/qxZLFsO3b5NDMQ1DOgt39log7ON
-	 4N8KHMYTWBMWWmRZdO4zeOQH1Ex/q+ljzrvT8rhCLSJ0BkNSujnVzhdcUmgjG7gkx6WBh
-	 zqxZZJZheumB5xJntKI2fVAc7uzyci0k0OCbXyPlk4ku4lSmeR/CjUvkZsjQsyw47zSYi
-	 U4xNQrumMHifUr8dhvEZuAMS1tWLnjDOjVNr2wc6ahq220Q3HmGMqXIq0p0e1K/c4/cKO
-	 PpwhuktDIbSaUPQjOenEBED9Yrq0onBV5Zgg/oOBV0C8QNzYFxv+fL8hb6GHZ+44wCQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795035887;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hVpOUdPfBVWBK2Biqg840IDP1oSjbED2vU8YGX+1DjY=;
-	b=XX3I7x8342RtEWyuy+toQIlYioWgUgKwHzD1j3NzhGtGBFpTKY0uqWZOB7PcoLvqa4N4
-	 LIm4Dpg2kRd5htQ40w9iJnx4kDaWTfJe7zkbrHj1N5yZpfdtnPF7M0XdszQK+MtvpLdbP
-	 lejYUyb1P4z0pvjNYxstddkc8pPSbDw2xpPeKc4z/pfdxyUa3FheRPxathuPCkabg1/Kj
-	 D+YLxkTA2Rhz+h5Uu5YclxS0xcA7g3JP+v/x4zpZy6TD0TLdjjnsZORNVmRSCn2pMa93E
-	 ufAvdSnpADDsr/ASoKw67cGkJnJ498xYW20aKTRM8aN5ugkI0yCAI8ct1Io2oKiYNwg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0ygF9ww;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.95
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795036130;
+	b=jgrihAEKiZOs17RkwO5zIlJp8bve0MoNRORb//FryJCu2aQiELr7xijiXYthNCw7Q13D
+	 WH/xXGjB4W2X1MpuiVi1iozDjK7qz28F2npZ97r0GMj4i+uBstKX4tDLoZKpQT96fA5pg
+	 BtKRwF+5DzhO4RHhHBV1CwK/ioVb1yyY8u4HDDi/3vGcRWzD0tCWySyuYTfMWTfqfpmOP
+	 oVseim4O1yvhyEFpQmp14yPyzzFh7bIyOd1/IqSmT9IRstzuGwYdzpPqW53OiprbXKqSZ
+	 4bX+jBa5D8M+Ip8HAqXmnA4J9Kh4HBPNHpkWQbKmb/FiKZh6G1RfKMTYTK+3sZxG9/A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795036130;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=j68X2hcjcmVDecUEchRlIGSySRKyzUcJSvJg5E3IuIs=;
+	b=Pvv2ms+c8fXsqpz2BB8Zw+It10lHE+fP5+Mt2/nRHL1YDP1PCPWqqqgD7F9hddVn1/nT
+	 OurbK46XkHBb++njrNU/9F9t93HPqlOaAtX9qcMYqnQzZkvdCZ/LluaNl6EH3vJzUriLx
+	 FmKJFlXwr16RvYdc5zQZcNcG7/uQqorvW9Mv2EOEhfTNhxv69TFWb30fLnKSF+lnlr8ui
+	 YwtY9ERDMEvsK/qpad3CBy4NjoXq5H03QIkd6veg7NtZ4XQ5TJfbE9dtS3bl5ogFdPWmB
+	 5hUS4yRbgptYKTiKfDMOsvibXjtCvIMNXMz9olSQhNyT076ac2VLbyU5zJ1q2YMxUrg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=YPWlK0ms;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.95
+Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020095.outbound.protection.outlook.com [52.101.189.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574DE60A2600;
-	Wed, 18 Nov 2026 21:04:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FACF606A31C;
+	Wed, 18 Nov 2026 21:08:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FACF606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0ygF9ww
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0A711F000C4;
-	Wed, 18 Nov 2026 21:04:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795035887;
-	bh=hVpOUdPfBVWBK2Biqg840IDP1oSjbED2vU8YGX+1DjY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=i0ygF9wwx8rhPnMwBPVhfYFmd5cmdRZBLKwjgN1ryL03LJNZ3c9rJxJJ0z+1tBAem
-	 49TafgFzHqNtZyxniNfX4kyGn6TIHYJRDlQeCA/0QTbGGIK1Obc5Pn4KwOU1ndwxEN
-	 EI5Ra9dkkz8n5shSaZ+pmx+U+dxsAQ7oPbj49/rtJagffPu+b25K213lh8TJyuMN9+
-	 CzR9LdIp6I+nZxGCE3ilXeBVGFmbM5w4AZ1pMbmVE1S81Ymel1f7EoQoMGQVABFURJ
-	 p9nj9eIj1zC8sV/Nj7EuQlsh52rradweS1brCBPwpcbNijLJpvvWv1WTWpMLpVEJOF
-	 FFJpIdxv145TQ==
-Message-ID: <sashiko-outbox-221967@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 16/16] selftests/sched: Add a test of SCHED_DEADLINE
- bandwidth accounting
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <92d746027d4034afb4e9c55bd1b686312a2401ab.1795031605.git.mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=YPWlK0ms
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pmuXYOrBek6Ls1jeufSTnmMfcxRuw6tyygQP6lDSnv6Fd5RQuOs69xg+Dwxj2w44sGB4kMQm7lUJVWjjVWC5Gk6QydVtoHVsY89Ra7VKA2sMOKRwFTkiRQjUsnS+miInzvigbhVthxyTZ8TkZJ0gFcrZMPKsJs3+yirQsLRNdvEj7ukmj0gzRjMBLvihM92LZI0GrDo3SpHCeGS0bAP2dt1Lwq7AYCDsbecLhQUPG08yIBkjVaH43QiLI5LKRZrP3JF1+9yfN5J2pNB6L+c+6GeWB1fMsuOHYkdx/ZsF5N7n12epP95WXFBhkjy1a1YKHPIzM4b783Pq/mO9/wdOgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j68X2hcjcmVDecUEchRlIGSySRKyzUcJSvJg5E3IuIs=;
+ b=O7guZb7iymJNkykfJtzDzoOIWB97PbCeWS7ppaDujstSKaWfapNSHvC7i8jG1jAaRoOJjpx4z2LZtdssrqN427Pxc/KO4X2iO9Zmd6D7AwNiAHZmMTzyHjP9bByQyi0l+jzCYpBeKYPSp39zFYrway+xAVPMYllwApUzQNqovw7t3xEeF3taHHnj4IwEGtz0w5I/JX1VJTJ8aNGs222kkz9UqIgxJlM9jv2HE16PrU/75c83MT6LuaRZCOlMh3WI72G8beKTu6txZmN3JTa5NRLE2E/phV98Lz530OHazZ0Xf9sWzFrNbqvW884eryOz2kjKla8IoKMi8z1dKm/0pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j68X2hcjcmVDecUEchRlIGSySRKyzUcJSvJg5E3IuIs=;
+ b=YPWlK0ms/aybtFU0jtEMkwlRORFOe9gnmyNHt1WZXn8Se3rLAMxU5dr84faL39ubXLefGEihhV0t+D1phmdTN6T3zf3MVMI0M256WqlA4z8R7UHo09igDdJDEDlBiSIztHunDThhWnf8Zj6ggjdUhqF9az/7/jZaiOKIFElVEXIM5fRDOOba9VIYdDVUY/EIIfcA9XCQoxHydp6qBSCkHs/N/2MInnmTDZYu/3gjRFBJWnv3CEIAOOmM/2N67otmhlPEqR/rbDtdZLx63IEuGUwMKuH47qZZOLHbDl8VyqDMJl5jD5FnyNwHLr4dDAp5kZ4S6tAt0SqWygSguJwdLA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT1PPF3A2914458.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b08::529) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 21:08:44 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 21:08:44 +0000
+Message-ID: <4aa16bd9-61c7-40ee-b343-b1b5ec97003a@efficios.com>
+Date: Wed, 18 Nov 2026 16:08:43 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/16] sched/deadline: Do not divide by zero active CPUs
+ of a root domain
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+ mkoutny@suse.com, linux-kernel@vger.kernel.org
 References: <cover.1795031605.git.mathieu.desnoyers@efficios.com>
- <92d746027d4034afb4e9c55bd1b686312a2401ab.1795031605.git.mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 21:04:46 +0000
+ <46cf3d11435498c167e87c1e402c6ab2522f71ab.1795031605.git.mathieu.desnoyers@efficios.com>
+ <sashiko-outbox-221930@kernel.org>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <sashiko-outbox-221930@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0170.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:8b::9) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,436 +99,88 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT1PPF3A2914458:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e7361ad-8421-4964-fe0b-08df45b8210a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|22082099003|18002099003|4143699003|56012099006|261026121527099003|261022075727099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	gbaERsNR1YaivNUeX2yM2dHkHEGZ+Y0dqGzx1zWOZu/ytWJ9qqd1fvkUmZblu2ZM7Z8/AzILIiDpKnChxGrdf17hIti/cFkhYvJe2ZAI1EXhza2oD7+o0u3u/o6lUmx21Hwk6LTiRxfYn71nLbfXPhmr+9MbUI1shjSerF0ppy4iUGWHHkZ1taA6VB8UU7mhwlky7wkw5W7fj5ywYGjKGX6uCW+M1iYykqmiV7hW0+2zDegoK63tDypb/1lrHy4U2d5Xp6gCkpSFpgSaOR9OHLpjr50DsLb9Bps92MUavixDnUmDc4XRbH97QHi2JaAj4OOZoTOypmXGpbW77k4t9tPUdhhA0NAAs6LHTjDg38KOdgvizmoaryqnd5Gx7Y/SD6tBN+HEIkxcmdnccEbjz4jm/Yiy+Vhq0vUw1gHRanwkel2itaHlJ5Dzj82dSZ5I4Z+xjJdYrTjNZEY/ihcvWYZRZ8hJkH7PaAIw83IiMLpvJJ/UMof7GR1iLoM6Jlb+WSUW60zbWQU6VoZGixwd9vO8ANB6YEsGkGMk9TAzSVfEzjQ6qVDxMo2CWSfch2q1T/YXjoUf+1q/LA4FJ1EA0n1TE9Gef5/XyhZ7SwCwvy4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(22082099003)(18002099003)(4143699003)(56012099006)(261026121527099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TGlML2JUVVU5aWlxRUR4RWZnRWxpUlpmUHlXaks1MXFxZUVaeno5UVF5SlVY?=
+ =?utf-8?B?dTdFU29rbzcySDRMeFk0T09TMTdCNG5lQmR0ZDBQRzBFOFhVRTd5c0dwT2Vh?=
+ =?utf-8?B?SSs5MFlwcEgyZHZqQ2ltZng3M3BrOW84V0ZkTXc4S3U5bmM1cUFPcXRtbGxL?=
+ =?utf-8?B?K09sRS9DKzFHc1IxU3NOYjdnWVp2cVZtR2g3Q21RaUx4Q1J0ZmZieFY4Rkhy?=
+ =?utf-8?B?c0ZET0lKcnJaQ2IrMmlwcFlXdkZ5MjV4azI3YjJ0N3J4M05NbVRzVW1teG1u?=
+ =?utf-8?B?d1ZLS1BxYnVLNmFFWUI2cjRZM1lCV3c1RVE4THRkVEx3b2ZGazJDcG0wdnU1?=
+ =?utf-8?B?Q1IyaGFWZ0JCalFRT3F2RGRWR2lJRStEallwNjZWZTFnVFR4Y2kycUFjYlor?=
+ =?utf-8?B?RGZoLzFRUDFaaXVnczFrbXc2VlVZWGw0b0tXSEM0aXVIOEl0cVpGekljZW9M?=
+ =?utf-8?B?N1N3aXQxdjlpVlF3THdYMXZOekRMaWQ3MXIzTG04bGFja21iZGhLMENJWGlL?=
+ =?utf-8?B?K3FYQUNpWmM1dFd4Q3krYXh2L1AvalYweXFVanpNcmpMZzRSYlVxWjlOY2VE?=
+ =?utf-8?B?OUY5SVUvTDRaWWdHMlRJRkRuSjZ3L0UzeHphTE5IeXNycUwrQ2xoc3lWc2RV?=
+ =?utf-8?B?UVJnNWVNcmY5WTIvRVRJOHpLMzJ3Sm43Zjg0bkp0a053a0VvZzdZeHBuVGFF?=
+ =?utf-8?B?Z0oyQ0VDRXFsUDU5RnBNK05mRnBWdEFaMjN3SUJmbnlSQXljeEJtK0VUUWJE?=
+ =?utf-8?B?VDZxNHVVV1BXcTBuRGJLZ09rWUVFUmRnekV1VXo0UzBhWkJzMWNJM25zejZS?=
+ =?utf-8?B?QVgweitnMGhJN25tRTgyWFNYKzNLYXRab0F3V0NjaThvQTNMU2lxeUJYODRD?=
+ =?utf-8?B?WHVrUlhQWERBQzVweU11QlRtTFBmL0o1OFAzcnpLV0g4R2ZLd2dYemJLRXd5?=
+ =?utf-8?B?cHluMVVROTBmMW5jdGFPV2l4b2FvTnZ5Z214R3pCbXUzVGRDTDdnWUFlVEVY?=
+ =?utf-8?B?ZzhwV0V6SmY0NTIrR045ZDlpbzhObEY2SkRBRDJvK0ZxOTFTR3prOUQySFAz?=
+ =?utf-8?B?Y3JXOWluZUN6UWRGK0k0ZjVYNTk4SUg1RURhNzdMbm5Ub2NRczh1NnpTdE1F?=
+ =?utf-8?B?cktxTnJjRC9RZDM0UGJBZWZwQmJRdFYxZlVwdFp3eDBpdUpHZzk5eU1uUFlm?=
+ =?utf-8?B?dWtVZlljZnl2dUZDY2NQL2h5ZHpkbWRXWXQvUTZ3YUowQ0I2a2RpMnhBdzFt?=
+ =?utf-8?B?SVNsNzJoTHNPOVU4WVNjenlPRmFBYVViRFJWVXN4UlowRnlFR3k1N3BBQndL?=
+ =?utf-8?B?ZDF2YU1SMFFMOWRuZjRhcnVTTEw0ZzUzbDlkN1FPN1ZYVTdleHBuWVk4bTYw?=
+ =?utf-8?B?L1JRTWpRb1NLTXdrTFZqU3FMRmJGMUoybWNYWjBma3g0blZYU0wrYTlkQW9Y?=
+ =?utf-8?B?N0lNQktaS3dXZnN6dmdTMmFWb0dMYkIvd0xjYmhpcmdwQklDQjB6bDl2TDRM?=
+ =?utf-8?B?N1BWLzA0bHR2VmdjL1dUcUhaK1p3S0hDM3h0eW9zSVUxdFQwOGFyTm5GVFlj?=
+ =?utf-8?B?cUd3aTlBVnpZbE5SM0tsUGxweTFUVmp2TW14ZjEzTGxna05kcS9zR29DZnpF?=
+ =?utf-8?B?dWhhR1pIRUJPcDFYYkNpRW9GRUNmQ1prNlN3Q3V1TE5oMVdlV2dGbktieHo5?=
+ =?utf-8?B?R3lOY3RyUVdVdnV5VEVVL2drTHRqdksxS3E2NlR3VXdxVnpnL2ZuYlA1WW4r?=
+ =?utf-8?B?emsvVUsyU2ZEVGlTc2Z1djJVSjhCaEx2SlFFRXhGSXBUTVFhd2pLcW51cThY?=
+ =?utf-8?B?WTJ5bisvTFRsV3QzRFZXdG91RDl1NzI2a1k4MDFGRXJmaEJja1Q5V0dkQXJs?=
+ =?utf-8?B?WHdqZEg1cXBmZDBKVkFsSWdrRndMVDlRU2xFMVpTeWRvSUtWY25zcUtLMHdJ?=
+ =?utf-8?B?WXFrdUkySmNybS91VDVyOUgydkxraGRIRjRhQWZibjRkQ1FoT0tGazhjalBV?=
+ =?utf-8?B?TmNlS3hNeUFEYWFHdVF5RldpMG95QllteS9FdUV6OGd1S2ZFMTlUQk0yaXl4?=
+ =?utf-8?B?clE3b1FEMkJPSytJclhqaW11dFhZVXBuVUhiVzF0Y0d3Z2F2TU5RTHUwTWQ1?=
+ =?utf-8?B?UGFEcXJ4Yll4K3NTdHdTODR2OTRPWjB4VXJrKzM0d2lVbi82ODFrZXJ3aGd5?=
+ =?utf-8?B?QzJnTWZ4YkVmYU1KdnVVbG1TbWV0WXlsdmdHWDZvcXdHdDRMZ3B5VGJjeUt0?=
+ =?utf-8?B?NHBwM25qM2Z1dW43ZzloajltQnQxbURpUTRxR2VZS3JwRytZNFU3RkMxWUlE?=
+ =?utf-8?B?a0NhYzBqbkR6TTdMdzU1Y21ESXBPdG52WDh0QWtmMHdxTzV3UzNaNFRWTGlG?=
+ =?utf-8?Q?4gskoi1SMLANyUl8e0zJUD7WQ2w4H5dyjOwlT?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e7361ad-8421-4964-fe0b-08df45b8210a
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 21:08:44.1404
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aXx1supynPQWF5wDD/06poUMmEQLoqYXLglwujuH9h63yVhq/3bcBI4KnOpY+ygf2HdXdYt9pyzDqywX+jwHcn7/4GeZXtBf6MFiCCazrv8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT1PPF3A2914458
 
-Thank you for your contribution! Sashiko AI review found 9 potential
-issues to consider:
-- [Medium] selftests/sched: sub-cgroup start and unconditional cpu
-  toggle in move_cancelled()
-- [Medium] selftests/sched: broken PI and runtime logic in
-  deboost_new_params_reboost()
-- [Medium] selftests/sched: pi_chain_donor_leaves() fails due to
-  unpropagated dl.pi_se
-- [Medium] selftests/sched: rebuild_record_taken() fails under
-  isolcpus=3Ddomain,0,1
-- [Low] selftests/sched: rebuild_record_taken() fails instead of
-  skipping without debugfs
-- [Low] selftests/sched: data race on late.done and unjoined thread in
-  move_cancelled()
-- [Low] selftests/sched: unchecked -1 error return from probe() in
-  bandwidth comparisons
-- [Low] selftests/sched: unused variables, write-only fair_tid, and dead
-  mode branches
-- [Low] selftests/sched: re-init of active robust mutex shm_lock in
-  shm_lock_init()
---
+> This problem wasn't introduced by this patch, but can casting tsk_bw to
+> s32 in __dl_sub() and __dl_add() overflow and flip the sign [1]?
 
-commit ec25de481fdb21f02eb990530342399d3485450d
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Yes, by reading. cpuset_can_attach() passes the sum of the bandwidth of
+the tasks it moves to dl_bw_alloc(), which calls __dl_add() with it.
+One CPU is 1 << 20, so the sum goes above S32_MAX past 2048 CPUs of
+deadline bandwidth. That needs a machine with more than 2048 CPUs.
 
-selftests/sched: Add a test of SCHED_DEADLINE bandwidth accounting
+This series does not change the cast. I will fix it in a separate
+patch, with a 64-bit division.
 
-This commit adds deadline_bw_test, a kselftest covering SCHED_DEADLINE
-bandwidth accounting across priority inheritance, parameter changes,
-cpuset moves, task deaths, yields, runtime overruns, bandwidth
-reclaiming, fair server changes, and CPU hotplug.
+Thanks,
 
-Link: https://github.com/jlelli/sched-deadline-tests
+Mathieu
 
-> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
-tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> new file mode 100644
-> index 0000000000000..1e64402f90df0
-> --- /dev/null
-> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-
-[ ... ]
-
-> +	sem_post(&rb_donor_go);
-> +	t0 =3D now_ns();
-> +	while (!rb_donor_locking || proc_state_of(donor_tid) !=3D 'S') {
-> +		if (now_ns() - t0 > NSEC_PER_SEC) {
-> +			ksft_print_msg("the donor did not block on the lock\n");
-> +			err =3D -1;
-> +			goto out;
-> +		}
-> +	}
-> +	err =3D set_deadline(rb_waiter_tid, 2 * NSEC_PER_MSEC, PERIOD);
-> +	if (err) {
-> +		ksft_print_msg("the waiter refused as a deadline task: %s\n",
-> +			       strerror(-err));
-> +		goto out;
-> +	}
-> +	err =3D set_deadline(0, 5 * NSEC_PER_MSEC, PERIOD);
-
-[Severity: Medium]
-Does deboost_new_params_reboost() exercise reboosting after a deboost as
-its comment describes?
-
-When reboost_owner() calls set_deadline() on rb_waiter_tid while W is
-blocked on pi_lock, W is not queued on a runqueue, so __setparam_dl()
-updates W's static parameters and switched_to_dl() returns without setting
-W->dl.deadline.  rt_mutex_adjust_pi() then copies W->dl.deadline (0) into
-W's waiter node on pi_lock, which sorts ahead of D's deadline in
-rt_waiter_node_less() and makes W the top waiter boosting O immediately,
-before D times out.
-
-Also, when O calls set_deadline() on itself while running, the kernel
-enqueues O with ENQUEUE_RESTORE | ENQUEUE_MOVE without replenishing, and
-rt_mutex_setprio() on deboost does not compare O's remaining runtime
-against its new static runtime or start a new period, so the test passes
-without testing a reboost on deboost.
-
-[ ... ]
-
-> +static pthread_mutex_t pi_lock2;
-> +static sem_t holder_go;
-> +static atomic_int holder_holds, chain_waits, donor_done, x_waits, l2_tak=
-es;
-> +static atomic_int chain_rank, x_rank;
-> +static _Atomic pid_t x_tid, fair_tid;
-
-[ ... ]
-
-> +	donor_tid =3D 0;
-> +	x_tid =3D 0;
-> +	fair_tid =3D 0;
-> +	return 0;
-> +}
-
-[Severity: Low]
-fair_tid is set in pi_init_lock2() but never read, which triggers a
--Wunused-but-set-variable warning under -Wall.  Similarly, nisol and isol
-in main() are populated by read_online(&isol, 1) and never used or freed,
-sleeper_cpu is never modified from -1 (leaving the sleeper_cpu >=3D 0 block
-in dl_sleeper_tid() unreachable), struct hp_case::no_hp is never set, and
-several helper modes (was_dl !=3D 0 in pi_asleep(), modes 1 and 2 in
-deboost_case(), spin_ms =3D=3D 8 in refill_case(), modes 0 and 2..5 in
-return_case(), and MV_YIELDED in mover()) have no callers.
-
-[ ... ]
-
-> +	have[LV_Z] =3D !pthread_create(&t[LV_Z], NULL, leave_waiter, (void *)2L=
-);
-> +	if (!have[LV_Z] ||
-> +	    wait_for(1000, (leave_tid[LV_Z] && proc_state_of(leave_tid[LV_Z]) =
-=3D=3D 'S') ||
-> +			   leave_err)) {
-> +		ksft_print_msg("Z never blocked on L1\n");
-> +		goto out;
-> +	}
-> +	sleep_ns(10 * NSEC_PER_MSEC);	/* the chain walk of Z is done */
-> +	err =3D leave_err ? -EINVAL : set_other(leave_tid[LV_W]);
-
-[Severity: Medium]
-Does pi_chain_donor_leaves() fail because Z is never propagated past M to
-O as O's donor?
-
-When Z blocks on L1, task_blocks_on_rt_mutex() updates M->dl.pi_se to
-&Z->dl, but M is sleeping on L2, so M->prio (-1) and M->dl.deadline do not
-change.  In rt_mutex_adjust_prio_chain(), rt_waiter_node_equal() sees that
-M's waiter node on L2 still matches M's prio and deadline and stops without
-requeueing M on L2 or calling rt_mutex_adjust_prio() on O:
-
-kernel/locking/rtmutex.c:rt_mutex_adjust_prio_chain() {
-    ...
-	if (rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task))) {
-		if (!detect_deadlock)
-			goto out_unlock_pi;
-		else
-			requeue =3D false;
-	}
-    ...
-}
-
-O->dl.pi_se therefore stays &W->dl.  After set_other(leave_tid[LV_W]) and
-the 250ms sleep clear W's deadline parameters, waking O replenishes O from
-W's zeroed parameters with runtime =3D 0 and deadline =3D rq_clock(rq), so O
-preempts and starves Y on P's CPU and fails the y_ns < 30ms check.
-
-[ ... ]
-
-> +/* What late_setter() does, and the result. */
-> +static struct {
-> +	pid_t pid;
-> +	uint64_t runtime;
-> +	uint64_t delay;
-> +	atomic_int go;
-> +	int ret;
-> +	uint64_t done;
-> +} late;
-> +
-> +/*
-> + * Make late.pid a deadline task of late.runtime every 100ms, late.delay
-> + * ns after late.go. Store the result in late.ret and the time it return=
-ed
-> + * in late.done.
-> + */
-> +static void *late_setter(void *arg)
-> +{
-> +	uint64_t start;
-> +
-> +	while (!late.go)
-> +		;
-> +	start =3D now_ns();
-> +	while (now_ns() - start < late.delay)
-> +		;
-> +	late.ret =3D set_deadline(late.pid, late.runtime, PERIOD);
-> +	late.done =3D now_ns();
-> +	return arg;
-> +}
-
-[ ... ]
-
-> +static int move_cancelled(void)
-> +{
-> +	int with_p, with_r, ret =3D KSFT_PASS, i, err;
-> +	const char *name =3D "move_cancelled";
-> +	uint64_t start, len;
-> +	pid_t pid;
-> +
-> +	mv_state[0] =3D 0;
-> +	mv_state[3] =3D 0;
-> +	mv_state[4] =3D 0;
-> +	mv_state[5] =3D 0;
-> +	pid =3D pinned_mover(2048, 1);
-> +	if (pid < 0 || child_up(name, 0) || wait_for(5000, mv_state[5])) {
-> +		reap(pid);
-> +		return mv_state[0] =3D=3D -2 ? KSFT_SKIP : KSFT_FAIL;
-> +	}
-> +	if (mv_state[5] < 0 || write_file(root, "cgroup.subtree_control", "+cpu=
-")) {
-> +		ksft_print_msg("%s: no SCHED_FIFO thread or no cpu controller\n", name=
-);
-> +		reap(pid);
-> +		return KSFT_SKIP;
-> +	}
-
-[ ... ]
-
-> +		if (wait_for(5000, late.done)) {
-> +			ksft_print_msg("%s: sched_setattr() still waits after a cancelled mov=
-e\n",
-> +				       name);
-> +			ret =3D KSFT_FAIL;
-> +			break;	/* the thread cannot be joined */
-> +		}
-> +		join(t);
-> +		if (late.ret) {
-> +			ksft_print_msg("%s: sched_setattr: %s\n", name, strerror(-late.ret));
-> +			ret =3D KSFT_FAIL;
-> +		}
-> +	}
-> +	sleep_ns(3 * PERIOD);
-> +	if (ret =3D=3D KSFT_PASS &&
-> +	    (admits_in(cg_p, with_p, "P, after the cancelled moves") ||
-> +	     admits_in(root, with_r, "the root domain of the process")))
-> +		ret =3D KSFT_FAIL;
-> +out:
-> +	reap(pid);
-> +	if (write_file(root, "cgroup.subtree_control", "-cpu"))
-> +		ksft_print_msg("%s: the cpu controller stays enabled\n", name);
-> +	return ret;
-> +}
-
-[Severity: Medium]
-What happens in move_cancelled() when deadline_bw_test is started from a
-non-root cgroup (such as a systemd session or service cgroup)?
-
-Unlike kill_case() and death_group(), main() and move_cancelled() never
-move the test process into root before forking pinned_mover(2048, 1).
-With CONFIG_RT_GROUP_SCHED=3Dy, a non-root cgroup has no RT runtime by
-default, so either fifo_sleeper() fails sched_setscheduler(SCHED_FIFO)
-with EPERM when +cpu is already enabled, or enabling +cpu on root fails
-with EINVAL while the child cgroup contains a SCHED_FIFO task, causing
-move_cancelled() to always skip.  Also, unlike run_p_cases() and
-cs_setup() with +cpuset, move_cancelled() unconditionally writes -cpu to
-root/cgroup.subtree_control at exit even if the cpu controller was already
-enabled before the test ran.
-
-[Severity: Low]
-In the same loop, late.done is a plain uint64_t written by late_setter()
-while move_cancelled() polls it in wait_for(5000, late.done), which is a
-data race.  If that wait times out, breaking out before join(t) also
-leaves t unjoined in the main process even though reap(pid) at out: kills
-pid and unblocks late_setter().
-
-[ ... ]
-
-> +/* Set up shm_lock. Return 0, or -1 if it cannot be set up. */
-> +static int shm_lock_init(void)
-> +{
-> +	pthread_mutexattr_t a;
-> +	int err;
-> +
-> +	err =3D pthread_mutexattr_init(&a);
-> +	if (!err)
-> +		err =3D pthread_mutexattr_setpshared(&a, PTHREAD_PROCESS_SHARED);
-> +	if (!err)
-> +		err =3D pthread_mutexattr_setprotocol(&a, PTHREAD_PRIO_INHERIT);
-> +	if (!err)
-> +		err =3D pthread_mutexattr_setrobust(&a, PTHREAD_MUTEX_ROBUST);
-> +	if (!err)
-> +		err =3D pthread_mutex_init(shm_lock, &a);
-
-[ ... ]
-
-> +	} else {
-> +		reap(waiter);
-> +		waiter =3D -1;
-> +		sleep_ns(50 * NSEC_PER_MSEC);	/* the owner deboosted asleep */
-> +	}
-> +out:
-> +	reap(waiter);
-> +	reap(owner);
-> +	return ret;
-> +}
-
-[Severity: Low]
-Does shm_lock_init() re-initialize shm_lock without destroying it across
-death_pi_waiter, death_pi_owner, and death_pi_deadline_owner?
-
-shm_lock lives in MAP_SHARED memory, and in death_pi_waiter, reap(owner)
-kills the owner with SIGKILL while it still holds shm_lock, leaving the
-robust mutex in the FUTEX_OWNER_DIED state when the next test case calls
-pthread_mutex_init(shm_lock, &a).  shm_lock_init() (and
-pi_chain_two_owners()) also omits pthread_mutexattr_destroy(&a).
-
-[ ... ]
-
-> +static int hotplug_server(void)
-> +{
-> +	int base, off10, off30;
-> +
-> +	if (server_set(hp_cpu, SERVER_RUNTIME, SERVER_PERIOD)) {
-> +		ksft_print_msg("the fair server of CPU %d cannot be set\n", hp_cpu);
-> +		return KSFT_SKIP;
-> +	}
-> +	base =3D probe(NULL);
-> +	if (cpu_online(hp_cpu, 0)) {
-> +		ksft_print_msg("offline of CPU %d refused\n", hp_cpu);
-> +		return KSFT_FAIL;
-> +	}
-> +	off10 =3D probe(NULL);
-> +	cpu_up(hp_cpu);
-> +	if (server_set(hp_cpu, 3 * SERVER_RUNTIME, SERVER_PERIOD) ||
-> +	    admits(base - 2, "a fair server of 30%"))
-> +		return KSFT_FAIL;
-> +	if (cpu_online(hp_cpu, 0)) {
-> +		ksft_print_msg("offline of CPU %d refused, its fair server at 30%%\n",=
- hp_cpu);
-> +		return KSFT_FAIL;
-> +	}
-> +	off30 =3D probe(NULL);
-> +	cpu_up(hp_cpu);
-> +	if (off30 !=3D off10) {
-
-[Severity: Low]
-Can hotplug_server() pass when probe(NULL) fails and returns -1?
-
-If both offline probes return -1, off30 !=3D off10 evaluates to false; base
-is not checked for <=3D 0 either.  move_refused() and move_zero_bw()
-similarly compare probe(cg_p) !=3D base_p || probe(root) !=3D base_r without
-checking whether base_p or base_r failed with -1.
-
-[ ... ]
-
-> +static int rebuild_record_taken(void)
-> +{
-> +	int a =3D top_cpu(3), b =3D top_cpu(2), c =3D online[0], d =3D top_cpu(=
-1);
-> +	int fd[2] =3D { -1, -1 }, i, n, err, cpu, ret =3D KSFT_SKIP;
-> +	long long q, h, q0, h0, bw;
-> +	char buf[4096];
-> +	pid_t pid =3D -1;
-> +
-> +	if (ncpus < 4 || !cpu_hotpluggable(a) || !cpu_hotpluggable(b) ||
-> +	    !cpu_hotpluggable(d)) {
-> +		ksft_print_msg("needs 4 CPUs, 3 of them hotpluggable\n");
-> +		return KSFT_SKIP;
-> +	}
-> +	if (cs_setup())
-> +		return KSFT_SKIP;
-> +	/* Q has every housekeeping CPU but A, B and D. */
-> +	for (i =3D n =3D 0; i < ncpus - 3; i++)
-> +		n +=3D snprintf(buf + n, sizeof(buf) - n, "%s%d", n ? "," : "",
-> +			      online[i]);
-> +	if (make_partition_cpus(cs_q, buf)) {
-> +		ksft_print_msg("Q cannot be a partition root of CPUs %s\n", buf);
-> +		goto out;
-> +	}
-> +	ret =3D KSFT_FAIL;
-> +	err =3D cpu_online(d, 0);
-> +	if (err) {
-> +		ksft_print_msg("offline of CPU %d: %s\n", d, strerror(-err));
-> +		goto out;
-> +	}
-> +	bw =3D total_bw_of(a);
-> +	if (bw =3D=3D -1 || pipe(fd)) {
-> +		ksft_print_msg("no total_bw of CPU %d, or no pipe\n", a);
-> +		goto out;
-> +	}
-
-[Severity: Low]
-Should rebuild_record_taken() return KSFT_SKIP instead of KSFT_FAIL when
-total_bw_of(a) returns -1 because /sys/kernel/debug/sched/debug is not
-available?
-
-ret is set to KSFT_FAIL before total_bw_of(a) is checked, whereas the
-other debugfs-dependent cases skip when debugfs files cannot be read.
-
-> +	mv_state[0] =3D 0;
-> +	mv_state[1] =3D 0;
-> +	pid =3D fork_child("a deadline task");
-> +	if (!pid) {
-> +		cpu_set_t set;
-> +		char ch;
-> +
-> +		CPU_ZERO(&set);
-> +		CPU_SET(a, &set);
-> +		CPU_SET(b, &set);
-> +		if (sched_setaffinity(0, sizeof(set), &set) ||
-> +		    set_deadline(0, 10 * NSEC_PER_MSEC, PERIOD)) {
-
-[ ... ]
-
-> +	if (fallback_wake(fd[1], pid))
-> +		goto out;
-> +	/* Go on after a failure: the totals tell more. */
-> +	cpu =3D task_cpu_of(pid);
-> +	if (cpu !=3D c)
-> +		ksft_print_msg("woken on CPU %d, not %d\n", cpu, c);
-> +	else if (!totals_check("woken", d, c, q, h))
-> +		ret =3D KSFT_PASS;
-> +	reap(pid);
-> +	pid =3D -1;
-> +	sleep_ns(3 * PERIOD);
-> +	if (totals_of(d, c, &q0, &h0)) {
-> +		ret =3D KSFT_FAIL;
-> +		goto out;
-> +	}
-> +	if (q !=3D q0 || h !=3D h0 + bw) {
-> +		ksft_print_msg("Q counts %lld of %lld, the root cgroup %lld\n",
-> +			       q - q0, bw, h - h0);
-> +		ret =3D KSFT_FAIL;
-> +	}
-
-[Severity: Medium]
-Does rebuild_record_taken() fail when CPU 0 is isolated with
-isolcpus=3Ddomain,0,1?
-
-When CPU 0 is isolated, online[0] is the first housekeeping CPU (for
-example, c =3D 2).  The child in the root cgroup overwrites its inherited
-housekeeping affinity with {a, b}.  Once a and b are taken offline and
-cs_q takes the remaining housekeeping CPUs except c,
-dl_add_task_root_domain() queries cpuset_cpus_allowed_locked() for
-top_cpuset, which includes the isolated CPUs 0 and 1, so
-cpumask_first_and(cpu_active_mask, msk) picks CPU 0 and adds bw to CPU 0's
-default root domain rather than CPU c's housekeeping root domain (leaving
-h =3D=3D h0 instead of h0 + bw).  Likewise, waking pid via fallback_wake()
-hits select_fallback_rq() -> cpuset_cpus_allowed_fallback(), which resets
-pid's affinity to top_cpuset.cpus_allowed and wakes pid on CPU 0 instead
-of CPU c.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795031605.gi=
-t.mathieu.desnoyers@efficios.com?part=3D16
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
