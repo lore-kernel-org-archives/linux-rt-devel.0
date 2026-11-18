@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795017291;
-	b=2743dKAk0y6SY7s2B/w+Q0qePFAAWX/UPbjzVRZtCPw6dIgg3kdsPUVAUmLTmDdqgSwq
-	 EZJunLKSEm+sLIe/Qx7g1VL7xxVdBqWi5EplW1MevRqQ2CvIX8mcm+eL1I7wqPAoC0eZA
-	 RO0TXawozJ4aqfOs/qwnIJpuFwbQboS63wfadpBED1aA5e813Gdk4ZiMQt8M7v86yIJz6
-	 TpzlJl5FAs74dCVjVf7E/jXDHm9oPedr+qSn/uMWluJCXVh+//mgTllVmoQLZTyneC+pD
-	 rWiYaWEV4FGga7nd/IOBP3KGg0okoDZJxVC8OmPLGnrRUFHg22VbLzpNpJAJA1ShcCA==
+	t=1795019065;
+	b=q/DV42IJUXPiMuk9x6yA3/DRSiNvNwDeWWRlIDdZ308l3D4RfDd553u1jxd2NU0SLxB1
+	 6qvAag/sF/JqJPg7XCeelHJoZuDTHmbenzNMfvVm7jMaQXXLe70s8DlKkLWugjrt8hi32
+	 rBSOGrbjRzSegC+GrTe2SlBGlGia4LvSpXYo/b9eBKhmp2TGANpRKxTcpC40SCbiPcVir
+	 Nma/AhqotnqThpTzveKZfC7V7wozvz83V1jg1Y/p4M1ugDutR4Yqbqy1fd65jTQ+AnV4t
+	 l4y8VvkwyvXOc7cofXry9WgC6xDq9YPLCicLfbMRVBxMZZEN3f88Sc2FjC0MHEEOV0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795017291;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019065;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=DmJfzC/sRq3TlQhBoN1iY/MRqsblNPUXimCuifUw2i4=;
-	b=ePtpA21Z4vqigN6/dsglWfn20YJfSP+5hAiVUByULX6jsLUsBWme+DZZytBfKRJe9iam
-	 VoT8+XkDtQU2oa5WSHKwrT0C5YzQ+A9rq6MM/iWybuZjDBfSaf1PX8v4gSbdO6f19W7QB
-	 JodPYQUENeGA6qQ2H5DBTOOWI0UERWMBUgogMZ3sUnjBa1S4aJdwPqGbTcALCDpVuX/vG
-	 DAsAQ2/LVCJNs5tAGbXVoUYKi+XZ9Fu33I+qGEXLYtbEkdR+LdgWULMvKqGxct7FSVco0
-	 ZHnXIELwI14RKJFtge+Yk2Myb+MhvPmkaS89p9++sM0Da+2PhgpJa0JmF/3Q37AmCqQ==
+	bh=hyyvwqh0yUCrKvJZHku7usPSuKgxk7/6YeOVXPVE234=;
+	b=NLdgR1mvsI8RRFQtNDpOOzATRxUlteMp13nF1FTpFl2H1hUpZ0k29qC+bCzf2oBO1CvV
+	 kWvEhcz45JCjgo0FLPQtCN6CRDFJKUw5I1pajfGvJTEVDEkdTMaGr34g/TNW9TXTQwrU5
+	 7dleW19z8xbNeLCasB7jyqaPXw2wdXLOKetbFQFQB6bVzjBpDb5M/pEWqcuQKl+gQg/Rw
+	 MeMQx+hd0uhiC7kp/NnxS7GBlRRKhHK82wC3KO1cCFUcuoJjb7X96iQ+YFj1fsK3MNNMR
+	 bX23YWf6wBHoXX1oeyu6CTNodP4ep/kaTfsA6FCI0ZBi+tMlr7vgSzP+DfJn+xOAUnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ipYi9E6e;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VYQ6iK1v;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFD0606A32F;
-	Wed, 18 Nov 2026 15:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2581060A262E;
+	Wed, 18 Nov 2026 16:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ipYi9E6e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B221F000C4;
-	Wed, 18 Nov 2026 15:54:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VYQ6iK1v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDEF51F000C5;
+	Wed, 18 Nov 2026 16:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795017291;
-	bh=DmJfzC/sRq3TlQhBoN1iY/MRqsblNPUXimCuifUw2i4=;
+	s=k20260515; t=1795019064;
+	bh=hyyvwqh0yUCrKvJZHku7usPSuKgxk7/6YeOVXPVE234=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ipYi9E6elWAi2Wc6DUpjs2dCpCCGm6GaVIR0YbPs0dkd9x4JZMaISzryIIxxdy2ac
-	 avidtPhahy4S2vbejNTSzGtufOYSUF18usCZyy9AekrJV6i0rkCSWahGdhLIAhPqv9
-	 hp7lx6eTb7B6+6dgSMzCqk9ivlXNhu6vCTGrIA345xjQ5gjNBug7eJPZrMQsh+Ec2B
-	 UuQ98OvAPkenUR8cN9UQVY4Jjd1hKHndHmylk/6P4MbNZKu6/YzGelhRmUiTzzurEA
-	 fBGPB67h6fbliEoajzSm4zD2M1AijSSS1smbPDcw+YbOiBg29cA9TnBc+EYJqrgA5y
-	 RGae54Msu6SNA==
-Message-ID: <b367d98f-54fc-4d29-8e3a-2d19dc4e2603@kernel.org>
-Date: Wed, 18 Nov 2026 16:54:46 +0100
+	b=VYQ6iK1vi6FHFW84MrhdkFONbt4aEau9XczusyK5CLhQaKISBgiYb9QEf+pMVSAZC
+	 7CS7yb2kyDszUaZVo4m6EjIIYx0AgTpRIGFoJqZ2l0THzAAC7tCdolmeWTJk0hVT+j
+	 vLYFsbBA1lZ173kFzYIBhEhmgyd0/XlKq8bTr3s8YbxDYXdRv/ou8P1BCjbckSoiqw
+	 6YroToxg40CQAFHKtUr5oGvZ+98pujuxWDEuGK11S2xMJtqrCBH0GV7397ngf3xNC9
+	 vtzs8fYfKBNXsug2DAwNIrwmN+t1++HWGwVk/IO/HD+jAyxv+l2X3Hmymi/9B8sNn0
+	 mWvWbR9ojFiVQ==
+Message-ID: <02c600ac-c968-4143-9e70-ccd2da858e09@kernel.org>
+Date: Wed, 18 Nov 2026 17:24:19 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 3/7] mm/slab: handle SLAB_FREE_NOLOCK in
- slab_free_hook() instead of open coding
+Subject: Re: [PATCH for-next v3 4/7] mm/slab: fix a deadlock in
+ memcg_alloc_abort_single()
 Content-Language: en-US
 To: "Harry Yoo (Meta)" <harry@kernel.org>,
  Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
@@ -65,9 +65,10 @@ To: "Harry Yoo (Meta)" <harry@kernel.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Sashiko <sashiko-bot@kernel.org>
 References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
- <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
+ <20261115-kmalloc-nolock-fixes-v3-4-9034dd4ecaab@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -108,25 +109,114 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-3-9034dd4ecaab@kernel.org>
+In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-4-9034dd4ecaab@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/15/26 16:09, Harry Yoo (Meta) wrote:
-> kfree_nolock() deliberately skips slab free hooks that should not be
-> called in unknown context. However, there is one more place that
-> needs the same thing: memcg_alloc_abort_single().
+> When kmalloc_nolock() successfully grabs a slab object but memcg aborts
+> the allocation, the object is freed via __slab_free(). Calling
+> __slab_free() in unknown context is not allowed and can lead to a
+> deadlock.
 > 
-> Instead of open coding slab_free_hook(), let it handle
-> SLAB_FREE_NOLOCK. This is required to correctly handle allocation
-> failures due to memcg charging.
+> Free the object via defer_free() when spinning is not allowed.
 > 
-> kfree_nolock() now respects init_on_free which has been ignored.
-> Besides that, no functional change intended.
+> While at it, try freeing the object to the percpu sheaves first in both
+> contexts, as kmem_cache_free_bulk() already does for bulk allocations.
+> This also avoids queueing an irq_work for every failed charge when
+> spinning is not allowed.
 > 
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/20260610-slab_alloc_flags-v2-0-7190909db118%40kernel.org?part=9
 > Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
 > Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 
-The sashiko issue seems pre-existing and orthogoval. LGTM.
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
+nit (not worth respinning just for that)
+
+> ---
+>  mm/slab.h |  8 ++++++++
+>  mm/slub.c | 22 +++++++++++++++++-----
+>  2 files changed, 25 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/slab.h b/mm/slab.h
+> index 15b0d98ae1d4..fb80a72ad952 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -37,6 +37,14 @@ static inline unsigned int to_alloc_flags(unsigned int free_flags)
+>  		return SLAB_ALLOC_DEFAULT;
+>  }
+>  
+> +static inline unsigned int to_free_flags(unsigned int alloc_flags)
+> +{
+> +	if (alloc_flags & SLAB_ALLOC_NOLOCK)
+> +		return SLAB_FREE_NOLOCK;
+> +	else
+> +		return SLAB_FREE_DEFAULT;
+> +}
+> +
+>  static inline bool alloc_flags_allow_spinning(const unsigned int alloc_flags)
+>  {
+>  	return !(alloc_flags & SLAB_ALLOC_NOLOCK);
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 7c0adc104988..8252c0b681cc 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2531,7 +2531,8 @@ static inline void slab_obj_ext_has_codetag_init(void)
+>  
+>  #ifdef CONFIG_MEMCG
+>  
+> -static void memcg_alloc_abort_single(struct kmem_cache *s, void *object);
+> +static void memcg_alloc_abort_single(struct kmem_cache *s, void *object,
+> +				     unsigned int alloc_flags);
+>  
+>  static __fastpath_inline
+>  bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
+> @@ -2549,7 +2550,7 @@ bool memcg_slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
+>  		return true;
+>  
+>  	if (likely(size == 1)) {
+> -		memcg_alloc_abort_single(s, *p);
+> +		memcg_alloc_abort_single(s, *p, ac->alloc_flags);
+>  		*p = NULL;
+>  	} else {
+>  		kmem_cache_free_bulk(s, size, p);
+> @@ -6647,18 +6648,29 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>  #ifdef CONFIG_MEMCG
+>  /* Do not inline the rare memcg charging failed path into the allocation path */
+>  static noinline
+> -void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
+> +void memcg_alloc_abort_single(struct kmem_cache *s, void *object,
+> +			      unsigned int alloc_flags)
+>  {
+>  	struct slab *slab = virt_to_slab(object);
+> -	unsigned int free_flags = SLAB_FREE_DEFAULT;
+> +	bool allow_spin = alloc_flags_allow_spinning(alloc_flags);
+> +	unsigned int free_flags = to_free_flags(alloc_flags);
+>  
+>  	if (slab_want_init_on_free(s))
+>  		free_flags |= SLAB_FREE_INIT;
+>  
+>  	alloc_tagging_slab_free_hook(s, slab, &object, 1);
+>  
+> -	if (likely(slab_free_hook(s, object, free_flags)))
+> +	if (unlikely(!slab_free_hook(s, object, free_flags)))
+> +		return;
+> +
+> +	if (likely(can_free_to_pcs(slab)) &&
+> +	    likely(free_to_pcs(s, object, allow_spin)))
+
+I think it could be a single likely(x && y)
+
+> +		return;
+> +
+> +	if (likely(allow_spin))
+>  		__slab_free(s, slab, object, object, 1, _RET_IP_);
+> +	else
+> +		defer_free(s, object);
+>  }
+>  #endif
+>  
+> 
 
