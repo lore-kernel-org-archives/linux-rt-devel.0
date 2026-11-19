@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795105506;
-	b=JFOK5+C4CT/KFKTL0N5pgF1Ii9PT1OR7cOHU1mOiyUbAmW/93suVCKmdNE+adOrbLyCQ
-	 KXJeJNK1NsQGj7+c37T28r6sgs9OeYfdtknZ6t6F5B1buEsW2JPp8iNwZgFFeE+dbneLq
-	 fids4G17Ood/tRQvJet7HJW2k8G3ZN/Sxtz0yfRH1l8rWOkfuq/tyBO+6Bjh0T7mwwxQP
-	 HkW3qSvWwKa8Qmr4WDWBCrzdtLJ9E8lX/odoffXrqxlSlS24XwFYlZNrRwc4/UaUyIKSw
-	 InxFZpK6VILvL9eMrrwxbBHEcZjQxwk8rw8BwYmR7z4k+NXFLlyw5y6ZsPDmmtqhoZA==
+	t=1795105507;
+	b=T2ivOJiOv1FpqoMcRaalrOI5DtTr87/R3M1BDXdCeJ0ZNFjp2Va5fYPLA0+f99S9HplT
+	 tpe2QTj9ZCMuwOZhazFQcFLY+SH0MVyGenXgainlt7PCorft8wCt1YHuZ4XkdkfRD+C9R
+	 SqQJnj80e/YBUTVFd+uE00QY57Nd/izp27bGwdFmzLyYi52jxrI8rKwApYFTla9/QhxYU
+	 DXyjsX2+UJWmL0VbKV28AIfAwqSruR8VTF3O1QCUX8ttVtNjBrUF2qzh9C1WfQnx1y9Vx
+	 Cn37N1s6pDpM5PRDUmw28/4o64Q7sLIEyb6CRhq62j8ECen7juYso9JKYyqzgQvZd7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795105506;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795105507;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=RpH3Eqg7iYrUnR+bT4B28VRSM1FxKzR8GEzsrCXC1us=;
-	b=kIkart6Nq0xYARBTrp6GanuP8/wqgytj1PZf02aoFeb+C5f2um3u3/JBAwWxk/pnPMUG
-	 uty4B0ztulEaedFFdpygU451v0L5+ejuLRyK9SbrEvu0nxVE/0taKg5rm0z0W0/gWKfhc
-	 c2jyGFdc0dcyyO5sI21yJScBVc3wMfH2h6bcWU04lh/zp960oHdryO+iGeEcNuMh9HJeg
-	 KTiR6q37tizRkbK2ZF3q9RTozd4Md7MmrNxYKxcTlztcXi2AeR2Gs7QHwGUZb8ReziYH2
-	 I6qzgLEcDRPjLX5/WaU+VCtrWxBmyux890f5P+ELaoN7KSqFhNIbICTXhMBhpq4G4GA==
+	bh=ecolJmUIVAvJpPgaxFVFIXgCSCdtlmKz+g0qabV5LGI=;
+	b=Yo6F/BIhOXHltfhpWZrBbMWNAQC/JMmgjfsdw/b/DvAiCA66ZQAvHg1545+4z0jGROaJ
+	 LRLXpAi1O676THbndIywbklEOcd4SXEjdKWv0qEs1IOgCwjjoSh/qcEHMdwd8DUr7FU/u
+	 iLs6yNVgG0fhZgV/ssOtQIkiBqGXk8FkiGNM3u3cVOW/Fdqg39dbcHeuWlXX1aHy4Ay5F
+	 wB5ExFYrY5PkxaOwm0o9OyUbVIumnDZUwK3rSq/itN3F1FBmzFWQEOTlIwv9v7zcfz+Uu
+	 6vnaYSjtwxVQJ6448HiktMYRDIpC6cGLLsHBZnkYtMIumT17aTaUScqBcQaK4yb2eDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=n9yXJePy;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=oVDaeVxg;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A259606A324
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 16:25:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A259606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF3460A5BD0
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 16:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEF3460A5BD0
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=n9yXJePy
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=oVDaeVxg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795105502;
-	bh=RpH3Eqg7iYrUnR+bT4B28VRSM1FxKzR8GEzsrCXC1us=;
+	s=smtpout1; t=1795105503;
+	bh=ecolJmUIVAvJpPgaxFVFIXgCSCdtlmKz+g0qabV5LGI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n9yXJePy2PbjEMO7pTsvFCfi9girSjiUY6nBj0+hhexof+Fzecl8XQGTiypQTrFRE
-	 Q9JQDVkco3sjcqZlvBlBSmMPPq9pJ6Pcd6WVFzLOLMSKMTIWCDcEpOLaQFVWXIP9aC
-	 P0Pk/cmEybNr4STFI2oYwtf5JGTSaxp4564LUJEylhu/HW/ZfELqoCD1ipjNm7/biM
-	 OVikwoh36I/JENYgzR4QMDflMWgAaN1wZ2WdeAYTHOwMQapj8ATMz/t1gd/WQycO/9
-	 njP+r4FYGtzZjWBz4YLmaqNZVPVoPZqxK3ODrTNJU/Emyj4I2kJ6lKCM/o/Em01ZhI
-	 qSJr00b3smOOA==
+	b=oVDaeVxgBqDytaDqWG5VZK13DZZFhAitlQu7Gv0FLeMl+dlNMknbGF2Mwdvhe9SmD
+	 fmRjG34lsDv5F7t4KxmwoTpr/GEzSMs2PCru7f0978DNyJ/0gqwDxOMmUh9u5owcKu
+	 cqS24+e3ifB8vmiV9LEUpmafH9de6F4DyeCUFSq95H1W6IFb3WhqDi9nEIKd0Zzoqp
+	 U5pgnTXzlKjLgTBDRS7+2F9Yi59O5ni8RQ2Pi56KG4kudpCmeQdLFMuaH7Kk0Q05Ky
+	 46BwJKfZ2DIHjNan9gnqVGQGznFP/9mqnqg88sv64F+/ksVGCm8eWs4U2mh3p9Nx5L
+	 lhXP5sCag8iLQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVkMf4XC2zTnH;
-	Thu, 19 Nov 2026 11:25:02 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVkMg59PRzTpk;
+	Thu, 19 Nov 2026 11:25:03 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [RESEND PATCH v4 05/17] sched/deadline: Refuse dl_server debugfs writes while the rq is offline
-Date: Thu, 19 Nov 2026 11:24:45 -0500
-Message-Id: <30870826885d7aa42b641d23701066e03b1a2b9b.1795105408.git.mathieu.desnoyers@efficios.com>
+Subject: [RESEND PATCH v4 11/17] sched/deadline: Release the bandwidth of a task that leaves the class asleep
+Date: Thu, 19 Nov 2026 11:24:51 -0500
+Message-Id: <890f50eb9b802f09440aa1a4ef17abc7bda8ca68.1795105408.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
@@ -97,62 +97,98 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 4043f5498416 ("sched/deadline: Reject debugfs dl_server writes
-for offline CPUs") refuses a write to a dl_server's runtime or period
-on an offline CPU. Its message says that such a write has no meaningful
-semantics.
+A task that leaves SCHED_DEADLINE while it is not queued can keep its
+bandwidth in total_bw until the next rebuild of the root domains.
+Repeated, this fills total_bw up to the admission limit. Then
+sched_setattr(SCHED_DEADLINE) and CPU offlining fail with EBUSY.
 
-It tests cpu_online(). But during hotplug the CPU is still online while
-it sits in the default root domain. This lasts from the rebuild in
-sched_cpu_deactivate() to the offline, and from the online to
-sched_cpu_activate(). That root domain does not count the server's
-bandwidth. A write in the window still goes through admission. With
-admission control off, it changes total_bw there. On v7.4-rc2, a write
-of the current value divides by zero in that window. The previous patch
-removes the division, not the write.
+A task that leaves the class keeps its bandwidth until its 0-lag time.
+Releasing it earlier would allow temporary overloads. For a queued task,
+switched_from_dl() calls task_non_contending(). It releases the
+bandwidth if the 0-lag time is past. Otherwise it arms the inactive
+timer, which releases it then. For a task that is not queued,
+switched_from_dl() relies on the timer armed when the task blocked.
 
-Fix this by testing rq->online instead. It is set under the runqueue
-lock when the CPU joins a root domain that counts it, after
-cpu_active() is set. Test cpu_active() too. On the way down, it is
-cleared before rq->online.
+But the timer is not always pending when the task leaves the class:
+- The task blocked after its 0-lag time. The timer was not armed.
+- The timer fired while the task was still in the class. It only
+  removed running_bw.
+- The task was woken up on another CPU and is not enqueued there yet.
+  The wakeup cancelled the timer.
+- The task came back to the class asleep. switched_to_dl() cancelled
+  the timer.
 
-A write now fails with EBUSY while the CPU goes offline or comes
-online, as a write on an offline CPU already does. Writes at any other
-time are unchanged.
+Then nothing releases total_bw.
 
-Applied without the previous patch, this patch alone also stops the
-oops. The reproducer survives 20 rounds with no warning, in 3 VMs of 3.
+Fix this in switched_from_dl(). For a task that is not queued and has
+no timer pending, call task_non_contending(), as for a queued task. It
+arms the timer if the 0-lag time is ahead. Otherwise it releases the
+bandwidth now and clears the parameters, as inactive_task_timer() does.
 
-Fixes: d741f297bcea ("sched/fair: Fair server interface")
+Clearing the parameters keeps later paths from releasing the bandwidth
+again:
+- A timer handler that already started finds a dl_bw of 0.
+- The deboost of a later priority inheritance boost finds no
+  parameters.
+
+An owner that the task boosts as a waiter can find the parameters
+cleared too. "sched/deadline: Do not replenish a boost from cleared
+parameters" handles this, so a backport needs it first. Without it, the
+owner's CPU can lock up as soon as the waiter leaves the class.
+
+Before this patch, a task that left the class asleep kept its
+parameters. That hid a bug of the rtmutex chain walk. The walk can stop
+before the end of a chain. An owner then keeps as its donor a deadline
+waiter that left the class. With this patch, the parameters of that
+donor are cleared. Until the owner unlocks, each refill gives it no
+runtime and a deadline of about now. This is the bail-out of
+"sched/deadline: Do not replenish a boost from cleared parameters".
+Other deadline tasks keep their bandwidth, but run late. Real-time and
+fair tasks on that CPU could starve. The pi_chain_top_moves case of a
+later series has the steps. With this patch, the case fails in every
+run. It passes on v7.4-rc2. Two rtmutex fixes of that series make it
+pass with this patch.
+
+Juri Lelli's first fix, since dropped from tip, released the bandwidth
+here without clearing dl_bw. The bandwidth of a boosted task was then
+released twice.
+
+Juri Lelli suggested the call to task_non_contending() in review.
+
+The Sashiko AI review of this series found the two cases with the 0-lag
+time ahead. deadline_switch_test, added later in this series, tests
+the release in asleep_round_trip.
+
+Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
+Reported-by: Tejun Heo <tj@kernel.org>
+Closes: https://lore.kernel.org/all/2b5fb3f22bca6aa383be8f4781923392@kernel.org/
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-2-dd761fe005b4@redhat.com/
 ---
- kernel/sched/debug.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ kernel/sched/deadline.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index e6a3b516c703..ddb382df454b 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -410,7 +410,16 @@ static ssize_t sched_server_write_common(struct file *filp, const char __user *u
- 			return  -EINVAL;
- 		}
- 
--		if (!cpu_online(cpu_of(rq)))
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 5e4aff28e9bc..bdeb2ecc9255 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -3620,6 +3620,14 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 		if (p->dl.dl_non_contending)
+ 			sub_running_bw(&p->dl, &rq->dl);
+ 		sub_rq_bw(&p->dl, &rq->dl);
 +		/*
-+		 * Refuse the write while the runqueue is offline. This
-+		 * includes the windows where the CPU goes offline or comes
-+		 * online. The root domain then does not count the server's
-+		 * bandwidth, and may have no active CPU. rq->online is set
-+		 * under this lock when the CPU joins a root domain that
-+		 * counts it. cpu_active() is set before that. On the way
-+		 * down, cpu_active() is cleared first.
++		 * Without an armed timer, nothing releases total_bw. Do as for
++		 * a queued task: arm the timer if the 0-lag time is ahead, or
++		 * release the bandwidth and clear the parameters now. Call
++		 * task_non_contending() after sub_rq_bw(), which needs dl_bw.
 +		 */
-+		if (!rq->online || !cpu_active(cpu_of(rq)))
- 			return -EBUSY;
++		if (!p->dl.dl_non_contending)
++			task_non_contending(&p->dl, false);
+ 	}
  
- 		update_rq_clock(rq);
+ 	/*
 -- 
 2.47.3
 
