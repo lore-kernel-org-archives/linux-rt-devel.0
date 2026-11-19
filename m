@@ -1,57 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795112265;
-	b=XGA2Kcr41LPnc98HKsiqnDin4RmyrRIG+c9k43llUrokVjOsY7agOhXzcn580+hQDgza
-	 lRuZ/InqXmlhyzlXuCIEPR7gA0rmSzUPlOMDEoTaOP3Ift+GyQyGkGgxyAxA64jiM5t+R
-	 s0oPqn+vU5UgIeLoNX6QzZD10TKkFNAwz9uS11oFx2zoSFPg7wZWVvm3rRMfX7FSlnN7L
-	 WtgyYAyhfe5cTOvaaFZEbRn1RfhBHroC22dWuecN/1BzN+ZjEHHLKFpLDDUuKNVwjbnm9
-	 WmsBR9o64JXrRN6TtG1lOa2Frgy3awwRSHKb2pz7nasMeM4Aeon/1S5Y6KqFZIHKkdQ==
+	t=1795115238;
+	b=pBuW3LKDTnowAzQUYvKNvdhisnm8uc+lf3v9Vwod2e7svh4hjFa9qJrSxDWaFPq5PMTc
+	 GQEyXWrEcFMSEe+G28rArrd7YRTCV+XDOvJMbkP8MLOwTV/IOvzbk/ufUFEcV6uNonZ8v
+	 wFjnvQSrBCy9n1maeoUcFFoxBXDbQlILjkRbpnb4MyECYWWr2xR0DVRy8VhkbAeb6WQ7w
+	 v/PFz9N4GY60yb15GKozwX0PeDJay7Pwz1eskE2QdBSf7hS71leefmlyt/TU1VBVg5nsh
+	 V4uWeTtAehb4m8htUqJjJvUSfGtP6/XWEYnNMQrgmGLLSgpKSHepvwEAP6lPbuOaSSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795112265;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=e+AX9yzcvXvTArcpWr8bJrqXCoCx5CQaHwc1HEsiISk=;
-	b=PRKUWbdiEB57U99fu2Sj8m3Gu5BQrfmSOL4aFBhAES8RxjG2AEtiYwGyRqW946lCLmvw
-	 6+DvZtagyvwx0/iyQwqwdKWtZN95pg+XJqTeHbmo4KCPKgvRS8h0K+6TJjK9/sj4DDB1E
-	 42GTcGWIYNYdqrrwFOeytsteXSxWtmdrz+PRturixQyuUa9l7ypF42ri5KiD2JGThjMJr
-	 6BlvBPKlTSmqOkuCcH7mm8KrPWyAgzuK5VUQzPS8ryqYFaHD73CuwATam4bm5zWXDf9TB
-	 lmoKmEtpGcKbTHhJHoUYhj9+kH5woctOUY7y50BzU39/ZlXx7jIbzytCOpAj3KAR37Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795115238;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=sYEvR0y/S587RGU4gKT0zwa1IWS1hIurv3wif+IluiY=;
+	b=xF0tcir24axrVgCUC3RwAwWZn3GDIoeBEcttWW6MemXq/n5mrv0XaXNJ8x5QNzpoCr2Q
+	 DwNNw6bdjpEFIY14hvVtTz6t8IZSHvxlOngTOdFrTeba3bJTkOq005ndmJsbWG8er4sjJ
+	 UhY+RiXvxzbOATyXkBCbvMQzQxnZC7AFLgCuRVwR5NIXo4IvnGFO64bLvtMtkpfIUR25/
+	 wmY07Jzba20+J//rHbQjesay6co7yqBNa89T9fMsbblvuze8+cnyCoO1riQcpTienV5oT
+	 C17O3PutpnJQYVr9S3rCsXFQpmJQEsaP7hdtHQJw+0IUz4OCecq7reGQHhCf0/TiG5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPQcy0SO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="G9HP9F/Q";
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D39606A33C;
-	Thu, 19 Nov 2026 18:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40989606A332
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 19:07:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40989606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPQcy0SO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E351F000C7;
-	Thu, 19 Nov 2026 18:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795112265;
-	bh=e+AX9yzcvXvTArcpWr8bJrqXCoCx5CQaHwc1HEsiISk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OPQcy0SORt3QYZ+79bAYyITbCrhdx/hDnYZzAPsVMvWNvXZYFTgb+HdySPjUzkMgZ
-	 ZfyEJf238yzUGRqcQ5tokhUlQCxXsm1m7X+uOmPumjCpRJY65OXaDwxaBs3cWC/AhX
-	 4tWbh/zAGHyuMkv1cyYL+Xbl1BvjYLIQJ6h5EiqGOiYq2ubgHgKgvDE0i8FshWY0Pd
-	 cEulgOzEERD2BcyTsP1L+irnvAkNTR7542TLU91+5QDQ7InvFyDuhnL9AKKIU5stxe
-	 7G67F2DRGeNqvLx7ye5KZcj0l1PHwNNDZR+bPu6rTRHLYM2xKVZoFaheqQc1Tu+D7N
-	 x7iVtXFuE81PQ==
-Message-ID: <sashiko-outbox-223763@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 5/7] perf: add MIPS Coherence Manager 3 (CM3) PMU
- driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vladimir Kondratiev" <vladimir.kondratiev@mobileye.com>
-Cc: linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-perf-users@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261119-i6500-cm3-pmu-v3-5-c86410934b51@mobileye.com>
-References: <20261119-i6500-cm3-pmu-v3-0-c86410934b51@mobileye.com>
- <20261119-i6500-cm3-pmu-v3-5-c86410934b51@mobileye.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 18:17:44 +0000
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=G9HP9F/Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=smtpout1; t=1795115237;
+	bh=sYEvR0y/S587RGU4gKT0zwa1IWS1hIurv3wif+IluiY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=G9HP9F/QTIStXTW9p5vFagU3Odn5ZbuvfzwQ31+9kosieKFJA987g0bgQntFRLj0j
+	 B4ZoiMMO7Uck4pW/OzMQ1b33LT2RSgJDJmP1Ra/rCTx0JgUJHQZ4rsSksODbHyqlVi
+	 HZsFKX9Q8zM7pbDgkRR58HSwsTOnnS971V0MenNDHGLqqmhPTbUSY28mFN4eC35ryW
+	 tb+GVPy+Ggmd9uePgMnG61p2Br4TeeGfzKu7lC+e7SrKQoOOMlNBatZs/EeZZqXdoh
+	 eVTtpVOeeyPefhB6dsdiGc1gBR0v22l7WE3pYxfR1q/TkMjgoPSzpc9bczWEJSMA6z
+	 +y8KLJDJOtmKA==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVnys3T4jzSjJ;
+	Thu, 19 Nov 2026 14:07:17 -0500 (EST)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: juri.lelli@redhat.com,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	vincent.guittot@linaro.org
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	tglx@kernel.org,
+	will@kernel.org,
+	boqun@kernel.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	parri.andrea@gmail.com,
+	m.szyprowski@samsung.com,
+	kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v5 03/17] sched: Let a task boosted by a deadline waiter change its policy
+Date: Thu, 19 Nov 2026 14:07:00 -0500
+Message-Id: <32e83abf79c6cebb23193478bdfea27e3525b025.1795115075.git.mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
+References: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,123 +94,84 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] perf: mips_cm3_pmu: counter overflow double-counting in
-  cm3_pmu_update()
-- [Low] perf: mips_cm3_pmu: WARN_ON() in cm3_pmu_online_cpu() when
-  !CONFIG_SMP
---
+A SCHED_OTHER or SCHED_FIFO task that holds an rt_mutex can be boosted
+into the deadline class by a deadline waiter. Then a sched_setattr() or
+sched_setscheduler() call on it fails with EBUSY, unless it asks for
+SCHED_DEADLINE. sysrq-n would not reset it either.
 
-commit 51299d17e3e40c4c71d192990c0a48a22c2de2cb
-Author: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+The admission test runs "if setscheduling to SCHED_DEADLINE (or
+changing the parameters of a SCHED_DEADLINE task)", as its comment
+says. sched_dl_overflow() then handles three cases, by the task's
+policy: the task enters, leaves or stays in SCHED_DEADLINE. But the
+call site tests dl_task(p). That tests the priority, so a boosted task
+passes it. For such a task and another policy, sched_dl_overflow()
+matches no case and returns -1.
 
-perf: add MIPS Coherence Manager 3 (CM3) PMU driver
+Fix this by testing the policy, with task_has_dl_policy(). A boosted
+task has no bandwidth of its own to admit or release.
 
-This commit adds an uncore PMU driver and documentation for the MIPS
-Coherence Manager 3 (CM3) performance counters.
+Now sysrq-n can take a boosted task out of the class.
+normalize_rt_tasks() calls __sched_setscheduler() without pi, so the
+task gets its normal priority. Nothing then drops the boost. At the
+unlock, rt_mutex_setprio() sees no change of priority. The pi_se of the
+task would keep pointing to the waiter, which can exit. So also drop the
+boost in __setscheduler_dl_pi() when the task leaves the class, as
+rt_mutex_setprio() does.
 
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 245e7bb763b99..2dbed2fc7b030 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -75,6 +75,18 @@ config ARM_XSCALE_PMU
->  	depends on ARM_PMU && CPU_XSCALE
->  	def_bool y
-> =20
-> +config MIPS_CM3_PMU
-> +	tristate "MIPS Coherence Manager 3 (CM3) PMU"
-> +	depends on MIPS_CM
+The boosted_owner_policy case of deadline_bw_test, added later in this
+series, fails with EBUSY on v7.4-rc2. It passes with this series. The
+sysrq_boosted_owner case of deadline_switch_test tests the sysrq-n path.
 
-[Severity: Low]
-Should MIPS_CM3_PMU depend on MIPS_CPS (or SMP) rather than just MIPS_CM?
+Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+Cc: stable@vger.kernel.org
+---
+ kernel/sched/syscalls.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-MIPS_GIC selects MIPS_CM even when CONFIG_SMP=3Dn and CONFIG_MIPS_CPS=3Dn.
-On a !CONFIG_SMP build, cpuhp_state_add_instance() still invokes
-cm3_pmu_online_cpu() on the boot CPU, where the !CONFIG_SMP stub for
-irq_set_affinity() returns -EINVAL and triggers WARN_ON() whenever an
-overflow IRQ is present.  Without CONFIG_MIPS_CPS, cps_smp_setup() also
-never populates the cluster ID in cpu_data[].globalnumber.
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 6f8ce5fd94a1..cb115aa9b0b3 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -304,6 +304,13 @@ static inline void __setscheduler_dl_pi(int newprio, int policy,
+ 			scope->flags |= ENQUEUE_REPLENISH;
+ 		}
+ 	}
++
++	/*
++	 * Without pi, as from normalize_rt_tasks(), a boosted task can leave
++	 * the class. Drop its boost then, as rt_mutex_setprio() does.
++	 */
++	if (!dl_prio(newprio))
++		p->dl.pi_se = &p->dl;
+ }
+ #else /* !CONFIG_RT_MUTEXES */
+ static inline void __setscheduler_dl_pi(int newprio, int policy,
+@@ -691,6 +698,10 @@ int __sched_setscheduler(struct task_struct *p,
+ 	 * is available. Keep this check last. If a later check failed,
+ 	 * nothing would give back the bandwidth it reserves.
+ 	 *
++	 * Test the policy, not the priority. A task boosted into the class
++	 * by priority inheritance has no bandwidth of its own to admit or
++	 * release.
++	 *
+ 	 * With SCHED_FLAG_KEEP_PARAMS, the task keeps its parameters, so
+ 	 * there is nothing to admit. Such a call changes other attributes,
+ 	 * such as the utilization clamps. A deadline task does not use its
+@@ -699,7 +710,8 @@ int __sched_setscheduler(struct task_struct *p,
+ 	 * them from the task without a lock.
+ 	 */
+ 	if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
+-	    (dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
++	    (dl_policy(policy) || task_has_dl_policy(p)) &&
++	    sched_dl_overflow(p, policy, attr)) {
+ 		retval = -EBUSY;
+ 		goto unlock;
+ 	}
+-- 
+2.47.3
 
-> diff --git a/drivers/perf/mips_cm3_pmu.c b/drivers/perf/mips_cm3_pmu.c
-> new file mode 100644
-> index 0000000000000..6d53535473b96
-> --- /dev/null
-> +++ b/drivers/perf/mips_cm3_pmu.c
-[ ... ]
-> +static void cm3_pmu_update(struct perf_event *event)
-> +{
-> +	struct cm3_pmu *cm3_pmu =3D to_cm3_pmu(event->pmu);
-> +	struct hw_perf_event *hwc =3D &event->hw;
-> +	u32 ov_bit =3D cm3_pmu_overflow_bit(hwc->idx);
-> +	u64 delta, prev, new;
-> +	bool overflowed =3D false;
-> +
-> +	/* Counts were harvested when the cluster went down, nothing since */
-> +	if (READ_ONCE(cm3_pmu->paused))
-> +		return;
-> +
-> +	/*
-> +	 * When polling, the counter cannot wrap twice between two reads and
-> +	 * the 32-bit difference tells the whole story. With the overflow
-> +	 * interrupt the counter is only read on demand and may have made a
-> +	 * full turn since the last read, which the overflow status tells.
-> +	 * It is read and cleared before the counter so that a wrap seen
-> +	 * here is also reflected in the counter value; a wrap happening in
-> +	 * between is accounted by the next update, which the interrupt it
-> +	 * raises makes sure happens. In interrupt mode every access to the
-> +	 * event runs on cm3_pmu->on_cpu with interrupts disabled, so the
-> +	 * status and the counter are read consistently.
-> +	 */
-> +	if (cm3_pmu->irq > 0) {
-> +		overflowed =3D CM3_PMU_READ(cm3_pmu, pc_ov) & ov_bit;
-> +		if (overflowed)
-> +			CM3_PMU_WRITE(cm3_pmu, pc_ov, ov_bit);
-> +	}
-> +
-> +	do {
-> +		prev =3D local64_read(&hwc->prev_count);
-> +		new =3D cm3_pmu_read_counter(cm3_pmu, hwc->idx);
-> +	} while (local64_cmpxchg(&hwc->prev_count, prev, new) !=3D prev);
-> +
-> +	/*
-> +	 * If the counter wrapped and now shows a value not below the
-> +	 * previous one, it made a full turn on top of the 32-bit difference.
-> +	 */
-> +	delta =3D (new - prev) & CM3_PMU_COUNTER_MASK;
-> +	if (overflowed && new >=3D prev)
-> +		delta +=3D CM3_PMU_COUNTER_MASK + 1;
-> +
-> +	local64_add(delta, &event->count);
-> +}
-
-[Severity: Medium]
-Can cm3_pmu_update() double-count a counter wrap in interrupt mode and
-add an extra 2^32 to event->count?
-
-If hwc->prev_count holds a non-zero value prev (from an earlier read) and
-the counter wraps past 0xffffffff to a small value new < prev right after
-pc_ov is read as 0 but before cm3_pmu_read_counter() runs, then:
-
-1. This call sees overflowed =3D=3D false and new < prev, so
-   delta =3D (new - prev) & CM3_PMU_COUNTER_MASK already accounts for the
-   wrap across 0xffffffff -> 0, and hwc->prev_count becomes new.
-2. Because the wrap happened after reading pc_ov, ov_bit remains latched
-   in pc_ov and the overflow interrupt fires next.
-3. cm3_pmu_handle_irq() -> cm3_pmu_update() now sees overflowed =3D=3D true
-   and new >=3D prev (relative to the already post-wrap prev), so
-   if (overflowed && new >=3D prev) adds CM3_PMU_COUNTER_MASK + 1 a second
-   time for the same wrap.
-
-Also, Documentation/admin-guide/perf/mips_cm3_pmu.rst notes that the CM3
-asserts so_cm_perf_cnt_int when a counter reaches 0xffffffff.  If
-cm3_pmu_update() reads the counter while it is still at 0xffffffff with
-overflowed =3D=3D true, new =3D=3D 0xffffffff satisfies new >=3D prev for a=
-ny
-32-bit prev, adding 2^32 before the counter actually wraps to 0 on the
-next event.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119-i6500-cm3-=
-pmu-v3-0-c86410934b51@mobileye.com?part=3D5
