@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795096187;
-	b=OS7054f0mUSrsA3qCF/6xvotIaD8Pm0t0ULagLRVqUQ4pko3/Z1zBLhwy+o4C2+0LGxc
-	 TBxTJursPLTY2LBWli+yD40vY00yvNkwTYGAi7As/jLfJCAx9GZ9MtKoCkaiO83eMEt/O
-	 cFQHFZTezATmPOD6eIdolxmSf1bZgVixYGfZAOwK7snDF/8tQPd/4J4j1JCtxfYtlmJQR
-	 AsH+EDYq1sqCfIP/FcO0IuJa2cOsqky0u4sHeIa5AgO/FmEWeiqUUkyKcWG14t8eW6qlx
-	 CaM31zkSI40jQ106MS0RCcn7YZ7SArfZpClQhhWgxEJsP0kF5CTiH1eBot3/N34or1A==
+	b=ZDaSv6S4/O1vNMfDShs2oURB57HONMMLyaScpXaiyviAba3CHbo0JJJXmqO0t57+6yY2
+	 LGWDYTk7wu3OLG3V0GCOCpG5bAYIPTkgXw5Vio1Ispys8nczJjhjvWcps+kRL0qAweoq3
+	 yXo3dSZqAZr4YLJDt9dbQSIUdZLdOaCnCn1b8s5C/ehimeJOd4kT/JN6Bmz9FqsB45sKT
+	 mRIfk31KcMJCMySpwWL4I4yIyB5ffXXgi/10IlxKvcx7aBykOFlynFKJmFO9FUskxjTtZ
+	 1EvaG4DM7MZOP+KpM3DIAMX3FwziOCubsaJ+e7dOf2HR3kkAeawUZsrcFzulanUIU5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795096187;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=yELx13sHyQWYBuXOk3KPYcOlyO+WVTh5MRWDnlhFvwU=;
-	b=l39ezw1RopfrN4+WO1NCmtbogmwiXbPxtKklBlCnX9jh6DpadsK1yAP4FzdH2UMUBt+E
-	 3kRPQYbke/j7iPI/HtMm8q0q8rb1NYqbb7Ps7d4l3a3B27bUsk5Q2SxHcOUN8ZqlAQ0fx
-	 0E6riOi061Nv9v8Fy3OJs+cAy+kmvTKiYly4uMHT9dwRTm1b2AhdLvqkpfhXKl2VICd7U
-	 Ezy/lkYdiApSCJHfJgjMSvcG9NZFDDewYqsgqwBJQC36KMaa1nKFLJNdVTaI2SUMZ4Enh
-	 /Lvci8OzRSvtQ9KezboqkAkL7FDUC56t/UInygmp+5fILsjs9OzshFAlUKvSs5woUjg==
+	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
+	b=Dcwxq9yagkklGISkAskp9lNxs/ah1uY2nc380/IXD4D0Hf6BFFinE/wQKFmrKElIQtDU
+	 6fkGK/yW+Saykb31sgHri6+BZ9evl9R/VaVFT37HWUzA2OuKkaCggy0L8yOmlOetpAMs9
+	 NEt96UBcZ5eh0UKeMM7JvaeHKCY2PVwCP9VlS7HdRD2zAxzSuDs6YRf+s4ppVP1RgApz+
+	 QLkGOkS2fbZmtY+foIAmIBsamdBVPCTAP9NgN755i50SVrhFOnZXFdG+qbKXKJ4/F9HQs
+	 Lw1mLu2L175mK8Hsu52+Y+9UYrbKY2s9M4iwiLzFtPaRi+CLb/IRapTgDh6BCeq3OCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Y6HsqoW6;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=RMgpBpDg;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A112E60A3818
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 13:49:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A112E60A3818
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B88760A3837
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 13:49:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B88760A3837
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Y6HsqoW6
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=RMgpBpDg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795096185;
-	bh=yELx13sHyQWYBuXOk3KPYcOlyO+WVTh5MRWDnlhFvwU=;
+	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y6HsqoW6SaPCOZre6XxjRqYvNygSVQw30QUedcRP3hUfE+YSUFdWvfTbgiX7tHBWA
-	 I5TbNCoMOdE+ozkqR4NuSv0fnI1b7C9HxzdEF9YJKFY+9p484ajML7XOp9DRsyPrn4
-	 OJCwHV25hAbwWrAMNOVIp603h5d3EqEVs43X4IjdTjbrZ5OCRv4qgc0DbIwvJbtedN
-	 YUsLAw5PFE85reQzP1HwEJIiuLrwTnVM5bX5aGhi68P7Qyay+Zq0kS9By/axSqzSnD
-	 h1Nqfqe+YCrEL3Uty2uuhCD7JMoDRoZtusUIRv0pCHYE9xPEOfXzhjkNZu74s22GSK
-	 bw5mzP/3td28w==
+	b=RMgpBpDgSbgm+vSNTJWS1wLUhTiGkd34XbwJ+4Gk9pY4MTiJD0ROKHTGzlV25zdVb
+	 jSbWotMgeBrCWAuEe3gpKcJS5dTZgemIpPM2PSCY9RD/Qf0BYfOsZNhShCIaq1Y4uk
+	 yPPrYOcwgzwWxGSjDThuSoy/vlWCZZwntaEy7S3Go1H27GrcRExNA8XAeGLq09rXz/
+	 yxtn18De1J8RPtJbymvf3UTh3XFUNyoKEcioPMf1ZxPc7ec3UicLMv3IDAmedqLbwd
+	 JylQ0RQt/kEmpI06Y0LUZnwiRQlM1AkWLSPy+chKqtuR4oBSpbqQme3YZoVDQ4Sfxo
+	 ndrAC8nl0uLvQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVfwT2x2pzSDY;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVfwT5WLGzSfW;
 	Thu, 19 Nov 2026 08:49:45 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v3 10/17] sched/deadline: Fix an overflow of the 0-lag time with long periods
-Date: Thu, 19 Nov 2026 08:49:33 -0500
-Message-Id: <b341033dd787d5bd4a5259cf654fb725f57629c2.1795092090.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v3 12/17] sched/deadline: Reject SCHED_DEADLINE on exited tasks
+Date: Thu, 19 Nov 2026 08:49:35 -0500
+Message-Id: <ad84221157c641fc034b10ef5483b237f336c3b2.1795092090.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795092090.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795092090.git.mathieu.desnoyers@efficios.com>
@@ -97,77 +97,63 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a deadline task blocks, task_non_contending() computes its 0-lag
-time:
+From: Juri Lelli <juri.lelli@redhat.com>
 
-  zerolag_time = deadline - runtime * dl_period / dl_runtime
+sched_setattr(SCHED_DEADLINE) on a zombie task succeeds and charges
+total_bw via sched_dl_overflow(), but the task has already done its
+final schedule() and will never run again. Nothing releases the reserved
+bandwidth. Repeating this fills total_bw to the admission cap, after
+which sched_setattr(SCHED_DEADLINE) and CPU offline fail with -EBUSY.
 
-A task that ran at its reserved bandwidth would use up its runtime left
-at that time. Until then, the task still counts in running_bw. A task
-that leaves SCHED_DEADLINE also keeps its bandwidth in total_bw until
-then. This comes from commit 209a0cbda7a0 ("sched/deadline: Improve the
-tracking of active utilization"), which adds the inactive timer of the
-GRUB algorithm.
+Reject sched_setattr(SCHED_DEADLINE) on exited tasks with -ESRCH.
 
-The product runtime * dl_period is computed on 64 bits, then divided as
-an s64 by div64_long(). With a period of 4s, it passes S64_MAX once the
-runtime left is above 2.3s. The default limit on the period is about
-4.2s, so this needs no sysctl change. The quotient is then negative, and
-the 0-lag time lands after the deadline.
+A task of the class that exited, switched to another policy, runs
+switched_from_dl(), which decrements the count of deadline tasks of its
+cpuset that cgroup_task_dead() decremented already: at 0 with a deadline
+task left in it, the cpuset is skipped by the next rebuild of the root
+domains' accounting, and that task's bandwidth with it. Reject that as
+well. The deadline_bw_test selftest added later in this series has the
+case, death_zombie_switched: on v7.4-rc1 the switch is accepted, and
+the one-CPU partition root the zombie ran in admits 9 tasks of 10% after
+a rebuild, with a task of 30% still in it, where 6 are due.
 
-On 32-bit, div64_long() also truncates dl_runtime to an s32. A
-dl_runtime above about 2.1s then gives a wrong 0-lag time too. If root
-raises the period limit, a dl_runtime that is a multiple of 2^32 ns
-would divide by zero. This was found by reading.
-
-The bandwidth is then released seconds late. Until then, the root domain
-refuses deadline tasks that would fit. I tested this in an x86-64 guest
-with one CPU. A task took a reservation of 3.1s every 4s, then went back
-to SCHED_OTHER at once. A second task that asked for the same
-reservation got EBUSY for 5.95s, in 6 tries of 6. That is the deadline
-at 4s, plus the 1.95s that the wrapped product adds.
-
-Fix this by multiplying on 128 bits with mul_u64_u64_div_u64().
-cputime_adjust() uses the same helper. Its operands are unsigned. So
-take the magnitude of the runtime, which is negative after an overrun,
-and add or subtract the result. With the fix, the second task got its
-reservation at once.
-
-Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
+Reported-by: Weiheng Qiu <weihengqiuu@gmail.com>
+Closes: https://lore.kernel.org/all/3f6e6c87-645b-45fd-8fc6-8da5bc5b82d8@gmail.com/
+Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-4-dd761fe005b4@redhat.com/
 Cc: stable@vger.kernel.org
+Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+[mathieu: reject a task of the class leaving it too, found by the
+ Sashiko AI review of the patch]
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/sched/deadline.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ kernel/sched/syscalls.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index d6d2657dcddd..86297ef5ac07 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -425,9 +425,20 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 9b04e77297ae..b87b878be63f 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -592,6 +592,19 @@ int __sched_setscheduler(struct task_struct *p,
+ 	if (retval)
+ 		goto unlock;
  
- 	WARN_ON(dl_se->dl_non_contending);
- 
--	zerolag_time = dl_se->deadline -
--		 div64_long((dl_se->runtime * dl_se->dl_period),
--			dl_se->dl_runtime);
 +	/*
-+	 * The 0-lag time is the deadline minus the runtime left, scaled by
-+	 * dl_period / dl_runtime. The product of the runtime and dl_period
-+	 * can overflow s64 with periods of a few seconds, so multiply on 128
-+	 * bits. The runtime is negative after an overrun.
++	 * Reject SCHED_DEADLINE on exited tasks. A zombie will never be
++	 * scheduled again, so sched_dl_overflow() would charge total_bw
++	 * that nothing will ever release. And reject a change of policy of
++	 * one in the class: cgroup_task_dead() took it off the count of
++	 * deadline tasks of its cpuset, which switched_from_dl() would
++	 * decrement a second time.
 +	 */
-+	if (dl_se->runtime >= 0)
-+		zerolag_time = dl_se->deadline -
-+			mul_u64_u64_div_u64(dl_se->runtime, dl_se->dl_period,
-+					    dl_se->dl_runtime);
-+	else
-+		zerolag_time = dl_se->deadline +
-+			mul_u64_u64_div_u64(-dl_se->runtime, dl_se->dl_period,
-+					    dl_se->dl_runtime);
- 
++	if ((dl_policy(policy) || dl_task(p)) && p->exit_state) {
++		retval = -ESRCH;
++		goto unlock;
++	}
++
  	/*
- 	 * Using relative times instead of the absolute "0-lag time"
+ 	 * If not changing anything there's no need to proceed further,
+ 	 * but store a possible modification of reset_on_fork.
 -- 
 2.47.3
 
