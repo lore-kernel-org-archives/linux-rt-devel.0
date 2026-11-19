@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795119388;
-	b=SBg/BxIS0DH01KRieEA4Vc/MiT2aLisR82lshOHEr8lzF4UJ+04Z7jINd5hpp1z6l55C
-	 27k1xSVy+GZCrf9UOgZzcSwsmhxcfUQAqdQNIWjmIn6DfjSy2sqX2y98W4zhQdmYzMuKa
-	 aNx2ESQ1iGqAeusag44saZZLKRn8JaAAf1SrPhAB7JH5lkaUL6qltuYOfFGBzd37PiFbe
-	 /YIv7vRLtUwE1ALlpdu5swSvvOIa5QtZ6bSasXX6mjhQ/nrfMj1s9eatOpbfay0SsuZdJ
-	 h67cKGUKjNNyVxQKQcj0RICmnV8hUu5OAYRjiWEHEQbddn+gbg/Bh9sNe+mRquXqhSg==
+	b=iTwKIBqyvD6YUGejNojt/1CO7nPAnTOp2BGIdTPFYYPznaE2hV4n8eCTqYUCDKn7Qo6y
+	 9UdYtIXxQ+NX9rGtpGCgzLFtvFWRJ5UV0USRDJwxfE1EbgP5vK7cTAF3TQhoQb9qgho5N
+	 tXcrezkHf1OK5puJA51XiWyMt8nPDXL4X+1iGsUWr8qbpJosobB98cokpXwDnFNiRYLxK
+	 IL5WgD4CAwqHr3oMHq+iIaTtk1EtLDF7sk9iVTcYxaVimUWs5Eb5TGTE/TghqlTTTi6ny
+	 Kt0/dv7maT0F/aOft/6a6rNnImNtvfuZhWTRqmn91+ER7ADJxjNuPWD9TFVVawKvpZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795119388;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=fWil3vWwZBjDfrY6/0MxE0VkkOzcUTAcZEwLWrvpsQs=;
-	b=vu/dm6FegY2u31qhiP/DfNnSvTqKOnLOs7y4R4twrkdYBCOmlKwhvInMgjeJs8rlwQOu
-	 7aJuGOy44oBxF3+Q1DNXBSBbJFq7uGM/oFTYloJj4S/7S5wNSzXjULjXJNnIRUZtt0N+g
-	 qSCpI0A/nlW2SK1d4vN7vl98YpuSK7rogif8IrO8HJfcexVI6hFgh1sgkgSgCkyttlFZS
-	 i1VrVSCvoIArSx6qzKcaSHVnV6aVSIX+tJPgM7BqVZcjqKqFIBpYRRhe1ptnYSn86lhAJ
-	 fcGjqakRdF7cwddV/TAMjpUY/xDCIN7EBPFRFfSgu01ep4pHrB91b1Avk8NA10pqFCg==
+	bh=ADboeXQohNTvbFLPoiyONtn0V51sHFi0IppZb8Okl54=;
+	b=PamOwc2XRVAvfcma0iW9uKcbPIEXo8IUCx26Xsy6BRAh+ZMg6hxeA6NU/uKaiqI43eVM
+	 KzTdNXrYsdKwqpv4MaE9isWn1issKxQDVqmTgWTkD+eEiG+dNjbegRZl34BQoREtCz1yQ
+	 8EArfzqrE7b9p/HQPrkLvqwn87L2Oq6N0Kh5NMlgw3u/KBEf1iW7Bau/IN/9GHspUbkSF
+	 byJKMapw4hakGKf08ZaDtvXFJRnjpiAFjDzLWQPMZgZF5I9dwFB984ZKgdNgHEJpVDosS
+	 THFGJdEsuJqszQbvR70FYhSdlU97U/VWVe+oD8dnXqUyzvXGKsG+1vGb+Eq485Rhw9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q3ReVCTB;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=EKIYmtGH;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A19560A5BE7
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 20:16:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A19560A5BE7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D60660A380B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 20:16:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D60660A380B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q3ReVCTB
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=EKIYmtGH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795119381;
-	bh=fWil3vWwZBjDfrY6/0MxE0VkkOzcUTAcZEwLWrvpsQs=;
+	s=smtpout1; t=1795119382;
+	bh=ADboeXQohNTvbFLPoiyONtn0V51sHFi0IppZb8Okl54=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q3ReVCTBkotlUimbIB6soUJJNuFmqCQqPIHG6+xPfBf6ks1fEt0Ws+offPHcHJpUx
-	 Uictm10NmrUKuFk6qAWGxYtMMhvdB+qeBE/XPnfB1tFRdsoIQnnT3OOuZNTdZwkMSw
-	 1gv2nQimY0xikcWKuN7ftiqOFEyG4wBGPS+DCRdO2O10HEdIHuDERK/Tv9d/GswAHm
-	 pQU0zNmiuXH6UCX4HFByPvIcGV36Ot2oxCwLxZ0n5UmdHdNtY0UVCwYg2v1qit8UNz
-	 ZuwR6vanV/XVE6n8HgP3CUv/R+CN1udBYmmcaUiXWdA4NCKhqxCSeJF9QZ/2rXEhgF
-	 zfEBKA1l25wog==
+	b=EKIYmtGH8dWuMnTC4kgMaimuppzaL+aMaZS8WrwboGMDgFxCeK4k94Cpet0iYBL/Y
+	 cUBFk2yIjC4gAdFvQ34Ut/TzDMZ1c3vVHGBmD9irJnN3gA+NG3QEJGU0HsTvgYv/3Q
+	 gXD3nLoGZ50vTjjrSL9rnKRnCXNw8kZ7Y2wWkyxIJxt8jJlzbPJm0yJxcqLIjG1oe3
+	 Hk4RqVeMTmr8rU2/s7PbmZgPUukzrj7VJig82ZL109koIHnH7ZuCdvklsYkkXUO5BA
+	 XUyZaX6M7x7DqytnPdOgj9KMXf4u8ksX2LHAt0zQtboYFfRtzXlB1ew3Im9q0602V9
+	 fwErCKJfQkGsg==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVqVY02W0zT9f;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVqVY6Sp4zTdD;
 	Thu, 19 Nov 2026 15:16:21 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -78,10 +78,11 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v8 19/33] sched/deadline: Count only active CPUs when spreading extra_bw
-Date: Thu, 19 Nov 2026 15:15:58 -0500
-Message-Id: <d130b4060adc4715da93ad5d3dcd9b00bfa8fc11.1795116791.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v8 24/33] sched/deadline: Replenish a throttled task boosted while asleep
+Date: Thu, 19 Nov 2026 15:16:03 -0500
+Message-Id: <72cc0f62cfe227c6d86accb10d3c36fd2ec7ebdf.1795116791.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
@@ -96,62 +97,81 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__dl_add() and __dl_sub() change the total_bw of a root domain. They
-also spread the change over the extra_bw of its CPUs, which GRUB uses
-for SCHED_FLAG_RECLAIM tasks. __dl_update() changes only the active
-CPUs, so the cpus argument must count those. Most callers pass
-dl_bw_cpus(), which does.
+A deadline task can be throttled as it blocks, with an rt_mutex held.
+Its replenishment timer is then armed. A deadline waiter can boost the
+task while it sleeps.
 
-dl_task_offline_migration() and dl_add_task_root_domain() pass
-cpumask_weight(rd->span) instead. That also counts the inactive CPUs of
-the span. A span holds one while that CPU goes offline, which is when
-dl_task_offline_migration() runs. Each active CPU then gets a smaller
-share of the change than it should. A later change made with
-dl_bw_cpus() does not undo it exactly. extra_bw stays off until the
-next rebuild of the root domains resets it. SCHED_FLAG_RECLAIM tasks
-would reclaim a little more or less than their share meanwhile. This
-was found by reading.
+Commit feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads
+while enqueuing") lets a boost override the throttle. enqueue_task_dl()
+lifts the throttle of a boosted task, and dl_task_timer() ignores a
+boosted task. This covers a task that is enqueued while boosted. But a
+boost of a sleeping task does not enqueue it.
 
-Fix this by passing dl_bw_cpus() of the CPU whose root domain changes.
+T is a SCHED_DEADLINE task that holds the rt_mutex L. W is a
+SCHED_DEADLINE task with an earlier deadline:
 
-Fixes: 59d06cea1198 ("sched/deadline: Fix bandwidth accounting at all levels after offline migration")
-Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
+  T                                  W                              T's timer
+
+  uses up its runtime, sleeps
+    dl_throttled = 1
+    start_dl_timer()
+                                     pthread_mutex_timedlock(L)
+                                       rt_mutex_setprio(T, W)
+                                       T sleeps: no enqueue
+                                                                    dl_task_timer()
+                                                                      T is boosted: returns
+                                     times out
+                                       rt_mutex_setprio(T, NULL)
+  wakes up
+    enqueue_dl_entity()
+      dl_throttled: waits for the timer
+
+The timer has already fired. T would never run again, not even to die
+of SIGKILL. Every later waiter on L would hang too. This was found by
+reading.
+
+Fix this by returning early in dl_task_timer() only for a boosted task
+that is queued. A boosted task that sleeps then takes the existing path
+for a throttled task that is not queued: it is replenished.
+
+The refill reads the parameters of the donor, from the timer. So this
+relies on two earlier patches. "sched/deadline: Do not replenish a boost
+from cleared parameters" keeps the refill from looping on cleared
+parameters. "rtmutex: Continue the chain walk when a waiter's deadline
+donor changes" keeps the donor pointer from going stale. After a deboost in
+the class, "sched/deadline: Reset the donor's runtime at a deboost in
+the class" starts a period of the task's own reservation.
+
+The Sashiko AI review of this series found this.
+
+Fixes: feff2e65efd8 ("sched/deadline: Unthrottle PI boosted threads while enqueuing")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: stable@vger.kernel.org
 ---
- kernel/sched/deadline.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ kernel/sched/deadline.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 641674f65931..914915abb912 100644
+index 66a1150c4811..f4b670fee4a0 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -1016,7 +1016,7 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
- 			dl_b = &src_rq->rd->dl_bw;
- 			raw_spin_lock(&dl_b->lock);
- 			__dl_sub(dl_b, p->dl.dl_bw,
--				 cpumask_weight(src_rq->rd->span));
-+				 dl_bw_cpus(cpu_of(src_rq)));
- 			raw_spin_unlock(&dl_b->lock);
- 		}
- 		/*
-@@ -1028,7 +1028,7 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
- 		dl_b = &later_rq->rd->dl_bw;
- 		raw_spin_lock(&dl_b->lock);
- 		__dl_add(dl_b, p->dl.dl_bw,
--			 cpumask_weight(later_rq->rd->span));
-+			 dl_bw_cpus(cpu_of(later_rq)));
- 		raw_spin_unlock(&dl_b->lock);
- 		p->dl.dl_bw_cpu = later_rq->cpu;
- 		p->dl.dl_bw_gen = dl_bw_gen;
-@@ -4217,7 +4217,7 @@ void dl_add_task_root_domain(struct task_struct *p)
- 	dl_b = &rq->rd->dl_bw;
+@@ -1637,10 +1637,13 @@ static enum hrtimer_restart dl_task_timer(struct hrtimer *timer)
+ 	}
  
- 	raw_spin_lock(&dl_b->lock);
--	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
-+	__dl_add(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
- 	raw_spin_unlock(&dl_b->lock);
- 	p->dl.dl_bw_cpu = cpu;
- 	p->dl.dl_bw_gen = dl_bw_gen;
+ 	/*
+-	 * The task might have been boosted by someone else and might be in the
+-	 * boosting/deboosting path, its not throttled.
++	 * A boost overrides the throttle. enqueue_task_dl() lifts it when the
++	 * boost enqueues the task, or when the task wakes up boosted. So a
++	 * queued task needs nothing here. A boost of a sleeping task does not
++	 * enqueue it, and it can end before the wakeup. Nothing would lift the
++	 * throttle then. So let a sleeping task reach the !queued case below.
+ 	 */
+-	if (is_dl_boosted(dl_se))
++	if (is_dl_boosted(dl_se) && task_on_rq_queued(p))
+ 		goto unlock;
+ 
+ 	/*
 -- 
 2.47.3
 
