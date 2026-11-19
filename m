@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795115238;
-	b=pBuW3LKDTnowAzQUYvKNvdhisnm8uc+lf3v9Vwod2e7svh4hjFa9qJrSxDWaFPq5PMTc
-	 GQEyXWrEcFMSEe+G28rArrd7YRTCV+XDOvJMbkP8MLOwTV/IOvzbk/ufUFEcV6uNonZ8v
-	 wFjnvQSrBCy9n1maeoUcFFoxBXDbQlILjkRbpnb4MyECYWWr2xR0DVRy8VhkbAeb6WQ7w
-	 v/PFz9N4GY60yb15GKozwX0PeDJay7Pwz1eskE2QdBSf7hS71leefmlyt/TU1VBVg5nsh
-	 V4uWeTtAehb4m8htUqJjJvUSfGtP6/XWEYnNMQrgmGLLSgpKSHepvwEAP6lPbuOaSSw==
+	b=w7nDN+3Svmbh3b1coC0OPADwmlAe1Ays6wvZ7yrins2SUqCrYCL+T2gEOHNWMsTpfXHQ
+	 WTVjFqN1VnaonjFXgo5o4M7nuK0J20JjuQVsULypmTO3W/oYEoKe/UIA8Yx1vMkgq7pp0
+	 ytU1V/cK+/IUKMcNyPNHqsz1pQ3d1To4VEAbtSZP0d3Ydb6BoaEGb8EIJd9byaVsbOzRf
+	 TH6aVWs7rQZ06EnwjqoQU752sFwv8rF1t4cykPw913rE0P1AvNCNgj/uoBhQb0754snXx
+	 sxPg3nU4Zo/rBKsYbOtI5iJczGCDALpyrpOr9toIeTvh3zW1J8oLabGlNXTeIGYhKtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795115238;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=sYEvR0y/S587RGU4gKT0zwa1IWS1hIurv3wif+IluiY=;
-	b=xF0tcir24axrVgCUC3RwAwWZn3GDIoeBEcttWW6MemXq/n5mrv0XaXNJ8x5QNzpoCr2Q
-	 DwNNw6bdjpEFIY14hvVtTz6t8IZSHvxlOngTOdFrTeba3bJTkOq005ndmJsbWG8er4sjJ
-	 UhY+RiXvxzbOATyXkBCbvMQzQxnZC7AFLgCuRVwR5NIXo4IvnGFO64bLvtMtkpfIUR25/
-	 wmY07Jzba20+J//rHbQjesay6co7yqBNa89T9fMsbblvuze8+cnyCoO1riQcpTienV5oT
-	 C17O3PutpnJQYVr9S3rCsXFQpmJQEsaP7hdtHQJw+0IUz4OCecq7reGQHhCf0/TiG5Q==
+	bh=2GDIvsu7zv8+pf1iUkWvntMzShMjZhVgxoA9fdCxHRA=;
+	b=42LVaTUTHqqGArXE/3gG8NqRB3sD+YiCyyWzLDG2mAbyUPh5KwDv2vEeXn1LPQZ2OUMG
+	 i40hGO7DRD6LxzdJtV8Ca1ZFhu2N1RaTofbz7SSzWQ0NaB9dCzfzADbGT2uU8+ZiW51WP
+	 /xUqkJDnJBTGZj/qa5sn/oFBakHCEImMAxaurGRd5F/qdkVrtnHAB+vCEH2gbGwWUUGmY
+	 +Y62bxzIQw2aOfD8hOJvEzexoz7WQZ3SMtxq3S8sjfy+sYZMA5eckIdaBRTLIl39/xDhY
+	 /MF08L/x22IT0S/BDmEtyivc0+Tb34fk4siISuuuP9oWSF8SG3vlZVt/ksLTe4mUAXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="G9HP9F/Q";
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Nv6Cs47Q;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40989606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688AA606A335
 	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 19:07:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40989606A332
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 688AA606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=G9HP9F/Q
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Nv6Cs47Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795115237;
-	bh=sYEvR0y/S587RGU4gKT0zwa1IWS1hIurv3wif+IluiY=;
+	bh=2GDIvsu7zv8+pf1iUkWvntMzShMjZhVgxoA9fdCxHRA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G9HP9F/QTIStXTW9p5vFagU3Odn5ZbuvfzwQ31+9kosieKFJA987g0bgQntFRLj0j
-	 B4ZoiMMO7Uck4pW/OzMQ1b33LT2RSgJDJmP1Ra/rCTx0JgUJHQZ4rsSksODbHyqlVi
-	 HZsFKX9Q8zM7pbDgkRR58HSwsTOnnS971V0MenNDHGLqqmhPTbUSY28mFN4eC35ryW
-	 tb+GVPy+Ggmd9uePgMnG61p2Br4TeeGfzKu7lC+e7SrKQoOOMlNBatZs/EeZZqXdoh
-	 eVTtpVOeeyPefhB6dsdiGc1gBR0v22l7WE3pYxfR1q/TkMjgoPSzpc9bczWEJSMA6z
-	 +y8KLJDJOtmKA==
+	b=Nv6Cs47QSep2j34SDsMOP6ePrBJsHsgMVGgJcxQTWX5SO9HJC5naOfPP+Sfrt9Bu8
+	 7OZ4mPlPu0ZhhIxczlsqeRfyr9Ys+RV7MP/o3cVZHkZ7gw/MI/QQooxMGAeKUZ3GZ5
+	 1dY+kayohH5/hjq5oPKCuqz/9MXMSv04ddiirFb73kGvUi1Zn+4KDmjEiKRz1XmRh7
+	 O4AcQ8kcyRUKPqyKNpBrnuke5M7dKve8PL7EmSIn/Bw7oIIvoRJFVXm+5po+MOGqlZ
+	 v7dIfNvl+s21jmb1FMknWRnhopMlIbMbHtEGJxusKkHSm/qrNPXODt1E9uzW18plXB
+	 oldrVfKcj62gA==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVnys3T4jzSjJ;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVnys4cNczS4j;
 	Thu, 19 Nov 2026 14:07:17 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -80,9 +80,9 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v5 03/17] sched: Let a task boosted by a deadline waiter change its policy
-Date: Thu, 19 Nov 2026 14:07:00 -0500
-Message-Id: <32e83abf79c6cebb23193478bdfea27e3525b025.1795115075.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v5 04/17] sched/deadline: Do not divide by zero active CPUs of a root domain
+Date: Thu, 19 Nov 2026 14:07:01 -0500
+Message-Id: <46cf3d11435498c167e87c1e402c6ab2522f71ab.1795115075.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
@@ -97,81 +97,81 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A SCHED_OTHER or SCHED_FIFO task that holds an rt_mutex can be boosted
-into the deadline class by a deadline waiter. Then a sched_setattr() or
-sched_setscheduler() call on it fails with EBUSY, unless it asks for
-SCHED_DEADLINE. sysrq-n would not reset it either.
+__dl_sub() and __dl_add() divide by their cpus argument. Most callers
+pass dl_bw_cpus(), the number of active CPUs of a root domain. That
+number can be 0, and the division then traps.
 
-The admission test runs "if setscheduling to SCHED_DEADLINE (or
-changing the parameters of a SCHED_DEADLINE task)", as its comment
-says. sched_dl_overflow() then handles three cases, by the task's
-policy: the task enters, leaves or stays in SCHED_DEADLINE. But the
-call site tests dl_task(p). That tests the priority, so a boosted task
-passes it. For such a task and another policy, sched_dl_overflow()
-matches no case and returns -1.
+Commit daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl
+tasks") added extra_bw, the bandwidth that deadline tasks can reclaim
+on a runqueue. A change of a root domain's total_bw is spread over the
+extra_bw of its active CPUs.
 
-Fix this by testing the policy, with task_has_dl_policy(). A boosted
-task has no bandwidth of its own to admit or release.
+During hotplug, a CPU sits in the default root domain, which can then
+have no active CPU. This lasts from the rebuild in
+sched_cpu_deactivate() to the offline, and from the online to
+sched_cpu_activate(). A debugfs write to the runtime or period of its
+fair or ext server divides there. A write of the current value passes
+admission in the window. In 8-CPU VMs of v7.4-rc2, a loop of such writes
+oopses at the first offline and online:
 
-Now sysrq-n can take a boosted task out of the class.
-normalize_rt_tasks() calls __sched_setscheduler() without pi, so the
-task gets its normal priority. Nothing then drops the boost. At the
-unlock, rt_mutex_setprio() sees no change of priority. The pi_se of the
-task would keep pointing to the waiter, which can exit. So also drop the
-boost in __setscheduler_dl_pi() when the task leaves the class, as
-rt_mutex_setprio() does.
+  Oops: divide error: 0000 [#1] SMP NOPTI
+  RIP: 0010:dl_server_apply_params+0x335/0x380
+  Call Trace:
+   sched_server_write_common.isra.0+0x1c0/0x260
+   full_proxy_write+0x58/0x90
+   vfs_write+0xcb/0x550
 
-The boosted_owner_policy case of deadline_bw_test, added later in this
-series, fails with EBUSY on v7.4-rc2. It passes with this series. The
-sysrq_boosted_owner case of deadline_switch_test tests the sysrq-n path.
+By reading, two other paths would divide by zero:
+- inactive_task_timer(), for a task that left SCHED_DEADLINE or died,
+  if its CPU went offline.
+- sched_setattr(SCHED_DEADLINE) on a task asleep on an offline CPU,
+  with admission control off.
 
-Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
+Fix this by changing total_bw alone when the root domain has no active
+CPU.
+
+With this patch, the reproducer survives 20 rounds with no warning.
+
+Fixes: daec57983670 ("sched/deadline: Reclaim bandwidth not used by dl tasks")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/syscalls.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ kernel/sched/deadline.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 6f8ce5fd94a1..cb115aa9b0b3 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -304,6 +304,13 @@ static inline void __setscheduler_dl_pi(int newprio, int policy,
- 			scope->flags |= ENQUEUE_REPLENISH;
- 		}
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index dfae08625342..b614d5fc1a1a 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -189,18 +189,25 @@ void __dl_update(struct dl_bw *dl_b, s64 bw)
  	}
-+
-+	/*
-+	 * Without pi, as from normalize_rt_tasks(), a boosted task can leave
-+	 * the class. Drop its boost then, as rt_mutex_setprio() does.
-+	 */
-+	if (!dl_prio(newprio))
-+		p->dl.pi_se = &p->dl;
  }
- #else /* !CONFIG_RT_MUTEXES */
- static inline void __setscheduler_dl_pi(int newprio, int policy,
-@@ -691,6 +698,10 @@ int __sched_setscheduler(struct task_struct *p,
- 	 * is available. Keep this check last. If a later check failed,
- 	 * nothing would give back the bandwidth it reserves.
- 	 *
-+	 * Test the policy, not the priority. A task boosted into the class
-+	 * by priority inheritance has no bandwidth of its own to admit or
-+	 * release.
-+	 *
- 	 * With SCHED_FLAG_KEEP_PARAMS, the task keeps its parameters, so
- 	 * there is nothing to admit. Such a call changes other attributes,
- 	 * such as the utilization clamps. A deadline task does not use its
-@@ -699,7 +710,8 @@ int __sched_setscheduler(struct task_struct *p,
- 	 * them from the task without a lock.
- 	 */
- 	if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS) &&
--	    (dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
-+	    (dl_policy(policy) || task_has_dl_policy(p)) &&
-+	    sched_dl_overflow(p, policy, attr)) {
- 		retval = -EBUSY;
- 		goto unlock;
- 	}
+ 
++/*
++ * Spread a change of total_bw over the extra_bw of the active CPUs of the
++ * root domain. @cpus is their number. With no active CPU, as can happen
++ * during CPU hotplug, change total_bw alone.
++ */
+ static inline
+ void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+ {
+ 	dl_b->total_bw -= tsk_bw;
+-	__dl_update(dl_b, (s32)tsk_bw / cpus);
++	if (cpus)
++		__dl_update(dl_b, (s32)tsk_bw / cpus);
+ }
+ 
+ static inline
+ void __dl_add(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
+ {
+ 	dl_b->total_bw += tsk_bw;
+-	__dl_update(dl_b, -((s32)tsk_bw / cpus));
++	if (cpus)
++		__dl_update(dl_b, -((s32)tsk_bw / cpus));
+ }
+ 
+ static inline bool
 -- 
 2.47.3
 
