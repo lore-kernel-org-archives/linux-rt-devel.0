@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795121520;
-	b=QUTIFLnicnuNg0uMoPOJFQOjWbD9FAWQOv7RayNNncBwN2mwDly2UBojHKnOON1+c5YA
-	 NqPZpMnzxO8ro9jpRT4qxgztZpi9GwF6ibivbg2hbU0FbbteU3BJfYINQRXhzBwZNMR2M
-	 LzDhwKcSGGHompxR8Ond4Ws628DBy4wDj34NCS3RihtqDEYplX0S38QsTMUvefZqhNRet
-	 esuU2JXFg8H7sJF2EubbeLBtz5R1EbAFRDK6k6k+7p3Lpa/HqNYZiZh174VB8XOyolCzh
-	 skLPrpui5YZB0IUdvj8GKfa9cLHmh4dRDoeAcWor5GjfOEmSHnXvFFagHvyKPTwxi5g==
+	t=1795121597;
+	b=qPwdGmTskKXgAzveoXdYScvm84Rpr4AhCvX1oAZWyR2ZnyXXzV1OVnulgWUgnAsqCe2t
+	 YtBXVUd28z4tIgC+Qm1Xly9f2l8v/L8svjq35jSGyKOBH8ezCt72n/tz0fD1MTcJ4S7cJ
+	 8TNhCmSrwThIOlhWpozrtAfrGhnprBXhaLww4CxKZUe4uMfRXyiZ2L2z8fL9do/VRFHL+
+	 yRD0Nu7bJjAzvD8kpUdMctHFD6VUYzBo+p5yCt5ZuTL0qkAQR4afnBpHAb4h4MFKtQFzj
+	 PXNJf3RrDCEqj+Ek1339oSo+IaWxpFmBUR4wEfFiXKf2x2H2w/euO/sjBN2baR6fjLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795121520;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795121597;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HUPumk9i57DkSOuQPvVMnytpwx19+jA5RUkY1AF2mFs=;
-	b=guffvltnV3LpOzgOCT2jfAltYBq2JzjPlmsOwvpYQ6J8hhHFoXMZDmI0MqR/JgBrqeW5
-	 usTTRVMKRkYECYgNjYIbongYOiik1wM1HwZXt14SakuoXFdJDUwVPGs6ak8X+NboGL+xM
-	 s35ihI6yn0oVNz2NMpdJCzjQPDKFJvWEGw+BX7MeYOZO5R320J+cb0KR/5kXQmOAAlS29
-	 7unYFsMtlih3lNVsk8CWG/y9YwJmU9F8QWVofv5N6RM3v2bvim1CtHLbpTPGqmvPqrSc2
-	 XZVnZWa4EiLDwQYZ6pbMBEu8oET+p7KBNUwXRVJJlprPlGClBbnaiqfprkx8CClZ1Dw==
+	bh=LlxCWovDTUv+Qu6Xloj+MVtQaPY7xSjf/N7WJ3qIRa4=;
+	b=CwOWDImrgDJ5+uYesRVvNUFVMVBCRbveJQx/lgW/QrxDzv5SQkmw8Vx9dHUSgb0uDU+c
+	 HyWupYfpKspRl1WXhwcn03n+5GDvE7n9GSMsaYFyndypvGvomn0+3rQQIEERm5WYxE1LK
+	 vZqTT5k2PlzIoOk4kvooc5AR9RfbPjjvr8CJnkq3Z3rBR7cYjSefRu5t2T3H3xjBwvnsA
+	 BV+WnIRbAYxYycLh6ZWTKJ9rwDt8SfibpPZ6P3P0oM0VE2Pui+YShgzyVm7lOh9tICtMo
+	 3VAiL5MurbNzqQmoRN+RYVpaZN08E5iZkF2m/TZq5ck6C8Rpx+DfDr0dRMadVljSN7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OdRHcvao;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BwA2oXYH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2AD606A902;
-	Thu, 19 Nov 2026 20:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247B8606A337;
+	Thu, 19 Nov 2026 20:53:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OdRHcvao
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23C11F000C0;
-	Thu, 19 Nov 2026 20:51:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BwA2oXYH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 734B51F000D0;
+	Thu, 19 Nov 2026 20:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795121520;
-	bh=HUPumk9i57DkSOuQPvVMnytpwx19+jA5RUkY1AF2mFs=;
+	s=k20260515; t=1795121596;
+	bh=LlxCWovDTUv+Qu6Xloj+MVtQaPY7xSjf/N7WJ3qIRa4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OdRHcvao74GmConYaEBc4jCOEGcYaYlY7FAUeAWeXO/yT8+oJJtEx4q72WMd931VI
-	 dOL/ohn9pztfZ2CutaoDtryLquBPQUlFFCgASSwD2RjWlT+Wh/2COAxhnkYLh5sKvD
-	 S+0m0gPgtlOi7lWbPvgr06OUxiB7VydlJA9rQbVGhMz1uVsAkkET1GsA+f0uwzc5//
-	 Cl22o8JysQ7CFT4U4lW3FX6s3DWs/O9vST5v4Hvj08yJKF+SgWj7cWWKTLRHo2j6ye
-	 jGG0Q2dnNCfGptM49F+la+vW5Gvl20xZbQ4RRvhHmFMhbU86eMD8HgIB2PrDnh2XpE
-	 SStMrNaIW8SBg==
-Message-ID: <sashiko-outbox-224056@kernel.org>
+	b=BwA2oXYHBiTAVGgyEes6oF6C5mTiYQQiVTaFUr5p+5Q/FDR5D77T0XoY6gjzisqBu
+	 OGrym0/wI2KXpKQ2Iy2eRQO+Qwj72YBWOS2B3nL2LYyyRDjbYhMuNYbpP6lyLGaKa/
+	 qC+U6w9XFM9nvdK++YqF52cKbe1ewwsbX/bPEPrZt7pEtN6A6WrAfDEqAXm3sXnKK/
+	 v6nTTm3YG2g+OlBeOruEhAoWy2SWkYWG3QHGpf36M2OsbKapxbKC+D/FnPksC4BQFt
+	 8EvIdHhNnejpF6ONgOuLTAQluBpIfg0mwzk16kIbLrJpOKG8+K1FbnnWXKahHsQu2p
+	 yGoBJDws+y/hg==
+Message-ID: <sashiko-outbox-224059@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 03/33] sched/deadline: Record the root domain holding
- a task's bandwidth
+Subject: Re: [PATCH v8 23/33] sched/deadline: Reset the donor's runtime at a
+ deboost in the class
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <b652188b8e94eaa45102ac88f15d841e9a5ef141.1795116790.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <a6b2af72b10e67a5865158280c3955e4f8169a24.1795116791.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
- <b652188b8e94eaa45102ac88f15d841e9a5ef141.1795116790.git.mathieu.desnoyers@efficios.com>
+ <a6b2af72b10e67a5865158280c3955e4f8169a24.1795116791.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 20:51:59 +0000
+Date: Thu, 19 Nov 2026 20:53:15 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,76 +61,97 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] sched/deadline: __sched_setscheduler() checks task_rq(p)->rd
-  instead of dl_bw_cpu
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] sched/deadline: missing dl_note_donor_refill() in
+  replenish_dl_entity()
+- [Medium] sched/deadline: dl_entity_preempt() precedes dl_deboost() in
+  rt_mutex_setprio()
 --
 
-commit 6c6c4ca320b457b4335ef207d939dd20b5bb6c38
+commit 99ad044e86f7c0f67e987d30b947babfc918e9b4
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Record the root domain holding a task's bandwidth
+sched/deadline: Reset the donor's runtime at a deboost in the class
 
-This commit records a CPU from the root domain accounting a deadline
-task's bandwidth in dl_bw_cpu and uses it across bandwidth moves,
-releases, parameter updates, and affinity checks.
+This commit tracks whether a boosted deadline entity had its runtime
+refilled from its donor's reservation via a new dl_donor_refill flag, and
+starts a new period from the task's own parameters when the boost ends in
+SCHED_DEADLINE.
 
-Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-1-dd761f=
-e005b4@redhat.com/
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 585070a9d3171..5a8f38632e545 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-[ ... ]
-> @@ -4203,6 +4270,23 @@ int sched_dl_overflow(struct task_struct *p, int p=
-olicy,
->  	if (new_bw =3D=3D p->dl.dl_bw && task_has_dl_policy(p))
->  		return 0;
-> =20
-> +	/*
-> +	 * Change the bandwidth of a deadline task where it is counted: in
-> +	 * the root domain of the CPU recorded with it. A task moved asleep
-> +	 * has not run there yet, so the CPU it is on can be elsewhere. No
-> +	 * bandwidth is counted if a rebuild dropped it, or if the task
-> +	 * enters the class. A runtime below about a millionth of the period
-> +	 * gives a bandwidth of 0. It counts for nothing, and no move updates
-> +	 * its record. In these three cases, the root domain of the CPU the
-> +	 * task is on takes the new bandwidth. The caller holds cpuset_mutex,
-> +	 * or dl_accounting_mutex without cpusets, so no rebuild runs
-> +	 * meanwhile.
-> +	 */
-> +	counted =3D task_has_dl_policy(p) && p->dl.dl_bw_cpu >=3D 0 &&
-> +		  p->dl.dl_bw_gen =3D=3D dl_bw_gen;
-> +	cpu =3D counted && p->dl.dl_bw ? p->dl.dl_bw_cpu : task_cpu(p);
-> +	dl_b =3D dl_bw_of(cpu);
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index fe2919be3775b..781eff6455250 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -7957,16 +7957,26 @@ void rt_mutex_setprio(struct task_struct *p, stru=
+ct task_struct *pi_task)
+>  				p->dl.pi_se =3D pi_task->dl.pi_se;
+>  				scope->flags |=3D ENQUEUE_REPLENISH;
+>  			} else {
+> -				p->dl.pi_se =3D &p->dl;
+> +				dl_deboost(&p->dl);
+> +				/*
+> +				 * dl_deboost() can start a new period. Its
+> +				 * deadline can then be after the top waiter's.
+> +				 * Boost the task again then.
+> +				 */
+> +				if (pi_task && dl_prio(pi_task->prio) &&
+> +				    dl_entity_preempt(&pi_task->dl, &p->dl)) {
+> +					p->dl.pi_se =3D pi_task->dl.pi_se;
+> +					scope->flags |=3D ENQUEUE_REPLENISH;
+> +				}
+>  			}
 
 [Severity: Medium]
-Should the root domain check in __sched_setscheduler() also use the
-recorded dl_bw_cpu instead of rq->rd?
+Can a SCHED_DEADLINE task keep a departed donor's refilled runtime and
+deadline when switching to another deadline top waiter?
 
-kernel/sched/syscalls.c:__sched_setscheduler() {
-    ...
-		if (dl_bandwidth_enabled() && dl_policy(policy) &&
-				!(attr->sched_flags & SCHED_FLAG_SUGOV)) {
-			cpumask_t *span =3D rq->rd->span;
+Before this else branch, rt_mutex_setprio() checks
+dl_entity_preempt(&pi_task->dl, &p->dl) against p->dl.deadline.  If a
+previous donor refilled p (setting p->dl.dl_donor_refill =3D 1) and pushed
+p->dl.deadline past the next waiter pi_task->dl.deadline, that outer
+check succeeds and skips dl_deboost(&p->dl).  Because p->dl.dl_deadline
+is non-zero and p->dl.runtime can still be positive from the previous
+donor's refill, ENQUEUE_REPLENISH in replenish_dl_entity() does not reset
+p->dl.runtime or p->dl.deadline, leaving p running with the previous
+donor's remaining runtime and postponed deadline.
 
-			if (!cpumask_subset(span, &p->cpus_mask) ||
-			    rq->rd->dl_bw.bw =3D=3D 0) {
-				retval =3D -EPERM;
-				goto unlock;
-			}
-		}
-    ...
-}
+Calling dl_deboost(&p->dl) before testing dl_entity_preempt(&pi_task->dl,
+&p->dl) for dl_prio(p->normal_prio) tasks would also avoid duplicating
+the re-boost check in the else branch.
 
-When a sleeping SCHED_DEADLINE task is moved to another cpuset partition,
-p->cpus_mask is updated to the new root domain while task_rq(p) remains in
-the old root domain until wakeup.  Because the old rq->rd->span is not a
-subset of p->cpus_mask, __sched_setscheduler() rejects sched_setattr()
-parameter changes with -EPERM before reaching sched_dl_overflow().
+[ ... ]
+
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 914915abb912d..66a1150c4811a 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+
+[ ... ]
+
+> @@ -1150,6 +1187,7 @@ static void replenish_dl_entity(struct sched_dl_ent=
+ity *dl_se)
+>  		if (!dl_se->dl_deadline) {
+>  			dl_se->deadline =3D rq_clock(rq);
+>  			dl_se->runtime =3D 0;
+> +			dl_note_donor_refill(dl_se);
+>  		}
+>  		if (dl_se->runtime < 0 || dl_se->dl_yielded)
+>  			dl_se->runtime =3D 0;
+
+[Severity: Medium]
+Should the (dl_se->runtime < 0 || dl_se->dl_yielded) path also call
+dl_note_donor_refill(dl_se)?
+
+When a boosted SCHED_DEADLINE task (dl_se->dl_deadline !=3D 0) exhausts its
+runtime or yields after its donor's parameters have been cleared, this
+branch clamps dl_se->runtime to 0 and clears dl_se->dl_throttled without
+recording the refill.  At deboost, dl_deboost() sees
+dl_se->dl_donor_refill =3D=3D 0 and leaves the task queued with
+dl_se->runtime =3D=3D 0, so it throttles on the next tick instead of starti=
+ng
+a new period with its own reservation.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795116790.gi=
-t.mathieu.desnoyers@efficios.com?part=3D3
+t.mathieu.desnoyers@efficios.com?part=3D23
