@@ -1,68 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088450;
-	b=W4FuZr35EiVm3mShKXq5G09FftavF/sNgZFAQUP7kkInzIIXi4kaLl1XutuANDPKrcAC
-	 dVYhLzhJT6/WoPbSsEwJ1EPKMb40EJGsU0YYaRBGA57Vp3gUnduiqCpmkkngYdK/yr3D1
-	 gk+1lzLKLQsQzUObc0W2HzR+1//oW5Gl1WNJtujxm5FR/jBiiTB/XlI4o2TGo07JVbF44
-	 YZOGz0vjznNAp0fUso7NNHkVHvp+nEH9XixRL2mBNWSOSHS62chcTlUXG5yNmEAgUkLgB
-	 kFmeFeU/NpI9kYoI7hvnhEqwF2PDvxsdPbB+S/kn4XI2Eg36yebL3ktBrEcDdREJl6Q==
+	t=1795089510;
+	b=WjJHQ7s9mmyW2npS9iK0nYaNkUcsZlCz1C/qcOTrNjg/4uAVz4CfkbvlEZLxs/COju+c
+	 C8M4XHv0jk0yMZ+EK4u+X11J1uZJzZdM/yuh2NUCtoFluo//Kr/iX4/0Ez+qXSz/EmXIN
+	 vbAeEzRv9On7+Mg0HdDauO2Rju/ITg1bm2GwSp59lQVd3dJLhtCxzZn6n5B8hMtavWoUp
+	 dXMWdjNQ2bkw4Hy+zHn4+LN4LQPru5gs2g1yhYYeJ5XksAVjlAZTol72r7Oe5kCTYnxgf
+	 wDEV3zNPPsObi4Nj+/w3ub/aOODNgUO0/9aYd2pB212962PpRQHjoRyv2P0Gp5jVJrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088450;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=bUsF2BFmyfh8u4YXfKRfweeg9EbYkyMl9BdaPhOcFI8=;
-	b=urUxszhsd2VYJrwRvjyIYJu1CClx2hswfqeltmlAnSmqM+5isK+9HLf0Z7jyw6EM96px
-	 70sawdHwFawzSUbCWzY2ctkjT7M83P7iR7F2ZdZdWJ5xxgzpG5zPsFRHbXF2IK/++9jIm
-	 MxNL6R/BAxiIrhV2QLeZla66kznHz2aiQ8S0yRa0c67dGlNK9zdSNIX3l1LNLpj5Hj6SF
-	 EaqBsqFByeXI9K5nms9AhF6wTJWvuVf85RHxOQe5CRnemXUwAaEgGmxYAYgDtpGJ8HyDd
-	 K1QhGut1yVxLTeOTG4zqvAd9XL2zZAATEHFR3SQrcXs4kOJDkrhJR5txbSNkKdYwEWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795089510;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 Subject:In-Reply-To:References:User-Agent:Date:Message-ID:
+	 MIME-Version:Content-Type:X-Last-TLS-Session-Version;
+	bh=8pKyecCVKJ3P2/DllSf4QADgUTwIySkDcGXpaKJszRo=;
+	b=wxyQI2VV3ypPssfmwzUbR5yI/seDD7JidVeje3rkeEJ5gKBhvxvDm/lYYoqS9+YAG8xx
+	 rVAx8HDQWx7uzKiS6JlrEQ9GsZkpsNoVpN0Q/70zQS+nUK9ZUmqUAdumsxpobdjVKVEok
+	 LA0RpxBSfmI0RBnmLQazlZgAGksyk0+0pst2csfUnmxnaw70fRChURkBZdNMmJu0WsGdR
+	 lWVyzdGbf4ycbh32RMBFYroWS5/OR53mNsPKefqsXstuxc9ion0rN/3HjN8aMyvIEHERX
+	 dXGcn0gtiHiMuwt7lyTmwVnRyPJRNLG8UF9ln2m/zSuSJRggdE2VlFuQG4mwP9//gRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=dolcini.it;
-	spf=pass smtp.mailfrom=dolcini.it;
-	dkim=pass header.d=dolcini.it header.i=@dolcini.it header.a=rsa-sha256 header.s=default header.b="iSp5/LpD";
-	arc=none smtp.remote-ip=217.194.8.81
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lVOzcWV8;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF144606A326;
-	Thu, 19 Nov 2026 11:40:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF144606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A185606A326
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:58:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A185606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dolcini.it header.i=@dolcini.it header.a=rsa-sha256 header.s=default header.b=iSp5/LpD
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 83B30249CF;
-	Thu, 19 Nov 2026 12:40:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1795088446;
-	bh=bUsF2BFmyfh8u4YXfKRfweeg9EbYkyMl9BdaPhOcFI8=; h=From:To:Subject;
-	b=iSp5/LpDRebEE2dL1d8oR0gjk2x4hoaFOYKH5eR1fQ0XANEJWSMg713KP0F/tTkcH
-	 59X2iUmbKsTrWu9aB78yyv4lens8+4d7a3BUDi69lsiC9kjhcgapB+8UJGr4C3sF1B
-	 t348F4A2tuaWsF9JiNNqO4f9BDonT8YRwzl3kE9gnTtvNeJIow2ljGoscks7QeGG4d
-	 Hrp/mgraJIfLF/crc/xqZT/922etN77mUXUA9ftYZbVh4JoCCAC/lcPjmIvdAQOOfY
-	 5PRacq4vo16f05C6NVv3sEeuSl6dEUt50HfrrnWyDHh2t556GEGpbOgzq8hsgmo8ua
-	 yjP5WVb9mhZ/Q==
-Date: Thu, 19 Nov 2026 12:40:41 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Peng Fan <peng.fan@oss.nxp.com>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Peng Fan <peng.fan@nxp.com>, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid
- kworker in imx's remoteproc
-Message-ID: <20261119114041.GA166708@francesco-nb>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lVOzcWV8
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 953DDC4CBEF;
+	Thu, 19 Nov 2026 11:58:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 490C860237;
+	Thu, 19 Nov 2026 11:58:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AFB3011BC04AA;
+	Thu, 19 Nov 2026 12:58:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795089502; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=8pKyecCVKJ3P2/DllSf4QADgUTwIySkDcGXpaKJszRo=;
+	b=lVOzcWV8O+0BgL+87QRl2KBYiDz9tcVvNzQIeJ2CmmtYY33VlT0tOKm6VnE+mN33wFsbuc
+	BNRv49hvyR2Bqs4xtfCAMpVgd4g9dQ3z45YF4zAqM9xPatZMW+DqgqGq3n6NfIcYNjeDdT
+	UdkJCCT9HH1zPxl8/eaJ1M2tGB+h4xeIDwbwjwtuG73TE1SPFoqvKn6fHzl2dEnEF1eunF
+	KOyB9zBildxT/9RVuq/xhbsVmUBQfiXLfmjTfmwvE4y0EzM3KZEs+x9kPKbfWa6q6MOg30
+	EpmxuiZuHIW6cslkUH5GSfCuflQvoIWWcAVomu0VhKi8Gocm96CFWoMqFlusUw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+  Clark Williams <clrkwllms@kernel.org>,  Steven Rostedt
+ <rostedt@goodmis.org>,  Rob Herring <robh@kernel.org>,  Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
+  Philipp Zabel <p.zabel@pengutronix.de>,  Chen-Yu Tsai <wens@kernel.org>,
+  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel Holland
+ <samuel@sholland.org>,  Maxime Ripard <mripard@kernel.org>,  Richard
+ Genoud <richard.genoud@bootlin.com>,  Boris Brezillon
+ <bbrezillon@kernel.org>,  Masahiro Yamada <yamada.masahiro@socionext.com>,
+  Brian Norris <computersforpeace@gmail.com>,
+  linux-mtd@lists.infradead.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
+  linux-rt-devel@lists.linux.dev,  devicetree@vger.kernel.org,  Sashiko
+ <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v10 04/26] mtd: rawnand: sunxi: reject pages exceeding
+ the ECC step limit
+In-Reply-To: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-4-dca1f6ed29a8@gmail.com>
+	(James Hilliard's message of "Thu, 05 Nov 2026 11:55:20 -0700")
+References: <20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-0-dca1f6ed29a8@gmail.com>
+	<20261105-submit-sunxi-nand-vendor-oob-layout-v1-v10-4-dca1f6ed29a8@gmail.com>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Thu, 19 Nov 2026 12:58:13 +0100
+Message-ID: <87ik1tdodm.fsf@bootlin.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -72,84 +84,52 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av6Wc+kHFKqwFHAR@shlinux89>
- <20261116102331.K8Sc86V9@linutronix.de>
+Content-Type: text/plain
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Peng, Sebastian
+On 05/11/2026 at 11:55:20 -07, James Hilliard <james.hilliard1@gmail.com> wrote:
 
-On Mon, Nov 16, 2026 at 11:23:31AM +0100, Sebastian Andrzej Siewior wrote:
-> On 2026-11-16 10:23:41 [+0100], Francesco Dolcini wrote:
-> > Our CI shows a ~10-15% eMMC sequential read throughput drop on i.MX8QXP
-> > and i.MX8DX (Colibri iMX8X, Cortex-A35), starting with v7.2-rc1 and
-> > still present in v7.4-rc3 (hdparm --direct -t: ~129 MB/s -> 105-120
-> > MB/s on i.MX8DX). i.MX8QM, i.MX8M and i.MX9 are not affected.
-> > 
-> > 5d1c0000.mailbox interrupt count before the test went from ~8k on v6.18
-> > to 60k+ on v7.3/v7.4.
-> > 
-> > Peng: any idea/suggestion? Does it makes any sense to you?
-> 
-> Can you pin point it to a patch in this series? My guess is that
-> something with the masking/ unmasking went wrong. The increase might be
-> result of the interrupt keeping firing while the threaded interrupt did
-> not have a chance to run.
+> The controller has 16 ECC status slots on A10/A23 and 32 on H6/H616.
+> Hardware-ECC setup checks the strength and available OOB space, but does
+> not check that the page fits those slots. NAND identification can supply
+> a larger page size, and the NAND core does not enforce this
+> controller-specific limit.
+>
+> If enough OOB space is available, an unsupported geometry can pass attach
+> and reach DMA code that indexes status and user-data registers by ECC
+> step. H6/H616 also represent enabled data blocks with a 32-bit mask. The
+> number of steps must fit the controller even when their user data fits
+> the register bank.
+>
+> Reject excessive step counts before allocating user-data lengths or
+> installing the hardware-ECC callbacks. Check the final step size, after
+> strength maximization and the conversion from 512-byte to 1-KiB steps,
+> so valid geometries retain their existing layout. This also keeps PIO
+> fallback from accepting a page that the controller cannot handle.
+>
+> Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/r/sashiko-outbox-173724@kernel.org
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  drivers/mtd/nand/raw/sunxi_nand.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+> index 662d96fc2535..1a61f608ad91 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -2223,6 +2223,11 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
+>  	ecc->bytes = ALIGN(ecc->bytes, 2);
+>  
+>  	nsectors = mtd->writesize / ecc->size;
+> +	if (nsectors > nfc->caps->max_ecc_steps) {
+> +		dev_err(nfc->dev, "unsupported number of ECC steps: %d (max %u)\n",
+> +			nsectors, nfc->caps->max_ecc_steps);
+> +		return -EINVAL;
+> +	}
 
-Reverting 36cac4b5101f, 3225a745f517, e55bea377d49 and 692e1bc96a5d
-restores 149 MB/s with schedutil.
-
-
-On Thu, Nov 19, 2026 at 02:25:55PM +0800, Peng Fan wrote:
-> On Mon, Nov 16, 2026 at 10:23:41AM +0100, Francesco Dolcini wrote:
-> >Peng: any idea/suggestion? Does it makes any sense to you?
-> 
-> Please help test whether this helps:
-> 
-> diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailbox.c
-> index 683ccea6f2ba..e29044cf4b92 100644
-> --- a/drivers/mailbox/imx-mailbox.c
-> +++ b/drivers/mailbox/imx-mailbox.c
-> @@ -635,7 +635,7 @@ static int imx_mu_startup(struct mbox_chan *chan)
->  {
->         struct imx_mu_priv *priv = to_imx_mu_priv(chan->mbox);
->         struct imx_mu_con_priv *cp = chan->con_priv;
-> -       unsigned long irq_flag = IRQF_NO_THREAD;
-> +       unsigned long irq_flag = IRQF_NO_THREAD | IRQF_ONESHOT;
->         int ret;
-> 
->         pm_runtime_get_sync(priv->dev);
-
-It does not help.
-	
-The analysis below was done with Claude help, on measurements I took on a
-Colibri iMX8QXP. I hope you can pick it up from there, this is not my
-area of expertise, and the best I can do is to send a revert for those 4
-commits.
-
-Every SCU RPC now wakes the SCHED_FIFO irq thread (TX done and RX), and
-while an RT task is runnable schedutil requests the maximum CPU frequency.
-The A35 clock is CLK_GET_RATE_NOCACHE, so each frequency change is
-followed by an SCU RPC reading the rate back, which wakes the irq thread
-again. The loop never settles, even when idle, and the transitions (ATF +
-SCU) are what costs the eMMC throughput (and I assume there is more
-impact on performance than just this).
-
-v7.4-rc3, 4 CPUs, idle irq/cpufreq transitions per 10s, hdparm --direct -t:
-
-                               irq    trans  schedutil  performance
-  v6.18                          -      -    149.7 MB/s     -
-  v7.4-rc3                   16203  10800    113 MB/s   150 MB/s
-  v7.4-rc3 + IRQF_ONESHOT     7832   7813    113 MB/s   150 MB/s
-  v7.4-rc3 + revert 4 commits   60     36    149 MB/s   150 MB/s
-
-The 4 commits are 36cac4b5101f, 3225a745f517, e55bea377d49 and
-692e1bc96a5d; reverting only the RX part (e55bea377d49) is not enough.
-
-
-#regzbot introduced: 692e1bc96a5d^..36cac4b5101f
-#regzbot title: mailbox: imx: threaded IRQ handling causes a cpufreq transition storm on SCU-based i.MX8
-
-Thanks,
-Francesco
-
+I'm fine with this patch, but if your manual says that the controller
+support chips with pages up to 32k and you wire a chip -that does not
+exist on earth yet- with a larger page size, screw you? This is again
+one of those over defensive approaches...
