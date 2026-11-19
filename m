@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795106809;
-	b=EC6cATs9Abc2JyMBwIacR9rCp4pYLPYcjboUuv9iRzpDPQ/6kYZZhWwWdMhU6n7sxLb+
-	 aK/sWB+xM6NuDYhTwvewzZa2uaKkZDYX491ZA1cdtlf586OCTFsKOa5REJKvAAvUbtxED
-	 ygadPLOq/Yzsgkud7+NGZrDiLBY7YYhBu3sIk41eTODY2fHsy+/CNN4qSQecg1uLfITJG
-	 pNGTMk1YaerzwBsTu10YuK+EmGnRCi0UlhQC7S3WkWW42MIanWLmm4Tfft+gNc3gW/Rrr
-	 1J2XBIzFhRCeddxZHu+lfDFBigOxJJh5yQuj9CSpJIyJmdoOVwFWMg6702PR0jiUMuw==
+	t=1795106983;
+	b=pzcEVM2NWvat7rFJV1OQHdKkaY1ZPcHeOFZHGR9iW1zITRwMdPw7t20LmQu+HnTCTBFG
+	 8chZ61yq/2jy85QCvcRdC9S0dxPf3O0vAq+J3AP+cmQ3IdWilJzhHWbCIIZ/770h9VJna
+	 pSHD6KGb5qUHFKYviCZMrCBm6GQ57O6IPWH9Qc8bkf/yUyGQOyF8q854gw82xECgjch0v
+	 HdljalblbPC74Se6A3Kal+NFKyknl8ADbK5MRP94W6LGV1LVYJSdPJYMr0YpoIcj0AUw1
+	 vavjktgG62gCYKaV4HJuUvewXANdp+Lr/ZMnPXaKcEd1hNpqiSehc+cFuLhGNkAgJJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795106809;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106983;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=MlDbLgLPuNZcMAsDODqgwgftrdMr5sjSBNjIff1nty0=;
-	b=j7DiGA5qFWK6DOiAxpBpYq/ivdP3OYy+bgsw6JVjRUH9o5h7YTaZPq1pwQ63GNgUSpt7
-	 CJw14WB6E7ABmk7EZ2XGWH2aaxmey/VzSd0lOSRrarAYoh/9HPY76ZdavS2ey2sopNpmn
-	 Sf1VHazq4yY/qVzXCM610CTAEeCXQ9zCQGIASWH8Qj94UOZtkR/7HJMItZZO8b0vLsoIF
-	 7AM7Zjqu2lN5lr0bN1QcXivZVAuLW0s2O8VLCkLOHdbd4FeogrJyS1F21jtCtCDg0McVM
-	 xidCOrm1aCkYZ9Y5OIIqGeoxVwTSy5B/b8JEIjPwDqwYCyMO7DhW98ZF7T5i2qS2sMg==
+	bh=mCFd4aA2ku+UX9hcU6OoqxiyVSj+I5zYR2+NoCDs4N0=;
+	b=d6L0AdiP5Qkphao1DMpHzTiMFfpNEJ7q/PQpUJ/oyYvlThfMo4M2C86QElo3qRu8cKj1
+	 AnYyX52K3GhhbGa+qVNSoJZq5IBRuJg4/HfrZP8MIYiMhrXs2H8ALfu2ZF5/ZL0BERkMu
+	 FF/IOu1Sz4Gukga40gyCmZs7+SkhwKrtvKQgYieWVt/HKYqwOQ30cWiBaAeEXTt6SAO54
+	 RFZpccDbKUGqpE5xnc9LLnZDfjmelP0ihBF0Tq9mbVpJtqdwvcRDrle8pcEjUy7AXPMRw
+	 yiJ75v7UtDVGrkFAOjpkcjnlOmGsXM9QlnQrxJWBMqJnOVRqRpdvUn/LVjYZ/hw3M1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IF0sETFY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChhAjHuw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0340B606A32C;
-	Thu, 19 Nov 2026 16:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B5A60A261E;
+	Thu, 19 Nov 2026 16:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IF0sETFY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 429EA1F000C8;
-	Thu, 19 Nov 2026 16:46:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChhAjHuw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D77B1F000C8;
+	Thu, 19 Nov 2026 16:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795106808;
-	bh=MlDbLgLPuNZcMAsDODqgwgftrdMr5sjSBNjIff1nty0=;
+	s=k20260515; t=1795106982;
+	bh=mCFd4aA2ku+UX9hcU6OoqxiyVSj+I5zYR2+NoCDs4N0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IF0sETFY6beQJlTaL6FZaFYEvjitD50FclFdTOcwIHN+8zHfxnw3h22KuZZbXfOhc
-	 yzlE3K0I2RzU+FPW+/AyqX3C4G7D9SSloOgpx3XR/+2H+3DQFqVmX40t8HTqyP5Ost
-	 Pf21DnKTpeJR3CkFCDYlZ+D7ELops8ywIW4SSqvqvwSwDMNqGegFeDR6b0HNsu7qK7
-	 9BCnIZG7DH0OE+u84LG1DXFBdnRJ2bm+IFsBT0fe1Qb0gMajqwe69PfRtI5xfa26ZM
-	 VqtGzmoEtrmgqDA1mucxx3mb5uj2zmfCOVsPGdc+vHFekhVl8rnrUt8+Y+zWvVI/wM
-	 EmYo3WZd2HxAA==
-Message-ID: <sashiko-outbox-223567@kernel.org>
+	b=ChhAjHuwRDzWFyANhcrPIXeH2Yy7ZoWswioUwveQOLenHie1+6WPs+eebzoisZW39
+	 rrEbwT7kSBHAOGySWoGUOr+HzLk0LV+N8+xeW3m5x2torxn0AebPD62QXdFl4YJdCA
+	 CKUNpZibVn1SNy9XXfH/bMaTC6IuHGh5VB2O394lWX7geBJXjv36n+MvmNNWQRvLbc
+	 cTBYlLE7wwYEVsBfZsFi4OziiI/rxP2DKWJyRRy3QWnjpAXVoJ0GxVORaIHSGlO0XF
+	 iW7u0FHSiWFvjRZ0etnBb7c1Ai7QqP6ztP/LX91kVjOz+5ss2E6tEPXfG/AsrQiggI
+	 YFZS9l9bRGnHQ==
+Message-ID: <sashiko-outbox-223577@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [RESEND PATCH v4 10/17] sched/deadline: Fix an overflow of the
- 0-lag time with long periods
+Subject: Re: [RESEND PATCH v4 09/17] sched/deadline: Reset the deadline and
+ the runtime with the parameters
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <abbad2aa0ec392b1b0ede00b66b2d177d2b7b2df.1795105408.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <07a810645c5ab919a52ffe2cc4b63074a84751fb.1795105408.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
- <abbad2aa0ec392b1b0ede00b66b2d177d2b7b2df.1795105408.git.mathieu.desnoyers@efficios.com>
+ <07a810645c5ab919a52ffe2cc4b63074a84751fb.1795105408.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 16:46:47 +0000
+Date: Thu, 19 Nov 2026 16:49:42 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,96 +61,124 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] sched/deadline: unguarded overrun division in
-  task_non_contending()
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] sched/deadline: donor runtime and deadline retained after PI
+  deboost
+- [Medium] sched/deadline: uncanceled dl_timer in __dl_clear_params()
 --
 
-commit d4e10a0b92da9c2b0b15604d4fa7ca96de8eadaf
+commit 2c25e238b8ef61f400892fff248fbabebd5863e5
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Fix an overflow of the 0-lag time with long periods
+sched/deadline: Reset the deadline and the runtime with the parameters
 
-This commit uses mul_u64_u64_div_u64() to compute the 0-lag time in
-task_non_contending() so that runtime * dl_period does not overflow s64
-with long periods, and bounds the positive-runtime division when the
-parameters were shrunk.
+This commit resets dl_se->deadline and dl_se->runtime in __dl_clear_params()
+and in switched_from_dl() when a boosted task with no deadline parameters of
+its own leaves SCHED_DEADLINE, so that the next entry starts a new period.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index d6d2657dcddd6..5e4aff28e9bcd 100644
+> index 71b1c155c2424..d6d2657dcddd6 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -411,7 +411,7 @@ static void task_non_contending(struct sched_dl_entit=
-y *dl_se, bool dl_task)
->  	struct hrtimer *timer =3D &dl_se->inactive_timer;
->  	struct rq *rq =3D rq_of_dl_se(dl_se);
->  	struct dl_rq *dl_rq =3D &rq->dl;
-> -	s64 zerolag_time;
-> +	s64 zerolag_time, left;
+> @@ -3569,6 +3569,16 @@ static void switched_from_dl(struct rq *rq, struct=
+ task_struct *p)
+>  	if (task_on_rq_queued(p) && p->dl.dl_runtime)
+>  		task_non_contending(&p->dl, false);
 > =20
->  	/*
->  	 * If this is a non-deadline task that has been boosted,
-> @@ -425,15 +425,40 @@ static void task_non_contending(struct sched_dl_ent=
-ity *dl_se, bool dl_task)
-> =20
->  	WARN_ON(dl_se->dl_non_contending);
-> =20
-> -	zerolag_time =3D dl_se->deadline -
-> -		 div64_long((dl_se->runtime * dl_se->dl_period),
-> -			dl_se->dl_runtime);
-> -
->  	/*
-> -	 * Using relative times instead of the absolute "0-lag time"
-> -	 * allows to simplify the code
-> +	 * The 0-lag time is the deadline minus the runtime left, scaled by
-> +	 * dl_period / dl_runtime. The product of the runtime and dl_period
-> +	 * can overflow s64 with periods of a few seconds, so multiply on 128
-> +	 * bits. Compute the 0-lag time relative to now.
-> +	 *
-> +	 * After a change of parameters, the runtime and the deadline stay
-> +	 * those of the old parameters until the next period. The 0-lag time
-> +	 * uses the new dl_runtime and dl_period. The runtime left can then be
-> +	 * far above dl_runtime, and the quotient too large for 64 bits. So
-> +	 * first compare the runtime left with the runtime that the new
-> +	 * parameters give until the deadline:
-> +	 *
-> +	 *   (deadline - now) * dl_runtime / dl_period
-> +	 *
-> +	 * If it is larger, the 0-lag time has passed, and the bandwidth is
-> +	 * released now.
-> +	 *
-> +	 * The runtime is negative after an overrun. The next tick throttles
-> +	 * the task, so the overrun is short and its quotient fits.
->  	 */
-> -	zerolag_time -=3D rq_clock(rq);
-> +	left =3D dl_se->deadline - rq_clock(rq);
-> +	if (dl_se->runtime < 0)
-> +		zerolag_time =3D left +
-> +			mul_u64_u64_div_u64(-dl_se->runtime, dl_se->dl_period,
-> +					    dl_se->dl_runtime);
+> +	/*
+> +	 * A task with no parameters of its own was boosted into the class.
+> +	 * Its deadline and runtime are the donor's. Reset them, so that its
+> +	 * next entry into the class starts a new period.
+> +	 */
+> +	if (!p->dl.dl_runtime) {
+> +		p->dl.deadline =3D 0;
+> +		p->dl.runtime =3D 0;
+> +	}
 
 [Severity: Medium]
-Can mul_u64_u64_div_u64() in the dl_se->runtime < 0 branch still overflow
-s64 or u64 when dl_runtime was shrunk or the overrun spans multiple
-seconds?
+Can a task still retain the donor's deadline and runtime after PI deboost w=
+hen
+p->dl.dl_runtime is non-zero?
 
-An overrun is not guaranteed to be short: in a guest, a vCPU preemption
-can produce a multi-second delta_exec in a single update_curr_dl_se()
-call, and a task throttled while blocking on an rt_mutex that is then
-PI-boosted before waking has dl_throttled cleared in enqueue_task_dl()
-without replenishment (because dl_entity_overflow() returns false when
-dl_se->runtime < 0).
+If a non-deadline task is PI-boosted by a SCHED_DEADLINE waiter and calls
+sched_setattr() to enter SCHED_DEADLINE while still boosted, prev_class and
+next_class in __sched_setscheduler() are both &dl_sched_class, so neither
+switched_from_dl() nor switched_to_dl() runs.  __setparam_dl() sets
+p->dl.dl_runtime without clearing the donor's deadline or runtime (and if p=
+ is
+sleeping, skipping switched_to_dl() also skips add_rq_bw(), later triggering
+WARN_ON_ONCE(dl_rq->running_bw > dl_rq->this_bw) and underflow in
+__sub_rq_bw()).  When rt_mutex_setprio() later deboosts p, it stays in
+dl_sched_class and restores p->dl.pi_se =3D &p->dl without ENQUEUE_REPLENIS=
+H, so
+enqueue_dl_entity() sees the donor's future deadline and skips
+setup_new_dl_entity(), letting p run unboosted on the donor's remaining
+runtime.
 
-If a task with a raised period limit (e.g. 300s or UINT_MAX us) shrinks
-dl_runtime to 1024 ns via sched_setattr(), an overrun of a few seconds
-makes (-dl_se->runtime * dl_se->dl_period) / dl_se->dl_runtime exceed
-S64_MAX (wrapping zerolag_time negative and releasing bandwidth early) or
-U64_MAX (trapping with #DE in divq on x86-64). Even with the default 4s
-period limit, scaling a single-tick overrun of the old runtime by the new
-dl_period / dl_runtime ratio can arm inactive_timer for hours, locking up
-running_bw and total_bw.
+Similarly, if a task leaves SCHED_DEADLINE before its 0-lag time (or changes
+policy while boosted via __setscheduler_dl_pi()) and is replenished from a
+donor while p->dl.dl_runtime is still non-zero, switched_from_dl() on deboo=
+st
+skips this !p->dl.dl_runtime reset and passes the donor's deadline and runt=
+ime
+to task_non_contending().
+
+> @@ -3984,7 +3994,8 @@ bool __checkparam_dl(const struct sched_attr *attr)
+>  }
+> =20
+>  /*
+> - * This function clears the sched_dl_entity static params.
+> + * Clear the static parameters of @dl_se. Also reset its deadline and its
+> + * runtime, so that its next enqueue starts a new period.
+>   */
+>  static void __dl_clear_params(struct sched_dl_entity *dl_se)
+>  {
+> @@ -3995,6 +4006,9 @@ static void __dl_clear_params(struct sched_dl_entit=
+y *dl_se)
+>  	dl_se->dl_bw			=3D 0;
+>  	dl_se->dl_density		=3D 0;
+> =20
+> +	dl_se->deadline			=3D 0;
+> +	dl_se->runtime			=3D 0;
+> +
+>  	dl_se->dl_throttled		=3D 0;
+>  	dl_se->dl_yielded		=3D 0;
+>  	dl_se->dl_non_contending	=3D 0;
+
+[Severity: Medium]
+Does resetting deadline, runtime, and dl_throttled in __dl_clear_params()
+without canceling dl_se->dl_timer leave a stale replenishment timer queued?
+
+When a task yields with remaining runtime (or uses a constrained deadline w=
+ith
+dl_deadline < dl_period) and is throttled, its 0-lag time arrives before
+dl_se->dl_timer fires at dl_next_period(dl_se).  If the task switches out of
+SCHED_DEADLINE while throttled, __dl_clear_params() runs at the 0-lag time =
+and
+clears deadline and dl_throttled while dl_se->dl_timer remains queued.  If =
+the
+task re-enters SCHED_DEADLINE before that old timer expires,
+enqueue_dl_entity() starts a new period, and when the task throttles in the
+new period, start_dl_timer() bails out because hrtimer_is_queued(timer) is
+already true:
+
+kernel/sched/deadline.c:start_dl_timer() {
+	...
+	if (!hrtimer_is_queued(timer)) {
+		if (!dl_server(dl_se))
+			get_task_struct(dl_task_of(dl_se));
+		hrtimer_start(timer, act, HRTIMER_MODE_ABS_HARD);
+	}
+
+	return 1;
+}
+
+When the stale dl_timer fires at the old period boundary, dl_task_timer()
+replenishes and unthrottles the task in the middle of its new period, allow=
+ing
+it to exceed its reservation.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795105408.gi=
-t.mathieu.desnoyers@efficios.com?part=3D10
+t.mathieu.desnoyers@efficios.com?part=3D9
