@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795105506;
-	b=GTaSo/ApB5NaLIDBnG6xRjVPzxkAmMUbPZfiPn7C182eZ4j4QuXMNj7EC2caly0J9/BL
-	 rA9BAUu7LHHPSbzTUFhCjb4V0xKq6zBTDOimDqY6/d27ruazMcKIZyZhpZaseC4u/Xnum
-	 Kc2bom0+IMc9OkETdVkFqyvsThYZJUvjJAN1wlNpvkyPznmE2n68uEj+Pd4Ft04X5Y81r
-	 3OYqTZeJ0bPPiJCBym8QNZVbV0tx5NT6gaRKm5shz/Ir0soCJqeZVpWhV8qtSOSw7/PQg
-	 egc4r6gS68EQVhKciShh7pzrFYzOv5kQpk3mJiwhk8e+wcDeYejHFxLDiLBrFkLqDwA==
+	b=ZoI7buR0wsI+WXefkuIc3I7zUSKmQNCbMDRehLEw7P4jv7Rb/jFwvC/hv29ybGb27lcA
+	 JaYc+8GSEm7a4vm0taJS/w7PYIJE6Nni5oj5g2wNk6kcJUXrGfrDQO0QlegrijOb811xo
+	 Refcl0SMGfi15AEHfGI78YU4OmIAp+nusSAqsFxUf1cDYwv6J9S4hwTcBGa1nA4qNxv/5
+	 wVJzRvPF73x4rIRQK6O7mFZBg37TsQ/Tp/bfHwHeyY76ImWNDT/cBhaxHOkyESHgHa2cl
+	 YhSzv5zr6wGxG+cD8pf+dnNRUnO/sgUUykx/4HBSbNjConZTX0i/wfBHIMrt7BE2zLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795105506;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=BhOtU90QChI4MV+CFuZYuouzsBkSjlKgdR13L9qHB5s=;
-	b=j249YCW9wKWWOFjRynlOPHlIVx4JaCZrU4eKZ1Ub4exi1PV+8YzOZNvjpGEm1sjTXt48
-	 aq75R8UNuUwGgT8urd3VlTyHwSao1hgQ5mXhXOE2Qfizs6JEASQUOEuJDTxkXhVXo4uQC
-	 T3DjjE7XWSHkddDCmAOw7gCjac1OyRS1PSSuKuZOTsWroY3as2tvYZATOP3WNw8Xi8+3k
-	 6C8jQ9UIS99hjPzRLDlKmzI15+XoHavagnvITW4lqtHFnAhBgCEEDXuoNCQ4+Teho5P2A
-	 pUNCiwfS0lxY4ia0VnyzBpNoVfWwxAv5s6LfGt3GXODeDvA+VmBKKHKQyowCGY3FpVg==
+	bh=Ax5wFK1/QAbEDyO/3UGGlfePRTUbY1SVXNP1qt/Fk88=;
+	b=NdlUkGoEr9/WjgFfyFKLySv32Ayg1dGJHI6G2Ru8oG/lLj0jWEsl6RpnhhHbC+pXKEww
+	 q3voCsYPLu/VK9QKrmwXWxYBHLYzIkrYyOEzt0Bp3wcQpefgxqvIiVki9xjsmUUIZwRN/
+	 l3lFy+i7oRCnYo4/HuhgD7CjYWcn9M8mdjPdsgKULnU/Y6SC6u9EdsssuHvFBER2ogl3M
+	 kBJ+RiwGobO9fAkCzw6slg6uGGKbZ3MAZZoNYvdq8ReeChnUrowwbE9uwupNiqnKqCB8K
+	 Zl0cuNqpjKaI44a+T4WheXUlszRyksI+lUPq1hsg3XFabnYRmAyjYUP1xZnF/muV3lA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qiaoeT5Z;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Q0OCEebd;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14916606A32F
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 16:25:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14916606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1097060A263A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 16:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1097060A263A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qiaoeT5Z
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Q0OCEebd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795105502;
-	bh=BhOtU90QChI4MV+CFuZYuouzsBkSjlKgdR13L9qHB5s=;
+	s=smtpout1; t=1795105503;
+	bh=Ax5wFK1/QAbEDyO/3UGGlfePRTUbY1SVXNP1qt/Fk88=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qiaoeT5ZoBR2oL02AEHI+G6cpfBog4FVRRB1hHCoeq/4iY75m2Dk/BfCTmd9Sg5XG
-	 T6nNcGwa3JYPd0iIgw+sczKjvxFnF4bS0UsHVVVSLSG8QHUD9Qv4iJXlBvObv/jFoW
-	 ljEp/kBShBx4ujwmdmyPvgKjEgFjEUqxN7lNvzNH9XuHNcMF8k90TMO9ok6jnmijWM
-	 9V5yFwX71FvVgkNM+z/lbuEIxqMSQWqO8DZKDNksqSvdsnHJT6e0fL0/Fljk1ue/SZ
-	 cg1rYujp53J6CMyLION5/g/SXeoiwMyveFya94eR6cFn6c+pvU+BbW7BHoNsIUZRF1
-	 x9rS7KRCmopug==
+	b=Q0OCEebdhv/398w58JP8L+d/7Gw8oxKJTQS7sUqnp7BJMJUTeKGPigk/+19vgpUYO
+	 IhZtCrdeDb2JhEyLdEFdAQkZRSiIpTVOLyQK+oNUBQTRtSA24RsFQxww6sCaPszz1A
+	 SBiXVyWrUCYiJkxHuj1SCQEf/+85KF8iX6a9PuInHzQtc62+ZA9FtfgMHXX7U3RN3P
+	 fL7Bva4Ae6TjPOAg7hPSOVBbWB4dR4PKy9KiHnuvEdxk7W4jXbQqjOrz42G1j9TQb8
+	 Gr+205WOunV9VMpG+9LP09eMPr2IvjoW8y3OiVtwn+1nQOkH0mN8aq8GJIfB4JB1BP
+	 T9NU3fPf7iAHQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVkMf5sqvzTnJ;
-	Thu, 19 Nov 2026 11:25:02 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVkMg3tBkzTpj;
+	Thu, 19 Nov 2026 11:25:03 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [RESEND PATCH v4 06/17] sched: Take cpuset_mutex for a deadline policy change only with pi
-Date: Thu, 19 Nov 2026 11:24:46 -0500
-Message-Id: <9194486f15bb0cb36b51e4525f471d1150c0d58b.1795105408.git.mathieu.desnoyers@efficios.com>
+Subject: [RESEND PATCH v4 10/17] sched/deadline: Fix an overflow of the 0-lag time with long periods
+Date: Thu, 19 Nov 2026 11:24:50 -0500
+Message-Id: <abbad2aa0ec392b1b0ede00b66b2d177d2b7b2df.1795105408.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
@@ -97,105 +97,122 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__sched_setscheduler() takes cpuset_mutex for a change that involves
-SCHED_DEADLINE. On success, it releases it only when pi is set.
-normalize_rt_tasks(), for sysrq-n, is the one caller with pi unset. It
-runs under read_lock(&tasklist_lock). So sysrq-n takes the mutex in
-atomic context for a deadline task, and never releases it. Every later
-change that involves SCHED_DEADLINE then blocks forever.
+When a deadline task blocks, task_non_contending() computes its 0-lag
+time:
 
-Commit 710da3c8ea7d ("sched/core: Prevent race condition between cpuset
-and __sched_setscheduler()") took the cpuset lock only when pi is set.
-normalize_rt_tasks() cannot take it under tasklist_lock. Its changelog
-accepts this: after sysrq-n, the deadline guarantees are gone anyway.
-Commit 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex") then took
-the mutex only for deadline tasks. It replaced the pi test by a policy
-test, and left the release under pi.
+  zerolag_time = deadline - runtime * dl_period / dl_runtime
 
-Fix this by taking the mutex for a deadline change only when pi is
-set.
+A task that ran at its reserved bandwidth would use up its runtime left
+at that time. Until then, the task still counts in running_bw. A task
+that leaves SCHED_DEADLINE also keeps its bandwidth in total_bw until
+then. This comes from commit 209a0cbda7a0 ("sched/deadline: Improve the
+tracking of active utilization"), which adds the inactive timer of the
+GRUB algorithm.
 
-The policy test reads p->policy before the runqueue lock. It is checked
-again under the lock only when the caller gave no policy. Otherwise,
-the task can enter SCHED_DEADLINE in between. The call then takes it
-out of the class without the mutex. A rebuild of the root domain
-accounting could run at the same time. So check again under the
-runqueue lock, and retry with the mutex.
+The product runtime * dl_period is computed on 64 bits, then divided as
+an s64 by div64_long(). With a period of 4s, it passes S64_MAX once the
+runtime left is above 2.3s. The default limit on the period is about
+4.2s, so no sysctl change is needed. The quotient is then negative, and
+the 0-lag time lands after the deadline.
 
-sysrq-n on v7.4-rc2, with a deadline task and lockdep on:
+On 32-bit, div64_long() also truncates dl_runtime to an s32. A
+dl_runtime above about 2.1s then gives a wrong 0-lag time too. If root
+raises the period limit, a dl_runtime that is a multiple of 2^32 ns
+would divide by zero. This was found by reading.
 
-  sysrq: Nice All RT Tasks
-  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:623
-  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4356, name: deadline_switch
-  locks held by deadline_switch/4356: 4, on CPU#3:
-   ...
-   #3: ffffffff83006098 (tasklist_lock){.+.+}-{3:3}, at: normalize_rt_tasks+0x34/0x150
+The bandwidth is then released seconds late. Until then, the root domain
+refuses deadline tasks that would fit. In an x86-64 guest, a task took a
+reservation of 3.1s every 4s, then went back to SCHED_OTHER at once.
+Another task asking for the same reservation got EBUSY for 5.95s.
 
-A sched_setattr(SCHED_DEADLINE) after it never returned, in 8 VMs of 8.
-The sysrq_normalize case of deadline_switch_test, added later in this
-series, tests this with DEADLINE_TEST_SYSRQ=1. It passes with this
-series.
+Fix this by multiplying on 128 bits with mul_u64_u64_div_u64(). Its
+operands are unsigned. So take the magnitude of the runtime, which is
+negative after an overrun, and add or subtract the result. With the fix,
+the second task got its reservation at once.
 
-Fixes: 111cd11bbc54 ("sched/cpuset: Bring back cpuset_mutex")
+The quotient must still fit in 64 bits. On x86-64, mul_u64_u64_div_u64()
+traps with a divide error otherwise. After a change of parameters, the
+runtime and the deadline stay those of the old parameters until the
+next period. The 0-lag time uses the new dl_runtime and dl_period. So
+the runtime left can be far above dl_runtime. For example, root can
+raise the period limit and give a task 150s every 300s. The task can
+then shrink its runtime to 1024ns. Before the division, compare the
+runtime left with the runtime that the parameters give until the
+deadline. If it is larger, the 0-lag time has passed, and the bandwidth
+is released at once. Otherwise, the quotient is at most the time to the
+deadline.
+
+The params_switched_asleep and params_shrunk_long_period cases of
+deadline_bw_test, added later in this series, test this second part.
+
+Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/syscalls.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ kernel/sched/deadline.c | 41 +++++++++++++++++++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 8 deletions(-)
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index cb115aa9b0b3..9b04e77297ae 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -561,9 +561,11 @@ int __sched_setscheduler(struct task_struct *p,
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index d6d2657dcddd..5e4aff28e9bc 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -411,7 +411,7 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
+ 	struct hrtimer *timer = &dl_se->inactive_timer;
+ 	struct rq *rq = rq_of_dl_se(dl_se);
+ 	struct dl_rq *dl_rq = &rq->dl;
+-	s64 zerolag_time;
++	s64 zerolag_time, left;
  
  	/*
- 	 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
--	 * information.
-+	 * information. Do not take cpuset_mutex when pi is unset: the
-+	 * caller is normalize_rt_tasks(), which holds tasklist_lock and
-+	 * cannot sleep.
+ 	 * If this is a non-deadline task that has been boosted,
+@@ -425,15 +425,40 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
+ 
+ 	WARN_ON(dl_se->dl_non_contending);
+ 
+-	zerolag_time = dl_se->deadline -
+-		 div64_long((dl_se->runtime * dl_se->dl_period),
+-			dl_se->dl_runtime);
+-
+ 	/*
+-	 * Using relative times instead of the absolute "0-lag time"
+-	 * allows to simplify the code
++	 * The 0-lag time is the deadline minus the runtime left, scaled by
++	 * dl_period / dl_runtime. The product of the runtime and dl_period
++	 * can overflow s64 with periods of a few seconds, so multiply on 128
++	 * bits. Compute the 0-lag time relative to now.
++	 *
++	 * After a change of parameters, the runtime and the deadline stay
++	 * those of the old parameters until the next period. The 0-lag time
++	 * uses the new dl_runtime and dl_period. The runtime left can then be
++	 * far above dl_runtime, and the quotient too large for 64 bits. So
++	 * first compare the runtime left with the runtime that the new
++	 * parameters give until the deadline:
++	 *
++	 *   (deadline - now) * dl_runtime / dl_period
++	 *
++	 * If it is larger, the 0-lag time has passed, and the bandwidth is
++	 * released now.
++	 *
++	 * The runtime is negative after an overrun. The next tick throttles
++	 * the task, so the overrun is short and its quotient fits.
  	 */
--	if (dl_policy(policy) || dl_policy(p->policy)) {
-+	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
- 		cpuset_locked = true;
- 		cpuset_lock();
- 	}
-@@ -643,7 +645,13 @@ int __sched_setscheduler(struct task_struct *p,
- 		}
- 	}
+-	zerolag_time -= rq_clock(rq);
++	left = dl_se->deadline - rq_clock(rq);
++	if (dl_se->runtime < 0)
++		zerolag_time = left +
++			mul_u64_u64_div_u64(-dl_se->runtime, dl_se->dl_period,
++					    dl_se->dl_runtime);
++	else if (left < 0 ||
++		 dl_se->runtime > mul_u64_u64_div_u64(left, dl_se->dl_runtime,
++						      dl_se->dl_period))
++		zerolag_time = -1;
++	else
++		zerolag_time = left -
++			mul_u64_u64_div_u64(dl_se->runtime, dl_se->dl_period,
++					    dl_se->dl_runtime);
  
--	/* Re-check policy now with rq lock held: */
-+	/*
-+	 * The caller gave no policy (SETPARAM_POLICY): the request was
-+	 * derived from an unlocked read of p->policy above. If the task
-+	 * changed policy since, re-derive the request from scratch, and
-+	 * release cpuset_mutex: the re-derived request re-decides whether
-+	 * it is needed.
-+	 */
- 	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
- 		policy = oldpolicy = -1;
- 		task_rq_unlock(rq, p, &rf);
-@@ -654,6 +662,18 @@ int __sched_setscheduler(struct task_struct *p,
- 		goto recheck;
- 	}
- 
-+	/*
-+	 * The caller gave an explicit policy, so the request needs no
-+	 * re-derivation (oldpolicy is -1 above). But the decision to
-+	 * take cpuset_mutex used the same unlocked read: the task
-+	 * entered SCHED_DEADLINE since, and the change below would take
-+	 * it out of the class. Retry to take the mutex.
-+	 */
-+	if (unlikely(pi && !cpuset_locked && task_has_dl_policy(p))) {
-+		task_rq_unlock(rq, p, &rf);
-+		goto recheck;
-+	}
-+
- 	oldprio = p->prio;
- 
- 	newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
+ 	/*
+ 	 * If the "0-lag time" already passed, decrease the active
 -- 
 2.47.3
 
