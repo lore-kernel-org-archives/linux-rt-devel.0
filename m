@@ -1,91 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795105514;
-	b=cexhwssJ2dX8vfGgG1TexVuH4OfSgdvAXwC4pYTCg83fgCdd4nCnfnkN6lxXEzb83lzD
-	 qKLKoI1a9Qu5xEF0mLTaiqBkUff9vJZSsaoskma5br5uKAqkSo8Jb88SWioRARIr7Xswr
-	 WOjLXPuD7YYmagbmR+XB0X9HOYN4jO/z+dnxwz+s4G8N2hG8JJaIDXaSlu2m8v3nIccCR
-	 XIUceXbwd6AJVcccj5pY6j8/HI+Q/tBpjDiiLDvY8pofrTSVT/u6GADl8BoNVWOXnTZo7
-	 ups4p82akmaNdpzxAzQpuoMAAjgEEEaP4Edh05nDmIzZcMuZYeOzUA0zgQKaGsbllWw==
+	t=1795106809;
+	b=EC6cATs9Abc2JyMBwIacR9rCp4pYLPYcjboUuv9iRzpDPQ/6kYZZhWwWdMhU6n7sxLb+
+	 aK/sWB+xM6NuDYhTwvewzZa2uaKkZDYX491ZA1cdtlf586OCTFsKOa5REJKvAAvUbtxED
+	 ygadPLOq/Yzsgkud7+NGZrDiLBY7YYhBu3sIk41eTODY2fHsy+/CNN4qSQecg1uLfITJG
+	 pNGTMk1YaerzwBsTu10YuK+EmGnRCi0UlhQC7S3WkWW42MIanWLmm4Tfft+gNc3gW/Rrr
+	 1J2XBIzFhRCeddxZHu+lfDFBigOxJJh5yQuj9CSpJIyJmdoOVwFWMg6702PR0jiUMuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795105514;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
-	b=gRR8tGx/7kGrEaLknGA4w7VAGX7TT0Mkr8X4kXdS+q5fWo2cOs58/N/BuxT4FGJypD8t
-	 IE4HP3IDFGJEzsK6Dc2Kz8vxrAg0EK93WVdAecEb5huikqAGNoDfMNCJEA2qOJSFNfbTi
-	 AihdBEMtUaA3xfr7WQMSz4e5jfNrPVHdnHxiAosnQ5nMLMy2OpLK6iNNYzolmHZ8oh0Rp
-	 LBmUnC/F21mo1jFtYt1el77ylGkpynth8YzkezJm+hBHQl6hlJLZYp3pWb3+67dXUCxsN
-	 iXsiPKRJIiun29KlHdtzkWgb32bIYTauBvkayKLxoPdrHdqF5ppEmY26S/NLxWXXKDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106809;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=MlDbLgLPuNZcMAsDODqgwgftrdMr5sjSBNjIff1nty0=;
+	b=j7DiGA5qFWK6DOiAxpBpYq/ivdP3OYy+bgsw6JVjRUH9o5h7YTaZPq1pwQ63GNgUSpt7
+	 CJw14WB6E7ABmk7EZ2XGWH2aaxmey/VzSd0lOSRrarAYoh/9HPY76ZdavS2ey2sopNpmn
+	 Sf1VHazq4yY/qVzXCM610CTAEeCXQ9zCQGIASWH8Qj94UOZtkR/7HJMItZZO8b0vLsoIF
+	 7AM7Zjqu2lN5lr0bN1QcXivZVAuLW0s2O8VLCkLOHdbd4FeogrJyS1F21jtCtCDg0McVM
+	 xidCOrm1aCkYZ9Y5OIIqGeoxVwTSy5B/b8JEIjPwDqwYCyMO7DhW98ZF7T5i2qS2sMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U3hEB+85;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IF0sETFY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43C9606A324
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 16:25:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C43C9606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0340B606A32C;
+	Thu, 19 Nov 2026 16:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=U3hEB+85
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795105503;
-	bh=hjTYAqi/gpMkX55Y0igyLpnABuy/mfhM7aTE6x5O19I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U3hEB+85H09r/tA32cqyLXzZ4HgsrcM1CBb41v3v8I8qxYDlmua6RVogNHGdxRnmw
-	 ah4IawdqNZ3pLN1OtQabDDq/KWfsiDEh8SBcEhmpMZQHFQF3YoafmFENBPpAKKTeWj
-	 BBQnmWNdrwB2kPseMRA/a3KkJzdSBvN0omw1S/UnM+KgOja66+VzKEUW3rGyrUYdY0
-	 QUG6RoOdOxZd9bleI2l1RICkup7qiYtQKIrRjczrpwBx4WaybcKnvACUsX55r2aCGd
-	 PMu/JPWQXwsPdAOKjnH5SBvPY/i7rCU6fWNjlsmVaHEt8sSxhsrcAYw/97ysS/2I9d
-	 mA0sDtm+2Y0eA==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVkMg6MLMzSrC;
-	Thu, 19 Nov 2026 11:25:03 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: juri.lelli@redhat.com,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	vincent.guittot@linaro.org
-Cc: tglx@kernel.org,
-	will@kernel.org,
-	boqun@kernel.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	luca.abeni@santannapisa.it,
-	mathieu.poirier@linaro.org,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	shuah@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	parri.andrea@gmail.com,
-	m.szyprowski@samsung.com,
-	kayracizmeci@gmail.com,
-	weihengqiuu@gmail.com,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [RESEND PATCH v4 12/17] sched/deadline: Reject SCHED_DEADLINE on exited tasks
-Date: Thu, 19 Nov 2026 11:24:52 -0500
-Message-Id: <fc5726c1bccbe93851a61d8931de98a0d3a4cd3c.1795105408.git.mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IF0sETFY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 429EA1F000C8;
+	Thu, 19 Nov 2026 16:46:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795106808;
+	bh=MlDbLgLPuNZcMAsDODqgwgftrdMr5sjSBNjIff1nty0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IF0sETFY6beQJlTaL6FZaFYEvjitD50FclFdTOcwIHN+8zHfxnw3h22KuZZbXfOhc
+	 yzlE3K0I2RzU+FPW+/AyqX3C4G7D9SSloOgpx3XR/+2H+3DQFqVmX40t8HTqyP5Ost
+	 Pf21DnKTpeJR3CkFCDYlZ+D7ELops8ywIW4SSqvqvwSwDMNqGegFeDR6b0HNsu7qK7
+	 9BCnIZG7DH0OE+u84LG1DXFBdnRJ2bm+IFsBT0fe1Qb0gMajqwe69PfRtI5xfa26ZM
+	 VqtGzmoEtrmgqDA1mucxx3mb5uj2zmfCOVsPGdc+vHFekhVl8rnrUt8+Y+zWvVI/wM
+	 EmYo3WZd2HxAA==
+Message-ID: <sashiko-outbox-223567@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RESEND PATCH v4 10/17] sched/deadline: Fix an overflow of the
+ 0-lag time with long periods
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <abbad2aa0ec392b1b0ede00b66b2d177d2b7b2df.1795105408.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
+ <abbad2aa0ec392b1b0ede00b66b2d177d2b7b2df.1795105408.git.mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Nov 2026 16:46:47 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -94,66 +60,97 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Juri Lelli <juri.lelli@redhat.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] sched/deadline: unguarded overrun division in
+  task_non_contending()
+--
 
-sched_setattr(SCHED_DEADLINE) on a zombie task succeeds and charges
-total_bw via sched_dl_overflow(), but the task has already done its
-final schedule() and will never run again. Nothing releases the reserved
-bandwidth. Repeating this fills total_bw to the admission cap, after
-which sched_setattr(SCHED_DEADLINE) and CPU offline fail with -EBUSY.
+commit d4e10a0b92da9c2b0b15604d4fa7ca96de8eadaf
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-Reject sched_setattr(SCHED_DEADLINE) on exited tasks with -ESRCH.
+sched/deadline: Fix an overflow of the 0-lag time with long periods
 
-A task of the class that exited, switched to another policy, runs
-switched_from_dl(), which decrements the count of deadline tasks of its
-cpuset that cgroup_task_dead() decremented already: at 0 with a deadline
-task left in it, the cpuset is skipped by the next rebuild of the root
-domains' accounting, and that task's bandwidth with it. Reject that as
-well. The deadline_bw_test selftest added later in this series has the
-case, death_zombie_switched: on v7.4-rc1 the switch is accepted, and
-the one-CPU partition root the zombie ran in admits 9 tasks of 10% after
-a rebuild, with a task of 30% still in it, where 6 are due.
+This commit uses mul_u64_u64_div_u64() to compute the 0-lag time in
+task_non_contending() so that runtime * dl_period does not overflow s64
+with long periods, and bounds the positive-runtime division when the
+parameters were shrunk.
 
-Fixes: 332ac17ef5bf ("sched/deadline: Add bandwidth management for SCHED_DEADLINE tasks")
-Reported-by: Weiheng Qiu <weihengqiuu@gmail.com>
-Closes: https://lore.kernel.org/all/3f6e6c87-645b-45fd-8fc6-8da5bc5b82d8@gmail.com/
-Link: https://lore.kernel.org/all/20261103-b4-sched-dl-bw-fixes-v1-4-dd761fe005b4@redhat.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
-[mathieu: reject a task of the class leaving it too, found by the
- Sashiko AI review of the patch]
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- kernel/sched/syscalls.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index d6d2657dcddd6..5e4aff28e9bcd 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -411,7 +411,7 @@ static void task_non_contending(struct sched_dl_entit=
+y *dl_se, bool dl_task)
+>  	struct hrtimer *timer =3D &dl_se->inactive_timer;
+>  	struct rq *rq =3D rq_of_dl_se(dl_se);
+>  	struct dl_rq *dl_rq =3D &rq->dl;
+> -	s64 zerolag_time;
+> +	s64 zerolag_time, left;
+> =20
+>  	/*
+>  	 * If this is a non-deadline task that has been boosted,
+> @@ -425,15 +425,40 @@ static void task_non_contending(struct sched_dl_ent=
+ity *dl_se, bool dl_task)
+> =20
+>  	WARN_ON(dl_se->dl_non_contending);
+> =20
+> -	zerolag_time =3D dl_se->deadline -
+> -		 div64_long((dl_se->runtime * dl_se->dl_period),
+> -			dl_se->dl_runtime);
+> -
+>  	/*
+> -	 * Using relative times instead of the absolute "0-lag time"
+> -	 * allows to simplify the code
+> +	 * The 0-lag time is the deadline minus the runtime left, scaled by
+> +	 * dl_period / dl_runtime. The product of the runtime and dl_period
+> +	 * can overflow s64 with periods of a few seconds, so multiply on 128
+> +	 * bits. Compute the 0-lag time relative to now.
+> +	 *
+> +	 * After a change of parameters, the runtime and the deadline stay
+> +	 * those of the old parameters until the next period. The 0-lag time
+> +	 * uses the new dl_runtime and dl_period. The runtime left can then be
+> +	 * far above dl_runtime, and the quotient too large for 64 bits. So
+> +	 * first compare the runtime left with the runtime that the new
+> +	 * parameters give until the deadline:
+> +	 *
+> +	 *   (deadline - now) * dl_runtime / dl_period
+> +	 *
+> +	 * If it is larger, the 0-lag time has passed, and the bandwidth is
+> +	 * released now.
+> +	 *
+> +	 * The runtime is negative after an overrun. The next tick throttles
+> +	 * the task, so the overrun is short and its quotient fits.
+>  	 */
+> -	zerolag_time -=3D rq_clock(rq);
+> +	left =3D dl_se->deadline - rq_clock(rq);
+> +	if (dl_se->runtime < 0)
+> +		zerolag_time =3D left +
+> +			mul_u64_u64_div_u64(-dl_se->runtime, dl_se->dl_period,
+> +					    dl_se->dl_runtime);
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 9b04e77297ae..b87b878be63f 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -592,6 +592,19 @@ int __sched_setscheduler(struct task_struct *p,
- 	if (retval)
- 		goto unlock;
- 
-+	/*
-+	 * Reject SCHED_DEADLINE on exited tasks. A zombie will never be
-+	 * scheduled again, so sched_dl_overflow() would charge total_bw
-+	 * that nothing will ever release. And reject a change of policy of
-+	 * one in the class: cgroup_task_dead() took it off the count of
-+	 * deadline tasks of its cpuset, which switched_from_dl() would
-+	 * decrement a second time.
-+	 */
-+	if ((dl_policy(policy) || dl_task(p)) && p->exit_state) {
-+		retval = -ESRCH;
-+		goto unlock;
-+	}
-+
- 	/*
- 	 * If not changing anything there's no need to proceed further,
- 	 * but store a possible modification of reset_on_fork.
--- 
-2.47.3
+[Severity: Medium]
+Can mul_u64_u64_div_u64() in the dl_se->runtime < 0 branch still overflow
+s64 or u64 when dl_runtime was shrunk or the overrun spans multiple
+seconds?
 
+An overrun is not guaranteed to be short: in a guest, a vCPU preemption
+can produce a multi-second delta_exec in a single update_curr_dl_se()
+call, and a task throttled while blocking on an rt_mutex that is then
+PI-boosted before waking has dl_throttled cleared in enqueue_task_dl()
+without replenishment (because dl_entity_overflow() returns false when
+dl_se->runtime < 0).
+
+If a task with a raised period limit (e.g. 300s or UINT_MAX us) shrinks
+dl_runtime to 1024 ns via sched_setattr(), an overrun of a few seconds
+makes (-dl_se->runtime * dl_se->dl_period) / dl_se->dl_runtime exceed
+S64_MAX (wrapping zerolag_time negative and releasing bandwidth early) or
+U64_MAX (trapping with #DE in divq on x86-64). Even with the default 4s
+period limit, scaling a single-tick overrun of the old runtime by the new
+dl_period / dl_runtime ratio can arm inactive_timer for hours, locking up
+running_bw and total_bw.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795105408.gi=
+t.mathieu.desnoyers@efficios.com?part=3D10
