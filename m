@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795119388;
-	b=jliUuf9SjmhQmX78G0rIxVQ49Am/Lkbu63znO6/3jM4yziIlh3FXb78KAycARz9DHka8
-	 S6ObZYKcS83RE80Is0CvCarZcYurS0fPXq8rjuiKtcJ1My7Mev6c/uSDCNYStaPrGkbaj
-	 mZDT6D4Av+bifqwdYfo7rQWRurg+Y7009jgPUynO1diI0w2QQ/1BHcRWMX3ukN8AAVfBW
-	 vzlCjDvDdMjk2R8elVEYc7BQGb+jrxCbWdGdjtFuWzQCL+k9T3hEznmGV7li1dDlcflnA
-	 sCPVamFliPkC3GGWFr4BlJhqlZq//lanFMO3uq1wUL8di3gaUcxW05eFaChiwHy1DZA==
+	b=SBg/BxIS0DH01KRieEA4Vc/MiT2aLisR82lshOHEr8lzF4UJ+04Z7jINd5hpp1z6l55C
+	 27k1xSVy+GZCrf9UOgZzcSwsmhxcfUQAqdQNIWjmIn6DfjSy2sqX2y98W4zhQdmYzMuKa
+	 aNx2ESQ1iGqAeusag44saZZLKRn8JaAAf1SrPhAB7JH5lkaUL6qltuYOfFGBzd37PiFbe
+	 /YIv7vRLtUwE1ALlpdu5swSvvOIa5QtZ6bSasXX6mjhQ/nrfMj1s9eatOpbfay0SsuZdJ
+	 h67cKGUKjNNyVxQKQcj0RICmnV8hUu5OAYRjiWEHEQbddn+gbg/Bh9sNe+mRquXqhSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795119388;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=eKtPF0D4KeipGVGK8LJzEwVR7p9f+gTu2lblD4xfFnk=;
-	b=lz5hi4kK6sUeSnjY0NBT96xL+KULHHIIlj013Uk+JuiScts9Py5/YDsCDJ5nDpjHBPVe
-	 YvRM5FCqrMSj4Pg+PDqPscxPcu5yzMDxpCjaTc6QAphxXaQnHjrwQYRtCu3FtQXW3SEc9
-	 vlpqrEdWeFD+WpFA7kflidUjqWAV8IOeB328JvsBmCHpgi0s7jwDEm9P4k9lJwQo1oON2
-	 5dCuFf0SQI8qDtL8FpjvMDYtvj3lW7BAVVOz7YPYiDbmRRYgmYEJKgdyWR4D0ZIdUBFNB
-	 Ml7dluM6C6zQ0ROLOEPLQc/GnaDG0ARkMgKeRdoD9pVYvZ20IbyAQKNAjsV3qayKDDA==
+	bh=fWil3vWwZBjDfrY6/0MxE0VkkOzcUTAcZEwLWrvpsQs=;
+	b=vu/dm6FegY2u31qhiP/DfNnSvTqKOnLOs7y4R4twrkdYBCOmlKwhvInMgjeJs8rlwQOu
+	 7aJuGOy44oBxF3+Q1DNXBSBbJFq7uGM/oFTYloJj4S/7S5wNSzXjULjXJNnIRUZtt0N+g
+	 qSCpI0A/nlW2SK1d4vN7vl98YpuSK7rogif8IrO8HJfcexVI6hFgh1sgkgSgCkyttlFZS
+	 i1VrVSCvoIArSx6qzKcaSHVnV6aVSIX+tJPgM7BqVZcjqKqFIBpYRRhe1ptnYSn86lhAJ
+	 fcGjqakRdF7cwddV/TAMjpUY/xDCIN7EBPFRFfSgu01ep4pHrB91b1Avk8NA10pqFCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=noZ1z9jn;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q3ReVCTB;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4986260A6F78
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 20:16:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4986260A6F78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A19560A5BE7
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 20:16:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A19560A5BE7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=noZ1z9jn
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q3ReVCTB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795119381;
-	bh=eKtPF0D4KeipGVGK8LJzEwVR7p9f+gTu2lblD4xfFnk=;
+	bh=fWil3vWwZBjDfrY6/0MxE0VkkOzcUTAcZEwLWrvpsQs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=noZ1z9jnSM1wqYu9UHDg7dh9yhq/XLNPUSH3sfmWHx5ywJHof4h7Vdm8XgC1kn6Sp
-	 TfN8wteJ6T3Gg+8IBPQExFYmMesN0Cmb6ytuP2F2Us6sjEO7bIqfQlHidOXFSiQWED
-	 T1W3ClBGVQ9Lq0RemZBE5wOh+fJ7lE831EqJqyYHjTWPsuN3SGO99fdTFygQVkXKsc
-	 I5yaVAIsxtCq2+g03An9tSwC9D4426MSFu3rWuP4OxFcx/X+IjcqmHKLHB8MxzH77g
-	 WAcHGdHjoAfF3Q5yoUbvJj5y0pr4AmnwSWDdEM7ha5NSUveux5Ok47QMFQ6fziHeg4
-	 5tbgIJA04WKaA==
+	b=q3ReVCTBkotlUimbIB6soUJJNuFmqCQqPIHG6+xPfBf6ks1fEt0Ws+offPHcHJpUx
+	 Uictm10NmrUKuFk6qAWGxYtMMhvdB+qeBE/XPnfB1tFRdsoIQnnT3OOuZNTdZwkMSw
+	 1gv2nQimY0xikcWKuN7ftiqOFEyG4wBGPS+DCRdO2O10HEdIHuDERK/Tv9d/GswAHm
+	 pQU0zNmiuXH6UCX4HFByPvIcGV36Ot2oxCwLxZ0n5UmdHdNtY0UVCwYg2v1qit8UNz
+	 ZuwR6vanV/XVE6n8HgP3CUv/R+CN1udBYmmcaUiXWdA4NCKhqxCSeJF9QZ/2rXEhgF
+	 zfEBKA1l25wog==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVqVY2dtvzT9g;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVqVY02W0zT9f;
 	Thu, 19 Nov 2026 15:16:21 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -78,11 +78,10 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v8 21/33] rtmutex: Continue the walk when the owner's top waiter changes lock
-Date: Thu, 19 Nov 2026 15:16:00 -0500
-Message-Id: <705d9352cc611ed8b744e80a75067f112ff1ef3d.1795116791.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v8 19/33] sched/deadline: Count only active CPUs when spreading extra_bw
+Date: Thu, 19 Nov 2026 15:15:58 -0500
+Message-Id: <d130b4060adc4715da93ad5d3dcd9b00bfa8fc11.1795116791.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
@@ -97,95 +96,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The chain walk stops at an owner whose top pi waiter is not the top
-waiter of the lock just walked. That lock then does not set the
-owner's priority, so there is nothing to pass on.
+__dl_add() and __dl_sub() change the total_bw of a root domain. They
+also spread the change over the extra_bw of its CPUs, which GRUB uses
+for SCHED_FLAG_RECLAIM tasks. __dl_update() changes only the active
+CPUs, so the cpus argument must count those. Most callers pass
+dl_bw_cpus(), which does.
 
-But the step before can change the owner's top pi waiter. It
-requeues a waiter whose priority dropped. The top pi waiter of the
-owner can then be a waiter on another lock. The owner's priority, or
-its deadline donor, changed. The walk still stops at it, and the next
-owner keeps the old ones.
+dl_task_offline_migration() and dl_add_task_root_domain() pass
+cpumask_weight(rd->span) instead. That also counts the inactive CPUs of
+the span. A span holds one while that CPU goes offline, which is when
+dl_task_offline_migration() runs. Each active CPU then gets a smaller
+share of the change than it should. A later change made with
+dl_bw_cpus() does not undo it exactly. extra_bw stays off until the
+next rebuild of the root domains resets it. SCHED_FLAG_RECLAIM tasks
+would reclaim a little more or less than their share meanwhile. This
+was found by reading.
 
-O and M are SCHED_OTHER tasks. W and Z are SCHED_DEADLINE tasks. W
-has the earlier deadline. X is a SCHED_FIFO task:
+Fix this by passing dl_bw_cpus() of the CPU whose root domain changes.
 
-   O         M                 W                                  Z             X
-
-   locks L2  locks L1 and L1'
-                               blocks on L1'
-                                 M->dl.pi_se = &W->dl
-             blocks on L2
-               O->dl.pi_se = &W->dl
-                                                                  blocks on L1
-                               sched_setscheduler(SCHED_OTHER)
-                                 rt_mutex_adjust_pi(W)
-                                   M->dl.pi_se = &Z->dl
-                                   walk at M: L1' is not M's top
-                                     stops
-                                                                                blocks on L1'
-                                                                                  walk stops at M
-                               times out on L1'
-                                 not the top waiter: no walk
-                               exits
-
-O's next refill reads W's freed task_struct. With RT priorities
-only, O stays boosted to W's old priority until it unlocks L2.
-
-Remove this test. The next test already stops the walk when the
-owner's waiter is up to date. An out of date waiter is now requeued,
-and the walk goes on to the next owner.
-
-The cases pi_chain_top_moves and pi_chain_top_moves_rt, added to
-deadline_bw_test later in this series, test this. pi_chain_top_moves_rt
-fails without this patch and passes with it. pi_chain_top_moves also
-needs the previous patch.
-
-The Sashiko AI review of this series found this.
-
-Fixes: 23f78d4a03c5 ("[PATCH] pi-futex: rt mutex core")
+Fixes: 59d06cea1198 ("sched/deadline: Fix bandwidth accounting at all levels after offline migration")
+Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: stable@vger.kernel.org
 ---
- kernel/locking/rtmutex.c | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ kernel/sched/deadline.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
-index c78dfe9c93fc..c06261259a56 100644
---- a/kernel/locking/rtmutex.c
-+++ b/kernel/locking/rtmutex.c
-@@ -821,23 +821,15 @@ static int __sched rt_mutex_adjust_prio_chain(struct task_struct *task,
- 	 * Drop out, when the task has no waiters. Note,
- 	 * top_waiter can be NULL, when we are in the deboosting
- 	 * mode!
-+	 *
-+	 * Do not compare top_waiter with the top pi waiter of the
-+	 * task here. The previous step can have made a waiter on
-+	 * another lock the top pi waiter of the task. The priority of
-+	 * the task changed then, and the next owner must follow. The
-+	 * test below tells whether there is something to pass on.
- 	 */
--	if (top_waiter) {
--		if (!task_has_pi_waiters(task))
--			goto out_unlock_pi;
--		/*
--		 * If deadlock detection is off, we stop here if we
--		 * are not the top pi waiter of the task. If deadlock
--		 * detection is enabled we continue, but stop the
--		 * requeueing in the chain walk.
--		 */
--		if (top_waiter != task_top_pi_waiter(task)) {
--			if (!detect_deadlock)
--				goto out_unlock_pi;
--			else
--				requeue = false;
--		}
--	}
-+	if (top_waiter && !task_has_pi_waiters(task))
-+		goto out_unlock_pi;
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 641674f65931..914915abb912 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1016,7 +1016,7 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
+ 			dl_b = &src_rq->rd->dl_bw;
+ 			raw_spin_lock(&dl_b->lock);
+ 			__dl_sub(dl_b, p->dl.dl_bw,
+-				 cpumask_weight(src_rq->rd->span));
++				 dl_bw_cpus(cpu_of(src_rq)));
+ 			raw_spin_unlock(&dl_b->lock);
+ 		}
+ 		/*
+@@ -1028,7 +1028,7 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
+ 		dl_b = &later_rq->rd->dl_bw;
+ 		raw_spin_lock(&dl_b->lock);
+ 		__dl_add(dl_b, p->dl.dl_bw,
+-			 cpumask_weight(later_rq->rd->span));
++			 dl_bw_cpus(cpu_of(later_rq)));
+ 		raw_spin_unlock(&dl_b->lock);
+ 		p->dl.dl_bw_cpu = later_rq->cpu;
+ 		p->dl.dl_bw_gen = dl_bw_gen;
+@@ -4217,7 +4217,7 @@ void dl_add_task_root_domain(struct task_struct *p)
+ 	dl_b = &rq->rd->dl_bw;
  
- 	/*
- 	 * If the waiter priority is the same as the task priority
+ 	raw_spin_lock(&dl_b->lock);
+-	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
++	__dl_add(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
+ 	raw_spin_unlock(&dl_b->lock);
+ 	p->dl.dl_bw_cpu = cpu;
+ 	p->dl.dl_bw_gen = dl_bw_gen;
 -- 
 2.47.3
 
