@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795121012;
-	b=sWZZGT89YfbnR+aDDLIwcb+C0kFSAywV57RfEhbjUDMPseJmrOlbmOInYkV7XjiMhJiq
-	 kOXDaCIOzokac7Khq4S1GfFa2N2nNpiZbFb9gVDhqZ+stG7b3OaANC8x9lYxOWkOvyUgW
-	 UZL/x9QOXQ7r60/nHHcHvnKmEcri0zmqMCcnUldFsVXi5fYJXjwz4fdZC5C7Ag/c7nXrw
-	 1eesLN+1tcIjo/uA0l7Htuvy/TAnENWfyEfHzv/e2sr4S/LRCgevzvHv1UdfyTMX5PiQu
-	 l4tBoS3cQ4i/H5oPAjOOJjr6RxUNh5AGQE9+b9rKYUtX2xYpxNfOEvB6N65Z5kScXfA==
+	t=1795121271;
+	b=xMPwhDP052SrEsEcUWPfd7JNp8sM2eI6Qvu80N080UmWBaFqkhohgRKAGxVBA8KH6lZc
+	 HWP0ihCjQT7Vx2hNKL9592Dw+AVFqtDldcfnQ/+XuV8jdQuCFI8e7VgHKJh590R/cR9S5
+	 YFV/DF6hkixMbyI78eyP6ZPau7RMSxrg9uBEWUrX09xGuxUwa8RFwnitDyC/G0yUMiyYi
+	 THZ95w+VX9mgnxgwZBX49kRntXYrfuBVxPfsnT7aMtATX2lnV4ryRznQT2o0K2I4FB48b
+	 B+s5G3gXlzJ8xcIa4XiVU/sL2EHDOcr2YrXqVw6mfvFxu3Jjvar7GKAID8558bEoDWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795121012;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795121271;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9uAHqj9t+kIJyelQwFFNiq2CuAQrjW/jg//cYnhkbOg=;
-	b=oEeD8zatYo73+aiBSfaCjPaR6aD+NySu0d8XpBHhpiLHsNH6Ac1fXmcKzXCfhVrVulO7
-	 4swwMGYW4soV97MMprtAeiyJJLZYa63d0ESS64q38omLgW78YKzcLmU1NaotIr4lOqOW0
-	 QD3wLtmG+XWeyvLRoeohzrrbqu3Mbym0S7PWQWhaJSAlhb1fODGke2XT81Y5B/sT1EcAJ
-	 mqjNQkPtSrdLt8inTY1rsYBQa+WTndQvkznhL0w9/CSUA79fJm3O2nvG0DTB6Sg0zEugQ
-	 BE+8jTiOHaZdP3nFFEi4Bk1N+CghIfPKGwvz770TccA6agoF92zognSQdwrC3031qlQ==
+	bh=7VGROY6qOIMN2R+Mawmbz74S23uVXZnVc+/ox9qRxm8=;
+	b=teIJAAjBp1xPnNFw/LyPUKpydxuuXXF4SW1SjfzIDz1zKBEY/FLPCcbVWmaeY8XDaBQJ
+	 pmeVLxFzGGch83qchtOeBa4WW9MHQxWuWq3LsKADwWMscwsvRUlnmqCSIZ4ygpdjhHaZB
+	 jzmDC+gEj4Qt/YDuZ5sQwR8Xd6Bc9sNjglLg+0C5hXspNvl5bUQepUN7My3GtMY5vqK9f
+	 o3RJVciY255aGhv2yka9eyFL4ajBNpInnvSIZLlp6yB/q5cAg5e4qdq/MyivDevXwvr6U
+	 Vob7fMRtu/SjQesZN0AVibVGESPS2CJlUWzGJQlRHTfsq7tLxjYlGomTIUpRtxkVbTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akb7UfSF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=It8WcrGR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D950F606B76A;
-	Thu, 19 Nov 2026 20:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10153606CC5C;
+	Thu, 19 Nov 2026 20:47:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akb7UfSF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B811F000C6;
-	Thu, 19 Nov 2026 20:43:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=It8WcrGR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ACA51F000C4;
+	Thu, 19 Nov 2026 20:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795121012;
-	bh=9uAHqj9t+kIJyelQwFFNiq2CuAQrjW/jg//cYnhkbOg=;
+	s=k20260515; t=1795121270;
+	bh=7VGROY6qOIMN2R+Mawmbz74S23uVXZnVc+/ox9qRxm8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=akb7UfSFhnv4ETeJeQRQNqhfBdC1ZaMR283NCMyhSQBUPrZXD417abB0r1EIhy23R
-	 ehfPydjts8BdXR7D12SmJVXFlO8wvnNeWmojzPE0W10DlrrJ/rBMMAm837MCX+thSm
-	 BBwo9enQKFy9tiUiiTbAvS/67H1sM5vhyB3XDWlfjeNLpS/ik9d8UreT5jf0xJWoGM
-	 dr4y6SQ7Ksq1un3Y7iFg8q1xVr/7t4PdK10eLUt0HVzprrBBGDOMRfZM24/yByfMry
-	 CsHm/ZtomfWyg2YiAELTD/ZLPxskiGX8A/RPkvgf4bCd6IripvfMG/O01J0MQU+Yto
-	 9UOddbSDcemjQ==
-Message-ID: <sashiko-outbox-224041@kernel.org>
+	b=It8WcrGRK0JutZOkPHh4tH8PSorRPp6KtwyPjLk5jj2uGrSsGtgm8OZ9muuXtsFY+
+	 rS24lU+fQmx2CsvSdDuGnRfkHyJvHMa90KUJPyTN/pLEWPVUlKVc7289ZV3bMNs77h
+	 fUX5ytGo31+KDy4+Pc9g8oFuOcHb4ff3EvMf9ox/9qY1jRa/X5rJVEoHUNkMXyhepk
+	 /VJLV3kMPZEpnTwfSWwMiTi0YeSDDGjB9tluMMd2iaaIKCePWMHoaSkp9MjrCxuQUW
+	 PTMW9F1L6H598HM7pgJIkgsIPIHReyEoPCC4+9eimCbrBsJgNUr/n1ZH9ENMFU/BeY
+	 fApzMd6+5nimg==
+Message-ID: <sashiko-outbox-224049@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 17/33] cgroup/cpuset: Refuse to take a deadline task
- out of its root domain
+Subject: Re: [PATCH v8 27/33] sched/deadline: Start a period at a deboost
+ out of the class
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <b9c82782e39a90f12daa052f5189fbfc97e2eb11.1795116791.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <9663a1e69055f16fb3e828fb0b47cb79dd020439.1795116791.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
- <b9c82782e39a90f12daa052f5189fbfc97e2eb11.1795116791.git.mathieu.desnoyers@efficios.com>
+ <9663a1e69055f16fb3e828fb0b47cb79dd020439.1795116791.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 20:43:31 +0000
+Date: Thu, 19 Nov 2026 20:47:50 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,138 +63,130 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] cgroup/cpuset: stale root domain check in
-  update_parent_effective_cpumask()
-- [Medium] cgroup/cpuset: offline CPU mismatch in
-  dl_tasks_keep_without() for top_cpuset
+- [Medium] sched/deadline: delayed bw release in switched_from_dl() at
+  0-lag time 0
+- [Medium] sched/deadline: uncanceled donor timer in switched_from_dl()
+  when asleep
 --
 
-commit b32b990dae89a854c1147c1874b9e7ba8e861a7d
+commit d30233a80ec3ae5aaad3cff8dd2909eea144f7c6
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-cgroup/cpuset: Refuse to take a deadline task out of its root domain
+sched/deadline: Start a period at a deboost out of the class
 
-This commit refuses cpuset cpumask updates and invalidates partitions that
-would remove all CPUs of the root domain accounting a SCHED_DEADLINE task's
-bandwidth.
-
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 5299652d47b6e..4350977601eb1 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-[ ... ]
-> @@ -2106,10 +2232,13 @@ static int update_parent_effective_cpumask(struct=
- cpuset *cs, int cmd,
->  				}
->  				rcu_read_unlock();
->  			}
-> -			if (exclusive)
-> -				deleting =3D !cpumask_empty(tmp->delmask);
-> -			else
-> +			if (!exclusive)
->  				part_error =3D PERR_NOTEXCL;
-> +			else if (!dl_tasks_keep_without(parent, cs, tmp->delmask,
-> +							NULL, true))
-> +				part_error =3D PERR_DLTASK;
-> +			else
-> +				deleting =3D !cpumask_empty(tmp->delmask);
->  		}
->  		/*
->  		 * When both cs and parent remain valid, parent's
-
-[Severity: Medium]
-Can dl_tasks_keep_without() here reject a valid partition recovery with
-PERR_DLTASK because the root domains have not been rebuilt yet?
-
-This partcmd_update branch with newmask =3D=3D NULL runs from
-cpuset_hotplug_update_tasks() and update_cpumasks_hier() after
-parent->effective_cpus has grown, but before rebuild_sched_domains_locked()
-or rebuild_sched_domains_cpuslocked() updates rd->span.
-
-For example, when a valid non-top partition parent holding CPU 0, a deadline
-task on CPU 0, and an invalid child partition requesting CPU 0 (previously
-PERR_NOCPUS) is expanded to CPUs {0, 1}, update_cpumasks_hier() updates
-parent->effective_cpus to {0, 1} and calls
-update_parent_effective_cpumask(cp, partcmd_update, NULL, tmp) before
-rebuilding sched domains.  At that point dl_task_bw_span() for parent's
-deadline task is still {0}, so dl_tasks_keep_without(parent, cp, {0}, NULL,
-true) sees that parent's remaining CPU {1} does not intersect {0} and leaves
-the child partition invalid with PERR_DLTASK.  The same stale span check al=
-so
-runs when a CPU comes online in cpuset_hotplug_update_tasks(), which then
-migrates the task onto the newly onlined CPU anyway while leaving the
-partition invalid.
+This commit starts a new period using the task's own reservation parameters
+in switched_from_dl() when a boosted task with dl_donor_refill set leaves
+SCHED_DEADLINE, sharing the period reset logic with dl_deboost() via
+dl_start_own_period().
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index eead45a0c1191..641674f65931f 100644
+> index 77a1d1f463f6d..d284036ecb8a9 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -5141,6 +5141,31 @@ int dl_bw_deactivate(int cpu)
->  	return ret;
+> @@ -83,6 +83,16 @@ static inline int on_dl_rq(struct sched_dl_entity *dl_=
+se)
+>  	return !RB_EMPTY_NODE(&dl_se->rb_node);
 >  }
 > =20
 > +/*
-> + * Return false if @p has CPUs in the root domain that counts its
-> + * bandwidth and @new_mask holds none of them. A cpuset refuses such a
-> + * mask: only a move to another cpuset makes room in another root domain.
-> + * Like __set_cpus_allowed_ptr(), keep @new_mask within the affinity set=
- by
-> + * the user, if they intersect.
+> + * Start a period of the reservation of @dl_se now. The caller holds the=
+ rq
+> + * lock and has updated the rq clock.
 > + */
-> +bool dl_task_keeps_root_domain(struct task_struct *p,
-> +			       const struct cpumask *new_mask)
+> +static inline void dl_start_own_period(struct sched_dl_entity *dl_se)
 > +{
-> +	const struct cpumask *span;
-> +
-> +	if (!dl_bandwidth_enabled() || !task_has_dl_policy(p))
-> +		return true;
-> +	/* pi_lock also protects p->user_cpus_ptr. */
-> +	guard(raw_spinlock_irqsave)(&p->pi_lock);
-> +	guard(rcu)();
-> +	span =3D dl_task_bw_span(p);
-> +	if (!span || !cpumask_intersects(span, p->cpus_ptr))
-> +		return true;
-> +	if (p->user_cpus_ptr && cpumask_intersects(new_mask, p->user_cpus_ptr))
-> +		return cpumask_intersects_and(span, new_mask, p->user_cpus_ptr);
-> +	return cpumask_intersects(span, new_mask);
+> +	dl_se->deadline =3D rq_clock(rq_of_dl_se(dl_se)) + dl_se->dl_deadline;
+> +	dl_se->runtime =3D dl_se->dl_runtime;
 > +}
 
+[ ... ]
+
+> @@ -4504,6 +4510,17 @@ void dl_clear_root_domains(void)
+> =20
+>  static void switched_from_dl(struct rq *rq, struct task_struct *p)
+>  {
+> +	/*
+> +	 * The boost of a task with parameters of its own ends, and the task
+> +	 * leaves the class. If the boost refilled its runtime from the
+> +	 * donor's parameters, its runtime and deadline are not those of its
+> +	 * reservation. task_non_contending() would mix them with its own
+> +	 * dl_runtime and dl_period. Start a period of its own instead, as
+> +	 * dl_deboost() does. Its 0-lag time is then now, or has passed.
+> +	 */
+> +	if (p->dl.dl_runtime && p->dl.dl_donor_refill)
+> +		dl_start_own_period(&p->dl);
+> +
+>  	/*
+>  	 * task_non_contending() can start the "inactive timer" (if the 0-lag
+>  	 * time is in the future). If the task switches back to dl before
+
 [Severity: Medium]
-Does dl_task_keeps_root_domain() mismatch cpuset_update_tasks_cpumask() when
-offline CPUs are present in top_cpuset?
+Does task_non_contending() still arm a 0-ns inactive_timer instead of
+releasing the bandwidth at once when dl_deadline =3D=3D dl_period?
 
-For top_cpuset, dl_tasks_keep_without() builds new_mask from
-top_cpuset.effective_cpus, which only contains active CPUs, whereas
-cpuset_update_tasks_cpumask() passes possible_mask & ~subpartitions_cpus
-(including offline CPUs) to set_cpus_allowed_ptr():
+After dl_start_own_period(&p->dl), left equals dl_deadline and runtime
+equals dl_runtime.  For an implicit-deadline reservation (dl_deadline =3D=3D
+dl_period), task_non_contending() computes zerolag_time =3D=3D 0, which does
+not take the immediate release branch:
 
-kernel/cgroup/cpuset.c:cpuset_update_tasks_cpumask() {
+kernel/sched/deadline.c:task_non_contending() {
 	...
-		if (top_cs) {
-			if (task->flags & (PF_KTHREAD | PF_NO_SETAFFINITY))
-				continue;
-			cpumask_andnot(new_cpus, possible_mask, subpartitions_cpus);
-		} else {
-			cpumask_and(new_cpus, possible_mask, cs->effective_cpus);
-		}
-		set_cpus_allowed_ptr(task, new_cpus);
+	} else if (left < 0 ||
+		 dl_se->runtime > mul_u64_u64_div_u64(left, dl_se->dl_runtime,
+						      dl_se->dl_period))
+		zerolag_time =3D -1;
+	else
+		zerolag_time =3D left -
+			mul_u64_u64_div_u64(dl_se->runtime, dl_se->dl_period,
+					    dl_se->dl_runtime);
+
+	/*
+	 * If the "0-lag time" already passed, decrease the active
+	 * utilization now, instead of starting a timer
+	 */
+	if ((zerolag_time < 0) || hrtimer_active(&dl_se->inactive_timer)) {
+	...
 }
 
-If a deadline task in top_cpuset has user_cpus_ptr set to {offline CPU,
-online CPU X} and a partition takes CPU X, cpumask_intersects(new_mask,
-p->user_cpus_ptr) is false because new_mask excludes the offline CPU, so
-dl_task_keeps_root_domain() assumes user_cpus_ptr will be ignored and allows
-the partition change.  When cpuset_update_tasks_cpumask() then calls
-set_cpus_allowed_ptr() with the offline CPU included in new_cpus,
-__set_cpus_allowed_ptr() intersects with user_cpus_ptr down to the offline
-CPU alone and fails with -EINVAL, leaving the top_cpuset deadline task bound
-to CPU X inside the new partition.
+Because zerolag_time is 0 rather than negative, task_non_contending() arms
+inactive_timer for 0 ns and switched_from_dl() puts p on dl_departed_list,
+keeping p's bandwidth in total_bw and its parameters uncleared until the
+timer interrupt fires and inactive_task_timer() acquires the rq lock.
 
-In addition, cpumask_intersects(span, p->cpus_ptr) does not mask with
-cpu_active_mask; because def_root_domain.span and top_cpuset tasks' cpus_ptr
-both include all offline possible CPUs, that test stays true whenever any
-possible CPU is offline even if p has no active CPUs in def_root_domain.
+[Severity: Medium]
+What happens if p is asleep with p->dl.dl_non_contending already set when
+it is deboosted out of SCHED_DEADLINE?
+
+If a boosted task with its own parameters was refilled from its donor and
+then blocked, dequeue_dl_entity() -> task_non_contending(&p->dl, true)
+already armed inactive_timer from the mixed donor and owner parameters and
+set p->dl.dl_non_contending =3D 1.  If the boost ends while p is still asle=
+ep
+(for instance, when the donor waiter times out or is interrupted),
+switched_from_dl() calls dl_start_own_period(&p->dl) here, but then skips
+task_non_contending(&p->dl, false) in the !task_on_rq_queued(p) block
+because p->dl.dl_non_contending is already set:
+
+kernel/sched/deadline.c:switched_from_dl() {
+	...
+	if (!task_on_rq_queued(p)) {
+		if (p->dl.dl_non_contending)
+			sub_running_bw(&p->dl, &rq->dl);
+		sub_rq_bw(&p->dl, &rq->dl);
+		if (!p->dl.dl_non_contending)
+			task_non_contending(&p->dl, false);
+	}
+
+	if (p->dl.dl_non_contending) {
+		p->dl.dl_non_contending =3D 0;
+		dl_task_depart(p);
+	}
+	...
+}
+
+The old donor-mixed inactive_timer stays armed and p is placed on
+dl_departed_list, keeping its bandwidth in total_bw until that timer fires.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795116790.gi=
-t.mathieu.desnoyers@efficios.com?part=3D17
+t.mathieu.desnoyers@efficios.com?part=3D27
