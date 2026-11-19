@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795115240;
-	b=0fIVBl0cuqIiENN17oazUf9GFX5AC1zQwmeCANZlheya6IC/XjV/rFqwftMorUDMMmui
-	 jCCWblFXKg2LCAXG8rYxwiKiPzCqXFN0GVrUhryWC1yxqSR0+EQZoQbliwTJoKF1L3+ST
-	 t1WQ9sH3iTpAR58seV9ktytZG9lPMoMUmygPfLQHCJtc4FPA1T8merxGYGbl5sz+tTlXh
-	 FVsq5JkGBGRszGMu3Lo6yz/WTp/ZtTtdiWF8/U7JULsj4+cGIwMh4WDERLm9Mm2rLc/fW
-	 VNrCS/KFK+BvBdvgRIGVrTgTh3Xu7r/M5hoOP6/DpCmISzN3UIAy9IbFjaYq5OBqTgA==
+	t=1795115241;
+	b=1Mbyu5SYTNvnrDm9YEg/rAdZQ7HirxA++k9pgm9qsaaNNBsQPN0FACFGOumiw/xjPCue
+	 lf/VZ9yv8LoHLaZ1bQo9owNPIyulCK8b06ohynftiDKHyKJZm6LKlNxI6dZOk9t09/97w
+	 GLzNkM+I8GpWPxA2hFsgPq2fOl0QVMszmjGRdGvQzY/FE0SvtD7sw8Ngdh35uWMwsO0Ka
+	 Zx16CCOIyKghDbXpoh9bAS+xYrjZcb3V76WXdEOMlMP7Z+ijMxBaoAvOH0pZ+MY3ahds1
+	 G1fhRGnjsvna8yQIGA+si1wrpeAmAUedo5CfaNirNn0m4fCnGaMh1X5CY19zbep47yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795115240;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795115241;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=75YT1rSYLxN+Fk1EC7oP5nO7oKoLSYufllSPuvLp5X8=;
-	b=GsEEfg9S8DPdu91BF401PdJAZ6VYp4GAXM2mcI13IPJWiJVCrvBQf9Q2fPu5f1Bha935
-	 Px7HpA1vFTiRY37QaW+QiA9uXM+yRwKFXyIBx3QlNGxJoWB3HnFmOoVc/f0CjCWaCH8iV
-	 O380NxV2d3FNCoTiSU3Yi8DJLQsCqm76yh+6f/A0UHJajGgGP0X1mNoZdgOAw3e1V3yhs
-	 sZpplQJpTv/CK45sqkjLSQIaIHDq5NodyMCFBpNgIAN39z0FM8I4CFCdPUxNM7ZtlrYK3
-	 aVANrA+Cq2kIewMUmPSxyD7NQnOBzZ1jitDQxDMgxlNJlIKSV6eckUpVqpGi5MraYGA==
+	bh=0NdXSGGy3DUsdpcqzJjp/Qutyu084i6jHYeMPWcXdpk=;
+	b=ifsxSqx+H/7gIQ4DTxuhNgpW8qhf6r09tbowTMbrF0l/rdCIYsJC2F2p/IWnQqNLcn5Z
+	 EEPCz1dxAA1MjD0Dz1d6I8bnBdbLgG1D6fa/0PVADd1rLUo/Q7PEcT1Tc0Tdd+WEgx2oE
+	 +kh7Px00JUcrwPYD33Hy/Lm7DqsGARAJUuSX7hv7AHAhyI/yHuRWGLqZDGCblzt9vDXmx
+	 Hz2KlElrROZJN0q+Y8lEdCaMXE6HzDQ2t+rch1i9PgColINu4tfgr3XbSDVKCTpvuEkHi
+	 fc6Q7K51UVvEPWu3lgcFmpXx32ZnC2TwQP9bu5vVc0RFnbWrVx0noC4+quFbPrWgzdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mVa2Iuth;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JVetS5rE;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D7060A263A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 19:07:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3D7060A263A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B356960A381A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 19:07:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B356960A381A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mVa2Iuth
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=JVetS5rE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795115238;
-	bh=75YT1rSYLxN+Fk1EC7oP5nO7oKoLSYufllSPuvLp5X8=;
+	s=smtpout1; t=1795115239;
+	bh=0NdXSGGy3DUsdpcqzJjp/Qutyu084i6jHYeMPWcXdpk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mVa2IuthtQoUZWQKl4qd/BH2MJ966/Vnr2pL5YKt2N8CPQ78zXurGpTZv6E02LLCA
-	 T3oKbNNnNPc0/8cxXTJCZmZJkGk4msMjPyhRPHs2D+x/ymqCiEqBu60MoOO8bxdX59
-	 i2RgJJwonvj+XUdTAzI170sXp7aB8Adu9ecRAySILtLNNXKHydCqmDSYZtoSF0OuUF
-	 f9ECiKWf03CNCFMhd4HnuYirY/PP6iiP93bRhgH+0sH7QzO1AFD20y07TPZqrmxm77
-	 +IRil9aqr45e8IJ+xpI+CefLcG/DbVCJ8+jt61SYr1XcYO3jw/qgU/e2THwzNrj//b
-	 ccoE2GQ/RnsUQ==
+	b=JVetS5rEJuEqdQZW2808/eeBpGifKh7A3GWcq52oOQhlykujBfxVrXdFRcPABg0Fj
+	 oHVDk4aj3ItRtNzgSTjm3mSGIeP2PXRiZ2BaQyez/iMp5YGg2memZWFcD+0bJX6s9M
+	 W1SNsGGRNtSh1d1kU1XHD4tIorvDly2LJa8/CRUOlte2jjdb9Sfm0s88nAIrrJw01b
+	 9ig71fAMgDBJyNbmdOHRPUvTvLdXmKoccsxDoG8lM5DZ4bqC6RFZe/xRT3Y35SrWk8
+	 2GAyuW6dqvye8XH9/GPbYCmK1vjuJTLWj2GQo23P2nZCeG+B0vFFWX8qZT8cL4CfTp
+	 yUPEZBfU3pWmA==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVnyt4cDtzSSy;
-	Thu, 19 Nov 2026 14:07:18 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jVnyv1WHyzST1;
+	Thu, 19 Nov 2026 14:07:19 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -80,9 +80,9 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v5 10/17] sched/deadline: Fix an overflow of the 0-lag time with long periods
-Date: Thu, 19 Nov 2026 14:07:07 -0500
-Message-Id: <2be3813af9e997f5f7d9d3161d0b65b8d4ab917c.1795115075.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v5 13/17] sched/deadline: Fix this_bw when a task is changed during a remote wakeup
+Date: Thu, 19 Nov 2026 14:07:10 -0500
+Message-Id: <889a2d8f954eca0c6651d3859e45ec3078f86201.1795115075.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795115075.git.mathieu.desnoyers@efficios.com>
@@ -97,140 +97,181 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a deadline task blocks, task_non_contending() computes its 0-lag
-time:
+The this_bw of a runqueue is the bandwidth of the deadline tasks
+assigned to it, running or not. GRUB uses it to compute the inactive
+utilization of the runqueue. When a task wakes up on another CPU,
+migrate_task_rq_dl() takes its bandwidth off the old runqueue. The
+enqueue adds it to the new one.
 
-  zerolag_time = deadline - runtime * dl_period / dl_runtime
+Between these two steps, no runqueue counts the bandwidth.
+try_to_wake_up() can leave the enqueue to the wake list of the new CPU,
+and return before it runs. task_cpu() already points at the new CPU. A
+change of the task in that window gets this_bw wrong.
 
-A task that ran at its reserved bandwidth would use up its runtime left
-at that time. Until then, the task still counts in running_bw. A task
-that leaves SCHED_DEADLINE also keeps its bandwidth in total_bw until
-then. This comes from commit 209a0cbda7a0 ("sched/deadline: Improve the
-tracking of active utilization"), which adds the inactive timer of the
-GRUB algorithm.
+In this example, T is a deadline task. S is another task. It changes
+the bandwidth of T from "old bw" to "new bw":
 
-The product runtime * dl_period is computed on 64 bits, then divided as
-an s64 by div64_long(). With a period of 4s, it passes S64_MAX once the
-runtime left is above 2.3s. The default limit on the period is about
-4.2s, so no sysctl change is needed. The quotient is then negative, and
-the 0-lag time lands after the deadline.
+  CPU 0                               CPU 1                       CPU 2
+  T blocks
+  this_bw of CPU 0 counts T
+  <timer> try_to_wake_up(T)
+    set_task_cpu(T, 1)
+      migrate_task_rq_dl()
+        sub_rq_bw(): CPU 0 drops T
+    T on the wake list of CPU 1
+    return
+                                                                  S: sched_setattr(T)
+                                                                    task_rq_lock(T): CPU 1
+                                                                    T is not queued
+                                                                    dl_change_utilization()
+                                                                      this_bw of CPU 1:
+                                                                      - old bw + new bw
+                                      sched_ttwu_pending()
+                                        enqueue_task_dl(T)
+                                          task_contending()
+                                            add_rq_bw():
+                                            this_bw of CPU 1:
+                                            + new bw
 
-On 32-bit, div64_long() also truncates dl_runtime to an s32. A
-dl_runtime above about 2.1s then gives a wrong 0-lag time too. If root
-raises the period limit, a dl_runtime that is a multiple of 2^32 ns
-would divide by zero. This was found by reading.
+CPU 1 then counts the new bandwidth twice, less the old one. Repeated,
+this makes this_bw drift until it underflows. If T left the class in
+that window, switched_from_dl() would take its bandwidth off CPU 1 the
+same way. A task that enters the class in that window would be counted
+twice, by switched_to_dl() and by the enqueue.
 
-The bandwidth is then released seconds late. Until then, the root domain
-refuses deadline tasks that would fit. In an x86-64 guest, a task took a
-reservation of 3.1s every 4s, then went back to SCHED_OTHER at once.
-Another task asking for the same reservation got EBUSY for 5.95s.
+This needs a wakeup that moves the task, so a root domain of more than
+one CPU, with busy CPUs. CONFIG_SCHED_PROXY_EXEC=y makes such wakeups
+more common. In testing, a task sleeps and wakes in a busy two-CPU
+partition root, and another CPU changes its runtime. The kernel warns
+within a second in each of 8 VMs:
 
-Fix this by multiplying on 128 bits with mul_u64_u64_div_u64(). Its
-operands are unsigned. So take the magnitude of the runtime, which is
-negative after an overrun, and add or subtract the result. With the fix,
-the second task got its reservation at once.
+  WARNING: kernel/sched/deadline.c:352 at dl_rq_change_utilization+0x71/0x2e0, CPU#0: wake_race/109
+   __sub_rq_bw(): this_bw underflow
+  WARNING: kernel/sched/deadline.c:316 at task_contending+0x244/0x260, CPU#6: swapper/6/0
+   __add_running_bw(): running_bw overflow
 
-The quotient must still fit in 64 bits. On x86-64, mul_u64_u64_div_u64()
-traps with a divide error otherwise. After a change of parameters, the
-runtime and the deadline stay those of the old parameters until the
-next period. The 0-lag time uses the new dl_runtime and dl_period. So
-the runtime left can be far above dl_runtime. For example, root can
-raise the period limit and give a task 150s every 300s. The task can
-then shrink its runtime to 1024ns. Before the division, compare the
-runtime left with the runtime that the parameters give until the
-deadline. If it is larger, the 0-lag time has passed, and the bandwidth
-is released at once. Otherwise, the quotient is at most the time to the
-deadline.
+Fix this with a new bit, dl_bw_oncpu, that tells whether a runqueue
+counts the bandwidth of the task. add_rq_bw() adds the bandwidth only if
+no runqueue counts it. sub_rq_bw() takes it off only if one does.
+dl_change_utilization() does nothing while no runqueue counts the
+bandwidth. The enqueue adds the new one.
 
-A negative runtime is an overrun. It lasts at most about a tick, unless
-the CPU stalls. A vCPU preempted on the host can stall for seconds. Say
-root raised the period limit to about an hour, and the task has a
-dl_runtime of 1024ns. A stall of a few seconds then pushes the quotient
-past S64_MAX. The 0-lag time would be centuries away. Release the
-bandwidth at once in that case. This was found by reading.
+With this patch, none of the 8 VMs warns. deadline_bw_test, added later
+in this series, tests this in params_waking. The Sashiko
+AI review of this series found the double count, and a bit that the
+first version of this patch left set.
 
-The params_switched_asleep and params_shrunk_long_period cases of
-deadline_bw_test, added later in this series, test the check of the
-runtime left. No case tests the overrun, which needs a stall.
-
-Fixes: 209a0cbda7a0 ("sched/deadline: Improve the tracking of active utilization")
+Fixes: 8fd27231c330 ("sched/deadline: Track the "total rq utilization" too")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- kernel/sched/deadline.c | 51 ++++++++++++++++++++++++++++++++++-------
- 1 file changed, 43 insertions(+), 8 deletions(-)
+ include/linux/sched.h   |  5 +++++
+ kernel/sched/deadline.c | 39 +++++++++++++++++++++++++++++++++++----
+ 2 files changed, 40 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index e4f6323d7855..88cda9c10cb8 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -706,6 +706,10 @@ struct sched_dl_entity {
+ 	 * contributes to the root domain's total_bw. Only meaningful for server
+ 	 * entities (@dl_server == 1). Allows toggling the reservation on/off
+ 	 * without losing the configured @dl_runtime/@dl_period.
++	 *
++	 * @dl_bw_oncpu tells if the this_bw of a runqueue counts the task's
++	 * @dl_bw: add_rq_bw() and sub_rq_bw() set and clear it, under that
++	 * runqueue's lock. Not for servers, which keep @dl_bw_attached.
+ 	 */
+ 	unsigned int			dl_throttled      : 1;
+ 	unsigned int			dl_yielded        : 1;
+@@ -718,6 +722,7 @@ struct sched_dl_entity {
+ 	unsigned int			dl_defer_running  : 1;
+ 	unsigned int			dl_defer_idle     : 1;
+ 	unsigned int			dl_bw_attached    : 1;
++	unsigned int			dl_bw_oncpu       : 1;
+ 
+ 	/*
+ 	 * Bandwidth enforcement timer. Each -deadline task has its
 diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index d6d2657dcddd..75c82a255070 100644
+index 77c53e3e32c7..63890866dd0c 100644
 --- a/kernel/sched/deadline.c
 +++ b/kernel/sched/deadline.c
-@@ -411,7 +411,7 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
- 	struct hrtimer *timer = &dl_se->inactive_timer;
- 	struct rq *rq = rq_of_dl_se(dl_se);
- 	struct dl_rq *dl_rq = &rq->dl;
--	s64 zerolag_time;
-+	s64 zerolag_time, left;
+@@ -267,18 +267,35 @@ void __sub_rq_bw(u64 dl_bw, struct dl_rq *dl_rq)
+ 	WARN_ON_ONCE(dl_rq->running_bw > dl_rq->this_bw);
+ }
  
- 	/*
- 	 * If this is a non-deadline task that has been boosted,
-@@ -425,15 +425,50 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
++/*
++ * @dl_se->dl_bw_oncpu tells whether the this_bw of a runqueue counts the
++ * bandwidth of @dl_se. add_rq_bw() adds the bandwidth only if no runqueue
++ * counts it. sub_rq_bw() subtracts it only if one does.
++ *
++ * A wakeup on another CPU takes the bandwidth off the old runqueue. The
++ * enqueue on the new CPU adds it back later. A change of the task in
++ * between must not count the bandwidth twice, nor take it off a runqueue
++ * that does not count it.
++ *
++ * The servers track their bandwidth with dl_bw_attached. They call
++ * __add_rq_bw() and __sub_rq_bw() directly.
++ */
+ static inline
+ void add_rq_bw(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
+ {
+-	if (!dl_entity_is_special(dl_se))
+-		__add_rq_bw(dl_se->dl_bw, dl_rq);
++	if (dl_entity_is_special(dl_se) || dl_se->dl_bw_oncpu)
++		return;
++	__add_rq_bw(dl_se->dl_bw, dl_rq);
++	dl_se->dl_bw_oncpu = 1;
+ }
  
- 	WARN_ON(dl_se->dl_non_contending);
+ static inline
+ void sub_rq_bw(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
+ {
+-	if (!dl_entity_is_special(dl_se))
+-		__sub_rq_bw(dl_se->dl_bw, dl_rq);
++	if (dl_entity_is_special(dl_se) || !dl_se->dl_bw_oncpu)
++		return;
++	__sub_rq_bw(dl_se->dl_bw, dl_rq);
++	dl_se->dl_bw_oncpu = 0;
+ }
  
--	zerolag_time = dl_se->deadline -
--		 div64_long((dl_se->runtime * dl_se->dl_period),
--			dl_se->dl_runtime);
--
- 	/*
--	 * Using relative times instead of the absolute "0-lag time"
--	 * allows to simplify the code
-+	 * The 0-lag time is the deadline minus the runtime left, scaled by
-+	 * dl_period / dl_runtime. The product of the runtime and dl_period
-+	 * can overflow s64 with periods of a few seconds, so multiply on 128
-+	 * bits. Compute the 0-lag time relative to now.
-+	 *
-+	 * After a change of parameters, the runtime and the deadline stay
-+	 * those of the old parameters until the next period. The 0-lag time
-+	 * uses the new dl_runtime and dl_period. The runtime left can then be
-+	 * far above dl_runtime, and the quotient too large for 64 bits. So
-+	 * first compare the runtime left with the runtime that the new
-+	 * parameters give until the deadline:
-+	 *
-+	 *   (deadline - now) * dl_runtime / dl_period
-+	 *
-+	 * If it is larger, the 0-lag time has passed, and the bandwidth is
-+	 * released now.
-+	 *
-+	 * The runtime is negative after an overrun. An overrun lasts at most
-+	 * about a tick, unless the CPU stalls. After a stall of seconds, with
-+	 * a long period and a short dl_runtime, the 0-lag time can overflow
-+	 * s64. It would be centuries away. In that case, release the bandwidth
-+	 * now.
- 	 */
--	zerolag_time -= rq_clock(rq);
-+	left = dl_se->deadline - rq_clock(rq);
-+	if (dl_se->runtime < 0) {
-+		u64 room = S64_MAX - max(left, 0LL);
+ static inline
+@@ -347,6 +364,14 @@ static void dl_change_utilization(struct task_struct *p, u64 new_bw)
+ 	if (task_on_rq_queued(p))
+ 		return;
+ 
++	/*
++	 * The task is waking up on another CPU, and no runqueue counts its
++	 * bandwidth. The enqueue adds it, with the new parameters that
++	 * __setparam_dl() sets right after this.
++	 */
++	if (!p->dl.dl_bw_oncpu)
++		return;
 +
-+		if (-dl_se->runtime > mul_u64_u64_div_u64(room, dl_se->dl_runtime,
-+							  dl_se->dl_period))
-+			zerolag_time = -1;
-+		else
-+			zerolag_time = left +
-+				mul_u64_u64_div_u64(-dl_se->runtime,
-+						    dl_se->dl_period,
-+						    dl_se->dl_runtime);
-+	} else if (left < 0 ||
-+		 dl_se->runtime > mul_u64_u64_div_u64(left, dl_se->dl_runtime,
-+						      dl_se->dl_period))
-+		zerolag_time = -1;
-+	else
-+		zerolag_time = left -
-+			mul_u64_u64_div_u64(dl_se->runtime, dl_se->dl_period,
-+					    dl_se->dl_runtime);
+ 	dl_rq_change_utilization(task_rq(p), &p->dl, new_bw);
+ }
  
- 	/*
- 	 * If the "0-lag time" already passed, decrease the active
+@@ -2761,6 +2786,11 @@ static void migrate_task_rq_dl(struct task_struct *p, int new_cpu __maybe_unused
+ 		 */
+ 		cancel_inactive_timer(&p->dl);
+ 	}
++	/*
++	 * set_task_cpu() points task_cpu() at the new CPU next. The runqueue
++	 * of that CPU counts this bandwidth only once the enqueue there adds
++	 * it. Until then, no runqueue counts it, as dl_bw_oncpu now says.
++	 */
+ 	sub_rq_bw(&p->dl, &rq->dl);
+ 	rq_unlock(rq, &rf);
+ }
+@@ -4060,6 +4090,7 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_defer			= 0;
+ 	dl_se->dl_defer_running		= 0;
+ 	dl_se->dl_defer_armed		= 0;
++	dl_se->dl_bw_oncpu		= 0;
+ 
+ #ifdef CONFIG_RT_MUTEXES
+ 	dl_se->pi_se			= dl_se;
 -- 
 2.47.3
 
