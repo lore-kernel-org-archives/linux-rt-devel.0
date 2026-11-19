@@ -1,107 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.104.109.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795099475;
-	b=U998HuLteoFvloDYc4kDrTLhA3Xx6RWs0M2UuFXjWD1KhOBQW3bLzNH+imXLFaHpZpFF
-	 3gaey2c4nX9owrzGz63F8y+NPI/DNq5VrVAnLKz/qbIdTcXCpOdOPLUfvqiLAa9mljR3W
-	 5KhJGtoKZhka7xYVPyAF2rN2D69KXYFcjrr0mAIuRYSH3EkGc6TSi8Ocfm0IOqemGSecQ
-	 me0VfO7T292ap6r7EeA/pyYAq53jPHXWLs0mIlgwQ/P+Iz1w66JmvCvc9UTb57arQI3hZ
-	 l5/rSWowbXAVXok6cQR6/s8lbzCRFj6AZM/3ZFQ6FsQsY5taYD1WNV1FUGyMfGk85gQ==
+	t=1795099540;
+	b=YY0XM7FIDJpqCPHkZoKv3Ytc3HyxYZRNhq2LqI1wS5IpPFyXwLcn7iOY4GyGZJUtms5F
+	 7BgPkZOfrFYP3Bp8crTPvTBHIWyPb0prLqV8LmrytCm4mDlnPTKDJfmOAcmvZfYCSU35F
+	 0fF2ulSVo0mGoRwpGDWrVAmZIuSv8g7RozCGYGpgxWsnOzIjE75fdRkaRxv6dieapXGf0
+	 yAfnbsWjblhWgnI5F0Xr9GqU2KH6rstDAtrIO5fATeO+++w16Wmd4frDIVzXgVusqUMeH
+	 vjsberOUyofkDY2P2Ocne7q1e1K18Y2F7lbxmp7C9vH8ro1NMwY5TERBjmDSmTGv6gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795099475;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=ddl+5wLd7JrcYCQu/tKnUPSlPM9wcUjbTD7xT0J9hdE=;
-	b=HiQpidZJXaTKqNgnJsABJ+d+yMu8jPx2ncujlvUWihqKodL08jju+03/4VHb4RCclGNI
-	 25Sb1gMMmDA2ZsuQjltr0cnOcPSn2gASa4SkDVqvceZF4PPizDBXvKGjSvi1NpCVF81qP
-	 V8PE93qdEcIj5b4ewhQCSWzZNcFLlKNUdpP6w5Ums5pooH1vXpQtMpvbQSjoNKznHAmCM
-	 KzNo8PcvkzrviVTHrkXVlIVM6tPFIb7AYXoTIQBk9WivI+NzasDETtj5tsW+kJiL3oYL3
-	 Ma12rGnTa96zqxP802dXTmqZde7VlchdTqgIS9ENjs/0PMmv5lAbOoIVanSz9xRU1fA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795099540;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=H8uICizL3IgafjzWKTuprSU0wxvSh9HNohm4+JHjmeg=;
+	b=akFUMPdJyPo6dwc+/Ysz2GYzvp7+t9bGYY3fI/NUw9BBTbZfqcYojKMe5fpZuxvMaNpd
+	 1c2etoOQQFv3LUJFZf0WB41YZUxgGlFrAJIzSb6T6cSUUPYlctuzFJobJLYcA5T/cz8Z2
+	 mB8Jcz3rXoZ6YrDxs/2rVYKP650XpxUg64/o+apBHHkc3/3jzp71ltlDOoiCe8EZbVXab
+	 3yCwM5Ouv0gIjd5XBH6llC4vO6QjAPIdt59n/xz107JI8sO/lO81yqWi8WWwccNZ5V46K
+	 8DoBgZgKPMRCU7VSxZ9p/19BvTbLVzgD5nBolevuFTZUOTLbJvPHITfyLPoG0VAyIEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=toradex.com;
-	spf=pass smtp.mailfrom=toradex.com;
-	dkim=pass header.d=toradex.com header.i=@toradex.com header.a=rsa-sha256 header.s=toradex-com header.b=oTH+5BMK;
-	arc=none smtp.remote-ip=194.104.109.113
-Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.109.113])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmFqUsS1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835EB606A325
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 14:44:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 835EB606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toradex.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BD2606A324;
+	Thu, 19 Nov 2026 14:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.a=rsa-sha256 header.s=toradex-com header.b=oTH+5BMK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
-	t=1795099467;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddl+5wLd7JrcYCQu/tKnUPSlPM9wcUjbTD7xT0J9hdE=;
-	b=oTH+5BMKqqvkKDYlNzpATSLLbzkTOk7KJia9jiQTRk3g52UQFqZzwYnq/rGKmGXmHGohrb
-	1AOY114cM3Jq8Kzso17zpdR1aRiW90dQC5gXSz3VQ1XZHMcZP2u7HgIlOqw0YQI/DR1jGe
-	+tRr2r8Q3v1shl3CLEjApDu4WXtHjM4=
-Received: from ZR1P278CU001.outbound.protection.outlook.com
- (mail-switzerlandnorthazon11022117.outbound.protection.outlook.com
- [40.107.168.117]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- de-mta-73-tCU5VljqO6OmdbQnImAZ3A-1; Thu, 19 Nov 2026 14:44:22 +0000
-X-MC-Unique: tCU5VljqO6OmdbQnImAZ3A-1
-X-Mimecast-MFC-AGG-ID: tCU5VljqO6OmdbQnImAZ3A_1795099462
-Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:2e::8) by
- ZR2P278MB927271.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:202::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Thu, 19 Nov
- 2026 14:44:19 +0000
-Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- ([fe80::88:6821:13f5:a5b2]) by ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- ([fe80::88:6821:13f5:a5b2%3]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
- 14:44:19 +0000
-Date: Thu, 19 Nov 2026 15:44:17 +0100
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
-To: Peng Fan <peng.fan@linux.dev>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Peng Fan <peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid
- kworker in imx's remoteproc
-Message-ID: <av8LQa77SbshHmZD@francesco-nb>
-References: <av6Wc+kHFKqwFHAR@shlinux89>
- <20261116102331.K8Sc86V9@linutronix.de>
- <20261119114041.GA166708@francesco-nb>
- <av8H7l6C8fmiHdbV@fedora>
-In-Reply-To: <av8H7l6C8fmiHdbV@fedora>
-X-ClientProxiedBy: FR2P281CA0052.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::15) To ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:2e::8)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmFqUsS1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A771F000C6;
+	Thu, 19 Nov 2026 14:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795099540;
+	bh=H8uICizL3IgafjzWKTuprSU0wxvSh9HNohm4+JHjmeg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BmFqUsS1K85/u592qh1PtGaoBxCTrdXeu/D84dWvDLl0C2mdB/xeE46pJPAjzpCrt
+	 gqbs7MaYOgX9KT5Kk6Qah4Dd950tZgPHpKvfOyHerUAiI2dH9khMsXeviq0MbyQ65m
+	 3897BIe9Sv1KTlAmt7jPbuFfKV9Ybhw6/taafNDmJvm10/Q/51KoWp9nFKrs7XZEbH
+	 hH84pvCmMX1Ig/YyWs7Baj8L0+3f8ScGt3vjsPyk+Uq+Ce4zHNqlQleF1agQt+y1rq
+	 YgPdSeP3QOENgtniLHKqJ4g38sRHkhyEozGrBPnM5iuduaOnk/JRH/l5hyFlXeGbK2
+	 cv+ixvtGHxvFg==
+Message-ID: <f64021c9-21c2-43c9-a847-c44129d8ca75@kernel.org>
+Date: Thu, 19 Nov 2026 15:45:34 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -111,157 +51,168 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZRAP278MB0495:EE_|ZR2P278MB927271:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31e16043-56cf-4f3c-39b5-08df464b97c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|10067099003|4143699003|5023799004|56012099006|261021121427099003|261022105027099003|261022075727099003|261009223027099003|261102123227099003|261026140227099003|261026121527099003|261028144727099003|22082099003|18002099003
-X-Microsoft-Antispam-Message-Info: KTup7N2qzdFVzEW0/Qp75792bpJzo033s++7ck+QIEwiil3/laugym1uWuRPmXP3oCItjhArrDcwafBzXHVfUE3hjuN+hdPdrWMY7gPs0jwbkRVS2V1mv4RYhuRVAdTGJG8SH6nCwgz9GcI9j0LMKLnhuCYFLpI5ZgGiUvWUKI8PSbvLx0eIQH+q+J2FzcGhR555aFDDDnu+fj9G1iicfa4JIuuFey9VH/Sp8fGHr5+D2KHIE5xYBmLxEoaqcBU+6cITPBVbcgZaZM3RVp7/b665WjM+jxLdg5oeWXKPi9AJ1y6I0zYuhm6WXUebwYMuRECq+1hPz/6ZmPgIZGEk7fBVOkqwhfOsEPgJyEiTdqafFGHWOWqvEBABlIWbSoPHEpOiTEcCQyXbqexmBj8nO84rZ/yrC/Zzt5YJmncMu2BWgruUusb8XgEklmLtXhBrto6JMg6IjDEU48aF3RNHSwi/Yq+DWGD6U2dYZwPABdMVmN/tSpaffUrqeG1urOZjTaaicBbMTQ/AajXurGmNCmbHjs/uK2tJXSe7/RlwPEyPSt8EQ0rSuNkYBxbwslb89XCDvP8a6sx4efycL3WDo3deacL/tTWPsr5Fj2PbCpPfU1SJgKGqd9r23pK3JPjgclkan/Y5pu8nyiERAWrL9NUwfLYvVqadzgcXH767xDc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(10067099003)(4143699003)(5023799004)(56012099006)(261021121427099003)(261022105027099003)(261022075727099003)(261009223027099003)(261102123227099003)(261026140227099003)(261026121527099003)(261028144727099003)(22082099003)(18002099003);DIR:OUT;SFP:1102
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B2suc6pvRuFum8hj40BSqdFPK4ELHsFCLiBhYgRFhT/ravCNgrhnM9T8ro1C?=
- =?us-ascii?Q?iiJ/tv6tkYLAkw7xJnTT/JQPujJEQa7r38qnfIku575Rm/oQLchfIbqxhNRD?=
- =?us-ascii?Q?JKQTZTF4FWrDmBM0jSmpXryLtWeeQ9qRTQflMZl5GMw8bb6Ok/Q4pwRZyBnY?=
- =?us-ascii?Q?KGslF2vftVkU2bC6izWkdv4g9KohkSAg5FHf59g/P1lKUzvT6g3Bd2rX8RO9?=
- =?us-ascii?Q?4jsrc/ecohWS/yw+WujuGPhIV/r7g3pkQw07xSaoH7ok6l2g2qFl7e/DhkTA?=
- =?us-ascii?Q?dMDQuGiu/XmbbbrkG0k38kmQza1L+lzqafW8iUQT+HCOFl6MrWwQvvCPoINT?=
- =?us-ascii?Q?l8H1k2Qz2Tu6apSw3+yezSZQ64mpVaXH1Go+3deRMsJ4Ca3vLitZWDlBI2bR?=
- =?us-ascii?Q?0/XpJ+9KD27K+d7zZ5D338VASYt7qowvxvsTFWxXMsFzxT3QwONi1NAhCPBG?=
- =?us-ascii?Q?QW/csj7ETHukQEfLLTkIiOcdfxxEQNaYxzeoXmENrKUjE5xYrjKpekUEOeGO?=
- =?us-ascii?Q?BdgqRMzIV+1vjMtLSfEwBRmkipTRydEJA+6B153ZjaQp8lDK6MLAV3/Y7H8o?=
- =?us-ascii?Q?Kizn3fDQOUeji/h/Y+dCZNcJEr8geMyKWU1u6AZBQxNf+qRYxEcPIa3JKHsI?=
- =?us-ascii?Q?PqmiOaNCRXZR/5sTHcoMPdFxaHGXn4HVAu6qUnN054fWOtl9C26Mg3/64oKi?=
- =?us-ascii?Q?pObalA80JkcrBw+yTJMOU7YXKjwLrm/HP8kjO71Di883mE9KDRs+sQ2HKvO0?=
- =?us-ascii?Q?t4lo+dJJXJyG0VaKYk+pQ6CyYXgT7d5+a1WV0syyVs32+fz6aC6d3vA5Cu3a?=
- =?us-ascii?Q?3GRN/l7u4vsT4kfzki9li12uBzfdJqvrUJ87L0O6nNI3Vv3hswWAEMk2JMtj?=
- =?us-ascii?Q?wyAVFAbHYtqLToQnhsAGB2s3KP6uqhGbEYT3htbjrHPP+Z68EboBiNdRAydE?=
- =?us-ascii?Q?dSfaxTofJQJ/VLugtgmNRDSFXMzmHye6YntbsVjwQ07FLUfvxjWa4l43z6Ui?=
- =?us-ascii?Q?ji8AgHnU+WWritsVZdIMLJ06MqKrXyiY5a2foAcP5aAGqTsh9w/BBOo1aWLc?=
- =?us-ascii?Q?zl4YULK+EEP7DQTY2hsxCFTlX+Ewp9zv+Nqedrs8e7m8bQUvqUbBObI19CRJ?=
- =?us-ascii?Q?ZITgMy6MNC9qWU3667MWFETm/8CQDMrzAJEZZN/IuUWuR8bhj/T2UZ3L2/s5?=
- =?us-ascii?Q?n/QBI/0UiG+FKd2zEYaoZGYEN8FlKjI7ZlRK7AmJrVPqSVmRCcMW/Kc6rY1E?=
- =?us-ascii?Q?xAGXOehPP8/6v40RBnePoxiN39nFBEiIeYYVP6AG1SLDfQrZk0xvwaWB9Nwb?=
- =?us-ascii?Q?Fm4QMLNNgmWpiTApYncErpNsxcart8yg4q0zGc8fDPFxFVRvqfht3A7HTM7R?=
- =?us-ascii?Q?Ej4J5ooifPIkvWDKSks0+XekoreNIMGiskA+AgdGTFXGREzELxozLzjS6cxa?=
- =?us-ascii?Q?9AmyaK/obfDEQqXVYbIvAqVr8I4LaMI2skOSILCSSg2PYXwZvkxnO2IPlhlc?=
- =?us-ascii?Q?e5LXPyrrEg/I9nLUJQKHgMI/5Z0hmXhJoEj0nnkehXffadheRq9Yc5nMGvtB?=
- =?us-ascii?Q?nRArSHz+L2rxmQGNQRXv086gceSSVc1GQND4QIqFDNMqPVuv3Eq7gQyc5GUb?=
- =?us-ascii?Q?3qOmGHZSh5Jto3kOaTIloBLPg6W3Hqdu1tGN8Z0KrewxAy/xyO0GK/Cx1o7U?=
- =?us-ascii?Q?UVWQpree7WD0VjNMWH2GC1vhIO8qZ4CPAoCVCYFWpYsB+rPrd2SwIu3iFEvt?=
- =?us-ascii?Q?IQeHbDRzwq+ld/MCGizOT04EB0H56j0=3D?=
-X-Exchange-RoutingPolicyChecked: 2ydbplWztFh1bXcdiXlYPNPhFqJJuzUw1a9ejvQKni9MNLTLgm3SEPbgr63cgpRoVXzlRveQZVtoyQpvsatGDxpsIc8f3GDBV8D8DYl6yFLSVTuwEr1zKWKGPVETHwjJMp7LHZAMyEXhXJVt9KBzOwPVeQh7u4e1waeewPckRVlg+CzSiGPD2z143fMz5lPX4ySGZSit0lkTDWu2LH/nPYBBHEcG/js9nFAIVJUPCNJi+r9umNNHEsxc4hW0N8IzNoIGdXoH6OuHPJPuHsoreHuo1sfe+6IFn3Dww7wzmoaZhBraj2ySYiknFT/zNVkfqeIf7AGWp6bVHgscNOqVDQ==
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31e16043-56cf-4f3c-39b5-08df464b97c2
-X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 14:44:19.3924
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NIzCX8ee/GL51WUBrC09g2SdaH2PbTCV5CsIWfjkdoSars4PNnfH4D4qx1IWW7z0d3xyAUkszUp7ODVyyK08PU7F5Md/d0kcFJsyTbK3tzU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR2P278MB927271
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PS0Tp7JXG1dnlMihIcd-hoe9AIsz62dxhK1fSE5u9bE_1795099462
-X-Mimecast-Originator: toradex.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next v3 0/7] memcg,slab: kmalloc_nolock() fixes
+Content-Language: en-US
+To: "Harry Yoo (Meta)" <harry@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alexei Starovoitov <ast@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel-team@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Sashiko <sashiko-bot@kernel.org>
+References: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20261115-kmalloc-nolock-fixes-v3-0-9034dd4ecaab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 10:30:06PM +0800, Peng Fan wrote:
-> On Thu, Nov 19, 2026 at 12:40:41PM +0100, Francesco Dolcini wrote:
-> >Hello Peng, Sebastian
-> >
-> >On Mon, Nov 16, 2026 at 11:23:31AM +0100, Sebastian Andrzej Siewior wrot=
-e:
-> >> On 2026-11-16 10:23:41 [+0100], Francesco Dolcini wrote:
-> >> > Our CI shows a ~10-15% eMMC sequential read throughput drop on i.MX8=
-QXP
-> >> > and i.MX8DX (Colibri iMX8X, Cortex-A35), starting with v7.2-rc1 and
-> >> > still present in v7.4-rc3 (hdparm --direct -t: ~129 MB/s -> 105-120
-> >> > MB/s on i.MX8DX). i.MX8QM, i.MX8M and i.MX9 are not affected.
-> >> >=20
-> >> > 5d1c0000.mailbox interrupt count before the test went from ~8k on v6=
-.18
-> >> > to 60k+ on v7.3/v7.4.
-> >> >=20
-> >> > Peng: any idea/suggestion? Does it makes any sense to you?
-> >>=20
-> >> Can you pin point it to a patch in this series? My guess is that
-> >> something with the masking/ unmasking went wrong. The increase might b=
-e
-> >> result of the interrupt keeping firing while the threaded interrupt di=
-d
-> >> not have a chance to run.
-> >
-> >Reverting 36cac4b5101f, 3225a745f517, e55bea377d49 and 692e1bc96a5d
-> >restores 149 MB/s with schedutil.
-> >
-> >
-> >On Thu, Nov 19, 2026 at 02:25:55PM +0800, Peng Fan wrote:
-> >> On Mon, Nov 16, 2026 at 10:23:41AM +0100, Francesco Dolcini wrote:
-> >> >Peng: any idea/suggestion? Does it makes any sense to you?
-> >>=20
-> >> Please help test whether this helps:
-> >>=20
-> >> diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailb=
-ox.c
-> >> index 683ccea6f2ba..e29044cf4b92 100644
-> >> --- a/drivers/mailbox/imx-mailbox.c
-> >> +++ b/drivers/mailbox/imx-mailbox.c
-> >> @@ -635,7 +635,7 @@ static int imx_mu_startup(struct mbox_chan *chan)
-> >>  {
-> >>         struct imx_mu_priv *priv =3D to_imx_mu_priv(chan->mbox);
-> >>         struct imx_mu_con_priv *cp =3D chan->con_priv;
-> >> -       unsigned long irq_flag =3D IRQF_NO_THREAD;
-> >> +       unsigned long irq_flag =3D IRQF_NO_THREAD | IRQF_ONESHOT;
-> >>         int ret;
-> >>=20
-> >>         pm_runtime_get_sync(priv->dev);
-> >
-> >It does not help.
-> >=09
-> >The analysis below was done with Claude help, on measurements I took on =
-a
-> >Colibri iMX8QXP. I hope you can pick it up from there, this is not my
-> >area of expertise, and the best I can do is to send a revert for those 4
-> >commits.
-> >
-> >Every SCU RPC now wakes the SCHED_FIFO irq thread (TX done and RX), and
-> >while an RT task is runnable schedutil requests the maximum CPU frequenc=
-y.
-> >The A35 clock is CLK_GET_RATE_NOCACHE, so each frequency change is
-> >followed by an SCU RPC reading the rate back, which wakes the irq thread
-> >again. The loop never settles, even when idle, and the transitions (ATF =
-+
-> >SCU) are what costs the eMMC throughput (and I assume there is more
-> >impact on performance than just this).
->=20
-> Not sure whether this is root cause, per my understanding, cpu freq updat=
-e
-> is not that high frequency call.
+On 11/15/26 16:09, Harry Yoo (Meta) wrote:
+> This patchset fixes three kmalloc_nolock() bugs.
+> 
+> 1. obj_cgroup_put() takes spinlocks in the release path when it drops
+>    the last reference, but it can be called from any context.
+> 
+> 2. A spinlock may be taken in the following path and may lead
+>    to deadlock:
+> 
+>    kmalloc_nolock()
+>    -> slab_post_alloc_hook()
+>    -> memcg_slab_post_alloc_hook()
+>    -> memcg_alloc_abort_single().
+> 
+> 3. irq_work_sync() is called without synchronization for rcuwait
+>    (on PREEMPT_RT or some architectures), potentially causing a
+>    hang.
+> 
+> Bug 1 was reported by lockdep, and bugs 2 [1] and 3 [2] were
+> reported by Sashiko.
+> 
+> This series fixes the bugs by:
+> - 1. Deferring obj_cgroup_release() to an irq work.
+> - 2. Making slab_free_hook() and memcg_alloc_abort_single() respect
+>      SLAB_*_NOLOCK
+> - 3. Serializing irq_work_sync() with a mutex
+> 
+> Patch 1, 4, 5 are bugfixes and others are refactoring and cleanup
+> patches.
+> 
+> Changes in v3
+> =============
+> 
+> - Rebased onto the latest slab/for-next.
+> 
+> - New patches and changes to existing patches were written and
+>   verified with AI assistance and carefully reviewed by Harry Yoo.
+> 
+> - Patch 1: added Vlastimil's Reviewed-by (thanks!).
+> 
+> - Patch 2 (new): pass free_flags to slab_free_hook() instead of adding
+>   a third bool, as suggested by Vlastimil.
+> 
+> - Patch 3 (patch 2 in v2):
+>   - Now handles SLAB_FREE_NOLOCK in free_flags, so callers no longer
+>     need the allow_spin local variables.
+>   - Updated the subject accordingly.
+>   - Addressed v2 review comments from Vlastimil (thanks!):
+>     - dropped the memcg_alloc_abort_single() functional change from
+>       the changelog, as it does not change until patch 4.
+> 
+> - Patch 4 (patch 4 in v2):
+>   - Try freeing the object to the percpu sheaves first in both
+>     contexts, as suggested by Alexei and Vlastimil. Dropped Vlastimil's
+>     Reviewed-by accordingly.
+>   - memcg_alloc_abort_single() now takes alloc_flags instead of a bool
+>     allow_spin, and converts them with a new to_free_flags() helper.
+> 
+> - Patch 5 (patch 5 in v2): added Vlastimil's Acked-by.
+> 
+> - Patch 6 (new): Make free_to_pcs() call can_free_to_pcs() and take
+>   free_flags instead of allow_spin.
+> 
+> - Patch 7 (patch 3 in v2): moved to the end of the series, after the
+>   fixes. Reworded the comment.
+> 
+> - Link to v2: https://lore.kernel.org/20261103-kmalloc-nolock-fixes-v2-0-19167cfe4779@kernel.org
+> 
+> [1] https://sashiko.dev/#/patchset/20260610-slab_alloc_flags-v2-0-7190909db118%40kernel.org?part=9
+> [2] https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org?part=5
+> 
+> ---
+> Harry Yoo (Meta) (7):
+>       mm/memcontrol: defer obj_cgroup_release() to irq_work
+>       mm/slab: pass free_flags to slab_free_hook()
+>       mm/slab: handle SLAB_FREE_NOLOCK in slab_free_hook() instead of open coding
+>       mm/slab: fix a deadlock in memcg_alloc_abort_single()
+>       mm/slab: serialize deferred_work_barrier()
+>       mm/slab: refactor free_to_pcs()
+>       mm/slab: call debug_locks and KCSAN checks in kfree_nolock()
+> 
+>  include/linux/memcontrol.h |   2 +
+>  mm/memcontrol.c            |  27 ++++-
+>  mm/slab.h                  |  14 ++-
+>  mm/slub.c                  | 247 ++++++++++++++++++++++++++-------------------
+>  4 files changed, 180 insertions(+), 110 deletions(-)
 
-Moving to `performance` from `schedutil` or reverting those 4 patches
-solve the issue. And the significant increase on ctx switches and irq
-count is real even on idle without any emmc test running.
+Merged as slab/for-7.5/kmalloc-nolock
 
-> Let me setup a i.MX8QXP board and see what's going on there.
-Thanks!
+Rebased to
+d866d5bafc5e ("Merge tag 'mm-hotfixes-stable-2026-11-17-19-55' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm")
+to avoid conflicts with mainline
 
-> BTW, i.MX8QM should
-> also have same issue, but seems not impact in your report, a bit werid,
-> might be because i.MX8QM has more cores :)
+Nit for 6/7 resolved locally
 
-I agree, I did not run any kind of extensive performance test. What
-happened is just that our emmc test started to fail, and this lead to
-this series.=20
-
-> Have you tried pin your emmc test thread to core3, or core2, just not cor=
-e0.
-
-It was never pinned to any core, so the scheduler decided on its own.
-And multiple runs of the test all lead to the same results.
-
-Francesco
+> ---
+> base-commit: a7cdd0af963a420fc0e6f20b7c8bc8d4784098db
+> change-id: 20260624-kmalloc-nolock-fixes-c97675328773
+> 
+> Best regards,
+> --  
+> Cheers,
+> Harry / Hyeonggon
+> 
 
