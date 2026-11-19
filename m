@@ -1,57 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795106983;
-	b=pzcEVM2NWvat7rFJV1OQHdKkaY1ZPcHeOFZHGR9iW1zITRwMdPw7t20LmQu+HnTCTBFG
-	 8chZ61yq/2jy85QCvcRdC9S0dxPf3O0vAq+J3AP+cmQ3IdWilJzhHWbCIIZ/770h9VJna
-	 pSHD6KGb5qUHFKYviCZMrCBm6GQ57O6IPWH9Qc8bkf/yUyGQOyF8q854gw82xECgjch0v
-	 HdljalblbPC74Se6A3Kal+NFKyknl8ADbK5MRP94W6LGV1LVYJSdPJYMr0YpoIcj0AUw1
-	 vavjktgG62gCYKaV4HJuUvewXANdp+Lr/ZMnPXaKcEd1hNpqiSehc+cFuLhGNkAgJJw==
+	t=1795108149;
+	b=TB1IlVCuCL+Xr+R6JFvNnTxoMFBtCF4O2woTpbCQorjX+2QTZjxdO4zbd0cii7MMRQqi
+	 do4vNNq6/pprRSQo6CsHsYe4H9YFbcA0fobl9Ippl6g3Xbc3YXKe4phvuJBxTAM5pC62n
+	 tg1En4bjC98i6m5Id4RNyQzEqbDD5FRkG1devwetAqNP7JlOMLkemOW6iB2G9n2n3sqb2
+	 cOEEcDdY8l/E/dZhjlaf5OG+h3n9y5d+D9lU3rH4JyI/62ECfUYDbbyvISYuTg+KioEJT
+	 IALT4UdeTKr4m0fkJdNQ9FXLC0ckZuGAykFK4uf0RWdpWFkg/x8PCItItZNGEHYJLFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795106983;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mCFd4aA2ku+UX9hcU6OoqxiyVSj+I5zYR2+NoCDs4N0=;
-	b=d6L0AdiP5Qkphao1DMpHzTiMFfpNEJ7q/PQpUJ/oyYvlThfMo4M2C86QElo3qRu8cKj1
-	 AnYyX52K3GhhbGa+qVNSoJZq5IBRuJg4/HfrZP8MIYiMhrXs2H8ALfu2ZF5/ZL0BERkMu
-	 FF/IOu1Sz4Gukga40gyCmZs7+SkhwKrtvKQgYieWVt/HKYqwOQ30cWiBaAeEXTt6SAO54
-	 RFZpccDbKUGqpE5xnc9LLnZDfjmelP0ihBF0Tq9mbVpJtqdwvcRDrle8pcEjUy7AXPMRw
-	 yiJ75v7UtDVGrkFAOjpkcjnlOmGsXM9QlnQrxJWBMqJnOVRqRpdvUn/LVjYZ/hw3M1Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108149;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=Ne9pewg3lTR/XwteFRfApk8OTwqtNwxzKqScyzsN66w=;
+	b=UJhVv0NJiX+8Dfn3Tb5P+XLNEiJRnNcQn0FXOKlnz70HaT716Rxs5mJJjvR7EeszzMQU
+	 NZp7Bpfg9ITH3gLvxGwYLc8Z1Mx94CENJprm3vljwd4zbHccpkS1og+YsJOY+f8YhiJ8K
+	 +ukSKF5UjlGgIJPkPUCRoLonWHevTSzSoHy0bc2XrRqdn55GKAePYsUN7Z0jW0HIFMFcc
+	 TWJ6pDNdR1TJJus+Orz2sg/Ta3ZO+PWB/T64JSoaHS3p1JOlKLVHLmxVCVF/YKW8MOD58
+	 dvD044g32Eoz20FmNrItS3xvdJ28g0pGtaO6OALlSffCOdwICRTQXVr5UwbaVbQ1SJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChhAjHuw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=nk5tlUNz;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="G/HsGIbW";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B5A60A261E;
-	Thu, 19 Nov 2026 16:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718E9606A33E
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 17:09:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 718E9606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChhAjHuw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D77B1F000C8;
-	Thu, 19 Nov 2026 16:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795106982;
-	bh=mCFd4aA2ku+UX9hcU6OoqxiyVSj+I5zYR2+NoCDs4N0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ChhAjHuwRDzWFyANhcrPIXeH2Yy7ZoWswioUwveQOLenHie1+6WPs+eebzoisZW39
-	 rrEbwT7kSBHAOGySWoGUOr+HzLk0LV+N8+xeW3m5x2torxn0AebPD62QXdFl4YJdCA
-	 CKUNpZibVn1SNy9XXfH/bMaTC6IuHGh5VB2O394lWX7geBJXjv36n+MvmNNWQRvLbc
-	 cTBYlLE7wwYEVsBfZsFi4OziiI/rxP2DKWJyRRy3QWnjpAXVoJ0GxVORaIHSGlO0XF
-	 iW7u0FHSiWFvjRZ0etnBb7c1Ai7QqP6ztP/LX91kVjOz+5ss2E6tEPXfG/AsrQiggI
-	 YFZS9l9bRGnHQ==
-Message-ID: <sashiko-outbox-223577@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RESEND PATCH v4 09/17] sched/deadline: Reset the deadline and
- the runtime with the parameters
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <07a810645c5ab919a52ffe2cc4b63074a84751fb.1795105408.git.mathieu.desnoyers@efficios.com>
-References: <cover.1795105408.git.mathieu.desnoyers@efficios.com>
- <07a810645c5ab919a52ffe2cc4b63074a84751fb.1795105408.git.mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 16:49:42 +0000
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=nk5tlUNz;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=G/HsGIbW
+Date: Thu, 19 Nov 2026 18:09:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795108146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ne9pewg3lTR/XwteFRfApk8OTwqtNwxzKqScyzsN66w=;
+	b=nk5tlUNzv4CkFGquuK5XRwERT434B2HGM48+DOITH1b0FzZVYJwiio/Rh/NTG3SO0EmpW0
+	6iBW4QwLZz/JGiGhhjDQXOkTm6mVhQhKLf+NXzfu8az0CMFiFzqHRbbFGi70Wm8siO/A3z
+	9nmd4OgW/7CEGmbUMuDUlYGLSWnpACTEAb0HgTLnuF8+6V/jjKc3gmtcHExi8HKFaFgHV5
+	G5e5jN7qBCIXTRdqUcqHcTITVM9Q1CcPcWvoqzz/qBfIRLbIu/GL2mtOvznhBXy2iyEfZ9
+	5hKNlHafKgBDImJSFvMlpdT/Jta7ymWFKBizC7FDSyMbnhTxp3H2ZB7oL2mOCg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795108146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ne9pewg3lTR/XwteFRfApk8OTwqtNwxzKqScyzsN66w=;
+	b=G/HsGIbWh5x/anTnl4KMlT5n/w57hjNIWFoGNOlj8JYqHhKary8iohULTfeveAAbPj7daj
+	xlOEnc5c9iT+pSBw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Emanuele Rocca <ema@debian.org>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 02/10] kconfig-checker: Introduce PREEMPT_RT
+ configuration rules
+Message-ID: <av8tMAE3LXz8QwH5@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-3-darwi@linutronix.de>
+ <avxFRmhBrlKLtQ97@ariel.home>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,125 +88,73 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avxFRmhBrlKLtQ97@ariel.home>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] sched/deadline: donor runtime and deadline retained after PI
-  deboost
-- [Medium] sched/deadline: uncanceled dl_timer in __dl_clear_params()
+Hi Emanuele,
+
+On Tue, 17 Nov 2026, Emanuele Rocca wrote:
+>
+> thanks for this useful tool!
+>
+
+Thanks!
+
+> > +  - name: CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+> > +    expected: y
+> > +    severity: high
+> > +    docs_hint: config
+>
+> The docs mention the following for CPU_FREQ_DEFAULT_GOV_PERFORMANCE:
+>
+> | This is not an absolute rule. Some setups might prefer to clock the
+> | CPU to lower speeds due to thermal packaging or other requirements. The
+> | key is that the CPU frequency remains constant once set.
+>
+> Yet having the rule "severity: high" will presumably make
+> kconfig-checker require CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y in order for
+> validation to pass?
+>
+
+Yeah, the expectation is that the RT policy profile recommends the
+"absolute best" kind of configuration.  If the system integrators knows
+what they are doing, then they can override that setting in a rule overlay
+and explain their rationale there.
+
+> > +  - name_pattern: CONFIG_CPU_FREQ_GOV_(CONSERVATIVE|ONDEMAND|POWERSAVE|USERSPACE)
+> > +    expected: n
+> > +    severity: medium
+> > +    docs_hint: non-performance-cpu-frequency-governors
+>
+> Similarly, by reading your docs, it seems to me that the worst choice
+> for RT workloads is ONDEMAND.
+>
+> | The ONDEMAND governor should not be enabled on a real-time system. Its
+> | frequency changes depend on workload behavior and can significantly harm
+> | determinism.
+>
+> Shouldn't the severity for the CPU_FREQ_GOV_ONDEMAND rule be higher,
+> then?
+
+That's a very good point, thanks!  I'll separate the recommendations
+severity into:
+
+- CONSERVATIVE and ONDEMAND: these are the worst, as they do change the
+  frequency during the system's lifetime.  Thus, rule severity is high.
+
+- POWERSAVE: Frequency is low, but it does not change during the system
+  lifetime.  Thus, rule severity is medium.
+
+- USERSPACE: Fine if the user-space program that knows what it's doing and
+  does not switch frequencies haphazardly.  Thus, rule severity is medium
+  as well.
+
+Sounds good?
+
 --
+Kind regards,
 
-commit 2c25e238b8ef61f400892fff248fbabebd5863e5
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-
-sched/deadline: Reset the deadline and the runtime with the parameters
-
-This commit resets dl_se->deadline and dl_se->runtime in __dl_clear_params()
-and in switched_from_dl() when a boosted task with no deadline parameters of
-its own leaves SCHED_DEADLINE, so that the next entry starts a new period.
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 71b1c155c2424..d6d2657dcddd6 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -3569,6 +3569,16 @@ static void switched_from_dl(struct rq *rq, struct=
- task_struct *p)
->  	if (task_on_rq_queued(p) && p->dl.dl_runtime)
->  		task_non_contending(&p->dl, false);
-> =20
-> +	/*
-> +	 * A task with no parameters of its own was boosted into the class.
-> +	 * Its deadline and runtime are the donor's. Reset them, so that its
-> +	 * next entry into the class starts a new period.
-> +	 */
-> +	if (!p->dl.dl_runtime) {
-> +		p->dl.deadline =3D 0;
-> +		p->dl.runtime =3D 0;
-> +	}
-
-[Severity: Medium]
-Can a task still retain the donor's deadline and runtime after PI deboost w=
-hen
-p->dl.dl_runtime is non-zero?
-
-If a non-deadline task is PI-boosted by a SCHED_DEADLINE waiter and calls
-sched_setattr() to enter SCHED_DEADLINE while still boosted, prev_class and
-next_class in __sched_setscheduler() are both &dl_sched_class, so neither
-switched_from_dl() nor switched_to_dl() runs.  __setparam_dl() sets
-p->dl.dl_runtime without clearing the donor's deadline or runtime (and if p=
- is
-sleeping, skipping switched_to_dl() also skips add_rq_bw(), later triggering
-WARN_ON_ONCE(dl_rq->running_bw > dl_rq->this_bw) and underflow in
-__sub_rq_bw()).  When rt_mutex_setprio() later deboosts p, it stays in
-dl_sched_class and restores p->dl.pi_se =3D &p->dl without ENQUEUE_REPLENIS=
-H, so
-enqueue_dl_entity() sees the donor's future deadline and skips
-setup_new_dl_entity(), letting p run unboosted on the donor's remaining
-runtime.
-
-Similarly, if a task leaves SCHED_DEADLINE before its 0-lag time (or changes
-policy while boosted via __setscheduler_dl_pi()) and is replenished from a
-donor while p->dl.dl_runtime is still non-zero, switched_from_dl() on deboo=
-st
-skips this !p->dl.dl_runtime reset and passes the donor's deadline and runt=
-ime
-to task_non_contending().
-
-> @@ -3984,7 +3994,8 @@ bool __checkparam_dl(const struct sched_attr *attr)
->  }
-> =20
->  /*
-> - * This function clears the sched_dl_entity static params.
-> + * Clear the static parameters of @dl_se. Also reset its deadline and its
-> + * runtime, so that its next enqueue starts a new period.
->   */
->  static void __dl_clear_params(struct sched_dl_entity *dl_se)
->  {
-> @@ -3995,6 +4006,9 @@ static void __dl_clear_params(struct sched_dl_entit=
-y *dl_se)
->  	dl_se->dl_bw			=3D 0;
->  	dl_se->dl_density		=3D 0;
-> =20
-> +	dl_se->deadline			=3D 0;
-> +	dl_se->runtime			=3D 0;
-> +
->  	dl_se->dl_throttled		=3D 0;
->  	dl_se->dl_yielded		=3D 0;
->  	dl_se->dl_non_contending	=3D 0;
-
-[Severity: Medium]
-Does resetting deadline, runtime, and dl_throttled in __dl_clear_params()
-without canceling dl_se->dl_timer leave a stale replenishment timer queued?
-
-When a task yields with remaining runtime (or uses a constrained deadline w=
-ith
-dl_deadline < dl_period) and is throttled, its 0-lag time arrives before
-dl_se->dl_timer fires at dl_next_period(dl_se).  If the task switches out of
-SCHED_DEADLINE while throttled, __dl_clear_params() runs at the 0-lag time =
-and
-clears deadline and dl_throttled while dl_se->dl_timer remains queued.  If =
-the
-task re-enters SCHED_DEADLINE before that old timer expires,
-enqueue_dl_entity() starts a new period, and when the task throttles in the
-new period, start_dl_timer() bails out because hrtimer_is_queued(timer) is
-already true:
-
-kernel/sched/deadline.c:start_dl_timer() {
-	...
-	if (!hrtimer_is_queued(timer)) {
-		if (!dl_server(dl_se))
-			get_task_struct(dl_task_of(dl_se));
-		hrtimer_start(timer, act, HRTIMER_MODE_ABS_HARD);
-	}
-
-	return 1;
-}
-
-When the stale dl_timer fires at the old period boundary, dl_task_timer()
-replenishes and unthrottles the task in the middle of its new period, allow=
-ing
-it to exceed its reservation.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795105408.gi=
-t.mathieu.desnoyers@efficios.com?part=3D9
+Ahmed S. Darwish
+Linutronix GmbH
