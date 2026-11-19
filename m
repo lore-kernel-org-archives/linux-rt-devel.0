@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.90.104.144
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795110704;
-	b=b0d5tc8iJMdwKp2VfQOdQGHJjnvBlW8HC7I7lrQiN6mkoppRsJfHFywZ3lOBxgOvPsEU
-	 j2oGo+mkz1CQzVx9BKMcpnolSdyjyMwZCuyxJT+n8D9K8839JpSU6bPXbXl3hiqF00W8Z
-	 5Gu+ScKb6+5H5AVn4EOIC5/URUuxiwYHnmdLUMgs4ehhCWoReNsfz3RHZJNu5tmEI/fUP
-	 JzwsKHGLksXWLqfjwk/Q7Sl3i7KOaf/dt8gRd4fV8wnNii61q4s0nvK+Gc6AXmh9Z7JGA
-	 9GvOUroNM85SJ20ilzmVyiMc9OzOSZfmAxkhotFN5PZq9Cul9CzLxJOgPjNaebec/jQ==
+	b=MVNrIAE/q/8UqBcm+Ad5rryVZH0X5/Bm9xCAKY+tIz+f/FjoUSA8zjabO7MJDKBUv+yA
+	 dyKu6Kf9qMtOvDlUC8nDqGIjNw7twz/At7ZUokUumXapqIvqGVFFQasSv74UX0ne4fZRn
+	 +6+UnPTb45NPT5QbQROc0PLBtE3p5DiuOCIB2qDRiBHEzYETzaO20GvT25N3vYtNeXAHu
+	 qPFQr4dD9SY74qZerVIjmK7NBAYVp9jlCzyYtAP0QxTQ2am/xDTjVkgqV4tGU3X1/IVlm
+	 X9CTI0jppPIQMPcEbN5kUKoOjb2VMKdTKSfJAihh4xO7GK1ny7HaLAFuiSmbLG9vbEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795110704;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
@@ -13,20 +13,20 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-CSE-MsgGUID:Received:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=PRm3Wwq9NQlmuKonGVqXdDDW70eXnhOzZHSNpZOZBag=;
-	b=mv48g95zN8Jiqur7GZFMDfqKAPwGIhAsPi5CHsTLEdhPjN08TlLj2Ooxf8DG1qPnjayM
-	 qWnsKt+DtBTcZhBdKNP2pWOstDEWQgqdvxyplbv77wx74+J+YfbpFRsgZZAEioFqiR5ew
-	 /KVHoi72AmYyNA3osWfvBmZ2Xmuev+CTFKv1qpYjwOK4hHk2U2H+LrfhoowG2Mw/sS2KD
-	 NozgMpYTsFdqH7Tsi4UBZ4skH04QUqvWDoC+UkiOS8i8o2G/GNIcfHj9DiqMoGSiqmDg4
-	 VjKm+hn4YZ8DOSD8KuvggeCx0+yai3d4mQWTs9LA8kx545WaTYnEZmb9BpN4Sv8A8GA==
+	bh=HkwgrMMAxh/Pa+gTNOwIrDS+SnvfT/r5RJMCGUHHVyI=;
+	b=z9zjdiuSbwLio/GLZ4Zce+3Bc//F3tivBDKeWPjrldWiYNc77UP4CV4geiTp6y2YGHDg
+	 s+RxdpVHvrl7oD4d5SOLRctv5E2unZqwpWAfh5qpvYPiJeCLfVf0fihdjnuEYtbFu2K3l
+	 MVhqxQW2lVNrYRQsEm2g/V5TE4kkWtyHk/C0PDICwUuROmj4A6EFTFw5XEDWGGQLAVYV/
+	 NkwHWJC7uf1GTvNjMi/bv7gA/+liB9GyhWmpu2b3HvJSnC3YU7cW1lkvmCA0ItZfeDD4e
+	 zv7vBCtOPUG0e2YNMv/piCjv6S86pgTZDUBBdXXParPlIx1oGRyl5/z2NlXsIjq7umA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mobileye.com;
 	spf=pass smtp.mailfrom=mobileye.com;
 	arc=none smtp.remote-ip=23.90.104.144
 Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A6CE60A261B
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E94960A261C
 	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 17:51:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A6CE60A261B
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E94960A261C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
@@ -34,29 +34,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   t=1795110703; x=1826646703;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=tbxgL7ZsrTWsrmUOa0vRK78LFkh+IqmpmHZmgai13Hk=;
-  b=IA8NZmJl/pUD7nMyTT12dSghLnsUFlCl1Qp3iN0iBwak/LhWhenMyZrB
-   m0EQJao7mP7rsMwhymty+ZhzCfLURkVfom7SpTaHvhshyhpxtO7tWzx1k
-   MG9HMmrfOFxjMRorg5QhhCT4rJSak2tBAogjF53Z7XT3xeyQyS5AvU/Aa
-   tPs2vV5e8PsGR4BXb18+ZklOK2h65Qfp3UWiKbiAJzqdSUe+9wBIzP15l
-   XBTE8MJhrEs2fn/sK567+JtE/qJYYATwTil1nuf2biEPrB1QlLUcvNRs7
-   cmwzIobpOKqMKA+tSu6NpU03M8+RWgiJUtC8GcQK2VN0Xho6tFIPIDZ0h
-   w==;
-X-CSE-ConnectionGUID: 8OsyGipBQju0IQUaRhMs3g==
-X-CSE-MsgGUID: wLzyBQAYQVay3C29PJZPzQ==
+  bh=IPMwiZyW2lp+dYhB4kV60JlONdGVqmGhSYHG6tuUBlI=;
+  b=XHhd+AsDVBNj03Az6HI4fWx0OdaEjIV8CwfuzmIFD4P33qYMzFQMxtY5
+   T2+rcP+V+UDy2gRC12Jb4D5Mji0CBslBxNUraQ/+k95wKOHAglzqTcfUL
+   RYyU581LmyICb5myVqLp/dSk5pKvk1I+Tccl0WZL09YeLtZ09zbR3AWTE
+   H4PdaoEvLFBU+C3hPZUAPdkoYP/QZA7XpNzbqMEma+sx4M3QGaMTsBPK0
+   VPgI3zbalqp0aTpR37by+JeQJSCsoKEmmYur5IXUFJ7r2t7lX75o4MmTN
+   KaU8vH50vgG5lPsPLBAErFvndwl26Vj6yBVXUuPhv4KYNxKuStRZeOHz7
+   g==;
+X-CSE-ConnectionGUID: XajFCRX+T5yKzgHzv0RGZA==
+X-CSE-MsgGUID: hyzR9tCgSGCQ05ZhUqnMMw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces03_data.me-corp.lan) ([146.255.191.134])
-  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 19:51:36 +0200
-X-CSE-ConnectionGUID: NaK7sfVUSV+oJLsBsBliBA==
-X-CSE-MsgGUID: ZLMV7MkCQwq8KSRROYyWWA==
+Received: from unknown (HELO ces04_data.me-crop.lan) ([146.255.191.134])
+  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 19:51:34 +0200
+X-CSE-ConnectionGUID: 5cYxBOppS6yTI9fIKR4pkg==
+X-CSE-MsgGUID: Nc5ZvbX/QiuTzDgmA3BT0A==
 Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
-  by ces03_data.me-corp.lan with SMTP; 19 Nov 2026 19:59:42 +0200
-Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Thu, 19 Nov 2026 19:51:34 +0200
+  by ces04_data.me-crop.lan with SMTP; 19 Nov 2026 19:59:49 +0200
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Thu, 19 Nov 2026 19:51:33 +0200
 From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Date: Thu, 19 Nov 2026 19:51:30 +0200
-Subject: [PATCH v3 4/7] dt-bindings: mips: mti,mips-cm: add performance
- counter interrupt
+Date: Thu, 19 Nov 2026 19:51:29 +0200
+Subject: [PATCH v3 3/7] MIPS: CM: export the symbols needed to access the
+ GCRs from a module
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,7 +68,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-i6500-cm3-pmu-v3-4-c86410934b51@mobileye.com>
+Message-Id: <20261119-i6500-cm3-pmu-v3-3-c86410934b51@mobileye.com>
 References: <20261119-i6500-cm3-pmu-v3-0-c86410934b51@mobileye.com>
 In-Reply-To: <20261119-i6500-cm3-pmu-v3-0-c86410934b51@mobileye.com>
 To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
@@ -88,38 +88,84 @@ Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
  linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org
 X-Mailer: b4 0.16.0
 
-The CM3 asserts so_cm_perf_cnt_int when one of its performance counters
-overflows. Whether that output is connected to an interrupt controller
-input is up to the SoC integrator, so describe it as an optional
-'interrupts' property of the coherency-manager node. When absent, the
-counters have to be polled by software.
+Allow modules to use the GCR and CPC accessors from asm/mips-cm.h and
+asm/mips-cpc.h:
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+- mips_gcr_base and mips_cpc_base are the mapped register blocks;
+- the CPS_ACCESSOR macros consult mips_cm_is64 on every 64-bit register
+  access;
+- mips_cm_lock_other() / mips_cm_unlock_other() are the only way to
+  reach the registers of another cluster through the redirect block.
+
+This is a prerequisite for building the CM3 PMU driver as a module.
+
 Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 ---
- Documentation/devicetree/bindings/mips/mti,mips-cm.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/mips/kernel/mips-cm.c  | 5 +++++
+ arch/mips/kernel/mips-cpc.c | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml b/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
-index d129d6382847..ca7a6717ecdf 100644
---- a/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
-+++ b/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
-@@ -38,6 +38,12 @@ properties:
+diff --git a/arch/mips/kernel/mips-cm.c b/arch/mips/kernel/mips-cm.c
+index 3bfe85e86a9a..ed98021418b5 100644
+--- a/arch/mips/kernel/mips-cm.c
++++ b/arch/mips/kernel/mips-cm.c
+@@ -5,6 +5,7 @@
+  */
  
-     maxItems: 1
+ #include <linux/errno.h>
++#include <linux/export.h>
+ #include <linux/of.h>
+ #include <linux/percpu.h>
+ #include <linux/spinlock.h>
+@@ -14,8 +15,10 @@
+ #include <asm/mipsregs.h>
  
-+  interrupts:
-+    description:
-+      Performance counter overflow interrupt of the CM (so_cm_perf_cnt_int).
-+      When absent, the performance counters are polled by software.
-+    maxItems: 1
-+
- required:
-   - compatible
+ void __iomem *mips_gcr_base;
++EXPORT_SYMBOL_GPL(mips_gcr_base);
+ void __iomem *mips_cm_l2sync_base;
+ int mips_cm_is64;
++EXPORT_SYMBOL_GPL(mips_cm_is64);
+ bool mips_cm_is_l2_hci_broken;
+ 
+ static char *cm2_tr[8] = {
+@@ -373,6 +376,7 @@ void mips_cm_lock_other(unsigned int cluster, unsigned int core,
+ 	 */
+ 	mb();
+ }
++EXPORT_SYMBOL_GPL(mips_cm_lock_other);
+ 
+ void mips_cm_unlock_other(void)
+ {
+@@ -389,6 +393,7 @@ void mips_cm_unlock_other(void)
+ 
+ 	preempt_enable();
+ }
++EXPORT_SYMBOL_GPL(mips_cm_unlock_other);
+ 
+ void mips_cm_error_report(void)
+ {
+diff --git a/arch/mips/kernel/mips-cpc.c b/arch/mips/kernel/mips-cpc.c
+index 4b50c58628dc..b948a1c96e1e 100644
+--- a/arch/mips/kernel/mips-cpc.c
++++ b/arch/mips/kernel/mips-cpc.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/errno.h>
++#include <linux/export.h>
+ #include <linux/percpu.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -14,6 +15,7 @@
+ #include <asm/mips-cps.h>
+ 
+ void __iomem *mips_cpc_base;
++EXPORT_SYMBOL_GPL(mips_cpc_base);
+ 
+ static DEFINE_PER_CPU_ALIGNED(raw_spinlock_t, cpc_core_lock);
  
 
 -- 
