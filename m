@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795209854;
-	b=PYgDApCk1Fhw+094gFs/z/ETEZmNjInxMi/BtFwgTeQHpxPtqiCuVWsuEmRGUaF8DFrX
-	 fJHSFfLrF1aiQH/Uy8S9m04S23RTrgtq/ZzE4MeJCfe/DU1oot3QDFOdrezuzp6cRxdux
-	 4eTCOMHRcFoHAQ410PSNjymPVFdU5w+Hjj0bhXJQ0tGz80rzPgtCGsNRPjaWmyMPBit8g
-	 XyVuDm+MR0mVW+H3SAS4vksJz4OB+wAWtoDcwl/QUr/wAmP+U2Q6eJliH94l210fWCFuM
-	 O/3HZBcdv+KqPQSPzs11dc0iOSmTmRIckZUZSRX8lay4dkFqv/xqG41pDuqMHSE2Mrg==
+	t=1795209968;
+	b=ReAm0t944G82wVAKtp/E17rPh3XIKfKrLpnrUDEYsBbth7IY0ekm5ybfAOgjfv3Fy+F6
+	 FEjbbkdSOceWungAg6yuIQ4Yfo2QOhTABqCS5vhk2nkwTCPUQoFGs09zcKSyyY3On5KNs
+	 tkjE6GngtMer6KneJJNkVM5eZLmqusl6xAvIucuomdzOePZ/PcT8gHGcinnzn43TEnGa1
+	 sRSkmH4hYgRXH+U1CuIrj9bhFFc6s6GZoaUVdjfsxH/BEVgO8lSR0ekS+Bxwk8ZP/S4so
+	 BcIKfP+wW/6MO39ma3qb17uuaVq+Ps1lpBV6tVlcGdOSN4wU//8QfqlTDcEIy50SO7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795209854;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795209968;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zRoJRslp6kqg0jms8lDN9+y86oBP3loPDzrCd/J/5vM=;
-	b=cUNrccNbCQRqWQUSWT60VWuOF/7zI9CS5G+Dk5dMYGeP8DvOT9tOMfakxFw+ProdXrlO
-	 5LN/a/C87e2SPownfgX/EFBQxT+shVf2kJ9MuADCKpG9Af+XVSBfm4ZA4M0bXNTuwefjA
-	 KwOiSwd+yipAyESGN98oySWeWSCbITz/IeTGYoraXDzY1hW3M/fDgpwBXaohX6hckQGMb
-	 b/GRdDodILntPs7vuSXZ66Oq/bAH8+KxSq35/twSx4Dvho/WbuvYTJy2wKhXoqahMdDbZ
-	 wFsRcah47QD49FXffenx1fk7uezbtFXUvHxe9o49M05nwLFAXts9P6htGHcf2AbIiUA==
+	bh=8amswnvtInzqviW6zxh+hTO3qU8xY1vLKgxSB28EODo=;
+	b=IClky61PKgpRHesLawm6xW4jduL6f2uOVwd6YdUWToDeOClaBF/4D3peqQftA/LRmUYW
+	 fMQMvn5bJSGds1efcGNMX/dyKwAYOzue4khQ3MF4Z+IWziIEFpoVAxKNb+V4CBnvk+40y
+	 YwWFWjJs+U+lab95MKPfoSRswkoXKsUJpc/azl8osh2s/MVUog+al3KXPAgfWcOWIWG2V
+	 F7z56pTmfe47tE/UqUnu0aUH3DJyEV8Jy2b0qbwieu3ELI4W7mUhvn1Hdr81Za3cJOWXy
+	 iiSiZ1hZdH8AFiV3JWULg+lpTxLstZIGreXvqPTYXFZHlVsMdh6l4WqzPMbR/myO9GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ehWSoh3v;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRAhB2Ip;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68220606A6A0;
-	Fri, 20 Nov 2026 21:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39421606A334;
+	Fri, 20 Nov 2026 21:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ehWSoh3v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E401F000C6;
-	Fri, 20 Nov 2026 21:24:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRAhB2Ip
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8398F1F000C6;
+	Fri, 20 Nov 2026 21:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795209854;
-	bh=zRoJRslp6kqg0jms8lDN9+y86oBP3loPDzrCd/J/5vM=;
+	s=k20260515; t=1795209967;
+	bh=8amswnvtInzqviW6zxh+hTO3qU8xY1vLKgxSB28EODo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ehWSoh3vh0Bp2lJD4iG1lVr4iqAk03IUX2TG/GestpqNf1IJ1xMzsSTEphFc9dNMd
-	 zzsOoeHLMwQVc1AYOsdOe76YNoNtwC8JYCpSQIMBzyhbqjjSDMPVeo2mCsA+edigFO
-	 Mj+pyZ7Fx5OXfoFtoajILx+eLUFlwzRwiBeVby+0ddg8CMR4h6AdfHpgwQ2h5BgCxB
-	 1PQEHOYH+aLvKHx4MG2rk6NOaisHcjNDbByM8bIr7RnTC0aC986hQD0QSvFgaH+Fxa
-	 xOn1cxHipIp20Vg3R7SAAZAatvIJkpItonvrij2jkhkDlDHvbpJ6hoqhq0tY9zAGk7
-	 5z9LbznMEUm0w==
-Message-ID: <sashiko-outbox-226170@kernel.org>
+	b=mRAhB2Ip1/OZxYH82O+wOg44IcbFfm0Zfk/m7gLtpW7uUjSlhPbmb5kbmbfVmRZAn
+	 yG6Ot9ecs4cO7gGBKwa5t6c5BAz6d7nhqSeWoR5rOfx0S5409Ut84WTY2WJhLg3ON+
+	 QXzUzp0L4Kus5M6gOQO8IbcfJoKzT7+vK81C6a2O/7EKQj11mjRbBMY25moYQ7hlOm
+	 Uf9ko2WTIgMt4toHi+2+JnJPTXQDSAs+OIqOSxKf5tQ5CG6h/Yfvx6t+Nmxp2Wn0Ge
+	 WsCjIW4pdgLV/701bRTP4KVOL1Jf/kUtq+BSnp2ODDH5FhDNcIK4R5R4uWadHVWvbs
+	 4O/RzL2vk8FIg==
+Message-ID: <sashiko-outbox-226175@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 30/40] sched/deadline: Start a period for a task
- requeued onto an rt_mutex
+Subject: Re: [PATCH v10 25/40] sched/deadline: Reset the donor's runtime at
+ a deboost in the class
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <6c7be87e201d405bdf589989cb45afca9160c2e4.1795207232.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <a16410b68dd594967dd00f2b2bd03f1ac458c1a7.1795207232.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
- <6c7be87e201d405bdf589989cb45afca9160c2e4.1795207232.git.mathieu.desnoyers@efficios.com>
+ <a16410b68dd594967dd00f2b2bd03f1ac458c1a7.1795207232.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 21:24:13 +0000
+Date: Fri, 20 Nov 2026 21:26:07 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,151 +61,92 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] sched/deadline: dl_proxy_block() skips period start for
-  PI-boosted tasks
-- [Medium] locking/rtmutex: proxy lock steal uses stale deadline before
-  dl_proxy_block()
-- [Medium] sched/deadline: missing dl_entity_overflow() check in
-  dl_proxy_block()
-- [Medium] sched/deadline: dl_proxy_block() skips period start for zero
-  constrained deadline
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] sched/deadline: dl_deboost() starts period for sleeping
+  constrained task
 --
 
-commit ccbb5e6cd761023e5e38a79f3d3be937fad4a331
+commit 280104d364cfcdeb61df32b73bafd44ef91c8ae1
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Start a period for a task requeued onto an rt_mutex
+sched/deadline: Reset the donor's runtime at a deboost in the class
 
-This commit adds dl_proxy_block() to start a new period for a sleeping
-SCHED_DEADLINE task when it is proxy-locked onto an rt_mutex, so the
-waiter node does not use a deadline of 0 or a deadline in the past.
-
-> diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
-> index b09816977d4e5..5ff123d24b2a6 100644
-> --- a/kernel/locking/rtmutex.c
-> +++ b/kernel/locking/rtmutex.c
-> @@ -1245,6 +1245,9 @@ static int __sched task_blocks_on_rt_mutex(struct r=
-t_mutex_base *lock,
->  		return -EDEADLK;
-> =20
->  	raw_spin_lock(&task->pi_lock);
-> +	/* A proxy lock: @task sleeps, and its deadline can be stale. */
-> +	if (task !=3D current)
-> +		dl_proxy_block(task);
->  	waiter->task =3D task;
->  	waiter->lock =3D lock;
->  	waiter_update_prio(waiter, task);
-
-[Severity: Medium]
-Can __rt_mutex_start_proxy_lock() steal the rt_mutex using a stale
-task->dl.deadline before task_blocks_on_rt_mutex() runs dl_proxy_block()?
-
-__rt_mutex_start_proxy_lock() calls try_to_take_rt_mutex(lock, task, NULL)
-before calling task_blocks_on_rt_mutex().  When the target PI futex has
-just been unlocked and is in the handoff state with waiters,
-try_to_take_rt_mutex() tests rt_mutex_steal(task_to_waiter(task),
-rt_mutex_top_waiter(lock)), which reads task->dl.deadline before
-dl_proxy_block() refreshes it:
-
-kernel/locking/rtmutex.c:try_to_take_rt_mutex() {
-    ...
-		if (rt_mutex_has_waiters(lock)) {
-			/* Check whether the trylock can steal it. */
-			if (!rt_mutex_steal(task_to_waiter(task),
-					    rt_mutex_top_waiter(lock)))
-				return 0;
-    ...
-}
-
-A requeued task with a deadline of 0 or a passed deadline can then steal
-the lock from a woken top waiter with an earlier real deadline, and
-because try_to_take_rt_mutex() does not call rt_mutex_adjust_prio(), the
-new owner remains unboosted once wakeup assigns its real later deadline.
+This commit records whether a boosted deadline entity had its runtime
+refilled from its donor's parameters in dl_donor_refill, and starts a new
+period from the entity's own reservation when deboosting within
+SCHED_DEADLINE if that flag is set.
 
 > diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index b1346be9e81da..1c5888b1717de 100644
+> index a566e9252a418..2912d13b60d60 100644
 > --- a/kernel/sched/deadline.c
 > +++ b/kernel/sched/deadline.c
-> @@ -1573,6 +1573,36 @@ static inline u64 dl_next_period(struct sched_dl_e=
-ntity *dl_se)
->  	return dl_se->deadline - dl_se->dl_deadline + dl_se->dl_period;
+> @@ -93,12 +93,62 @@ static inline bool is_dl_boosted(struct sched_dl_enti=
+ty *dl_se)
+>  {
+>  	return pi_of(dl_se) !=3D dl_se;
 >  }
-> =20
-> +#ifdef CONFIG_RT_MUTEXES
-> +/*
-> + * FUTEX_CMP_REQUEUE_PI makes @p wait on an rt_mutex while @p sleeps.
-> + * The waiter node of @p takes its deadline, before any wakeup. @p would
-> + * not run with a deadline of 0, which it has if it entered the class
-> + * asleep. Nor would it run with a deadline that has passed. Start a new
-> + * period then, as its wakeup would. Leave a task past its deadline and
-> + * before its next period: its wakeup throttles it until that period.
-> + *
-> + * The caller holds the pi_lock of @p.
-> + */
-> +void dl_proxy_block(struct task_struct *p)
-> +{
-> +	struct sched_dl_entity *dl_se =3D &p->dl;
-> +	struct rq_flags rf;
-> +	struct rq *rq;
 > +
-> +	if (!dl_task(p) || is_dl_boosted(dl_se) || !dl_se->dl_runtime)
-> +		return;
+> +/*
+> + * Record that @dl_se had its runtime refilled from the parameters of its
+> + * donor, if it is boosted.
+> + */
+> +static inline void dl_note_donor_refill(struct sched_dl_entity *dl_se)
+> +{
+> +	if (is_dl_boosted(dl_se))
+> +		dl_se->dl_donor_refill =3D 1;
+> +}
+> +
+> +static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_t=
+ask);
+> +
+> +/*
+> + * End the boost of @dl_se, whose task stays in the class. If the boost
+> + * refilled its runtime from the donor's parameters, start a new period
+> + * now. The next enqueue is too late for a task blocked on another
+> + * rt_mutex: the chain walk copies its deadline into its waiter node
+> + * first. Without a refill, the task keeps the runtime and the deadline
+> + * of its own reservation.
+> + *
+> + * The caller holds the rq lock and the pi_lock of the task, and has
+> + * updated the rq clock.
+> + */
+> +void dl_deboost(struct sched_dl_entity *dl_se)
+> +{
+> +	struct rq *rq =3D rq_of_dl_se(dl_se);
+> +
+> +	if (dl_se->dl_donor_refill) {
+> +		dl_se->deadline =3D rq_clock(rq) + dl_se->dl_deadline;
+> +		dl_se->runtime =3D dl_se->dl_runtime;
 
 [Severity: Medium]
-Does returning early on is_dl_boosted(dl_se) or !dl_se->dl_runtime leave
-p->dl.deadline at 0 (or expired) when p was PI-boosted while sleeping in
-FUTEX_WAIT_REQUEUE_PI?
+Does starting a new period in dl_deboost() while the task is asleep cause
+a constrained-deadline task (dl_deadline < dl_period) to lose runtime or
+be throttled when it later wakes up?
 
-While p sleeps in futex_wait_requeue_pi(), p is not queued and
-p->pi_blocked_on is NULL (so dl_task_pi_blocked(p) is false).  If p holds
-another rt_mutex and a SCHED_DEADLINE waiter blocks on it, both
-dl_boost_blocked() and switched_to_dl() skip replenish_dl_new_period()
-because dl_task_pi_blocked(p) is false, leaving p->dl.deadline at 0 or at
-a passed deadline.  When FUTEX_CMP_REQUEUE_PI then requeues p onto a
-second rt_mutex, dl_proxy_block() returns early instead of starting a
-period from pi_of(dl_se), and waiter_update_prio() copies the 0 or
-expired deadline into waiter->tree.deadline.
+If a deadline waiter times out on an rt_mutex held by a sleeping
+constrained-deadline task with dl_donor_refill set (and not blocked on
+another rt_mutex), dl_deboost() sets dl_se->deadline =3D t_deboost +
+dl_deadline and dl_se->runtime =3D dl_runtime while the task sleeps.  When
+the task later wakes up at t_wake:
 
-> +	rq =3D __task_rq_lock(p, &rf);
-> +	update_rq_clock(rq);
-> +	if (!task_on_rq_queued(p) && !dl_se->dl_throttled &&
-> +	    dl_time_before(dl_se->deadline, rq_clock(rq)) &&
-> +	    (dl_is_implicit(dl_se) ||
-> +	     !dl_time_before(rq_clock(rq), dl_next_period(dl_se))))
-> +		replenish_dl_new_period(dl_se, rq);
+- if t_deboost < t_wake <=3D t_deboost + dl_deadline, dl_entity_overflow()
+  is true because dl_se->runtime =3D=3D dl_runtime while remaining time to
+  deadline is less than dl_deadline, so update_dl_entity() calls
+  update_dl_revised_wakeup() and scales down dl_se->runtime for the time
+  spent sleeping since t_deboost;
+- if t_deboost + dl_deadline < t_wake < t_deboost + dl_period,
+  enqueue_dl_entity() -> dl_check_constrained_dl() sees deadline < t_wake
+  < dl_next_period(dl_se) and throttles the waking task until t_deboost +
+  dl_period, even though it did not run during that period.
 
-[Severity: Medium]
-Should an implicit-deadline task also start a new period here when
-dl_entity_overflow(dl_se, rq_clock(rq)) is true?
-
-When an implicit-deadline task sleeps in FUTEX_WAIT_REQUEUE_PI past its
-0-lag time (or has its parameters shrunk via sched_setattr() while
-sleeping) and is requeued before its old dl_se->deadline passes,
-dl_entity_overflow(dl_se, rq_clock(rq)) is already true.  Because the
-task is asleep, update_dl_entity() will unconditionally see
-dl_entity_overflow() (or a passed deadline) at wakeup and call
-replenish_dl_new_period().  Without checking dl_entity_overflow() in
-dl_proxy_block(), waiter_update_prio() copies the old dl_se->deadline that
-the task would never run with, causing it to sort ahead of waiters whose
-deadlines are earlier than its wakeup deadline.
-
-[Severity: Medium]
-What happens if a constrained-deadline task has dl_se->deadline =3D=3D 0 wh=
-en
-rq_clock(rq) is still before dl_next_period(dl_se)?
-
-If sched_setattr() switches a task sleeping in FUTEX_WAIT_REQUEUE_PI to
-SCHED_DEADLINE with dl_deadline < dl_period, dl_se->deadline is 0.
-Because dl_is_implicit(dl_se) is false, dl_proxy_block() evaluates
-dl_next_period(dl_se), which computes dl_period - dl_deadline (or
-dl_period after commit "sched/deadline: Keep the start of the period
-across a change of dl_deadline") as if a period had started at t =3D 0.  If
-rq_clock(rq) < dl_next_period(dl_se), dl_proxy_block() skips
-replenish_dl_new_period() and leaves waiter->tree.deadline at 0.  Checking
-!dl_se->deadline before testing dl_next_period(dl_se) would avoid this.
+Later in this series, commit "sched/deadline: Check the runtime of a task
+whose parameters change" avoids starting a period at deboost for
+dl_new_params when the task is neither queued nor pi-blocked, and commit
+"sched/deadline: Boost an owner that cannot run on its own reservation"
+restores the task's saved reservation when dl_boost_held is set, but the
+dl_donor_refill path in dl_deboost() still starts a period while asleep.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795207232.gi=
-t.mathieu.desnoyers@efficios.com?part=3D30
+t.mathieu.desnoyers@efficios.com?part=3D25
