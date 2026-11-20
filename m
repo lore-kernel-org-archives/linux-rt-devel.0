@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795182970;
-	b=ZYq+KHq0fK4S4CKilKtxlJOCM490CPx9gwycjP6rrQQdtqFVcdP30w7L5TvynKzmDzud
-	 ER60NjRuSawip3jgMkq9gpCpj1CaL9LukYurP0uPvNQ3JOX/YivGFHf3Vhgn4+Mhj9DSl
-	 pcqdHG7zxx99LN+P21U5CbERbXvC8EIjTgLF4xzpaX5ddj8ZzLPWA42hnJGeGXLZ7dwoD
-	 QMVZc0VbZnatWdJZYuJ33ATkWabUOqfUMFEOMAB8yyzCpIuTKiYCmYHty76AGkZRkzdAu
-	 iUXizMo/n/bi4Pk6FsdKHb3465qm1/63z0iPbLnWWvQ4Xc9gEz0w1jpFYkh0Ado0WEQ==
+	b=3PZ3wQaTYVyvKBYQNW5ZzqhsTEqYWx3S5FhAeD7/DE3E86muuP9PVfj4Z7Xa081NnTj9
+	 OXU6gGS9pEaUD1BCvKzqMAqbm4HaqJJcW/ThTyfTHmSpHjkel8GbyN5AcEFg5QbFMQsjE
+	 Xg4bVMiplcBC7cQYuv5FkLriBv9TdyDFMubDkg1lJTuupvr0Sqct4gOl7Q/sQXComNatJ
+	 JVvUCo8X0QTIgB0o6WsTh7Dt0Q2tTQrFF8NSrf+Skvl7Gj3k7M+d2jZCW7p3vcZAIadpB
+	 C/dYFbmiW730VLcmvHQZkYplhYY8KjbT/TPku8ArsAXP2OqElTPTqsZxckbxa0+AEdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795182970;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=r81ibrTkwEEYhUEZXBM4yV4X/2YfJAcbAJd7MNMHwoE=;
-	b=AtqXZny4ruv3Uuvwq5f463isY8WoCqooVPkKWsecVFBrrjXoubqlpEBGtKhSKdhog9n1
-	 OrU9vj7u8VIGYtd+GqQVmn9xOHBHJ9EifMTVs4yWKeRaLKH0p5j1aHPAdo9Q1Wyu9L4D6
-	 wKR4eEf4toIJl88D9T9Ks4GxFYQ0dhwOPG+aa9Afi/HgOInb6DrVdjLQgIxUNHruDavTW
-	 5Ia2n1RLCC2H+DTx8yK68hhPTsGzYLRK3coxiQ3X5UOJnW6lope+q9uyRbsDqbXwyHPO9
-	 mSESF+s5hD9VQ8f91Fpe4+/OkE5awgyqaDME41Cj14yLKhCC5HhE6HblW8egu+BqAXA==
+	bh=g61ociSCBdZel0zIVQLJVWSy8g8pxReuIBRbl3sP1as=;
+	b=ZnUohtIdXX6E+PCtLLNySIce+gsMnw0X14jPa2Bb/MNViNWAPB2vZZyWjw18h0O88Dy+
+	 MVYRrpYP2HGqLQX6EJfifcERHIo5PMJDxeQjo35vHsJ6k+OYcjn8Wqeo4gxNmAYW7r9yk
+	 W10eAPQdsp+xRUlpNq8ielGPvGKXrhKUNWH1hONquCiXbPG8lGNn/kUUcycb82x0mwBPj
+	 a+89Cf3Ln/g7hOCzlQ+mA6+Rfbdm9f4gCWY0BowByvTD7Rw4jMEjvjwfndaPo90oNo+YW
+	 6Ck8OsgDO9qDeDgBoxu02BYUlD+zRyB9YoxjD2NwW+BfgwOWjoom0cB+a8ZMMjv0f0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=jHjHw8oT;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Hy7zTl7B;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2C8606C51C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDCD606C50B
 	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 13:56:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD2C8606C51C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DDCD606C50B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=jHjHw8oT
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Hy7zTl7B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795182965;
-	bh=r81ibrTkwEEYhUEZXBM4yV4X/2YfJAcbAJd7MNMHwoE=;
+	bh=g61ociSCBdZel0zIVQLJVWSy8g8pxReuIBRbl3sP1as=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jHjHw8oTxzoKGcKN23WN8/NOyFzlIsbvrGRltev5sukHVDAjuOrdFYTvqTClWRAz7
-	 X9OkhBbUoEzKcqw7o6HVbWGI9Dp02pz43OSFkz1lMm5j97p8BDyKqNwZTGDBxscenI
-	 XwvMWM21qU3PSpIT32cZn3fQT3YR5qjiYhmkX3nxBll9i69lPPxvosgJlJEeZeZvMS
-	 PWGqOBRbjOO9ApfMLgHfo8ApZ29Ri/7Uc3TXySS2IR34LuQk+GnfZh2GQ1M6XzV7O3
-	 P/xP9wTdXFivFpGyk1nfW4g/MRm2NhVdF5AuTneOnzoZ1eOuAtbqLUfqyaNd6/JZZ5
-	 aiGPY0YCvF10A==
+	b=Hy7zTl7Baa1a9Z12RXjYFqQ3FZyFHd/AWou0LP1bI3symkSpBD++rYWeZIt/KdY2Q
+	 xjlrf4VMZOBIfzl3fbsza3qSazU+FvnmcSVbR38R7mG1XzYHRjBooG+4k6+kkqgZC6
+	 HugZnnzqhnDNGdpdw34/hMb4w/7kfrW7qZA03CGaPxipKw8TrwXwYNQm6tLsQGwDYn
+	 gks4AetLQnCcAFgrlf9BIn2qL2gSF+6icYunsaczKTg4M05Xwc2kMHKnY9fdLYN/wq
+	 FCPPN9v0gG8I1+prgbfSGkzGPzfqWQXn4eJoRAkjU0X2OgyYNVcBCE+mKak38HPyhl
+	 mdatD0LhHoWjw==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWH1K0qN6zSrk;
-	Fri, 20 Nov 2026 08:56:05 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWH1J6jH5zSrj;
+	Fri, 20 Nov 2026 08:56:04 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -78,10 +78,11 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v9 33/33] selftests/sched: Test parameter changes in deadline_bw_test
-Date: Fri, 20 Nov 2026 08:55:56 -0500
-Message-Id: <6e81a6e5cce7e71bb6f6be479d643f5f2ca277f8.1795181240.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v9 32/33] sched/deadline: Check the runtime of a task whose parameters change
+Date: Fri, 20 Nov 2026 08:55:55 -0500
+Message-Id: <d65436da41c304678dd3d77f003f32d05583fed7.1795181240.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
@@ -96,661 +97,221 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the seven cases of deadline_bw_test that test the fixes of parameter
-changes, earlier in this series. In each, a task with runtime left
-changes its parameters, or comes back to the class with new ones:
-- a running task that leaves the class and comes back at once
-- a running or sleeping task that shrinks its reservation, to an
-  implicit or a constrained deadline
-- a boosted task that changes its parameters, which the deboost then
-  checks
-- a task blocked on a PI mutex that changes its parameters, which
-  changes its place among the waiters
+Commit 40767b0dc768 ("sched/deadline: Fix deadline parameter
+modification handling") lets new parameters take effect at the next
+period. So sched_setattr() cannot give a task a fresh runtime.
 
-The comment above each case gives its scenario.
+But admission control counts the new bandwidth at once. When a task
+shrinks its reservation, the runtime left from the old one is not
+checked against the new one. A comment in sched_dl_overflow() names
+the gap: the old bandwidth should stay counted until the 0-lag time.
 
-On v7.4-rc2, in 8 VMs of 8 CPUs, five of these cases fail in every VM:
-- change_boosted_new_params
-- change_constrained_new_params
-- change_running_new_params
-- return_running_new_params
-- wake_constrained_new_params
+So a running task can shrink its reservation, and still run on the old
+one. Other tasks can meanwhile be admitted into the bandwidth it gave
+back. On v7.4-rc2, a task of 50ms every 100ms changed to 10ms every
+100ms. It ran 39ms of the next 100ms.
 
-setattr_blocked_new_period is new, and was not run there. It fails
-without "sched/deadline: Check the runtime of a task whose parameters
-change".
+Fix this by applying the wakeup rule after a change of parameters, as
+the previous patch does for a task that enters the class.
+__setparam_dl() marks a change of the runtime, the deadline or the
+period. The next enqueue then calls update_dl_entity(). It starts a new
+period, or reduces the runtime of a constrained task, if the runtime
+left does not fit. The task gets no more than a wakeup would give it. A
+boosted task runs on the parameters of its donor. So it keeps the mark
+until its deboost. dl_deboost() checks it there, before
+rt_mutex_setprio() compares the task with its top waiter. A task with a
+constrained deadline can be past its deadline and before its next
+period. It keeps the mark until its enqueue, which throttles it first.
+A task blocked on an rt_mutex is not enqueued before its wakeup, but
+its waiter node holds its deadline. So prio_changed_dl() checks the
+runtime of such a task at once. rt_mutex_adjust_pi() then requeues its
+waiter. A larger reservation still takes effect at the next period.
 
-deboost_new_params_reboost passes there and with the first series.
-There, a task made SCHED_DEADLINE while it waits on a PI mutex keeps a
-deadline of 0. So the case passes without the deboost it was written
-for, until "sched/deadline: Start a period for a task that enters the
-class blocked".
+The enqueue flags cannot tell a change of parameters: a cgroup move
+also uses ENQUEUE_MOVE. Without the mark, a task that waited behind
+others could fail the check, and get a later deadline for no reason.
 
-With the whole series, every case passes wherever it runs, PREEMPT_RT
-included. The isolcpus cases ran in guests booted with
-isolcpus=domain,1,2 or isolcpus=domain,0,1. No kernel warning is
-logged.
+The change_running_new_params case, added to deadline_bw_test later in
+this series, tests this. change_boosted_new_params tests a task that
+changes its parameters while boosted. Both fail on v7.4-rc2 and pass
+with this patch. deboost_new_params_reboost tests the check at the
+deboost. setattr_blocked_new_period tests a task blocked on an
+rt_mutex. Without the check in prio_changed_dl(), it took the lock
+after a waiter with a later deadline, in 6 runs of 6.
 
+Fixes: 40767b0dc768 ("sched/deadline: Fix deadline parameter modification handling")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: stable@vger.kernel.org
 ---
- .../sched/deadline/deadline_bw_test.c         | 540 ++++++++++++++++--
- 1 file changed, 506 insertions(+), 34 deletions(-)
+ include/linux/sched.h   |  5 +++
+ kernel/sched/deadline.c | 72 +++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 71 insertions(+), 6 deletions(-)
 
-diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-index 5ea9bfe0aee2..83c4c095a7ed 100644
---- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-+++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-@@ -283,6 +283,20 @@ static int set_deadline(pid_t tid, uint64_t runtime, uint64_t period)
- 	return set_deadline_flags(tid, runtime, period, 0);
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index cbd387993607..491ddeea7d65 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -715,6 +715,10 @@ struct sched_dl_entity {
+ 	 * @dl_bw_oncpu tells if the this_bw of a runqueue counts the task's
+ 	 * @dl_bw: add_rq_bw() and sub_rq_bw() set and clear it, under that
+ 	 * runqueue's lock. Not for servers, which keep @dl_bw_attached.
++	 *
++	 * @dl_new_params tells if sched_setattr() changed the runtime, the
++	 * deadline or the period. The next enqueue that is not boosted, or
++	 * the deboost, checks the runtime left against them, and clears it.
+ 	 */
+ 	unsigned int			dl_throttled      : 1;
+ 	unsigned int			dl_yielded        : 1;
+@@ -729,6 +733,7 @@ struct sched_dl_entity {
+ 	unsigned int			dl_defer_idle     : 1;
+ 	unsigned int			dl_bw_attached    : 1;
+ 	unsigned int			dl_bw_oncpu       : 1;
++	unsigned int			dl_new_params     : 1;
+ 
+ 	/*
+ 	 * Bandwidth enforcement timer. Each -deadline task has its
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index b319173178f3..77f37a23b808 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -93,6 +93,19 @@ static inline void dl_start_own_period(struct sched_dl_entity *dl_se)
+ 	dl_se->runtime = dl_se->dl_runtime;
  }
  
-+/* Make @tid a deadline task with a relative deadline shorter than @period. */
-+static int set_constrained(pid_t tid, uint64_t runtime, uint64_t deadline, uint64_t period)
++/*
++ * Return true if @dl_se has a constrained deadline, and the rq clock is
++ * past its deadline and before its next period. An enqueue then throttles
++ * it until that period.
++ */
++static inline bool dl_in_constrained_gap(struct sched_dl_entity *dl_se)
 +{
-+	struct dl_attr attr = {
-+		.size = sizeof(attr),
-+		.sched_policy = SCHED_DEADLINE,
-+		.sched_runtime = runtime,
-+		.sched_deadline = deadline,
-+		.sched_period = period,
-+	};
++	u64 now = rq_clock(rq_of_dl_se(dl_se));
 +
-+	return syscall(SYS_sched_setattr, tid, &attr, 0) ? -errno : 0;
++	return !dl_is_implicit(dl_se) && dl_time_before(dl_se->deadline, now) &&
++	       dl_time_before(now, dl_se->deadline - dl_se->dl_deadline + dl_se->dl_period);
 +}
 +
- static int set_other(pid_t tid)
+ #ifdef CONFIG_RT_MUTEXES
+ static inline struct sched_dl_entity *pi_of(struct sched_dl_entity *dl_se)
  {
- 	struct dl_attr attr = { .size = sizeof(attr), .sched_policy = SCHED_OTHER };
-@@ -2390,17 +2404,30 @@ static _Atomic pid_t ret_tid;
- static atomic_int ret_first_period_ms;
+@@ -114,6 +127,8 @@ static inline void dl_note_donor_refill(struct sched_dl_entity *dl_se)
+ 		dl_se->dl_donor_refill = 1;
+ }
  
++static void update_dl_entity(struct sched_dl_entity *dl_se);
++
  /*
-- * Run as the thread of return_asleep_new_params(). Become a deadline task
-- * of 50ms every 100ms and run 20ms. 30ms of runtime are left, and the
-- * 0-lag time is about 20ms ahead. Then sleep. The main thread switches
-- * the thread to SCHED_OTHER and back, with 10ms every 100ms. Then spin
-- * for 100ms, and store the CPU time used, in ms, in ret_first_period_ms.
-- * Return NULL, or 1 on an error.
-+ * Run as the thread of the return cases. Become a deadline task of 50ms
-+ * every 100ms and run 20ms. 30ms of runtime are left, and the 0-lag time
-+ * is about 20ms ahead. Then change to new parameters, as @arg says:
-+ * - 0: the thread switches itself to SCHED_OTHER and back to
-+ *   SCHED_DEADLINE, while it runs.
-+ * - 1: the thread sleeps. The main thread switches it to SCHED_OTHER and
-+ *   back.
-+ * - 2: the thread changes its own parameters while it runs. It stays in
-+ *   SCHED_DEADLINE.
-+ * - 3: as 2, while a donor boosts the thread. The thread takes pi_lock and
-+ *   wakes the donor up. The donor blocks on pi_lock. The thread then
-+ *   changes its parameters, and unlocks.
-+ * - 4: as 2, to a constrained deadline: 8ms in 20ms, every 100ms.
-+ * - 5: the thread sleeps. The main thread changes it to 8ms in 20ms,
-+ *   every 100ms.
-+ * The new parameters are 10ms every 100ms, except in modes 4 and 5.
-+ * Then spin for 100ms, and store the CPU time used, in ms, in
-+ * ret_first_period_ms. Return NULL, or 1 on an error.
+  * End the boost of @dl_se, whose task stays in the class. If the boost
+  * refilled its runtime from the donor's parameters, start a new period
+@@ -122,6 +137,13 @@ static inline void dl_note_donor_refill(struct sched_dl_entity *dl_se)
+  * first. Without a refill, the task keeps the runtime and the deadline
+  * of its own reservation.
+  *
++ * If sched_setattr() changed the parameters during the boost, check the
++ * runtime left against them now, for the same reason. rt_mutex_setprio()
++ * then compares the result with the top waiter. Leave that check to the
++ * next enqueue for a task with a constrained deadline, past its deadline
++ * and before its next period. The enqueue first throttles it until that
++ * period: see dl_check_constrained_dl().
++ *
+  * The caller holds the rq lock and the pi_lock of the task, and has
+  * updated the rq clock.
   */
- static void *returner(void *arg)
- {
-+	long mode = (long)arg;
- 	uint64_t t0, cpu0;
--	int err;
-+	int err = 0;
- 
- 	ret_tid = gettid_();
- 	err = set_deadline(0, 50 * NSEC_PER_MSEC, PERIOD);
-@@ -2409,8 +2436,34 @@ static void *returner(void *arg)
- 		return (void *)1;
- 	}
- 	spin_ns(20 * NSEC_PER_MSEC);
--	sem_post(&ret_ready);
--	sem_wait_sig(&ret_go);
-+	if (mode == 1 || mode == 5) {
-+		sem_post(&ret_ready);
-+		sem_wait_sig(&ret_go);
-+	} else if (mode == 4) {
-+		err = set_constrained(0, 8 * NSEC_PER_MSEC, 20 * NSEC_PER_MSEC, PERIOD);
-+	} else if (mode == 3) {
-+		if (take_pi_lock())
-+			return (void *)1;
-+		sem_post(&owner_go);
-+		t0 = now_ns();
-+		while (!refill_donor_locking || proc_state_of(donor_tid) != 'S') {
-+			if (now_ns() - t0 > NSEC_PER_SEC) {
-+				ksft_print_msg("the donor did not block on the lock\n");
-+				drop_pi_lock();
-+				return (void *)1;
-+			}
-+		}
-+		err = set_deadline(0, 10 * NSEC_PER_MSEC, PERIOD);
-+		drop_pi_lock();
-+	} else {
-+		err = mode ? 0 : set_other(0);
-+		if (!err)
-+			err = set_deadline(0, 10 * NSEC_PER_MSEC, PERIOD);
+@@ -130,6 +152,14 @@ void dl_deboost(struct sched_dl_entity *dl_se)
+ 	if (dl_se->dl_donor_refill)
+ 		dl_start_own_period(dl_se);
+ 	dl_drop_boost(dl_se);
++
++	if (dl_se->dl_new_params && !dl_se->dl_throttled && dl_in_constrained_gap(dl_se))
++		return;
++	if (dl_se->dl_new_params) {
++		dl_se->dl_new_params = 0;
++		if (!dl_se->dl_throttled)
++			update_dl_entity(dl_se);
 +	}
-+	if (err) {
-+		ksft_print_msg("the task could not change: %s\n", strerror(-err));
-+		return (void *)1;
-+	}
- 	t0 = now_ns();
- 	cpu0 = thread_time_ns();
- 	while (now_ns() - t0 < PERIOD)
-@@ -2420,46 +2473,80 @@ static void *returner(void *arg)
  }
  
- /*
-- * A task leaves SCHED_DEADLINE while it sleeps, and comes back at once
-- * with a smaller runtime. Its 0-lag time is ahead, so it keeps its
-- * deadline and the runtime it has left. returner() runs the task. It must
-- * get about 10ms of CPU time in the 100ms after the change: its new
-- * runtime, not the 30ms left from the old one. The case fails above 20ms.
-+ * Run a return case: returner() with @mode as its argument. The thread
-+ * must get about 10ms of CPU time in the 100ms after the change, 8ms in
-+ * modes 4 and 5. That is its new runtime, not the 30ms left from the old
-+ * one. The case fails above 20ms.
+ /* Return true if @p waits on an rt_mutex. The caller holds its pi_lock. */
+@@ -2912,7 +2942,16 @@ static void __dequeue_dl_entity(struct sched_dl_entity *dl_se)
+ static void
+ enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
+ {
++	bool new_params = dl_se->dl_new_params;
++
+ 	WARN_ON_ONCE(on_dl_rq(dl_se));
++	/*
++	 * A boosted task is refilled from its donor. Keep the mark until the
++	 * runtime is checked against its own parameters. dl_deboost() checks
++	 * it at the deboost, and an enqueue that is not boosted checks it.
++	 */
++	if (!is_dl_boosted(dl_se))
++		dl_se->dl_new_params = 0;
+ 
+ 	update_stats_enqueue_dl(dl_rq_of_se(dl_se), dl_se, flags);
+ 
+@@ -2961,12 +3000,13 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, int flags)
+ 		update_dl_entity(dl_se);
+ 	} else if (flags & ENQUEUE_REPLENISH) {
+ 		replenish_dl_entity(dl_se);
+-	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
++	} else if (((flags & ENQUEUE_CLASS) || new_params) &&
++		   !is_dl_boosted(dl_se)) {
+ 		/*
+-		 * The task enters the class runnable. It may come back before
+-		 * its deadline, with the runtime left from older parameters.
+-		 * Check that runtime against the new parameters, as a wakeup
+-		 * does.
++		 * The task enters the class, or its parameters change, while
++		 * it is runnable. It may have runtime left from older
++		 * parameters. Check that runtime against the new parameters,
++		 * as a wakeup does.
+ 		 */
+ 		update_dl_entity(dl_se);
+ 	} else if ((flags & ENQUEUE_MOVE) &&
+@@ -4832,8 +4872,22 @@ static u64 get_prio_dl(struct rq *rq, struct task_struct *p)
   */
--static int return_asleep_new_params(void)
-+static int return_case(long mode)
+ static void prio_changed_dl(struct rq *rq, struct task_struct *p, u64 old_deadline)
  {
--	void *t_ret;
-+	void *t_ret, *d_ret = NULL;
- 	int err, ret = KSFT_PASS;
--	pthread_t t;
-+	pthread_t t, d;
+-	if (!task_on_rq_queued(p))
++	if (!task_on_rq_queued(p)) {
++		/*
++		 * The deadline of a task blocked on an rt_mutex is in its
++		 * waiter node, before any wakeup. If sched_setattr() changed
++		 * its parameters, check its runtime against them now, as
++		 * dl_deboost() does. rt_mutex_adjust_pi() then requeues the
++		 * waiter with the result.
++		 */
++		if (p->dl.dl_new_params && !is_dl_boosted(&p->dl) &&
++		    !p->dl.dl_throttled && dl_task_pi_blocked(p) &&
++		    !dl_in_constrained_gap(&p->dl)) {
++			p->dl.dl_new_params = 0;
++			update_dl_entity(&p->dl);
++		}
+ 		return;
++	}
  
- 	if (sem_init(&ret_ready, 0, 0) || sem_init(&ret_go, 0, 0)) {
- 		ksft_print_msg("sem_init: %s\n", strerror(errno));
- 		return KSFT_FAIL;
- 	}
- 	ret_first_period_ms = -1;
--	if (pthread_create(&t, NULL, returner, NULL)) {
-+	if (mode == 3) {
-+		/* The donor: a deadline task of 2ms every 10ms */
-+		if (pi_init() || sem_init(&refill_donor_ready, 0, 0))
-+			return KSFT_SKIP;
-+		refill_donor_locking = 0;
-+		donor_tid = 0;
-+		if (pthread_create(&d, NULL, refill_donor, NULL)) {
-+			ksft_print_msg("the donor thread could not start\n");
-+			return KSFT_FAIL;
-+		}
-+		if (sem_wait_for(&refill_donor_ready, 5000) || donor_tid <= 0) {
-+			ksft_print_msg("the donor is not ready\n");
-+			sem_post(&owner_go);
-+			join(d);
-+			return KSFT_FAIL;
-+		}
-+	}
-+	if (pthread_create(&t, NULL, returner, (void *)mode)) {
- 		ksft_print_msg("the task thread could not start\n");
-+		if (mode == 3) {
-+			sem_post(&owner_go);
-+			join(d);
-+		}
- 		return KSFT_FAIL;
- 	}
--	if (sem_wait_for(&ret_ready, 5000)) {
--		/* The thread may get there late. Let it end. */
-+	if (mode == 1 || mode == 5) {
-+		if (sem_wait_for(&ret_ready, 5000)) {
-+			/* The thread may get there late. Let it end. */
-+			sem_post(&ret_go);
-+			join(t);
-+			return KSFT_FAIL;	/* the task said why */
-+		}
-+		/* Before its 0-lag time, about 20ms ahead */
-+		err = wait_for(10, proc_state_of(ret_tid) == 'S') ? -EAGAIN : 0;
-+		if (!err && mode == 1)
-+			err = set_other(ret_tid);
-+		if (!err && mode == 1)
-+			err = set_deadline(ret_tid, 10 * NSEC_PER_MSEC, PERIOD);
-+		if (!err && mode == 5)
-+			err = set_constrained(ret_tid, 8 * NSEC_PER_MSEC, 20 * NSEC_PER_MSEC,
-+					      PERIOD);
- 		sem_post(&ret_go);
--		join(t);
--		return KSFT_FAIL;	/* the task said why */
--	}
--	/* Before its 0-lag time, about 20ms ahead */
--	err = wait_for(10, proc_state_of(ret_tid) == 'S') ? -EAGAIN : 0;
--	if (!err)
--		err = set_other(ret_tid);
--	if (!err)
--		err = set_deadline(ret_tid, 10 * NSEC_PER_MSEC, PERIOD);
--	sem_post(&ret_go);
--	if (err) {
--		ksft_print_msg("the task could not change asleep: %s\n", strerror(-err));
--		join(t);
--		return KSFT_FAIL;
-+		if (err) {
-+			ksft_print_msg("the task could not change asleep: %s\n",
-+				       strerror(-err));
-+			join(t);
-+			return KSFT_FAIL;
-+		}
- 	}
- 	err = pthread_join(t, &t_ret);
-+	if (mode == 3) {
-+		if (t_ret)
-+			sem_post(&owner_go);	/* the task never woke the donor up */
-+		if (pthread_join(d, &d_ret) || d_ret)
-+			ret = KSFT_FAIL;
-+		pi_fini();
-+		sem_destroy(&refill_donor_ready);
-+	}
- 	if (err) {
- 		ksft_print_msg("pthread_join: %s\n", strerror(err));
- 		ret = KSFT_FAIL;
-@@ -2475,6 +2562,292 @@ static int return_asleep_new_params(void)
- 	return ret;
- }
+ 	if (p->dl.deadline == old_deadline)
+ 		return;
+@@ -5114,6 +5168,11 @@ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+ 	u64 period = attr->sched_period ?: attr->sched_deadline;
+ 	bool held;
  
-+/*
-+ * A running task leaves SCHED_DEADLINE and comes back at once with a
-+ * smaller runtime. Its 0-lag time is ahead, so it keeps its deadline and
-+ * the runtime it has left. It must not run on more than the new runtime.
-+ */
-+static int return_running_new_params(void)
-+{
-+	return return_case(0);
-+}
++	if (attr->sched_runtime != dl_se->dl_runtime ||
++	    attr->sched_deadline != dl_se->dl_deadline ||
++	    period != dl_se->dl_period)
++		dl_se->dl_new_params = 1;
 +
-+/* The same, for a task that leaves and comes back while it sleeps. */
-+static int return_asleep_new_params(void)
-+{
-+	return return_case(1);
-+}
-+
-+/* The same, for a task that changes its parameters within the class. */
-+static int change_running_new_params(void)
-+{
-+	return return_case(2);
-+}
-+
-+/*
-+ * The same, for a task that changes its parameters while a donor boosts
-+ * it. The donor is a deadline task of 2ms every 10ms. Its deadline is the
-+ * earlier one, so the task runs on its own runtime while boosted. The
-+ * unlock ends the boost. The runtime left must then be checked against
-+ * the new parameters.
-+ */
-+static int change_boosted_new_params(void)
-+{
-+	return return_case(3);
-+}
-+
-+/*
-+ * A running task of 50ms every 100ms has 30ms left. It changes itself to
-+ * 8ms in 20ms, every 100ms. Its deadline stays 80ms ahead, further than
-+ * the new 20ms. The check of the runtime left uses the new density over
-+ * those 80ms. That allows 32ms, so the check keeps the 30ms. The task
-+ * must keep no more than its new 8ms.
-+ */
-+static int change_constrained_new_params(void)
-+{
-+	return return_case(4);
-+}
-+
-+/*
-+ * The same, for a task that the main thread changes while it sleeps. The
-+ * check is at its wakeup.
-+ */
-+static int wake_constrained_new_params(void)
-+{
-+	return return_case(5);
-+}
-+
-+static sem_t rb_donor_go;
-+static atomic_int rb_abort, rb_donor_locking, rb_donor_done, rb_waiter_locking;
-+static _Atomic pid_t rb_waiter_tid;
-+static _Atomic long long rb_spin_ns;
-+
-+/*
-+ * Run as the owner O of deboost_new_params_reboost(). Its comment has the
-+ * steps. Store in rb_spin_ns the time that O's last spin of 20ms takes.
-+ * Return NULL, or 1 on an error.
-+ */
-+static void *reboost_owner(void *arg)
-+{
-+	uint64_t t0;
-+	int err;
-+
-+	owner_tid = gettid_();
-+	if (take_pi_lock())
-+		return (void *)1;
-+	owner_holds = 2;
-+	sem_wait_sig(&owner_go);
-+	if (rb_abort) {
-+		drop_pi_lock();
-+		return NULL;
-+	}
-+	err = set_deadline(0, 50 * NSEC_PER_MSEC, PERIOD);
-+	if (err) {
-+		ksft_print_msg("the owner refused as a deadline task: %s\n",
-+			       strerror(-err));
-+		goto out;
-+	}
-+	sem_post(&rb_donor_go);
-+	t0 = now_ns();
-+	while (!rb_donor_locking || proc_state_of(donor_tid) != 'S') {
-+		if (now_ns() - t0 > NSEC_PER_SEC) {
-+			ksft_print_msg("the donor did not block on the lock\n");
-+			err = -1;
-+			goto out;
-+		}
-+	}
-+	err = set_deadline(rb_waiter_tid, 2 * NSEC_PER_MSEC, PERIOD);
-+	if (err) {
-+		ksft_print_msg("the waiter refused as a deadline task: %s\n",
-+			       strerror(-err));
-+		goto out;
-+	}
-+	err = set_deadline(0, 5 * NSEC_PER_MSEC, PERIOD);
-+	if (err) {
-+		ksft_print_msg("the owner could not change: %s\n",
-+			       strerror(-err));
-+		goto out;
-+	}
-+	t0 = now_ns();
-+	while (!rb_donor_done) {
-+		if (now_ns() - t0 > NSEC_PER_SEC) {
-+			ksft_print_msg("the donor did not time out\n");
-+			err = -1;
-+			goto out;
-+		}
-+	}
-+	t0 = now_ns();
-+	spin_ns(20 * NSEC_PER_MSEC);
-+	rb_spin_ns = now_ns() - t0;
-+out:
-+	drop_pi_lock();
-+	if (set_other(0))
-+		ksft_print_msg("the owner cannot leave SCHED_DEADLINE\n");
-+	return err ? (void *)1 : NULL;
-+}
-+
-+/*
-+ * Run as the donor D of deboost_new_params_reboost(). Become a deadline
-+ * task of 5ms every 50ms, and sleep until rb_donor_go. Then wait 20ms for
-+ * pi_lock. Return NULL if the wait timed out or the case gave up, or 1
-+ * otherwise.
-+ */
-+static void *reboost_donor(void *arg)
-+{
-+	struct timespec ts;
-+	int err;
-+
-+	err = set_deadline(0, 5 * NSEC_PER_MSEC, PERIOD / 2);
-+	if (err) {
-+		ksft_print_msg("the donor refused as a deadline task: %s\n",
-+			       strerror(-err));
-+		donor_tid = -1;
-+		return (void *)1;
-+	}
-+	donor_tid = gettid_();
-+	sem_wait_sig(&rb_donor_go);
-+	if (rb_abort) {
-+		set_other(0);
-+		return NULL;
-+	}
-+	clock_gettime(CLOCK_REALTIME, &ts);
-+	ts.tv_nsec += 20 * 1000000L;
-+	ts.tv_sec += ts.tv_nsec / 1000000000L;
-+	ts.tv_nsec %= 1000000000L;
-+	rb_donor_locking = 1;
-+	err = pthread_mutex_timedlock(&pi_lock, &ts);
-+	rb_donor_done = 1;
-+	if (!err)
-+		pthread_mutex_unlock(&pi_lock);
-+	if (set_other(0))
-+		ksft_print_msg("the donor cannot leave SCHED_DEADLINE\n");
-+	if (err != ETIMEDOUT) {
-+		ksft_print_msg("the donor: %s, not a timeout\n",
-+			       err ? strerror(err) : "got pi_lock");
-+		return (void *)1;
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * Run as the waiter W of deboost_new_params_reboost(). Wait for pi_lock
-+ * as a fair task. The owner makes W a deadline task during the wait.
-+ * Return NULL, or 1 on an error.
-+ */
-+static void *reboost_waiter(void *arg)
-+{
-+	rb_waiter_tid = gettid_();
-+	rb_waiter_locking = 1;
-+	if (take_pi_lock())
-+		return (void *)1;
-+	drop_pi_lock();
-+	if (set_other(0))
-+		ksft_print_msg("the waiter cannot leave SCHED_DEADLINE\n");
-+	return NULL;
-+}
-+
-+/*
-+ * Check that a deboost boosts the owner again when the check of its new
-+ * parameters moves its deadline after the one of its top waiter. The
-+ * threads share the CPU of P:
-+ *
-+ *   owner O                     donor D               waiter W
-+ *   fair                        5ms every 50ms        fair
-+ *
-+ *   takes pi_lock               sleeps
-+ *                                                     blocks on pi_lock
-+ *   becomes 50ms every 100ms
-+ *   wakes D up
-+ *                               preempts O
-+ *                               waits 20ms for
-+ *                                 pi_lock, boosts O
-+ *   makes W 2ms every 100ms
-+ *   changes itself to 5ms
-+ *     every 100ms
-+ *   spins
-+ *                               times out: W is now
-+ *                                 the top waiter
-+ *   spins 20ms
-+ *   unlocks
-+ *                                                     takes pi_lock
-+ *
-+ * W gets its deadline after O does, so W's deadline is the later one.
-+ * W blocks as a fair task: a deadline W could not preempt O to block.
-+ *
-+ * O has run about 20ms of its 50ms when D times out. The deboost checks
-+ * the runtime left against the new parameters. It is too much, so O
-+ * starts a new period: 5ms and a deadline 100ms ahead. W's deadline is
-+ * now the earlier one. W must boost O again. A boosted O is refilled
-+ * from W, so its last spin takes about 20ms. Without the boost, O is
-+ * throttled once its 5ms run out, until its new deadline. The case fails
-+ * if the spin takes more than 50ms.
-+ */
-+static int deboost_new_params_reboost(void)
-+{
-+	void *o_ret = NULL, *d_ret = NULL, *w_ret = NULL;
-+	int ret = KSFT_FAIL, have_d = 0, have_w = 0;
-+	pthread_t o, d, w;
-+
-+	if (pi_init())
-+		return KSFT_SKIP;
-+	if (sem_init(&rb_donor_go, 0, 0)) {
-+		ksft_print_msg("sem_init: %s\n", strerror(errno));
-+		pi_fini();
-+		return KSFT_FAIL;
-+	}
-+	donor_tid = 0;
-+	rb_abort = 0;
-+	rb_donor_locking = 0;
-+	rb_donor_done = 0;
-+	rb_waiter_locking = 0;
-+	rb_waiter_tid = 0;
-+	rb_spin_ns = -1;
-+	if (pthread_create(&o, NULL, reboost_owner, NULL)) {
-+		ksft_print_msg("the owner thread could not start\n");
-+		goto out_fini;
-+	}
-+	if (wait_for(5000, owner_holds) || owner_holds != 2) {
-+		ksft_print_msg("the owner never took pi_lock\n");
-+		goto out;
-+	}
-+	have_d = !pthread_create(&d, NULL, reboost_donor, NULL);
-+	if (!have_d || wait_for(1000, donor_tid &&
-+				   proc_state_of(donor_tid) == 'S') ||
-+	    donor_tid < 0) {
-+		ksft_print_msg("the donor never slept\n");
-+		goto out;
-+	}
-+	have_w = !pthread_create(&w, NULL, reboost_waiter, NULL);
-+	if (!have_w || wait_for(1000, rb_waiter_locking &&
-+				   proc_state_of(rb_waiter_tid) == 'S')) {
-+		ksft_print_msg("the waiter never waited on pi_lock\n");
-+		goto out;
-+	}
-+	ret = KSFT_PASS;
-+out:
-+	/* On a failure, the owner and the donor end without the steps. */
-+	rb_abort = ret != KSFT_PASS;
-+	sem_post(&owner_go);
-+	if (pthread_join(o, &o_ret))
-+		ret = KSFT_FAIL;
-+	sem_post(&rb_donor_go);
-+	if (have_d && pthread_join(d, &d_ret))
-+		ret = KSFT_FAIL;
-+	if (have_w && pthread_join(w, &w_ret))
-+		ret = KSFT_FAIL;
-+	if (o_ret || d_ret || w_ret) {
-+		ret = KSFT_FAIL;	/* the thread said why */
-+	} else if (ret == KSFT_PASS && rb_spin_ns > PERIOD / 2) {
-+		ksft_print_msg("the spin took %lld ms: not boosted again\n",
-+			       rb_spin_ns / (long long)NSEC_PER_MSEC);
-+		ret = KSFT_FAIL;
-+	}
-+out_fini:
-+	sem_destroy(&rb_donor_go);
-+	pi_fini();
-+	return ret;
-+}
-+
- static pthread_mutex_t pi_lock2;
- static sem_t holder_go;
- static atomic_int holder_holds, chain_waits, donor_done, x_waits, l2_takes;
-@@ -2859,6 +3232,98 @@ static int boost_blocked_keeps_order(void)
- 	return blocked_keeps_order(1);
- }
+ 	/*
+ 	 * Change the bandwidth that the runqueue counts here, with the
+ 	 * parameters. A task that priority inheritance boosted into the
+@@ -5247,6 +5306,7 @@ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ 	dl_se->dl_defer_running		= 0;
+ 	dl_se->dl_defer_armed		= 0;
+ 	dl_se->dl_bw_oncpu		= 0;
++	dl_se->dl_new_params		= 0;
  
-+/*
-+ * A waiter of pi_lock2 that is a deadline task of 400ms every 1s. It
-+ * waits right after it starts its period. It leaves the class at the end.
-+ */
-+static void *dl_waiter(void *arg)
-+{
-+	int err;
-+
-+	fair_tid = gettid_();
-+	err = set_deadline(0, 400 * NSEC_PER_MSEC, NSEC_PER_SEC);
-+	if (err) {
-+		ksft_print_msg("a waiter refused as a deadline task: %s\n", strerror(-err));
-+		return (void *)1;
-+	}
-+	chain_waits = 1;
-+	err = take_l2_ranked(&chain_rank);
-+	if (set_other(0))
-+		ksft_print_msg("a waiter cannot leave SCHED_DEADLINE\n");
-+	return err ? (void *)1 : NULL;
-+}
-+
-+/*
-+ * Check the order of the waiters of pi_lock2 when sched_setattr() changes
-+ * the parameters of one of them while it waits. The holder has pi_lock2:
-+ * 1. W, a deadline task of 400ms every 1s, waits on pi_lock2. Its
-+ *    deadline is about 1s ahead.
-+ * 2. The other waiter, a deadline task of 5ms every 50ms, waits on
-+ *    pi_lock2. Its deadline is about 50ms ahead.
-+ * 3. The main thread gives W 1ms every 10ms. The 400ms left overflow these
-+ *    parameters, so W starts a new period: its deadline is 10ms ahead.
-+ * 4. The holder drops pi_lock2.
-+ *
-+ * W must take pi_lock2 first. W is not queued at step 3. Unless its
-+ * runtime is checked against its new parameters then, its waiter node
-+ * keeps the deadline 1s ahead.
-+ */
-+static int setattr_blocked_new_period(void)
-+{
-+	void *w_ret = NULL, *x_ret = NULL;
-+	int ret = KSFT_FAIL, have_w = 0, have_x = 0, err;
-+	pthread_t h, w, x;
-+
-+	if (pi_init())
-+		return KSFT_SKIP;
-+	if (pi_init_lock2()) {
-+		pi_fini();
-+		return KSFT_SKIP;
-+	}
-+	if (pthread_create(&h, NULL, l2_holder, NULL)) {
-+		ksft_print_msg("the holder thread could not start\n");
-+		goto out_fini;
-+	}
-+	if (wait_for(5000, holder_holds) || holder_holds != 1) {
-+		ksft_print_msg("the holder never took pi_lock2\n");
-+		goto out;
-+	}
-+	have_w = !pthread_create(&w, NULL, dl_waiter, NULL);
-+	if (!have_w || wait_for(1000, chain_waits && proc_state_of(fair_tid) == 'S')) {
-+		ksft_print_msg("the waiter W never waited on pi_lock2\n");
-+		goto out;
-+	}
-+	have_x = !pthread_create(&x, NULL, early_waiter, NULL);
-+	if (!have_x || wait_for(1000, x_waits && proc_state_of(x_tid) == 'S')) {
-+		ksft_print_msg("the other waiter never waited on pi_lock2\n");
-+		goto out;
-+	}
-+	err = set_deadline(fair_tid, NSEC_PER_MSEC, 10 * NSEC_PER_MSEC);
-+	if (err) {
-+		ksft_print_msg("new parameters for W refused: %s\n", strerror(-err));
-+		goto out;
-+	}
-+	ret = KSFT_PASS;
-+out:
-+	sem_post(&holder_go);	/* pi_lock2 goes to its top waiter */
-+	if (have_x && pthread_join(x, &x_ret))
-+		ret = KSFT_FAIL;
-+	if (have_w && pthread_join(w, &w_ret))
-+		ret = KSFT_FAIL;
-+	join(h);
-+	if (w_ret || x_ret) {
-+		ret = KSFT_FAIL;	/* the thread said why */
-+	} else if (ret == KSFT_PASS && chain_rank > x_rank) {
-+		ksft_print_msg("W took pi_lock2 after the other waiter\n");
-+		ret = KSFT_FAIL;
-+	}
-+out_fini:
-+	pthread_mutex_destroy(&pi_lock2);
-+	sem_destroy(&holder_go);
-+	pi_fini();
-+	return ret;
-+}
-+
- /*
-  * The threads of pi_chain_donor_leaves(): O, M, W, Z and Y. leave_tid[]
-  * holds their tids. leave_y_ns is the CPU time Y gets in O's window, or
-@@ -10697,9 +11162,16 @@ static const struct p_case {
- 	{ "deboost_out_after_donor_refill", deboost_out_after_donor_refill, MEASURED_IN_P },
- 	{ "deboost_out_asleep_after_refill", deboost_out_asleep_after_refill, MEASURED_IN_P },
- 	{ "deboost_keeps_own_runtime", deboost_keeps_own_runtime, MEASURED_IN_P },
-+	{ "return_running_new_params", return_running_new_params, MEASURED_IN_P },
- 	{ "return_asleep_new_params", return_asleep_new_params, MEASURED_IN_P },
-+	{ "change_running_new_params", change_running_new_params, MEASURED_IN_P },
-+	{ "change_boosted_new_params", change_boosted_new_params, MEASURED_IN_P },
-+	{ "change_constrained_new_params", change_constrained_new_params, MEASURED_IN_P },
-+	{ "wake_constrained_new_params", wake_constrained_new_params, MEASURED_IN_P },
-+	{ "deboost_new_params_reboost", deboost_new_params_reboost, MEASURED_IN_P },
- 	{ "deboost_blocked_keeps_order", deboost_blocked_keeps_order, MEASURED_IN_P },
- 	{ "setattr_blocked_keeps_order", setattr_blocked_keeps_order, MEASURED_IN_P },
-+	{ "setattr_blocked_new_period", setattr_blocked_new_period, MEASURED_IN_P },
- 	{ "boost_blocked_keeps_order", boost_blocked_keeps_order, MEASURED_IN_P },
- 	{ "pi_chain_donor_leaves", pi_chain_donor_leaves, MEASURED_IN_P },
- 	{ "pi_chain_top_moves", pi_chain_top_moves, MEASURED_IN_P },
+ #ifdef CONFIG_RT_MUTEXES
+ 	dl_se->pi_se			= dl_se;
 -- 
 2.47.3
 
