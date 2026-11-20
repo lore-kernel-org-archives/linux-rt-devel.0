@@ -1,57 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795121946;
-	b=hi+RbxUtWXaLSsxrzA4gNXJ10mFe1s6la0YwRp6LJO7BYOQuDGDlsZI3TMp5NEcfOUKU
-	 /Udvjb3VDyOvKimt1ofhHX9RlYby9Zq9yg8sz6BA94CQqp9toz4TLA1040n+AYihnnXZD
-	 lAV5SrSQ/u2rhRxveW3y50wfEvXooea8TS8GPh00uaVeEVcCvlNrli9hMRnKbqG/Oxcoa
-	 AO0e55SihPBH5hBdUwe3V1wI6+ToQ5vAh5gLmrMo1wzyYUqhrn69qQEk7xbZL5ICwj6d9
-	 W0Spk3YCU9mWMGus2p3EJSyiBIK/r7CbgT904wUdsQ4FStMJ53re8LgHVoUQacZuOig==
+	t=1795137111;
+	b=KflWQ3o3aqxIbf2RX/FcYVzrUEAfJ6rJuQjVPAe+YBX0GJHy+zbOHKUzlMVTYsuiAJEr
+	 vzWUPFHYmfrNLYi1dK9VUTPQORE+PcpwDuts6HSb6Q96cTvcjQ0qR8EkmQZfM7GHefFTk
+	 XvLxhYoBQnwV9542e3y5o9WYoqoEZD8HdongyLzGBA4EB0DlgRtpG7f8+KBATAKvcX0hv
+	 VAQvDenBRnOj7gAnhlRzzJG+aVeV4PXJVZHieErRZWyFrXnSXNtSWXUyR3Tm61qRcjpla
+	 sXPiQLZXzV6MVLXrq4Jeb+Z+wgUWn00c/j1bVuTGCNtvmu36/Ub582GokaAm+s6dyRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795121946;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=G1pcEvjR2pSJvbQKF+KKXdZzwnsyzVOnl5RF1DfJCT8=;
-	b=BiM0XJ1BjAkiOeYhyS9GylBBHKRYPSAX+eaZ/dThsnT/8qBXKV4ZXZb9yz9BttUHARyT
-	 yuAHpMDcwrkOISQxgt+BaN0EoPVrKjUICLNqUVfEgb/bdOKKvWk/rqWzq2GN2iJ7dW1hw
-	 nwNiVmGPNM8sYON11no7fWBlHWiKAM3iADWFfQ3AZQsq0BnHH1laadSWzO62YgUZupDMU
-	 vm188d8DaGCNkThvrEyYa4ZaPPeglXq3PBuDbQtMjiCVY3oP9KWEIbhKDQNrcUbTsmeUe
-	 AwlOoK5DvQRyom6/TtOmh/vKYhXlxjaW20zo9iefMR7wNkYMyzfmKYiv9W/B9wivsjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795137111;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=+WauXmzgjTADvjBBTuDw9ddxWh3mS9R+yZFc6+jn+U4=;
+	b=p0Js1fEZTu3+qyx2JnKtOUg+9Z9FedYFxcAl8Z159MzMcMJDaf7CIDc0toU7G6Aa+5y4
+	 7mUWIMO6bWTnUqahb9Vy4YHNthZ9qki/q7lhTxcncnYgX39VMgB9c5qcQi6yQEU54w/Wi
+	 8jEXQ3YnZtmI77mYibIqajaEjAjnMmBWe4yFDXWRa64eEr+1UhyxTdlqupp4yvuFlaDiV
+	 ewQOfQFXRZ/8Po46Dqn1KeJkhH1bXum4emRYfiWZXVPAuneplvZPi3k+u0EmlgZiGDk5d
+	 Wahx/IoR7ikcTXmliiqBOCqmd/ivfzAGOwBnbiLtE4WPp8O/37EG/tlJLxvlpfR/9xQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IRTeRxq0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tvYHNPW8;
+	arc=none smtp.remote-ip=74.125.227.137
+Received: from mail-pj2-f9.google.com (mail-pj2-f9.google.com [74.125.227.137])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53F5606A904;
-	Thu, 19 Nov 2026 20:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EC4606A32C
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 01:11:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70EC4606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IRTeRxq0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53B0D1F000C0;
-	Thu, 19 Nov 2026 20:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795121946;
-	bh=G1pcEvjR2pSJvbQKF+KKXdZzwnsyzVOnl5RF1DfJCT8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IRTeRxq0MWbySYSjULmfQ+orb1PEPVfs22cOopaGzDmI+Lsqy9AZB3M7fMnXfnBjK
-	 S6MgeokxDfLn2INXI4ceyn1sW1bsewhApoqS5fzCH3h7HoA8jh8sQTRBsY3XDi578I
-	 fxOiw8Gkcn15U8K1er7yRP/DPDSlA8b5C1LJtfw4U2MLmD47o/QwOgxYQmjm+/gW3r
-	 Ko5zhohj/zZWTgTP9pGo2he2g8AjNDMhV+BuH8IQdBPqat4g+JOgfhsm13Inq/wli/
-	 Qf9Y6pzUyDBR5sCusk6Y/CNtzO+vDvxZuW1nkCaJoRUbeUxsV4THQlTaY18IS2iX6N
-	 lRBG+hYdQEEhw==
-Message-ID: <sashiko-outbox-224081@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 32/33] sched/deadline: Check the runtime of a task
- whose parameters change
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <efcd611a473f0da0161243c58f4af7c7ca73e2ba.1795116791.git.mathieu.desnoyers@efficios.com>
-References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
- <efcd611a473f0da0161243c58f4af7c7ca73e2ba.1795116791.git.mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 20:59:05 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tvYHNPW8
+Received: by mail-pj2-f9.google.com with SMTP id 98e67ed59e1d1-3b18c01238eso104445a91.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 19 Nov 2026 17:11:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795137111; x=1795741911; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=+WauXmzgjTADvjBBTuDw9ddxWh3mS9R+yZFc6+jn+U4=;
+        b=tvYHNPW8o5V7ghrZepr4aKxGTcLz/xlKjXj9eiNSVruUj+RA7CvSk39zjQqbnwXKEk
+         lgH6+vPO5kNGr8YkFhx45zxqLDwI+03KudGH5WZyOOL3thEm22DHgVi9dQhp74VDG3zh
+         SxQMe+OZ1fUyOzbuhi/2slvp5fjE7A/HgQJgk0R+y4NJ8ycIhkJMplrlVoxohpMBqAwy
+         CLxeSJzCSDYQDb71WGiIlnuQDlkKI33HlNkgY9vLmLFN3ciwNLqmfJLJkvNRl7Mehayj
+         eLFt3jk90FDv0b/Q5Li+70FfQoMjg9robzX3T7SjCP5NTOG5AOgBuFpJWU/7nvdjEtk0
+         HNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795137111; x=1795741911;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+WauXmzgjTADvjBBTuDw9ddxWh3mS9R+yZFc6+jn+U4=;
+        b=pMzlbSSf4Y3FsVn6iQkAMv+FApfzLZpnjX4hp4E9IzomqWg6LF/RSuvUzbxKdzCcro
+         pbSEyCDyjQXGP/O8Ge/WrGHuVUfAKHqYChaeDYDyUN9pGa0sGG0PXa4gfCwvktajsDyc
+         HK3c0tZKHhfO55qkUE44fRfEjZ9/H3POexI22WC/oNNOhhWFuIeHusT7cXjuApja27+q
+         oGcIyDsgPdcyajA8b6JgNaQFUFCY8KZ0loAzbHfHUCQ6QxgGxPJynBzDE5m45G/pEU+O
+         NnEHA6xr2RpC/OrvkgR6JMTWpkvfA9Agpy1cqjj+SJwLt9zGgulGXH0MDzU/GI9UbtNP
+         iNsQ==
+X-Forwarded-Encrypted: i=1; AL+hErEqYWS1ys5BXCEaNuQ8ds/YadFaOoqEq0uEi6aW3qXQlTJCTTYzZFhoZsC1qKVExFBo0vQDLOdrIm9745RHfA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/gmbqmlrPTMKW2oerQBMSqg0/r9wY7i+UDXXHLaSllYLaf0mIK
+	IQLGSeHzFXy6bePXdAAuQN0tcHMpClR0EuG376nYdq9d9EMh9WN09i89
+X-Gm-Gg: AZFdTZd6XipRSMWgFs8zxuWZr8J0/knJYbmhDTRH5r2ythJHusjTqQ8u3u7TDUlbxKj
+	NridP4xVUiQ6RZRJ+YjXojMizJcj2BuEvSVv/gddW5WOPGcqHzK3DaJTxjP0Y0tahpWTwe3qEBW
+	ooLyj3iiyjM70xnSbwJ2xWyMIOcXIx+s7hzF2NCQxzrt5X8+gTzAuKRX9rT10wZLi+WQCZlkSlX
+	iushPVQtbRa1R/eN2aRmRk+mwBoOLAwtl3jdK661KZuPbrI+Jpm4n3YTUssnp7w6srigTzxo9pk
+	1/6j5xSl3Xibk6UoaPSciCgMl4bOw2OUlA2l3hgt4wNqLvfQAZKtQLrApZg2P3T/DUO0Z0M6NKY
+	BvzVpkbJDFs3GHHHoDdFA5I+Gs00dqb7b4LoOIHjn9Le3sRTqZwVbdJcsklsqFSQMz17nPgGpJI
+	55X9SUQYtrO7LYWra796EvtvMZWLPW2LCwqNinY6RUh7xYIY1lDhYuQ153DsuJmERuyB040b3Ud
+	dfy+J1HpFJPSnRx29a3LjaroqESxN8JaIhBX5UKYDvZbiSXiSRQHreegccGLMkBxvjnDAL8hqHG
+	hbFkxx+GKYRy/EeXZleZo1SvTOWZkhx05Ilsoisv9DDmoIbq7FMSF8UfFZFP0pwxbYqz6iF8OyW
+	BchvzaMs6aKdl
+X-Received: by 2002:a17:90b:2f8f:b0:3b3:b0f4:1bf7 with SMTP id 98e67ed59e1d1-3b41c8d460emr1098385a91.23.1795137110648;
+        Thu, 19 Nov 2026 17:11:50 -0800 (PST)
+Received: from localhost ([50.7.253.42])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41d243eb1sm622215a91.3.2026.11.19.17.11.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 17:11:50 -0800 (PST)
+From: Aveline Noir <jm5905938@gmail.com>
+Subject: [PATCH RESEND v2 0/2] HID: picolcd: Fix output-request and
+ framebuffer locking
+Date: Fri, 20 Nov 2026 12:05:46 +1100
+Message-Id: <20261120-mail-picolcd-v2-resend-20261120-v2-0-d7531fa8061b@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,158 +92,75 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNTQvCMBBE/0rZs4tJxCCe7dWDHsVDPla7UtOSa
+ BFK/7tJRS8eZ+Yxb4REkSnBthoh0sCJu5CDWlTgGhOuhOxzBiWUllIJvBtusWfXtc7joDBSouD
+ xtzvya7PReuWlgPzSR7rwazac4FAf6/0Ozp8+Pe2N3KPcF9KaRGijCa4pVREt/0Uz9bXBNL0Bd
+ +SW7MIAAAA=
+X-Change-ID: 20261120-mail-picolcd-v2-resend-20261120-ced5a8663d10
+To: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, deller@gmx.de, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ =?utf-8?q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
+ Clark Williams <clrkwllms@kernel.org>, bigeasy@linutronix.de, 
+ linux-input@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+ Takashi Iwai <tiwai@suse.de>, 
+ syzbot+912222e4cb82423535fa@syzkaller.appspotmail.com, 
+ linux-rt-devel@lists.linux.dev, simona@ffwll.ch, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+X-Mailer: b4 0.16.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] sched/deadline: dl_deboost() skips dl_check_constrained_dl()
-  and sleep check
-- [Medium] sched/deadline: __setparam_dl() skips dl_new_params on
-  boosted policy re-entry
-- [Medium] sched/deadline: stale deadline in rt_mutex_adjust_pi() on
-  blocked param change
-- [Medium] sched/deadline: missing PI boost when update_dl_entity()
-  pushes owner deadline
---
+Hi Jiri,
 
-commit ef8688347a9187823ad70d72973343acbfec2dd5
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Thanks for catching that. Both patch emails were line-wrapped in
+transit, so I'm resending the full v2 series. The commit messages and
+diffs are unchanged. I checked that a copy of patch 1/2 sent to myself
+applies cleanly with git am.
 
-sched/deadline: Check the runtime of a task whose parameters change
+This series fixes two PicoLCD locking problems. The first moves output
+requests into sleepable context and serializes LED state updates. The
+second breaks the last-close/deferred-worker lock dependency using a
+private framebuffer update mutex.
 
-This commit marks deadline tasks whose runtime, deadline, or period
-changes in __setparam_dl() and runs update_dl_entity() on the next
-unboosted enqueue or upon deboost in dl_deboost().
+The first patch was tested separately with the original syzkaller C
+reproducer and bounded concurrent sysfs/UHID-destroy workloads on
+PREEMPT_RT. The complete series additionally passed repeated framebuffer
+open/write/close and persistent-open framebuffer tests. Pre-fix modules
+reproduced the respective failures. Physical hardware, prolonged stress
+and suspend/resume have not been tested.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 7ed2f525b883e..2849484428c60 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-[ ... ]
-> @@ -130,6 +136,12 @@ void dl_deboost(struct sched_dl_entity *dl_se)
->  	if (dl_se->dl_donor_refill)
->  		dl_start_own_period(dl_se);
->  	dl_drop_boost(dl_se);
-> +
-> +	if (dl_se->dl_new_params) {
-> +		dl_se->dl_new_params =3D 0;
-> +		if (!dl_se->dl_throttled)
-> +			update_dl_entity(dl_se);
-> +	}
->  }
+Patch 2's Fixes tag identifies the fbdev change that began draining
+deferred work from fb_release() while holding info->lock. Patch 1's Fixes
+tag was checked against the upstream transport-conversion diff.
 
-[Severity: Medium]
-Does calling update_dl_entity() directly from dl_deboost() bypass
-dl_check_constrained_dl() and update sleeping tasks prematurely?
+Changes in v2:
+- Address Sebastian Andrzej Siewior's feedback: clarify that the issue
+  is not specific to PREEMPT_RT and identify picolcd_data::lock as a
+  spinlock_t in patch 1. The code changes are identical to v1.
 
-In enqueue_dl_entity(), dl_check_constrained_dl() runs before
-update_dl_entity() so a constrained task (!dl_is_implicit(dl_se)) with
-dl_se->deadline < rq_clock(rq) < dl_next_period(dl_se) is throttled until
-its next period.  Because rt_mutex_setprio() calls dl_deboost() before
-sched_change_end() enqueues the task, update_dl_entity() sees
-dl_time_before(dl_se->deadline, rq_clock(rq)) and immediately starts a new
-period via replenish_dl_new_period(), moving dl_se->deadline into the
-future before enqueue_dl_entity() can throttle it.
+Helge acked patch 2/2 in the original thread.
+https://lore.kernel.org/linux-input/CANOyQmGfmBdTRaEamVdGuMBToVLeXGi6qLrnX=
+=3DxkA9acsL9TSQ@mail.gmail.com/
 
-In addition, if the lock owner is sleeping on a non-PI wait when a donor
-times out or is interrupted (!task_on_rq_queued(p) &&
-!dl_task_pi_blocked(p)), dl_deboost() clears dl_new_params and starts a
-new period while the task is still asleep rather than waiting for its
-wakeup enqueue.
+Thanks,
+Aveline Noir
 
-[ ... ]
+Aveline Noir (2):
+  HID: picolcd: Move output requests out of spinlocked sections
+  HID: picolcd: Avoid framebuffer last-close deadlock
 
-> @@ -2913,12 +2934,13 @@ enqueue_dl_entity(struct sched_dl_entity *dl_se, =
-int flags)
->  		update_dl_entity(dl_se);
->  	} else if (flags & ENQUEUE_REPLENISH) {
->  		replenish_dl_entity(dl_se);
-> -	} else if ((flags & ENQUEUE_CLASS) && !is_dl_boosted(dl_se)) {
-> +	} else if (((flags & ENQUEUE_CLASS) || new_params) &&
-> +		   !is_dl_boosted(dl_se)) {
->  		/*
-> -		 * The task enters the class runnable. It may come back before
-> -		 * its deadline, with the runtime left from older parameters.
-> -		 * Check that runtime against the new parameters, as a wakeup
-> -		 * does.
-> +		 * The task enters the class, or its parameters change, while
-> +		 * it is runnable. It may have runtime left from older
-> +		 * parameters. Check that runtime against the new parameters,
-> +		 * as a wakeup does.
->  		 */
->  		update_dl_entity(dl_se);
->  	} else if ((flags & ENQUEUE_MOVE) &&
+ drivers/hid/hid-picolcd.h           |  4 +++
+ drivers/hid/hid-picolcd_backlight.c |  7 ++--
+ drivers/hid/hid-picolcd_core.c      | 46 +++++++++++++++---------
+ drivers/hid/hid-picolcd_fb.c        | 56 ++++++++++++++++++-----------
+ drivers/hid/hid-picolcd_lcd.c       |  7 ++--
+ drivers/hid/hid-picolcd_leds.c      | 31 +++++++++-------
+ 6 files changed, 93 insertions(+), 58 deletions(-)
 
-[Severity: Medium]
-Can an unboosted SCHED_DEADLINE lock owner miss a required PI boost when
-update_dl_entity() pushes its deadline past its top waiter's deadline?
 
-Suppose a SCHED_DEADLINE task p holds an rt_mutex with a SCHED_DEADLINE
-waiter whose deadline is later than p->dl.deadline, so p is not boosted.
-When sched_setattr() shrinks p's reservation, __setscheduler_dl_pi() runs
-before sched_change_end() and only checks !dl_policy(policy).  Then
-enqueue_dl_entity() calls update_dl_entity(), which starts a new period
-and advances p->dl.deadline past the waiter's deadline.  Unlike
-rt_mutex_setprio(), which rechecks dl_entity_preempt(&pi_task->dl, &p->dl)
-after dl_deboost(), __sched_setscheduler() never compares p's new deadline
-against rt_mutex_get_top_task(p), leaving p unboosted and allowing it to
-be throttled on its reduced runtime while holding the lock.
-
-[ ... ]
-
-> @@ -4971,6 +4993,11 @@ void __setparam_dl(struct task_struct *p, const st=
-ruct sched_attr *attr)
->  	u64 period =3D attr->sched_period ?: attr->sched_deadline;
->  	bool held;
-> =20
-> +	if (attr->sched_runtime !=3D dl_se->dl_runtime ||
-> +	    attr->sched_deadline !=3D dl_se->dl_deadline ||
-> +	    period !=3D dl_se->dl_period)
-> +		dl_se->dl_new_params =3D 1;
-> +
->  	/*
->  	 * Change the bandwidth that the runqueue counts here, with the
->  	 * parameters. A task that priority inheritance boosted into the
-
-[Severity: Medium]
-Does __setparam_dl() leave dl_new_params unset when a task leaves
-SCHED_DEADLINE and re-enters with the same parameters while PI-boosted?
-
-When a SCHED_DEADLINE task switches to another policy while PI-boosted (or
-switches before its 0-lag time and is then PI-boosted back into
-dl_sched_class, where switched_to_dl() cancels inactive_timer), its old
-dl_runtime, dl_deadline, dl_period, runtime, and deadline remain in p->dl.
-If the task still has positive runtime so replenish_dl_entity() does not
-set dl_donor_refill, and sched_setattr() switches it back to
-SCHED_DEADLINE with identical parameters while still boosted, prev_class
-and next_class are both &dl_sched_class (so ENQUEUE_CLASS is not set) and
-the parameter comparison above is false.  At deboost, dl_deboost() sees
-both dl_donor_refill =3D=3D 0 and dl_new_params =3D=3D 0 and skips
-update_dl_entity(), letting the task consume its old leftover runtime
-before the old deadline.
-
-[Severity: Medium]
-When sched_setattr() shrinks the parameters of an unboosted task blocked
-on an rt_mutex, does rt_mutex_adjust_pi() use a stale p->dl.deadline?
-
-For a task blocked waiting on an rt_mutex (dl_task_pi_blocked(p) is true
-and task_on_rq_queued(p) is false), sched_change_end() does not call
-enqueue_task_dl(); prio_changed_dl() returns early because the task is not
-queued, and switched_to_dl() only replenishes when p->dl.deadline is
-already in the past:
-
-kernel/sched/deadline.c:switched_to_dl() {
-	...
-		if (dl_task_pi_blocked(p) && !p->dl.dl_throttled &&
-		    dl_time_before(p->dl.deadline, rq_clock(rq)))
-			replenish_dl_new_period(&p->dl, rq);
-	...
-}
-
-When __sched_setscheduler() then calls rt_mutex_adjust_pi(p),
-dl_new_params is still pending and update_dl_entity() has not run, so an
-overflowing remaining runtime does not advance p->dl.deadline to a new
-period before the waiter tree and lock owner boost are updated.
-
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795116790.gi=
-t.mathieu.desnoyers@efficios.com?part=3D32
+2.55.0
