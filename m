@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208941;
-	b=jW4omJJYlBrniB09CAo05m2B8ZLYgxIi0g1vXuiu4X314M0UK9kH5R8XI2WeBmtoVXqZ
-	 U35e6lZi8EEAmn0eNzpObkL2X8vTNTd4JE8kXopOIITEQEISm0nUcEZSWaMtEQN1a6dwv
-	 l0VIkRNoAeroKYQd/tkzXObh1NZ0/+eVRuKPpsB2ai0IvGVHWty57JiVl7s7prXjZMyWf
-	 7ztfG2oBEekDilJ81UBA8h9EsD/nJiwRedYDOBzHMah1NUsXt0qtcTS7fjdeMl3G90Swc
-	 vAu6hfYwZ/TjvCVw5kDbJzhN1Kkab8eUQLOlr57Nd7ULBXz0WWURRg1qmDCuDLz/Maw==
+	t=1795209100;
+	b=YViUAmywzcYVFKCH1+0UzTndGy2vpFDNAlAPr9DCkS071kYIdn17JV6PKGbhgack5L5d
+	 mlLYqyLee4WPGMVjcYDRaQCJGV/UvypSBnP0ojeWAJJCZOhqroDxjZaxiQ7YTUNA6b7rQ
+	 sWupc4/Q3q83FOD5ihdNw+S+wAvieAdRdDoB4LuP0sDdNfMZ8huVuNQQnX85rHoVKHQN+
+	 YeQhf4xuzBOwwhImjL3ylk/ebuYqUnBXTTuDRtSrubtNgcbnmy4LsK/a5Ulrpcw6ows7h
+	 z+RS6fmW1xkJmdhqNFKyxjcwyu8F0fDihALDw5ZVKDg7w8/nfBMKZFC7Gx1f+zdh1uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208941;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795209100;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=O25rA5UXimFfXClKEaHhOmZj2ob0lGVZAnMWeUUZSV4=;
-	b=SReMFRAPZh1U29sOW90T+qnAZ3bzKRF+cS2cdO8TCKwCOX7xZaqEo5DAVoF6RlYrmoul
-	 4O7SqWcHDZYB+NX1Og8ShAW5+PgK201d5lKCRTkPb5QcZqVDY2kESWFTmGavGIJ9tqVHY
-	 K9TRf1x9q3FvGjQ9eS00eyAb8mGSYqHT+rtAfs9/1MnQ9pMCVeBiuYSN/fenPFf2yV5cb
-	 a7ShvPlJlydu85gNBYtgV0UHCSoqGMXWWF/RdDEhEXplFGj6lGKSsI7UsfLPtqiLnyPTo
-	 R3W2+HQpB8Xd+SdL+ojIzYAsGcvgTa//Y3jmGX/elbxNW+J+cEZqLU5eGxE2zX4d2xQ==
+	bh=S1HXA273iuZgUbRFpoY4bpPQTCGhUgQPAylO/uCFCCY=;
+	b=mKqX+l2yCvOr1zawye+hwRcTn9MgDOAhQ1oeiiwxULUbT0iu4AVxZN4ddS47YOkI3Kri
+	 s7/7hq9PGzKZBZrVBwYGsZwTY6j9e9J8ykO91xXo+WWLcfljx7oY4kJzE/Ga7oSg92Zej
+	 7wR/z1/Esm+gstrAxm0/KTZatOffO4Gsv/C3eckgBWDxb+PjK5y9IouWHrq+DY5eX/001
+	 ymEOKEt8OE1JretbFqZqAhQYOzInoFX7wxgDDc/eg/bcIqNokYE3LrtqiU4YeH+ulf4G1
+	 Rg1zGmQpkxe8o7nSTJiSRrOYcP3jOKij59vh39IDQrj2HqNg2fO2TTrObi9OZqAOjSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfWcJZoT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RGZrNpFI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B045606A6A6;
-	Fri, 20 Nov 2026 21:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2210F606A33B;
+	Fri, 20 Nov 2026 21:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfWcJZoT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2181F000C0;
-	Fri, 20 Nov 2026 21:09:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RGZrNpFI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9D321F000D1;
+	Fri, 20 Nov 2026 21:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795208940;
-	bh=O25rA5UXimFfXClKEaHhOmZj2ob0lGVZAnMWeUUZSV4=;
+	s=k20260515; t=1795209100;
+	bh=S1HXA273iuZgUbRFpoY4bpPQTCGhUgQPAylO/uCFCCY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DfWcJZoTe599OI8V0tdnZRTJncePuuvnW+ENcdF7SopQ6zD3JHGnurpx5vXa3WNhu
-	 7EEzur2VWhlWXvS2tjiV+wVnkKtCB67o0R2TFSvQn2Y4SWckwD+Afhas+RRVYe3tDv
-	 P1oVX6W/eHVGvx93uERyz/6P3bG+oTD/htUDEqcF6G8JqJ/A9kIxMxshXINlg0mUry
-	 iUB3fFBimu/iLlpfokIZz9lVGCx2PvqNXQ5ayxSjXpTJTo++MZBcYYVLJTl1h3TDGX
-	 oOsrR4zejzZIbt1rrfAuL4KpyBB8ZW7lJDtPCSAa2vTj+iFjmqtnIc5qyJ/jfFDYQE
-	 OcY5kGQpzPgng==
-Message-ID: <sashiko-outbox-226131@kernel.org>
+	b=RGZrNpFIdBbOzaNY41L39KW2hfNgNtLjqiK4YgpvNueV4Y+BbqhmiHzggX+Fk7gwD
+	 aMcfQq708OwgHid4c4SLiF9HdGnqN4EVB4ZIB75erASPDPWmXHiJexcAH+RX0fwQcz
+	 XmcX7gr4JovN75Ni/LORYBDmTCU+RO5PGb8GVICnsw1dRSlQxWeuSf4jMqSoDr1w2o
+	 WIGTJfXaSSPwwhFJ+8UkcN1EfzJSjv7zHcn4BoMRXWes61MKXzf7JhV0edmahONVP2
+	 t5OYkmmxN/stOstplIyuB1fLzY1fMC4p2+1IRpIKadU0FsDOXx9ewb+lln3nmLOvXX
+	 4xIFYAJNKnTBA==
+Message-ID: <sashiko-outbox-226138@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 31/40] selftests/sched: Test deadline boosts in
- deadline_bw_test
+Subject: Re: [PATCH v10 13/40] sched/deadline: Make a rebuild count a task
+ in the root domain it runs in
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <e0d14db39ed097c54761a08cb3a1c3e5a57f81ea.1795207233.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <c7c27e2c74c13bb8580f84ac9ed12a5a8001947a.1795207232.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
- <e0d14db39ed097c54761a08cb3a1c3e5a57f81ea.1795207233.git.mathieu.desnoyers@efficios.com>
+ <c7c27e2c74c13bb8580f84ac9ed12a5a8001947a.1795207232.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 21:08:59 +0000
+Date: Fri, 20 Nov 2026 21:11:38 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,151 +61,146 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Low] selftests/sched: hang in requeue_pi_new_period() error path on
-  FUTEX_WAKE
-- [Low] selftests/sched: deadlock in deboost_out_asleep_after_refill()
-  error path
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] sched/deadline: dl_add_task_root_domain() drops departed
+  out-of-mask task bw
 --
 
-commit 27cfa3f823b3f1e4dfbcad5af492394f2bdb22ea
+commit 39db1557a3e0cb285c7dd82b57ad0144aeff4d00
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-selftests/sched: Test deadline boosts in deadline_bw_test
+sched/deadline: Make a rebuild count a task in the root domain it runs in
 
-This commit adds ten test cases to deadline_bw_test covering SCHED_DEADLINE
-priority inheritance boosts, deboosts, runtime refills, and lock waiter
-ordering.
+This commit introduces dl_task_rebuild_cpu() to select the CPU and root
+domain where a deadline task's bandwidth is counted during a root domain
+accounting rebuild, and leaves out tasks with no active CPU instead of
+triggering a BUG_ON().
 
-> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
-tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> index cf3b49cf2be28..7925623ed1da7 100644
-> --- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-
-[ ... ]
-
-> @@ -1939,6 +2066,664 @@ static int deboost_keeps_own_runtime(void)
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 0ece0f7d5e1ae..1e7168241e9cf 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
 
 [ ... ]
 
-> +static void *asleep_donor(void *arg)
+> @@ -3863,6 +3875,62 @@ static void dl_get_task_effective_cpus(struct task=
+_struct *p, struct cpumask *cp
+>  	cpuset_cpus_allowed_locked(p, cpus);
+>  }
+> =20
+> +/*
+> + * Return a CPU of the root domain where a rebuild of the accounting sho=
+uld
+> + * count the bandwidth of @p, or nr_cpu_ids if there is none.
+
+[ ... ]
+
+> +static unsigned int dl_task_rebuild_cpu(struct task_struct *p)
 > +{
-> +	struct timespec ts;
-> +	int err;
+> +	struct cpumask *msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+> +	/*
+> +	 * Read the record once. The last schedule of a dead task clears it
+> +	 * under its rq lock, and the caller holds only the pi_lock.
+> +	 */
+> +	int recorded =3D READ_ONCE(p->dl.dl_bw_cpu);
+> +	unsigned int cpu;
 > +
-> +	aslp_donor_tid =3D gettid_();
-> +	err =3D set_deadline(0, NSEC_PER_MSEC, NSEC_PER_SEC);
-> +	sem_post(&aslp_donor_ready);
-> +	if (err) {
-> +		ksft_print_msg("the donor refused as a deadline task: %s\n", strerror(=
--err));
-> +		sem_post(&aslp_donor_out);
-> +		return (void *)1;
+> +	/*
+> +	 * Look at the mask of the task first. A change of the cpusets sets
+> +	 * the mask of each task before its rebuild. If no CPU of the mask
+> +	 * is active, ask the cpuset. The task wakes up on one of its CPUs.
+> +	 * Take the CPU recorded only if it is one of them: a partition root
+> +	 * can have taken it since it was recorded.
+> +	 */
+> +	cpumask_and(msk, &p->cpus_mask, cpu_active_mask);
+> +	cpu =3D task_cpu(p);
+> +	if (cpumask_test_cpu(cpu, msk) ||
+> +	    (cpu =3D=3D recorded && cpu_active(cpu) && task_on_rq_queued(p)))
+> +		return cpu;
+> +	if (cpumask_empty(msk)) {
+> +		dl_get_task_effective_cpus(p, msk);
+> +		cpumask_and(msk, msk, cpu_active_mask);
 > +	}
-> +	if (sem_wait_for(&aslp_owner_locked, 5000)) {
-> +		ksft_print_msg("the owner did not take the lock\n");
-> +		sem_post(&aslp_donor_out);
-> +		return (void *)1;
-> +	}
-> +	clock_gettime(CLOCK_REALTIME, &ts);
-> +	ts.tv_nsec +=3D 200 * 1000000L;
-> +	ts.tv_sec +=3D ts.tv_nsec / 1000000000L;
-> +	ts.tv_nsec %=3D 1000000000L;
-> +	aslp_donor_locking =3D 1;
-> +	err =3D pthread_mutex_timedlock(&pi_lock, &ts);
-> +	sem_post(&aslp_donor_out);
-> +	sem_wait_sig(&aslp_read_done);
-
-[ ... ]
-
-> +static int deboost_out_asleep_after_refill(void)
-> +{
-
-[ ... ]
-
-> +	if (pthread_create(&d, NULL, asleep_donor, NULL)) {
-> +		ksft_print_msg("the donor thread could not start\n");
-> +		return KSFT_FAIL;
-> +	}
-> +	if (sem_wait_for(&aslp_donor_ready, 5000)) {
-> +		ksft_print_msg("the donor is not ready\n");
-> +		sem_post(&aslp_owner_locked);
-> +		join(d);
-> +		return KSFT_FAIL;
-> +	}
-> +	base =3D total_bw_of(top_cpu(1));	/* with D, without O */
-> +	if (pthread_create(&o, NULL, asleep_owner, NULL)) {
-> +		ksft_print_msg("the owner thread could not start\n");
-> +		sem_post(&aslp_owner_locked);
-> +		join(d);
-> +		return KSFT_FAIL;
-> +	}
-
-[Severity: Low]
-Will join(d) hang on these two error paths if aslp_read_done is not
-posted?  Posting aslp_owner_locked wakes asleep_donor(), which then takes
-pi_lock and blocks in sem_wait_sig(&aslp_read_done).
-
-[ ... ]
-
-> +static void *rq_w(void *arg)
-> +{
-> +	long ret;
-> +
-> +	rq_w_tid =3D gettid_();
-> +	ret =3D syscall(SYS_futex, &rq_cond, FUTEX_WAIT_REQUEUE_PI | FUTEX_PRIV=
-ATE_FLAG,
-> +		      0, NULL, &rq_pi, 0);
-> +	if (ret) {
-> +		ksft_print_msg("FUTEX_WAIT_REQUEUE_PI: %s\n", strerror(errno));
-> +		return (void *)1;
-> +	}
-> +	rq_w_rank =3D rq_order++;
-> +	rq_pi_unlock();
-> +	if (set_other(0))
-> +		ksft_print_msg("W cannot leave SCHED_DEADLINE\n");
-> +	return NULL;
+> +	if (recorded >=3D 0 && cpumask_test_cpu(recorded, msk))
+> +		return recorded;
+> +	cpu =3D cpumask_first_and(msk, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT=
+));
+> +	if (cpu < nr_cpu_ids)
+> +		return cpu;
+> +	return cpumask_first(msk);
 > +}
-
-[ ... ]
-
-> +static int requeue_pi_new_period(void)
-> +{
-
-[ ... ]
-
-> +out:
-> +	rq_pi_unlock();
-> +	if (ret !=3D KSFT_PASS) {
-> +		/* Let W go if it was not requeued. */
-> +		rq_cond =3D 1;
-> +		syscall(SYS_futex, &rq_cond, FUTEX_WAKE | FUTEX_PRIVATE_FLAG,
-> +			1, NULL, NULL, 0);
+> +
+>  /* From dl_rebuild_rd_accounting(), under the locks it asserts. */
+>  void dl_add_task_root_domain(struct task_struct *p)
+>  {
+> @@ -3870,7 +3938,6 @@ void dl_add_task_root_domain(struct task_struct *p)
+>  	struct rq *rq;
+>  	struct dl_bw *dl_b;
+>  	unsigned int cpu;
+> -	struct cpumask *msk;
+> =20
+>  	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
+>  	/*
+> @@ -3885,10 +3952,17 @@ void dl_add_task_root_domain(struct task_struct *=
+p)
+>  		return;
+>  	}
+> =20
+> -	msk =3D this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+> -	dl_get_task_effective_cpus(p, msk);
+> -	cpu =3D cpumask_first_and(cpu_active_mask, msk);
+> -	BUG_ON(cpu >=3D nr_cpu_ids);
+> +	cpu =3D dl_task_rebuild_cpu(p);
+> +	if (cpu >=3D nr_cpu_ids) {
+> +		/*
+> +		 * No active CPU can count the bandwidth of this task. Leave it
+> +		 * out of this rebuild. dl_bw_gen then keeps its release from
+> +		 * removing anything. A later rebuild, or
+> +		 * dl_task_offline_migration(), counts it again.
+> +		 */
+> +		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+> +		return;
 > +	}
-> +	if (have_x && pthread_join(x, &x_ret))
-> +		ret =3D KSFT_FAIL;
-> +	if (pthread_join(w, &w_ret))
-> +		ret =3D KSFT_FAIL;
 
-[Severity: Low]
-Does FUTEX_WAKE wake W when it is sleeping in FUTEX_WAIT_REQUEUE_PI on
-rq_cond?  In the kernel, futex_wake() rejects waiters that have
-rt_waiter set with -EINVAL without waking them:
+[Severity: Medium]
+Can this early return drop the departing bandwidth of a task that was
+migrated outside its mask by dl_task_offline_migration() and exited
+during the rebuild?
 
-kernel/futex/waitwake.c:futex_wake() {
-    ...
-		if (this->pi_state || this->rt_waiter) {
-			ret =3D -EINVAL;
-			break;
-		}
-    ...
+When admission control is disabled and all CPUs in a task's mask and
+cpuset are offline, dl_task_offline_migration() moves a throttled task
+and its bandwidth to an active fallback CPU (recording it in
+p->dl.dl_bw_cpu).  If a subsequent rebuild runs dl_clear_root_domains()
+and the task then exits on that fallback CPU with its 0-lag time in the
+future before dl_add_task_root_domain() visits it, the task is dequeued
+and placed on the departed list.
+
+Because task_on_rq_queued(p) is now false and neither p->cpus_mask nor
+dl_get_task_effective_cpus() contains an active CPU,
+dl_task_rebuild_cpu() returns nr_cpu_ids.  Returning before acquiring
+dl_departed_lock skips the !list_empty(&p->dl.dl_departed_node) branch
+right below, which would otherwise count the departed task on its active
+recorded p->dl.dl_bw_cpu until the inactive timer fires:
+
+kernel/sched/deadline.c:dl_add_task_root_domain() {
+	...
+	if (!list_empty(&p->dl.dl_departed_node)) {
+		int recorded =3D p->dl.dl_bw_cpu;
+
+		if (p->dl.dl_bw_gen !=3D dl_bw_gen - 1)
+			goto unlock;
+		if (recorded < 0 || !cpu_active(recorded))
+			goto unlock;
+		cpu =3D recorded;
+	}
+	...
 }
 
-If an earlier setup step such as set_deadline() fails before W is
-requeued, W stays asleep on rq_cond and pthread_join(w, &w_ret) hangs.
+Deferring the cpu >=3D nr_cpu_ids check (or dl_task_rebuild_cpu() itself)
+until after the departed-list check under dl_departed_lock would preserve
+the departing bandwidth on the recorded CPU's root domain.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795207232.gi=
-t.mathieu.desnoyers@efficios.com?part=3D31
+t.mathieu.desnoyers@efficios.com?part=3D13
