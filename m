@@ -1,82 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190294;
-	b=YvBW5MTkULj32QKzr9QQk4y99pgK/VeLpgOrsbZBOF7VKQQX5OI5okV/S2J4gfx+AeJO
-	 lvsi5+y2PslahL8OlGZcxld6UWw4E40aRcprBMwYOmLv4Z+mW0lD7EczZP6DQ5rByTxE6
-	 Z34Dq2EdVWZ8Ef21zpY32lZqqDJ3YSe1PEfdgN6zzCQY4AlwZoYVx2URa0GwxF86KVLR2
-	 H0CBdO+qoNP9XgGMJJWZQ5YVvFxr3u+fbAcyzRakw+Kw9bnmmhvQ1jKh5+aGhjJzpm/tj
-	 l9XRQSdPOTttdkP2I9AkUqrvNpzIJ+zzbY6Pb+MsVUbjIrXuNIA471lpO589Xq3HN0g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190294;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=HshqsJTVQWKzzCpeTZNQ6x3UViMzlSmZnpb8BEfK+Ro=;
-	b=oQFGr4vcFUA9x3EvTH5kqQWa9NXxkSkXj2jFVbADeP28+rP6u7Ow0PVUY+BO5h/Rj0/G
-	 jZQiXen702A3afi7zgGtYiMLS+UgymNypcq2CnvoikFohHnfHXGh/woOgsKEPsofNACYE
-	 TXJIxC3JLMCuKQDEy4fX2xlXXeZQEb99ZjJYN62dDXVUwepMAfDKJly0YZ6uQfi7bkjfI
-	 sT/sllomR/ARcPohG8Qe/3SEVTU2R2ROS6R3GMXBE9W+m9LyBKofW5CBlmk75wXzhg1QI
-	 Zr3j2s3o79I2yfvQFz6WG7GNbLL1j2dyx76MY1LY8qpXe5SscQVa8nUicTpxfX0zt6w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=PZz3Ur2a;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.191.73
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795203389;
+	b=XOtjRBuejb36LgT01Bjs1l26pbJfV6MBuztj1c5YsV4krJrKBKDau64c+rYwLgGAseqP
+	 AxgBPDbe3nBzLoR5O1TP8S7U4/T7yZelGO4Vrr3r67Ji1LrNcnRxBDVKAzIY2Aw1xbKtV
+	 82W52kvT7QfZ+/pj8daSzfb3q+RlIsDqHLCjMF1HTf0047ogqfXgiqMpy40Hu/W6qfhYB
+	 ShRbpSFXQll7s2CzTwZcJJ0LiNw58gsgvLf6dDv9MVEkxKAOzLQA3xv2XxEwk8GPP+DIp
+	 JkGYamYX+9BcpjOEKOm22L9/fWwStu5rttATms5Q/v25pzYvIlfigHpyFN9QimogUhQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795203389;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=k9PKnTZrhKTDzw6SghYEdOuydxnaY3+rzt9B8y07HDg=;
+	b=OWfGmWo9DfKhC03zlPFqpJ1YLwWquTJV5IVaAixaehJP180UeyYJE48Br/h2DXxU9EzE
+	 Bapr/rz1k8YHB14yMBFA8RfIBjHXIVw+6rt+ecWDsm2QAg8kEQ/Qg+uB7jQdtp7DyZ1n2
+	 OoK/ViE/pCqXozq9A90mKeHH/F+lHAmrOO6r8Ep11wo1umZV18nrQQXR8xjCL0Rkqf+Ly
+	 HTyVOHqtCoxayKmK4N6MH/zKxshM2U+PLHZ4n+spHRE5/pR3HhF49EkvTa3fgyUW3VjWA
+	 Utj3RNVpKxmbVokdmz43wpuGMv/gxVLKhSAJodyO5/tW73tRWQtOdP4Yda/1+AvSYtw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=jTLmM3hE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.191.73
+Received: from YQZPR01CU011.outbound.protection.outlook.com (mail-canadaeastazon11020073.outbound.protection.outlook.com [52.101.191.73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DF8606A325;
-	Fri, 20 Nov 2026 15:58:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95DF8606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E259606A6D5;
+	Fri, 20 Nov 2026 19:36:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E259606A6D5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=PZz3Ur2a
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HshqsJTVQWKzzCpeTZNQ6x3UViMzlSmZnpb8BEfK+Ro=; b=PZz3Ur2a6OdHwfi/J7tRqJKf9c
-	JkB20MtKPZOMm1TsoCDmVdbABbvFgh1EhVDiZpaUhJpTZNOYGkBRAVRz+6dYnh/a9lM8RWeglMFAz
-	K/eyFBbBpcD6e53eMfHFrnLewpMKDbjDz6vkzYRYJ9i83WrYAmGk2lX8WdjsRD+5N37QPcD6rIq05
-	agoYB1y7GZEKf8mIoWsrR5ObRnwu6kQF9KRyddWGskcEsgdJh161/MKbTocHRzDUcWy4ycgu1UiCb
-	PwvTUf0hxXaSuBdtZT5Uewoy/KcD+mOn2BpqaBihQ1GITzP1HRA8zki1cleFXPxPozCnRuyIv6RWe
-	dQZs4rYA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUR04-00000000vlw-0aHt;
-	Fri, 20 Nov 2026 15:58:08 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7F50E3008D6; Fri, 20 Nov 2026 16:58:06 +0100 (CET)
-Date: Fri, 20 Nov 2026 16:58:06 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
-	Ian Rogers <irogers@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oleg Nesterov <oleg@redhat.com>, WANG Xuerui <kernel@xen0n.name>,
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	James Clark <james.clark@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ada Couprie Diaz <ada.coupriediaz@arm.com>
-Subject: Re: [PATCH v5] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP
- notification to task_work()
-Message-ID: <20261120155806.GK2669272@noisy.programming.kicks-ass.net>
-References: <20261120144553.TjgAd_G6@linutronix.de>
- <20261120150320.GQ2668804@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=jTLmM3hE
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ycCeds2gTrbcMh8oD2ga+2ZuLDDU/VJDql4KbbT9bhH2dO3DeZ6sVsaYnlha6tuooRtvWgmmHiGvJEQELNqN/cKi2RqxAp+WQWtd/BqARekafe/POfVaYwZqyNz4ilpoGB+IuGDJCqc3RObVLPIqNUUVnH9r1tyTzMGt5XUtKLqiJ9/bK+2Hv0IVWppWEhFTQwk5kEwmZPJMXVAzElhYzCeT3cLSOAKquL33VFkpIqRjUS1JvLjn6iFvViglqQ2DtIMv/OilMZlcXEs86zCEoGi9pM/UeqLY29sjrl3aEAu4UzaeuuIANeyGDt/xjihjy+QJ+pMlXlwIAvHETcl6Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k9PKnTZrhKTDzw6SghYEdOuydxnaY3+rzt9B8y07HDg=;
+ b=hPwZ6DGArHhWgUkgxRaXM8nrv14h8LmQoNyrPNAB0VLrI7LHFQUFeMKXdq/8GqgMaWsFSIk6NkH0kQfAloRMOQTEqbfgyzXWtYrnf8Q8SQ9XIG0DuG45PBuyR6s9J2scwBrlVQlABmtJYGqQtIeky913XCyK/ce/KCfQ3yNb8dpYHdRakjUUrDobkAEe7hm78t0C+Vhap9dL2nQMefPB+5fNkk52F5A+HQCF5lU2RwtmHGTat+jeQuYfqzrbycqUjrBdFaRwZivrgk+enRC+WKez9i2vblzgiSqkG9d5ITASjD6AhIV7Bx07GNa62+I2MBmSaHDt6Gou6y/frqo0Nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k9PKnTZrhKTDzw6SghYEdOuydxnaY3+rzt9B8y07HDg=;
+ b=jTLmM3hEPSlHf1L1gJ6YUMkhd1isNRrlw8ZKeLm6P2BJODmwKnBbNn52Nlunf7y1px2yD7PwbFrzTcjEjbH2m82uEfZnamgVHUvKfGNnLC2bP9D+qr60e2No4kV5JaAdinB1HqD+38CGOV/Xfh1HvXZwk1kIeP0ymzWEh3PE1IFYaHZ0oUOMC7jKkjYMkOOtL1xFGfXcQ3EkkwK2ivh0oIp9cFt5KRm04KI3mz1geKAXN9WdAA5vv63Jm4E1jzaIJ7CugUhC5oOzDQcqL+32n7jykFEw6cEbQWyQIdYVhf2GERFdxMkZxjPO8moQPOHccKHlZ6DBr45BCYSwQaHRbw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT3PR01MB5667.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:6a::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
+ 2026 19:36:23 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
+ 19:36:23 +0000
+Message-ID: <ddad5873-116d-4acd-b7e0-1e2a39f4056d@efficios.com>
+Date: Fri, 20 Nov 2026 14:36:21 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 15/33] sched/deadline: Keep a task in the root domain
+ that counts its bandwidth
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
+ mkoutny@suse.com, linux-kernel@vger.kernel.org
+References: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
+ <26529637dd1398d1bce1398efa83d9b71802777f.1795181240.git.mathieu.desnoyers@efficios.com>
+ <sashiko-outbox-225338@kernel.org>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <sashiko-outbox-225338@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0119.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::22) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -86,53 +100,88 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261120150320.GQ2668804@noisy.programming.kicks-ass.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB5667:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4a294d1-43c9-4187-c09f-08df473d8f12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|18002099003|22082099003|4143699003|261026121527099003|56012099006|10067099003|261009223027099003;
+X-Microsoft-Antispam-Message-Info:
+	gZGWfqMiTw/d59n+FFYr7E4/zgQJCAmHxXtr77JXV1xl3rBTymKBnPT6XVBIbviCnE5A42NegaUUypuvvmL7ikVBIsbxhEjwCF+MWhbKRJsaGdvVNkViIh1OfGVa5O71n9khWebNIS+uFRydxFNDp3xoW3HQEbVlIQPL8raRL2sH2oguLcjBg0zf99kIdxRRYreHLWYr5Mu/B/WIc1YAnWo7Kl1T+zkXpTijkcZsgTWKQVgP+2v9iacYoHBPKLFwQuT56GgHN/fgOw35Z75OoWgBD/7L1QVatjG1Rsu43xayBwSN6uiyiMO/X6s+iwfojrrXmOtHS47YBwxxHsf8tqUNhgLCPSGTf2ieHft76VRv6q/GOARTZlny9k4vDYqU9AUZmpY4rTDHK3gJp8TIJcBFjnVoOQiKpJJSaHgiv5eqZM9piYMGLvx4PmEWzVc5cncViQXXpeUgpg+kc1pvnJnw1aTGefPaeqtCLyiSMl1BCxEL61C+NeMZ/thLI4mGCuNDYNLHQjtxADrQ5IwJUFL/WT9lc1YWjQQGLAEwZiR7N28jQzIsVfr40pURePRfYr5pXBBeTqsxogrNNIsNhGeWJ9mgsPbFNfvJdEUGMkM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(18002099003)(22082099003)(4143699003)(261026121527099003)(56012099006)(10067099003)(261009223027099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bWdLNDdyZTRXUVZsQTgrdkVIWUFvTVFTTm54TThyYjNnUW8zcXJsZ3BRcXBI?=
+ =?utf-8?B?U2pjN2pySWticGRPWHRYTnIzL1R2ZnUzT1hVdjRoWGtEeTJaSjBFQkQ5TkFR?=
+ =?utf-8?B?RHJ6Q25xbUo5VHRCbWRmOXpON2tzYTdtWjI0Y25XU1pyaDJtaVNHSUNwYzJz?=
+ =?utf-8?B?bDJmaklURGtKaDBDUzluVW9YWUluNnNqYVV4RUNwMmQ0YUNoU3p4UUErSW9o?=
+ =?utf-8?B?M3pWaXgzc3pzMy8vNW5mSk5KbGMveW9xZXZ3QURUb1p4QWxoUE0rY3piOUcw?=
+ =?utf-8?B?cWlsb3hzOUd1a0phNnpsemg5M21OejBNcVJxUFl1MlU2UithaUg0MDc1cjA3?=
+ =?utf-8?B?UGVpMCtWNS80eVBhRDBPVlg3VFA1MlR5SW1IY0xrNHljNTlyT01EaDRpck03?=
+ =?utf-8?B?b1ZGc0c0RVRrTkExTFh5UWwzT0JqdWRsQ3I2OGxPK2VvMksvYnZzR1YzVHor?=
+ =?utf-8?B?ZnRlSG9yY2Nia1pHemtjUkM0b2V0WGF3SHJndDZYY2pyNGkrQ0hJL2ZGb3ds?=
+ =?utf-8?B?U0g5ZXgrTVlBZzMxN3B3VU45MjdHRjFsQ3hLd2FRNWJOOTNKRk9jejJFWnZY?=
+ =?utf-8?B?a2xmNkw3NmdCY2pXN0dTMkdlRGlsWlVJSVcxN2hyRUZOb01uSzRVRzRGMFRh?=
+ =?utf-8?B?WmZuRkxPZm9aZ0VjZDJNblN3d3FBL1Q5VDhibWhENElVSlRxN3oyd0Y2dzBC?=
+ =?utf-8?B?MXZZWFNxd1gxc1d4RytaSjkrN0N2ZkFuajJ2Qjg4ZTF0NEJpZHVzWUFuWjBP?=
+ =?utf-8?B?R2NLNldyQnh0ejg1SEtFbVJROG9ZNVdLR1NjQTlSYkhsWDBYYTZrY09QUk1U?=
+ =?utf-8?B?aDVzNk45NEw5dDBFVER4UzhxNEdBUFBYemRvOGxRaE9zbzBTbE9xZDNuUElE?=
+ =?utf-8?B?SzJaRFlpTTdLc29VNjBTVFlUbkhhODErSE1YblJZdHZiMy9WMW84VXRaTWE4?=
+ =?utf-8?B?bW4xWCtybUVDMkxCMThrMGFlOWNhNS9nZm9tREk0a0tFZEVZcStwOCswZ1ds?=
+ =?utf-8?B?QXpnQTdha0RxNXdPdkM3SThVL3ZqdVVKYVd4MXJyRUtLckpBakVrNWFLUmZD?=
+ =?utf-8?B?RUxyTjRIV21jdmc4L1hjVXIrcmdxcEhPRmlBWm9XQ2FvaFhENXI3Q3BuMFFD?=
+ =?utf-8?B?S2E1ME9aVUpnR3l3ajU5OWhJRE83WWFDcmRjVWtkSzRtYTlHb0VkS0ZwTEdp?=
+ =?utf-8?B?OURnRlJWb1F3MWtHN01tTml6VEt5d1dpN1Y0MURQeHJqL1FTTjNiZFpHbmdi?=
+ =?utf-8?B?Vnh4aG50elYzZ3k3ekdjZHMvR2NXYjVmb1JWbVFYOGYwQU1xMVBldyt5UkJM?=
+ =?utf-8?B?R29UMjhhQWlhMHM5QVVjb0NUOWRVMVp0eWZqU21qenZPc0tYNzZsWFlxb3c4?=
+ =?utf-8?B?WkZaQzBXUElmL3ExZDBhbWtYakx4c1BJZUlWQnZEazkzYVEzZFYvaGdUZEZY?=
+ =?utf-8?B?VTJYMGl4emc1ZVF4NmVFNlF0bUtsOVNpTVVlTi82VUJYRHA4Zy9CNjRERFBD?=
+ =?utf-8?B?cnRmNmdVZU5qRVYxQ0puVWE4d1p1Y2tQYnFGOFptNEhqRW1IM3lKbWNvTTZi?=
+ =?utf-8?B?eUVCS3kzWDhCNVRCWEllVmhZZ3ZBTzBCblhLR0IwTnRVSlVwTVBOdnhVaDVV?=
+ =?utf-8?B?clJaaElCYUFmakVWNldnUUlyekZDSWMvS3FKdkZZakxSOUcwMmxseVB6ZXc4?=
+ =?utf-8?B?SlhVdjRqUFpRZ2lNSGl6Y3ZmcXRaVUVGYWF6ODZ1OUhKS2E0THNWbzVROUZH?=
+ =?utf-8?B?MkJ3eE93TGdEQWY1b1MyNXhFTUN2S1YranBFaUZZcEloaDY3TXg2eGNRVnR1?=
+ =?utf-8?B?WXJJNU9kQXdJRFhvYUZuYTFWWWxYeCtnTk1pR3krQU9pWmJMUFNJWFp4UURE?=
+ =?utf-8?B?NjBGV2gzWkJUVFc4U1VzZFRYZzNBMGVKTHNGNUQ5b01QeGdyamRBNitad1h0?=
+ =?utf-8?B?b0cvQlY5MFd5K3dha3NwMmwzS0RWOEJhaDIvdEVGZFFJcEpRRjUyMkVxZlhy?=
+ =?utf-8?B?V1QySzJja3d5ZFJFNUQ3QWxMNGgzNVNEdS8yblRpR2lmS0s5c0RlckovYzkz?=
+ =?utf-8?B?VWpWZ3RlcXpTY1pYdlQzNE11cHcvTlBnWTF2c1VqK0FUMjVocE9NYXFSY242?=
+ =?utf-8?B?Q1NraFFBOTBFOUtpSngyWkpVQ2h3SjhDSVdFc0pxbkRQV3ZhOTVqRWFmaGQ0?=
+ =?utf-8?B?U1p1NDVtbGtSUVdJWnAxU3JTUkdvbjRtOHBYTlBQNFphc3RVQkVzeEtCVXVt?=
+ =?utf-8?B?ZjI2VUVmZUtmZGQ1QnQvVUppaXlZbjFHcGM4NkFaMjExRzZWQWxlMk44MGpp?=
+ =?utf-8?B?a2J1aDVlSnZaYUI3Qk5mNitQRVovR0tRcGRXZEFJdTZjREY1V2x6UlBqMlVq?=
+ =?utf-8?Q?F+sfidDwo28Lkyfq7SO6fpfLlryrADz/AB1Iy?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4a294d1-43c9-4187-c09f-08df473d8f12
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 19:36:23.2165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4wlvxML4OGUaxWvNbFvR2MgZC59NRw3akO/Af1SqmrMHd5l8MTejU08LUvX9mW7J+6QXIHyEWS9zk01pzZ0syuxWHUWpe0IgtTOD4JoT2cI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB5667
 
-On Fri, Nov 20, 2026 at 04:03:20PM +0100, Peter Zijlstra wrote:
-> On Fri, Nov 20, 2026 at 03:45:53PM +0100, Sebastian Andrzej Siewior wrote:
-> > Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
-> > "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
-> > delivered with disabled interrupts and perf intrastrucure expects
-> > disabled interrupts while the overflow callback is invoked.
-> > 
-> > The callback then sends a SIGTRAP signal for which it acquires
-> > sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
-> > must not be acquired in atomic context.
-> > 
-> > Delay the event callback until the return to userland.
-> > Add perf_hwbp_notify(), a generic perf callback which delayes the
-> > actual callback invocation to task_work_add() callback. This callback
-> > invokes the architecture defined callback perf_arch_hwbp_send_sig().
-> > This requires struct callback_head and the functions require
-> > ARCH_NEED_PERF_HW_NOTIFY to be defined.
-> > 
-> > This was reported against ARM64. ARM, LongARCH and Xtensa follow the
-> > same pattern are also converted. Xtensa is the only not supporting
-> > PREEMPT_RT but now we have all architectures using the same pattern.
-> > 
-> > Fixes: d8fccd9ca5f90 ("arm64: Allow to enable PREEMPT_RT.")
-> > Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> > Reported-by: Waiman Long <longman@redhat.com>
-> > Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
-> > Reviewed-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-> > Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-> > Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
-> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > ---
-> 
-> Mark; you was going to stare at this :-)
-> 
-> I'm thinking the archs are doing it wrong and should be sending the
-> signal elsewhere.
+> Should dl_task_offline_migration() also fall back to an active CPU in span
+> when p->cpus_ptr has no active CPUs left?
 
-Notably, I'm thinking arm64 should be sending the signal from either
-do_watchpoint()/do_breakpoint(), after it has done perf_bp_event(),
-or from el0_watchpt()/el0_breakpt().
+Yes. This is the follow-up that the v9 cover letter lists. v10 will do
+it in this patch. When no CPU of the mask is active,
+dl_task_offline_migration() will take an active CPU of the span before
+the WARN. The task then runs there until cpuset gives it a new mask.
 
-Perf overflow handlers are not the place to send signals from.
+No case will test it. It needs the replenishment timer to fire between
+the CPU going inactive and the cpuset update. User space cannot drive
+that.
 
-That is very much what x86 also does, we send the signal from
-exc_debug_user(); which is roughly equivalent to the above mentioned
-functions.
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
