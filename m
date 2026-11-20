@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795182966;
-	b=bY0evId5mnGx1T2wjG+MD+ma+2qv4y1mibOCm0g24bpMtFqNu/ClgVsAJWrOA5+17ma3
-	 2flHrjSLSyZ2Ykdvup/Oy4R3zFwNknmLzo6sH/yiaMf3NG0NAgyWkq51LZzVbIbk4nE7p
-	 Yg0rA//IvWP7I9wT4690WQFmoDL2Vw+jcEb60mO2GlelbVCp1+EMIwVyatmJ4YgV4bD66
-	 4SE3KvM+znUZBVPiVHd1XBTZxjl419nBz85VekH1HDez2xCaMQsLkkoqg/nBEPyDI8Qj5
-	 i2U03eE/pVPJ8jZsuPNfF13JC6XdDgVpcl//yql5VT5w0UQSAlRU53o3fovbq/iQXbw==
+	t=1795182967;
+	b=KHE6/bKPVr81W/Te7t6wxeEakGqE3rx9ImG1Hpmjvww9BTVBxhXPIwVRCxMMMxYMcSPM
+	 +sGSE77GbmscXPIH8HWQgNnEid0fUXXLnPw1DBfBsnSTCTpaovAok8agPQRYr4uvgxoKp
+	 5+aYSP2DNyb57fGXacLfBUetUKbHg9o4g6IOA0RDQFqLTBmhn2Wnf8qFRxsut8xRM/pG1
+	 fpHfk79jbNxD2nVFU39nX0iar0vDpP5OoyQ54GxLZVj+o4NGK+nyY29u4nQRLQD8K61SD
+	 6DN+lErq9f/wlKEjWJNeBhz2unEUucE41U8sGJjzuGWJuLXxhG2euhQrP3HN82buAgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182966;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182967;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=ePrCci04etJS8HxAVF1K19fyfc378mdZx35NoTfSdkM=;
-	b=d1cOHz59bCb7Hp9Tu31GiOrUH4ztRHew1uSgvFnQ/T3FRn0f1yB+kOn7mi/l74tLtO2g
-	 DXwJpTquMz/uy5okhAH5GFopnOgHOsQObPMLcq3MCZFODug93RVGI8Zu18OZmUs93Cehh
-	 VzLienyCqu84VOwAar756xjAotidnMRyx1pem95TstI9AbtC2f+/7jKODAxUBCUlF5UZ8
-	 qS9PQOzglKH12NZ3djunf4ZguyEzWvnZBzT+jcihHRvdbs0Fpz0aqS0UkUJJ7XxNlLaVA
-	 0QKJzTl9XBbDubBXEACgFn/z/xMfOLyJYPXJsqKT58Qckn8mjnvptXMMFO4zBYcr5sQ==
+	bh=i29mMrYLu3GLfGpx0sxXIIxzrVFaTIEwZ5tO3XFzH9s=;
+	b=Lj/AFDw4P3g6LwoXV+ruXQNC2ibZYOUlcH4zFWBovFi2He9PQr7H4Sj8vufL3gpr8pWM
+	 NR/0wOaxwIk6EoplzltVjaratlDGbm1+1+Mu08agBW2hTpVFD38GBfaql+l3T2TI1Nwlv
+	 7vPhFHF1nwrCBUZ84GOvEbws2TkLS3LptU5ycOJs+XE7x3pnDVfhV9fB0+iq+8AiZBelF
+	 mdVx8o28pgV8BNJtJHkHnXvWZmi/pO+zIP7s1vs9cPJu8i2ifpOeCBu64tJdx10bln0AC
+	 3efEmK9zh2oFcrAKJB13tf062+ZNDaBbpPwFN/H6cDtJFXcoWT/e0JBOG39/rkSqLZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=i00alFXM;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=IrYyK9qm;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FBB606A33A
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 13:56:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66FBB606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE1F606ABC2
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 13:56:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DE1F606ABC2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=i00alFXM
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=IrYyK9qm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795182962;
-	bh=ePrCci04etJS8HxAVF1K19fyfc378mdZx35NoTfSdkM=;
+	bh=i29mMrYLu3GLfGpx0sxXIIxzrVFaTIEwZ5tO3XFzH9s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i00alFXMd0pOnGOBAlRakagizNFoW7YHFuGJCPrhFXFubR+sCi0tebPA651/jsk9i
-	 W7kYi6Jtw/mu0XMC3Pfry1Kl8Jl7WA5pXN1pLU99UnAvgeZ0g+zIPHCN9Vif/gn7OP
-	 6nnftRGIfhyrch4Bqs5V9RR5xDg+ovIkcQgK+ai5zZEcYP9l9mA6q4rPnjSka2TY8e
-	 YhrEY8FrjV3r830FaS0OePBLU7mGKTIj1f0Kqwed2onv5LaY0+NFKqtyFqpgZARNGk
-	 kAPTmX7h919GlnNgv38E6GaLAsTQlwxAIS2JDjye2CllEZsNdmezKIlLe9PYASGWhI
-	 33vfu5twxSu/g==
+	b=IrYyK9qm6Q9MJxH66ZvHC01sCoJanZK4ZWuYIVo1AGXS7egn73Z7CmgTQ7gTLPUF2
+	 DcrJx7yOjBcpLN6AGYbMcr+gFh0ZH1MUUbtU21BMqPRlhME+JxvehSNH8hfMXEyYX5
+	 NfZ0jEnvHrtKNybMeNe8LCQJ4iqMA1FOWD15CIrgwPKJ2KkwvGjPyEt7uFUkygF1XN
+	 2kaKMEJbpKukrTZcSbslJnI5jJx/Zreii0xTwP91+DH72/gxeTCaz6eYHvtRGMA+ip
+	 ms+PlygUTsj1+zpDmHfKsEp2JlBw4Is9YQd7L4DQlkt6vnZ9xOeara8qmcjRG3VYCv
+	 fpvnh0Y0RqW+w==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWH1G240jzSTM;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWH1G5p6xzV21;
 	Fri, 20 Nov 2026 08:56:02 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
@@ -80,9 +80,9 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v9 17/33] cgroup/cpuset: Refuse to take a deadline task out of its root domain
-Date: Fri, 20 Nov 2026 08:55:40 -0500
-Message-Id: <4baa44df95dd38644a85999954acce718b79661b.1795181240.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH v9 20/33] rtmutex: Continue the chain walk when a waiter's deadline donor changes
+Date: Fri, 20 Nov 2026 08:55:43 -0500
+Message-Id: <ffbd2d80a165b1ca191a3d1060efeb029c3be3a4.1795181240.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
@@ -97,410 +97,173 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A cpuset attach asks the destination root domain for room before it
-moves a deadline task there. A change of the CPUs of a cpuset asks
-nothing. validate_change() only checks that a partition root keeps
-enough capacity for its deadline bandwidth. That check comes from
-commit f82f80426f7a ("sched/deadline: Ensure that updates to exclusive
-cpusets don't break AC").
+A task boosted by a SCHED_DEADLINE waiter runs on the parameters of a
+donor, dl.pi_se. Commit 2279f540ea7d ("sched/deadline: Fix priority
+inheritance with multiple scheduling classes") made the donor follow the
+chain. rt_mutex_setprio() copies the donor of the top waiter to the
+owner. So the owner at the end of a chain points at the deadline task at
+its head. That task waits on no lock the owner holds.
 
-With isolcpus="domain", a cpuset that is not a partition root can hold
-housekeeping CPUs and isolated CPUs, which are in two root domains. Two
-changes can take every CPU of one root domain away from that cpuset:
+The chain walk stops at a task whose waiter has the same sort keys as
+the task: the priority and the deadline. Then "there is no further
+priority adjustment necessary". Before 2279f540ea7d, this was enough.
+The refill read the parameters of the owner's own top waiter, which is
+blocked and so alive.
 
- - a write to cpuset.cpus, of that cpuset or of an ancestor;
- - a partition root that takes those CPUs, when it is created or when
-   it grows.
+But a boost can change the donor of a blocked task and leave its keys
+as they were. The task keeps a deadline priority. It sleeps, so no
+refill moves its deadline. The walk then stops one lock too early.
 
-A deadline task counted in that root domain then runs in the other one,
-which did not admit it. Its bandwidth follows with no admission test,
-and that root domain can exceed its limit.
+M and O are SCHED_OTHER tasks. W and Z are SCHED_DEADLINE tasks. Z has
+the earlier deadline. L1, L1' and L2 are rt_mutexes:
 
-Refuse both:
+  O            M                       W                       Z
 
- - A write to cpuset.cpus fails with EBUSY, and changes nothing. The
-   cpuset.cpus file of cgroup v1 gets the same check.
- - The write that makes the partition root, or makes it grow, still
-   succeeds. cpuset makes the partition root invalid. For a "root"
-   partition, cpuset.cpus.partition then reads "root invalid (Deadline
-   task would leave its root domain)".
+  locks L2     locks L1 and L1'
+                                       blocks on L1'
+                                         rt_mutex_setprio(M, W)
+                                           M->dl.pi_se = &W->dl
+               blocks on L2
+                 rt_mutex_setprio(O, M)
+                   O->dl.pi_se = &W->dl
+                                                               blocks on L1
+                                                                 rt_mutex_setprio(M, Z)
+                                                                   M->dl.pi_se = &Z->dl
+                                                                 chain walk at M:
+                                                                   keys equal, stops
+                                       times out on L1'
+                                       exits
 
-A task goes to another root domain by a move to another cpuset, which
-asks for room.
+O runs on W's parameters, with a later deadline than Z's, while Z waits
+for it. After W exits, O's next refill would read W's freed task_struct.
 
-A change that leaves each deadline task a CPU in its root domain is
-accepted as before.
+A deboost has the same effect. Take a deadline task that a waiter with
+an earlier deadline boosts, and that blocks on a second lock. It keeps
+its own deadline. When that waiter leaves, rt_mutex_setprio() makes the
+task its own donor again. Its keys stay equal. A policy change in
+__setscheduler_dl_pi() can also change the donor of a blocked task with
+no change of keys. rt_mutex_adjust_pi() then skips the walk.
 
-The check follows __set_cpus_allowed_ptr(). That keeps the new mask
-within the affinity set by the user, if they intersect. So a mask that
-grows can also take a task out of its root domain, and it is checked
-too. Changes that cannot fail are not checked: a partition that is
-disabled or becomes invalid, and a CPU that comes online.
+Setting up the deadline tasks needs CAP_SYS_NICE. The timeout of a
+FUTEX_LOCK_PI needs no privilege. The Sashiko AI review of this series
+found the deboost case.
 
-dl_task_keeps_root_domain() tells whether a new mask keeps a task in
-the root domain that counts it. Without admission control it accepts
-any mask: there is no limit to exceed. An administrator who needs the
-change can turn admission control off, by writing -1 to
-/proc/sys/kernel/sched_rt_runtime_us.
+Fix this by recording the donor in the waiter with the sort keys, in
+waiter_update_prio(). rt_waiter_up_to_date() compares both. The walk and
+rt_mutex_adjust_pi() use it. A new donor then takes the walk on to the
+next owner, and rt_mutex_setprio() gives that owner the new donor. The
+waiter's copy is only compared, never dereferenced. A task without a
+deadline priority is always its own donor, so its walks do not change.
 
-The cases mask_out_refused and partition_takes_refused, added to
-deadline_bw_test later in this series, test this. Without this patch the
-write is accepted and the partition root is valid. These cases test the
-other paths: - partition_takes_fallback_refused: the CPUs of an
-ancestor; - mask_grows_refused: a mask that grows; -
-partition_swap_refused: a partition root that takes and gives CPUs in
-one change; - partition_refused_no_warn: a refusal with no warning.
+A known limit remains. Two walks can overlap on a chain of three locks
+or more. The owners further down then keep the old donor until the
+first walk reaches them.
 
-Fixes: f82f80426f7a ("sched/deadline: Ensure that updates to exclusive cpusets don't break AC")
+The case pi_chain_donor_leaves of deadline_bw_test tests the missed
+boost. W leaves SCHED_DEADLINE there, in place of exiting. It passes on
+v7.4-rc2, and without this patch. The case pi_chain_top_moves, added to
+deadline_bw_test later in this series, needs this patch and the next
+one. If one of the two is missing, another deadline task gets 30ms of
+200ms in every run. With both, it passes.
+
+Fixes: 2279f540ea7d ("sched/deadline: Fix priority inheritance with multiple scheduling classes")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: stable@vger.kernel.org
+Cc: stable@vger.kernel.org # v5.15+
 ---
- include/linux/sched/deadline.h  |   2 +
- kernel/cgroup/cpuset-internal.h |   1 +
- kernel/cgroup/cpuset.c          | 197 +++++++++++++++++++++++++++++++-
- kernel/sched/deadline.c         |  25 ++++
- 4 files changed, 222 insertions(+), 3 deletions(-)
+ kernel/locking/rtmutex.c        | 22 ++++++++++++++++++++--
+ kernel/locking/rtmutex_api.c    |  2 +-
+ kernel/locking/rtmutex_common.h |  3 +++
+ 3 files changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/sched/deadline.h b/include/linux/sched/deadline.h
-index bdabd54af729..67426834a9a4 100644
---- a/include/linux/sched/deadline.h
-+++ b/include/linux/sched/deadline.h
-@@ -62,6 +62,8 @@ extern int dl_task_bw_reserve_cpu(struct task_struct *p,
- 				  const struct cpumask *new_mask);
- extern int dl_task_bw_reserved_cpu(struct task_struct *p);
- extern void dl_task_bw_unreserve(struct task_struct *p);
-+extern bool dl_task_keeps_root_domain(struct task_struct *p,
-+				      const struct cpumask *new_mask);
- 
- static inline bool dl_server(struct sched_dl_entity *dl_se)
+diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
+index 5a9534c715b8..c78dfe9c93fc 100644
+--- a/kernel/locking/rtmutex.c
++++ b/kernel/locking/rtmutex.c
+@@ -369,10 +369,12 @@ static __always_inline void
+ waiter_update_prio(struct rt_mutex_waiter *waiter, struct task_struct *task)
  {
-diff --git a/kernel/cgroup/cpuset-internal.h b/kernel/cgroup/cpuset-internal.h
-index a83443dfb788..8fe0225704eb 100644
---- a/kernel/cgroup/cpuset-internal.h
-+++ b/kernel/cgroup/cpuset-internal.h
-@@ -36,6 +36,7 @@ enum prs_errcode {
- 	PERR_ACCESS,
- 	PERR_REMOTE,
- 	PERR_ISOPARENT,
-+	PERR_DLTASK,
- };
+ 	lockdep_assert_held(&waiter->lock->wait_lock);
++	lockdep_assert_held(&task->pi_lock);
+ 	lockdep_assert(RB_EMPTY_NODE(&waiter->tree.entry));
  
- /* bits in struct cpuset flags field */
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index ef95c730853e..421e0bfc1c81 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -61,6 +61,7 @@ static const char * const perr_strings[] = {
- 	[PERR_ACCESS]    = "Enable partition not permitted",
- 	[PERR_REMOTE]    = "Have remote partition underneath",
- 	[PERR_ISOPARENT] = "Root partition is not allowed with isolated parent",
-+	[PERR_DLTASK]    = "Deadline task would leave its root domain",
- };
+ 	waiter->tree.prio = __waiter_prio(task);
+ 	waiter->tree.deadline = task->dl.deadline;
++	waiter->pi_se = task->dl.pi_se;
+ }
  
  /*
-@@ -1126,6 +1127,36 @@ static void update_partition_sd_lb(struct cpuset *cs, int old_prs)
- 		cpuset_force_rebuild();
+@@ -433,6 +435,21 @@ static __always_inline int rt_waiter_node_equal(struct rt_waiter_node *left,
+ 	return 1;
  }
  
 +/*
-+ * Return false if the CPUs of @new_cpus make a deadline task of @cp leave
-+ * the root domain that counts its bandwidth. Called under rcu_read_lock(),
-+ * which it drops and takes again.
++ * Return true if @waiter is up to date with its task @task. Compare the
++ * sort keys and the deadline donor, which rt_mutex_setprio() copies from
++ * @task to the lock owner. A boost or a deboost of @task can change its
++ * donor and leave its keys as they were. The owner must then get the new
++ * donor: the old one can exit. The caller holds @task->pi_lock, which
++ * protects @task->dl.pi_se. @waiter->pi_se is never dereferenced.
 + */
-+static bool dl_tasks_keep_cpus(struct cpuset *cp, const struct cpumask *new_cpus)
++static __always_inline bool
++rt_waiter_up_to_date(struct rt_mutex_waiter *waiter, struct task_struct *task)
 +{
-+	struct css_task_iter it;
-+	struct task_struct *task;
-+	bool keep = true;
-+
-+	if (!css_tryget_online(&cp->css))
-+		return true;
-+	rcu_read_unlock();
-+
-+	css_task_iter_start(&cp->css, 0, &it);
-+	while (keep && (task = css_task_iter_next(&it))) {
-+		/* The top cpuset leaves the mask of these tasks alone. */
-+		if (cp == &top_cpuset &&
-+		    (task->flags & (PF_KTHREAD | PF_NO_SETAFFINITY)))
-+			continue;
-+		keep = dl_task_keeps_root_domain(task, new_cpus);
-+	}
-+	css_task_iter_end(&it);
-+
-+	rcu_read_lock();
-+	css_put(&cp->css);
-+	return keep;
++	return rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task)) &&
++	       waiter->pi_se == task->dl.pi_se;
 +}
 +
- /*
-  * Set @new_cpus to the effective CPUs that @cp gets. On entry, @new_cpus
-  * holds those that @from gets. @from is @cp or one of its ancestors. Work
-@@ -1148,6 +1179,78 @@ static void effective_cpus_below(struct cpuset *cp, struct cpuset *from,
- 	}
- }
+ static inline bool rt_mutex_steal(struct rt_mutex_waiter *waiter,
+ 				  struct rt_mutex_waiter *top_waiter)
+ {
+@@ -824,12 +841,13 @@ static int __sched rt_mutex_adjust_prio_chain(struct task_struct *task,
  
-+/*
-+ * A scratch mask for dl_tasks_keep_without(). Its callers still need each
-+ * mask of their struct tmpmasks after the call. Protected by
-+ * cpuset_mutex.
-+ */
-+static cpumask_var_t dl_keep_cpus;
-+
-+/*
-+ * Return false if a partition that takes the CPUs of @xcpus makes a
-+ * deadline task leave the root domain that counts its bandwidth. A cpuset
-+ * can hold CPUs of two root domains: with isolcpus="domain", or on cgroup
-+ * v1 with sched_load_balance off. Such a task would run in a root domain
-+ * that did not admit it.
-+ *
-+ * @root is the partition root that gives the CPUs. @part is the cpuset
-+ * that takes them. In the same change, @part can give the CPUs of @gives
-+ * back to @root. @gives is NULL if it gives none back.
-+ *
-+ * Work out the new CPUs of each cpuset of @root from the top down, as
-+ * update_cpumasks_hier() does, down to the next partition roots. If
-+ * @enable, @part becomes a partition root. Then do the same for its own
-+ * cpusets, starting from the active CPUs of @xcpus.
-+ */
-+static bool dl_tasks_keep_without(struct cpuset *root, struct cpuset *part,
-+				  const struct cpumask *xcpus,
-+				  const struct cpumask *gives, bool enable)
-+{
-+	struct cpumask *new_cpus = dl_keep_cpus;
-+	struct cgroup_subsys_state *pos_css;
-+	struct cpuset *cp;
-+	bool keep = true;
-+
-+	lockdep_assert_cpuset_lock_held();
-+	rcu_read_lock();
-+	cpuset_for_each_descendant_pre(cp, pos_css, root) {
-+		if (cp == part || (cp != root && is_partition_valid(cp))) {
-+			pos_css = css_rightmost_descendant(pos_css);
-+			continue;
-+		}
-+		/* The CPUs that @root has after the change. */
-+		cpumask_copy(new_cpus, root->effective_cpus);
-+		if (gives) {
-+			cpumask_or(new_cpus, new_cpus, gives);
-+			cpumask_and(new_cpus, new_cpus, cpu_active_mask);
-+		}
-+		cpumask_andnot(new_cpus, new_cpus, xcpus);
-+		effective_cpus_below(cp, root, new_cpus);
-+		if (cpumask_equal(cp->effective_cpus, new_cpus))
-+			continue;
-+		keep = dl_tasks_keep_cpus(cp, new_cpus);
-+		if (!keep)
-+			break;
-+	}
-+	if (keep && enable) {
-+		cpuset_for_each_descendant_pre(cp, pos_css, part) {
-+			if (cp != part && is_partition_valid(cp)) {
-+				pos_css = css_rightmost_descendant(pos_css);
-+				continue;
-+			}
-+			cpumask_and(new_cpus, xcpus, cpu_active_mask);
-+			effective_cpus_below(cp, part, new_cpus);
-+			if (cpumask_equal(cp->effective_cpus, new_cpus))
-+				continue;
-+			keep = dl_tasks_keep_cpus(cp, new_cpus);
-+			if (!keep)
-+				break;
-+		}
-+	}
-+	rcu_read_unlock();
-+	return keep;
-+}
-+
- /*
-  * tasks_nocpu_error - Return true if tasks will have no effective_cpus
-  */
-@@ -1698,6 +1801,8 @@ static int remote_partition_enable(struct cpuset *cs, int new_prs,
- 		return PERR_NOCPUS;
- 	if (prstate_housekeeping_conflict(new_prs, PRS_ROOT, tmp->new_cpus, NULL))
- 		return PERR_HKEEPING;
-+	if (!dl_tasks_keep_without(&top_cpuset, cs, tmp->new_cpus, NULL, true))
-+		return PERR_DLTASK;
- 
- 	spin_lock_irq(&callback_lock);
- 	partition_xcpus_add(new_prs, NULL, tmp->new_cpus);
-@@ -1801,6 +1906,10 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
- 		else if (prstate_housekeeping_conflict(prs, PRS_ROOT,
- 						       excpus, tmp->delmask))
- 			WRITE_ONCE(cs->prs_err, PERR_HKEEPING);
-+		else if (!dl_tasks_keep_without(&top_cpuset, cs, tmp->addmask,
-+						deleting ? tmp->delmask : NULL,
-+						false))
-+			WRITE_ONCE(cs->prs_err, PERR_DLTASK);
- 		if (cs->prs_err)
- 			goto invalidate;
- 	}
-@@ -1948,6 +2057,9 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 		if (nocpu)
- 			return PERR_NOCPUS;
- 
-+		if (!dl_tasks_keep_without(parent, cs, tmp->delmask, NULL, true))
-+			return PERR_DLTASK;
-+
- 		/*
- 		 * This function will only be called when all the preliminary
- 		 * checks have passed. At this point, the following condition
-@@ -2035,6 +2147,20 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 			deleting = false;
- 			adding = cpumask_and(tmp->addmask,
- 					     cs->effective_xcpus, parent->effective_xcpus);
-+		} else if (deleting &&
-+			   !dl_tasks_keep_without(parent, cs, tmp->delmask,
-+						  adding ? tmp->addmask : NULL,
-+						  is_partition_invalid(cs))) {
-+			/*
-+			 * As above: the partition is or becomes invalid. Only
-+			 * a valid one holds CPUs of its parent to give back.
-+			 */
-+			part_error = PERR_DLTASK;
-+			deleting = false;
-+			if (is_partition_valid(cs))
-+				adding = cpumask_and(tmp->addmask,
-+						     cs->effective_xcpus,
-+						     parent->effective_xcpus);
- 		}
- 	} else {
- 		/*
-@@ -2106,10 +2232,13 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 				}
- 				rcu_read_unlock();
- 			}
--			if (exclusive)
--				deleting = !cpumask_empty(tmp->delmask);
--			else
-+			if (!exclusive)
- 				part_error = PERR_NOTEXCL;
-+			else if (!dl_tasks_keep_without(parent, cs, tmp->delmask,
-+							NULL, true))
-+				part_error = PERR_DLTASK;
-+			else
-+				deleting = !cpumask_empty(tmp->delmask);
- 		}
- 		/*
- 		 * When both cs and parent remain valid, parent's
-@@ -2518,6 +2647,62 @@ static void partition_cpus_change(struct cpuset *cs, struct cpuset *trialcs,
- 	}
- }
- 
-+/*
-+ * Set @new_cpus to the effective CPUs that @cp gets if @cs takes the CPUs
-+ * of @trialcs. @cp is @cs or one of its descendants.
-+ */
-+static void trial_effective_cpus(struct cpuset *cp, struct cpuset *cs,
-+				 struct cpuset *trialcs, struct cpumask *new_cpus)
-+{
-+	struct cpuset *parent = parent_cs(cs);
-+
-+	if (!cpumask_and(new_cpus, trialcs->cpus_allowed, parent->effective_cpus) &&
-+	    is_in_v2_mode())
-+		cpumask_copy(new_cpus, parent->effective_cpus);
-+	effective_cpus_below(cp, cs, new_cpus);
-+}
-+
-+/*
-+ * Return false if the CPUs of @trialcs make a deadline task of @cs, or of
-+ * a descendant, leave the root domain that counts its bandwidth. A cpuset
-+ * can hold CPUs of two root domains: with isolcpus="domain", or on cgroup
-+ * v1 with sched_load_balance off. The task would run in a root domain that
-+ * did not admit it. A move of the task to another cpuset is the way there:
-+ * it asks the other root domain for room.
-+ *
-+ * A partition root takes its CPUs from its parent, which checks the same
-+ * for its own tasks: see dl_tasks_keep_without().
-+ */
-+static bool dl_tasks_keep_root_domain(struct cpuset *cs, struct cpuset *trialcs,
-+				      struct cpumask *new_cpus)
-+{
-+	struct cgroup_subsys_state *pos_css;
-+	struct cpuset *cp;
-+	bool keep = true;
-+
-+	if (is_partition_valid(cs))
-+		return true;
-+	rcu_read_lock();
-+	cpuset_for_each_descendant_pre(cp, pos_css, cs) {
-+		if (is_partition_valid(cp)) {
-+			pos_css = css_rightmost_descendant(pos_css);
-+			continue;
-+		}
-+		trial_effective_cpus(cp, cs, trialcs, new_cpus);
-+		/*
-+		 * Test a mask that grows too. A task whose user affinity
-+		 * holds none of the old CPUs gets only the new ones.
-+		 */
-+		if (cpumask_equal(cp->effective_cpus, new_cpus))
-+			continue;
-+		keep = dl_tasks_keep_cpus(cp, new_cpus);
-+		if (!keep)
-+			break;
-+	}
-+	rcu_read_unlock();
-+	return keep;
-+}
-+
- /**
-  * update_cpumask - update the cpus_allowed mask of a cpuset and all tasks in it
-  * @cs: the cpuset to consider
-@@ -2550,6 +2735,11 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	if (alloc_tmpmasks(&tmp))
- 		return -ENOMEM;
- 
-+	if (!dl_tasks_keep_root_domain(cs, trialcs, tmp.new_cpus)) {
-+		free_tmpmasks(&tmp);
-+		return -EBUSY;
-+	}
-+
  	/*
- 	 * Check all the descendants in update_cpumasks_hier() if
- 	 * effective_xcpus is to be changed.
-@@ -3983,6 +4173,7 @@ int __init cpuset_init(void)
+ 	 * If the waiter priority is the same as the task priority
+-	 * then there is no further priority adjustment necessary.  If
++	 * then there is no further priority adjustment necessary. The
++	 * task must also pass on the same deadline donor.  If
+ 	 * deadlock detection is off, we stop the chain walk. If its
+ 	 * enabled we continue, but stop the requeueing in the chain
+ 	 * walk.
+ 	 */
+-	if (rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task))) {
++	if (rt_waiter_up_to_date(waiter, task)) {
+ 		if (!detect_deadlock)
+ 			goto out_unlock_pi;
+ 		else
+diff --git a/kernel/locking/rtmutex_api.c b/kernel/locking/rtmutex_api.c
+index eb18b094473c..6bdbd36bac94 100644
+--- a/kernel/locking/rtmutex_api.c
++++ b/kernel/locking/rtmutex_api.c
+@@ -510,7 +510,7 @@ void __sched rt_mutex_adjust_pi(struct task_struct *task)
+ 	raw_spin_lock_irqsave(&task->pi_lock, flags);
  
- 	BUG_ON(!alloc_cpumask_var(&cpus_attach, GFP_KERNEL));
- 	BUG_ON(!zalloc_cpumask_var(&dl_attach_cpus, GFP_KERNEL));
-+	BUG_ON(!alloc_cpumask_var(&dl_keep_cpus, GFP_KERNEL));
- 
- 	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT))
- 		cpumask_andnot(isolated_cpus, cpu_possible_mask,
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 2ed99b55d8a6..a21b504d467f 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -5268,6 +5268,31 @@ int dl_bw_deactivate(int cpu)
- 	return ret;
- }
- 
-+/*
-+ * Return false if @p has CPUs in the root domain that counts its
-+ * bandwidth and @new_mask holds none of them. A cpuset refuses such a
-+ * mask: only a move to another cpuset makes room in another root domain.
-+ * Like __set_cpus_allowed_ptr(), keep @new_mask within the affinity set by
-+ * the user, if they intersect.
-+ */
-+bool dl_task_keeps_root_domain(struct task_struct *p,
-+			       const struct cpumask *new_mask)
-+{
-+	const struct cpumask *span;
-+
-+	if (!dl_bandwidth_enabled() || !task_has_dl_policy(p))
-+		return true;
-+	/* pi_lock also protects p->user_cpus_ptr. */
-+	guard(raw_spinlock_irqsave)(&p->pi_lock);
-+	guard(rcu)();
-+	span = dl_task_bw_span(p);
-+	if (!span || !cpumask_intersects(span, p->cpus_ptr))
-+		return true;
-+	if (p->user_cpus_ptr && cpumask_intersects(new_mask, p->user_cpus_ptr))
-+		return cpumask_intersects_and(span, new_mask, p->user_cpus_ptr);
-+	return cpumask_intersects(span, new_mask);
-+}
-+
- int dl_bw_alloc(int cpu, u64 dl_bw)
- {
- 	return dl_bw_manage(dl_bw_req_alloc, cpu, dl_bw);
+ 	waiter = task->pi_blocked_on;
+-	if (!waiter || rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task))) {
++	if (!waiter || rt_waiter_up_to_date(waiter, task)) {
+ 		raw_spin_unlock_irqrestore(&task->pi_lock, flags);
+ 		return;
+ 	}
+diff --git a/kernel/locking/rtmutex_common.h b/kernel/locking/rtmutex_common.h
+index c38b7bdea7b3..c0f391c352e3 100644
+--- a/kernel/locking/rtmutex_common.h
++++ b/kernel/locking/rtmutex_common.h
+@@ -43,6 +43,8 @@ struct rt_waiter_node {
+  * @pi_tree:		node to enqueue into the mutex owner waiters tree
+  * @task:		task reference to the blocked task
+  * @lock:		Pointer to the rt_mutex on which the waiter blocks
++ * @pi_se:		The deadline donor of @task when @tree was last updated.
++ *			Only compared, never dereferenced.
+  * @wake_state:		Wakeup state to use (TASK_NORMAL or TASK_RTLOCK_WAIT)
+  * @ww_ctx:		WW context pointer
+  *
+@@ -54,6 +56,7 @@ struct rt_mutex_waiter {
+ 	struct rt_waiter_node	pi_tree;
+ 	struct task_struct	*task;
+ 	struct rt_mutex_base	*lock;
++	struct sched_dl_entity	*pi_se;
+ 	unsigned int		wake_state;
+ 	struct ww_acquire_ctx	*ww_ctx;
+ };
 -- 
 2.47.3
 
