@@ -1,96 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.98
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795182840;
-	b=jjLDGVnSWY5qhbNLJmzEOFKttXVKXIJ2SHgYQOHVjCNBf7sHoqWaGqAlwvNcVWJtuROU
-	 YRZSMKrNgxUZ104GILaQbeSVGwro8qpPRDW32CG29B2mCXcZ45YYycmOXlVaJC0UFSE6f
-	 LC+adcBrqtkRkcX92W1FBlvAicEBTn477vmUfE2+61CAtZO2pKXSe3ugieHz3QlYLYDmG
-	 kZz0UBuw8XM43TiENshFDCbtgvbydwF00iBazy0omMAZkoWn8ZqKDa8vn+wo3tU7gjKZN
-	 zBXQLoHkvtN5pr5DyN36FepvPXv2+mVjxCsaAbD1yvT9ziJJtLGpfgmOesG5NOhCksw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182840;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xfUNPdJxK5wQMmw0TKWNr+P9bsc1H00mnFmIr9+au7g=;
-	b=ZbPiKQl2i1sffYZuU1mNMoiZdFerSZn9Mfs3r4ARBgJj9aYCtWhxc7hxAU15XbZbfgTq
-	 QMIS1dgkk44YOnzCwTKsbOyJd4cEjGqYtMtNP4weDE8bXSmQFUCeRB8s8dAfZNHc1cUd5
-	 eMuBVZqCLaZinXX4HKSHa6TRLF2onP9JT4jeRw9nsjrx9dfPGEthwc0uQn3hFiZd7jCuI
-	 OYZ0w+uaKtGWhScOkOxSYLIMLcJAdxr9yYwXq0hCa/6jvhvLc06n6qpI4VV1aIx/iKqoP
-	 jLAz0Tv7Ydu2VLC8eJyKQZxc+t8TPv7Qny6+TJdwHo+ZUVAVmgpdAei4HJsKYhYAong==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795182960;
+	b=miTr57U+4wMGzh3bctrdl37B3IQgJDTAStSRZugZWPc+phzMzufSSmEu8uqYSOkJbDnk
+	 u5cPs2+nYQuV8GlHWmrWJTVT+BNzaLaAnRRXHbA74TdBKwP8lLP8jRWEVHWUZDNXYduVi
+	 ZmZRih/IdRR3yxOuCSvt7Uuk2N4VhomRJIHigmjDFtlwwIihIsjJLvV+uggT6yNe0nxxZ
+	 DFECvYoZyTulM9iEXqZzgqxVaJMNEkfL5sOIkf+DVInBhvz0gZd2j+9t6ZzFmQe4wTWng
+	 +yapWMj+h02dP3SV5yK9dNCdxmN9hbCcnah1USs7dMKgzZRCKjjRteXuIn+abg0oR7g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182960;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=8N6zmTDG3cVTyuv2s6StBd+In0kt9kpVqylV8RNzats=;
+	b=BSCGLZHJInCexk+Xr7l8IMnH7K4mIzU/BiB6GYoMjt7tNdWoOWCW4oSof5cu7qGcu9wm
+	 Jid9hsi1UDAixkXglSFVSkyFV3cDxPjGjQMnuYH7irgcqNgHd/P93WZGigyaE6r3lnNmG
+	 vZVIk8uh+tezeGq2dI/W4//JYRpF5cntL4eP/wBOS59to1eWabGIpQg3Hw6p8FTNF5Zr+
+	 RMiEL58f3+hW+3vOK6Nk5dkuN9pXtt3TPWoqJzaOHHp2xp53IqvVhOayE1ocd+r/fZuhJ
+	 uPvffmNHKmH30lguSZ3W0CY7QMfL99KZIuKEB95+DMs/b3Ujm2zHv9WdEYttH9782nw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b="SHCCRL/R";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.193.98
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022098.outbound.protection.outlook.com [40.107.193.98])
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=I44UmKOd;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A61060A2601;
-	Fri, 20 Nov 2026 13:54:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A61060A2601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE20606A331
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 13:56:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AE20606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=SHCCRL/R
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OCd5rvNS/WgmLsqhI4/ZuttlgJyeZyuXow/oiLqLTstZVsNJWwKxUF0E+OjerfEC8r/gxVH3TozTnaEoSflcTysrAgOzXE5UKPEuA4hrPywd37PmY064p07uIVFMX+bjaXjLR/zmUdTEhqNsQLtzXklHaT94sVo55++ArOmxZBNfXXyZYbT3sMFYYD7SKKgIat+7BDBaYb7W++72mEfhahdgK0O84DtC8Uq0QjyYh2YKuNzB1hCyeK5XYOztOwaKVHlWOs+JZTvEJtmJxDCK00eN+2tHNZsCKK8BZwNisyUppPtSnTds92r8M+1BXhyW6UtqWLfRfP5pHieq6gXM6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xfUNPdJxK5wQMmw0TKWNr+P9bsc1H00mnFmIr9+au7g=;
- b=whgn9aHxh4xuVcvnaCkBiqT6FnBGLEbLEmUtng3xpwnSi6hYIx5wKh3FJfr4rZ7PZckSHjwMkkI9/5W/3WfWQ0JUq4R0kJOfjkRl0r7gXc9frUT2w6RYKOGmtXMK109zWEfGhUqhettmdbrJRmucQ/2VFEFLS877wkipINpwdWMdLFW1IG3hy1jiKBoMFhYCtYjWZj6b1LMYiF4f9AM3i7Mrs/B3s0qN8Dy5DQ3Oh/wXnTMNmh8oMWd9Osb+oRoxSlqOx/yO8/w8csEjE9K5PeU91/En0z9v3RYXxB6b9LK8I99wKqlVBQVZA6kCD8rgrk5oqWaEfiyZQcDOD3jPHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=I44UmKOd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xfUNPdJxK5wQMmw0TKWNr+P9bsc1H00mnFmIr9+au7g=;
- b=SHCCRL/RW6xUIYvkNO3rTAlOnV+XxzH4L2MekIhxyhb2wjNvf6nhai86bA2vIS3y0ush67X8F+dGel6e+MZg26kmqpTdolIUFJW38HeC/yuCFo2v/s+qSsiDEP8GOU7ak4ZfHnd9XMxvmzSWWFZ0ugL5YjgE6Gl5VTBmVElNDQX438S32b34jlQz7J24HtdXRiZ+i4SV5tPdNjVbehKSmOun2kkXTUy2SGi2HHfniK07cJHgTjlxHktiSPqeTGcJjebdBsA2q03PcYcVRDZr7RQU2UQi+cCj41KNYpPeXnPrLQ9UwzZaFGEhr+iHG4kPVIduQPx66d3BBPoEMqBQEw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT3PR01MB8724.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:7d::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
- 2026 13:53:57 +0000
-Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 13:53:57 +0000
-Message-ID: <126ced8e-f0d0-4d1e-bd34-ebd5aca81395@efficios.com>
-Date: Fri, 20 Nov 2026 08:53:56 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 32/33] sched/deadline: Check the runtime of a task
- whose parameters change
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
- mkoutny@suse.com, linux-kernel@vger.kernel.org
-References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
- <efcd611a473f0da0161243c58f4af7c7ca73e2ba.1795116791.git.mathieu.desnoyers@efficios.com>
- <sashiko-outbox-224081@kernel.org>
+	s=smtpout1; t=1795182959;
+	bh=8N6zmTDG3cVTyuv2s6StBd+In0kt9kpVqylV8RNzats=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=I44UmKOdA7FTuYfb1UMI2TAs7eZB/YcKsNNvmtqU3izmvq/pBEwJVRmjyJeoFGdlN
+	 M6l54bT+TZsI/7vLDIQlBBro2qbC5FsfGVlDZy2H842VK2zLBhnnd5uqXMnoLA5TgX
+	 nQ2nd/g7GZfQWG17UOBV8/U+TQT+Nkk2/hb1II/6HsuVKWD0mtxRbC1G+kcat60YXE
+	 WUWyEoP0ZswmQ1QxJ6tbgiDV633FByJfXbLI0NDFfMsHFt0Pz5LaA1BH3+py+l2Evh
+	 C2Xv26hkzzI4gHCsxX0VPqme7f8aqagLTpfzsCzx0S8fBOJf5KZxBaZneBxYVAPHxR
+	 F7FmRt+8XIFjQ==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWH1C2BBZzS5H;
+	Fri, 20 Nov 2026 08:55:59 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <sashiko-outbox-224081@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0269.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:68::19) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10)
+To: juri.lelli@redhat.com,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	vincent.guittot@linaro.org
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	tglx@kernel.org,
+	will@kernel.org,
+	boqun@kernel.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	luca.abeni@santannapisa.it,
+	mathieu.poirier@linaro.org,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	parri.andrea@gmail.com,
+	m.szyprowski@samsung.com,
+	kayracizmeci@gmail.com,
+	weihengqiuu@gmail.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v9 01/33] sched/deadline: Keep departing bandwidth across a root domain rebuild
+Date: Fri, 20 Nov 2026 08:55:24 -0500
+Message-Id: <6e14c710ef58a242c7eaafebdd4492e039dc9d1c.1795181240.git.mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
+References: <cover.1795181240.git.mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -100,113 +95,504 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB8724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05a13d0a-7ce9-4656-6292-08df470db8ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|4143699003|261009223027099003|56012099006|261026140227099003|261028144727099003|261022105027099003|261026121527099003|10067099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	+3pxLNJkW8/wNihmobLso6Fbp3LNfR3o7qc1V0HI7zesg+kuogpFP8RnvIFEIG1pITYwqS+Mluy/kVe3hI5pt0KcZoF1PNyysscpM54/YNeABI8tk0s5DATYLX8MHH6M+eyD3wvXAPSpcXyDDNeXU+2odv2u+Ou67C25WFC/YqszKqFw411BOacMPJhceAvnjCg8usP/LCA6itnVendd0rqYPot4EF0CrplRieqeHxWd6jfekhyiCo89or+M+bzk4EENGCzSUlFU2jECyLSbzfoa1Yo5F7o1ewRxX8fS4LYqmLxbHBjAfGiDsl4d0ilk2/9APEm9wG2cWzLGwcjkQFBjjkJy1RVqSE2/YzkJqFXc0ihLD9f4Lwcza1Kx2LpWj8GbQaB1ip8zouahP5TDLJcH5qIiCHsR6bpYqGf1SY7tNm87D/CE1yoLoMaFugudBCA1t4P6GcFh74qCQQOKAAfiVFFsGtUZThf5h51zBSpN6EyE2o13fsWiEyOnySgQc4/cBQtFlREURfFJleb+gGf2jal/FyB0wxMk4RZuqU8Xi7OIb/E9Gm7HJYH1p1hxJAzk38bjQu/poXhAorGgu5qp2qVIdeTA/dpIlfqITg8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(4143699003)(261009223027099003)(56012099006)(261026140227099003)(261028144727099003)(261022105027099003)(261026121527099003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N0NBTmpvaEJGeWxHL0wwMk8wS3Nwb0p3Ym43aktIRHlmRWpLMXdLRG1qRURt?=
- =?utf-8?B?OFM4TERHSThuOC8vcWlKQTY0N2Z0TWdjeEdoaUloQXhWbnl2WWdRRlBtWlhu?=
- =?utf-8?B?VC9yMGFjTnJoeFFuMnNkY3duNVl5R0V0ZlIvb2VNWGpZU2VvWjMrVnRvOGho?=
- =?utf-8?B?eXVWS2x5ZTlyUUU1anpnWUZEWURIbGd5WmlmZ1VSL3lybG83TEZVU0RmMGtj?=
- =?utf-8?B?MWNFVlQ0Ykh5MmhiSTVVWnNENDhoTVpmTU1rNmtpeFJLM0hUMmJRTG1qR3Vz?=
- =?utf-8?B?MHlYWVdYZndXMWMvNnUyMVFKTDAzU3lwMkowUkxzbEJpSUtWSjBEYm1VTnUv?=
- =?utf-8?B?OVFlUDZETkRORUl2V1FqRG9heDdySWdHb3hKRVVFMkxzUEVqSkVnTldxRGhO?=
- =?utf-8?B?Z2phR056MEx3QmNScEZuS0JET2xrOVJZeHlDdmp2LzU0NzBzckg2QWM2SDVU?=
- =?utf-8?B?SnJSN3lJbkNNMWZZZXNYMGpIaXhkQ1JLcm1LSy9icUtmUHlwR1lkK1p5UkJy?=
- =?utf-8?B?Y3k2ck5TelNiUmZzNkVub0F0L2xLRkRFRFZ5VzhyNXlLM3RHODNnbVNEdE5w?=
- =?utf-8?B?VmI1elF3ZjUwekkrTzBJd0g4aXFjMDBwcG56bjVRL08zeWUxWmpUQ29VV2Jh?=
- =?utf-8?B?ZVV1UWVjOWk0cEF3bWlmWHpqdXY0TlViYWRDSmFpUDVVWXliM2xzZjNaZTJi?=
- =?utf-8?B?VUYzNGtnMmF1YlBqQmIvY0w5bm5SMnBxL2tlbGwzQzBPaWppdTdwZmVqc2xm?=
- =?utf-8?B?VDR3eFprM2dLYkZBUms3c1BnVEJKVUVhNUM3bVZMdWdZWFM5bi91UGJQcTcr?=
- =?utf-8?B?L2RaVjFvUlJkcXE1YkxwVXEyaXlDMEcwRlFhQU9jV0ZqaHBHRFdPOWppdm53?=
- =?utf-8?B?cGxSQms5TUNHN2xycUJnWUlHSFc1WG5xMEk1YkQvanNxd3QzWTZPMS9TdkN3?=
- =?utf-8?B?Q3FRUXNuMS9XMXVUQWxsVWpwNU9YblJmT2Y1Tmw2NEFYU0pPSEZrZ3RRc0Ur?=
- =?utf-8?B?bDZoV00rZXpmOVhKOEtGNmtIMnVUbTErczRoeU1ZRTR1dFNlaUFad294S3Rz?=
- =?utf-8?B?dElMRUlvdkN2V2g0RVpDVmhTWEtuQmJUNzZ5Wlc4NWdNQm9yUVFCTlFTNkU5?=
- =?utf-8?B?S0R1M1d4SFFCVFdIN1pGc0sxdGVuWUdLVDBpOFg0WHBZV09TUG5ES3lNSnNH?=
- =?utf-8?B?MXlKbWkzYWMvMjJENGp2VTl4Tk91ZkRvbG5xQnJ6L0xpWW5wNnBhOGhDc0Ja?=
- =?utf-8?B?VkdqSVFSWk1ZczNDNTg2elg0SXRzaUEyOVh2WUJsRWtCWTE4QWg0Vllpamhl?=
- =?utf-8?B?YzB0bW9JTzdRWlJEUWtnYi92cWFTdlZYaDdMTER5UjNMR0ZvWTB1b2cvYkcx?=
- =?utf-8?B?K000bmd6Yk1hWW0xSlh2em1DYkxSL0RoMDdlVEFBTXkyOGl6SmU2NExKK2xi?=
- =?utf-8?B?Q3JXUld5SWNKc2h4WGdqTzM1cmZTa0QzMzE4SjI1UkNyNjdSeWR1a2llYVBv?=
- =?utf-8?B?bkxzbnVNUHdDcWMya21PQ0lZZXpCdnJzNG1ma2hkeFlETld6VE5HRzhJS0VQ?=
- =?utf-8?B?RnppV0RITVc5cmw3QUlseG45a1B0aWR4TW9jMjJqTXdCazZQWHVPRExLaFM3?=
- =?utf-8?B?T3VjTWNPZVVTSVZCb0E1QWFNZC80d2lnd09yYmxBcjNOWmpVRGViQ3FKQU8r?=
- =?utf-8?B?S3MrcmRGR3N1a1hXS0xLNXpwa1NWYkpGbGlUZmwrZUFYMTUvWTZ5RDkzWkVm?=
- =?utf-8?B?Y0h2RUcyTVFCa1JIbzVIUEIwRmpyenkvK0JGWjdpeU9UTlhIUjhVV3o4bGo3?=
- =?utf-8?B?dG00bmR4aGs5dUovaTYwZDJITjArSFJENWlKMEJaTGxXWkVtS2xMcDZwelZH?=
- =?utf-8?B?NWE1cGdVRVVtTmtMMUpKazFuSjhNWGpVRmFtL2k1bVVoem9NLzhRMDZJVWUw?=
- =?utf-8?B?YzMxL0owTGp6eFovZi9naEx6WHdqTkc2Mkk3bHRRai92TUhXaUNoZEovZ21Y?=
- =?utf-8?B?Mi9hYVRsbld5b2RGRU5JN2pMc2xlM0w4ZDJuWG5XdGhUUVp0NFM0bVkzL0pS?=
- =?utf-8?B?UUhTa3lsTjgvbm0wTi9lMlNjTWowUzkydG9NWFZiRDNrYlNKYVBnUDhhTDNH?=
- =?utf-8?B?bkkzR3JLUDMzdlFmSWR5ZTd6ekRhb2JOWFQ1Vnd0c3dDRUlNbUtxQUtJZ2ZI?=
- =?utf-8?B?MzZLREx3dFdEYkVEejhCbWRFNFNqMUk3cmNIa1FBN1pzbWxwYjl4ZzNFM3hv?=
- =?utf-8?B?T0hneXdXNVl4WTB2OUhzSnN6WGtEMmdxVjJQWW5DM3hQUThBZU5OaDQyb1lB?=
- =?utf-8?B?cTl0WWVCUklBMWRXTWRjOUxZd1pheUZPZHlJRFRlUmRsbS9VTGY2bTZ5MGN5?=
- =?utf-8?Q?cnRPsTODwA9pUaV4PKUvl90LzjkcEybYQlAza?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05a13d0a-7ce9-4656-6292-08df470db8ae
-X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 13:53:56.9189
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ElwAYvSbzM1MhKYZxYgXCG2ZdtQ0gPF+VlZu6YNsz/g5R4KDeXBbdpKfS4bh2rayqP4XiH72+kS8DoAL2XLm7lKjJub8VKHTmWWyFaup9FE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB8724
+Content-Transfer-Encoding: 8bit
 
-> Does calling update_dl_entity() directly from dl_deboost() bypass
-> dl_check_constrained_dl() and update sleeping tasks prematurely?
+A task that leaves SCHED_DEADLINE, or dies, keeps its bandwidth in
+total_bw until its 0-lag time. This keeps admission control on the safe
+side. Then inactive_task_timer() removes it from the root domain of the
+task's CPU. Two things break this:
 
-Yes for a constrained task. In v9, dl_deboost() will leave the check to
-the next enqueue when the task is past its deadline and before its next
-period. The enqueue will then throttle it, as dl_check_constrained_dl()
-does.
+ - A rebuild of the accounting clears every root domain, then adds back
+   the deadline tasks of the cpusets. It misses a task that left
+   SCHED_DEADLINE, or a dead one. Their bandwidth is dropped, and the
+   timer removes it again.
+ - A task that left SCHED_DEADLINE can also move to another root
+   domain. The timer then takes total_bw from that one, which never
+   had it.
 
-For a sleeping owner, the wakeup checks the runtime again. The early
-check gives it no more runtime.
+Either way, a root domain admits deadline tasks beyond its capacity
+until the next rebuild.
 
-> Can an unboosted SCHED_DEADLINE lock owner miss a required PI boost when
-> update_dl_entity() pushes its deadline past its top waiter's deadline?
+Fix this with dl_departed_list. A departing task goes on it with the
+CPU it is on. A rebuild puts its bandwidth back in that CPU's root
+domain. The timer removes it from there, and so does
+sched_dl_overflow() for a task that returns to SCHED_DEADLINE.
 
-Yes, and this is older. On v7.4-rc2, a replenishment or a wakeup can
-also push the deadline of an unboosted owner past its top waiter. Only
-rt_mutex_setprio() compares them. This patch adds one more such path. I
-would rather fix all of them in a follow-up.
+Priority inheritance can boost a departed task back into the class,
+after it moved to another root domain. The boost cancels the timer and
+takes the task off the list. Keep the CPU recorded then. When the boost
+ends, the bandwidth is taken from the root domain that counts it, not
+from the one the task runs in. The pi_departed_moved case, added to
+deadline_bw_test later in this series, tests this.
 
-> Does __setparam_dl() leave dl_new_params unset when a task leaves
-> SCHED_DEADLINE and re-enters with the same parameters while PI-boosted?
+A rebuild still drops the bandwidth of a task whose CPU is inactive, or
+that dies during the rebuild. Each task records a count of the rebuilds,
+dl_bw_gen, with its bandwidth. The timer removes nothing if a rebuild
+dropped the bandwidth since.
 
-Yes, by design. A task that leaves the class keeps its CBS state, so
-that changing class gives it no fresh runtime. This is the intent of
-commit a649f237db18 ("sched,dl: Fix sched class hopping CBS hole"). If
-the old deadline has passed at the deboost, the enqueue starts a new
-period. The leftover is never more than a new entry would get.
+Make dl_cookie and dl_bw_visited() static: only deadline.c uses them.
 
-> When sched_setattr() shrinks the parameters of an unboosted task blocked
-> on an rt_mutex, does rt_mutex_adjust_pi() use a stale p->dl.deadline?
+deadline_rebuild_test, added later in this series, fails every time on
+v7.3 and v7.4-rc2 kernels. A one-CPU partition root admits two tasks of
+600ms every second there, where it has room for one. It passes with
+this patch.
 
-Yes. v7.4-rc2 has it too. In v9, prio_changed_dl() will check the
-runtime of a task that is blocked on an rt_mutex and not boosted.
-rt_mutex_adjust_pi() will then requeue the waiter with the result. A new
-case, setattr_blocked_new_period, fails without the fix and passes with
-it.
+Fixes: 387e31300b57 ("sched/deadline: Fix the update of the total -deadline utilization")
+Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: stable@vger.kernel.org
+---
+ include/linux/sched.h          |  16 +++
+ include/linux/sched/deadline.h |   5 +-
+ kernel/cgroup/cpuset.c         |  11 +-
+ kernel/sched/deadline.c        | 254 +++++++++++++++++++++++++++++----
+ 4 files changed, 249 insertions(+), 37 deletions(-)
 
-Thanks,
-
-Mathieu
-
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 88cda9c10cb8..b6d4e365afee 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -739,6 +739,22 @@ struct sched_dl_entity {
+ 	 */
+ 	struct hrtimer			inactive_timer;
+ 
++	/*
++	 * A task that leaves SCHED_DEADLINE, or dies, before its "0-lag
++	 * time" keeps its bandwidth in its root domain until the inactive
++	 * timer removes it. Meanwhile, @dl_departed_node links the task on
++	 * the list that a rebuild of the root domains' accounting reads.
++	 * @dl_departed_cpu is a CPU of the root domain that counts the
++	 * bandwidth. It stays recorded while priority inheritance boosts the
++	 * task back into the class. Otherwise @dl_departed_cpu is -1.
++	 *
++	 * @dl_bw_gen is the value of dl_bw_gen when the bandwidth was last
++	 * counted. If a rebuild dropped it since, there is nothing to remove.
++	 */
++	struct list_head		dl_departed_node;
++	int				dl_departed_cpu;
++	unsigned int			dl_bw_gen;
++
+ 	/*
+ 	 * Bits for DL-server functionality. Also see the comment near
+ 	 * dl_server_update().
+diff --git a/include/linux/sched/deadline.h b/include/linux/sched/deadline.h
+index 273538200a44..bdf39ac1d43d 100644
+--- a/include/linux/sched/deadline.h
++++ b/include/linux/sched/deadline.h
+@@ -32,7 +32,7 @@ static inline bool dl_time_before(u64 a, u64 b)
+ struct root_domain;
+ extern void dl_add_task_root_domain(struct task_struct *p);
+ extern void dl_clear_root_domain(struct root_domain *rd);
+-extern void dl_clear_root_domain_cpu(int cpu);
++extern void dl_clear_root_domains(void);
+ /*
+  * Return whether moving DL task @p to @new_mask requires moving DL
+  * bandwidth accounting between root domains. This helper is specific to
+@@ -43,9 +43,6 @@ extern void dl_clear_root_domain_cpu(int cpu);
+ extern bool dl_task_needs_bw_move(struct task_struct *p,
+ 				  const struct cpumask *new_mask);
+ 
+-extern u64 dl_cookie;
+-extern bool dl_bw_visited(int cpu, u64 cookie);
+-
+ static inline bool dl_server(struct sched_dl_entity *dl_se)
+ {
+ 	return dl_se->dl_server;
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 3219f927c35e..4159abfbbbb5 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -985,22 +985,15 @@ void dl_rebuild_rd_accounting(void)
+ {
+ 	struct cpuset *cs = NULL;
+ 	struct cgroup_subsys_state *pos_css;
+-	int cpu;
+-	u64 cookie = ++dl_cookie;
+ 
+ 	lockdep_assert_cpuset_lock_held();
+ 	lockdep_assert_cpus_held();
+ 	lockdep_assert_held(&sched_domains_mutex);
+ 
++	dl_clear_root_domains();
++
+ 	rcu_read_lock();
+ 
+-	for_each_possible_cpu(cpu) {
+-		if (dl_bw_visited(cpu, cookie))
+-			continue;
+-
+-		dl_clear_root_domain_cpu(cpu);
+-	}
+-
+ 	cpuset_for_each_descendant_pre(cs, pos_css, &top_cpuset) {
+ 
+ 		if (cpumask_empty(cs->effective_cpus)) {
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index fe6b12500b54..c2b5b5fdf1b9 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -163,7 +163,13 @@ static inline unsigned long dl_bw_capacity(int i)
+ 	}
+ }
+ 
+-bool dl_bw_visited(int cpu, u64 cookie)
++/*
++ * Used for dl_bw check and update, used under sched_rt_handler()::mutex and
++ * sched_domains_mutex.
++ */
++static u64 dl_cookie;
++
++static bool dl_bw_visited(int cpu, u64 cookie)
+ {
+ 	struct root_domain *rd = cpu_rq(cpu)->rd;
+ 
+@@ -217,6 +223,112 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap, u64 old_bw, u64 new_bw)
+ 	       cap_scale(dl_b->bw, cap) < dl_b->total_bw - old_bw + new_bw;
+ }
+ 
++/*
++ * A task that leaves SCHED_DEADLINE, or dies, before its 0-lag time keeps
++ * its bandwidth in total_bw until that time. Then the inactive timer
++ * removes it. Meanwhile the task may run anywhere, under another policy.
++ * The timer holds a reference to it.
++ *
++ * A rebuild of the root domains' accounting (dl_clear_root_domains() and
++ * dl_add_task_root_domain()) does not find such a task among the deadline
++ * tasks of the cpusets. So dl_departed_list holds these tasks, from their
++ * departure to their timer. The rebuild puts their bandwidth back in the
++ * root domain of the CPU each one was on when it left.
++ *
++ * dl_bw_gen numbers the rebuilds of the accounting: how many times the
++ * root domains were wiped and reconstructed (dl_clear_root_domains()
++ * increments it). A task records the number of its last definite
++ * state, counted or settled. That number dates the state:
++ *
++ *  - Current: the bandwidth is counted, or a release settled it since
++ *    the rebuild began. A release subtracts; the walk of the cpusets
++ *    skips.
++ *  - One behind: the clear that just ran wiped it. The rebuild puts
++ *    it back.
++ *  - Older: an earlier rebuild dropped it. A task on the departed list
++ *    stays out, and its release removes nothing. A task that is in the
++ *    class is counted again.
++ *
++ * Only equalities are compared, so the wrap of the counter is
++ * harmless.
++ *
++ * A rebuild drops the bandwidth when the CPU recorded is no longer
++ * active. It also drops the bandwidth of a task that dies while the
++ * rebuild runs. The cpuset walk skips that task, and it was not dead yet
++ * when the list was put back.
++ *
++ * dl_departed_lock protects the list and both counts. Take it with
++ * interrupts disabled, under the task's rq lock or pi_lock or in the
++ * rebuild, and before any dl_bw lock.
++ */
++static LIST_HEAD(dl_departed_list);
++static DEFINE_RAW_SPINLOCK(dl_departed_lock);
++static unsigned int dl_bw_gen;
++
++/*
++ * Put @p on dl_departed_list with @cpu, a CPU of the root domain that
++ * keeps its bandwidth. @p leaves SCHED_DEADLINE, or dies, before its
++ * 0-lag time. Do nothing if @p is on the list already. Keep the CPU
++ * recorded if @p has one: priority inheritance boosted @p back into the
++ * class and its boost ends. The caller holds the rq lock of @p.
++ */
++static void dl_task_depart(struct task_struct *p, int cpu)
++{
++	struct sched_dl_entity *dl_se = &p->dl;
++
++	lockdep_assert_irqs_disabled();
++	guard(raw_spinlock)(&dl_departed_lock);
++	if (!list_empty(&dl_se->dl_departed_node))
++		return;
++	if (dl_se->dl_departed_cpu < 0)
++		dl_se->dl_departed_cpu = cpu;
++	list_add(&dl_se->dl_departed_node, &dl_departed_list);
++}
++
++/*
++ * Take @p off dl_departed_list. Priority inheritance boosts @p back into
++ * the deadline class. Keep the CPU recorded: its root domain still counts
++ * the bandwidth, wherever @p runs now. The caller holds the rq lock of
++ * @p.
++ */
++static void dl_task_undepart(struct task_struct *p)
++{
++	struct sched_dl_entity *dl_se = &p->dl;
++
++	lockdep_assert_irqs_disabled();
++	guard(raw_spinlock)(&dl_departed_lock);
++	list_del_init(&dl_se->dl_departed_node);
++}
++
++/*
++ * Remove the bandwidth of @p from the root domain that counts it. That is
++ * the root domain of the CPU recorded when @p departed, or else of @cpu.
++ * Clear the record. Take @p off dl_departed_list. Remove nothing if a
++ * rebuild dropped the bandwidth since it was counted. Then record the
++ * current dl_bw_gen in @p, so that a rebuild in progress does not count it
++ * again. The caller holds the rq lock of @p.
++ */
++static void dl_task_release_bw(struct task_struct *p, int cpu)
++{
++	struct sched_dl_entity *dl_se = &p->dl;
++	struct dl_bw *dl_b;
++
++	lockdep_assert_irqs_disabled();
++	guard(raw_spinlock)(&dl_departed_lock);
++	if (dl_se->dl_departed_cpu >= 0) {
++		cpu = dl_se->dl_departed_cpu;
++		dl_se->dl_departed_cpu = -1;
++		list_del_init(&dl_se->dl_departed_node);
++	}
++	if (dl_se->dl_bw_gen == dl_bw_gen) {
++		dl_b = dl_bw_of(cpu);
++		raw_spin_lock(&dl_b->lock);
++		__dl_sub(dl_b, dl_se->dl_bw, dl_bw_cpus(cpu));
++		raw_spin_unlock(&dl_b->lock);
++	}
++	dl_se->dl_bw_gen = dl_bw_gen;
++}
++
+ static inline
+ void __add_running_bw(u64 dl_bw, struct dl_rq *dl_rq)
+ {
+@@ -536,13 +648,9 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
+ 				sub_running_bw(dl_se, dl_rq);
+ 
+ 			if (!dl_task || READ_ONCE(p->__state) == TASK_DEAD) {
+-				struct dl_bw *dl_b = dl_bw_of(task_cpu(p));
+-
+ 				if (dl_task && READ_ONCE(p->__state) == TASK_DEAD)
+ 					sub_rq_bw(dl_se, &rq->dl);
+-				raw_spin_lock(&dl_b->lock);
+-				__dl_sub(dl_b, dl_se->dl_bw, dl_bw_cpus(task_cpu(p)));
+-				raw_spin_unlock(&dl_b->lock);
++				dl_task_release_bw(p, task_cpu(p));
+ 				__dl_clear_params(dl_se);
+ 			}
+ 		}
+@@ -551,8 +659,18 @@ static void task_non_contending(struct sched_dl_entity *dl_se, bool dl_task)
+ 	}
+ 
+ 	dl_se->dl_non_contending = 1;
+-	if (!dl_server(dl_se))
+-		get_task_struct(dl_task_of(dl_se));
++	if (!dl_server(dl_se)) {
++		struct task_struct *p = dl_task_of(dl_se);
++
++		get_task_struct(p);
++		/*
++		 * A dying task keeps its bandwidth in the root domain of the
++		 * CPU it runs on. Record that CPU. switched_from_dl() records
++		 * a task that leaves SCHED_DEADLINE.
++		 */
++		if (READ_ONCE(p->__state) == TASK_DEAD)
++			dl_task_depart(p, task_cpu(p));
++	}
+ 
+ 	hrtimer_start(timer, ns_to_ktime(zerolag_time), HRTIMER_MODE_REL_HARD);
+ }
+@@ -2304,17 +2422,13 @@ static enum hrtimer_restart inactive_task_timer(struct hrtimer *timer)
+ 		goto no_task;
+ 
+ 	if (!dl_task(p) || READ_ONCE(p->__state) == TASK_DEAD) {
+-		struct dl_bw *dl_b = dl_bw_of(task_cpu(p));
+-
+ 		if (READ_ONCE(p->__state) == TASK_DEAD && dl_se->dl_non_contending) {
+ 			sub_running_bw(&p->dl, dl_rq_of_se(&p->dl));
+ 			sub_rq_bw(&p->dl, dl_rq_of_se(&p->dl));
+ 			dl_se->dl_non_contending = 0;
+ 		}
+ 
+-		raw_spin_lock(&dl_b->lock);
+-		__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
+-		raw_spin_unlock(&dl_b->lock);
++		dl_task_release_bw(p, task_cpu(p));
+ 		__dl_clear_params(dl_se);
+ 
+ 		goto unlock;
+@@ -3580,12 +3694,33 @@ void dl_add_task_root_domain(struct task_struct *p)
+ 	dl_get_task_effective_cpus(p, msk);
+ 	cpu = cpumask_first_and(cpu_active_mask, msk);
+ 	BUG_ON(cpu >= nr_cpu_ids);
++
++	raw_spin_lock(&dl_departed_lock);
++	/*
++	 * Skip a task whose dl_bw_gen is current. Either
++	 * dl_clear_root_domains() put it back as a departed task, and
++	 * priority inheritance boosted it into the class since. Or it died
++	 * since the rebuild started, and dl_task_release_bw() released its
++	 * bandwidth. A task that died since with its 0-lag time ahead is on
++	 * the departed list. Count it in the root domain of the CPU
++	 * recorded, if that CPU is active.
++	 */
++	if (p->dl.dl_bw_gen == dl_bw_gen)
++		goto unlock;
++	if (p->dl.dl_departed_cpu >= 0) {
++		cpu = p->dl.dl_departed_cpu;
++		if (!cpu_active(cpu))
++			goto unlock;
++	}
+ 	rq = cpu_rq(cpu);
+ 	dl_b = &rq->rd->dl_bw;
+ 
+ 	raw_spin_lock(&dl_b->lock);
+ 	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
+ 	raw_spin_unlock(&dl_b->lock);
++	p->dl.dl_bw_gen = dl_bw_gen;
++unlock:
++	raw_spin_unlock(&dl_departed_lock);
+ 	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+ }
+ 
+@@ -3643,9 +3778,51 @@ void dl_clear_root_domain(struct root_domain *rd)
+ 		dl_server_add_bw(rd, i);
+ }
+ 
+-void dl_clear_root_domain_cpu(int cpu)
++/*
++ * Clear every root domain before a rebuild of their accounting, and count
++ * the rebuild in dl_bw_gen. Put back the bandwidth of their servers. Put
++ * back the bandwidth of the tasks on dl_departed_list, which no cpuset
++ * holds as deadline tasks. Put each in the root domain of the CPU
++ * recorded for it, or drop it if that CPU is not active.
++ * dl_add_task_root_domain() then adds the deadline tasks of the cpusets.
++ */
++void dl_clear_root_domains(void)
+ {
+-	dl_clear_root_domain(cpu_rq(cpu)->rd);
++	struct sched_dl_entity *dl_se;
++	u64 cookie = ++dl_cookie;
++	struct dl_bw *dl_b;
++	int cpu;
++
++	guard(raw_spinlock_irqsave)(&dl_departed_lock);
++	dl_bw_gen++;
++	for_each_possible_cpu(cpu) {
++		if (!dl_bw_visited(cpu, cookie))
++			dl_clear_root_domain(cpu_rq(cpu)->rd);
++	}
++	list_for_each_entry(dl_se, &dl_departed_list, dl_departed_node) {
++		cpu = dl_se->dl_departed_cpu;
++		/*
++		 * Skip bandwidth that an earlier rebuild dropped. It is not
++		 * counted now, and its release removes nothing
++		 * (dl_task_release_bw()).
++		 */
++		if (dl_se->dl_bw_gen != dl_bw_gen - 1)
++			continue;
++		/*
++		 * Drop the bandwidth of a task whose CPU is inactive. A CPU
++		 * that goes offline is in the default root domain by then.
++		 * The root domain that counted the task cannot be found
++		 * from the recorded number. The release then removes
++		 * nothing, and no later rebuild restores it.
++		 */
++		if (!cpu_active(cpu))
++			continue;
++		dl_b = dl_bw_of(cpu);
++		raw_spin_lock(&dl_b->lock);
++		__dl_add(dl_b, dl_se->dl_bw, dl_bw_cpus(cpu));
++		raw_spin_unlock(&dl_b->lock);
++		dl_se->dl_bw_gen = dl_bw_gen;
++	}
+ }
+ 
+ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+@@ -3701,9 +3878,20 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 	 * We cannot use inactive_task_timer() to invoke sub_running_bw()
+ 	 * at the 0-lag time, because the task could have been migrated
+ 	 * while SCHED_OTHER in the meanwhile.
++	 *
++	 * For the same reason, the timer cannot take the task's bandwidth
++	 * from the root domain of the CPU the task is on by then. And a
++	 * rebuild of the root domains meanwhile would not find the task
++	 * among the deadline tasks. So record a CPU of the root domain that
++	 * keeps the bandwidth until the timer removes it (dl_task_depart()).
++	 * Test dl_non_contending: it tells that the timer is armed and its
++	 * handler has not run. hrtimer_active() stays true for a while after
++	 * the handler returns.
+ 	 */
+-	if (p->dl.dl_non_contending)
++	if (p->dl.dl_non_contending) {
+ 		p->dl.dl_non_contending = 0;
++		dl_task_depart(p, task_cpu(p));
++	}
+ 
+ 	/*
+ 	 * Since this might be the only -deadline task on the rq,
+@@ -3723,6 +3911,17 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ static void switched_to_dl(struct rq *rq, struct task_struct *p)
+ {
+ 	cancel_inactive_timer(&p->dl);
++	/*
++	 * A task on the departed list gets here when priority inheritance
++	 * boosts it back into the class before its 0-lag time. (A policy change
++	 * took it off the list in sched_dl_overflow().) The inactive timer no
++	 * longer removes its bandwidth: the task does when it leaves the class
++	 * again. So take it off the list. The task keeps the CPU recorded. It
++	 * takes the bandwidth from the root domain of that CPU, even if it
++	 * moved to another root domain meanwhile.
++	 */
++	if (!list_empty(&p->dl.dl_departed_node))
++		dl_task_undepart(p);
+ 
+ 	/*
+ 	 * In case a task is setscheduled to SCHED_DEADLINE we need to keep
+@@ -3837,12 +4036,6 @@ DEFINE_SCHED_CLASS(dl) = {
+ #endif
+ };
+ 
+-/*
+- * Used for dl_bw check and update, used under sched_rt_handler()::mutex and
+- * sched_domains_mutex.
+- */
+-u64 dl_cookie;
+-
+ int sched_dl_global_validate(void)
+ {
+ 	u64 runtime = global_rt_runtime();
+@@ -3963,8 +4156,6 @@ int sched_dl_overflow(struct task_struct *p, int policy,
+ 
+ 	if (dl_policy(policy) && !task_has_dl_policy(p) &&
+ 	    !__dl_overflow(dl_b, cap, 0, new_bw)) {
+-		if (hrtimer_active(&p->dl.inactive_timer))
+-			__dl_sub(dl_b, p->dl.dl_bw, cpus);
+ 		__dl_add(dl_b, new_bw, cpus);
+ 		err = 0;
+ 	} else if (dl_policy(policy) && task_has_dl_policy(p) &&
+@@ -3990,6 +4181,19 @@ int sched_dl_overflow(struct task_struct *p, int policy,
+ 	}
+ 	raw_spin_unlock(&dl_b->lock);
+ 
++	/*
++	 * A task that comes back before its 0-lag time still has the
++	 * bandwidth it left with. The new bandwidth replaces it, so remove the
++	 * old one from the root domain that keeps it (dl_task_release_bw()).
++	 * No rebuild can run meanwhile: the caller holds cpuset_mutex.
++	 */
++	if (!err && dl_policy(policy) && !task_has_dl_policy(p)) {
++		lockdep_assert_cpuset_lock_held();
++		if (p->dl.dl_departed_cpu >= 0)
++			dl_task_release_bw(p, -1);
++		p->dl.dl_bw_gen = dl_bw_gen;
++	}
++
+ 	return err;
+ }
+ 
+@@ -4130,6 +4334,8 @@ void init_dl_entity(struct sched_dl_entity *dl_se)
+ 	init_dl_task_timer(dl_se);
+ 	init_dl_inactive_task_timer(dl_se);
+ 	__dl_clear_params(dl_se);
++	INIT_LIST_HEAD(&dl_se->dl_departed_node);
++	dl_se->dl_departed_cpu = -1;
+ }
+ 
+ bool dl_param_changed(struct task_struct *p, const struct sched_attr *attr)
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+2.47.3
+
