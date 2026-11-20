@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.77
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.191.82
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795182571;
-	b=3W3U5+FjVLl2BY/dhhigcOp1OffXlHJiuyGsHrccpByO6wZ/4UIrkqqN3nGI72xLTBoQ
-	 byLUZblqGkfNVrqZFo1HQ67mvE2Dy6uq9bJGKgZQm103WBagIlg8qgfWvzsODjPdA+oJo
-	 DYuMcwGHkbX8fJlnWx3wIPqNJ+my/zhze4qCP4/d36ynUDnWsUAX1mOG0KudaTDZlCzha
-	 sj+qrXrl99U5DP5dH3jFmS6K9BuTiEiQRr+tc1d4wfd/TaPPa4g8V9yyIuRL9H+G/VFIw
-	 tLO2Sdh+DBunWicYGth2l8gumMrxiF+bbx+zpSbXmcJ8TzukalGq/0v6L1c/zhCvBdQ==
+	t=1795182603;
+	b=HIf9BRrYxiRvtaaHH98bpoOC6Qs8qkpqy4bJNFuEzsxYja88U+L1f1hHXdbxa7JKCsxG
+	 bhgDemRNHQsv0nIGP0QJ/KJ1AJwKxiE189SkZrkBXGFSD9x6mlxNWjPwRvql4C0xeYWL8
+	 u85eUALXxzfsEPt6V1Qy8GNn0W0TSh0SQ/SEjwW3msZVeSNOuEwvEg2Nr8K+NKbATxRZP
+	 cb84AeIPWX72eN9B6OxQEkJXzVW8QqQlg6ncnqBFPKrj04CUBvdUfuZQMeeZLyIBqlEzO
+	 lH+Zxd28KX1YY8LlNL9q+U3JmkakrIw1M51oOlLIRY01zziPkbeTo3MpffAmb9z1IEQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182571;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182603;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
 	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
@@ -24,72 +24,72 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Cm8Hu6hir4AydBgZDY+ytL+p1j7/ApqdiMY1BJx2qVs=;
-	b=3h+OtAN8yvxandkATA//vm3CSBykyO6+Q7ZEwfM/SIHvDQCR0fntKOnbaQv6KacXgUom
-	 pHxEaKJKvScy1qaor1W3ef3yeLOxVmF3x7Wj2H1YdgfUB9W+/rteHVMstnluugMND9CS2
-	 If4RcTx7mlfDA/XyK6j8HsaU2iMoo5C2VeWf/LtNCRficoy6JKNTdhoxSSYgukjKCrxWQ
-	 yUiuFOsI3S9Ct6hiOXW0VxH37ydwmxHOrk5SnV4Mu1lZgh9NM910UErQ0D9hpCJ+4+UBL
-	 sSyBmK71Fkc41O23Yo2esOuriXgnkYrNWryvR2n2f3QrO/d8mQeZqU14Ta0p+j41zZQ==
+	bh=D5vxolDMIGPbwgd8RsWQHzKNdnUhbYLzfa3AY6fRNG0=;
+	b=QluIv83+qB2tuat8XQZWPJezJ/VgRMQ/3Rs9CfkTnRlnHj+RcIRBmBHA9qlojv3jrtSC
+	 KcD4EsugFTVVcDFS6JtyWry7uswnRl3WQ4OL0wr+Hsm/uUAO7R+ghx9Ks9orAYUWAG2Z5
+	 WMAFLOKhGtlQ/FlaydlZ4JXwoKtTqxOYIyvIFP3H0Cqnpw18epmZ2jtXlIhJZzNmaLlI3
+	 95ngbk9uwTXh19HXOBclBDbrgiNVaR8m7VooC9Ui8QzoBMoL4BlOOacAnhWvpiKFlDAtd
+	 AFBAomxJQxzqNIqgAcryOjUzgrkIkWjDfXaEZ0EJC1ieHcJqMLb4xZ9IASjFjBJHFMA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=KHNaopea;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.189.77
-Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020077.outbound.protection.outlook.com [52.101.189.77])
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=RVdNGW7n;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.191.82
+Received: from YQZPR01CU011.outbound.protection.outlook.com (mail-canadaeastazon11020082.outbound.protection.outlook.com [52.101.191.82])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8424760A260D;
-	Fri, 20 Nov 2026 13:49:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8424760A260D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E00606A33D;
+	Fri, 20 Nov 2026 13:50:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48E00606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=KHNaopea
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=RVdNGW7n
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qiPpecETm4olrtX1TFLvbOdu1xJNum42qAqkQOreNLeg+X8aFom7KjwlpRXxGpj0TFOe1AncOxEGfpRPioAMCWT5wI12zcmRs660QB1FdWhGH5I+b4fsfuL0Ng9DjehawtnxzPpNVSuI2qdbVXGCyQZqwe04gAOSnSNN3lD6XyyWZcHpdqBITtui5U/+mqFk4uaRf4lAPi3nSV7VlxPHmAbmcQ1PBKbJLVt6nn5UmJFGsj2KJs3BcnVbRG8Z2ZmnlGLOTE8A/o7OX+CBDi48UCDguAr9bFjGl3TKxxm1NPRdkJTECEDuRiYFDzEyVAF0saXDx/eBAVAxyinm6hZ4Vw==
+ b=BHxR1WgIAV0oGg4OvLxyoQ5gXevoh4t0Rg9IO9lI6isnSooblagYLl4vI13jMAlS4xkakja4YGXk0P+bTTs+qorVrdjfu7zmGiylp+MfDKqupaBBxOr6m5OkXPKfC6vZGzJfG9jDta6s7POkegIFlUxG7NG4Bkox6gx8fRvbv6Ibeb9hikuaGqdvCizYS5hT9mvpcBOP9yXCjATPrvHxMBnjr3F/gC4oNIe9uSE93BNKxWjGD1RYfxh9WojVSQNEXaBV3vXLSSX06IvlBlPCHUAzvp/QsN8/JtEU935LKWeNrAp/H6cfOFZakFU9CFV/a+gX3yrx/a0AwFT/f2koiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cm8Hu6hir4AydBgZDY+ytL+p1j7/ApqdiMY1BJx2qVs=;
- b=E2DWd5nAMENPpSvJ+cOhKw4VPZhwaQmbvAxCiah71x5XVtcLJmAQb1GmjSuvlyKnv4Y6KYgv2JKF3CLXgbl1iPo3rz+Xto+fVhFsTrvd8TAHzuaVp5V63in0wf9I/VDBysZFD8OZJVpmyAiBdx3TuscVUWPJk1kkMP1CBRiNghB+hxeArdwk9DrD/g6tsF5nNWOMM0a/Mxl5RC6O9zBV3kK+c4P4nRnlAqjQAlOhct5UG+nobFp4mutsLcQMOB5Oxi/GE3e6iVBc9wPK03PA5FujBcOssLWMr5UISJVHu3CtfzG8Wmjgo0YLAhLTS1MRBynAmjcZmFFEpsr4QDZNXg==
+ bh=D5vxolDMIGPbwgd8RsWQHzKNdnUhbYLzfa3AY6fRNG0=;
+ b=a6Vn/WZhGAgSsFGyWDM5O8GHgHSP1t67hOsLEbZIAC/Yq+muwqgcMboNC7V92fcFz7CsyEioFbT2prW20WJPljljMPlEkI+loajkuWKzSiJUsixDYv4VSaix44SlRIPu6q4TPpRiAhCxeRFoQ/9pdZjGZVIYvhTpbZPibRqgWYbIxSdkAj/p7bEk9o974So6SfB2QOITcgqF9R0OeZ55SJEAHCByYYcmgE4zqNidJNa3QFvQ/NIKBZBH1uu+ofTI4xdzs2tsBSICA93nvSQIMLhZpb5Rf+Aqa6reGfzm8SdQcUDoauhb1pnbswpj/uiCVV4760qH5YkUVvsKgd9lcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
  dkim=pass header.d=efficios.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cm8Hu6hir4AydBgZDY+ytL+p1j7/ApqdiMY1BJx2qVs=;
- b=KHNaopeadgjLzH3NUi15dJqUSEIWALyLtg1sXDYBDFf3ksE6/Wyt9/NlAJbhgYTZOfBH6EshKkBIyQ5muarfxxxnqPZjMgnflOBLjFd8mg5bAapcL+LN422/khqWctHyGwBixthS7gmp+izqKVA4jn4+4TVu4OdTfumOPSlYcCHMLrPGzxPdNzT6o9thbBVYYw6JeCrCCpPqOhyiJGhr1G82dmoxn7gM4H1H7L8DwWHU7o3i/0eS+K+pUoL30o9lqPTCN8c04IDv0l7M0Nw/A4BZy1r+bHNvsNcgTxJILyUt0VsfrKE00nv0vaLZMSFkb3rL1jIPN0nsd11hoZdAqg==
+ bh=D5vxolDMIGPbwgd8RsWQHzKNdnUhbYLzfa3AY6fRNG0=;
+ b=RVdNGW7nSMl3He2BhywMHwE1c1AgmMpGTTN1P19mO3oQPMydPYxVKCPACeAPIO5BPxFiuDzO3WKBVnj3CqcAj49793bZ9sZA7J7vtBWKDdmdMlbtzetDQyI4YVDid0FULWbrMy7ne7CuwWacglXv2f4fHlsCtpbEBPoP5CdFJvYqe+awClJnC7Yorsc0+chnjGmWt7sIcIMWFci/+o/3IhpKoiP8NeZOjytHjgrmfF1vSYR3ifJPXrtGQN0d2/g5y5EgOrTtzJLldENfkesB7Rfjk0bFRSmoXmUc+2yNlCL2TRle9tc/lmoyrtogjfQOxjqUuidWO2bcsW/P5B68Yg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=efficios.com;
 Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:1d0::10) by YT2PR01MB10747.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:f2::10) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:b01:1d0::10) by YT6PR01MB165033.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:200::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
- 2026 13:49:29 +0000
+ 2026 13:49:59 +0000
 Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
  ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
  ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 13:49:29 +0000
-Message-ID: <0d8b6fa8-cd73-44fc-8d6d-8e67ca1cd42c@efficios.com>
-Date: Fri, 20 Nov 2026 08:49:28 -0500
+ 13:49:59 +0000
+Message-ID: <391ee5c8-325c-4e85-902a-e5d24e480ac5@efficios.com>
+Date: Fri, 20 Nov 2026 08:49:59 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 05/33] selftests/sched: Test SCHED_DEADLINE bandwidth
- across a root domain rebuild
+Subject: Re: [PATCH v8 14/33] sched/deadline: Move a task's bandwidth to the
+ root domain it runs in
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org,
  mkoutny@suse.com, linux-kernel@vger.kernel.org
 References: <cover.1795116790.git.mathieu.desnoyers@efficios.com>
- <2c85e2efab1ae7eb89b6d6e334c933348486c542.1795116790.git.mathieu.desnoyers@efficios.com>
- <sashiko-outbox-224022@kernel.org>
+ <b4bddc11bb05352bb1eca11dd5e0060479aa2e5a.1795116791.git.mathieu.desnoyers@efficios.com>
+ <sashiko-outbox-224061@kernel.org>
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-In-Reply-To: <sashiko-outbox-224022@kernel.org>
+In-Reply-To: <sashiko-outbox-224061@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR01CA0155.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:7e::18) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-ClientProxiedBy: YQBPR01CA0152.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:7e::11) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:b01:1d0::10)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -101,111 +101,107 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT2PR01MB10747:EE_
-X-MS-Office365-Filtering-Correlation-Id: f12afd5a-7823-43cf-d4c7-08df470d1946
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT6PR01MB165033:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7f91e08-0f75-43bc-918b-08df470d2b5a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|6133799003|18002099003|22082099003|4143699003|56012099006|261022105027099003|261026121527099003|5023799004|261026140227099003|261022075727099003|261028144727099003|261021121427099003|261102123227099003|261009223027099003|10067099003;
+	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|4143699003|56012099006|261026140227099003|261028144727099003|261022105027099003|261026121527099003|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	S7KYWaOhmvW0j5KYLiq/EAyl38ixevUWWJ227KXkHhmodTxc7R7GboZFdpS0PDaq5HiF/4SkaNpc8VHjAo1UZ9pmLTgLUL8Js/Sw2N9knm/1hIvBYStIaVLm0lS+Lg5z/ewe9dC/mPkT2bZ5kHraaI8T4+cJX2wLTdODHSfmB3Iw8iUUM4holqP6YmqIjy4yc0Vrl5nFA9oJDJJ1cwgU1goJ44jbLzoI0EmFXueRIJrn+pPHk5wKpMd6rmmegvagWpkfG+nz7geQ4zKrPzx5x3aYqwkabbdHtrcQ2YNS6oesQYYD6u88bSOCbZutjo1/g9H6uqxp2grGWA1UG3PENrxsj7Z0RulPe1ryxsEelc9MCtNlYH9RId3ny7QAjTo9FrsW7tsHomne/fRHpGC6UnecbP77AeoB2oHh5o9NM2xqkXTbZftdBGYy/w+TyzsSpK8+Q+hyunf8G1I2uZrvphjzrLDSX9NUWo+m9eemh02P2LacgK9DpHpl2C7Ie7gfVHxXibs7YjLpkw1ZCfT88QSBnZ5EoHrC4i6E05pJfPKWmNPJctF1tAZf5rF3ixnOPujkJxTxonL1pada07+xmd/ZtyQY9DgObQILbdpm1VY=
+	GRtgurOmqLYgZvuSnkzqao8fu6C1DJdSqZlEXIErG6LBIz4/JUqsSGvNEpjlYinzlMJJjiGInbwerFQ8VQStIMbuXGHDAT0wzIr65FpOeqD7uEDVI9sYDvV6uRVgygV8mWG7+BF73mgdwM1oe3h3RdNP89KpxBKMVF1XSTftKuoXIzFA4zFZEyQbGxW4P0ZV2RMysvGn+/YbjguZmt71xSoODU8OZ8kf2rM01mKbvSPkrsbUXeX1pCd1aN5U9rdrHljbtp0T+nPs3aq/KHseJLpNKz7Lj4K3eiTYrcxOKz6mnw/TBsNM0EaDyrZBA/NhgRsIRfQ9xZD1PKGp3uI3NRT7Pbi8/9BjFVNikYkuPhd9aOcOfR602ikZYDGd+EsMvajAczE9an3i3Qo+rEiBv5agQfVa92VwSBgMjjLWaoCxUm7G/ab+ZA6bZc28qtxvTgZnhKhHVWV4sAU9R/lG97PZPqbwxZg1VnXK4mOqoNjsY/LFQvUBBP3UYpCzTI0PYFdhEymctQymVGCVvnVqZEa7JQ+ZkZvEeP2D6wO7wqH7WsuOYVt2ZrNH38WHKOldanExuOo5j3XHUB2SRJd2RxVi2Rh7/0xz+O0UYfLmrGU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(6133799003)(18002099003)(22082099003)(4143699003)(56012099006)(261022105027099003)(261026121527099003)(5023799004)(261026140227099003)(261022075727099003)(261028144727099003)(261021121427099003)(261102123227099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(4143699003)(56012099006)(261026140227099003)(261028144727099003)(261022105027099003)(261026121527099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QTZ5a1RxZmlzNHU2S29xUTc5TDJ6NHZFNm9PSjZHcFdHQ1pwYUFtRnVpRWxH?=
- =?utf-8?B?cENaUjN4eExhSHdLN2Nuc2g1R0RINW10cFQyWlB2djdtbmpPL0p5akhIOVlK?=
- =?utf-8?B?VXVVdFF4QkFtVnRGd0liM0RIb3prenVUK3VrYVdjK1R4YkpYUHowaWJCNDhM?=
- =?utf-8?B?UnpRSnJPaVA2aTFQV2ZLSzU2YjMxWEhjcDlETnNJb1ZKM1IrRjFhSytPVUdl?=
- =?utf-8?B?N05vbENlT2syMmhMaElSTFJlMDlFRkpXUG5sZXpCTzdSZ09QVHJwK213bWha?=
- =?utf-8?B?STNxbzMzTTRLZDAyRldtM0lMWWdUNFFCeFR5NWM5anliQ3E0eTRyRkxsYnNn?=
- =?utf-8?B?T3AybEhWOGdtOTV4K2N1NjB0QmhDSWJERUN4MG9PNytOK1c3ZU10UkNva0xj?=
- =?utf-8?B?bzZQWk5tbHFidERyV2tzTFFvQlA4NCt1dFhZcHJLdnFVZ3BUNm5DWTBpdnlx?=
- =?utf-8?B?bVcyWEtqZmdtYzAzbUczNGFDQ0l4Zk9MSy96VkRXZXc5aGlFa1JMa1pwSGJq?=
- =?utf-8?B?YkN5Y2lFQUREQ0hCNDBWK0VrR21xQytObGUrcWlUanhQeWpvL056TkcwV2pv?=
- =?utf-8?B?Yml2TGp4VGNTamdsb210OG9FZGxSamxkZlBmTXl2YStqSTIwbUlMdXZKNUwx?=
- =?utf-8?B?WkhXdGF5bHd3WTZ2UTBOcDl4S3B2OEhDQnE0bkxpZW1iMDVKZnFoakczTUZk?=
- =?utf-8?B?NGNvemI0UUJHeGJGYW5tbnBaZTQzWnptbGd1MHdOejhVSWhtSXZtamZ4bWR2?=
- =?utf-8?B?NFdjNjFBSUpDMStvUGJUbE43MnR6QmJQRHlDMGlaVko5T2JzZm12dnh3ZVdF?=
- =?utf-8?B?ZTM1b3UzTGJOK0FBWE9HSzVrYklOaTR5TDgyeStCa2xJeWNGWW9vSkVEcHFV?=
- =?utf-8?B?Q3B6aWRaUmdXTko3YXpHTWpvYkNmM3NuaDRtUmUzanF5V0ZlU1ZYbng5RVFI?=
- =?utf-8?B?ZzgvcnNaQittdnpCdXdLaUVobUgwbXR6ZzF6KzlkVmU0aENkTVJxTUsweGdj?=
- =?utf-8?B?aWJWazZTM1FESElNejJBY2Q4T2J5aWtjS3Y4RGpPRUh5QjNTeWo1NGpBQTRq?=
- =?utf-8?B?Nm1GdW9ldmh5dGY1TUpPcUxnN1lEZERZdWRuOTJDSlNYeUUxSzNvWDRvQ20x?=
- =?utf-8?B?OStDMHRiUjlRRE9sZEs5eld0NWJwR0c4b1ZYODA4dm5wZFBLQkowd2VFeHIv?=
- =?utf-8?B?ZnRpUXE4Z0k4QUpzNWZybGN1QXpPWmNHbkJ6OGRZd0t1S01mMzRQdkZORTVG?=
- =?utf-8?B?R1N0T1QzeWVKVFp1eUtweklwc2orNnNPNmdQWmlkZDBkdlpWM05GRVhDVWVD?=
- =?utf-8?B?dzdLak1pd1FhWG5aVWhNT2ZkZjMyZk0vaTdwakdPZWIwR0JWNTB0dXRKaVVW?=
- =?utf-8?B?dlhIc2hWVi8zMEZIMlAzOUxqNURyVzdML0NEYnBtdjRJNGFsWUw2WHFFbUYr?=
- =?utf-8?B?M0VYN0c3YXNwNlRYVGtndVd0RG9qeEQ1SnhtSEFXTEJMZm5pblJTd1JtMEZs?=
- =?utf-8?B?cHNSU3RPQkl2TU1ZSGIydjdtYmg1UVR2UFVIaEs3OVM1ZVFkUnZwWHJMT25m?=
- =?utf-8?B?dVYzWHRFVU1STHNBZnNXSVFIck1YL2xDQXBZTktXa3M2K2RNTHd2RnpJRnJq?=
- =?utf-8?B?ckJrMkpWZVZsMU50SHh2bkkxbmNSMThrOTk1UVI4OFBtOHB3TnlFSE5nU1RM?=
- =?utf-8?B?Yy92cHlKd0Iyd0F2eHg5eFpaT05WVDVtRFhKaFYxVW1BeXpmbGcxU3l0Q2pT?=
- =?utf-8?B?OXhrcm1XeUNzRWtIUHp3alFOcThINC9pZllKMGdkSU0vZitIV1dpZEp6eG9i?=
- =?utf-8?B?K0UwTlN1Uk9GaUZ2WGR3aU51TDR1Vm9rc3YwN21OWVlHUEhpbU5zL0FlUmtx?=
- =?utf-8?B?N3pGMlgvTVE5SklLdCs1TTkrS3V5a2hWM1h0RVhudVBQckxQTnhtZ0I0dmRn?=
- =?utf-8?B?U1BPS1NmOTkyRHRhTkVVa2xXUlBYVk5DVXEwb3J2MkVBNitkNnNTVXFEa1Aw?=
- =?utf-8?B?bUs2ZnV4c3p0enBBa3pFTXAvU1N0OTVTRkIxRmZlLzJCUXVMYllmSnpFeUdK?=
- =?utf-8?B?VkhTczRQWDF2Y2Rtc0hHWUVzNGZnaVk5VVBjVCtEOEtoWllYUEFwT3NIcW5j?=
- =?utf-8?B?SUM2S21XN2hqaStCTlVMNWxScEhDOTJMelRSVGhveUdJM3RNN2dIcUU4czBD?=
- =?utf-8?B?aFdlTEhoWXFOR2dGNk41Z3ljcTl5bktDUmdPZVRyUytMVEZ6S2NGbFZMbC93?=
- =?utf-8?B?UkZrNHdIWGN0UTNKS0NSaVlyek1pMTI1TGd4Mlc5TDFWbklEQStGRjhXOHdx?=
- =?utf-8?B?VkszMFZxVjZUbXl0cnlnM0VwVzV1WHJ5SDhvazlvYXlLR2UybnN1ZHNSTkpT?=
- =?utf-8?Q?RZHdQNGXMWbM/aHERpPPc/wJDLFdDGNRI8b8Z?=
+	=?utf-8?B?N3J6NWw3dEREd0RWZTVjT1QrbGRZNmw2THBmNGNxNDZDWmIrZkwzZUowN3Iy?=
+ =?utf-8?B?VFV0MWVCdk5nUW8rZkswWTRoK2dLRExDRVU2NWxmU1RvWHlmYjk4bzVPd1Rk?=
+ =?utf-8?B?bVUwZ0lKVHhXTTdXTzNJaml6Tm9PMmxBUk9oOEhqdHlJd1FIeUowdTZ1TFlK?=
+ =?utf-8?B?Y3JaeW8ya1JKVS9Ha3FtbjlVM0lXQVNkN2VzMUtXaWF0UVJnN1JuUmt3azJC?=
+ =?utf-8?B?VWYrVEdDbTNZbzlsWXNEOXpVTWxHa3BrL3JwRE5KQ0YvQWVYTjR3WE1ucFlD?=
+ =?utf-8?B?VjR6aWdNMkRQZVBncjJvR2NtNU5xcCtQRndNYTNybWd3M2s3V3hwYVVvMkJ6?=
+ =?utf-8?B?M3hpVVBiWmRvUVIyV09BZEpvd2NVVmV0MzdjK3k3U1lJZEtDSjZVN1FmVmNm?=
+ =?utf-8?B?bFg5dktzQzhxbUZWd3V4RGxqZjNZMnRZeTNVRXV3YzNiK2h6Zk9xWXFhcHlX?=
+ =?utf-8?B?anRCTUxJZ3pDdFlWci9KVHN1RXdNSDBzd0UzVytUSU50QzcwaG1LdDZqNWQ2?=
+ =?utf-8?B?TzJrZSs5M3h5UDUrTUJCTUpocW1rOG81TDNRNmpxNVpvU3RUZ0RMVTZDLzEy?=
+ =?utf-8?B?WTZRRXhnSi9YUmduNXVMR29LUjJEL3hXUjcvMXBlNnFDMUdnbGFHRXhnR2Uz?=
+ =?utf-8?B?a2pFOVFxdnRYSmZ2UTEya0ttOWNlM09MTUJ0dEcvZWZxejdhQTZmejQ2MWJu?=
+ =?utf-8?B?WENWYnBmUC9aSmxsd3ZFZ2d6RFl5U3VYNHpzSDBQeXY1R0NRV0VIdU5jTUZB?=
+ =?utf-8?B?bnNlTzJEOHJSSlNGbVN2VkdvUnFDK1hsdDQ4MjJLTCswNlVseTRiZkJNaWpS?=
+ =?utf-8?B?SGJkcUVNcHo3a242c2pKMmpGemhsWWRDOVVvNEpjKzFQRDVDY1hOTVBjUS9T?=
+ =?utf-8?B?ZzhJSWNYN28rMElDdzBOdU1FWVJvYzlWSFg1UWdvblVFc3FtK29pUTdEZmtr?=
+ =?utf-8?B?KzhISjMvclZuZ2xvVENScTY1M2tsamN2Q1h2Z1VSS0ExYmFoZHRyci9MRTNu?=
+ =?utf-8?B?cVF4VUxLY25jRjZwM01pcGU3L3REVU5GM0Z6dHFpczVyYWxtcjNEWEh2SDlz?=
+ =?utf-8?B?WXlFSW02MHZxeVRJbVhOMUJIREZEYUFrb0Ivb0grMlY1c1JFWU1nR09nRVpj?=
+ =?utf-8?B?emQrQktUTUxZUnh1TlVpN2lvajNFc2hISWlEOS9aNFZ4N2p3SmpHVGRZcEZJ?=
+ =?utf-8?B?dkdFMlpRQUV6bW9PK0NRem1BQkxJSlI3aVFaTENPVGFoVnZ3MzZkZ01ZYnRQ?=
+ =?utf-8?B?SnZPbTN1bmVLeWlRL2hyWlNremswSUh0MHVrTHZhaEZseGovY0srSjRrbTh0?=
+ =?utf-8?B?RXVwbzAxa1pNL0tFZ3RTR3JBRWZBNUYwM3c5UjROZWdISUhBc0g2VnZsV0Fw?=
+ =?utf-8?B?TlhuaklPWmhBSzEySEtKdWlrdlB6bTBMVkZqNk9Xd1o0L1lPa2dqY09XUnl4?=
+ =?utf-8?B?aFlmRitKL2QwblRqVkt1WVgxT2NGaU5kYU9HQmxSSk9PL3psQzJMSWEvTXpt?=
+ =?utf-8?B?TldsV0UwMmhYc1VlWWNSTy92TEt4V0VrTno4YVMrQmlTeTJlRVJ6M0F6eHYr?=
+ =?utf-8?B?RUdnYjI5RDFkajFtR0sxcHBjTXZRYzZvVDN3NXh0bDdEWEtjVExESERwNFB0?=
+ =?utf-8?B?NTVXZ3JmNGRiRVNUOE1NY0ZMT3ZYektPMHJ3VWV0M0JIVTR3cGdFQm5Banc5?=
+ =?utf-8?B?dUFTZzFDRHIzcnRHcG1uaXJoSW1jQldnc3RRcHd2cDNPZTE0N0hsVDVsWW5v?=
+ =?utf-8?B?ZU4zSGEvekdFWHlaWDB2RURpaDRvREVsSEVJOXkyUnJzYUJwU0lPS3pJS0FV?=
+ =?utf-8?B?RkJVeW9BOTVyNi9EVDMzY2ZIaXlNYkdNSmVaSU9rbVlmN3g2UnNldUVWQ1pK?=
+ =?utf-8?B?L2FDaWpzelU4c0t1Y2N6ZDYzQjc3cFNDUm8wa1FUdjlWdzZESTFDUm8rZ2xX?=
+ =?utf-8?B?a1dpUEVCZVk2QW0zbVB6T0NESDB1OFFjUzFCbXAzWGNXVkpNZXp1R0Q4c0U0?=
+ =?utf-8?B?U09pM283YnBHdkN5SGQyZVdiN29ZeVFvekUvYk56aVhRMXd4QXZER3k5SGFz?=
+ =?utf-8?B?L01BRkFnT0VsREVxNzBBV2x5UHBmNXhSMW4zd1MxZjBUMDcwZjJ6YjJZTUdY?=
+ =?utf-8?B?a2VsbXM3QklpdWFqNE1GYVdDUGRTQ0VFTS9YdTlLZENmQlB5QWh3L3kzNHpF?=
+ =?utf-8?B?d3RGNm1PYU9Ta09wR3VzVTA2YjJqR0NQMmpNbzZTamw2M2wrT3Y3SUFZWVhr?=
+ =?utf-8?B?UXltWHBWMjU0c2liQm5ueFY1Y1h5R1FKdmNHOXM0d3oyRnpsYVkvYVFRZC90?=
+ =?utf-8?B?SGhDTUsxQ1NTakcrdTNSdFo3V0xxQlB3SkROMUdQS0JQTWxuenp6bjJSbm9Z?=
+ =?utf-8?Q?XdJGGOV8KZzbN3ApUuSXq4EVURz06Zw4orQw0?=
 X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f12afd5a-7823-43cf-d4c7-08df470d1946
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7f91e08-0f75-43bc-918b-08df470d2b5a
 X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 13:49:29.4920
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 13:49:59.8452
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eG2UnmB4QPeRzTgc6lm0DXB7KAvCTuNsBwzeZpcmvF+OwdyDRHF8K+bjHFJ3X9XMOoXckipr04trMBkPTvFD1FlihUL6erv1ytTZaMch8HQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB10747
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1qmTEsFNM8KAIXDgPMAeqli0hKb8JdPt8TkTuf9TmPrKIQJQK8uuL8cKSde7fjGtxCuIwKqFcc/B5auWvTolojCq1Oa3PTqVxZ9/gSXtMCY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT6PR01MB165033
 
-> Can snprintf() truncate path[] here and trigger a -Wformat-truncation
-> warning when make_partition() is inlined with cg_p or cg_q (which are
-> sized PATH_MAX)?
+> Can dl_bw_move_blocked() prevent a task that dl_add_task_root_domain()
+> already visited and skipped from adding its bandwidth when it falls back
+> to an active CPU before the tasklist walk finishes?
 
-Our builds give no warning. v9 will size path[] as main() does anyway.
+Yes, by reading. The walk and the wakeup both take the pi_lock, so your
+order can happen. It needs a task with no active CPU in its mask or in
+its cpuset. The task then runs uncounted until its next wakeup or
+migration, or the next rebuild.
 
-> If the test runner is killed by a signal or kselftest timeout while
-> children from departing() or sleeper() are alive, will those children stay
-> blocked in pause() inside cg_p holding SCHED_DEADLINE bandwidth and
-> preventing cg_p from being removed?
+v9 will stamp a task that the walk leaves out, in a new field,
+dl_bw_skip_gen. dl_bw_move_blocked() will not block a stamped task. The
+offline migration of patch 15 has the same gap: the stamp will fix it
+too. 
 
-Yes. In v9, each child will first set PR_SET_PDEATHSIG to SIGKILL. It
-will exit if the test died before that.
+> Can dl_task_bw_elsewhere() and dl_task_move_bw() move the departing 
+> bandwidth of a non-deadline task that is PI-boosted back into
+> dl_sched_class before its 0-lag time?
 
-> If make_partition(cg_q, ncpus - 2) in test_rebuild() or enter(cg_p, pid)
-> in test_move() fails after departed() has succeeded, does jumping directly
-> to out skip waiting for the departed task's 0-lag inactive timer?
+They can, and this is intended. switched_to_dl() takes such a task off
+the departed list. The inactive timer then no longer releases its
+bandwidth. The task is a member of the class again. So this patch counts
+its bandwidth where it runs, as for any deadline task.
 
-Yes. In v9, both cases will wait past the 0-lag time on their way out,
-once the deadline task has run.
+The comment you quote in switched_to_dl() is wrong after this patch,
+though. The bandwidth stays with the recorded CPU only until the next
+wakeup or migration. v9 will fix the comment.
 
-> Can picking CPUs ncpus - 1 and ncpus - 2 from get_nprocs() fail when
-> online CPU numbering has gaps or when isolcpus=domain is configured?
+> If a task sleeps inside a migrate_disable() section on an active CPU while
+> its affinity and bandwidth move to another root domain, does
+> task_woken_dl() move the bandwidth back to the old root domain when the
+> task wakes up on its pinned CPU?
 
-In part. With isolcpus=domain,6,7 on 8 CPUs, the test picked CPUs 7 and
-6. It then skipped its three cases. That loses coverage, but fails
-nothing. set_deadline() does not fail in test_move(). A task of the root
-cgroup is in the housekeeping root domain. The span of that root domain
-is inside the mask of the task. test_move() passes with
-isolcpus=domain,0,1.
-
-v9 will take the two highest online CPUs that are not isolated, from
-/sys/devices/system/cpu/online and /sys/devices/system/cpu/isolated. The
-three cases will then run with isolcpus=domain,6,7 too.
-
-> could these helpers be shared (or these three cases folded into
-> deadline_bw_test.c) so online and isolated CPUs are handled consistently?
-
-This test is a small reproducer of the first fix, and it runs on its
-own. I would rather share the helpers of this directory in a separate
-cleanup.
+Yes, by reading. It is most likely on PREEMPT_RT, where a spinlock_t 
+sleeps with migration disabled. In v9, dl_task_bw_elsewhere() will
+return false for a CPU outside the mask of the task. The bandwidth will
+then stay where the attach reserved it. migrate_enable() will move the
+task there.
 
 Thanks,
 
