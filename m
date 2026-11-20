@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795207368;
-	b=nGUhPSGc8r95Njb98jHEhhjfcuN8DuyYRziWSWoc8es9Dz4Py0fGorTb75xtqUgf2DQE
-	 e0WDdYwOHrs0TE7XXUOty8ADrBO8ohhnummUppn9+zt495BBNwlkk0ji5p99QI0IHShZg
-	 Fcze5hxdujqGY+qDGGj3+e5bmr0DyTUs+l0cADGCifTfWCTBODll+YbyhC8UFrhgU37qB
-	 ICzHKPKNSozLPuZ74xRS90tS4PbCT0pOpCI4SkBh0SbnmONfrI9mdnB7+ZTU07XLS4BS8
-	 YDU/eQUZ2mo8gnrvoLCOJNs5u+fT1VpyQaucxHe6AcOo8AlQRLC1dZ+8W9/SXu8/0Fg==
+	t=1795207369;
+	b=dUFB+0uL93O83+kc0/7wpOUse0WHyq/JJ27VKHHwqC0P1nk+lhxQJ6a/dnw1qj6hjmeT
+	 sPPPe/vGD1A55qIFKVoTvnJzRoDf7XCyYg6YP7cxrslS6Ssk6EEQwQpA/Y7om7SIf4Jyk
+	 dbPxxESnoJCXSig7UyOKtKnyrk6Ga+O14C1uLKN1gpbI5f6O+l3b749jCKm34hpQK2Krh
+	 TA1Xu9sNlbaymU0JHZHRddPYGjA7YYeEFWF2dw2rWFk5LhCd0oY/lCgNcNnAIEhS82aWX
+	 gu5buwuNCecmRz2j+gvubZnsAy+gmZzlBycTt2lfnz+UFgSneD6qPwzT7rwj5wM93lA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207368;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795207369;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=L5CwUnGCqkImF7EPBO5cwC1DAtzuwAyqeEc/qm9ijis=;
-	b=UQleOcskf8IcbbSHtPaUIK9k4Pm8N1lbD1PByIV3nHQUYD/p/VUvCvHW0Q9bZpNkuCZS
-	 8/MBKqoQVC/1ICkXjyfz6yHlc5aIF64WBt//BsDyfOhmwNjkI7kWNM8IeDVAeAzUZdMnx
-	 DsW+SgIIegJuqbB/prG+rX7hHUujbUIyv9oJfaSAq8deX35UQHUWFfdw1x7NenpLUAZEs
-	 5T/7hOyfMKrmFsjfRz8QOxGa0hxueZoLSIa9G2MLUa1AuT1vqPmZP0UdrIgQEYRJgOfMN
-	 jnfQMztVrqNO5TVWUF28k+oThVQxsJvHpUAStkiLyovXMQlUGKWZJJZDEGqAD0InJsQ==
+	bh=+ZZKfPEetf6nDFJZbzURdNyw6vHKdqUkUtaOssOLQH4=;
+	b=LnPQ8tTudzVvXtQ0Uqc6skxKH3+34FQNEbaap6XnEU9NceI6xhlousng3UpuAfa1Xmru
+	 KvbAtFpS/0Bwn0Dw05yXLZbIedoadjd/UFBEjcy2LcurNmlNgFVch+1oULskYVeMpGxqy
+	 NnfE+n2oCAm7YVj485spN6U1lpBv5DILJFlJULZwH4zTX1gD7hmvqphv6l9Qf0hvEk4/4
+	 JVcvFlcj/+bGWA18iOzGVtrusArxKLeBBiqU+I6Nkqj8JoR8+27GmLKWEHWihTKObe/e6
+	 SOtDaJqdKqLDSJX6tBQLRi4VcZex2pkFuXcjYMy/2TfbH8lmzIt/Sdk09KLYNQ328AA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Bn1vH3kL;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mAKmizLN;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D878060A2628
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:42:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D878060A2628
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1430D60A6F6D
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:42:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1430D60A6F6D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Bn1vH3kL
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=mAKmizLN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795207356;
-	bh=L5CwUnGCqkImF7EPBO5cwC1DAtzuwAyqeEc/qm9ijis=;
+	s=smtpout1; t=1795207361;
+	bh=+ZZKfPEetf6nDFJZbzURdNyw6vHKdqUkUtaOssOLQH4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bn1vH3kLOolCyGz+Qs6YVdJfyvfg3giQIVYJ6EmAJaYyjLNKSdmN4kmXkd2tyjtEe
-	 VMny7xQ7xwTpWw+7ZXHOKMmjj2K9BjhgUAvbYovVtoONKgP5wGLgGVqUU2aY6AwLwm
-	 hUJlaPV2ALhDZ49f0THt6mbhnoI3rmV3tqF5nVCBFfcWZZnN+eoYbxCr+UgMC7kOWf
-	 rG5EkEWVqxrDieNSDWj/IaTqwC3vBy1lj6UUfuVlEn23Oft2i+vMXWYQMslpTPx5AV
-	 xtVP7uppO6MCgU/d/F+o7HE8MvfF/pb4t2Ioch/OMVN+icBGs1JMX69lyKkmkJ6pCF
-	 7x8t5VplCJBZg==
+	b=mAKmizLN2F1SgiGTo7AiKIuSUlWWMJq2F6E3+r/KPIpk9ONZQZha4/PEQmmCJPhqD
+	 Cqb5z+rOL+5lfXzMaHOA7ipaGxGtxFm0mUdz4+FgAhaDeNa3F9DY0Nane3FOUYrRhi
+	 D65qZFCVG7tqDk3JUeVeOb7Uvzbv8aUTxFj68kJOmbigRN2jLc4cumTUiw+smXM+tU
+	 SeQTTPI60I4rDY1lLw/3N3pAp6kzCNOvjmRnCGWyQkZimtmCVAqtOJxiFT/W2QQt7i
+	 8hPcNafXVXDL+6gEJyug4w/LlfxNUZELj650yh6rN+HT9DwOkKx/BwhhIU4Ijaj2Zs
+	 /6c4M+XdpVOpQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWS2M6l7JzTqb;
-	Fri, 20 Nov 2026 15:42:35 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWS2T1fTYzSlT;
+	Fri, 20 Nov 2026 15:42:41 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -78,11 +78,10 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v10 22/40] rtmutex: Do not stop the chain walk at an owner whose top waiter changed
-Date: Fri, 20 Nov 2026 15:41:59 -0500
-Message-Id: <91a8c5f34dd71897a54e70a01d132c4403e0564b.1795207232.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v10 40/40] selftests/sched: Share the helpers of the deadline tests
+Date: Fri, 20 Nov 2026 15:42:17 -0500
+Message-Id: <62c694b97d7fdffabae640eb6dee797eceb3701c.1795207233.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
@@ -97,135 +96,442 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rt_mutex_adjust_prio_chain() stops the walk at an owner whose top pi
-waiter is not the top waiter of the lock just walked. That lock then
-does not set the owner's priority, so there is nothing to pass on.
+deadline_bw_test, deadline_rebuild_test and deadline_switch_test each
+have a copy of the same helpers. Move these to deadline_util.h:
+- now_ns(), thread_time_ns() and sleep_ns();
+- report();
+- read_file(), write_file() and enter().
 
-But the step before can change the owner's top pi waiter. It
-requeues a waiter whose priority dropped. The top pi waiter of the
-owner can then be a waiter on another lock. The owner's priority, or
-its deadline donor, changed. The walk still stops at it, and the next
-owner keeps the old ones.
+The Makefile rebuilds the tests when the header changes. The helpers
+that differ from one test to the other stay in each test.
 
-O and M are SCHED_OTHER tasks. W and Z are SCHED_DEADLINE tasks. W
-has the earlier deadline. X is a SCHED_FIFO task:
+The Sashiko AI review of this series asked for this. No case changes.
 
-   O         M                 W                                  Z             X
-
-   locks L2  locks L1 and L1'
-                               blocks on L1'
-                                 M->dl.pi_se = &W->dl
-             blocks on L2
-               O->dl.pi_se = &W->dl
-                                                                  blocks on L1
-                               sched_setscheduler(SCHED_OTHER)
-                                 rt_mutex_adjust_pi(W)
-                                   M->dl.pi_se = &Z->dl
-                                   walk at M: L1' is not M's top
-                                     stops
-                                                                                blocks on L1'
-                                                                                  walk stops at M
-                               times out on L1'
-                                 not the top waiter: no walk
-                               exits
-   runs out of runtime
-     refill reads O->dl.pi_se:
-       W's freed task_struct
-
-If W and Z are SCHED_FIFO tasks instead, O stays boosted to W's old
-priority until it unlocks L2.
-
-A second check next to it stops the walk at an owner that has no pi
-waiters left. A waiter that leaves can cause this. remove_waiter() then
-walks on from the owner, but that walk can be preempted and come late.
-
-O, M and X are SCHED_OTHER tasks. W is a SCHED_DEADLINE task. Another
-task, S, changes the policy of W:
-
-  O         M            S                          W                          X
-
-  locks L2  locks L1
-            blocks on L2
-                                                    blocks on L1
-                                                      M, O get W's parameters
-                                                                               blocks on L1
-                         sched_setscheduler(W)
-                           walk at L1: W behind X,
-                             M deboosted
-                                                    times out on L1
-                                                      not top waiter: no walk
-                                                                               times out on L1
-                                                                                 M: no pi waiters
-                                                                                 walk from M:
-                                                                                   preempted
-                           walk at M:
-                             no pi waiters, stops
-                                                    exits
-  runs out of runtime
-    refill reads O->dl.pi_se:
-      W's freed task_struct
-
-The next patch keeps the donor's task_struct alive as long as a boost
-points at it.
-
-Remove both checks. The next check already stops the walk when the
-owner's waiter is up to date. An out of date waiter is now requeued,
-and the walk goes on to the next owner.
-
-The cases pi_chain_top_moves and pi_chain_top_moves_rt, added to
-deadline_bw_test later in this series, test the first case.
-pi_chain_top_moves_rt fails without this patch and passes with it.
-pi_chain_top_moves also needs the previous patch. No case tests the
-second one: it needs a walk preempted at the right step.
-
-The Sashiko AI review of this series found both cases.
-
-Fixes: 23f78d4a03c5 ("[PATCH] pi-futex: rt mutex core")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: stable@vger.kernel.org
 ---
- kernel/locking/rtmutex.c | 27 +++++++--------------------
- 1 file changed, 7 insertions(+), 20 deletions(-)
+ .../testing/selftests/sched/deadline/Makefile |   3 +
+ .../sched/deadline/deadline_bw_test.c         |  86 +-------------
+ .../sched/deadline/deadline_rebuild_test.c    |  74 +-----------
+ .../sched/deadline/deadline_switch_test.c     |  36 +-----
+ .../selftests/sched/deadline/deadline_util.h  | 106 ++++++++++++++++++
+ 5 files changed, 115 insertions(+), 190 deletions(-)
+ create mode 100644 tools/testing/selftests/sched/deadline/deadline_util.h
 
-diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
-index c78dfe9c93fc..b09816977d4e 100644
---- a/kernel/locking/rtmutex.c
-+++ b/kernel/locking/rtmutex.c
-@@ -818,27 +818,14 @@ static int __sched rt_mutex_adjust_prio_chain(struct task_struct *task,
- 		detect_deadlock = false;
+diff --git a/tools/testing/selftests/sched/deadline/Makefile b/tools/testing/selftests/sched/deadline/Makefile
+index 15f1e96a21e6..c7a665a02d6f 100644
+--- a/tools/testing/selftests/sched/deadline/Makefile
++++ b/tools/testing/selftests/sched/deadline/Makefile
+@@ -6,3 +6,6 @@ LDLIBS += -lpthread
+ TEST_GEN_PROGS := deadline_switch_test deadline_rebuild_test deadline_bw_test
  
- 	/*
--	 * Drop out, when the task has no waiters. Note,
--	 * top_waiter can be NULL, when we are in the deboosting
--	 * mode!
-+	 * Do not stop at a task that has no pi waiters, or whose top pi
-+	 * waiter is not top_waiter. The previous step can have made a
-+	 * waiter on another lock the top pi waiter of the task. A waiter
-+	 * can also have left meanwhile, and its own walk can be late. The
-+	 * priority of the task changed then, and the next owner must
-+	 * follow. The test below tells whether there is something to pass
-+	 * on.
- 	 */
--	if (top_waiter) {
--		if (!task_has_pi_waiters(task))
--			goto out_unlock_pi;
--		/*
--		 * If deadlock detection is off, we stop here if we
--		 * are not the top pi waiter of the task. If deadlock
--		 * detection is enabled we continue, but stop the
--		 * requeueing in the chain walk.
--		 */
--		if (top_waiter != task_top_pi_waiter(task)) {
--			if (!detect_deadlock)
--				goto out_unlock_pi;
--			else
--				requeue = false;
--		}
--	}
+ include ../../lib.mk
++
++$(OUTPUT)/%: %.c deadline_util.h
++	$(CC) $(CFLAGS) $< $(LDFLAGS) $(LDLIBS) -o $@
+diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+index ba20f7036f6c..848ac5bafd7b 100644
+--- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
++++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+@@ -94,6 +94,8 @@
+ #define NSEC_PER_MSEC	1000000ULL
+ #define NSEC_PER_SEC	1000000000ULL
+ 
++#include "deadline_util.h"
++
+ /* The threads of probe() and hold() do nothing: a small stack will do. */
+ #define THREAD_STACK	(64 * 1024 > PTHREAD_STACK_MIN ? 64 * 1024 : PTHREAD_STACK_MIN)
+ 
+@@ -124,34 +126,6 @@ static int top_cpu(int n)
+ 	return online[ncpus - n];
+ }
+ 
+-/*
+- * clock_gettime() cannot fail in now_ns() and thread_time_ns(). Both
+- * clocks are always supported, and the pointer is valid.
+- */
+-static uint64_t now_ns(void)
+-{
+-	struct timespec ts;
 -
- 	/*
- 	 * If the waiter priority is the same as the task priority
- 	 * then there is no further priority adjustment necessary. The
+-	clock_gettime(CLOCK_MONOTONIC, &ts);
+-	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
+-}
+-
+-static uint64_t thread_time_ns(void)
+-{
+-	struct timespec ts;
+-
+-	clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
+-	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
+-}
+-
+-static void sleep_ns(uint64_t ns)
+-{
+-	struct timespec ts = { .tv_sec = ns / NSEC_PER_SEC, .tv_nsec = ns % NSEC_PER_SEC };
+-
+-	while (nanosleep(&ts, &ts) && errno == EINTR)
+-		;
+-}
+-
+ static void spin_ns(uint64_t ns)
+ {
+ 	uint64_t end = thread_time_ns() + ns;
+@@ -305,52 +279,6 @@ static int set_other(pid_t tid)
+ 	return syscall(SYS_sched_setattr, tid, &attr, 0) ? -errno : 0;
+ }
+ 
+-static int write_file(const char *dir, const char *name, const char *val)
+-{
+-	char path[PATH_MAX];
+-	int fd, err = 0;
+-	ssize_t n;
+-
+-	if (snprintf(path, sizeof(path), "%s/%s", dir, name) >= (int)sizeof(path))
+-		return -ENAMETOOLONG;
+-	fd = open(path, O_WRONLY);
+-	if (fd < 0)
+-		return -errno;
+-	n = write(fd, val, strlen(val));
+-	if (n < 0)
+-		err = -errno;
+-	else if (n != (ssize_t)strlen(val))
+-		err = -EIO;
+-	if (close(fd) && !err)
+-		err = -errno;
+-	return err;
+-}
+-
+-static int read_file(const char *path, char *buf, size_t len)
+-{
+-	int fd = open(path, O_RDONLY);
+-	ssize_t n;
+-
+-	if (fd < 0)
+-		return -1;
+-	do {
+-		n = read(fd, buf, len - 1);
+-	} while (n < 0 && errno == EINTR);
+-	close(fd);
+-	if (n < 0)
+-		return -1;
+-	buf[n] = 0;
+-	return 0;
+-}
+-
+-static int enter(const char *cg, pid_t pid)
+-{
+-	char buf[16];
+-
+-	snprintf(buf, sizeof(buf), "%d", pid);
+-	return write_file(cg, "cgroup.procs", buf);
+-}
+-
+ /* Return whether @list, words separated by blanks, holds the word @w. */
+ static int has_word(const char *list, const char *w)
+ {
+@@ -12508,16 +12436,6 @@ static int find_cgroup2(void)
+ 	return found ? 0 : -1;
+ }
+ 
+-static void report(const char *name, int ret)
+-{
+-	if (ret == KSFT_PASS)
+-		ksft_test_result_pass("%s\n", name);
+-	else if (ret == KSFT_SKIP)
+-		ksft_test_result_skip("%s\n", name);
+-	else
+-		ksft_test_result_fail("%s\n", name);
+-}
+-
+ /* sched_setaffinity() against sched_setattr(), with no P */
+ 
+ /*
+diff --git a/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c b/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
+index 85b24b868da7..7b0609e8e6ed 100644
+--- a/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
++++ b/tools/testing/selftests/sched/deadline/deadline_rebuild_test.c
+@@ -52,6 +52,8 @@
+ #define NSEC_PER_MSEC	1000000ULL
+ #define NSEC_PER_SEC	1000000000ULL
+ 
++#include "deadline_util.h"
++
+ struct dl_attr {
+ 	uint32_t size;
+ 	uint32_t sched_policy;
+@@ -91,22 +93,6 @@ static int set_other(pid_t pid)
+  * Return the CLOCK_MONOTONIC time in ns. clock_gettime() cannot fail: the
+  * clock is always supported, and the pointer is valid.
+  */
+-static uint64_t now_ns(void)
+-{
+-	struct timespec ts;
+-
+-	clock_gettime(CLOCK_MONOTONIC, &ts);
+-	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
+-}
+-
+-static void sleep_ns(uint64_t ns)
+-{
+-	struct timespec ts = { .tv_sec = ns / NSEC_PER_SEC, .tv_nsec = ns % NSEC_PER_SEC };
+-
+-	while (nanosleep(&ts, &ts) && errno == EINTR)
+-		;
+-}
+-
+ static void reap(pid_t pid)
+ {
+ 	int status;
+@@ -125,52 +111,6 @@ static void reap(pid_t pid)
+ 	}
+ }
+ 
+-static int write_file(const char *dir, const char *name, const char *val)
+-{
+-	char path[PATH_MAX];
+-	int fd, err = 0;
+-	ssize_t n;
+-
+-	if (snprintf(path, sizeof(path), "%s/%s", dir, name) >= (int)sizeof(path))
+-		return -ENAMETOOLONG;
+-	fd = open(path, O_WRONLY);
+-	if (fd < 0)
+-		return -errno;
+-	n = write(fd, val, strlen(val));
+-	if (n < 0)
+-		err = -errno;
+-	else if (n != (ssize_t)strlen(val))
+-		err = -EIO;
+-	if (close(fd) && !err)
+-		err = -errno;
+-	return err;
+-}
+-
+-static int read_file(const char *path, char *buf, size_t len)
+-{
+-	int fd = open(path, O_RDONLY);
+-	ssize_t n;
+-
+-	if (fd < 0)
+-		return -1;
+-	do {
+-		n = read(fd, buf, len - 1);
+-	} while (n < 0 && errno == EINTR);
+-	close(fd);
+-	if (n < 0)
+-		return -1;
+-	buf[n] = 0;
+-	return 0;
+-}
+-
+-static int enter(const char *cg, pid_t pid)
+-{
+-	char buf[16];
+-
+-	snprintf(buf, sizeof(buf), "%d", pid);
+-	return write_file(cg, "cgroup.procs", buf);
+-}
+-
+ /* Make @cg a partition root of CPU @cpu alone. Return 0, or -1 on error. */
+ static int make_partition(const char *cg, int cpu)
+ {
+@@ -525,16 +465,6 @@ static int find_cgroup2(void)
+ 	return found ? 0 : -1;
+ }
+ 
+-static void report(const char *name, int ret)
+-{
+-	if (ret == KSFT_PASS)
+-		ksft_test_result_pass("%s\n", name);
+-	else if (ret == KSFT_SKIP)
+-		ksft_test_result_skip("%s\n", name);
+-	else
+-		ksft_test_result_fail("%s\n", name);
+-}
+-
+ int main(void)
+ {
+ 	char buf[256], path[PATH_MAX + 32];
+diff --git a/tools/testing/selftests/sched/deadline/deadline_switch_test.c b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
+index 40c7c6bafc2b..a544bee5af5a 100644
+--- a/tools/testing/selftests/sched/deadline/deadline_switch_test.c
++++ b/tools/testing/selftests/sched/deadline/deadline_switch_test.c
+@@ -51,6 +51,8 @@
+ #define NSEC_PER_MSEC	1000000ULL
+ #define NSEC_PER_SEC	1000000000ULL
+ 
++#include "deadline_util.h"
++
+ struct dl_attr {
+ 	uint32_t size;
+ 	uint32_t sched_policy;
+@@ -70,22 +72,6 @@ struct shared {
+ 	uint64_t sleeps;	/* sleeps begun */
+ };
+ 
+-static uint64_t now_ns(void)
+-{
+-	struct timespec ts;
+-
+-	clock_gettime(CLOCK_MONOTONIC, &ts);
+-	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
+-}
+-
+-static void sleep_ns(uint64_t ns)
+-{
+-	struct timespec ts = { .tv_sec = ns / NSEC_PER_SEC, .tv_nsec = ns % NSEC_PER_SEC };
+-
+-	while (nanosleep(&ts, &ts) && errno == EINTR)
+-		;
+-}
+-
+ static void sleep_until(uint64_t t)
+ {
+ 	struct timespec ts = { .tv_sec = t / NSEC_PER_SEC, .tv_nsec = t % NSEC_PER_SEC };
+@@ -518,14 +504,6 @@ static sem_t owner_locked, owner_go;
+ static pid_t owner_tid;
+ static int owner_ms;		/* the owner's CPU time in its first period */
+ 
+-static uint64_t thread_time_ns(void)
+-{
+-	struct timespec ts;
+-
+-	clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
+-	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
+-}
+-
+ /*
+  * Wait on @s for at most @ms, retrying on signals. Return 0, or -1 on a
+  * timeout or an error.
+@@ -1081,16 +1059,6 @@ static int test_sysrq_running_owner(int normalized)
+ 	return ret;
+ }
+ 
+-static void report(const char *name, int ret)
+-{
+-	if (ret == KSFT_PASS)
+-		ksft_test_result_pass("%s\n", name);
+-	else if (ret == KSFT_SKIP)
+-		ksft_test_result_skip("%s\n", name);
+-	else
+-		ksft_test_result_fail("%s\n", name);
+-}
+-
+ int main(void)
+ {
+ 	int ret;
+diff --git a/tools/testing/selftests/sched/deadline/deadline_util.h b/tools/testing/selftests/sched/deadline/deadline_util.h
+new file mode 100644
+index 000000000000..489233a32cbd
+--- /dev/null
++++ b/tools/testing/selftests/sched/deadline/deadline_util.h
+@@ -0,0 +1,106 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Helpers that the deadline selftests share. */
++#ifndef DEADLINE_UTIL_H
++#define DEADLINE_UTIL_H
++
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/types.h>
++#include <time.h>
++#include <unistd.h>
++
++#include "../../kselftest.h"
++
++#ifndef NSEC_PER_SEC
++#define NSEC_PER_SEC	1000000000ULL
++#endif
++
++/*
++ * clock_gettime() cannot fail in now_ns() and thread_time_ns(). Both
++ * clocks are always supported, and the pointer is valid.
++ */
++static inline uint64_t now_ns(void)
++{
++	struct timespec ts;
++
++	clock_gettime(CLOCK_MONOTONIC, &ts);
++	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
++}
++
++static inline uint64_t thread_time_ns(void)
++{
++	struct timespec ts;
++
++	clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
++	return ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
++}
++
++static inline void sleep_ns(uint64_t ns)
++{
++	struct timespec ts = { .tv_sec = ns / NSEC_PER_SEC, .tv_nsec = ns % NSEC_PER_SEC };
++
++	while (nanosleep(&ts, &ts) && errno == EINTR)
++		;
++}
++
++static inline void report(const char *name, int ret)
++{
++	if (ret == KSFT_PASS)
++		ksft_test_result_pass("%s\n", name);
++	else if (ret == KSFT_SKIP)
++		ksft_test_result_skip("%s\n", name);
++	else
++		ksft_test_result_fail("%s\n", name);
++}
++
++static inline int read_file(const char *path, char *buf, size_t len)
++{
++	int fd = open(path, O_RDONLY);
++	ssize_t n;
++
++	if (fd < 0)
++		return -1;
++	do {
++		n = read(fd, buf, len - 1);
++	} while (n < 0 && errno == EINTR);
++	close(fd);
++	if (n < 0)
++		return -1;
++	buf[n] = 0;
++	return 0;
++}
++
++static inline int write_file(const char *dir, const char *name, const char *val)
++{
++	char path[PATH_MAX];
++	int fd, err = 0;
++	ssize_t n;
++
++	if (snprintf(path, sizeof(path), "%s/%s", dir, name) >= (int)sizeof(path))
++		return -ENAMETOOLONG;
++	fd = open(path, O_WRONLY);
++	if (fd < 0)
++		return -errno;
++	n = write(fd, val, strlen(val));
++	if (n < 0)
++		err = -errno;
++	else if (n != (ssize_t)strlen(val))
++		err = -EIO;
++	if (close(fd) && !err)
++		err = -errno;
++	return err;
++}
++
++static inline int enter(const char *cg, pid_t pid)
++{
++	char buf[16];
++
++	snprintf(buf, sizeof(buf), "%d", pid);
++	return write_file(cg, "cgroup.procs", buf);
++}
++
++#endif /* DEADLINE_UTIL_H */
 -- 
 2.47.3
 
