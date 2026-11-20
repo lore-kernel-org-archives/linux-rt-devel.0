@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208047;
-	b=tO/UuLhNGFZ7LWF4Q46GzRMPpxM1NgYptLrYAFH75ggf2wZafkyVCdNQQgM9boZ31yVM
-	 sAhOqQ4GDSr7lqtD17Wpyux2jB4Pm6UlEbzKlS5l9jrzdg3hWkMQ6mICn/SbUvSGonzDP
-	 Oct9NZP5xPtGrX8qvvoyBYZ5lHFcPCp8DewIPZ3MMbdDQtMaPFFlQ9Iq/MevL8PhI01Ml
-	 9omT7Q6Dcu7Qdts0hK4unik3XqqxjwgHM51jue8atillEH97JxLuG84zhQq/VnLV4p0bJ
-	 A8s20n6tgTlYCkVX7DuruwSk5CMQw3A4wVMrNOSceGq9dpUKyIv02x7GPbK+L1yjwSg==
+	t=1795208763;
+	b=jI5Kcbj4YvHGpu6LKw/XalXW11JUWAkeU0qTHkLDp0vC+ZJHpGnuSJDUTeh8LFhs9XT8
+	 OF+gfrPevNeRbp2iQ5+UIFg0XA6W95FvCF5pi64u4FHno3+KqJnu9F8U5ZlmC18gNxCgn
+	 yuxgv6MJQ16fpluY07zj9g70Az4SPKW9GemhnJ1t97u0N4mJzdRrAwKzU0PBQRUgvhwIf
+	 zF2huH+6ikL2TpFREDpdclU8o/rJtpZ5KE5UBA9pCZzVrtCIyhJTzyCV+b+r7X/Y9nzKX
+	 Qa8MIVe7ritTSFxfUCn6FkdZJqwwD2DrJY/lxcUuYmgS6vsZ8foZ1udKfgKhpPi6Ecg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208047;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795208763;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=llJnKzPoTZyGmg3Zg2y5fd8HX957hF39RVHqH3K3+cg=;
-	b=2/wrY8msE0E1eFj0W33qeCUmxONzU8AydVqzm0EjTYhToTNvGzYJl2F2GgBPWPhKCatI
-	 Km2rTnFW9ua+bJYU6DllVgUI010b1MYqdXxzXalp8XlFV9+D5kBd4mEf5Bq5DK30S5HsE
-	 sJd2wMQGrA5TYQj3F+AOsJ91zLLy0W6aIp2eMFKvChAva3T2G0tvVGaXBBShBQxVoz7c/
-	 LRGqBoFArpGLbP4oVvx3h/Rzwm/K4jSM7e00MEqgM74sMCU2ryD5PY5ne+O+dxUn+Am4a
-	 d20xTAAU5yQ5pQWqiWkCmo1X++8IXMZmJaQiwmLHHzRfWHASZJaF+D+825d23gOuwLQ==
+	bh=VqDIlQyAzY8kK+qViAPCwaJa5GOhXYAFQJ40ugDcBWk=;
+	b=p0Y8teDqBy8G/p7L+Rd7t40us+BFF/mgANutn3Ob8TdtzVUIVhCe/LXCjQTdOxxcShYD
+	 mj9iwUy/FGFiANBEmlA8U7LzW//+wc+QVQMhOnUycV9i5UfXwcPEEj6OYa9ephzEJHPJD
+	 0My2+WXv+9JFBQ0IywvnJNYa6EE7JumtxmBxektNzU60V9viWH/TC/bYilsmJQ9RdGfy5
+	 1pQWoxjZdYV7xHr/+qUIsBbDbb11l27/gjyrANKUfOXoZxVqTLk1VKQfA5Y9mrBYPmqyR
+	 yxjvkYXUyJc5HaWMcJ5pbXPT257TgMY5Wh7Yc8qEmjty8qX48SrSJB6UZ1KfRnGzG2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f/5/dxf/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bKdPbunl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE0A606A6B3;
-	Fri, 20 Nov 2026 20:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCF6606A33E;
+	Fri, 20 Nov 2026 21:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f/5/dxf/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEEB61F000D1;
-	Fri, 20 Nov 2026 20:54:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bKdPbunl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E06FC1F000C6;
+	Fri, 20 Nov 2026 21:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795208047;
-	bh=llJnKzPoTZyGmg3Zg2y5fd8HX957hF39RVHqH3K3+cg=;
+	s=k20260515; t=1795208763;
+	bh=VqDIlQyAzY8kK+qViAPCwaJa5GOhXYAFQJ40ugDcBWk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=f/5/dxf/xAqtgRu612QrTb/e7QUwFLUQq1oW2ctoeSZdD9lcaDER023G5+GR1J2bb
-	 ucDer/cck/S3I0WRZM41BbsK4hFGuDUJhWzt5FgvmG3paZ1Xn0TQINsvppxMWD8kxn
-	 fbx00NLkLQ5mhrXdmsSHpiE07jqGJY8Q6iV+5cagvu9/bMb1V5dlvQUj7EVqbLj2hL
-	 8G8/pMYcPxa/m1IPe92ZH7g2Xvb9gUWUUwo7u4jCJqIhnSSPpnpck1bs2JHrWMWgbC
-	 +PpsnemE/trc3ijcHsmkKDDDLTje5cHWP030ubEkE2ax8NyTtgSXZ/soF89weeLagA
-	 qCClvNJzgu4RQ==
-Message-ID: <sashiko-outbox-226108@kernel.org>
+	b=bKdPbunlLcN6/x1b+7MkZW0nDybVKhIlsUk6SsQcRazCjm3bYO+QgYkD9cCw2hqwo
+	 6pHXbpLOKuEnI5KMW7ecT29q8iO14LEkXhEeyK5fo5Ezxa8mev2VoGosDu/kkGRXfC
+	 n6c2hF3lig7vbHM7SzUVDxOCHaqx9LTBT6xd975D9AEnI0x1pwMY0fKpMu5o9wsfYs
+	 jZ4QNDdUKaUnffLFPsM2hOQaEIoPq7XNMPTKQg2AKv57k/54gIGKu6GKqh73nzAQAQ
+	 HRRbLsms4XdxzS3cYFYSD9vL3InQktOvFJfwxb4KjkWWq78TgXWI0BRrAHL0x1hUlp
+	 jhkHyhP+TGyAw==
+Message-ID: <sashiko-outbox-226127@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 18/40] selftests/sched: Test the root domain of a
- task in deadline_bw_test
+Subject: Re: [PATCH v10 24/40] selftests/sched: Test the rtmutex chain walk
+ in deadline_bw_test
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <a0e1f11b56620173bb409d66ade1f44ffd29d519.1795207232.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <bd1d884143e64a1d5fc73e8af268af995627dc54.1795207232.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
- <a0e1f11b56620173bb409d66ade1f44ffd29d519.1795207232.git.mathieu.desnoyers@efficios.com>
+ <bd1d884143e64a1d5fc73e8af268af995627dc54.1795207232.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 20:54:06 +0000
+Date: Fri, 20 Nov 2026 21:06:02 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,105 +61,67 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Low] selftests/sched: missing no_hp flag for
-  partition_grows_child_valid()
-- [Low] selftests/sched: inverted tell flag in
-  partition_grows_child_valid()
-- [Low] selftests/sched: missing cpu_hotpluggable() check in
-  hotplug_top_last_refused()
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] selftests/sched: top_moves() fails instead of skipping
+  without RT runtime
 --
 
-commit 31c2701ec79ac71f9d7072a6b7c9ae3a844ce21e
+commit 6100a36909c549fb0079a550f7245c5c073ca05e
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-selftests/sched: Test the root domain of a task in deadline_bw_test
+selftests/sched: Test the rtmutex chain walk in deadline_bw_test
 
-This commit adds 28 test cases to deadline_bw_test covering root domain
-bandwidth accounting across CPU hotplug, cpuset partition changes, and
-isolated CPUs.
+This commit adds the pi_chain_top_moves and pi_chain_top_moves_rt test
+cases to deadline_bw_test to verify rtmutex priority inheritance chain
+walks when an owner's top waiter moves to another lock it holds.
 
 > diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
 tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> index 0b53b64c7b3a2..7b0a3f2fb12b8 100644
+> index 7b0a3f2fb12b8..cf3b49cf2be28 100644
 > --- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
 > +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-
 [ ... ]
-
-> @@ -7144,6 +7695,1779 @@ static int move_back_cpu_offline(void)
-
-[ ... ]
-
-> +static int partition_grows_child_valid(void)
+> +/*
+> + * W and Z: W blocks on L1', Z on L1. @arg is 1 for W. With top_rt, W
+> + * becomes SCHED_FIFO 50 and Z SCHED_FIFO 20. Otherwise W becomes a
+> + * deadline task of 2ms every 80ms and Z one of 5ms every 200ms. The main
+> + * thread switches W to SCHED_OTHER while it waits.
+> + */
+> +static void *top_waiter(void *arg)
 > +{
-
-[ ... ]
-
-> +	snprintf(buf, sizeof(buf), "%d,%d", a, b);
-> +	err =3D write_file(cs_b, "cpuset.cpus", buf);
-> +	if (err) {
-> +		ksft_print_msg("B cannot get CPUs %s: %s\n", buf, strerror(-err));
-> +		goto out;
-> +	}
-> +	if (!partition_has(cs_c, "root", 1) || partition_has(cs_c, "invalid", 1=
-))
-> +		goto out;
-
-[Severity: Low]
-Should the second call pass 0 for tell: partition_has(cs_c, "invalid", 0)?
-
-partition_has() prints cpuset.cpus.partition when the substring is absent
-and tell is non-zero.  Passing 1 here logs a message on every passing run
-when "invalid" is absent, and stays silent when cs_c fails by remaining
-"root invalid (...)".
-
-[ ... ]
-
-> +static int hotplug_top_last_refused(void)
-> +{
-> +	int i, n =3D 0, err, ret =3D KSFT_SKIP, x =3D top_cpu(1), x_off =3D 0;
-> +	char buf[256], cpus[1024], path[PATH_MAX + 32];
-> +	int go[2] =3D { -1, -1 }, ack[2] =3D { -1, -1 };
-> +	pid_t pid =3D -1;
-> +	cpu_set_t all;
-> +	char c;
+> +	int w =3D (long)arg;
+> +	struct sched_param sp =3D { .sched_priority =3D w ? 50 : 20 };
+> +	uint64_t runtime =3D (w ? 2 : 5) * NSEC_PER_MSEC;
+> +	pthread_mutex_t *l =3D w ? &top_lock : &pi_lock;
 > +
-> +	if (ncpus < 3 || cs_setup())
-> +		return KSFT_SKIP;
+> +	if (top_rt ? sched_setscheduler(0, SCHED_FIFO, &sp) :
+> +		     set_deadline(0, runtime, 40 * runtime)) {
+> +		top_err =3D 1;
+> +		return arg;
+> +	}
 
-[Severity: Low]
-Should this also skip when !cpu_hotpluggable(x)?
+[Severity: Medium]
+Should top_moves() return KSFT_SKIP instead of KSFT_FAIL when
+sched_setscheduler(0, SCHED_FIFO, &sp) fails with EPERM?
 
-main() sets hp_cpu if any housekeeping CPU can go offline, which does not
-guarantee that top_cpu(1) specifically is hotpluggable.  If top_cpu(1)
-cannot go offline while another housekeeping CPU can, cpu_online(x, 0)
-later in this test fails instead of skipping.
+pi_chain_top_moves_rt runs with MEASURED_IN_P inside child cgroup P.  When
+CONFIG_RT_GROUP_SCHED is enabled and the cgroup v2 cpu controller is active
+in the root cgroup, child cgroups have no RT runtime, so
+sched_setscheduler() returns EPERM and sets top_err =3D 1, failing the test.
+Other SCHED_FIFO tests in P check for EPERM and skip:
 
-[ ... ]
-
-> @@ -7960,8 +10284,36 @@ static const struct hp_case {
-
-[ ... ]
-
-> +	{ "hotplug_sibling_partition_refused", hotplug_sibling_partition_refuse=
-d },
-> +	{ "hotplug_top_last_refused", hotplug_top_last_refused },
-> +	{ "partition_grows_child_valid", partition_grows_child_valid },
-> +	{ "hotplug_isolated_partition_falls_back", hotplug_isolated_partition_f=
-alls_back },
-> +	{ "partition_takes_fallback_refused", partition_takes_fallback_refused,=
- 1 },
-
-[Severity: Low]
-Should the partition_grows_child_valid entry set no_hp to 1?
-
-partition_grows_child_valid() does not take any CPU offline and the file
-header lists it among the ten cases in hp_cases[] that still run when no
-CPU can go offline, but without the trailing 1 initializer main() skips it
-whenever hp_cpu < 0.
+tools/testing/selftests/sched/deadline/deadline_bw_test.c:server_client() {
+	...
+		if (rt && sched_setscheduler(0, SCHED_FIFO, &sp)) {
+			/* With RT group scheduling, P can have no RT runtime. */
+			if (errno =3D=3D EPERM)
+				mv_state[6] =3D 1;
+			_exit(1);
+		}
+	...
+}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795207232.gi=
-t.mathieu.desnoyers@efficios.com?part=3D18
+t.mathieu.desnoyers@efficios.com?part=3D24
