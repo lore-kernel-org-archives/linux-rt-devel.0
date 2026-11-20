@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795207356;
-	b=J2lFafFdIlE2l1S8fHyRgIw0F3VpwwjZe/h7KwomMoTNw27Gibn+JP/AWOMrbj+fbXyG
-	 FMndTLNhrEAdEE7U/9jbMtowcF6uE4sZVReTuh++VDqy8WT09snXTXeB2R/zsLudqfHL4
-	 yp3sizkJ7OkCBfyCpSqWlho8wBRKpzrtG8nfERacp3qlS4p3e4Aa93a6waM3/y/tDcZij
-	 47cqY5WGqqc9AsvCwWre8zomtfmEE+q6tg4rxU4Gbn5jZ4/zKaOLZMxaeSQOE7Xqok0es
-	 mC4DREkFwK1DpakVeBQO6zTCehHzaTU+ZLED12gpiuVeUu9MCEIthZHmjJAMea/Chyg==
+	t=1795207357;
+	b=eUNmESDTY4FjLZH5SDfiwhn08GJBJwdltxhLmbNo90O81f24CDkxIpou4FJJM2Nd8TTH
+	 VHwjVUeIuLbY3kVy3mkxHLshRL7mYVYx8VJIQrDUQtul2ZxyAXBdippwy9TJN3WYBkT0d
+	 SZsNJWtj37FZfDcYJU/NBBfTR+lpNvHKKFmPXWyF5jAHZYSCvdT34DxdXaLW91qLqoRNf
+	 QkFW9JuNLgkrLfHlE7dprTCiMcMH1wplcIkrv5aKJ5oBYwttl6pJiGoXtT6M2wGtb+rTp
+	 xThQivGFhUt6b6qduN5nUjFCsqTe2aAVs6T6wJmPdfPKCzl7fCDxF1wqdIgyQJfWCPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207356;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795207357;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=zdp6sqR7deXNuVcXmAI75BuqzTUQDAEmKAZwqOOtlcA=;
-	b=YMvky7LcAh35Mpk/MfGAHk0AQf+ne0oIHhKBeZ1SUTGsa+OnVraaMPwoa3ZDrXEPSKTp
-	 n94/7wBudr8h/B7dhi5M0aJB5CTCvFk1deIl2Ze/eTQYPHQo2WjnFDFNItG+XejHs8iA+
-	 geZqJ91/R272JOT6jwbPColrCtec5Y59EER1vnqha3omtjq9YWARLxWSGhKSXHIVw/7Vb
-	 Q0cb0gbEOHt1nUcvsogcCUPmFpz7e9Nwdu1YDiOE3qkxw5JFDirUNQk07SmUR6Edpg985
-	 510vk6s6MiNQIjd2wQQ6Meq5FLigkyZ/7X2L84mm9hyVfZ+oF9wiXqvuIf2DTCJT7Nw==
+	bh=5LDbk/EDroJEfEAwBG/k308gzx8iQTS70NoTJperMko=;
+	b=pxy+jDuiX7giFZbXNQzxt3hWbYUIKOLRC26sv6s73KzkEX6H90XtBd9aIzbY8/ptPd5s
+	 SWDirmE0yyRv0N2IiGhSUbi+Cedy/ZpiUPlmOkhQYgE2QUff5Lks6k55VzAW9x8pxLwHt
+	 KY0JnGNNIgCxOCKL4Mhamrt9Y3xLrNhCw+d5AHZ1B1hMTaSLgiZ/zH6QuHhFNNw/R7Y5w
+	 k3BOf/PduFmZtTapFFW6sJwSAbKi/+4g4hWcoJMmdTEbbZKIcqsXmNZ5ehxMuahr2rXB0
+	 HzsWzoNQRAWsIRsUEfmgKymKxQYZXhFAjzGyNLz4FssqxMSldSvZi96ICLeG234ZI5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Y28TbdiU;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=nCcKyHbo;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DCC606A6DF
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:42:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58DCC606A6DF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C654A606A6EF
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:42:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C654A606A6EF
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=Y28TbdiU
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=nCcKyHbo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795207350;
-	bh=zdp6sqR7deXNuVcXmAI75BuqzTUQDAEmKAZwqOOtlcA=;
+	s=smtpout1; t=1795207347;
+	bh=5LDbk/EDroJEfEAwBG/k308gzx8iQTS70NoTJperMko=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y28TbdiUC87tWoR40guX7rNW+/F633ZgiF98jvBQhiIaf7D2DuyPFTxFPWNDmBzmV
-	 uD0iQKop7OCNP3vx8FP+17PIdtZCWzigH5VQ2RmDNgHaPRDE3O+Cz1I24Mrv9IckRw
-	 X8f1mOiZCrWkr8n7prSNidjHv303pD917PH6qSVmOH3gxrroIVJBm9qGuBqzrv9oc0
-	 xdBkpHe+1+XQshk+0VeqdxnT9p0eBlj4XypwGbLuCjmlUmBsxWPGHXepPshk6BnVFO
-	 XgD8LUCoqg7Eu8ZKKUr9jUFGbeaQZfGfXaHJHD8e8YNOFDkSABb4crTjoOlzeY+3K0
-	 pJlm6rqzDE4mg==
+	b=nCcKyHbojb6cr5BXW+YlYrBlXS+KmWEPHF+88I0DZNkm4L6UbB/6HbSapOnAtMgRN
+	 1QzavAjdJiF+1mNx8DT8Dl7tWT1/D6jke3deWT4XF0vmxrMNE0sL1q7amto3ZjLX4h
+	 VugfFZDXuUo+FXldO2QolGNBdDT0uv1iFT+SD2tsAYoEXLB5ZBSGtwCdG3S2b18A3O
+	 UPAUn7EzQdLLLAFCEyE8u7jxP2XPhmS62CJWKX6t6LmR550llTW00vK7PehSsjAvcg
+	 kbFHHbmVsl5p/tobbqd9/KBJBxyFPbGOb26xh+vW0VEY6motj8HjftdxfJg0OE0gLk
+	 HaObUQHOaQcmA==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWS2F6RjTzVBC;
-	Fri, 20 Nov 2026 15:42:29 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jWS2972QNzTqV;
+	Fri, 20 Nov 2026 15:42:25 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: juri.lelli@redhat.com,
 	peterz@infradead.org,
@@ -78,10 +78,11 @@ Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v10 06/40] selftests/sched: Test the root domain rebuild in deadline_bw_test
-Date: Fri, 20 Nov 2026 15:41:43 -0500
-Message-Id: <081b69dd786de4709a097410e887eba184b0a762.1795207232.git.mathieu.desnoyers@efficios.com>
+	linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v10 02/40] sched/deadline: Rebuild the root domains' accounting from the task list
+Date: Fri, 20 Nov 2026 15:41:39 -0500
+Message-Id: <377326298c82a348a70968f9a3515d0454c1abdb.1795207232.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795207232.git.mathieu.desnoyers@efficios.com>
@@ -96,772 +97,602 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add seven cases to deadline_bw_test. Most test the rebuild of the root
-domains' accounting, earlier in this series. They cover:
-- CPU hotplug with sleeping deadline tasks, and with tasks that left the
-  class before their 0-lag time
-- a zombie deadline task during a CPU hotplug (death_zombie_hotplug)
-- a priority inheritance owner that left the class, then moves
-  (pi_departed_moved)
-- sched_setaffinity() racing with sched_setattr() (affinity_vs_setattr)
+A rebuild of the root domains, as on CPU hotplug, clears their deadline
+accounting. dl_rebuild_rd_accounting() then adds back the deadline tasks
+of each cpuset. Without CONFIG_CPUSETS, it is a stub. So the first
+hotplug drops every deadline task's bandwidth, and their releases wrap
+total_bw around. In testing, a root domain admitted 9 tasks of 10ms
+every 100ms before a hotplug with deadline sleepers, and none after.
 
-The comment above each case gives its scenario. Two cases follow
-reproducers of Juri Lelli's sched-deadline-tests:
-hotplug_sleeper_switched and hotplug_no_admission_pinned.
+With cpusets, the rebuild skips a cpuset whose nr_deadline_tasks is 0.
+This count spares suspend and resume a costly walk of all tasks. An
+attach moves it by a tally taken in cpuset_can_attach(). A task that
+leaves the class between the tally and the move is taken off the old
+cpuset twice. Its count can then reach 0 with a deadline task in it.
+Every rebuild would then drop that task's bandwidth.
 
-The message of each fix names the cases that test it. These cases are
-not named there:
-- hotplug_departed and hotplug_no_admission_pinned: "sched/deadline: Keep
-  departing bandwidth across a root domain rebuild"
-- affinity_vs_setattr tests "sched/deadline: Check SCHED_DEADLINE
-  affinity under the rq lock", of the first series. It comes here
-  because it fails without CONFIG_CPUSETS before these fixes.
+Fix both by walking the task list, with or without cpusets. The walk
+finds every deadline task, so the count and its hooks go. It holds
+tasklist_lock for reading, so fork and exit wait meanwhile. It takes
+the pi_lock of deadline tasks only. The walk that the count avoided
+took the pi_lock of every task. It leaves out an exited task with a
+dl_bw of 0. It also leaves out a zombie whose bandwidth an earlier
+rebuild dropped, as dl_clear_root_domains() does.
 
-On v7.4-rc2, in 8 VMs of 8 CPUs, six of these cases fail in every VM:
-- affinity_vs_setattr
-- death_zombie_hotplug
-- hotplug_departed
-- hotplug_no_admission_pinned
-- hotplug_sleeper_switched
-- pi_departed_moved
+The walk visits every thread, and a suspend or a resume runs one
+rebuild for each CPU. So keep one count for the whole system,
+dl_nr_bw_tasks: the number of tasks whose dl_bw is not 0.
+__setparam_dl() and __dl_clear_params() are the only places that change
+the dl_bw of a task, and they update the count. With a count of 0, the
+rebuild does not walk the task list, as Juri Lelli suggested.
 
-hotplug_sleepers passes there. It fails on v7.4-rc2 and with the first
-series without CONFIG_CPUSETS. It also fails there when
-isolcpus=domain,0,1 isolates the boot CPU. The rebuild fixes make it
-pass.
+In testing, a 64-vCPU guest held 10000 threads and no deadline task. A
+rebuild took 0.7 to 1.2 ms without the count, and 0.03 ms with it.
 
-With the fixes up to here, every case passes wherever it runs.
+Without cpusets, a new dl_accounting_mutex keeps admissions out of a
+rebuild, as cpuset_mutex does with them.
 
+Three hotplug cases, added to deadline_bw_test later in this series,
+fail without cpusets. With this patch, its five hotplug cases pass, in 4
+VMs. Its death_zombie_hotplug case tests the zombie. The Sashiko AI
+reviews of this series found the wrong count, the exited tasks and the
+zombie.
+
+Fixes: f9a25f776d78 ("cpusets: Rebuild root domain deadline accounting information")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Link: https://github.com/jlelli/sched-deadline-tests
+Cc: stable@vger.kernel.org
 ---
- .../sched/deadline/deadline_bw_test.c         | 654 +++++++++++++++++-
- 1 file changed, 650 insertions(+), 4 deletions(-)
+ include/linux/cpuset.h          |   9 --
+ include/linux/sched/deadline.h  |  16 ++++
+ kernel/cgroup/cgroup.c          |   3 -
+ kernel/cgroup/cpuset-internal.h |   6 +-
+ kernel/cgroup/cpuset.c          |  67 +-------------
+ kernel/sched/deadline.c         | 154 ++++++++++++++++++++++++++------
+ kernel/sched/syscalls.c         |  14 +--
+ kernel/sched/topology.c         |   8 ++
+ 8 files changed, 163 insertions(+), 114 deletions(-)
 
-diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-index 6ff9da964403..ba2a18f354d4 100644
---- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-+++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-@@ -31,8 +31,11 @@
-  * housekeeping CPU. P is made anew for each case. Making it rebuilds the
-  * accounting, which clears what an earlier case left.
-  *
-- * The cases of hp_cases[] run after them, without P. They take CPUs
-- * offline. The test skips them if no CPU can go offline.
-+ * The cases of hp_cases[] run after them, without P. These are the
-+ * hotplug cases, and affinity_vs_setattr. The test skips the hotplug
-+ * cases if no CPU can go offline. It still runs affinity_vs_setattr.
-+ * death_zombie_hotplug takes CPUs offline too, but it is in p_cases[]: it
-+ * needs the cpuset setup of those cases.
-  *
-  * The server cases change the fair server of a CPU through debugfs, and
-  * the test then puts it back.
-@@ -4554,7 +4557,10 @@ static int params_waking(void)
- 	return ret;
+diff --git a/include/linux/cpuset.h b/include/linux/cpuset.h
+index 914983387e95..db1cc2fc0324 100644
+--- a/include/linux/cpuset.h
++++ b/include/linux/cpuset.h
+@@ -72,8 +72,6 @@ extern int cpuset_init(void);
+ extern void cpuset_init_smp(void);
+ extern void cpuset_force_rebuild(void);
+ extern void cpuset_update_active_cpus(void);
+-extern void inc_dl_tasks_cs(struct task_struct *task);
+-extern void dec_dl_tasks_cs(struct task_struct *task);
+ extern void cpuset_lock(void);
+ extern void cpuset_unlock(void);
+ extern void lockdep_assert_cpuset_lock_held(void);
+@@ -129,7 +127,6 @@ static inline int cpuset_do_page_mem_spread(void)
+ 
+ extern bool current_cpuset_is_being_rebound(void);
+ 
+-extern void dl_rebuild_rd_accounting(void);
+ extern void rebuild_sched_domains(void);
+ 
+ extern void cpuset_print_current_mems_allowed(void);
+@@ -194,8 +191,6 @@ static inline void cpuset_update_active_cpus(void)
+ 	partition_sched_domains(1, NULL, NULL);
  }
  
--/* CPU hotplug, from the main process, with no P */
-+/*
-+ * CPU hotplug, from the main process, with no P. Two cases below run with
-+ * P instead: death_zombie_hotplug and pi_departed_moved.
-+ */
- 
- static int hp_cpu = -1;
- 
-@@ -4584,6 +4590,213 @@ static void cpu_up(int cpu)
- 		ksft_print_msg("CPU %d cannot come back online: %s\n", cpu, strerror(-err));
+-static inline void inc_dl_tasks_cs(struct task_struct *task) { }
+-static inline void dec_dl_tasks_cs(struct task_struct *task) { }
+ static inline void cpuset_lock(void) { }
+ static inline void cpuset_unlock(void) { }
+ static inline void lockdep_assert_cpuset_lock_held(void) { }
+@@ -273,10 +268,6 @@ static inline bool current_cpuset_is_being_rebound(void)
+ 	return false;
  }
  
+-static inline void dl_rebuild_rd_accounting(void)
+-{
+-}
+-
+ static inline void rebuild_sched_domains(void)
+ {
+ 	guard(cpus_read_lock)();
+diff --git a/include/linux/sched/deadline.h b/include/linux/sched/deadline.h
+index bdf39ac1d43d..60be226699bb 100644
+--- a/include/linux/sched/deadline.h
++++ b/include/linux/sched/deadline.h
+@@ -33,6 +33,22 @@ struct root_domain;
+ extern void dl_add_task_root_domain(struct task_struct *p);
+ extern void dl_clear_root_domain(struct root_domain *rd);
+ extern void dl_clear_root_domains(void);
++extern void dl_rebuild_rd_accounting(void);
 +/*
-+ * Four deadline tasks of 30% sleep. Take hp_cpu offline and back. Once
-+ * the sleepers are gone, the housekeeping root domain must admit what it
-+ * did before. Skip unless 22 probe tasks fit: the sleepers take the room
-+ * of 12, and the offline CPU that of about 10.
++ * Keep a rebuild of the root domains' accounting and an admission of
++ * bandwidth from running at the same time. With cpusets, cpuset_mutex
++ * does it, since every rebuild comes from the cpuset code. Without
++ * cpusets, dl_accounting_lock() takes a mutex of its own.
 + */
-+static int hotplug_sleepers(void)
-+{
-+	int base = probe(NULL), after, i, ret = KSFT_PASS;
-+	pid_t pid[4];
-+
-+	if (base < 22) {
-+		ksft_print_msg("needs room for 22 probe tasks\n");
-+		return KSFT_SKIP;
-+	}
-+	for (i = 0; i < 4; i++) {
-+		mv_state[0] = 0;
-+		pid[i] = mover(MV_ASLEEP, 30 * NSEC_PER_MSEC);
-+		if (pid[i] < 0 || child_up("a deadline sleeper", 0)) {
-+			while (i >= 0)
-+				reap(pid[i--]);
-+			return KSFT_FAIL;
-+		}
-+	}
-+	if (cpu_online(hp_cpu, 0) || cpu_online(hp_cpu, 1)) {
-+		ksft_print_msg("offline and online of CPU %d with deadline sleepers failed\n",
-+			       hp_cpu);
-+		ret = KSFT_FAIL;
-+		cpu_up(hp_cpu);
-+	}
-+	for (i = 0; i < 4; i++)
-+		reap(pid[i]);
-+	sleep_ns(3 * PERIOD);
-+	after = probe(NULL);
-+	if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("hotplug with sleepers: %d probe tasks admitted before, %d after\n",
-+			       base, after);
-+		ret = KSFT_FAIL;
-+	}
-+	return ret;
-+}
-+
-+/*
-+ * Fork a task that runs on @cpu, then restores its affinity, becomes a
-+ * deadline task of 30% and sleeps. A deadline task cannot have an
-+ * affinity of one CPU, so the task goes to @cpu first. It sets
-+ * mv_state[0] as mover() does. Return its pid, or -1.
-+ */
-+static pid_t sleeper_on(int cpu)
-+{
-+	pid_t pid = fork_child("a deadline sleeper");
-+
-+	if (!pid) {
-+		cpu_set_t all, one;
-+
-+		CPU_ZERO(&one);
-+		CPU_SET(cpu, &one);
-+		if (sched_getaffinity(0, sizeof(all), &all) ||
-+		    sched_setaffinity(0, sizeof(one), &one))
-+			_exit(1);
-+		spin_ns(NSEC_PER_MSEC);
-+		if (sched_setaffinity(0, sizeof(all), &all) ||
-+		    set_deadline(0, 30 * NSEC_PER_MSEC, PERIOD)) {
-+			mv_state[0] = -1;
-+			_exit(1);
-+		}
-+		mv_state[0] = 1;
-+		for (;;)
-+			pause();
-+	}
-+	return pid;
-+}
-+
-+/*
-+ * A deadline task of 30% sleeps on hp_cpu. Take hp_cpu offline, then
-+ * switch the task to SCHED_OTHER. hp_cpu has left the housekeeping root
-+ * domain by then, but that root domain still counts the task. The switch
-+ * must release the bandwidth there.
-+ *
-+ * Check this with hp_cpu still offline: bringing it back rebuilds the
-+ * accounting, which would hide a bandwidth left behind. The reference is
-+ * what the housekeeping root domain admits with hp_cpu offline and no
-+ * task. Once the CPU is back and the task is gone, that root domain must
-+ * also admit what it did at first.
-+ */
-+static int hotplug_sleeper_switched(void)
-+{
-+	int base = probe(NULL), base_off, after, cpu, ret = KSFT_PASS;
-+	pid_t pid;
-+
-+	if (cpu_online(hp_cpu, 0)) {
-+		ksft_print_msg("CPU %d cannot go offline\n", hp_cpu);
-+		cpu_up(hp_cpu);
-+		return KSFT_SKIP;
-+	}
-+	base_off = probe(NULL);
-+	cpu_up(hp_cpu);
-+	mv_state[0] = 0;
-+	pid = sleeper_on(hp_cpu);
-+	if (pid < 0 || child_up("a deadline sleeper", 0)) {
-+		reap(pid);
-+		return KSFT_FAIL;
-+	}
-+	sleep_ns(PERIOD);
-+	cpu = task_cpu_of(pid);
-+	if (cpu != hp_cpu) {
-+		ksft_print_msg("the sleeper is on CPU %d, not on CPU %d\n", cpu, hp_cpu);
-+		reap(pid);
-+		return KSFT_SKIP;
-+	}
-+	if (cpu_online(hp_cpu, 0)) {
-+		ksft_print_msg("CPU %d cannot go offline under a deadline sleeper\n", hp_cpu);
-+		ret = KSFT_FAIL;
-+	} else if (set_other(pid)) {
-+		ksft_print_msg("the sleeper cannot leave SCHED_DEADLINE\n");
-+		ret = KSFT_FAIL;
-+	} else {
-+		sleep_ns(3 * PERIOD);
-+		after = probe(NULL);
-+		if (after != base_off) {
-+			ksft_print_msg("a sleeper switched out, its CPU still offline: %d probe tasks admitted, %d expected\n",
-+				       after, base_off);
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	cpu_up(hp_cpu);
-+	reap(pid);
-+	sleep_ns(3 * PERIOD);
-+	after = probe(NULL);
-+	if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("a sleeper switched out on an offline CPU: %d probe tasks admitted before, %d after\n",
-+			       base, after);
-+		ret = KSFT_FAIL;
-+	}
-+	return ret;
-+}
-+
-+/*
-+ * Turn admission control off (sched_rt_runtime_us = -1). A task pins
-+ * itself to hp_cpu, becomes a deadline task of 50% and spins. Without
-+ * admission control, a deadline task can have an affinity of one CPU.
-+ * Take hp_cpu offline: the mask of the task holds no active CPU. The
-+ * task must go on running on another CPU. Once the CPU is back, the task
-+ * is gone and admission control is on again, the housekeeping root domain
-+ * must admit what it did before.
-+ */
-+static int hotplug_no_admission_pinned(void)
-+{
-+	int base = probe(NULL), after, ret = KSFT_PASS, last;
-+	char saved[64];
-+	pid_t pid;
-+
-+	if (read_file("/proc/sys/kernel/sched_rt_runtime_us", saved, sizeof(saved)) ||
-+	    write_file("/proc/sys/kernel", "sched_rt_runtime_us", "-1")) {
-+		ksft_print_msg("admission control cannot be turned off\n");
-+		return KSFT_SKIP;
-+	}
-+	mv_state[0] = 0;
-+	mv_state[1] = 0;
-+	pid = fork_child("a pinned deadline task");
-+	if (!pid) {
-+		cpu_set_t one;
-+
-+		CPU_ZERO(&one);
-+		CPU_SET(hp_cpu, &one);
-+		if (sched_setaffinity(0, sizeof(one), &one) ||
-+		    set_deadline(0, 50 * NSEC_PER_MSEC, PERIOD)) {
-+			mv_state[0] = -1;
-+			_exit(1);
-+		}
-+		mv_state[0] = 1;
-+		for (;;)
-+			mv_state[1]++;
-+	}
-+	if (pid < 0 || child_up("a pinned deadline task", 0)) {
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	sleep_ns(PERIOD);
-+	if (cpu_online(hp_cpu, 0)) {
-+		ksft_print_msg("CPU %d cannot go offline under a pinned deadline task\n", hp_cpu);
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	last = mv_state[1];
-+	sleep_ns(3 * PERIOD);
-+	if (mv_state[1] == last) {
-+		ksft_print_msg("the pinned task does not run after its CPU went offline\n");
-+		ret = KSFT_FAIL;
-+	}
-+out:
-+	cpu_up(hp_cpu);
-+	reap(pid);
-+	if (write_file("/proc/sys/kernel", "sched_rt_runtime_us", saved)) {
-+		ksft_print_msg("admission control cannot be turned on again\n");
-+		return KSFT_FAIL;
-+	}
-+	sleep_ns(3 * PERIOD);
-+	after = probe(NULL);
-+	if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("a pinned task without admission control: %d probe tasks admitted before, %d after\n",
-+			       base, after);
-+		ret = KSFT_FAIL;
-+	}
-+	return ret;
-+}
-+
++#ifdef CONFIG_CPUSETS
++static inline void dl_accounting_lock(void) { }
++static inline void dl_accounting_unlock(void) { }
++static inline void lockdep_assert_dl_accounting_held(void) { }
++#else
++extern void dl_accounting_lock(void);
++extern void dl_accounting_unlock(void);
++extern void lockdep_assert_dl_accounting_held(void);
++#endif
  /*
-  * Deadline sleepers take most of the free bandwidth. Taking hp_cpu
-  * offline must then fail with EBUSY. Once the sleepers are gone, the
-@@ -4638,6 +4851,303 @@ static int hotplug_refused(void)
- 	return ret;
- }
+  * Return whether moving DL task @p to @new_mask requires moving DL
+  * bandwidth accounting between root domains. This helper is specific to
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index a284225f8dc9..2cfa770c2dcb 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -7240,9 +7240,6 @@ static void do_cgroup_task_dead(struct task_struct *tsk)
+ 	if (thread_group_leader(tsk) && atomic_read(&tsk->signal->live))
+ 		list_add_tail(&tsk->cg_list, &cset->dying_tasks);
  
-+/*
-+ * A deadline task of 40% spins. The case switches it to SCHED_OTHER
-+ * before its 0-lag time. Then it takes the CPU that the task is on
-+ * offline, before that time too. Past the 0-lag time, with the CPU still
-+ * offline, the housekeeping root domain must admit what it admits with a
-+ * CPU offline and no task. Once the CPU is back and the task is gone, it
-+ * must admit what it did at the start.
-+ */
-+static int hotplug_departed(void)
-+{
-+	int base = probe(NULL), base_off, after, cpu, ret = KSFT_PASS;
-+	pid_t pid;
-+
-+	/*
-+	 * Take the reference with hp_cpu offline and no task of ours. The
-+	 * task may be on another CPU: the case assumes that any one CPU
-+	 * offline leaves the same room. The case compares while that CPU
-+	 * is still offline. Bringing it back rebuilds the accounting,
-+	 * which would hide an error.
-+	 */
-+	if (cpu_online(hp_cpu, 0)) {
-+		ksft_print_msg("offline of CPU %d refused\n", hp_cpu);
-+		return KSFT_FAIL;
-+	}
-+	base_off = probe(NULL);
-+	cpu_up(hp_cpu);
-+	if (base <= 0 || base_off <= 0) {
-+		ksft_print_msg("no room to probe with the CPU online or offline\n");
-+		return KSFT_SKIP;
-+	}
-+	mv_state[0] = 0;
-+	mv_state[1] = 0;
-+	pid = mover(MV_THROTTLED, 40 * NSEC_PER_MSEC);
-+	if (pid < 0 || child_up("a departing deadline task", 0)) {
-+		reap(pid);
-+		return KSFT_FAIL;
-+	}
-+	sleep_ns(PERIOD / 2);
-+	/* Not asleep: its bandwidth stays until its 0-lag time. */
-+	if (set_other(pid))
-+		ret = KSFT_FAIL;
-+	cpu = task_cpu_of(pid);
-+	if (cpu < 0 || !cpu_hotpluggable(cpu)) {
-+		cpu_set_t set;
-+
-+		/* Out of the class now, it may be pinned to hp_cpu. */
-+		cpu = hp_cpu;
-+		CPU_ZERO(&set);
-+		CPU_SET(cpu, &set);
-+		if (sched_setaffinity(pid, sizeof(set), &set))
-+			ret = KSFT_FAIL;
-+	}
-+	if (ret == KSFT_PASS && cpu_online(cpu, 0)) {
-+		ksft_print_msg("offline of CPU %d refused\n", cpu);
-+		ret = KSFT_FAIL;
-+	}
-+	sleep_ns(3 * PERIOD);		/* its 0-lag time, the CPU offline */
-+	if (ret == KSFT_PASS) {
-+		after = probe(NULL);
-+		if (after != base_off) {
-+			ksft_print_msg("departed, CPU %d offline: %d admitted, %d expected\n",
-+				       cpu, after, base_off);
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	cpu_up(cpu);
-+	reap(pid);
-+	sleep_ns(3 * PERIOD);
-+	after = probe(NULL);
-+	if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("departed, CPU back online: %d admitted before, %d after\n",
-+			       base, after);
-+		ret = KSFT_FAIL;
-+	}
-+	return ret;
-+}
-+
-+#define ZOMBIE_RUNTIME	(200 * NSEC_PER_MSEC)
-+#define ZOMBIE_PERIOD	(2 * NSEC_PER_SEC)
-+
-+/*
-+ * Q is a partition root of two CPUs. The kernel records, with the
-+ * bandwidth of a task, a CPU of the root domain that counts it. The steps:
-+ * 1. A task enters Q and becomes a deadline task of 200ms every 2s.
-+ * 2. It runs 190ms and exits, its 0-lag time about 1.7s ahead. The case
-+ *    does not reap it yet. A rebuild of the accounting still finds a
-+ *    zombie in the task list.
-+ * 3. total_bw of Q must count the zombie.
-+ * 4. The case takes each CPU of Q offline and back, one after the other.
-+ *    One of them is the CPU recorded with the bandwidth of the zombie.
-+ *    The rebuild at its offline drops that bandwidth.
-+ * 5. Before the 0-lag time, total_bw of Q must be what it was without
-+ *    the task. No later rebuild may count the zombie again: the release
-+ *    at the 0-lag time removes nothing by then.
-+ * 6. The case reaps the zombie. Past the 0-lag time, total_bw of Q must
-+ *    still be that value.
-+ *
-+ * The case runs with the cases in P, from the main process: Q needs the
-+ * cpuset controller. Q has two CPUs because the last CPU of a root domain
-+ * that holds deadline bandwidth cannot go offline.
-+ */
-+static int death_zombie_hotplug(void)
-+{
-+	int cpu[2] = { top_cpu(3), top_cpu(2) }, i, ret = KSFT_PASS;
-+	long long base, bw, held, after;
-+	char cpus[32];
-+	uint64_t t;
-+	pid_t pid;
-+
-+	if (ncpus < 4 || !cpu_hotpluggable(cpu[0]) || !cpu_hotpluggable(cpu[1])) {
-+		ksft_print_msg("needs 4 non-isolated CPUs, 2 hotpluggable beside P\n");
-+		return KSFT_SKIP;
-+	}
-+	snprintf(cpus, sizeof(cpus), "%d,%d", cpu[0], cpu[1]);
-+	if (make_partition_cpus(cg_q, cpus)) {
-+		ksft_print_msg("no partition root Q of CPUs %s\n", cpus);
-+		remove_partition(cg_q);
-+		return KSFT_SKIP;
-+	}
-+	base = total_bw_of(cpu[0]);
-+	if (base < 0) {
-+		ksft_print_msg("no total_bw in /sys/kernel/debug/sched/debug\n");
-+		remove_partition(cg_q);
-+		return KSFT_SKIP;
-+	}
-+	bw = (ZOMBIE_RUNTIME << 20) / ZOMBIE_PERIOD;	/* as to_ratio() */
-+	mv_state[0] = 0;
-+	pid = fork_child("a deadline task that exits");
-+	if (!pid) {
-+		if (enter(cg_q, getpid()) || set_deadline(0, ZOMBIE_RUNTIME, ZOMBIE_PERIOD))
-+			_exit(1);
-+		/* 10ms left: the 0-lag time is 100ms before the deadline. */
-+		spin_ns(ZOMBIE_RUNTIME - 10 * NSEC_PER_MSEC);
-+		mv_state[0] = 1;
-+		_exit(0);
-+	}
-+	if (pid < 0 || child_up("a task of Q that exits", 0) ||
-+	    wait_for(1000, proc_state_of(pid) == 'Z')) {
-+		ksft_print_msg("no zombie deadline task\n");
-+		reap(pid);
-+		remove_partition(cg_q);
-+		return KSFT_FAIL;
-+	}
-+	/* Its 0-lag time is about 1.7s ahead. Check total_bw within 1s. */
-+	t = now_ns();
-+	held = total_bw_of(cpu[0]);
-+	if (held != base + bw) {
-+		ksft_print_msg("total_bw of Q: %lld with the zombie, %lld expected\n",
-+			       held, base + bw);
-+		ret = KSFT_FAIL;
-+	}
-+	for (i = 0; i < 2 && ret == KSFT_PASS; i++) {
-+		if (cpu_online(cpu[i], 0) || cpu_online(cpu[i], 1)) {
-+			ksft_print_msg("offline and online of CPU %d failed\n", cpu[i]);
-+			cpu_up(cpu[i]);
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	after = total_bw_of(cpu[0]);
-+	if (ret == KSFT_PASS && now_ns() - t > NSEC_PER_SEC) {
-+		ksft_print_msg("the hotplugs took over 1s: the 0-lag time may be past\n");
-+		ret = KSFT_SKIP;
-+	} else if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("total_bw of Q after the hotplugs: %lld, %lld expected%s\n",
-+			       after, base,
-+			       after == base + bw ? ": the zombie counted again" : "");
-+		ret = KSFT_FAIL;
-+	}
-+	reap(pid);
-+	sleep_ns(ZOMBIE_PERIOD);		/* past its 0-lag time */
-+	after = total_bw_of(cpu[0]);
-+	if (ret == KSFT_PASS && after != base) {
-+		ksft_print_msg("total_bw of Q past the 0-lag time: %lld, %lld expected\n",
-+			       after, base);
-+		ret = KSFT_FAIL;
-+	}
-+	remove_partition(cg_q);
-+	return ret;
-+}
-+
-+/*
-+ * Fork the owner of pi_departed_moved(). It takes shm_lock, becomes a
-+ * deadline task and runs most of its runtime. It sets mv_state[0] to 1
-+ * and sleeps 300ms. Then it sets mv_state[1] to 1 and sleeps with the
-+ * lock. Return its pid, or -1.
-+ */
-+static pid_t departed_owner(void)
-+{
-+	pid_t pid = fork_child("the owner of the lock");
-+
-+	if (!pid) {
-+		if (pthread_mutex_lock(shm_lock) ||
-+		    set_deadline(0, ZOMBIE_RUNTIME, ZOMBIE_PERIOD)) {
-+			mv_state[0] = -1;
-+			_exit(1);
-+		}
-+		/* 20ms left: the 0-lag time is 200ms before the deadline. */
-+		spin_ns(ZOMBIE_RUNTIME - 20 * NSEC_PER_MSEC);
-+		mv_state[0] = 1;
-+		sleep_ns(300 * NSEC_PER_MSEC);
-+		mv_state[1] = 1;
-+		for (;;)
-+			pause();
-+	}
-+	return pid;
-+}
-+
-+/*
-+ * The owner is a deadline task of 200ms every 2s, outside P. It holds
-+ * shm_lock, runs 180ms and sleeps, its 0-lag time about 1.6s ahead. The
-+ * steps:
-+ * 1. The case switches the sleeping owner to SCHED_OTHER. The
-+ *    housekeeping root domain keeps its bandwidth until the 0-lag time.
-+ * 2. The case moves the owner into P. The owner wakes up and runs there.
-+ * 3. A deadline waiter of 5ms every 50ms, outside P, blocks on shm_lock
-+ *    and boosts the owner.
-+ * 4. The case kills the waiter, which ends the boost.
-+ *
-+ * After step 4, total_bw of the housekeeping root domain must still count
-+ * the bandwidth of the owner. total_bw of P never counted it and must be
-+ * unchanged: the end of the boost must not subtract it there. Past the
-+ * 0-lag time, both must be what they were at the start.
-+ */
-+static int pi_departed_moved(void)
-+{
-+	int p_cpu = top_cpu(1), r_cpu = online[0], ret = KSFT_PASS;
-+	long long base_p, base_r, bw, in_p, in_r;
-+	pid_t owner, waiter = -1;
-+
-+	base_p = total_bw_of(p_cpu);
-+	base_r = total_bw_of(r_cpu);
-+	if (base_p < 0 || base_r < 0) {
-+		ksft_print_msg("no total_bw in /sys/kernel/debug/sched/debug\n");
-+		return KSFT_SKIP;
-+	}
-+	if (shm_lock_init())
-+		return KSFT_SKIP;
-+	bw = (ZOMBIE_RUNTIME << 20) / ZOMBIE_PERIOD;	/* as to_ratio() */
-+	mv_state[1] = 0;
-+	owner = departed_owner();
-+	if (owner < 0)
-+		return KSFT_FAIL;
-+	if (child_up("the owner of the lock", 0)) {
-+		reap(owner);
-+		return KSFT_FAIL;
-+	}
-+	/* The owner is asleep, about 1.6s before its 0-lag time. */
-+	sleep_ns(20 * NSEC_PER_MSEC);
-+	if (set_other(owner) || enter(cg_p, owner)) {
-+		ksft_print_msg("the owner cannot leave the class and enter P\n");
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	if (wait_state(&mv_state[1], 1) || task_cpu_of(owner) != p_cpu) {
-+		ksft_print_msg("the owner did not run in P\n");
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	waiter = lock_waiter();
-+	if (waiter < 0) {
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	if (wait_state(&mv_state[2], 1)) {
-+		ksft_print_msg("no waiter\n");
-+		ret = KSFT_FAIL;
-+		goto out;
-+	}
-+	sleep_ns(50 * NSEC_PER_MSEC);	/* blocked, boosting the owner */
-+	reap(waiter);
-+	waiter = -1;
-+	sleep_ns(150 * NSEC_PER_MSEC);	/* the waiter is past its 0-lag time */
-+	in_p = total_bw_of(p_cpu);
-+	in_r = total_bw_of(r_cpu);
-+	if (in_p != base_p || in_r != base_r + bw) {
-+		ksft_print_msg("after the boost: total_bw of P %lld, %lld expected\n",
-+			       in_p, base_p);
-+		ksft_print_msg("after the boost: total_bw outside %lld, %lld expected\n",
-+			       in_r, base_r + bw);
-+		ret = KSFT_FAIL;
-+	}
-+out:
-+	reap(waiter);
-+	reap(owner);
-+	sleep_ns(ZOMBIE_PERIOD);	/* past the owner's 0-lag time */
-+	in_p = total_bw_of(p_cpu);
-+	in_r = total_bw_of(r_cpu);
-+	if (ret == KSFT_PASS && (in_p != base_p || in_r != base_r)) {
-+		ksft_print_msg("past the 0-lag time: total_bw of P %lld, %lld expected\n",
-+			       in_p, base_p);
-+		ksft_print_msg("past the 0-lag time: total_bw outside %lld, %lld expected\n",
-+			       in_r, base_r);
-+		ret = KSFT_FAIL;
-+	}
-+	return ret;
-+}
-+
- /*
-  * The bandwidth of a fair server must leave the root domain with its CPU
-  * and come back with it, whatever its size. Probe the housekeeping root
-@@ -4743,6 +5253,134 @@ static void report(const char *name, int ret)
- 		ksft_test_result_fail("%s\n", name);
- }
+-	if (dl_task(tsk))
+-		dec_dl_tasks_cs(tsk);
+-
+ 	WARN_ON_ONCE(cgroup_task_frozen(tsk));
+ 	if (unlikely(!(tsk->flags & PF_KTHREAD) &&
+ 		     test_bit(CGRP_FREEZE, &task_dfl_cgroup(tsk)->flags)))
+diff --git a/kernel/cgroup/cpuset-internal.h b/kernel/cgroup/cpuset-internal.h
+index 1ba94ffaff9d..bf847953c78d 100644
+--- a/kernel/cgroup/cpuset-internal.h
++++ b/kernel/cgroup/cpuset-internal.h
+@@ -166,11 +166,7 @@ struct cpuset {
+ 	 */
+ 	bool remote_partition_updating;
  
-+/* sched_setaffinity() against sched_setattr(), with no P */
-+
-+/*
-+ * The state that affinity_racer() shares with the case. pid and one are
-+ * its target and its mask. go and done count the rounds. ret is the
-+ * result of its last call.
-+ */
-+static struct {
-+	pid_t pid;
-+	cpu_set_t one;
-+	atomic_int go;
-+	atomic_int done;
-+	atomic_int stop;
-+	int ret;
-+} aff;
-+
-+/*
-+ * Give aff.pid the affinity aff.one, once for each new value of aff.go.
-+ * Return when aff.stop is set.
-+ */
-+static void *affinity_racer(void *arg)
-+{
-+	int round;
-+
-+	for (round = 1; ; round++) {
-+		while (aff.go < round && !aff.stop)
-+			;
-+		if (aff.stop)
-+			break;
-+		aff.ret = sched_setaffinity(aff.pid, sizeof(aff.one), &aff.one) ? -errno : 0;
-+		aff.done = round;
-+	}
-+	return arg;
-+}
-+
-+/*
-+ * Race sched_setaffinity() against sched_setattr() on a sleeping task.
-+ * One thread gives the task an affinity of one CPU. Another one makes it
-+ * a deadline task. A deadline task must be allowed on its whole root
-+ * domain, so at most one of the two calls may succeed:
-+ * - sched_setattr() fails with EPERM if the affinity came first;
-+ * - sched_setaffinity() fails with EBUSY if the policy came first.
-+ *
-+ * Do it 1000 times. Each round starts with the task back in SCHED_OTHER
-+ * with its full affinity. Once the task is gone, the free bandwidth must
-+ * be what it was. The case needs no cpuset: it runs without P, with the
-+ * hotplug cases.
-+ */
-+static int affinity_vs_setattr(void)
-+{
-+	const char *name = "affinity_vs_setattr";
-+	int base, i, cpu, both = 0, ret = KSFT_PASS;
-+	cpu_set_t all;
-+	pthread_t t;
-+	pid_t pid;
-+
-+	base = probe(NULL);
-+	pid = fork_child(name);
-+	if (!pid) {
-+		for (;;)
-+			pause();
-+	}
-+	if (pid < 0)
-+		return KSFT_FAIL;
-+	/*
-+	 * Wait until the task sleeps in pause(). A task that still runs
-+	 * when it becomes a deadline task can overrun its 2us. Its
-+	 * bandwidth then stays counted until its 0-lag time, seconds after
-+	 * it is gone, and the next cases would see it.
-+	 */
-+	if (wait_for(1000, proc_state_of(pid) == 'S') ||
-+	    sched_getaffinity(pid, sizeof(all), &all)) {
-+		reap(pid);
-+		return KSFT_FAIL;
-+	}
-+	CPU_ZERO(&aff.one);
-+	for (cpu = 0; cpu < CPU_SETSIZE; cpu++) {
-+		if (CPU_ISSET(cpu, &all)) {
-+			CPU_SET(cpu, &aff.one);
-+			break;
-+		}
-+	}
-+	aff.pid = pid;
-+	aff.go = 0;
-+	aff.done = 0;
-+	aff.stop = 0;
-+	if (pthread_create(&t, NULL, affinity_racer, NULL)) {
-+		reap(pid);
-+		return KSFT_FAIL;
-+	}
-+
-+	for (i = 1; i <= 1000 && ret == KSFT_PASS; i++) {
-+		int err;
-+
-+		if (set_other(pid) || sched_setaffinity(pid, sizeof(all), &all)) {
-+			ksft_print_msg("%s: the task cannot be reset: %s\n", name, strerror(errno));
-+			ret = KSFT_FAIL;
-+			break;
-+		}
-+		aff.go = i;
-+		err = set_deadline(pid, 2 * NSEC_PER_USEC, PERIOD);
-+		while (aff.done < i)
-+			;
-+		if (!err && !aff.ret) {
-+			both++;
-+		} else if ((err && err != -EPERM) || (aff.ret && aff.ret != -EBUSY)) {
-+			ksft_print_msg("%s: round %d: sched_setattr: %s, sched_setaffinity: %s\n",
-+				       name, i, strerror(-err), strerror(-aff.ret));
-+			ret = KSFT_FAIL;
-+		}
-+	}
-+	aff.stop = 1;
-+	join(t);
-+	if (both) {
-+		ksft_print_msg("%s: %d rounds of %d: a deadline task with an affinity of one CPU\n",
-+			       name, both, i - 1);
-+		ret = KSFT_FAIL;
-+	}
-+	/* A deadline task of 2us every 100ms would take seconds to exit. */
-+	if (set_other(pid))
-+		ksft_print_msg("%s: the task stays a deadline task\n", name);
-+	reap(pid);
-+	sleep_ns(3 * PERIOD);
-+	if (ret == KSFT_PASS && admits(base, "after the task is gone"))
-+		ret = KSFT_FAIL;
-+	return ret;
-+}
-+
- /* The tables of the cases, and main() */
- 
- enum where {
-@@ -4760,6 +5398,7 @@ static const struct p_case {
- 	{ "pi_other_owner_asleep", pi_other_owner_asleep, MEASURED_IN_P },
- 	{ "pi_unlock_running", pi_unlock_running, MEASURED_IN_P },
- 	{ "pi_chain_two_owners", pi_chain_two_owners, MEASURED_IN_P },
-+	{ "pi_departed_moved", pi_departed_moved, FROM_OUTSIDE },
- 	{ "params_asleep", params_asleep, IN_P },
- 	{ "params_non_contending", params_non_contending, MEASURED_IN_P },
- 	{ "params_switched_asleep", params_switched_asleep, MEASURED_IN_P },
-@@ -4790,6 +5429,7 @@ static const struct p_case {
- 	{ "death_pi_deadline_owner", death_pi_deadline_owner, MEASURED_IN_P },
- 	{ "death_group", death_group, MEASURED_IN_P },
- 	{ "death_zombie_switched", death_zombie_switched, FROM_OUTSIDE },
-+	{ "death_zombie_hotplug", death_zombie_hotplug, FROM_OUTSIDE },
- 	{ "yield_switched_out", yield_switched_out, IN_P },
- 	{ "yield_killed", yield_killed, MEASURED_IN_P },
- 	{ "overrun_caught", overrun_caught, IN_P },
-@@ -4808,9 +5448,15 @@ static const struct p_case {
- static const struct hp_case {
- 	const char *name;
- 	int (*fn)(void);
-+	int no_hp;		/* takes no CPU offline */
- } hp_cases[] = {
-+	{ "hotplug_sleepers", hotplug_sleepers },
-+	{ "hotplug_sleeper_switched", hotplug_sleeper_switched },
-+	{ "hotplug_no_admission_pinned", hotplug_no_admission_pinned },
- 	{ "hotplug_refused", hotplug_refused },
-+	{ "hotplug_departed", hotplug_departed },
- 	{ "hotplug_server", hotplug_server },
-+	{ "affinity_vs_setattr", affinity_vs_setattr, 1 },
+-	/*
+-	 * number of SCHED_DEADLINE tasks attached to this cpuset, so that we
+-	 * know when to rebuild associated root domain bandwidth information.
+-	 */
+-	atomic_t nr_deadline_tasks;
++	/* Number of SCHED_DEADLINE tasks the attach in progress moves here. */
+ 	int nr_migrate_dl_tasks;
+ 	/* DL bandwidth that needs destination reservation for this attach. */
+ 	u64 sum_migrate_dl_bw;
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 4159abfbbbb5..7628cf77bdfd 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -225,20 +225,6 @@ struct tmpmasks {
+ 	cpumask_var_t new_cpus;		/* For update_cpumasks_hier() */
  };
  
- #define N_HP_CASES	((int)ARRAY_SIZE(hp_cases))
-@@ -4949,7 +5595,7 @@ int main(void)
- 	if (hp_cpu < 0)
- 		ksft_print_msg("no CPU hotplug: hotplug cases skipped\n");
- 	for (i = 0; i < N_HP_CASES; i++) {
--		if (hp_cpu < 0) {
-+		if (hp_cpu < 0 && !hp_cases[i].no_hp) {
- 			ksft_test_result_skip("%s\n", hp_cases[i].name);
- 			continue;
+-void inc_dl_tasks_cs(struct task_struct *p)
+-{
+-	struct cpuset *cs = task_cs(p);
+-
+-	atomic_inc(&cs->nr_deadline_tasks);
+-}
+-
+-void dec_dl_tasks_cs(struct task_struct *p)
+-{
+-	struct cpuset *cs = task_cs(p);
+-
+-	atomic_dec(&cs->nr_deadline_tasks);
+-}
+-
+ static inline bool is_partition_valid(const struct cpuset *cs)
+ {
+ 	return cs->partition_root_state > 0;
+@@ -965,54 +951,6 @@ static int generate_sched_domains(cpumask_var_t **domains,
+ 	return ndoms;
+ }
+ 
+-static void dl_update_tasks_root_domain(struct cpuset *cs)
+-{
+-	struct css_task_iter it;
+-	struct task_struct *task;
+-
+-	if (atomic_read(&cs->nr_deadline_tasks) == 0)
+-		return;
+-
+-	css_task_iter_start(&cs->css, 0, &it);
+-
+-	while ((task = css_task_iter_next(&it)))
+-		dl_add_task_root_domain(task);
+-
+-	css_task_iter_end(&it);
+-}
+-
+-void dl_rebuild_rd_accounting(void)
+-{
+-	struct cpuset *cs = NULL;
+-	struct cgroup_subsys_state *pos_css;
+-
+-	lockdep_assert_cpuset_lock_held();
+-	lockdep_assert_cpus_held();
+-	lockdep_assert_held(&sched_domains_mutex);
+-
+-	dl_clear_root_domains();
+-
+-	rcu_read_lock();
+-
+-	cpuset_for_each_descendant_pre(cs, pos_css, &top_cpuset) {
+-
+-		if (cpumask_empty(cs->effective_cpus)) {
+-			pos_css = css_rightmost_descendant(pos_css);
+-			continue;
+-		}
+-
+-		css_get(&cs->css);
+-
+-		rcu_read_unlock();
+-
+-		dl_update_tasks_root_domain(cs);
+-
+-		rcu_read_lock();
+-		css_put(&cs->css);
+-	}
+-	rcu_read_unlock();
+-}
+-
+ /*
+  * Rebuild scheduler domains.
+  *
+@@ -3181,9 +3119,7 @@ static void clear_attach_data(struct llist_head *head, bool cancel)
+ 	llist_for_each_entry_safe(cs, next, lnode, attach_node) {
+ 		init_llist_node(&cs->attach_node);
+ 		if (cs->nr_migrate_dl_tasks) {
+-			if (!cancel)
+-				atomic_add(cs->nr_migrate_dl_tasks, &cs->nr_deadline_tasks);
+-			else if (cs->dl_bw_cpu >= 0) /* && cancel */
++			if (cancel && cs->dl_bw_cpu >= 0)
+ 				dl_bw_free(cs->dl_bw_cpu, cs->sum_migrate_dl_bw);
+ 			cs->nr_migrate_dl_tasks = 0;
+ 			cs->sum_migrate_dl_bw = 0;
+@@ -3272,7 +3208,6 @@ static int cpuset_can_attach(struct cgroup_taskset *tset)
+ 			 * contribute to sum_migrate_dl_bw.
+ 			 */
+ 			cs->nr_migrate_dl_tasks++;
+-			oldcs->nr_migrate_dl_tasks--;
+ 			if (dl_task_needs_bw_move(task, cs->effective_cpus))
+ 				cs->sum_migrate_dl_bw += task->dl.dl_bw;
  		}
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index c2b5b5fdf1b9..d1a2ae9ab75f 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -230,10 +230,10 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap, u64 old_bw, u64 new_bw)
+  * The timer holds a reference to it.
+  *
+  * A rebuild of the root domains' accounting (dl_clear_root_domains() and
+- * dl_add_task_root_domain()) does not find such a task among the deadline
+- * tasks of the cpusets. So dl_departed_list holds these tasks, from their
+- * departure to their timer. The rebuild puts their bandwidth back in the
+- * root domain of the CPU each one was on when it left.
++ * dl_add_task_root_domain()) does not count such a task as a deadline
++ * task. So dl_departed_list holds these tasks, from their departure to
++ * their timer. The rebuild puts their bandwidth back in the root domain
++ * of the CPU each one was on when it left.
+  *
+  * dl_bw_gen numbers the rebuilds of the accounting: how many times the
+  * root domains were wiped and reconstructed (dl_clear_root_domains()
+@@ -241,7 +241,7 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap, u64 old_bw, u64 new_bw)
+  * state, counted or settled. That number dates the state:
+  *
+  *  - Current: the bandwidth is counted, or a release settled it since
+- *    the rebuild began. A release subtracts; the walk of the cpusets
++ *    the rebuild began. A release subtracts; the walk of the task list
+  *    skips.
+  *  - One behind: the clear that just ran wiped it. The rebuild puts
+  *    it back.
+@@ -254,8 +254,8 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap, u64 old_bw, u64 new_bw)
+  *
+  * A rebuild drops the bandwidth when the CPU recorded is no longer
+  * active. It also drops the bandwidth of a task that dies while the
+- * rebuild runs. The cpuset walk skips that task, and it was not dead yet
+- * when the list was put back.
++ * rebuild runs. The walk of the task list does not find that task, and
++ * it was not dead yet when the list was put back.
+  *
+  * dl_departed_lock protects the list and both counts. Take it with
+  * interrupts disabled, under the task's rq lock or pi_lock or in the
+@@ -265,6 +265,22 @@ static LIST_HEAD(dl_departed_list);
+ static DEFINE_RAW_SPINLOCK(dl_departed_lock);
+ static unsigned int dl_bw_gen;
+ 
++/*
++ * The number of tasks with a bandwidth: those whose dl_bw is not 0. A
++ * special entity and a server are not counted. __setparam_dl() and
++ * __dl_clear_params() are the only places that change the dl_bw of a
++ * task, and they update the count. With a count of 0, a rebuild of the
++ * accounting has no task to count, and does not walk the task list.
++ */
++static atomic_t dl_nr_bw_tasks;
++
++/* Return true if @dl_se is a task that holds a bandwidth. */
++static inline bool dl_se_holds_bw(struct sched_dl_entity *dl_se)
++{
++	return dl_se->dl_bw && !dl_se->dl_server &&
++	       !(dl_se->flags & SCHED_FLAG_SUGOV);
++}
++
+ /*
+  * Put @p on dl_departed_list with @cpu, a CPU of the root domain that
+  * keeps its bandwidth. @p leaves SCHED_DEADLINE, or dies, before its
+@@ -3675,7 +3691,7 @@ static void dl_get_task_effective_cpus(struct task_struct *p, struct cpumask *cp
+ 	cpuset_cpus_allowed_locked(p, cpus);
+ }
+ 
+-/* The caller should hold cpuset_mutex */
++/* From dl_rebuild_rd_accounting(), under the locks it asserts. */
+ void dl_add_task_root_domain(struct task_struct *p)
+ {
+ 	struct rq_flags rf;
+@@ -3685,7 +3701,13 @@ void dl_add_task_root_domain(struct task_struct *p)
+ 	struct cpumask *msk;
+ 
+ 	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
+-	if (!dl_task(p) || dl_entity_is_special(&p->dl)) {
++	/*
++	 * Count nothing for a special entity, or for a task with no
++	 * bandwidth. The walk of the task list also finds exited tasks. An
++	 * exited task whose bandwidth went with its parameters has a dl_bw
++	 * of 0.
++	 */
++	if (!dl_task(p) || dl_entity_is_special(&p->dl) || !p->dl.dl_bw) {
+ 		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+ 		return;
+ 	}
+@@ -3708,6 +3730,14 @@ void dl_add_task_root_domain(struct task_struct *p)
+ 	if (p->dl.dl_bw_gen == dl_bw_gen)
+ 		goto unlock;
+ 	if (p->dl.dl_departed_cpu >= 0) {
++		/*
++		 * The walk also finds a dead task that departed before an
++		 * earlier rebuild, if it is not reaped yet. If that rebuild
++		 * dropped its bandwidth, dl_clear_root_domains() skipped it,
++		 * and its release removes nothing. Skip it here too.
++		 */
++		if (p->dl.dl_bw_gen != dl_bw_gen - 1)
++			goto unlock;
+ 		cpu = p->dl.dl_departed_cpu;
+ 		if (!cpu_active(cpu))
+ 			goto unlock;
+@@ -3778,13 +3808,80 @@ void dl_clear_root_domain(struct root_domain *rd)
+ 		dl_server_add_bw(rd, i);
+ }
+ 
++#ifndef CONFIG_CPUSETS
++/*
++ * With cpusets, cpuset_mutex keeps an admission of bandwidth from running
++ * against a rebuild of the accounting. __sched_setscheduler() takes it for
++ * every change of or into SCHED_DEADLINE. The callers of
++ * partition_sched_domains() hold it from the attachment of the new root
++ * domains to the rebuild. Without cpusets, cpuset_lock() is a stub, and
++ * this mutex takes its place in both.
++ */
++static DEFINE_MUTEX(dl_accounting_mutex);
++
++void dl_accounting_lock(void)
++{
++	mutex_lock(&dl_accounting_mutex);
++}
++
++void dl_accounting_unlock(void)
++{
++	mutex_unlock(&dl_accounting_mutex);
++}
++
++void lockdep_assert_dl_accounting_held(void)
++{
++	lockdep_assert_held(&dl_accounting_mutex);
++}
++#endif /* !CONFIG_CPUSETS */
++
++/*
++ * Rebuild the root domains' accounting. Clear it, then walk all tasks and
++ * count each deadline task again. The caller holds the locks that this
++ * function asserts.
++ */
++void dl_rebuild_rd_accounting(void)
++{
++	struct task_struct *g, *p;
++
++	lockdep_assert_cpus_held();
++	lockdep_assert_held(&sched_domains_mutex);
++	lockdep_assert_cpuset_lock_held();
++	lockdep_assert_dl_accounting_held();
++
++	dl_clear_root_domains();
++
++	/*
++	 * Without a task that holds a bandwidth, there is nothing to count.
++	 * The walk would still visit every thread of the system. A CPU
++	 * that goes offline or comes back runs a rebuild, so a suspend and
++	 * a resume run one for each CPU. A task gets a bandwidth under the
++	 * locks this rebuild holds, so the count cannot leave 0 meanwhile.
++	 */
++	if (!atomic_read(&dl_nr_bw_tasks))
++		return;
++
++	read_lock(&tasklist_lock);
++	for_each_process_thread(g, p) {
++		/*
++		 * Test the class without the task's locks, and take them only
++		 * for a deadline task. A task enters the class under the locks
++		 * this rebuild holds, or by a boost. A boost brings no
++		 * bandwidth of its own to count.
++		 */
++		if (dl_task(p))
++			dl_add_task_root_domain(p);
++	}
++	read_unlock(&tasklist_lock);
++}
++
+ /*
+  * Clear every root domain before a rebuild of their accounting, and count
+  * the rebuild in dl_bw_gen. Put back the bandwidth of their servers. Put
+- * back the bandwidth of the tasks on dl_departed_list, which no cpuset
+- * holds as deadline tasks. Put each in the root domain of the CPU
+- * recorded for it, or drop it if that CPU is not active.
+- * dl_add_task_root_domain() then adds the deadline tasks of the cpusets.
++ * back the bandwidth of the tasks on dl_departed_list, which the walk of
++ * the deadline tasks does not count. Put each in the root domain of the
++ * CPU recorded for it, or drop it if that CPU is not active.
++ * dl_add_task_root_domain() then adds the deadline tasks.
+  */
+ void dl_clear_root_domains(void)
+ {
+@@ -3848,12 +3945,6 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
+ 		p->dl.runtime = 0;
+ 	}
+ 
+-	/*
+-	 * In case a task is setscheduled out from SCHED_DEADLINE we need to
+-	 * keep track of that on its cpuset (for correct bandwidth tracking).
+-	 */
+-	dec_dl_tasks_cs(p);
+-
+ 	if (!task_on_rq_queued(p)) {
+ 		/*
+ 		 * Inactive timer is armed. However, p is leaving DEADLINE and
+@@ -3923,12 +4014,6 @@ static void switched_to_dl(struct rq *rq, struct task_struct *p)
+ 	if (!list_empty(&p->dl.dl_departed_node))
+ 		dl_task_undepart(p);
+ 
+-	/*
+-	 * In case a task is setscheduled to SCHED_DEADLINE we need to keep
+-	 * track of that on its cpuset (for correct bandwidth tracking).
+-	 */
+-	inc_dl_tasks_cs(p);
+-
+ 	/* If p is not queued we will update its parameters at next wakeup. */
+ 	if (!task_on_rq_queued(p)) {
+ 		add_rq_bw(&p->dl, &rq->dl);
+@@ -4185,10 +4270,12 @@ int sched_dl_overflow(struct task_struct *p, int policy,
+ 	 * A task that comes back before its 0-lag time still has the
+ 	 * bandwidth it left with. The new bandwidth replaces it, so remove the
+ 	 * old one from the root domain that keeps it (dl_task_release_bw()).
+-	 * No rebuild can run meanwhile: the caller holds cpuset_mutex.
++	 * No rebuild can run meanwhile: the caller holds cpuset_mutex, or
++	 * dl_accounting_mutex without cpusets.
+ 	 */
+ 	if (!err && dl_policy(policy) && !task_has_dl_policy(p)) {
+ 		lockdep_assert_cpuset_lock_held();
++		lockdep_assert_dl_accounting_held();
+ 		if (p->dl.dl_departed_cpu >= 0)
+ 			dl_task_release_bw(p, -1);
+ 		p->dl.dl_bw_gen = dl_bw_gen;
+@@ -4208,12 +4295,18 @@ int sched_dl_overflow(struct task_struct *p, int policy,
+ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+ {
+ 	struct sched_dl_entity *dl_se = &p->dl;
++	bool held;
+ 
++	held = dl_se_holds_bw(dl_se);
+ 	dl_se->dl_runtime = attr->sched_runtime;
+ 	dl_se->dl_deadline = attr->sched_deadline;
+ 	dl_se->dl_period = attr->sched_period ?: dl_se->dl_deadline;
+ 	dl_se->flags = attr->sched_flags & SCHED_DL_FLAGS;
+ 	dl_se->dl_bw = to_ratio(dl_se->dl_period, dl_se->dl_runtime);
++	if (dl_se_holds_bw(dl_se) && !held)
++		atomic_inc(&dl_nr_bw_tasks);
++	else if (!dl_se_holds_bw(dl_se) && held)
++		atomic_dec(&dl_nr_bw_tasks);
+ 	dl_se->dl_density = to_ratio(dl_se->dl_deadline, dl_se->dl_runtime);
+ }
+ 
+@@ -4303,6 +4396,9 @@ bool __checkparam_dl(const struct sched_attr *attr)
+  */
+ static void __dl_clear_params(struct sched_dl_entity *dl_se)
+ {
++	if (dl_se_holds_bw(dl_se))
++		WARN_ON_ONCE(atomic_dec_return(&dl_nr_bw_tasks) < 0);
++
+ 	dl_se->dl_runtime		= 0;
+ 	dl_se->dl_deadline		= 0;
+ 	dl_se->dl_period		= 0;
+@@ -4333,6 +4429,12 @@ void init_dl_entity(struct sched_dl_entity *dl_se)
+ 	RB_CLEAR_NODE(&dl_se->rb_node);
+ 	init_dl_task_timer(dl_se);
+ 	init_dl_inactive_task_timer(dl_se);
++	/*
++	 * A new task has a copy of the entity of its parent. That copy
++	 * holds no bandwidth, and dl_nr_bw_tasks does not count it. Clear
++	 * dl_bw first, so that __dl_clear_params() leaves the count alone.
++	 */
++	dl_se->dl_bw = 0;
+ 	__dl_clear_params(dl_se);
+ 	INIT_LIST_HEAD(&dl_se->dl_departed_node);
+ 	dl_se->dl_departed_cpu = -1;
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 5983232476a9..96a5f0a7adbc 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -568,6 +568,7 @@ int __sched_setscheduler(struct task_struct *p,
+ 	if (pi && (dl_policy(policy) || dl_policy(p->policy))) {
+ 		cpuset_locked = true;
+ 		cpuset_lock();
++		dl_accounting_lock();
+ 	}
+ 
+ 	/*
+@@ -596,9 +597,7 @@ int __sched_setscheduler(struct task_struct *p,
+ 	 * Reject SCHED_DEADLINE on exited tasks. A zombie will never be
+ 	 * scheduled again, so sched_dl_overflow() would charge total_bw
+ 	 * that nothing will ever release. And reject a change of policy of
+-	 * one in the class: cgroup_task_dead() took it off the count of
+-	 * deadline tasks of its cpuset, which switched_from_dl() would
+-	 * decrement a second time.
++	 * one in the class: its bandwidth went at its last schedule.
+ 	 */
+ 	if ((dl_policy(policy) || dl_task(p)) && p->exit_state) {
+ 		retval = -ESRCH;
+@@ -669,6 +668,7 @@ int __sched_setscheduler(struct task_struct *p,
+ 		policy = oldpolicy = -1;
+ 		task_rq_unlock(rq, p, &rf);
+ 		if (cpuset_locked) {
++			dl_accounting_unlock();
+ 			cpuset_unlock();
+ 			cpuset_locked = false;
+ 		}
+@@ -779,8 +779,10 @@ int __sched_setscheduler(struct task_struct *p,
+ 	task_rq_unlock(rq, p, &rf);
+ 
+ 	if (pi) {
+-		if (cpuset_locked)
++		if (cpuset_locked) {
++			dl_accounting_unlock();
+ 			cpuset_unlock();
++		}
+ 		rt_mutex_adjust_pi(p);
+ 	}
+ 
+@@ -792,8 +794,10 @@ int __sched_setscheduler(struct task_struct *p,
+ 
+ unlock:
+ 	task_rq_unlock(rq, p, &rf);
+-	if (cpuset_locked)
++	if (cpuset_locked) {
++		dl_accounting_unlock();
+ 		cpuset_unlock();
++	}
+ 	return retval;
+ }
+ 
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 9d3a1b8dd393..35e56a45c238 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -3528,7 +3528,15 @@ static void partition_sched_domains_locked(int ndoms_new, cpumask_var_t doms_new
+ void partition_sched_domains(int ndoms_new, cpumask_var_t doms_new[],
+ 			     struct sched_domain_attr *dattr_new)
+ {
++	/*
++	 * The root domains attached here count no task's bandwidth until
++	 * dl_rebuild_rd_accounting() at the end. No admission of bandwidth may
++	 * run meanwhile. With cpusets, the callers hold cpuset_mutex, which
++	 * keeps admissions out. Without cpusets, dl_accounting_lock() does it.
++	 */
++	dl_accounting_lock();
+ 	sched_domains_mutex_lock();
+ 	partition_sched_domains_locked(ndoms_new, doms_new, dattr_new);
+ 	sched_domains_mutex_unlock();
++	dl_accounting_unlock();
+ }
 -- 
 2.47.3
 
