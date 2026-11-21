@@ -1,96 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.136
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795253899;
-	b=vApKOm4HrhgOAdzp5ypcjullXoVyKXrGrkHUjzHyyljn4W7QESbkVn2If+rD+DcjXag5
-	 aCqJfgzo5p7tgUxfzG5wIovKTzCE0xJQh6M+pDAatDnIJ77CPHI1XjVR05zrartz3zgg+
-	 mVC6MnECUZAzZ4JVRRpeSAbiQ8GCCCH1QmlJAQ+g/SppBb1a25z+BhxXy6D6At8a4aDyD
-	 ZelqP3ZNintPjJ4798uJpH9ZFrhpsTGXEfkf/2Ne4qKSUTuo9WcQNAvjibb75yU/Ku5q8
-	 PUEkcl8Wj9LgnGuk/P71Lt1wo7xtruOfWfwzVJaApzBMtC76pTh9tV32YOB91m/CJiQ==
+	t=1795256812;
+	b=ND6sUs2GIOyXyNnPQdPwpOMEPf8hbNSUk37PM/KEQXf2AS9I7+Cc0ilJ2JJR6vQfuLjg
+	 AEOplx0hHVYGKycyOhRyyQmim/o+SzygpMl9B4xJVcaeobGGZOjozv0I81C0j4R5Q4HYr
+	 8N7FsZmY2Pegh9n3Iyy7epGY/pf2AwOVClfen35Z4IVDO+xUXK8OHfFZ/szWzbwto5fSp
+	 5MqMK+sReiCyeyxdMa/TXkkYBIEKjrd1+UCxVOq/KmpHy7FQUxj4M49SxDnmYxZ+f0W5+
+	 Uo8c8ZDUhfyy6M+MrQAqbtMBcmu60ZjAJ2EjAw+gYEN+QFwICGosoHtmdErq7jTv1Qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795253899;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=owmJEqX91uhoT5D2QMak8ejphZ4BbnGR8Yefzo8bEBA=;
-	b=hdK/ycYmHdI8iuoGSCRutS0UtmK0OTB+aQiOHF0rkiWjkTq5WKPWoRtN476wtKHbve1E
-	 TypgnH/5VY2dIKIMKqudOUSJgHlNf4TMUYbJ8IiH1j12oLpXf6YPbYrPOVNejlEnF8WRO
-	 PBwwtr2VcilDs0Crh31n8tCuwaPMIvtmGHDFvbaJ0wRwZ024HR9dOJRTuUa9NWh0ax1Lz
-	 CdMVTiuXV0G2EfM1nSEnwiU7gZcn+AZR+HG6DKAs4V/qz7mSgD6Hd4Y0SpyDyUL/fHbHf
-	 TZQz4EG5MSBzZg89BNGZVDwSRjchWaMgClfsB93ksAU6iVtc5OAzXcj56Nu5HpUPBLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795256812;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Autocrypt:User-Agent:MIME-Version:X-Mimecast-Spam-Score:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
+	b=bwJzz7UeUrBCFdix99juyQvHPqTaKSADwbtWhwi5SYavupfQTpiNRU+TKZkG2e/fgDff
+	 CUkmrR2VSBp1SqJn0DMOx6MWqUkFQfo+7EEmSUM1olc8gBgPckxCq9nX0XwnglFfsZ5b4
+	 BCQEF/unXzMqM+xEZ6TMcrAES7PvCy9hEVI23FFSGlYN5tTAl2GcHvO6y9zoRsNfIMAZR
+	 cpj2bPOJO7qd2J0ejTj18LDsfViTDeKEc/RV26BP0F/iEj6KrSeK06cUBTDsuFGksgA3I
+	 ba/14BhRaLINNS+FamiweDEE7S9CdW9iI8NNY4LypKjL8DuSMjJHi1dpZiDWtYKu+Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="st3yy/Ys";
-	arc=none smtp.remote-ip=74.125.227.136
-Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XeNov71o;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9DF606A325
-	for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 09:38:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E9DF606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948E5606A335
+	for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 10:26:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 948E5606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=st3yy/Ys
-Received: by mail-pj2-f8.google.com with SMTP id 98e67ed59e1d1-3b40283c001so385489a91.0
-        for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 01:38:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795253899; x=1795858699; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=owmJEqX91uhoT5D2QMak8ejphZ4BbnGR8Yefzo8bEBA=;
-        b=st3yy/Ysmo/Aggb9L2sm2NE7ZQUVMEAAwhMU1BywKpX5Rg3FDnDc386MKOPnT6B4kJ
-         Bls6X3BO3ZuWjup6h87VDrAlW3KHVp/qFZwllFQpgKgG2cFEcUB+7biXvDLddnW5De1E
-         0KEuGqV5P1e+CQy5uG+1Xh23OniPRNz9/YYMGDXhylf7VF6wKfQKW2sYPZHqTf3bC3iE
-         joSkR120isgc2Rbk0GfhG6/VjJ1INuMXzQczje3/U6jls96WJnpc/v4FA1C7zXU53YGd
-         5oQCv3vL15Z+Gz4kTsQ0TxPZ6J2tKbAFgUvkUb+R1teRD75wO8PSaOY17JNlyh7l1faf
-         wWBg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XeNov71o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795256810;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
+	b=XeNov71o6EOWp0iX+Li3Rm855GqLMGD8GgpbXXzzp2K5siBqDPtXuaxRmK0MRW5IYj49rd
+	jUmil9HGscPzcQCSnloxpVoWRqEtTV+aaHwxhri6d2dg98DGg0oKdqbTXJWokH2PC0pENk
+	LKawPFmFAue4FNeeFWT+4Lsfhy7x4B8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-p_anipY1Mk-c9c-mJ3Vm8g-1; Sat, 21 Nov 2026 10:26:48 +0000
+X-MC-Unique: p_anipY1Mk-c9c-mJ3Vm8g-1
+X-Mimecast-MFC-AGG-ID: p_anipY1Mk-c9c-mJ3Vm8g_1795256808
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a1f03f2e8aso14185795e9.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 02:26:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795253899; x=1795858699;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=owmJEqX91uhoT5D2QMak8ejphZ4BbnGR8Yefzo8bEBA=;
-        b=UMiGE1EBAOAO33f48WUx+rXuQSO01z1cJB7c6rTZZdJbUBoxn4zm7iFTj2ux4aNWlb
-         4zYmXKJDAV8QNRoxaHUP+9vZfntndpxhSQ5sRClM2u9JXZDaL394qsE/ecAHciYtNIfH
-         scuGm1rUP28S4A3MbdykaA8BQ9ShLmHtFmD9CBdnTYJ1TXZLQqo5ts3q13gZlCDgQ9bG
-         RMYO9FRZxuQsPVlHXC8+/P0NJpAudHMOdSUCbWVRnnf1l45rlFpTyzpKL+eLxKl8+/Vw
-         qDUr25NCgaQeC1edmCVJ4fEB7ZekOvzTHtoOnVjq5jzqyYEH2bG0xYGTLQglWFnUM4x5
-         cJHw==
-X-Gm-Message-State: APuU4Z/vkEbKhcWa9rJ6c/OYiA1T2swDOI4VPOqCK5XyO2DvwyuTrGAl
-	TVwtQ+CG26kzcebXYAZhaIQCkbf+mogKFNKnj3657orAXEAhac7Bzvjb
-X-Gm-Gg: AZFdTZfATkKBJ5lsXrGnhR4jenDfG465QXZyPtVdtukxjys3ozqbO+ys8s87j5O0XFk
-	3/44kfli+soyMamcwxK9dBY0O2HT78oVKowwjNMKCwosgCU4vsme1KfdNRBoYnoti79Kct4NMan
-	xDrD30hXyR+trUL95bNwpqu+M/SrFn0hqwI1KjcIA15/NakONVQ4KjYQI2CzxhU1aR5aJ4eSqhP
-	o7yNQr8kBP9Qo8HLOipz5kyswjPUNmNL+CqE/yRi1guLLckkzvaNnCJrFQgIS2XUBIhbxQpjbIk
-	jRBlcOYRlssF/sZV3FC5pCib41CF12n82LfSwSfDSX/A5y948HU26QPqU9zzAUfS728EiNu2jtK
-	cPFMFat5TbsdoiesIoLzp1mRx8TXTQ9J+wbEH8Adk/DjhjS7DvWsyKHiULTMrHtvksw3IUEMEm8
-	+lNadYxFwIXxUyyRxdzjD/FVzN3hsZ5Fj6t2CcuQmhYVAamhdcojlkqyC3qTbT1kCH1khT9b3lo
-	AAzxm73ZpF3HvygX7swVvRysedovOiV9MJkoYAmeqThLp59ZUzol5CjyHvyJWFoarutN+rCd/J2
-	ratbElO3suB6ppMfdolmfcdYlw==
-X-Received: by 2002:a17:90b:2e8c:b0:3b3:b36e:8c40 with SMTP id 98e67ed59e1d1-3b41c97872bmr5640628a91.62.1795253898635;
-        Sat, 21 Nov 2026 01:38:18 -0800 (PST)
-Received: from nixos ([2409:8a28:ae4:7f20:1906:8e4e:fd1e:3daf])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b8733e6sm1366552a91.3.2026.11.21.01.38.10
+        d=1e100.net; s=20260707; t=1795256807; x=1795861607;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
+        b=WITC7P25NUB+UzyeYgcZe9lAnHLG6ipDHyGrMF86zu/MwdpvjwzvDqFfzvsY9v9GNP
+         zeRv/rgcw45vRgy6rJhJH+zauyS2WZFtAywRa1ejKVXQNJAIXnaHdWyv8e6KTW86uIzp
+         X5/jsCdyIN4RP66ZtD8xc9dZxzutYmuy4JqYm9LTIODRtm+uDQa2l9hTa4fadREPdv5A
+         Vpe+PRvfVLXwk6ohY2qnQoNbydjQPxNo0Wni23CN49uO93qAv1/bPrSYBtqS371VWooO
+         KVHFNEhnah838xbmm/RYeZ1i/KrCB+WIuRTTgHGEZQ9K5QyU8Q6NFwOFpMRkzqjJMq/F
+         Go0A==
+X-Forwarded-Encrypted: i=1; AL+hErE7MmIaH/eu7gxZ4WeIi7FPTIOjKTKcptAbpFTm26yJvKSvt0BjyYfyfgHlt16XB6RS82Fm4AbUe8v9ksusLw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+JCL1+8uTt2wkUKSUVDDkstEPbghsxFS0Nq6rL8ejwu4z4mH1p
+	PJAgJ2kpA0Z/4OBTKdMdEnV4HO0RyAGYDfX5ukEJkeWurCYE3XlmzZ5tmQZ5ZDhX30aQefbsSGE
+	awHqAmhUiJJSJI7bwk1UKxW5tGcXkEDP1eAUlINwn7xHJdIIith6sessok/D6LlknUApC
+X-Gm-Gg: AZFdTZfnui1R62Q826YMXsvuLlaI5sJi5C8W7wdB67gFN1iStAUGs2uG/Yqpe0URj0D
+	9aXqRz/RiMCyssM5UzbX/bfTipV0klOAY4CR7jbAh8LKoLi3tDSqKZn/PRC1GapYuTcB+NfyxdR
+	kncjW7sH/uVDJTRICEXBr/7Smo3aLQsJwo2M5Mnyu14DIirwstGCqg6mcx3pWIDyCk5FlmUF73X
+	ynaeeVmcZRSsmbyjBjiTKp8/oyGEfaXHEIG/yEsG86Zp2td4tyMPhg0+tMcxGfL+XqyKb9PH/C/
+	J1N4/nMzqsue+sfdTZFgWGgD0U7bG7kkXhz/pqbZALXrjlgNOEy14bMKh6zoMYah+/nHB6Rkex/
+	TwhDUHALHBPXFQ/VrzduS9YzN32xzcVaTrHrczQIbULIbLPuJehNBwxS08dfItmWceGLF4BHlDH
+	v7
+X-Received: by 2002:a05:600c:5306:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4bb887c9af4mr131050115e9.4.1795256807677;
+        Sat, 21 Nov 2026 02:26:47 -0800 (PST)
+X-Received: by 2002:a05:600c:5306:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4bb887c9af4mr131049895e9.4.1795256807347;
+        Sat, 21 Nov 2026 02:26:47 -0800 (PST)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9065744esm39169705e9.1.2026.11.21.02.26.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 01:38:18 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: linux-rt-devel@lists.linux.dev,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	corbet@lwn.net,
-	frederic@kernel.org,
-	wagi@monom.org,
-	atomlin@atomlin.com,
-	linux-kernel@vger.kernel.org,
-	Zixin Wang <w1355457260@gmail.com>
-Subject: [PATCH v4] Documentation: real-time: Add boot parameters and task isolation section
-Date: Sat, 21 Nov 2026 17:37:40 +0800
-Message-ID: <20261121093740.4133-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Sat, 21 Nov 2026 02:26:46 -0800 (PST)
+Message-ID: <661a3aad86b215989dfc916fa9f568c66e18a466.camel@redhat.com>
+Subject: Re: [RFC PATCH v2 1/9] tracing/irq: Add generic IRQ context
+ boundary tracepoints
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
+	 <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers	
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Ingo Molnar	 <mingo@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Andy Lutomirski	 <luto@kernel.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
+ <vschneid@redhat.com>,  K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Randy
+ Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>,
+ linux-trace-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Sat, 21 Nov 2026 11:26:44 +0100
+In-Reply-To: <20261107171252.25090-2-kmehltretter@gmail.com>
+References: <20261107171252.25090-1-kmehltretter@gmail.com>
+	 <20261107171252.25090-2-kmehltretter@gmail.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.62.1 (3.62.1-1.fc45)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -100,226 +129,167 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Kh-GQn_NjxtfIzhAILrM8nGXP8Fr6VufkBauSIuxCWo_1795256808
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Document the boot parameters and runtime tunables that affect the
-worst-case latency of a real-time system, alongside the existing
-kernel configuration guidance.
+On Sat, 2026-11-07 at 18:12 +0100, Karl Mehltretter wrote:
+...
+> =C2=A0void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+> =C2=A0{
+> +=09unsigned long trace_flags =3D 0;
+> =C2=A0=09unsigned long flags;
+> +=09bool trace_serving;
+> =C2=A0=09int newcnt;
+> =C2=A0
+> =C2=A0=09WARN_ON_ONCE(in_hardirq());
+> @@ -200,6 +202,16 @@ void __local_bh_disable_ip(unsigned long ip, unsigne=
+d int
+> cnt)
+> =C2=A0=09=09}
+> =C2=A0=09}
+> =C2=A0
+> +=09/*
+> +=09 * A serving interval starts here, before handle_softirqs(). When its
+> +=09 * entry is traced, keep IRQs and task switches from observing the
+> bit
+> +=09 * before the event. Any blocking BH lock was acquired above.
+> +=09 */
+> +=09trace_serving =3D (cnt & SOFTIRQ_OFFSET) &&
+> +=09=09=09trace_softirq_context_entry_tp_enabled();
+> +=09if (trace_serving)
+> +=09=09local_irq_save(trace_flags);
+> +
+> =C2=A0=09/*
+> =C2=A0=09 * Track the per CPU softirq disabled state. On RT this is per C=
+PU
+> =C2=A0=09 * state to allow preemption of bottom half disabled sections.
+> @@ -233,15 +245,27 @@ void __local_bh_disable_ip(unsigned long ip, unsign=
+ed
+> int cnt)
+> =C2=A0=09=09=09raw_local_irq_restore(flags);
+> =C2=A0=09=09}
+> =C2=A0=09}
+> +
+> +=09if (trace_serving) {
+> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
+> false);
 
-Cover CPU isolation, nohz_full, RCU callback offloading, interrupt
-affinity, and C-state limits, with references to the relevant
-documentation.  Keep the C-state parameters next to CONFIG_CPU_IDLE
-and the tickless trade-off next to CONFIG_NO_HZ, so each option stays
-with its configuration guidance.
+Probably someone more experienced with this code can comment whether the
+tracepoints and other things you do make sense, you're going to need an
+ack from these folks anyway.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
-Link: https://github.com/elisa-tech/wg-aerospace/issues/222
-Signed-off-by: Zixin Wang <w1355457260@gmail.com>
----
-Thanks Sebastian for the review.
+From the tracing point of view. You're doing good avoiding any extra
+action if trace_##_enabled() is false. Since you are already checking
+for it, you may simplify the call to the tracepoint, essentially
 
-v3 -> v4:
-  - Fold the C-state parameters into the CONFIG_CPU_IDLE section,
-    which already documents processor.max_cstate=1 and cpupower, and
-    drop the separate "Idle state limits" subsection.
-  - Point CONFIG_NO_HZ/CONFIG_NO_HZ_FULL at nohz_full= and avoid
-    repeating the tickless-transition explanation in the isolation
-    section.
-  - Add a CONFIG_RCU_NOCB_CPU section for rcu_nocbs= and rcu_nocb_poll,
-    and reference it from the isolation section.
-  - Remove repeated statements within the isolation section: the
-    domain side effect, the duplicate isolcpus=nohz/nohz_full=
-    description, and the nohz_full/rcu_nocbs cross-statement.
-  - Keep the boot parameter section focused on the cross-cutting
-    isolation parameters and their interactions.
+ trace_##_tp() <=3D> if (trace_##_enabled()) trace_call__##_tp()
 
-Testing:
-  make SPHINXDIRS="core-api" htmldocs and checkpatch.pl pass.
+As you see, you're basically checking for the static key twice. Not a
+big deal but you can use the new API and skip it:
 
-  Host boot test (AMD Ryzen 5 5600H, acpi_idle): with
-  processor.max_cstate=1, /sys/module/processor/parameters/max_cstate
-  is 1 and cpupower idle-info reports only POLL/C1; without the
-  parameter the host reports POLL/C1/C2/C3.  intel_idle.max_cstate was
-  not tested because the host uses acpi_idle.
+  s/trace_softirq_context_entry_tp/trace_call__sched_set_state_tp/
 
-  Host latency comparison (cyclictest, CPU 2 isolated, performance
-  governor): the idle-phase average latency was 15 us with
-  processor.max_cstate=1, 32 us with processor.max_cstate=2, and
-  248 us without a limit; the corresponding maxima were 879 us,
-  2407 us, and 3336 us.  The tight-phase maxima were dominated by a
-  device IRQ (about 3.2 ms), so the idle phase is the relevant
-  comparison.  C2 and C3 usage was confirmed by the cpuidle usage
-  counters.
+Obviously you do the trace_call__##_tp() function ONLY if you're already
+checking the static key.
 
-  QEMU test: the default ACPI tables have no _CST; with a small _CST
-  SSDT loaded via -acpitable, the guest registers POLL/C1/C2/C3, and
-  processor.max_cstate=1 limits them to POLL/C1.  This verifies the
-  parameter behavior; the QEMU setup does not measure real host
-  C-state latency.
+> +=09=09local_irq_restore(trace_flags);
+> +=09}
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(__local_bh_disable_ip);
+> =C2=A0
+> =C2=A0static void __local_bh_enable(unsigned int cnt, bool unlock)
+> =C2=A0{
+> +=09bool entering =3D (cnt & SOFTIRQ_OFFSET) && !in_serving_softirq();
+> +=09bool trace_exiting =3D (cnt & SOFTIRQ_OFFSET) && !entering &&
+> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 trace_softirq_context_exit_tp_enabled(=
+);
+> =C2=A0=09unsigned long flags;
+> =C2=A0=09bool sirq_en =3D false;
+> =C2=A0=09int newcnt;
+> =C2=A0
+> +=09/* Callers already disabled IRQs around the counter and its events.
+> */
+> +=09if (trace_exiting)
+> +=09=09trace_softirq_context_exit_tp(!!in_serving_softirq(), false);
 
- .../real-time/kernel-configuration.rst        | 128 ++++++++++++++++++
- 1 file changed, 128 insertions(+)
+Here as well, you're checking so you can simply trace_call()
 
-diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
-index d7f08e7b..315960cf 100644
---- a/Documentation/core-api/real-time/kernel-configuration.rst
-+++ b/Documentation/core-api/real-time/kernel-configuration.rst
-@@ -98,6 +98,11 @@ can be achieved by using the boot parameter [1]_::
- 
-   processor.max_cstate=1
- 
-+On x86 systems using ``intel_idle``, the ``intel_idle.max_cstate=`` boot
-+parameter sets the maximum C-state depth (1-9).  A value of 0 disables
-+``intel_idle`` and falls back to ``acpi_idle``; it does not disable
-+C-states.
-+
- Higher C-states can be acceptable depending on the user workload's latency
- requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
- command to inspect the available idle states.
-@@ -179,6 +184,9 @@ the extra accounting and state book-keeping.
-   ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload the
-   kernel housekeeping to dedicated CPUs and isolate compute cores.
- 
-+``nohz_full=`` enables tickless operation for a set of CPUs; see
-+:ref:`real_time_boot_parameters` for its interaction with ``isolcpus=``.
-+
- See also Documentation/timers/no_hz.rst
- 
- ``CONFIG_PREEMPT_RT``
-@@ -190,6 +198,36 @@ See also Documentation/timers/no_hz.rst
- This option must be enabled, or the resulting kernel will not be fully
- preemptible and real-time capable.
- 
-+``CONFIG_RCU_NOCB_CPU``
-+-------------------------
-+
-+:Expectation: allowed
-+:Severity: *info*
-+
-+Enable support for offloading RCU callback invocation from selected CPUs
-+to per-CPU ``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``
-+or implied by ``nohz_full=``; enabling this option alone does not change
-+callback placement.  Use it when RCU callback processing causes jitter on
-+CPUs dedicated to latency-sensitive tasks.  See
-+Documentation/admin-guide/cpu-isolation.rst.
-+
-+``rcu_nocbs[=cpu-list]``
-+  Offload RCU callback invocation from the listed CPUs to the
-+  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
-+  This keeps callbacks from being invoked on the CPU that enqueued them.
-+  On a non-real-time kernel this also moves invocation out of softirq
-+  context; with PREEMPT_RT, callbacks already run in kthread context
-+  because ``rcutree.use_softirq`` is false, and the offload only changes
-+  the CPU they run on.  If omitted, no CPU is offloaded at boot; the mode
-+  can still be toggled at runtime through cpusets.
-+
-+``rcu_nocb_poll``
-+  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
-+  offloaded CPUs to wake them.  This improves the real-time response at
-+  the cost of higher power consumption, because the kthreads wake up
-+  periodically to do the polling.  Consider this option only when wakeup
-+  latency matters more than power.
-+
- ``CONFIG_TRACING`` (and tracing options)
- ----------------------------------------
- 
-@@ -216,6 +254,96 @@ just by being enabled.
- These tracers do incur measurable latency overhead even when tracing is not
- currently active.
- 
-+.. _real_time_boot_parameters:
-+
-+Boot parameters and task isolation
-+==================================
-+
-+Kernel configuration options alone do not determine a real-time system's
-+worst-case latency.  Integrators commonly rely on boot parameters and
-+runtime tunables as well, to keep kernel housekeeping work away from
-+latency-sensitive tasks.  The parameters below complement the options
-+described above.  Some of them correspond to a configuration option and
-+are referenced from that option's section, so the configuration and
-+runtime guidance stay together.  Each one is documented in detail in
-+Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
-+the aspects that matter for real-time latency.  Consider these options
-+only when the workload suffers from the corresponding interference;
-+leave them disabled otherwise, as each of them trades flexibility or
-+power for a lower worst-case latency.  The notes below follow the
-+decisions an integrator has to make: whether to keep tasks off a CPU,
-+whether to stop its tick, and where interrupts should run.  Idle state
-+limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
-+offloading with ``CONFIG_RCU_NOCB_CPU`` above.
-+For the full CPU isolation model and its limitations, see
-+Documentation/admin-guide/cpu-isolation.rst.
-+
-+.. caution::
-+
-+  CPU isolation is best effort.  Work that is explicitly bound to an
-+  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
-+  interrupts, may still run there unless it is steered away.  Measure
-+  the resulting latency with tools such as ``osnoise``, ``timerlat``,
-+  and ``rtla`` rather than assuming that an isolated CPU is free of
-+  kernel noise.  See Documentation/timers/no_hz.rst and
-+  Documentation/tools/rtla/index.rst.
-+
-+CPU isolation
-+-------------
-+
-+``isolcpus=``
-+  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
-+  disturbances selected by the flag list (default: ``domain``):
-+
-+  ``domain``
-+    Remove the CPUs from the scheduler domains.  This is the default
-+    when no flag is given.  Domain isolation cannot be undone at
-+    runtime; use cpusets when the isolated CPU set must change
-+    dynamically.  Isolated CPUs remain usable through CPU affinity or
-+    cpusets.  Unbound workqueues and unbound kernel threads are
-+    confined to the housekeeping CPUs as a side effect.  Consider it
-+    for CPUs dedicated to a latency-sensitive workload.
-+
-+  ``nohz``
-+    Equivalent to ``nohz_full=``; see below.
-+
-+  A practical configuration therefore combines ``isolcpus=`` with
-+  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
-+  x86 systems, a C-state limit.
-+
-+  Timer placement follows the same choice.  By default a migratable
-+  timer expires on the CPU that armed it; with ``nohz`` (or
-+  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
-+  migrated to housekeeping CPUs.
-+
-+``nohz_full=``
-+  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
-+  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
-+  forced outside the range to maintain timekeeping, and the RCU
-+  callbacks of the listed CPUs are offloaded as if they had been
-+  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
-+  above.  This parameter takes precedence over
-+  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
-+
-+  The residual 1 Hz tick is offloaded to workqueues; the global
-+  workqueue ``cpumask`` (/sys/devices/virtual/workqueue/cpumask) can
-+  further restrict where unbound work runs.
-+
-+  The trade-off between tickless operation and the kernel-to-userspace
-+  transition latency is described in the ``CONFIG_NO_HZ`` /
-+  ``CONFIG_NO_HZ_FULL`` section above.
-+
-+Interrupt affinity
-+------------------
-+
-+``irqaffinity=``
-+  Format: ``<cpu-list>``.  Sets the default affinity mask for
-+  interrupts that do not have an explicit affinity, steering them to
-+  the housekeeping CPUs.  Managed interrupts are not affected by this
-+  setting and cannot be redirected through ``/proc/irq/*``.  Verify
-+  the resulting placement in ``/proc/interrupts``.  See
-+  Documentation/core-api/irq/managed_irq.rst.
-+
- Kernel Debug Options
- ====================
- 
--- 
-2.54.0
+> +
+> =C2=A0=09if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
+> =C2=A0=09=09DEBUG_LOCKS_WARN_ON(current->softirq_disable_cnt !=3D
+> =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0 this_cpu_read(softirq_ctrl.cnt));
+> @@ -276,6 +300,18 @@ static void __local_bh_enable(unsigned int cnt, bool
+> unlock)
+> =C2=A0=09=09=09WARN_ON_ONCE(current->softirq_disable_cnt < 0);
+> =C2=A0=09=09}
+> =C2=A0=09}
+> +
+> +=09/*
+> +=09 * An exit probe can raise a softirq while serving state still
+> suppresses
+> +=09 * the normal ksoftirqd wakeup. Hand it off once no outer BH-disable
+> +=09 * reference remains.
+> +=09 */
+> +=09if (trace_exiting && sirq_en && unlikely(local_softirq_pending()))
+> +=09=09wakeup_softirqd();
+> +
+> +=09/* local_bh_enable() can turn BH-disabled state into serving state.
+> */
+> +=09if (entering)
+> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
+> false);
+
+Here for example, entering doesn't check the static key so you must keep
+the tracing as is.
+
+> =C2=A0}
+> =C2=A0
+> =C2=A0void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+> @@ -640,11 +676,15 @@ static void handle_softirqs(bool ksirqd)
+> =C2=A0=09 */
+> =C2=A0=09current->flags &=3D ~PF_MEMALLOC;
+> =C2=A0
+> -=09pending =3D local_softirq_pending();
+> -
+> =C2=A0=09from_irq_exit =3D softirq_handle_begin();
+> =C2=A0=09in_hardirq =3D lockdep_softirq_start();
+> =C2=A0=09account_softirq_enter(current);
+> +=09if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
+> +=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from_irq_exit);
+> +
+> +=09/* Include work raised by the context-entry event. */
+> +=09pending =3D local_softirq_pending();
+> =C2=A0
+> =C2=A0restart:
+> =C2=A0=09/* Reset the pending bitmask before enabling irqs */
+> @@ -692,6 +732,14 @@ static void handle_softirqs(bool ksirqd)
+> =C2=A0=09=09wakeup_softirqd();
+> =C2=A0=09}
+> =C2=A0
+> +=09if (!IS_ENABLED(CONFIG_PREEMPT_RT) &&
+> +=09=C2=A0=C2=A0=C2=A0 trace_softirq_context_exit_tp_enabled()) {
+> +=09=09trace_softirq_context_exit_tp(!!in_serving_softirq(),
+> +=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from_irq_exit);
+> +=09=09/* The final pending-work decision above has already
+> completed. */
+> +=09=09if (unlikely(local_softirq_pending()))
+> +=09=09=09wakeup_softirqd();
+> +=09}
+> =C2=A0=09account_softirq_exit(current);
+> =C2=A0=09lockdep_softirq_end(in_hardirq);
+> =C2=A0=09softirq_handle_end(from_irq_exit);
+> @@ -722,6 +770,7 @@ void irq_enter_rcu(void)
+> =C2=A0=09=09tick_irq_enter();
+> =C2=A0
+> =C2=A0=09account_hardirq_enter(current);
+> +=09trace_hardirq_context_entry_tp(hardirq_count() >> HARDIRQ_SHIFT);
+
+Here again, no check, so keep it as is.
+
+Thanks,
+Gabriele
 
