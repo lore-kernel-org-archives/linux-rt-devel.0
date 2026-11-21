@@ -1,124 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795235731;
-	b=t6VayA81ey7xjCvF0a6xkrG8gFyh7WVpZZnIpfsgQ2sNUYDj49xOb/G9ZhZ6wSldO3FS
-	 9NE/6czRUNIncl4ISl1qfxpS+C7mzZWutZDB3Su6z/BnZ5FQ7GxCIOvXX1hZEaJAwBikX
-	 CdsmCy52TANiNz4VuOTb0yc+ImHXo1XHanwXZrFg0OM1zAs+Z3zROnwvNSNZBbYFZM5lW
-	 ZuWsV2IBhNeEV5LaxfEm5ECHhjUi0Ne63zb2i7kNKonHgdE9gmNJy4Z5bQzAwQjgT3TY7
-	 ybJG6bY9o1uLqaSnW43fuUaPkL5GgLhQ1IHhawlent+sr5jeUXbbmvNvKgWcWZj5N5w==
+	t=1795249734;
+	b=zlyMca7SSTcvclAa7S8KvT63IuRDmcXJUn4vXskv4rP3DOaVbRHcn+6E3rosoJ+hwPXV
+	 PDzgwyAj8p6V+BEaon8BMcC/UW+HmYPUXTSBpqLNxWDXxBeF+g7TIpMya72F/4JG/AnTt
+	 7hkiT0ypCMc3zvHzn//zYZn4999P/vDwGyDKtXrjwDg9Yc+dh+4RcmlD+qFrxcrWXzp6j
+	 QPiUBo59l4pzVaNPf8N1lPs2VN9qyEnQVEipPfmsOgxJk6EnvCWKAzR8vxvlEaGSW94P+
+	 9m50fwj39No2yfG3zWcotSY34SKpxbDbYLZfxTJtdAoJpaQ9z+khepd845vKpBHN8Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795235731;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795249734;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=9R6zaVIvtgH5jzl+qiEpRbTjV5svwtDU6V7VCAEyGSE=;
-	b=mV54jPneI8Jdc4ZPyGOq7HVoGFWqnCjnPyr8vftcq9BmlqZlsk79fkIaCwU7oCT2cqKz
-	 zACaSV4zXcya1s+5xK9yW20tTkFhywrvxFVFbfikBX8M0/Z7Tr4gKeDy/UKdLpHg4Gmwp
-	 lxe47kL6f7fbefuYjBvBGcIb3DWPtMMegtcjHP492PNOoSLgEnfT9xMued7VyJK3vOpMM
-	 ivfoURwR1aeDHCrCb00CG9dA25Bxd9GB+nKy6qmDKKnE+5jlq4aOipsrTRUbsJ477P1i3
-	 kAEOlRZnKODTL/zb4YVmI32sF6ZufRMUmitsjhV9CYPIH/W1rIqrWVDBHbR8WNgI0cw==
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vA0VgrN/AJbvlL7DFILZtRf61HlqOG1LXfr01uh4umc=;
+	b=VCC3SXMqSH+ZXFV6U6Zzt2MXr6ZYRz3A5WFIAjfnrMrobPp/l794a8EAejmQ7BGBTcfS
+	 12bxmlVQGXjooWgmw14XbT9DSmeA4uT5NGByNTKv0KxqM/XNV7SueOEJpQY3bRAnJdezA
+	 llbnYKXPwM8tEalBbR4sg1wvOWVovQf/PxVlG7OVLKLvrEusulmauzPC5Oba3bKf1Q3ms
+	 in/qgjL49hLT+glNjmgCIrQpN3BE0vepXsHfto7m7sq1sJjWjRHVhe10NafOiiPWoE6dE
+	 CJXodo+h/kBnPNImqfOql0CFwqrB0E5uGJKfGLqIW+UxDOQZ97CWmHICup6CD06YevQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CEFwH1UU;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qKbbLBa9;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EF460A2602
-	for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 04:35:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86EF460A2602
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E54606A320
+	for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 08:28:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80E54606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CEFwH1UU
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e47347279so878585f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:35:29 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qKbbLBa9
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4a42b34e930so1416919f8f.2
+        for <linux-rt-devel@lists.linux.dev>; Sat, 21 Nov 2026 00:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795235728; x=1795840528; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9R6zaVIvtgH5jzl+qiEpRbTjV5svwtDU6V7VCAEyGSE=;
-        b=CEFwH1UUIVvVKA+BTrom3mQm0IpezKMBBBqnwP0aQqlnm/OAxb9XefbRqWxd1Ikdj3
-         Z5XOaAEO4SddYPMAL/pwpFgUunZTyVuLLvRtGzrdzhvFSEe8ENC9zWOKrQN+hIP9ks7P
-         b04/QgkZYb2lZ01tvMjt9ALm8slsONylDGt1oBK5/AAzP8rJuTY6layK0pkds3tpO1J8
-         HaP2Cae5JP1hPJYuoG5AlHAOTrO5g6aLknWrXq9miXg0f0B9fLV4+AfEgKWOh4X9IIF0
-         t/Q3P36Z2avXp6EqgsHHU6qyuz15Y3NNdTBc8/vFJJC6Ug5EKwu6R+1b56WG76fINt7D
-         yDqg==
+        d=gmail.com; s=20260707; t=1795249733; x=1795854533; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vA0VgrN/AJbvlL7DFILZtRf61HlqOG1LXfr01uh4umc=;
+        b=qKbbLBa9hyvrpIGg/VvXJsFkF8eItMeTzC1t/aeME/fHoxO8HmSQ+verWFAG2pDAZ7
+         1a2sZI8GIjLo7vCEEiMCwg9+8sku+bgA9WVSaSbF98LYMdkwtSifc2KvqlMOedQ57sz4
+         Z2Loh2ddRZ+y4zFmaWN3GYQXhZ8dm5cTTSUwmQw0veUiA440U+dDCkkBmiznO5VxtYgS
+         5A4dHNJU27rnuPTo+TYlyis35NKe7HytRIkDczi9ns4X0S5h2EyerOskO6/IVV4y0M7g
+         WRD8fIj2sIR0fB6DFctja6OxouE4h4F0wq9Iv5PqFV6P9+FTC8BkBQIVp2DDfOxtxtoH
+         0ptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795235728; x=1795840528;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9R6zaVIvtgH5jzl+qiEpRbTjV5svwtDU6V7VCAEyGSE=;
-        b=cgh87odaWsk4hOeDJg3prNNqiDg0XMKiw7TnLgk7zaAP5gb5G011CHf4zUqhy75vvg
-         J1LNh7xaZqOve9Ad/M0FbCSCR4fqJkZ3QP3+wMekJ5vwqynLypRPBwY185ePqlzLvNDM
-         sWdqxoiOaXUUiIrVty5DDNJPQkVhTl2ur7FSoOdWyworwuiuqYNYxc9mcRK1oqIymAKd
-         apWXWAeinTg7f/YilJyltoxIC1NgcMxozDz1JvRLajVo8W9J4Be4F4vlD6PfMII8ZcEO
-         txuPixM1qKw2v6t2D4TlUGR5tPb3Nb/BNt4xX7n5ygjQuGakdDoyGrRp2LFvRQ/c6tgi
-         xDww==
-X-Forwarded-Encrypted: i=1; AL+hErEKXVXupHf2SAsQfxnDK3cTnMDlHEfYJ2N1QowGMwK+qmPDa6wQL6e9l7OeNPCMDlkOGEPk0SpEwJ1p03rwOg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8vnvmKv0Ix897UeQgeGaL2T4FhQzSkW2Pn8t7MdoejFiUc8wqb
-	/neJkuiJ4UxVQH0I+3Y0dFqnqPU/H7ne899pLeTqty7YOUn5ahpVHWFn
-X-Gm-Gg: AZFdTZcWj2eAEX7PI+5CWdxqDbkDRQ8NhHUumqXUuo6y+0AZLXE/Yf19RnzSVPZCV0v
-	6AJkhG4YiMfTBv/r9HN65qpXl1t70UXo9I2g9KHPcaol+8nrAKYA0B94XIDfuFThZhD819h1xuZ
-	8dkXk8LqidstwiGUOZV7LBMHp4cGjQ0mZQaoOJPHw4gyZ7dnsMqxCc5+c55qIVmJhSICmP3dubQ
-	fDAinh3jWyP4qUViurDto9rJmdu/tDQG9iaA/gmynOcI3yopjHd8hnpBKjQVDxQycC3ObsgQWZg
-	WJjYiSxmq1+A2CyrKVt+KfdGDmIRqt1WogxhpM3CYcA1K0oQq3+k5DprYhkKzVh6sqIhX0TK1XL
-	T4EZ7G1hxziqDaq+0YkeDXkh/0eD5i/01DBiR/iJWmLAPjC7QXaucklwkl7+q54DDQVPlwCnhaW
-	xcuB30D0Y+R9c3WlRRwIjHANcnNPZ1pSAuCfetdVDawDThvpVkKD1BgPfIQpF0eULQxm9InZRcQ
-	ni2Z56MXtxIIvn+FZhcEwSLDGLrod2YnlMk84QvzzqsZIflFu+W9+R3/oe7ZVk0AtpYcVVBxvS5
-	Frfz1yNHlfe+sF6Z2LoqAOiLVdH14M9/3030bb21fbaiK9PAbt8QmMigm9EC2r0GOlQjrWP3PlS
-	auplm1KitR4MDzUwQwP1xBkxtMSte6nzbEVbpDifFkMgjvWUewK4vu52jmTWZwPnR0mCtE49oL7
-	iY36xixnFKNN4tNpb9JNVIg1fMgmjLAoh5
-X-Received: by 2002:a05:600c:820d:b0:4bb:7b4d:6396 with SMTP id 5b1f17b1804b1-4bb887e21c6mr111271405e9.3.1795235727586;
-        Fri, 20 Nov 2026 20:35:27 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795249733; x=1795854533;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vA0VgrN/AJbvlL7DFILZtRf61HlqOG1LXfr01uh4umc=;
+        b=vbj0+qaHZxh7vZ14/Nnp3wmdWyxAqHqccHjTanDVrN+xmwx8nfBNrQfde66ZpAE3+z
+         pcYdnYOjGX6FXzygWKwlNSQuJAk2CNOw/c0k33KcJuU3qOtC9OE0mCJ/UWrrLdFv9PYY
+         Dptb//aGpP9/wEKbjayLUT9KrL2g218gncmT2y6oN+hN414OenTOLEQmYNEQbBDCfqVH
+         qqtBOqwH9CLJOOI7Ith0mvvP1UXJjSz41jSUk+AOT/fdrB1KxkfbMeNmXO9QImdasjSU
+         SJqu6lRBuz+JMSwykgJ5VveFT3q3rvL77/9dB0OqgnnV9g8cvyS8yIbb4+QkUTVvcBCd
+         yhNA==
+X-Forwarded-Encrypted: i=1; AL+hErEbBhCDoY3SKyCmz3jWTIQdfoUeLlfIyAvbNPJKnrkiuN2Ccp5jF9EwHd3tuG2X3aAejEvz2vo1EY5csFTIkw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Sq094ZL0T1bIuRRvj2Krwep/WSA9Dshx7u8znI/c1xWPN6ysm
+	lWad2KB64oEpRZ7Jpeu5RZAQMej5niEKEY1ShtQiQOGSK//n/n0Jc/yP
+X-Gm-Gg: AZFdTZdo4Xi7WHc6G5egXp7fg/+qPQXszIULu5WHqnbo3o0rejq2bccLCMhAg8XJdCb
+	7tGR/D7ZgmW9GvxOMoo8H40xSaykFgUd9KVc7nwzNkYuzRZzN9bEK+TLOU7NM/jM6CGIE/c8NdK
+	i2XJ45a2L/Vh+tFSvGMMlJARa7KnoKfrxm66szcjl/u+vhSlUcvdOGdvV7ihnKK5tuBQ30bGYkK
+	VY/LCCkkZGw7SmgJvwlKMOf43FBZHT2PPoLnp5Rw4iBhjHSSuaiZ4GyodEKc8glvVjsCuk/K7vK
+	7tchiaKnesKwarjQoC896rHDgQwK4YJ26t3TKReUCgrpV7VOWs6ndDqxDhNLUrgZm6A7XsxL5R7
+	nxDBIeLVRYVLCcPOFz+YW0yuC/Merxq1GxP89Sy5sqPtBRUwFfMWwbsHZaxV5jaovLveVLUYkAa
+	SG/qO3WvNYm23GrYGyoUk0AarQIPLbI0Ak3rqdHSK7hdcSUC47RsTpDjaiR8kq+8oDndH92o5lL
+	Ds+M42op0swtQXf3wsjULB67JkAGZHqlHzFZm3RJVjv1eLF3BuqDXvOY1ic/WDR4oHHalBTWW5T
+	CI3FuZT9GG0ZYQsV4VzomU2b+X7MI0BU0u3IRgR/8jgYKUTt2q758M79HfmXvddSd9bhyx6X3XD
+	/O7mD1k+/RhFn1QacCYkSirgVrUiWzANZp7EIVStxMh1Vd3hCUYtkE+uTUPvptlCVa08/WA+gSA
+	B1ILyGGTxXvRNuTKVLGfFQrx2aBgWo11PE
+X-Received: by 2002:a5d:59c9:0:b0:4ab:f5b0:a7fa with SMTP id ffacd0b85a97d-4abf5b0a975mr10806542f8f.33.1795249732684;
+        Sat, 21 Nov 2026 00:28:52 -0800 (PST)
 Received: from localhost.localdomain (dynamic-2a02-3100-aeb0-6801-ad74-bca0-dc5f-7242.310.pool.telefonica.de. [2a02:3100:aeb0:6801:ad74:bca0:dc5f:7242])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8526cbd0sm214023515e9.0.2026.11.20.20.35.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb4341sm10892378f8f.4.2026.11.21.00.28.51
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 20 Nov 2026 20:35:27 -0800 (PST)
+        Sat, 21 Nov 2026 00:28:52 -0800 (PST)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: bpf@vger.kernel.org
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
 	Alexei Starovoitov <ast@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Hildenbrand <david@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	David Stevens <stevensd@google.com>,
 	Daniel Borkmann <daniel@iogearbox.net>,
 	Andrii Nakryiko <andrii@kernel.org>,
 	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
 	Shuah Khan <shuah@kernel.org>,
-	Amery Hung <ameryhung@gmail.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Waiman Long <longman@redhat.com>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	cgroups@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on RT
-Date: Sat, 21 Nov 2026 05:35:13 +0100
-Message-Id: <20261121043513.20538-1-kmehltretter@gmail.com>
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH bpf-next] selftests/bpf: Disable preemption around css_rstat_updated()
+Date: Sat, 21 Nov 2026 09:28:43 +0100
+Message-Id: <20261121082843.44614-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261020152708.3atPlnSl@linutronix.de>
-References: <20261005070625.8871-1-kmehltretter@gmail.com> <20261020152708.3atPlnSl@linutronix.de>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -130,31 +120,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 20, 2026 at 05:27:08PM +0200, Sebastian Andrzej Siewior wrote:
-> What is it that you try to achieve and why. Why is !PREEMPT_RT not
-> affected? Half of the problems origin from PI-boosst.
-> Why has the nolock an rmutex-backed allocator.
+cgroup_hierarchical_stats triggers a lockdep warning in
+__css_rstat_updated() on PREEMPT_RT. The counter runs at the
+cgroup_attach_task tracepoint under spin_lock_irqsave() on
+trace_cgroup_path_lock. On PREEMPT_RT this leaves preemption and
+interrupts enabled. On non-RT it masks interrupts, satisfying the
+assertion.
 
-The bug still reproduces on v7.4-rc3. 
+Disable preemption around css_rstat_updated() so the updater can queue
+the update without being preempted.
 
-GDB caught n->list_lock's unlock re-entering try_to_wake_up() under p->pi_lock.
-kmalloc_nolock() uses normal SLUB locks. On RT they are rtmutex-backed, unlike
-!RT.
+Fixes: 36df6e3dbd7e ("cgroup: make css_rstat_updated nmi safe")
+Reported-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+Closes: https://lore.kernel.org/r/20251119111402.153727-1-jiayuan.chen@linux.dev/
+Link: https://lore.kernel.org/r/fmey2ektwdk7l5aktjz3xb24x3pk3lxy3gfld7reazal6xa6u2@tmryedehqhql/
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Assisted by an LLM.
 
-> can_spin_trylock() skips hardirq and NMI. There is a trylock on the
-> local_lock_t.
-> Why do we have this mess and couldn't we avoid having it?
+Ran test_progs -t cgroup_hierarchical_stats on bpf-next 9867c61abbd4 in
+x86-64 KVM guests with lockdep. The test passed on all eight boots.
 
-This was IRQ-disabled task context, so the check passed.
+  Boots with an rstat warning   Before   After
+  PREEMPT_RT                       2/2     0/2
+  PREEMPT (!RT)                    0/2     0/2
 
-> I looked at the patches and there something about hardirq-atomic waiter.
-> Wen don't have this. I don't think we want.
+ tools/testing/selftests/bpf/progs/cgroup_hierarchical_stats.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-OK, I am dropping it.
+diff --git a/tools/testing/selftests/bpf/progs/cgroup_hierarchical_stats.c b/tools/testing/selftests/bpf/progs/cgroup_hierarchical_stats.c
+index 8fc38592a..d4babda81 100644
+--- a/tools/testing/selftests/bpf/progs/cgroup_hierarchical_stats.c
++++ b/tools/testing/selftests/bpf/progs/cgroup_hierarchical_stats.c
+@@ -6,6 +6,7 @@
+ #include <bpf/bpf_helpers.h>
+ #include <bpf/bpf_tracing.h>
+ #include <bpf/bpf_core_read.h>
++#include "bpf_experimental.h"
+ 
+ char _license[] SEC("license") = "GPL";
+ 
+@@ -76,7 +77,9 @@ int BPF_PROG(counter, struct cgroup *dst_cgrp, const char *path,
+ 	else if (create_percpu_attach_counter(cg_id, 1))
+ 		return 0;
+ 
++	bpf_preempt_disable();
+ 	css_rstat_updated(&dst_cgrp->self, bpf_get_smp_processor_id());
++	bpf_preempt_enable();
+ 	return 0;
+ }
+ 
 
-I plan two patches: move range-tree allocation before arena->spinlock, then
-restore the RT check that rejects non-preemptible callers. Does that sound like
-the right split?
+base-commit: 9867c61abbd44f7053a871566b3d982f62c6d8dc
+-- 
+2.43.0
 
-Thanks,
-Karl
