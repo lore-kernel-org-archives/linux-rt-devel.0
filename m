@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.90.104.144
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.54.77.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795433861;
-	b=M22x2o6Jf3Sm7oFwvnsSPikIPmbb3LYJpXLNOar2fJiUjbR2Ca8ixDqmGTNdgjByCVdx
-	 WCRjBvjCpSc1kzDJWUQ53vryONyHzXSl/LQq9Tf+nq65Rf/e6krKwG8kFF9oCjEwjrL1R
-	 zPlIEXsPwubV5QnSkR7Y7UGNdPeiUNbG5dCIvjT4TI7zB31v3AxH5AAErSkgPyBJ801vX
-	 XgHI4qbKHV6XiFcPnIlF7414NJPUMjDroRXV4HNeeV6TtuaKoJhneBqFgOKYerv6lEajS
-	 WAje4CtQTvFOExlnU7+DqjQ1XdcPbQVMAyKyJAVqRBg7beUBh5ftqpn7MH2+IkvkLRQ==
+	b=YaoXILNuepQaSVKoWZswUZJc8/Rl5Kaf68Oq8Hmhkb+Hb9Ox4C9hMdRtXcjZRFbwEIo7
+	 3SfOx4UC4flL3Rv/34TNDlAkftzVz0nbUe2SnynNzrRhPsyi9zN5X2qU1LnCQO6dT7Zkx
+	 nppgp+hV6L2nTqAOdKop/eXiHgM1+cVASwZsDmLuHrcMjhSbIcRDUQM88A/byKRP0KN1B
+	 W+rvdSaIUvyl3xCiEv1XpOU0ckc6sLWHLtkrbZRhWVnW4Hr0MS5dxGnvL65RI9JTee/o/
+	 z6zeDcElee5nFV86yGSHFzFLVbbXcbu2v2+ETJ+kGL1sCHG5QTJteD5sXF/r2hWYtKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795433861;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
@@ -13,20 +13,20 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-CSE-MsgGUID:Received:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=8VjKfFnIZSkrCLXCygsuoSQMlE9SiraWmXyOrGKYFrE=;
-	b=plhrHwkrFIbIMYwGYfYxLec/YPmraAtGtyIhDmK/1LJrW8AUU8unEVH5zx0gFyR2Gi+M
-	 XLPRA+9kBTMdDnpWU25I5q4i1Ar5tyt7quKIvGThMMtAe/MTdr1JLFo2OodMsEBT3sLK8
-	 cz2kHLKEOMOg8LROBP8fWYwQh/FIQRRiBRv2wdWl1HhT+CX7Z5p2uuNrgw3DGLU6P+lHy
-	 wEc3aaat70ErrHfPjqtsPSPvHpisQAWsDc3Y3PAGuf1H/+WjkDWdT0RgGNt0qNU1NtkUz
-	 47DVfT/UDTZCorL8GUe3hE3uqKRPpXk+H5jxM+Uzfr52UZ2OYdft7LVm8pNrTklQn/Q==
+	bh=HkwgrMMAxh/Pa+gTNOwIrDS+SnvfT/r5RJMCGUHHVyI=;
+	b=hgJ2CkPU6HNAAOH34LhhirSFeDBW3pg386HDRpO51pwwz/7dwZYQX5jR09lFhsSaa147
+	 iJ2J8AHx7Z3mPZ+LtjyuSPiZomW2PyFUicgT8ITHRhtjMF9nfhM+kGaRTztdM5r0V8JfD
+	 VBoChWA7tTdEqIXdht7ksxVWZdQbgSzlpeaLn6kKFAH+OyMU6oJ0hw1pggiZ95WpB82Xf
+	 M+hwJ35wFFfMn8N6U4gQgW0UoDh8bVTC4c0DHICsKPonecYDIR2WH+BDpcy8SlGAoFJso
+	 5vlenav2kXi0GgiGXqwQnqlc15JmeXBilmI29V0lNXU4/9qTfJ7lNunixSvWzsM+Nrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mobileye.com;
 	spf=pass smtp.mailfrom=mobileye.com;
-	arc=none smtp.remote-ip=23.90.104.144
-Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60467606A33F
+	arc=none smtp.remote-ip=207.54.77.50
+Received: from esa3.hc555-34.eu.iphmx.com (esa3.hc555-34.eu.iphmx.com [207.54.77.50])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 860F7606A685
 	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 11:37:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60467606A33F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 860F7606A685
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
@@ -34,29 +34,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   t=1795433860; x=1826969860;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=6HSsbhIJ2/LzJaFX+VzpT4jqVpYrVahm8NgRsq5w1c0=;
-  b=cu9BtLwI6zIh04aRe5oEXBgHu5pcphEXdRGUYCtUMyzXNC+jTY63RDyS
-   pzUXhZXRng/4U57+yPE7RmStto7apnesYa8VGlNx76U6JZRhh2PJHsvV+
-   s0ivypm0fZdaMv5j2QfGjjEBSgzuN+Ok5IwBfhOpEmqwNG36y/sd/wEvU
-   d3BNb3XT7qAnwf9o5K7hO4IiOhiBddTNSQk4jJttKSO3TTGI4EuKR3s4b
-   XH1DmnScMv1w7AdQCpHHfS9IsNh5ssGQ+u5slIP5J5AmURB/PTiasm9TM
-   pV7KsdJ/o03vvEQNwtIn2OYIDsIpYW5hVXPAYgE5amIRLGNelCOKlCnLi
-   A==;
-X-CSE-ConnectionGUID: i4BBe37kSgarS8wbf3WMHQ==
-X-CSE-MsgGUID: SbYD3BSnSp+hQ5EapyyaOQ==
+  bh=IPMwiZyW2lp+dYhB4kV60JlONdGVqmGhSYHG6tuUBlI=;
+  b=eg8kXp1k/jB2zezXGjYkWwhYXsTZlkSfxDSr/0MHt6ChNM5f5XFBeLm7
+   9ziXBQSw3P5S5kfHphGlvFBJwgDsLY38axp2kQvymm4YELVXqpcPIl4sa
+   1DO8kAPPj/5SkNWHUnz5+KrjkHCw65aJXjuJeOXc2U3x99XA/PK++LcV4
+   9J7zGQ0aDAJmQf+cKGWU6ms4gkZpW4loGCMjT+5ZHslxMOmWezECn/Guz
+   K2yjbFkHAqfy9LVh7EAVMA6qg3GVBtdCP9odewF5tC/z3b7yAojPJ87k7
+   POw+7gIuqkBGtnBkVdqs9oN6wgcLwO2KfORvjlFLKY/PEwECc8Q/mNajl
+   Q==;
+X-CSE-ConnectionGUID: dDe7KE8KRK6djsam4khyug==
+X-CSE-MsgGUID: afRqZavDSICQzAvf2anloA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces04_data.me-crop.lan) ([146.255.191.134])
-  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 13:37:29 +0200
-X-CSE-ConnectionGUID: wwCti2eIQNyQPVs2zMcl2w==
-X-CSE-MsgGUID: zZwA3l2rQHeuaw3KjWwvFQ==
+Received: from unknown (HELO ces01_data.me-corp.lan) ([146.255.191.134])
+  by esa3.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 13:37:32 +0200
+X-CSE-ConnectionGUID: Vhq26FS/TdiUFJJs3EbqDg==
+X-CSE-MsgGUID: NZDwNoOGR5utMAr3dMf9dA==
 Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
-  by ces04_data.me-crop.lan with SMTP; 23 Nov 2026 13:45:49 +0200
-Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Mon, 23 Nov 2026 13:37:28 +0200
+  by ces01_data.me-corp.lan with SMTP; 23 Nov 2026 13:45:58 +0200
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Mon, 23 Nov 2026 13:37:30 +0200
 From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Date: Mon, 23 Nov 2026 13:37:11 +0200
-Subject: [PATCH v4 1/6] mips: {cm,cpc}: Make cm_core_lock, cpc_core_lock
- raw spinlocks
+Date: Mon, 23 Nov 2026 13:37:13 +0200
+Subject: [PATCH v4 3/6] MIPS: CM: export the symbols needed to access the
+ GCRs from a module
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,7 +68,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-i6500-cm3-pmu-v4-1-5a9f5351688f@mobileye.com>
+Message-Id: <20261123-i6500-cm3-pmu-v4-3-5a9f5351688f@mobileye.com>
 References: <20261123-i6500-cm3-pmu-v4-0-5a9f5351688f@mobileye.com>
 In-Reply-To: <20261123-i6500-cm3-pmu-v4-0-5a9f5351688f@mobileye.com>
 To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
@@ -86,132 +86,85 @@ Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
  linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
- linux-hardening@vger.kernel.org, Paul Burton <paulburton@kernel.org>
+ linux-hardening@vger.kernel.org
 X-Mailer: b4 0.16.0
 
-From: Paul Burton <paul.burton@mips.com>
+Allow modules to use the GCR and CPC accessors from asm/mips-cm.h and
+asm/mips-cpc.h:
 
-cm_core_lock and cpc_core_lock are used to protect access to a CPU's
-core-other/redirect CM and CPC register blocks. Since each CPU sees
-its own copy of this block, we need to ensure that critical sections
-holding a cm_core_lock run on one CPU - ie. we need to disable
-preemption.
+- mips_gcr_base and mips_cpc_base are the mapped register blocks;
+- the CPS_ACCESSOR macros consult mips_cm_is64 on every 64-bit register
+  access;
+- mips_cm_lock_other() / mips_cm_unlock_other() are the only way to
+  reach the registers of another cluster through the redirect block.
 
-Use raw_spinlock_t to implement cm_core_lock and cpc_core_lock in
-order to provide the guarantees we need on PREEMPT_RT systems.
+This is a prerequisite for building the CM3 PMU driver as a module.
 
-Signed-off-by: Paul Burton <paul.burton@mips.com>
-[added CPC part]
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 ---
- arch/mips/kernel/mips-cm.c  | 20 ++++++++++----------
- arch/mips/kernel/mips-cpc.c | 12 ++++++------
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ arch/mips/kernel/mips-cm.c  | 5 +++++
+ arch/mips/kernel/mips-cpc.c | 2 ++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/arch/mips/kernel/mips-cm.c b/arch/mips/kernel/mips-cm.c
-index 7c9c5dc38823..3bfe85e86a9a 100644
+index 3bfe85e86a9a..ed98021418b5 100644
 --- a/arch/mips/kernel/mips-cm.c
 +++ b/arch/mips/kernel/mips-cm.c
-@@ -179,7 +179,7 @@ static char *cm3_causes[32] = {
- 	"0x19", "0x1a", "0x1b", "0x1c", "0x1d", "0x1e", "0x1f"
- };
+@@ -5,6 +5,7 @@
+  */
  
--static DEFINE_PER_CPU_ALIGNED(spinlock_t, cm_core_lock);
-+static DEFINE_PER_CPU_ALIGNED(raw_spinlock_t, cm_core_lock);
- static DEFINE_PER_CPU_ALIGNED(unsigned long, cm_core_lock_flags);
+ #include <linux/errno.h>
++#include <linux/export.h>
+ #include <linux/of.h>
+ #include <linux/percpu.h>
+ #include <linux/spinlock.h>
+@@ -14,8 +15,10 @@
+ #include <asm/mipsregs.h>
  
- phys_addr_t __weak mips_cm_phys_base(void)
-@@ -309,7 +309,7 @@ int mips_cm_probe(void)
- 	mips_cm_is64 = IS_ENABLED(CONFIG_64BIT) && (mips_cm_revision() >= CM_REV_CM3);
+ void __iomem *mips_gcr_base;
++EXPORT_SYMBOL_GPL(mips_gcr_base);
+ void __iomem *mips_cm_l2sync_base;
+ int mips_cm_is64;
++EXPORT_SYMBOL_GPL(mips_cm_is64);
+ bool mips_cm_is_l2_hci_broken;
  
- 	for_each_possible_cpu(cpu)
--		spin_lock_init(&per_cpu(cm_core_lock, cpu));
-+		raw_spin_lock_init(&per_cpu(cm_core_lock, cpu));
- 
- 	return 0;
+ static char *cm2_tr[8] = {
+@@ -373,6 +376,7 @@ void mips_cm_lock_other(unsigned int cluster, unsigned int core,
+ 	 */
+ 	mb();
  }
-@@ -347,8 +347,8 @@ void mips_cm_lock_other(unsigned int cluster, unsigned int core,
- 		 * mips_cm_lock_other() leading to a deadlock or a nice warning
- 		 * with lockdep enabled.
- 		 */
--		spin_lock_irqsave(this_cpu_ptr(&cm_core_lock),
--				  *this_cpu_ptr(&cm_core_lock_flags));
-+		raw_spin_lock_irqsave(this_cpu_ptr(&cm_core_lock),
-+				      *this_cpu_ptr(&cm_core_lock_flags));
- 	} else {
- 		WARN_ON(cluster != 0);
- 		WARN_ON(block != CM_GCR_Cx_OTHER_BLOCK_LOCAL);
-@@ -359,8 +359,8 @@ void mips_cm_lock_other(unsigned int cluster, unsigned int core,
- 		 * race with us.
- 		 */
- 		curr_core = cpu_core(&current_cpu_data);
--		spin_lock_irqsave(&per_cpu(cm_core_lock, curr_core),
--				  per_cpu(cm_core_lock_flags, curr_core));
-+		raw_spin_lock_irqsave(&per_cpu(cm_core_lock, curr_core),
-+				      per_cpu(cm_core_lock_flags, curr_core));
++EXPORT_SYMBOL_GPL(mips_cm_lock_other);
  
- 		val = FIELD_PREP(CM_GCR_Cx_OTHER_CORENUM, core);
- 	}
-@@ -380,11 +380,11 @@ void mips_cm_unlock_other(void)
- 
- 	if (mips_cm_revision() < CM_REV_CM3) {
- 		curr_core = cpu_core(&current_cpu_data);
--		spin_unlock_irqrestore(&per_cpu(cm_core_lock, curr_core),
--				       per_cpu(cm_core_lock_flags, curr_core));
-+		raw_spin_unlock_irqrestore(&per_cpu(cm_core_lock, curr_core),
-+					   per_cpu(cm_core_lock_flags, curr_core));
- 	} else {
--		spin_unlock_irqrestore(this_cpu_ptr(&cm_core_lock),
--				       *this_cpu_ptr(&cm_core_lock_flags));
-+		raw_spin_unlock_irqrestore(this_cpu_ptr(&cm_core_lock),
-+					   *this_cpu_ptr(&cm_core_lock_flags));
- 	}
+ void mips_cm_unlock_other(void)
+ {
+@@ -389,6 +393,7 @@ void mips_cm_unlock_other(void)
  
  	preempt_enable();
+ }
++EXPORT_SYMBOL_GPL(mips_cm_unlock_other);
+ 
+ void mips_cm_error_report(void)
+ {
 diff --git a/arch/mips/kernel/mips-cpc.c b/arch/mips/kernel/mips-cpc.c
-index 3e386f7e1545..4b50c58628dc 100644
+index 4b50c58628dc..b948a1c96e1e 100644
 --- a/arch/mips/kernel/mips-cpc.c
 +++ b/arch/mips/kernel/mips-cpc.c
-@@ -15,7 +15,7 @@
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/errno.h>
++#include <linux/export.h>
+ #include <linux/percpu.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -14,6 +15,7 @@
+ #include <asm/mips-cps.h>
  
  void __iomem *mips_cpc_base;
++EXPORT_SYMBOL_GPL(mips_cpc_base);
  
--static DEFINE_PER_CPU_ALIGNED(spinlock_t, cpc_core_lock);
-+static DEFINE_PER_CPU_ALIGNED(raw_spinlock_t, cpc_core_lock);
+ static DEFINE_PER_CPU_ALIGNED(raw_spinlock_t, cpc_core_lock);
  
- static DEFINE_PER_CPU_ALIGNED(unsigned long, cpc_core_lock_flags);
- 
-@@ -74,7 +74,7 @@ int mips_cpc_probe(void)
- 	unsigned int cpu;
- 
- 	for_each_possible_cpu(cpu)
--		spin_lock_init(&per_cpu(cpc_core_lock, cpu));
-+		raw_spin_lock_init(&per_cpu(cpc_core_lock, cpu));
- 
- 	addr = mips_cpc_phys_base();
- 	if (!addr)
-@@ -97,8 +97,8 @@ void mips_cpc_lock_other(unsigned int core)
- 
- 	preempt_disable();
- 	curr_core = cpu_core(&current_cpu_data);
--	spin_lock_irqsave(&per_cpu(cpc_core_lock, curr_core),
--			  per_cpu(cpc_core_lock_flags, curr_core));
-+	raw_spin_lock_irqsave(&per_cpu(cpc_core_lock, curr_core),
-+			      per_cpu(cpc_core_lock_flags, curr_core));
- 	write_cpc_cl_other(FIELD_PREP(CPC_Cx_OTHER_CORENUM, core));
- 
- 	/*
-@@ -117,7 +117,7 @@ void mips_cpc_unlock_other(void)
- 		return;
- 
- 	curr_core = cpu_core(&current_cpu_data);
--	spin_unlock_irqrestore(&per_cpu(cpc_core_lock, curr_core),
--			       per_cpu(cpc_core_lock_flags, curr_core));
-+	raw_spin_unlock_irqrestore(&per_cpu(cpc_core_lock, curr_core),
-+				   per_cpu(cpc_core_lock_flags, curr_core));
- 	preempt_enable();
- }
 
 -- 
 2.43.0
