@@ -1,66 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795450760;
-	b=4UhK9ZesFMxJiY6hQe+UeQO1kXdbyUc7q2hZBl6NrzoFU0cgJ5UJglIBCFCnY5im/XKt
-	 cZPMNETFosoIkbLJYG22rGe9o1kMAFQvVywzI9tikNAMNw5uFFwQSIipam5omzzd0PyG0
-	 EA9TuA7DdrBzTFL8MAniIf/CeU3IzRIei8zcKRFSLrjt4+T2Y1wZ36oYGueX3V0RsP8MK
-	 iKh5P+xtxsi1MN43B3EosBmZTZ4bkA/bQMEd1cq4PYl6sjsJg2PGdIshiz38Zf/bxFqkp
-	 r+98GL8XXkgh8ff4F+/mRu9OaAxaHeDgV4GUfFJ7/zfCyYih+fZUSVQ4oHJpOnnXtEg==
+	t=1795453232;
+	b=ieLpd4Qlu87Z/7qvyaWASz3AFPk/+MBP6/tNhPDgE4K5EnCppL56dPJMcDV8LpIoIi1J
+	 lviHA549lcESEJjtQYUbrn4iL9Lb5KtoDy9qvpHXM3XlPGCjtqgVzt9VQt4n4OKDZmELU
+	 N4oY00zZNrcRTTEhG54C40IbMD21Op35jrmSlLyLk6IzdcfVQRLe7DoNWSOT/e0WxC+1o
+	 7Dudu4egC6x7UWfex9PcJa/Zqifu/7AZX0rTFZOgEh8ZRfdudcgqUjJdzGGy9sAHVI/4M
+	 RHQrbhWyCksZEqwCvBWNnVaG/IImP8BvYDGQbHtwqt9CTB36QACnCOjI8rw5CK/ALlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795450760;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Virus-Scanned:Received:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=6Q8CRVupBHwTiuby1mLW5iiFkt73za/QWEc1/FzrLfs=;
-	b=wDGisxl7Ma+EREu5AO/wkEi1xCNYiNwcHtykaNeyxpENX3exqQASNIwxI1F4WI0Ey7kM
-	 8qoWjvC7Iodx2p8W9QqyO8FwVLxMuewX4y8Go7XOl5EMhd/8gHS7xcItW96u74nnlEzS+
-	 1qqpYgThbZOHsk+fhs+2o9FIK7v1O3QXwQbQV/GuFgRo82sKsO3U07q3YTJqj6yq7a35t
-	 OpRpeeY5enGayvq9EPgbk2DfNU4foyQvFObMY3Rh2bk2dplklp6Cpz4GAxf5Sxm45pvSa
-	 9ZOEli6Ncxcxxm9YsgrDNFf8I+FjBBhYI2QCzhsblv5UMpOOtEJiiNPgxLnZyL22Zhg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795453232;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=p2p3ypsEiTb7jEINNh57+xS6Ae57sSrLVt1+Kb4/7Xs=;
+	b=cC4fBewVZZuta7TYm9Hq4QhyjFZgs7Ew8UT1WFQfEGQFSbsjxRlC/8X/v5iJ6CGdx314
+	 n+s9UOT4+8jkM7xc9ZEk6tNJ9JsVObbHRdxZmFuANVjklMcrDr+rGuDFgOUO/Z3jkMBV2
+	 IKJ8/cM9ROAu1jEYCjUKtXeYcasr+6gTpc99Y0yMa/3QPLg02IXQIOh4vK330FQ7wAQMP
+	 KoylSagMLMDMq8j1XXPFIeblp4EmmX6tzu41OKvDpag2yD9t2TjVrOpIVORz1Zm1qjyvD
+	 goEzcKRd79iIqxUnjJz2feqfqwZf/PToi28u94ZgeKr3EH4iGrF5aOUdcYSA8WP5zKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=acm.org;
-	spf=pass smtp.mailfrom=acm.org;
-	dkim=pass header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=h2H7px8x;
-	arc=none smtp.remote-ip=199.89.1.16
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jl3c52aD;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=m2OGPhVN;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6247B606A31F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 16:19:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6247B606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F560606A32E
+	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 17:00:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F560606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=h2H7px8x
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4jYB3B4G69zlgy1M;
-	Mon, 23 Nov 2026 16:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1795450754; x=1798042755; bh=6Q8CRVupBHwTiuby1mLW5iiF
-	kt73za/QWEc1/FzrLfs=; b=h2H7px8x/P8RWXxbO509o0mZSsR4bG4uJ91t+qCe
-	H44nFKYdoLsxfWCUcRKFCdSEPkNMunxp0nPT9VLgc8TuXkQSLW7SrD2xzlDpgxKG
-	JR6SDXt3zkDhaSMesJK2K8hrGCrHtDNZiXHzb0U1UgSxrRkd+v1qI9WO/rsI7g5Y
-	HGeiw54yxz8qFYNnyuaNhS3RTFisAehAY7w7UhtGjd+tIAyasaf9brtWLgmFu7Qh
-	zAm6ETG3NwESpT9nlOfwS+wJYc/Y2oAlISB5S3eoYlwP+pWcOBp/KPb0QDC/euVE
-	S3I9ry4oXyjJx9UDD7w8LaUNNEFNaolLXk+M8m0skHQXRA==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id Z9EzYpVpOFsn; Mon, 23 Nov 2026 16:19:14 +0000 (UTC)
-Received: from [100.80.227.185] (unknown [104.135.182.41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4jYB355RHlzljKMg;
-	Mon, 23 Nov 2026 16:19:13 +0000 (UTC)
-Message-ID: <8895e7f8-8413-4541-aa0b-50c1685b0ea5@acm.org>
-Date: Mon, 23 Nov 2026 08:19:11 -0800
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jl3c52aD;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=m2OGPhVN
+Date: Mon, 23 Nov 2026 18:00:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795453228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p2p3ypsEiTb7jEINNh57+xS6Ae57sSrLVt1+Kb4/7Xs=;
+	b=jl3c52aDrcMFVZZx/9g7HjBW8cKlyg0nOZGVsmOYvXPbIhrGoEQfbkWx8xmDNZAJeGHubR
+	+I5daLxu+sEkmGKL9+1KXuLfWUso1U4KzZvAarslzaPa5vwHVPIfs/LBpegbkxdrtDmR+e
+	sVAE5EGrIdHNGxF60rRIFPm1aiJWQGGmipi8EUuhu48Ax+cR2/QHQTGWAxcpVY1RMHZfUY
+	XpIDJxygvd09W5kUE9+c3GKPRnlJVjIhxyNDm9nDDau/YcL2UOuWjX7SCuq0uYdF1Lt8Rv
+	HcuV1KSSUA7XOrTWKib2uRRUzD4gAj40gA1e51vG9RPsVQaeXi+XeaSXUK3/og==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795453228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p2p3ypsEiTb7jEINNh57+xS6Ae57sSrLVt1+Kb4/7Xs=;
+	b=m2OGPhVNP/Gj1Gl0PFcOAkGBiOWvyc1Ah59Iu2J5/ixUNvEpHqaGcetKHW3kpAmWjRj5nI
+	YhUd5QS09ZaG5UAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Yiyang Chen <cyyzero16@gmail.com>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>, Xin Zhao <jackzxcui1989@163.com>,
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] softirq: Limit the BH count warning to RT BH lock users
+Message-ID: <20261123170022.MaJ0oWIE@linutronix.de>
+References: <d9554bee441d2c763ef8d61e966a7a471915bbee.1795372382.git.cyyzero16@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,43 +73,81 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] jfs: set lbmDONE before dropping LCACHE_LOCK for
- lmPostGC()
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
- Edward Adam Davis <eadavis@qq.com>, Jens Axboe <axboe@kernel.dk>,
- Ming Lei <tom.leiming@gmail.com>, Hillf Danton <hdanton@sina.com>,
- Tao Cui <cui.tao@linux.dev>, Al Viro <viro@zeniv.linux.org.uk>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev, linux-block@vger.kernel.org,
- stable@vger.kernel.org, syzbot+2e5cf2352e9f69ebf172@syzkaller.appspotmail.com
-References: <20261123-work-loop-backing-file-v1-0-48f83eaf2499@kernel.org>
- <20261123-work-loop-backing-file-v1-2-48f83eaf2499@kernel.org>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20261123-work-loop-backing-file-v1-2-48f83eaf2499@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d9554bee441d2c763ef8d61e966a7a471915bbee.1795372382.git.cyyzero16@gmail.com>
 
-On 11/23/26 5:02 AM, Christian Brauner wrote:
-> diff --git a/fs/jfs/jfs_logmgr.c b/fs/jfs/jfs_logmgr.c
-> index e96593d79a1df..ae3bd0cd85471 100644
-> --- a/fs/jfs/jfs_logmgr.c
-> +++ b/fs/jfs/jfs_logmgr.c
-> @@ -2279,9 +2279,11 @@ static void lbmIODone(struct bio *bio)
->   	 *	Group Commit pageout:
->   	 */
->   	else if (bp->l_flag & lbmGC) {
-> +		/* lmPostGC() may free or requeue @bp. */
-> +		bp->l_flag |= lbmDONE;
->   		LCACHE_UNLOCK(flags);
->   		lmPostGC(bp);
-> -		LCACHE_LOCK(flags);		/* disable+lock */
-> +		return;
->   	}
+On 2026-11-23 02:35:47 [+0800], Yiyang Chen wrote:
+> __local_bh_disable_ip() warns if a non-preemptible task first disables
+> BHs while the per-CPU BH count is nonzero. Without the RT BH lock,
+> this check can turn off lock debugging on a valid call sequence.
+> 
+> With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=n, the following sequence is valid
+> for two tasks on the same CPU.
+> Both tasks call the BH helpers with IRQs enabled. The per-CPU BH count
+> starts at zero.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+This is slightly confusing the diagram below. The key point is that the
+first task is preemptible, disables BH and second task is not preemtible
+and does does the same.
+
+>   Task A                          Task B
+>   ------                          ------
+>   local_bh_disable()
+>     softirq_ctrl.cnt += SOFTIRQ_DISABLE_OFFSET
+>     current->softirq_disable_cnt += SOFTIRQ_DISABLE_OFFSET
+>   <preempted by B>
+>                                   preempt_disable()
+>                                   local_bh_disable()
+>                                     B's softirq_disable_cnt is zero
+>                                     preemptible() is false
+>                                     WARN on nonzero softirq_ctrl.cnt
+>                                     softirq_ctrl.cnt += SOFTIRQ_DISABLE_OFFSET
+>                                     current->softirq_disable_cnt += SOFTIRQ_DISABLE_OFFSET
+>                                   local_bh_enable()
+>                                   preempt_enable()
+>   <resumes>
+>   local_bh_enable()
+> 
+> The warning relies on the per-CPU BH lock serializing BH-disabled
+> sections on the same CPU. With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=y, A
+> still holds that lock when B runs. Since B is non-preemptible, it skips
+> the lock acquisition. The nonzero count then exposes B entering the
+> section while A holds the lock.
+> 
+> With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=n, there is no BH lock for B to
+> bypass. The same nonzero count simply records A's active BH-disabled
+> section, which may legitimately overlap B's.
+
+Correct. It used ensure that the lock is not taken therefore no
+"protected resource" is in use. With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=n
+this is no longer the case.
+
+> Guard the warning with CONFIG_PREEMPT_RT_NEEDS_BH_LOCK for as long as
+> the lock is optional. If the lock is removed, as discussed earlier,
+> the check can go away with it.
+> 
+> Link: https://lore.kernel.org/lkml/20260310115534.3477871-1-jackzxcui1989@163.com
+> Signed-off-by: Yiyang Chen <cyyzero16@gmail.com>
+
+I agree in general. A fixes line would probably be a good idea.
+
+> ---
+>  kernel/softirq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/kernel/softirq.c b/kernel/softirq.c
+> index 7fc2200392cd..f64f6b594951 100644
+> --- a/kernel/softirq.c
+> +++ b/kernel/softirq.c
+> @@ -195,7 +195,7 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+>  
+>  			/* Required to meet the RCU bottomhalf requirements. */
+>  			rcu_read_lock();
+> -		} else {
+> +		} else if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
+>  			DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt));
+>  		}
+>  	}
+
+Sebastian
