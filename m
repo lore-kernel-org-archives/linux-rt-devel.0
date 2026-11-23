@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.242
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795455748;
-	b=HWNPKfLLZgQf7olSe0Hp/oPeC+L+7F4dMdfajHTH6JQCHPG/IuScI3KKeeUxXPHaLuFI
-	 av5ThdmQQP2H5Q+dfSLqkuq83ol6Q4jVILU9AryXW+4whx4Oqi8HXjRp9jcV97CpBQL1X
-	 oBQFKrz5JxK+EYj2T/TugN4KXVgirRSRqHA0q30pA69Lk5usogZ/TqsYMFd9VwBMOu4zF
-	 rqW9Z5cwPYet3rRDit9A4tIPKO3NOquHhAN6izXlIdkKz9Mn7KDhUIp8YgDMNEpEPCfxP
-	 +xr7xqHzOJ4vBE74t5dPH1FjBeAagaBlojpwwjShP6JQLV3bHmhLhODYqikNhXQbCbA==
+	t=1795476697;
+	b=LrxiCzAKxad84niXaGBOk84v0N27L1I9r5Zhsl2kMqEpK3audz/XHfQIQT/HLlbFjHPE
+	 T/YhkKuRZp0gpBueWJYxNxtwSrLLn7WUXGTrA2QTAi8e9B1OEwG33JbeNGrBEodFPEmBf
+	 I0XBaoSKW79fm2RG0Y3RaZEZymjLqWj1CGMPVZ9TK7eALmRC62QaUmjM6ce31oMSSe7Sg
+	 EpBb36ojp0UbkwZH4BpPMKIfWSIDsu9Ml3rNxWf2yS5Z1VpDFGMQ7IUvh6nXa8Cwv0mg+
+	 9PGj57zhrnvPE2nhgpJN06wO4oGhUx/IOgCXI2JW8gFFhqjkdJVEWp5J2rpJvoDdvtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795455748;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795476697;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=sjfp7sZFhOK52knRIHEyZ66Px2rvM9c24Jj9S6rf+y4=;
-	b=twSKhYA89c1yclaOFFtrN3pjIQPFAjj7CNw0ySC88dQy+Ub+wJrBJHfqExcoySIaDqrI
-	 WAgJ9lZqByck0e94YPRBQHklxZid5DCWKwGbR7oeWgYlknIdNdnFNpLMDuVFdfXuCRYEK
-	 Bn/DuH+R1fbmgQBPvPD2p2q3TnMvdZzmYThzrgAewXJtgEVrA/R7hiRsOaZNGhnSnzux+
-	 SoOFSoCQ3ejfpU10k3S+NU32T/oYqn0bMBMVCC/HwYXcZMxIvAoFN2PIusQ+igIoWvCDg
-	 rBMbZ12/kwn7AWnYRnmWORCDBEqTeLKi3EDKPbS9+8NOlh+0e/pSUS7Eijiifkj4YhA==
+	bh=fQfsc4rVCAOvoysXvULvyWwSbKyZo7lhdAuc6dF+pqI=;
+	b=x3cDGfSWgjCtwzBXgpx7+aSjEv4pjak6UJOLvXXojFOzP/j5JrCKNU7MVU3dSGPUI+yP
+	 Ku9YIZb2kHqd1j+MtUglwXrAv2QJy7H+jI3YIokFjAhS75Xd06SkkccA0ENtbZ6ZgCo+3
+	 gPosjLjDE8QufSCVKm9mtrWO2X7J1cqm95CY/xokVbxLI/QdqlIVrLs1knCdEFUiWyOWi
+	 /q99JxpI2w7FuSJ7Ak9hvW0DMLt/klB+BhyD3c4+C2eE8WMLCTBW6bxM9AfTbCbtOP6L6
+	 j1TC6u+dce8yRGinFMlpo2FwkOUenfX4JiQqthp1jLe0QquMfX/wp5eDlGUS1KhTkew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZX+Xi8jf;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="LilXw/b2";
+	arc=none smtp.remote-ip=203.205.221.242
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D408D606A31A
-	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 17:42:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D408D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40AD606A322
+	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 23:31:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F40AD606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZX+Xi8jf
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b3acec6677so5075840c88.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 23 Nov 2026 09:42:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795455747; x=1796060547; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sjfp7sZFhOK52knRIHEyZ66Px2rvM9c24Jj9S6rf+y4=;
-        b=ZX+Xi8jfxM/XlepCtbnz5htrEurBsP3q/cyKN8XV9/1boEQwTAZ+TOyyRQXjV6Z6et
-         e2vw+y0wPhZUSb5CdNmQqyNECdJBoAcEQGxBBLevtJD1scp214lJjGK0gVOz1ZyZxdF1
-         MT7BDREAPzTZvK82bkA3nWLzecOo8DNeMh2drdXwGRQW45bcFupS3IuQt2/ELRUgIxHz
-         pfU6Iz39UM1bSG9FBCZzkFr4jeqD32z8WI3GsllpS2ZtEbP28ZP7FzsXcU6x2F3QsIOw
-         TeybSstfseqJdiqQDXz+maZW8xJYgSUgZqGt5VyHJKFYJl8D+pRvzZa6s8hOEqCNpwCj
-         zvKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795455747; x=1796060547;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sjfp7sZFhOK52knRIHEyZ66Px2rvM9c24Jj9S6rf+y4=;
-        b=Ei71Ulg4NfzuRS0K4rAlpoE6C9S+YW/gmDIdtkO++2h6EA+HmXW2+epYsl/z0Xompj
-         mrFodYtyomzYMUZn+6sMmtIL2Dv/8eMTLp+USWOBmoRnuRcJ42Hm3szB00R4RqY+OuK8
-         0WSclt7QgZF6XIhpMyKaNLdEhgwoJpWi0JpYVHJXRcqu2yGIIPGPXVtN8B5ZkehU1gNI
-         YPtMfswMmmyyAUDWPzc26jSL6HmV1iPoJKkQ9wvzQOSXX+xw3isf4x9lzAEWX+QoikhY
-         pW337iDXnDYBcFsMjALbCqbNiWysU1bqKF8sN165p5zCx9568zbsXNYFz+7TyWYMwBra
-         fsmg==
-X-Forwarded-Encrypted: i=1; AL+hErG+budjNSWkqFzejO7BhZ6ZincOoOXvF2Wze2UqsMr0nHzUz5hJh+XooQPgv6pPAmoaKubM/J6VISVSCiO9Iw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/KtdfjmQhQ81ZYZOu6wueE/ESuskdq3eQyCykfWM49gkhm7/j/
-	z5TJCfG+u1vbdHcAF6Fm2LL/QMy1ME47dEZQKJvJbbiC0kNwyAYHCB7e
-X-Gm-Gg: AZFdTZfK4AH65oE/+3P9VG/9OStKJ2tZHNIhO15mbCPjy3lsgUmLGj/tyGV0IiKnSyf
-	gBL7Zx5dn4cwudm1QKnxz5fmgCwv/ttriyxq9tD/tgg0d9SIiCbTsAbtjGw1RfrTHlk5SPPaCNB
-	XfeFFVIyygPY5S5/8UJp/XVto+3fe00AjmRFqjxDWs8P/fQAfytBzM0WOBp95QooHl/hEgzyGOJ
-	aU3UNl6nqGF8KzAZO37yrMrxcWuX3McjqHOWFJaA8K5cxkZJg39s5RjtZbcRLTb4iwIjoPiP6OT
-	cH7ha3QExdUbxwBhpjmX1c+AFysw5SbErcJGMN2Kd1TLPJDb4gUA6wRSrmn9qERFz2tA5crLGBL
-	DKqmFzw6FP5CR/9a3bjeEHWy1qN4wOKTz7PiYUhlmsy0DLiOSWnkPZ7iG+J53mMjx/2hWdHt06z
-	jOfNOVHLYWHDDavFzdLEk/ldDcKZ1tgmjK91EeNe5lcZKrvz9mR7HyakWruKzDfBbm/mxuZSEqS
-	eG5m/xIZ1f0WVfTDI+kjfKZuIkfwMbz0C8Ps4PhAX7SozastVeYbzai5enraJjRjr2xoPf3nmwO
-	A6uqDLmAzNeB7GpEODGEn7ohj/veSdFLEg==
-X-Received: by 2002:a05:7022:f106:b0:1b3:afa2:2d7e with SMTP id a92af1059eb24-1b5567dab3cmr10210370c88.1.1795455746895;
-        Mon, 23 Nov 2026 09:42:26 -0800 (PST)
-Received: from ubuntu24.lan ([2a10:8744:ed6d:42a7:c0c5:ca32:d121:31bc])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b56ef9fd16sm16613911c88.4.2026.11.23.09.42.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 09:42:26 -0800 (PST)
-From: Yiyang Chen <cyyzero16@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Xin Zhao <jackzxcui1989@163.com>,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=LilXw/b2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1795476687; bh=fQfsc4rVCAOvoysXvULvyWwSbKyZo7lhdAuc6dF+pqI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LilXw/b2cu+Y6BHk9N2DxVm9YLxM+V0kcb7xKtKlDP0X/PZF68MfB82QxuUuoaRw+
+	 tcEepW2HU5EI/uwJOeTKBp0nuAXit2yZN6tfemNUW9bOQ4LbB2UsCyPxenrZlFMH/f
+	 jybM6oyRPxgExIUr2UAacukML+iLInB5pK5rqQWY=
+Received: from lxu-pcd ([111.198.225.163])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 7D5A6A85; Tue, 24 Nov 2026 07:31:21 +0800
+X-QQ-mid: xmsmtpt1795476681t801nvuw2
+Message-ID: <tencent_FD9527C5C6F712D4C674C98B6EDB2EC5CC06@qq.com>
+X-QQ-XMAILINFO: MfEY9GD3w9KSRUrRcH0c3PLqeDMD5na/w9K8VkUf93MNT0Xav4CCq2Gr26PLI6
+	 /4zZbJJX8IdiAvtHDvYw/0FnOE1maV+S4fdmCy6Swm/zwvoCJyyhaWDNCpREd+pMRrU1MR/sB7JG
+	 IOOh4xJTY7tEtgrCxy+IcgQ8a7igodqGVtlj2GMZlvgHn2P7rTDrFdqMJ/xhFzXVkw5PIJmtnW9/
+	 FMi4OGnI+uk1xnBGJPmx8K11FWwyDAWyqJaJPPufMyaZQh+AEIOYFGBotLmPdc35gxKwAbthD3HR
+	 NMj9H9pmb89RoJC62Q1hhsAfs8IhIei64KxX444nTcCkePJLZ2Y7bZXYbVQdq4/EiTniF0NVjrWS
+	 wYHprnKSEdD99qwcMX4mQBpNTh56SKHXEgN4YXcaJcoMJa2DqX3iQcv+pqpRCFHex6TUdME+sm3m
+	 Ot0zXtU7X/G/B0aoQarrlAMe9mQVLP0GCzg33KivlNBu6+dO6MgO4pXkSQeBUXjffHHCeKWn8iII
+	 Sg/EN762nUh0iw9jFQ1dGzfqvuC3KrfUhSbU0vMg5dJM7v9BJcbLnO02JINxptUndbcyNHWf0Lx3
+	 vckS6uMLfJq9kXA246bh6D5M1ZtMZNsR3ZoOf27V3zs1vH4iiSRaywGtewF539dhV1+f9mPHczh8
+	 komHHC59PSun8252BYNjGx+EXIfK3iGcy0xMJMi2JxsNEGGmuoYPZvDu0zegGmxbyNOtFcsdMUvo
+	 NPQjK7bm2Jbv9Lezd/m8smCm9npdDwk4C4cfEGSEn/FbWR1GUHN7omulxVhVnz9hUbVzSinGvBzw
+	 EwemBTmTt6wrdyQT7qFkGcFyyjjBlzMDjqdNn1Zfc/OLdHUnNRtVBSaJUESr5IKOqwFWCl7kdw1x
+	 GDk7dhXLGa8q3hAobaQy+QgpKpE28P7DstWWCaXjmqq6EOJUB4MC5h6XYmbnIey3X+AeMgV8dbZQ
+	 QWFwmzXsUfEkPGaLx1P6MRxrDEF4wlAw2VnNB/UbwjuAn7NFLlKJ0JegzTV6qzcCFBXOEfHMFF4w
+	 koWx+3gx34UKjqm7GWGlAj7J+1O3PjKS+MhfUEzQ==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: brauner@kernel.org
+Cc: axboe@kernel.dk,
+	bigeasy@linutronix.de,
+	bvanassche@acm.org,
+	clrkwllms@kernel.org,
+	cui.tao@linux.dev,
+	eadavis@qq.com,
+	hch@lst.de,
+	hdanton@sina.com,
+	jfs-discussion@lists.sourceforge.net,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yiyang Chen <cyyzero16@gmail.com>
-Subject: [PATCH v2] softirq: Limit the BH count warning to RT BH lock users
-Date: Tue, 24 Nov 2026 01:42:11 +0800
-Message-ID: <4103eb7e6caea1afad16e5523ded3f2a30c40ee8.1795455101.git.cyyzero16@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	rostedt@goodmis.org,
+	shaggy@kernel.org,
+	stable@vger.kernel.org,
+	syzbot+2e5cf2352e9f69ebf172@syzkaller.appspotmail.com,
+	syzbot+bc273027d5643e48e5b3@syzkaller.appspotmail.com,
+	syzbot+cd8a9a308e879a4e2c28@syzkaller.appspotmail.com,
+	syzbot+ecf51a7ccb6b1394e90c@syzkaller.appspotmail.com,
+	tom.leiming@gmail.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH 0/2] jfs: fix lbmDONE races in lbmIODone() (was "loop bug saga")
+Date: Tue, 24 Nov 2026 07:31:22 +0800
+X-OQ-MSGID: <20261123233121.161079-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261123-work-loop-backing-file-v1-0-48f83eaf2499@kernel.org>
+References: <20261123-work-loop-backing-file-v1-0-48f83eaf2499@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -101,73 +101,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__local_bh_disable_ip() warns if a non-preemptible task first disables
-BHs while the per-CPU BH count is nonzero. Without the RT BH lock,
-this check can turn off lock debugging on a valid call sequence.
+On Mon, 23 Nov 2026 14:02:17 +0100, Christian Brauner wrote:
+>      jfs: wait for lbmDONE under LCACHE_LOCK in lbmRead()
+>      jfs: set lbmDONE before dropping LCACHE_LOCK for lmPostGC()
+>
+> fs/jfs/jfs_logmgr.c | 6 ++++--
+> 1 file changed, 4 insertions(+), 2 deletions(-)
+Same issue ?
+https://lore.kernel.org/all/tencent_3AEEC18CAA27D286CE92DAC674C9B02EEC06@qq.com
 
-With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=n, task A calls local_bh_disable()
-from preemptible context. Task B preempts A on the same CPU, disables
-preemption, and then calls local_bh_disable(). B therefore reaches the
-warning while the per-CPU count still includes A's BH-disabled section.
-
-  Task A          Task B
-  ------          ------
-  local_bh_disable()
-    softirq_ctrl.cnt += SOFTIRQ_DISABLE_OFFSET
-    current->softirq_disable_cnt += SOFTIRQ_DISABLE_OFFSET
-  <preempted by B>
-                  preempt_disable()
-                  local_bh_disable()
-                    B's softirq_disable_cnt is zero
-                    preemptible() is false
-                    WARN on nonzero softirq_ctrl.cnt
-                    softirq_ctrl.cnt += SOFTIRQ_DISABLE_OFFSET
-                    current->softirq_disable_cnt += SOFTIRQ_DISABLE_OFFSET
-                  local_bh_enable()
-                  preempt_enable()
-  <resumes>
-  local_bh_enable()
-
-The warning relies on the per-CPU BH lock serializing BH-disabled
-sections on the same CPU. With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=y, A
-still holds that lock when B runs. Since B is non-preemptible, it skips
-the lock acquisition. The nonzero count then exposes B entering the
-section while A holds the lock.
-
-With CONFIG_PREEMPT_RT_NEEDS_BH_LOCK=n, there is no BH lock for B to
-bypass. The same nonzero count simply records A's active BH-disabled
-section, which may legitimately overlap B's.
-
-Guard the warning with CONFIG_PREEMPT_RT_NEEDS_BH_LOCK for as long as
-the lock is optional. If the lock is removed, as discussed earlier,
-the check can go away with it.
-
-Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
-Link: https://lore.kernel.org/lkml/20260310115534.3477871-1-jackzxcui1989@163.com
-Signed-off-by: Yiyang Chen <cyyzero16@gmail.com>
----
-Changes in v2:
-- Clarify the description of the timing diagram.
-- Add the Fixes tag.
-
-v1: https://lore.kernel.org/r/d9554bee441d2c763ef8d61e966a7a471915bbee.1795372382.git.cyyzero16@gmail.com
-
- kernel/softirq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 7fc2200392cd..f64f6b594951 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -195,7 +195,7 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
- 
- 			/* Required to meet the RCU bottomhalf requirements. */
- 			rcu_read_lock();
--		} else {
-+		} else if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
- 			DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt));
- 		}
- 	}
--- 
-2.43.0
+BR,
+Edward
 
