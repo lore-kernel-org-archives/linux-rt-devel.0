@@ -1,98 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.172
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795540278;
-	b=PzFykDT8COkPkrqthkjckcYePmEAfFXa271JU7G7ujVuLq3K7N9TG9ZiVIPV2WVWG5/a
-	 /c573IVB2NQrZXcFY4YmOzytyZnf7IAqcZxvGvPdouXfO4l3xIlA4xbYbnHSQNktWERiH
-	 w4PKDZOMkE+ANaHkDM/IdhMvfZZeEjKhEijds9j6oyOCZT/5mPOfS9T3diBaThA0m77iZ
-	 mV3N3qacYm6BM7vrFeZFCQiKASNq/opsuR5rJJ9Q9l99Q4TWKma6aWCpV63bagBWQu6JR
-	 VXiDv+lmbN5nLBl8fPjGnlZmch2EXIPJ/OQoqPigfep1a4kQrp7Kl7zIhWgrTdKMGcg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795540278;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Ke4DMY/5oHPgUmAeqSFagfiX14Vkl9nfeTs1w7gvuG8=;
-	b=0NNUdGT57aSqc381FThDKjYg7mEve6pYFvv97gIfSoVWn20jwNsV1N/XI9EUquZRT50W
-	 +DVHkisEBReSjFMDlkYeEvSQeWU677+7M0c3JQE6yAwQzGu9zlTcK5xowk88lW0Nzsorx
-	 IWxaMza+IEliQORHkmloqg1nFErQm3rIad01lBvCcvTMbVlZtJeUkh0GXa3ModWcuM28f
-	 8GqPnd2FLKjyQ+soHV7TfX76JM9sOZB69BDpvaK4W9tMbqNmjlBVFItyxbuGxRKe6nFsQ
-	 NpeRBudSbWvUMtTjJNOxkg4srT//pm5zeqGIk85UGJB40fn5CH+mQ+rnx/I+P6nfRJg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mojatatu.com;
-	spf=none smtp.mailfrom=mojatatu.com;
-	dkim=pass header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=fcgF7KOH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.172
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795541816;
+	b=kQSM/+5A0ZhsgcjFIJaYKdBhqMO50KGjNcvahlxOVQvdkt7PgtOUcsVLQI/LgzCBwxeN
+	 eEDYBT5k1wbqv7DeO+pzxKzhNthFecwHTEl+eDoC6Ua3j606Qnn7KoYJUmhMesdzabH20
+	 BvXfPzbE5N14J80m3GFiB2tWMpEDXWy7WdEKsi3zs0Vee0wx4tkYCNd9zDwXNk+Zc6nF/
+	 BSjklbCHb7aaQaRlaXSpRQP3NeUZWQZnxmDPEkYtXnG14jBYmw72lKDqmsZWnfcTnb/HU
+	 TjNGkPlZKt4ChVWVaUA8jeEGCfnjEWRNBhLD6ch5+3Zkmb8jgV59qqKSM6jVeUqqnKA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541816;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Stat-Signature:X-Spam-Status:
+	 X-Rspamd-Server:X-Rspamd-Queue-Id:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=cgbskdNiwv1foCu8NskiI0D1syGORGzYIPtRO06UAuE=;
+	b=WzAQPAj41w1HpYh2XVBkD1N8npUHipcL7lmNy+J6/GOFvhrotrn6EpQ8HviCeRY36Hy/
+	 kcjys62H8Rd4bdtC92wm1kGHNMaMirZLsIotGQ5Ui5i8/QrU+LLvL/HRK8O7PzorSDo5j
+	 N8UGeNDMjed2ZNkjy1IflEzB+W0l953wzkuZWJ/3EL5EvYKZvEmKEj+zLEJd+zau391t8
+	 bzG5SmIMC+hXtcRGkXAU7g/99dIHL+Rv4TV5E8G6AKc+PsQDQKZaljxl/UpKBMMZfm9Bk
+	 x+M7eOWd0tsnycM1mVcW7msCdiNk/AbMF+22OefVsiTyxaDd1fls5LG/7skNYKe1acg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=IKsjSGKG;
+	arc=none smtp.remote-ip=216.40.44.15
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFDC606A6BA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 17:11:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BFDC606A6BA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0021606A330;
+	Tue, 24 Nov 2026 17:36:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0021606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=fcgF7KOH
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8c700d6cc0bso2935838b3a.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 09:11:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795540277; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s5VaV7QbjM5QThL+SF1qR2nrsMVqBGBag1rRjAuX21AeNoyiFIaBLm0zuEiB1LMjnO
-         W7R8Cr1ehZunoEzMPa16Wkg1pPRUgxjRUjhFb+Tvx26x2mWV7UfG9xyyY5dK7qSdLXmU
-         iyJxvcz1rOgbAdux01B90BmpYfhRX61jRJc7QjIoHYG+E7iQ0MH/tOhG5+Or3WbPASsV
-         CkSUhaLlrLhCZZDkFIeDvS4daXTTQjnQUWFspQ3nKwIMtP/8eqm3iRJBzztk7/EXyWGx
-         PYFTwqJmo8xEfgJqHxp83MwCXhHx8kaguw7y+ENlqxOU7bCm3lkdMUqcj0G1iRH7aRzP
-         lnsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ke4DMY/5oHPgUmAeqSFagfiX14Vkl9nfeTs1w7gvuG8=;
-        fh=IqiHtodKceYjFSA7y1gs7ufp7CXgLzHi/KJraMxgXmE=;
-        b=GMl56HhECn2b2feGzMwSGsjBvhFAD+a4Rs2o1j7gc+T4QTlou9EcDAlX2Q/RfRSO7p
-         VOddyN5shpXVSKaHtUWJHoZq/rXRpKy6hRksbYDDrJc9GAVxKSGtdb5GDkMf9UejktL3
-         3nQs3LFF1z7aBtV5u0IuTmh3yJVjubf5FJUqoaH5t7ClEMjD1WZryQYpflqbbIvEmSz5
-         yVrJ7p2VEfandOQt0ybHUpptEGER1NOPB2Ns4MFM//7sPfCUp968MLd0LNu83+Ht7efX
-         Wd+9aii60BLQ6M0dIPkSJz0d7v6xQBqo+H1BwwlN/+LyemBf1MA2RQQd9USb5rdlgSQX
-         gwNA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu.com; s=google; t=1795540277; x=1796145077; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ke4DMY/5oHPgUmAeqSFagfiX14Vkl9nfeTs1w7gvuG8=;
-        b=fcgF7KOHPGnrP9VIh35m7v8Ljg8Ly4d15Wo7OkrPh3pai2uUjkMQIgT26s22r51cUO
-         PdMRmHAE3LGeBIcVZ650lVvf2egsDvoaUVjmf7QZAvYYmAY1uqgWbj7Q0rLMAFLO70ZU
-         XWvBp0WXTtKC/ccbVdNq3r+J0JcRy5ly0tpi0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795540277; x=1796145077;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ke4DMY/5oHPgUmAeqSFagfiX14Vkl9nfeTs1w7gvuG8=;
-        b=Kenk0mCZg1uM8pc0xiDpj/z1Q3RVb8i8hJiI7BWz9ScYS7izVsOm+TjljbEG9KbRqc
-         mo+yAncF8Yo3aRLrpYF11C8SUWxFgRMMvFc1FtFN/6oqb8SVJgN1d4SOMnEJROsHpfBS
-         dMyxRWpT67mogSFDTjzfcBkF56FY35Egn+k0a0Njtc9jGG8ewyJB2zOpI51uDqfcwC2A
-         VaTcbzqxF9tPkDF3/BO3XwisxqufGb09nqMdZAnwjoX4zPYc7aFbZnpGr5vpPWnJZpbi
-         Y2uYugSipnFI9ucQNr3Q6/YdnPoUCVGSq7Jgt3gp1B+ZpE2/7cEZYKqUgQ07GbeXzfJn
-         sEew==
-X-Forwarded-Encrypted: i=1; AL+hErHYA/zw+zffBkhx6aKYLFfvM98ztzIA2FpDLhSfSB9joJlENDrcy68rt1JGc5tgtRBo25l7gC4wZ234GteT7w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8TyNztSSSSey8mSX4R0ZAJQDthtwbA1Xul/mDehwuGsTG9ebWx
-	ROExQNZUlZT2Qd2eYoC4fJFFNaC2Vm+TRH9vUPNxCRYhYBzEzWlcxTSAi6+oJVIu9HFJi9EqZvt
-	YSHwncRwsOyYbWVfay5bJza4e4VYa035Q/dPa4bHJ
-X-Gm-Gg: AZFdTZfgSzi00k/rZU0baTrVLKRRsapCxG/bu0k29ZT9Q5PCsTCuKNtWoY2/J6a9efo
-	ZWp4Pps5SpfMisxsl61CRGi+9ABwB+G0al7vgNWYoH4F4mLs3MXPujlP807ajOw6I9Jx2y4Z2Ns
-	7X5AqNrvkyj7n5i1UZ7cEck2ozKV+WhQKdTWY4QFIaGy79SyC4qWBH0kkTL8EtKnqlXBXp3VLKC
-	Yi8Bq3PNDBvP3bi0RRK3k5FYXS0uH8zmxZWHGyqiivQfAAYQTlUWKG9MehjpHZA7aC+1m7aMSB9
-	Lkh5M0x/x/cCVv6oHnk0X3s8sCdR7YmkUqS9FwXg7aVhP78mJ2CbDYehBKet8gVYWvb4VjjqVdW
-	H4kZJUUnTpd2cLue8k41IpUjxEeWzYhV504TBOBrLZvXpmnIntKT8Jcj00PmOSwTknwQZ8tAEq9
-	6CuWMk26cs89yyV1g=
-X-Received: by 2002:a05:6a21:e089:b0:3d8:e57a:5a5b with SMTP id
- adf61e73a8af0-40149f7bc79mr13550670637.5.1795540277488; Tue, 24 Nov 2026
- 09:11:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=IKsjSGKG
+Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 98CE81A0C2A;
+	Tue, 24 Nov 2026 17:36:48 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id 5C8E520025;
+	Tue, 24 Nov 2026 17:36:40 +0000 (UTC)
+Date: Tue, 24 Nov 2026 12:36:38 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
+ <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, Andy
+ Lutomirski <luto@kernel.org>, Frederic Weisbecker <frederic@kernel.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Waiman Long <longman@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
+ <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
+ Nayak <kprateek.nayak@amd.com>, Hongyan Xia <hongyan.xia@transsion.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>,
+ linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 03/13] sched: Split preempt-count bookkeeping
+ from raw updates
+Message-ID: <20261124123638.0a4e795f@gandalf.local.home>
+In-Reply-To: <20261028033127.82193-4-kmehltretter@gmail.com>
+References: <20261028033127.82193-1-kmehltretter@gmail.com>
+	<20261028033127.82193-4-kmehltretter@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -102,135 +78,134 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <ACT-WEXM.v4.r0.20261124074514@mojatatu.com> <ACT-WEXM.v4.r0.20261124074514-2@mojatatu.com>
- <20261124161258.vLyrm8Y4@linutronix.de> <CAM0EoMmMio4kotBqbcJmFtf_c3Du=rhfvp+sMiAd0fHKowv6Vg@mail.gmail.com>
-In-Reply-To: <CAM0EoMmMio4kotBqbcJmFtf_c3Du=rhfvp+sMiAd0fHKowv6Vg@mail.gmail.com>
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-Date: Tue, 24 Nov 2026 12:11:05 -0500
-X-Gm-Features: Aa3M54oig4IWsvcX3iSlWHrklygop5_tvIrr2s7WuHfHlt2lcJnss6T7_wTd3Ko
-Message-ID: <CAM0EoMkEjxCo6K9k3MZH0U+3na9soMNE0gouddwOTzUYXcEunA@mail.gmail.com>
-Subject: Re: [PATCH net v4 2/3] net/sched: act_gate: refuse schedule entries
- shorter than 10 us
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, Simon Horman <horms@kernel.org>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-rt-devel@lists.linux.dev, Victor Nogueira <victor@mojatatu.com>, 
-	Po Liu <Po.Liu@nxp.com>, stable@vger.kernel.org, sashiko-bot@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: o7t4gho3twp1pjm483fepzra6sqea1zo
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 5C8E520025
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19jjJfeX0Pq5rKkc5XDNag2YF12GXEJJ0c=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=cgbskdNiwv1foCu8NskiI0D1syGORGzYIPtRO06UAuE=; b=IKsjSGKGP88SZhny+HOXUAncmF19+0BUUDc0u5l131xdPNIc+2cg03+qSMi4x6VuvPafyYRbcZOODK7TaUD++oAq/LMHs2D0SKg5emJipMmethrJ58TkI4h8EoUxZ0NZ8yxGtlukmRBcEXebp911C1pjPZXIb3/Pn1vcULBVoBE=
+X-HE-Tag: 1795541800-76208
+X-HE-Meta: U2FsdGVkX1//0KdiMOWlABzDJ67uxFLp67YDmtynpCt6dGXlAXSOGXfWHH0NQNs4J18yoejLLirzKE6G+vDscomrddt0UbSWq2IScO0sdUJn1oCI575V2BTFdRhwUotSimZAihEXlFEgu3xlutyREHxNwcNEBrwolkeD0shXWG2W2MBsl/ucTPI5lO1Iea1l0g38kDuJ8CQrWgVl5qMnbwe4rUtj4gpUSI2wgRhN2vevOwdKbe4O6wS7u77F+Iug+Lna94xG+7dS6JKnxC5hF52AwE7bilNEZN4y7ubYvJ6DOkX3WMV2o5HCvaD6l7VtjteZjoPT6dth7kBCDU7R1W5RCOmwKVa0
 
-On Tue, Nov 24, 2026 at 11:58=E2=80=AFAM Jamal Hadi Salim <jhs@mojatatu.com=
-> wrote:
->
-> On Tue, Nov 24, 2026 at 11:13=E2=80=AFAM Sebastian Andrzej Siewior
-> <bigeasy@linutronix.de> wrote:
-> >
-> > On 2026-11-24 09:12:09 [-0500], Jamal Hadi Salim wrote:
-> > > This is a followup of commit a51c328df310 ("net: qos: introduce a gat=
-e
-> > > control flow action") as reported by Sashiko.
-> > >
-> > > The issue:
-> > > fill_gate_entry() only rejects an interval of zero, but that interval=
- is
-> > > the period gate_timer_func() re-arms the hrtimer at, and a few
-> > > nanoseconds is below the cost of servicing one expiry: the next is du=
-e
-> > > before the current one finishes, so the action holds a CPU in the tim=
-er
-> > > softirq for as long as it exists.
-> >
-> > The timer is programmed in the past, fires immediately and hogs the
-> > CPU.
-> >
-> > > On a 2-vCPU guest, entries of 1 us and below hold 86% to 90% of a cor=
-e,
-> > > 2 us holds 61%, and 3 us holds 22%; from 3.5 us on the cost falls to =
-a
-> > > few percent and it reaches zero by 100 us.
-> > >
-> > > The Fix:
-> > > Require at least 10 us per entry.  An act_gate schedule is not tied t=
-o a
-> > > device, so unlike taprio there is no frame time to derive a bound fro=
-m;
-> > > the bound has to come from the cost of servicing one expiry, with roo=
-m
-> > > for a kernel that services it slower.
-> >
-> > The 10us sound sane. With enough debug (say kasan, lockdep, =E2=80=A6) =
-this
-> > might become tight again.
-> >
->
-> Agreed. Unfortunately, there is no way to derive a "good value" here
-> (it depends on workload, machine, utilization, etc, etc).
-> poor choice of wording on my part - should probably have said all of
-> what i said above for precisiness...
+On Wed, 28 Oct 2026 04:31:17 +0100
+Karl Mehltretter <kmehltretter@gmail.com> wrote:
 
-And now that you bring this up - this should really have been
-targetting net-next not net.
-I dont want to resend (unless sashikos find something sinister) - but
-Jakub/Paolo consider applying this to net-next instead when the time
-comes.
+> diff --git a/include/linux/irqentry_hardirq.h b/include/linux/irqentry_hardirq.h
+> new file mode 100644
+> index 0000000000000..1937fc972e846
+> --- /dev/null
+> +++ b/include/linux/irqentry_hardirq.h
+> @@ -0,0 +1,81 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __LINUX_IRQENTRY_HARDIRQ_H
+> +#define __LINUX_IRQENTRY_HARDIRQ_H
+> +
+> +#include <linux/preempt.h>
+> +
+> +struct irqentry_hardirq_cookie {
+> +#if defined(CONFIG_DEBUG_PREEMPT) && \
+> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
+> +	bool applied;
+> +#endif
+> +};
+> +
+> +static __always_inline bool
+> +irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
+> +{
+> +#if defined(CONFIG_DEBUG_PREEMPT) && \
+> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
+> +	return cookie.applied;
+> +#else
+> +	return true;
+> +#endif
+> +}
+> +
+> +static __always_inline bool irqentry_hardirq_count_valid(void)
+> +{
+> +#ifdef CONFIG_DEBUG_PREEMPT
+> +	/*
+> +	 * Without separate reschedule bits, preempt_count() excludes any
+> +	 * shared reschedule bit. A negative result therefore denotes an
+> +	 * existing underflow.
+> +	 */
+> +	if (!IS_ENABLED(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS) &&
+> +	    preempt_count() < 0)
+> +		return false;
+> +#endif
+> +	return true;
+> +}
+> +
+> +#if defined(CONFIG_DEBUG_PREEMPT) && \
+> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
+> +struct irqentry_hardirq_cookie noinstr
+> +__irqentry_hardirq_count_start_slow(void);
+> +#endif
+> +
+> +/*
+> + * Attempt the non-instrumentable part of a staged hardirq-count addition and
+> + * record whether it was applied. The returned cookie must be passed to the
+> + * matching irqentry_hardirq_count_finish() and subtraction preparation. A
+> + * rejected cookie attempts deferred reporting and suppresses post-add
+> + * bookkeeping and the matching subtraction regardless of warning
+> + * suppression.
+> + */
+> +static __always_inline struct irqentry_hardirq_cookie
+> +irqentry_hardirq_count_start(void)
+> +{
+> +	struct irqentry_hardirq_cookie cookie = { };
+> +
+> +#if defined(CONFIG_DEBUG_PREEMPT) && \
+> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
+> +	cookie.applied = true;
+> +	/* DEBUG_LOCKS_WARN_ON() permits the addition during an oops. */
+> +	if (unlikely(!irqentry_hardirq_count_valid()))
+> +		return __irqentry_hardirq_count_start_slow();
+> +#endif
+> +	__preempt_count_add(HARDIRQ_OFFSET);
+> +
+> +	return cookie;
+> +}
+> +
 
+BTW, the above would look so much better and be much easier to maintain if
+you just made stubs when not needed:
 
-cheers,
-jamal
+#if defined(CONFIG_DEBUG_PREEMPT) && !defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
 
-> Cant wait to see the pedantic nitpicks the sashikos will get about
-> this. Regardless if this is all they came up with I am not resending.
+struct irqentry_hardirq_cookie {
+	bool applied;
+};
 
+static __always_inline bool
+irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
+{
+	return cookie.applied;
+}
 
-> > =E2=80=A6
-> > >
-> > > Fixes: a51c328df310 ("net: qos: introduce a gate control flow action"=
-)
-> > > Reported-by: Sashiko (gemini) <sashiko-bot@kernel.org>
-> >
-> > There is no syzbot report for this?
-> >
->
-> It's in 1/3
->
-> > > Closes: https://sashiko.dev/#/patchset/tencent_4ED9536B0375C96183B224=
-4CF7709768C605@qq.com
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Jamal Hadi Salim <jhs@mojatatu.com>
-> >
-> > Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> >
-> > > --- a/net/sched/act_gate.c
-> > > +++ b/net/sched/act_gate.c
-> > > @@ -25,6 +25,11 @@ static struct tc_action_ops act_gate_ops;
-> > >   */
-> > >  #define GATE_ENTRIES_MAX     1024U
-> > >
-> > > +/* An entry shorter than this lets the next expiry land before the s=
-oftirq
-> > > + * servicing the current one can finish, so the timer stays permanen=
-tly behind.
-> > > + */
-> >
-> > No strong opinion. I leave this here.
-> >
-> > | With a too small interval the next timer will be programmed in the pa=
-st
-> > | and will fire immediately.
-> >
->
-> see above.
->
-> cheers,
-> jamal
->
-> > > +#define GATE_MIN_INTERVAL_NSEC       10000U
-> > > +
-> > >  static ktime_t gate_get_time(struct tcf_gate *gact)
-> > >  {
-> > >       ktime_t mono =3D ktime_get();
-> >
-> > Sebastian
+static __always_inline bool irqentry_hardirq_count_valid(void)
+{
+	/*
+	 * Without separate reschedule bits, preempt_count() excludes any
+	 * shared reschedule bit. A negative result therefore denotes an
+	 * existing underflow.
+	 */
+	return preempt_count >= 0;
+}
+
+#else /* !CONFIG_DEBUG_PREEMPT || CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS
+struct irqentry_hardirq_cookie {
+};
+static __always_inline bool
+irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
+{
+	return true;
+}
+static __always_inline bool irqentry_hardirq_count_valid(void)
+{
+	return true;
+}
+#endif /* defined(CONFIG_DEBUG_PREEMPT) && !defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS) */
+
+-- Steve
