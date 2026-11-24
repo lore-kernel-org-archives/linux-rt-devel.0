@@ -1,85 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795543671;
-	b=Tv+QZeYiaH98H5kOpUK83xxtkb5BC6G3g1VxZjykHy1E41BIW1p2K2Hu3JsEw+TL3Z1Y
-	 njIZrOcze/kMVd/o0G4nd0Q2H0AtGZ/dvFMfjOyqXFMAee7g1exnnwGg6nJo+taiGYH/9
-	 +1tio9UoUxaVKJmJIOOg5bKX1JplFvuf3tCP5yMSlrA9vHXxtpVj8j8SDoJmcqw662Eg7
-	 7rNuNxrr/fRKNBfXAaDRwVCHxZ5ktdhoQweYEtq0nBviRf0UtErytMs3I2HyVykNcdEIj
-	 CdtaSmaJpSLkuMAd+1tE81Q6x1QkRKKeM2UCzs94Q96U8pgxViurU+rDH0A6bvE3IyA==
+	t=1795547636;
+	b=rJKCPOZSpYrI4GFtojV7ASEFDlnWop0+uS93TZ8eRWfjxGO79ZByeXEjYY7gt60WJI8f
+	 KR+RQDz6uxwv2fW9GY7u1KycjajlqL6BQ6jRqRvEYdRvw/9qSR/EvHe9C129EF3A7bUoU
+	 Qy/SXCOu31ieLDw6ZNxyE87jJ5kE7dcD3VUPYCwEF1ULokmO2UQIH8SiTZ6dij9k39XwD
+	 TYPfjtutLaacmsWMDY9pJViKoVSgp4p4YrUaFEQsMj9RPfY4rOUIgUac+7tGc/d/OlPdx
+	 lNGESw7/gflAvkk9VbfGHNeQjSy3SBdRK5rY7RZVetD6Ljy6qqqMnxWtAk3f5uXdvCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795543671;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=VsP8MXxfo3SZdbWSOQKBU/IrTFvBThmLY9Ku8DE2rr4=;
-	b=VC1L6B9rqNJqzS/zZt3Dsoy2YMySWx+YUyVNphkR4s4ScfEufb0jk8+X34RQl1rPyIob
-	 /HT6FCYZmkT7OuOneYkaG2LT79j5UhfhRPxCti6qHLbsHBbLCIo7C/YP7emwR/eZZViip
-	 dmr1X/sfHUeGKC+D8NaejYCt0dYY2QBGxCnCFrLpTCioSBCRbhFnTE308hJ8a0hi3G4xW
-	 McWjvQEmnfw/N8DHiVr2/CJVE3ZJjy/kxACzO8lK0Vqqfe4ZNn0O2+id7vjmtgyfT356v
-	 3ZDfeoRlTANb1u7UnYpTMbkEhjO8qp3D2wqIvkkGP4QULqKwTTUawBbQ2C4iqU0w8EQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795547636;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Rspamd-Queue-Id;
+	bh=fFUWUmaqeHqtv4TVB3l69JhY/vB0OOHBwv/qq80AEb4=;
+	b=fFITereJPgoc23IMxzMaPgK6S0iNqvJ9MDDEjAU+jNLlp0icAj0YLR1sHRXtM3llV3A+
+	 Y/Bmqq2m/E0c4sR/oZsZPBHnHzE0qXaMRXJLQgeTEMVxIr4bSIdZFcYqDbp0gNVNyP6k9
+	 tYCy8Bif3+udQQOPaKfSyH0eVLZJI4uSz/pXA/pmf3ayNhgipY/dAwnTJkzhAKor3KLph
+	 RzCfpYuFkaZNGmyVyElXqbSVDlOlGBP8fal4X5dlHYFucKsKiP5gpP/kduDyXXGNBb2fx
+	 p3xBbqslqs16JSL0oYxUHQXfQ/kL+ct7COUkDbZwLrCYoJaNda1JHeuHlumIJWzu4rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=etsalapatis.com;
-	spf=pass smtp.mailfrom=etsalapatis.com;
-	dkim=pass header.d=etsalapatis.com header.i=@etsalapatis.com header.a=rsa-sha256 header.s=google header.b=jBIHKzb1;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=jauu.net;
+	spf=pass smtp.mailfrom=jauu.net;
+	dkim=pass header.d=jauu.net header.i=@jauu.net header.a=rsa-sha256 header.s=MBO0001 header.b=TIZDN6p0;
+	arc=none smtp.remote-ip=80.241.56.172
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60D7606A33B
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 18:07:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E60D7606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AE9606A331
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 19:13:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06AE9606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jauu.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jauu.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis.com header.i=@etsalapatis.com header.a=rsa-sha256 header.s=google header.b=jBIHKzb1
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd69954c755so3459582a12.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 10:07:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis.com; s=google; t=1795543668; x=1796148468; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VsP8MXxfo3SZdbWSOQKBU/IrTFvBThmLY9Ku8DE2rr4=;
-        b=jBIHKzb1smqc4tpznans0Db/+QVk54TcspBLC0QRDmCEDMagZw8FZQguqvDt7aRyvN
-         SRcSMYo2jCj3KKevFX7T04s4tAGV6zxZx+boBjd5E6u4bQTIolTqeLgkFb8sGwxKDXRG
-         bIiKw8f9sJAKH7J28WmgcqFqhaI9FNxMZ7c1EAGg1rFJ2dqoq+paa03C2UKOMBnB/Dzo
-         p3fvCeSjP43miU7VpZ1OknkIZAMSq2aTCZZv9vHqNV2Og2iyKMbhV+EmucuCSPU2KDdn
-         H9MEIYsCjpf8mzzxT5Iith6/8lzQbdixkfAKbJJJCBDkhDQl3Iv3K+r/L/1QIjhrxeuX
-         Pleg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795543668; x=1796148468;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VsP8MXxfo3SZdbWSOQKBU/IrTFvBThmLY9Ku8DE2rr4=;
-        b=A+MJqR509mKBw+fzQRB3hG7EHWjzGyUqpqiRaNVJBtyjPTs34bAyQa0FxBoBQzXU3J
-         3slgAOkdd8VJgMGwgiPzfEDH8ly/gJ5KiX+i6F0AY8idAIp7nJGxhKW3cDNGYdv3YpNp
-         T5xaySF6Zsw9qUDQ3CRms7A+DVvzrdumql6FlAwNO+6tZYWBzdnfWOPYtz3H+plzdHnJ
-         WlZjWu4XnMQMyCAgpg8oHQzkM6FWuKjOHirQz/N3GkAafwxipP98xkJYuxT/rtJsgM05
-         FD5d47LZfckSM6rAhNcEBy/soOLQtFEO5K24NAwWXugqgr/Fq/v1h7c6sLGgIzAawhKn
-         h8gw==
-X-Forwarded-Encrypted: i=1; AL+hErG/gECWbmhT/r4+SQhBB7yjjv9gYG6ALWZKA6tleqp7zvI7FglcmAATTI1+Hu7i10Ubw+0xSJ29qCIYqfgC9A==@lists.linux.dev
-X-Gm-Message-State: APuU4Z93pf5tkCREQmTJTmw1ZZz1xFymQHVQrG7C0pcM+qaka4c/nMkJ
-	nedp4D+fokcAVWisENyr30xf5zroTTg1jHLTwX4BtmL3LYTn6Fvge482WUeUVqWX728=
-X-Gm-Gg: AZFdTZcxD5LZxkTcHDd2qDfIZtFPJeyN7fvJ1fbXtls0tXBHYDp2gSYRfRTng1VI1B2
-	yfqJlctH/N1c5QO9uhkOwa2AEnya5/iwmncLulT3wVZm2qSfGMBAEZhU80fIPap5q1FNts6aIzF
-	ZUdxYSLCAd3DO+vpmjXQpgrToSCSUZ5DIXrrDcJuARtcH3n42y6U6sM4QVCRNNXYsy/TxBI8iIs
-	ZakV07C2L8LYRXDIRvEYBO1n0JyXqLzveDTh57trBidv1yBgL1a3quKZzW+oOC6q2iNSS6RxH4x
-	5PL9L8ai2smAnGQOaSu/+vyrn0+oVzFmvjLW3hXKxkuvGYyCZZEywblW0+ggLl/kLbI+FSq8bFT
-	rEqWNEVopP5bR5ogQlfQAYbfrBVm/DNKseIoFkdVcocVBESmufunyNaKNj5P0pzjcH7eXNbLxxi
-	LS6IAyj9MH3nrBFvAxSxqW47RuKb6loPwNN6LmDmmHyynU+RInH15/+qDqVRfi1DWiJkIzvZ5zZ
-	G5MmeLdfE37xBQkUdvUaNGQkVRf+//Q7mG7CXD/ALVMoqYU+WGlQZgqESamau6ZDTvVW7EcLbHb
-	+lC7cY5hjUs7bWWR1Rpri3LwrDe7svfley17AJfdUd7yFXQGvdlAiNl28jhEBd0CctB8UCJ2aWY
-	7acIwlu3C6lTjk/QT1F8BQ/g1ha6kIvb9Kmb37pY=
-X-Received: by 2002:a05:6300:492:b0:3eb:a2d9:58f1 with SMTP id adf61e73a8af0-401493a61ecmr13003503637.9.1795543668120;
-        Tue, 24 Nov 2026 10:07:48 -0800 (PST)
-Received: from localhost (107-190-31-93.cpe.teksavvy.com. [107.190.31.93])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6cff4c1asm7283156a12.15.2026.11.24.10.07.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 10:07:47 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=jauu.net header.i=@jauu.net header.a=rsa-sha256 header.s=MBO0001 header.b=TIZDN6p0
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jYst175T2zMm1j;
+	Tue, 24 Nov 2026 20:13:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jauu.net; s=MBO0001;
+	t=1795547626;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fFUWUmaqeHqtv4TVB3l69JhY/vB0OOHBwv/qq80AEb4=;
+	b=TIZDN6p0pTUatMbgyZQhc/3tZE58LTZWk0D9NGMqVZwVPnsZTxCVzAPWUs5W7tXONJwu0L
+	dKlxPsDaDa17zfN6d7v2DaVod1+11Bkd6U8SPPeSLk7U4mJZaeoPR03bEnJZ0qlvzwq84G
+	frSZtirjY14zrcIitM7AH+5wZREpXr8Y/gGsCLxUaUDayDfCn/spuAC8CPfBcGUOQdcvre
+	dJqpgI4DZNn3Gha33aRryDcgnWgRGbAUJtRiCq0gYVbQsK90/zKXo/EayDybrxPQtQC05i
+	H19RVV1e4CEvnNGxi0QxBYqjjBJofqHK48e1WlvpNFrgr3uKBeML55y9ncxzsg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of hagen@jauu.net designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=hagen@jauu.net
+From: Hagen Paul Pfeifer <hagen@jauu.net>
+To: tglx@kernel.org,
+	jstultz@google.com
+Cc: linux-rt-devel@lists.linux.dev,
+	sboyd@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hagen Paul Pfeifer <hagen@jauu.net>
+Subject: [PATCH] timekeeping: Skip unchanged leap state publication in adjtimex()
+Date: Tue, 24 Nov 2026 20:13:26 +0100
+Message-ID: <20261124191327.943964-1-hagen@jauu.net>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -88,137 +72,78 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Nov 2026 18:07:46 +0000
-Message-Id: <DN3N3WXWFO3J.IQPVUAFZKE3B@etsalapatis.com>
-Cc: "Emil Tsalapatis" <emil@etsalapatis.com>, <bpf@vger.kernel.org>,
- <andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
- <daniel@iogearbox.net>, "Sebastian Andrzej Siewior"
- <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, <linux-rt-devel@lists.linux.dev>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Hao Li" <hao.li@linux.dev>, "Andrew
- Morton" <akpm@linux-foundation.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Brendan Jackman"
- <brendan.jackman@linux.dev>, "Johannes Weiner" <hannes@cmpxchg.org>, "Zi
- Yan" <ziy@nvidia.com>, <linux-mm@kvack.org>, "David Hildenbrand"
- <david@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>, "Ingo Molnar"
- <mingo@redhat.com>, "Will Deacon" <will@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Waiman Long" <longman@redhat.com>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Harry Yoo" <harry@kernel.org>, "Alexei Starovoitov"
- <alexei.starovoitov@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20261124060357.11700-1-emil@etsalapatis.com>
- <20261124060357.11700-2-emil@etsalapatis.com>
- <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation>
-In-Reply-To: <awWRZ9xCzWLnj_R6@thinkstation>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4jYst175T2zMm1j
 
-On Tue Nov 24, 2026 at 1:59 PM UTC, Harry Yoo wrote:
-> [+Cc Relevant folks]
->
-> And a bit of context on the underlying problem.
->
-> kmalloc_nolock() could fail when there is a contention on locks
-> shared across CPUs (e.g., n->list_lock in slab, zone->lock in buddy),
-> or there is a decent amount of memory pressure. It's more restrictive
-> than GFP_ATOMIC.
->
-> Unconditionally using kmalloc_nolock() in BPF local storage is
-> unnecessarily restrictive when the program can sleep or spin, and
-> Emil's patchset teaches the local storage whether the BPF program
-> accessing the local storage could sleep or spin on a lock.
->
-> Answering the question "Does this context allow sleeping, or spinning
-> on a lock" is extremely tricky in the Linux kernel as BPF programs
-> could run and call kfuncs almost at any point in the kernel code and
-> the "context" is usually encoded in the GFP flags or the process flags.
->
-> Tracking whether certain locks are taken by current context is not
-> ideal either as it adds unnecessary overhead for everybody.
+Every adjtimex() call that does not set the clock ends in
+tk_update_leap_state_all(), plain read-only queries included. The
+function always opens the timekeeper sequence count, so tasks that read
+the time at that moment have to retry, although the published leap
+state stays the same. Without a pending leap second next_leap_ktime is
+KTIME_MAX before and after the call, and with a leap second pending,
+repeated queries leave it unchanged as well.
 
-Yes, we considered the page_alloc approach with Harry offlist and I think w=
-hat
-it comes down to is that one approach is the most turnkey for users while
-the other has the clearest semantics. I went with the latter because
-making the selection straight in the BPF code makes the behavior of the
-top-level local storage alloc call ends up easier to understand and
-explicit in the BPF subsystem.
+Compute the new value in the shadow timekeeper first and open the
+sequence count only if it differs from the published value. Both values
+are protected by tkd->lock, which __do_adjtimex() holds;
+lockdep_assert_held() documents this. Comparing the computed value
+instead of the adjtimex mode bits keeps real changes, such as cancelling
+a pending leap second.
 
->
-> On Tue, Nov 24, 2026 at 06:40:11AM +0000, Alexei Starovoitov wrote:
->> On Mon, Nov 23, 2026 at 10:03 PM Emil Tsalapatis <emil@etsalapatis.com> =
-wrote:
->> > +	/* Only try the spinning allocation when preemption disables are tra=
-cked. */
->> > +	if (IS_ENABLED(CONFIG_PREEMPT_COUNT) && can_spin_in_alloc() &&
->> > +	    size <=3D KMALLOC_MAX_CACHE_SIZE && !(flags & ~nolock_flags))
->> > +		ptr =3D kmalloc(size, flags | GFP_NOWAIT | __GFP_NOMEMALLOC);
->>=20
->> It works, but I after a bit of brainstorming the following
->> might be a better fix, since it will address the root cause:
->> Pls run it by Vlastimil, Harry, Sebastian.
->>
->> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->> index 2fef409..4368ab5 100644
->> --- a/mm/page_alloc.c
->> +++ b/mm/page_alloc.c
->> @@ -2536,6 +2536,24 @@ __rmqueue(struct zone *zone, unsigned int order, =
-int migratetype,
->>  	return NULL;
->>  }
->> =20
->> +static DEFINE_WAIT_OVERRIDE_MAP(zone_nolock_map, LD_WAIT_CONFIG);
->> +
->> +/*
->> + * zone->lock is always held with IRQs disabled. A caller that runs wit=
-h IRQs
->> + * enabled is not nested inside of it, so it can wait for the owner.
->> + */
->> +static bool zone_lock_nolock(struct zone *zone, unsigned long *flags)
->> +{
->> +	if (IS_ENABLED(CONFIG_PREEMPT_RT) || irqs_disabled() || in_nmi())
->> +		return spin_trylock_irqsave(&zone->lock, *flags);
->> +
->> +	/* The caller may hold a raw_spinlock_t. */
->> +	lock_map_acquire_try(&zone_nolock_map);
->> +	spin_lock_irqsave(&zone->lock, *flags);
->> +	lock_map_release(&zone_nolock_map);
->> +	return true;
->> +}
->
-> I'm not sure this is a better solution unless this could be generalized
-> or abstracted further.
->
->>  /*
->>   * Obtain a specified number of elements from the buddy allocator, all =
-under
->>   * a single hold of the lock, for efficiency.  Add them to the supplied=
- list.
->> @@ -2550,7 +2568,7 @@ static int rmqueue_bulk(struct zone *zone, unsigne=
-d int order,
->>  	int i;
->> =20
->>  	if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
->> -		if (!spin_trylock_irqsave(&zone->lock, flags))
->> +		if (!zone_lock_nolock(zone, &flags))
->>  			return 0;
->>  	} else {
->>  		spin_lock_irqsave(&zone->lock, flags);
->> @@ -3237,7 +3255,7 @@ struct page *rmqueue_buddy(struct zone *preferred_=
-zone, struct zone *zone,
->>  	do {
->>  		page =3D NULL;
->>  		if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
->> -			if (!spin_trylock_irqsave(&zone->lock, flags))
->> +			if (!zone_lock_nolock(zone, &flags))
->>  				return NULL;
->>  		} else {
->>  			spin_lock_irqsave(&zone->lock, flags);
->>=20
->> pw-bot: cr
+The leap state changes only when a leap second is set, cancelled or has
+passed, which is rare. So the extra comparison is cheap and saves the
+write section on almost every call.
+
+Noticed while tracing the stress-ng clock stressor on PREEMPT_RT, which
+calls adjtimex() at a high rate.
+
+Tested on x86_64 under KVM on top of tip timers/core: 10,000
+read-only queries went from 10,000 publications to none, also with a
+leap second pending. Setting, cancelling or switching a pending leap
+second still publishes exactly once, and the leap second still takes
+effect. A 60 second stress run with concurrent clock readers and
+adjtimex() callers saw no clock going backwards. The timer selftests
+valid-adjtimex, set-tai, nanosleep, posix_timers and leap-a-day pass,
+with and without PREEMPT_RT.
+
+Signed-off-by: Hagen Paul Pfeifer <hagen@jauu.net>
+---
+
+Notes:
+    Also run on auxiliary clocks (CONFIG_POSIX_AUX_CLOCKS): same behaviour
+    with and without the patch, read-only clock_adjtime() calls no longer
+    publish. No measurable change in adjtimex() throughput. 32-bit x86 is
+    compile-tested only (i386_defconfig, W=1).
+
+ kernel/time/timekeeping.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+index 3668bd24fa4f..22b146822049 100644
+--- a/kernel/time/timekeeping.c
++++ b/kernel/time/timekeeping.c
+@@ -738,9 +738,16 @@ static inline void tk_update_leap_state(struct timekeeper *tk)
+  */
+ static void tk_update_leap_state_all(struct tk_data *tkd)
+ {
++	struct timekeeper *tks = &tkd->shadow_timekeeper;
++
++	lockdep_assert_held(&tkd->lock);
++
++	tk_update_leap_state(tks);
++	if (tkd->timekeeper.next_leap_ktime == tks->next_leap_ktime)
++		return;
++
+ 	write_seqcount_begin(&tkd->seq);
+-	tk_update_leap_state(&tkd->shadow_timekeeper);
+-	tkd->timekeeper.next_leap_ktime = tkd->shadow_timekeeper.next_leap_ktime;
++	tkd->timekeeper.next_leap_ktime = tks->next_leap_ktime;
+ 	write_seqcount_end(&tkd->seq);
+ }
+ 
+
+base-commit: 0359ecff58853a491dd0f09792fea8e87235ae06
+-- 
+2.53.0
 
