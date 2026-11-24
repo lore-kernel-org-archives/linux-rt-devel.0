@@ -1,60 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795519893;
-	b=IvHvdYfuxOp69q8owz/T0kP6xFYn59oKeqjO46MYWYSFa0PKyG7pac8OOZSq6mfFAxF7
-	 h8K2ULmAaUnM04FuVTlB4DDm1cx08RLDv2LzVeS9r4XRTV3ig1+60ex/7yflLmIcm2+F8
-	 MKhj2GSkm1XZ/g70WzOEbX6yAXC979BboG4MZrkXHMSc4kgHGsS+8hNsA/V0beArBpqhG
-	 F2eZWYJNlpj9UnfatSr21vPNRYRrQSmC5nBThwICUTR3bKQCgP0wjLD+UsF+vbN/c0QcJ
-	 i59fOA1WmHsMl0PYDO0ppoT7bpkOkYUIMZe4HFdFtPyiLLzG4Qg6MzuNAOmA5Bqm2bA==
+	t=1795528774;
+	b=AF/hgcoFAuK+oxKCBaVuIFjAnzjh/fNtjMrTR+m0UZygqjb67oQ8wZPMj7DYsCn6hJL8
+	 FBUL6hxhJf8Gv2RPPf0IF4EheFJkaiaYgmMXQxiURu69FkT+Zqg6iRuOmavswizSF/UHe
+	 c0KfS8LrTCqFUxktFhCVgReLqzL7aXDZwy1ynG+lanWNYOIKVFBws7XPWpL7ev711c4ih
+	 fibKWOLmiVkXUfqveLtgp+mj2c6uDNgE0C0Xqhu5s3rT5LGS0OjxzVCApeQMzUZf8H31D
+	 fnKAEIt2a2tE3e3iEAHNN7XszxQpQMZq4EqqAn1fq8ErZkDay6owY+cwJm8Ya70H8cA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795519893;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=q3qGM9Qy57cVjK1+KGIJlLy1Vw4Q8SXTPS0xOWRA8sQ=;
-	b=gJVKSoAUeyHZeSUcLZuba21W7N+2VolR9t69YEwJDPFpdDbNhLmL6Lvkeko+UUentKjS
-	 GvDYT10ZUWtmcz5Rb7KaziDEB3fHP69DuGZQYX3c+WEUv57UKtQWY3QCpeJAu/CCLp06X
-	 1WihbCKHiaV1kfVf4VGH89h2jbKk3QrNtuZHB8bnbQBus42YZw7me83bJClpdBGjsJuDQ
-	 KYN6Ku63zem77JbwmWSP/C4nRRmIJAVEK9emfy8bSwLP+XvlsQhyfmBrKzMcqbIiz2KLs
-	 eyoEw4JK+eLPrEvQEw7oIOBFF+qfAjsBZmeYvNtsvFv8aDsr313ZLarO8O5EWV3uCiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795528774;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=kvsfueMHEyVjE37oaEUJidZMPTJVXlpVOUA/4h72CTE=;
+	b=VeKP5VHiBY5sI1MwHnZHtalZAVp3/lGDnMGjWxs3DWFEuhj9YNYRxa/dlaDgHFudHs7G
+	 /q4FS3MP4+NOQe56/6g7fk9v4koh9x9ruzqeVYVDknsnqQdNWqo7vZFbtvPMRG7y2exWP
+	 0FOptbkeeRV9nFpqsRnGQ05ptY31ilq348FzN4w29Y3RcmRBwPmWluBZA63IGQTz++ACQ
+	 mLs0tSyumkaIwWr1yVjrNaRMcRDZyn16pyfvay+6MzBPHEt7AM/76vNhQ2KS0gGwARMpb
+	 D9uUcYVQDR4CEGSEffi8GAFClxAuclGt1Mj+uf9QiLW5rXEiWzppmyBSEH/fQDPU6BA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hP6mj4zp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VSnrQyfZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164D7606A32E;
-	Tue, 24 Nov 2026 11:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43306606A31E;
+	Tue, 24 Nov 2026 13:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hP6mj4zp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D821F008B2;
-	Tue, 24 Nov 2026 11:31:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VSnrQyfZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596401F000C4;
+	Tue, 24 Nov 2026 13:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795519892;
-	bh=q3qGM9Qy57cVjK1+KGIJlLy1Vw4Q8SXTPS0xOWRA8sQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hP6mj4zpBvCMnt331ApoLcM/EzFJdkOQ0GKsGIwM6rXUl9fXR9PpeeeCKOVahaf/+
-	 TapgVEyLnfqMcvxpeEJFtizvFXH1G5+yyA0Qmc4qw5lBZKlfakiSt32WPDNuMarveG
-	 AfSi1ycHFWrX5ztj6VycNVo0inJxipzydzfIgIxZlYZU2AqtaPxrEW1ui3/m/k62l1
-	 r01EDYCEkz7UPpvB+th4u5h7Ou1D/TLepSI4nezhObegXj+Rs3ndDDsiqucG1a9eU2
-	 53oHD0bs0k+DZ7pgrjOfaV4AI1rcRnq4gGn2fRW0PsRcf+prP/G2Srb8CiqU2q7fF1
-	 u/RlK23s5higw==
-From: Mark Brown <broonie@kernel.org>
-To: Ryan Wanner <ryan.wanner@microchip.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- =?utf-8?q?Jens_Emil_Schulz_=C3=98stergaard?= <jensemil.schulzostergaard@microchip.com>
-Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20261113-spi-atmel-poll-short-pio-transfers-v2-1-f280762685e2@microchip.com>
-References: <20261113-spi-atmel-poll-short-pio-transfers-v2-1-f280762685e2@microchip.com>
-Subject: Re: [PATCH v2] spi: atmel: poll short PIO transfers
-Message-Id: <179545926826.25092.9908100181391728430.b4-ty@b4>
-Date: Mon, 23 Nov 2026 18:41:08 +0000
+	s=k20260515; t=1795528773;
+	bh=kvsfueMHEyVjE37oaEUJidZMPTJVXlpVOUA/4h72CTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VSnrQyfZpr4OAwsGrcz8BHCW4/klS/ONxfDAooEDvS8hEw0h8ATzx6RRag7GaRbUZ
+	 PdCzu2czJSsynBun1Xe2QTv6o9kwzFJ2AmPJp1aZPCrtokFkcSv4FeIFv9pmKChNzK
+	 5PT2q2qOophF71Z2WpnE5nLRQsMCLxPoDPEJkAuyNfu7NIlSUc9Wgxi3He8tHJc9H4
+	 /kokeiWu0iDvJ21O7BPsMsGc+LdOqVpgH3DMJJuJhMaqBpbTKo6iE+qyzLBXOct9b1
+	 m909zcbnsZXi6tODHQA5YzLCtB4tz0No6fKbf4ksBR2o/vVOSbqEkq47hKdlg1oY/B
+	 cK+Ku5T+1/oyQ==
+Date: Tue, 24 Nov 2026 13:59:31 +0000
+From: Harry Yoo <harry@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org, 
+	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, daniel@iogearbox.net, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev, 
+	Vlastimil Babka <vbabka@kernel.org>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org, 
+	David Hildenbrand <david@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
+ kmalloc_nolock at call time
+Message-ID: <awWRZ9xCzWLnj_R6@thinkstation>
+References: <20261124060357.11700-1-emil@etsalapatis.com>
+ <20261124060357.11700-2-emil@etsalapatis.com>
+ <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -64,46 +68,96 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1102; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lS+VtYxRGDrxj2oCgEImHpbzYp61PHJSeMh1QIq9P8c=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZSyesmHslPHWmot8Or+1PS+KSkqV3Hz2sweTxJSA6h
- TdOQ7elo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABNJL2L4X8wvLqLlO+Ow+yOB
- hG1xbafs0n85hxdsNfes3sz9qUdZguEX09VGlYP/FB0WiKuwbSnIvPzoM7v2giJ9k+w3Z3YqSrV
- zAQA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
 
-On Fri, 13 Nov 2026 16:20:32 +0100, Jens Emil Schulz Østergaard wrote:
-> spi: atmel: poll short PIO transfers
+[+Cc Relevant folks]
 
-Applied to
+And a bit of context on the underlying problem.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.5
+kmalloc_nolock() could fail when there is a contention on locks
+shared across CPUs (e.g., n->list_lock in slab, zone->lock in buddy),
+or there is a decent amount of memory pressure. It's more restrictive
+than GFP_ATOMIC.
 
-Thanks!
+Unconditionally using kmalloc_nolock() in BPF local storage is
+unnecessarily restrictive when the program can sleep or spin, and
+Emil's patchset teaches the local storage whether the BPF program
+accessing the local storage could sleep or spin on a lock.
 
-[1/1] spi: atmel: poll short PIO transfers
-      https://git.kernel.org/broonie/spi/c/24e635993ca5
+Answering the question "Does this context allow sleeping, or spinning
+on a lock" is extremely tricky in the Linux kernel as BPF programs
+could run and call kfuncs almost at any point in the kernel code and
+the "context" is usually encoded in the GFP flags or the process flags.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Tracking whether certain locks are taken by current context is not
+ideal either as it adds unnecessary overhead for everybody.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+On Tue, Nov 24, 2026 at 06:40:11AM +0000, Alexei Starovoitov wrote:
+> On Mon, Nov 23, 2026 at 10:03 PM Emil Tsalapatis <emil@etsalapatis.com> wrote:
+> > +	/* Only try the spinning allocation when preemption disables are tracked. */
+> > +	if (IS_ENABLED(CONFIG_PREEMPT_COUNT) && can_spin_in_alloc() &&
+> > +	    size <= KMALLOC_MAX_CACHE_SIZE && !(flags & ~nolock_flags))
+> > +		ptr = kmalloc(size, flags | GFP_NOWAIT | __GFP_NOMEMALLOC);
+> 
+> It works, but I after a bit of brainstorming the following
+> might be a better fix, since it will address the root cause:
+> Pls run it by Vlastimil, Harry, Sebastian.
+>
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 2fef409..4368ab5 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -2536,6 +2536,24 @@ __rmqueue(struct zone *zone, unsigned int order, int migratetype,
+>  	return NULL;
+>  }
+>  
+> +static DEFINE_WAIT_OVERRIDE_MAP(zone_nolock_map, LD_WAIT_CONFIG);
+> +
+> +/*
+> + * zone->lock is always held with IRQs disabled. A caller that runs with IRQs
+> + * enabled is not nested inside of it, so it can wait for the owner.
+> + */
+> +static bool zone_lock_nolock(struct zone *zone, unsigned long *flags)
+> +{
+> +	if (IS_ENABLED(CONFIG_PREEMPT_RT) || irqs_disabled() || in_nmi())
+> +		return spin_trylock_irqsave(&zone->lock, *flags);
+> +
+> +	/* The caller may hold a raw_spinlock_t. */
+> +	lock_map_acquire_try(&zone_nolock_map);
+> +	spin_lock_irqsave(&zone->lock, *flags);
+> +	lock_map_release(&zone_nolock_map);
+> +	return true;
+> +}
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I'm not sure this is a better solution unless this could be generalized
+or abstracted further.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+>  /*
+>   * Obtain a specified number of elements from the buddy allocator, all under
+>   * a single hold of the lock, for efficiency.  Add them to the supplied list.
+> @@ -2550,7 +2568,7 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
+>  	int i;
+>  
+>  	if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+> -		if (!spin_trylock_irqsave(&zone->lock, flags))
+> +		if (!zone_lock_nolock(zone, &flags))
+>  			return 0;
+>  	} else {
+>  		spin_lock_irqsave(&zone->lock, flags);
+> @@ -3237,7 +3255,7 @@ struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
+>  	do {
+>  		page = NULL;
+>  		if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+> -			if (!spin_trylock_irqsave(&zone->lock, flags))
+> +			if (!zone_lock_nolock(zone, &flags))
+>  				return NULL;
+>  		} else {
+>  			spin_lock_irqsave(&zone->lock, flags);
+> 
+> pw-bot: cr
 
-Thanks,
-Mark
-
+-- 
+Cheers,
+Harry / Hyeonggon
