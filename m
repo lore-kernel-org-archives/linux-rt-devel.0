@@ -1,69 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795547636;
-	b=rJKCPOZSpYrI4GFtojV7ASEFDlnWop0+uS93TZ8eRWfjxGO79ZByeXEjYY7gt60WJI8f
-	 KR+RQDz6uxwv2fW9GY7u1KycjajlqL6BQ6jRqRvEYdRvw/9qSR/EvHe9C129EF3A7bUoU
-	 Qy/SXCOu31ieLDw6ZNxyE87jJ5kE7dcD3VUPYCwEF1ULokmO2UQIH8SiTZ6dij9k39XwD
-	 TYPfjtutLaacmsWMDY9pJViKoVSgp4p4YrUaFEQsMj9RPfY4rOUIgUac+7tGc/d/OlPdx
-	 lNGESw7/gflAvkk9VbfGHNeQjSy3SBdRK5rY7RZVetD6Ljy6qqqMnxWtAk3f5uXdvCw==
+	t=1795553434;
+	b=pKmhQjX+zzGG6RQmJ+MpdzFaNzbBLIR6nGlpFehBryQ3cwcH9/73BottrykcYCHe2kGv
+	 20KCUWoWZgTiupp1q/P4aCK1JaBDhZ8i2bREMj8Jd5rsLzuFu1YXymLV4YWHVjXTrVVrJ
+	 mBfzpFDvvzVluKDvLbugoruceY+YorfzjTtY4Jz2mDnaebNjG+dN6gAJHcSjgoelcCem3
+	 QCDfMiaR9XIT/4rR58mcD796tq2+ksd+uJXHaYP7S39Xwj7mZogLGAeB3oY3tIoYId6Ye
+	 kSrjYFI56LZ8z8XPo9ILUz3zBT3mHUWs64K/S2ZeaOIpjJMRSSvMrjP0xiPjvHORLZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795547636;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Rspamd-Queue-Id;
-	bh=fFUWUmaqeHqtv4TVB3l69JhY/vB0OOHBwv/qq80AEb4=;
-	b=fFITereJPgoc23IMxzMaPgK6S0iNqvJ9MDDEjAU+jNLlp0icAj0YLR1sHRXtM3llV3A+
-	 Y/Bmqq2m/E0c4sR/oZsZPBHnHzE0qXaMRXJLQgeTEMVxIr4bSIdZFcYqDbp0gNVNyP6k9
-	 tYCy8Bif3+udQQOPaKfSyH0eVLZJI4uSz/pXA/pmf3ayNhgipY/dAwnTJkzhAKor3KLph
-	 RzCfpYuFkaZNGmyVyElXqbSVDlOlGBP8fal4X5dlHYFucKsKiP5gpP/kduDyXXGNBb2fx
-	 p3xBbqslqs16JSL0oYxUHQXfQ/kL+ct7COUkDbZwLrCYoJaNda1JHeuHlumIJWzu4rg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795553434;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=T2Cmoxzb1brkU2WAWgFepmyhPPY4h/7fNR3QOaBug3M=;
+	b=aqXUzSR7MNQ3AZb0shcTVZUdkVthPMUXHBUTGinHvsHSp/XSM3EmSoEV2u0JZSN+QxaQ
+	 nAj3j0yGuWXSOusMoHS4Ks7R82XNbWvgQq4fKnSs3Am+lkIRn+6cAijp2XivtpsKq3eKz
+	 ivL3BylnBNbLSL+uri1wFf/dEucEH7VOd3ztw484amnLmbkdoAuvvJLQ3O/yVMjALSLgt
+	 leNi5Kujj0rbB5gElvzcIN5hUT7doOEQyJueQwjj25KMPdaOIyK94sBpWScoo4CYU32NC
+	 aiY2M9tnMfRrRqWzPvMIEvv1Km/fzReQca1B1Rn5HkgjYm9XGtb8Sp4M94zXHkkQNgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=jauu.net;
-	spf=pass smtp.mailfrom=jauu.net;
-	dkim=pass header.d=jauu.net header.i=@jauu.net header.a=rsa-sha256 header.s=MBO0001 header.b=TIZDN6p0;
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="YCg5P/RB";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AE9606A331
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 19:13:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06AE9606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jauu.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jauu.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469F0606A33B;
+	Tue, 24 Nov 2026 20:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jauu.net header.i=@jauu.net header.a=rsa-sha256 header.s=MBO0001 header.b=TIZDN6p0
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jYst175T2zMm1j;
-	Tue, 24 Nov 2026 20:13:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jauu.net; s=MBO0001;
-	t=1795547626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fFUWUmaqeHqtv4TVB3l69JhY/vB0OOHBwv/qq80AEb4=;
-	b=TIZDN6p0pTUatMbgyZQhc/3tZE58LTZWk0D9NGMqVZwVPnsZTxCVzAPWUs5W7tXONJwu0L
-	dKlxPsDaDa17zfN6d7v2DaVod1+11Bkd6U8SPPeSLk7U4mJZaeoPR03bEnJZ0qlvzwq84G
-	frSZtirjY14zrcIitM7AH+5wZREpXr8Y/gGsCLxUaUDayDfCn/spuAC8CPfBcGUOQdcvre
-	dJqpgI4DZNn3Gha33aRryDcgnWgRGbAUJtRiCq0gYVbQsK90/zKXo/EayDybrxPQtQC05i
-	H19RVV1e4CEvnNGxi0QxBYqjjBJofqHK48e1WlvpNFrgr3uKBeML55y9ncxzsg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of hagen@jauu.net designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=hagen@jauu.net
-From: Hagen Paul Pfeifer <hagen@jauu.net>
-To: tglx@kernel.org,
-	jstultz@google.com
-Cc: linux-rt-devel@lists.linux.dev,
-	sboyd@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hagen Paul Pfeifer <hagen@jauu.net>
-Subject: [PATCH] timekeeping: Skip unchanged leap state publication in adjtimex()
-Date: Tue, 24 Nov 2026 20:13:26 +0100
-Message-ID: <20261124191327.943964-1-hagen@jauu.net>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YCg5P/RB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2871F000CF;
+	Tue, 24 Nov 2026 20:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795553433;
+	bh=T2Cmoxzb1brkU2WAWgFepmyhPPY4h/7fNR3QOaBug3M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YCg5P/RBuE55E35xzbd0kZaokZyw6ayV60kuDkUiFuO6G7cWbSpYDRGaSM4dPOPHW
+	 P+y1v5KL4nMjTiZdAbQyRoi+DwAJV5cg8lpblEcJLp/8MFBZXAZ+QNmoowupyj6O2h
+	 sKc56OsXhASUxLZ4Rv0gucd6qhFdCy38w+SuBEGsOq9rQAwDOCQgO4dYjhKQlk6EG7
+	 XpLFP9fKcvwDnz5rUrwxqNIDNoZG2svmMk5m4Z7mC9UDaLuFStKgkqrQRMSNhyFJs0
+	 cc7AFk1RH226ltMpj9f2dPkz8V6tigdgxZm6jKdCj9amCMlJuQZenetpgwYWqOVc6L
+	 FMeK7NARKo4BA==
+Date: Tue, 24 Nov 2026 20:50:31 +0000
+From: Harry Yoo <harry@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, Jann Horn <jannh@google.com>, 
+	Lance Yang <lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Ying Huang <huang.ying.caritas@gmail.com>, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, linux-riscv@lists.infradead.org, stable@vger.kernel.org, 
+	Kirk Swidowski <swidowski@google.com>
+Subject: Re: [PATCH] mm/rmap: avoid reusing batched TLB flush generations
+Message-ID: <awXQg94rksZvexZe@thinkstation>
+References: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -73,77 +65,87 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4jYst175T2zMm1j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org>
 
-Every adjtimex() call that does not set the clock ends in
-tk_update_leap_state_all(), plain read-only queries included. The
-function always opens the timekeeper sequence count, so tasks that read
-the time at that moment have to retry, although the published leap
-state stays the same. Without a pending leap second next_leap_ktime is
-KTIME_MAX before and after the call, and with a leap second pending,
-repeated queries leave it unchanged as well.
+On Tue, Nov 24, 2026 at 10:39:11AM +0100, David Hildenbrand (Arm) wrote:
+> mm->tlb_flush_batched packs a 15-bit pending and a 15-bit flushed
+> counter into one atomic_t, and resets both once pending gets large.
+> flush_tlb_batched_pending() updates flushed with a cmpxchg() against the
+> value it read before flushing.
+> 
+> If the counters get reset and reach that same value again while
+> flush_tlb_mm() is running, the cmpxchg() succeeds and unmaps that
+> happened in the meantime are considered flushed. A later zap can then
+> skip the flush and leave stale writable TLB entries behind.
+> 
+> Use two separate counters, never reset pending, and let the flusher
+> simply store the pending value it read before flushing. To keep pending
+> from wrapping around to flushed, pull flushed to pending - 1 once
+> pending is more than INT_MAX ahead.
+> 
+> Preventing the wrapping is primarily required because
+> try_to_unmap_flush() as called from migration and reclaim code does
+> *not* go through flush_tlb_batched_pending(), as it does not iterate
+> MMs. So if nothing in the MM triggers flush_tlb_batched_pending(), there
+> would be a problem.
+> 
+> As the separate counters are no longer read atomically together, we must
+> read "flushed" before "pending" (acquire/release), so a reader can never
+> pair a just moved-forward "flushed" value with an older "pending" value.
+> 
+> We'll leave the barrier() between clearing the PTE and incrementing
+> "pending" alone for now: it should be a smp_mb__before_atomic(), but
+> existing arch code (x86: inc_mm_tlb_gen(), arm64: dsb(ishst) before the
+> TLBI, riscv: fully-ordered xchg() in ptep_get_and_clear()) imply a
+> barrier. This should be cleaned up or documented separately.
+>
+> Note: if a flusher stalls between reading "pending" and storing it,
+> while "pending" advances by an exact multiple of 2^32, the counters
+> could compare equal and we could miss a flush. The same applies to a
+> writer that stalls while moving "flushed" forward.
+> 
+> That is irrelevant in practice: both hold the PTL, so without PREEMPT_RT
+> they cannot get preempted, and wrapping within the ~20s soft lockup and
+> RCU stall timeouts would require more than 200 million batched unmaps
+> per second on a single mm, which is impossible in practice. Even with
+> PREEMPT_RT or long vCPU preemption, we would need minutes of unmap and
+> refault churn while the stalled task stays off the CPU, which is highly
+> unlikely and not a realistic attack vector.
+> 
+> This effectively adds 4 bytes to mm_struct. However, on common 64-bit
+> configs it fits into the existing padding, leaving the size unchanged.
+> 
+> Fixes: 5ee2fa2f0636 ("mm/rmap: fix potential batched TLB flush race")
+> Cc: stable@vger.kernel.org
+> Reported-by: Kirk Swidowski <swidowski@google.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> [ david: use atomic_t instead of atomic64_t, adjust description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
 
-Compute the new value in the shadow timekeeper first and open the
-sequence count only if it differs from the published value. Both values
-are protected by tkd->lock, which __do_adjtimex() holds;
-lockdep_assert_held() documents this. Comparing the computed value
-instead of the adjtimex mode bits keeps real changes, such as cancelling
-a pending leap second.
+Uh, I spent a couple of hours to review and make sure this is correct.
+I thought this is correct but then my claude flagged a race during fork.
 
-The leap state changes only when a leap second is set, cancelled or has
-passed, which is rare. So the extra comparison is cheap and saves the
-write section on almost every call.
+dup_mm() copies the counters with memcpy() and it doesn't know the
+ordering. When flushed and pending fields sit in separate words,
+dup_mm() could read them in two separate loads, but in the wrong order.
 
-Noticed while tracing the stress-ng clock stressor on PREEMPT_RT, which
-calls adjtimex() at a high rate.
+It's especially problematic in a very rare (IMO) case where
+flushed == pending + 1 becomes true in the child (which means the first
+pending flush in the child might not be flushed properly).
 
-Tested on x86_64 under KVM on top of tip timers/core: 10,000
-read-only queries went from 10,000 publications to none, also with a
-leap second pending. Setting, cancelling or switching a pending leap
-second still publishes exactly once, and the leap second still takes
-effect. A 60 second stress run with concurrent clock readers and
-adjtimex() callers saw no clock going backwards. The timer selftests
-valid-adjtimex, set-tai, nanosleep, posix_timers and leap-a-day pass,
-with and without PREEMPT_RT.
+fork				reclaim			another process
+memcpy reads pending = X
+				pending++ (X + 1)
+							truncate()
+							-> flush_tlb_batched_pending()
+							-> flushed = X + 1
+memcpy reads flushed = X + 1
 
-Signed-off-by: Hagen Paul Pfeifer <hagen@jauu.net>
----
+Maybe reset the counters after copying mm_struct?
 
-Notes:
-    Also run on auxiliary clocks (CONFIG_POSIX_AUX_CLOCKS): same behaviour
-    with and without the patch, read-only clock_adjtime() calls no longer
-    publish. No measurable change in adjtimex() throughput. 32-bit x86 is
-    compile-tested only (i386_defconfig, W=1).
-
- kernel/time/timekeeping.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-index 3668bd24fa4f..22b146822049 100644
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -738,9 +738,16 @@ static inline void tk_update_leap_state(struct timekeeper *tk)
-  */
- static void tk_update_leap_state_all(struct tk_data *tkd)
- {
-+	struct timekeeper *tks = &tkd->shadow_timekeeper;
-+
-+	lockdep_assert_held(&tkd->lock);
-+
-+	tk_update_leap_state(tks);
-+	if (tkd->timekeeper.next_leap_ktime == tks->next_leap_ktime)
-+		return;
-+
- 	write_seqcount_begin(&tkd->seq);
--	tk_update_leap_state(&tkd->shadow_timekeeper);
--	tkd->timekeeper.next_leap_ktime = tkd->shadow_timekeeper.next_leap_ktime;
-+	tkd->timekeeper.next_leap_ktime = tks->next_leap_ktime;
- 	write_seqcount_end(&tkd->seq);
- }
- 
-
-base-commit: 0359ecff58853a491dd0f09792fea8e87235ae06
 -- 
-2.53.0
-
+Cheers,
+Harry / Hyeonggon
