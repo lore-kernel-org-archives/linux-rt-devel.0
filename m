@@ -1,46 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541816;
-	b=kQSM/+5A0ZhsgcjFIJaYKdBhqMO50KGjNcvahlxOVQvdkt7PgtOUcsVLQI/LgzCBwxeN
-	 eEDYBT5k1wbqv7DeO+pzxKzhNthFecwHTEl+eDoC6Ua3j606Qnn7KoYJUmhMesdzabH20
-	 BvXfPzbE5N14J80m3GFiB2tWMpEDXWy7WdEKsi3zs0Vee0wx4tkYCNd9zDwXNk+Zc6nF/
-	 BSjklbCHb7aaQaRlaXSpRQP3NeUZWQZnxmDPEkYtXnG14jBYmw72lKDqmsZWnfcTnb/HU
-	 TjNGkPlZKt4ChVWVaUA8jeEGCfnjEWRNBhLD6ch5+3Zkmb8jgV59qqKSM6jVeUqqnKA==
+	t=1795541906;
+	b=K2Z5NZVnl4yDwhDPX/hA+5UOx9mAM7PenZLi8jinuFZ4UEFBaUTwU3mWGORJJjqB74Te
+	 OcAzc6o2RNx3dPxINa592DbD1Fwbig1gE/LNTzHXocZfTw5B7WEfu3Yi9kmw/yIXsCIHf
+	 XrHkTAw+mMOrxq7JQ5hg+pwCv9z8gG5NH6lC2psKfdcUM5sMm4K7VrAmhlJ+SgE0dgo6/
+	 rZ2hMkW0C8E/+Ig5r6nHpdAUy63TGIGKlae9a6xshyWw1rwHG7Jtm3CAE+hExXf+q0+wt
+	 atXLNzpyIC4laCVTjceI8cjSlFnLzdfZC0JjOBT9ZJdqjQbKsHhWBasZn0++3Caj14A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541816;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541906;
 	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
 	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Stat-Signature:X-Spam-Status:
-	 X-Rspamd-Server:X-Rspamd-Queue-Id:X-Session-Marker:X-Session-ID:
+	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
 	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=cgbskdNiwv1foCu8NskiI0D1syGORGzYIPtRO06UAuE=;
-	b=WzAQPAj41w1HpYh2XVBkD1N8npUHipcL7lmNy+J6/GOFvhrotrn6EpQ8HviCeRY36Hy/
-	 kcjys62H8Rd4bdtC92wm1kGHNMaMirZLsIotGQ5Ui5i8/QrU+LLvL/HRK8O7PzorSDo5j
-	 N8UGeNDMjed2ZNkjy1IflEzB+W0l953wzkuZWJ/3EL5EvYKZvEmKEj+zLEJd+zau391t8
-	 bzG5SmIMC+hXtcRGkXAU7g/99dIHL+Rv4TV5E8G6AKc+PsQDQKZaljxl/UpKBMMZfm9Bk
-	 x+M7eOWd0tsnycM1mVcW7msCdiNk/AbMF+22OefVsiTyxaDd1fls5LG/7skNYKe1acg==
+	bh=Z7ZqvSQjxHguoc1FTxJ8uNaW6BCtmmOurJdgC95SiWI=;
+	b=H2oY5JJN/6SPZCVoGBMjkLFq/d7c8aNhhCpEoCmgL/B9XMBA/IQJRMxZ5AxmbidPNzek
+	 SfyvWSSFm+DR+SGNlXKwlRE/45oXGjWJyr7S/8gvp6XbG5WGL1ChOtj1UO7oBywnuu69o
+	 odK7BynDYDRyHcUY9cSswuZsz4Lk6G6pTsPRmM4Rf7a5yKv/u0zIrtczgshJtSsNFwgcb
+	 wxIY4PVJrLzKvl2G3qN7PM47cvWOXFI6sXM4IW1IGR5lCIsr6v1bE5GelIf4E/uQPJ40r
+	 cF15xjNbN3rdS+lapooLELynm/eH72gYE7w++alExC568NuCvews+85RZfq5bS6DO0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=goodmis.org;
 	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=IKsjSGKG;
-	arc=none smtp.remote-ip=216.40.44.15
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=vG79UtM6;
+	arc=none smtp.remote-ip=216.40.44.13
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0021606A330;
-	Tue, 24 Nov 2026 17:36:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0021606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65227606A323;
+	Tue, 24 Nov 2026 17:38:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65227606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=IKsjSGKG
-Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 98CE81A0C2A;
-	Tue, 24 Nov 2026 17:36:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id 5C8E520025;
-	Tue, 24 Nov 2026 17:36:40 +0000 (UTC)
-Date: Tue, 24 Nov 2026 12:36:38 -0500
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=vG79UtM6
+Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 29C9740CA4;
+	Tue, 24 Nov 2026 17:38:21 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 97A0D32;
+	Tue, 24 Nov 2026 17:38:13 +0000 (UTC)
+Date: Tue, 24 Nov 2026 12:38:12 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
 To: Karl Mehltretter <kmehltretter@gmail.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
@@ -62,12 +62,12 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
  linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org,
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 03/13] sched: Split preempt-count bookkeeping
- from raw updates
-Message-ID: <20261124123638.0a4e795f@gandalf.local.home>
-In-Reply-To: <20261028033127.82193-4-kmehltretter@gmail.com>
+Subject: Re: [RFC PATCH v2 04/13] lockdep: Use raw access for pinned hardirq
+ state
+Message-ID: <20261124123812.46979f5c@gandalf.local.home>
+In-Reply-To: <20261028033127.82193-5-kmehltretter@gmail.com>
 References: <20261028033127.82193-1-kmehltretter@gmail.com>
-	<20261028033127.82193-4-kmehltretter@gmail.com>
+	<20261028033127.82193-5-kmehltretter@gmail.com>
 X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -80,132 +80,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: o7t4gho3twp1pjm483fepzra6sqea1zo
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 5C8E520025
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 97A0D32
+X-Stat-Signature: 4xbhd988e3g1csasnigwrdkcdq4qsys5
 X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19jjJfeX0Pq5rKkc5XDNag2YF12GXEJJ0c=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=cgbskdNiwv1foCu8NskiI0D1syGORGzYIPtRO06UAuE=; b=IKsjSGKGP88SZhny+HOXUAncmF19+0BUUDc0u5l131xdPNIc+2cg03+qSMi4x6VuvPafyYRbcZOODK7TaUD++oAq/LMHs2D0SKg5emJipMmethrJ58TkI4h8EoUxZ0NZ8yxGtlukmRBcEXebp911C1pjPZXIb3/Pn1vcULBVoBE=
-X-HE-Tag: 1795541800-76208
-X-HE-Meta: U2FsdGVkX1//0KdiMOWlABzDJ67uxFLp67YDmtynpCt6dGXlAXSOGXfWHH0NQNs4J18yoejLLirzKE6G+vDscomrddt0UbSWq2IScO0sdUJn1oCI575V2BTFdRhwUotSimZAihEXlFEgu3xlutyREHxNwcNEBrwolkeD0shXWG2W2MBsl/ucTPI5lO1Iea1l0g38kDuJ8CQrWgVl5qMnbwe4rUtj4gpUSI2wgRhN2vevOwdKbe4O6wS7u77F+Iug+Lna94xG+7dS6JKnxC5hF52AwE7bilNEZN4y7ubYvJ6DOkX3WMV2o5HCvaD6l7VtjteZjoPT6dth7kBCDU7R1W5RCOmwKVa0
+X-Session-ID: U2FsdGVkX198MftYJKZb6cHxlY3uXfTzLYEjUtUPn2o=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=Z7ZqvSQjxHguoc1FTxJ8uNaW6BCtmmOurJdgC95SiWI=; b=vG79UtM65xVyDMhJcFJ0SJYuTRpNzihz/B5peKySpBcuvkVCkGYKYMsWF0bznW1oLEGCm6hOQr7mbFCA35ZzyhY0PViyO/owV3x//rZRGt7jTrCGtm/33B9kCAAA/LG4BT/iwvgFZwEOMLv4K1onpFbyk6J0w5qrId6JYmYbdrU=
+X-HE-Tag: 1795541893-954039
+X-HE-Meta: U2FsdGVkX19sulWhS/9891zS4KS5jVoQBW7ftJGYbRku5nwzwrevSJlpeohJjPhi0PGybtsZakyMexSWzlsfRQ3gW5tNzLIz0qeHXYAjlrVfZw96CfUGbT12mMbMzeFGsL/vMOuHNsc4JladTqyVibXWkNkjRE813CMxAAtPPI05Rn6zZ0GiRZfvRv3KThXKipyI+3gyetA1F4OZZ5yenvDob+pV0MF581Iv4hOJPhNf2vIL7OZLUSUqgnItiprU3NfU/sjicTkv7Yb+1aXYv2uUnzzCn5k8AKsCMQ7QO9OwXOa/firti7syKykRznECFqI2E5XsLt6OyXYVWWahbjH8CNmrS0Ed
 
-On Wed, 28 Oct 2026 04:31:17 +0100
+On Wed, 28 Oct 2026 04:31:18 +0100
 Karl Mehltretter <kmehltretter@gmail.com> wrote:
 
-> diff --git a/include/linux/irqentry_hardirq.h b/include/linux/irqentry_hardirq.h
-> new file mode 100644
-> index 0000000000000..1937fc972e846
-> --- /dev/null
-> +++ b/include/linux/irqentry_hardirq.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __LINUX_IRQENTRY_HARDIRQ_H
-> +#define __LINUX_IRQENTRY_HARDIRQ_H
-> +
-> +#include <linux/preempt.h>
-> +
-> +struct irqentry_hardirq_cookie {
-> +#if defined(CONFIG_DEBUG_PREEMPT) && \
-> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
-> +	bool applied;
-> +#endif
-> +};
-> +
-> +static __always_inline bool
-> +irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
-> +{
-> +#if defined(CONFIG_DEBUG_PREEMPT) && \
-> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
-> +	return cookie.applied;
-> +#else
-> +	return true;
-> +#endif
-> +}
-> +
-> +static __always_inline bool irqentry_hardirq_count_valid(void)
-> +{
-> +#ifdef CONFIG_DEBUG_PREEMPT
-> +	/*
-> +	 * Without separate reschedule bits, preempt_count() excludes any
-> +	 * shared reschedule bit. A negative result therefore denotes an
-> +	 * existing underflow.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS) &&
-> +	    preempt_count() < 0)
-> +		return false;
-> +#endif
-> +	return true;
-> +}
-> +
-> +#if defined(CONFIG_DEBUG_PREEMPT) && \
-> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
-> +struct irqentry_hardirq_cookie noinstr
-> +__irqentry_hardirq_count_start_slow(void);
-> +#endif
-> +
-> +/*
-> + * Attempt the non-instrumentable part of a staged hardirq-count addition and
-> + * record whether it was applied. The returned cookie must be passed to the
-> + * matching irqentry_hardirq_count_finish() and subtraction preparation. A
-> + * rejected cookie attempts deferred reporting and suppresses post-add
-> + * bookkeeping and the matching subtraction regardless of warning
-> + * suppression.
-> + */
-> +static __always_inline struct irqentry_hardirq_cookie
-> +irqentry_hardirq_count_start(void)
-> +{
-> +	struct irqentry_hardirq_cookie cookie = { };
-> +
-> +#if defined(CONFIG_DEBUG_PREEMPT) && \
-> +	!defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
-> +	cookie.applied = true;
-> +	/* DEBUG_LOCKS_WARN_ON() permits the addition during an oops. */
-> +	if (unlikely(!irqentry_hardirq_count_valid()))
-> +		return __irqentry_hardirq_count_start_slow();
-> +#endif
-> +	__preempt_count_add(HARDIRQ_OFFSET);
-> +
-> +	return cookie;
-> +}
-> +
+> On arm64, this change relies on __kern_my_cpu_offset() being forced inline
+> by the earlier prerequisite patch so the call chain remains noinstr-safe.
+> 
+> Assisted-by: LLM
 
-BTW, the above would look so much better and be much easier to maintain if
-you just made stubs when not needed:
-
-#if defined(CONFIG_DEBUG_PREEMPT) && !defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS)
-
-struct irqentry_hardirq_cookie {
-	bool applied;
-};
-
-static __always_inline bool
-irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
-{
-	return cookie.applied;
-}
-
-static __always_inline bool irqentry_hardirq_count_valid(void)
-{
-	/*
-	 * Without separate reschedule bits, preempt_count() excludes any
-	 * shared reschedule bit. A negative result therefore denotes an
-	 * existing underflow.
-	 */
-	return preempt_count >= 0;
-}
-
-#else /* !CONFIG_DEBUG_PREEMPT || CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS
-struct irqentry_hardirq_cookie {
-};
-static __always_inline bool
-irqentry_hardirq_count_applied(struct irqentry_hardirq_cookie cookie)
-{
-	return true;
-}
-static __always_inline bool irqentry_hardirq_count_valid(void)
-{
-	return true;
-}
-#endif /* defined(CONFIG_DEBUG_PREEMPT) && !defined(CONFIG_HAS_SEPARATE_PREEMPT_RESCHED_BITS) */
+Hmm, no Signed-off-by?
 
 -- Steve
+
+> ---
+>  arch/arm64/kernel/entry-common.c | 6 +++---
+>  include/linux/irqflags.h         | 3 +++
+>  kernel/entry/common.c            | 2 +-
+>  kernel/locking/lockdep.c         | 6 ++++--
+>  4 files changed, 11 insertions(+), 6 deletions(-)
+
