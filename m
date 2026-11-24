@@ -1,98 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.200
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795537945;
-	b=fClMKeXJC1ra/961hfNeAupm2kGmg3nrcTuv4l/0dhntdHSaJlrf/mUbFfNAoHtAXuvq
-	 OHrFbZtgEl4NQCFcBgvR88veSKSWHKNPbQGLSniQYJdsrsqqUxBuU/RafREITH/mmN3AF
-	 +Xs+sYP7RjlCUDaVjIBy9VxvOHPNvqOjbET6GcEyrM1kUcB/E8YqsxQWSSw3lFs1qhODN
-	 GTcV8++7CUR74lHDG6HOGe/Wm8BIRrJ+bTdAKr2w0aE0msuWdJ0oGivFyH23hHXEVzRGu
-	 gXDOsPupqUpmHUwXR6mpzBZG6dPko8IcYwNhIB0sETthJGIjxBbwGz65Pt/8K9IFNEw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795537945;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.176
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795539523;
+	b=V9yK1KD00mxtf0Udl/VaBc4qbD60YSR41NoNHSxbm4Dg2KCVLlW2mzYnsGUcxV+RqK6l
+	 ejmmgzw0b+Dv6WQnHziPsB5muODOShkSA6qLoiWXnv6rvWPROegusWa1iPuPPuwLyBj4V
+	 8czjWCpiFnnCzKZDfgLgPJBXzokfhyFxiklm/Fq/lSdzzmos/k5Rv/efW6KjFxjnNBehD
+	 +MHshsgbpg4oDztAEfCymyRRf3JdqOZbhIoFZ/KkGXzGkrJ2NrMpxCZ4VPA0pzF7rMJmm
+	 BJUOhJktdhI3CCh1zdahPaBOuAv//vpbo+VQDuu5Q8+XIZYVYWYDt8PEnQ+Vy+JRTgw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795539523;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
-	b=GacjDZG4TInfrwZ07i8joZwQrYBAwHsZM/a2Lk9+5FgkI+4jx3lmDDJbHsVqPe3iVD1F
-	 iRk74LJKcxGKOktlvPvpRReT0WdSXIruZljK4keFHrpuKqHao5YwTYNO9BtQqfdm9TJCu
-	 zBbhL+ZYV/I1LM9N3gDhWr12h3yOQ4UNbqfOIX4Ag5sbTR1JrMYnVK138cOGbGZtqr4r8
-	 kQXn/Ttb+3HNACqtJjTI64k7xmWKlHFtKZmfq8ZRikSUC0zz1nyvCc1LVYNviJq8HDX8T
-	 2/Wn2PnER3CnuNk+Zrdy2JY8t2p16kWbqIHShXxEWr0xnZ6lx+zRDVwi41psHhYEjpA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NTK+NXQN;
-	arc=none smtp.remote-ip=74.125.227.200
-Received: from mail-pi2-f8.google.com (mail-pi2-f8.google.com [74.125.227.200])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5HjZJAjY5u3Fowj7izRJvXnGMFA618no4HsUeAZCCbU=;
+	b=eL/TYOU3vrZM5DmgI6g2bsX8gm3yvfTUuHvLf3aT8TdL9SYH1+YOaKwu3Q7K1rq1hPhK
+	 doD7C/BzGs5FVupNgOlbN+ut64AK3eC9BQKG/Yu/ohiB+nANe/8bu0PU/dJB0H4UfvBKk
+	 6i+5nOoO9fqfoXhM1ngaHBc0ijQaCG3eL0GRIEo6nSqsvhK13afZQ4phmlDbtjbWwCZzZ
+	 A3k+AR39WwBl5w/iTLVlG/uU1aLPbR/OR8IoAiWIYRbhe9pjwTPDRGrXvQe0W6r9cFmaU
+	 JOlmuNvFrxdvsoATlZj64PbjPiE2XaYU3LvuvxaQ9jFMrU88HC6ejamZdjcWJ2bWqIg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=mojatatu.com;
+	spf=none smtp.mailfrom=mojatatu.com;
+	dkim=pass header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b="KIB/l6Ds";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.176
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87CD606A327
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 16:32:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B87CD606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE16606A323
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 16:58:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BE16606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NTK+NXQN
-Received: by mail-pi2-f8.google.com with SMTP id 41be03b00d2f7-cdead29f654so70824a12.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 08:32:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=KIB/l6Ds
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8b9c51097e2so1752561b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 08:58:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795539521; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RWBt3AfBEYpAokcqNu4BKVdNHerLq6Qgjse/spYG1L09zrr9Yku4PgIaPwI7bVFS1h
+         ZsYm2GiI0uq1gUL/JZwfcM9xeevQPpDzAoziqk2fw/T30ikD/NvklUByY7f9KGargCGb
+         +bROo3z2q/nPGb2hPv8pqmNQQ1KmyWXh2qYvKRhiSLhvpaybe/P2Xc4vlODrQ4V8T3Zt
+         gTr+Dc2FljsIBTVmBpYzipWNIjKHAR5N1WrkoMBF/cexxNG1GZibc9fWsLqnGo+Ee9H/
+         sxCnO4G73fPZOfzpZ4HQK3nkPCI3OluypwQQRqy13i3Kgg8vYCmp1bzcH0lUUeZey25Z
+         Mklg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5HjZJAjY5u3Fowj7izRJvXnGMFA618no4HsUeAZCCbU=;
+        fh=DuftyXpLQj+12rLgZTF3bB625mY9m0WqaQ89yblHPOg=;
+        b=XzBE3LfOX560+IPGF508oPNM//bODsybB4pkEt6g1KrMdQSwp6Z7LcnWgmRsiJchp5
+         3/4jnrdCegGi5gSx6U2o3WPFmxw0AbDO4NGn/DIaE1hhwphdn4/umFNKeVWxwsOwkIdy
+         sl/VtD7Wdt47Cr+yCE4pAeXX9znASG69EUNhejrrC2vA8klNg6ea85mUTYC9EqX3qZZv
+         RKwacIYcjKIthW4fpFk/5Zg3OvhmactuhprtOIXDYUDOe6ot91dRcCvhWMKYxVFT6Avf
+         io9h+7u1x1DmxK3eImTfYdPCDmAvVhIt37Snr3pj86K1IFAilbysJZCLlvfNQwekl1eU
+         VX1w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795537944; x=1796142744; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
-        b=NTK+NXQN20MQN9AjaQj0yYUMiGw4vCtDbDx8zbvHCEuHcK5ohfXyJFJjlkM8ulTviM
-         wq6ypCe3rmm14RjYx7DvEUR2b0nVP3eKIZ5pGSbe1sijsWk0KASqDYIj4S8bh2xG2Dt7
-         1MurbmyhFPT8orCawq4HtWGxmzDL/O3JIY9EeEkQ0203uSvrkNXugaemj1+HpnHFbQTE
-         uv2BlVcXKqUoslT4HNhh0E5TADO/mAyEWHYyPSwUMAJuAvqxhslyl0hlj5unSDoaGGHu
-         HpykdrVPL3bhbq+7P+kSR3ZDul4O4auLfUIT1Hxfhd+t6QHyhmcmVOcZuNqmProKCH9z
-         7qFA==
+        d=mojatatu.com; s=google; t=1795539521; x=1796144321; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5HjZJAjY5u3Fowj7izRJvXnGMFA618no4HsUeAZCCbU=;
+        b=KIB/l6DsWGoaHtN+BpacgIADucippKeFTNGp4rvsBncslyxbwlOyRQZ/G3bKz2ydpJ
+         +w3UYBp0TciQLzyPjJkTjwkj10w2GDkYA2BTNK+M85FFyewftaQHcytJ/U3esx9pmXqq
+         bYvgBm3qVpeESbkQS7j8GmEx20hZ1CcRQ3Bqg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795537944; x=1796142744;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
-        b=pkQ1OHiHeJCCmZQHmorOAFHeXzO/sZashMbocX3lx8MkoFLHfpZ9uJlmf66Y6+zRnc
-         +vGwzCH2HWvHdBb4LPombEmGrT8FMwZN7fi0/PXgX5AHfu89JjMs7aRi5lKF5oWiyvtJ
-         3hbrM2EWM/rocpXZQp9T8Eevthp3nBep79lNICYDPMf0dCgS6bOw16/xDAkqOxuj6Trc
-         YT9feFFHJX5Pm9+9CXC2RGfpo4dO1xWvtJ1Lw+btQcS3yYi0FHK6MTRAGPss53HBtPf0
-         CENGArOVdAD3WdexuN6XR0YQIX5UrUKi/HOaSVY6jTGxiOMHjOpH8xNvbZKoi+DNA790
-         hJ7w==
-X-Gm-Message-State: APuU4Z/DYrcognzWZYMXuq4kC2qNPdrt4pddH/+aihnZ5kfwgcEFMaYv
-	3AU1eqgA1iz+KlgH5/fsiL7yGSI9yZwW3XqqNPIAd8ICRf0lrk8TUuDJ
-X-Gm-Gg: AZFdTZcjPvHtdqPhjGOggYMHYbjOXojIWLJaXb3ijzPGJ2xhouD2FT7NcE5SoKAh1vD
-	hxnAb1KOUMCq+7Hih9CZoAEEu1U5Y2NlCgbytY3yud1M/Q3GQsgXTe+l7ZRyjuWTIScawquQakw
-	3ScvvmX3Ak4iWsyt+mxLFJMhqGmdbTg8iUAOWbIVeVNvsDePASZ/LAyrVwXhQBPzfuhQB+R61Sk
-	kocDPT8StgNmDQxfvBuUCRgSqLcK4sAZFIl39qIC+K44Z8rWRbgwBquDQueQhf9GZLg45u5Wq35
-	gUI1XuB0UTXqSgVyAcaJAimcOyCj1Y2DkoQYNiPvC5ESxy7rivHPvbIgPm/d55sZ2/wAowznbhz
-	PahNwMMueKOtCwfGUlhSe6V9q4XciuIPzS0+IYZ0fBSlBBX9yy5sj7B5V9ofqo+7I/lQoMhN4nt
-	SlD95BmfBlKNhjPIJwXFhgMbUnjVyv35pa2au4jgxPKd/5V8AsRKDwwPQwruczNaiOBgiO04cjZ
-	crYoqujK8Oz7zZLh870Nv9SRI4E8/YJSXS9t4rM8PAL/gxyskpdKXWgE5FHPjniNBfmalt4vcCu
-	cERzBme7oJFOMDtLmThRKGqLmrAVLgTr1N/PRsACeJX3
-X-Received: by 2002:a05:6a00:23cb:b0:88d:20ff:15c9 with SMTP id d2e1a72fcca58-8c87bdb54f4mr14339476b3a.17.1795537943820;
-        Tue, 24 Nov 2026 08:32:23 -0800 (PST)
-Received: from nixos ([60.186.16.156])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87285c14fsm7441328b3a.15.2026.11.24.08.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 08:32:23 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: linux-rt-devel@lists.linux.dev,
-	bigeasy@linutronix.de,
-	frederic@kernel.org,
-	darwi@linutronix.de,
-	john.ogness@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	corbet@lwn.net,
-	wagi@monom.org,
-	atomlin@atomlin.com,
-	linux-kernel@vger.kernel.org,
-	Zixin Wang <w1355457260@gmail.com>
-Subject: [PATCH v5] Documentation: real-time: Add boot parameters and task isolation section
-Date: Tue, 24 Nov 2026 16:32:02 +0000
-Message-ID: <20261124163202.56921-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20260707; t=1795539521; x=1796144321;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5HjZJAjY5u3Fowj7izRJvXnGMFA618no4HsUeAZCCbU=;
+        b=WkHFXMv+9QVbmHNr5+s/aBM6Yfz6HtG3c0n6JthD8JaF76FpcIXVm0YqFlH8g5WCET
+         hA+dcDE6x44PIgzBCuz/1sVdOo8g99ChG/jkRY9QRAR/hLT/lhpWtJ41t3uv6YotHqmM
+         Uq0PB8ZlNy9LzdP2WPFf6+wwYBNKsK2ZoGAQ1iTpA8F6dwwNX0TNkLFr8xFQcr5xj7VI
+         q3edqBe8bxOJEfbcWvhIS36ZueIs+ifP4WC2fiC7s8dFD8zxIwsAD1n8Lpv31F3bqZ+r
+         FdIaVUeJjlDVNZ5xm/w0wbUuELa4MZAM5/TL7PYyn3274UyOHANb7qNNvGF4++EdDZnL
+         YJ0Q==
+X-Forwarded-Encrypted: i=1; AL+hErEKm/xSh3GpilIKWZ7bUMU511lFCB2k6WMxbGJjm2C/g1Y5RLzxS4/Lvfd6non9wsLIvx1RQvuF7td2DoUHMg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9OR/KFjadAP+vJBuf+hgAgdaUwcIWG1Rsz8ZluN5NYDfBBalCQ
+	IFvV8VhP3ubRgAGG9YPGew0lgbZ5N2Ant8ZoChUykmjEdtgO3Mww4kLHuQTDsIqcFSoUKIgtON/
+	Laq/12Sh6tAYl2ajgb4iKjnUMr1fiWtzyvW8DhKCy
+X-Gm-Gg: AZFdTZdar2hxwuB/kKHptgOCyOyDbYH2b71ka6b6iTyoSpXHDAletAF8YHC1EwBtTbi
+	nAHDsm0RxuhHqnsrqQWZMFEk5JQ3f6nH7J5upazsRBiP1109UcMhfoi6+V/A5a5hn0uWyDgPHiR
+	0szfW13UW/YgpSdEiHFBSCglsQ1G6LN04/qJyE0hr04rICSjRvCrpolPxdv7zdaLVWpEoPaG4Ei
+	5l/mB2yoRovs8AM3/Ar+qmfof3HTpS2qYtCizK08V3rrRY/YYO0Qzw+hcWVncjtTo2EIZATC05h
+	j8uEpOcyPLvxX0gU2seWRzZ6yRpn8kX/BuEfPpEdQkCDrQxLXiWkpckP9nNIoIoWUMMrgZmiGQR
+	Y/6PlvYI91jbuCu1WuBxp7whDrJYDm8ojWmGsCubi3J9sbmtc7rMssSwgFeY4tijD6QYCZUkWQR
+	lTI8z87+jocw8SBTA=
+X-Received: by 2002:a05:6a21:6116:b0:3e2:1418:aae8 with SMTP id
+ adf61e73a8af0-4014dd566d2mr15911153637.72.1795539521356; Tue, 24 Nov 2026
+ 08:58:41 -0800 (PST)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -102,208 +102,111 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ACT-WEXM.v4.r0.20261124074514@mojatatu.com> <ACT-WEXM.v4.r0.20261124074514-2@mojatatu.com>
+ <20261124161258.vLyrm8Y4@linutronix.de>
+In-Reply-To: <20261124161258.vLyrm8Y4@linutronix.de>
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+Date: Tue, 24 Nov 2026 11:58:29 -0500
+X-Gm-Features: Aa3M54pJO0xlb2aFJWl13lvot59VCzXd4TbuAAatZjI5CYCOVCy7EsRNd2NC2Vk
+Message-ID: <CAM0EoMmMio4kotBqbcJmFtf_c3Du=rhfvp+sMiAd0fHKowv6Vg@mail.gmail.com>
+Subject: Re: [PATCH net v4 2/3] net/sched: act_gate: refuse schedule entries
+ shorter than 10 us
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, Simon Horman <horms@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-rt-devel@lists.linux.dev, Victor Nogueira <victor@mojatatu.com>, 
+	Po Liu <Po.Liu@nxp.com>, stable@vger.kernel.org, sashiko-bot@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Document the boot parameters and runtime tunables that affect the
-worst-case latency of a real-time system, alongside the existing
-kernel configuration guidance.
+On Tue, Nov 24, 2026 at 11:13=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2026-11-24 09:12:09 [-0500], Jamal Hadi Salim wrote:
+> > This is a followup of commit a51c328df310 ("net: qos: introduce a gate
+> > control flow action") as reported by Sashiko.
+> >
+> > The issue:
+> > fill_gate_entry() only rejects an interval of zero, but that interval i=
+s
+> > the period gate_timer_func() re-arms the hrtimer at, and a few
+> > nanoseconds is below the cost of servicing one expiry: the next is due
+> > before the current one finishes, so the action holds a CPU in the timer
+> > softirq for as long as it exists.
+>
+> The timer is programmed in the past, fires immediately and hogs the
+> CPU.
+>
+> > On a 2-vCPU guest, entries of 1 us and below hold 86% to 90% of a core,
+> > 2 us holds 61%, and 3 us holds 22%; from 3.5 us on the cost falls to a
+> > few percent and it reaches zero by 100 us.
+> >
+> > The Fix:
+> > Require at least 10 us per entry.  An act_gate schedule is not tied to =
+a
+> > device, so unlike taprio there is no frame time to derive a bound from;
+> > the bound has to come from the cost of servicing one expiry, with room
+> > for a kernel that services it slower.
+>
+> The 10us sound sane. With enough debug (say kasan, lockdep, =E2=80=A6) th=
+is
+> might become tight again.
+>
 
-Cover CPU isolation, nohz_full, RCU callback offloading, interrupt
-affinity, and C-state limits, with references to the relevant
-documentation.  Keep the C-state parameters next to CONFIG_CPU_IDLE
-and the tickless trade-off next to CONFIG_NO_HZ, so each option stays
-with its configuration guidance.
+Agreed. Unfortunately, there is no way to derive a "good value" here
+(it depends on workload, machine, utilization, etc, etc).
+poor choice of wording on my part - should probably have said all of
+what i said above for precisiness...
+Cant wait to see the pedantic nitpicks the sashikos will get about
+this. Regardless if this is all they came up with I am not resending.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
-Link: https://github.com/elisa-tech/wg-aerospace/issues/222
-Signed-off-by: Zixin Wang <w1355457260@gmail.com>
----
-Thanks Sebastian for the review.
+> =E2=80=A6
+> >
+> > Fixes: a51c328df310 ("net: qos: introduce a gate control flow action")
+> > Reported-by: Sashiko (gemini) <sashiko-bot@kernel.org>
+>
+> There is no syzbot report for this?
+>
 
-v4 -> v5:
-  - Drop the fixed 1-9 range for intel_idle.max_cstate; the maximum
-    C-state depth is platform dependent.
-  - Move the residual 1 Hz tick and workqueue details to the
-    isolcpus=nohz description, matching kernel-parameters.rst, and
-    document that the global workqueue runs on all CPUs by default
-    and needs manual affinity or the domain flag.
-  - Shorten the nohz_full= entry accordingly.
-  - Clarify the rcu_nocbs= and CONFIG_RCU_NOCB_CPU_DEFAULT_ALL
-    interaction.
+It's in 1/3
 
-Testing:
-  make SPHINXDIRS="core-api" htmldocs and checkpatch.pl pass.
+> > Closes: https://sashiko.dev/#/patchset/tencent_4ED9536B0375C96183B2244C=
+F7709768C605@qq.com
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Jamal Hadi Salim <jhs@mojatatu.com>
+>
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>
+> > --- a/net/sched/act_gate.c
+> > +++ b/net/sched/act_gate.c
+> > @@ -25,6 +25,11 @@ static struct tc_action_ops act_gate_ops;
+> >   */
+> >  #define GATE_ENTRIES_MAX     1024U
+> >
+> > +/* An entry shorter than this lets the next expiry land before the sof=
+tirq
+> > + * servicing the current one can finish, so the timer stays permanentl=
+y behind.
+> > + */
+>
+> No strong opinion. I leave this here.
+>
+> | With a too small interval the next timer will be programmed in the past
+> | and will fire immediately.
+>
 
-  The host boot, latency, and QEMU C-state observations from v4 are
-  unchanged.
----
- .../real-time/kernel-configuration.rst        | 132 ++++++++++++++++++
- 1 file changed, 132 insertions(+)
+see above.
 
-diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
-index d7f08e7..5ce10d0 100644
---- a/Documentation/core-api/real-time/kernel-configuration.rst
-+++ b/Documentation/core-api/real-time/kernel-configuration.rst
-@@ -98,6 +98,11 @@ can be achieved by using the boot parameter [1]_::
- 
-   processor.max_cstate=1
- 
-+On x86 systems using ``intel_idle``, the ``intel_idle.max_cstate=`` boot
-+parameter sets the maximum C-state depth.  A value of 0 disables
-+``intel_idle`` and falls back to ``acpi_idle``; it does not disable
-+C-states.
-+
- Higher C-states can be acceptable depending on the user workload's latency
- requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
- command to inspect the available idle states.
-@@ -179,6 +184,9 @@ the extra accounting and state book-keeping.
-   ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload the
-   kernel housekeeping to dedicated CPUs and isolate compute cores.
- 
-+``nohz_full=`` enables tickless operation for a set of CPUs; see
-+:ref:`real_time_boot_parameters` for its interaction with ``isolcpus=``.
-+
- See also Documentation/timers/no_hz.rst
- 
- ``CONFIG_PREEMPT_RT``
-@@ -190,6 +198,39 @@ See also Documentation/timers/no_hz.rst
- This option must be enabled, or the resulting kernel will not be fully
- preemptible and real-time capable.
- 
-+``CONFIG_RCU_NOCB_CPU``
-+-------------------------
-+
-+:Expectation: allowed
-+:Severity: *info*
-+
-+Enable support for offloading RCU callback invocation from selected CPUs
-+to per-CPU ``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``,
-+implied by ``nohz_full=``, or enabled for all CPUs by
-+``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL`` when neither parameter is given.
-+Enabling this option alone does not change callback placement.  Use it
-+when RCU callback processing causes jitter on CPUs dedicated to
-+latency-sensitive tasks.  See Documentation/admin-guide/cpu-isolation.rst.
-+
-+``rcu_nocbs[=cpu-list]``
-+  Offload RCU callback invocation from the listed CPUs to the
-+  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
-+  This reduces callback-processing jitter on the CPU that enqueued them.
-+  On a non-real-time kernel this also moves invocation out of softirq
-+  context; with PREEMPT_RT, callbacks already run in kthread context
-+  because ``rcutree.use_softirq`` is false, and the offload only changes
-+  where they run.  If the parameter is given without a CPU list, no CPU
-+  is offloaded at boot; the mode can still be toggled at runtime through
-+  cpusets.  The parameter takes precedence over
-+  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
-+
-+``rcu_nocb_poll``
-+  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
-+  offloaded CPUs to wake them.  This improves the real-time response at
-+  the cost of higher power consumption, because the kthreads wake up
-+  periodically to do the polling.  Consider this option only when wakeup
-+  latency matters more than power.
-+
- ``CONFIG_TRACING`` (and tracing options)
- ----------------------------------------
- 
-@@ -216,6 +257,97 @@ just by being enabled.
- These tracers do incur measurable latency overhead even when tracing is not
- currently active.
- 
-+.. _real_time_boot_parameters:
-+
-+Boot parameters and task isolation
-+==================================
-+
-+Kernel configuration options alone do not determine a real-time system's
-+worst-case latency.  Integrators commonly rely on boot parameters and
-+runtime tunables as well, to keep kernel housekeeping work away from
-+latency-sensitive tasks.  The parameters below complement the options
-+described above.  Some of them correspond to a configuration option and
-+are referenced from that option's section, so the configuration and
-+runtime guidance stay together.  Each one is documented in detail in
-+Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
-+the aspects that matter for real-time latency.  Consider these options
-+only when the workload suffers from the corresponding interference;
-+leave them disabled otherwise, as each of them trades flexibility or
-+power for a lower worst-case latency.  The notes below follow the
-+decisions an integrator has to make: whether to keep tasks off a CPU,
-+whether to stop its tick, and where interrupts should run.  Idle state
-+limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
-+offloading with ``CONFIG_RCU_NOCB_CPU`` above.
-+For the full CPU isolation model and its limitations, see
-+Documentation/admin-guide/cpu-isolation.rst.
-+
-+.. caution::
-+
-+  CPU isolation is best effort.  Work that is explicitly bound to an
-+  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
-+  interrupts, may still run there unless it is steered away.  Measure
-+  the resulting latency with tools such as ``osnoise``, ``timerlat``,
-+  and ``rtla`` rather than assuming that an isolated CPU is free of
-+  kernel noise.  See Documentation/timers/no_hz.rst and
-+  Documentation/tools/rtla/index.rst.
-+
-+CPU isolation
-+-------------
-+
-+``isolcpus=``
-+  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
-+  disturbances selected by the flag list (default: ``domain``):
-+
-+  ``domain``
-+    Remove the CPUs from the scheduler domains.  This is the default
-+    when no flag is given.  Domain isolation cannot be undone at
-+    runtime; use cpusets when the isolated CPU set must change
-+    dynamically.  Isolated CPUs remain usable through CPU affinity or
-+    cpusets.  Unbound workqueues and unbound kernel threads are
-+    confined to the housekeeping CPUs as a side effect.  Consider it
-+    for CPUs dedicated to a latency-sensitive workload.
-+
-+  ``nohz``
-+    Equivalent to ``nohz_full=``; see below.  The residual 1 Hz tick is
-+    offloaded to workqueues, which must be affine to the housekeeping
-+    CPUs through the global workqueue ``cpumask``
-+    (/sys/devices/virtual/workqueue/cpumask).  By default the global
-+    workqueue runs on all CPUs; configure this cpumask manually after
-+    boot, or use the ``domain`` flag to confine unbound workqueues.
-+
-+  A practical configuration therefore combines ``isolcpus=`` with
-+  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
-+  x86 systems, a C-state limit.
-+
-+  Timer placement follows the same choice.  By default a migratable
-+  timer expires on the CPU that armed it; with ``nohz`` (or
-+  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
-+  migrated to housekeeping CPUs.
-+
-+``nohz_full=``
-+  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
-+  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
-+  forced outside the range to maintain timekeeping, and the RCU
-+  callbacks of the listed CPUs are offloaded as if they had been
-+  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
-+  above.  This parameter takes precedence over
-+  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
-+
-+  The trade-off between tickless operation and the kernel-to-userspace
-+  transition latency is described in the ``CONFIG_NO_HZ`` /
-+  ``CONFIG_NO_HZ_FULL`` section above.
-+
-+Interrupt affinity
-+------------------
-+
-+``irqaffinity=``
-+  Format: ``<cpu-list>``.  Sets the default affinity mask for
-+  interrupts that do not have an explicit affinity, steering them to
-+  the housekeeping CPUs.  Managed interrupts are not affected by this
-+  setting and cannot be redirected through ``/proc/irq/*``.  Verify
-+  the resulting placement in ``/proc/interrupts``.  See
-+  Documentation/core-api/irq/managed_irq.rst.
-+
- Kernel Debug Options
- ====================
- 
--- 
-2.54.0
+cheers,
+jamal
 
+> > +#define GATE_MIN_INTERVAL_NSEC       10000U
+> > +
+> >  static ktime_t gate_get_time(struct tcf_gate *gact)
+> >  {
+> >       ktime_t mono =3D ktime_get();
+>
+> Sebastian
