@@ -1,87 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.10.208.62
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795537664;
-	b=10rg9yrtzWsJtF6Jym1YKLsDswerCxpq61VktOj6AZbbDspIwRQ1uQgQhSGAC9bFKciN
-	 CfGBQkuk0rOowH7dlaBm3u7az4A3P1zGohdnvoAFwmAQwyN1XZjIu/yz5elGQF+8X7Ibx
-	 z0QCvW4Bb2fIHdygTpWxOvqm7V1FFeDCrzMlc1mMrtbUht1ugC/0W77/+lZwJ85OlhYhy
-	 b8SEVTER23goTa/3jpD4N10KE257TuE4OhuquT2UuUpP2boZgwwsBGaH/rNvxtD4+dVaU
-	 xVp8SuJjd8KpAV9ebey6DGI+fxtiJyivAbwl9nL7CbwYKLIVgkWzxEWm4/nWGapHmqQ==
+	t=1795537945;
+	b=fClMKeXJC1ra/961hfNeAupm2kGmg3nrcTuv4l/0dhntdHSaJlrf/mUbFfNAoHtAXuvq
+	 OHrFbZtgEl4NQCFcBgvR88veSKSWHKNPbQGLSniQYJdsrsqqUxBuU/RafREITH/mmN3AF
+	 +Xs+sYP7RjlCUDaVjIBy9VxvOHPNvqOjbET6GcEyrM1kUcB/E8YqsxQWSSw3lFs1qhODN
+	 GTcV8++7CUR74lHDG6HOGe/Wm8BIRrJ+bTdAKr2w0aE0msuWdJ0oGivFyH23hHXEVzRGu
+	 gXDOsPupqUpmHUwXR6mpzBZG6dPko8IcYwNhIB0sETthJGIjxBbwGz65Pt/8K9IFNEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795537664;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Rspamd-Queue-Id;
-	bh=Jrpxc1Q6pgjfCQC9LCXv5AaAKRJs/kdvERD9Fgr0nfc=;
-	b=lDV9KB1CU6B0HVafaXvtYzN9UACqqtiJMzJsogOCA5ybT9h9z/xtyGC9uijy0BQyb5ug
-	 mwdT8qglCGc7b1tTbcqxK7i0iVnLAyiWPvdl2coiPemUJuvR62zC/yj7xe1/mIffjDifo
-	 OliKtigkU8bGiXyHAKvYgO0Xy89o+gTu1VlZ4xXI3SPQXV9IvNckWyxemWcgseDEdtUVk
-	 m49LLPjqL3XFgEaE7/lfJx2rIzDWUmjYZFligISjyyYYMH67AsMSraoHaM+IrzmzriQEi
-	 cgtHG6I9+ghDvqal9LvgUC/RyRxnYE6qKDylM2znZUBFQP/YsXJaoYNndEa5TjaqlDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795537945;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
+	b=GacjDZG4TInfrwZ07i8joZwQrYBAwHsZM/a2Lk9+5FgkI+4jx3lmDDJbHsVqPe3iVD1F
+	 iRk74LJKcxGKOktlvPvpRReT0WdSXIruZljK4keFHrpuKqHao5YwTYNO9BtQqfdm9TJCu
+	 zBbhL+ZYV/I1LM9N3gDhWr12h3yOQ4UNbqfOIX4Ag5sbTR1JrMYnVK138cOGbGZtqr4r8
+	 kQXn/Ttb+3HNACqtJjTI64k7xmWKlHFtKZmfq8ZRikSUC0zz1nyvCc1LVYNviJq8HDX8T
+	 2/Wn2PnER3CnuNk+Zrdy2JY8t2p16kWbqIHShXxEWr0xnZ6lx+zRDVwi41psHhYEjpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mandelbit.com;
-	spf=pass smtp.mailfrom=mandelbit.com;
-	dkim=pass header.d=mandelbit.com header.i=@mandelbit.com header.a=rsa-sha256 header.s=MBO0001 header.b=cc4d7QZP;
-	arc=none smtp.remote-ip=195.10.208.62
-Received: from mout-b-202.mailbox.org (mout-b-202.mailbox.org [195.10.208.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NTK+NXQN;
+	arc=none smtp.remote-ip=74.125.227.200
+Received: from mail-pi2-f8.google.com (mail-pi2-f8.google.com [74.125.227.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8709D606A332
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 16:27:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8709D606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mandelbit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87CD606A327
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 16:32:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B87CD606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mandelbit.com header.i=@mandelbit.com header.a=rsa-sha256 header.s=MBO0001 header.b=cc4d7QZP
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-b-202.mailbox.org (Postfix) with ESMTPS id 4jYpBG3f7szKnsH;
-	Tue, 24 Nov 2026 17:27:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
-	s=MBO0001; t=1795537654;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jrpxc1Q6pgjfCQC9LCXv5AaAKRJs/kdvERD9Fgr0nfc=;
-	b=cc4d7QZPuxOeD8POei5YQZbOALG+AOMebhNI5laNKtPtXKqVDBp0sU1gT1tUvKlffxcXSM
-	OZg/EMz6Iu72bQSFozrs9ecmFfFEG4ad4DdqD/44xQjwzeJ9i9YLbWiLVjpS6vtRE/h2Jj
-	rWTMkwxT4rrNwy0SC3G4TRDwi2WSvH4O+QocH9HqUbvDAmv1RJTilRagRjj4/5Ka5WXcqt
-	bq9RJRtf/+vfRaku41lCj6b88pqHTPHw5rOlbTNnnTjLiyzkVOM29+k5ucWxBfsoE3Mwgc
-	47/hadLTlAbYQtYwEqNxSpWYUB/lQchj+ht0atZkypsxCem/k8r0A7lpA8RfOA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of ralf@mandelbit.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=ralf@mandelbit.com
-From: Ralf Lici <ralf@mandelbit.com>
-To: netdev@vger.kernel.org
-Cc: Ralf Lici <ralf@mandelbit.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Florian Westphal <fw@strlen.de>,
-	Xia Yan <yanxia@cmss.chinamobile.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Antonio Quartulli <antonio@mandelbit.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5 4/4] ipv6: validate dsts against the state their lookup found
-Date: Tue, 24 Nov 2026 17:27:10 +0100
-Message-ID: <4b2bf5de6c9837fee8db88d639db0e27e6d687b9.1795537128.git.ralf@mandelbit.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <cover.1795537128.git.ralf@mandelbit.com>
-References: <cover.1795537128.git.ralf@mandelbit.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NTK+NXQN
+Received: by mail-pi2-f8.google.com with SMTP id 41be03b00d2f7-cdead29f654so70824a12.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 08:32:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795537944; x=1796142744; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
+        b=NTK+NXQN20MQN9AjaQj0yYUMiGw4vCtDbDx8zbvHCEuHcK5ohfXyJFJjlkM8ulTviM
+         wq6ypCe3rmm14RjYx7DvEUR2b0nVP3eKIZ5pGSbe1sijsWk0KASqDYIj4S8bh2xG2Dt7
+         1MurbmyhFPT8orCawq4HtWGxmzDL/O3JIY9EeEkQ0203uSvrkNXugaemj1+HpnHFbQTE
+         uv2BlVcXKqUoslT4HNhh0E5TADO/mAyEWHYyPSwUMAJuAvqxhslyl0hlj5unSDoaGGHu
+         HpykdrVPL3bhbq+7P+kSR3ZDul4O4auLfUIT1Hxfhd+t6QHyhmcmVOcZuNqmProKCH9z
+         7qFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795537944; x=1796142744;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FQQ6X5r63jXO8YunPQTlae6cep++8XOz+K/i9Cf6hkE=;
+        b=pkQ1OHiHeJCCmZQHmorOAFHeXzO/sZashMbocX3lx8MkoFLHfpZ9uJlmf66Y6+zRnc
+         +vGwzCH2HWvHdBb4LPombEmGrT8FMwZN7fi0/PXgX5AHfu89JjMs7aRi5lKF5oWiyvtJ
+         3hbrM2EWM/rocpXZQp9T8Eevthp3nBep79lNICYDPMf0dCgS6bOw16/xDAkqOxuj6Trc
+         YT9feFFHJX5Pm9+9CXC2RGfpo4dO1xWvtJ1Lw+btQcS3yYi0FHK6MTRAGPss53HBtPf0
+         CENGArOVdAD3WdexuN6XR0YQIX5UrUKi/HOaSVY6jTGxiOMHjOpH8xNvbZKoi+DNA790
+         hJ7w==
+X-Gm-Message-State: APuU4Z/DYrcognzWZYMXuq4kC2qNPdrt4pddH/+aihnZ5kfwgcEFMaYv
+	3AU1eqgA1iz+KlgH5/fsiL7yGSI9yZwW3XqqNPIAd8ICRf0lrk8TUuDJ
+X-Gm-Gg: AZFdTZcjPvHtdqPhjGOggYMHYbjOXojIWLJaXb3ijzPGJ2xhouD2FT7NcE5SoKAh1vD
+	hxnAb1KOUMCq+7Hih9CZoAEEu1U5Y2NlCgbytY3yud1M/Q3GQsgXTe+l7ZRyjuWTIScawquQakw
+	3ScvvmX3Ak4iWsyt+mxLFJMhqGmdbTg8iUAOWbIVeVNvsDePASZ/LAyrVwXhQBPzfuhQB+R61Sk
+	kocDPT8StgNmDQxfvBuUCRgSqLcK4sAZFIl39qIC+K44Z8rWRbgwBquDQueQhf9GZLg45u5Wq35
+	gUI1XuB0UTXqSgVyAcaJAimcOyCj1Y2DkoQYNiPvC5ESxy7rivHPvbIgPm/d55sZ2/wAowznbhz
+	PahNwMMueKOtCwfGUlhSe6V9q4XciuIPzS0+IYZ0fBSlBBX9yy5sj7B5V9ofqo+7I/lQoMhN4nt
+	SlD95BmfBlKNhjPIJwXFhgMbUnjVyv35pa2au4jgxPKd/5V8AsRKDwwPQwruczNaiOBgiO04cjZ
+	crYoqujK8Oz7zZLh870Nv9SRI4E8/YJSXS9t4rM8PAL/gxyskpdKXWgE5FHPjniNBfmalt4vcCu
+	cERzBme7oJFOMDtLmThRKGqLmrAVLgTr1N/PRsACeJX3
+X-Received: by 2002:a05:6a00:23cb:b0:88d:20ff:15c9 with SMTP id d2e1a72fcca58-8c87bdb54f4mr14339476b3a.17.1795537943820;
+        Tue, 24 Nov 2026 08:32:23 -0800 (PST)
+Received: from nixos ([60.186.16.156])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87285c14fsm7441328b3a.15.2026.11.24.08.32.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 08:32:23 -0800 (PST)
+From: Zixin Wang <w1355457260@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de,
+	frederic@kernel.org,
+	darwi@linutronix.de,
+	john.ogness@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	corbet@lwn.net,
+	wagi@monom.org,
+	atomlin@atomlin.com,
+	linux-kernel@vger.kernel.org,
+	Zixin Wang <w1355457260@gmail.com>
+Subject: [PATCH v5] Documentation: real-time: Add boot parameters and task isolation section
+Date: Tue, 24 Nov 2026 16:32:02 +0000
+Message-ID: <20261124163202.56921-1-w1355457260@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -92,185 +103,207 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4jYpBG3f7szKnsH
 
-Validate dsts in ip6_dst_check against the stamp of the lookup that
-built them instead of the cookie passed by their holder, which may have
-been read after a FIB change the lookup did not see. A stamp of 0,
-recorded when the generation changed during the lookup or the route was
-unlinked, never validates. Holders are covered without changes,
-including dst_cache users and the route and path dsts of xfrm bundles,
-and invalidation keeps its per-node scope: a FIB change only invalidates
-dsts of routes under the nodes it stamps.
+Document the boot parameters and runtime tunables that affect the
+worst-case latency of a real-time system, alongside the existing
+kernel configuration guidance.
 
-pcpu dsts are shared by all their holders, so they are never
-re-stamped, which would revalidate a stale dst for every holder. A pcpu
-dst is reused only if it carries the stamp of the current lookup.
-Otherwise it is replaced, so a lookup that selected a route before a FIB
-change cannot return a pcpu dst that another lookup rebuilt after it.
-On PREEMPT_RT, a pcpu dst that another task installed while this lookup
-built its own follows the same rule.
+Cover CPU isolation, nohz_full, RCU callback offloading, interrupt
+affinity, and C-state limits, with references to the relevant
+documentation.  Keep the C-state parameters next to CONFIG_CPU_IDLE
+and the tickless trade-off next to CONFIG_NO_HZ, so each option stays
+with its configuration guidance.
 
-A replaced pcpu dst is released with dst_dev_put as before, and since
-pcpu dsts of nexthop-object routes are validated against the IPv6
-generation, now the one read before the lookup, they are also rejected
-once released. Lookups may have read the slot without taking a
-reference, and an xfrm bundle holding the dst as its child drops its
-reference without waiting for a grace period, so the slot's reference
-is dropped only after one (__fib6_drop_pcpu_from is unchanged).
-
-Not covered yet: a holder that sends through a released dst without
-validating it again, such as a corked UDP socket, loses those packets,
-now also when a FIB change in the route's subtree replaces the pcpu
-dst. Exceptions keep being validated against the holder's cookie, and
-so keep the late sampling, as refreshing them needs their PMTU updates
-serialized with the replacement.
-
-Suggested-by: David Ahern <dsahern@kernel.org>
-Signed-off-by: Ralf Lici <ralf@mandelbit.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
+Link: https://github.com/elisa-tech/wg-aerospace/issues/222
+Signed-off-by: Zixin Wang <w1355457260@gmail.com>
 ---
-New in v5
-- Replaces the lookup cookie API and its users from v4. (David)
+Thanks Sebastian for the review.
 
- net/ipv6/route.c | 78 +++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 64 insertions(+), 14 deletions(-)
+v4 -> v5:
+  - Drop the fixed 1-9 range for intel_idle.max_cstate; the maximum
+    C-state depth is platform dependent.
+  - Move the residual 1 Hz tick and workqueue details to the
+    isolcpus=nohz description, matching kernel-parameters.rst, and
+    document that the global workqueue runs on all CPUs by default
+    and needs manual affinity or the domain flag.
+  - Shorten the nohz_full= entry accordingly.
+  - Clarify the rcu_nocbs= and CONFIG_RCU_NOCB_CPU_DEFAULT_ALL
+    interaction.
 
-diff --git a/net/ipv6/route.c b/net/ipv6/route.c
-index 8b98ee945c58..be9bf7a4e780 100644
---- a/net/ipv6/route.c
-+++ b/net/ipv6/route.c
-@@ -1501,7 +1501,7 @@ static struct rt6_info *ip6_rt_pcpu_alloc(const struct fib6_result *res)
- 	pcpu_rt->rt6i_flags |= RTF_PCPU;
+Testing:
+  make SPHINXDIRS="core-api" htmldocs and checkpatch.pl pass.
+
+  The host boot, latency, and QEMU C-state observations from v4 are
+  unchanged.
+---
+ .../real-time/kernel-configuration.rst        | 132 ++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+
+diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
+index d7f08e7..5ce10d0 100644
+--- a/Documentation/core-api/real-time/kernel-configuration.rst
++++ b/Documentation/core-api/real-time/kernel-configuration.rst
+@@ -98,6 +98,11 @@ can be achieved by using the boot parameter [1]_::
  
- 	if (f6i->nh)
--		pcpu_rt->sernum = rt_genid_ipv6(dev_net(dev));
-+		pcpu_rt->sernum = res->gen;
+   processor.max_cstate=1
  
- 	return pcpu_rt;
- }
-@@ -1511,6 +1511,33 @@ static bool rt6_is_valid(const struct rt6_info *rt6)
- 	return rt6->sernum == rt_genid_ipv6(dev_net(rt6->dst.dev));
- }
- 
-+static bool rt6_stamp_matches(const struct rt6_info *rt,
-+			      const struct fib6_result *res)
-+{
-+	if (rt->sernum || res->f6i->nh)
-+		return res->gen && rt->sernum == res->gen;
++On x86 systems using ``intel_idle``, the ``intel_idle.max_cstate=`` boot
++parameter sets the maximum C-state depth.  A value of 0 disables
++``intel_idle`` and falls back to ``acpi_idle``; it does not disable
++C-states.
 +
-+	return res->cookie && rt->cookie == res->cookie;
-+}
+ Higher C-states can be acceptable depending on the user workload's latency
+ requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
+ command to inspect the available idle states.
+@@ -179,6 +184,9 @@ the extra accounting and state book-keeping.
+   ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload the
+   kernel housekeeping to dedicated CPUs and isolate compute cores.
+ 
++``nohz_full=`` enables tickless operation for a set of CPUs; see
++:ref:`real_time_boot_parameters` for its interaction with ``isolcpus=``.
 +
-+static void rt6_pcpu_release_rcu(struct rcu_head *head)
-+{
-+	struct dst_entry *dst = container_of(head, struct dst_entry, rcu_head);
+ See also Documentation/timers/no_hz.rst
+ 
+ ``CONFIG_PREEMPT_RT``
+@@ -190,6 +198,39 @@ See also Documentation/timers/no_hz.rst
+ This option must be enabled, or the resulting kernel will not be fully
+ preemptible and real-time capable.
+ 
++``CONFIG_RCU_NOCB_CPU``
++-------------------------
 +
-+	dst_release(dst);
-+}
++:Expectation: allowed
++:Severity: *info*
 +
-+/* Release a pcpu dst taken out of its slot. Lookups may have read the slot
-+ * without taking a reference, so drop the slot's own only after a grace
-+ * period: an xfrm bundle holding the dst as its child releases its
-+ * reference without waiting for one.
-+ */
-+static void rt6_pcpu_release(struct rt6_info *rt)
-+{
-+	dst_dev_put(&rt->dst);
-+	call_rcu(&rt->dst.rcu_head, rt6_pcpu_release_rcu);
-+}
++Enable support for offloading RCU callback invocation from selected CPUs
++to per-CPU ``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``,
++implied by ``nohz_full=``, or enabled for all CPUs by
++``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL`` when neither parameter is given.
++Enabling this option alone does not change callback placement.  Use it
++when RCU callback processing causes jitter on CPUs dedicated to
++latency-sensitive tasks.  See Documentation/admin-guide/cpu-isolation.rst.
 +
- /* It should be called with rcu_read_lock() acquired */
- static struct rt6_info *rt6_get_pcpu_route(const struct fib6_result *res)
- {
-@@ -1518,16 +1545,19 @@ static struct rt6_info *rt6_get_pcpu_route(const struct fib6_result *res)
- 
- 	pcpu_rt = this_cpu_read(*res->nh->rt6i_pcpu);
- 
--	if (pcpu_rt && pcpu_rt->sernum && !rt6_is_valid(pcpu_rt)) {
-+	/* A pcpu dst is shared by all its holders, so it is never re-stamped.
-+	 * Reuse it only if it was built under the state this lookup found,
-+	 * otherwise replace it: a dst rebuilt by another lookup after a FIB
-+	 * change must not be returned to a lookup that selected before it.
-+	 */
-+	if (pcpu_rt && !rt6_stamp_matches(pcpu_rt, res)) {
- 		struct rt6_info *prev, **p;
- 
- 		p = this_cpu_ptr(res->nh->rt6i_pcpu);
- 		/* Paired with READ_ONCE() in __fib6_drop_pcpu_from() */
- 		prev = xchg(p, NULL);
--		if (prev) {
--			dst_dev_put(&prev->dst);
--			dst_release(&prev->dst);
--		}
-+		if (prev)
-+			rt6_pcpu_release(prev);
- 
- 		pcpu_rt = NULL;
- 	}
-@@ -1550,13 +1580,21 @@ static struct rt6_info *rt6_make_pcpu_route(struct net *net,
- 		/*
- 		 * Another task on this CPU already installed a pcpu_rt.
- 		 * This can happen on PREEMPT_RT where preemption is possible.
--		 * Free our allocation and return the existing one.
-+		 * Free our allocation and return the existing one if it was
-+		 * built under the state this lookup found, otherwise replace
-+		 * it as rt6_get_pcpu_route does.
- 		 */
- 		WARN_ON_ONCE(!IS_ENABLED(CONFIG_PREEMPT_RT));
- 
--		dst_dev_put(&pcpu_rt->dst);
--		dst_release(&pcpu_rt->dst);
--		return prev;
-+		if (rt6_stamp_matches(prev, res)) {
-+			dst_dev_put(&pcpu_rt->dst);
-+			dst_release(&pcpu_rt->dst);
-+			return prev;
-+		}
++``rcu_nocbs[=cpu-list]``
++  Offload RCU callback invocation from the listed CPUs to the
++  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
++  This reduces callback-processing jitter on the CPU that enqueued them.
++  On a non-real-time kernel this also moves invocation out of softirq
++  context; with PREEMPT_RT, callbacks already run in kthread context
++  because ``rcutree.use_softirq`` is false, and the offload only changes
++  where they run.  If the parameter is given without a CPU list, no CPU
++  is offloaded at boot; the mode can still be toggled at runtime through
++  cpusets.  The parameter takes precedence over
++  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
 +
-+		prev = xchg(p, pcpu_rt);
-+		if (prev)
-+			rt6_pcpu_release(prev);
- 	}
++``rcu_nocb_poll``
++  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
++  offloaded CPUs to wake them.  This improves the real-time response at
++  the cost of higher power consumption, because the kthreads wake up
++  periodically to do the polling.  Consider this option only when wakeup
++  latency matters more than power.
++
+ ``CONFIG_TRACING`` (and tracing options)
+ ----------------------------------------
  
- 	if (res->f6i->fib6_destroying) {
-@@ -2864,11 +2902,16 @@ INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst_check(struct dst_entry *dst,
- 	struct dst_entry *dst_ret;
- 	struct fib6_info *from;
- 	struct rt6_info *rt;
-+	bool exception;
+@@ -216,6 +257,97 @@ just by being enabled.
+ These tracers do incur measurable latency overhead even when tracing is not
+ currently active.
  
- 	rt = dst_rt6_info(dst);
- 
-+	/* a nexthop-object pcpu dst replaced by another lookup has been
-+	 * released with dst_dev_put and must fail even if its stamp is current
-+	 */
- 	if (rt->sernum)
--		return rt6_is_valid(rt) ? dst : NULL;
-+		return (READ_ONCE(rt->dst.obsolete) == DST_OBSOLETE_FORCE_CHK &&
-+			rt6_is_valid(rt)) ? dst : NULL;
- 
- 	rcu_read_lock();
- 
-@@ -2879,9 +2922,16 @@ INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst_check(struct dst_entry *dst,
- 
- 	from = rcu_dereference(rt->from);
- 
--	if (from && (rt->rt6i_flags & RTF_PCPU ||
--	    unlikely(rt->dst.rt_uncached_list)))
--		dst_ret = rt6_dst_from_check(rt, from, cookie);
-+	/* Exceptions are validated against the holder's cookie, every other
-+	 * dst against the stamp of the lookup that built it rather than the
-+	 * cookie its holder read afterwards, which may postdate a FIB change
-+	 * the lookup did not see.
-+	 */
-+	exception = (rt->rt6i_flags & RTF_CACHE) && !rt->dst.rt_uncached_list;
-+	if (from && !exception)
-+		dst_ret = rt->cookie ?
-+				  rt6_dst_from_check(rt, from, rt->cookie) :
-+				  NULL;
- 	else
- 		dst_ret = rt6_check(rt, from, cookie);
++.. _real_time_boot_parameters:
++
++Boot parameters and task isolation
++==================================
++
++Kernel configuration options alone do not determine a real-time system's
++worst-case latency.  Integrators commonly rely on boot parameters and
++runtime tunables as well, to keep kernel housekeeping work away from
++latency-sensitive tasks.  The parameters below complement the options
++described above.  Some of them correspond to a configuration option and
++are referenced from that option's section, so the configuration and
++runtime guidance stay together.  Each one is documented in detail in
++Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
++the aspects that matter for real-time latency.  Consider these options
++only when the workload suffers from the corresponding interference;
++leave them disabled otherwise, as each of them trades flexibility or
++power for a lower worst-case latency.  The notes below follow the
++decisions an integrator has to make: whether to keep tasks off a CPU,
++whether to stop its tick, and where interrupts should run.  Idle state
++limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
++offloading with ``CONFIG_RCU_NOCB_CPU`` above.
++For the full CPU isolation model and its limitations, see
++Documentation/admin-guide/cpu-isolation.rst.
++
++.. caution::
++
++  CPU isolation is best effort.  Work that is explicitly bound to an
++  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
++  interrupts, may still run there unless it is steered away.  Measure
++  the resulting latency with tools such as ``osnoise``, ``timerlat``,
++  and ``rtla`` rather than assuming that an isolated CPU is free of
++  kernel noise.  See Documentation/timers/no_hz.rst and
++  Documentation/tools/rtla/index.rst.
++
++CPU isolation
++-------------
++
++``isolcpus=``
++  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
++  disturbances selected by the flag list (default: ``domain``):
++
++  ``domain``
++    Remove the CPUs from the scheduler domains.  This is the default
++    when no flag is given.  Domain isolation cannot be undone at
++    runtime; use cpusets when the isolated CPU set must change
++    dynamically.  Isolated CPUs remain usable through CPU affinity or
++    cpusets.  Unbound workqueues and unbound kernel threads are
++    confined to the housekeeping CPUs as a side effect.  Consider it
++    for CPUs dedicated to a latency-sensitive workload.
++
++  ``nohz``
++    Equivalent to ``nohz_full=``; see below.  The residual 1 Hz tick is
++    offloaded to workqueues, which must be affine to the housekeeping
++    CPUs through the global workqueue ``cpumask``
++    (/sys/devices/virtual/workqueue/cpumask).  By default the global
++    workqueue runs on all CPUs; configure this cpumask manually after
++    boot, or use the ``domain`` flag to confine unbound workqueues.
++
++  A practical configuration therefore combines ``isolcpus=`` with
++  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
++  x86 systems, a C-state limit.
++
++  Timer placement follows the same choice.  By default a migratable
++  timer expires on the CPU that armed it; with ``nohz`` (or
++  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
++  migrated to housekeeping CPUs.
++
++``nohz_full=``
++  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
++  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
++  forced outside the range to maintain timekeeping, and the RCU
++  callbacks of the listed CPUs are offloaded as if they had been
++  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
++  above.  This parameter takes precedence over
++  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
++
++  The trade-off between tickless operation and the kernel-to-userspace
++  transition latency is described in the ``CONFIG_NO_HZ`` /
++  ``CONFIG_NO_HZ_FULL`` section above.
++
++Interrupt affinity
++------------------
++
++``irqaffinity=``
++  Format: ``<cpu-list>``.  Sets the default affinity mask for
++  interrupts that do not have an explicit affinity, steering them to
++  the housekeeping CPUs.  Managed interrupts are not affected by this
++  setting and cannot be redirected through ``/proc/irq/*``.  Verify
++  the resulting placement in ``/proc/interrupts``.  See
++  Documentation/core-api/irq/managed_irq.rst.
++
+ Kernel Debug Options
+ ====================
  
 -- 
-2.56.0
+2.54.0
 
