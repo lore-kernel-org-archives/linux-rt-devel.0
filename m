@@ -1,74 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541906;
-	b=K2Z5NZVnl4yDwhDPX/hA+5UOx9mAM7PenZLi8jinuFZ4UEFBaUTwU3mWGORJJjqB74Te
-	 OcAzc6o2RNx3dPxINa592DbD1Fwbig1gE/LNTzHXocZfTw5B7WEfu3Yi9kmw/yIXsCIHf
-	 XrHkTAw+mMOrxq7JQ5hg+pwCv9z8gG5NH6lC2psKfdcUM5sMm4K7VrAmhlJ+SgE0dgo6/
-	 rZ2hMkW0C8E/+Ig5r6nHpdAUy63TGIGKlae9a6xshyWw1rwHG7Jtm3CAE+hExXf+q0+wt
-	 atXLNzpyIC4laCVTjceI8cjSlFnLzdfZC0JjOBT9ZJdqjQbKsHhWBasZn0++3Caj14A==
+	t=1795542522;
+	b=CsE0T4OGXYYMDMtQfuBFhmU0O2v0ZothtyrPlLtj8M1rM1p0q8R+7JjX9rOaF5u47WIy
+	 1yUimI4go/TR5Pvvm67D+ukqgKYN61SYUmW4HfdGv+Ld65L+nqvSD48rzb9+usGrgthe/
+	 iIvAtb4a4n7m2/RTXk3vtbAwSi34sDsHQs7i14tUcB7RL0mo95NWmEFAuKnaIA7bSvjPJ
+	 5mSSf/T0nobepu1Z8Ug+bgDzhfwMgCGHdidHwitxejvNYR1a+HaPd4B96b2UysyElcKFZ
+	 S6qEmHUmnznOEWJo7aCEmEIsWG2hnlvbOzM7aYT8yzdoxspl3m6jMHBCVKGr7WT0SBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541906;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=Z7ZqvSQjxHguoc1FTxJ8uNaW6BCtmmOurJdgC95SiWI=;
-	b=H2oY5JJN/6SPZCVoGBMjkLFq/d7c8aNhhCpEoCmgL/B9XMBA/IQJRMxZ5AxmbidPNzek
-	 SfyvWSSFm+DR+SGNlXKwlRE/45oXGjWJyr7S/8gvp6XbG5WGL1ChOtj1UO7oBywnuu69o
-	 odK7BynDYDRyHcUY9cSswuZsz4Lk6G6pTsPRmM4Rf7a5yKv/u0zIrtczgshJtSsNFwgcb
-	 wxIY4PVJrLzKvl2G3qN7PM47cvWOXFI6sXM4IW1IGR5lCIsr6v1bE5GelIf4E/uQPJ40r
-	 cF15xjNbN3rdS+lapooLELynm/eH72gYE7w++alExC568NuCvews+85RZfq5bS6DO0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795542522;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=CKrOpo0XlEfQ0H/8Y4hduOGq7fWHyFe6wFZszTRQUw6fx469dDuVAmyNmEUg88ghRbAo
+	 5E4ZQJ0/nI01FuLNLRPNA6qzhhE5OCIPd//Btv6MjImrvvrKAljKA99dcnwQ+c8FXX5fB
+	 rUMBhCIbx6Ye18Yf88VxsakM6GWc+QNx9B9jtkX6ww3yq05ZGkA6E17uVIF5zMvePbYx3
+	 /8+lTU+0BEoYCfLl3VDtInowubRssjYItVmZvLjB+jgLHZ9TFOjwn7CWa91KXjBCgcQej
+	 Fs7JX8Jgg9FeY4KGv8YmJW2vB/7d06HpHMiK0hDyJE8BFznQ5fR1LtVYFNjLz6+MxwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=vG79UtM6;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=o9oSUpqr;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="378Q0/Lt";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65227606A323;
-	Tue, 24 Nov 2026 17:38:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65227606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E38606A321
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Nov 2026 17:48:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21E38606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=vG79UtM6
-Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 29C9740CA4;
-	Tue, 24 Nov 2026 17:38:21 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 97A0D32;
-	Tue, 24 Nov 2026 17:38:13 +0000 (UTC)
-Date: Tue, 24 Nov 2026 12:38:12 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
- <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, Andy
- Lutomirski <luto@kernel.org>, Frederic Weisbecker <frederic@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Waiman Long <longman@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
- Nayak <kprateek.nayak@amd.com>, Hongyan Xia <hongyan.xia@transsion.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Andrew Morton
- <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>,
- linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 04/13] lockdep: Use raw access for pinned hardirq
- state
-Message-ID: <20261124123812.46979f5c@gandalf.local.home>
-In-Reply-To: <20261028033127.82193-5-kmehltretter@gmail.com>
-References: <20261028033127.82193-1-kmehltretter@gmail.com>
-	<20261028033127.82193-5-kmehltretter@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=o9oSUpqr;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=378Q0/Lt
+Date: Tue, 24 Nov 2026 18:48:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795542519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=o9oSUpqr51DMerEkCYl2Zk2l2Yc1flM2MDtCTpSw3Fp3rz6kv9jCmEQF/Xh36oYu9ipRJa
+	xnY4510j0DppTsblJJYCGpHsEWNSIl5QOriw6dUmjNmKi6hzDY+bDT0Tjnj7s2EE6O/fUC
+	NRcydLhv89OUUus/gL1Dn3Z3cs4im9+ODQNggFVfLLxQ3rePiIHM5d4XS5twp4e2PBaF6T
+	aRw3GUTuTVF9o0cByks8lQeo0UFuQDZEJz1L3P+EwtzuPi6eeng76L+IuSFXmOmgRWbSk2
+	UUxpGbb/D4p1v74nmozvZzCCrDTbQaHC1QTB00ELu9azBAYaEmWaAhuJ+DWulg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795542519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=378Q0/LtFoKLUUPTs/BLM0vx6CsDeF1MrAPHTV3ZaSQ7qkB4ECH4qbg9fkhUIkcF8mhdvO
+	nhcGsdqsXtub47DA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de, frederic@kernel.org,
+	john.ogness@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
+	atomlin@atomlin.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Documentation: real-time: Add boot parameters and
+ task isolation section
+Message-ID: <awXN9RY3x5xEGFe4@lx-t490>
+References: <20261124163202.56921-1-w1355457260@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -78,33 +75,153 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 97A0D32
-X-Stat-Signature: 4xbhd988e3g1csasnigwrdkcdq4qsys5
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX198MftYJKZb6cHxlY3uXfTzLYEjUtUPn2o=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=Z7ZqvSQjxHguoc1FTxJ8uNaW6BCtmmOurJdgC95SiWI=; b=vG79UtM65xVyDMhJcFJ0SJYuTRpNzihz/B5peKySpBcuvkVCkGYKYMsWF0bznW1oLEGCm6hOQr7mbFCA35ZzyhY0PViyO/owV3x//rZRGt7jTrCGtm/33B9kCAAA/LG4BT/iwvgFZwEOMLv4K1onpFbyk6J0w5qrId6JYmYbdrU=
-X-HE-Tag: 1795541893-954039
-X-HE-Meta: U2FsdGVkX19sulWhS/9891zS4KS5jVoQBW7ftJGYbRku5nwzwrevSJlpeohJjPhi0PGybtsZakyMexSWzlsfRQ3gW5tNzLIz0qeHXYAjlrVfZw96CfUGbT12mMbMzeFGsL/vMOuHNsc4JladTqyVibXWkNkjRE813CMxAAtPPI05Rn6zZ0GiRZfvRv3KThXKipyI+3gyetA1F4OZZ5yenvDob+pV0MF581Iv4hOJPhNf2vIL7OZLUSUqgnItiprU3NfU/sjicTkv7Yb+1aXYv2uUnzzCn5k8AKsCMQ7QO9OwXOa/firti7syKykRznECFqI2E5XsLt6OyXYVWWahbjH8CNmrS0Ed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124163202.56921-1-w1355457260@gmail.com>
 
-On Wed, 28 Oct 2026 04:31:18 +0100
-Karl Mehltretter <kmehltretter@gmail.com> wrote:
+Hi Zixin,
 
-> On arm64, this change relies on __kern_my_cpu_offset() being forced inline
-> by the earlier prerequisite patch so the call chain remains noinstr-safe.
-> 
-> Assisted-by: LLM
+On Tue, 24 Nov 2026, Zixin Wang wrote:
+> +
+> +``rcu_nocbs[=cpu-list]``
+> +  Offload RCU callback invocation from the listed CPUs to the
+> +  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
+> +  This reduces callback-processing jitter on the CPU that enqueued them.
+> +  On a non-real-time kernel this also moves invocation out of softirq
+> +  context; with PREEMPT_RT, callbacks already run in kthread context
+> +  because ``rcutree.use_softirq`` is false, and the offload only changes
+> +  where they run.  If the parameter is given without a CPU list, no CPU
+> +  is offloaded at boot; the mode can still be toggled at runtime through
+> +  cpusets.  The parameter takes precedence over
+> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> +
+> +``rcu_nocb_poll``
+> +  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
+> +  offloaded CPUs to wake them.  This improves the real-time response at
+> +  the cost of higher power consumption, because the kthreads wake up
+> +  periodically to do the polling.  Consider this option only when wakeup
+> +  latency matters more than power.
+> +
+...
+> +.. _real_time_boot_parameters:
+> +
+> +Boot parameters and task isolation
+> +==================================
+> +
+> +Kernel configuration options alone do not determine a real-time system's
+> +worst-case latency.  Integrators commonly rely on boot parameters and
+> +runtime tunables as well, to keep kernel housekeeping work away from
+> +latency-sensitive tasks.  The parameters below complement the options
+> +described above.  Some of them correspond to a configuration option and
+> +are referenced from that option's section, so the configuration and
+> +runtime guidance stay together.  Each one is documented in detail in
+> +Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
+> +the aspects that matter for real-time latency.  Consider these options
+> +only when the workload suffers from the corresponding interference;
+> +leave them disabled otherwise, as each of them trades flexibility or
+> +power for a lower worst-case latency.  The notes below follow the
+> +decisions an integrator has to make: whether to keep tasks off a CPU,
+> +whether to stop its tick, and where interrupts should run.  Idle state
+> +limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
+> +offloading with ``CONFIG_RCU_NOCB_CPU`` above.
+> +For the full CPU isolation model and its limitations, see
+> +Documentation/admin-guide/cpu-isolation.rst.
+> +
+> +.. caution::
+> +
+> +  CPU isolation is best effort.  Work that is explicitly bound to an
+> +  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
+> +  interrupts, may still run there unless it is steered away.  Measure
+> +  the resulting latency with tools such as ``osnoise``, ``timerlat``,
+> +  and ``rtla`` rather than assuming that an isolated CPU is free of
+> +  kernel noise.  See Documentation/timers/no_hz.rst and
+> +  Documentation/tools/rtla/index.rst.
+> +
+> +CPU isolation
+> +-------------
+> +
+> +``isolcpus=``
+> +  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
+> +  disturbances selected by the flag list (default: ``domain``):
+> +
+> +  ``domain``
+> +    Remove the CPUs from the scheduler domains.  This is the default
+> +    when no flag is given.  Domain isolation cannot be undone at
+> +    runtime; use cpusets when the isolated CPU set must change
+> +    dynamically.  Isolated CPUs remain usable through CPU affinity or
+> +    cpusets.  Unbound workqueues and unbound kernel threads are
+> +    confined to the housekeeping CPUs as a side effect.  Consider it
+> +    for CPUs dedicated to a latency-sensitive workload.
+> +
+> +  ``nohz``
+> +    Equivalent to ``nohz_full=``; see below.  The residual 1 Hz tick is
+> +    offloaded to workqueues, which must be affine to the housekeeping
+> +    CPUs through the global workqueue ``cpumask``
+> +    (/sys/devices/virtual/workqueue/cpumask).  By default the global
+> +    workqueue runs on all CPUs; configure this cpumask manually after
+> +    boot, or use the ``domain`` flag to confine unbound workqueues.
+> +
+> +  A practical configuration therefore combines ``isolcpus=`` with
+> +  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
+> +  x86 systems, a C-state limit.
+> +
+> +  Timer placement follows the same choice.  By default a migratable
+> +  timer expires on the CPU that armed it; with ``nohz`` (or
+> +  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
+> +  migrated to housekeeping CPUs.
+> +
+> +``nohz_full=``
+> +  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
+> +  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
+> +  forced outside the range to maintain timekeeping, and the RCU
+> +  callbacks of the listed CPUs are offloaded as if they had been
+> +  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
+> +  above.  This parameter takes precedence over
+> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> +
+> +  The trade-off between tickless operation and the kernel-to-userspace
+> +  transition latency is described in the ``CONFIG_NO_HZ`` /
+> +  ``CONFIG_NO_HZ_FULL`` section above.
+> +
+> +Interrupt affinity
+> +------------------
+> +
+> +``irqaffinity=``
+> +  Format: ``<cpu-list>``.  Sets the default affinity mask for
+> +  interrupts that do not have an explicit affinity, steering them to
+> +  the housekeeping CPUs.  Managed interrupts are not affected by this
+> +  setting and cannot be redirected through ``/proc/irq/*``.  Verify
+> +  the resulting placement in ``/proc/interrupts``.  See
+> +  Documentation/core-api/irq/managed_irq.rst.
+> +
+>
 
-Hmm, no Signed-off-by?
+Thanks for the write-up above.
 
--- Steve
+I wrote the RT configuration guide some time ago, where "configuration"
+here implied kconfig build-time .config generation.
 
-> ---
->  arch/arm64/kernel/entry-common.c | 6 +++---
->  include/linux/irqflags.h         | 3 +++
->  kernel/entry/common.c            | 2 +-
->  kernel/locking/lockdep.c         | 6 ++++--
->  4 files changed, 11 insertions(+), 6 deletions(-)
+It is true, of course, that "kernel configuration options alone do not
+determine a real-time system's worst-case latency".  But this does not mean
+that all the RT optimization tricks above must be squeezed together into
+the kernel RT /configuration/ guide.
 
+There's also a kernel configuration checker that produces lots of links to
+this guide:
+
+    https://msgid.link/20261106091922.7560-1-darwi@linutronix.de
+
+So I don't think that expanding the scope of this document into overall RT
+optimizations tricks will help.
+
+Since the whole of Documentation/real-time/ is dedicated to PREEMPT_RT, why
+not integrate these RT-optimization information into a proper guide there?
+
+Then, let this configuration guide link to the relevant sections only when
+necessary.  This way, scope creep is avoided.
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
