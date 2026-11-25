@@ -1,84 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795622658;
-	b=Wcb/78agj7s1TdrpiGCFNxwUyK5bYgsxlYw/vvKbbcUlq4RoDt5XsXCgiez3KJ6tvzBS
-	 QcgxcTQGOvzZguQ+mAU+Hov28iqmOtf3mmglFUzFjB9dWlWgpW18lIaPX7WumeBPsp2IV
-	 JExQaluRzF4DTy++AHpcRffRotQ7jDia62/gymdMPt1FqchtXcHmK/dLPN8SLqhjSwfDE
-	 UJivSQxsqjuA/yGwdrLmBUkAwhe31O8SqQY9b5TNsAKqIZ5u0p83aiZIXhgd8i6HREu9Q
-	 EJK+OMDpGVMsyOGg8ppVsI2U+5Snq6LvEEwCMxEYh7wnnz+Db7PlLpEEewsVbnN4SuA==
+	t=1795624070;
+	b=NpwSz1X4eANog29Zj0Y65rejObRhzGnb8Fl+c7sWKzTgg7/igavrBWIg9ei6+rEdDMdR
+	 nc4yPzkcMvD6nps/xH1CEOEMJALJg2Xe75Zat4giNIunOYTdP2FNit3kR3CX/+MdeC9LV
+	 ehKB5oYGqT3hgd2K7umq9tscLUrvYIt2hApj+RjjMeqQBschpl2tmfoIdeahvAxGQdnVC
+	 /ffHKkYwKUzaPuo+3cjmefMhIdqKua0SNH4vsOeEDQS55t+qI9/L9C9RRr9O7EJaw84q/
+	 vJ5AOQgchLo6/n0+dsN/YHZ0xA3OLPoFHmCjp9GOzsrvbBzZMWxi9YtxjhkRVqyH7ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622658;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=LozVc94GvRrMpc05Z6BHALOclMWxHaFig1ixRTKkdyU=;
-	b=O2d/JIyws3xwmXSPpujJZta3kW0xW5lsueKEiSsPOxJm/dFXbMKt+b0JocqXSlnzhRCA
-	 SGy6qMmQDr2sW5nrlga0zNU3d3kDRXfQ2QZhqWVucaz9eZTHrSbgYrkGtUVNopmjWkV8H
-	 KEMQMnQr1hhbAXzi5V6ju/yYC6h2QA60C+xdAaiVNRHYQGVyTgOk64uyUell0YqyJkURc
-	 q4vbY6n/DfnpDXHmXeMO2Sirtj+0tqksta1AZlDUL9QFfCbiLv7xbPnA5bMfrldof01kU
-	 1YGdaR3xYJAU5Z7e9/zsCpXIXJ1IguDJZxYzhJ+BWQFXQKEv8+jphdt25zVbyZ1Nt0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624070;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=6Xq8OeDOZHssKoiCadVgvlbF6CHN6aUwkH9nd/7x/mQ=;
+	b=4uAQ0v5fojfTf8jSZxKXHY7BJLnLq/1fOCwS41O9tlW6z1eAKVai1nQjbVemFFmmQaqN
+	 wKWWnj110nRQgtIgXKjNFUobNf1X/x8bKgkx3p2HcoCyAU3s/lJWuSC8HoaO2Six2iWXZ
+	 9IQ4M8fBBTAaTSwr1UZE2LJPaVQrBpsLDU8iM3spomV/K2sFBq5YBBRPeVUUWLP2emVWl
+	 imdKVcSlhDt6k2goj05MBUWHc97VFf+0zGOJInbog2APdvw9B/cJA+IU/jn1/0OPLxvL2
+	 nfvNyV8H4VpfxqBm8kp70hR/vMSbn7WLb6nNWn/mLNegLO2GojRrpV9U3kzxLkCKjoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=Th9WkmJA;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="HLKC/G75";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0070D606A32D;
-	Wed, 25 Nov 2026 16:04:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0070D606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30446606A31E;
+	Wed, 25 Nov 2026 16:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=Th9WkmJA
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=LozVc94GvRrMpc05Z6BHALOclMWxHaFig1ixRTKkdyU=; b=Th9WkmJAm20Jktbi/zYzyZaOgX
-	BjVyyFdGD3TGMyljTvD+yJTzFUq9AEoZyUNauy2qrAauT95N4P/TL9iNr3hSkSm/kF7ArBq5415/S
-	CoaywChZFxQy/1UnTQCVJkeW9nohTRLMNH37hcZeUvMZyFEm5aZ3S/JuPoFl69s+9dDqfNYW9nFW4
-	Pb70nVw3U2LuiNZbmCrWu4ivq60e9kkzN52b1HfBUSU4QFwvUfLZLff/Zugc+yvZZfDCBd0P+vEFS
-	2DWgv/zrsUEkgGngu8xYoRY6INTtaI8oa1ikYVUfb5vQ6TLpMJsaQWv2qBfVXalT9hUc2/GwzdwAb
-	3l6H4OxQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWFTf-00000005Vfy-0GiP;
-	Wed, 25 Nov 2026 16:04:11 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 18D053008BF; Wed, 25 Nov 2026 17:04:09 +0100 (CET)
-Date: Wed, 25 Nov 2026 17:04:09 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Harry Yoo <harry@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org,
-	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
-	daniel@iogearbox.net,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-Message-ID: <20261125160409.GF2668804@noisy.programming.kicks-ass.net>
-References: <20261124060357.11700-1-emil@etsalapatis.com>
- <20261124060357.11700-2-emil@etsalapatis.com>
- <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
- <awWRZ9xCzWLnj_R6@thinkstation>
- <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
- <awbvek-HS3OJYJGF@thinkstation>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HLKC/G75
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D432E1F000C6;
+	Wed, 25 Nov 2026 16:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795624070;
+	bh=6Xq8OeDOZHssKoiCadVgvlbF6CHN6aUwkH9nd/7x/mQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=HLKC/G75fi9sy0J6WPDfd1XuHL+jH5hQ864LYO8hJxRKsP9itojTpV+DomEB+ziOL
+	 AG6Oz9gZpyd+TThtXLRWvrUcz+HR6Suy1cgyDe0bhZmXKQZQjZg7AXK02i0JR4SKC1
+	 yQuRiE09olqXbbovD1ae6pIyID2ibNt26E8w1rKS2C8lMbJLM9gwdJSwZ3RJ5n7LF+
+	 ONDT/EcHgKDankLsMjRA7bgELL8ZBsEdlP53tsy4ezqK+KzaeLqVd+piwgACZVPnMn
+	 bAoA9THmx5raQv3LuOrLrMCyNdKz+gIMCq3rexG6c7tnz1LPrQY1Qpbx0iuflVjxz0
+	 lX08+8vmILrDQ==
+Message-ID: <sashiko-outbox-233749@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v5 4/4] ipv6: validate dsts against the state
+ their lookup found
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ralf Lici" <ralf@mandelbit.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <4b2bf5de6c9837fee8db88d639db0e27e6d687b9.1795537128.git.ralf@mandelbit.com>
+References: <cover.1795537128.git.ralf@mandelbit.com>
+ <4b2bf5de6c9837fee8db88d639db0e27e6d687b9.1795537128.git.ralf@mandelbit.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 16:27:49 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -87,29 +60,207 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awbvek-HS3OJYJGF@thinkstation>
 
-On Wed, Nov 25, 2026 at 02:30:52PM +0000, Harry Yoo wrote:
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ipv6: deleted nexthop-object pcpu dsts stay valid in
+  ip6_dst_check()
+- [Medium] ipv6: PREEMPT_RT race killing or returning dead pcpu dsts in
+  route.c
+--
 
-> > This is absolute atrocious shite. You cannot attempt a spin_trylock from
-> > NMI context. That thing might be a mutex.
-> 
-> Uh, right. We went through this when kmalloc_nolock() was introduced.
-> 
-> > This should not work; if it does, that is an accident we need to fix.
-> 
-> Current implementation handles this by can_spin_trylock() in
-> mm/internal.h.
-> 
-> One remaining accident we're aware is that we cannot attempt a
-> spin_trylock or local_trylock under pi_lock (even on !RT).
-> 
-> Currently I don't have a good idea to fix this :/
+commit 4fc9718ac0ef513c19b112ac560ff9d40fa15b7c
+Author: Ralf Lici <ralf@mandelbit.com>
 
-Yeah, me neither, other than creating specific classes of
-tracepoints/whatnot where things are explicitly allowed.
+ipv6: validate dsts against the state their lookup found
 
+This commit validates IPv6 dst entries in ip6_dst_check() and reuses or
+replaces cached per-CPU dsts based on the lookup stamp recorded when the
+dst was built rather than the cookie passed by the holder.
 
+> diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+> index 8b98ee945c583..be9bf7a4e7808 100644
+> --- a/net/ipv6/route.c
+> +++ b/net/ipv6/route.c
+> @@ -1501,7 +1501,7 @@ static struct rt6_info *ip6_rt_pcpu_alloc(const str=
+uct fib6_result *res)
+>  	pcpu_rt->rt6i_flags |=3D RTF_PCPU;
+> =20
+>  	if (f6i->nh)
+> -		pcpu_rt->sernum =3D rt_genid_ipv6(dev_net(dev));
+> +		pcpu_rt->sernum =3D res->gen;
+> =20
+>  	return pcpu_rt;
+>  }
+> @@ -1511,6 +1511,33 @@ static bool rt6_is_valid(const struct rt6_info *rt=
+6)
+>  	return rt6->sernum =3D=3D rt_genid_ipv6(dev_net(rt6->dst.dev));
+>  }
+> =20
+> +static bool rt6_stamp_matches(const struct rt6_info *rt,
+> +			      const struct fib6_result *res)
+> +{
+> +	if (rt->sernum || res->f6i->nh)
+> +		return res->gen && rt->sernum =3D=3D res->gen;
+> +
+> +	return res->cookie && rt->cookie =3D=3D res->cookie;
+> +}
+> +
+> +static void rt6_pcpu_release_rcu(struct rcu_head *head)
+> +{
+> +	struct dst_entry *dst =3D container_of(head, struct dst_entry, rcu_head=
+);
+> +
+> +	dst_release(dst);
+> +}
+> +
+> +/* Release a pcpu dst taken out of its slot. Lookups may have read the s=
+lot
+> + * without taking a reference, so drop the slot's own only after a grace
+> + * period: an xfrm bundle holding the dst as its child releases its
+> + * reference without waiting for one.
+> + */
+> +static void rt6_pcpu_release(struct rt6_info *rt)
+> +{
+> +	dst_dev_put(&rt->dst);
+> +	call_rcu(&rt->dst.rcu_head, rt6_pcpu_release_rcu);
+> +}
+> +
+>  /* It should be called with rcu_read_lock() acquired */
+>  static struct rt6_info *rt6_get_pcpu_route(const struct fib6_result *res)
+>  {
+> @@ -1518,16 +1545,19 @@ static struct rt6_info *rt6_get_pcpu_route(const =
+struct fib6_result *res)
+> =20
+>  	pcpu_rt =3D this_cpu_read(*res->nh->rt6i_pcpu);
+> =20
+> -	if (pcpu_rt && pcpu_rt->sernum && !rt6_is_valid(pcpu_rt)) {
+> +	/* A pcpu dst is shared by all its holders, so it is never re-stamped.
+> +	 * Reuse it only if it was built under the state this lookup found,
+> +	 * otherwise replace it: a dst rebuilt by another lookup after a FIB
+> +	 * change must not be returned to a lookup that selected before it.
+> +	 */
+> +	if (pcpu_rt && !rt6_stamp_matches(pcpu_rt, res)) {
+>  		struct rt6_info *prev, **p;
+> =20
+>  		p =3D this_cpu_ptr(res->nh->rt6i_pcpu);
+>  		/* Paired with READ_ONCE() in __fib6_drop_pcpu_from() */
+>  		prev =3D xchg(p, NULL);
+> -		if (prev) {
+> -			dst_dev_put(&prev->dst);
+> -			dst_release(&prev->dst);
+> -		}
+> +		if (prev)
+> +			rt6_pcpu_release(prev);
+> =20
+>  		pcpu_rt =3D NULL;
+>  	}
+> @@ -1550,13 +1580,21 @@ static struct rt6_info *rt6_make_pcpu_route(struc=
+t net *net,
+>  		/*
+>  		 * Another task on this CPU already installed a pcpu_rt.
+>  		 * This can happen on PREEMPT_RT where preemption is possible.
+> -		 * Free our allocation and return the existing one.
+> +		 * Free our allocation and return the existing one if it was
+> +		 * built under the state this lookup found, otherwise replace
+> +		 * it as rt6_get_pcpu_route does.
+>  		 */
+>  		WARN_ON_ONCE(!IS_ENABLED(CONFIG_PREEMPT_RT));
+> =20
+> -		dst_dev_put(&pcpu_rt->dst);
+> -		dst_release(&pcpu_rt->dst);
+> -		return prev;
+> +		if (rt6_stamp_matches(prev, res)) {
+> +			dst_dev_put(&pcpu_rt->dst);
+> +			dst_release(&pcpu_rt->dst);
+> +			return prev;
+> +		}
+> +
+> +		prev =3D xchg(p, pcpu_rt);
+> +		if (prev)
+> +			rt6_pcpu_release(prev);
+>  	}
+
+[Severity: Medium]
+On CONFIG_PREEMPT_RT, can concurrent lookups on the same CPU kill a live
+pcpu_rt or return one that has already been released?
+
+local_bh_disable() in ip6_pol_route() pins the task to the CPU, but tasks
+on the same CPU can still preempt one another inside rt6_get_pcpu_route()
+and rt6_make_pcpu_route():
+
+rt6_get_pcpu_route() [task A]
+  pcpu_rt =3D this_cpu_read(*p)
+  !rt6_stamp_matches(pcpu_rt, res)
+  <preempted by task B on same CPU>
+    rt6_get_pcpu_route()
+      xchg(p, NULL)
+    rt6_make_pcpu_route()
+      cmpxchg(p, NULL, new_rt)
+    return new_rt
+  <task A resumes>
+  prev =3D xchg(p, NULL)
+  rt6_pcpu_release(prev)
+    dst_dev_put(&new_rt->dst)  <-- kills live new_rt held by task B
+
+The same unconditional xchg(p, pcpu_rt) overwrite exists in
+rt6_make_pcpu_route() when !rt6_stamp_matches(prev, res).  Conversely, if
+task A gets prev from cmpxchg(p, NULL, pcpu_rt) in rt6_make_pcpu_route()
+and is preempted before returning it, task B can replace prev and call
+rt6_pcpu_release(prev).  Because rt6_pcpu_release() leaves prev->cookie
+and prev->sernum intact and defers dst_release() via call_rcu(), task A
+resumes, sees rt6_stamp_matches(prev, res), and returns the dead dst
+(which still passes ip6_hold_safe() before the grace period elapses).
+
+> @@ -2864,11 +2902,16 @@ INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst=
+_check(struct dst_entry *dst,
+>  	struct dst_entry *dst_ret;
+>  	struct fib6_info *from;
+>  	struct rt6_info *rt;
+> +	bool exception;
+> =20
+>  	rt =3D dst_rt6_info(dst);
+> =20
+> +	/* a nexthop-object pcpu dst replaced by another lookup has been
+> +	 * released with dst_dev_put and must fail even if its stamp is current
+> +	 */
+>  	if (rt->sernum)
+> -		return rt6_is_valid(rt) ? dst : NULL;
+> +		return (READ_ONCE(rt->dst.obsolete) =3D=3D DST_OBSOLETE_FORCE_CHK &&
+> +			rt6_is_valid(rt)) ? dst : NULL;
+
+[Severity: High]
+Does a nexthop-object pcpu dst stay valid in ip6_dst_check() and
+rt6_stamp_matches() after its route is deleted?
+
+Deleting a route via fib6_del() -> fib6_del_route() -> fib6_purge_rt()
+does not call fib6_new_sernum(), so rt_genid_ipv6() is unchanged.
+Instead, __fib6_drop_pcpu_from() (and the fib6_destroying path in
+rt6_make_pcpu_route()) invalidates the cached per-CPU dst only by
+clearing pcpu_rt->from to NULL, leaving pcpu_rt in res->nh->rt6i_pcpu
+with dst.obsolete =3D=3D DST_OBSOLETE_FORCE_CHK and its non-zero sernum:
+
+net/ipv6/ip6_fib.c:__fib6_drop_pcpu_from() {
+	...
+		if (pcpu_rt && rcu_access_pointer(pcpu_rt->from) =3D=3D match) {
+			struct fib6_info *from;
+
+			from =3D unrcu_pointer(xchg(&pcpu_rt->from, NULL));
+			fib6_info_release(from);
+		}
+	...
+}
+
+Because ip6_dst_check() returns early when rt->sernum is non-zero before
+checking rcu_dereference(rt->from), holders keep validating and sending
+through the deleted route's dst.  In addition, because rt6_stamp_matches()
+checks rt->sernum =3D=3D res->gen without checking rcu_access_pointer(rt->f=
+rom),
+later lookups on the same CPU matching another route that shares the
+nexthop object reuse the pcpu_rt whose from is NULL, causing
+inet6_rtm_getroute() to fail with -ENETUNREACH and PMTU updates in
+__ip6_rt_update_pmtu() to silently abort.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795537128.gi=
+t.ralf@mandelbit.com?part=3D4
