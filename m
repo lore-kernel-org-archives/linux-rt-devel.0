@@ -1,49 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795595172;
-	b=Kq1+yddbSQHm0pi0KA0yeycLDZRivXht923T8+Hv5QUIcZdc/1LhztHdcL4Mc/JIfKv4
-	 R0Ue0421lc6yHtqOHjRW1KZaqFZG1B1W06PrKtCLT9yfvm85bDqapnX6DoAVEcSGjNn1f
-	 gcIpDO149rpWBYwrx+ASRalm73ZSuekDsHygG6bXHqy8aUQqmDCq02nUVOAYlzcB0C+lE
-	 xwFZpy9qbQeFQv1CI9SHf0jpPORnEUx+y/YA08yYr1fM6oRtTCei+Os/P8fp6WJNSYZxV
-	 ZIVgfbtUD/j5AGgCJR0KiaTucfqyCVX+ujokYuWf7tVeACQ2jGja2C8jphM2Wee0p7w==
+	t=1795596726;
+	b=hGr97RSmqf6ujne+6o6s6DVRdJKr+GalMYcyO0deqCoLY6qXT4vfEoWalPiLPYqsH3pW
+	 HeF/JMFQKEUonLfMbQlcsZmqNzyXtPwKqL4EcPNlNdkpGCeXSxLY+Ri7uE/VMc3XK/Q0n
+	 0cmBxP9wxXu/pFf08vPlZZMZFxDBsQWmrNhZ2E3MDiMtLurSOv5AImD8sa42uijQuCzUw
+	 QTN3wrXh65JY+f3mJpbGdinUfgYLVW+crRWtCzUeU0SCL8ZqctIaMUCJhKxiISJ1Tknx8
+	 qUaX2RcdVecR+ebnGePxB0kDtqDTGP49z9njsWMvlc/3YyPhXN9RQMzoOT5jW4+WaVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795595172;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=JkhOqWjoE3Q+BjDXMq8ste1yWf8Gndm7wkosFGmn9TY=;
-	b=DrI9V0fqiLvzQ2xEi4maxWmrLn/zmr2WdPGDljJl3nYM1W2dHTobnHE51uRUP8O+t//w
-	 h4HEHTpHib9Q821TGY4PFSOu99J2wtlgyZ6XmUKta7O9Q8LXhrerweXBK0bUineTEw70i
-	 wzcreozRJhugWAMo8TROnKodEbTrmTLWo/iXmigDBmiboleDPwXYneAbDVlNQQzLgnQEE
-	 eEXLF3bR+nAYZsvNWi+nhQ8udmbI2bMV8+3QpxfgvBiqo2syL/nW6ZcJ3rt9X+qSEuZ+Z
-	 hh5bm1Fq7f2I0xJZxrsuiyLJEONPflqsqwYtaYKom0/ne3OfizsB/YEzZpuMja2Gxww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795596726;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:In-Reply-To:References:Date:Message-ID:User-Agent:
+	 MIME-Version:Content-Type;
+	bh=CpS23/nwi76U/xfd1RwGp9LbeXJvRV6wntw7x0C4i80=;
+	b=Av2c7ujSZ3BVipkhlNNC2yLbMnlaENjlmBAdxdH+7OvnTP22sJjl+b33g09qwo27S+Wf
+	 WfZXW/UacrzfZK9cBpy1WoFTuLedtSUOhBseHW2tfz1SZP6+du3WGqqkw3vk8G29kf8Jv
+	 /qUTTqavFYMs4mkQwvfFKGjJEPH/Q+I1EXIZD0aJNgw/eyNjQShf04elXAHyuGbSKQIiY
+	 dXm0Ad21FMsyj92tSiwhWmnaHBoIkj4S1oKNpqbm621pDGRQ8YulKLSBOZug4BvSlpZhQ
+	 0e5nxvq/fTsIeTpCigSqYtT0/wNyYBQPI5ZR8kLyRBrpc9zddcvRADHYgz92o9EPkNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=i0Iy827z;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3FCE606A327
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 08:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3FCE606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linux.alibaba.com;
+	spf=pass smtp.mailfrom=linux.alibaba.com;
+	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=PrrfGIvG;
+	arc=none smtp.remote-ip=115.124.30.130
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B74606A6A5
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 08:52:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1B74606A6A5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=i0Iy827z
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD71D14BF;
-	Wed, 25 Nov 2026 00:26:07 -0800 (PST)
-Received: from [10.57.72.178] (unknown [10.57.72.178])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB62F3F86C;
-	Wed, 25 Nov 2026 00:26:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795595170; bh=2sushVC0kbf5QBS5mCE2ZCkoDnbD9EMcF9gJb4NY3vk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i0Iy827zQElVSRE1WZTvCP7nzk37SNygK4WpEPMEM5vWV00cZVz3RXAx5KrFPNDtg
-	 KDCY749HPcsEm2N2iAB09/n17iF+twdpfqsa5lriKibhXdk2bBKbkO/eE9rfbPNyr8
-	 HLccYr3CS2ExnkOLz1QNKqb4a53Yokss+m4A6qv8=
-Message-ID: <86b5a9f8-70f3-4a5f-b023-c9fb1a2faf83@arm.com>
-Date: Wed, 25 Nov 2026 08:26:04 +0000
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=PrrfGIvG
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1795596716; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=CpS23/nwi76U/xfd1RwGp9LbeXJvRV6wntw7x0C4i80=;
+	b=PrrfGIvGAojPJfNqzNx6ZEACFlbhf/Lz4t7tDDYchvTPSO5C0FaW4+vd0I7zJOhukwi2TxBzVbAn1bR6xaCI8LI/hNtkiTGR31ZDCgDvYEZVE3SU1iNhItzBGYJVxV96vpnbXi2lZL38lWO+8sXUaoEFTDnElRZyRQBU7AzwpQc=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R911e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=ying.huang@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0XFR2tqg_1795596713;
+Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0XFR2tqg_1795596713 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 25 Nov 2026 16:51:54 +0800
+From: "Huang, Ying" <ying.huang@linux.alibaba.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>,  "Liam R. Howlett"
+ <liam@infradead.org>,  Vlastimil Babka <vbabka@kernel.org>,  Mike Rapoport
+ <rppt@kernel.org>,  Suren Baghdasaryan <surenb@google.com>,  Michal Hocko
+ <mhocko@suse.com>,  Rik van Riel <riel@surriel.com>,  Harry Yoo
+ <harry@kernel.org>,  Jann Horn <jannh@google.com>,  Lance Yang
+ <lance.yang@linux.dev>,  Andrew Morton <akpm@linux-foundation.org>,
+  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,  Clark Williams
+ <clrkwllms@kernel.org>,  Steven Rostedt <rostedt@goodmis.org>,  Paul
+ Walmsley <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
+ Ou <aou@eecs.berkeley.edu>,  Alexandre Ghiti <alex@ghiti.fr>,  Ying Huang
+ <huang.ying.caritas@gmail.com>,  linux-mm@kvack.org,
+  linux-rt-devel@lists.linux.dev,  linux-riscv@lists.infradead.org,
+  stable@vger.kernel.org,  Kirk Swidowski <swidowski@google.com>
+Subject: Re: [PATCH] mm/rmap: avoid reusing batched TLB flush generations
+In-Reply-To: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org> (David Hildenbrand's
+	message of "Tue, 24 Nov 2026 10:39:11 +0100")
+References: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org>
+Date: Wed, 25 Nov 2026 16:51:52 +0800
+Message-ID: <87a4mxthsn.fsf@DESKTOP-5N7EMDA>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -53,82 +73,75 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cpufreq: schedutil: Run irq_work in hardirq context on
- PREEMPT_RT
-To: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, mingo@redhat.com, peterz@infradead.org,
- juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, kprateek.nayak@amd.com, bigeasy@linutronix.de,
- clrkwllms@kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20261125080613.1138573-1-zhongqiu.han@oss.qualcomm.com>
-From: Christian Loehle <christian.loehle@arm.com>
-Content-Language: en-US
-In-Reply-To: <20261125080613.1138573-1-zhongqiu.han@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 
-On 11/25/26 08:06, Zhongqiu Han wrote:
-> On PREEMPT_RT, an irq_work not marked IRQ_WORK_HARD_IRQ runs in the
-> per-CPU irq_work/N thread at SCHED_FIFO priority 1. The schedutil slow
-> path queues its irq_work on the local CPU, so the wakeup of the
-> SCHED_DEADLINE sugov thread is delayed until no other RT or DL task is
-> runnable on that CPU.
-> 
-> Meanwhile work_in_progress stays set, so no new frequency update is
-> queued for any CPU of the policy: one busy RT task can freeze the
-> frequency of its whole policy.
-> 
-> sugov_irq_work() only calls kthread_queue_work(), which only takes raw
-> spinlocks and is safe in hard interrupt context on PREEMPT_RT, so mark
-> the irq_work IRQ_WORK_HARD_IRQ, as commit f8d958880933 ("srcu: Use
-> IRQ_WORK_INIT_HARD for srcu's irq_work") did for srcu.
-> 
-> Tested on a Qualcomm SM8850 board running PREEMPT_RT, with SCMI cpufreq
-> forced into the slow path. With a SCHED_FIFO 10 stress-ng worker on CPU1
-> (30% load, 50 ms slices, 15 runs of 5 s each), sugov_irq_work() now runs
-> within 15 us of irq_work_queue() instead of waiting for the RT burst to
-> end (up to 212 ms), and the policy frequency is no longer frozen. The
-> irq_work latency below is measured from irq_work_queue() to the entry of
-> sugov_irq_work(). The cost is that the kthread wakeup now runs in the
-> irq_work IPI handler, as it does on !PREEMPT_RT. In a separate cpufreq
-> stress test with cyclictest (SCHED_FIFO 90) on all CPUs, this raises the
-> average IRQ work IPI time from ~0.5 us to ~1.3 us, with no change in the
-> number of IPIs, and the cyclictest per-CPU worst case by ~2 us.
-> 
->   PREEMPT_RT                           before              after
->   ---------------------------------    -------------       ----------
->   irq_work latency on CPU1, max        130 - 212 ms        <= 14.5 us
->   policy0 frozen, total per 5 s run    0.57 - 1.25 s       none
->   cyclictest max, CPU1-5               13 - 16 us          14 - 18 us
-> 
-> On !PREEMPT_RT, cyclictest and IRQ work IPI duration are unchanged. No
-> lockdep or DEBUG_ATOMIC_SLEEP splat on either PREEMPT_RT or !PREEMPT_RT.
-> 
-> Signed-off-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+Hi, David,
 
-Missing a fixes tag then?
-FWIW
-Reviewed-by: Christian Loehle <christian.loehle@arm.com>
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-> ---
->  kernel/sched/cpufreq_schedutil.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/sched/cpufreq_schedutil.c b/kernel/sched/cpufreq_schedutil.c
-> index 14405a614991..b2e9ac7e3517 100644
-> --- a/kernel/sched/cpufreq_schedutil.c
-> +++ b/kernel/sched/cpufreq_schedutil.c
-> @@ -726,7 +726,7 @@ static int sugov_kthread_create(struct sugov_policy *sg_policy)
->  	else
->  		kthread_bind_mask(thread, policy->related_cpus);
->  
-> -	init_irq_work(&sg_policy->irq_work, sugov_irq_work);
-> +	sg_policy->irq_work = IRQ_WORK_INIT_HARD(sugov_irq_work);
->  	mutex_init(&sg_policy->work_lock);
->  
->  	wake_up_process(thread);
+> mm->tlb_flush_batched packs a 15-bit pending and a 15-bit flushed
+> counter into one atomic_t, and resets both once pending gets large.
+> flush_tlb_batched_pending() updates flushed with a cmpxchg() against the
+> value it read before flushing.
+>
+> If the counters get reset and reach that same value again while
+> flush_tlb_mm() is running, the cmpxchg() succeeds and unmaps that
+> happened in the meantime are considered flushed. A later zap can then
+> skip the flush and leave stale writable TLB entries behind.
+>
+> Use two separate counters, never reset pending, and let the flusher
+> simply store the pending value it read before flushing. To keep pending
+> from wrapping around to flushed, pull flushed to pending - 1 once
+> pending is more than INT_MAX ahead.
+>
+> Preventing the wrapping is primarily required because
+> try_to_unmap_flush() as called from migration and reclaim code does
+> *not* go through flush_tlb_batched_pending(), as it does not iterate
+> MMs. So if nothing in the MM triggers flush_tlb_batched_pending(), there
+> would be a problem.
+>
+> As the separate counters are no longer read atomically together, we must
+> read "flushed" before "pending" (acquire/release), so a reader can never
+> pair a just moved-forward "flushed" value with an older "pending" value.
+>
+> We'll leave the barrier() between clearing the PTE and incrementing
+> "pending" alone for now: it should be a smp_mb__before_atomic(), but
+> existing arch code (x86: inc_mm_tlb_gen(), arm64: dsb(ishst) before the
+> TLBI, riscv: fully-ordered xchg() in ptep_get_and_clear()) imply a
+> barrier. This should be cleaned up or documented separately.
+>
+> Note: if a flusher stalls between reading "pending" and storing it,
+> while "pending" advances by an exact multiple of 2^32, the counters
+> could compare equal and we could miss a flush. The same applies to a
+> writer that stalls while moving "flushed" forward.
+>
+> That is irrelevant in practice: both hold the PTL, so without PREEMPT_RT
+> they cannot get preempted, and wrapping within the ~20s soft lockup and
+> RCU stall timeouts would require more than 200 million batched unmaps
+> per second on a single mm, which is impossible in practice. Even with
+> PREEMPT_RT or long vCPU preemption, we would need minutes of unmap and
+> refault churn while the stalled task stays off the CPU, which is highly
+> unlikely and not a realistic attack vector.
+>
+> This effectively adds 4 bytes to mm_struct. However, on common 64-bit
+> configs it fits into the existing padding, leaving the size unchanged.
+>
+> Fixes: 5ee2fa2f0636 ("mm/rmap: fix potential batched TLB flush race")
+> Cc: stable@vger.kernel.org
+> Reported-by: Kirk Swidowski <swidowski@google.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> [ david: use atomic_t instead of atomic64_t, adjust description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
+Except the fork issue pointed out by Harry, the patch looks good to me.
+Thanks for fixing this problem.  Feel free to add my
+
+Reviewed-by: Huang Ying <ying.huang@linux.alibaba.com>
+
+in the future versions after fixing the fork issue.
+
+---
+Best Regards,
+Huang, Ying
+
+[snip]
