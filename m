@@ -1,61 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795614739;
-	b=wHmm9ILfwT4iYwYjRNqu2dIbmwudeXkbq8HydS8pQIIL0EVm1BLAQ7np4rWyrQmaxw+k
-	 E75VQXHk9MyMldgqmkaMvVJdx5m8Bc29sBrunbyiT2FYq/2BrN/nRbr1MhVmTMNMXlhZC
-	 GeONTdHJKX8XLnrOzGQ1Dcj4kaQ3gx5SXLcgVuX+7TTduloIdd8tPWKXaCzx0+/A7Xomb
-	 eAcHYp4zhL5/yb3UsVlS5Ipz5U7HH9biljsqVBcrejTTN69VeRwyJXQ1ER7pV9IApxu1A
-	 z3Uf3/aF2E1gWdHHhNVRJX9ZlzwurwP0SE6E+UxeVLJHjAlzUlKslpm7KNa98PA0iKw==
+	t=1795615750;
+	b=dHI2mtE3NrBgqu52jEtDuhpqVojMQz87svzzIpsxzjtzgezE/QSanDZXFvClKesqRMBX
+	 hAqpwiU3UnRMyo6q2edfsrtV/YFsJNECqz/vUN3lHWoJmbgipgEc4SmNLqPsfKnU/EJGW
+	 h8y7lDA6NXrKkcrt/F1rtBO23HcBvLNhw3FWLzKAox2doJr6zV2kupqs0N6jl2MIpUzaI
+	 tccBgbEj2CTHk5SAhJH564IzL9G/D7HvaYAMPo01KX4EvMPWdywCvVR0CnS9y91fPlcFi
+	 f+n5OpiMpq71fymaZhDgYxWaE8R0xb0LiwqwJ9C8/fCWNmTTO489XAVqp7JMDB45e2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795614739;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ih1VDTrU3FeJ2fsbtiUZSy/fzpLqeBrB/3Ho1Q8Vksg=;
-	b=0dSug2NULdRwEjeAAffRM86Pw62P+Wz3vDwCQmGdmyIBZ7nGWsSEbkFepklUmbfXdJl8
-	 rHS7gHY1Wf6MOrVVD1rsvvv7HXhMLklmLh/RZ259M3sbpmPDh0wG2y3IySjQftTPKl+2y
-	 gJwqC9VpITcAe8a3cUky71alAjZEo9FhJYg8qgJ3Ff3mO6BsGmw7aYBZCqAg0mqN3ES1b
-	 O2He9XBDohE2hoDmZissvIwwHODzMLOPyqi1oYQu3QpcHPQ/fzrYRJmI/61Ow49dfEIwF
-	 KKQ1R+BvCI/HwseBLdGvXE4imyUmh8m7p18RIKWMIpjjFlKo32ZQyyUJFHPLwS5GxtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795615750;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=OJfj0NWZLxmiap02Jgv9y6mBQfosM9khI8VQAwhpY5c=;
+	b=fqtacTEG3wxjcLvdcQ4xt08RXgKDFGADRA1LCbEA9mt8dhMA5oOqX4bcq+W3VXmOkW7s
+	 n2avDIY+88OXUpUFbs1m2mEBiZeOS7MH2ci9nB4k/4Hl2Xr5PvmLLlpKHQNi79f+TnqHi
+	 LVA0RHTdBiVmqWi0hnB7WF5iwwUHBcUBXRTxI1mPrwfmvufDl7/+hQeTQ0aXfL+IspFe/
+	 4oixkHrHsk6PqTrrIcILfo29rmUtDX7eRTbegycTagFA0PfEeYJ4rx29pWewxuVyf9kJI
+	 4xLpJRFeV5aRcEALIA1CKeqDxhVfnOzNMzdAeAW+awrYnOp5Ti9r1N2I4jBPw2xebfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eassQ+eh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HLOmayJZ;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B774A606A330;
-	Wed, 25 Nov 2026 13:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A0D606A6BD;
+	Wed, 25 Nov 2026 14:09:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3A0D606A6BD
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eassQ+eh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21D61F000EE;
-	Wed, 25 Nov 2026 13:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795614739;
-	bh=ih1VDTrU3FeJ2fsbtiUZSy/fzpLqeBrB/3Ho1Q8Vksg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eassQ+ehtNlIg7BCYm6d9K32YvY8qw6Lw2o1T2KIXMP1nElqmQXlEYtZ3auoJRGPs
-	 RuPLl0AlZn5mOfaiPEATfDF5yS2c9jSNMDDvEc2aB3teBrAHDvhqvQ0MilTw5woUrX
-	 r+0qd3DgUr8J04D3fhgoVd1Mx84QADjJiEWYndLt5edAv7x6+DpeHV7Vl+aDd+IcQh
-	 1ojyxYxC1kYLPCYAitx6iV/dJHFlHDlAbFcQmP57isDtbEc1BaI4smiZPDCiSmq5VS
-	 ltAC3lonKaXHrHdjEBqyBOf1CebpOHDeQUX4mcBbO+VEv83fNq1eCllKZOuRXUuBGD
-	 YyMs/2wdpZIAg==
-Date: Wed, 25 Nov 2026 13:52:17 +0000
-From: Harry Yoo <harry@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, Jann Horn <jannh@google.com>, 
-	Lance Yang <lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Ying Huang <huang.ying.caritas@gmail.com>, linux-mm@kvack.org, 
-	linux-rt-devel@lists.linux.dev, linux-riscv@lists.infradead.org, stable@vger.kernel.org, 
-	Kirk Swidowski <swidowski@google.com>, Huang Ying <ying.huang@linux.alibaba.com>
-Subject: Re: [PATCH v2] mm/rmap: avoid reusing batched TLB flush generations
-Message-ID: <awboAcnWHZfsy8bg@thinkstation>
-References: <20261125-rmap-v2-1-0ba817662eac@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HLOmayJZ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OJfj0NWZLxmiap02Jgv9y6mBQfosM9khI8VQAwhpY5c=; b=HLOmayJZkdjmUcSo04fNYiJZ+F
+	iuOcY/vbBOs7dUr1USwUAgETw2iJRkCXAb4zbYLJWrHC3WdrMh0hRKm6cbzkctZ33FtIMF3UbqamV
+	lfulBT3qwftheBZI9jUuNiHYSb/CAexRFMIcHIHIePn/PM2FGT2Xzfm8Ex9gbwZ3577im9HaOCuQp
+	EO6f8P1MAwM2LMF7+4K7DdbOh3BJG58TXUNqO2FWUdFV8PzNHKMuGvIPM9gAtb4Q+PEVJ3+a+MkRD
+	lY9sYRYO7EkLhaHmTL+YpkUgZ7yNNP/ohxd6aFksxkzhoeN2Z63iEYrIVQSfWtTmEswM2oOxhh4an
+	Bd/m2EIA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xWDgG-00000005O70-0o3R;
+	Wed, 25 Nov 2026 14:09:04 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B818F302186; Wed, 25 Nov 2026 15:09:02 +0100 (CET)
+Date: Wed, 25 Nov 2026 15:09:02 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Harry Yoo <harry@kernel.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org,
+	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+	daniel@iogearbox.net,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
+ kmalloc_nolock at call time
+Message-ID: <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
+References: <20261124060357.11700-1-emil@etsalapatis.com>
+ <20261124060357.11700-2-emil@etsalapatis.com>
+ <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
+ <awWRZ9xCzWLnj_R6@thinkstation>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,78 +88,72 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125-rmap-v2-1-0ba817662eac@kernel.org>
+In-Reply-To: <awWRZ9xCzWLnj_R6@thinkstation>
 
-On Wed, Nov 25, 2026 at 10:34:46AM +0100, David Hildenbrand (Arm) wrote:
-> mm->tlb_flush_batched packs a 15-bit pending and a 15-bit flushed
-> counter into one atomic_t, and resets both once pending gets large.
-> flush_tlb_batched_pending() updates flushed with a cmpxchg() against the
-> value it read before flushing.
+On Tue, Nov 24, 2026 at 01:59:31PM +0000, Harry Yoo wrote:
+> [+Cc Relevant folks]
 > 
-> If the counters get reset and reach that same value again while
-> flush_tlb_mm() is running, the cmpxchg() succeeds and unmaps that
-> happened in the meantime are considered flushed. A later zap can then
-> skip the flush and leave stale writable TLB entries behind.
+> And a bit of context on the underlying problem.
 > 
-> Use two separate counters, never reset pending, and let the flusher
-> simply store the pending value it read before flushing. To keep pending
-> from wrapping around to flushed, pull flushed to pending - 1 once
-> pending is more than INT_MAX ahead.
+> kmalloc_nolock() could fail when there is a contention on locks
+> shared across CPUs (e.g., n->list_lock in slab, zone->lock in buddy),
+> or there is a decent amount of memory pressure. It's more restrictive
+> than GFP_ATOMIC.
 > 
-> Preventing the wrapping is primarily required because
-> try_to_unmap_flush() as called from migration and reclaim code does
-> *not* go through flush_tlb_batched_pending(), as it does not iterate
-> MMs. So if nothing in the MM triggers flush_tlb_batched_pending(), there
-> would be a problem.
+> Unconditionally using kmalloc_nolock() in BPF local storage is
+> unnecessarily restrictive when the program can sleep or spin, and
+> Emil's patchset teaches the local storage whether the BPF program
+> accessing the local storage could sleep or spin on a lock.
 > 
-> As the separate counters are no longer read atomically together, we must
-> read "flushed" before "pending" (acquire/release), so a reader can never
-> pair a just moved-forward "flushed" value with an older "pending" value.
+> Answering the question "Does this context allow sleeping, or spinning
+> on a lock" is extremely tricky in the Linux kernel as BPF programs
+> could run and call kfuncs almost at any point in the kernel code and
+> the "context" is usually encoded in the GFP flags or the process flags.
 > 
-> We'll leave the barrier() between clearing the PTE and incrementing
-> "pending" alone for now: it should be a smp_mb__before_atomic(), but
-> existing arch code (x86: inc_mm_tlb_gen(), arm64: dsb(ishst) before the
-> TLBI, riscv: fully-ordered xchg() in ptep_get_and_clear()) implies a
-> barrier. This should be cleaned up or documented separately.
+> Tracking whether certain locks are taken by current context is not
+> ideal either as it adds unnecessary overhead for everybody.
 > 
-> As dup_mm() copies the counters using memcpy() while they can get
-> updated concurrently, a newly forked child could end up with "flushed"
-> being "pending + 1" and we could skip a later flush in the child. In
-> theory, this might have been possible before (load tearing), but two
-> separate counters make that easier to trigger. So let's just reset them to
-> 0 during fork(). Put it into the existing init_tlb_flush_pending() and
-> rename the function to make the name better match the wider scope.
+> On Tue, Nov 24, 2026 at 06:40:11AM +0000, Alexei Starovoitov wrote:
+> > On Mon, Nov 23, 2026 at 10:03 PM Emil Tsalapatis <emil@etsalapatis.com> wrote:
+> > > +	/* Only try the spinning allocation when preemption disables are tracked. */
+> > > +	if (IS_ENABLED(CONFIG_PREEMPT_COUNT) && can_spin_in_alloc() &&
+> > > +	    size <= KMALLOC_MAX_CACHE_SIZE && !(flags & ~nolock_flags))
+> > > +		ptr = kmalloc(size, flags | GFP_NOWAIT | __GFP_NOMEMALLOC);
+> > 
+> > It works, but I after a bit of brainstorming the following
+> > might be a better fix, since it will address the root cause:
+> > Pls run it by Vlastimil, Harry, Sebastian.
+> >
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index 2fef409..4368ab5 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -2536,6 +2536,24 @@ __rmqueue(struct zone *zone, unsigned int order, int migratetype,
+> >  	return NULL;
+> >  }
+> >  
+> > +static DEFINE_WAIT_OVERRIDE_MAP(zone_nolock_map, LD_WAIT_CONFIG);
+> > +
+> > +/*
+> > + * zone->lock is always held with IRQs disabled. A caller that runs with IRQs
+> > + * enabled is not nested inside of it, so it can wait for the owner.
+> > + */
+> > +static bool zone_lock_nolock(struct zone *zone, unsigned long *flags)
+> > +{
+> > +	if (IS_ENABLED(CONFIG_PREEMPT_RT) || irqs_disabled() || in_nmi())
+> > +		return spin_trylock_irqsave(&zone->lock, *flags);
+> > +
+> > +	/* The caller may hold a raw_spinlock_t. */
+> > +	lock_map_acquire_try(&zone_nolock_map);
+> > +	spin_lock_irqsave(&zone->lock, *flags);
+> > +	lock_map_release(&zone_nolock_map);
+> > +	return true;
+> > +}
 > 
-> Note: if a flusher stalls between reading "pending" and storing it,
-> while "pending" advances by an exact multiple of 2^32, the counters
-> could compare equal and we could miss a flush. The same applies to a
-> writer that stalls while moving "flushed" forward.
-> 
-> That is irrelevant in practice: both hold the PTL, so without PREEMPT_RT
-> they cannot get preempted, and wrapping within the ~20s soft lockup and
-> RCU stall timeouts would require more than 200 million batched unmaps
-> per second on a single mm, which is impossible in practice. Even with
-> PREEMPT_RT or long vCPU preemption, we would need minutes of unmap and
-> refault churn while the stalled task stays off the CPU, which is highly
-> unlikely and not a realistic attack vector.
-> 
-> This effectively adds 4 bytes to mm_struct. However, on common 64-bit
-> configs it fits into the existing padding, leaving the size unchanged.
-> 
-> [ david: use atomic_t instead of atomic64_t, reset counters during fork(),
->          adjust description ]
-> 
-> Fixes: 5ee2fa2f0636 ("mm/rmap: fix potential batched TLB flush race")
-> Cc: stable@vger.kernel.org
-> Reported-by: Kirk Swidowski <swidowski@google.com>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> Reviewed-by: Huang Ying <ying.huang@linux.alibaba.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
+> I'm not sure this is a better solution unless this could be generalized
+> or abstracted further.
 
-Looks good to me,
-Reviewed-by: Harry Yoo (Meta) <harry@kernel.org>
+This is absolute atrocious shite. You cannot attempt a spin_trylock from
+NMI context. That thing might be a mutex.
 
--- 
-Cheers,
-Harry / Hyeonggon
+This should not work; if it does, that is an accident we need to fix.
