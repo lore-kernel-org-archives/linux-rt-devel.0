@@ -1,66 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617055;
-	b=indO2UPcIZ7YJmmbPmvR1BKgd6Dx1rs9ZiMzmV9V0cSfZTSN4erd9adq4HkryUkIjXCc
-	 Q+voLcnXlmV9EaOs3oFc1q8jmodWFisUQO/nopuKag9Ii+CgPx76NZ11Awmj5Q1Ds6unW
-	 18XUFArfCrCZdEKL/2vkQGHj7omRUKWtRlIN7lWwanPAxLTqPqHDqMEPckJxEalx0fXgd
-	 XyPzPtFE2iJWl69PYvu2Fl5bDGmlGs/s01agdFbWdloGcqC6ztWIx6MWLhKke15CazNT7
-	 /41nL4JWpBUUpyPsTNUcarkWh/iLruMiZ8ywm9XLS1gXUdZllxScoYeoTGP7svrDhJg==
+	t=1795618377;
+	b=g89EA9GYzV++Bbm7zzwW5zGT52IRj9Wl8WMTTLOW1Tf65Rud6f1L2ddRg/1Kzni+GQJw
+	 VLF0555IwaNVSjdG+ArQzy4PwdlGJ8CMD9ScB8+IkDK8waDPyIhS+XMO0RWjWrv65zb9y
+	 L15ryt22v0WRgdowFcWE4iaV/SrQlaUkY8b4z8VdoT6LVrirs9HenSFbUdVLlGSgxLI+V
+	 o183NO0SNbL+Hian0l6XEOuvf0lQGhZFK9zncoX7IAkg8r7F3EhtE35e6B93O6sF0ZXXS
+	 SQNcBogAxdOuFY6IuXEEcwPWWfxWurCmYGTmXu4QpodkWKqIOtHVwuEP3yErGGoiwmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617055;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=o7NfTeHgie8kk98wdxr3cUN3JAiQZkYebkrK1SD6t6w=;
-	b=zO5TG3hwD+eE174BATZIfKjAbHE55kbUtWYUx5RtnHcGTeaTzOqglRj4iFW7qejMMCYb
-	 UCWp+8gJtN2XeMNwC9dCTRONcFSm51YF5RmgFPec++9znM/FYS3OFmVbcmmJCsaKCGoJ9
-	 HdpGSHqAOevFf5b4LBnR2xSLY+QfuZqJ/Hxs8ALj0TIQUngYvyKyCfecnAInwj1ccA0zV
-	 s5TqQhK5osWLEzUUgp74kt8ZwYL1CsCsvjdCyLOsvkpZtY08cRLa7iiRB8+ntiwRSk7Am
-	 P8Tb5PfiZ4cNE4GYUZES6QtJYgVD8djaCd0zViTU8f8D46g5WaInyny/bbCaLVgvxjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795618377;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=ZWAKGYG4Z1IF5pQgZgTA9pPvQYi3Ny9K1VwNmhnSKGs=;
+	b=qwbzm50c7f+IuB5jcC5ttf6N0MmWICLzAUnQYRnOzmQ+a88GfKsKUURJXZ+fohPT49Zc
+	 LnnOeY2YUXiectBvbENIu/CDhPudE9TKEIRpFtVPubJE5jXfShR/34Kvh/wul5jK71GWd
+	 TRbapFbP0pB5IcOLNWhda0tX9b66RuUmjFXHYdlsE7w9M0I0ehA2VZAKXoL1B919wo4CB
+	 3Vi6yijdfI0fNnk9o2WDESSx0AYSoPgDclNko3EPZG2oKkxRoeUns+8W0vgvDNnBvGKgt
+	 TKteFMyAXvoecPMSlzBp37jF/Ywk8jNgN4KPkkRcSR9EQBwUwuV9G+NSNac92rDhwaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BetaRQnY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=n61Zo3Oq;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=ZWEzA1Sk;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052F6606A321;
-	Wed, 25 Nov 2026 14:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D09606A32C
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 14:52:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00D09606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BetaRQnY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99ACE1F000D0;
-	Wed, 25 Nov 2026 14:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795617054;
-	bh=o7NfTeHgie8kk98wdxr3cUN3JAiQZkYebkrK1SD6t6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BetaRQnYjnzenM/h40NWfe8nEyvUTBR0OueMt/3UKx9DphWz5Jz+xIVdKbjZGzqjr
-	 xvkFy4THWdsptklDzOyBa65zOoqT96e81bl+eq2pCE1lHLWudPYCDr9GBzAqQB2pfZ
-	 CXhHzUwrtVlcN6cn/5dgEEjfx0eEdeZPYZHoW5BnxzOl8Q1U/Rlp+mGjwKnzyGhX/r
-	 o+Uvo+FOCvjFwO6iSz7GU8/Fd8GVgkk8v30gw2LMKQT0x5N4vzBoQUiQtpKloaYUGB
-	 uuv/vxu6/v+icbuGJBKEBNpvxlM1T0XNbvqMBtiVZzZIWk2BrDrPpVa5mxuDF5vYan
-	 C5p8uR7gn1fZg==
-Date: Wed, 25 Nov 2026 14:30:52 +0000
-From: Harry Yoo <harry@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org, andrii@kernel.org, eddyz87@gmail.com, 
-	memxor@gmail.com, daniel@iogearbox.net, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev, 
-	Vlastimil Babka <vbabka@kernel.org>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org, 
-	David Hildenbrand <david@kernel.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-Message-ID: <awbvek-HS3OJYJGF@thinkstation>
-References: <20261124060357.11700-1-emil@etsalapatis.com>
- <20261124060357.11700-2-emil@etsalapatis.com>
- <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
- <awWRZ9xCzWLnj_R6@thinkstation>
- <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=n61Zo3Oq;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=ZWEzA1Sk
+Date: Wed, 25 Nov 2026 15:52:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795618375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZWAKGYG4Z1IF5pQgZgTA9pPvQYi3Ny9K1VwNmhnSKGs=;
+	b=n61Zo3Oq7lJu1Byb8ITxBeen+HqdPiVw+d6fYK/CdN0vBYC3tvCDR5aKPgsrYUwKwCajKn
+	lnQ/7v2USObuKTY+07pqHb4K4yvqQpiwMm0f/E1kONNrMssm1iPR80nRVeWb4u/DuwVo25
+	aEoPlBaIiqCibCKMHo9xb+6OQm7pZIxvEEKO0ZsZlutHmdWuoSWFmeNqlQimEXIVkAaX6B
+	uqvWFvpqv9FXvp8rjX9hBgAoS767WiyWp4vxxdfTL4tevw1h0co/ylMmCj3EncfsxFkdTi
+	xJtWHY4PWjVUaukDO/95wt7w/MO5zDN/Qxu0IT7xJwm8WLOR4FnKafh/5OiKsw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795618375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZWAKGYG4Z1IF5pQgZgTA9pPvQYi3Ny9K1VwNmhnSKGs=;
+	b=ZWEzA1Sksy7xECTxewVcqo69ohY7RXAIWHoryUAEXMKwGqBHrA+UKajrFt21oAy+9fPbSD
+	k84jr29aVYjPSXBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: Zixin Wang <w1355457260@gmail.com>, linux-doc@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, darwi@linutronix.de,
+	john.ogness@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
+	atomlin@atomlin.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] Documentation: real-time: Add runtime tuning guide
+Message-ID: <20261125145253.iWfxNCmy@linutronix.de>
+References: <20261125074658.33117-1-w1355457260@gmail.com>
+ <awbgq0xQyJATel0_@localhost.localdomain>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,68 +77,85 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <awbgq0xQyJATel0_@localhost.localdomain>
 
-On Wed, Nov 25, 2026 at 03:09:02PM +0100, Peter Zijlstra wrote:
-> On Tue, Nov 24, 2026 at 01:59:31PM +0000, Harry Yoo wrote:
-> > [+Cc Relevant folks]
-> > On Tue, Nov 24, 2026 at 06:40:11AM +0000, Alexei Starovoitov wrote:
-> > > On Mon, Nov 23, 2026 at 10:03 PM Emil Tsalapatis <emil@etsalapatis.com> wrote:
-> > > > +	/* Only try the spinning allocation when preemption disables are tracked. */
-> > > > +	if (IS_ENABLED(CONFIG_PREEMPT_COUNT) && can_spin_in_alloc() &&
-> > > > +	    size <= KMALLOC_MAX_CACHE_SIZE && !(flags & ~nolock_flags))
-> > > > +		ptr = kmalloc(size, flags | GFP_NOWAIT | __GFP_NOMEMALLOC);
-> > > 
-> > > It works, but I after a bit of brainstorming the following
-> > > might be a better fix, since it will address the root cause:
-> > > Pls run it by Vlastimil, Harry, Sebastian.
-> > >
-> > > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > > index 2fef409..4368ab5 100644
-> > > --- a/mm/page_alloc.c
-> > > +++ b/mm/page_alloc.c
-> > > @@ -2536,6 +2536,24 @@ __rmqueue(struct zone *zone, unsigned int order, int migratetype,
-> > >  	return NULL;
-> > >  }
-> > >  
-> > > +static DEFINE_WAIT_OVERRIDE_MAP(zone_nolock_map, LD_WAIT_CONFIG);
-> > > +
-> > > +/*
-> > > + * zone->lock is always held with IRQs disabled. A caller that runs with IRQs
-> > > + * enabled is not nested inside of it, so it can wait for the owner.
-> > > + */
-> > > +static bool zone_lock_nolock(struct zone *zone, unsigned long *flags)
-> > > +{
-> > > +	if (IS_ENABLED(CONFIG_PREEMPT_RT) || irqs_disabled() || in_nmi())
-> > > +		return spin_trylock_irqsave(&zone->lock, *flags);
-> > > +
-> > > +	/* The caller may hold a raw_spinlock_t. */
-> > > +	lock_map_acquire_try(&zone_nolock_map);
-> > > +	spin_lock_irqsave(&zone->lock, *flags);
-> > > +	lock_map_release(&zone_nolock_map);
-> > > +	return true;
-> > > +}
-> > 
-> > I'm not sure this is a better solution unless this could be generalized
-> > or abstracted further.
-> 
-> This is absolute atrocious shite. You cannot attempt a spin_trylock from
-> NMI context. That thing might be a mutex.
+On 2026-11-25 14:20:43 [+0100], Frederic Weisbecker wrote:
+> Le Wed, Nov 25, 2026 at 07:46:58AM +0000, Zixin Wang a =C3=A9crit :
+> > +CPU isolation
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Isn't it kind of duplicating Documentation/admin-guide/cpu-isolation.rst ?
 
-Uh, right. We went through this when kmalloc_nolock() was introduced.
+That is why you are here. I would suggest a minimum here to make sense
+and point the details to that one.
 
-> This should not work; if it does, that is an accident we need to fix.
+> > +
+> > +.. caution::
+> > +
+> > +  CPU isolation is best effort.  Work that is explicitly bound to an
+> > +  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
+> > +  interrupts, may still run there unless it is steered away.  Measure
+> > +  the resulting latency with tools such as ``osnoise``, ``timerlat``,
+> > +  and ``rtla`` rather than assuming that an isolated CPU is free of
+> > +  kernel noise.  See Documentation/timers/no_hz.rst and
+>=20
+> And cpunoise but that's all in Documentation/admin-guide/cpu-isolation.rst
+>=20
+> > +RCU callback offloading
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +``CONFIG_RCU_NOCB_CPU`` in
+> > +Documentation/core-api/real-time/kernel-configuration.rst enables supp=
+ort
+> > +for offloading RCU callback invocation from selected CPUs to per-CPU
+> > +``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=3D``, imp=
+lied
+> > +by ``nohz_full=3D``, or enabled for all CPUs by
+> > +``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL`` when neither parameter is given.
+> > +
+> > +``rcu_nocbs[=3Dcpu-list]``
+> > +  Offload RCU callback invocation from the listed CPUs to the
+> > +  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
+> > +  This reduces callback-processing jitter on the CPU that enqueued the=
+m.
+> > +  On a non-real-time kernel this also moves invocation out of softirq
+> > +  context; with PREEMPT_RT, callbacks already run in kthread context
+> > +  because ``rcutree.use_softirq`` is false, and the offload only chang=
+es
+> > +  where they run.  If the parameter is given without a CPU list, no CPU
+> > +  is offloaded at boot; the mode can still be toggled at runtime throu=
+gh
+> > +  cpusets.  The parameter takes precedence over
+> > +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> > +
+> > +``rcu_nocb_poll``
+> > +  Make the ``rcuo`` kthreads poll for callbacks instead of requiring t=
+he
+> > +  offloaded CPUs to wake them.  This improves the real-time response at
+> > +  the cost of higher power consumption, because the kthreads wake up
+> > +  periodically to do the polling.  Consider this option only when wake=
+up
+> > +  latency matters more than power.
+>=20
+> Does nocb polling really improve real time response?
+> I have doubts.
+>=20
+> It checks callbacks and grace periods every jiffy instead of waiting
+> for actual callbacks and grace period events.
+>=20
+> This means introducing jiffy worst case latencies.
 
-Current implementation handles this by can_spin_trylock() in
-mm/internal.h.
+The wording is the old "RCU documentation" and it is a bit strong. The
+"power consumption" comes from the part that the RCU threads are woken
+up to check for work. The better improved "real-time response" response
+comes the fact things like call_rcu() do less work (in their IRQ-off
+section, including waking a task) so the critical section is smaller.
+I wouldn't expect a huge difference except on small HW where every
+opcode becomes visible.
 
-One remaining accident we're aware is that we cannot attempt a
-spin_trylock or local_trylock under pi_lock (even on !RT).
+> Thanks.
 
-Currently I don't have a good idea to fix this :/
-
--- 
-Cheers,
-Harry / Hyeonggon
+Sebastian
