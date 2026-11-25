@@ -1,64 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795599571;
-	b=Z1VUTDT0lTPPJvpxchWIhuo+5BjGP8CkN/zMCvkw1eBXw87KwHvTbDAznrB0ONufwmF8
-	 HD56W262lxtSp6a86Eex1qWqcE+2UbCH3BjFccJ7V5XcPG6Ey+gWH4/oIex0jKp3JfYKR
-	 nuFtNJfDs/F6q9eTJvs462tPctlGIukLH6LeiZnmRv6y9OV4skqd2rRcBbRpXimVl12nn
-	 7cJ94JPeE9JDmUA1QWnkNfykEvG7/LHqzAXyhNrvo29IrpmQoHW8BIYN67CvxlkF3564K
-	 h3Nukd/tFQKj9JGRy4Ku/rFnckWgKfTX/zYvBOwIyxploFZ8zACU3Q/EUTh/mjvMUPg==
+	t=1795600505;
+	b=GluGTb0d3bufAJaSPyRnX8QaEfe7Zqm1LPVAbAP2Kg7KSFUPpFTynq+9Jnl6ZvfqKOxJ
+	 rp1hpmJj4Qua+85xVh5fi6sdL0j0gulfoZcgZdaLTMGlhMG7s7wCQCAJbrEzhaa/mVjKw
+	 6kpMNcgBLXCwmZklvDeS65cG5+XbWnPn/yKqIcqCuQP2jmbJNWHvILuJ47lgPpVDGXxMg
+	 ug3NXdqfYsb3KPPaMnhN0FWTLY19mguSrWiPl9pwRyYY8tEu8eeoYDtHer+eK4T3/USEG
+	 /R/OaNmTe7u6AHBesEzZDiXGD5uK2Yr3VJbtWGTi9uF9hcT1Vd1VpmMhvYhXHF8TCuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599571;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bp3LdbYywjDt4RIw1F5hpk6VusK+9ru0rpOgIQ7EDh0=;
-	b=Ode+3RuDCgvftdB+zGlPtvvsNgin3X2Y0m9DZN/uyN++M/Dl05+SQ7Ynfnpd67bEagHS
-	 B3ZrUpGHtxfm4m3TUvSog6gPCeOYxl5MG+mPa2ZlfuIuer4jPyiyPSz64r3kZlX0GUNoA
-	 gzbTgamWo8JgKNw+0CSHbMUfJYjgb7S32+2QaRy3Xb4AbFjIcoxFV7d+u5ARYflmwSo2v
-	 K0/y1w2gtZ7mTTilICyEY2ozeQKvvUb6+VoZz5VQn2pUrRpnJaEksAnYMIv1YwqM7O8gE
-	 dKE7NrvZ/AQqGM4RD+FM+MQAXmZyVrOFseuon6QLDE7+4wmrgO/iS6gL8lCD2hNwKQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600505;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=23A6Rapc9OJA728oCv5yZ/rNwc86GAIb2CFho1UI3xo=;
+	b=3wYYOx7kD1yEcrFiRh6g9i6d5TDAHaw4Gre9kw3hPn965JvFPZ4xTiNgcCn7wLgXfAXo
+	 fHQsgZ/656K/DMeyRTqNonpuK4WCYO7kbsZY2Pprk+tMa/ZK2G1iTyspttR4znoJfIcTr
+	 8aytz6te+NvqUSA2PYpWkEjD8yj7T4zlPwp3u/6Qw+t8qMl0mlje0tPCiCbP9+jr++BkT
+	 MKP5xAR3ygth6xVYxPo9SAqap8qORXFOsGT56SXMLFaEPJcnUgoECZyctn4GiQqZz2JPz
+	 gyTjMf+LyB9D1ZlT30Q/T1rLO66PvJxhdl4JNavetovrVp21T7HHfs05bBDLFj79qOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE8Aznko;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ONbYBuOk;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF02606A329;
-	Wed, 25 Nov 2026 09:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A850D606A326
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 09:55:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A850D606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE8Aznko
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD80C1F000C6;
-	Wed, 25 Nov 2026 09:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795599570;
-	bh=bp3LdbYywjDt4RIw1F5hpk6VusK+9ru0rpOgIQ7EDh0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TE8Aznkofnon7JjG8UuHYeQ5xQmQK4AzGQPEZ6r5gSMaB0h0OG0Wu5so8iK4yi3SL
-	 OUzJBnLC6pNJKO3qo9YgJRcdxrsoZ+CBU7IqrzS50Y+rNn8+HrjfW4D5m7OC1qwCnP
-	 iu6J6r4OCidFxwoANq0k18X5qTgJJJJ7JJ2zq7F1ArYra+MSvUYy5NxDmB/75tmuR+
-	 nQ1hGsbGdSSKfprz1Yme25HuaWfmAiQ2l3j/LjoqqNdK43zDDbDK6OMvp9p79vjHgJ
-	 AKfzgOWq9T3drbFomAVBwf1hd7M+5aJjj2sM82bhhB8b9P0wNFjEDTECjdLqDTtSUO
-	 nDoYdkNMRwGaQ==
-Message-ID: <sashiko-outbox-233019@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] mm/rmap: avoid reusing batched TLB flush generations
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?RGF2aWQgSGlsZGVuYnJhbmQgKEFybSk=?= <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Rik
- van Riel" <riel@surriel.com>, "Harry Yoo" <harry@kernel.org>, "Jann Horn" <jannh@google.com>, "Lance
- Yang" <lance.yang@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre
- Ghiti" <alex@ghiti.fr>, "Ying Huang" <huang.ying.caritas@gmail.com>
-Cc: linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, "Kirk Swidowski" <swidowski@google.com>, linux-kernel@vger.kernel.org
-In-Reply-To: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org>
-References: <20261124-rmap-v1-1-e3dc48a4b527@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 09:39:29 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ONbYBuOk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795600505; x=1827136505;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=xv0jn623MXDtX5o3iA9r3WdbV+vh52UkWWWP/m0Z5pE=;
+  b=ONbYBuOkA/0iIFiB7QAfVmFwGoN5zfuWY/PZMcnwO4ACcv9B5zhW43qr
+   fLjnCUfcE0KZcBXg9DSX4Jpiaye3RQUqDuZvwnORMbXfmgKJfOkmk6jAv
+   gXnV/+6+gtMFeYb7SiP1jHymByIViRS9dyqgAgy4noHKVJ5btlV91Cd5V
+   Bx3F20imDyKpSy7HG660ohxf4qORHTiNOEyw33YPYVMI9B9Sskn9ELjDh
+   i262bUEdxwSQYNPVUI/7AwPym52l6cJiuopHpfFKOEO+M8LfJTtQ4RkpF
+   DxFWIfdQcGdhKTcsZljPuZWMKKRNLFWhq3yFdoEzx+kEEdEflV+l8UknY
+   A==;
+X-CSE-ConnectionGUID: bRE8i9jrQcK9oZbsSXpOXw==
+X-CSE-MsgGUID: 1k9Q3dp4TKG/d/crhgJ0bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4509990"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4509990"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 01:55:04 -0800
+X-CSE-ConnectionGUID: jL89jCuSRuufP+MKITSw7g==
+X-CSE-MsgGUID: WzZ0tPeVSjKlkv1Zawcr9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11824548"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2026 01:55:01 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id EC15398; Wed, 25 Nov 2026 10:54:59 +0100 (CET)
+Date: Wed, 25 Nov 2026 10:54:59 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Juan Yescas <jyescas@google.com>,
+	Amit Sunil Dhamne <amitsd@google.com>, kernel-team@android.com,
+	linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: typec: tcpm/tcpci_maxim: init wakeup before irq
+Message-ID: <awawc7aqPfzDhirq@black.igk.intel.com>
+References: <20261123-max77759-wait-v1-0-6fa54a751bb7@linaro.org>
+ <20261123-max77759-wait-v1-2-6fa54a751bb7@linaro.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -67,75 +89,69 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261123-max77759-wait-v1-2-6fa54a751bb7@linaro.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] mm/rmap: uninitialized tlb_flush_batch counters in mm_init()
-  on fork()
---
+On Mon, Nov 23, 2026 at 01:03:07PM +0000, André Draszik wrote:
+> max_tcpci_probe() requests the TCPC interrupt before it initialises
+> the wakeup source of the device. Since the interrupt is level
+> triggered, an already asserted alert can trigger the interrupt handler
+> before devm_device_init_wakeup() is called. Its pm_wakeup_event() does
+> nothing while the device has no wakeup source, so the wakeup event of
+> such an early interrupt is not recorded, meaning the system is then not
+> prevented from suspending for PD_ACTIVITY_TIMEOUT_MS while handling
+> that alert.
+> 
+> When the driver unbinds, devres works in reverse order and in this case
+> removes the wakeup source before it frees the interrupt, which leaves a
+> similar window.
+> 
+> Call devm_device_init_wakeup() before devm_request_threaded_irq(), so
+> that the wakeup source exists for as long as the interrupt handler can
+> run.
+> 
+> Fixes: 6f413b559f86 ("usb: typec: tcpci_maxim: Chip level TCPC driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: André Draszik <andre.draszik@linaro.org>
 
-commit 087cd5390dc5a69ffce740207a46d0df64ca3039
-Author: David Hildenbrand (Arm) <david@kernel.org>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-mm/rmap: avoid reusing batched TLB flush generations
+> ---
+>  drivers/usb/typec/tcpm/tcpci_maxim_core.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim_core.c b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> index 6e202171f57a..2bb306b6b1f9 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> @@ -528,16 +528,16 @@ static int max_tcpci_probe(struct i2c_client *client)
+>  
+>  	chip->port = tcpci_get_tcpm_port(chip->tcpci);
+>  
+> +	ret = devm_device_init_wakeup(chip->dev);
+> +	if (ret)
+> +		return dev_err_probe(chip->dev, ret, "Failed to init wakeup\n");
+> +
+>  	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL, max_tcpci_irq,
+>  					(IRQF_TRIGGER_LOW | IRQF_ONESHOT), dev_name(chip->dev),
+>  					chip);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = devm_device_init_wakeup(chip->dev);
+> -	if (ret)
+> -		return dev_err_probe(chip->dev, ret, "Failed to init wakeup\n");
+> -
+>  	return 0;
+>  }
+>  
+> 
+> -- 
+> 2.56.1.750.gf70dc682cf-goog
+> 
 
-This commit replaces the packed mm->tlb_flush_batched counter with separate
-32-bit mm->tlb_flush_batch_pending and mm->tlb_flush_batch_flushed counters
-to prevent generation reuse races during batched TLB flushes.
-
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 1ed35d258d2e3..9f51a0ec67451 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -1407,7 +1407,8 @@ struct mm_struct {
->  		atomic_t tlb_flush_pending;
->  #ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->  		/* See flush_tlb_batched_pending() */
-> -		atomic_t tlb_flush_batched;
-> +		atomic_t tlb_flush_batch_pending;
-> +		atomic_t tlb_flush_batch_flushed;
->  #endif
->  		struct uprobes_state uprobes_state;
->  #ifdef CONFIG_PREEMPT_RT
-
-[Severity: Medium]
-Should init_tlb_flush_pending() also zero tlb_flush_batch_pending and
-tlb_flush_batch_flushed when initializing a new mm?
-
-During fork(), dup_mm() copies oldmm with memcpy() and then calls
-mm_init() -> init_tlb_flush_pending(), which only resets
-mm->tlb_flush_pending.  Because tlb_flush_batch_pending sits before
-tlb_flush_batch_flushed in struct mm_struct, memcpy() copies pending before
-flushed, the opposite of the flushed-before-pending order required by
-flush_tlb_batched_pending():
-
-CPU0 (fork)               CPU1 (reclaim on oldmm)   CPU2 (flusher on oldmm)
-dup_mm()
-  memcpy(mm, oldmm, ...)
-    reads pending =3D P
-                          try_to_unmap_one()
-                            set_tlb_ubc_flush_pending()
-                              pending =3D P + 1
-                                                    flush_tlb_batched_pendi=
-ng()
-                                                      flush_tlb_mm(oldmm)
-                                                      flushed =3D P + 1
-    reads flushed =3D P + 1
-
-The child mm starts with tlb_flush_batch_pending =3D=3D P and
-tlb_flush_batch_flushed =3D=3D P + 1.  On the first batched unmap in the ch=
-ild,
-set_tlb_ubc_flush_pending() increments pending to P + 1 (where
-pending - flushed =3D=3D 0), leaving pending =3D=3D flushed while a batched=
- flush
-is still pending.  A racing flush_tlb_batched_pending() in the child then
-sees pending =3D=3D flushed and skips flush_tlb_mm(), leaving stale writable
-TLB entries behind.
-
-Even without a concurrent update during memcpy(), inheriting unequal
-counters from oldmm causes an unnecessary flush_tlb_mm() in the child and a
-data race on oldmm during memcpy().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-rmap-v1-1-=
-e3dc48a4b527@kernel.org?part=3D1
+-- 
+heikki
