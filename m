@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795656947;
-	b=ziyVun3iE+Vd10R7hbB93RMDYvGKe3s2LBNr1+zh0v8AYbsuAx6brLXGkaa2s/IASmuH
-	 UmiQKWHZNucq5ARlhnMk0MWjlL1r3rVvuG9FWqJy8F/kSNkdGFCI4HmKeK/IyrLcgFqnr
-	 inFYB6XkYYzBHbgGHsyFgrZ8wD4GA2Oy6a759hAdC1m/P/+fMH4cAjkYTh/WedEsSe4Zx
-	 u0ou8gh8XmmT+qErJ7vVYYreaVLJEOVwwnIlIXDWSKy90TnAf0fCDowfu8ePB6FUP1hnh
-	 XR2hwOSt+4TDMDEGknrttJNFXUKhN0Bg/ErKyVdwOVMf/cwUOKUyARkc1KEPpEEn48Q==
+	b=AaQMj5VyCd4KBWeEcvrxTiA/g7IVTvbhN7FoJXS8BFPCyAaSLzhE5WxwAe29SIoXvgX9
+	 8dMDvmTBQ8N1WdC7AuMYR6hTVCLv9C0MQILFW6gvW2Be5ssYTTrNFA1nOo7tBuy7h4nuR
+	 6MYpYnmM9TG6LdUhrjarG1fpvUtgbzJUd6pWNTfTfJvCXaMj7vnS396K73iHtT8IbdPma
+	 RkkA7r3fBRDAqPCRrBuAd/WUJ3tf4EPreQhHd7Z+zZVMxIbEdNd/QcOCJwpv3SFO2/pvf
+	 v5w4pAJ5BNX8qWo80XtV5FQkSv5eP0G+tJR/eVGSmvNHyV5s/kOVcOH0o0V0xkM8W9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795656947;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=KlCKwLKEIcdcb9Z/f+8gfIqoz04BE7KsEMO27vlUrI4=;
-	b=t7AJS78X9uQGrsI+YoVD7TaJOsRgZMmcgob5+ta0bmbchFq5fZnxOov30PuI5XtYDHB/
-	 poTM6x0leI+nKttVjsxFWjY/MdVBvjH83eJPONvilVemw0YmEyCCfn/dlEdpS/1C6QZ5c
-	 Q/EvwF6ZMTlrMdW1zcMZdGGssOb+Kbjsqc/88nJS2cn+yHwuVaOor8K8Lu4zCp0I8gISY
-	 uuv4kfPJ5WPTajs3sK4k0uwsVNNrP+qlkKfJSYiUw/tfnqyETPzwn2W/B0vC7i3J4t8WX
-	 Xa9IPbIoSUAzoV+vdWsV7xFlvbxZQd5zefFewsO0vee4jRMsWOtC3A2sXhGIMf+KtKw==
+	bh=UBctsvJEzz0DHRWtLTStJ9Xmzeqn9/SRgg3Tp+mO8Ck=;
+	b=pmFmRnrXTvpPgbI2kRU6FVvJ3pDKhjh+F+Ix1OS50HBi6CpUFFO02uRT4/A1PnIsNx5m
+	 rU6X80yaPbkY9DECajFtw7iFmJL2dHbnDNH9dzw9kAELXeVA0dm3VH2wIeBqJNBm9+tUI
+	 +fwzgImYxsj8DbEnHGKzq4G9ZlE2gPrAlO94zk2EFgFexdvDxtfmJmY4x3m8oSN/3DrVJ
+	 KCk7G7ToptpPykzZP1OmpKTLQvKVDSxBcF3xMipS5gZrrzdX/SMKWD0jlU7qf+i2MPwO5
+	 9kVS3M7u4TWRNWiilOoLHKVt04Ly1npdYPDDNfROaOi+L+XzufGdjcR1egV+8eAKIrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYfy5cax;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I2OeijWg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D1A606A321;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAEB606A327;
 	Thu, 26 Nov 2026 01:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYfy5cax
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D34B1F000CA;
-	Thu, 26 Nov 2026 01:35:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I2OeijWg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFDF1F000C4;
+	Thu, 26 Nov 2026 01:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795656946;
-	bh=KlCKwLKEIcdcb9Z/f+8gfIqoz04BE7KsEMO27vlUrI4=;
+	s=k20260515; t=1795656947;
+	bh=UBctsvJEzz0DHRWtLTStJ9Xmzeqn9/SRgg3Tp+mO8Ck=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XYfy5caxq3RMNo1qeo42I+ipEYGFPTHFY7Gwp0AoIicX40avZUdTc8Q+vdEo/FGYp
-	 KI5cMldPRejYL3GbC/JbpKzJcI24AbKn3CQFJiPQB6TSeOHoy0ZyMkeUFSVTEdBcpn
-	 +BAc6rZzWf0lpXJOqLDGJ/bHvQYECvN6YxelIYAN+F02G9RTV25MqexeeF/HdwL3H9
-	 s7S+Mmuh78tfYrwigWIimmNqF3/tkALhjae6pqmo1ggyD4gP4akB7Aw6FuU1KwkyUY
-	 9IW4R6dQNre4WFOhHneXKl1um1EUTvmyQ4hhxUFNoyslbxuZM0ROhuGJDnZSK7857G
-	 yZt92/mTduVwA==
-Message-ID: <sashiko-outbox-234565@kernel.org>
+	b=I2OeijWgCRTjlYDD4V+v6TVScq24Pq0FN1uJ9xcmzLAvMua/27RE+3DY0o3yvo5Fl
+	 /6z71JkiDCD/RGAlL+BqHuJFgxNdsbafJwT1zj/q/IDEmJDAWdwLeJv6s9UOLc2yWn
+	 UNU/VvyFqo24wxpF9nlm+oasrHp7aB1AkCyw7/WMZXYNIryZEViDRQJ1p82Nk+BgrV
+	 pe3NyZHf3sIv8nDNNMkN+p86fy7yaEqpMUH1VcCHs180XA9Qj/C7zI7do1s4SJFZW5
+	 Z6WQzPzEC4tYaeJz+ygHCgVAuam8f/cCR6Qyqon00CYm65WDBc8cZtQzH1dtPUU12N
+	 432ARlImU328A==
+Message-ID: <sashiko-outbox-234566@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 25/43] sched/deadline: Count the 0-lag time from the
- next period
+Subject: Re: [PATCH v11 16/43] sched/deadline: Keep the last CPU a task has
+ in its root domain
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <1d535c0c45a21d94ebadfce2883ce8d8b6789c44.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <8760bd586c67945ac5129fd92e52bdfc2e840c67.1795646914.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <1d535c0c45a21d94ebadfce2883ce8d8b6789c44.1795646914.git.mathieu.desnoyers@efficios.com>
+ <8760bd586c67945ac5129fd92e52bdfc2e840c67.1795646914.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:35:46 +0000
+Date: Thu, 26 Nov 2026 01:35:47 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,49 +63,75 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: dl_time_to_zerolag() miscomputes 0-lag when
-  deadline is 0
+- [Medium] cgroup/cpuset: wrong v1 ancestor walk in
+  cpuset_cpus_allowed_without()
 --
 
-commit 03d5dc8d2f6d0b382a7bed954bd1379667e09042
+commit e0e4cf76f577347925934619360185ec78904567
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Count the 0-lag time from the next period
+sched/deadline: Keep the last CPU a task has in its root domain
 
-This commit computes a deadline entity's 0-lag time relative to
-dl_next_period(dl_se) rather than dl_se->deadline so that tasks with
-constrained deadlines do not reach their 0-lag time prematurely.
+This commit refuses CPU offline operations with -EBUSY when taking the CPU
+offline would move a SCHED_DEADLINE task out of the root domain that
+admitted its bandwidth.
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 74b3c6b967eee..1d2dcf478f95d 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 7bdb9e21a7edb..37d04b08996ec 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
 [ ... ]
-> @@ -633,12 +637,12 @@ static unsigned int dl_task_root_domain_cpu(struct =
-task_struct *p);
->   */
->  static s64 dl_time_to_zerolag(struct sched_dl_entity *dl_se, struct rq *=
-rq)
->  {
-> -	/* Time to the deadline. Negative if the deadline has passed. */
-> -	s64 left =3D dl_se->deadline - rq_clock(rq);
-> +	/* Time to the next period. Negative if it has started. */
-> +	s64 left =3D dl_next_period(dl_se) - rq_clock(rq);
+> @@ -4312,6 +4334,292 @@ void cpuset_cpus_allowed(struct task_struct *tsk,=
+ struct cpumask *pmask)
+>  	spin_unlock_irqrestore(&callback_lock, flags);
+>  }
+> =20
+[ ... ]
+> +bool cpuset_cpus_allowed_without(struct task_struct *tsk, int cpu,
+> +				 struct cpumask *pmask)
+> +{
+> +	const struct cpumask *possible =3D task_cpu_possible_mask(tsk);
+> +	struct cpuset *cs =3D task_cs(tsk), *from, *gone =3D NULL;
+> +
+> +	guard(rcu)();
+> +	if (!is_in_v2_mode()) {
+> +		/*
+> +		 * cgroup v1 moves the tasks of a cpuset left with no CPU to
+> +		 * the nearest ancestor that keeps one.
+> +		 */
+> +		for (from =3D cs; from; from =3D parent_cs(from)) {
+> +			cpumask_and(pmask, from->effective_cpus, cpu_active_mask);
+> +			cpumask_clear_cpu(cpu, pmask);
+> +			if (cpumask_intersects(pmask, possible))
+> +				break;
+> +		}
 
 [Severity: Medium]
-Can dl_time_to_zerolag() return a positive delay when dl_se->deadline is 0?
+Should the cgroup v1 loop break on !cpumask_empty(pmask) instead of
+cpumask_intersects(pmask, possible)?
 
-If a sleeping task with no active period (dl_se->deadline =3D=3D 0 and
-dl_se->runtime =3D=3D 0) is switched into SCHED_DEADLINE with a constrained
-deadline (dl_deadline < dl_period) and then switched back out while still
-asleep, switched_from_dl() -> task_non_contending() calls
-dl_time_to_zerolag().  Previously, dl_se->deadline - rq_clock(rq) was
-negative and the bandwidth was released immediately.  With dl_next_period(),
-0 - dl_deadline + dl_period evaluates to dl_period - dl_deadline; whenever
-rq_clock(rq) is smaller than that difference, left is non-negative and
-inactive_timer is armed, holding the task's bandwidth in root-domain
-total_bw and causing subsequent admission checks to fail with -EBUSY.
+On cgroup v1, cpuset1_hotplug_update_tasks() only considers a cpuset empty
+and moves its tasks to an ancestor when cs->cpus_allowed becomes completely
+empty:
+
+kernel/cgroup/cpuset-v1.c:cpuset1_hotplug_update_tasks() {
+    ...
+	is_empty =3D cpumask_empty(cs->cpus_allowed) ||
+		   nodes_empty(cs->mems_allowed);
+    ...
+	if (is_empty)
+		remove_tasks_in_empty_cpuset(cs);
+}
+
+On systems with asymmetric 32-bit support where task_cpu_possible_mask(tsk)
+is a subset of cpu_possible_mask, a cpuset can retain active 64-bit-only
+CPUs after the offline while having no CPUs left in possible.  In that case
+cgroup v1 leaves the task in cs and falls back to select_fallback_rq(),
+whereas this loop walks up to parent_cs(from) and can return an ancestor's
+32-bit-capable CPUs in pmask, allowing dl_task_leaves_span() to accept an
+offline that moves a deadline task to another root domain or reject a valid
+one with -EBUSY.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D25
+t.mathieu.desnoyers@efficios.com?part=3D16
