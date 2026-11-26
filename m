@@ -1,47 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725954;
-	b=h8aeNaWHE5viJjS+IYVbr/nXAjG/6d6O9LwcwK7Ik9/b0i1hbasqNzV5QpECXhD/ROzo
-	 WFk01VcMn9Tf+2Cdal+G8ACDt0BDRulbHU3WFmL5xhDA0QVNY8+rduR7f3FgaKFqoOqmg
-	 UoUYtZcB1VFtv1a020D3Ot9TDijvxCfPyNn1AcJQYoXLWEpPSEp++s++E5eBKKQ5c14lO
-	 Wlvp9fKMuULKrdys/MXz5vDqH52kOhQXCsQJVbEf4TMTYzU0Lzx9qxssJzxOZMzo39qS9
-	 fGj95GHJXg5hIzTS5NwZD6qrMtCTm6U3c1iS2yBtbvv44C34mQ9ZBWFRZm6caDejqgA==
+	t=1795727047;
+	b=iDU4ALGzFCsCWaMoO9mRewgfM7EA5x6bggBqlbZqkkot0dfcx336qD/BIzgVnxFfKD+b
+	 S0Gry3DbNYOaVZ8F0AQZDcix8SCs+AHvpLiVU56xUrp76d+xgKEtHCwbzORVgsh38zc59
+	 PcF+q4NaAWwd/CyhC1PiHs2hNP3+hL7NVfdayeGzfbGu/r+zM9bA2Dgh08p8YN0SS8lAO
+	 VkcOcydYoT3oG9S+XfmsDkuiT7UQhjtg4qFdiPk6/xqyqn9A630xApJdMghwYlw3gjCzH
+	 x7mMcejTTho4xg8VwCJDfkrHRwOsr/Q8h68Gur5A9V/odKar8SPxWgApKEbQLg2DEgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725954;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LdqUDcmfoR3VJWIc2NbNNrZHmtzY94+puoQPf5oM6wg=;
-	b=xjm2a9dJHaS8Ye8XMbeqD0bU5U8YX7j97iHiAS8RTXP59VRsszbCxj/LeE5Ie7Nt0kDS
-	 y9GpZafppSaaODidMXlldeZp1CJXznl0jxpseQln0GtLbRJenidGOJnFbdct9/rDxzm9d
-	 e8qxrESdtBT3ChkSb+LKHxN1PX0KK0000QKjIx1ByZwUJm8Qdadu8GDMSPlMV6m+SXCWU
-	 aF0E+p9f4P8CcrelfPYHVLqX4zvLLZKYyYlU0OMNJw9d0SBSvE8IjxqoKSPRCZCNQOtEQ
-	 6iUdi1jQp//zjsvBRDT/tXMCzOe2TP8xZ9E2WCpfVH/VR6Bpbteepl8cc0AhzsXf5yw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795727047;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:Content-Transfer-Encoding:MIME-Version;
+	bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
+	b=eM2FpajhIheJJE5RR814EwY2mWxAnad0yLCNHVNYNlve14axki7C0re2j4BOdSDQEpip
+	 0GAWvCp3sKo5bJSRUynvM5q1tddkQGrSTKhX6k8Dl0/3t/NmQABUZ0Xmnd+lO/ZV47BJz
+	 lXhNVWuI6+JJ/14hQE/FohXyo0kxf0BistDwfJWTyIHNQxlFO/5g7kRGFMt0lmGFTLh2k
+	 OMjo+Uc4t3Amd4rC2+tOQcHG/5QGUm84CwSrHnKDSjBfKwfyX35KVpBNLlY8CI6Abak3s
+	 YU+QzfKXJLg2qp7GycpjQGXwhPnnV309VJIPtHr7R4tTavs5crxkqEw0aNYlDM8lONg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KVyteKjX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RkzI04L+;
+	arc=none smtp.remote-ip=209.85.215.174
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346AE606A6BE;
-	Thu, 26 Nov 2026 20:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94229606A321
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 21:04:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94229606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KVyteKjX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118741F00896;
-	Thu, 26 Nov 2026 20:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795725953;
-	bh=LdqUDcmfoR3VJWIc2NbNNrZHmtzY94+puoQPf5oM6wg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KVyteKjXGDcCUpwC5xC5unxF2Q12OHXEwwIl3Xu8YhDL3mIPnsG7rq25tDnCuifhl
-	 pkZm+MwrXRrrdvAdzo4hkMI5x3uB9x/TosXo45GOlAQMVGnULAGx5qyMeszOCSupZb
-	 nZwcDxdqQ/3wa3Ej9YhUL11mqUHEoUc93elW9t63Adx00H2BD7Lwm9Y2NG84y6ptqQ
-	 7eDn26PKTROt7IJupJpBxIdHvPNTkGFpBfEmsdiKhZjhHvvghtIO9YQ1pVr4kovd+G
-	 6cEVUuGqBDFETtyZewIwEs021gm2BO0k0P+5sLBQBlioEYI6cgsyO5RNWit/AVDFDD
-	 niLGmeq1hx4bQ==
-Message-ID: <3a44dbfb-265f-4749-b411-9491a0bcf8c0@kernel.org>
-Date: Thu, 26 Nov 2026 21:45:42 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RkzI04L+
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cdb2893531bso3888473a12.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 13:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795727047; x=1796331847; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
+        b=RkzI04L+yZ4S3Wvb+EyeJN83qUkCscGq/0XjrNXp2Am3pdnnayLP7IphUgMeEvn/vt
+         31aGH6V3w9oaFL3IM8BIzpGf/oXQDDQFyGBf0SGfQagn/LkOH5K0IqpwmXllse2hzvML
+         MxnRfSIKYt2/oMKN6xo94a/wqIag8+HzXTIczSLXSwlxTNpWV6GrF6obpxVj1AXKLh22
+         xGKIjiU+5HD6AZkr7p2qKG9U6P2XHYuLrlL9Nh4Phmq+ntSVIUingC+msaBXXHY6Qnin
+         8J8L+cLLT1m8q3/4dRPIR33W82KElqxaLEmCrfbWjKWEs9biEVvYiZt3ABnSlmbIX94D
+         ywyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795727047; x=1796331847;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
+        b=Cgfl2ACGs7m7W1n4R33s5F+BfwMig/ih37kZOldxwoeV30tuTIQsLEVOl4Otoi0LuS
+         JtwKxYi9zfkBl0uQIrpdPua/OPilv0Ppo9nUw2XYOpmsoWzW3nXVnpr7j7+wyxQy++Rz
+         wioRwv1MQZlbR8FiEVrwpZpBH0DQwGLDlWObBq3y1UQbnorvuGbhfvhxWFb6WbPssyJO
+         /OqHAhSb+u3UkjYJFy9+nhFgmCWv0FHZG9LJjeCwhg6B/xkuo0k3PEV2NEGzzPNDLWiq
+         H1JUf9fLE+EREPyxKGbGKS4+fYvGwBIre/X3bw+HbkQHKq55rHrzcxR8+yqXim0QeKSd
+         xwIQ==
+X-Forwarded-Encrypted: i=1; AL+hErEpLkjjddJKSqkMLpIL1MKUTZ472MT5C51MaThpROZjELfbJhNqDZO8GNfuw02dHn8HGbfUeChFio2ttvpeFg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/NPQonBEO4bHmq92KmZLOzM4Z9n5Zr94mxpNCzmFcM5n4FF4yC
+	ykeOUAFzeKl3ZJ5K3A5BXNSZtzIR/mi0YwgEZCTCAk5WNPgE7suYDrnC
+X-Gm-Gg: AZFdTZcM5JK9ByDmfwLiwftB3R7YaYoaQD9ybmCXCeBtOXJdBPlFjRkAHe+PS2840x7
+	V/vm01fqigpMj+3JXUg4C/qaua7qEjTWyfBCeD5i2sFZhyU7nUmcYg9oPFithspTF6kIQUgY4lT
+	hnof/UFJbPhKpdeo1PHPivbYNv0gasnq6bV6xdXLKga6zBTUKaIINfFKoM8ow77C3CtGr+CTEFe
+	W8UB5MnINWzNbC+Z3XYNYwXyzxl0bR98JbuNc1dgveHubx5igqm2mnj/NI63FCPDpilb9QKxq6J
+	af8X3VS5FiFavZBZmKxm+3VD3fWa5d33QXDxQw5FY8tY531w01Mnx6nPzyKAXsrIhAy5RX4myzK
+	42qIk0L6+YGPWDN65BWlaanaGFFcUTHW7d6ZRmCuy+gX5fWOCmfiIk3l1T3TzC+IPOjI5S9fVjg
+	NU3gJSpw8efjK8FBJ8enMpjEu1Cb+Kn4SuCrLW1soLl1BcIS+bbt6xgoqYthsRBAI74axGyqmb6
+	PXvsmIxtFnWKyEMZy0kuPpJg9a4uK4Uv3nXAo4RzIhGWgjNDuZYggzO5fnAjPI3Xp98EzqTLXRF
+	F7I3Er2vPOuPcnipAnpe0PQDvjm+6vFUY8G/Jk+edWFEpkr0+yHUq7waim4mfv0C18EH9SPrLLo
+	AuDWlPiCY7rHYyUBPGgFlLoDLWNKIXqaLub0=
+X-Received: by 2002:a05:6a20:430d:b0:3fb:1640:c525 with SMTP id adf61e73a8af0-4014dd5bab0mr24693403637.67.1795727046733;
+        Thu, 26 Nov 2026 13:04:06 -0800 (PST)
+Received: from localhost ([153.61.198.246])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c872e4af1fsm11430391b3a.28.2026.11.26.13.04.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 13:04:06 -0800 (PST)
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 21:04:05 +0000
+Message-Id: <DN5G409Y1VV6.FWWRMP1I8IB1@gmail.com>
+Cc: "Harry Yoo" <harry@kernel.org>, "Emil Tsalapatis"
+ <emil@etsalapatis.com>, <bpf@vger.kernel.org>, <andrii@kernel.org>,
+ <eddyz87@gmail.com>, <memxor@gmail.com>, <daniel@iogearbox.net>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
+ <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
+ <linux-rt-devel@lists.linux.dev>, "Vlastimil Babka" <vbabka@kernel.org>,
+ "Hao Li" <hao.li@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Suren Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Brendan Jackman" <brendan.jackman@linux.dev>, "Johannes Weiner"
+ <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, <linux-mm@kvack.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Will Deacon" <will@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Waiman Long" <longman@redhat.com>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
+ kmalloc_nolock at call time
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "Peter Zijlstra"
+ <peterz@infradead.org>
+In-Reply-To: <3a44dbfb-265f-4749-b411-9491a0bcf8c0@kernel.org>
+References: <20261124060357.11700-1-emil@etsalapatis.com> <20261124060357.11700-2-emil@etsalapatis.com> <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation> <20261125140902.GE2668804@noisy.programming.kicks-ass.net> <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com> <20261126094403.GA49833@noisy.programming.kicks-ass.net> <aecebb39-47c9-4b0f-a076-ac0ddc7724d9@kernel.org> <DN5FM9P3X2P0.2IFD5DFBRELP1@gmail.com> <3a44dbfb-265f-4749-b411-9491a0bcf8c0@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,94 +113,23 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: Harry Yoo <harry@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>,
- bpf@vger.kernel.org, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
- daniel@iogearbox.net, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
- Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org
-References: <20261124060357.11700-1-emil@etsalapatis.com>
- <20261124060357.11700-2-emil@etsalapatis.com>
- <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation>
- <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
- <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com>
- <20261126094403.GA49833@noisy.programming.kicks-ass.net>
- <aecebb39-47c9-4b0f-a076-ac0ddc7724d9@kernel.org>
- <DN5FM9P3X2P0.2IFD5DFBRELP1@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <DN5FM9P3X2P0.2IFD5DFBRELP1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 11/26/26 21:40, Alexei Starovoitov wrote:
-> On Thu, Nov 26, 2026 at 01:46 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
->> This is all just way too complicated and shaky, sorry to say it.
-> 
-> Which part?
+On Thu, Nov 26, 2026 at 12:45 PM David Hildenbrand (Arm) <david@kernel.org> wrote:
+>> Which part?
+>
+> kmalloc_nolock :)
 
-kmalloc_nolock :)
+lol. Agree. I guess it is in some ways :)
 
-> I don't see any new concepts of failure modes vs existing code.
+>> I don't see any new concepts of failure modes vs existing code.
+>
+> I hope we can sort out the rough edges.
 
-I hope we can sort out the rough edges.
-
--- 
-Cheers,
-
-David
+100%
+That's the goal of this diff. It removes one of this rough edges
+for user's of kmalloc_nolock().
+Today it can return NULL when another CPU holds zone->lock
+or n->list_lock. It took long time to debug in production,
+since it didn't look like lock contention at all.
+With this short diff that rouge edge/corner case goes away
+and spurious NULL returns disappear.
