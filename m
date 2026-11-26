@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795657313;
-	b=noZA/VvYy9GHchtENv+9d9ovYUgTddpgpAP1bOrPCy52qoCGuPNJJ2IyBfpJljSkhlAv
-	 4YsbixUfKAgQt1ty6iq7yvl2u8YPurBIKaMDBNDd9iO+tkzWtmMYcAfiUvqB7FirQWvxp
-	 JH+kbPzhpqKnPpqNOxbRacGz9jiLE8T/YT//N6qQ9AhEEJcScuUGxJTW/F30GJBPM+40R
-	 3Y3L6JtmzQ/ZQgmRH7WgYnuVkoS0Hv+18FcTvBCm6ya2LpNWyZpydKSkzn7NHFKA/5h7j
-	 iDiQUp/Y/i3JfIJrNq5X5w95qbDrMvOKM6dxP63ilyzo7hmyMIJKOX4sXyuZtxIt0QA==
+	t=1795657446;
+	b=OcFISvheG3tZXO3zOZLVNeV3k6QXvyqDQE1otjAa0ivJxqlkn+4V6u5/eP5jpP0pWSTB
+	 sk8jRr+KlCT5BbRxSRiucwvliJF3UMMIr9FU3R5g/tr6xrL1JaHyNWNKtlXkh7XcANqYi
+	 uHfB5FIlJFn9u664cEDCOadaZga1AIT37SOAtz+6Ur8ohOQzbG6Yz62NY2k/+RM8QHyYH
+	 R9yVCDZ0Z3oN2OUgF2gCg668qxY4ZxDGYflX0RSZ64OQPxUSjCgnkkOWAA/X1A3HG4eGP
+	 Qr/1F+cPBnMggwD4SzyHTVx6usawVN4hrIFwcNxRNT9vLbmYgWxwr0YaGgKPc4zGO9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795657313;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657446;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tPyPOhu9AaWWXOBWE2nSNiLeRaBmDPFB2m7ibTx7FFk=;
-	b=QApUTcH3dzAZ/eshzn5lpaE/0e7uM9tcTVc/moW9ZsPH3s2wc68WodtGfBlmrpVcI1YF
-	 E2yjtiCAdJXclapMRUsRq6+HXzzgxPQkUvbADpe76taeXOOIwx2YvvDLPT4mrRTPLYA3Z
-	 c5ehbuyKKZ+L44S6qNd5ZwrHdbBiMHRzVuBXgFgCoIiuwydZK46ThYhc0o4FrjFr7E+Ou
-	 VVPIiUdbsq9VodiU0w0ooLfbBG98w6BDsOHK0lJVkrosHNBR9XIyyRN7JSJmv4VF6/Gjj
-	 vdz8KG2feGWHW5LZaD49ZPorKJcQWGPgoPjcP/wgYLZF1AN25+Sfgq5QNkd4tOTM3jw==
+	bh=m2RvOd+XVd5bUt3hWNxmT4fsaJ6Zs1eWnplpITK5zkM=;
+	b=HcNhDi38sryuJG/eeaHC6Zv86XAUJ8AoLLI3S6YIBWOG8vHw8TdULXOOY4PZz7HE1VSd
+	 FXxbBO88CQ3XBQibnwuEDGYBgnPy7FASZRn+cJkAXrSCmtURfw/d9aBj8IStht3fJZi4y
+	 SR6gtggY1v1e3oGm/kgjkSIgd2fPguAVIpoPVj0TdQt/JicYNKmusI73956UR5+WH0Fsq
+	 P47tnUzDlxUqHmt8WTfL/ygSf5X438EgCk2SYIaWOuN8bNOJZQKxDANe6Qj7QIfm2HfKQ
+	 wS9sUhKAVRV9JUB4DNjw9RpUg7u5atqM5ETbbfQFhQhI24VS/E8sLsy/vCxoBu8PiEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WyIKi5Rm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C8U3mk9p;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16906606A31E;
-	Thu, 26 Nov 2026 01:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41F4606A32D;
+	Thu, 26 Nov 2026 01:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WyIKi5Rm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75AA21F000C6;
-	Thu, 26 Nov 2026 01:41:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C8U3mk9p
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9671F000C4;
+	Thu, 26 Nov 2026 01:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795657312;
-	bh=tPyPOhu9AaWWXOBWE2nSNiLeRaBmDPFB2m7ibTx7FFk=;
+	s=k20260515; t=1795657445;
+	bh=m2RvOd+XVd5bUt3hWNxmT4fsaJ6Zs1eWnplpITK5zkM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WyIKi5RmMUXxP0WgzQSuMMNol1+HyFDXTs3dB4iiIKrxi6EV52JNIdrOW/1Vdw03G
-	 kt4s/g/USw+ovg4+PCQiyr5yEr3BuJaCKsWhg74Ly8xQdXmxerUQW7GoDJ9qR4AG+4
-	 t3u2dv0s0vsNU5lhKaXxmNnIu/rl2cKz0Tujg7kjS3DXZ+9XSaddPaO5dpHkWVViOY
-	 RqoC8bS8mBOdF6YSz3HHGOetq/xSWc8UkmzfU1TJBOrNt3oLsMlNvffuwXqkpNIZdz
-	 mo/FjMlSW/cHJiM+3fU8XjX5p62U53Rn3gDtuC8mWDGqJNldsO4wPv3xHLv6mWFBjz
-	 n1SOfv5JGNFzQ==
-Message-ID: <sashiko-outbox-234578@kernel.org>
+	b=C8U3mk9pQgmlVvzan6WdUvkg1YqZYTQR3I/tLHfiXXuK85/mFtHcVkbq9HzgCQ7y9
+	 ZFCJxXa04fxacBzjZQlaEFIjjyI1Otx2B39N57RigOwpgKarn25XXoEFXKK5edGnee
+	 roOWchZlfsBCuBXjl38zKUrOrxLzYg4xNTkTrQzAGrnIZup9nZJzH2n8PD5E77Z2a/
+	 Ha8Eq+cLmmBrK+ORoG3MdjHVEBqAAkpT/GaOZKpnAuNVKkDspObdo4gV3fAx/TiDDL
+	 6SUmn+Yq7F+mbf5Vu7OOHP5DAfBxu/2xJOD3lRAA64ets2LaLAYf13huEndA/G3woc
+	 ey2w7ztXi6sLw==
+Message-ID: <sashiko-outbox-234581@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 17/43] cgroup/cpuset: Refuse to take a deadline task
- out of its root domain
+Subject: Re: [PATCH v11 26/43] sched/deadline: Keep a departing constrained
+ task until its next period
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <2a3cf1f221564450a14f75f0f4eeebc3379a992e.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <06ad8ff186e425049082d0ee9b6518f85406257d.1795646914.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <2a3cf1f221564450a14f75f0f4eeebc3379a992e.1795646914.git.mathieu.desnoyers@efficios.com>
+ <06ad8ff186e425049082d0ee9b6518f85406257d.1795646914.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:41:52 +0000
+Date: Thu, 26 Nov 2026 01:44:05 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,132 +63,120 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] cgroup/cpuset: unnecessary hierarchy and task walks in
-  dl_tasks_keep_*()
-- [Medium] cgroup/cpuset: dl_tasks_keep_without() omits pending CPUs for
-  PRS_ISOLATED
+- [Medium] sched/deadline: dl_task_timer() advances period before
+  inactive_task_timer()
+- [Medium] sched/deadline: HRTIMER_RESTART in inactive_task_timer()
+  races with cancel
 --
 
-commit 0cb8536a44f47c8f95c649627afa6a220c61e952
+commit 43e71343c7049144c9877a7ba7fddb15005d58e2
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-cgroup/cpuset: Refuse to take a deadline task out of its root domain
+sched/deadline: Keep a departing constrained task until its next period
 
-This commit refuses cpuset CPU mask updates and invalidates partitions that
-would move a deadline task out of the root domain accounting its bandwidth.
+This commit keeps a departing constrained SCHED_DEADLINE task's bandwidth
+and deadline until the later of its 0-lag time and its next period in
+task_non_contending() and inactive_task_timer().
 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 37d04b08996ec..67b2429c0e22f 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 1d2dcf478f95d..11774b3b9fe93 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+
 [ ... ]
-> @@ -1148,6 +1181,91 @@ static void effective_cpus_below(struct cpuset *cp=
-, struct cpuset *from,
->  	}
->  }
+
+> @@ -2598,6 +2614,25 @@ static enum hrtimer_restart inactive_task_timer(st=
+ruct hrtimer *timer)
+>  	if (dl_server(dl_se))
+>  		goto no_task;
 > =20
-> +/*
-> + * A scratch mask for dl_tasks_keep_without(). Its callers still need ea=
-ch
-> + * mask of their struct tmpmasks after the call. Protected by
-> + * cpuset_mutex.
-> + */
-> +static cpumask_var_t dl_keep_cpus, dl_pending_cpus;
-> +
-> +/*
-> + * Return false if a partition that takes the CPUs of @xcpus makes a
-> + * deadline task leave the root domain that counts its bandwidth. A cpus=
-et
-> + * can hold CPUs of two root domains: with isolcpus=3D"domain", or on cg=
-roup
-> + * v1 with sched_load_balance off. Such a task would run in a root domain
-> + * that did not admit it.
-> + *
-> + * @root is the partition root that gives the CPUs. @part is the cpuset
-> + * that takes them. In the same change, @part can give the CPUs of @gives
-> + * back to @root. @gives is NULL if it gives none back.
-> + *
-> + * Work out the new CPUs of each cpuset of @root from the top down, as
-> + * update_cpumasks_hier() does, down to the next partition roots. If
-> + * @enable, @part becomes a partition root. Then do the same for its own
-> + * cpusets, starting from the active CPUs of @xcpus.
-> + */
-> +static bool dl_tasks_keep_without(struct cpuset *root, struct cpuset *pa=
-rt,
-> +				  const struct cpumask *xcpus,
-> +				  const struct cpumask *gives, bool enable)
-> +{
-> +	struct cpumask *new_cpus =3D dl_keep_cpus, *pending =3D NULL;
-> +	struct cgroup_subsys_state *pos_css;
-> +	struct cpuset *cp;
-> +	bool keep =3D true;
-> +
-> +	lockdep_assert_cpuset_lock_held();
 > +	/*
-> +	 * The CPUs of @root can have changed before the rebuild of the
-> +	 * sched domains, which ends the change. Then the root domain of a
-> +	 * task of @root does not span them yet. The rebuild gives the CPUs
-> +	 * of a root partition to one root domain.
+> +	 * A constrained task which has left the class keeps its bandwidth
+> +	 * and its deadline until its next period, as in
+> +	 * task_non_contending(). This timer may have been armed for the
+> +	 * 0-lag time while the task was still in the class.
 > +	 */
-> +	if (root->partition_root_state =3D=3D PRS_ROOT) {
-> +		pending =3D dl_pending_cpus;
-> +		cpumask_copy(pending, root->effective_cpus);
-> +		if (root =3D=3D &top_cpuset)
-> +			cpumask_and(pending, pending,
-> +				    housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
+> +	if (!dl_task(p) && READ_ONCE(p->__state) !=3D TASK_DEAD &&
+> +	    !dl_is_implicit(dl_se)) {
+> +		s64 left =3D dl_next_period(dl_se) - rq_clock(rq);
+
+[Severity: Medium]
+Can dl_task_timer() advance dl_se->deadline before inactive_task_timer()
+computes dl_next_period(dl_se), holding the departed task's bandwidth for
+an extra period?
+
+When a constrained task is throttled before leaving SCHED_DEADLINE,
+dl_se->dl_timer remains armed for the end of the departure period while
+dl_se->inactive_timer is armed for max(0-lag time, dl_next_period(dl_se)).
+When dl_task_timer() fires at the period boundary while !dl_task(p), it
+replenishes the entity:
+
+kernel/sched/deadline.c:dl_task_timer() {
+    ...
+	if (!dl_task(p)) {
+		if (dl_se->dl_throttled && !is_dl_boosted(dl_se)) {
+			sched_clock_tick();
+			update_rq_clock(rq);
+			replenish_dl_entity(dl_se);
+		}
+		goto unlock;
+	}
+    ...
+}
+
+replenish_dl_entity() adds dl_se->dl_period to dl_se->deadline until
+dl_se->runtime > 0.  When inactive_task_timer() then runs at the period
+boundary (or later at the 0-lag time after an overrun), dl_next_period()
+is computed from the replenished dl_se->deadline, so left > 0 and
+inactive_task_timer() restarts for another full period instead of
+releasing the task's bandwidth and clearing its parameters.  If the task
+re-enters SCHED_DEADLINE during that extra period after the advanced
+deadline, dl_check_constrained_dl() also throttles it until the end of the
+second period.
+
+> +
+> +		if (left > 0) {
+> +			ktime_t at =3D ktime_add_ns(hrtimer_cb_get_time(timer), left);
+> +
+> +			hrtimer_set_expires(timer, at);
+> +			task_rq_unlock(rq, p, &rf);
+> +			return HRTIMER_RESTART;
+> +		}
 > +	}
 
 [Severity: Medium]
-Should pending also be populated when root->partition_root_state is
-PRS_ISOLATED (or via is_partition_valid(root))?
+Can returning HRTIMER_RESTART after task_rq_unlock() race with
+cancel_inactive_timer() in switched_to_dl() and leave inactive_timer
+queued after the task returns to SCHED_DEADLINE?
 
-An isolated partition root can have an invalid child isolated partition and
-hold deadline tasks counted in def_root_domain.  When that isolated parent
-grows to include a new CPU before rebuild_sched_domains_locked() runs at
-the end of the change, def_root_domain.span does not include the new CPU
-yet.  Because pending is left NULL here, re-evaluating the child during
-update_cpumasks_hier() -> update_parent_effective_cpumask() rejects the
-child with PERR_DLTASK even though the rebuild will attach the parent's new
-CPU to def_root_domain.
+cancel_dl_timer() assumes that when hrtimer_try_to_cancel() returns -1,
+the running callback will finish with HRTIMER_NORESTART and drop the task
+reference.  Because __run_hrtimer() only re-acquires cpu_base->lock and
+re-enqueues the timer after inactive_task_timer() returns, another CPU can
+run switched_to_dl() in between:
 
-> +	rcu_read_lock();
-> +	cpuset_for_each_descendant_pre(cp, pos_css, root) {
-> +		if (cp =3D=3D part || (cp !=3D root && is_partition_valid(cp))) {
-> +			pos_css =3D css_rightmost_descendant(pos_css);
-> +			continue;
-> +		}
-> +		/* The CPUs that @root has after the change. */
-> +		cpumask_copy(new_cpus, root->effective_cpus);
-> +		if (gives) {
-> +			cpumask_or(new_cpus, new_cpus, gives);
-> +			cpumask_and(new_cpus, new_cpus, cpu_active_mask);
-> +		}
-> +		cpumask_andnot(new_cpus, new_cpus, xcpus);
-> +		effective_cpus_below(cp, root, new_cpus);
-> +		if (cpumask_equal(cp->effective_cpus, new_cpus))
-> +			continue;
-> +		keep =3D dl_tasks_keep_cpus(cp, new_cpus, pending);
-> +		if (!keep)
-> +			break;
-> +	}
+CPU0                                  CPU1
+__run_hrtimer()
+  inactive_task_timer()
+    hrtimer_set_expires(timer, at)
+    task_rq_unlock(rq, p, &rf)
+                                      __sched_setscheduler()
+                                        task_rq_lock(p, &rf)
+                                        switched_to_dl()
+                                          cancel_inactive_timer(&p->dl)
+                                            hrtimer_try_to_cancel() -> -1
+                                        task_rq_unlock(rq, p, &rf)
+    return HRTIMER_RESTART
+  raw_spin_lock(&cpu_base->lock)
+  enqueue_hrtimer(timer, base, ...)   <-- queued while p is in DL
 
-[Severity: Medium]
-Does dl_tasks_keep_without() (and dl_tasks_keep_root_domain() below) walk
-the cpuset hierarchy and iterate every task in affected cpusets even when
-no deadline tasks hold bandwidth or admission control is disabled?
-
-Commit "sched/deadline: Keep the last CPU a task has in its root domain"
-earlier in this series guards dl_cpu_last_of_task() with
-!dl_bandwidth_enabled() || !atomic_read(&dl_nr_bw_tasks), whereas here
-dl_bandwidth_enabled() is only checked per task inside
-dl_task_keeps_root_domain() after css_task_iter has already locked
-css_set_lock and pinned each task, and dl_nr_bw_tasks is not checked.
-
-In addition, when cpumask_equal(cp->effective_cpus, new_cpus) is true in
-either function, continuing without advancing pos_css =3D
-css_rightmost_descendant(pos_css) visits all descendants of an unchanged
-subtree even though their effective_cpus cannot change either.
+p is then back in SCHED_DEADLINE with dl_non_contending =3D=3D 0 while
+hrtimer_active(&p->dl.inactive_timer) is true.  If p blocks or leaves
+SCHED_DEADLINE before that stale timer fires, task_non_contending() sees
+hrtimer_active(&dl_se->inactive_timer) and immediately subtracts
+running_bw or releases the task's bandwidth and clears its deadline before
+the 0-lag time.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D17
+t.mathieu.desnoyers@efficios.com?part=3D26
