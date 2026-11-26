@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795656947;
-	b=AaQMj5VyCd4KBWeEcvrxTiA/g7IVTvbhN7FoJXS8BFPCyAaSLzhE5WxwAe29SIoXvgX9
-	 8dMDvmTBQ8N1WdC7AuMYR6hTVCLv9C0MQILFW6gvW2Be5ssYTTrNFA1nOo7tBuy7h4nuR
-	 6MYpYnmM9TG6LdUhrjarG1fpvUtgbzJUd6pWNTfTfJvCXaMj7vnS396K73iHtT8IbdPma
-	 RkkA7r3fBRDAqPCRrBuAd/WUJ3tf4EPreQhHd7Z+zZVMxIbEdNd/QcOCJwpv3SFO2/pvf
-	 v5w4pAJ5BNX8qWo80XtV5FQkSv5eP0G+tJR/eVGSmvNHyV5s/kOVcOH0o0V0xkM8W9Q==
+	t=1795657085;
+	b=XXG+enXHTEbSvWXAx/m2ZxB3c/ScOV75ti/fTb0TEVdxH5wyrAxyYdqb0OJhg5ihkXga
+	 kj+1XyrbPfmrbpd3FUUBa1xyTgMFkWnpTXJbqo0LYMU3rCgGkXtCxt4YgwiL/QwDmKsiz
+	 lqllVUZPPoyGfr3TAG65uzuED1ijoq52XYj6FToqo+Je0QaEke9MF0LlOe0gcuNtWd/Ac
+	 npJQ2O1JMcpBFbMYFwDaoquuRhnV2CAJVlcXJe1fCV5iebM0IcDG8fpLW4npt/U9J6LQ8
+	 rYVVVNOqhdMAHKQCy6qem2Vu2hdJi2OUmdSy0qw9BoEpDPOL6/soY/1gNiK7mWdXDKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795656947;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657085;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UBctsvJEzz0DHRWtLTStJ9Xmzeqn9/SRgg3Tp+mO8Ck=;
-	b=pmFmRnrXTvpPgbI2kRU6FVvJ3pDKhjh+F+Ix1OS50HBi6CpUFFO02uRT4/A1PnIsNx5m
-	 rU6X80yaPbkY9DECajFtw7iFmJL2dHbnDNH9dzw9kAELXeVA0dm3VH2wIeBqJNBm9+tUI
-	 +fwzgImYxsj8DbEnHGKzq4G9ZlE2gPrAlO94zk2EFgFexdvDxtfmJmY4x3m8oSN/3DrVJ
-	 KCk7G7ToptpPykzZP1OmpKTLQvKVDSxBcF3xMipS5gZrrzdX/SMKWD0jlU7qf+i2MPwO5
-	 9kVS3M7u4TWRNWiilOoLHKVt04Ly1npdYPDDNfROaOi+L+XzufGdjcR1egV+8eAKIrg==
+	bh=zog7jF/2BPtVfJQhwRXt+srPHB7Tq3M8n+JZAtPbs2Y=;
+	b=FE8UZESy4UeCmR4YUQV4LxX+ibMpru6n3xZ7J+OroW9NOJ89mqgKP2N6i9m0fhnbj9yu
+	 hmqiJjA0MUpG3xK/h35c2mqvuu/MzUVlr5ipRnpDHV49ElGZ+QezVlu8+gDLjXtjdyvMY
+	 uFlpgtIl2S7ZWCjDravKy0N1woWL+4V3b6N5X9gStVHooewfl6+PveI47c6XnbTUXYe+6
+	 70qqHDc0TBJNIo++Rn19LYf13cKlKNuUaCCDkMPA8T5GAd4iwEjuM5IkET6XojCNchViH
+	 IJuJpcnt7xh7sOu5gmS2J1kK3ks3M/Ww47ocYxfNRVRdnBdorL4CWwG3hGxHvHYFNog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I2OeijWg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BtoW5qj0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAEB606A327;
-	Thu, 26 Nov 2026 01:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2253606A31E;
+	Thu, 26 Nov 2026 01:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I2OeijWg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFDF1F000C4;
-	Thu, 26 Nov 2026 01:35:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BtoW5qj0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154591F000C4;
+	Thu, 26 Nov 2026 01:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795656947;
-	bh=UBctsvJEzz0DHRWtLTStJ9Xmzeqn9/SRgg3Tp+mO8Ck=;
+	s=k20260515; t=1795657085;
+	bh=zog7jF/2BPtVfJQhwRXt+srPHB7Tq3M8n+JZAtPbs2Y=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=I2OeijWgCRTjlYDD4V+v6TVScq24Pq0FN1uJ9xcmzLAvMua/27RE+3DY0o3yvo5Fl
-	 /6z71JkiDCD/RGAlL+BqHuJFgxNdsbafJwT1zj/q/IDEmJDAWdwLeJv6s9UOLc2yWn
-	 UNU/VvyFqo24wxpF9nlm+oasrHp7aB1AkCyw7/WMZXYNIryZEViDRQJ1p82Nk+BgrV
-	 pe3NyZHf3sIv8nDNNMkN+p86fy7yaEqpMUH1VcCHs180XA9Qj/C7zI7do1s4SJFZW5
-	 Z6WQzPzEC4tYaeJz+ygHCgVAuam8f/cCR6Qyqon00CYm65WDBc8cZtQzH1dtPUU12N
-	 432ARlImU328A==
-Message-ID: <sashiko-outbox-234566@kernel.org>
+	b=BtoW5qj0Uiwnj9C4fmhsGV66V9y8xpJ7ju3GU1TjtadTsZeU7AkYXVMo7LYG7OjvK
+	 qGzR/JZLSk0RD8w2URCQTAld4urozgOizBYjg5ttotvnRwhGFEfFH3Aelx1LaoBRUV
+	 hlB63ppCZPRT7WObhCmc+agD/L0B5HpfmfrbcgYrEa/rCoABKju1l82g0j4GmKenJC
+	 YvsHvjd3FAq0tb1S5xbJ4rsaVa4KRtVIVvjkwZGoW/p9ITRPpuNDPlPfCmnlHtLUA0
+	 bYN07hMYtnjKAw2+WohSgtYWNaDdf03DOA1zfESy5hzBywOV1LAlCJA+AMAfkhko49
+	 oYWMvH4WDFxDQ==
+Message-ID: <sashiko-outbox-234570@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 16/43] sched/deadline: Keep the last CPU a task has
- in its root domain
+Subject: Re: [PATCH v11 15/43] sched/deadline: Keep a task in the root
+ domain that counts its bandwidth
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <8760bd586c67945ac5129fd92e52bdfc2e840c67.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <1b7d48df779794ceece2155c0080722932f2c3cd.1795646914.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <8760bd586c67945ac5129fd92e52bdfc2e840c67.1795646914.git.mathieu.desnoyers@efficios.com>
+ <1b7d48df779794ceece2155c0080722932f2c3cd.1795646914.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:35:47 +0000
+Date: Thu, 26 Nov 2026 01:38:04 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,77 +61,109 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] cgroup/cpuset: wrong v1 ancestor walk in
-  cpuset_cpus_allowed_without()
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] sched/deadline: select_fallback_rq() bypasses local NUMA node
+  search
+- [Medium] sched/deadline: __set_cpus_allowed_ptr_locked() clobbers
+  valid wake_cpu
 --
 
-commit e0e4cf76f577347925934619360185ec78904567
+commit 4af84b97f62357ff3460aae481348b8b367fe8d9
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Keep the last CPU a task has in its root domain
+sched/deadline: Keep a task in the root domain that counts its bandwidth
 
-This commit refuses CPU offline operations with -EBUSY when taking the CPU
-offline would move a SCHED_DEADLINE task out of the root domain that
-admitted its bandwidth.
+This commit introduces dl_task_bw_span() and updates CPU selection paths
+during affinity changes, wakeups, CPU offline, and sched domain rebuilds
+to prefer CPUs within the root domain that accounts for a deadline task's
+bandwidth.
 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 7bdb9e21a7edb..37d04b08996ec 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-[ ... ]
-> @@ -4312,6 +4334,292 @@ void cpuset_cpus_allowed(struct task_struct *tsk,=
- struct cpumask *pmask)
->  	spin_unlock_irqrestore(&callback_lock, flags);
->  }
-> =20
-[ ... ]
-> +bool cpuset_cpus_allowed_without(struct task_struct *tsk, int cpu,
-> +				 struct cpumask *pmask)
-> +{
-> +	const struct cpumask *possible =3D task_cpu_possible_mask(tsk);
-> +	struct cpuset *cs =3D task_cs(tsk), *from, *gone =3D NULL;
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 7615ba02d52b3..3dd42581cc177 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -3264,6 +3264,27 @@ static int __set_cpus_allowed_ptr_locked(struct ta=
+sk_struct *p,
+>  			dest_cpu =3D ctx->dl_bw_cpu;
+>  		if (!task_on_rq_queued(p))
+>  			p->wake_cpu =3D dest_cpu;
+> +	} else {
+> +		const struct cpumask *span =3D dl_task_bw_span(p);
+> +		unsigned int cpu =3D nr_cpu_ids;
 > +
-> +	guard(rcu)();
-> +	if (!is_in_v2_mode()) {
 > +		/*
-> +		 * cgroup v1 moves the tasks of a cpuset left with no CPU to
-> +		 * the nearest ancestor that keeps one.
+> +		 * No room was made for @p in another root domain. Keep @p
+> +		 * in the root domain that counts its bandwidth, if the new
+> +		 * mask holds one of its CPUs. Also wake a sleeping @p up
+> +		 * there. A wakeup during a rebuild of the sched domains has
+> +		 * no span to prefer.
 > +		 */
-> +		for (from =3D cs; from; from =3D parent_cs(from)) {
-> +			cpumask_and(pmask, from->effective_cpus, cpu_active_mask);
-> +			cpumask_clear_cpu(cpu, pmask);
-> +			if (cpumask_intersects(pmask, possible))
-> +				break;
+> +		if (span && cpumask_test_cpu(dest_cpu, span))
+> +			cpu =3D dest_cpu;
+> +		else if (span)
+> +			cpu =3D cpumask_first_and_and(cpu_valid_mask,
+> +						    ctx->new_mask, span);
+> +		if (cpu < nr_cpu_ids) {
+> +			dest_cpu =3D cpu;
+> +			if (!task_on_rq_queued(p))
+> +				p->wake_cpu =3D dest_cpu;
 > +		}
+>  	}
 
 [Severity: Medium]
-Should the cgroup v1 loop break on !cpumask_empty(pmask) instead of
-cpumask_intersects(pmask, possible)?
+Does this overwrite p->wake_cpu for a sleeping deadline task even when
+its existing p->wake_cpu is still valid in ctx->new_mask and span?
 
-On cgroup v1, cpuset1_hotplug_update_tasks() only considers a cpuset empty
-and moves its tasks to an ancestor when cs->cpus_allowed becomes completely
-empty:
+dest_cpu is chosen earlier via cpumask_any_and_distribute(cpu_valid_mask,
+ctx->new_mask).  Unlike a queued task (where affine_move_task() leaves p
+on task_cpu(p) if it remains in the new mask), a sleeping deadline task
+has p->wake_cpu unconditionally replaced with the pseudo-random dest_cpu
+whenever span is non-NULL, forcing an unnecessary migration on the next
+wakeup.
 
-kernel/cgroup/cpuset-v1.c:cpuset1_hotplug_update_tasks() {
-    ...
-	is_empty =3D cpumask_empty(cs->cpus_allowed) ||
-		   nodes_empty(cs->mems_allowed);
-    ...
-	if (is_empty)
-		remove_tasks_in_empty_cpuset(cs);
-}
+Only updating p->wake_cpu when it is not already in cpu_valid_mask,
+ctx->new_mask, and span would preserve wakeup locality.
 
-On systems with asymmetric 32-bit support where task_cpu_possible_mask(tsk)
-is a subset of cpu_possible_mask, a cpuset can retain active 64-bit-only
-CPUs after the offline while having no CPUs left in possible.  In that case
-cgroup v1 leaves the task in cs and falls back to select_fallback_rq(),
-whereas this loop walks up to parent_cs(from) and can return an ancestor's
-32-bit-capable CPUs in pmask, allowing dl_task_leaves_span() to accept an
-offline that moves a deadline task to another root domain or reject a valid
-one with -EBUSY.
+> @@ -3668,8 +3689,22 @@ static int select_fallback_rq(int cpu, struct task=
+_struct *p)
+>  	int nid =3D cpu_to_node(cpu);
+>  	const struct cpumask *nodemask =3D NULL;
+>  	enum { cpuset, possible, fail } state =3D cpuset;
+> +	const struct cpumask *span;
+> +	bool span_forced =3D false;
+>  	int dest_cpu;
+> =20
+> +	/*
+> +	 * Keep a deadline task in the root domain that counts its
+> +	 * bandwidth, if one of its CPUs is allowed and online.
+> +	 */
+> +	span =3D dl_task_bw_span(p);
+> +	if (span) {
+> +		for_each_cpu_and(dest_cpu, span, p->cpus_ptr) {
+> +			if (is_cpu_allowed(p, dest_cpu))
+> +				return dest_cpu;
+> +		}
+> +	}
+> +
+>  	/*
+>  	 * If the node that the CPU is on has been offlined, cpu_to_node()
+>  	 * will return -1. There is no CPU on the node, and we should
+
+[Severity: Medium]
+Does this early return bypass the local NUMA node search in
+select_fallback_rq() for deadline tasks?
+
+Because dl_task_bw_span(p) returns rd->span for any admitted deadline
+task outside a domain rebuild, scanning span & p->cpus_ptr in ascending
+CPU order and returning before the cpumask_of_node(nid) loop below skips
+same-node CPU selection on multi-node NUMA systems and always sends the
+task to the lowest-numbered allowed CPU in its root domain.
+
+Checking cpumask_of_node(nid) intersected with span first when span is
+non-NULL would keep the task in its root domain while preserving NUMA
+locality.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D16
+t.mathieu.desnoyers@efficios.com?part=3D15
