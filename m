@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795656733;
-	b=SpcfVV9/Hac+LGVsCqhEvthm/X104DJoB3IYc80W3FQw8kpIEzs0/U78Y+Sc0ju1q/LL
-	 NZE3dTIeJDHT4ELldwf1XfFvXKiOkNbWSEGIPFWe0LWrYuT2orcovv3EuIbTqwyBJIP2D
-	 2wyjDWKYEYAnWLK7+/z077tAqhNYIYnYo+UEDUf8VFscbfAWdfz62z1q8K1toBV4OxDHQ
-	 IHjY+4pH4PKf9ZExtXdD043/9Eav/I4vp6WKoTbXBTcp2emPGghhcoaSMauGnogv2ASs4
-	 anTLrSCNdcwd28eOCm2ydwntiHl+Aqe62tYNB1qQfwbNlbxtrzrtUORd+wmRUaQsHcA==
+	t=1795656947;
+	b=ziyVun3iE+Vd10R7hbB93RMDYvGKe3s2LBNr1+zh0v8AYbsuAx6brLXGkaa2s/IASmuH
+	 UmiQKWHZNucq5ARlhnMk0MWjlL1r3rVvuG9FWqJy8F/kSNkdGFCI4HmKeK/IyrLcgFqnr
+	 inFYB6XkYYzBHbgGHsyFgrZ8wD4GA2Oy6a759hAdC1m/P/+fMH4cAjkYTh/WedEsSe4Zx
+	 u0ou8gh8XmmT+qErJ7vVYYreaVLJEOVwwnIlIXDWSKy90TnAf0fCDowfu8ePB6FUP1hnh
+	 XR2hwOSt+4TDMDEGknrttJNFXUKhN0Bg/ErKyVdwOVMf/cwUOKUyARkc1KEPpEEn48Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795656733;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795656947;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=IeOMS4Xk3IfW0flGi3s6pj9NvgNzNZr9mxYJinJDXiU=;
-	b=pii8u+A3/YWDpUnLlfScUQVaBM0u27MkbtkIARgpzLr548fKNzL5ODC67UOQX8wUi4HS
-	 bEvZLibxLMdBVM9QFJvzZlur4EGA+8Ht6J7QnicC8g9OX1zAwD1A6oNypmivYaTkoTtOh
-	 RCa6bJS0qvi7O2INrCFWwIs+UD5M7MUnGJWH7bvnez5uiNP83UIySjXtmuvKTZWq0dLql
-	 OS8hwylwH0dH/KoAaPN+rHenFcxE4hDyzdg+NUbPjvrQr6ePhvseaucE7ZrdXUG6c7R7a
-	 x44VRFb2paYiqpFu3XCBpAsjeKDs3jQT9lWKLIWN6fio5s1K3oLCS43/IdXv40xVpRg==
+	bh=KlCKwLKEIcdcb9Z/f+8gfIqoz04BE7KsEMO27vlUrI4=;
+	b=t7AJS78X9uQGrsI+YoVD7TaJOsRgZMmcgob5+ta0bmbchFq5fZnxOov30PuI5XtYDHB/
+	 poTM6x0leI+nKttVjsxFWjY/MdVBvjH83eJPONvilVemw0YmEyCCfn/dlEdpS/1C6QZ5c
+	 Q/EvwF6ZMTlrMdW1zcMZdGGssOb+Kbjsqc/88nJS2cn+yHwuVaOor8K8Lu4zCp0I8gISY
+	 uuv4kfPJ5WPTajs3sK4k0uwsVNNrP+qlkKfJSYiUw/tfnqyETPzwn2W/B0vC7i3J4t8WX
+	 Xa9IPbIoSUAzoV+vdWsV7xFlvbxZQd5zefFewsO0vee4jRMsWOtC3A2sXhGIMf+KtKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aBDH9fw+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYfy5cax;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE34606A31E;
-	Thu, 26 Nov 2026 01:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D1A606A321;
+	Thu, 26 Nov 2026 01:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aBDH9fw+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19BF21F000D0;
-	Thu, 26 Nov 2026 01:32:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYfy5cax
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D34B1F000CA;
+	Thu, 26 Nov 2026 01:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795656733;
-	bh=IeOMS4Xk3IfW0flGi3s6pj9NvgNzNZr9mxYJinJDXiU=;
+	s=k20260515; t=1795656946;
+	bh=KlCKwLKEIcdcb9Z/f+8gfIqoz04BE7KsEMO27vlUrI4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aBDH9fw+YSvVTkSHjb8QnL1zATSUz2TCpdEFqOsuYu08wWnEYEBaWeQLVjfOFXX2Z
-	 AMHe/+MNJoUYpBpJATFdOqpqcTwYWu8q7gAAdXckYfUahJ4Hze51wpUX6ETePfLvMM
-	 ZKpp6e4l4KEs5PNCE2w/J8qjIHZxgJDBeqIFOaBskQHLfFrTMRxsOtEikxZZpl5IdF
-	 uVjN/NeeqnowA5CRtJwvanj5cLaIhWh77zWvZqHU3I+FYfGbE/da4InsPw/UovRUWF
-	 qGxGAQEzJWrGU4MQgejnDr5cj1obLyLb2pIxfSDZeyvmYY6T99InNfbKezkwN9FGm+
-	 7geqNuT3n0ocQ==
-Message-ID: <sashiko-outbox-234553@kernel.org>
+	b=XYfy5caxq3RMNo1qeo42I+ipEYGFPTHFY7Gwp0AoIicX40avZUdTc8Q+vdEo/FGYp
+	 KI5cMldPRejYL3GbC/JbpKzJcI24AbKn3CQFJiPQB6TSeOHoy0ZyMkeUFSVTEdBcpn
+	 +BAc6rZzWf0lpXJOqLDGJ/bHvQYECvN6YxelIYAN+F02G9RTV25MqexeeF/HdwL3H9
+	 s7S+Mmuh78tfYrwigWIimmNqF3/tkALhjae6pqmo1ggyD4gP4akB7Aw6FuU1KwkyUY
+	 9IW4R6dQNre4WFOhHneXKl1um1EUTvmyQ4hhxUFNoyslbxuZM0ROhuGJDnZSK7857G
+	 yZt92/mTduVwA==
+Message-ID: <sashiko-outbox-234565@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 21/43] rtmutex: Continue the chain walk when a
- waiter's deadline donor changes
+Subject: Re: [PATCH v11 25/43] sched/deadline: Count the 0-lag time from the
+ next period
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <1f5dbe87dcc9405b5848044acbb7381db868418d.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <1d535c0c45a21d94ebadfce2883ce8d8b6789c44.1795646914.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <1f5dbe87dcc9405b5848044acbb7381db868418d.1795646914.git.mathieu.desnoyers@efficios.com>
+ <1d535c0c45a21d94ebadfce2883ce8d8b6789c44.1795646914.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:32:12 +0000
+Date: Thu, 26 Nov 2026 01:35:46 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,138 +63,49 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] rtmutex: waiter->pi_se desynchronizes from owner->dl.pi_se
-  after unlocking pi_lock
+- [Medium] sched/deadline: dl_time_to_zerolag() miscomputes 0-lag when
+  deadline is 0
 --
 
-commit 20b64bd5f85400f14e722790295c12b998e0b8ee
+commit 03d5dc8d2f6d0b382a7bed954bd1379667e09042
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-rtmutex: Continue the chain walk when a waiter's deadline donor changes
+sched/deadline: Count the 0-lag time from the next period
 
-This commit records a task's deadline donor in struct rt_mutex_waiter and
-includes it in the chain-walk termination check so that donor changes on a
-blocked task propagate to downstream lock owners even when the waiter's
-priority and deadline sort keys remain unchanged.
+This commit computes a deadline entity's 0-lag time relative to
+dl_next_period(dl_se) rather than dl_se->deadline so that tasks with
+constrained deadlines do not reach their 0-lag time prematurely.
 
-> diff --git a/kernel/locking/rtmutex.c b/kernel/locking/rtmutex.c
-> index 5a9534c715b84..c78dfe9c93fc5 100644
-> --- a/kernel/locking/rtmutex.c
-> +++ b/kernel/locking/rtmutex.c
-> @@ -369,10 +369,12 @@ static __always_inline void
->  waiter_update_prio(struct rt_mutex_waiter *waiter, struct task_struct *t=
-ask)
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 74b3c6b967eee..1d2dcf478f95d 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+[ ... ]
+> @@ -633,12 +637,12 @@ static unsigned int dl_task_root_domain_cpu(struct =
+task_struct *p);
+>   */
+>  static s64 dl_time_to_zerolag(struct sched_dl_entity *dl_se, struct rq *=
+rq)
 >  {
->  	lockdep_assert_held(&waiter->lock->wait_lock);
-> +	lockdep_assert_held(&task->pi_lock);
->  	lockdep_assert(RB_EMPTY_NODE(&waiter->tree.entry));
-> =20
->  	waiter->tree.prio =3D __waiter_prio(task);
->  	waiter->tree.deadline =3D task->dl.deadline;
-> +	waiter->pi_se =3D task->dl.pi_se;
->  }
-> =20
->  /*
-> @@ -433,6 +435,21 @@ static __always_inline int rt_waiter_node_equal(stru=
-ct rt_waiter_node *left,
->  	return 1;
->  }
-> =20
-> +/*
-> + * Return true if @waiter is up to date with its task @task. Compare the
-> + * sort keys and the deadline donor, which rt_mutex_setprio() copies from
-> + * @task to the lock owner. A boost or a deboost of @task can change its
-> + * donor and leave its keys as they were. The owner must then get the new
-> + * donor: the old one can exit. The caller holds @task->pi_lock, which
-> + * protects @task->dl.pi_se. @waiter->pi_se is never dereferenced.
-> + */
-> +static __always_inline bool
-> +rt_waiter_up_to_date(struct rt_mutex_waiter *waiter, struct task_struct =
-*task)
-> +{
-> +	return rt_waiter_node_equal(&waiter->tree, task_to_waiter_node(task)) &&
-> +	       waiter->pi_se =3D=3D task->dl.pi_se;
-> +}
+> -	/* Time to the deadline. Negative if the deadline has passed. */
+> -	s64 left =3D dl_se->deadline - rq_clock(rq);
+> +	/* Time to the next period. Negative if it has started. */
+> +	s64 left =3D dl_next_period(dl_se) - rq_clock(rq);
 
 [Severity: Medium]
-Can waiter->pi_se get out of sync with the donor that rt_mutex_setprio()
-copies to the lock owner?
+Can dl_time_to_zerolag() return a positive delay when dl_se->deadline is 0?
 
-In rt_mutex_adjust_prio_chain(), waiter_update_prio() snapshots
-waiter->pi_se from task->dl.pi_se at [7], then drops task->pi_lock at [8]
-before taking owner->pi_lock and calling rt_mutex_adjust_prio() at [11]:
-
-kernel/locking/rtmutex.c:rt_mutex_adjust_prio_chain() {
-    ...
-	waiter_update_prio(waiter, task);
-
-	rt_mutex_enqueue(lock, waiter);
-	...
-	raw_spin_unlock(&task->pi_lock);
-	put_task_struct(task);
-	...
-	task =3D get_task_struct(rt_mutex_owner(lock));
-	raw_spin_lock(&task->pi_lock);
-
-	/* [11] requeue the pi waiters if necessary */
-	if (waiter =3D=3D rt_mutex_top_waiter(lock)) {
-		rt_mutex_dequeue_pi(task, prerequeue_top_waiter);
-		waiter_clone_prio(waiter, task);
-		rt_mutex_enqueue_pi(task, waiter);
-		rt_mutex_adjust_prio(lock, task);
-    ...
-}
-
-Because rt_mutex_adjust_prio() -> rt_mutex_setprio() reads pi_task->dl.pi_se
-directly from the task rather than from the waiter, a concurrent boost and
-deboost on an intermediate task M (holding L1 and L1', blocked on L2 owned
-by O, already boosted by deadline task H on L1') can update O->dl.pi_se to
-a new deadline waiter W on L1 while M's waiter w_M on L2 still records
-&H->dl:
-
-CPU0 (walk for H on L1')          CPU1 (W blocks on L1, then leaves)
-------------------------          ----------------------------------
-rt_mutex_adjust_prio_chain(M)
-  raw_spin_lock(&M->pi_lock)
-  [7] waiter_update_prio(w_M, M)
-        w_M->pi_se =3D &H->dl
-  [8] raw_spin_unlock(&M->pi_lock)
-                                  task_blocks_on_rt_mutex(L1, W)
-                                    raw_spin_lock(&M->pi_lock)
-                                    rt_mutex_setprio(M, W)
-                                      M->dl.pi_se =3D &W->dl
-                                    raw_spin_unlock(&M->pi_lock)
-  [10] raw_spin_lock(&O->pi_lock)
-  [11] rt_mutex_adjust_prio(L2, O)
-         rt_mutex_setprio(O, M)
-           O->dl.pi_se =3D M->dl.pi_se
-           /* O->dl.pi_se is &W->dl */
-  [13] raw_spin_unlock(&O->pi_lock)
-                                  remove_waiter(L1, W)
-                                    raw_spin_lock(&M->pi_lock)
-                                    rt_mutex_setprio(M, H)
-                                      M->dl.pi_se =3D &H->dl
-                                    raw_spin_unlock(&M->pi_lock)
-                                  rt_mutex_adjust_prio_chain(M)
-                                    raw_spin_lock(&M->pi_lock)
-                                    rt_waiter_up_to_date(w_M, M)
-                                      /* w_M->pi_se =3D=3D M->dl.pi_se =3D=
-=3D &H->dl */
-                                      goto out_unlock_pi;
-                                  W exits
-O refills from W->dl  <-- use-after-free
-
-Even with commit "sched/deadline: Hold a reference on the deadline donor of
-a boosted task" keeping W's task_struct alive, the chain walk still stops
-early at M and leaves O running on the departed donor W's parameters instead
-of H's.
-
-Copying waiter->pi_se into waiter->pi_tree in waiter_clone_prio() and having
-rt_mutex_setprio() read the donor from the top pi_waiter (or holding the
-donor's pi_lock across the read) would keep waiter->pi_se and owner->dl.pi_=
-se
-consistent.
+If a sleeping task with no active period (dl_se->deadline =3D=3D 0 and
+dl_se->runtime =3D=3D 0) is switched into SCHED_DEADLINE with a constrained
+deadline (dl_deadline < dl_period) and then switched back out while still
+asleep, switched_from_dl() -> task_non_contending() calls
+dl_time_to_zerolag().  Previously, dl_se->deadline - rq_clock(rq) was
+negative and the bandwidth was released immediately.  With dl_next_period(),
+0 - dl_deadline + dl_period evaluates to dl_period - dl_deadline; whenever
+rq_clock(rq) is smaller than that difference, left is non-negative and
+inactive_timer is armed, holding the task's bandwidth in root-domain
+total_bw and causing subsequent admission checks to fail with -EBUSY.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D21
+t.mathieu.desnoyers@efficios.com?part=3D25
