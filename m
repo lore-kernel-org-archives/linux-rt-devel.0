@@ -1,47 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.132
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795686386;
-	b=3KidfjGYjOYKxs8gobHgyOs9OJixbynjnj+n1orkvZl8CrXtFAEW2r4pVJzj63DPjW5k
-	 TvcEp1YZBG0Y9Rd89X2Ai9QHEkujF4yTaxZO551b1QTjfFCEIAK8SjFFu0YMT3sUSIy35
-	 0XmpQrrt7LUrfdh2BT9hniyi6xCTBJfk/A22YlSJCEZLopYr42+xOgcPi74zoR0dw+EjL
-	 fTU3pJU9O6oO9Oyqd/COjugT0R2QbmUDZzOQ8IF7tzUsKkk7UrVFxm/O21Ihev3oCadMy
-	 kGGcQ8sr6WCWv9N2PPmlOhEsQYF5jSIFP/9f68ir8ZnMyYfhYyCIuqXMkwwUy1YjmAQ==
+	t=1795693280;
+	b=Noh7S/c882IeWUKZBuUN002WQyVAcOuyokp4AQTJ2crGmKqIlm5skPxpJcTH/qVRnqY+
+	 gt+WkuQcLlZ1o5N3Sz/KEbyTgNh4twzv7KbKi1hXQbnl4uJy/bDqHKuD6jtAiHlivkbWP
+	 YKe/4wIUjy07DQ2YthejNcYAhGFwFRDlWdM85ECaaLUGDcnwtb2xXpmws/H6s2Kw25qg2
+	 evJjofCU3jseCa1rg5otiVHRdc/VciSTfkaVaBM6RxrpSeMdXqc+VCWUJgKQgSupjbAgm
+	 P8vCt34ok5ZtMnChgtl+kANuT0DheQ/0NweyXfaX9aWXRpx2JZS6BTOlM9a1hRumNxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795686386;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=9iOFGCN2xqfzOpq48k6oJBM/eJYJ7XXUTZKnlzXr0YI=;
-	b=GHm1VOjlGkeTDG+bNnd8nH2hfAwbBFOicq4mWR3zx5colGQtq/PaKznfR1llOK4doe5q
-	 MgeXXRO5tW73NAy+GgGiw17uMK/NfkTrTjzF59cb/PQPMmN4m/JDNjR8THXrBtkFdEGiH
-	 84AdkrOt5jY6hrScZ3COoltHH6ePdjy1iNQSJE7CoLFggdRy7WpRKtpep9+6y0atUZs/g
-	 azQSO6iA6GJBAFFP4yup6qsQBuDjcgRTed2FQOeK6fgUMXV05/SnByLeLgVYImhb0N71S
-	 dZBdPJHcZhPMkKa7lxkewt58+5HTD2oWKaiBzpn3LTXkyV2MTK+dAMpGErwum5vSJgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693280;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=QVx3Oeo8N0AOoMniqZXhHeEMYLd1GjRCRV6ihVkfiv0=;
+	b=bccrvwF2pdMRzCF8PtgOx9q1tUw2ZJ1zUcTGtJ9uFAvYUyslP9bIQnZwTbSPORPCelAu
+	 D9v9DCzSziFvkT48Zg2nZlgwICpKw53QTHdBwsamc1m3mAH1S1q5w4uU63q2Q8CV1w3Tc
+	 1z9csVAGqaoH5mY0GTadDp8TnhM0rXWTBxTNn8S4M6j0XRPVQ/vh7KcPnEIJLxLGUUboV
+	 k6MynMKE9FPifTtPxQv9SN8J3/MCps2Tkp2a4FtDf3cyosDu1hAB13C+EjjY7FQ1sP2db
+	 lTd1Bu3wFpAPvEpkTpi8nZ4vLCD0JqaquE/zOAC1HNmE9UNgk1aM+mmiT//klUME47A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mZfva1MT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BCrNUYzY;
+	arc=none smtp.remote-ip=74.125.227.132
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F223D606A31C;
-	Thu, 26 Nov 2026 09:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA90606A31C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 11:41:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EA90606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mZfva1MT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC611F000C0;
-	Thu, 26 Nov 2026 09:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795686385;
-	bh=9iOFGCN2xqfzOpq48k6oJBM/eJYJ7XXUTZKnlzXr0YI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mZfva1MT0HkGb3bUMZyMaDNx/SSgWJQGvrvB90fiSg6ExD/e2IHNmVp+joGudbs5W
-	 4lz+Rj/ZjHsHZWaTBZhUc5nn/To/U+7YNC39ZKO0VkFwg8rkg0PyP4qzNXDBw18DI+
-	 t85wpBfIP8OI1JfRs61ONjbZ3ukTEPlcluAkSSvvGfX2YeX0u2Vv6ffqd1A+4LyMLG
-	 sGAZ7zYVMaN8Pj0jSkIqhENzHt+nHs89uMB47MU68dhFW6qDH8Qe33Rx5RdY/jg3b7
-	 Oz4ISLSPN6u/5TFq/dKt7gT4bmSBoG7cIACIvpVtXEpw3jjB7Ytbq/WeADTVk62Uwh
-	 ct8LdZwseltsA==
-Message-ID: <aecebb39-47c9-4b0f-a076-ac0ddc7724d9@kernel.org>
-Date: Thu, 26 Nov 2026 10:46:15 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BCrNUYzY
+Received: by mail-pj2-f4.google.com with SMTP id d9443c01a7336-2f066a193bbso35224785ad.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 03:41:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795693279; x=1796298079; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QVx3Oeo8N0AOoMniqZXhHeEMYLd1GjRCRV6ihVkfiv0=;
+        b=BCrNUYzYQMqpr1w/NP+2pTn8aIMqXBlejHi/2RDtM9WZZb1DMBwgG2ikvzObgxOOpg
+         iBuHRLKlrQuKwW/F9ktSW+sOiE/giCiuJmxSb+EMye2U2KFQ4INZIoPhUfZ1l8Te1AOP
+         J4inTqfZVoGSSZNJsDCIU1+O1PfaH3MBG1WPbldhXn6LhslgdGCyYaj/MzuBcLcPBup7
+         RTZnzJ4ZlzYrLIleehVR3tCDQUTlgwl8oYQFQPTVHEo7ie9EL5WmfR5WAOZF6kkkqVqT
+         yyc3QQcn25kyARx4Ug4nLtwXvr26VfjaydhOLTaFfPMQZZtaO3GwuUEa7sutMziyRkld
+         +17A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795693279; x=1796298079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QVx3Oeo8N0AOoMniqZXhHeEMYLd1GjRCRV6ihVkfiv0=;
+        b=d7qb5yp3GsuI2kPEDrsOIxVkmXwqJcwIIQsQ7ISKd5FKEx0odPLYaWFh5CqibEmzWb
+         f7w7MSI24UV7WygT2N1UPWj982XT2y9NJ5iKjzN2jXhage/9rIiI3kw0o2NqhkuCXLbG
+         /Jn1gjYs94LaQfEi8gk8gUtpELO+cxIQ3BuC0KiOQ/grnRc24ZABvL/StNO6bLuPjlis
+         NzQ3v4I8vAo8e1U1EMr+22Pq9fN14yC3QhWPQ5qkvXVEczAVkY6eLrowH+WDwSrsC1Dk
+         TW5u2ILni03Sae1Vll/RYgNB9xwPla0+h+VjlZMj3eIe4HSeciyIsme8Qk+pcXS56hzH
+         qaYw==
+X-Gm-Message-State: APuU4Z9Ze/88X+pYxMIejyNJb7dR3WQ9OoCN6KqfuXjecKfGfObU1CFJ
+	KqaYiKl9yJPGh19WkV/JJhrD1+IPqLJFyn8nE6p+AEuOwSd0FBIlb9Xk
+X-Gm-Gg: AZFdTZfP0Ln9zk/HmzgEa+YAOQvTijjrGC2cl4qFTDGUtInaz7dtBV6EncvP7Haq9JD
+	+U19n4JFiBdF919kHCPf7yOsKK3CY0aBuhAwdnyencJUJ1fvW0pVrOzyab6SePs9ULdg8sI0Ek2
+	uta3+XOJjLKYYfqIevqFoOzgJngm4auVKTblBmebuR/ohw+N2p2UkW4PUOvI6K3hKdG8k+CKqE8
+	nV/aYqzhKi2mWEbkC93WrmpdlOodoIDDTt4IwsL3O2RlvM+DAiGRT/FSCGyHMg2/TGMEfQGo+ys
+	u8qOqe6e47uDZXR/M23C/Dj6iq24p4i/w6r2A4bBIgycnak4rGFhwFWwmWPsu0ows6tK+jfwIo+
+	pFygRTWQrOZOD4dFfyQ25p352/qcfcRs0F7x5h1i8aIIyl/ou8jfMhyYbkluv2k2cX4X3edYJQg
+	yfJyD16lwDWsP2/GstR8MaBjBq05FWv6AehMoISe8NBhSzzrDj7OsNg+LgS1sAkxow11sY7EHl/
+	Ko3eBHVwOp4LpMrFGRnFxhErdjnkUnyfTenCUy43fC/GNhret5xeoScFl99p5itU4xaJ8Iwbb5f
+	ZJVd3bncdA8CKBYEWp3OeFd4
+X-Received: by 2002:a17:902:f708:b0:2e9:5772:9ab2 with SMTP id d9443c01a7336-2f03f24bf61mr202794925ad.41.1795693278532;
+        Thu, 26 Nov 2026 03:41:18 -0800 (PST)
+Received: from nixos ([2409:8a28:ae4:7f20:61d:93ac:f2c5:2564])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f08164dacbsm72896345ad.68.2026.11.26.03.41.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 03:41:17 -0800 (PST)
+From: Zixin Wang <w1355457260@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de,
+	frederic@kernel.org,
+	darwi@linutronix.de,
+	john.ogness@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	corbet@lwn.net,
+	wagi@monom.org,
+	atomlin@atomlin.com,
+	linux-kernel@vger.kernel.org,
+	Zixin Wang <w1355457260@gmail.com>
+Subject: [PATCH v7] Documentation: real-time: Add runtime tuning guide
+Date: Thu, 26 Nov 2026 11:41:02 +0000
+Message-ID: <20261126114102.615558-1-w1355457260@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -51,115 +102,298 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-To: Peter Zijlstra <peterz@infradead.org>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Harry Yoo <harry@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>,
- bpf@vger.kernel.org, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
- daniel@iogearbox.net, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
- Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org
-References: <20261124060357.11700-1-emil@etsalapatis.com>
- <20261124060357.11700-2-emil@etsalapatis.com>
- <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation>
- <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
- <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com>
- <20261126094403.GA49833@noisy.programming.kicks-ass.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261126094403.GA49833@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/26/26 10:44, Peter Zijlstra wrote:
-> On Thu, Nov 26, 2026 at 01:04:27AM +0000, Alexei Starovoitov wrote:
->> On Wed, Nov 25, 2026 at 06:09 AM Peter Zijlstra <peterz@infradead.org> wrote:
->>> This is absolute atrocious shite. You cannot attempt a spin_trylock from
->>> NMI context. That thing might be a mutex.
->>
->> cannot spin_trylock from NMI _on PREEMPT_RT_ ... correct.
->> And the patch guard against that.
->>
->> On RT the nolock path doesn't reach zone->lock in NMI or hardirq:
->>
->>   __alloc_frozen_pages_noprof()     alloc_flags has ALLOC_NOLOCK
->>     alloc_nolock_allowed()
->>       can_spin_trylock()
->>         if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
->>                 return false;
->>
->> fwiw kmalloc_nolock() has the same check.
->>
->>> This should not work; if it does, that is an accident we need to fix.
->>
->> It's not an accident.
->> In NMI only !RT SMP kernels reach the trylock.
-> 
-> Allowing this on !RT makes people think this is 'OK' and then the RT
-> people get to fix endless crap again :-(
-> 
-> Locking constructs should behave identical across the configurations to
-> avoid divergence and create problems.
-> 
-> You're actively creating something that doesn't and cannot work on RT.
-> That is not cool.
+Runtime tuning options such as C-state limits, EFI runtime services,
+CPU isolation, RCU callback offloading, and interrupt affinity are not
+kernel configuration options.  Move them out of the configuration guide
+into a separate real-time runtime tuning guide, so the configuration
+guide stays focused on Kconfig options.
 
-This is all just way too complicated and shaky, sorry to say it.
+Keep the existing configuration section anchors in place and link to the
+new guide from the relevant configuration options.  This preserves the
+documentation links generated by kconfig-checker.
 
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
+Link: https://github.com/elisa-tech/wg-aerospace/issues/222
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Zixin Wang <w1355457260@gmail.com>
+---
+v6 -> v7:
+  - Point to Documentation/admin-guide/cpu-isolation.rst instead of
+    duplicating its CPU isolation and interrupt affinity content.
+  - Clarify rcu_nocb_poll: note that it removes the call_rcu() wakeup
+    and shortens the IRQ-disabled critical section, but that jiffy
+    polling can delay callback and grace-period processing.
+
+Testing:
+  make SPHINXDIRS="core-api" htmldocs and checkpatch.pl pass.
+
+  kconfig-checker preempt_rt rules: all generated documentation links
+  resolve to anchors in the built HTML.
+---
+ Documentation/core-api/real-time/index.rst    |   8 +-
+ .../real-time/kernel-configuration.rst        |  44 +++---
+ .../core-api/real-time/runtime-tuning.rst     | 140 ++++++++++++++++++++
+ 3 files changed, 167 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/core-api/real-time/runtime-tuning.rst
+
+diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
+index a17a3de..28b65cf 100644
+--- a/Documentation/core-api/real-time/index.rst
++++ b/Documentation/core-api/real-time/index.rst
+@@ -4,9 +4,10 @@
+ Real-time preemption
+ =====================
+ 
+-This documentation is intended for Linux kernel developers and contributors
+-interested in the inner workings of PREEMPT_RT. It explains key concepts and
+-the required changes compared to a non-PREEMPT_RT configuration.
++This documentation is intended for Linux kernel developers, contributors, and
++system integrators interested in the inner workings of PREEMPT_RT. It explains
++key concepts and the required changes compared to a non-PREEMPT_RT
++configuration.
+ 
+ .. toctree::
+    :maxdepth: 2
+@@ -16,3 +17,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
+    hardware
+    architecture-porting
+    kernel-configuration
++   runtime-tuning
+diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
+index d7f08e7..f26bd5a 100644
+--- a/Documentation/core-api/real-time/kernel-configuration.rst
++++ b/Documentation/core-api/real-time/kernel-configuration.rst
+@@ -13,6 +13,8 @@ Introduction
+ 
+ This document lists the kernel configuration options that might affect a
+ real-time kernel's worst-case latency.  It is intended for system integrators.
++Runtime tuning options are covered in
++Documentation/core-api/real-time/runtime-tuning.rst.
+ 
+ Configuration options
+ =====================
+@@ -93,14 +95,9 @@ states.
+ 
+ While disabling this option eliminates cpuidle-related latencies, doing so can
+ significantly impact hardware longevity, warranty, and thermal behavior.
+-Users should cap the maximum C-state to C1 instead.  For ACPI platforms, this
+-can be achieved by using the boot parameter [1]_::
+-
+-  processor.max_cstate=1
+-
+-Higher C-states can be acceptable depending on the user workload's latency
+-requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
+-command to inspect the available idle states.
++Users should cap the maximum C-state instead.  See
++:ref:`real_time_cpu_idle_limits` for the boot parameters that limit C-state
++depth.
+ 
+ For more information, please see:
+ 
+@@ -151,15 +148,8 @@ to perform a context switch.  This can cause significant latency spikes for
+ the real-time system.
+ 
+ ``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
+-manually disabled at build time, the following boot parameter [1]_ may be used
+-to disable EFI runtime at boot up::
+-
+-  efi=noruntime
+-
+-Alternatively, confine EFI runtime service calls to a housekeeping CPU by
+-restricting the ``efi_runtime`` workqueue CPU affinity.  For example, set that
+-workqueue's affinity to CPU #0 and pin your RT tasks to a different CPU range.
+-See Documentation/core-api/workqueue.rst
++disabled at build time, EFI runtime services can still be disabled or confined
++at boot.  See :ref:`real_time_efi_runtime` for the runtime options.
+ 
+ ``CONFIG_NO_HZ`` / ``CONFIG_NO_HZ_FULL``
+ ----------------------------------------
+@@ -179,6 +169,9 @@ the extra accounting and state book-keeping.
+   ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload the
+   kernel housekeeping to dedicated CPUs and isolate compute cores.
+ 
++See :ref:`real_time_cpu_isolation` for the boot parameters that control
++tickless operation and CPU isolation.
++
+ See also Documentation/timers/no_hz.rst
+ 
+ ``CONFIG_PREEMPT_RT``
+@@ -190,6 +183,18 @@ See also Documentation/timers/no_hz.rst
+ This option must be enabled, or the resulting kernel will not be fully
+ preemptible and real-time capable.
+ 
++``CONFIG_RCU_NOCB_CPU``
++-------------------------
++
++:Expectation: allowed
++:Severity: *info*
++
++Enable support for offloading RCU callback invocation from selected CPUs
++to per-CPU ``rcuo`` kthreads.  Use it when RCU callback processing causes
++jitter on CPUs dedicated to latency-sensitive tasks.  See
++:ref:`real_time_rcu_offload` for the runtime parameters and
++Documentation/admin-guide/cpu-isolation.rst for the isolation model.
++
+ ``CONFIG_TRACING`` (and tracing options)
+ ----------------------------------------
+ 
+@@ -300,8 +305,3 @@ establish and constrain the system's maximum latency.
+ With that in mind, any incorrect real-time kernel configuration could cause a
+ new maximum latency that shows up at the wrong time and is catastrophic for
+ the real-time system's latency.
+-
+-References
+-==========
+-
+-.. [1] See Documentation/admin-guide/kernel-parameters.rst
+diff --git a/Documentation/core-api/real-time/runtime-tuning.rst b/Documentation/core-api/real-time/runtime-tuning.rst
+new file mode 100644
+index 0000000..6d6faaf
+--- /dev/null
++++ b/Documentation/core-api/real-time/runtime-tuning.rst
+@@ -0,0 +1,140 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _real_time_runtime_tuning:
++
++==============================
++Real-time runtime tuning
++==============================
++
++.. contents:: Table of Contents
++   :depth: 2
++   :local:
++
++Introduction
++============
++
++Kernel configuration options alone do not determine a real-time system's
++worst-case latency.  Integrators commonly rely on boot parameters and
++runtime tunables as well, to keep kernel housekeeping work away from
++latency-sensitive tasks.  This document describes those runtime options;
++the build-time options are covered in
++Documentation/core-api/real-time/kernel-configuration.rst.
++
++The parameters below complement the configuration options described in
++that document.  Some of them correspond to a configuration option; the
++configuration guide links to the relevant section here when necessary.
++Each parameter is documented in detail in
++Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
++the aspects that matter for real-time latency.  Consider these options
++only when the workload suffers from the corresponding interference;
++leave them disabled otherwise, as each of them trades flexibility or
++power for a lower worst-case latency.
++
++The notes below cover CPU idle state limits, EFI runtime services, and
++RCU callback offloading.  CPU isolation and interrupt affinity are
++documented in Documentation/admin-guide/cpu-isolation.rst; this guide
++links to that document instead of duplicating its content.
++
++.. _real_time_cpu_idle_limits:
++
++CPU idle state limits
++=====================
++
++CPU idle states (C-states) allow the processor to enter low-power modes
++during periods of inactivity.  Very-low CPU idle states may require
++flushing the CPU caches and lowering or disabling the clocking.  This can
++lower power consumption, but it also increases the entry and exit latency
++from such states.
++
++While disabling ``CONFIG_CPU_IDLE`` eliminates cpuidle-related latencies,
++doing so can significantly impact hardware longevity, warranty, and
++thermal behavior.  Users should cap the maximum C-state to C1 instead.
++For ACPI platforms, this can be achieved by using the boot parameter::
++
++  processor.max_cstate=1
++
++On x86 systems using ``intel_idle``, the ``intel_idle.max_cstate=`` boot
++parameter sets the maximum C-state depth.  A value of 0 disables
++``intel_idle`` and falls back to ``acpi_idle``; it does not disable
++C-states.
++
++Higher C-states can be acceptable depending on the user workload's latency
++requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
++command to inspect the available idle states.
++
++For more information, please see:
++
++- ``linux/tools/power/cpupower``
++- Documentation/admin-guide/pm/cpuidle.rst
++- Documentation/admin-guide/pm/index.rst
++
++.. _real_time_efi_runtime:
++
++EFI runtime services
++====================
++
++EFI is the standard boot and firmware interface for multiple architectures.
++EFI runtime services provide callback functions to be called from the kernel;
++e.g., as utilized by (``CONFIG_EFI_VARS*``) or (``CONFIG_RTC_DRV_EFI``).  For
++the former, the kernel calls into EFI to update the EFI variables.
++
++Calling into EFI means invoking firmware callbacks.  During such invocations,
++the system might not be able to react to interrupts and will thus not be able
++to perform a context switch.  This can cause significant latency spikes for
++the real-time system.
++
++``CONFIG_PREEMPT_RT`` enables ``CONFIG_EFI_DISABLE_RUNTIME`` by default.
++If that option is disabled at build time, the following boot parameter may
++be used to disable EFI runtime at boot up::
++
++  efi=noruntime
++
++Alternatively, confine EFI runtime service calls to a housekeeping CPU by
++restricting the ``efi_runtime`` workqueue CPU affinity.  For example, set that
++workqueue's affinity to CPU #0 and pin your RT tasks to a different CPU range.
++See Documentation/core-api/workqueue.rst.
++
++.. _real_time_cpu_isolation:
++
++CPU isolation
++=============
++
++CPU isolation and the parameters that control it, including
++``isolcpus=``, ``nohz_full=``, and ``irqaffinity=``, are documented in
++Documentation/admin-guide/cpu-isolation.rst.  That guide covers the
++housekeeping model, managed interrupts, and the limitations of CPU
++isolation; use it together with the build-time options in
++Documentation/core-api/real-time/kernel-configuration.rst.
++
++.. _real_time_rcu_offload:
++
++RCU callback offloading
++=======================
++
++``CONFIG_RCU_NOCB_CPU`` in
++Documentation/core-api/real-time/kernel-configuration.rst enables support
++for offloading RCU callback invocation from selected CPUs to per-CPU
++``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``, implied
++by ``nohz_full=``, or enabled for all CPUs by
++``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL`` when neither parameter is given.
++
++``rcu_nocbs[=cpu-list]``
++  Offload RCU callback invocation from the listed CPUs to the
++  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
++  This reduces callback-processing jitter on the CPU that enqueued them.
++  On a non-real-time kernel this also moves invocation out of softirq
++  context; with PREEMPT_RT, callbacks already run in kthread context
++  because ``rcutree.use_softirq`` is false, and the offload only changes
++  where they run.  If the parameter is given without a CPU list, no CPU
++  is offloaded at boot; the mode can still be toggled at runtime through
++  cpusets.  The parameter takes precedence over
++  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
++
++``rcu_nocb_poll``
++  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
++  offloaded CPUs to wake them.  This removes the wakeup from ``call_rcu()``
++  when the callback list was empty, shortening the time spent in its
++  IRQ-disabled critical section; the benefit is likely small except on
++  small systems.  However, the kthreads poll every jiffy, so callback and
++  grace-period processing can be delayed by up to one jiffy, and polling
++  also increases power consumption.
 -- 
-Cheers,
+2.54.0
 
-David
