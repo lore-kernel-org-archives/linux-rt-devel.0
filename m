@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795658242;
-	b=bG0SI9JfB8VTqZOSEEUn27D3QaSyl1FLyZdp8VClFs/gaUVTYA39BY0u14qsrgpLnf9P
-	 VO/A0xL+6zycFmReZLiz/+as24J8lm0alTMJtIH2J/SpOuYfGlcjUaVVVv1VhAsehe5wi
-	 m9Pu/LBK9YKQxL/JtDFlr3LqiOCoaDwIAbheTUDkhaeUtmKpROqj3iOqgLaa7ZvLzjRa2
-	 Hpdol90EaXs0ZYxa4GZX9g8IE2RDA22rVx+DFdkUiERGq5hUpidOPBu59zay4oBfDVPPs
-	 PCnn3rQ8zJq2YNkCceG8L1McMHyMH4vtTv6Q+pOZhPeHLr9aUdXgsjtDtH3Al7AMdLw==
+	t=1795658498;
+	b=qTNAPMgXO1T67jt9Z0UyGkVzOET3z8si02TBK9KFOH1qcvcqXdCD3DjEZvPK7SUGbWec
+	 gZfiAe5mbWYNDBssaaAImjX8CShKaYc0X9/bDllsgbnqkyG6suIq4r113j6inuMguXQQV
+	 al2cg4TBBhc2OCzdJUBG0ASl1rL6UuPgbU4BTqGHiivsrk0fWAdtkNWBmihDiHVmq4TxQ
+	 eypaBM+mEmodfvYN+FVgDga794OQFluGb9B7SVXFeS9/l1aIyxT5+7H46fgjiLhtdD7BO
+	 uHDZDfQE+KAsNiNVB7Bsm8uo6rYcoBRshHoDiLSbFW5NoQy+8mzxnJxo/a1KcKW3Gww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795658242;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658498;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=p62QnwXnO0v/T1cHeC+iaQT9SNjiTZTWxNLljhxV0/M=;
-	b=qhAGF1kgE7A6ns8N6ch2NDIXMiNSvT1ogmYPU1GQh6IFrhBbQcmEclrdudT6mMWlHoiS
-	 gybgoCwOugabEEJk4h+/28uxRZjQHE06LVsoWUdtbt4I3/+oin4YRcHXYS88/FUeXvrjy
-	 1+i992+8N4AgdPvI4VYkKRpjaOvVosWdhJIfurTGrjtzQxNBYtApwytnZCRrvJnMB3oPW
-	 EP/t5+pUmGDNpQd9bS9fRkdvQ4yv1YzSQLNRE9HcZBzL67W3yEa42n2DlJmGBGw82X5iz
-	 ZipCAS46TyOKM7eEpEF2QOJPmOBs7RzB/eBYM/sCdQ9k+KGwdnxfTGCgcdAyMMhyBSA==
+	bh=DrlN2HxJ+I3bISLWgA04HPxA74Q0FNUZW42EnCO49bA=;
+	b=Gdjm7QMJaVFVqGZSn7oeQcb2znipLwD0GplAZXKfwuXMJsfigapiWcLQDEHtZYmi8HFf
+	 53TRdPugRmt+Ud4ZwT/di1Qqm6oqN/M2Ogh61aepched/d6QtBEIje8OtHw2hQZklndxU
+	 afXCUQn5aZNut3W6csn8S8NlNKfOinKwixYR+Yqpn1pjSgK18SePLrwkPjmJM0uKtFqEt
+	 LK62YJ27Kza22n98aKBbxUNbSz9A8q9rGHucQbzP5jCAkJQ3kh4uPCPhZAV+SEQxp9Iz1
+	 XGRO/vgrglaS0vnRfxtd1+fa5PbmKRVNe9XvcEXczRolCaa2K9IVcb39ffnoSine6bA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DFETayfE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JgKKEDcM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02A7606A326;
-	Thu, 26 Nov 2026 01:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ECC606A31E;
+	Thu, 26 Nov 2026 02:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DFETayfE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EEC41F000C0;
-	Thu, 26 Nov 2026 01:57:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JgKKEDcM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7791F000C6;
+	Thu, 26 Nov 2026 02:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795658242;
-	bh=p62QnwXnO0v/T1cHeC+iaQT9SNjiTZTWxNLljhxV0/M=;
+	s=k20260515; t=1795658497;
+	bh=DrlN2HxJ+I3bISLWgA04HPxA74Q0FNUZW42EnCO49bA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DFETayfE3Gf3ynl3jwfpCR1YPetdhq1JnXUCJqm85fBvnOiaoVFNsAYd4KPGUtRuV
-	 AT+6jcU+gX2Gs1jKlIfx6gOEY5s9E/vUQf2wPSlto6ok8KmOqU3qIDStY2ardkR0Df
-	 g6ye8uja5xjNDqwhvDeblzIp6STGRj5VsjMN5pnbDfHIqEqEWIxio8rbO8TyZP18ob
-	 5L0Ddq5TygnAsW8xQ+kaOUIqElZb6qP/oVJtCr7winzr8spVDnikymDxITkf3cbATW
-	 qdg5UgDzqRsmkC2QQQuYHYQhz9nXQ/6h1MhJM1NTvEdT7zJT8THwAvrh1zSOTgVaIi
-	 CuLWTR3HYuLGw==
-Message-ID: <sashiko-outbox-234598@kernel.org>
+	b=JgKKEDcM5llFA0UgWcCYkTzcYXT7w48t/+2q5gFc1uqJF7/lwmEqHv39pE2ec5Nrn
+	 Gzdik3ribBf7BviaPa53Jrowe/l0s++OSTTNP2oCVhh/1utKxW25g9T11l5h5f/mXY
+	 1pW/6qJnz8DbDpYK6IVe3AYR7ao0T6h2UvG87tYz0zbkxLeBxaBS6DZAcdoZGVfM0h
+	 mvmh5ZS2UrvvjABSIhJMGWTPxhAgOT4V6p0KM9416+rLnfLf60/VrxS7+A7XR74ReQ
+	 +06UsdMx01/k0XkLXuLm2KPCyQGZhqMzlPmiInGf4l2byDDXIZ6rq5+Umyb7/cNnLg
+	 /R0W18/11nUOg==
+Message-ID: <sashiko-outbox-234599@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 32/43] sched/deadline: Start a period for a task
- requeued onto an rt_mutex
+Subject: Re: [PATCH v11 42/43] selftests/sched: Test parameter changes in
+ deadline_bw_test
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <ea269b2ab986ea98f5df5ace2a80c4b4d9d7e55f.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <f4340ebcf4ff6e789ad8c5272eb798b3180265d4.1795646915.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <ea269b2ab986ea98f5df5ace2a80c4b4d9d7e55f.1795646914.git.mathieu.desnoyers@efficios.com>
+ <f4340ebcf4ff6e789ad8c5272eb798b3180265d4.1795646915.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:57:21 +0000
+Date: Thu, 26 Nov 2026 02:01:36 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -61,234 +61,223 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] sched/deadline: dl_proxy_block() skips overflow check for
-  boosted tasks
-- [Medium] locking/rtmutex: race in __rt_mutex_start_proxy_lock() after
-  dl_proxy_block()
-- [Medium] sched/deadline: dl_note_donor_refill() saves zero
-  own_deadline
-- [Medium] sched/deadline: missing dl_proxy_block() in
-  futex_proxy_trylock_atomic()
+- [Medium] selftests/sched: premature bandwidth probe after
+  reenter_runnable_in_gap()
+- [Medium] selftests/sched: missing rival readiness wait in
+  owner_boost_case()
 --
 
-commit fbb8bd3107eb7bdbd7615a1083bdbc46d1982421
+commit 1245641ca231366ed56f97e5e4afa480f85900ad
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Start a period for a task requeued onto an rt_mutex
+selftests/sched: Test parameter changes in deadline_bw_test
 
-This commit adds dl_proxy_block() and calls it from
-__rt_mutex_start_proxy_lock() so that a sleeping SCHED_DEADLINE task
-requeued onto an rt_mutex via FUTEX_CMP_REQUEUE_PI has its deadline
-updated before the trylock and waiter insertion.
+This commit adds 39 test cases to deadline_bw_test covering SCHED_DEADLINE
+parameter changes, priority inheritance boosting, and tasks re-entering the
+deadline class during a constrained gap, and waits for total_bw to drain
+between partition test cases.
 
-> diff --git a/kernel/locking/rtmutex_api.c b/kernel/locking/rtmutex_api.c
-> index 6bdbd36bac949..f1246efc62d3a 100644
-> --- a/kernel/locking/rtmutex_api.c
-> +++ b/kernel/locking/rtmutex_api.c
-> @@ -342,6 +342,18 @@ int __sched __rt_mutex_start_proxy_lock(struct rt_mu=
-tex_base *lock,
-> =20
->  	lockdep_assert_held(&lock->wait_lock);
-> =20
-> +	/*
-> +	 * A requeued @task sleeps, so its deadline can be stale. The trylock
-> +	 * below and the waiter node both read it: update it first.
-> +	 * futex_lock_pi() passes current, which is running. Its deadline is
-> +	 * up to date.
-> +	 */
-> +	if (task !=3D current) {
-> +		raw_spin_lock(&task->pi_lock);
-> +		dl_proxy_block(task);
-> +		raw_spin_unlock(&task->pi_lock);
-> +	}
+> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
+tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> index 83dd8b4e79a3d..78b58888e9d54 100644
+> --- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
 
-[Severity: Medium]
-Can releasing task->pi_lock here before task->pi_blocked_on is set race
-with sched_setattr() or PI boosting on another CPU?
+[ ... ]
 
-If task is not in SCHED_DEADLINE when dl_proxy_block() runs, it returns
-with task->dl.deadline still at 0.  Before task_blocks_on_rt_mutex()
-re-acquires task->pi_lock and sets task->pi_blocked_on, another CPU can
-switch or boost task into SCHED_DEADLINE:
+> @@ -2749,93 +2923,3168 @@ static int requeue_pi_new_period(void)
 
-CPU0                                  CPU1
-__rt_mutex_start_proxy_lock()
-  raw_spin_lock(&task->pi_lock)
-  dl_proxy_block(task)
-    !dl_task(task) -> returns
-  raw_spin_unlock(&task->pi_lock)
-                                      __sched_setscheduler(task, ...)
-                                        raw_spin_lock(&task->pi_lock)
-                                        switched_to_dl()
-                                          !dl_task_pi_blocked(task)
-                                          /* task->dl.deadline stays 0 */
-                                        raw_spin_unlock(&task->pi_lock)
-  try_to_take_rt_mutex() /
-  task_blocks_on_rt_mutex()
-    raw_spin_lock(&task->pi_lock)
-    waiter_update_prio(waiter, task)  <-- copies deadline =3D=3D 0
-    task->pi_blocked_on =3D waiter
-    raw_spin_unlock(&task->pi_lock)
+[ ... ]
 
-Because task->pi_blocked_on is still NULL when switched_to_dl() runs on
-CPU1, switched_to_dl() leaves task->dl.deadline at 0.  CPU0 then uses
-deadline 0 to steal the lock or enqueue the waiter ahead of all real
-deadline waiters.
-
-> +
->  	if (try_to_take_rt_mutex(lock, task, NULL))
->  		return 1;
-
-[Severity: Medium]
-Does the uncontended FUTEX_CMP_REQUEUE_PI fast path in
-futex_proxy_trylock_atomic() also need to call dl_proxy_block() on the
-new owner?
-
-When the target PI futex is uncontended and nr_requeue >=3D 1,
-futex_requeue() acquires the futex for top_waiter->task via
-futex_proxy_trylock_atomic() -> futex_lock_pi_atomic(), attaches
-top_waiter->task as the pi_mutex owner, and wakes it without going
-through __rt_mutex_start_proxy_lock():
-
-kernel/futex/requeue.c:futex_proxy_trylock_atomic() {
-	...
-	ret =3D futex_lock_pi_atomic(pifutex, hb2, key2, ps, top_waiter->task,
-				   exiting, set_waiters);
-	if (ret =3D=3D 1) {
-		requeue_pi_wake_futex(top_waiter, key2, hb2);
-	...
-}
-
-If try_to_wake_up() queues top_waiter->task on a remote CPU's wake_list
-via ttwu_queue_wakelist(), enqueue_task_dl() -> update_dl_entity() has
-not run yet when futex_requeue() loops to requeue the next waiter onto
-that pi_mutex via rt_mutex_start_proxy_lock().  The boost check against
-the new owner then sees top_waiter->task's stale deadline (0, expired, or
-overflowed), which can miss a boost from a waiter or cause the subsequent
-donor refill at wakeup on the remote CPU to save the unreplenished stale
-deadline as own_deadline.
-
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 5d1d4ea288788..c59953e80b1a9 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -1682,6 +1682,59 @@ static inline u64 dl_next_period(struct sched_dl_e=
-ntity *dl_se)
->  	return dl_se->deadline - dl_se->dl_deadline + dl_se->dl_period;
->  }
-> =20
-> +#ifdef CONFIG_RT_MUTEXES
-> +/*
-> + * FUTEX_CMP_REQUEUE_PI makes @p wait on an rt_mutex while @p sleeps.
-> + * The waiter node of @p takes its deadline before any wakeup. So apply
-> + * the wakeup rule of update_dl_entity() to @p now:
-> + * - A deadline of 0, which a task that entered the class asleep has,
-> + *   gets a new period.
-> + * - A constrained task past its deadline and before its next period
-> + *   keeps its deadline. Its wakeup throttles it until that period. Its
-> + *   waiter node keeps that passed deadline, and sorts first.
-> + * - Any other task gets the check of update_dl_entity(). A deadline
-> + *   that has passed gets a new period.
-> + *
-> + * The caller holds the pi_lock of @p.
-> + */
-> +void dl_proxy_block(struct task_struct *p)
+> +static void *rr_t(void *arg)
 > +{
-> +	struct sched_dl_entity *dl_se =3D &p->dl;
-> +	struct rq_flags rf;
-> +	struct rq *rq;
+> +	int err;
 > +
-> +	if (!dl_task(p))
-> +		return;
-> +	rq =3D __task_rq_lock(p, &rf);
-> +	update_rq_clock(rq);
-> +	if (task_on_rq_queued(p) || dl_se->dl_throttled)
-> +		goto unlock;
-> +	/*
-> +	 * A boosted task runs on the parameters of its donor. Start a period
-> +	 * from them if its deadline is 0 or has passed. A task in the class
-> +	 * with no runtime of its own is always boosted: the test of
-> +	 * dl_runtime is only a guard.
-> +	 */
-> +	if (is_dl_boosted(dl_se) || !dl_se->dl_runtime) {
-> +		if (!dl_se->deadline ||
-> +		    dl_time_before(dl_se->deadline, rq_clock(rq)))
-> +			replenish_dl_new_period(dl_se, rq);
-
-[Severity: Medium]
-When a boosted sleeping task has dl_se->deadline =3D=3D 0 and
-dl_se->dl_runtime > 0, does replenish_dl_new_period() here record
-own_deadline =3D 0 via dl_note_donor_refill()?
-
-If a sleeping non-deadline task is first PI-boosted via an rt_mutex it
-owns and then given its own SCHED_DEADLINE parameters via sched_setattr()
-while still asleep, dl_se->dl_runtime is non-zero while dl_se->deadline
-and dl_se->dl_donor_refill are still 0.  Calling replenish_dl_new_period()
-from dl_proxy_block() runs dl_note_donor_refill():
-
-kernel/sched/deadline.c:dl_note_donor_refill() {
-	...
-	first =3D !dl_se->dl_donor_refill;
-	dl_se->dl_donor_refill =3D 1;
-	if (first && dl_se->dl_runtime && !dl_se->dl_boost_held)
-		dl_hold_refilled_boost(dl_se);
-}
-
-Because dl_note_donor_refill() checks dl_se->dl_runtime without checking
-whether dl_se->deadline is non-zero, dl_hold_refilled_boost() saves
-own_deadline =3D 0 and sets dl_boost_held =3D 1.  When the boost ends,
-dl_end_held_boost() can restore dl_se->deadline =3D 0 and throttle the task
-with a zero deadline, causing its waiter node to sort ahead of all real
-deadlines.
-
-> +		goto unlock;
+> +	rr_t_tid =3D gettid_();
+> +	err =3D set_constrained(0, 10 * NSEC_PER_MSEC, 20 * NSEC_PER_MSEC, 5 * =
+PERIOD);
+> +	rr_t_start =3D now_ns();
+> +	if (err) {
+> +		ksft_print_msg("T refused as a deadline task: %s\n", strerror(-err));
+> +		rr_t_ready =3D -1;
+> +		return (void *)1;
 > +	}
-> +	if (!dl_se->deadline) {
-> +		replenish_dl_new_period(dl_se, rq);
-> +		goto unlock;
+> +	rr_t_ready =3D 1;
+> +	while (!rr_stop) {
+> +		uint64_t t =3D now_ns(), b =3D rr_back_at;
+> +
+> +		if (b && !rr_t_ran && t > b + 2 * NSEC_PER_MSEC)
+> +			rr_t_ran =3D t;
 > +	}
-> +	if (!dl_is_implicit(dl_se) &&
-> +	    dl_time_before(dl_se->deadline, rq_clock(rq)) &&
-> +	    dl_time_before(rq_clock(rq), dl_next_period(dl_se)))
-> +		goto unlock;
-> +	update_dl_entity(dl_se);
-> +unlock:
-> +	__task_rq_unlock(rq, p, &rf);
+> +	return NULL;
 > +}
+> +
+> +/*
+> + * The same as reenter_asleep_in_gap(), for a task that stays runnable. P
+> + * has one CPU:
+> + * 1. T becomes a deadline task of 10ms in 20ms, every 500ms, at 0ms, and
+> + *    spins. It is throttled at 10ms, until its next period at 500ms.
+> + * 2. At 40ms, the main thread switches T to SCHED_OTHER, then back to
+> + *    SCHED_DEADLINE with the same parameters.
+> + *
+> + * Leaving the class and coming back must not give T a new period before
+> + * 500ms. With a new period, T would run at once. The case fails if T ru=
+ns
+> + * from 2ms to 50ms after rr_back_at.
+> + */
+> +static int reenter_runnable_in_gap(void)
+> +{
+> +	int ret =3D KSFT_FAIL, err;
+> +	void *t_ret =3D NULL;
+> +	pthread_t t;
+> +
+> +	rr_t_ready =3D 0;
+> +	rr_stop =3D 0;
+> +	rr_t_tid =3D 0;
+> +	rr_t_start =3D 0;
+> +	rr_back_at =3D 0;
+> +	rr_t_ran =3D 0;
+> +	if (pthread_create(&t, NULL, rr_t, NULL)) {
+> +		ksft_print_msg("the T thread could not start\n");
+> +		return KSFT_FAIL;
+> +	}
+> +	if (wait_for(1000, rr_t_ready) || rr_t_ready < 0) {
+> +		ksft_print_msg("T never started\n");
+> +		goto out;
+> +	}
+> +	while (now_ns() - rr_t_start < 40 * NSEC_PER_MSEC)
+> +		sleep_ns(NSEC_PER_MSEC);
+> +	err =3D set_other(rr_t_tid);
+> +	if (err) {
+> +		ksft_print_msg("T cannot leave SCHED_DEADLINE: %s\n", strerror(-err));
+> +		goto out;
+> +	}
+> +	/* Store it before the switch back. A T given a new period runs at once=
+. */
+> +	rr_back_at =3D now_ns();
+> +	err =3D set_constrained(rr_t_tid, 10 * NSEC_PER_MSEC, 20 * NSEC_PER_MSE=
+C, 5 * PERIOD);
+> +	if (err) {
+> +		ksft_print_msg("T refused back as a deadline task: %s\n", strerror(-er=
+r));
+> +		goto out;
+> +	}
+> +	sleep_ns(50 * NSEC_PER_MSEC);
+> +	ret =3D KSFT_PASS;
+> +out:
+> +	set_other(rr_t_tid);
+> +	rr_stop =3D 1;
+> +	if (pthread_join(t, &t_ret) || t_ret)
+> +		ret =3D KSFT_FAIL;
 
 [Severity: Medium]
-Should the boosted branch in dl_proxy_block() also check
-dl_entity_overflow(dl_se, rq_clock(rq)) as update_dl_entity() does?
+Can measured() probe cg_p before rr_t's 0-lag time at 500ms and report a
+false bandwidth leak?
 
-In update_dl_entity(), a boosted task whose deadline has not yet passed
-still gets a new donor period when dl_entity_overflow(dl_se, rq_clock(rq))
-is true:
+Unlike reenter_pi_blocked_in_gap() and reenter_asleep_case(), which wait
+for T to run at 500ms before returning, reenter_runnable_in_gap() switches
+rr_t to SCHED_OTHER and returns at about 90ms while rr_t's 2% bandwidth is
+still held by its inactive timer until 500ms.  Because the case is
+registered as MEASURED_IN_P, measured() only waits 3 * PERIOD (300ms,
+reaching about 390ms) before running probe(cg_p):
 
-kernel/sched/deadline.c:update_dl_entity() {
-	if (dl_time_before(dl_se->deadline, rq_clock(rq)) ||
-	    dl_entity_overflow(dl_se, rq_clock(rq))) {
-		if (unlikely((!dl_is_implicit(dl_se) ||
-			      (dl_se->dl_defer && dl_se->dl_defer_running)) &&
-			     !dl_time_before(dl_se->deadline, rq_clock(rq)) &&
-			     !is_dl_boosted(dl_se))) {
-			update_dl_revised_wakeup(dl_se, rq);
-			return;
-		}
-
-		dl_se->dl_defer_running =3D 0;
-		replenish_dl_new_period(dl_se, rq);
-	}
+tools/testing/selftests/sched/deadline/deadline_bw_test.c:measured() {
+    ...
+	ret =3D run_in(cg, fn);
+	sleep_ns(3 * PERIOD);
+	after =3D probe(cg);
+    ...
 }
 
-Because dl_proxy_block() only tests !dl_se->deadline ||
-dl_time_before(dl_se->deadline, rq_clock(rq)) for boosted tasks and then
-jumps to unlock, a boosted task requeued after its overflow threshold but
-before dl_se->deadline keeps its stale earlier deadline for the trylock,
-waiter sorting, and owner boosting, even though waking it would
-immediately postpone its deadline to a new donor period.
+If probe(cg_p) spawns its nine 10% tasks before 500ms, the ninth task fails
+admission with -EBUSY (5% fair server + 2% rr_t + 90% > 95%) and fails the
+test.
+
+[ ... ]
+
+> +/*
+> + * Run as the rival C of pi_owner_throttled_rival(). Become a deadline
+> + * task of 40ms in 60ms, every 100ms. Wait until W is about to block,
+> + * then sleep until 13ms after O's start, and spin 40ms of CPU time.
+> + * Return NULL, or 1 on an error.
+> + */
+> +static void *ob_rival(void *arg)
+> +{
+> +	struct timespec ts;
+> +	uint64_t end;
+> +	int err;
+> +
+> +	err =3D set_constrained(0, 40 * NSEC_PER_MSEC, 60 * NSEC_PER_MSEC, PERI=
+OD);
+> +	if (err) {
+> +		ksft_print_msg("the rival refused as a deadline task: %s\n",
+> +			       strerror(-err));
+> +		return (void *)1;
+> +	}
+> +	sem_wait_sig(&ob_rival_go);
+> +	end =3D ob_t0 + 13 * NSEC_PER_MSEC;
+> +	ts.tv_sec =3D end / NSEC_PER_SEC;
+> +	ts.tv_nsec =3D end % NSEC_PER_SEC;
+> +	while (clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL) =3D=
+=3D EINTR)
+> +		;
+> +	spin_ns(40 * NSEC_PER_MSEC);
+> +	if (set_other(0))
+> +		ksft_print_msg("the rival cannot leave SCHED_DEADLINE\n");
+> +	return NULL;
+> +}
+> +
+> +/*
+> + * Run an owner_boost case of @kind: ob_owner() and ob_waiter(), and
+> + * ob_rival() with OB_RIVAL. W must get pi_lock within @limit_ms of O's
+> + * start.
+> + */
+> +static int owner_boost_case(int kind, int limit_ms)
+> +{
+> +	void *o_ret =3D NULL, *w_ret =3D NULL, *c_ret =3D NULL;
+> +	int throttled =3D kind !=3D OB_GAP && kind !=3D OB_LATE_GAP;
+> +	int ret =3D KSFT_FAIL;
+> +	pthread_t o, w, c;
+
+[ ... ]
+
+> +	if (kind =3D=3D OB_GAP)
+> +		sleep_ns(30 * NSEC_PER_MSEC);	/* O sleeps past its deadline */
+> +	if (kind =3D=3D OB_RIVAL && pthread_create(&c, NULL, ob_rival, NULL)) {
+> +		ksft_print_msg("the rival thread could not start\n");
+> +		kind =3D OB_THROTTLED;
+> +		c_ret =3D (void *)1;
+> +	}
+> +	sem_post(&ob_go);
+
+[Severity: Medium]
+Can ob_waiter preempt ob_rival before ob_rival enters SCHED_DEADLINE?
+
+On P's single CPU, owner_boost_case() creates ob_rival and immediately
+posts ob_go to wake ob_waiter without waiting for ob_rival to finish
+set_constrained():
+
+  main thread (CPU of P)        ob_waiter             ob_rival
+  ----------------------        ---------             --------
+  pthread_create(..., ob_rival)
+  sem_post(&ob_go)
+                                wakes as SCHED_OTHER
+                                set_deadline(2ms, 10ms)
+                                sem_post(&ob_rival_go)
+                                take_pi_lock()
+                                  boosts ob_owner
+                                  ob_owner spins 5ms
+                                  unlocks at 15ms
+                                                      first scheduled
+                                                      set_constrained(...)
+
+When ob_waiter runs before the newly created ob_rival thread, ob_waiter
+and the boosted ob_owner keep the single CPU in SCHED_DEADLINE until the
+lock hand-off is already over at 15ms, so pi_owner_throttled_rival()
+passes without ob_rival competing at 13ms.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D32
+t.mathieu.desnoyers@efficios.com?part=3D42
