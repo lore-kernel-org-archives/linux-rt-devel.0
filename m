@@ -1,76 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795680981;
-	b=SsN3QD9uXZ8S8MpP6fpsciCKAT+SNjDJU2Z3VdCYpfSYDmQ7AarZeN0z0C9dlXeAkbwv
-	 xhD03+/UHxwMqndNWcto972BWCKCpNxpqTq3Jr2/Ke6gOfht1owC0Q0oftBv16eBpGbNs
-	 qckmOZmOmEcECtE7bsAuNk7YGTxLuVpGwvkQEC3oUNLP8DGD2MWAumKfATwoBjjlmgMIB
-	 Ug2C4ZM2CXpMRAwkK3SdE2E6sG5lKT71hdiYLbT6khX5Sj3/iyliDQV0srsBDcH2N4zej
-	 e0dtQgZraDEbCZYWcztb2L/y737Ig6YjZKdYKRMfdmS57A3JFZSWI9GMl6nPFVTfDVQ==
+	t=1795686253;
+	b=Zom/7HIEZ7YDu2cVIL+w0+hp5929a2iqRS0mWZ9xj30s3+H/e+/FgrvYdafAEfM709wY
+	 wt62wFAKRCvf8BrE54XHFLi4FjNGjk9ykfF74tI5Q0QzW0B+eBhGRoZApEjzrJplWTV6n
+	 USZ4l/cS1wrB7yCeJRSj6XlI4tfbQ5NXAvFllKjqHWYLZqwfqle1OcOWZ5/NiTIV2280+
+	 B8CNiCPwmCQJpO1vX/N3o/WUrdXp94I+JD4WZFnYMvEJszwh/9xpi31THZn3hs8Tu4OPJ
+	 hBopvVq0SasJ5C6CD2n7V3axlzOg5Q8t65ptjwzS9fME2DLKM08rks7vorYGSwaDHRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795680981;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=JGQ6rQ9KjgTLE7XKHXoqOXReY5Cx5tSHHb2hfYg3jtk=;
-	b=TzqolLE7pXGWd10QLJGX/U6+hrncG4y7qPkgVwlecXhdek6n0g/e1ZRAzKETizap9QZn
-	 NmbsF7MD1R4zDIaJ/Os8Fc5hBa+h0abmtKOF9koR973g01oOCg/SCfgEzcYxoWEkD6pvk
-	 PW4p2Oafng3TOJRPTHZo5Al8BMXZ/8nLNIqfq10jsXGPcYPngZegvPrBMfx7cMZxE5L2n
-	 kHHG7vWhVnxgwEpJ31JL9g6N3M8/GPINroRqYMdk0xZfhQKYA1FjbFxFZcpYpsMYhNwIu
-	 XJEHobSKcE8gOGd2Q+k92K0Ulsk0uQV/wZjjAioEZ9CCjDzF1MVkFY/BECx8P6Yomjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795686253;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=5VJC6n1hJwExr4EuZxRtgDyPGN93jbJ5pGv3/LKWlIo=;
+	b=Jlb+qFSE78RuWfU5lepYskmpl9W0zNrhZiEIrGdvQAQp+XUElBKIxyXImjS6I+Eo0Lpd
+	 oxyWEE1YnI0N/iLYMJzXjprreGrufISZsEGbBFGI707HgyXB0lYHtPBdV/yut2mXMuMiy
+	 w2dKNt5g6J7s/zG6qpvklJ5t65BfkDm9VrxmgztSzwPynXRIdBElgurVuokyzDXaXMSUN
+	 YTMVFzTZq7igNuFB4Malc1J+zeO7KhR6zwAMS2omaTr8r+kqHiTDVkauoHpZaRgPveY92
+	 UiKfjQAZL6ucprWxEXUnpibJL/YY7N0DrsrHDKLUe24wsbVP61uM6WrnDdcXrcNnCNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Q0xDfG4z;
-	arc=none smtp.remote-ip=95.215.58.211
-Received: from mta1.migadu.com (out-211.mta1.migadu.com [95.215.58.211])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mYfWrggO;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D49606A31E
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 08:16:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7D49606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3B0606A326;
+	Thu, 26 Nov 2026 09:44:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA3B0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Q0xDfG4z
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=2tapKyPOWs6voUGnssNqs09oXMxfImVb3hhu9BetUwA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795680977; v=1; x=1796285777;
- b=Q0xDfG4zYhDln0rpnHjWfvvKbPYnx353oO5zc59YANx7nucwDWqnSRabK0S668EM2NLmLnrJ
- /1HbnU+OirGUdFWFakPR5E2arECH7edydUeckwzPSpZ9kS1o7wBEov9tP8OLVB2csf+OtqNOfkE
- jnklgkhsySWJgRYbbpU2XUIs=
-X-Envelope-To: linux-rt-devel@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 409d69e45079a162;
-	Thu, 26 Nov 2026 08:16:17 +0000
-X-Mizu-Trace-ID: 409d69e45079a162
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 26 Nov 2026 16:16:10 +0800
-From: Peng Fan <peng.fan@linux.dev>
-To: Francesco Dolcini <francesco.dolcini@toradex.com>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mYfWrggO
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5VJC6n1hJwExr4EuZxRtgDyPGN93jbJ5pGv3/LKWlIo=; b=mYfWrggOtGDgLQkraxk8jwrHB9
+	I0YDFhk6XT5etnPyoX7WtgS/UG7Y5XbpzoWR3LOGdonMJL6mlPpFRrsmoLV/k8taYMZpY+Pa3aAvV
+	6ONbVWf3P1iUw7L76jKLpH9pX+NQr/HDb54L4qzairth1l7jYLEXFjS4TjwAD1jyxYAQDESMcFuvD
+	iJtGYxRCQeuauFaP0vlRuko+VUg0KLUOXMNo0CH0Tch0ZCy2UtzXG1jR7E/HLKtyrh9c9glWXBWPM
+	J60mFEEn5NaM2khTXcsaRRwJTjIVyBN4pS1nwgG3EBhoRHkYj8nBFUEMb3sxB1aN3Xgu3zL9Rc7bP
+	kQpRBbkQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xWW1M-00000000Ch3-3rUU;
+	Thu, 26 Nov 2026 09:44:05 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id C61DA300446; Thu, 26 Nov 2026 10:44:03 +0100 (CET)
+Date: Thu, 26 Nov 2026 10:44:03 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Harry Yoo <harry@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>,
+	bpf@vger.kernel.org, andrii@kernel.org, eddyz87@gmail.com,
+	memxor@gmail.com, daniel@iogearbox.net,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Peng Fan <peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid
- kworker in imx's remoteproc
-Message-ID: <awfqyvcwtK5Hi8j0@fedora>
-References: <av6Wc+kHFKqwFHAR@shlinux89>
- <20261116102331.K8Sc86V9@linutronix.de>
- <20261119114041.GA166708@francesco-nb>
- <av8H7l6C8fmiHdbV@fedora>
- <av8LQa77SbshHmZD@francesco-nb>
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
+ kmalloc_nolock at call time
+Message-ID: <20261126094403.GA49833@noisy.programming.kicks-ass.net>
+References: <20261124060357.11700-1-emil@etsalapatis.com>
+ <20261124060357.11700-2-emil@etsalapatis.com>
+ <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com>
+ <awWRZ9xCzWLnj_R6@thinkstation>
+ <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
+ <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -82,129 +89,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <av8LQa77SbshHmZD@francesco-nb>
+In-Reply-To: <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com>
 
-Hi Francesco,
+On Thu, Nov 26, 2026 at 01:04:27AM +0000, Alexei Starovoitov wrote:
+> On Wed, Nov 25, 2026 at 06:09 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > This is absolute atrocious shite. You cannot attempt a spin_trylock from
+> > NMI context. That thing might be a mutex.
+> 
+> cannot spin_trylock from NMI _on PREEMPT_RT_ ... correct.
+> And the patch guard against that.
+> 
+> On RT the nolock path doesn't reach zone->lock in NMI or hardirq:
+> 
+>   __alloc_frozen_pages_noprof()     alloc_flags has ALLOC_NOLOCK
+>     alloc_nolock_allowed()
+>       can_spin_trylock()
+>         if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+>                 return false;
+> 
+> fwiw kmalloc_nolock() has the same check.
+> 
+> > This should not work; if it does, that is an accident we need to fix.
+> 
+> It's not an accident.
+> In NMI only !RT SMP kernels reach the trylock.
 
-On Thu, Nov 19, 2026 at 03:44:17PM +0100, Francesco Dolcini wrote:
->On Thu, Nov 19, 2026 at 10:30:06PM +0800, Peng Fan wrote:
->> On Thu, Nov 19, 2026 at 12:40:41PM +0100, Francesco Dolcini wrote:
->> >Hello Peng, Sebastian
->> >
->> >On Mon, Nov 16, 2026 at 11:23:31AM +0100, Sebastian Andrzej Siewior wrote:
->> >> On 2026-11-16 10:23:41 [+0100], Francesco Dolcini wrote:
->> >> > Our CI shows a ~10-15% eMMC sequential read throughput drop on i.MX8QXP
->> >> > and i.MX8DX (Colibri iMX8X, Cortex-A35), starting with v7.2-rc1 and
->> >> > still present in v7.4-rc3 (hdparm --direct -t: ~129 MB/s -> 105-120
->> >> > MB/s on i.MX8DX). i.MX8QM, i.MX8M and i.MX9 are not affected.
->> >> > 
->> >> > 5d1c0000.mailbox interrupt count before the test went from ~8k on v6.18
->> >> > to 60k+ on v7.3/v7.4.
->> >> > 
->> >> > Peng: any idea/suggestion? Does it makes any sense to you?
->> >> 
->> >> Can you pin point it to a patch in this series? My guess is that
->> >> something with the masking/ unmasking went wrong. The increase might be
->> >> result of the interrupt keeping firing while the threaded interrupt did
->> >> not have a chance to run.
->> >
->> >Reverting 36cac4b5101f, 3225a745f517, e55bea377d49 and 692e1bc96a5d
->> >restores 149 MB/s with schedutil.
->> >
->> >
->> >On Thu, Nov 19, 2026 at 02:25:55PM +0800, Peng Fan wrote:
->> >> On Mon, Nov 16, 2026 at 10:23:41AM +0100, Francesco Dolcini wrote:
->> >> >Peng: any idea/suggestion? Does it makes any sense to you?
->> >> 
->> >> Please help test whether this helps:
->> >> 
->> >> diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailbox.c
->> >> index 683ccea6f2ba..e29044cf4b92 100644
->> >> --- a/drivers/mailbox/imx-mailbox.c
->> >> +++ b/drivers/mailbox/imx-mailbox.c
->> >> @@ -635,7 +635,7 @@ static int imx_mu_startup(struct mbox_chan *chan)
->> >>  {
->> >>         struct imx_mu_priv *priv = to_imx_mu_priv(chan->mbox);
->> >>         struct imx_mu_con_priv *cp = chan->con_priv;
->> >> -       unsigned long irq_flag = IRQF_NO_THREAD;
->> >> +       unsigned long irq_flag = IRQF_NO_THREAD | IRQF_ONESHOT;
->> >>         int ret;
->> >> 
->> >>         pm_runtime_get_sync(priv->dev);
->> >
->> >It does not help.
->> >	
->> >The analysis below was done with Claude help, on measurements I took on a
->> >Colibri iMX8QXP. I hope you can pick it up from there, this is not my
->> >area of expertise, and the best I can do is to send a revert for those 4
->> >commits.
->> >
->> >Every SCU RPC now wakes the SCHED_FIFO irq thread (TX done and RX), and
->> >while an RT task is runnable schedutil requests the maximum CPU frequency.
->> >The A35 clock is CLK_GET_RATE_NOCACHE, so each frequency change is
->> >followed by an SCU RPC reading the rate back, which wakes the irq thread
->> >again. The loop never settles, even when idle, and the transitions (ATF +
->> >SCU) are what costs the eMMC throughput (and I assume there is more
->> >impact on performance than just this).
->> 
->> Not sure whether this is root cause, per my understanding, cpu freq update
->> is not that high frequency call.
->
->Moving to `performance` from `schedutil` or reverting those 4 patches
->solve the issue. And the significant increase on ctx switches and irq
->count is real even on idle without any emmc test running.
->
->> Let me setup a i.MX8QXP board and see what's going on there.
->Thanks!
->
->> BTW, i.MX8QM should
->> also have same issue, but seems not impact in your report, a bit werid,
->> might be because i.MX8QM has more cores :)
->
->I agree, I did not run any kind of extensive performance test. What
->happened is just that our emmc test started to fail, and this lead to
->this series. 
->
->> Have you tried pin your emmc test thread to core3, or core2, just not core0.
->
->It was never pinned to any core, so the scheduler decided on its own.
->And multiple runs of the test all lead to the same results.
+Allowing this on !RT makes people think this is 'OK' and then the RT
+people get to fix endless crap again :-(
 
-My test on i.MX8QXP-MEK does not show interrupt increasing a lot, ignore the rootfs name.
+Locking constructs should behave identical across the configurations to
+avoid divergence and create problems.
 
-root@imx91evk:~# cat /sys/bus/soc/devices/soc0/soc_id
-i.MX8QXP
-root@imx91evk:~# ./hdparm --direct -t /dev/mmcblk0
-
-/dev/mmcblk0:
- Timing O_DIRECT disk reads: 646 MB in  3.00 seconds = 215.27 MB/sec
-root@imx91evk:~# cat /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-schedutil
-root@imx91evk:~# cat /proc/interrupts | grep mail
-  14:       6922          0          0          0  GICv3     209 Level     5d1c0000.mailbox[0-0], 5d1c0000.mailbox[1-0], 5d1c0000.mailbox[3-3]
-  35:          0          0          0          0  GICv3     216 Level     5d200000.mailbox[0-1], 5d200000.mailbox[1-1]
-root@imx91evk:~# uname -a
-Linux imx91evk 7.4.0-rc4-next-20261125 #6 SMP PREEMPT_DYNAMIC Thu Nov 26 06:56:40 CST 2026 aarch64 GNU/Linux
-root@imx91evk:~#
-
-root@imx91evk:~# cpufreq-set -g schedutil
-root@imx91evk:~# cat /proc/interrupts | grep mail
-  14:       6954          0          0          0  GICv3     209 Level     5d1c0000.mailbox[0-0], 5d1c0000.mailbox[1-0], 5d1c0000.mailbox[3-3]
-  35:          0          0          0          0  GICv3     216 Level     5d200000.mailbox[0-1], 5d200000.mailbox[1-1]
-root@imx91evk:~# ./hdparm --direct -t /dev/mmcblk0
-
-/dev/mmcblk0:
- Timing O_DIRECT disk reads: 646 MB in  3.00 seconds = 215.24 MB/sec
-root@imx91evk:~# cat /proc/interrupts | grep mail
-  14:       6961          0          0          0  GICv3     209 Level     5d1c0000.mailbox[0-0], 5d1c0000.mailbox[1-0], 5d1c0000.mailbox[3-3]
-  35:          0          0          0          0  GICv3     216 Level     5d200000.mailbox[0-1], 5d200000.mailbox[1-1]
-root@imx91evk:~#
-
-
-Regards
-Peng
-
->
->Francesco
->
->
+You're actively creating something that doesn't and cannot work on RT.
+That is not cool.
