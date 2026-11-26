@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795658498;
-	b=qTNAPMgXO1T67jt9Z0UyGkVzOET3z8si02TBK9KFOH1qcvcqXdCD3DjEZvPK7SUGbWec
-	 gZfiAe5mbWYNDBssaaAImjX8CShKaYc0X9/bDllsgbnqkyG6suIq4r113j6inuMguXQQV
-	 al2cg4TBBhc2OCzdJUBG0ASl1rL6UuPgbU4BTqGHiivsrk0fWAdtkNWBmihDiHVmq4TxQ
-	 eypaBM+mEmodfvYN+FVgDga794OQFluGb9B7SVXFeS9/l1aIyxT5+7H46fgjiLhtdD7BO
-	 uHDZDfQE+KAsNiNVB7Bsm8uo6rYcoBRshHoDiLSbFW5NoQy+8mzxnJxo/a1KcKW3Gww==
+	t=1795658580;
+	b=dL28bnbNeIBmXuAwjCCkn0l94MK74MndRuO53B5RcdCOCtasg807k4iprQvSjRjukik7
+	 IBDhz3H3+B6kB+dUKpIvBfkepXWkbAx8wWgZMUMcQQ3m8buMx0fiD1yUAhKBjPvj+MXqb
+	 S+yP+A7aeVCKIm/T/SaReXS5gwt9pDiwVtmLsSaMzySzDZEidVfBe7lVGoyQtkMihoBH7
+	 lo9riGmM7gE61PlOiyWRJ1v9jOoea19x+fVa1e73eediyVZw1GA6IsVeUk2MW54Mz1WYD
+	 QSbptMR6Nacaf8rl45WkbTWPHv5WftE5AVsXrnY+OY61qlxK0qxVJQa+BkUEgNWzWUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795658498;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658580;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=DrlN2HxJ+I3bISLWgA04HPxA74Q0FNUZW42EnCO49bA=;
-	b=Gdjm7QMJaVFVqGZSn7oeQcb2znipLwD0GplAZXKfwuXMJsfigapiWcLQDEHtZYmi8HFf
-	 53TRdPugRmt+Ud4ZwT/di1Qqm6oqN/M2Ogh61aepched/d6QtBEIje8OtHw2hQZklndxU
-	 afXCUQn5aZNut3W6csn8S8NlNKfOinKwixYR+Yqpn1pjSgK18SePLrwkPjmJM0uKtFqEt
-	 LK62YJ27Kza22n98aKBbxUNbSz9A8q9rGHucQbzP5jCAkJQ3kh4uPCPhZAV+SEQxp9Iz1
-	 XGRO/vgrglaS0vnRfxtd1+fa5PbmKRVNe9XvcEXczRolCaa2K9IVcb39ffnoSine6bA==
+	bh=tdUbSmAFJCwhs6UJbo8cJ+NlOjPxUK6thl/R+o9JtJQ=;
+	b=mrXwBWoJSivDFNc5IBb3nf2YLgmsDIlkhZVDmv2WgC91UevRa08xr6Y+PrAfOijh17tG
+	 qm2jv47vpXKym50XdWtClhlWHHwkxvzPl1lAarppxEAlorSQ+XUt5ug4RElhEmiG/vQYp
+	 vpgjFJqvoEWBeTKS9bgyxKyzwBUlib6g3PcAS5w9cB8/bc8O2O+DYIU+MgGUQn1T7OjGP
+	 jRFWQDMR8XVosL6DEp3wBv67VqMMtcgPggNSeqJtB2WS+voOdvLYSv+Ph2QVf6Ud4y+jv
+	 ljdE0Fnhp9oIAzGDqPtomdO6AC5lWhTQI9vUEl5SD4LgycrchIYzI37m68og+Qr4aHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JgKKEDcM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RN5H1iPO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ECC606A31E;
-	Thu, 26 Nov 2026 02:01:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360F6606A31E;
+	Thu, 26 Nov 2026 02:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JgKKEDcM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7791F000C6;
-	Thu, 26 Nov 2026 02:01:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RN5H1iPO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FF71F000C4;
+	Thu, 26 Nov 2026 02:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795658497;
-	bh=DrlN2HxJ+I3bISLWgA04HPxA74Q0FNUZW42EnCO49bA=;
+	s=k20260515; t=1795658580;
+	bh=tdUbSmAFJCwhs6UJbo8cJ+NlOjPxUK6thl/R+o9JtJQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JgKKEDcM5llFA0UgWcCYkTzcYXT7w48t/+2q5gFc1uqJF7/lwmEqHv39pE2ec5Nrn
-	 Gzdik3ribBf7BviaPa53Jrowe/l0s++OSTTNP2oCVhh/1utKxW25g9T11l5h5f/mXY
-	 1pW/6qJnz8DbDpYK6IVe3AYR7ao0T6h2UvG87tYz0zbkxLeBxaBS6DZAcdoZGVfM0h
-	 mvmh5ZS2UrvvjABSIhJMGWTPxhAgOT4V6p0KM9416+rLnfLf60/VrxS7+A7XR74ReQ
-	 +06UsdMx01/k0XkLXuLm2KPCyQGZhqMzlPmiInGf4l2byDDXIZ6rq5+Umyb7/cNnLg
-	 /R0W18/11nUOg==
-Message-ID: <sashiko-outbox-234599@kernel.org>
+	b=RN5H1iPOg+AerWiWxqlhEB0qePxtUxzGypTAHapo4iLePH6JB0lCWwk8IBf0IHD59
+	 FvhKA0nvIPEJaRzX2KAS/c7nyF5e80bCU3FSBKUWslns73klfFbHUQU2809UNH42J3
+	 thy4+P5uBwkuMMh94qYdNBZPN7tnuwHLWHAUWwegLF0VHk/qLp51LqaMWo7jn/2Hn5
+	 sufzPn7iO2vmGuuk7/g1PxY6Gr80GPJXuieo/+En5AHedCZOmOCn9ZJKoYziuIIx7Q
+	 2BXMjm2AUfJ/DWE+mV53k8vHdIX5HPcPGH5Lfdi4tZFHEQzx3oogRelu/VB+rpSbzw
+	 6Ek57ALfhtxmA==
+Message-ID: <sashiko-outbox-234600@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 42/43] selftests/sched: Test parameter changes in
- deadline_bw_test
+Subject: Re: [PATCH v11 41/43] sched/deadline: Run a boost held at its first
+ refill on a donor period
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <f4340ebcf4ff6e789ad8c5272eb798b3180265d4.1795646915.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <a6b6005cb9ccdba38560bbc40d1a22649432b14d.1795646915.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <f4340ebcf4ff6e789ad8c5272eb798b3180265d4.1795646915.git.mathieu.desnoyers@efficios.com>
+ <a6b6005cb9ccdba38560bbc40d1a22649432b14d.1795646915.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 02:01:36 +0000
+Date: Thu, 26 Nov 2026 02:02:59 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,221 +63,157 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] selftests/sched: premature bandwidth probe after
-  reenter_runnable_in_gap()
-- [Medium] selftests/sched: missing rival readiness wait in
-  owner_boost_case()
+- [Medium] sched/deadline: corrupted donor period state when donor
+  params are cleared
+- [Medium] sched/deadline: stale donor period or zero runtime in
+  dl_boost_donor_period()
 --
 
-commit 1245641ca231366ed56f97e5e4afa480f85900ad
+commit 5fe21dc7cf6ba0759a7b3c870c560c1b847c8ab3
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-selftests/sched: Test parameter changes in deadline_bw_test
+sched/deadline: Run a boost held at its first refill on a donor period
 
-This commit adds 39 test cases to deadline_bw_test covering SCHED_DEADLINE
-parameter changes, priority inheritance boosting, and tasks re-entering the
-deadline class during a constrained gap, and waits for total_bw to drain
-between partition test cases.
+This commit updates dl_hold_refilled_boost() and replenish_dl_new_period()
+so that a boost held at its first refill from a donor runs on a resumed or
+newly started donor period via dl_boost_donor_period().
 
-> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
-tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> index 83dd8b4e79a3d..78b58888e9d54 100644
-> --- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
-> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 52095e24638cc..3d573bf812eed 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
 
 [ ... ]
 
-> @@ -2749,93 +2923,3168 @@ static int requeue_pi_new_period(void)
-
-[ ... ]
-
-> +static void *rr_t(void *arg)
-> +{
-> +	int err;
-> +
-> +	rr_t_tid =3D gettid_();
-> +	err =3D set_constrained(0, 10 * NSEC_PER_MSEC, 20 * NSEC_PER_MSEC, 5 * =
-PERIOD);
-> +	rr_t_start =3D now_ns();
-> +	if (err) {
-> +		ksft_print_msg("T refused as a deadline task: %s\n", strerror(-err));
-> +		rr_t_ready =3D -1;
-> +		return (void *)1;
+> @@ -1663,11 +1668,13 @@ static void wakeup_preempt_dl(struct rq *rq, stru=
+ct task_struct *p, int flags);
+>  static inline void replenish_dl_new_period(struct sched_dl_entity *dl_se,
+>  					    struct rq *rq)
+>  {
+> -	dl_note_donor_refill(dl_se);
+> -	/* for non-boosted task, pi_of(dl_se) =3D=3D dl_se */
+> -	dl_se->period_start =3D rq_clock(rq);
+> -	dl_se->deadline =3D dl_se->period_start + pi_of(dl_se)->dl_deadline;
+> -	dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
+> +	/* A boost held from this refill keeps the period it placed. */
+> +	if (!dl_note_donor_refill(dl_se)) {
+> +		/* for non-boosted task, pi_of(dl_se) =3D=3D dl_se */
+> +		dl_se->period_start =3D rq_clock(rq);
+> +		dl_se->deadline =3D dl_se->period_start + pi_of(dl_se)->dl_deadline;
+> +		dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
 > +	}
-> +	rr_t_ready =3D 1;
-> +	while (!rr_stop) {
-> +		uint64_t t =3D now_ns(), b =3D rr_back_at;
-> +
-> +		if (b && !rr_t_ran && t > b + 2 * NSEC_PER_MSEC)
-> +			rr_t_ran =3D t;
-> +	}
-> +	return NULL;
-> +}
-> +
-> +/*
-> + * The same as reenter_asleep_in_gap(), for a task that stays runnable. P
-> + * has one CPU:
-> + * 1. T becomes a deadline task of 10ms in 20ms, every 500ms, at 0ms, and
-> + *    spins. It is throttled at 10ms, until its next period at 500ms.
-> + * 2. At 40ms, the main thread switches T to SCHED_OTHER, then back to
-> + *    SCHED_DEADLINE with the same parameters.
-> + *
-> + * Leaving the class and coming back must not give T a new period before
-> + * 500ms. With a new period, T would run at once. The case fails if T ru=
-ns
-> + * from 2ms to 50ms after rr_back_at.
-> + */
-> +static int reenter_runnable_in_gap(void)
-> +{
-> +	int ret =3D KSFT_FAIL, err;
-> +	void *t_ret =3D NULL;
-> +	pthread_t t;
-> +
-> +	rr_t_ready =3D 0;
-> +	rr_stop =3D 0;
-> +	rr_t_tid =3D 0;
-> +	rr_t_start =3D 0;
-> +	rr_back_at =3D 0;
-> +	rr_t_ran =3D 0;
-> +	if (pthread_create(&t, NULL, rr_t, NULL)) {
-> +		ksft_print_msg("the T thread could not start\n");
-> +		return KSFT_FAIL;
-> +	}
-> +	if (wait_for(1000, rr_t_ready) || rr_t_ready < 0) {
-> +		ksft_print_msg("T never started\n");
-> +		goto out;
-> +	}
-> +	while (now_ns() - rr_t_start < 40 * NSEC_PER_MSEC)
-> +		sleep_ns(NSEC_PER_MSEC);
-> +	err =3D set_other(rr_t_tid);
-> +	if (err) {
-> +		ksft_print_msg("T cannot leave SCHED_DEADLINE: %s\n", strerror(-err));
-> +		goto out;
-> +	}
-> +	/* Store it before the switch back. A T given a new period runs at once=
-. */
-> +	rr_back_at =3D now_ns();
-> +	err =3D set_constrained(rr_t_tid, 10 * NSEC_PER_MSEC, 20 * NSEC_PER_MSE=
-C, 5 * PERIOD);
-> +	if (err) {
-> +		ksft_print_msg("T refused back as a deadline task: %s\n", strerror(-er=
-r));
-> +		goto out;
-> +	}
-> +	sleep_ns(50 * NSEC_PER_MSEC);
-> +	ret =3D KSFT_PASS;
-> +out:
-> +	set_other(rr_t_tid);
-> +	rr_stop =3D 1;
-> +	if (pthread_join(t, &t_ret) || t_ret)
-> +		ret =3D KSFT_FAIL;
 
 [Severity: Medium]
-Can measured() probe cg_p before rr_t's 0-lag time at 500ms and report a
-false bandwidth leak?
+Can keeping the period placed by dl_note_donor_refill() here leave
+dl_se->runtime at 0 or resume a stale donor's deadline and runtime?
 
-Unlike reenter_pi_blocked_in_gap() and reenter_asleep_case(), which wait
-for T to run at 500ms before returning, reenter_runnable_in_gap() switches
-rr_t to SCHED_OTHER and returns at about 90ms while rr_t's 2% bandwidth is
-still held by its inactive timer until 500ms.  Because the case is
-registered as MEASURED_IN_P, measured() only waits 3 * PERIOD (300ms,
-reaching about 390ms) before running probe(cg_p):
-
-tools/testing/selftests/sched/deadline/deadline_bw_test.c:measured() {
-    ...
-	ret =3D run_in(cg, fn);
-	sleep_ns(3 * PERIOD);
-	after =3D probe(cg);
-    ...
+kernel/sched/deadline.c:dl_boost_donor_period() {
+	...
+	if (dl_se->dl_boost_granted && runtime && period &&
+	    dl_time_before(now, dl_se->boost_period_start + period)) {
+		dl_se->period_start =3D dl_se->boost_period_start;
+		dl_se->deadline =3D dl_se->boost_deadline;
+		dl_se->runtime =3D dl_se->boost_runtime;
+		if (!dl_time_before(now, dl_se->deadline)) {
+			dl_se->period_start +=3D period;
+			dl_se->deadline +=3D period;
+			dl_se->runtime =3D runtime;
+		}
+		if (dl_entity_overflow(dl_se, now))
+			dl_se->runtime =3D (READ_ONCE(pi_se->dl_density) *
+					  (dl_se->deadline - now)) >> BW_SHIFT;
+		return;
+	}
+	...
 }
 
-If probe(cg_p) spawns its nine 10% tasks before 500ms, the ninth task fails
-admission with -EBUSY (5% fair server + 2% rr_t + 90% > 95%) and fails the
-test.
+When replenish_dl_new_period() is the first refill that holds the boost
+(for example from update_dl_entity() on wakeup, or at the end of
+replenish_dl_entity() when the owner still had positive runtime left past
+its own deadline), there is no while (dl_se->runtime <=3D 0) loop after it.
+If dl_boost_donor_period() resumes a granted period where boost_runtime is
+0, or where the density calculation near boost_deadline truncates to 0,
+replenish_dl_new_period() returns with dl_se->runtime =3D=3D 0.
+
+In addition, if the previous held boost came from a different donor (or the
+same donor before sched_setattr()) with a longer deadline and larger
+runtime, dl_boost_donor_period() resumes boost_deadline and boost_runtime
+as long as now is before boost_period_start + period, without checking that
+they match the current donor's dl_deadline and dl_runtime.  That can give
+the owner a deadline later than the current waiter's (or its own) and a
+runtime larger than the current donor's dl_runtime.
 
 [ ... ]
 
-> +/*
-> + * Run as the rival C of pi_owner_throttled_rival(). Become a deadline
-> + * task of 40ms in 60ms, every 100ms. Wait until W is about to block,
-> + * then sleep until 13ms after O's start, and spin 40ms of CPU time.
-> + * Return NULL, or 1 on an error.
-> + */
-> +static void *ob_rival(void *arg)
-> +{
-> +	struct timespec ts;
-> +	uint64_t end;
-> +	int err;
-> +
-> +	err =3D set_constrained(0, 40 * NSEC_PER_MSEC, 60 * NSEC_PER_MSEC, PERI=
-OD);
-> +	if (err) {
-> +		ksft_print_msg("the rival refused as a deadline task: %s\n",
-> +			       strerror(-err));
-> +		return (void *)1;
-> +	}
-> +	sem_wait_sig(&ob_rival_go);
-> +	end =3D ob_t0 + 13 * NSEC_PER_MSEC;
-> +	ts.tv_sec =3D end / NSEC_PER_SEC;
-> +	ts.tv_nsec =3D end % NSEC_PER_SEC;
-> +	while (clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL) =3D=
-=3D EINTR)
-> +		;
-> +	spin_ns(40 * NSEC_PER_MSEC);
-> +	if (set_other(0))
-> +		ksft_print_msg("the rival cannot leave SCHED_DEADLINE\n");
-> +	return NULL;
-> +}
-> +
-> +/*
-> + * Run an owner_boost case of @kind: ob_owner() and ob_waiter(), and
-> + * ob_rival() with OB_RIVAL. W must get pi_lock within @limit_ms of O's
-> + * start.
-> + */
-> +static int owner_boost_case(int kind, int limit_ms)
-> +{
-> +	void *o_ret =3D NULL, *w_ret =3D NULL, *c_ret =3D NULL;
-> +	int throttled =3D kind !=3D OB_GAP && kind !=3D OB_LATE_GAP;
-> +	int ret =3D KSFT_FAIL;
-> +	pthread_t o, w, c;
-
-[ ... ]
-
-> +	if (kind =3D=3D OB_GAP)
-> +		sleep_ns(30 * NSEC_PER_MSEC);	/* O sleeps past its deadline */
-> +	if (kind =3D=3D OB_RIVAL && pthread_create(&c, NULL, ob_rival, NULL)) {
-> +		ksft_print_msg("the rival thread could not start\n");
-> +		kind =3D OB_THROTTLED;
-> +		c_ret =3D (void *)1;
-> +	}
-> +	sem_post(&ob_go);
+> @@ -6016,11 +6026,15 @@ static bool dl_setattr_period(struct sched_dl_ent=
+ity *dl_se, u64 old_runtime,
+>   * If sched_setattr() changed the parameters before this refill,
+>   * dl_setattr_period() saved the old ones in setattr_*. Fit the period
+>   * saved in own_* to the new parameters with them. setattr_* share
+> - * storage with own_*: read them before writing own_*. The caller holds
+> - * the rq lock of the task, and has updated the rq clock.
+> + * storage with own_*: read them before writing own_*. Return true if a
+> + * period of the donor was placed. The caller holds the rq lock of the
+> + * task, and has updated the rq clock.
+>   */
+> -static void dl_hold_refilled_boost(struct sched_dl_entity *dl_se)
+> +static bool dl_hold_refilled_boost(struct sched_dl_entity *dl_se)
+>  {
+> +	struct sched_dl_entity *pi_se =3D pi_of(dl_se);
+> +	u64 donor_runtime =3D READ_ONCE(pi_se->dl_runtime);
+> +	u64 donor_deadline =3D READ_ONCE(pi_se->dl_deadline);
+>  	u64 old_runtime =3D dl_se->setattr_runtime;
+>  	u64 old_deadline =3D dl_se->setattr_deadline;
+>  	u64 old_period =3D dl_se->setattr_period;
+> @@ -6037,6 +6051,14 @@ static void dl_hold_refilled_boost(struct sched_dl=
+_entity *dl_se)
+>  		dl_setattr_place(dl_se, now, &dl_se->own_period_start,
+>  				 &dl_se->own_deadline, &dl_se->own_runtime,
+>  				 old_runtime, old_deadline, old_period, false, false);
+> +	/*
+> +	 * replenish_dl_entity() checks the donor's parameters: it adds no
+> +	 * runtime if they were cleared. Start no period from them then.
+> +	 */
+> +	if (!donor_runtime || !donor_deadline)
+> +		return false;
+> +	dl_boost_donor_period(dl_se);
+> +	return true;
+>  }
 
 [Severity: Medium]
-Can ob_waiter preempt ob_rival before ob_rival enters SCHED_DEADLINE?
+When the donor leaves SCHED_DEADLINE and has its parameters cleared on
+another CPU before the rt_mutex chain walk deboosts the owner, can
+returning false here after setting dl_se->dl_boost_held =3D 1 corrupt the
+owner's period and saved boost state?
 
-On P's single CPU, owner_boost_case() creates ob_rival and immediately
-posts ob_go to wake ob_waiter without waiting for ob_rival to finish
-set_constrained():
+First, in replenish_dl_entity(), if the donor's parameters are already
+cleared at the initial check, dl_note_donor_refill() is called when
+dl_se->runtime < 0 or dl_se->dl_yielded is set.  dl_hold_refilled_boost()
+sets dl_se->dl_boost_held =3D 1 and returns false without placing a donor
+period, leaving dl_se->deadline and dl_se->period_start set to the owner's
+own period with dl_se->runtime =3D=3D 0.  When the boost ends,
+dl_end_held_boost() sees dl_boost_held =3D=3D 1 and saves the owner's own
+period with boost_runtime =3D 0 into boost_* and sets dl_boost_granted =3D =
+1,
+so the next held boost from a valid donor resumes the owner's old period
+with 0 runtime.
 
-  main thread (CPU of P)        ob_waiter             ob_rival
-  ----------------------        ---------             --------
-  pthread_create(..., ob_rival)
-  sem_post(&ob_go)
-                                wakes as SCHED_OTHER
-                                set_deadline(2ms, 10ms)
-                                sem_post(&ob_rival_go)
-                                take_pi_lock()
-                                  boosts ob_owner
-                                  ob_owner spins 5ms
-                                  unlocks at 15ms
-                                                      first scheduled
-                                                      set_constrained(...)
+Second, when dl_note_donor_refill() is called from
+replenish_dl_new_period(), returning false from dl_hold_refilled_boost()
+causes replenish_dl_new_period() to enter the !dl_note_donor_refill(dl_se)
+branch and overwrite dl_se->period_start =3D rq_clock(rq), dl_se->deadline =
+=3D
+dl_se->period_start + 0, and dl_se->runtime =3D 0 from the cleared donor
+parameters anyway.
 
-When ob_waiter runs before the newly created ob_rival thread, ob_waiter
-and the boosted ob_owner keep the single CPU in SCHED_DEADLINE until the
-lock hand-off is already over at 15ms, so pi_owner_throttled_rival()
-passes without ob_rival competing at 13ms.
+Third, because dl_hold_refilled_boost() (which also omits checking
+pi_se->dl_period), dl_boost_donor_period(), and replenish_dl_new_period()
+re-read pi_se's parameters instead of using replenish_dl_entity()'s
+validated snapshot, a concurrent __dl_clear_params(pi_se) after
+replenish_dl_entity()'s initial check makes dl_hold_refilled_boost() return
+false while replenish_dl_entity() proceeds to the while (dl_se->runtime <=3D
+0) loop, advancing the owner's own deadline by the donor's period.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D42
+t.mathieu.desnoyers@efficios.com?part=3D41
