@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795655070;
-	b=MZ1TljOL2jys28kgPwIckOBPbKHbMRgik9NPXHUtCWIcQ+sRR7izvR8EaS3LgZzpFqRA
-	 EMIMkfDynVHKvq4LhuDRV8zfZVLiUg/jsQ3hV/VQu6q4cSfLCpfw1Jv1NRvQ1+1V+Sv1V
-	 OSSrtV6lDjgOJQ03/hoB2+mVRhx3U6Jo/eyGoerPiEeduaBUdSS8pKTUkUSosSt/U4GmE
-	 2S/PzPXYPQUImgGkpcScbxH2Z8bngJLnR6mKOAEWasmt9/NrFTZO3hEPLXzzY71LqITiA
-	 XR9F6IvTltG8YDgkGUU8KHBJ1uPU5ZI0jvP7Di6AhcDcBhM3YSFkhxLM37wZ+0rPOiw==
+	t=1795655278;
+	b=MnDLCUG+bnw8EDa0QuQ/3vwy72NDX3D3wjnJe279aoXOt+Cb3g+dQzNgmYoRSdjmwbpY
+	 GZy9OD8988pccHFoYye00gzPc00tc5hPwjDAxCg5yqpVB7n0brIeutg9SbUCvuHq2GebZ
+	 ckdfy/wkBS6rrLnNX3Kw0qzkt5eRaZiPFqXx2kfdwssn1pwBtn7veEbPRLGxp6FLU2Eyf
+	 abdZFhbzM46USLtCcrr204+IIv58XsHgDu8o6tUBAlKd+J7gbFytQOfsCr8j+rFUTd52U
+	 JVqFnGBLeCyuymxuMHTAUSK+Vh6x0lBW7iZ7ggAs/6AqYqtSArzDwpaObYv0/OQsQ8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795655070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795655278;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
 	 References:Content-Transfer-Encoding:MIME-Version;
-	bh=KIktabnjHCDieeGWMO0z9Hmbrz6ngvKHiYWHyOgAZAA=;
-	b=l8ZsgwcWOUDvGIu5E0Hz/zZ3Su9zKX4TUCtbrPWXTkWQZLl/ZWZ1Z+yuAjpp5/1f/MvH
-	 jRIMSdxoe+tTr/+v7P8uwlVLi4UmVF3uoaP3ikJIgl7QW224kTNV9OMZetCFinOFRgOoG
-	 KDDNUE3/E7NMpysLGYNWqVidH827msuYPTjrERO72neGRevCWl+wn++u++/YxTeBKzSed
-	 XMQQbDf0hok43sAftA7wb6HX3q6PtWanyuW20IWsIE8APTEELQDGSX0Q+UoO/F+qq3zUR
-	 5fKWBi27P5NxVI+TLNgg2iWr8vPbz0qwvpTFbGilJEPEOf+ycETp7lNMartyK+e7BgQ==
+	bh=0e+Ouu+6oLoZy2ujzXapWcEGF96bjKcfmd5hC33j504=;
+	b=F6r+hbazOkrabviDJ3Uyl5zjl//Sl/lis6CUyRq3VmXH+MNiJneI7joOmhKytfLZU1pm
+	 FdxOQZvznG4NRJEJHvYHpAhfiNgHXVlDaAyjIW34ws8jwLrfjMNOlYikr72B4+vauTzUG
+	 F1+5Aon0WPJNAXBGsrvBjzPK0ljDBn4o8z4WZeOyvEHrAlh3LgotiuoyCu+U9KNgs+qCb
+	 xit8zioW+uNTQgjlWVyVYc9sVxF2G8MNCTbCctBKgGWVt7M6X+W6qhXAdM+cnaokHV4Ga
+	 WctAXHSB8kpK3jbgK8kzkfKgg8ACRdqQ8FkEWl7+nyx5Rr9QWJte6mMCN9oqx3/GjVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XLW3KpCy;
-	arc=none smtp.remote-ip=209.85.216.49
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VUyXIptH;
+	arc=none smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6605606A31E
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 01:04:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6605606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5FF606A321
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 01:07:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB5FF606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XLW3KpCy
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ae7626d14aso3264921a91.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 17:04:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VUyXIptH
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a0880a46e7so3926804b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 25 Nov 2026 17:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795655069; x=1796259869; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795655277; x=1796260077; darn=lists.linux.dev;
         h=mime-version:content-transfer-encoding:references:in-reply-to:to
          :from:subject:cc:message-id:date:content-type:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=KIktabnjHCDieeGWMO0z9Hmbrz6ngvKHiYWHyOgAZAA=;
-        b=XLW3KpCytnWTpb6qvq4n1CT59VlHqBmMJx8VHHBh1Zr3JjmIHDyBojoKMfijrXUP/P
-         tyyyDBK1GlDNwdil8rjHAL+75RIK0SRp61uLShriKzb7+nVo8qq6PxaRXyciOOCn4jO+
-         BI3/fyzxeOXLthIIb8GW7Cc0ZEyzX/gYa1QmW1C8H4y8sYjRRk/XrYgKEWKOKccTOaZ5
-         Ny+duTU7n9aWkEFLZSHWxYw14VedifgUCBJt1QHNBsJS5sjvvcGSgQOxehrSiky4CE2p
-         tmem/S3X+88dMLGe9gyOJ/rL2HisQYJKatFdFxmBJ/Xp1aAwCbXOt94gATeqZAAtN8T4
-         q55g==
+        bh=0e+Ouu+6oLoZy2ujzXapWcEGF96bjKcfmd5hC33j504=;
+        b=VUyXIptHxCiWZt/QcNZP1LHz92lieXYR9zTwqEoII+oFwGK17vv+6oWPzSQ9XKc58K
+         WklxvlvhucSkFql8SRBuLl4TFjWXZquccj8Wfh9kD4+o6gzNImWg35BWlppj3ePrSuUp
+         ZqjI27HK133PCdV7iNZr71VoHwNUzkb6Q0i7xQK+H9ax9jzpFzBVB7z0eXql0cPQzJgz
+         M+dP6O5gzhT72llvcuRRDaDpQdl4GXv5SnQceEbHzodJJ+B0WnJsvOmS6uwluUh+rza9
+         l/GUjknBbQpOkBABxUtt8LBZ2oEpDIXUE5uu+fHovo7G8balXFdW0RttGCqj1K8QJnlX
+         r6Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795655069; x=1796259869;
+        d=1e100.net; s=20260707; t=1795655277; x=1796260077;
         h=mime-version:content-transfer-encoding:references:in-reply-to:to
          :from:subject:cc:message-id:date:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KIktabnjHCDieeGWMO0z9Hmbrz6ngvKHiYWHyOgAZAA=;
-        b=yhQ0gYvvy9t3yujMYtwF+0XJi+Jcg/hgxyStuWm76umyqSuMzNGgjtlA6PEJ3Ey3ZH
-         iw2dcKvW+j3PPx1Ts4dD4speAkJUib3eZBgt+O73R7b7jMVbcjWJgHMIpDwRorpcyR0g
-         PKk0X50XqIEERdME+XDWNSxW7F7DAPOemHvu34fbLzpCtMQoZN844SBPw7EdjoXGmTV/
-         R5qsX4qYyDDe7B4f/5ez5f+i+DLQfCbPos3NT7SZ+gav+/qvW6IiwjPHE9qZJA0JlP6A
-         jtE1zeqqwBGxNU9NVM7Z7yaXpupbQXp7nOqDzOZP+9KUBcUZ4EeN0q0fCluyduBu3RR6
-         yVNQ==
-X-Forwarded-Encrypted: i=1; AL+hErFX46b2L5Q5wz2NGWWk6CjR/R9rJCtdRx+/YnHFAjIdbyOZe6Q0YjZILKKL+9iMmutwKkpUjxj338KGNliHQw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+Tt8otEC0Rrr3leGwwoLhlIt7GLhxXHSS+qT+0ujc0p/SmaMKc
-	V+NLXIHW9hXEwmEijaMgzG5ljhXuhtfTSpQq2aPSGbJzVBS6HvnAyajg
-X-Gm-Gg: AZFdTZfdB9UcVP6ffi4NnArptAocOzP1zKMMRtevB5FZ59DZEbHCaSATd7WRhf8qtRh
-	98y8Tv9/AYrhv+FOlctQMNyyIBuV2sT3WmU/LvgBt61yrXdA/y5x+uhHDUgBIXIswB8BCGLA3Pz
-	aU+mXrP4sOt8PPUcPHyl2aZ3wELjWJNwDPrH3kdaNYFUIRTq47MMWB6MVr1kKsGuDZQwqK3YNEu
-	LVe33kCYbg4De+D9KO8PUaMdxHfzxohC+c8nFR8TozcGgYugStSHeKvt5Oy30qhckCmxdm1vpfF
-	rABgZNnmBKgYUdX9j5GTqLv+9kgxCB2k6jzO5hVPrww1Pvly1QCP8v6+jV3V6ED+5J/txmpCd7X
-	Fir5pHtJe8svmvBcfxUbzk2XqBqW+QSfb40e/N2VCcqtqyceN++3uKUM/9l+/chCHPH5knhCNAq
-	m8yCc6sH3Y6K/ev34sPAYteab+N9qylWAgBQtiUbWHe7AoJYB1aogAYVRHbf3HBtLX3TAvNosLZ
-	vMK1LzSTR9BLfvrUCzAMh2fA9f23txou5VPGDUhxQCYB+0EApJGOibJO83R4+wBuyTYgayk1BvA
-	aNlKSRsOI/dxi7cUtObQ2p6rkfVVO0iNySnHUCceGvCaAk3XyhA8Fg9QwAaoH1qws4zGvraa5zn
-	1hO2T2gjY1OY7KNyPGYH0eENyYq6P6a5ONg==
-X-Received: by 2002:a17:90b:268f:b0:3b3:a421:7e00 with SMTP id 98e67ed59e1d1-3b41c8d4831mr17552841a91.16.1795655068912;
-        Wed, 25 Nov 2026 17:04:28 -0800 (PST)
-Received: from localhost ([153.61.198.249])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad92c07sm30289984a91.13.2026.11.25.17.04.27
+        bh=0e+Ouu+6oLoZy2ujzXapWcEGF96bjKcfmd5hC33j504=;
+        b=kengqL3d+O4zv2X7da9Xs0UpzQZMcuL/jWk1/NZqXNm01QHQCnQ7kQAwUa8YkrKYt6
+         zfVw0beIn5FJySt9eYzB4xMgR4xewobUPDUrP5JZdpMFO1MQI+R+/QNHnegbZBAk9rAp
+         ZN80RVF/iyEFzWfENmG9At6rQZSkdMzpiLzIhD0jIPAiOLhf/eExzWALBczpianGNVBh
+         WsMEw4JHgYkNrjfBFgGVp3fbUfJk3RTbD88V/Qgmc1Jkcsv7MYiSbxvXqND8/2OWHQGA
+         byP2KdQSrdx042o+tG68DKAatLlNinVSYz1s+ATOXQMHZ+/wRM5olYy2lay3c8FheOkl
+         9knA==
+X-Forwarded-Encrypted: i=1; AL+hErFpnTgSPF9a5NWwtBF0tGgtpIAF9UyEmChRQW98Mm3ugzgS0/XzJJC+6Gj1T6+SjLuyMEO+/2o6X6SlcdmVaQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Vq0q6xtKOSkGtnM9R0eDaqamSKQtsU+j2tq400zF9QAEfbp6w
+	sVmWInXM21+PqaT+okzDYX00dZ/L0n86/4cTZ7ovQXTvyINmZ7LqY6pf
+X-Gm-Gg: AZFdTZebqy1HbM4YlgWniq+77Rnp1FFOl/M0DW6j0lFdgJy+ODtw9a9S5NOf4tGB+lX
+	rpbwKsx0R4c21RLgzBl7fs/WMYjMqqztv8OYrjB8O6KmWMFrqzBcxe/f18niL79f2smRG7LXREw
+	laCgQXPI8uMXSUL+D+pP18KQtOLrQSRCW0gQwfbMhmjqGWR7JvjMxGVpvhnz1Kppjqm0UD3zBxq
+	SetqIkGewmfMdfudltcyvs2eJWwPhJNk1yDH+ykcRvXL5Dz/X/gPtFtq0PCNj/mio/EPnqsvjDL
+	XZeLqcssJl8cHongBAG+sPhAgRSaZ2s4mn8SZNWpMiB/j7wP4+4QB4rHMhsQasjbhwnO/K1SF4D
+	kcVT+wUt59X8saQexjR9IQK7Xgy+OPrEyZLOZF0wa1TUzjM37eIOjrMDFD00ovC9i7Wk+i2zyDB
+	xcy8M45eXMBRKISQmU9eRj/53gTymxMHHkzL9WaBla4hYii+22h2u6L+5wWgk+W1vsz9yq5t4Sr
+	9hAr72z4vIoMEM4E5+kyncp+VNSusFHsX+GyT2LI5hXF/3w8RTuoJDMTR5vy9Sn8YJibYpyClBi
+	BFcpPjZ2sIp7r9ehJ60BydqA8UnRa2EGwFD+smfGTyPz/R4KIY3UwDj48ny9pIRm+IQRpGRXa5X
+	oTLhGFK50UXLahPQBkv/jV3pbe2T+Sb2qr0A=
+X-Received: by 2002:a05:6a00:c08a:20b0:8c7:f59c:e82e with SMTP id d2e1a72fcca58-8c7f59cee72mr10451362b3a.36.1795655276950;
+        Wed, 25 Nov 2026 17:07:56 -0800 (PST)
+Received: from localhost ([153.61.198.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c872e4c43bsm9633902b3a.26.2026.11.25.17.07.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 17:04:28 -0800 (PST)
+        Wed, 25 Nov 2026 17:07:56 -0800 (PST)
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 01:04:27 +0000
-Message-Id: <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com>
+Date: Thu, 26 Nov 2026 01:07:55 +0000
+Message-Id: <DN4QO5PPVN0Z.1CO2JSCYRH04R@gmail.com>
 Cc: "Emil Tsalapatis" <emil@etsalapatis.com>, <bpf@vger.kernel.org>,
  <andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
  <daniel@iogearbox.net>, "Sebastian Andrzej Siewior"
@@ -100,8 +100,8 @@ Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
  kmalloc_nolock at call time
 From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
 To: "Peter Zijlstra" <peterz@infradead.org>, "Harry Yoo" <harry@kernel.org>
-In-Reply-To: <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
-References: <20261124060357.11700-1-emil@etsalapatis.com> <20261124060357.11700-2-emil@etsalapatis.com> <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation> <20261125140902.GE2668804@noisy.programming.kicks-ass.net>
+In-Reply-To: <20261125160409.GF2668804@noisy.programming.kicks-ass.net>
+References: <20261124060357.11700-1-emil@etsalapatis.com> <20261124060357.11700-2-emil@etsalapatis.com> <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation> <20261125140902.GE2668804@noisy.programming.kicks-ass.net> <awbvek-HS3OJYJGF@thinkstation> <20261125160409.GF2668804@noisy.programming.kicks-ass.net>
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -113,25 +113,12 @@ List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-On Wed, Nov 25, 2026 at 06:09 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> This is absolute atrocious shite. You cannot attempt a spin_trylock from
-> NMI context. That thing might be a mutex.
+On Wed, Nov 25, 2026 at 08:04 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> On Wed, Nov 25, 2026 at 02:30:52PM +0000, Harry Yoo wrote:
 
-cannot spin_trylock from NMI _on PREEMPT_RT_ ... correct.
-And the patch guard against that.
+>> One remaining accident we're aware is that we cannot attempt a
+>> spin_trylock or local_trylock under pi_lock (even on !RT).
 
-On RT the nolock path doesn't reach zone->lock in NMI or hardirq:
-
-  __alloc_frozen_pages_noprof()     alloc_flags has ALLOC_NOLOCK
-    alloc_nolock_allowed()
-      can_spin_trylock()
-        if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
-                return false;
-
-fwiw kmalloc_nolock() has the same check.
-
-> This should not work; if it does, that is an accident we need to fix.
-
-It's not an accident.
-In NMI only !RT SMP kernels reach the trylock.
+No. It's RT only. Already answered in the other email.
+Nothing wrong with !RT.
 
