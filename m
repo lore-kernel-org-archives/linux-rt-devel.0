@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795657085;
-	b=XXG+enXHTEbSvWXAx/m2ZxB3c/ScOV75ti/fTb0TEVdxH5wyrAxyYdqb0OJhg5ihkXga
-	 kj+1XyrbPfmrbpd3FUUBa1xyTgMFkWnpTXJbqo0LYMU3rCgGkXtCxt4YgwiL/QwDmKsiz
-	 lqllVUZPPoyGfr3TAG65uzuED1ijoq52XYj6FToqo+Je0QaEke9MF0LlOe0gcuNtWd/Ac
-	 npJQ2O1JMcpBFbMYFwDaoquuRhnV2CAJVlcXJe1fCV5iebM0IcDG8fpLW4npt/U9J6LQ8
-	 rYVVVNOqhdMAHKQCy6qem2Vu2hdJi2OUmdSy0qw9BoEpDPOL6/soY/1gNiK7mWdXDKw==
+	t=1795657313;
+	b=noZA/VvYy9GHchtENv+9d9ovYUgTddpgpAP1bOrPCy52qoCGuPNJJ2IyBfpJljSkhlAv
+	 4YsbixUfKAgQt1ty6iq7yvl2u8YPurBIKaMDBNDd9iO+tkzWtmMYcAfiUvqB7FirQWvxp
+	 JH+kbPzhpqKnPpqNOxbRacGz9jiLE8T/YT//N6qQ9AhEEJcScuUGxJTW/F30GJBPM+40R
+	 3Y3L6JtmzQ/ZQgmRH7WgYnuVkoS0Hv+18FcTvBCm6ya2LpNWyZpydKSkzn7NHFKA/5h7j
+	 iDiQUp/Y/i3JfIJrNq5X5w95qbDrMvOKM6dxP63ilyzo7hmyMIJKOX4sXyuZtxIt0QA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795657085;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657313;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zog7jF/2BPtVfJQhwRXt+srPHB7Tq3M8n+JZAtPbs2Y=;
-	b=FE8UZESy4UeCmR4YUQV4LxX+ibMpru6n3xZ7J+OroW9NOJ89mqgKP2N6i9m0fhnbj9yu
-	 hmqiJjA0MUpG3xK/h35c2mqvuu/MzUVlr5ipRnpDHV49ElGZ+QezVlu8+gDLjXtjdyvMY
-	 uFlpgtIl2S7ZWCjDravKy0N1woWL+4V3b6N5X9gStVHooewfl6+PveI47c6XnbTUXYe+6
-	 70qqHDc0TBJNIo++Rn19LYf13cKlKNuUaCCDkMPA8T5GAd4iwEjuM5IkET6XojCNchViH
-	 IJuJpcnt7xh7sOu5gmS2J1kK3ks3M/Ww47ocYxfNRVRdnBdorL4CWwG3hGxHvHYFNog==
+	bh=tPyPOhu9AaWWXOBWE2nSNiLeRaBmDPFB2m7ibTx7FFk=;
+	b=QApUTcH3dzAZ/eshzn5lpaE/0e7uM9tcTVc/moW9ZsPH3s2wc68WodtGfBlmrpVcI1YF
+	 E2yjtiCAdJXclapMRUsRq6+HXzzgxPQkUvbADpe76taeXOOIwx2YvvDLPT4mrRTPLYA3Z
+	 c5ehbuyKKZ+L44S6qNd5ZwrHdbBiMHRzVuBXgFgCoIiuwydZK46ThYhc0o4FrjFr7E+Ou
+	 VVPIiUdbsq9VodiU0w0ooLfbBG98w6BDsOHK0lJVkrosHNBR9XIyyRN7JSJmv4VF6/Gjj
+	 vdz8KG2feGWHW5LZaD49ZPorKJcQWGPgoPjcP/wgYLZF1AN25+Sfgq5QNkd4tOTM3jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BtoW5qj0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WyIKi5Rm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2253606A31E;
-	Thu, 26 Nov 2026 01:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16906606A31E;
+	Thu, 26 Nov 2026 01:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BtoW5qj0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154591F000C4;
-	Thu, 26 Nov 2026 01:38:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WyIKi5Rm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75AA21F000C6;
+	Thu, 26 Nov 2026 01:41:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795657085;
-	bh=zog7jF/2BPtVfJQhwRXt+srPHB7Tq3M8n+JZAtPbs2Y=;
+	s=k20260515; t=1795657312;
+	bh=tPyPOhu9AaWWXOBWE2nSNiLeRaBmDPFB2m7ibTx7FFk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BtoW5qj0Uiwnj9C4fmhsGV66V9y8xpJ7ju3GU1TjtadTsZeU7AkYXVMo7LYG7OjvK
-	 qGzR/JZLSk0RD8w2URCQTAld4urozgOizBYjg5ttotvnRwhGFEfFH3Aelx1LaoBRUV
-	 hlB63ppCZPRT7WObhCmc+agD/L0B5HpfmfrbcgYrEa/rCoABKju1l82g0j4GmKenJC
-	 YvsHvjd3FAq0tb1S5xbJ4rsaVa4KRtVIVvjkwZGoW/p9ITRPpuNDPlPfCmnlHtLUA0
-	 bYN07hMYtnjKAw2+WohSgtYWNaDdf03DOA1zfESy5hzBywOV1LAlCJA+AMAfkhko49
-	 oYWMvH4WDFxDQ==
-Message-ID: <sashiko-outbox-234570@kernel.org>
+	b=WyIKi5RmMUXxP0WgzQSuMMNol1+HyFDXTs3dB4iiIKrxi6EV52JNIdrOW/1Vdw03G
+	 kt4s/g/USw+ovg4+PCQiyr5yEr3BuJaCKsWhg74Ly8xQdXmxerUQW7GoDJ9qR4AG+4
+	 t3u2dv0s0vsNU5lhKaXxmNnIu/rl2cKz0Tujg7kjS3DXZ+9XSaddPaO5dpHkWVViOY
+	 RqoC8bS8mBOdF6YSz3HHGOetq/xSWc8UkmzfU1TJBOrNt3oLsMlNvffuwXqkpNIZdz
+	 mo/FjMlSW/cHJiM+3fU8XjX5p62U53Rn3gDtuC8mWDGqJNldsO4wPv3xHLv6mWFBjz
+	 n1SOfv5JGNFzQ==
+Message-ID: <sashiko-outbox-234578@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 15/43] sched/deadline: Keep a task in the root
- domain that counts its bandwidth
+Subject: Re: [PATCH v11 17/43] cgroup/cpuset: Refuse to take a deadline task
+ out of its root domain
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <1b7d48df779794ceece2155c0080722932f2c3cd.1795646914.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <2a3cf1f221564450a14f75f0f4eeebc3379a992e.1795646914.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795646914.git.mathieu.desnoyers@efficios.com>
- <1b7d48df779794ceece2155c0080722932f2c3cd.1795646914.git.mathieu.desnoyers@efficios.com>
+ <2a3cf1f221564450a14f75f0f4eeebc3379a992e.1795646914.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 01:38:04 +0000
+Date: Thu, 26 Nov 2026 01:41:52 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,107 +63,132 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] sched/deadline: select_fallback_rq() bypasses local NUMA node
-  search
-- [Medium] sched/deadline: __set_cpus_allowed_ptr_locked() clobbers
-  valid wake_cpu
+- [Medium] cgroup/cpuset: unnecessary hierarchy and task walks in
+  dl_tasks_keep_*()
+- [Medium] cgroup/cpuset: dl_tasks_keep_without() omits pending CPUs for
+  PRS_ISOLATED
 --
 
-commit 4af84b97f62357ff3460aae481348b8b367fe8d9
+commit 0cb8536a44f47c8f95c649627afa6a220c61e952
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Keep a task in the root domain that counts its bandwidth
+cgroup/cpuset: Refuse to take a deadline task out of its root domain
 
-This commit introduces dl_task_bw_span() and updates CPU selection paths
-during affinity changes, wakeups, CPU offline, and sched domain rebuilds
-to prefer CPUs within the root domain that accounts for a deadline task's
-bandwidth.
+This commit refuses cpuset CPU mask updates and invalidates partitions that
+would move a deadline task out of the root domain accounting its bandwidth.
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 7615ba02d52b3..3dd42581cc177 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -3264,6 +3264,27 @@ static int __set_cpus_allowed_ptr_locked(struct ta=
-sk_struct *p,
->  			dest_cpu =3D ctx->dl_bw_cpu;
->  		if (!task_on_rq_queued(p))
->  			p->wake_cpu =3D dest_cpu;
-> +	} else {
-> +		const struct cpumask *span =3D dl_task_bw_span(p);
-> +		unsigned int cpu =3D nr_cpu_ids;
-> +
-> +		/*
-> +		 * No room was made for @p in another root domain. Keep @p
-> +		 * in the root domain that counts its bandwidth, if the new
-> +		 * mask holds one of its CPUs. Also wake a sleeping @p up
-> +		 * there. A wakeup during a rebuild of the sched domains has
-> +		 * no span to prefer.
-> +		 */
-> +		if (span && cpumask_test_cpu(dest_cpu, span))
-> +			cpu =3D dest_cpu;
-> +		else if (span)
-> +			cpu =3D cpumask_first_and_and(cpu_valid_mask,
-> +						    ctx->new_mask, span);
-> +		if (cpu < nr_cpu_ids) {
-> +			dest_cpu =3D cpu;
-> +			if (!task_on_rq_queued(p))
-> +				p->wake_cpu =3D dest_cpu;
-> +		}
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 37d04b08996ec..67b2429c0e22f 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+[ ... ]
+> @@ -1148,6 +1181,91 @@ static void effective_cpus_below(struct cpuset *cp=
+, struct cpuset *from,
 >  	}
-
-[Severity: Medium]
-Does this overwrite p->wake_cpu for a sleeping deadline task even when
-its existing p->wake_cpu is still valid in ctx->new_mask and span?
-
-dest_cpu is chosen earlier via cpumask_any_and_distribute(cpu_valid_mask,
-ctx->new_mask).  Unlike a queued task (where affine_move_task() leaves p
-on task_cpu(p) if it remains in the new mask), a sleeping deadline task
-has p->wake_cpu unconditionally replaced with the pseudo-random dest_cpu
-whenever span is non-NULL, forcing an unnecessary migration on the next
-wakeup.
-
-Only updating p->wake_cpu when it is not already in cpu_valid_mask,
-ctx->new_mask, and span would preserve wakeup locality.
-
-> @@ -3668,8 +3689,22 @@ static int select_fallback_rq(int cpu, struct task=
-_struct *p)
->  	int nid =3D cpu_to_node(cpu);
->  	const struct cpumask *nodemask =3D NULL;
->  	enum { cpuset, possible, fail } state =3D cpuset;
-> +	const struct cpumask *span;
-> +	bool span_forced =3D false;
->  	int dest_cpu;
+>  }
 > =20
-> +	/*
-> +	 * Keep a deadline task in the root domain that counts its
-> +	 * bandwidth, if one of its CPUs is allowed and online.
-> +	 */
-> +	span =3D dl_task_bw_span(p);
-> +	if (span) {
-> +		for_each_cpu_and(dest_cpu, span, p->cpus_ptr) {
-> +			if (is_cpu_allowed(p, dest_cpu))
-> +				return dest_cpu;
-> +		}
-> +	}
+> +/*
+> + * A scratch mask for dl_tasks_keep_without(). Its callers still need ea=
+ch
+> + * mask of their struct tmpmasks after the call. Protected by
+> + * cpuset_mutex.
+> + */
+> +static cpumask_var_t dl_keep_cpus, dl_pending_cpus;
 > +
->  	/*
->  	 * If the node that the CPU is on has been offlined, cpu_to_node()
->  	 * will return -1. There is no CPU on the node, and we should
+> +/*
+> + * Return false if a partition that takes the CPUs of @xcpus makes a
+> + * deadline task leave the root domain that counts its bandwidth. A cpus=
+et
+> + * can hold CPUs of two root domains: with isolcpus=3D"domain", or on cg=
+roup
+> + * v1 with sched_load_balance off. Such a task would run in a root domain
+> + * that did not admit it.
+> + *
+> + * @root is the partition root that gives the CPUs. @part is the cpuset
+> + * that takes them. In the same change, @part can give the CPUs of @gives
+> + * back to @root. @gives is NULL if it gives none back.
+> + *
+> + * Work out the new CPUs of each cpuset of @root from the top down, as
+> + * update_cpumasks_hier() does, down to the next partition roots. If
+> + * @enable, @part becomes a partition root. Then do the same for its own
+> + * cpusets, starting from the active CPUs of @xcpus.
+> + */
+> +static bool dl_tasks_keep_without(struct cpuset *root, struct cpuset *pa=
+rt,
+> +				  const struct cpumask *xcpus,
+> +				  const struct cpumask *gives, bool enable)
+> +{
+> +	struct cpumask *new_cpus =3D dl_keep_cpus, *pending =3D NULL;
+> +	struct cgroup_subsys_state *pos_css;
+> +	struct cpuset *cp;
+> +	bool keep =3D true;
+> +
+> +	lockdep_assert_cpuset_lock_held();
+> +	/*
+> +	 * The CPUs of @root can have changed before the rebuild of the
+> +	 * sched domains, which ends the change. Then the root domain of a
+> +	 * task of @root does not span them yet. The rebuild gives the CPUs
+> +	 * of a root partition to one root domain.
+> +	 */
+> +	if (root->partition_root_state =3D=3D PRS_ROOT) {
+> +		pending =3D dl_pending_cpus;
+> +		cpumask_copy(pending, root->effective_cpus);
+> +		if (root =3D=3D &top_cpuset)
+> +			cpumask_and(pending, pending,
+> +				    housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
+> +	}
 
 [Severity: Medium]
-Does this early return bypass the local NUMA node search in
-select_fallback_rq() for deadline tasks?
+Should pending also be populated when root->partition_root_state is
+PRS_ISOLATED (or via is_partition_valid(root))?
 
-Because dl_task_bw_span(p) returns rd->span for any admitted deadline
-task outside a domain rebuild, scanning span & p->cpus_ptr in ascending
-CPU order and returning before the cpumask_of_node(nid) loop below skips
-same-node CPU selection on multi-node NUMA systems and always sends the
-task to the lowest-numbered allowed CPU in its root domain.
+An isolated partition root can have an invalid child isolated partition and
+hold deadline tasks counted in def_root_domain.  When that isolated parent
+grows to include a new CPU before rebuild_sched_domains_locked() runs at
+the end of the change, def_root_domain.span does not include the new CPU
+yet.  Because pending is left NULL here, re-evaluating the child during
+update_cpumasks_hier() -> update_parent_effective_cpumask() rejects the
+child with PERR_DLTASK even though the rebuild will attach the parent's new
+CPU to def_root_domain.
 
-Checking cpumask_of_node(nid) intersected with span first when span is
-non-NULL would keep the task in its root domain while preserving NUMA
-locality.
+> +	rcu_read_lock();
+> +	cpuset_for_each_descendant_pre(cp, pos_css, root) {
+> +		if (cp =3D=3D part || (cp !=3D root && is_partition_valid(cp))) {
+> +			pos_css =3D css_rightmost_descendant(pos_css);
+> +			continue;
+> +		}
+> +		/* The CPUs that @root has after the change. */
+> +		cpumask_copy(new_cpus, root->effective_cpus);
+> +		if (gives) {
+> +			cpumask_or(new_cpus, new_cpus, gives);
+> +			cpumask_and(new_cpus, new_cpus, cpu_active_mask);
+> +		}
+> +		cpumask_andnot(new_cpus, new_cpus, xcpus);
+> +		effective_cpus_below(cp, root, new_cpus);
+> +		if (cpumask_equal(cp->effective_cpus, new_cpus))
+> +			continue;
+> +		keep =3D dl_tasks_keep_cpus(cp, new_cpus, pending);
+> +		if (!keep)
+> +			break;
+> +	}
+
+[Severity: Medium]
+Does dl_tasks_keep_without() (and dl_tasks_keep_root_domain() below) walk
+the cpuset hierarchy and iterate every task in affected cpusets even when
+no deadline tasks hold bandwidth or admission control is disabled?
+
+Commit "sched/deadline: Keep the last CPU a task has in its root domain"
+earlier in this series guards dl_cpu_last_of_task() with
+!dl_bandwidth_enabled() || !atomic_read(&dl_nr_bw_tasks), whereas here
+dl_bandwidth_enabled() is only checked per task inside
+dl_task_keeps_root_domain() after css_task_iter has already locked
+css_set_lock and pinned each task, and dl_nr_bw_tasks is not checked.
+
+In addition, when cpumask_equal(cp->effective_cpus, new_cpus) is true in
+either function, continuing without advancing pos_css =3D
+css_rightmost_descendant(pos_css) visits all descendants of an unchanged
+subtree even though their effective_cpus cannot change either.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795646914.gi=
-t.mathieu.desnoyers@efficios.com?part=3D15
+t.mathieu.desnoyers@efficios.com?part=3D17
