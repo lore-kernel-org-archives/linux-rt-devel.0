@@ -1,65 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795787171;
-	b=EPRs+x7VVwz5vjWbJo/2G36kbEK3nFpY2UEHr3ThfTexL7Nd4NtSgV0taXt1IrKH6ctD
-	 UvVc6HYW7lIWmTmzhm524puhEC0Ck3aG4TWbDl4v87xoIxgDVnOj5N9H0aCU+jICdZQjU
-	 aijPnKappYNag50SwSpv01XIOhiM7cgz0/qAvbWeP7zLopdunC31XZGiywD/YBWRBGJhg
-	 +8KejFSQHLNbbCZogqex1Hue5EsXwWicQ/7o7D047iU6hzjeRgWS2/ApX/ff1Uh7IHMra
-	 1MWrwMZUnulusg9anpBuriGAMpjURSPR49k1UK4tBqGPJDQSY7TzgUA72J4aSAB8M1A==
+	t=1795787333;
+	b=bux0TDaMhuLz6nI4WEAGNW7Uy4XST2vWYNN1Ca/UArG2896U4dhYHNOuDf4/8p0oXZqP
+	 6jS3nLTrRy2vC2P7si/HCPBgnQRxT0t31YvCktnpeKbg4Sag2nyk9oDL6CoP0b50BBiCY
+	 Jh1Eo1h4ppIG8RneAim6ShorT4rh/0MKQ9DMxS7kQxbJX6nLI4efLbclEiZ8+9WMfgGZM
+	 mCWbDmPUJaOaPpNDA8N6ik365h6A9nWEOK26tGm6Bix15uCiF+GPGnVrNm68RVsbnyQ+Q
+	 h/+O//KTihqrgWZnB+ftOkCpGCvkre7UEvojOewQ25CE+RH9sdKwZ6mYI1nMMzm52Vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795787171;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xrboHXR9k3R5ZTIl0xnqUJBd88EpV7GBQtig56U+XN4=;
-	b=mDj8+oIGpDYi6mwKxd4NO5qDv/NT7nlsRXaefe93tNDIbK0IcEx5qW5JakG3OnX1eCJf
-	 J5ydZJCFfNHepGbFJ+8hfdbcR5XkxViF0VhOiogsSpygG06xx0/MwKgwWusre0nV0ykjY
-	 5c6qiw91kKt2WC1694dhWIXQC4OgKBokUkYR/BbaAGU/QjTLMd4ZR/9+i4zkbQSxXCo13
-	 JgSyU/59nei5Z3ZKkIdfHRiR2aUXg/bDm0aUwvsnX3HR3fSRKjb9CwRJ28kXuebFLgSDd
-	 4zWZ1PmDtuU7crbdFQL5N24S4r1ghJWQzXpesAy26Hnmdv0RnngvfHa6LEBV8KSsN1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795787333;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LWonx9SWofZH7HpXqR71LiMp0otZZf4iBhXMB4Hmx4Q=;
+	b=jGML+P68ZOtqqQ4mG1qallkoYFYyR+fUxyvlRPzZfbtlhxtc5FCFrIpc0gb5rSL+7zIv
+	 DOFCyCwL8rDbmh98jIgfZdcwR6v0nQrRZ4Y8WRGmmRPSzXFrZTxHIJFi2rQOxiWbN7ihs
+	 OCjCpGkszSGtg0ToYU0qbLfnWsdapDrMQVE/Jan9setUOxYtbEsYFSWhkpku+jAzIoQR1
+	 puVGO/JxRPht41yz0ybDdWhr3LZtRpV9wdEGJtHPWUHby4kZz1rPkzwB6aSleVEc1yGDn
+	 MbEB6CMdnR070/WVOz9R8dXeBS+CH3tnPhG/QGkhklWe5gD7dfNVPbIiWv7/0eos+NQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="EuaFTw/m";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=oxcf85qL;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE917606A330;
-	Fri, 27 Nov 2026 13:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1149606A324;
+	Fri, 27 Nov 2026 13:48:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1149606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EuaFTw/m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C741F008A0;
-	Fri, 27 Nov 2026 13:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795787171;
-	bh=xrboHXR9k3R5ZTIl0xnqUJBd88EpV7GBQtig56U+XN4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EuaFTw/mGYQL2/05CbrkWyRgMBbiDWj9UOiQvddq3AJ4j7Hl5+Q47lP7dYEZ03YOx
-	 NDSKg8yNY2xKeasTib39XKFEklavOkRFFfTbopUMPrttMM6QtuAOnFdRdTkqn2P9is
-	 JP0I/KuMDAz/xJ5VePVHbwi7K1+7tdlSf/bmCbItxElk48g5JMziDEQaTGXMGCu06j
-	 JcquGad4zOc1T+F8Cpgll0uA7Ww0dZgzUzJL4+VpSMJd6RTl0HBrBCXQ1/u3flZSRb
-	 Fz08WMV9praCyjq8ScPS4/K5Ok05p6+e7r1dqUGvXVzXe0El9IX8/E63wiUVmoKpKM
-	 unSZA90TldV8A==
-Message-ID: <sashiko-outbox-237513@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH 1/1] mm/vmstat: decay pcp->high of isolated CPUs
- from vmstat_shepherd
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SW9udXQgTmVjaGl0YSAoV2luZCBSaXZlcik=?= <ionut.nechita@windriver.com>, "Andrew
- Morton" <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: "Vlastimil Babka" <vbabka@kernel.org>, "Michal Hocko" <mhocko@suse.com>, "Johannes
- Weiner" <hannes@cmpxchg.org>, "Suren Baghdasaryan" <surenb@google.com>, "Brendan
- Jackman" <brendan.jackman@linux.dev>, "Zi Yan" <ziy@nvidia.com>, "David
- Hildenbrand" <david@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, "Mike
- Rapoport" <rppt@kernel.org>, "Huang Ying" <ying.huang@linux.alibaba.com>, "Marcelo
- Tosatti" <mtosatti@redhat.com>, "Frederic Weisbecker" <frederic@kernel.org>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev, ionut_n2001@yahoo.com, sunlightlinux@gmail.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20261126134410.17447-2-ionut.nechita@windriver.com>
-References: <20261126134410.17447-1-ionut.nechita@windriver.com>
- <20261126134410.17447-2-ionut.nechita@windriver.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 13:46:09 +0000
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=oxcf85qL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=smtpout1; t=1795787326;
+	bh=LWonx9SWofZH7HpXqR71LiMp0otZZf4iBhXMB4Hmx4Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oxcf85qLQuX821Vy5nJtWOtrlGxbEPpwNQeE7YjmuCRpI9pgTwdnf1NiN4u4kDCLx
+	 SYV1sioc8CgyP9hxJBxB80QTf3ITWew5KI1WLXgwGoCDbJq5HbHKLyGder/fIwkMx6
+	 0OV+iHm89aNzXOkHdGVCTSlqEcM/n9lfiDJAVnhrofPZq+YdS07/IfNQNa4RUhg+vq
+	 +Onc3wp04t5CFw0fxX7aIIYkNB9ujmbB6leMEjs2z+Uh0GlFC1u7rLbaP2rvuVKBFx
+	 J91I0ZQeWTjEwR/H4UgLRB+exAASdZgdo2gm8bObn99fAt/MnsRe+9JGMb5hrppygb
+	 rD0fg1ELAe0aQ==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbZWf274dzXCN;
+	Fri, 27 Nov 2026 08:48:46 -0500 (EST)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 15/43] sched/deadline: Keep a task in the root domain that counts its bandwidth
+Date: Fri, 27 Nov 2026 08:48:29 -0500
+Message-ID: <20261127134846.114774-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <sashiko-outbox-234570@kernel.org>
+References: <1b7d48df779794ceece2155c0080722932f2c3cd.1795646914.git.mathieu.desnoyers@efficios.com> <sashiko-outbox-234570@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -68,99 +67,21 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] mm: stale drain count and extra lock bounce in
-  decay_pcp_high()
-- [Low] mm: data race on pcp->high_min and pcp->batch in
-  decay_pcp_high()
---
+> Does this overwrite p->wake_cpu for a sleeping deadline task even when
+> its existing p->wake_cpu is still valid in ctx->new_mask and span?
 
-commit d20e26af9bbff82ca7f7d0c2d4fea5dc5d2bd609
-Author: Ionut Nechita <ionut.nechita@windriver.com>
+Yes. v12 will keep p->wake_cpu when the new mask still allows it, and
+when it is in the root domain that counts the task's bandwidth.
 
-mm/vmstat: decay pcp->high of isolated CPUs from vmstat_shepherd
+> Does this early return bypass the local NUMA node search in
+> select_fallback_rq() for deadline tasks?
 
-This commit makes vmstat_shepherd() remotely decay pcp->high and drain
-excess per-CPU pages for isolated CPUs, acquiring pcp->lock while
-adjusting pcp->high in decay_pcp_high().
+Yes. In v12, select_fallback_rq() will first try the CPUs of the root
+domain on the node of @cpu, then the whole root domain.
 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index ce44b8fc45aaf..aa9904eaf6e62 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -2586,8 +2586,13 @@ bool decay_pcp_high(struct zone *zone, struct per_=
-cpu_pages *pcp)
->  	int high_min, to_drain, to_drain_batched, batch;
->  	bool todo =3D false;
-> =20
-> -	high_min =3D READ_ONCE(pcp->high_min);
-> -	batch =3D READ_ONCE(pcp->batch);
-> +	/*
-> +	 * pcp->lock is taken because the pageset may belong to a remote CPU,
-> +	 * see decay_pcp_high_cpu().
-> +	 */
-> +	pcp_spin_lock_nopin(pcp);
-> +	high_min =3D pcp->high_min;
-> +	batch =3D pcp->batch;
+Thanks,
 
-[Severity: Low]
-Should pcp->high_min and pcp->batch still be read with READ_ONCE() here?
-
-pageset_update() updates pcp->batch and pcp->high_min with WRITE_ONCE()
-under pcp_batch_high_lock without taking pcp->lock, so plain loads can
-data race and allow the compiler to reload them across the comparisons
-and max3() / min() calls below.
-
->  	/*
->  	 * Decrease pcp->high periodically to try to free possible
->  	 * idle PCP pages.  And, avoid to free too many pages to
-> @@ -2601,6 +2606,7 @@ bool decay_pcp_high(struct zone *zone, struct per_c=
-pu_pages *pcp)
->  	}
-> =20
->  	to_drain =3D pcp->count - pcp->high;
-> +	pcp_spin_unlock_nopin(pcp);
->  	while (to_drain > 0) {
->  		to_drain_batched =3D min(to_drain, batch);
->  		pcp_spin_lock_nopin(pcp);
-
-[Severity: Medium]
-Can dropping pcp->lock before and between drain batches without
-rechecking pcp->count - pcp->high over-drain the remote PCP list and
-spin on pcp->lock and zone->lock?
-
-When decay_pcp_high() runs remotely from vmstat_shepherd(), the isolated
-CPU can allocate from PCP or drain its own PCP list in
-free_frozen_page_commit() while pcp->lock is dropped.  Because the loop
-keeps draining the stale to_drain count rather than re-evaluating
-pcp->count - pcp->high under pcp->lock, it can drain the isolated CPU's
-PCP cache down to 0, well below pcp->high:
-
-CPU0 (vmstat_shepherd)            CPU1 (isolated)
-decay_pcp_high_cpu(1)
-  decay_pcp_high(zone, pcp)
-    pcp_spin_lock_nopin(pcp)
-    pcp->high =3D ...
-    to_drain =3D pcp->count - pcp->high
-    pcp_spin_unlock_nopin(pcp)
-                                  rmqueue_pcplist() / free_frozen_page_comm=
-it()
-                                    /* lowers pcp->count to <=3D pcp->high =
-*/
-    while (to_drain > 0)
-      pcp_spin_lock_nopin(pcp)
-      free_pcppages_bulk(...)     <-- drains below pcp->high, down to 0
-      pcp_spin_unlock_nopin(pcp)
-
-Once pcp->count reaches 0 with to_drain > 0 remaining, the loop keeps
-running every remaining batch iteration, taking the remote pcp->lock and
-calling free_pcppages_bulk(), which unconditionally disables IRQs and
-takes zone->lock even when count is clamped to 0.  Also, unlocking
-pcp->lock right before the loop and immediately re-locking it for the
-first batch adds an extra remote lock bounce when to_drain > 0.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126134410.1744=
-7-1-ionut.nechita@windriver.com?part=3D1
+Mathieu
