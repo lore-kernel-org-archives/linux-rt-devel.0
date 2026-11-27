@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795799835;
-	b=DslWL80IvFhxLQ2FgiVSYY6MDlfPU9Gx850KNksiRg8nCHB5xi2sz4qT0slIX2/+isMD
-	 3NYxn4+p3Oj7O9SCMhQC3VOZdJKDUYoWBDL4KOM2aXGxJdczxxluMo7HidziMBcerW8pw
-	 fyU0pdS3/DFoxTiaXuJ0zsVIDsKdysZgCiRgaAzui7B9b2yP21fsecMR7i+kYgPV/MLJZ
-	 wsIYNKxLztUftE0KII1jhDUyR1S1HeZbwpr4j5f5G7KWCblLahjC9+8xWbGd1HSRkxXFd
-	 OSwWFWBn37tNvnOxgMZ1pAvBm28zD1QVMIsRy1fDoj1/YJ05YzQd9tdKkdnP5pFa5rA==
+	t=1795800077;
+	b=rOgMJKm3N9mXrbEFmHhfOIhmnqK4fChiqNYbljdQP4mGVdDxC7mmwIlh9ZdMQjqa7l6R
+	 YJEcn5uaC6ltdSCLT6Ncnxe2n+zZlL9mV8UmZeXhRYo/cDsigPorXq0uz+0HX3tpfr/5e
+	 Nad3H9Se/p2VvOhLL68oND/T0GZGQ1aAdfOuhevJ0LDCxsY+s4uHRKE5cNPjIBwxzX0xv
+	 ocfKJeeXMtxgx2q+TXieicuBdLGnNsX3nozWRJfxPIbZywg1YGMVgDcY8wZlEA8w7r4P5
+	 pvCDM98D2SapSHs+QZDD2tggluwr3DKinvqAfznw0hjOYseQr2JSaSub01oK6oSMxaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795799835;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795800077;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Bu2RPJeVRbnL5z1vo5s9lD3EAcTiSn64Ve67QHXyRfo=;
-	b=YT82nCLBzAr4FZDsJlpPbmugWhDmRhrg2dKsC84MgafTNoXzqdDn7r6Hg+w6nYGwEZAH
-	 Fz+Oq9CYVXeRN4yMsIdqE4JXLcdRN+YIafO2ESOWFR/MJGBrzgDGvQf8mxi+N1ZNM/cyQ
-	 5+nu4u98GCNCMiAHxvpbaHnZfcMr380tF9AOxdZVYdwx+nPuQUrpE/C2y9RuJCxB2hF49
-	 7+68IxUe1ktB90HbciccWthcUf5KQs4oa3IHxQiWDJs8EKlBPNB3nCITREFi9HRkbczQN
-	 xtvkGjVpLGmMp4rkdWs8dhEUQ7YdSSTj3LRcljlclRA1qkB2HTHWdUliF8jmYtKyflw==
+	bh=JXyrYuvxJAxv7N45cI/QmVHg+ruVtzmOUBU8VqoH1xw=;
+	b=SdjTN/xg332jV/ctw7nghGa6h0SxoBrQXnmY/2eDv7cJAkhjN5nBRkgpYWy7TWj9r/R/
+	 TvDV29s6m51/Gn3ePqDqg1HIrkEYWyqPbfNyXvRgS0UnJrpljUTs/2i8kbUnoKMbhs+1k
+	 WbAOyhHMWNqqcwjEODh9rr5r+7cpO2KmBRMqzSYc1alkicnx8ZuiJvCmafZ2TNOoDAEby
+	 SuZTNRQ7fPL1knknGCKK7wAKnMC4EoWP7p46dTqXpyBvoKBMZqofQV8gJwgcfqxz3fanI
+	 pg5fj5/Ju/0ok8wljtnNZjmQ6sUEGRtlVDyxvQ6M5Y/W7C2tO3LXBJORWtfaxZXhr9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aJoHidZd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DB3heLv9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3F6606A329;
-	Fri, 27 Nov 2026 17:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D31606A33B;
+	Fri, 27 Nov 2026 17:21:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aJoHidZd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2823D1F0092A;
-	Fri, 27 Nov 2026 17:17:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DB3heLv9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE9B1F00893;
+	Fri, 27 Nov 2026 17:21:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795799835;
-	bh=Bu2RPJeVRbnL5z1vo5s9lD3EAcTiSn64Ve67QHXyRfo=;
+	s=k20260515; t=1795800077;
+	bh=JXyrYuvxJAxv7N45cI/QmVHg+ruVtzmOUBU8VqoH1xw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aJoHidZdi0W/znZ2pZl8oxn+YTvEF87DRpmZS99d92hago7XPDKNdMmaFPGS2UO/5
-	 xGNmHwoew3q+CsBL7OYwaUTHVI1kkpH3hjVAbSxqFXjhjmDgfwR/MzAQfplhoGl5ej
-	 TMj2n/se89XCLKYyM01qk5C5WAVxD45c1WHydWEnqu/W8xmqhEHtXzyQVNnajUko/o
-	 NawcruPN3jQmgGtwgiTZFMJ5L7EqcmSOuoHE0izILkgCPj0hCAo5ClGeK2QGUpNExO
-	 /hsFsybyfnRY4c45j8dgGnSZ4PpbGStr5SVwGwNNVtjZewdIhw4jcV5igywITawDFa
-	 /YhNZoUxNH+Uw==
-Message-ID: <sashiko-outbox-237979@kernel.org>
+	b=DB3heLv9CEHzV+ExoS6c1/gcVonRnLM+m3hACGIcliQwtvU+Ithq3vp6GcaIeHgAW
+	 pypjzXW3WMw27cxVj4SvkU21Rhzs4pox8mCMV6qni4hVbq6fnwrFd57FmpuRNxXFSJ
+	 LdwNf/u6wWEsvN/3YOSNfr6b6yRwIgS/iWrM0OJkdRblFBrMChZr3fiDvB02ZeudjZ
+	 I2RIlvxDanw+QFEZ5WgALhGf7SwNQAt71Y2e3Q/C3OAxonGtXMNTACRdVWrYLLzHSz
+	 PCNSgvs0CQBlZ1X70qvD4EsoUfhZDDbFJbzpX4o7SAEtDkf4psQX77QevKpbFMNznj
+	 d0KIBhQGur7pw==
+Message-ID: <sashiko-outbox-237986@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v12 30/43] sched/deadline: Start a period for a task
- that enters the class blocked
+Subject: Re: [PATCH v12 32/43] sched/deadline: Start a period for a task
+ requeued onto an rt_mutex
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
 Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <36173003b241b9b994997ab4edce8a5cff1895ad.1795771148.git.mathieu.desnoyers@efficios.com>
+In-Reply-To: <108966f2fba71871167eb2108c0bb126aa2e8668.1795771148.git.mathieu.desnoyers@efficios.com>
 References: <cover.1795771147.git.mathieu.desnoyers@efficios.com>
- <36173003b241b9b994997ab4edce8a5cff1895ad.1795771148.git.mathieu.desnoyers@efficios.com>
+ <108966f2fba71871167eb2108c0bb126aa2e8668.1795771148.git.mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 17:17:14 +0000
+Date: Fri, 27 Nov 2026 17:21:16 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -63,68 +63,77 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] sched/deadline: missing dl_boost_blocked() call in
-  __setscheduler_dl_pi()
+- [Medium] rtmutex: race before try_to_take_rt_mutex() in
+  __rt_mutex_start_proxy_lock()
 --
 
-commit 5b744c28d31fd000da17d32b4f44f2734f91f651
+commit d799657d6a0cd901baee2fbb5b5e3b2e122a9c25
 Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-sched/deadline: Start a period for a task that enters the class blocked
+sched/deadline: Start a period for a task requeued onto an rt_mutex
 
-This commit starts a deadline period for a task blocked on an rt_mutex
-when it enters SCHED_DEADLINE via sched_setattr() or when a priority
-inheritance boost gives it a new deadline donor, so that the rt_mutex
-chain walk sorts its waiter using a valid deadline rather than 0.
+This commit adds dl_proxy_block() and invokes it in
+__rt_mutex_start_proxy_lock() and task_blocks_on_rt_mutex() so that a
+sleeping SCHED_DEADLINE task requeued onto an rt_mutex receives an
+up-to-date deadline before trylock evaluation and waiter queueing.
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 7a3a7e755d20b..edd26b321feeb 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -7980,8 +7980,12 @@ void rt_mutex_setprio(struct task_struct *p, struc=
-t task_struct *pi_task)
->  			if (!dl_prio(p->normal_prio) ||
->  			    (pi_task && dl_prio(pi_task->prio) &&
->  			     dl_entity_preempt(&pi_task->dl, &p->dl))) {
-> +				struct sched_dl_entity *old_donor =3D p->dl.pi_se;
+> diff --git a/kernel/locking/rtmutex_api.c b/kernel/locking/rtmutex_api.c
+> index 6bdbd36bac949..f1246efc62d3a 100644
+> --- a/kernel/locking/rtmutex_api.c
+> +++ b/kernel/locking/rtmutex_api.c
+> @@ -342,6 +342,18 @@ int __sched __rt_mutex_start_proxy_lock(struct rt_mu=
+tex_base *lock,
+> =20
+>  	lockdep_assert_held(&lock->wait_lock);
+> =20
+> +	/*
+> +	 * A requeued @task sleeps, so its deadline can be stale. The trylock
+> +	 * below and the waiter node both read it: update it first.
+> +	 * futex_lock_pi() passes current, which is running. Its deadline is
+> +	 * up to date.
+> +	 */
+> +	if (task !=3D current) {
+> +		raw_spin_lock(&task->pi_lock);
+> +		dl_proxy_block(task);
+> +		raw_spin_unlock(&task->pi_lock);
+> +	}
 > +
->  				dl_set_donor(&p->dl, pi_task);
->  				scope->flags |=3D ENQUEUE_REPLENISH;
-> +				if (!scope->queued && p->dl.pi_se !=3D old_donor)
-> +					dl_boost_blocked(p);
->  			} else {
->  				dl_deboost(&p->dl);
->  				/*
+>  	if (try_to_take_rt_mutex(lock, task, NULL))
+>  		return 1;
 
 [Severity: Medium]
-Should __setscheduler_dl_pi() also call dl_boost_blocked(p) when
-!scope->queued and p->dl.pi_se changes?
+Can a sleeping task switched to SCHED_DEADLINE after raw_spin_unlock(&task-=
+>pi_lock)
+still reach try_to_take_rt_mutex() with task->dl.deadline =3D=3D 0?
 
-kernel/sched/syscalls.c:__setscheduler_dl_pi() {
-    ...
-	if (dl_prio(newprio) && !dl_policy(policy)) {
-		struct task_struct *pi_task =3D rt_mutex_get_top_task(p);
+The same window noted for task_blocks_on_rt_mutex() exists before
+try_to_take_rt_mutex().  Because task is not queued on a runqueue and
+task->pi_blocked_on is still NULL, a concurrent sched_setattr() leaves
+task->dl.deadline at 0 in switched_to_dl():
 
-		if (pi_task) {
-			dl_set_donor(&p->dl, pi_task);
-			scope->flags |=3D ENQUEUE_REPLENISH;
-		}
-	}
-    ...
-}
+CPU0                                  CPU1
+__rt_mutex_start_proxy_lock()
+  raw_spin_lock(&task->pi_lock)
+  dl_proxy_block(task)
+  raw_spin_unlock(&task->pi_lock)
+                                      sched_setattr()
+                                        raw_spin_lock(&task->pi_lock)
+                                        ...
+                                        switched_to_dl()
+                                          /* !dl_task_pi_blocked(task):
+                                           * leaves deadline =3D=3D 0 */
+                                        raw_spin_unlock(&task->pi_lock)
+  try_to_take_rt_mutex(lock, task, NULL)
+    rt_mutex_steal(task_to_waiter(task),
+                   rt_mutex_top_waiter(lock))
+      /* reads deadline =3D=3D 0 */       <-- steals lock ahead of top_wait=
+er
 
-If p is blocked on an rt_mutex while already boosted in dl_sched_class by
-an earlier deadline donor, and a new top waiter boosts p's lock waiter M,
-__sched_setscheduler() on p can run before M's preemptible chain walk
-reaches p.  __setscheduler_dl_pi() then updates p->dl.pi_se to the new
-donor without replenishing p->dl.deadline (since p is not queued and stays
-in dl_sched_class, neither enqueue nor switched_to_dl() runs).
-rt_mutex_adjust_pi(p) copies the new pi_se with the old donor's deadline
-into p's waiter, and when M's chain walk reaches rt_mutex_setprio(p, M),
-p->dl.pi_se =3D=3D old_donor is already true, so dl_boost_blocked(p) is
-skipped there as well and p's waiter stays sorted by the previous donor's
-stale deadline.
+When the rt_mutex is in the unlocked-with-waiters transition state,
+try_to_take_rt_mutex() calls rt_mutex_steal() without holding
+task->pi_lock, allowing task to steal the lock ahead of a deadline
+top_waiter with an earlier real deadline.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795771147.gi=
-t.mathieu.desnoyers@efficios.com?part=3D30
+t.mathieu.desnoyers@efficios.com?part=3D32
