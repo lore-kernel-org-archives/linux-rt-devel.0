@@ -1,57 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795802876;
-	b=ljgGGmgZvnq9iBjFYfQjhvReX1PDysYMixkfMZhiTHXQXb03Y/wusEuO7OaUcBJorL+v
-	 eoyM5qHiKqWZSmv3YaGq+0kYGZIywp2gIJPgzol6RtD1OXpu0tMo/OyAMsBasQZSkkORZ
-	 wzVwqqef2wiVU2SMKK+1MRK65rhBep6KsxxcryMJF74gFMfyXUZHGaeP/m8cliFGD1wNR
-	 +XN0xRHVvoAsPg3GZT9buYervHLQ2vMhBBybG6Yi3oPDznFqyoP6NfigKGxko61FHTeOT
-	 h9coPL2PvqOy0SlG0OojD8GSU6oUaGUs3vd1q1fwAX6bC/srHONzp4gIQ9avH4RGg3w==
+	t=1795804684;
+	b=MyX4lnGxRkcAAAFs4u6MoBTlGlmSiRb51Gb5q9tcKdHtYra8YBE9F6ktMnT1Fz6AF3/f
+	 WjSdWKZqRAoGA4xfcdxgson4KgzAStKJikyHn3AI2vFlmYgUWgxwrCN93PvkFmyZ74is3
+	 mJOTvsuzFLVw3SGP92RMAfHS+lXRFCamSv9PNPPw+b10gGcOsarhWPDZ7BnMlw76lS3ID
+	 cLOXH9uowbjIxMl1cBL8pVs6yjXuPEpx7vTopIdUSuBk65NKYe40TG8cQWTYk3azsjgLl
+	 +JBb/2u/Q3TFvckaj99vJxAeFmTdYDN0MVRuN1+GpTQsq+GYGs2R6V63ywlwOPC0Ztw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795802876;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9+sXP/dgT8KSDd3l4e8Kf/bLYRbSf9j3hdA0pgxosqI=;
-	b=SliQSXwC8pwgF7CaOHuLDqbjMBCEsFJ8D0/GeKBRRalv5Mhx4zxYh683Qae0q2E8ConL
-	 ziwRL4y5uenneAVRDzF3mrm62zO7aQWeX4zqy8Ad2ZB32/Lc1ggZ4s2xginrWLL+e//SQ
-	 Ykba8DdUoBPo2A+/0v+i1mFWqEoSGvIB6iEkASZXHA5kdHOIQGEnbJBpC0sy8UDPNSatI
-	 W3uexiKrBZ2jkSjQcDwTNEjhC/pnyLdzQ4kp1drdOTtqpUzlxc4vPVFR8enxHarAN13yT
-	 Zcad/gg5pGzRFlN9PlvA8pv2WLXLXo6xwO6CyMMz3lchRHvrXe3ldwjE6PkKw208fGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795804684;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=BWblz2p3e+RANKxaoCJc2peYHCm2/SRIz3+0ra5cwvs=;
+	b=wx/ViojKiCd5T/yf02vkUa8jV3xnoA/R7pe2sEwYYjw+Nb3mREtqNQ9UDRqI6OYEaZen
+	 X0d+jYW6CXOen0w1T9rIF8RKVKYMkwtYe32s7C3rb+GnPiAa9g70cYG6VSI5NBGWfZeXu
+	 nHA5iL2x1V2m1c3VhS9n0e6LGkD2A2ojNAnd6SAN/lXYFOu4r4EzXGNwUtgqvePYEwxcu
+	 MWUCvPMahPyJ/QkQ3/5Razlh35pE40FPkiISIcZ8d94iE7HL5XPS87yIJ/icGwy4ilu9t
+	 3o+AkJuN+Youx+3MrFPlg4wLXEConzRompmiHRFqkxoYflBOYemBMxk7IYcMtJcStwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WPrcT72z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F087606A31C;
-	Fri, 27 Nov 2026 18:07:55 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Pj8RMo4+;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5194B606A31E;
+	Fri, 27 Nov 2026 18:38:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5194B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WPrcT72z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E161F00898;
-	Fri, 27 Nov 2026 18:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795802875;
-	bh=9+sXP/dgT8KSDd3l4e8Kf/bLYRbSf9j3hdA0pgxosqI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WPrcT72zGiik0zk0XryPuR80p0VH3a/r9YJOsBtmP9PzIL/W7vBXJh7UPlYU1HYbR
-	 W6d9JhRLaG7GVB5qxl5gQMRsfq/xfvNBI2kPpYU6TkVulMDyeQYwJFIOCOI/59UDwN
-	 6R0dkz0zax/yZIuzFLITsLGj21lQgjcCZDs6WLTnsd0arvnyErXyZi/jQkMp5PIRGf
-	 ujPluQw51lLq60YNUSUl0RpVCxw6Cipwfag9HAO3I9lzyeYc4Z/vLMh7TB/fel88Ns
-	 a+Mm7hkfBnBPcutIeVZ7Baita6C+hoDCh/iRT9ByPSqJgQDgHEUBZPUiKmbdbuQm0g
-	 i8oYG7Ba6XYcA==
-Message-ID: <sashiko-outbox-238044@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v12 41/43] sched/deadline: Run a boost held at its first
- refill on a donor period
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
-In-Reply-To: <5b1fecd307f51ac34910dc854f64c64a63dbb7e3.1795771148.git.mathieu.desnoyers@efficios.com>
-References: <cover.1795771147.git.mathieu.desnoyers@efficios.com>
- <5b1fecd307f51ac34910dc854f64c64a63dbb7e3.1795771148.git.mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 18:07:55 +0000
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Pj8RMo4+
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 932731575;
+	Fri, 27 Nov 2026 10:37:59 -0800 (PST)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7798F3F86C;
+	Fri, 27 Nov 2026 10:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795804682; bh=WmazKbbRJkJgrB2424W6m6iKCFKjBQNVA1FAYPEAZmc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pj8RMo4+8uVvzglyYRCuvg790viYUgDQspUF3aRjCZFHTiLXEeLCktxCz2Q7UPnWh
+	 4Z1ld8xUtlEp1n8tZigZexN643W7Amw3OqJikuSRR51zOqjfZIVcfNaTH0fln3cY1l
+	 SXQYNpjkf8/BO1QI4Ya//Lf7Zr/ObA7Ku4CQn1+s=
+Date: Fri, 27 Nov 2026 18:37:55 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+	Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>,
+	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Subject: Re: [PATCH v5] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP
+ notification to task_work()
+Message-ID: <awnOAw-bnxDbljaE@arm.com>
+References: <20261120144553.TjgAd_G6@linutronix.de>
+ <20261120150320.GQ2668804@noisy.programming.kicks-ass.net>
+ <20261120155806.GK2669272@noisy.programming.kicks-ass.net>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -60,152 +79,69 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120155806.GK2669272@noisy.programming.kicks-ass.net>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] sched/deadline: corrupted donor period state when donor
-  params are cleared
-- [Low] sched/deadline: duplicate replenishment tracepoint on first
-  held-boost refill
---
+On Fri, Nov 20, 2026 at 04:58:06PM +0100, Peter Zijlstra wrote:
+> On Fri, Nov 20, 2026 at 04:03:20PM +0100, Peter Zijlstra wrote:
+> > On Fri, Nov 20, 2026 at 03:45:53PM +0100, Sebastian Andrzej Siewior wrote:
+> > > Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
+> > > "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
+> > > delivered with disabled interrupts and perf intrastrucure expects
+> > > disabled interrupts while the overflow callback is invoked.
+> > > 
+> > > The callback then sends a SIGTRAP signal for which it acquires
+> > > sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
+> > > must not be acquired in atomic context.
+> > > 
+> > > Delay the event callback until the return to userland.
+> > > Add perf_hwbp_notify(), a generic perf callback which delayes the
+> > > actual callback invocation to task_work_add() callback. This callback
+> > > invokes the architecture defined callback perf_arch_hwbp_send_sig().
+> > > This requires struct callback_head and the functions require
+> > > ARCH_NEED_PERF_HW_NOTIFY to be defined.
+> > > 
+> > > This was reported against ARM64. ARM, LongARCH and Xtensa follow the
+> > > same pattern are also converted. Xtensa is the only not supporting
+> > > PREEMPT_RT but now we have all architectures using the same pattern.
+> > > 
+> > > Fixes: d8fccd9ca5f90 ("arm64: Allow to enable PREEMPT_RT.")
+> > > Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+> > > Reported-by: Waiman Long <longman@redhat.com>
+> > > Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
+> > > Reviewed-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+> > > Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+> > > Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > ---
+> > 
+> > Mark; you was going to stare at this :-)
+> > 
+> > I'm thinking the archs are doing it wrong and should be sending the
+> > signal elsewhere.
+> 
+> Notably, I'm thinking arm64 should be sending the signal from either
+> do_watchpoint()/do_breakpoint(), after it has done perf_bp_event(),
+> or from el0_watchpt()/el0_breakpt().
+> 
+> Perf overflow handlers are not the place to send signals from.
+> 
+> That is very much what x86 also does, we send the signal from
+> exc_debug_user(); which is roughly equivalent to the above mentioned
+> functions.
 
-commit 0aa5ad7879d538e8d7671934363e9bde5d35376e
-Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+(Mark and Will are the experts here but they are busy)
 
-sched/deadline: Run a boost held at its first refill on a donor period
+I think we can do something similar for arm64, send the signal in
+el0_breakpt()/el0_watchpt() after local_daif_restore(). We do this with
+el0_brk64(). ptrace_hbptriggered() can just record the perf_event and
+defer the sending (we may need a new field in thread_struct::debug). No
+core code changes needed.
 
-This commit runs a boost held at its first refill on a donor period by
-calling dl_boost_donor_period() from dl_hold_refilled_boost() and keeping
-the placed period in replenish_dl_new_period().
+I think Russell also objected to this patch for arm and Sashiko
+complains about loongarch issues (I haven't parsed them).
 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index b9dd7ec10e7d2..f4e07aa47715d 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-
-[ ... ]
-
-> @@ -1741,11 +1746,13 @@ static void wakeup_preempt_dl(struct rq *rq, stru=
-ct task_struct *p, int flags);
->  static inline void replenish_dl_new_period(struct sched_dl_entity *dl_se,
->  					    struct rq *rq)
->  {
-> -	dl_note_donor_refill(dl_se);
-> -	/* for non-boosted task, pi_of(dl_se) =3D=3D dl_se */
-> -	dl_se->period_start =3D rq_clock(rq);
-> -	dl_se->deadline =3D dl_se->period_start + pi_of(dl_se)->dl_deadline;
-> -	dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
-> +	/* A boost held from this refill keeps the period it placed. */
-> +	if (!dl_note_donor_refill(dl_se)) {
-> +		/* for non-boosted task, pi_of(dl_se) =3D=3D dl_se */
-> +		dl_se->period_start =3D rq_clock(rq);
-> +		dl_se->deadline =3D dl_se->period_start + pi_of(dl_se)->dl_deadline;
-> +		dl_se->runtime =3D pi_of(dl_se)->dl_runtime;
-> +	}
-> =20
->  	/*
->  	 * If it is a deferred reservation, and the server
-
-[Severity: Low]
-Does holding a boost on its first refill emit trace_sched_dl_replenish_tp()
-twice for a single replenishment?
-
-When dl_note_donor_refill() holds the boost, dl_hold_refilled_boost() calls
-dl_boost_donor_period().  Whenever no earlier donor period is resumed,
-dl_boost_donor_period() calls replenish_dl_new_period(), which fires
-trace_sched_dl_replenish_tp() before returning to the outer
-replenish_dl_new_period() or replenish_dl_entity() call that fires
-trace_sched_dl_replenish_tp() a second time.
-
-[ ... ]
-
-> @@ -6115,11 +6125,15 @@ static bool dl_setattr_period(struct sched_dl_ent=
-ity *dl_se, u64 old_runtime,
->   * If sched_setattr() changed the parameters before this refill,
->   * dl_setattr_period() saved the old ones in setattr_*. Fit the period
->   * saved in own_* to the new parameters with them. setattr_* share
-> - * storage with own_*: read them before writing own_*. The caller holds
-> - * the rq lock of the task, and has updated the rq clock.
-> + * storage with own_*: read them before writing own_*. Return true if a
-> + * period of the donor was placed. The caller holds the rq lock of the
-> + * task, and has updated the rq clock.
->   */
-> -static void dl_hold_refilled_boost(struct sched_dl_entity *dl_se)
-> +static bool dl_hold_refilled_boost(struct sched_dl_entity *dl_se)
->  {
-> +	struct sched_dl_entity *pi_se =3D pi_of(dl_se);
-> +	u64 donor_runtime =3D READ_ONCE(pi_se->dl_runtime);
-> +	u64 donor_deadline =3D READ_ONCE(pi_se->dl_deadline);
->  	u64 old_runtime =3D dl_se->setattr_runtime;
->  	u64 old_deadline =3D dl_se->setattr_deadline;
->  	u64 old_period =3D dl_se->setattr_period;
-> @@ -6142,6 +6156,14 @@ static void dl_hold_refilled_boost(struct sched_dl=
-_entity *dl_se)
->  				 old_runtime, old_deadline, old_period, false, false);
->  	else if (!dl_time_before(now, dl_se->own_deadline))
->  		dl_se->own_runtime =3D 0;
-> +	/*
-> +	 * replenish_dl_entity() checks the donor's parameters: it adds no
-> +	 * runtime if they were cleared. Start no period from them then.
-> +	 */
-> +	if (!donor_runtime || !donor_deadline)
-> +		return false;
-> +	dl_boost_donor_period(dl_se);
-> +	return true;
->  }
->  #endif /* CONFIG_RT_MUTEXES */
-
-[Severity: Medium]
-Can clearing the donor's parameters corrupt dl_se's period and saved
-boost_* state?
-
-When the donor leaves SCHED_DEADLINE and __dl_clear_params(pi_se) zeroes
-its parameters before or during the first refill of an unheld boost, three
-things go wrong:
-
-1. dl_hold_refilled_boost() sets dl_se->dl_boost_held =3D 1 before checking
-!donor_runtime || !donor_deadline.  Returning false leaves dl_se->deadline
-and dl_se->period_start on the owner's own period with dl_se->runtime =3D=
-=3D 0.
-At deboost, dl_end_held_boost() sees dl_boost_held =3D=3D 1 and saves the
-owner's own period and zero runtime into boost_* with dl_boost_granted =3D =
-1:
-
-kernel/sched/deadline.c:dl_end_held_boost() {
-	if (!dl_se->dl_boost_held)
-		return false;
-	...
-	dl_se->boost_deadline =3D dl_se->deadline;
-	dl_se->boost_runtime =3D dl_se->runtime;
-	dl_se->boost_period_start =3D dl_se->period_start;
-	dl_se->dl_boost_granted =3D 1;
-}
-
-A subsequent held boost from a new donor within own_period_start + period
-then resumes the owner's own_period_start with zero runtime in
-dl_boost_donor_period(), and replenish_dl_entity() pushes its deadline out
-to own_period_start + dl_deadline + dl_period (past the waiter's deadline).
-
-2. When called from replenish_dl_new_period() -> dl_note_donor_refill(),
-returning false from dl_hold_refilled_boost() causes
-if (!dl_note_donor_refill(dl_se)) in replenish_dl_new_period() to take the
-branch and overwrite period_start =3D rq_clock(rq), deadline =3D period_sta=
-rt +
-0, and runtime =3D 0 from the cleared donor parameters anyway.
-
-3. __dl_clear_params(pi_se) runs under the donor's rq lock on another CPU.
-replenish_dl_entity() snapshots runtime, deadline, and period once and
-validates all three, whereas dl_hold_refilled_boost() re-reads
-pi_se->dl_runtime and pi_se->dl_deadline (without dl_period), and
-dl_boost_donor_period() and replenish_dl_new_period() re-read pi_se fields
-again.  If __dl_clear_params(pi_se) races between replenish_dl_entity()'s
-initial check and those re-reads, dl_hold_refilled_boost() can return false
-without placing a donor period while replenish_dl_entity() still executes
-its while (dl_se->runtime <=3D 0) loop on the owner's own deadline and
-negative runtime, or replenish_dl_new_period() can zero the relative
-deadline and runtime before that loop advances both period_start and
-deadline to now + period.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795771147.gi=
-t.mathieu.desnoyers@efficios.com?part=3D41
+-- 
+Catalin
