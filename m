@@ -1,109 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795727047;
-	b=iDU4ALGzFCsCWaMoO9mRewgfM7EA5x6bggBqlbZqkkot0dfcx336qD/BIzgVnxFfKD+b
-	 S0Gry3DbNYOaVZ8F0AQZDcix8SCs+AHvpLiVU56xUrp76d+xgKEtHCwbzORVgsh38zc59
-	 PcF+q4NaAWwd/CyhC1PiHs2hNP3+hL7NVfdayeGzfbGu/r+zM9bA2Dgh08p8YN0SS8lAO
-	 VkcOcydYoT3oG9S+XfmsDkuiT7UQhjtg4qFdiPk6/xqyqn9A630xApJdMghwYlw3gjCzH
-	 x7mMcejTTho4xg8VwCJDfkrHRwOsr/Q8h68Gur5A9V/odKar8SPxWgApKEbQLg2DEgg==
+	t=1795774492;
+	b=odQCh8l3iyBIASPPdD0gTEawxOroiSjhSYRRUeBkXR2XJMzzbjeqmsaIXuT/Km5kqqIX
+	 NnsvCMh7l6A9S+GJ5WzIJpjdO1/39UoxqxhA5+cdmFuur5tX4S3AU0BAXQw9iZqmZdiln
+	 MIgsa5ZnkrZ9uAHhmwj51YctLuIhia/xsU5PImDM7XTNE5SKUUSzzM+l35a4DxdOKsZro
+	 TaX0M4/GfsT4DmER7gEKG12FAsIMW9yujgdvrLpRNuRSV0vvTiYyGJ9a6e30yjaMZbznL
+	 zw5+LjOVOCiqFuSbvOga1qHJ/9IM0IFSiKQYffEv7xTsLbcDzNmfBFkLBdILtG2Ed0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795727047;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
-	 References:Content-Transfer-Encoding:MIME-Version;
-	bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
-	b=eM2FpajhIheJJE5RR814EwY2mWxAnad0yLCNHVNYNlve14axki7C0re2j4BOdSDQEpip
-	 0GAWvCp3sKo5bJSRUynvM5q1tddkQGrSTKhX6k8Dl0/3t/NmQABUZ0Xmnd+lO/ZV47BJz
-	 lXhNVWuI6+JJ/14hQE/FohXyo0kxf0BistDwfJWTyIHNQxlFO/5g7kRGFMt0lmGFTLh2k
-	 OMjo+Uc4t3Amd4rC2+tOQcHG/5QGUm84CwSrHnKDSjBfKwfyX35KVpBNLlY8CI6Abak3s
-	 YU+QzfKXJLg2qp7GycpjQGXwhPnnV309VJIPtHr7R4tTavs5crxkqEw0aNYlDM8lONg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795774492;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:Organization:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=gfAz+igUaZQtqJ8U5CAAvNBQ49KsairTBI4/qgGsxOM=;
+	b=BGv/lrJ1Xs3o+au9dOyyAA/Y1PUKWFh7X+jIdZcCXfD/Y6IfyZoHvGyRUqob5qF5p13R
+	 X8CiXY/SPf3YYtMTH74+n3Ax511W8qarPCqVfjZFim8HzVK+8gPI2BCeEWo53trm9GwQz
+	 u/beGWUoF0YWwgrq4/zQ+VoKKd7pp1oFezSdH8A/87r8FwFwSXIpbRsMq5HjZIXz0xg2l
+	 jk4Qg+LxhB3R3s+JeLv97YzP1YvZQvyzHT1yAy4PcRc+n0/wqjo3uCNnbfFBIXxIuPp3P
+	 gcMV5WViKP6+LS7UcEeKX0XnwMZSimHbU8HH9nLCSB3kA9wNGkzgWgjhpYRWzl8F6GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RkzI04L+;
-	arc=none smtp.remote-ip=209.85.215.174
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jk6uF4BV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94229606A321
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 21:04:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94229606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD3D60A260C;
+	Fri, 27 Nov 2026 10:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RkzI04L+
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cdb2893531bso3888473a12.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Nov 2026 13:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795727047; x=1796331847; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
-        b=RkzI04L+yZ4S3Wvb+EyeJN83qUkCscGq/0XjrNXp2Am3pdnnayLP7IphUgMeEvn/vt
-         31aGH6V3w9oaFL3IM8BIzpGf/oXQDDQFyGBf0SGfQagn/LkOH5K0IqpwmXllse2hzvML
-         MxnRfSIKYt2/oMKN6xo94a/wqIag8+HzXTIczSLXSwlxTNpWV6GrF6obpxVj1AXKLh22
-         xGKIjiU+5HD6AZkr7p2qKG9U6P2XHYuLrlL9Nh4Phmq+ntSVIUingC+msaBXXHY6Qnin
-         8J8L+cLLT1m8q3/4dRPIR33W82KElqxaLEmCrfbWjKWEs9biEVvYiZt3ABnSlmbIX94D
-         ywyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795727047; x=1796331847;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NzQpi5zLFt48IXOc9gm2YIA1Vaa4QZ9J+BdHMrNcKwo=;
-        b=Cgfl2ACGs7m7W1n4R33s5F+BfwMig/ih37kZOldxwoeV30tuTIQsLEVOl4Otoi0LuS
-         JtwKxYi9zfkBl0uQIrpdPua/OPilv0Ppo9nUw2XYOpmsoWzW3nXVnpr7j7+wyxQy++Rz
-         wioRwv1MQZlbR8FiEVrwpZpBH0DQwGLDlWObBq3y1UQbnorvuGbhfvhxWFb6WbPssyJO
-         /OqHAhSb+u3UkjYJFy9+nhFgmCWv0FHZG9LJjeCwhg6B/xkuo0k3PEV2NEGzzPNDLWiq
-         H1JUf9fLE+EREPyxKGbGKS4+fYvGwBIre/X3bw+HbkQHKq55rHrzcxR8+yqXim0QeKSd
-         xwIQ==
-X-Forwarded-Encrypted: i=1; AL+hErEpLkjjddJKSqkMLpIL1MKUTZ472MT5C51MaThpROZjELfbJhNqDZO8GNfuw02dHn8HGbfUeChFio2ttvpeFg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/NPQonBEO4bHmq92KmZLOzM4Z9n5Zr94mxpNCzmFcM5n4FF4yC
-	ykeOUAFzeKl3ZJ5K3A5BXNSZtzIR/mi0YwgEZCTCAk5WNPgE7suYDrnC
-X-Gm-Gg: AZFdTZcM5JK9ByDmfwLiwftB3R7YaYoaQD9ybmCXCeBtOXJdBPlFjRkAHe+PS2840x7
-	V/vm01fqigpMj+3JXUg4C/qaua7qEjTWyfBCeD5i2sFZhyU7nUmcYg9oPFithspTF6kIQUgY4lT
-	hnof/UFJbPhKpdeo1PHPivbYNv0gasnq6bV6xdXLKga6zBTUKaIINfFKoM8ow77C3CtGr+CTEFe
-	W8UB5MnINWzNbC+Z3XYNYwXyzxl0bR98JbuNc1dgveHubx5igqm2mnj/NI63FCPDpilb9QKxq6J
-	af8X3VS5FiFavZBZmKxm+3VD3fWa5d33QXDxQw5FY8tY531w01Mnx6nPzyKAXsrIhAy5RX4myzK
-	42qIk0L6+YGPWDN65BWlaanaGFFcUTHW7d6ZRmCuy+gX5fWOCmfiIk3l1T3TzC+IPOjI5S9fVjg
-	NU3gJSpw8efjK8FBJ8enMpjEu1Cb+Kn4SuCrLW1soLl1BcIS+bbt6xgoqYthsRBAI74axGyqmb6
-	PXvsmIxtFnWKyEMZy0kuPpJg9a4uK4Uv3nXAo4RzIhGWgjNDuZYggzO5fnAjPI3Xp98EzqTLXRF
-	F7I3Er2vPOuPcnipAnpe0PQDvjm+6vFUY8G/Jk+edWFEpkr0+yHUq7waim4mfv0C18EH9SPrLLo
-	AuDWlPiCY7rHYyUBPGgFlLoDLWNKIXqaLub0=
-X-Received: by 2002:a05:6a20:430d:b0:3fb:1640:c525 with SMTP id adf61e73a8af0-4014dd5bab0mr24693403637.67.1795727046733;
-        Thu, 26 Nov 2026 13:04:06 -0800 (PST)
-Received: from localhost ([153.61.198.246])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c872e4af1fsm11430391b3a.28.2026.11.26.13.04.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 13:04:06 -0800 (PST)
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 21:04:05 +0000
-Message-Id: <DN5G409Y1VV6.FWWRMP1I8IB1@gmail.com>
-Cc: "Harry Yoo" <harry@kernel.org>, "Emil Tsalapatis"
- <emil@etsalapatis.com>, <bpf@vger.kernel.org>, <andrii@kernel.org>,
- <eddyz87@gmail.com>, <memxor@gmail.com>, <daniel@iogearbox.net>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- <linux-rt-devel@lists.linux.dev>, "Vlastimil Babka" <vbabka@kernel.org>,
- "Hao Li" <hao.li@linux.dev>, "Andrew Morton" <akpm@linux-foundation.org>,
- "Suren Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Brendan Jackman" <brendan.jackman@linux.dev>, "Johannes Weiner"
- <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, <linux-mm@kvack.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Will Deacon" <will@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Waiman Long" <longman@redhat.com>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH bpf-next v1 1/4] bpf: Add call for selecting kmalloc or
- kmalloc_nolock at call time
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Peter Zijlstra"
- <peterz@infradead.org>
-In-Reply-To: <3a44dbfb-265f-4749-b411-9491a0bcf8c0@kernel.org>
-References: <20261124060357.11700-1-emil@etsalapatis.com> <20261124060357.11700-2-emil@etsalapatis.com> <DN38HGVL8JHQ.2ZVZQCKFXVA9T@gmail.com> <awWRZ9xCzWLnj_R6@thinkstation> <20261125140902.GE2668804@noisy.programming.kicks-ass.net> <DN4QLI2XAGO1.2DDIFJ49PNRPS@gmail.com> <20261126094403.GA49833@noisy.programming.kicks-ass.net> <aecebb39-47c9-4b0f-a076-ac0ddc7724d9@kernel.org> <DN5FM9P3X2P0.2IFD5DFBRELP1@gmail.com> <3a44dbfb-265f-4749-b411-9491a0bcf8c0@kernel.org>
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jk6uF4BV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E951F0089A;
+	Fri, 27 Nov 2026 10:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795774491;
+	bh=gfAz+igUaZQtqJ8U5CAAvNBQ49KsairTBI4/qgGsxOM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Jk6uF4BVYxjpa7BcdvmvYO0JVlWJ7Aw+egsP7dUBAgWLZ60e6KchWnkoopl8FLOVJ
+	 GxRJ021z8UCTo+6fv8LCv4iqLRMxFHVEqCNwNTp6dCgG87r6gy0PwbLWwA/Xkd3/4N
+	 DWc2vfR7xkrqVaR0163e6i8NKA3f/eSkVI2kiIFf3XIlEGFK2rJb+4RrBL7XkaYVis
+	 QeNqtXgW257auKS8pXzNeQxa+nXikiid1YHZdL6aLi18uI+6hpHhdyP57N+cLR67ty
+	 sNfQIEZy6f6HUwojT6VaI4ri8G7N6SXk0VDNoeU52NbTR12ejOq5aPGiYaM3hg/Wpt
+	 92vc15IHZ3BxQ==
+Message-ID: <398670d0-809d-4cdc-b03f-80bc3b5faa2a@kernel.org>
+Date: Fri, 27 Nov 2026 11:14:45 +0100
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -113,23 +51,134 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net v4 2/3] net/sched: act_gate: refuse schedule entries
+ shorter than 10 us
+Content-Language: fr
+To: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>,
+ Simon Horman <horms@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev,
+ Victor Nogueira <victor@mojatatu.com>, Po Liu <Po.Liu@nxp.com>,
+ stable@vger.kernel.org, sashiko-bot@kernel.org
+References: <ACT-WEXM.v4.r0.20261124074514@mojatatu.com>
+ <ACT-WEXM.v4.r0.20261124074514-2@mojatatu.com>
+ <20261124161258.vLyrm8Y4@linutronix.de>
+ <CAM0EoMmMio4kotBqbcJmFtf_c3Du=rhfvp+sMiAd0fHKowv6Vg@mail.gmail.com>
+ <CAM0EoMkEjxCo6K9k3MZH0U+3na9soMNE0gouddwOTzUYXcEunA@mail.gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ xsFNBFXj+ekBEADxVr99p2guPcqHFeI/JcFxls6KibzyZD5TQTyfuYlzEp7C7A9swoK5iCvf
+ YBNdx5Xl74NLSgx6y/1NiMQGuKeu+2BmtnkiGxBNanfXcnl4L4Lzz+iXBvvbtCbynnnqDDqU
+ c7SPFMpMesgpcu1xFt0F6bcxE+0ojRtSCZ5HDElKlHJNYtD1uwY4UYVGWUGCF/+cY1YLmtfb
+ WdNb/SFo+Mp0HItfBC12qtDIXYvbfNUGVnA5jXeWMEyYhSNktLnpDL2gBUCsdbkov5VjiOX7
+ CRTkX0UgNWRjyFZwThaZADEvAOo12M5uSBk7h07yJ97gqvBtcx45IsJwfUJE4hy8qZqsA62A
+ nTRflBvp647IXAiCcwWsEgE5AXKwA3aL6dcpVR17JXJ6nwHHnslVi8WesiqzUI9sbO/hXeXw
+ TDSB+YhErbNOxvHqCzZEnGAAFf6ges26fRVyuU119AzO40sjdLV0l6LE7GshddyazWZf0iac
+ nEhX9NKxGnuhMu5SXmo2poIQttJuYAvTVUNwQVEx/0yY5xmiuyqvXa+XT7NKJkOZSiAPlNt6
+ VffjgOP62S7M9wDShUghN3F7CPOrrRsOHWO/l6I/qJdUMW+MHSFYPfYiFXoLUZyPvNVCYSgs
+ 3oQaFhHapq1f345XBtfG3fOYp1K2wTXd4ThFraTLl8PHxCn4ywARAQABzSRNYXR0aGlldSBC
+ YWVydHMgPG1hdHR0YmVAa2VybmVsLm9yZz7CwZEEEwEIADsCGwMFCwkIBwIGFQoJCAsCBBYC
+ AwECHgECF4AWIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZUDpDAIZAQAKCRD2t4JPQmmgcz33
+ EACjROM3nj9FGclR5AlyPUbAq/txEX7E0EFQCDtdLPrjBcLAoaYJIQUV8IDCcPjZMJy2ADp7
+ /zSwYba2rE2C9vRgjXZJNt21mySvKnnkPbNQGkNRl3TZAinO1Ddq3fp2c/GmYaW1NWFSfOmw
+ MvB5CJaN0UK5l0/drnaA6Hxsu62V5UnpvxWgexqDuo0wfpEeP1PEqMNzyiVPvJ8bJxgM8qoC
+ cpXLp1Rq/jq7pbUycY8GeYw2j+FVZJHlhL0w0Zm9CFHThHxRAm1tsIPc+oTorx7haXP+nN0J
+ iqBXVAxLK2KxrHtMygim50xk2QpUotWYfZpRRv8dMygEPIB3f1Vi5JMwP4M47NZNdpqVkHrm
+ jvcNuLfDgf/vqUvuXs2eA2/BkIHcOuAAbsvreX1WX1rTHmx5ud3OhsWQQRVL2rt+0p1DpROI
+ 3Ob8F78W5rKr4HYvjX2Inpy3WahAm7FzUY184OyfPO/2zadKCqg8n01mWA9PXxs84bFEV2mP
+ VzC5j6K8U3RNA6cb9bpE5bzXut6T2gxj6j+7TsgMQFhbyH/tZgpDjWvAiPZHb3sV29t8XaOF
+ BwzqiI2AEkiWMySiHwCCMsIH9WUH7r7vpwROko89Tk+InpEbiphPjd7qAkyJ+tNIEWd1+MlX
+ ZPtOaFLVHhLQ3PLFLkrU3+Yi3tXqpvLE3gO3LM7BTQRV4/npARAA5+u/Sx1n9anIqcgHpA7l
+ 5SUCP1e/qF7n5DK8LiM10gYglgY0XHOBi0S7vHppH8hrtpizx+7t5DBdPJgVtR6SilyK0/mp
+ 9nWHDhc9rwU3KmHYgFFsnX58eEmZxz2qsIY8juFor5r7kpcM5dRR9aB+HjlOOJJgyDxcJTwM
+ 1ey4L/79P72wuXRhMibN14SX6TZzf+/XIOrM6TsULVJEIv1+NdczQbs6pBTpEK/G2apME7vf
+ mjTsZU26Ezn+LDMX16lHTmIJi7Hlh7eifCGGM+g/AlDV6aWKFS+sBbwy+YoS0Zc3Yz8zrdbi
+ Kzn3kbKd+99//mysSVsHaekQYyVvO0KD2KPKBs1S/ImrBb6XecqxGy/y/3HWHdngGEY2v2IP
+ Qox7mAPznyKyXEfG+0rrVseZSEssKmY01IsgwwbmN9ZcqUKYNhjv67WMX7tNwiVbSrGLZoqf
+ Xlgw4aAdnIMQyTW8nE6hH/Iwqay4S2str4HZtWwyWLitk7N+e+vxuK5qto4AxtB7VdimvKUs
+ x6kQO5F3YWcC3vCXCgPwyV8133+fIR2L81R1L1q3swaEuh95vWj6iskxeNWSTyFAVKYYVskG
+ V+OTtB71P1XCnb6AJCW9cKpC25+zxQqD2Zy0dK3u2RuKErajKBa/YWzuSaKAOkneFxG3LJIv
+ Hl7iqPF+JDCjB5sAEQEAAcLBXwQYAQIACQUCVeP56QIbDAAKCRD2t4JPQmmgc5VnD/9YgbCr
+ HR1FbMbm7td54UrYvZV/i7m3dIQNXK2e+Cbv5PXf19ce3XluaE+wA8D+vnIW5mbAAiojt3Mb
+ 6p0WJS3QzbObzHNgAp3zy/L4lXwc6WW5vnpWAzqXFHP8D9PTpqvBALbXqL06smP47JqbyQxj
+ Xf7D2rrPeIqbYmVY9da1KzMOVf3gReazYa89zZSdVkMojfWsbq05zwYU+SCWS3NiyF6QghbW
+ voxbFwX1i/0xRwJiX9NNbRj1huVKQuS4W7rbWA87TrVQPXUAdkyd7FRYICNW+0gddysIwPoa
+ KrLfx3Ba6Rpx0JznbrVOtXlihjl4KV8mtOPjYDY9u+8x412xXnlGl6AC4HLu2F3ECkamY4G6
+ UxejX+E6vW6Xe4n7H+rEX5UFgPRdYkS1TA/X3nMen9bouxNsvIJv7C6adZmMHqu/2azX7S7I
+ vrxxySzOw9GxjoVTuzWMKWpDGP8n71IFeOot8JuPZtJ8omz+DZel+WCNZMVdVNLPOd5frqOv
+ mpz0VhFAlNTjU1Vy0CnuxX3AM51J8dpdNyG0S8rADh6C8AKCDOfUstpq28/6oTaQv7QZdge0
+ JY6dglzGKnCi/zsmp2+1w559frz4+IC7j/igvJGX4KDDKUs0mlld8J2u2sBXv7CGxdzQoHaz
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <CAM0EoMkEjxCo6K9k3MZH0U+3na9soMNE0gouddwOTzUYXcEunA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 26, 2026 at 12:45 PM David Hildenbrand (Arm) <david@kernel.org> wrote:
->> Which part?
->
-> kmalloc_nolock :)
+Hi Jamal,
 
-lol. Agree. I guess it is in some ways :)
+On 24/11/2026 18:11, Jamal Hadi Salim wrote:
+> On Tue, Nov 24, 2026 at 11:58 AM Jamal Hadi Salim <jhs@mojatatu.com> wrote:
+>>
+>> On Tue, Nov 24, 2026 at 11:13 AM Sebastian Andrzej Siewior
+>> <bigeasy@linutronix.de> wrote:
+>>>
+>>> On 2026-11-24 09:12:09 [-0500], Jamal Hadi Salim wrote:
+>>>> This is a followup of commit a51c328df310 ("net: qos: introduce a gate
+>>>> control flow action") as reported by Sashiko.
+>>>>
+>>>> The issue:
+>>>> fill_gate_entry() only rejects an interval of zero, but that interval is
+>>>> the period gate_timer_func() re-arms the hrtimer at, and a few
+>>>> nanoseconds is below the cost of servicing one expiry: the next is due
+>>>> before the current one finishes, so the action holds a CPU in the timer
+>>>> softirq for as long as it exists.
+>>>
+>>> The timer is programmed in the past, fires immediately and hogs the
+>>> CPU.
+>>>
+>>>> On a 2-vCPU guest, entries of 1 us and below hold 86% to 90% of a core,
+>>>> 2 us holds 61%, and 3 us holds 22%; from 3.5 us on the cost falls to a
+>>>> few percent and it reaches zero by 100 us.
+>>>>
+>>>> The Fix:
+>>>> Require at least 10 us per entry.  An act_gate schedule is not tied to a
+>>>> device, so unlike taprio there is no frame time to derive a bound from;
+>>>> the bound has to come from the cost of servicing one expiry, with room
+>>>> for a kernel that services it slower.
+>>>
+>>> The 10us sound sane. With enough debug (say kasan, lockdep, …) this
+>>> might become tight again.
+>>>
+>>
+>> Agreed. Unfortunately, there is no way to derive a "good value" here
+>> (it depends on workload, machine, utilization, etc, etc).
+>> poor choice of wording on my part - should probably have said all of
+>> what i said above for precisiness...
+> 
+> And now that you bring this up - this should really have been
+> targetting net-next not net.
+> I dont want to resend (unless sashikos find something sinister) - but
+> Jakub/Paolo consider applying this to net-next instead when the time
+> comes.
 
->> I don't see any new concepts of failure modes vs existing code.
->
-> I hope we can sort out the rough edges.
+I'm sorry to say that, but a new version might be needed: it looks like
+the new tests you added in this series are not passing:
 
-100%
-That's the goal of this diff. It removes one of this rough edges
-for user's of kmalloc_nolock().
-Today it can return NULL when another CPU holds zone->lock
-or n->list_lock. It took long time to debug in production,
-since it didn't look like lock contention at all.
-With this short diff that rouge edge/corner case goes away
-and spurious NULL returns disappear.
+  https://github.com/p4tc-dev/tc-executor/blob/storage/artifacts/928799/1-tdc-sh/stdout
+
+It started there:
+
+  https://netdev.bots.linux.dev/branch_deltas/net-next-2026-11-26--21-00.html
+
+Or is it due to conflicts with other WIP patches or something missing on
+the CI?
+
+pw-bot: cr
+
+Cheers,
+Matt
