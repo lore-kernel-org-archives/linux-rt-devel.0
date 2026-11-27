@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795787334;
-	b=qTGbJ/cbh0bwGsSW4X9BptAscJvviyhDjcIhJvM42WLFdzIgdtkAvYNDtj0iFvHv0YKt
-	 W2dsdcy7gUW+eUkICH12soC9bkjbzpkE4kRGRmyMzFFLfAuKEowN/yjloHlbU/UmCTC6/
-	 UQo6FHKBPTBqfi+gaUaRnXw6csPkUYLVI90UiKC7H5boepUhfh7iPibhfyL+gAzlC5giF
-	 YQ2lPPxEPc4gxEbbDLJ8DQx1FvhZs5qftD9BVTyhYm2he8Fv1LITCvcWLzQYCX0jvtia0
-	 GgRmYnZk3+NuIdv7+Re/J3yUgGA6zkM5eT/l5jqpBKtn+vVxYQAcasD5QBvUl6biE3g==
+	b=Eun08HcPYEI7mZyuWqyt/FjqTvBDFRIUYJNchSSInSKj1VYb/tiKbBihS8aJ0fGcq3xf
+	 iALAqCPbJbVSF9pWFvNEOJp9kt6wfc2CbwM6FDQ/SUY0ay0+OgHkVoy2kKvm0IstAzWrO
+	 hfszouvPMrrJmNahcS5aLq4htR/LSv4rgzMxB6j2VgNlUttd6LagZfG2G3pJP0diwEH8Z
+	 YIlOjS5B85niw/DE9hIJedMG2IWQxrBxE5XXx+AUsH4fltzQnIjnwKUlbg2T8gcHYYamj
+	 nJfOgR4IEe/PhPkq2mNr4j+5L26N3hskctg9EaJy7pI2AZB+ia4y6yDPLpdhdTZ5VNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795787334;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=chWFFd+vD0y9/nhQZ34fFbbmxFzOzG9ZqIiZq4Y9r7s=;
-	b=U+PymMw1nOvcIoQTvwctZ2U8NOIVkAnhrY4JagNYNqEW6Ldm8oMjssH8jk+u8GJhhxru
-	 vlDl/VltnjWEUST+5IuqW63pX1w1vXYjha+If1OCYVr75FcMETAOXgBd2HXBKScCEvFXu
-	 YdM3jX47vBEC/BWYni8/zgej0anWpC8Jv+n3BbMFeSahD3avSngt7J016HGWK7NKmdca6
-	 9m18kjeMWsGCFqv2yLhSzo6Q+LsaHnKyOI4TWnmiN5CEzPrwfPZWzOFAtxInYhe0qZhDR
-	 A6jsQIcZe8+H6yClLKm+RujCS+J+rCNnQJOzbPqY8laegFtiR73HaivTkyyy4p4hhHA==
+	bh=PNRsNxkfWQW8x6oTCCzBASMqwEonHHyZcKGQQN4NB1c=;
+	b=kFhPNWLmD0n6pZ3CNzLUkjQOq3GqF93VXtykRpbmI0XZUcuIM6/oBi8TWVbzRfrHDGoL
+	 RwGNB93qZGtXXkcYqWSmPMUsXaNBzZhIGSZ6sVySO/LM6dlOMuUnGm2MKaiauNvtA/tNI
+	 IpxNGUowRmN4nrM4Fh2sVn4HzFPA57y+yft9YMn3qOa44KRcjDkTYcF2ipko4IilzPsSw
+	 y5cFwBwoAfOuJJYDb1OXtya0p0Isw1JHJGaa57FJyPJaOq63aXDJhCTj0B4ddZCTDrVEc
+	 w7pKPSMhD7+tQN+4dMCotDKSebu4zMC1ggoLkaAt55BStXNek0ZZ3+q9OuXCViHaHkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ga7hLuHl;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=XHwTyjkL;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393B5606A683;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C87606A682;
 	Fri, 27 Nov 2026 13:48:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 393B5606A683
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C87606A682
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ga7hLuHl
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=XHwTyjkL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1795787327;
-	bh=chWFFd+vD0y9/nhQZ34fFbbmxFzOzG9ZqIiZq4Y9r7s=;
+	bh=PNRsNxkfWQW8x6oTCCzBASMqwEonHHyZcKGQQN4NB1c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ga7hLuHl9hsckytxeCy/RcQeH7IXkB28Qvk7B3aAjfcpMrcF0qNmr8rYu8tJJwhQH
-	 d3hkgyNrIcL+2/Os7QxaX6h2gHh1gEfnhWjchObysyu8yIdjgJaS0ou305cLoeG/AP
-	 gkKGQt/ZAoZpsJ24XIcLbkFCcopaPyJEWJagIQYfunQztgaMoMjb38bQDznWASooiN
-	 VXUqPMeKzwEjsssTwrq8bw+i544v5iZNZFBCvKy/GYX1kpG/dfi2zI1cVjENKam8H8
-	 AZ3R9OJdB4J+b6pJ02y8HjCHKvUnnrpXVRfURbIR7/LIKS4cD44amS2P4E6rVXii6a
-	 a5wmEMG0PoVEQ==
+	b=XHwTyjkL3vDrVZXmk2UeiMpl+UATeerSvpptknGyWuWLfUvdvUXqVXYHGlYRiGsID
+	 I3Tkiny5f2eG3fr0mrQELsjRhKMUtaAepu3KMmqRwrencQiJqeZCJQmQj9aSs9PrGq
+	 cn9kSnW75F2dqxCP5nkBFTXPh4dRAsSqA19ic+owhQpsfh6KMnTm0s9IMqAoV8sjgN
+	 XNmeheKFB1hyazUmB//q6QK60TllD54apJFWWCPxp5DjGOjiFFYEWv4CscB69BfQ/n
+	 YubQ/gx1jJlkhJFYIzZRjTGnT7Kk19PA5t3ba9GlX5TFb3VqEJIeLG0DMpsC0WuroY
+	 aGOeXzNlO446w==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbZWg45R0zXPC;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbZWg4tQgzXPD;
 	Fri, 27 Nov 2026 08:48:47 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: sashiko-reviews@lists.linux.dev
@@ -53,12 +53,12 @@ Cc: linux-rt-devel@lists.linux.dev,
 	hannes@cmpxchg.org,
 	mkoutny@suse.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 37/43] sched/deadline: Keep the debt of a task across a change of parameters
-Date: Fri, 27 Nov 2026 08:48:40 -0500
-Message-ID: <20261127134846.114774-12-mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v11 38/43] sched/deadline: Boost an owner that cannot run on its own reservation
+Date: Fri, 27 Nov 2026 08:48:41 -0500
+Message-ID: <20261127134846.114774-13-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <sashiko-outbox-234632@kernel.org>
-References: <33e066447added164bbf6c39e0e4de022d7ecc7e.1795646914.git.mathieu.desnoyers@efficios.com> <sashiko-outbox-234632@kernel.org>
+In-Reply-To: <sashiko-outbox-234634@kernel.org>
+References: <29af731a1e529469abd92e902bcc8126f8cbe972.1795646914.git.mathieu.desnoyers@efficios.com> <sashiko-outbox-234634@kernel.org>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -70,69 +70,100 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Should dl_in_constrained_gap() check that dl_se->deadline is non-zero
-> first, as dl_proxy_block() does?
+> Does gating dl_boost_start(&p->dl) on dl_prio(p->normal_prio) skip holding
+> the boost for a departed deadline task that still carries its own parameters
+> until its 0-lag time?
 
-Yes, in the first dl_period after boot. v12 will test for a deadline of
-0 in dl_in_constrained_gap().
+Yes, for a task that is not queued. A queued task gets its boost held
+at the first refill. An unqueued one behaves as on v7.4-rc2: its
+waiter node keeps its deadline, as the cover states. Its wakeup while
+boosted lifts its throttle. With runtime <= 0, it then runs at most
+until the next tick, which refills it from the donor. Dropping the
+check would also need dl_drop_boost_out() to end a held boost for a
+task that leaves the class. v12 will leave it as it is.
 
-> Does dl_drop_boost_out() fit the period with different rules from the
-> ones switched_from_dl() just used to arm inactive_timer?
+> When p is already in a held boost (old_donor != &p->dl) and a new top waiter
+> with an earlier deadline replaces old_donor, does skipping dl_boost_start()
+> leave p running on the previous donor's later deadline?
 
-Yes. In v12, dl_drop_boost_out() will call dl_setattr_place() with run
-= false, as dl_zerolag_period() does. Out of the class, the task does
-not go on in its job, and is not throttled. The inactive timer and the
-period then agree.
+Yes, as on v7.4-rc2. A new donor does not refill the task while it has
+runtime left and its deadline has not passed. Starting a donor period
+when the donor's deadline is earlier would fix it. That is for a
+follow-up.
 
-> When a throttled constrained-deadline task leaves SCHED_DEADLINE, can
-> replenishing it here in dl_task_timer() cause inactive_task_timer() to
-> hold its bandwidth for an extra period?
+> When a deadline owner p (with p->dl.dl_deadline != 0) is blocked on another
+> rt_mutex (!scope->queued), can the PI chain walk propagate a stale or
+> expired p->dl.deadline to the next lock?
 
-Yes, and it errs on the safe side: see my reply on patch 26.
+Yes, as on v7.4-rc2. The waiter node of a blocked owner holds the
+owner's own deadline, also a passed one. The cover lists this with the
+known limits: a waiter keeps the deadline it blocked with.
 
-> Does testing (flags & ENQUEUE_CLASS) here run update_dl_entity() on a
-> period that dl_setattr_period() has already fitted?
+> If a constrained-deadline task goes to sleep holding a lock with remaining
+> runtime > 0 and is boosted and deboosted while asleep during or after its
+> constrained gap, does deboosting it waste its remaining runtime and start a
+> new period while it is still asleep?
 
-It can, but the debt lost is below about 2us. dl_entity_overflow()
-truncates each factor to a multiple of 1024ns. A false overflow needs
-a debt smaller than that error. v12 will leave it as it is.
+Yes. This is the third point on patch 28. In v12, a deboost of a task
+asleep on anything but an rt_mutex will start no period. A task that
+was throttled before the boost stays throttled. Any other task is left
+to its wakeup.
 
-> What happens if a sleeping task with a new constrained deadline wakes up
-> before *deadline?
+> Can dl_se->dl_throttled and dl_se->dl_timer be left out of sync with the
+> runtime restored by dl_end_held_boost()?
 
-It is enqueued unthrottled with no runtime, and runs until the next
-tick. The comment above dl_setattr_place() says that its wakeup
-throttles it: that is wrong in v11. In v12, the enqueue will throttle
-such a task until its next period (see my reply on patch 31). The
-comment is then right.
+Yes, in both cases:
+1. In v12, the enqueue will throttle a task that comes back with no
+   runtime left before its deadline: see my reply on patch 31.
+2. v12 will lift the throttle, and cancel the timer, when the runtime
+   put back is positive.
 
-> When a boosted task's bandwidth is reduced before any donor refill, does
-> deferring the fit until deboost or refill repay the debt at the old
-> bandwidth instead of the new one?
+> Does dl_waiter_boosts() keep a held boost when p has positive own_runtime
+> and an own_deadline earlier than pi_task->dl.deadline?
 
-Yes for the first part. Until the deboost or the first refill, the
-time since the change counts at the old bandwidth. The cover lists
-this with the known limits. Its entry says: "a change of a boosted task
-applies at its deboost, or at the refill that holds the boost".
+Yes. In v12, dl_waiter_boosts() will compare with the owner's own
+deadline while the owner has runtime of its own left.
 
-The second part is not a problem. After a change back to the old
-parameters, the fit goes from the old parameters to the same ones, so
-it changes nothing.
+> When dl_waiter_boosts() boosts an unqueued owner whose deadline is in the
+> past (dl_time_before(dl_se->deadline, now)) and that is neither throttled
+> nor in its constrained gap, what updates p->dl.deadline?
 
-> If a sleeping task has dl_non_contending set and sched_setattr() changes
-> its period without changing dl_bw, can the old inactive_timer fire too
-> early if the task then leaves SCHED_DEADLINE?
+Nothing does. dl_boost_blocked() starts a period only for a task with
+no parameters of its own. The waiter node keeps the passed deadline,
+as on v7.4-rc2: see my reply on patch 30.
 
-Yes. v12 will re-arm the inactive timer in __setparam_dl() after such
-a change.
+> Can dl_boost_donor_period() resume boost_deadline and boost_runtime from a
+> different donor with incompatible parameters?
 
-> Does zeroing or clamping dl_se->own_runtime before calling
-> dl_setattr_place() corrupt the debt calculation?
+Yes. In v12, a resumed donor period will keep its start and its runtime
+left, but take its deadline from the current donor. Its runtime will
+also be capped at the donor's runtime.
 
-Yes. In v12, the fit will get the runtime left even past the deadline.
-Only an overrun is still saved as 0, since it comes from the boost.
-Without a fit, the runtime left past the deadline is still dropped, as
-before.
+> When dl_boost_start() saves a negative dl_se->runtime from a throttled task
+> that overran its budget, does dl_end_held_boost() erase that overrun debt if
+> the boost ends after own_deadline?
+
+Yes. v12 will keep a negative runtime there.
+
+> What happens if a SCHED_DEADLINE task p is the root donor in an rt_mutex
+> lock cycle (so its top waiter pi_task has pi_task->dl.pi_se == &p->dl) and p
+> changes its policy to a non-deadline policy?
+
+Yes. This happens on v7.4-rc2 too. __setscheduler_dl_pi() and
+rt_mutex_setprio() copy pi_task->dl.pi_se, which is &p->dl here. p then
+stays in the class unboosted, and enqueue_task_dl() returns early. The
+only change from this patch is that ENQUEUE_REPLENISH is no longer set.
+So enqueue_task_dl() now also prints its "REPLENISH flag missing"
+warning.
+
+It needs no deadlock. A Spin model reaches it on v7.4-rc2 in 7 steps:
+a failed ABBA lock attempt, then a sched_setscheduler() of p to
+SCHED_OTHER. A stale donor in the waiter works too: see my reply on
+patch 21. In v12, __rt_effective_prio() will not boost a task with no
+deadline policy by a waiter whose donor is the task itself. One read
+of that donor will choose both the class and the donor. With two
+reads, the model still reaches the state, in 8 steps. With one read,
+it finds none within its bounds.
 
 Thanks,
 
