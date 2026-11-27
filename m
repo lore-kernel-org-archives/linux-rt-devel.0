@@ -1,76 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795804684;
-	b=MyX4lnGxRkcAAAFs4u6MoBTlGlmSiRb51Gb5q9tcKdHtYra8YBE9F6ktMnT1Fz6AF3/f
-	 WjSdWKZqRAoGA4xfcdxgson4KgzAStKJikyHn3AI2vFlmYgUWgxwrCN93PvkFmyZ74is3
-	 mJOTvsuzFLVw3SGP92RMAfHS+lXRFCamSv9PNPPw+b10gGcOsarhWPDZ7BnMlw76lS3ID
-	 cLOXH9uowbjIxMl1cBL8pVs6yjXuPEpx7vTopIdUSuBk65NKYe40TG8cQWTYk3azsjgLl
-	 +JBb/2u/Q3TFvckaj99vJxAeFmTdYDN0MVRuN1+GpTQsq+GYGs2R6V63ywlwOPC0Ztw==
+	t=1795805860;
+	b=sU/XZPNmm5j44Gkp0IIXJbmNc8yognjUhi1exvIm7XMvrEJpI/mljDfYbh6rzCZRx66k
+	 ey0rN6g1LEGupBACQybTsdWuq6XRLzHYxQ/eHgYeVgaRcq9GQI2f/eX/pTJRlLrQj1UED
+	 alMYDse2SfvRzGu2FCLu7DX3erGvslE0g6e4TPLT4MM4Z5Dz5YrHmdqmcIh26K9U5HWR3
+	 WCQCN8gKhP2pfI4VD+2hdP2ijyh4FsYPfN1I8gvYdjClwas+FR4hFqoWoc9IxZxwHWf0l
+	 g5iERNF5bFeavN0Ygs5qgZSegI6OGvx+OaUxlHz6SxVRrIcZigbvcbvIp5xHh+YRdFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795804684;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=BWblz2p3e+RANKxaoCJc2peYHCm2/SRIz3+0ra5cwvs=;
-	b=wx/ViojKiCd5T/yf02vkUa8jV3xnoA/R7pe2sEwYYjw+Nb3mREtqNQ9UDRqI6OYEaZen
-	 X0d+jYW6CXOen0w1T9rIF8RKVKYMkwtYe32s7C3rb+GnPiAa9g70cYG6VSI5NBGWfZeXu
-	 nHA5iL2x1V2m1c3VhS9n0e6LGkD2A2ojNAnd6SAN/lXYFOu4r4EzXGNwUtgqvePYEwxcu
-	 MWUCvPMahPyJ/QkQ3/5Razlh35pE40FPkiISIcZ8d94iE7HL5XPS87yIJ/icGwy4ilu9t
-	 3o+AkJuN+Youx+3MrFPlg4wLXEConzRompmiHRFqkxoYflBOYemBMxk7IYcMtJcStwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795805860;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=2EK0BwQeYmRHkxY7jQ1ZvtT4e0u5KpogzcETkrrqPuE=;
+	b=An9dRvaI+fcN+z/xG6kRp3uXs3NLPNatpGD7uxBA8dgW1wZJ3qIw8C/lX4F6+ahkg4/9
+	 uwkoDhI3jCaNDYYzfG5y2SG8+Z+QzUUron9V9eNMQ3Lz7tPXPYMISv5hOvtt5akPnYnHH
+	 Ykauxqjgbg1v8XCHRy6WP/S92VdOVPX3Dch29o2/bIz2lJzWASPa65OS0B0orHTR7906G
+	 Oo9FTxgXXLX3ux77wVLCTs8aYWdt1FvlHuH0Rlghrj4S+D5Mnl92YYVLE+K7OgqahBkQw
+	 EiV9iNaZXpakNBoXc9UH6ZwRR/Rw9zwcUU33gD5tCwLLIUtYbU25sB5Lb9nxrR1lr6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Pj8RMo4+;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5194B606A31E;
-	Fri, 27 Nov 2026 18:38:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5194B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K1cmAt+P;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1D4606A31C;
+	Fri, 27 Nov 2026 18:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Pj8RMo4+
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 932731575;
-	Fri, 27 Nov 2026 10:37:59 -0800 (PST)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7798F3F86C;
-	Fri, 27 Nov 2026 10:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795804682; bh=WmazKbbRJkJgrB2424W6m6iKCFKjBQNVA1FAYPEAZmc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pj8RMo4+8uVvzglyYRCuvg790viYUgDQspUF3aRjCZFHTiLXEeLCktxCz2Q7UPnWh
-	 4Z1ld8xUtlEp1n8tZigZexN643W7Amw3OqJikuSRR51zOqjfZIVcfNaTH0fln3cY1l
-	 SXQYNpjkf8/BO1QI4Ya//Lf7Zr/ObA7Ku4CQn1+s=
-Date: Fri, 27 Nov 2026 18:37:55 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	loongarch@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
-	Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>,
-	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	James Clark <james.clark@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ada Couprie Diaz <ada.coupriediaz@arm.com>
-Subject: Re: [PATCH v5] ARM, ARM64, LONGARCH, XTENSA: Delay HW BP
- notification to task_work()
-Message-ID: <awnOAw-bnxDbljaE@arm.com>
-References: <20261120144553.TjgAd_G6@linutronix.de>
- <20261120150320.GQ2668804@noisy.programming.kicks-ass.net>
- <20261120155806.GK2669272@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K1cmAt+P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3668E1F000C1;
+	Fri, 27 Nov 2026 18:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795805859;
+	bh=2EK0BwQeYmRHkxY7jQ1ZvtT4e0u5KpogzcETkrrqPuE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=K1cmAt+PJq4+FLAShBcEAalSS1j9BO4gibH3w5+g4IhHFlWNArqMjJrjkqCxkDwuR
+	 6CBBI4LSpvXOzHfd6fNh3cA7tRA8SI6+8R12jWv6GagOneBK7qFTJI7TiteebiqmjY
+	 3X24jQLpxDahndn8u5XQRmAmwQqUqVQ3JarXGdEkn2AqWwtjo+VN6Khwy2h0bTKBG8
+	 K9EodWV4foB9b/oYyRr3vs6kPymNN5X5IWtWIWH2QbZjqFXHRfWh1vI5Dpu9zp9sU6
+	 RQSwoOH7ACp7ngMoRe2M1S31yq6gNFlNZU2IDVR19GJETIcI1hVhFYb/Lev4vgMhZo
+	 IBn1ynSfRRyfw==
+Message-ID: <sashiko-outbox-238121@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v12 42/43] selftests/sched: Test parameter changes in
+ deadline_bw_test
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Cc: linux-rt-devel@lists.linux.dev, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, linux-kernel@vger.kernel.org
+In-Reply-To: <e42c6ca948ebfe1bccef4d533e4d1d33fb4ce7f5.1795771148.git.mathieu.desnoyers@efficios.com>
+References: <cover.1795771147.git.mathieu.desnoyers@efficios.com>
+ <e42c6ca948ebfe1bccef4d533e4d1d33fb4ce7f5.1795771148.git.mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 18:57:38 +0000
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -79,69 +60,100 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261120155806.GK2669272@noisy.programming.kicks-ass.net>
 
-On Fri, Nov 20, 2026 at 04:58:06PM +0100, Peter Zijlstra wrote:
-> On Fri, Nov 20, 2026 at 04:03:20PM +0100, Peter Zijlstra wrote:
-> > On Fri, Nov 20, 2026 at 03:45:53PM +0100, Sebastian Andrzej Siewior wrote:
-> > > Waiman, Luis, Ada reported that HW breakpoints on ARM64 trigger
-> > > "sleeping while atomic" warnings on PREEMPT_RT. The hardware event is
-> > > delivered with disabled interrupts and perf intrastrucure expects
-> > > disabled interrupts while the overflow callback is invoked.
-> > > 
-> > > The callback then sends a SIGTRAP signal for which it acquires
-> > > sighand_struct::siglock, a spinlock_t which becomes a sleeping lock and
-> > > must not be acquired in atomic context.
-> > > 
-> > > Delay the event callback until the return to userland.
-> > > Add perf_hwbp_notify(), a generic perf callback which delayes the
-> > > actual callback invocation to task_work_add() callback. This callback
-> > > invokes the architecture defined callback perf_arch_hwbp_send_sig().
-> > > This requires struct callback_head and the functions require
-> > > ARCH_NEED_PERF_HW_NOTIFY to be defined.
-> > > 
-> > > This was reported against ARM64. ARM, LongARCH and Xtensa follow the
-> > > same pattern are also converted. Xtensa is the only not supporting
-> > > PREEMPT_RT but now we have all architectures using the same pattern.
-> > > 
-> > > Fixes: d8fccd9ca5f90 ("arm64: Allow to enable PREEMPT_RT.")
-> > > Reported-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> > > Reported-by: Waiman Long <longman@redhat.com>
-> > > Closes: https://lore.kernel.org/all/aho0eqjMESuHxECr@redhat.com/
-> > > Reviewed-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-> > > Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-> > > Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
-> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > ---
-> > 
-> > Mark; you was going to stare at this :-)
-> > 
-> > I'm thinking the archs are doing it wrong and should be sending the
-> > signal elsewhere.
-> 
-> Notably, I'm thinking arm64 should be sending the signal from either
-> do_watchpoint()/do_breakpoint(), after it has done perf_bp_event(),
-> or from el0_watchpt()/el0_breakpt().
-> 
-> Perf overflow handlers are not the place to send signals from.
-> 
-> That is very much what x86 also does, we send the signal from
-> exc_debug_user(); which is roughly equivalent to the above mentioned
-> functions.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] selftests/sched: premature probe in measured() after
+  constrained task exit
+--
 
-(Mark and Will are the experts here but they are busy)
+commit 55867328ab1ab4f59bba08a621ac5a4d89b5c264
+Author: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-I think we can do something similar for arm64, send the signal in
-el0_breakpt()/el0_watchpt() after local_daif_restore(). We do this with
-el0_brk64(). ptrace_hbptriggered() can just record the perf_event and
-defer the sending (we may need a new field in thread_struct::debug). No
-core code changes needed.
+selftests/sched: Test parameter changes in deadline_bw_test
 
-I think Russell also objected to this patch for arm and Sashiko
-complains about loongarch issues (I haven't parsed them).
+This commit adds 39 test cases to deadline_bw_test covering parameter
+changes, priority inheritance boosts of throttled or constrained owners,
+and constrained tasks re-entering SCHED_DEADLINE during their gap.
 
--- 
-Catalin
+> diff --git a/tools/testing/selftests/sched/deadline/deadline_bw_test.c b/=
+tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> index 83dd8b4e79a3d..66955952901ff 100644
+> --- a/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+> +++ b/tools/testing/selftests/sched/deadline/deadline_bw_test.c
+
+[ ... ]
+
+> @@ -2749,93 +2923,3194 @@ static int requeue_pi_new_period(void)
+>  	return ret;
+>  }
+> =20
+
+[ ... ]
+
+> +static void *rb2_t(void *arg)
+> +{
+> +	uint32_t tid =3D gettid_();
+> +	int err;
+> +
+> +	rb2_t_tid =3D tid;
+> +	err =3D set_constrained(0, 10 * NSEC_PER_MSEC, 20 * NSEC_PER_MSEC, 5 * =
+PERIOD);
+> +	rb2_t_start =3D now_ns();
+> +	if (err) {
+> +		ksft_print_msg("T refused as a deadline task: %s\n", strerror(-err));
+> +		rb2_t_locking =3D -1;
+> +		return (void *)1;
+> +	}
+> +	spin_ns(2 * NSEC_PER_MSEC);
+> +	rb2_t_locking =3D 1;
+> +	if (syscall(SYS_futex, &rb2_pi, FUTEX_LOCK_PI | FUTEX_PRIVATE_FLAG,
+> +		    0, NULL, NULL, 0)) {
+> +		ksft_print_msg("FUTEX_LOCK_PI: %s\n", strerror(errno));
+> +		set_other(0);
+> +		return (void *)1;
+> +	}
+> +	rb2_t_got =3D now_ns();
+> +	if (!atomic_compare_exchange_strong(&rb2_pi, &tid, 0))
+> +		syscall(SYS_futex, &rb2_pi, FUTEX_UNLOCK_PI | FUTEX_PRIVATE_FLAG,
+> +			0, NULL, NULL, 0);
+> +	if (set_other(0))
+> +		ksft_print_msg("T cannot leave SCHED_DEADLINE\n");
+> +	return NULL;
+> +}
+
+[Severity: Medium]
+Does calling set_other(0) at the start of T's second 500ms constrained
+period cause measured() to probe before T's bandwidth is released?
+
+T is throttled in its constrained gap until t =3D 500ms, when dl_task_timer=
+()
+replenishes it for [500ms, 1000ms].  When T immediately calls set_other(0)
+while still alive, task_non_contending() keeps the departing constrained
+task's 2% bandwidth until the end of that period at t =3D 1000ms, and
+do_exit() does not cancel inactive_timer after T has left SCHED_DEADLINE.
+
+Because reenter_pi_blocked_in_gap() returns right after pthread_join() at
+t =3D 500ms and measured() only waits 3 * PERIOD (300ms):
+
+tools/testing/selftests/sched/deadline/deadline_bw_test.c:measured() {
+	...
+	ret =3D run_in(cg, fn);
+	sleep_ns(3 * PERIOD);
+	after =3D probe(cg);
+	...
+}
+
+probe(cg) runs at t =3D 800ms while T's 2% bandwidth is still counted in
+total_bw, admitting 8 probe tasks of 10% instead of 9 and failing the test.
+The same happens in ra_t() (for reenter_asleep_in_gap() and
+reenter_asleep_late_in_gap()) and in ob_owner() (for
+pi_owner_asleep_in_gap() and pi_owner_wakes_in_gap_later(), where
+drop_pi_lock() deboosts and throttles O in its gap until t =3D 500ms before
+set_other(0)).  Waiting for the next period before returning (as
+reenter_runnable_in_gap() does) or letting the thread exit without calling
+set_other(0) first would avoid the premature probe.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795771147.gi=
+t.mathieu.desnoyers@efficios.com?part=3D42
