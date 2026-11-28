@@ -1,102 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795862030;
-	b=YT5D28bAER/rTz/WjGVyk2Du1HrQKIzuPWChLkRJMEjV7WO/q5iFlrLMGWuDGu0qaJdr
-	 bmgCjgdu7i6W81j2t5VLxHIK3Vy9Le457SJg8SrtjYxpBZfHJ1L2RNsrQKfW6fDzU6Kpk
-	 WCgNbx+eTkvbIRebkVjhZrOrnaazDU6fSyvTn5xrG0KxT0iL2pfsclvk/60pvArcxWhlb
-	 tYarfZIuAN1rsf0WQvr5qECB73Cu5BzsVczYBBzQNOLrC1e3aRpZZtspvlsiH+q9VhYBt
-	 UElZG7/sJi3klmP7nQBxoXgNT0ySibf2KVFytDQCTVO9HVBzlYunR8XtL4JB68jT+qA==
+	t=1795866904;
+	b=tL9LGdEUsJb0BGRVFZN+FlrpKV9lKIqBRjyQwkKluuwaikmuPo0Syg8A+iznNKm5RvEq
+	 xIE679bCZXq/hXz7455WPaK//rDByLYAS6bhYOGESOvXiHFSviNd1i/3xHUR9kFQb1bWs
+	 tdP/yrnRDmCY2o75rPFxhw+oda/N/3NrTIc3BGQkGcAxmIJHJgwpeRynKug7JAFCgHu8C
+	 u4n2RPCMSXKFTC/TBon7itJJ5V9f1s6ujsH1KguyJiWbAR5N6T8iAJ8x/CgadxHcFaerT
+	 UFEqNx2H/lLtWB2nFqMOTOHkilexGSV6HxnTE1kwaSLn5MGe6kZwufFSnm/u6r/C2Cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795862030;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795866904;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=AHvYKHq95D+qAXx/ZpNwF1YDR0GRXaHoHUy1ieoCmCI=;
-	b=0yTyH2JhK2aim+F4uEFY0yx3V5N+JNmntVMwztuPPDcv8nEbCUm/f15dDYkcEV/2rJUj
-	 r8IvIANPn0FaSjSggQLHV/OlzlRYSK4Af3S50aS9MKW8Hvu4sHD2xAK+SfFtswxxfsrfX
-	 2tio7xhN+51wPMTYcHlg00BGv5VzV8cEFovwKGBO6mM2UBb72u/nu8u/5C+DGsRaheQ8C
-	 iE+XuXe0t97zTSAMYcR5KbMZv55Ie6pNmVJ+8+BYLG4t0Ufjw7dSd6COUW9IocmPDMBck
-	 /GiZK25h5AzOik+wADzSb2AuyUcMjqowwW+uEItvfdYaVN9fDsMSVG9GsKMRKB2h23A==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=aYcr/Vbck1ztUmS15ZTJlw73vVEYDKhMroKfUy1hlew=;
+	b=Nd8QXNUAZbGH8qZPKrNFaawROAOiK0DKet51toCN9lwtpxGjtH2QzBj+FoN22G98S6aK
+	 bElkdw5nLR3FkZZaoICXhAeFTeLr8qnQHvI+wK1YqVhrTVWe0TJWgtUZrRjWqoVLszSId
+	 NO/nlcbMwG8FUCqJjzdqWdWKQcBrEIW0pQI/PTH2RYnFnTpG751qyBMRELmHfsHwvkzt2
+	 MXgDbEzso8X6irtmkR7fr3teDb3r7pfWjVMPuY4HZJ7CUlHgAAGnIV1TyaxRJXfdVE9o6
+	 00KxVRbIL4n0pE5f3s7fikP3Akg2+sa99Pg+BI6r7OGViwe8vuZZ0pWz90fVcUuAuAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mojatatu.com;
-	spf=none smtp.mailfrom=mojatatu.com;
-	dkim=pass header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=mtJSQ1My;
-	arc=none smtp.remote-ip=209.85.160.177
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PUNjSxrv;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A7D606A31C
-	for <linux-rt-devel@lists.linux.dev>; Sat, 28 Nov 2026 10:33:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3A7D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DB4606A321
+	for <linux-rt-devel@lists.linux.dev>; Sat, 28 Nov 2026 11:55:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78DB4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mojatatu.com header.i=@mojatatu.com header.a=rsa-sha256 header.s=google header.b=mtJSQ1My
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-55d03bfd477so99934981cf.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 28 Nov 2026 02:33:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PUNjSxrv
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso84916705e9.3
+        for <linux-rt-devel@lists.linux.dev>; Sat, 28 Nov 2026 03:55:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu.com; s=google; t=1795862028; x=1796466828; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AHvYKHq95D+qAXx/ZpNwF1YDR0GRXaHoHUy1ieoCmCI=;
-        b=mtJSQ1Myh6G9o89Z2P1kzAqYAvazkBi0x7YZK8YSEqWmKX8vjnnG1WPVmfYV33drSo
-         kN7ZQY9Xn5JvO3oV5CtSlQjtz6rc2yDh187p9Pq9Xq5pRRxEVdh34nghx929hUIgyLyN
-         20Ibzb6E8fY3fd8PN+TGhmm/FvJv5mbO/BnhU=
+        d=gmail.com; s=20260707; t=1795866903; x=1796471703; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aYcr/Vbck1ztUmS15ZTJlw73vVEYDKhMroKfUy1hlew=;
+        b=PUNjSxrvtzGni9Ddlr01jyNvevg1BkLiGxQaBBgjEgsksqnKEDAYSXVIfocuFkl8aq
+         6czGsbFWI1DsOOl9AXVVMGdVHopYOC2nTnY0zX6GzGg00D05Qd2ceW9dZQl7fSbvNuij
+         KgqFmQ0xRUIAyDgUWBMY0f7iA+1G1rNSiKTpYGNna/ymqtvSEawrpiCjE1R7WM7bOliK
+         gbrDM1thodToEOpIn5f2k44N8aNKsUCWnGnuRtQTpP4WqAI3FUp7+csOEL48BzWwnHur
+         oXIFQCtZRoXAwUZ47UIIpVtKX7DD+5otRnCOkfB6XLTCX8an+0YqITX9J1Cf356AdwSG
+         mkDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795862028; x=1796466828;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AHvYKHq95D+qAXx/ZpNwF1YDR0GRXaHoHUy1ieoCmCI=;
-        b=Nmm+CeUmQ8UJKexLuGWQVUxcFL3Ml5vXMj/VGOvwyBeuqjpnjshb7TGppyY8VlFrUt
-         Zaga8x3a+0UA3Za99EGPVcysAuGn6c+6u/CzEj1V7TLYDVx/O1yk0g2scfeXP2EjzdRw
-         +h7rPcXls/X68DrYxKHmB0+FyFtjopej6XjPip1f4CqNIdLrWR8yYb6IPuBcbwZ3pzOV
-         8X2RlfsMRhyzgwn5GiGxyy516OZFCCt5wARJ8PH4NnFZ22w7xHBFS3xI+JSKfbucc+iO
-         BRj+1UfVU3D4ApObJW2m0wfqyuTejGXFJHA4ws3zCSNSc7bKxyjDJI5AJGULRak1kxsJ
-         GiYg==
-X-Forwarded-Encrypted: i=1; AL+hErG/+ypF/M7lGGeynX+ZG8ej0yMtApOqFCKIFncZwx8s4qsFyRz8BTXYD8yPobvXxd5X+HnJOCCtYr9B55OCGg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8sMCIRYm7VcQxfcov/FnFSPSxa7nOxq94jtAQX7km9K5YARhcN
-	pmgjh8QELecS8yE1cMAxrD/vNXcX8xT2bsWyam8OiP5t+pflLFwghnmbAJhsnwkjiA==
-X-Gm-Gg: AZFdTZc4OUmP3Izq8CjU0Rftigk/09PMl/LUXfsGIAcr3eKPTh4ZRxhSSyhSdzJBDpq
-	ynP5OxDGN7yAShLqbiDgLILTWWBbQeebP6JtoPs+j2LIhqcjs30jG1BjCU/ja3JNrO4AmSVeXdz
-	k2020Jnwj00ObeO45ZXZ/erf331XsWQQHO2CqBhJd7+/O6dNAqOZNrrSEQDpnrN4U1+Feb7qcrx
-	j2weOdNznbRnM2Ubi6V77PYxk81RGFfS9xj31pt3tHKPyMENEQ44eB2wHd2RExf1e0bvPFj3h7B
-	2MEGvbeVRNGBMPdCTR5iIN7dvcSYvCGv4xgRLho6nyvgeZaBVHKxWQIfESYuNb8H/8uuYYuW83/
-	yrFC3D+jryvckhmu+6VsYnNrADGXc5ALQ98rh8GnMPko7DiwBSowbbTZ93lpCsM73nHi6ENn+pb
-	03a8kepHAjlkDpfNKkICFPbOWe99AV+OMaO43+guNOeTFFd93vhahqZc2GiW+lNjmaVPCvj3GL4
-	j/ltN072uJyN3fw0t/FgIREL+06AnnUXGSudj6dKoZEkxSKv5ezQx93Rykp2oLZxD51u10s7/MF
-	kGeFSRJzt6OD0F914JBejP0iMyAb6bXmbclU8x56CrD1Eq2sNug2NNvT7U9M1Pvah5JuEgjHOh0
-	0zsIq
-X-Received: by 2002:a05:620a:3722:b0:949:472f:226e with SMTP id af79cd13be357-949bab15455mr5419372385a.71.1795862027745;
-        Sat, 28 Nov 2026 02:33:47 -0800 (PST)
-Received: from majuu.waya ([184.147.180.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb3f5c31sm2053970085a.30.2026.11.28.02.33.46
+        d=1e100.net; s=20260707; t=1795866903; x=1796471703;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aYcr/Vbck1ztUmS15ZTJlw73vVEYDKhMroKfUy1hlew=;
+        b=q9RxI3GBAPOzQIDcM4oTJWkZJRv4EM6iZFeOL3jCi1YYpmU5lzRRVxCOSRgmAGITDL
+         Y9LK51DKCOSRCAvULGK5E6Ctv/0nIOXXfqvHfIZ7DmvXbAYa85m6Bm+bN3XfHbQ2pBHA
+         uv2VBu+y6RdTnY8qd8LjiLPRgUIGmGNQB6Xej3eiUpVCNDjEqJ0g7uf/ArQQQsKXNBKd
+         3pLc5CyWbWRDvmJv7qwxNXoNrdRgn3ZBbib3/paiBlI1gFBBUa/rEmDFtwVck8fmvMFS
+         XNbx1Mc8U3M0YZkKpNSrnoQ8ztMryeCjnL+E9kAcgzTCeKgdBPAYzkiJLqvMXU2qqWP7
+         wPFQ==
+X-Forwarded-Encrypted: i=1; AL+hErEUiGgwwtjIaqEADRYMG4jGvPEATIfq2pz9OE7yDFRLDZise+XpExAOvjHGlRr1gPro+R0hkaVlrHEEZc7z/g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+6dKT6zkOIq/0+9ehN+Q1AcIve1W9ssW6RSw3rrYUjFTIrPpVh
+	iDcle7/niemGR5mY6Oj0CwzpqP5IW3bFTbaJzm2rIqhLT5kRVLTiRgwO
+X-Gm-Gg: AZFdTZfqp4Cxxu5pURTXwUKfWmxANcpogL/cACAcoxyzPxjEO80ydolXJdoinvxR6XN
+	vChG8DvrbOjO21ho+Wvz24RGYX7fn0Vvxx7DW7d+1LiH/1FBSLWsPFTHah3Srbd+ymmtMBQZ6mc
+	RGqkvYjXmQp5Ds5jjQ/3bB4D8S33tq44sQ+yNGFSdg/nqa+mVi+6yRuZrfOF7vqsqPnfpdFItcb
+	zN3Zs+jCDlWFWVKaFE5yxP6CKMI9NBIjpFJCb5PkUtYa2+bI0YiLrsb5EMpa5IzBuO34LOpv8Un
+	xtKzd/qUVY0HDHD0ZdVmnOb43fHs2305nNa3E13Y5U3zLon6IbockDd3awO7q3akhQDVlE/BHjQ
+	ZA/wGizbgAamJMfGBd6gYfV52zocOsHWhrPfUhhONNSqwGJ+YZ0/+nKpiXc5ugYb2uArHQD3v4c
+	drMcDjrWEdfb7JPQsrlzvklLQ6MMs9CatG6wIJgFScuOzPRe4qB8G53Q46LVlXznxEeyL8tRhZZ
+	7UUN+PpbhNYQ3QA9jcP1Jf9xNKJicKpGKPJextyjiRAcIArLmnwY1dMneu9ZAWupXcafhJcSXSK
+	yPOQtIhbhtuJYF51UABDh6662GuMJTeQt2ZlTQ7HCydHDhXW5KqB0AvH8NxZ6F5NtUOJEHAn65e
+	z82dZhHH3qTEO/uD2PDloGwgCTILs2mGJtTr9gnUQkQVdMw55lzqs6/WA9AQbypJJ
+X-Received: by 2002:a05:600c:1da9:b0:4b1:2026:6b41 with SMTP id 5b1f17b1804b1-4bb88819294mr573223175e9.30.1795866902705;
+        Sat, 28 Nov 2026 03:55:02 -0800 (PST)
+Received: from unknown748F3CBA5068 (dynamic-095-117-034-170.95.117.pool.telefonica.de. [95.117.34.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a1e8bsm634936515e9.9.2026.11.28.03.55.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 02:33:47 -0800 (PST)
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-To: netdev@vger.kernel.org
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Simon Horman <horms@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	wenxu <wenxu@ucloud.cn>,
-	stable@vger.kernel.org,
-	Victor Nogueira <victor@mojatatu.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH net] net/sched: sch_frag: guard against same-CPU re-entrancy
-Date: Sat, 28 Nov 2026 05:33:33 -0500
-Message-Id: <QDISC-R0QC.v1.r0.20261125082538-1@mojatatu.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 28 Nov 2026 03:55:02 -0800 (PST)
+Date: Sat, 28 Nov 2026 12:54:31 +0100
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>, 
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 0/9] rv: Verify generic IRQ context transitions
+Message-ID: <awq_lh1x7P6NQrx8@gmail.com>
+References: <20261107171252.25090-1-kmehltretter@gmail.com>
+ <9419fa94de8acc8f1ae445004b77d20d0be3e98e.camel@redhat.com>
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Post: <mailto:linux-rt-devel@lists.linux.dev>
@@ -106,172 +108,41 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-rt-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9419fa94de8acc8f1ae445004b77d20d0be3e98e.camel@redhat.com>
 
-This is a followup of commit 975b5b067f52 ("ipv6: sr: restore network
-header before routing and forwarding") as reported by Sashiko. That change
-fixed the negative L2 length that could reach sch_fragment(); this patch
-addresses a separate pre-existing bug in the same fragment path.
+On Sat, Nov 21, 2026 at 03:23:08PM +0100, Gabriele Monaco wrote:
+> Maybe, you could somehow reuse the __schedule() tracepoints and understand you
+> came from interrupt context, but that would obviously not match the
+> interrupt/preemption counts, although they are (now) guarded by a BUG so you
+> don't really need them.
+> The loop should work fairly well anyway.
+> 
 
-The issue:
-sch_fragment() holds the per-CPU local_lock_nested_bh across
-ip_do_fragment()/ip6_fragment(). Their sch_frag_xmit() callback calls
-data->xmit(skb), which may re-enter TC egress (cascaded act_mirred
-redirect to a qdisc that calls sch_frag_xmit_hook() again on the same
-CPU). Re-entering re-acquires the per-CPU bh_lock:
+Good point. With the BUG_ON() in preempt_schedule_irq(), every irqexit
+check is already enforced elsewhere.
 
-- on PREEMPT_RT this is a real spin_lock, so the same-CPU recursion
-  self-deadlocks;
-- on non-RT the inner call overwrites the shared per-CPU sch_frag_data
-  (dst, cb, xmit, l2_data), so when the outer fragment loop resumes it
-  uses the inner call's stale state.
+It seems dropping irqexit and its scheduler tracepoints is best.
 
-With the lockdep detector built in, the recursion reports itself as:
+For irqstate, I injected faults on arm64 and x86_64, with and without
+lockdep, and went through past IRQ context fixes:
 
- ============================================
- WARNING: possible recursive locking detected
- 7.3.0-rc7+ #44 Not tainted
- --------------------------------------------
- python3/20084 is trying to acquire lock:
- ffff8e80bd7b44d0 (bh_lock#2){+.-.}-{3:3}, at: sch_fragment+0x288/0x560
+- Its only unique catch was an injected traced entry paired with a raw
+  exit.
+- A leaked PREEMPT_RT serving-softirq bit was reported first by RCU or
+  lockdep, even with lockdep compiled out.
+- It would not have caught any of the past bugs I looked at. Most were
+  preempt_count disagreeing with lockdep, irqtime or nohz.
+- On a Raspberry Pi 500+, it added about 73 ns to each
+  irq_enter_rcu()/irq_exit_rcu() pair and had no measurable effect on
+  hackbench or locktorture. PROVE_LOCKING added only 12 ns to the pair
+  but made hackbench eight times slower.
 
-                but task is already holding lock:
- ffff8e80bd7b44d0 (bh_lock#2){+.-.}-{3:3}, at: sch_fragment+0x288/0x560
+How do you see it? The results above only measure detection beyond the
+existing checks. Is irqstate worth a v3 for other reasons, such as
+running a model of the IRQ context rules on production kernels, or is
+there something you would like me to investigate first?
 
-  Possible unsafe locking scenario:
-
-        CPU0
-        ----
-   lock(bh_lock#2);
-   lock(bh_lock#2);
-
-                 *** DEADLOCK ***
-
- Call Trace:
-  <IRQ>
-  sch_fragment+0x291/0x560
-  sch_frag_xmit_hook+0x74/0x90
-  tcf_dev_queue_xmit+0x1f/0x30
-  tcf_mirred_to_dev+0x2da/0x560
-  ...
-  sch_frag_xmit+0x169/0x260
-  ip6_fragment+0x8dc/0xa70
-  sch_fragment+0x33f/0x560
-  sch_frag_xmit_hook+0x74/0x90
-
-The Fix:
-Prevent same-CPU re-entrancy by recording which task owns the per-CPU
-fragment state. A deeper call must not re-use the outer call's per-CPU
-state, and it must not transmit the skb: sch_frag_xmit_hook() has
-already determined that the skb exceeds its recorded fragment MRU. Drop
-it and return an error instead.
-
-Owner identity, not nesting depth: on PREEMPT_RT a second task that
-reaches sch_fragment() on the same CPU waits for the real spin_lock and
-then works on its own state, so only the task that already owns the
-state is the recursive one. A depth counter would refuse that contender
-too, and reporting -ELOOP for it would be wrong.
-
-Conditions to recreate the bug:
-  # Minimum privilege: CAP_NET_ADMIN in a user-owned network namespace,
-  #   e.g. via `unshare -Urn`; nothing outside that namespace is required.
-  # Build with CONFIG_DEBUG_LOCK_ALLOC=y for the recursive-lock splat;
-  # on PREEMPT_RT the same recursion is a hard self-deadlock instead.
-  ip link add vetha type veth peer name vethb
-  ip link add vethc type veth peer name vethd
-  ip link add vethe type veth peer name vethf
-  for i in a b c d e f; do ip link set veth$i up; done
-
-  # outer: reassemble the fragments on ingress, then redirect to vethc
-  tc qdisc add dev vetha clsact
-  tc filter add dev vetha ingress matchall action ct zone 1 \
-      action mirred egress redirect dev vethc
-
-  # inner: the refragmented egress re-enters sch_fragment() on the same
-  # CPU while the outer call still holds the per-CPU lock
-  tc qdisc add dev vethc clsact
-  tc filter add dev vethc egress matchall action ct zone 2 \
-      action mirred egress redirect dev vethe
-
-  # then send a multi-fragment IPv6/UDP datagram out vethb (the zone-1
-  #   ct reassembly sets cb.mru so the redirect enters sch_fragment()).
-
-Fixes: 20d677d389e7 ("net/sched: Use nested-BH locking for sch_frag_data_storage")
-Reported-by: Sashiko (gemini) <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260827092345.2301937-1-fouriezhang@tencent.com
-Link: https://lore.kernel.org/netdev/20260827092345.2301937-1-fouriezhang@tencent.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Jamal Hadi Salim <jhs@mojatatu.com>
----
- net/sched/sch_frag.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/net/sched/sch_frag.c b/net/sched/sch_frag.c
-index 75ee52750919..980f1490b027 100644
---- a/net/sched/sch_frag.c
-+++ b/net/sched/sch_frag.c
-@@ -17,6 +17,7 @@ struct sch_frag_data {
- 	unsigned int l2_len;
- 	u8 l2_data[VLAN_ETH_HLEN];
- 	int (*xmit)(struct sk_buff *skb);
-+	struct task_struct *owner;
- 	local_lock_t bh_lock;
- };
- 
-@@ -98,10 +99,19 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
- 
- 	if (skb_protocol(skb, true) == htons(ETH_P_IP)) {
- 		struct rtable sch_frag_rt = { 0 };
-+		struct sch_frag_data *data;
- 		unsigned long orig_dst;
- 
-+		data = this_cpu_ptr(&sch_frag_data_storage);
-+		if (READ_ONCE(data->owner) == current) {
-+			kfree_skb(skb);
-+			return -ELOOP;
-+		}
-+
- 		local_lock_nested_bh(&sch_frag_data_storage.bh_lock);
-+		data = this_cpu_ptr(&sch_frag_data_storage);
- 		sch_frag_prepare_frag(skb, xmit);
-+		WRITE_ONCE(data->owner, current);
- 		dst_init(&sch_frag_rt.dst, &sch_frag_dst_ops, NULL,
- 			 DST_OBSOLETE_NONE, DST_NOCOUNT);
- 		sch_frag_rt.dst.dev = skb->dev;
-@@ -111,14 +121,24 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
- 		IPCB(skb)->frag_max_size = mru;
- 
- 		ret = ip_do_fragment(net, skb->sk, skb, sch_frag_xmit);
-+		WRITE_ONCE(data->owner, NULL);
- 		local_unlock_nested_bh(&sch_frag_data_storage.bh_lock);
- 		refdst_drop(orig_dst);
- 	} else if (skb_protocol(skb, true) == htons(ETH_P_IPV6)) {
--		unsigned long orig_dst;
- 		struct rt6_info sch_frag_rt;
-+		struct sch_frag_data *data;
-+		unsigned long orig_dst;
-+
-+		data = this_cpu_ptr(&sch_frag_data_storage);
-+		if (READ_ONCE(data->owner) == current) {
-+			kfree_skb(skb);
-+			return -ELOOP;
-+		}
- 
- 		local_lock_nested_bh(&sch_frag_data_storage.bh_lock);
-+		data = this_cpu_ptr(&sch_frag_data_storage);
- 		sch_frag_prepare_frag(skb, xmit);
-+		WRITE_ONCE(data->owner, current);
- 		memset(&sch_frag_rt, 0, sizeof(sch_frag_rt));
- 		dst_init(&sch_frag_rt.dst, &sch_frag_dst_ops, NULL,
- 			 DST_OBSOLETE_NONE, DST_NOCOUNT);
-@@ -129,6 +149,7 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
- 		IP6CB(skb)->frag_max_size = mru;
- 
- 		ret = ip6_fragment(net, skb->sk, skb, sch_frag_xmit);
-+		WRITE_ONCE(data->owner, NULL);
- 		local_unlock_nested_bh(&sch_frag_data_storage.bh_lock);
- 		refdst_drop(orig_dst);
- 	} else {
--- 
-2.43.0
-
+Thanks,
+Karl
